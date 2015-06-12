@@ -1,0 +1,8 @@
+[package]
+name = "lalrpop"
+version = "0.1.0"
+authors = ["Niko Matsakis <niko@alum.mit.edu>"]
+
+[dependencies]
+regex = "0.1"
+rusty-peg = "0.0"

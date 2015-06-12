@@ -1,0 +1,29 @@
+[root]
+name = "lalrpop"
+version = "0.1.0"
+dependencies = [
+ "regex 0.1.33 (registry+https://github.com/rust-lang/crates.io-index)",
+ "rusty-peg 0.0.3 (registry+https://github.com/rust-lang/crates.io-index)",
+]
+
+[[package]]
+name = "regex"
+version = "0.1.33"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+dependencies = [
+ "regex-syntax 0.1.2 (registry+https://github.com/rust-lang/crates.io-index)",
+]
+
+[[package]]
+name = "regex-syntax"
+version = "0.1.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+
+[[package]]
+name = "rusty-peg"
+version = "0.0.3"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+dependencies = [
+ "regex 0.1.33 (registry+https://github.com/rust-lang/crates.io-index)",
+]
+
