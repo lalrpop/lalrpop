@@ -1,9 +1,10 @@
-use super::*;
+use grammar::TypeName;
+use grammar::token::*;
 
 fn test_token_defn() -> TokenDefinition {
-    TokenDefinition::new(format!("::parser"),
-                         format!("Token"),
-                         vec![format!("'input")],
+    TokenDefinition::new(TypeName::new(vec![format!("parser")],
+                                       format!("Token"),
+                                       vec![format!("'input")]),
                          vec![(format!("("), format!("LPAREN")),
                               (format!("R"), format!("LPAREN"))])
 }

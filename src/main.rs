@@ -3,6 +3,7 @@ extern crate rusty_peg;
 
 extern crate regex;
 
+mod parser;
 mod grammar;
 
 fn main() {

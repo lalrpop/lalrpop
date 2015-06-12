@@ -1,14 +1,14 @@
-use std::collections::{HashMap, HashSet};
+use std::collections::{HashMap};
 use regex::Regex;
+
+use grammar::TypeName;
 
 #[cfg(test)]
 mod test;
 
 pub struct TokenDefinition {
     // if the enum type is `foo::bar::baz<X,Y>` then:
-    enum_mod: String, // == "::foo::bar", note leading `::`
-    enum_type_name: String, // == "baz"
-    enum_parameters: Vec<String>, // == ["X", "Y"]
+    enum_type: TypeName,
 
     // map from a custom string, like `"("` to a variant name like LPAREN
     token_map: HashMap<String, String>,
@@ -18,26 +18,19 @@ pub struct TokenDefinition {
 }
 
 impl TokenDefinition {
-    pub fn new(enum_mod: String,
-               enum_type_name: String,
-               enum_parameters: Vec<String>,
+    pub fn new(enum_type: TypeName,
                token_map: Vec<(String, String)>)
                -> TokenDefinition
     {
         TokenDefinition {
-            enum_mod: enum_mod,
-            enum_type_name: enum_type_name,
-            enum_parameters: enum_parameters,
+            enum_type: enum_type,
             token_map: token_map.into_iter().collect(),
             identifier: Regex::new("[a-zA-Z_][:word:]*").unwrap(),
         }
     }
 
-    pub fn enum_absolute_path(&self) -> String {
-        format!("{}::{}<{}>",
-                self.enum_mod,
-                self.enum_type_name,
-                self.enum_parameters.connect(", "))
+    pub fn enum_type(&self) -> &TypeName {
+        &self.enum_type
     }
 
     pub fn valid_token_name(&self, name: &str) -> bool {
@@ -52,6 +45,6 @@ impl TokenDefinition {
             None => name,
         };
 
-        format!("{}::{}::{}(..)", self.enum_mod, self.enum_type_name, variant_name)
+        format!("{}::{}(..)", self.enum_type.path(), variant_name)
     }
 }
