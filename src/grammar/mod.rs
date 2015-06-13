@@ -1,11 +1,11 @@
 //! The grammar definition.
 
-mod token;
 use intern::{self, InternedString};
 
-pub use self::token::TokenDefinition;
+mod parse_tree;
+mod token;
 
-#[derive(Clone)]
+#[derive(Clone, Debug)]
 pub struct TypeName {
     pub module: Vec<InternedString>,
     pub type_name: InternedString,
@@ -48,8 +48,3 @@ fn connect(strs: &[InternedString], sep: &str) -> String {
     });
     buf
 }
-
-///////////////////////////////////////////////////////////////////////////
-// A grammar looks like:
-//
-// - A series of NONTERMINAL definitions
