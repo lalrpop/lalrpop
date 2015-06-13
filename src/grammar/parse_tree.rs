@@ -14,7 +14,7 @@ grammar Type<'input, T> {
   //
   // Eventually this should become optional, but not
   // for the first version because I am lazy.
-  token type parser::Token<T> where {
+  token parser::Token<T> where {
     "(" => LParen;
     ")" => RParen;
   };
@@ -29,9 +29,9 @@ grammar Type<'input, T> {
   Expr: Type = {
     "class" "Id" "{" Foo+ Foo* => {
         // action code
-    },
+    };
     "foo" "bar" => {
-    },
+    };
   };
 
 }
@@ -69,20 +69,34 @@ pub struct NonterminalData {
 
 #[derive(Clone, Debug)]
 pub struct Alternative {
-    // "foo" <z:"bar"> etc
-    pub symbols: Vec<TopSymbol>,
+    pub expr: SymbolExpr,
 
     // => { code }
     pub action: Option<String>,
 }
 
+// "foo" <z:"bar"> etc
 #[derive(Clone, Debug)]
-pub struct TopSymbol {
-    // X
+pub struct SymbolExpr {
+    pub args: Vec<SymbolArg>
+}
+
+#[derive(Clone, Debug)]
+pub struct SymbolArg {
     pub symbol: Symbol,
+    pub highlight: SymbolHighlight,
+}
+
+#[derive(Copy, Clone, Debug)]
+pub enum SymbolHighlight {
+    // X
+    None,
+
+    // <X>
+    Anon,
 
     // <name:X>
-    pub name: Option<InternedString>,
+    Named(InternedString)
 }
 
 #[derive(Clone, Debug)]
@@ -94,11 +108,11 @@ pub enum Symbol {
     Nonterminal(InternedString),
 
     // X+ or (X Y Z)+
-    Plus(Vec<Symbol>),
+    Plus(SymbolExpr),
 
     // X? or (X Y Z)?
-    Question(Vec<Symbol>),
+    Question(SymbolExpr),
 
     // X* or (X Y Z)*
-    Star(Vec<Symbol>),
+    Star(SymbolExpr),
 }
