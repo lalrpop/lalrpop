@@ -1,3 +1,4 @@
+use intern::{intern, InternedString};
 use grammar::*;
 use rusty_peg::Symbol;
 
@@ -13,41 +14,41 @@ rusty_peg! {
                 TypeName::new(prefix, name, suffix)
             };
 
-        PATH_COMPONENT: String =
+        PATH_COMPONENT: InternedString =
             (<i:ID>, "::") => i;
 
-        PATH_SUFFIX: Vec<String> =
+        PATH_SUFFIX: Vec<InternedString> =
             (<p:[PATH_SUFFIX_1]>) => p.unwrap_or(Vec::new());
 
-        PATH_SUFFIX_1: Vec<String> =
+        PATH_SUFFIX_1: Vec<InternedString> =
             ("<", <p:PATH_PARAMETERS>, ">") => p;
 
-        PATH_PARAMETERS: Vec<String> =
+        PATH_PARAMETERS: Vec<InternedString> =
             fold(<p:PATH_PARAMETER0>,
                  (",", <q:PATH_PARAMETER>) => { let mut p = p; p.push(q); p });
 
-        PATH_PARAMETER0: Vec<String> =
+        PATH_PARAMETER0: Vec<InternedString> =
             (<p:PATH_PARAMETER>) => vec![p];
 
-        PATH_PARAMETER: String =
+        PATH_PARAMETER: InternedString =
             (PATH_PARAMETER_TYPE / PATH_PARAMETER_LIFETIME);
 
-        PATH_PARAMETER_TYPE: String =
+        PATH_PARAMETER_TYPE: InternedString =
             ID;
 
-        PATH_PARAMETER_LIFETIME: String =
+        PATH_PARAMETER_LIFETIME: InternedString =
             LIFETIME;
 
         // IDENTIFIERS, LIFETIMES
 
-        ID: String =
-            (<i:ID_RE>) => i.to_string();
+        ID: InternedString =
+            (<i:ID_RE>) => intern(i);
 
         ID_RE: &'input str =
             regex(r"[a-zA-Z_][a-zA-Z0-9_]*");
 
-        LIFETIME: String =
-            (<i:LIFETIME_RE>) => i.to_string();
+        LIFETIME: InternedString =
+            (<i:LIFETIME_RE>) => intern(i);
 
         LIFETIME_RE: &'input str =
             regex(r"'[a-zA-Z_][a-zA-Z0-9_]*");

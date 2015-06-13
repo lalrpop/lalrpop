@@ -1,6 +1,6 @@
 use std::collections::{HashMap};
-use regex::Regex;
 
+use intern::InternedString;
 use grammar::TypeName;
 
 #[cfg(test)]
@@ -11,21 +11,17 @@ pub struct TokenDefinition {
     enum_type: TypeName,
 
     // map from a custom string, like `"("` to a variant name like LPAREN
-    token_map: HashMap<String, String>,
-
-    // regex for a Rust identifier
-    identifier: Regex
+    token_map: HashMap<InternedString, InternedString>,
 }
 
 impl TokenDefinition {
     pub fn new(enum_type: TypeName,
-               token_map: Vec<(String, String)>)
+               token_map: Vec<(InternedString, InternedString)>)
                -> TokenDefinition
     {
         TokenDefinition {
             enum_type: enum_type,
             token_map: token_map.into_iter().collect(),
-            identifier: Regex::new("[a-zA-Z_][:word:]*").unwrap(),
         }
     }
 
@@ -33,15 +29,9 @@ impl TokenDefinition {
         &self.enum_type
     }
 
-    pub fn valid_token_name(&self, name: &str) -> bool {
-        self.token_map.contains_key(name) || self.identifier.is_match(name)
-    }
-
-    pub fn match_pattern(&self, name: &str) -> String {
-        assert!(self.valid_token_name(name));
-
-        let variant_name = match self.token_map.get(name) {
-            Some(v) => &v[..],
+    pub fn match_pattern(&self, name: InternedString) -> String {
+        let variant_name = match self.token_map.get(&name) {
+            Some(&v) => v,
             None => name,
         };
 

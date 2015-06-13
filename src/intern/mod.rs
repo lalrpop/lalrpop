@@ -10,7 +10,7 @@ thread_local! {
         RefCell::new(Interner::new())
 }
 
-struct Interner {
+pub struct Interner {
     map: HashMap<String, InternedString>,
     strings: Vec<String>,
 }
@@ -21,9 +21,7 @@ pub struct InternedString {
 }
 
 pub fn intern(s: &str) -> InternedString {
-    INTERNER_TLS.with(|interner| {
-        let mut interner = interner.borrow_mut();
-
+    write(|interner| {
         match interner.map.get(s) {
             Some(&v) => { return v; }
             None => { }
@@ -37,12 +35,24 @@ pub fn intern(s: &str) -> InternedString {
     })
 }
 
+pub fn read<F,R>(f: F) -> R
+    where F: FnOnce(&Interner) -> R
+{
+    INTERNER_TLS.with(|interner| f(&*interner.borrow()))
+}
+
+fn write<F,R>(f: F) -> R
+    where F: FnOnce(&mut Interner) -> R
+{
+    INTERNER_TLS.with(|interner| f(&mut *interner.borrow_mut()))
+}
+
 impl Interner {
     fn new() -> Interner {
         Interner { map: HashMap::new(), strings: vec![] }
     }
 
-    fn data(&self, i: InternedString) -> &str {
+    pub fn data(&self, i: InternedString) -> &str {
         &self.strings[i.index()]
     }
 }
@@ -53,21 +63,18 @@ impl InternedString {
     }
 
     pub fn to_string(&self) -> String {
-        INTERNER_TLS.with(
-            |interner| interner.borrow().data(*self).to_string())
+        read(|interner| interner.data(*self).to_string())
     }
 }
 
 impl Debug for InternedString {
     fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
-        INTERNER_TLS.with(
-            |interner| Debug::fmt(&interner.borrow().data(*self), fmt))
+        read(|interner| Debug::fmt(&interner.data(*self), fmt))
     }
 }
 
 impl Display for InternedString {
     fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
-        INTERNER_TLS.with(
-            |interner| Display::fmt(&interner.borrow().strings[self.index()], fmt))
+        read(|interner| Display::fmt(&interner.data(*self), fmt))
     }
 }
