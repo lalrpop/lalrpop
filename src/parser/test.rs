@@ -8,10 +8,36 @@ fn type_name() {
 
 #[test]
 fn empty_grammar() {
-    let x = parse_grammar(
-        r#"grammar Foo { } "#);
-    assert_eq!(
-        format!("{:?}", x),
-        "Grammar { type_name: TypeName { module: [], type_name: \"Foo\", parameters: [] }, items: [] }");
+    assert!(parse_grammar(r#"grammar Foo { }"#).is_ok());
+}
+
+#[test]
+fn nonterminal0() {
+    assert!(parse_grammar(r#"grammar Foo { Expr = Alt; }"#).is_ok());
+}
+
+#[test]
+fn incorrect_paren() {
+    assert!(parse_grammar(r#"grammar Foo { Expr = (Alt); }"#).is_err());
+}
+
+#[test]
+fn paren_with_plus() {
+    assert!(parse_grammar(r#"grammar Foo { Expr = (Alt)+; }"#).is_ok());
+}
+
+#[test]
+fn paren_with_plus_and_anon() {
+    assert!(parse_grammar(r#"grammar Foo { Expr = (<Alt>)+; }"#).is_ok());
+}
+
+#[test]
+fn named_choice() {
+    assert!(parse_grammar(r#"grammar Foo { Expr = <n:Alt>; }"#).is_ok());
+}
+
+#[test]
+fn named_choice_plus() {
+    assert!(parse_grammar(r#"grammar Foo { Expr = <n:Alt+>; }"#).is_ok());
 }
 

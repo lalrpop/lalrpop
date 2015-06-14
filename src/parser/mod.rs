@@ -26,7 +26,7 @@ rusty_peg! {
             (<from:LITERAL>, "=>", <to:LITERAL>, ";") => (from, to);
 
         NONTERMINAL: GrammarItem =
-            (<n:ID>, <t:[NONTERMINAL_TYPE]>, "=", <a:ALTERNATIVES>) => {
+            (<n:ID>, <t:[NONTERMINAL_TYPE]>, "=", <a:ALTERNATIVES>, ";") => {
                 GrammarItem::Nonterminal(NonterminalData { name: n,
                                                            type_decl: t,
                                                            alternatives: a })
@@ -47,7 +47,7 @@ rusty_peg! {
             (<a:ALTERNATIVE>) => vec![a];
 
         ALTERNATIVESN: Vec<Alternative> =
-            ("{", <a:{ALTERNATIVE}>, "}", ";") => a;
+            ("{", <a:{ALTERNATIVE}>, "}") => a;
 
         ALTERNATIVE: Alternative =
             (<s:{SYMBOL_ARG}>, <a:[ACTION]>) => Alternative {
@@ -75,10 +75,24 @@ rusty_peg! {
                 SymbolArg { symbol: sym, highlight: SymbolHighlight::None }
             };
 
+        SYMBOL_ARG0: SymbolArg =
+            (NAMED_SYMBOL / ANON_SYMBOL / NONE_SYMBOL0);
+
+        NONE_SYMBOL0: SymbolArg =
+            (<sym:SYMBOL0>) => {
+                SymbolArg { symbol: sym, highlight: SymbolHighlight::None }
+            };
+
         // Symbols
 
         SYMBOL: Symbol =
-            (PLUS_SYMBOL / QUESTION_SYMBOL / STAR_SYMBOL / TERMINAL_SYMBOL / NT_SYMBOL);
+            (PLUS_SYMBOL0 / PLUS_SYMBOLN /
+             QUESTION_SYMBOL0 / QUESTION_SYMBOLN /
+             STAR_SYMBOL0 / STAR_SYMBOLN /
+             SYMBOL0);
+
+        SYMBOL0: Symbol =
+            (TERMINAL_SYMBOL / NT_SYMBOL);
 
         TERMINAL_SYMBOL: Symbol =
             (<l:LITERAL>) => Symbol::Terminal(l);
@@ -86,20 +100,23 @@ rusty_peg! {
         NT_SYMBOL: Symbol =
             (<l:ID>) => Symbol::Nonterminal(l);
 
-        PLUS_SYMBOL: Symbol =
-            (<v:SYMBOL_EXPR>, "+") => Symbol::Plus(v);
+        PLUS_SYMBOL0: Symbol =
+            (<v:SYMBOL_ARG0>, "+") => Symbol::Plus(SymbolExpr { args: vec![v] });
 
-        QUESTION_SYMBOL: Symbol =
-            (<v:SYMBOL_EXPR>, "?") => Symbol::Question(v);
+        PLUS_SYMBOLN: Symbol =
+            (<v:SYMBOL_EXPRN>, "+") => Symbol::Plus(v);
 
-        STAR_SYMBOL: Symbol =
-            (<v:SYMBOL_EXPR>, "*") => Symbol::Question(v);
+        QUESTION_SYMBOL0: Symbol =
+            (<v:SYMBOL_ARG0>, "?") => Symbol::Question(SymbolExpr { args: vec![v] });
 
-        SYMBOL_EXPR: SymbolExpr =
-            (SYMBOL_EXPR1 / SYMBOL_EXPRN);
+        QUESTION_SYMBOLN: Symbol =
+            (<v:SYMBOL_EXPRN>, "?") => Symbol::Question(v);
 
-        SYMBOL_EXPR1: SymbolExpr =
-            (<s:SYMBOL_ARG>) => SymbolExpr { args: vec![s] };
+        STAR_SYMBOL0: Symbol =
+            (<v:SYMBOL_ARG0>, "*") => Symbol::Star(SymbolExpr { args: vec![v] });
+
+        STAR_SYMBOLN: Symbol =
+            (<v:SYMBOL_EXPRN>, "*") => Symbol::Question(v);
 
         SYMBOL_EXPRN: SymbolExpr =
             ("(", <s:{SYMBOL_ARG}>, ")") => SymbolExpr { args: s };
@@ -209,7 +226,7 @@ pub fn parse_type_name(text: &str) -> TypeName {
     rusty_peg::Symbol::parse_complete(&TYPE_NAME, &mut parser, text).unwrap()
 }
 
-pub fn parse_grammar(text: &str) -> Grammar {
+pub fn parse_grammar(text: &str) -> Result<Grammar,rusty_peg::Error> {
     let mut parser = Parser::new(());
-    rusty_peg::Symbol::parse_complete(&GRAMMAR, &mut parser, text).unwrap()
+    rusty_peg::Symbol::parse_complete(&GRAMMAR, &mut parser, text)
 }
