@@ -41,3 +41,8 @@ fn named_choice_plus() {
     assert!(parse_grammar(r#"grammar Foo { Expr = <n:Alt+>; }"#).is_ok());
 }
 
+#[test]
+fn token_expr() {
+    assert!(parse_grammar(r#"grammar Foo { token Expr where { "foo" => "bar"; } }"#).is_ok());
+}
+
