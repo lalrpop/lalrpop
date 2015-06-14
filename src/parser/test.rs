@@ -47,7 +47,14 @@ fn token_expr() {
 }
 
 #[test]
-fn map() {
-    assert!(parse_grammar(r#"grammar Foo { Expr = <n:Alt+> => { { foo } }; }"#).is_ok());
+fn map1() {
+    assert!(parse_grammar(
+        r#"grammar Foo { Expr = <n:Alt+> => { { foo } }; }"#).is_ok());
+}
+
+#[test]
+fn mapN() {
+    assert!(parse_grammar(
+        r#"grammar Foo { Expr = { Bar => { Baz }; X <n:Bar> => { Y }; }; }"#).is_ok());
 }
 

@@ -26,7 +26,7 @@ rusty_peg! {
             (<from:LITERAL>, "=>", <to:LITERAL>, ";") => (from, to);
 
         NONTERMINAL: GrammarItem =
-            (<n:ID>, <t:[NONTERMINAL_TYPE]>, "=", <a:ALTERNATIVES>, ";") => {
+            (<n:ID>, <t:[NONTERMINAL_TYPE]>, "=", <a:ALTERNATIVES>) => {
                 GrammarItem::Nonterminal(NonterminalData { name: n,
                                                            type_decl: t,
                                                            alternatives: a })
@@ -47,10 +47,10 @@ rusty_peg! {
             (<a:ALTERNATIVE>) => vec![a];
 
         ALTERNATIVESN: Vec<Alternative> =
-            ("{", <a:{ALTERNATIVE}>, "}") => a;
+            ("{", <a:{ALTERNATIVE}>, "}", ";") => a;
 
         ALTERNATIVE: Alternative =
-            (<s:{SYMBOL_ARG}>, <a:[ACTION]>) => Alternative {
+            (<s:{SYMBOL_ARG}>, <a:[ACTION]>, ";") => Alternative {
                 expr: SymbolExpr { args: s },
                 action: a
             };
