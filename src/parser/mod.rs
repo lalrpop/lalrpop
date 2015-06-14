@@ -1,7 +1,7 @@
 use intern::{intern, InternedString};
-use grammar::TypeName;
+use grammar::ty::TypeName;
 use grammar::parse_tree::*;
-use rusty_peg::Symbol as RustyPegSymbol;
+use rusty_peg;
 
 #[cfg(test)]
 mod test;
@@ -27,7 +27,9 @@ rusty_peg! {
 
         NONTERMINAL: GrammarItem =
             (<n:ID>, <t:[NONTERMINAL_TYPE]>, "=", <a:ALTERNATIVES>) => {
-                GrammarItem::Nonterminal(NonterminalData { name: n, t: t, a: a })
+                GrammarItem::Nonterminal(NonterminalData { name: n,
+                                                           type_decl: t,
+                                                           alternatives: a })
             };
 
         NONTERMINAL_TYPE: String =
@@ -39,7 +41,7 @@ rusty_peg! {
             regex("[^=]+");
 
         ALTERNATIVES: Vec<Alternative> =
-            (ALTERNATIVES1, ALTERNATIVESN);
+            (ALTERNATIVES1 / ALTERNATIVESN);
 
         ALTERNATIVES1: Vec<Alternative> =
             (<a:ALTERNATIVE>) => vec![a];
@@ -93,13 +95,13 @@ rusty_peg! {
         STAR_SYMBOL: Symbol =
             (<v:SYMBOL_EXPR>, "*") => Symbol::Question(v);
 
-        SYMBOL_EXPR: Vec<SymbolArg> =
+        SYMBOL_EXPR: SymbolExpr =
             (SYMBOL_EXPR1 / SYMBOL_EXPRN);
 
-        SYMBOL_EXPR1: Vec<SymbolArg> =
-            (<s:SYMBOL_ARG>) => vec![s];
+        SYMBOL_EXPR1: SymbolExpr =
+            (<s:SYMBOL_ARG>) => SymbolExpr { args: vec![s] };
 
-        SYMBOL_EXPRN: Vec<SymbolArg> =
+        SYMBOL_EXPRN: SymbolExpr =
             ("(", <s:{SYMBOL_ARG}>, ")") => SymbolExpr { args: s };
 
         // TypeName
@@ -156,7 +158,58 @@ rusty_peg! {
     }
 }
 
+// Custom symbols.
+
+struct ACTION;
+
+impl<'input> rusty_peg::Symbol<'input,Parser<'input>> for ACTION {
+    type Output = String;
+
+    fn pretty_print(&self) -> String {
+        format!("ACTION")
+    }
+
+    fn parse(&self, _: &mut Parser<'input>, input: rusty_peg::Input<'input>)
+             -> rusty_peg::ParseResult<'input,String>
+    {
+        let bytes = input.text.as_bytes();
+        let mut offset = input.offset;
+
+        if offset >= input.text.len() || bytes[offset] != ('{' as u8) {
+            return Err(rusty_peg::Error { expected: "'{' character",
+                                          offset: input.offset });
+        }
+
+        let mut balance = 1;
+        while balance != 0 {
+            offset += 1;
+
+            if offset >= input.text.len() {
+                return Err(rusty_peg::Error { expected: "matching '}' character",
+                                              offset: offset });
+            }
+
+            if bytes[offset] == ('{' as u8) {
+                balance += 1;
+            } else if bytes[offset] == ('}' as u8) {
+                balance -= 1;
+            }
+        }
+
+        offset += 1; // consume final `}`
+
+        let regex_str = &input.text[input.offset + 1 .. offset - 1];
+        let output = rusty_peg::Input { text: input.text, offset: offset };
+        return Ok((output, regex_str.to_string()));
+    }
+}
+
 pub fn parse_type_name(text: &str) -> TypeName {
     let mut parser = Parser::new(());
-    TYPE_NAME.parse_complete(&mut parser, text).unwrap()
+    rusty_peg::Symbol::parse_complete(&TYPE_NAME, &mut parser, text).unwrap()
+}
+
+pub fn parse_grammar(text: &str) -> Grammar {
+    let mut parser = Parser::new(());
+    rusty_peg::Symbol::parse_complete(&GRAMMAR, &mut parser, text).unwrap()
 }

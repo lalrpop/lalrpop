@@ -40,7 +40,7 @@ grammar Type<'input, T> {
 */
 
 use intern::InternedString;
-use grammar::TypeName;
+use grammar::ty::TypeName;
 
 #[derive(Clone, Debug)]
 pub struct Grammar {

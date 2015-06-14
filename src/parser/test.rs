@@ -6,3 +6,12 @@ fn type_name() {
     assert_eq!(x.reference(), "::parser::Enum<'l, T>");
 }
 
+#[test]
+fn empty_grammar() {
+    let x = parse_grammar(
+        r#"grammar Foo { } "#);
+    assert_eq!(
+        format!("{:?}", x),
+        "Grammar { type_name: TypeName { module: [], type_name: \"Foo\", parameters: [] }, items: [] }");
+}
+

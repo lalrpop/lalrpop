@@ -1,5 +1,5 @@
 use intern::intern;
-use grammar::TypeName;
+use grammar::ty::TypeName;
 use grammar::token::*;
 
 fn test_token_defn() -> TokenDefinition {

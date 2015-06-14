@@ -1,7 +1,7 @@
 use std::collections::{HashMap};
 
 use intern::InternedString;
-use grammar::TypeName;
+use grammar::ty::TypeName;
 
 #[cfg(test)]
 mod test;
