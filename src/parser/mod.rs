@@ -55,6 +55,9 @@ rusty_peg! {
                 action: a
             };
 
+        ACTION: String =
+            ("=>", <c:CODE_BLOCK>) => c;
+
         // Symbol items
 
         SYMBOL_ARG: SymbolArg =
@@ -177,9 +180,9 @@ rusty_peg! {
 
 // Custom symbols.
 
-struct ACTION;
+struct CODE_BLOCK;
 
-impl<'input> rusty_peg::Symbol<'input,Parser<'input>> for ACTION {
+impl<'input> rusty_peg::Symbol<'input,Parser<'input>> for CODE_BLOCK {
     type Output = String;
 
     fn pretty_print(&self) -> String {
