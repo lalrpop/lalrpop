@@ -60,11 +60,10 @@ grammar Type<'input, T> {
 */
 
 use intern::InternedString;
-use grammar::ty::TypeName;
 
 #[derive(Clone, Debug)]
 pub struct Grammar {
-    pub type_name: TypeName,
+    pub type_name: TypeRef,
     pub items: Vec<GrammarItem>,
 }
 
@@ -76,15 +75,36 @@ pub enum GrammarItem {
 
 #[derive(Clone, Debug)]
 pub struct TokenTypeData {
-    pub type_name: TypeName,
+    pub type_name: TypeRef,
     pub conversions: Vec<(InternedString, InternedString)>,
+}
+
+#[derive(Clone, Debug)]
+pub enum TypeRef {
+    // (T1, T2)
+    Tuple(Vec<TypeRef>),
+
+    // Foo<'a, 'b, T1, T2>, Foo::Bar, etc
+    Nominal {
+        path: Vec<InternedString>,
+        types: Vec<TypeRef>
+    },
+
+    // 'x ==> only should appear within nominal types, but what do we care
+    Lifetime(InternedString),
+
+    // Foo or Bar ==> treated specially since macros may care
+    Id(InternedString),
+
+    // <N> ==> type of a nonterminal, emitted by macro expansion
+    Nonterminal(InternedString),
 }
 
 #[derive(Clone, Debug)]
 pub struct NonterminalData {
     pub name: InternedString,
     pub args: Vec<InternedString>, // macro arguments
-    pub type_decl: Option<String>,
+    pub type_decl: Option<TypeRef>,
     pub alternatives: Vec<Alternative>
 }
 

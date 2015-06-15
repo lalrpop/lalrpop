@@ -1,7 +1,22 @@
+use grammar::parse_tree::TypeRef;
+
 #[test]
-fn type_name() {
-    let x = super::parse_type_name("parser::Enum<'l,T>");
-    assert_eq!(x.reference(), "::parser::Enum<'l, T>");
+fn type_ref() {
+    super::parse_type_ref("parser::Enum<'l,T>").unwrap();
+}
+
+#[test]
+fn type_ref_tuple() {
+    super::parse_type_ref("(X,Y)").unwrap();
+}
+
+#[test]
+fn type_ref_special_case_for_id() {
+    let x = super::parse_type_ref("X").unwrap();
+    assert!(match x {
+        TypeRef::Id(_) => true,
+        _ => false
+    });
 }
 
 #[test]

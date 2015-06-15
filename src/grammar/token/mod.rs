@@ -1,21 +1,21 @@
 use std::collections::{HashMap};
 
+use grammar::parse_tree::TypeRef;
 use intern::InternedString;
-use grammar::ty::TypeName;
 
 #[cfg(test)]
 mod test;
 
 pub struct TokenDefinition {
     // if the enum type is `foo::bar::baz<X,Y>` then:
-    enum_type: TypeName,
+    enum_type: TypeRef,
 
     // map from a custom string, like `"("` to a variant name like LPAREN
     token_map: HashMap<InternedString, InternedString>,
 }
 
 impl TokenDefinition {
-    pub fn new(enum_type: TypeName,
+    pub fn new(enum_type: TypeRef,
                token_map: Vec<(InternedString, InternedString)>)
                -> TokenDefinition
     {
@@ -25,16 +25,7 @@ impl TokenDefinition {
         }
     }
 
-    pub fn enum_type(&self) -> &TypeName {
+    pub fn enum_type(&self) -> &TypeRef {
         &self.enum_type
-    }
-
-    pub fn match_pattern(&self, name: InternedString) -> String {
-        let variant_name = match self.token_map.get(&name) {
-            Some(&v) => v,
-            None => name,
-        };
-
-        format!("{}::{}(..)", self.enum_type.path(), variant_name)
     }
 }

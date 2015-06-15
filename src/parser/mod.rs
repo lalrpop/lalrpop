@@ -1,5 +1,4 @@
 use intern::{intern, InternedString};
-use grammar::ty::TypeName;
 use grammar::parse_tree::*;
 use rusty_peg;
 
@@ -10,7 +9,7 @@ rusty_peg! {
     parser Parser<'input> {
         // Grammar
         GRAMMAR: Grammar =
-            ("grammar" <t:TYPE_NAME> "{" <i:{GRAMMAR_ITEM}> "}") => {
+            ("grammar" <t:TYPE_REF> "{" <i:{GRAMMAR_ITEM}> "}") => {
                 Grammar { type_name: t, items: i }
             };
 
@@ -18,7 +17,7 @@ rusty_peg! {
             (TOKEN_TYPE / NONTERMINAL);
 
         TOKEN_TYPE: GrammarItem =
-            ("token" <t:TYPE_NAME> "where" "{" <c:{CONVERSION}> "}" ";") => {
+            ("token" <t:TYPE_REF> "where" "{" <c:{CONVERSION}> "}" ";") => {
                 GrammarItem::TokenType(TokenTypeData {type_name: t, conversions: c })
             };
 
@@ -49,13 +48,8 @@ rusty_peg! {
         NONTERMINAL_NAME_MACRO1: InternedString =
             (<a:ID> ",") => a;
 
-        NONTERMINAL_TYPE: String =
-            (":" <s:NOT_EQ>) => s.to_string();
-
-        // FIXME this isn't really right; we should be gobbling up token
-        // trees here until we find an "="
-        NOT_EQ: &'input str =
-            regex("[^=]+");
+        NONTERMINAL_TYPE: TypeRef =
+            (":" <s:TYPE_REF>) => s;
 
         ALTERNATIVES: Vec<Alternative> =
             (ALTERNATIVES1 / ALTERNATIVESN);
@@ -131,37 +125,52 @@ rusty_peg! {
         CHOSEN_SYMBOL: Symbol =
             ("~" <s:SYMBOL>) => Symbol::Choose(Box::new(s));
 
-        // TypeName
+        // TypeRef
 
-        TYPE_NAME: TypeName =
-            (<prefix:{PATH_COMPONENT}> <name:ID> <suffix:PATH_SUFFIX>) => {
-                TypeName::new(prefix, name, suffix)
+        TYPE_REF: TypeRef =
+            (TUPLE_TYPE_REF / LIFETIME_TYPE_REF / NOMINAL_TYPE_REF);
+
+        TUPLE_TYPE_REF: TypeRef =
+            ("(" <l:TYPE_REF_LIST> ")") => TypeRef::Tuple(l);
+
+        LIFETIME_TYPE_REF: TypeRef =
+            (<l:LIFETIME>) => TypeRef::Lifetime(l);
+
+        NOMINAL_TYPE_REF: TypeRef =
+            (<p:PATH> <a:[NOMINAL_TYPE_REF_ARGS]>) => {
+                if p.len() == 1 && a.is_none() {
+                    // detect something like `Foo` and treat it specially,
+                    // so that macro expansion can pattern match here
+                    TypeRef::Id(p.into_iter().next().unwrap())
+                } else {
+                    // otherwise, `Vec<..>` or `Foo::Bar` etc expand to
+                    // this full path
+                    TypeRef::Nominal { path: p, types: a.unwrap_or(vec![]) }
+                }
             };
 
-        PATH_COMPONENT: InternedString =
+        NOMINAL_TYPE_REF_ARGS: Vec<TypeRef> =
+            ("<" <l:TYPE_REF_LIST> ">") => l;
+
+        TYPE_REF_LIST: Vec<TypeRef> =
+            (<a:{TYPE_REF_COMMA}> <t:[TYPE_REF]>) => {
+                let mut a = a;
+                a.extend(t.into_iter());
+                a
+            };
+
+        TYPE_REF_COMMA: TypeRef =
+            (<t:TYPE_REF> ",") => t;
+
+        PATH: Vec<InternedString> =
+            (<b:{PATH_BASE}> <c:ID>) => {
+                let mut b = b;
+                b.push(c);
+                b
+            };
+
+        PATH_BASE: InternedString =
             (<i:ID> "::") => i;
-
-        PATH_SUFFIX: Vec<InternedString> =
-            (<p:[PATH_SUFFIX_1]>) => p.unwrap_or(Vec::new());
-
-        PATH_SUFFIX_1: Vec<InternedString> =
-            ("<" <p:PATH_PARAMETERS> ">") => p;
-
-        PATH_PARAMETERS: Vec<InternedString> =
-            fold(<p:PATH_PARAMETER0>,
-                 ("," <q:PATH_PARAMETER>) => { let mut p = p; p.push(q); p });
-
-        PATH_PARAMETER0: Vec<InternedString> =
-            (<p:PATH_PARAMETER>) => vec![p];
-
-        PATH_PARAMETER: InternedString =
-            (PATH_PARAMETER_TYPE / PATH_PARAMETER_LIFETIME);
-
-        PATH_PARAMETER_TYPE: InternedString =
-            ID;
-
-        PATH_PARAMETER_LIFETIME: InternedString =
-            LIFETIME;
 
         // IDENTIFIERS, LIFETIMES
 
@@ -233,11 +242,6 @@ impl<'input> rusty_peg::Symbol<'input,Parser<'input>> for CODE {
     }
 }
 
-pub fn parse_type_name(text: &str) -> TypeName {
-    let mut parser = Parser::new(());
-    rusty_peg::Symbol::parse_complete(&TYPE_NAME, &mut parser, text).unwrap()
-}
-
 pub fn parse_grammar(text: &str) -> Result<Grammar,rusty_peg::Error> {
     let mut parser = Parser::new(());
     rusty_peg::Symbol::parse_complete(&GRAMMAR, &mut parser, text)
@@ -256,4 +260,9 @@ fn parse_symbol(text: &str) -> Result<Symbol,rusty_peg::Error> {
 fn parse_nonterminal(text: &str) -> Result<GrammarItem,rusty_peg::Error> {
     let mut parser = Parser::new(());
     rusty_peg::Symbol::parse_complete(&NONTERMINAL, &mut parser, text)
+}
+
+fn parse_type_ref(text: &str) -> Result<TypeRef,rusty_peg::Error> {
+    let mut parser = Parser::new(());
+    rusty_peg::Symbol::parse_complete(&TYPE_REF, &mut parser, text)
 }
