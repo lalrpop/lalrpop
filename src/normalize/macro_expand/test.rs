@@ -33,3 +33,42 @@ grammar Foo {
 
     assert_eq!(actual, expected);
 }
+
+#[test]
+fn test_if_match() {
+    let grammar = parser::parse_grammar("
+grammar Foo {
+    Expr<E> = {
+       A if E == \"A*C\";
+       B if E ~~ \"^A*C$\";
+       C if E != \"A*C\";
+       D if E !~ \"^A*C$\";
+    };
+
+    Expr1 = Expr<\"A*C\">;
+    Expr2 = Expr<\"AAC\">;
+    Expr3 = Expr<\"ABC\">;
+}
+").unwrap();
+
+    let actual = expand_macros(grammar).unwrap();
+
+    let expected = parser::parse_grammar("
+grammar Foo {
+    Expr1 = `Expr<\"A*C\">`;
+    Expr2 = `Expr<\"AAC\">`;
+    Expr3 = `Expr<\"ABC\">`;
+
+    `Expr<\"ABC\">` = { C; D; };
+    `Expr<\"AAC\">` = { B; C; };
+    `Expr<\"A*C\">` = { A; D; };
+}
+").unwrap();
+
+    println!("Actual:");
+    println!("{:#?}", actual);
+    println!("Expected:");
+    println!("{:#?}", expected);
+
+    assert_eq!(actual, expected);
+}
