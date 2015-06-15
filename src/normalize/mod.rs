@@ -6,7 +6,7 @@
 
 use grammar::parse_tree as pt;
 
-pub fn normalize(input: &pt::Grammar) -> Result<pt::Grammar> {
+pub fn normalize(input: pt::Grammar) -> Result<pt::Grammar> {
 }
 
 // These are executed *IN ORDER*:

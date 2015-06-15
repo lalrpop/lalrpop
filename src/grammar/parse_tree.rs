@@ -60,6 +60,7 @@ grammar Type<'input, T> {
 */
 
 use intern::InternedString;
+use std::fmt::{Display, Formatter, Error};
 
 #[derive(Clone, Debug)]
 pub struct Grammar {
@@ -116,7 +117,18 @@ pub struct Alternative {
     pub condition: Option<Condition>,
 
     // => { code }
-    pub action: Option<String>,
+    pub action: Option<Action>,
+}
+
+#[derive(Clone, Debug)]
+pub enum Action {
+    // code provided by the user
+    User(String),
+
+    // an index into a side-list of action fns, which is setup to take
+    // all of the values in this alternative as arguments, dropping
+    // the ones it doesn't care about.
+    Fn(u32),
 }
 
 #[derive(Clone, Debug)]
@@ -136,7 +148,7 @@ pub enum Condition {
 
 #[derive(Clone, Debug)]
 pub enum Symbol {
-    // (<X> <Y>) etc
+    // (X Y)
     Expr(Vec<Symbol>),
 
     // "foo"
@@ -146,7 +158,7 @@ pub enum Symbol {
     Nonterminal(InternedString),
 
     // foo<..>
-    Macro(InternedString, Vec<Symbol>),
+    Macro(MacroSymbol),
 
     // X+
     Plus(Box<Symbol>),
@@ -162,4 +174,57 @@ pub enum Symbol {
 
     // ~x:X
     Name(InternedString, Box<Symbol>),
+}
+
+#[derive(Clone, Debug)]
+pub struct MacroSymbol {
+    pub name: InternedString,
+    pub args: Vec<Symbol>
+}
+
+impl Symbol {
+    pub fn canonical_form(&self) -> String {
+        format!("{}", self)
+    }
+}
+
+impl Display for Symbol {
+    fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
+        match *self {
+            Symbol::Expr(ref symbols) =>
+                write!(fmt, "({})", Sep(" ", symbols)),
+            Symbol::Terminal(ref s) =>
+                write!(fmt, "\"{}\"", s.to_string()),
+            Symbol::Nonterminal(ref s) =>
+                write!(fmt, "{}", s),
+            Symbol::Macro(ref m) =>
+                write!(fmt, "{}<{}>", m.name, Sep(", ", &m.args)),
+            Symbol::Plus(ref s) =>
+                write!(fmt, "{}+", s),
+            Symbol::Question(ref s) =>
+                write!(fmt, "{}?", s),
+            Symbol::Star(ref s) =>
+                write!(fmt, "{}?", s),
+            Symbol::Choose(ref s) =>
+                write!(fmt, "~{}", s),
+            Symbol::Name(n, ref s) =>
+                write!(fmt, "~{}:{}", n, s),
+        }
+    }
+}
+
+struct Sep<S>(&'static str, S);
+
+impl<'a,S:Display> Display for Sep<&'a Vec<S>> {
+    fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
+        let &Sep(sep, vec) = self;
+        let mut elems = vec.iter();
+        if let Some(elem) = elems.next() {
+            write!(fmt, "{}", elem);
+            while let Some(elem) = elems.next() {
+                write!(fmt, "{}{}", sep, elem);
+            }
+        }
+        Ok(())
+    }
 }

@@ -70,7 +70,7 @@ rusty_peg! {
         IF_COND: Condition =
             ("if" <c:COND>) => c;
 
-        ACTION: String = ("=>" <b:CODE>) => b;
+        ACTION: Action = ("=>" <b:CODE>) => Action::User(b);
 
         // Conditions
 
@@ -105,7 +105,7 @@ rusty_peg! {
             (<l:ID> "<" <m:{MACRO_ARG_START}> <n:[SYMBOL]> ">") => {
                 let mut args = m;
                 if let Some(n) = n { args.push(n); }
-                Symbol::Macro(l, args)
+                Symbol::Macro(MacroSymbol { name: l, args: args })
             };
 
         MACRO_ARG_START: Symbol = (<s:SYMBOL> ",") => s;
