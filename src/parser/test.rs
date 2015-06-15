@@ -82,3 +82,14 @@ fn macro_nt() {
         .unwrap();
 }
 
+#[test]
+fn cond_nt() {
+    super::parse_nonterminal(
+        "Foo<E> = {
+           X if E == \"Bar\";
+           X if E ~~ \"Bar\";
+           X if E != \"Bar\";
+           X if E !~ \"Bar\";
+         };").unwrap();
+}
+

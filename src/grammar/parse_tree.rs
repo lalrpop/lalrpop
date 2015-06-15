@@ -49,7 +49,7 @@ grammar Type<'input, T> {
 
   // Example 2: conditional patterns
   Expr<M>: Expr = {
-      ~Expr "(" ~Comma<Expr> ")" => Expr::CallExpr(~~~);
+      ~Expr "(" ~Comma<Expr> ")" => Expr::CallExpr(~~);
 
       ID if M !~ "NO_ID" => {
       };
@@ -92,8 +92,26 @@ pub struct NonterminalData {
 pub struct Alternative {
     pub expr: Vec<Symbol>,
 
+    // if C, only legal in macros
+    pub condition: Option<Condition>,
+
     // => { code }
     pub action: Option<String>,
+}
+
+#[derive(Clone, Debug)]
+pub enum Condition {
+    // X == "Foo", equality
+    Equals(InternedString, InternedString),
+
+    // X != "Foo", inequality
+    NotEquals(InternedString, InternedString),
+
+    // X ~~ "Foo", regexp match
+    Match(InternedString, InternedString),
+
+    // X !~ "Foo", regexp non-match
+    NotMatch(InternedString, InternedString),
 }
 
 #[derive(Clone, Debug)]

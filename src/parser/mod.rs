@@ -67,12 +67,33 @@ rusty_peg! {
             ("{" <a:{ALTERNATIVE}> "}" ";") => a;
 
         ALTERNATIVE: Alternative =
-            (<s:{SYMBOL}> <a:[ACTION]> ";") => Alternative {
+            (<s:{SYMBOL}> <c:[IF_COND]> <a:[ACTION]> ";") => Alternative {
                 expr: s,
+                condition: c,
                 action: a
             };
 
+        IF_COND: Condition =
+            ("if" <c:COND>) => c;
+
         ACTION: String = ("=>" <b:CODE>) => b;
+
+        // Conditions
+
+        COND: Condition =
+            (EQUALS_COND / NOT_EQUALS_COND / MATCH_COND / NOT_MATCH_COND);
+
+        EQUALS_COND: Condition =
+            (<a:ID> "==" <b:LITERAL>) => Condition::Equals(a, b);
+
+        NOT_EQUALS_COND: Condition =
+            (<a:ID> "!=" <b:LITERAL>) => Condition::NotEquals(a, b);
+
+        MATCH_COND: Condition =
+            (<a:ID> "~~" <b:LITERAL>) => Condition::Match(a, b);
+
+        NOT_MATCH_COND: Condition =
+            (<a:ID> "!~" <b:LITERAL>) => Condition::NotMatch(a, b);
 
         // Symbols
 
@@ -148,7 +169,7 @@ rusty_peg! {
             (<i:ID_RE>) => intern(i);
 
         ID_RE: &'input str =
-            regex(r"[a-zA-Z_][a-zA-Z0-9_]*");
+            regex(r"[a-zA-Z_][a-zA-Z0-9_]*") - ["if"];
 
         LIFETIME: InternedString =
             (<i:LIFETIME_RE>) => intern(i);

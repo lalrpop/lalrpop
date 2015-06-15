@@ -20,8 +20,8 @@ pub fn normalize(input: &pt::Grammar) -> Result<pt::Grammar> {
 //     X = ...1 Vec_X ...2
 //     Comma_X: Vec<<X>> = ...;
 //
-// AFTER THIS POINT: No more macros or macro references, though type
-// indirections may occur.
+// AFTER THIS POINT: No more macros, macro references, or guarded
+// alternatives, though type indirections may occur.
 // mod macro_expand;
 
 // Computes types where the user omitted them (or
