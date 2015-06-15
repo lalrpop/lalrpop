@@ -6,9 +6,6 @@
 
 use grammar::parse_tree as pt;
 
-pub fn normalize(input: pt::Grammar) -> Result<pt::Grammar> {
-}
-
 // These are executed *IN ORDER*:
 
 // Expands macros
@@ -22,7 +19,7 @@ pub fn normalize(input: pt::Grammar) -> Result<pt::Grammar> {
 //
 // AFTER THIS POINT: No more macros, macro references, or guarded
 // alternatives, though type indirections may occur.
-// mod macro_expand;
+mod macro_expand;
 
 // Computes types where the user omitted them (or
 // from macro byproducts).

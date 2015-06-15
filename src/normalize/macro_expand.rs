@@ -1,7 +1,8 @@
-use std::collections::HashMap;
+use std::collections::HashSet;
+use intern::{intern, InternedString};
 use grammar::parse_tree::{Grammar, GrammarItem, MacroSymbol, Symbol};
 
-pub fn expand_macros(input: pt::Grammar) {
+pub fn expand_macros(input: Grammar) {
     let Grammar { type_name, items } = input;
     let mut expander = MacroExpander::new();
 }
@@ -12,8 +13,8 @@ struct MacroExpander {
 }
 
 impl MacroExpander {
-    fn new(items: Vec<GrammarItem>) -> MacroExpander {
-        MacroExpander { items: items, expansion_stack: Vec::new(), expansion_set: HashSet::new() }
+    fn new() -> MacroExpander {
+        MacroExpander { expansion_stack: Vec::new(), expansion_set: HashSet::new() }
     }
 
     fn expand(&mut self, items: &mut Vec<GrammarItem>) {
@@ -22,7 +23,7 @@ impl MacroExpander {
             // Find any macro uses in items added since last round and
             // replace them in place with the expanded version:
             for item in &mut items[counter..] {
-                self.replace(item);
+                self.replace_item(item);
             }
             counter = items.len();
 
@@ -33,7 +34,7 @@ impl MacroExpander {
     fn replace_item(&mut self, item: &mut GrammarItem) {
         match *item {
             GrammarItem::TokenType(..) => { }
-            GrammarItem::Nonterminal(ref data) => {
+            GrammarItem::Nonterminal(ref mut data) => {
                 // Ignore macro definitions. They will be expanded in
                 // due course.
                 if !data.args.is_empty() {
@@ -41,9 +42,15 @@ impl MacroExpander {
                 }
 
                 for alternative in &mut data.alternatives {
-                    self.replace_symbol(&mut alternative.symbol);
+                    self.replace_symbols(&mut alternative.expr);
                 }
             }
+        }
+    }
+
+    fn replace_symbols(&mut self, symbols: &mut [Symbol]) {
+        for symbol in symbols {
+            self.replace_symbol(symbol);
         }
     }
 
@@ -51,21 +58,15 @@ impl MacroExpander {
         let key;
 
         match *symbol {
-            Symbol::Macro(ref mut macro) => {
-                for sym in &mut macro.args {
-                    self.replace(sym);
-                }
-
-                key = symbol.canonical_form();
-                if self.expansion_set.insert(key) {
-                    self.expansion_stack.push(macro.clone());
-                }
-            }
-            Symbol::Expr(ref mut syms) => {
-                for sym in syms {
+            Symbol::Macro(ref mut m) => {
+                for sym in &mut m.args {
                     self.replace_symbol(sym);
                 }
-                return;
+
+                key = intern(&m.canonical_form());
+                if self.expansion_set.insert(key) {
+                    self.expansion_stack.push(m.clone());
+                }
             }
             Symbol::Terminal(_) |
             Symbol::Nonterminal(_) => {
@@ -79,9 +80,13 @@ impl MacroExpander {
                 self.replace_symbol(sym);
                 return;
             }
+            Symbol::Expr(ref mut syms) => {
+                self.replace_symbols(syms);
+                return;
+            }
         }
 
         // we only get here if this is a macro expansion
-        *symbol = Symbol::Nonterminal(intern(key));
+        *symbol = Symbol::Nonterminal(key);
     }
 }

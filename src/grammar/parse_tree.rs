@@ -198,7 +198,7 @@ impl Display for Symbol {
             Symbol::Nonterminal(ref s) =>
                 write!(fmt, "{}", s),
             Symbol::Macro(ref m) =>
-                write!(fmt, "{}<{}>", m.name, Sep(", ", &m.args)),
+                write!(fmt, "{}", m),
             Symbol::Plus(ref s) =>
                 write!(fmt, "{}+", s),
             Symbol::Question(ref s) =>
@@ -210,6 +210,18 @@ impl Display for Symbol {
             Symbol::Name(n, ref s) =>
                 write!(fmt, "~{}:{}", n, s),
         }
+    }
+}
+
+impl MacroSymbol {
+    pub fn canonical_form(&self) -> String {
+        format!("{}", self)
+    }
+}
+
+impl Display for MacroSymbol {
+    fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
+        write!(fmt, "{}<{}>", self.name, Sep(", ", &self.args))
     }
 }
 
