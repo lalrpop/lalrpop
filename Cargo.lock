@@ -22,7 +22,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 [[package]]
 name = "rusty-peg"
 version = "0.2.0"
-source = "git+https://github.com/nikomatsakis/rusty-peg.git#5f42014652bbdfcd48a2227cf40f3ffe53689cf6"
+source = "git+https://github.com/nikomatsakis/rusty-peg.git#1718dd98453ae85a75cccfe78aece49e25a4065f"
 dependencies = [
  "regex 0.1.33 (registry+https://github.com/rust-lang/crates.io-index)",
 ]

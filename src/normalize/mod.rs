@@ -6,6 +6,22 @@
 
 use grammar::parse_tree as pt;
 
+pub type NormResult<T> = Result<T, NormError>;
+
+pub struct NormError {
+    message: String,
+    span: pt::Span,
+}
+
+macro_rules! return_err {
+    ($span: expr, $($args:expr),+) => {
+        return Err(NormError {
+            message: format!($($args),+),
+            span: $span
+        });
+    }
+}
+
 // These are executed *IN ORDER*:
 
 // Expands macros

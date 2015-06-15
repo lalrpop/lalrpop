@@ -68,6 +68,9 @@ pub struct Grammar {
     pub items: Vec<GrammarItem>,
 }
 
+#[derive(Copy, Clone, Debug)]
+pub struct Span(pub usize, pub usize);
+
 #[derive(Clone, Debug)]
 pub enum GrammarItem {
     TokenType(TokenTypeData),
@@ -98,7 +101,7 @@ pub enum TypeRef {
     Id(InternedString),
 
     // <N> ==> type of a nonterminal, emitted by macro expansion
-    Nonterminal(InternedString),
+    Nonterminal(Symbol),
 }
 
 #[derive(Clone, Debug)]
@@ -132,18 +135,26 @@ pub enum Action {
 }
 
 #[derive(Clone, Debug)]
-pub enum Condition {
+pub struct Condition {
+    pub span: Span,
+    pub lhs: InternedString, // X
+    pub rhs: InternedString, // "Foo"
+    pub op: ConditionOp,
+}
+
+#[derive(Clone, Debug)]
+pub enum ConditionOp {
     // X == "Foo", equality
-    Equals(InternedString, InternedString),
+    Equals,
 
     // X != "Foo", inequality
-    NotEquals(InternedString, InternedString),
+    NotEquals,
 
     // X ~~ "Foo", regexp match
-    Match(InternedString, InternedString),
+    Match,
 
     // X !~ "Foo", regexp non-match
-    NotMatch(InternedString, InternedString),
+    NotMatch,
 }
 
 #[derive(Clone, Debug)]
@@ -179,7 +190,23 @@ pub enum Symbol {
 #[derive(Clone, Debug)]
 pub struct MacroSymbol {
     pub name: InternedString,
-    pub args: Vec<Symbol>
+    pub args: Vec<Symbol>,
+    pub span: Span,
+}
+
+impl GrammarItem {
+    pub fn is_macro_def(&self) -> bool {
+        match *self {
+            GrammarItem::Nonterminal(ref d) => d.is_macro_def(),
+            _ => false,
+        }
+    }
+}
+
+impl NonterminalData {
+    pub fn is_macro_def(&self) -> bool {
+        !self.args.is_empty()
+    }
 }
 
 impl Symbol {

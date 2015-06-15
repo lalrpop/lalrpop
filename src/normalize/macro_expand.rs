@@ -1,23 +1,46 @@
-use std::collections::HashSet;
-use intern::{intern, InternedString};
-use grammar::parse_tree::{Grammar, GrammarItem, MacroSymbol, Symbol};
+use std::collections::{HashMap, HashSet};
+use intern::{intern, read, InternedString};
+use grammar::parse_tree::{Alternative, Condition, ConditionOp, Grammar, GrammarItem,
+                          MacroSymbol, NonterminalData, Span, Symbol, TypeRef};
+use normalize::{NormResult, NormError};
+use regex::Regex;
 
-pub fn expand_macros(input: Grammar) {
+pub fn expand_macros(input: Grammar) -> NormResult<Grammar> {
     let Grammar { type_name, items } = input;
-    let mut expander = MacroExpander::new();
+
+    let (macro_defs, mut items): (Vec<_>, Vec<_>) =
+        items.into_iter().partition(|mi| mi.is_macro_def());
+
+    let macro_defs: HashMap<InternedString, NonterminalData> =
+        macro_defs.into_iter()
+                  .map(|md| match md {
+                      GrammarItem::Nonterminal(data) => (data.name, data),
+                      _ => unreachable!()
+                  })
+                  .collect();
+
+    let mut expander = MacroExpander::new(macro_defs);
+    try!(expander.expand(&mut items));
+
+    Ok(Grammar { type_name: type_name, items: items })
 }
 
 struct MacroExpander {
+    macro_defs: HashMap<InternedString, NonterminalData>,
     expansion_stack: Vec<MacroSymbol>,
     expansion_set: HashSet<InternedString>,
 }
 
 impl MacroExpander {
-    fn new() -> MacroExpander {
-        MacroExpander { expansion_stack: Vec::new(), expansion_set: HashSet::new() }
+    fn new(macro_defs: HashMap<InternedString, NonterminalData>) -> MacroExpander {
+        MacroExpander {
+            macro_defs: macro_defs,
+            expansion_stack: Vec::new(),
+            expansion_set: HashSet::new()
+        }
     }
 
-    fn expand(&mut self, items: &mut Vec<GrammarItem>) {
+    fn expand(&mut self, items: &mut Vec<GrammarItem>) -> NormResult<()> {
         let mut counter = 0;
         loop {
             // Find any macro uses in items added since last round and
@@ -28,6 +51,9 @@ impl MacroExpander {
             counter = items.len();
 
             // Drain macro queue:
+            while let Some(msym) = self.expansion_stack.pop() {
+                items.push(try!(self.expand_macro_symbol(msym)));
+            }
         }
     }
 
@@ -35,11 +61,9 @@ impl MacroExpander {
         match *item {
             GrammarItem::TokenType(..) => { }
             GrammarItem::Nonterminal(ref mut data) => {
-                // Ignore macro definitions. They will be expanded in
-                // due course.
-                if !data.args.is_empty() {
-                    return;
-                }
+                // Should not encounter macro definitions here,
+                // they've already been siphoned off.
+                assert!(!data.is_macro_def());
 
                 for alternative in &mut data.alternatives {
                     self.replace_symbols(&mut alternative.expr);
@@ -88,5 +112,110 @@ impl MacroExpander {
 
         // we only get here if this is a macro expansion
         *symbol = Symbol::Nonterminal(key);
+    }
+
+    fn expand_macro_symbol(&mut self, msym: MacroSymbol) -> NormResult<GrammarItem> {
+        let msym_name = intern(&msym.canonical_form());
+
+        let mdef = match self.macro_defs.get(&msym.name) {
+            Some(v) => v,
+            None => return_err!(msym.span, "no macro definition found for `{}`", msym.name)
+        };
+
+        if mdef.args.len() != msym.args.len() {
+            return_err!(msym.span, "expected {} arguments to `{}` but found {}",
+                        mdef.args.len(), msym.name, msym.args.len());
+        }
+
+        let args: HashMap<InternedString, Symbol> =
+            mdef.args.iter()
+                     .cloned()
+                     .zip(msym.args.into_iter())
+                     .collect();
+
+        let type_decl = mdef.type_decl.as_ref().map(|tr| self.expand_type_ref(&args, tr));
+
+        let alternatives: Vec<Alternative> = vec![];
+        for alternative in &mdef.alternatives {
+            if !try!(self.evaluate_cond(&args, &alternative.condition)) {
+                continue;
+            }
+            //alternatives.push(self.expand_alternative(&args, alternative));
+        }
+
+        Ok(GrammarItem::Nonterminal(NonterminalData {
+            name: msym_name,
+            args: vec![],
+            type_decl: type_decl,
+            alternatives: alternatives
+        }))
+    }
+
+    fn expand_type_refs(&self,
+                        args: &HashMap<InternedString, Symbol>,
+                        type_refs: &[TypeRef])
+                        -> Vec<TypeRef>
+    {
+        type_refs.iter().map(|tr| self.expand_type_ref(args, tr)).collect()
+    }
+
+    fn expand_type_ref(&self,
+                       args: &HashMap<InternedString, Symbol>,
+                       type_ref: &TypeRef)
+                       -> TypeRef
+    {
+        match *type_ref {
+            TypeRef::Tuple(ref trs) =>
+                TypeRef::Tuple(self.expand_type_refs(args, trs)),
+            TypeRef::Nominal { ref path, ref types } =>
+                TypeRef::Nominal { path: path.clone(),
+                                   types: self.expand_type_refs(args, types) },
+            TypeRef::Lifetime(id) =>
+                TypeRef::Lifetime(id),
+            TypeRef::Nonterminal(ref sym) =>
+                TypeRef::Nonterminal(sym.clone()),
+            TypeRef::Id(id) => {
+                match args.get(&id) {
+                    Some(sym) => TypeRef::Nonterminal(sym.clone()),
+                    None => TypeRef::Nominal { path: vec![id], types: vec![] },
+                }
+            }
+        }
+    }
+
+    fn evaluate_cond(&self,
+                     args: &HashMap<InternedString, Symbol>,
+                     opt_cond: &Option<Condition>)
+                     -> NormResult<bool>
+    {
+        if let Some(ref c) = *opt_cond {
+            match args[&c.lhs] {
+                Symbol::Terminal(lhs) => {
+                    match c.op {
+                        ConditionOp::Equals => Ok(lhs == c.rhs),
+                        ConditionOp::NotEquals => Ok(lhs != c.rhs),
+                        ConditionOp::Match => self.re_match(c.span, lhs, c.rhs),
+                        ConditionOp::NotMatch => Ok(!try!(self.re_match(c.span, lhs, c.rhs))),
+                    }
+                }
+                ref lhs => {
+                    return_err!(
+                        c.span,
+                        "invalid condition LHS `{}`, expected a terminal, not `{}`", c.lhs, lhs);
+                }
+            }
+        } else {
+            Ok(true)
+        }
+    }
+
+    fn re_match(&self, span: Span, lhs: InternedString, regex: InternedString) -> NormResult<bool> {
+        read(|interner| {
+            let re = match Regex::new(interner.data(regex)) {
+                Ok(re) => re,
+                Err(err) => return_err!(span, "invalid regular expression `{}`: {}", regex, err),
+            };
+            Ok(re.is_match(interner.data(lhs)))
+        })
     }
 }

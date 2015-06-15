@@ -75,19 +75,15 @@ rusty_peg! {
         // Conditions
 
         COND: Condition =
-            (EQUALS_COND / NOT_EQUALS_COND / MATCH_COND / NOT_MATCH_COND);
+            (<lo:POSL> <a:ID> <op:COND_OP> <b:LITERAL> <hi:POSR>) => {
+                Condition { span:Span(lo, hi), lhs:a, rhs:b, op:op }
+            };
 
-        EQUALS_COND: Condition =
-            (<a:ID> "==" <b:LITERAL>) => Condition::Equals(a, b);
-
-        NOT_EQUALS_COND: Condition =
-            (<a:ID> "!=" <b:LITERAL>) => Condition::NotEquals(a, b);
-
-        MATCH_COND: Condition =
-            (<a:ID> "~~" <b:LITERAL>) => Condition::Match(a, b);
-
-        NOT_MATCH_COND: Condition =
-            (<a:ID> "!~" <b:LITERAL>) => Condition::NotMatch(a, b);
+        COND_OP: ConditionOp = (EQUALS_OP / NOT_EQUALS_OP / MATCH_OP / NOT_MATCH_OP);
+        EQUALS_OP: ConditionOp = "==" => ConditionOp::Equals;
+        NOT_EQUALS_OP: ConditionOp = "!=" => ConditionOp::NotEquals;
+        MATCH_OP: ConditionOp = "~~" => ConditionOp::Match;
+        NOT_MATCH_OP: ConditionOp = "!~" => ConditionOp::NotMatch;
 
         // Symbols
 
@@ -102,10 +98,12 @@ rusty_peg! {
              NAMED_SYMBOL / CHOSEN_SYMBOL);
 
         MACRO_SYMBOL: Symbol =
-            (<l:ID> "<" <m:{MACRO_ARG_START}> <n:[SYMBOL]> ">") => {
+            (<lo:POSL> <l:ID> "<" <m:{MACRO_ARG_START}> <n:[SYMBOL]> ">" <hi:POSR>) => {
                 let mut args = m;
                 if let Some(n) = n { args.push(n); }
-                Symbol::Macro(MacroSymbol { name: l, args: args })
+                Symbol::Macro(MacroSymbol { name: l,
+                                            args: args,
+                                            span: Span(lo, hi), })
             };
 
         MACRO_ARG_START: Symbol = (<s:SYMBOL> ",") => s;
