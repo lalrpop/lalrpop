@@ -23,17 +23,37 @@ grammar Type<'input, T> {
   Expr = Alt;
 
   // ...which can optionally map.
-  Expr = Alt => { };
+  Expr = Alt => code;
 
-  // Declare a "choice" nonterminal.
+  // Declare a "match" nonterminal.
   Expr: Type = {
     "class" "Id" "{" Foo+ Foo* => {
         // action code
-    };
-    "foo" "bar" => {
-    };
+    }
+    "foo" "bar" if $X ~ "[COMMA]" => {
+    }
   };
 
+  // Macro nonterminals. Macro arguments may be either any
+  // symbol expressions and may be used in types, definitions,
+  // or guard expressions.
+
+  // Example 1: comma-separated list with optional trailing comma.
+  Comma<$A>: Vec<$A> = {
+      ~v:(~$A ",")* ~e:(~$A ,?)?> => {
+          let mut v = v; v.push(e); v
+      }
+  };
+
+  // Example 2: conditional patterns
+  Expr<$M>: Expr = {
+
+      ~Expr "(" ~Comma<Expr> ")" => Expr::CallExpr(~~~);
+
+      ID if $M != "NO_ID" => {
+      };
+
+  };
 }
 ```
 
@@ -69,50 +89,35 @@ pub struct NonterminalData {
 
 #[derive(Clone, Debug)]
 pub struct Alternative {
-    pub expr: SymbolExpr,
+    pub expr: Vec<Symbol>,
 
     // => { code }
     pub action: Option<String>,
 }
 
-// "foo" <z:"bar"> etc
-#[derive(Clone, Debug)]
-pub struct SymbolExpr {
-    pub args: Vec<SymbolArg>
-}
-
-#[derive(Clone, Debug)]
-pub struct SymbolArg {
-    pub symbol: Symbol,
-    pub highlight: SymbolHighlight,
-}
-
-#[derive(Copy, Clone, Debug)]
-pub enum SymbolHighlight {
-    // X
-    None,
-
-    // <X>
-    Anon,
-
-    // <name:X>
-    Named(InternedString)
-}
-
 #[derive(Clone, Debug)]
 pub enum Symbol {
+    // (<X> <Y>) etc
+    Expr(Vec<Symbol>),
+
     // "foo"
     Terminal(InternedString),
 
     // foo
     Nonterminal(InternedString),
 
-    // X+ or (X Y Z)+
-    Plus(SymbolExpr),
+    // X+
+    Plus(Box<Symbol>),
 
-    // X? or (X Y Z)?
-    Question(SymbolExpr),
+    // X?
+    Question(Box<Symbol>),
 
-    // X* or (X Y Z)*
-    Star(SymbolExpr),
+    // X*
+    Star(Box<Symbol>),
+
+    // ~X
+    Choose(Box<Symbol>),
+
+    // ~x:X
+    Name(InternedString, Box<Symbol>),
 }
