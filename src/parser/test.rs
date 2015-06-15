@@ -93,7 +93,7 @@ fn macro_symbols() {
 #[test]
 fn macro_nt() {
     super::parse_nonterminal(
-        r#"Comma<E>: Vec<E> = ~v:(~E ",")* ~e:E? => { let mut v = v; v.extend(e.into_iter()); v};"#)
+        r#"Comma<E>: Vec<E> = ~v:(~E ",")* ~e:E? => v.into_iter().chain(e.into_iter()).collect();"#)
         .unwrap();
 }
 

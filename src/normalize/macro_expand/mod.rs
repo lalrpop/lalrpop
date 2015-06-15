@@ -5,6 +5,9 @@ use grammar::parse_tree::{Alternative, Condition, ConditionOp, Grammar, GrammarI
 use normalize::{NormResult, NormError};
 use regex::Regex;
 
+#[cfg(test)]
+mod test;
+
 pub fn expand_macros(input: Grammar) -> NormResult<Grammar> {
     let Grammar { type_name, items } = input;
 
@@ -49,6 +52,11 @@ impl MacroExpander {
                 self.replace_item(item);
             }
             counter = items.len();
+
+            // No more expansion to do.
+            if self.expansion_stack.is_empty() {
+                return Ok(());
+            }
 
             // Drain macro queue:
             while let Some(msym) = self.expansion_stack.pop() {
@@ -135,12 +143,18 @@ impl MacroExpander {
 
         let type_decl = mdef.type_decl.as_ref().map(|tr| self.expand_type_ref(&args, tr));
 
-        let alternatives: Vec<Alternative> = vec![];
+        // due to the use of `try!`, it's a bit awkward to write this with an iterator
+        let mut alternatives: Vec<Alternative> = vec![];
+
         for alternative in &mdef.alternatives {
             if !try!(self.evaluate_cond(&args, &alternative.condition)) {
                 continue;
             }
-            //alternatives.push(self.expand_alternative(&args, alternative));
+            alternatives.push(Alternative {
+                expr: self.expand_symbols(&args, &alternative.expr),
+                condition: None,
+                action: alternative.action.clone(),
+            });
         }
 
         Ok(GrammarItem::Nonterminal(NonterminalData {
@@ -172,11 +186,11 @@ impl MacroExpander {
                                    types: self.expand_type_refs(args, types) },
             TypeRef::Lifetime(id) =>
                 TypeRef::Lifetime(id),
-            TypeRef::Nonterminal(ref sym) =>
-                TypeRef::Nonterminal(sym.clone()),
+            TypeRef::OfSymbol(ref sym) =>
+                TypeRef::OfSymbol(sym.clone()),
             TypeRef::Id(id) => {
                 match args.get(&id) {
-                    Some(sym) => TypeRef::Nonterminal(sym.clone()),
+                    Some(sym) => TypeRef::OfSymbol(sym.clone()),
                     None => TypeRef::Nominal { path: vec![id], types: vec![] },
                 }
             }
@@ -217,5 +231,55 @@ impl MacroExpander {
             };
             Ok(re.is_match(interner.data(lhs)))
         })
+    }
+
+    fn expand_symbols(&self,
+                      args: &HashMap<InternedString, Symbol>,
+                      expr: &[Symbol])
+                      -> Vec<Symbol>
+    {
+        expr.iter().map(|s| self.expand_symbol(args, s)).collect()
+    }
+
+    fn expand_box_symbol(&self,
+                         args: &HashMap<InternedString, Symbol>,
+                         symbol: &Symbol)
+                         -> Box<Symbol>
+    {
+        Box::new(self.expand_symbol(args, symbol))
+    }
+
+    fn expand_symbol(&self,
+                     args: &HashMap<InternedString, Symbol>,
+                     symbol: &Symbol)
+                     -> Symbol
+    {
+        match *symbol {
+            Symbol::Expr(ref expr) => Symbol::Expr(self.expand_symbols(args, expr)),
+            Symbol::Terminal(id) => Symbol::Terminal(id),
+            Symbol::Nonterminal(id) => {
+                match args.get(&id) {
+                    Some(sym) => sym.clone(),
+                    None => Symbol::Nonterminal(id),
+                }
+            },
+            Symbol::Macro(ref msym) => {
+                Symbol::Macro(MacroSymbol {
+                    name: msym.name,
+                    args: self.expand_symbols(args, &msym.args),
+                    span: msym.span,
+                })
+            },
+            Symbol::Plus(ref sym) =>
+                Symbol::Plus(self.expand_box_symbol(args, sym)),
+            Symbol::Star(ref sym) =>
+                Symbol::Star(self.expand_box_symbol(args, sym)),
+            Symbol::Question(ref sym) =>
+                Symbol::Question(self.expand_box_symbol(args, sym)),
+            Symbol::Choose(ref sym) =>
+                Symbol::Choose(self.expand_box_symbol(args, sym)),
+            Symbol::Name(id, ref sym) =>
+                Symbol::Name(id, self.expand_box_symbol(args, sym)),
+        }
     }
 }

@@ -33,10 +33,13 @@ rusty_peg! {
             };
 
         NONTERMINAL_NAME: (InternedString, Vec<InternedString>) =
-            (NONTERMINAL_NAME_MACRO / NONTERMINAL_NAME_SIMPLE);
+            (NONTERMINAL_NAME_MACRO / NONTERMINAL_NAME_SIMPLE / NONTERMINAL_NAME_ESCAPE);
 
         NONTERMINAL_NAME_SIMPLE: (InternedString, Vec<InternedString>) =
             (<a:ID>) => (a, vec![]);
+
+        NONTERMINAL_NAME_ESCAPE: (InternedString, Vec<InternedString>) =
+            (<a:ESCAPE>) => (a, vec![]);
 
         NONTERMINAL_NAME_MACRO: (InternedString, Vec<InternedString>) =
             (<a:ID> "<" <b:{NONTERMINAL_NAME_MACRO1}> <c:[ID]> ">") => {
@@ -94,8 +97,8 @@ rusty_peg! {
                  "?" => Symbol::Question(Box::new(lhs)));
 
         SYMBOL0: Symbol =
-            (MACRO_SYMBOL / TERMINAL_SYMBOL / NT_SYMBOL / EXPR_SYMBOL /
-             NAMED_SYMBOL / CHOSEN_SYMBOL);
+            (MACRO_SYMBOL / TERMINAL_SYMBOL / NT_SYMBOL / ESCAPE_SYMBOL /
+             EXPR_SYMBOL / NAMED_SYMBOL / CHOSEN_SYMBOL);
 
         MACRO_SYMBOL: Symbol =
             (<lo:POSL> <l:ID> "<" <m:{MACRO_ARG_START}> <n:[SYMBOL]> ">" <hi:POSR>) => {
@@ -114,6 +117,9 @@ rusty_peg! {
         NT_SYMBOL: Symbol =
             (<l:ID>) => Symbol::Nonterminal(l);
 
+        ESCAPE_SYMBOL: Symbol =
+            (<l:ESCAPE>) => Symbol::Nonterminal(l);
+
         EXPR_SYMBOL: Symbol =
             ("(" <s:{SYMBOL}> ")") => Symbol::Expr(s);
 
@@ -126,13 +132,16 @@ rusty_peg! {
         // TypeRef
 
         TYPE_REF: TypeRef =
-            (TUPLE_TYPE_REF / LIFETIME_TYPE_REF / NOMINAL_TYPE_REF);
+            (TUPLE_TYPE_REF / LIFETIME_TYPE_REF / NOMINAL_TYPE_REF / ESCAPE_TYPE_REF);
 
         TUPLE_TYPE_REF: TypeRef =
             ("(" <l:TYPE_REF_LIST> ")") => TypeRef::Tuple(l);
 
         LIFETIME_TYPE_REF: TypeRef =
             (<l:LIFETIME>) => TypeRef::Lifetime(l);
+
+        ESCAPE_TYPE_REF: TypeRef =
+            ("`" <s:SYMBOL> "`") => TypeRef::OfSymbol(s);
 
         NOMINAL_TYPE_REF: TypeRef =
             (<p:PATH> <a:[NOMINAL_TYPE_REF_ARGS]>) => {
@@ -178,6 +187,12 @@ rusty_peg! {
         ID_RE: &'input str =
             regex(r"[a-zA-Z_][a-zA-Z0-9_]*") - ["if"];
 
+        ESCAPE: InternedString =
+            (<i:ESCAPE_RE>) => intern(&i[1..i.len()-1]);
+
+        ESCAPE_RE: &'input str =
+            regex(r"`[^`]*`");
+
         LIFETIME: InternedString =
             (<i:LIFETIME_RE>) => intern(i);
 
@@ -185,7 +200,7 @@ rusty_peg! {
             regex(r"'[a-zA-Z_][a-zA-Z0-9_]*");
 
         LITERAL: InternedString =
-            (<i:LITERAL_RE>) => intern(i);
+            (<i:LITERAL_RE>) => intern(&i[1..i.len()-1]);
 
         LITERAL_RE: &'input str =
             regex(r#""[^"]*""#); // TODO

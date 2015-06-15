@@ -62,28 +62,28 @@ grammar Type<'input, T> {
 use intern::InternedString;
 use std::fmt::{Display, Formatter, Error};
 
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, PartialEq, Eq)]
 pub struct Grammar {
     pub type_name: TypeRef,
     pub items: Vec<GrammarItem>,
 }
 
-#[derive(Copy, Clone, Debug)]
+#[derive(Copy, Clone, Debug, PartialEq, Eq)]
 pub struct Span(pub usize, pub usize);
 
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, PartialEq, Eq)]
 pub enum GrammarItem {
     TokenType(TokenTypeData),
     Nonterminal(NonterminalData),
 }
 
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, PartialEq, Eq)]
 pub struct TokenTypeData {
     pub type_name: TypeRef,
     pub conversions: Vec<(InternedString, InternedString)>,
 }
 
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, PartialEq, Eq)]
 pub enum TypeRef {
     // (T1, T2)
     Tuple(Vec<TypeRef>),
@@ -101,10 +101,10 @@ pub enum TypeRef {
     Id(InternedString),
 
     // <N> ==> type of a nonterminal, emitted by macro expansion
-    Nonterminal(Symbol),
+    OfSymbol(Symbol),
 }
 
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, PartialEq, Eq)]
 pub struct NonterminalData {
     pub name: InternedString,
     pub args: Vec<InternedString>, // macro arguments
@@ -112,7 +112,7 @@ pub struct NonterminalData {
     pub alternatives: Vec<Alternative>
 }
 
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, PartialEq, Eq)]
 pub struct Alternative {
     pub expr: Vec<Symbol>,
 
@@ -123,7 +123,7 @@ pub struct Alternative {
     pub action: Option<Action>,
 }
 
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, PartialEq, Eq)]
 pub enum Action {
     // code provided by the user
     User(String),
@@ -134,7 +134,7 @@ pub enum Action {
     Fn(u32),
 }
 
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, PartialEq, Eq)]
 pub struct Condition {
     pub span: Span,
     pub lhs: InternedString, // X
@@ -142,7 +142,7 @@ pub struct Condition {
     pub op: ConditionOp,
 }
 
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, PartialEq, Eq)]
 pub enum ConditionOp {
     // X == "Foo", equality
     Equals,
@@ -157,7 +157,7 @@ pub enum ConditionOp {
     NotMatch,
 }
 
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, PartialEq, Eq)]
 pub enum Symbol {
     // (X Y)
     Expr(Vec<Symbol>),
@@ -187,7 +187,7 @@ pub enum Symbol {
     Name(InternedString, Box<Symbol>),
 }
 
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, PartialEq, Eq)]
 pub struct MacroSymbol {
     pub name: InternedString,
     pub args: Vec<Symbol>,
