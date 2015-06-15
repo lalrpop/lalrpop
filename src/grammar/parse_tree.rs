@@ -39,20 +39,20 @@ grammar Type<'input, T> {
   // or guard expressions.
 
   // Example 1: comma-separated list with optional trailing comma.
-  Comma<$A>: Vec<$A> = {
-      ~v:(~$A ",")* ~e:(~$A ,?)?> => {
-          let mut v = v; v.push(e); v
-      }
+  Comma<E>: Vec<E> = {
+      ~v:(~E ",")* ~e:E? => {
+          let mut v = v;
+          if let Some(e) = e { v.push(e); }
+          v
+      };
   };
 
   // Example 2: conditional patterns
-  Expr<$M>: Expr = {
-
+  Expr<M>: Expr = {
       ~Expr "(" ~Comma<Expr> ")" => Expr::CallExpr(~~~);
 
-      ID if $M != "NO_ID" => {
+      ID if M !~ "NO_ID" => {
       };
-
   };
 }
 ```
@@ -83,6 +83,7 @@ pub struct TokenTypeData {
 #[derive(Clone, Debug)]
 pub struct NonterminalData {
     pub name: InternedString,
+    pub args: Vec<InternedString>, // macro arguments
     pub type_decl: Option<String>,
     pub alternatives: Vec<Alternative>
 }
@@ -105,6 +106,9 @@ pub enum Symbol {
 
     // foo
     Nonterminal(InternedString),
+
+    // foo<..>
+    Macro(InternedString, Vec<Symbol>),
 
     // X+
     Plus(Box<Symbol>),

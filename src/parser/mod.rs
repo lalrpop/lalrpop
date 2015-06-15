@@ -26,11 +26,28 @@ rusty_peg! {
             (<from:LITERAL> "=>" <to:LITERAL> ";") => (from, to);
 
         NONTERMINAL: GrammarItem =
-            (<n:ID> <t:[NONTERMINAL_TYPE]> "=" <a:ALTERNATIVES>) => {
-                GrammarItem::Nonterminal(NonterminalData { name: n,
+            (<n:NONTERMINAL_NAME> <t:[NONTERMINAL_TYPE]> "=" <a:ALTERNATIVES>) => {
+                GrammarItem::Nonterminal(NonterminalData { name: n.0,
+                                                           args: n.1,
                                                            type_decl: t,
                                                            alternatives: a })
             };
+
+        NONTERMINAL_NAME: (InternedString, Vec<InternedString>) =
+            (NONTERMINAL_NAME_MACRO / NONTERMINAL_NAME_SIMPLE);
+
+        NONTERMINAL_NAME_SIMPLE: (InternedString, Vec<InternedString>) =
+            (<a:ID>) => (a, vec![]);
+
+        NONTERMINAL_NAME_MACRO: (InternedString, Vec<InternedString>) =
+            (<a:ID> "<" <b:{NONTERMINAL_NAME_MACRO1}> <c:[ID]> ">") => {
+                let mut args = b;
+                if let Some(c) = c { args.push(c); }
+                (a, args)
+            };
+
+        NONTERMINAL_NAME_MACRO1: InternedString =
+            (<a:ID> ",") => a;
 
         NONTERMINAL_TYPE: String =
             (":" <s:NOT_EQ>) => s.to_string();
@@ -66,7 +83,17 @@ rusty_peg! {
                  "?" => Symbol::Question(Box::new(lhs)));
 
         SYMBOL0: Symbol =
-            (TERMINAL_SYMBOL / NT_SYMBOL / EXPR_SYMBOL / NAMED_SYMBOL / CHOSEN_SYMBOL);
+            (MACRO_SYMBOL / TERMINAL_SYMBOL / NT_SYMBOL / EXPR_SYMBOL /
+             NAMED_SYMBOL / CHOSEN_SYMBOL);
+
+        MACRO_SYMBOL: Symbol =
+            (<l:ID> "<" <m:{MACRO_ARG_START}> <n:[SYMBOL]> ">") => {
+                let mut args = m;
+                if let Some(n) = n { args.push(n); }
+                Symbol::Macro(l, args)
+            };
+
+        MACRO_ARG_START: Symbol = (<s:SYMBOL> ",") => s;
 
         TERMINAL_SYMBOL: Symbol =
             (<l:LITERAL>) => Symbol::Terminal(l);
@@ -203,4 +230,9 @@ fn parse_alternative(text: &str) -> Result<Alternative,rusty_peg::Error> {
 fn parse_symbol(text: &str) -> Result<Symbol,rusty_peg::Error> {
     let mut parser = Parser::new(());
     rusty_peg::Symbol::parse_complete(&SYMBOL, &mut parser, text)
+}
+
+fn parse_nonterminal(text: &str) -> Result<GrammarItem,rusty_peg::Error> {
+    let mut parser = Parser::new(());
+    rusty_peg::Symbol::parse_complete(&NONTERMINAL, &mut parser, text)
 }

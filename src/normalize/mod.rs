@@ -13,13 +13,22 @@ pub fn normalize(input: &pt::Grammar) -> Result<pt::Grammar> {
 
 // Expands macros
 //
-//     X = ...1 Vec<X> ...2
+//     X = ...1 Comma<X> ...2
 //
 // to
 //
 //     X = ...1 Vec_X ...2
-//     Vec_X = ...;
-mod macro_expand;
+//     Comma_X: Vec<<X>> = ...;
+//
+// AFTER THIS POINT: No more macros or macro references, though type
+// indirections may occur.
+// mod macro_expand;
+
+// Computes types where the user omitted them (or
+// from macro byproducts).
+//
+// AFTER THIS POINT: All explicit, simple types.
+// mod tyinfer;
 
 // Converts
 //
@@ -29,7 +38,15 @@ mod macro_expand;
 //
 //     X = ...1 A_B_C ...2
 //     A_B_C = A B C
-mod nonterminalize;
+//
+// AFTER THIS POINT: No more Symbol::Expr remain.
+// mod nonterminalize;
+
+// Synthesizes action code for all nonterminals.
+//
+// AFTER THIS POINT: All nonterminals have action code, and all
+// Symbol::Choose and Symbol::Name are removed.
+// mod action;
 
 // Converts
 //
@@ -39,7 +56,9 @@ mod nonterminalize;
 //
 //     X = ...1    ...2
 //       | ...1 Y+ ...2
-mod remove_star;
+//
+// AFTER THIS POINT: No more Symbol::Star remain.
+// mod remove_star;
 
 // Converts X+ to a new terminal X_PLUS like:
 //
@@ -47,7 +66,9 @@ mod remove_star;
 //         <e:X> => { vec![x] }
 //         <v:X_PLUS> <e:X> => { let mut v = v; v.push(e); v }
 //     }
-mod remove_plus;
+//
+// AFTER THIS POINT: No more Symbol::Plus remain.
+// mod remove_plus;
 
 // Converts
 //
@@ -57,9 +78,6 @@ mod remove_plus;
 //
 //     X = ...1    ...2
 //       | ...1 Y  ...2
-mod remove_question;
-
-// Infers types for all nonterminals where possible, or reports a
-// suitable error.
-mod actionify;
-
+//
+// AFTER THIS POINT: No more Symbol::Question remain.
+// mod remove_question;
