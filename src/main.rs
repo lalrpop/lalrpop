@@ -10,6 +10,7 @@ mod intern;
 mod normalize;
 mod parser;
 
+#[cfg(not(test))]
 fn main() {
     println!("Hello, world!");
 }

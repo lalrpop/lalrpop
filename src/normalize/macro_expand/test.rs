@@ -1,29 +1,7 @@
-use regex::Regex;
 use parser;
-use std::fmt::Debug;
+use normalize::test_util::compare;
 
 use super::expand_macros;
-
-thread_local! {
-    static SPAN: Regex =
-        Regex::new(r"Span\([0-9 ,]*\)").unwrap()
-}
-
-fn compare<D:Debug>(actual: D, expected: D) {
-    println!("Actual:");
-    println!("{:#?}", actual);
-    println!("Expected:");
-    println!("{:#?}", expected);
-
-    let actual = format!("{:?}", actual);
-    let expected = format!("{:?}", expected);
-
-    SPAN.with(|span| {
-        let actual = span.replace_all(&actual, "Span(..)");
-        let expected = span.replace_all(&expected, "Span(..)");
-        assert_eq!(actual, expected);
-    });
-}
 
 #[test]
 fn test_comma() {
@@ -50,11 +28,6 @@ grammar Foo {
     `(~\"Id\" \",\")` = ~\"Id\" \",\";
 }
 ").unwrap();
-
-    println!("Actual:");
-    println!("{:#?}", actual);
-    println!("Expected:");
-    println!("{:#?}", expected);
 
     compare(actual, expected);
 }
@@ -89,11 +62,6 @@ grammar Foo {
     `Expr<\"A*C\">` = { A; D; };
 }
 ").unwrap();
-
-    println!("Actual:");
-    println!("{:#?}", actual);
-    println!("Expected:");
-    println!("{:#?}", expected);
 
     compare(actual, expected);
 }

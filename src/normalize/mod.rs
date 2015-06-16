@@ -23,6 +23,9 @@ macro_rules! return_err {
     }
 }
 
+#[cfg(test)]
+mod test_util;
+
 // These are executed *IN ORDER*:
 
 // Expands macros and expressions

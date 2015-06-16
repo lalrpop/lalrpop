@@ -76,6 +76,7 @@ fn map1() {
 }
 
 #[test]
+#[allow(non_snake_case)]
 fn mapN() {
     super::parse_grammar(
         r#"grammar Foo { Expr = { Bar => { Baz }; X ~n:Bar => { Y }; }; }"#).unwrap();

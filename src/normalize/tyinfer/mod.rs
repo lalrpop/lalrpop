@@ -5,6 +5,9 @@ use grammar::parse_tree::{Alternative, Grammar, GrammarItem,
                           Span, Symbol, TypeRef};
 use normalize::{NormResult, NormError};
 
+#[cfg(test)]
+mod test;
+
 pub fn infer_types(mut grammar: Grammar) -> NormResult<Grammar> {
     {
         let mut inferencer = try!(TypeInferencer::new(&mut grammar));
@@ -14,7 +17,6 @@ pub fn infer_types(mut grammar: Grammar) -> NormResult<Grammar> {
 }
 
 struct TypeInferencer<'a> {
-    grammar_span: Span,
     token_type: TypeRef,
     stack: Vec<InternedString>,
     nonterminals: HashMap<InternedString, NT<'a>>,
@@ -70,8 +72,7 @@ impl<'a> TypeInferencer<'a> {
                    })
                    .collect();
 
-        Ok(TypeInferencer { grammar_span: grammar.span,
-                            token_type: token_type,
+        Ok(TypeInferencer { token_type: token_type,
                             stack: vec![],
                             nonterminals: nonterminals })
     }
@@ -79,7 +80,6 @@ impl<'a> TypeInferencer<'a> {
     fn infer_types(&mut self) -> NormResult<()> {
         let ids: Vec<InternedString> =
             self.nonterminals.iter()
-                             .filter(|&(_, nt)| nt.type_decl.is_none())
                              .map(|(&id, _)| id)
                              .collect();
 
@@ -101,37 +101,45 @@ impl<'a> TypeInferencer<'a> {
             return_err!(span, "cannot infer type of `{}` because it references itself", id);
         }
 
-        self.stack.push(id);
-
-        if let Some(mut type_decl) = type_decl {
-            try!(self.refresh_type(&mut type_decl));
-            return Ok(type_decl);
-        }
-
-        let mut alternative_types: Vec<TypeRef> =
-            try!(alternatives.iter()
-                             .map(|alt| self.alternative_type(alt))
-                             .collect());
-
-        // if there are no alternatives, then call it an error
-        if alternative_types.is_empty() {
-            return_err!(span,
-                        "nonterminal `{}` has no alternatives and hence parse cannot succeed",
-                        id);
-        }
-
-        for (tyN, altN) in alternative_types[1..].iter().zip(&alternatives[1..]) {
-            if &alternative_types[0] != tyN {
-                return_err!(altN.expr.span,
-                            "type of this alternative is `{}`, \
-                             but type of first alternative is `{}`",
-                            tyN, alternative_types[0]);
+        self.push(id, |this| {
+            let type_decl = type_decl; // FIXME rustc bug requires thisx
+            if let Some(mut type_decl) = type_decl {
+                try!(this.refresh_type(&mut type_decl));
+                return Ok(type_decl);
             }
-        }
 
-        self.stack.pop().unwrap();
+            let mut alternative_types: Vec<TypeRef> =
+                try!(alternatives.iter()
+                     .map(|alt| this.alternative_type(alt))
+                     .collect());
 
-        Ok(alternative_types.pop().unwrap())
+            // if there are no alternatives, then call it an error
+            if alternative_types.is_empty() {
+                return_err!(span,
+                            "nonterminal `{}` has no alternatives and hence parse cannot succeed",
+                            id);
+            }
+
+            for (ty, alt) in alternative_types[1..].iter().zip(&alternatives[1..]) {
+                if &alternative_types[0] != ty {
+                    return_err!(alt.expr.span,
+                                "type of this alternative is `{}`, \
+                                 but type of first alternative is `{}`",
+                                ty, alternative_types[0]);
+                }
+            }
+
+            Ok(alternative_types.pop().unwrap())
+        })
+    }
+
+    fn push<F,R>(&mut self, id: InternedString, f: F) -> R
+        where F: FnOnce(&mut TypeInferencer) -> R
+    {
+        self.stack.push(id);
+        let r = f(self);
+        assert_eq!(self.stack.pop().unwrap(), id);
+        r
     }
 
     fn refresh_type(&mut self, type_ref: &mut TypeRef) -> NormResult<()> {
@@ -143,11 +151,9 @@ impl<'a> TypeInferencer<'a> {
                 }
                 return Ok(());
             }
-            TypeRef::Lifetime(_) => {
-                return Ok(());
-            }
+            TypeRef::Lifetime(_) |
             TypeRef::Id(_) => {
-                unreachable!("should have been normalized away")
+                return Ok(());
             }
             TypeRef::OfSymbol(ref symbol) => {
                 try!(self.symbol_type(symbol))
@@ -190,7 +196,7 @@ impl<'a> TypeInferencer<'a> {
                     .collect()
         };
         if !chosen_symbol_types.is_empty() {
-            return Ok(TypeRef::Tuple(chosen_symbol_types));
+            return Ok(maybe_tuple(chosen_symbol_types));
         }
 
         // If they didn't choose anything with a `~`, make a tuple of everything.
@@ -199,12 +205,12 @@ impl<'a> TypeInferencer<'a> {
                             .map(|sym| self.symbol_type(sym))
                             .collect()
         };
-        Ok(TypeRef::Tuple(chosen_symbol_types))
+        Ok(maybe_tuple(symbol_types))
     }
 
     fn symbol_type(&mut self, symbol: &Symbol) -> NormResult<TypeRef> {
         match *symbol {
-            Symbol::Terminal(id) => Ok(self.token_type.clone()),
+            Symbol::Terminal(_) => Ok(self.token_type.clone()),
             Symbol::Nonterminal(id) => self.nonterminal_type(id),
             Symbol::Choose(ref s) => self.symbol_type(s),
             Symbol::Name(_, ref s) => self.symbol_type(s),
@@ -232,5 +238,13 @@ impl<'a> TypeInferencer<'a> {
 impl<'a> NT<'a> {
     fn new(data: &'a mut NonterminalData) -> NT<'a> {
         NT { span: data.span, type_decl: &mut data.type_decl, alternatives: &data.alternatives }
+    }
+}
+
+fn maybe_tuple(v: Vec<TypeRef>) -> TypeRef {
+    if v.len() == 1 {
+        v.into_iter().next().unwrap()
+    } else {
+        TypeRef::Tuple(v)
     }
 }
