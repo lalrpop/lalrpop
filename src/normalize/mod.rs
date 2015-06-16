@@ -25,24 +25,25 @@ macro_rules! return_err {
 
 // These are executed *IN ORDER*:
 
-// Expands macros
+// Expands macros and expressions
 //
-//     X = ...1 Comma<X> ...2
+//     X = ...1 Comma<X> (X Y Z) ...2
 //
 // to
 //
-//     X = ...1 Vec_X ...2
-//     Comma_X: Vec<<X>> = ...;
+//     X = ...1 `Comma<X>` `(X Y Z)` ...2
+//     `Comma_X`: Vec<<X>> = ...;
+//     `(X Y Z)` = X Y Z;
 //
-// AFTER THIS POINT: No more macros, macro references, or guarded
-// alternatives, though type indirections may occur.
+// AFTER THIS POINT: No more macros, macro references, guarded
+// alternatives, or expr symbols, though type indirections may occur.
 mod macro_expand;
 
-// Computes types where the user omitted them (or
-// from macro byproducts).
+// Computes types where the user omitted them (or from macro
+// byproducts).
 //
 // AFTER THIS POINT: All explicit, simple types.
-// mod tyinfer;
+mod tyinfer;
 
 // Converts
 //

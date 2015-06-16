@@ -164,6 +164,7 @@ impl MacroExpander {
                 continue;
             }
             alternatives.push(Alternative {
+                span: msym.span,
                 expr: self.macro_expand_expr_symbol(&args, &alternative.expr),
                 condition: None,
                 action: alternative.action.clone(),
@@ -259,7 +260,8 @@ impl MacroExpander {
                                 expr: &ExprSymbol)
                                 -> ExprSymbol
     {
-        ExprSymbol { symbols: self.macro_expand_symbols(args, &expr.symbols) }
+        ExprSymbol { span: expr.span, // FIXME derived span
+                     symbols: self.macro_expand_symbols(args, &expr.symbols) }
     }
 
     fn macro_expand_symbol(&self,
@@ -304,7 +306,10 @@ impl MacroExpander {
             name: name,
             args: vec![],
             type_decl: None,
-            alternatives: vec![Alternative { expr: expr, condition: None, action: None }]
+            alternatives: vec![Alternative { span: expr.span,
+                                             expr: expr,
+                                             condition: None,
+                                             action: None }]
         })
     }
 

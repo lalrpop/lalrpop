@@ -64,8 +64,9 @@ rusty_peg! {
             ("{" <a:{ALTERNATIVE}> "}" ";") => a;
 
         ALTERNATIVE: Alternative =
-            (<s:{SYMBOL}> <c:[IF_COND]> <a:[ACTION]> ";") => Alternative {
-                expr: ExprSymbol { symbols: s },
+            (<lo:POSL> <s:EXPR_SYMBOL> <c:[IF_COND]> <a:[ACTION]> ";" <hi:POSR>) => Alternative {
+                span: Span(lo, hi),
+                expr: s,
                 condition: c,
                 action: a
             };
@@ -102,7 +103,7 @@ rusty_peg! {
 
         SYMBOL0: Symbol =
             (MACRO_SYMBOL / TERMINAL_SYMBOL / NT_SYMBOL / ESCAPE_SYMBOL /
-             EXPR_SYMBOL / NAMED_SYMBOL / CHOSEN_SYMBOL);
+             PAREN_SYMBOL / NAMED_SYMBOL / CHOSEN_SYMBOL);
 
         MACRO_SYMBOL: Symbol =
             (<lo:POSL> <l:ID> "<" <m:{MACRO_ARG_START}> <n:[SYMBOL]> ">" <hi:POSR>) => {
@@ -124,8 +125,12 @@ rusty_peg! {
         ESCAPE_SYMBOL: Symbol =
             (<l:ESCAPE>) => Symbol::Nonterminal(l);
 
-        EXPR_SYMBOL: Symbol =
-            ("(" <s:{SYMBOL}> ")") => Symbol::Expr(ExprSymbol { symbols: s });
+        PAREN_SYMBOL: Symbol =
+            ("(" <s:EXPR_SYMBOL> ")") => Symbol::Expr(s);
+
+        EXPR_SYMBOL: ExprSymbol =
+            (<lo:POSL> <s:{SYMBOL}> <hi:POSR>) => ExprSymbol { span: Span(lo, hi),
+                                                               symbols: s };
 
         NAMED_SYMBOL: Symbol =
             ("~" <l:ID> ":" <s:SYMBOL>) => Symbol::Name(l, Box::new(s));

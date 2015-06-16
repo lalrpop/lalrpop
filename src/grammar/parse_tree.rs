@@ -114,6 +114,8 @@ pub struct NonterminalData {
 
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct Alternative {
+    pub span: Span,
+
     pub expr: ExprSymbol,
 
     // if C, only legal in macros
@@ -194,6 +196,7 @@ pub struct RepeatSymbol {
 
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct ExprSymbol {
+    pub span: Span,
     pub symbols: Vec<Symbol>
 }
 
@@ -299,5 +302,24 @@ impl<'a,S:Display> Display for Sep<&'a Vec<S>> {
             }
         }
         Ok(())
+    }
+}
+
+impl Display for TypeRef {
+    fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
+        match *self {
+            TypeRef::Tuple(ref types) =>
+                write!(fmt, "({})", Sep(", ", types)),
+            TypeRef::Nominal { ref path, ref types } if types.len() == 0 =>
+                write!(fmt, "{}", Sep("::", path)),
+            TypeRef::Nominal { ref path, ref types } =>
+                write!(fmt, "{}<{}>", Sep("::", path), Sep(", ", types)),
+            TypeRef::Lifetime(ref s) =>
+                write!(fmt, "{}", s),
+            TypeRef::Id(ref s) =>
+                write!(fmt, "{}", s),
+            TypeRef::OfSymbol(ref s) =>
+                write!(fmt, "`{}`", s),
+        }
     }
 }
