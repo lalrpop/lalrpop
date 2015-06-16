@@ -1,32 +1,35 @@
 use parser;
 use normalize::macro_expand::expand_macros;
 use normalize::tyinfer::infer_types;
-use normalize::test_util::compare;
+use normalize::test_util;
+
+fn compare(g1: &str, g2: &str) {
+    let actual = parser::parse_grammar(g1).unwrap();
+    let actual = expand_macros(actual).unwrap();
+    let actual = infer_types(actual).unwrap();
+
+    let expected = parser::parse_grammar(g2).unwrap();
+
+    test_util::compare(actual, expected);
+}
 
 #[test]
 fn test_pairs_and_tokens() {
-    let grammar = parser::parse_grammar("
+    compare("
 grammar Foo {
-    token Tok where { };
+         token Tok where { };
     X = Y Z;
     Y: Foo = \"Hi\";
     Z = \"Ho\";
 }
-").unwrap();
-
-    let actual = expand_macros(grammar).unwrap();
-    let actual = infer_types(actual).unwrap();
-
-    let expected = parser::parse_grammar("
+","
 grammar Foo {
     token Tok where { };
     X: (Foo, Tok) = Y Z;
     Y: Foo = \"Hi\";
     Z: Tok = \"Ho\";
 }
-").unwrap();
-
-    compare(actual, expected);
+")
 }
 
 #[test]
@@ -64,48 +67,51 @@ grammar Foo {
 
 #[test]
 fn test_macro_expansion() {
-    let grammar = parser::parse_grammar("
+    compare("
 grammar Foo {
     token Tok where { };
     Two<X>: (X, X) = X X;
     Ids = Two<\"Id\">;
 }
-").unwrap();
-
-    let actual = expand_macros(grammar).unwrap();
-    let actual = infer_types(actual).unwrap();
-
-    let expected = parser::parse_grammar("
+","
 grammar Foo {
     token Tok where { };
     Ids: (Tok, Tok) = `Two<\"Id\">`;
     `Two<\"Id\">`: (Tok, Tok) = \"Id\" \"Id\";
 }
-").unwrap();
-
-    compare(actual, expected);
+")
 }
 
 #[test]
 fn test_macro_expansion_infer() {
-    let grammar = parser::parse_grammar("
+    compare("
 grammar Foo {
     token Tok where { };
     Two<X> = X X;
     Ids = Two<\"Id\">;
 }
-").unwrap();
-
-    let actual = expand_macros(grammar).unwrap();
-    let actual = infer_types(actual).unwrap();
-
-    let expected = parser::parse_grammar("
+","
 grammar Foo {
     token Tok where { };
     Ids: (Tok, Tok) = `Two<\"Id\">`;
     `Two<\"Id\">`: (Tok, Tok) = \"Id\" \"Id\";
 }
-").unwrap();
+")
+}
 
-    compare(actual, expected);
+#[test]
+fn test_type_question() {
+    compare("
+grammar Foo {
+    token Tok where { };
+    X = Y?;
+    Y = \"Hi\";
+}
+","
+grammar Foo {
+    token Tok where { };
+    X: std::option::Option<Tok> = Y?;
+    Y: Tok = \"Hi\";
+}
+")
 }

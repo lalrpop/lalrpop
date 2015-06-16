@@ -45,20 +45,8 @@ mod macro_expand;
 // Computes types where the user omitted them (or from macro
 // byproducts).
 //
-// AFTER THIS POINT: All explicit, simple types.
+// AFTER THIS POINT: All explicit types, no `OfSymbol` types.
 mod tyinfer;
-
-// Converts
-//
-//     X = ...1 (A B C) ...2
-//
-// to
-//
-//     X = ...1 A_B_C ...2
-//     A_B_C = A B C
-//
-// AFTER THIS POINT: No more Symbol::Expr remain.
-// mod nonterminalize;
 
 // Synthesizes action code for all nonterminals.
 //
