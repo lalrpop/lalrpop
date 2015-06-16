@@ -64,6 +64,7 @@ use std::fmt::{Display, Formatter, Error};
 
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct Grammar {
+    pub span: Span,
     pub type_name: TypeRef,
     pub items: Vec<GrammarItem>,
 }
@@ -107,6 +108,7 @@ pub enum TypeRef {
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct NonterminalData {
     pub name: InternedString,
+    pub span: Span,
     pub args: Vec<InternedString>, // macro arguments
     pub type_decl: Option<TypeRef>,
     pub alternatives: Vec<Alternative>
@@ -296,9 +298,9 @@ impl<'a,S:Display> Display for Sep<&'a Vec<S>> {
         let &Sep(sep, vec) = self;
         let mut elems = vec.iter();
         if let Some(elem) = elems.next() {
-            write!(fmt, "{}", elem);
+            try!(write!(fmt, "{}", elem));
             while let Some(elem) = elems.next() {
-                write!(fmt, "{}{}", sep, elem);
+                try!(write!(fmt, "{}{}", sep, elem));
             }
         }
         Ok(())

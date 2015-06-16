@@ -10,7 +10,7 @@ use std::mem;
 mod test;
 
 pub fn expand_macros(input: Grammar) -> NormResult<Grammar> {
-    let Grammar { type_name, items } = input;
+    let Grammar { span, type_name, items } = input;
 
     let (macro_defs, mut items): (Vec<_>, Vec<_>) =
         items.into_iter().partition(|mi| mi.is_macro_def());
@@ -26,7 +26,7 @@ pub fn expand_macros(input: Grammar) -> NormResult<Grammar> {
     let mut expander = MacroExpander::new(macro_defs);
     try!(expander.expand(&mut items));
 
-    Ok(Grammar { type_name: type_name, items: items })
+    Ok(Grammar { span: span, type_name: type_name, items: items })
 }
 
 struct MacroExpander {
@@ -172,6 +172,7 @@ impl MacroExpander {
         }
 
         Ok(GrammarItem::Nonterminal(NonterminalData {
+            span: msym.span,
             name: msym_name,
             args: vec![],
             type_decl: type_decl,
@@ -303,6 +304,7 @@ impl MacroExpander {
     fn expand_expr_symbol(&mut self, expr: ExprSymbol) -> GrammarItem {
         let name = intern(&expr.canonical_form());
         GrammarItem::Nonterminal(NonterminalData {
+            span: expr.span,
             name: name,
             args: vec![],
             type_decl: None,

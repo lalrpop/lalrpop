@@ -9,8 +9,8 @@ rusty_peg! {
     parser Parser<'input> {
         // Grammar
         GRAMMAR: Grammar =
-            ("grammar" <t:TYPE_REF> "{" <i:{GRAMMAR_ITEM}> "}") => {
-                Grammar { type_name: t, items: i }
+            ("grammar" <lo:POSL> <t:TYPE_REF> <hi:POSR> "{" <i:{GRAMMAR_ITEM}> "}") => {
+                Grammar { span: Span(lo, hi), type_name: t, items: i }
             };
 
         GRAMMAR_ITEM: GrammarItem =
@@ -25,8 +25,10 @@ rusty_peg! {
             (<from:LITERAL> "=>" <to:LITERAL> ";") => (from, to);
 
         NONTERMINAL: GrammarItem =
-            (<n:NONTERMINAL_NAME> <t:[NONTERMINAL_TYPE]> "=" <a:ALTERNATIVES>) => {
-                GrammarItem::Nonterminal(NonterminalData { name: n.0,
+            (<lo:POSL> <n:NONTERMINAL_NAME> <hi:POSR>
+                       <t:[NONTERMINAL_TYPE]> "=" <a:ALTERNATIVES>) => {
+                GrammarItem::Nonterminal(NonterminalData { span: Span(lo, hi),
+                                                           name: n.0,
                                                            args: n.1,
                                                            type_decl: t,
                                                            alternatives: a })
