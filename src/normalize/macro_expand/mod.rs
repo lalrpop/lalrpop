@@ -1,9 +1,10 @@
 use std::collections::{HashMap, HashSet};
 use intern::{intern, read, InternedString};
-use grammar::parse_tree::{Alternative, Condition, ConditionOp, Grammar, GrammarItem,
-                          MacroSymbol, NonterminalData, Span, Symbol, TypeRef};
+use grammar::parse_tree::{Alternative, Condition, ConditionOp, ExprSymbol, Grammar, GrammarItem,
+                          MacroSymbol, NonterminalData, RepeatSymbol, Span, Symbol, TypeRef};
 use normalize::{NormResult, NormError};
 use regex::Regex;
+use std::mem;
 
 #[cfg(test)]
 mod test;
@@ -30,8 +31,8 @@ pub fn expand_macros(input: Grammar) -> NormResult<Grammar> {
 
 struct MacroExpander {
     macro_defs: HashMap<InternedString, NonterminalData>,
-    expansion_stack: Vec<MacroSymbol>,
     expansion_set: HashSet<InternedString>,
+    expansion_stack: Vec<Symbol>,
 }
 
 impl MacroExpander {
@@ -46,6 +47,8 @@ impl MacroExpander {
     fn expand(&mut self, items: &mut Vec<GrammarItem>) -> NormResult<()> {
         let mut counter = 0;
         loop {
+            let old_expansions = self.expansion_set.len();
+
             // Find any macro uses in items added since last round and
             // replace them in place with the expanded version:
             for item in &mut items[counter..] {
@@ -54,13 +57,20 @@ impl MacroExpander {
             counter = items.len();
 
             // No more expansion to do.
-            if self.expansion_stack.is_empty() {
+            if self.expansion_set.len() == old_expansions {
                 return Ok(());
             }
 
-            // Drain macro queue:
-            while let Some(msym) = self.expansion_stack.pop() {
-                items.push(try!(self.expand_macro_symbol(msym)));
+            // Drain expansion stack:
+            while let Some(sym) = self.expansion_stack.pop() {
+                match sym {
+                    Symbol::Macro(msym) =>
+                        items.push(try!(self.expand_macro_symbol(msym))),
+                    Symbol::Expr(expr) =>
+                        items.push(self.expand_expr_symbol(expr)),
+                    _ =>
+                        assert!(false, "don't know how to expand `{:?}`", sym)
+                }
             }
         }
     }
@@ -74,7 +84,7 @@ impl MacroExpander {
                 assert!(!data.is_macro_def());
 
                 for alternative in &mut data.alternatives {
-                    self.replace_symbols(&mut alternative.expr);
+                    self.replace_symbols(&mut alternative.expr.symbols);
                 }
             }
         }
@@ -94,33 +104,36 @@ impl MacroExpander {
                 for sym in &mut m.args {
                     self.replace_symbol(sym);
                 }
-
-                key = intern(&m.canonical_form());
-                if self.expansion_set.insert(key) {
-                    self.expansion_stack.push(m.clone());
-                }
             }
             Symbol::Terminal(_) |
             Symbol::Nonterminal(_) => {
                 return;
             }
-            Symbol::Plus(ref mut sym) |
-            Symbol::Question(ref mut sym) |
-            Symbol::Star(ref mut sym) |
+            Symbol::Repeat(ref mut repeat) => {
+                self.replace_symbol(&mut repeat.symbol);
+                return;
+            }
             Symbol::Choose(ref mut sym) |
             Symbol::Name(_, ref mut sym) => {
                 self.replace_symbol(sym);
                 return;
             }
-            Symbol::Expr(ref mut syms) => {
-                self.replace_symbols(syms);
-                return;
+            Symbol::Expr(ref mut expr) => {
+                self.replace_symbols(&mut expr.symbols);
             }
         }
 
-        // we only get here if this is a macro expansion
-        *symbol = Symbol::Nonterminal(key);
+        // only symbols we intend to expand fallthrough to here
+
+        key = intern(&symbol.canonical_form());
+        let to_expand = mem::replace(symbol, Symbol::Nonterminal(key));
+        if self.expansion_set.insert(key) {
+            self.expansion_stack.push(to_expand);
+        }
     }
+
+    ///////////////////////////////////////////////////////////////////////////
+    // Macro expansion
 
     fn expand_macro_symbol(&mut self, msym: MacroSymbol) -> NormResult<GrammarItem> {
         let msym_name = intern(&msym.canonical_form());
@@ -141,7 +154,7 @@ impl MacroExpander {
                      .zip(msym.args.into_iter())
                      .collect();
 
-        let type_decl = mdef.type_decl.as_ref().map(|tr| self.expand_type_ref(&args, tr));
+        let type_decl = mdef.type_decl.as_ref().map(|tr| self.macro_expand_type_ref(&args, tr));
 
         // due to the use of `try!`, it's a bit awkward to write this with an iterator
         let mut alternatives: Vec<Alternative> = vec![];
@@ -151,7 +164,7 @@ impl MacroExpander {
                 continue;
             }
             alternatives.push(Alternative {
-                expr: self.expand_symbols(&args, &alternative.expr),
+                expr: self.macro_expand_expr_symbol(&args, &alternative.expr),
                 condition: None,
                 action: alternative.action.clone(),
             });
@@ -165,25 +178,25 @@ impl MacroExpander {
         }))
     }
 
-    fn expand_type_refs(&self,
-                        args: &HashMap<InternedString, Symbol>,
-                        type_refs: &[TypeRef])
-                        -> Vec<TypeRef>
+    fn macro_expand_type_refs(&self,
+                              args: &HashMap<InternedString, Symbol>,
+                              type_refs: &[TypeRef])
+                              -> Vec<TypeRef>
     {
-        type_refs.iter().map(|tr| self.expand_type_ref(args, tr)).collect()
+        type_refs.iter().map(|tr| self.macro_expand_type_ref(args, tr)).collect()
     }
 
-    fn expand_type_ref(&self,
-                       args: &HashMap<InternedString, Symbol>,
-                       type_ref: &TypeRef)
-                       -> TypeRef
+    fn macro_expand_type_ref(&self,
+                             args: &HashMap<InternedString, Symbol>,
+                             type_ref: &TypeRef)
+                             -> TypeRef
     {
         match *type_ref {
             TypeRef::Tuple(ref trs) =>
-                TypeRef::Tuple(self.expand_type_refs(args, trs)),
+                TypeRef::Tuple(self.macro_expand_type_refs(args, trs)),
             TypeRef::Nominal { ref path, ref types } =>
                 TypeRef::Nominal { path: path.clone(),
-                                   types: self.expand_type_refs(args, types) },
+                                   types: self.macro_expand_type_refs(args, types) },
             TypeRef::Lifetime(id) =>
                 TypeRef::Lifetime(id),
             TypeRef::OfSymbol(ref sym) =>
@@ -233,53 +246,66 @@ impl MacroExpander {
         })
     }
 
-    fn expand_symbols(&self,
-                      args: &HashMap<InternedString, Symbol>,
-                      expr: &[Symbol])
-                      -> Vec<Symbol>
+    fn macro_expand_symbols(&self,
+                            args: &HashMap<InternedString, Symbol>,
+                            expr: &[Symbol])
+                            -> Vec<Symbol>
     {
-        expr.iter().map(|s| self.expand_symbol(args, s)).collect()
+        expr.iter().map(|s| self.macro_expand_symbol(args, s)).collect()
     }
 
-    fn expand_box_symbol(&self,
-                         args: &HashMap<InternedString, Symbol>,
-                         symbol: &Symbol)
-                         -> Box<Symbol>
+    fn macro_expand_expr_symbol(&self,
+                                args: &HashMap<InternedString, Symbol>,
+                                expr: &ExprSymbol)
+                                -> ExprSymbol
     {
-        Box::new(self.expand_symbol(args, symbol))
+        ExprSymbol { symbols: self.macro_expand_symbols(args, &expr.symbols) }
     }
 
-    fn expand_symbol(&self,
-                     args: &HashMap<InternedString, Symbol>,
-                     symbol: &Symbol)
-                     -> Symbol
+    fn macro_expand_symbol(&self,
+                           args: &HashMap<InternedString, Symbol>,
+                           symbol: &Symbol)
+                           -> Symbol
     {
         match *symbol {
-            Symbol::Expr(ref expr) => Symbol::Expr(self.expand_symbols(args, expr)),
-            Symbol::Terminal(id) => Symbol::Terminal(id),
-            Symbol::Nonterminal(id) => {
+            Symbol::Expr(ref expr) =>
+                Symbol::Expr(self.macro_expand_expr_symbol(args, expr)),
+            Symbol::Terminal(id) =>
+                Symbol::Terminal(id),
+            Symbol::Nonterminal(id) =>
                 match args.get(&id) {
                     Some(sym) => sym.clone(),
                     None => Symbol::Nonterminal(id),
-                }
-            },
-            Symbol::Macro(ref msym) => {
+                },
+            Symbol::Macro(ref msym) =>
                 Symbol::Macro(MacroSymbol {
                     name: msym.name,
-                    args: self.expand_symbols(args, &msym.args),
+                    args: self.macro_expand_symbols(args, &msym.args),
                     span: msym.span,
-                })
-            },
-            Symbol::Plus(ref sym) =>
-                Symbol::Plus(self.expand_box_symbol(args, sym)),
-            Symbol::Star(ref sym) =>
-                Symbol::Star(self.expand_box_symbol(args, sym)),
-            Symbol::Question(ref sym) =>
-                Symbol::Question(self.expand_box_symbol(args, sym)),
+                }),
+            Symbol::Repeat(ref r) =>
+                Symbol::Repeat(Box::new(RepeatSymbol {
+                    op: r.op,
+                    symbol: self.macro_expand_symbol(args, &r.symbol)
+                })),
             Symbol::Choose(ref sym) =>
-                Symbol::Choose(self.expand_box_symbol(args, sym)),
+                Symbol::Choose(Box::new(self.macro_expand_symbol(args, sym))),
             Symbol::Name(id, ref sym) =>
-                Symbol::Name(id, self.expand_box_symbol(args, sym)),
+                Symbol::Name(id, Box::new(self.macro_expand_symbol(args, sym))),
         }
     }
+
+    ///////////////////////////////////////////////////////////////////////////
+    // Expr expansion
+
+    fn expand_expr_symbol(&mut self, expr: ExprSymbol) -> GrammarItem {
+        let name = intern(&expr.canonical_form());
+        GrammarItem::Nonterminal(NonterminalData {
+            name: name,
+            args: vec![],
+            type_decl: None,
+            alternatives: vec![Alternative { expr: expr, condition: None, action: None }]
+        })
+    }
+
 }

@@ -21,8 +21,10 @@ grammar Foo {
     Ids = `Comma<\"Id\">`;
 
     `Comma<\"Id\">`: Vec<`\"Id\"`> =
-        ~v:(~\"Id\" \",\")* ~e:\"Id\"? =>
+        ~v:`(~\"Id\" \",\")`* ~e:\"Id\"? =>
            v.into_iter().chain(e.into_iter()).collect();
+
+    `(~\"Id\" \",\")` = ~\"Id\" \",\";
 }
 ").unwrap();
 

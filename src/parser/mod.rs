@@ -65,7 +65,7 @@ rusty_peg! {
 
         ALTERNATIVE: Alternative =
             (<s:{SYMBOL}> <c:[IF_COND]> <a:[ACTION]> ";") => Alternative {
-                expr: s,
+                expr: ExprSymbol { symbols: s },
                 condition: c,
                 action: a
             };
@@ -92,9 +92,13 @@ rusty_peg! {
 
         SYMBOL: Symbol =
             fold(<lhs:SYMBOL0>,
-                 "+" => Symbol::Plus(Box::new(lhs)),
-                 "*" => Symbol::Star(Box::new(lhs)),
-                 "?" => Symbol::Question(Box::new(lhs)));
+                 (<op:REPEAT_OP>) => Symbol::Repeat(Box::new(RepeatSymbol { symbol: lhs,
+                                                                            op: op })));
+
+        REPEAT_OP: RepeatOp = (REPEAT_OP_PLUS / REPEAT_OP_STAR / REPEAT_OP_QUESTION);
+        REPEAT_OP_PLUS: RepeatOp = "+" => RepeatOp::Plus;
+        REPEAT_OP_STAR: RepeatOp = "*" => RepeatOp::Star;
+        REPEAT_OP_QUESTION: RepeatOp = "?" => RepeatOp::Question;
 
         SYMBOL0: Symbol =
             (MACRO_SYMBOL / TERMINAL_SYMBOL / NT_SYMBOL / ESCAPE_SYMBOL /
@@ -121,7 +125,7 @@ rusty_peg! {
             (<l:ESCAPE>) => Symbol::Nonterminal(l);
 
         EXPR_SYMBOL: Symbol =
-            ("(" <s:{SYMBOL}> ")") => Symbol::Expr(s);
+            ("(" <s:{SYMBOL}> ")") => Symbol::Expr(ExprSymbol { symbols: s });
 
         NAMED_SYMBOL: Symbol =
             ("~" <l:ID> ":" <s:SYMBOL>) => Symbol::Name(l, Box::new(s));

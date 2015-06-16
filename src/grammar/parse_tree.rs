@@ -114,7 +114,7 @@ pub struct NonterminalData {
 
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct Alternative {
-    pub expr: Vec<Symbol>,
+    pub expr: ExprSymbol,
 
     // if C, only legal in macros
     pub condition: Option<Condition>,
@@ -160,7 +160,7 @@ pub enum ConditionOp {
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub enum Symbol {
     // (X Y)
-    Expr(Vec<Symbol>),
+    Expr(ExprSymbol),
 
     // "foo"
     Terminal(InternedString),
@@ -171,20 +171,30 @@ pub enum Symbol {
     // foo<..>
     Macro(MacroSymbol),
 
-    // X+
-    Plus(Box<Symbol>),
-
-    // X?
-    Question(Box<Symbol>),
-
-    // X*
-    Star(Box<Symbol>),
+    // X+, X?, X*
+    Repeat(Box<RepeatSymbol>),
 
     // ~X
     Choose(Box<Symbol>),
 
     // ~x:X
     Name(InternedString, Box<Symbol>),
+}
+
+#[derive(Copy, Clone, Debug, PartialEq, Eq)]
+pub enum RepeatOp {
+    Star, Plus, Question
+}
+
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub struct RepeatSymbol {
+    pub op: RepeatOp,
+    pub symbol: Symbol
+}
+
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub struct ExprSymbol {
+    pub symbols: Vec<Symbol>
 }
 
 #[derive(Clone, Debug, PartialEq, Eq)]
@@ -218,25 +228,49 @@ impl Symbol {
 impl Display for Symbol {
     fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
         match *self {
-            Symbol::Expr(ref symbols) =>
-                write!(fmt, "({})", Sep(" ", symbols)),
+            Symbol::Expr(ref expr) =>
+                write!(fmt, "{}", expr),
             Symbol::Terminal(ref s) =>
                 write!(fmt, "\"{}\"", s.to_string()),
             Symbol::Nonterminal(ref s) =>
                 write!(fmt, "{}", s),
             Symbol::Macro(ref m) =>
                 write!(fmt, "{}", m),
-            Symbol::Plus(ref s) =>
-                write!(fmt, "{}+", s),
-            Symbol::Question(ref s) =>
-                write!(fmt, "{}?", s),
-            Symbol::Star(ref s) =>
-                write!(fmt, "{}?", s),
+            Symbol::Repeat(ref r) =>
+                write!(fmt, "{}", r),
             Symbol::Choose(ref s) =>
                 write!(fmt, "~{}", s),
             Symbol::Name(n, ref s) =>
                 write!(fmt, "~{}:{}", n, s),
         }
+    }
+}
+
+impl Display for RepeatSymbol {
+    fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
+        write!(fmt, "{}{}", self.symbol, self.op)
+    }
+}
+
+impl Display for RepeatOp {
+    fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
+        match *self {
+            RepeatOp::Plus => write!(fmt, "+"),
+            RepeatOp::Star => write!(fmt, "*"),
+            RepeatOp::Question => write!(fmt, "?"),
+        }
+    }
+}
+
+impl Display for ExprSymbol {
+    fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
+        write!(fmt, "({})", Sep(" ", &self.symbols))
+    }
+}
+
+impl ExprSymbol {
+    pub fn canonical_form(&self) -> String {
+        format!("{}", self)
     }
 }
 
