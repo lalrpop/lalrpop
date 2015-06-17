@@ -1,16 +1,45 @@
+use intern::intern;
 use parser;
 use normalize::macro_expand::expand_macros;
 use normalize::tyinfer::infer_types;
-use normalize::test_util;
+use grammar::parse_tree::TypeRef;
+use grammar::repr::TypeRepr;
 
-fn compare(g1: &str, g2: &str) {
-    let actual = parser::parse_grammar(g1).unwrap();
-    let actual = expand_macros(actual).unwrap();
-    let actual = infer_types(actual).unwrap();
+fn type_repr(s: &str) -> TypeRepr {
+    let type_ref = parser::parse_type_ref(s).unwrap();
+    return convert(type_ref);
 
-    let expected = parser::parse_grammar(g2).unwrap();
+    fn convert(t: TypeRef) -> TypeRepr {
+        match t {
+            TypeRef::Tuple(types) =>
+                TypeRepr::Tuple(types.into_iter().map(convert).collect()),
+            TypeRef::Nominal { path, types } =>
+                TypeRepr::Nominal { path: path,
+                                    types: types.into_iter().map(convert).collect() },
+            TypeRef::Lifetime(id) =>
+                TypeRepr::Lifetime(id),
+            TypeRef::Id(id) =>
+                TypeRepr::Nominal { path: vec![id],
+                                    types: vec![] },
+            TypeRef::OfSymbol(_) =>
+                unreachable!("OfSymbol produced by parser")
+        }
+    }
+}
 
-    test_util::compare(actual, expected);
+fn compare(g1: &str, expected: Vec<(&'static str, &'static str)>) {
+    let grammar = parser::parse_grammar(g1).unwrap();
+    let grammar = expand_macros(grammar).unwrap();
+    let types = infer_types(&grammar).unwrap();
+
+    println!("types table: {:?}", types);
+
+    for (nt_id, nt_type) in expected {
+        let id = intern(nt_id);
+        let ty = type_repr(nt_type);
+        println!("expected type of {:?} is {:?}", id, ty);
+        assert_eq!(types.nt_type(id), Some(&ty));
+    }
 }
 
 #[test]
@@ -22,14 +51,11 @@ grammar Foo {
     Y: Foo = \"Hi\";
     Z = \"Ho\";
 }
-","
-grammar Foo {
-    token Tok where { };
-    X: (Foo, Tok) = Y Z;
-    Y: Foo = \"Hi\";
-    Z: Tok = \"Ho\";
-}
-")
+", vec![
+    ("X", "(Foo, Tok)"),
+    ("Y", "Foo"),
+    ("Z", "Tok")
+        ])
 }
 
 #[test]
@@ -46,7 +72,7 @@ grammar Foo {
 ").unwrap();
 
     let actual = expand_macros(grammar).unwrap();
-    assert!(infer_types(actual).is_err());
+    assert!(infer_types(&actual).is_err());
 }
 
 #[test]
@@ -62,7 +88,7 @@ grammar Foo {
 ").unwrap();
 
     let actual = expand_macros(grammar).unwrap();
-    assert!(infer_types(actual).is_err());
+    assert!(infer_types(&actual).is_err());
 }
 
 #[test]
@@ -73,13 +99,10 @@ grammar Foo {
     Two<X>: (X, X) = X X;
     Ids = Two<\"Id\">;
 }
-","
-grammar Foo {
-    token Tok where { };
-    Ids: (Tok, Tok) = `Two<\"Id\">`;
-    `Two<\"Id\">`: (Tok, Tok) = \"Id\" \"Id\";
-}
-")
+", vec![
+    ("Ids", "(Tok, Tok)"),
+    (r#"Two<"Id">"#, "(Tok, Tok)"),
+        ])
 }
 
 #[test]
@@ -90,13 +113,10 @@ grammar Foo {
     Two<X> = X X;
     Ids = Two<\"Id\">;
 }
-","
-grammar Foo {
-    token Tok where { };
-    Ids: (Tok, Tok) = `Two<\"Id\">`;
-    `Two<\"Id\">`: (Tok, Tok) = \"Id\" \"Id\";
-}
-")
+", vec![
+    ("Ids", "(Tok, Tok)"),
+    (r#"Two<"Id">"#, "(Tok, Tok)"),
+        ])
 }
 
 #[test]
@@ -107,11 +127,8 @@ grammar Foo {
     X = Y?;
     Y = \"Hi\";
 }
-","
-grammar Foo {
-    token Tok where { };
-    X: std::option::Option<Tok> = Y?;
-    Y: Tok = \"Hi\";
-}
-")
+",vec![
+    ("X", "std::option::Option<Tok>"),
+    ("Y", "Tok")
+        ])
 }

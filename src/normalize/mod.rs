@@ -23,9 +23,6 @@ macro_rules! return_err {
     }
 }
 
-#[cfg(test)]
-mod test_util;
-
 // These are executed *IN ORDER*:
 
 // Expands macros and expressions
@@ -87,3 +84,12 @@ mod tyinfer;
 //
 // AFTER THIS POINT: No more Symbol::Question remain.
 // mod remove_question;
+
+///////////////////////////////////////////////////////////////////////////
+// Shared routines
+
+#[cfg(test)]
+mod test_util;
+
+mod norm_util;
+

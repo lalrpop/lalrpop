@@ -59,8 +59,10 @@ grammar Type<'input, T> {
 
 */
 
-use intern::InternedString;
+use intern::{intern, InternedString};
+use grammar::repr::TypeRepr;
 use std::fmt::{Display, Formatter, Error};
+use util::Sep;
 
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct Grammar {
@@ -124,19 +126,11 @@ pub struct Alternative {
     pub condition: Option<Condition>,
 
     // => { code }
-    pub action: Option<Action>,
+    pub action: Option<String>,
 }
 
-#[derive(Clone, Debug, PartialEq, Eq)]
-pub enum Action {
-    // code provided by the user
-    User(String),
-
-    // an index into a side-list of action fns, which is setup to take
-    // all of the values in this alternative as arguments, dropping
-    // the ones it doesn't care about.
-    Fn(u32),
-}
+#[derive(Copy, Clone, Debug, PartialEq, Eq)]
+pub struct ActionFnIndex(u32);
 
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct Condition {
@@ -291,22 +285,6 @@ impl Display for MacroSymbol {
     }
 }
 
-struct Sep<S>(&'static str, S);
-
-impl<'a,S:Display> Display for Sep<&'a Vec<S>> {
-    fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
-        let &Sep(sep, vec) = self;
-        let mut elems = vec.iter();
-        if let Some(elem) = elems.next() {
-            try!(write!(fmt, "{}", elem));
-            while let Some(elem) = elems.next() {
-                try!(write!(fmt, "{}{}", sep, elem));
-            }
-        }
-        Ok(())
-    }
-}
-
 impl Display for TypeRef {
     fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
         match *self {
@@ -323,5 +301,28 @@ impl Display for TypeRef {
             TypeRef::OfSymbol(ref s) =>
                 write!(fmt, "`{}`", s),
         }
+    }
+}
+
+impl ActionFnIndex {
+    pub fn new(x: usize) -> ActionFnIndex {
+        ActionFnIndex(x as u32)
+    }
+
+    pub fn index(&self) -> usize {
+        self.0 as usize
+    }
+}
+
+impl RepeatOp {
+    pub fn type_repr(&self, symbol_type: TypeRepr) -> TypeRepr {
+        let path = match *self {
+            RepeatOp::Plus |
+            RepeatOp::Star =>
+                vec![intern("std"), intern("vec"), intern("Vec")],
+            RepeatOp::Question =>
+                vec![intern("std"), intern("option"), intern("Option")],
+        };
+        TypeRepr::Nominal { path: path, types: vec![symbol_type] }
     }
 }

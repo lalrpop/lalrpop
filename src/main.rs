@@ -9,6 +9,7 @@ mod grammar;
 mod intern;
 mod normalize;
 mod parser;
+mod util;
 
 #[cfg(not(test))]
 fn main() {

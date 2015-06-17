@@ -76,7 +76,7 @@ rusty_peg! {
         IF_COND: Condition =
             ("if" <c:COND>) => c;
 
-        ACTION: Action = ("=>" <b:CODE>) => Action::User(b);
+        ACTION: String = ("=>" <b:CODE>) => b;
 
         // Conditions
 
@@ -286,7 +286,7 @@ fn parse_nonterminal(text: &str) -> Result<GrammarItem,rusty_peg::Error> {
     rusty_peg::Symbol::parse_complete(&NONTERMINAL, &mut parser, text)
 }
 
-fn parse_type_ref(text: &str) -> Result<TypeRef,rusty_peg::Error> {
+pub fn parse_type_ref(text: &str) -> Result<TypeRef,rusty_peg::Error> {
     let mut parser = Parser::new(());
     rusty_peg::Symbol::parse_complete(&TYPE_REF, &mut parser, text)
 }
