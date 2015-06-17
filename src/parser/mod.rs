@@ -260,7 +260,7 @@ impl<'input> rusty_peg::Symbol<'input,Parser<'input>> for CODE {
             offset += 1; // move to next byte
         }
 
-        let regex_str = &input.text[input.offset + 1 .. offset - 1];
+        let regex_str = &input.text[input.offset .. offset];
         let output = rusty_peg::Input { text: input.text, offset: offset };
         return Ok((output, regex_str.to_string()));
     }

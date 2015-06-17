@@ -1,8 +1,10 @@
 use std::collections::{HashMap, HashSet};
 use intern::{intern, read, InternedString};
 use grammar::parse_tree::{Alternative, Condition, ConditionOp, ExprSymbol, Grammar, GrammarItem,
-                          MacroSymbol, NonterminalData, RepeatSymbol, Span, Symbol, TypeRef};
+                          MacroSymbol, NonterminalData, RepeatOp, RepeatSymbol,
+                          Span, Symbol, TypeRef};
 use normalize::{NormResult, NormError};
+use normalize::norm_util::{self, Symbols};
 use regex::Regex;
 use std::mem;
 
@@ -67,7 +69,7 @@ impl MacroExpander {
                     Symbol::Macro(msym) =>
                         items.push(try!(self.expand_macro_symbol(msym))),
                     Symbol::Expr(expr) =>
-                        items.push(self.expand_expr_symbol(expr)),
+                        items.push(try!(self.expand_expr_symbol(expr))),
                     _ =>
                         assert!(false, "don't know how to expand `{:?}`", sym)
                 }
@@ -110,6 +112,7 @@ impl MacroExpander {
                 return;
             }
             Symbol::Repeat(ref mut repeat) => {
+                // self.replace_repeat(repeat);
                 self.replace_symbol(&mut repeat.symbol);
                 return;
             }
@@ -129,6 +132,28 @@ impl MacroExpander {
         let to_expand = mem::replace(symbol, Symbol::Nonterminal(key));
         if self.expansion_set.insert(key) {
             self.expansion_stack.push(to_expand);
+        }
+    }
+
+    fn replace_repeat(&mut self, repeat: &mut RepeatSymbol) {
+        match repeat.op {
+            RepeatOp::Star => {
+                // Convert X* to X+? and recurse. Annoyingly, we have
+                // to clone for this, due to not being able to move
+                // out from `&mut` pointers.
+                *repeat = RepeatSymbol {
+                    op: RepeatOp::Question,
+                    symbol: Symbol::Repeat(Box::new(RepeatSymbol {
+                        op: RepeatOp::Plus,
+                        symbol: repeat.symbol.clone()
+                    }))
+                };
+                return self.replace_repeat(repeat);
+            }
+            RepeatOp::Question |
+            RepeatOp::Plus => {
+               self.replace_symbol(&mut repeat.symbol);
+            }
         }
     }
 
@@ -301,18 +326,44 @@ impl MacroExpander {
     ///////////////////////////////////////////////////////////////////////////
     // Expr expansion
 
-    fn expand_expr_symbol(&mut self, expr: ExprSymbol) -> GrammarItem {
+    fn expand_expr_symbol(&mut self, expr: ExprSymbol) -> NormResult<GrammarItem> {
         let name = intern(&expr.canonical_form());
-        GrammarItem::Nonterminal(NonterminalData {
+
+        let ty_ref = match norm_util::analyze_expr(&expr) {
+            Symbols::Named(names) => {
+                let (ex_id, ex_sym) = names[0];
+                return_err!(
+                    expr.span,
+                    "named symbols like `~{}:{}` are only allowed at the top-level of a nonterminal",
+                    ex_id, ex_sym)
+            }
+            Symbols::Anon(syms) => {
+                maybe_tuple(
+                    syms.into_iter()
+                        .cloned()
+                        .map(TypeRef::OfSymbol)
+                        .collect())
+            }
+        };
+
+        Ok(GrammarItem::Nonterminal(NonterminalData {
             span: expr.span,
             name: name,
             args: vec![],
-            type_decl: None,
+            type_decl: Some(ty_ref),
             alternatives: vec![Alternative { span: expr.span,
                                              expr: expr,
                                              condition: None,
-                                             action: None }]
-        })
+                                             action: Some(format!("(~~)")) }]
+        }))
     }
 
+}
+
+fn maybe_tuple(v: Vec<TypeRef>) -> TypeRef {
+    if v.len() == 1 {
+        v.into_iter().next().unwrap()
+    } else {
+        TypeRef::Tuple(v)
+    }
 }

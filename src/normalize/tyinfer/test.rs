@@ -2,7 +2,6 @@ use intern::intern;
 use parser;
 use normalize::macro_expand::expand_macros;
 use normalize::tyinfer::infer_types;
-use grammar::parse_tree::TypeRef;
 use grammar::repr::TypeRepr;
 
 fn type_repr(s: &str) -> TypeRepr {

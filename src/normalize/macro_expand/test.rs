@@ -25,7 +25,7 @@ grammar Foo {
         ~v:`(~\"Id\" \",\")`* ~e:\"Id\"? =>
            v.into_iter().chain(e.into_iter()).collect();
 
-    `(~\"Id\" \",\")` = ~\"Id\" \",\";
+    `(~\"Id\" \",\")`: `\"Id\"` = ~\"Id\" \",\" => (~~);
 }
 ").unwrap();
 
