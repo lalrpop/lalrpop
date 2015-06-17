@@ -7,24 +7,7 @@ use grammar::repr::TypeRepr;
 
 fn type_repr(s: &str) -> TypeRepr {
     let type_ref = parser::parse_type_ref(s).unwrap();
-    return convert(type_ref);
-
-    fn convert(t: TypeRef) -> TypeRepr {
-        match t {
-            TypeRef::Tuple(types) =>
-                TypeRepr::Tuple(types.into_iter().map(convert).collect()),
-            TypeRef::Nominal { path, types } =>
-                TypeRepr::Nominal { path: path,
-                                    types: types.into_iter().map(convert).collect() },
-            TypeRef::Lifetime(id) =>
-                TypeRepr::Lifetime(id),
-            TypeRef::Id(id) =>
-                TypeRepr::Nominal { path: vec![id],
-                                    types: vec![] },
-            TypeRef::OfSymbol(_) =>
-                unreachable!("OfSymbol produced by parser")
-        }
-    }
+    return type_ref.type_repr();
 }
 
 fn compare(g1: &str, expected: Vec<(&'static str, &'static str)>) {

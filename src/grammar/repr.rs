@@ -26,16 +26,22 @@ pub enum TypeRepr {
 
 #[derive(Debug)]
 pub struct Types {
+    terminal_type: TypeRepr,
     nonterminal_types: HashMap<InternedString, TypeRepr>
 }
 
 impl Types {
-    pub fn new() -> Types {
-        Types { nonterminal_types: HashMap::new() }
+    pub fn new(terminal_type: TypeRepr) -> Types {
+        Types { terminal_type: terminal_type,
+                nonterminal_types: HashMap::new() }
     }
 
     pub fn add_type(&mut self, nt_id: InternedString, ty: TypeRepr) {
         assert!(self.nonterminal_types.insert(nt_id, ty).is_none());
+    }
+
+    pub fn terminal_type(&self) -> &TypeRepr {
+        &self.terminal_type
     }
 
     pub fn nt_type(&self, nt_id: InternedString) -> Option<&TypeRepr> {

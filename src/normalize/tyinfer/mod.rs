@@ -16,7 +16,6 @@ pub fn infer_types(grammar: &Grammar) -> NormResult<Types> {
 }
 
 struct TypeInferencer<'grammar> {
-    token_type: &'grammar TypeRef,
     stack: Vec<InternedString>,
     nonterminals: HashMap<InternedString, NT<'grammar>>,
     types: Types,
@@ -29,7 +28,7 @@ struct NT<'grammar> {
     alternatives: &'grammar Vec<Alternative>,
 }
 
-fn extract_token_type(grammar: &Grammar) -> NormResult<&TypeRef> {
+fn extract_token_type(grammar: &Grammar) -> NormResult<TypeRepr> {
     let mut token_types =
         grammar.items
                .iter()
@@ -50,7 +49,7 @@ fn extract_token_type(grammar: &Grammar) -> NormResult<&TypeRef> {
         return_err!(grammar.span, "multiple token types specified");
     }
 
-    Ok(token_type)
+    Ok(token_type.type_repr())
 }
 
 impl<'grammar> TypeInferencer<'grammar> {
@@ -73,10 +72,9 @@ impl<'grammar> TypeInferencer<'grammar> {
                    })
                    .collect();
 
-        Ok(TypeInferencer { token_type: token_type,
-                            stack: vec![],
+        Ok(TypeInferencer { stack: vec![],
                             nonterminals: nonterminals,
-                            types: Types::new() })
+                            types: Types::new(token_type) })
     }
 
     fn infer_types(mut self) -> NormResult<Types> {
@@ -197,7 +195,7 @@ impl<'grammar> TypeInferencer<'grammar> {
 
     fn symbol_type(&mut self, symbol: &Symbol) -> NormResult<TypeRepr> {
         match *symbol {
-            Symbol::Terminal(_) => self.type_ref(self.token_type),
+            Symbol::Terminal(_) => Ok(self.types.terminal_type().clone()),
             Symbol::Nonterminal(id) => self.nonterminal_type(id),
             Symbol::Choose(ref s) => self.symbol_type(s),
             Symbol::Name(_, ref s) => self.symbol_type(s),

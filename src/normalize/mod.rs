@@ -42,7 +42,8 @@ mod macro_expand;
 // Computes types where the user omitted them (or from macro
 // byproducts).
 //
-// AFTER THIS POINT: All explicit types, no `OfSymbol` types.
+// AFTER THIS POINT: there is a separate `repr::Types` table
+// providing all nonterminals with an explicit type.
 mod tyinfer;
 
 // Synthesizes action code for all nonterminals.

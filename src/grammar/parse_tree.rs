@@ -60,7 +60,7 @@ grammar Type<'input, T> {
 */
 
 use intern::{intern, InternedString};
-use grammar::repr::TypeRepr;
+use grammar::repr::{Types, TypeRepr};
 use std::fmt::{Display, Formatter, Error};
 use util::Sep;
 
@@ -222,6 +222,20 @@ impl Symbol {
     pub fn canonical_form(&self) -> String {
         format!("{}", self)
     }
+
+    pub fn type_repr(&self, types: &Types) -> TypeRepr {
+        match *self {
+            Symbol::Terminal(_) => types.terminal_type().clone(),
+            Symbol::Nonterminal(id) => types.nt_type(id).unwrap().clone(),
+            Symbol::Choose(ref s) => s.type_repr(types),
+            Symbol::Name(_, ref s) => s.type_repr(types),
+            Symbol::Repeat(ref r) => r.op.type_repr(r.symbol.type_repr(types)),
+
+            Symbol::Expr(..) | Symbol::Macro(..) => {
+                unreachable!("symbol {} should have been expanded away", self)
+            }
+        }
+    }
 }
 
 impl Display for Symbol {
@@ -324,5 +338,27 @@ impl RepeatOp {
                 vec![intern("std"), intern("option"), intern("Option")],
         };
         TypeRepr::Nominal { path: path, types: vec![symbol_type] }
+    }
+}
+
+impl TypeRef {
+    // Converts a TypeRef to a TypeRepr, assuming no inference is
+    // required etc. This is safe for all types a user can directly
+    // type, but not safe for the result of expanding macros.
+    pub fn type_repr(&self) -> TypeRepr {
+        match *self {
+            TypeRef::Tuple(ref types) =>
+                TypeRepr::Tuple(types.iter().map(TypeRef::type_repr).collect()),
+            TypeRef::Nominal { ref path, ref types } =>
+                TypeRepr::Nominal { path: path.clone(),
+                                    types: types.iter().map(TypeRef::type_repr).collect() },
+            TypeRef::Lifetime(id) =>
+                TypeRepr::Lifetime(id),
+            TypeRef::Id(id) =>
+                TypeRepr::Nominal { path: vec![id],
+                                    types: vec![] },
+            TypeRef::OfSymbol(_) =>
+                unreachable!("OfSymbol produced by parser")
+        }
     }
 }
