@@ -49,9 +49,6 @@ impl MacroExpander {
     fn expand(&mut self, items: &mut Vec<GrammarItem>) -> NormResult<()> {
         let mut counter = 0;
         loop {
-            println!("Next round: counter={} items.len()={}",
-                     counter, items.len());
-
             // Find any macro uses in items added since last round and
             // replace them in place with the expanded version:
             for item in &mut items[counter..] {
@@ -66,7 +63,6 @@ impl MacroExpander {
 
             // Drain expansion stack:
             while let Some(sym) = self.expansion_stack.pop() {
-                println!("Drained {:?}", sym);
                 match sym {
                     Symbol::Macro(msym) =>
                         items.push(try!(self.expand_macro_symbol(msym))),
