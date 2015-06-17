@@ -49,8 +49,6 @@ impl MacroExpander {
     fn expand(&mut self, items: &mut Vec<GrammarItem>) -> NormResult<()> {
         let mut counter = 0;
         loop {
-            let old_expansions = self.expansion_set.len();
-
             println!("Next round: counter={} items.len()={}",
                      counter, items.len());
 
@@ -62,7 +60,7 @@ impl MacroExpander {
             counter = items.len();
 
             // No more expansion to do.
-            if self.expansion_set.len() == old_expansions {
+            if self.expansion_stack.is_empty() {
                 return Ok(());
             }
 
