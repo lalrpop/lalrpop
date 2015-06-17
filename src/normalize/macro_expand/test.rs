@@ -22,8 +22,18 @@ grammar Foo {
     Ids = `Comma<\"Id\">`;
 
     `Comma<\"Id\">`: Vec<`\"Id\"`> =
-        ~v:`(~\"Id\" \",\")`* ~e:\"Id\"? =>
+        ~v:`(~\"Id\" \",\")*` ~e:`\"Id\"?` =>
            v.into_iter().chain(e.into_iter()).collect();
+
+    `\"Id\"?`: std::option::Option<`\"Id\"`> = {
+        \"Id\" => Some(~~);
+        => None;
+    };
+
+    `(~\"Id\" \",\")*`: std::vec::Vec<``(~\"Id\" \",\")``> = {
+        => vec![];
+        ~v:`(~\"Id\" \",\")*` ~e:`(~\"Id\" \",\")` => { let mut v = v; v.push(e); v };
+    };
 
     `(~\"Id\" \",\")`: `\"Id\"` = ~\"Id\" \",\" => (~~);
 }

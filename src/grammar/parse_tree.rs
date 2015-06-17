@@ -129,9 +129,6 @@ pub struct Alternative {
     pub action: Option<String>,
 }
 
-#[derive(Copy, Clone, Debug, PartialEq, Eq)]
-pub struct ActionFnIndex(u32);
-
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct Condition {
     pub span: Span,
@@ -186,6 +183,7 @@ pub enum RepeatOp {
 
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct RepeatSymbol {
+    pub span: Span,
     pub op: RepeatOp,
     pub symbol: Symbol
 }
@@ -229,9 +227,8 @@ impl Symbol {
             Symbol::Nonterminal(id) => types.nt_type(id).unwrap().clone(),
             Symbol::Choose(ref s) => s.type_repr(types),
             Symbol::Name(_, ref s) => s.type_repr(types),
-            Symbol::Repeat(ref r) => r.op.type_repr(r.symbol.type_repr(types)),
 
-            Symbol::Expr(..) | Symbol::Macro(..) => {
+            Symbol::Repeat(..) | Symbol::Expr(..) | Symbol::Macro(..) => {
                 unreachable!("symbol {} should have been expanded away", self)
             }
         }
@@ -293,6 +290,12 @@ impl MacroSymbol {
     }
 }
 
+impl RepeatSymbol {
+    pub fn canonical_form(&self) -> String {
+        format!("{}", self)
+    }
+}
+
 impl Display for MacroSymbol {
     fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
         write!(fmt, "{}<{}>", self.name, Sep(", ", &self.args))
@@ -315,16 +318,6 @@ impl Display for TypeRef {
             TypeRef::OfSymbol(ref s) =>
                 write!(fmt, "`{}`", s),
         }
-    }
-}
-
-impl ActionFnIndex {
-    pub fn new(x: usize) -> ActionFnIndex {
-        ActionFnIndex(x as u32)
-    }
-
-    pub fn index(&self) -> usize {
-        self.0 as usize
     }
 }
 

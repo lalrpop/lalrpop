@@ -51,6 +51,9 @@ impl MacroExpander {
         loop {
             let old_expansions = self.expansion_set.len();
 
+            println!("Next round: counter={} items.len()={}",
+                     counter, items.len());
+
             // Find any macro uses in items added since last round and
             // replace them in place with the expanded version:
             for item in &mut items[counter..] {
@@ -65,11 +68,14 @@ impl MacroExpander {
 
             // Drain expansion stack:
             while let Some(sym) = self.expansion_stack.pop() {
+                println!("Drained {:?}", sym);
                 match sym {
                     Symbol::Macro(msym) =>
                         items.push(try!(self.expand_macro_symbol(msym))),
                     Symbol::Expr(expr) =>
                         items.push(try!(self.expand_expr_symbol(expr))),
+                    Symbol::Repeat(repeat) =>
+                        items.push(try!(self.expand_repeat_symbol(*repeat))),
                     _ =>
                         assert!(false, "don't know how to expand `{:?}`", sym)
                 }
@@ -99,21 +105,20 @@ impl MacroExpander {
     }
 
     fn replace_symbol(&mut self, symbol: &mut Symbol) {
-        let key;
-
         match *symbol {
             Symbol::Macro(ref mut m) => {
                 for sym in &mut m.args {
                     self.replace_symbol(sym);
                 }
             }
-            Symbol::Terminal(_) |
-            Symbol::Nonterminal(_) => {
-                return;
+            Symbol::Expr(ref mut expr) => {
+                self.replace_symbols(&mut expr.symbols);
             }
             Symbol::Repeat(ref mut repeat) => {
-                // self.replace_repeat(repeat);
                 self.replace_symbol(&mut repeat.symbol);
+            }
+            Symbol::Terminal(_) |
+            Symbol::Nonterminal(_) => {
                 return;
             }
             Symbol::Choose(ref mut sym) |
@@ -121,39 +126,14 @@ impl MacroExpander {
                 self.replace_symbol(sym);
                 return;
             }
-            Symbol::Expr(ref mut expr) => {
-                self.replace_symbols(&mut expr.symbols);
-            }
         }
 
         // only symbols we intend to expand fallthrough to here
 
-        key = intern(&symbol.canonical_form());
+        let key = intern(&symbol.canonical_form());
         let to_expand = mem::replace(symbol, Symbol::Nonterminal(key));
         if self.expansion_set.insert(key) {
             self.expansion_stack.push(to_expand);
-        }
-    }
-
-    fn replace_repeat(&mut self, repeat: &mut RepeatSymbol) {
-        match repeat.op {
-            RepeatOp::Star => {
-                // Convert X* to X+? and recurse. Annoyingly, we have
-                // to clone for this, due to not being able to move
-                // out from `&mut` pointers.
-                *repeat = RepeatSymbol {
-                    op: RepeatOp::Question,
-                    symbol: Symbol::Repeat(Box::new(RepeatSymbol {
-                        op: RepeatOp::Plus,
-                        symbol: repeat.symbol.clone()
-                    }))
-                };
-                return self.replace_repeat(repeat);
-            }
-            RepeatOp::Question |
-            RepeatOp::Plus => {
-               self.replace_symbol(&mut repeat.symbol);
-            }
         }
     }
 
@@ -313,6 +293,7 @@ impl MacroExpander {
                 }),
             Symbol::Repeat(ref r) =>
                 Symbol::Repeat(Box::new(RepeatSymbol {
+                    span: r.span,
                     op: r.op,
                     symbol: self.macro_expand_symbol(args, &r.symbol)
                 })),
@@ -356,6 +337,119 @@ impl MacroExpander {
                                              condition: None,
                                              action: Some(format!("(~~)")) }]
         }))
+    }
+
+    ///////////////////////////////////////////////////////////////////////////
+    // Expr expansion
+
+    fn expand_repeat_symbol(&mut self, repeat: RepeatSymbol) -> NormResult<GrammarItem> {
+        let name = intern(&repeat.canonical_form());
+        let v = intern("v");
+        let e = intern("e");
+
+        let base_symbol_ty = TypeRef::OfSymbol(repeat.symbol.clone());
+
+        match repeat.op {
+            RepeatOp::Star => {
+                let path = vec![intern("std"), intern("vec"), intern("Vec")];
+                let ty_ref = TypeRef::Nominal { path: path, types: vec![base_symbol_ty] };
+
+                Ok(GrammarItem::Nonterminal(NonterminalData {
+                    span: repeat.span,
+                    name: name,
+                    args: vec![],
+                    type_decl: Some(ty_ref),
+                    alternatives: vec![
+                        // X* =
+                        Alternative {
+                            span: repeat.span,
+                            expr: ExprSymbol {
+                                span: repeat.span,
+                                symbols: vec![],
+                            },
+                            condition: None,
+                            action: Some(format!("vec![]"))
+                        },
+
+                        // X* = ~v:X+ ~e:X
+                        Alternative {
+                            span: repeat.span,
+                            expr: ExprSymbol {
+                                span: repeat.span,
+                                symbols: vec![Symbol::Name(v, Box::new(Symbol::Nonterminal(name))),
+                                              Symbol::Name(e, Box::new(repeat.symbol.clone()))]
+                            },
+                            condition: None,
+                            action: Some(format!("{{ let mut v = v; v.push(e); v }}"))
+                        }],
+                }))
+            }
+
+            RepeatOp::Plus => {
+                let path = vec![intern("std"), intern("vec"), intern("Vec")];
+                let ty_ref = TypeRef::Nominal { path: path, types: vec![base_symbol_ty] };
+
+                Ok(GrammarItem::Nonterminal(NonterminalData {
+                    span: repeat.span,
+                    name: name,
+                    args: vec![],
+                    type_decl: Some(ty_ref),
+                    alternatives: vec![
+                        // X+ = X
+                        Alternative {
+                            span: repeat.span,
+                            expr: ExprSymbol {
+                                span: repeat.span,
+                                symbols: vec![repeat.symbol.clone()]
+                            },
+                            condition: None,
+                            action: Some(format!("vec![~~]"))
+                        },
+
+                        // X+ = ~v:X+ ~e:X
+                        Alternative {
+                            span: repeat.span,
+                            expr: ExprSymbol {
+                                span: repeat.span,
+                                symbols: vec![Symbol::Name(v, Box::new(Symbol::Nonterminal(name))),
+                                              Symbol::Name(e, Box::new(repeat.symbol.clone()))]
+                            },
+                            condition: None,
+                            action: Some(format!("{{ let mut v = v; v.push(e); v }}"))
+                        }],
+                }))
+            }
+
+            RepeatOp::Question => {
+                let path = vec![intern("std"), intern("option"), intern("Option")];
+                let ty_ref = TypeRef::Nominal { path: path, types: vec![base_symbol_ty] };
+
+                Ok(GrammarItem::Nonterminal(NonterminalData {
+                    span: repeat.span,
+                    name: name,
+                    args: vec![],
+                    type_decl: Some(ty_ref),
+                    alternatives: vec![
+                        // X? = X => Some(~~)
+                        Alternative { span: repeat.span,
+                                      expr: ExprSymbol {
+                                          span: repeat.span,
+                                          symbols: vec![repeat.symbol.clone()]
+                                      },
+                                      condition: None,
+                                      action: Some(format!("Some(~~)")) },
+
+                        // X? = { => None; }
+                        Alternative { span: repeat.span,
+                                      expr: ExprSymbol {
+                                          span: repeat.span,
+                                          symbols: vec![]
+                                      },
+                                      condition: None,
+                                      action: Some(format!("None")) }]
+                }))
+            }
+        }
     }
 
 }

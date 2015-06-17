@@ -17,7 +17,7 @@ pub struct Nonce {
 }
 
 impl Nonce {
-    fn new() -> Nonce {
+    pub fn new() -> Nonce {
         NONCE.with(|counter| {
             let c = counter.get();
             counter.set(c.checked_add(1).unwrap());

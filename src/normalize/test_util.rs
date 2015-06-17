@@ -1,3 +1,4 @@
+use diff;
 use regex::Regex;
 use std::fmt::Debug;
 
@@ -7,18 +8,26 @@ thread_local! {
 }
 
 pub fn compare<D:Debug>(actual: D, expected: D) {
-    println!("Actual:");
-    println!("{:#?}", actual);
-    println!("Expected:");
-    println!("{:#?}", expected);
-
-    let actual = format!("{:?}", actual);
-    let expected = format!("{:?}", expected);
+    let actual_s = format!("{:?}", actual);
+    let expected_s = format!("{:?}", expected);
 
     SPAN.with(|span| {
-        let actual = span.replace_all(&actual, "Span(..)");
-        let expected = span.replace_all(&expected, "Span(..)");
-        assert_eq!(actual, expected);
+        let actual_s = span.replace_all(&actual_s, "Span(..)");
+        let expected_s = span.replace_all(&expected_s, "Span(..)");
+        if actual_s != expected_s {
+            let actual_s = format!("{:#?}", actual);
+            let expected_s = format!("{:#?}", expected);
+
+            for diff in diff::lines(&actual_s, &expected_s) {
+                match diff {
+                    diff::Result::Left(l)    => println!("a {}", l),
+                    diff::Result::Both(l, _) => println!("  {}", l),
+                    diff::Result::Right(r)   => println!("e {}", r)
+                }
+            }
+
+            assert!(false);
+        }
     });
 }
 

@@ -64,3 +64,16 @@ impl Display for TypeRepr {
     }
 }
 
+#[derive(Copy, Clone, Debug, PartialEq, Eq)]
+pub struct ActionFnIndex(u32);
+
+impl ActionFnIndex {
+    pub fn new(x: usize) -> ActionFnIndex {
+        ActionFnIndex(x as u32)
+    }
+
+    pub fn index(&self) -> usize {
+        self.0 as usize
+    }
+}
+

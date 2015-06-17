@@ -5,6 +5,7 @@ authors = ["Niko Matsakis <niko@alum.mit.edu>"]
 
 [dependencies]
 regex = "0.1"
+diff = "0.1"
 
 [dependencies.rusty-peg]
 git = "https://github.com/nikomatsakis/rusty-peg.git"

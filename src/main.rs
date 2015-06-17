@@ -2,6 +2,7 @@
 
 #[macro_use]
 extern crate rusty_peg;
+extern crate diff;
 
 extern crate regex;
 

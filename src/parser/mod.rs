@@ -95,8 +95,11 @@ rusty_peg! {
 
         SYMBOL: Symbol =
             fold(<lhs:SYMBOL0>,
-                 (<op:REPEAT_OP>) => Symbol::Repeat(Box::new(RepeatSymbol { symbol: lhs,
-                                                                            op: op })));
+                 (<lo:POSL> <op:REPEAT_OP> <hi:POSR>) => {
+                     Symbol::Repeat(Box::new(RepeatSymbol { span: Span(lo, hi),
+                                                            symbol: lhs,
+                                                            op: op }))
+                 });
 
         REPEAT_OP: RepeatOp = (REPEAT_OP_PLUS / REPEAT_OP_STAR / REPEAT_OP_QUESTION);
         REPEAT_OP_PLUS: RepeatOp = "+" => RepeatOp::Plus;
