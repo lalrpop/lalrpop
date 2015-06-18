@@ -4,7 +4,6 @@
  * representation incrementally.
  */
 
-use std::cmp::Ord;
 use intern::InternedString;
 use grammar::parse_tree::Span;
 use std::collections::HashMap;
@@ -48,7 +47,7 @@ pub enum TypeRepr {
     Lifetime(InternedString),
 }
 
-#[derive(Clone)]
+#[derive(Clone, Debug)]
 pub struct Types {
     terminal_type: TypeRepr,
     nonterminal_types: HashMap<InternedString, TypeRepr>
@@ -74,23 +73,6 @@ impl Types {
 
     pub fn nonterminal_type(&self, nt_id: InternedString) -> &TypeRepr {
         &self.nonterminal_types[&nt_id]
-    }
-}
-
-#[derive(Debug)]
-struct DummyTypes<'a> {
-    terminal_type: &'a TypeRepr,
-    nonterminal_types: Vec<(&'a InternedString, &'a TypeRepr)>,
-}
-
-impl Debug for Types {
-    fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
-        let mut nonterminal_types: Vec<_> = self.nonterminal_types.iter()
-                                                                  .collect();
-        nonterminal_types.sort_by(|k1, k2| Ord::cmp(&k1.0, &k2.0));
-        let dummy = DummyTypes { terminal_type:  &self.terminal_type,
-                                 nonterminal_types: nonterminal_types };
-        Debug::fmt(&dummy, fmt)
     }
 }
 
