@@ -1,6 +1,7 @@
 use std::collections::HashMap;
 use std::cell::RefCell;
 use std::fmt::{Debug, Display, Error, Formatter};
+use std::cmp::{PartialOrd, Ord, Ordering};
 
 #[cfg(test)]
 mod test;
@@ -15,7 +16,7 @@ pub struct Interner {
     strings: Vec<String>,
 }
 
-#[derive(Copy, Clone, Hash, Eq, PartialEq, Ord, PartialOrd)]
+#[derive(Copy, Clone, Hash, Eq, PartialEq)]
 pub struct InternedString {
     index: u32
 }
@@ -76,5 +77,17 @@ impl Debug for InternedString {
 impl Display for InternedString {
     fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
         read(|interner| Display::fmt(&interner.data(*self), fmt))
+    }
+}
+
+impl PartialOrd<InternedString> for InternedString {
+    fn partial_cmp(&self, other: &InternedString) -> Option<Ordering> {
+        read(|interner| PartialOrd::partial_cmp(interner.data(*self), interner.data(*other)))
+    }
+}
+
+impl Ord for InternedString {
+    fn cmp(&self, other: &InternedString) -> Ordering {
+        read(|interner| Ord::cmp(interner.data(*self), interner.data(*other)))
     }
 }
