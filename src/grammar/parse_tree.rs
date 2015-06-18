@@ -224,7 +224,7 @@ impl Symbol {
     pub fn type_repr(&self, types: &Types) -> TypeRepr {
         match *self {
             Symbol::Terminal(_) => types.terminal_type().clone(),
-            Symbol::Nonterminal(id) => types.nt_type(id).unwrap().clone(),
+            Symbol::Nonterminal(id) => types.nonterminal_type(id).clone(),
             Symbol::Choose(ref s) => s.type_repr(types),
             Symbol::Name(_, ref s) => s.type_repr(types),
 

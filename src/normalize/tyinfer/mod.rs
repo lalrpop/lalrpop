@@ -85,14 +85,14 @@ impl<'grammar> TypeInferencer<'grammar> {
 
         for id in ids {
             try!(self.nonterminal_type(id));
-            debug_assert!(self.types.nt_type(id).is_some());
+            debug_assert!(self.types.lookup_nonterminal_type(id).is_some());
         }
 
         Ok(self.types)
     }
 
     fn nonterminal_type(&mut self, id: InternedString) -> NormResult<TypeRepr> {
-        if let Some(repr) = self.types.nt_type(id) {
+        if let Some(repr) = self.types.lookup_nonterminal_type(id) {
             return Ok(repr.clone());
         }
 
@@ -181,13 +181,13 @@ impl<'grammar> TypeInferencer<'grammar> {
             AlternativeAction::Default(Symbols::Named(ref syms)) => {
                 return_err!(alt.span,
                             "cannot infer types in the presence of named symbols like `~{}:{}`",
-                            syms[0].0, syms[0].1);
+                            syms[0].1, syms[0].2);
             }
 
             AlternativeAction::Default(Symbols::Anon(syms)) => {
                 let symbol_types: Vec<TypeRepr> = try! {
                     syms.iter()
-                        .map(|sym| self.symbol_type(sym))
+                        .map(|&(_, sym)| self.symbol_type(sym))
                         .collect()
                 };
                 Ok(maybe_tuple(symbol_types))

@@ -9,8 +9,8 @@ pub enum AlternativeAction<'a> {
 
 #[derive(Debug)]
 pub enum Symbols<'a> {
-    Named(Vec<(InternedString, &'a Symbol)>),
-    Anon(Vec<&'a Symbol>),
+    Named(Vec<(usize, InternedString, &'a Symbol)>),
+    Anon(Vec<(usize, &'a Symbol)>),
 }
 
 pub fn analyze_action<'a>(alt: &'a Alternative) -> AlternativeAction<'a> {
@@ -27,8 +27,9 @@ pub fn analyze_expr<'a>(expr: &'a ExprSymbol) -> Symbols<'a> {
     let named_symbols: Vec<_> =
         expr.symbols
             .iter()
-            .filter_map(|sym| match *sym {
-                Symbol::Name(id, ref sub) => Some((id, &**sub)),
+            .enumerate()
+            .filter_map(|(idx, sym)| match *sym {
+                Symbol::Name(id, ref sub) => Some((idx, id, &**sub)),
                 _ => None,
             })
             .collect();
@@ -40,8 +41,9 @@ pub fn analyze_expr<'a>(expr: &'a ExprSymbol) -> Symbols<'a> {
     let chosen_symbol_types: Vec<_> =
         expr.symbols
             .iter()
-            .filter_map(|sym| match *sym {
-                Symbol::Choose(ref sub) => Some(&**sub),
+            .enumerate()
+            .filter_map(|(idx, sym)| match *sym {
+                Symbol::Choose(ref sub) => Some((idx, &**sub)),
                 _ => None,
             })
             .collect();
@@ -50,5 +52,5 @@ pub fn analyze_expr<'a>(expr: &'a ExprSymbol) -> Symbols<'a> {
     }
 
     // If they didn't choose anything with a `~`, make a tuple of everything.
-    Symbols::Anon(expr.symbols.iter().collect())
+    Symbols::Anon(expr.symbols.iter().enumerate().collect())
 }

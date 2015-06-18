@@ -20,7 +20,7 @@ fn compare(g1: &str, expected: Vec<(&'static str, &'static str)>) {
         let id = intern(nt_id);
         let ty = type_repr(nt_type);
         println!("expected type of {:?} is {:?}", id, ty);
-        assert_eq!(types.nt_type(id), Some(&ty));
+        assert_eq!(types.nonterminal_type(id), &ty);
     }
 }
 

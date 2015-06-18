@@ -306,7 +306,7 @@ impl MacroExpander {
 
         let ty_ref = match norm_util::analyze_expr(&expr) {
             Symbols::Named(names) => {
-                let (ex_id, ex_sym) = names[0];
+                let (_, ex_id, ex_sym) = names[0];
                 return_err!(
                     expr.span,
                     "named symbols like `~{}:{}` are only allowed at the top-level of a nonterminal",
@@ -315,8 +315,7 @@ impl MacroExpander {
             Symbols::Anon(syms) => {
                 maybe_tuple(
                     syms.into_iter()
-                        .cloned()
-                        .map(TypeRef::OfSymbol)
+                        .map(|(_, s)| TypeRef::OfSymbol(s.clone()))
                         .collect())
             }
         };

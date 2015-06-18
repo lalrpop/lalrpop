@@ -5,28 +5,25 @@
  */
 
 use intern::InternedString;
+use grammar::parse_tree::Span;
 use std::collections::HashMap;
 use std::fmt::{Display, Formatter, Error};
 use util::Sep;
 
-#[derive(Clone, Debug, PartialEq, Eq)]
+#[derive(Clone, Debug)]
 pub struct Grammar {
-    pub token: TokenData,
-    pub action_fns: Vec<ActionFn>,
+    pub action_fn_defns: Vec<ActionFnDefn>,
     pub productions: Vec<Production>,
-}
-
-#[derive(Clone, Debug, PartialEq, Eq)]
-pub struct TokenData {
-    pub token_type: TypeRepr,
     pub conversions: HashMap<InternedString, InternedString>,
+    pub types: Types,
 }
 
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct Production {
+    pub span: Span,
     pub nonterminal: InternedString,
     pub symbols: Vec<Symbol>,
-    pub action_fn: ActionFnIndex,
+    pub action_fn: ActionFn,
 }
 
 #[derive(Clone, Debug, PartialEq, Eq)]
@@ -36,10 +33,10 @@ pub enum Symbol {
 }
 
 #[derive(Clone, Debug, PartialEq, Eq)]
-pub struct ActionFn {
-    pub arg_names: Vec<InternedString>,
+pub struct ActionFnDefn {
+    pub arg_patterns: Vec<InternedString>,
     pub arg_types: Vec<TypeRepr>,
-    pub ret_type: Vec<TypeRepr>,
+    pub ret_type: TypeRepr,
     pub code: String,
 }
 
@@ -50,7 +47,7 @@ pub enum TypeRepr {
     Lifetime(InternedString),
 }
 
-#[derive(Debug)]
+#[derive(Clone, Debug)]
 pub struct Types {
     terminal_type: TypeRepr,
     nonterminal_types: HashMap<InternedString, TypeRepr>
@@ -70,8 +67,12 @@ impl Types {
         &self.terminal_type
     }
 
-    pub fn nt_type(&self, nt_id: InternedString) -> Option<&TypeRepr> {
+    pub fn lookup_nonterminal_type(&self, nt_id: InternedString) -> Option<&TypeRepr> {
         self.nonterminal_types.get(&nt_id)
+    }
+
+    pub fn nonterminal_type(&self, nt_id: InternedString) -> &TypeRepr {
+        &self.nonterminal_types[&nt_id]
     }
 }
 
@@ -91,11 +92,11 @@ impl Display for TypeRepr {
 }
 
 #[derive(Copy, Clone, Debug, PartialEq, Eq)]
-pub struct ActionFnIndex(u32);
+pub struct ActionFn(u32);
 
-impl ActionFnIndex {
-    pub fn new(x: usize) -> ActionFnIndex {
-        ActionFnIndex(x as u32)
+impl ActionFn {
+    pub fn new(x: usize) -> ActionFn {
+        ActionFn(x as u32)
     }
 
     pub fn index(&self) -> usize {
@@ -103,3 +104,11 @@ impl ActionFnIndex {
     }
 }
 
+impl Symbol {
+    pub fn ty<'ty>(&self, t: &'ty Types) -> &'ty TypeRepr {
+        match *self {
+            Symbol::Nonterminal(id) => t.terminal_type(),
+            Symbol::Terminal(id) => t.nonterminal_type(id),
+        }
+    }
+}
