@@ -7,7 +7,7 @@
 use intern::InternedString;
 use grammar::parse_tree::Span;
 use std::collections::HashMap;
-use std::fmt::{Display, Formatter, Error};
+use std::fmt::{Debug, Display, Formatter, Error};
 use util::Sep;
 
 #[derive(Clone, Debug)]
@@ -18,7 +18,7 @@ pub struct Grammar {
     pub types: Types,
 }
 
-#[derive(Clone, Debug, PartialEq, Eq)]
+#[derive(Clone, PartialEq, Eq)]
 pub struct Production {
     pub span: Span,
     pub nonterminal: InternedString,
@@ -26,13 +26,13 @@ pub struct Production {
     pub action_fn: ActionFn,
 }
 
-#[derive(Clone, Debug, PartialEq, Eq)]
+#[derive(Clone, PartialEq, Eq)]
 pub enum Symbol {
     Nonterminal(InternedString),
     Terminal(InternedString),
 }
 
-#[derive(Clone, Debug, PartialEq, Eq)]
+#[derive(Clone, PartialEq, Eq)]
 pub struct ActionFnDefn {
     pub arg_patterns: Vec<InternedString>,
     pub arg_types: Vec<TypeRepr>,
@@ -40,7 +40,7 @@ pub struct ActionFnDefn {
     pub code: String,
 }
 
-#[derive(Clone, Debug, PartialEq, Eq)]
+#[derive(Clone, PartialEq, Eq)]
 pub enum TypeRepr {
     Tuple(Vec<TypeRepr>),
     Nominal { path: Vec<InternedString>, types: Vec<TypeRepr> },
@@ -91,6 +91,12 @@ impl Display for TypeRepr {
     }
 }
 
+impl Debug for TypeRepr {
+    fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
+        Display::fmt(self, fmt)
+    }
+}
+
 #[derive(Copy, Clone, Debug, PartialEq, Eq)]
 pub struct ActionFn(u32);
 
@@ -110,5 +116,48 @@ impl Symbol {
             Symbol::Nonterminal(id) => t.terminal_type(),
             Symbol::Terminal(id) => t.nonterminal_type(id),
         }
+    }
+}
+
+impl Display for Symbol {
+    fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
+        match *self {
+            Symbol::Nonterminal(id) => write!(fmt, "{}", id),
+            Symbol::Terminal(id) => write!(fmt, "\"{}\"", id),
+        }
+    }
+}
+
+impl Debug for Symbol {
+    fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
+        Display::fmt(self, fmt)
+    }
+}
+
+impl Debug for Production {
+    fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
+        write!(fmt,
+               "{} = {} => {:?};",
+               self.nonterminal, Sep(", ", &self.symbols), self.action_fn)
+    }
+}
+
+impl Debug for ActionFnDefn {
+    fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
+        write!(fmt, "{}", self.to_fn_string("_"))
+    }
+}
+
+impl ActionFnDefn {
+    fn to_fn_string(&self, name: &str) -> String {
+        let arg_strings: Vec<String> =
+               self.arg_patterns
+                   .iter()
+                   .zip(self.arg_types.iter())
+                   .map(|(p, t)| format!("{}: {}", p, t))
+                   .collect();
+
+        format!("fn {}({}) -> {} {{ {} }}",
+                name, Sep(", ", &arg_strings), self.ret_type, self.code)
     }
 }
