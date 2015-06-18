@@ -8,10 +8,12 @@ use normalize::norm_util::{self, Symbols};
 use grammar::parse_tree as pt;
 use grammar::repr as r;
 use std::collections::HashMap;
-use util::Sep;
+
+#[cfg(test)]
+mod test;
 
 pub fn lower(grammar: pt::Grammar, types: r::Types) -> NormResult<r::Grammar> {
-    let mut state = LowerState::new(types);
+    let state = LowerState::new(types);
     state.lower(grammar)
 }
 

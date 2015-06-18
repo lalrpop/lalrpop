@@ -5,6 +5,7 @@
  */
 
 use grammar::parse_tree as pt;
+use grammar::repr as r;
 
 pub type NormResult<T> = Result<T, NormError>;
 
@@ -21,6 +22,12 @@ macro_rules! return_err {
             span: $span
         });
     }
+}
+
+pub fn normalize(grammar: pt::Grammar) -> NormResult<r::Grammar> {
+    let grammar = try!(macro_expand::expand_macros(grammar));
+    let types = try!(tyinfer::infer_types(&grammar));
+    lower::lower(grammar, types)
 }
 
 // These are executed *IN ORDER*:

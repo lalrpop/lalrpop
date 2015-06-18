@@ -113,7 +113,7 @@ impl ActionFn {
 impl Symbol {
     pub fn ty<'ty>(&self, t: &'ty Types) -> &'ty TypeRepr {
         match *self {
-            Symbol::Nonterminal(id) => t.terminal_type(),
+            Symbol::Nonterminal(_) => t.terminal_type(),
             Symbol::Terminal(id) => t.nonterminal_type(id),
         }
     }

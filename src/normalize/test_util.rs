@@ -1,13 +1,26 @@
 use diff;
 use regex::Regex;
-use std::fmt::Debug;
+use std::fmt::{Debug, Formatter, Error};
 
 thread_local! {
     static SPAN: Regex =
         Regex::new(r"Span\([0-9 ,]*\)").unwrap()
 }
 
-pub fn compare<D:Debug>(actual: D, expected: D) {
+struct ExpectedDebug<'a>(&'a str);
+
+impl<'a> Debug for ExpectedDebug<'a> {
+    fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
+        write!(fmt, "{}", self.0)
+    }
+}
+
+pub fn expect_debug<D:Debug>(actual: D, expected: &str) {
+    compare(ExpectedDebug(&format!("{:#?}", actual)),
+            ExpectedDebug(expected))
+}
+
+pub fn compare<D:Debug,E:Debug>(actual: D, expected: E) {
     let actual_s = format!("{:?}", actual);
     let expected_s = format!("{:?}", expected);
 

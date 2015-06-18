@@ -28,7 +28,7 @@ fn compare(g1: &str, expected: Vec<(&'static str, &'static str)>) {
 fn test_pairs_and_tokens() {
     compare("
 grammar Foo {
-         token Tok where { };
+    token Tok where { };
     X = Y Z;
     Y: Foo = \"Hi\";
     Z = \"Ho\";

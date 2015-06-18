@@ -220,19 +220,6 @@ impl Symbol {
     pub fn canonical_form(&self) -> String {
         format!("{}", self)
     }
-
-    pub fn type_repr(&self, types: &Types) -> TypeRepr {
-        match *self {
-            Symbol::Terminal(_) => types.terminal_type().clone(),
-            Symbol::Nonterminal(id) => types.nonterminal_type(id).clone(),
-            Symbol::Choose(ref s) => s.type_repr(types),
-            Symbol::Name(_, ref s) => s.type_repr(types),
-
-            Symbol::Repeat(..) | Symbol::Expr(..) | Symbol::Macro(..) => {
-                unreachable!("symbol {} should have been expanded away", self)
-            }
-        }
-    }
 }
 
 impl Display for Symbol {
@@ -318,19 +305,6 @@ impl Display for TypeRef {
             TypeRef::OfSymbol(ref s) =>
                 write!(fmt, "`{}`", s),
         }
-    }
-}
-
-impl RepeatOp {
-    pub fn type_repr(&self, symbol_type: TypeRepr) -> TypeRepr {
-        let path = match *self {
-            RepeatOp::Plus |
-            RepeatOp::Star =>
-                vec![intern("std"), intern("vec"), intern("Vec")],
-            RepeatOp::Question =>
-                vec![intern("std"), intern("option"), intern("Option")],
-        };
-        TypeRepr::Nominal { path: path, types: vec![symbol_type] }
     }
 }
 
