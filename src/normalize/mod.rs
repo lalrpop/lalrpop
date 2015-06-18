@@ -47,11 +47,8 @@ mod macro_expand;
 // providing all nonterminals with an explicit type.
 mod tyinfer;
 
-// Synthesizes action code for all nonterminals.
-//
-// AFTER THIS POINT: All nonterminals have action code, and all
-// Symbol::Choose and Symbol::Name are removed.
-// mod action;
+// Lowers the parse tree to the repr notation.
+mod lower;
 
 ///////////////////////////////////////////////////////////////////////////
 // Shared routines

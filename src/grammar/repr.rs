@@ -10,11 +10,37 @@ use std::fmt::{Display, Formatter, Error};
 use util::Sep;
 
 #[derive(Clone, Debug, PartialEq, Eq)]
+pub struct Grammar {
+    pub token: TokenData,
+    pub action_fns: Vec<ActionFn>,
+    pub productions: Vec<Production>,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub struct TokenData {
+    pub token_type: TypeRepr,
+    pub conversions: HashMap<InternedString, InternedString>,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub struct Production {
+    pub nonterminal: InternedString,
+    pub symbols: Vec<Symbol>,
+    pub action_fn: ActionFnIndex,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub enum Symbol {
+    Nonterminal(InternedString),
+    Terminal(InternedString),
+}
+
+#[derive(Clone, Debug, PartialEq, Eq)]
 pub struct ActionFn {
-    arg_names: Vec<InternedString>,
-    arg_types: Vec<TypeRepr>,
-    ret_type: Vec<TypeRepr>,
-    code: String,
+    pub arg_names: Vec<InternedString>,
+    pub arg_types: Vec<TypeRepr>,
+    pub ret_type: Vec<TypeRepr>,
+    pub code: String,
 }
 
 #[derive(Clone, Debug, PartialEq, Eq)]

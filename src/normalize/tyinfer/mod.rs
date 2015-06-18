@@ -4,7 +4,7 @@ use super::norm_util::{self, AlternativeAction, Symbols};
 use std::collections::{HashMap};
 use intern::{InternedString};
 use grammar::parse_tree::{Alternative, Grammar, GrammarItem,
-                          NonterminalData, RepeatSymbol, Span, Symbol, TypeRef};
+                          NonterminalData, Span, Symbol, TypeRef};
 use grammar::repr::{Types, TypeRepr};
 
 #[cfg(test)]
@@ -119,12 +119,14 @@ impl<'grammar> TypeInferencer<'grammar> {
                             id);
             }
 
-            for (ty, alt) in alternative_types[1..].iter().zip(&nt.alternatives[1..]) {
+            for ((ty, alt), i) in
+                alternative_types[1..].iter().zip(&nt.alternatives[1..]).zip(1..)
+            {
                 if &alternative_types[0] != ty {
                     return_err!(alt.expr.span,
-                                "type of this alternative is `{}`, \
+                                "type of alternative #{} is `{}`, \
                                  but type of first alternative is `{}`",
-                                ty, alternative_types[0]);
+                                i+1, ty, alternative_types[0]);
                 }
             }
 
@@ -199,17 +201,11 @@ impl<'grammar> TypeInferencer<'grammar> {
             Symbol::Nonterminal(id) => self.nonterminal_type(id),
             Symbol::Choose(ref s) => self.symbol_type(s),
             Symbol::Name(_, ref s) => self.symbol_type(s),
-            Symbol::Repeat(ref rep) => self.repeat_type(rep),
 
-            Symbol::Expr(..) | Symbol::Macro(..) => {
-                unreachable!("symbol {} should have been expanded away", symbol)
+            Symbol::Repeat(..) | Symbol::Expr(..) | Symbol::Macro(..) => {
+                unreachable!("symbol `{:?}` should have been expanded away", symbol)
             }
         }
-    }
-
-    fn repeat_type(&mut self, repeat: &RepeatSymbol) -> NormResult<TypeRepr> {
-        let symbol_type = try!(self.symbol_type(&repeat.symbol));
-        Ok(repeat.op.type_repr(symbol_type))
     }
 }
 

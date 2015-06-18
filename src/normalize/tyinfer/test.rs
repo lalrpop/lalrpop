@@ -114,3 +114,21 @@ grammar Foo {
     ("Y", "Tok")
         ])
 }
+
+#[test]
+fn test_star_plus_question() {
+    compare("
+grammar Foo {
+    token Tok where { };
+    A = Z*;
+    X = \"Hi\"*;
+    Y = \"Hi\"+;
+    Z = \"Hi\"?;
+}
+", vec![
+    ("A", "std::vec::Vec<std::option::Option<Tok>>"),
+    ("X", "std::vec::Vec<Tok>"),
+    ("Y", "std::vec::Vec<Tok>"),
+    ("Z", "std::option::Option<Tok>")
+        ])
+}

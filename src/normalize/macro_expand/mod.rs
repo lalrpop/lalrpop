@@ -445,7 +445,6 @@ impl MacroExpander {
             }
         }
     }
-
 }
 
 fn maybe_tuple(v: Vec<TypeRef>) -> TypeRef {
