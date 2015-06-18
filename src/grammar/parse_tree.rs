@@ -59,8 +59,8 @@ grammar Type<'input, T> {
 
 */
 
-use intern::{intern, InternedString};
-use grammar::repr::{Types, TypeRepr};
+use intern::{InternedString};
+use grammar::repr::{TypeRepr};
 use std::fmt::{Display, Formatter, Error};
 use util::Sep;
 
