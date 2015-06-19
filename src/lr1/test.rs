@@ -1,7 +1,7 @@
 use intern::intern;
 use grammar::repr::*;
 use test_util::{expect_debug, normalized_grammar};
-use super::{Configuration, Lookahead, LR1};
+use super::{Configuration, Configurations, Lookahead, LR1};
 use super::Lookahead::EOF;
 
 fn nt(t: &str) -> NonterminalString {
@@ -9,7 +9,7 @@ fn nt(t: &str) -> NonterminalString {
 }
 
 fn configurations<'g>(grammar: &'g Grammar, nonterminal: &str, index: usize, la: Lookahead)
-                      -> Vec<Configuration<'g>>
+                      -> Configurations<'g>
 {
     let lr1 = LR1::new(&grammar);
     let configurations =

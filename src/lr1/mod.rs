@@ -3,6 +3,7 @@
 use grammar::repr::*;
 use std::collections::{HashMap, HashSet};
 use std::fmt::{Debug, Formatter, Error};
+use std::rc::Rc;
 use util::Prefix;
 
 mod first;
@@ -11,15 +12,16 @@ mod first;
 
 struct LR1<'grammar> {
     grammar: &'grammar Grammar,
-    states: Vec<State<'grammar>>,
     first_sets: first::FirstSets,
 }
 
 struct State<'grammar> {
-    configurations: Vec<Configuration<'grammar>>,
+    configurations: Configurations<'grammar>,
     shifts: HashMap<TerminalString, StateIndex>,
     gotos: HashMap<NonterminalString, StateIndex>,
 }
+
+type Configurations<'grammar> = Rc<Vec<Configuration<'grammar>>>;
 
 #[derive(Copy, Clone, Debug, Hash, PartialEq, Eq, PartialOrd, Ord)]
 struct StateIndex(usize);
@@ -37,29 +39,50 @@ struct Configuration<'grammar> {
     lookahead: Lookahead,
 }
 
+struct StateSet<'grammar> {
+    states: Vec<State<'grammar>>,
+    state_map: HashMap<Configurations<'grammar>, StateIndex>,
+}
+
 impl<'grammar> LR1<'grammar> {
     fn new(grammar: &'grammar Grammar) -> LR1 {
         LR1 {
             grammar: grammar,
-            states: vec![],
             first_sets: first::FirstSets::new(grammar),
         }
     }
 
-    fn build_states(&mut self, start_nt: NonterminalString) {
-        debug_assert!(self.states.is_empty());
+    fn build_states(&mut self, start_nt: NonterminalString) -> Vec<State<'grammar>> {
+        let mut state_set = StateSet::new();
 
-        let state0 = self.start_state(start_nt, Lookahead::EOF);
-        self.states.push(state0);
-    }
-
-    fn start_state(&self, id: NonterminalString, lookahead: Lookahead) -> State<'grammar> {
-        let configurations =
+        // create the starting state
+        state_set.add_state(
             self.transitive_closure(
-                self.configurations(id, 0, lookahead));
-        State { configurations: configurations,
-                shifts: HashMap::new(),
-                gotos: HashMap::new() }
+                self.configurations(start_nt, 0, Lookahead::EOF)));
+
+        let mut counter = 0;
+        while counter < state_set.states.len() {
+            let configurations = state_set.states[counter].configurations.clone();
+            counter += 1;
+
+            // for each configuration where we can shift, do so, and
+            // create the transitive closure of the resulting state
+            let shifted_configurations =
+                configurations
+                .iter()
+                .filter_map(|configuration| configuration.shifted_configuration())
+                .map(|configuration| self.transitive_closure(vec![configuration]));
+
+            // add a state for each of those cases where we did a shift
+            for configuration in shifted_configurations {
+                state_set.add_state(configuration);
+            }
+
+            // extract a new state
+            counter += 1;
+        }
+
+        state_set.states
     }
 
     fn configurations(&self,
@@ -81,7 +104,7 @@ impl<'grammar> LR1<'grammar> {
 
     // expands `state` with epsilon moves
     fn transitive_closure(&self, mut configurations: Vec<Configuration<'grammar>>)
-                          -> Vec<Configuration<'grammar>>
+                          -> Configurations<'grammar>
     {
         let mut counter = 0;
 
@@ -114,18 +137,55 @@ impl<'grammar> LR1<'grammar> {
             configurations.extend(new_configurations);
         }
 
-        configurations
+        Rc::new(configurations)
     }
 }
 
 impl<'grammar> Configuration<'grammar> {
-    fn shift_symbol(&self) -> Option<(Symbol, &[Symbol])> {
-        if self.index == self.production.symbols.len() {
-            None
+    fn can_shift(&self) -> bool {
+        self.index < self.production.symbols.len()
+    }
+
+    fn can_reduce(&self) -> bool {
+        self.index == self.production.symbols.len()
+    }
+
+    fn shifted_configuration(&self) -> Option<Configuration<'grammar>> {
+        if self.can_shift() {
+            Some(Configuration { production: self.production,
+                                 index: self.index + 1,
+                                 lookahead: self.lookahead })
         } else {
-            Some((self.production.symbols[self.index],
-                  &self.production.symbols[self.index+1..]))
+            None
         }
+    }
+
+    fn shift_symbol(&self) -> Option<(Symbol, &[Symbol])> {
+        if self.can_shift() {
+            Some((self.production.symbols[self.index], &self.production.symbols[self.index+1..]))
+        } else {
+            None
+        }
+    }
+}
+
+impl<'grammar> StateSet<'grammar> {
+    fn new() -> StateSet<'grammar> {
+        StateSet {
+            states: vec![],
+            state_map: HashMap::new(),
+        }
+    }
+
+    fn add_state(&mut self, configurations: Configurations<'grammar>) -> StateIndex {
+        let states = &mut self.states;
+        *self.state_map.entry(configurations.clone()).or_insert_with(|| {
+            let index = StateIndex(states.len());
+            states.push(State { configurations: configurations,
+                                     shifts: HashMap::new(),
+                                     gotos: HashMap::new() });
+            index
+        })
     }
 }
 
