@@ -56,22 +56,24 @@ impl<'grammar> LR1<'grammar> {
     fn start_state(&self, id: NonterminalString, lookahead: Lookahead) -> State<'grammar> {
         let configurations =
             self.transitive_closure(
-                self.start_configurations(id, lookahead));
+                self.configurations(id, 0, lookahead));
         State { configurations: configurations,
                 shifts: HashMap::new(),
                 gotos: HashMap::new() }
     }
 
-    fn start_configurations(&self,
-                            id: NonterminalString,
-                            lookahead: Lookahead)
-                            -> Vec<Configuration<'grammar>>
+    fn configurations(&self,
+                      id: NonterminalString,
+                      index: usize,
+                      lookahead: Lookahead)
+                      -> Vec<Configuration<'grammar>>
     {
         self.grammar.productions_for(id)
                     .iter()
                     .map(|production| {
+                        debug_assert!(index <= production.symbols.len());
                         Configuration { production: production,
-                                        index: 0,
+                                        index: index,
                                         lookahead: lookahead }
                     })
                     .collect()
@@ -81,23 +83,17 @@ impl<'grammar> LR1<'grammar> {
     fn transitive_closure(&self, mut configurations: Vec<Configuration<'grammar>>)
                           -> Vec<Configuration<'grammar>>
     {
-        println!("expand_configurations({:?})", configurations);
-
         let mut counter = 0;
 
         let mut set: HashSet<Configuration<'grammar>> =
             configurations.iter().cloned().collect();
 
         while counter < configurations.len() {
-            println!("expand_configurations: counter={:?}", counter);
-
             let new_configurations: Vec<_> =
                 configurations[counter..]
                 .iter()
                 .filter_map(|configuration| {
                     let shift_symbol = configuration.shift_symbol();
-                    println!("expand_configurations: configuration: {:?} shift_symbol: {:?}",
-                             configuration, shift_symbol);
                     match shift_symbol {
                         None => None, // requires a reduce
                         Some((Symbol::Terminal(_), _)) => None, // requires a shift
@@ -108,10 +104,8 @@ impl<'grammar> LR1<'grammar> {
                 })
                 .flat_map(|(nt, remainder, lookahead)| {
                     let first_set = self.first_sets.first(remainder, lookahead);
-                    println!("expand_configurations: ({:?}, {:?}, {:?}) first_set={:?}",
-                             nt, remainder, lookahead, first_set);
                     first_set.into_iter()
-                             .flat_map(move |l| self.start_configurations(nt, l))
+                             .flat_map(move |l| self.configurations(nt, 0, l))
                 })
                 .filter(|&configuration| set.insert(configuration))
                 .collect();

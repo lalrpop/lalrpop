@@ -1,6 +1,5 @@
 use diff;
 use grammar::repr as r;
-use intern::intern;
 use regex::Regex;
 use std::fmt::{Debug, Formatter, Error};
 
