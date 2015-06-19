@@ -18,8 +18,14 @@ struct LR1<'grammar> {
 #[derive(Debug)]
 struct State<'grammar> {
     items: Items<'grammar>,
-    shifts: Vec<(TerminalString, StateIndex)>,
-    gotos: Vec<(NonterminalString, StateIndex)>,
+    tokens: Map<Lookahead, Action<'grammar>>,
+    gotos: Map<NonterminalString, StateIndex>,
+}
+
+#[derive(Debug)]
+enum Action<'grammar> {
+    Shift(StateIndex),
+    Reduce(&'grammar Production),
 }
 
 type Items<'grammar> = Rc<Vec<Item<'grammar>>>;
@@ -40,9 +46,25 @@ struct Item<'grammar> {
     lookahead: Lookahead,
 }
 
+#[derive(Debug)]
 struct StateSet<'grammar> {
     states: Vec<State<'grammar>>,
     state_map: Map<Items<'grammar>, StateIndex>,
+}
+
+#[derive(Debug)]
+pub struct TableConstructionError<'grammar> {
+    // when in this state:
+    items: Items<'grammar>,
+
+    // and looking at this token:
+    lookahead: Lookahead,
+
+    // we can reduce using this production:
+    production: &'grammar Production,
+
+    // but we can also:
+    conflict: Action<'grammar>,
 }
 
 impl<'grammar> LR1<'grammar> {
@@ -53,7 +75,9 @@ impl<'grammar> LR1<'grammar> {
         }
     }
 
-    fn build_states(&self, start_nt: NonterminalString) -> Vec<State<'grammar>> {
+    fn build_states(&self, start_nt: NonterminalString)
+                    -> Result<Vec<State<'grammar>>, TableConstructionError<'grammar>>
+    {
         let mut state_set = StateSet::new();
 
         // create the starting state
@@ -76,14 +100,33 @@ impl<'grammar> LR1<'grammar> {
                 let items = self.transitive_closure(items);
                 let next_state = state_set.add_state(items);
 
-                // FIXME check for conflicts
+                let this_state = &mut state_set.states[counter];
                 match symbol {
-                    Symbol::Terminal(t) => {
-                        state_set.states[counter].shifts.push((t, next_state));
+                    Symbol::Terminal(s) => {
+                        let action = Action::Shift(next_state);
+                        let prev = this_state.tokens.insert(Lookahead::Terminal(s), action);
+                        assert!(prev.is_none()); // cannot have a shift/shift conflict
                     }
-                    Symbol::Nonterminal(t) => {
-                        state_set.states[counter].gotos.push((t, next_state));
+
+                    Symbol::Nonterminal(s) => {
+                        let prev = this_state.gotos.insert(s, next_state);
+                        assert!(prev.is_none());
                     }
+                }
+            }
+
+            // finally, consider the reductions
+            let this_state = &mut state_set.states[counter];
+            for item in items.iter().filter(|i| i.can_reduce()) {
+                let action = Action::Reduce(item.production);
+                let prev = this_state.tokens.insert(item.lookahead, action);
+                if let Some(conflict) = prev {
+                    return Err(TableConstructionError {
+                        items: items.clone(),
+                        lookahead: item.lookahead,
+                        production: item.production,
+                        conflict: conflict,
+                    });
                 }
             }
 
@@ -91,7 +134,7 @@ impl<'grammar> LR1<'grammar> {
             counter += 1;
         }
 
-        state_set.states
+        Ok(state_set.states)
     }
 
     fn items(&self,
@@ -191,9 +234,7 @@ impl<'grammar> StateSet<'grammar> {
         let states = &mut self.states;
         *self.state_map.entry(items.clone()).or_insert_with(|| {
             let index = StateIndex(states.len());
-            states.push(State { items: items,
-                                shifts: Vec::new(),
-                                gotos: Vec::new() });
+            states.push(State { items: items, tokens: map(), gotos: map() });
             index
         })
     }
