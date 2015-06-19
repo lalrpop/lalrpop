@@ -5,9 +5,8 @@
  */
 
 use intern::InternedString;
-use std::collections::HashMap;
 use std::fmt::{Debug, Display, Formatter, Error};
-use util::Sep;
+use util::{map, Map, Sep};
 
 // These concepts we re-use wholesale
 pub use grammar::parse_tree::{NonterminalString, Span, TerminalString};
@@ -15,8 +14,8 @@ pub use grammar::parse_tree::{NonterminalString, Span, TerminalString};
 #[derive(Clone, Debug)]
 pub struct Grammar {
     pub action_fn_defns: Vec<ActionFnDefn>,
-    pub productions: HashMap<NonterminalString, Vec<Production>>,
-    pub conversions: HashMap<TerminalString, TerminalString>,
+    pub productions: Map<NonterminalString, Vec<Production>>,
+    pub conversions: Map<TerminalString, TerminalString>,
     pub types: Types,
 }
 
@@ -54,13 +53,13 @@ pub enum TypeRepr {
 #[derive(Clone, Debug)]
 pub struct Types {
     terminal_type: TypeRepr,
-    nonterminal_types: HashMap<NonterminalString, TypeRepr>
+    nonterminal_types: Map<NonterminalString, TypeRepr>
 }
 
 impl Types {
     pub fn new(terminal_type: TypeRepr) -> Types {
         Types { terminal_type: terminal_type,
-                nonterminal_types: HashMap::new() }
+                nonterminal_types: map() }
     }
 
     pub fn add_type(&mut self, nt_id: NonterminalString, ty: TypeRepr) {
@@ -173,7 +172,7 @@ impl Grammar {
                types: Types)
                -> Grammar
     {
-        let mut productions = HashMap::new();
+        let mut productions = map();
 
         for production in flat_productions {
             let mut vec = productions.entry(production.nonterminal).or_insert(vec![]);

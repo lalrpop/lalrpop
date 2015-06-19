@@ -2,6 +2,7 @@ use std::collections::HashMap;
 use std::cell::RefCell;
 use std::fmt::{Debug, Display, Error, Formatter};
 use std::cmp::{PartialOrd, Ord, Ordering};
+use util::{map, Map};
 
 #[cfg(test)]
 mod test;
@@ -50,7 +51,7 @@ fn write<F,R>(f: F) -> R
 
 impl Interner {
     fn new() -> Interner {
-        Interner { map: HashMap::new(), strings: vec![] }
+        Interner { map: map(), strings: vec![] }
     }
 
     pub fn data(&self, i: InternedString) -> &str {

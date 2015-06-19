@@ -2,6 +2,7 @@
 
 use grammar::repr::*;
 use std::collections::{HashMap, HashSet};
+use util::{map, Map};
 
 use super::Lookahead;
 
@@ -16,7 +17,7 @@ pub type FirstSet = HashSet<Option<TerminalString>>;
 
 impl FirstSets {
     pub fn new(grammar: &Grammar) -> FirstSets {
-        let mut this = FirstSets { map: HashMap::new() };
+        let mut this = FirstSets { map: map() };
         let mut changed = true;
         while changed {
             changed = false;
