@@ -21,8 +21,8 @@ rusty_peg! {
                 GrammarItem::TokenType(TokenTypeData {type_name: t, conversions: c })
             };
 
-        CONVERSION: (InternedString, InternedString) =
-            (<from:LITERAL> "=>" <to:LITERAL> ";") => (from, to);
+        CONVERSION: (TerminalString, TerminalString) =
+            (<from:TERMINAL> "=>" <to:TERMINAL> ";") => (from, to);
 
         NONTERMINAL: GrammarItem =
             (<lo:POSL> <n:NONTERMINAL_NAME> <hi:POSR>
@@ -34,24 +34,24 @@ rusty_peg! {
                                                            alternatives: a })
             };
 
-        NONTERMINAL_NAME: (InternedString, Vec<InternedString>) =
+        NONTERMINAL_NAME: (NonterminalString, Vec<NonterminalString>) =
             (NONTERMINAL_NAME_MACRO / NONTERMINAL_NAME_SIMPLE / NONTERMINAL_NAME_ESCAPE);
 
-        NONTERMINAL_NAME_SIMPLE: (InternedString, Vec<InternedString>) =
-            (<a:ID>) => (a, vec![]);
+        NONTERMINAL_NAME_SIMPLE: (NonterminalString, Vec<NonterminalString>) =
+            (<a:NONTERMINAL_ID>) => (a, vec![]);
 
-        NONTERMINAL_NAME_ESCAPE: (InternedString, Vec<InternedString>) =
-            (<a:ESCAPE>) => (a, vec![]);
+        NONTERMINAL_NAME_ESCAPE: (NonterminalString, Vec<NonterminalString>) =
+            (<a:ESCAPE>) => (NonterminalString(a), vec![]);
 
-        NONTERMINAL_NAME_MACRO: (InternedString, Vec<InternedString>) =
-            (<a:ID> "<" <b:{NONTERMINAL_NAME_MACRO1}> <c:[ID]> ">") => {
+        NONTERMINAL_NAME_MACRO: (NonterminalString, Vec<NonterminalString>) =
+            (<a:NONTERMINAL_ID> "<" <b:{NONTERMINAL_NAME_MACRO1}> <c:[NONTERMINAL_ID]> ">") => {
                 let mut args = b;
-                if let Some(c) = c { args.push(c); }
+                args.extend(c.into_iter());
                 (a, args)
             };
 
-        NONTERMINAL_NAME_MACRO1: InternedString =
-            (<a:ID> ",") => a;
+        NONTERMINAL_NAME_MACRO1: NonterminalString =
+            (<a:NONTERMINAL_ID> ",") => a;
 
         NONTERMINAL_TYPE: TypeRef =
             (":" <s:TYPE_REF>) => s;
@@ -81,7 +81,7 @@ rusty_peg! {
         // Conditions
 
         COND: Condition =
-            (<lo:POSL> <a:ID> <op:COND_OP> <b:LITERAL> <hi:POSR>) => {
+            (<lo:POSL> <a:NONTERMINAL_ID> <op:COND_OP> <b:LITERAL> <hi:POSR>) => {
                 Condition { span:Span(lo, hi), lhs:a, rhs:b, op:op }
             };
 
@@ -111,7 +111,7 @@ rusty_peg! {
              PAREN_SYMBOL / NAMED_SYMBOL / CHOSEN_SYMBOL);
 
         MACRO_SYMBOL: Symbol =
-            (<lo:POSL> <l:ID> "<" <m:{MACRO_ARG_START}> <n:[SYMBOL]> ">" <hi:POSR>) => {
+            (<lo:POSL> <l:NONTERMINAL_ID> "<" <m:{MACRO_ARG_START}> <n:[SYMBOL]> ">" <hi:POSR>) => {
                 let mut args = m;
                 if let Some(n) = n { args.push(n); }
                 Symbol::Macro(MacroSymbol { name: l,
@@ -122,13 +122,13 @@ rusty_peg! {
         MACRO_ARG_START: Symbol = (<s:SYMBOL> ",") => s;
 
         TERMINAL_SYMBOL: Symbol =
-            (<l:LITERAL>) => Symbol::Terminal(l);
+            (<l:TERMINAL>) => Symbol::Terminal(l);
 
         NT_SYMBOL: Symbol =
-            (<l:ID>) => Symbol::Nonterminal(l);
+            (<l:NONTERMINAL_ID>) => Symbol::Nonterminal(l);
 
         ESCAPE_SYMBOL: Symbol =
-            (<l:ESCAPE>) => Symbol::Nonterminal(l);
+            (<l:ESCAPE>) => Symbol::Nonterminal(NonterminalString(l));
 
         PAREN_SYMBOL: Symbol =
             ("(" <s:EXPR_SYMBOL> ")") => Symbol::Expr(s);
@@ -195,6 +195,9 @@ rusty_peg! {
 
         // IDENTIFIERS, LIFETIMES
 
+        NONTERMINAL_ID: NonterminalString =
+            (<i:ID>) => NonterminalString(i);
+
         ID: InternedString =
             (<i:ID_RE>) => intern(i);
 
@@ -212,6 +215,9 @@ rusty_peg! {
 
         LIFETIME_RE: &'input str =
             regex(r"'[a-zA-Z_][a-zA-Z0-9_]*");
+
+        TERMINAL: TerminalString =
+            (<l:LITERAL>) => TerminalString(l);
 
         LITERAL: InternedString =
             (<i:LITERAL_RE>) => intern(&i[1..i.len()-1]);

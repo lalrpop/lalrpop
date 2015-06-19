@@ -2,9 +2,8 @@ use super::{NormResult, NormError};
 use super::norm_util::{self, AlternativeAction, Symbols};
 
 use std::collections::{HashMap};
-use intern::{InternedString};
 use grammar::parse_tree::{Alternative, Grammar, GrammarItem,
-                          NonterminalData, Span, Symbol, TypeRef};
+                          NonterminalData, NonterminalString, Span, Symbol, TypeRef};
 use grammar::repr::{Types, TypeRepr};
 
 #[cfg(test)]
@@ -16,8 +15,8 @@ pub fn infer_types(grammar: &Grammar) -> NormResult<Types> {
 }
 
 struct TypeInferencer<'grammar> {
-    stack: Vec<InternedString>,
-    nonterminals: HashMap<InternedString, NT<'grammar>>,
+    stack: Vec<NonterminalString>,
+    nonterminals: HashMap<NonterminalString, NT<'grammar>>,
     types: Types,
 }
 
@@ -78,7 +77,7 @@ impl<'grammar> TypeInferencer<'grammar> {
     }
 
     fn infer_types(mut self) -> NormResult<Types> {
-        let ids: Vec<InternedString> =
+        let ids: Vec<NonterminalString> =
             self.nonterminals.iter()
                              .map(|(&id, _)| id)
                              .collect();
@@ -91,7 +90,7 @@ impl<'grammar> TypeInferencer<'grammar> {
         Ok(self.types)
     }
 
-    fn nonterminal_type(&mut self, id: InternedString) -> NormResult<TypeRepr> {
+    fn nonterminal_type(&mut self, id: NonterminalString) -> NormResult<TypeRepr> {
         if let Some(repr) = self.types.lookup_nonterminal_type(id) {
             return Ok(repr.clone());
         }
@@ -137,7 +136,7 @@ impl<'grammar> TypeInferencer<'grammar> {
         Ok(ty)
     }
 
-    fn push<F,R>(&mut self, id: InternedString, f: F) -> NormResult<R>
+    fn push<F,R>(&mut self, id: NonterminalString, f: F) -> NormResult<R>
         where F: FnOnce(&mut TypeInferencer) -> NormResult<R>
     {
         self.stack.push(id);

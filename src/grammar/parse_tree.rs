@@ -61,7 +61,7 @@ grammar Type<'input, T> {
 
 use intern::{InternedString};
 use grammar::repr::{TypeRepr};
-use std::fmt::{Display, Formatter, Error};
+use std::fmt::{Debug, Display, Formatter, Error};
 use util::Sep;
 
 #[derive(Clone, Debug, PartialEq, Eq)]
@@ -83,7 +83,7 @@ pub enum GrammarItem {
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct TokenTypeData {
     pub type_name: TypeRef,
-    pub conversions: Vec<(InternedString, InternedString)>,
+    pub conversions: Vec<(TerminalString, TerminalString)>,
 }
 
 #[derive(Clone, Debug, PartialEq, Eq)]
@@ -109,9 +109,9 @@ pub enum TypeRef {
 
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct NonterminalData {
-    pub name: InternedString,
+    pub name: NonterminalString,
     pub span: Span,
-    pub args: Vec<InternedString>, // macro arguments
+    pub args: Vec<NonterminalString>, // macro arguments
     pub type_decl: Option<TypeRef>,
     pub alternatives: Vec<Alternative>
 }
@@ -132,7 +132,7 @@ pub struct Alternative {
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct Condition {
     pub span: Span,
-    pub lhs: InternedString, // X
+    pub lhs: NonterminalString, // X
     pub rhs: InternedString, // "Foo"
     pub op: ConditionOp,
 }
@@ -158,10 +158,10 @@ pub enum Symbol {
     Expr(ExprSymbol),
 
     // "foo"
-    Terminal(InternedString),
+    Terminal(TerminalString),
 
     // foo
-    Nonterminal(InternedString),
+    Nonterminal(NonterminalString),
 
     // foo<..>
     Macro(MacroSymbol),
@@ -175,6 +175,12 @@ pub enum Symbol {
     // ~x:X
     Name(InternedString, Box<Symbol>),
 }
+
+#[derive(Copy, Clone, Hash, PartialEq, Eq, PartialOrd, Ord)]
+pub struct TerminalString(pub InternedString);
+
+#[derive(Copy, Clone, Hash, PartialEq, Eq, PartialOrd, Ord)]
+pub struct NonterminalString(pub InternedString);
 
 #[derive(Copy, Clone, Debug, PartialEq, Eq)]
 pub enum RepeatOp {
@@ -196,7 +202,7 @@ pub struct ExprSymbol {
 
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct MacroSymbol {
-    pub name: InternedString,
+    pub name: NonterminalString,
     pub args: Vec<Symbol>,
     pub span: Span,
 }
@@ -222,13 +228,37 @@ impl Symbol {
     }
 }
 
+impl Display for TerminalString {
+    fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
+        write!(fmt, "\"{}\"", self.0)
+    }
+}
+
+impl Debug for TerminalString {
+    fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
+        Display::fmt(self, fmt)
+    }
+}
+
+impl Display for NonterminalString {
+    fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
+        write!(fmt, "{}", self.0)
+    }
+}
+
+impl Debug for NonterminalString {
+    fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
+        Display::fmt(self, fmt)
+    }
+}
+
 impl Display for Symbol {
     fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
         match *self {
             Symbol::Expr(ref expr) =>
                 write!(fmt, "{}", expr),
             Symbol::Terminal(ref s) =>
-                write!(fmt, "\"{}\"", s.to_string()),
+                write!(fmt, "{}", s),
             Symbol::Nonterminal(ref s) =>
                 write!(fmt, "{}", s),
             Symbol::Macro(ref m) =>

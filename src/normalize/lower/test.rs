@@ -1,6 +1,26 @@
-use parser;
+use intern::InternedString;
+use grammar::repr::{Grammar, Production};
 use normalize::normalize;
 use normalize::test_util::expect_debug;
+use parser;
+use std::fmt::{Debug, Formatter, Error};
+
+fn flat_productions(grammar: &Grammar) -> Vec<Production> {
+    let mut productions: Vec<_> =
+        grammar.productions.iter()
+                           .flat_map(|(&nt, prods)| {
+                               prods.iter()
+                                    .cloned()
+                           })
+                           .collect();
+
+    // sort by the action fn index just to get a consistent ordering
+    productions.sort_by(|k1, k2| {
+        Ord::cmp(&k1.action_fn.index(), &k2.action_fn.index())
+    });
+
+    productions
+}
 
 #[test]
 fn test_comma() {
@@ -17,7 +37,7 @@ grammar Foo {
 ").unwrap();
     let actual = normalize(grammar).unwrap();
 
-    expect_debug(&actual.productions,
+    expect_debug(flat_productions(&actual),
                  r#"[
     Ids = Comma<"Id"> => ActionFn(0);,
     Comma<"Id"> = (~"Id" ",")*, "Id"? => ActionFn(1);,

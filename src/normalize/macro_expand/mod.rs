@@ -1,7 +1,7 @@
 use std::collections::{HashMap, HashSet};
 use intern::{intern, read, InternedString};
 use grammar::parse_tree::{Alternative, Condition, ConditionOp, ExprSymbol, Grammar, GrammarItem,
-                          MacroSymbol, NonterminalData, RepeatOp, RepeatSymbol,
+                          MacroSymbol, NonterminalData, NonterminalString, RepeatOp, RepeatSymbol,
                           Span, Symbol, TypeRef};
 use normalize::{NormResult, NormError};
 use normalize::norm_util::{self, Symbols};
@@ -17,7 +17,7 @@ pub fn expand_macros(input: Grammar) -> NormResult<Grammar> {
     let (macro_defs, mut items): (Vec<_>, Vec<_>) =
         items.into_iter().partition(|mi| mi.is_macro_def());
 
-    let macro_defs: HashMap<InternedString, NonterminalData> =
+    let macro_defs: HashMap<_, _> =
         macro_defs.into_iter()
                   .map(|md| match md {
                       GrammarItem::Nonterminal(data) => (data.name, data),
@@ -32,13 +32,13 @@ pub fn expand_macros(input: Grammar) -> NormResult<Grammar> {
 }
 
 struct MacroExpander {
-    macro_defs: HashMap<InternedString, NonterminalData>,
-    expansion_set: HashSet<InternedString>,
+    macro_defs: HashMap<NonterminalString, NonterminalData>,
+    expansion_set: HashSet<NonterminalString>,
     expansion_stack: Vec<Symbol>,
 }
 
 impl MacroExpander {
-    fn new(macro_defs: HashMap<InternedString, NonterminalData>) -> MacroExpander {
+    fn new(macro_defs: HashMap<NonterminalString, NonterminalData>) -> MacroExpander {
         MacroExpander {
             macro_defs: macro_defs,
             expansion_stack: Vec::new(),
@@ -124,7 +124,7 @@ impl MacroExpander {
 
         // only symbols we intend to expand fallthrough to here
 
-        let key = intern(&symbol.canonical_form());
+        let key = NonterminalString(intern(&symbol.canonical_form()));
         let to_expand = mem::replace(symbol, Symbol::Nonterminal(key));
         if self.expansion_set.insert(key) {
             self.expansion_stack.push(to_expand);
@@ -135,7 +135,7 @@ impl MacroExpander {
     // Macro expansion
 
     fn expand_macro_symbol(&mut self, msym: MacroSymbol) -> NormResult<GrammarItem> {
-        let msym_name = intern(&msym.canonical_form());
+        let msym_name = NonterminalString(intern(&msym.canonical_form()));
 
         let mdef = match self.macro_defs.get(&msym.name) {
             Some(v) => v,
@@ -147,7 +147,7 @@ impl MacroExpander {
                         mdef.args.len(), msym.name, msym.args.len());
         }
 
-        let args: HashMap<InternedString, Symbol> =
+        let args: HashMap<NonterminalString, Symbol> =
             mdef.args.iter()
                      .cloned()
                      .zip(msym.args.into_iter())
@@ -180,7 +180,7 @@ impl MacroExpander {
     }
 
     fn macro_expand_type_refs(&self,
-                              args: &HashMap<InternedString, Symbol>,
+                              args: &HashMap<NonterminalString, Symbol>,
                               type_refs: &[TypeRef])
                               -> Vec<TypeRef>
     {
@@ -188,7 +188,7 @@ impl MacroExpander {
     }
 
     fn macro_expand_type_ref(&self,
-                             args: &HashMap<InternedString, Symbol>,
+                             args: &HashMap<NonterminalString, Symbol>,
                              type_ref: &TypeRef)
                              -> TypeRef
     {
@@ -203,7 +203,7 @@ impl MacroExpander {
             TypeRef::OfSymbol(ref sym) =>
                 TypeRef::OfSymbol(sym.clone()),
             TypeRef::Id(id) => {
-                match args.get(&id) {
+                match args.get(&NonterminalString(id)) {
                     Some(sym) => TypeRef::OfSymbol(sym.clone()),
                     None => TypeRef::Nominal { path: vec![id], types: vec![] },
                 }
@@ -212,7 +212,7 @@ impl MacroExpander {
     }
 
     fn evaluate_cond(&self,
-                     args: &HashMap<InternedString, Symbol>,
+                     args: &HashMap<NonterminalString, Symbol>,
                      opt_cond: &Option<Condition>)
                      -> NormResult<bool>
     {
@@ -220,10 +220,10 @@ impl MacroExpander {
             match args[&c.lhs] {
                 Symbol::Terminal(lhs) => {
                     match c.op {
-                        ConditionOp::Equals => Ok(lhs == c.rhs),
-                        ConditionOp::NotEquals => Ok(lhs != c.rhs),
-                        ConditionOp::Match => self.re_match(c.span, lhs, c.rhs),
-                        ConditionOp::NotMatch => Ok(!try!(self.re_match(c.span, lhs, c.rhs))),
+                        ConditionOp::Equals => Ok(lhs.0 == c.rhs),
+                        ConditionOp::NotEquals => Ok(lhs.0 != c.rhs),
+                        ConditionOp::Match => self.re_match(c.span, lhs.0, c.rhs),
+                        ConditionOp::NotMatch => Ok(!try!(self.re_match(c.span, lhs.0, c.rhs))),
                     }
                 }
                 ref lhs => {
@@ -248,7 +248,7 @@ impl MacroExpander {
     }
 
     fn macro_expand_symbols(&self,
-                            args: &HashMap<InternedString, Symbol>,
+                            args: &HashMap<NonterminalString, Symbol>,
                             expr: &[Symbol])
                             -> Vec<Symbol>
     {
@@ -256,7 +256,7 @@ impl MacroExpander {
     }
 
     fn macro_expand_expr_symbol(&self,
-                                args: &HashMap<InternedString, Symbol>,
+                                args: &HashMap<NonterminalString, Symbol>,
                                 expr: &ExprSymbol)
                                 -> ExprSymbol
     {
@@ -265,7 +265,7 @@ impl MacroExpander {
     }
 
     fn macro_expand_symbol(&self,
-                           args: &HashMap<InternedString, Symbol>,
+                           args: &HashMap<NonterminalString, Symbol>,
                            symbol: &Symbol)
                            -> Symbol
     {
@@ -302,7 +302,7 @@ impl MacroExpander {
     // Expr expansion
 
     fn expand_expr_symbol(&mut self, expr: ExprSymbol) -> NormResult<GrammarItem> {
-        let name = intern(&expr.canonical_form());
+        let name = NonterminalString(intern(&expr.canonical_form()));
 
         let ty_ref = match norm_util::analyze_expr(&expr) {
             Symbols::Named(names) => {
@@ -336,7 +336,7 @@ impl MacroExpander {
     // Expr expansion
 
     fn expand_repeat_symbol(&mut self, repeat: RepeatSymbol) -> NormResult<GrammarItem> {
-        let name = intern(&repeat.canonical_form());
+        let name = NonterminalString(intern(&repeat.canonical_form()));
         let v = intern("v");
         let e = intern("e");
 

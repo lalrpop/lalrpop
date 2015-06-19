@@ -2,6 +2,7 @@ use intern::intern;
 use parser;
 use normalize::macro_expand::expand_macros;
 use normalize::tyinfer::infer_types;
+use grammar::parse_tree::NonterminalString;
 use grammar::repr::TypeRepr;
 
 fn type_repr(s: &str) -> TypeRepr {
@@ -17,7 +18,7 @@ fn compare(g1: &str, expected: Vec<(&'static str, &'static str)>) {
     println!("types table: {:?}", types);
 
     for (nt_id, nt_type) in expected {
-        let id = intern(nt_id);
+        let id = NonterminalString(intern(nt_id));
         let ty = type_repr(nt_type);
         println!("expected type of {:?} is {:?}", id, ty);
         assert_eq!(types.nonterminal_type(id), &ty);

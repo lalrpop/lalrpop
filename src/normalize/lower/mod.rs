@@ -6,8 +6,8 @@ use intern::{self, intern, InternedString};
 use normalize::NormResult;
 use normalize::norm_util::{self, Symbols};
 use grammar::parse_tree as pt;
+use grammar::parse_tree::{TerminalString, NonterminalString};
 use grammar::repr as r;
-use std::collections::HashMap;
 
 #[cfg(test)]
 mod test;
@@ -18,18 +18,19 @@ pub fn lower(grammar: pt::Grammar, types: r::Types) -> NormResult<r::Grammar> {
 }
 
 struct LowerState {
-    grammar: r::Grammar
+    action_fn_defns: Vec<r::ActionFnDefn>,
+    productions: Vec<r::Production>,
+    conversions: Vec<(TerminalString, TerminalString)>,
+    types: r::Types,
 }
 
 impl LowerState {
     fn new(types: r::Types) -> LowerState {
         LowerState {
-            grammar: r::Grammar {
-                action_fn_defns: vec![],
-                productions: vec![],
-                conversions: HashMap::new(),
-                types: types
-            }
+            action_fn_defns: vec![],
+            productions: vec![],
+            conversions: vec![],
+            types: types,
         }
     }
 
@@ -37,27 +38,30 @@ impl LowerState {
         for item in grammar.items {
             match item {
                 pt::GrammarItem::TokenType(data) => {
-                    self.grammar.conversions.extend(data.conversions);
+                    self.conversions.extend(data.conversions);
                 }
 
                 pt::GrammarItem::Nonterminal(nt) => {
                     for alt in nt.alternatives {
-                        let nt_type = self.grammar.types.nonterminal_type(nt.name).clone();
+                        let nt_type = self.types.nonterminal_type(nt.name).clone();
                         let symbols = self.symbols(&alt.expr.symbols);
                         let action_fn = self.action_fn(nt_type, &alt.expr, &symbols, alt.action);
                         let production = r::Production {
-                            span: alt.span,
                             nonterminal: nt.name,
+                            span: alt.span,
                             symbols: symbols,
                             action_fn: action_fn,
                         };
-                        self.grammar.productions.push(production);
+                        self.productions.push(production);
                     }
                 }
             }
         }
 
-        Ok(self.grammar)
+        Ok(r::Grammar::new(self.action_fn_defns,
+                           self.productions,
+                           self.conversions,
+                           self.types))
     }
 
     fn action_fn(&mut self,
@@ -78,7 +82,7 @@ impl LowerState {
 
         // The set of argument types is thus the type of all symbols:
         let arg_types: Vec<r::TypeRepr> =
-            symbols.iter().map(|s| s.ty(&self.grammar.types)).cloned().collect();
+            symbols.iter().map(|s| s.ty(&self.types)).cloned().collect();
 
         let action_fn_defn = match norm_util::analyze_expr(expr) {
             Symbols::Named(names) => {
@@ -116,8 +120,8 @@ impl LowerState {
             }
         };
 
-        let index = r::ActionFn::new(self.grammar.action_fn_defns.len());
-        self.grammar.action_fn_defns.push(action_fn_defn);
+        let index = r::ActionFn::new(self.action_fn_defns.len());
+        self.action_fn_defns.push(action_fn_defn);
 
         index
     }
