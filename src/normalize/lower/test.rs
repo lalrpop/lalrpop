@@ -1,17 +1,12 @@
-use intern::InternedString;
 use grammar::repr::{Grammar, Production};
 use normalize::normalize;
 use normalize::test_util::expect_debug;
 use parser;
-use std::fmt::{Debug, Formatter, Error};
 
 fn flat_productions(grammar: &Grammar) -> Vec<Production> {
     let mut productions: Vec<_> =
-        grammar.productions.iter()
-                           .flat_map(|(&nt, prods)| {
-                               prods.iter()
-                                    .cloned()
-                           })
+        grammar.productions.values()
+                           .flat_map(|prods| prods.iter().cloned())
                            .collect();
 
     // sort by the action fn index just to get a consistent ordering

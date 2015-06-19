@@ -15,9 +15,3 @@ impl<'a,S:Display> Display for Sep<&'a Vec<S>> {
         Ok(())
     }
 }
-
-fn shift<T:Clone>(slice: &mut &[T]) -> T {
-    let elem = slice[0].clone();
-    *slice = &slice[1..];
-    elem
-}

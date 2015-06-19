@@ -5,10 +5,12 @@
  */
 
 use intern::InternedString;
-use grammar::parse_tree::{NonterminalString, Span, TerminalString};
 use std::collections::HashMap;
 use std::fmt::{Debug, Display, Formatter, Error};
 use util::Sep;
+
+// These concepts we re-use wholesale 
+pub use grammar::parse_tree::{NonterminalString, Span, TerminalString};
 
 #[derive(Clone, Debug)]
 pub struct Grammar {
@@ -186,7 +188,7 @@ impl Grammar {
         }
     }
 
-    fn productions_for(&self, nonterminal: NonterminalString) -> &[Production] {
+    pub fn productions_for(&self, nonterminal: NonterminalString) -> &[Production] {
         match self.productions.get(&nonterminal) {
             Some(v) => &v[..],
             None => &[], // this...probably shouldn't happen actually?

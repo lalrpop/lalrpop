@@ -8,6 +8,7 @@ extern crate regex;
 
 mod grammar;
 mod intern;
+mod lr1;
 mod normalize;
 mod parser;
 mod util;

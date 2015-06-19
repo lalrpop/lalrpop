@@ -6,7 +6,7 @@ use intern::{self, intern, InternedString};
 use normalize::NormResult;
 use normalize::norm_util::{self, Symbols};
 use grammar::parse_tree as pt;
-use grammar::parse_tree::{TerminalString, NonterminalString};
+use grammar::parse_tree::{TerminalString};
 use grammar::repr as r;
 
 #[cfg(test)]
