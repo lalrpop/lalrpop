@@ -5,6 +5,9 @@ use std::collections::{HashMap, HashSet};
 
 use super::Lookahead;
 
+#[cfg(test)]
+mod test;
+
 pub struct FirstSets {
     map: HashMap<NonterminalString, FirstSet>
 }
@@ -32,10 +35,6 @@ impl FirstSets {
             }
         }
         this
-    }
-
-    pub fn first_set(&self, nt: NonterminalString) -> &FirstSet {
-        &self.map[&nt]
     }
 
     pub fn first(&self, symbols: &[Symbol], lookahead: Lookahead) -> Vec<Lookahead> {
@@ -82,58 +81,3 @@ impl FirstSets {
     }
 }
 
-mod test {
-    use intern::intern;
-    use normalize::normalize;
-    use parser;
-    use grammar::repr::*;
-    use lr1::Lookahead;
-    use lr1::Lookahead::EOF;
-    use super::FirstSets;
-
-    fn nt(t: &str) -> Symbol {
-        Symbol::Nonterminal(NonterminalString(intern(t)))
-    }
-
-    fn t(t: &str) -> Symbol {
-        Symbol::Terminal(TerminalString(intern(t)))
-    }
-
-    fn la(t: &str) -> Lookahead {
-        Lookahead::Terminal(TerminalString(intern(t)))
-    }
-
-    fn first(first: &FirstSets, symbols: &[Symbol], lookahead: Lookahead) -> Vec<Lookahead> {
-        let mut v = first.first(symbols, lookahead);
-        v.sort();
-        v
-    }
-
-    #[test]
-    fn basic() {
-        let grammar = parser::parse_grammar(r#"
-grammar Foo {
-    token Tok where { };
-    A = B "C";
-    B: Option<u32> = {
-        "D" => Some(1);
-        => None;
-    };
-}
-"#).unwrap();
-        let grammar = normalize(grammar).unwrap();
-        let first_sets = FirstSets::new(&grammar);
-
-        assert_eq!(
-            first(&first_sets, &[nt("A")], EOF),
-            vec![la("C"), la("D")]);
-
-        assert_eq!(
-            first(&first_sets, &[nt("B")], EOF),
-            vec![EOF, la("D")]);
-
-        assert_eq!(
-            first(&first_sets, &[nt("B"), t("E")], EOF),
-            vec![la("D"), la("E")]);
-    }
-}

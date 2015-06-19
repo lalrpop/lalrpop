@@ -1,4 +1,8 @@
+// Need this for rusty_peg
 #![recursion_limit="256"]
+
+// I hate this lint.
+#![allow(unused_parens)]
 
 #[macro_use]
 extern crate rusty_peg;
@@ -12,6 +16,9 @@ mod lr1;
 mod normalize;
 mod parser;
 mod util;
+
+#[cfg(test)]
+mod test_util;
 
 #[cfg(not(test))]
 fn main() {

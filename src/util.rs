@@ -15,3 +15,17 @@ impl<'a,S:Display> Display for Sep<&'a Vec<S>> {
         Ok(())
     }
 }
+
+pub struct Prefix<S>(pub &'static str, pub S);
+
+impl<'a,S:Display> Display for Prefix<&'a [S]> {
+    fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
+        let &Prefix(prefix, vec) = self;
+        let mut elems = vec.iter();
+        while let Some(elem) = elems.next() {
+            try!(write!(fmt, "{}{}", prefix, elem));
+        }
+        Ok(())
+    }
+}
+

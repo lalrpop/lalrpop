@@ -1,5 +1,5 @@
 use parser;
-use normalize::test_util::compare;
+use test_util::compare;
 
 use super::expand_macros;
 

@@ -71,7 +71,7 @@ pub struct Grammar {
     pub items: Vec<GrammarItem>,
 }
 
-#[derive(Copy, Clone, Debug, PartialEq, Eq)]
+#[derive(Copy, Clone, Debug, Hash, PartialEq, Eq, PartialOrd, Ord)]
 pub struct Span(pub usize, pub usize);
 
 #[derive(Clone, Debug, PartialEq, Eq)]

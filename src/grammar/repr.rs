@@ -9,7 +9,7 @@ use std::collections::HashMap;
 use std::fmt::{Debug, Display, Formatter, Error};
 use util::Sep;
 
-// These concepts we re-use wholesale 
+// These concepts we re-use wholesale
 pub use grammar::parse_tree::{NonterminalString, Span, TerminalString};
 
 #[derive(Clone, Debug)]
@@ -20,7 +20,7 @@ pub struct Grammar {
     pub types: Types,
 }
 
-#[derive(Clone, PartialEq, Eq)]
+#[derive(Clone, Hash, PartialEq, Eq, PartialOrd, Ord)]
 pub struct Production {
     // this overlaps with the key in the hashmap, obviously, but it's
     // handy to have it
@@ -30,7 +30,7 @@ pub struct Production {
     pub span: Span,
 }
 
-#[derive(Clone, PartialEq, Eq, PartialOrd, Ord)]
+#[derive(Copy, Clone, Hash, PartialEq, Eq, PartialOrd, Ord)]
 pub enum Symbol {
     Nonterminal(NonterminalString),
     Terminal(TerminalString),
@@ -101,7 +101,7 @@ impl Debug for TypeRepr {
     }
 }
 
-#[derive(Copy, Clone, Debug, PartialEq, Eq)]
+#[derive(Copy, Clone, Debug, Hash, PartialOrd, Ord, PartialEq, Eq)]
 pub struct ActionFn(u32);
 
 impl ActionFn {

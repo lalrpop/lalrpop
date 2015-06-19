@@ -1,7 +1,7 @@
 use grammar::repr::{Grammar, Production};
 use normalize::normalize;
-use normalize::test_util::expect_debug;
 use parser;
+use test_util::expect_debug;
 
 fn flat_productions(grammar: &Grammar) -> Vec<Production> {
     let mut productions: Vec<_> =

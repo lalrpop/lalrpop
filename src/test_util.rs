@@ -1,4 +1,6 @@
 use diff;
+use grammar::repr as r;
+use intern::intern;
 use regex::Regex;
 use std::fmt::{Debug, Formatter, Error};
 
@@ -44,3 +46,6 @@ pub fn compare<D:Debug,E:Debug>(actual: D, expected: E) {
     });
 }
 
+pub fn normalized_grammar(s: &str) -> r::Grammar {
+    ::normalize::normalize(::parser::parse_grammar(s).unwrap()).unwrap()
+}
