@@ -1,21 +1,17 @@
 //! LR(1) interpeter. Just builds up parse trees. Intended for testing.
 
 use lr1::{Action, State, Lookahead};
+use generate::ParseTree;
 use grammar::repr::*;
+use std::iter::IntoIterator;
 use std::fmt::{Debug, Display, Formatter, Error};
 use util::Sep;
 
-#[derive(PartialEq, Eq)]
-pub enum ParseTree {
-    Nonterminal(NonterminalString, Vec<ParseTree>),
-    Terminal(TerminalString),
-}
-
 pub fn interpret<TOKENS>(states: &[State], tokens: TOKENS) -> Result<ParseTree, ()>
-    where TOKENS: Iterator<Item=TerminalString>
+    where TOKENS: IntoIterator<Item=TerminalString>
 {
     let mut m = Machine::new(states);
-    m.execute(tokens)
+    m.execute(tokens.into_iter())
 }
 
 struct Machine<'states, 'grammar:'states> {

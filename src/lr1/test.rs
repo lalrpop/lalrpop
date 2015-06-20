@@ -1,12 +1,28 @@
 use intern::intern;
+use generate;
 use grammar::repr::*;
-use test_util::{expect_debug, normalized_grammar};
-use super::{Items, Lookahead, LR1};
+use test_util::{compare, expect_debug, normalized_grammar};
+use super::{State, Items, Lookahead, LR1};
 use super::Lookahead::EOF;
 use super::interpret::interpret;
 
 fn nt(t: &str) -> NonterminalString {
     NonterminalString(intern(t))
+}
+
+const ITERATIONS: usize = 22;
+
+fn random_test(grammar: &Grammar, states: &[State], start_symbol: NonterminalString) {
+    for i in 0..ITERATIONS {
+        let input_tree = generate::random_parse_tree(grammar, start_symbol);
+        let output_tree = interpret(&states, input_tree.terminals()).unwrap();
+
+        println!("test {}", i);
+        println!("input_tree = {}", input_tree);
+        println!("output_tree = {}", output_tree);
+
+        compare(output_tree, input_tree);
+    }
 }
 
 macro_rules! tokens {
@@ -126,4 +142,7 @@ grammar Foo {
     assert_eq!(
         &format!("{}", tree)[..],
         r#"[S: [E: [E: [T: "(", [E: [E: [T: "N"]], "-", [T: "N"]], ")"]], "-", [T: "N"]]]"#);
+
+    // run some random tests
+    random_test(&grammar, &states, nt("S"));
 }

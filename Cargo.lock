@@ -3,6 +3,7 @@ name = "lalrpop"
 version = "0.1.0"
 dependencies = [
  "diff 0.1.3 (registry+https://github.com/rust-lang/crates.io-index)",
+ "rand 0.3.8 (registry+https://github.com/rust-lang/crates.io-index)",
  "regex 0.1.33 (registry+https://github.com/rust-lang/crates.io-index)",
  "rusty-peg 0.2.0 (git+https://github.com/nikomatsakis/rusty-peg.git)",
 ]
@@ -11,6 +12,19 @@ dependencies = [
 name = "diff"
 version = "0.1.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
+
+[[package]]
+name = "libc"
+version = "0.1.8"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+
+[[package]]
+name = "rand"
+version = "0.3.8"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+dependencies = [
+ "libc 0.1.8 (registry+https://github.com/rust-lang/crates.io-index)",
+]
 
 [[package]]
 name = "regex"

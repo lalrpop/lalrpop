@@ -7,9 +7,10 @@
 #[macro_use]
 extern crate rusty_peg;
 extern crate diff;
-
+extern crate rand;
 extern crate regex;
 
+mod generate;
 mod grammar;
 mod intern;
 mod lr1;
