@@ -13,11 +13,12 @@ use grammar::repr as r;
 mod test;
 
 pub fn lower(grammar: pt::Grammar, types: r::Types) -> NormResult<r::Grammar> {
-    let state = LowerState::new(types);
+    let state = LowerState::new(types, &grammar);
     state.lower(grammar)
 }
 
 struct LowerState {
+    prefix: String,
     action_fn_defns: Vec<r::ActionFnDefn>,
     productions: Vec<r::Production>,
     conversions: Vec<(TerminalString, TerminalString)>,
@@ -25,8 +26,9 @@ struct LowerState {
 }
 
 impl LowerState {
-    fn new(types: r::Types) -> LowerState {
+    fn new(types: r::Types, grammar: &pt::Grammar) -> LowerState {
         LowerState {
+            prefix: find_prefix(&grammar),
             action_fn_defns: vec![],
             productions: vec![],
             conversions: vec![],
@@ -58,7 +60,8 @@ impl LowerState {
             }
         }
 
-        Ok(r::Grammar::new(self.action_fn_defns,
+        Ok(r::Grammar::new(self.prefix,
+                           self.action_fn_defns,
                            self.productions,
                            self.conversions,
                            self.types))
@@ -101,7 +104,7 @@ impl LowerState {
             }
             Symbols::Anon(indices) => {
                 let names: Vec<_> =
-                    (0..indices.len()).map(|i| fresh_name(i, &action)).collect();
+                    (0..indices.len()).map(|i| self.fresh_name(i)).collect();
                 let arg_patterns =
                     patterns(indices.iter().map(|&(index, _)| index)
                                            .zip(names.iter().cloned()),
@@ -141,6 +144,10 @@ impl LowerState {
             }
         }
     }
+
+    fn fresh_name(&self, i: usize) -> InternedString {
+        intern(&format!("{}{}", self.prefix, i))
+    }
 }
 
 fn patterns<I>(mut chosen: I, num_args: usize) -> Vec<InternedString>
@@ -168,18 +175,27 @@ fn patterns<I>(mut chosen: I, num_args: usize) -> Vec<InternedString>
     result
 }
 
-fn fresh_name(counter: usize, action_str: &str) -> InternedString {
-    let mut name = format!("__{}", counter);
+// Find a unique prefix like `__` or `___` that doesn't appear
+// anywhere in any action strings. Obviously this is stricter than
+// needed, since the action string might be like `print("__1")`, in
+// which case we'll detect a false conflict (or it might contain a
+// variable named `__1x`, etc). But so what.
+fn find_prefix(grammar: &pt::Grammar) -> String {
+    let mut prefix = format!("__");
 
-    // Check whether this string appears anywhere in the action. If
-    // so, keep appending an underscore until it doesn't. :) Obviously
-    // this is stricter than needed, since the action string might be
-    // like `print("__1")`, in which case we'll detect a false
-    // conflict (or it might contain a variable named `__1x`,
-    // etc). But so what.
-    while action_str.contains(&name) {
-        name.push('_');
+    while
+        grammar.items
+               .iter()
+               .filter_map(|i| match *i {
+                   pt::GrammarItem::TokenType(_) => None,
+                   pt::GrammarItem::Nonterminal(ref nt) => Some(nt),
+               })
+               .flat_map(|nt| nt.alternatives.iter())
+               .filter_map(|alt| alt.action.as_ref())
+               .any(|s| s.contains(&prefix))
+    {
+        prefix.push('_');
     }
 
-    intern(&name)
+    prefix
 }

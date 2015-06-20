@@ -13,6 +13,7 @@ pub use grammar::parse_tree::{NonterminalString, Span, TerminalString};
 
 #[derive(Clone, Debug)]
 pub struct Grammar {
+    pub prefix: String,
     pub action_fn_defns: Vec<ActionFnDefn>,
     pub productions: Map<NonterminalString, Vec<Production>>,
     pub conversions: Map<TerminalString, TerminalString>,
@@ -166,7 +167,8 @@ impl ActionFnDefn {
 }
 
 impl Grammar {
-    pub fn new(action_fn_defns: Vec<ActionFnDefn>,
+    pub fn new(prefix: String,
+               action_fn_defns: Vec<ActionFnDefn>,
                flat_productions: Vec<Production>,
                conversions: Vec<(TerminalString, TerminalString)>,
                types: Types)
@@ -180,6 +182,7 @@ impl Grammar {
         }
 
         Grammar {
+            prefix: prefix,
             action_fn_defns: action_fn_defns,
             productions: productions,
             conversions: conversions.into_iter().collect(),
