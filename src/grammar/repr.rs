@@ -13,6 +13,8 @@ pub use grammar::parse_tree::{NonterminalString, Span, TerminalString};
 
 #[derive(Clone, Debug)]
 pub struct Grammar {
+    // a unique prefix that can be appended to identifiers to ensure
+    // that they do not conflict with any action strings
     pub prefix: String,
     pub action_fn_defns: Vec<ActionFnDefn>,
     pub productions: Map<NonterminalString, Vec<Production>>,
