@@ -11,22 +11,21 @@ pub enum ParseTree {
     Terminal(TerminalString),
 }
 
-pub fn interpret<'g,TOKENS>(states: &'g [State<'g>], tokens: TOKENS)
-                            -> Result<ParseTree, ()>
+pub fn interpret<TOKENS>(states: &[State], tokens: TOKENS) -> Result<ParseTree, ()>
     where TOKENS: Iterator<Item=TerminalString>
 {
     let mut m = Machine::new(states);
     m.execute(tokens)
 }
 
-struct Machine<'grammar> {
-    states: &'grammar [State<'grammar>],
-    state_stack: Vec<&'grammar State<'grammar>>,
+struct Machine<'states, 'grammar:'states> {
+    states: &'states [State<'grammar>],
+    state_stack: Vec<&'states State<'grammar>>,
     data_stack: Vec<ParseTree>,
 }
 
-impl<'grammar> Machine<'grammar> {
-    fn new(states: &'grammar [State<'grammar>]) -> Machine<'grammar> {
+impl<'states, 'grammar> Machine<'states, 'grammar> {
+    fn new(states: &'states [State<'grammar>]) -> Machine<'states,'grammar> {
         Machine { states: states,
                   state_stack: vec![],
                   data_stack: vec![] }
