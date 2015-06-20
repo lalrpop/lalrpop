@@ -2,7 +2,7 @@ use std::collections::HashMap;
 use std::cell::RefCell;
 use std::fmt::{Debug, Display, Error, Formatter};
 use std::cmp::{PartialOrd, Ord, Ordering};
-use util::{map, Map};
+use util::{map};
 
 #[cfg(test)]
 mod test;

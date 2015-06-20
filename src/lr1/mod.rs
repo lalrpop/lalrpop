@@ -1,12 +1,12 @@
 //! Naive LR(1) generation algorithm.
 
 use grammar::repr::*;
-use std::collections::{HashMap, HashSet};
 use std::fmt::{Debug, Formatter, Error};
 use std::rc::Rc;
 use util::{map, Map, Multimap, Set, Prefix};
 
 mod first;
+mod interpret;
 
 #[cfg(test)] mod test;
 
@@ -16,7 +16,8 @@ struct LR1<'grammar> {
 }
 
 #[derive(Debug)]
-struct State<'grammar> {
+pub struct State<'grammar> {
+    index: StateIndex,
     items: Items<'grammar>,
     tokens: Map<Lookahead, Action<'grammar>>,
     gotos: Map<NonterminalString, StateIndex>,
@@ -234,7 +235,7 @@ impl<'grammar> StateSet<'grammar> {
         let states = &mut self.states;
         *self.state_map.entry(items.clone()).or_insert_with(|| {
             let index = StateIndex(states.len());
-            states.push(State { items: items, tokens: map(), gotos: map() });
+            states.push(State { index: index, items: items, tokens: map(), gotos: map() });
             index
         })
     }

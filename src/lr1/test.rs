@@ -3,9 +3,16 @@ use grammar::repr::*;
 use test_util::{expect_debug, normalized_grammar};
 use super::{Items, Lookahead, LR1};
 use super::Lookahead::EOF;
+use super::interpret::interpret;
 
 fn nt(t: &str) -> NonterminalString {
     NonterminalString(intern(t))
+}
+
+macro_rules! tokens {
+    ($($x:expr),*) => {
+        vec![$(TerminalString(intern($x))),*].into_iter()
+    }
 }
 
 fn items<'g>(grammar: &'g Grammar, nonterminal: &str, index: usize, la: Lookahead)
@@ -97,4 +104,26 @@ grammar Foo {
     // and yields expected number of states.
     let states = lr1.build_states(nt("S")).unwrap();
     assert_eq!(states.len(), 16);
+
+    // execute it on some sample inputs.
+    let tree = interpret(&states, tokens!["N", "-", "(", "N", "-", "N", ")"]).unwrap();
+    assert_eq!(
+        &format!("{:?}", tree)[..],
+        r#"[S: [E: [E: [T: "N"]], "-", [T: "(", [E: [E: [T: "N"]], "-", [T: "N"]], ")"]]]"#);
+
+    // incomplete:
+    assert!(interpret(&states, tokens!["N", "-", "(", "N", "-", "N"]).is_err());
+
+    // incomplete:
+    assert!(interpret(&states, tokens!["N", "-"]).is_err());
+
+    // unexpected character:
+    assert!(interpret(&states, tokens!["N", "-", ")", "N", "-", "N", "("]).is_err());
+
+    // parens first:
+    let tree = interpret(&states, tokens!["(", "N", "-", "N", ")", "-", "N"]).unwrap();
+    println!("{}", tree);
+    assert_eq!(
+        &format!("{}", tree)[..],
+        r#"[S: [E: [E: [T: "(", [E: [E: [T: "N"]], "-", [T: "N"]], ")"]], "-", [T: "N"]]]"#);
 }

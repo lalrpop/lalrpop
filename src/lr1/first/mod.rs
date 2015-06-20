@@ -2,7 +2,7 @@
 
 use grammar::repr::*;
 use std::collections::{HashMap, HashSet};
-use util::{map, Map};
+use util::{map};
 
 use super::Lookahead;
 
