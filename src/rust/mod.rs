@@ -1,103 +1,87 @@
 //! Simple Rust AST. This is what the various code generators create,
 //! which then gets serialized.
 
-use intern;
-use repr;
+use std::io::{self, Write};
+use std::fmt;
 
-pub use repr::TypeRepr;
-pub use repr::ActionFnDefn;
-
-pub struct ModuleDefn {
-    pub items: Vec<ItemDefn>,
+macro_rules! rust {
+    ($w:expr, $($args:tt)*) => {
+        try!(($w).writeln(&::std::fmt::format(format_args!($($args)*))))
+    }
 }
 
-pub enum ItemDefn {
-    Use(Use),
-    Module(ModuleDefn),
-    Enum(EnumDefn),
-    Fn(FnDefn),
-    ActionFn(ActionFn, ActionFnDefn),
+/// A wrapper around a Write instance that handles indentation for
+/// Rust code. It expects Rust code to be written in a stylized way,
+/// with lots of braces and newlines (example shown here with no
+/// indentation). Over time maybe we can extend this to make things
+/// look prettier, but seems like...meh, just run it through some
+/// rustfmt tool.
+///
+/// ```
+/// fn foo(
+/// arg1: Type1,
+/// arg2: Type2,
+/// arg3: Type3)
+/// -> ReturnType
+/// {
+/// match foo {
+/// Variant => {
+/// }
+/// }
+/// }
+/// ```
+pub struct RustWrite<W: Write> {
+    write: W,
+    indent: usize,
 }
 
-pub struct Use {
-    pub path: Path, // use foo::bar [as baz]
-    pub as_name: Option<InternedString>,
+enum State {
+    FnHeader,
+    CodeBlock,
 }
 
-pub struct EnumDefn {
-    pub name: InternedString,
-    pub variants: Vec<VariantDefn>
-}
+const TAB: usize = 4;
 
-pub struct StructDefn {
-    pub fields: Vec<FieldDefn>
-}
+impl<W:Write> RustWrite<W> {
+    pub fn new(w: W) -> RustWrite<W> {
+        RustWrite { write: w, indent: 0 }
+    }
 
-pub struct FieldDefn {
-    pub name: InternedString,
-    pub ty: TypeRepr,
-}
+    fn write_indented(&mut self, out: &str, indent: usize) -> io::Result<()> {
+        writeln!(self.write, "{0:1$}{2}", "", indent, out)
+    }
 
-pub struct VariantDefn {
-    pub name: InternedString,
-    pub arguments: Vec<TypeRepr>,
-}
+    pub fn writeln(&mut self, out: &str) -> io::Result<()> {
+        let buf = out.as_bytes();
 
-pub struct FnDefn {
-    pub name: InternedString,
-    pub type_parameters: Vec<TypeParameterDefn>,
-    pub arg_patterns: Vec<InternedString>,
-    pub arg_types: Vec<TypeRepr>,
-    pub ret_type: TypeRepr,
-    pub code: Block,
-}
+        // pass empty lines through with no indentation
+        if buf.is_empty() {
+            return self.write.write_all("\n".as_bytes());
+        }
 
-// <X: Bound0+Bound1>
-pub struct TypeParameterDefn {
-    pub name: InternedString,
-    pub bounds: Vec<Bound>,
-}
+        let n = buf.len() - 1;
 
-// Foo<X=Ty>
-pub struct Bound {
-    pub path: Path,
-    pub assoc_bindings: Vec<AssocBinding>,
-}
+        // Check for an opening brace all on its own. We only expect this to occur
+        // as part of a fn header. As a special exception, print it at one TAB less
+        // than normal but leave the indent otherwise unchanged.
+        if buf[0] == ('{' as u8) && buf[n] == ('\n' as u8) {
+            let indent = self.indent - TAB;
+            return self.write_indented(out, indent);
+        }
 
-// X=Ty
-pub struct AssocBinding {
-    pub name: InternedString,
-    pub ty: TypeRepr,
-}
+        // If the line begins with a `}`, `]`, or `)`, first decrement the indentation.
+        if buf[0] == ('}' as u8) || buf[0] == (']' as u8) || buf[0] == (')' as u8) {
+            self.indent -= TAB;
+        }
 
-pub struct Block {
-    pub statements: Vec<Statement>,
-    pub tail: Option<Expr>
-}
+        let indent = self.indent;
+        try!(self.write_indented(out, indent));
 
-pub enum Statement {
-    Expr(Expr),                       // X;
-    Let(Pattern, Expr),               // let P = X;
-}
+        // Detect a line that ends in a `{` or `(` and increase indentation for future lines.
+        if buf[n] == ('{' as u8) || buf[n] == ('[' as u8) || buf[n] == ('(' as u8) {
+            self.indent += TAB;
+        }
 
-pub enum Expr {
-    Tuple(Vec<Expr>),                 // (), (X,), (X,Y), etc
-    Field(Box<Expr>, InternedString), // X.f
-    Return(Box<Expr>),                // return X;
-    Match(Box<Expr>, Vec<Arm>),       // match X { ARM }
-    Variable(InternedString),         // x
-    Call(Box<Expr>, Vec<Expr>),       // X(Y,Z)
+        Ok(())
+    }
 }
-
-pub struct Arm {
-    pattern: Pattern,
-    body: Block,
-}
-
-pub struct Pattern {
-    Variable(InternedString)
-    Tuple(Vec<Pattern>),
-    Variant(Path, InternedString, Option<Vec<Pattern>>), // Enum::Foo(A,B,C) or Enum::Foo(..)
-}
-
-pub type Path = Vec<InternedString>;

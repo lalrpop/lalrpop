@@ -5,6 +5,7 @@ use std::fmt::{Debug, Formatter, Error};
 use std::rc::Rc;
 use util::{map, Map, Multimap, Set, Prefix};
 
+mod ascent;
 mod first;
 mod interpret;
 
@@ -265,3 +266,23 @@ impl Debug for StateIndex {
         write!(fmt, "S{}", self.0)
     }
 }
+
+impl<'grammar> State<'grammar> {
+    fn prefix(&self) -> &'grammar [Symbol] {
+        // Each state fn takes as argument the longest prefix of any
+        // item. Note that all items must have compatible prefixes.
+        let (_, prefix) =
+            self.items.iter()
+                      .map(|item| &item.production.symbols[..item.index])
+                      .map(|symbols| (symbols.len(), symbols))
+                      .max() // grr, max_by is unstable :(
+                      .unwrap();
+
+        debug_assert!(
+            self.items.iter()
+                      .all(|item| item.production.symbols.starts_with(prefix)));
+
+        prefix
+    }
+}
+

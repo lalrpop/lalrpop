@@ -10,6 +10,10 @@ extern crate diff;
 extern crate rand;
 extern crate regex;
 
+// rust exports a macro that others use, so hoist it early.
+#[macro_use]
+mod rust;
+
 mod generate;
 mod grammar;
 mod intern;

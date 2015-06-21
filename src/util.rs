@@ -78,3 +78,24 @@ pub type Set<K> = HashSet<K>;
 pub fn set<K:Hash+Eq>() -> HashSet<K> {
     HashSet::new()
 }
+
+pub struct WorkSet<T> {
+    pending: Vec<T>,
+    all: Set<T>,
+}
+
+impl<T:Clone+Hash+Eq> WorkSet<T> {
+    pub fn new() -> WorkSet<T> {
+        WorkSet { pending: vec![], all: set() }
+    }
+
+    pub fn insert(&mut self, item: T) {
+        if self.all.insert(item.clone()) {
+            self.pending.push(item);
+        }
+    }
+
+    pub fn pop(&mut self) -> Option<T> {
+        self.pending.pop()
+    }
+}

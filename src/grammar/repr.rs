@@ -192,6 +192,11 @@ impl Grammar {
         }
     }
 
+    pub fn pattern(&self, t: TerminalString) -> String {
+        let u = self.conversions.get(&t).cloned().unwrap_or(t);
+        format!("{}(..)", u)
+    }
+
     pub fn action_fn_name(&self, action_fn: ActionFn) -> InternedString {
         intern(&format!("{}action{}", self.prefix, action_fn.index()))
     }
