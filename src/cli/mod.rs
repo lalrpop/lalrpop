@@ -107,6 +107,8 @@ fn emit_recursive_ascent(options: &Options,
     let stdout: &mut Write = &mut io::stdout();
     let mut rust = RustWrite::new(stdout);
 
+    check_io(emit_uses(grammar, &mut rust));
+
     if grammar.start_nonterminals.is_empty() {
         println!("Error: no public symbols declared in grammar");
         exit(1);
@@ -132,6 +134,17 @@ fn emit_recursive_ascent(options: &Options,
     check_io(emit_action_code(options, grammar, &mut rust));
 }
 
+fn emit_uses<W:Write>(grammar: &r::Grammar,
+                      rust: &mut RustWrite<W>)
+                      -> io::Result<()>
+{
+    for u in &grammar.uses {
+        rust!(rust, "use {};", u);
+    }
+    rust!(rust, "");
+    Ok(())
+}
+
 fn emit_action_code<W:Write>(_options: &Options,
                              grammar: &r::Grammar,
                              rust: &mut RustWrite<W>)
@@ -142,7 +155,7 @@ fn emit_action_code<W:Write>(_options: &Options,
         for (p, t) in defn.arg_patterns.iter().zip(defn.arg_types.iter()) {
             rust!(rust, "{}: {},", p, t);
         }
-        rust!(rust, "{{");
+        rust!(rust, ") {{");
         rust!(rust, "{}", defn.code);
         rust!(rust, "}}");
     }

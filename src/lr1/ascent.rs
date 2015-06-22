@@ -56,6 +56,7 @@ impl<'ascent,'grammar,W:Write> RecursiveAscent<'ascent,'grammar,W> {
         rust!(self.out, "");
         rust!(self.out, "mod {}parse{} {{",
               self.prefix, self.start_symbol);
+        try!(self.write_uses());
 
         rust!(self.out, "");
         try!(self.write_return_type_defn());
@@ -70,8 +71,16 @@ impl<'ascent,'grammar,W:Write> RecursiveAscent<'ascent,'grammar,W> {
         Ok(())
     }
 
+    fn write_uses(&mut self) -> io::Result<()> {
+        for u in &self.grammar.uses {
+            rust!(self.out, "use {};", u);
+        }
+        Ok(())
+    }
+
     fn write_return_type_defn(&mut self) -> io::Result<()> {
-        rust!(self.out, "enum {}Nonterminal {{", self.prefix);
+        // public so that the `parse_Foo` start fn can access it
+        rust!(self.out, "pub enum {}Nonterminal {{", self.prefix);
 
         // make an enum with one variant per nonterminal; I considered
         // making different enums per state, but this would mean we
@@ -95,11 +104,11 @@ impl<'ascent,'grammar,W:Write> RecursiveAscent<'ascent,'grammar,W> {
               self.types.nonterminal_type(self.start_symbol),
               terminal_type);
         rust!(self.out, "{{");
-
         rust!(self.out, "let mut lookahead = tokens.next();");
-        rust!(self.out, "match try!(state0(lookahead, tokens)) {{");
-        rust!(self.out, "(lookahead, {}Nonterminal::{}(nt)) => (lookahead, nt),",
-              self.prefix, self.start_symbol);
+        rust!(self.out, "match try!({}parse{}::{}state0(lookahead, tokens)) {{",
+              self.prefix, self.start_symbol, self.prefix);
+        rust!(self.out, "(lookahead, {}parse{}::{}Nonterminal::{}(nt)) => Ok((lookahead, nt)),",
+              self.prefix, self.start_symbol, self.prefix, self.start_symbol);
         rust!(self.out, "_ => unreachable!(),");
         rust!(self.out, "}}");
         rust!(self.out, "}}");
@@ -141,7 +150,8 @@ impl<'ascent,'grammar,W:Write> RecursiveAscent<'ascent,'grammar,W> {
         rust!(self.out, ") -> Result<(Option<{}>, {}Nonterminal), Option<{}>> {{",
               terminal_type, self.prefix, terminal_type);
 
-        rust!(self.out, "let mut result;");
+        rust!(self.out, "let mut result: Result<(Option<{}>, {}Nonterminal), Option<{}>>;",
+              terminal_type, self.prefix, terminal_type);
 
         rust!(self.out, "match lookahead {{");
         for (token, action) in &this_state.tokens {

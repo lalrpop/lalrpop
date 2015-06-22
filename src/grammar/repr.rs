@@ -207,7 +207,12 @@ impl Grammar {
 
     pub fn pattern(&self, t: TerminalString) -> String {
         let u = self.conversions.get(&t).cloned().unwrap_or(t);
-        format!("Terminal::{}(..)", u.0)
+        match self.types.terminal_type() {
+            &TypeRepr::Nominal { ref path, .. } => {
+                format!("{}::{}(..)", Sep("::", path), u.0)
+            }
+            _ => unreachable!("terminals must be a nominal type")
+        }
     }
 
     pub fn productions_for(&self, nonterminal: NonterminalString) -> &[Production] {
