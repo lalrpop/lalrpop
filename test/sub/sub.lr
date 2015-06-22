@@ -1,0 +1,22 @@
+grammar Foo {
+    use tok::Tok;
+
+    token Tok where {
+        "(" => "LParen";
+        ")" => "RParen";
+        "-" => "Minus";
+    };
+
+    pub S: () =
+        E => ();
+
+    E: () = {
+        E "-" T => ();
+        T => ();
+    };
+
+    T: () = {
+        "N" => ();
+        "(" E ")" => ();
+    };
+}

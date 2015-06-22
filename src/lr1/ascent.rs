@@ -79,7 +79,6 @@ impl<'ascent,'grammar,W:Write> RecursiveAscent<'ascent,'grammar,W> {
     }
 
     fn write_return_type_defn(&mut self) -> io::Result<()> {
-        // public so that the `parse_Foo` start fn can access it
         rust!(self.out, "pub enum {}Nonterminal {{", self.prefix);
 
         // make an enum with one variant per nonterminal; I considered
@@ -138,7 +137,7 @@ impl<'ascent,'grammar,W:Write> RecursiveAscent<'ascent,'grammar,W> {
         // set to true if goto actions are worth generating
         let mut fallthrough = false;
 
-        rust!(self.out, "fn {}state{}<TOKENS: Iterator<Item={}>>(",
+        rust!(self.out, "pub fn {}state{}<TOKENS: Iterator<Item={}>>(",
               self.prefix, this_index.0, terminal_type);
         rust!(self.out, "mut lookahead: Option<{}>,",
               terminal_type);
@@ -150,8 +149,8 @@ impl<'ascent,'grammar,W:Write> RecursiveAscent<'ascent,'grammar,W> {
         rust!(self.out, ") -> Result<(Option<{}>, {}Nonterminal), Option<{}>> {{",
               terminal_type, self.prefix, terminal_type);
 
-        rust!(self.out, "let mut result: Result<(Option<{}>, {}Nonterminal), Option<{}>>;",
-              terminal_type, self.prefix, terminal_type);
+        rust!(self.out, "let mut result: (Option<{}>, {}Nonterminal);",
+              terminal_type, self.prefix);
 
         rust!(self.out, "match lookahead {{");
         for (token, action) in &this_state.tokens {
@@ -169,7 +168,10 @@ impl<'ascent,'grammar,W:Write> RecursiveAscent<'ascent,'grammar,W> {
                     rust!(self.out, "let lookahead = tokens.next();");
 
                     // transition to the new state
-                    try!(self.transition(this_prefix, next_index, "result", "lookahead", "tokens"));
+                    let transition =
+                        self.transition(this_prefix, next_index, "lookahead", "tokens");
+                    rust!(self.out, "result = {};", transition);
+
                     fallthrough = true;
                 }
 
@@ -228,7 +230,8 @@ impl<'ascent,'grammar,W:Write> RecursiveAscent<'ascent,'grammar,W> {
             for (&nt, &next_index) in &this_state.gotos {
                 rust!(self.out, "{}Nonterminal::{}(nt) => {{", self.prefix, nt);
                 rust!(self.out, "let sym{} = &mut Some(nt);", this_prefix.len());
-                try!(self.transition(this_prefix, next_index, "result", "lookahead", "tokens"));
+                let transition = self.transition(this_prefix, next_index, "lookahead", "tokens");
+                rust!(self.out, "result = {};", transition);
                 rust!(self.out, "}}");
             }
 
@@ -258,13 +261,12 @@ impl<'ascent,'grammar,W:Write> RecursiveAscent<'ascent,'grammar,W> {
         (depth-to_pop .. depth).map(|i| format!("sym{}", i)).collect()
     }
 
-    fn transition(&mut self,
+    fn transition(&self,
                   prefix: &[Symbol],
                   next_index: StateIndex,
-                  result: &str,
                   lookahead: &str,
                   tokens: &str)
-                  -> io::Result<()>
+                  -> String
     {
         // depth of stack, including the newly shifted token
         let n = prefix.len() + 1;
@@ -278,8 +280,8 @@ impl<'ascent,'grammar,W:Write> RecursiveAscent<'ascent,'grammar,W> {
         let transfer_syms = self.pop_syms(n, m);
 
         // invoke next state, transferring the top `m` tokens
-        Ok(rust!(self.out, "{} = try!({}state{}({}, {}, {}));",
-                 result, self.prefix, next_index.0, lookahead, tokens, Sep(", ", &transfer_syms)))
+        format!("try!({}state{}({}, {}, {}))",
+                self.prefix, next_index.0, lookahead, tokens, Sep(", ", &transfer_syms))
     }
 }
 
