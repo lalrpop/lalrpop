@@ -194,7 +194,7 @@ impl Grammar {
 
     pub fn pattern(&self, t: TerminalString) -> String {
         let u = self.conversions.get(&t).cloned().unwrap_or(t);
-        format!("{}(..)", u)
+        format!("Terminal::{}(..)", u.0)
     }
 
     pub fn action_fn_name(&self, action_fn: ActionFn) -> InternedString {

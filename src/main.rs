@@ -14,6 +14,7 @@ extern crate regex;
 #[macro_use]
 mod rust;
 
+mod cli;
 mod generate;
 mod grammar;
 mod intern;
@@ -27,5 +28,5 @@ mod test_util;
 
 #[cfg(not(test))]
 fn main() {
-    println!("Hello, world!");
+    cli::main();
 }

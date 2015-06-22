@@ -5,11 +5,14 @@ use std::fmt::{Debug, Formatter, Error};
 use std::rc::Rc;
 use util::{map, Map, Multimap, Set, Prefix};
 
-mod ascent;
+pub mod ascent;
+mod error;
 mod first;
 mod interpret;
 
 #[cfg(test)] mod test;
+
+pub use self::error::report_error;
 
 struct LR1<'grammar> {
     grammar: &'grammar Grammar,
@@ -67,6 +70,14 @@ pub struct TableConstructionError<'grammar> {
 
     // but we can also:
     conflict: Action<'grammar>,
+}
+
+pub fn build_states<'grammar>(grammar: &'grammar Grammar,
+                              start: NonterminalString)
+                              -> Result<Vec<State<'grammar>>, TableConstructionError<'grammar>>
+{
+    let lr1 = LR1::new(grammar);
+    lr1.build_states(start)
 }
 
 impl<'grammar> LR1<'grammar> {
@@ -140,10 +151,10 @@ impl<'grammar> LR1<'grammar> {
     }
 
     fn items(&self,
-                      id: NonterminalString,
-                      index: usize,
-                      lookahead: Lookahead)
-                      -> Vec<Item<'grammar>>
+             id: NonterminalString,
+             index: usize,
+             lookahead: Lookahead)
+             -> Vec<Item<'grammar>>
     {
         self.grammar.productions_for(id)
                     .iter()
@@ -280,7 +291,7 @@ impl<'grammar> State<'grammar> {
 
         debug_assert!(
             self.items.iter()
-                      .all(|item| item.production.symbols.starts_with(prefix)));
+                      .all(|item| prefix.ends_with(&item.production.symbols[..item.index])));
 
         prefix
     }

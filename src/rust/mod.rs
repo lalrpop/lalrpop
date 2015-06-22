@@ -2,7 +2,6 @@
 //! which then gets serialized.
 
 use std::io::{self, Write};
-use std::fmt;
 
 macro_rules! rust {
     ($w:expr, $($args:tt)*) => {
@@ -35,11 +34,6 @@ pub struct RustWrite<W: Write> {
     indent: usize,
 }
 
-enum State {
-    FnHeader,
-    CodeBlock,
-}
-
 const TAB: usize = 4;
 
 impl<W:Write> RustWrite<W> {
@@ -47,8 +41,8 @@ impl<W:Write> RustWrite<W> {
         RustWrite { write: w, indent: 0 }
     }
 
-    fn write_indented(&mut self, out: &str, indent: usize) -> io::Result<()> {
-        writeln!(self.write, "{0:1$}{2}", "", indent, out)
+    fn write_indented(&mut self, out: &str) -> io::Result<()> {
+        writeln!(self.write, "{0:1$}{2}", "", self.indent, out)
     }
 
     pub fn writeln(&mut self, out: &str) -> io::Result<()> {
@@ -64,9 +58,8 @@ impl<W:Write> RustWrite<W> {
         // Check for an opening brace all on its own. We only expect this to occur
         // as part of a fn header. As a special exception, print it at one TAB less
         // than normal but leave the indent otherwise unchanged.
-        if buf[0] == ('{' as u8) && buf[n] == ('\n' as u8) {
-            let indent = self.indent - TAB;
-            return self.write_indented(out, indent);
+        if buf[0] == ('{' as u8) && n == 0 {
+            self.indent -= TAB;
         }
 
         // If the line begins with a `}`, `]`, or `)`, first decrement the indentation.
@@ -74,8 +67,7 @@ impl<W:Write> RustWrite<W> {
             self.indent -= TAB;
         }
 
-        let indent = self.indent;
-        try!(self.write_indented(out, indent));
+        try!(self.write_indented(out));
 
         // Detect a line that ends in a `{` or `(` and increase indentation for future lines.
         if buf[n] == ('{' as u8) || buf[n] == ('[' as u8) || buf[n] == ('(' as u8) {

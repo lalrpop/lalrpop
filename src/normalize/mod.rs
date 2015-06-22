@@ -11,8 +11,8 @@ pub type NormResult<T> = Result<T, NormError>;
 
 #[derive(Clone, Debug)]
 pub struct NormError {
-    message: String,
-    span: pt::Span,
+    pub message: String,
+    pub span: pt::Span,
 }
 
 macro_rules! return_err {
