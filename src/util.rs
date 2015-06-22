@@ -45,13 +45,6 @@ impl<K:Hash+Eq,V> Multimap<K,V> {
         self.map.entry(key).or_insert(vec![]).push(value);
     }
 
-    pub fn get(&self, key: &K) -> &[V] {
-        match self.map.get(key) {
-            Some(v) => v,
-            None => &[]
-        }
-    }
-
     pub fn into_iter(self) -> hash_map::IntoIter<K, Vec<V>> {
         self.map.into_iter()
     }

@@ -14,7 +14,7 @@ rusty_peg! {
             };
 
         GRAMMAR_ITEM: GrammarItem =
-            (TOKEN_TYPE / NONTERMINAL);
+            (TOKEN_TYPE / NONTERMINAL / USE);
 
         TOKEN_TYPE: GrammarItem =
             ("token" <t:TYPE_REF> "where" "{" <c:{CONVERSION}> "}" ";") => {
@@ -23,6 +23,9 @@ rusty_peg! {
 
         CONVERSION: (TerminalString, TerminalString) =
             (<from:TERMINAL> "=>" <to:TERMINAL> ";") => (from, to);
+
+        USE: GrammarItem =
+            ("use" <c:CODE> ";") => GrammarItem::Use(c);
 
         NONTERMINAL: GrammarItem =
             (<p:[NONTERMINAL_PUB]>
@@ -207,7 +210,9 @@ rusty_peg! {
             (<i:ID_RE>) => intern(i);
 
         ID_RE: &'input str =
-            regex(r"[a-zA-Z_][a-zA-Z0-9_]*") - ["if"];
+            regex(r"[a-zA-Z_][a-zA-Z0-9_]*") - [
+                "if", "use", "where", "token", "grammar", "pub", "struct"
+            ];
 
         ESCAPE: InternedString =
             (<i:ESCAPE_RE>) => intern(&i[1..i.len()-1]);

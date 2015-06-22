@@ -4,7 +4,7 @@
  * representation incrementally.
  */
 
-use intern::{intern, InternedString};
+use intern::{InternedString};
 use std::fmt::{Debug, Display, Formatter, Error};
 use util::{map, Map, Sep};
 
@@ -19,6 +19,11 @@ pub struct Grammar {
 
     // these are the nonterminals that were declared to be public
     pub start_nonterminals: Vec<NonterminalString>,
+
+    // the "use foo;" statements that the user declared
+    pub uses: Vec<String>,
+
+    // the grammar proper:
 
     pub action_fn_defns: Vec<ActionFnDefn>,
     pub productions: Map<NonterminalString, Vec<Production>>,
@@ -175,6 +180,7 @@ impl ActionFnDefn {
 impl Grammar {
     pub fn new(prefix: String,
                start_nonterminals: Vec<NonterminalString>,
+               uses: Vec<String>,
                action_fn_defns: Vec<ActionFnDefn>,
                flat_productions: Vec<Production>,
                conversions: Vec<(TerminalString, TerminalString)>,
@@ -191,6 +197,7 @@ impl Grammar {
         Grammar {
             prefix: prefix,
             start_nonterminals: start_nonterminals,
+            uses: uses,
             action_fn_defns: action_fn_defns,
             productions: productions,
             conversions: conversions.into_iter().collect(),

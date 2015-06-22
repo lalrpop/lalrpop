@@ -25,6 +25,16 @@ fn empty_grammar() {
 }
 
 #[test]
+fn use_decls() {
+    super::parse_grammar("grammar Foo {
+    use std::io;
+    use std::io::{self, a, b};
+    use std::baz::*;
+    use std::this as that;
+}").unwrap();
+}
+
+#[test]
 fn alternative() {
     super::parse_alternative(r#"Alt => Bar;"#).unwrap();
 }

@@ -59,15 +59,10 @@ impl<'grammar> TypeInferencer<'grammar> {
         let nonterminals =
             grammar.items
                    .iter()
-                   .filter_map(|item| {
-                       match *item {
-                           GrammarItem::TokenType(..) =>
-                               None,
-                           GrammarItem::Nonterminal(ref data) => {
-                               assert!(!data.is_macro_def()); // normalized away by now
-                               Some((data.name, NT::new(data)))
-                           }
-                       }
+                   .filter_map(|item| item.as_nonterminal())
+                   .map(|data| {
+                       assert!(!data.is_macro_def()); // normalized away by now
+                       (data.name, NT::new(data))
                    })
                    .collect();
 

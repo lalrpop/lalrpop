@@ -78,6 +78,7 @@ pub struct Span(pub usize, pub usize);
 pub enum GrammarItem {
     TokenType(TokenTypeData),
     Nonterminal(NonterminalData),
+    Use(String),
 }
 
 #[derive(Clone, Debug, PartialEq, Eq)]
@@ -214,6 +215,14 @@ impl GrammarItem {
         match *self {
             GrammarItem::Nonterminal(ref d) => d.is_macro_def(),
             _ => false,
+        }
+    }
+
+    pub fn as_nonterminal(&self) -> Option<&NonterminalData> {
+        match *self {
+            GrammarItem::Nonterminal(ref d) => Some(d),
+            GrammarItem::Use(..) => None,
+            GrammarItem::TokenType(..) => None,
         }
     }
 }

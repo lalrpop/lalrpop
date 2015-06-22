@@ -40,16 +40,19 @@ impl LowerState {
         let start_symbols: Vec<_> =
             grammar.items
                    .iter()
-                   .filter_map(|item| match *item {
-                       pt::GrammarItem::Nonterminal(ref nt) => Some(nt),
-                       pt::GrammarItem::TokenType(_) => None
-                   })
+                   .filter_map(|item| item.as_nonterminal())
                    .filter(|nt| nt.public)
                    .map(|nt| nt.name)
                    .collect();
 
+        let mut uses = vec![];
+
         for item in grammar.items {
             match item {
+                pt::GrammarItem::Use(data) => {
+                    uses.push(data);
+                }
+
                 pt::GrammarItem::TokenType(data) => {
                     self.conversions.extend(data.conversions);
                 }
@@ -73,6 +76,7 @@ impl LowerState {
 
         Ok(r::Grammar::new(self.prefix,
                            start_symbols,
+                           uses,
                            self.action_fn_defns,
                            self.productions,
                            self.conversions,
@@ -198,10 +202,7 @@ fn find_prefix(grammar: &pt::Grammar) -> String {
     while
         grammar.items
                .iter()
-               .filter_map(|i| match *i {
-                   pt::GrammarItem::TokenType(_) => None,
-                   pt::GrammarItem::Nonterminal(ref nt) => Some(nt),
-               })
+               .filter_map(|i| i.as_nonterminal())
                .flat_map(|nt| nt.alternatives.iter())
                .filter_map(|alt| alt.action.as_ref())
                .any(|s| s.contains(&prefix))
