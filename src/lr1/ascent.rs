@@ -56,6 +56,10 @@ impl<'ascent,'grammar,W:Write> RecursiveAscent<'ascent,'grammar,W> {
         rust!(self.out, "");
         rust!(self.out, "mod {}parse{} {{",
               self.prefix, self.start_symbol);
+
+        rust!(self.out, "#![allow(non_snake_case, unused_mut, unused_variables)]");
+        rust!(self.out, "");
+
         try!(self.write_uses());
 
         rust!(self.out, "");
@@ -95,6 +99,7 @@ impl<'ascent,'grammar,W:Write> RecursiveAscent<'ascent,'grammar,W> {
 
     fn write_start_fn(&mut self) -> io::Result<()> {
         let terminal_type = self.types.terminal_type();
+        rust!(self.out, "#[allow(non_snake_case)]");
         rust!(self.out, "pub fn parse_{}<TOKENS: Iterator<Item={}>>(",
               self.start_symbol, terminal_type);
         rust!(self.out, "tokens: &mut TOKENS)");
@@ -103,7 +108,7 @@ impl<'ascent,'grammar,W:Write> RecursiveAscent<'ascent,'grammar,W> {
               self.types.nonterminal_type(self.start_symbol),
               terminal_type);
         rust!(self.out, "{{");
-        rust!(self.out, "let mut lookahead = tokens.next();");
+        rust!(self.out, "let lookahead = tokens.next();");
         rust!(self.out, "match try!({}parse{}::{}state0(lookahead, tokens)) {{",
               self.prefix, self.start_symbol, self.prefix);
         rust!(self.out, "(lookahead, {}parse{}::{}Nonterminal::{}(nt)) => Ok((lookahead, nt)),",

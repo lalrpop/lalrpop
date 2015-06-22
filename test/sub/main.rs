@@ -5,7 +5,7 @@ mod sub;
 
 fn main() {
     let mut input = String::new();
-    let mut stdin = io::stdin();
+    let stdin = io::stdin();
     let mut stdin = stdin.lock();
     stdin.read_to_string(&mut input).unwrap();
     let tokens = tok::tokenize(&input);
