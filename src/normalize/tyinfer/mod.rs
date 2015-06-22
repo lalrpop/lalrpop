@@ -100,19 +100,34 @@ impl<'grammar> TypeInferencer<'grammar> {
                 return this.type_ref(type_decl);
             }
 
-            let mut alternative_types: Vec<_> = try! {
-                nt.alternatives.iter()
-                               .map(|alt| this.alternative_type(alt))
-                               .collect()
-            };
-
-            // if there are no alternatives, then call it an error
-            if alternative_types.is_empty() {
-                return_err!(nt.span,
-                            "nonterminal `{}` has no alternatives and hence parse cannot succeed",
-                            id);
+            // Try to compute the types of all alternatives; note that
+            // some may result in an error. Don't report these errors
+            // (yet).
+            let mut alternative_types = vec![];
+            let mut alternative_errors = vec![];
+            for alt in nt.alternatives.iter() {
+                match this.alternative_type(alt) {
+                    Ok(t) => alternative_types.push(t),
+                    Err(e) => alternative_errors.push(e),
+                }
             }
 
+            // if it never succeeded, report first error
+            if alternative_types.is_empty() {
+                match alternative_errors.into_iter().next() {
+                    Some(err) => { return Err(err); }
+                    None => {
+                        // if nothing succeeded, and nothing errored,
+                        // must have been nothing to start with
+                        return_err!(
+                            nt.span,
+                            "nonterminal `{}` has no alternatives and hence parse cannot succeed",
+                            id);
+                    }
+                }
+            }
+
+            // otherwise, check that all the cases where we had success agree
             for ((ty, alt), i) in
                 alternative_types[1..].iter().zip(&nt.alternatives[1..]).zip(1..)
             {
@@ -124,6 +139,7 @@ impl<'grammar> TypeInferencer<'grammar> {
                 }
             }
 
+            // and use that type
             Ok(alternative_types.pop().unwrap())
         }));
 

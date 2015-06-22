@@ -48,7 +48,7 @@ grammar {
     token Tok where { };
     X = {
         X Y;
-        Y;
+        ~Y => vec![~~];
     };
     Y = \"Hi\";
 }
@@ -132,4 +132,45 @@ grammar {
     ("Y", "std::vec::Vec<Tok>"),
     ("Z", "std::option::Option<Tok>")
         ])
+}
+
+#[test]
+fn test_action() {
+    compare(r#"
+grammar {
+    token Tok where { };
+
+    X = {
+        Y;
+        ~l:X "+" ~r:Y => l + r;
+    };
+
+    Y: i32 = "foo" => 22;
+}
+"#,vec![
+    ("X", "i32"),
+    ("Y", "i32"),
+        ])
+}
+
+#[test]
+fn test_inconsistent_action() {
+    let grammar = parser::parse_grammar("
+grammar {
+    token Tok where { };
+
+    X = {
+        Y;
+        Z;
+        ~l:X \"+\" ~r:Y => l + r;
+    };
+
+    Y: i32 = \"foo\" => 22;
+
+    Z: u32 = \"bar\" => 22;
+}
+").unwrap();
+
+    let actual = expand_macros(grammar).unwrap();
+    assert!(infer_types(&actual).is_err());
 }

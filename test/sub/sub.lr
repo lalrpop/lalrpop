@@ -9,7 +9,7 @@ grammar {
 
     pub S = E;
 
-    E: i32 = {
+    E = {
         ~l:E "-" ~r:T => l-r;
         T;
     };
