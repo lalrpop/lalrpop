@@ -100,16 +100,17 @@ impl<'ascent,'grammar,W:Write> RecursiveAscent<'ascent,'grammar,W> {
     fn write_start_fn(&mut self) -> io::Result<()> {
         let terminal_type = self.types.terminal_type();
         rust!(self.out, "#[allow(non_snake_case)]");
-        rust!(self.out, "pub fn parse_{}<TOKENS: Iterator<Item={}>>(",
+        rust!(self.out, "pub fn parse_{}<TOKENS: IntoIterator<Item={}>>(",
               self.start_symbol, terminal_type);
-        rust!(self.out, "tokens: &mut TOKENS)");
+        rust!(self.out, "tokens: TOKENS)");
         rust!(self.out, "-> Result<(Option<{}>, {}), Option<{}>>",
               terminal_type,
               self.types.nonterminal_type(self.start_symbol),
               terminal_type);
         rust!(self.out, "{{");
+        rust!(self.out, "let mut tokens = tokens.into_iter();");
         rust!(self.out, "let lookahead = tokens.next();");
-        rust!(self.out, "match try!({}parse{}::{}state0(lookahead, tokens)) {{",
+        rust!(self.out, "match try!({}parse{}::{}state0(lookahead, &mut tokens)) {{",
               self.prefix, self.start_symbol, self.prefix);
         rust!(self.out, "(lookahead, {}parse{}::{}Nonterminal::{}(nt)) => Ok((lookahead, nt)),",
               self.prefix, self.start_symbol, self.prefix, self.start_symbol);

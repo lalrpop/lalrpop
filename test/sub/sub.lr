@@ -1,5 +1,5 @@
 grammar Foo {
-    use tok::Tok;
+    use util::tok::Tok;
 
     token Tok where {
         "(" => "LParen";
@@ -16,7 +16,7 @@ grammar Foo {
     };
 
     T: () = {
-        "N" => ();
+        "Num" => ();
         "(" E ")" => ();
     };
 }
