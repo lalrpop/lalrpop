@@ -116,7 +116,7 @@ fn parse_and_normalize_grammar(options: &Options) {
 
     let stdout: &mut Write = &mut io::stdout();
     let mut rust = RustWrite::new(stdout);
-    lr1::ascent::compile(&grammar, &vec![], &states, &mut rust).unwrap();
+    lr1::ascent::compile(&grammar, &vec![], start_nt, &states, &mut rust).unwrap();
 }
 
 fn report_error(file_text: &FileText, span: pt::Span, message: &str) -> ! {

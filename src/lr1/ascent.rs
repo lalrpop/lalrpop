@@ -3,7 +3,7 @@
 //! [recursive ascent]: https://en.wikipedia.org/wiki/Recursive_ascent_parser
 
 use intern::{intern, InternedString};
-use grammar::repr::{Grammar, Production, Symbol};
+use grammar::repr::{Grammar, NonterminalString, Production, Symbol};
 use lr1::{Action, Lookahead, State, StateIndex};
 use rust::RustWrite;
 use std::io::{self, Write};
@@ -13,17 +13,19 @@ pub type Path = Vec<InternedString>;
 
 pub fn compile<'grammar>(grammar: &'grammar Grammar,
                          action_path: &Path,
+                         start_symbol: NonterminalString,
                          states: &[State<'grammar>],
                          out: &mut RustWrite<&mut Write>)
                          -> io::Result<()>
 {
-    let mut ascent = RecursiveAscent::new(grammar, action_path, states, out);
+    let mut ascent = RecursiveAscent::new(grammar, action_path, start_symbol, states, out);
     ascent.write()
 }
 
 struct RecursiveAscent<'ascent,'writer:'ascent,'grammar:'ascent> {
     grammar: &'grammar Grammar,
     action_path: &'ascent Path,
+    start_symbol: NonterminalString,
     states: &'ascent [State<'grammar>],
     state_prefixes: Vec<&'grammar [Symbol]>,
     out: &'ascent mut RustWrite<&'writer mut Write>,
@@ -32,6 +34,7 @@ struct RecursiveAscent<'ascent,'writer:'ascent,'grammar:'ascent> {
 impl<'ascent,'writer,'grammar> RecursiveAscent<'ascent,'writer,'grammar> {
     fn new(grammar: &'grammar Grammar,
            action_path: &'ascent Path,
+           start_symbol: NonterminalString,
            states: &'ascent [State<'grammar>],
            out: &'ascent mut RustWrite<&'writer mut Write>)
            -> RecursiveAscent<'ascent,'writer,'grammar>
@@ -43,6 +46,7 @@ impl<'ascent,'writer,'grammar> RecursiveAscent<'ascent,'writer,'grammar> {
             states: states,
             state_prefixes: states.iter().map(|s| s.prefix()).collect(),
             action_path: action_path,
+            start_symbol: start_symbol,
             out: out,
         }
     }
@@ -52,6 +56,9 @@ impl<'ascent,'writer,'grammar> RecursiveAscent<'ascent,'writer,'grammar> {
         rust!(self.out, "");
 
         try!(self.write_return_type_defn());
+        rust!(self.out, "");
+
+        try!(self.write_start_fn());
         rust!(self.out, "");
 
         for i in 0..self.states.len() {
@@ -83,10 +90,27 @@ impl<'ascent,'writer,'grammar> RecursiveAscent<'ascent,'writer,'grammar> {
         Ok(())
     }
 
+    fn write_start_fn(&mut self) -> io::Result<()> {
+        rust!(self.out, "pub fn start<TOKENS: Iterator<Item=Terminal>>(");
+        rust!(self.out, "tokens: &mut TOKENS)");
+        rust!(self.out, "-> Result<(Option<Terminal>, {}), Option<Terminal>>",
+              self.grammar.types.nonterminal_type(self.start_symbol));
+        rust!(self.out, "{{");
+
+        rust!(self.out, "let mut lookahead = tokens.next();");
+        rust!(self.out, "match try!(state0(lookahead, tokens)) {{");
+        rust!(self.out, "(lookahead, Nonterminal::{}(nt)) => (lookahead, nt),",
+              self.start_symbol);
+        rust!(self.out, "_ => unreachable!(),");
+        rust!(self.out, "}}");
+        rust!(self.out, "}}");
+
+        Ok(())
+    }
+
     fn write_state_fn(&mut self, this_index: StateIndex) -> io::Result<()> {
         let this_state = &self.states[this_index.0];
         let this_prefix = self.state_prefixes[this_index.0];
-        let terminal_type = self.grammar.types.terminal_type();
 
         // Leave a comment explaining what this state is.
         rust!(self.out, "// State {}", this_index.0);
@@ -105,17 +129,14 @@ impl<'ascent,'writer,'grammar> RecursiveAscent<'ascent,'writer,'grammar> {
         // set to true if goto actions are worth generating
         let mut fallthrough = false;
 
-        rust!(self.out, "fn state{}<TOKENS: Iterator<Item={}>>(", this_index.0, terminal_type);
-        rust!(self.out, "mut lookahead: Option<{}>,", terminal_type);
+        rust!(self.out, "fn state{}<TOKENS: Iterator<Item=Terminal>>(", this_index.0);
+        rust!(self.out, "mut lookahead: Option<Terminal>,");
         rust!(self.out, "tokens: &mut TOKENS,");
         for i in 0..this_prefix.len() {
-            let terminator = if i < this_prefix.len()-1 {","} else {")"};
-            rust!(self.out, "sym{}: &mut Option<{}>{}",
-                  i, this_prefix[i].ty(&self.grammar.types), terminator);
+            rust!(self.out, "sym{}: &mut Option<{}>,",
+                  i, this_prefix[i].ty(&self.grammar.types));
         }
-        rust!(self.out, "-> Result<(Option<{}>, Nonterminal), Option<{}>>",
-              terminal_type, terminal_type);
-        rust!(self.out, "{{");
+        rust!(self.out, ") -> Result<(Option<Terminal>, Nonterminal), Option<Terminal>> {{");
 
         rust!(self.out, "let mut result;");
 
