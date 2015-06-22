@@ -4,7 +4,7 @@
 
 use intern::{InternedString};
 use grammar::repr::{Grammar, NonterminalString, Symbol, Types};
-use lr1::{Action, Lookahead, State, StateIndex};
+use lr1::{Lookahead, State, StateIndex};
 use rust::RustWrite;
 use std::io::{self, Write};
 use util::Sep;
@@ -159,7 +159,37 @@ impl<'ascent,'grammar,W:Write> RecursiveAscent<'ascent,'grammar,W> {
               terminal_type, self.prefix);
 
         rust!(self.out, "match lookahead {{");
-        for (token, action) in &this_state.tokens {
+
+        // first emit shifts:
+        for (token, next_index) in
+            this_state.tokens.iter()
+                             .filter_map(|(token, action)| action.shift().map(|n| (token, n)))
+        {
+            match *token {
+                Lookahead::Terminal(s) =>
+                    rust!(self.out, "Some(tok @ {}) => {{", self.grammar.pattern(s)),
+                Lookahead::EOF =>
+                    unreachable!("should never have to shift EOF")
+            }
+
+            // "shift" the lookahead onto the "stack" by taking its address
+            rust!(self.out, "let sym{} = &mut Some(tok);", this_prefix.len());
+            rust!(self.out, "let lookahead = tokens.next();");
+
+            // transition to the new state
+            let transition =
+                self.transition(this_prefix, next_index, "lookahead", "tokens");
+            rust!(self.out, "result = {};", transition);
+
+            rust!(self.out, "}}");
+            fallthrough = true;
+        }
+
+        // now emit reduces:
+        for (token, production) in
+            this_state.tokens.iter()
+                             .filter_map(|(token, action)| action.reduce().map(|p| (token, p)))
+        {
             match *token {
                 Lookahead::Terminal(s) =>
                     rust!(self.out, "Some({}) => {{", self.grammar.pattern(s)),
@@ -167,49 +197,32 @@ impl<'ascent,'grammar,W:Write> RecursiveAscent<'ascent,'grammar,W> {
                     rust!(self.out, "None => {{"),
             }
 
-            match *action {
-                Action::Shift(next_index) => {
-                    // "shift" the lookahead onto the "stack" by taking its address
-                    rust!(self.out, "let sym{} = &mut lookahead;", this_prefix.len());
-                    rust!(self.out, "let lookahead = tokens.next();");
+            let n = this_prefix.len(); // number of symbols we have on the stack
+            let m = production.symbols.len(); // number action code wants
+            assert!(n >= m);
+            let transfer_syms = self.pop_syms(n, m);
 
-                    // transition to the new state
-                    let transition =
-                        self.transition(this_prefix, next_index, "lookahead", "tokens");
-                    rust!(self.out, "result = {};", transition);
+            // "pop" the items off the stack
+            for sym in &transfer_syms {
+                rust!(self.out, "let {} = {}.take().unwrap();", sym, sym);
+            }
 
-                    fallthrough = true;
-                }
+            // invoke the action code
+            rust!(self.out, "let nt = super::{}action{}({});",
+                  self.grammar.prefix,
+                  production.action_fn.index(),
+                  Sep(", ", &transfer_syms));
 
-                Action::Reduce(production) => {
-                    let n = this_prefix.len(); // number we have
-                    let m = production.symbols.len(); // number action code wants
-                    assert!(n >= m);
-                    let transfer_syms = self.pop_syms(n, m);
-
-                    // "pop" the items off the stack
-                    for sym in &transfer_syms {
-                        rust!(self.out, "let {} = {}.take().unwrap();", sym, sym);
-                    }
-
-                    // invoke the action code
-                    rust!(self.out, "let nt = super::{}action{}({});",
-                          self.grammar.prefix,
-                          production.action_fn.index(),
-                          Sep(", ", &transfer_syms));
-
-                    // wrap up the result along with the (unused) lookahead
-                    if !transfer_syms.is_empty() {
-                        // if we popped anything off of the stack, then this frame is done
-                        rust!(self.out, "return Ok((lookahead, {}Nonterminal::{}(nt)));",
-                              self.prefix, production.nonterminal);
-                    } else {
-                        // otherwise, pop back
-                        rust!(self.out, "result = (lookahead, {}Nonterminal::{}(nt));",
-                              self.prefix, production.nonterminal);
-                        fallthrough = true;
-                    }
-                }
+            // wrap up the result along with the (unused) lookahead
+            if !transfer_syms.is_empty() {
+                // if we popped anything off of the stack, then this frame is done
+                rust!(self.out, "return Ok((lookahead, {}Nonterminal::{}(nt)));",
+                      self.prefix, production.nonterminal);
+            } else {
+                // otherwise, pop back
+                rust!(self.out, "result = (lookahead, {}Nonterminal::{}(nt));",
+                      self.prefix, production.nonterminal);
+                fallthrough = true;
             }
 
             rust!(self.out, "}}");
@@ -222,8 +235,8 @@ impl<'ascent,'grammar,W:Write> RecursiveAscent<'ascent,'grammar,W> {
 
         rust!(self.out, "}}"); // match
 
+        // finally, emit gotos (if relevant)
         if fallthrough && !this_state.gotos.is_empty() {
-            // Handle goto table
             if this_prefix.len() > 0 {
                 rust!(self.out, "while sym{}.is_some() {{", this_prefix.len() - 1);
             } else {

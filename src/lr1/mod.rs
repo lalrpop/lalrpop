@@ -297,3 +297,17 @@ impl<'grammar> State<'grammar> {
     }
 }
 
+impl<'grammar> Action<'grammar> {
+    pub fn shift(&self) -> Option<StateIndex> {
+        match *self {
+            Action::Shift(next_index) => Some(next_index),
+            _ => None
+        }
+    }
+    pub fn reduce(&self) -> Option<&'grammar Production> {
+        match *self {
+            Action::Reduce(production) => Some(production),
+            _ => None,
+        }
+    }
+}

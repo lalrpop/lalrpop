@@ -4,6 +4,7 @@
 #![crate_name="util"]
 
 use std::env;
+use std::fmt::Debug;
 
 use std::fs::File;
 use std::io::{self, Read};
@@ -14,7 +15,7 @@ use tok::Tok;
 pub mod tok;
 
 // a generic main fn suitable for being executed from the makefile
-pub fn main(parse_fn: fn(Vec<Tok>) -> Result<(Option<Tok>,()),Option<Tok>>) {
+pub fn main<R:Debug>(parse_fn: fn(Vec<Tok>) -> Result<(Option<Tok>,R),Option<Tok>>) {
     let mut args = env::args().skip(1);
 
     // read the input file
@@ -34,7 +35,7 @@ pub fn main(parse_fn: fn(Vec<Tok>) -> Result<(Option<Tok>,()),Option<Tok>>) {
     let tokens = tok::tokenize(&input);
 
     // parse
-    let (lookahead, ()) = parse_fn(tokens).unwrap();
+    let (lookahead, r) = parse_fn(tokens).unwrap();
 
     // expect input to be completely consumed
     if lookahead.is_some() {
@@ -42,5 +43,5 @@ pub fn main(parse_fn: fn(Vec<Tok>) -> Result<(Option<Tok>,()),Option<Tok>>) {
         exit(1);
     }
 
-    println!("input ok");
+    println!("input ok: {:?}", r);
 }

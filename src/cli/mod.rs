@@ -155,7 +155,7 @@ fn emit_action_code<W:Write>(_options: &Options,
         for (p, t) in defn.arg_patterns.iter().zip(defn.arg_types.iter()) {
             rust!(rust, "{}: {},", p, t);
         }
-        rust!(rust, ") {{");
+        rust!(rust, ") -> {} {{", defn.ret_type);
         rust!(rust, "{}", defn.code);
         rust!(rust, "}}");
     }
