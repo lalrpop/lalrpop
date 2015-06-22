@@ -121,7 +121,7 @@ fn emit_recursive_ascent(options: &Options,
         let states = match lr1::build_states(&grammar, start_nt) {
             Ok(states) => states,
             Err(error) => {
-                lr1::report_error(&mut io::stdout(), &grammar, &error);
+                check_io(lr1::report_error(&mut io::stdout(), &grammar, &error));
                 exit(1)
             }
         };
@@ -132,7 +132,7 @@ fn emit_recursive_ascent(options: &Options,
     check_io(emit_action_code(options, grammar, &mut rust));
 }
 
-fn emit_action_code<W:Write>(options: &Options,
+fn emit_action_code<W:Write>(_options: &Options,
                              grammar: &r::Grammar,
                              rust: &mut RustWrite<W>)
                              -> io::Result<()>

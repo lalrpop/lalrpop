@@ -6,7 +6,7 @@ use std::io::{self, Write};
 use super::{Action, TableConstructionError};
 
 pub fn report_error<'grammar>(out: &mut Write,
-                              grammar: &'grammar Grammar,
+                              _grammar: &'grammar Grammar,
                               error: &TableConstructionError<'grammar>)
                               -> io::Result<()>
 {

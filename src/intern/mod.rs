@@ -63,10 +63,6 @@ impl InternedString {
     fn index(&self) -> usize {
         self.index as usize
     }
-
-    pub fn to_string(&self) -> String {
-        read(|interner| interner.data(*self).to_string())
-    }
 }
 
 impl Debug for InternedString {

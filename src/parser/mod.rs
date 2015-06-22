@@ -285,21 +285,25 @@ pub fn parse_grammar(text: &str) -> Result<Grammar,rusty_peg::Error> {
     rusty_peg::Symbol::parse_complete(&GRAMMAR, &mut parser, text)
 }
 
+#[cfg(test)]
 fn parse_alternative(text: &str) -> Result<Alternative,rusty_peg::Error> {
     let mut parser = Parser::new(());
     rusty_peg::Symbol::parse_complete(&ALTERNATIVE, &mut parser, text)
 }
 
+#[cfg(test)]
 fn parse_symbol(text: &str) -> Result<Symbol,rusty_peg::Error> {
     let mut parser = Parser::new(());
     rusty_peg::Symbol::parse_complete(&SYMBOL, &mut parser, text)
 }
 
+#[cfg(test)]
 fn parse_nonterminal(text: &str) -> Result<GrammarItem,rusty_peg::Error> {
     let mut parser = Parser::new(());
     rusty_peg::Symbol::parse_complete(&NONTERMINAL, &mut parser, text)
 }
 
+#[cfg(test)]
 pub fn parse_type_ref(text: &str) -> Result<TypeRef,rusty_peg::Error> {
     let mut parser = Parser::new(());
     rusty_peg::Symbol::parse_complete(&TYPE_REF, &mut parser, text)

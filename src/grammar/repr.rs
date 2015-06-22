@@ -203,10 +203,6 @@ impl Grammar {
         format!("Terminal::{}(..)", u.0)
     }
 
-    pub fn action_fn_name(&self, action_fn: ActionFn) -> InternedString {
-        intern(&format!("{}action{}", self.prefix, action_fn.index()))
-    }
-
     pub fn productions_for(&self, nonterminal: NonterminalString) -> &[Production] {
         match self.productions.get(&nonterminal) {
             Some(v) => &v[..],

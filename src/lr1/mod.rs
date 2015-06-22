@@ -8,8 +8,8 @@ use util::{map, Map, Multimap, Set, Prefix};
 pub mod ascent;
 mod error;
 mod first;
-mod interpret;
 
+#[cfg(test)] mod interpret;
 #[cfg(test)] mod test;
 
 pub use self::error::report_error;

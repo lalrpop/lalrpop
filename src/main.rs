@@ -15,7 +15,6 @@ extern crate regex;
 mod rust;
 
 mod cli;
-mod generate;
 mod grammar;
 mod intern;
 mod lr1;
@@ -23,8 +22,8 @@ mod normalize;
 mod parser;
 mod util;
 
-#[cfg(test)]
-mod test_util;
+#[cfg(test)] mod generate;
+#[cfg(test)] mod test_util;
 
 #[cfg(not(test))]
 fn main() {
