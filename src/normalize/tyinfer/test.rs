@@ -28,7 +28,7 @@ fn compare(g1: &str, expected: Vec<(&'static str, &'static str)>) {
 #[test]
 fn test_pairs_and_tokens() {
     compare("
-grammar Foo {
+grammar {
     token Tok where { };
     X = Y Z;
     Y: Foo = \"Hi\";
@@ -44,7 +44,7 @@ grammar Foo {
 #[test]
 fn test_cycle_direct() {
     let grammar = parser::parse_grammar("
-grammar Foo {
+grammar {
     token Tok where { };
     X = {
         X Y;
@@ -61,7 +61,7 @@ grammar Foo {
 #[test]
 fn test_cycle_indirect() {
     let grammar = parser::parse_grammar("
-grammar Foo {
+grammar {
     token Tok where { };
     A = B;
     B = C;
@@ -77,7 +77,7 @@ grammar Foo {
 #[test]
 fn test_macro_expansion() {
     compare("
-grammar Foo {
+grammar {
     token Tok where { };
     Two<X>: (X, X) = X X;
     Ids = Two<\"Id\">;
@@ -91,7 +91,7 @@ grammar Foo {
 #[test]
 fn test_macro_expansion_infer() {
     compare("
-grammar Foo {
+grammar {
     token Tok where { };
     Two<X> = X X;
     Ids = Two<\"Id\">;
@@ -105,7 +105,7 @@ grammar Foo {
 #[test]
 fn test_type_question() {
     compare("
-grammar Foo {
+grammar {
     token Tok where { };
     X = Y?;
     Y = \"Hi\";
@@ -119,7 +119,7 @@ grammar Foo {
 #[test]
 fn test_star_plus_question() {
     compare("
-grammar Foo {
+grammar {
     token Tok where { };
     A = Z*;
     X = \"Hi\"*;

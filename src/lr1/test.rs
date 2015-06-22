@@ -44,7 +44,7 @@ fn items<'g>(grammar: &'g Grammar, nonterminal: &str, index: usize, la: Lookahea
 #[test]
 fn start_state() {
     let grammar = normalized_grammar(r#"
-grammar Foo {
+grammar {
     token Tok where { };
     A = B "C";
     B: Option<u32> = {
@@ -64,7 +64,7 @@ grammar Foo {
 #[test]
 fn start_state_1() {
     let grammar = normalized_grammar(r#"
-grammar Foo {
+grammar {
     token Tok where { };
     A = B C;
     B: Option<u32> = {
@@ -96,7 +96,7 @@ grammar Foo {
 #[test]
 fn expr_grammar1() {
     let grammar = normalized_grammar(r#"
-grammar Foo {
+grammar {
     token Tok where { };
 
     S: () =

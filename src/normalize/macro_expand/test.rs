@@ -6,7 +6,7 @@ use super::expand_macros;
 #[test]
 fn test_comma() {
     let grammar = parser::parse_grammar("
-grammar Foo {
+grammar {
     Comma<E>: Vec<E> =
        ~v:(~E \",\")* ~e:E? =>
            v.into_iter().chain(e.into_iter()).collect();
@@ -18,7 +18,7 @@ grammar Foo {
     let actual = expand_macros(grammar).unwrap();
 
     let expected = parser::parse_grammar("
-grammar Foo {
+grammar {
     Ids = `Comma<\"Id\">`;
 
     `Comma<\"Id\">`: Vec<`\"Id\"`> =
@@ -45,7 +45,7 @@ grammar Foo {
 #[test]
 fn test_if_match() {
     let grammar = parser::parse_grammar("
-grammar Foo {
+grammar {
     Expr<E> = {
        A if E == \"A*C\";
        B if E ~~ \"^A*C$\";
@@ -62,7 +62,7 @@ grammar Foo {
     let actual = expand_macros(grammar).unwrap();
 
     let expected = parser::parse_grammar("
-grammar Foo {
+grammar {
     Expr1 = `Expr<\"A*C\">`;
     Expr2 = `Expr<\"AAC\">`;
     Expr3 = `Expr<\"ABC\">`;

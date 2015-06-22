@@ -67,7 +67,6 @@ use util::Sep;
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct Grammar {
     pub span: Span,
-    pub type_name: TypeRef,
     pub items: Vec<GrammarItem>,
 }
 

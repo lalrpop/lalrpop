@@ -20,7 +20,7 @@ fn flat_productions(grammar: &Grammar) -> Vec<Production> {
 #[test]
 fn test_comma() {
     let grammar = parser::parse_grammar("
-grammar Foo {
+grammar {
     token Tok where { };
 
     Comma<E>: Vec<E> =

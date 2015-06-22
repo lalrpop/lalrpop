@@ -1,4 +1,4 @@
-grammar Foo {
+grammar {
     use util::tok::Tok;
 
     token Tok where {

@@ -26,7 +26,7 @@ fn first(first: &FirstSets, symbols: &[Symbol], lookahead: Lookahead) -> Vec<Loo
 #[test]
 fn basic() {
     let grammar = normalized_grammar(r#"
-grammar Foo {
+grammar {
     token Tok where { };
     A = B "C";
     B: Option<u32> = {

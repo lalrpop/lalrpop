@@ -21,12 +21,12 @@ fn type_ref_special_case_for_id() {
 
 #[test]
 fn empty_grammar() {
-    super::parse_grammar(r#"grammar Foo { }"#).unwrap();
+    super::parse_grammar(r#"grammar { }"#).unwrap();
 }
 
 #[test]
 fn use_decls() {
-    super::parse_grammar("grammar Foo {
+    super::parse_grammar("grammar {
     use std::io;
     use std::io::{self, a, b};
     use std::baz::*;
@@ -46,50 +46,50 @@ fn symbol() {
 
 #[test]
 fn nonterminal0() {
-    super::parse_grammar(r#"grammar Foo { Expr = Alt; }"#).unwrap();
+    super::parse_grammar(r#"grammar { Expr = Alt; }"#).unwrap();
 }
 
 #[test]
 fn paren() {
-   super::parse_grammar(r#"grammar Foo { Expr = (Alt); }"#).unwrap();
+   super::parse_grammar(r#"grammar { Expr = (Alt); }"#).unwrap();
 }
 
 #[test]
 fn paren_with_plus() {
-    super::parse_grammar(r#"grammar Foo { Expr = (Alt)+; }"#).unwrap();
+    super::parse_grammar(r#"grammar { Expr = (Alt)+; }"#).unwrap();
 }
 
 #[test]
 fn paren_with_plus_and_anon() {
-    super::parse_grammar(r#"grammar Foo { Expr = (~Alt)+; }"#).unwrap();
+    super::parse_grammar(r#"grammar { Expr = (~Alt)+; }"#).unwrap();
 }
 
 #[test]
 fn named_choice() {
-    super::parse_grammar(r#"grammar Foo { Expr = ~n:Alt; }"#).unwrap();
+    super::parse_grammar(r#"grammar { Expr = ~n:Alt; }"#).unwrap();
 }
 
 #[test]
 fn named_choice_plus() {
-    super::parse_grammar(r#"grammar Foo { Expr = ~Alt+; }"#).unwrap();
+    super::parse_grammar(r#"grammar { Expr = ~Alt+; }"#).unwrap();
 }
 
 #[test]
 fn token_expr() {
-    super::parse_grammar(r#"grammar Foo { token Expr where { "foo" => "bar"; }; }"#).unwrap();
+    super::parse_grammar(r#"grammar { token Expr where { "foo" => "bar"; }; }"#).unwrap();
 }
 
 #[test]
 fn map1() {
     super::parse_grammar(
-        r#"grammar Foo { Expr = ~n:Alt+ => { { foo } }; }"#).unwrap();
+        r#"grammar { Expr = ~n:Alt+ => { { foo } }; }"#).unwrap();
 }
 
 #[test]
 #[allow(non_snake_case)]
 fn mapN() {
     super::parse_grammar(
-        r#"grammar Foo { Expr = { Bar => { Baz }; X ~n:Bar => { Y }; }; }"#).unwrap();
+        r#"grammar { Expr = { Bar => { Baz }; X ~n:Bar => { Y }; }; }"#).unwrap();
 }
 
 #[test]

@@ -9,8 +9,8 @@ rusty_peg! {
     parser Parser<'input> {
         // Grammar
         GRAMMAR: Grammar =
-            ("grammar" <lo:POSL> <t:TYPE_REF> <hi:POSR> "{" <i:{GRAMMAR_ITEM}> "}") => {
-                Grammar { span: Span(lo, hi), type_name: t, items: i }
+            (<lo:POSL> "grammar" <hi:POSR> "{" <i:{GRAMMAR_ITEM}> "}") => {
+                Grammar { span: Span(lo, hi), items: i }
             };
 
         GRAMMAR_ITEM: GrammarItem =
