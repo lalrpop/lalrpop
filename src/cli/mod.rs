@@ -24,6 +24,7 @@ struct Options {
 pub fn main() {
     let options = parse_options();
     let grammar = parse_and_normalize_grammar(&options);
+    emit_recursive_ascent(&options, &grammar);
 }
 
 fn usage(msg: &str) -> ! {
@@ -75,10 +76,10 @@ fn expect_arg<T>(arg: &str, o: Option<T>) -> T {
     }
 }
 
-fn parse_and_normalize_grammar(options: &Options) {
+fn parse_and_normalize_grammar(options: &Options) -> r::Grammar {
     let input = match options.input {
-        None => FileText::from_stdin().unwrap(),
-        Some(ref path) => FileText::from_path(path.clone()).unwrap(),
+        None => check_io(FileText::from_stdin()),
+        Some(ref path) => check_io(FileText::from_path(path.clone())),
     };
 
     let grammar = match parser::parse_grammar(input.text()) {
@@ -90,33 +91,62 @@ fn parse_and_normalize_grammar(options: &Options) {
         }
     };
 
-    let grammar = match normalize::normalize(grammar) {
+    match normalize::normalize(grammar) {
         Ok(grammar) => grammar,
         Err(error) => {
             report_error(&input,
                          error.span,
                          &error.message)
         }
-    };
+    }
+}
 
-    let start_nt = options.start.unwrap_or(intern("start"));
-    let start_nt = r::NonterminalString(start_nt);
-    if grammar.productions_for(start_nt).is_empty() {
-        println!("Error: the symbol {} has no defined productions", start_nt);
+fn emit_recursive_ascent(options: &Options,
+                         grammar: &r::Grammar)
+{
+    let stdout: &mut Write = &mut io::stdout();
+    let mut rust = RustWrite::new(stdout);
+
+    if grammar.start_nonterminals.is_empty() {
+        println!("Error: no public symbols declared in grammar");
         exit(1);
     }
 
-    let states = match lr1::build_states(&grammar, start_nt) {
-        Ok(states) => states,
-        Err(error) => {
-            lr1::report_error(&mut io::stdout(), &grammar, &error);
-            exit(1)
+    for &start_nt in &grammar.start_nonterminals {
+        if grammar.productions_for(start_nt).is_empty() {
+            println!("Error: public symbol {} has no defined productions", start_nt);
+            exit(1);
         }
-    };
 
-    let stdout: &mut Write = &mut io::stdout();
-    let mut rust = RustWrite::new(stdout);
-    lr1::ascent::compile(&grammar, &vec![], start_nt, &states, &mut rust).unwrap();
+        let states = match lr1::build_states(&grammar, start_nt) {
+            Ok(states) => states,
+            Err(error) => {
+                lr1::report_error(&mut io::stdout(), &grammar, &error);
+                exit(1)
+            }
+        };
+
+        check_io(lr1::ascent::compile(&grammar, start_nt, &states, &mut rust));
+    }
+
+    check_io(emit_action_code(options, grammar, &mut rust));
+}
+
+fn emit_action_code<W:Write>(options: &Options,
+                             grammar: &r::Grammar,
+                             rust: &mut RustWrite<W>)
+                             -> io::Result<()>
+{
+    for (i, defn) in grammar.action_fn_defns.iter().enumerate() {
+        rust!(rust, "fn {}action{}(", grammar.prefix, i);
+        for (p, t) in defn.arg_patterns.iter().zip(defn.arg_types.iter()) {
+            rust!(rust, "{}: {},", p, t);
+        }
+        rust!(rust, "{{");
+        rust!(rust, "{}", defn.code);
+        rust!(rust, "}}");
+    }
+    Ok(())
 }
 
 fn report_error(file_text: &FileText, span: pt::Span, message: &str) -> ! {
@@ -129,3 +159,6 @@ fn report_error(file_text: &FileText, span: pt::Span, message: &str) -> ! {
     exit(1);
 }
 
+fn check_io<T>(r: io::Result<T>) -> T {
+    r.unwrap() // TODO print a nicer error
+}

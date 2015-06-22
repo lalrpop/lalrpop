@@ -37,6 +37,17 @@ impl LowerState {
     }
 
     fn lower(mut self, grammar: pt::Grammar) -> NormResult<r::Grammar> {
+        let start_symbols: Vec<_> =
+            grammar.items
+                   .iter()
+                   .filter_map(|item| match *item {
+                       pt::GrammarItem::Nonterminal(ref nt) => Some(nt),
+                       pt::GrammarItem::TokenType(_) => None
+                   })
+                   .filter(|nt| nt.public)
+                   .map(|nt| nt.name)
+                   .collect();
+
         for item in grammar.items {
             match item {
                 pt::GrammarItem::TokenType(data) => {
@@ -61,6 +72,7 @@ impl LowerState {
         }
 
         Ok(r::Grammar::new(self.prefix,
+                           start_symbols,
                            self.action_fn_defns,
                            self.productions,
                            self.conversions,

@@ -25,14 +25,19 @@ rusty_peg! {
             (<from:TERMINAL> "=>" <to:TERMINAL> ";") => (from, to);
 
         NONTERMINAL: GrammarItem =
-            (<lo:POSL> <n:NONTERMINAL_NAME> <hi:POSR>
-                       <t:[NONTERMINAL_TYPE]> "=" <a:ALTERNATIVES>) => {
-                GrammarItem::Nonterminal(NonterminalData { span: Span(lo, hi),
+            (<p:[NONTERMINAL_PUB]>
+             <lo:POSL> <n:NONTERMINAL_NAME> <hi:POSR>
+             <t:[NONTERMINAL_TYPE]> "=" <a:ALTERNATIVES>) => {
+                GrammarItem::Nonterminal(NonterminalData { public: p.is_some(),
+                                                           span: Span(lo, hi),
                                                            name: n.0,
                                                            args: n.1,
                                                            type_decl: t,
                                                            alternatives: a })
             };
+
+        NONTERMINAL_PUB: () =
+            "pub" => ();
 
         NONTERMINAL_NAME: (NonterminalString, Vec<NonterminalString>) =
             (NONTERMINAL_NAME_MACRO / NONTERMINAL_NAME_SIMPLE / NONTERMINAL_NAME_ESCAPE);

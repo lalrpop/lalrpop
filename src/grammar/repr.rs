@@ -16,6 +16,10 @@ pub struct Grammar {
     // a unique prefix that can be appended to identifiers to ensure
     // that they do not conflict with any action strings
     pub prefix: String,
+
+    // these are the nonterminals that were declared to be public
+    pub start_nonterminals: Vec<NonterminalString>,
+
     pub action_fn_defns: Vec<ActionFnDefn>,
     pub productions: Map<NonterminalString, Vec<Production>>,
     pub conversions: Map<TerminalString, TerminalString>,
@@ -170,6 +174,7 @@ impl ActionFnDefn {
 
 impl Grammar {
     pub fn new(prefix: String,
+               start_nonterminals: Vec<NonterminalString>,
                action_fn_defns: Vec<ActionFnDefn>,
                flat_productions: Vec<Production>,
                conversions: Vec<(TerminalString, TerminalString)>,
@@ -185,6 +190,7 @@ impl Grammar {
 
         Grammar {
             prefix: prefix,
+            start_nonterminals: start_nonterminals,
             action_fn_defns: action_fn_defns,
             productions: productions,
             conversions: conversions.into_iter().collect(),

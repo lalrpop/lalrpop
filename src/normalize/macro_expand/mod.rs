@@ -171,6 +171,7 @@ impl MacroExpander {
         }
 
         Ok(GrammarItem::Nonterminal(NonterminalData {
+            public: mdef.public,
             span: msym.span,
             name: msym_name,
             args: vec![],
@@ -321,6 +322,7 @@ impl MacroExpander {
         };
 
         Ok(GrammarItem::Nonterminal(NonterminalData {
+            public: false,
             span: expr.span,
             name: name,
             args: vec![],
@@ -348,6 +350,7 @@ impl MacroExpander {
                 let ty_ref = TypeRef::Nominal { path: path, types: vec![base_symbol_ty] };
 
                 Ok(GrammarItem::Nonterminal(NonterminalData {
+                    public: false,
                     span: repeat.span,
                     name: name,
                     args: vec![],
@@ -383,6 +386,7 @@ impl MacroExpander {
                 let ty_ref = TypeRef::Nominal { path: path, types: vec![base_symbol_ty] };
 
                 Ok(GrammarItem::Nonterminal(NonterminalData {
+                    public: false,
                     span: repeat.span,
                     name: name,
                     args: vec![],
@@ -418,6 +422,7 @@ impl MacroExpander {
                 let ty_ref = TypeRef::Nominal { path: path, types: vec![base_symbol_ty] };
 
                 Ok(GrammarItem::Nonterminal(NonterminalData {
+                    public: false,
                     span: repeat.span,
                     name: name,
                     args: vec![],

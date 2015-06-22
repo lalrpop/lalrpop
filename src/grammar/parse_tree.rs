@@ -109,6 +109,8 @@ pub enum TypeRef {
 
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct NonterminalData {
+    // a "public" nonterminal is one that we will use as a start symbol
+    pub public: bool,
     pub name: NonterminalString,
     pub span: Span,
     pub args: Vec<NonterminalString>, // macro arguments
