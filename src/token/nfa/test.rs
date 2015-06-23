@@ -1,13 +1,13 @@
-use token::nfa::{NFA, Noop, Other};
+use token::nfa::{NFA, Noop, Other, StateKind};
 use token::re::Test;
 
 #[test]
 fn edge_iter() {
     let mut nfa = NFA::new();
-    let s0 = nfa.new_state();
-    let s1 = nfa.new_state();
-    let s2 = nfa.new_state();
-    let s3 = nfa.new_state();
+    let s0 = nfa.new_state(StateKind::Neither);
+    let s1 = nfa.new_state(StateKind::Neither);
+    let s2 = nfa.new_state(StateKind::Neither);
+    let s3 = nfa.new_state(StateKind::Neither);
 
     nfa.push_edge(s2, Noop, s3);
     nfa.push_edge(s0, Noop, s1);

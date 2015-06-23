@@ -15,16 +15,16 @@ pub struct Alternative {
 }
 
 pub enum Elem {
+    Any,
     Test(Test),
     Group(Regex),
     NotGroup(Regex),
     Repeat(RepeatOp, Box<Elem>),
 }
 
-#[derive(Copy, Clone, PartialEq, Eq)]
+#[derive(Copy, Clone, Hash, PartialEq, Eq)]
 pub enum Test {
     Char(char), // some specific character
-    Any,        // .
 }
 
 #[derive(Copy, Clone, PartialEq, Eq)]
@@ -124,6 +124,7 @@ impl<'str> RegexParser<'str> {
                 '['  => { elems.push(try!(self.range(index))); }
                 ']'  => { break; }
                 '|'  => { break; }
+                '.'  => { elems.push(Elem::Any); }
                 _    => { self.bump(); elems.push(Elem::Test(Test::Char(c))); }
             }
         }
@@ -308,7 +309,7 @@ impl Debug for Alternative {
 impl Debug for Elem {
     fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
         match *self {
-            Elem::Test(Test::Any) => write!(fmt, "."),
+            Elem::Any => write!(fmt, "."),
             Elem::Test(Test::Char(c)) => {
                 if ".[]()?+*!".contains(c) {
                     write!(fmt, "\\{}", c)
@@ -319,6 +320,15 @@ impl Debug for Elem {
             Elem::Group(ref regex) => write!(fmt, "({:?})", regex),
             Elem::NotGroup(ref regex) => write!(fmt, "\\!({:?})", regex), // see (*) above
             Elem::Repeat(op, ref elem) => write!(fmt, "{:?}{}", elem, op),
+        }
+    }
+}
+
+impl Test {
+    pub fn meets(self, t: Test) -> bool {
+        use self::Test::*;
+        match (self, t) {
+            (Char(c), Char(d)) => c == d,
         }
     }
 }

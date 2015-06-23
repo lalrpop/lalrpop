@@ -20,6 +20,7 @@ mod intern;
 mod lr1;
 mod normalize;
 mod parser;
+mod kernel_set;
 mod token;
 mod util;
 

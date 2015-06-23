@@ -67,3 +67,8 @@ pub fn map<K:Hash+Eq,V>() -> HashMap<K,V> {
 }
 
 pub type Set<K> = HashSet<K>;
+
+pub fn set<K:Hash+Eq>() -> HashSet<K> {
+    HashSet::new()
+}
+
