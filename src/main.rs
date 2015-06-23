@@ -20,6 +20,7 @@ mod intern;
 mod lr1;
 mod normalize;
 mod parser;
+mod token;
 mod util;
 
 #[cfg(test)] mod generate;
