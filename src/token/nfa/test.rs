@@ -36,11 +36,18 @@ fn edge_iter() {
 }
 
 #[test]
-fn from_regex() {
+fn identifier_regex() {
     let ident = re::parse_regex(r#"[a-zA-Z_][a-zA-Z0-9_]*"#).unwrap();
     let nfa = NFA::from_re(&ident);
     assert_eq!(interpret(&nfa, "0123"), None);
     assert_eq!(interpret(&nfa, "hello0123"), Some("hello0123"));
     assert_eq!(interpret(&nfa, "hello0123 abc"), Some("hello0123"));
     assert_eq!(interpret(&nfa, "_0123 abc"), Some("_0123"));
+}
+
+#[test]
+fn regex_star_group() {
+    let ident = re::parse_regex(r#"(abc)*"#).unwrap();
+    let nfa = NFA::from_re(&ident);
+    assert_eq!(interpret(&nfa, "abcabcabcab"), Some("abcabcabc"));
 }
