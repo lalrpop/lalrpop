@@ -1,5 +1,6 @@
 use token::nfa::{NFA, Noop, Other, StateKind};
-use token::re::Test;
+use token::nfa::interpret::interpret;
+use token::re::{self, Test};
 
 #[test]
 fn edge_iter() {
@@ -32,4 +33,14 @@ fn edge_iter() {
 
     assert_eq!(s0_other_edges, &[s2]);
     assert_eq!(s0_test_edges, &[]);
+}
+
+#[test]
+fn from_regex() {
+    let ident = re::parse_regex(r#"[a-zA-Z_][a-zA-Z0-9_]*"#).unwrap();
+    let nfa = NFA::from_re(&ident);
+    assert_eq!(interpret(&nfa, "0123"), None);
+    assert_eq!(interpret(&nfa, "hello0123"), Some("hello0123"));
+    assert_eq!(interpret(&nfa, "hello0123 abc"), Some("hello0123"));
+    assert_eq!(interpret(&nfa, "_0123 abc"), Some("_0123"));
 }

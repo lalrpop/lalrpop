@@ -11,30 +11,45 @@ pub enum ParseTree {
 }
 
 pub fn random_parse_tree(grammar: &Grammar, symbol: NonterminalString) -> ParseTree {
-    let mut gen = Generator { grammar: grammar, rng: rand::thread_rng() };
-    gen.nonterminal(symbol)
+    let mut gen = Generator { grammar: grammar, rng: rand::thread_rng(), depth: 0 };
+    loop {
+        // sometimes, the random walk overflows the stack, so we have a max, and if
+        // it is exceeded, we just try again
+        if let Some(result) = gen.nonterminal(symbol) {
+            return result;
+        }
+        gen.depth = 0;
+    }
 }
 
 struct Generator<'grammar> {
     grammar: &'grammar Grammar,
     rng: rand::ThreadRng,
+    depth: u32,
 }
 
+const MAX_DEPTH: u32 = 10000;
+
 impl<'grammar> Generator<'grammar> {
-    fn nonterminal(&mut self, nt: NonterminalString) -> ParseTree {
+    fn nonterminal(&mut self, nt: NonterminalString) -> Option<ParseTree> {
+        if self.depth > MAX_DEPTH {
+            return None;
+        }
+
+        self.depth += 1;
         let productions = &self.grammar.productions[&nt];
         let index: usize = self.rng.gen_range(0, productions.len());
         let production = &productions[index];
-        let trees: Vec<_> = production.symbols.iter()
-                                              .map(|&sym| self.symbol(sym))
-                                              .collect();
-        ParseTree::Nonterminal(nt, trees)
+        let trees: Option<Vec<_>> = production.symbols.iter()
+                                                      .map(|&sym| self.symbol(sym))
+                                                      .collect();
+        trees.map(|trees| ParseTree::Nonterminal(nt, trees))
     }
 
-    fn symbol(&mut self, symbol: Symbol) -> ParseTree {
+    fn symbol(&mut self, symbol: Symbol) -> Option<ParseTree> {
         match symbol {
             Symbol::Nonterminal(nt) => self.nonterminal(nt),
-            Symbol::Terminal(t) => ParseTree::Terminal(t),
+            Symbol::Terminal(t) => Some(ParseTree::Terminal(t)),
         }
     }
 }

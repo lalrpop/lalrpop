@@ -3,13 +3,17 @@
 //! edges.
 
 use std::cmp;
+use std::fmt::{Debug, Display, Formatter, Error};
 use std::usize;
 use token::re::{Regex, Alternative, Elem, RepeatOp, Test};
 
 #[cfg(test)]
+mod interpret;
 
+#[cfg(test)]
 mod test;
 
+#[derive(Debug)]
 pub struct NFA {
     states: Vec<State>,
     edges: Edges
@@ -27,6 +31,7 @@ pub struct Other;
 /// test edges, or usize::MAX if no such edge. You can then find all
 /// edges by enumerating subsequent edges in the vectors until you
 /// find one with a different `from` value.
+#[derive(Debug)]
 struct State {
     kind: StateKind,
     first_noop_edge: usize,
@@ -39,7 +44,7 @@ pub enum StateKind {
     Accept, Reject, Neither
 }
 
-#[derive(Copy, Clone, Debug, Hash, PartialEq, Eq, PartialOrd, Ord)]
+#[derive(Copy, Clone, Hash, PartialEq, Eq, PartialOrd, Ord)]
 pub struct NFAStateIndex(usize);
 
 /// A set of edges for the state machine. Edges are kept sorted by the
@@ -47,6 +52,7 @@ pub struct NFAStateIndex(usize);
 /// `from` are grouped together so they can be enumerated later (for
 /// now we just ensure this during construction, but one could easily
 /// sort).
+#[derive(Debug)]
 struct Edges {
     noop_edges: Vec<Edge<Noop>>,
 
@@ -59,7 +65,7 @@ struct Edges {
     other_edges: Vec<Edge<Other>>,
 }
 
-#[derive(Debug, PartialEq, Eq)]
+#[derive(PartialEq, Eq)]
 pub struct Edge<L> {
     pub from: NFAStateIndex,
     pub label: L,
@@ -74,7 +80,7 @@ impl NFA {
     pub fn from_re(regex: &Regex) -> NFA {
         let mut nfa = NFA::new();
         let s0 = nfa.regex(regex, ACCEPT, REJECT);
-        nfa.push_edge(s0, Noop, START);
+        nfa.push_edge(START, Noop, s0);
         nfa
     }
 
@@ -89,6 +95,10 @@ impl NFA {
 
     pub fn kind(&self, from: NFAStateIndex) -> StateKind {
         self.states[from.0].kind
+    }
+
+    pub fn is_accepting_state(&self, from: NFAStateIndex) -> bool {
+        self.states[from.0].kind == StateKind::Accept
     }
 
     ///////////////////////////////////////////////////////////////////////////
@@ -325,5 +335,17 @@ impl<'nfa,L:EdgeLabel> Iterator for EdgeIterator<'nfa,L> {
         }
 
         Some(&self.edges[index])
+    }
+}
+
+impl Debug for NFAStateIndex {
+    fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
+        write!(fmt, "NFA{}", self.0)
+    }
+}
+
+impl<L:Debug> Debug for Edge<L> {
+    fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
+        write!(fmt, "{:?} -{:?}-> {:?}", self.from, self.label, self.to)
     }
 }

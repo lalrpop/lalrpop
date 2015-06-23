@@ -22,7 +22,7 @@ pub enum Elem {
     Repeat(RepeatOp, Box<Elem>),
 }
 
-#[derive(Copy, Clone, Hash, PartialEq, Eq)]
+#[derive(Copy, Clone, Debug, Hash, PartialEq, Eq)]
 pub enum Test {
     Char(char), // some specific character
 }

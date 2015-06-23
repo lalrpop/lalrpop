@@ -3,6 +3,7 @@
 
 use kernel_set::StateIndex;
 use kernel_set::KernelSet;
+use std::fmt::{Debug, Display, Formatter, Error};
 use std::rc::Rc;
 use token::re;
 use token::nfa::{self, NFA, NFAStateIndex};
@@ -21,7 +22,7 @@ struct State {
 #[derive(Copy, Clone, Debug, Hash, PartialEq, Eq, PartialOrd, Ord)]
 struct NFAIndex(usize);
 
-#[derive(Copy, Clone, Debug, Hash, PartialEq, Eq, PartialOrd, Ord)]
+#[derive(Copy, Clone, Hash, PartialEq, Eq, PartialOrd, Ord)]
 struct DFAStateIndex(usize);
 
 type DFAKernelSet = KernelSet<DFAStateIndex>;
@@ -169,5 +170,17 @@ impl StateIndex for DFAStateIndex {
 impl Item {
     fn to(&self, s: NFAStateIndex) -> Item {
         Item { nfa_index: self.nfa_index, nfa_state: s }
+    }
+}
+
+impl Debug for DFAStateIndex {
+    fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
+        write!(fmt, "DFA{}", self.0)
+    }
+}
+
+impl Display for DFAStateIndex {
+    fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
+        Debug::fmt(self, fmt)
     }
 }
