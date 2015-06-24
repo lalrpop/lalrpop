@@ -7,20 +7,47 @@ use std::fmt::{Debug, Display, Formatter, Error};
 use std::rc::Rc;
 use token::re;
 use token::nfa::{self, NFA, NFAStateIndex};
-use util::{map, Map, Multimap, Set};
+use util::Set;
 
+#[cfg(test)]
+mod test;
+
+#[cfg(test)]
+mod interpret;
+
+#[derive(Debug)]
 pub struct DFA {
-    nfas: Vec<NFA>,
+    states: Vec<State>
 }
 
+pub fn build_dfa(regexs: &[re::Regex]) -> DFA {
+    let nfas: Vec<_> = regexs.iter().map(|r| NFA::from_re(r)).collect();
+    let builder = DFABuilder { nfas: &nfas };
+    let dfa = builder.build();
+    dfa
+}
+
+struct DFABuilder<'nfa> {
+    nfas: &'nfa [NFA]
+}
+
+#[derive(Debug)]
 struct State {
     item_set: DFAItemSet,
-    test_edges: Map<re::Test, DFAStateIndex>,
+    kind: Kind,
+    test_edges: Vec<(re::Test, DFAStateIndex)>,
     other_edge: DFAStateIndex,
 }
 
+#[derive(Debug)]
+enum Kind {
+    Accepts(NFAIndex),
+    Reject,
+    Neither,
+}
+
 #[derive(Copy, Clone, Debug, Hash, PartialEq, Eq, PartialOrd, Ord)]
-struct NFAIndex(usize);
+pub struct NFAIndex(usize);
 
 #[derive(Copy, Clone, Hash, PartialEq, Eq, PartialOrd, Ord)]
 struct DFAStateIndex(usize);
@@ -32,7 +59,7 @@ struct DFAItemSet {
     items: Rc<Vec<Item>>
 }
 
-#[derive(Copy, Clone, Debug, Hash, PartialEq, Eq, PartialOrd, Ord)]
+#[derive(Copy, Clone, Hash, PartialEq, Eq, PartialOrd, Ord)]
 struct Item {
     // which regular expression?
     nfa_index: NFAIndex,
@@ -41,8 +68,10 @@ struct Item {
     nfa_state: NFAStateIndex,
 }
 
-impl DFA {
-    fn build_states(&self) -> Vec<State> {
+const START: DFAStateIndex = DFAStateIndex(0);
+
+impl<'nfa> DFABuilder<'nfa> {
+    fn build(&self) -> DFA {
         let mut kernel_set = KernelSet::new();
         let mut states = vec![];
 
@@ -60,9 +89,35 @@ impl DFA {
                         })
                         .collect();
 
+            // if any NFA is in an accepting state, that makes this
+            // DFA state an accepting state
+            let mut all_accepts: Vec<NFAIndex> =
+                item_set.items
+                        .iter()
+                        .cloned()
+                        .filter(|&item| self.nfa(item).is_accepting_state(item.nfa_state))
+                        .map(|item| item.nfa_index)
+                        .collect();
+
+            // if all NFAs are in a rejecting state, that makes this
+            // DFA a rejecting state
+            let all_rejects: bool =
+                item_set.items
+                        .iter()
+                        .all(|&item| self.nfa(item).is_rejecting_state(item.nfa_state));
+
+            let kind = if all_rejects {
+                Kind::Reject
+            } else if all_accepts.len() == 0 {
+                Kind::Neither
+            } else {
+                all_accepts.sort(); // we prefer regexs given earlier in the list, arbitrarily
+                Kind::Accepts(*all_accepts.iter().next().unwrap())
+            };
+
             // for each specific test, find what happens if we see a
             // character matching that test
-            let test_edges: Map<re::Test, DFAStateIndex> =
+            let test_edges: Vec<(re::Test, DFAStateIndex)> =
                 tests.iter()
                      .map(|&test| {
                          let items: Vec<_> =
@@ -92,14 +147,17 @@ impl DFA {
 
             let other_edge = kernel_set.add_state(self.transitive_closure(other_transitions));
 
-            states.push(State {
+            let state = State {
                 item_set: item_set,
+                kind: kind,
                 test_edges: test_edges,
                 other_edge: other_edge,
-            });
+            };
+
+            states.push(state);
         }
 
-        states
+        DFA { states: states }
     }
 
     fn start_state(&self, kernel_set: &mut DFAKernelSet) -> DFAStateIndex {
@@ -147,9 +205,11 @@ impl DFA {
                     .map(|edge| item.to(edge.to))
                     .filter(|&item| observed.insert(item));
             items.extend(derived_states);
+            counter += 1;
         }
 
         items.sort();
+        items.dedup();
 
         DFAItemSet { items: Rc::new(items) }
     }
@@ -164,6 +224,12 @@ impl StateIndex for DFAStateIndex {
 
     fn from(c: usize) -> DFAStateIndex {
         DFAStateIndex(c)
+    }
+}
+
+impl DFA {
+    fn state(&self, index: DFAStateIndex) -> &State {
+        &self.states[index.0]
     }
 }
 
@@ -182,5 +248,17 @@ impl Debug for DFAStateIndex {
 impl Display for DFAStateIndex {
     fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
         Debug::fmt(self, fmt)
+    }
+}
+
+impl NFAIndex {
+    fn index(&self) -> usize {
+        self.0
+    }
+}
+
+impl Debug for Item {
+    fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
+        write!(fmt, "({:?}:{:?})", self.nfa_index, self.nfa_state)
     }
 }

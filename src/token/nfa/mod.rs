@@ -2,8 +2,7 @@
 //! really of interest, we represent this just as a vector of labeled
 //! edges.
 
-use std::cmp;
-use std::fmt::{Debug, Display, Formatter, Error};
+use std::fmt::{Debug, Formatter, Error};
 use std::usize;
 use token::re::{Regex, Alternative, Elem, RepeatOp, Test};
 
@@ -101,6 +100,10 @@ impl NFA {
         self.states[from.0].kind == StateKind::Accept
     }
 
+    pub fn is_rejecting_state(&self, from: NFAStateIndex) -> bool {
+        self.states[from.0].kind == StateKind::Reject
+    }
+
     ///////////////////////////////////////////////////////////////////////////
     // Private methods for building an NFA
 
@@ -120,10 +123,10 @@ impl NFA {
         assert!(nfa.new_state(StateKind::Neither) == START);
 
         // the ACCEPT state, given another token, becomes a REJECT
-        nfa.push_edge(ACCEPT, Noop, REJECT);
+        nfa.push_edge(ACCEPT, Other, REJECT);
 
         // the REJECT state loops back to itself no matter what
-        nfa.push_edge(REJECT, Noop, REJECT);
+        nfa.push_edge(REJECT, Other, REJECT);
 
         nfa
     }
@@ -274,9 +277,11 @@ impl NFA {
                 //      [reject]
 
                 let s1 = self.new_state(StateKind::Neither);
-                self.push_edge(s1, Noop, accept);
 
                 let s0 = self.elem(elem, s1, reject);
+
+                self.push_edge(s1, Noop, accept);
+                self.push_edge(s1, Noop, s0);
 
                 s0
             }

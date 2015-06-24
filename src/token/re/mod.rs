@@ -119,7 +119,7 @@ impl<'str> RegexParser<'str> {
                 '*'  => { try!(self.repeat(&mut elems, index, RepeatOp::Star)); }
                 '+'  => { try!(self.repeat(&mut elems, index, RepeatOp::Plus)); }
                 '?'  => { try!(self.repeat(&mut elems, index, RepeatOp::Question)); }
-                '('  => { elems.push(try!(self.group(index))); }
+                '('  => { elems.push(try!(self.group())); }
                 ')'  => { break; }
                 '['  => { elems.push(try!(self.range(index))); }
                 ']'  => { break; }
@@ -162,7 +162,7 @@ impl<'str> RegexParser<'str> {
         }
     }
 
-    fn group(&mut self, index: usize) -> Result<Elem, RegexError> {
+    fn group(&mut self) -> Result<Elem, RegexError> {
         self.bump(); // consume the `(`
         let regex = try!(self.regex());
         try!(self.expect(')'));

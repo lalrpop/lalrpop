@@ -51,3 +51,10 @@ fn regex_star_group() {
     let nfa = NFA::from_re(&ident);
     assert_eq!(interpret(&nfa, "abcabcabcab"), Some("abcabcabc"));
 }
+
+#[test]
+fn regex_number() {
+    let num = re::parse_regex(r#"[0-9]+"#).unwrap();
+    let nfa = NFA::from_re(&num);
+    assert_eq!(interpret(&nfa, "123"), Some("123"));
+}
