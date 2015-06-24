@@ -15,10 +15,14 @@ fn tokenizer() {
         /* 1 */ r#"[a-zA-Z_][a-zA-Z0-9_]*"#,
         /* 2 */ r#"[0-9]+"#,
         /* 3 */ r#" +"#,
+        /* 4 */ r#">>"#,
+        /* 5 */ r#">"#,
         ]);
 
     assert_eq!(interpret(&dfa, "class Foo"), Some((NFAIndex(0), "class")));
     assert_eq!(interpret(&dfa, "classz Foo"), Some((NFAIndex(1), "classz")));
     assert_eq!(interpret(&dfa, "123"), Some((NFAIndex(2), "123")));
     assert_eq!(interpret(&dfa, "  classz Foo"), Some((NFAIndex(3), "  ")));
+    assert_eq!(interpret(&dfa, ">"), Some((NFAIndex(4), ">")));
+    assert_eq!(interpret(&dfa, ">>"), Some((NFAIndex(5), ">>")));
 }

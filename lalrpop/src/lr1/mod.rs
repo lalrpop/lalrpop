@@ -5,7 +5,9 @@ use std::fmt::{Debug, Formatter, Error};
 use std::rc::Rc;
 use util::{map, Map, Multimap, Set, Prefix};
 
+#[cfg(not(test))]
 pub mod ascent;
+
 mod error;
 mod first;
 

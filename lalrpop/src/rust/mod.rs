@@ -1,8 +1,6 @@
 //! Simple Rust AST. This is what the various code generators create,
 //! which then gets serialized.
 
-#![allow(dead_code)]
-
 use std::io::{self, Write};
 
 macro_rules! rust {

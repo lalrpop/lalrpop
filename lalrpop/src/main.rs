@@ -11,10 +11,13 @@ extern crate rand;
 extern crate regex;
 
 // rust exports a macro that others use, so hoist it early.
+#[cfg(not(test))]
 #[macro_use]
 mod rust;
 
+#[cfg(not(test))]
 mod cli;
+
 mod grammar;
 mod intern;
 mod lr1;

@@ -114,11 +114,9 @@ grammar {
 }
 "#);
 
-    let lr1 = LR1::new(&grammar);
-
     // for now, just test that process does not result in an error
     // and yields expected number of states.
-    let states = lr1.build_states(nt("S")).unwrap();
+    let states = build_states(&grammar, nt("S")).unwrap();
     assert_eq!(states.len(), 16);
 
     // execute it on some sample inputs.
