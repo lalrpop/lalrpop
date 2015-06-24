@@ -1,3 +1,5 @@
+# LALRPop
+
 LALRPop is a parser generator framework. Despite its name, it does not
 implement the LALR(1) algorithm, but rather LR(1). In fact, it has
 grand ambitions of eventually supporting all manner of parser
@@ -18,6 +20,7 @@ LALRPop has a number of nifty features:
    in an `if` expression.
 3. Compact defaults so that you can avoid writing action code much of the
    time.
+4. Type inference so you can often omit the types of nonterminals etc.   
    
 To be clear, LALRPop is barely functional. It's kind of spare time
 project. But it's coming along pretty quickly, now that a lot of the
