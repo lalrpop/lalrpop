@@ -115,8 +115,8 @@ rusty_peg! {
         REPEAT_OP_QUESTION: RepeatOp = "?" => RepeatOp::Question;
 
         SYMBOL0: Symbol =
-            (MACRO_SYMBOL / TERMINAL_SYMBOL / NT_SYMBOL / ESCAPE_SYMBOL /
-             PAREN_SYMBOL / NAMED_SYMBOL / CHOSEN_SYMBOL);
+            (NAMED_SYMBOL / CHOSEN_SYMBOL / MACRO_SYMBOL / TERMINAL_SYMBOL /
+             NT_SYMBOL / ESCAPE_SYMBOL / PAREN_SYMBOL);
 
         MACRO_SYMBOL: Symbol =
             (<lo:POSL> <l:NONTERMINAL_ID> "<" <m:{MACRO_ARG_START}> <n:[SYMBOL]> ">" <hi:POSR>) => {
@@ -146,7 +146,7 @@ rusty_peg! {
                                                                symbols: s };
 
         NAMED_SYMBOL: Symbol =
-            ("~" <l:ID> ":" <s:SYMBOL>) => Symbol::Name(l, Box::new(s));
+            (<l:ID> ":" <s:SYMBOL>) => Symbol::Name(l, Box::new(s));
 
         CHOSEN_SYMBOL: Symbol =
             ("~" <s:SYMBOL>) => Symbol::Choose(Box::new(s));

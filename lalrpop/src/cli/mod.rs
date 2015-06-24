@@ -1,5 +1,3 @@
-#![cfg(not(test))]
-
 use intern::{intern, InternedString};
 use parser;
 use grammar::parse_tree as pt;

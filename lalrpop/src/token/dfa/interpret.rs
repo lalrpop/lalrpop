@@ -1,4 +1,4 @@
-use token::dfa::{DFA, DFAStateIndex, Kind, NFAIndex, START};
+use token::dfa::{DFA, Kind, NFAIndex, START};
 use token::re::Test;
 
 pub fn interpret<'text>(dfa: &DFA, input: &'text str) -> Option<(NFAIndex, &'text str)> {

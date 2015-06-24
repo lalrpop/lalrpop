@@ -23,6 +23,6 @@ fn tokenizer() {
     assert_eq!(interpret(&dfa, "classz Foo"), Some((NFAIndex(1), "classz")));
     assert_eq!(interpret(&dfa, "123"), Some((NFAIndex(2), "123")));
     assert_eq!(interpret(&dfa, "  classz Foo"), Some((NFAIndex(3), "  ")));
-    assert_eq!(interpret(&dfa, ">"), Some((NFAIndex(4), ">")));
-    assert_eq!(interpret(&dfa, ">>"), Some((NFAIndex(5), ">>")));
+    assert_eq!(interpret(&dfa, ">"), Some((NFAIndex(5), ">")));
+    assert_eq!(interpret(&dfa, ">>"), Some((NFAIndex(4), ">>")));
 }

@@ -75,7 +75,9 @@ impl<'nfa> DFABuilder<'nfa> {
         let mut kernel_set = KernelSet::new();
         let mut states = vec![];
 
-        let state_index = self.start_state(&mut kernel_set);
+        let start_state_index = self.start_state(&mut kernel_set);
+        assert_eq!(start_state_index, START);
+
         while let Some(item_set) = kernel_set.next() {
             // collect all the specific tests we expect from any of
             // the items in this state

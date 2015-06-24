@@ -1,5 +1,4 @@
 //! Error reporting. For now very stupid and simplistic.
-#![cfg(not(test))]
 
 use grammar::repr::Grammar;
 use std::io::{self, Write};

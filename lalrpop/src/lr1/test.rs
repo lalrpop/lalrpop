@@ -2,7 +2,7 @@ use intern::intern;
 use generate;
 use grammar::repr::*;
 use test_util::{compare, expect_debug, normalized_grammar};
-use super::{State, Items, Lookahead, LR1};
+use super::{build_states, State, Items, Lookahead, LR1};
 use super::Lookahead::EOF;
 use super::interpret::interpret;
 
@@ -56,8 +56,8 @@ grammar {
     let items = items(&grammar, "A", 0, EOF);
     expect_debug(items, r#"[
     A = (*) B "C" [EOF],
-    B = (*) "D" ["C"],
-    B = (*) ["C"]
+    B = (*) ["C"],
+    B = (*) "D" ["C"]
 ]"#);
 }
 
@@ -80,16 +80,16 @@ grammar {
 
     expect_debug(items(&grammar, "A", 0, EOF), r#"[
     A = (*) B C [EOF],
-    B = (*) "B1" ["C1"],
+    B = (*) [EOF],
     B = (*) ["C1"],
     B = (*) "B1" [EOF],
-    B = (*) [EOF]
+    B = (*) "B1" ["C1"]
 ]"#);
 
     expect_debug(items(&grammar, "A", 1, EOF), r#"[
     A = B (*) C [EOF],
-    C = (*) "C1" [EOF],
-    C = (*) [EOF]
+    C = (*) [EOF],
+    C = (*) "C1" [EOF]
 ]"#);
 }
 

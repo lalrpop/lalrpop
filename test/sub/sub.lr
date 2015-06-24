@@ -10,12 +10,13 @@ grammar {
     pub S = E;
 
     E = {
-        ~l:E "-" ~r:T => l-r;
+        l:E "-" r:T => l-r;
+
         T;
     };
 
     T: i32 = {
-        ~n:"Num" => n.as_num();
+        n:"Num" => n.as_num();
         "(" ~E ")";
     };
 }

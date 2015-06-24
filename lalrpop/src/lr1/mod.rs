@@ -5,7 +5,6 @@ use std::fmt::{Debug, Formatter, Error};
 use std::rc::Rc;
 use util::{map, Map, Multimap, Set, Prefix};
 
-#[cfg(not(test))]
 pub mod ascent;
 
 mod error;
@@ -46,7 +45,7 @@ enum Lookahead {
     Terminal(TerminalString),
 }
 
-#[derive(Copy, Clone, Hash, PartialEq, Eq)]
+#[derive(Copy, Clone, Hash, PartialEq, Eq, PartialOrd, Ord)]
 struct Item<'grammar> {
     production: &'grammar Production,
     index: usize, // the dot comes before `index`, so `index` would be 1 for X = A (*) B C
@@ -203,6 +202,9 @@ impl<'grammar> LR1<'grammar> {
             counter = items.len();
             items.extend(new_items);
         }
+
+        items.sort();
+        items.dedup();
 
         Rc::new(items)
     }
