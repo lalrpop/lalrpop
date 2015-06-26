@@ -1,4 +1,4 @@
-use grammar::parse_tree::TypeRef;
+use grammar::parse_tree::{Symbol, TypeRef};
 
 #[test]
 fn type_ref() {
@@ -66,7 +66,7 @@ fn paren_with_plus_and_anon() {
 
 #[test]
 fn named_choice() {
-    super::parse_grammar(r#"grammar { Expr = ~n:Alt; }"#).unwrap();
+    super::parse_grammar(r#"grammar { Expr = n:Alt; }"#).unwrap();
 }
 
 #[test]
@@ -82,14 +82,14 @@ fn token_expr() {
 #[test]
 fn map1() {
     super::parse_grammar(
-        r#"grammar { Expr = ~n:Alt+ => { { foo } }; }"#).unwrap();
+        r#"grammar { Expr = n:Alt+ => { { foo } }; }"#).unwrap();
 }
 
 #[test]
 #[allow(non_snake_case)]
 fn mapN() {
     super::parse_grammar(
-        r#"grammar { Expr = { Bar => { Baz }; X ~n:Bar => { Y }; }; }"#).unwrap();
+        r#"grammar { Expr = { Bar => { Baz }; X n:Bar => { Y }; }; }"#).unwrap();
 }
 
 #[test]
@@ -102,9 +102,31 @@ fn macro_symbols() {
 }
 
 #[test]
+fn symbol_precedence() {
+    // check that we parse this as choosing a X+
+    let sym = super::parse_symbol(r#"~X+"#).unwrap();
+    assert!(match sym {
+        Symbol::Choose(..) => true,
+        _ => false
+    });
+
+    let sym = super::parse_symbol(r#"n:X+"#).unwrap();
+    assert!(match sym {
+        Symbol::Name(..) => true,
+        _ => false
+    });
+}
+
+#[test]
+fn symbol_choose_name() {
+    // check that we can parse ~S and x:S but not both
+    assert!(super::parse_symbol(r#"~x:X+"#).is_err());
+}
+
+#[test]
 fn macro_nt() {
     super::parse_nonterminal(
-        r#"Comma<E>: Vec<E> = ~v:(~E ",")* ~e:E? => v.into_iter().chain(e.into_iter()).collect();"#)
+        r#"Comma<E>: Vec<E> = v:(~E ",")* e:E? => v.into_iter().chain(e.into_iter()).collect();"#)
         .unwrap();
 }
 

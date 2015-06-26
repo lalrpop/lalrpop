@@ -174,7 +174,7 @@ pub enum Symbol {
     // ~X
     Choose(Box<Symbol>),
 
-    // ~x:X
+    // x:X
     Name(InternedString, Box<Symbol>),
 }
 

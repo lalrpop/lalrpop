@@ -102,7 +102,16 @@ rusty_peg! {
         // Symbols
 
         SYMBOL: Symbol =
-            fold(<lhs:SYMBOL0>,
+            (NAMED_SYMBOL / CHOSEN_SYMBOL / SYMBOL0);
+
+        NAMED_SYMBOL: Symbol =
+            (<l:ID> ":" <s:SYMBOL0>) => Symbol::Name(l, Box::new(s));
+
+        CHOSEN_SYMBOL: Symbol =
+            ("~" <s:SYMBOL0>) => Symbol::Choose(Box::new(s));
+
+        SYMBOL0: Symbol =
+            fold(<lhs:SYMBOL1>,
                  (<lo:POSL> <op:REPEAT_OP> <hi:POSR>) => {
                      Symbol::Repeat(Box::new(RepeatSymbol { span: Span(lo, hi),
                                                             symbol: lhs,
@@ -114,9 +123,8 @@ rusty_peg! {
         REPEAT_OP_STAR: RepeatOp = "*" => RepeatOp::Star;
         REPEAT_OP_QUESTION: RepeatOp = "?" => RepeatOp::Question;
 
-        SYMBOL0: Symbol =
-            (NAMED_SYMBOL / CHOSEN_SYMBOL / MACRO_SYMBOL / TERMINAL_SYMBOL /
-             NT_SYMBOL / ESCAPE_SYMBOL / PAREN_SYMBOL);
+        SYMBOL1: Symbol =
+            (MACRO_SYMBOL / TERMINAL_SYMBOL / NT_SYMBOL / ESCAPE_SYMBOL / PAREN_SYMBOL);
 
         MACRO_SYMBOL: Symbol =
             (<lo:POSL> <l:NONTERMINAL_ID> "<" <m:{MACRO_ARG_START}> <n:[SYMBOL]> ">" <hi:POSR>) => {
@@ -144,12 +152,6 @@ rusty_peg! {
         EXPR_SYMBOL: ExprSymbol =
             (<lo:POSL> <s:{SYMBOL}> <hi:POSR>) => ExprSymbol { span: Span(lo, hi),
                                                                symbols: s };
-
-        NAMED_SYMBOL: Symbol =
-            (<l:ID> ":" <s:SYMBOL>) => Symbol::Name(l, Box::new(s));
-
-        CHOSEN_SYMBOL: Symbol =
-            ("~" <s:SYMBOL>) => Symbol::Choose(Box::new(s));
 
         // TypeRef
 

@@ -142,7 +142,7 @@ grammar {
 
     X = {
         Y;
-        ~l:X "+" ~r:Y => l + r;
+        l:X "+" r:Y => l + r;
     };
 
     Y: i32 = "foo" => 22;
@@ -162,7 +162,7 @@ grammar {
     X = {
         Y;
         Z;
-        ~l:X \"+\" ~r:Y => l + r;
+        l:X \"+\" r:Y => l + r;
     };
 
     Y: i32 = \"foo\" => 22;
