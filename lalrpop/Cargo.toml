@@ -7,6 +7,7 @@ authors = ["Niko Matsakis <niko@alum.mit.edu>"]
 regex = "0.1"
 diff = "0.1"
 rand = "0.3"
+itertools = "0.3"
 
 [dependencies.rusty-peg]
 git = "https://github.com/nikomatsakis/rusty-peg.git"

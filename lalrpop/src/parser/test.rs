@@ -25,6 +25,18 @@ fn empty_grammar() {
 }
 
 #[test]
+fn grammar_param1() {
+    super::parse_grammar(r#"grammar<T>(x: T) { }"#).unwrap();
+}
+
+#[test]
+fn grammar_param2() {
+    super::parse_grammar(
+        r#"grammar<'a,T>(x: T, y: Vec<U>) where T: Copy, for<'a> &'a T: Baz { }"#
+            ).unwrap();
+}
+
+#[test]
 fn use_decls() {
     super::parse_grammar("grammar {
     use std::io;

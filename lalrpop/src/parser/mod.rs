@@ -5,13 +5,50 @@ use rusty_peg;
 #[cfg(test)]
 mod test;
 
+fn make_list<T>(head: Vec<(T, &'static str)>,
+                tail: Option<(T, Option<&'static str>)>)
+                -> Vec<T> {
+    head.into_iter().map(|(a,_)| a)
+                    .chain(tail.map(|(a, _)| a).into_iter())
+                    .collect()
+}
+
 rusty_peg! {
     parser Parser<'input> {
         // Grammar
         GRAMMAR: Grammar =
-            (<lo:POSL> "grammar" <hi:POSR> "{" <i:{GRAMMAR_ITEM}> "}") => {
-                Grammar { span: Span(lo, hi), items: i }
+            (<lo:POSL> "grammar" <hi:POSR>
+             <tps:[GRAMMAR_TPS]>
+             <parameters:[GRAMMAR_PARAMS]>
+             <where_clauses:[WHERE_CLAUSES]>
+             "{" <i:{GRAMMAR_ITEM}> "}") => {
+                Grammar { span: Span(lo, hi),
+                          type_parameters: tps.unwrap_or(vec![]),
+                          parameters: parameters.unwrap_or(vec![]),
+                          where_clauses: where_clauses.unwrap_or(vec![]),
+                          items: i }
             };
+
+        GRAMMAR_TPS: Vec<TypeParameter> =
+            ("<" <h:{TYPE_PARAMETER ","}> <t:[TYPE_PARAMETER [","]]> ">") => make_list(h, t);
+
+        TYPE_PARAMETER: TypeParameter =
+            (LIFETIME_TYPE_PARAMETER / ID_TYPE_PARAMETER);
+
+        LIFETIME_TYPE_PARAMETER: TypeParameter =
+            (<l:LIFETIME>) => TypeParameter::Lifetime(l);
+
+        ID_TYPE_PARAMETER: TypeParameter =
+            (<l:ID>) => TypeParameter::Id(l);
+
+        GRAMMAR_PARAMS: Vec<Parameter> =
+            ("(" <h:{GRAMMAR_PARAM ","}> <t:[GRAMMAR_PARAM [","]]> ")") => make_list(h, t);
+
+        GRAMMAR_PARAM: Parameter =
+            (<id:ID> ":" <t:TYPE_REF>) => Parameter { name: id, ty: t };
+
+        WHERE_CLAUSES: Vec<String> =
+            ("where" <h:{TYPE ","}> <t:[TYPE [","]]>) => make_list(h, t);
 
         GRAMMAR_ITEM: GrammarItem =
             (TOKEN_TYPE / NONTERMINAL / USE);
@@ -52,14 +89,9 @@ rusty_peg! {
             (<a:ESCAPE>) => (NonterminalString(a), vec![]);
 
         NONTERMINAL_NAME_MACRO: (NonterminalString, Vec<NonterminalString>) =
-            (<a:NONTERMINAL_ID> "<" <b:{NONTERMINAL_NAME_MACRO1}> <c:[NONTERMINAL_ID]> ">") => {
-                let mut args = b;
-                args.extend(c.into_iter());
-                (a, args)
+            (<a:NONTERMINAL_ID> "<" <b:{NONTERMINAL_ID ","}> <c:[NONTERMINAL_ID [","]]> ">") => {
+                (a, make_list(b, c))
             };
-
-        NONTERMINAL_NAME_MACRO1: NonterminalString =
-            (<a:NONTERMINAL_ID> ",") => a;
 
         NONTERMINAL_TYPE: TypeRef =
             (":" <s:TYPE_REF>) => s;
@@ -127,15 +159,12 @@ rusty_peg! {
             (MACRO_SYMBOL / TERMINAL_SYMBOL / NT_SYMBOL / ESCAPE_SYMBOL / PAREN_SYMBOL);
 
         MACRO_SYMBOL: Symbol =
-            (<lo:POSL> <l:NONTERMINAL_ID> "<" <m:{MACRO_ARG_START}> <n:[SYMBOL]> ">" <hi:POSR>) => {
-                let mut args = m;
-                if let Some(n) = n { args.push(n); }
+            (<lo:POSL> <l:NONTERMINAL_ID> "<"
+             <m:{SYMBOL ","}> <n:[SYMBOL [","]]> ">" <hi:POSR>) => {
                 Symbol::Macro(MacroSymbol { name: l,
-                                            args: args,
+                                            args: make_list(m, n),
                                             span: Span(lo, hi), })
             };
-
-        MACRO_ARG_START: Symbol = (<s:SYMBOL> ",") => s;
 
         TERMINAL_SYMBOL: Symbol =
             (<l:TERMINAL>) => Symbol::Terminal(l);
@@ -242,6 +271,7 @@ rusty_peg! {
 // Custom symbols.
 
 struct CODE;
+struct TYPE;
 
 impl<'input> rusty_peg::Symbol<'input,Parser<'input>> for CODE {
     type Output = String;
@@ -249,42 +279,67 @@ impl<'input> rusty_peg::Symbol<'input,Parser<'input>> for CODE {
     fn parse(&self, _: &mut Parser<'input>, input: rusty_peg::Input<'input>)
              -> rusty_peg::ParseResult<'input,String>
     {
-        let bytes = input.text.as_bytes();
-        let mut offset = input.offset;
-        let mut balance: u32 = 0;
-        let mut in_string: bool = false;
+        parse_code(input, false)
+    }
+}
 
-        while offset < input.text.len() {
-            let cur_byte = bytes[offset];
+impl<'input> rusty_peg::Symbol<'input,Parser<'input>> for TYPE {
+    type Output = String;
 
-            // FIXME -- really we need a more sophisticated tokenization
-            // scheme here to accommodate `r#` and so forth!
+    fn parse(&self, _: &mut Parser<'input>, input: rusty_peg::Input<'input>)
+             -> rusty_peg::ParseResult<'input,String>
+    {
+        parse_code(input, true)
+    }
+}
 
-            if in_string {
-                // inside of a string, allow anything and look for '"'
-                if cur_byte == '\\' as u8 && offset < input.text.len() - 1 {
-                    offset += 1; // skip over escape sequences like \"
-                } else if cur_byte == '"' as u8 {
-                    in_string = false;
-                }
-            } else {
-                // otherwise, we are inside regular code, so track {}, [], or () pairs
+fn parse_code<'input>(input: rusty_peg::Input<'input>, type_pos: bool)
+                      -> rusty_peg::ParseResult<'input,String> {
+    let bytes = input.text.as_bytes();
+    let mut offset = input.offset;
+    let mut balance: u32 = 0;
+    let mut in_string: bool = false;
+
+    while offset < input.text.len() {
+        let cur_byte = bytes[offset];
+
+        // FIXME -- really we need a more sophisticated tokenization
+        // scheme here to accommodate `r#` and so forth!
+
+        if in_string {
+            // inside of a string, allow anything and look for '"'
+            if cur_byte == '\\' as u8 && offset < input.text.len() - 1 {
+                offset += 1; // skip over escape sequences like \"
+            } else if cur_byte == '"' as u8 {
+                in_string = false;
+            }
+        } else {
+            if type_pos {
                 match cur_byte as char {
-                    '{' | '(' | '[' => balance += 1,
-                    '"' => in_string = true,
-                    '}' | ')' | ']' | ',' | ';' if balance == 0 => break,
-                    '}' | ')' | ']' => balance -= 1,
-                    _ => { }
+                    '{' if balance == 0 => break,
+                    '<' => balance += 1,
+                    '>' if balance == 0 => break,
+                    '>' => balance -= 1,
+                    _ => { /* fallthrough to the match below */ }
                 }
             }
 
-            offset += 1; // move to next byte
+            // otherwise, we are inside regular code, so track {}, [], or () pairs
+            match cur_byte as char {
+                '{' | '(' | '[' => balance += 1,
+                '"' => in_string = true,
+                '}' | ')' | ']' | ',' | ';' if balance == 0 => break,
+                '}' | ')' | ']' => balance -= 1,
+                _ => { }
+            }
         }
 
-        let regex_str = &input.text[input.offset .. offset];
-        let output = rusty_peg::Input { text: input.text, offset: offset };
-        return Ok((output, regex_str.to_string()));
+        offset += 1; // move to next byte
     }
+
+    let regex_str = &input.text[input.offset .. offset];
+    let output = rusty_peg::Input { text: input.text, offset: offset };
+    return Ok((output, regex_str.to_string()));
 }
 
 pub fn parse_grammar(text: &str) -> Result<Grammar,rusty_peg::Error> {

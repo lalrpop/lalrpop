@@ -6,7 +6,7 @@ some pre-expansion and so forth before creating the proper AST.
 Here is an example file to give you the idea:
 
 ```
-grammar Type<'input, T> {
+grammar<'input, T>(...) where ... {
 
   // External token type; "xxx" is assumed to map
   // to a variant name, but we can do some substitutions
@@ -40,7 +40,7 @@ grammar Type<'input, T> {
 
   // Example 1: comma-separated list with optional trailing comma.
   Comma<E>: Vec<E> = {
-      ~v:(~E ",")* ~e:E? => {
+      v:(~E ",")* e:E? => {
           let mut v = v;
           if let Some(e) = e { v.push(e); }
           v
@@ -67,6 +67,9 @@ use util::Sep;
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct Grammar {
     pub span: Span,
+    pub type_parameters: Vec<TypeParameter>,
+    pub parameters: Vec<Parameter>,
+    pub where_clauses: Vec<String>,
     pub items: Vec<GrammarItem>,
 }
 
@@ -105,6 +108,18 @@ pub enum TypeRef {
 
     // <N> ==> type of a nonterminal, emitted by macro expansion
     OfSymbol(Symbol),
+}
+
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub enum TypeParameter {
+    Lifetime(InternedString),
+    Id(InternedString),
+}
+
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub struct Parameter {
+    pub name: InternedString,
+    pub ty: TypeRef,
 }
 
 #[derive(Clone, Debug, PartialEq, Eq)]

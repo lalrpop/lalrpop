@@ -9,7 +9,7 @@ use std::fmt::{Debug, Display, Formatter, Error};
 use util::{map, Map, Sep};
 
 // These concepts we re-use wholesale
-pub use grammar::parse_tree::{NonterminalString, Span, TerminalString};
+pub use grammar::parse_tree::{NonterminalString, Span, TerminalString, TypeParameter};
 
 #[derive(Clone, Debug)]
 pub struct Grammar {
@@ -22,6 +22,9 @@ pub struct Grammar {
 
     // the "use foo;" statements that the user declared
     pub uses: Vec<String>,
+    pub type_parameters: Vec<TypeParameter>,
+    pub parameters: Vec<Parameter>,
+    pub where_clauses: Vec<String>,
 
     // the grammar proper:
 
@@ -29,6 +32,12 @@ pub struct Grammar {
     pub productions: Map<NonterminalString, Vec<Production>>,
     pub conversions: Map<TerminalString, TerminalString>,
     pub types: Types,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub struct Parameter {
+    pub name: InternedString,
+    pub ty: TypeRepr,
 }
 
 #[derive(Clone, Hash, PartialEq, Eq, PartialOrd, Ord)]
@@ -88,6 +97,12 @@ impl Types {
 
     pub fn nonterminal_type(&self, id: NonterminalString) -> &TypeRepr {
         &self.nonterminal_types[&id]
+    }
+}
+
+impl Display for Parameter {
+    fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
+        write!("{}: {}", self.name, self.ty)
     }
 }
 

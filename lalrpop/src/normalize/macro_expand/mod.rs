@@ -12,7 +12,7 @@ use std::mem;
 mod test;
 
 pub fn expand_macros(input: Grammar) -> NormResult<Grammar> {
-    let Grammar { span, items } = input;
+    let items = input.items;
 
     let (macro_defs, mut items): (Vec<_>, Vec<_>) =
         items.into_iter().partition(|mi| mi.is_macro_def());
@@ -28,7 +28,7 @@ pub fn expand_macros(input: Grammar) -> NormResult<Grammar> {
     let mut expander = MacroExpander::new(macro_defs);
     try!(expander.expand(&mut items));
 
-    Ok(Grammar { span: span, items: items })
+    Ok(Grammar { items: items, ..input})
 }
 
 struct MacroExpander {
