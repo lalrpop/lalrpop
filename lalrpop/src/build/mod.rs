@@ -124,11 +124,11 @@ fn emit_recursive_ascent(output_path: &Path, grammar: &r::Grammar) -> io::Result
         exit(1);
     }
 
-    for &start_nt in &grammar.start_nonterminals {
-        if grammar.productions_for(start_nt).is_empty() {
-            println!("Error: public symbol {} has no defined productions", start_nt);
-            exit(1);
-        }
+    for (&user_nt, &start_nt) in &grammar.start_nonterminals {
+        // We generate these, so there should always be exactly 1
+        // production. Otherwise the LR(1) algorithm doesn't know
+        // where to stop!
+        assert_eq!(grammar.productions_for(start_nt).len(), 1);
 
         let states = match lr1::build_states(&grammar, start_nt) {
             Ok(states) => states,
@@ -138,7 +138,7 @@ fn emit_recursive_ascent(output_path: &Path, grammar: &r::Grammar) -> io::Result
             }
         };
 
-        try!(lr1::ascent::compile(&grammar, start_nt, &states, &mut rust));
+        try!(lr1::ascent::compile(&grammar, user_nt, start_nt, &states, &mut rust));
     }
 
     try!(emit_action_code(grammar, &mut rust));

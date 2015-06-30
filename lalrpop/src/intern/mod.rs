@@ -63,6 +63,10 @@ impl InternedString {
     fn index(&self) -> usize {
         self.index as usize
     }
+
+    pub fn starts_with(&self, prefix: &str) -> bool {
+        read(|interner| interner.data(*self).starts_with(prefix))
+    }
 }
 
 impl Debug for InternedString {

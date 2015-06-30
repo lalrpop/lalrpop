@@ -17,8 +17,11 @@ pub struct Grammar {
     // that they do not conflict with any action strings
     pub prefix: String,
 
-    // these are the nonterminals that were declared to be public
-    pub start_nonterminals: Vec<NonterminalString>,
+    // these are the nonterminals that were declared to be public; the
+    // key is the user's name for the symbol, the value is the
+    // artificial symbol we introduce, which will always have a single
+    // production like `Foo' = Foo`.
+    pub start_nonterminals: Map<NonterminalString, NonterminalString>,
 
     // the "use foo;" statements that the user declared
     pub uses: Vec<String>,

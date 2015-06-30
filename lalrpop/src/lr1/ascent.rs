@@ -13,12 +13,13 @@ pub type Path = Vec<InternedString>;
 
 pub fn compile<'grammar,W:Write>(
     grammar: &'grammar Grammar,
+    user_start_symbol: NonterminalString,
     start_symbol: NonterminalString,
     states: &[State<'grammar>],
     out: &mut RustWrite<W>)
     -> io::Result<()>
 {
-    let mut ascent = RecursiveAscent::new(grammar, start_symbol, states, out);
+    let mut ascent = RecursiveAscent::new(grammar, user_start_symbol, start_symbol, states, out);
     ascent.write()
 }
 
@@ -26,6 +27,7 @@ struct RecursiveAscent<'ascent,'grammar:'ascent,W:Write+'ascent> {
     grammar: &'grammar Grammar,
     prefix: &'grammar str,
     types: &'grammar Types,
+    user_start_symbol: NonterminalString,
     start_symbol: NonterminalString,
     states: &'ascent [State<'grammar>],
     state_prefixes: Vec<&'grammar [Symbol]>,
@@ -34,6 +36,7 @@ struct RecursiveAscent<'ascent,'grammar:'ascent,W:Write+'ascent> {
 
 impl<'ascent,'grammar,W:Write> RecursiveAscent<'ascent,'grammar,W> {
     fn new(grammar: &'grammar Grammar,
+           user_start_symbol: NonterminalString,
            start_symbol: NonterminalString,
            states: &'ascent [State<'grammar>],
            out: &'ascent mut RustWrite<W>)
@@ -45,6 +48,7 @@ impl<'ascent,'grammar,W:Write> RecursiveAscent<'ascent,'grammar,W> {
             types: &grammar.types,
             states: states,
             state_prefixes: states.iter().map(|s| s.prefix()).collect(),
+            user_start_symbol: user_start_symbol,
             start_symbol: start_symbol,
             out: out,
         }
@@ -101,7 +105,7 @@ impl<'ascent,'grammar,W:Write> RecursiveAscent<'ascent,'grammar,W> {
         let terminal_type = self.types.terminal_type();
         rust!(self.out, "#[allow(non_snake_case)]");
         rust!(self.out, "pub fn parse_{}<TOKENS: IntoIterator<Item={}>>(",
-              self.start_symbol, terminal_type);
+              self.user_start_symbol, terminal_type);
         rust!(self.out, "tokens: TOKENS)");
         rust!(self.out, "-> Result<(Option<{}>, {}), Option<{}>>",
               terminal_type,
@@ -256,9 +260,11 @@ impl<'ascent,'grammar,W:Write> RecursiveAscent<'ascent,'grammar,W> {
 
             // errors are not possible in the goto phase; a missing entry
             // indicates parse successfully completed, so just bail out
-            rust!(self.out, "_ => {{");
-            rust!(self.out, "return Ok((lookahead, nt));");
-            rust!(self.out, "}}");
+            if this_state.gotos.len() != self.grammar.productions.keys().len() {
+                rust!(self.out, "_ => {{");
+                rust!(self.out, "return Ok((lookahead, nt));");
+                rust!(self.out, "}}");
+            }
 
             rust!(self.out, "}}"); // match
 

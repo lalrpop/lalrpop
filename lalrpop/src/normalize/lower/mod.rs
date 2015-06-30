@@ -6,9 +6,9 @@ use intern::{self, intern, InternedString};
 use normalize::NormResult;
 use normalize::norm_util::{self, Symbols};
 use grammar::parse_tree as pt;
-use grammar::parse_tree::{TerminalString};
+use grammar::parse_tree::{TerminalString, NonterminalString};
 use grammar::repr as r;
-use util::map;
+use util::{map, Map};
 
 #[cfg(test)]
 mod test;
@@ -38,13 +38,7 @@ impl LowerState {
     }
 
     fn lower(mut self, grammar: pt::Grammar) -> NormResult<r::Grammar> {
-        let start_symbols: Vec<_> =
-            grammar.items
-                   .iter()
-                   .filter_map(|item| item.as_nonterminal())
-                   .filter(|nt| nt.public)
-                   .map(|nt| nt.name)
-                   .collect();
+        let start_symbols = self.synthesize_start_symbols(&grammar);
 
         let mut uses = vec![];
 
@@ -98,6 +92,40 @@ impl LowerState {
             parameters: parameters,
             where_clauses: grammar.where_clauses,
         })
+    }
+
+    fn synthesize_start_symbols(&mut self,
+                                grammar: &pt::Grammar)
+                                -> Map<NonterminalString, NonterminalString>
+    {
+        grammar.items
+               .iter()
+               .filter_map(|item| item.as_nonterminal())
+               .filter(|nt| nt.public)
+               .map(|nt| {
+                   // create a synthetic symbol `__Foo` for each public symbol `Foo`
+                   // with a rule like:
+                   //
+                   //     __Foo = Foo;
+                   let fake_name =
+                       pt::NonterminalString(intern(&format!("{}{}", self.prefix, nt.name)));
+                   let nt_type = self.types.nonterminal_type(nt.name).clone();
+                   self.types.add_type(fake_name, nt_type.clone());
+                   let expr = pt::ExprSymbol {
+                       span: nt.span,
+                       symbols: vec![pt::Symbol::Nonterminal(fake_name)]
+                   };
+                   let symbols = vec![r::Symbol::Nonterminal(nt.name)];
+                   let action_fn = self.action_fn(nt_type, &expr, &symbols, None);
+                   self.productions.push(r::Production {
+                       nonterminal: fake_name,
+                       symbols: symbols,
+                       action_fn: action_fn,
+                       span: nt.span
+                   });
+                   (nt.name, fake_name)
+               })
+               .collect()
     }
 
     fn action_fn(&mut self,
@@ -209,10 +237,10 @@ fn patterns<I>(mut chosen: I, num_args: usize) -> Vec<InternedString>
 }
 
 // Find a unique prefix like `__` or `___` that doesn't appear
-// anywhere in any action strings. Obviously this is stricter than
-// needed, since the action string might be like `print("__1")`, in
-// which case we'll detect a false conflict (or it might contain a
-// variable named `__1x`, etc). But so what.
+// anywhere in any action strings, nonterminal names, etc. Obviously
+// this is stricter than needed, since the action string might be like
+// `print("__1")`, in which case we'll detect a false conflict (or it
+// might contain a variable named `__1x`, etc). But so what.
 fn find_prefix(grammar: &pt::Grammar) -> String {
     let mut prefix = format!("__");
 
@@ -223,6 +251,11 @@ fn find_prefix(grammar: &pt::Grammar) -> String {
                .flat_map(|nt| nt.alternatives.iter())
                .filter_map(|alt| alt.action.as_ref())
                .any(|s| s.contains(&prefix))
+        ||
+        grammar.items
+               .iter()
+               .filter_map(|i| i.as_nonterminal())
+               .any(|nt| nt.name.0.starts_with(&prefix))
     {
         prefix.push('_');
     }

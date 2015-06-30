@@ -5,7 +5,7 @@ some pre-expansion and so forth before creating the proper AST.
 
 Here is an example file to give you the idea:
 
-```
+```ignore
 grammar<'input, T>(...) where ... {
 
   // External token type; "xxx" is assumed to map

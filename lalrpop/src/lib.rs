@@ -20,8 +20,6 @@ extern crate itertools;
 mod rust;
 
 mod build;
-mod cli;
-
 mod grammar;
 mod intern;
 mod lr1;

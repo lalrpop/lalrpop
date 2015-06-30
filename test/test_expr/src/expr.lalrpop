@@ -10,11 +10,9 @@ grammar {
         "/" => "Div";
     };
 
-    pub Expr: i32 = Expr1;
-
-    Expr1: i32 = {
-        l:Expr1 "-" r:Factor => l - r;
-        l:Expr1 "+" r:Factor => l + r;
+    pub Expr: i32 = {
+        l:Expr "-" r:Factor => l - r;
+        l:Expr "+" r:Factor => l + r;
         Factor;
     };
 
@@ -26,6 +24,6 @@ grammar {
 
     Term = {
         n:"Num" => n.as_num();
-        "(" ~Expr1 ")";
+        "(" ~Expr ")";
     };
 }

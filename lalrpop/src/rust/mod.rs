@@ -16,7 +16,7 @@ macro_rules! rust {
 /// look prettier, but seems like...meh, just run it through some
 /// rustfmt tool.
 ///
-/// ```
+/// ```ignore
 /// fn foo(
 /// arg1: Type1,
 /// arg2: Type2,
