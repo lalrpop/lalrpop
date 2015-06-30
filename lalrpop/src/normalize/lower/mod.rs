@@ -8,6 +8,7 @@ use normalize::norm_util::{self, Symbols};
 use grammar::parse_tree as pt;
 use grammar::parse_tree::{TerminalString};
 use grammar::repr as r;
+use util::map;
 
 #[cfg(test)]
 mod test;
@@ -74,13 +75,29 @@ impl LowerState {
             }
         }
 
-        Ok(r::Grammar::new(self.prefix,
-                           start_symbols,
-                           uses,
-                           self.action_fn_defns,
-                           self.productions,
-                           self.conversions,
-                           self.types))
+        let mut productions = map();
+        for production in self.productions {
+            let mut vec = productions.entry(production.nonterminal).or_insert(vec![]);
+            vec.push(production);
+        }
+
+        let parameters =
+            grammar.parameters.iter()
+                              .map(|p| r::Parameter { name: p.name, ty: p.ty.type_repr() })
+                              .collect();
+
+        Ok(r::Grammar {
+            prefix: self.prefix,
+            start_nonterminals: start_symbols,
+            uses: uses,
+            action_fn_defns: self.action_fn_defns,
+            productions: productions,
+            conversions: self.conversions.into_iter().collect(),
+            types: self.types,
+            type_parameters: grammar.type_parameters,
+            parameters: parameters,
+            where_clauses: grammar.where_clauses,
+        })
     }
 
     fn action_fn(&mut self,

@@ -1,0 +1,31 @@
+grammar {
+    use util::tok::Tok;
+
+    token Tok where {
+        "(" => "LParen";
+        ")" => "RParen";
+        "-" => "Minus";
+        "+" => "Plus";
+        "*" => "Times";
+        "/" => "Div";
+    };
+
+    pub Expr: i32 = Expr1;
+
+    Expr1: i32 = {
+        l:Expr1 "-" r:Factor => l - r;
+        l:Expr1 "+" r:Factor => l + r;
+        Factor;
+    };
+
+    Factor = {
+        l:Factor "*" r:Term => l * r;
+        l:Factor "/" r:Term => l / r;
+        Term;
+    };
+
+    Term = {
+        n:"Num" => n.as_num();
+        "(" ~Expr1 ")";
+    };
+}

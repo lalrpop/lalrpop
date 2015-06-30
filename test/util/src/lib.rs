@@ -45,3 +45,19 @@ pub fn main<R:Debug>(parse_fn: fn(Vec<Tok>) -> Result<(Option<Tok>,R),Option<Tok
 
     println!("input ok: {:?}", r);
 }
+
+pub fn test<R:Debug+Eq>(parse_fn: fn(Vec<Tok>) -> Result<(Option<Tok>,R),Option<Tok>>,
+                        input: &str,
+                        expected: R) {
+    // create tokens
+    let tokens = tok::tokenize(input);
+
+    // parse
+    let (lookahead, r) = parse_fn(tokens).unwrap();
+
+    // expect input to be completely consumed
+    assert!(lookahead.is_none(), "input not completely consumed");
+
+    // expect output to be correct
+    assert!(r == expected, "parsing {:?}, got {:#?}, expected {:#?}", input, r, expected);
+}

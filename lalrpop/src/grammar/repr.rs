@@ -102,7 +102,7 @@ impl Types {
 
 impl Display for Parameter {
     fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
-        write!("{}: {}", self.name, self.ty)
+        write!(fmt, "{}: {}", self.name, self.ty)
     }
 }
 
@@ -193,33 +193,6 @@ impl ActionFnDefn {
 }
 
 impl Grammar {
-    pub fn new(prefix: String,
-               start_nonterminals: Vec<NonterminalString>,
-               uses: Vec<String>,
-               action_fn_defns: Vec<ActionFnDefn>,
-               flat_productions: Vec<Production>,
-               conversions: Vec<(TerminalString, TerminalString)>,
-               types: Types)
-               -> Grammar
-    {
-        let mut productions = map();
-
-        for production in flat_productions {
-            let mut vec = productions.entry(production.nonterminal).or_insert(vec![]);
-            vec.push(production);
-        }
-
-        Grammar {
-            prefix: prefix,
-            start_nonterminals: start_nonterminals,
-            uses: uses,
-            action_fn_defns: action_fn_defns,
-            productions: productions,
-            conversions: conversions.into_iter().collect(),
-            types: types,
-        }
-    }
-
     pub fn pattern(&self, t: TerminalString) -> String {
         let u = self.conversions.get(&t).cloned().unwrap_or(t);
         match self.types.terminal_type() {

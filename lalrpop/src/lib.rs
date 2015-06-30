@@ -19,6 +19,7 @@ extern crate itertools;
 #[macro_use]
 mod rust;
 
+mod build;
 mod cli;
 
 mod grammar;
@@ -33,6 +34,4 @@ mod util;
 #[cfg(test)] mod generate;
 #[cfg(test)] mod test_util;
 
-fn main() {
-    cli::main();
-}
+pub use build::process_root;
