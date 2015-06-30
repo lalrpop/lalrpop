@@ -9,7 +9,7 @@ use std::fmt::Debug;
 use std::fs::File;
 use std::io::{self, Read};
 use std::process::exit;
-use tok::Tok;
+use util::tok::Tok;
 
 // a simple tokenizer
 pub mod tok;

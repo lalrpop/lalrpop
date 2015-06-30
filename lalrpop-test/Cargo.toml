@@ -1,11 +1,9 @@
 [package]
-name = "test_sub"
+name = "lalrpop-test"
 version = "0.1.0"
 authors = ["Niko Matsakis <niko@alum.mit.edu>"]
 build = "build.rs"
 
 [build-dependencies.lalrpop]
-path = "../../lalrpop"
+path = "../lalrpop"
 
-[dependencies.util]
-path = "../util/"
