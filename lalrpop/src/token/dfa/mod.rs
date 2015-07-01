@@ -20,15 +20,22 @@ pub struct DFA {
     states: Vec<State>
 }
 
-pub fn build_dfa(regexs: &[re::Regex]) -> DFA {
+#[derive(Copy, Clone, Debug, PartialOrd, Ord, PartialEq, Eq)]
+pub struct Precedence(usize);
+
+pub fn build_dfa(regexs: &[re::Regex],
+                 precedences: &[Precedence])
+                 -> Result<DFA, Ambiguity> {
+    assert_eq!(regexs.len(), precedences.len());
     let nfas: Vec<_> = regexs.iter().map(|r| NFA::from_re(r)).collect();
-    let builder = DFABuilder { nfas: &nfas };
+    let builder = DFABuilder { nfas: &nfas, precedences: precedences.to_vec() };
     let dfa = builder.build();
     dfa
 }
 
 struct DFABuilder<'nfa> {
-    nfas: &'nfa [NFA]
+    nfas: &'nfa [NFA],
+    precedences: Vec<Precedence>,
 }
 
 #[derive(Debug)]
@@ -70,8 +77,15 @@ struct Item {
 
 const START: DFAStateIndex = DFAStateIndex(0);
 
+/// Either of the two regexs listed could match, and they have equal
+/// priority.
+#[derive(Debug)]
+pub struct Ambiguity {
+    match0: NFAIndex, match1: NFAIndex
+}
+
 impl<'nfa> DFABuilder<'nfa> {
-    fn build(&self) -> DFA {
+    fn build(&self) -> Result<DFA, Ambiguity> {
         let mut kernel_set = KernelSet::new();
         let mut states = vec![];
 
@@ -93,12 +107,12 @@ impl<'nfa> DFABuilder<'nfa> {
 
             // if any NFA is in an accepting state, that makes this
             // DFA state an accepting state
-            let mut all_accepts: Vec<NFAIndex> =
+            let mut all_accepts: Vec<(Precedence, NFAIndex)> =
                 item_set.items
                         .iter()
                         .cloned()
                         .filter(|&item| self.nfa(item).is_accepting_state(item.nfa_state))
-                        .map(|item| item.nfa_index)
+                        .map(|item| (self.precedences[item.nfa_index.0], item.nfa_index))
                         .collect();
 
             // if all NFAs are in a rejecting state, that makes this
@@ -112,9 +126,17 @@ impl<'nfa> DFABuilder<'nfa> {
                 Kind::Reject
             } else if all_accepts.len() == 0 {
                 Kind::Neither
+            } else if all_accepts.len() == 1 {
+                // accepts just one NFA, easy case
+                Kind::Accepts(all_accepts[0].1)
             } else {
-                all_accepts.sort(); // we prefer regexs given earlier in the list, arbitrarily
-                Kind::Accepts(*all_accepts.iter().next().unwrap())
+                all_accepts.sort(); // sort regex with higher precedence, well, higher
+                let (best_priority, best_nfa) = all_accepts[all_accepts.len() - 1];
+                let (next_priority, next_nfa) = all_accepts[all_accepts.len() - 2];
+                if best_priority == next_priority {
+                    return Err(Ambiguity { match0: best_nfa, match1: next_nfa });
+                }
+                Kind::Accepts(best_nfa)
             };
 
             // for each specific test, find what happens if we see a
@@ -159,7 +181,7 @@ impl<'nfa> DFABuilder<'nfa> {
             states.push(state);
         }
 
-        DFA { states: states }
+        Ok(DFA { states: states })
     }
 
     fn start_state(&self, kernel_set: &mut DFAKernelSet) -> DFAStateIndex {
