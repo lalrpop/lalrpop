@@ -8,7 +8,6 @@ use parser;
 use rust::RustWrite;
 use self::filetext::FileText;
 
-use std::env;
 use std::fs;
 use std::io::{self, Write};
 use std::path::{Path, PathBuf};

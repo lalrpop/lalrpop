@@ -86,7 +86,14 @@ pub enum GrammarItem {
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct TokenTypeData {
     pub type_name: TypeRef,
-    pub conversions: Vec<(TerminalString, TerminalString)>,
+    pub conversions: Vec<Conversion>,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub struct Conversion {
+    pub span: Span,
+    pub from: TerminalString,
+    pub to: InternedString,
 }
 
 #[derive(Clone, Debug, PartialEq, Eq)]

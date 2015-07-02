@@ -22,7 +22,7 @@ struct LowerState {
     prefix: String,
     action_fn_defns: Vec<r::ActionFnDefn>,
     productions: Vec<r::Production>,
-    conversions: Vec<(TerminalString, TerminalString)>,
+    conversions: Vec<(TerminalString, InternedString)>,
     types: r::Types,
 }
 
@@ -49,7 +49,9 @@ impl LowerState {
                 }
 
                 pt::GrammarItem::TokenType(data) => {
-                    self.conversions.extend(data.conversions);
+                    self.conversions.extend(
+                        data.conversions.iter()
+                                        .map(|conversion| (conversion.from, conversion.to)));
                 }
 
                 pt::GrammarItem::Nonterminal(nt) => {

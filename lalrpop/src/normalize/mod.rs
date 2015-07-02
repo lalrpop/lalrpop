@@ -33,7 +33,7 @@ pub fn normalize(grammar: pt::Grammar) -> NormResult<r::Grammar> {
 // These are executed *IN ORDER*:
 
 // Check some basic safety conditions.
-// mod validate;
+mod validate;
 
 // Expands macros and expressions
 //

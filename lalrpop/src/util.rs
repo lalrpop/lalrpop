@@ -41,6 +41,10 @@ impl<K:Hash+Eq,V> Multimap<K,V> {
         Multimap { map: map() }
     }
 
+    pub fn is_empty(&self) -> bool {
+        self.map.is_empty()
+    }
+
     pub fn push(&mut self, key: K, value: V) {
         self.map.entry(key).or_insert(vec![]).push(value);
     }

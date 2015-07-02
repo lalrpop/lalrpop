@@ -58,8 +58,10 @@ rusty_peg! {
                 GrammarItem::TokenType(TokenTypeData {type_name: t, conversions: c })
             };
 
-        CONVERSION: (TerminalString, TerminalString) =
-            (<from:TERMINAL> "=>" <to:TERMINAL> ";") => (from, to);
+        CONVERSION: Conversion =
+            (<lo:POSL> <from:TERMINAL> "=>" <to:LITERAL> <hi:POSR> ";") => {
+                Conversion { span: Span(lo, hi), from: from, to: to }
+            };
 
         USE: GrammarItem =
             ("use" <c:CODE> ";") => GrammarItem::Use(c);

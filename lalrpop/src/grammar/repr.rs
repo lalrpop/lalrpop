@@ -33,7 +33,7 @@ pub struct Grammar {
 
     pub action_fn_defns: Vec<ActionFnDefn>,
     pub productions: Map<NonterminalString, Vec<Production>>,
-    pub conversions: Map<TerminalString, TerminalString>,
+    pub conversions: Map<TerminalString, InternedString>,
     pub types: Types,
 }
 
@@ -197,10 +197,10 @@ impl ActionFnDefn {
 
 impl Grammar {
     pub fn pattern(&self, t: TerminalString) -> String {
-        let u = self.conversions.get(&t).cloned().unwrap_or(t);
+        let u = self.conversions.get(&t).cloned().unwrap_or(t.0);
         match self.types.terminal_type() {
             &TypeRepr::Nominal { ref path, .. } => {
-                format!("{}::{}(..)", Sep("::", path), u.0)
+                format!("{}::{}(..)", Sep("::", path), u)
             }
             _ => unreachable!("terminals must be a nominal type")
         }
