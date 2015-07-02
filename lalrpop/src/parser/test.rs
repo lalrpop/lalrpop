@@ -1,4 +1,4 @@
-use grammar::parse_tree::{Symbol, TypeRef};
+use grammar::parse_tree::{Symbol, SymbolKind, TypeRef};
 
 #[test]
 fn type_ref() {
@@ -117,14 +117,14 @@ fn macro_symbols() {
 fn symbol_precedence() {
     // check that we parse this as choosing a X+
     let sym = super::parse_symbol(r#"~X+"#).unwrap();
-    assert!(match sym {
-        Symbol::Choose(..) => true,
+    assert!(match sym.kind {
+        SymbolKind::Choose(..) => true,
         _ => false
     });
 
     let sym = super::parse_symbol(r#"n:X+"#).unwrap();
-    assert!(match sym {
-        Symbol::Name(..) => true,
+    assert!(match sym.kind {
+        SymbolKind::Name(..) => true,
         _ => false
     });
 }

@@ -107,7 +107,7 @@ pub enum TypeRef {
     Id(InternedString),
 
     // <N> ==> type of a nonterminal, emitted by macro expansion
-    OfSymbol(Symbol),
+    OfSymbol(SymbolKind),
 }
 
 #[derive(Clone, Debug, PartialEq, Eq)]
@@ -170,7 +170,13 @@ pub enum ConditionOp {
 }
 
 #[derive(Clone, Debug, PartialEq, Eq)]
-pub enum Symbol {
+pub struct Symbol {
+    pub span: Span,
+    pub kind: SymbolKind
+}
+
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub enum SymbolKind {
     // (X Y)
     Expr(ExprSymbol),
 
@@ -206,14 +212,12 @@ pub enum RepeatOp {
 
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct RepeatSymbol {
-    pub span: Span,
     pub op: RepeatOp,
     pub symbol: Symbol
 }
 
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct ExprSymbol {
-    pub span: Span,
     pub symbols: Vec<Symbol>
 }
 
@@ -221,7 +225,6 @@ pub struct ExprSymbol {
 pub struct MacroSymbol {
     pub name: NonterminalString,
     pub args: Vec<Symbol>,
-    pub span: Span,
 }
 
 impl GrammarItem {
@@ -239,6 +242,14 @@ impl GrammarItem {
             GrammarItem::TokenType(..) => None,
         }
     }
+
+    pub fn as_token_type(&self) -> Option<&TokenTypeData> {
+        match *self {
+            GrammarItem::Nonterminal(..) => None,
+            GrammarItem::Use(..) => None,
+            GrammarItem::TokenType(ref d) => Some(d),
+        }
+    }
 }
 
 impl NonterminalData {
@@ -248,6 +259,10 @@ impl NonterminalData {
 }
 
 impl Symbol {
+    pub fn new(span: Span, kind: SymbolKind) -> Symbol {
+        Symbol { span: span, kind: kind }
+    }
+
     pub fn canonical_form(&self) -> String {
         format!("{}", self)
     }
@@ -279,20 +294,26 @@ impl Debug for NonterminalString {
 
 impl Display for Symbol {
     fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
+        Display::fmt(&self.kind, fmt)
+    }
+}
+
+impl Display for SymbolKind {
+    fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
         match *self {
-            Symbol::Expr(ref expr) =>
+            SymbolKind::Expr(ref expr) =>
                 write!(fmt, "{}", expr),
-            Symbol::Terminal(ref s) =>
+            SymbolKind::Terminal(ref s) =>
                 write!(fmt, "{}", s),
-            Symbol::Nonterminal(ref s) =>
+            SymbolKind::Nonterminal(ref s) =>
                 write!(fmt, "{}", s),
-            Symbol::Macro(ref m) =>
+            SymbolKind::Macro(ref m) =>
                 write!(fmt, "{}", m),
-            Symbol::Repeat(ref r) =>
+            SymbolKind::Repeat(ref r) =>
                 write!(fmt, "{}", r),
-            Symbol::Choose(ref s) =>
+            SymbolKind::Choose(ref s) =>
                 write!(fmt, "~{}", s),
-            Symbol::Name(n, ref s) =>
+            SymbolKind::Name(n, ref s) =>
                 write!(fmt, "~{}:{}", n, s),
         }
     }

@@ -32,6 +32,9 @@ pub fn normalize(grammar: pt::Grammar) -> NormResult<r::Grammar> {
 
 // These are executed *IN ORDER*:
 
+// Check some basic safety conditions.
+// mod validate;
+
 // Expands macros and expressions
 //
 //     X = ...1 Comma<X> (X Y Z) ...2

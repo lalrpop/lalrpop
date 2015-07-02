@@ -137,17 +137,21 @@ rusty_peg! {
             (NAMED_SYMBOL / CHOSEN_SYMBOL / SYMBOL0);
 
         NAMED_SYMBOL: Symbol =
-            (<l:ID> ":" <s:SYMBOL0>) => Symbol::Name(l, Box::new(s));
+            (<lo:POSL> <l:ID> ":" <s:SYMBOL0> <hi:POSR>) => {
+                Symbol::new(Span(lo, hi), SymbolKind::Name(l, Box::new(s)))
+            };
 
         CHOSEN_SYMBOL: Symbol =
-            ("~" <s:SYMBOL0>) => Symbol::Choose(Box::new(s));
+            (<lo:POSL> "~" <s:SYMBOL0> <hi:POSR>) => {
+                Symbol::new(Span(lo, hi), SymbolKind::Choose(Box::new(s)))
+            };
 
         SYMBOL0: Symbol =
             fold(<lhs:SYMBOL1>,
                  (<lo:POSL> <op:REPEAT_OP> <hi:POSR>) => {
-                     Symbol::Repeat(Box::new(RepeatSymbol { span: Span(lo, hi),
-                                                            symbol: lhs,
-                                                            op: op }))
+                     Symbol::new(Span(lo, hi),
+                                 SymbolKind::Repeat(Box::new(RepeatSymbol { symbol: lhs,
+                                                                            op: op })))
                  });
 
         REPEAT_OP: RepeatOp = (REPEAT_OP_PLUS / REPEAT_OP_STAR / REPEAT_OP_QUESTION);
@@ -161,26 +165,33 @@ rusty_peg! {
         MACRO_SYMBOL: Symbol =
             (<lo:POSL> <l:NONTERMINAL_ID> "<"
              <m:{SYMBOL ","}> <n:[SYMBOL [","]]> ">" <hi:POSR>) => {
-                Symbol::Macro(MacroSymbol { name: l,
-                                            args: make_list(m, n),
-                                            span: Span(lo, hi), })
+                Symbol::new(Span(lo, hi),
+                            SymbolKind::Macro(MacroSymbol { name: l,
+                                                            args: make_list(m, n) }))
             };
 
         TERMINAL_SYMBOL: Symbol =
-            (<l:TERMINAL>) => Symbol::Terminal(l);
+            (<lo:POSL> <l:TERMINAL> <hi:POSR>) => {
+                Symbol::new(Span(lo, hi), SymbolKind::Terminal(l))
+            };
 
         NT_SYMBOL: Symbol =
-            (<l:NONTERMINAL_ID>) => Symbol::Nonterminal(l);
+            (<lo:POSL> <l:NONTERMINAL_ID> <hi:POSR>) => {
+                Symbol::new(Span(lo, hi), SymbolKind::Nonterminal(l))
+            };
 
         ESCAPE_SYMBOL: Symbol =
-            (<l:ESCAPE>) => Symbol::Nonterminal(NonterminalString(l));
+            (<lo:POSL> <l:ESCAPE> <hi:POSR>) => {
+                Symbol::new(Span(lo, hi), SymbolKind::Nonterminal(NonterminalString(l)))
+            };
 
         PAREN_SYMBOL: Symbol =
-            ("(" <s:EXPR_SYMBOL> ")") => Symbol::Expr(s);
+            (<lo:POSL> "(" <s:EXPR_SYMBOL> ")" <hi:POSR>) => {
+                Symbol::new(Span(lo, hi), SymbolKind::Expr(s))
+            };
 
         EXPR_SYMBOL: ExprSymbol =
-            (<lo:POSL> <s:{SYMBOL}> <hi:POSR>) => ExprSymbol { span: Span(lo, hi),
-                                                               symbols: s };
+            (<s:{SYMBOL}>) => ExprSymbol { symbols: s };
 
         // TypeRef
 
@@ -194,7 +205,7 @@ rusty_peg! {
             (<l:LIFETIME>) => TypeRef::Lifetime(l);
 
         ESCAPE_TYPE_REF: TypeRef =
-            ("`" <s:SYMBOL> "`") => TypeRef::OfSymbol(s);
+            ("`" <s:SYMBOL> "`") => TypeRef::OfSymbol(s.kind);
 
         NOMINAL_TYPE_REF: TypeRef =
             (<p:PATH> <a:[NOMINAL_TYPE_REF_ARGS]>) => {

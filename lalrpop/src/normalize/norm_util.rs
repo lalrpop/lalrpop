@@ -1,5 +1,5 @@
 use intern::InternedString;
-use grammar::parse_tree::{Alternative, ExprSymbol, Symbol};
+use grammar::parse_tree::{Alternative, ExprSymbol, Symbol, SymbolKind};
 
 #[derive(Debug)]
 pub enum AlternativeAction<'a> {
@@ -28,8 +28,8 @@ pub fn analyze_expr<'a>(expr: &'a ExprSymbol) -> Symbols<'a> {
         expr.symbols
             .iter()
             .enumerate()
-            .filter_map(|(idx, sym)| match *sym {
-                Symbol::Name(id, ref sub) => Some((idx, id, &**sub)),
+            .filter_map(|(idx, sym)| match sym.kind {
+                SymbolKind::Name(id, ref sub) => Some((idx, id, &**sub)),
                 _ => None,
             })
             .collect();
@@ -42,8 +42,8 @@ pub fn analyze_expr<'a>(expr: &'a ExprSymbol) -> Symbols<'a> {
         expr.symbols
             .iter()
             .enumerate()
-            .filter_map(|(idx, sym)| match *sym {
-                Symbol::Choose(ref sub) => Some((idx, &**sub)),
+            .filter_map(|(idx, sym)| match sym.kind {
+                SymbolKind::Choose(ref sub) => Some((idx, &**sub)),
                 _ => None,
             })
             .collect();

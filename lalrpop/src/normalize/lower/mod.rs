@@ -112,8 +112,8 @@ impl LowerState {
                    let nt_type = self.types.nonterminal_type(nt.name).clone();
                    self.types.add_type(fake_name, nt_type.clone());
                    let expr = pt::ExprSymbol {
-                       span: nt.span,
-                       symbols: vec![pt::Symbol::Nonterminal(fake_name)]
+                       symbols: vec![pt::Symbol::new(nt.span,
+                                                     pt::SymbolKind::Nonterminal(fake_name))]
                    };
                    let symbols = vec![r::Symbol::Nonterminal(nt.name)];
                    let action_fn = self.action_fn(nt_type, &expr, &symbols, None);
@@ -195,12 +195,12 @@ impl LowerState {
     }
 
     fn symbol(&mut self, symbol: &pt::Symbol) -> r::Symbol {
-        match *symbol {
-            pt::Symbol::Terminal(id) => r::Symbol::Terminal(id),
-            pt::Symbol::Nonterminal(id) => r::Symbol::Nonterminal(id),
-            pt::Symbol::Choose(ref s) | pt::Symbol::Name(_, ref s) => self.symbol(s),
+        match symbol.kind {
+            pt::SymbolKind::Terminal(id) => r::Symbol::Terminal(id),
+            pt::SymbolKind::Nonterminal(id) => r::Symbol::Nonterminal(id),
+            pt::SymbolKind::Choose(ref s) | pt::SymbolKind::Name(_, ref s) => self.symbol(s),
 
-            pt::Symbol::Macro(..) | pt::Symbol::Repeat(..) | pt::Symbol::Expr(..) => {
+            pt::SymbolKind::Macro(..) | pt::SymbolKind::Repeat(..) | pt::SymbolKind::Expr(..) => {
                 unreachable!("symbol `{}` should have been normalized away by now", symbol)
             }
         }

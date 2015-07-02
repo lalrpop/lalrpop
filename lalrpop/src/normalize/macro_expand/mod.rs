@@ -2,7 +2,7 @@ use std::collections::{HashMap, HashSet};
 use intern::{intern, read, InternedString};
 use grammar::parse_tree::{Alternative, Condition, ConditionOp, ExprSymbol, Grammar, GrammarItem,
                           MacroSymbol, NonterminalData, NonterminalString, RepeatOp, RepeatSymbol,
-                          Span, Symbol, TypeRef};
+                          Span, Symbol, SymbolKind, TypeRef};
 use normalize::{NormResult, NormError};
 use normalize::norm_util::{self, Symbols};
 use regex::Regex;
@@ -63,13 +63,13 @@ impl MacroExpander {
 
             // Drain expansion stack:
             while let Some(sym) = self.expansion_stack.pop() {
-                match sym {
-                    Symbol::Macro(msym) =>
-                        items.push(try!(self.expand_macro_symbol(msym))),
-                    Symbol::Expr(expr) =>
-                        items.push(try!(self.expand_expr_symbol(expr))),
-                    Symbol::Repeat(repeat) =>
-                        items.push(try!(self.expand_repeat_symbol(*repeat))),
+                match sym.kind {
+                    SymbolKind::Macro(msym) =>
+                        items.push(try!(self.expand_macro_symbol(sym.span, msym))),
+                    SymbolKind::Expr(expr) =>
+                        items.push(try!(self.expand_expr_symbol(sym.span, expr))),
+                    SymbolKind::Repeat(repeat) =>
+                        items.push(try!(self.expand_repeat_symbol(sym.span, *repeat))),
                     _ =>
                         assert!(false, "don't know how to expand `{:?}`", sym)
                 }
@@ -100,24 +100,24 @@ impl MacroExpander {
     }
 
     fn replace_symbol(&mut self, symbol: &mut Symbol) {
-        match *symbol {
-            Symbol::Macro(ref mut m) => {
+        match symbol.kind {
+            SymbolKind::Macro(ref mut m) => {
                 for sym in &mut m.args {
                     self.replace_symbol(sym);
                 }
             }
-            Symbol::Expr(ref mut expr) => {
+            SymbolKind::Expr(ref mut expr) => {
                 self.replace_symbols(&mut expr.symbols);
             }
-            Symbol::Repeat(ref mut repeat) => {
+            SymbolKind::Repeat(ref mut repeat) => {
                 self.replace_symbol(&mut repeat.symbol);
             }
-            Symbol::Terminal(_) |
-            Symbol::Nonterminal(_) => {
+            SymbolKind::Terminal(_) |
+            SymbolKind::Nonterminal(_) => {
                 return;
             }
-            Symbol::Choose(ref mut sym) |
-            Symbol::Name(_, ref mut sym) => {
+            SymbolKind::Choose(ref mut sym) |
+            SymbolKind::Name(_, ref mut sym) => {
                 self.replace_symbol(sym);
                 return;
             }
@@ -126,7 +126,8 @@ impl MacroExpander {
         // only symbols we intend to expand fallthrough to here
 
         let key = NonterminalString(intern(&symbol.canonical_form()));
-        let to_expand = mem::replace(symbol, Symbol::Nonterminal(key));
+        let replacement = Symbol { span: symbol.span, kind: SymbolKind::Nonterminal(key) };
+        let to_expand = mem::replace(symbol, replacement);
         if self.expansion_set.insert(key) {
             self.expansion_stack.push(to_expand);
         }
@@ -135,23 +136,23 @@ impl MacroExpander {
     ///////////////////////////////////////////////////////////////////////////
     // Macro expansion
 
-    fn expand_macro_symbol(&mut self, msym: MacroSymbol) -> NormResult<GrammarItem> {
+    fn expand_macro_symbol(&mut self, span: Span, msym: MacroSymbol) -> NormResult<GrammarItem> {
         let msym_name = NonterminalString(intern(&msym.canonical_form()));
 
         let mdef = match self.macro_defs.get(&msym.name) {
             Some(v) => v,
-            None => return_err!(msym.span, "no macro definition found for `{}`", msym.name)
+            None => return_err!(span, "no macro definition found for `{}`", msym.name)
         };
 
         if mdef.args.len() != msym.args.len() {
-            return_err!(msym.span, "expected {} arguments to `{}` but found {}",
+            return_err!(span, "expected {} arguments to `{}` but found {}",
                         mdef.args.len(), msym.name, msym.args.len());
         }
 
-        let args: HashMap<NonterminalString, Symbol> =
+        let args: HashMap<NonterminalString, SymbolKind> =
             mdef.args.iter()
                      .cloned()
-                     .zip(msym.args.into_iter())
+                     .zip(msym.args.into_iter().map(|s| s.kind))
                      .collect();
 
         let type_decl = mdef.type_decl.as_ref().map(|tr| self.macro_expand_type_ref(&args, tr));
@@ -164,7 +165,7 @@ impl MacroExpander {
                 continue;
             }
             alternatives.push(Alternative {
-                span: msym.span,
+                span: span,
                 expr: self.macro_expand_expr_symbol(&args, &alternative.expr),
                 condition: None,
                 action: alternative.action.clone(),
@@ -173,7 +174,7 @@ impl MacroExpander {
 
         Ok(GrammarItem::Nonterminal(NonterminalData {
             public: mdef.public,
-            span: msym.span,
+            span: span,
             name: msym_name,
             args: vec![],
             type_decl: type_decl,
@@ -182,7 +183,7 @@ impl MacroExpander {
     }
 
     fn macro_expand_type_refs(&self,
-                              args: &HashMap<NonterminalString, Symbol>,
+                              args: &HashMap<NonterminalString, SymbolKind>,
                               type_refs: &[TypeRef])
                               -> Vec<TypeRef>
     {
@@ -190,7 +191,7 @@ impl MacroExpander {
     }
 
     fn macro_expand_type_ref(&self,
-                             args: &HashMap<NonterminalString, Symbol>,
+                             args: &HashMap<NonterminalString, SymbolKind>,
                              type_ref: &TypeRef)
                              -> TypeRef
     {
@@ -214,13 +215,13 @@ impl MacroExpander {
     }
 
     fn evaluate_cond(&self,
-                     args: &HashMap<NonterminalString, Symbol>,
+                     args: &HashMap<NonterminalString, SymbolKind>,
                      opt_cond: &Option<Condition>)
                      -> NormResult<bool>
     {
         if let Some(ref c) = *opt_cond {
             match args[&c.lhs] {
-                Symbol::Terminal(lhs) => {
+                SymbolKind::Terminal(lhs) => {
                     match c.op {
                         ConditionOp::Equals => Ok(lhs.0 == c.rhs),
                         ConditionOp::NotEquals => Ok(lhs.0 != c.rhs),
@@ -250,7 +251,7 @@ impl MacroExpander {
     }
 
     fn macro_expand_symbols(&self,
-                            args: &HashMap<NonterminalString, Symbol>,
+                            args: &HashMap<NonterminalString, SymbolKind>,
                             expr: &[Symbol])
                             -> Vec<Symbol>
     {
@@ -258,77 +259,76 @@ impl MacroExpander {
     }
 
     fn macro_expand_expr_symbol(&self,
-                                args: &HashMap<NonterminalString, Symbol>,
+                                args: &HashMap<NonterminalString, SymbolKind>,
                                 expr: &ExprSymbol)
                                 -> ExprSymbol
     {
-        ExprSymbol { span: expr.span, // FIXME derived span
-                     symbols: self.macro_expand_symbols(args, &expr.symbols) }
+        ExprSymbol { symbols: self.macro_expand_symbols(args, &expr.symbols) }
     }
 
     fn macro_expand_symbol(&self,
-                           args: &HashMap<NonterminalString, Symbol>,
+                           args: &HashMap<NonterminalString, SymbolKind>,
                            symbol: &Symbol)
                            -> Symbol
     {
-        match *symbol {
-            Symbol::Expr(ref expr) =>
-                Symbol::Expr(self.macro_expand_expr_symbol(args, expr)),
-            Symbol::Terminal(id) =>
-                Symbol::Terminal(id),
-            Symbol::Nonterminal(id) =>
+        let kind = match symbol.kind {
+            SymbolKind::Expr(ref expr) =>
+                SymbolKind::Expr(self.macro_expand_expr_symbol(args, expr)),
+            SymbolKind::Terminal(id) =>
+                SymbolKind::Terminal(id),
+            SymbolKind::Nonterminal(id) =>
                 match args.get(&id) {
                     Some(sym) => sym.clone(),
-                    None => Symbol::Nonterminal(id),
+                    None => SymbolKind::Nonterminal(id),
                 },
-            Symbol::Macro(ref msym) =>
-                Symbol::Macro(MacroSymbol {
+            SymbolKind::Macro(ref msym) =>
+                SymbolKind::Macro(MacroSymbol {
                     name: msym.name,
                     args: self.macro_expand_symbols(args, &msym.args),
-                    span: msym.span,
                 }),
-            Symbol::Repeat(ref r) =>
-                Symbol::Repeat(Box::new(RepeatSymbol {
-                    span: r.span,
+            SymbolKind::Repeat(ref r) =>
+                SymbolKind::Repeat(Box::new(RepeatSymbol {
                     op: r.op,
                     symbol: self.macro_expand_symbol(args, &r.symbol)
                 })),
-            Symbol::Choose(ref sym) =>
-                Symbol::Choose(Box::new(self.macro_expand_symbol(args, sym))),
-            Symbol::Name(id, ref sym) =>
-                Symbol::Name(id, Box::new(self.macro_expand_symbol(args, sym))),
-        }
+            SymbolKind::Choose(ref sym) =>
+                SymbolKind::Choose(Box::new(self.macro_expand_symbol(args, sym))),
+            SymbolKind::Name(id, ref sym) =>
+                SymbolKind::Name(id, Box::new(self.macro_expand_symbol(args, sym))),
+        };
+
+        Symbol { span: symbol.span, kind: kind }
     }
 
     ///////////////////////////////////////////////////////////////////////////
     // Expr expansion
 
-    fn expand_expr_symbol(&mut self, expr: ExprSymbol) -> NormResult<GrammarItem> {
+    fn expand_expr_symbol(&mut self, span: Span, expr: ExprSymbol) -> NormResult<GrammarItem> {
         let name = NonterminalString(intern(&expr.canonical_form()));
 
         let ty_ref = match norm_util::analyze_expr(&expr) {
             Symbols::Named(names) => {
                 let (_, ex_id, ex_sym) = names[0];
                 return_err!(
-                    expr.span,
+                    span,
                     "named symbols like `~{}:{}` are only allowed at the top-level of a nonterminal",
                     ex_id, ex_sym)
             }
             Symbols::Anon(syms) => {
                 maybe_tuple(
                     syms.into_iter()
-                        .map(|(_, s)| TypeRef::OfSymbol(s.clone()))
+                        .map(|(_, s)| TypeRef::OfSymbol(s.kind.clone()))
                         .collect())
             }
         };
 
         Ok(GrammarItem::Nonterminal(NonterminalData {
             public: false,
-            span: expr.span,
+            span: span,
             name: name,
             args: vec![],
             type_decl: Some(ty_ref),
-            alternatives: vec![Alternative { span: expr.span,
+            alternatives: vec![Alternative { span: span,
                                              expr: expr,
                                              condition: None,
                                              action: Some(format!("(~~)")) }]
@@ -338,12 +338,12 @@ impl MacroExpander {
     ///////////////////////////////////////////////////////////////////////////
     // Expr expansion
 
-    fn expand_repeat_symbol(&mut self, repeat: RepeatSymbol) -> NormResult<GrammarItem> {
+    fn expand_repeat_symbol(&mut self, span: Span, repeat: RepeatSymbol) -> NormResult<GrammarItem> {
         let name = NonterminalString(intern(&repeat.canonical_form()));
         let v = intern("v");
         let e = intern("e");
 
-        let base_symbol_ty = TypeRef::OfSymbol(repeat.symbol.clone());
+        let base_symbol_ty = TypeRef::OfSymbol(repeat.symbol.kind.clone());
 
         match repeat.op {
             RepeatOp::Star => {
@@ -352,29 +352,36 @@ impl MacroExpander {
 
                 Ok(GrammarItem::Nonterminal(NonterminalData {
                     public: false,
-                    span: repeat.span,
+                    span: span,
                     name: name,
                     args: vec![],
                     type_decl: Some(ty_ref),
                     alternatives: vec![
                         // X* =
                         Alternative {
-                            span: repeat.span,
-                            expr: ExprSymbol {
-                                span: repeat.span,
-                                symbols: vec![],
-                            },
+                            span: span,
+                            expr: ExprSymbol { symbols: vec![] },
                             condition: None,
                             action: Some(format!("vec![]"))
                         },
 
                         // X* = ~v:X+ ~e:X
                         Alternative {
-                            span: repeat.span,
+                            span: span,
                             expr: ExprSymbol {
-                                span: repeat.span,
-                                symbols: vec![Symbol::Name(v, Box::new(Symbol::Nonterminal(name))),
-                                              Symbol::Name(e, Box::new(repeat.symbol.clone()))]
+                                symbols: vec![
+                                    Symbol::new(
+                                        span,
+                                        SymbolKind::Name(
+                                            v,
+                                            Box::new(
+                                                Symbol::new(span,
+                                                            SymbolKind::Nonterminal(name))))),
+                                    Symbol::new(
+                                        span,
+                                        SymbolKind::Name(
+                                            e,
+                                            Box::new(repeat.symbol.clone())))]
                             },
                             condition: None,
                             action: Some(format!("{{ let mut v = v; v.push(e); v }}"))
@@ -388,16 +395,15 @@ impl MacroExpander {
 
                 Ok(GrammarItem::Nonterminal(NonterminalData {
                     public: false,
-                    span: repeat.span,
+                    span: span,
                     name: name,
                     args: vec![],
                     type_decl: Some(ty_ref),
                     alternatives: vec![
                         // X+ = X
                         Alternative {
-                            span: repeat.span,
+                            span: span,
                             expr: ExprSymbol {
-                                span: repeat.span,
                                 symbols: vec![repeat.symbol.clone()]
                             },
                             condition: None,
@@ -406,11 +412,14 @@ impl MacroExpander {
 
                         // X+ = ~v:X+ ~e:X
                         Alternative {
-                            span: repeat.span,
+                            span: span,
                             expr: ExprSymbol {
-                                span: repeat.span,
-                                symbols: vec![Symbol::Name(v, Box::new(Symbol::Nonterminal(name))),
-                                              Symbol::Name(e, Box::new(repeat.symbol.clone()))]
+                                symbols: vec![
+                                    Symbol::new(span, SymbolKind::Name(
+                                        v, Box::new(
+                                            Symbol::new(span, SymbolKind::Nonterminal(name))))),
+                                    Symbol::new(span, SymbolKind::Name(
+                                        e, Box::new(repeat.symbol.clone())))]
                             },
                             condition: None,
                             action: Some(format!("{{ let mut v = v; v.push(e); v }}"))
@@ -424,24 +433,22 @@ impl MacroExpander {
 
                 Ok(GrammarItem::Nonterminal(NonterminalData {
                     public: false,
-                    span: repeat.span,
+                    span: span,
                     name: name,
                     args: vec![],
                     type_decl: Some(ty_ref),
                     alternatives: vec![
                         // X? = X => Some(~~)
-                        Alternative { span: repeat.span,
+                        Alternative { span: span,
                                       expr: ExprSymbol {
-                                          span: repeat.span,
                                           symbols: vec![repeat.symbol.clone()]
                                       },
                                       condition: None,
                                       action: Some(format!("Some(~~)")) },
 
                         // X? = { => None; }
-                        Alternative { span: repeat.span,
+                        Alternative { span: span,
                                       expr: ExprSymbol {
-                                          span: repeat.span,
                                           symbols: vec![]
                                       },
                                       condition: None,

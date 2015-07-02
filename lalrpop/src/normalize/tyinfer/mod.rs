@@ -3,7 +3,8 @@ use super::norm_util::{self, AlternativeAction, Symbols};
 
 use std::collections::{HashMap};
 use grammar::parse_tree::{Alternative, Grammar, GrammarItem,
-                          NonterminalData, NonterminalString, Span, Symbol, TypeRef};
+                          NonterminalData, NonterminalString,
+                          Span, Symbol, SymbolKind, TypeRef};
 use grammar::repr::{Types, TypeRepr};
 
 #[cfg(test)]
@@ -132,7 +133,7 @@ impl<'grammar> TypeInferencer<'grammar> {
                 alternative_types[1..].iter().zip(&nt.alternatives[1..]).zip(1..)
             {
                 if &alternative_types[0] != ty {
-                    return_err!(alt.expr.span,
+                    return_err!(alt.span,
                                 "type of alternative #{} is `{}`, \
                                  but type of first alternative is `{}`",
                                 i+1, ty, alternative_types[0]);
@@ -197,7 +198,7 @@ impl<'grammar> TypeInferencer<'grammar> {
             AlternativeAction::Default(Symbols::Anon(syms)) => {
                 let symbol_types: Vec<TypeRepr> = try! {
                     syms.iter()
-                        .map(|&(_, sym)| self.symbol_type(sym))
+                        .map(|&(_, sym)| self.symbol_type(&sym.kind))
                         .collect()
                 };
                 Ok(maybe_tuple(symbol_types))
@@ -205,14 +206,14 @@ impl<'grammar> TypeInferencer<'grammar> {
         }
     }
 
-    fn symbol_type(&mut self, symbol: &Symbol) -> NormResult<TypeRepr> {
+    fn symbol_type(&mut self, symbol: &SymbolKind) -> NormResult<TypeRepr> {
         match *symbol {
-            Symbol::Terminal(_) => Ok(self.types.terminal_type().clone()),
-            Symbol::Nonterminal(id) => self.nonterminal_type(id),
-            Symbol::Choose(ref s) => self.symbol_type(s),
-            Symbol::Name(_, ref s) => self.symbol_type(s),
+            SymbolKind::Terminal(_) => Ok(self.types.terminal_type().clone()),
+            SymbolKind::Nonterminal(id) => self.nonterminal_type(id),
+            SymbolKind::Choose(ref s) => self.symbol_type(&s.kind),
+            SymbolKind::Name(_, ref s) => self.symbol_type(&s.kind),
 
-            Symbol::Repeat(..) | Symbol::Expr(..) | Symbol::Macro(..) => {
+            SymbolKind::Repeat(..) | SymbolKind::Expr(..) | SymbolKind::Macro(..) => {
                 unreachable!("symbol `{:?}` should have been expanded away", symbol)
             }
         }
