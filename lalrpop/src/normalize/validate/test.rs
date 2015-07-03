@@ -45,3 +45,10 @@ fn repeated_macro_arg() {
         "multiple macro arguments declared with the name `Y`",
         r#"grammar { >>>X<Y,Y> <<<= "foo"; }"#);
 }
+
+#[test]
+fn unknown_nonterminal_two() {
+    check_err(
+        "no definition found for nonterminal `Expr`",
+        r#"grammar { Term = { n:"Num" => n.as_num(); "A" ~>>>Expr <<<"B"; }; }"#);
+}

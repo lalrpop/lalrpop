@@ -25,6 +25,11 @@ macro_rules! return_err {
 }
 
 pub fn normalize(grammar: pt::Grammar) -> NormResult<r::Grammar> {
+    try!(validate::validate(&grammar));
+    normalize_without_validating(grammar)
+}
+
+pub fn normalize_without_validating(grammar: pt::Grammar) -> NormResult<r::Grammar> {
     let grammar = try!(macro_expand::expand_macros(grammar));
     let types = try!(tyinfer::infer_types(&grammar));
     lower::lower(grammar, types)

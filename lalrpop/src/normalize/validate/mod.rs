@@ -45,12 +45,13 @@ struct Validator<'grammar> {
     conversions: Set<TerminalString>,
 }
 
-#[derive(Copy, Clone)]
+#[derive(Copy, Clone, Debug)]
 enum Def {
     TopLevel(usize), // argument is the number of macro arguments
     MacroArg
 }
 
+#[derive(Debug)]
 struct ScopeChain<'scope> {
     previous: Option<&'scope ScopeChain<'scope>>,
     nonterminals: Map<NonterminalString, Def>,
@@ -194,10 +195,10 @@ impl<'grammar> Validator<'grammar> {
                 }
             }
             SymbolKind::Repeat(ref repeat) => {
-                self.validate_symbol(scope, &repeat.symbol);
+                try!(self.validate_symbol(scope, &repeat.symbol));
             }
             SymbolKind::Choose(ref sym) | SymbolKind::Name(_, ref sym) => {
-                self.validate_symbol(scope, sym);
+                try!(self.validate_symbol(scope, sym));
             }
         }
 
@@ -235,7 +236,7 @@ impl<'grammar> Validator<'grammar> {
                    nt: NonterminalString)
                    -> NormResult<Def> {
         match scope.def(nt) {
-            Some(arity) => Ok(arity),
+            Some(def) => Ok(def),
             None => return_err!(span, "no definition found for nonterminal `{}`", nt)
         }
     }

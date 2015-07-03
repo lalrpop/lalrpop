@@ -1,4 +1,5 @@
 use grammar::parse_tree as pt;
+use std::fmt::{Display, Formatter, Error};
 use std::fs::File;
 use std::path::PathBuf;
 use std::io::{self, Read, Write};
@@ -18,12 +19,16 @@ impl FileText {
     }
 
     fn new(path: PathBuf, input_str: String) -> FileText {
-        let newline_indices: Vec<usize> =
-            input_str.as_bytes().iter()
-                                .enumerate()
-                                .filter(|&(_, &b)| b == ('\n' as u8))
-                                .map(|(i, _)| i + 1) // store the first character in the line
-                                .collect();
+        let newline_indices: Vec<usize> = {
+            let input_indices =
+                input_str.as_bytes().iter()
+                                    .enumerate()
+                                    .filter(|&(_, &b)| b == ('\n' as u8))
+                                    .map(|(i, _)| i + 1); // index of first char in the line
+            Some(0).into_iter()
+                   .chain(input_indices)
+                   .collect()
+        };
 
         FileText { path: path, input_str: input_str, newlines: newline_indices }
     }
@@ -65,7 +70,7 @@ impl FileText {
             &self.input_str[start_offset..]
         } else {
             let end_offset = self.newlines[line_num + 1];
-            &self.input_str[start_offset..end_offset]
+            &self.input_str[start_offset..end_offset-1]
         }
     }
 
@@ -82,24 +87,38 @@ impl FileText {
             try!(writeln!(out, "  {}", text));
 
             if end_col - start_col <= 1 {
-                try!(writeln!(out, "  {0:1$}^", "", start_col));
+                try!(writeln!(out, "  {}^", Repeat(' ', start_col)));
             } else {
                 let width = end_col - start_col;
-                try!(writeln!(out, "  {0:1$}|{0:-2$}|",
-                              "", start_col, width.saturating_sub(2)));
+                try!(writeln!(out, "  {}~{}~",
+                              Repeat(' ', start_col),
+                              Repeat('~', width.saturating_sub(2))));
             }
         } else {
             // span is across many lines, find the maximal width of any of those
             let line_strs: Vec<_> = (start_line..end_line+1).map(|i| self.line_text(i)).collect();
             let max_len = line_strs.iter().map(|l| l.len()).max().unwrap();
-            try!(writeln!(out, "  {0:1$}|{0:-2$}-+", "", start_col, max_len - start_col));
+            try!(writeln!(out, "  {}{}~+",
+                          Repeat(' ', start_col),
+                          Repeat('~', max_len - start_col)));
             for line in &line_strs[..line_strs.len()-1] {
                 try!(writeln!(out, "| {0:<1$} |", line, max_len));
             }
             try!(writeln!(out, "| {}", line_strs[line_strs.len()-1]));
-            try!(writeln!(out, "+-{0:-1$}", "", end_col));
+            try!(writeln!(out, "+~{}", Repeat('~', end_col)));
         }
 
+        Ok(())
+    }
+}
+
+struct Repeat(char, usize);
+
+impl Display for Repeat {
+    fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
+        for _ in 0..self.1 {
+            try!(write!(fmt, "{}", self.0));
+        }
         Ok(())
     }
 }

@@ -4,7 +4,7 @@ use super::norm_util::{self, AlternativeAction, Symbols};
 use std::collections::{HashMap};
 use grammar::parse_tree::{Alternative, Grammar, GrammarItem,
                           NonterminalData, NonterminalString,
-                          Span, Symbol, SymbolKind, TypeRef};
+                          Span, SymbolKind, TypeRef};
 use grammar::repr::{Types, TypeRepr};
 
 #[cfg(test)]

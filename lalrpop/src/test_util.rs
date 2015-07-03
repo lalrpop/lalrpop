@@ -46,5 +46,5 @@ pub fn compare<D:Debug,E:Debug>(actual: D, expected: E) {
 }
 
 pub fn normalized_grammar(s: &str) -> r::Grammar {
-    ::normalize::normalize(::parser::parse_grammar(s).unwrap()).unwrap()
+    ::normalize::normalize_without_validating(::parser::parse_grammar(s).unwrap()).unwrap()
 }
