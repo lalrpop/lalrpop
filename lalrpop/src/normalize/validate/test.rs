@@ -50,5 +50,5 @@ fn repeated_macro_arg() {
 fn unknown_nonterminal_two() {
     check_err(
         "no definition found for nonterminal `Expr`",
-        r#"grammar { Term = { n:"Num" => n.as_num(); "A" <>>>Expr<<<> "B"; }; }"#);
+        r#"grammar { Term = { <n:"Num"> => n.as_num(); "A" <>>>Expr<<<> "B"; }; }"#);
 }

@@ -139,7 +139,7 @@ rusty_peg! {
             (NAMED_SYMBOL / CHOSEN_SYMBOL / SYMBOL0);
 
         NAMED_SYMBOL: Symbol =
-            (<lo:POSL> <l:ID> ":" <s:SYMBOL0> <hi:POSR>) => {
+            (<lo:POSL> "<" <l:ID> ":" <s:SYMBOL0> <hi:POSR> ">") => {
                 Symbol::new(Span(lo, hi), SymbolKind::Name(l, Box::new(s)))
             };
 

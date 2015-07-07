@@ -8,7 +8,7 @@ fn test_comma() {
     let grammar = parser::parse_grammar(r#"
 grammar {
     Comma<E>: Vec<E> =
-       v:(<E> ",")* e:E? =>
+       <v:(<E> ",")*> <e:E?> =>
            v.into_iter().chain(e.into_iter()).collect();
 
     Ids = Comma<"Id">;
@@ -22,7 +22,7 @@ grammar {
     Ids = `Comma<"Id">`;
 
     `Comma<"Id">`: Vec<`"Id"`> =
-        v:`(<"Id"> ",")*` e:`"Id"?` =>
+        <v:`(<"Id"> ",")*`> <e:`"Id"?`> =>
            v.into_iter().chain(e.into_iter()).collect();
 
     `"Id"?`: std::option::Option<`"Id"`> = {
@@ -32,7 +32,7 @@ grammar {
 
     `(<"Id"> ",")*`: std::vec::Vec<``(<"Id"> ",")``> = {
         => vec![];
-        v:`(<"Id"> ",")*` e:`(<"Id"> ",")` => { let mut v = v; v.push(e); v };
+        <v:`(<"Id"> ",")*`> <e:`(<"Id"> ",")`> => { let mut v = v; v.push(e); v };
     };
 
     `(<"Id"> ",")`: `"Id"` = <"Id"> "," => (~~);
