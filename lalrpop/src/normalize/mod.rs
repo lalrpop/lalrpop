@@ -29,6 +29,7 @@ pub fn normalize(grammar: pt::Grammar) -> NormResult<r::Grammar> {
     normalize_without_validating(grammar)
 }
 
+/// for unit tests, it is convenient to skip the validation step
 pub fn normalize_without_validating(grammar: pt::Grammar) -> NormResult<r::Grammar> {
     let grammar = try!(macro_expand::expand_macros(grammar));
     let types = try!(tyinfer::infer_types(&grammar));

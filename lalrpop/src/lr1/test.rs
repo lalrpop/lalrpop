@@ -97,7 +97,7 @@ grammar {
 fn expr_grammar1() {
     let grammar = normalized_grammar(r#"
 grammar {
-    token Tok where { "-" => "Sub" };
+    token Tok where { };
 
     S: () =
         E => ();

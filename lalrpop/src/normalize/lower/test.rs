@@ -1,5 +1,5 @@
 use grammar::repr::{Grammar, Production};
-use normalize::normalize;
+use normalize::normalize_without_validating;
 use parser;
 use test_util::expect_debug;
 
@@ -30,7 +30,7 @@ grammar {
     Ids = Comma<\"Id\">;
 }
 ").unwrap();
-    let actual = normalize(grammar).unwrap();
+    let actual = normalize_without_validating(grammar).unwrap();
 
     expect_debug(flat_productions(&actual),
                  r#"[
