@@ -73,7 +73,7 @@ fn paren_with_plus() {
 
 #[test]
 fn paren_with_plus_and_anon() {
-    super::parse_grammar(r#"grammar { Expr = (~Alt)+; }"#).unwrap();
+    super::parse_grammar(r#"grammar { Expr = (<Alt>)+; }"#).unwrap();
 }
 
 #[test]
@@ -83,7 +83,7 @@ fn named_choice() {
 
 #[test]
 fn named_choice_plus() {
-    super::parse_grammar(r#"grammar { Expr = ~Alt+; }"#).unwrap();
+    super::parse_grammar(r#"grammar { Expr = <Alt+>; }"#).unwrap();
 }
 
 #[test]
@@ -119,7 +119,7 @@ fn macro_symbols() {
 #[test]
 fn symbol_precedence() {
     // check that we parse this as choosing a X+
-    let sym = super::parse_symbol(r#"~X+"#).unwrap();
+    let sym = super::parse_symbol(r#"<X+>"#).unwrap();
     assert!(match sym.kind {
         SymbolKind::Choose(..) => true,
         _ => false
@@ -134,14 +134,14 @@ fn symbol_precedence() {
 
 #[test]
 fn symbol_choose_name() {
-    // check that we can parse ~S and x:S but not both
-    assert!(super::parse_symbol(r#"~x:X+"#).is_err());
+    // check that we can parse <S> and x:S but not both
+    assert!(super::parse_symbol(r#"<x:X+>"#).is_err());
 }
 
 #[test]
 fn macro_nt() {
     super::parse_nonterminal(
-        r#"Comma<E>: Vec<E> = v:(~E ",")* e:E? => v.into_iter().chain(e.into_iter()).collect();"#)
+        r#"Comma<E>: Vec<E> = v:(<E> ",")* e:E? => v.into_iter().chain(e.into_iter()).collect();"#)
         .unwrap();
 }
 

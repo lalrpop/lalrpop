@@ -24,7 +24,7 @@ grammar {
     token Tok where { };
 
     Comma<E>: Vec<E> =
-       v:(~E \",\")* e:E? =>
+       v:(<E> \",\")* e:E? =>
            v.into_iter().chain(e.into_iter()).collect();
 
     Ids = Comma<\"Id\">;
@@ -35,12 +35,12 @@ grammar {
     expect_debug(flat_productions(&actual),
                  r#"[
     Ids = Comma<"Id"> => ActionFn(0);,
-    Comma<"Id"> = (~"Id" ",")*, "Id"? => ActionFn(1);,
+    Comma<"Id"> = (<"Id"> ",")*, "Id"? => ActionFn(1);,
     "Id"? = "Id" => ActionFn(2);,
     "Id"? =  => ActionFn(3);,
-    (~"Id" ",")* =  => ActionFn(4);,
-    (~"Id" ",")* = (~"Id" ",")*, (~"Id" ",") => ActionFn(5);,
-    (~"Id" ",") = "Id", "," => ActionFn(6);
+    (<"Id"> ",")* =  => ActionFn(4);,
+    (<"Id"> ",")* = (<"Id"> ",")*, (<"Id"> ",") => ActionFn(5);,
+    (<"Id"> ",") = "Id", "," => ActionFn(6);
 ]"#);
 
     expect_debug(&actual.action_fn_defns,

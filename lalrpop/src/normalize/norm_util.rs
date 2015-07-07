@@ -37,7 +37,7 @@ pub fn analyze_expr<'a>(expr: &'a ExprSymbol) -> Symbols<'a> {
         return Symbols::Named(named_symbols);
     }
 
-    // Otherwise, make a tuple of the items they chose with a `~`.
+    // Otherwise, make a tuple of the items they chose with `<>`.
     let chosen_symbol_types: Vec<_> =
         expr.symbols
             .iter()
@@ -51,6 +51,6 @@ pub fn analyze_expr<'a>(expr: &'a ExprSymbol) -> Symbols<'a> {
         return Symbols::Anon(chosen_symbol_types);
     }
 
-    // If they didn't choose anything with a `~`, make a tuple of everything.
+    // If they didn't choose anything with `<>`, make a tuple of everything.
     Symbols::Anon(expr.symbols.iter().enumerate().collect())
 }

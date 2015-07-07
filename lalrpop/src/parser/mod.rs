@@ -144,7 +144,7 @@ rusty_peg! {
             };
 
         CHOSEN_SYMBOL: Symbol =
-            (<lo:POSL> "~" <s:SYMBOL0> <hi:POSR>) => {
+            (<lo:POSL> "<" <s:SYMBOL0> ">" <hi:POSR>) => {
                 Symbol::new(Span(lo, hi), SymbolKind::Choose(Box::new(s)))
             };
 

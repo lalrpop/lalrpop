@@ -191,7 +191,7 @@ impl<'grammar> TypeInferencer<'grammar> {
 
             AlternativeAction::Default(Symbols::Named(ref syms)) => {
                 return_err!(alt.span,
-                            "cannot infer types in the presence of named symbols like `~{}:{}`",
+                            "cannot infer types in the presence of named symbols like `{}:{}`",
                             syms[0].1, syms[0].2);
             }
 

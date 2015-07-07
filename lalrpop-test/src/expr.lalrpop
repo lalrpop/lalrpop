@@ -24,6 +24,6 @@ grammar {
 
     Term = {
         n:"Num" => n.as_num();
-        "(" ~Expr ")";
+        "(" <Expr> ")";
     };
 }

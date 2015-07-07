@@ -311,7 +311,7 @@ impl MacroExpander {
                 let (_, ex_id, ex_sym) = names[0];
                 return_err!(
                     span,
-                    "named symbols like `~{}:{}` are only allowed at the top-level of a nonterminal",
+                    "named symbols like `{}:{}` are only allowed at the top-level of a nonterminal",
                     ex_id, ex_sym)
             }
             Symbols::Anon(syms) => {
@@ -365,7 +365,7 @@ impl MacroExpander {
                             action: Some(format!("vec![]"))
                         },
 
-                        // X* = ~v:X+ ~e:X
+                        // X* = <v:X+> <e:X>
                         Alternative {
                             span: span,
                             expr: ExprSymbol {
@@ -410,7 +410,7 @@ impl MacroExpander {
                             action: Some(format!("vec![~~]"))
                         },
 
-                        // X+ = ~v:X+ ~e:X
+                        // X+ = <v:X+> <e:X>
                         Alternative {
                             span: span,
                             expr: ExprSymbol {

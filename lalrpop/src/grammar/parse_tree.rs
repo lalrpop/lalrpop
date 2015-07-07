@@ -199,7 +199,7 @@ pub enum SymbolKind {
     // X+, X?, X*
     Repeat(Box<RepeatSymbol>),
 
-    // ~X
+    // <X>
     Choose(Box<Symbol>),
 
     // x:X
@@ -319,9 +319,9 @@ impl Display for SymbolKind {
             SymbolKind::Repeat(ref r) =>
                 write!(fmt, "{}", r),
             SymbolKind::Choose(ref s) =>
-                write!(fmt, "~{}", s),
+                write!(fmt, "<{}>", s),
             SymbolKind::Name(n, ref s) =>
-                write!(fmt, "~{}:{}", n, s),
+                write!(fmt, "{}:{}", n, s),
         }
     }
 }
