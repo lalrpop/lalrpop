@@ -111,6 +111,9 @@ fn macro_symbols() {
     super::parse_symbol(r#"Foo<"Baz"+>"#).unwrap();
     super::parse_symbol(r#"Foo<"Baz"+, "Balooga">"#).unwrap();
     super::parse_symbol(r#"Foo<"Baz"+, ("Balooga" Potato),>"#).unwrap();
+
+    // space is not allowed!
+    assert!(super::parse_symbol(r#"Foo <Baz>"#).is_err());
 }
 
 #[test]

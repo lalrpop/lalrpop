@@ -165,8 +165,7 @@ rusty_peg! {
             (MACRO_SYMBOL / TERMINAL_SYMBOL / NT_SYMBOL / ESCAPE_SYMBOL / PAREN_SYMBOL);
 
         MACRO_SYMBOL: Symbol =
-            (<lo:POSL> <l:NONTERMINAL_ID> "<"
-             <m:{SYMBOL ","}> <n:[SYMBOL [","]]> ">" <hi:POSR>) => {
+            (<lo:POSL> <l:MACRO_ID> <m:{SYMBOL ","}> <n:[SYMBOL [","]]> ">" <hi:POSR>) => {
                 Symbol::new(Span(lo, hi),
                             SymbolKind::Macro(MacroSymbol { name: l,
                                                             args: make_list(m, n) }))
@@ -246,6 +245,12 @@ rusty_peg! {
             (<i:ID> "::") => i;
 
         // IDENTIFIERS, LIFETIMES
+
+        MACRO_ID: NonterminalString =
+            (<i:MACRO_ID_RE>) => NonterminalString(intern(&i[..i.len()-1]));
+
+        MACRO_ID_RE: &'input str =
+            regex(r"[a-zA-Z_][a-zA-Z0-9_]*<");
 
         NONTERMINAL_ID: NonterminalString =
             (<i:ID>) => NonterminalString(i);
