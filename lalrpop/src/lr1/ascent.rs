@@ -102,7 +102,7 @@ impl<'ascent,'grammar,W:Write> RecursiveAscent<'ascent,'grammar,W> {
     }
 
     fn write_start_fn(&mut self) -> io::Result<()> {
-        let terminal_type = self.types.terminal_type();
+        let terminal_type = self.types.terminal_enum_type();
         rust!(self.out, "#[allow(non_snake_case)]");
         rust!(self.out, "pub fn parse_{}<TOKENS: IntoIterator<Item={}>>(",
               self.user_start_symbol, terminal_type);
@@ -128,7 +128,7 @@ impl<'ascent,'grammar,W:Write> RecursiveAscent<'ascent,'grammar,W> {
     fn write_state_fn(&mut self, this_index: StateIndex) -> io::Result<()> {
         let this_state = &self.states[this_index.0];
         let this_prefix = self.state_prefixes[this_index.0];
-        let terminal_type = self.types.terminal_type();
+        let terminal_type = self.types.terminal_enum_type();
 
         // Leave a comment explaining what this state is.
         rust!(self.out, "// State {}", this_index.0);

@@ -51,15 +51,24 @@ rusty_peg! {
             ("where" <h:{TYPE ","}> <t:[TYPE [","]]>) => make_list(h, t);
 
         GRAMMAR_ITEM: GrammarItem =
-            (TOKEN_TYPE / NONTERMINAL / USE);
+            (EXTERN_TOKEN / NONTERMINAL / USE);
 
-        TOKEN_TYPE: GrammarItem =
-            ("token" <t:TYPE_REF> "where" "{" <c:{CONVERSION}> "}" ";") => {
-                GrammarItem::TokenType(TokenTypeData {type_name: t, conversions: c })
+        EXTERN_TOKEN: GrammarItem =
+            ("extern" "token" "{"
+               "enum" <t:TYPE_REF> "{"
+                 <c0:{CONVERSION ","}> <c1:[CONVERSION [","]]>
+               "}"
+             "}") => {
+                GrammarItem::ExternToken(ExternToken {
+                    enum_token: EnumToken {
+                        type_name: t,
+                        conversions: make_list(c0, c1)
+                    }
+                })
             };
 
         CONVERSION: Conversion =
-            (<lo:POSL> <from:TERMINAL> "=>" <to:LITERAL> <hi:POSR> ";") => {
+            (<lo:POSL> <from:TERMINAL> "=>" <to:ID> <hi:POSR>) => {
                 Conversion { span: Span(lo, hi), from: from, to: to }
             };
 
@@ -260,7 +269,7 @@ rusty_peg! {
 
         ID_RE: &'input str =
             regex(r"[a-zA-Z_][a-zA-Z0-9_]*") - [
-                "if", "use", "where", "token", "grammar", "pub", "struct"
+                "if", "use", "where", "token", "grammar", "pub", "struct", "extern", "enum"
             ];
 
         ESCAPE: InternedString =

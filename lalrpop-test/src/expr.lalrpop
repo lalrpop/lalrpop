@@ -1,14 +1,16 @@
 grammar {
     use util::tok::Tok;
 
-    token Tok where {
-        "(" => "LParen";
-        ")" => "RParen";
-        "-" => "Minus";
-        "+" => "Plus";
-        "*" => "Times";
-        "/" => "Div";
-    };
+    extern token {
+        enum Tok {
+            "(" => LParen,
+            ")" => RParen,
+            "-" => Minus,
+            "+" => Plus,
+            "*" => Times,
+            "/" => Div,
+        }
+    }
 
     pub Expr: i32 = {
         <l:Expr> "-" <r:Factor> => l - r;

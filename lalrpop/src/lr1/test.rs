@@ -45,7 +45,7 @@ fn items<'g>(grammar: &'g Grammar, nonterminal: &str, index: usize, la: Lookahea
 fn start_state() {
     let grammar = normalized_grammar(r#"
 grammar {
-    token Tok where { };
+    extern token { enum Tok { } }
     A = B "C";
     B: Option<u32> = {
         "D" => Some(1);
@@ -65,7 +65,7 @@ grammar {
 fn start_state_1() {
     let grammar = normalized_grammar(r#"
 grammar {
-    token Tok where { };
+    extern token { enum Tok { } }
     A = B C;
     B: Option<u32> = {
         "B1" => Some(1);
@@ -97,7 +97,7 @@ grammar {
 fn expr_grammar1() {
     let grammar = normalized_grammar(r#"
 grammar {
-    token Tok where { };
+    extern token { enum Tok { } }
 
     S: () =
         E => ();

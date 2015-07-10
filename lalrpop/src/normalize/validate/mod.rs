@@ -26,8 +26,8 @@ pub fn validate(grammar: &Grammar) -> NormResult<()> {
     let conversions: Set<_> =
         grammar.items
                .iter()
-               .filter_map(|item| item.as_token_type())
-               .flat_map(|tt| tt.conversions.iter().map(|conversion| conversion.from))
+               .filter_map(|item| item.as_extern_token())
+               .flat_map(|tt| tt.enum_token.conversions.iter().map(|conversion| conversion.from))
                .collect();
 
     let validator = Validator {
@@ -62,8 +62,8 @@ impl<'grammar> Validator<'grammar> {
         for item in &self.grammar.items {
             match *item {
                 GrammarItem::Use(..) => { }
-                GrammarItem::TokenType(ref data) => {
-                    for conversion in &data.conversions {
+                GrammarItem::ExternToken(ref data) => {
+                    for conversion in &data.enum_token.conversions {
                         if !self.is_identifier(conversion.to) {
                             return_err!(conversion.span,
                                         "`{}` is not a Rust identifier",

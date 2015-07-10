@@ -34,7 +34,7 @@ fn extract_token_type(grammar: &Grammar) -> NormResult<TypeRepr> {
                .iter()
                .filter_map(|item| {
                    match *item {
-                       GrammarItem::TokenType(ref data) => Some(&data.type_name),
+                       GrammarItem::ExternToken(ref data) => Some(&data.enum_token.type_name),
                        _ => None,
                    }
                });
@@ -208,7 +208,7 @@ impl<'grammar> TypeInferencer<'grammar> {
 
     fn symbol_type(&mut self, symbol: &SymbolKind) -> NormResult<TypeRepr> {
         match *symbol {
-            SymbolKind::Terminal(_) => Ok(self.types.terminal_type().clone()),
+            SymbolKind::Terminal(id) => Ok(self.types.terminal_type(id).clone()),
             SymbolKind::Nonterminal(id) => self.nonterminal_type(id),
             SymbolKind::Choose(ref s) => self.symbol_type(&s.kind),
             SymbolKind::Name(_, ref s) => self.symbol_type(&s.kind),

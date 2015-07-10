@@ -1,11 +1,13 @@
 grammar {
     use util::tok::Tok;
 
-    token Tok where {
-        "(" => "LParen";
-        ")" => "RParen";
-        "-" => "Minus";
-    };
+    extern token {
+        enum Tok {
+            "(" => LParen,
+            ")" => RParen,
+            "-" => Minus,
+        }
+    }
 
     pub S = E;
 

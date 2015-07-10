@@ -76,13 +76,13 @@ pub enum TypeRepr {
 
 #[derive(Clone, Debug)]
 pub struct Types {
-    terminal_type: TypeRepr,
+    terminal_enum_type: TypeRepr,
     nonterminal_types: Map<NonterminalString, TypeRepr>
 }
 
 impl Types {
-    pub fn new(terminal_type: TypeRepr) -> Types {
-        Types { terminal_type: terminal_type,
+    pub fn new(terminal_enum_type: TypeRepr) -> Types {
+        Types { terminal_enum_type: terminal_enum_type,
                 nonterminal_types: map() }
     }
 
@@ -90,8 +90,12 @@ impl Types {
         assert!(self.nonterminal_types.insert(nt_id, ty).is_none());
     }
 
-    pub fn terminal_type(&self) -> &TypeRepr {
-        &self.terminal_type
+    pub fn terminal_enum_type(&self) -> &TypeRepr {
+        &self.terminal_enum_type
+    }
+
+    pub fn terminal_type(&self, id: TerminalString) -> &TypeRepr {
+        &self.terminal_enum_type
     }
 
     pub fn lookup_nonterminal_type(&self, id: NonterminalString) -> Option<&TypeRepr> {
@@ -146,7 +150,7 @@ impl ActionFn {
 impl Symbol {
     pub fn ty<'ty>(&self, t: &'ty Types) -> &'ty TypeRepr {
         match *self {
-            Symbol::Terminal(_) => t.terminal_type(),
+            Symbol::Terminal(id) => t.terminal_type(id),
             Symbol::Nonterminal(id) => t.nonterminal_type(id),
         }
     }
@@ -198,7 +202,7 @@ impl ActionFnDefn {
 impl Grammar {
     pub fn pattern(&self, t: TerminalString) -> String {
         let u = self.conversions.get(&t).cloned().unwrap_or(t.0);
-        match self.types.terminal_type() {
+        match self.types.terminal_enum_type() {
             &TypeRepr::Nominal { ref path, .. } => {
                 format!("{}::{}(..)", Sep("::", path), u)
             }

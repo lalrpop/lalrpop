@@ -88,7 +88,7 @@ fn named_choice_plus() {
 
 #[test]
 fn token_expr() {
-    super::parse_grammar(r#"grammar { token Expr where { "foo" => "bar"; }; }"#).unwrap();
+    super::parse_grammar(r#"grammar { extern token { enum Expr { "foo" => Bar } } }"#).unwrap();
 }
 
 #[test]

@@ -79,7 +79,7 @@ impl MacroExpander {
 
     fn replace_item(&mut self, item: &mut GrammarItem) {
         match *item {
-            GrammarItem::TokenType(..) => { }
+            GrammarItem::ExternToken(..) => { }
             GrammarItem::Use(..) => { }
             GrammarItem::Nonterminal(ref mut data) => {
                 // Should not encounter macro definitions here,

@@ -48,10 +48,11 @@ impl LowerState {
                     uses.push(data);
                 }
 
-                pt::GrammarItem::TokenType(data) => {
+                pt::GrammarItem::ExternToken(data) => {
                     self.conversions.extend(
-                        data.conversions.iter()
-                                        .map(|conversion| (conversion.from, conversion.to)));
+                        data.enum_token.conversions
+                                       .iter()
+                                       .map(|conversion| (conversion.from, conversion.to)));
                 }
 
                 pt::GrammarItem::Nonterminal(nt) => {
