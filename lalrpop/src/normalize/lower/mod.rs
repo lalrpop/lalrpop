@@ -139,7 +139,7 @@ impl LowerState {
     {
         let action = match action {
             Some(s) => s,
-            None => format!("(~~)"),
+            None => format!("(<>)"),
         };
 
         // Note that the action fn takes ALL of the symbols in `expr`
@@ -176,7 +176,7 @@ impl LowerState {
                     let name_strs: Vec<_> = names.iter().map(|&n| interner.data(n)).collect();
                     name_strs.connect(", ")
                 });
-                let action = action.replace("~~", &name_str);
+                let action = action.replace("<>", &name_str);
                 r::ActionFnDefn {
                     arg_patterns: arg_patterns,
                     arg_types: arg_types,

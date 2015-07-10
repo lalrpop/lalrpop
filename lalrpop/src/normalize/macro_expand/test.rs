@@ -26,7 +26,7 @@ grammar {
            v.into_iter().chain(e.into_iter()).collect();
 
     `"Id"?`: std::option::Option<`"Id"`> = {
-        "Id" => Some(~~);
+        "Id" => Some(<>);
         => None;
     };
 
@@ -35,7 +35,7 @@ grammar {
         <v:`(<"Id"> ",")*`> <e:`(<"Id"> ",")`> => { let mut v = v; v.push(e); v };
     };
 
-    `(<"Id"> ",")`: `"Id"` = <"Id"> "," => (~~);
+    `(<"Id"> ",")`: `"Id"` = <"Id"> "," => (<>);
 }
 "#).unwrap();
 

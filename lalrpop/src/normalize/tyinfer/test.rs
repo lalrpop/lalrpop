@@ -48,7 +48,7 @@ grammar {
     token Tok where { };
     X = {
         X Y;
-        <Y> => vec![~~];
+        <Y> => vec![<>];
     };
     Y = \"Hi\";
 }

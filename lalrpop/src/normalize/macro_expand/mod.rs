@@ -331,7 +331,7 @@ impl MacroExpander {
             alternatives: vec![Alternative { span: span,
                                              expr: expr,
                                              condition: None,
-                                             action: Some(format!("(~~)")) }]
+                                             action: Some(format!("(<>)")) }]
         }))
     }
 
@@ -407,7 +407,7 @@ impl MacroExpander {
                                 symbols: vec![repeat.symbol.clone()]
                             },
                             condition: None,
-                            action: Some(format!("vec![~~]"))
+                            action: Some(format!("vec![<>]"))
                         },
 
                         // X+ = <v:X+> <e:X>
@@ -438,13 +438,13 @@ impl MacroExpander {
                     args: vec![],
                     type_decl: Some(ty_ref),
                     alternatives: vec![
-                        // X? = X => Some(~~)
+                        // X? = X => Some(<>)
                         Alternative { span: span,
                                       expr: ExprSymbol {
                                           symbols: vec![repeat.symbol.clone()]
                                       },
                                       condition: None,
-                                      action: Some(format!("Some(~~)")) },
+                                      action: Some(format!("Some(<>)")) },
 
                         // X? = { => None; }
                         Alternative { span: span,
