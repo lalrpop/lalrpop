@@ -11,7 +11,7 @@ pub fn report_error<'grammar>(out: &mut Write,
                               -> io::Result<()>
 {
     try!(writeln!(out, "when in this state:"));
-    for item in error.items.iter() {
+    for item in error.items.vec.iter() {
         try!(writeln!(out, "  {:?}", item));
     }
     try!(writeln!(out, "and looking at a token `{:?}`,", error.lookahead));

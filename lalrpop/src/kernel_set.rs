@@ -3,35 +3,35 @@ use std::fmt::Debug;
 use std::hash::Hash;
 use util::{map, Map};
 
-pub struct KernelSet<I: StateIndex> {
+pub struct KernelSet<K: Kernel> {
     counter: usize,
-    kernels: VecDeque<I::Kernel>,
-    map: Map<I::Kernel, I>,
+    kernels: VecDeque<K>,
+    map: Map<K, K::Index>,
 }
 
-pub trait StateIndex: Copy {
-    type Kernel: Clone + Debug + Hash + Eq;
+pub trait Kernel: Clone + Debug + Hash + Eq {
+    type Index: Copy + Debug;
 
-    fn from(c: usize) -> Self;
+    fn index(c: usize) -> Self::Index;
 }
 
-impl<I: StateIndex> KernelSet<I> {
-    pub fn new() -> KernelSet<I> {
+impl<K:Kernel> KernelSet<K> {
+    pub fn new() -> KernelSet<K> {
         KernelSet { kernels: VecDeque::new(), map: map(), counter: 0 }
     }
 
-    pub fn add_state(&mut self, kernel: I::Kernel) -> I {
+    pub fn add_state(&mut self, kernel: K) -> K::Index {
         let kernels = &mut self.kernels;
         let counter = &mut self.counter;
         *self.map.entry(kernel.clone()).or_insert_with(|| {
             let index = *counter;
             *counter += 1;
             kernels.push_back(kernel);
-            StateIndex::from(index)
+            K::index(index)
         })
     }
 
-    pub fn next(&mut self) -> Option<I::Kernel> {
+    pub fn next(&mut self) -> Option<K> {
         self.kernels.pop_front()
     }
 }

@@ -1,5 +1,6 @@
 //! Naive LR(1) generation algorithm.
 
+use kernel_set;
 use grammar::repr::*;
 use std::fmt::{Debug, Formatter, Error};
 use std::rc::Rc;
@@ -34,7 +35,10 @@ enum Action<'grammar> {
     Reduce(&'grammar Production),
 }
 
-type Items<'grammar> = Rc<Vec<Item<'grammar>>>;
+#[derive(Clone, Debug, Hash, PartialEq, Eq, PartialOrd, Ord)]
+struct Items<'grammar> {
+    vec: Rc<Vec<Item<'grammar>>>
+}
 
 #[derive(Copy, Clone, Hash, PartialEq, Eq, PartialOrd, Ord)]
 struct StateIndex(usize);
@@ -50,12 +54,6 @@ struct Item<'grammar> {
     production: &'grammar Production,
     index: usize, // the dot comes before `index`, so `index` would be 1 for X = A (*) B C
     lookahead: Lookahead,
-}
-
-#[derive(Debug)]
-struct StateSet<'grammar> {
-    states: Vec<State<'grammar>>,
-    state_map: Map<Items<'grammar>, StateIndex>,
 }
 
 #[derive(Debug)]
@@ -92,29 +90,31 @@ impl<'grammar> LR1<'grammar> {
     fn build_states(&self, start_nt: NonterminalString)
                     -> Result<Vec<State<'grammar>>, TableConstructionError<'grammar>>
     {
-        let mut state_set = StateSet::new();
+        let mut kernel_set = kernel_set::KernelSet::new();
+        let mut states = vec![];
 
         // create the starting state
-        state_set.add_state(
+        kernel_set.add_state(
             self.transitive_closure(
                 self.items(start_nt, 0, Lookahead::EOF)));
 
-        let mut counter = 0;
-        while counter < state_set.states.len() {
-            let items = state_set.states[counter].items.clone();
+        while let Some(items) = kernel_set.next() {
+            let index = StateIndex(states.len());
+            let mut this_state = State { index: index, items: items.clone(),
+                                         tokens: map(), gotos: map() };
 
             // group the items that we can transition into by shifting
             // over a term or nonterm
             let transitions: Multimap<Symbol, Item<'grammar>> =
-                items.iter()
+                items.vec
+                     .iter()
                      .filter_map(|item| item.shifted_item())
                      .collect();
 
             for (symbol, items) in transitions.into_iter() {
                 let items = self.transitive_closure(items);
-                let next_state = state_set.add_state(items);
+                let next_state = kernel_set.add_state(items);
 
-                let this_state = &mut state_set.states[counter];
                 match symbol {
                     Symbol::Terminal(s) => {
                         let action = Action::Shift(next_state);
@@ -130,8 +130,7 @@ impl<'grammar> LR1<'grammar> {
             }
 
             // finally, consider the reductions
-            let this_state = &mut state_set.states[counter];
-            for item in items.iter().filter(|i| i.can_reduce()) {
+            for item in items.vec.iter().filter(|i| i.can_reduce()) {
                 let action = Action::Reduce(item.production);
                 let prev = this_state.tokens.insert(item.lookahead, action);
                 if let Some(conflict) = prev {
@@ -145,10 +144,10 @@ impl<'grammar> LR1<'grammar> {
             }
 
             // extract a new state
-            counter += 1;
+            states.push(this_state);
         }
 
-        Ok(state_set.states)
+        Ok(states)
     }
 
     fn items(&self,
@@ -206,7 +205,7 @@ impl<'grammar> LR1<'grammar> {
         items.sort();
         items.dedup();
 
-        Rc::new(items)
+        Items { vec: Rc::new(items) }
     }
 }
 
@@ -239,21 +238,11 @@ impl<'grammar> Item<'grammar> {
     }
 }
 
-impl<'grammar> StateSet<'grammar> {
-    fn new() -> StateSet<'grammar> {
-        StateSet {
-            states: vec![],
-            state_map: map(),
-        }
-    }
+impl<'grammar> kernel_set::Kernel for Items<'grammar> {
+    type Index = StateIndex;
 
-    fn add_state(&mut self, items: Items<'grammar>) -> StateIndex {
-        let states = &mut self.states;
-        *self.state_map.entry(items.clone()).or_insert_with(|| {
-            let index = StateIndex(states.len());
-            states.push(State { index: index, items: items, tokens: map(), gotos: map() });
-            index
-        })
+    fn index(c: usize) -> StateIndex {
+        StateIndex(c)
     }
 }
 
@@ -287,14 +276,16 @@ impl<'grammar> State<'grammar> {
         // Each state fn takes as argument the longest prefix of any
         // item. Note that all items must have compatible prefixes.
         let (_, prefix) =
-            self.items.iter()
+            self.items.vec
+                      .iter()
                       .map(|item| &item.production.symbols[..item.index])
                       .map(|symbols| (symbols.len(), symbols))
                       .max() // grr, max_by is unstable :(
                       .unwrap();
 
         debug_assert!(
-            self.items.iter()
+            self.items.vec
+                      .iter()
                       .all(|item| prefix.ends_with(&item.production.symbols[..item.index])));
 
         prefix

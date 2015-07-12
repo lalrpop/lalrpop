@@ -1,8 +1,7 @@
 //! Constructs a DFA which picks the longest matching regular
 //! expression from the input.
 
-use kernel_set::StateIndex;
-use kernel_set::KernelSet;
+use kernel_set::{Kernel, KernelSet};
 use std::fmt::{Debug, Display, Formatter, Error};
 use std::rc::Rc;
 use token::re;
@@ -59,7 +58,7 @@ pub struct NFAIndex(usize);
 #[derive(Copy, Clone, Hash, PartialEq, Eq, PartialOrd, Ord)]
 struct DFAStateIndex(usize);
 
-type DFAKernelSet = KernelSet<DFAStateIndex>;
+type DFAKernelSet = KernelSet<DFAItemSet>;
 
 #[derive(Clone, Debug, Hash, PartialEq, Eq)]
 struct DFAItemSet {
@@ -243,10 +242,10 @@ impl<'nfa> DFABuilder<'nfa> {
     }
 }
 
-impl StateIndex for DFAStateIndex {
-    type Kernel = DFAItemSet;
+impl Kernel for DFAItemSet {
+    type Index = DFAStateIndex;
 
-    fn from(c: usize) -> DFAStateIndex {
+    fn index(c: usize) -> DFAStateIndex {
         DFAStateIndex(c)
     }
 }
