@@ -23,7 +23,7 @@ rusty_peg! {
              <tps:[GRAMMAR_TPS]>
              <parameters:[GRAMMAR_PARAMS]>
              <where_clauses:[WHERE_CLAUSES]>
-             "{" <i:{GRAMMAR_ITEM}> "}") => {
+             ";" <i:{GRAMMAR_ITEM}>) => {
                 Grammar { span: Span(lo, hi),
                           type_parameters: tps.unwrap_or(vec![]),
                           parameters: parameters.unwrap_or(vec![]),

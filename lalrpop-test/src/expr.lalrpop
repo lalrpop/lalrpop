@@ -1,32 +1,32 @@
-grammar {
-    use util::tok::Tok;
+grammar;
 
-    extern token {
-        enum Tok {
-            "(" => Tok::LParen(..),
-            ")" => Tok::RParen(..),
-            "-" => Tok::Minus(..),
-            "+" => Tok::Plus(..),
-            "*" => Tok::Times(..),
-            "/" => Tok::Div(..),
-            "Num" => Tok::Num(<i32>)
-        }
+use util::tok::Tok;
+
+extern token {
+    enum Tok {
+        "(" => Tok::LParen(..),
+        ")" => Tok::RParen(..),
+        "-" => Tok::Minus(..),
+        "+" => Tok::Plus(..),
+        "*" => Tok::Times(..),
+        "/" => Tok::Div(..),
+        "Num" => Tok::Num(<i32>)
     }
-
-    pub Expr = {
-        <l:Expr> "-" <r:Factor> => l - r;
-        <l:Expr> "+" <r:Factor> => l + r;
-        Factor;
-    };
-
-    Factor = {
-        <l:Factor> "*" <r:Term> => l * r;
-        <l:Factor> "/" <r:Term> => l / r;
-        Term;
-    };
-
-    Term = {
-        <"Num">;
-        "(" <Expr> ")";
-    };
 }
+
+pub Expr = {
+    <l:Expr> "-" <r:Factor> => l - r;
+    <l:Expr> "+" <r:Factor> => l + r;
+    Factor;
+};
+
+Factor = {
+    <l:Factor> "*" <r:Term> => l * r;
+    <l:Factor> "/" <r:Term> => l / r;
+    Term;
+};
+
+Term = {
+    <"Num">;
+    "(" <Expr> ")";
+};

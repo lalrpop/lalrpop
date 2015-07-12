@@ -21,29 +21,28 @@ fn type_ref_special_case_for_id() {
 
 #[test]
 fn empty_grammar() {
-    super::parse_grammar(r#"grammar { }"#).unwrap();
+    super::parse_grammar(r#"grammar;"#).unwrap();
 }
 
 #[test]
 fn grammar_param1() {
-    super::parse_grammar(r#"grammar<T>(x: T) { }"#).unwrap();
+    super::parse_grammar(r#"grammar<T>(x: T);"#).unwrap();
 }
 
 #[test]
 fn grammar_param2() {
     super::parse_grammar(
-        r#"grammar<'a,T>(x: T, y: Vec<U>) where T: Copy, for<'a> &'a T: Baz { }"#
+        r#"grammar<'a,T>(x: T, y: Vec<U>) where T: Copy, for<'a> &'a T: Baz;"#
             ).unwrap();
 }
 
 #[test]
 fn use_decls() {
-    super::parse_grammar("grammar {
+    super::parse_grammar("grammar;
     use std::io;
     use std::io::{self, a, b};
     use std::baz::*;
-    use std::this as that;
-}").unwrap();
+    use std::this as that;").unwrap();
 }
 
 #[test]
@@ -58,50 +57,50 @@ fn symbol() {
 
 #[test]
 fn nonterminal0() {
-    super::parse_grammar(r#"grammar { Expr = Alt; }"#).unwrap();
+    super::parse_grammar(r#"grammar; Expr = Alt;"#).unwrap();
 }
 
 #[test]
 fn paren() {
-   super::parse_grammar(r#"grammar { Expr = (Alt); }"#).unwrap();
+   super::parse_grammar(r#"grammar; Expr = (Alt);"#).unwrap();
 }
 
 #[test]
 fn paren_with_plus() {
-    super::parse_grammar(r#"grammar { Expr = (Alt)+; }"#).unwrap();
+    super::parse_grammar(r#"grammar; Expr = (Alt)+;"#).unwrap();
 }
 
 #[test]
 fn paren_with_plus_and_anon() {
-    super::parse_grammar(r#"grammar { Expr = (<Alt>)+; }"#).unwrap();
+    super::parse_grammar(r#"grammar; Expr = (<Alt>)+;"#).unwrap();
 }
 
 #[test]
 fn named_choice() {
-    super::parse_grammar(r#"grammar { Expr = <n:Alt>; }"#).unwrap();
+    super::parse_grammar(r#"grammar; Expr = <n:Alt>;"#).unwrap();
 }
 
 #[test]
 fn named_choice_plus() {
-    super::parse_grammar(r#"grammar { Expr = <Alt+>; }"#).unwrap();
+    super::parse_grammar(r#"grammar; Expr = <Alt+>;"#).unwrap();
 }
 
 #[test]
 fn token_expr() {
-    super::parse_grammar(r#"grammar { extern token { enum Expr { "foo" => Bar } } }"#).unwrap();
+    super::parse_grammar(r#"grammar; extern token { enum Expr { "foo" => Bar } }"#).unwrap();
 }
 
 #[test]
 fn map1() {
     super::parse_grammar(
-        r#"grammar { Expr = <n:Alt+> => { { foo } }; }"#).unwrap();
+        r#"grammar; Expr = <n:Alt+> => { { foo } };"#).unwrap();
 }
 
 #[test]
 #[allow(non_snake_case)]
 fn mapN() {
     super::parse_grammar(
-        r#"grammar { Expr = { Bar => { Baz }; X <n:Bar> => { Y }; }; }"#).unwrap();
+        r#"grammar; Expr = { Bar => { Baz }; X <n:Bar> => { Y }; };"#).unwrap();
 }
 
 #[test]

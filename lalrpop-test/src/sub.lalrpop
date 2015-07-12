@@ -1,25 +1,26 @@
-grammar {
-    use util::tok::Tok;
+grammar;
 
-    extern token {
-        enum Tok {
-            "(" => Tok::LParen(..),
-            ")" => Tok::RParen(..),
-            "-" => Tok::Minus(..),
-            "Num" => Tok::Num(<i32>),
-        }
+use util::tok::Tok;
+
+extern token {
+    enum Tok {
+        "(" => Tok::LParen(..),
+        ")" => Tok::RParen(..),
+        "-" => Tok::Minus(..),
+        "Num" => Tok::Num(<i32>),
     }
-
-    pub S = E;
-
-    E = {
-        <l:E> "-" <r:T> => l-r;
-
-        T;
-    };
-
-    T = {
-        <"Num">;
-        "(" <E> ")";
-    };
 }
+
+pub S = E;
+
+E = {
+    <l:E> "-" <r:T> => l-r;
+
+    T;
+};
+
+T = {
+    <"Num">;
+    "(" <E> ")";
+};
+
