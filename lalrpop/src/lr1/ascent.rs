@@ -3,7 +3,7 @@
 //! [recursive ascent]: https://en.wikipedia.org/wiki/Recursive_ascent_parser
 
 use intern::{InternedString};
-use grammar::repr::{Grammar, NonterminalString, Symbol, Types};
+use grammar::repr::{Grammar, NonterminalString, Symbol, TerminalString, Types};
 use lr1::{Lookahead, State, StateIndex};
 use rust::RustWrite;
 use std::io::{self, Write};
@@ -171,13 +171,12 @@ impl<'ascent,'grammar,W:Write> RecursiveAscent<'ascent,'grammar,W> {
         {
             match *token {
                 Lookahead::Terminal(s) =>
-                    rust!(self.out, "Some(tok @ {}) => {{", self.grammar.pattern(s)),
+                    try!(self.consume_terminal(s, format!("sym{}", this_prefix.len()))),
                 Lookahead::EOF =>
                     unreachable!("should never have to shift EOF")
             }
 
             // "shift" the lookahead onto the "stack" by taking its address
-            rust!(self.out, "let sym{} = &mut Some(tok);", this_prefix.len());
             rust!(self.out, "let lookahead = tokens.next();");
 
             // transition to the new state
@@ -196,7 +195,7 @@ impl<'ascent,'grammar,W:Write> RecursiveAscent<'ascent,'grammar,W> {
         {
             match *token {
                 Lookahead::Terminal(s) =>
-                    rust!(self.out, "Some({}) => {{", self.grammar.pattern(s)),
+                    try!(self.match_terminal(s)),
                 Lookahead::EOF =>
                     rust!(self.out, "None => {{"),
             }
@@ -307,6 +306,37 @@ impl<'ascent,'grammar,W:Write> RecursiveAscent<'ascent,'grammar,W> {
         // invoke next state, transferring the top `m` tokens
         format!("try!({}state{}({}, {}, {}))",
                 self.prefix, next_index.0, lookahead, tokens, Sep(", ", &transfer_syms))
+    }
+
+    /// Emit a pattern that matches `id` but doesn't extract any data.
+    fn match_terminal(&mut self, id: TerminalString) -> io::Result<()> {
+        let pattern = self.grammar.pattern(id)
+                                  .map(&mut |_| "_");
+        rust!(self.out, "Some({}) => {{", pattern);
+        Ok(())
+    }
+
+    /// Emit a pattern that matches `id` and extracts its value, storing
+    /// that value as `let_name`.
+    fn consume_terminal(&mut self, id: TerminalString, let_name: String) -> io::Result<()> {
+        let mut pattern_names = vec![];
+        let pattern = self.grammar.pattern(id).map(&mut |_| {
+            let index = pattern_names.len();
+            pattern_names.push(format!("{}tok{}", self.prefix, index));
+            pattern_names.last().cloned().unwrap()
+        });
+
+        if pattern_names.is_empty() {
+            rust!(self.out, "Some({}tok @ {}) => {{", self.prefix, pattern);
+            rust!(self.out, "let mut {} = &mut Some({}tok);",
+                  let_name, self.prefix);
+        } else {
+            rust!(self.out, "Some({}) => {{", pattern);
+            rust!(self.out, "let mut {} = &mut Some(({}));",
+                  let_name, pattern_names.connect(", "));
+        }
+
+        Ok(())
     }
 }
 

@@ -1,6 +1,8 @@
 use intern::{intern, InternedString};
 use grammar::parse_tree::*;
+use grammar::pattern::*;
 use rusty_peg;
+use std::iter;
 
 #[cfg(test)]
 mod test;
@@ -52,25 +54,6 @@ rusty_peg! {
 
         GRAMMAR_ITEM: GrammarItem =
             (EXTERN_TOKEN / NONTERMINAL / USE);
-
-        EXTERN_TOKEN: GrammarItem =
-            ("extern" "token" "{"
-               "enum" <t:TYPE_REF> "{"
-                 <c0:{CONVERSION ","}> <c1:[CONVERSION [","]]>
-               "}"
-             "}") => {
-                GrammarItem::ExternToken(ExternToken {
-                    enum_token: EnumToken {
-                        type_name: t,
-                        conversions: make_list(c0, c1)
-                    }
-                })
-            };
-
-        CONVERSION: Conversion =
-            (<lo:POSL> <from:TERMINAL> "=>" <to:ID> <hi:POSR>) => {
-                Conversion { span: Span(lo, hi), from: from, to: to }
-            };
 
         USE: GrammarItem =
             ("use" <c:CODE> ";") => GrammarItem::Use(c);
@@ -252,6 +235,94 @@ rusty_peg! {
 
         PATH_BASE: InternedString =
             (<i:ID> "::") => i;
+
+        // TOKEN DEFINITIONS
+
+        EXTERN_TOKEN: GrammarItem =
+            ("extern" "token" "{"
+               "enum" <lo:POSL> <t:TYPE_REF> <hi:POSR> "{"
+                 <c0:{CONVERSION ","}> <c1:[CONVERSION [","]]>
+               "}"
+             "}") => {
+                GrammarItem::ExternToken(ExternToken {
+                    enum_token: EnumToken {
+                        type_name: t,
+                        type_span: Span(lo, hi),
+                        conversions: make_list(c0, c1)
+                    }
+                })
+            };
+
+        CONVERSION: Conversion =
+            (<lo:POSL> <from:TERMINAL> "=>" <to:PATTERN> <hi:POSR>) => {
+                Conversion { span: Span(lo, hi), from: from, to: to }
+            };
+
+        PATTERN: Pattern<TypeRef> =
+            (ENUM_PATTERN / STRUCT_PATTERN0 / STRUCT_PATTERN1 / UNDERSCORE_PATTERN /
+             DOTDOT_PATTERN / CHOOSE_PATTERN / TUPLE_PATTERN / PATH_PATTERN);
+
+        ENUM_PATTERN: Pattern<TypeRef> =
+            (<lo:POSL> <p:PATH> "(" <s0:{PATTERN ","}> <s1:[PATTERN [","]]> ")" <hi:POSR>) => {
+                Pattern { span: Span(lo, hi),
+                          kind: PatternKind::Enum(p, make_list(s0, s1)) }
+            };
+
+        STRUCT_PATTERN0: Pattern<TypeRef> =
+            (<lo:POSL> <p:PATH> "{" <s0:{FIELD_PATTERN ","}>
+             <s1:[FIELD_PATTERN [","]]> "}" <hi:POSR>) => {
+                Pattern { span: Span(lo, hi),
+                          kind: PatternKind::Struct(p,
+                                                    make_list(s0, s1),
+                                                    false) }
+            };
+
+        STRUCT_PATTERN1: Pattern<TypeRef> =
+            (<lo:POSL> <p:PATH> "{" <s0:{FIELD_PATTERN ","}> ".." "}" <hi:POSR>) => {
+                Pattern { span: Span(lo, hi),
+                          kind: PatternKind::Struct(p,
+                                                    make_list(s0, None),
+                                                    true) }
+            };
+
+        FIELD_PATTERN: FieldPattern<TypeRef> =
+            (<lo:POSL> <id:ID> <hi:POSR> ":" <pat:PATTERN>) => {
+                FieldPattern { field_span: Span(lo, hi),
+                               field_name: id,
+                               pattern: pat }
+            };
+
+        UNDERSCORE_PATTERN: Pattern<TypeRef> =
+            (<lo:POSL> "_" <hi:POSR>) => {
+                Pattern { span: Span(lo, hi),
+                          kind: PatternKind::Underscore }
+            };
+
+        DOTDOT_PATTERN: Pattern<TypeRef> =
+            (<lo:POSL> ".." <hi:POSR>) => {
+                Pattern { span: Span(lo, hi),
+                          kind: PatternKind::DotDot }
+            };
+
+        CHOOSE_PATTERN: Pattern<TypeRef> =
+            (<lo:POSL> "<" <t:TYPE_REF> ">" <hi:POSR>) => {
+                Pattern { span: Span(lo, hi),
+                          kind: PatternKind::Choose(t) }
+            };
+
+        TUPLE_PATTERN: Pattern<TypeRef> =
+            (<lo:POSL> "(" <p0:{PATTERN ","}> <p1:[PATTERN [","]]> ")" <hi:POSR>) => {
+                Pattern { span: Span(lo, hi),
+                          kind: PatternKind::Tuple(make_list(p0, p1)) }
+            };
+
+        PATH_PATTERN: Pattern<TypeRef> =
+            (<lo:POSL> <id0:ID> <id1:{"::" ID}> <hi:POSR>) => {
+                let path = iter::once(id0).chain(id1.into_iter().map(|pair| pair.1))
+                                          .collect();
+                Pattern { span: Span(lo, hi),
+                          kind: PatternKind::Path(path) }
+            };
 
         // IDENTIFIERS, LIFETIMES
 

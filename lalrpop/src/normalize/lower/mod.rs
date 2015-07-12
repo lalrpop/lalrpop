@@ -5,6 +5,7 @@
 use intern::{self, intern, InternedString};
 use normalize::NormResult;
 use normalize::norm_util::{self, Symbols};
+use grammar::pattern::Pattern;
 use grammar::parse_tree as pt;
 use grammar::parse_tree::{TerminalString, NonterminalString};
 use grammar::repr as r;
@@ -22,7 +23,7 @@ struct LowerState {
     prefix: String,
     action_fn_defns: Vec<r::ActionFnDefn>,
     productions: Vec<r::Production>,
-    conversions: Vec<(TerminalString, InternedString)>,
+    conversions: Vec<(TerminalString, Pattern<r::TypeRepr>)>,
     types: r::Types,
 }
 
@@ -41,6 +42,7 @@ impl LowerState {
         let start_symbols = self.synthesize_start_symbols(&grammar);
 
         let mut uses = vec![];
+        let mut token_span = None;
 
         for item in grammar.items {
             match item {
@@ -49,10 +51,13 @@ impl LowerState {
                 }
 
                 pt::GrammarItem::ExternToken(data) => {
+                    token_span = Some(data.enum_token.type_span);
                     self.conversions.extend(
-                        data.enum_token.conversions
-                                       .iter()
-                                       .map(|conversion| (conversion.from, conversion.to)));
+                        data.enum_token
+                            .conversions
+                            .iter()
+                            .map(|conversion| (conversion.from,
+                                               conversion.to.map(&mut |t| t.type_repr()))));
                 }
 
                 pt::GrammarItem::Nonterminal(nt) => {
@@ -91,6 +96,7 @@ impl LowerState {
             productions: productions,
             conversions: self.conversions.into_iter().collect(),
             types: self.types,
+            token_span: token_span.unwrap(),
             type_parameters: grammar.type_parameters,
             parameters: parameters,
             where_clauses: grammar.where_clauses,

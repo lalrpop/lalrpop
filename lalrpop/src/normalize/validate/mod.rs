@@ -63,11 +63,12 @@ impl<'grammar> Validator<'grammar> {
             match *item {
                 GrammarItem::Use(..) => { }
                 GrammarItem::ExternToken(ref data) => {
-                    for conversion in &data.enum_token.conversions {
-                        if !self.is_identifier(conversion.to) {
-                            return_err!(conversion.span,
-                                        "`{}` is not a Rust identifier",
-                                        conversion.to)
+                    match data.enum_token.type_name {
+                        TypeRef::Id(_) | TypeRef::Nominal { .. } => { /* OK */ }
+                        _ => {
+                            return_err!(
+                                data.enum_token.type_span,
+                                "expected a nominal type here, like `Token` or `foo::Token<T>`");
                         }
                     }
                 }

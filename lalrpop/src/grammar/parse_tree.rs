@@ -6,7 +6,8 @@ some pre-expansion and so forth before creating the proper AST.
 */
 
 use intern::{InternedString};
-use grammar::repr::{TypeRepr};
+use grammar::repr::{NominalTypeRepr, TypeRepr};
+use grammar::pattern::Pattern;
 use std::fmt::{Debug, Display, Formatter, Error};
 use util::Sep;
 
@@ -37,6 +38,7 @@ pub struct ExternToken {
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct EnumToken {
     pub type_name: TypeRef,
+    pub type_span: Span,
     pub conversions: Vec<Conversion>,
 }
 
@@ -44,7 +46,7 @@ pub struct EnumToken {
 pub struct Conversion {
     pub span: Span,
     pub from: TerminalString,
-    pub to: InternedString,
+    pub to: Pattern<TypeRef>,
 }
 
 #[derive(Clone, Debug, PartialEq, Eq)]
@@ -351,13 +353,17 @@ impl TypeRef {
             TypeRef::Tuple(ref types) =>
                 TypeRepr::Tuple(types.iter().map(TypeRef::type_repr).collect()),
             TypeRef::Nominal { ref path, ref types } =>
-                TypeRepr::Nominal { path: path.clone(),
-                                    types: types.iter().map(TypeRef::type_repr).collect() },
+                TypeRepr::Nominal(NominalTypeRepr {
+                    path: path.clone(),
+                    types: types.iter().map(TypeRef::type_repr).collect()
+                }),
             TypeRef::Lifetime(id) =>
                 TypeRepr::Lifetime(id),
             TypeRef::Id(id) =>
-                TypeRepr::Nominal { path: vec![id],
-                                    types: vec![] },
+                TypeRepr::Nominal(NominalTypeRepr {
+                    path: vec![id],
+                    types: vec![]
+                }),
             TypeRef::OfSymbol(_) =>
                 unreachable!("OfSymbol produced by parser")
         }

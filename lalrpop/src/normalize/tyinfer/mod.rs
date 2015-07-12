@@ -2,10 +2,10 @@ use super::{NormResult, NormError};
 use super::norm_util::{self, AlternativeAction, Symbols};
 
 use std::collections::{HashMap};
-use grammar::parse_tree::{Alternative, Grammar, GrammarItem,
+use grammar::parse_tree::{Alternative, EnumToken, Grammar, GrammarItem,
                           NonterminalData, NonterminalString,
                           Span, SymbolKind, TypeRef};
-use grammar::repr::{Types, TypeRepr};
+use grammar::repr::{NominalTypeRepr, Types, TypeRepr};
 
 #[cfg(test)]
 mod test;
@@ -28,34 +28,57 @@ struct NT<'grammar> {
     alternatives: &'grammar Vec<Alternative>,
 }
 
-fn extract_token_type(grammar: &Grammar) -> NormResult<TypeRepr> {
-    let mut token_types =
+fn extract_enum_token(grammar: &Grammar) -> NormResult<&EnumToken> {
+    let mut enum_tokens =
         grammar.items
                .iter()
                .filter_map(|item| {
                    match *item {
-                       GrammarItem::ExternToken(ref data) => Some(&data.enum_token.type_name),
+                       GrammarItem::ExternToken(ref data) => Some(&data.enum_token),
                        _ => None,
                    }
                });
 
-    let token_type = token_types.next();
-    let token_type = match token_type {
+    let enum_token = enum_tokens.next();
+    let enum_token = match enum_token {
         Some(tt) => tt,
         None => return_err!(grammar.span, "no token type specified")
     };
 
-    if let Some(_) = token_types.next() {
+    if let Some(_) = enum_tokens.next() {
         return_err!(grammar.span, "multiple token types specified");
     }
 
-    Ok(token_type.type_repr())
+    Ok(enum_token)
 }
 
 impl<'grammar> TypeInferencer<'grammar> {
     fn new(grammar: &'grammar Grammar) -> NormResult<TypeInferencer<'grammar>> {
-        let token_type =
-            try!(extract_token_type(grammar));
+        let enum_token = try!(extract_enum_token(grammar));
+
+        let token_type = match enum_token.type_name.type_repr() {
+            TypeRepr::Nominal(data) => data,
+            _ => panic!("enum token without nominal type passed validation")
+        };
+
+        let mut types = Types::new(token_type);
+
+        // For each defined conversion, figure out the type of the
+        // terminal and enter it into `types` by hand if it is not the
+        // default. For terminals with custom types, the user should
+        // have one or more bindings in the pattern -- if more than
+        // one, make a tuple.
+        //
+        // e.g. "(" => Lparen(..) ==> no custom type
+        //      "Num" => Num(<u32>) ==> custom type is u32
+        //      "Fraction" => Real(<u32>,<u32>) ==> custom type is (u32, u32)
+        for conversion in &enum_token.conversions {
+            let mut tys = Vec::new();
+            conversion.to.for_each_binding(&mut |ty| tys.push(ty.type_repr()));
+            if tys.is_empty() { continue; }
+            let ty = maybe_tuple(tys);
+            types.add_term_type(conversion.from, ty);
+        }
 
         let nonterminals =
             grammar.items
@@ -69,7 +92,7 @@ impl<'grammar> TypeInferencer<'grammar> {
 
         Ok(TypeInferencer { stack: vec![],
                             nonterminals: nonterminals,
-                            types: Types::new(token_type) })
+                            types: types })
     }
 
     fn infer_types(mut self) -> NormResult<Types> {
@@ -169,13 +192,15 @@ impl<'grammar> TypeInferencer<'grammar> {
                 let types = try! {
                     types.iter().map(|t| self.type_ref(t)).collect()
                 };
-                Ok(TypeRepr::Nominal { path: path.clone(), types: types })
+                Ok(TypeRepr::Nominal(NominalTypeRepr { path: path.clone(),
+                                                       types: types }))
             }
             TypeRef::Lifetime(id) => {
                 Ok(TypeRepr::Lifetime(id))
             }
             TypeRef::Id(id) => {
-                Ok(TypeRepr::Nominal { path: vec![id], types: vec![] })
+                Ok(TypeRepr::Nominal(NominalTypeRepr { path: vec![id],
+                                                       types: vec![] }))
             }
             TypeRef::OfSymbol(ref symbol) => {
                 self.symbol_type(symbol)

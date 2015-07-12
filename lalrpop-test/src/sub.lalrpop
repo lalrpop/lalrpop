@@ -3,9 +3,10 @@ grammar {
 
     extern token {
         enum Tok {
-            "(" => LParen,
-            ")" => RParen,
-            "-" => Minus,
+            "(" => Tok::LParen(..),
+            ")" => Tok::RParen(..),
+            "-" => Tok::Minus(..),
+            "Num" => Tok::Num(<i32>),
         }
     }
 
@@ -18,7 +19,7 @@ grammar {
     };
 
     T: i32 = {
-        <n:"Num"> => n.as_num();
+        <n:"Num"> => n;
         "(" <E> ")";
     };
 }

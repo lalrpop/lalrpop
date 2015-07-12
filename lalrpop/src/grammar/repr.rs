@@ -5,11 +5,15 @@
  */
 
 use intern::{InternedString};
+use grammar::pattern::{Pattern, PatternKind};
+use std::iter::once;
 use std::fmt::{Debug, Display, Formatter, Error};
 use util::{map, Map, Sep};
 
 // These concepts we re-use wholesale
-pub use grammar::parse_tree::{NonterminalString, Span, TerminalString, TypeParameter};
+pub use grammar::parse_tree::{NonterminalString,
+                              Span,
+                              TerminalString, TypeParameter};
 
 #[derive(Clone, Debug)]
 pub struct Grammar {
@@ -33,7 +37,8 @@ pub struct Grammar {
 
     pub action_fn_defns: Vec<ActionFnDefn>,
     pub productions: Map<NonterminalString, Vec<Production>>,
-    pub conversions: Map<TerminalString, InternedString>,
+    pub token_span: Span,
+    pub conversions: Map<TerminalString, Pattern<TypeRepr>>,
     pub types: Types,
 }
 
@@ -70,19 +75,29 @@ pub struct ActionFnDefn {
 #[derive(Clone, PartialEq, Eq)]
 pub enum TypeRepr {
     Tuple(Vec<TypeRepr>),
-    Nominal { path: Vec<InternedString>, types: Vec<TypeRepr> },
+    Nominal(NominalTypeRepr),
     Lifetime(InternedString),
+}
+
+#[derive(Clone, PartialEq, Eq)]
+pub struct NominalTypeRepr {
+    pub path: Vec<InternedString>,
+    pub types: Vec<TypeRepr>
 }
 
 #[derive(Clone, Debug)]
 pub struct Types {
-    terminal_enum_type: TypeRepr,
+    terminal_enum_type: NominalTypeRepr,
+    default_terminal_type: TypeRepr,
+    terminal_types: Map<TerminalString, TypeRepr>,
     nonterminal_types: Map<NonterminalString, TypeRepr>
 }
 
 impl Types {
-    pub fn new(terminal_enum_type: TypeRepr) -> Types {
-        Types { terminal_enum_type: terminal_enum_type,
+    pub fn new(terminal_enum_type: NominalTypeRepr) -> Types {
+        Types { terminal_enum_type: terminal_enum_type.clone(),
+                terminal_types: map(),
+                default_terminal_type: TypeRepr::Nominal(terminal_enum_type),
                 nonterminal_types: map() }
     }
 
@@ -90,12 +105,16 @@ impl Types {
         assert!(self.nonterminal_types.insert(nt_id, ty).is_none());
     }
 
-    pub fn terminal_enum_type(&self) -> &TypeRepr {
+    pub fn add_term_type(&mut self, term: TerminalString, ty: TypeRepr) {
+        assert!(self.terminal_types.insert(term, ty).is_none());
+    }
+
+    pub fn terminal_enum_type(&self) -> &NominalTypeRepr {
         &self.terminal_enum_type
     }
 
     pub fn terminal_type(&self, id: TerminalString) -> &TypeRepr {
-        &self.terminal_enum_type
+        self.terminal_types.get(&id).unwrap_or(&self.default_terminal_type)
     }
 
     pub fn lookup_nonterminal_type(&self, id: NonterminalString) -> Option<&TypeRepr> {
@@ -118,10 +137,8 @@ impl Display for TypeRepr {
         match *self {
             TypeRepr::Tuple(ref types) =>
                 write!(fmt, "({})", Sep(", ", types)),
-            TypeRepr::Nominal { ref path, ref types } if types.len() == 0 =>
-                write!(fmt, "{}", Sep("::", path)),
-            TypeRepr::Nominal { ref path, ref types } =>
-                write!(fmt, "{}<{}>", Sep("::", path), Sep(", ", types)),
+            TypeRepr::Nominal(ref data) =>
+                write!(fmt, "{}", data),
             TypeRepr::Lifetime(id) =>
                 write!(fmt, "{}", id),
         }
@@ -129,6 +146,22 @@ impl Display for TypeRepr {
 }
 
 impl Debug for TypeRepr {
+    fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
+        Display::fmt(self, fmt)
+    }
+}
+
+impl Display for NominalTypeRepr {
+    fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
+        if self.types.len() == 0 {
+            write!(fmt, "{}", Sep("::", &self.path))
+        } else {
+            write!(fmt, "{}<{}>", Sep("::", &self.path), Sep(", ", &self.types))
+        }
+    }
+}
+
+impl Debug for NominalTypeRepr {
     fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
         Display::fmt(self, fmt)
     }
@@ -200,13 +233,27 @@ impl ActionFnDefn {
 }
 
 impl Grammar {
-    pub fn pattern(&self, t: TerminalString) -> String {
-        let u = self.conversions.get(&t).cloned().unwrap_or(t.0);
-        match self.types.terminal_enum_type() {
-            &TypeRepr::Nominal { ref path, .. } => {
-                format!("{}::{}(..)", Sep("::", path), u)
-            }
-            _ => unreachable!("terminals must be a nominal type")
+    pub fn default_pattern(&self, id: InternedString) -> Pattern<TypeRepr> {
+        let path: Vec<InternedString> =
+            self.types.terminal_enum_type().path.iter()
+                                                .cloned()
+                                                .chain(once(id))
+                                                .collect();
+        Pattern {
+            span: self.token_span,
+            kind: PatternKind::Enum(path, vec![
+                Pattern {
+                    span: self.token_span,
+                    kind: PatternKind::DotDot
+                }
+            ])
+        }
+    }
+
+    pub fn pattern(&self, t: TerminalString) -> Pattern<TypeRepr> {
+        match self.conversions.get(&t).cloned() {
+            Some(p) => p,
+            None => self.default_pattern(t.0),
         }
     }
 

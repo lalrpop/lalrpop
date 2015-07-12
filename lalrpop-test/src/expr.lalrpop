@@ -3,12 +3,13 @@ grammar {
 
     extern token {
         enum Tok {
-            "(" => LParen,
-            ")" => RParen,
-            "-" => Minus,
-            "+" => Plus,
-            "*" => Times,
-            "/" => Div,
+            "(" => Tok::LParen(..),
+            ")" => Tok::RParen(..),
+            "-" => Tok::Minus(..),
+            "+" => Tok::Plus(..),
+            "*" => Tok::Times(..),
+            "/" => Tok::Div(..),
+            "Num" => Tok::Num(<i32>)
         }
     }
 
@@ -25,7 +26,7 @@ grammar {
     };
 
     Term = {
-        <n:"Num"> => n.as_num();
+        <n:"Num"> => n;
         "(" <Expr> ")";
     };
 }
