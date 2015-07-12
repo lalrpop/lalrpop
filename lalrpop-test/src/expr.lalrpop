@@ -13,7 +13,7 @@ grammar {
         }
     }
 
-    pub Expr: i32 = {
+    pub Expr = {
         <l:Expr> "-" <r:Factor> => l - r;
         <l:Expr> "+" <r:Factor> => l + r;
         Factor;
@@ -26,7 +26,7 @@ grammar {
     };
 
     Term = {
-        <n:"Num"> => n;
+        <"Num">;
         "(" <Expr> ")";
     };
 }
