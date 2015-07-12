@@ -42,7 +42,7 @@ impl FileText {
         let (end_line, end_col) = self.line_col(span.1);
         format!("{}:{}:{}: {}:{}",
                 self.path.display(),
-                start_line+1, start_col+1, end_line+1, end_col+1)
+                start_line+1, start_col+1, end_line+1, end_col)
     }
 
     fn line_col(&self, pos: usize) -> (usize, usize) {

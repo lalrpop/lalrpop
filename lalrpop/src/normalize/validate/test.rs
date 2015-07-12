@@ -52,3 +52,10 @@ fn unknown_nonterminal_two() {
         "no definition found for nonterminal `Expr`",
         r#"grammar { Term = { <n:"Num"> => n.as_num(); "A" <>>>Expr<<<> "B"; }; }"#);
 }
+
+#[test]
+fn named_symbols() {
+    check_err(
+        r#"named symbols (like `"Num"`) require a custom action"#,
+        r#"grammar { Term = { <n:>>>"Num"<<<>; }; }"#);
+}

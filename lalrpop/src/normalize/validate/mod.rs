@@ -1,6 +1,8 @@
 //! Validate checks some basic safety conditions.
 
 use super::{NormResult, NormError};
+use super::norm_util::{self, Symbols};
+
 use grammar::parse_tree::*;
 use intern::{read, InternedString};
 use regex::Regex;
@@ -116,6 +118,23 @@ impl<'grammar> Validator<'grammar> {
         }
 
         try!(self.validate_expr(scope, &alternative.expr));
+
+        match norm_util::analyze_expr(&alternative.expr) {
+            Symbols::Named(syms) => {
+                if alternative.action.is_none() {
+                    let sym =
+                        syms.iter()
+                            .map(|&(_, _, sym)| sym)
+                            .next()
+                            .unwrap();
+                    return_err!(
+                        sym.span,
+                        "named symbols (like `{}`) require a custom action",
+                        sym);
+                }
+            }
+            Symbols::Anon(_) => { }
+        }
 
         Ok(())
     }

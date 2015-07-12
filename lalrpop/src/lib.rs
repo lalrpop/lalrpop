@@ -13,6 +13,7 @@ extern crate rusty_peg;
 extern crate diff;
 extern crate rand;
 extern crate regex;
+extern crate term;
 extern crate itertools;
 
 // rust exports a macro that others use, so hoist it early.

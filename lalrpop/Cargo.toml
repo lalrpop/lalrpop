@@ -8,6 +8,7 @@ regex = "0.1"
 diff = "0.1"
 rand = "0.3"
 itertools = "0.3"
+term = "0.2"
 
 [dependencies.rusty-peg]
 git = "https://github.com/nikomatsakis/rusty-peg.git"
