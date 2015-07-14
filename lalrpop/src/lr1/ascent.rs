@@ -106,18 +106,20 @@ impl<'ascent,'grammar,W:Write> RecursiveAscent<'ascent,'grammar,W> {
         rust!(self.out, "#[allow(non_snake_case)]");
         rust!(self.out, "pub fn parse_{}<TOKENS: IntoIterator<Item={}>>(",
               self.user_start_symbol, terminal_type);
-        rust!(self.out, "tokens: TOKENS)");
+        rust!(self.out, "{}tokens: TOKENS)", self.prefix);
         rust!(self.out, "-> Result<(Option<{}>, {}), Option<{}>>",
               terminal_type,
               self.types.nonterminal_type(self.start_symbol),
               terminal_type);
         rust!(self.out, "{{");
-        rust!(self.out, "let mut tokens = tokens.into_iter();");
-        rust!(self.out, "let lookahead = tokens.next();");
-        rust!(self.out, "match try!({}parse{}::{}state0(lookahead, &mut tokens)) {{",
-              self.prefix, self.start_symbol, self.prefix);
-        rust!(self.out, "(lookahead, {}parse{}::{}Nonterminal::{}(nt)) => Ok((lookahead, nt)),",
-              self.prefix, self.start_symbol, self.prefix, self.start_symbol);
+        rust!(self.out, "let mut {}tokens = {}tokens.into_iter();", self.prefix, self.prefix);
+        rust!(self.out, "let {}lookahead = {}tokens.next();", self.prefix, self.prefix);
+        rust!(self.out, "match try!({}parse{}::{}state0({}lookahead, &mut {}tokens)) {{",
+              self.prefix, self.start_symbol, self.prefix, self.prefix, self.prefix);
+        rust!(self.out, "({}lookahead, {}parse{}::{}Nonterminal::{}({}nt)) => \
+                         Ok(({}lookahead, {}nt)),",
+              self.prefix, self.prefix, self.start_symbol, self.prefix, self.start_symbol,
+              self.prefix, self.prefix, self.prefix);
         rust!(self.out, "_ => unreachable!(),");
         rust!(self.out, "}}");
         rust!(self.out, "}}");
