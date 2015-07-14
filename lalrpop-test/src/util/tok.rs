@@ -11,15 +11,6 @@ pub enum Tok {
     Div,
 }
 
-impl Tok {
-    pub fn as_num(&self) -> i32 {
-        match *self {
-            Tok::Num(x) => x,
-            _ => panic!("as_num invoked with non-number"),
-        }
-    }
-}
-
 // simplest and stupidest possible tokenizer
 pub fn tokenize(s: &str) -> Vec<Tok> {
     let mut tokens = vec![];
