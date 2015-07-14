@@ -104,9 +104,9 @@ impl<'ascent,'grammar,W:Write> RecursiveAscent<'ascent,'grammar,W> {
     fn write_start_fn(&mut self) -> io::Result<()> {
         let terminal_type = self.types.terminal_enum_type();
         rust!(self.out, "#[allow(non_snake_case)]");
-        rust!(self.out, "pub fn parse_{}<TOKENS: IntoIterator<Item={}>>(",
-              self.user_start_symbol, terminal_type);
-        rust!(self.out, "{}tokens: TOKENS)", self.prefix);
+        rust!(self.out, "pub fn parse_{}<{}TOKENS: IntoIterator<Item={}>>(",
+              self.user_start_symbol, self.prefix, terminal_type);
+        rust!(self.out, "{}tokens: {}TOKENS)", self.prefix, self.prefix);
         rust!(self.out, "-> Result<(Option<{}>, {}), Option<{}>>",
               terminal_type,
               self.types.nonterminal_type(self.start_symbol),
@@ -149,11 +149,11 @@ impl<'ascent,'grammar,W:Write> RecursiveAscent<'ascent,'grammar,W> {
         // set to true if goto actions are worth generating
         let mut fallthrough = false;
 
-        rust!(self.out, "pub fn {}state{}<TOKENS: Iterator<Item={}>>(",
-              self.prefix, this_index.0, terminal_type);
+        rust!(self.out, "pub fn {}state{}<{}TOKENS: Iterator<Item={}>>(",
+              self.prefix, this_index.0, self.prefix, terminal_type);
         rust!(self.out, "mut {}lookahead: Option<{}>,",
               self.prefix, terminal_type);
-        rust!(self.out, "{}tokens: &mut TOKENS,", self.prefix);
+        rust!(self.out, "{}tokens: &mut {}TOKENS,", self.prefix, self.prefix);
         for i in 0..this_prefix.len() {
             rust!(self.out, "{}sym{}: &mut Option<{}>,",
                   self.prefix, i, this_prefix[i].ty(&self.types));
