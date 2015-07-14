@@ -105,7 +105,7 @@ impl<'ascent,'grammar,W:Write> RecursiveAscent<'ascent,'grammar,W> {
         let terminal_type = self.types.terminal_enum_type();
         rust!(self.out, "#[allow(non_snake_case)]");
         rust!(self.out, "pub fn parse_{}<", self.user_start_symbol);
-        rust!(self.out, "  {}TOKENS: IntoIterator<Item={}>,", self.prefix, terminal_type);
+        rust!(self.out, "    {}TOKENS: IntoIterator<Item={}>,", self.prefix, terminal_type);
         rust!(self.out, ">(");
         rust!(self.out, "{}tokens: {}TOKENS,", self.prefix, self.prefix);
         rust!(self.out, ") -> Result<(Option<{}>, {}), Option<{}>> {{",
@@ -148,7 +148,7 @@ impl<'ascent,'grammar,W:Write> RecursiveAscent<'ascent,'grammar,W> {
         let mut fallthrough = false;
 
         rust!(self.out, "pub fn {}state{}<", self.prefix, this_index.0);
-        rust!(self.out, "  {}TOKENS: Iterator<Item={}>,", self.prefix, terminal_type);
+        rust!(self.out, "    {}TOKENS: Iterator<Item={}>,", self.prefix, terminal_type);
         rust!(self.out, ">(");
         rust!(self.out, "mut {}lookahead: Option<{}>,", self.prefix, terminal_type);
         rust!(self.out, "{}tokens: &mut {}TOKENS,", self.prefix, self.prefix);
