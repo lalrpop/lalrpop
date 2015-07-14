@@ -29,8 +29,14 @@ pub struct Grammar {
 
     // the "use foo;" statements that the user declared
     pub uses: Vec<String>,
+
+    // type parameters declared on the grammar, like `grammar<T>;`
     pub type_parameters: Vec<TypeParameter>,
+
+    // actual parameters declared on the grammar, like the `x: u32` in `grammar(x: u32);`
     pub parameters: Vec<Parameter>,
+
+    // where clauses declared on the grammar, like `grammar<T> where T: Sized`
     pub where_clauses: Vec<String>,
 
     // the grammar proper:
