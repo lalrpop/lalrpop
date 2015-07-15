@@ -3,13 +3,15 @@ use super::norm_util::{self, AlternativeAction, Symbols};
 
 use std::collections::{HashMap};
 use grammar::parse_tree::{Alternative,
-                          EnumToken,
+                          ExternToken,
                           Grammar, GrammarItem,
+                          LOCATION,
                           NonterminalData, NonterminalString,
                           Path,
                           Span,
                           SymbolKind, TypeRef};
 use grammar::repr::{NominalTypeRepr, Types, TypeRepr};
+use intern::intern;
 
 #[cfg(test)]
 mod test;
@@ -32,40 +34,43 @@ struct NT<'grammar> {
     alternatives: &'grammar Vec<Alternative>,
 }
 
-fn extract_enum_token(grammar: &Grammar) -> NormResult<&EnumToken> {
-    let mut enum_tokens =
+fn extract_extern_token(grammar: &Grammar) -> NormResult<&ExternToken> {
+    let mut extern_tokens =
         grammar.items
                .iter()
                .filter_map(|item| {
                    match *item {
-                       GrammarItem::ExternToken(ref data) => Some(&data.enum_token),
+                       GrammarItem::ExternToken(ref data) => Some(data),
                        _ => None,
                    }
                });
 
-    let enum_token = enum_tokens.next();
-    let enum_token = match enum_token {
+    let extern_token = extern_tokens.next();
+    let extern_token = match extern_token {
         Some(tt) => tt,
         None => return_err!(grammar.span, "no token type specified")
     };
 
-    if let Some(_) = enum_tokens.next() {
+    if let Some(_) = extern_tokens.next() {
         return_err!(grammar.span, "multiple token types specified");
     }
 
-    Ok(enum_token)
+    Ok(extern_token)
 }
 
 impl<'grammar> TypeInferencer<'grammar> {
     fn new(grammar: &'grammar Grammar) -> NormResult<TypeInferencer<'grammar>> {
-        let enum_token = try!(extract_enum_token(grammar));
+        let extern_token = try!(extract_extern_token(grammar));
 
-        let token_type = match enum_token.type_name.type_repr() {
+        let loc_type = extern_token.associated_type(intern(LOCATION))
+                                   .map(|tr| tr.type_ref.type_repr());
+
+        let enum_type = match extern_token.enum_token.type_name.type_repr() {
             TypeRepr::Nominal(data) => data,
             _ => panic!("enum token without nominal type passed validation")
         };
 
-        let mut types = Types::new(token_type);
+        let mut types = Types::new(loc_type, enum_type);
 
         // For each defined conversion, figure out the type of the
         // terminal and enter it into `types` by hand if it is not the
@@ -76,7 +81,7 @@ impl<'grammar> TypeInferencer<'grammar> {
         // e.g. "(" => Lparen(..) ==> no custom type
         //      "Num" => Num(<u32>) ==> custom type is u32
         //      "Fraction" => Real(<u32>,<u32>) ==> custom type is (u32, u32)
-        for conversion in &enum_token.conversions {
+        for conversion in &extern_token.enum_token.conversions {
             let mut tys = Vec::new();
             conversion.to.for_each_binding(&mut |ty| tys.push(ty.type_repr()));
             if tys.is_empty() { continue; }

@@ -33,8 +33,19 @@ pub enum GrammarItem {
 
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct ExternToken {
+    pub associated_types: Vec<AssociatedType>,
     pub enum_token: EnumToken,
 }
+
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub struct AssociatedType {
+    pub span: Span,
+    pub type_name: InternedString,
+    pub type_ref: TypeRef,
+}
+
+/// Recognized associated type for the token location
+pub const LOCATION: &'static str = "Location";
 
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct EnumToken {
@@ -319,6 +330,14 @@ impl Display for RepeatOp {
 impl Display for ExprSymbol {
     fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
         write!(fmt, "({})", Sep(" ", &self.symbols))
+    }
+}
+
+impl ExternToken {
+    pub fn associated_type(&self, name: InternedString) -> Option<&AssociatedType> {
+        self.associated_types.iter()
+                             .filter(|a| a.type_name == name)
+                             .next()
     }
 }
 

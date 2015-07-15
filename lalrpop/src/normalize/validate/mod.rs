@@ -4,9 +4,9 @@ use super::{NormResult, NormError};
 use super::norm_util::{self, Symbols};
 
 use grammar::parse_tree::*;
-use intern::{read, InternedString};
+use intern::{intern, read, InternedString};
 use regex::Regex;
-use util::{Map, Multimap, Set};
+use util::{Map, Multimap, Sep, set, Set};
 
 #[cfg(test)]
 mod test;
@@ -65,6 +65,24 @@ impl<'grammar> Validator<'grammar> {
             match *item {
                 GrammarItem::Use(..) => { }
                 GrammarItem::ExternToken(ref data) => {
+                    let allowed_names = vec![intern(LOCATION)];
+                    let mut new_names = set();
+                    for associated_type in &data.associated_types {
+                        if !allowed_names.contains(&associated_type.type_name) {
+                            return_err!(
+                                associated_type.span,
+                                "associated type `{}` not recognized, \
+                                 try one of the following: {}",
+                                associated_type.type_name,
+                                Sep(", ", &allowed_names));
+                        } else if !new_names.insert(associated_type.type_name) {
+                            return_err!(
+                                associated_type.span,
+                                "associated type `{}` already specified",
+                                associated_type.type_name);
+                        }
+                    }
+
                     match data.enum_token.type_name {
                         TypeRef::Id(_) | TypeRef::Nominal { .. } => { /* OK */ }
                         _ => {

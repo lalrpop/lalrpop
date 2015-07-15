@@ -59,3 +59,10 @@ fn named_symbols() {
         r#"named symbols (like `"Num"`) require a custom action"#,
         r#"grammar { Term = { <n:>>>"Num"<<<>; }; }"#);
 }
+
+#[test]
+fn bad_assoc_type() {
+    check_err(
+        r#"named symbols (like `"Num"`) require a custom action"#,
+        r#"grammar { extern token { type Foo = i32; } }"#);
+}

@@ -99,14 +99,18 @@ pub struct NominalTypeRepr {
 #[derive(Clone, Debug)]
 pub struct Types {
     terminal_enum_type: NominalTypeRepr,
+    terminal_loc_type: Option<TypeRepr>,
     default_terminal_type: TypeRepr,
     terminal_types: Map<TerminalString, TypeRepr>,
     nonterminal_types: Map<NonterminalString, TypeRepr>
 }
 
 impl Types {
-    pub fn new(terminal_enum_type: NominalTypeRepr) -> Types {
-        Types { terminal_enum_type: terminal_enum_type.clone(),
+    pub fn new(terminal_loc_type: Option<TypeRepr>,
+               terminal_enum_type: NominalTypeRepr)
+               -> Types {
+        Types { terminal_loc_type: terminal_loc_type,
+                terminal_enum_type: terminal_enum_type.clone(),
                 terminal_types: map(),
                 default_terminal_type: TypeRepr::Nominal(terminal_enum_type),
                 nonterminal_types: map() }

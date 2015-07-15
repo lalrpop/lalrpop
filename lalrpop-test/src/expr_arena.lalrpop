@@ -1,9 +1,11 @@
-grammar<'ast>(arena: &'ast Arena<'ast>);
-
 use expr_arena_ast::{Arena, Node, Op};
 use util::tok::Tok;
 
+grammar<'ast>(arena: &'ast Arena<'ast>);
+
 extern token {
+    type Location = u32;
+
     enum Tok {
         "(" => Tok::LParen(..),
         ")" => Tok::RParen(..),

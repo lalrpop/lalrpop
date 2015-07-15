@@ -91,6 +91,15 @@ fn token_expr() {
 }
 
 #[test]
+fn assoc_types() {
+    super::parse_grammar(r#"grammar;
+                            extern token {
+                                type Foo = u32;
+                                enum Expr { "foo" => Bar }
+                                type Bar = i32; }"#).unwrap();
+}
+
+#[test]
 fn map1() {
     super::parse_grammar(
         r#"grammar; Expr = <n:Alt+> => { { foo } };"#).unwrap();

@@ -18,7 +18,8 @@ rusty_peg! {
     parser Parser<'input> {
         // Grammar
         GRAMMAR: Grammar =
-            (<lo:POSL> "grammar" <hi:POSR>
+            (<uses:{USE}>
+             <lo:POSL> "grammar" <hi:POSR>
              <tps:[GRAMMAR_TPS]>
              <parameters:[GRAMMAR_PARAMS]>
              <where_clauses:[WHERE_CLAUSES]>
@@ -27,7 +28,7 @@ rusty_peg! {
                           type_parameters: tps.unwrap_or(vec![]),
                           parameters: parameters.unwrap_or(vec![]),
                           where_clauses: where_clauses.unwrap_or(vec![]),
-                          items: i }
+                          items: uses.into_iter().chain(i).collect() }
             };
 
         GRAMMAR_TPS: Vec<TypeParameter> =
@@ -247,17 +248,25 @@ rusty_peg! {
 
         EXTERN_TOKEN: GrammarItem =
             ("extern" "token" "{"
+               <a0:{ASSOCIATED_TYPE}>
                "enum" <lo:POSL> <t:TYPE_REF> <hi:POSR> "{"
                  <c0:{CONVERSION ","}> <c1:[CONVERSION]>
                "}"
+               <a1:{ASSOCIATED_TYPE}>
              "}") => {
                 GrammarItem::ExternToken(ExternToken {
+                    associated_types: a0.into_iter().chain(a1).collect(),
                     enum_token: EnumToken {
                         type_name: t,
                         type_span: Span(lo, hi),
                         conversions: make_list(c0, c1)
                     }
                 })
+            };
+
+        ASSOCIATED_TYPE: AssociatedType =
+            (<lo:POSL> "type" <n:ID> "=" <t:TYPE_REF> ";" <hi:POSR>) => {
+                AssociatedType { span: Span(lo, hi), type_name: n, type_ref: t }
             };
 
         CONVERSION: Conversion =
