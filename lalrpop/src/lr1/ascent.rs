@@ -104,12 +104,15 @@ impl<'ascent,'grammar,W:Write> RecursiveAscent<'ascent,'grammar,W> {
     fn write_start_fn(&mut self) -> io::Result<()> {
         let terminal_type = self.types.terminal_enum_type();
         rust!(self.out, "#[allow(non_snake_case)]");
-        rust!(self.out, "pub fn parse_{}<", self.user_start_symbol);
-        rust!(self.out, "    {}TOKENS: IntoIterator<Item={}>,", self.prefix, terminal_type);
-        rust!(self.out, ">(");
-        rust!(self.out, "{}tokens: {}TOKENS,", self.prefix, self.prefix);
-        rust!(self.out, ") -> Result<(Option<{}>, {}), Option<{}>> {{",
-              terminal_type, self.types.nonterminal_type(self.start_symbol), terminal_type);
+        try!(self.out.write_pub_fn_header(
+            self.grammar,
+            format!("parse_{}", self.user_start_symbol),
+            vec![format!("{}TOKENS: IntoIterator<Item={}>", self.prefix, terminal_type)],
+            vec![format!("{}tokens: {}TOKENS", self.prefix, self.prefix)],
+            format!("Result<(Option<{}>, {}), Option<{}>>",
+                    terminal_type, self.types.nonterminal_type(self.start_symbol), terminal_type),
+            vec![]));
+        rust!(self.out, "{{");
         rust!(self.out, "let mut {}tokens = {}tokens.into_iter();", self.prefix, self.prefix);
         rust!(self.out, "let {}lookahead = {}tokens.next();", self.prefix, self.prefix);
         rust!(self.out, "match try!({}parse{}::{}state0({}lookahead, &mut {}tokens)) {{",

@@ -325,6 +325,15 @@ impl Display for MacroSymbol {
     }
 }
 
+impl Display for TypeParameter {
+    fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
+        match *self {
+            TypeParameter::Lifetime(s) => write!(fmt, "'{}", s),
+            TypeParameter::Id(s) => write!(fmt, "{}", s),
+        }
+    }
+}
+
 impl Display for TypeRef {
     fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
         match *self {

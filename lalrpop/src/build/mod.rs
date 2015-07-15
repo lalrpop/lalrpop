@@ -100,11 +100,18 @@ fn emit_action_code<W:Write>(grammar: &r::Grammar,
                              -> io::Result<()>
 {
     for (i, defn) in grammar.action_fn_defns.iter().enumerate() {
-        rust!(rust, "fn {}action{}(", grammar.prefix, i);
-        for (p, t) in defn.arg_patterns.iter().zip(defn.arg_types.iter()) {
-            rust!(rust, "{}: {},", p, t);
-        }
-        rust!(rust, ") -> {} {{", defn.ret_type);
+        rust!(rust, "");
+        try!(rust.write_fn_header(
+            grammar,
+            format!("{}action{}", grammar.prefix, i),
+            vec![],
+            defn.arg_patterns.iter()
+                             .zip(defn.arg_types.iter())
+                             .map(|(p, t)| format!("{}: {}", p, t))
+                             .collect(),
+            format!("{}", defn.ret_type),
+            vec![]));
+        rust!(rust, "{{");
         rust!(rust, "{}", defn.code);
         rust!(rust, "}}");
     }
