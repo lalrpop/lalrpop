@@ -150,18 +150,25 @@ impl<'ascent,'grammar,W:Write> RecursiveAscent<'ascent,'grammar,W> {
         // set to true if goto actions are worth generating
         let mut fallthrough = false;
 
-        rust!(self.out, "pub fn {}state{}<", self.prefix, this_index.0);
-        rust!(self.out, "    {}TOKENS: Iterator<Item={}>,", self.prefix, terminal_type);
-        rust!(self.out, ">(");
-        rust!(self.out, "mut {}lookahead: Option<{}>,", self.prefix, terminal_type);
-        rust!(self.out, "{}tokens: &mut {}TOKENS,", self.prefix, self.prefix);
-        for i in 0..this_prefix.len() {
-            rust!(self.out, "{}sym{}: &mut Option<{}>,",
-                  self.prefix, i, this_prefix[i].ty(&self.types));
-        }
-        rust!(self.out, ") -> Result<(Option<{}>, {}Nonterminal), Option<{}>> {{",
-              terminal_type, self.prefix, terminal_type);
+        let base_args =
+            vec![format!("mut {}lookahead: Option<{}>", self.prefix, terminal_type),
+                 format!("{}tokens: &mut {}TOKENS", self.prefix, self.prefix)];
+        let sym_args: Vec<_> =
+            (0..this_prefix.len())
+            .map(|i| format!("{}sym{}: &mut Option<{}>",
+                             self.prefix, i, this_prefix[i].ty(&self.types)))
+            .collect();
 
+        try!(self.out.write_pub_fn_header(
+            self.grammar,
+            format!("{}state{}", self.prefix, this_index.0),
+            vec![format!("{}TOKENS: Iterator<Item={}>", self.prefix, terminal_type)],
+            base_args.into_iter().chain(sym_args).collect(),
+            format!("Result<(Option<{}>, {}Nonterminal), Option<{}>>",
+                    terminal_type, self.prefix, terminal_type),
+            vec![]));
+
+        rust!(self.out, "{{");
         rust!(self.out, "let mut {}result: (Option<{}>, {}Nonterminal);",
               self.prefix, terminal_type, self.prefix);
 
