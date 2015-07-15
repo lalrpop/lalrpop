@@ -1,0 +1,33 @@
+grammar<'ast>(arena: &'ast Arena<'ast>);
+
+use expr_arena_ast::{Arena, Node, Op};
+use util::tok::Tok;
+
+extern token {
+    enum Tok {
+        "(" => Tok::LParen(..),
+        ")" => Tok::RParen(..),
+        "-" => Tok::Minus(..),
+        "+" => Tok::Plus(..),
+        "*" => Tok::Times(..),
+        "/" => Tok::Div(..),
+        "Num" => Tok::Num(<i32>)
+    }
+}
+
+pub Expr: &'ast Node<'ast> = {
+    <l:Expr> "-" <r:Factor> => arena.alloc(Node::Binary(Op::Sub, l, r));
+    <l:Expr> "+" <r:Factor> => arena.alloc(Node::Binary(Op::Add, l, r));
+    Factor;
+};
+
+Factor = {
+    <l:Factor> "*" <r:Term> => arena.alloc(Node::Binary(Op::Mul, l, r));
+    <l:Factor> "/" <r:Term> => arena.alloc(Node::Binary(Op::Div, l, r));
+    Term;
+};
+
+Term = {
+    <n:"Num"> => arena.alloc(Node::Value(n));
+    "(" <Expr> ")";
+};

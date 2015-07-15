@@ -60,6 +60,12 @@ pub enum TypeRef {
         types: Vec<TypeRef>
     },
 
+    Ref {
+        lifetime: Option<InternedString>,
+        mutable: bool,
+        referent: Box<TypeRef>,
+    },
+
     // 'x ==> only should appear within nominal types, but what do we care
     Lifetime(InternedString),
 
@@ -349,6 +355,14 @@ impl Display for TypeRef {
                 write!(fmt, "{}", s),
             TypeRef::OfSymbol(ref s) =>
                 write!(fmt, "`{}`", s),
+            TypeRef::Ref { lifetime: None, mutable: false, ref referent } =>
+                write!(fmt, "&{}", referent),
+            TypeRef::Ref { lifetime: Some(l), mutable: false, ref referent } =>
+                write!(fmt, "&{} {}", l, referent),
+            TypeRef::Ref { lifetime: None, mutable: true, ref referent } =>
+                write!(fmt, "&mut {}", referent),
+            TypeRef::Ref { lifetime: Some(l), mutable: true, ref referent } =>
+                write!(fmt, "&{} mut {}", l, referent),
         }
     }
 }
@@ -374,7 +388,11 @@ impl TypeRef {
                     types: vec![]
                 }),
             TypeRef::OfSymbol(_) =>
-                unreachable!("OfSymbol produced by parser")
+                unreachable!("OfSymbol produced by parser"),
+            TypeRef::Ref { lifetime, mutable, ref referent } =>
+                TypeRepr::Ref { lifetime: lifetime,
+                                mutable: mutable,
+                                referent: Box::new(referent.type_repr()) },
         }
     }
 }

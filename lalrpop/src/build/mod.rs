@@ -99,9 +99,20 @@ fn emit_action_code<W:Write>(grammar: &r::Grammar,
                              rust: &mut RustWrite<W>)
                              -> io::Result<()>
 {
+    rust!(rust, "");
+    rust!(rust, "mod {}actions {{", grammar.prefix);
+
+    // we always thread the parameters through to the action code,
+    // even if they are not used, and hence we need to disable the
+    // unused variables lint, which otherwise gets very excited.
+    if !grammar.parameters.is_empty() {
+        rust!(rust, "#![allow(unused_variables)]");
+    }
+
+    try!(emit_uses(grammar, rust));
     for (i, defn) in grammar.action_fn_defns.iter().enumerate() {
         rust!(rust, "");
-        try!(rust.write_fn_header(
+        try!(rust.write_pub_fn_header(
             grammar,
             format!("{}action{}", grammar.prefix, i),
             vec![],
@@ -115,6 +126,7 @@ fn emit_action_code<W:Write>(grammar: &r::Grammar,
         rust!(rust, "{}", defn.code);
         rust!(rust, "}}");
     }
+    rust!(rust, "}}");
     Ok(())
 }
 

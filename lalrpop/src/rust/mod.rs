@@ -86,19 +86,6 @@ impl<W:Write> RustWrite<W> {
                                     parameters, return_type, where_clauses)
     }
 
-    pub fn write_fn_header(&mut self,
-                           grammar: &Grammar,
-                           name: String,
-                           type_parameters: Vec<String>,
-                           parameters: Vec<String>,
-                           return_type: String,
-                           where_clauses: Vec<String>)
-                           -> io::Result<()>
-    {
-        self.write_fn_header_helper(grammar, "", name, type_parameters,
-                                    parameters, return_type, where_clauses)
-    }
-
     fn write_fn_header_helper(&mut self,
                               grammar: &Grammar,
                               qualifiers: &str,

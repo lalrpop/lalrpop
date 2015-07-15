@@ -1,4 +1,4 @@
-grammar;
+grammar(scale: i32);
 
 use util::tok::Tok;
 
@@ -26,7 +26,7 @@ Factor = {
     Term;
 };
 
-Term = {
-    <"Num">;
+Term: i32 = {
+    <n:"Num"> => n * scale;
     "(" <Expr> ")";
 };

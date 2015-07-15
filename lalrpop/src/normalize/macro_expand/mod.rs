@@ -205,6 +205,10 @@ impl MacroExpander {
                 TypeRef::Lifetime(id),
             TypeRef::OfSymbol(ref sym) =>
                 TypeRef::OfSymbol(sym.clone()),
+            TypeRef::Ref { lifetime, mutable, ref referent } =>
+                TypeRef::Ref { lifetime: lifetime,
+                               mutable: mutable,
+                               referent: Box::new(self.macro_expand_type_ref(args, referent)) },
             TypeRef::Id(id) => {
                 match args.get(&NonterminalString(id)) {
                     Some(sym) => TypeRef::OfSymbol(sym.clone()),

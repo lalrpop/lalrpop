@@ -83,6 +83,11 @@ pub enum TypeRepr {
     Tuple(Vec<TypeRepr>),
     Nominal(NominalTypeRepr),
     Lifetime(InternedString),
+    Ref {
+        lifetime: Option<InternedString>,
+        mutable: bool,
+        referent: Box<TypeRepr>,
+    },
 }
 
 #[derive(Clone, PartialEq, Eq)]
@@ -147,6 +152,14 @@ impl Display for TypeRepr {
                 write!(fmt, "{}", data),
             TypeRepr::Lifetime(id) =>
                 write!(fmt, "{}", id),
+            TypeRepr::Ref { lifetime: None, mutable: false, ref referent } =>
+                write!(fmt, "&{}", referent),
+            TypeRepr::Ref { lifetime: Some(l), mutable: false, ref referent } =>
+                write!(fmt, "&{} {}", l, referent),
+            TypeRepr::Ref { lifetime: None, mutable: true, ref referent } =>
+                write!(fmt, "&mut {}", referent),
+            TypeRepr::Ref { lifetime: Some(l), mutable: true, ref referent } =>
+                write!(fmt, "&{} mut {}", l, referent),
         }
     }
 }
@@ -268,6 +281,26 @@ impl Grammar {
             Some(v) => &v[..],
             None => &[], // this...probably shouldn't happen actually?
         }
+    }
+
+    pub fn user_parameter_refs(&self) -> String {
+        let mut result = String::new();
+        for parameter in &self.parameters {
+            result.push_str(&format!("{}, ", parameter.name));
+        }
+        result
+    }
+
+    pub fn user_type_parameter_decls(&self) -> String {
+        let mut result = String::new();
+        for parameter in &self.type_parameters {
+            result.push_str(&format!("{}, ", parameter));
+        }
+        result
+    }
+
+    pub fn user_type_parameter_refs(&self) -> String {
+        self.user_type_parameter_decls()
     }
 }
 

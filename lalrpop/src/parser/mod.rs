@@ -189,7 +189,8 @@ rusty_peg! {
         // TypeRef
 
         TYPE_REF: TypeRef =
-            (TUPLE_TYPE_REF / LIFETIME_TYPE_REF / NOMINAL_TYPE_REF / ESCAPE_TYPE_REF);
+            (TUPLE_TYPE_REF / LIFETIME_TYPE_REF / NOMINAL_TYPE_REF /
+             REF_TYPE_REF / REF_MUT_TYPE_REF / ESCAPE_TYPE_REF);
 
         TUPLE_TYPE_REF: TypeRef =
             ("(" <l:TYPE_REF_LIST> ")") => TypeRef::Tuple(l);
@@ -199,6 +200,16 @@ rusty_peg! {
 
         ESCAPE_TYPE_REF: TypeRef =
             ("`" <s:SYMBOL> "`") => TypeRef::OfSymbol(s.kind);
+
+        REF_TYPE_REF: TypeRef =
+            ("&" <l:[LIFETIME]> <t:TYPE_REF>) => TypeRef::Ref { lifetime: l,
+                                                                mutable: false,
+                                                                referent: Box::new(t) };
+
+        REF_MUT_TYPE_REF: TypeRef =
+            ("&" <l:[LIFETIME]> "mut" <t:TYPE_REF>) => TypeRef::Ref { lifetime: l,
+                                                                      mutable: true,
+                                                                      referent: Box::new(t) };
 
         NOMINAL_TYPE_REF: TypeRef =
             (<p:PATH> <a:[NOMINAL_TYPE_REF_ARGS]>) => {
@@ -340,7 +351,8 @@ rusty_peg! {
 
         ID_RE: &'input str =
             regex(r"[a-zA-Z_][a-zA-Z0-9_]*") - [
-                "if", "use", "where", "token", "grammar", "pub", "struct", "extern", "enum"
+                "if", "use", "where", "token", "grammar", "pub", "struct", "extern", "enum",
+                "mut"
             ];
 
         ESCAPE: InternedString =

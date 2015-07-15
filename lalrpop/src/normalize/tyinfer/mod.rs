@@ -202,6 +202,11 @@ impl<'grammar> TypeInferencer<'grammar> {
                 Ok(TypeRepr::Nominal(NominalTypeRepr { path: vec![id],
                                                        types: vec![] }))
             }
+            TypeRef::Ref { lifetime, mutable, ref referent } => {
+                Ok(TypeRepr::Ref { lifetime: lifetime,
+                                   mutable: mutable,
+                                   referent: Box::new(try!(self.type_ref(referent))) })
+            }
             TypeRef::OfSymbol(ref symbol) => {
                 self.symbol_type(symbol)
             }
