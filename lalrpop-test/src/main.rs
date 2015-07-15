@@ -4,10 +4,6 @@ mod expr_arena_ast;
 mod sub;
 mod util;
 
-fn main() {
-    println!("Hello, world!");
-}
-
 #[test]
 fn expr_test1() {
     util::test(|v| expr::parse_Expr(1, v), "22 - 3", 22 - 3);
@@ -51,7 +47,7 @@ fn sub_test3() {
 #[test]
 fn expr_arena_test1() {
     use expr_arena_ast::*;
-    let mut arena = Arena::new();
+    let arena = Arena::new();
     let expected =
         arena.alloc(Node::Binary(Op::Sub,
                                  arena.alloc(Node::Binary(Op::Mul,
@@ -59,5 +55,18 @@ fn expr_arena_test1() {
                                                           arena.alloc(Node::Value(3)))),
                                  arena.alloc(Node::Value(6))));
     util::test(|v| expr_arena::parse_Expr(&arena, v), "22 * 3 - 6", expected);
+}
+
+#[test]
+fn expr_arena_test2() {
+    use expr_arena_ast::*;
+    let arena = Arena::new();
+    let expected =
+        arena.alloc(Node::Reduce(Op::Mul,
+                                 vec![arena.alloc(Node::Value(22)),
+                                      arena.alloc(Node::Value(3)),
+                                      arena.alloc(Node::Value(6))]));;
+    util::test(|v| expr_arena::parse_Expr(&arena, v), "*(22, 3, 6)", expected);
+    util::test(|v| expr_arena::parse_Expr(&arena, v), "*(22, 3, 6,)", expected);
 }
 

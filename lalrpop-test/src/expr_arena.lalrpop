@@ -11,6 +11,7 @@ extern token {
         "+" => Tok::Plus(..),
         "*" => Tok::Times(..),
         "/" => Tok::Div(..),
+        "," => Tok::Comma(..),
         "Num" => Tok::Num(<i32>)
     }
 }
@@ -21,9 +22,15 @@ pub Expr: &'ast Node<'ast> = {
     Factor;
 };
 
+Comma<T>: Vec<T> = {
+    <h:(<T> ",")*> <t:T?> =>
+        h.into_iter().chain(t).collect();
+};
+
 Factor = {
     <l:Factor> "*" <r:Term> => arena.alloc(Node::Binary(Op::Mul, l, r));
     <l:Factor> "/" <r:Term> => arena.alloc(Node::Binary(Op::Div, l, r));
+    "*" "(" <Comma<Expr>> ")" => arena.alloc(Node::Reduce(Op::Mul, <>));
     Term;
 };
 

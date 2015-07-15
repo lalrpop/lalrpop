@@ -135,6 +135,9 @@ fn emit_recursive_ascent(output_path: &Path, grammar: &r::Grammar) -> io::Result
     let output_file = try!(fs::File::create(output_path));
     let mut rust = RustWrite::new(output_file);
 
+    // often some of the uses are not used here
+    rust!(rust, "#![allow(unused_imports)]");
+
     try!(emit_uses(grammar, &mut rust));
 
     if grammar.start_nonterminals.is_empty() {

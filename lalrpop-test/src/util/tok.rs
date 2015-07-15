@@ -9,6 +9,7 @@ pub enum Tok {
     Plus,
     Times,
     Div,
+    Comma,
 }
 
 // simplest and stupidest possible tokenizer
@@ -25,6 +26,7 @@ pub fn tokenize(s: &str) -> Vec<Tok> {
                 '-' => tokens.push(Tok::Minus),
                 '+' => tokens.push(Tok::Plus),
                 '*' => tokens.push(Tok::Times),
+                ',' => tokens.push(Tok::Comma),
                 '/' => tokens.push(Tok::Div),
                 _ if c.is_digit(10) => {
                     let (tmp, next) = take_while(c, &mut chars, |c| c.is_digit(10));

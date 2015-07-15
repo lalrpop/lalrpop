@@ -7,7 +7,7 @@ representations.
 */
 
 use intern::{InternedString};
-use grammar::parse_tree::Span;
+use grammar::parse_tree::{Path, Span};
 use std::fmt::{Display, Formatter, Error};
 use util::Sep;
 
@@ -26,9 +26,9 @@ pub struct FieldPattern<T> {
 
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub enum PatternKind<T> {
-    Enum(Vec<InternedString>, Vec<Pattern<T>>),
-    Struct(Vec<InternedString>, Vec<FieldPattern<T>>, /* trailing ..? */ bool),
-    Path(Vec<InternedString>),
+    Enum(Path, Vec<Pattern<T>>),
+    Struct(Path, Vec<FieldPattern<T>>, /* trailing ..? */ bool),
+    Path(Path),
     Tuple(Vec<Pattern<T>>),
     Underscore,
     DotDot,
@@ -96,15 +96,15 @@ impl<T:Display> Display for PatternKind<T> {
     fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
         match *self {
             PatternKind::Path(ref path) =>
-                write!(fmt, "{}", Sep("::", path)),
+                write!(fmt, "{}", path),
             PatternKind::Enum(ref path, ref pats) =>
-                write!(fmt, "{}({})", Sep("::", path), Sep(", ", pats)),
+                write!(fmt, "{}({})", path, Sep(", ", pats)),
             PatternKind::Struct(ref path, ref fields, false) =>
-                write!(fmt, "{} {{ {} }}", Sep("::", path), Sep(", ", fields)),
+                write!(fmt, "{} {{ {} }}", path, Sep(", ", fields)),
             PatternKind::Struct(ref path, ref fields, true) if fields.len() == 0 =>
-                write!(fmt, "{} {{ .. }}", Sep("::", path)),
+                write!(fmt, "{} {{ .. }}", path),
             PatternKind::Struct(ref path, ref fields, true) =>
-                write!(fmt, "{} {{ {}, .. }}", Sep("::", path), Sep(", ", fields)),
+                write!(fmt, "{} {{ {}, .. }}", path, Sep(", ", fields)),
             PatternKind::Tuple(ref paths) =>
                 write!(fmt, "({})", Sep(", ", paths)),
             PatternKind::Underscore =>

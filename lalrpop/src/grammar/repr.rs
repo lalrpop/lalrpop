@@ -6,12 +6,12 @@
 
 use intern::{InternedString};
 use grammar::pattern::{Pattern, PatternKind};
-use std::iter::once;
 use std::fmt::{Debug, Display, Formatter, Error};
 use util::{map, Map, Sep};
 
 // These concepts we re-use wholesale
 pub use grammar::parse_tree::{NonterminalString,
+                              Path,
                               Span,
                               TerminalString, TypeParameter};
 
@@ -92,7 +92,7 @@ pub enum TypeRepr {
 
 #[derive(Clone, PartialEq, Eq)]
 pub struct NominalTypeRepr {
-    pub path: Vec<InternedString>,
+    pub path: Path,
     pub types: Vec<TypeRepr>
 }
 
@@ -173,9 +173,9 @@ impl Debug for TypeRepr {
 impl Display for NominalTypeRepr {
     fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
         if self.types.len() == 0 {
-            write!(fmt, "{}", Sep("::", &self.path))
+            write!(fmt, "{}", self.path)
         } else {
-            write!(fmt, "{}<{}>", Sep("::", &self.path), Sep(", ", &self.types))
+            write!(fmt, "{}<{}>", self.path, Sep(", ", &self.types))
         }
     }
 }
@@ -253,11 +253,7 @@ impl ActionFnDefn {
 
 impl Grammar {
     pub fn default_pattern(&self, id: InternedString) -> Pattern<TypeRepr> {
-        let path: Vec<InternedString> =
-            self.types.terminal_enum_type().path.iter()
-                                                .cloned()
-                                                .chain(once(id))
-                                                .collect();
+        let path = self.types.terminal_enum_type().path.append(id);
         Pattern {
             span: self.token_span,
             kind: PatternKind::Enum(path, vec![

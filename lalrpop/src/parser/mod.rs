@@ -2,16 +2,15 @@ use intern::{intern, InternedString};
 use grammar::parse_tree::*;
 use grammar::pattern::*;
 use rusty_peg;
-use std::iter;
 
 #[cfg(test)]
 mod test;
 
 fn make_list<T>(head: Vec<(T, &'static str)>,
-                tail: Option<(T, Option<&'static str>)>)
+                tail: Option<T>)
                 -> Vec<T> {
     head.into_iter().map(|(a,_)| a)
-                    .chain(tail.map(|(a, _)| a).into_iter())
+                    .chain(tail)
                     .collect()
 }
 
@@ -32,7 +31,7 @@ rusty_peg! {
             };
 
         GRAMMAR_TPS: Vec<TypeParameter> =
-            ("<" <h:{TYPE_PARAMETER ","}> <t:[TYPE_PARAMETER [","]]> ">") => make_list(h, t);
+            ("<" <h:{TYPE_PARAMETER ","}> <t:[TYPE_PARAMETER]> ">") => make_list(h, t);
 
         TYPE_PARAMETER: TypeParameter =
             (LIFETIME_TYPE_PARAMETER / ID_TYPE_PARAMETER);
@@ -44,13 +43,13 @@ rusty_peg! {
             (<l:ID>) => TypeParameter::Id(l);
 
         GRAMMAR_PARAMS: Vec<Parameter> =
-            ("(" <h:{GRAMMAR_PARAM ","}> <t:[GRAMMAR_PARAM [","]]> ")") => make_list(h, t);
+            ("(" <h:{GRAMMAR_PARAM ","}> <t:[GRAMMAR_PARAM]> ")") => make_list(h, t);
 
         GRAMMAR_PARAM: Parameter =
             (<id:ID> ":" <t:TYPE_REF>) => Parameter { name: id, ty: t };
 
         WHERE_CLAUSES: Vec<String> =
-            ("where" <h:{TYPE ","}> <t:[TYPE [","]]>) => make_list(h, t);
+            ("where" <h:{TYPE ","}> <t:[TYPE]>) => make_list(h, t);
 
         GRAMMAR_ITEM: GrammarItem =
             (EXTERN_TOKEN / NONTERMINAL / USE);
@@ -83,7 +82,7 @@ rusty_peg! {
             (<a:ESCAPE>) => (NonterminalString(a), vec![]);
 
         NONTERMINAL_NAME_MACRO: (NonterminalString, Vec<NonterminalString>) =
-            (<a:NONTERMINAL_ID> "<" <b:{NONTERMINAL_ID ","}> <c:[NONTERMINAL_ID [","]]> ">") => {
+            (<a:NONTERMINAL_ID> "<" <b:{NONTERMINAL_ID ","}> <c:[NONTERMINAL_ID]> ">") => {
                 (a, make_list(b, c))
             };
 
@@ -157,7 +156,7 @@ rusty_peg! {
             (MACRO_SYMBOL / TERMINAL_SYMBOL / NT_SYMBOL / ESCAPE_SYMBOL / PAREN_SYMBOL);
 
         MACRO_SYMBOL: Symbol =
-            (<lo:POSL> <l:MACRO_ID> <m:{SYMBOL ","}> <n:[SYMBOL [","]]> ">" <hi:POSR>) => {
+            (<lo:POSL> <l:MACRO_ID> <m:{SYMBOL ","}> <n:[SYMBOL]> ">" <hi:POSR>) => {
                 Symbol::new(Span(lo, hi),
                             SymbolKind::Macro(MacroSymbol { name: l,
                                                             args: make_list(m, n) }))
@@ -213,14 +212,15 @@ rusty_peg! {
 
         NOMINAL_TYPE_REF: TypeRef =
             (<p:PATH> <a:[NOMINAL_TYPE_REF_ARGS]>) => {
-                if p.len() == 1 && a.is_none() {
-                    // detect something like `Foo` and treat it specially,
-                    // so that macro expansion can pattern match here
-                    TypeRef::Id(p.into_iter().next().unwrap())
-                } else {
-                    // otherwise, `Vec<..>` or `Foo::Bar` etc expand to
-                    // this full path
-                    TypeRef::Nominal { path: p, types: a.unwrap_or(vec![]) }
+                match p.as_id() {
+                    Some(id) if a.is_none() =>
+                        // detect something like `Foo` and treat it specially,
+                        // so that macro expansion can pattern match here
+                        TypeRef::Id(id),
+                    _ =>
+                        // otherwise, `Vec<..>` or `Foo::Bar` etc expand to
+                        // this full path
+                        TypeRef::Nominal { path: p, types: a.unwrap_or(vec![]) }
                 }
             };
 
@@ -237,22 +237,18 @@ rusty_peg! {
         TYPE_REF_COMMA: TypeRef =
             (<t:TYPE_REF> ",") => t;
 
-        PATH: Vec<InternedString> =
-            (<b:{PATH_BASE}> <c:ID>) => {
-                let mut b = b;
-                b.push(c);
-                b
+        PATH: Path =
+            (<a:["::"]> <h:{ID "::"}> <t:ID>) => {
+                Path { absolute: a.is_some(),
+                       ids: make_list(h, Some(t)) }
             };
-
-        PATH_BASE: InternedString =
-            (<i:ID> "::") => i;
 
         // TOKEN DEFINITIONS
 
         EXTERN_TOKEN: GrammarItem =
             ("extern" "token" "{"
                "enum" <lo:POSL> <t:TYPE_REF> <hi:POSR> "{"
-                 <c0:{CONVERSION ","}> <c1:[CONVERSION [","]]>
+                 <c0:{CONVERSION ","}> <c1:[CONVERSION]>
                "}"
              "}") => {
                 GrammarItem::ExternToken(ExternToken {
@@ -274,14 +270,14 @@ rusty_peg! {
              DOTDOT_PATTERN / CHOOSE_PATTERN / TUPLE_PATTERN / PATH_PATTERN);
 
         ENUM_PATTERN: Pattern<TypeRef> =
-            (<lo:POSL> <p:PATH> "(" <s0:{PATTERN ","}> <s1:[PATTERN [","]]> ")" <hi:POSR>) => {
+            (<lo:POSL> <p:PATH> "(" <s0:{PATTERN ","}> <s1:[PATTERN]> ")" <hi:POSR>) => {
                 Pattern { span: Span(lo, hi),
                           kind: PatternKind::Enum(p, make_list(s0, s1)) }
             };
 
         STRUCT_PATTERN0: Pattern<TypeRef> =
             (<lo:POSL> <p:PATH> "{" <s0:{FIELD_PATTERN ","}>
-             <s1:[FIELD_PATTERN [","]]> "}" <hi:POSR>) => {
+             <s1:[FIELD_PATTERN]> "}" <hi:POSR>) => {
                 Pattern { span: Span(lo, hi),
                           kind: PatternKind::Struct(p,
                                                     make_list(s0, s1),
@@ -322,17 +318,14 @@ rusty_peg! {
             };
 
         TUPLE_PATTERN: Pattern<TypeRef> =
-            (<lo:POSL> "(" <p0:{PATTERN ","}> <p1:[PATTERN [","]]> ")" <hi:POSR>) => {
+            (<lo:POSL> "(" <p0:{PATTERN ","}> <p1:[PATTERN]> ")" <hi:POSR>) => {
                 Pattern { span: Span(lo, hi),
                           kind: PatternKind::Tuple(make_list(p0, p1)) }
             };
 
         PATH_PATTERN: Pattern<TypeRef> =
-            (<lo:POSL> <id0:ID> <id1:{"::" ID}> <hi:POSR>) => {
-                let path = iter::once(id0).chain(id1.into_iter().map(|pair| pair.1))
-                                          .collect();
-                Pattern { span: Span(lo, hi),
-                          kind: PatternKind::Path(path) }
+            (<lo:POSL> <p:PATH> <hi:POSR>) => {
+                Pattern { span: Span(lo, hi), kind: PatternKind::Path(p) }
             };
 
         // IDENTIFIERS, LIFETIMES

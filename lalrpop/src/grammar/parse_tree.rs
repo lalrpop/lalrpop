@@ -5,10 +5,11 @@ some pre-expansion and so forth before creating the proper AST.
 
 */
 
-use intern::{InternedString};
+use intern::{intern, InternedString};
 use grammar::repr::{NominalTypeRepr, TypeRepr};
 use grammar::pattern::Pattern;
 use std::fmt::{Debug, Display, Formatter, Error};
+use std::iter::once;
 use util::Sep;
 
 #[derive(Clone, Debug, PartialEq, Eq)]
@@ -50,13 +51,19 @@ pub struct Conversion {
 }
 
 #[derive(Clone, Debug, PartialEq, Eq)]
+pub struct Path {
+    pub absolute: bool,
+    pub ids: Vec<InternedString>,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq)]
 pub enum TypeRef {
     // (T1, T2)
     Tuple(Vec<TypeRef>),
 
     // Foo<'a, 'b, T1, T2>, Foo::Bar, etc
     Nominal {
-        path: Vec<InternedString>,
+        path: Path,
         types: Vec<TypeRef>
     },
 
@@ -240,6 +247,14 @@ impl Display for TerminalString {
     }
 }
 
+impl Display for Path {
+    fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
+        write!(fmt, "{}{}",
+               if self.absolute {"::"} else {""},
+               Sep("::", &self.ids))
+    }
+}
+
 impl Debug for TerminalString {
     fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
         Display::fmt(self, fmt)
@@ -346,9 +361,9 @@ impl Display for TypeRef {
             TypeRef::Tuple(ref types) =>
                 write!(fmt, "({})", Sep(", ", types)),
             TypeRef::Nominal { ref path, ref types } if types.len() == 0 =>
-                write!(fmt, "{}", Sep("::", path)),
+                write!(fmt, "{}", path),
             TypeRef::Nominal { ref path, ref types } =>
-                write!(fmt, "{}<{}>", Sep("::", path), Sep(", ", types)),
+                write!(fmt, "{}<{}>", path, Sep(", ", types)),
             TypeRef::Lifetime(ref s) =>
                 write!(fmt, "{}", s),
             TypeRef::Id(ref s) =>
@@ -384,7 +399,7 @@ impl TypeRef {
                 TypeRepr::Lifetime(id),
             TypeRef::Id(id) =>
                 TypeRepr::Nominal(NominalTypeRepr {
-                    path: vec![id],
+                    path: Path::from_id(id),
                     types: vec![]
                 }),
             TypeRef::OfSymbol(_) =>
@@ -393,6 +408,44 @@ impl TypeRef {
                 TypeRepr::Ref { lifetime: lifetime,
                                 mutable: mutable,
                                 referent: Box::new(referent.type_repr()) },
+        }
+    }
+}
+
+impl Path {
+    pub fn from_id(id: InternedString) -> Path {
+        Path {
+            absolute: false,
+            ids: vec![id]
+        }
+    }
+
+    pub fn vec() -> Path {
+        Path {
+            absolute: true,
+            ids: vec![intern("std"), intern("vec"), intern("Vec")]
+        }
+    }
+
+    pub fn option() -> Path {
+        Path {
+            absolute: true,
+            ids: vec![intern("std"), intern("option"), intern("Option")]
+        }
+    }
+
+    pub fn as_id(&self) -> Option<InternedString> {
+        if !self.absolute && self.ids.len() == 1 {
+            Some(self.ids[0])
+        } else {
+            None
+        }
+    }
+
+    pub fn append(&self, id: InternedString) -> Path {
+        Path {
+            absolute: self.absolute,
+            ids: self.ids.iter().cloned().chain(once(id)).collect()
         }
     }
 }

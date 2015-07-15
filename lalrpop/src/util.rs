@@ -19,6 +19,23 @@ impl<'a,S:Display> Display for Sep<&'a Vec<S>> {
     }
 }
 
+pub struct Escape<S>(pub S);
+
+impl<S:Display> Display for Escape<S> {
+    fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
+        let tmp = format!("{}", self.0);
+        for c in tmp.chars() {
+            match c {
+                'a' ... 'z' | '_' | '0' ... '9' | 'A' ... 'Z' =>
+                    try!(write!(fmt, "{}", c)),
+                _ =>
+                    try!(write!(fmt, "_")), // um, obviously not the best escaping :)
+            }
+        }
+        Ok(())
+    }
+}
+
 pub struct Prefix<S>(pub &'static str, pub S);
 
 impl<'a,S:Display> Display for Prefix<&'a [S]> {

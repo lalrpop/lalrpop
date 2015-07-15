@@ -1,8 +1,15 @@
 use std::collections::{HashMap, HashSet};
 use intern::{intern, read, InternedString};
-use grammar::parse_tree::{Alternative, Condition, ConditionOp, ExprSymbol, Grammar, GrammarItem,
-                          MacroSymbol, NonterminalData, NonterminalString, RepeatOp, RepeatSymbol,
-                          Span, Symbol, SymbolKind, TypeRef};
+use grammar::parse_tree::{Alternative,
+                          Condition, ConditionOp,
+                          ExprSymbol,
+                          Grammar, GrammarItem,
+                          MacroSymbol,
+                          NonterminalData, NonterminalString,
+                          Path,
+                          RepeatOp, RepeatSymbol,
+                          Span, Symbol, SymbolKind,
+                          TypeRef};
 use normalize::{NormResult, NormError};
 use normalize::norm_util::{self, Symbols};
 use regex::Regex;
@@ -212,7 +219,8 @@ impl MacroExpander {
             TypeRef::Id(id) => {
                 match args.get(&NonterminalString(id)) {
                     Some(sym) => TypeRef::OfSymbol(sym.clone()),
-                    None => TypeRef::Nominal { path: vec![id], types: vec![] },
+                    None => TypeRef::Nominal { path: Path::from_id(id),
+                                               types: vec![] },
                 }
             }
         }
@@ -351,7 +359,7 @@ impl MacroExpander {
 
         match repeat.op {
             RepeatOp::Star => {
-                let path = vec![intern("std"), intern("vec"), intern("Vec")];
+                let path = Path::vec();
                 let ty_ref = TypeRef::Nominal { path: path, types: vec![base_symbol_ty] };
 
                 Ok(GrammarItem::Nonterminal(NonterminalData {
@@ -394,7 +402,7 @@ impl MacroExpander {
             }
 
             RepeatOp::Plus => {
-                let path = vec![intern("std"), intern("vec"), intern("Vec")];
+                let path = Path::vec();
                 let ty_ref = TypeRef::Nominal { path: path, types: vec![base_symbol_ty] };
 
                 Ok(GrammarItem::Nonterminal(NonterminalData {
@@ -432,7 +440,7 @@ impl MacroExpander {
             }
 
             RepeatOp::Question => {
-                let path = vec![intern("std"), intern("option"), intern("Option")];
+                let path = Path::option();
                 let ty_ref = TypeRef::Nominal { path: path, types: vec![base_symbol_ty] };
 
                 Ok(GrammarItem::Nonterminal(NonterminalData {

@@ -2,14 +2,11 @@
 //!
 //! [recursive ascent]: https://en.wikipedia.org/wiki/Recursive_ascent_parser
 
-use intern::{InternedString};
 use grammar::repr::{Grammar, NonterminalString, Symbol, TerminalString, Types};
 use lr1::{Lookahead, State, StateIndex};
 use rust::RustWrite;
 use std::io::{self, Write};
-use util::Sep;
-
-pub type Path = Vec<InternedString>;
+use util::{Escape, Sep};
 
 pub fn compile<'grammar,W:Write>(
     grammar: &'grammar Grammar,
@@ -61,7 +58,10 @@ impl<'ascent,'grammar,W:Write> RecursiveAscent<'ascent,'grammar,W> {
         rust!(self.out, "mod {}parse{} {{",
               self.prefix, self.start_symbol);
 
-        rust!(self.out, "#![allow(non_snake_case, unused_mut, unused_variables)]");
+        // these stylistic lints are annoying for the generated code,
+        // which doesn't follow conventions:
+        rust!(self.out, "#![allow(non_snake_case, non_camel_case_types, \
+                         unused_mut, unused_variables, unused_imports)]");
         rust!(self.out, "");
 
         try!(self.write_uses());
@@ -96,7 +96,7 @@ impl<'ascent,'grammar,W:Write> RecursiveAscent<'ascent,'grammar,W> {
         // have to unwrap and rewrap as we pass up the stack, which
         // seems silly
         for &nt in self.grammar.productions.keys() {
-            rust!(self.out, "{}({}),", nt, self.types.nonterminal_type(nt));
+            rust!(self.out, "{}({}),", Escape(nt), self.types.nonterminal_type(nt));
         }
 
         rust!(self.out, "}}");
@@ -122,7 +122,7 @@ impl<'ascent,'grammar,W:Write> RecursiveAscent<'ascent,'grammar,W> {
               self.grammar.user_parameter_refs(), self.prefix, self.prefix);
         rust!(self.out, "({}lookahead, {}parse{}::{}Nonterminal::{}({}nt)) => \
                          Ok(({}lookahead, {}nt)),",
-              self.prefix, self.prefix, self.start_symbol, self.prefix, self.start_symbol,
+              self.prefix, self.prefix, self.start_symbol, self.prefix, Escape(self.start_symbol),
               self.prefix, self.prefix, self.prefix);
         rust!(self.out, "_ => unreachable!(),");
         rust!(self.out, "}}");
@@ -241,11 +241,12 @@ impl<'ascent,'grammar,W:Write> RecursiveAscent<'ascent,'grammar,W> {
             if !transfer_syms.is_empty() {
                 // if we popped anything off of the stack, then this frame is done
                 rust!(self.out, "return Ok(({}lookahead, {}Nonterminal::{}({}nt)));",
-                      self.prefix, self.prefix, production.nonterminal, self.prefix);
+                      self.prefix, self.prefix, Escape(production.nonterminal), self.prefix);
             } else {
                 // otherwise, pop back
-                rust!(self.out, "result = ({}lookahead, {}Nonterminal::{}({}nt));",
-                      self.prefix, self.prefix, production.nonterminal, self.prefix);
+                rust!(self.out, "{}result = ({}lookahead, {}Nonterminal::{}({}nt));",
+                      self.prefix, self.prefix, self.prefix,
+                      Escape(production.nonterminal), self.prefix);
                 fallthrough = true;
             }
 
@@ -272,7 +273,8 @@ impl<'ascent,'grammar,W:Write> RecursiveAscent<'ascent,'grammar,W> {
 
             rust!(self.out, "match {}nt {{", self.prefix);
             for (&nt, &next_index) in &this_state.gotos {
-                rust!(self.out, "{}Nonterminal::{}({}nt) => {{", self.prefix, nt, self.prefix);
+                rust!(self.out, "{}Nonterminal::{}({}nt) => {{",
+                      self.prefix, Escape(nt), self.prefix);
                 rust!(self.out, "let {}sym{} = &mut Some({}nt);",
                       self.prefix, this_prefix.len(), self.prefix);
                 let transition = self.transition(this_prefix, next_index, "lookahead", "tokens");

@@ -2,9 +2,13 @@ use super::{NormResult, NormError};
 use super::norm_util::{self, AlternativeAction, Symbols};
 
 use std::collections::{HashMap};
-use grammar::parse_tree::{Alternative, EnumToken, Grammar, GrammarItem,
+use grammar::parse_tree::{Alternative,
+                          EnumToken,
+                          Grammar, GrammarItem,
                           NonterminalData, NonterminalString,
-                          Span, SymbolKind, TypeRef};
+                          Path,
+                          Span,
+                          SymbolKind, TypeRef};
 use grammar::repr::{NominalTypeRepr, Types, TypeRepr};
 
 #[cfg(test)]
@@ -199,7 +203,7 @@ impl<'grammar> TypeInferencer<'grammar> {
                 Ok(TypeRepr::Lifetime(id))
             }
             TypeRef::Id(id) => {
-                Ok(TypeRepr::Nominal(NominalTypeRepr { path: vec![id],
+                Ok(TypeRepr::Nominal(NominalTypeRepr { path: Path::from_id(id),
                                                        types: vec![] }))
             }
             TypeRef::Ref { lifetime, mutable, ref referent } => {
