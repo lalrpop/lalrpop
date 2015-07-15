@@ -26,10 +26,9 @@ impl<S:Display> Display for Escape<S> {
         let tmp = format!("{}", self.0);
         for c in tmp.chars() {
             match c {
-                'a' ... 'z' | '_' | '0' ... '9' | 'A' ... 'Z' =>
-                    try!(write!(fmt, "{}", c)),
-                _ =>
-                    try!(write!(fmt, "_")), // um, obviously not the best escaping :)
+                'a' ... 'z' | '0' ... '9' | 'A' ... 'Z' => try!(write!(fmt, "{}", c)),
+                '_' => try!(write!(fmt, "__")),
+                _ => try!(write!(fmt, "_{:x}", c as usize)),
             }
         }
         Ok(())
