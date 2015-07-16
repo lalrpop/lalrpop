@@ -44,17 +44,16 @@ fn items<'g>(grammar: &'g Grammar, nonterminal: &str, index: usize, la: Lookahea
 #[test]
 fn start_state() {
     let grammar = normalized_grammar(r#"
-grammar {
+grammar;
     extern token { enum Tok { } }
     A = B "C";
     B: Option<u32> = {
         "D" => Some(1);
         => None;
     };
-}
 "#);
     let items = items(&grammar, "A", 0, EOF);
-    expect_debug(items, r#"[
+    expect_debug(items.vec, r#"[
     A = (*) B "C" [EOF],
     B = (*) ["C"],
     B = (*) "D" ["C"]
@@ -64,21 +63,20 @@ grammar {
 #[test]
 fn start_state_1() {
     let grammar = normalized_grammar(r#"
-grammar {
-    extern token { enum Tok { } }
-    A = B C;
-    B: Option<u32> = {
-        "B1" => Some(1);
-        => None;
-    };
-    C: Option<u32> = {
-        "C1" => Some(1);
-        => None;
-    };
-}
+grammar;
+extern token { enum Tok { } }
+A = B C;
+B: Option<u32> = {
+    "B1" => Some(1);
+    => None;
+};
+C: Option<u32> = {
+    "C1" => Some(1);
+    => None;
+};
 "#);
 
-    expect_debug(items(&grammar, "A", 0, EOF), r#"[
+    expect_debug(items(&grammar, "A", 0, EOF).vec, r#"[
     A = (*) B C [EOF],
     B = (*) [EOF],
     B = (*) ["C1"],
@@ -86,7 +84,7 @@ grammar {
     B = (*) "B1" ["C1"]
 ]"#);
 
-    expect_debug(items(&grammar, "A", 1, EOF), r#"[
+    expect_debug(items(&grammar, "A", 1, EOF).vec, r#"[
     A = B (*) C [EOF],
     C = (*) [EOF],
     C = (*) "C1" [EOF]
@@ -96,7 +94,7 @@ grammar {
 #[test]
 fn expr_grammar1() {
     let grammar = normalized_grammar(r#"
-grammar {
+grammar;
     extern token { enum Tok { } }
 
     S: () =
@@ -111,7 +109,6 @@ grammar {
         "N" => ();
         "(" E ")" => ();
     };
-}
 "#);
 
     // for now, just test that process does not result in an error

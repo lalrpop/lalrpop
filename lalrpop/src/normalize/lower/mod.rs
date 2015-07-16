@@ -69,7 +69,7 @@ impl LowerState {
                             nonterminal: nt.name,
                             span: alt.span,
                             symbols: symbols,
-                            action_fn: action_fn,
+                            action: r::ProductionAction::Call(action_fn),
                         };
                         self.productions.push(production);
                     }
@@ -129,7 +129,7 @@ impl LowerState {
                    self.productions.push(r::Production {
                        nonterminal: fake_name,
                        symbols: symbols,
-                       action_fn: action_fn,
+                       action: r::ProductionAction::Call(action_fn),
                        span: nt.span
                    });
                    (nt.name, fake_name)

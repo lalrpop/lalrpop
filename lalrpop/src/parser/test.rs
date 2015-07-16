@@ -1,4 +1,4 @@
-use grammar::parse_tree::{Symbol, SymbolKind, TypeRef};
+use grammar::parse_tree::{SymbolKind, TypeRef};
 
 #[test]
 fn type_ref() {

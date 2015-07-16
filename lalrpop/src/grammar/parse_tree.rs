@@ -39,7 +39,7 @@ pub struct ExternToken {
 
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct AssociatedType {
-    pub span: Span,
+    pub type_span: Span,
     pub type_name: InternedString,
     pub type_ref: TypeRef,
 }

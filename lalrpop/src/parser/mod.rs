@@ -265,8 +265,10 @@ rusty_peg! {
             };
 
         ASSOCIATED_TYPE: AssociatedType =
-            (<lo:POSL> "type" <n:ID> "=" <t:TYPE_REF> ";" <hi:POSR>) => {
-                AssociatedType { span: Span(lo, hi), type_name: n, type_ref: t }
+            ("type" <lo1:POSL> <n:ID> <hi1:POSR> "=" <t:TYPE_REF> ";") => {
+                AssociatedType { type_span: Span(lo1, hi1),
+                                 type_name: n,
+                                 type_ref: t }
             };
 
         CONVERSION: Conversion =

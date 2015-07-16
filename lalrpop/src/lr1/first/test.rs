@@ -26,14 +26,13 @@ fn first(first: &FirstSets, symbols: &[Symbol], lookahead: Lookahead) -> Vec<Loo
 #[test]
 fn basic() {
     let grammar = normalized_grammar(r#"
-grammar {
+grammar;
     extern token { enum Tok { } }
     A = B "C";
     B: Option<u32> = {
         "D" => Some(1);
         => None;
     };
-}
 "#);
     let first_sets = FirstSets::new(&grammar);
 

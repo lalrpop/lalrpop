@@ -70,14 +70,14 @@ impl<'grammar> Validator<'grammar> {
                     for associated_type in &data.associated_types {
                         if !allowed_names.contains(&associated_type.type_name) {
                             return_err!(
-                                associated_type.span,
+                                associated_type.type_span,
                                 "associated type `{}` not recognized, \
                                  try one of the following: {}",
                                 associated_type.type_name,
                                 Sep(", ", &allowed_names));
                         } else if !new_names.insert(associated_type.type_name) {
                             return_err!(
-                                associated_type.span,
+                                associated_type.type_span,
                                 "associated type `{}` already specified",
                                 associated_type.type_name);
                         }

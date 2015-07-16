@@ -2,7 +2,7 @@
 //!
 //! [recursive ascent]: https://en.wikipedia.org/wiki/Recursive_ascent_parser
 
-use grammar::repr::{Grammar, NonterminalString, Symbol, TerminalString, Types};
+use grammar::repr::{Grammar, NonterminalString, ProductionAction, Symbol, TerminalString, Types};
 use lr1::{Lookahead, State, StateIndex};
 use rust::RustWrite;
 use std::io::{self, Write};
@@ -229,13 +229,16 @@ impl<'ascent,'grammar,W:Write> RecursiveAscent<'ascent,'grammar,W> {
             }
 
             // invoke the action code
-            rust!(self.out, "let {}nt = super::{}actions::{}action{}({}{});",
-                  self.prefix,
-                  self.prefix,
-                  self.prefix,
-                  production.action_fn.index(),
-                  self.grammar.user_parameter_refs(),
-                  Sep(", ", &transfer_syms));
+            match production.action {
+                ProductionAction::Call(action_fn) =>
+                    rust!(self.out, "let {}nt = super::{}actions::{}action{}({}{});",
+                          self.prefix,
+                          self.prefix,
+                          self.prefix,
+                          action_fn.index(),
+                          self.grammar.user_parameter_refs(),
+                          Sep(", ", &transfer_syms)),
+            }
 
             // wrap up the result along with the (unused) lookahead
             if !transfer_syms.is_empty() {

@@ -60,7 +60,7 @@ pub struct Production {
     // handy to have it
     pub nonterminal: NonterminalString,
     pub symbols: Vec<Symbol>,
-    pub action_fn: ActionFn,
+    pub action: ProductionAction,
     pub span: Span,
 }
 
@@ -68,6 +68,11 @@ pub struct Production {
 pub enum Symbol {
     Nonterminal(NonterminalString),
     Terminal(TerminalString),
+}
+
+#[derive(Clone, Debug, Hash, PartialEq, Eq, PartialOrd, Ord)]
+pub enum ProductionAction {
+    Call(ActionFn)
 }
 
 #[derive(Clone, PartialEq, Eq)]
@@ -231,7 +236,7 @@ impl Debug for Production {
     fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
         write!(fmt,
                "{} = {} => {:?};",
-               self.nonterminal, Sep(", ", &self.symbols), self.action_fn)
+               self.nonterminal, Sep(", ", &self.symbols), self.action)
     }
 }
 

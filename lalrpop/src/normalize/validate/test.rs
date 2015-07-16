@@ -1,9 +1,5 @@
-use intern::intern;
 use parser;
-use normalize::macro_expand::expand_macros;
-use normalize::tyinfer::infer_types;
-use grammar::parse_tree::{NonterminalString, Span};
-use grammar::repr::TypeRepr;
+use grammar::parse_tree::{Span};
 use regex::Regex;
 
 fn check_err(expected_err: &str, grammar: &str) {
@@ -36,33 +32,42 @@ fn check_err(expected_err: &str, grammar: &str) {
 fn unknown_nonterminal() {
     check_err(
         "no definition found for nonterminal `Y`",
-        r#"grammar { X = X >>>Y<<<; }"#);
+        r#"grammar; X = X >>>Y<<<;"#);
 }
 
 #[test]
 fn repeated_macro_arg() {
     check_err(
         "multiple macro arguments declared with the name `Y`",
-        r#"grammar { >>>X<Y,Y> <<<= "foo"; }"#);
+        r#"grammar; >>>X<Y,Y> <<<= "foo";"#);
 }
 
 #[test]
 fn unknown_nonterminal_two() {
     check_err(
         "no definition found for nonterminal `Expr`",
-        r#"grammar { Term = { <n:"Num"> => n.as_num(); "A" <>>>Expr<<<> "B"; }; }"#);
+        r#"grammar; Term = { <n:"Num"> => n.as_num(); "A" <>>>Expr<<<> "B"; };"#);
 }
 
 #[test]
 fn named_symbols() {
     check_err(
-        r#"named symbols (like `"Num"`) require a custom action"#,
-        r#"grammar { Term = { <n:>>>"Num"<<<>; }; }"#);
+        r#"named symbols \(like `"Num"`\) require a custom action"#,
+        r#"grammar; Term = { <n:>>>"Num"<<<>; };"#);
 }
 
 #[test]
 fn bad_assoc_type() {
     check_err(
-        r#"named symbols (like `"Num"`) require a custom action"#,
-        r#"grammar { extern token { type Foo = i32; } }"#);
+        r#"associated type `Foo` not recognized"#,
+        r#"grammar; extern token { type >>>Foo <<<= i32; enum Tok { } }"#);
+}
+
+#[test]
+fn dup_assoc_type() {
+    check_err(
+        r#"associated type `Location` already specified"#,
+        r#"grammar; extern token { type Location = i32;
+                                   type >>>Location <<<= u32;
+                                   enum Tok { } }"#);
 }
