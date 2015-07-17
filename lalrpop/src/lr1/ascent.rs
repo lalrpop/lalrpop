@@ -104,15 +104,15 @@ impl<'ascent,'grammar,W:Write> RecursiveAscent<'ascent,'grammar,W> {
     }
 
     fn write_start_fn(&mut self) -> io::Result<()> {
-        let terminal_type = self.types.terminal_enum_type();
+        let item_type = self.iterator_item_type();
         rust!(self.out, "#[allow(non_snake_case)]");
         try!(self.out.write_pub_fn_header(
             self.grammar,
             format!("parse_{}", self.user_start_symbol),
-            vec![format!("{}TOKENS: IntoIterator<Item={}>", self.prefix, terminal_type)],
+            vec![format!("{}TOKENS: IntoIterator<Item={}>", self.prefix, item_type)],
             vec![format!("{}tokens: {}TOKENS", self.prefix, self.prefix)],
             format!("Result<(Option<{}>, {}), Option<{}>>",
-                    terminal_type, self.types.nonterminal_type(self.start_symbol), terminal_type),
+                    item_type, self.types.nonterminal_type(self.start_symbol), item_type),
             vec![]));
         rust!(self.out, "{{");
         rust!(self.out, "let mut {}tokens = {}tokens.into_iter();", self.prefix, self.prefix);
@@ -134,7 +134,7 @@ impl<'ascent,'grammar,W:Write> RecursiveAscent<'ascent,'grammar,W> {
     fn write_state_fn(&mut self, this_index: StateIndex) -> io::Result<()> {
         let this_state = &self.states[this_index.0];
         let this_prefix = self.state_prefixes[this_index.0];
-        let terminal_type = self.types.terminal_enum_type();
+        let item_type = self.iterator_item_type();
 
         // Leave a comment explaining what this state is.
         rust!(self.out, "// State {}", this_index.0);
@@ -154,7 +154,7 @@ impl<'ascent,'grammar,W:Write> RecursiveAscent<'ascent,'grammar,W> {
         let mut fallthrough = false;
 
         let base_args =
-            vec![format!("mut {}lookahead: Option<{}>", self.prefix, terminal_type),
+            vec![format!("mut {}lookahead: Option<{}>", self.prefix, item_type),
                  format!("{}tokens: &mut {}TOKENS", self.prefix, self.prefix)];
         let sym_args: Vec<_> =
             (0..this_prefix.len())
@@ -165,17 +165,17 @@ impl<'ascent,'grammar,W:Write> RecursiveAscent<'ascent,'grammar,W> {
         try!(self.out.write_pub_fn_header(
             self.grammar,
             format!("{}state{}", self.prefix, this_index.0),
-            vec![format!("{}TOKENS: Iterator<Item={}>", self.prefix, terminal_type)],
+            vec![format!("{}TOKENS: Iterator<Item={}>", self.prefix, item_type)],
             base_args.into_iter().chain(sym_args).collect(),
             format!("Result<(Option<{}>, {}Nonterminal<{}>), Option<{}>>",
-                    terminal_type, self.prefix,
+                    item_type, self.prefix,
                     self.grammar.user_type_parameter_refs(),
-                    terminal_type),
+                    item_type),
             vec![]));
 
         rust!(self.out, "{{");
         rust!(self.out, "let mut {}result: (Option<{}>, {}Nonterminal<{}>);",
-              self.prefix, terminal_type, self.prefix, self.grammar.user_type_parameter_refs());
+              self.prefix, item_type, self.prefix, self.grammar.user_type_parameter_refs());
 
         rust!(self.out, "match {}lookahead {{", self.prefix);
 
@@ -343,7 +343,13 @@ impl<'ascent,'grammar,W:Write> RecursiveAscent<'ascent,'grammar,W> {
     /// Emit a pattern that matches `id` but doesn't extract any data.
     fn match_terminal(&mut self, id: TerminalString) -> io::Result<()> {
         let pattern = self.grammar.pattern(id)
-                                  .map(&mut |_| "_");
+                                      .map(&mut |_| "_");
+
+        let mut pattern = format!("{}", pattern);
+        if self.types.opt_terminal_loc_type().is_some() {
+            pattern = format!("(_, {}, _)", pattern);
+        }
+
         rust!(self.out, "Some({}) => {{", pattern);
         Ok(())
     }
@@ -358,17 +364,38 @@ impl<'ascent,'grammar,W:Write> RecursiveAscent<'ascent,'grammar,W> {
             pattern_names.last().cloned().unwrap()
         });
 
+        let mut pattern = format!("{}", pattern);
         if pattern_names.is_empty() {
-            rust!(self.out, "Some({}tok @ {}) => {{", self.prefix, pattern);
-            rust!(self.out, "let mut {} = &mut Some({}tok);",
-                  let_name, self.prefix);
-        } else {
-            rust!(self.out, "Some({}) => {{", pattern);
-            rust!(self.out, "let mut {} = &mut Some(({}));",
-                  let_name, pattern_names.connect(", "));
+            pattern_names.push(format!("{}tok", self.prefix));
+            pattern = format!("{}tok @ {}", self.prefix, pattern);
+        }
+        if self.types.opt_terminal_loc_type().is_some() {
+            pattern = format!("(_, {}, _)", pattern);
         }
 
+        rust!(self.out, "Some({}) => {{", pattern);
+        rust!(self.out, "let mut {} = &mut Some(({}));",
+              let_name, pattern_names.connect(", "));
+
         Ok(())
+    }
+
+    /// Returns the type of things we are iterating over. This will
+    /// depend on whether the user specified a location type `L`
+    /// or just an enum type `E`:
+    ///
+    /// - `(L,E,L)` if a location type is specified,
+    /// - `E` otherwise.
+    fn iterator_item_type(&mut self) -> String {
+        let enum_type = self.types.terminal_enum_type();
+        match self.types.opt_terminal_loc_type() {
+            Some(loc_type) => {
+                format!("({},{},{})", loc_type, enum_type, loc_type)
+            }
+            None => {
+                format!("{}", enum_type)
+            }
+        }
     }
 }
 

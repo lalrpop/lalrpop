@@ -54,7 +54,7 @@ fn expr_arena_test1() {
                                                           arena.alloc(Node::Value(22)),
                                                           arena.alloc(Node::Value(3)))),
                                  arena.alloc(Node::Value(6))));
-    util::test(|v| expr_arena::parse_Expr(&arena, v), "22 * 3 - 6", expected);
+    util::test_loc(|v| expr_arena::parse_Expr(&arena, v), "22 * 3 - 6", expected);
 }
 
 #[test]
@@ -66,7 +66,7 @@ fn expr_arena_test2() {
                                  vec![arena.alloc(Node::Value(22)),
                                       arena.alloc(Node::Value(3)),
                                       arena.alloc(Node::Value(6))]));;
-    util::test(|v| expr_arena::parse_Expr(&arena, v), "*(22, 3, 6)", expected);
-    util::test(|v| expr_arena::parse_Expr(&arena, v), "*(22, 3, 6,)", expected);
+    util::test_loc(|v| expr_arena::parse_Expr(&arena, v), "*(22, 3, 6)", expected);
+    util::test_loc(|v| expr_arena::parse_Expr(&arena, v), "*(22, 3, 6,)", expected);
 }
 

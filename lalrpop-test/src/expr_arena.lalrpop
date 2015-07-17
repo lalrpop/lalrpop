@@ -4,7 +4,7 @@ use util::tok::Tok;
 grammar<'ast>(arena: &'ast Arena<'ast>);
 
 extern token {
-    type Location = u32;
+    type Location = usize;
 
     enum Tok {
         "(" => Tok::LParen(..),

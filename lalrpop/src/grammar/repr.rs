@@ -72,7 +72,8 @@ pub enum Symbol {
 
 #[derive(Clone, Debug, Hash, PartialEq, Eq, PartialOrd, Ord)]
 pub enum ProductionAction {
-    Call(ActionFn)
+    // execute code provided by the user
+    Call(ActionFn),
 }
 
 #[derive(Clone, PartialEq, Eq)]
@@ -131,6 +132,10 @@ impl Types {
 
     pub fn terminal_enum_type(&self) -> &NominalTypeRepr {
         &self.terminal_enum_type
+    }
+
+    pub fn opt_terminal_loc_type(&self) -> Option<&TypeRepr> {
+        self.terminal_loc_type.as_ref()
     }
 
     pub fn terminal_type(&self, id: TerminalString) -> &TypeRepr {
