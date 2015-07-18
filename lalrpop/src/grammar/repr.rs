@@ -60,7 +60,7 @@ pub struct Production {
     // handy to have it
     pub nonterminal: NonterminalString,
     pub symbols: Vec<Symbol>,
-    pub action: ProductionAction,
+    pub action: ActionKind,
     pub span: Span,
 }
 
@@ -71,9 +71,11 @@ pub enum Symbol {
 }
 
 #[derive(Clone, Debug, Hash, PartialEq, Eq, PartialOrd, Ord)]
-pub enum ProductionAction {
+pub enum ActionKind {
     // execute code provided by the user
     Call(ActionFn),
+    Lookahead,
+    Lookbehind,
 }
 
 #[derive(Clone, PartialEq, Eq)]

@@ -1,6 +1,6 @@
 use std::collections::{HashMap, HashSet};
 use intern::{intern, read, InternedString};
-use grammar::parse_tree::{Alternative,
+use grammar::parse_tree::{ActionKind, Alternative,
                           Condition, ConditionOp,
                           ExprSymbol,
                           Grammar, GrammarItem,
@@ -77,6 +77,10 @@ impl MacroExpander {
                         items.push(try!(self.expand_expr_symbol(sym.span, expr))),
                     SymbolKind::Repeat(repeat) =>
                         items.push(try!(self.expand_repeat_symbol(sym.span, *repeat))),
+                    SymbolKind::Lookahead =>
+                        items.push(try!(self.expand_lookahead_symbol(sym.span))),
+                    SymbolKind::Lookbehind =>
+                        items.push(try!(self.expand_lookbehind_symbol(sym.span))),
                     _ =>
                         assert!(false, "don't know how to expand `{:?}`", sym)
                 }
@@ -127,6 +131,8 @@ impl MacroExpander {
             SymbolKind::Name(_, ref mut sym) => {
                 self.replace_symbol(sym);
                 return;
+            }
+            SymbolKind::Lookahead | SymbolKind::Lookbehind => {
             }
         }
 
@@ -307,6 +313,10 @@ impl MacroExpander {
                 SymbolKind::Choose(Box::new(self.macro_expand_symbol(args, sym))),
             SymbolKind::Name(id, ref sym) =>
                 SymbolKind::Name(id, Box::new(self.macro_expand_symbol(args, sym))),
+            SymbolKind::Lookahead =>
+                SymbolKind::Lookahead,
+            SymbolKind::Lookbehind =>
+                SymbolKind::Lookbehind,
         };
 
         Symbol { span: symbol.span, kind: kind }
@@ -343,7 +353,7 @@ impl MacroExpander {
             alternatives: vec![Alternative { span: span,
                                              expr: expr,
                                              condition: None,
-                                             action: Some(format!("(<>)")) }]
+                                             action: action("(<>)") }]
         }))
     }
 
@@ -374,7 +384,7 @@ impl MacroExpander {
                             span: span,
                             expr: ExprSymbol { symbols: vec![] },
                             condition: None,
-                            action: Some(format!("vec![]"))
+                            action: action("vec![]")
                         },
 
                         // X* = <v:X+> <e:X>
@@ -396,7 +406,7 @@ impl MacroExpander {
                                             Box::new(repeat.symbol.clone())))]
                             },
                             condition: None,
-                            action: Some(format!("{{ let mut v = v; v.push(e); v }}"))
+                            action: action("{ let mut v = v; v.push(e); v }")
                         }],
                 }))
             }
@@ -419,7 +429,7 @@ impl MacroExpander {
                                 symbols: vec![repeat.symbol.clone()]
                             },
                             condition: None,
-                            action: Some(format!("vec![<>]"))
+                            action: action("Vec![<>]"),
                         },
 
                         // X+ = <v:X+> <e:X>
@@ -434,7 +444,7 @@ impl MacroExpander {
                                         e, Box::new(repeat.symbol.clone())))]
                             },
                             condition: None,
-                            action: Some(format!("{{ let mut v = v; v.push(e); v }}"))
+                            action: action("{ let mut v = v; v.push(e); v }"),
                         }],
                 }))
             }
@@ -456,7 +466,7 @@ impl MacroExpander {
                                           symbols: vec![repeat.symbol.clone()]
                                       },
                                       condition: None,
-                                      action: Some(format!("Some(<>)")) },
+                                      action: action("Some(<>)") },
 
                         // X? = { => None; }
                         Alternative { span: span,
@@ -464,10 +474,18 @@ impl MacroExpander {
                                           symbols: vec![]
                                       },
                                       condition: None,
-                                      action: Some(format!("None")) }]
+                                      action: action("None") }]
                 }))
             }
         }
+    }
+
+    fn expand_lookahead_symbol(&mut self, _span: Span) -> NormResult<GrammarItem> {
+        panic!("not yet implemented")
+    }
+
+    fn expand_lookbehind_symbol(&mut self, _span: Span) -> NormResult<GrammarItem> {
+        panic!("not yet implemented")
     }
 }
 
@@ -477,4 +495,8 @@ fn maybe_tuple(v: Vec<TypeRef>) -> TypeRef {
     } else {
         TypeRef::Tuple(v)
     }
+}
+
+fn action(s: &str) -> Option<ActionKind> {
+    Some(ActionKind::User(s.to_string()))
 }

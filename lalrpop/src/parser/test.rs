@@ -125,6 +125,12 @@ fn macro_symbols() {
 }
 
 #[test]
+fn lookaround() {
+    super::parse_symbol(r#"@<"#).unwrap();
+    super::parse_symbol(r#"@>"#).unwrap();
+}
+
+#[test]
 fn symbol_precedence() {
     // check that we parse this as choosing a X+
     let sym = super::parse_symbol(r#"<X+>"#).unwrap();

@@ -9,7 +9,7 @@ fn check_err(expected_err: &str, grammar: &str) {
     // indicate the span where an error is expected.
     let start_index = grammar.find(">>>").unwrap();
     let grammar = grammar.replace(">>>", ""); // remove the `>>>` marker
-    let end_index = grammar.find("<<<").unwrap();
+    let end_index = grammar.rfind("<<<").unwrap();
     let grammar = grammar.replace("<<<", "");
 
     assert!(start_index <= end_index);
@@ -70,4 +70,18 @@ fn dup_assoc_type() {
         r#"grammar; extern token { type Location = i32;
                                    type >>>Location <<<= u32;
                                    enum Tok { } }"#);
+}
+
+#[test]
+fn lookahead_without_loc_type() {
+    check_err(
+        r#"lookahead/lookbehind require you to declare the type of a location"#,
+        r#"grammar; extern token { enum Tok { } } Foo = >>>@<<<<;"#);
+}
+
+#[test]
+fn multiple_extern_token() {
+    check_err(
+        r#"multiple extern token definitions are not permitted"#,
+        r#"grammar; extern token { enum Tok { } } >>>extern token <<<{ enum Tok { } }"#);
 }

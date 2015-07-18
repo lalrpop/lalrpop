@@ -25,6 +25,12 @@ pub fn validate(grammar: &Grammar) -> NormResult<()> {
                              .collect()
     };
 
+    let extern_token: Option<&ExternToken> =
+        grammar.items
+               .iter()
+               .filter_map(|item| item.as_extern_token())
+               .next();
+
     let conversions: Set<_> =
         grammar.items
                .iter()
@@ -35,6 +41,7 @@ pub fn validate(grammar: &Grammar) -> NormResult<()> {
     let validator = Validator {
         grammar: grammar,
         globals: globals,
+        extern_token: extern_token,
         conversions: conversions,
     };
 
@@ -43,6 +50,7 @@ pub fn validate(grammar: &Grammar) -> NormResult<()> {
 
 struct Validator<'grammar> {
     grammar: &'grammar Grammar,
+    extern_token: Option<&'grammar ExternToken>,
     globals: ScopeChain<'grammar>,
     conversions: Set<TerminalString>,
 }
@@ -65,6 +73,12 @@ impl<'grammar> Validator<'grammar> {
             match *item {
                 GrammarItem::Use(..) => { }
                 GrammarItem::ExternToken(ref data) => {
+                    if data.span != self.extern_token.unwrap().span {
+                        return_err!(
+                            data.span,
+                            "multiple extern token definitions are not permitted");
+                    }
+
                     let allowed_names = vec![intern(LOCATION)];
                     let mut new_names = set();
                     for associated_type in &data.associated_types {
@@ -237,6 +251,23 @@ impl<'grammar> Validator<'grammar> {
             }
             SymbolKind::Choose(ref sym) | SymbolKind::Name(_, ref sym) => {
                 try!(self.validate_symbol(scope, sym));
+            }
+            SymbolKind::Lookahead | SymbolKind::Lookbehind => {
+                if self.extern_token.is_none() {
+                    return_err!(symbol.span,
+                                "lookahead/lookbehind not permitted without \
+                                 an extern token declaration");
+                }
+
+                let loc = intern(LOCATION);
+                if self.extern_token.unwrap().associated_type(loc).is_none() {
+                    return_err!(
+                        symbol.span,
+                        "lookahead/lookbehind require you to declare the type of \
+                         a location; add a `type {} = ..` statement to the extern token \
+                         block",
+                        LOCATION);
+                }
             }
         }
 

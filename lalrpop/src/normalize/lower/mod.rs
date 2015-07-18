@@ -64,12 +64,12 @@ impl LowerState {
                     for alt in nt.alternatives {
                         let nt_type = self.types.nonterminal_type(nt.name).clone();
                         let symbols = self.symbols(&alt.expr.symbols);
-                        let action_fn = self.action_fn(nt_type, &alt.expr, &symbols, alt.action);
+                        let action = self.action_kind(nt_type, &alt.expr, &symbols, alt.action);
                         let production = r::Production {
                             nonterminal: nt.name,
                             span: alt.span,
                             symbols: symbols,
-                            action: r::ProductionAction::Call(action_fn),
+                            action: action,
                         };
                         self.productions.push(production);
                     }
@@ -129,12 +129,35 @@ impl LowerState {
                    self.productions.push(r::Production {
                        nonterminal: fake_name,
                        symbols: symbols,
-                       action: r::ProductionAction::Call(action_fn),
+                       action: r::ActionKind::Call(action_fn),
                        span: nt.span
                    });
                    (nt.name, fake_name)
                })
                .collect()
+    }
+
+    fn action_kind(&mut self,
+                   nt_type: r::TypeRepr,
+                   expr: &pt::ExprSymbol,
+                   symbols: &[r::Symbol],
+                   action: Option<pt::ActionKind>)
+                   -> r::ActionKind
+    {
+        match action {
+            Some(pt::ActionKind::Lookahead) =>
+                r::ActionKind::Lookahead,
+            Some(pt::ActionKind::Lookbehind) =>
+                r::ActionKind::Lookbehind,
+            Some(pt::ActionKind::User(string)) => {
+                let action_fn = self.action_fn(nt_type, &expr, &symbols, Some(string));
+                r::ActionKind::Call(action_fn)
+            }
+            None => {
+                let action_fn = self.action_fn(nt_type, &expr, &symbols, None);
+                r::ActionKind::Call(action_fn)
+            }
+        }
     }
 
     fn action_fn(&mut self,
@@ -209,7 +232,11 @@ impl LowerState {
             pt::SymbolKind::Nonterminal(id) => r::Symbol::Nonterminal(id),
             pt::SymbolKind::Choose(ref s) | pt::SymbolKind::Name(_, ref s) => self.symbol(s),
 
-            pt::SymbolKind::Macro(..) | pt::SymbolKind::Repeat(..) | pt::SymbolKind::Expr(..) => {
+            pt::SymbolKind::Macro(..) |
+            pt::SymbolKind::Repeat(..) |
+            pt::SymbolKind::Expr(..) |
+            pt::SymbolKind::Lookahead |
+            pt::SymbolKind::Lookbehind => {
                 unreachable!("symbol `{}` should have been normalized away by now", symbol)
             }
         }
@@ -259,6 +286,7 @@ fn find_prefix(grammar: &pt::Grammar) -> String {
                .filter_map(|i| i.as_nonterminal())
                .flat_map(|nt| nt.alternatives.iter())
                .filter_map(|alt| alt.action.as_ref())
+               .filter_map(|action| action.as_user())
                .any(|s| s.contains(&prefix))
         ||
         grammar.items
@@ -271,3 +299,4 @@ fn find_prefix(grammar: &pt::Grammar) -> String {
 
     prefix
 }
+

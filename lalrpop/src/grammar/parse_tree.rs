@@ -33,6 +33,7 @@ pub enum GrammarItem {
 
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct ExternToken {
+    pub span: Span,
     pub associated_types: Vec<AssociatedType>,
     pub enum_token: EnumToken,
 }
@@ -127,7 +128,14 @@ pub struct Alternative {
     pub condition: Option<Condition>,
 
     // => { code }
-    pub action: Option<String>,
+    pub action: Option<ActionKind>,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub enum ActionKind {
+    User(String),
+    Lookahead,
+    Lookbehind,
 }
 
 #[derive(Clone, Debug, PartialEq, Eq)]
@@ -181,6 +189,12 @@ pub enum SymbolKind {
 
     // x:X
     Name(InternedString, Box<Symbol>),
+
+    // @<
+    Lookahead,
+
+    // @>
+    Lookbehind,
 }
 
 #[derive(Copy, Clone, Hash, PartialEq, Eq, PartialOrd, Ord)]
@@ -307,6 +321,10 @@ impl Display for SymbolKind {
                 write!(fmt, "<{}>", s),
             SymbolKind::Name(n, ref s) =>
                 write!(fmt, "{}:{}", n, s),
+            SymbolKind::Lookahead =>
+                write!(fmt, "$<"),
+            SymbolKind::Lookbehind =>
+                write!(fmt, "$>"),
         }
     }
 }
@@ -465,6 +483,15 @@ impl Path {
         Path {
             absolute: self.absolute,
             ids: self.ids.iter().cloned().chain(once(id)).collect()
+        }
+    }
+}
+
+impl ActionKind {
+    pub fn as_user(&self) -> Option<&String> {
+        match *self {
+            ActionKind::User(ref s) => Some(s),
+            _ => None
         }
     }
 }

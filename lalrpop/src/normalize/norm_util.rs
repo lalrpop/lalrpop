@@ -1,9 +1,9 @@
 use intern::InternedString;
-use grammar::parse_tree::{Alternative, ExprSymbol, Symbol, SymbolKind};
+use grammar::parse_tree::{ActionKind, Alternative, ExprSymbol, Symbol, SymbolKind};
 
 #[derive(Debug)]
 pub enum AlternativeAction<'a> {
-    User(&'a str),
+    User(&'a ActionKind),
     Default(Symbols<'a>),
 }
 

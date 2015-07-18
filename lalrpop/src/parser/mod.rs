@@ -110,7 +110,16 @@ rusty_peg! {
         IF_COND: Condition =
             ("if" <c:COND>) => c;
 
-        ACTION: String = ("=>" <b:CODE>) => b;
+        ACTION: ActionKind = (LOOKAHEAD_ACTION / LOOKBEHIND_ACTION / USER_ACTION);
+
+        USER_ACTION: ActionKind =
+            ("=>" <b:CODE>) => ActionKind::User(b);
+
+        LOOKAHEAD_ACTION: ActionKind =
+            ("=>@<") => ActionKind::Lookahead;
+
+        LOOKBEHIND_ACTION: ActionKind =
+            ("=>@>") => ActionKind::Lookbehind;
 
         // Conditions
 
@@ -154,7 +163,8 @@ rusty_peg! {
         REPEAT_OP_QUESTION: RepeatOp = "?" => RepeatOp::Question;
 
         SYMBOL1: Symbol =
-            (MACRO_SYMBOL / TERMINAL_SYMBOL / NT_SYMBOL / ESCAPE_SYMBOL / PAREN_SYMBOL);
+            (MACRO_SYMBOL / TERMINAL_SYMBOL / NT_SYMBOL / ESCAPE_SYMBOL / PAREN_SYMBOL/
+             LOOKAHEAD_SYMBOL / LOOKBEHIND_SYMBOL);
 
         MACRO_SYMBOL: Symbol =
             (<lo:POSL> <l:MACRO_ID> <m:{SYMBOL ","}> <n:[SYMBOL]> ">" <hi:POSR>) => {
@@ -181,6 +191,16 @@ rusty_peg! {
         PAREN_SYMBOL: Symbol =
             (<lo:POSL> "(" <s:EXPR_SYMBOL> ")" <hi:POSR>) => {
                 Symbol::new(Span(lo, hi), SymbolKind::Expr(s))
+            };
+
+        LOOKAHEAD_SYMBOL: Symbol =
+            (<lo:POSL> "@<" <hi:POSR>) => {
+                Symbol::new(Span(lo, hi), SymbolKind::Lookahead)
+            };
+
+        LOOKBEHIND_SYMBOL: Symbol =
+            (<lo:POSL> "@>" <hi:POSR>) => {
+                Symbol::new(Span(lo, hi), SymbolKind::Lookbehind)
             };
 
         EXPR_SYMBOL: ExprSymbol =
@@ -247,7 +267,7 @@ rusty_peg! {
         // TOKEN DEFINITIONS
 
         EXTERN_TOKEN: GrammarItem =
-            ("extern" "token" "{"
+            (<lo0:POSL> "extern" "token" <hi0:POSR> "{"
                <a0:{ASSOCIATED_TYPE}>
                "enum" <lo:POSL> <t:TYPE_REF> <hi:POSR> "{"
                  <c0:{CONVERSION ","}> <c1:[CONVERSION]>
@@ -255,6 +275,7 @@ rusty_peg! {
                <a1:{ASSOCIATED_TYPE}>
              "}") => {
                 GrammarItem::ExternToken(ExternToken {
+                    span: Span(lo0, hi0),
                     associated_types: a0.into_iter().chain(a1).collect(),
                     enum_token: EnumToken {
                         type_name: t,

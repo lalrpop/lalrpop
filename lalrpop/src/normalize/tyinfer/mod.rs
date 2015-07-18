@@ -252,7 +252,8 @@ impl<'grammar> TypeInferencer<'grammar> {
             SymbolKind::Choose(ref s) => self.symbol_type(&s.kind),
             SymbolKind::Name(_, ref s) => self.symbol_type(&s.kind),
 
-            SymbolKind::Repeat(..) | SymbolKind::Expr(..) | SymbolKind::Macro(..) => {
+            SymbolKind::Repeat(..) | SymbolKind::Expr(..) | SymbolKind::Macro(..) |
+            SymbolKind::Lookahead | SymbolKind::Lookbehind => {
                 unreachable!("symbol `{:?}` should have been expanded away", symbol)
             }
         }
