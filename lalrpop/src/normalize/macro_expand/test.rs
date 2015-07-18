@@ -71,3 +71,21 @@ grammar;
 
     compare(actual, expected);
 }
+
+#[test]
+fn test_lookahead() {
+    let grammar = parser::parse_grammar(r#"
+        grammar;
+        Expr = @<;
+"#).unwrap();
+
+    let actual = expand_macros(grammar).unwrap();
+
+    let expected = parser::parse_grammar(r#"
+        grammar;
+        Expr = `@<`;
+        `@<` = =>@<;
+"#).unwrap();
+
+    compare(actual, expected);
+}

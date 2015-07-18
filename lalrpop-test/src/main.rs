@@ -1,6 +1,7 @@
 mod expr;
 mod expr_arena;
 mod expr_arena_ast;
+mod loc;
 mod sub;
 mod util;
 
@@ -68,5 +69,20 @@ fn expr_arena_test2() {
                                       arena.alloc(Node::Value(6))]));;
     util::test_loc(|v| expr_arena::parse_Expr(&arena, v), "*(22, 3, 6)", expected);
     util::test_loc(|v| expr_arena::parse_Expr(&arena, v), "*(22, 3, 6,)", expected);
+}
+
+#[test]
+fn loc_test1() {
+    let expected = vec![(Some(4), Some(5)),
+                        (Some(8), Some(9)),
+                        (Some(16), Some(17))];
+    util::test_loc(|v| loc::parse_Items(v), "--+-+---+", expected);
+    //                                       000001111
+    //                                       024680246
+}
+
+#[test]
+fn loc_test2() {
+    util::test_loc(|v| loc::parse_Items(v), "+", vec![(Some(0), Some(1))]);
 }
 

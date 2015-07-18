@@ -2,7 +2,7 @@ use super::{NormResult, NormError};
 use super::norm_util::{self, AlternativeAction, Symbols};
 
 use std::collections::{HashMap};
-use grammar::parse_tree::{Alternative,
+use grammar::parse_tree::{ActionKind, Alternative,
                           ExternToken,
                           Grammar, GrammarItem,
                           LOCATION,
@@ -224,8 +224,17 @@ impl<'grammar> TypeInferencer<'grammar> {
 
     fn alternative_type(&mut self, alt: &Alternative) -> NormResult<TypeRepr> {
         match norm_util::analyze_action(alt) {
-            AlternativeAction::User(_) => {
+            AlternativeAction::User(&ActionKind::User(_)) => {
                 return_err!(alt.span, "cannot infer types if there is custom action code");
+            }
+
+            AlternativeAction::User(&ActionKind::Lookahead) |
+            AlternativeAction::User(&ActionKind::Lookbehind) => {
+                let loc_type = self.types.opt_terminal_loc_type().unwrap().clone();
+                Ok(TypeRepr::Nominal(NominalTypeRepr {
+                    path: Path::option(),
+                    types: vec![loc_type]
+                }))
             }
 
             AlternativeAction::Default(Symbols::Named(ref syms)) => {

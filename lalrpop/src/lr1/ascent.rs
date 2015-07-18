@@ -251,14 +251,15 @@ impl<'ascent,'grammar,W:Write> RecursiveAscent<'ascent,'grammar,W> {
                 ActionKind::Lookahead => {
                     debug_assert!(self.types.opt_terminal_loc_type().is_some());
                     rust!(self.out,
-                          "let {}nt = ::std::clone::Clone(&{}lookahead.map(|o| o.0));",
+                          "let {}nt = {}lookahead.as_ref().map(\
+                           |o| ::std::clone::Clone::clone(&o.0));",
                           self.prefix, self.prefix);
                 }
 
                 ActionKind::Lookbehind => {
                     debug_assert!(self.types.opt_terminal_loc_type().is_some());
                     rust!(self.out,
-                          "let {}nt = ::std::clone::Clone(&{}lookbehind);",
+                          "let {}nt = ::std::clone::Clone::clone(&{}lookbehind);",
                           self.prefix, self.prefix);
                 }
             }

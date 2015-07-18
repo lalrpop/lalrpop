@@ -322,9 +322,9 @@ impl Display for SymbolKind {
             SymbolKind::Name(n, ref s) =>
                 write!(fmt, "{}:{}", n, s),
             SymbolKind::Lookahead =>
-                write!(fmt, "$<"),
+                write!(fmt, "@<"),
             SymbolKind::Lookbehind =>
-                write!(fmt, "$>"),
+                write!(fmt, "@>"),
         }
     }
 }

@@ -1,0 +1,28 @@
+use util::tok::Tok;
+
+grammar;
+
+extern token {
+    type Location = usize;
+
+    enum Tok {
+        "-" => Tok::Minus(..),
+        "+" => Tok::Plus(..)
+    }
+}
+
+pub Items: Vec<(Option<usize>, Option<usize>)> = {
+    => vec![];
+
+    <v:Items> <e:Spanned<"+">> => {
+        let mut v = v;
+        v.push(e);
+        v
+    };
+
+    <v:Items> "-" => v;
+};
+
+Spanned<T>: (Option<usize>, Option<usize>) = {
+    <@<> T <@>> => (<>);
+};

@@ -49,8 +49,6 @@ impl<W:Write> RustWrite<W> {
     pub fn writeln(&mut self, out: &str) -> io::Result<()> {
         let buf = out.as_bytes();
 
-        println!("indent={:?} out={:?}", self.indent, out);
-
         // pass empty lines through with no indentation
         if buf.is_empty() {
             return self.write.write_all("\n".as_bytes());

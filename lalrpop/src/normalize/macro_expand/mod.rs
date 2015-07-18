@@ -78,9 +78,11 @@ impl MacroExpander {
                     SymbolKind::Repeat(repeat) =>
                         items.push(try!(self.expand_repeat_symbol(sym.span, *repeat))),
                     SymbolKind::Lookahead =>
-                        items.push(try!(self.expand_lookahead_symbol(sym.span))),
+                        items.push(try!(self.expand_lookaround_symbol(
+                            sym.span, "@<", ActionKind::Lookahead))),
                     SymbolKind::Lookbehind =>
-                        items.push(try!(self.expand_lookbehind_symbol(sym.span))),
+                        items.push(try!(self.expand_lookaround_symbol(
+                            sym.span, "@>", ActionKind::Lookbehind))),
                     _ =>
                         assert!(false, "don't know how to expand `{:?}`", sym)
                 }
@@ -480,12 +482,21 @@ impl MacroExpander {
         }
     }
 
-    fn expand_lookahead_symbol(&mut self, _span: Span) -> NormResult<GrammarItem> {
-        panic!("not yet implemented")
-    }
-
-    fn expand_lookbehind_symbol(&mut self, _span: Span) -> NormResult<GrammarItem> {
-        panic!("not yet implemented")
+    fn expand_lookaround_symbol(&mut self, span: Span, name: &str, action: ActionKind)
+                               -> NormResult<GrammarItem> {
+        let name = NonterminalString(intern(name));
+        Ok(GrammarItem::Nonterminal(NonterminalData {
+            public: false,
+            span: span,
+            name: name,
+            args: vec![],
+            type_decl: None,
+            alternatives: vec![
+                Alternative { span: span,
+                              expr: ExprSymbol { symbols: vec![] },
+                              condition: None,
+                              action: Some(action) }]
+        }))
     }
 }
 
