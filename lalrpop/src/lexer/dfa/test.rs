@@ -1,6 +1,6 @@
-use token::dfa::{self, Ambiguity, DFA, NFAIndex, Precedence};
-use token::dfa::interpret::interpret;
-use token::re;
+use lexer::dfa::{self, Ambiguity, DFA, NFAIndex, Precedence};
+use lexer::dfa::interpret::interpret;
+use lexer::re;
 
 fn dfa(inputs: &[(&str, Precedence)]) -> Result<DFA,Ambiguity> {
     let regexs: Result<Vec<_>, _> = inputs.iter().map(|&(s, _)| re::parse_regex(s)).collect();

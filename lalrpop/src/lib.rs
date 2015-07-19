@@ -23,11 +23,12 @@ mod rust;
 mod build;
 mod grammar;
 mod intern;
+mod lexer;
 mod lr1;
 mod normalize;
 mod parser;
 mod kernel_set;
-mod token;
+mod tok;
 mod util;
 
 #[cfg(test)] mod generate;

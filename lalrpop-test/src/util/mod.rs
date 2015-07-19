@@ -5,7 +5,6 @@ use util::tok::Tok;
 
 // a simple tokenizer
 pub mod tok;
-pub mod lalrpop_tok;
 
 pub fn test<R:Debug+Eq,F>(parse_fn: F,
                           input: &str,

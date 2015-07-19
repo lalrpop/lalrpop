@@ -1,7 +1,7 @@
 //! A depth-first interpreter for NFAs.
 
-use token::nfa::{NFA, NFAStateIndex, START, StateKind, Noop, Other};
-use token::re::Test;
+use lexer::nfa::{NFA, NFAStateIndex, START, StateKind, Noop, Other};
+use lexer::re::Test;
 use std::cmp::max;
 
 /// Interpret `nfa` applied to `test`, returning the longest matching

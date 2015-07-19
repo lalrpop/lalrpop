@@ -4,7 +4,7 @@
 
 use std::fmt::{Debug, Formatter, Error};
 use std::usize;
-use token::re::{Regex, Alternative, Elem, RepeatOp, Test};
+use lexer::re::{Regex, Alternative, Elem, RepeatOp, Test};
 
 #[cfg(test)]
 mod interpret;

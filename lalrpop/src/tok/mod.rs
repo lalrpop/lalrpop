@@ -1,8 +1,14 @@
+//! A tokenizer for use in LALRPOP itself.
+
 use std::str::CharIndices;
 
 use self::Error::*;
 use self::Tok::*;
 
+#[cfg(test)]
+mod test;
+
+#[derive(Clone, Debug, PartialEq, Eq)]
 pub enum Error {
     UnrecognizedToken(usize),
     UnterminatedEscape(usize),
@@ -10,7 +16,7 @@ pub enum Error {
     UnterminatedCode(usize),
 }
 
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, PartialEq, Eq)]
 pub enum Tok<'input> {
     // Keywords;
     Enum,
@@ -85,9 +91,19 @@ const KEYWORDS: &'static [(&'static str, Tok<'static>)] = &[
     ("token", Token),
     ("use", Use),
     ("where", Where),
-];
+    ];
 
 impl<'input> Tokenizer<'input> {
+    fn new(text: &'input str) -> Tokenizer<'input> {
+        let mut t = Tokenizer {
+            text: text,
+            chars: text.char_indices(),
+            lookahead: None
+        };
+        t.bump();
+        t
+    }
+
     fn bump(&mut self) -> Option<(usize, char)> {
         self.lookahead = self.chars.next();
         self.lookahead
@@ -280,166 +296,183 @@ impl<'input> Iterator for Tokenizer<'input> {
     type Item = Result<Spanned<Tok<'input>>, Error>;
 
     fn next(&mut self) -> Option<Result<Spanned<Tok<'input>>, Error>> {
-        match self.lookahead {
-            Some((idx0, '&')) => {
-                self.bump();
-                Some(Ok((idx0, Ampersand, idx0+1)))
-            }
-            Some((idx0, '!')) => {
-                match self.bump() {
-                    Some((idx1, '=')) => {
-                        self.bump();
-                        Some(Ok((idx0, BangEquals, idx1+1)))
-                    }
-                    Some((idx1, '~')) => {
-                        self.bump();
-                        Some(Ok((idx0, BangTilde, idx1+1)))
-                    }
-                    _ => {
-                        Some(Err(UnrecognizedToken(idx0)))
+        loop {
+            return match self.lookahead {
+                Some((idx0, '&')) => {
+                    self.bump();
+                    Some(Ok((idx0, Ampersand, idx0+1)))
+                }
+                Some((idx0, '!')) => {
+                    match self.bump() {
+                        Some((idx1, '=')) => {
+                            self.bump();
+                            Some(Ok((idx0, BangEquals, idx1+1)))
+                        }
+                        Some((idx1, '~')) => {
+                            self.bump();
+                            Some(Ok((idx0, BangTilde, idx1+1)))
+                        }
+                        _ => {
+                            Some(Err(UnrecognizedToken(idx0)))
+                        }
                     }
                 }
-            }
-            Some((idx0, ':')) => {
-                match self.bump() {
-                    Some((idx1, ':')) => {
-                        self.bump();
-                        Some(Ok((idx0, ColonColon, idx1+1)))
-                    }
-                    _ => {
-                        Some(Ok((idx0, Colon, idx0+1)))
-                    }
-                }
-            }
-            Some((idx0, ',')) => {
-                self.bump();
-                Some(Ok((idx0, Comma, idx0+1)))
-            }
-            Some((idx0, '.')) => {
-                match self.bump() {
-                    Some((idx1, '.')) => {
-                        self.bump();
-                        Some(Ok((idx0, DotDot, idx1+1)))
-                    }
-                    _ => {
-                        Some(Err(UnrecognizedToken(idx0)))
+                Some((idx0, ':')) => {
+                    match self.bump() {
+                        Some((idx1, ':')) => {
+                            self.bump();
+                            Some(Ok((idx0, ColonColon, idx1+1)))
+                        }
+                        _ => {
+                            Some(Ok((idx0, Colon, idx0+1)))
+                        }
                     }
                 }
-            }
-            Some((idx0, '=')) => {
-                match self.bump() {
-                    Some((idx1, '=')) => {
-                        self.bump();
-                        Some(Ok((idx0, EqualsEquals, idx1+1)))
-                    }
-                    Some((_, '>')) => {
-                        self.bump();
-                        Some(self.right_arrow(idx0))
-                    }
-                    _ => {
-                        Some(Ok((idx0, Equals, idx0+1)))
+                Some((idx0, ',')) => {
+                    self.bump();
+                    Some(Ok((idx0, Comma, idx0+1)))
+                }
+                Some((idx0, '.')) => {
+                    match self.bump() {
+                        Some((idx1, '.')) => {
+                            self.bump();
+                            Some(Ok((idx0, DotDot, idx1+1)))
+                        }
+                        _ => {
+                            Some(Err(UnrecognizedToken(idx0)))
+                        }
                     }
                 }
-            }
-            Some((idx0, '>')) => {
-                self.bump();
-                Some(Ok((idx0, GreaterThan, idx0+1)))
-            }
-            Some((idx0, '{')) => {
-                self.bump();
-                Some(Ok((idx0, LeftBrace, idx0+1)))
-            }
-            Some((idx0, '[')) => {
-                self.bump();
-                Some(Ok((idx0, LeftBracket, idx0+1)))
-            }
-            Some((idx0, '(')) => {
-                self.bump();
-                Some(Ok((idx0, LeftParen, idx0+1)))
-            }
-            Some((idx0, '<')) => {
-                self.bump();
-                Some(Ok((idx0, LessThan, idx0+1)))
-            }
-            Some((idx0, '@')) => {
-                match self.bump() {
-                    Some((idx1, '<')) => {
-                        self.bump();
-                        Some(Ok((idx0, Lookahead, idx1+1)))
-                    }
-                    Some((idx1, '>')) => {
-                        self.bump();
-                        Some(Ok((idx0, Lookbehind, idx1+1)))
-                    }
-                    _ => {
-                        Some(Err(UnrecognizedToken(idx0)))
+                Some((idx0, '=')) => {
+                    match self.bump() {
+                        Some((idx1, '=')) => {
+                            self.bump();
+                            Some(Ok((idx0, EqualsEquals, idx1+1)))
+                        }
+                        Some((_, '>')) => {
+                            self.bump();
+                            Some(self.right_arrow(idx0))
+                        }
+                        _ => {
+                            Some(Ok((idx0, Equals, idx0+1)))
+                        }
                     }
                 }
-            }
-            Some((idx0, '+')) => {
-                self.bump();
-                Some(Ok((idx0, Plus, idx0+1)))
-            }
-            Some((idx0, '?')) => {
-                self.bump();
-                Some(Ok((idx0, Question, idx0+1)))
-            }
-            Some((idx0, '}')) => {
-                self.bump();
-                Some(Ok((idx0, RightBrace, idx0+1)))
-            }
-            Some((idx0, ']')) => {
-                self.bump();
-                Some(Ok((idx0, RightBracket, idx0+1)))
-            }
-            Some((idx0, ')')) => {
-                self.bump();
-                Some(Ok((idx0, RightParen, idx0+1)))
-            }
-            Some((idx0, ';')) => {
-                self.bump();
-                Some(Ok((idx0, Semi, idx0+1)))
-            }
-            Some((idx0, '*')) => {
-                self.bump();
-                Some(Ok((idx0, Star, idx0+1)))
-            }
-            Some((idx0, '~')) => {
-                match self.bump() {
-                    Some((idx1, '~')) => {
-                        self.bump();
-                        Some(Ok((idx0, TildeTilde, idx1+1)))
-                    }
-                    _ => {
-                        Some(Err(UnrecognizedToken(idx0)))
+                Some((idx0, '>')) => {
+                    self.bump();
+                    Some(Ok((idx0, GreaterThan, idx0+1)))
+                }
+                Some((idx0, '{')) => {
+                    self.bump();
+                    Some(Ok((idx0, LeftBrace, idx0+1)))
+                }
+                Some((idx0, '[')) => {
+                    self.bump();
+                    Some(Ok((idx0, LeftBracket, idx0+1)))
+                }
+                Some((idx0, '(')) => {
+                    self.bump();
+                    Some(Ok((idx0, LeftParen, idx0+1)))
+                }
+                Some((idx0, '<')) => {
+                    self.bump();
+                    Some(Ok((idx0, LessThan, idx0+1)))
+                }
+                Some((idx0, '@')) => {
+                    match self.bump() {
+                        Some((idx1, '<')) => {
+                            self.bump();
+                            Some(Ok((idx0, Lookahead, idx1+1)))
+                        }
+                        Some((idx1, '>')) => {
+                            self.bump();
+                            Some(Ok((idx0, Lookbehind, idx1+1)))
+                        }
+                        _ => {
+                            Some(Err(UnrecognizedToken(idx0)))
+                        }
                     }
                 }
-            }
-            Some((idx0, '_')) => {
-                self.bump();
-                Some(Ok((idx0, Underscore, idx0+1)))
-            }
-            Some((idx0, '`')) => {
-                self.bump();
-                Some(self.escape(idx0))
-            }
-            Some((idx0, '\'')) => {
-                self.bump();
-                Some(Ok(self.lifetime(idx0)))
-            }
-            Some((idx0, '"')) => {
-                self.bump();
-                Some(self.string_literal(idx0))
-            }
-            Some((idx0, c)) if is_identifier_start(c) => {
-                Some(Ok(self.identifierish(idx0)))
-            }
-            Some((idx, _)) => {
-                Some(Err(UnrecognizedToken(idx)))
-            }
-            None => {
-                None
-            }
+                Some((idx0, '+')) => {
+                    self.bump();
+                    Some(Ok((idx0, Plus, idx0+1)))
+                }
+                Some((idx0, '?')) => {
+                    self.bump();
+                    Some(Ok((idx0, Question, idx0+1)))
+                }
+                Some((idx0, '}')) => {
+                    self.bump();
+                    Some(Ok((idx0, RightBrace, idx0+1)))
+                }
+                Some((idx0, ']')) => {
+                    self.bump();
+                    Some(Ok((idx0, RightBracket, idx0+1)))
+                }
+                Some((idx0, ')')) => {
+                    self.bump();
+                    Some(Ok((idx0, RightParen, idx0+1)))
+                }
+                Some((idx0, ';')) => {
+                    self.bump();
+                    Some(Ok((idx0, Semi, idx0+1)))
+                }
+                Some((idx0, '*')) => {
+                    self.bump();
+                    Some(Ok((idx0, Star, idx0+1)))
+                }
+                Some((idx0, '~')) => {
+                    match self.bump() {
+                        Some((idx1, '~')) => {
+                            self.bump();
+                            Some(Ok((idx0, TildeTilde, idx1+1)))
+                        }
+                        _ => {
+                            Some(Err(UnrecognizedToken(idx0)))
+                        }
+                    }
+                }
+                Some((idx0, '_')) => {
+                    self.bump();
+                    Some(Ok((idx0, Underscore, idx0+1)))
+                }
+                Some((idx0, '`')) => {
+                    self.bump();
+                    Some(self.escape(idx0))
+                }
+                Some((idx0, '\'')) => {
+                    self.bump();
+                    Some(Ok(self.lifetime(idx0)))
+                }
+                Some((idx0, '"')) => {
+                    self.bump();
+                    Some(self.string_literal(idx0))
+                }
+                Some((idx0, '/')) => {
+                    match self.bump() {
+                        Some((_, '/')) => {
+                            self.take_until(|c| c == '\n');
+                            continue;
+                        }
+                        _ => {
+                            Some(Err(UnrecognizedToken(idx0)))
+                        }
+                    }
+                }
+                Some((idx0, c)) if is_identifier_start(c) => {
+                    Some(Ok(self.identifierish(idx0)))
+                }
+                Some((_, c)) if c.is_whitespace() => {
+                    self.bump();
+                    continue;
+                }
+                Some((idx, _)) => {
+                    Some(Err(UnrecognizedToken(idx)))
+                }
+                None => {
+                    None
+                }
+            };
         }
     }
 }

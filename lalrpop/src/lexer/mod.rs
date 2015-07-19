@@ -1,7 +1,6 @@
 #![allow(dead_code)] // tokenizer, which is not yet deployed.
 
-//! Code related to the builtin tokenizer, which is based on regular
-//! expressions.
+//! Code related to generating tokenizers.
 
 mod dfa;
 mod re;

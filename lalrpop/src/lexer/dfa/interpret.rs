@@ -1,5 +1,5 @@
-use token::dfa::{DFA, Kind, NFAIndex, START};
-use token::re::Test;
+use lexer::dfa::{DFA, Kind, NFAIndex, START};
+use lexer::re::Test;
 
 pub fn interpret<'text>(dfa: &DFA, input: &'text str) -> Option<(NFAIndex, &'text str)> {
     let mut longest: Option<(NFAIndex, usize)> = None;

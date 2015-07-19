@@ -1,6 +1,6 @@
-use token::nfa::{NFA, Noop, Other, StateKind};
-use token::nfa::interpret::interpret;
-use token::re::{self, Test};
+use lexer::nfa::{NFA, Noop, Other, StateKind};
+use lexer::nfa::interpret::interpret;
+use lexer::re::{self, Test};
 
 #[test]
 fn edge_iter() {

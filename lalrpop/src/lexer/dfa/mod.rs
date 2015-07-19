@@ -4,8 +4,8 @@
 use kernel_set::{Kernel, KernelSet};
 use std::fmt::{Debug, Display, Formatter, Error};
 use std::rc::Rc;
-use token::re;
-use token::nfa::{self, NFA, NFAStateIndex};
+use lexer::re;
+use lexer::nfa::{self, NFA, NFAStateIndex};
 use util::Set;
 
 #[cfg(test)]
