@@ -63,3 +63,18 @@ fn code_forgot_comma() {
         // intentionally forget the comma token; this is more of a test of `test`
     ]);
 }
+
+#[test]
+fn various_kinds_of_ids() {
+    test("foo<T<'a,U>>", vec![
+        ("~~~         ", MacroId("foo")),
+        ("   ~        ", LessThan),
+        ("    ~       ", MacroId("T")),
+        ("     ~      ", LessThan),
+        ("      ~~    ", Lifetime("'a")),
+        ("        ~   ", Comma),
+        ("         ~  ", Id("U")),
+        ("          ~ ", GreaterThan),
+        ("           ~", GreaterThan),
+    ]);
+}
