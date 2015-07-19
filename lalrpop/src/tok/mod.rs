@@ -224,8 +224,8 @@ impl<'input> Tokenizer<'input> {
         match self.take_until(terminate) {
             Some(idx1) => {
                 self.bump(); // consume the '"'
-                let text = &self.text[idx0+1..idx1]; // do not include the `` in the str
-                Ok((idx0, StringLiteral(text), idx1))
+                let text = &self.text[idx0+1..idx1]; // do not include the "" in the str
+                Ok((idx0, StringLiteral(text), idx1+1))
             }
             None => {
                 Err(UnterminatedStringLiteral(idx0))

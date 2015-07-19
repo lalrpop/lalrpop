@@ -78,3 +78,12 @@ fn various_kinds_of_ids() {
         ("           ~", GreaterThan),
     ]);
 }
+
+#[test]
+fn string_literals() {
+    test(r#"foo "bar\"\n" baz"#, vec![
+        (r#"~~~              "#, Id("foo")),
+        (r#"    ~~~~~~~~~    "#, StringLiteral(r#"bar\"\n"#)),
+        (r#"              ~~~"#, Id("baz")),
+    ]);
+}
