@@ -66,16 +66,18 @@ fn code_forgot_comma() {
 
 #[test]
 fn various_kinds_of_ids() {
-    test("foo<T<'a,U>>", vec![
-        ("~~~         ", MacroId("foo")),
-        ("   ~        ", LessThan),
-        ("    ~       ", MacroId("T")),
-        ("     ~      ", LessThan),
-        ("      ~~    ", Lifetime("'a")),
-        ("        ~   ", Comma),
-        ("         ~  ", Id("U")),
-        ("          ~ ", GreaterThan),
-        ("           ~", GreaterThan),
+    test("foo<T<'a,U,`Z*{}`>>", vec![
+        ("~~~                ", MacroId("foo")),
+        ("   ~               ", LessThan),
+        ("    ~              ", MacroId("T")),
+        ("     ~             ", LessThan),
+        ("      ~~           ", Lifetime("'a")),
+        ("        ~          ", Comma),
+        ("         ~         ", Id("U")),
+        ("          ~        ", Comma),
+        ("           ~~~~~~  ", Escape("Z*{}")),
+        ("                 ~ ", GreaterThan),
+        ("                  ~", GreaterThan),
     ]);
 }
 

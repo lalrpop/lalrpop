@@ -198,7 +198,7 @@ impl<'input> Tokenizer<'input> {
             Some(idx1) => {
                 self.bump(); // consume the '`'
                 let text: &'input str = &self.text[idx0+1..idx1]; // do not include the `` in the str
-                Ok((idx0, Escape(text), idx1))
+                Ok((idx0, Escape(text), idx1+1))
             }
             None => {
                 Err(UnterminatedEscape(idx0))
