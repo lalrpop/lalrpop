@@ -5,6 +5,10 @@ mod loc;
 mod sub;
 mod util;
 
+/// This constant is here so that some of the generator parsers can
+/// refer to it in order to test `super::` handling in action code.
+const ZERO: i32 = 0;
+
 #[test]
 fn expr_test1() {
     util::test(|v| expr::parse_Expr(1, v), "22 - 3", 22 - 3);

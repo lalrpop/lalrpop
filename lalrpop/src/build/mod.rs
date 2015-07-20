@@ -95,12 +95,32 @@ fn emit_uses<W:Write>(grammar: &r::Grammar,
     Ok(())
 }
 
-fn emit_action_code<W:Write>(grammar: &r::Grammar,
-                             rust: &mut RustWrite<W>)
-                             -> io::Result<()>
+fn emit_recursive_ascent(output_path: &Path, grammar: &r::Grammar) -> io::Result<()>
 {
-    rust!(rust, "");
-    rust!(rust, "mod {}actions {{", grammar.prefix);
+    let output_file = try!(fs::File::create(output_path));
+    let mut rust = RustWrite::new(output_file);
+
+    // We generate a module structure like this:
+    //
+    // ```
+    // mod <output-file> {
+    //     // For each public symbol:
+    //     pub fn parse_XYZ();
+    //     mod __XYZ { ... }
+    //
+    //     // For each bit of action code:
+    //     <action-code>
+    // }
+    // ```
+    //
+    // Note that the action code goes in the outer module.  This is
+    // intentional because it means that the foo.lalrpop file serves
+    // as a module in the rust hierarchy, so if the action code
+    // includes things like `super::` it will resolve in the natural
+    // way.
+
+    // often some of the uses are not used here
+    rust!(rust, "#![allow(unused_imports)]");
 
     // we always thread the parameters through to the action code,
     // even if they are not used, and hence we need to disable the
@@ -108,35 +128,6 @@ fn emit_action_code<W:Write>(grammar: &r::Grammar,
     if !grammar.parameters.is_empty() {
         rust!(rust, "#![allow(unused_variables)]");
     }
-
-    try!(emit_uses(grammar, rust));
-    for (i, defn) in grammar.action_fn_defns.iter().enumerate() {
-        rust!(rust, "");
-        try!(rust.write_pub_fn_header(
-            grammar,
-            format!("{}action{}", grammar.prefix, i),
-            vec![],
-            defn.arg_patterns.iter()
-                             .zip(defn.arg_types.iter())
-                             .map(|(p, t)| format!("{}: {}", p, t))
-                             .collect(),
-            format!("{}", defn.ret_type),
-            vec![]));
-        rust!(rust, "{{");
-        rust!(rust, "{}", defn.code);
-        rust!(rust, "}}");
-    }
-    rust!(rust, "}}");
-    Ok(())
-}
-
-fn emit_recursive_ascent(output_path: &Path, grammar: &r::Grammar) -> io::Result<()>
-{
-    let output_file = try!(fs::File::create(output_path));
-    let mut rust = RustWrite::new(output_file);
-
-    // often some of the uses are not used here
-    rust!(rust, "#![allow(unused_imports)]");
 
     try!(emit_uses(grammar, &mut rust));
 
@@ -165,3 +156,27 @@ fn emit_recursive_ascent(output_path: &Path, grammar: &r::Grammar) -> io::Result
     try!(emit_action_code(grammar, &mut rust));
     Ok(())
 }
+
+fn emit_action_code<W:Write>(grammar: &r::Grammar,
+                             rust: &mut RustWrite<W>)
+                             -> io::Result<()>
+{
+    for (i, defn) in grammar.action_fn_defns.iter().enumerate() {
+        rust!(rust, "");
+        try!(rust.write_pub_fn_header(
+            grammar,
+            format!("{}action{}", grammar.prefix, i),
+            vec![],
+            defn.arg_patterns.iter()
+                             .zip(defn.arg_types.iter())
+                             .map(|(p, t)| format!("{}: {}", p, t))
+                             .collect(),
+            format!("{}", defn.ret_type),
+            vec![]));
+        rust!(rust, "{{");
+        rust!(rust, "{}", defn.code);
+        rust!(rust, "}}");
+    }
+    Ok(())
+}
+

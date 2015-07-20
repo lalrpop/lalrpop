@@ -13,10 +13,10 @@ extern token {
 
 pub S = E;
 
-E = {
-    <l:E> "-" <r:T> => l-r;
+E: i32 = {
+    <l:E> "-" <r:T> => l - r;
 
-    T;
+    <t:T> => t - super::ZERO;
 };
 
 T = {

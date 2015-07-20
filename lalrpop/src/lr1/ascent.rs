@@ -239,8 +239,7 @@ impl<'ascent,'grammar,W:Write> RecursiveAscent<'ascent,'grammar,W> {
             // invoke the action code
             match production.action {
                 ActionKind::Call(action_fn) => {
-                    rust!(self.out, "let {}nt = super::{}actions::{}action{}({}{});",
-                          self.prefix,
+                    rust!(self.out, "let {}nt = super::{}action{}({}{});",
                           self.prefix,
                           self.prefix,
                           action_fn.index(),
