@@ -9,7 +9,7 @@ pub mod tok;
 pub fn test<R:Debug+Eq,F>(parse_fn: F,
                           input: &str,
                           expected: R)
-    where F: FnOnce(Vec<Tok>) -> Result<(Option<Tok>,R),Option<Tok>>
+    where F: FnOnce(Vec<Tok>) -> Result<R,Option<Tok>>
 {
     // create tokens
     let tokens = tok::tokenize(input);
@@ -17,11 +17,8 @@ pub fn test<R:Debug+Eq,F>(parse_fn: F,
     // filter to tokens
     let tokens = tokens.into_iter().map(|(_, tok, _)| tok).collect();
 
-    // parse
-    let (lookahead, r) = parse_fn(tokens).unwrap();
-
-    // expect input to be completely consumed
-    assert!(lookahead.is_none(), "input not completely consumed");
+    // parse, expecting input to be totally consumed
+    let r = parse_fn(tokens).unwrap();
 
     // expect output to be correct
     assert!(r == expected, "parsing {:?}, got {:#?}, expected {:#?}", input, r, expected);
@@ -30,17 +27,13 @@ pub fn test<R:Debug+Eq,F>(parse_fn: F,
 pub fn test_loc<R:Debug+Eq,F>(parse_fn: F,
                               input: &str,
                               expected: R)
-    where F: FnOnce(Vec<(usize, Tok, usize)>) -> Result<(Option<(usize, Tok, usize)>,R),
-                                                        Option<(usize, Tok, usize)>>
+    where F: FnOnce(Vec<(usize, Tok, usize)>) -> Result<R, Option<(usize, Tok, usize)>>
 {
     // create tokens
     let tokens = tok::tokenize(input);
 
-    // parse
-    let (lookahead, r) = parse_fn(tokens).unwrap();
-
-    // expect input to be completely consumed
-    assert!(lookahead.is_none(), "input not completely consumed");
+    // parse, expecting input to be totally consumed
+    let r = parse_fn(tokens).unwrap();
 
     // expect output to be correct
     assert!(r == expected, "parsing {:?}, got {:#?}, expected {:#?}", input, r, expected);

@@ -103,6 +103,9 @@ impl<'ascent,'grammar,W:Write> RecursiveAscent<'ascent,'grammar,W> {
         Ok(())
     }
 
+    // Generates a function `parse_Foo` that will parse an entire
+    // input as `Foo`. An error is reported if the entire input is not
+    // consumed.
     fn write_start_fn(&mut self) -> io::Result<()> {
         let item_type = self.iterator_item_type();
         rust!(self.out, "#[allow(non_snake_case)]");
@@ -111,8 +114,8 @@ impl<'ascent,'grammar,W:Write> RecursiveAscent<'ascent,'grammar,W> {
             format!("parse_{}", self.user_start_symbol),
             vec![format!("{}TOKENS: IntoIterator<Item={}>", self.prefix, item_type)],
             vec![format!("{}tokens: {}TOKENS", self.prefix, self.prefix)],
-            format!("Result<(Option<{}>, {}), Option<{}>>",
-                    item_type, self.types.nonterminal_type(self.start_symbol), item_type),
+            format!("Result<{}, Option<{}>>",
+                    self.types.nonterminal_type(self.start_symbol), item_type),
             vec![]));
         rust!(self.out, "{{");
         rust!(self.out, "let mut {}tokens = {}tokens.into_iter();", self.prefix, self.prefix);
@@ -120,10 +123,15 @@ impl<'ascent,'grammar,W:Write> RecursiveAscent<'ascent,'grammar,W> {
         rust!(self.out, "match try!({}parse{}::{}state0({}None, {}lookahead, &mut {}tokens)) {{",
               self.prefix, self.start_symbol, self.prefix,
               self.grammar.user_parameter_refs(), self.prefix, self.prefix);
-        rust!(self.out, "(_, {}lookahead, {}parse{}::{}Nonterminal::{}({}nt)) => \
-                         Ok(({}lookahead, {}nt)),",
+        rust!(self.out, "(_, {}lookahead, {}parse{}::{}Nonterminal::{}({}nt)) => {{",
               self.prefix, self.prefix, self.start_symbol, self.prefix, Escape(self.start_symbol),
-              self.prefix, self.prefix, self.prefix);
+              self.prefix);
+        rust!(self.out, "if {}lookahead.is_some() {{", self.prefix);
+        rust!(self.out, "Err({}lookahead)", self.prefix); // extra tokens
+        rust!(self.out, "}} else {{");
+        rust!(self.out, "Ok({}nt)", self.prefix);
+        rust!(self.out, "}}");
+        rust!(self.out, "}}");
         rust!(self.out, "_ => unreachable!(),");
         rust!(self.out, "}}");
         rust!(self.out, "}}");
