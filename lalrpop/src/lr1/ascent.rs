@@ -2,7 +2,11 @@
 //!
 //! [recursive ascent]: https://en.wikipedia.org/wiki/Recursive_ascent_parser
 
-use grammar::repr::{ActionKind, Grammar, NonterminalString, Symbol, TerminalString, Types};
+use grammar::repr::{ActionKind,
+                    Grammar,
+                    NonterminalString,
+                    Symbol,
+                    TerminalString, TypeRepr, Types};
 use lr1::{Lookahead, State, StateIndex};
 use rust::RustWrite;
 use std::io::{self, Write};
@@ -107,32 +111,66 @@ impl<'ascent,'grammar,W:Write> RecursiveAscent<'ascent,'grammar,W> {
     // input as `Foo`. An error is reported if the entire input is not
     // consumed.
     fn write_start_fn(&mut self) -> io::Result<()> {
-        let item_type = self.iterator_item_type();
+        let triple_type = self.triple_type();
+
+        let user_token_type = match self.types.opt_terminal_loc_type() {
+            Some(_) => format!("{}", triple_type),
+            None => format!("{}", self.types.terminal_enum_type())
+        };
+
         rust!(self.out, "#[allow(non_snake_case)]");
         try!(self.out.write_pub_fn_header(
             self.grammar,
             format!("parse_{}", self.user_start_symbol),
-            vec![format!("{}TOKENS: IntoIterator<Item={}>", self.prefix, item_type)],
+            vec![format!("{}TOKENS: IntoIterator<Item={}>", self.prefix, user_token_type)],
             vec![format!("{}tokens: {}TOKENS", self.prefix, self.prefix)],
             format!("Result<{}, Option<{}>>",
-                    self.types.nonterminal_type(self.start_symbol), item_type),
+                    self.types.nonterminal_type(self.start_symbol), user_token_type),
             vec![]));
         rust!(self.out, "{{");
+
+        // create input iterator, inserting `()` for locations if no location was given
         rust!(self.out, "let mut {}tokens = {}tokens.into_iter();", self.prefix, self.prefix);
+        match self.types.opt_terminal_loc_type() {
+            Some(_) => { }
+            None => { rust!(self.out, "let mut {}tokens = {}tokens.map(|t| ((), t, ()));",
+                            self.prefix, self.prefix); }
+        }
+
         rust!(self.out, "let {}lookahead = {}tokens.next();", self.prefix, self.prefix);
-        rust!(self.out, "match try!({}parse{}::{}state0({}None, {}lookahead, &mut {}tokens)) {{",
+        rust!(self.out, "match {}parse{}::{}state0({}None, {}lookahead, &mut {}tokens) {{",
               self.prefix, self.start_symbol, self.prefix,
               self.grammar.user_parameter_refs(), self.prefix, self.prefix);
-        rust!(self.out, "(_, {}lookahead, {}parse{}::{}Nonterminal::{}({}nt)) => {{",
-              self.prefix, self.prefix, self.start_symbol, self.prefix, Escape(self.start_symbol),
+
+        let transformed_lookahead = match self.types.opt_terminal_loc_type() {
+            Some(_) => format!("{}lookahead", self.prefix),
+            None => format!("{}lookahead.1", self.prefix),
+        };
+
+        // unexpected EOF?
+        rust!(self.out, "Err(None) => {{");
+        rust!(self.out, "Err(None)");
+        rust!(self.out, "}}");
+
+        // unexpected token during parsing?
+        rust!(self.out, "Err(Some({}lookahead)) => {{", self.prefix);
+        rust!(self.out, "Err(Some({}))", transformed_lookahead);
+        rust!(self.out, "}}");
+
+        // extra tokens?
+        rust!(self.out, "Ok((_, Some({}lookahead), _)) => {{", self.prefix);
+        rust!(self.out, "Err(Some({}))", transformed_lookahead);
+        rust!(self.out, "}}");
+
+        // otherwise, we expect to see only the goal terminal
+        rust!(self.out, "Ok((_, None, {}parse{}::{}Nonterminal::{}({}nt))) => {{",
+              self.prefix, self.start_symbol, self.prefix, Escape(self.start_symbol),
               self.prefix);
-        rust!(self.out, "if {}lookahead.is_some() {{", self.prefix);
-        rust!(self.out, "Err({}lookahead)", self.prefix); // extra tokens
-        rust!(self.out, "}} else {{");
         rust!(self.out, "Ok({}nt)", self.prefix);
         rust!(self.out, "}}");
-        rust!(self.out, "}}");
-        rust!(self.out, "_ => unreachable!(),");
+
+        // nothing else should be possible
+        rust!(self.out, "Ok(_) => unreachable!(),");
         rust!(self.out, "}}");
         rust!(self.out, "}}");
 
@@ -142,11 +180,8 @@ impl<'ascent,'grammar,W:Write> RecursiveAscent<'ascent,'grammar,W> {
     fn write_state_fn(&mut self, this_index: StateIndex) -> io::Result<()> {
         let this_state = &self.states[this_index.0];
         let this_prefix = self.state_prefixes[this_index.0];
-        let loc_type = match self.types.opt_terminal_loc_type() {
-            Some(t) => format!("{}", t),
-            None => format!("()"),
-        };
-        let item_type = self.iterator_item_type();
+        let loc_type = self.types.terminal_loc_type();
+        let triple_type = self.triple_type();
 
         // Leave a comment explaining what this state is.
         rust!(self.out, "// State {}", this_index.0);
@@ -167,7 +202,7 @@ impl<'ascent,'grammar,W:Write> RecursiveAscent<'ascent,'grammar,W> {
 
         let base_args =
             vec![format!("{}lookbehind: Option<{}>", self.prefix, loc_type),
-                 format!("{}lookahead: Option<{}>", self.prefix, item_type),
+                 format!("{}lookahead: Option<{}>", self.prefix, triple_type),
                  format!("{}tokens: &mut {}TOKENS", self.prefix, self.prefix)];
         let sym_args: Vec<_> =
             (0..this_prefix.len())
@@ -178,18 +213,18 @@ impl<'ascent,'grammar,W:Write> RecursiveAscent<'ascent,'grammar,W> {
         try!(self.out.write_pub_fn_header(
             self.grammar,
             format!("{}state{}", self.prefix, this_index.0),
-            vec![format!("{}TOKENS: Iterator<Item={}>", self.prefix, item_type)],
+            vec![format!("{}TOKENS: Iterator<Item={}>", self.prefix, triple_type)],
             base_args.into_iter().chain(sym_args).collect(),
             format!("Result<(Option<{}>, Option<{}>, {}Nonterminal<{}>), Option<{}>>",
                     loc_type,
-                    item_type, self.prefix,
+                    triple_type, self.prefix,
                     self.grammar.user_type_parameter_refs(),
-                    item_type),
+                    triple_type),
             vec![]));
 
         rust!(self.out, "{{");
         rust!(self.out, "let mut {}result: (Option<{}>, Option<{}>, {}Nonterminal<{}>);",
-              self.prefix, loc_type, item_type, self.prefix,
+              self.prefix, loc_type, triple_type, self.prefix,
               self.grammar.user_type_parameter_refs());
 
         rust!(self.out, "match {}lookahead {{", self.prefix);
@@ -260,7 +295,6 @@ impl<'ascent,'grammar,W:Write> RecursiveAscent<'ascent,'grammar,W> {
                     // at EOF, so taker the lookbehind (end of last
                     // pushed token); if that is missing too, then
                     // supply default.
-                    debug_assert!(self.types.opt_terminal_loc_type().is_some());
                     rust!(self.out,
                           "let {}nt = \
                                {}lookahead.as_ref()\
@@ -272,7 +306,6 @@ impl<'ascent,'grammar,W:Write> RecursiveAscent<'ascent,'grammar,W> {
 
                 ActionKind::Lookbehind => {
                     // take lookbehind or supply default.
-                    debug_assert!(self.types.opt_terminal_loc_type().is_some());
                     rust!(self.out,
                           "let {}nt = ::std::clone::Clone::clone(&{}lookbehind)\
                                       .unwrap_or_default();",
@@ -391,9 +424,7 @@ impl<'ascent,'grammar,W:Write> RecursiveAscent<'ascent,'grammar,W> {
                                       .map(&mut |_| "_");
 
         let mut pattern = format!("{}", pattern);
-        if self.types.opt_terminal_loc_type().is_some() {
-            pattern = format!("(_, {}, _)", pattern);
-        }
+        pattern = format!("(_, {}, _)", pattern);
 
         rust!(self.out, "Some({}) => {{", pattern);
         Ok(())
@@ -418,18 +449,13 @@ impl<'ascent,'grammar,W:Write> RecursiveAscent<'ascent,'grammar,W> {
             pattern_names.push(format!("{}tok", self.prefix));
             pattern = format!("{}tok @ {}", self.prefix, pattern);
         }
-        if self.types.opt_terminal_loc_type().is_some() {
-            pattern = format!("(_, {}, {}loc)", pattern, self.prefix);
-        }
+
+        pattern = format!("(_, {}, {}loc)", pattern, self.prefix);
 
         rust!(self.out, "Some({}) => {{", pattern);
 
-        if self.types.opt_terminal_loc_type().is_some() {
-            rust!(self.out, "let mut {} = Some({}loc);",
-                  lb_name, self.prefix);
-        } else {
-            rust!(self.out, "let mut {} = None;", lb_name);
-        }
+        rust!(self.out, "let mut {} = Some({}loc);",
+              lb_name, self.prefix);
 
         rust!(self.out, "let mut {} = &mut Some(({}));",
               let_name, pattern_names.connect(", "));
@@ -437,22 +463,8 @@ impl<'ascent,'grammar,W:Write> RecursiveAscent<'ascent,'grammar,W> {
         Ok(())
     }
 
-    /// Returns the type of things we are iterating over. This will
-    /// depend on whether the user specified a location type `L`
-    /// or just an enum type `E`:
-    ///
-    /// - `(L,E,L)` if a location type is specified,
-    /// - `E` otherwise.
-    fn iterator_item_type(&mut self) -> String {
-        let enum_type = self.types.terminal_enum_type();
-        match self.types.opt_terminal_loc_type() {
-            Some(loc_type) => {
-                format!("({},{},{})", loc_type, enum_type, loc_type)
-            }
-            None => {
-                format!("{}", enum_type)
-            }
-        }
+    fn triple_type(&mut self) -> TypeRepr {
+        self.types.triple_type()
     }
 }
 

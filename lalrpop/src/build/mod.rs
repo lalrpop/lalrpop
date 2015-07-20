@@ -179,4 +179,3 @@ fn emit_action_code<W:Write>(grammar: &r::Grammar,
     }
     Ok(())
 }
-

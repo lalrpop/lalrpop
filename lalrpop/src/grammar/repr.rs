@@ -140,6 +140,11 @@ impl Types {
         self.terminal_loc_type.as_ref()
     }
 
+    pub fn terminal_loc_type(&self) -> TypeRepr {
+        self.terminal_loc_type.clone()
+                              .unwrap_or_else(|| TypeRepr::Tuple(vec![]))
+    }
+
     pub fn terminal_type(&self, id: TerminalString) -> &TypeRepr {
         self.terminal_types.get(&id).unwrap_or(&self.default_terminal_type)
     }
@@ -150,6 +155,14 @@ impl Types {
 
     pub fn nonterminal_type(&self, id: NonterminalString) -> &TypeRepr {
         &self.nonterminal_types[&id]
+    }
+
+    pub fn triple_type(&self) -> TypeRepr {
+        let enum_type = self.terminal_enum_type();
+        let location_type = self.terminal_loc_type();
+        TypeRepr::Tuple(vec![location_type.clone(),
+                             TypeRepr::Nominal(enum_type.clone()),
+                             location_type])
     }
 }
 
