@@ -230,11 +230,7 @@ impl<'grammar> TypeInferencer<'grammar> {
 
             AlternativeAction::User(&ActionKind::Lookahead) |
             AlternativeAction::User(&ActionKind::Lookbehind) => {
-                let loc_type = self.types.opt_terminal_loc_type().unwrap().clone();
-                Ok(TypeRepr::Nominal(NominalTypeRepr {
-                    path: Path::option(),
-                    types: vec![loc_type]
-                }))
+                Ok(self.types.opt_terminal_loc_type().unwrap().clone())
             }
 
             AlternativeAction::Default(Symbols::Named(ref syms)) => {

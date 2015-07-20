@@ -77,9 +77,10 @@ fn expr_arena_test2() {
 
 #[test]
 fn loc_test1() {
-    let expected = vec![(Some(4), Some(5)),
-                        (Some(8), Some(9)),
-                        (Some(16), Some(17))];
+    let expected = vec![(0, 0),
+                        (4, 5),
+                        (8, 9),
+                        (16, 17)];
     util::test_loc(|v| loc::parse_Items(v), "--+-+---+", expected);
     //                                       000001111
     //                                       024680246
@@ -87,6 +88,13 @@ fn loc_test1() {
 
 #[test]
 fn loc_test2() {
-    util::test_loc(|v| loc::parse_Items(v), "+", vec![(Some(0), Some(1))]);
+    util::test_loc(|v| loc::parse_Items(v), "+", vec![(0, 0),
+                                                      (0, 1)]);
+}
+
+#[test]
+fn loc_empty() {
+    // test what happens when `@<` and `@>` are invoked on an empty input
+    util::test_loc(|v| loc::parse_Items(v), "", vec![(0, 0)]);
 }
 

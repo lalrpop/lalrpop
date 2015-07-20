@@ -248,17 +248,26 @@ impl<'ascent,'grammar,W:Write> RecursiveAscent<'ascent,'grammar,W> {
                 }
 
                 ActionKind::Lookahead => {
+                    // take the lookahead, if any; otherwise, we are
+                    // at EOF, so taker the lookbehind (end of last
+                    // pushed token); if that is missing too, then
+                    // supply default.
                     debug_assert!(self.types.opt_terminal_loc_type().is_some());
                     rust!(self.out,
-                          "let {}nt = {}lookahead.as_ref().map(\
-                           |o| ::std::clone::Clone::clone(&o.0));",
-                          self.prefix, self.prefix);
+                          "let {}nt = \
+                               {}lookahead.as_ref()\
+                                          .map(|o| ::std::clone::Clone::clone(&o.0))\
+                                          .or_else(|| ::std::clone::Clone::clone(&{}lookbehind))\
+                                          .unwrap_or_default();",
+                          self.prefix, self.prefix, self.prefix);
                 }
 
                 ActionKind::Lookbehind => {
+                    // take lookbehind or supply default.
                     debug_assert!(self.types.opt_terminal_loc_type().is_some());
                     rust!(self.out,
-                          "let {}nt = ::std::clone::Clone::clone(&{}lookbehind);",
+                          "let {}nt = ::std::clone::Clone::clone(&{}lookbehind)\
+                                      .unwrap_or_default();",
                           self.prefix, self.prefix);
                 }
             }
