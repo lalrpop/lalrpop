@@ -1,0 +1,14 @@
+grammar;
+
+use super::util::tok::Tok;
+
+extern token {
+    enum Tok {
+        "(" => Tok::LParen(..),
+        ")" => Tok::RParen(..),
+    }
+}
+
+pub S: i32 = {
+    "(" ")" => super::ZERO;
+};

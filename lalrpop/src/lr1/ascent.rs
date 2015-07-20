@@ -84,9 +84,21 @@ impl<'ascent,'grammar,W:Write> RecursiveAscent<'ascent,'grammar,W> {
     }
 
     fn write_uses(&mut self) -> io::Result<()> {
+        // things the user wrote
         for u in &self.grammar.uses {
-            rust!(self.out, "use {};", u);
+            if u.starts_with("super::") {
+                rust!(self.out, "use super::{};", u);
+            } else {
+                rust!(self.out, "use {};", u);
+            }
         }
+
+        // stuff that we plan to use
+        rust!(self.out, "extern crate lalrpop_util as {}lalrpop_util;",
+              self.prefix);
+        rust!(self.out, "use self::{}lalrpop_util::ParseError as {}ParseError;",
+              self.prefix, self.prefix);
+
         Ok(())
     }
 

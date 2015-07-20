@@ -31,11 +31,13 @@ mod __parse__Items {
     #![allow(non_snake_case, non_camel_case_types, unused_mut, unused_variables, unused_imports)]
 
     use util::tok::Tok;
+    extern crate lalrpop_util as __lalrpop_util;
+    use self::__lalrpop_util::ParseError as __ParseError;
 
     pub enum __Nonterminal<> {
-        _40_3c(usize),
         _40_3e(usize),
         ____Items(Vec<(usize, usize)>),
+        _40_3c(usize),
         Spanned_3c_22_2b_22_3e((usize, usize)),
         Items(Vec<(usize, usize)>),
     }
@@ -59,8 +61,8 @@ mod __parse__Items {
     //   "-" -> Reduce(@< =  => Lookahead;)
     //   EOF -> Reduce(@< =  => Lookahead;)
     //
-    //   @< -> S1
-    //   Items -> S2
+    //   Items -> S1
+    //   @< -> S2
     pub fn __state0<
         __TOKENS: Iterator<Item=(usize, Tok, usize)>,
     >(
@@ -90,11 +92,11 @@ mod __parse__Items {
         loop {
             let (__lookbehind, __lookahead, __nt) = __result;
             match __nt {
-                __Nonterminal::_40_3c(__nt) => {
+                __Nonterminal::Items(__nt) => {
                     let __sym0 = &mut Some(__nt);
                     __result = try!(__state1(__lookbehind, __lookahead, __tokens, __sym0));
                 }
-                __Nonterminal::Items(__nt) => {
+                __Nonterminal::_40_3c(__nt) => {
                     let __sym0 = &mut Some(__nt);
                     __result = try!(__state2(__lookbehind, __lookahead, __tokens, __sym0));
                 }
@@ -106,61 +108,6 @@ mod __parse__Items {
     }
 
     // State 1
-    //   @> = (*) [EOF]
-    //   @> = (*) ["+"]
-    //   @> = (*) ["-"]
-    //   Items = @< (*) @> [EOF]
-    //   Items = @< (*) @> ["+"]
-    //   Items = @< (*) @> ["-"]
-    //
-    //   "-" -> Reduce(@> =  => Lookbehind;)
-    //   EOF -> Reduce(@> =  => Lookbehind;)
-    //   "+" -> Reduce(@> =  => Lookbehind;)
-    //
-    //   @> -> S3
-    pub fn __state1<
-        __TOKENS: Iterator<Item=(usize, Tok, usize)>,
-    >(
-        __lookbehind: Option<usize>,
-        __lookahead: Option<(usize, Tok, usize)>,
-        __tokens: &mut __TOKENS,
-        __sym0: &mut Option<usize>,
-    ) -> Result<(Option<usize>, Option<(usize, Tok, usize)>, __Nonterminal<>), Option<(usize, Tok, usize)>>
-    {
-        let mut __result: (Option<usize>, Option<(usize, Tok, usize)>, __Nonterminal<>);
-        match __lookahead {
-            Some((_, Tok::Minus(..), _)) => {
-                let __nt = ::std::clone::Clone::clone(&__lookbehind).unwrap_or_default();
-                __result = (__lookbehind, __lookahead, __Nonterminal::_40_3e(__nt));
-            }
-            None => {
-                let __nt = ::std::clone::Clone::clone(&__lookbehind).unwrap_or_default();
-                __result = (__lookbehind, __lookahead, __Nonterminal::_40_3e(__nt));
-            }
-            Some((_, Tok::Plus(..), _)) => {
-                let __nt = ::std::clone::Clone::clone(&__lookbehind).unwrap_or_default();
-                __result = (__lookbehind, __lookahead, __Nonterminal::_40_3e(__nt));
-            }
-            _ => {
-                return Err(__lookahead);
-            }
-        }
-        while __sym0.is_some() {
-            let (__lookbehind, __lookahead, __nt) = __result;
-            match __nt {
-                __Nonterminal::_40_3e(__nt) => {
-                    let __sym1 = &mut Some(__nt);
-                    __result = try!(__state3(__lookbehind, __lookahead, __tokens, __sym0, __sym1));
-                }
-                _ => {
-                    return Ok((__lookbehind, __lookahead, __nt));
-                }
-            }
-        }
-        return Ok(__result);
-    }
-
-    // State 2
     //   @< = (*) ["+"]
     //   Items = Items (*) Spanned<"+"> [EOF]
     //   Items = Items (*) Spanned<"+"> ["+"]
@@ -175,11 +122,11 @@ mod __parse__Items {
     //
     //   EOF -> Reduce(__Items = Items => Call(ActionFn(0));)
     //   "+" -> Reduce(@< =  => Lookahead;)
-    //   "-" -> Shift(S6)
+    //   "-" -> Shift(S4)
     //
-    //   Spanned<"+"> -> S4
+    //   Spanned<"+"> -> S3
     //   @< -> S5
-    pub fn __state2<
+    pub fn __state1<
         __TOKENS: Iterator<Item=(usize, Tok, usize)>,
     >(
         __lookbehind: Option<usize>,
@@ -194,7 +141,7 @@ mod __parse__Items {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym1 = &mut Some((__tok));
                 let __lookahead = __tokens.next();
-                __result = try!(__state6(__lookbehind, __lookahead, __tokens, __sym0, __sym1));
+                __result = try!(__state4(__lookbehind, __lookahead, __tokens, __sym0, __sym1));
             }
             None => {
                 let __sym0 = __sym0.take().unwrap();
@@ -214,7 +161,7 @@ mod __parse__Items {
             match __nt {
                 __Nonterminal::Spanned_3c_22_2b_22_3e(__nt) => {
                     let __sym1 = &mut Some(__nt);
-                    __result = try!(__state4(__lookbehind, __lookahead, __tokens, __sym0, __sym1));
+                    __result = try!(__state3(__lookbehind, __lookahead, __tokens, __sym0, __sym1));
                 }
                 __Nonterminal::_40_3c(__nt) => {
                     let __sym1 = &mut Some(__nt);
@@ -228,61 +175,71 @@ mod __parse__Items {
         return Ok(__result);
     }
 
-    // State 3
-    //   Items = @< @> (*) [EOF]
-    //   Items = @< @> (*) ["+"]
-    //   Items = @< @> (*) ["-"]
+    // State 2
+    //   @> = (*) [EOF]
+    //   @> = (*) ["+"]
+    //   @> = (*) ["-"]
+    //   Items = @< (*) @> [EOF]
+    //   Items = @< (*) @> ["+"]
+    //   Items = @< (*) @> ["-"]
     //
-    //   "+" -> Reduce(Items = @<, @> => Call(ActionFn(1));)
-    //   "-" -> Reduce(Items = @<, @> => Call(ActionFn(1));)
-    //   EOF -> Reduce(Items = @<, @> => Call(ActionFn(1));)
+    //   "+" -> Reduce(@> =  => Lookbehind;)
+    //   EOF -> Reduce(@> =  => Lookbehind;)
+    //   "-" -> Reduce(@> =  => Lookbehind;)
     //
-    pub fn __state3<
+    //   @> -> S6
+    pub fn __state2<
         __TOKENS: Iterator<Item=(usize, Tok, usize)>,
     >(
         __lookbehind: Option<usize>,
         __lookahead: Option<(usize, Tok, usize)>,
         __tokens: &mut __TOKENS,
         __sym0: &mut Option<usize>,
-        __sym1: &mut Option<usize>,
     ) -> Result<(Option<usize>, Option<(usize, Tok, usize)>, __Nonterminal<>), Option<(usize, Tok, usize)>>
     {
         let mut __result: (Option<usize>, Option<(usize, Tok, usize)>, __Nonterminal<>);
         match __lookahead {
             Some((_, Tok::Plus(..), _)) => {
-                let __sym0 = __sym0.take().unwrap();
-                let __sym1 = __sym1.take().unwrap();
-                let __nt = super::__action1(__sym0, __sym1);
-                return Ok((__lookbehind, __lookahead, __Nonterminal::Items(__nt)));
-            }
-            Some((_, Tok::Minus(..), _)) => {
-                let __sym0 = __sym0.take().unwrap();
-                let __sym1 = __sym1.take().unwrap();
-                let __nt = super::__action1(__sym0, __sym1);
-                return Ok((__lookbehind, __lookahead, __Nonterminal::Items(__nt)));
+                let __nt = ::std::clone::Clone::clone(&__lookbehind).unwrap_or_default();
+                __result = (__lookbehind, __lookahead, __Nonterminal::_40_3e(__nt));
             }
             None => {
-                let __sym0 = __sym0.take().unwrap();
-                let __sym1 = __sym1.take().unwrap();
-                let __nt = super::__action1(__sym0, __sym1);
-                return Ok((__lookbehind, __lookahead, __Nonterminal::Items(__nt)));
+                let __nt = ::std::clone::Clone::clone(&__lookbehind).unwrap_or_default();
+                __result = (__lookbehind, __lookahead, __Nonterminal::_40_3e(__nt));
+            }
+            Some((_, Tok::Minus(..), _)) => {
+                let __nt = ::std::clone::Clone::clone(&__lookbehind).unwrap_or_default();
+                __result = (__lookbehind, __lookahead, __Nonterminal::_40_3e(__nt));
             }
             _ => {
                 return Err(__lookahead);
             }
         }
+        while __sym0.is_some() {
+            let (__lookbehind, __lookahead, __nt) = __result;
+            match __nt {
+                __Nonterminal::_40_3e(__nt) => {
+                    let __sym1 = &mut Some(__nt);
+                    __result = try!(__state6(__lookbehind, __lookahead, __tokens, __sym0, __sym1));
+                }
+                _ => {
+                    return Ok((__lookbehind, __lookahead, __nt));
+                }
+            }
+        }
+        return Ok(__result);
     }
 
-    // State 4
+    // State 3
     //   Items = Items Spanned<"+"> (*) [EOF]
     //   Items = Items Spanned<"+"> (*) ["+"]
     //   Items = Items Spanned<"+"> (*) ["-"]
     //
-    //   "-" -> Reduce(Items = Items, Spanned<"+"> => Call(ActionFn(2));)
     //   "+" -> Reduce(Items = Items, Spanned<"+"> => Call(ActionFn(2));)
+    //   "-" -> Reduce(Items = Items, Spanned<"+"> => Call(ActionFn(2));)
     //   EOF -> Reduce(Items = Items, Spanned<"+"> => Call(ActionFn(2));)
     //
-    pub fn __state4<
+    pub fn __state3<
         __TOKENS: Iterator<Item=(usize, Tok, usize)>,
     >(
         __lookbehind: Option<usize>,
@@ -294,13 +251,13 @@ mod __parse__Items {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok, usize)>, __Nonterminal<>);
         match __lookahead {
-            Some((_, Tok::Minus(..), _)) => {
+            Some((_, Tok::Plus(..), _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
                 let __nt = super::__action2(__sym0, __sym1);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::Items(__nt)));
             }
-            Some((_, Tok::Plus(..), _)) => {
+            Some((_, Tok::Minus(..), _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
                 let __nt = super::__action2(__sym0, __sym1);
@@ -310,6 +267,51 @@ mod __parse__Items {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
                 let __nt = super::__action2(__sym0, __sym1);
+                return Ok((__lookbehind, __lookahead, __Nonterminal::Items(__nt)));
+            }
+            _ => {
+                return Err(__lookahead);
+            }
+        }
+    }
+
+    // State 4
+    //   Items = Items "-" (*) [EOF]
+    //   Items = Items "-" (*) ["+"]
+    //   Items = Items "-" (*) ["-"]
+    //
+    //   EOF -> Reduce(Items = Items, "-" => Call(ActionFn(3));)
+    //   "-" -> Reduce(Items = Items, "-" => Call(ActionFn(3));)
+    //   "+" -> Reduce(Items = Items, "-" => Call(ActionFn(3));)
+    //
+    pub fn __state4<
+        __TOKENS: Iterator<Item=(usize, Tok, usize)>,
+    >(
+        __lookbehind: Option<usize>,
+        __lookahead: Option<(usize, Tok, usize)>,
+        __tokens: &mut __TOKENS,
+        __sym0: &mut Option<Vec<(usize, usize)>>,
+        __sym1: &mut Option<Tok>,
+    ) -> Result<(Option<usize>, Option<(usize, Tok, usize)>, __Nonterminal<>), Option<(usize, Tok, usize)>>
+    {
+        let mut __result: (Option<usize>, Option<(usize, Tok, usize)>, __Nonterminal<>);
+        match __lookahead {
+            None => {
+                let __sym0 = __sym0.take().unwrap();
+                let __sym1 = __sym1.take().unwrap();
+                let __nt = super::__action3(__sym0, __sym1);
+                return Ok((__lookbehind, __lookahead, __Nonterminal::Items(__nt)));
+            }
+            Some((_, Tok::Minus(..), _)) => {
+                let __sym0 = __sym0.take().unwrap();
+                let __sym1 = __sym1.take().unwrap();
+                let __nt = super::__action3(__sym0, __sym1);
+                return Ok((__lookbehind, __lookahead, __Nonterminal::Items(__nt)));
+            }
+            Some((_, Tok::Plus(..), _)) => {
+                let __sym0 = __sym0.take().unwrap();
+                let __sym1 = __sym1.take().unwrap();
+                let __nt = super::__action3(__sym0, __sym1);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::Items(__nt)));
             }
             _ => {
@@ -350,13 +352,13 @@ mod __parse__Items {
     }
 
     // State 6
-    //   Items = Items "-" (*) [EOF]
-    //   Items = Items "-" (*) ["+"]
-    //   Items = Items "-" (*) ["-"]
+    //   Items = @< @> (*) [EOF]
+    //   Items = @< @> (*) ["+"]
+    //   Items = @< @> (*) ["-"]
     //
-    //   "+" -> Reduce(Items = Items, "-" => Call(ActionFn(3));)
-    //   EOF -> Reduce(Items = Items, "-" => Call(ActionFn(3));)
-    //   "-" -> Reduce(Items = Items, "-" => Call(ActionFn(3));)
+    //   EOF -> Reduce(Items = @<, @> => Call(ActionFn(1));)
+    //   "+" -> Reduce(Items = @<, @> => Call(ActionFn(1));)
+    //   "-" -> Reduce(Items = @<, @> => Call(ActionFn(1));)
     //
     pub fn __state6<
         __TOKENS: Iterator<Item=(usize, Tok, usize)>,
@@ -364,28 +366,28 @@ mod __parse__Items {
         __lookbehind: Option<usize>,
         __lookahead: Option<(usize, Tok, usize)>,
         __tokens: &mut __TOKENS,
-        __sym0: &mut Option<Vec<(usize, usize)>>,
-        __sym1: &mut Option<Tok>,
+        __sym0: &mut Option<usize>,
+        __sym1: &mut Option<usize>,
     ) -> Result<(Option<usize>, Option<(usize, Tok, usize)>, __Nonterminal<>), Option<(usize, Tok, usize)>>
     {
         let mut __result: (Option<usize>, Option<(usize, Tok, usize)>, __Nonterminal<>);
         match __lookahead {
-            Some((_, Tok::Plus(..), _)) => {
-                let __sym0 = __sym0.take().unwrap();
-                let __sym1 = __sym1.take().unwrap();
-                let __nt = super::__action3(__sym0, __sym1);
-                return Ok((__lookbehind, __lookahead, __Nonterminal::Items(__nt)));
-            }
             None => {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
-                let __nt = super::__action3(__sym0, __sym1);
+                let __nt = super::__action1(__sym0, __sym1);
+                return Ok((__lookbehind, __lookahead, __Nonterminal::Items(__nt)));
+            }
+            Some((_, Tok::Plus(..), _)) => {
+                let __sym0 = __sym0.take().unwrap();
+                let __sym1 = __sym1.take().unwrap();
+                let __nt = super::__action1(__sym0, __sym1);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::Items(__nt)));
             }
             Some((_, Tok::Minus(..), _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
-                let __nt = super::__action3(__sym0, __sym1);
+                let __nt = super::__action1(__sym0, __sym1);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::Items(__nt)));
             }
             _ => {
@@ -402,9 +404,9 @@ mod __parse__Items {
     //   Spanned<"+"> = @< "+" (*) @> ["+"]
     //   Spanned<"+"> = @< "+" (*) @> ["-"]
     //
+    //   EOF -> Reduce(@> =  => Lookbehind;)
     //   "-" -> Reduce(@> =  => Lookbehind;)
     //   "+" -> Reduce(@> =  => Lookbehind;)
-    //   EOF -> Reduce(@> =  => Lookbehind;)
     //
     //   @> -> S8
     pub fn __state7<
@@ -419,15 +421,15 @@ mod __parse__Items {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok, usize)>, __Nonterminal<>);
         match __lookahead {
+            None => {
+                let __nt = ::std::clone::Clone::clone(&__lookbehind).unwrap_or_default();
+                __result = (__lookbehind, __lookahead, __Nonterminal::_40_3e(__nt));
+            }
             Some((_, Tok::Minus(..), _)) => {
                 let __nt = ::std::clone::Clone::clone(&__lookbehind).unwrap_or_default();
                 __result = (__lookbehind, __lookahead, __Nonterminal::_40_3e(__nt));
             }
             Some((_, Tok::Plus(..), _)) => {
-                let __nt = ::std::clone::Clone::clone(&__lookbehind).unwrap_or_default();
-                __result = (__lookbehind, __lookahead, __Nonterminal::_40_3e(__nt));
-            }
-            None => {
                 let __nt = ::std::clone::Clone::clone(&__lookbehind).unwrap_or_default();
                 __result = (__lookbehind, __lookahead, __Nonterminal::_40_3e(__nt));
             }
@@ -455,9 +457,9 @@ mod __parse__Items {
     //   Spanned<"+"> = @< "+" @> (*) ["+"]
     //   Spanned<"+"> = @< "+" @> (*) ["-"]
     //
+    //   "-" -> Reduce(Spanned<"+"> = @<, "+", @> => Call(ActionFn(4));)
     //   EOF -> Reduce(Spanned<"+"> = @<, "+", @> => Call(ActionFn(4));)
     //   "+" -> Reduce(Spanned<"+"> = @<, "+", @> => Call(ActionFn(4));)
-    //   "-" -> Reduce(Spanned<"+"> = @<, "+", @> => Call(ActionFn(4));)
     //
     pub fn __state8<
         __TOKENS: Iterator<Item=(usize, Tok, usize)>,
@@ -472,6 +474,13 @@ mod __parse__Items {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok, usize)>, __Nonterminal<>);
         match __lookahead {
+            Some((_, Tok::Minus(..), _)) => {
+                let __sym0 = __sym0.take().unwrap();
+                let __sym1 = __sym1.take().unwrap();
+                let __sym2 = __sym2.take().unwrap();
+                let __nt = super::__action4(__sym0, __sym1, __sym2);
+                return Ok((__lookbehind, __lookahead, __Nonterminal::Spanned_3c_22_2b_22_3e(__nt)));
+            }
             None => {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
@@ -480,13 +489,6 @@ mod __parse__Items {
                 return Ok((__lookbehind, __lookahead, __Nonterminal::Spanned_3c_22_2b_22_3e(__nt)));
             }
             Some((_, Tok::Plus(..), _)) => {
-                let __sym0 = __sym0.take().unwrap();
-                let __sym1 = __sym1.take().unwrap();
-                let __sym2 = __sym2.take().unwrap();
-                let __nt = super::__action4(__sym0, __sym1, __sym2);
-                return Ok((__lookbehind, __lookahead, __Nonterminal::Spanned_3c_22_2b_22_3e(__nt)));
-            }
-            Some((_, Tok::Minus(..), _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
                 let __sym2 = __sym2.take().unwrap();

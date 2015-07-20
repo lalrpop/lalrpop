@@ -1,8 +1,23 @@
-mod expr;
-mod expr_arena;
-mod expr_arena_ast;
-mod loc;
+/// demonstration from the Greene text; one of the simplest grammars
+/// that still ensures we get parse tree correct
 mod sub;
+
+/// more interesting demonstration of parsing full expressions
+mod expr;
+
+/// test that passes in lifetime/type/formal parameters and threads
+/// them through, building an AST from the result
+mod expr_arena;
+
+/// definitions of the AST
+mod expr_arena_ast;
+
+/// test that exercises locations and spans
+mod loc;
+
+/// test that uses `super` in paths in various places
+mod use_super;
+
 mod util;
 
 /// This constant is here so that some of the generator parsers can
@@ -96,5 +111,10 @@ fn loc_test2() {
 fn loc_empty() {
     // test what happens when `@<` and `@>` are invoked on an empty input
     util::test_loc(|v| loc::parse_Items(v), "", vec![(0, 0)]);
+}
+
+#[test]
+fn use_super_test1() {
+    util::test(|v| use_super::parse_S(v), "()", 0);
 }
 
