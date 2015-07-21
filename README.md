@@ -7,7 +7,7 @@ generation algorithms (including more general variants like LL(*),
 GLR, etc), but those may or may not ever come to fruitition. :)
 
 LALRPop has *usability* as a primary goal. You should be able to write
-compact, DRY, readable grammars. You shouldn't have to stres about
+compact, DRY, readable grammars. You shouldn't have to stress about
 writing action code or types if you don't want to. To this end,
 LALRPop has a number of nifty features:
 
