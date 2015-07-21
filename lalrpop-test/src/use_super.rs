@@ -4,14 +4,16 @@ extern crate lalrpop_util as __lalrpop_util;
 use self::__lalrpop_util::ParseError as __ParseError;
 #[allow(non_snake_case)]
 pub fn parse_S<
-    __TOKENS: IntoIterator<Item=Tok>,
+    __ERROR,
+    __TOKEN: __ToTriple<Error=__ERROR>,
+    __TOKENS: IntoIterator<Item=__TOKEN>,
 >(
     __tokens: __TOKENS,
-) -> Result<i32, __ParseError<(),Tok>>
+) -> Result<i32, __ParseError<(),Tok,__ERROR>>
 {
     let mut __tokens = __tokens.into_iter();
-    let mut __tokens = __tokens.map(|t| ((), t, ()));
-    let __lookahead = __tokens.next();
+    let mut __tokens = __tokens.map(|t| __ToTriple::to_triple(t));
+    let __lookahead = match __tokens.next() { Some(Ok(v)) => Some(v), None => None, Some(Err(e)) => return Err(__ParseError::User { error: e }) };
     match try!(__parse__S::__state0(None, __lookahead, &mut __tokens)) {
         (_, Some(__lookahead), _) => {
             Err(__ParseError::ExtraToken { token: __lookahead })
@@ -29,6 +31,7 @@ mod __parse__S {
     use super::super::util::tok::Tok;
     extern crate lalrpop_util as __lalrpop_util;
     use self::__lalrpop_util::ParseError as __ParseError;
+    use super::__ToTriple;
 
     pub enum __Nonterminal<> {
         ____S(i32),
@@ -43,19 +46,20 @@ mod __parse__S {
     //
     //   S -> S2
     pub fn __state0<
-        __TOKENS: Iterator<Item=((), Tok, ())>,
+        __ERROR,
+        __TOKENS: Iterator<Item=Result<((), Tok, ()),__ERROR>>,
     >(
         __lookbehind: Option<()>,
         __lookahead: Option<((), Tok, ())>,
         __tokens: &mut __TOKENS,
-    ) -> Result<(Option<()>, Option<((), Tok, ())>, __Nonterminal<>), __ParseError<(),Tok>>
+    ) -> Result<(Option<()>, Option<((), Tok, ())>, __Nonterminal<>), __ParseError<(),Tok,__ERROR>>
     {
         let mut __result: (Option<()>, Option<((), Tok, ())>, __Nonterminal<>);
         match __lookahead {
             Some((_, __tok @ Tok::LParen(..), __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym0 = &mut Some((__tok));
-                let __lookahead = __tokens.next();
+                let __lookahead = match __tokens.next() { Some(Ok(v)) => Some(v), None => None, Some(Err(e)) => return Err(__ParseError::User { error: e }) };
                 __result = try!(__state1(__lookbehind, __lookahead, __tokens, __sym0));
             }
             _ => {
@@ -85,20 +89,21 @@ mod __parse__S {
     //   ")" -> Shift(S3)
     //
     pub fn __state1<
-        __TOKENS: Iterator<Item=((), Tok, ())>,
+        __ERROR,
+        __TOKENS: Iterator<Item=Result<((), Tok, ()),__ERROR>>,
     >(
         __lookbehind: Option<()>,
         __lookahead: Option<((), Tok, ())>,
         __tokens: &mut __TOKENS,
         __sym0: &mut Option<Tok>,
-    ) -> Result<(Option<()>, Option<((), Tok, ())>, __Nonterminal<>), __ParseError<(),Tok>>
+    ) -> Result<(Option<()>, Option<((), Tok, ())>, __Nonterminal<>), __ParseError<(),Tok,__ERROR>>
     {
         let mut __result: (Option<()>, Option<((), Tok, ())>, __Nonterminal<>);
         match __lookahead {
             Some((_, __tok @ Tok::RParen(..), __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym1 = &mut Some((__tok));
-                let __lookahead = __tokens.next();
+                let __lookahead = match __tokens.next() { Some(Ok(v)) => Some(v), None => None, Some(Err(e)) => return Err(__ParseError::User { error: e }) };
                 __result = try!(__state3(__lookbehind, __lookahead, __tokens, __sym0, __sym1));
             }
             _ => {
@@ -117,13 +122,14 @@ mod __parse__S {
     //   EOF -> Reduce(__S = S => Call(ActionFn(0));)
     //
     pub fn __state2<
-        __TOKENS: Iterator<Item=((), Tok, ())>,
+        __ERROR,
+        __TOKENS: Iterator<Item=Result<((), Tok, ()),__ERROR>>,
     >(
         __lookbehind: Option<()>,
         __lookahead: Option<((), Tok, ())>,
         __tokens: &mut __TOKENS,
         __sym0: &mut Option<i32>,
-    ) -> Result<(Option<()>, Option<((), Tok, ())>, __Nonterminal<>), __ParseError<(),Tok>>
+    ) -> Result<(Option<()>, Option<((), Tok, ())>, __Nonterminal<>), __ParseError<(),Tok,__ERROR>>
     {
         let mut __result: (Option<()>, Option<((), Tok, ())>, __Nonterminal<>);
         match __lookahead {
@@ -147,14 +153,15 @@ mod __parse__S {
     //   EOF -> Reduce(S = "(", ")" => Call(ActionFn(1));)
     //
     pub fn __state3<
-        __TOKENS: Iterator<Item=((), Tok, ())>,
+        __ERROR,
+        __TOKENS: Iterator<Item=Result<((), Tok, ()),__ERROR>>,
     >(
         __lookbehind: Option<()>,
         __lookahead: Option<((), Tok, ())>,
         __tokens: &mut __TOKENS,
         __sym0: &mut Option<Tok>,
         __sym1: &mut Option<Tok>,
-    ) -> Result<(Option<()>, Option<((), Tok, ())>, __Nonterminal<>), __ParseError<(),Tok>>
+    ) -> Result<(Option<()>, Option<((), Tok, ())>, __Nonterminal<>), __ParseError<(),Tok,__ERROR>>
     {
         let mut __result: (Option<()>, Option<((), Tok, ())>, __Nonterminal<>);
         match __lookahead {
@@ -189,4 +196,22 @@ pub fn __action1<
 ) -> i32
 {
     super::ZERO
+}
+
+pub trait __ToTriple {
+    type Error;
+    fn to_triple(value: Self) -> Result<((),Tok,()),Self::Error>;
+}
+
+impl __ToTriple for Tok {
+    type Error = ();
+    fn to_triple(value: Self) -> Result<((),Tok,()),()> {
+        Ok(((), value, ()))
+    }
+}
+impl<ERROR> __ToTriple for Result<(Tok),ERROR> {
+    type Error = ERROR;
+    fn to_triple(value: Self) -> Result<((),Tok,()),ERROR> {
+        value.map(|v| ((), v, ()))
+    }
 }

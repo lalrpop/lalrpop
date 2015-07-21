@@ -84,7 +84,9 @@ impl<'ascent,'grammar,W:Write> RecursiveAscent<'ascent,'grammar,W> {
     }
 
     fn write_uses(&mut self) -> io::Result<()> {
-        self.out.write_uses("super::", &self.grammar)
+        try!(self.out.write_uses("super::", &self.grammar));
+        rust!(self.out, "use super::{}ToTriple;", self.prefix);
+        Ok(())
     }
 
     fn write_return_type_defn(&mut self) -> io::Result<()> {
@@ -108,19 +110,16 @@ impl<'ascent,'grammar,W:Write> RecursiveAscent<'ascent,'grammar,W> {
     // input as `Foo`. An error is reported if the entire input is not
     // consumed.
     fn write_start_fn(&mut self) -> io::Result<()> {
-        let triple_type = self.triple_type();
         let error_type = self.error_type();
-
-        let user_token_type = match self.types.opt_terminal_loc_type() {
-            Some(_) => format!("{}", triple_type),
-            None => format!("{}", self.types.terminal_enum_type())
-        };
 
         rust!(self.out, "#[allow(non_snake_case)]");
         try!(self.out.write_pub_fn_header(
             self.grammar,
             format!("parse_{}", self.user_start_symbol),
-            vec![format!("{}TOKENS: IntoIterator<Item={}>", self.prefix, user_token_type)],
+            vec![format!("{}ERROR", self.prefix),
+                 format!("{}TOKEN: {}ToTriple<Error={}ERROR>",
+                         self.prefix, self.prefix, self.prefix),
+                 format!("{}TOKENS: IntoIterator<Item={}TOKEN>", self.prefix, self.prefix)],
             vec![format!("{}tokens: {}TOKENS", self.prefix, self.prefix)],
             format!("Result<{}, {}>",
                     self.types.nonterminal_type(self.start_symbol),
@@ -130,13 +129,11 @@ impl<'ascent,'grammar,W:Write> RecursiveAscent<'ascent,'grammar,W> {
 
         // create input iterator, inserting `()` for locations if no location was given
         rust!(self.out, "let mut {}tokens = {}tokens.into_iter();", self.prefix, self.prefix);
-        match self.types.opt_terminal_loc_type() {
-            Some(_) => { }
-            None => { rust!(self.out, "let mut {}tokens = {}tokens.map(|t| ((), t, ()));",
-                            self.prefix, self.prefix); }
-        }
+        rust!(self.out, "let mut {}tokens = {}tokens.map(|t| {}ToTriple::to_triple(t));",
+              self.prefix, self.prefix, self.prefix);
 
-        rust!(self.out, "let {}lookahead = {}tokens.next();", self.prefix, self.prefix);
+        let next_token = self.next_token("tokens");
+        rust!(self.out, "let {}lookahead = {};", self.prefix, next_token);
         rust!(self.out, "match try!({}parse{}::{}state0({}None, {}lookahead, &mut {}tokens)) {{",
               self.prefix, self.start_symbol, self.prefix,
               self.grammar.user_parameter_refs(), self.prefix, self.prefix);
@@ -199,7 +196,9 @@ impl<'ascent,'grammar,W:Write> RecursiveAscent<'ascent,'grammar,W> {
         try!(self.out.write_pub_fn_header(
             self.grammar,
             format!("{}state{}", self.prefix, this_index.0),
-            vec![format!("{}TOKENS: Iterator<Item={}>", self.prefix, triple_type)],
+            vec![format!("{}ERROR", self.prefix),
+                 format!("{}TOKENS: Iterator<Item=Result<{},{}ERROR>>",
+                         self.prefix, triple_type, self.prefix)],
             base_args.into_iter().chain(sym_args).collect(),
             format!("Result<(Option<{}>, Option<{}>, {}Nonterminal<{}>), {}>",
                     loc_type,
@@ -231,8 +230,8 @@ impl<'ascent,'grammar,W:Write> RecursiveAscent<'ascent,'grammar,W> {
             }
 
             // "shift" the lookahead onto the "stack" by taking its address
-            rust!(self.out, "let {}lookahead = {}tokens.next();",
-                  self.prefix, self.prefix);
+            let next_token = self.next_token("tokens");
+            rust!(self.out, "let {}lookahead = {};", self.prefix, next_token);
 
             // transition to the new state
             let transition =
@@ -457,10 +456,19 @@ impl<'ascent,'grammar,W:Write> RecursiveAscent<'ascent,'grammar,W> {
     }
 
     fn error_type(&mut self) -> String {
-        format!("{}ParseError<{},{}>",
+        format!("{}ParseError<{},{},{}ERROR>",
                 self.prefix,
                 self.types.terminal_loc_type(),
-                self.types.terminal_enum_type())
+                self.types.terminal_enum_type(),
+                self.prefix)
+    }
+
+    fn next_token(&mut self, tokens: &str) -> String {
+        format!("match {}{}.next() {{ \
+                 Some(Ok(v)) => Some(v), \
+                 None => None, \
+                 Some(Err(e)) => return Err({}ParseError::User {{ error: e }}) }}",
+                self.prefix, tokens, self.prefix)
     }
 }
 

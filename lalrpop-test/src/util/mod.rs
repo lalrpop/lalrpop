@@ -10,7 +10,7 @@ pub mod tok;
 pub fn test<R:Debug+Eq,F>(parse_fn: F,
                           input: &str,
                           expected: R)
-    where F: FnOnce(Vec<Tok>) -> Result<R,ParseError<(),Tok>>
+    where F: FnOnce(Vec<Tok>) -> Result<R,ParseError<(),Tok,()>>
 {
     // create tokens
     let tokens = tok::tokenize(input);
@@ -28,7 +28,7 @@ pub fn test<R:Debug+Eq,F>(parse_fn: F,
 pub fn test_loc<R:Debug+Eq,F>(parse_fn: F,
                               input: &str,
                               expected: R)
-    where F: FnOnce(Vec<(usize, Tok, usize)>) -> Result<R, ParseError<usize, Tok>>
+    where F: FnOnce(Vec<(usize, Tok, usize)>) -> Result<R, ParseError<usize, Tok, ()>>
 {
     // create tokens
     let tokens = tok::tokenize(input);
