@@ -190,10 +190,10 @@ pub enum SymbolKind {
     // x:X
     Name(InternedString, Box<Symbol>),
 
-    // @<
+    // @L
     Lookahead,
 
-    // @>
+    // @R
     Lookbehind,
 }
 
@@ -322,9 +322,9 @@ impl Display for SymbolKind {
             SymbolKind::Name(n, ref s) =>
                 write!(fmt, "{}:{}", n, s),
             SymbolKind::Lookahead =>
-                write!(fmt, "@<"),
+                write!(fmt, "@L"),
             SymbolKind::Lookbehind =>
-                write!(fmt, "@>"),
+                write!(fmt, "@R"),
         }
     }
 }

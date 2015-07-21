@@ -132,7 +132,7 @@ fn test_lookahead() {
     compare(r#"
 grammar;
     extern token { type Location = usize; enum Tok { } }
-    A = @<;
+    A = @L;
 "#, vec![
     ("A", "::std::option::Option<usize>"),
         ])
@@ -145,7 +145,7 @@ fn test_spanned_macro() {
         extern token { type Location = usize; enum Tok { } }
         A = Spanned<"Foo">;
         Spanned<T>: (Option<usize>, Option<usize>) = {
-            <@<> T <@>> => (<>);
+            <@L> T <@R> => (<>);
         };
 "#, vec![
     ("A", "(Option<usize>, Option<usize>)"),

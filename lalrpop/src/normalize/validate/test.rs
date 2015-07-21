@@ -76,7 +76,7 @@ fn dup_assoc_type() {
 fn lookahead_without_loc_type() {
     check_err(
         r#"lookahead/lookbehind require you to declare the type of a location"#,
-        r#"grammar; extern token { enum Tok { } } Foo = >>>@<<<<;"#);
+        r#"grammar; extern token { enum Tok { } } Foo = >>>@L<<<;"#);
 }
 
 #[test]

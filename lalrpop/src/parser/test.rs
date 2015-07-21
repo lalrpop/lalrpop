@@ -126,8 +126,8 @@ fn macro_symbols() {
 
 #[test]
 fn lookaround() {
-    super::parse_symbol(r#"@<"#).unwrap();
-    super::parse_symbol(r#"@>"#).unwrap();
+    super::parse_symbol(r#"@L"#).unwrap();
+    super::parse_symbol(r#"@R"#).unwrap();
 }
 
 #[test]

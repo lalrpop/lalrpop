@@ -79,10 +79,10 @@ impl MacroExpander {
                         items.push(try!(self.expand_repeat_symbol(sym.span, *repeat))),
                     SymbolKind::Lookahead =>
                         items.push(try!(self.expand_lookaround_symbol(
-                            sym.span, "@<", ActionKind::Lookahead))),
+                            sym.span, "@L", ActionKind::Lookahead))),
                     SymbolKind::Lookbehind =>
                         items.push(try!(self.expand_lookaround_symbol(
-                            sym.span, "@>", ActionKind::Lookbehind))),
+                            sym.span, "@R", ActionKind::Lookbehind))),
                     _ =>
                         assert!(false, "don't know how to expand `{:?}`", sym)
                 }

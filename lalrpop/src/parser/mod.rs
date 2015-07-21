@@ -116,10 +116,10 @@ rusty_peg! {
             ("=>" <b:CODE>) => ActionKind::User(b);
 
         LOOKAHEAD_ACTION: ActionKind =
-            ("=>@<") => ActionKind::Lookahead;
+            ("=>@L") => ActionKind::Lookahead;
 
         LOOKBEHIND_ACTION: ActionKind =
-            ("=>@>") => ActionKind::Lookbehind;
+            ("=>@R") => ActionKind::Lookbehind;
 
         // Conditions
 
@@ -194,12 +194,12 @@ rusty_peg! {
             };
 
         LOOKAHEAD_SYMBOL: Symbol =
-            (<lo:POSL> "@<" <hi:POSR>) => {
+            (<lo:POSL> "@L" <hi:POSR>) => {
                 Symbol::new(Span(lo, hi), SymbolKind::Lookahead)
             };
 
         LOOKBEHIND_SYMBOL: Symbol =
-            (<lo:POSL> "@>" <hi:POSR>) => {
+            (<lo:POSL> "@R" <hi:POSR>) => {
                 Symbol::new(Span(lo, hi), SymbolKind::Lookbehind)
             };
 

@@ -54,8 +54,8 @@ pub enum Tok<'input> {
     LeftBracket,
     LeftParen,
     LessThan,
-    Lookahead, // @<
-    Lookbehind, // @>
+    Lookahead, // @L
+    Lookbehind, // @R
     Plus,
     Question,
     RightBrace,
@@ -113,17 +113,17 @@ impl<'input> Tokenizer<'input> {
         // we've seen =>, now we have to choose between:
         //
         // => code
-        // =>@<
-        // =>@>
+        // =>@L
+        // =>@R
 
         let idx1 = match self.lookahead {
             Some((_, '@')) => {
                 match self.bump() {
-                    Some((idx2, '<')) => {
+                    Some((idx2, 'L')) => {
                         self.bump();
                         return Ok((idx0, EqualsGreaterThanLookahead, idx2+1));
                     }
-                    Some((idx2, '>')) => {
+                    Some((idx2, 'R')) => {
                         self.bump();
                         return Ok((idx0, EqualsGreaterThanLookbehind, idx2+1));
                     }

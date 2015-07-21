@@ -111,7 +111,7 @@ fn loc_test2() {
 
 #[test]
 fn loc_empty() {
-    // test what happens when `@<` and `@>` are invoked on an empty input
+    // test what happens when `@L` and `@R` are invoked on an empty input
     util::test_loc(|v| loc::parse_Items(v), "", vec![(0, 0)]);
 }
 

@@ -76,15 +76,15 @@ grammar;
 fn test_lookahead() {
     let grammar = parser::parse_grammar(r#"
         grammar;
-        Expr = @<;
+        Expr = @L;
 "#).unwrap();
 
     let actual = expand_macros(grammar).unwrap();
 
     let expected = parser::parse_grammar(r#"
         grammar;
-        Expr = `@<`;
-        `@<` = =>@<;
+        Expr = `@L`;
+        `@L` = =>@L;
 "#).unwrap();
 
     compare(actual, expected);
