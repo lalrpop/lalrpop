@@ -44,6 +44,7 @@ pub enum ParseError<L,T,E> {
     /// A richer alternative to `Message`, error objects offer more
     /// information and reflection.
     ErrorObject {
+        span: Option<(L, L)>,
         error: Box<Error>,
     },
 
@@ -53,3 +54,8 @@ pub enum ParseError<L,T,E> {
     },
 }
 
+impl<L,T,E> ParseError<L,T,E> {
+    pub fn message(text: String) -> ParseError<L,T,E> {
+        ParseError::Message { message: text }
+    }
+}

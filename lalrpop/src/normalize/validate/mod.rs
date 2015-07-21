@@ -79,7 +79,7 @@ impl<'grammar> Validator<'grammar> {
                             "multiple extern token definitions are not permitted");
                     }
 
-                    let allowed_names = vec![intern(LOCATION)];
+                    let allowed_names = vec![intern(LOCATION), intern(ERROR)];
                     let mut new_names = set();
                     for associated_type in &data.associated_types {
                         if !allowed_names.contains(&associated_type.type_name) {

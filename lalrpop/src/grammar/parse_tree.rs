@@ -48,6 +48,9 @@ pub struct AssociatedType {
 /// Recognized associated type for the token location
 pub const LOCATION: &'static str = "Location";
 
+/// Recognized associated type for custom errors
+pub const ERROR: &'static str = "Error";
+
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct EnumToken {
     pub type_name: TypeRef,
@@ -134,6 +137,7 @@ pub struct Alternative {
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub enum ActionKind {
     User(String),
+    Fallible(String),
     Lookahead,
     Lookbehind,
 }

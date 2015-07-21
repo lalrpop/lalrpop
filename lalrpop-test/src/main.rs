@@ -20,6 +20,9 @@ mod loc;
 /// test that uses `super` in paths in various places
 mod use_super;
 
+/// test that exercises locations and spans
+mod error;
+
 mod util;
 
 /// This constant is here so that some of the generator parsers can
@@ -118,5 +121,16 @@ fn loc_empty() {
 #[test]
 fn use_super_test1() {
     util::test(|v| use_super::parse_S(v), "()", 0);
+}
+
+#[test]
+fn error_test1() {
+    use lalrpop_util::ParseError;
+    match util::test_err_gen(error::parse_Items, "---+") {
+        Err(ParseError::User { error: '+' }) => { /* OK! */ }
+        r => {
+            panic!("unexpected response from parser: {:?}", r);
+        }
+    }
 }
 

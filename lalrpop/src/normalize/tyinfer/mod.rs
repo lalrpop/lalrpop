@@ -3,7 +3,7 @@ use super::norm_util::{self, AlternativeAction, Symbols};
 
 use std::collections::{HashMap};
 use grammar::parse_tree::{ActionKind, Alternative,
-                          ExternToken,
+                          ERROR, ExternToken,
                           Grammar, GrammarItem,
                           LOCATION,
                           NonterminalData, NonterminalString,
@@ -65,12 +65,15 @@ impl<'grammar> TypeInferencer<'grammar> {
         let loc_type = extern_token.associated_type(intern(LOCATION))
                                    .map(|tr| tr.type_ref.type_repr());
 
+        let error_type = extern_token.associated_type(intern(ERROR))
+                                     .map(|tr| tr.type_ref.type_repr());
+
         let enum_type = match extern_token.enum_token.type_name.type_repr() {
             TypeRepr::Nominal(data) => data,
             _ => panic!("enum token without nominal type passed validation")
         };
 
-        let mut types = Types::new(loc_type, enum_type);
+        let mut types = Types::new(loc_type, error_type, enum_type);
 
         // For each defined conversion, figure out the type of the
         // terminal and enter it into `types` by hand if it is not the
@@ -224,7 +227,8 @@ impl<'grammar> TypeInferencer<'grammar> {
 
     fn alternative_type(&mut self, alt: &Alternative) -> NormResult<TypeRepr> {
         match norm_util::analyze_action(alt) {
-            AlternativeAction::User(&ActionKind::User(_)) => {
+            AlternativeAction::User(&ActionKind::User(_)) |
+            AlternativeAction::User(&ActionKind::Fallible(_)) => {
                 return_err!(alt.span, "cannot infer types if there is custom action code");
             }
 

@@ -74,6 +74,7 @@ pub enum Symbol {
 pub enum ActionKind {
     // execute code provided by the user
     Call(ActionFn),
+    TryCall(ActionFn),
     Lookahead,
     Lookbehind,
 }
@@ -83,6 +84,7 @@ pub struct ActionFnDefn {
     pub arg_patterns: Vec<InternedString>,
     pub arg_types: Vec<TypeRepr>,
     pub ret_type: TypeRepr,
+    pub fallible: bool,
     pub code: String,
 }
 
@@ -108,6 +110,7 @@ pub struct NominalTypeRepr {
 pub struct Types {
     terminal_enum_type: NominalTypeRepr,
     terminal_loc_type: Option<TypeRepr>,
+    error_type: Option<TypeRepr>,
     default_terminal_type: TypeRepr,
     terminal_types: Map<TerminalString, TypeRepr>,
     nonterminal_types: Map<NonterminalString, TypeRepr>
@@ -115,9 +118,11 @@ pub struct Types {
 
 impl Types {
     pub fn new(terminal_loc_type: Option<TypeRepr>,
+               error_type: Option<TypeRepr>,
                terminal_enum_type: NominalTypeRepr)
                -> Types {
         Types { terminal_loc_type: terminal_loc_type,
+                error_type: error_type,
                 terminal_enum_type: terminal_enum_type.clone(),
                 terminal_types: map(),
                 default_terminal_type: TypeRepr::Nominal(terminal_enum_type),
@@ -143,6 +148,11 @@ impl Types {
     pub fn terminal_loc_type(&self) -> TypeRepr {
         self.terminal_loc_type.clone()
                               .unwrap_or_else(|| TypeRepr::Tuple(vec![]))
+    }
+
+    pub fn error_type(&self) -> TypeRepr {
+        self.error_type.clone()
+                       .unwrap_or_else(|| TypeRepr::Tuple(vec![]))
     }
 
     pub fn terminal_type(&self, id: TerminalString) -> &TypeRepr {

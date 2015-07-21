@@ -39,3 +39,13 @@ pub fn test_loc<R:Debug+Eq,F>(parse_fn: F,
     // expect output to be correct
     assert!(r == expected, "parsing {:?}, got {:#?}, expected {:#?}", input, r, expected);
 }
+
+pub fn test_err_gen<R,F>(parse_fn: F, input: &str) -> R
+    where F: FnOnce(Vec<(usize, Tok, usize)>) -> R
+{
+    // create tokens
+    let tokens = tok::tokenize(input);
+
+    // parse, expecting input to be totally consumed
+    parse_fn(tokens)
+}

@@ -162,6 +162,18 @@ fn emit_action_code<W:Write>(grammar: &r::Grammar,
 {
     for (i, defn) in grammar.action_fn_defns.iter().enumerate() {
         rust!(rust, "");
+
+        let ret_type = if defn.fallible {
+            format!("Result<{},{}ParseError<{},{},{}>>",
+                    defn.ret_type,
+                    grammar.prefix,
+                    grammar.types.terminal_loc_type(),
+                    grammar.types.terminal_enum_type(),
+                    grammar.types.error_type())
+        } else {
+            format!("{}", defn.ret_type)
+        };
+
         try!(rust.write_pub_fn_header(
             grammar,
             format!("{}action{}", grammar.prefix, i),
@@ -170,7 +182,7 @@ fn emit_action_code<W:Write>(grammar: &r::Grammar,
                              .zip(defn.arg_types.iter())
                              .map(|(p, t)| format!("{}: {}", p, t))
                              .collect(),
-            format!("{}", defn.ret_type),
+            ret_type,
             vec![]));
         rust!(rust, "{{");
         rust!(rust, "{}", defn.code);
@@ -186,42 +198,43 @@ fn emit_to_triple_trait<W:Write>(grammar: &r::Grammar,
     #![allow(non_snake_case)]
 
     let L = grammar.types.terminal_loc_type();
-    let E = grammar.types.terminal_enum_type();
+    let T = grammar.types.terminal_enum_type();
+    let E = grammar.types.error_type();
 
     rust!(rust, "");
     rust!(rust, "pub trait {}ToTriple {{", grammar.prefix);
     rust!(rust, "type Error;");
-    rust!(rust, "fn to_triple(value: Self) -> Result<({},{},{}),Self::Error>;", L, E, L);
+    rust!(rust, "fn to_triple(value: Self) -> Result<({},{},{}),Self::Error>;", L, T, L);
     rust!(rust, "}}");
 
     rust!(rust, "");
     if grammar.types.opt_terminal_loc_type().is_some() {
         rust!(rust, "impl {}ToTriple for ({}, {}, {}) {{",
-              grammar.prefix, L, E, L);
-        rust!(rust, "type Error = ();");
-        rust!(rust, "fn to_triple(value: Self) -> Result<({},{},{}),()> {{", L, E, L);
+              grammar.prefix, L, T, L);
+        rust!(rust, "type Error = {};", E);
+        rust!(rust, "fn to_triple(value: Self) -> Result<({},{},{}),{}> {{", L, T, L, E);
         rust!(rust, "Ok(value)");
         rust!(rust, "}}");
         rust!(rust, "}}");
 
         rust!(rust, "impl<ERROR> {}ToTriple for Result<({}, {}, {}),ERROR> {{",
-              grammar.prefix, L, E, L);
+              grammar.prefix, L, T, L);
         rust!(rust, "type Error = ERROR;");
-        rust!(rust, "fn to_triple(value: Self) -> Result<({},{},{}),ERROR> {{", L, E, L);
+        rust!(rust, "fn to_triple(value: Self) -> Result<({},{},{}),ERROR> {{", L, T, L);
         rust!(rust, "value");
         rust!(rust, "}}");
         rust!(rust, "}}");
     } else {
-        rust!(rust, "impl {}ToTriple for {} {{", grammar.prefix, E);
-        rust!(rust, "type Error = ();");
-        rust!(rust, "fn to_triple(value: Self) -> Result<((),{},()),()> {{", E);
+        rust!(rust, "impl {}ToTriple for {} {{", grammar.prefix, T);
+        rust!(rust, "type Error = {};", E);
+        rust!(rust, "fn to_triple(value: Self) -> Result<((),{},()),{}> {{", T, E);
         rust!(rust, "Ok(((), value, ()))");
         rust!(rust, "}}");
         rust!(rust, "}}");
 
-        rust!(rust, "impl<ERROR> {}ToTriple for Result<({}),ERROR> {{", grammar.prefix, E);
+        rust!(rust, "impl<ERROR> {}ToTriple for Result<({}),ERROR> {{", grammar.prefix, T);
         rust!(rust, "type Error = ERROR;");
-        rust!(rust, "fn to_triple(value: Self) -> Result<((),{},()),ERROR> {{", E);
+        rust!(rust, "fn to_triple(value: Self) -> Result<((),{},()),ERROR> {{", T);
         rust!(rust, "value.map(|v| ((), v, ()))");
         rust!(rust, "}}");
         rust!(rust, "}}");

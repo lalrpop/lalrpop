@@ -125,7 +125,7 @@ impl LowerState {
                                                      pt::SymbolKind::Nonterminal(fake_name))]
                    };
                    let symbols = vec![r::Symbol::Nonterminal(nt.name)];
-                   let action_fn = self.action_fn(nt_type, &expr, &symbols, None);
+                   let action_fn = self.action_fn(nt_type, false, &expr, &symbols, None);
                    self.productions.push(r::Production {
                        nonterminal: fake_name,
                        symbols: symbols,
@@ -150,11 +150,15 @@ impl LowerState {
             Some(pt::ActionKind::Lookbehind) =>
                 r::ActionKind::Lookbehind,
             Some(pt::ActionKind::User(string)) => {
-                let action_fn = self.action_fn(nt_type, &expr, &symbols, Some(string));
+                let action_fn = self.action_fn(nt_type, false, &expr, &symbols, Some(string));
                 r::ActionKind::Call(action_fn)
             }
+            Some(pt::ActionKind::Fallible(string)) => {
+                let action_fn = self.action_fn(nt_type, true, &expr, &symbols, Some(string));
+                r::ActionKind::TryCall(action_fn)
+            }
             None => {
-                let action_fn = self.action_fn(nt_type, &expr, &symbols, None);
+                let action_fn = self.action_fn(nt_type, false, &expr, &symbols, None);
                 r::ActionKind::Call(action_fn)
             }
         }
@@ -162,6 +166,7 @@ impl LowerState {
 
     fn action_fn(&mut self,
                  nt_type: r::TypeRepr,
+                 fallible: bool,
                  expr: &pt::ExprSymbol,
                  symbols: &[r::Symbol],
                  action: Option<String>)
@@ -192,6 +197,7 @@ impl LowerState {
                     arg_patterns: arg_patterns,
                     arg_types: arg_types,
                     ret_type: nt_type,
+                    fallible: fallible,
                     code: action
                 }
             }
@@ -211,6 +217,7 @@ impl LowerState {
                     arg_patterns: arg_patterns,
                     arg_types: arg_types,
                     ret_type: nt_type,
+                    fallible: fallible,
                     code: action
                 }
             }

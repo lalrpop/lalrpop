@@ -1,0 +1,28 @@
+use util::tok::Tok;
+use lalrpop_util::ParseError;
+
+grammar;
+
+extern token {
+    type Location = usize;
+    type Error = char;
+
+    enum Tok {
+        "-" => Tok::Minus(..),
+        "+" => Tok::Plus(..)
+    }
+}
+
+pub Items: Vec<(usize, usize)> = {
+    => vec![];
+
+    Items "+" =>? {
+        Err(ParseError::User { error: '+' })
+    };
+
+    <v:Items> "-" =>? Ok(v);
+};
+
+Spanned<T>: (usize, usize) = {
+    <@L> T <@R> => (<>);
+};

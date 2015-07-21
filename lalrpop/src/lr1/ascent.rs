@@ -110,20 +110,20 @@ impl<'ascent,'grammar,W:Write> RecursiveAscent<'ascent,'grammar,W> {
     // input as `Foo`. An error is reported if the entire input is not
     // consumed.
     fn write_start_fn(&mut self) -> io::Result<()> {
-        let error_type = self.error_type();
+        let error_type = self.types.error_type();
+        let parse_error_type = self.parse_error_type();
 
         rust!(self.out, "#[allow(non_snake_case)]");
         try!(self.out.write_pub_fn_header(
             self.grammar,
             format!("parse_{}", self.user_start_symbol),
-            vec![format!("{}ERROR", self.prefix),
-                 format!("{}TOKEN: {}ToTriple<Error={}ERROR>",
-                         self.prefix, self.prefix, self.prefix),
+            vec![format!("{}TOKEN: {}ToTriple<Error={}>",
+                         self.prefix, self.prefix, error_type),
                  format!("{}TOKENS: IntoIterator<Item={}TOKEN>", self.prefix, self.prefix)],
             vec![format!("{}tokens: {}TOKENS", self.prefix, self.prefix)],
             format!("Result<{}, {}>",
                     self.types.nonterminal_type(self.start_symbol),
-                    error_type),
+                    parse_error_type),
             vec![]));
         rust!(self.out, "{{");
 
@@ -164,7 +164,8 @@ impl<'ascent,'grammar,W:Write> RecursiveAscent<'ascent,'grammar,W> {
         let this_prefix = self.state_prefixes[this_index.0];
         let loc_type = self.types.terminal_loc_type();
         let triple_type = self.triple_type();
-        let error_type = self.error_type();
+        let parse_error_type = self.parse_error_type();
+        let error_type = self.types.error_type();
 
         // Leave a comment explaining what this state is.
         rust!(self.out, "// State {}", this_index.0);
@@ -196,15 +197,14 @@ impl<'ascent,'grammar,W:Write> RecursiveAscent<'ascent,'grammar,W> {
         try!(self.out.write_pub_fn_header(
             self.grammar,
             format!("{}state{}", self.prefix, this_index.0),
-            vec![format!("{}ERROR", self.prefix),
-                 format!("{}TOKENS: Iterator<Item=Result<{},{}ERROR>>",
-                         self.prefix, triple_type, self.prefix)],
+            vec![format!("{}TOKENS: Iterator<Item=Result<{},{}>>",
+                         self.prefix, triple_type, error_type)],
             base_args.into_iter().chain(sym_args).collect(),
             format!("Result<(Option<{}>, Option<{}>, {}Nonterminal<{}>), {}>",
                     loc_type,
                     triple_type, self.prefix,
                     self.grammar.user_type_parameter_refs(),
-                    error_type),
+                    parse_error_type),
             vec![]));
 
         rust!(self.out, "{{");
@@ -268,6 +268,15 @@ impl<'ascent,'grammar,W:Write> RecursiveAscent<'ascent,'grammar,W> {
             match production.action {
                 ActionKind::Call(action_fn) => {
                     rust!(self.out, "let {}nt = super::{}action{}({}{});",
+                          self.prefix,
+                          self.prefix,
+                          action_fn.index(),
+                          self.grammar.user_parameter_refs(),
+                          Sep(", ", &transfer_syms))
+                }
+
+                ActionKind::TryCall(action_fn) => {
+                    rust!(self.out, "let {}nt = try!(super::{}action{}({}{}));",
                           self.prefix,
                           self.prefix,
                           action_fn.index(),
@@ -455,12 +464,12 @@ impl<'ascent,'grammar,W:Write> RecursiveAscent<'ascent,'grammar,W> {
         self.types.triple_type()
     }
 
-    fn error_type(&mut self) -> String {
-        format!("{}ParseError<{},{},{}ERROR>",
+    fn parse_error_type(&mut self) -> String {
+        format!("{}ParseError<{},{},{}>",
                 self.prefix,
                 self.types.terminal_loc_type(),
                 self.types.terminal_enum_type(),
-                self.prefix)
+                self.types.error_type())
     }
 
     fn next_token(&mut self, tokens: &str) -> String {

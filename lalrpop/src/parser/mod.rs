@@ -110,10 +110,14 @@ rusty_peg! {
         IF_COND: Condition =
             ("if" <c:COND>) => c;
 
-        ACTION: ActionKind = (LOOKAHEAD_ACTION / LOOKBEHIND_ACTION / USER_ACTION);
+        ACTION: ActionKind =
+            (LOOKAHEAD_ACTION / LOOKBEHIND_ACTION / FALLIBLE_USER_ACTION / USER_ACTION);
 
         USER_ACTION: ActionKind =
             ("=>" <b:CODE>) => ActionKind::User(b);
+
+        FALLIBLE_USER_ACTION: ActionKind =
+            ("=>?" <b:CODE>) => ActionKind::Fallible(b);
 
         LOOKAHEAD_ACTION: ActionKind =
             ("=>@L") => ActionKind::Lookahead;
