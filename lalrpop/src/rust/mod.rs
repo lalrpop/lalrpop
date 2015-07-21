@@ -130,4 +130,27 @@ impl<W:Write> RustWrite<W> {
 
         Ok(())
     }
+
+    pub fn write_uses(&mut self,
+                      super_prefix: &str,
+                      grammar: &Grammar)
+                      -> io::Result<()>
+    {
+        // things the user wrote
+        for u in &grammar.uses {
+            if u.starts_with("super::") {
+                rust!(self, "use {}{};", super_prefix, u);
+            } else {
+                rust!(self, "use {};", u);
+            }
+        }
+
+        // stuff that we plan to use
+        rust!(self, "extern crate lalrpop_util as {}lalrpop_util;",
+              grammar.prefix);
+        rust!(self, "use self::{}lalrpop_util::ParseError as {}ParseError;",
+              grammar.prefix, grammar.prefix);
+
+        Ok(())
+    }
 }

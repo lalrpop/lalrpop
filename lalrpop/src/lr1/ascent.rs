@@ -84,22 +84,7 @@ impl<'ascent,'grammar,W:Write> RecursiveAscent<'ascent,'grammar,W> {
     }
 
     fn write_uses(&mut self) -> io::Result<()> {
-        // things the user wrote
-        for u in &self.grammar.uses {
-            if u.starts_with("super::") {
-                rust!(self.out, "use super::{};", u);
-            } else {
-                rust!(self.out, "use {};", u);
-            }
-        }
-
-        // stuff that we plan to use
-        rust!(self.out, "extern crate lalrpop_util as {}lalrpop_util;",
-              self.prefix);
-        rust!(self.out, "use self::{}lalrpop_util::ParseError as {}ParseError;",
-              self.prefix, self.prefix);
-
-        Ok(())
+        self.out.write_uses("super::", &self.grammar)
     }
 
     fn write_return_type_defn(&mut self) -> io::Result<()> {
@@ -124,6 +109,7 @@ impl<'ascent,'grammar,W:Write> RecursiveAscent<'ascent,'grammar,W> {
     // consumed.
     fn write_start_fn(&mut self) -> io::Result<()> {
         let triple_type = self.triple_type();
+        let error_type = self.error_type();
 
         let user_token_type = match self.types.opt_terminal_loc_type() {
             Some(_) => format!("{}", triple_type),
@@ -136,8 +122,9 @@ impl<'ascent,'grammar,W:Write> RecursiveAscent<'ascent,'grammar,W> {
             format!("parse_{}", self.user_start_symbol),
             vec![format!("{}TOKENS: IntoIterator<Item={}>", self.prefix, user_token_type)],
             vec![format!("{}tokens: {}TOKENS", self.prefix, self.prefix)],
-            format!("Result<{}, Option<{}>>",
-                    self.types.nonterminal_type(self.start_symbol), user_token_type),
+            format!("Result<{}, {}>",
+                    self.types.nonterminal_type(self.start_symbol),
+                    error_type),
             vec![]));
         rust!(self.out, "{{");
 
@@ -150,39 +137,25 @@ impl<'ascent,'grammar,W:Write> RecursiveAscent<'ascent,'grammar,W> {
         }
 
         rust!(self.out, "let {}lookahead = {}tokens.next();", self.prefix, self.prefix);
-        rust!(self.out, "match {}parse{}::{}state0({}None, {}lookahead, &mut {}tokens) {{",
+        rust!(self.out, "match try!({}parse{}::{}state0({}None, {}lookahead, &mut {}tokens)) {{",
               self.prefix, self.start_symbol, self.prefix,
               self.grammar.user_parameter_refs(), self.prefix, self.prefix);
 
-        let transformed_lookahead = match self.types.opt_terminal_loc_type() {
-            Some(_) => format!("{}lookahead", self.prefix),
-            None => format!("{}lookahead.1", self.prefix),
-        };
-
-        // unexpected EOF?
-        rust!(self.out, "Err(None) => {{");
-        rust!(self.out, "Err(None)");
-        rust!(self.out, "}}");
-
-        // unexpected token during parsing?
-        rust!(self.out, "Err(Some({}lookahead)) => {{", self.prefix);
-        rust!(self.out, "Err(Some({}))", transformed_lookahead);
-        rust!(self.out, "}}");
-
         // extra tokens?
-        rust!(self.out, "Ok((_, Some({}lookahead), _)) => {{", self.prefix);
-        rust!(self.out, "Err(Some({}))", transformed_lookahead);
+        rust!(self.out, "(_, Some({}lookahead), _) => {{", self.prefix);
+        rust!(self.out, "Err({}ParseError::ExtraToken {{ token: {}lookahead }})",
+              self.prefix, self.prefix);
         rust!(self.out, "}}");
 
         // otherwise, we expect to see only the goal terminal
-        rust!(self.out, "Ok((_, None, {}parse{}::{}Nonterminal::{}({}nt))) => {{",
+        rust!(self.out, "(_, None, {}parse{}::{}Nonterminal::{}({}nt)) => {{",
               self.prefix, self.start_symbol, self.prefix, Escape(self.start_symbol),
               self.prefix);
         rust!(self.out, "Ok({}nt)", self.prefix);
         rust!(self.out, "}}");
 
         // nothing else should be possible
-        rust!(self.out, "Ok(_) => unreachable!(),");
+        rust!(self.out, "_ => unreachable!(),");
         rust!(self.out, "}}");
         rust!(self.out, "}}");
 
@@ -194,6 +167,7 @@ impl<'ascent,'grammar,W:Write> RecursiveAscent<'ascent,'grammar,W> {
         let this_prefix = self.state_prefixes[this_index.0];
         let loc_type = self.types.terminal_loc_type();
         let triple_type = self.triple_type();
+        let error_type = self.error_type();
 
         // Leave a comment explaining what this state is.
         rust!(self.out, "// State {}", this_index.0);
@@ -227,11 +201,11 @@ impl<'ascent,'grammar,W:Write> RecursiveAscent<'ascent,'grammar,W> {
             format!("{}state{}", self.prefix, this_index.0),
             vec![format!("{}TOKENS: Iterator<Item={}>", self.prefix, triple_type)],
             base_args.into_iter().chain(sym_args).collect(),
-            format!("Result<(Option<{}>, Option<{}>, {}Nonterminal<{}>), Option<{}>>",
+            format!("Result<(Option<{}>, Option<{}>, {}Nonterminal<{}>), {}>",
                     loc_type,
                     triple_type, self.prefix,
                     self.grammar.user_type_parameter_refs(),
-                    triple_type),
+                    error_type),
             vec![]));
 
         rust!(self.out, "{{");
@@ -344,7 +318,10 @@ impl<'ascent,'grammar,W:Write> RecursiveAscent<'ascent,'grammar,W> {
 
         // if we hit this, the next token is not recognized, so generate an error
         rust!(self.out, "_ => {{");
-        rust!(self.out, "return Err({}lookahead);", self.prefix);
+        rust!(self.out, "return Err({}ParseError::UnrecognizedToken {{", self.prefix);
+        rust!(self.out, "token: {}lookahead,", self.prefix);
+        rust!(self.out, "expected: vec![],");
+        rust!(self.out, "}});");
         rust!(self.out, "}}");
 
         rust!(self.out, "}}"); // match
@@ -477,6 +454,13 @@ impl<'ascent,'grammar,W:Write> RecursiveAscent<'ascent,'grammar,W> {
 
     fn triple_type(&mut self) -> TypeRepr {
         self.types.triple_type()
+    }
+
+    fn error_type(&mut self) -> String {
+        format!("{}ParseError<{},{}>",
+                self.prefix,
+                self.types.terminal_loc_type(),
+                self.types.terminal_enum_type())
     }
 }
 

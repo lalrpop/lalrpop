@@ -1,3 +1,5 @@
+extern crate lalrpop_util;
+
 /// demonstration from the Greene text; one of the simplest grammars
 /// that still ensures we get parse tree correct
 mod sub;

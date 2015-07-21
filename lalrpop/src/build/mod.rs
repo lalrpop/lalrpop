@@ -88,11 +88,7 @@ fn emit_uses<W:Write>(grammar: &r::Grammar,
                       rust: &mut RustWrite<W>)
                       -> io::Result<()>
 {
-    for u in &grammar.uses {
-        rust!(rust, "use {};", u);
-    }
-    rust!(rust, "");
-    Ok(())
+    rust.write_uses("", grammar)
 }
 
 fn emit_recursive_ascent(output_path: &Path, grammar: &r::Grammar) -> io::Result<()>
