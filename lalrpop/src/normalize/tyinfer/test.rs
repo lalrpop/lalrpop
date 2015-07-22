@@ -134,7 +134,7 @@ grammar;
     extern token { type Location = usize; enum Tok { } }
     A = @L;
 "#, vec![
-    ("A", "::std::option::Option<usize>"),
+    ("A", "usize"),
         ])
 }
 
@@ -144,11 +144,11 @@ fn test_spanned_macro() {
         grammar;
         extern token { type Location = usize; enum Tok { } }
         A = Spanned<"Foo">;
-        Spanned<T>: (Option<usize>, Option<usize>) = {
-            <@L> T <@R> => (<>);
+        Spanned<T> = {
+            @L T @R;
         };
 "#, vec![
-    ("A", "(Option<usize>, Option<usize>)"),
+    ("A", "(usize, Tok, usize)"),
         ])
 }
 
