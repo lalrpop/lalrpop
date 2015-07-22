@@ -16,9 +16,7 @@ extern token {
 pub Items: Vec<(usize, usize)> = {
     => vec![];
 
-    Items "+" =>? {
-        Err(ParseError::User { error: '+' })
-    };
+    Items "+" =>? Err(ParseError::User { error: '+' });
 
     <v:Items> "-" =>? Ok(v);
 };
