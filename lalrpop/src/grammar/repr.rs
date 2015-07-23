@@ -5,7 +5,7 @@
  */
 
 use intern::{InternedString};
-use grammar::pattern::{Pattern, PatternKind};
+use grammar::pattern::{Pattern};
 use std::fmt::{Debug, Display, Formatter, Error};
 use util::{map, Map, Sep};
 
@@ -291,24 +291,8 @@ impl ActionFnDefn {
 }
 
 impl Grammar {
-    pub fn default_pattern(&self, id: InternedString) -> Pattern<TypeRepr> {
-        let path = self.types.terminal_enum_type().path.append(id);
-        Pattern {
-            span: self.token_span,
-            kind: PatternKind::Enum(path, vec![
-                Pattern {
-                    span: self.token_span,
-                    kind: PatternKind::DotDot
-                }
-            ])
-        }
-    }
-
-    pub fn pattern(&self, t: TerminalString) -> Pattern<TypeRepr> {
-        match self.conversions.get(&t).cloned() {
-            Some(p) => p,
-            None => self.default_pattern(t.0),
-        }
+    pub fn pattern(&self, t: TerminalString) -> &Pattern<TypeRepr> {
+        &self.conversions[&t]
     }
 
     pub fn productions_for(&self, nonterminal: NonterminalString) -> &[Production] {

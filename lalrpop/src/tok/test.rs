@@ -56,6 +56,14 @@ fn code1() {
 }
 
 #[test]
+fn code2() {
+    test("=>? a(b, c),", vec![
+        ("~~~~~~~~~~~ ", EqualsGreaterThanQuestionCode(" a(b, c)")),
+        ("           ~", Comma),
+    ]);
+}
+
+#[test]
 #[should_panic]
 fn code_forgot_comma() {
     test("=> a(b, c),", vec![

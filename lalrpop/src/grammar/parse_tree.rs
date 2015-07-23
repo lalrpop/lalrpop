@@ -9,7 +9,6 @@ use intern::{intern, InternedString};
 use grammar::repr::{NominalTypeRepr, TypeRepr};
 use grammar::pattern::Pattern;
 use std::fmt::{Debug, Display, Formatter, Error};
-use std::iter::once;
 use util::Sep;
 
 #[derive(Clone, Debug, PartialEq, Eq)]
@@ -480,13 +479,6 @@ impl Path {
             Some(self.ids[0])
         } else {
             None
-        }
-    }
-
-    pub fn append(&self, id: InternedString) -> Path {
-        Path {
-            absolute: self.absolute,
-            ids: self.ids.iter().cloned().chain(once(id)).collect()
         }
     }
 }

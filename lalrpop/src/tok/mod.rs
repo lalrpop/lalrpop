@@ -47,6 +47,7 @@ pub enum Tok<'input> {
     Equals,
     EqualsEquals,
     EqualsGreaterThanCode(&'input str),
+    EqualsGreaterThanQuestionCode(&'input str),
     EqualsGreaterThanLookahead,
     EqualsGreaterThanLookbehind,
     GreaterThan,
@@ -113,33 +114,47 @@ impl<'input> Tokenizer<'input> {
         // we've seen =>, now we have to choose between:
         //
         // => code
+        // =>? code
         // =>@L
         // =>@R
 
-        let idx1 = match self.lookahead {
+        match self.lookahead {
             Some((_, '@')) => {
                 match self.bump() {
                     Some((idx2, 'L')) => {
                         self.bump();
-                        return Ok((idx0, EqualsGreaterThanLookahead, idx2+1));
+                        Ok((idx0, EqualsGreaterThanLookahead, idx2+1))
                     }
                     Some((idx2, 'R')) => {
                         self.bump();
-                        return Ok((idx0, EqualsGreaterThanLookbehind, idx2+1));
+                        Ok((idx0, EqualsGreaterThanLookbehind, idx2+1))
                     }
                     _ => {
-                        return Err(UnrecognizedToken(idx0));
+                        Err(UnrecognizedToken(idx0))
                     }
                 }
             }
 
-            None => {
-                return Err(UnterminatedCode(idx0));
+            Some((idx1, '?')) => {
+                self.bump();
+                let idx2 = try!(self.code(idx0));
+                let code = &self.text[idx1+1..idx2];
+                Ok((idx0, EqualsGreaterThanQuestionCode(code), idx2))
             }
 
-            Some((idx1, _)) => { idx1 }
-        };
+            Some((idx1, _)) => {
+                let idx2 = try!(self.code(idx0));
+                let code = &self.text[idx1..idx2];
+                Ok((idx0, EqualsGreaterThanCode(code), idx2))
+            }
 
+            None => {
+                Err(UnterminatedCode(idx0))
+            }
+        }
+    }
+
+    fn code(&mut self, idx0: usize) -> Result<usize, Error> {
         // This is the interesting case. To find the end of the code,
         // we have to scan ahead, matching (), [], and {}, and looking
         // for a suitable terminator: `,`, `;`, `]`, `}`, or `)`.
@@ -163,8 +178,7 @@ impl<'input> Tokenizer<'input> {
                     // terminator. The code is everything *up
                     // to but not including* the terminating
                     // `,`, `;`, etc.
-                    let code = &self.text[idx1..];
-                    return Ok((idx0, EqualsGreaterThanCode(code), self.text.len()));
+                    return Ok(self.text.len());
                 }
 
                 Some((idx2, ';')) |
@@ -176,8 +190,7 @@ impl<'input> Tokenizer<'input> {
                     // terminator. The code is everything *up
                     // to but not including* the terminating
                     // `,`, `;`, etc.
-                    let code = &self.text[idx1..idx2];
-                    return Ok((idx0, EqualsGreaterThanCode(code), idx2));
+                    return Ok(idx2);
                 }
 
                 None if balance > 0 => {

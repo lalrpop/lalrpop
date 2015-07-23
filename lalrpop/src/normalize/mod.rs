@@ -25,21 +25,27 @@ macro_rules! return_err {
 }
 
 pub fn normalize(grammar: pt::Grammar) -> NormResult<r::Grammar> {
-    try!(validate::validate(&grammar));
-    normalize_without_validating(grammar)
+    normalize_helper(grammar, true)
 }
 
 /// for unit tests, it is convenient to skip the validation step
+#[cfg(test)]
 pub fn normalize_without_validating(grammar: pt::Grammar) -> NormResult<r::Grammar> {
+    normalize_helper(grammar, false)
+}
+
+fn normalize_helper(grammar: pt::Grammar, validate: bool) -> NormResult<r::Grammar> {
+    if validate { try!(prevalidate::validate(&grammar)); }
     let grammar = try!(macro_expand::expand_macros(grammar));
+    if validate { try!(postvalidate::validate(&grammar)); }
     let types = try!(tyinfer::infer_types(&grammar));
     lower::lower(grammar, types)
 }
 
 // These are executed *IN ORDER*:
 
-// Check some basic safety conditions.
-mod validate;
+// Check most safety conditions.
+mod prevalidate;
 
 // Expands macros and expressions
 //
@@ -55,6 +61,10 @@ mod validate;
 // alternatives, repeats, or expr symbols, though type indirections
 // may occur.
 mod macro_expand;
+
+// Check some safety conditions that can only be tested
+// after macro expansion.
+mod postvalidate;
 
 // Computes types where the user omitted them (or from macro
 // byproducts).

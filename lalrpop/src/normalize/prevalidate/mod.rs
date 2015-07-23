@@ -4,16 +4,11 @@ use super::{NormResult, NormError};
 use super::norm_util::{self, Symbols};
 
 use grammar::parse_tree::*;
-use intern::{intern, read, InternedString};
-use regex::Regex;
-use util::{Map, Multimap, Sep, set, Set};
+use intern::{intern, InternedString};
+use util::{Map, Multimap, Sep, set};
 
 #[cfg(test)]
 mod test;
-
-thread_local! {
-    static IDENTIFIER_RE: Regex = Regex::new("^[a-zA-Z_][a-zA-Z0-9_]*$").unwrap()
-}
 
 pub fn validate(grammar: &Grammar) -> NormResult<()> {
     let globals = ScopeChain {
@@ -31,18 +26,10 @@ pub fn validate(grammar: &Grammar) -> NormResult<()> {
                .filter_map(|item| item.as_extern_token())
                .next();
 
-    let conversions: Set<_> =
-        grammar.items
-               .iter()
-               .filter_map(|item| item.as_extern_token())
-               .flat_map(|tt| tt.enum_token.conversions.iter().map(|conversion| conversion.from))
-               .collect();
-
     let validator = Validator {
         grammar: grammar,
         globals: globals,
         extern_token: extern_token,
-        conversions: conversions,
     };
 
     validator.validate()
@@ -52,7 +39,6 @@ struct Validator<'grammar> {
     grammar: &'grammar Grammar,
     extern_token: Option<&'grammar ExternToken>,
     globals: ScopeChain<'grammar>,
-    conversions: Set<TerminalString>,
 }
 
 #[derive(Copy, Clone, Debug)]
@@ -221,8 +207,8 @@ impl<'grammar> Validator<'grammar> {
             SymbolKind::Expr(ref expr) => {
                 try!(self.validate_expr(scope, expr));
             }
-            SymbolKind::Terminal(term) => {
-                try!(self.validate_terminal(symbol.span, term));
+            SymbolKind::Terminal(_) => {
+                /* see postvalidate! */
             }
             SymbolKind::Nonterminal(nt) => {
                 try!(self.validate_nt(scope, symbol.span, nt));
@@ -244,6 +230,10 @@ impl<'grammar> Validator<'grammar> {
                                         msym.name, arity, msym.args.len());
                         }
                     }
+                }
+
+                for arg in &msym.args {
+                    try!(self.validate_symbol(scope, arg));
                 }
             }
             SymbolKind::Repeat(ref repeat) => {
@@ -272,31 +262,6 @@ impl<'grammar> Validator<'grammar> {
         }
 
         Ok(())
-    }
-
-    fn validate_terminal(&self,
-                         span: Span,
-                         term: TerminalString)
-                         -> NormResult<()> {
-        // if this is a valid Rust identifier, then the
-        // terminal is accepted
-        if self.is_identifier(term.0) {
-            return Ok(());
-        }
-
-        // otherwise, a remapping must have been defined
-        if self.conversions.contains(&term) {
-            return Ok(());
-        }
-
-        return_err!(span, "terminal `{}` is neither a valid Rust identifier \
-                           and nor does it have a defined conversion", term);
-    }
-
-    fn is_identifier(&self, term: InternedString) -> bool {
-        IDENTIFIER_RE.with(|identifier_re|
-                           read(|interner|
-                                identifier_re.is_match(interner.data(term))))
     }
 
     fn validate_nt(&self,
