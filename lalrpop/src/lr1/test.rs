@@ -141,3 +141,45 @@ grammar;
     // run some random tests
     random_test(&grammar, &states, nt("S"));
 }
+
+#[test]
+fn shift_reduce_conflict1() {
+    // This grammar gets a shift-reduce conflict because if the input
+    // is "&" (*) "L", then we see two possibilities, and we must decide
+    // between them:
+    //
+    // "&" (*) "L" E
+    //  |       |  |
+    //  +-------+--|
+    //          |
+    //          E
+    //
+    // or
+    //
+    // "&"      (*) "L"
+    //  |            |
+    //  |  OPT_L     E
+    //  |   |        |
+    //  +---+---+----+
+    //          |
+    //          E
+    //
+    // to some extent this may be a false conflict, in that inlined
+    // rules would address it, but it's an interesting one for
+    // producing a useful error message.
+
+    let grammar = normalized_grammar(r#"
+        grammar;
+        extern token { enum Tok { } }
+        E: () = {
+            "L";
+            "&" OPT_L E;
+        };
+        OPT_L: () = {
+            ;
+            "L";
+        };
+    "#);
+
+    assert!(build_states(&grammar, nt("E")).is_err());
+}

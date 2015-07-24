@@ -26,6 +26,7 @@ pub enum Tok<'input> {
     If,
     Mut,
     Pub,
+    Type,
     Token,
 
     // Special keywords: these are accompanied by a series of
@@ -94,6 +95,7 @@ const KEYWORDS: &'static [(&'static str, Tok<'static>)] = &[
     ("mut", Mut),
     ("pub", Pub),
     ("token", Token),
+    ("type", Type),
     ];
 
 impl<'input> Tokenizer<'input> {
