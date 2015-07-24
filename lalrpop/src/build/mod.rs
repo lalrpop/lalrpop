@@ -82,25 +82,21 @@ fn parse_and_normalize_grammar(path: PathBuf) -> io::Result<r::Grammar> {
                          &format!("extra token at end of input: `{}`", text));
         }
 
-        Err(ParseError::User { error: tok::Error::UnrecognizedToken(loc) }) => {
+        Err(ParseError::User { error }) => {
+            let string = match error.code {
+                tok::ErrorCode::UnrecognizedToken =>
+                    "unrecognized token",
+                tok::ErrorCode::UnterminatedEscape =>
+                    "unterminated escape; missing '`'?",
+                tok::ErrorCode::UnterminatedStringLiteral =>
+                    "unterminated string literal; missing `\"`?",
+                tok::ErrorCode::UnterminatedCode =>
+                    "unterminated code block; perhaps a missing `;`, `)`, `]` or `}`?"
+            };
+
             report_error(&input,
-                         pt::Span(loc, loc+1),
-                         "unrecognized token");
-        }
-
-        Err(ParseError::User { error: tok::Error::UnterminatedEscape(loc) }) => {
-            report_error(&input, pt::Span(loc, loc+1),
-                         "unterminated escape");
-        }
-
-        Err(ParseError::User { error: tok::Error::UnterminatedStringLiteral(loc) }) => {
-            report_error(&input, pt::Span(loc, loc+1),
-                         "unterminated string literal");
-        }
-
-        Err(ParseError::User { error: tok::Error::UnterminatedCode(loc) }) => {
-            report_error(&input, pt::Span(loc, loc+1),
-                         "unterminated code block; perhaps a missing `;`, `)`, `]` or `}`?");
+                         pt::Span(error.location, error.location + 1),
+                         string)
         }
     };
 

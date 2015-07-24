@@ -35,8 +35,8 @@ mod __parse__Items {
     use super::__ToTriple;
 
     pub enum __Nonterminal<> {
-        Items(Vec<(usize, usize)>),
         ____Items(Vec<(usize, usize)>),
+        Items(Vec<(usize, usize)>),
     }
 
     // State 0
@@ -51,8 +51,8 @@ mod __parse__Items {
     //   Items = (*) Items "-" ["-"]
     //   __Items = (*) Items [EOF]
     //
-    //   EOF -> Reduce(Items =  => Call(ActionFn(1));)
     //   "+" -> Reduce(Items =  => Call(ActionFn(1));)
+    //   EOF -> Reduce(Items =  => Call(ActionFn(1));)
     //   "-" -> Reduce(Items =  => Call(ActionFn(1));)
     //
     //   Items -> S1
@@ -66,11 +66,11 @@ mod __parse__Items {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok, usize)>, __Nonterminal<>);
         match __lookahead {
-            None => {
+            Some((_, Tok::Plus(..), _)) => {
                 let __nt = super::__action1();
                 __result = (__lookbehind, __lookahead, __Nonterminal::Items(__nt));
             }
-            Some((_, Tok::Plus(..), _)) => {
+            None => {
                 let __nt = super::__action1();
                 __result = (__lookbehind, __lookahead, __Nonterminal::Items(__nt));
             }
@@ -108,9 +108,9 @@ mod __parse__Items {
     //   Items = Items (*) "-" ["-"]
     //   __Items = Items (*) [EOF]
     //
-    //   "+" -> Shift(S2)
     //   EOF -> Reduce(__Items = Items => Call(ActionFn(0));)
-    //   "-" -> Shift(S3)
+    //   "-" -> Shift(S2)
+    //   "+" -> Shift(S3)
     //
     pub fn __state1<
         __TOKENS: Iterator<Item=Result<(usize, Tok, usize),char>>,
@@ -123,13 +123,13 @@ mod __parse__Items {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok, usize)>, __Nonterminal<>);
         match __lookahead {
-            Some((_, __tok @ Tok::Plus(..), __loc)) => {
+            Some((_, __tok @ Tok::Minus(..), __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym1 = &mut Some((__tok));
                 let __lookahead = match __tokens.next() { Some(Ok(v)) => Some(v), None => None, Some(Err(e)) => return Err(__ParseError::User { error: e }) };
                 __result = try!(__state2(__lookbehind, __lookahead, __tokens, __sym0, __sym1));
             }
-            Some((_, __tok @ Tok::Minus(..), __loc)) => {
+            Some((_, __tok @ Tok::Plus(..), __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym1 = &mut Some((__tok));
                 let __lookahead = match __tokens.next() { Some(Ok(v)) => Some(v), None => None, Some(Err(e)) => return Err(__ParseError::User { error: e }) };
@@ -151,13 +151,13 @@ mod __parse__Items {
     }
 
     // State 2
-    //   Items = Items "+" (*) [EOF]
-    //   Items = Items "+" (*) ["+"]
-    //   Items = Items "+" (*) ["-"]
+    //   Items = Items "-" (*) [EOF]
+    //   Items = Items "-" (*) ["+"]
+    //   Items = Items "-" (*) ["-"]
     //
-    //   "-" -> Reduce(Items = Items, "+" => TryCall(ActionFn(2));)
-    //   EOF -> Reduce(Items = Items, "+" => TryCall(ActionFn(2));)
-    //   "+" -> Reduce(Items = Items, "+" => TryCall(ActionFn(2));)
+    //   "+" -> Reduce(Items = Items, "-" => TryCall(ActionFn(3));)
+    //   "-" -> Reduce(Items = Items, "-" => TryCall(ActionFn(3));)
+    //   EOF -> Reduce(Items = Items, "-" => TryCall(ActionFn(3));)
     //
     pub fn __state2<
         __TOKENS: Iterator<Item=Result<(usize, Tok, usize),char>>,
@@ -171,22 +171,22 @@ mod __parse__Items {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok, usize)>, __Nonterminal<>);
         match __lookahead {
+            Some((_, Tok::Plus(..), _)) => {
+                let __sym0 = __sym0.take().unwrap();
+                let __sym1 = __sym1.take().unwrap();
+                let __nt = try!(super::__action3(__sym0, __sym1));
+                return Ok((__lookbehind, __lookahead, __Nonterminal::Items(__nt)));
+            }
             Some((_, Tok::Minus(..), _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
-                let __nt = try!(super::__action2(__sym0, __sym1));
+                let __nt = try!(super::__action3(__sym0, __sym1));
                 return Ok((__lookbehind, __lookahead, __Nonterminal::Items(__nt)));
             }
             None => {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
-                let __nt = try!(super::__action2(__sym0, __sym1));
-                return Ok((__lookbehind, __lookahead, __Nonterminal::Items(__nt)));
-            }
-            Some((_, Tok::Plus(..), _)) => {
-                let __sym0 = __sym0.take().unwrap();
-                let __sym1 = __sym1.take().unwrap();
-                let __nt = try!(super::__action2(__sym0, __sym1));
+                let __nt = try!(super::__action3(__sym0, __sym1));
                 return Ok((__lookbehind, __lookahead, __Nonterminal::Items(__nt)));
             }
             _ => {
@@ -199,13 +199,13 @@ mod __parse__Items {
     }
 
     // State 3
-    //   Items = Items "-" (*) [EOF]
-    //   Items = Items "-" (*) ["+"]
-    //   Items = Items "-" (*) ["-"]
+    //   Items = Items "+" (*) [EOF]
+    //   Items = Items "+" (*) ["+"]
+    //   Items = Items "+" (*) ["-"]
     //
-    //   "+" -> Reduce(Items = Items, "-" => TryCall(ActionFn(3));)
-    //   "-" -> Reduce(Items = Items, "-" => TryCall(ActionFn(3));)
-    //   EOF -> Reduce(Items = Items, "-" => TryCall(ActionFn(3));)
+    //   "+" -> Reduce(Items = Items, "+" => TryCall(ActionFn(2));)
+    //   "-" -> Reduce(Items = Items, "+" => TryCall(ActionFn(2));)
+    //   EOF -> Reduce(Items = Items, "+" => TryCall(ActionFn(2));)
     //
     pub fn __state3<
         __TOKENS: Iterator<Item=Result<(usize, Tok, usize),char>>,
@@ -222,19 +222,19 @@ mod __parse__Items {
             Some((_, Tok::Plus(..), _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
-                let __nt = try!(super::__action3(__sym0, __sym1));
+                let __nt = try!(super::__action2(__sym0, __sym1));
                 return Ok((__lookbehind, __lookahead, __Nonterminal::Items(__nt)));
             }
             Some((_, Tok::Minus(..), _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
-                let __nt = try!(super::__action3(__sym0, __sym1));
+                let __nt = try!(super::__action2(__sym0, __sym1));
                 return Ok((__lookbehind, __lookahead, __Nonterminal::Items(__nt)));
             }
             None => {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
-                let __nt = try!(super::__action3(__sym0, __sym1));
+                let __nt = try!(super::__action2(__sym0, __sym1));
                 return Ok((__lookbehind, __lookahead, __Nonterminal::Items(__nt)));
             }
             _ => {
@@ -259,7 +259,7 @@ pub fn __action1<
 >(
 ) -> Vec<(usize, usize)>
 {
-    vec![]
+     vec![]
 }
 
 pub fn __action2<
@@ -268,7 +268,7 @@ pub fn __action2<
     __1: Tok,
 ) -> Result<Vec<(usize, usize)>,__ParseError<usize,Tok,char>>
 {
-    Err(ParseError::User { error: '+' })
+     Err(ParseError::User { error: '+' })
 }
 
 pub fn __action3<
@@ -277,23 +277,23 @@ pub fn __action3<
     _: Tok,
 ) -> Result<Vec<(usize, usize)>,__ParseError<usize,Tok,char>>
 {
-    Ok(v)
+     Ok(v)
 }
 
-pub trait __ToTriple {
+pub trait __ToTriple<> {
     type Error;
     fn to_triple(value: Self) -> Result<(usize,Tok,usize),Self::Error>;
 }
 
-impl __ToTriple for (usize, Tok, usize) {
+impl<> __ToTriple<> for (usize, Tok, usize) {
     type Error = char;
     fn to_triple(value: Self) -> Result<(usize,Tok,usize),char> {
         Ok(value)
     }
 }
-impl<ERROR> __ToTriple for Result<(usize, Tok, usize),ERROR> {
-    type Error = ERROR;
-    fn to_triple(value: Self) -> Result<(usize,Tok,usize),ERROR> {
+impl<> __ToTriple<> for Result<(usize, Tok, usize),char> {
+    type Error = char;
+    fn to_triple(value: Self) -> Result<(usize,Tok,usize),char> {
         value
     }
 }

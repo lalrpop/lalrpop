@@ -3,6 +3,7 @@ use grammar::parse_tree::*;
 use grammar::pattern::*;
 use std::iter::once;
 use tok::{self, Tok};
+use util::strip;
 
 grammar<'input>(text: &'input str);
 
@@ -16,6 +17,8 @@ pub Grammar: Grammar =
         let where_clauses =
             where_clauses.iter()
                          .flat_map(|wc| wc.iter())
+                         .map(|s| strip(s))
+                         .filter(|s| !s.is_empty())
                          .map(|s| s.to_string())
                          .collect();
         Grammar { span: Span(lo, hi),
@@ -29,8 +32,8 @@ GrammarTypeParameters: Vec<TypeParameter> =
     "<" <Comma<TypeParameter>> ">";
 
 TypeParameter: TypeParameter = {
-    <l:"Lifetime"> => TypeParameter::Lifetime(intern(l));
-    <l:"Id"> => TypeParameter::Id(intern(l));
+    <l:Lifetime> => TypeParameter::Lifetime(l);
+    <l:Id> => TypeParameter::Id(l);
 };
 
 GrammarParameters: Vec<Parameter> =
@@ -46,7 +49,7 @@ GrammarItem: GrammarItem = {
 };
 
 Use: GrammarItem =
-    <u:"use"> ";" => GrammarItem::Use(u.to_string());
+    <u:"use"> ";" => GrammarItem::Use(strip(u).to_string());
 
 Nonterminal: GrammarItem =
     <p:"pub"?> <lo:@L> <n:NonterminalName> <hi:@R>
@@ -60,8 +63,8 @@ Nonterminal: GrammarItem =
     };
 
 NonterminalName: (NonterminalString, Vec<NonterminalString>) = {
-    <MacroId> "<" <Comma<NonterminalId>> ">";
-    <n:NonterminalId> => (n, vec![]);
+    <MacroId> "<" <Comma<NotMacroId>> ">";
+    <n:NotMacroId> => (n, vec![]);
     <"Escape"> => (NonterminalString(intern(<>)), vec![]);
 };
 
@@ -88,7 +91,7 @@ Action: ActionKind = {
 };
 
 Cond: Condition =
-    <lo:@L> <a:NonterminalId> <op:CondOp> <b:StringLiteral> <hi:@R> => {
+    <lo:@L> <a:NotMacroId> <op:CondOp> <b:StringLiteral> <hi:@R> => {
         Condition { span:Span(lo, hi), lhs:a, rhs:b, op:op }
     };
 
@@ -136,7 +139,7 @@ SymbolKind1: SymbolKind = {
     Terminal =>
         SymbolKind::Terminal(<>);
 
-    NonterminalId =>
+    NotMacroId =>
         SymbolKind::Nonterminal(<>);
 
     Escape =>
@@ -213,8 +216,11 @@ AssociatedType: AssociatedType =
     };
 
 Conversion: Conversion =
-    <lo:@L> <from:Terminal> <p:"=>"> <hi:@R> =>? {
-        panic!("not yet implemented -- parse pattern")
+    <lo:@L> <from:Terminal> <start:@L> <p:"=>"> <hi:@R> =>? {
+        let pattern = try!(super::parse_pattern(p, start + 2));
+        Ok(Conversion { span: Span(lo, hi),
+                        from: from,
+                        to: pattern })
     };
 
 pub Pattern: Pattern<TypeRef> =
@@ -256,11 +262,13 @@ FieldPattern: FieldPattern<TypeRef> =
 MacroId: NonterminalString =
     <i:"MacroId"> => NonterminalString(intern(i));
 
-NonterminalId: NonterminalString =
-    <i:Id> => NonterminalString(i);
+NotMacroId: NonterminalString =
+    <i:"Id"> => NonterminalString(intern(i));
 
-Id: InternedString =
+Id: InternedString = {
     <i:"Id"> => intern(i);
+    <i:"MacroId"> => intern(i);
+};
 
 Escape: InternedString =
     <i:"Escape"> => intern(i);

@@ -93,3 +93,7 @@ pub fn set<K:Hash+Eq>() -> HashSet<K> {
     HashSet::new()
 }
 
+/// Strip leading and trailing whitespace.
+pub fn strip(s: &str) -> &str {
+    s.trim_matches(char::is_whitespace)
+}
