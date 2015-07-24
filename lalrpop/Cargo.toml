@@ -2,6 +2,7 @@
 name = "lalrpop"
 version = "0.1.0"
 authors = ["Niko Matsakis <niko@alum.mit.edu>"]
+build = "build.rs"
 
 [dependencies]
 regex = "0.1"
@@ -13,3 +14,6 @@ unicode-xid = "0.0.2"
 
 [dependencies.rusty-peg]
 git = "https://github.com/nikomatsakis/rusty-peg.git"
+
+[build-dependencies.lalrpop-snap]
+path = "../lalrpop-snap"
