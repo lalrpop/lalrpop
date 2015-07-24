@@ -1,4 +1,4 @@
-use super::{is_identifier_start, is_identifier_continue, Tok, Tokenizer};
+use super::{Tok, Tokenizer};
 use super::Tok::*;
 
 fn test(input: &str,
@@ -19,16 +19,6 @@ fn test(input: &str,
 
     let tokenizer = Tokenizer::new(&input);
     assert_eq!(None, tokenizer.skip(len).next());
-}
-
-#[test]
-fn identifier_start1() {
-    assert!(is_identifier_start('f'));
-}
-
-#[test]
-fn identifier_continue1() {
-    assert!(is_identifier_continue('o'));
 }
 
 #[test]
@@ -97,3 +87,30 @@ fn string_literals() {
         (r#"              ~~~"#, Id("baz")),
     ]);
 }
+
+#[test]
+fn use1() {
+    test(r#"use foo::bar; baz"#, vec![
+        (r#"~~~~~~~~~~~~     "#, Use(" foo::bar")),
+        (r#"            ~    "#, Semi),
+        (r#"              ~~~"#, Id("baz")),
+    ]);
+}
+
+#[test]
+fn use2() {
+    test(r#"use {foo,bar}; baz"#, vec![
+        (r#"~~~~~~~~~~~~~     "#, Use(" {foo,bar}")),
+        (r#"             ~    "#, Semi),
+        (r#"               ~~~"#, Id("baz")),
+    ]);
+}
+
+#[test]
+fn where1() {
+    test(r#"where <foo,bar>,baz;"#, vec![
+        (r#"~~~~~~~~~~~~~~~~~~~ "#, Where(vec![" <foo,bar>", "baz"])),
+        (r#"                   ~"#, Semi),
+    ]);
+}
+

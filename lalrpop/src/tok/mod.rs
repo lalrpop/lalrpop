@@ -1,6 +1,7 @@
 //! A tokenizer for use in LALRPOP itself.
 
 use std::str::CharIndices;
+use unicode_xid::UnicodeXID;
 
 use self::Error::*;
 use self::Tok::*;
@@ -26,8 +27,11 @@ pub enum Tok<'input> {
     Mut,
     Pub,
     Token,
-    Use,
-    Where,
+
+    // Special keywords: these are accompanied by a series of
+    // uninterpreted strings representing imports and stuff.
+    Use(&'input str),
+    Where(Vec<&'input str>),
 
     // Identifiers of various kinds:
     Escape(&'input str),
@@ -90,8 +94,6 @@ const KEYWORDS: &'static [(&'static str, Tok<'static>)] = &[
     ("mut", Mut),
     ("pub", Pub),
     ("token", Token),
-    ("use", Use),
-    ("where", Where),
     ];
 
 impl<'input> Tokenizer<'input> {
@@ -137,13 +139,13 @@ impl<'input> Tokenizer<'input> {
 
             Some((idx1, '?')) => {
                 self.bump();
-                let idx2 = try!(self.code(idx0));
+                let idx2 = try!(self.code(idx0, "([{", "}])"));
                 let code = &self.text[idx1+1..idx2];
                 Ok((idx0, EqualsGreaterThanQuestionCode(code), idx2))
             }
 
             Some((idx1, _)) => {
-                let idx2 = try!(self.code(idx0));
+                let idx2 = try!(self.code(idx0, "([{", "}])"));
                 let code = &self.text[idx1..idx2];
                 Ok((idx0, EqualsGreaterThanCode(code), idx2))
             }
@@ -154,52 +156,37 @@ impl<'input> Tokenizer<'input> {
         }
     }
 
-    fn code(&mut self, idx0: usize) -> Result<usize, Error> {
+    fn code(&mut self, idx0: usize, open_delims: &str, close_delims: &str) -> Result<usize, Error> {
         // This is the interesting case. To find the end of the code,
         // we have to scan ahead, matching (), [], and {}, and looking
         // for a suitable terminator: `,`, `;`, `]`, `}`, or `)`.
         let mut balance = 0; // number of unclosed `(` etc
         loop {
-            match self.lookahead {
-                Some((_, '(')) |
-                Some((_, '[')) |
-                Some((_, '{')) => {
+            if let Some((idx, c)) = self.lookahead {
+                if open_delims.find(c).is_some() {
                     balance += 1;
-                }
+                } else if balance > 0 {
+                    if close_delims.find(c).is_some() {
+                        balance -= 1;
+                    }
+                } else {
+                    debug_assert!(balance == 0);
 
-                Some((_, ')')) |
-                Some((_, ']')) |
-                Some((_, '}')) if balance > 0 => {
-                    balance -= 1;
+                    if c == ',' || c == ';' || close_delims.find(c).is_some() {
+                        // Note: we do not consume the
+                        // terminator. The code is everything *up
+                        // to but not including* the terminating
+                        // `,`, `;`, etc.
+                        return Ok(idx);
+                    }
                 }
-
-                None if balance == 0 => {
-                    // Note: we do not consume the
-                    // terminator. The code is everything *up
-                    // to but not including* the terminating
-                    // `,`, `;`, etc.
-                    return Ok(self.text.len());
-                }
-
-                Some((idx2, ';')) |
-                Some((idx2, ',')) |
-                Some((idx2, ')')) |
-                Some((idx2, ']')) |
-                Some((idx2, '}')) if balance == 0 => {
-                    // Note: we do not consume the
-                    // terminator. The code is everything *up
-                    // to but not including* the terminating
-                    // `,`, `;`, etc.
-                    return Ok(idx2);
-                }
-
-                None if balance > 0 => {
-                    // the input should not end with an
-                    // unbalanced number of `{` etc!
-                    return Err(UnterminatedCode(idx0));
-                }
-
-                _ => { }
+            } else if balance > 0 {
+                // the input should not end with an
+                // unbalanced number of `{` etc!
+                return Err(UnterminatedCode(idx0));
+            } else {
+                debug_assert!(balance == 0);
+                return Ok(self.text.len());
             }
 
             self.bump();
@@ -251,8 +238,39 @@ impl<'input> Tokenizer<'input> {
         (start, Lifetime(word), end)
     }
 
-    fn identifierish(&mut self, idx0: usize) -> Spanned<Tok<'input>> {
+    fn identifierish(&mut self, idx0: usize) -> Result<Spanned<Tok<'input>>, Error> {
         let (start, word, end) = self.word(idx0);
+
+        if word == "use" {
+            let code_end = try!(self.code(idx0, "([{", "}])"));
+            let code = &self.text[end..code_end];
+            return Ok((start, Tok::Use(code), code_end));
+        }
+
+        if word == "where" {
+            let mut wcs = vec![];
+            let mut wc_start = end;
+            let mut wc_end;
+            loop {
+                // Note: do not include `{` as a delimeter here, as
+                // that is not legal in the trait/where-clause syntax,
+                // and in fact signals start of the fn body. But do
+                // include `<`.
+                wc_end = try!(self.code(wc_start, "([<", ">])"));
+                let wc = &self.text[wc_start..wc_end];
+                wcs.push(wc);
+
+                // if this ended in a comma, maybe expect another where-clause
+                if let Some((_, ',')) = self.lookahead {
+                    self.bump();
+                    wc_start = wc_end + 1;
+                } else {
+                    break;
+                }
+            }
+
+            return Ok((start, Tok::Where(wcs), wc_end));
+        }
 
         let tok =
             // search for a keyword first; if none are found, this is
@@ -269,7 +287,7 @@ impl<'input> Tokenizer<'input> {
                         }
                     });
 
-        (start, tok, end)
+        Ok((start, tok, end))
     }
 
     fn word(&mut self, idx0: usize) -> Spanned<&'input str> {
@@ -473,7 +491,7 @@ impl<'input> Iterator for Tokenizer<'input> {
                     }
                 }
                 Some((idx0, c)) if is_identifier_start(c) => {
-                    Some(Ok(self.identifierish(idx0)))
+                    Some(self.identifierish(idx0))
                 }
                 Some((_, c)) if c.is_whitespace() => {
                     self.bump();
@@ -491,11 +509,9 @@ impl<'input> Iterator for Tokenizer<'input> {
 }
 
 fn is_identifier_start(c: char) -> bool {
-    // for some reason c.is_xid_start() is not stable :(
-    c.is_alphabetic() || c == '_'
+    UnicodeXID::is_xid_start(c)
 }
 
 fn is_identifier_continue(c: char) -> bool {
-    // for some reason c.is_xid_continue() is not stable :(
-    c.is_alphabetic() || c == '_' || c.is_digit(10)
+    UnicodeXID::is_xid_continue(c)
 }

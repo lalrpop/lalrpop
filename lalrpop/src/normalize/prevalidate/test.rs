@@ -43,6 +43,13 @@ fn unknown_nonterminal_in_macro_arg() {
 }
 
 #[test]
+fn unknown_nonterminal_in_repeat_question() {
+    check_err(
+        "no definition found for nonterminal `Y`",
+        r#"grammar; X = >>>Y<<<?;"#);
+}
+
+#[test]
 fn repeated_macro_arg() {
     check_err(
         "multiple macro arguments declared with the name `Y`",

@@ -9,6 +9,7 @@ diff = "0.1"
 rand = "0.3"
 itertools = "0.3"
 term = "0.2"
+unicode-xid = "0.0.2"
 
 [dependencies.rusty-peg]
 git = "https://github.com/nikomatsakis/rusty-peg.git"

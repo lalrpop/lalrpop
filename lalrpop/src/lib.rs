@@ -15,6 +15,7 @@ extern crate rand;
 extern crate regex;
 extern crate term;
 extern crate itertools;
+extern crate unicode_xid;
 
 // rust exports a macro that others use, so hoist it early.
 #[macro_use]
