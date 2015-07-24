@@ -13,19 +13,24 @@ pub Grammar: Grammar =
     <where_clauses:"where"?>
     ";"
     <items:GrammarItem*> => {
+        let where_clauses =
+            where_clauses.iter()
+                         .flat_map(|wc| wc.iter())
+                         .map(|s| s.to_string())
+                         .collect();
         Grammar { span: Span(lo, hi),
                   type_parameters: tps.unwrap_or(vec![]),
                   parameters: parameters.unwrap_or(vec![]),
-                  where_clauses: where_clauses.unwrap_or(vec![]),
-                  items: uses.into_iter().chain(i).collect() }
+                  where_clauses: where_clauses,
+                  items: uses.into_iter().chain(items).collect() }
     };
 
 GrammarTypeParameters: Vec<TypeParameter> =
     "<" <Comma<TypeParameter>> ">";
 
 TypeParameter: TypeParameter = {
-    <l:"Lifetime"> => TypeParameter::Lifetime(l);
-    <l:"Id"> => TypeParameter::Id(l);
+    <l:"Lifetime"> => TypeParameter::Lifetime(intern(l));
+    <l:"Id"> => TypeParameter::Id(intern(l));
 };
 
 GrammarParameters: Vec<Parameter> =
@@ -41,7 +46,7 @@ GrammarItem: GrammarItem = {
 };
 
 Use: GrammarItem =
-    <u:"use"> ";" => GrammarItem::Use(u);
+    <u:"use"> ";" => GrammarItem::Use(u.to_string());
 
 Nonterminal: GrammarItem =
     <p:"pub"?> <lo:@L> <n:NonterminalName> <hi:@R>
@@ -56,7 +61,7 @@ Nonterminal: GrammarItem =
 
 NonterminalName: (NonterminalString, Vec<NonterminalString>) = {
     <MacroId> "<" <Comma<NonterminalId>> ">";
-    <NonterminalId>;
+    <n:NonterminalId> => (n, vec![]);
     <"Escape"> => (NonterminalString(intern(<>)), vec![]);
 };
 
@@ -66,7 +71,7 @@ Alternatives: Vec<Alternative> = {
 };
 
 Alternative: Alternative =
-    <lo:@L> <s:Symbol*> <c:("if" <Cond>)?> <a:Action?> ";" <hi:@R> => {
+    <lo:@L> <s:ExprSymbol> <c:("if" <Cond>)?> <a:Action?> ";" <hi:@R> => {
         Alternative {
             span: Span(lo, hi),
             expr: s,
@@ -78,12 +83,12 @@ Alternative: Alternative =
 Action: ActionKind = {
     "=>@L" => ActionKind::Lookahead;
     "=>@R" => ActionKind::Lookbehind;
-    <c:"=>"> => ActionKind::Code(c.to_string());
+    <c:"=>"> => ActionKind::User(c.to_string());
     <c:"=>?"> => ActionKind::Fallible(c.to_string());
 };
 
 Cond: Condition =
-    <lo:@L> <a:NonterminalId> <op:CondOp> <b:"StringLiteral"> <hi:@R> => {
+    <lo:@L> <a:NonterminalId> <op:CondOp> <b:StringLiteral> <hi:@R> => {
         Condition { span:Span(lo, hi), lhs:a, rhs:b, op:op }
     };
 
@@ -93,6 +98,9 @@ CondOp: ConditionOp = {
     "~~" => ConditionOp::Match;
     "!~" => ConditionOp::NotMatch;
 };
+
+ExprSymbol: ExprSymbol =
+    Symbol* => ExprSymbol { symbols: <> };
 
 Symbol: Symbol = {
     <lo:@L> "<" @L <l:Id> ":" <s:Symbol0> ">" <hi:@R> =>
@@ -134,7 +142,7 @@ SymbolKind1: SymbolKind = {
     Escape =>
         SymbolKind::Nonterminal(NonterminalString(<>));
 
-    "(" <Symbol*> ")" =>
+    "(" <ExprSymbol> ")" =>
         SymbolKind::Expr(<>);
 
     "@L" =>
@@ -144,7 +152,7 @@ SymbolKind1: SymbolKind = {
         SymbolKind::Lookbehind;
 };
 
-TypeRef: TypeRef = {
+pub TypeRef: TypeRef = {
     "(" <Comma<TypeRef>> ")" =>
         TypeRef::Tuple(<>);
 
@@ -169,7 +177,7 @@ TypeRef: TypeRef = {
 
 TypeRefOrLifetime: TypeRef = {
     TypeRef;
-    Lifetime => TypeRef1::Lifetime(<>);
+    Lifetime => TypeRef::Lifetime(<>);
 };
 
 Path: Path =
@@ -206,11 +214,10 @@ AssociatedType: AssociatedType =
 
 Conversion: Conversion =
     <lo:@L> <from:Terminal> <p:"=>"> <hi:@R> =>? {
-        let pattern = try!(parse_pattern(p));
-        Conversion { span: Span(lo, hi), from: from, to: pattern }
+        panic!("not yet implemented -- parse pattern")
     };
 
-pub Pattern: Pattern =
+pub Pattern: Pattern<TypeRef> =
     <lo:@L> <k:PatternKind> <hi:@R> => Pattern { span: Span(lo, hi), kind: k };
 
 PatternKind: PatternKind<TypeRef> = {
@@ -232,7 +239,7 @@ PatternKind: PatternKind<TypeRef> = {
     "<" <TypeRef> ">" =>
         PatternKind::Choose(<>);
 
-    "(" <Comma<TypeRef>> ")" =>
+    "(" <Comma<Pattern>> ")" =>
         PatternKind::Tuple(<>);
 
     <Path> =>
@@ -283,8 +290,8 @@ extern token {
         "pub" => Tok::Pub(..),
         "token" => Tok::Token(..),
         "type" => Tok::Type(..),
-        "use" => Tok::Use(..),
-        "where" => Tok::Where(..),
+        "use" => Tok::Use(<&'input str>),
+        "where" => Tok::Where(<Vec<&'input str>>),
 
         "Escape" => Tok::Escape(<&'input str>),
         "Id" => Tok::Id(<&'input str>),

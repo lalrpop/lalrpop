@@ -73,7 +73,7 @@ pub enum Tok<'input> {
     Underscore,
 }
 
-pub struct Tokenizer<'input> {
+struct Tokenizer<'input> {
     text: &'input str,
     chars: CharIndices<'input>,
     lookahead: Option<(usize, char)>,
@@ -85,7 +85,7 @@ macro_rules! eof {
     }
 }
 
-pub type Spanned<T> = (usize, T, usize);
+type Spanned<T> = (usize, T, usize);
 
 const KEYWORDS: &'static [(&'static str, Tok<'static>)] = &[
     ("enum", Enum),
@@ -99,7 +99,7 @@ const KEYWORDS: &'static [(&'static str, Tok<'static>)] = &[
     ];
 
 impl<'input> Tokenizer<'input> {
-    pub fn new(text: &'input str) -> Tokenizer<'input> {
+    fn new(text: &'input str) -> Tokenizer<'input> {
         let mut t = Tokenizer {
             text: text,
             chars: text.char_indices(),

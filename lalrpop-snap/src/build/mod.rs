@@ -2,12 +2,10 @@
 
 use grammar::parse_tree as pt;
 use grammar::repr as r;
-use lalrpop_util::ParseError;
 use lr1;
 use normalize;
 use parser;
 use rust::RustWrite;
-use tok;
 use self::filetext::FileText;
 
 use std::fs;
@@ -59,48 +57,10 @@ fn parse_and_normalize_grammar(path: PathBuf) -> io::Result<r::Grammar> {
 
     let grammar = match parser::parse_grammar(input.text()) {
         Ok(grammar) => grammar,
-
-        Err(ParseError::UnrecognizedToken { token: None, expected: _ }) => {
-            let len = input.text().len();
+        Err(error) => {
             report_error(&input,
-                         pt::Span(len, len),
-                         &format!("unexpected end of file"));
-        }
-
-        Err(ParseError::UnrecognizedToken { token: Some((lo, _, hi)), expected }) => {
-            assert!(expected.is_empty()); // didn't implement this yet :)
-            let text = &input.text()[lo..hi];
-            report_error(&input,
-                         pt::Span(lo, hi),
-                         &format!("unexpected token: `{}`", text));
-        }
-
-        Err(ParseError::ExtraToken { token: (lo, _, hi) }) => {
-            let text = &input.text()[lo..hi];
-            report_error(&input,
-                         pt::Span(lo, hi),
-                         &format!("extra token at end of input: `{}`", text));
-        }
-
-        Err(ParseError::User { error: tok::Error::UnrecognizedToken(loc) }) => {
-            report_error(&input,
-                         pt::Span(loc, loc+1),
-                         "unrecognized token");
-        }
-
-        Err(ParseError::User { error: tok::Error::UnterminatedEscape(loc) }) => {
-            report_error(&input, pt::Span(loc, loc+1),
-                         "unterminated escape");
-        }
-
-        Err(ParseError::User { error: tok::Error::UnterminatedStringLiteral(loc) }) => {
-            report_error(&input, pt::Span(loc, loc+1),
-                         "unterminated string literal");
-        }
-
-        Err(ParseError::User { error: tok::Error::UnterminatedCode(loc) }) => {
-            report_error(&input, pt::Span(loc, loc+1),
-                         "unterminated code block; perhaps a missing `;`, `)`, `]` or `}`?");
+                         pt::Span(error.offset, error.offset+1),
+                         &format!("expected {}", error.expected))
         }
     };
 

@@ -11,7 +11,6 @@
 #[macro_use]
 extern crate rusty_peg;
 extern crate diff;
-extern crate lalrpop_util;
 extern crate rand;
 extern crate regex;
 extern crate term;

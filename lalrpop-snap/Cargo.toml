@@ -1,8 +1,8 @@
 [package]
-name = "lalrpop"
+name = "lalrpop-snap"
 version = "0.1.0"
 authors = ["Niko Matsakis <niko@alum.mit.edu>"]
-build = "build.rs"
+# build = "build.rs"
 
 [dependencies]
 regex = "0.1"
@@ -17,6 +17,3 @@ git = "https://github.com/nikomatsakis/rusty-peg.git"
 
 [dependencies.lalrpop-util]
 path = "../lalrpop-util"
-
-[build-dependencies.lalrpop-snap]
-path = "../lalrpop-snap"
