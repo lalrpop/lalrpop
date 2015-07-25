@@ -2,3 +2,4 @@ target
 *~
 TAGS
 Cargo.lock
+lalrpop/src/parser/lrgrammar.rs
