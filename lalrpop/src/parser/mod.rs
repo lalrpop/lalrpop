@@ -15,8 +15,8 @@ pub fn parse_grammar<'input>(input: &'input str)
     lrgrammar::parse_Grammar(input, tokenizer)
 }
 
-pub fn parse_pattern<'input>(input: &'input str, offset: usize)
-                             -> Result<Pattern<TypeRef>, ParseError<'input>>
+fn parse_pattern<'input>(input: &'input str, offset: usize)
+                         -> Result<Pattern<TypeRef>, ParseError<'input>>
 {
     let tokenizer = tok::Tokenizer::new(input, offset);
     lrgrammar::parse_Pattern(input, tokenizer)
@@ -26,6 +26,6 @@ pub fn parse_pattern<'input>(input: &'input str, offset: usize)
 pub fn parse_type_ref<'input>(input: &'input str)
                               -> Result<TypeRef, ParseError<'input>>
 {
-    let tokenizer = tok::Tokenizer::new(input);
+    let tokenizer = tok::Tokenizer::new(input, 0);
     lrgrammar::parse_TypeRef(input, tokenizer)
 }

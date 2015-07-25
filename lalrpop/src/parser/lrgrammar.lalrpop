@@ -86,8 +86,8 @@ Alternative: Alternative =
 Action: ActionKind = {
     "=>@L" => ActionKind::Lookahead;
     "=>@R" => ActionKind::Lookbehind;
-    <c:"=>"> => ActionKind::User(c.to_string());
-    <c:"=>?"> => ActionKind::Fallible(c.to_string());
+    <c:"=>"> => ActionKind::User(strip(c).to_string());
+    <c:"=>?"> => ActionKind::Fallible(strip(c).to_string());
 };
 
 Cond: Condition =
@@ -159,8 +159,8 @@ pub TypeRef: TypeRef = {
     "(" <Comma<TypeRef>> ")" =>
         TypeRef::Tuple(<>);
 
-    <e:Escape> =>? {
-        panic!("parse escape symbol")
+    "#" <Symbol> "#" => {
+        TypeRef::OfSymbol(<>.kind)
     };
 
     "&" <l:Lifetime?> <m:"mut"?> <t:TypeRef> =>
@@ -321,6 +321,7 @@ extern token {
         "=>@L" => Tok::EqualsGreaterThanLookahead(..),
         "=>@R" => Tok::EqualsGreaterThanLookbehind(..),
         ">" => Tok::GreaterThan(..),
+        "#" => Tok::Hash(..),
         "{" => Tok::LeftBrace(..),
         "[" => Tok::LeftBracket(..),
         "(" => Tok::LeftParen(..),

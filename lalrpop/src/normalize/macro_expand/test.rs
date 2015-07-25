@@ -16,26 +16,25 @@ grammar;
 
     let actual = expand_macros(grammar).unwrap();
 
-    let expected = parser::parse_grammar(r#"
+    let expected = parser::parse_grammar(r##"
 grammar;
     Ids = `Comma<"Id">`;
 
-    `Comma<"Id">`: Vec<`"Id"`> =
-        <v:`(<"Id"> ",")*`> <e:`"Id"?`> =>
-           v.into_iter().chain(e.into_iter()).collect();
+    `Comma<"Id">`: Vec<#"Id"#> =
+        <v:`(<"Id"> ",")*`> <e:`"Id"?`> => v.into_iter().chain(e.into_iter()).collect();
 
-    `"Id"?`: ::std::option::Option<`"Id"`> = {
+    `"Id"?`: ::std::option::Option<#"Id"#> = {
         "Id" => Some(<>);
         => None;
     };
 
-    `(<"Id"> ",")*`: ::std::vec::Vec<``(<"Id"> ",")``> = {
+    `(<"Id"> ",")*`: ::std::vec::Vec<#`(<"Id"> ",")`#> = {
         => vec![];
         <v:`(<"Id"> ",")*`> <e:`(<"Id"> ",")`> => { let mut v = v; v.push(e); v };
     };
 
-    `(<"Id"> ",")`: `"Id"` = <"Id"> "," => (<>);
-"#).unwrap();
+    `(<"Id"> ",")`: #"Id"# = <"Id"> "," => (<>);
+"##).unwrap();
 
     compare(actual, expected);
 }

@@ -53,7 +53,7 @@ fn unknown_nonterminal_in_repeat_question() {
 fn repeated_macro_arg() {
     check_err(
         "multiple macro arguments declared with the name `Y`",
-        r#"grammar; >>>X<Y,Y> <<<= "foo";"#);
+        r#"grammar; >>>X<Y,Y><<< = "foo";"#);
 }
 
 #[test]
@@ -74,7 +74,7 @@ fn named_symbols() {
 fn bad_assoc_type() {
     check_err(
         r#"associated type `Foo` not recognized"#,
-        r#"grammar; extern token { type >>>Foo <<<= i32; enum Tok { } }"#);
+        r#"grammar; extern token { type >>>Foo<<< = i32; enum Tok { } }"#);
 }
 
 #[test]
@@ -82,7 +82,7 @@ fn dup_assoc_type() {
     check_err(
         r#"associated type `Location` already specified"#,
         r#"grammar; extern token { type Location = i32;
-                                   type >>>Location <<<= u32;
+                                   type >>>Location<<< = u32;
                                    enum Tok { } }"#);
 }
 
@@ -97,5 +97,5 @@ fn lookahead_without_loc_type() {
 fn multiple_extern_token() {
     check_err(
         r#"multiple extern token definitions are not permitted"#,
-        r#"grammar; extern token { enum Tok { } } >>>extern token <<<{ enum Tok { } }"#);
+        r#"grammar; extern token { enum Tok { } } >>>extern token<<< { enum Tok { } }"#);
 }

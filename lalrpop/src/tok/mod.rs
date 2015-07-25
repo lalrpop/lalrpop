@@ -65,6 +65,7 @@ pub enum Tok<'input> {
     EqualsGreaterThanQuestionCode(&'input str),
     EqualsGreaterThanLookahead,
     EqualsGreaterThanLookbehind,
+    Hash,
     GreaterThan,
     LeftBrace,
     LeftBracket,
@@ -183,6 +184,10 @@ impl<'input> Tokenizer<'input> {
                             Some(Ok((idx0, Equals, idx0+1)))
                         }
                     }
+                }
+                Some((idx0, '#')) => {
+                    self.bump();
+                    Some(Ok((idx0, Hash, idx0+1)))
                 }
                 Some((idx0, '>')) => {
                     self.bump();

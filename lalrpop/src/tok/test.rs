@@ -8,7 +8,7 @@ fn test(input: &str,
     // for spans, and because it applies also to r#XXX# style strings:
     let input = input.replace("$", "\n");
 
-    let tokenizer = Tokenizer::new(&input);
+    let tokenizer = Tokenizer::new(&input, 0);
     let len = expected.len();
     for (token, (expected_span, expected_tok)) in tokenizer.zip(expected.into_iter()) {
         println!("token: {:?}", token);
@@ -17,7 +17,7 @@ fn test(input: &str,
         assert_eq!(Ok((expected_start, expected_tok, expected_end)), token);
     }
 
-    let tokenizer = Tokenizer::new(&input);
+    let tokenizer = Tokenizer::new(&input, 0);
     assert_eq!(None, tokenizer.skip(len).next());
 }
 
