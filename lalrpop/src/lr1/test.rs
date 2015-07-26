@@ -88,8 +88,9 @@ C: Option<u32> = {
 ]"#);
 
     expect_debug(items(&grammar, "A", 1, EOF).vec, r#"[
+    () = (*) [EOF],
     A = B (*) C [EOF],
-    C = (*) [EOF],
+    C = (*) () [EOF],
     C = (*) "C1" [EOF]
 ]"#);
 }
