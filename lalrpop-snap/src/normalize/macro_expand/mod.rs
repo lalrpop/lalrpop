@@ -431,7 +431,7 @@ impl MacroExpander {
                                 symbols: vec![repeat.symbol.clone()]
                             },
                             condition: None,
-                            action: action("Vec![<>]"),
+                            action: action("vec![<>]"),
                         },
 
                         // X+ = <v:X+> <e:X>

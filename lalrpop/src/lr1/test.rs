@@ -49,13 +49,14 @@ grammar;
     A = B "C";
     B: Option<u32> = {
         "D" => Some(1);
-        => None;
+        () => None;
     };
 "#);
     let items = items(&grammar, "A", 0, EOF);
     expect_debug(items.vec, r#"[
+    () = (*) ["C"],
     A = (*) B "C" [EOF],
-    B = (*) ["C"],
+    B = (*) () ["C"],
     B = (*) "D" ["C"]
 ]"#);
 }
@@ -68,18 +69,20 @@ extern token { enum Tok { } }
 A = B C;
 B: Option<u32> = {
     "B1" => Some(1);
-    => None;
+    () => None;
 };
 C: Option<u32> = {
     "C1" => Some(1);
-    => None;
+    () => None;
 };
 "#);
 
     expect_debug(items(&grammar, "A", 0, EOF).vec, r#"[
+    () = (*) [EOF],
+    () = (*) ["C1"],
     A = (*) B C [EOF],
-    B = (*) [EOF],
-    B = (*) ["C1"],
+    B = (*) () [EOF],
+    B = (*) () ["C1"],
     B = (*) "B1" [EOF],
     B = (*) "B1" ["C1"]
 ]"#);
@@ -176,7 +179,7 @@ fn shift_reduce_conflict1() {
             "&" OPT_L E;
         };
         OPT_L: () = {
-            ;
+            ();
             "L";
         };
     "#);

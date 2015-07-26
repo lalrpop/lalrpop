@@ -73,15 +73,24 @@ Alternatives: Vec<Alternative> = {
     "{" <Alternative*> "}" ";";
 };
 
-Alternative: Alternative =
-    <lo:@L> <s:ExprSymbol> <c:("if" <Cond>)?> <a:Action?> ";" <hi:@R> => {
+Alternative: Alternative = {
+    <lo:@L> <s:Symbol+> <c:("if" <Cond>)?> <a:Action?> ";" <hi:@R> => {
         Alternative {
             span: Span(lo, hi),
-            expr: s,
+            expr: ExprSymbol { symbols: s },
             condition: c,
             action: a
         }
     };
+    <lo:@L> <c:("if" <Cond>)?> <a:Action> ";" <hi:@R> => {
+        Alternative {
+            span: Span(lo, hi),
+            expr: ExprSymbol { symbols: vec![] },
+            condition: c,
+            action: Some(a)
+        }
+    };
+};
 
 Action: ActionKind = {
     "=>@L" => ActionKind::Lookahead;
