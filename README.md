@@ -22,7 +22,45 @@ LALRPop has a number of nifty features:
    time.
 4. Type inference so you can often omit the types of nonterminals etc.   
    
-To be clear, LALRPop is barely functional. It's kind of spare time
+To be clear, LALRPop is still early days. It's kind of spare time
 project. But it's coming along pretty quickly, now that a lot of the
 tricky stuff is out of the way. I'll update this README more with
 better instructions soon.
+
+## Instructions for use
+
+LALRPOP integrates with cargo to preprocess files with the extension
+`lalrpop`. It will convert `foo.lalrpop` into `foo.rs` before your
+project builds. This will be a valid Rust module with one `parse_XXX`
+function per public symbol. For now, the documentation is spare; the
+best models to use are the test files in `lalrpop-test`.
+
+To enable LALRPOP, add the following lines to your `Cargo.toml`:
+
+```
+[package]
+...
+build = "build.rs" # LALRPOP preprocessing
+
+# Add a dependency on the LALRPOP runtime library:
+[dependencies.lalrpop-util]
+version = "0.1"
+
+[build-dependencies.lalrpop]
+version = "0.1"
+```
+
+And create a `build.rs` file that looks like:
+
+```rust
+extern crate lalrpop;
+
+fn main() {
+    lalrpop::process_root().unwrap();
+}
+```
+
+(If you already have a `build.rs` file, you should be able to just
+call `process_root` in addition to whatever else that file is doing.)
+
+That's it!

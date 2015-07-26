@@ -8,8 +8,6 @@
 // too darn annoying to try and make them do so.
 #![cfg_attr(test, allow(dead_code))]
 
-#[macro_use]
-extern crate rusty_peg;
 extern crate diff;
 extern crate lalrpop_util;
 extern crate rand;

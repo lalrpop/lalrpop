@@ -1,6 +1,11 @@
 [package]
 name = "lalrpop"
-version = "0.1.0"
+version = "0.1.0" # LALRPOP
+description = "convenient LR(1) parser generator"
+repository = "https://github.com/nikomatsakis/lalrpop"
+readme = "../README.md"
+keywords = ["parser", "generator", "LR", "yacc", "grammar"]
+license = "Unlicense"
 authors = ["Niko Matsakis <niko@alum.mit.edu>"]
 build = "build.rs"
 
@@ -12,11 +17,10 @@ itertools = "0.3"
 term = "0.2"
 unicode-xid = "0.0.2"
 
-[dependencies.rusty-peg]
-git = "https://github.com/nikomatsakis/rusty-peg.git"
-
 [dependencies.lalrpop-util]
 path = "../lalrpop-util"
+version = "0.1.0" # LALRPOP
 
 [build-dependencies.lalrpop-snap]
 path = "../lalrpop-snap"
+version = "0.1.0" # LALRPOP

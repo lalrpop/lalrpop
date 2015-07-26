@@ -1,6 +1,9 @@
 [package]
 name = "lalrpop-snap"
-version = "0.1.0"
+version = "0.1.0" # LALRPOP
+description = "snapshot of LALRPOP for use in bootstrapping"
+repository = "https://github.com/nikomatsakis/lalrpop"
+license = "Unlicense"
 authors = ["Niko Matsakis <niko@alum.mit.edu>"]
 # build = "build.rs"
 
@@ -11,9 +14,8 @@ rand = "0.3"
 itertools = "0.3"
 term = "0.2"
 unicode-xid = "0.0.2"
-
-[dependencies.rusty-peg]
-git = "https://github.com/nikomatsakis/rusty-peg.git"
+rusty-peg = "0.3"
 
 [dependencies.lalrpop-util]
 path = "../lalrpop-util"
+version = "0.1.0" # LALRPOP
