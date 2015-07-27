@@ -1,0 +1,4 @@
+[package]
+name = "lalrpop-intern"
+version = "0.2.0" # LALRPOP
+authors = ["Niko Matsakis <niko@alum.mit.edu>"]

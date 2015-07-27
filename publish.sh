@@ -34,6 +34,7 @@ function publish {
     printf "OK\n"
 }
 
+publish lalrpop-intern
 publish lalrpop-util
 publish lalrpop-snap
 publish lalrpop

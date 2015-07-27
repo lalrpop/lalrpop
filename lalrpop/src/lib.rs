@@ -9,6 +9,7 @@
 #![cfg_attr(test, allow(dead_code))]
 
 extern crate diff;
+extern crate lalrpop_intern as intern;
 extern crate lalrpop_util;
 extern crate rand;
 extern crate regex;
@@ -22,7 +23,6 @@ mod rust;
 
 mod build;
 mod grammar;
-mod intern;
 mod lexer;
 mod lr1;
 mod normalize;

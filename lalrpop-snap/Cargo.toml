@@ -1,6 +1,6 @@
 [package]
 name = "lalrpop-snap"
-version = "0.2" # LALRPOP
+version = "0.2.0" # LALRPOP
 description = "snapshot of LALRPOP for use in bootstrapping"
 repository = "https://github.com/nikomatsakis/lalrpop"
 license = "Unlicense"
@@ -18,4 +18,4 @@ rusty-peg = "0.3"
 
 [dependencies.lalrpop-util]
 path = "../lalrpop-util"
-version = "0.2" # LALRPOP
+version = "0.2.0" # LALRPOP
