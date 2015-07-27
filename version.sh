@@ -10,6 +10,3 @@ fi
 
 perl -p -i -e 's/version *= *"[0-9.]+" # LALRPOP$/version = "'$1'" # LALRPOP/' \
      $(ls lalrpop*/Cargo.toml)
-
-perl -p -i -e 's/^version = "[0-9.]+"$/version = "'$1'"/' \
-     README.md
