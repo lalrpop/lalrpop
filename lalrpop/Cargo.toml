@@ -1,6 +1,6 @@
 [package]
 name = "lalrpop"
-version = "0.1.0" # LALRPOP
+version = "0.2" # LALRPOP
 description = "convenient LR(1) parser generator"
 repository = "https://github.com/nikomatsakis/lalrpop"
 readme = "../README.md"
@@ -19,8 +19,8 @@ unicode-xid = "0.0.2"
 
 [dependencies.lalrpop-util]
 path = "../lalrpop-util"
-version = "0.1.0" # LALRPOP
+version = "0.2" # LALRPOP
 
 [build-dependencies.lalrpop-snap]
 path = "../lalrpop-snap"
-version = "0.1.0" # LALRPOP
+version = "0.2" # LALRPOP
