@@ -1,6 +1,7 @@
 use intern::intern;
+use generate;
 use grammar::repr::*;
-use test_util::{normalized_grammar};
+use test_util::{compare, expect_debug, normalized_grammar};
 use super::lalr_states;
 use super::super::interpret::interpret;
 
