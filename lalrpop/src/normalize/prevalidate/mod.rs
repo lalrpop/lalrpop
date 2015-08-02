@@ -4,6 +4,7 @@ use super::{NormResult, NormError};
 use super::norm_util::{self, Symbols};
 
 use grammar::parse_tree::*;
+use grammar::repr;
 use intern::{intern, InternedString};
 use util::{Map, Multimap, Sep, set};
 
@@ -55,6 +56,17 @@ struct ScopeChain<'scope> {
 
 impl<'grammar> Validator<'grammar> {
     fn validate(&self) -> NormResult<()> {
+        if let Some(ref algorithm) = self.grammar.algorithm {
+            match repr::Algorithm::from_str(algorithm.text) {
+                Some(_) => { }
+                None => {
+                    return_err!(
+                        algorithm.span,
+                        "unrecognized algorithm `{}`", algorithm.text);
+                }
+            }
+        }
+
         for item in &self.grammar.items {
             match *item {
                 GrammarItem::Use(..) => { }

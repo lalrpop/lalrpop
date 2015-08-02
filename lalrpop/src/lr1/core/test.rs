@@ -2,9 +2,10 @@ use intern::intern;
 use generate;
 use grammar::repr::*;
 use test_util::{compare, expect_debug, normalized_grammar};
-use super::{build_states, State, Items, Lookahead, LR1};
-use super::Lookahead::EOF;
-use super::interpret::interpret;
+use lr1::Lookahead::EOF;
+use lr1::interpret::interpret;
+use lr1::core::{LR1, build_lr1_states};
+use lr1::{State, Items, Lookahead};
 
 fn nt(t: &str) -> NonterminalString {
     NonterminalString(intern(t))
@@ -12,7 +13,7 @@ fn nt(t: &str) -> NonterminalString {
 
 const ITERATIONS: usize = 22;
 
-fn random_test(grammar: &Grammar, states: &[State], start_symbol: NonterminalString) {
+fn random_test<'g>(grammar: &Grammar, states: &'g [State<'g>], start_symbol: NonterminalString) {
     for i in 0..ITERATIONS {
         let input_tree = generate::random_parse_tree(grammar, start_symbol);
         let output_tree = interpret(&states, input_tree.terminals()).unwrap();
@@ -117,7 +118,7 @@ grammar;
 
     // for now, just test that process does not result in an error
     // and yields expected number of states.
-    let states = build_states(&grammar, nt("S")).unwrap();
+    let states = build_lr1_states(&grammar, nt("S")).unwrap();
     assert_eq!(states.len(), 16);
 
     // execute it on some sample inputs.
@@ -185,5 +186,5 @@ fn shift_reduce_conflict1() {
         };
     "#);
 
-    assert!(build_states(&grammar, nt("E")).is_err());
+    assert!(build_lr1_states(&grammar, nt("E")).is_err());
 }

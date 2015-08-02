@@ -1,4 +1,7 @@
 [package]
 name = "lalrpop-intern"
 version = "0.2.0" # LALRPOP
+description = "Simple string interner used by LALRPOP"
+repository = "https://github.com/nikomatsakis/lalrpop"
+license = "Unlicense"
 authors = ["Niko Matsakis <niko@alum.mit.edu>"]

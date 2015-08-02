@@ -12,6 +12,7 @@ pub Grammar: Grammar =
     <tps:GrammarTypeParameters?>
     <parameters:GrammarParameters?>
     <where_clauses:"where"?>
+    <algorithm:Algorithm?>
     ";"
     <items:GrammarItem*> => {
         let where_clauses =
@@ -25,7 +26,16 @@ pub Grammar: Grammar =
                   type_parameters: tps.unwrap_or(vec![]),
                   parameters: parameters.unwrap_or(vec![]),
                   where_clauses: where_clauses,
-                  items: uses.into_iter().chain(items).collect() }
+                  items: uses.into_iter().chain(items).collect(),
+                  algorithm: algorithm }
+    };
+
+Algorithm: Algorithm =
+    "[" <lo:@L> <t:StringLiteral> <hi:@R> "]" => {
+        Algorithm {
+            span: Span(lo, hi),
+            text: t
+        }
     };
 
 GrammarTypeParameters: Vec<TypeParameter> =

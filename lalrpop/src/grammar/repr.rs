@@ -4,7 +4,7 @@
  * representation incrementally.
  */
 
-use intern::{InternedString};
+use intern::{self, InternedString};
 use grammar::pattern::{Pattern};
 use std::fmt::{Debug, Display, Formatter, Error};
 use util::{map, Map, Sep};
@@ -20,6 +20,9 @@ pub struct Grammar {
     // a unique prefix that can be appended to identifiers to ensure
     // that they do not conflict with any action strings
     pub prefix: String,
+
+    // algorithm user requested for this parser
+    pub algorithm: Algorithm,
 
     // these are the nonterminals that were declared to be public; the
     // key is the user's name for the symbol, the value is the
@@ -46,6 +49,12 @@ pub struct Grammar {
     pub token_span: Span,
     pub conversions: Map<TerminalString, Pattern<TypeRepr>>,
     pub types: Types,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub enum Algorithm {
+    LR1,
+    LALR1,
 }
 
 #[derive(Clone, Debug, PartialEq, Eq)]
@@ -323,3 +332,12 @@ impl Grammar {
     }
 }
 
+impl Algorithm {
+    pub fn from_str(s: InternedString) -> Option<Algorithm> {
+        intern::read(|r| match r.data(s) {
+            "LR" | "LR(1)" => Some(Algorithm::LR1),
+            "LALR" | "LALR(1)" => Some(Algorithm::LALR1),
+            _ => None,
+        })
+    }
+}
