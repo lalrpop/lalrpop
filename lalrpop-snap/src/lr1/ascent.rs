@@ -90,6 +90,9 @@ impl<'ascent,'grammar,W:Write> RecursiveAscent<'ascent,'grammar,W> {
     }
 
     fn write_return_type_defn(&mut self) -> io::Result<()> {
+        // sometimes some of the variants are not used, particularly
+        // if we are generating multiple parsers from the same file:
+        rust!(self.out, "#[allow(dead_code)]");
         rust!(self.out, "pub enum {}Nonterminal<{}> {{",
               self.prefix,
               self.grammar.user_type_parameter_decls());

@@ -8,9 +8,9 @@
 // too darn annoying to try and make them do so.
 #![cfg_attr(test, allow(dead_code))]
 
-#[macro_use]
-extern crate rusty_peg;
 extern crate diff;
+extern crate lalrpop_intern as intern;
+extern crate lalrpop_util;
 extern crate rand;
 extern crate regex;
 extern crate term;
@@ -23,7 +23,6 @@ mod rust;
 
 mod build;
 mod grammar;
-mod intern;
 mod lexer;
 mod lr1;
 mod normalize;

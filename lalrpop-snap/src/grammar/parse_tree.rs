@@ -18,6 +18,13 @@ pub struct Grammar {
     pub parameters: Vec<Parameter>,
     pub where_clauses: Vec<String>,
     pub items: Vec<GrammarItem>,
+    pub algorithm: Option<Algorithm>,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub struct Algorithm {
+    pub span: Span,
+    pub text: InternedString,
 }
 
 #[derive(Copy, Clone, Debug, Hash, PartialEq, Eq, PartialOrd, Ord)]

@@ -88,6 +88,12 @@ impl LowerState {
                               .map(|p| r::Parameter { name: p.name, ty: p.ty.type_repr() })
                               .collect();
 
+        let algorithm =
+            match grammar.algorithm {
+                None => r::Algorithm::LR1,
+                Some(ref a) => r::Algorithm::from_str(a.text).unwrap(),
+            };
+
         Ok(r::Grammar {
             prefix: self.prefix,
             start_nonterminals: start_symbols,
@@ -100,6 +106,7 @@ impl LowerState {
             type_parameters: grammar.type_parameters,
             parameters: parameters,
             where_clauses: grammar.where_clauses,
+            algorithm: algorithm
         })
     }
 

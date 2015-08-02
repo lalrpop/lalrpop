@@ -2,10 +2,12 @@
 
 use grammar::parse_tree as pt;
 use grammar::repr as r;
+use lalrpop_util::ParseError;
 use lr1;
 use normalize;
 use parser;
 use rust::RustWrite;
+use tok;
 use self::filetext::FileText;
 
 use std::fs;
@@ -23,10 +25,55 @@ fn process_dir<P:AsRef<Path>>(root_dir: P) -> io::Result<()> {
     let lalrpop_files = try!(lalrpop_files(root_dir));
     for lalrpop_file in lalrpop_files {
         let rs_file = lalrpop_file.with_extension("rs");
-        let grammar = try!(parse_and_normalize_grammar(lalrpop_file));
-        try!(emit_recursive_ascent(&rs_file, &grammar));
+        if try!(needs_rebuild(&lalrpop_file, &rs_file)) {
+            let grammar = try!(parse_and_normalize_grammar(lalrpop_file));
+            try!(emit_recursive_ascent(&rs_file, &grammar));
+            try!(make_read_only(&rs_file));
+        }
     }
     Ok(())
+}
+
+fn needs_rebuild(lalrpop_file: &Path,
+                 rs_file: &Path)
+                 -> io::Result<bool>
+{
+    return match fs::metadata(&rs_file) {
+        Ok(rs_metadata) => {
+            let lalrpop_metadata = try!(fs::metadata(&lalrpop_file));
+            Ok(compare_modification_times(&lalrpop_metadata, &rs_metadata))
+        }
+        Err(e) => {
+            match e.kind() {
+                io::ErrorKind::NotFound => Ok(true),
+                _ => Err(e),
+            }
+        }
+    };
+
+    #[cfg(unix)]
+    fn compare_modification_times(lalrpop_metadata: &fs::Metadata,
+                                  rs_metadata: &fs::Metadata)
+                                  -> bool
+    {
+        use std::os::unix::fs::MetadataExt;
+        lalrpop_metadata.mtime() >= rs_metadata.mtime()
+    }
+
+    #[cfg(not(unix))]
+    fn compare_modification_times(lalrpop_metadata: &fs::Metadata,
+                                  rs_metadata: &fs::Metadata)
+                                  -> bool
+    {
+        true
+    }
+}
+
+fn make_read_only(rs_file: &Path) -> io::Result<()> {
+    let rs_metadata = try!(fs::metadata(&rs_file));
+    let mut rs_permissions = rs_metadata.permissions();
+    rs_permissions.set_readonly(true);
+    fs::set_permissions(&rs_file, rs_permissions)
 }
 
 fn lalrpop_files<P:AsRef<Path>>(root_dir: P) -> io::Result<Vec<PathBuf>> {
@@ -57,10 +104,44 @@ fn parse_and_normalize_grammar(path: PathBuf) -> io::Result<r::Grammar> {
 
     let grammar = match parser::parse_grammar(input.text()) {
         Ok(grammar) => grammar,
-        Err(error) => {
+
+        Err(ParseError::UnrecognizedToken { token: None, expected: _ }) => {
+            let len = input.text().len();
             report_error(&input,
-                         pt::Span(error.offset, error.offset+1),
-                         &format!("expected {}", error.expected))
+                         pt::Span(len, len),
+                         &format!("unexpected end of file"));
+        }
+
+        Err(ParseError::UnrecognizedToken { token: Some((lo, _, hi)), expected }) => {
+            assert!(expected.is_empty()); // didn't implement this yet :)
+            let text = &input.text()[lo..hi];
+            report_error(&input,
+                         pt::Span(lo, hi),
+                         &format!("unexpected token: `{}`", text));
+        }
+
+        Err(ParseError::ExtraToken { token: (lo, _, hi) }) => {
+            let text = &input.text()[lo..hi];
+            report_error(&input,
+                         pt::Span(lo, hi),
+                         &format!("extra token at end of input: `{}`", text));
+        }
+
+        Err(ParseError::User { error }) => {
+            let string = match error.code {
+                tok::ErrorCode::UnrecognizedToken =>
+                    "unrecognized token",
+                tok::ErrorCode::UnterminatedEscape =>
+                    "unterminated escape; missing '`'?",
+                tok::ErrorCode::UnterminatedStringLiteral =>
+                    "unterminated string literal; missing `\"`?",
+                tok::ErrorCode::UnterminatedCode =>
+                    "unterminated code block; perhaps a missing `;`, `)`, `]` or `}`?"
+            };
+
+            report_error(&input,
+                         pt::Span(error.location, error.location + 1),
+                         string)
         }
     };
 
