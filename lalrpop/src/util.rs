@@ -70,6 +70,14 @@ impl<K:Hash+Eq,V> Multimap<K,V> {
     }
 }
 
+impl<K:Hash+Eq,V> IntoIterator for Multimap<K,V> {
+    type Item = (K, Vec<V>);
+    type IntoIter = hash_map::IntoIter<K, Vec<V>>;
+    fn into_iter(self) -> hash_map::IntoIter<K, Vec<V>> {
+        self.into_iter()
+    }
+}
+
 impl<K:Hash+Eq,V> FromIterator<(K,V)> for Multimap<K,V> {
     fn from_iter<T>(iterator: T) -> Self where T: IntoIterator<Item=(K,V)> {
         let mut map = Multimap::new();

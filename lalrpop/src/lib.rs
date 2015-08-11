@@ -35,3 +35,4 @@ mod util;
 #[cfg(test)] mod test_util;
 
 pub use build::process_root;
+pub use build::process_root_unconditionally;
