@@ -18,20 +18,37 @@ use std::process::exit;
 mod filetext;
 
 pub fn process_root() -> io::Result<()> {
-    process_dir("src")
+    process_dir("src", false)
 }
 
-fn process_dir<P:AsRef<Path>>(root_dir: P) -> io::Result<()> {
+pub fn process_root_unconditionally() -> io::Result<()> {
+    process_dir("src", true)
+}
+
+fn process_dir<P:AsRef<Path>>(root_dir: P, force_build: bool) -> io::Result<()> {
     let lalrpop_files = try!(lalrpop_files(root_dir));
     for lalrpop_file in lalrpop_files {
         let rs_file = lalrpop_file.with_extension("rs");
-        if try!(needs_rebuild(&lalrpop_file, &rs_file)) {
+        if force_build || try!(needs_rebuild(&lalrpop_file, &rs_file)) {
+            try!(remove_old_file(&rs_file));
             let grammar = try!(parse_and_normalize_grammar(lalrpop_file));
             try!(emit_recursive_ascent(&rs_file, &grammar));
             try!(make_read_only(&rs_file));
         }
     }
     Ok(())
+}
+
+fn remove_old_file(rs_file: &Path) -> io::Result<()> {
+    match fs::remove_file(rs_file) {
+        Ok(()) => Ok(()),
+        Err(e) => {
+            match e.kind() {
+                io::ErrorKind::NotFound => Ok(()),
+                _ => Err(e),
+            }
+        }
+    }
 }
 
 fn needs_rebuild(lalrpop_file: &Path,

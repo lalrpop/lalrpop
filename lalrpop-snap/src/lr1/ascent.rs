@@ -10,7 +10,7 @@ use grammar::repr::{ActionKind,
 use lr1::{Lookahead, State, StateIndex};
 use rust::RustWrite;
 use std::io::{self, Write};
-use util::{Escape, Sep};
+use util::{Escape, Multimap, Sep};
 
 pub fn compile<'grammar,W:Write>(
     grammar: &'grammar Grammar,
@@ -250,16 +250,24 @@ impl<'ascent,'grammar,W:Write> RecursiveAscent<'ascent,'grammar,W> {
             fallthrough = true;
         }
 
-        // now emit reduces:
-        for (token, production) in
+        // now emit reduces. It frequently happens that many tokens
+        // trigger the same reduction, so group these by the
+        // production that we are going to be reducing.
+        let reductions: Multimap<_, _> =
             this_state.tokens.iter()
-                             .filter_map(|(token, action)| action.reduce().map(|p| (token, p)))
-        {
-            match *token {
-                Lookahead::Terminal(s) =>
-                    try!(self.match_terminal(s)),
-                Lookahead::EOF =>
-                    rust!(self.out, "None => {{"),
+                             .filter_map(|(&token, action)| action.reduce().map(|p| (p, token)))
+                             .collect();
+        for (production, tokens) in reductions {
+            for (index, &token) in tokens.iter().enumerate() {
+                let pattern = match token {
+                    Lookahead::Terminal(s) => format!("Some({})", self.match_terminal_pattern(s)),
+                    Lookahead::EOF => format!("None"),
+                };
+                if index < tokens.len() - 1 {
+                    rust!(self.out, "{} |", pattern);
+                } else {
+                    rust!(self.out, "{} => {{", pattern);
+                }
             }
 
             let n = this_prefix.len(); // number of symbols we have on the stack
@@ -424,15 +432,11 @@ impl<'ascent,'grammar,W:Write> RecursiveAscent<'ascent,'grammar,W> {
     }
 
     /// Emit a pattern that matches `id` but doesn't extract any data.
-    fn match_terminal(&mut self, id: TerminalString) -> io::Result<()> {
+    fn match_terminal_pattern(&mut self, id: TerminalString) -> String {
         let pattern = self.grammar.pattern(id)
                                       .map(&mut |_| "_");
-
-        let mut pattern = format!("{}", pattern);
-        pattern = format!("(_, {}, _)", pattern);
-
-        rust!(self.out, "Some({}) => {{", pattern);
-        Ok(())
+        let pattern = format!("{}", pattern);
+        format!("(_, {}, _)", pattern)
     }
 
     /// Emit a pattern that matches `id` and extracts its value, storing
