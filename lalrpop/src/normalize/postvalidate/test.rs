@@ -34,3 +34,10 @@ fn unknown_terminal() {
         r#"terminal `"\+"` does not have a pattern defined for it"#,
         r#"grammar; X = X >>>"+"<<<;"#);
 }
+
+#[test]
+fn unknown_id_terminal() {
+    check_err(
+        r#"terminal `"foo"` does not have a pattern defined for it"#,
+        r#"grammar; X = X >>>"foo"<<<;"#);
+}

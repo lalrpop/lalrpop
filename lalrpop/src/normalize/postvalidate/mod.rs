@@ -2,7 +2,7 @@
 //! be done after macro expansion because some macro arguments
 //! never make it into an actual production and are only used
 //! in `if` conditions; we use string literals for those,
-//! but they do not have to have a defined conversion. 
+//! but they do not have to have a defined conversion.
 
 use super::{NormResult, NormError};
 
