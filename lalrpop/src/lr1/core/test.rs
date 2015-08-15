@@ -28,7 +28,7 @@ fn random_test<'g>(grammar: &Grammar, states: &'g [State<'g>], start_symbol: Non
 
 macro_rules! tokens {
     ($($x:expr),*) => {
-        vec![$(TerminalString(intern($x))),*].into_iter()
+        vec![$(TerminalString::Quoted(intern($x))),*].into_iter()
     }
 }
 

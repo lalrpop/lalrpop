@@ -10,7 +10,7 @@ fn nt(t: &str) -> NonterminalString {
 
 macro_rules! tokens {
     ($($x:expr),*) => {
-        vec![$(TerminalString(intern($x))),*].into_iter()
+        vec![$(TerminalString::Quoted(intern($x))),*].into_iter()
     }
 }
 

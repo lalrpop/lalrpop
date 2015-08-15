@@ -155,7 +155,7 @@ SymbolKind1: SymbolKind = {
     <name:MacroId> "<" <args:Comma<Symbol>> ">" =>
         SymbolKind::Macro(MacroSymbol { name: name, args: args });
 
-    Terminal =>
+    QuotedTerminal =>
         SymbolKind::Terminal(<>);
 
     NotMacroId =>
@@ -235,7 +235,7 @@ AssociatedType: AssociatedType =
     };
 
 Conversion: Conversion =
-    <lo:@L> <from:Terminal> <start:@L> <p:"=>"> <hi:@R> =>? {
+    <lo:@L> <from:QuotedTerminal> <start:@L> <p:"=>"> <hi:@R> =>? {
         let pattern = try!(super::parse_pattern(p, start + 2));
         Ok(Conversion { span: Span(lo, hi),
                         from: from,
@@ -295,8 +295,8 @@ Escape: InternedString =
 Lifetime: InternedString =
     <i:"Lifetime"> => intern(i);
 
-Terminal: TerminalString =
-    <s:StringLiteral> => TerminalString(s);
+QuotedTerminal: TerminalString =
+    <s:StringLiteral> => TerminalString::Quoted(s);
 
 StringLiteral: InternedString =
     <s:"StringLiteral"> => intern(s);

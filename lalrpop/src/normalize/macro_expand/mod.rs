@@ -9,7 +9,7 @@ use grammar::parse_tree::{ActionKind, Alternative,
                           Path,
                           RepeatOp, RepeatSymbol,
                           Span, Symbol, SymbolKind,
-                          TypeRef};
+                          TerminalString, TypeRef};
 use normalize::{NormResult, NormError};
 use normalize::norm_util::{self, Symbols};
 use regex::Regex;
@@ -241,18 +241,19 @@ impl MacroExpander {
     {
         if let Some(ref c) = *opt_cond {
             match args[&c.lhs] {
-                SymbolKind::Terminal(lhs) => {
+                SymbolKind::Terminal(TerminalString::Quoted(lhs)) => {
                     match c.op {
-                        ConditionOp::Equals => Ok(lhs.0 == c.rhs),
-                        ConditionOp::NotEquals => Ok(lhs.0 != c.rhs),
-                        ConditionOp::Match => self.re_match(c.span, lhs.0, c.rhs),
-                        ConditionOp::NotMatch => Ok(!try!(self.re_match(c.span, lhs.0, c.rhs))),
+                        ConditionOp::Equals => Ok(lhs == c.rhs),
+                        ConditionOp::NotEquals => Ok(lhs != c.rhs),
+                        ConditionOp::Match => self.re_match(c.span, lhs, c.rhs),
+                        ConditionOp::NotMatch => Ok(!try!(self.re_match(c.span, lhs, c.rhs))),
                     }
                 }
                 ref lhs => {
                     return_err!(
                         c.span,
-                        "invalid condition LHS `{}`, expected a terminal, not `{}`", c.lhs, lhs);
+                        "invalid condition LHS `{}`, expected a string literal, not `{}`",
+                        c.lhs, lhs);
                 }
             }
         } else {
