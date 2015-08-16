@@ -44,10 +44,10 @@ build = "build.rs" # LALRPOP preprocessing
 
 # Add a dependency on the LALRPOP runtime library:
 [dependencies.lalrpop-util]
-version = "0.4.0"
+version = "0.4.1"
 
 [build-dependencies.lalrpop]
-version = "0.4.0"
+version = "0.4.1"
 ```
 
 And create a `build.rs` file that looks like:
