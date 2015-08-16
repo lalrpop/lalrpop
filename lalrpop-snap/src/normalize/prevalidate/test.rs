@@ -29,41 +29,6 @@ fn check_err(expected_err: &str, grammar: &str) {
 }
 
 #[test]
-fn unknown_nonterminal() {
-    check_err(
-        "no definition found for nonterminal `Y`",
-        r#"grammar; X = X >>>Y<<<;"#);
-}
-
-#[test]
-fn unknown_nonterminal_in_macro_arg() {
-    check_err(
-        "no definition found for nonterminal `Y`",
-        r#"grammar; X = X Id<>>>Y<<<>; Id<T> = T;"#);
-}
-
-#[test]
-fn unknown_nonterminal_in_repeat_question() {
-    check_err(
-        "no definition found for nonterminal `Y`",
-        r#"grammar; X = >>>Y<<<?;"#);
-}
-
-#[test]
-fn repeated_macro_arg() {
-    check_err(
-        "multiple macro arguments declared with the name `Y`",
-        r#"grammar; >>>X<Y,Y><<< = "foo";"#);
-}
-
-#[test]
-fn unknown_nonterminal_two() {
-    check_err(
-        "no definition found for nonterminal `Expr`",
-        r#"grammar; Term = { <n:"Num"> => n.as_num(); "A" <>>>Expr<<<> "B"; };"#);
-}
-
-#[test]
 fn named_symbols() {
     check_err(
         r#"named symbols \(like `"Num"`\) require a custom action"#,
@@ -74,14 +39,14 @@ fn named_symbols() {
 fn bad_assoc_type() {
     check_err(
         r#"associated type `Foo` not recognized"#,
-        r#"grammar; extern token { type >>>Foo<<< = i32; enum Tok { } }"#);
+        r#"grammar; extern { type >>>Foo<<< = i32; enum Tok { } }"#);
 }
 
 #[test]
 fn dup_assoc_type() {
     check_err(
         r#"associated type `Location` already specified"#,
-        r#"grammar; extern token { type Location = i32;
+        r#"grammar; extern { type Location = i32;
                                    type >>>Location<<< = u32;
                                    enum Tok { } }"#);
 }
@@ -90,12 +55,12 @@ fn dup_assoc_type() {
 fn lookahead_without_loc_type() {
     check_err(
         r#"lookahead/lookbehind require you to declare the type of a location"#,
-        r#"grammar; extern token { enum Tok { } } Foo = >>>@L<<<;"#);
+        r#"grammar; extern { enum Tok { } } Foo = >>>@L<<<;"#);
 }
 
 #[test]
 fn multiple_extern_token() {
     check_err(
         r#"multiple extern token definitions are not permitted"#,
-        r#"grammar; extern token { enum Tok { } } >>>extern token<<< { enum Tok { } }"#);
+        r#"grammar; extern { enum Tok { } } >>>extern token<<< { enum Tok { } }"#);
 }

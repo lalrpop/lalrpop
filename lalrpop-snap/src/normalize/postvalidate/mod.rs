@@ -2,7 +2,7 @@
 //! be done after macro expansion because some macro arguments
 //! never make it into an actual production and are only used
 //! in `if` conditions; we use string literals for those,
-//! but they do not have to have a defined conversion. 
+//! but they do not have to have a defined conversion.
 
 use super::{NormResult, NormError};
 
@@ -72,16 +72,20 @@ impl<'grammar> Validator<'grammar> {
             }
             SymbolKind::Nonterminal(_) => {
             }
-            SymbolKind::Macro(..) => {
-                panic!("macro not removed: {:?}", symbol);
-            }
             SymbolKind::Repeat(ref repeat) => {
                 try!(self.validate_symbol(&repeat.symbol));
             }
             SymbolKind::Choose(ref sym) | SymbolKind::Name(_, ref sym) => {
                 try!(self.validate_symbol(sym));
             }
-            SymbolKind::Lookahead | SymbolKind::Lookbehind => { }
+            SymbolKind::Lookahead | SymbolKind::Lookbehind => {
+            }
+            SymbolKind::AmbiguousId(id) => {
+                panic!("ambiguous id `{}` encountered after name resolution", id)
+            }
+            SymbolKind::Macro(..) => {
+                panic!("macro not removed: {:?}", symbol);
+            }
         }
 
         Ok(())

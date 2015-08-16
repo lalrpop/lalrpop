@@ -37,7 +37,6 @@ pub enum Tok<'input> {
     Mut,
     Pub,
     Type,
-    Token,
 
     // Special keywords: these are accompanied by a series of
     // uninterpreted strings representing imports and stuff.
@@ -106,7 +105,6 @@ const KEYWORDS: &'static [(&'static str, Tok<'static>)] = &[
     ("if", If),
     ("mut", Mut),
     ("pub", Pub),
-    ("token", Token),
     ("type", Type),
     ];
 

@@ -182,10 +182,13 @@ pub enum SymbolKind {
     // (X Y)
     Expr(ExprSymbol),
 
-    // "foo"
+    // foo, before name resolution
+    AmbiguousId(InternedString),
+
+    // "foo" and foo (after name resolution)
     Terminal(TerminalString),
 
-    // foo
+    // foo, after name resolution
     Nonterminal(NonterminalString),
 
     // foo<..>
@@ -208,7 +211,10 @@ pub enum SymbolKind {
 }
 
 #[derive(Copy, Clone, Hash, PartialEq, Eq, PartialOrd, Ord)]
-pub struct TerminalString(pub InternedString);
+pub enum TerminalString {
+    Quoted(InternedString),
+    Bare(InternedString),
+}
 
 #[derive(Copy, Clone, Hash, PartialEq, Eq, PartialOrd, Ord)]
 pub struct NonterminalString(pub InternedString);
@@ -278,7 +284,12 @@ impl Symbol {
 
 impl Display for TerminalString {
     fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
-        write!(fmt, "\"{}\"", self.0)
+        match *self {
+            TerminalString::Quoted(s) =>
+                write!(fmt, "{:?}", s),
+            TerminalString::Bare(s) =>
+                write!(fmt, "{}", s),
+        }
     }
 }
 
@@ -322,6 +333,8 @@ impl Display for SymbolKind {
             SymbolKind::Terminal(ref s) =>
                 write!(fmt, "{}", s),
             SymbolKind::Nonterminal(ref s) =>
+                write!(fmt, "{}", s),
+            SymbolKind::AmbiguousId(ref s) =>
                 write!(fmt, "{}", s),
             SymbolKind::Macro(ref m) =>
                 write!(fmt, "{}", m),

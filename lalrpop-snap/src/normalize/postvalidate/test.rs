@@ -1,5 +1,6 @@
 use parser;
 use grammar::parse_tree::{Span};
+use normalize::resolve::resolve;
 use regex::Regex;
 
 fn check_err(expected_err: &str, grammar: &str) {
@@ -15,6 +16,7 @@ fn check_err(expected_err: &str, grammar: &str) {
     assert!(start_index <= end_index);
 
     let parsed_grammar = parser::parse_grammar(&grammar).unwrap();
+    let parsed_grammar = resolve(parsed_grammar).unwrap();
     match super::validate(&parsed_grammar) {
         Ok(()) => {
             panic!("expected error for grammar");
@@ -33,4 +35,11 @@ fn unknown_terminal() {
     check_err(
         r#"terminal `"\+"` does not have a pattern defined for it"#,
         r#"grammar; X = X >>>"+"<<<;"#);
+}
+
+#[test]
+fn unknown_id_terminal() {
+    check_err(
+        r#"terminal `"foo"` does not have a pattern defined for it"#,
+        r#"grammar; X = X >>>"foo"<<<;"#);
 }

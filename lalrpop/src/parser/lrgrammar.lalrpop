@@ -310,7 +310,7 @@ Comma<E>: Vec<E> =
     <v0:(<E> ",")*> <e1:E?> =>
         v0.into_iter().chain(e1).collect();
 
-extern token {
+extern {
     type Location = usize;
     type Error = tok::Error;
     enum Tok<'input> {

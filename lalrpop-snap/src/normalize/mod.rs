@@ -36,6 +36,7 @@ pub fn normalize_without_validating(grammar: pt::Grammar) -> NormResult<r::Gramm
 
 fn normalize_helper(grammar: pt::Grammar, validate: bool) -> NormResult<r::Grammar> {
     if validate { try!(prevalidate::validate(&grammar)); }
+    let grammar = try!(resolve::resolve(grammar));
     let grammar = try!(macro_expand::expand_macros(grammar));
     if validate { try!(postvalidate::validate(&grammar)); }
     let types = try!(tyinfer::infer_types(&grammar));
@@ -46,6 +47,9 @@ fn normalize_helper(grammar: pt::Grammar, validate: bool) -> NormResult<r::Gramm
 
 // Check most safety conditions.
 mod prevalidate;
+
+// Resolve identifiers into terminals/nonterminals etc.
+mod resolve;
 
 // Expands macros and expressions
 //

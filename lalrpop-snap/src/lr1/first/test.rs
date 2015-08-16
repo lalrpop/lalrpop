@@ -10,11 +10,11 @@ pub fn nt(t: &str) -> Symbol {
 }
 
 pub fn term(t: &str) -> Symbol {
-    Symbol::Terminal(TerminalString(intern(t)))
+    Symbol::Terminal(TerminalString::Quoted(intern(t)))
 }
 
 fn la(t: &str) -> Lookahead {
-    Lookahead::Terminal(TerminalString(intern(t)))
+    Lookahead::Terminal(TerminalString::Quoted(intern(t)))
 }
 
 fn first(first: &FirstSets, symbols: &[Symbol], lookahead: Lookahead) -> Vec<Lookahead> {
@@ -27,7 +27,7 @@ fn first(first: &FirstSets, symbols: &[Symbol], lookahead: Lookahead) -> Vec<Loo
 fn basic() {
     let grammar = normalized_grammar(r#"
 grammar;
-    extern token { enum Tok { } }
+    extern { enum Tok { } }
     A = B "C";
     B: Option<u32> = {
         "D" => Some(1);
