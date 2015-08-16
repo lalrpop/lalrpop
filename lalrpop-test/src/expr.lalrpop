@@ -10,7 +10,7 @@ extern token {
         "+" => Tok::Plus(..),
         "*" => Tok::Times(..),
         "/" => Tok::Div(..),
-        "Num" => Tok::Num(<i32>)
+        Num => Tok::Num(<i32>)
     }
 }
 
@@ -27,6 +27,6 @@ Factor = {
 };
 
 Term: i32 = {
-    <n:"Num"> => n * scale;
+    <n:Num> => n * scale;
     "(" <Expr> ")";
 };

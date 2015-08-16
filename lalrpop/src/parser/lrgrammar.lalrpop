@@ -158,8 +158,8 @@ SymbolKind1: SymbolKind = {
     QuotedTerminal =>
         SymbolKind::Terminal(<>);
 
-    NotMacroId =>
-        SymbolKind::Nonterminal(<>);
+    "Id" =>
+        SymbolKind::AmbiguousId(intern(<>));
 
     Escape =>
         SymbolKind::Nonterminal(NonterminalString(<>));
@@ -235,7 +235,7 @@ AssociatedType: AssociatedType =
     };
 
 Conversion: Conversion =
-    <lo:@L> <from:QuotedTerminal> <start:@L> <p:"=>"> <hi:@R> =>? {
+    <lo:@L> <from:Terminal> <start:@L> <p:"=>"> <hi:@R> =>? {
         let pattern = try!(super::parse_pattern(p, start + 2));
         Ok(Conversion { span: Span(lo, hi),
                         from: from,
@@ -294,6 +294,11 @@ Escape: InternedString =
 
 Lifetime: InternedString =
     <i:"Lifetime"> => intern(i);
+
+Terminal: TerminalString = {
+    QuotedTerminal;
+    <i:"Id"> => TerminalString::Bare(intern(i));
+};
 
 QuotedTerminal: TerminalString =
     <s:StringLiteral> => TerminalString::Quoted(s);

@@ -14,7 +14,7 @@ extern token {
         "*" => Tok::Times(..),
         "/" => Tok::Div(..),
         "," => Tok::Comma(..),
-        "Num" => Tok::Num(<i32>)
+        Num => Tok::Num(<i32>)
     }
 }
 
@@ -37,6 +37,6 @@ Factor = {
 };
 
 Term = {
-    <n:"Num"> => arena.alloc(Node::Value(n));
+    <n:Num> => arena.alloc(Node::Value(n));
     "(" <Expr> ")";
 };

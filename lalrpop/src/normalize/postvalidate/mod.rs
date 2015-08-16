@@ -72,16 +72,20 @@ impl<'grammar> Validator<'grammar> {
             }
             SymbolKind::Nonterminal(_) => {
             }
-            SymbolKind::Macro(..) => {
-                panic!("macro not removed: {:?}", symbol);
-            }
             SymbolKind::Repeat(ref repeat) => {
                 try!(self.validate_symbol(&repeat.symbol));
             }
             SymbolKind::Choose(ref sym) | SymbolKind::Name(_, ref sym) => {
                 try!(self.validate_symbol(sym));
             }
-            SymbolKind::Lookahead | SymbolKind::Lookbehind => { }
+            SymbolKind::Lookahead | SymbolKind::Lookbehind => {
+            }
+            SymbolKind::AmbiguousId(id) => {
+                panic!("ambiguous id `{}` encountered after name resolution", id)
+            }
+            SymbolKind::Macro(..) => {
+                panic!("macro not removed: {:?}", symbol);
+            }
         }
 
         Ok(())

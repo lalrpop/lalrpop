@@ -10,6 +10,7 @@ use grammar::parse_tree::{ActionKind, Alternative,
                           RepeatOp, RepeatSymbol,
                           Span, Symbol, SymbolKind,
                           TerminalString, TypeRef};
+use normalize::resolve;
 use normalize::{NormResult, NormError};
 use normalize::norm_util::{self, Symbols};
 use regex::Regex;
@@ -19,6 +20,8 @@ use std::mem;
 mod test;
 
 pub fn expand_macros(input: Grammar) -> NormResult<Grammar> {
+    let input = try!(resolve::resolve(input));
+
     let items = input.items;
 
     let (macro_defs, mut items): (Vec<_>, Vec<_>) =
@@ -114,6 +117,9 @@ impl MacroExpander {
 
     fn replace_symbol(&mut self, symbol: &mut Symbol) {
         match symbol.kind {
+            SymbolKind::AmbiguousId(id) => {
+                panic!("ambiguous id `{}` encountered after name resolution", id)
+            }
             SymbolKind::Macro(ref mut m) => {
                 for sym in &mut m.args {
                     self.replace_symbol(sym);
@@ -320,6 +326,8 @@ impl MacroExpander {
                 SymbolKind::Lookahead,
             SymbolKind::Lookbehind =>
                 SymbolKind::Lookbehind,
+            SymbolKind::AmbiguousId(id) =>
+                panic!("ambiguous id `{}` encountered after name resolution", id),
         };
 
         Symbol { span: symbol.span, kind: kind }

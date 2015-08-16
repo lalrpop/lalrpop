@@ -53,8 +53,8 @@ mod __parse__Items {
     //   __Items = (*) Items [EOF]
     //
     //   "+" -> Reduce(Items =  => Call(ActionFn(1));)
-    //   EOF -> Reduce(Items =  => Call(ActionFn(1));)
     //   "-" -> Reduce(Items =  => Call(ActionFn(1));)
+    //   EOF -> Reduce(Items =  => Call(ActionFn(1));)
     //
     //   Items -> S1
     pub fn __state0<
@@ -68,8 +68,8 @@ mod __parse__Items {
         let mut __result: (Option<usize>, Option<(usize, Tok, usize)>, __Nonterminal<>);
         match __lookahead {
             Some((_, Tok::Plus(..), _)) |
-            None |
-            Some((_, Tok::Minus(..), _)) => {
+            Some((_, Tok::Minus(..), _)) |
+            None => {
                 let __nt = super::__action1();
                 __result = (__lookbehind, __lookahead, __Nonterminal::Items(__nt));
             }
@@ -103,9 +103,9 @@ mod __parse__Items {
     //   Items = Items (*) "-" ["-"]
     //   __Items = Items (*) [EOF]
     //
+    //   EOF -> Reduce(__Items = Items => Call(ActionFn(0));)
     //   "-" -> Shift(S3)
     //   "+" -> Shift(S2)
-    //   EOF -> Reduce(__Items = Items => Call(ActionFn(0));)
     //
     pub fn __state1<
         __TOKENS: Iterator<Item=Result<(usize, Tok, usize),char>>,
@@ -150,9 +150,9 @@ mod __parse__Items {
     //   Items = Items "+" (*) ["+"]
     //   Items = Items "+" (*) ["-"]
     //
-    //   "+" -> Reduce(Items = Items, "+" => TryCall(ActionFn(2));)
     //   EOF -> Reduce(Items = Items, "+" => TryCall(ActionFn(2));)
     //   "-" -> Reduce(Items = Items, "+" => TryCall(ActionFn(2));)
+    //   "+" -> Reduce(Items = Items, "+" => TryCall(ActionFn(2));)
     //
     pub fn __state2<
         __TOKENS: Iterator<Item=Result<(usize, Tok, usize),char>>,
@@ -166,9 +166,9 @@ mod __parse__Items {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok, usize)>, __Nonterminal<>);
         match __lookahead {
-            Some((_, Tok::Plus(..), _)) |
             None |
-            Some((_, Tok::Minus(..), _)) => {
+            Some((_, Tok::Minus(..), _)) |
+            Some((_, Tok::Plus(..), _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
                 let __nt = try!(super::__action2(__sym0, __sym1));
@@ -188,9 +188,9 @@ mod __parse__Items {
     //   Items = Items "-" (*) ["+"]
     //   Items = Items "-" (*) ["-"]
     //
+    //   "+" -> Reduce(Items = Items, "-" => TryCall(ActionFn(3));)
     //   EOF -> Reduce(Items = Items, "-" => TryCall(ActionFn(3));)
     //   "-" -> Reduce(Items = Items, "-" => TryCall(ActionFn(3));)
-    //   "+" -> Reduce(Items = Items, "-" => TryCall(ActionFn(3));)
     //
     pub fn __state3<
         __TOKENS: Iterator<Item=Result<(usize, Tok, usize),char>>,
@@ -204,9 +204,9 @@ mod __parse__Items {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok, usize)>, __Nonterminal<>);
         match __lookahead {
+            Some((_, Tok::Plus(..), _)) |
             None |
-            Some((_, Tok::Minus(..), _)) |
-            Some((_, Tok::Plus(..), _)) => {
+            Some((_, Tok::Minus(..), _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
                 let __nt = try!(super::__action3(__sym0, __sym1));

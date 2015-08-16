@@ -249,6 +249,7 @@ impl LowerState {
             pt::SymbolKind::Macro(..) |
             pt::SymbolKind::Repeat(..) |
             pt::SymbolKind::Expr(..) |
+            pt::SymbolKind::AmbiguousId(_) |
             pt::SymbolKind::Lookahead |
             pt::SymbolKind::Lookbehind => {
                 unreachable!("symbol `{}` should have been normalized away by now", symbol)

@@ -7,7 +7,7 @@ extern token {
         "(" => Tok::LParen(..),
         ")" => Tok::RParen(..),
         "-" => Tok::Minus(..),
-        "Num" => Tok::Num(<i32>),
+        Num => Tok::Num(<i32>),
     }
 }
 
@@ -20,7 +20,7 @@ E: i32 = {
 };
 
 T = {
-    <"Num">;
+    <Num>;
     "(" <E> ")";
 };
 
