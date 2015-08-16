@@ -46,7 +46,7 @@ fn items<'g>(grammar: &'g Grammar, nonterminal: &str, index: usize, la: Lookahea
 fn start_state() {
     let grammar = normalized_grammar(r#"
 grammar;
-    extern token { enum Tok { } }
+    extern { enum Tok { } }
     A = B "C";
     B: Option<u32> = {
         "D" => Some(1);
@@ -66,7 +66,7 @@ grammar;
 fn start_state_1() {
     let grammar = normalized_grammar(r#"
 grammar;
-extern token { enum Tok { } }
+extern { enum Tok { } }
 A = B C;
 B: Option<u32> = {
     "B1" => Some(1);
@@ -100,7 +100,7 @@ C: Option<u32> = {
 fn expr_grammar1() {
     let grammar = normalized_grammar(r#"
 grammar;
-    extern token { enum Tok { } }
+    extern { enum Tok { } }
 
     S: () =
         E => ();
@@ -175,7 +175,7 @@ fn shift_reduce_conflict1() {
 
     let grammar = normalized_grammar(r#"
         grammar;
-        extern token { enum Tok { } }
+        extern { enum Tok { } }
         E: () = {
             "L";
             "&" OPT_L E;

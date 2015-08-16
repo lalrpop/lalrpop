@@ -2,7 +2,7 @@ grammar(scale: i32);
 
 use util::tok::Tok;
 
-extern token {
+extern {
     enum Tok {
         "(" => Tok::LParen(..),
         ")" => Tok::RParen(..),

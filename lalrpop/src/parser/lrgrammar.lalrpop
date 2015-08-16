@@ -209,7 +209,7 @@ Path: Path =
     };
 
 ExternToken: GrammarItem =
-    <lo0:@L> "extern" "token" <hi0:@R> "{"
+    <lo0:@L> "extern" <hi0:@R> "{"
       <a0:AssociatedType*>
       "enum" <lo:@L> <t:TypeRef> <hi:@R> "{"
         <c:Comma<Conversion>>
@@ -320,7 +320,6 @@ extern token {
         "if" => Tok::If(..),
         "mut" => Tok::Mut(..),
         "pub" => Tok::Pub(..),
-        "token" => Tok::Token(..),
         "type" => Tok::Type(..),
         "use" => Tok::Use(<&'input str>),
         "where" => Tok::Where(<Vec<&'input str>>),

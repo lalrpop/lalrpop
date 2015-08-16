@@ -3,7 +3,7 @@ use lalrpop_util::ParseError;
 
 grammar;
 
-extern token {
+extern {
     type Location = usize;
     type Error = char;
 

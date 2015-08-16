@@ -39,14 +39,14 @@ fn named_symbols() {
 fn bad_assoc_type() {
     check_err(
         r#"associated type `Foo` not recognized"#,
-        r#"grammar; extern token { type >>>Foo<<< = i32; enum Tok { } }"#);
+        r#"grammar; extern { type >>>Foo<<< = i32; enum Tok { } }"#);
 }
 
 #[test]
 fn dup_assoc_type() {
     check_err(
         r#"associated type `Location` already specified"#,
-        r#"grammar; extern token { type Location = i32;
+        r#"grammar; extern { type Location = i32;
                                    type >>>Location<<< = u32;
                                    enum Tok { } }"#);
 }
@@ -55,12 +55,12 @@ fn dup_assoc_type() {
 fn lookahead_without_loc_type() {
     check_err(
         r#"lookahead/lookbehind require you to declare the type of a location"#,
-        r#"grammar; extern token { enum Tok { } } Foo = >>>@L<<<;"#);
+        r#"grammar; extern { enum Tok { } } Foo = >>>@L<<<;"#);
 }
 
 #[test]
 fn multiple_extern_token() {
     check_err(
         r#"multiple extern token definitions are not permitted"#,
-        r#"grammar; extern token { enum Tok { } } >>>extern token<<< { enum Tok { } }"#);
+        r#"grammar; extern { enum Tok { } } >>>extern token<<< { enum Tok { } }"#);
 }

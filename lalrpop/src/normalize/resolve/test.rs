@@ -73,5 +73,5 @@ fn repeated_macro_arg() {
 fn overlapping_terminal_and_nonterminal() {
     check_err(
         "terminal and nonterminal both declared with the name `A`",
-        r#"grammar; A = "Foo"; extern token { enum Foo { >>>A => Foo::A(..) <<<} }"#);
+        r#"grammar; A = "Foo"; extern { enum Foo { >>>A => Foo::A(..) <<<} }"#);
 }

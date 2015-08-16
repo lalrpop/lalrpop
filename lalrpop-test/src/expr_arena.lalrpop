@@ -3,7 +3,7 @@ use util::tok::Tok;
 
 grammar<'ast>(arena: &'ast Arena<'ast>);
 
-extern token {
+extern {
     type Location = usize;
 
     enum Tok {

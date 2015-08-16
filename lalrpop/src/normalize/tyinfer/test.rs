@@ -29,7 +29,7 @@ fn compare(g1: &str, expected: Vec<(&'static str, &'static str)>) {
 fn test_pairs_and_tokens() {
     compare("
 grammar;
-    extern token { enum Tok { } }
+    extern { enum Tok { } }
     X = Y Z;
     Y: Foo = \"Hi\";
     Z = \"Ho\";
@@ -44,7 +44,7 @@ grammar;
 fn test_cycle_direct() {
     let grammar = parser::parse_grammar("
 grammar;
-    extern token { enum Tok { } }
+    extern { enum Tok { } }
     X = {
         X Y;
         <Y> => vec![<>];
@@ -60,7 +60,7 @@ grammar;
 fn test_cycle_indirect() {
     let grammar = parser::parse_grammar("
 grammar;
-    extern token { enum Tok { } }
+    extern { enum Tok { } }
     A = B;
     B = C;
     C = D;
@@ -75,7 +75,7 @@ grammar;
 fn test_macro_expansion() {
     compare("
 grammar;
-    extern token { enum Tok { } }
+    extern { enum Tok { } }
     Two<X>: (X, X) = X X;
     Ids = Two<\"Id\">;
 ", vec![
@@ -88,7 +88,7 @@ grammar;
 fn test_macro_expansion_infer() {
     compare("
 grammar;
-    extern token { enum Tok { } }
+    extern { enum Tok { } }
     Two<X> = X X;
     Ids = Two<\"Id\">;
 ", vec![
@@ -101,7 +101,7 @@ grammar;
 fn test_type_question() {
     compare("
 grammar;
-    extern token { enum Tok { } }
+    extern { enum Tok { } }
     X = Y?;
     Y = \"Hi\";
 ",vec![
@@ -114,7 +114,7 @@ grammar;
 fn test_star_plus_question() {
     compare("
 grammar;
-    extern token { enum Tok { } }
+    extern { enum Tok { } }
     A = Z*;
     X = \"Hi\"*;
     Y = \"Hi\"+;
@@ -131,7 +131,7 @@ grammar;
 fn test_lookahead() {
     compare(r#"
 grammar;
-    extern token { type Location = usize; enum Tok { } }
+    extern { type Location = usize; enum Tok { } }
     A = @L;
 "#, vec![
     ("A", "usize"),
@@ -142,7 +142,7 @@ grammar;
 fn test_spanned_macro() {
     compare(r#"
         grammar;
-        extern token { type Location = usize; enum Tok { } }
+        extern { type Location = usize; enum Tok { } }
         A = Spanned<"Foo">;
         Spanned<T> = {
             @L T @R;
@@ -156,7 +156,7 @@ fn test_spanned_macro() {
 fn test_action() {
     compare(r#"
 grammar;
-    extern token { enum Tok { } }
+    extern { enum Tok { } }
 
     X = {
         Y;
@@ -174,7 +174,7 @@ grammar;
 fn test_inconsistent_action() {
     let grammar = parser::parse_grammar("
 grammar;
-    extern token { enum Tok { } }
+    extern { enum Tok { } }
 
     X = {
         Y;

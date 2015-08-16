@@ -21,7 +21,7 @@ fn flat_productions(grammar: &Grammar) -> Vec<Production> {
 fn test_comma() {
     let grammar = parser::parse_grammar("
 grammar;
-    extern token { enum Tok { } }
+    extern { enum Tok { } }
 
     Comma<E>: Vec<E> =
        <v:(<E> \",\")*> <e:E?> =>

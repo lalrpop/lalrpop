@@ -2,7 +2,7 @@ use util::tok::Tok;
 
 grammar;
 
-extern token {
+extern {
     type Location = usize;
 
     enum Tok {
