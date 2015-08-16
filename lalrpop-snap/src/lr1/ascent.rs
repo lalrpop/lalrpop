@@ -142,7 +142,7 @@ impl<'ascent,'grammar,W:Write> RecursiveAscent<'ascent,'grammar,W> {
 
         let next_token = self.next_token("tokens");
         rust!(self.out, "let {}lookahead = {};", self.prefix, next_token);
-        rust!(self.out, "match try!({}parse{}::{}state0({}None, {}lookahead, &mut {}tokens)) {{",
+        rust!(self.out, "match try!({}parse{}::{}state0({}None, &mut {}tokens, {}lookahead)) {{",
               self.prefix, self.start_symbol, self.prefix,
               self.grammar.user_parameter_refs(), self.prefix, self.prefix);
 
@@ -192,10 +192,22 @@ impl<'ascent,'grammar,W:Write> RecursiveAscent<'ascent,'grammar,W> {
         // set to true if goto actions are worth generating
         let mut fallthrough = false;
 
-        let base_args =
+        // to reduce the size of the generated code, if the state
+        // results from shifting a terminal, then we do not pass the
+        // lookahead in as an argument, but rather we load it as the
+        // first thing in this function; this saves some space because
+        // there are more edges than there are states in the graph.
+        let starts_with_terminal =
+            this_prefix.last().map(|l| l.is_terminal())
+                              .unwrap_or(false);
+
+        // compute the set of arguments that this state function expects
+        let mut base_args =
             vec![format!("{}lookbehind: Option<{}>", self.prefix, loc_type),
-                 format!("{}lookahead: Option<{}>", self.prefix, triple_type),
                  format!("{}tokens: &mut {}TOKENS", self.prefix, self.prefix)];
+        if !starts_with_terminal {
+            base_args.push(format!("{}lookahead: Option<{}>", self.prefix, triple_type));
+        }
         let sym_args: Vec<_> =
             (0..this_prefix.len())
             .map(|i| format!("{}sym{}: &mut Option<{}>",
@@ -220,6 +232,12 @@ impl<'ascent,'grammar,W:Write> RecursiveAscent<'ascent,'grammar,W> {
               self.prefix, loc_type, triple_type, self.prefix,
               self.grammar.user_type_parameter_refs());
 
+        // shift lookahead is necessary; see `starts_with_terminal` above
+        if starts_with_terminal {
+            let next_token = self.next_token("tokens");
+            rust!(self.out, "let {}lookahead = {};", self.prefix, next_token);
+        }
+
         rust!(self.out, "match {}lookahead {{", self.prefix);
 
         // first emit shifts:
@@ -237,13 +255,9 @@ impl<'ascent,'grammar,W:Write> RecursiveAscent<'ascent,'grammar,W> {
                     unreachable!("should never have to shift EOF")
             }
 
-            // "shift" the lookahead onto the "stack" by taking its address
-            let next_token = self.next_token("tokens");
-            rust!(self.out, "let {}lookahead = {};", self.prefix, next_token);
-
             // transition to the new state
             let transition =
-                self.transition(this_prefix, next_index, "lookbehind", "lookahead", "tokens");
+                self.transition(this_prefix, next_index, &["lookbehind", "tokens"]);
             rust!(self.out, "{}result = {};", self.prefix, transition);
 
             rust!(self.out, "}}");
@@ -368,7 +382,7 @@ impl<'ascent,'grammar,W:Write> RecursiveAscent<'ascent,'grammar,W> {
                 rust!(self.out, "let {}sym{} = &mut Some({}nt);",
                       self.prefix, this_prefix.len(), self.prefix);
                 let transition = self.transition(this_prefix, next_index,
-                                                 "lookbehind", "lookahead", "tokens");
+                                                 &["lookbehind", "tokens", "lookahead"]);
                 rust!(self.out, "{}result = {};", self.prefix, transition);
                 rust!(self.out, "}}");
             }
@@ -405,9 +419,7 @@ impl<'ascent,'grammar,W:Write> RecursiveAscent<'ascent,'grammar,W> {
     fn transition(&self,
                   prefix: &[Symbol],
                   next_index: StateIndex,
-                  lookbehind: &str,
-                  lookahead: &str,
-                  tokens: &str)
+                  other_args: &[&str])
                   -> String
     {
         // depth of stack, including the newly shifted token
@@ -421,13 +433,16 @@ impl<'ascent,'grammar,W:Write> RecursiveAscent<'ascent,'grammar,W> {
 
         let transfer_syms = self.pop_syms(n, m);
 
+        let other_args =
+            other_args.iter()
+                      .map(|s| format!("{}{}", self.prefix, s))
+                      .collect();
+
         // invoke next state, transferring the top `m` tokens
-        format!("try!({}state{}({}{}{}, {}{}, {}{}, {}))",
+        format!("try!({}state{}({}{}, {}))",
                 self.prefix, next_index.0,
                 self.grammar.user_parameter_refs(),
-                self.prefix, lookbehind,
-                self.prefix, lookahead,
-                self.prefix, tokens,
+                Sep(", ", &other_args),
                 Sep(", ", &transfer_syms))
     }
 

@@ -248,6 +248,13 @@ impl ActionFn {
 }
 
 impl Symbol {
+    pub fn is_terminal(&self) -> bool {
+        match *self {
+            Symbol::Terminal(..) => true,
+            Symbol::Nonterminal(..) => false,
+        }
+    }
+
     pub fn ty<'ty>(&self, t: &'ty Types) -> &'ty TypeRepr {
         match *self {
             Symbol::Terminal(id) => t.terminal_type(id),
