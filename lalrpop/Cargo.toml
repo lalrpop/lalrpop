@@ -1,6 +1,6 @@
 [package]
 name = "lalrpop"
-version = "0.3.0" # LALRPOP
+version = "0.4.0" # LALRPOP
 description = "convenient LR(1) parser generator"
 repository = "https://github.com/nikomatsakis/lalrpop"
 readme = "../README.md"
@@ -19,15 +19,15 @@ unicode-xid = "0.0.2"
 
 [dependencies.lalrpop-util]
 path = "../lalrpop-util"
-version = "0.3.0" # LALRPOP
+version = "0.4.0" # LALRPOP
 
 [dependencies.lalrpop-intern]
 path = "../lalrpop-intern"
-version = "0.3.0" # LALRPOP
+version = "0.4.0" # LALRPOP
 
 [build-dependencies.lalrpop-snap]
 path = "../lalrpop-snap"
-version = "0.3.0" # LALRPOP
+version = "0.4.0" # LALRPOP
 
 # Enable codegen units: this is probably not the optimal way to do it,
 # but codegen units helps a lot with compiling lrgrammar.rs (I think).
