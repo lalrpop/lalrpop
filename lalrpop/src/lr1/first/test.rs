@@ -10,11 +10,11 @@ pub fn nt(t: &str) -> Symbol {
 }
 
 pub fn term(t: &str) -> Symbol {
-    Symbol::Terminal(TerminalString::Quoted(intern(t)))
+    Symbol::Terminal(TerminalString::quoted(intern(t)))
 }
 
 fn la(t: &str) -> Lookahead {
-    Lookahead::Terminal(TerminalString::Quoted(intern(t)))
+    Lookahead::Terminal(TerminalString::quoted(intern(t)))
 }
 
 fn first(first: &FirstSets, symbols: &[Symbol], lookahead: Lookahead) -> Vec<Lookahead> {

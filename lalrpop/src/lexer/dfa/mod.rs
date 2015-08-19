@@ -14,9 +14,9 @@ mod test;
 #[cfg(test)]
 mod interpret;
 
-#[derive(Debug)]
+#[derive(Clone, Debug, PartialEq, Eq)]
 pub struct DFA {
-    states: Vec<State>
+    pub states: Vec<State>
 }
 
 #[derive(Copy, Clone, Debug, PartialOrd, Ord, PartialEq, Eq)]
@@ -37,16 +37,16 @@ struct DFABuilder<'nfa> {
     precedences: Vec<Precedence>,
 }
 
-#[derive(Debug)]
-struct State {
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub struct State {
     item_set: DFAItemSet,
-    kind: Kind,
-    test_edges: Vec<(re::Test, DFAStateIndex)>,
-    other_edge: DFAStateIndex,
+    pub kind: Kind,
+    pub test_edges: Vec<(re::Test, DFAStateIndex)>,
+    pub other_edge: DFAStateIndex,
 }
 
-#[derive(Debug)]
-enum Kind {
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub enum Kind {
     Accepts(NFAIndex),
     Reject,
     Neither,
@@ -56,7 +56,7 @@ enum Kind {
 pub struct NFAIndex(usize);
 
 #[derive(Copy, Clone, Hash, PartialEq, Eq, PartialOrd, Ord)]
-struct DFAStateIndex(usize);
+pub struct DFAStateIndex(usize);
 
 type DFAKernelSet = KernelSet<DFAItemSet>;
 

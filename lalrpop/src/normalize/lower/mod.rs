@@ -50,6 +50,10 @@ impl LowerState {
                     uses.push(data);
                 }
 
+                pt::GrammarItem::InternToken(_) => {
+                    panic!("NYI")
+                }
+
                 pt::GrammarItem::ExternToken(data) => {
                     token_span = Some(data.enum_token.type_span);
                     self.conversions.extend(

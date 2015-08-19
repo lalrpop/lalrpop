@@ -301,7 +301,7 @@ Terminal: TerminalString = {
 };
 
 QuotedTerminal: TerminalString =
-    <s:StringLiteral> => TerminalString::Quoted(s);
+    <s:StringLiteral> => TerminalString::quoted(s);
 
 StringLiteral: InternedString =
     <s:"StringLiteral"> => intern(s);

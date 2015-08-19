@@ -29,7 +29,7 @@ fn resolve_in_place(grammar: &mut Grammar) -> NormResult<()> {
                    .filter_map(|item| item.as_extern_token())
                    .flat_map(|extern_token| &extern_token.enum_token.conversions)
                    .filter_map(|conversion| match conversion.from {
-                       TerminalString::Quoted(..) => None,
+                       TerminalString::Literal(..) => None,
                        TerminalString::Bare(id) => Some((conversion.span, id, Def::Terminal)),
                    });
 
@@ -98,6 +98,7 @@ impl Validator {
         for item in &mut grammar.items {
             match *item {
                 GrammarItem::Use(..) => { }
+                GrammarItem::InternToken(..) => {}
                 GrammarItem::ExternToken(..) => {}
                 GrammarItem::Nonterminal(ref mut data) => {
                     let identifiers = try!(self.validate_macro_args(data.span, &data.args));

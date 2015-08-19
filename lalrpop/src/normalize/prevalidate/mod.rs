@@ -86,6 +86,7 @@ impl<'grammar> Validator<'grammar> {
                         try!(self.validate_alternative(alternative));
                     }
                 }
+                GrammarItem::InternToken(..) => { }
             }
         }
         Ok(())

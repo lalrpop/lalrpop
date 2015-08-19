@@ -39,6 +39,7 @@ impl<'grammar> Validator<'grammar> {
             match *item {
                 GrammarItem::Use(..) => { }
                 GrammarItem::ExternToken(_) => { }
+                GrammarItem::InternToken(_) => { }
                 GrammarItem::Nonterminal(ref data) => {
                     for alternative in &data.alternatives {
                         try!(self.validate_alternative(alternative));

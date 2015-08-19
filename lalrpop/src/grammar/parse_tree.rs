@@ -6,6 +6,7 @@ some pre-expansion and so forth before creating the proper AST.
 */
 
 use intern::{intern, InternedString};
+use lexer::dfa::DFA;
 use grammar::repr::{NominalTypeRepr, TypeRepr};
 use grammar::pattern::Pattern;
 use std::fmt::{Debug, Display, Formatter, Error};
@@ -33,8 +34,18 @@ pub struct Span(pub usize, pub usize);
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub enum GrammarItem {
     ExternToken(ExternToken),
+    InternToken(InternToken),
     Nonterminal(NonterminalData),
     Use(String),
+}
+
+/// Intern tokens are not typed by the user: they are synthesized in
+/// the absence of an "extern" declaration with information about the
+/// string literals etc that appear in the grammar.
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub struct InternToken {
+    pub terminals: Vec<TerminalLiteral>,
+    pub dfa: DFA
 }
 
 #[derive(Clone, Debug, PartialEq, Eq)]
@@ -212,8 +223,13 @@ pub enum SymbolKind {
 
 #[derive(Copy, Clone, Hash, PartialEq, Eq, PartialOrd, Ord)]
 pub enum TerminalString {
-    Quoted(InternedString),
+    Literal(TerminalLiteral),
     Bare(InternedString),
+}
+
+#[derive(Copy, Clone, Hash, PartialEq, Eq, PartialOrd, Ord)]
+pub enum TerminalLiteral {
+    Quoted(InternedString),
 }
 
 #[derive(Copy, Clone, Hash, PartialEq, Eq, PartialOrd, Ord)]
@@ -241,6 +257,12 @@ pub struct MacroSymbol {
     pub args: Vec<Symbol>,
 }
 
+impl TerminalString {
+    pub fn quoted(i: InternedString) -> TerminalString {
+        TerminalString::Literal(TerminalLiteral::Quoted(i))
+    }
+}
+
 impl GrammarItem {
     pub fn is_macro_def(&self) -> bool {
         match *self {
@@ -254,6 +276,7 @@ impl GrammarItem {
             GrammarItem::Nonterminal(ref d) => Some(d),
             GrammarItem::Use(..) => None,
             GrammarItem::ExternToken(..) => None,
+            GrammarItem::InternToken(..) => None,
         }
     }
 
@@ -262,6 +285,7 @@ impl GrammarItem {
             GrammarItem::Nonterminal(..) => None,
             GrammarItem::Use(..) => None,
             GrammarItem::ExternToken(ref d) => Some(d),
+            GrammarItem::InternToken(ref d) => None,
         }
     }
 }
@@ -285,11 +309,32 @@ impl Symbol {
 impl Display for TerminalString {
     fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
         match *self {
-            TerminalString::Quoted(s) =>
-                write!(fmt, "{:?}", s),
+            TerminalString::Literal(s) =>
+                write!(fmt, "{}", s),
             TerminalString::Bare(s) =>
                 write!(fmt, "{}", s),
         }
+    }
+}
+
+impl Debug for TerminalString {
+    fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
+        Display::fmt(self, fmt)
+    }
+}
+
+impl Display for TerminalLiteral {
+    fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
+        match *self {
+            TerminalLiteral::Quoted(s) =>
+                write!(fmt, "{:?}", s),
+        }
+    }
+}
+
+impl Debug for TerminalLiteral {
+    fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
+        Display::fmt(self, fmt)
     }
 }
 
@@ -298,12 +343,6 @@ impl Display for Path {
         write!(fmt, "{}{}",
                if self.absolute {"::"} else {""},
                Sep("::", &self.ids))
-    }
-}
-
-impl Debug for TerminalString {
-    fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
-        Display::fmt(self, fmt)
     }
 }
 
