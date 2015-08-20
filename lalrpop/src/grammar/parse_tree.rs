@@ -44,7 +44,7 @@ pub enum GrammarItem {
 /// string literals etc that appear in the grammar.
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct InternToken {
-    pub terminals: Vec<TerminalLiteral>,
+    pub literals: Vec<TerminalLiteral>,
     pub dfa: DFA
 }
 
@@ -263,6 +263,20 @@ impl TerminalString {
     }
 }
 
+impl Grammar {
+    pub fn extern_token(&self) -> Option<&ExternToken> {
+        self.items.iter()
+                  .flat_map(|i| i.as_extern_token())
+                  .next()
+    }
+
+    pub fn intern_token(&self) -> Option<&InternToken> {
+        self.items.iter()
+                  .flat_map(|i| i.as_intern_token())
+                  .next()
+    }
+}
+
 impl GrammarItem {
     pub fn is_macro_def(&self) -> bool {
         match *self {
@@ -285,7 +299,16 @@ impl GrammarItem {
             GrammarItem::Nonterminal(..) => None,
             GrammarItem::Use(..) => None,
             GrammarItem::ExternToken(ref d) => Some(d),
-            GrammarItem::InternToken(ref d) => None,
+            GrammarItem::InternToken(..) => None,
+        }
+    }
+
+    pub fn as_intern_token(&self) -> Option<&InternToken> {
+        match *self {
+            GrammarItem::Nonterminal(..) => None,
+            GrammarItem::Use(..) => None,
+            GrammarItem::ExternToken(..) => None,
+            GrammarItem::InternToken(ref d) => Some(d),
         }
     }
 }

@@ -12,7 +12,7 @@ use util::Set;
 mod test;
 
 #[cfg(test)]
-mod interpret;
+pub mod interpret;
 
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct DFA {
@@ -20,7 +20,7 @@ pub struct DFA {
 }
 
 #[derive(Copy, Clone, Debug, PartialOrd, Ord, PartialEq, Eq)]
-pub struct Precedence(usize);
+pub struct Precedence(pub usize);
 
 pub fn build_dfa(regexs: &[re::Regex],
                  precedences: &[Precedence])
@@ -80,7 +80,8 @@ const START: DFAStateIndex = DFAStateIndex(0);
 /// priority.
 #[derive(Debug)]
 pub struct Ambiguity {
-    match0: NFAIndex, match1: NFAIndex
+    pub match0: NFAIndex,
+    pub match1: NFAIndex,
 }
 
 impl<'nfa> DFABuilder<'nfa> {
@@ -275,7 +276,7 @@ impl Display for DFAStateIndex {
 }
 
 impl NFAIndex {
-    fn index(&self) -> usize {
+    pub fn index(&self) -> usize {
         self.0
     }
 }
