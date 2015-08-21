@@ -34,9 +34,9 @@ pub fn compare<D:Debug,E:Debug>(actual: D, expected: E) {
 
             for diff in diff::lines(&actual_s, &expected_s) {
                 match diff {
-                    diff::Result::Left(l)    => println!("a {}", l),
+                    diff::Result::Right(r)   => println!("- {}", r),
+                    diff::Result::Left(l)    => println!("+ {}", l),
                     diff::Result::Both(l, _) => println!("  {}", l),
-                    diff::Result::Right(r)   => println!("e {}", r)
                 }
             }
 

@@ -14,6 +14,8 @@ mod test;
 #[cfg(test)]
 pub mod interpret;
 
+pub mod codegen;
+
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct DFA {
     pub states: Vec<State>
@@ -141,7 +143,7 @@ impl<'nfa> DFABuilder<'nfa> {
 
             // for each specific test, find what happens if we see a
             // character matching that test
-            let test_edges: Vec<(re::Test, DFAStateIndex)> =
+            let mut test_edges: Vec<(re::Test, DFAStateIndex)> =
                 tests.iter()
                      .map(|&test| {
                          let items: Vec<_> =
@@ -155,6 +157,8 @@ impl<'nfa> DFABuilder<'nfa> {
                          (test, kernel_set.add_state(self.transitive_closure(items)))
                      })
                      .collect();
+
+            test_edges.sort();
 
             // Consider what there is some cahracter that doesn't meet
             // any of the tests. In this case, we can just ignore all
