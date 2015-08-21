@@ -19,9 +19,7 @@ pub fn compile<W: Write>(
     -> io::Result<()>
 {
     let mut matcher = Matcher { prefix: prefix, dfa: dfa, out: out };
-    for (index, state) in dfa.states.iter().enumerate() {
-        try!(matcher.state(DFAStateIndex(index), state));
-    }
+    matcher.tokenize();
     Ok(())
 }
 
@@ -34,13 +32,35 @@ struct Matcher<'m, W: Write+'m> {
 impl<'m,W> Matcher<'m,W>
     where W: Write
 {
-    fn state(&mut self, index: DFAStateIndex, state: &State) -> io::Result<()> {
-        rust!(self.out, "fn {}state{}<'input,{}CHARS>(", self.prefix, index, self.prefix);
+    fn tokenize(&mut self) -> io::Result<()> {
+        rust!(self.out, "fn {}tokenize<'input,{}CHARS>(", self.prefix, self.prefix);
         rust!(self.out, "mut {}chars: {}CHARS,", self.prefix, self.prefix);
-        rust!(self.out, "{}current_match: Option<(usize, usize)>,", self.prefix);
         rust!(self.out, ") -> Option<(usize, usize)>");
         rust!(self.out, "where {}CHARS: Iterator<Item=(usize, char)>", self.prefix);
         rust!(self.out, "{{");
+        rust!(self.out, "let mut {}current_match: Option<(usize, usize)> = None;", self.prefix);
+        rust!(self.out, "let mut {}current_state: usize = 0;", self.prefix);
+        rust!(self.out, "loop {{");
+        rust!(self.out, "match {}current_state {{", self.prefix);
+
+        for (index, state) in self.dfa.states.iter().enumerate() {
+            rust!(self.out, "{} => {{", index);
+            try!(self.state(state));
+            rust!(self.out, "}}");
+        }
+
+        rust!(self.out, "_ => {{ panic!(\"invalid state {{}}\", {}current_state); }}",
+              self.prefix);
+        rust!(self.out, "}}");
+        rust!(self.out, "}}");
+        rust!(self.out, "}}");
+        Ok(())
+    }
+
+    fn state(&mut self, state: &State) -> io::Result<()> {
+        // this could be pulled to the top of the loop, but we want to
+        // encourage LLVM to convert the loop+switch pair into actual
+        // gotos.
         rust!(self.out, "let ({}index, {}ch) = \
                          match {}chars.next() {{ Some(p) => p, None => return {}current_match }};",
               self.prefix, self.prefix, self.prefix, self.prefix);
@@ -50,15 +70,14 @@ impl<'m,W> Matcher<'m,W>
                 Test::Char(ch) => {
                     rust!(self.out, "{:?} => {{", ch);
                     let index = format!("{}index + {}", self.prefix, ch.len_utf8());
-                    try!(self.transition(target_state, "chars", &index, "current_match"));
+                    try!(self.transition(target_state, &index));
                     rust!(self.out, "}}");
                 }
             }
         }
         rust!(self.out, "_ => {{");
         let index = format!("{}index + {}ch.len_utf8()", self.prefix, self.prefix);
-        try!(self.transition(state.other_edge, "chars", &index, "current_match"));
-        rust!(self.out, "}}");
+        try!(self.transition(state.other_edge, &index));
         rust!(self.out, "}}");
         rust!(self.out, "}}");
         Ok(())
@@ -66,27 +85,22 @@ impl<'m,W> Matcher<'m,W>
 
     fn transition(&mut self,
                   target_state: DFAStateIndex,
-                  chars: &str,
-                  index: &str,
-                  current_match: &str)
+                  index: &str)
                   -> io::Result<()> {
-        let next_match = match self.dfa.state(target_state).kind {
+        match self.dfa.state(target_state).kind {
             Kind::Accepts(nfa) => {
-                format!("Some(({}, {}))", nfa.index(), index)
+                rust!(self.out, "{}current_match = Some(({}, {}));",
+                      self.prefix, nfa.index(), index)
             }
-            Kind::Neither => {
-                format!("{}{}", self.prefix, current_match)
-            }
+            Kind::Neither => { }
             Kind::Reject => {
-                rust!(self.out, "{}{}", self.prefix, current_match);
+                rust!(self.out, "return {}current_match;", self.prefix);
                 return Ok(());
             }
-        };
+        }
 
-        rust!(self.out, "{}state{}(", self.prefix, target_state);
-        rust!(self.out, "{}{},", self.prefix, chars);
-        rust!(self.out, "{},", next_match);
-        rust!(self.out, ")");
+        rust!(self.out, "{}current_state = {};", self.prefix, target_state.index());
+        rust!(self.out, "continue;");
         Ok(())
     }
 }

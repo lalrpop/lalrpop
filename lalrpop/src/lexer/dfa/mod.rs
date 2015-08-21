@@ -285,6 +285,12 @@ impl NFAIndex {
     }
 }
 
+impl DFAStateIndex {
+    pub fn index(&self) -> usize {
+        self.0
+    }
+}
+
 impl Debug for Item {
     fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
         write!(fmt, "({:?}:{:?})", self.nfa_index, self.nfa_state)
