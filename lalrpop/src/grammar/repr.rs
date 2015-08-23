@@ -10,7 +10,8 @@ use std::fmt::{Debug, Display, Formatter, Error};
 use util::{map, Map, Sep};
 
 // These concepts we re-use wholesale
-pub use grammar::parse_tree::{NonterminalString,
+pub use grammar::parse_tree::{InternToken,
+                              NonterminalString,
                               Path,
                               Span,
                               TerminalString, TypeParameter};
@@ -41,6 +42,10 @@ pub struct Grammar {
 
     // where clauses declared on the grammar, like `grammar<T> where T: Sized`
     pub where_clauses: Vec<String>,
+
+    // optional tokenizer DFA; this is only needed if the user did not supply
+    // an extern token declaration
+    pub intern_token: Option<InternToken>,
 
     // the grammar proper:
 

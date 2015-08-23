@@ -5,11 +5,11 @@
 use intern::{self, intern, InternedString};
 use normalize::NormResult;
 use normalize::norm_util::{self, Symbols};
-use grammar::pattern::Pattern;
+use grammar::pattern::{Pattern, PatternKind};
 use grammar::parse_tree as pt;
-use grammar::parse_tree::{TerminalString, NonterminalString};
+use grammar::parse_tree::{InternToken, NonterminalString, TerminalString};
 use grammar::repr as r;
-use util::{map, Map};
+use util::{Escape, map, Map};
 
 #[cfg(test)]
 mod test;
@@ -24,6 +24,7 @@ struct LowerState {
     action_fn_defns: Vec<r::ActionFnDefn>,
     productions: Vec<r::Production>,
     conversions: Vec<(TerminalString, Pattern<r::TypeRepr>)>,
+    intern_token: Option<InternToken>,
     types: r::Types,
 }
 
@@ -35,6 +36,7 @@ impl LowerState {
             productions: vec![],
             conversions: vec![],
             types: types,
+            intern_token: None,
         }
     }
 
@@ -50,8 +52,30 @@ impl LowerState {
                     uses.push(data);
                 }
 
-                pt::GrammarItem::InternToken(_) => {
-                    panic!("NYI")
+                pt::GrammarItem::InternToken(data) => {
+                    let prefix = &self.prefix[..];
+                    let span = grammar.span;
+                    self.conversions.extend(
+                        data.literals
+                            .iter()
+                            .map(|&literal| {
+                                let variant_name = intern(&format!("{}", Escape(literal)));
+                                let terminal = intern(&format!("{}Terminal", prefix));
+                                let pattern = Pattern {
+                                    span: span,
+                                    kind: PatternKind::Enum(
+                                        r::Path {
+                                            absolute: false,
+                                            ids: vec![terminal, variant_name],
+                                        },
+                                        vec![Pattern {
+                                            span: span,
+                                            kind: PatternKind::DotDot,
+                                        }]),
+                                };
+                                (TerminalString::Literal(literal), pattern)
+                            }));
+                    self.intern_token = Some(data);
                 }
 
                 pt::GrammarItem::ExternToken(data) => {
@@ -110,7 +134,8 @@ impl LowerState {
             type_parameters: grammar.type_parameters,
             parameters: parameters,
             where_clauses: grammar.where_clauses,
-            algorithm: algorithm
+            algorithm: algorithm,
+            intern_token: self.intern_token,
         })
     }
 
