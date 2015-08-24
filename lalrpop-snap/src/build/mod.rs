@@ -122,6 +122,13 @@ fn parse_and_normalize_grammar(path: PathBuf) -> io::Result<r::Grammar> {
     let grammar = match parser::parse_grammar(input.text()) {
         Ok(grammar) => grammar,
 
+        Err(ParseError::InvalidToken { .. }) => {
+            let len = input.text().len();
+            report_error(&input,
+                         pt::Span(len, len),
+                         &format!("unexpected end of file"));
+        }
+
         Err(ParseError::UnrecognizedToken { token: None, expected: _ }) => {
             let len = input.text().len();
             report_error(&input,

@@ -3,5 +3,6 @@
 #![allow(dead_code)] // not yet fully activated
 
 pub mod dfa;
+pub mod intern_token;
 pub mod re;
 pub mod nfa;

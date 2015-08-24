@@ -6,13 +6,16 @@ use std::io::{self, Write};
 #[cfg(test)]
 mod test;
 
-// We generate matcher code that uses recursion. This is in a sense a
-// bit odd because we'll recurse O(n) deep where n is the length of
-// the longest token, but it's also quite convenient, because as we
-// unwind stack we can find which was the longest applicable regular
-// expression.
-
-pub fn compile<W: Write>(
+/// Generates a fn `__tokenize` based on the given DFA with the following signature:
+///
+/// ```ignore
+/// fn tokenize(text: &str) -> Option<(usize, usize)>
+/// ```
+///
+/// This function returns `None` if there is no matching
+/// token. Otherwise, it returns the pair of (NFA index, length) for
+/// the next token.
+pub fn compile_tokenize_fn<W: Write>(
     prefix: &str,
     dfa: &DFA,
     out: &mut RustWrite<W>)
@@ -33,11 +36,9 @@ impl<'m,W> Matcher<'m,W>
     where W: Write
 {
     fn tokenize(&mut self) -> io::Result<()> {
-        rust!(self.out, "fn {}tokenize<'input,{}CHARS>(", self.prefix, self.prefix);
-        rust!(self.out, "mut {}chars: {}CHARS,", self.prefix, self.prefix);
-        rust!(self.out, ") -> Option<(usize, usize)>");
-        rust!(self.out, "where {}CHARS: Iterator<Item=(usize, char)>", self.prefix);
-        rust!(self.out, "{{");
+        rust!(self.out, "fn {}tokenize(text: &str) -> Option<(usize, usize)> {{",
+              self.prefix);
+        rust!(self.out, "let mut {}chars = text.char_indices();", self.prefix);
         rust!(self.out, "let mut {}current_match: Option<(usize, usize)> = None;", self.prefix);
         rust!(self.out, "let mut {}current_state: usize = 0;", self.prefix);
         rust!(self.out, "loop {{");

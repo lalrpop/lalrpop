@@ -30,6 +30,7 @@ pub enum PatternKind<T> {
     Struct(Path, Vec<FieldPattern<T>>, /* trailing ..? */ bool),
     Path(Path),
     Tuple(Vec<Pattern<T>>),
+    Usize(usize),
     Underscore,
     DotDot,
     Choose(T)
@@ -70,6 +71,8 @@ impl<T> PatternKind<T> {
                 PatternKind::Underscore,
             PatternKind::DotDot =>
                 PatternKind::DotDot,
+            PatternKind::Usize(n) =>
+                PatternKind::Usize(n),
             PatternKind::Choose(ref ty) =>
                 PatternKind::Choose(map_fn(ty)),
         }
@@ -111,6 +114,8 @@ impl<T:Display> Display for PatternKind<T> {
                 write!(fmt, "_"),
             PatternKind::DotDot =>
                 write!(fmt, ".."),
+            PatternKind::Usize(n) =>
+                write!(fmt, "{}", n),
             PatternKind::Choose(ref ty) =>
                 write!(fmt, "{}", ty),
         }

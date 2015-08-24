@@ -16,7 +16,7 @@ fn codegen() {
         ]).unwrap();
 
     let mut buffer = vec![];
-    codegen::compile("_", &dfa, &mut RustWrite::new(&mut buffer)).unwrap();
+    codegen::compile_tokenize_fn("_", &dfa, &mut RustWrite::new(&mut buffer)).unwrap();
     let actual = String::from_utf8(buffer).unwrap();
     println!("{}", actual);
 

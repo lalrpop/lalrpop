@@ -122,6 +122,13 @@ fn parse_and_normalize_grammar(path: PathBuf) -> io::Result<r::Grammar> {
     let grammar = match parser::parse_grammar(input.text()) {
         Ok(grammar) => grammar,
 
+        Err(ParseError::InvalidToken { location }) => {
+            let ch = input.text()[location..].chars().next().unwrap();
+            report_error(&input,
+                         pt::Span(location, location),
+                         &format!("invalid character `{}`", ch));
+        }
+
         Err(ParseError::UnrecognizedToken { token: None, expected: _ }) => {
             let len = input.text().len();
             report_error(&input,

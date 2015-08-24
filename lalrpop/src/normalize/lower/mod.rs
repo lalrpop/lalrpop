@@ -55,23 +55,33 @@ impl LowerState {
                 pt::GrammarItem::InternToken(data) => {
                     let prefix = &self.prefix[..];
                     let span = grammar.span;
+                    let input_str = r::TypeRepr::Ref {
+                        lifetime: Some(intern(pt::INPUT_LIFETIME)),
+                        mutable: false,
+                        referent: Box::new(r::TypeRepr::Nominal(r::NominalTypeRepr {
+                            path: r::Path::str(),
+                            types: vec![]
+                        }))
+                    };
                     self.conversions.extend(
                         data.literals
                             .iter()
-                            .map(|&literal| {
-                                let variant_name = intern(&format!("{}", Escape(literal)));
-                                let terminal = intern(&format!("{}Terminal", prefix));
+                            .enumerate()
+                            .map(|(index, &literal)| {
+                                //let variant_name = intern(&format!("{}", Escape(literal)));
+                                //let terminal = intern(&format!("{}Terminal", prefix));
                                 let pattern = Pattern {
                                     span: span,
-                                    kind: PatternKind::Enum(
-                                        r::Path {
-                                            absolute: false,
-                                            ids: vec![terminal, variant_name],
-                                        },
-                                        vec![Pattern {
+                                    kind: PatternKind::Tuple(vec![
+                                        Pattern {
                                             span: span,
-                                            kind: PatternKind::DotDot,
-                                        }]),
+                                            kind: PatternKind::Usize(index),
+                                        },
+                                        Pattern {
+                                            span: span,
+                                            kind: PatternKind::Choose(input_str.clone())
+                                        }
+                                        ])
                                 };
                                 (TerminalString::Literal(literal), pattern)
                             }));
