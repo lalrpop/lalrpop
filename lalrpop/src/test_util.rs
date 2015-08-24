@@ -1,5 +1,7 @@
 use diff;
+use grammar::parse_tree as pt;
 use grammar::repr as r;
+use normalize::NormError;
 use regex::Regex;
 use std::fmt::{Debug, Formatter, Error};
 
@@ -47,4 +49,16 @@ pub fn compare<D:Debug,E:Debug>(actual: D, expected: E) {
 
 pub fn normalized_grammar(s: &str) -> r::Grammar {
     ::normalize::normalize_without_validating(::parser::parse_grammar(s).unwrap()).unwrap()
+}
+
+pub fn check_norm_err(expected_err: &str,
+                      span: &str,
+                      err: NormError) {
+    let expected_err = Regex::new(expected_err).unwrap();
+    let start_index = span.find("~").unwrap();
+    let end_index = span.rfind("~").unwrap() + 1;
+    assert!(start_index <= end_index);
+    assert_eq!(err.span, pt::Span(start_index, end_index));
+    assert!(expected_err.is_match(&err.message),
+            "unexpected error text `{}`, did not match `{}`", err.message, expected_err);
 }

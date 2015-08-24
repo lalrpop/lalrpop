@@ -1,35 +1,15 @@
 use parser;
-use grammar::parse_tree::Span;
 use normalize::resolve::resolve;
-use regex::Regex;
 use lexer::dfa::interpret;
+use test_util;
 
 fn check_err(expected_err: &str,
-             grammar: &str) {
-    let expected_err = Regex::new(expected_err).unwrap();
-
-    // the string will have a `>>>` and `<<<` in it, which serve to
-    // indicate the span where an error is expected.
-    let start_index = grammar.find(">>>").unwrap();
-    let grammar = grammar.replace(">>>", ""); // remove the `>>>` marker
-    let end_index = grammar.rfind("<<<").unwrap();
-    let grammar = grammar.replace("<<<", "");
-
-    assert!(start_index <= end_index);
-
+             grammar: &str,
+             span: &str) {
     let parsed_grammar = parser::parse_grammar(&grammar).unwrap();
     let mut parsed_grammar = resolve(parsed_grammar).unwrap();
-    match super::validate(&mut parsed_grammar) {
-        Ok(()) => {
-            panic!("expected error for grammar");
-        }
-        Err(err) => {
-            assert_eq!(err.span, Span(start_index, end_index));
-
-            assert!(expected_err.is_match(&err.message),
-                    "unexpected error text `{}`, did not match `{}`", err.message, expected_err);
-        }
-    }
+    let err = super::validate(&mut parsed_grammar).unwrap_err();
+    test_util::check_norm_err(expected_err, span, err);
 }
 
 fn check_intern_token(grammar: &str,
@@ -60,28 +40,32 @@ fn check_intern_token(grammar: &str,
 fn unknown_terminal() {
     check_err(
         r#"terminal `"\+"` does not have a pattern defined for it"#,
-        r#"grammar; extern { enum Term { } } X = X >>>"+"<<<;"#);
+        r#"grammar; extern { enum Term { } } X = X "+";"#,
+        r#"                                        ~~~ "#);
 }
 
 #[test]
 fn unknown_id_terminal() {
     check_err(
         r#"terminal `"foo"` does not have a pattern defined for it"#,
-        r#"grammar; extern { enum Term { } } X = X >>>"foo"<<<;"#);
+        r#"grammar; extern { enum Term { } } X = X "foo";"#,
+        r#"                                        ~~~~~ "#);
 }
 
 #[test]
 fn tick_input_lifetime_already_declared() {
     check_err(
         r#".*the `'input` lifetime is implicit and cannot be declared"#,
-        r#">>>grammar<<< <'input>; X = X "foo";"#);
+        r#"grammar<'input>; X = X "foo";"#,
+        r#"~~~~~~~                      "#);
 }
 
 #[test]
 fn input_parameter_already_declared() {
     check_err(
         r#".*the `input` parameter is implicit and cannot be declared"#,
-        r#">>>grammar<<<(input:u32); X = X "foo";"#);
+        r#"grammar(input:u32); X = X "foo";"#,
+        r#"~~~~~~~                         "#);
 }
 
 #[test]
