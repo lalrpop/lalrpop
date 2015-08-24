@@ -42,7 +42,7 @@ fn lookahead_without_loc_type() {
 #[test]
 fn multiple_extern_token() {
     check_err(
-        r#"multiple extern token definitions are not permitted"#,
+        r#"multiple extern definitions are not permitted"#,
         r#"grammar; extern { enum Tok { } } extern { enum Tok { } }"#,
         r#"                                 ~~~~~~                 "#);
 }

@@ -51,7 +51,7 @@ impl<'grammar> Validator<'grammar> {
                     if data.span != self.extern_token.unwrap().span {
                         return_err!(
                             data.span,
-                            "multiple extern token definitions are not permitted");
+                            "multiple extern definitions are not permitted");
                     }
 
                     let allowed_names = vec![intern(LOCATION), intern(ERROR)];
