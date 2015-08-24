@@ -7,7 +7,7 @@
 
 use super::{NormResult, NormError};
 
-use intern;
+use intern::{self, intern};
 use lexer::re;
 use lexer::dfa::{self, Precedence};
 use grammar::parse_tree::*;
@@ -186,12 +186,47 @@ pub fn construct(grammar: &mut Grammar, literals_map: Map<TerminalLiteral, Span>
         }
     };
 
-    let intern = InternToken {
+    grammar.items.push(GrammarItem::InternToken(InternToken {
         literals: literals,
         dfa: dfa
-    };
+    }));
 
-    grammar.items.push(GrammarItem::InternToken(intern));
+    // we need to inject a `'input` lifetime and `input: &'input str` parameter as well:
+
+    let input_lifetime = intern(INPUT_LIFETIME);
+    for parameter in &grammar.type_parameters {
+        match *parameter {
+            TypeParameter::Lifetime(i) if i == input_lifetime => {
+                return_err!(
+                    grammar.span,
+                    "since there is no external token enum specified, \
+                     the `'input` lifetime is implicit and cannot be declared");
+            }
+            _ => { }
+        }
+    }
+
+    let input_parameter = intern(INPUT_PARAMETER);
+    for parameter in &grammar.parameters {
+        if parameter.name == input_parameter {
+            return_err!(
+                grammar.span,
+                "since there is no external token enum specified, \
+                 the `input` parameter is implicit and cannot be declared");
+        }
+    }
+
+    grammar.type_parameters.push(TypeParameter::Lifetime(input_lifetime));
+
+    let parameter = Parameter {
+        name: input_parameter,
+        ty: TypeRef::Ref {
+            lifetime: Some(input_lifetime),
+            mutable: false,
+            referent: Box::new(TypeRef::Id(intern("str")))
+        }
+    };
+    grammar.parameters.push(parameter);
 
     Ok(())
 }

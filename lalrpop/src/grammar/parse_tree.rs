@@ -115,11 +115,17 @@ pub enum TypeRef {
     OfSymbol(SymbolKind),
 }
 
+/// The lifetime parameter injected when we do not have an external token enum
+pub const INPUT_LIFETIME: &'static str = "'input";
+
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub enum TypeParameter {
     Lifetime(InternedString),
     Id(InternedString),
 }
+
+/// The parameter injected when we do not have an external token enum
+pub const INPUT_PARAMETER: &'static str = "input";
 
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct Parameter {

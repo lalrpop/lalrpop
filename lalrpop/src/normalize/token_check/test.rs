@@ -4,7 +4,8 @@ use normalize::resolve::resolve;
 use regex::Regex;
 use lexer::dfa::interpret;
 
-fn check_err(expected_err: &str, grammar: &str) {
+fn check_err(expected_err: &str,
+             grammar: &str) {
     let expected_err = Regex::new(expected_err).unwrap();
 
     // the string will have a `>>>` and `<<<` in it, which serve to
@@ -67,6 +68,20 @@ fn unknown_id_terminal() {
     check_err(
         r#"terminal `"foo"` does not have a pattern defined for it"#,
         r#"grammar; extern { enum Term { } } X = X >>>"foo"<<<;"#);
+}
+
+#[test]
+fn tick_input_lifetime_already_declared() {
+    check_err(
+        r#".*the `'input` lifetime is implicit and cannot be declared"#,
+        r#">>>grammar<<< <'input>; X = X "foo";"#);
+}
+
+#[test]
+fn input_parameter_already_declared() {
+    check_err(
+        r#".*the `input` parameter is implicit and cannot be declared"#,
+        r#">>>grammar<<<(input:u32); X = X "foo";"#);
 }
 
 #[test]
