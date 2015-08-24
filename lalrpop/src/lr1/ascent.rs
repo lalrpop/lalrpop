@@ -56,8 +56,6 @@ impl<'ascent,'grammar,W:Write> RecursiveAscent<'ascent,'grammar,W> {
     }
 
     fn write(&mut self) -> io::Result<()> {
-        try!(self.write_start_fn());
-
         rust!(self.out, "");
         rust!(self.out, "mod {}parse{} {{",
               self.prefix, self.start_symbol);
@@ -69,6 +67,8 @@ impl<'ascent,'grammar,W:Write> RecursiveAscent<'ascent,'grammar,W> {
         rust!(self.out, "");
 
         try!(self.write_uses());
+
+        try!(self.write_start_fn());
 
         rust!(self.out, "");
         try!(self.write_return_type_defn());
@@ -121,7 +121,6 @@ impl<'ascent,'grammar,W:Write> RecursiveAscent<'ascent,'grammar,W> {
             user_type_parameters.push_str(&format!("{}, ", type_parameter));
         }
 
-        rust!(self.out, "#[allow(non_snake_case)]");
         try!(self.out.write_pub_fn_header(
             self.grammar,
             format!("parse_{}", self.user_start_symbol),
@@ -142,9 +141,8 @@ impl<'ascent,'grammar,W:Write> RecursiveAscent<'ascent,'grammar,W> {
 
         let next_token = self.next_token("tokens");
         rust!(self.out, "let {}lookahead = {};", self.prefix, next_token);
-        rust!(self.out, "match try!({}parse{}::{}state0({}None, &mut {}tokens, {}lookahead)) {{",
-              self.prefix, self.start_symbol, self.prefix,
-              self.grammar.user_parameter_refs(), self.prefix, self.prefix);
+        rust!(self.out, "match try!({}state0({}None, &mut {}tokens, {}lookahead)) {{",
+              self.prefix, self.grammar.user_parameter_refs(), self.prefix, self.prefix);
 
         // extra tokens?
         rust!(self.out, "(_, Some({}lookahead), _) => {{", self.prefix);
@@ -153,9 +151,8 @@ impl<'ascent,'grammar,W:Write> RecursiveAscent<'ascent,'grammar,W> {
         rust!(self.out, "}}");
 
         // otherwise, we expect to see only the goal terminal
-        rust!(self.out, "(_, None, {}parse{}::{}Nonterminal::{}({}nt)) => {{",
-              self.prefix, self.start_symbol, self.prefix, Escape(self.start_symbol),
-              self.prefix);
+        rust!(self.out, "(_, None, {}Nonterminal::{}({}nt)) => {{",
+              self.prefix, Escape(self.start_symbol), self.prefix);
         rust!(self.out, "Ok({}nt)", self.prefix);
         rust!(self.out, "}}");
 

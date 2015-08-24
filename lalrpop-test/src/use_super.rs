@@ -2,27 +2,6 @@
 use super::util::tok::Tok;
 extern crate lalrpop_util as __lalrpop_util;
 use self::__lalrpop_util::ParseError as __ParseError;
-#[allow(non_snake_case)]
-pub fn parse_S<
-    __TOKEN: __ToTriple<Error=()>,
-    __TOKENS: IntoIterator<Item=__TOKEN>,
->(
-    __tokens: __TOKENS,
-) -> Result<i32, __ParseError<(),Tok,()>>
-{
-    let mut __tokens = __tokens.into_iter();
-    let mut __tokens = __tokens.map(|t| __ToTriple::to_triple(t));
-    let __lookahead = match __tokens.next() { Some(Ok(v)) => Some(v), None => None, Some(Err(e)) => return Err(__ParseError::User { error: e }) };
-    match try!(__parse__S::__state0(None, &mut __tokens, __lookahead)) {
-        (_, Some(__lookahead), _) => {
-            Err(__ParseError::ExtraToken { token: __lookahead })
-        }
-        (_, None, __parse__S::__Nonterminal::____S(__nt)) => {
-            Ok(__nt)
-        }
-        _ => unreachable!(),
-    }
-}
 
 mod __parse__S {
     #![allow(non_snake_case, non_camel_case_types, unused_mut, unused_variables, unused_imports)]
@@ -31,11 +10,31 @@ mod __parse__S {
     extern crate lalrpop_util as __lalrpop_util;
     use self::__lalrpop_util::ParseError as __ParseError;
     use super::__ToTriple;
+    pub fn parse_S<
+        __TOKEN: __ToTriple<Error=()>,
+        __TOKENS: IntoIterator<Item=__TOKEN>,
+    >(
+        __tokens: __TOKENS,
+    ) -> Result<i32, __ParseError<(),Tok,()>>
+    {
+        let mut __tokens = __tokens.into_iter();
+        let mut __tokens = __tokens.map(|t| __ToTriple::to_triple(t));
+        let __lookahead = match __tokens.next() { Some(Ok(v)) => Some(v), None => None, Some(Err(e)) => return Err(__ParseError::User { error: e }) };
+        match try!(__state0(None, &mut __tokens, __lookahead)) {
+            (_, Some(__lookahead), _) => {
+                Err(__ParseError::ExtraToken { token: __lookahead })
+            }
+            (_, None, __Nonterminal::____S(__nt)) => {
+                Ok(__nt)
+            }
+            _ => unreachable!(),
+        }
+    }
 
     #[allow(dead_code)]
     pub enum __Nonterminal<> {
-        S(i32),
         ____S(i32),
+        S(i32),
     }
 
     // State 0
@@ -174,6 +173,7 @@ mod __parse__S {
         }
     }
 }
+pub use self::__parse__S::parse_S;
 
 pub fn __action0<
 >(

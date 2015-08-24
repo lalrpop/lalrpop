@@ -245,6 +245,9 @@ fn emit_recursive_ascent(output_path: &Path, grammar: &r::Grammar) -> io::Result
         };
 
         try!(lr1::ascent::compile(&grammar, user_nt, start_nt, &states, &mut rust));
+
+        rust!(rust, "pub use self::{}parse{}::parse_{};",
+              grammar.prefix, start_nt, user_nt);
     }
 
     try!(emit_action_code(grammar, &mut rust));

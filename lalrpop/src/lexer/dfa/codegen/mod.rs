@@ -19,7 +19,7 @@ pub fn compile<W: Write>(
     -> io::Result<()>
 {
     let mut matcher = Matcher { prefix: prefix, dfa: dfa, out: out };
-    matcher.tokenize();
+    try!(matcher.tokenize());
     Ok(())
 }
 
