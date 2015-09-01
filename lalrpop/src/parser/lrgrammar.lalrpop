@@ -208,23 +208,32 @@ Path: Path =
                ids: h.into_iter().chain(once(t)).collect() }
     };
 
-ExternToken: GrammarItem =
-    <lo0:@L> "extern" <hi0:@R> "{"
-      <a0:AssociatedType*>
-      "enum" <lo:@L> <t:TypeRef> <hi:@R> "{"
-        <c:Comma<Conversion>>
-      "}"
-      <a1:AssociatedType*>
-    "}" => {
+ExternToken: GrammarItem = {
+    <lo:@L> "extern" <hi:@R> "{" <a0:AssociatedType*> <et:EnumToken> <a1:AssociatedType*> "}" => {
         GrammarItem::ExternToken(ExternToken {
-            span: Span(lo0, hi0),
+            span: Span(lo, hi),
             associated_types: a0.into_iter().chain(a1).collect(),
-            enum_token: EnumToken {
-                type_name: t,
-                type_span: Span(lo, hi),
-                conversions: c,
-            }
+            enum_token: Some(et),
         })
+    };
+    <lo:@L> "extern" <hi:@R> "{" <a0:AssociatedType*> "}" => {
+        GrammarItem::ExternToken(ExternToken {
+            span: Span(lo, hi),
+            associated_types: a0,
+            enum_token: None,
+        })
+    };
+};
+
+EnumToken: EnumToken =
+    "enum" <lo:@L> <t:TypeRef> <hi:@R> "{"
+      <c:Comma<Conversion>>
+    "}" => {
+        EnumToken {
+            type_name: t,
+            type_span: Span(lo, hi),
+            conversions: c,
+        }
     };
 
 AssociatedType: AssociatedType =

@@ -71,15 +71,6 @@ impl<'grammar> Validator<'grammar> {
                                 associated_type.type_name);
                         }
                     }
-
-                    match data.enum_token.type_name {
-                        TypeRef::Id(_) | TypeRef::Nominal { .. } => { /* OK */ }
-                        _ => {
-                            return_err!(
-                                data.enum_token.type_span,
-                                "expected a nominal type here, like `Token` or `foo::Token<T>`");
-                        }
-                    }
                 }
                 GrammarItem::Nonterminal(ref data) => {
                     for alternative in &data.alternatives {

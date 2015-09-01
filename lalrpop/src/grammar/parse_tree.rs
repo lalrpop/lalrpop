@@ -52,7 +52,7 @@ pub struct InternToken {
 pub struct ExternToken {
     pub span: Span,
     pub associated_types: Vec<AssociatedType>,
-    pub enum_token: EnumToken,
+    pub enum_token: Option<EnumToken>,
 }
 
 #[derive(Clone, Debug, PartialEq, Eq)]
@@ -273,6 +273,13 @@ impl Grammar {
     pub fn extern_token(&self) -> Option<&ExternToken> {
         self.items.iter()
                   .flat_map(|i| i.as_extern_token())
+                  .next()
+    }
+
+    pub fn enum_token(&self) -> Option<&EnumToken> {
+        self.items.iter()
+                  .flat_map(|i| i.as_extern_token())
+                  .flat_map(|et| et.enum_token.as_ref())
                   .next()
     }
 

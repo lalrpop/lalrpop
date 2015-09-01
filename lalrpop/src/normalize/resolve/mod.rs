@@ -27,7 +27,8 @@ fn resolve_in_place(grammar: &mut Grammar) -> NormResult<()> {
             grammar.items
                    .iter()
                    .filter_map(|item| item.as_extern_token())
-                   .flat_map(|extern_token| &extern_token.enum_token.conversions)
+                   .flat_map(|extern_token| extern_token.enum_token.as_ref())
+                   .flat_map(|enum_token| &enum_token.conversions)
                    .filter_map(|conversion| match conversion.from {
                        TerminalString::Literal(..) => None,
                        TerminalString::Bare(id) => Some((conversion.span, id, Def::Terminal)),

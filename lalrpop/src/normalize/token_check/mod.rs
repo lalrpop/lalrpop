@@ -18,12 +18,12 @@ use util::{map, Map};
 mod test;
 
 pub fn validate(grammar: &mut Grammar) -> NormResult<()> {
-    let (has_extern_token, all_literals) = {
-        let opt_extern_token = grammar.extern_token();
-        let conversions = opt_extern_token.map(|tt| {
-            tt.enum_token.conversions.iter()
-                                     .map(|conversion| conversion.from)
-                                     .collect()
+    let (has_enum_token, all_literals) = {
+        let opt_enum_token = grammar.enum_token();
+        let conversions = opt_enum_token.map(|et| {
+            et.conversions.iter()
+                          .map(|conversion| conversion.from)
+                          .collect()
         });
 
         let mut validator = Validator {
@@ -34,10 +34,10 @@ pub fn validate(grammar: &mut Grammar) -> NormResult<()> {
 
         try!(validator.validate());
 
-        (opt_extern_token.is_some(), validator.all_literals)
+        (opt_enum_token.is_some(), validator.all_literals)
     };
 
-    if has_extern_token {
+    if has_enum_token {
         Ok(())
     } else {
         construct(grammar, all_literals)

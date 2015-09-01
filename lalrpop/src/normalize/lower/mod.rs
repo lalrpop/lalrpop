@@ -89,13 +89,15 @@ impl LowerState {
                 }
 
                 pt::GrammarItem::ExternToken(data) => {
-                    token_span = Some(data.enum_token.type_span);
-                    self.conversions.extend(
-                        data.enum_token
-                            .conversions
-                            .iter()
-                            .map(|conversion| (conversion.from,
-                                               conversion.to.map(&mut |t| t.type_repr()))));
+                    if let Some(enum_token) = data.enum_token {
+                        token_span = Some(enum_token.type_span);
+                        self.conversions.extend(
+                            enum_token
+                                .conversions
+                                .iter()
+                                .map(|conversion| (conversion.from,
+                                                   conversion.to.map(&mut |t| t.type_repr()))));
+                    }
                 }
 
                 pt::GrammarItem::Nonterminal(nt) => {
