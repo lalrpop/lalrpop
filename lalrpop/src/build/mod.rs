@@ -276,7 +276,7 @@ fn emit_action_code<W:Write>(grammar: &r::Grammar,
                     defn.ret_type,
                     grammar.prefix,
                     grammar.types.terminal_loc_type(),
-                    grammar.types.terminal_enum_type(),
+                    grammar.types.terminal_token_type(),
                     grammar.types.error_type())
         } else {
             format!("{}", defn.ret_type)
@@ -306,7 +306,7 @@ fn emit_to_triple_trait<W:Write>(grammar: &r::Grammar,
     #![allow(non_snake_case)]
 
     let L = grammar.types.terminal_loc_type();
-    let T = grammar.types.terminal_enum_type();
+    let T = grammar.types.terminal_token_type();
     let E = grammar.types.error_type();
 
     let mut user_type_parameters = String::new();

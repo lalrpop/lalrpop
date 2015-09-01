@@ -68,10 +68,7 @@ impl<'grammar> TypeInferencer<'grammar> {
         let error_type = extern_token.associated_type(intern(ERROR))
                                      .map(|tr| tr.type_ref.type_repr());
 
-        let enum_type = match extern_token.enum_token.type_name.type_repr() {
-            TypeRepr::Nominal(data) => data,
-            _ => panic!("enum token without nominal type passed validation")
-        };
+        let enum_type = extern_token.enum_token.type_name.type_repr();
 
         let mut types = Types::new(loc_type, error_type, enum_type);
 

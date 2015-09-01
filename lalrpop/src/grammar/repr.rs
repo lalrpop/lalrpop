@@ -122,10 +122,9 @@ pub struct NominalTypeRepr {
 
 #[derive(Clone, Debug)]
 pub struct Types {
-    terminal_enum_type: NominalTypeRepr,
+    terminal_token_type: TypeRepr,
     terminal_loc_type: Option<TypeRepr>,
     error_type: Option<TypeRepr>,
-    default_terminal_type: TypeRepr,
     terminal_types: Map<TerminalString, TypeRepr>,
     nonterminal_types: Map<NonterminalString, TypeRepr>
 }
@@ -133,13 +132,12 @@ pub struct Types {
 impl Types {
     pub fn new(terminal_loc_type: Option<TypeRepr>,
                error_type: Option<TypeRepr>,
-               terminal_enum_type: NominalTypeRepr)
+               terminal_token_type: TypeRepr)
                -> Types {
         Types { terminal_loc_type: terminal_loc_type,
                 error_type: error_type,
-                terminal_enum_type: terminal_enum_type.clone(),
+                terminal_token_type: terminal_token_type,
                 terminal_types: map(),
-                default_terminal_type: TypeRepr::Nominal(terminal_enum_type),
                 nonterminal_types: map() }
     }
 
@@ -151,8 +149,8 @@ impl Types {
         assert!(self.terminal_types.insert(term, ty).is_none());
     }
 
-    pub fn terminal_enum_type(&self) -> &NominalTypeRepr {
-        &self.terminal_enum_type
+    pub fn terminal_token_type(&self) -> &TypeRepr {
+        &self.terminal_token_type
     }
 
     pub fn opt_terminal_loc_type(&self) -> Option<&TypeRepr> {
@@ -170,7 +168,7 @@ impl Types {
     }
 
     pub fn terminal_type(&self, id: TerminalString) -> &TypeRepr {
-        self.terminal_types.get(&id).unwrap_or(&self.default_terminal_type)
+        self.terminal_types.get(&id).unwrap_or(&self.terminal_token_type)
     }
 
     pub fn lookup_nonterminal_type(&self, id: NonterminalString) -> Option<&TypeRepr> {
@@ -182,10 +180,10 @@ impl Types {
     }
 
     pub fn triple_type(&self) -> TypeRepr {
-        let enum_type = self.terminal_enum_type();
+        let enum_type = self.terminal_token_type();
         let location_type = self.terminal_loc_type();
         TypeRepr::Tuple(vec![location_type.clone(),
-                             TypeRepr::Nominal(enum_type.clone()),
+                             enum_type.clone(),
                              location_type])
     }
 }

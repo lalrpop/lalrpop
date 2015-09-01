@@ -492,7 +492,7 @@ impl<'ascent,'grammar,W:Write> RecursiveAscent<'ascent,'grammar,W> {
         format!("{}ParseError<{},{},{}>",
                 self.prefix,
                 self.types.terminal_loc_type(),
-                self.types.terminal_enum_type(),
+                self.types.terminal_token_type(),
                 self.types.error_type())
     }
 
