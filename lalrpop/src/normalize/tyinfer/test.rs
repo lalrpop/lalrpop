@@ -208,9 +208,9 @@ A = N;
 fn intern_token() {
     compare(r#"
 grammar;
-    Z = "Ho";
+    Z = @L "Ho" @R;
 "#, vec![
-    ("Z", "&'input str")
+    ("Z", "(usize, &'input str, usize)")
         ])
 }
 

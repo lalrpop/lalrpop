@@ -68,8 +68,6 @@ impl LowerState {
                             .iter()
                             .enumerate()
                             .map(|(index, &literal)| {
-                                //let variant_name = intern(&format!("{}", Escape(literal)));
-                                //let terminal = intern(&format!("{}Terminal", prefix));
                                 let pattern = Pattern {
                                     span: span,
                                     kind: PatternKind::Tuple(vec![
