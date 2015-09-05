@@ -1,6 +1,7 @@
 use intern::intern;
 use parser;
 use normalize::macro_expand::expand_macros;
+use normalize::token_check;
 use normalize::tyinfer::infer_types;
 use grammar::parse_tree::NonterminalString;
 use grammar::repr::TypeRepr;
@@ -13,6 +14,7 @@ fn type_repr(s: &str) -> TypeRepr {
 fn compare(g1: &str, expected: Vec<(&'static str, &'static str)>) {
     let grammar = parser::parse_grammar(g1).unwrap();
     let grammar = expand_macros(grammar).unwrap();
+    let grammar = token_check::validate(grammar).unwrap();
     let types = infer_types(&grammar).unwrap();
 
     println!("types table: {:?}", types);
@@ -27,13 +29,13 @@ fn compare(g1: &str, expected: Vec<(&'static str, &'static str)>) {
 
 #[test]
 fn test_pairs_and_tokens() {
-    compare("
+    compare(r#"
 grammar;
-    extern { enum Tok { } }
+    extern { enum Tok { "Hi" => Hi(..), "Ho" => Ho(..) } }
     X = Y Z;
-    Y: Foo = \"Hi\";
-    Z = \"Ho\";
-", vec![
+    Y: Foo = "Hi";
+    Z = "Ho";
+"#, vec![
     ("X", "(Foo, Tok)"),
     ("Y", "Foo"),
     ("Z", "Tok")
@@ -42,15 +44,15 @@ grammar;
 
 #[test]
 fn test_cycle_direct() {
-    let grammar = parser::parse_grammar("
+    let grammar = parser::parse_grammar(r#"
 grammar;
-    extern { enum Tok { } }
+    extern { enum Tok { "Hi" => Hi(..), "Ho" => Ho(..) } }
     X = {
         X Y;
         <Y> => vec![<>];
     };
-    Y = \"Hi\";
-").unwrap();
+    Y = "Hi";
+"#).unwrap();
 
     let actual = expand_macros(grammar).unwrap();
     assert!(infer_types(&actual).is_err());
@@ -58,14 +60,14 @@ grammar;
 
 #[test]
 fn test_cycle_indirect() {
-    let grammar = parser::parse_grammar("
+    let grammar = parser::parse_grammar(r#"
 grammar;
     extern { enum Tok { } }
     A = B;
     B = C;
     C = D;
     D = A;
-").unwrap();
+"#).unwrap();
 
     let actual = expand_macros(grammar).unwrap();
     assert!(infer_types(&actual).is_err());
@@ -73,12 +75,12 @@ grammar;
 
 #[test]
 fn test_macro_expansion() {
-    compare("
+    compare(r#"
 grammar;
-    extern { enum Tok { } }
+    extern { enum Tok { "Id" => Id(..) } }
     Two<X>: (X, X) = X X;
-    Ids = Two<\"Id\">;
-", vec![
+    Ids = Two<"Id">;
+"#, vec![
     ("Ids", "(Tok, Tok)"),
     (r#"Two<"Id">"#, "(Tok, Tok)"),
         ])
@@ -86,12 +88,12 @@ grammar;
 
 #[test]
 fn test_macro_expansion_infer() {
-    compare("
+    compare(r#"
 grammar;
-    extern { enum Tok { } }
+    extern { enum Tok { "Id" => Id(..) } }
     Two<X> = X X;
-    Ids = Two<\"Id\">;
-", vec![
+    Ids = Two<"Id">;
+"#, vec![
     ("Ids", "(Tok, Tok)"),
     (r#"Two<"Id">"#, "(Tok, Tok)"),
         ])
@@ -99,12 +101,12 @@ grammar;
 
 #[test]
 fn test_type_question() {
-    compare("
+    compare(r#"
 grammar;
-    extern { enum Tok { } }
+    extern { enum Tok { "Hi" => Hi(..) } }
     X = Y?;
-    Y = \"Hi\";
-",vec![
+    Y = "Hi";
+"#,vec![
     ("X", "::std::option::Option<Tok>"),
     ("Y", "Tok")
         ])
@@ -112,14 +114,14 @@ grammar;
 
 #[test]
 fn test_star_plus_question() {
-    compare("
+    compare(r#"
 grammar;
-    extern { enum Tok { } }
+    extern { enum Tok { "Hi" => Hi(..) } }
     A = Z*;
-    X = \"Hi\"*;
-    Y = \"Hi\"+;
-    Z = \"Hi\"?;
-", vec![
+    X = "Hi"*;
+    Y = "Hi"+;
+    Z = "Hi"?;
+"#, vec![
     ("A", "::std::vec::Vec<::std::option::Option<Tok>>"),
     ("X", "::std::vec::Vec<Tok>"),
     ("Y", "::std::vec::Vec<Tok>"),
@@ -142,7 +144,7 @@ grammar;
 fn test_spanned_macro() {
     compare(r#"
         grammar;
-        extern { type Location = usize; enum Tok { } }
+        extern { type Location = usize; enum Tok { "Foo" => Foo(..) } }
         A = Spanned<"Foo">;
         Spanned<T> = {
             @L T @R;
@@ -156,7 +158,7 @@ fn test_spanned_macro() {
 fn test_action() {
     compare(r#"
 grammar;
-    extern { enum Tok { } }
+    extern { enum Tok { "+" => .., "foo" => .. } }
 
     X = {
         Y;
@@ -172,21 +174,44 @@ grammar;
 
 #[test]
 fn test_inconsistent_action() {
-    let grammar = parser::parse_grammar("
+    let grammar = parser::parse_grammar(r#"
 grammar;
-    extern { enum Tok { } }
+    extern { enum Tok { "+" => .., "foo" => .., "bar" => .. } }
 
     X = {
         Y;
         Z;
-        <l:X> \"+\" <r:Y> => l + r;
+        <l:X> "+" <r:Y> => l + r;
     };
 
-    Y: i32 = \"foo\" => 22;
+    Y: i32 = "foo" => 22;
 
-    Z: u32 = \"bar\" => 22;
-").unwrap();
+    Z: u32 = "bar" => 22;
+"#).unwrap();
 
     let actual = expand_macros(grammar).unwrap();
     assert!(infer_types(&actual).is_err());
 }
+
+#[test]
+fn custom_token() {
+    compare(r#"
+grammar;
+extern { enum Tok { N => N(<u32>) } }
+A = N;
+"#, vec![
+    ("A", "u32")
+        ])
+}
+
+#[test]
+fn intern_token() {
+    compare(r#"
+grammar;
+    Z = "Ho";
+"#, vec![
+    ("Z", "&'input str")
+        ])
+}
+
+

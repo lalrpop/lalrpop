@@ -5,11 +5,13 @@ use std::collections::{HashMap};
 use grammar::parse_tree::{ActionKind, Alternative,
                           ERROR, ExternToken,
                           Grammar, GrammarItem,
+                          INPUT_LIFETIME,
                           LOCATION,
                           NonterminalData, NonterminalString,
                           Path,
                           Span,
-                          SymbolKind, TypeRef};
+                          SymbolKind,
+                          TerminalString, TypeRef};
 use grammar::repr::{NominalTypeRepr, Types, TypeRepr};
 use intern::intern;
 
@@ -36,38 +38,7 @@ struct NT<'grammar> {
 
 impl<'grammar> TypeInferencer<'grammar> {
     fn new(grammar: &'grammar Grammar) -> NormResult<TypeInferencer<'grammar>> {
-        let extern_token = match grammar.extern_token() {
-            Some(et) => et,
-            None => panic!("not yet implemented")
-        };
-
-        let loc_type = extern_token.associated_type(intern(LOCATION))
-                                   .map(|tr| tr.type_ref.type_repr());
-
-        let error_type = extern_token.associated_type(intern(ERROR))
-                                     .map(|tr| tr.type_ref.type_repr());
-
-        let enum_type = extern_token.enum_token.as_ref().unwrap().type_name.type_repr();
-
-        let mut types = Types::new(loc_type, error_type, enum_type);
-
-        // For each defined conversion, figure out the type of the
-        // terminal and enter it into `types` by hand if it is not the
-        // default. For terminals with custom types, the user should
-        // have one or more bindings in the pattern -- if more than
-        // one, make a tuple.
-        //
-        // e.g. "(" => Lparen(..) ==> no custom type
-        //      "Num" => Num(<u32>) ==> custom type is u32
-        //      "Fraction" => Real(<u32>,<u32>) ==> custom type is (u32, u32)
-        for conversion in grammar.enum_token().into_iter()
-                                              .flat_map(|et| &et.conversions) {
-            let mut tys = Vec::new();
-            conversion.to.for_each_binding(&mut |ty| tys.push(ty.type_repr()));
-            if tys.is_empty() { continue; }
-            let ty = maybe_tuple(tys);
-            types.add_term_type(conversion.from, ty);
-        }
+        let mut types = TypeInferencer::make_types(grammar);
 
         let nonterminals =
             grammar.items
@@ -82,6 +53,71 @@ impl<'grammar> TypeInferencer<'grammar> {
         Ok(TypeInferencer { stack: vec![],
                             nonterminals: nonterminals,
                             types: types })
+    }
+
+    fn make_types(grammar: &Grammar) -> Types {
+        let opt_extern_token = grammar.extern_token();
+
+        // Determine error type (if any).
+        let error_type =
+            opt_extern_token.and_then(|extern_token| {
+                extern_token.associated_type(intern(ERROR))
+                            .map(|tr| tr.type_ref.type_repr())
+            });
+
+        // Determine location type and enum type. If using an internal
+        // token, that's specified by us, not user.
+        if let Some(intern_token) = grammar.intern_token() {
+            let loc_type = // usize
+                TypeRepr::usize();
+            let input_str = // &'input str
+                TypeRepr::Ref {
+                    lifetime: Some(intern(INPUT_LIFETIME)),
+                    mutable: false,
+                    referent: Box::new(TypeRepr::str())
+                };
+            let enum_type = // (usize, &'input str)
+                TypeRepr::Tuple(vec![TypeRepr::usize(), input_str.clone()]);
+
+            let mut types = Types::new(Some(loc_type), error_type, enum_type);
+
+            for &literal in &intern_token.literals {
+                types.add_term_type(TerminalString::Literal(literal), input_str.clone());
+            }
+
+            types
+        } else {
+            let extern_token = opt_extern_token.unwrap();
+            let loc_type = extern_token.associated_type(intern(LOCATION))
+                                       .map(|tr| tr.type_ref.type_repr());
+            let enum_type = extern_token.enum_token
+                                        .as_ref()
+                                        .unwrap()
+                                        .type_name
+                                        .type_repr();
+            let mut types = Types::new(loc_type, error_type, enum_type);
+
+            // For each defined conversion, figure out the type of the
+            // terminal and enter it into `types` by hand if it is not the
+            // default. For terminals with custom types, the user should
+            // have one or more bindings in the pattern -- if more than
+            // one, make a tuple.
+            //
+            // e.g. "(" => Lparen(..) ==> no custom type
+            //      "Num" => Num(<u32>) ==> custom type is u32
+            //      "Fraction" => Real(<u32>,<u32>) ==> custom type is (u32, u32)
+            for conversion in grammar.enum_token().into_iter()
+                                                  .flat_map(|et| &et.conversions)
+            {
+                let mut tys = Vec::new();
+                conversion.to.for_each_binding(&mut |ty| tys.push(ty.type_repr()));
+                if tys.is_empty() { continue; }
+                let ty = maybe_tuple(tys);
+                types.add_term_type(conversion.from, ty);
+            }
+
+            types
+        }
     }
 
     fn infer_types(mut self) -> NormResult<Types> {

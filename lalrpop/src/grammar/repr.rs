@@ -114,6 +114,22 @@ pub enum TypeRepr {
     },
 }
 
+impl TypeRepr {
+    pub fn usize() -> TypeRepr {
+        TypeRepr::Nominal(NominalTypeRepr {
+            path: Path::usize(),
+            types: vec![]
+        })
+    }
+
+    pub fn str() -> TypeRepr {
+        TypeRepr::Nominal(NominalTypeRepr {
+            path: Path::str(),
+            types: vec![]
+        })
+    }
+}
+
 #[derive(Clone, PartialEq, Eq)]
 pub struct NominalTypeRepr {
     pub path: Path,

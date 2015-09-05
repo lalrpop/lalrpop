@@ -7,8 +7,8 @@ fn check_err(expected_err: &str,
              grammar: &str,
              span: &str) {
     let parsed_grammar = parser::parse_grammar(&grammar).unwrap();
-    let mut parsed_grammar = resolve(parsed_grammar).unwrap();
-    let err = super::validate(&mut parsed_grammar).unwrap_err();
+    let parsed_grammar = resolve(parsed_grammar).unwrap();
+    let err = super::validate(parsed_grammar).unwrap_err();
     test_util::check_norm_err(expected_err, span, err);
 }
 
@@ -16,8 +16,8 @@ fn check_intern_token(grammar: &str,
                       expected_tokens: Vec<(&'static str, &'static str)>)
 {
     let parsed_grammar = parser::parse_grammar(&grammar).unwrap();
-    let mut parsed_grammar = resolve(parsed_grammar).unwrap();
-    super::validate(&mut parsed_grammar).unwrap();
+    let parsed_grammar = resolve(parsed_grammar).unwrap();
+    let parsed_grammar = super::validate(parsed_grammar).unwrap();
     let intern_token = parsed_grammar.intern_token().unwrap();
     for (input, expected_literal) in expected_tokens {
         let actual_literal =

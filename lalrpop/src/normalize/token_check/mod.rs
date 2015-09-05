@@ -17,7 +17,7 @@ use util::{map, Map};
 #[cfg(test)]
 mod test;
 
-pub fn validate(grammar: &mut Grammar) -> NormResult<()> {
+pub fn validate(mut grammar: Grammar) -> NormResult<Grammar> {
     let (has_enum_token, all_literals) = {
         let opt_enum_token = grammar.enum_token();
         let conversions = opt_enum_token.map(|et| {
@@ -27,7 +27,7 @@ pub fn validate(grammar: &mut Grammar) -> NormResult<()> {
         });
 
         let mut validator = Validator {
-            grammar: grammar,
+            grammar: &grammar,
             all_literals: map(),
             conversions: conversions,
         };
@@ -37,11 +37,11 @@ pub fn validate(grammar: &mut Grammar) -> NormResult<()> {
         (opt_enum_token.is_some(), validator.all_literals)
     };
 
-    if has_enum_token {
-        Ok(())
-    } else {
-        construct(grammar, all_literals)
+    if !has_enum_token {
+        try!(construct(&mut grammar, all_literals));
     }
+
+    Ok(grammar)
 }
 
 ///////////////////////////////////////////////////////////////////////////

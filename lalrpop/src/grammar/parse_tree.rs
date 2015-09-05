@@ -562,6 +562,13 @@ impl Path {
         }
     }
 
+    pub fn usize() -> Path {
+        Path {
+            absolute: false,
+            ids: vec![intern("usize")]
+        }
+    }
+
     pub fn str() -> Path {
         Path {
             absolute: false,
