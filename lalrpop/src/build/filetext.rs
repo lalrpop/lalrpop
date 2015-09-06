@@ -52,7 +52,7 @@ impl FileText {
             .filter(|&i| self.newlines[i] > pos)
             .map(|i| i-1)
             .next()
-            .unwrap();
+            .unwrap_or(num_lines - 1);
 
         // offset of the first character in `line`
         let line_offset = self.newlines[line];
