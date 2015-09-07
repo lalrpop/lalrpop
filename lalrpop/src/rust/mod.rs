@@ -145,11 +145,15 @@ impl<W:Write> RustWrite<W> {
             }
         }
 
+        self.write_standard_uses(&grammar.prefix)
+    }
+
+    pub fn write_standard_uses(&mut self, prefix: &str) -> io::Result<()> {
         // stuff that we plan to use
         rust!(self, "extern crate lalrpop_util as {}lalrpop_util;",
-              grammar.prefix);
+              prefix);
         rust!(self, "use self::{}lalrpop_util::ParseError as {}ParseError;",
-              grammar.prefix, grammar.prefix);
+              prefix, prefix);
 
         Ok(())
     }

@@ -3,8 +3,8 @@ use super::norm_util::{self, AlternativeAction, Symbols};
 
 use std::collections::{HashMap};
 use grammar::parse_tree::{ActionKind, Alternative,
-                          ERROR, ExternToken,
-                          Grammar, GrammarItem,
+                          ERROR,
+                          Grammar,
                           INPUT_LIFETIME,
                           LOCATION,
                           NonterminalData, NonterminalString,
@@ -38,7 +38,7 @@ struct NT<'grammar> {
 
 impl<'grammar> TypeInferencer<'grammar> {
     fn new(grammar: &'grammar Grammar) -> NormResult<TypeInferencer<'grammar>> {
-        let mut types = TypeInferencer::make_types(grammar);
+        let types = TypeInferencer::make_types(grammar);
 
         let nonterminals =
             grammar.items

@@ -9,7 +9,7 @@ use grammar::pattern::{Pattern, PatternKind};
 use grammar::parse_tree as pt;
 use grammar::parse_tree::{InternToken, NonterminalString, TerminalString};
 use grammar::repr as r;
-use util::{Escape, map, Map};
+use util::{map, Map};
 
 #[cfg(test)]
 mod test;
@@ -54,7 +54,6 @@ impl LowerState {
 
                 pt::GrammarItem::InternToken(data) => {
                     token_span = Some(grammar.span);
-                    let prefix = &self.prefix[..];
                     let span = grammar.span;
                     let input_str = r::TypeRepr::Ref {
                         lifetime: Some(intern(pt::INPUT_LIFETIME)),

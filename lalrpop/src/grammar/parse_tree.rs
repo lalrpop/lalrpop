@@ -518,13 +518,6 @@ impl Display for TypeRef {
 }
 
 impl TypeRef {
-    pub fn usize() -> TypeRef {
-        TypeRef::Nominal {
-            path: Path::from_id(intern("usize")),
-            types: vec![]
-        }
-    }
-
     // Converts a TypeRef to a TypeRepr, assuming no inference is
     // required etc. This is safe for all types a user can directly
     // type, but not safe for the result of expanding macros.

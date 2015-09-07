@@ -3,6 +3,7 @@
 use grammar::parse_tree as pt;
 use grammar::repr as r;
 use lalrpop_util::ParseError;
+use lexer::intern_token;
 use lr1;
 use normalize;
 use parser;
@@ -255,6 +256,10 @@ fn emit_recursive_ascent(output_path: &Path, grammar: &r::Grammar) -> io::Result
 
         rust!(rust, "pub use self::{}parse{}::parse_{};",
               grammar.prefix, start_nt, user_nt);
+    }
+
+    if let Some(ref intern_token) = grammar.intern_token {
+        try!(intern_token::compile(&grammar, intern_token, &mut rust));
     }
 
     try!(emit_action_code(grammar, &mut rust));
