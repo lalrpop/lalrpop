@@ -178,20 +178,20 @@ impl<'grammar> Validator<'grammar> {
                 try!(self.validate_symbol(sym));
             }
             SymbolKind::Lookahead | SymbolKind::Lookbehind => {
-                if self.extern_token.is_none() {
-                    return_err!(symbol.span,
-                                "lookahead/lookbehind not permitted without \
-                                 an extern token declaration");
-                }
-
-                let loc = intern(LOCATION);
-                if self.extern_token.unwrap().associated_type(loc).is_none() {
-                    return_err!(
-                        symbol.span,
-                        "lookahead/lookbehind require you to declare the type of \
-                         a location; add a `type {} = ..` statement to the extern token \
-                         block",
-                        LOCATION);
+                // if using an internal tokenizer, lookahead/lookbehind are ok.
+                if let Some(extern_token) = self.extern_token {
+                    if extern_token.enum_token.is_some() {
+                        // otherwise, the Location type must be specified.
+                        let loc = intern(LOCATION);
+                        if self.extern_token.unwrap().associated_type(loc).is_none() {
+                            return_err!(
+                                symbol.span,
+                                "lookahead/lookbehind require you to declare the type of \
+                                 a location; add a `type {} = ..` statement to the extern token \
+                                 block",
+                                LOCATION);
+                        }
+                    }
                 }
             }
         }

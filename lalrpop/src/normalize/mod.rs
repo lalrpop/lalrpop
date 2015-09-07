@@ -37,8 +37,8 @@ pub fn normalize_without_validating(grammar: pt::Grammar) -> NormResult<r::Gramm
 fn normalize_helper(grammar: pt::Grammar, validate: bool) -> NormResult<r::Grammar> {
     if validate { try!(prevalidate::validate(&grammar)); }
     let grammar = try!(resolve::resolve(grammar));
-    let mut grammar = try!(macro_expand::expand_macros(grammar));
-    if validate { grammar = try!(token_check::validate(grammar)); }
+    let grammar = try!(macro_expand::expand_macros(grammar));
+    let grammar = try!(token_check::validate(grammar));
     let types = try!(tyinfer::infer_types(&grammar));
     lower::lower(grammar, types)
 }

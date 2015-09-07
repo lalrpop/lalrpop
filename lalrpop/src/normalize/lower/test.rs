@@ -19,16 +19,16 @@ fn flat_productions(grammar: &Grammar) -> Vec<Production> {
 
 #[test]
 fn test_comma() {
-    let grammar = parser::parse_grammar("
+    let grammar = parser::parse_grammar(r#"
 grammar;
-    extern { enum Tok { } }
+    extern { enum Tok { "," => .., "Id" => .. } }
 
     Comma<E>: Vec<E> =
-       <v:(<E> \",\")*> <e:E?> =>
+       <v:(<E> ",")*> <e:E?> =>
            v.into_iter().chain(e.into_iter()).collect();
 
-    Ids = Comma<\"Id\">;
-").unwrap();
+    Ids = Comma<"Id">;
+"#).unwrap();
     let actual = normalize_without_validating(grammar).unwrap();
 
     expect_debug(flat_productions(&actual),

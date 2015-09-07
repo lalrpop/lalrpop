@@ -18,7 +18,7 @@ macro_rules! tokens {
 fn figure9_23() {
     let grammar = normalized_grammar(r#"
         grammar;
-        extern { enum Tok { } }
+        extern { enum Tok { "-" => .., "N" => .., "(" => .., ")" => .. } }
         S: () = E       => ();
         E: () = {
             E "-" T     => ();

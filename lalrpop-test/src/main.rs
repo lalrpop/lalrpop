@@ -17,6 +17,9 @@ mod expr_arena;
 /// definitions of the AST
 mod expr_arena_ast;
 
+/// test that exercises internal token generation, as well as locations and spans
+mod intern_token;
+
 /// test that exercises locations and spans
 mod loc;
 
@@ -121,6 +124,29 @@ fn expr_arena_test2() {
                                       arena.alloc(Node::Value(6))]));;
     util::test_loc(|v| expr_arena::parse_Expr(&arena, v), "*(22, 3, 6)", expected);
     util::test_loc(|v| expr_arena::parse_Expr(&arena, v), "*(22, 3, 6,)", expected);
+}
+
+#[test]
+fn intern_token_test1() {
+    let expected = vec![(0, 0),
+                        (4, 5),
+                        (8, 9),
+                        (16, 17)];
+    util::test_loc(|v| intern_token::parse_Items(v), "--+-+---+", expected);
+    //                                                000001111
+    //                                                024680246
+}
+
+#[test]
+fn intern_token_test2() {
+    util::test_loc(|v| intern_token::parse_Items(v), "+", vec![(0, 0),
+                                                      (0, 1)]);
+}
+
+#[test]
+fn intern_token_empty() {
+    // test what happens when `@L` and `@R` are invoked on an empty input
+    util::test_loc(|v| intern_token::parse_Items(v), "", vec![(0, 0)]);
 }
 
 #[test]

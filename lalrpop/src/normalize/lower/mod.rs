@@ -53,6 +53,7 @@ impl LowerState {
                 }
 
                 pt::GrammarItem::InternToken(data) => {
+                    token_span = Some(grammar.span);
                     let prefix = &self.prefix[..];
                     let span = grammar.span;
                     let input_str = r::TypeRepr::Ref {
