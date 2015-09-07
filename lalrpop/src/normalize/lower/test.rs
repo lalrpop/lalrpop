@@ -53,3 +53,14 @@ grammar;
     fn _(__0: Tok, _: Tok) -> Tok { (__0) }
 ]"#);
 }
+
+#[test]
+fn test_intern_token() {
+    let grammar = parser::parse_grammar(r#"
+grammar;
+    extern { }
+
+    A = ",";
+"#).unwrap();
+    let actual = normalize_without_validating(grammar).unwrap();
+}
