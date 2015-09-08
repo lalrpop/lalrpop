@@ -1,5 +1,7 @@
 extern crate lalrpop_util;
 
+use lalrpop_util::ParseError;
+
 /// demonstration from the Greene text; one of the simplest grammars
 /// that still ensures we get parse tree correct
 mod sub;
@@ -7,8 +9,11 @@ mod sub;
 /// more interesting demonstration of parsing full expressions
 mod expr;
 
-/// more interesting demonstration of parsing full expressions
+/// more interesting demonstration of parsing full expressions, using LALR not LR
 mod expr_lalr;
+
+/// more interesting demonstration of parsing full expressions, using intern tok
+mod expr_intern_tok;
 
 /// test that passes in lifetime/type/formal parameters and threads
 /// them through, building an AST from the result
@@ -58,6 +63,29 @@ fn expr_test4() {
 #[test]
 fn expr_test5() {
     util::test(|v| expr::parse_Expr(11, v), "22 * 3 - 6", 22*11 * 3*11 - 6*11);
+}
+
+#[test]
+fn expr_intern_tok_test1() {
+    assert_eq!(expr_intern_tok::parse_Expr(1, "22 - 3").unwrap(), 22 - 3);
+}
+
+#[test]
+fn expr_intern_tok_test2() {
+    assert_eq!(expr_intern_tok::parse_Expr(1, "22 - (3 - 5) - 13").unwrap(), 22 - (3 - 5) - 13);
+}
+
+#[test]
+fn expr_intern_tok_test_err() {
+    match expr_intern_tok::parse_Expr(1, "22 - (3 - 5) - X") {
+        //                                0123456789012345
+        Err(ParseError::InvalidToken { location }) => {
+            assert_eq!(location, 15);
+        }
+        r => {
+            panic!("invalid result {:?}", r);
+        }
+    }
 }
 
 #[test]
