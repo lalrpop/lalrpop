@@ -14,13 +14,11 @@ extern {
 }
 
 pub Items: Vec<(usize, usize)> = {
-    => vec![];
-
-    Items "+" =>? Err(ParseError::User { error: '+' });
-
-    <v:Items> "-" =>? Ok(v);
+    => vec![],
+    Items "+" =>? Err(ParseError::User { error: '+' }),
+    <v:Items> "-" =>? Ok(v),
 };
 
 Spanned<T>: (usize, usize) = {
-    <@L> T <@R> => (<>);
+    <@L> T <@R> => (<>)
 };

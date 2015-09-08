@@ -30,8 +30,8 @@ grammar;
     extern { enum Tok { "C" => .., "D" => .. } }
     A = B "C";
     B: Option<u32> = {
-        "D" => Some(1);
-        => None;
+        "D" => Some(1),
+        => None
     };
 "#);
     let first_sets = FirstSets::new(&grammar);

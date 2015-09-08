@@ -10,23 +10,23 @@ extern {
         "+" => Tok::Plus(..),
         "*" => Tok::Times(..),
         "/" => Tok::Div(..),
-        Num => Tok::Num(<i32>)
+        Num => Tok::Num(<i32>),
     }
 }
 
 pub Expr = {
-    <l:Expr> "-" <r:Factor> => l - r;
-    <l:Expr> "+" <r:Factor> => l + r;
-    Factor;
+    <l:Expr> "-" <r:Factor> => l - r,
+    <l:Expr> "+" <r:Factor> => l + r,
+    Factor,
 };
 
 Factor = {
-    <l:Factor> "*" <r:Term> => l * r;
-    <l:Factor> "/" <r:Term> => l / r;
-    Term;
+    <l:Factor> "*" <r:Term> => l * r,
+    <l:Factor> "/" <r:Term> => l / r,
+    Term,
 };
 
 Term: i32 = {
-    <n:Num> => n * scale;
-    "(" <Expr> ")";
+    <n:Num> => n * scale,
+    "(" <Expr> ")",
 };

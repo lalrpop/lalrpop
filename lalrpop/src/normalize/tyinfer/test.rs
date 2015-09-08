@@ -48,8 +48,8 @@ fn test_cycle_direct() {
 grammar;
     extern { enum Tok { "Hi" => Hi(..), "Ho" => Ho(..) } }
     X = {
-        X Y;
-        <Y> => vec![<>];
+        X Y,
+        <Y> => vec![<>]
     };
     Y = "Hi";
 "#).unwrap();
@@ -147,7 +147,7 @@ fn test_spanned_macro() {
         extern { type Location = usize; enum Tok { "Foo" => Foo(..) } }
         A = Spanned<"Foo">;
         Spanned<T> = {
-            @L T @R;
+            @L T @R
         };
 "#, vec![
     ("A", "(usize, Tok, usize)"),
@@ -161,8 +161,8 @@ grammar;
     extern { enum Tok { "+" => .., "foo" => .. } }
 
     X = {
-        Y;
-        <l:X> "+" <r:Y> => l + r;
+        Y,
+        <l:X> "+" <r:Y> => l + r
     };
 
     Y: i32 = "foo" => 22;
@@ -179,9 +179,9 @@ grammar;
     extern { enum Tok { "+" => .., "foo" => .., "bar" => .. } }
 
     X = {
-        Y;
-        Z;
-        <l:X> "+" <r:Y> => l + r;
+        Y,
+        Z,
+        <l:X> "+" <r:Y> => l + r
     };
 
     Y: i32 = "foo" => 22;

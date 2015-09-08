@@ -19,24 +19,24 @@ extern {
 }
 
 pub Expr: &'ast Node<'ast> = {
-    <l:Expr> "-" <r:Factor> => arena.alloc(Node::Binary(Op::Sub, l, r));
-    <l:Expr> "+" <r:Factor> => arena.alloc(Node::Binary(Op::Add, l, r));
-    Factor;
+    <l:Expr> "-" <r:Factor> => arena.alloc(Node::Binary(Op::Sub, l, r)),
+    <l:Expr> "+" <r:Factor> => arena.alloc(Node::Binary(Op::Add, l, r)),
+    Factor,
 };
 
 Comma<T>: Vec<T> = {
     <h:(<T> ",")*> <t:T?> =>
-        h.into_iter().chain(t).collect();
+        h.into_iter().chain(t).collect()
 };
 
 Factor = {
-    <l:Factor> "*" <r:Term> => arena.alloc(Node::Binary(Op::Mul, l, r));
-    <l:Factor> "/" <r:Term> => arena.alloc(Node::Binary(Op::Div, l, r));
-    "*" "(" <Comma<Expr>> ")" => arena.alloc(Node::Reduce(Op::Mul, <>));
-    Term;
+    <l:Factor> "*" <r:Term> => arena.alloc(Node::Binary(Op::Mul, l, r)),
+    <l:Factor> "/" <r:Term> => arena.alloc(Node::Binary(Op::Div, l, r)),
+    "*" "(" <Comma<Expr>> ")" => arena.alloc(Node::Reduce(Op::Mul, <>)),
+    Term,
 };
 
 Term = {
-    <n:Num> => arena.alloc(Node::Value(n));
-    "(" <Expr> ")";
+    <n:Num> => arena.alloc(Node::Value(n)),
+    "(" <Expr> ")",
 };

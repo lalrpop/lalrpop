@@ -49,8 +49,8 @@ grammar;
     extern { enum Tok { "C" => .., "D" => .. } }
     A = B "C";
     B: Option<u32> = {
-        "D" => Some(1);
-        () => None;
+        "D" => Some(1),
+        () => None
     };
 "#);
     let items = items(&grammar, "A", 0, EOF);
@@ -69,12 +69,12 @@ grammar;
 extern { enum Tok { "B1" => .., "C1" => .. } }
 A = B C;
 B: Option<u32> = {
-    "B1" => Some(1);
-    () => None;
+    "B1" => Some(1),
+    () => None
 };
 C: Option<u32> = {
-    "C1" => Some(1);
-    () => None;
+    "C1" => Some(1),
+    () => None
 };
 "#);
 
@@ -106,13 +106,13 @@ grammar;
         E => ();
 
     E: () = {
-        E "-" T => ();
-        T => ();
+        E "-" T => (),
+        T => ()
     };
 
     T: () = {
-        "N" => ();
-        "(" E ")" => ();
+        "N" => (),
+        "(" E ")" => ()
     };
 "#);
 
@@ -177,12 +177,12 @@ fn shift_reduce_conflict1() {
         grammar;
         extern { enum Tok { "L" => .., "&" => .., } }
         E: () = {
-            "L";
-            "&" OPT_L E;
+            "L",
+            "&" OPT_L E
         };
         OPT_L: () = {
-            ();
-            "L";
+            (),
+            "L"
         };
     "#);
 

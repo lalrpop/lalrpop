@@ -8,17 +8,17 @@ use util::tok::Tok;
 grammar;
 
 pub Items: Vec<(usize, usize)> = {
-    <@L> <@R> => vec![(<>)];
+    <@L> <@R> => vec![(<>)],
 
     <v:Items> <e:Spanned<"+">> => {
         let mut v = v;
         v.push(e);
         v
-    };
+    },
 
-    <v:Items> "-" => v;
+    <v:Items> "-" => v
 };
 
 Spanned<T>: (usize, usize) = {
-    <@L> T <@R> => (<>);
+    <@L> T <@R> => (<>)
 };

@@ -10,5 +10,5 @@ extern {
 }
 
 pub S: i32 = {
-    "(" ")" => super::ZERO;
+    "(" ")" => super::ZERO
 };

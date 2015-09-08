@@ -11,8 +11,8 @@ fn check_err(expected_err: &str, grammar: &str, span: &str) {
 fn named_symbols() {
     check_err(
         r#"named symbols \(like `"Num"`\) require a custom action"#,
-        r#"grammar; Term = { <n:"Num">; };"#,
-        r#"                     ~~~~~     "#);
+        r#"grammar; Term = { <n:"Num"> };"#,
+        r#"                     ~~~~~    "#);
 }
 
 #[test]
