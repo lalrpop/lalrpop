@@ -79,12 +79,12 @@ NonterminalName: (NonterminalString, Vec<NonterminalString>) = {
 };
 
 Alternatives: Vec<Alternative> = {
-    <a:Alternative> => vec![a];
-    "{" <Alternative*> "}" ";";
+    <a:Alternative> ";" => vec![a];
+    "{" <(<Alternative> ";")*> "}" ";";
 };
 
 Alternative: Alternative = {
-    <lo:@L> <s:Symbol+> <c:("if" <Cond>)?> <a:Action?> ";" <hi:@R> => {
+    <lo:@L> <s:Symbol+> <c:("if" <Cond>)?> <a:Action?> <hi:@R> => {
         Alternative {
             span: Span(lo, hi),
             expr: ExprSymbol { symbols: s },
@@ -92,7 +92,7 @@ Alternative: Alternative = {
             action: a
         }
     };
-    <lo:@L> <c:("if" <Cond>)?> <a:Action> ";" <hi:@R> => {
+    <lo:@L> <c:("if" <Cond>)?> <a:Action> <hi:@R> => {
         Alternative {
             span: Span(lo, hi),
             expr: ExprSymbol { symbols: vec![] },
