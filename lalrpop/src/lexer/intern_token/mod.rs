@@ -53,7 +53,7 @@ pub fn compile<W: Write>(
                 {}ParseError<usize,(usize, &'input str),{}>>;",
           prefix, grammar.types.error_type());
     rust!(out, "");
-    rust!(out, "fn next(&mut self) -> Self::Item {{");
+    rust!(out, "fn next(&mut self) -> Option<Self::Item> {{");
 
     // start by trimming whitespace from left
     rust!(out, "let {}text = self.text.trim_left();", prefix);
@@ -64,8 +64,8 @@ pub fn compile<W: Write>(
     rust!(out, "if {}text.is_empty() {{", prefix);
     rust!(out, "self.text = {}text;", prefix);
     rust!(out, "self.consumed = {}start_offset;", prefix);
-    rust!(out, "return None;");
-    rust!(out, "}}");
+    rust!(out, "None");
+    rust!(out, "}} else {{");
 
     // otherwise, tokenize
     rust!(out, "match {}tokenize({}text) {{", prefix, prefix);
@@ -83,6 +83,7 @@ pub fn compile<W: Write>(
           prefix, prefix);
     rust!(out, "}}"); // none
     rust!(out, "}}"); // match
+    rust!(out, "}}"); // else
 
     rust!(out, "}}"); // fn
     rust!(out, "}}"); // impl

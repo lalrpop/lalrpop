@@ -128,19 +128,18 @@ fn expr_arena_test2() {
 
 #[test]
 fn intern_tok_test1() {
-    let expected = vec![(0, 0),
+    let expected = vec![(0, 0), // spans of `+` characters, measured in bytes
+                        (2, 3),
                         (4, 5),
-                        (8, 9),
-                        (16, 17)];
-    let actual = intern_tok::parse_Items("--+-+---+");
-    //                                    000001111
-    //                                    024680246
+                        (8, 9)];
+    let actual = intern_tok::parse_Items("--+-+---+").unwrap();
+    //                                    012345678
     assert_eq!(actual, expected);
 }
 
 #[test]
 fn loc_test1() {
-    let expected = vec![(0, 0),
+    let expected = vec![(0, 0), // note that tok.rs generates odd spans, measured in 2*chars
                         (4, 5),
                         (8, 9),
                         (16, 17)];

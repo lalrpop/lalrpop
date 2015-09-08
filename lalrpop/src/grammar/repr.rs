@@ -128,6 +128,30 @@ impl TypeRepr {
             types: vec![]
         })
     }
+
+    /// Returns the type parameters (or potential type parameters)
+    /// referenced by this type. e.g., for the type `&'x X`, would
+    /// return `[TypeParameter::Lifetime('x), TypeParameter::Id(X)]`.
+    /// This is later used to prune the type parameters list so that
+    /// only those that are actually used are included.
+    pub fn referenced(&self) -> Vec<TypeParameter> {
+        match *self {
+            TypeRepr::Tuple(ref tys) =>
+                tys.iter().flat_map(|t| t.referenced()).collect(),
+            TypeRepr::Nominal(ref data) =>
+                match data.path.as_id() {
+                    Some(id) => vec![TypeParameter::Id(id)],
+                    None => vec![],
+                },
+            TypeRepr::Lifetime(l) =>
+                vec![TypeParameter::Lifetime(l)],
+            TypeRepr::Ref { ref lifetime, mutable: _, ref referent } =>
+                lifetime.iter()
+                        .map(|&id| TypeParameter::Lifetime(id))
+                        .chain(referent.referenced())
+                        .collect(),
+        }
+    }
 }
 
 #[derive(Clone, PartialEq, Eq)]
@@ -193,6 +217,12 @@ impl Types {
 
     pub fn nonterminal_type(&self, id: NonterminalString) -> &TypeRepr {
         &self.nonterminal_types[&id]
+    }
+
+    pub fn nonterminal_types(&self) -> Vec<TypeRepr> {
+        self.nonterminal_types.values()
+                              .cloned()
+                              .collect()
     }
 
     pub fn triple_type(&self) -> TypeRepr {
@@ -343,18 +373,6 @@ impl Grammar {
             result.push_str(&format!("{}, ", parameter.name));
         }
         result
-    }
-
-    pub fn user_type_parameter_decls(&self) -> String {
-        let mut result = String::new();
-        for parameter in &self.type_parameters {
-            result.push_str(&format!("{}, ", parameter));
-        }
-        result
-    }
-
-    pub fn user_type_parameter_refs(&self) -> String {
-        self.user_type_parameter_decls()
     }
 }
 
