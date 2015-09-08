@@ -116,23 +116,43 @@ impl<'ascent,'grammar,W:Write> RecursiveAscent<'ascent,'grammar,W> {
         let error_type = self.types.error_type();
         let parse_error_type = self.parse_error_type();
 
-        let mut user_type_parameters = String::new();
-        for type_parameter in &self.grammar.type_parameters {
-            user_type_parameters.push_str(&format!("{}, ", type_parameter));
+        let (type_parameters, parameters);
+
+        if self.grammar.intern_token.is_sone() {
+            // if we are generating the tokenizer, we just need the
+            // input, and that has already been added as one of the
+            // user parameters
+            type_parameters = vec![];
+            parameters = vec![];
+        } else {
+            // otherwise, we need an iterator of type `TOKENS`
+            let mut user_type_parameters = String::new();
+            for type_parameter in &self.grammar.type_parameters {
+                user_type_parameters.push_str(&format!("{}, ", type_parameter));
+            }
+            type_parameters = vec![
+                format!("{}TOKEN: {}ToTriple<{}Error={}>",
+                        self.prefix, self.prefix, user_type_parameters, error_type),
+                format!("{}TOKENS: IntoIterator<Item={}TOKEN>", self.prefix, self.prefix)];
+            parameters = vec![format!("{}tokens: {}TOKENS", self.prefix, self.prefix)];
         }
 
         try!(self.out.write_pub_fn_header(
             self.grammar,
             format!("parse_{}", self.user_start_symbol),
-            vec![format!("{}TOKEN: {}ToTriple<{}Error={}>",
-                         self.prefix, self.prefix, user_type_parameters, error_type),
-                 format!("{}TOKENS: IntoIterator<Item={}TOKEN>", self.prefix, self.prefix)],
-            vec![format!("{}tokens: {}TOKENS", self.prefix, self.prefix)],
+            type_parameters,
+            parameters,
             format!("Result<{}, {}>",
                     self.types.nonterminal_type(self.start_symbol),
                     parse_error_type),
             vec![]));
         rust!(self.out, "{{");
+
+        // if we are generating the tokenizer, do so
+        if self.grammar.intern_token.is_some() {
+            rust!(self.out, "let {}tokens = super::{}intern_token::{}Matcher::new(input);",
+                  self.prefix, self.prefix, self.prefix);
+        }
 
         // create input iterator, inserting `()` for locations if no location was given
         rust!(self.out, "let mut {}tokens = {}tokens.into_iter();", self.prefix, self.prefix);

@@ -18,7 +18,7 @@ mod expr_arena;
 mod expr_arena_ast;
 
 /// test that exercises internal token generation, as well as locations and spans
-mod intern_token;
+mod intern_tok;
 
 /// test that exercises locations and spans
 mod loc;
@@ -127,26 +127,15 @@ fn expr_arena_test2() {
 }
 
 #[test]
-fn intern_token_test1() {
+fn intern_tok_test1() {
     let expected = vec![(0, 0),
                         (4, 5),
                         (8, 9),
                         (16, 17)];
-    util::test_loc(|v| intern_token::parse_Items(v), "--+-+---+", expected);
-    //                                                000001111
-    //                                                024680246
-}
-
-#[test]
-fn intern_token_test2() {
-    util::test_loc(|v| intern_token::parse_Items(v), "+", vec![(0, 0),
-                                                      (0, 1)]);
-}
-
-#[test]
-fn intern_token_empty() {
-    // test what happens when `@L` and `@R` are invoked on an empty input
-    util::test_loc(|v| intern_token::parse_Items(v), "", vec![(0, 0)]);
+    let actual = intern_tok::parse_Items("--+-+---+");
+    //                                    000001111
+    //                                    024680246
+    assert_eq!(actual, expected);
 }
 
 #[test]
