@@ -21,6 +21,7 @@ pub enum ErrorCode {
     UnterminatedEscape,
     UnterminatedStringLiteral,
     UnterminatedCode,
+    ExpectedStringLiteral,
 }
 
 fn error<T>(c: ErrorCode, l: usize) -> Result<T,Error> {
@@ -49,6 +50,7 @@ pub enum Tok<'input> {
     MacroId(&'input str), // identifier followed immediately by `<`
     Lifetime(&'input str), // includes the `'`
     StringLiteral(&'input str), // excludes the `"`
+    RegexLiteral(&'input str), // excludes the `r"` and `"`
 
     // Symbols:
     Ampersand,
@@ -289,7 +291,24 @@ impl<'input> Tokenizer<'input> {
                     }
                 }
                 Some((idx0, c)) if is_identifier_start(c) => {
-                    Some(self.identifierish(idx0))
+                    if c == 'r' {
+                        // watch out for r"..." or r#"..."# strings
+                        self.bump();
+                        match self.lookahead {
+                            Some((_, '#')) |
+                            Some((_, '"')) => {
+                                Some(self.regex_literal(idx0))
+                            }
+                            _ => {
+                                // due to the particulars of how identifierish works,
+                                // it's ok that we already consumed the 'r', because the
+                                // identifier will run from idx0 (the 'r') to the end
+                                Some(self.identifierish(idx0))
+                            }
+                        }
+                    } else {
+                        Some(self.identifierish(idx0))
+                    }
                 }
                 Some((_, c)) if c.is_whitespace() => {
                     self.bump();
@@ -424,6 +443,52 @@ impl<'input> Tokenizer<'input> {
                 self.bump(); // consume the '"'
                 let text = &self.text[idx0+1..idx1]; // do not include the "" in the str
                 Ok((idx0, StringLiteral(text), idx1+1))
+            }
+            None => {
+                error(UnterminatedStringLiteral, idx0)
+            }
+        }
+    }
+
+    // parses `r#"..."#` (for some number of #), starts after the `r`
+    // has been consumed; idx0 points at the `r`
+    fn regex_literal(&mut self, idx0: usize) -> Result<Spanned<Tok<'input>>, Error> {
+        match self.take_while(|c| c == '#') {
+            Some(idx1) if self.lookahead == Some((idx1, '"')) => {
+                self.bump();
+                let hashes = idx1 - idx0 - 1;
+                let mut state = 0;
+                let end_of_regex = |c: char| {
+                    if state > 0 {
+                        // state N>0 means: observed n-1 hashes
+                        if c == '#' {
+                            state += 1;
+                        } else {
+                            state = 0;
+                        }
+                    }
+
+                    // state 0 means: not yet seen the `"`
+                    if state == 0 && c == '"' {
+                        state = 1;
+                    }
+
+                    state == (hashes + 1)
+                };
+                match self.take_until(end_of_regex) {
+                    Some(idx1) => { // idx1 is the closing quote
+                        self.bump();
+                        let start = idx0 + 2 + hashes; // skip the `r###"`
+                        let end = idx1 - hashes; // skip the `###`.
+                        Ok((idx0, RegexLiteral(&self.text[start..end]), idx1 + 1))
+                    }
+                    None => {
+                        error(UnterminatedStringLiteral, idx0)
+                    }
+                }
+            }
+            Some(idx1) => {
+                error(ExpectedStringLiteral, idx1)
             }
             None => {
                 error(UnterminatedStringLiteral, idx0)

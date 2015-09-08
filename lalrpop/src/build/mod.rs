@@ -160,6 +160,8 @@ fn parse_and_normalize_grammar(path: PathBuf) -> io::Result<r::Grammar> {
                     "unterminated escape; missing '`'?",
                 tok::ErrorCode::UnterminatedStringLiteral =>
                     "unterminated string literal; missing `\"`?",
+                tok::ErrorCode::ExpectedStringLiteral =>
+                    "expected string literal; missing `\"`?",
                 tok::ErrorCode::UnterminatedCode =>
                     "unterminated code block; perhaps a missing `;`, `)`, `]` or `}`?"
             };

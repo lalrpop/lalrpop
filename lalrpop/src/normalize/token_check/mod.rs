@@ -161,16 +161,33 @@ pub fn construct(grammar: &mut Grammar, literals_map: Map<TerminalLiteral, Span>
     // one of precedences, that are parallel with `literals`.
     let mut regexs = Vec::with_capacity(literals.len());
     let mut precedences = Vec::with_capacity(literals.len());
-    intern::read(|interner| {
+    try!(intern::read(|interner| {
         for &literal in &literals {
             match literal {
                 TerminalLiteral::Quoted(s) => {
                     precedences.push(Precedence(1));
                     regexs.push(re::parse_literal(interner.data(s)));
                 }
+                TerminalLiteral::Regex(s) => {
+                    precedences.push(Precedence(0));
+                    match re::parse_regex(interner.data(s)) {
+                        Ok(regex) => regexs.push(regex),
+                        Err(error) => {
+                            let literal_span = literals_map[&literal];
+                            // FIXME -- take offset into account for
+                            // span; this requires knowing how many #
+                            // the user used, which we do not track
+                            return_err!(
+                                literal_span,
+                                "invalid regular expression: {}",
+                                error.message);
+                        }
+                    }
+                }
             }
         }
-    });
+        Ok(())
+    }));
 
     let dfa = match dfa::build_dfa(&regexs, &precedences) {
         Ok(dfa) => dfa,

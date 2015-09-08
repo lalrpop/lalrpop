@@ -309,11 +309,16 @@ Terminal: TerminalString = {
     <i:"Id"> => TerminalString::Bare(intern(i));
 };
 
-QuotedTerminal: TerminalString =
+QuotedTerminal: TerminalString = {
     <s:StringLiteral> => TerminalString::quoted(s);
+    <s:RegexLiteral> => TerminalString::regex(s);
+};
 
 StringLiteral: InternedString =
     <s:"StringLiteral"> => intern(s);
+
+RegexLiteral: InternedString =
+    <s:"RegexLiteral"> => intern(s);
 
 Comma<E>: Vec<E> =
     <v0:(<E> ",")*> <e1:E?> =>
@@ -338,6 +343,7 @@ extern {
         "MacroId" => Tok::MacroId(<&'input str>),
         "Lifetime" => Tok::Lifetime(<&'input str>),
         "StringLiteral" => Tok::StringLiteral(<&'input str>),
+        "RegexLiteral" => Tok::RegexLiteral(<&'input str>),
 
         "&" => Tok::Ampersand(..),
         "!=" => Tok::BangEquals(..),

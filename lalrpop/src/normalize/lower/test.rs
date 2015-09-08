@@ -62,5 +62,5 @@ grammar;
 
     A = ",";
 "#).unwrap();
-    let actual = normalize_without_validating(grammar).unwrap();
+    normalize_without_validating(grammar).unwrap();
 }

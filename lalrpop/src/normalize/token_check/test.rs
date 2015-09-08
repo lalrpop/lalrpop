@@ -69,6 +69,14 @@ fn input_parameter_already_declared() {
 }
 
 #[test]
+fn invalid_regular_expression_unterminated_group() {
+    check_err(
+        r#"invalid regular expression: expected '\)', but regex ended"#,
+        r#"grammar; X = X r"(123";"#,
+        r#"               ~~~~~~~ "#);
+}
+
+#[test]
 fn quoted_literals() {
     check_intern_token(
         r#"grammar; X = X "+" "-" "foo" "(" ")";"#,
@@ -78,4 +86,16 @@ fn quoted_literals() {
              (")", r#"Some((")", ")"))"#),
              ("foo", r#"Some(("foo", "foo"))"#),
              ("<", r#"None"#)]);
+}
+
+#[test]
+fn regex_literals() {
+    check_intern_token(
+        r#"grammar; X = X r"[a-z]+" r"[0-9]+";"#,
+        vec![
+            ("a", r##"Some((r#"[a-z]+"#, "a"))"##),
+            ("def", r##"Some((r#"[a-z]+"#, "def"))"##),
+            ("1", r##"Some((r#"[0-9]+"#, "1"))"##),
+            ("9123456", r##"Some((r#"[0-9]+"#, "9123456"))"##),
+                ]);
 }

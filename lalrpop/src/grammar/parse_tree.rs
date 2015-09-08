@@ -236,6 +236,7 @@ pub enum TerminalString {
 #[derive(Copy, Clone, Hash, PartialEq, Eq, PartialOrd, Ord)]
 pub enum TerminalLiteral {
     Quoted(InternedString),
+    Regex(InternedString),
 }
 
 #[derive(Copy, Clone, Hash, PartialEq, Eq, PartialOrd, Ord)]
@@ -266,6 +267,10 @@ pub struct MacroSymbol {
 impl TerminalString {
     pub fn quoted(i: InternedString) -> TerminalString {
         TerminalString::Literal(TerminalLiteral::Quoted(i))
+    }
+
+    pub fn regex(i: InternedString) -> TerminalString {
+        TerminalString::Literal(TerminalLiteral::Regex(i))
     }
 }
 
@@ -364,6 +369,8 @@ impl Display for TerminalLiteral {
         match *self {
             TerminalLiteral::Quoted(s) =>
                 write!(fmt, "{:?}", s),
+            TerminalLiteral::Regex(s) =>
+                write!(fmt, "r#{:?}#", s), // FIXME -- need to determine proper number of #
         }
     }
 }
