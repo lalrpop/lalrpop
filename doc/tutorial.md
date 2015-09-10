@@ -122,10 +122,10 @@ invisible conflicts. To avoid this, don't use a glob (or define some
 other name with two underscores somewhere else).
 
 **Nonterminal declarations.** After the `grammar` declaration comes a
-*series of nonterminal* declarations.  This grammar has two
-*nonterminals, `Term` and `Num`. A nonterminal is just a name that we
-*give to something which can be parsed. Each nonterminal is then
-*defined in terms of other things.
+series of *nonterminal declarations*.  This grammar has two
+nonterminals, `Term` and `Num`. A nonterminal is just a name that we
+give to something which can be parsed. Each nonterminal is then
+defined in terms of other things.
 
 Let's start with `Num`, at the end of the file, which is declared
 as follows:
