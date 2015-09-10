@@ -18,7 +18,8 @@ Before diving into the details, let's develop a quick "first project"
 with LALRPOP. To start, we'll develop a little calculator for
 expressions like "3 - 5 * 2" and so forth. After this, we'll do some
 more examples that use some of LALRPOP's more advanced features, like
-macros and constructing parse trees.
+macros and constructing parse trees. You can find the source code in
+the [calculator][] directory.
 
 LALRPOP works as a preprocessor that is integrated with cargo. When
 LALRPOP is invoked, it will search your source directory for files
@@ -73,9 +74,12 @@ fn main() {
 The function `process_root` processes your `src` directory, converting
 all `lalrpop` files into `rs` files. It is smart enough to check
 timestamps and do nothing if the `rs` file is newer than the `lalrpop`
-file[^1], and to mark the geneated `rs` file as read-only. It returns
-an `io::Result<()>`, so the `unwrap()` call just asserts that no
+file, and to mark the geneated `rs` file as read-only. It returns an
+`io::Result<()>`, so the `unwrap()` call just asserts that no
 file-system errors occurred.
+
+*NOTE:* On Windows, the necessary APIs are not yet stable, so
+timestamp checking is disabled.
 
 ### calculator1: Parsing parenthesized numbers
 
@@ -303,9 +307,8 @@ Num: i32 = {
 ```
  
 [main]: ./calculator/main.rs
-[calculator1]: ./calculator/calculator1.lalrpop
-[calculator2]: ./calculator/calculator2.lalrpop
-[calculator3]: ./calculator/calculator3.lalrpop
+[calculator]: ./calculator/
+[calculator1]: ./calculator/src/calculator1.lalrpop
+[calculator2]: ./calculator/src/calculator2.lalrpop
+[calculator3]: ./calculator/src/calculator3.lalrpop
 
-[^1]: On Windows, the necessary APIs are not yet stable, so timestamp
-checking is disabled.
