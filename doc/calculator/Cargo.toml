@@ -1,0 +1,12 @@
+[package]
+name = "calculator1"
+version = "0.1.0"
+authors = ["Niko Matsakis <niko@alum.mit.edu>"]
+build = "build.rs"
+
+[dependencies.lalrpop-util]
+path = "../../lalrpop-util"
+
+[build-dependencies.lalrpop]
+path = "../../lalrpop"
+
