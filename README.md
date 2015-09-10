@@ -27,15 +27,18 @@ project. But it's coming along pretty quickly, now that a lot of the
 tricky stuff is out of the way. I'll update this README more with
 better instructions soon.
 
-## Instructions for use
+## Documentation
 
-LALRPOP integrates with cargo to preprocess files with the extension
-`lalrpop`. It will convert `foo.lalrpop` into `foo.rs` before your
-project builds. This will be a valid Rust module with one `parse_XXX`
-function per public symbol. For now, the documentation is spare; the
-best models to use are the test files in `lalrpop-test`.
+There is an [in-progress tutorial available here](doc/tutorial.md).
+You might also want to look at the examples in the `lalrpop-test`
+directory.
 
-To enable LALRPOP, add the following lines to your `Cargo.toml`:
+## Cargo cheat sheet
+
+This section is for if you already know what you're doing and just
+want to copy-and-paste some code for adding LALRPOP to your Cargo
+project. To enable LALRPOP, add the following lines to your
+`Cargo.toml`:
 
 ```
 [package]
