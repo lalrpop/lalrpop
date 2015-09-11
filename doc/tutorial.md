@@ -288,7 +288,7 @@ number; so `22` is a term. The second alternative is `"(" <t:Term>
 **Invoking the parser.** OK, so we wrote our parser, how do we use it?
 For every nonterminal `Foo` declared as `pub`, LALRPOP will export a
 `parse_Foo` fn that you can call to parse a string as that
-nonterminal. Hhere is a simple test that we've added to our
+nonterminal. Here is a simple test that we've added to our
 [`main.rs`][main] file which uses this function to test our `Term`
 nonterminal:
 
@@ -301,6 +301,21 @@ fn calculator1() {
     assert!(calculator1::parse_Term("(22)").is_ok());
     assert!(calculator1::parse_Term("((((22))))").is_ok());
     assert!(calculator1::parse_Term("((22)").is_err());
+}
+```
+
+The full signature of the parse function looks like this:
+
+```rust
+fn parse_Term<'input>(input: &'input str)
+                     -> Result<i32, ParseError<usize,(usize, &'input str),()>>
+                     //        ~~~  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                     //         |                       |
+                     // Result upon success             |
+                     //                                 |
+                     //             Error enum defined in the lalrpop_util crate
+{
+    ...
 }
 ```
 
