@@ -575,12 +575,12 @@ Comma<T>: Vec<T> = { // (1)
 };
 ```
 
-The definition of `Exprs` (0) is fairly obvious, I think. It just uses
-a macro `Comma<Expr>`. Let's take a look then at the definition of
-`Comma<T>` on line (1). This is sort of dense, so let's unpack
-it. First, `T` is some terminal or nonterminal, but note that we can
-also use it as a type: when the macro is expanded, the `T` in the type
-will be replaced with "whatever the type of `T` is".
+The definition of `Exprs` on line (0) is fairly obvious, I think. It
+just uses a macro `Comma<Expr>`. Let's take a look then at the
+definition of `Comma<T>` on line (1). This is sort of dense, so let's
+unpack it. First, `T` is some terminal or nonterminal, but note that
+we can also use it as a type: when the macro is expanded, the `T` in
+the type will be replaced with "whatever the type of `T` is".
 
 Next, on (2), we parse `<v:(<T> ",")*> <e:T?>`.  That's a lot of
 symbols, so let's first remove all the angle brackets, which just
