@@ -10,7 +10,8 @@ LALRPOP, but in some places it includes notes for planned future
 changes.
 
 LALRPOP is looking for contributions as well! If you're interested in
-helping out, please come find `nmatsakis` on [Mozilla's IRC server].
+helping out, please come find `nmatsakis` on
+[Mozilla's IRC server][IRC].
 
 [YACC]: http://dinosaur.compilertools.net/yacc/
 [ANTLR]: http://www.antlr.org/
