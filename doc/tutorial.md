@@ -25,7 +25,6 @@ want to skip ahead, or just look at the LALRPOP sources:
 - [calculator3]: Handling full-featured expressions 
 - [calculator4]: Building ASTs
 - [calculator5]: Macros
-- [calculator6]: Conditionals
 
 ### Crash course on grammars and parser generators
 
@@ -633,4 +632,6 @@ To be written.
 [calculator2]: ./calculator/src/calculator2.lalrpop
 [calculator3]: ./calculator/src/calculator3.lalrpop
 [calculator4]: ./calculator/src/calculator4.lalrpop
+[calculator5]: ./calculator/src/calculator5.lalrpop
+[calculator6]: ./calculator/src/calculator6.lalrpop
 [astrs]: ./calculator/src/ast.rs
