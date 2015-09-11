@@ -138,25 +138,28 @@ as it's not too picky (the emacs rust-mode, in particular, works just
 fine).
 
 To start, let's use `cargo new` to make a new project. We'll call it
-`calculator1` for now:
+`calculator`:
 
 ```
-> cargo new --bin calculator1
+> cargo new --bin calculator
 ```
 
-We now have to edit the generated `calculator1/Cargo.toml` file to
-invoke the LALRPOP preprocessor. The [resulting file][cargotoml] should look
-something like:
+We now have to edit the generated [`calculator/Cargo.toml`][cargotoml]
+file to invoke the LALRPOP preprocessor. The resulting file should
+look something like:
 
 ```
 [package]
-name = "calculator1"
+name = "calculator"
 version = "0.1.0"
 authors = ["Niko Matsakis <niko@alum.mit.edu>"]
 build = "build.rs" # <-- We added this and everything after!
 
 [build-dependencies]
 lalrpop = "0.5.0"
+
+[dependencies]
+lalrpop-util = "0.5.0"
 ```
 
 Adding a `build` directive to the `[package]` section tells Cargo to

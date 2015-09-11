@@ -39,10 +39,10 @@ publish lalrpop-util
 publish lalrpop-snap
 publish lalrpop
 
-printf "Updated README version..."
+printf "Updated version in README and tutorial..."
 perl -p -i -e 's/^version = "[0-9.]+"$/version = "'$VERSION'"/' \
-     README.md >& $TMPDIR/publish-log || publish_fail
-git add README.md >& $TMPDIR/publish-log || publish_fail
+     README.md doc/tutorial.md doc/calculator/Cargo.toml >& $TMPDIR/publish-log || publish_fail
+git add README.md doc/tutorial.md doc/calculator/Cargo.toml >& $TMPDIR/publish-log || publish_fail
 printf "OK\n"
 
-printf "\nAll set. Do not forget to commit new README.md.\n"
+printf "\nAll set. Do not forget to commit new README.md et al.\n"
