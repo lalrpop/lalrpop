@@ -565,7 +565,7 @@ pub Exprs = Comma<Expr>; // (0)
 
 Comma<T>: Vec<T> = { // (1)
     <v:(<T> ",")*> <e:T?> => match e { // (2)
-        None=> v,
+        None => v,
         Some(e) => {
             let mut v = v;
             v.push(e);
