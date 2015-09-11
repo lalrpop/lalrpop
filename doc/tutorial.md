@@ -28,11 +28,11 @@ want to skip ahead, or just look at the LALRPOP sources:
   ([read](#crash-course)).
 - Adding LALRPOP to your [`Cargo.toml`][cargotoml] file
   ([read](#adding-lalrpop)).
-- calculator1: Parsing parenthesized numbers `22` and `(22)` and `((22))`
+- calculator1: Parsing parenthesized numbers like `22` and `(22)` and `((22))`
   ([source][calculator1], [read](#calculator1))
 - calculator2: LALRPOP shorthands and type inference
   ([source][calculator2], [read](#calculator2))
-- calculator3: Handling full-featured expressions 
+- calculator3: Handling full-featured expressions like `22+44*66`
   ([source][calculator3], [read](#calculator3))
 - calculator4: Building ASTs
   ([source][calculator4], [read](#calculator4))
