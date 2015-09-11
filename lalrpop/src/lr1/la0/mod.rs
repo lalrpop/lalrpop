@@ -1,18 +1,18 @@
 //! Mega naive LALR(1) generation algorithm.
 
+use itertools::Itertools;
 use lr1::core;
 use grammar::repr::*;
 use std::rc::Rc;
 use util::{map, Map};
-use itertools::Itertools;
-use std::collections::hash_map::Entry;
+use util::map::Entry;
 use super::{Action, State, StateIndex, Item, Items, Lookahead, TableConstructionError};
 use super::Action::{Reduce, Shift};
 
 #[cfg(test)]
 mod test;
 
-#[derive(Clone, Debug, PartialEq, Eq, Hash)]
+#[derive(Clone, Debug, PartialEq, Eq, PartialOrd, Ord, Hash)]
 struct LR0Item<'grammar> {
     production: &'grammar Production,
     index: usize

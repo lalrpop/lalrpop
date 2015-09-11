@@ -62,7 +62,7 @@ pub struct DFAStateIndex(usize);
 
 type DFAKernelSet = KernelSet<DFAItemSet>;
 
-#[derive(Clone, Debug, Hash, PartialEq, Eq)]
+#[derive(Clone, Debug, Hash, PartialEq, Eq, PartialOrd, Ord)]
 struct DFAItemSet {
     items: Rc<Vec<Item>>
 }

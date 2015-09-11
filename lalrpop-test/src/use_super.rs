@@ -37,8 +37,8 @@ mod __parse__S {
 
     #[allow(dead_code)]
     pub enum __Nonterminal<> {
-        ____S(i32),
         S(i32),
+        ____S(i32),
     }
 
     // State 0

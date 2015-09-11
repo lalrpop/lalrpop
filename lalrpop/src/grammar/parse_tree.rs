@@ -118,7 +118,7 @@ pub enum TypeRef {
 /// The lifetime parameter injected when we do not have an external token enum
 pub const INPUT_LIFETIME: &'static str = "'input";
 
-#[derive(Clone, Debug, PartialEq, Eq, Hash)]
+#[derive(Clone, Debug, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub enum TypeParameter {
     Lifetime(InternedString),
     Id(InternedString),
