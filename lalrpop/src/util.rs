@@ -49,7 +49,7 @@ impl<'a,S:Display> Display for Prefix<&'a [S]> {
 }
 
 pub struct Multimap<K,V> {
-    map: HashMap<K,Vec<V>>
+    map: Map<K,Vec<V>>
 }
 
 impl<K:Hash+Eq,V> Multimap<K,V> {
@@ -90,15 +90,15 @@ impl<K:Hash+Eq,V> FromIterator<(K,V)> for Multimap<K,V> {
 
 pub type Map<K,V> = HashMap<K,V>;
 
-pub fn map<K:Hash+Eq,V>() -> HashMap<K,V> {
-    HashMap::new()
+pub fn map<K:Hash+Eq,V>() -> Map<K,V> {
+    Map::<K,V>::default()
 }
 
 pub type Set<K> = HashSet<K>;
 
 #[allow(dead_code)] // we don't happen to use this yet
-pub fn set<K:Hash+Eq>() -> HashSet<K> {
-    HashSet::new()
+pub fn set<K:Hash+Eq>() -> Set<K> {
+    Set::<K>::default()
 }
 
 /// Strip leading and trailing whitespace.

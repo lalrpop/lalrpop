@@ -2,7 +2,7 @@
 
 use grammar::repr::*;
 use std::collections::{HashMap, HashSet};
-use util::{map};
+use util::{Map, map};
 
 use super::Lookahead;
 
@@ -10,7 +10,7 @@ use super::Lookahead;
 mod test;
 
 pub struct FirstSets {
-    map: HashMap<NonterminalString, FirstSet>
+    map: Map<NonterminalString, FirstSet>
 }
 
 pub type FirstSet = HashSet<Option<TerminalString>>;

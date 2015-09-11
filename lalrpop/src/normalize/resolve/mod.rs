@@ -5,7 +5,7 @@ use super::{NormResult, NormError};
 
 use grammar::parse_tree::*;
 use intern::{InternedString};
-use util::{Map};
+use util::{map, Map};
 
 #[cfg(test)]
 mod test;
@@ -37,7 +37,7 @@ fn resolve_in_place(grammar: &mut Grammar) -> NormResult<()> {
         let all_identifiers =
             nonterminal_identifiers.chain(terminal_identifiers);
 
-        let mut identifiers = Map::new();
+        let mut identifiers = map();
         for (span, id, def) in all_identifiers {
             if let Some(old_def) = identifiers.insert(id, def) {
                 let description = def.description();
