@@ -25,7 +25,7 @@ are already familiar with the basics of parser generators, you may
 want to skip ahead, or just look at the LALRPOP sources:
 
 - Crash course on grammars and parser generators
-  ([read](#crash-course-on-grammars-and-parser-generators)).
+  ([read](#crash-course)).
 - Adding LALRPOP to your [`Cargo.toml`][cargotoml] file
   ([read](#adding-lalrpop-to-your-cargo-project)).
 - calculator1: Parsing parenthesized numbers `22` and `(22)` and `((22))`
@@ -54,6 +54,7 @@ cover when I get time to write about them:
 
 [from here]: https://github.com/nikomatsakis/lalrpop/blob/master/lalrpop-test/src/main.rs
 
+<a id="crash-course"></a>
 ### Crash course on grammars and parser generators
 
 If you've never worked with a parser generator before, or aren't
