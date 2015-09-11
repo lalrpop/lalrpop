@@ -1,15 +1,8 @@
-# LALRPop
+# LALRPOP
 
-LALRPop is a parser generator framework. Despite its name, it does not
-implement the LALR(1) algorithm, but rather LR(1). In fact, it has
-grand ambitions of eventually supporting all manner of parser
-generation algorithms (including more general variants like LL(*),
-GLR, etc), but those may or may not ever come to fruitition. :)
-
-LALRPop has *usability* as a primary goal. You should be able to write
-compact, DRY, readable grammars. You shouldn't have to stress about
-writing action code or types if you don't want to. To this end,
-LALRPop has a number of nifty features:
+LALRPOP is a Rust parser generator framework with *usability* as its
+primary goal. You should be able to write compact, DRY, readable
+grammars. To this end, LALRPOP offers a number of nifty features:
 
 1. Macros that let you extract common parts of your grammar. This
    means you can go beyond simple repetition like `Id*` and define
@@ -18,22 +11,32 @@ LALRPop has a number of nifty features:
    like `Expr<"all">` to represent the full range of expressions, but
    `Expr<"if">` to represent the subset of expressions that can appear
    in an `if` expression.
-3. Compact defaults so that you can avoid writing action code much of the
+3. Builtin support for operators like `*` and `?`.
+4. Compact defaults so that you can avoid writing action code much of the
    time.
-4. Type inference so you can often omit the types of nonterminals etc.   
-   
-To be clear, LALRPop is still early days. It's kind of spare time
-project. But it's coming along pretty quickly, now that a lot of the
-tricky stuff is out of the way. I'll update this README more with
-better instructions soon.
+5. Type inference so you can often omit the types of nonterminals.   
 
-## Documentation
+Despite its name, LALRPOP in fact uses LR(1) by default (though you
+can opt for LALR(1)), and really I hope to eventually move to
+something general that can handle all CFGs (like GLL, GLR, LL(\*),
+etc).
 
-There is an [in-progress tutorial available here](doc/tutorial.md).
-You might also want to look at the examples in the `lalrpop-test`
-directory.
+### Documentation
 
-## Cargo cheat sheet
+There is a [tutorial available here](doc/tutorial.md) that covers a
+fair bit of the features of LALRPOP. For the more advanced things are
+not yet covered, it also points you to tests that may help give you
+the idea.
+
+### Obligatory disclaimer
+
+LALRPOP is still in its relatively early days. Not all the features I
+want are there, and the error messages are sometimes a bit opaque. But
+it's quite powerful already. It's also [self-hosting], which is fun.
+
+[self-hosting]: https://github.com/nikomatsakis/lalrpop/blob/master/lalrpop/src/parser/lrgrammar.lalrpop
+
+### Cargo cheat sheet
 
 This section is for if you already know what you're doing and just
 want to copy-and-paste some code for adding LALRPOP to your Cargo
