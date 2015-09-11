@@ -54,7 +54,7 @@ cover when I get time to write about them:
 
 [from here]: https://github.com/nikomatsakis/lalrpop/blob/master/lalrpop-test/src/main.rs
 
-<!-- <a id="crash-course"></a> -->
+<a id="crash-course"></a>
 ### Crash course on grammars and parser generators
 
 If you've never worked with a parser generator before, or aren't
