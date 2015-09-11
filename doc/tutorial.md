@@ -1,6 +1,6 @@
 # LALRPOP
 
-LALRPOP is a parser generator, similar in principle to YACC, Menhir,
+LALRPOP is a parser generator, similar in principle to [YACC], [ANTLR], [Menhir],
 and other such programs. In general, it has the grand ambition of
 being the most usable parser generator ever. This ambition is most
 certainly not fully realized: right now, it's fairly standard, maybe
@@ -10,7 +10,12 @@ LALRPOP, but in some places it includes notes for planned future
 changes.
 
 LALRPOP is looking for contributions as well! If you're interested in
-helping out, please come find `nmatsakis` on IRC.
+helping out, please come find `nmatsakis` on [Mozilla's IRC server].
+
+[YACC]: http://dinosaur.compilertools.net/yacc/
+[ANTLR]: http://www.antlr.org/
+[Menhir]: http://gallium.inria.fr/~fpottier/menhir/
+[IRC]: https://wiki.mozilla.org/IRC
 
 ## Table of contents
 
@@ -19,12 +24,20 @@ are already familiar with the basics of parser generators, you may
 want to skip ahead, or just look at the LALRPOP sources:
 
 - Crash course on grammars and parser generators
+  ([read](#crash-course-on-grammars-and-parser-generators)).
 - Adding LALRPOP to your [`Cargo.toml`][cargotoml] file
-- [calculator1]: Parsing parenthesized numbers `22` and `(22)` and `((22))`
-- [calculator2]: LALRPOP shorthands and type inference
-- [calculator3]: Handling full-featured expressions 
-- [calculator4]: Building ASTs
-- [calculator5]: Macros
+  ([read](#adding-lalrpop-to-your-cargo-project)).
+- calculator1: Parsing parenthesized numbers `22` and `(22)` and `((22))`
+  ([source][calculator1], [read](#calculator1-parsing-parenthesized-numbers))
+- calculator2: LALRPOP shorthands and type inference
+  ([source][calculator2],
+  [read](#calculator2-employing-shorthands-and-type-inference))
+- calculator3: Handling full-featured expressions 
+  ([source][calculator3], [read](#calculator3-full-featured-expressions))
+- calculator4: Building ASTs
+  ([source][calculator4], [read](#calculator4-building-up-an-ast))
+- calculator5: Macros
+  ([source][calculator5], [read](#calculator5-macros))
 
 This tutorial is still incomplete. Here are some topics that I aim to
 cover when I get time to write about them:
