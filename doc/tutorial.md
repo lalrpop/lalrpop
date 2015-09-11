@@ -26,6 +26,14 @@ want to skip ahead, or just look at the LALRPOP sources:
 - [calculator4]: Building ASTs
 - [calculator5]: Macros
 
+This tutorial is still incomplete. Here are some topics that I aim to
+cover when I get time to write about them:
+
+- Location tracking with `@L` and `@R` (see e.g. [this test](https://github.com/nikomatsakis/lalrpop/blob/master/lalrpop-test/src/intern_tok.lalrpop)).
+- Integrating with external tokenizers (see e.g. [this test](https://github.com/nikomatsakis/lalrpop/blob/master/lalrpop-test/src/expr.lalrpop) invoked [from here](https://github.com/nikomatsakis/lalrpop/blob/master/lalrpop-test/src/main.rs)).
+- Conditional macros (no good test to point you at yet, sorry)
+- Fallible action code that produces a `Result` (see e.g. [this test](https://github.com/nikomatsakis/lalrpop/blob/master/lalrpop-test/src/error.lalrpop) invoked [from here](https://github.com/nikomatsakis/lalrpop/blob/master/lalrpop-test/src/main.rs)).
+
 ### Crash course on grammars and parser generators
 
 If you've never worked with a parser generator before, or aren't
