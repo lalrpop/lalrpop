@@ -27,18 +27,17 @@ want to skip ahead, or just look at the LALRPOP sources:
 - Crash course on grammars and parser generators
   ([read](#crash-course)).
 - Adding LALRPOP to your [`Cargo.toml`][cargotoml] file
-  ([read](#adding-lalrpop-to-your-cargo-project)).
+  ([read](#adding-lalrpop)).
 - calculator1: Parsing parenthesized numbers `22` and `(22)` and `((22))`
-  ([source][calculator1], [read](#calculator1-parsing-parenthesized-numbers))
+  ([source][calculator1], [read](#calculator1))
 - calculator2: LALRPOP shorthands and type inference
-  ([source][calculator2],
-  [read](#calculator2-employing-shorthands-and-type-inference))
+  ([source][calculator2], [read](#calculator2))
 - calculator3: Handling full-featured expressions 
-  ([source][calculator3], [read](#calculator3-full-featured-expressions))
+  ([source][calculator3], [read](#calculator3))
 - calculator4: Building ASTs
-  ([source][calculator4], [read](#calculator4-building-up-an-ast))
+  ([source][calculator4], [read](#calculator4))
 - calculator5: Macros
-  ([source][calculator5], [read](#calculator5-macros))
+  ([source][calculator5], [read](#calculator5))
 
 This tutorial is still incomplete. Here are some topics that I aim to
 cover when I get time to write about them:
@@ -126,6 +125,7 @@ Term: i32 = {
 
 OK, that's enough background, let's do this for real!
 
+<a id="adding-lalrpop"></a>
 ### Adding LALRPOP to your Cargo project
 
 LALRPOP works as a preprocessor that is integrated with cargo. When
@@ -189,6 +189,7 @@ file-system errors occurred.
 *NOTE:* On Windows, the necessary APIs are not yet stable, so
 timestamp checking is disabled.
 
+<a id="calculator1"></a>
 ### calculator1: Parsing parenthesized numbers
 
 OK, now we're all set to start making a LALRPOP grammar. Before we
@@ -303,6 +304,7 @@ fn calculator1() {
 }
 ```
 
+<a id="calculator2"></a>
 ### calculator2: Employing shorthands and type-inference
 
 OK, now that we understand [the calculator1 example][calculator1], let's
@@ -382,6 +384,7 @@ give you the idea:
 | `<A> B => bar(<>)`   | `<a:A> B => bar(a)`        |
 | `<A> <B> => bar(<>)` | `<a:A> <b:B> => bar(a, b)` |
 
+<a id="calculator3"></a>
 ### calculator3: Full-featured expressions
 
 Now we are ready to extend our calculator to cover the full range of
@@ -452,6 +455,7 @@ impossible: a `Factor` cannot have an `Expr` as its left-hand side.
 This is the purpose of the tiers: to force the parser into the
 precedence you want.
 
+<a id="calculator4"></a>
 ### calculator4: Building up an AST
 
 Of course, most of the time, when you're parsing you don't want to
@@ -542,15 +546,17 @@ And that's it! Now we can test it by adding some code to our
 the `Debug` impl:
 
 ```rust
-pub mod calculator5;
+pub mod calculator4;
+pub mod ast;
 
 #[test]
-fn calculator5() {
-    assert_eq!(&format!("{:?}", calculator5::parse_Exprs("22 * 44 + 66, 13*3").unwrap()),
-               "[((22 * 44) + 66), (13 * 3)]");
+fn calculator4() {
+    assert_eq!(&format!("{:?}", calculator4::parse_Expr("22 * 44 + 66").unwrap()),
+               "((22 * 44) + 66)");
 }
 ```
 
+<a id="calculator5"></a>
 ### calculator5: Macros
 
 Frequently when writing grammars we encounter repetitive constructs
@@ -672,10 +678,6 @@ fn calculator5() {
                "[((22 * 44) + 66), (13 * 3)]");
 }
 ```
-
-### calculator6: Conditionals
-
-To be written.
 
 [main]: ./calculator/main.rs
 [calculator]: ./calculator/
