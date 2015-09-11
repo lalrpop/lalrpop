@@ -36,6 +36,24 @@ fn calculator3() {
     test3!(22 * (44 + 66) / 3);
 }
 
+pub mod calculator4;
+pub mod ast;
+
+#[test]
+fn calculator4() {
+    assert_eq!(&format!("{:?}", calculator4::parse_Expr("22 * 44 + 66").unwrap()),
+               "((22 * 44) + 66)");
+}
+
+pub mod calculator5;
+
+#[test]
+fn calculator5() {
+    assert_eq!(&format!("{:?}", calculator5::parse_Exprs("22 * 44 + 66, 13*3").unwrap()),
+               "[((22 * 44) + 66), (13 * 3)]");
+}
+
+#[cfg(not(test))]
 fn main() {
     println!("Hello, world!");
 }

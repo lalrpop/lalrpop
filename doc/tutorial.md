@@ -12,14 +12,92 @@ changes.
 LALRPOP is looking for contributions as well! If you're interested in
 helping out, please come find `nmatsakis` on IRC.
 
-## Quick start: the calculator project
+## Table of contents
 
-Before diving into the details, let's develop a quick "first project"
-with LALRPOP. To start, we'll develop a little calculator for
-expressions like "3 - 5 * 2" and so forth. After this, we'll do some
-more examples that use some of LALRPOP's more advanced features, like
-macros and constructing parse trees. You can find the source code in
-the [calculator][] directory.
+Here is a brief listing of the examples and what they cover. If you
+are already familiar with the basics of parser generators, you may
+want to skip ahead, or just look at the LALRPOP sources:
+
+- Crash course on grammars and parser generators
+- Adding LALRPOP to your [`Cargo.toml`][cargotoml] file
+- [calculator1]: Parsing parenthesized numbers `22` and `(22)` and `((22))`
+- [calculator2]: LALRPOP shorthands and type inference
+- [calculator3]: Handling full-featured expressions 
+- [calculator4]: Building ASTs
+- [calculator5]: Macros
+
+### Crash course on grammars and parser generators
+
+If you've never worked with a parser generator before, or aren't
+really familiar with context-free grammars, this section is just a
+*very brief* introduction into the basic idea. Basically a grammar is
+a nice way of writing out what kinds of inputs are legal.  In our
+example, we want to support parenthesized numbers, so things like
+`123`, `(123)`, etc. We can express this with a simple grammar like:
+
+```
+Term = Num | "(" Term ")"
+```
+
+Here we say we are trying to parse a *term*, and a term can either be
+a number (`Num`) or some other term enclosing in parentheses (here I
+did not define what a number is, but in the real LALRPOP example we'll
+do that with a regular expression).  Now imagine a potential input
+like `((123))`. We can show how this would be parsed by writing out
+something called a "parse tree":
+
+```
+(  (  1  2  3  )  )
+|  |  |     |  |  |
+|  |  +-Num-+  |  |
+|  |     |     |  |
+|  |   Term    |  |
+|  |     |     |  |
+|  +---Term----+  |
+|        |        |
++------Term-------+
+```
+
+Here you can see that we parsed `((123))` by finding a `Num` in the
+middle, calling that `Num` a `Term`, and matching up the parentheses
+to form two more terms on top of that.
+
+Nnote that this parse tree is not a data structure but more a
+visualization of the parse. I mean, you *can* build up a parse tree as
+a data structure, but typically you don't want to: it is more detailed
+than you need. For example, you may not be that interested in the
+no-op conversion from a `Num` to a `Term`. The other weird thing about
+a parse tree is that it is intimately tied to your grammar, but often
+you have some existing data structures you would like to parse into --
+so if you built up a parse tree, you'd then have to convert from the
+parse tree into those data structures, and that might be annoying.
+
+Therefore, what a parser generator usually does, is instead let you
+choose how to represent each node in the parse tree, and how to do the
+conversions. You give each nonterminal a type, which can be any Rust
+type, and you write code that will execute each time a new node in the
+parse tree would have been constructed. In fact, in the examples that follow, we'll
+eventually build up something like a parse tree, but in the beginning, we won't
+do that at all. Instead, we'll represent each number and term as an `i32`,
+and we'll propagate this value around.
+
+To make this a bit more concrete, here's a version of the grammar above
+written in LALRPOP notation (we'll revisit this again in more detail of course).
+You can see that the `Term` nonterminal has been given the type `i32`,
+and that each of the definitions has some code that follows a `=>` symbol.
+This is the code that will execute to convert from the thing that was matched
+(like a number, or a parenthesized term) into an `i32`:
+
+```rust
+Term: i32 = {
+    Num => /* ... number code ... */,
+    "(" Term ")" => /* ... parenthesized code ... */,
+};
+```
+
+OK, that's enough background, let's do this for real!
+
+### Adding LALRPOP to your Cargo project
 
 LALRPOP works as a preprocessor that is integrated with cargo. When
 LALRPOP is invoked, it will search your source directory for files
@@ -31,8 +109,6 @@ possible to use the Rust plugin to edit lalrpop files as well, as long
 as it's not too picky (the emacs rust-mode, in particular, works just
 fine).
 
-### Creating the calculator project and invoking LALRPOP
-
 To start, let's use `cargo new` to make a new project. We'll call it
 `calculator1` for now:
 
@@ -41,7 +117,7 @@ To start, let's use `cargo new` to make a new project. We'll call it
 ```
 
 We now have to edit the generated `calculator1/Cargo.toml` file to
-invoke the LALRPOP preprocessor. The resulting file should look
+invoke the LALRPOP preprocessor. The [resulting file][cargotoml] should look
 something like:
 
 ```
@@ -199,7 +275,7 @@ fn calculator1() {
 
 OK, now that we understand [the calculator1 example][calculator1], let's
 look at some of the shorthands that LALRPOP offers to make it more concise.
-This code is found in [the calculator2 demo][calculator2]. 
+This code is found in [the calculator2 demo][calculator2].
 
 To start, let's look at the definition of `Term` we saw before:
 
@@ -279,7 +355,7 @@ give you the idea:
 Now we are ready to extend our calculator to cover the full range of
 arithmetic expressions (well, at least the ones you learned in
 elementary school). Here is
-[the final calculator example, calculator3][calculator3]:
+[the next calculator example, calculator3][calculator3]:
 
 ```rust
 use std::str::FromStr;
@@ -305,10 +381,137 @@ Num: i32 = {
     r"[0-9]+" => i32::from_str(<>).unwrap()
 };
 ```
- 
+
+Perhaps the most interesting thing about this example is the way it
+encodes precedence. The idea of precedence of course is that in an
+expression like `2+3*4`, we want to do the multiplication first, and
+then the addition. LALRPOP doesn't have any built-in features for
+giving precedence to operators, mostly because I consider those to be
+creepy, but it's pretty straightforward to express precedence in your
+grammar by structuring it in tiers -- for example, here we have the
+nonterminal `Expr`, which covers all expressions. It consists of a series
+of factors that are added or subtracted from one another. A `Factor`
+is then a series of terms that are multiplied or divided. Finally, a
+`Term` is either a single number or, using parenthesis, an entire expr.
+
+Abstracting from this example, the typical pattern for encoding
+precedence is to have one nonterminal per precedence level, where you
+begin with the operators of lowest precedence (`+`, `-`), add in the
+next highest precedence level (`*`, `/`), and finish with the bare
+"atomic" expressions like `Num`. Finally, you add in a parenthesized
+version of your top-level as an atomic expression, which lets people
+reset.
+
+To see why this works, consider the two parse possible parse trees
+for something like `2+3*4`:
+
+```
+2 + 3   *    4      2   +  3   *    4
+| | |   |    |      |   |  |   |    |
+| | +-Factor-+  OR  +-Expr-+   |    |
+| |     |               |      |    |
++-Expr -+               +----Factor-+
+```
+
+In the first one, we give multiplication higher precedence, and in the
+second one, we (incorrectly) give addition higher precedence. If you
+look at the grammar now, you can see that the second one is
+impossible: a `Factor` cannot have an `Expr` as its left-hand side.
+This is the purpose of the tiers: to force the parser into the
+precedence you want.
+
+### calculator4: Building up an AST
+
+Of course, most of the time, when you're parsing you don't want to
+compute a value, you want to build up some kind of data structure.
+Here's a quick example to show how that is done in LALRPOP.  First, we
+need to *define* the data structure we will build. We're going to use
+a very simple `enum`:
+
+```rust
+pub enum Expr {
+    Number(i32),
+    Op(Box<Expr>, Opcode, Box<Expr>),
+}
+
+pub enum Opcode {
+    Mul,
+    Div,
+    Add,
+    Sub,
+}
+```
+
+We put this code into [an `ast.rs` module][astrs] in our project,
+along with some `Debug` impls so that things pretty-print nicely. Now
+we will create the [calculator4] example, which will build up this
+tree. To start, let's just look at the `Expr` nonterminal, which will
+show you most everything of how it is done (the most interesting lines
+have been flagged with comments):
+
+```rust
+use std::str::FromStr;
+use ast::{Expr, Opcode}; // (0)
+
+grammar;
+
+pub Expr: Box<Expr> = { // (1)
+    Expr ExprOp Factor => Box::new(Expr::Op(<>)) // (2)
+    Factor,
+};
+
+ExprOp: Opcode = { // (3)
+    "+" => Opcode::Add,
+    "-" => Opcode::Sub,
+};
+```
+
+First off, we have to import these new names into our file by adding a
+`use` statement (0). Next, we want to produce `Box<Expr>` values, so
+we change the type of `Expr` (and `Factor` and `Term`) to `Box<Expr>`
+(1). The action code changes accordingly in (2); here we've used the
+`<>` expansion to supply three arguments to `Expr::Op`. Finally, just
+for concision, we introduced an `ExprOp` nonterminal (3) to cover the
+two opcodes, which now trigger the same action code (before they
+triggered different action code, so we could do an addition vs a
+subtraction).
+
+The definition of `Factor` is transformed in a similar way:
+
+```rust
+Factor: Box<Expr> = {
+    Factor FactorOp Term => Box::new(Expr::Op(<>)),
+    Term,
+};
+
+FactorOp: Opcode = {
+    "*" => Opcode::Mul,
+    "/" => Opcode::Div,
+};
+```
+
+And finally we adjust the definitions of `Term` and `Num`. Here, we
+convert from a raw `i32` into a `Box<Expr>` when we transition from
+`Num` to `Term` (4):
+
+```rust
+Term: Box<Expr> = {
+    Num => Box::new(Expr::Number(<>)), // (4)
+    "(" <Expr> ")"
+};
+
+Num: i32 = {
+    r"[0-9]+" => i32::from_str(<>).unwrap()
+};
+```
+
+And that's it!
+
 [main]: ./calculator/main.rs
 [calculator]: ./calculator/
+[cargotoml]: ./calculator/Cargo.toml
 [calculator1]: ./calculator/src/calculator1.lalrpop
 [calculator2]: ./calculator/src/calculator2.lalrpop
 [calculator3]: ./calculator/src/calculator3.lalrpop
-
+[calculator4]: ./calculator/src/calculator4.lalrpop
+[astrs]: ./calculator/src/ast.rs
