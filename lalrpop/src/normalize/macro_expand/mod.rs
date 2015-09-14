@@ -198,7 +198,7 @@ impl MacroExpander {
             public: mdef.public,
             span: span,
             name: msym_name,
-            annotations: vec![],
+            annotations: mdef.annotations.clone(),
             args: vec![],
             type_decl: type_decl,
             alternatives: alternatives
