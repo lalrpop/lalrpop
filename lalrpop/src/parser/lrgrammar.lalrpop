@@ -62,14 +62,21 @@ Use: GrammarItem =
     <u:"use"> ";" => GrammarItem::Use(strip(u).to_string());
 
 Nonterminal: GrammarItem =
+    <annotations:Annotation*>
     <p:"pub"?> <lo:@L> <n:NonterminalName> <hi:@R>
     <t:(":" <TypeRef>)?> "=" <a:Alternatives> => {
         GrammarItem::Nonterminal(NonterminalData { public: p.is_some(),
                                                    span: Span(lo, hi),
                                                    name: n.0,
+                                                   annotations: annotations,
                                                    args: n.1,
                                                    type_decl: t,
                                                    alternatives: a })
+    };
+
+Annotation: Annotation =
+    "#" "[" <lo:@L> <id:Id> <hi:@R> "]" => {
+        Annotation { id_span: Span(lo, hi), id: id }
     };
 
 NonterminalName: (NonterminalString, Vec<NonterminalString>) = {

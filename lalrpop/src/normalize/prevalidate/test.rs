@@ -46,3 +46,11 @@ fn multiple_extern_token() {
         r#"grammar; extern { enum Tok { } } extern { enum Tok { } }"#,
         r#"                                 ~~~~~~                 "#);
 }
+
+#[test]
+fn unrecognized_annotation() {
+    check_err(
+        r#"unrecognized annotation `foo`"#,
+        r#"grammar; #[foo] Term = ();"#,
+        r#"           ~~~            "#);
+}

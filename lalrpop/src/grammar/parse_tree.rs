@@ -138,10 +138,17 @@ pub struct NonterminalData {
     // a "public" nonterminal is one that we will use as a start symbol
     pub public: bool,
     pub name: NonterminalString,
+    pub annotations: Vec<Annotation>,
     pub span: Span,
     pub args: Vec<NonterminalString>, // macro arguments
     pub type_decl: Option<TypeRef>,
     pub alternatives: Vec<Alternative>
+}
+
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub struct Annotation {
+    pub id_span: Span,
+    pub id: InternedString,
 }
 
 #[derive(Clone, Debug, PartialEq, Eq)]

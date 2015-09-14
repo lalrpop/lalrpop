@@ -198,6 +198,7 @@ impl MacroExpander {
             public: mdef.public,
             span: span,
             name: msym_name,
+            annotations: vec![],
             args: vec![],
             type_decl: type_decl,
             alternatives: alternatives
@@ -360,6 +361,7 @@ impl MacroExpander {
             public: false,
             span: span,
             name: name,
+            annotations: vec![],
             args: vec![],
             type_decl: Some(ty_ref),
             alternatives: vec![Alternative { span: span,
@@ -388,6 +390,7 @@ impl MacroExpander {
                     public: false,
                     span: span,
                     name: name,
+                    annotations: vec![],
                     args: vec![],
                     type_decl: Some(ty_ref),
                     alternatives: vec![
@@ -431,6 +434,7 @@ impl MacroExpander {
                     public: false,
                     span: span,
                     name: name,
+                    annotations: vec![],
                     args: vec![],
                     type_decl: Some(ty_ref),
                     alternatives: vec![
@@ -469,6 +473,7 @@ impl MacroExpander {
                     public: false,
                     span: span,
                     name: name,
+                    annotations: vec![],
                     args: vec![],
                     type_decl: Some(ty_ref),
                     alternatives: vec![
@@ -499,6 +504,7 @@ impl MacroExpander {
             public: false,
             span: span,
             name: name,
+            annotations: vec![],
             args: vec![],
             type_decl: None,
             alternatives: vec![

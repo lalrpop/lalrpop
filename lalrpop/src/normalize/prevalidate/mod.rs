@@ -73,6 +73,12 @@ impl<'grammar> Validator<'grammar> {
                     }
                 }
                 GrammarItem::Nonterminal(ref data) => {
+                    for annotation in &data.annotations {
+                        return_err!(annotation.id_span,
+                                    "unrecognized annotation `{}`",
+                                    annotation.id);
+                    }
+
                     for alternative in &data.alternatives {
                         try!(self.validate_alternative(alternative));
                     }
