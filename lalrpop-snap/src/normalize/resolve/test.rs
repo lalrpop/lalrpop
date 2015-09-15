@@ -52,7 +52,7 @@ fn unknown_nonterminal_in_repeat_question() {
 fn unknown_nonterminal_two() {
     check_err(
         "no definition found for `Expr`",
-        r#"grammar; Term = { <n:"Num"> => n.as_num(); "A" <>>>Expr<<<> "B"; };"#);
+        r#"grammar; Term = { <n:"Num"> => n.as_num(), "A" <>>>Expr<<<> "B" };"#);
 }
 
 #[test]

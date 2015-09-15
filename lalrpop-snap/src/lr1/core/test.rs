@@ -28,7 +28,7 @@ fn random_test<'g>(grammar: &Grammar, states: &'g [State<'g>], start_symbol: Non
 
 macro_rules! tokens {
     ($($x:expr),*) => {
-        vec![$(TerminalString::Quoted(intern($x))),*].into_iter()
+        vec![$(TerminalString::quoted(intern($x))),*].into_iter()
     }
 }
 
@@ -46,11 +46,11 @@ fn items<'g>(grammar: &'g Grammar, nonterminal: &str, index: usize, la: Lookahea
 fn start_state() {
     let grammar = normalized_grammar(r#"
 grammar;
-    extern { enum Tok { } }
+    extern { enum Tok { "C" => .., "D" => .. } }
     A = B "C";
     B: Option<u32> = {
-        "D" => Some(1);
-        () => None;
+        "D" => Some(1),
+        () => None
     };
 "#);
     let items = items(&grammar, "A", 0, EOF);
@@ -66,15 +66,15 @@ grammar;
 fn start_state_1() {
     let grammar = normalized_grammar(r#"
 grammar;
-extern { enum Tok { } }
+extern { enum Tok { "B1" => .., "C1" => .. } }
 A = B C;
 B: Option<u32> = {
-    "B1" => Some(1);
-    () => None;
+    "B1" => Some(1),
+    () => None
 };
 C: Option<u32> = {
-    "C1" => Some(1);
-    () => None;
+    "C1" => Some(1),
+    () => None
 };
 "#);
 
@@ -100,19 +100,19 @@ C: Option<u32> = {
 fn expr_grammar1() {
     let grammar = normalized_grammar(r#"
 grammar;
-    extern { enum Tok { } }
+    extern { enum Tok { "-" => .., "N" => .., "(" => .., ")" => .. } }
 
     S: () =
         E => ();
 
     E: () = {
-        E "-" T => ();
-        T => ();
+        E "-" T => (),
+        T => ()
     };
 
     T: () = {
-        "N" => ();
-        "(" E ")" => ();
+        "N" => (),
+        "(" E ")" => ()
     };
 "#);
 
@@ -175,14 +175,14 @@ fn shift_reduce_conflict1() {
 
     let grammar = normalized_grammar(r#"
         grammar;
-        extern { enum Tok { } }
+        extern { enum Tok { "L" => .., "&" => .., } }
         E: () = {
-            "L";
-            "&" OPT_L E;
+            "L",
+            "&" OPT_L E
         };
         OPT_L: () = {
-            ();
-            "L";
+            (),
+            "L"
         };
     "#);
 

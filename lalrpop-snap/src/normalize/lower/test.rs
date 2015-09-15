@@ -19,16 +19,16 @@ fn flat_productions(grammar: &Grammar) -> Vec<Production> {
 
 #[test]
 fn test_comma() {
-    let grammar = parser::parse_grammar("
+    let grammar = parser::parse_grammar(r#"
 grammar;
-    extern { enum Tok { } }
+    extern { enum Tok { "," => .., "Id" => .. } }
 
     Comma<E>: Vec<E> =
-       <v:(<E> \",\")*> <e:E?> =>
+       <v:(<E> ",")*> <e:E?> =>
            v.into_iter().chain(e.into_iter()).collect();
 
-    Ids = Comma<\"Id\">;
-").unwrap();
+    Ids = Comma<"Id">;
+"#).unwrap();
     let actual = normalize_without_validating(grammar).unwrap();
 
     expect_debug(flat_productions(&actual),
@@ -52,4 +52,15 @@ grammar;
     fn _(v: ::std::vec::Vec<Tok>, e: Tok) -> ::std::vec::Vec<Tok> { { let mut v = v; v.push(e); v } },
     fn _(__0: Tok, _: Tok) -> Tok { (__0) }
 ]"#);
+}
+
+#[test]
+fn test_intern_token() {
+    let grammar = parser::parse_grammar(r#"
+grammar;
+    extern { }
+
+    A = ",";
+"#).unwrap();
+    normalize_without_validating(grammar).unwrap();
 }

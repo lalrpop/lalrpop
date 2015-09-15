@@ -5,9 +5,9 @@
 use intern::{self, intern, InternedString};
 use normalize::NormResult;
 use normalize::norm_util::{self, Symbols};
-use grammar::pattern::Pattern;
+use grammar::pattern::{Pattern, PatternKind};
 use grammar::parse_tree as pt;
-use grammar::parse_tree::{TerminalString, NonterminalString};
+use grammar::parse_tree::{InternToken, NonterminalString, TerminalString};
 use grammar::repr as r;
 use util::{map, Map};
 
@@ -24,6 +24,7 @@ struct LowerState {
     action_fn_defns: Vec<r::ActionFnDefn>,
     productions: Vec<r::Production>,
     conversions: Vec<(TerminalString, Pattern<r::TypeRepr>)>,
+    intern_token: Option<InternToken>,
     types: r::Types,
 }
 
@@ -35,6 +36,7 @@ impl LowerState {
             productions: vec![],
             conversions: vec![],
             types: types,
+            intern_token: None,
         }
     }
 
@@ -50,14 +52,50 @@ impl LowerState {
                     uses.push(data);
                 }
 
-                pt::GrammarItem::ExternToken(data) => {
-                    token_span = Some(data.enum_token.type_span);
+                pt::GrammarItem::InternToken(data) => {
+                    token_span = Some(grammar.span);
+                    let span = grammar.span;
+                    let input_str = r::TypeRepr::Ref {
+                        lifetime: Some(intern(pt::INPUT_LIFETIME)),
+                        mutable: false,
+                        referent: Box::new(r::TypeRepr::Nominal(r::NominalTypeRepr {
+                            path: r::Path::str(),
+                            types: vec![]
+                        }))
+                    };
                     self.conversions.extend(
-                        data.enum_token
-                            .conversions
+                        data.literals
                             .iter()
-                            .map(|conversion| (conversion.from,
-                                               conversion.to.map(&mut |t| t.type_repr()))));
+                            .enumerate()
+                            .map(|(index, &literal)| {
+                                let pattern = Pattern {
+                                    span: span,
+                                    kind: PatternKind::Tuple(vec![
+                                        Pattern {
+                                            span: span,
+                                            kind: PatternKind::Usize(index),
+                                        },
+                                        Pattern {
+                                            span: span,
+                                            kind: PatternKind::Choose(input_str.clone())
+                                        }
+                                        ])
+                                };
+                                (TerminalString::Literal(literal), pattern)
+                            }));
+                    self.intern_token = Some(data);
+                }
+
+                pt::GrammarItem::ExternToken(data) => {
+                    if let Some(enum_token) = data.enum_token {
+                        token_span = Some(enum_token.type_span);
+                        self.conversions.extend(
+                            enum_token
+                                .conversions
+                                .iter()
+                                .map(|conversion| (conversion.from,
+                                                   conversion.to.map(&mut |t| t.type_repr()))));
+                    }
                 }
 
                 pt::GrammarItem::Nonterminal(nt) => {
@@ -106,7 +144,8 @@ impl LowerState {
             type_parameters: grammar.type_parameters,
             parameters: parameters,
             where_clauses: grammar.where_clauses,
-            algorithm: algorithm
+            algorithm: algorithm,
+            intern_token: self.intern_token,
         })
     }
 
@@ -217,7 +256,7 @@ impl LowerState {
                              symbols.len());
                 let name_str = intern::read(|interner| {
                     let name_strs: Vec<_> = names.iter().map(|&n| interner.data(n)).collect();
-                    name_strs.connect(", ")
+                    name_strs.join(", ")
                 });
                 let action = action.replace("<>", &name_str);
                 r::ActionFnDefn {

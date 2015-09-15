@@ -42,8 +42,8 @@ GrammarTypeParameters: Vec<TypeParameter> =
     "<" <Comma<TypeParameter>> ">";
 
 TypeParameter: TypeParameter = {
-    <l:Lifetime> => TypeParameter::Lifetime(l);
-    <l:Id> => TypeParameter::Id(l);
+    <l:Lifetime> => TypeParameter::Lifetime(l),
+    <l:Id> => TypeParameter::Id(l)
 };
 
 GrammarParameters: Vec<Parameter> =
@@ -53,9 +53,9 @@ GrammarParameter: Parameter =
     <id:Id> ":" <ty:TypeRef> => Parameter { name: id, ty: ty };
 
 GrammarItem: GrammarItem = {
-    Use;
-    ExternToken;
-    Nonterminal;
+    Use,
+    ExternToken,
+    Nonterminal
 };
 
 Use: GrammarItem =
@@ -80,14 +80,14 @@ Annotation: Annotation =
     };
 
 NonterminalName: (NonterminalString, Vec<NonterminalString>) = {
-    <MacroId> "<" <Comma<NotMacroId>> ">";
-    <n:NotMacroId> => (n, vec![]);
-    <"Escape"> => (NonterminalString(intern(<>)), vec![]);
+    <MacroId> "<" <Comma<NotMacroId>> ">",
+    <n:NotMacroId> => (n, vec![]),
+    <"Escape"> => (NonterminalString(intern(<>)), vec![]),
 };
 
 Alternatives: Vec<Alternative> = {
-    <a:Alternative> ";" => vec![a];
-    "{" <Comma<Alternative>> "}" ";";
+    <a:Alternative> ";" => vec![a],
+    "{" <Comma<Alternative>> "}" ";",
 };
 
 Alternative: Alternative = {
@@ -98,7 +98,7 @@ Alternative: Alternative = {
             condition: c,
             action: a
         }
-    };
+    },
     <lo:@L> <c:("if" <Cond>)?> <a:Action> <hi:@R> => {
         Alternative {
             span: Span(lo, hi),
@@ -106,14 +106,14 @@ Alternative: Alternative = {
             condition: c,
             action: Some(a)
         }
-    };
+    },
 };
 
 Action: ActionKind = {
-    "=>@L" => ActionKind::Lookahead;
-    "=>@R" => ActionKind::Lookbehind;
-    <c:"=>"> => ActionKind::User(strip(c).to_string());
-    <c:"=>?"> => ActionKind::Fallible(strip(c).to_string());
+    "=>@L" => ActionKind::Lookahead,
+    "=>@R" => ActionKind::Lookbehind,
+    <c:"=>"> => ActionKind::User(strip(c).to_string()),
+    <c:"=>?"> => ActionKind::Fallible(strip(c).to_string()),
 };
 
 Cond: Condition =
@@ -122,10 +122,10 @@ Cond: Condition =
     };
 
 CondOp: ConditionOp = {
-    "==" => ConditionOp::Equals;
-    "!=" => ConditionOp::NotEquals;
-    "~~" => ConditionOp::Match;
-    "!~" => ConditionOp::NotMatch;
+    "==" => ConditionOp::Equals,
+    "!=" => ConditionOp::NotEquals,
+    "~~" => ConditionOp::Match,
+    "!~" => ConditionOp::NotMatch,
 };
 
 ExprSymbol: ExprSymbol =
@@ -133,26 +133,26 @@ ExprSymbol: ExprSymbol =
 
 Symbol: Symbol = {
     <lo:@L> "<" @L <l:Id> ":" <s:Symbol0> ">" <hi:@R> =>
-        Symbol::new(Span(lo, hi), SymbolKind::Name(l, Box::new(s)));
+        Symbol::new(Span(lo, hi), SymbolKind::Name(l, Box::new(s))),
 
     <lo:@L> "<" <s:Symbol0> ">" <hi:@R> =>
-        Symbol::new(Span(lo, hi), SymbolKind::Choose(Box::new(s)));
+        Symbol::new(Span(lo, hi), SymbolKind::Choose(Box::new(s))),
 
-    Symbol0;
+    Symbol0,
 };
 
 Symbol0: Symbol = {
-    Symbol1;
+    Symbol1,
 
     <lhs:Symbol0> <op:RepeatOp> <hi:@R> =>
         Symbol::new(Span(lhs.span.0, hi),
-                    SymbolKind::Repeat(Box::new(RepeatSymbol { symbol: lhs, op: op })));
+                    SymbolKind::Repeat(Box::new(RepeatSymbol { symbol: lhs, op: op }))),
 };
 
 RepeatOp: RepeatOp = {
-    "+" => RepeatOp::Plus;
-    "*" => RepeatOp::Star;
-    "?" => RepeatOp::Question;
+    "+" => RepeatOp::Plus,
+    "*" => RepeatOp::Star,
+    "?" => RepeatOp::Question,
 };
 
 Symbol1: Symbol =
@@ -160,53 +160,53 @@ Symbol1: Symbol =
 
 SymbolKind1: SymbolKind = {
     <name:MacroId> "<" <args:Comma<Symbol>> ">" =>
-        SymbolKind::Macro(MacroSymbol { name: name, args: args });
+        SymbolKind::Macro(MacroSymbol { name: name, args: args }),
 
     QuotedTerminal =>
-        SymbolKind::Terminal(<>);
+        SymbolKind::Terminal(<>),
 
     "Id" =>
-        SymbolKind::AmbiguousId(intern(<>));
+        SymbolKind::AmbiguousId(intern(<>)),
 
     Escape =>
-        SymbolKind::Nonterminal(NonterminalString(<>));
+        SymbolKind::Nonterminal(NonterminalString(<>)),
 
     "(" <ExprSymbol> ")" =>
-        SymbolKind::Expr(<>);
+        SymbolKind::Expr(<>),
 
     "@L" =>
-        SymbolKind::Lookahead;
+        SymbolKind::Lookahead,
 
     "@R" =>
-        SymbolKind::Lookbehind;
+        SymbolKind::Lookbehind,
 };
 
 pub TypeRef: TypeRef = {
     "(" <Comma<TypeRef>> ")" =>
-        TypeRef::Tuple(<>);
+        TypeRef::Tuple(<>),
 
     "#" <Symbol> "#" => {
         TypeRef::OfSymbol(<>.kind)
-    };
+    },
 
     "&" <l:Lifetime?> <m:"mut"?> <t:TypeRef> =>
         TypeRef::Ref { lifetime: l,
                        mutable: m.is_some(),
-                       referent: Box::new(t) };
+                       referent: Box::new(t) },
 
     <p:Path> "<" <a:Comma<TypeRefOrLifetime>> ">" =>
-        TypeRef::Nominal { path: p, types: a };
+        TypeRef::Nominal { path: p, types: a },
 
     <p:Path> =>
         match p.as_id() {
             Some(id) => TypeRef::Id(id),
             None => TypeRef::Nominal { path: p, types: vec![] }
-        };
+        },
 };
 
 TypeRefOrLifetime: TypeRef = {
-    TypeRef;
-    Lifetime => TypeRef::Lifetime(<>);
+    TypeRef,
+    Lifetime => TypeRef::Lifetime(<>),
 };
 
 Path: Path =
@@ -222,14 +222,14 @@ ExternToken: GrammarItem = {
             associated_types: a0.into_iter().chain(a1).collect(),
             enum_token: Some(et),
         })
-    };
+    },
     <lo:@L> "extern" <hi:@R> "{" <a0:AssociatedType*> "}" => {
         GrammarItem::ExternToken(ExternToken {
             span: Span(lo, hi),
             associated_types: a0,
             enum_token: None,
         })
-    };
+    },
 };
 
 EnumToken: EnumToken =
@@ -263,28 +263,28 @@ pub Pattern: Pattern<TypeRef> =
 
 PatternKind: PatternKind<TypeRef> = {
     <Path> "(" <Comma<Pattern>> ")" =>
-        PatternKind::Enum(<>);
+        PatternKind::Enum(<>),
 
     <p:Path> "{" <a0:(<FieldPattern> ",")*> <a1:FieldPattern?> "}" =>
-        PatternKind::Struct(p, a0.into_iter().chain(a1).collect(), false);
+        PatternKind::Struct(p, a0.into_iter().chain(a1).collect(), false),
 
     <p:Path> "{" <a0:(<FieldPattern> ",")*> ".." "}" =>
-        PatternKind::Struct(p, a0, true);
+        PatternKind::Struct(p, a0, true),
 
     "_" =>
-        PatternKind::Underscore;
+        PatternKind::Underscore,
 
     ".." =>
-        PatternKind::DotDot;
+        PatternKind::DotDot,
 
     "<" <TypeRef> ">" =>
-        PatternKind::Choose(<>);
+        PatternKind::Choose(<>),
 
     "(" <Comma<Pattern>> ")" =>
-        PatternKind::Tuple(<>);
+        PatternKind::Tuple(<>),
 
     <Path> =>
-        PatternKind::Path(<>);
+        PatternKind::Path(<>),
 };
 
 FieldPattern: FieldPattern<TypeRef> =
@@ -301,8 +301,8 @@ NotMacroId: NonterminalString =
     <i:"Id"> => NonterminalString(intern(i));
 
 Id: InternedString = {
-    <i:"Id"> => intern(i);
-    <i:"MacroId"> => intern(i);
+    <i:"Id"> => intern(i),
+    <i:"MacroId"> => intern(i),
 };
 
 Escape: InternedString =
@@ -312,13 +312,13 @@ Lifetime: InternedString =
     <i:"Lifetime"> => intern(i);
 
 Terminal: TerminalString = {
-    QuotedTerminal;
-    <i:"Id"> => TerminalString::Bare(intern(i));
+    QuotedTerminal,
+    <i:"Id"> => TerminalString::Bare(intern(i)),
 };
 
 QuotedTerminal: TerminalString = {
-    <s:StringLiteral> => TerminalString::quoted(s);
-    <s:RegexLiteral> => TerminalString::regex(s);
+    <s:StringLiteral> => TerminalString::quoted(s),
+    <s:RegexLiteral> => TerminalString::regex(s),
 };
 
 StringLiteral: InternedString =

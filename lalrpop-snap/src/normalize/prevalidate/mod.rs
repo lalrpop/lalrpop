@@ -51,7 +51,7 @@ impl<'grammar> Validator<'grammar> {
                     if data.span != self.extern_token.unwrap().span {
                         return_err!(
                             data.span,
-                            "multiple extern token definitions are not permitted");
+                            "multiple extern definitions are not permitted");
                     }
 
                     let allowed_names = vec![intern(LOCATION), intern(ERROR)];
@@ -71,21 +71,19 @@ impl<'grammar> Validator<'grammar> {
                                 associated_type.type_name);
                         }
                     }
-
-                    match data.enum_token.type_name {
-                        TypeRef::Id(_) | TypeRef::Nominal { .. } => { /* OK */ }
-                        _ => {
-                            return_err!(
-                                data.enum_token.type_span,
-                                "expected a nominal type here, like `Token` or `foo::Token<T>`");
-                        }
-                    }
                 }
                 GrammarItem::Nonterminal(ref data) => {
+                    for annotation in &data.annotations {
+                        return_err!(annotation.id_span,
+                                    "unrecognized annotation `{}`",
+                                    annotation.id);
+                    }
+
                     for alternative in &data.alternatives {
                         try!(self.validate_alternative(alternative));
                     }
                 }
+                GrammarItem::InternToken(..) => { }
             }
         }
         Ok(())
@@ -186,20 +184,20 @@ impl<'grammar> Validator<'grammar> {
                 try!(self.validate_symbol(sym));
             }
             SymbolKind::Lookahead | SymbolKind::Lookbehind => {
-                if self.extern_token.is_none() {
-                    return_err!(symbol.span,
-                                "lookahead/lookbehind not permitted without \
-                                 an extern token declaration");
-                }
-
-                let loc = intern(LOCATION);
-                if self.extern_token.unwrap().associated_type(loc).is_none() {
-                    return_err!(
-                        symbol.span,
-                        "lookahead/lookbehind require you to declare the type of \
-                         a location; add a `type {} = ..` statement to the extern token \
-                         block",
-                        LOCATION);
+                // if using an internal tokenizer, lookahead/lookbehind are ok.
+                if let Some(extern_token) = self.extern_token {
+                    if extern_token.enum_token.is_some() {
+                        // otherwise, the Location type must be specified.
+                        let loc = intern(LOCATION);
+                        if self.extern_token.unwrap().associated_type(loc).is_none() {
+                            return_err!(
+                                symbol.span,
+                                "lookahead/lookbehind require you to declare the type of \
+                                 a location; add a `type {} = ..` statement to the extern token \
+                                 block",
+                                LOCATION);
+                        }
+                    }
                 }
             }
         }

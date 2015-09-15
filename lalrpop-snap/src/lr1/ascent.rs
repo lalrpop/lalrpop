@@ -6,11 +6,11 @@ use grammar::repr::{ActionKind,
                     Grammar,
                     NonterminalString,
                     Symbol,
-                    TerminalString, TypeRepr, Types};
+                    TerminalString, TypeParameter, TypeRepr, Types};
 use lr1::{Lookahead, State, StateIndex};
 use rust::RustWrite;
 use std::io::{self, Write};
-use util::{Escape, Multimap, Sep};
+use util::{Escape, Multimap, Set, Sep};
 
 pub fn compile<'grammar,W:Write>(
     grammar: &'grammar Grammar,
@@ -25,14 +25,33 @@ pub fn compile<'grammar,W:Write>(
 }
 
 struct RecursiveAscent<'ascent,'grammar:'ascent,W:Write+'ascent> {
+    /// the complete grammar
     grammar: &'grammar Grammar,
+
+    /// some suitable prefix to separate our identifiers from the user's
     prefix: &'grammar str,
+
+    /// types from the grammar
     types: &'grammar Types,
+
+    /// the start symbol S the user specified
     user_start_symbol: NonterminalString,
+
+    /// the synthetic start symbol S' that we specified
     start_symbol: NonterminalString,
+
+    /// the vector of states
     states: &'ascent [State<'grammar>],
+
+    /// for each state, the maximal prefix of tokens on the stack;
+    /// this is the number of arguments that the state fn expects
     state_prefixes: Vec<&'grammar [Symbol]>,
+
+    /// where we write output
     out: &'ascent mut RustWrite<W>,
+
+    /// type parameters for the `Nonterminal` type
+    nonterminal_type_params: Vec<TypeParameter>,
 }
 
 impl<'ascent,'grammar,W:Write> RecursiveAscent<'ascent,'grammar,W> {
@@ -43,6 +62,23 @@ impl<'ascent,'grammar,W:Write> RecursiveAscent<'ascent,'grammar,W> {
            out: &'ascent mut RustWrite<W>)
            -> RecursiveAscent<'ascent,'grammar,W>
     {
+        // The nonterminal type needs to be parameterized by all the
+        // type parameters that actually appear in the types of
+        // nonterminals.  We can't just use *all* type parameters
+        // because that would leave unused lifetime/type parameters in
+        // some cases.
+        let referenced_ty_params: Set<TypeParameter> =
+            grammar.types.nonterminal_types()
+                         .into_iter()
+                         .flat_map(|t| t.referenced())
+                         .collect();
+
+        let nonterminal_type_params: Vec<_> =
+            grammar.type_parameters.iter()
+                                   .filter(|t| referenced_ty_params.contains(t))
+                                   .cloned()
+                                   .collect();
+
         RecursiveAscent {
             grammar: grammar,
             prefix: &grammar.prefix,
@@ -52,12 +88,11 @@ impl<'ascent,'grammar,W:Write> RecursiveAscent<'ascent,'grammar,W> {
             user_start_symbol: user_start_symbol,
             start_symbol: start_symbol,
             out: out,
+            nonterminal_type_params: nonterminal_type_params,
         }
     }
 
     fn write(&mut self) -> io::Result<()> {
-        try!(self.write_start_fn());
-
         rust!(self.out, "");
         rust!(self.out, "mod {}parse{} {{",
               self.prefix, self.start_symbol);
@@ -69,6 +104,8 @@ impl<'ascent,'grammar,W:Write> RecursiveAscent<'ascent,'grammar,W> {
         rust!(self.out, "");
 
         try!(self.write_uses());
+
+        try!(self.write_start_fn());
 
         rust!(self.out, "");
         try!(self.write_return_type_defn());
@@ -85,7 +122,11 @@ impl<'ascent,'grammar,W:Write> RecursiveAscent<'ascent,'grammar,W> {
 
     fn write_uses(&mut self) -> io::Result<()> {
         try!(self.out.write_uses("super::", &self.grammar));
-        rust!(self.out, "use super::{}ToTriple;", self.prefix);
+
+        if self.grammar.intern_token.is_none() {
+            rust!(self.out, "use super::{}ToTriple;", self.prefix);
+        }
+
         Ok(())
     }
 
@@ -95,7 +136,7 @@ impl<'ascent,'grammar,W:Write> RecursiveAscent<'ascent,'grammar,W> {
         rust!(self.out, "#[allow(dead_code)]");
         rust!(self.out, "pub enum {}Nonterminal<{}> {{",
               self.prefix,
-              self.grammar.user_type_parameter_decls());
+              Sep(", ", &self.nonterminal_type_params));
 
         // make an enum with one variant per nonterminal; I considered
         // making different enums per state, but this would mean we
@@ -116,35 +157,54 @@ impl<'ascent,'grammar,W:Write> RecursiveAscent<'ascent,'grammar,W> {
         let error_type = self.types.error_type();
         let parse_error_type = self.parse_error_type();
 
-        let mut user_type_parameters = String::new();
-        for type_parameter in &self.grammar.type_parameters {
-            user_type_parameters.push_str(&format!("{}, ", type_parameter));
+        let (type_parameters, parameters);
+
+        if self.grammar.intern_token.is_some() {
+            // if we are generating the tokenizer, we just need the
+            // input, and that has already been added as one of the
+            // user parameters
+            type_parameters = vec![];
+            parameters = vec![];
+        } else {
+            // otherwise, we need an iterator of type `TOKENS`
+            let mut user_type_parameters = String::new();
+            for type_parameter in &self.grammar.type_parameters {
+                user_type_parameters.push_str(&format!("{}, ", type_parameter));
+            }
+            type_parameters = vec![
+                format!("{}TOKEN: {}ToTriple<{}Error={}>",
+                        self.prefix, self.prefix, user_type_parameters, error_type),
+                format!("{}TOKENS: IntoIterator<Item={}TOKEN>", self.prefix, self.prefix)];
+            parameters = vec![format!("{}tokens: {}TOKENS", self.prefix, self.prefix)];
         }
 
-        rust!(self.out, "#[allow(non_snake_case)]");
         try!(self.out.write_pub_fn_header(
             self.grammar,
             format!("parse_{}", self.user_start_symbol),
-            vec![format!("{}TOKEN: {}ToTriple<{}Error={}>",
-                         self.prefix, self.prefix, user_type_parameters, error_type),
-                 format!("{}TOKENS: IntoIterator<Item={}TOKEN>", self.prefix, self.prefix)],
-            vec![format!("{}tokens: {}TOKENS", self.prefix, self.prefix)],
+            type_parameters,
+            parameters,
             format!("Result<{}, {}>",
                     self.types.nonterminal_type(self.start_symbol),
                     parse_error_type),
             vec![]));
         rust!(self.out, "{{");
 
-        // create input iterator, inserting `()` for locations if no location was given
-        rust!(self.out, "let mut {}tokens = {}tokens.into_iter();", self.prefix, self.prefix);
-        rust!(self.out, "let mut {}tokens = {}tokens.map(|t| {}ToTriple::to_triple(t));",
-              self.prefix, self.prefix, self.prefix);
+        if self.grammar.intern_token.is_some() {
+            // if we are generating the tokenizer, create a matcher as our input iterator
+            rust!(self.out, "let mut {}tokens = super::{}intern_token::{}Matcher::new(input);",
+                  self.prefix, self.prefix, self.prefix);
+        } else {
+            // otherwise, convert one from the `IntoIterator`
+            // supplied, using the `ToTriple` trait which inserts
+            // errors/locations etc if none are given
+            rust!(self.out, "let {}tokens = {}tokens.into_iter();", self.prefix, self.prefix);
+            rust!(self.out, "let mut {}tokens = {}tokens.map(|t| {}ToTriple::to_triple(t));",
+                  self.prefix, self.prefix, self.prefix);
+        }
 
-        let next_token = self.next_token("tokens");
-        rust!(self.out, "let {}lookahead = {};", self.prefix, next_token);
-        rust!(self.out, "match try!({}parse{}::{}state0({}None, &mut {}tokens, {}lookahead)) {{",
-              self.prefix, self.start_symbol, self.prefix,
-              self.grammar.user_parameter_refs(), self.prefix, self.prefix);
+        try!(self.next_token("lookahead", "tokens"));
+        rust!(self.out, "match try!({}state0({}None, &mut {}tokens, {}lookahead)) {{",
+              self.prefix, self.grammar.user_parameter_refs(), self.prefix, self.prefix);
 
         // extra tokens?
         rust!(self.out, "(_, Some({}lookahead), _) => {{", self.prefix);
@@ -153,9 +213,8 @@ impl<'ascent,'grammar,W:Write> RecursiveAscent<'ascent,'grammar,W> {
         rust!(self.out, "}}");
 
         // otherwise, we expect to see only the goal terminal
-        rust!(self.out, "(_, None, {}parse{}::{}Nonterminal::{}({}nt)) => {{",
-              self.prefix, self.start_symbol, self.prefix, Escape(self.start_symbol),
-              self.prefix);
+        rust!(self.out, "(_, None, {}Nonterminal::{}({}nt)) => {{",
+              self.prefix, Escape(self.start_symbol), self.prefix);
         rust!(self.out, "Ok({}nt)", self.prefix);
         rust!(self.out, "}}");
 
@@ -174,6 +233,14 @@ impl<'ascent,'grammar,W:Write> RecursiveAscent<'ascent,'grammar,W> {
         let triple_type = self.triple_type();
         let parse_error_type = self.parse_error_type();
         let error_type = self.types.error_type();
+
+        // If we are generated the tokenizer, it generates ParseError
+        // errors, otherwise they are user errors.
+        let iter_error_type = if self.grammar.intern_token.is_some() {
+            parse_error_type.clone()
+        } else {
+            format!("{}", error_type)
+        };
 
         // Leave a comment explaining what this state is.
         rust!(self.out, "// State {}", this_index.0);
@@ -218,24 +285,23 @@ impl<'ascent,'grammar,W:Write> RecursiveAscent<'ascent,'grammar,W> {
             self.grammar,
             format!("{}state{}", self.prefix, this_index.0),
             vec![format!("{}TOKENS: Iterator<Item=Result<{},{}>>",
-                         self.prefix, triple_type, error_type)],
+                         self.prefix, triple_type, iter_error_type)],
             base_args.into_iter().chain(sym_args).collect(),
             format!("Result<(Option<{}>, Option<{}>, {}Nonterminal<{}>), {}>",
                     loc_type,
                     triple_type, self.prefix,
-                    self.grammar.user_type_parameter_refs(),
+                    Sep(", ", &self.nonterminal_type_params),
                     parse_error_type),
             vec![]));
 
         rust!(self.out, "{{");
         rust!(self.out, "let mut {}result: (Option<{}>, Option<{}>, {}Nonterminal<{}>);",
               self.prefix, loc_type, triple_type, self.prefix,
-              self.grammar.user_type_parameter_refs());
+              Sep(", ", &self.nonterminal_type_params));
 
         // shift lookahead is necessary; see `starts_with_terminal` above
         if starts_with_terminal {
-            let next_token = self.next_token("tokens");
-            rust!(self.out, "let {}lookahead = {};", self.prefix, next_token);
+            try!(self.next_token("lookahead", "tokens"));
         }
 
         rust!(self.out, "match {}lookahead {{", self.prefix);
@@ -482,7 +548,7 @@ impl<'ascent,'grammar,W:Write> RecursiveAscent<'ascent,'grammar,W> {
               lb_name, self.prefix);
 
         rust!(self.out, "let mut {} = &mut Some(({}));",
-              let_name, pattern_names.connect(", "));
+              let_name, pattern_names.join(", "));
 
         Ok(())
     }
@@ -495,16 +561,25 @@ impl<'ascent,'grammar,W:Write> RecursiveAscent<'ascent,'grammar,W> {
         format!("{}ParseError<{},{},{}>",
                 self.prefix,
                 self.types.terminal_loc_type(),
-                self.types.terminal_enum_type(),
+                self.types.terminal_token_type(),
                 self.types.error_type())
     }
 
-    fn next_token(&mut self, tokens: &str) -> String {
-        format!("match {}{}.next() {{ \
-                 Some(Ok(v)) => Some(v), \
-                 None => None, \
-                 Some(Err(e)) => return Err({}ParseError::User {{ error: e }}) }}",
-                self.prefix, tokens, self.prefix)
+    fn next_token(&mut self, lookahead: &str, tokens: &str) -> io::Result<()> {
+        rust!(self.out, "let {}{} = match {}{}.next() {{",
+              self.prefix, lookahead, self.prefix, tokens);
+        rust!(self.out, "Some(Ok(v)) => Some(v),");
+        rust!(self.out, "None => None,");
+        if self.grammar.intern_token.is_some() {
+            // when we generate the tokenizer, the generated errors are `ParseError` values
+            rust!(self.out, "Some(Err(e)) => return Err(e),");
+        } else {
+            // otherwise, they are user errors
+            rust!(self.out, "Some(Err(e)) => return Err({}ParseError::User {{ error: e }}),",
+                  self.prefix);
+        }
+        rust!(self.out, "}};");
+        Ok(())
     }
 }
 

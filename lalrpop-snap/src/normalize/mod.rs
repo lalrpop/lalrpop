@@ -38,7 +38,7 @@ fn normalize_helper(grammar: pt::Grammar, validate: bool) -> NormResult<r::Gramm
     if validate { try!(prevalidate::validate(&grammar)); }
     let grammar = try!(resolve::resolve(grammar));
     let grammar = try!(macro_expand::expand_macros(grammar));
-    if validate { try!(postvalidate::validate(&grammar)); }
+    let grammar = try!(token_check::validate(grammar));
     let types = try!(tyinfer::infer_types(&grammar));
     lower::lower(grammar, types)
 }
@@ -66,9 +66,9 @@ mod resolve;
 // may occur.
 mod macro_expand;
 
-// Check some safety conditions that can only be tested
-// after macro expansion.
-mod postvalidate;
+// Check if there is an extern token and all terminals have have a
+// conversion; if no extern token, synthesize an intern token.
+mod token_check;
 
 // Computes types where the user omitted them (or from macro
 // byproducts).

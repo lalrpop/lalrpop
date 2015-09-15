@@ -9,7 +9,7 @@ pub struct KernelSet<K: Kernel> {
     map: Map<K, K::Index>,
 }
 
-pub trait Kernel: Clone + Debug + Hash + Eq {
+pub trait Kernel: Clone + Debug + Hash + Eq + PartialOrd + Ord {
     type Index: Copy + Debug;
 
     fn index(c: usize) -> Self::Index;

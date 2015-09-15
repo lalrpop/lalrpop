@@ -9,7 +9,7 @@ use grammar::parse_tree::{ActionKind, Alternative,
                           Path,
                           RepeatOp, RepeatSymbol,
                           Span, Symbol, SymbolKind,
-                          TerminalString, TypeRef};
+                          TerminalLiteral, TerminalString, TypeRef};
 use normalize::resolve;
 use normalize::{NormResult, NormError};
 use normalize::norm_util::{self, Symbols};
@@ -96,6 +96,7 @@ impl MacroExpander {
     fn replace_item(&mut self, item: &mut GrammarItem) {
         match *item {
             GrammarItem::ExternToken(..) => { }
+            GrammarItem::InternToken(..) => { }
             GrammarItem::Use(..) => { }
             GrammarItem::Nonterminal(ref mut data) => {
                 // Should not encounter macro definitions here,
@@ -197,6 +198,7 @@ impl MacroExpander {
             public: mdef.public,
             span: span,
             name: msym_name,
+            annotations: mdef.annotations.clone(),
             args: vec![],
             type_decl: type_decl,
             alternatives: alternatives
@@ -247,7 +249,7 @@ impl MacroExpander {
     {
         if let Some(ref c) = *opt_cond {
             match args[&c.lhs] {
-                SymbolKind::Terminal(TerminalString::Quoted(lhs)) => {
+                SymbolKind::Terminal(TerminalString::Literal(TerminalLiteral::Quoted(lhs))) => {
                     match c.op {
                         ConditionOp::Equals => Ok(lhs == c.rhs),
                         ConditionOp::NotEquals => Ok(lhs != c.rhs),
@@ -359,6 +361,7 @@ impl MacroExpander {
             public: false,
             span: span,
             name: name,
+            annotations: vec![],
             args: vec![],
             type_decl: Some(ty_ref),
             alternatives: vec![Alternative { span: span,
@@ -387,6 +390,7 @@ impl MacroExpander {
                     public: false,
                     span: span,
                     name: name,
+                    annotations: vec![],
                     args: vec![],
                     type_decl: Some(ty_ref),
                     alternatives: vec![
@@ -430,6 +434,7 @@ impl MacroExpander {
                     public: false,
                     span: span,
                     name: name,
+                    annotations: vec![],
                     args: vec![],
                     type_decl: Some(ty_ref),
                     alternatives: vec![
@@ -468,6 +473,7 @@ impl MacroExpander {
                     public: false,
                     span: span,
                     name: name,
+                    annotations: vec![],
                     args: vec![],
                     type_decl: Some(ty_ref),
                     alternatives: vec![
@@ -498,6 +504,7 @@ impl MacroExpander {
             public: false,
             span: span,
             name: name,
+            annotations: vec![],
             args: vec![],
             type_decl: None,
             alternatives: vec![

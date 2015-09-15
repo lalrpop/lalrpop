@@ -1,8 +1,8 @@
-#![allow(dead_code)] // tokenizer, which is not yet deployed.
-
 //! Code related to generating tokenizers.
 
-mod dfa;
-mod re;
-mod nfa;
+#![allow(dead_code)] // not yet fully activated
 
+pub mod dfa;
+pub mod intern_token;
+pub mod re;
+pub mod nfa;

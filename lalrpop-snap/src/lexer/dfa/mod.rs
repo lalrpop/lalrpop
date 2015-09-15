@@ -12,15 +12,17 @@ use util::Set;
 mod test;
 
 #[cfg(test)]
-mod interpret;
+pub mod interpret;
 
-#[derive(Debug)]
+pub mod codegen;
+
+#[derive(Clone, Debug, PartialEq, Eq)]
 pub struct DFA {
-    states: Vec<State>
+    pub states: Vec<State>
 }
 
 #[derive(Copy, Clone, Debug, PartialOrd, Ord, PartialEq, Eq)]
-pub struct Precedence(usize);
+pub struct Precedence(pub usize);
 
 pub fn build_dfa(regexs: &[re::Regex],
                  precedences: &[Precedence])
@@ -37,16 +39,16 @@ struct DFABuilder<'nfa> {
     precedences: Vec<Precedence>,
 }
 
-#[derive(Debug)]
-struct State {
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub struct State {
     item_set: DFAItemSet,
-    kind: Kind,
-    test_edges: Vec<(re::Test, DFAStateIndex)>,
-    other_edge: DFAStateIndex,
+    pub kind: Kind,
+    pub test_edges: Vec<(re::Test, DFAStateIndex)>,
+    pub other_edge: DFAStateIndex,
 }
 
-#[derive(Debug)]
-enum Kind {
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub enum Kind {
     Accepts(NFAIndex),
     Reject,
     Neither,
@@ -56,11 +58,11 @@ enum Kind {
 pub struct NFAIndex(usize);
 
 #[derive(Copy, Clone, Hash, PartialEq, Eq, PartialOrd, Ord)]
-struct DFAStateIndex(usize);
+pub struct DFAStateIndex(usize);
 
 type DFAKernelSet = KernelSet<DFAItemSet>;
 
-#[derive(Clone, Debug, Hash, PartialEq, Eq)]
+#[derive(Clone, Debug, Hash, PartialEq, Eq, PartialOrd, Ord)]
 struct DFAItemSet {
     items: Rc<Vec<Item>>
 }
@@ -80,7 +82,8 @@ const START: DFAStateIndex = DFAStateIndex(0);
 /// priority.
 #[derive(Debug)]
 pub struct Ambiguity {
-    match0: NFAIndex, match1: NFAIndex
+    pub match0: NFAIndex,
+    pub match1: NFAIndex,
 }
 
 impl<'nfa> DFABuilder<'nfa> {
@@ -140,7 +143,7 @@ impl<'nfa> DFABuilder<'nfa> {
 
             // for each specific test, find what happens if we see a
             // character matching that test
-            let test_edges: Vec<(re::Test, DFAStateIndex)> =
+            let mut test_edges: Vec<(re::Test, DFAStateIndex)> =
                 tests.iter()
                      .map(|&test| {
                          let items: Vec<_> =
@@ -154,6 +157,8 @@ impl<'nfa> DFABuilder<'nfa> {
                          (test, kernel_set.add_state(self.transitive_closure(items)))
                      })
                      .collect();
+
+            test_edges.sort();
 
             // Consider what there is some cahracter that doesn't meet
             // any of the tests. In this case, we can just ignore all
@@ -275,7 +280,13 @@ impl Display for DFAStateIndex {
 }
 
 impl NFAIndex {
-    fn index(&self) -> usize {
+    pub fn index(&self) -> usize {
+        self.0
+    }
+}
+
+impl DFAStateIndex {
+    pub fn index(&self) -> usize {
         self.0
     }
 }

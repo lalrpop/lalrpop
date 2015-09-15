@@ -5,7 +5,7 @@ use super::{NormResult, NormError};
 
 use grammar::parse_tree::*;
 use intern::{InternedString};
-use util::{Map};
+use util::{map, Map};
 
 #[cfg(test)]
 mod test;
@@ -27,16 +27,17 @@ fn resolve_in_place(grammar: &mut Grammar) -> NormResult<()> {
             grammar.items
                    .iter()
                    .filter_map(|item| item.as_extern_token())
-                   .flat_map(|extern_token| &extern_token.enum_token.conversions)
+                   .flat_map(|extern_token| extern_token.enum_token.as_ref())
+                   .flat_map(|enum_token| &enum_token.conversions)
                    .filter_map(|conversion| match conversion.from {
-                       TerminalString::Quoted(..) => None,
+                       TerminalString::Literal(..) => None,
                        TerminalString::Bare(id) => Some((conversion.span, id, Def::Terminal)),
                    });
 
         let all_identifiers =
             nonterminal_identifiers.chain(terminal_identifiers);
 
-        let mut identifiers = Map::new();
+        let mut identifiers = map();
         for (span, id, def) in all_identifiers {
             if let Some(old_def) = identifiers.insert(id, def) {
                 let description = def.description();
@@ -98,6 +99,7 @@ impl Validator {
         for item in &mut grammar.items {
             match *item {
                 GrammarItem::Use(..) => { }
+                GrammarItem::InternToken(..) => {}
                 GrammarItem::ExternToken(..) => {}
                 GrammarItem::Nonterminal(ref mut data) => {
                     let identifiers = try!(self.validate_macro_args(data.span, &data.args));

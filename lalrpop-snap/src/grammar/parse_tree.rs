@@ -6,6 +6,7 @@ some pre-expansion and so forth before creating the proper AST.
 */
 
 use intern::{intern, InternedString};
+use lexer::dfa::DFA;
 use grammar::repr::{NominalTypeRepr, TypeRepr};
 use grammar::pattern::Pattern;
 use std::fmt::{Debug, Display, Formatter, Error};
@@ -33,15 +34,25 @@ pub struct Span(pub usize, pub usize);
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub enum GrammarItem {
     ExternToken(ExternToken),
+    InternToken(InternToken),
     Nonterminal(NonterminalData),
     Use(String),
+}
+
+/// Intern tokens are not typed by the user: they are synthesized in
+/// the absence of an "extern" declaration with information about the
+/// string literals etc that appear in the grammar.
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub struct InternToken {
+    pub literals: Vec<TerminalLiteral>,
+    pub dfa: DFA
 }
 
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct ExternToken {
     pub span: Span,
     pub associated_types: Vec<AssociatedType>,
-    pub enum_token: EnumToken,
+    pub enum_token: Option<EnumToken>,
 }
 
 #[derive(Clone, Debug, PartialEq, Eq)]
@@ -104,11 +115,17 @@ pub enum TypeRef {
     OfSymbol(SymbolKind),
 }
 
-#[derive(Clone, Debug, PartialEq, Eq)]
+/// The lifetime parameter injected when we do not have an external token enum
+pub const INPUT_LIFETIME: &'static str = "'input";
+
+#[derive(Clone, Debug, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub enum TypeParameter {
     Lifetime(InternedString),
     Id(InternedString),
 }
+
+/// The parameter injected when we do not have an external token enum
+pub const INPUT_PARAMETER: &'static str = "input";
 
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct Parameter {
@@ -121,10 +138,17 @@ pub struct NonterminalData {
     // a "public" nonterminal is one that we will use as a start symbol
     pub public: bool,
     pub name: NonterminalString,
+    pub annotations: Vec<Annotation>,
     pub span: Span,
     pub args: Vec<NonterminalString>, // macro arguments
     pub type_decl: Option<TypeRef>,
     pub alternatives: Vec<Alternative>
+}
+
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub struct Annotation {
+    pub id_span: Span,
+    pub id: InternedString,
 }
 
 #[derive(Clone, Debug, PartialEq, Eq)]
@@ -212,8 +236,14 @@ pub enum SymbolKind {
 
 #[derive(Copy, Clone, Hash, PartialEq, Eq, PartialOrd, Ord)]
 pub enum TerminalString {
-    Quoted(InternedString),
+    Literal(TerminalLiteral),
     Bare(InternedString),
+}
+
+#[derive(Copy, Clone, Hash, PartialEq, Eq, PartialOrd, Ord)]
+pub enum TerminalLiteral {
+    Quoted(InternedString),
+    Regex(InternedString),
 }
 
 #[derive(Copy, Clone, Hash, PartialEq, Eq, PartialOrd, Ord)]
@@ -241,6 +271,37 @@ pub struct MacroSymbol {
     pub args: Vec<Symbol>,
 }
 
+impl TerminalString {
+    pub fn quoted(i: InternedString) -> TerminalString {
+        TerminalString::Literal(TerminalLiteral::Quoted(i))
+    }
+
+    pub fn regex(i: InternedString) -> TerminalString {
+        TerminalString::Literal(TerminalLiteral::Regex(i))
+    }
+}
+
+impl Grammar {
+    pub fn extern_token(&self) -> Option<&ExternToken> {
+        self.items.iter()
+                  .flat_map(|i| i.as_extern_token())
+                  .next()
+    }
+
+    pub fn enum_token(&self) -> Option<&EnumToken> {
+        self.items.iter()
+                  .flat_map(|i| i.as_extern_token())
+                  .flat_map(|et| et.enum_token.as_ref())
+                  .next()
+    }
+
+    pub fn intern_token(&self) -> Option<&InternToken> {
+        self.items.iter()
+                  .flat_map(|i| i.as_intern_token())
+                  .next()
+    }
+}
+
 impl GrammarItem {
     pub fn is_macro_def(&self) -> bool {
         match *self {
@@ -254,6 +315,7 @@ impl GrammarItem {
             GrammarItem::Nonterminal(ref d) => Some(d),
             GrammarItem::Use(..) => None,
             GrammarItem::ExternToken(..) => None,
+            GrammarItem::InternToken(..) => None,
         }
     }
 
@@ -262,6 +324,16 @@ impl GrammarItem {
             GrammarItem::Nonterminal(..) => None,
             GrammarItem::Use(..) => None,
             GrammarItem::ExternToken(ref d) => Some(d),
+            GrammarItem::InternToken(..) => None,
+        }
+    }
+
+    pub fn as_intern_token(&self) -> Option<&InternToken> {
+        match *self {
+            GrammarItem::Nonterminal(..) => None,
+            GrammarItem::Use(..) => None,
+            GrammarItem::ExternToken(..) => None,
+            GrammarItem::InternToken(ref d) => Some(d),
         }
     }
 }
@@ -285,11 +357,34 @@ impl Symbol {
 impl Display for TerminalString {
     fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
         match *self {
-            TerminalString::Quoted(s) =>
-                write!(fmt, "{:?}", s),
+            TerminalString::Literal(s) =>
+                write!(fmt, "{}", s),
             TerminalString::Bare(s) =>
                 write!(fmt, "{}", s),
         }
+    }
+}
+
+impl Debug for TerminalString {
+    fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
+        Display::fmt(self, fmt)
+    }
+}
+
+impl Display for TerminalLiteral {
+    fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
+        match *self {
+            TerminalLiteral::Quoted(s) =>
+                write!(fmt, "{:?}", s),
+            TerminalLiteral::Regex(s) =>
+                write!(fmt, "r#{:?}#", s), // FIXME -- need to determine proper number of #
+        }
+    }
+}
+
+impl Debug for TerminalLiteral {
+    fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
+        Display::fmt(self, fmt)
     }
 }
 
@@ -298,12 +393,6 @@ impl Display for Path {
         write!(fmt, "{}{}",
                if self.absolute {"::"} else {""},
                Sep("::", &self.ids))
-    }
-}
-
-impl Debug for TerminalString {
-    fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
-        Display::fmt(self, fmt)
     }
 }
 
@@ -477,6 +566,20 @@ impl Path {
         Path {
             absolute: false,
             ids: vec![id]
+        }
+    }
+
+    pub fn usize() -> Path {
+        Path {
+            absolute: false,
+            ids: vec![intern("usize")]
+        }
+    }
+
+    pub fn str() -> Path {
+        Path {
+            absolute: false,
+            ids: vec![intern("str")]
         }
     }
 

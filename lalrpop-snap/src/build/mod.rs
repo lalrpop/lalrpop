@@ -3,6 +3,7 @@
 use grammar::parse_tree as pt;
 use grammar::repr as r;
 use lalrpop_util::ParseError;
+use lexer::intern_token;
 use lr1;
 use normalize;
 use parser;
@@ -122,11 +123,11 @@ fn parse_and_normalize_grammar(path: PathBuf) -> io::Result<r::Grammar> {
     let grammar = match parser::parse_grammar(input.text()) {
         Ok(grammar) => grammar,
 
-        Err(ParseError::InvalidToken { .. }) => {
-            let len = input.text().len();
+        Err(ParseError::InvalidToken { location }) => {
+            let ch = input.text()[location..].chars().next().unwrap();
             report_error(&input,
-                         pt::Span(len, len),
-                         &format!("unexpected end of file"));
+                         pt::Span(location, location),
+                         &format!("invalid character `{}`", ch));
         }
 
         Err(ParseError::UnrecognizedToken { token: None, expected: _ }) => {
@@ -159,6 +160,8 @@ fn parse_and_normalize_grammar(path: PathBuf) -> io::Result<r::Grammar> {
                     "unterminated escape; missing '`'?",
                 tok::ErrorCode::UnterminatedStringLiteral =>
                     "unterminated string literal; missing `\"`?",
+                tok::ErrorCode::ExpectedStringLiteral =>
+                    "expected string literal; missing `\"`?",
                 tok::ErrorCode::UnterminatedCode =>
                     "unterminated code block; perhaps a missing `;`, `)`, `]` or `}`?"
             };
@@ -252,6 +255,13 @@ fn emit_recursive_ascent(output_path: &Path, grammar: &r::Grammar) -> io::Result
         };
 
         try!(lr1::ascent::compile(&grammar, user_nt, start_nt, &states, &mut rust));
+
+        rust!(rust, "pub use self::{}parse{}::parse_{};",
+              grammar.prefix, start_nt, user_nt);
+    }
+
+    if let Some(ref intern_token) = grammar.intern_token {
+        try!(intern_token::compile(&grammar, intern_token, &mut rust));
     }
 
     try!(emit_action_code(grammar, &mut rust));
@@ -273,7 +283,7 @@ fn emit_action_code<W:Write>(grammar: &r::Grammar,
                     defn.ret_type,
                     grammar.prefix,
                     grammar.types.terminal_loc_type(),
-                    grammar.types.terminal_enum_type(),
+                    grammar.types.terminal_token_type(),
                     grammar.types.error_type())
         } else {
             format!("{}", defn.ret_type)
@@ -303,7 +313,7 @@ fn emit_to_triple_trait<W:Write>(grammar: &r::Grammar,
     #![allow(non_snake_case)]
 
     let L = grammar.types.terminal_loc_type();
-    let T = grammar.types.terminal_enum_type();
+    let T = grammar.types.terminal_token_type();
     let E = grammar.types.error_type();
 
     let mut user_type_parameters = String::new();

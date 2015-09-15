@@ -10,7 +10,7 @@ fn nt(t: &str) -> NonterminalString {
 
 macro_rules! tokens {
     ($($x:expr),*) => {
-        vec![$(TerminalString::Quoted(intern($x))),*].into_iter()
+        vec![$(TerminalString::quoted(intern($x))),*].into_iter()
     }
 }
 
@@ -18,15 +18,15 @@ macro_rules! tokens {
 fn figure9_23() {
     let grammar = normalized_grammar(r#"
         grammar;
-        extern { enum Tok { } }
+        extern { enum Tok { "-" => .., "N" => .., "(" => .., ")" => .. } }
         S: () = E       => ();
         E: () = {
-            E "-" T     => ();
-            T           => ();
+            E "-" T     => (),
+            T           => ()
         };
         T: () = {
-            "N"         => ();
-            "(" E ")"   => ();
+            "N"         => (),
+            "(" E ")"   => ()
         };
    "#);
 

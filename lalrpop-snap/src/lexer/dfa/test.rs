@@ -2,7 +2,7 @@ use lexer::dfa::{self, Ambiguity, DFA, NFAIndex, Precedence};
 use lexer::dfa::interpret::interpret;
 use lexer::re;
 
-fn dfa(inputs: &[(&str, Precedence)]) -> Result<DFA,Ambiguity> {
+pub fn dfa(inputs: &[(&str, Precedence)]) -> Result<DFA,Ambiguity> {
     let regexs: Result<Vec<_>, _> = inputs.iter().map(|&(s, _)| re::parse_regex(s)).collect();
     let regexs = regexs.unwrap();
     let precedences: Vec<_> = inputs.iter().map(|&(_, p)| p).collect();

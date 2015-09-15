@@ -10,7 +10,8 @@ use std::fmt::{Debug, Display, Formatter, Error};
 use util::{map, Map, Sep};
 
 // These concepts we re-use wholesale
-pub use grammar::parse_tree::{NonterminalString,
+pub use grammar::parse_tree::{InternToken,
+                              NonterminalString,
                               Path,
                               Span,
                               TerminalString, TypeParameter};
@@ -41,6 +42,10 @@ pub struct Grammar {
 
     // where clauses declared on the grammar, like `grammar<T> where T: Sized`
     pub where_clauses: Vec<String>,
+
+    // optional tokenizer DFA; this is only needed if the user did not supply
+    // an extern token declaration
+    pub intern_token: Option<InternToken>,
 
     // the grammar proper:
 
@@ -109,6 +114,49 @@ pub enum TypeRepr {
     },
 }
 
+impl TypeRepr {
+    pub fn usize() -> TypeRepr {
+        TypeRepr::Nominal(NominalTypeRepr {
+            path: Path::usize(),
+            types: vec![]
+        })
+    }
+
+    pub fn str() -> TypeRepr {
+        TypeRepr::Nominal(NominalTypeRepr {
+            path: Path::str(),
+            types: vec![]
+        })
+    }
+
+    /// Returns the type parameters (or potential type parameters)
+    /// referenced by this type. e.g., for the type `&'x X`, would
+    /// return `[TypeParameter::Lifetime('x), TypeParameter::Id(X)]`.
+    /// This is later used to prune the type parameters list so that
+    /// only those that are actually used are included.
+    pub fn referenced(&self) -> Vec<TypeParameter> {
+        match *self {
+            TypeRepr::Tuple(ref tys) =>
+                tys.iter().flat_map(|t| t.referenced()).collect(),
+            TypeRepr::Nominal(ref data) =>
+                data.types.iter()
+                          .flat_map(|t| t.referenced())
+                          .chain(match data.path.as_id() {
+                              Some(id) => vec![TypeParameter::Id(id)],
+                              None => vec![],
+                          })
+                          .collect(),
+            TypeRepr::Lifetime(l) =>
+                vec![TypeParameter::Lifetime(l)],
+            TypeRepr::Ref { ref lifetime, mutable: _, ref referent } =>
+                lifetime.iter()
+                        .map(|&id| TypeParameter::Lifetime(id))
+                        .chain(referent.referenced())
+                        .collect(),
+        }
+    }
+}
+
 #[derive(Clone, PartialEq, Eq)]
 pub struct NominalTypeRepr {
     pub path: Path,
@@ -117,10 +165,9 @@ pub struct NominalTypeRepr {
 
 #[derive(Clone, Debug)]
 pub struct Types {
-    terminal_enum_type: NominalTypeRepr,
+    terminal_token_type: TypeRepr,
     terminal_loc_type: Option<TypeRepr>,
     error_type: Option<TypeRepr>,
-    default_terminal_type: TypeRepr,
     terminal_types: Map<TerminalString, TypeRepr>,
     nonterminal_types: Map<NonterminalString, TypeRepr>
 }
@@ -128,13 +175,12 @@ pub struct Types {
 impl Types {
     pub fn new(terminal_loc_type: Option<TypeRepr>,
                error_type: Option<TypeRepr>,
-               terminal_enum_type: NominalTypeRepr)
+               terminal_token_type: TypeRepr)
                -> Types {
         Types { terminal_loc_type: terminal_loc_type,
                 error_type: error_type,
-                terminal_enum_type: terminal_enum_type.clone(),
+                terminal_token_type: terminal_token_type,
                 terminal_types: map(),
-                default_terminal_type: TypeRepr::Nominal(terminal_enum_type),
                 nonterminal_types: map() }
     }
 
@@ -146,8 +192,8 @@ impl Types {
         assert!(self.terminal_types.insert(term, ty).is_none());
     }
 
-    pub fn terminal_enum_type(&self) -> &NominalTypeRepr {
-        &self.terminal_enum_type
+    pub fn terminal_token_type(&self) -> &TypeRepr {
+        &self.terminal_token_type
     }
 
     pub fn opt_terminal_loc_type(&self) -> Option<&TypeRepr> {
@@ -165,7 +211,7 @@ impl Types {
     }
 
     pub fn terminal_type(&self, id: TerminalString) -> &TypeRepr {
-        self.terminal_types.get(&id).unwrap_or(&self.default_terminal_type)
+        self.terminal_types.get(&id).unwrap_or(&self.terminal_token_type)
     }
 
     pub fn lookup_nonterminal_type(&self, id: NonterminalString) -> Option<&TypeRepr> {
@@ -176,11 +222,17 @@ impl Types {
         &self.nonterminal_types[&id]
     }
 
+    pub fn nonterminal_types(&self) -> Vec<TypeRepr> {
+        self.nonterminal_types.values()
+                              .cloned()
+                              .collect()
+    }
+
     pub fn triple_type(&self) -> TypeRepr {
-        let enum_type = self.terminal_enum_type();
+        let enum_type = self.terminal_token_type();
         let location_type = self.terminal_loc_type();
         TypeRepr::Tuple(vec![location_type.clone(),
-                             TypeRepr::Nominal(enum_type.clone()),
+                             enum_type.clone(),
                              location_type])
     }
 }
@@ -324,18 +376,6 @@ impl Grammar {
             result.push_str(&format!("{}, ", parameter.name));
         }
         result
-    }
-
-    pub fn user_type_parameter_decls(&self) -> String {
-        let mut result = String::new();
-        for parameter in &self.type_parameters {
-            result.push_str(&format!("{}, ", parameter));
-        }
-        result
-    }
-
-    pub fn user_type_parameter_refs(&self) -> String {
-        self.user_type_parameter_decls()
     }
 }
 

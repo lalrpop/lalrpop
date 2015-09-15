@@ -16,3 +16,7 @@ fn parse_neg() {
     //compare(r1, r2);
 
 }
+#[test]
+fn parse_unclosed_group() {
+    parse_regex(r"(123").unwrap_err();
+}
