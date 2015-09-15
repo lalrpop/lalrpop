@@ -413,13 +413,15 @@ use std::str::FromStr;
 grammar;
 
 pub Expr: i32 = {
-    <l:Factor> "+" <r:Factor> => l+r,
-    <l:Factor> "-" <r:Factor> => l-r,
+    <l:Expr> "+" <r:Factor> => l+r,
+    <l:Expr> "-" <r:Factor> => l-r,
+    Factor,
 };
 
 Factor: i32 = {
-    <l:Term> "*" <r:Term> => l*r,
-    <l:Term> "/" <r:Term> => l/r,
+    <l:Factor> "*" <r:Term> => l*r,
+    <l:Factor> "/" <r:Term> => l/r,
+    Term,
 };
 
 Term: i32 = {
