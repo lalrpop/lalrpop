@@ -1,8 +1,7 @@
 //! First set construction and computation.
 
 use grammar::repr::*;
-use std::collections::{HashMap, HashSet};
-use util::{Map, map};
+use util::{Map, map, Set, set};
 
 use super::Lookahead;
 
@@ -13,7 +12,7 @@ pub struct FirstSets {
     map: Map<NonterminalString, FirstSet>
 }
 
-pub type FirstSet = HashSet<Option<TerminalString>>;
+pub type FirstSet = Set<Option<TerminalString>>;
 
 impl FirstSets {
     pub fn new(grammar: &Grammar) -> FirstSets {
@@ -24,7 +23,7 @@ impl FirstSets {
             for production in grammar.productions.values().flat_map(|p| p.iter()) {
                 let nt = production.nonterminal;
                 let lookahead = this.first(&production.symbols, Lookahead::EOF);
-                let first_set = this.map.entry(nt).or_insert_with(|| HashSet::new());
+                let first_set = this.map.entry(nt).or_insert_with(|| set());
                 let cardinality = first_set.len();
                 first_set.extend(
                     lookahead.into_iter()

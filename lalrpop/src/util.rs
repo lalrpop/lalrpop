@@ -1,6 +1,5 @@
 use std::collections::{btree_map, BTreeMap, BTreeSet};
 use std::fmt::{Display, Formatter, Error};
-use std::hash::Hash;
 use std::iter::FromIterator;
 
 pub use std::collections::btree_map as map;
@@ -89,15 +88,21 @@ impl<K:Ord,V> FromIterator<(K,V)> for Multimap<K,V> {
     }
 }
 
+/// In general, we avoid coding directly against any particular map,
+/// but rather build against `util::Map` (and `util::map` to construct
+/// an instance). This should be a deterministic map, such that two
+/// runs of LALRPOP produce the same output, but otherwise it doesn't
+/// matter much. I'd probably prefer to use `HashMap` with an
+/// alternative hasher, but that's not stable.
 pub type Map<K,V> = BTreeMap<K,V>;
 
 pub fn map<K:Ord,V>() -> Map<K,V> {
     Map::<K,V>::default()
 }
 
+/// As `Map`, but for sets.
 pub type Set<K> = BTreeSet<K>;
 
-#[allow(dead_code)] // we don't happen to use this yet
 pub fn set<K:Ord>() -> Set<K> {
     Set::<K>::default()
 }

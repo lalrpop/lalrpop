@@ -289,7 +289,7 @@ impl NFA {
     }
 }
 
-pub trait EdgeLabel {
+pub trait EdgeLabel: Sized {
     fn vec_mut(nfa: &mut Edges) -> &mut Vec<Edge<Self>>;
     fn vec(nfa: &Edges) -> &Vec<Edge<Self>>;
     fn first_mut(state: &mut State) -> &mut usize;
