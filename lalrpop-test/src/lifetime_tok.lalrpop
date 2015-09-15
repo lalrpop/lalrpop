@@ -1,0 +1,16 @@
+// Regression test for #17.
+//
+// `'input` lifetime improperly pruned in the generated code,
+// specifically in the `Nonterminal` type for LR(1) RA.
+
+grammar<'input>;
+
+use lifetime_tok_lib::LtTok;
+
+extern {
+    enum LtTok<'input> {
+        Other => LtTok::Other(<&'input str>),
+    }
+}
+
+pub Expr: Vec<&'input str> = Other*;

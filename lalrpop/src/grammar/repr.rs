@@ -139,10 +139,13 @@ impl TypeRepr {
             TypeRepr::Tuple(ref tys) =>
                 tys.iter().flat_map(|t| t.referenced()).collect(),
             TypeRepr::Nominal(ref data) =>
-                match data.path.as_id() {
-                    Some(id) => vec![TypeParameter::Id(id)],
-                    None => vec![],
-                },
+                data.types.iter()
+                          .flat_map(|t| t.referenced())
+                          .chain(match data.path.as_id() {
+                              Some(id) => vec![TypeParameter::Id(id)],
+                              None => vec![],
+                          })
+                          .collect(),
             TypeRepr::Lifetime(l) =>
                 vec![TypeParameter::Lifetime(l)],
             TypeRepr::Ref { ref lifetime, mutable: _, ref referent } =>

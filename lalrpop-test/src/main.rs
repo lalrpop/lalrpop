@@ -25,6 +25,12 @@ mod expr_arena_ast;
 /// test that exercises internal token generation, as well as locations and spans
 mod intern_tok;
 
+/// test that exercises using a lifetime parameter in the token type
+mod lifetime_tok;
+
+/// library for lifetime_tok test
+mod lifetime_tok_lib;
+
 /// test that exercises locations and spans
 mod loc;
 
@@ -86,6 +92,14 @@ fn expr_intern_tok_test_err() {
             panic!("invalid result {:?}", r);
         }
     }
+}
+
+#[test]
+fn expr_lifetime_tok1() {
+    // the problem here was that we were improperly pruning the 'input from the
+    let tokens = lifetime_tok_lib::lt_tokenize("x");
+    let tree = lifetime_tok::parse_Expr(tokens).unwrap();
+    assert_eq!(tree, vec!["x"]);
 }
 
 #[test]
