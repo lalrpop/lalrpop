@@ -256,7 +256,7 @@ match will be a slice `&'input str` into the input text that we are
 parsing (no copies are made).
 
 This regular expression is wrapped in angle brackets and labeled:
-`<s:r"[0-9+]">`. In general, angle brackets are used in LALRPOP to
+`<s:r"[0-9]+">`. In general, angle brackets are used in LALRPOP to
 indicate the values that will be used by the *action code* -- that is,
 the code that executes when a `Num` is parsed.  In this case, the
 string that matches the regular expression is bound to the name `s`,
