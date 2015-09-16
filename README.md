@@ -1,5 +1,7 @@
 # LALRPOP
 
+![Build status](https://travis-ci.org/nikomatsakis/lalrpop.svg?branch=master)
+
 LALRPOP is a Rust parser generator framework with *usability* as its
 primary goal. You should be able to write compact, DRY, readable
 grammars. To this end, LALRPOP offers a number of nifty features:
