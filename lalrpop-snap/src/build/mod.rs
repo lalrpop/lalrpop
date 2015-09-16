@@ -44,8 +44,9 @@ fn remove_old_file(rs_file: &Path) -> io::Result<()> {
     match fs::remove_file(rs_file) {
         Ok(()) => Ok(()),
         Err(e) => {
+            // Unix reports NotFound, Windows PermissionDenied!
             match e.kind() {
-                io::ErrorKind::NotFound => Ok(()),
+                io::ErrorKind::NotFound | io::ErrorKind::PermissionDenied=> Ok(()),
                 _ => Err(e),
             }
         }
