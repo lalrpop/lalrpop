@@ -44,8 +44,9 @@ fn remove_old_file(rs_file: &Path) -> io::Result<()> {
     match fs::remove_file(rs_file) {
         Ok(()) => Ok(()),
         Err(e) => {
+            // Unix reports NotFound, Windows PermissionDenied!
             match e.kind() {
-                io::ErrorKind::NotFound => Ok(()),
+                io::ErrorKind::NotFound | io::ErrorKind::PermissionDenied=> Ok(()),
                 _ => Err(e),
             }
         }
@@ -78,7 +79,16 @@ fn needs_rebuild(lalrpop_file: &Path,
         lalrpop_metadata.mtime() >= rs_metadata.mtime()
     }
 
-    #[cfg(not(unix))]
+    #[cfg(windows)]
+    fn compare_modification_times(lalrpop_metadata: &fs::Metadata,
+                                  rs_metadata: &fs::Metadata)
+                                  -> bool
+    {
+        use std::os::windows::fs::MetadataExt;
+        lalrpop_metadata.last_write_time() >= rs_metadata.last_write_time()
+    }
+
+    #[cfg(not(any(unix,windows)))]
     fn compare_modification_times(lalrpop_metadata: &fs::Metadata,
                                   rs_metadata: &fs::Metadata)
                                   -> bool
