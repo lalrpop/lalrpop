@@ -79,7 +79,16 @@ fn needs_rebuild(lalrpop_file: &Path,
         lalrpop_metadata.mtime() >= rs_metadata.mtime()
     }
 
-    #[cfg(not(unix))]
+    #[cfg(windows)]
+    fn compare_modification_times(lalrpop_metadata: &fs::Metadata,
+                                  rs_metadata: &fs::Metadata)
+                                  -> bool
+    {
+        use std::os::windows::fs::MetadataExt;
+        lalrpop_metadata.last_write_time() >= rs_metadata.last_write_time()
+    }
+
+    #[cfg(not(any(unix,windows)))]
     fn compare_modification_times(lalrpop_metadata: &fs::Metadata,
                                   rs_metadata: &fs::Metadata)
                                   -> bool
