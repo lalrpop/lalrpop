@@ -69,7 +69,7 @@ mod __parse__Expr {
         match __lookahead {
             None |
             Some((_, LtTok::Other(_), _)) => {
-                let __nt = super::__action2();
+                let __nt = super::__action2(&__lookbehind, &__lookahead);
                 __result = (__lookbehind, __lookahead, __Nonterminal::Other_2a(__nt));
             }
             _ => {
@@ -116,7 +116,7 @@ mod __parse__Expr {
         match __lookahead {
             None => {
                 let __sym0 = __sym0.take().unwrap();
-                let __nt = super::__action0(__sym0);
+                let __nt = super::__action0(__sym0, &__lookbehind, &__lookahead);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::____Expr(__nt)));
             }
             _ => {
@@ -155,7 +155,7 @@ mod __parse__Expr {
             }
             None => {
                 let __sym0 = __sym0.take().unwrap();
-                let __nt = super::__action1(__sym0);
+                let __nt = super::__action1(__sym0, &__lookbehind, &__lookahead);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::Expr(__nt)));
             }
             _ => {
@@ -196,7 +196,7 @@ mod __parse__Expr {
             Some((_, LtTok::Other(_), _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
-                let __nt = super::__action3(__sym0, __sym1);
+                let __nt = super::__action3(__sym0, __sym1, &__lookbehind, &__lookahead);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::Other_2a(__nt)));
             }
             _ => {
@@ -214,6 +214,8 @@ pub fn __action0<
     'input,
 >(
     __0: Vec<&'input str>,
+    __lookbehind: &Option<()>,
+    __lookahead: &Option<((), LtTok<'input>, ())>,
 ) -> Vec<&'input str>
 {
     (__0)
@@ -223,6 +225,8 @@ pub fn __action1<
     'input,
 >(
     __0: ::std::vec::Vec<&'input str>,
+    __lookbehind: &Option<()>,
+    __lookahead: &Option<((), LtTok<'input>, ())>,
 ) -> Vec<&'input str>
 {
     (__0)
@@ -231,6 +235,8 @@ pub fn __action1<
 pub fn __action2<
     'input,
 >(
+    __lookbehind: &Option<()>,
+    __lookahead: &Option<((), LtTok<'input>, ())>,
 ) -> ::std::vec::Vec<&'input str>
 {
     vec![]
@@ -241,6 +247,8 @@ pub fn __action3<
 >(
     v: ::std::vec::Vec<&'input str>,
     e: &'input str,
+    __lookbehind: &Option<()>,
+    __lookahead: &Option<((), LtTok<'input>, ())>,
 ) -> ::std::vec::Vec<&'input str>
 {
     { let mut v = v; v.push(e); v }

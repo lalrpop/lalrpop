@@ -299,6 +299,10 @@ fn emit_action_code<W:Write>(grammar: &r::Grammar,
             format!("{}", defn.ret_type)
         };
 
+        let lookarounds = vec![
+            format!("{}lookbehind: &Option<{}>", grammar.prefix, grammar.types.terminal_loc_type()),
+            format!("{}lookahead: &Option<{}>", grammar.prefix, grammar.types.triple_type())];
+
         try!(rust.write_pub_fn_header(
             grammar,
             format!("{}action{}", grammar.prefix, i),
@@ -306,6 +310,7 @@ fn emit_action_code<W:Write>(grammar: &r::Grammar,
             defn.arg_patterns.iter()
                              .zip(defn.arg_types.iter())
                              .map(|(p, t)| format!("{}: {}", p, t))
+                             .chain(lookarounds)
                              .collect(),
             ret_type,
             vec![]));

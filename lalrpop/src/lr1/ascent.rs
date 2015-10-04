@@ -360,6 +360,12 @@ impl<'ascent,'grammar,W:Write> RecursiveAscent<'ascent,'grammar,W> {
                 rust!(self.out, "let {} = {}.take().unwrap();", sym, sym);
             }
 
+            let transfered_syms = transfer_syms.len();
+
+            let mut args = transfer_syms;
+            args.push(format!("&{}lookbehind", self.prefix));
+            args.push(format!("&{}lookahead", self.prefix));
+
             // invoke the action code
             match production.action {
                 ActionKind::Call(action_fn) => {
@@ -368,7 +374,7 @@ impl<'ascent,'grammar,W:Write> RecursiveAscent<'ascent,'grammar,W> {
                           self.prefix,
                           action_fn.index(),
                           self.grammar.user_parameter_refs(),
-                          Sep(", ", &transfer_syms))
+                          Sep(", ", &args))
                 }
 
                 ActionKind::TryCall(action_fn) => {
@@ -377,7 +383,7 @@ impl<'ascent,'grammar,W:Write> RecursiveAscent<'ascent,'grammar,W> {
                           self.prefix,
                           action_fn.index(),
                           self.grammar.user_parameter_refs(),
-                          Sep(", ", &transfer_syms))
+                          Sep(", ", &args))
                 }
 
                 ActionKind::Lookahead => {
@@ -404,7 +410,7 @@ impl<'ascent,'grammar,W:Write> RecursiveAscent<'ascent,'grammar,W> {
             }
 
             // wrap up the result along with the (unused) lookahead
-            if !transfer_syms.is_empty() {
+            if transfered_syms != 0 {
                 // if we popped anything off of the stack, then this frame is done
                 rust!(self.out, "return Ok(({}lookbehind, {}lookahead, {}Nonterminal::{}({}nt)));",
                       self.prefix, self.prefix, self.prefix,

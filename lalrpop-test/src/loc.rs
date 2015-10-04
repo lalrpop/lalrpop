@@ -199,7 +199,7 @@ mod __parse__Items {
             }
             None => {
                 let __sym0 = __sym0.take().unwrap();
-                let __nt = super::__action0(__sym0);
+                let __nt = super::__action0(__sym0, &__lookbehind, &__lookahead);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::____Items(__nt)));
             }
             _ => {
@@ -254,7 +254,7 @@ mod __parse__Items {
             Some((_, Tok::Minus(..), _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
-                let __nt = super::__action1(__sym0, __sym1);
+                let __nt = super::__action1(__sym0, __sym1, &__lookbehind, &__lookahead);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::Items(__nt)));
             }
             _ => {
@@ -325,7 +325,7 @@ mod __parse__Items {
             Some((_, Tok::Minus(..), _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
-                let __nt = super::__action2(__sym0, __sym1);
+                let __nt = super::__action2(__sym0, __sym1, &__lookbehind, &__lookahead);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::Items(__nt)));
             }
             _ => {
@@ -367,7 +367,7 @@ mod __parse__Items {
             Some((_, Tok::Minus(..), _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
-                let __nt = super::__action3(__sym0, __sym1);
+                let __nt = super::__action3(__sym0, __sym1, &__lookbehind, &__lookahead);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::Items(__nt)));
             }
             _ => {
@@ -464,7 +464,7 @@ mod __parse__Items {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
                 let __sym2 = __sym2.take().unwrap();
-                let __nt = super::__action4(__sym0, __sym1, __sym2);
+                let __nt = super::__action4(__sym0, __sym1, __sym2, &__lookbehind, &__lookahead);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::Spanned_3c_22_2b_22_3e(__nt)));
             }
             _ => {
@@ -481,6 +481,8 @@ pub use self::__parse__Items::parse_Items;
 pub fn __action0<
 >(
     __0: Vec<(usize, usize)>,
+    __lookbehind: &Option<usize>,
+    __lookahead: &Option<(usize, Tok, usize)>,
 ) -> Vec<(usize, usize)>
 {
     (__0)
@@ -490,6 +492,8 @@ pub fn __action1<
 >(
     __0: usize,
     __1: usize,
+    __lookbehind: &Option<usize>,
+    __lookahead: &Option<(usize, Tok, usize)>,
 ) -> Vec<(usize, usize)>
 {
     vec![(__0, __1)]
@@ -499,6 +503,8 @@ pub fn __action2<
 >(
     v: Vec<(usize, usize)>,
     e: (usize, usize),
+    __lookbehind: &Option<usize>,
+    __lookahead: &Option<(usize, Tok, usize)>,
 ) -> Vec<(usize, usize)>
 {
     {
@@ -512,6 +518,8 @@ pub fn __action3<
 >(
     v: Vec<(usize, usize)>,
     _: Tok,
+    __lookbehind: &Option<usize>,
+    __lookahead: &Option<(usize, Tok, usize)>,
 ) -> Vec<(usize, usize)>
 {
     v
@@ -522,6 +530,8 @@ pub fn __action4<
     __0: usize,
     _: Tok,
     __1: usize,
+    __lookbehind: &Option<usize>,
+    __lookahead: &Option<(usize, Tok, usize)>,
 ) -> (usize, usize)
 {
     (__0, __1)

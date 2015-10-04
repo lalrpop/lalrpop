@@ -195,7 +195,7 @@ mod __parse__Expr {
             }
             None => {
                 let __sym0 = __sym0.take().unwrap();
-                let __nt = super::__action0(arena, __sym0);
+                let __nt = super::__action0(arena, __sym0, &__lookbehind, &__lookahead);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::____Expr(__nt)));
             }
             _ => {
@@ -256,7 +256,7 @@ mod __parse__Expr {
             Some((_, Tok::Plus(..), _)) |
             Some((_, Tok::Minus(..), _)) => {
                 let __sym0 = __sym0.take().unwrap();
-                let __nt = super::__action3(arena, __sym0);
+                let __nt = super::__action3(arena, __sym0, &__lookbehind, &__lookahead);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::Expr(__nt)));
             }
             _ => {
@@ -301,7 +301,7 @@ mod __parse__Expr {
             Some((_, Tok::Minus(..), _)) |
             Some((_, Tok::Div(..), _)) => {
                 let __sym0 = __sym0.take().unwrap();
-                let __nt = super::__action7(arena, __sym0);
+                let __nt = super::__action7(arena, __sym0, &__lookbehind, &__lookahead);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::Factor(__nt)));
             }
             _ => {
@@ -505,7 +505,7 @@ mod __parse__Expr {
             Some((_, Tok::Minus(..), _)) |
             Some((_, Tok::Div(..), _)) => {
                 let __sym0 = __sym0.take().unwrap();
-                let __nt = super::__action8(arena, __sym0);
+                let __nt = super::__action8(arena, __sym0, &__lookbehind, &__lookahead);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::Term(__nt)));
             }
             _ => {
@@ -963,7 +963,7 @@ mod __parse__Expr {
             Some((_, Tok::Plus(..), _)) |
             Some((_, Tok::Minus(..), _)) => {
                 let __sym0 = __sym0.take().unwrap();
-                let __nt = super::__action3(arena, __sym0);
+                let __nt = super::__action3(arena, __sym0, &__lookbehind, &__lookahead);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::Expr(__nt)));
             }
             _ => {
@@ -1008,7 +1008,7 @@ mod __parse__Expr {
             Some((_, Tok::Minus(..), _)) |
             Some((_, Tok::Div(..), _)) => {
                 let __sym0 = __sym0.take().unwrap();
-                let __nt = super::__action7(arena, __sym0);
+                let __nt = super::__action7(arena, __sym0, &__lookbehind, &__lookahead);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::Factor(__nt)));
             }
             _ => {
@@ -1212,7 +1212,7 @@ mod __parse__Expr {
             Some((_, Tok::Minus(..), _)) |
             Some((_, Tok::Div(..), _)) => {
                 let __sym0 = __sym0.take().unwrap();
-                let __nt = super::__action8(arena, __sym0);
+                let __nt = super::__action8(arena, __sym0, &__lookbehind, &__lookahead);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::Term(__nt)));
             }
             _ => {
@@ -1269,7 +1269,7 @@ mod __parse__Expr {
             Some((_, Tok::RParen(..), _)) |
             Some((_, Tok::Times(..), _)) |
             Some((_, Tok::Num(_), _)) => {
-                let __nt = super::__action13(arena, );
+                let __nt = super::__action13(arena, &__lookbehind, &__lookahead);
                 __result = (__lookbehind, __lookahead, __Nonterminal::_28_3cExpr_3e_20_22_2c_22_29_2a(__nt));
             }
             _ => {
@@ -1350,7 +1350,7 @@ mod __parse__Expr {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
                 let __sym2 = __sym2.take().unwrap();
-                let __nt = super::__action2(arena, __sym0, __sym1, __sym2);
+                let __nt = super::__action2(arena, __sym0, __sym1, __sym2, &__lookbehind, &__lookahead);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::Expr(__nt)));
             }
             _ => {
@@ -1415,7 +1415,7 @@ mod __parse__Expr {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
                 let __sym2 = __sym2.take().unwrap();
-                let __nt = super::__action1(arena, __sym0, __sym1, __sym2);
+                let __nt = super::__action1(arena, __sym0, __sym1, __sym2, &__lookbehind, &__lookahead);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::Expr(__nt)));
             }
             _ => {
@@ -1464,7 +1464,7 @@ mod __parse__Expr {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
                 let __sym2 = __sym2.take().unwrap();
-                let __nt = super::__action4(arena, __sym0, __sym1, __sym2);
+                let __nt = super::__action4(arena, __sym0, __sym1, __sym2, &__lookbehind, &__lookahead);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::Factor(__nt)));
             }
             _ => {
@@ -1512,7 +1512,7 @@ mod __parse__Expr {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
                 let __sym2 = __sym2.take().unwrap();
-                let __nt = super::__action5(arena, __sym0, __sym1, __sym2);
+                let __nt = super::__action5(arena, __sym0, __sym1, __sym2, &__lookbehind, &__lookahead);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::Factor(__nt)));
             }
             _ => {
@@ -1564,7 +1564,7 @@ mod __parse__Expr {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
                 let __sym2 = __sym2.take().unwrap();
-                let __nt = super::__action9(arena, __sym0, __sym1, __sym2);
+                let __nt = super::__action9(arena, __sym0, __sym1, __sym2, &__lookbehind, &__lookahead);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::Term(__nt)));
             }
             _ => {
@@ -2019,7 +2019,7 @@ mod __parse__Expr {
             Some((_, Tok::RParen(..), _)) |
             Some((_, Tok::Times(..), _)) |
             Some((_, Tok::Num(_), _)) => {
-                let __nt = super::__action13(arena, );
+                let __nt = super::__action13(arena, &__lookbehind, &__lookahead);
                 __result = (__lookbehind, __lookahead, __Nonterminal::_28_3cExpr_3e_20_22_2c_22_29_2a(__nt));
             }
             _ => {
@@ -2148,7 +2148,7 @@ mod __parse__Expr {
                 __result = try!(__state44(arena, __lookbehind, __tokens, __sym1));
             }
             Some((_, Tok::RParen(..), _)) => {
-                let __nt = super::__action12(arena, );
+                let __nt = super::__action12(arena, &__lookbehind, &__lookahead);
                 __result = (__lookbehind, __lookahead, __Nonterminal::Expr_3f(__nt));
             }
             _ => {
@@ -2280,7 +2280,7 @@ mod __parse__Expr {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
                 let __sym2 = __sym2.take().unwrap();
-                let __nt = super::__action2(arena, __sym0, __sym1, __sym2);
+                let __nt = super::__action2(arena, __sym0, __sym1, __sym2, &__lookbehind, &__lookahead);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::Expr(__nt)));
             }
             _ => {
@@ -2345,7 +2345,7 @@ mod __parse__Expr {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
                 let __sym2 = __sym2.take().unwrap();
-                let __nt = super::__action1(arena, __sym0, __sym1, __sym2);
+                let __nt = super::__action1(arena, __sym0, __sym1, __sym2, &__lookbehind, &__lookahead);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::Expr(__nt)));
             }
             _ => {
@@ -2394,7 +2394,7 @@ mod __parse__Expr {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
                 let __sym2 = __sym2.take().unwrap();
-                let __nt = super::__action4(arena, __sym0, __sym1, __sym2);
+                let __nt = super::__action4(arena, __sym0, __sym1, __sym2, &__lookbehind, &__lookahead);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::Factor(__nt)));
             }
             _ => {
@@ -2442,7 +2442,7 @@ mod __parse__Expr {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
                 let __sym2 = __sym2.take().unwrap();
-                let __nt = super::__action5(arena, __sym0, __sym1, __sym2);
+                let __nt = super::__action5(arena, __sym0, __sym1, __sym2, &__lookbehind, &__lookahead);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::Factor(__nt)));
             }
             _ => {
@@ -2494,7 +2494,7 @@ mod __parse__Expr {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
                 let __sym2 = __sym2.take().unwrap();
-                let __nt = super::__action9(arena, __sym0, __sym1, __sym2);
+                let __nt = super::__action9(arena, __sym0, __sym1, __sym2, &__lookbehind, &__lookahead);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::Term(__nt)));
             }
             _ => {
@@ -2576,7 +2576,7 @@ mod __parse__Expr {
             Some((_, Tok::Num(_), _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
-                let __nt = super::__action14(arena, __sym0, __sym1);
+                let __nt = super::__action14(arena, __sym0, __sym1, &__lookbehind, &__lookahead);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::_28_3cExpr_3e_20_22_2c_22_29_2a(__nt)));
             }
             _ => {
@@ -2638,7 +2638,7 @@ mod __parse__Expr {
             }
             Some((_, Tok::RParen(..), _)) => {
                 let __sym0 = __sym0.take().unwrap();
-                let __nt = super::__action11(arena, __sym0);
+                let __nt = super::__action11(arena, __sym0, &__lookbehind, &__lookahead);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::Expr_3f(__nt)));
             }
             _ => {
@@ -2673,7 +2673,7 @@ mod __parse__Expr {
             Some((_, Tok::RParen(..), _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
-                let __nt = super::__action10(arena, __sym0, __sym1);
+                let __nt = super::__action10(arena, __sym0, __sym1, &__lookbehind, &__lookahead);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::Comma_3cExpr_3e(__nt)));
             }
             _ => {
@@ -2738,7 +2738,7 @@ mod __parse__Expr {
             Some((_, Tok::Comma(..), _)) |
             Some((_, Tok::Minus(..), _)) => {
                 let __sym0 = __sym0.take().unwrap();
-                let __nt = super::__action3(arena, __sym0);
+                let __nt = super::__action3(arena, __sym0, &__lookbehind, &__lookahead);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::Expr(__nt)));
             }
             _ => {
@@ -2786,7 +2786,7 @@ mod __parse__Expr {
             Some((_, Tok::Minus(..), _)) |
             Some((_, Tok::Div(..), _)) => {
                 let __sym0 = __sym0.take().unwrap();
-                let __nt = super::__action7(arena, __sym0);
+                let __nt = super::__action7(arena, __sym0, &__lookbehind, &__lookahead);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::Factor(__nt)));
             }
             _ => {
@@ -2995,7 +2995,7 @@ mod __parse__Expr {
             Some((_, Tok::Minus(..), _)) |
             Some((_, Tok::Div(..), _)) => {
                 let __sym0 = __sym0.take().unwrap();
-                let __nt = super::__action8(arena, __sym0);
+                let __nt = super::__action8(arena, __sym0, &__lookbehind, &__lookahead);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::Term(__nt)));
             }
             _ => {
@@ -3049,7 +3049,7 @@ mod __parse__Expr {
                 let __sym1 = __sym1.take().unwrap();
                 let __sym2 = __sym2.take().unwrap();
                 let __sym3 = __sym3.take().unwrap();
-                let __nt = super::__action6(arena, __sym0, __sym1, __sym2, __sym3);
+                let __nt = super::__action6(arena, __sym0, __sym1, __sym2, __sym3, &__lookbehind, &__lookahead);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::Factor(__nt)));
             }
             _ => {
@@ -3103,7 +3103,7 @@ mod __parse__Expr {
                 let __sym1 = __sym1.take().unwrap();
                 let __sym2 = __sym2.take().unwrap();
                 let __sym3 = __sym3.take().unwrap();
-                let __nt = super::__action6(arena, __sym0, __sym1, __sym2, __sym3);
+                let __nt = super::__action6(arena, __sym0, __sym1, __sym2, __sym3, &__lookbehind, &__lookahead);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::Factor(__nt)));
             }
             _ => {
@@ -3257,7 +3257,7 @@ mod __parse__Expr {
             Some((_, Tok::Num(_), _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
-                let __nt = super::__action15(arena, __sym0, __sym1);
+                let __nt = super::__action15(arena, __sym0, __sym1, &__lookbehind, &__lookahead);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::_28_3cExpr_3e_20_22_2c_22_29(__nt)));
             }
             _ => {
@@ -3627,7 +3627,7 @@ mod __parse__Expr {
             Some((_, Tok::RParen(..), _)) |
             Some((_, Tok::Times(..), _)) |
             Some((_, Tok::Num(_), _)) => {
-                let __nt = super::__action13(arena, );
+                let __nt = super::__action13(arena, &__lookbehind, &__lookahead);
                 __result = (__lookbehind, __lookahead, __Nonterminal::_28_3cExpr_3e_20_22_2c_22_29_2a(__nt));
             }
             _ => {
@@ -3713,7 +3713,7 @@ mod __parse__Expr {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
                 let __sym2 = __sym2.take().unwrap();
-                let __nt = super::__action2(arena, __sym0, __sym1, __sym2);
+                let __nt = super::__action2(arena, __sym0, __sym1, __sym2, &__lookbehind, &__lookahead);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::Expr(__nt)));
             }
             _ => {
@@ -3783,7 +3783,7 @@ mod __parse__Expr {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
                 let __sym2 = __sym2.take().unwrap();
-                let __nt = super::__action1(arena, __sym0, __sym1, __sym2);
+                let __nt = super::__action1(arena, __sym0, __sym1, __sym2, &__lookbehind, &__lookahead);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::Expr(__nt)));
             }
             _ => {
@@ -3835,7 +3835,7 @@ mod __parse__Expr {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
                 let __sym2 = __sym2.take().unwrap();
-                let __nt = super::__action4(arena, __sym0, __sym1, __sym2);
+                let __nt = super::__action4(arena, __sym0, __sym1, __sym2, &__lookbehind, &__lookahead);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::Factor(__nt)));
             }
             _ => {
@@ -3886,7 +3886,7 @@ mod __parse__Expr {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
                 let __sym2 = __sym2.take().unwrap();
-                let __nt = super::__action5(arena, __sym0, __sym1, __sym2);
+                let __nt = super::__action5(arena, __sym0, __sym1, __sym2, &__lookbehind, &__lookahead);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::Factor(__nt)));
             }
             _ => {
@@ -3941,7 +3941,7 @@ mod __parse__Expr {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
                 let __sym2 = __sym2.take().unwrap();
-                let __nt = super::__action9(arena, __sym0, __sym1, __sym2);
+                let __nt = super::__action9(arena, __sym0, __sym1, __sym2, &__lookbehind, &__lookahead);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::Term(__nt)));
             }
             _ => {
@@ -4038,7 +4038,7 @@ mod __parse__Expr {
                 let __sym1 = __sym1.take().unwrap();
                 let __sym2 = __sym2.take().unwrap();
                 let __sym3 = __sym3.take().unwrap();
-                let __nt = super::__action6(arena, __sym0, __sym1, __sym2, __sym3);
+                let __nt = super::__action6(arena, __sym0, __sym1, __sym2, __sym3, &__lookbehind, &__lookahead);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::Factor(__nt)));
             }
             _ => {
@@ -4057,6 +4057,8 @@ pub fn __action0<
 >(
     arena: &'ast Arena<'ast>,
     __0: &'ast Node<'ast>,
+    __lookbehind: &Option<usize>,
+    __lookahead: &Option<(usize, Tok, usize)>,
 ) -> &'ast Node<'ast>
 {
     (__0)
@@ -4069,6 +4071,8 @@ pub fn __action1<
     l: &'ast Node<'ast>,
     _: Tok,
     r: &'ast Node<'ast>,
+    __lookbehind: &Option<usize>,
+    __lookahead: &Option<(usize, Tok, usize)>,
 ) -> &'ast Node<'ast>
 {
     arena.alloc(Node::Binary(Op::Sub, l, r))
@@ -4081,6 +4085,8 @@ pub fn __action2<
     l: &'ast Node<'ast>,
     _: Tok,
     r: &'ast Node<'ast>,
+    __lookbehind: &Option<usize>,
+    __lookahead: &Option<(usize, Tok, usize)>,
 ) -> &'ast Node<'ast>
 {
     arena.alloc(Node::Binary(Op::Add, l, r))
@@ -4091,6 +4097,8 @@ pub fn __action3<
 >(
     arena: &'ast Arena<'ast>,
     __0: &'ast Node<'ast>,
+    __lookbehind: &Option<usize>,
+    __lookahead: &Option<(usize, Tok, usize)>,
 ) -> &'ast Node<'ast>
 {
     (__0)
@@ -4103,6 +4111,8 @@ pub fn __action4<
     l: &'ast Node<'ast>,
     _: Tok,
     r: &'ast Node<'ast>,
+    __lookbehind: &Option<usize>,
+    __lookahead: &Option<(usize, Tok, usize)>,
 ) -> &'ast Node<'ast>
 {
     arena.alloc(Node::Binary(Op::Mul, l, r))
@@ -4115,6 +4125,8 @@ pub fn __action5<
     l: &'ast Node<'ast>,
     _: Tok,
     r: &'ast Node<'ast>,
+    __lookbehind: &Option<usize>,
+    __lookahead: &Option<(usize, Tok, usize)>,
 ) -> &'ast Node<'ast>
 {
     arena.alloc(Node::Binary(Op::Div, l, r))
@@ -4128,6 +4140,8 @@ pub fn __action6<
     _: Tok,
     __0: Vec<&'ast Node<'ast>>,
     _: Tok,
+    __lookbehind: &Option<usize>,
+    __lookahead: &Option<(usize, Tok, usize)>,
 ) -> &'ast Node<'ast>
 {
     arena.alloc(Node::Reduce(Op::Mul, __0))
@@ -4138,6 +4152,8 @@ pub fn __action7<
 >(
     arena: &'ast Arena<'ast>,
     __0: &'ast Node<'ast>,
+    __lookbehind: &Option<usize>,
+    __lookahead: &Option<(usize, Tok, usize)>,
 ) -> &'ast Node<'ast>
 {
     (__0)
@@ -4148,6 +4164,8 @@ pub fn __action8<
 >(
     arena: &'ast Arena<'ast>,
     n: i32,
+    __lookbehind: &Option<usize>,
+    __lookahead: &Option<(usize, Tok, usize)>,
 ) -> &'ast Node<'ast>
 {
     arena.alloc(Node::Value(n))
@@ -4160,6 +4178,8 @@ pub fn __action9<
     _: Tok,
     __0: &'ast Node<'ast>,
     _: Tok,
+    __lookbehind: &Option<usize>,
+    __lookahead: &Option<(usize, Tok, usize)>,
 ) -> &'ast Node<'ast>
 {
     (__0)
@@ -4171,6 +4191,8 @@ pub fn __action10<
     arena: &'ast Arena<'ast>,
     h: ::std::vec::Vec<&'ast Node<'ast>>,
     t: ::std::option::Option<&'ast Node<'ast>>,
+    __lookbehind: &Option<usize>,
+    __lookahead: &Option<(usize, Tok, usize)>,
 ) -> Vec<&'ast Node<'ast>>
 {
     h.into_iter().chain(t).collect()
@@ -4181,6 +4203,8 @@ pub fn __action11<
 >(
     arena: &'ast Arena<'ast>,
     __0: &'ast Node<'ast>,
+    __lookbehind: &Option<usize>,
+    __lookahead: &Option<(usize, Tok, usize)>,
 ) -> ::std::option::Option<&'ast Node<'ast>>
 {
     Some(__0)
@@ -4190,6 +4214,8 @@ pub fn __action12<
     'ast,
 >(
     arena: &'ast Arena<'ast>,
+    __lookbehind: &Option<usize>,
+    __lookahead: &Option<(usize, Tok, usize)>,
 ) -> ::std::option::Option<&'ast Node<'ast>>
 {
     None
@@ -4199,6 +4225,8 @@ pub fn __action13<
     'ast,
 >(
     arena: &'ast Arena<'ast>,
+    __lookbehind: &Option<usize>,
+    __lookahead: &Option<(usize, Tok, usize)>,
 ) -> ::std::vec::Vec<&'ast Node<'ast>>
 {
     vec![]
@@ -4210,6 +4238,8 @@ pub fn __action14<
     arena: &'ast Arena<'ast>,
     v: ::std::vec::Vec<&'ast Node<'ast>>,
     e: &'ast Node<'ast>,
+    __lookbehind: &Option<usize>,
+    __lookahead: &Option<(usize, Tok, usize)>,
 ) -> ::std::vec::Vec<&'ast Node<'ast>>
 {
     { let mut v = v; v.push(e); v }
@@ -4221,6 +4251,8 @@ pub fn __action15<
     arena: &'ast Arena<'ast>,
     __0: &'ast Node<'ast>,
     _: Tok,
+    __lookbehind: &Option<usize>,
+    __lookahead: &Option<(usize, Tok, usize)>,
 ) -> &'ast Node<'ast>
 {
     (__0)

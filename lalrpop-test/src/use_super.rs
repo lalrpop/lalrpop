@@ -102,7 +102,7 @@ mod __parse__S {
         match __lookahead {
             None => {
                 let __sym0 = __sym0.take().unwrap();
-                let __nt = super::__action0(__sym0);
+                let __nt = super::__action0(__sym0, &__lookbehind, &__lookahead);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::____S(__nt)));
             }
             _ => {
@@ -173,7 +173,7 @@ mod __parse__S {
             None => {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
-                let __nt = super::__action1(__sym0, __sym1);
+                let __nt = super::__action1(__sym0, __sym1, &__lookbehind, &__lookahead);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::S(__nt)));
             }
             _ => {
@@ -190,6 +190,8 @@ pub use self::__parse__S::parse_S;
 pub fn __action0<
 >(
     __0: i32,
+    __lookbehind: &Option<()>,
+    __lookahead: &Option<((), Tok, ())>,
 ) -> i32
 {
     (__0)
@@ -199,6 +201,8 @@ pub fn __action1<
 >(
     __0: Tok,
     __1: Tok,
+    __lookbehind: &Option<()>,
+    __lookahead: &Option<((), Tok, ())>,
 ) -> i32
 {
     super::ZERO
