@@ -191,10 +191,14 @@ impl LowerState {
                    -> r::ActionKind
     {
         match action {
-            Some(pt::ActionKind::Lookahead) =>
-                r::ActionKind::Lookahead,
-            Some(pt::ActionKind::Lookbehind) =>
-                r::ActionKind::Lookbehind,
+            Some(pt::ActionKind::Lookahead) => {
+                let action_fn = self.lookahead_action_fn();
+                r::ActionKind::Call(action_fn)
+            }
+            Some(pt::ActionKind::Lookbehind) => {
+                let action_fn = self.lookbehind_action_fn();
+                r::ActionKind::Call(action_fn)
+            }
             Some(pt::ActionKind::User(string)) => {
                 let action_fn = self.action_fn(nt_type, false, &expr, &symbols, Some(string));
                 r::ActionKind::Call(action_fn)
@@ -208,6 +212,46 @@ impl LowerState {
                 r::ActionKind::Call(action_fn)
             }
         }
+    }
+
+    fn lookahead_action_fn(&mut self) -> r::ActionFn {
+        // take the lookahead, if any; otherwise, we are
+        // at EOF, so taker the lookbehind (end of last
+        // pushed token); if that is missing too, then
+        // supply default.
+        let code = format!(
+            "{}lookahead.as_ref()\
+             .map(|o| ::std::clone::Clone::clone(&o.0))\
+             .or_else(|| ::std::clone::Clone::clone(&{}lookbehind))\
+             .unwrap_or_default()",
+            self.prefix, self.prefix);
+
+        let action_fn_defn = r::ActionFnDefn {
+            arg_patterns: vec![],
+            arg_types: vec![],
+            ret_type: self.types.terminal_loc_type(),
+            fallible: false,
+            code: code
+        };
+
+        self.add_action_fn(action_fn_defn)
+    }
+
+    fn lookbehind_action_fn(&mut self) -> r::ActionFn {
+        // take lookbehind or supply default
+        let code = format!(
+            "::std::clone::Clone::clone(&{}lookbehind).unwrap_or_default()",
+            self.prefix);
+
+        let action_fn_defn = r::ActionFnDefn {
+            arg_patterns: vec![],
+            arg_types: vec![],
+            ret_type: self.types.terminal_loc_type(),
+            fallible: false,
+            code: code
+        };
+
+        self.add_action_fn(action_fn_defn)
     }
 
     fn action_fn(&mut self,
@@ -269,9 +313,12 @@ impl LowerState {
             }
         };
 
+        self.add_action_fn(action_fn_defn)
+    }
+
+    fn add_action_fn(&mut self, action_fn_defn: r::ActionFnDefn) -> r::ActionFn {
         let index = r::ActionFn::new(self.action_fn_defns.len());
         self.action_fn_defns.push(action_fn_defn);
-
         index
     }
 

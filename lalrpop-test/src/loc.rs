@@ -59,9 +59,9 @@ mod __parse__Items {
     //   Items = (*) Items "-" ["-"]
     //   __Items = (*) Items [EOF]
     //
-    //   EOF -> Reduce(@L =  => Lookahead;)
-    //   "+" -> Reduce(@L =  => Lookahead;)
-    //   "-" -> Reduce(@L =  => Lookahead;)
+    //   EOF -> Reduce(@L =  => Call(ActionFn(6));)
+    //   "+" -> Reduce(@L =  => Call(ActionFn(6));)
+    //   "-" -> Reduce(@L =  => Call(ActionFn(6));)
     //
     //   @L -> S1
     //   Items -> S2
@@ -78,7 +78,7 @@ mod __parse__Items {
             None |
             Some((_, Tok::Plus(..), _)) |
             Some((_, Tok::Minus(..), _)) => {
-                let __nt = __lookahead.as_ref().map(|o| ::std::clone::Clone::clone(&o.0)).or_else(|| ::std::clone::Clone::clone(&__lookbehind)).unwrap_or_default();
+                let __nt = super::__action6(&__lookbehind, &__lookahead);
                 __result = (__lookbehind, __lookahead, __Nonterminal::_40L(__nt));
             }
             _ => {
@@ -114,9 +114,9 @@ mod __parse__Items {
     //   Items = @L (*) @R ["+"]
     //   Items = @L (*) @R ["-"]
     //
-    //   EOF -> Reduce(@R =  => Lookbehind;)
-    //   "+" -> Reduce(@R =  => Lookbehind;)
-    //   "-" -> Reduce(@R =  => Lookbehind;)
+    //   EOF -> Reduce(@R =  => Call(ActionFn(5));)
+    //   "+" -> Reduce(@R =  => Call(ActionFn(5));)
+    //   "-" -> Reduce(@R =  => Call(ActionFn(5));)
     //
     //   @R -> S3
     pub fn __state1<
@@ -133,7 +133,7 @@ mod __parse__Items {
             None |
             Some((_, Tok::Plus(..), _)) |
             Some((_, Tok::Minus(..), _)) => {
-                let __nt = ::std::clone::Clone::clone(&__lookbehind).unwrap_or_default();
+                let __nt = super::__action5(&__lookbehind, &__lookahead);
                 __result = (__lookbehind, __lookahead, __Nonterminal::_40R(__nt));
             }
             _ => {
@@ -172,7 +172,7 @@ mod __parse__Items {
     //   __Items = Items (*) [EOF]
     //
     //   EOF -> Reduce(__Items = Items => Call(ActionFn(0));)
-    //   "+" -> Reduce(@L =  => Lookahead;)
+    //   "+" -> Reduce(@L =  => Call(ActionFn(6));)
     //   "-" -> Shift(S6)
     //
     //   @L -> S4
@@ -194,7 +194,7 @@ mod __parse__Items {
                 __result = try!(__state6(__lookbehind, __tokens, __sym0, __sym1));
             }
             Some((_, Tok::Plus(..), _)) => {
-                let __nt = __lookahead.as_ref().map(|o| ::std::clone::Clone::clone(&o.0)).or_else(|| ::std::clone::Clone::clone(&__lookbehind)).unwrap_or_default();
+                let __nt = super::__action6(&__lookbehind, &__lookahead);
                 __result = (__lookbehind, __lookahead, __Nonterminal::_40L(__nt));
             }
             None => {
@@ -387,9 +387,9 @@ mod __parse__Items {
     //   Spanned<"+"> = @L "+" (*) @R ["+"]
     //   Spanned<"+"> = @L "+" (*) @R ["-"]
     //
-    //   EOF -> Reduce(@R =  => Lookbehind;)
-    //   "+" -> Reduce(@R =  => Lookbehind;)
-    //   "-" -> Reduce(@R =  => Lookbehind;)
+    //   EOF -> Reduce(@R =  => Call(ActionFn(5));)
+    //   "+" -> Reduce(@R =  => Call(ActionFn(5));)
+    //   "-" -> Reduce(@R =  => Call(ActionFn(5));)
     //
     //   @R -> S8
     pub fn __state7<
@@ -411,7 +411,7 @@ mod __parse__Items {
             None |
             Some((_, Tok::Plus(..), _)) |
             Some((_, Tok::Minus(..), _)) => {
-                let __nt = ::std::clone::Clone::clone(&__lookbehind).unwrap_or_default();
+                let __nt = super::__action5(&__lookbehind, &__lookahead);
                 __result = (__lookbehind, __lookahead, __Nonterminal::_40R(__nt));
             }
             _ => {
@@ -535,6 +535,24 @@ pub fn __action4<
 ) -> (usize, usize)
 {
     (__0, __1)
+}
+
+pub fn __action5<
+>(
+    __lookbehind: &Option<usize>,
+    __lookahead: &Option<(usize, Tok, usize)>,
+) -> usize
+{
+    ::std::clone::Clone::clone(&__lookbehind).unwrap_or_default()
+}
+
+pub fn __action6<
+>(
+    __lookbehind: &Option<usize>,
+    __lookahead: &Option<(usize, Tok, usize)>,
+) -> usize
+{
+    __lookahead.as_ref().map(|o| ::std::clone::Clone::clone(&o.0)).or_else(|| ::std::clone::Clone::clone(&__lookbehind)).unwrap_or_default()
 }
 
 pub trait __ToTriple<> {

@@ -89,8 +89,6 @@ pub enum ActionKind {
     // execute code provided by the user
     Call(ActionFn),
     TryCall(ActionFn),
-    Lookahead,
-    Lookbehind,
 }
 
 #[derive(Clone, PartialEq, Eq)]
