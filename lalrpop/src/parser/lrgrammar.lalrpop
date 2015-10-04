@@ -22,7 +22,8 @@ pub Grammar: Grammar =
                          .filter(|s| !s.is_empty())
                          .map(|s| s.to_string())
                          .collect();
-        Grammar { span: Span(lo, hi),
+        Grammar { prefix: format!("__"), // adjusted by `parse_grammar`
+                  span: Span(lo, hi),
                   type_parameters: tps.unwrap_or(vec![]),
                   parameters: parameters.unwrap_or(vec![]),
                   where_clauses: where_clauses,

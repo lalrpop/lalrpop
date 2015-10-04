@@ -31,7 +31,7 @@ struct LowerState {
 impl LowerState {
     fn new(types: r::Types, grammar: &pt::Grammar) -> LowerState {
         LowerState {
-            prefix: find_prefix(&grammar),
+            prefix: grammar.prefix.clone(),
             action_fn_defns: vec![],
             productions: vec![],
             conversions: vec![],
@@ -325,32 +325,3 @@ fn patterns<I>(mut chosen: I, num_args: usize) -> Vec<InternedString>
 
     result
 }
-
-// Find a unique prefix like `__` or `___` that doesn't appear
-// anywhere in any action strings, nonterminal names, etc. Obviously
-// this is stricter than needed, since the action string might be like
-// `print("__1")`, in which case we'll detect a false conflict (or it
-// might contain a variable named `__1x`, etc). But so what.
-fn find_prefix(grammar: &pt::Grammar) -> String {
-    let mut prefix = format!("__");
-
-    while
-        grammar.items
-               .iter()
-               .filter_map(|i| i.as_nonterminal())
-               .flat_map(|nt| nt.alternatives.iter())
-               .filter_map(|alt| alt.action.as_ref())
-               .filter_map(|action| action.as_user())
-               .any(|s| s.contains(&prefix))
-        ||
-        grammar.items
-               .iter()
-               .filter_map(|i| i.as_nonterminal())
-               .any(|nt| nt.name.0.starts_with(&prefix))
-    {
-        prefix.push('_');
-    }
-
-    prefix
-}
-

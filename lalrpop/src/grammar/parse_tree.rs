@@ -14,6 +14,8 @@ use util::Sep;
 
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct Grammar {
+    // see field `prefix` in `grammar::repr::Grammar`
+    pub prefix: String,
     pub span: Span,
     pub type_parameters: Vec<TypeParameter>,
     pub parameters: Vec<Parameter>,
@@ -602,15 +604,6 @@ impl Path {
             Some(self.ids[0])
         } else {
             None
-        }
-    }
-}
-
-impl ActionKind {
-    pub fn as_user(&self) -> Option<&String> {
-        match *self {
-            ActionKind::User(ref s) => Some(s),
-            _ => None
         }
     }
 }
