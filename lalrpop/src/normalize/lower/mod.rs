@@ -22,7 +22,7 @@ pub fn lower(grammar: pt::Grammar, types: r::Types) -> NormResult<r::Grammar> {
 struct LowerState {
     prefix: String,
     action_fn_defns: Vec<r::ActionFnDefn>,
-    productions: Vec<r::Production>,
+    nonterminals: Map<NonterminalString, r::NonterminalData>,
     conversions: Vec<(TerminalString, Pattern<r::TypeRepr>)>,
     intern_token: Option<InternToken>,
     types: r::Types,
@@ -33,7 +33,7 @@ impl LowerState {
         LowerState {
             prefix: grammar.prefix.clone(),
             action_fn_defns: vec![],
-            productions: vec![],
+            nonterminals: map(),
             conversions: vec![],
             types: types,
             intern_token: None,
@@ -99,26 +99,31 @@ impl LowerState {
                 }
 
                 pt::GrammarItem::Nonterminal(nt) => {
-                    for alt in nt.alternatives {
-                        let nt_type = self.types.nonterminal_type(nt.name).clone();
-                        let symbols = self.symbols(&alt.expr.symbols);
-                        let action = self.action_kind(nt_type, &alt.expr, &symbols, alt.action);
-                        let production = r::Production {
-                            nonterminal: nt.name,
-                            span: alt.span,
-                            symbols: symbols,
-                            action: action,
-                        };
-                        self.productions.push(production);
-                    }
+                    let nt_name = nt.name;
+                    let productions: Vec<_> =
+                        nt.alternatives
+                          .into_iter()
+                          .map(|alt| {
+                              let nt_type = self.types.nonterminal_type(nt_name).clone();
+                              let symbols = self.symbols(&alt.expr.symbols);
+                              let action = self.action_kind(nt_type, &alt.expr,
+                                                            &symbols, alt.action);
+                              r::Production {
+                                  nonterminal: nt_name,
+                                  span: alt.span,
+                                  symbols: symbols,
+                                  action: action,
+                              }
+                          })
+                          .collect();
+                    self.nonterminals.insert(nt_name, r::NonterminalData {
+                        name: nt_name,
+                        annotations: nt.annotations,
+                        span: nt.span,
+                        productions: productions
+                    });
                 }
             }
-        }
-
-        let mut productions = map();
-        for production in self.productions {
-            let mut vec = productions.entry(production.nonterminal).or_insert(vec![]);
-            vec.push(production);
         }
 
         let parameters =
@@ -137,7 +142,7 @@ impl LowerState {
             start_nonterminals: start_symbols,
             uses: uses,
             action_fn_defns: self.action_fn_defns,
-            productions: productions,
+            nonterminals: self.nonterminals,
             conversions: self.conversions.into_iter().collect(),
             types: self.types,
             token_span: token_span.unwrap(),
@@ -172,12 +177,20 @@ impl LowerState {
                    };
                    let symbols = vec![r::Symbol::Nonterminal(nt.name)];
                    let action_fn = self.action_fn(nt_type, false, &expr, &symbols, None);
-                   self.productions.push(r::Production {
+                   let production = r::Production {
                        nonterminal: fake_name,
                        symbols: symbols,
                        action: r::ActionKind::Call(action_fn),
                        span: nt.span
-                   });
+                   };
+                   self.nonterminals.insert(
+                       fake_name,
+                       r::NonterminalData {
+                           name: fake_name,
+                           annotations: vec![],
+                           span: nt.span,
+                           productions: vec![production]
+                       });
                    (nt.name, fake_name)
                })
                .collect()

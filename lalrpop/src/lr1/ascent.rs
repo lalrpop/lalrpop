@@ -142,7 +142,7 @@ impl<'ascent,'grammar,W:Write> RecursiveAscent<'ascent,'grammar,W> {
         // making different enums per state, but this would mean we
         // have to unwrap and rewrap as we pass up the stack, which
         // seems silly
-        for &nt in self.grammar.productions.keys() {
+        for &nt in self.grammar.nonterminals.keys() {
             rust!(self.out, "{}({}),", Escape(nt), self.types.nonterminal_type(nt));
         }
 
@@ -439,7 +439,7 @@ impl<'ascent,'grammar,W:Write> RecursiveAscent<'ascent,'grammar,W> {
 
             // errors are not possible in the goto phase; a missing entry
             // indicates parse successfully completed, so just bail out
-            if this_state.gotos.len() != self.grammar.productions.keys().len() {
+            if this_state.gotos.len() != self.grammar.nonterminals.keys().len() {
                 rust!(self.out, "_ => {{");
                 rust!(self.out, "return Ok(({}lookbehind, {}lookahead, {}nt));",
                       self.prefix, self.prefix, self.prefix);

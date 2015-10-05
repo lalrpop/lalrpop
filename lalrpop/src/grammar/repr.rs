@@ -10,7 +10,8 @@ use std::fmt::{Debug, Display, Formatter, Error};
 use util::{map, Map, Sep};
 
 // These concepts we re-use wholesale
-pub use grammar::parse_tree::{InternToken,
+pub use grammar::parse_tree::{Annotation,
+                              InternToken,
                               NonterminalString,
                               Path,
                               Span,
@@ -50,10 +51,18 @@ pub struct Grammar {
     // the grammar proper:
 
     pub action_fn_defns: Vec<ActionFnDefn>,
-    pub productions: Map<NonterminalString, Vec<Production>>,
+    pub nonterminals: Map<NonterminalString, NonterminalData>,
     pub token_span: Span,
     pub conversions: Map<TerminalString, Pattern<TypeRepr>>,
     pub types: Types,
+}
+
+#[derive(Clone, Debug)]
+pub struct NonterminalData {
+    pub name: NonterminalString,
+    pub span: Span,
+    pub annotations: Vec<Annotation>,
+    pub productions: Vec<Production>,
 }
 
 #[derive(Clone, Debug, PartialEq, Eq)]
@@ -362,8 +371,8 @@ impl Grammar {
     }
 
     pub fn productions_for(&self, nonterminal: NonterminalString) -> &[Production] {
-        match self.productions.get(&nonterminal) {
-            Some(v) => &v[..],
+        match self.nonterminals.get(&nonterminal) {
+            Some(v) => &v.productions[..],
             None => &[], // this...probably shouldn't happen actually?
         }
     }
