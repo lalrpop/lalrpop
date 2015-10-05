@@ -5,6 +5,7 @@
 use intern::{self, intern, InternedString};
 use normalize::NormResult;
 use normalize::norm_util::{self, Symbols};
+use grammar::consts::INPUT_LIFETIME;
 use grammar::pattern::{Pattern, PatternKind};
 use grammar::parse_tree as pt;
 use grammar::parse_tree::{InternToken, NonterminalString, TerminalString};
@@ -56,7 +57,7 @@ impl LowerState {
                     token_span = Some(grammar.span);
                     let span = grammar.span;
                     let input_str = r::TypeRepr::Ref {
-                        lifetime: Some(intern(pt::INPUT_LIFETIME)),
+                        lifetime: Some(intern(INPUT_LIFETIME)),
                         mutable: false,
                         referent: Box::new(r::TypeRepr::Nominal(r::NominalTypeRepr {
                             path: r::Path::str(),

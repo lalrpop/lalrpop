@@ -25,16 +25,16 @@ macro_rules! return_err {
 }
 
 pub fn normalize(grammar: pt::Grammar) -> NormResult<r::Grammar> {
-    normalize_helper(grammar, true)
+    lower_helper(grammar, true)
 }
 
 /// for unit tests, it is convenient to skip the validation step
 #[cfg(test)]
 pub fn normalize_without_validating(grammar: pt::Grammar) -> NormResult<r::Grammar> {
-    normalize_helper(grammar, false)
+    lower_helper(grammar, false)
 }
 
-fn normalize_helper(grammar: pt::Grammar, validate: bool) -> NormResult<r::Grammar> {
+fn lower_helper(grammar: pt::Grammar, validate: bool) -> NormResult<r::Grammar> {
     if validate { try!(prevalidate::validate(&grammar)); }
     let grammar = try!(resolve::resolve(grammar));
     let grammar = try!(macro_expand::expand_macros(grammar));
@@ -79,6 +79,9 @@ mod tyinfer;
 
 // Lowers the parse tree to the repr notation.
 mod lower;
+
+// Inline nonterminals that have requested it.
+mod inline;
 
 ///////////////////////////////////////////////////////////////////////////
 // Shared routines

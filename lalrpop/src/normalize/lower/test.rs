@@ -5,9 +5,9 @@ use test_util::expect_debug;
 
 fn flat_productions(grammar: &Grammar) -> Vec<Production> {
     let mut productions: Vec<_> =
-        grammar.productions.values()
-                           .flat_map(|prods| prods.iter().cloned())
-                           .collect();
+        grammar.nonterminals.values()
+                            .flat_map(|data| data.productions.iter().cloned())
+                            .collect();
 
     // sort by the action fn index just to get a consistent ordering
     productions.sort_by(|k1, k2| {

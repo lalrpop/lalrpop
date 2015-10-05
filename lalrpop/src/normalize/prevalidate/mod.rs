@@ -3,6 +3,7 @@
 use super::{NormResult, NormError};
 use super::norm_util::{self, Symbols};
 
+use grammar::consts::*;
 use grammar::parse_tree::*;
 use grammar::repr;
 use intern::{intern, InternedString};
@@ -73,10 +74,13 @@ impl<'grammar> Validator<'grammar> {
                     }
                 }
                 GrammarItem::Nonterminal(ref data) => {
+                    let known_annotations = vec![intern(INLINE)];
                     for annotation in &data.annotations {
-                        return_err!(annotation.id_span,
-                                    "unrecognized annotation `{}`",
-                                    annotation.id);
+                        if !known_annotations.contains(&annotation.id) {
+                            return_err!(annotation.id_span,
+                                        "unrecognized annotation `{}`",
+                                        annotation.id);
+                        }
                     }
 
                     for alternative in &data.alternatives {

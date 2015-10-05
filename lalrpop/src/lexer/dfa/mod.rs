@@ -124,7 +124,7 @@ impl<'nfa> DFABuilder<'nfa> {
                         .iter()
                         .all(|&item| self.nfa(item).is_rejecting_state(item.nfa_state));
 
-            let kind = if all_rejects {
+            let kind = if all_rejects || item_set.items.is_empty() {
                 Kind::Reject
             } else if all_accepts.len() == 0 {
                 Kind::Neither
@@ -160,7 +160,7 @@ impl<'nfa> DFABuilder<'nfa> {
 
             test_edges.sort();
 
-            // Consider what there is some cahracter that doesn't meet
+            // Consider what there is some character that doesn't meet
             // any of the tests. In this case, we can just ignore all
             // the test edges for each of the items and just union all
             // the "other" edges -- because if it were one of those
@@ -171,7 +171,7 @@ impl<'nfa> DFABuilder<'nfa> {
                               .collect();
 
             // we never know the full set
-            assert!(!other_transitions.is_empty());
+            assert!(item_set.items.is_empty() || !other_transitions.is_empty());
 
             let other_edge = kernel_set.add_state(self.transitive_closure(other_transitions));
 

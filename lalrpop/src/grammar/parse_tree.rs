@@ -64,12 +64,6 @@ pub struct AssociatedType {
     pub type_ref: TypeRef,
 }
 
-/// Recognized associated type for the token location
-pub const LOCATION: &'static str = "Location";
-
-/// Recognized associated type for custom errors
-pub const ERROR: &'static str = "Error";
-
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct EnumToken {
     pub type_name: TypeRef,
@@ -117,17 +111,11 @@ pub enum TypeRef {
     OfSymbol(SymbolKind),
 }
 
-/// The lifetime parameter injected when we do not have an external token enum
-pub const INPUT_LIFETIME: &'static str = "'input";
-
 #[derive(Clone, Debug, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub enum TypeParameter {
     Lifetime(InternedString),
     Id(InternedString),
 }
-
-/// The parameter injected when we do not have an external token enum
-pub const INPUT_PARAMETER: &'static str = "input";
 
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct Parameter {
