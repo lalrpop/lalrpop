@@ -25,13 +25,18 @@ macro_rules! return_err {
 }
 
 pub fn normalize(grammar: pt::Grammar) -> NormResult<r::Grammar> {
-    lower_helper(grammar, true)
+    normalize_helper(grammar, true)
 }
 
 /// for unit tests, it is convenient to skip the validation step
 #[cfg(test)]
 pub fn normalize_without_validating(grammar: pt::Grammar) -> NormResult<r::Grammar> {
-    lower_helper(grammar, false)
+    normalize_helper(grammar, false)
+}
+
+fn normalize_helper(grammar: pt::Grammar, validate: bool) -> NormResult<r::Grammar> {
+    let grammar = try!(lower_helper(grammar, validate));
+    inline::inline(grammar)
 }
 
 fn lower_helper(grammar: pt::Grammar, validate: bool) -> NormResult<r::Grammar> {
