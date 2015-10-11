@@ -74,12 +74,21 @@ impl<'grammar> Validator<'grammar> {
                     }
                 }
                 GrammarItem::Nonterminal(ref data) => {
-                    let known_annotations = vec![intern(INLINE)];
+                    let inline_annotation = intern(INLINE);
+                    let known_annotations = vec![inline_annotation];
+                    let mut found_annotations = set();
                     for annotation in &data.annotations {
                         if !known_annotations.contains(&annotation.id) {
                             return_err!(annotation.id_span,
                                         "unrecognized annotation `{}`",
                                         annotation.id);
+                        } else if !found_annotations.insert(annotation.id) {
+                            return_err!(annotation.id_span,
+                                        "duplicate annotation `{}`",
+                                        annotation.id);
+                        } else if annotation.id == inline_annotation && data.public {
+                            return_err!(annotation.id_span,
+                                        "public items cannot be marked #[inline]");
                         }
                     }
 
