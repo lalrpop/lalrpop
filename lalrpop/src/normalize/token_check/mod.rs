@@ -233,7 +233,7 @@ pub fn construct(grammar: &mut Grammar, literals_map: Map<TerminalLiteral, Span>
         }
     }
 
-    grammar.type_parameters.push(TypeParameter::Lifetime(input_lifetime));
+    grammar.type_parameters.insert(0, TypeParameter::Lifetime(input_lifetime));
 
     let parameter = Parameter {
         name: input_parameter,

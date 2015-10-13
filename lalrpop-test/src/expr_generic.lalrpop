@@ -1,0 +1,25 @@
+use std::fmt::Debug;
+use std::ops::{Add, Div, Mul, Sub};
+use std::str::FromStr;
+
+grammar<F>
+where F: Debug + FromStr + Sub<Output=F> + Add<Output=F> + Mul<Output=F> + Div<Output=F>;
+
+use util::tok::Tok;
+
+pub Expr = {
+    <l:Expr> "-" <r:Factor> => l - r,
+    <l:Expr> "+" <r:Factor> => l + r,
+    Factor,
+};
+
+Factor = {
+    <l:Factor> "*" <r:Term> => l * r,
+    <l:Factor> "/" <r:Term> => l / r,
+    Term,
+};
+
+Term: F = {
+    <n:r"[0-9]+"> => match n.parse() { Ok(v) => v, Err(_) => panic!("can't parse") },
+    "(" <Expr> ")",
+};

@@ -22,6 +22,9 @@ mod expr_arena;
 /// definitions of the AST
 mod expr_arena_ast;
 
+/// expr defined with a generic type `F`
+mod expr_generic;
+
 /// test that exercises internal token generation, as well as locations and spans
 mod intern_tok;
 
@@ -166,6 +169,13 @@ fn expr_arena_test2() {
                                       arena.alloc(Node::Value(6))]));;
     util::test_loc(|v| expr_arena::parse_Expr(&arena, v), "*(22, 3, 6)", expected);
     util::test_loc(|v| expr_arena::parse_Expr(&arena, v), "*(22, 3, 6,)", expected);
+}
+
+#[test]
+fn expr_generic_test1() {
+    let expected: i32 = 22 * 3 - 6;
+    let actual = expr_generic::parse_Expr::<i32>("22 * 3 - 6").unwrap();
+    assert_eq!(expected, actual);
 }
 
 #[test]
