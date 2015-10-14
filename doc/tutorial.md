@@ -691,7 +691,7 @@ fn calculator5() {
 }
 ```
 
-[main]: ./calculator/main.rs
+[main]: ./calculator/src/main.rs
 [calculator]: ./calculator/
 [cargotoml]: ./calculator/Cargo.toml
 [calculator1]: ./calculator/src/calculator1.lalrpop
