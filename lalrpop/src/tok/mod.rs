@@ -379,8 +379,19 @@ impl<'input> Tokenizer<'input> {
         // for a suitable terminator: `,`, `;`, `]`, `}`, or `)`.
         let mut balance = 0; // number of unclosed `(` etc
         loop {
+            println!("code: balance={:?} self.lookahead={:?}", balance, self.lookahead);
             if let Some((idx, c)) = self.lookahead {
-                if open_delims.find(c).is_some() {
+                if c == '"' {
+                    self.bump();
+                    try!(self.string_literal(idx)); // discard the produced token
+                    continue;
+                } else if c == 'r' {
+                    self.bump();
+                    if let Some((idx, '#')) = self.lookahead {
+                        try!(self.regex_literal(idx));
+                    }
+                    continue;
+                } else if open_delims.find(c).is_some() {
                     balance += 1;
                 } else if balance > 0 {
                     if close_delims.find(c).is_some() {
