@@ -391,6 +391,12 @@ impl<'input> Tokenizer<'input> {
                         try!(self.regex_literal(idx));
                     }
                     continue;
+                } else if c == '/' {
+                    self.bump();
+                    if let Some((_, '/')) = self.lookahead {
+                        self.take_until(|c| c == '\n');
+                    }
+                    continue;
                 } else if open_delims.find(c).is_some() {
                     balance += 1;
                 } else if balance > 0 {

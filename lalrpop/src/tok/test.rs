@@ -62,6 +62,16 @@ fn code_regex_paren() { // Issue #25
 }
 
 #[test]
+fn code_comment_eol() {
+    test("=> a(// (
+),", vec![
+        ("~~~~~~~~~
+~,", EqualsGreaterThanCode(" a(// (\n)")),
+        ("=> a(// (
+)~", Comma)]);
+}
+
+#[test]
 fn code2() {
     test("=>? a(b, c),", vec![
         ("~~~~~~~~~~~ ", EqualsGreaterThanQuestionCode(" a(b, c)")),
