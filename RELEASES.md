@@ -1,3 +1,5 @@
+# Version 0.8 (not yet released)
+
 # Version 0.7
 
 This is mostly a bug-fix release.
