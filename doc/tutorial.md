@@ -147,7 +147,7 @@ look something like:
 ```
 [package]
 name = "calculator"
-version = "0.6.1"
+version = "0.7.0"
 authors = ["Niko Matsakis <niko@alum.mit.edu>"]
 build = "build.rs" # <-- We added this and everything after!
 
