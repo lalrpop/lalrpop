@@ -83,7 +83,7 @@ pub struct Production {
     // handy to have it
     pub nonterminal: NonterminalString,
     pub symbols: Vec<Symbol>,
-    pub action: ActionKind,
+    pub action: ActionFn,
     pub span: Span,
 }
 
@@ -91,13 +91,6 @@ pub struct Production {
 pub enum Symbol {
     Nonterminal(NonterminalString),
     Terminal(TerminalString),
-}
-
-#[derive(Clone, Debug, Hash, PartialEq, Eq, PartialOrd, Ord)]
-pub enum ActionKind {
-    // execute code provided by the user
-    Call(ActionFn),
-    TryCall(ActionFn),
 }
 
 #[derive(Clone, PartialEq, Eq)]
@@ -383,6 +376,10 @@ impl Grammar {
             result.push_str(&format!("{}, ", parameter.name));
         }
         result
+    }
+
+    pub fn action_is_fallible(&self, f: ActionFn) -> bool {
+        self.action_fn_defns[f.index()].fallible
     }
 }
 

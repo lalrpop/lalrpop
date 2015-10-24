@@ -33,13 +33,13 @@ grammar;
 
     expect_debug(flat_productions(&actual),
                  r#"[
-    Ids = Comma<"Id"> => Call(ActionFn(0));,
-    Comma<"Id"> = (<"Id"> ",")*, "Id"? => Call(ActionFn(1));,
-    "Id"? = "Id" => Call(ActionFn(2));,
-    "Id"? =  => Call(ActionFn(3));,
-    (<"Id"> ",")* =  => Call(ActionFn(4));,
-    (<"Id"> ",")* = (<"Id"> ",")*, (<"Id"> ",") => Call(ActionFn(5));,
-    (<"Id"> ",") = "Id", "," => Call(ActionFn(6));
+    Ids = Comma<"Id"> => ActionFn(0);,
+    Comma<"Id"> = (<"Id"> ",")*, "Id"? => ActionFn(1);,
+    "Id"? = "Id" => ActionFn(2);,
+    "Id"? =  => ActionFn(3);,
+    (<"Id"> ",")* =  => ActionFn(4);,
+    (<"Id"> ",")* = (<"Id"> ",")*, (<"Id"> ",") => ActionFn(5);,
+    (<"Id"> ",") = "Id", "," => ActionFn(6);
 ]"#);
 
     expect_debug(&actual.action_fn_defns,

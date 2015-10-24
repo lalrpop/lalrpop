@@ -181,7 +181,7 @@ impl LowerState {
                    let production = r::Production {
                        nonterminal: fake_name,
                        symbols: symbols,
-                       action: r::ActionKind::Call(action_fn),
+                       action: action_fn,
                        span: nt.span
                    };
                    self.nonterminals.insert(
@@ -202,29 +202,19 @@ impl LowerState {
                    expr: &pt::ExprSymbol,
                    symbols: &[r::Symbol],
                    action: Option<pt::ActionKind>)
-                   -> r::ActionKind
+                   -> r::ActionFn
     {
         match action {
-            Some(pt::ActionKind::Lookahead) => {
-                let action_fn = self.lookahead_action_fn();
-                r::ActionKind::Call(action_fn)
-            }
-            Some(pt::ActionKind::Lookbehind) => {
-                let action_fn = self.lookbehind_action_fn();
-                r::ActionKind::Call(action_fn)
-            }
-            Some(pt::ActionKind::User(string)) => {
-                let action_fn = self.action_fn(nt_type, false, &expr, &symbols, Some(string));
-                r::ActionKind::Call(action_fn)
-            }
-            Some(pt::ActionKind::Fallible(string)) => {
-                let action_fn = self.action_fn(nt_type, true, &expr, &symbols, Some(string));
-                r::ActionKind::TryCall(action_fn)
-            }
-            None => {
-                let action_fn = self.action_fn(nt_type, false, &expr, &symbols, None);
-                r::ActionKind::Call(action_fn)
-            }
+            Some(pt::ActionKind::Lookahead) =>
+                self.lookahead_action_fn(),
+            Some(pt::ActionKind::Lookbehind) =>
+                self.lookbehind_action_fn(),
+            Some(pt::ActionKind::User(string)) =>
+                self.action_fn(nt_type, false, &expr, &symbols, Some(string)),
+            Some(pt::ActionKind::Fallible(string)) =>
+                self.action_fn(nt_type, true, &expr, &symbols, Some(string)),
+            None =>
+                self.action_fn(nt_type, false, &expr, &symbols, None),
         }
     }
 

@@ -2,8 +2,7 @@
 //!
 //! [recursive ascent]: https://en.wikipedia.org/wiki/Recursive_ascent_parser
 
-use grammar::repr::{ActionKind,
-                    Grammar,
+use grammar::repr::{Grammar,
                     NonterminalString,
                     Symbol,
                     TerminalString, TypeParameter, TypeRepr, Types};
@@ -367,24 +366,21 @@ impl<'ascent,'grammar,W:Write> RecursiveAscent<'ascent,'grammar,W> {
             args.push(format!("&{}lookahead", self.prefix));
 
             // invoke the action code
-            match production.action {
-                ActionKind::Call(action_fn) => {
-                    rust!(self.out, "let {}nt = super::{}action{}({}{});",
-                          self.prefix,
-                          self.prefix,
-                          action_fn.index(),
-                          self.grammar.user_parameter_refs(),
-                          Sep(", ", &args))
-                }
-
-                ActionKind::TryCall(action_fn) => {
-                    rust!(self.out, "let {}nt = try!(super::{}action{}({}{}));",
-                          self.prefix,
-                          self.prefix,
-                          action_fn.index(),
-                          self.grammar.user_parameter_refs(),
-                          Sep(", ", &args))
-                }
+            let is_fallible = self.grammar.action_is_fallible(production.action);
+            if is_fallible {
+                rust!(self.out, "let {}nt = super::{}action{}({}{});",
+                      self.prefix,
+                      self.prefix,
+                      production.action.index(),
+                      self.grammar.user_parameter_refs(),
+                      Sep(", ", &args))
+            } else {
+                rust!(self.out, "let {}nt = try!(super::{}action{}({}{}));",
+                      self.prefix,
+                      self.prefix,
+                      production.action.index(),
+                      self.grammar.user_parameter_refs(),
+                      Sep(", ", &args))
             }
 
             // wrap up the result along with the (unused) lookahead

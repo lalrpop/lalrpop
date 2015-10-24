@@ -9,6 +9,9 @@ license = "Unlicense"
 authors = ["Niko Matsakis <niko@alum.mit.edu>"]
 build = "build.rs"
 
+[lib]
+doctest = false
+
 [dependencies]
 regex = "0.1"
 diff = "0.1"
