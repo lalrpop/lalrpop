@@ -11,6 +11,7 @@
 extern crate diff;
 extern crate lalrpop_intern as intern;
 extern crate lalrpop_util;
+extern crate petgraph;
 extern crate rand;
 extern crate regex;
 extern crate term;

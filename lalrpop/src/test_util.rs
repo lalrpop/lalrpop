@@ -60,5 +60,6 @@ pub fn check_norm_err(expected_err: &str,
     assert!(start_index <= end_index);
     assert_eq!(err.span, pt::Span(start_index, end_index));
     assert!(expected_err.is_match(&err.message),
-            "unexpected error text `{}`, did not match `{}`", err.message, expected_err);
+            "unexpected error text `{}`, which did not match regular expression `{}`",
+            err.message, expected_err);
 }

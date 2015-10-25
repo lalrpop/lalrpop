@@ -10,6 +10,7 @@ use super::{NormResult, NormError};
 use intern::{self, intern};
 use lexer::re;
 use lexer::dfa::{self, Precedence};
+use grammar::consts::*;
 use grammar::parse_tree::*;
 use util::{Set};
 use util::{map, Map};

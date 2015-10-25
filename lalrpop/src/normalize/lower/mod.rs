@@ -5,14 +5,12 @@
 use intern::{self, intern, InternedString};
 use normalize::NormResult;
 use normalize::norm_util::{self, Symbols};
+use grammar::consts::INPUT_LIFETIME;
 use grammar::pattern::{Pattern, PatternKind};
 use grammar::parse_tree as pt;
 use grammar::parse_tree::{InternToken, NonterminalString, TerminalString};
 use grammar::repr as r;
 use util::{map, Map};
-
-#[cfg(test)]
-mod test;
 
 pub fn lower(grammar: pt::Grammar, types: r::Types) -> NormResult<r::Grammar> {
     let state = LowerState::new(types, &grammar);
@@ -22,7 +20,7 @@ pub fn lower(grammar: pt::Grammar, types: r::Types) -> NormResult<r::Grammar> {
 struct LowerState {
     prefix: String,
     action_fn_defns: Vec<r::ActionFnDefn>,
-    productions: Vec<r::Production>,
+    nonterminals: Map<NonterminalString, r::NonterminalData>,
     conversions: Vec<(TerminalString, Pattern<r::TypeRepr>)>,
     intern_token: Option<InternToken>,
     types: r::Types,
@@ -31,9 +29,9 @@ struct LowerState {
 impl LowerState {
     fn new(types: r::Types, grammar: &pt::Grammar) -> LowerState {
         LowerState {
-            prefix: find_prefix(&grammar),
+            prefix: grammar.prefix.clone(),
             action_fn_defns: vec![],
-            productions: vec![],
+            nonterminals: map(),
             conversions: vec![],
             types: types,
             intern_token: None,
@@ -56,7 +54,7 @@ impl LowerState {
                     token_span = Some(grammar.span);
                     let span = grammar.span;
                     let input_str = r::TypeRepr::Ref {
-                        lifetime: Some(intern(pt::INPUT_LIFETIME)),
+                        lifetime: Some(intern(INPUT_LIFETIME)),
                         mutable: false,
                         referent: Box::new(r::TypeRepr::Nominal(r::NominalTypeRepr {
                             path: r::Path::str(),
@@ -99,26 +97,31 @@ impl LowerState {
                 }
 
                 pt::GrammarItem::Nonterminal(nt) => {
-                    for alt in nt.alternatives {
-                        let nt_type = self.types.nonterminal_type(nt.name).clone();
-                        let symbols = self.symbols(&alt.expr.symbols);
-                        let action = self.action_kind(nt_type, &alt.expr, &symbols, alt.action);
-                        let production = r::Production {
-                            nonterminal: nt.name,
-                            span: alt.span,
-                            symbols: symbols,
-                            action: action,
-                        };
-                        self.productions.push(production);
-                    }
+                    let nt_name = nt.name;
+                    let productions: Vec<_> =
+                        nt.alternatives
+                          .into_iter()
+                          .map(|alt| {
+                              let nt_type = self.types.nonterminal_type(nt_name).clone();
+                              let symbols = self.symbols(&alt.expr.symbols);
+                              let action = self.action_kind(nt_type, &alt.expr,
+                                                            &symbols, alt.action);
+                              r::Production {
+                                  nonterminal: nt_name,
+                                  span: alt.span,
+                                  symbols: symbols,
+                                  action: action,
+                              }
+                          })
+                          .collect();
+                    self.nonterminals.insert(nt_name, r::NonterminalData {
+                        name: nt_name,
+                        annotations: nt.annotations,
+                        span: nt.span,
+                        productions: productions
+                    });
                 }
             }
-        }
-
-        let mut productions = map();
-        for production in self.productions {
-            let mut vec = productions.entry(production.nonterminal).or_insert(vec![]);
-            vec.push(production);
         }
 
         let parameters =
@@ -137,7 +140,7 @@ impl LowerState {
             start_nonterminals: start_symbols,
             uses: uses,
             action_fn_defns: self.action_fn_defns,
-            productions: productions,
+            nonterminals: self.nonterminals,
             conversions: self.conversions.into_iter().collect(),
             types: self.types,
             token_span: token_span.unwrap(),
@@ -172,12 +175,20 @@ impl LowerState {
                    };
                    let symbols = vec![r::Symbol::Nonterminal(nt.name)];
                    let action_fn = self.action_fn(nt_type, false, &expr, &symbols, None);
-                   self.productions.push(r::Production {
+                   let production = r::Production {
                        nonterminal: fake_name,
                        symbols: symbols,
-                       action: r::ActionKind::Call(action_fn),
+                       action: action_fn,
                        span: nt.span
-                   });
+                   };
+                   self.nonterminals.insert(
+                       fake_name,
+                       r::NonterminalData {
+                           name: fake_name,
+                           annotations: vec![],
+                           span: nt.span,
+                           productions: vec![production]
+                       });
                    (nt.name, fake_name)
                })
                .collect()
@@ -188,26 +199,40 @@ impl LowerState {
                    expr: &pt::ExprSymbol,
                    symbols: &[r::Symbol],
                    action: Option<pt::ActionKind>)
-                   -> r::ActionKind
+                   -> r::ActionFn
     {
         match action {
             Some(pt::ActionKind::Lookahead) =>
-                r::ActionKind::Lookahead,
+                self.lookahead_action_fn(),
             Some(pt::ActionKind::Lookbehind) =>
-                r::ActionKind::Lookbehind,
-            Some(pt::ActionKind::User(string)) => {
-                let action_fn = self.action_fn(nt_type, false, &expr, &symbols, Some(string));
-                r::ActionKind::Call(action_fn)
-            }
-            Some(pt::ActionKind::Fallible(string)) => {
-                let action_fn = self.action_fn(nt_type, true, &expr, &symbols, Some(string));
-                r::ActionKind::TryCall(action_fn)
-            }
-            None => {
-                let action_fn = self.action_fn(nt_type, false, &expr, &symbols, None);
-                r::ActionKind::Call(action_fn)
-            }
+                self.lookbehind_action_fn(),
+            Some(pt::ActionKind::User(string)) =>
+                self.action_fn(nt_type, false, &expr, &symbols, Some(string)),
+            Some(pt::ActionKind::Fallible(string)) =>
+                self.action_fn(nt_type, true, &expr, &symbols, Some(string)),
+            None =>
+                self.action_fn(nt_type, false, &expr, &symbols, None),
         }
+    }
+
+    fn lookahead_action_fn(&mut self) -> r::ActionFn {
+        let action_fn_defn = r::ActionFnDefn {
+            fallible: false,
+            ret_type: self.types.terminal_loc_type(),
+            kind: r::ActionFnDefnKind::Lookaround(r::LookaroundActionFnDefn::Lookahead),
+        };
+
+        self.add_action_fn(action_fn_defn)
+    }
+
+    fn lookbehind_action_fn(&mut self) -> r::ActionFn {
+        let action_fn_defn = r::ActionFnDefn {
+            fallible: false,
+            ret_type: self.types.terminal_loc_type(),
+            kind: r::ActionFnDefnKind::Lookaround(r::LookaroundActionFnDefn::Lookbehind),
+        };
+
+        self.add_action_fn(action_fn_defn)
     }
 
     fn action_fn(&mut self,
@@ -240,11 +265,13 @@ impl LowerState {
                              symbols.len());
 
                 r::ActionFnDefn {
-                    arg_patterns: arg_patterns,
-                    arg_types: arg_types,
-                    ret_type: nt_type,
                     fallible: fallible,
-                    code: action
+                    ret_type: nt_type,
+                    kind: r::ActionFnDefnKind::User(r::UserActionFnDefn {
+                        arg_patterns: arg_patterns,
+                        arg_types: arg_types,
+                        code: action,
+                    }),
                 }
             }
             Symbols::Anon(indices) => {
@@ -260,18 +287,23 @@ impl LowerState {
                 });
                 let action = action.replace("<>", &name_str);
                 r::ActionFnDefn {
-                    arg_patterns: arg_patterns,
-                    arg_types: arg_types,
-                    ret_type: nt_type,
                     fallible: fallible,
-                    code: action
+                    ret_type: nt_type,
+                    kind: r::ActionFnDefnKind::User(r::UserActionFnDefn {
+                        arg_patterns: arg_patterns,
+                        arg_types: arg_types,
+                        code: action,
+                    }),
                 }
             }
         };
 
+        self.add_action_fn(action_fn_defn)
+    }
+
+    fn add_action_fn(&mut self, action_fn_defn: r::ActionFnDefn) -> r::ActionFn {
         let index = r::ActionFn::new(self.action_fn_defns.len());
         self.action_fn_defns.push(action_fn_defn);
-
         index
     }
 
@@ -325,32 +357,3 @@ fn patterns<I>(mut chosen: I, num_args: usize) -> Vec<InternedString>
 
     result
 }
-
-// Find a unique prefix like `__` or `___` that doesn't appear
-// anywhere in any action strings, nonterminal names, etc. Obviously
-// this is stricter than needed, since the action string might be like
-// `print("__1")`, in which case we'll detect a false conflict (or it
-// might contain a variable named `__1x`, etc). But so what.
-fn find_prefix(grammar: &pt::Grammar) -> String {
-    let mut prefix = format!("__");
-
-    while
-        grammar.items
-               .iter()
-               .filter_map(|i| i.as_nonterminal())
-               .flat_map(|nt| nt.alternatives.iter())
-               .filter_map(|alt| alt.action.as_ref())
-               .filter_map(|action| action.as_user())
-               .any(|s| s.contains(&prefix))
-        ||
-        grammar.items
-               .iter()
-               .filter_map(|i| i.as_nonterminal())
-               .any(|nt| nt.name.0.starts_with(&prefix))
-    {
-        prefix.push('_');
-    }
-
-    prefix
-}
-

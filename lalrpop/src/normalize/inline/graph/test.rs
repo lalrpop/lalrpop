@@ -1,0 +1,45 @@
+use intern::intern;
+use grammar::repr::NonterminalString;
+use normalize::lower_helper;
+use parser;
+use super::inline_order;
+
+#[test]
+fn test_inline_self_cycle() {
+    let grammar = parser::parse_grammar(r#"
+    grammar;
+    extern { }
+    #[inline] A: () = A;
+"#).unwrap();
+    let grammar = lower_helper(grammar, true).unwrap();
+    assert!(inline_order(&grammar).is_err());
+}
+
+#[test]
+fn test_inline_cycle_3() {
+    let grammar = parser::parse_grammar(r#"
+    grammar;
+    extern { }
+    #[inline] A: () = B;
+    #[inline] B: () = C;
+    #[inline] C: () = A;
+"#).unwrap();
+    let grammar = lower_helper(grammar, true).unwrap();
+    assert!(inline_order(&grammar).is_err());
+}
+
+#[test]
+fn test_inline_order() {
+    // because C references A, we inline A first.
+    let grammar = parser::parse_grammar(r#"
+    grammar;
+    extern { }
+    #[inline] A: () = B;
+    B: () = C;
+    #[inline] C: () = A;
+"#).unwrap();
+    let grammar = lower_helper(grammar, true).unwrap();
+    let a = NonterminalString(intern("A"));
+    let c = NonterminalString(intern("C"));
+    assert_eq!(inline_order(&grammar).unwrap(), vec![a, c]);
+}

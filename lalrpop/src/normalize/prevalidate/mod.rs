@@ -3,6 +3,7 @@
 use super::{NormResult, NormError};
 use super::norm_util::{self, Symbols};
 
+use grammar::consts::*;
 use grammar::parse_tree::*;
 use grammar::repr;
 use intern::{intern, InternedString};
@@ -73,10 +74,22 @@ impl<'grammar> Validator<'grammar> {
                     }
                 }
                 GrammarItem::Nonterminal(ref data) => {
+                    let inline_annotation = intern(INLINE);
+                    let known_annotations = vec![inline_annotation];
+                    let mut found_annotations = set();
                     for annotation in &data.annotations {
-                        return_err!(annotation.id_span,
-                                    "unrecognized annotation `{}`",
-                                    annotation.id);
+                        if !known_annotations.contains(&annotation.id) {
+                            return_err!(annotation.id_span,
+                                        "unrecognized annotation `{}`",
+                                        annotation.id);
+                        } else if !found_annotations.insert(annotation.id) {
+                            return_err!(annotation.id_span,
+                                        "duplicate annotation `{}`",
+                                        annotation.id);
+                        } else if annotation.id == inline_annotation && data.public {
+                            return_err!(annotation.id_span,
+                                        "public items cannot be marked #[inline]");
+                        }
                     }
 
                     for alternative in &data.alternatives {

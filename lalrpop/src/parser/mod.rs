@@ -12,7 +12,14 @@ pub fn parse_grammar<'input>(input: &'input str)
                              -> Result<Grammar, ParseError<'input>>
 {
     let tokenizer = tok::Tokenizer::new(input, 0);
-    lrgrammar::parse_Grammar(input, tokenizer)
+    let mut grammar = try!(lrgrammar::parse_Grammar(input, tokenizer));
+
+    // find a unique prefix that does not appear anywhere in the input
+    while input.contains(&grammar.prefix) {
+        grammar.prefix.push('_');
+    }
+
+    Ok(grammar)
 }
 
 fn parse_pattern<'input>(input: &'input str, offset: usize)

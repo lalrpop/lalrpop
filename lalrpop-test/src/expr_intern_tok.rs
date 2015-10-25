@@ -159,7 +159,7 @@ mod __parse__Expr {
     //   Expr = Expr (*) "-" Factor ["-"]
     //   __Expr = Expr (*) [EOF]
     //
-    //   EOF -> Reduce(__Expr = Expr => Call(ActionFn(0));)
+    //   EOF -> Reduce(__Expr = Expr => ActionFn(0);)
     //   "+" -> Shift(S7)
     //   "-" -> Shift(S8)
     //
@@ -189,7 +189,7 @@ mod __parse__Expr {
             }
             None => {
                 let __sym0 = __sym0.take().unwrap();
-                let __nt = super::__action0(scale, input, __sym0);
+                let __nt = super::__action0(scale, input, __sym0, &__lookbehind, &__lookahead);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::____Expr(__nt)));
             }
             _ => {
@@ -217,10 +217,10 @@ mod __parse__Expr {
     //   Factor = Factor (*) "/" Term ["-"]
     //   Factor = Factor (*) "/" Term ["/"]
     //
-    //   EOF -> Reduce(Expr = Factor => Call(ActionFn(3));)
+    //   EOF -> Reduce(Expr = Factor => ActionFn(3);)
     //   "*" -> Shift(S9)
-    //   "+" -> Reduce(Expr = Factor => Call(ActionFn(3));)
-    //   "-" -> Reduce(Expr = Factor => Call(ActionFn(3));)
+    //   "+" -> Reduce(Expr = Factor => ActionFn(3);)
+    //   "-" -> Reduce(Expr = Factor => ActionFn(3);)
     //   "/" -> Shift(S10)
     //
     pub fn __state2<
@@ -251,7 +251,7 @@ mod __parse__Expr {
             Some((_, (3, _), _)) |
             Some((_, (4, _), _)) => {
                 let __sym0 = __sym0.take().unwrap();
-                let __nt = super::__action3(scale, input, __sym0);
+                let __nt = super::__action3(scale, input, __sym0, &__lookbehind, &__lookahead);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::Expr(__nt)));
             }
             _ => {
@@ -271,11 +271,11 @@ mod __parse__Expr {
     //   Term = Num (*) ["-"]
     //   Term = Num (*) ["/"]
     //
-    //   EOF -> Reduce(Term = Num => Call(ActionFn(7));)
-    //   "*" -> Reduce(Term = Num => Call(ActionFn(7));)
-    //   "+" -> Reduce(Term = Num => Call(ActionFn(7));)
-    //   "-" -> Reduce(Term = Num => Call(ActionFn(7));)
-    //   "/" -> Reduce(Term = Num => Call(ActionFn(7));)
+    //   EOF -> Reduce(Term = Num => ActionFn(7);)
+    //   "*" -> Reduce(Term = Num => ActionFn(7);)
+    //   "+" -> Reduce(Term = Num => ActionFn(7);)
+    //   "-" -> Reduce(Term = Num => ActionFn(7);)
+    //   "/" -> Reduce(Term = Num => ActionFn(7);)
     //
     pub fn __state3<
         'input,
@@ -297,7 +297,7 @@ mod __parse__Expr {
             Some((_, (4, _), _)) |
             Some((_, (5, _), _)) => {
                 let __sym0 = __sym0.take().unwrap();
-                let __nt = super::__action7(scale, input, __sym0);
+                let __nt = super::__action7(scale, input, __sym0, &__lookbehind, &__lookahead);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::Term(__nt)));
             }
             _ => {
@@ -316,11 +316,11 @@ mod __parse__Expr {
     //   Factor = Term (*) ["-"]
     //   Factor = Term (*) ["/"]
     //
-    //   EOF -> Reduce(Factor = Term => Call(ActionFn(6));)
-    //   "*" -> Reduce(Factor = Term => Call(ActionFn(6));)
-    //   "+" -> Reduce(Factor = Term => Call(ActionFn(6));)
-    //   "-" -> Reduce(Factor = Term => Call(ActionFn(6));)
-    //   "/" -> Reduce(Factor = Term => Call(ActionFn(6));)
+    //   EOF -> Reduce(Factor = Term => ActionFn(6);)
+    //   "*" -> Reduce(Factor = Term => ActionFn(6);)
+    //   "+" -> Reduce(Factor = Term => ActionFn(6);)
+    //   "-" -> Reduce(Factor = Term => ActionFn(6);)
+    //   "/" -> Reduce(Factor = Term => ActionFn(6);)
     //
     pub fn __state4<
         'input,
@@ -342,7 +342,7 @@ mod __parse__Expr {
             Some((_, (4, _), _)) |
             Some((_, (5, _), _)) => {
                 let __sym0 = __sym0.take().unwrap();
-                let __nt = super::__action6(scale, input, __sym0);
+                let __nt = super::__action6(scale, input, __sym0, &__lookbehind, &__lookahead);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::Factor(__nt)));
             }
             _ => {
@@ -476,11 +476,11 @@ mod __parse__Expr {
     //   Num = r#"[0-9]+"# (*) ["-"]
     //   Num = r#"[0-9]+"# (*) ["/"]
     //
-    //   EOF -> Reduce(Num = r#"[0-9]+"# => Call(ActionFn(9));)
-    //   "*" -> Reduce(Num = r#"[0-9]+"# => Call(ActionFn(9));)
-    //   "+" -> Reduce(Num = r#"[0-9]+"# => Call(ActionFn(9));)
-    //   "-" -> Reduce(Num = r#"[0-9]+"# => Call(ActionFn(9));)
-    //   "/" -> Reduce(Num = r#"[0-9]+"# => Call(ActionFn(9));)
+    //   EOF -> Reduce(Num = r#"[0-9]+"# => ActionFn(9);)
+    //   "*" -> Reduce(Num = r#"[0-9]+"# => ActionFn(9);)
+    //   "+" -> Reduce(Num = r#"[0-9]+"# => ActionFn(9);)
+    //   "-" -> Reduce(Num = r#"[0-9]+"# => ActionFn(9);)
+    //   "/" -> Reduce(Num = r#"[0-9]+"# => ActionFn(9);)
     //
     pub fn __state6<
         'input,
@@ -506,7 +506,7 @@ mod __parse__Expr {
             Some((_, (4, _), _)) |
             Some((_, (5, _), _)) => {
                 let __sym0 = __sym0.take().unwrap();
-                let __nt = super::__action9(scale, input, __sym0);
+                let __nt = super::__action9(scale, input, __sym0, &__lookbehind, &__lookahead);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::Num(__nt)));
             }
             _ => {
@@ -954,10 +954,10 @@ mod __parse__Expr {
     //   Factor = Factor (*) "/" Term ["-"]
     //   Factor = Factor (*) "/" Term ["/"]
     //
-    //   ")" -> Reduce(Expr = Factor => Call(ActionFn(3));)
+    //   ")" -> Reduce(Expr = Factor => ActionFn(3);)
     //   "*" -> Shift(S24)
-    //   "+" -> Reduce(Expr = Factor => Call(ActionFn(3));)
-    //   "-" -> Reduce(Expr = Factor => Call(ActionFn(3));)
+    //   "+" -> Reduce(Expr = Factor => ActionFn(3);)
+    //   "-" -> Reduce(Expr = Factor => ActionFn(3);)
     //   "/" -> Shift(S25)
     //
     pub fn __state12<
@@ -988,7 +988,7 @@ mod __parse__Expr {
             Some((_, (3, _), _)) |
             Some((_, (4, _), _)) => {
                 let __sym0 = __sym0.take().unwrap();
-                let __nt = super::__action3(scale, input, __sym0);
+                let __nt = super::__action3(scale, input, __sym0, &__lookbehind, &__lookahead);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::Expr(__nt)));
             }
             _ => {
@@ -1008,11 +1008,11 @@ mod __parse__Expr {
     //   Term = Num (*) ["-"]
     //   Term = Num (*) ["/"]
     //
-    //   ")" -> Reduce(Term = Num => Call(ActionFn(7));)
-    //   "*" -> Reduce(Term = Num => Call(ActionFn(7));)
-    //   "+" -> Reduce(Term = Num => Call(ActionFn(7));)
-    //   "-" -> Reduce(Term = Num => Call(ActionFn(7));)
-    //   "/" -> Reduce(Term = Num => Call(ActionFn(7));)
+    //   ")" -> Reduce(Term = Num => ActionFn(7);)
+    //   "*" -> Reduce(Term = Num => ActionFn(7);)
+    //   "+" -> Reduce(Term = Num => ActionFn(7);)
+    //   "-" -> Reduce(Term = Num => ActionFn(7);)
+    //   "/" -> Reduce(Term = Num => ActionFn(7);)
     //
     pub fn __state13<
         'input,
@@ -1034,7 +1034,7 @@ mod __parse__Expr {
             Some((_, (4, _), _)) |
             Some((_, (5, _), _)) => {
                 let __sym0 = __sym0.take().unwrap();
-                let __nt = super::__action7(scale, input, __sym0);
+                let __nt = super::__action7(scale, input, __sym0, &__lookbehind, &__lookahead);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::Term(__nt)));
             }
             _ => {
@@ -1053,11 +1053,11 @@ mod __parse__Expr {
     //   Factor = Term (*) ["-"]
     //   Factor = Term (*) ["/"]
     //
-    //   ")" -> Reduce(Factor = Term => Call(ActionFn(6));)
-    //   "*" -> Reduce(Factor = Term => Call(ActionFn(6));)
-    //   "+" -> Reduce(Factor = Term => Call(ActionFn(6));)
-    //   "-" -> Reduce(Factor = Term => Call(ActionFn(6));)
-    //   "/" -> Reduce(Factor = Term => Call(ActionFn(6));)
+    //   ")" -> Reduce(Factor = Term => ActionFn(6);)
+    //   "*" -> Reduce(Factor = Term => ActionFn(6);)
+    //   "+" -> Reduce(Factor = Term => ActionFn(6);)
+    //   "-" -> Reduce(Factor = Term => ActionFn(6);)
+    //   "/" -> Reduce(Factor = Term => ActionFn(6);)
     //
     pub fn __state14<
         'input,
@@ -1079,7 +1079,7 @@ mod __parse__Expr {
             Some((_, (4, _), _)) |
             Some((_, (5, _), _)) => {
                 let __sym0 = __sym0.take().unwrap();
-                let __nt = super::__action6(scale, input, __sym0);
+                let __nt = super::__action6(scale, input, __sym0, &__lookbehind, &__lookahead);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::Factor(__nt)));
             }
             _ => {
@@ -1213,11 +1213,11 @@ mod __parse__Expr {
     //   Num = r#"[0-9]+"# (*) ["-"]
     //   Num = r#"[0-9]+"# (*) ["/"]
     //
-    //   ")" -> Reduce(Num = r#"[0-9]+"# => Call(ActionFn(9));)
-    //   "*" -> Reduce(Num = r#"[0-9]+"# => Call(ActionFn(9));)
-    //   "+" -> Reduce(Num = r#"[0-9]+"# => Call(ActionFn(9));)
-    //   "-" -> Reduce(Num = r#"[0-9]+"# => Call(ActionFn(9));)
-    //   "/" -> Reduce(Num = r#"[0-9]+"# => Call(ActionFn(9));)
+    //   ")" -> Reduce(Num = r#"[0-9]+"# => ActionFn(9);)
+    //   "*" -> Reduce(Num = r#"[0-9]+"# => ActionFn(9);)
+    //   "+" -> Reduce(Num = r#"[0-9]+"# => ActionFn(9);)
+    //   "-" -> Reduce(Num = r#"[0-9]+"# => ActionFn(9);)
+    //   "/" -> Reduce(Num = r#"[0-9]+"# => ActionFn(9);)
     //
     pub fn __state16<
         'input,
@@ -1243,7 +1243,7 @@ mod __parse__Expr {
             Some((_, (4, _), _)) |
             Some((_, (5, _), _)) => {
                 let __sym0 = __sym0.take().unwrap();
-                let __nt = super::__action9(scale, input, __sym0);
+                let __nt = super::__action9(scale, input, __sym0, &__lookbehind, &__lookahead);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::Num(__nt)));
             }
             _ => {
@@ -1270,10 +1270,10 @@ mod __parse__Expr {
     //   Factor = Factor (*) "/" Term ["-"]
     //   Factor = Factor (*) "/" Term ["/"]
     //
-    //   EOF -> Reduce(Expr = Expr, "+", Factor => Call(ActionFn(2));)
+    //   EOF -> Reduce(Expr = Expr, "+", Factor => ActionFn(2);)
     //   "*" -> Shift(S9)
-    //   "+" -> Reduce(Expr = Expr, "+", Factor => Call(ActionFn(2));)
-    //   "-" -> Reduce(Expr = Expr, "+", Factor => Call(ActionFn(2));)
+    //   "+" -> Reduce(Expr = Expr, "+", Factor => ActionFn(2);)
+    //   "-" -> Reduce(Expr = Expr, "+", Factor => ActionFn(2);)
     //   "/" -> Shift(S10)
     //
     pub fn __state17<
@@ -1308,7 +1308,7 @@ mod __parse__Expr {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
                 let __sym2 = __sym2.take().unwrap();
-                let __nt = super::__action2(scale, input, __sym0, __sym1, __sym2);
+                let __nt = super::__action2(scale, input, __sym0, __sym1, __sym2, &__lookbehind, &__lookahead);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::Expr(__nt)));
             }
             _ => {
@@ -1336,10 +1336,10 @@ mod __parse__Expr {
     //   Factor = Factor (*) "/" Term ["-"]
     //   Factor = Factor (*) "/" Term ["/"]
     //
-    //   EOF -> Reduce(Expr = Expr, "-", Factor => Call(ActionFn(1));)
+    //   EOF -> Reduce(Expr = Expr, "-", Factor => ActionFn(1);)
     //   "*" -> Shift(S9)
-    //   "+" -> Reduce(Expr = Expr, "-", Factor => Call(ActionFn(1));)
-    //   "-" -> Reduce(Expr = Expr, "-", Factor => Call(ActionFn(1));)
+    //   "+" -> Reduce(Expr = Expr, "-", Factor => ActionFn(1);)
+    //   "-" -> Reduce(Expr = Expr, "-", Factor => ActionFn(1);)
     //   "/" -> Shift(S10)
     //
     pub fn __state18<
@@ -1374,7 +1374,7 @@ mod __parse__Expr {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
                 let __sym2 = __sym2.take().unwrap();
-                let __nt = super::__action1(scale, input, __sym0, __sym1, __sym2);
+                let __nt = super::__action1(scale, input, __sym0, __sym1, __sym2, &__lookbehind, &__lookahead);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::Expr(__nt)));
             }
             _ => {
@@ -1394,11 +1394,11 @@ mod __parse__Expr {
     //   Factor = Factor "*" Term (*) ["-"]
     //   Factor = Factor "*" Term (*) ["/"]
     //
-    //   EOF -> Reduce(Factor = Factor, "*", Term => Call(ActionFn(4));)
-    //   "*" -> Reduce(Factor = Factor, "*", Term => Call(ActionFn(4));)
-    //   "+" -> Reduce(Factor = Factor, "*", Term => Call(ActionFn(4));)
-    //   "-" -> Reduce(Factor = Factor, "*", Term => Call(ActionFn(4));)
-    //   "/" -> Reduce(Factor = Factor, "*", Term => Call(ActionFn(4));)
+    //   EOF -> Reduce(Factor = Factor, "*", Term => ActionFn(4);)
+    //   "*" -> Reduce(Factor = Factor, "*", Term => ActionFn(4);)
+    //   "+" -> Reduce(Factor = Factor, "*", Term => ActionFn(4);)
+    //   "-" -> Reduce(Factor = Factor, "*", Term => ActionFn(4);)
+    //   "/" -> Reduce(Factor = Factor, "*", Term => ActionFn(4);)
     //
     pub fn __state19<
         'input,
@@ -1424,7 +1424,7 @@ mod __parse__Expr {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
                 let __sym2 = __sym2.take().unwrap();
-                let __nt = super::__action4(scale, input, __sym0, __sym1, __sym2);
+                let __nt = super::__action4(scale, input, __sym0, __sym1, __sym2, &__lookbehind, &__lookahead);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::Factor(__nt)));
             }
             _ => {
@@ -1443,11 +1443,11 @@ mod __parse__Expr {
     //   Factor = Factor "/" Term (*) ["-"]
     //   Factor = Factor "/" Term (*) ["/"]
     //
-    //   EOF -> Reduce(Factor = Factor, "/", Term => Call(ActionFn(5));)
-    //   "*" -> Reduce(Factor = Factor, "/", Term => Call(ActionFn(5));)
-    //   "+" -> Reduce(Factor = Factor, "/", Term => Call(ActionFn(5));)
-    //   "-" -> Reduce(Factor = Factor, "/", Term => Call(ActionFn(5));)
-    //   "/" -> Reduce(Factor = Factor, "/", Term => Call(ActionFn(5));)
+    //   EOF -> Reduce(Factor = Factor, "/", Term => ActionFn(5);)
+    //   "*" -> Reduce(Factor = Factor, "/", Term => ActionFn(5);)
+    //   "+" -> Reduce(Factor = Factor, "/", Term => ActionFn(5);)
+    //   "-" -> Reduce(Factor = Factor, "/", Term => ActionFn(5);)
+    //   "/" -> Reduce(Factor = Factor, "/", Term => ActionFn(5);)
     //
     pub fn __state20<
         'input,
@@ -1473,7 +1473,7 @@ mod __parse__Expr {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
                 let __sym2 = __sym2.take().unwrap();
-                let __nt = super::__action5(scale, input, __sym0, __sym1, __sym2);
+                let __nt = super::__action5(scale, input, __sym0, __sym1, __sym2, &__lookbehind, &__lookahead);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::Factor(__nt)));
             }
             _ => {
@@ -1492,11 +1492,11 @@ mod __parse__Expr {
     //   Term = "(" Expr ")" (*) ["-"]
     //   Term = "(" Expr ")" (*) ["/"]
     //
-    //   EOF -> Reduce(Term = "(", Expr, ")" => Call(ActionFn(8));)
-    //   "*" -> Reduce(Term = "(", Expr, ")" => Call(ActionFn(8));)
-    //   "+" -> Reduce(Term = "(", Expr, ")" => Call(ActionFn(8));)
-    //   "-" -> Reduce(Term = "(", Expr, ")" => Call(ActionFn(8));)
-    //   "/" -> Reduce(Term = "(", Expr, ")" => Call(ActionFn(8));)
+    //   EOF -> Reduce(Term = "(", Expr, ")" => ActionFn(8);)
+    //   "*" -> Reduce(Term = "(", Expr, ")" => ActionFn(8);)
+    //   "+" -> Reduce(Term = "(", Expr, ")" => ActionFn(8);)
+    //   "-" -> Reduce(Term = "(", Expr, ")" => ActionFn(8);)
+    //   "/" -> Reduce(Term = "(", Expr, ")" => ActionFn(8);)
     //
     pub fn __state21<
         'input,
@@ -1526,7 +1526,7 @@ mod __parse__Expr {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
                 let __sym2 = __sym2.take().unwrap();
-                let __nt = super::__action8(scale, input, __sym0, __sym1, __sym2);
+                let __nt = super::__action8(scale, input, __sym0, __sym1, __sym2, &__lookbehind, &__lookahead);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::Term(__nt)));
             }
             _ => {
@@ -1974,10 +1974,10 @@ mod __parse__Expr {
     //   Factor = Factor (*) "/" Term ["-"]
     //   Factor = Factor (*) "/" Term ["/"]
     //
-    //   ")" -> Reduce(Expr = Expr, "+", Factor => Call(ActionFn(2));)
+    //   ")" -> Reduce(Expr = Expr, "+", Factor => ActionFn(2);)
     //   "*" -> Shift(S24)
-    //   "+" -> Reduce(Expr = Expr, "+", Factor => Call(ActionFn(2));)
-    //   "-" -> Reduce(Expr = Expr, "+", Factor => Call(ActionFn(2));)
+    //   "+" -> Reduce(Expr = Expr, "+", Factor => ActionFn(2);)
+    //   "-" -> Reduce(Expr = Expr, "+", Factor => ActionFn(2);)
     //   "/" -> Shift(S25)
     //
     pub fn __state27<
@@ -2012,7 +2012,7 @@ mod __parse__Expr {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
                 let __sym2 = __sym2.take().unwrap();
-                let __nt = super::__action2(scale, input, __sym0, __sym1, __sym2);
+                let __nt = super::__action2(scale, input, __sym0, __sym1, __sym2, &__lookbehind, &__lookahead);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::Expr(__nt)));
             }
             _ => {
@@ -2040,10 +2040,10 @@ mod __parse__Expr {
     //   Factor = Factor (*) "/" Term ["-"]
     //   Factor = Factor (*) "/" Term ["/"]
     //
-    //   ")" -> Reduce(Expr = Expr, "-", Factor => Call(ActionFn(1));)
+    //   ")" -> Reduce(Expr = Expr, "-", Factor => ActionFn(1);)
     //   "*" -> Shift(S24)
-    //   "+" -> Reduce(Expr = Expr, "-", Factor => Call(ActionFn(1));)
-    //   "-" -> Reduce(Expr = Expr, "-", Factor => Call(ActionFn(1));)
+    //   "+" -> Reduce(Expr = Expr, "-", Factor => ActionFn(1);)
+    //   "-" -> Reduce(Expr = Expr, "-", Factor => ActionFn(1);)
     //   "/" -> Shift(S25)
     //
     pub fn __state28<
@@ -2078,7 +2078,7 @@ mod __parse__Expr {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
                 let __sym2 = __sym2.take().unwrap();
-                let __nt = super::__action1(scale, input, __sym0, __sym1, __sym2);
+                let __nt = super::__action1(scale, input, __sym0, __sym1, __sym2, &__lookbehind, &__lookahead);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::Expr(__nt)));
             }
             _ => {
@@ -2098,11 +2098,11 @@ mod __parse__Expr {
     //   Factor = Factor "*" Term (*) ["-"]
     //   Factor = Factor "*" Term (*) ["/"]
     //
-    //   ")" -> Reduce(Factor = Factor, "*", Term => Call(ActionFn(4));)
-    //   "*" -> Reduce(Factor = Factor, "*", Term => Call(ActionFn(4));)
-    //   "+" -> Reduce(Factor = Factor, "*", Term => Call(ActionFn(4));)
-    //   "-" -> Reduce(Factor = Factor, "*", Term => Call(ActionFn(4));)
-    //   "/" -> Reduce(Factor = Factor, "*", Term => Call(ActionFn(4));)
+    //   ")" -> Reduce(Factor = Factor, "*", Term => ActionFn(4);)
+    //   "*" -> Reduce(Factor = Factor, "*", Term => ActionFn(4);)
+    //   "+" -> Reduce(Factor = Factor, "*", Term => ActionFn(4);)
+    //   "-" -> Reduce(Factor = Factor, "*", Term => ActionFn(4);)
+    //   "/" -> Reduce(Factor = Factor, "*", Term => ActionFn(4);)
     //
     pub fn __state29<
         'input,
@@ -2128,7 +2128,7 @@ mod __parse__Expr {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
                 let __sym2 = __sym2.take().unwrap();
-                let __nt = super::__action4(scale, input, __sym0, __sym1, __sym2);
+                let __nt = super::__action4(scale, input, __sym0, __sym1, __sym2, &__lookbehind, &__lookahead);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::Factor(__nt)));
             }
             _ => {
@@ -2147,11 +2147,11 @@ mod __parse__Expr {
     //   Factor = Factor "/" Term (*) ["-"]
     //   Factor = Factor "/" Term (*) ["/"]
     //
-    //   ")" -> Reduce(Factor = Factor, "/", Term => Call(ActionFn(5));)
-    //   "*" -> Reduce(Factor = Factor, "/", Term => Call(ActionFn(5));)
-    //   "+" -> Reduce(Factor = Factor, "/", Term => Call(ActionFn(5));)
-    //   "-" -> Reduce(Factor = Factor, "/", Term => Call(ActionFn(5));)
-    //   "/" -> Reduce(Factor = Factor, "/", Term => Call(ActionFn(5));)
+    //   ")" -> Reduce(Factor = Factor, "/", Term => ActionFn(5);)
+    //   "*" -> Reduce(Factor = Factor, "/", Term => ActionFn(5);)
+    //   "+" -> Reduce(Factor = Factor, "/", Term => ActionFn(5);)
+    //   "-" -> Reduce(Factor = Factor, "/", Term => ActionFn(5);)
+    //   "/" -> Reduce(Factor = Factor, "/", Term => ActionFn(5);)
     //
     pub fn __state30<
         'input,
@@ -2177,7 +2177,7 @@ mod __parse__Expr {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
                 let __sym2 = __sym2.take().unwrap();
-                let __nt = super::__action5(scale, input, __sym0, __sym1, __sym2);
+                let __nt = super::__action5(scale, input, __sym0, __sym1, __sym2, &__lookbehind, &__lookahead);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::Factor(__nt)));
             }
             _ => {
@@ -2196,11 +2196,11 @@ mod __parse__Expr {
     //   Term = "(" Expr ")" (*) ["-"]
     //   Term = "(" Expr ")" (*) ["/"]
     //
-    //   ")" -> Reduce(Term = "(", Expr, ")" => Call(ActionFn(8));)
-    //   "*" -> Reduce(Term = "(", Expr, ")" => Call(ActionFn(8));)
-    //   "+" -> Reduce(Term = "(", Expr, ")" => Call(ActionFn(8));)
-    //   "-" -> Reduce(Term = "(", Expr, ")" => Call(ActionFn(8));)
-    //   "/" -> Reduce(Term = "(", Expr, ")" => Call(ActionFn(8));)
+    //   ")" -> Reduce(Term = "(", Expr, ")" => ActionFn(8);)
+    //   "*" -> Reduce(Term = "(", Expr, ")" => ActionFn(8);)
+    //   "+" -> Reduce(Term = "(", Expr, ")" => ActionFn(8);)
+    //   "-" -> Reduce(Term = "(", Expr, ")" => ActionFn(8);)
+    //   "/" -> Reduce(Term = "(", Expr, ")" => ActionFn(8);)
     //
     pub fn __state31<
         'input,
@@ -2230,7 +2230,7 @@ mod __parse__Expr {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
                 let __sym2 = __sym2.take().unwrap();
-                let __nt = super::__action8(scale, input, __sym0, __sym1, __sym2);
+                let __nt = super::__action8(scale, input, __sym0, __sym1, __sym2, &__lookbehind, &__lookahead);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::Term(__nt)));
             }
             _ => {
@@ -2506,6 +2506,8 @@ pub fn __action0<
     scale: i32,
     input: &'input str,
     __0: i32,
+    __lookbehind: &Option<usize>,
+    __lookahead: &Option<(usize, (usize, &'input str), usize)>,
 ) -> i32
 {
     (__0)
@@ -2519,6 +2521,8 @@ pub fn __action1<
     l: i32,
     _: &'input str,
     r: i32,
+    __lookbehind: &Option<usize>,
+    __lookahead: &Option<(usize, (usize, &'input str), usize)>,
 ) -> i32
 {
     l - r
@@ -2532,6 +2536,8 @@ pub fn __action2<
     l: i32,
     _: &'input str,
     r: i32,
+    __lookbehind: &Option<usize>,
+    __lookahead: &Option<(usize, (usize, &'input str), usize)>,
 ) -> i32
 {
     l + r
@@ -2543,6 +2549,8 @@ pub fn __action3<
     scale: i32,
     input: &'input str,
     __0: i32,
+    __lookbehind: &Option<usize>,
+    __lookahead: &Option<(usize, (usize, &'input str), usize)>,
 ) -> i32
 {
     (__0)
@@ -2556,6 +2564,8 @@ pub fn __action4<
     l: i32,
     _: &'input str,
     r: i32,
+    __lookbehind: &Option<usize>,
+    __lookahead: &Option<(usize, (usize, &'input str), usize)>,
 ) -> i32
 {
     l * r
@@ -2569,6 +2579,8 @@ pub fn __action5<
     l: i32,
     _: &'input str,
     r: i32,
+    __lookbehind: &Option<usize>,
+    __lookahead: &Option<(usize, (usize, &'input str), usize)>,
 ) -> i32
 {
     l / r
@@ -2580,6 +2592,8 @@ pub fn __action6<
     scale: i32,
     input: &'input str,
     __0: i32,
+    __lookbehind: &Option<usize>,
+    __lookahead: &Option<(usize, (usize, &'input str), usize)>,
 ) -> i32
 {
     (__0)
@@ -2591,6 +2605,8 @@ pub fn __action7<
     scale: i32,
     input: &'input str,
     n: i32,
+    __lookbehind: &Option<usize>,
+    __lookahead: &Option<(usize, (usize, &'input str), usize)>,
 ) -> i32
 {
     n * scale
@@ -2604,6 +2620,8 @@ pub fn __action8<
     _: &'input str,
     __0: i32,
     _: &'input str,
+    __lookbehind: &Option<usize>,
+    __lookahead: &Option<(usize, (usize, &'input str), usize)>,
 ) -> i32
 {
     (__0)
@@ -2615,6 +2633,8 @@ pub fn __action9<
     scale: i32,
     input: &'input str,
     __0: &'input str,
+    __lookbehind: &Option<usize>,
+    __lookahead: &Option<(usize, (usize, &'input str), usize)>,
 ) -> i32
 {
     i32::from_str(__0).unwrap()

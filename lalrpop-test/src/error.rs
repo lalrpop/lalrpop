@@ -55,9 +55,9 @@ mod __parse__Items {
     //   Items = (*) Items "-" ["-"]
     //   __Items = (*) Items [EOF]
     //
-    //   EOF -> Reduce(Items =  => Call(ActionFn(1));)
-    //   "+" -> Reduce(Items =  => Call(ActionFn(1));)
-    //   "-" -> Reduce(Items =  => Call(ActionFn(1));)
+    //   EOF -> Reduce(Items =  => ActionFn(1);)
+    //   "+" -> Reduce(Items =  => ActionFn(1);)
+    //   "-" -> Reduce(Items =  => ActionFn(1);)
     //
     //   Items -> S1
     pub fn __state0<
@@ -73,7 +73,7 @@ mod __parse__Items {
             None |
             Some((_, Tok::Plus(..), _)) |
             Some((_, Tok::Minus(..), _)) => {
-                let __nt = super::__action1();
+                let __nt = super::__action1(&__lookbehind, &__lookahead);
                 __result = (__lookbehind, __lookahead, __Nonterminal::Items(__nt));
             }
             _ => {
@@ -106,7 +106,7 @@ mod __parse__Items {
     //   Items = Items (*) "-" ["-"]
     //   __Items = Items (*) [EOF]
     //
-    //   EOF -> Reduce(__Items = Items => Call(ActionFn(0));)
+    //   EOF -> Reduce(__Items = Items => ActionFn(0);)
     //   "+" -> Shift(S2)
     //   "-" -> Shift(S3)
     //
@@ -133,7 +133,7 @@ mod __parse__Items {
             }
             None => {
                 let __sym0 = __sym0.take().unwrap();
-                let __nt = super::__action0(__sym0);
+                let __nt = super::__action0(__sym0, &__lookbehind, &__lookahead);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::____Items(__nt)));
             }
             _ => {
@@ -151,9 +151,9 @@ mod __parse__Items {
     //   Items = Items "+" (*) ["+"]
     //   Items = Items "+" (*) ["-"]
     //
-    //   EOF -> Reduce(Items = Items, "+" => TryCall(ActionFn(2));)
-    //   "+" -> Reduce(Items = Items, "+" => TryCall(ActionFn(2));)
-    //   "-" -> Reduce(Items = Items, "+" => TryCall(ActionFn(2));)
+    //   EOF -> Reduce(Items = Items, "+" => ActionFn(2);)
+    //   "+" -> Reduce(Items = Items, "+" => ActionFn(2);)
+    //   "-" -> Reduce(Items = Items, "+" => ActionFn(2);)
     //
     pub fn __state2<
         __TOKENS: Iterator<Item=Result<(usize, Tok, usize),char>>,
@@ -176,7 +176,7 @@ mod __parse__Items {
             Some((_, Tok::Minus(..), _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
-                let __nt = try!(super::__action2(__sym0, __sym1));
+                let __nt = try!(super::__action2(__sym0, __sym1, &__lookbehind, &__lookahead));
                 return Ok((__lookbehind, __lookahead, __Nonterminal::Items(__nt)));
             }
             _ => {
@@ -193,9 +193,9 @@ mod __parse__Items {
     //   Items = Items "-" (*) ["+"]
     //   Items = Items "-" (*) ["-"]
     //
-    //   EOF -> Reduce(Items = Items, "-" => TryCall(ActionFn(3));)
-    //   "+" -> Reduce(Items = Items, "-" => TryCall(ActionFn(3));)
-    //   "-" -> Reduce(Items = Items, "-" => TryCall(ActionFn(3));)
+    //   EOF -> Reduce(Items = Items, "-" => ActionFn(3);)
+    //   "+" -> Reduce(Items = Items, "-" => ActionFn(3);)
+    //   "-" -> Reduce(Items = Items, "-" => ActionFn(3);)
     //
     pub fn __state3<
         __TOKENS: Iterator<Item=Result<(usize, Tok, usize),char>>,
@@ -218,7 +218,7 @@ mod __parse__Items {
             Some((_, Tok::Minus(..), _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
-                let __nt = try!(super::__action3(__sym0, __sym1));
+                let __nt = try!(super::__action3(__sym0, __sym1, &__lookbehind, &__lookahead));
                 return Ok((__lookbehind, __lookahead, __Nonterminal::Items(__nt)));
             }
             _ => {
@@ -235,6 +235,8 @@ pub use self::__parse__Items::parse_Items;
 pub fn __action0<
 >(
     __0: Vec<(usize, usize)>,
+    __lookbehind: &Option<usize>,
+    __lookahead: &Option<(usize, Tok, usize)>,
 ) -> Vec<(usize, usize)>
 {
     (__0)
@@ -242,6 +244,8 @@ pub fn __action0<
 
 pub fn __action1<
 >(
+    __lookbehind: &Option<usize>,
+    __lookahead: &Option<(usize, Tok, usize)>,
 ) -> Vec<(usize, usize)>
 {
     vec![]
@@ -251,6 +255,8 @@ pub fn __action2<
 >(
     __0: Vec<(usize, usize)>,
     __1: Tok,
+    __lookbehind: &Option<usize>,
+    __lookahead: &Option<(usize, Tok, usize)>,
 ) -> Result<Vec<(usize, usize)>,__ParseError<usize,Tok,char>>
 {
     Err(ParseError::User { error: '+' })
@@ -260,6 +266,8 @@ pub fn __action3<
 >(
     v: Vec<(usize, usize)>,
     _: Tok,
+    __lookbehind: &Option<usize>,
+    __lookahead: &Option<(usize, Tok, usize)>,
 ) -> Result<Vec<(usize, usize)>,__ParseError<usize,Tok,char>>
 {
     Ok(v)

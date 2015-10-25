@@ -16,6 +16,7 @@ use std::io::{self, Write};
 use std::path::{Path, PathBuf};
 use std::process::exit;
 
+mod action;
 mod filetext;
 
 pub fn process_root() -> io::Result<()> {
@@ -274,45 +275,10 @@ fn emit_recursive_ascent(output_path: &Path, grammar: &r::Grammar) -> io::Result
         try!(intern_token::compile(&grammar, intern_token, &mut rust));
     }
 
-    try!(emit_action_code(grammar, &mut rust));
+    try!(action::emit_action_code(grammar, &mut rust));
 
     try!(emit_to_triple_trait(grammar, &mut rust));
 
-    Ok(())
-}
-
-fn emit_action_code<W:Write>(grammar: &r::Grammar,
-                             rust: &mut RustWrite<W>)
-                             -> io::Result<()>
-{
-    for (i, defn) in grammar.action_fn_defns.iter().enumerate() {
-        rust!(rust, "");
-
-        let ret_type = if defn.fallible {
-            format!("Result<{},{}ParseError<{},{},{}>>",
-                    defn.ret_type,
-                    grammar.prefix,
-                    grammar.types.terminal_loc_type(),
-                    grammar.types.terminal_token_type(),
-                    grammar.types.error_type())
-        } else {
-            format!("{}", defn.ret_type)
-        };
-
-        try!(rust.write_pub_fn_header(
-            grammar,
-            format!("{}action{}", grammar.prefix, i),
-            vec![],
-            defn.arg_patterns.iter()
-                             .zip(defn.arg_types.iter())
-                             .map(|(p, t)| format!("{}: {}", p, t))
-                             .collect(),
-            ret_type,
-            vec![]));
-        rust!(rust, "{{");
-        rust!(rust, "{}", defn.code);
-        rust!(rust, "}}");
-    }
     Ok(())
 }
 

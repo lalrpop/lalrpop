@@ -59,9 +59,9 @@ mod __parse__Items {
     //   Items = (*) Items "-" ["-"]
     //   __Items = (*) Items [EOF]
     //
-    //   EOF -> Reduce(@L =  => Lookahead;)
-    //   "+" -> Reduce(@L =  => Lookahead;)
-    //   "-" -> Reduce(@L =  => Lookahead;)
+    //   EOF -> Reduce(@L =  => ActionFn(6);)
+    //   "+" -> Reduce(@L =  => ActionFn(6);)
+    //   "-" -> Reduce(@L =  => ActionFn(6);)
     //
     //   @L -> S1
     //   Items -> S2
@@ -78,7 +78,7 @@ mod __parse__Items {
             None |
             Some((_, Tok::Plus(..), _)) |
             Some((_, Tok::Minus(..), _)) => {
-                let __nt = __lookahead.as_ref().map(|o| ::std::clone::Clone::clone(&o.0)).or_else(|| ::std::clone::Clone::clone(&__lookbehind)).unwrap_or_default();
+                let __nt = super::__action6(&__lookbehind, &__lookahead);
                 __result = (__lookbehind, __lookahead, __Nonterminal::_40L(__nt));
             }
             _ => {
@@ -114,9 +114,9 @@ mod __parse__Items {
     //   Items = @L (*) @R ["+"]
     //   Items = @L (*) @R ["-"]
     //
-    //   EOF -> Reduce(@R =  => Lookbehind;)
-    //   "+" -> Reduce(@R =  => Lookbehind;)
-    //   "-" -> Reduce(@R =  => Lookbehind;)
+    //   EOF -> Reduce(@R =  => ActionFn(5);)
+    //   "+" -> Reduce(@R =  => ActionFn(5);)
+    //   "-" -> Reduce(@R =  => ActionFn(5);)
     //
     //   @R -> S3
     pub fn __state1<
@@ -133,7 +133,7 @@ mod __parse__Items {
             None |
             Some((_, Tok::Plus(..), _)) |
             Some((_, Tok::Minus(..), _)) => {
-                let __nt = ::std::clone::Clone::clone(&__lookbehind).unwrap_or_default();
+                let __nt = super::__action5(&__lookbehind, &__lookahead);
                 __result = (__lookbehind, __lookahead, __Nonterminal::_40R(__nt));
             }
             _ => {
@@ -171,8 +171,8 @@ mod __parse__Items {
     //   Spanned<"+"> = (*) @L "+" @R ["-"]
     //   __Items = Items (*) [EOF]
     //
-    //   EOF -> Reduce(__Items = Items => Call(ActionFn(0));)
-    //   "+" -> Reduce(@L =  => Lookahead;)
+    //   EOF -> Reduce(__Items = Items => ActionFn(0);)
+    //   "+" -> Reduce(@L =  => ActionFn(6);)
     //   "-" -> Shift(S6)
     //
     //   @L -> S4
@@ -194,12 +194,12 @@ mod __parse__Items {
                 __result = try!(__state6(__lookbehind, __tokens, __sym0, __sym1));
             }
             Some((_, Tok::Plus(..), _)) => {
-                let __nt = __lookahead.as_ref().map(|o| ::std::clone::Clone::clone(&o.0)).or_else(|| ::std::clone::Clone::clone(&__lookbehind)).unwrap_or_default();
+                let __nt = super::__action6(&__lookbehind, &__lookahead);
                 __result = (__lookbehind, __lookahead, __Nonterminal::_40L(__nt));
             }
             None => {
                 let __sym0 = __sym0.take().unwrap();
-                let __nt = super::__action0(__sym0);
+                let __nt = super::__action0(__sym0, &__lookbehind, &__lookahead);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::____Items(__nt)));
             }
             _ => {
@@ -233,9 +233,9 @@ mod __parse__Items {
     //   Items = @L @R (*) ["+"]
     //   Items = @L @R (*) ["-"]
     //
-    //   EOF -> Reduce(Items = @L, @R => Call(ActionFn(1));)
-    //   "+" -> Reduce(Items = @L, @R => Call(ActionFn(1));)
-    //   "-" -> Reduce(Items = @L, @R => Call(ActionFn(1));)
+    //   EOF -> Reduce(Items = @L, @R => ActionFn(1);)
+    //   "+" -> Reduce(Items = @L, @R => ActionFn(1);)
+    //   "-" -> Reduce(Items = @L, @R => ActionFn(1);)
     //
     pub fn __state3<
         __TOKENS: Iterator<Item=Result<(usize, Tok, usize),()>>,
@@ -254,7 +254,7 @@ mod __parse__Items {
             Some((_, Tok::Minus(..), _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
-                let __nt = super::__action1(__sym0, __sym1);
+                let __nt = super::__action1(__sym0, __sym1, &__lookbehind, &__lookahead);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::Items(__nt)));
             }
             _ => {
@@ -304,9 +304,9 @@ mod __parse__Items {
     //   Items = Items Spanned<"+"> (*) ["+"]
     //   Items = Items Spanned<"+"> (*) ["-"]
     //
-    //   EOF -> Reduce(Items = Items, Spanned<"+"> => Call(ActionFn(2));)
-    //   "+" -> Reduce(Items = Items, Spanned<"+"> => Call(ActionFn(2));)
-    //   "-" -> Reduce(Items = Items, Spanned<"+"> => Call(ActionFn(2));)
+    //   EOF -> Reduce(Items = Items, Spanned<"+"> => ActionFn(2);)
+    //   "+" -> Reduce(Items = Items, Spanned<"+"> => ActionFn(2);)
+    //   "-" -> Reduce(Items = Items, Spanned<"+"> => ActionFn(2);)
     //
     pub fn __state5<
         __TOKENS: Iterator<Item=Result<(usize, Tok, usize),()>>,
@@ -325,7 +325,7 @@ mod __parse__Items {
             Some((_, Tok::Minus(..), _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
-                let __nt = super::__action2(__sym0, __sym1);
+                let __nt = super::__action2(__sym0, __sym1, &__lookbehind, &__lookahead);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::Items(__nt)));
             }
             _ => {
@@ -342,9 +342,9 @@ mod __parse__Items {
     //   Items = Items "-" (*) ["+"]
     //   Items = Items "-" (*) ["-"]
     //
-    //   EOF -> Reduce(Items = Items, "-" => Call(ActionFn(3));)
-    //   "+" -> Reduce(Items = Items, "-" => Call(ActionFn(3));)
-    //   "-" -> Reduce(Items = Items, "-" => Call(ActionFn(3));)
+    //   EOF -> Reduce(Items = Items, "-" => ActionFn(3);)
+    //   "+" -> Reduce(Items = Items, "-" => ActionFn(3);)
+    //   "-" -> Reduce(Items = Items, "-" => ActionFn(3);)
     //
     pub fn __state6<
         __TOKENS: Iterator<Item=Result<(usize, Tok, usize),()>>,
@@ -367,7 +367,7 @@ mod __parse__Items {
             Some((_, Tok::Minus(..), _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
-                let __nt = super::__action3(__sym0, __sym1);
+                let __nt = super::__action3(__sym0, __sym1, &__lookbehind, &__lookahead);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::Items(__nt)));
             }
             _ => {
@@ -387,9 +387,9 @@ mod __parse__Items {
     //   Spanned<"+"> = @L "+" (*) @R ["+"]
     //   Spanned<"+"> = @L "+" (*) @R ["-"]
     //
-    //   EOF -> Reduce(@R =  => Lookbehind;)
-    //   "+" -> Reduce(@R =  => Lookbehind;)
-    //   "-" -> Reduce(@R =  => Lookbehind;)
+    //   EOF -> Reduce(@R =  => ActionFn(5);)
+    //   "+" -> Reduce(@R =  => ActionFn(5);)
+    //   "-" -> Reduce(@R =  => ActionFn(5);)
     //
     //   @R -> S8
     pub fn __state7<
@@ -411,7 +411,7 @@ mod __parse__Items {
             None |
             Some((_, Tok::Plus(..), _)) |
             Some((_, Tok::Minus(..), _)) => {
-                let __nt = ::std::clone::Clone::clone(&__lookbehind).unwrap_or_default();
+                let __nt = super::__action5(&__lookbehind, &__lookahead);
                 __result = (__lookbehind, __lookahead, __Nonterminal::_40R(__nt));
             }
             _ => {
@@ -441,9 +441,9 @@ mod __parse__Items {
     //   Spanned<"+"> = @L "+" @R (*) ["+"]
     //   Spanned<"+"> = @L "+" @R (*) ["-"]
     //
-    //   EOF -> Reduce(Spanned<"+"> = @L, "+", @R => Call(ActionFn(4));)
-    //   "+" -> Reduce(Spanned<"+"> = @L, "+", @R => Call(ActionFn(4));)
-    //   "-" -> Reduce(Spanned<"+"> = @L, "+", @R => Call(ActionFn(4));)
+    //   EOF -> Reduce(Spanned<"+"> = @L, "+", @R => ActionFn(4);)
+    //   "+" -> Reduce(Spanned<"+"> = @L, "+", @R => ActionFn(4);)
+    //   "-" -> Reduce(Spanned<"+"> = @L, "+", @R => ActionFn(4);)
     //
     pub fn __state8<
         __TOKENS: Iterator<Item=Result<(usize, Tok, usize),()>>,
@@ -464,7 +464,7 @@ mod __parse__Items {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
                 let __sym2 = __sym2.take().unwrap();
-                let __nt = super::__action4(__sym0, __sym1, __sym2);
+                let __nt = super::__action4(__sym0, __sym1, __sym2, &__lookbehind, &__lookahead);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::Spanned_3c_22_2b_22_3e(__nt)));
             }
             _ => {
@@ -481,6 +481,8 @@ pub use self::__parse__Items::parse_Items;
 pub fn __action0<
 >(
     __0: Vec<(usize, usize)>,
+    __lookbehind: &Option<usize>,
+    __lookahead: &Option<(usize, Tok, usize)>,
 ) -> Vec<(usize, usize)>
 {
     (__0)
@@ -490,6 +492,8 @@ pub fn __action1<
 >(
     __0: usize,
     __1: usize,
+    __lookbehind: &Option<usize>,
+    __lookahead: &Option<(usize, Tok, usize)>,
 ) -> Vec<(usize, usize)>
 {
     vec![(__0, __1)]
@@ -499,6 +503,8 @@ pub fn __action2<
 >(
     v: Vec<(usize, usize)>,
     e: (usize, usize),
+    __lookbehind: &Option<usize>,
+    __lookahead: &Option<(usize, Tok, usize)>,
 ) -> Vec<(usize, usize)>
 {
     {
@@ -512,6 +518,8 @@ pub fn __action3<
 >(
     v: Vec<(usize, usize)>,
     _: Tok,
+    __lookbehind: &Option<usize>,
+    __lookahead: &Option<(usize, Tok, usize)>,
 ) -> Vec<(usize, usize)>
 {
     v
@@ -522,9 +530,29 @@ pub fn __action4<
     __0: usize,
     _: Tok,
     __1: usize,
+    __lookbehind: &Option<usize>,
+    __lookahead: &Option<(usize, Tok, usize)>,
 ) -> (usize, usize)
 {
     (__0, __1)
+}
+
+pub fn __action5<
+>(
+    __lookbehind: &Option<usize>,
+    __lookahead: &Option<(usize, Tok, usize)>,
+) -> usize
+{
+    ::std::clone::Clone::clone(&__lookbehind).unwrap_or_default()
+}
+
+pub fn __action6<
+>(
+    __lookbehind: &Option<usize>,
+    __lookahead: &Option<(usize, Tok, usize)>,
+) -> usize
+{
+    __lookahead.as_ref().map(|o| ::std::clone::Clone::clone(&o.0)).or_else(|| ::std::clone::Clone::clone(&__lookbehind)).unwrap_or_default()
 }
 
 pub trait __ToTriple<> {

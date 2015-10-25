@@ -115,7 +115,7 @@ mod __parse__S {
     //   E = E (*) "-" T ["-"]
     //   S = E (*) [EOF]
     //
-    //   EOF -> Reduce(S = E => Call(ActionFn(1));)
+    //   EOF -> Reduce(S = E => ActionFn(1);)
     //   "-" -> Shift(S6)
     //
     pub fn __state1<
@@ -136,7 +136,7 @@ mod __parse__S {
             }
             None => {
                 let __sym0 = __sym0.take().unwrap();
-                let __nt = super::__action1(__sym0);
+                let __nt = super::__action1(__sym0, &__lookbehind, &__lookahead);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::S(__nt)));
             }
             _ => {
@@ -152,7 +152,7 @@ mod __parse__S {
     // State 2
     //   __S = S (*) [EOF]
     //
-    //   EOF -> Reduce(__S = S => Call(ActionFn(0));)
+    //   EOF -> Reduce(__S = S => ActionFn(0);)
     //
     pub fn __state2<
         __TOKENS: Iterator<Item=Result<((), Tok, ()),()>>,
@@ -167,7 +167,7 @@ mod __parse__S {
         match __lookahead {
             None => {
                 let __sym0 = __sym0.take().unwrap();
-                let __nt = super::__action0(__sym0);
+                let __nt = super::__action0(__sym0, &__lookbehind, &__lookahead);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::____S(__nt)));
             }
             _ => {
@@ -183,8 +183,8 @@ mod __parse__S {
     //   E = T (*) [EOF]
     //   E = T (*) ["-"]
     //
-    //   EOF -> Reduce(E = T => Call(ActionFn(3));)
-    //   "-" -> Reduce(E = T => Call(ActionFn(3));)
+    //   EOF -> Reduce(E = T => ActionFn(3);)
+    //   "-" -> Reduce(E = T => ActionFn(3);)
     //
     pub fn __state3<
         __TOKENS: Iterator<Item=Result<((), Tok, ()),()>>,
@@ -200,7 +200,7 @@ mod __parse__S {
             None |
             Some((_, Tok::Minus(..), _)) => {
                 let __sym0 = __sym0.take().unwrap();
-                let __nt = super::__action3(__sym0);
+                let __nt = super::__action3(__sym0, &__lookbehind, &__lookahead);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::E(__nt)));
             }
             _ => {
@@ -284,8 +284,8 @@ mod __parse__S {
     //   T = Num (*) [EOF]
     //   T = Num (*) ["-"]
     //
-    //   EOF -> Reduce(T = Num => Call(ActionFn(4));)
-    //   "-" -> Reduce(T = Num => Call(ActionFn(4));)
+    //   EOF -> Reduce(T = Num => ActionFn(4);)
+    //   "-" -> Reduce(T = Num => ActionFn(4);)
     //
     pub fn __state5<
         __TOKENS: Iterator<Item=Result<((), Tok, ()),()>>,
@@ -305,7 +305,7 @@ mod __parse__S {
             None |
             Some((_, Tok::Minus(..), _)) => {
                 let __sym0 = __sym0.take().unwrap();
-                let __nt = super::__action4(__sym0);
+                let __nt = super::__action4(__sym0, &__lookbehind, &__lookahead);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::T(__nt)));
             }
             _ => {
@@ -422,8 +422,8 @@ mod __parse__S {
     //   E = T (*) [")"]
     //   E = T (*) ["-"]
     //
-    //   ")" -> Reduce(E = T => Call(ActionFn(3));)
-    //   "-" -> Reduce(E = T => Call(ActionFn(3));)
+    //   ")" -> Reduce(E = T => ActionFn(3);)
+    //   "-" -> Reduce(E = T => ActionFn(3);)
     //
     pub fn __state8<
         __TOKENS: Iterator<Item=Result<((), Tok, ()),()>>,
@@ -439,7 +439,7 @@ mod __parse__S {
             Some((_, Tok::RParen(..), _)) |
             Some((_, Tok::Minus(..), _)) => {
                 let __sym0 = __sym0.take().unwrap();
-                let __nt = super::__action3(__sym0);
+                let __nt = super::__action3(__sym0, &__lookbehind, &__lookahead);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::E(__nt)));
             }
             _ => {
@@ -523,8 +523,8 @@ mod __parse__S {
     //   T = Num (*) [")"]
     //   T = Num (*) ["-"]
     //
-    //   ")" -> Reduce(T = Num => Call(ActionFn(4));)
-    //   "-" -> Reduce(T = Num => Call(ActionFn(4));)
+    //   ")" -> Reduce(T = Num => ActionFn(4);)
+    //   "-" -> Reduce(T = Num => ActionFn(4);)
     //
     pub fn __state10<
         __TOKENS: Iterator<Item=Result<((), Tok, ()),()>>,
@@ -544,7 +544,7 @@ mod __parse__S {
             Some((_, Tok::RParen(..), _)) |
             Some((_, Tok::Minus(..), _)) => {
                 let __sym0 = __sym0.take().unwrap();
-                let __nt = super::__action4(__sym0);
+                let __nt = super::__action4(__sym0, &__lookbehind, &__lookahead);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::T(__nt)));
             }
             _ => {
@@ -560,8 +560,8 @@ mod __parse__S {
     //   E = E "-" T (*) [EOF]
     //   E = E "-" T (*) ["-"]
     //
-    //   EOF -> Reduce(E = E, "-", T => Call(ActionFn(2));)
-    //   "-" -> Reduce(E = E, "-", T => Call(ActionFn(2));)
+    //   EOF -> Reduce(E = E, "-", T => ActionFn(2);)
+    //   "-" -> Reduce(E = E, "-", T => ActionFn(2);)
     //
     pub fn __state11<
         __TOKENS: Iterator<Item=Result<((), Tok, ()),()>>,
@@ -581,7 +581,7 @@ mod __parse__S {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
                 let __sym2 = __sym2.take().unwrap();
-                let __nt = super::__action2(__sym0, __sym1, __sym2);
+                let __nt = super::__action2(__sym0, __sym1, __sym2, &__lookbehind, &__lookahead);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::E(__nt)));
             }
             _ => {
@@ -597,8 +597,8 @@ mod __parse__S {
     //   T = "(" E ")" (*) [EOF]
     //   T = "(" E ")" (*) ["-"]
     //
-    //   EOF -> Reduce(T = "(", E, ")" => Call(ActionFn(5));)
-    //   "-" -> Reduce(T = "(", E, ")" => Call(ActionFn(5));)
+    //   EOF -> Reduce(T = "(", E, ")" => ActionFn(5);)
+    //   "-" -> Reduce(T = "(", E, ")" => ActionFn(5);)
     //
     pub fn __state12<
         __TOKENS: Iterator<Item=Result<((), Tok, ()),()>>,
@@ -622,7 +622,7 @@ mod __parse__S {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
                 let __sym2 = __sym2.take().unwrap();
-                let __nt = super::__action5(__sym0, __sym1, __sym2);
+                let __nt = super::__action5(__sym0, __sym1, __sym2, &__lookbehind, &__lookahead);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::T(__nt)));
             }
             _ => {
@@ -739,8 +739,8 @@ mod __parse__S {
     //   E = E "-" T (*) [")"]
     //   E = E "-" T (*) ["-"]
     //
-    //   ")" -> Reduce(E = E, "-", T => Call(ActionFn(2));)
-    //   "-" -> Reduce(E = E, "-", T => Call(ActionFn(2));)
+    //   ")" -> Reduce(E = E, "-", T => ActionFn(2);)
+    //   "-" -> Reduce(E = E, "-", T => ActionFn(2);)
     //
     pub fn __state15<
         __TOKENS: Iterator<Item=Result<((), Tok, ()),()>>,
@@ -760,7 +760,7 @@ mod __parse__S {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
                 let __sym2 = __sym2.take().unwrap();
-                let __nt = super::__action2(__sym0, __sym1, __sym2);
+                let __nt = super::__action2(__sym0, __sym1, __sym2, &__lookbehind, &__lookahead);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::E(__nt)));
             }
             _ => {
@@ -776,8 +776,8 @@ mod __parse__S {
     //   T = "(" E ")" (*) [")"]
     //   T = "(" E ")" (*) ["-"]
     //
-    //   ")" -> Reduce(T = "(", E, ")" => Call(ActionFn(5));)
-    //   "-" -> Reduce(T = "(", E, ")" => Call(ActionFn(5));)
+    //   ")" -> Reduce(T = "(", E, ")" => ActionFn(5);)
+    //   "-" -> Reduce(T = "(", E, ")" => ActionFn(5);)
     //
     pub fn __state16<
         __TOKENS: Iterator<Item=Result<((), Tok, ()),()>>,
@@ -801,7 +801,7 @@ mod __parse__S {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
                 let __sym2 = __sym2.take().unwrap();
-                let __nt = super::__action5(__sym0, __sym1, __sym2);
+                let __nt = super::__action5(__sym0, __sym1, __sym2, &__lookbehind, &__lookahead);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::T(__nt)));
             }
             _ => {
@@ -818,6 +818,8 @@ pub use self::__parse__S::parse_S;
 pub fn __action0<
 >(
     __0: i32,
+    __lookbehind: &Option<()>,
+    __lookahead: &Option<((), Tok, ())>,
 ) -> i32
 {
     (__0)
@@ -826,6 +828,8 @@ pub fn __action0<
 pub fn __action1<
 >(
     __0: i32,
+    __lookbehind: &Option<()>,
+    __lookahead: &Option<((), Tok, ())>,
 ) -> i32
 {
     (__0)
@@ -836,6 +840,8 @@ pub fn __action2<
     l: i32,
     _: Tok,
     r: i32,
+    __lookbehind: &Option<()>,
+    __lookahead: &Option<((), Tok, ())>,
 ) -> i32
 {
     l - r
@@ -844,6 +850,8 @@ pub fn __action2<
 pub fn __action3<
 >(
     t: i32,
+    __lookbehind: &Option<()>,
+    __lookahead: &Option<((), Tok, ())>,
 ) -> i32
 {
     t - super::ZERO
@@ -852,6 +860,8 @@ pub fn __action3<
 pub fn __action4<
 >(
     __0: i32,
+    __lookbehind: &Option<()>,
+    __lookahead: &Option<((), Tok, ())>,
 ) -> i32
 {
     (__0)
@@ -862,6 +872,8 @@ pub fn __action5<
     _: Tok,
     __0: i32,
     _: Tok,
+    __lookbehind: &Option<()>,
+    __lookahead: &Option<((), Tok, ())>,
 ) -> i32
 {
     (__0)
