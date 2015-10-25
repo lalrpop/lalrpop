@@ -23,18 +23,27 @@ grammar;
     `Comma<"Id">`: Vec<#"Id"#> =
         <v:`(<"Id"> ",")*`> <e:`"Id"?`> => v.into_iter().chain(e.into_iter()).collect();
 
+    #[inline]
     `"Id"?`: ::std::option::Option<#"Id"#> = {
         "Id" => Some(<>),
         => None
     };
 
+    #[inline]
     `(<"Id"> ",")*`: ::std::vec::Vec<#`(<"Id"> ",")`#> = {
         => vec![],
-        <v:`(<"Id"> ",")*`> <e:`(<"Id"> ",")`> => { let mut v = v; v.push(e); v }
+        <v:`(<"Id"> ",")+`> => v,
     };
 
     #[inline]
-    `(<"Id"> ",")`: #"Id"# = <"Id"> "," => (<>);
+    `(<"Id"> ",")`: #"Id"# = {
+        <"Id"> "," => (<>),
+    };
+
+    `(<"Id"> ",")+`: ::std::vec::Vec<#`(<"Id"> ",")`#> = {
+        `(<"Id"> ",")` => vec![<>],
+        <v:`(<"Id"> ",")+`> <e:`(<"Id"> ",")`> => { let mut v = v; v.push(e); v },
+    };
 "##).unwrap();
 
     compare(actual, expected);

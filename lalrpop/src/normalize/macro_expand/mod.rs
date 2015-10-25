@@ -362,10 +362,7 @@ impl MacroExpander {
             public: false,
             span: span,
             name: name,
-            annotations: vec![Annotation {
-                id_span: span,
-                id: intern(INLINE),
-            }],
+            annotations: inline(span),
             args: vec![],
             type_decl: Some(ty_ref),
             alternatives: vec![Alternative { span: span,
@@ -390,11 +387,16 @@ impl MacroExpander {
                 let path = Path::vec();
                 let ty_ref = TypeRef::Nominal { path: path, types: vec![base_symbol_ty] };
 
+                let plus_repeat = Box::new(RepeatSymbol {
+                    op: RepeatOp::Plus,
+                    symbol: repeat.symbol.clone()
+                });
+
                 Ok(GrammarItem::Nonterminal(NonterminalData {
                     public: false,
                     span: span,
                     name: name,
-                    annotations: vec![],
+                    annotations: inline(span),
                     args: vec![],
                     type_decl: Some(ty_ref),
                     alternatives: vec![
@@ -406,7 +408,7 @@ impl MacroExpander {
                             action: action("vec![]")
                         },
 
-                        // X* = <v:X+> <e:X>
+                        // X* = <v:X+>
                         Alternative {
                             span: span,
                             expr: ExprSymbol {
@@ -417,15 +419,10 @@ impl MacroExpander {
                                             v,
                                             Box::new(
                                                 Symbol::new(span,
-                                                            SymbolKind::Nonterminal(name))))),
-                                    Symbol::new(
-                                        span,
-                                        SymbolKind::Name(
-                                            e,
-                                            Box::new(repeat.symbol.clone())))]
+                                                            SymbolKind::Repeat(plus_repeat)))))],
                             },
                             condition: None,
-                            action: action("{ let mut v = v; v.push(e); v }")
+                            action: action("v"),
                         }],
                 }))
             }
@@ -477,7 +474,7 @@ impl MacroExpander {
                     public: false,
                     span: span,
                     name: name,
-                    annotations: vec![],
+                    annotations: inline(span),
                     args: vec![],
                     type_decl: Some(ty_ref),
                     alternatives: vec![
@@ -530,4 +527,11 @@ fn maybe_tuple(v: Vec<TypeRef>) -> TypeRef {
 
 fn action(s: &str) -> Option<ActionKind> {
     Some(ActionKind::User(s.to_string()))
+}
+
+fn inline(span: Span) -> Vec<Annotation> {
+    vec![Annotation {
+                id_span: span,
+                id: intern(INLINE),
+    }]
 }
