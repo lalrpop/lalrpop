@@ -12,9 +12,6 @@ use grammar::parse_tree::{InternToken, NonterminalString, TerminalString};
 use grammar::repr as r;
 use util::{map, Map};
 
-#[cfg(test)]
-mod test;
-
 pub fn lower(grammar: pt::Grammar, types: r::Types) -> NormResult<r::Grammar> {
     let state = LowerState::new(types, &grammar);
     state.lower(grammar)
