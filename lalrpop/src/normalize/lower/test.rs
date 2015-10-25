@@ -38,8 +38,8 @@ grammar;
     "Id"? = "Id" => ActionFn(2);,
     "Id"? =  => ActionFn(3);,
     (<"Id"> ",")* =  => ActionFn(4);,
-    (<"Id"> ",")* = (<"Id"> ",")*, (<"Id"> ",") => ActionFn(5);,
-    (<"Id"> ",") = "Id", "," => ActionFn(6);
+    (<"Id"> ",") = "Id", "," => ActionFn(6);,
+    (<"Id"> ",")* = (<"Id"> ",")*, "Id", "," => ActionFn(7);
 ]"#);
 
     expect_debug(&actual.action_fn_defns,
@@ -50,7 +50,8 @@ grammar;
     fn _() -> ::std::option::Option<Tok> { None },
     fn _() -> ::std::vec::Vec<Tok> { vec![] },
     fn _(v: ::std::vec::Vec<Tok>, e: Tok) -> ::std::vec::Vec<Tok> { { let mut v = v; v.push(e); v } },
-    fn _(__0: Tok, _: Tok) -> Tok { (__0) }
+    fn _(__0: Tok, _: Tok) -> Tok { (__0) },
+    fn _(..) { ActionFn(5)((<"Id"> ",")*, ActionFn(6)("Id", ",")) }
 ]"#);
 }
 

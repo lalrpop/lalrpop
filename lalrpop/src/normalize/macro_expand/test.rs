@@ -33,6 +33,7 @@ grammar;
         <v:`(<"Id"> ",")*`> <e:`(<"Id"> ",")`> => { let mut v = v; v.push(e); v }
     };
 
+    #[inline]
     `(<"Id"> ",")`: #"Id"# = <"Id"> "," => (<>);
 "##).unwrap();
 
