@@ -147,7 +147,7 @@ mod __parse__Expr {
     //   Expr = Expr (*) "-" Factor ["-"]
     //   __Expr = Expr (*) [EOF]
     //
-    //   EOF -> Reduce(__Expr = Expr => Call(ActionFn(0));)
+    //   EOF -> Reduce(__Expr = Expr => ActionFn(0);)
     //   "+" -> Shift(S6)
     //   "-" -> Shift(S7)
     //
@@ -216,11 +216,11 @@ mod __parse__Expr {
     //   Factor = Factor (*) "/" Term ["-"]
     //   Factor = Factor (*) "/" Term ["/"]
     //
-    //   EOF -> Reduce(Expr = Factor => Call(ActionFn(3));)
-    //   ")" -> Reduce(Expr = Factor => Call(ActionFn(3));)
+    //   EOF -> Reduce(Expr = Factor => ActionFn(3);)
+    //   ")" -> Reduce(Expr = Factor => ActionFn(3);)
     //   "*" -> Shift(S8)
-    //   "+" -> Reduce(Expr = Factor => Call(ActionFn(3));)
-    //   "-" -> Reduce(Expr = Factor => Call(ActionFn(3));)
+    //   "+" -> Reduce(Expr = Factor => ActionFn(3);)
+    //   "-" -> Reduce(Expr = Factor => ActionFn(3);)
     //   "/" -> Shift(S9)
     //
     pub fn __state2<
@@ -275,12 +275,12 @@ mod __parse__Expr {
     //   Factor = Term (*) ["-"]
     //   Factor = Term (*) ["/"]
     //
-    //   EOF -> Reduce(Factor = Term => Call(ActionFn(6));)
-    //   ")" -> Reduce(Factor = Term => Call(ActionFn(6));)
-    //   "*" -> Reduce(Factor = Term => Call(ActionFn(6));)
-    //   "+" -> Reduce(Factor = Term => Call(ActionFn(6));)
-    //   "-" -> Reduce(Factor = Term => Call(ActionFn(6));)
-    //   "/" -> Reduce(Factor = Term => Call(ActionFn(6));)
+    //   EOF -> Reduce(Factor = Term => ActionFn(6);)
+    //   ")" -> Reduce(Factor = Term => ActionFn(6);)
+    //   "*" -> Reduce(Factor = Term => ActionFn(6);)
+    //   "+" -> Reduce(Factor = Term => ActionFn(6);)
+    //   "-" -> Reduce(Factor = Term => ActionFn(6);)
+    //   "/" -> Reduce(Factor = Term => ActionFn(6);)
     //
     pub fn __state3<
         __TOKENS: Iterator<Item=Result<((), Tok, ()),()>>,
@@ -467,12 +467,12 @@ mod __parse__Expr {
     //   Term = Num (*) ["-"]
     //   Term = Num (*) ["/"]
     //
-    //   EOF -> Reduce(Term = Num => Call(ActionFn(7));)
-    //   ")" -> Reduce(Term = Num => Call(ActionFn(7));)
-    //   "*" -> Reduce(Term = Num => Call(ActionFn(7));)
-    //   "+" -> Reduce(Term = Num => Call(ActionFn(7));)
-    //   "-" -> Reduce(Term = Num => Call(ActionFn(7));)
-    //   "/" -> Reduce(Term = Num => Call(ActionFn(7));)
+    //   EOF -> Reduce(Term = Num => ActionFn(7);)
+    //   ")" -> Reduce(Term = Num => ActionFn(7);)
+    //   "*" -> Reduce(Term = Num => ActionFn(7);)
+    //   "+" -> Reduce(Term = Num => ActionFn(7);)
+    //   "-" -> Reduce(Term = Num => ActionFn(7);)
+    //   "/" -> Reduce(Term = Num => ActionFn(7);)
     //
     pub fn __state5<
         __TOKENS: Iterator<Item=Result<((), Tok, ()),()>>,
@@ -1005,11 +1005,11 @@ mod __parse__Expr {
     //   Factor = Factor (*) "/" Term ["-"]
     //   Factor = Factor (*) "/" Term ["/"]
     //
-    //   EOF -> Reduce(Expr = Expr, "+", Factor => Call(ActionFn(2));)
-    //   ")" -> Reduce(Expr = Expr, "+", Factor => Call(ActionFn(2));)
+    //   EOF -> Reduce(Expr = Expr, "+", Factor => ActionFn(2);)
+    //   ")" -> Reduce(Expr = Expr, "+", Factor => ActionFn(2);)
     //   "*" -> Shift(S8)
-    //   "+" -> Reduce(Expr = Expr, "+", Factor => Call(ActionFn(2));)
-    //   "-" -> Reduce(Expr = Expr, "+", Factor => Call(ActionFn(2));)
+    //   "+" -> Reduce(Expr = Expr, "+", Factor => ActionFn(2);)
+    //   "-" -> Reduce(Expr = Expr, "+", Factor => ActionFn(2);)
     //   "/" -> Shift(S9)
     //
     pub fn __state11<
@@ -1084,11 +1084,11 @@ mod __parse__Expr {
     //   Factor = Factor (*) "/" Term ["-"]
     //   Factor = Factor (*) "/" Term ["/"]
     //
-    //   EOF -> Reduce(Expr = Expr, "-", Factor => Call(ActionFn(1));)
-    //   ")" -> Reduce(Expr = Expr, "-", Factor => Call(ActionFn(1));)
+    //   EOF -> Reduce(Expr = Expr, "-", Factor => ActionFn(1);)
+    //   ")" -> Reduce(Expr = Expr, "-", Factor => ActionFn(1);)
     //   "*" -> Shift(S8)
-    //   "+" -> Reduce(Expr = Expr, "-", Factor => Call(ActionFn(1));)
-    //   "-" -> Reduce(Expr = Expr, "-", Factor => Call(ActionFn(1));)
+    //   "+" -> Reduce(Expr = Expr, "-", Factor => ActionFn(1);)
+    //   "-" -> Reduce(Expr = Expr, "-", Factor => ActionFn(1);)
     //   "/" -> Shift(S9)
     //
     pub fn __state12<
@@ -1147,12 +1147,12 @@ mod __parse__Expr {
     //   Factor = Factor "*" Term (*) ["-"]
     //   Factor = Factor "*" Term (*) ["/"]
     //
-    //   EOF -> Reduce(Factor = Factor, "*", Term => Call(ActionFn(4));)
-    //   ")" -> Reduce(Factor = Factor, "*", Term => Call(ActionFn(4));)
-    //   "*" -> Reduce(Factor = Factor, "*", Term => Call(ActionFn(4));)
-    //   "+" -> Reduce(Factor = Factor, "*", Term => Call(ActionFn(4));)
-    //   "-" -> Reduce(Factor = Factor, "*", Term => Call(ActionFn(4));)
-    //   "/" -> Reduce(Factor = Factor, "*", Term => Call(ActionFn(4));)
+    //   EOF -> Reduce(Factor = Factor, "*", Term => ActionFn(4);)
+    //   ")" -> Reduce(Factor = Factor, "*", Term => ActionFn(4);)
+    //   "*" -> Reduce(Factor = Factor, "*", Term => ActionFn(4);)
+    //   "+" -> Reduce(Factor = Factor, "*", Term => ActionFn(4);)
+    //   "-" -> Reduce(Factor = Factor, "*", Term => ActionFn(4);)
+    //   "/" -> Reduce(Factor = Factor, "*", Term => ActionFn(4);)
     //
     pub fn __state13<
         __TOKENS: Iterator<Item=Result<((), Tok, ()),()>>,
@@ -1201,12 +1201,12 @@ mod __parse__Expr {
     //   Factor = Factor "/" Term (*) ["-"]
     //   Factor = Factor "/" Term (*) ["/"]
     //
-    //   EOF -> Reduce(Factor = Factor, "/", Term => Call(ActionFn(5));)
-    //   ")" -> Reduce(Factor = Factor, "/", Term => Call(ActionFn(5));)
-    //   "*" -> Reduce(Factor = Factor, "/", Term => Call(ActionFn(5));)
-    //   "+" -> Reduce(Factor = Factor, "/", Term => Call(ActionFn(5));)
-    //   "-" -> Reduce(Factor = Factor, "/", Term => Call(ActionFn(5));)
-    //   "/" -> Reduce(Factor = Factor, "/", Term => Call(ActionFn(5));)
+    //   EOF -> Reduce(Factor = Factor, "/", Term => ActionFn(5);)
+    //   ")" -> Reduce(Factor = Factor, "/", Term => ActionFn(5);)
+    //   "*" -> Reduce(Factor = Factor, "/", Term => ActionFn(5);)
+    //   "+" -> Reduce(Factor = Factor, "/", Term => ActionFn(5);)
+    //   "-" -> Reduce(Factor = Factor, "/", Term => ActionFn(5);)
+    //   "/" -> Reduce(Factor = Factor, "/", Term => ActionFn(5);)
     //
     pub fn __state14<
         __TOKENS: Iterator<Item=Result<((), Tok, ()),()>>,
@@ -1255,12 +1255,12 @@ mod __parse__Expr {
     //   Term = "(" Expr ")" (*) ["-"]
     //   Term = "(" Expr ")" (*) ["/"]
     //
-    //   EOF -> Reduce(Term = "(", Expr, ")" => Call(ActionFn(8));)
-    //   ")" -> Reduce(Term = "(", Expr, ")" => Call(ActionFn(8));)
-    //   "*" -> Reduce(Term = "(", Expr, ")" => Call(ActionFn(8));)
-    //   "+" -> Reduce(Term = "(", Expr, ")" => Call(ActionFn(8));)
-    //   "-" -> Reduce(Term = "(", Expr, ")" => Call(ActionFn(8));)
-    //   "/" -> Reduce(Term = "(", Expr, ")" => Call(ActionFn(8));)
+    //   EOF -> Reduce(Term = "(", Expr, ")" => ActionFn(8);)
+    //   ")" -> Reduce(Term = "(", Expr, ")" => ActionFn(8);)
+    //   "*" -> Reduce(Term = "(", Expr, ")" => ActionFn(8);)
+    //   "+" -> Reduce(Term = "(", Expr, ")" => ActionFn(8);)
+    //   "-" -> Reduce(Term = "(", Expr, ")" => ActionFn(8);)
+    //   "/" -> Reduce(Term = "(", Expr, ")" => ActionFn(8);)
     //
     pub fn __state15<
         __TOKENS: Iterator<Item=Result<((), Tok, ()),()>>,

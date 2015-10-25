@@ -219,40 +219,20 @@ impl LowerState {
     }
 
     fn lookahead_action_fn(&mut self) -> r::ActionFn {
-        // take the lookahead, if any; otherwise, we are
-        // at EOF, so taker the lookbehind (end of last
-        // pushed token); if that is missing too, then
-        // supply default.
-        let code = format!(
-            "{}lookahead.as_ref()\
-             .map(|o| ::std::clone::Clone::clone(&o.0))\
-             .or_else(|| ::std::clone::Clone::clone(&{}lookbehind))\
-             .unwrap_or_default()",
-            self.prefix, self.prefix);
-
         let action_fn_defn = r::ActionFnDefn {
-            arg_patterns: vec![],
-            arg_types: vec![],
-            ret_type: self.types.terminal_loc_type(),
             fallible: false,
-            code: code
+            ret_type: self.types.terminal_loc_type(),
+            kind: r::ActionFnDefnKind::Lookaround(r::LookaroundActionFnDefn::Lookahead),
         };
 
         self.add_action_fn(action_fn_defn)
     }
 
     fn lookbehind_action_fn(&mut self) -> r::ActionFn {
-        // take lookbehind or supply default
-        let code = format!(
-            "::std::clone::Clone::clone(&{}lookbehind).unwrap_or_default()",
-            self.prefix);
-
         let action_fn_defn = r::ActionFnDefn {
-            arg_patterns: vec![],
-            arg_types: vec![],
-            ret_type: self.types.terminal_loc_type(),
             fallible: false,
-            code: code
+            ret_type: self.types.terminal_loc_type(),
+            kind: r::ActionFnDefnKind::Lookaround(r::LookaroundActionFnDefn::Lookbehind),
         };
 
         self.add_action_fn(action_fn_defn)
@@ -288,11 +268,13 @@ impl LowerState {
                              symbols.len());
 
                 r::ActionFnDefn {
-                    arg_patterns: arg_patterns,
-                    arg_types: arg_types,
-                    ret_type: nt_type,
                     fallible: fallible,
-                    code: action
+                    ret_type: nt_type,
+                    kind: r::ActionFnDefnKind::User(r::UserActionFnDefn {
+                        arg_patterns: arg_patterns,
+                        arg_types: arg_types,
+                        code: action,
+                    }),
                 }
             }
             Symbols::Anon(indices) => {
@@ -308,11 +290,13 @@ impl LowerState {
                 });
                 let action = action.replace("<>", &name_str);
                 r::ActionFnDefn {
-                    arg_patterns: arg_patterns,
-                    arg_types: arg_types,
-                    ret_type: nt_type,
                     fallible: fallible,
-                    code: action
+                    ret_type: nt_type,
+                    kind: r::ActionFnDefnKind::User(r::UserActionFnDefn {
+                        arg_patterns: arg_patterns,
+                        arg_types: arg_types,
+                        code: action,
+                    }),
                 }
             }
         };

@@ -55,9 +55,9 @@ mod __parse__Items {
     //   Items = (*) Items "-" ["-"]
     //   __Items = (*) Items [EOF]
     //
-    //   EOF -> Reduce(Items =  => Call(ActionFn(1));)
-    //   "+" -> Reduce(Items =  => Call(ActionFn(1));)
-    //   "-" -> Reduce(Items =  => Call(ActionFn(1));)
+    //   EOF -> Reduce(Items =  => ActionFn(1);)
+    //   "+" -> Reduce(Items =  => ActionFn(1);)
+    //   "-" -> Reduce(Items =  => ActionFn(1);)
     //
     //   Items -> S1
     pub fn __state0<
@@ -106,7 +106,7 @@ mod __parse__Items {
     //   Items = Items (*) "-" ["-"]
     //   __Items = Items (*) [EOF]
     //
-    //   EOF -> Reduce(__Items = Items => Call(ActionFn(0));)
+    //   EOF -> Reduce(__Items = Items => ActionFn(0);)
     //   "+" -> Shift(S2)
     //   "-" -> Shift(S3)
     //
@@ -151,9 +151,9 @@ mod __parse__Items {
     //   Items = Items "+" (*) ["+"]
     //   Items = Items "+" (*) ["-"]
     //
-    //   EOF -> Reduce(Items = Items, "+" => TryCall(ActionFn(2));)
-    //   "+" -> Reduce(Items = Items, "+" => TryCall(ActionFn(2));)
-    //   "-" -> Reduce(Items = Items, "+" => TryCall(ActionFn(2));)
+    //   EOF -> Reduce(Items = Items, "+" => ActionFn(2);)
+    //   "+" -> Reduce(Items = Items, "+" => ActionFn(2);)
+    //   "-" -> Reduce(Items = Items, "+" => ActionFn(2);)
     //
     pub fn __state2<
         __TOKENS: Iterator<Item=Result<(usize, Tok, usize),char>>,
@@ -193,9 +193,9 @@ mod __parse__Items {
     //   Items = Items "-" (*) ["+"]
     //   Items = Items "-" (*) ["-"]
     //
-    //   EOF -> Reduce(Items = Items, "-" => TryCall(ActionFn(3));)
-    //   "+" -> Reduce(Items = Items, "-" => TryCall(ActionFn(3));)
-    //   "-" -> Reduce(Items = Items, "-" => TryCall(ActionFn(3));)
+    //   EOF -> Reduce(Items = Items, "-" => ActionFn(3);)
+    //   "+" -> Reduce(Items = Items, "-" => ActionFn(3);)
+    //   "-" -> Reduce(Items = Items, "-" => ActionFn(3);)
     //
     pub fn __state3<
         __TOKENS: Iterator<Item=Result<(usize, Tok, usize),char>>,

@@ -368,14 +368,14 @@ impl<'ascent,'grammar,W:Write> RecursiveAscent<'ascent,'grammar,W> {
             // invoke the action code
             let is_fallible = self.grammar.action_is_fallible(production.action);
             if is_fallible {
-                rust!(self.out, "let {}nt = super::{}action{}({}{});",
+                rust!(self.out, "let {}nt = try!(super::{}action{}({}{}));",
                       self.prefix,
                       self.prefix,
                       production.action.index(),
                       self.grammar.user_parameter_refs(),
                       Sep(", ", &args))
             } else {
-                rust!(self.out, "let {}nt = try!(super::{}action{}({}{}));",
+                rust!(self.out, "let {}nt = super::{}action{}({}{});",
                       self.prefix,
                       self.prefix,
                       production.action.index(),

@@ -25,6 +25,9 @@ mod expr_arena_ast;
 /// expr defined with a generic type `F`
 mod expr_generic;
 
+/// test of inlining
+mod inline;
+
 /// test that exercises internal token generation, as well as locations and spans
 mod intern_tok;
 
@@ -128,6 +131,11 @@ fn expr_lalr_test4() {
 #[test]
 fn expr_lalr_test5() {
     util::test(|v| expr_lalr::parse_Expr(11, v), "22 * 3 - 6", 22*11 * 3*11 - 6*11);
+}
+
+#[test]
+fn inline_test1() {
+    assert_eq!(inline::parse_E("& L L").unwrap(), "& L L");
 }
 
 #[test]

@@ -3,7 +3,6 @@ use grammar::repr::Grammar;
 use intern::intern;
 use normalize::{self, NormResult};
 use parser;
-use test_util::compare;
 
 use super::inline;
 
@@ -56,12 +55,15 @@ fn sri() {
     let nt = NonterminalString(intern("E"));
 
     // After inlining, we expect:
+    //
     // E = "L"
-    // E = "&" () E
+    // E = "&" E
     // E = "&" "L" E
+    //
+    // Note that the `()` also gets inlined.
     let e_productions = grammar.productions_for(nt);
     assert_eq!(e_productions.len(), 3);
     assert_eq!(format!("{:?}", e_productions[0].symbols), r#"["L"]"#);
-    assert_eq!(format!("{:?}", e_productions[1].symbols), r#"["&", (), E]"#);
+    assert_eq!(format!("{:?}", e_productions[1].symbols), r#"["&", E]"#);
     assert_eq!(format!("{:?}", e_productions[2].symbols), r#"["&", "L", E]"#);
 }

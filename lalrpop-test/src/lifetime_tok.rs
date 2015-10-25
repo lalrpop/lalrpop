@@ -51,8 +51,8 @@ mod __parse__Expr {
     //   Other* = (*) Other* Other [Other]
     //   __Expr = (*) Expr [EOF]
     //
-    //   EOF -> Reduce(Other* =  => Call(ActionFn(2));)
-    //   Other -> Reduce(Other* =  => Call(ActionFn(2));)
+    //   EOF -> Reduce(Other* =  => ActionFn(2);)
+    //   Other -> Reduce(Other* =  => ActionFn(2);)
     //
     //   Expr -> S1
     //   Other* -> S2
@@ -100,7 +100,7 @@ mod __parse__Expr {
     // State 1
     //   __Expr = Expr (*) [EOF]
     //
-    //   EOF -> Reduce(__Expr = Expr => Call(ActionFn(0));)
+    //   EOF -> Reduce(__Expr = Expr => ActionFn(0);)
     //
     pub fn __state1<
         'input,
@@ -133,7 +133,7 @@ mod __parse__Expr {
     //   Other* = Other* (*) Other [EOF]
     //   Other* = Other* (*) Other [Other]
     //
-    //   EOF -> Reduce(Expr = Other* => Call(ActionFn(1));)
+    //   EOF -> Reduce(Expr = Other* => ActionFn(1);)
     //   Other -> Shift(S3)
     //
     pub fn __state2<
@@ -172,8 +172,8 @@ mod __parse__Expr {
     //   Other* = Other* Other (*) [EOF]
     //   Other* = Other* Other (*) [Other]
     //
-    //   EOF -> Reduce(Other* = Other*, Other => Call(ActionFn(3));)
-    //   Other -> Reduce(Other* = Other*, Other => Call(ActionFn(3));)
+    //   EOF -> Reduce(Other* = Other*, Other => ActionFn(3);)
+    //   Other -> Reduce(Other* = Other*, Other => ActionFn(3);)
     //
     pub fn __state3<
         'input,

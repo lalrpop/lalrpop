@@ -59,9 +59,9 @@ mod __parse__Items {
     //   Items = (*) Items "-" ["-"]
     //   __Items = (*) Items [EOF]
     //
-    //   EOF -> Reduce(@L =  => Call(ActionFn(6));)
-    //   "+" -> Reduce(@L =  => Call(ActionFn(6));)
-    //   "-" -> Reduce(@L =  => Call(ActionFn(6));)
+    //   EOF -> Reduce(@L =  => ActionFn(6);)
+    //   "+" -> Reduce(@L =  => ActionFn(6);)
+    //   "-" -> Reduce(@L =  => ActionFn(6);)
     //
     //   @L -> S1
     //   Items -> S2
@@ -114,9 +114,9 @@ mod __parse__Items {
     //   Items = @L (*) @R ["+"]
     //   Items = @L (*) @R ["-"]
     //
-    //   EOF -> Reduce(@R =  => Call(ActionFn(5));)
-    //   "+" -> Reduce(@R =  => Call(ActionFn(5));)
-    //   "-" -> Reduce(@R =  => Call(ActionFn(5));)
+    //   EOF -> Reduce(@R =  => ActionFn(5);)
+    //   "+" -> Reduce(@R =  => ActionFn(5);)
+    //   "-" -> Reduce(@R =  => ActionFn(5);)
     //
     //   @R -> S3
     pub fn __state1<
@@ -171,8 +171,8 @@ mod __parse__Items {
     //   Spanned<"+"> = (*) @L "+" @R ["-"]
     //   __Items = Items (*) [EOF]
     //
-    //   EOF -> Reduce(__Items = Items => Call(ActionFn(0));)
-    //   "+" -> Reduce(@L =  => Call(ActionFn(6));)
+    //   EOF -> Reduce(__Items = Items => ActionFn(0);)
+    //   "+" -> Reduce(@L =  => ActionFn(6);)
     //   "-" -> Shift(S6)
     //
     //   @L -> S4
@@ -233,9 +233,9 @@ mod __parse__Items {
     //   Items = @L @R (*) ["+"]
     //   Items = @L @R (*) ["-"]
     //
-    //   EOF -> Reduce(Items = @L, @R => Call(ActionFn(1));)
-    //   "+" -> Reduce(Items = @L, @R => Call(ActionFn(1));)
-    //   "-" -> Reduce(Items = @L, @R => Call(ActionFn(1));)
+    //   EOF -> Reduce(Items = @L, @R => ActionFn(1);)
+    //   "+" -> Reduce(Items = @L, @R => ActionFn(1);)
+    //   "-" -> Reduce(Items = @L, @R => ActionFn(1);)
     //
     pub fn __state3<
         __TOKENS: Iterator<Item=Result<(usize, Tok, usize),()>>,
@@ -304,9 +304,9 @@ mod __parse__Items {
     //   Items = Items Spanned<"+"> (*) ["+"]
     //   Items = Items Spanned<"+"> (*) ["-"]
     //
-    //   EOF -> Reduce(Items = Items, Spanned<"+"> => Call(ActionFn(2));)
-    //   "+" -> Reduce(Items = Items, Spanned<"+"> => Call(ActionFn(2));)
-    //   "-" -> Reduce(Items = Items, Spanned<"+"> => Call(ActionFn(2));)
+    //   EOF -> Reduce(Items = Items, Spanned<"+"> => ActionFn(2);)
+    //   "+" -> Reduce(Items = Items, Spanned<"+"> => ActionFn(2);)
+    //   "-" -> Reduce(Items = Items, Spanned<"+"> => ActionFn(2);)
     //
     pub fn __state5<
         __TOKENS: Iterator<Item=Result<(usize, Tok, usize),()>>,
@@ -342,9 +342,9 @@ mod __parse__Items {
     //   Items = Items "-" (*) ["+"]
     //   Items = Items "-" (*) ["-"]
     //
-    //   EOF -> Reduce(Items = Items, "-" => Call(ActionFn(3));)
-    //   "+" -> Reduce(Items = Items, "-" => Call(ActionFn(3));)
-    //   "-" -> Reduce(Items = Items, "-" => Call(ActionFn(3));)
+    //   EOF -> Reduce(Items = Items, "-" => ActionFn(3);)
+    //   "+" -> Reduce(Items = Items, "-" => ActionFn(3);)
+    //   "-" -> Reduce(Items = Items, "-" => ActionFn(3);)
     //
     pub fn __state6<
         __TOKENS: Iterator<Item=Result<(usize, Tok, usize),()>>,
@@ -387,9 +387,9 @@ mod __parse__Items {
     //   Spanned<"+"> = @L "+" (*) @R ["+"]
     //   Spanned<"+"> = @L "+" (*) @R ["-"]
     //
-    //   EOF -> Reduce(@R =  => Call(ActionFn(5));)
-    //   "+" -> Reduce(@R =  => Call(ActionFn(5));)
-    //   "-" -> Reduce(@R =  => Call(ActionFn(5));)
+    //   EOF -> Reduce(@R =  => ActionFn(5);)
+    //   "+" -> Reduce(@R =  => ActionFn(5);)
+    //   "-" -> Reduce(@R =  => ActionFn(5);)
     //
     //   @R -> S8
     pub fn __state7<
@@ -441,9 +441,9 @@ mod __parse__Items {
     //   Spanned<"+"> = @L "+" @R (*) ["+"]
     //   Spanned<"+"> = @L "+" @R (*) ["-"]
     //
-    //   EOF -> Reduce(Spanned<"+"> = @L, "+", @R => Call(ActionFn(4));)
-    //   "+" -> Reduce(Spanned<"+"> = @L, "+", @R => Call(ActionFn(4));)
-    //   "-" -> Reduce(Spanned<"+"> = @L, "+", @R => Call(ActionFn(4));)
+    //   EOF -> Reduce(Spanned<"+"> = @L, "+", @R => ActionFn(4);)
+    //   "+" -> Reduce(Spanned<"+"> = @L, "+", @R => ActionFn(4);)
+    //   "-" -> Reduce(Spanned<"+"> = @L, "+", @R => ActionFn(4);)
     //
     pub fn __state8<
         __TOKENS: Iterator<Item=Result<(usize, Tok, usize),()>>,

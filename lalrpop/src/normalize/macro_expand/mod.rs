@@ -1,6 +1,7 @@
 use std::collections::{HashMap, HashSet};
 use intern::{intern, read, InternedString};
-use grammar::parse_tree::{ActionKind, Alternative,
+use grammar::consts::INLINE;
+use grammar::parse_tree::{ActionKind, Alternative, Annotation,
                           Condition, ConditionOp,
                           ExprSymbol,
                           Grammar, GrammarItem,
@@ -361,7 +362,10 @@ impl MacroExpander {
             public: false,
             span: span,
             name: name,
-            annotations: vec![],
+            annotations: vec![Annotation {
+                id_span: span,
+                id: intern(INLINE),
+            }],
             args: vec![],
             type_decl: Some(ty_ref),
             alternatives: vec![Alternative { span: span,

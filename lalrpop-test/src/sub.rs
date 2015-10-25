@@ -115,7 +115,7 @@ mod __parse__S {
     //   E = E (*) "-" T ["-"]
     //   S = E (*) [EOF]
     //
-    //   EOF -> Reduce(S = E => Call(ActionFn(1));)
+    //   EOF -> Reduce(S = E => ActionFn(1);)
     //   "-" -> Shift(S6)
     //
     pub fn __state1<
@@ -152,7 +152,7 @@ mod __parse__S {
     // State 2
     //   __S = S (*) [EOF]
     //
-    //   EOF -> Reduce(__S = S => Call(ActionFn(0));)
+    //   EOF -> Reduce(__S = S => ActionFn(0);)
     //
     pub fn __state2<
         __TOKENS: Iterator<Item=Result<((), Tok, ()),()>>,
@@ -183,8 +183,8 @@ mod __parse__S {
     //   E = T (*) [EOF]
     //   E = T (*) ["-"]
     //
-    //   EOF -> Reduce(E = T => Call(ActionFn(3));)
-    //   "-" -> Reduce(E = T => Call(ActionFn(3));)
+    //   EOF -> Reduce(E = T => ActionFn(3);)
+    //   "-" -> Reduce(E = T => ActionFn(3);)
     //
     pub fn __state3<
         __TOKENS: Iterator<Item=Result<((), Tok, ()),()>>,
@@ -284,8 +284,8 @@ mod __parse__S {
     //   T = Num (*) [EOF]
     //   T = Num (*) ["-"]
     //
-    //   EOF -> Reduce(T = Num => Call(ActionFn(4));)
-    //   "-" -> Reduce(T = Num => Call(ActionFn(4));)
+    //   EOF -> Reduce(T = Num => ActionFn(4);)
+    //   "-" -> Reduce(T = Num => ActionFn(4);)
     //
     pub fn __state5<
         __TOKENS: Iterator<Item=Result<((), Tok, ()),()>>,
@@ -422,8 +422,8 @@ mod __parse__S {
     //   E = T (*) [")"]
     //   E = T (*) ["-"]
     //
-    //   ")" -> Reduce(E = T => Call(ActionFn(3));)
-    //   "-" -> Reduce(E = T => Call(ActionFn(3));)
+    //   ")" -> Reduce(E = T => ActionFn(3);)
+    //   "-" -> Reduce(E = T => ActionFn(3);)
     //
     pub fn __state8<
         __TOKENS: Iterator<Item=Result<((), Tok, ()),()>>,
@@ -523,8 +523,8 @@ mod __parse__S {
     //   T = Num (*) [")"]
     //   T = Num (*) ["-"]
     //
-    //   ")" -> Reduce(T = Num => Call(ActionFn(4));)
-    //   "-" -> Reduce(T = Num => Call(ActionFn(4));)
+    //   ")" -> Reduce(T = Num => ActionFn(4);)
+    //   "-" -> Reduce(T = Num => ActionFn(4);)
     //
     pub fn __state10<
         __TOKENS: Iterator<Item=Result<((), Tok, ()),()>>,
@@ -560,8 +560,8 @@ mod __parse__S {
     //   E = E "-" T (*) [EOF]
     //   E = E "-" T (*) ["-"]
     //
-    //   EOF -> Reduce(E = E, "-", T => Call(ActionFn(2));)
-    //   "-" -> Reduce(E = E, "-", T => Call(ActionFn(2));)
+    //   EOF -> Reduce(E = E, "-", T => ActionFn(2);)
+    //   "-" -> Reduce(E = E, "-", T => ActionFn(2);)
     //
     pub fn __state11<
         __TOKENS: Iterator<Item=Result<((), Tok, ()),()>>,
@@ -597,8 +597,8 @@ mod __parse__S {
     //   T = "(" E ")" (*) [EOF]
     //   T = "(" E ")" (*) ["-"]
     //
-    //   EOF -> Reduce(T = "(", E, ")" => Call(ActionFn(5));)
-    //   "-" -> Reduce(T = "(", E, ")" => Call(ActionFn(5));)
+    //   EOF -> Reduce(T = "(", E, ")" => ActionFn(5);)
+    //   "-" -> Reduce(T = "(", E, ")" => ActionFn(5);)
     //
     pub fn __state12<
         __TOKENS: Iterator<Item=Result<((), Tok, ()),()>>,
@@ -739,8 +739,8 @@ mod __parse__S {
     //   E = E "-" T (*) [")"]
     //   E = E "-" T (*) ["-"]
     //
-    //   ")" -> Reduce(E = E, "-", T => Call(ActionFn(2));)
-    //   "-" -> Reduce(E = E, "-", T => Call(ActionFn(2));)
+    //   ")" -> Reduce(E = E, "-", T => ActionFn(2);)
+    //   "-" -> Reduce(E = E, "-", T => ActionFn(2);)
     //
     pub fn __state15<
         __TOKENS: Iterator<Item=Result<((), Tok, ()),()>>,
@@ -776,8 +776,8 @@ mod __parse__S {
     //   T = "(" E ")" (*) [")"]
     //   T = "(" E ")" (*) ["-"]
     //
-    //   ")" -> Reduce(T = "(", E, ")" => Call(ActionFn(5));)
-    //   "-" -> Reduce(T = "(", E, ")" => Call(ActionFn(5));)
+    //   ")" -> Reduce(T = "(", E, ")" => ActionFn(5);)
+    //   "-" -> Reduce(T = "(", E, ")" => ActionFn(5);)
     //
     pub fn __state16<
         __TOKENS: Iterator<Item=Result<((), Tok, ()),()>>,

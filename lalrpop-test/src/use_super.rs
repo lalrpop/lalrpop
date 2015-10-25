@@ -87,7 +87,7 @@ mod __parse__S {
     // State 1
     //   __S = S (*) [EOF]
     //
-    //   EOF -> Reduce(__S = S => Call(ActionFn(0));)
+    //   EOF -> Reduce(__S = S => ActionFn(0);)
     //
     pub fn __state1<
         __TOKENS: Iterator<Item=Result<((), Tok, ()),()>>,
@@ -152,7 +152,7 @@ mod __parse__S {
     // State 3
     //   S = "(" ")" (*) [EOF]
     //
-    //   EOF -> Reduce(S = "(", ")" => Call(ActionFn(1));)
+    //   EOF -> Reduce(S = "(", ")" => ActionFn(1);)
     //
     pub fn __state3<
         __TOKENS: Iterator<Item=Result<((), Tok, ()),()>>,

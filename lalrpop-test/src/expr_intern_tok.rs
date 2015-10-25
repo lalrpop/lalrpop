@@ -159,7 +159,7 @@ mod __parse__Expr {
     //   Expr = Expr (*) "-" Factor ["-"]
     //   __Expr = Expr (*) [EOF]
     //
-    //   EOF -> Reduce(__Expr = Expr => Call(ActionFn(0));)
+    //   EOF -> Reduce(__Expr = Expr => ActionFn(0);)
     //   "+" -> Shift(S7)
     //   "-" -> Shift(S8)
     //
@@ -217,10 +217,10 @@ mod __parse__Expr {
     //   Factor = Factor (*) "/" Term ["-"]
     //   Factor = Factor (*) "/" Term ["/"]
     //
-    //   EOF -> Reduce(Expr = Factor => Call(ActionFn(3));)
+    //   EOF -> Reduce(Expr = Factor => ActionFn(3);)
     //   "*" -> Shift(S9)
-    //   "+" -> Reduce(Expr = Factor => Call(ActionFn(3));)
-    //   "-" -> Reduce(Expr = Factor => Call(ActionFn(3));)
+    //   "+" -> Reduce(Expr = Factor => ActionFn(3);)
+    //   "-" -> Reduce(Expr = Factor => ActionFn(3);)
     //   "/" -> Shift(S10)
     //
     pub fn __state2<
@@ -271,11 +271,11 @@ mod __parse__Expr {
     //   Term = Num (*) ["-"]
     //   Term = Num (*) ["/"]
     //
-    //   EOF -> Reduce(Term = Num => Call(ActionFn(7));)
-    //   "*" -> Reduce(Term = Num => Call(ActionFn(7));)
-    //   "+" -> Reduce(Term = Num => Call(ActionFn(7));)
-    //   "-" -> Reduce(Term = Num => Call(ActionFn(7));)
-    //   "/" -> Reduce(Term = Num => Call(ActionFn(7));)
+    //   EOF -> Reduce(Term = Num => ActionFn(7);)
+    //   "*" -> Reduce(Term = Num => ActionFn(7);)
+    //   "+" -> Reduce(Term = Num => ActionFn(7);)
+    //   "-" -> Reduce(Term = Num => ActionFn(7);)
+    //   "/" -> Reduce(Term = Num => ActionFn(7);)
     //
     pub fn __state3<
         'input,
@@ -316,11 +316,11 @@ mod __parse__Expr {
     //   Factor = Term (*) ["-"]
     //   Factor = Term (*) ["/"]
     //
-    //   EOF -> Reduce(Factor = Term => Call(ActionFn(6));)
-    //   "*" -> Reduce(Factor = Term => Call(ActionFn(6));)
-    //   "+" -> Reduce(Factor = Term => Call(ActionFn(6));)
-    //   "-" -> Reduce(Factor = Term => Call(ActionFn(6));)
-    //   "/" -> Reduce(Factor = Term => Call(ActionFn(6));)
+    //   EOF -> Reduce(Factor = Term => ActionFn(6);)
+    //   "*" -> Reduce(Factor = Term => ActionFn(6);)
+    //   "+" -> Reduce(Factor = Term => ActionFn(6);)
+    //   "-" -> Reduce(Factor = Term => ActionFn(6);)
+    //   "/" -> Reduce(Factor = Term => ActionFn(6);)
     //
     pub fn __state4<
         'input,
@@ -476,11 +476,11 @@ mod __parse__Expr {
     //   Num = r#"[0-9]+"# (*) ["-"]
     //   Num = r#"[0-9]+"# (*) ["/"]
     //
-    //   EOF -> Reduce(Num = r#"[0-9]+"# => Call(ActionFn(9));)
-    //   "*" -> Reduce(Num = r#"[0-9]+"# => Call(ActionFn(9));)
-    //   "+" -> Reduce(Num = r#"[0-9]+"# => Call(ActionFn(9));)
-    //   "-" -> Reduce(Num = r#"[0-9]+"# => Call(ActionFn(9));)
-    //   "/" -> Reduce(Num = r#"[0-9]+"# => Call(ActionFn(9));)
+    //   EOF -> Reduce(Num = r#"[0-9]+"# => ActionFn(9);)
+    //   "*" -> Reduce(Num = r#"[0-9]+"# => ActionFn(9);)
+    //   "+" -> Reduce(Num = r#"[0-9]+"# => ActionFn(9);)
+    //   "-" -> Reduce(Num = r#"[0-9]+"# => ActionFn(9);)
+    //   "/" -> Reduce(Num = r#"[0-9]+"# => ActionFn(9);)
     //
     pub fn __state6<
         'input,
@@ -954,10 +954,10 @@ mod __parse__Expr {
     //   Factor = Factor (*) "/" Term ["-"]
     //   Factor = Factor (*) "/" Term ["/"]
     //
-    //   ")" -> Reduce(Expr = Factor => Call(ActionFn(3));)
+    //   ")" -> Reduce(Expr = Factor => ActionFn(3);)
     //   "*" -> Shift(S24)
-    //   "+" -> Reduce(Expr = Factor => Call(ActionFn(3));)
-    //   "-" -> Reduce(Expr = Factor => Call(ActionFn(3));)
+    //   "+" -> Reduce(Expr = Factor => ActionFn(3);)
+    //   "-" -> Reduce(Expr = Factor => ActionFn(3);)
     //   "/" -> Shift(S25)
     //
     pub fn __state12<
@@ -1008,11 +1008,11 @@ mod __parse__Expr {
     //   Term = Num (*) ["-"]
     //   Term = Num (*) ["/"]
     //
-    //   ")" -> Reduce(Term = Num => Call(ActionFn(7));)
-    //   "*" -> Reduce(Term = Num => Call(ActionFn(7));)
-    //   "+" -> Reduce(Term = Num => Call(ActionFn(7));)
-    //   "-" -> Reduce(Term = Num => Call(ActionFn(7));)
-    //   "/" -> Reduce(Term = Num => Call(ActionFn(7));)
+    //   ")" -> Reduce(Term = Num => ActionFn(7);)
+    //   "*" -> Reduce(Term = Num => ActionFn(7);)
+    //   "+" -> Reduce(Term = Num => ActionFn(7);)
+    //   "-" -> Reduce(Term = Num => ActionFn(7);)
+    //   "/" -> Reduce(Term = Num => ActionFn(7);)
     //
     pub fn __state13<
         'input,
@@ -1053,11 +1053,11 @@ mod __parse__Expr {
     //   Factor = Term (*) ["-"]
     //   Factor = Term (*) ["/"]
     //
-    //   ")" -> Reduce(Factor = Term => Call(ActionFn(6));)
-    //   "*" -> Reduce(Factor = Term => Call(ActionFn(6));)
-    //   "+" -> Reduce(Factor = Term => Call(ActionFn(6));)
-    //   "-" -> Reduce(Factor = Term => Call(ActionFn(6));)
-    //   "/" -> Reduce(Factor = Term => Call(ActionFn(6));)
+    //   ")" -> Reduce(Factor = Term => ActionFn(6);)
+    //   "*" -> Reduce(Factor = Term => ActionFn(6);)
+    //   "+" -> Reduce(Factor = Term => ActionFn(6);)
+    //   "-" -> Reduce(Factor = Term => ActionFn(6);)
+    //   "/" -> Reduce(Factor = Term => ActionFn(6);)
     //
     pub fn __state14<
         'input,
@@ -1213,11 +1213,11 @@ mod __parse__Expr {
     //   Num = r#"[0-9]+"# (*) ["-"]
     //   Num = r#"[0-9]+"# (*) ["/"]
     //
-    //   ")" -> Reduce(Num = r#"[0-9]+"# => Call(ActionFn(9));)
-    //   "*" -> Reduce(Num = r#"[0-9]+"# => Call(ActionFn(9));)
-    //   "+" -> Reduce(Num = r#"[0-9]+"# => Call(ActionFn(9));)
-    //   "-" -> Reduce(Num = r#"[0-9]+"# => Call(ActionFn(9));)
-    //   "/" -> Reduce(Num = r#"[0-9]+"# => Call(ActionFn(9));)
+    //   ")" -> Reduce(Num = r#"[0-9]+"# => ActionFn(9);)
+    //   "*" -> Reduce(Num = r#"[0-9]+"# => ActionFn(9);)
+    //   "+" -> Reduce(Num = r#"[0-9]+"# => ActionFn(9);)
+    //   "-" -> Reduce(Num = r#"[0-9]+"# => ActionFn(9);)
+    //   "/" -> Reduce(Num = r#"[0-9]+"# => ActionFn(9);)
     //
     pub fn __state16<
         'input,
@@ -1270,10 +1270,10 @@ mod __parse__Expr {
     //   Factor = Factor (*) "/" Term ["-"]
     //   Factor = Factor (*) "/" Term ["/"]
     //
-    //   EOF -> Reduce(Expr = Expr, "+", Factor => Call(ActionFn(2));)
+    //   EOF -> Reduce(Expr = Expr, "+", Factor => ActionFn(2);)
     //   "*" -> Shift(S9)
-    //   "+" -> Reduce(Expr = Expr, "+", Factor => Call(ActionFn(2));)
-    //   "-" -> Reduce(Expr = Expr, "+", Factor => Call(ActionFn(2));)
+    //   "+" -> Reduce(Expr = Expr, "+", Factor => ActionFn(2);)
+    //   "-" -> Reduce(Expr = Expr, "+", Factor => ActionFn(2);)
     //   "/" -> Shift(S10)
     //
     pub fn __state17<
@@ -1336,10 +1336,10 @@ mod __parse__Expr {
     //   Factor = Factor (*) "/" Term ["-"]
     //   Factor = Factor (*) "/" Term ["/"]
     //
-    //   EOF -> Reduce(Expr = Expr, "-", Factor => Call(ActionFn(1));)
+    //   EOF -> Reduce(Expr = Expr, "-", Factor => ActionFn(1);)
     //   "*" -> Shift(S9)
-    //   "+" -> Reduce(Expr = Expr, "-", Factor => Call(ActionFn(1));)
-    //   "-" -> Reduce(Expr = Expr, "-", Factor => Call(ActionFn(1));)
+    //   "+" -> Reduce(Expr = Expr, "-", Factor => ActionFn(1);)
+    //   "-" -> Reduce(Expr = Expr, "-", Factor => ActionFn(1);)
     //   "/" -> Shift(S10)
     //
     pub fn __state18<
@@ -1394,11 +1394,11 @@ mod __parse__Expr {
     //   Factor = Factor "*" Term (*) ["-"]
     //   Factor = Factor "*" Term (*) ["/"]
     //
-    //   EOF -> Reduce(Factor = Factor, "*", Term => Call(ActionFn(4));)
-    //   "*" -> Reduce(Factor = Factor, "*", Term => Call(ActionFn(4));)
-    //   "+" -> Reduce(Factor = Factor, "*", Term => Call(ActionFn(4));)
-    //   "-" -> Reduce(Factor = Factor, "*", Term => Call(ActionFn(4));)
-    //   "/" -> Reduce(Factor = Factor, "*", Term => Call(ActionFn(4));)
+    //   EOF -> Reduce(Factor = Factor, "*", Term => ActionFn(4);)
+    //   "*" -> Reduce(Factor = Factor, "*", Term => ActionFn(4);)
+    //   "+" -> Reduce(Factor = Factor, "*", Term => ActionFn(4);)
+    //   "-" -> Reduce(Factor = Factor, "*", Term => ActionFn(4);)
+    //   "/" -> Reduce(Factor = Factor, "*", Term => ActionFn(4);)
     //
     pub fn __state19<
         'input,
@@ -1443,11 +1443,11 @@ mod __parse__Expr {
     //   Factor = Factor "/" Term (*) ["-"]
     //   Factor = Factor "/" Term (*) ["/"]
     //
-    //   EOF -> Reduce(Factor = Factor, "/", Term => Call(ActionFn(5));)
-    //   "*" -> Reduce(Factor = Factor, "/", Term => Call(ActionFn(5));)
-    //   "+" -> Reduce(Factor = Factor, "/", Term => Call(ActionFn(5));)
-    //   "-" -> Reduce(Factor = Factor, "/", Term => Call(ActionFn(5));)
-    //   "/" -> Reduce(Factor = Factor, "/", Term => Call(ActionFn(5));)
+    //   EOF -> Reduce(Factor = Factor, "/", Term => ActionFn(5);)
+    //   "*" -> Reduce(Factor = Factor, "/", Term => ActionFn(5);)
+    //   "+" -> Reduce(Factor = Factor, "/", Term => ActionFn(5);)
+    //   "-" -> Reduce(Factor = Factor, "/", Term => ActionFn(5);)
+    //   "/" -> Reduce(Factor = Factor, "/", Term => ActionFn(5);)
     //
     pub fn __state20<
         'input,
@@ -1492,11 +1492,11 @@ mod __parse__Expr {
     //   Term = "(" Expr ")" (*) ["-"]
     //   Term = "(" Expr ")" (*) ["/"]
     //
-    //   EOF -> Reduce(Term = "(", Expr, ")" => Call(ActionFn(8));)
-    //   "*" -> Reduce(Term = "(", Expr, ")" => Call(ActionFn(8));)
-    //   "+" -> Reduce(Term = "(", Expr, ")" => Call(ActionFn(8));)
-    //   "-" -> Reduce(Term = "(", Expr, ")" => Call(ActionFn(8));)
-    //   "/" -> Reduce(Term = "(", Expr, ")" => Call(ActionFn(8));)
+    //   EOF -> Reduce(Term = "(", Expr, ")" => ActionFn(8);)
+    //   "*" -> Reduce(Term = "(", Expr, ")" => ActionFn(8);)
+    //   "+" -> Reduce(Term = "(", Expr, ")" => ActionFn(8);)
+    //   "-" -> Reduce(Term = "(", Expr, ")" => ActionFn(8);)
+    //   "/" -> Reduce(Term = "(", Expr, ")" => ActionFn(8);)
     //
     pub fn __state21<
         'input,
@@ -1974,10 +1974,10 @@ mod __parse__Expr {
     //   Factor = Factor (*) "/" Term ["-"]
     //   Factor = Factor (*) "/" Term ["/"]
     //
-    //   ")" -> Reduce(Expr = Expr, "+", Factor => Call(ActionFn(2));)
+    //   ")" -> Reduce(Expr = Expr, "+", Factor => ActionFn(2);)
     //   "*" -> Shift(S24)
-    //   "+" -> Reduce(Expr = Expr, "+", Factor => Call(ActionFn(2));)
-    //   "-" -> Reduce(Expr = Expr, "+", Factor => Call(ActionFn(2));)
+    //   "+" -> Reduce(Expr = Expr, "+", Factor => ActionFn(2);)
+    //   "-" -> Reduce(Expr = Expr, "+", Factor => ActionFn(2);)
     //   "/" -> Shift(S25)
     //
     pub fn __state27<
@@ -2040,10 +2040,10 @@ mod __parse__Expr {
     //   Factor = Factor (*) "/" Term ["-"]
     //   Factor = Factor (*) "/" Term ["/"]
     //
-    //   ")" -> Reduce(Expr = Expr, "-", Factor => Call(ActionFn(1));)
+    //   ")" -> Reduce(Expr = Expr, "-", Factor => ActionFn(1);)
     //   "*" -> Shift(S24)
-    //   "+" -> Reduce(Expr = Expr, "-", Factor => Call(ActionFn(1));)
-    //   "-" -> Reduce(Expr = Expr, "-", Factor => Call(ActionFn(1));)
+    //   "+" -> Reduce(Expr = Expr, "-", Factor => ActionFn(1);)
+    //   "-" -> Reduce(Expr = Expr, "-", Factor => ActionFn(1);)
     //   "/" -> Shift(S25)
     //
     pub fn __state28<
@@ -2098,11 +2098,11 @@ mod __parse__Expr {
     //   Factor = Factor "*" Term (*) ["-"]
     //   Factor = Factor "*" Term (*) ["/"]
     //
-    //   ")" -> Reduce(Factor = Factor, "*", Term => Call(ActionFn(4));)
-    //   "*" -> Reduce(Factor = Factor, "*", Term => Call(ActionFn(4));)
-    //   "+" -> Reduce(Factor = Factor, "*", Term => Call(ActionFn(4));)
-    //   "-" -> Reduce(Factor = Factor, "*", Term => Call(ActionFn(4));)
-    //   "/" -> Reduce(Factor = Factor, "*", Term => Call(ActionFn(4));)
+    //   ")" -> Reduce(Factor = Factor, "*", Term => ActionFn(4);)
+    //   "*" -> Reduce(Factor = Factor, "*", Term => ActionFn(4);)
+    //   "+" -> Reduce(Factor = Factor, "*", Term => ActionFn(4);)
+    //   "-" -> Reduce(Factor = Factor, "*", Term => ActionFn(4);)
+    //   "/" -> Reduce(Factor = Factor, "*", Term => ActionFn(4);)
     //
     pub fn __state29<
         'input,
@@ -2147,11 +2147,11 @@ mod __parse__Expr {
     //   Factor = Factor "/" Term (*) ["-"]
     //   Factor = Factor "/" Term (*) ["/"]
     //
-    //   ")" -> Reduce(Factor = Factor, "/", Term => Call(ActionFn(5));)
-    //   "*" -> Reduce(Factor = Factor, "/", Term => Call(ActionFn(5));)
-    //   "+" -> Reduce(Factor = Factor, "/", Term => Call(ActionFn(5));)
-    //   "-" -> Reduce(Factor = Factor, "/", Term => Call(ActionFn(5));)
-    //   "/" -> Reduce(Factor = Factor, "/", Term => Call(ActionFn(5));)
+    //   ")" -> Reduce(Factor = Factor, "/", Term => ActionFn(5);)
+    //   "*" -> Reduce(Factor = Factor, "/", Term => ActionFn(5);)
+    //   "+" -> Reduce(Factor = Factor, "/", Term => ActionFn(5);)
+    //   "-" -> Reduce(Factor = Factor, "/", Term => ActionFn(5);)
+    //   "/" -> Reduce(Factor = Factor, "/", Term => ActionFn(5);)
     //
     pub fn __state30<
         'input,
@@ -2196,11 +2196,11 @@ mod __parse__Expr {
     //   Term = "(" Expr ")" (*) ["-"]
     //   Term = "(" Expr ")" (*) ["/"]
     //
-    //   ")" -> Reduce(Term = "(", Expr, ")" => Call(ActionFn(8));)
-    //   "*" -> Reduce(Term = "(", Expr, ")" => Call(ActionFn(8));)
-    //   "+" -> Reduce(Term = "(", Expr, ")" => Call(ActionFn(8));)
-    //   "-" -> Reduce(Term = "(", Expr, ")" => Call(ActionFn(8));)
-    //   "/" -> Reduce(Term = "(", Expr, ")" => Call(ActionFn(8));)
+    //   ")" -> Reduce(Term = "(", Expr, ")" => ActionFn(8);)
+    //   "*" -> Reduce(Term = "(", Expr, ")" => ActionFn(8);)
+    //   "+" -> Reduce(Term = "(", Expr, ")" => ActionFn(8);)
+    //   "-" -> Reduce(Term = "(", Expr, ")" => ActionFn(8);)
+    //   "/" -> Reduce(Term = "(", Expr, ")" => ActionFn(8);)
     //
     pub fn __state31<
         'input,
