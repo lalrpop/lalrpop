@@ -152,10 +152,10 @@ authors = ["Niko Matsakis <niko@alum.mit.edu>"]
 build = "build.rs" # <-- We added this and everything after!
 
 [build-dependencies]
-lalrpop = "0.5.0"
+lalrpop = "0.7.0"
 
 [dependencies]
-lalrpop-util = "0.5.0"
+lalrpop-util = "0.7.0"
 ```
 
 Adding a `build` directive to the `[package]` section tells Cargo to
