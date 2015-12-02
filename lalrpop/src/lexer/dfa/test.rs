@@ -49,3 +49,27 @@ fn issue_35() {
     assert!(dfa(&[(r#".*"#, P0),
                   (r"[-+]?[0-9]*\.?[0-9]+", P0)]).is_err());
 }
+
+#[test]
+fn alternatives() {
+    let dfa = dfa(&[(r#"abc|abd"#, P0)]).unwrap();
+    assert_eq!(interpret(&dfa, "abc"), Some((NFAIndex(0), "abc")));
+    assert_eq!(interpret(&dfa, "abd"), Some((NFAIndex(0), "abd")));
+    assert_eq!(interpret(&dfa, "123"), None);
+}
+
+#[test]
+fn alternatives_extension() {
+    let dfa = dfa(&[(r#"abc|abcd"#, P0)]).unwrap();
+    assert_eq!(interpret(&dfa, "abc"), Some((NFAIndex(0), "abc")));
+    assert_eq!(interpret(&dfa, "abcd"), Some((NFAIndex(0), "abcd")));
+    assert_eq!(interpret(&dfa, "123"), None);
+}
+
+#[test]
+fn alternatives_contraction() {
+    let dfa = dfa(&[(r#"abcd|abc"#, P0)]).unwrap();
+    assert_eq!(interpret(&dfa, "abc"), Some((NFAIndex(0), "abc")));
+    assert_eq!(interpret(&dfa, "abcd"), Some((NFAIndex(0), "abcd")));
+    assert_eq!(interpret(&dfa, "123"), None);
+}
