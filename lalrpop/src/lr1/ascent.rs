@@ -528,7 +528,7 @@ impl<'ascent,'grammar,W:Write> RecursiveAscent<'ascent,'grammar,W> {
               lb_name, self.prefix);
 
         rust!(self.out, "let mut {} = &mut Some(({}));",
-              let_name, pattern_names.connect(", "));
+              let_name, pattern_names.join(", "));
 
         Ok(())
     }
