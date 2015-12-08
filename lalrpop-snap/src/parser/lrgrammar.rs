@@ -191,22 +191,22 @@ mod __parse__TypeRef {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, __tok @ Tok::Hash(..), __loc)) => {
+            Some((_, __tok @ Tok::Hash, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym0 = &mut Some((__tok));
                 __result = try!(__state3(text, __lookbehind, __tokens, __sym0));
             }
-            Some((_, __tok @ Tok::Ampersand(..), __loc)) => {
+            Some((_, __tok @ Tok::Ampersand, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym0 = &mut Some((__tok));
                 __result = try!(__state7(text, __lookbehind, __tokens, __sym0));
             }
-            Some((_, __tok @ Tok::ColonColon(..), __loc)) => {
+            Some((_, __tok @ Tok::ColonColon, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym0 = &mut Some((__tok));
                 __result = try!(__state5(text, __lookbehind, __tokens, __sym0));
             }
-            Some((_, __tok @ Tok::LeftParen(..), __loc)) => {
+            Some((_, __tok @ Tok::LeftParen, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym0 = &mut Some((__tok));
                 __result = try!(__state4(text, __lookbehind, __tokens, __sym0));
@@ -342,14 +342,14 @@ mod __parse__TypeRef {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, __tok @ Tok::LessThan(..), __loc)) => {
+            Some((_, __tok @ Tok::LessThan, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym1 = &mut Some((__tok));
                 __result = try!(__state9(text, __lookbehind, __tokens, __sym0, __sym1));
             }
-            Some((_, Tok::RightParen(..), _)) |
-            Some((_, Tok::Comma(..), _)) |
-            Some((_, Tok::GreaterThan(..), _)) |
+            Some((_, Tok::RightParen, _)) |
+            Some((_, Tok::Comma, _)) |
+            Some((_, Tok::GreaterThan, _)) |
             None => {
                 let __sym0 = __sym0.take().unwrap();
                 let __nt = super::__action53(text, __sym0);
@@ -471,14 +471,14 @@ mod __parse__TypeRef {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         let __lookahead = match __tokens.next() { Some(Ok(v)) => Some(v), None => None, Some(Err(e)) => return Err(__ParseError::User { error: e }) };
         match __lookahead {
-            Some((_, Tok::Lookbehind(..), _)) |
-            Some((_, Tok::Lookahead(..), _)) |
+            Some((_, Tok::Lookbehind, _)) |
+            Some((_, Tok::Lookahead, _)) |
             Some((_, Tok::Escape(_), _)) |
             Some((_, Tok::RegexLiteral(_), _)) |
-            Some((_, Tok::LeftParen(..), _)) |
+            Some((_, Tok::LeftParen, _)) |
             Some((_, Tok::MacroId(_), _)) |
             Some((_, Tok::StringLiteral(_), _)) |
-            Some((_, Tok::LessThan(..), _)) |
+            Some((_, Tok::LessThan, _)) |
             Some((_, Tok::Id(_), _)) => {
                 let __nt = __lookahead.as_ref().map(|o| ::std::clone::Clone::clone(&o.0)).or_else(|| ::std::clone::Clone::clone(&__lookbehind)).unwrap_or_default();
                 __result = (__lookbehind, __lookahead, __Nonterminal::_40L(__nt));
@@ -592,13 +592,13 @@ mod __parse__TypeRef {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         let __lookahead = match __tokens.next() { Some(Ok(v)) => Some(v), None => None, Some(Err(e)) => return Err(__ParseError::User { error: e }) };
         match __lookahead {
-            Some((_, Tok::RightParen(..), _)) |
-            Some((_, Tok::ColonColon(..), _)) |
-            Some((_, Tok::Ampersand(..), _)) |
+            Some((_, Tok::RightParen, _)) |
+            Some((_, Tok::ColonColon, _)) |
+            Some((_, Tok::Ampersand, _)) |
             Some((_, Tok::MacroId(_), _)) |
-            Some((_, Tok::LeftParen(..), _)) |
+            Some((_, Tok::LeftParen, _)) |
             Some((_, Tok::Id(_), _)) |
-            Some((_, Tok::Hash(..), _)) => {
+            Some((_, Tok::Hash, _)) => {
                 let __nt = super::__action164(text, );
                 __result = (__lookbehind, __lookahead, __Nonterminal::_28_3cTypeRef_3e_20_22_2c_22_29_2a(__nt));
             }
@@ -794,13 +794,13 @@ mod __parse__TypeRef {
                 let mut __sym1 = &mut Some((__tok0));
                 __result = try!(__state16(text, __lookbehind, __tokens, __sym1));
             }
-            Some((_, Tok::ColonColon(..), _)) |
+            Some((_, Tok::ColonColon, _)) |
             Some((_, Tok::MacroId(_), _)) |
-            Some((_, Tok::LeftParen(..), _)) |
+            Some((_, Tok::LeftParen, _)) |
             Some((_, Tok::Id(_), _)) |
-            Some((_, Tok::Ampersand(..), _)) |
-            Some((_, Tok::Hash(..), _)) |
-            Some((_, Tok::Mut(..), _)) => {
+            Some((_, Tok::Ampersand, _)) |
+            Some((_, Tok::Hash, _)) |
+            Some((_, Tok::Mut, _)) => {
                 let __nt = super::__action102(text, );
                 __result = (__lookbehind, __lookahead, __Nonterminal::Lifetime_3f(__nt));
             }
@@ -1014,11 +1014,11 @@ mod __parse__TypeRef {
         match __lookahead {
             Some((_, Tok::Lifetime(_), _)) |
             Some((_, Tok::MacroId(_), _)) |
-            Some((_, Tok::LeftParen(..), _)) |
-            Some((_, Tok::Hash(..), _)) |
-            Some((_, Tok::GreaterThan(..), _)) |
-            Some((_, Tok::Ampersand(..), _)) |
-            Some((_, Tok::ColonColon(..), _)) |
+            Some((_, Tok::LeftParen, _)) |
+            Some((_, Tok::Hash, _)) |
+            Some((_, Tok::GreaterThan, _)) |
+            Some((_, Tok::Ampersand, _)) |
+            Some((_, Tok::ColonColon, _)) |
             Some((_, Tok::Id(_), _)) => {
                 let __nt = super::__action169(text, );
                 __result = (__lookbehind, __lookahead, __Nonterminal::_28_3cTypeRefOrLifetime_3e_20_22_2c_22_29_2a(__nt));
@@ -1400,7 +1400,7 @@ mod __parse__TypeRef {
                 let mut __sym1 = &mut Some((__tok0));
                 __result = try!(__state32(text, __lookbehind, __tokens, __sym1));
             }
-            Some((_, __tok @ Tok::LeftParen(..), __loc)) => {
+            Some((_, __tok @ Tok::LeftParen, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym1 = &mut Some((__tok));
                 __result = try!(__state37(text, __lookbehind, __tokens, __sym1));
@@ -1415,7 +1415,7 @@ mod __parse__TypeRef {
                 let mut __sym1 = &mut Some((__tok0));
                 __result = try!(__state34(text, __lookbehind, __tokens, __sym1));
             }
-            Some((_, __tok @ Tok::Lookbehind(..), __loc)) => {
+            Some((_, __tok @ Tok::Lookbehind, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym1 = &mut Some((__tok));
                 __result = try!(__state36(text, __lookbehind, __tokens, __sym1));
@@ -1425,7 +1425,7 @@ mod __parse__TypeRef {
                 let mut __sym1 = &mut Some((__tok0));
                 __result = try!(__state35(text, __lookbehind, __tokens, __sym1));
             }
-            Some((_, __tok @ Tok::Lookahead(..), __loc)) => {
+            Some((_, __tok @ Tok::Lookahead, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym1 = &mut Some((__tok));
                 __result = try!(__state26(text, __lookbehind, __tokens, __sym1));
@@ -1435,7 +1435,7 @@ mod __parse__TypeRef {
                 let mut __sym1 = &mut Some((__tok0));
                 __result = try!(__state28(text, __lookbehind, __tokens, __sym1));
             }
-            Some((_, __tok @ Tok::LessThan(..), __loc)) => {
+            Some((_, __tok @ Tok::LessThan, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym1 = &mut Some((__tok));
                 __result = try!(__state31(text, __lookbehind, __tokens, __sym0, __sym1));
@@ -1616,34 +1616,34 @@ mod __parse__TypeRef {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, __tok @ Tok::Question(..), __loc)) => {
+            Some((_, __tok @ Tok::Question, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym1 = &mut Some((__tok));
                 __result = try!(__state43(text, __lookbehind, __tokens, __sym1));
             }
-            Some((_, __tok @ Tok::Plus(..), __loc)) => {
+            Some((_, __tok @ Tok::Plus, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym1 = &mut Some((__tok));
                 __result = try!(__state41(text, __lookbehind, __tokens, __sym1));
             }
-            Some((_, __tok @ Tok::Star(..), __loc)) => {
+            Some((_, __tok @ Tok::Star, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym1 = &mut Some((__tok));
                 __result = try!(__state42(text, __lookbehind, __tokens, __sym1));
             }
-            Some((_, Tok::Lookahead(..), _)) |
+            Some((_, Tok::Lookahead, _)) |
             Some((_, Tok::MacroId(_), _)) |
-            Some((_, Tok::Lookbehind(..), _)) |
+            Some((_, Tok::Lookbehind, _)) |
             Some((_, Tok::StringLiteral(_), _)) |
             Some((_, Tok::RegexLiteral(_), _)) |
-            Some((_, Tok::GreaterThan(..), _)) |
+            Some((_, Tok::GreaterThan, _)) |
             Some((_, Tok::Id(_), _)) |
-            Some((_, Tok::Hash(..), _)) |
-            Some((_, Tok::RightParen(..), _)) |
-            Some((_, Tok::LeftParen(..), _)) |
-            Some((_, Tok::Comma(..), _)) |
+            Some((_, Tok::Hash, _)) |
+            Some((_, Tok::RightParen, _)) |
+            Some((_, Tok::LeftParen, _)) |
+            Some((_, Tok::Comma, _)) |
             Some((_, Tok::Escape(_), _)) |
-            Some((_, Tok::LessThan(..), _)) => {
+            Some((_, Tok::LessThan, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __nt = super::__action35(text, __sym0);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::Symbol(__nt)));
@@ -1728,22 +1728,22 @@ mod __parse__TypeRef {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, Tok::Lookahead(..), _)) |
-            Some((_, Tok::RightParen(..), _)) |
-            Some((_, Tok::LeftParen(..), _)) |
+            Some((_, Tok::Lookahead, _)) |
+            Some((_, Tok::RightParen, _)) |
+            Some((_, Tok::LeftParen, _)) |
             Some((_, Tok::Id(_), _)) |
-            Some((_, Tok::Lookbehind(..), _)) |
-            Some((_, Tok::Comma(..), _)) |
-            Some((_, Tok::LessThan(..), _)) |
-            Some((_, Tok::Question(..), _)) |
+            Some((_, Tok::Lookbehind, _)) |
+            Some((_, Tok::Comma, _)) |
+            Some((_, Tok::LessThan, _)) |
+            Some((_, Tok::Question, _)) |
             Some((_, Tok::Escape(_), _)) |
-            Some((_, Tok::Plus(..), _)) |
+            Some((_, Tok::Plus, _)) |
             Some((_, Tok::MacroId(_), _)) |
             Some((_, Tok::StringLiteral(_), _)) |
             Some((_, Tok::RegexLiteral(_), _)) |
-            Some((_, Tok::Hash(..), _)) |
-            Some((_, Tok::Star(..), _)) |
-            Some((_, Tok::GreaterThan(..), _)) => {
+            Some((_, Tok::Hash, _)) |
+            Some((_, Tok::Star, _)) |
+            Some((_, Tok::GreaterThan, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __nt = super::__action36(text, __sym0);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::Symbol0(__nt)));
@@ -1780,7 +1780,7 @@ mod __parse__TypeRef {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, __tok @ Tok::Hash(..), __loc)) => {
+            Some((_, __tok @ Tok::Hash, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym2 = &mut Some((__tok));
                 __result = try!(__state44(text, __lookbehind, __tokens, __sym0, __sym1, __sym2));
@@ -1818,7 +1818,7 @@ mod __parse__TypeRef {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, __tok @ Tok::RightParen(..), __loc)) => {
+            Some((_, __tok @ Tok::RightParen, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym2 = &mut Some((__tok));
                 __result = try!(__state45(text, __lookbehind, __tokens, __sym0, __sym1, __sym2));
@@ -1895,22 +1895,22 @@ mod __parse__TypeRef {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, __tok @ Tok::ColonColon(..), __loc)) => {
+            Some((_, __tok @ Tok::ColonColon, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym1 = &mut Some((__tok));
                 __result = try!(__state5(text, __lookbehind, __tokens, __sym1));
             }
-            Some((_, __tok @ Tok::Hash(..), __loc)) => {
+            Some((_, __tok @ Tok::Hash, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym1 = &mut Some((__tok));
                 __result = try!(__state3(text, __lookbehind, __tokens, __sym1));
             }
-            Some((_, __tok @ Tok::LeftParen(..), __loc)) => {
+            Some((_, __tok @ Tok::LeftParen, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym1 = &mut Some((__tok));
                 __result = try!(__state4(text, __lookbehind, __tokens, __sym1));
             }
-            Some((_, __tok @ Tok::Ampersand(..), __loc)) => {
+            Some((_, __tok @ Tok::Ampersand, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym1 = &mut Some((__tok));
                 __result = try!(__state7(text, __lookbehind, __tokens, __sym1));
@@ -1920,7 +1920,7 @@ mod __parse__TypeRef {
                 let __nt = super::__action97(text, );
                 __result = (__lookbehind, __lookahead, __Nonterminal::_22_3a_3a_22_3f(__nt));
             }
-            Some((_, Tok::RightParen(..), _)) => {
+            Some((_, Tok::RightParen, _)) => {
                 let __nt = super::__action163(text, );
                 __result = (__lookbehind, __lookahead, __Nonterminal::TypeRef_3f(__nt));
             }
@@ -1997,14 +1997,14 @@ mod __parse__TypeRef {
         let __lookahead = match __tokens.next() { Some(Ok(v)) => Some(v), None => None, Some(Err(e)) => return Err(__ParseError::User { error: e }) };
         match __lookahead {
             Some((_, Tok::MacroId(_), _)) |
-            Some((_, Tok::Ampersand(..), _)) |
-            Some((_, Tok::Comma(..), _)) |
-            Some((_, Tok::LeftParen(..), _)) |
-            Some((_, Tok::Hash(..), _)) |
-            Some((_, Tok::GreaterThan(..), _)) |
+            Some((_, Tok::Ampersand, _)) |
+            Some((_, Tok::Comma, _)) |
+            Some((_, Tok::LeftParen, _)) |
+            Some((_, Tok::Hash, _)) |
+            Some((_, Tok::GreaterThan, _)) |
             Some((_, Tok::Id(_), _)) |
-            Some((_, Tok::ColonColon(..), _)) |
-            Some((_, Tok::Mut(..), _)) => {
+            Some((_, Tok::ColonColon, _)) |
+            Some((_, Tok::Mut, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __nt = super::__action77(text, __sym0);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::Lifetime(__nt)));
@@ -2048,13 +2048,13 @@ mod __parse__TypeRef {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, Tok::ColonColon(..), _)) |
-            Some((_, Tok::Hash(..), _)) |
-            Some((_, Tok::LeftParen(..), _)) |
+            Some((_, Tok::ColonColon, _)) |
+            Some((_, Tok::Hash, _)) |
+            Some((_, Tok::LeftParen, _)) |
             Some((_, Tok::MacroId(_), _)) |
-            Some((_, Tok::Mut(..), _)) |
+            Some((_, Tok::Mut, _)) |
             Some((_, Tok::Id(_), _)) |
-            Some((_, Tok::Ampersand(..), _)) => {
+            Some((_, Tok::Ampersand, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __nt = super::__action101(text, __sym0);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::Lifetime_3f(__nt)));
@@ -2134,17 +2134,17 @@ mod __parse__TypeRef {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, __tok @ Tok::Mut(..), __loc)) => {
+            Some((_, __tok @ Tok::Mut, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym2 = &mut Some((__tok));
                 __result = try!(__state49(text, __lookbehind, __tokens, __sym2));
             }
             Some((_, Tok::MacroId(_), _)) |
             Some((_, Tok::Id(_), _)) |
-            Some((_, Tok::LeftParen(..), _)) |
-            Some((_, Tok::ColonColon(..), _)) |
-            Some((_, Tok::Hash(..), _)) |
-            Some((_, Tok::Ampersand(..), _)) => {
+            Some((_, Tok::LeftParen, _)) |
+            Some((_, Tok::ColonColon, _)) |
+            Some((_, Tok::Hash, _)) |
+            Some((_, Tok::Ampersand, _)) => {
                 let __nt = super::__action100(text, );
                 __result = (__lookbehind, __lookahead, __Nonterminal::_22mut_22_3f(__nt));
             }
@@ -2240,12 +2240,12 @@ mod __parse__TypeRef {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         let __lookahead = match __tokens.next() { Some(Ok(v)) => Some(v), None => None, Some(Err(e)) => return Err(__ParseError::User { error: e }) };
         match __lookahead {
-            Some((_, Tok::RightParen(..), _)) |
-            Some((_, Tok::ColonColon(..), _)) |
-            Some((_, Tok::GreaterThan(..), _)) |
-            Some((_, Tok::Comma(..), _)) |
+            Some((_, Tok::RightParen, _)) |
+            Some((_, Tok::ColonColon, _)) |
+            Some((_, Tok::GreaterThan, _)) |
+            Some((_, Tok::Comma, _)) |
             None |
-            Some((_, Tok::LessThan(..), _)) => {
+            Some((_, Tok::LessThan, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __nt = super::__action74(text, __sym0);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::Id(__nt)));
@@ -2293,11 +2293,11 @@ mod __parse__TypeRef {
         let __lookahead = match __tokens.next() { Some(Ok(v)) => Some(v), None => None, Some(Err(e)) => return Err(__ParseError::User { error: e }) };
         match __lookahead {
             None |
-            Some((_, Tok::ColonColon(..), _)) |
-            Some((_, Tok::Comma(..), _)) |
-            Some((_, Tok::GreaterThan(..), _)) |
-            Some((_, Tok::LessThan(..), _)) |
-            Some((_, Tok::RightParen(..), _)) => {
+            Some((_, Tok::ColonColon, _)) |
+            Some((_, Tok::Comma, _)) |
+            Some((_, Tok::GreaterThan, _)) |
+            Some((_, Tok::LessThan, _)) |
+            Some((_, Tok::RightParen, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __nt = super::__action75(text, __sym0);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::Id(__nt)));
@@ -2349,16 +2349,16 @@ mod __parse__TypeRef {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, __tok @ Tok::ColonColon(..), __loc)) => {
+            Some((_, __tok @ Tok::ColonColon, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym3 = &mut Some((__tok));
                 __result = try!(__state51(text, __lookbehind, __tokens, __sym2, __sym3));
             }
             None |
-            Some((_, Tok::RightParen(..), _)) |
-            Some((_, Tok::Comma(..), _)) |
-            Some((_, Tok::LessThan(..), _)) |
-            Some((_, Tok::GreaterThan(..), _)) => {
+            Some((_, Tok::RightParen, _)) |
+            Some((_, Tok::Comma, _)) |
+            Some((_, Tok::LessThan, _)) |
+            Some((_, Tok::GreaterThan, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
                 let __sym2 = __sym2.take().unwrap();
@@ -2399,7 +2399,7 @@ mod __parse__TypeRef {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, __tok @ Tok::GreaterThan(..), __loc)) => {
+            Some((_, __tok @ Tok::GreaterThan, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym3 = &mut Some((__tok));
                 __result = try!(__state52(text, __lookbehind, __tokens, __sym0, __sym1, __sym2, __sym3));
@@ -2487,22 +2487,22 @@ mod __parse__TypeRef {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, __tok @ Tok::Hash(..), __loc)) => {
+            Some((_, __tok @ Tok::Hash, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym1 = &mut Some((__tok));
                 __result = try!(__state3(text, __lookbehind, __tokens, __sym1));
             }
-            Some((_, __tok @ Tok::LeftParen(..), __loc)) => {
+            Some((_, __tok @ Tok::LeftParen, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym1 = &mut Some((__tok));
                 __result = try!(__state4(text, __lookbehind, __tokens, __sym1));
             }
-            Some((_, __tok @ Tok::Ampersand(..), __loc)) => {
+            Some((_, __tok @ Tok::Ampersand, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym1 = &mut Some((__tok));
                 __result = try!(__state7(text, __lookbehind, __tokens, __sym1));
             }
-            Some((_, __tok @ Tok::ColonColon(..), __loc)) => {
+            Some((_, __tok @ Tok::ColonColon, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym1 = &mut Some((__tok));
                 __result = try!(__state5(text, __lookbehind, __tokens, __sym1));
@@ -2512,7 +2512,7 @@ mod __parse__TypeRef {
                 let mut __sym1 = &mut Some((__tok0));
                 __result = try!(__state16(text, __lookbehind, __tokens, __sym1));
             }
-            Some((_, Tok::GreaterThan(..), _)) => {
+            Some((_, Tok::GreaterThan, _)) => {
                 let __nt = super::__action168(text, );
                 __result = (__lookbehind, __lookahead, __Nonterminal::TypeRefOrLifetime_3f(__nt));
             }
@@ -2625,22 +2625,22 @@ mod __parse__TypeRef {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, Tok::Plus(..), _)) |
-            Some((_, Tok::RightParen(..), _)) |
-            Some((_, Tok::Star(..), _)) |
-            Some((_, Tok::GreaterThan(..), _)) |
+            Some((_, Tok::Plus, _)) |
+            Some((_, Tok::RightParen, _)) |
+            Some((_, Tok::Star, _)) |
+            Some((_, Tok::GreaterThan, _)) |
             Some((_, Tok::RegexLiteral(_), _)) |
-            Some((_, Tok::LeftParen(..), _)) |
-            Some((_, Tok::Comma(..), _)) |
+            Some((_, Tok::LeftParen, _)) |
+            Some((_, Tok::Comma, _)) |
             Some((_, Tok::StringLiteral(_), _)) |
-            Some((_, Tok::Lookahead(..), _)) |
+            Some((_, Tok::Lookahead, _)) |
             Some((_, Tok::Escape(_), _)) |
             Some((_, Tok::MacroId(_), _)) |
-            Some((_, Tok::LessThan(..), _)) |
-            Some((_, Tok::Hash(..), _)) |
+            Some((_, Tok::LessThan, _)) |
+            Some((_, Tok::Hash, _)) |
             Some((_, Tok::Id(_), _)) |
-            Some((_, Tok::Lookbehind(..), _)) |
-            Some((_, Tok::Question(..), _)) => {
+            Some((_, Tok::Lookbehind, _)) |
+            Some((_, Tok::Question, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __nt = super::__action45(text, __sym0);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::SymbolKind1(__nt)));
@@ -2712,22 +2712,22 @@ mod __parse__TypeRef {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         let __lookahead = match __tokens.next() { Some(Ok(v)) => Some(v), None => None, Some(Err(e)) => return Err(__ParseError::User { error: e }) };
         match __lookahead {
-            Some((_, Tok::Plus(..), _)) |
+            Some((_, Tok::Plus, _)) |
             Some((_, Tok::StringLiteral(_), _)) |
-            Some((_, Tok::LeftParen(..), _)) |
-            Some((_, Tok::GreaterThan(..), _)) |
+            Some((_, Tok::LeftParen, _)) |
+            Some((_, Tok::GreaterThan, _)) |
             Some((_, Tok::RegexLiteral(_), _)) |
             Some((_, Tok::Escape(_), _)) |
-            Some((_, Tok::LessThan(..), _)) |
+            Some((_, Tok::LessThan, _)) |
             Some((_, Tok::Id(_), _)) |
-            Some((_, Tok::Star(..), _)) |
-            Some((_, Tok::Lookbehind(..), _)) |
-            Some((_, Tok::RightParen(..), _)) |
-            Some((_, Tok::Hash(..), _)) |
-            Some((_, Tok::Question(..), _)) |
+            Some((_, Tok::Star, _)) |
+            Some((_, Tok::Lookbehind, _)) |
+            Some((_, Tok::RightParen, _)) |
+            Some((_, Tok::Hash, _)) |
+            Some((_, Tok::Question, _)) |
             Some((_, Tok::MacroId(_), _)) |
-            Some((_, Tok::Lookahead(..), _)) |
-            Some((_, Tok::Comma(..), _)) => {
+            Some((_, Tok::Lookahead, _)) |
+            Some((_, Tok::Comma, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __nt = super::__action47(text, __sym0);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::SymbolKind1(__nt)));
@@ -2799,21 +2799,21 @@ mod __parse__TypeRef {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         let __lookahead = match __tokens.next() { Some(Ok(v)) => Some(v), None => None, Some(Err(e)) => return Err(__ParseError::User { error: e }) };
         match __lookahead {
-            Some((_, Tok::LessThan(..), _)) |
+            Some((_, Tok::LessThan, _)) |
             Some((_, Tok::RegexLiteral(_), _)) |
-            Some((_, Tok::Lookbehind(..), _)) |
-            Some((_, Tok::Hash(..), _)) |
-            Some((_, Tok::Question(..), _)) |
+            Some((_, Tok::Lookbehind, _)) |
+            Some((_, Tok::Hash, _)) |
+            Some((_, Tok::Question, _)) |
             Some((_, Tok::Id(_), _)) |
-            Some((_, Tok::GreaterThan(..), _)) |
+            Some((_, Tok::GreaterThan, _)) |
             Some((_, Tok::MacroId(_), _)) |
-            Some((_, Tok::Lookahead(..), _)) |
-            Some((_, Tok::Plus(..), _)) |
-            Some((_, Tok::LeftParen(..), _)) |
-            Some((_, Tok::RightParen(..), _)) |
-            Some((_, Tok::Comma(..), _)) |
+            Some((_, Tok::Lookahead, _)) |
+            Some((_, Tok::Plus, _)) |
+            Some((_, Tok::LeftParen, _)) |
+            Some((_, Tok::RightParen, _)) |
+            Some((_, Tok::Comma, _)) |
             Some((_, Tok::StringLiteral(_), _)) |
-            Some((_, Tok::Star(..), _)) |
+            Some((_, Tok::Star, _)) |
             Some((_, Tok::Escape(_), _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __nt = super::__action83(text, __sym0);
@@ -2886,22 +2886,22 @@ mod __parse__TypeRef {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         let __lookahead = match __tokens.next() { Some(Ok(v)) => Some(v), None => None, Some(Err(e)) => return Err(__ParseError::User { error: e }) };
         match __lookahead {
-            Some((_, Tok::Lookbehind(..), _)) |
-            Some((_, Tok::Plus(..), _)) |
+            Some((_, Tok::Lookbehind, _)) |
+            Some((_, Tok::Plus, _)) |
             Some((_, Tok::Id(_), _)) |
             Some((_, Tok::Escape(_), _)) |
-            Some((_, Tok::GreaterThan(..), _)) |
+            Some((_, Tok::GreaterThan, _)) |
             Some((_, Tok::StringLiteral(_), _)) |
-            Some((_, Tok::Comma(..), _)) |
+            Some((_, Tok::Comma, _)) |
             Some((_, Tok::RegexLiteral(_), _)) |
-            Some((_, Tok::RightParen(..), _)) |
-            Some((_, Tok::LeftParen(..), _)) |
+            Some((_, Tok::RightParen, _)) |
+            Some((_, Tok::LeftParen, _)) |
             Some((_, Tok::MacroId(_), _)) |
-            Some((_, Tok::LessThan(..), _)) |
-            Some((_, Tok::Question(..), _)) |
-            Some((_, Tok::Hash(..), _)) |
-            Some((_, Tok::Star(..), _)) |
-            Some((_, Tok::Lookahead(..), _)) => {
+            Some((_, Tok::LessThan, _)) |
+            Some((_, Tok::Question, _)) |
+            Some((_, Tok::Hash, _)) |
+            Some((_, Tok::Star, _)) |
+            Some((_, Tok::Lookahead, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __nt = super::__action76(text, __sym0);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::Escape(__nt)));
@@ -2973,20 +2973,20 @@ mod __parse__TypeRef {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, Tok::Hash(..), _)) |
-            Some((_, Tok::Lookahead(..), _)) |
-            Some((_, Tok::Comma(..), _)) |
+            Some((_, Tok::Hash, _)) |
+            Some((_, Tok::Lookahead, _)) |
+            Some((_, Tok::Comma, _)) |
             Some((_, Tok::StringLiteral(_), _)) |
-            Some((_, Tok::GreaterThan(..), _)) |
-            Some((_, Tok::LeftParen(..), _)) |
-            Some((_, Tok::Lookbehind(..), _)) |
-            Some((_, Tok::Question(..), _)) |
+            Some((_, Tok::GreaterThan, _)) |
+            Some((_, Tok::LeftParen, _)) |
+            Some((_, Tok::Lookbehind, _)) |
+            Some((_, Tok::Question, _)) |
             Some((_, Tok::Id(_), _)) |
-            Some((_, Tok::Plus(..), _)) |
+            Some((_, Tok::Plus, _)) |
             Some((_, Tok::MacroId(_), _)) |
-            Some((_, Tok::Star(..), _)) |
-            Some((_, Tok::RightParen(..), _)) |
-            Some((_, Tok::LessThan(..), _)) |
+            Some((_, Tok::Star, _)) |
+            Some((_, Tok::RightParen, _)) |
+            Some((_, Tok::LessThan, _)) |
             Some((_, Tok::RegexLiteral(_), _)) |
             Some((_, Tok::Escape(_), _)) => {
                 let __sym0 = __sym0.take().unwrap();
@@ -3088,21 +3088,21 @@ mod __parse__TypeRef {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, Tok::Question(..), _)) |
-            Some((_, Tok::Star(..), _)) |
-            Some((_, Tok::Lookahead(..), _)) |
+            Some((_, Tok::Question, _)) |
+            Some((_, Tok::Star, _)) |
+            Some((_, Tok::Lookahead, _)) |
             Some((_, Tok::StringLiteral(_), _)) |
-            Some((_, Tok::Lookbehind(..), _)) |
-            Some((_, Tok::Hash(..), _)) |
-            Some((_, Tok::Comma(..), _)) |
-            Some((_, Tok::Plus(..), _)) |
-            Some((_, Tok::RightParen(..), _)) |
-            Some((_, Tok::GreaterThan(..), _)) |
-            Some((_, Tok::LeftParen(..), _)) |
+            Some((_, Tok::Lookbehind, _)) |
+            Some((_, Tok::Hash, _)) |
+            Some((_, Tok::Comma, _)) |
+            Some((_, Tok::Plus, _)) |
+            Some((_, Tok::RightParen, _)) |
+            Some((_, Tok::GreaterThan, _)) |
+            Some((_, Tok::LeftParen, _)) |
             Some((_, Tok::RegexLiteral(_), _)) |
             Some((_, Tok::MacroId(_), _)) |
             Some((_, Tok::Id(_), _)) |
-            Some((_, Tok::LessThan(..), _)) |
+            Some((_, Tok::LessThan, _)) |
             Some((_, Tok::Escape(_), _)) => {
                 let __nt = ::std::clone::Clone::clone(&__lookbehind).unwrap_or_default();
                 __result = (__lookbehind, __lookahead, __Nonterminal::_40R(__nt));
@@ -3245,11 +3245,11 @@ mod __parse__TypeRef {
         match __lookahead {
             Some((_, Tok::RegexLiteral(_), _)) |
             Some((_, Tok::Escape(_), _)) |
-            Some((_, Tok::LeftParen(..), _)) |
+            Some((_, Tok::LeftParen, _)) |
             Some((_, Tok::Id(_), _)) |
-            Some((_, Tok::Lookbehind(..), _)) |
+            Some((_, Tok::Lookbehind, _)) |
             Some((_, Tok::StringLiteral(_), _)) |
-            Some((_, Tok::Lookahead(..), _)) |
+            Some((_, Tok::Lookahead, _)) |
             Some((_, Tok::MacroId(_), _)) => {
                 let __nt = __lookahead.as_ref().map(|o| ::std::clone::Clone::clone(&o.0)).or_else(|| ::std::clone::Clone::clone(&__lookbehind)).unwrap_or_default();
                 __result = (__lookbehind, __lookahead, __Nonterminal::_40L(__nt));
@@ -3342,22 +3342,22 @@ mod __parse__TypeRef {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         let __lookahead = match __tokens.next() { Some(Ok(v)) => Some(v), None => None, Some(Err(e)) => return Err(__ParseError::User { error: e }) };
         match __lookahead {
-            Some((_, Tok::Lookahead(..), _)) |
-            Some((_, Tok::Lookbehind(..), _)) |
-            Some((_, Tok::LeftParen(..), _)) |
-            Some((_, Tok::Comma(..), _)) |
-            Some((_, Tok::Plus(..), _)) |
-            Some((_, Tok::GreaterThan(..), _)) |
+            Some((_, Tok::Lookahead, _)) |
+            Some((_, Tok::Lookbehind, _)) |
+            Some((_, Tok::LeftParen, _)) |
+            Some((_, Tok::Comma, _)) |
+            Some((_, Tok::Plus, _)) |
+            Some((_, Tok::GreaterThan, _)) |
             Some((_, Tok::Escape(_), _)) |
-            Some((_, Tok::RightParen(..), _)) |
-            Some((_, Tok::Hash(..), _)) |
+            Some((_, Tok::RightParen, _)) |
+            Some((_, Tok::Hash, _)) |
             Some((_, Tok::RegexLiteral(_), _)) |
-            Some((_, Tok::LessThan(..), _)) |
+            Some((_, Tok::LessThan, _)) |
             Some((_, Tok::Id(_), _)) |
             Some((_, Tok::MacroId(_), _)) |
-            Some((_, Tok::Star(..), _)) |
+            Some((_, Tok::Star, _)) |
             Some((_, Tok::StringLiteral(_), _)) |
-            Some((_, Tok::Question(..), _)) => {
+            Some((_, Tok::Question, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __nt = super::__action44(text, __sym0);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::SymbolKind1(__nt)));
@@ -3429,21 +3429,21 @@ mod __parse__TypeRef {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, Tok::Star(..), _)) |
-            Some((_, Tok::GreaterThan(..), _)) |
-            Some((_, Tok::Question(..), _)) |
+            Some((_, Tok::Star, _)) |
+            Some((_, Tok::GreaterThan, _)) |
+            Some((_, Tok::Question, _)) |
             Some((_, Tok::StringLiteral(_), _)) |
-            Some((_, Tok::Comma(..), _)) |
-            Some((_, Tok::LessThan(..), _)) |
-            Some((_, Tok::Lookbehind(..), _)) |
-            Some((_, Tok::RightParen(..), _)) |
+            Some((_, Tok::Comma, _)) |
+            Some((_, Tok::LessThan, _)) |
+            Some((_, Tok::Lookbehind, _)) |
+            Some((_, Tok::RightParen, _)) |
             Some((_, Tok::RegexLiteral(_), _)) |
             Some((_, Tok::Id(_), _)) |
             Some((_, Tok::MacroId(_), _)) |
-            Some((_, Tok::Lookahead(..), _)) |
-            Some((_, Tok::LeftParen(..), _)) |
-            Some((_, Tok::Hash(..), _)) |
-            Some((_, Tok::Plus(..), _)) |
+            Some((_, Tok::Lookahead, _)) |
+            Some((_, Tok::LeftParen, _)) |
+            Some((_, Tok::Hash, _)) |
+            Some((_, Tok::Plus, _)) |
             Some((_, Tok::Escape(_), _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __nt = super::__action80(text, __sym0);
@@ -3516,21 +3516,21 @@ mod __parse__TypeRef {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         let __lookahead = match __tokens.next() { Some(Ok(v)) => Some(v), None => None, Some(Err(e)) => return Err(__ParseError::User { error: e }) };
         match __lookahead {
-            Some((_, Tok::Star(..), _)) |
+            Some((_, Tok::Star, _)) |
             Some((_, Tok::MacroId(_), _)) |
-            Some((_, Tok::Lookahead(..), _)) |
-            Some((_, Tok::RightParen(..), _)) |
-            Some((_, Tok::Question(..), _)) |
-            Some((_, Tok::LeftParen(..), _)) |
+            Some((_, Tok::Lookahead, _)) |
+            Some((_, Tok::RightParen, _)) |
+            Some((_, Tok::Question, _)) |
+            Some((_, Tok::LeftParen, _)) |
             Some((_, Tok::StringLiteral(_), _)) |
-            Some((_, Tok::Plus(..), _)) |
-            Some((_, Tok::LessThan(..), _)) |
-            Some((_, Tok::Comma(..), _)) |
-            Some((_, Tok::Hash(..), _)) |
-            Some((_, Tok::GreaterThan(..), _)) |
+            Some((_, Tok::Plus, _)) |
+            Some((_, Tok::LessThan, _)) |
+            Some((_, Tok::Comma, _)) |
+            Some((_, Tok::Hash, _)) |
+            Some((_, Tok::GreaterThan, _)) |
             Some((_, Tok::RegexLiteral(_), _)) |
             Some((_, Tok::Escape(_), _)) |
-            Some((_, Tok::Lookbehind(..), _)) |
+            Some((_, Tok::Lookbehind, _)) |
             Some((_, Tok::Id(_), _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __nt = super::__action82(text, __sym0);
@@ -3563,7 +3563,7 @@ mod __parse__TypeRef {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         let __lookahead = match __tokens.next() { Some(Ok(v)) => Some(v), None => None, Some(Err(e)) => return Err(__ParseError::User { error: e }) };
         match __lookahead {
-            Some((_, Tok::LessThan(..), _)) => {
+            Some((_, Tok::LessThan, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __nt = super::__action72(text, __sym0);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::MacroId(__nt)));
@@ -3635,22 +3635,22 @@ mod __parse__TypeRef {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         let __lookahead = match __tokens.next() { Some(Ok(v)) => Some(v), None => None, Some(Err(e)) => return Err(__ParseError::User { error: e }) };
         match __lookahead {
-            Some((_, Tok::Plus(..), _)) |
-            Some((_, Tok::Lookahead(..), _)) |
-            Some((_, Tok::LessThan(..), _)) |
+            Some((_, Tok::Plus, _)) |
+            Some((_, Tok::Lookahead, _)) |
+            Some((_, Tok::LessThan, _)) |
             Some((_, Tok::Id(_), _)) |
             Some((_, Tok::Escape(_), _)) |
             Some((_, Tok::RegexLiteral(_), _)) |
             Some((_, Tok::MacroId(_), _)) |
-            Some((_, Tok::Question(..), _)) |
+            Some((_, Tok::Question, _)) |
             Some((_, Tok::StringLiteral(_), _)) |
-            Some((_, Tok::Star(..), _)) |
-            Some((_, Tok::Hash(..), _)) |
-            Some((_, Tok::Comma(..), _)) |
-            Some((_, Tok::GreaterThan(..), _)) |
-            Some((_, Tok::LeftParen(..), _)) |
-            Some((_, Tok::RightParen(..), _)) |
-            Some((_, Tok::Lookbehind(..), _)) => {
+            Some((_, Tok::Star, _)) |
+            Some((_, Tok::Hash, _)) |
+            Some((_, Tok::Comma, _)) |
+            Some((_, Tok::GreaterThan, _)) |
+            Some((_, Tok::LeftParen, _)) |
+            Some((_, Tok::RightParen, _)) |
+            Some((_, Tok::Lookbehind, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __nt = super::__action48(text, __sym0);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::SymbolKind1(__nt)));
@@ -3804,14 +3804,14 @@ mod __parse__TypeRef {
         match __lookahead {
             Some((_, Tok::Id(_), _)) |
             Some((_, Tok::MacroId(_), _)) |
-            Some((_, Tok::Lookbehind(..), _)) |
-            Some((_, Tok::LeftParen(..), _)) |
-            Some((_, Tok::LessThan(..), _)) |
-            Some((_, Tok::Lookahead(..), _)) |
+            Some((_, Tok::Lookbehind, _)) |
+            Some((_, Tok::LeftParen, _)) |
+            Some((_, Tok::LessThan, _)) |
+            Some((_, Tok::Lookahead, _)) |
             Some((_, Tok::RegexLiteral(_), _)) |
             Some((_, Tok::Escape(_), _)) |
             Some((_, Tok::StringLiteral(_), _)) |
-            Some((_, Tok::RightParen(..), _)) => {
+            Some((_, Tok::RightParen, _)) => {
                 let __nt = super::__action105(text, );
                 __result = (__lookbehind, __lookahead, __Nonterminal::Symbol_2a(__nt));
             }
@@ -3899,22 +3899,22 @@ mod __parse__TypeRef {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, Tok::Lookahead(..), _)) |
+            Some((_, Tok::Lookahead, _)) |
             Some((_, Tok::StringLiteral(_), _)) |
-            Some((_, Tok::RightParen(..), _)) |
-            Some((_, Tok::Star(..), _)) |
+            Some((_, Tok::RightParen, _)) |
+            Some((_, Tok::Star, _)) |
             Some((_, Tok::Id(_), _)) |
             Some((_, Tok::Escape(_), _)) |
-            Some((_, Tok::LessThan(..), _)) |
+            Some((_, Tok::LessThan, _)) |
             Some((_, Tok::MacroId(_), _)) |
-            Some((_, Tok::Comma(..), _)) |
-            Some((_, Tok::Lookbehind(..), _)) |
-            Some((_, Tok::GreaterThan(..), _)) |
-            Some((_, Tok::Plus(..), _)) |
+            Some((_, Tok::Comma, _)) |
+            Some((_, Tok::Lookbehind, _)) |
+            Some((_, Tok::GreaterThan, _)) |
+            Some((_, Tok::Plus, _)) |
             Some((_, Tok::RegexLiteral(_), _)) |
-            Some((_, Tok::LeftParen(..), _)) |
-            Some((_, Tok::Hash(..), _)) |
-            Some((_, Tok::Question(..), _)) => {
+            Some((_, Tok::LeftParen, _)) |
+            Some((_, Tok::Hash, _)) |
+            Some((_, Tok::Question, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __nt = super::__action43(text, __sym0);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::SymbolKind1(__nt)));
@@ -3971,7 +3971,7 @@ mod __parse__TypeRef {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, __tok @ Tok::LessThan(..), __loc)) => {
+            Some((_, __tok @ Tok::LessThan, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym1 = &mut Some((__tok));
                 __result = try!(__state63(text, __lookbehind, __tokens, __sym0, __sym1));
@@ -4073,21 +4073,21 @@ mod __parse__TypeRef {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
             Some((_, Tok::MacroId(_), _)) |
-            Some((_, Tok::Star(..), _)) |
+            Some((_, Tok::Star, _)) |
             Some((_, Tok::RegexLiteral(_), _)) |
-            Some((_, Tok::Hash(..), _)) |
-            Some((_, Tok::Lookbehind(..), _)) |
-            Some((_, Tok::RightParen(..), _)) |
+            Some((_, Tok::Hash, _)) |
+            Some((_, Tok::Lookbehind, _)) |
+            Some((_, Tok::RightParen, _)) |
             Some((_, Tok::StringLiteral(_), _)) |
-            Some((_, Tok::Question(..), _)) |
+            Some((_, Tok::Question, _)) |
             Some((_, Tok::Id(_), _)) |
-            Some((_, Tok::LessThan(..), _)) |
-            Some((_, Tok::GreaterThan(..), _)) |
-            Some((_, Tok::LeftParen(..), _)) |
-            Some((_, Tok::Lookahead(..), _)) |
-            Some((_, Tok::Plus(..), _)) |
+            Some((_, Tok::LessThan, _)) |
+            Some((_, Tok::GreaterThan, _)) |
+            Some((_, Tok::LeftParen, _)) |
+            Some((_, Tok::Lookahead, _)) |
+            Some((_, Tok::Plus, _)) |
             Some((_, Tok::Escape(_), _)) |
-            Some((_, Tok::Comma(..), _)) => {
+            Some((_, Tok::Comma, _)) => {
                 let __nt = ::std::clone::Clone::clone(&__lookbehind).unwrap_or_default();
                 __result = (__lookbehind, __lookahead, __Nonterminal::_40R(__nt));
             }
@@ -4173,20 +4173,20 @@ mod __parse__TypeRef {
         match __lookahead {
             Some((_, Tok::RegexLiteral(_), _)) |
             Some((_, Tok::StringLiteral(_), _)) |
-            Some((_, Tok::LessThan(..), _)) |
-            Some((_, Tok::LeftParen(..), _)) |
-            Some((_, Tok::Lookbehind(..), _)) |
-            Some((_, Tok::Plus(..), _)) |
-            Some((_, Tok::Hash(..), _)) |
+            Some((_, Tok::LessThan, _)) |
+            Some((_, Tok::LeftParen, _)) |
+            Some((_, Tok::Lookbehind, _)) |
+            Some((_, Tok::Plus, _)) |
+            Some((_, Tok::Hash, _)) |
             Some((_, Tok::Escape(_), _)) |
             Some((_, Tok::MacroId(_), _)) |
             Some((_, Tok::Id(_), _)) |
-            Some((_, Tok::Star(..), _)) |
-            Some((_, Tok::Comma(..), _)) |
-            Some((_, Tok::RightParen(..), _)) |
-            Some((_, Tok::Question(..), _)) |
-            Some((_, Tok::Lookahead(..), _)) |
-            Some((_, Tok::GreaterThan(..), _)) => {
+            Some((_, Tok::Star, _)) |
+            Some((_, Tok::Comma, _)) |
+            Some((_, Tok::RightParen, _)) |
+            Some((_, Tok::Question, _)) |
+            Some((_, Tok::Lookahead, _)) |
+            Some((_, Tok::GreaterThan, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __nt = super::__action38(text, __sym0);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::RepeatOp(__nt)));
@@ -4258,22 +4258,22 @@ mod __parse__TypeRef {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         let __lookahead = match __tokens.next() { Some(Ok(v)) => Some(v), None => None, Some(Err(e)) => return Err(__ParseError::User { error: e }) };
         match __lookahead {
-            Some((_, Tok::Plus(..), _)) |
+            Some((_, Tok::Plus, _)) |
             Some((_, Tok::StringLiteral(_), _)) |
-            Some((_, Tok::LessThan(..), _)) |
-            Some((_, Tok::Comma(..), _)) |
-            Some((_, Tok::Lookahead(..), _)) |
+            Some((_, Tok::LessThan, _)) |
+            Some((_, Tok::Comma, _)) |
+            Some((_, Tok::Lookahead, _)) |
             Some((_, Tok::RegexLiteral(_), _)) |
-            Some((_, Tok::RightParen(..), _)) |
+            Some((_, Tok::RightParen, _)) |
             Some((_, Tok::MacroId(_), _)) |
             Some((_, Tok::Id(_), _)) |
-            Some((_, Tok::Lookbehind(..), _)) |
-            Some((_, Tok::Question(..), _)) |
-            Some((_, Tok::GreaterThan(..), _)) |
+            Some((_, Tok::Lookbehind, _)) |
+            Some((_, Tok::Question, _)) |
+            Some((_, Tok::GreaterThan, _)) |
             Some((_, Tok::Escape(_), _)) |
-            Some((_, Tok::Star(..), _)) |
-            Some((_, Tok::Hash(..), _)) |
-            Some((_, Tok::LeftParen(..), _)) => {
+            Some((_, Tok::Star, _)) |
+            Some((_, Tok::Hash, _)) |
+            Some((_, Tok::LeftParen, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __nt = super::__action39(text, __sym0);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::RepeatOp(__nt)));
@@ -4345,22 +4345,22 @@ mod __parse__TypeRef {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         let __lookahead = match __tokens.next() { Some(Ok(v)) => Some(v), None => None, Some(Err(e)) => return Err(__ParseError::User { error: e }) };
         match __lookahead {
-            Some((_, Tok::GreaterThan(..), _)) |
-            Some((_, Tok::Question(..), _)) |
+            Some((_, Tok::GreaterThan, _)) |
+            Some((_, Tok::Question, _)) |
             Some((_, Tok::MacroId(_), _)) |
             Some((_, Tok::Id(_), _)) |
             Some((_, Tok::RegexLiteral(_), _)) |
-            Some((_, Tok::Comma(..), _)) |
-            Some((_, Tok::Lookbehind(..), _)) |
-            Some((_, Tok::RightParen(..), _)) |
-            Some((_, Tok::Star(..), _)) |
+            Some((_, Tok::Comma, _)) |
+            Some((_, Tok::Lookbehind, _)) |
+            Some((_, Tok::RightParen, _)) |
+            Some((_, Tok::Star, _)) |
             Some((_, Tok::Escape(_), _)) |
-            Some((_, Tok::LessThan(..), _)) |
-            Some((_, Tok::Plus(..), _)) |
-            Some((_, Tok::Hash(..), _)) |
+            Some((_, Tok::LessThan, _)) |
+            Some((_, Tok::Plus, _)) |
+            Some((_, Tok::Hash, _)) |
             Some((_, Tok::StringLiteral(_), _)) |
-            Some((_, Tok::LeftParen(..), _)) |
-            Some((_, Tok::Lookahead(..), _)) => {
+            Some((_, Tok::LeftParen, _)) |
+            Some((_, Tok::Lookahead, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __nt = super::__action40(text, __sym0);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::RepeatOp(__nt)));
@@ -4402,9 +4402,9 @@ mod __parse__TypeRef {
         let __lookahead = match __tokens.next() { Some(Ok(v)) => Some(v), None => None, Some(Err(e)) => return Err(__ParseError::User { error: e }) };
         match __lookahead {
             None |
-            Some((_, Tok::Comma(..), _)) |
-            Some((_, Tok::GreaterThan(..), _)) |
-            Some((_, Tok::RightParen(..), _)) => {
+            Some((_, Tok::Comma, _)) |
+            Some((_, Tok::GreaterThan, _)) |
+            Some((_, Tok::RightParen, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
                 let __sym2 = __sym2.take().unwrap();
@@ -4447,10 +4447,10 @@ mod __parse__TypeRef {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         let __lookahead = match __tokens.next() { Some(Ok(v)) => Some(v), None => None, Some(Err(e)) => return Err(__ParseError::User { error: e }) };
         match __lookahead {
-            Some((_, Tok::Comma(..), _)) |
+            Some((_, Tok::Comma, _)) |
             None |
-            Some((_, Tok::GreaterThan(..), _)) |
-            Some((_, Tok::RightParen(..), _)) => {
+            Some((_, Tok::GreaterThan, _)) |
+            Some((_, Tok::RightParen, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
                 let __sym2 = __sym2.take().unwrap();
@@ -4485,7 +4485,7 @@ mod __parse__TypeRef {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, Tok::RightParen(..), _)) => {
+            Some((_, Tok::RightParen, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
                 let __nt = super::__action103(text, __sym0, __sym1);
@@ -4526,12 +4526,12 @@ mod __parse__TypeRef {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, __tok @ Tok::Comma(..), __loc)) => {
+            Some((_, __tok @ Tok::Comma, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym1 = &mut Some((__tok));
                 __result = try!(__state65(text, __lookbehind, __tokens, __sym0, __sym1));
             }
-            Some((_, Tok::RightParen(..), _)) => {
+            Some((_, Tok::RightParen, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __nt = super::__action162(text, __sym0);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::TypeRef_3f(__nt)));
@@ -4578,11 +4578,11 @@ mod __parse__TypeRef {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
             Some((_, Tok::Id(_), _)) |
-            Some((_, Tok::LeftParen(..), _)) |
-            Some((_, Tok::ColonColon(..), _)) |
-            Some((_, Tok::Hash(..), _)) |
-            Some((_, Tok::Ampersand(..), _)) |
-            Some((_, Tok::RightParen(..), _)) |
+            Some((_, Tok::LeftParen, _)) |
+            Some((_, Tok::ColonColon, _)) |
+            Some((_, Tok::Hash, _)) |
+            Some((_, Tok::Ampersand, _)) |
+            Some((_, Tok::RightParen, _)) |
             Some((_, Tok::MacroId(_), _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
@@ -4627,10 +4627,10 @@ mod __parse__TypeRef {
         let __lookahead = match __tokens.next() { Some(Ok(v)) => Some(v), None => None, Some(Err(e)) => return Err(__ParseError::User { error: e }) };
         match __lookahead {
             Some((_, Tok::Id(_), _)) |
-            Some((_, Tok::ColonColon(..), _)) |
-            Some((_, Tok::LeftParen(..), _)) |
-            Some((_, Tok::Hash(..), _)) |
-            Some((_, Tok::Ampersand(..), _)) |
+            Some((_, Tok::ColonColon, _)) |
+            Some((_, Tok::LeftParen, _)) |
+            Some((_, Tok::Hash, _)) |
+            Some((_, Tok::Ampersand, _)) |
             Some((_, Tok::MacroId(_), _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __nt = super::__action99(text, __sym0);
@@ -4722,22 +4722,22 @@ mod __parse__TypeRef {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, __tok @ Tok::ColonColon(..), __loc)) => {
+            Some((_, __tok @ Tok::ColonColon, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym3 = &mut Some((__tok));
                 __result = try!(__state5(text, __lookbehind, __tokens, __sym3));
             }
-            Some((_, __tok @ Tok::LeftParen(..), __loc)) => {
+            Some((_, __tok @ Tok::LeftParen, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym3 = &mut Some((__tok));
                 __result = try!(__state4(text, __lookbehind, __tokens, __sym3));
             }
-            Some((_, __tok @ Tok::Ampersand(..), __loc)) => {
+            Some((_, __tok @ Tok::Ampersand, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym3 = &mut Some((__tok));
                 __result = try!(__state7(text, __lookbehind, __tokens, __sym3));
             }
-            Some((_, __tok @ Tok::Hash(..), __loc)) => {
+            Some((_, __tok @ Tok::Hash, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym3 = &mut Some((__tok));
                 __result = try!(__state3(text, __lookbehind, __tokens, __sym3));
@@ -4842,10 +4842,10 @@ mod __parse__TypeRef {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         let __lookahead = match __tokens.next() { Some(Ok(v)) => Some(v), None => None, Some(Err(e)) => return Err(__ParseError::User { error: e }) };
         match __lookahead {
-            Some((_, Tok::Comma(..), _)) |
+            Some((_, Tok::Comma, _)) |
             None |
-            Some((_, Tok::RightParen(..), _)) |
-            Some((_, Tok::GreaterThan(..), _)) => {
+            Some((_, Tok::RightParen, _)) |
+            Some((_, Tok::GreaterThan, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
                 let __sym2 = __sym2.take().unwrap();
@@ -4889,12 +4889,12 @@ mod __parse__TypeRef {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, __tok @ Tok::Comma(..), __loc)) => {
+            Some((_, __tok @ Tok::Comma, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym1 = &mut Some((__tok));
                 __result = try!(__state67(text, __lookbehind, __tokens, __sym0, __sym1));
             }
-            Some((_, Tok::GreaterThan(..), _)) => {
+            Some((_, Tok::GreaterThan, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __nt = super::__action167(text, __sym0);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::TypeRefOrLifetime_3f(__nt)));
@@ -4928,7 +4928,7 @@ mod __parse__TypeRef {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, Tok::GreaterThan(..), _)) => {
+            Some((_, Tok::GreaterThan, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
                 let __nt = super::__action98(text, __sym0, __sym1);
@@ -4977,13 +4977,13 @@ mod __parse__TypeRef {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
             Some((_, Tok::MacroId(_), _)) |
-            Some((_, Tok::ColonColon(..), _)) |
+            Some((_, Tok::ColonColon, _)) |
             Some((_, Tok::Id(_), _)) |
-            Some((_, Tok::Hash(..), _)) |
-            Some((_, Tok::GreaterThan(..), _)) |
+            Some((_, Tok::Hash, _)) |
+            Some((_, Tok::GreaterThan, _)) |
             Some((_, Tok::Lifetime(_), _)) |
-            Some((_, Tok::Ampersand(..), _)) |
-            Some((_, Tok::LeftParen(..), _)) => {
+            Some((_, Tok::Ampersand, _)) |
+            Some((_, Tok::LeftParen, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
                 let __nt = super::__action170(text, __sym0, __sym1);
@@ -5018,8 +5018,8 @@ mod __parse__TypeRef {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, Tok::GreaterThan(..), _)) |
-            Some((_, Tok::Comma(..), _)) => {
+            Some((_, Tok::GreaterThan, _)) |
+            Some((_, Tok::Comma, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __nt = super::__action54(text, __sym0);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::TypeRefOrLifetime(__nt)));
@@ -5053,8 +5053,8 @@ mod __parse__TypeRef {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, Tok::GreaterThan(..), _)) |
-            Some((_, Tok::Comma(..), _)) => {
+            Some((_, Tok::GreaterThan, _)) |
+            Some((_, Tok::Comma, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __nt = super::__action55(text, __sym0);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::TypeRefOrLifetime(__nt)));
@@ -5130,20 +5130,20 @@ mod __parse__TypeRef {
         match __lookahead {
             Some((_, Tok::StringLiteral(_), _)) |
             Some((_, Tok::MacroId(_), _)) |
-            Some((_, Tok::Question(..), _)) |
-            Some((_, Tok::Star(..), _)) |
+            Some((_, Tok::Question, _)) |
+            Some((_, Tok::Star, _)) |
             Some((_, Tok::RegexLiteral(_), _)) |
-            Some((_, Tok::RightParen(..), _)) |
-            Some((_, Tok::LeftParen(..), _)) |
+            Some((_, Tok::RightParen, _)) |
+            Some((_, Tok::LeftParen, _)) |
             Some((_, Tok::Id(_), _)) |
-            Some((_, Tok::Lookbehind(..), _)) |
-            Some((_, Tok::Lookahead(..), _)) |
+            Some((_, Tok::Lookbehind, _)) |
+            Some((_, Tok::Lookahead, _)) |
             Some((_, Tok::Escape(_), _)) |
-            Some((_, Tok::Plus(..), _)) |
-            Some((_, Tok::GreaterThan(..), _)) |
-            Some((_, Tok::Comma(..), _)) |
-            Some((_, Tok::LessThan(..), _)) |
-            Some((_, Tok::Hash(..), _)) => {
+            Some((_, Tok::Plus, _)) |
+            Some((_, Tok::GreaterThan, _)) |
+            Some((_, Tok::Comma, _)) |
+            Some((_, Tok::LessThan, _)) |
+            Some((_, Tok::Hash, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
                 let __sym2 = __sym2.take().unwrap();
@@ -5243,22 +5243,22 @@ mod __parse__TypeRef {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, __tok @ Tok::Question(..), __loc)) => {
+            Some((_, __tok @ Tok::Question, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym3 = &mut Some((__tok));
                 __result = try!(__state43(text, __lookbehind, __tokens, __sym3));
             }
-            Some((_, __tok @ Tok::Plus(..), __loc)) => {
+            Some((_, __tok @ Tok::Plus, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym3 = &mut Some((__tok));
                 __result = try!(__state41(text, __lookbehind, __tokens, __sym3));
             }
-            Some((_, __tok @ Tok::Star(..), __loc)) => {
+            Some((_, __tok @ Tok::Star, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym3 = &mut Some((__tok));
                 __result = try!(__state42(text, __lookbehind, __tokens, __sym3));
             }
-            Some((_, __tok @ Tok::GreaterThan(..), __loc)) => {
+            Some((_, __tok @ Tok::GreaterThan, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym3 = &mut Some((__tok));
                 __result = try!(__state68(text, __lookbehind, __tokens, __sym0, __sym1, __sym2, __sym3));
@@ -5506,7 +5506,7 @@ mod __parse__TypeRef {
                 let mut __sym3 = &mut Some((__tok0));
                 __result = try!(__state70(text, __lookbehind, __tokens, __sym3));
             }
-            Some((_, __tok @ Tok::LeftParen(..), __loc)) => {
+            Some((_, __tok @ Tok::LeftParen, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym3 = &mut Some((__tok));
                 __result = try!(__state37(text, __lookbehind, __tokens, __sym3));
@@ -5516,7 +5516,7 @@ mod __parse__TypeRef {
                 let mut __sym3 = &mut Some((__tok0));
                 __result = try!(__state28(text, __lookbehind, __tokens, __sym3));
             }
-            Some((_, __tok @ Tok::Lookahead(..), __loc)) => {
+            Some((_, __tok @ Tok::Lookahead, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym3 = &mut Some((__tok));
                 __result = try!(__state26(text, __lookbehind, __tokens, __sym3));
@@ -5526,7 +5526,7 @@ mod __parse__TypeRef {
                 let mut __sym3 = &mut Some((__tok0));
                 __result = try!(__state34(text, __lookbehind, __tokens, __sym3));
             }
-            Some((_, __tok @ Tok::Lookbehind(..), __loc)) => {
+            Some((_, __tok @ Tok::Lookbehind, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym3 = &mut Some((__tok));
                 __result = try!(__state36(text, __lookbehind, __tokens, __sym3));
@@ -5701,20 +5701,20 @@ mod __parse__TypeRef {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, Tok::RightParen(..), _)) => {
+            Some((_, Tok::RightParen, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __nt = super::__action32(text, __sym0);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::ExprSymbol(__nt)));
             }
             Some((_, Tok::StringLiteral(_), _)) |
-            Some((_, Tok::Lookahead(..), _)) |
+            Some((_, Tok::Lookahead, _)) |
             Some((_, Tok::MacroId(_), _)) |
-            Some((_, Tok::LessThan(..), _)) |
+            Some((_, Tok::LessThan, _)) |
             Some((_, Tok::RegexLiteral(_), _)) |
             Some((_, Tok::Escape(_), _)) |
-            Some((_, Tok::LeftParen(..), _)) |
+            Some((_, Tok::LeftParen, _)) |
             Some((_, Tok::Id(_), _)) |
-            Some((_, Tok::Lookbehind(..), _)) => {
+            Some((_, Tok::Lookbehind, _)) => {
                 let __nt = __lookahead.as_ref().map(|o| ::std::clone::Clone::clone(&o.0)).or_else(|| ::std::clone::Clone::clone(&__lookbehind)).unwrap_or_default();
                 __result = (__lookbehind, __lookahead, __Nonterminal::_40L(__nt));
             }
@@ -5796,7 +5796,7 @@ mod __parse__TypeRef {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, __tok @ Tok::RightParen(..), __loc)) => {
+            Some((_, __tok @ Tok::RightParen, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym2 = &mut Some((__tok));
                 __result = try!(__state73(text, __lookbehind, __tokens, __sym0, __sym1, __sym2));
@@ -5950,15 +5950,15 @@ mod __parse__TypeRef {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         let __lookahead = match __tokens.next() { Some(Ok(v)) => Some(v), None => None, Some(Err(e)) => return Err(__ParseError::User { error: e }) };
         match __lookahead {
-            Some((_, Tok::Lookahead(..), _)) |
+            Some((_, Tok::Lookahead, _)) |
             Some((_, Tok::RegexLiteral(_), _)) |
             Some((_, Tok::MacroId(_), _)) |
             Some((_, Tok::Escape(_), _)) |
-            Some((_, Tok::LeftParen(..), _)) |
-            Some((_, Tok::GreaterThan(..), _)) |
+            Some((_, Tok::LeftParen, _)) |
+            Some((_, Tok::GreaterThan, _)) |
             Some((_, Tok::StringLiteral(_), _)) |
-            Some((_, Tok::Lookbehind(..), _)) |
-            Some((_, Tok::LessThan(..), _)) |
+            Some((_, Tok::Lookbehind, _)) |
+            Some((_, Tok::LessThan, _)) |
             Some((_, Tok::Id(_), _)) => {
                 let __nt = super::__action159(text, );
                 __result = (__lookbehind, __lookahead, __Nonterminal::_28_3cSymbol_3e_20_22_2c_22_29_2a(__nt));
@@ -6050,21 +6050,21 @@ mod __parse__TypeRef {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
             Some((_, Tok::Escape(_), _)) |
-            Some((_, Tok::Question(..), _)) |
-            Some((_, Tok::Lookbehind(..), _)) |
-            Some((_, Tok::RightParen(..), _)) |
+            Some((_, Tok::Question, _)) |
+            Some((_, Tok::Lookbehind, _)) |
+            Some((_, Tok::RightParen, _)) |
             Some((_, Tok::MacroId(_), _)) |
-            Some((_, Tok::GreaterThan(..), _)) |
+            Some((_, Tok::GreaterThan, _)) |
             Some((_, Tok::Id(_), _)) |
-            Some((_, Tok::LeftParen(..), _)) |
-            Some((_, Tok::Plus(..), _)) |
-            Some((_, Tok::Star(..), _)) |
+            Some((_, Tok::LeftParen, _)) |
+            Some((_, Tok::Plus, _)) |
+            Some((_, Tok::Star, _)) |
             Some((_, Tok::RegexLiteral(_), _)) |
             Some((_, Tok::StringLiteral(_), _)) |
-            Some((_, Tok::Lookahead(..), _)) |
-            Some((_, Tok::LessThan(..), _)) |
-            Some((_, Tok::Comma(..), _)) |
-            Some((_, Tok::Hash(..), _)) => {
+            Some((_, Tok::Lookahead, _)) |
+            Some((_, Tok::LessThan, _)) |
+            Some((_, Tok::Comma, _)) |
+            Some((_, Tok::Hash, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
                 let __sym2 = __sym2.take().unwrap();
@@ -6111,13 +6111,13 @@ mod __parse__TypeRef {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         let __lookahead = match __tokens.next() { Some(Ok(v)) => Some(v), None => None, Some(Err(e)) => return Err(__ParseError::User { error: e }) };
         match __lookahead {
-            Some((_, Tok::LeftParen(..), _)) |
-            Some((_, Tok::Hash(..), _)) |
+            Some((_, Tok::LeftParen, _)) |
+            Some((_, Tok::Hash, _)) |
             Some((_, Tok::MacroId(_), _)) |
-            Some((_, Tok::Ampersand(..), _)) |
-            Some((_, Tok::RightParen(..), _)) |
+            Some((_, Tok::Ampersand, _)) |
+            Some((_, Tok::RightParen, _)) |
             Some((_, Tok::Id(_), _)) |
-            Some((_, Tok::ColonColon(..), _)) => {
+            Some((_, Tok::ColonColon, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
                 let __nt = super::__action166(text, __sym0, __sym1);
@@ -6160,10 +6160,10 @@ mod __parse__TypeRef {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, Tok::RightParen(..), _)) |
+            Some((_, Tok::RightParen, _)) |
             None |
-            Some((_, Tok::GreaterThan(..), _)) |
-            Some((_, Tok::Comma(..), _)) => {
+            Some((_, Tok::GreaterThan, _)) |
+            Some((_, Tok::Comma, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
                 let __sym2 = __sym2.take().unwrap();
@@ -6213,14 +6213,14 @@ mod __parse__TypeRef {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         let __lookahead = match __tokens.next() { Some(Ok(v)) => Some(v), None => None, Some(Err(e)) => return Err(__ParseError::User { error: e }) };
         match __lookahead {
-            Some((_, Tok::Hash(..), _)) |
-            Some((_, Tok::Ampersand(..), _)) |
+            Some((_, Tok::Hash, _)) |
+            Some((_, Tok::Ampersand, _)) |
             Some((_, Tok::Id(_), _)) |
-            Some((_, Tok::ColonColon(..), _)) |
+            Some((_, Tok::ColonColon, _)) |
             Some((_, Tok::MacroId(_), _)) |
-            Some((_, Tok::LeftParen(..), _)) |
+            Some((_, Tok::LeftParen, _)) |
             Some((_, Tok::Lifetime(_), _)) |
-            Some((_, Tok::GreaterThan(..), _)) => {
+            Some((_, Tok::GreaterThan, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
                 let __nt = super::__action171(text, __sym0, __sym1);
@@ -6294,18 +6294,18 @@ mod __parse__TypeRef {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         let __lookahead = match __tokens.next() { Some(Ok(v)) => Some(v), None => None, Some(Err(e)) => return Err(__ParseError::User { error: e }) };
         match __lookahead {
-            Some((_, Tok::RightParen(..), _)) |
+            Some((_, Tok::RightParen, _)) |
             Some((_, Tok::StringLiteral(_), _)) |
-            Some((_, Tok::Lookahead(..), _)) |
+            Some((_, Tok::Lookahead, _)) |
             Some((_, Tok::MacroId(_), _)) |
-            Some((_, Tok::Hash(..), _)) |
-            Some((_, Tok::LeftParen(..), _)) |
-            Some((_, Tok::GreaterThan(..), _)) |
-            Some((_, Tok::LessThan(..), _)) |
-            Some((_, Tok::Lookbehind(..), _)) |
+            Some((_, Tok::Hash, _)) |
+            Some((_, Tok::LeftParen, _)) |
+            Some((_, Tok::GreaterThan, _)) |
+            Some((_, Tok::LessThan, _)) |
+            Some((_, Tok::Lookbehind, _)) |
             Some((_, Tok::Escape(_), _)) |
             Some((_, Tok::Id(_), _)) |
-            Some((_, Tok::Comma(..), _)) |
+            Some((_, Tok::Comma, _)) |
             Some((_, Tok::RegexLiteral(_), _)) => {
                 let __nt = ::std::clone::Clone::clone(&__lookbehind).unwrap_or_default();
                 __result = (__lookbehind, __lookahead, __Nonterminal::_40R(__nt));
@@ -6352,12 +6352,12 @@ mod __parse__TypeRef {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         let __lookahead = match __tokens.next() { Some(Ok(v)) => Some(v), None => None, Some(Err(e)) => return Err(__ParseError::User { error: e }) };
         match __lookahead {
-            Some((_, Tok::LessThan(..), _)) => {
+            Some((_, Tok::LessThan, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __nt = super::__action72(text, __sym0);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::MacroId(__nt)));
             }
-            Some((_, Tok::Colon(..), _)) => {
+            Some((_, Tok::Colon, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __nt = super::__action75(text, __sym0);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::Id(__nt)));
@@ -6397,15 +6397,15 @@ mod __parse__TypeRef {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         let __lookahead = match __tokens.next() { Some(Ok(v)) => Some(v), None => None, Some(Err(e)) => return Err(__ParseError::User { error: e }) };
         match __lookahead {
-            Some((_, Tok::GreaterThan(..), _)) |
-            Some((_, Tok::Star(..), _)) |
-            Some((_, Tok::Question(..), _)) |
-            Some((_, Tok::Plus(..), _)) => {
+            Some((_, Tok::GreaterThan, _)) |
+            Some((_, Tok::Star, _)) |
+            Some((_, Tok::Question, _)) |
+            Some((_, Tok::Plus, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __nt = super::__action44(text, __sym0);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::SymbolKind1(__nt)));
             }
-            Some((_, Tok::Colon(..), _)) => {
+            Some((_, Tok::Colon, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __nt = super::__action74(text, __sym0);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::Id(__nt)));
@@ -6452,7 +6452,7 @@ mod __parse__TypeRef {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, __tok @ Tok::Colon(..), __loc)) => {
+            Some((_, __tok @ Tok::Colon, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym4 = &mut Some((__tok));
                 __result = try!(__state77(text, __lookbehind, __tokens, __sym0, __sym1, __sym2, __sym3, __sym4));
@@ -6505,14 +6505,14 @@ mod __parse__TypeRef {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
             Some((_, Tok::StringLiteral(_), _)) |
-            Some((_, Tok::LessThan(..), _)) |
+            Some((_, Tok::LessThan, _)) |
             Some((_, Tok::MacroId(_), _)) |
-            Some((_, Tok::Lookbehind(..), _)) |
+            Some((_, Tok::Lookbehind, _)) |
             Some((_, Tok::Escape(_), _)) |
             Some((_, Tok::Id(_), _)) |
-            Some((_, Tok::RightParen(..), _)) |
-            Some((_, Tok::LeftParen(..), _)) |
-            Some((_, Tok::Lookahead(..), _)) |
+            Some((_, Tok::RightParen, _)) |
+            Some((_, Tok::LeftParen, _)) |
+            Some((_, Tok::Lookahead, _)) |
             Some((_, Tok::RegexLiteral(_), _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
@@ -6588,22 +6588,22 @@ mod __parse__TypeRef {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         let __lookahead = match __tokens.next() { Some(Ok(v)) => Some(v), None => None, Some(Err(e)) => return Err(__ParseError::User { error: e }) };
         match __lookahead {
-            Some((_, Tok::Lookahead(..), _)) |
-            Some((_, Tok::LessThan(..), _)) |
-            Some((_, Tok::Hash(..), _)) |
-            Some((_, Tok::Lookbehind(..), _)) |
+            Some((_, Tok::Lookahead, _)) |
+            Some((_, Tok::LessThan, _)) |
+            Some((_, Tok::Hash, _)) |
+            Some((_, Tok::Lookbehind, _)) |
             Some((_, Tok::MacroId(_), _)) |
-            Some((_, Tok::Question(..), _)) |
-            Some((_, Tok::RightParen(..), _)) |
+            Some((_, Tok::Question, _)) |
+            Some((_, Tok::RightParen, _)) |
             Some((_, Tok::Escape(_), _)) |
-            Some((_, Tok::LeftParen(..), _)) |
-            Some((_, Tok::Comma(..), _)) |
+            Some((_, Tok::LeftParen, _)) |
+            Some((_, Tok::Comma, _)) |
             Some((_, Tok::RegexLiteral(_), _)) |
             Some((_, Tok::StringLiteral(_), _)) |
-            Some((_, Tok::Star(..), _)) |
-            Some((_, Tok::Plus(..), _)) |
+            Some((_, Tok::Star, _)) |
+            Some((_, Tok::Plus, _)) |
             Some((_, Tok::Id(_), _)) |
-            Some((_, Tok::GreaterThan(..), _)) => {
+            Some((_, Tok::GreaterThan, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
                 let __sym2 = __sym2.take().unwrap();
@@ -6706,17 +6706,17 @@ mod __parse__TypeRef {
         match __lookahead {
             Some((_, Tok::Id(_), _)) |
             Some((_, Tok::RegexLiteral(_), _)) |
-            Some((_, Tok::Lookbehind(..), _)) |
+            Some((_, Tok::Lookbehind, _)) |
             Some((_, Tok::Escape(_), _)) |
             Some((_, Tok::StringLiteral(_), _)) |
-            Some((_, Tok::Lookahead(..), _)) |
-            Some((_, Tok::LeftParen(..), _)) |
+            Some((_, Tok::Lookahead, _)) |
+            Some((_, Tok::LeftParen, _)) |
             Some((_, Tok::MacroId(_), _)) |
-            Some((_, Tok::LessThan(..), _)) => {
+            Some((_, Tok::LessThan, _)) => {
                 let __nt = __lookahead.as_ref().map(|o| ::std::clone::Clone::clone(&o.0)).or_else(|| ::std::clone::Clone::clone(&__lookbehind)).unwrap_or_default();
                 __result = (__lookbehind, __lookahead, __Nonterminal::_40L(__nt));
             }
-            Some((_, Tok::GreaterThan(..), _)) => {
+            Some((_, Tok::GreaterThan, _)) => {
                 let __nt = super::__action158(text, );
                 __result = (__lookbehind, __lookahead, __Nonterminal::Symbol_3f(__nt));
             }
@@ -6807,7 +6807,7 @@ mod __parse__TypeRef {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, __tok @ Tok::GreaterThan(..), __loc)) => {
+            Some((_, __tok @ Tok::GreaterThan, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym3 = &mut Some((__tok));
                 __result = try!(__state81(text, __lookbehind, __tokens, __sym0, __sym1, __sym2, __sym3));
@@ -6871,16 +6871,16 @@ mod __parse__TypeRef {
             Some((_, Tok::Id(_), _)) |
             Some((_, Tok::MacroId(_), _)) |
             Some((_, Tok::Escape(_), _)) |
-            Some((_, Tok::Lookahead(..), _)) |
-            Some((_, Tok::Hash(..), _)) |
-            Some((_, Tok::LeftParen(..), _)) |
-            Some((_, Tok::Lookbehind(..), _)) |
-            Some((_, Tok::Comma(..), _)) |
-            Some((_, Tok::LessThan(..), _)) |
+            Some((_, Tok::Lookahead, _)) |
+            Some((_, Tok::Hash, _)) |
+            Some((_, Tok::LeftParen, _)) |
+            Some((_, Tok::Lookbehind, _)) |
+            Some((_, Tok::Comma, _)) |
+            Some((_, Tok::LessThan, _)) |
             Some((_, Tok::StringLiteral(_), _)) |
-            Some((_, Tok::GreaterThan(..), _)) |
+            Some((_, Tok::GreaterThan, _)) |
             Some((_, Tok::RegexLiteral(_), _)) |
-            Some((_, Tok::RightParen(..), _)) => {
+            Some((_, Tok::RightParen, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
                 let __sym2 = __sym2.take().unwrap();
@@ -7005,10 +7005,10 @@ mod __parse__TypeRef {
             Some((_, Tok::Id(_), _)) |
             Some((_, Tok::MacroId(_), _)) |
             Some((_, Tok::RegexLiteral(_), _)) |
-            Some((_, Tok::Lookahead(..), _)) |
-            Some((_, Tok::LeftParen(..), _)) |
+            Some((_, Tok::Lookahead, _)) |
+            Some((_, Tok::LeftParen, _)) |
             Some((_, Tok::StringLiteral(_), _)) |
-            Some((_, Tok::Lookbehind(..), _)) |
+            Some((_, Tok::Lookbehind, _)) |
             Some((_, Tok::Escape(_), _)) => {
                 let __nt = __lookahead.as_ref().map(|o| ::std::clone::Clone::clone(&o.0)).or_else(|| ::std::clone::Clone::clone(&__lookbehind)).unwrap_or_default();
                 __result = (__lookbehind, __lookahead, __Nonterminal::_40L(__nt));
@@ -7072,12 +7072,12 @@ mod __parse__TypeRef {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, __tok @ Tok::Comma(..), __loc)) => {
+            Some((_, __tok @ Tok::Comma, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym1 = &mut Some((__tok));
                 __result = try!(__state84(text, __lookbehind, __tokens, __sym0, __sym1));
             }
-            Some((_, Tok::GreaterThan(..), _)) => {
+            Some((_, Tok::GreaterThan, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __nt = super::__action157(text, __sym0);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::Symbol_3f(__nt)));
@@ -7111,7 +7111,7 @@ mod __parse__TypeRef {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, Tok::GreaterThan(..), _)) => {
+            Some((_, Tok::GreaterThan, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
                 let __nt = super::__action104(text, __sym0, __sym1);
@@ -7164,14 +7164,14 @@ mod __parse__TypeRef {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
             Some((_, Tok::MacroId(_), _)) |
-            Some((_, Tok::GreaterThan(..), _)) |
+            Some((_, Tok::GreaterThan, _)) |
             Some((_, Tok::RegexLiteral(_), _)) |
-            Some((_, Tok::LeftParen(..), _)) |
+            Some((_, Tok::LeftParen, _)) |
             Some((_, Tok::Escape(_), _)) |
-            Some((_, Tok::LessThan(..), _)) |
+            Some((_, Tok::LessThan, _)) |
             Some((_, Tok::StringLiteral(_), _)) |
-            Some((_, Tok::Lookbehind(..), _)) |
-            Some((_, Tok::Lookahead(..), _)) |
+            Some((_, Tok::Lookbehind, _)) |
+            Some((_, Tok::Lookahead, _)) |
             Some((_, Tok::Id(_), _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
@@ -7248,21 +7248,21 @@ mod __parse__TypeRef {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         let __lookahead = match __tokens.next() { Some(Ok(v)) => Some(v), None => None, Some(Err(e)) => return Err(__ParseError::User { error: e }) };
         match __lookahead {
-            Some((_, Tok::Lookahead(..), _)) |
+            Some((_, Tok::Lookahead, _)) |
             Some((_, Tok::RegexLiteral(_), _)) |
-            Some((_, Tok::LeftParen(..), _)) |
-            Some((_, Tok::Comma(..), _)) |
-            Some((_, Tok::RightParen(..), _)) |
-            Some((_, Tok::Question(..), _)) |
-            Some((_, Tok::Star(..), _)) |
-            Some((_, Tok::Plus(..), _)) |
-            Some((_, Tok::GreaterThan(..), _)) |
+            Some((_, Tok::LeftParen, _)) |
+            Some((_, Tok::Comma, _)) |
+            Some((_, Tok::RightParen, _)) |
+            Some((_, Tok::Question, _)) |
+            Some((_, Tok::Star, _)) |
+            Some((_, Tok::Plus, _)) |
+            Some((_, Tok::GreaterThan, _)) |
             Some((_, Tok::Id(_), _)) |
             Some((_, Tok::Escape(_), _)) |
             Some((_, Tok::StringLiteral(_), _)) |
-            Some((_, Tok::Hash(..), _)) |
-            Some((_, Tok::Lookbehind(..), _)) |
-            Some((_, Tok::LessThan(..), _)) |
+            Some((_, Tok::Hash, _)) |
+            Some((_, Tok::Lookbehind, _)) |
+            Some((_, Tok::LessThan, _)) |
             Some((_, Tok::MacroId(_), _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
@@ -7368,7 +7368,7 @@ mod __parse__TypeRef {
                 let mut __sym1 = &mut Some((__tok0));
                 __result = try!(__state27(text, __lookbehind, __tokens, __sym1));
             }
-            Some((_, __tok @ Tok::Lookahead(..), __loc)) => {
+            Some((_, __tok @ Tok::Lookahead, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym1 = &mut Some((__tok));
                 __result = try!(__state26(text, __lookbehind, __tokens, __sym1));
@@ -7378,7 +7378,7 @@ mod __parse__TypeRef {
                 let mut __sym1 = &mut Some((__tok0));
                 __result = try!(__state28(text, __lookbehind, __tokens, __sym1));
             }
-            Some((_, __tok @ Tok::LeftParen(..), __loc)) => {
+            Some((_, __tok @ Tok::LeftParen, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym1 = &mut Some((__tok));
                 __result = try!(__state37(text, __lookbehind, __tokens, __sym1));
@@ -7398,7 +7398,7 @@ mod __parse__TypeRef {
                 let mut __sym1 = &mut Some((__tok0));
                 __result = try!(__state34(text, __lookbehind, __tokens, __sym1));
             }
-            Some((_, __tok @ Tok::Lookbehind(..), __loc)) => {
+            Some((_, __tok @ Tok::Lookbehind, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym1 = &mut Some((__tok));
                 __result = try!(__state36(text, __lookbehind, __tokens, __sym1));
@@ -7532,22 +7532,22 @@ mod __parse__TypeRef {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, __tok @ Tok::Question(..), __loc)) => {
+            Some((_, __tok @ Tok::Question, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym6 = &mut Some((__tok));
                 __result = try!(__state43(text, __lookbehind, __tokens, __sym6));
             }
-            Some((_, __tok @ Tok::Plus(..), __loc)) => {
+            Some((_, __tok @ Tok::Plus, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym6 = &mut Some((__tok));
                 __result = try!(__state41(text, __lookbehind, __tokens, __sym6));
             }
-            Some((_, __tok @ Tok::Star(..), __loc)) => {
+            Some((_, __tok @ Tok::Star, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym6 = &mut Some((__tok));
                 __result = try!(__state42(text, __lookbehind, __tokens, __sym6));
             }
-            Some((_, __tok @ Tok::GreaterThan(..), __loc)) => {
+            Some((_, __tok @ Tok::GreaterThan, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym6 = &mut Some((__tok));
                 __result = try!(__state85(text, __lookbehind, __tokens, __sym0, __sym1, __sym2, __sym3, __sym4, __sym5, __sym6));
@@ -7612,14 +7612,14 @@ mod __parse__TypeRef {
         let __lookahead = match __tokens.next() { Some(Ok(v)) => Some(v), None => None, Some(Err(e)) => return Err(__ParseError::User { error: e }) };
         match __lookahead {
             Some((_, Tok::Id(_), _)) |
-            Some((_, Tok::Lookahead(..), _)) |
+            Some((_, Tok::Lookahead, _)) |
             Some((_, Tok::StringLiteral(_), _)) |
-            Some((_, Tok::Lookbehind(..), _)) |
-            Some((_, Tok::LeftParen(..), _)) |
+            Some((_, Tok::Lookbehind, _)) |
+            Some((_, Tok::LeftParen, _)) |
             Some((_, Tok::MacroId(_), _)) |
             Some((_, Tok::Escape(_), _)) |
-            Some((_, Tok::GreaterThan(..), _)) |
-            Some((_, Tok::LessThan(..), _)) |
+            Some((_, Tok::GreaterThan, _)) |
+            Some((_, Tok::LessThan, _)) |
             Some((_, Tok::RegexLiteral(_), _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
@@ -7697,16 +7697,16 @@ mod __parse__TypeRef {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         let __lookahead = match __tokens.next() { Some(Ok(v)) => Some(v), None => None, Some(Err(e)) => return Err(__ParseError::User { error: e }) };
         match __lookahead {
-            Some((_, Tok::RightParen(..), _)) |
-            Some((_, Tok::LeftParen(..), _)) |
-            Some((_, Tok::Comma(..), _)) |
-            Some((_, Tok::Lookahead(..), _)) |
-            Some((_, Tok::LessThan(..), _)) |
+            Some((_, Tok::RightParen, _)) |
+            Some((_, Tok::LeftParen, _)) |
+            Some((_, Tok::Comma, _)) |
+            Some((_, Tok::Lookahead, _)) |
+            Some((_, Tok::LessThan, _)) |
             Some((_, Tok::RegexLiteral(_), _)) |
-            Some((_, Tok::GreaterThan(..), _)) |
+            Some((_, Tok::GreaterThan, _)) |
             Some((_, Tok::StringLiteral(_), _)) |
-            Some((_, Tok::Lookbehind(..), _)) |
-            Some((_, Tok::Hash(..), _)) |
+            Some((_, Tok::Lookbehind, _)) |
+            Some((_, Tok::Hash, _)) |
             Some((_, Tok::Id(_), _)) |
             Some((_, Tok::Escape(_), _)) |
             Some((_, Tok::MacroId(_), _)) => {
@@ -7784,18 +7784,18 @@ mod __parse__TypeRef {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, Tok::GreaterThan(..), _)) |
-            Some((_, Tok::Lookbehind(..), _)) |
-            Some((_, Tok::RightParen(..), _)) |
+            Some((_, Tok::GreaterThan, _)) |
+            Some((_, Tok::Lookbehind, _)) |
+            Some((_, Tok::RightParen, _)) |
             Some((_, Tok::Escape(_), _)) |
-            Some((_, Tok::LeftParen(..), _)) |
-            Some((_, Tok::Comma(..), _)) |
-            Some((_, Tok::Hash(..), _)) |
+            Some((_, Tok::LeftParen, _)) |
+            Some((_, Tok::Comma, _)) |
+            Some((_, Tok::Hash, _)) |
             Some((_, Tok::Id(_), _)) |
             Some((_, Tok::StringLiteral(_), _)) |
-            Some((_, Tok::LessThan(..), _)) |
+            Some((_, Tok::LessThan, _)) |
             Some((_, Tok::MacroId(_), _)) |
-            Some((_, Tok::Lookahead(..), _)) |
+            Some((_, Tok::Lookahead, _)) |
             Some((_, Tok::RegexLiteral(_), _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
@@ -7997,12 +7997,12 @@ mod __parse__Pattern {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, Tok::DotDot(..), _)) |
-            Some((_, Tok::ColonColon(..), _)) |
+            Some((_, Tok::DotDot, _)) |
+            Some((_, Tok::ColonColon, _)) |
             Some((_, Tok::Id(_), _)) |
-            Some((_, Tok::Underscore(..), _)) |
-            Some((_, Tok::LeftParen(..), _)) |
-            Some((_, Tok::LessThan(..), _)) |
+            Some((_, Tok::Underscore, _)) |
+            Some((_, Tok::LeftParen, _)) |
+            Some((_, Tok::LessThan, _)) |
             Some((_, Tok::MacroId(_), _)) => {
                 let __nt = __lookahead.as_ref().map(|o| ::std::clone::Clone::clone(&o.0)).or_else(|| ::std::clone::Clone::clone(&__lookbehind)).unwrap_or_default();
                 __result = (__lookbehind, __lookahead, __Nonterminal::_40L(__nt));
@@ -8158,27 +8158,27 @@ mod __parse__Pattern {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, __tok @ Tok::Underscore(..), __loc)) => {
+            Some((_, __tok @ Tok::Underscore, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym1 = &mut Some((__tok));
                 __result = try!(__state4(text, __lookbehind, __tokens, __sym1));
             }
-            Some((_, __tok @ Tok::DotDot(..), __loc)) => {
+            Some((_, __tok @ Tok::DotDot, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym1 = &mut Some((__tok));
                 __result = try!(__state3(text, __lookbehind, __tokens, __sym1));
             }
-            Some((_, __tok @ Tok::LessThan(..), __loc)) => {
+            Some((_, __tok @ Tok::LessThan, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym1 = &mut Some((__tok));
                 __result = try!(__state7(text, __lookbehind, __tokens, __sym1));
             }
-            Some((_, __tok @ Tok::ColonColon(..), __loc)) => {
+            Some((_, __tok @ Tok::ColonColon, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym1 = &mut Some((__tok));
                 __result = try!(__state6(text, __lookbehind, __tokens, __sym1));
             }
-            Some((_, __tok @ Tok::LeftParen(..), __loc)) => {
+            Some((_, __tok @ Tok::LeftParen, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym1 = &mut Some((__tok));
                 __result = try!(__state10(text, __lookbehind, __tokens, __sym1));
@@ -8243,10 +8243,10 @@ mod __parse__Pattern {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         let __lookahead = match __tokens.next() { Some(Ok(v)) => Some(v), None => None, Some(Err(e)) => return Err(__ParseError::User { error: e }) };
         match __lookahead {
-            Some((_, Tok::RightBrace(..), _)) |
-            Some((_, Tok::Comma(..), _)) |
+            Some((_, Tok::RightBrace, _)) |
+            Some((_, Tok::Comma, _)) |
             None |
-            Some((_, Tok::RightParen(..), _)) => {
+            Some((_, Tok::RightParen, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __nt = super::__action67(text, __sym0);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::PatternKind(__nt)));
@@ -8286,9 +8286,9 @@ mod __parse__Pattern {
         let __lookahead = match __tokens.next() { Some(Ok(v)) => Some(v), None => None, Some(Err(e)) => return Err(__ParseError::User { error: e }) };
         match __lookahead {
             None |
-            Some((_, Tok::RightParen(..), _)) |
-            Some((_, Tok::RightBrace(..), _)) |
-            Some((_, Tok::Comma(..), _)) => {
+            Some((_, Tok::RightParen, _)) |
+            Some((_, Tok::RightBrace, _)) |
+            Some((_, Tok::Comma, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __nt = super::__action66(text, __sym0);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::PatternKind(__nt)));
@@ -8344,20 +8344,20 @@ mod __parse__Pattern {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, __tok @ Tok::LeftBrace(..), __loc)) => {
+            Some((_, __tok @ Tok::LeftBrace, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym1 = &mut Some((__tok));
                 __result = try!(__state12(text, __lookbehind, __tokens, __sym0, __sym1));
             }
-            Some((_, __tok @ Tok::LeftParen(..), __loc)) => {
+            Some((_, __tok @ Tok::LeftParen, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym1 = &mut Some((__tok));
                 __result = try!(__state11(text, __lookbehind, __tokens, __sym0, __sym1));
             }
-            Some((_, Tok::RightBrace(..), _)) |
+            Some((_, Tok::RightBrace, _)) |
             None |
-            Some((_, Tok::Comma(..), _)) |
-            Some((_, Tok::RightParen(..), _)) => {
+            Some((_, Tok::Comma, _)) |
+            Some((_, Tok::RightParen, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __nt = super::__action70(text, __sym0);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::PatternKind(__nt)));
@@ -8470,22 +8470,22 @@ mod __parse__Pattern {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         let __lookahead = match __tokens.next() { Some(Ok(v)) => Some(v), None => None, Some(Err(e)) => return Err(__ParseError::User { error: e }) };
         match __lookahead {
-            Some((_, __tok @ Tok::LeftParen(..), __loc)) => {
+            Some((_, __tok @ Tok::LeftParen, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym1 = &mut Some((__tok));
                 __result = try!(__state17(text, __lookbehind, __tokens, __sym1));
             }
-            Some((_, __tok @ Tok::ColonColon(..), __loc)) => {
+            Some((_, __tok @ Tok::ColonColon, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym1 = &mut Some((__tok));
                 __result = try!(__state6(text, __lookbehind, __tokens, __sym1));
             }
-            Some((_, __tok @ Tok::Hash(..), __loc)) => {
+            Some((_, __tok @ Tok::Hash, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym1 = &mut Some((__tok));
                 __result = try!(__state13(text, __lookbehind, __tokens, __sym1));
             }
-            Some((_, __tok @ Tok::Ampersand(..), __loc)) => {
+            Some((_, __tok @ Tok::Ampersand, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym1 = &mut Some((__tok));
                 __result = try!(__state15(text, __lookbehind, __tokens, __sym1));
@@ -8646,10 +8646,10 @@ mod __parse__Pattern {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, Tok::Comma(..), _)) |
+            Some((_, Tok::Comma, _)) |
             None |
-            Some((_, Tok::RightBrace(..), _)) |
-            Some((_, Tok::RightParen(..), _)) => {
+            Some((_, Tok::RightBrace, _)) |
+            Some((_, Tok::RightParen, _)) => {
                 let __nt = ::std::clone::Clone::clone(&__lookbehind).unwrap_or_default();
                 __result = (__lookbehind, __lookahead, __Nonterminal::_40R(__nt));
             }
@@ -8757,14 +8757,14 @@ mod __parse__Pattern {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         let __lookahead = match __tokens.next() { Some(Ok(v)) => Some(v), None => None, Some(Err(e)) => return Err(__ParseError::User { error: e }) };
         match __lookahead {
-            Some((_, Tok::ColonColon(..), _)) |
-            Some((_, Tok::RightParen(..), _)) |
+            Some((_, Tok::ColonColon, _)) |
+            Some((_, Tok::RightParen, _)) |
             Some((_, Tok::Id(_), _)) |
-            Some((_, Tok::LessThan(..), _)) |
-            Some((_, Tok::LeftParen(..), _)) |
-            Some((_, Tok::Underscore(..), _)) |
+            Some((_, Tok::LessThan, _)) |
+            Some((_, Tok::LeftParen, _)) |
+            Some((_, Tok::Underscore, _)) |
             Some((_, Tok::MacroId(_), _)) |
-            Some((_, Tok::DotDot(..), _)) => {
+            Some((_, Tok::DotDot, _)) => {
                 let __nt = super::__action179(text, );
                 __result = (__lookbehind, __lookahead, __Nonterminal::_28_3cPattern_3e_20_22_2c_22_29_2a(__nt));
             }
@@ -8877,13 +8877,13 @@ mod __parse__Pattern {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         let __lookahead = match __tokens.next() { Some(Ok(v)) => Some(v), None => None, Some(Err(e)) => return Err(__ParseError::User { error: e }) };
         match __lookahead {
-            Some((_, Tok::RightParen(..), _)) |
-            Some((_, Tok::Underscore(..), _)) |
-            Some((_, Tok::ColonColon(..), _)) |
-            Some((_, Tok::DotDot(..), _)) |
+            Some((_, Tok::RightParen, _)) |
+            Some((_, Tok::Underscore, _)) |
+            Some((_, Tok::ColonColon, _)) |
+            Some((_, Tok::DotDot, _)) |
             Some((_, Tok::MacroId(_), _)) |
-            Some((_, Tok::LeftParen(..), _)) |
-            Some((_, Tok::LessThan(..), _)) |
+            Some((_, Tok::LeftParen, _)) |
+            Some((_, Tok::LessThan, _)) |
             Some((_, Tok::Id(_), _)) => {
                 let __nt = super::__action179(text, );
                 __result = (__lookbehind, __lookahead, __Nonterminal::_28_3cPattern_3e_20_22_2c_22_29_2a(__nt));
@@ -8971,8 +8971,8 @@ mod __parse__Pattern {
         let __lookahead = match __tokens.next() { Some(Ok(v)) => Some(v), None => None, Some(Err(e)) => return Err(__ParseError::User { error: e }) };
         match __lookahead {
             Some((_, Tok::MacroId(_), _)) |
-            Some((_, Tok::DotDot(..), _)) |
-            Some((_, Tok::RightBrace(..), _)) |
+            Some((_, Tok::DotDot, _)) |
+            Some((_, Tok::RightBrace, _)) |
             Some((_, Tok::Id(_), _)) => {
                 let __nt = super::__action86(text, );
                 __result = (__lookbehind, __lookahead, __Nonterminal::_28_3cFieldPattern_3e_20_22_2c_22_29_2a(__nt));
@@ -9105,15 +9105,15 @@ mod __parse__Pattern {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         let __lookahead = match __tokens.next() { Some(Ok(v)) => Some(v), None => None, Some(Err(e)) => return Err(__ParseError::User { error: e }) };
         match __lookahead {
-            Some((_, Tok::Lookbehind(..), _)) |
+            Some((_, Tok::Lookbehind, _)) |
             Some((_, Tok::Escape(_), _)) |
-            Some((_, Tok::Lookahead(..), _)) |
+            Some((_, Tok::Lookahead, _)) |
             Some((_, Tok::StringLiteral(_), _)) |
             Some((_, Tok::RegexLiteral(_), _)) |
             Some((_, Tok::MacroId(_), _)) |
             Some((_, Tok::Id(_), _)) |
-            Some((_, Tok::LeftParen(..), _)) |
-            Some((_, Tok::LessThan(..), _)) => {
+            Some((_, Tok::LeftParen, _)) |
+            Some((_, Tok::LessThan, _)) => {
                 let __nt = __lookahead.as_ref().map(|o| ::std::clone::Clone::clone(&o.0)).or_else(|| ::std::clone::Clone::clone(&__lookbehind)).unwrap_or_default();
                 __result = (__lookbehind, __lookahead, __Nonterminal::_40L(__nt));
             }
@@ -9174,7 +9174,7 @@ mod __parse__Pattern {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, __tok @ Tok::GreaterThan(..), __loc)) => {
+            Some((_, __tok @ Tok::GreaterThan, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym2 = &mut Some((__tok));
                 __result = try!(__state28(text, __lookbehind, __tokens, __sym0, __sym1, __sym2));
@@ -9288,12 +9288,12 @@ mod __parse__Pattern {
                 let mut __sym1 = &mut Some((__tok0));
                 __result = try!(__state31(text, __lookbehind, __tokens, __sym1));
             }
-            Some((_, Tok::Mut(..), _)) |
+            Some((_, Tok::Mut, _)) |
             Some((_, Tok::MacroId(_), _)) |
-            Some((_, Tok::Ampersand(..), _)) |
-            Some((_, Tok::Hash(..), _)) |
-            Some((_, Tok::ColonColon(..), _)) |
-            Some((_, Tok::LeftParen(..), _)) |
+            Some((_, Tok::Ampersand, _)) |
+            Some((_, Tok::Hash, _)) |
+            Some((_, Tok::ColonColon, _)) |
+            Some((_, Tok::LeftParen, _)) |
             Some((_, Tok::Id(_), _)) => {
                 let __nt = super::__action102(text, );
                 __result = (__lookbehind, __lookahead, __Nonterminal::Lifetime_3f(__nt));
@@ -9354,14 +9354,14 @@ mod __parse__Pattern {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, __tok @ Tok::LessThan(..), __loc)) => {
+            Some((_, __tok @ Tok::LessThan, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym1 = &mut Some((__tok));
                 __result = try!(__state32(text, __lookbehind, __tokens, __sym0, __sym1));
             }
-            Some((_, Tok::Comma(..), _)) |
-            Some((_, Tok::GreaterThan(..), _)) |
-            Some((_, Tok::RightParen(..), _)) => {
+            Some((_, Tok::Comma, _)) |
+            Some((_, Tok::GreaterThan, _)) |
+            Some((_, Tok::RightParen, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __nt = super::__action53(text, __sym0);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::TypeRef(__nt)));
@@ -9452,12 +9452,12 @@ mod __parse__Pattern {
         let __lookahead = match __tokens.next() { Some(Ok(v)) => Some(v), None => None, Some(Err(e)) => return Err(__ParseError::User { error: e }) };
         match __lookahead {
             Some((_, Tok::MacroId(_), _)) |
-            Some((_, Tok::ColonColon(..), _)) |
-            Some((_, Tok::LeftParen(..), _)) |
-            Some((_, Tok::Ampersand(..), _)) |
-            Some((_, Tok::Hash(..), _)) |
+            Some((_, Tok::ColonColon, _)) |
+            Some((_, Tok::LeftParen, _)) |
+            Some((_, Tok::Ampersand, _)) |
+            Some((_, Tok::Hash, _)) |
             Some((_, Tok::Id(_), _)) |
-            Some((_, Tok::RightParen(..), _)) => {
+            Some((_, Tok::RightParen, _)) => {
                 let __nt = super::__action164(text, );
                 __result = (__lookbehind, __lookahead, __Nonterminal::_28_3cTypeRef_3e_20_22_2c_22_29_2a(__nt));
             }
@@ -9664,9 +9664,9 @@ mod __parse__Pattern {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, Tok::Comma(..), _)) |
-            Some((_, Tok::RightBrace(..), _)) |
-            Some((_, Tok::RightParen(..), _)) |
+            Some((_, Tok::Comma, _)) |
+            Some((_, Tok::RightBrace, _)) |
+            Some((_, Tok::RightParen, _)) |
             None => {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
@@ -9706,7 +9706,7 @@ mod __parse__Pattern {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, __tok @ Tok::RightParen(..), __loc)) => {
+            Some((_, __tok @ Tok::RightParen, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym2 = &mut Some((__tok));
                 __result = try!(__state39(text, __lookbehind, __tokens, __sym0, __sym1, __sym2));
@@ -9777,17 +9777,17 @@ mod __parse__Pattern {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, Tok::DotDot(..), _)) |
+            Some((_, Tok::DotDot, _)) |
             Some((_, Tok::MacroId(_), _)) |
-            Some((_, Tok::LessThan(..), _)) |
+            Some((_, Tok::LessThan, _)) |
             Some((_, Tok::Id(_), _)) |
-            Some((_, Tok::LeftParen(..), _)) |
-            Some((_, Tok::ColonColon(..), _)) |
-            Some((_, Tok::Underscore(..), _)) => {
+            Some((_, Tok::LeftParen, _)) |
+            Some((_, Tok::ColonColon, _)) |
+            Some((_, Tok::Underscore, _)) => {
                 let __nt = __lookahead.as_ref().map(|o| ::std::clone::Clone::clone(&o.0)).or_else(|| ::std::clone::Clone::clone(&__lookbehind)).unwrap_or_default();
                 __result = (__lookbehind, __lookahead, __Nonterminal::_40L(__nt));
             }
-            Some((_, Tok::RightParen(..), _)) => {
+            Some((_, Tok::RightParen, _)) => {
                 let __nt = super::__action178(text, );
                 __result = (__lookbehind, __lookahead, __Nonterminal::Pattern_3f(__nt));
             }
@@ -9849,7 +9849,7 @@ mod __parse__Pattern {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, __tok @ Tok::RightParen(..), __loc)) => {
+            Some((_, __tok @ Tok::RightParen, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym3 = &mut Some((__tok));
                 __result = try!(__state43(text, __lookbehind, __tokens, __sym0, __sym1, __sym2, __sym3));
@@ -9942,12 +9942,12 @@ mod __parse__Pattern {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, __tok @ Tok::DotDot(..), __loc)) => {
+            Some((_, __tok @ Tok::DotDot, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym3 = &mut Some((__tok));
                 __result = try!(__state45(text, __lookbehind, __tokens, __sym0, __sym1, __sym2, __sym3));
             }
-            Some((_, Tok::RightBrace(..), _)) => {
+            Some((_, Tok::RightBrace, _)) => {
                 let __nt = super::__action85(text, );
                 __result = (__lookbehind, __lookahead, __Nonterminal::FieldPattern_3f(__nt));
             }
@@ -10124,34 +10124,34 @@ mod __parse__Pattern {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, __tok @ Tok::Question(..), __loc)) => {
+            Some((_, __tok @ Tok::Question, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym1 = &mut Some((__tok));
                 __result = try!(__state49(text, __lookbehind, __tokens, __sym1));
             }
-            Some((_, __tok @ Tok::Plus(..), __loc)) => {
+            Some((_, __tok @ Tok::Plus, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym1 = &mut Some((__tok));
                 __result = try!(__state51(text, __lookbehind, __tokens, __sym1));
             }
-            Some((_, __tok @ Tok::Star(..), __loc)) => {
+            Some((_, __tok @ Tok::Star, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym1 = &mut Some((__tok));
                 __result = try!(__state50(text, __lookbehind, __tokens, __sym1));
             }
             Some((_, Tok::Id(_), _)) |
             Some((_, Tok::Escape(_), _)) |
-            Some((_, Tok::RightParen(..), _)) |
+            Some((_, Tok::RightParen, _)) |
             Some((_, Tok::RegexLiteral(_), _)) |
-            Some((_, Tok::Lookahead(..), _)) |
+            Some((_, Tok::Lookahead, _)) |
             Some((_, Tok::MacroId(_), _)) |
             Some((_, Tok::StringLiteral(_), _)) |
-            Some((_, Tok::Hash(..), _)) |
-            Some((_, Tok::LessThan(..), _)) |
-            Some((_, Tok::GreaterThan(..), _)) |
-            Some((_, Tok::Comma(..), _)) |
-            Some((_, Tok::LeftParen(..), _)) |
-            Some((_, Tok::Lookbehind(..), _)) => {
+            Some((_, Tok::Hash, _)) |
+            Some((_, Tok::LessThan, _)) |
+            Some((_, Tok::GreaterThan, _)) |
+            Some((_, Tok::Comma, _)) |
+            Some((_, Tok::LeftParen, _)) |
+            Some((_, Tok::Lookbehind, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __nt = super::__action35(text, __sym0);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::Symbol(__nt)));
@@ -10201,7 +10201,7 @@ mod __parse__Pattern {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, __tok @ Tok::Hash(..), __loc)) => {
+            Some((_, __tok @ Tok::Hash, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym2 = &mut Some((__tok));
                 __result = try!(__state53(text, __lookbehind, __tokens, __sym0, __sym1, __sym2));
@@ -10274,21 +10274,21 @@ mod __parse__Pattern {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, Tok::LessThan(..), _)) |
-            Some((_, Tok::RightParen(..), _)) |
-            Some((_, Tok::Lookahead(..), _)) |
-            Some((_, Tok::LeftParen(..), _)) |
+            Some((_, Tok::LessThan, _)) |
+            Some((_, Tok::RightParen, _)) |
+            Some((_, Tok::Lookahead, _)) |
+            Some((_, Tok::LeftParen, _)) |
             Some((_, Tok::StringLiteral(_), _)) |
             Some((_, Tok::Id(_), _)) |
             Some((_, Tok::Escape(_), _)) |
             Some((_, Tok::RegexLiteral(_), _)) |
-            Some((_, Tok::Hash(..), _)) |
-            Some((_, Tok::Lookbehind(..), _)) |
-            Some((_, Tok::Comma(..), _)) |
-            Some((_, Tok::Plus(..), _)) |
-            Some((_, Tok::Star(..), _)) |
-            Some((_, Tok::Question(..), _)) |
-            Some((_, Tok::GreaterThan(..), _)) |
+            Some((_, Tok::Hash, _)) |
+            Some((_, Tok::Lookbehind, _)) |
+            Some((_, Tok::Comma, _)) |
+            Some((_, Tok::Plus, _)) |
+            Some((_, Tok::Star, _)) |
+            Some((_, Tok::Question, _)) |
+            Some((_, Tok::GreaterThan, _)) |
             Some((_, Tok::MacroId(_), _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __nt = super::__action36(text, __sym0);
@@ -10654,12 +10654,12 @@ mod __parse__Pattern {
                 let mut __sym1 = &mut Some((__tok0));
                 __result = try!(__state55(text, __lookbehind, __tokens, __sym1));
             }
-            Some((_, __tok @ Tok::LeftParen(..), __loc)) => {
+            Some((_, __tok @ Tok::LeftParen, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym1 = &mut Some((__tok));
                 __result = try!(__state65(text, __lookbehind, __tokens, __sym1));
             }
-            Some((_, __tok @ Tok::Lookahead(..), __loc)) => {
+            Some((_, __tok @ Tok::Lookahead, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym1 = &mut Some((__tok));
                 __result = try!(__state56(text, __lookbehind, __tokens, __sym1));
@@ -10669,12 +10669,12 @@ mod __parse__Pattern {
                 let mut __sym1 = &mut Some((__tok0));
                 __result = try!(__state68(text, __lookbehind, __tokens, __sym1));
             }
-            Some((_, __tok @ Tok::LessThan(..), __loc)) => {
+            Some((_, __tok @ Tok::LessThan, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym1 = &mut Some((__tok));
                 __result = try!(__state62(text, __lookbehind, __tokens, __sym0, __sym1));
             }
-            Some((_, __tok @ Tok::Lookbehind(..), __loc)) => {
+            Some((_, __tok @ Tok::Lookbehind, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym1 = &mut Some((__tok));
                 __result = try!(__state61(text, __lookbehind, __tokens, __sym1));
@@ -10764,9 +10764,9 @@ mod __parse__Pattern {
         let __lookahead = match __tokens.next() { Some(Ok(v)) => Some(v), None => None, Some(Err(e)) => return Err(__ParseError::User { error: e }) };
         match __lookahead {
             None |
-            Some((_, Tok::RightBrace(..), _)) |
-            Some((_, Tok::RightParen(..), _)) |
-            Some((_, Tok::Comma(..), _)) => {
+            Some((_, Tok::RightBrace, _)) |
+            Some((_, Tok::RightParen, _)) |
+            Some((_, Tok::Comma, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
                 let __sym2 = __sym2.take().unwrap();
@@ -10848,15 +10848,15 @@ mod __parse__Pattern {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, __tok @ Tok::Mut(..), __loc)) => {
+            Some((_, __tok @ Tok::Mut, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym2 = &mut Some((__tok));
                 __result = try!(__state70(text, __lookbehind, __tokens, __sym2));
             }
-            Some((_, Tok::Ampersand(..), _)) |
-            Some((_, Tok::Hash(..), _)) |
-            Some((_, Tok::LeftParen(..), _)) |
-            Some((_, Tok::ColonColon(..), _)) |
+            Some((_, Tok::Ampersand, _)) |
+            Some((_, Tok::Hash, _)) |
+            Some((_, Tok::LeftParen, _)) |
+            Some((_, Tok::ColonColon, _)) |
             Some((_, Tok::Id(_), _)) |
             Some((_, Tok::MacroId(_), _)) => {
                 let __nt = super::__action100(text, );
@@ -10914,13 +10914,13 @@ mod __parse__Pattern {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, Tok::Mut(..), _)) |
-            Some((_, Tok::ColonColon(..), _)) |
+            Some((_, Tok::Mut, _)) |
+            Some((_, Tok::ColonColon, _)) |
             Some((_, Tok::MacroId(_), _)) |
             Some((_, Tok::Id(_), _)) |
-            Some((_, Tok::Hash(..), _)) |
-            Some((_, Tok::LeftParen(..), _)) |
-            Some((_, Tok::Ampersand(..), _)) => {
+            Some((_, Tok::Hash, _)) |
+            Some((_, Tok::LeftParen, _)) |
+            Some((_, Tok::Ampersand, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __nt = super::__action101(text, __sym0);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::Lifetime_3f(__nt)));
@@ -10969,14 +10969,14 @@ mod __parse__Pattern {
         let __lookahead = match __tokens.next() { Some(Ok(v)) => Some(v), None => None, Some(Err(e)) => return Err(__ParseError::User { error: e }) };
         match __lookahead {
             Some((_, Tok::MacroId(_), _)) |
-            Some((_, Tok::LeftParen(..), _)) |
-            Some((_, Tok::Ampersand(..), _)) |
+            Some((_, Tok::LeftParen, _)) |
+            Some((_, Tok::Ampersand, _)) |
             Some((_, Tok::Id(_), _)) |
-            Some((_, Tok::Mut(..), _)) |
-            Some((_, Tok::ColonColon(..), _)) |
-            Some((_, Tok::Comma(..), _)) |
-            Some((_, Tok::GreaterThan(..), _)) |
-            Some((_, Tok::Hash(..), _)) => {
+            Some((_, Tok::Mut, _)) |
+            Some((_, Tok::ColonColon, _)) |
+            Some((_, Tok::Comma, _)) |
+            Some((_, Tok::GreaterThan, _)) |
+            Some((_, Tok::Hash, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __nt = super::__action77(text, __sym0);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::Lifetime(__nt)));
@@ -11075,12 +11075,12 @@ mod __parse__Pattern {
         match __lookahead {
             Some((_, Tok::MacroId(_), _)) |
             Some((_, Tok::Id(_), _)) |
-            Some((_, Tok::Ampersand(..), _)) |
-            Some((_, Tok::ColonColon(..), _)) |
-            Some((_, Tok::Hash(..), _)) |
-            Some((_, Tok::LeftParen(..), _)) |
+            Some((_, Tok::Ampersand, _)) |
+            Some((_, Tok::ColonColon, _)) |
+            Some((_, Tok::Hash, _)) |
+            Some((_, Tok::LeftParen, _)) |
             Some((_, Tok::Lifetime(_), _)) |
-            Some((_, Tok::GreaterThan(..), _)) => {
+            Some((_, Tok::GreaterThan, _)) => {
                 let __nt = super::__action169(text, );
                 __result = (__lookbehind, __lookahead, __Nonterminal::_28_3cTypeRefOrLifetime_3e_20_22_2c_22_29_2a(__nt));
             }
@@ -11172,27 +11172,27 @@ mod __parse__Pattern {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, __tok @ Tok::Hash(..), __loc)) => {
+            Some((_, __tok @ Tok::Hash, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym1 = &mut Some((__tok));
                 __result = try!(__state13(text, __lookbehind, __tokens, __sym1));
             }
-            Some((_, __tok @ Tok::LeftParen(..), __loc)) => {
+            Some((_, __tok @ Tok::LeftParen, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym1 = &mut Some((__tok));
                 __result = try!(__state17(text, __lookbehind, __tokens, __sym1));
             }
-            Some((_, __tok @ Tok::Ampersand(..), __loc)) => {
+            Some((_, __tok @ Tok::Ampersand, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym1 = &mut Some((__tok));
                 __result = try!(__state15(text, __lookbehind, __tokens, __sym1));
             }
-            Some((_, __tok @ Tok::ColonColon(..), __loc)) => {
+            Some((_, __tok @ Tok::ColonColon, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym1 = &mut Some((__tok));
                 __result = try!(__state6(text, __lookbehind, __tokens, __sym1));
             }
-            Some((_, Tok::RightParen(..), _)) => {
+            Some((_, Tok::RightParen, _)) => {
                 let __nt = super::__action163(text, );
                 __result = (__lookbehind, __lookahead, __Nonterminal::TypeRef_3f(__nt));
             }
@@ -11262,7 +11262,7 @@ mod __parse__Pattern {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, __tok @ Tok::RightParen(..), __loc)) => {
+            Some((_, __tok @ Tok::RightParen, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym2 = &mut Some((__tok));
                 __result = try!(__state76(text, __lookbehind, __tokens, __sym0, __sym1, __sym2));
@@ -11329,15 +11329,15 @@ mod __parse__Pattern {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         let __lookahead = match __tokens.next() { Some(Ok(v)) => Some(v), None => None, Some(Err(e)) => return Err(__ParseError::User { error: e }) };
         match __lookahead {
-            Some((_, Tok::RightBrace(..), _)) |
-            Some((_, Tok::Colon(..), _)) |
-            Some((_, Tok::RightParen(..), _)) |
-            Some((_, Tok::LeftBrace(..), _)) |
-            Some((_, Tok::ColonColon(..), _)) |
-            Some((_, Tok::GreaterThan(..), _)) |
-            Some((_, Tok::Comma(..), _)) |
-            Some((_, Tok::LessThan(..), _)) |
-            Some((_, Tok::LeftParen(..), _)) |
+            Some((_, Tok::RightBrace, _)) |
+            Some((_, Tok::Colon, _)) |
+            Some((_, Tok::RightParen, _)) |
+            Some((_, Tok::LeftBrace, _)) |
+            Some((_, Tok::ColonColon, _)) |
+            Some((_, Tok::GreaterThan, _)) |
+            Some((_, Tok::Comma, _)) |
+            Some((_, Tok::LessThan, _)) |
+            Some((_, Tok::LeftParen, _)) |
             None => {
                 let __sym0 = __sym0.take().unwrap();
                 let __nt = super::__action75(text, __sym0);
@@ -11447,19 +11447,19 @@ mod __parse__Pattern {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, __tok @ Tok::ColonColon(..), __loc)) => {
+            Some((_, __tok @ Tok::ColonColon, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym3 = &mut Some((__tok));
                 __result = try!(__state77(text, __lookbehind, __tokens, __sym2, __sym3));
             }
-            Some((_, Tok::LeftParen(..), _)) |
+            Some((_, Tok::LeftParen, _)) |
             None |
-            Some((_, Tok::LessThan(..), _)) |
-            Some((_, Tok::RightBrace(..), _)) |
-            Some((_, Tok::GreaterThan(..), _)) |
-            Some((_, Tok::RightParen(..), _)) |
-            Some((_, Tok::LeftBrace(..), _)) |
-            Some((_, Tok::Comma(..), _)) => {
+            Some((_, Tok::LessThan, _)) |
+            Some((_, Tok::RightBrace, _)) |
+            Some((_, Tok::GreaterThan, _)) |
+            Some((_, Tok::RightParen, _)) |
+            Some((_, Tok::LeftBrace, _)) |
+            Some((_, Tok::Comma, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
                 let __sym2 = __sym2.take().unwrap();
@@ -11529,15 +11529,15 @@ mod __parse__Pattern {
         let __lookahead = match __tokens.next() { Some(Ok(v)) => Some(v), None => None, Some(Err(e)) => return Err(__ParseError::User { error: e }) };
         match __lookahead {
             None |
-            Some((_, Tok::RightParen(..), _)) |
-            Some((_, Tok::LessThan(..), _)) |
-            Some((_, Tok::GreaterThan(..), _)) |
-            Some((_, Tok::LeftParen(..), _)) |
-            Some((_, Tok::ColonColon(..), _)) |
-            Some((_, Tok::Colon(..), _)) |
-            Some((_, Tok::LeftBrace(..), _)) |
-            Some((_, Tok::Comma(..), _)) |
-            Some((_, Tok::RightBrace(..), _)) => {
+            Some((_, Tok::RightParen, _)) |
+            Some((_, Tok::LessThan, _)) |
+            Some((_, Tok::GreaterThan, _)) |
+            Some((_, Tok::LeftParen, _)) |
+            Some((_, Tok::ColonColon, _)) |
+            Some((_, Tok::Colon, _)) |
+            Some((_, Tok::LeftBrace, _)) |
+            Some((_, Tok::Comma, _)) |
+            Some((_, Tok::RightBrace, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __nt = super::__action74(text, __sym0);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::Id(__nt)));
@@ -11578,10 +11578,10 @@ mod __parse__Pattern {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         let __lookahead = match __tokens.next() { Some(Ok(v)) => Some(v), None => None, Some(Err(e)) => return Err(__ParseError::User { error: e }) };
         match __lookahead {
-            Some((_, Tok::RightBrace(..), _)) |
+            Some((_, Tok::RightBrace, _)) |
             None |
-            Some((_, Tok::Comma(..), _)) |
-            Some((_, Tok::RightParen(..), _)) => {
+            Some((_, Tok::Comma, _)) |
+            Some((_, Tok::RightParen, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
                 let __sym2 = __sym2.take().unwrap();
@@ -11630,13 +11630,13 @@ mod __parse__Pattern {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, Tok::Underscore(..), _)) |
-            Some((_, Tok::ColonColon(..), _)) |
-            Some((_, Tok::RightParen(..), _)) |
-            Some((_, Tok::LeftParen(..), _)) |
+            Some((_, Tok::Underscore, _)) |
+            Some((_, Tok::ColonColon, _)) |
+            Some((_, Tok::RightParen, _)) |
+            Some((_, Tok::LeftParen, _)) |
             Some((_, Tok::MacroId(_), _)) |
-            Some((_, Tok::DotDot(..), _)) |
-            Some((_, Tok::LessThan(..), _)) |
+            Some((_, Tok::DotDot, _)) |
+            Some((_, Tok::LessThan, _)) |
             Some((_, Tok::Id(_), _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
@@ -11671,7 +11671,7 @@ mod __parse__Pattern {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, Tok::RightParen(..), _)) => {
+            Some((_, Tok::RightParen, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
                 let __nt = super::__action89(text, __sym0, __sym1);
@@ -11713,12 +11713,12 @@ mod __parse__Pattern {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, __tok @ Tok::Comma(..), __loc)) => {
+            Some((_, __tok @ Tok::Comma, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym1 = &mut Some((__tok));
                 __result = try!(__state78(text, __lookbehind, __tokens, __sym0, __sym1));
             }
-            Some((_, Tok::RightParen(..), _)) => {
+            Some((_, Tok::RightParen, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __nt = super::__action177(text, __sym0);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::Pattern_3f(__nt)));
@@ -11762,9 +11762,9 @@ mod __parse__Pattern {
         let __lookahead = match __tokens.next() { Some(Ok(v)) => Some(v), None => None, Some(Err(e)) => return Err(__ParseError::User { error: e }) };
         match __lookahead {
             None |
-            Some((_, Tok::RightParen(..), _)) |
-            Some((_, Tok::Comma(..), _)) |
-            Some((_, Tok::RightBrace(..), _)) => {
+            Some((_, Tok::RightParen, _)) |
+            Some((_, Tok::Comma, _)) |
+            Some((_, Tok::RightBrace, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
                 let __sym2 = __sym2.take().unwrap();
@@ -11861,7 +11861,7 @@ mod __parse__Pattern {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         let __lookahead = match __tokens.next() { Some(Ok(v)) => Some(v), None => None, Some(Err(e)) => return Err(__ParseError::User { error: e }) };
         match __lookahead {
-            Some((_, __tok @ Tok::RightBrace(..), __loc)) => {
+            Some((_, __tok @ Tok::RightBrace, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym4 = &mut Some((__tok));
                 __result = try!(__state80(text, __lookbehind, __tokens, __sym0, __sym1, __sym2, __sym3, __sym4));
@@ -11899,12 +11899,12 @@ mod __parse__Pattern {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, __tok @ Tok::Comma(..), __loc)) => {
+            Some((_, __tok @ Tok::Comma, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym1 = &mut Some((__tok));
                 __result = try!(__state81(text, __lookbehind, __tokens, __sym0, __sym1));
             }
-            Some((_, Tok::RightBrace(..), _)) => {
+            Some((_, Tok::RightBrace, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __nt = super::__action84(text, __sym0);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::FieldPattern_3f(__nt)));
@@ -11944,7 +11944,7 @@ mod __parse__Pattern {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, __tok @ Tok::RightBrace(..), __loc)) => {
+            Some((_, __tok @ Tok::RightBrace, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym4 = &mut Some((__tok));
                 __result = try!(__state82(text, __lookbehind, __tokens, __sym0, __sym1, __sym2, __sym3, __sym4));
@@ -11985,8 +11985,8 @@ mod __parse__Pattern {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
             Some((_, Tok::MacroId(_), _)) |
-            Some((_, Tok::DotDot(..), _)) |
-            Some((_, Tok::RightBrace(..), _)) |
+            Some((_, Tok::DotDot, _)) |
+            Some((_, Tok::RightBrace, _)) |
             Some((_, Tok::Id(_), _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
@@ -12060,18 +12060,18 @@ mod __parse__Pattern {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         let __lookahead = match __tokens.next() { Some(Ok(v)) => Some(v), None => None, Some(Err(e)) => return Err(__ParseError::User { error: e }) };
         match __lookahead {
-            Some((_, Tok::Star(..), _)) |
-            Some((_, Tok::GreaterThan(..), _)) |
+            Some((_, Tok::Star, _)) |
+            Some((_, Tok::GreaterThan, _)) |
             Some((_, Tok::Id(_), _)) |
-            Some((_, Tok::LeftParen(..), _)) |
-            Some((_, Tok::Lookahead(..), _)) |
-            Some((_, Tok::Plus(..), _)) |
-            Some((_, Tok::LessThan(..), _)) |
-            Some((_, Tok::Comma(..), _)) |
-            Some((_, Tok::Question(..), _)) |
-            Some((_, Tok::Hash(..), _)) |
-            Some((_, Tok::Lookbehind(..), _)) |
-            Some((_, Tok::RightParen(..), _)) |
+            Some((_, Tok::LeftParen, _)) |
+            Some((_, Tok::Lookahead, _)) |
+            Some((_, Tok::Plus, _)) |
+            Some((_, Tok::LessThan, _)) |
+            Some((_, Tok::Comma, _)) |
+            Some((_, Tok::Question, _)) |
+            Some((_, Tok::Hash, _)) |
+            Some((_, Tok::Lookbehind, _)) |
+            Some((_, Tok::RightParen, _)) |
             Some((_, Tok::MacroId(_), _)) |
             Some((_, Tok::RegexLiteral(_), _)) |
             Some((_, Tok::StringLiteral(_), _)) |
@@ -12147,22 +12147,22 @@ mod __parse__Pattern {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         let __lookahead = match __tokens.next() { Some(Ok(v)) => Some(v), None => None, Some(Err(e)) => return Err(__ParseError::User { error: e }) };
         match __lookahead {
-            Some((_, Tok::Lookahead(..), _)) |
+            Some((_, Tok::Lookahead, _)) |
             Some((_, Tok::StringLiteral(_), _)) |
-            Some((_, Tok::Hash(..), _)) |
+            Some((_, Tok::Hash, _)) |
             Some((_, Tok::MacroId(_), _)) |
-            Some((_, Tok::Plus(..), _)) |
-            Some((_, Tok::LessThan(..), _)) |
-            Some((_, Tok::Star(..), _)) |
+            Some((_, Tok::Plus, _)) |
+            Some((_, Tok::LessThan, _)) |
+            Some((_, Tok::Star, _)) |
             Some((_, Tok::RegexLiteral(_), _)) |
-            Some((_, Tok::Lookbehind(..), _)) |
-            Some((_, Tok::RightParen(..), _)) |
-            Some((_, Tok::Question(..), _)) |
+            Some((_, Tok::Lookbehind, _)) |
+            Some((_, Tok::RightParen, _)) |
+            Some((_, Tok::Question, _)) |
             Some((_, Tok::Id(_), _)) |
-            Some((_, Tok::LeftParen(..), _)) |
-            Some((_, Tok::Comma(..), _)) |
+            Some((_, Tok::LeftParen, _)) |
+            Some((_, Tok::Comma, _)) |
             Some((_, Tok::Escape(_), _)) |
-            Some((_, Tok::GreaterThan(..), _)) => {
+            Some((_, Tok::GreaterThan, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __nt = super::__action39(text, __sym0);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::RepeatOp(__nt)));
@@ -12234,21 +12234,21 @@ mod __parse__Pattern {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         let __lookahead = match __tokens.next() { Some(Ok(v)) => Some(v), None => None, Some(Err(e)) => return Err(__ParseError::User { error: e }) };
         match __lookahead {
-            Some((_, Tok::Plus(..), _)) |
-            Some((_, Tok::LeftParen(..), _)) |
-            Some((_, Tok::Star(..), _)) |
-            Some((_, Tok::GreaterThan(..), _)) |
-            Some((_, Tok::Comma(..), _)) |
+            Some((_, Tok::Plus, _)) |
+            Some((_, Tok::LeftParen, _)) |
+            Some((_, Tok::Star, _)) |
+            Some((_, Tok::GreaterThan, _)) |
+            Some((_, Tok::Comma, _)) |
             Some((_, Tok::Id(_), _)) |
-            Some((_, Tok::Hash(..), _)) |
-            Some((_, Tok::Lookbehind(..), _)) |
+            Some((_, Tok::Hash, _)) |
+            Some((_, Tok::Lookbehind, _)) |
             Some((_, Tok::StringLiteral(_), _)) |
-            Some((_, Tok::LessThan(..), _)) |
+            Some((_, Tok::LessThan, _)) |
             Some((_, Tok::MacroId(_), _)) |
-            Some((_, Tok::Question(..), _)) |
+            Some((_, Tok::Question, _)) |
             Some((_, Tok::Escape(_), _)) |
-            Some((_, Tok::RightParen(..), _)) |
-            Some((_, Tok::Lookahead(..), _)) |
+            Some((_, Tok::RightParen, _)) |
+            Some((_, Tok::Lookahead, _)) |
             Some((_, Tok::RegexLiteral(_), _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __nt = super::__action38(text, __sym0);
@@ -12350,20 +12350,20 @@ mod __parse__Pattern {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
             Some((_, Tok::Escape(_), _)) |
-            Some((_, Tok::Plus(..), _)) |
-            Some((_, Tok::GreaterThan(..), _)) |
+            Some((_, Tok::Plus, _)) |
+            Some((_, Tok::GreaterThan, _)) |
             Some((_, Tok::Id(_), _)) |
-            Some((_, Tok::Hash(..), _)) |
-            Some((_, Tok::RightParen(..), _)) |
-            Some((_, Tok::Lookbehind(..), _)) |
+            Some((_, Tok::Hash, _)) |
+            Some((_, Tok::RightParen, _)) |
+            Some((_, Tok::Lookbehind, _)) |
             Some((_, Tok::MacroId(_), _)) |
             Some((_, Tok::StringLiteral(_), _)) |
-            Some((_, Tok::LeftParen(..), _)) |
-            Some((_, Tok::Lookahead(..), _)) |
-            Some((_, Tok::Star(..), _)) |
-            Some((_, Tok::LessThan(..), _)) |
-            Some((_, Tok::Comma(..), _)) |
-            Some((_, Tok::Question(..), _)) |
+            Some((_, Tok::LeftParen, _)) |
+            Some((_, Tok::Lookahead, _)) |
+            Some((_, Tok::Star, _)) |
+            Some((_, Tok::LessThan, _)) |
+            Some((_, Tok::Comma, _)) |
+            Some((_, Tok::Question, _)) |
             Some((_, Tok::RegexLiteral(_), _)) => {
                 let __nt = ::std::clone::Clone::clone(&__lookbehind).unwrap_or_default();
                 __result = (__lookbehind, __lookahead, __Nonterminal::_40R(__nt));
@@ -12416,9 +12416,9 @@ mod __parse__Pattern {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         let __lookahead = match __tokens.next() { Some(Ok(v)) => Some(v), None => None, Some(Err(e)) => return Err(__ParseError::User { error: e }) };
         match __lookahead {
-            Some((_, Tok::GreaterThan(..), _)) |
-            Some((_, Tok::Comma(..), _)) |
-            Some((_, Tok::RightParen(..), _)) => {
+            Some((_, Tok::GreaterThan, _)) |
+            Some((_, Tok::Comma, _)) |
+            Some((_, Tok::RightParen, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
                 let __sym2 = __sym2.take().unwrap();
@@ -12493,20 +12493,20 @@ mod __parse__Pattern {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
             Some((_, Tok::MacroId(_), _)) |
-            Some((_, Tok::Question(..), _)) |
-            Some((_, Tok::LeftParen(..), _)) |
-            Some((_, Tok::Plus(..), _)) |
+            Some((_, Tok::Question, _)) |
+            Some((_, Tok::LeftParen, _)) |
+            Some((_, Tok::Plus, _)) |
             Some((_, Tok::Id(_), _)) |
-            Some((_, Tok::Comma(..), _)) |
+            Some((_, Tok::Comma, _)) |
             Some((_, Tok::Escape(_), _)) |
-            Some((_, Tok::Star(..), _)) |
+            Some((_, Tok::Star, _)) |
             Some((_, Tok::RegexLiteral(_), _)) |
-            Some((_, Tok::Lookbehind(..), _)) |
-            Some((_, Tok::Hash(..), _)) |
-            Some((_, Tok::RightParen(..), _)) |
-            Some((_, Tok::Lookahead(..), _)) |
-            Some((_, Tok::LessThan(..), _)) |
-            Some((_, Tok::GreaterThan(..), _)) |
+            Some((_, Tok::Lookbehind, _)) |
+            Some((_, Tok::Hash, _)) |
+            Some((_, Tok::RightParen, _)) |
+            Some((_, Tok::Lookahead, _)) |
+            Some((_, Tok::LessThan, _)) |
+            Some((_, Tok::GreaterThan, _)) |
             Some((_, Tok::StringLiteral(_), _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __nt = super::__action81(text, __sym0);
@@ -12579,22 +12579,22 @@ mod __parse__Pattern {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         let __lookahead = match __tokens.next() { Some(Ok(v)) => Some(v), None => None, Some(Err(e)) => return Err(__ParseError::User { error: e }) };
         match __lookahead {
-            Some((_, Tok::Plus(..), _)) |
+            Some((_, Tok::Plus, _)) |
             Some((_, Tok::RegexLiteral(_), _)) |
-            Some((_, Tok::Lookbehind(..), _)) |
-            Some((_, Tok::Comma(..), _)) |
-            Some((_, Tok::RightParen(..), _)) |
+            Some((_, Tok::Lookbehind, _)) |
+            Some((_, Tok::Comma, _)) |
+            Some((_, Tok::RightParen, _)) |
             Some((_, Tok::MacroId(_), _)) |
-            Some((_, Tok::Lookahead(..), _)) |
+            Some((_, Tok::Lookahead, _)) |
             Some((_, Tok::Id(_), _)) |
-            Some((_, Tok::LeftParen(..), _)) |
+            Some((_, Tok::LeftParen, _)) |
             Some((_, Tok::StringLiteral(_), _)) |
-            Some((_, Tok::LessThan(..), _)) |
+            Some((_, Tok::LessThan, _)) |
             Some((_, Tok::Escape(_), _)) |
-            Some((_, Tok::Question(..), _)) |
-            Some((_, Tok::Hash(..), _)) |
-            Some((_, Tok::GreaterThan(..), _)) |
-            Some((_, Tok::Star(..), _)) => {
+            Some((_, Tok::Question, _)) |
+            Some((_, Tok::Hash, _)) |
+            Some((_, Tok::GreaterThan, _)) |
+            Some((_, Tok::Star, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __nt = super::__action44(text, __sym0);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::SymbolKind1(__nt)));
@@ -12666,20 +12666,20 @@ mod __parse__Pattern {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         let __lookahead = match __tokens.next() { Some(Ok(v)) => Some(v), None => None, Some(Err(e)) => return Err(__ParseError::User { error: e }) };
         match __lookahead {
-            Some((_, Tok::Question(..), _)) |
-            Some((_, Tok::LessThan(..), _)) |
-            Some((_, Tok::Star(..), _)) |
-            Some((_, Tok::Plus(..), _)) |
+            Some((_, Tok::Question, _)) |
+            Some((_, Tok::LessThan, _)) |
+            Some((_, Tok::Star, _)) |
+            Some((_, Tok::Plus, _)) |
             Some((_, Tok::Escape(_), _)) |
             Some((_, Tok::Id(_), _)) |
-            Some((_, Tok::RightParen(..), _)) |
-            Some((_, Tok::Lookahead(..), _)) |
-            Some((_, Tok::LeftParen(..), _)) |
-            Some((_, Tok::Hash(..), _)) |
-            Some((_, Tok::Lookbehind(..), _)) |
+            Some((_, Tok::RightParen, _)) |
+            Some((_, Tok::Lookahead, _)) |
+            Some((_, Tok::LeftParen, _)) |
+            Some((_, Tok::Hash, _)) |
+            Some((_, Tok::Lookbehind, _)) |
             Some((_, Tok::RegexLiteral(_), _)) |
-            Some((_, Tok::GreaterThan(..), _)) |
-            Some((_, Tok::Comma(..), _)) |
+            Some((_, Tok::GreaterThan, _)) |
+            Some((_, Tok::Comma, _)) |
             Some((_, Tok::MacroId(_), _)) |
             Some((_, Tok::StringLiteral(_), _)) => {
                 let __sym0 = __sym0.take().unwrap();
@@ -12754,20 +12754,20 @@ mod __parse__Pattern {
         let __lookahead = match __tokens.next() { Some(Ok(v)) => Some(v), None => None, Some(Err(e)) => return Err(__ParseError::User { error: e }) };
         match __lookahead {
             Some((_, Tok::RegexLiteral(_), _)) |
-            Some((_, Tok::LeftParen(..), _)) |
+            Some((_, Tok::LeftParen, _)) |
             Some((_, Tok::Escape(_), _)) |
-            Some((_, Tok::Lookbehind(..), _)) |
-            Some((_, Tok::Plus(..), _)) |
-            Some((_, Tok::GreaterThan(..), _)) |
+            Some((_, Tok::Lookbehind, _)) |
+            Some((_, Tok::Plus, _)) |
+            Some((_, Tok::GreaterThan, _)) |
             Some((_, Tok::StringLiteral(_), _)) |
-            Some((_, Tok::Question(..), _)) |
-            Some((_, Tok::Comma(..), _)) |
-            Some((_, Tok::LessThan(..), _)) |
-            Some((_, Tok::Hash(..), _)) |
+            Some((_, Tok::Question, _)) |
+            Some((_, Tok::Comma, _)) |
+            Some((_, Tok::LessThan, _)) |
+            Some((_, Tok::Hash, _)) |
             Some((_, Tok::Id(_), _)) |
-            Some((_, Tok::Lookahead(..), _)) |
-            Some((_, Tok::Star(..), _)) |
-            Some((_, Tok::RightParen(..), _)) |
+            Some((_, Tok::Lookahead, _)) |
+            Some((_, Tok::Star, _)) |
+            Some((_, Tok::RightParen, _)) |
             Some((_, Tok::MacroId(_), _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __nt = super::__action76(text, __sym0);
@@ -12800,7 +12800,7 @@ mod __parse__Pattern {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         let __lookahead = match __tokens.next() { Some(Ok(v)) => Some(v), None => None, Some(Err(e)) => return Err(__ParseError::User { error: e }) };
         match __lookahead {
-            Some((_, Tok::LessThan(..), _)) => {
+            Some((_, Tok::LessThan, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __nt = super::__action72(text, __sym0);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::MacroId(__nt)));
@@ -12857,7 +12857,7 @@ mod __parse__Pattern {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, __tok @ Tok::LessThan(..), __loc)) => {
+            Some((_, __tok @ Tok::LessThan, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym1 = &mut Some((__tok));
                 __result = try!(__state84(text, __lookbehind, __tokens, __sym0, __sym1));
@@ -12931,21 +12931,21 @@ mod __parse__Pattern {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
             Some((_, Tok::RegexLiteral(_), _)) |
-            Some((_, Tok::LessThan(..), _)) |
-            Some((_, Tok::Comma(..), _)) |
-            Some((_, Tok::Question(..), _)) |
-            Some((_, Tok::LeftParen(..), _)) |
-            Some((_, Tok::RightParen(..), _)) |
+            Some((_, Tok::LessThan, _)) |
+            Some((_, Tok::Comma, _)) |
+            Some((_, Tok::Question, _)) |
+            Some((_, Tok::LeftParen, _)) |
+            Some((_, Tok::RightParen, _)) |
             Some((_, Tok::MacroId(_), _)) |
-            Some((_, Tok::Lookahead(..), _)) |
+            Some((_, Tok::Lookahead, _)) |
             Some((_, Tok::Id(_), _)) |
             Some((_, Tok::Escape(_), _)) |
-            Some((_, Tok::Lookbehind(..), _)) |
-            Some((_, Tok::GreaterThan(..), _)) |
-            Some((_, Tok::Hash(..), _)) |
+            Some((_, Tok::Lookbehind, _)) |
+            Some((_, Tok::GreaterThan, _)) |
+            Some((_, Tok::Hash, _)) |
             Some((_, Tok::StringLiteral(_), _)) |
-            Some((_, Tok::Star(..), _)) |
-            Some((_, Tok::Plus(..), _)) => {
+            Some((_, Tok::Star, _)) |
+            Some((_, Tok::Plus, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __nt = super::__action43(text, __sym0);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::SymbolKind1(__nt)));
@@ -13018,20 +13018,20 @@ mod __parse__Pattern {
         let __lookahead = match __tokens.next() { Some(Ok(v)) => Some(v), None => None, Some(Err(e)) => return Err(__ParseError::User { error: e }) };
         match __lookahead {
             Some((_, Tok::MacroId(_), _)) |
-            Some((_, Tok::LeftParen(..), _)) |
-            Some((_, Tok::Plus(..), _)) |
+            Some((_, Tok::LeftParen, _)) |
+            Some((_, Tok::Plus, _)) |
             Some((_, Tok::StringLiteral(_), _)) |
-            Some((_, Tok::LessThan(..), _)) |
+            Some((_, Tok::LessThan, _)) |
             Some((_, Tok::Escape(_), _)) |
-            Some((_, Tok::Star(..), _)) |
-            Some((_, Tok::Question(..), _)) |
-            Some((_, Tok::Hash(..), _)) |
-            Some((_, Tok::RightParen(..), _)) |
+            Some((_, Tok::Star, _)) |
+            Some((_, Tok::Question, _)) |
+            Some((_, Tok::Hash, _)) |
+            Some((_, Tok::RightParen, _)) |
             Some((_, Tok::RegexLiteral(_), _)) |
-            Some((_, Tok::Lookahead(..), _)) |
-            Some((_, Tok::Lookbehind(..), _)) |
-            Some((_, Tok::GreaterThan(..), _)) |
-            Some((_, Tok::Comma(..), _)) |
+            Some((_, Tok::Lookahead, _)) |
+            Some((_, Tok::Lookbehind, _)) |
+            Some((_, Tok::GreaterThan, _)) |
+            Some((_, Tok::Comma, _)) |
             Some((_, Tok::Id(_), _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __nt = super::__action48(text, __sym0);
@@ -13160,12 +13160,12 @@ mod __parse__Pattern {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         let __lookahead = match __tokens.next() { Some(Ok(v)) => Some(v), None => None, Some(Err(e)) => return Err(__ParseError::User { error: e }) };
         match __lookahead {
-            Some((_, Tok::Lookbehind(..), _)) |
-            Some((_, Tok::Lookahead(..), _)) |
+            Some((_, Tok::Lookbehind, _)) |
+            Some((_, Tok::Lookahead, _)) |
             Some((_, Tok::Escape(_), _)) |
             Some((_, Tok::MacroId(_), _)) |
             Some((_, Tok::Id(_), _)) |
-            Some((_, Tok::LeftParen(..), _)) |
+            Some((_, Tok::LeftParen, _)) |
             Some((_, Tok::StringLiteral(_), _)) |
             Some((_, Tok::RegexLiteral(_), _)) => {
                 let __nt = __lookahead.as_ref().map(|o| ::std::clone::Clone::clone(&o.0)).or_else(|| ::std::clone::Clone::clone(&__lookbehind)).unwrap_or_default();
@@ -13259,21 +13259,21 @@ mod __parse__Pattern {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, Tok::RightParen(..), _)) |
-            Some((_, Tok::Lookbehind(..), _)) |
+            Some((_, Tok::RightParen, _)) |
+            Some((_, Tok::Lookbehind, _)) |
             Some((_, Tok::Id(_), _)) |
-            Some((_, Tok::Question(..), _)) |
-            Some((_, Tok::Lookahead(..), _)) |
+            Some((_, Tok::Question, _)) |
+            Some((_, Tok::Lookahead, _)) |
             Some((_, Tok::RegexLiteral(_), _)) |
-            Some((_, Tok::LeftParen(..), _)) |
-            Some((_, Tok::Comma(..), _)) |
+            Some((_, Tok::LeftParen, _)) |
+            Some((_, Tok::Comma, _)) |
             Some((_, Tok::StringLiteral(_), _)) |
-            Some((_, Tok::LessThan(..), _)) |
-            Some((_, Tok::Star(..), _)) |
-            Some((_, Tok::GreaterThan(..), _)) |
+            Some((_, Tok::LessThan, _)) |
+            Some((_, Tok::Star, _)) |
+            Some((_, Tok::GreaterThan, _)) |
             Some((_, Tok::MacroId(_), _)) |
-            Some((_, Tok::Hash(..), _)) |
-            Some((_, Tok::Plus(..), _)) |
+            Some((_, Tok::Hash, _)) |
+            Some((_, Tok::Plus, _)) |
             Some((_, Tok::Escape(_), _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __nt = super::__action80(text, __sym0);
@@ -13346,20 +13346,20 @@ mod __parse__Pattern {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         let __lookahead = match __tokens.next() { Some(Ok(v)) => Some(v), None => None, Some(Err(e)) => return Err(__ParseError::User { error: e }) };
         match __lookahead {
-            Some((_, Tok::GreaterThan(..), _)) |
-            Some((_, Tok::Lookahead(..), _)) |
-            Some((_, Tok::RightParen(..), _)) |
-            Some((_, Tok::LeftParen(..), _)) |
-            Some((_, Tok::LessThan(..), _)) |
-            Some((_, Tok::Comma(..), _)) |
+            Some((_, Tok::GreaterThan, _)) |
+            Some((_, Tok::Lookahead, _)) |
+            Some((_, Tok::RightParen, _)) |
+            Some((_, Tok::LeftParen, _)) |
+            Some((_, Tok::LessThan, _)) |
+            Some((_, Tok::Comma, _)) |
             Some((_, Tok::StringLiteral(_), _)) |
-            Some((_, Tok::Question(..), _)) |
+            Some((_, Tok::Question, _)) |
             Some((_, Tok::MacroId(_), _)) |
-            Some((_, Tok::Plus(..), _)) |
-            Some((_, Tok::Hash(..), _)) |
-            Some((_, Tok::Lookbehind(..), _)) |
+            Some((_, Tok::Plus, _)) |
+            Some((_, Tok::Hash, _)) |
+            Some((_, Tok::Lookbehind, _)) |
             Some((_, Tok::Escape(_), _)) |
-            Some((_, Tok::Star(..), _)) |
+            Some((_, Tok::Star, _)) |
             Some((_, Tok::Id(_), _)) |
             Some((_, Tok::RegexLiteral(_), _)) => {
                 let __sym0 = __sym0.take().unwrap();
@@ -13513,15 +13513,15 @@ mod __parse__Pattern {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         let __lookahead = match __tokens.next() { Some(Ok(v)) => Some(v), None => None, Some(Err(e)) => return Err(__ParseError::User { error: e }) };
         match __lookahead {
-            Some((_, Tok::RightParen(..), _)) |
+            Some((_, Tok::RightParen, _)) |
             Some((_, Tok::StringLiteral(_), _)) |
-            Some((_, Tok::LeftParen(..), _)) |
-            Some((_, Tok::Lookahead(..), _)) |
+            Some((_, Tok::LeftParen, _)) |
+            Some((_, Tok::Lookahead, _)) |
             Some((_, Tok::MacroId(_), _)) |
             Some((_, Tok::RegexLiteral(_), _)) |
-            Some((_, Tok::LessThan(..), _)) |
+            Some((_, Tok::LessThan, _)) |
             Some((_, Tok::Id(_), _)) |
-            Some((_, Tok::Lookbehind(..), _)) |
+            Some((_, Tok::Lookbehind, _)) |
             Some((_, Tok::Escape(_), _)) => {
                 let __nt = super::__action105(text, );
                 __result = (__lookbehind, __lookahead, __Nonterminal::Symbol_2a(__nt));
@@ -13613,19 +13613,19 @@ mod __parse__Pattern {
             Some((_, Tok::Escape(_), _)) |
             Some((_, Tok::StringLiteral(_), _)) |
             Some((_, Tok::RegexLiteral(_), _)) |
-            Some((_, Tok::Hash(..), _)) |
-            Some((_, Tok::Plus(..), _)) |
-            Some((_, Tok::LeftParen(..), _)) |
-            Some((_, Tok::RightParen(..), _)) |
+            Some((_, Tok::Hash, _)) |
+            Some((_, Tok::Plus, _)) |
+            Some((_, Tok::LeftParen, _)) |
+            Some((_, Tok::RightParen, _)) |
             Some((_, Tok::MacroId(_), _)) |
-            Some((_, Tok::Question(..), _)) |
-            Some((_, Tok::Lookbehind(..), _)) |
-            Some((_, Tok::Star(..), _)) |
-            Some((_, Tok::Lookahead(..), _)) |
-            Some((_, Tok::GreaterThan(..), _)) |
+            Some((_, Tok::Question, _)) |
+            Some((_, Tok::Lookbehind, _)) |
+            Some((_, Tok::Star, _)) |
+            Some((_, Tok::Lookahead, _)) |
+            Some((_, Tok::GreaterThan, _)) |
             Some((_, Tok::Id(_), _)) |
-            Some((_, Tok::LessThan(..), _)) |
-            Some((_, Tok::Comma(..), _)) => {
+            Some((_, Tok::LessThan, _)) |
+            Some((_, Tok::Comma, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __nt = super::__action45(text, __sym0);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::SymbolKind1(__nt)));
@@ -13725,22 +13725,22 @@ mod __parse__Pattern {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, Tok::LeftParen(..), _)) |
+            Some((_, Tok::LeftParen, _)) |
             Some((_, Tok::StringLiteral(_), _)) |
-            Some((_, Tok::Comma(..), _)) |
-            Some((_, Tok::Hash(..), _)) |
-            Some((_, Tok::Lookahead(..), _)) |
-            Some((_, Tok::Star(..), _)) |
-            Some((_, Tok::Plus(..), _)) |
+            Some((_, Tok::Comma, _)) |
+            Some((_, Tok::Hash, _)) |
+            Some((_, Tok::Lookahead, _)) |
+            Some((_, Tok::Star, _)) |
+            Some((_, Tok::Plus, _)) |
             Some((_, Tok::MacroId(_), _)) |
             Some((_, Tok::Id(_), _)) |
-            Some((_, Tok::GreaterThan(..), _)) |
+            Some((_, Tok::GreaterThan, _)) |
             Some((_, Tok::Escape(_), _)) |
             Some((_, Tok::RegexLiteral(_), _)) |
-            Some((_, Tok::LessThan(..), _)) |
-            Some((_, Tok::RightParen(..), _)) |
-            Some((_, Tok::Lookbehind(..), _)) |
-            Some((_, Tok::Question(..), _)) => {
+            Some((_, Tok::LessThan, _)) |
+            Some((_, Tok::RightParen, _)) |
+            Some((_, Tok::Lookbehind, _)) |
+            Some((_, Tok::Question, _)) => {
                 let __nt = ::std::clone::Clone::clone(&__lookbehind).unwrap_or_default();
                 __result = (__lookbehind, __lookahead, __Nonterminal::_40R(__nt));
             }
@@ -13824,21 +13824,21 @@ mod __parse__Pattern {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         let __lookahead = match __tokens.next() { Some(Ok(v)) => Some(v), None => None, Some(Err(e)) => return Err(__ParseError::User { error: e }) };
         match __lookahead {
-            Some((_, Tok::Question(..), _)) |
-            Some((_, Tok::LessThan(..), _)) |
-            Some((_, Tok::Plus(..), _)) |
-            Some((_, Tok::LeftParen(..), _)) |
-            Some((_, Tok::RightParen(..), _)) |
-            Some((_, Tok::GreaterThan(..), _)) |
+            Some((_, Tok::Question, _)) |
+            Some((_, Tok::LessThan, _)) |
+            Some((_, Tok::Plus, _)) |
+            Some((_, Tok::LeftParen, _)) |
+            Some((_, Tok::RightParen, _)) |
+            Some((_, Tok::GreaterThan, _)) |
             Some((_, Tok::Escape(_), _)) |
             Some((_, Tok::StringLiteral(_), _)) |
-            Some((_, Tok::Lookbehind(..), _)) |
+            Some((_, Tok::Lookbehind, _)) |
             Some((_, Tok::RegexLiteral(_), _)) |
-            Some((_, Tok::Lookahead(..), _)) |
-            Some((_, Tok::Hash(..), _)) |
+            Some((_, Tok::Lookahead, _)) |
+            Some((_, Tok::Hash, _)) |
             Some((_, Tok::Id(_), _)) |
-            Some((_, Tok::Comma(..), _)) |
-            Some((_, Tok::Star(..), _)) |
+            Some((_, Tok::Comma, _)) |
+            Some((_, Tok::Star, _)) |
             Some((_, Tok::MacroId(_), _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __nt = super::__action82(text, __sym0);
@@ -13930,22 +13930,22 @@ mod __parse__Pattern {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, __tok @ Tok::LeftParen(..), __loc)) => {
+            Some((_, __tok @ Tok::LeftParen, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym3 = &mut Some((__tok));
                 __result = try!(__state17(text, __lookbehind, __tokens, __sym3));
             }
-            Some((_, __tok @ Tok::Ampersand(..), __loc)) => {
+            Some((_, __tok @ Tok::Ampersand, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym3 = &mut Some((__tok));
                 __result = try!(__state15(text, __lookbehind, __tokens, __sym3));
             }
-            Some((_, __tok @ Tok::ColonColon(..), __loc)) => {
+            Some((_, __tok @ Tok::ColonColon, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym3 = &mut Some((__tok));
                 __result = try!(__state6(text, __lookbehind, __tokens, __sym3));
             }
-            Some((_, __tok @ Tok::Hash(..), __loc)) => {
+            Some((_, __tok @ Tok::Hash, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym3 = &mut Some((__tok));
                 __result = try!(__state13(text, __lookbehind, __tokens, __sym3));
@@ -14014,10 +14014,10 @@ mod __parse__Pattern {
         let __lookahead = match __tokens.next() { Some(Ok(v)) => Some(v), None => None, Some(Err(e)) => return Err(__ParseError::User { error: e }) };
         match __lookahead {
             Some((_, Tok::Id(_), _)) |
-            Some((_, Tok::Ampersand(..), _)) |
-            Some((_, Tok::LeftParen(..), _)) |
-            Some((_, Tok::ColonColon(..), _)) |
-            Some((_, Tok::Hash(..), _)) |
+            Some((_, Tok::Ampersand, _)) |
+            Some((_, Tok::LeftParen, _)) |
+            Some((_, Tok::ColonColon, _)) |
+            Some((_, Tok::Hash, _)) |
             Some((_, Tok::MacroId(_), _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __nt = super::__action99(text, __sym0);
@@ -14056,7 +14056,7 @@ mod __parse__Pattern {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, __tok @ Tok::GreaterThan(..), __loc)) => {
+            Some((_, __tok @ Tok::GreaterThan, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym3 = &mut Some((__tok));
                 __result = try!(__state91(text, __lookbehind, __tokens, __sym0, __sym1, __sym2, __sym3));
@@ -14144,22 +14144,22 @@ mod __parse__Pattern {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, __tok @ Tok::LeftParen(..), __loc)) => {
+            Some((_, __tok @ Tok::LeftParen, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym1 = &mut Some((__tok));
                 __result = try!(__state17(text, __lookbehind, __tokens, __sym1));
             }
-            Some((_, __tok @ Tok::Ampersand(..), __loc)) => {
+            Some((_, __tok @ Tok::Ampersand, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym1 = &mut Some((__tok));
                 __result = try!(__state15(text, __lookbehind, __tokens, __sym1));
             }
-            Some((_, __tok @ Tok::Hash(..), __loc)) => {
+            Some((_, __tok @ Tok::Hash, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym1 = &mut Some((__tok));
                 __result = try!(__state13(text, __lookbehind, __tokens, __sym1));
             }
-            Some((_, __tok @ Tok::ColonColon(..), __loc)) => {
+            Some((_, __tok @ Tok::ColonColon, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym1 = &mut Some((__tok));
                 __result = try!(__state6(text, __lookbehind, __tokens, __sym1));
@@ -14169,7 +14169,7 @@ mod __parse__Pattern {
                 let mut __sym1 = &mut Some((__tok0));
                 __result = try!(__state31(text, __lookbehind, __tokens, __sym1));
             }
-            Some((_, Tok::GreaterThan(..), _)) => {
+            Some((_, Tok::GreaterThan, _)) => {
                 let __nt = super::__action168(text, );
                 __result = (__lookbehind, __lookahead, __Nonterminal::TypeRefOrLifetime_3f(__nt));
             }
@@ -14255,12 +14255,12 @@ mod __parse__Pattern {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, Tok::LeftParen(..), _)) |
-            Some((_, Tok::Ampersand(..), _)) |
-            Some((_, Tok::RightParen(..), _)) |
+            Some((_, Tok::LeftParen, _)) |
+            Some((_, Tok::Ampersand, _)) |
+            Some((_, Tok::RightParen, _)) |
             Some((_, Tok::Id(_), _)) |
-            Some((_, Tok::Hash(..), _)) |
-            Some((_, Tok::ColonColon(..), _)) |
+            Some((_, Tok::Hash, _)) |
+            Some((_, Tok::ColonColon, _)) |
             Some((_, Tok::MacroId(_), _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
@@ -14302,12 +14302,12 @@ mod __parse__Pattern {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, __tok @ Tok::Comma(..), __loc)) => {
+            Some((_, __tok @ Tok::Comma, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym1 = &mut Some((__tok));
                 __result = try!(__state97(text, __lookbehind, __tokens, __sym0, __sym1));
             }
-            Some((_, Tok::RightParen(..), _)) => {
+            Some((_, Tok::RightParen, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __nt = super::__action162(text, __sym0);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::TypeRef_3f(__nt)));
@@ -14341,7 +14341,7 @@ mod __parse__Pattern {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, Tok::RightParen(..), _)) => {
+            Some((_, Tok::RightParen, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
                 let __nt = super::__action103(text, __sym0, __sym1);
@@ -14382,9 +14382,9 @@ mod __parse__Pattern {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         let __lookahead = match __tokens.next() { Some(Ok(v)) => Some(v), None => None, Some(Err(e)) => return Err(__ParseError::User { error: e }) };
         match __lookahead {
-            Some((_, Tok::Comma(..), _)) |
-            Some((_, Tok::RightParen(..), _)) |
-            Some((_, Tok::GreaterThan(..), _)) => {
+            Some((_, Tok::Comma, _)) |
+            Some((_, Tok::RightParen, _)) |
+            Some((_, Tok::GreaterThan, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
                 let __sym2 = __sym2.take().unwrap();
@@ -14470,14 +14470,14 @@ mod __parse__Pattern {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         let __lookahead = match __tokens.next() { Some(Ok(v)) => Some(v), None => None, Some(Err(e)) => return Err(__ParseError::User { error: e }) };
         match __lookahead {
-            Some((_, Tok::DotDot(..), _)) |
-            Some((_, Tok::Underscore(..), _)) |
+            Some((_, Tok::DotDot, _)) |
+            Some((_, Tok::Underscore, _)) |
             Some((_, Tok::MacroId(_), _)) |
             Some((_, Tok::Id(_), _)) |
-            Some((_, Tok::ColonColon(..), _)) |
-            Some((_, Tok::RightParen(..), _)) |
-            Some((_, Tok::LessThan(..), _)) |
-            Some((_, Tok::LeftParen(..), _)) => {
+            Some((_, Tok::ColonColon, _)) |
+            Some((_, Tok::RightParen, _)) |
+            Some((_, Tok::LessThan, _)) |
+            Some((_, Tok::LeftParen, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
                 let __nt = super::__action181(text, __sym0, __sym1);
@@ -14514,7 +14514,7 @@ mod __parse__Pattern {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, Tok::Colon(..), _)) => {
+            Some((_, Tok::Colon, _)) => {
                 let __nt = ::std::clone::Clone::clone(&__lookbehind).unwrap_or_default();
                 __result = (__lookbehind, __lookahead, __Nonterminal::_40R(__nt));
             }
@@ -14569,10 +14569,10 @@ mod __parse__Pattern {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         let __lookahead = match __tokens.next() { Some(Ok(v)) => Some(v), None => None, Some(Err(e)) => return Err(__ParseError::User { error: e }) };
         match __lookahead {
-            Some((_, Tok::RightParen(..), _)) |
-            Some((_, Tok::RightBrace(..), _)) |
+            Some((_, Tok::RightParen, _)) |
+            Some((_, Tok::RightBrace, _)) |
             None |
-            Some((_, Tok::Comma(..), _)) => {
+            Some((_, Tok::Comma, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
                 let __sym2 = __sym2.take().unwrap();
@@ -14615,8 +14615,8 @@ mod __parse__Pattern {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         let __lookahead = match __tokens.next() { Some(Ok(v)) => Some(v), None => None, Some(Err(e)) => return Err(__ParseError::User { error: e }) };
         match __lookahead {
-            Some((_, Tok::RightBrace(..), _)) |
-            Some((_, Tok::DotDot(..), _)) |
+            Some((_, Tok::RightBrace, _)) |
+            Some((_, Tok::DotDot, _)) |
             Some((_, Tok::MacroId(_), _)) |
             Some((_, Tok::Id(_), _)) => {
                 let __sym0 = __sym0.take().unwrap();
@@ -14662,9 +14662,9 @@ mod __parse__Pattern {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         let __lookahead = match __tokens.next() { Some(Ok(v)) => Some(v), None => None, Some(Err(e)) => return Err(__ParseError::User { error: e }) };
         match __lookahead {
-            Some((_, Tok::RightParen(..), _)) |
-            Some((_, Tok::Comma(..), _)) |
-            Some((_, Tok::RightBrace(..), _)) |
+            Some((_, Tok::RightParen, _)) |
+            Some((_, Tok::Comma, _)) |
+            Some((_, Tok::RightBrace, _)) |
             None => {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
@@ -14744,21 +14744,21 @@ mod __parse__Pattern {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
             Some((_, Tok::Id(_), _)) |
-            Some((_, Tok::LeftParen(..), _)) |
-            Some((_, Tok::Star(..), _)) |
-            Some((_, Tok::Lookbehind(..), _)) |
+            Some((_, Tok::LeftParen, _)) |
+            Some((_, Tok::Star, _)) |
+            Some((_, Tok::Lookbehind, _)) |
             Some((_, Tok::StringLiteral(_), _)) |
             Some((_, Tok::Escape(_), _)) |
-            Some((_, Tok::RightParen(..), _)) |
-            Some((_, Tok::Plus(..), _)) |
-            Some((_, Tok::LessThan(..), _)) |
+            Some((_, Tok::RightParen, _)) |
+            Some((_, Tok::Plus, _)) |
+            Some((_, Tok::LessThan, _)) |
             Some((_, Tok::RegexLiteral(_), _)) |
-            Some((_, Tok::Hash(..), _)) |
-            Some((_, Tok::Question(..), _)) |
+            Some((_, Tok::Hash, _)) |
+            Some((_, Tok::Question, _)) |
             Some((_, Tok::MacroId(_), _)) |
-            Some((_, Tok::Comma(..), _)) |
-            Some((_, Tok::GreaterThan(..), _)) |
-            Some((_, Tok::Lookahead(..), _)) => {
+            Some((_, Tok::Comma, _)) |
+            Some((_, Tok::GreaterThan, _)) |
+            Some((_, Tok::Lookahead, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
                 let __sym2 = __sym2.take().unwrap();
@@ -14914,15 +14914,15 @@ mod __parse__Pattern {
         let __lookahead = match __tokens.next() { Some(Ok(v)) => Some(v), None => None, Some(Err(e)) => return Err(__ParseError::User { error: e }) };
         match __lookahead {
             Some((_, Tok::RegexLiteral(_), _)) |
-            Some((_, Tok::LeftParen(..), _)) |
-            Some((_, Tok::GreaterThan(..), _)) |
+            Some((_, Tok::LeftParen, _)) |
+            Some((_, Tok::GreaterThan, _)) |
             Some((_, Tok::StringLiteral(_), _)) |
             Some((_, Tok::Id(_), _)) |
             Some((_, Tok::MacroId(_), _)) |
-            Some((_, Tok::LessThan(..), _)) |
+            Some((_, Tok::LessThan, _)) |
             Some((_, Tok::Escape(_), _)) |
-            Some((_, Tok::Lookbehind(..), _)) |
-            Some((_, Tok::Lookahead(..), _)) => {
+            Some((_, Tok::Lookbehind, _)) |
+            Some((_, Tok::Lookahead, _)) => {
                 let __nt = super::__action159(text, );
                 __result = (__lookbehind, __lookahead, __Nonterminal::_28_3cSymbol_3e_20_22_2c_22_29_2a(__nt));
             }
@@ -15036,22 +15036,22 @@ mod __parse__Pattern {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, __tok @ Tok::GreaterThan(..), __loc)) => {
+            Some((_, __tok @ Tok::GreaterThan, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym3 = &mut Some((__tok));
                 __result = try!(__state101(text, __lookbehind, __tokens, __sym0, __sym1, __sym2, __sym3));
             }
-            Some((_, __tok @ Tok::Star(..), __loc)) => {
+            Some((_, __tok @ Tok::Star, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym3 = &mut Some((__tok));
                 __result = try!(__state50(text, __lookbehind, __tokens, __sym3));
             }
-            Some((_, __tok @ Tok::Plus(..), __loc)) => {
+            Some((_, __tok @ Tok::Plus, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym3 = &mut Some((__tok));
                 __result = try!(__state51(text, __lookbehind, __tokens, __sym3));
             }
-            Some((_, __tok @ Tok::Question(..), __loc)) => {
+            Some((_, __tok @ Tok::Question, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym3 = &mut Some((__tok));
                 __result = try!(__state49(text, __lookbehind, __tokens, __sym3));
@@ -15289,7 +15289,7 @@ mod __parse__Pattern {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, __tok @ Tok::Lookbehind(..), __loc)) => {
+            Some((_, __tok @ Tok::Lookbehind, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym3 = &mut Some((__tok));
                 __result = try!(__state61(text, __lookbehind, __tokens, __sym3));
@@ -15304,7 +15304,7 @@ mod __parse__Pattern {
                 let mut __sym3 = &mut Some((__tok0));
                 __result = try!(__state64(text, __lookbehind, __tokens, __sym3));
             }
-            Some((_, __tok @ Tok::Lookahead(..), __loc)) => {
+            Some((_, __tok @ Tok::Lookahead, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym3 = &mut Some((__tok));
                 __result = try!(__state56(text, __lookbehind, __tokens, __sym3));
@@ -15324,7 +15324,7 @@ mod __parse__Pattern {
                 let mut __sym3 = &mut Some((__tok0));
                 __result = try!(__state103(text, __lookbehind, __tokens, __sym3));
             }
-            Some((_, __tok @ Tok::LeftParen(..), __loc)) => {
+            Some((_, __tok @ Tok::LeftParen, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym3 = &mut Some((__tok));
                 __result = try!(__state65(text, __lookbehind, __tokens, __sym3));
@@ -15494,18 +15494,18 @@ mod __parse__Pattern {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, Tok::RightParen(..), _)) => {
+            Some((_, Tok::RightParen, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __nt = super::__action32(text, __sym0);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::ExprSymbol(__nt)));
             }
-            Some((_, Tok::Lookahead(..), _)) |
+            Some((_, Tok::Lookahead, _)) |
             Some((_, Tok::StringLiteral(_), _)) |
-            Some((_, Tok::Lookbehind(..), _)) |
+            Some((_, Tok::Lookbehind, _)) |
             Some((_, Tok::RegexLiteral(_), _)) |
-            Some((_, Tok::LessThan(..), _)) |
+            Some((_, Tok::LessThan, _)) |
             Some((_, Tok::Escape(_), _)) |
-            Some((_, Tok::LeftParen(..), _)) |
+            Some((_, Tok::LeftParen, _)) |
             Some((_, Tok::MacroId(_), _)) |
             Some((_, Tok::Id(_), _)) => {
                 let __nt = __lookahead.as_ref().map(|o| ::std::clone::Clone::clone(&o.0)).or_else(|| ::std::clone::Clone::clone(&__lookbehind)).unwrap_or_default();
@@ -15589,7 +15589,7 @@ mod __parse__Pattern {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, __tok @ Tok::RightParen(..), __loc)) => {
+            Some((_, __tok @ Tok::RightParen, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym2 = &mut Some((__tok));
                 __result = try!(__state106(text, __lookbehind, __tokens, __sym0, __sym1, __sym2));
@@ -15664,19 +15664,19 @@ mod __parse__Pattern {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, Tok::LeftParen(..), _)) |
-            Some((_, Tok::Lookbehind(..), _)) |
-            Some((_, Tok::LessThan(..), _)) |
-            Some((_, Tok::Lookahead(..), _)) |
+            Some((_, Tok::LeftParen, _)) |
+            Some((_, Tok::Lookbehind, _)) |
+            Some((_, Tok::LessThan, _)) |
+            Some((_, Tok::Lookahead, _)) |
             Some((_, Tok::Id(_), _)) |
             Some((_, Tok::MacroId(_), _)) |
-            Some((_, Tok::Plus(..), _)) |
-            Some((_, Tok::Star(..), _)) |
-            Some((_, Tok::Hash(..), _)) |
-            Some((_, Tok::GreaterThan(..), _)) |
-            Some((_, Tok::Question(..), _)) |
-            Some((_, Tok::RightParen(..), _)) |
-            Some((_, Tok::Comma(..), _)) |
+            Some((_, Tok::Plus, _)) |
+            Some((_, Tok::Star, _)) |
+            Some((_, Tok::Hash, _)) |
+            Some((_, Tok::GreaterThan, _)) |
+            Some((_, Tok::Question, _)) |
+            Some((_, Tok::RightParen, _)) |
+            Some((_, Tok::Comma, _)) |
             Some((_, Tok::Escape(_), _)) |
             Some((_, Tok::StringLiteral(_), _)) |
             Some((_, Tok::RegexLiteral(_), _)) => {
@@ -15722,9 +15722,9 @@ mod __parse__Pattern {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, Tok::Comma(..), _)) |
-            Some((_, Tok::GreaterThan(..), _)) |
-            Some((_, Tok::RightParen(..), _)) => {
+            Some((_, Tok::Comma, _)) |
+            Some((_, Tok::GreaterThan, _)) |
+            Some((_, Tok::RightParen, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
                 let __sym2 = __sym2.take().unwrap();
@@ -15768,9 +15768,9 @@ mod __parse__Pattern {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         let __lookahead = match __tokens.next() { Some(Ok(v)) => Some(v), None => None, Some(Err(e)) => return Err(__ParseError::User { error: e }) };
         match __lookahead {
-            Some((_, Tok::GreaterThan(..), _)) |
-            Some((_, Tok::Comma(..), _)) |
-            Some((_, Tok::RightParen(..), _)) => {
+            Some((_, Tok::GreaterThan, _)) |
+            Some((_, Tok::Comma, _)) |
+            Some((_, Tok::RightParen, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
                 let __sym2 = __sym2.take().unwrap();
@@ -15814,12 +15814,12 @@ mod __parse__Pattern {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, __tok @ Tok::Comma(..), __loc)) => {
+            Some((_, __tok @ Tok::Comma, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym1 = &mut Some((__tok));
                 __result = try!(__state107(text, __lookbehind, __tokens, __sym0, __sym1));
             }
-            Some((_, Tok::GreaterThan(..), _)) => {
+            Some((_, Tok::GreaterThan, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __nt = super::__action167(text, __sym0);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::TypeRefOrLifetime_3f(__nt)));
@@ -15853,7 +15853,7 @@ mod __parse__Pattern {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, Tok::GreaterThan(..), _)) => {
+            Some((_, Tok::GreaterThan, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
                 let __nt = super::__action98(text, __sym0, __sym1);
@@ -15888,8 +15888,8 @@ mod __parse__Pattern {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, Tok::Comma(..), _)) |
-            Some((_, Tok::GreaterThan(..), _)) => {
+            Some((_, Tok::Comma, _)) |
+            Some((_, Tok::GreaterThan, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __nt = super::__action55(text, __sym0);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::TypeRefOrLifetime(__nt)));
@@ -15937,13 +15937,13 @@ mod __parse__Pattern {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
             Some((_, Tok::Lifetime(_), _)) |
-            Some((_, Tok::Hash(..), _)) |
-            Some((_, Tok::Ampersand(..), _)) |
+            Some((_, Tok::Hash, _)) |
+            Some((_, Tok::Ampersand, _)) |
             Some((_, Tok::MacroId(_), _)) |
             Some((_, Tok::Id(_), _)) |
-            Some((_, Tok::GreaterThan(..), _)) |
-            Some((_, Tok::ColonColon(..), _)) |
-            Some((_, Tok::LeftParen(..), _)) => {
+            Some((_, Tok::GreaterThan, _)) |
+            Some((_, Tok::ColonColon, _)) |
+            Some((_, Tok::LeftParen, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
                 let __nt = super::__action170(text, __sym0, __sym1);
@@ -15978,8 +15978,8 @@ mod __parse__Pattern {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, Tok::GreaterThan(..), _)) |
-            Some((_, Tok::Comma(..), _)) => {
+            Some((_, Tok::GreaterThan, _)) |
+            Some((_, Tok::Comma, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __nt = super::__action54(text, __sym0);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::TypeRefOrLifetime(__nt)));
@@ -16024,12 +16024,12 @@ mod __parse__Pattern {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         let __lookahead = match __tokens.next() { Some(Ok(v)) => Some(v), None => None, Some(Err(e)) => return Err(__ParseError::User { error: e }) };
         match __lookahead {
-            Some((_, Tok::LeftParen(..), _)) |
-            Some((_, Tok::ColonColon(..), _)) |
-            Some((_, Tok::Hash(..), _)) |
+            Some((_, Tok::LeftParen, _)) |
+            Some((_, Tok::ColonColon, _)) |
+            Some((_, Tok::Hash, _)) |
             Some((_, Tok::Id(_), _)) |
-            Some((_, Tok::Ampersand(..), _)) |
-            Some((_, Tok::RightParen(..), _)) |
+            Some((_, Tok::Ampersand, _)) |
+            Some((_, Tok::RightParen, _)) |
             Some((_, Tok::MacroId(_), _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
@@ -16066,7 +16066,7 @@ mod __parse__Pattern {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, __tok @ Tok::Colon(..), __loc)) => {
+            Some((_, __tok @ Tok::Colon, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym3 = &mut Some((__tok));
                 __result = try!(__state108(text, __lookbehind, __tokens, __sym0, __sym1, __sym2, __sym3));
@@ -16126,7 +16126,7 @@ mod __parse__Pattern {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, __tok @ Tok::GreaterThan(..), __loc)) => {
+            Some((_, __tok @ Tok::GreaterThan, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym3 = &mut Some((__tok));
                 __result = try!(__state109(text, __lookbehind, __tokens, __sym0, __sym1, __sym2, __sym3));
@@ -16226,19 +16226,19 @@ mod __parse__Pattern {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, Tok::Lookahead(..), _)) |
+            Some((_, Tok::Lookahead, _)) |
             Some((_, Tok::Id(_), _)) |
             Some((_, Tok::RegexLiteral(_), _)) |
             Some((_, Tok::StringLiteral(_), _)) |
-            Some((_, Tok::Lookbehind(..), _)) |
+            Some((_, Tok::Lookbehind, _)) |
             Some((_, Tok::Escape(_), _)) |
-            Some((_, Tok::LeftParen(..), _)) |
+            Some((_, Tok::LeftParen, _)) |
             Some((_, Tok::MacroId(_), _)) |
-            Some((_, Tok::LessThan(..), _)) => {
+            Some((_, Tok::LessThan, _)) => {
                 let __nt = __lookahead.as_ref().map(|o| ::std::clone::Clone::clone(&o.0)).or_else(|| ::std::clone::Clone::clone(&__lookbehind)).unwrap_or_default();
                 __result = (__lookbehind, __lookahead, __Nonterminal::_40L(__nt));
             }
-            Some((_, Tok::GreaterThan(..), _)) => {
+            Some((_, Tok::GreaterThan, _)) => {
                 let __nt = super::__action158(text, );
                 __result = (__lookbehind, __lookahead, __Nonterminal::Symbol_3f(__nt));
             }
@@ -16344,18 +16344,18 @@ mod __parse__Pattern {
         let __lookahead = match __tokens.next() { Some(Ok(v)) => Some(v), None => None, Some(Err(e)) => return Err(__ParseError::User { error: e }) };
         match __lookahead {
             Some((_, Tok::StringLiteral(_), _)) |
-            Some((_, Tok::Hash(..), _)) |
+            Some((_, Tok::Hash, _)) |
             Some((_, Tok::MacroId(_), _)) |
-            Some((_, Tok::Comma(..), _)) |
-            Some((_, Tok::Lookbehind(..), _)) |
+            Some((_, Tok::Comma, _)) |
+            Some((_, Tok::Lookbehind, _)) |
             Some((_, Tok::Escape(_), _)) |
-            Some((_, Tok::RightParen(..), _)) |
+            Some((_, Tok::RightParen, _)) |
             Some((_, Tok::RegexLiteral(_), _)) |
-            Some((_, Tok::LeftParen(..), _)) |
+            Some((_, Tok::LeftParen, _)) |
             Some((_, Tok::Id(_), _)) |
-            Some((_, Tok::LessThan(..), _)) |
-            Some((_, Tok::GreaterThan(..), _)) |
-            Some((_, Tok::Lookahead(..), _)) => {
+            Some((_, Tok::LessThan, _)) |
+            Some((_, Tok::GreaterThan, _)) |
+            Some((_, Tok::Lookahead, _)) => {
                 let __nt = ::std::clone::Clone::clone(&__lookbehind).unwrap_or_default();
                 __result = (__lookbehind, __lookahead, __Nonterminal::_40R(__nt));
             }
@@ -16414,7 +16414,7 @@ mod __parse__Pattern {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, __tok @ Tok::Colon(..), __loc)) => {
+            Some((_, __tok @ Tok::Colon, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym4 = &mut Some((__tok));
                 __result = try!(__state114(text, __lookbehind, __tokens, __sym0, __sym1, __sym2, __sym3, __sym4));
@@ -16449,12 +16449,12 @@ mod __parse__Pattern {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         let __lookahead = match __tokens.next() { Some(Ok(v)) => Some(v), None => None, Some(Err(e)) => return Err(__ParseError::User { error: e }) };
         match __lookahead {
-            Some((_, Tok::LessThan(..), _)) => {
+            Some((_, Tok::LessThan, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __nt = super::__action72(text, __sym0);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::MacroId(__nt)));
             }
-            Some((_, Tok::Colon(..), _)) => {
+            Some((_, Tok::Colon, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __nt = super::__action75(text, __sym0);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::Id(__nt)));
@@ -16494,15 +16494,15 @@ mod __parse__Pattern {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         let __lookahead = match __tokens.next() { Some(Ok(v)) => Some(v), None => None, Some(Err(e)) => return Err(__ParseError::User { error: e }) };
         match __lookahead {
-            Some((_, Tok::Plus(..), _)) |
-            Some((_, Tok::Question(..), _)) |
-            Some((_, Tok::Star(..), _)) |
-            Some((_, Tok::GreaterThan(..), _)) => {
+            Some((_, Tok::Plus, _)) |
+            Some((_, Tok::Question, _)) |
+            Some((_, Tok::Star, _)) |
+            Some((_, Tok::GreaterThan, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __nt = super::__action44(text, __sym0);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::SymbolKind1(__nt)));
             }
-            Some((_, Tok::Colon(..), _)) => {
+            Some((_, Tok::Colon, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __nt = super::__action74(text, __sym0);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::Id(__nt)));
@@ -16555,14 +16555,14 @@ mod __parse__Pattern {
         match __lookahead {
             Some((_, Tok::Escape(_), _)) |
             Some((_, Tok::StringLiteral(_), _)) |
-            Some((_, Tok::Lookbehind(..), _)) |
+            Some((_, Tok::Lookbehind, _)) |
             Some((_, Tok::RegexLiteral(_), _)) |
-            Some((_, Tok::LessThan(..), _)) |
+            Some((_, Tok::LessThan, _)) |
             Some((_, Tok::MacroId(_), _)) |
             Some((_, Tok::Id(_), _)) |
-            Some((_, Tok::LeftParen(..), _)) |
-            Some((_, Tok::RightParen(..), _)) |
-            Some((_, Tok::Lookahead(..), _)) => {
+            Some((_, Tok::LeftParen, _)) |
+            Some((_, Tok::RightParen, _)) |
+            Some((_, Tok::Lookahead, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
                 let __nt = super::__action106(text, __sym0, __sym1);
@@ -16638,20 +16638,20 @@ mod __parse__Pattern {
         let __lookahead = match __tokens.next() { Some(Ok(v)) => Some(v), None => None, Some(Err(e)) => return Err(__ParseError::User { error: e }) };
         match __lookahead {
             Some((_, Tok::MacroId(_), _)) |
-            Some((_, Tok::RightParen(..), _)) |
-            Some((_, Tok::Question(..), _)) |
+            Some((_, Tok::RightParen, _)) |
+            Some((_, Tok::Question, _)) |
             Some((_, Tok::Escape(_), _)) |
-            Some((_, Tok::LeftParen(..), _)) |
-            Some((_, Tok::Hash(..), _)) |
-            Some((_, Tok::LessThan(..), _)) |
-            Some((_, Tok::Star(..), _)) |
+            Some((_, Tok::LeftParen, _)) |
+            Some((_, Tok::Hash, _)) |
+            Some((_, Tok::LessThan, _)) |
+            Some((_, Tok::Star, _)) |
             Some((_, Tok::Id(_), _)) |
-            Some((_, Tok::GreaterThan(..), _)) |
-            Some((_, Tok::Plus(..), _)) |
+            Some((_, Tok::GreaterThan, _)) |
+            Some((_, Tok::Plus, _)) |
             Some((_, Tok::StringLiteral(_), _)) |
-            Some((_, Tok::Comma(..), _)) |
-            Some((_, Tok::Lookahead(..), _)) |
-            Some((_, Tok::Lookbehind(..), _)) |
+            Some((_, Tok::Comma, _)) |
+            Some((_, Tok::Lookahead, _)) |
+            Some((_, Tok::Lookbehind, _)) |
             Some((_, Tok::RegexLiteral(_), _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
@@ -16701,12 +16701,12 @@ mod __parse__Pattern {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         let __lookahead = match __tokens.next() { Some(Ok(v)) => Some(v), None => None, Some(Err(e)) => return Err(__ParseError::User { error: e }) };
         match __lookahead {
-            Some((_, Tok::Hash(..), _)) |
+            Some((_, Tok::Hash, _)) |
             Some((_, Tok::Id(_), _)) |
-            Some((_, Tok::ColonColon(..), _)) |
-            Some((_, Tok::Ampersand(..), _)) |
-            Some((_, Tok::GreaterThan(..), _)) |
-            Some((_, Tok::LeftParen(..), _)) |
+            Some((_, Tok::ColonColon, _)) |
+            Some((_, Tok::Ampersand, _)) |
+            Some((_, Tok::GreaterThan, _)) |
+            Some((_, Tok::LeftParen, _)) |
             Some((_, Tok::MacroId(_), _)) |
             Some((_, Tok::Lifetime(_), _)) => {
                 let __sym0 = __sym0.take().unwrap();
@@ -16762,13 +16762,13 @@ mod __parse__Pattern {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         let __lookahead = match __tokens.next() { Some(Ok(v)) => Some(v), None => None, Some(Err(e)) => return Err(__ParseError::User { error: e }) };
         match __lookahead {
-            Some((_, Tok::DotDot(..), _)) |
+            Some((_, Tok::DotDot, _)) |
             Some((_, Tok::Id(_), _)) |
-            Some((_, Tok::ColonColon(..), _)) |
+            Some((_, Tok::ColonColon, _)) |
             Some((_, Tok::MacroId(_), _)) |
-            Some((_, Tok::LessThan(..), _)) |
-            Some((_, Tok::Underscore(..), _)) |
-            Some((_, Tok::LeftParen(..), _)) => {
+            Some((_, Tok::LessThan, _)) |
+            Some((_, Tok::Underscore, _)) |
+            Some((_, Tok::LeftParen, _)) => {
                 let __nt = __lookahead.as_ref().map(|o| ::std::clone::Clone::clone(&o.0)).or_else(|| ::std::clone::Clone::clone(&__lookbehind)).unwrap_or_default();
                 __result = (__lookbehind, __lookahead, __Nonterminal::_40L(__nt));
             }
@@ -16859,21 +16859,21 @@ mod __parse__Pattern {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         let __lookahead = match __tokens.next() { Some(Ok(v)) => Some(v), None => None, Some(Err(e)) => return Err(__ParseError::User { error: e }) };
         match __lookahead {
-            Some((_, Tok::Star(..), _)) |
-            Some((_, Tok::GreaterThan(..), _)) |
+            Some((_, Tok::Star, _)) |
+            Some((_, Tok::GreaterThan, _)) |
             Some((_, Tok::MacroId(_), _)) |
-            Some((_, Tok::Question(..), _)) |
-            Some((_, Tok::LeftParen(..), _)) |
+            Some((_, Tok::Question, _)) |
+            Some((_, Tok::LeftParen, _)) |
             Some((_, Tok::StringLiteral(_), _)) |
             Some((_, Tok::Id(_), _)) |
-            Some((_, Tok::Hash(..), _)) |
+            Some((_, Tok::Hash, _)) |
             Some((_, Tok::RegexLiteral(_), _)) |
-            Some((_, Tok::Plus(..), _)) |
-            Some((_, Tok::RightParen(..), _)) |
-            Some((_, Tok::Lookahead(..), _)) |
-            Some((_, Tok::LessThan(..), _)) |
-            Some((_, Tok::Comma(..), _)) |
-            Some((_, Tok::Lookbehind(..), _)) |
+            Some((_, Tok::Plus, _)) |
+            Some((_, Tok::RightParen, _)) |
+            Some((_, Tok::Lookahead, _)) |
+            Some((_, Tok::LessThan, _)) |
+            Some((_, Tok::Comma, _)) |
+            Some((_, Tok::Lookbehind, _)) |
             Some((_, Tok::Escape(_), _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
@@ -16929,13 +16929,13 @@ mod __parse__Pattern {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
             Some((_, Tok::RegexLiteral(_), _)) |
-            Some((_, Tok::Lookahead(..), _)) |
+            Some((_, Tok::Lookahead, _)) |
             Some((_, Tok::MacroId(_), _)) |
-            Some((_, Tok::LessThan(..), _)) |
-            Some((_, Tok::GreaterThan(..), _)) |
+            Some((_, Tok::LessThan, _)) |
+            Some((_, Tok::GreaterThan, _)) |
             Some((_, Tok::Id(_), _)) |
-            Some((_, Tok::Lookbehind(..), _)) |
-            Some((_, Tok::LeftParen(..), _)) |
+            Some((_, Tok::Lookbehind, _)) |
+            Some((_, Tok::LeftParen, _)) |
             Some((_, Tok::StringLiteral(_), _)) |
             Some((_, Tok::Escape(_), _)) => {
                 let __sym0 = __sym0.take().unwrap();
@@ -16971,7 +16971,7 @@ mod __parse__Pattern {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, Tok::GreaterThan(..), _)) => {
+            Some((_, Tok::GreaterThan, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
                 let __nt = super::__action104(text, __sym0, __sym1);
@@ -17015,12 +17015,12 @@ mod __parse__Pattern {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, __tok @ Tok::Comma(..), __loc)) => {
+            Some((_, __tok @ Tok::Comma, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym1 = &mut Some((__tok));
                 __result = try!(__state116(text, __lookbehind, __tokens, __sym0, __sym1));
             }
-            Some((_, Tok::GreaterThan(..), _)) => {
+            Some((_, Tok::GreaterThan, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __nt = super::__action157(text, __sym0);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::Symbol_3f(__nt)));
@@ -17081,19 +17081,19 @@ mod __parse__Pattern {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, Tok::LessThan(..), _)) |
+            Some((_, Tok::LessThan, _)) |
             Some((_, Tok::StringLiteral(_), _)) |
             Some((_, Tok::RegexLiteral(_), _)) |
-            Some((_, Tok::Lookahead(..), _)) |
-            Some((_, Tok::GreaterThan(..), _)) |
-            Some((_, Tok::LeftParen(..), _)) |
-            Some((_, Tok::Hash(..), _)) |
+            Some((_, Tok::Lookahead, _)) |
+            Some((_, Tok::GreaterThan, _)) |
+            Some((_, Tok::LeftParen, _)) |
+            Some((_, Tok::Hash, _)) |
             Some((_, Tok::Id(_), _)) |
-            Some((_, Tok::RightParen(..), _)) |
-            Some((_, Tok::Comma(..), _)) |
+            Some((_, Tok::RightParen, _)) |
+            Some((_, Tok::Comma, _)) |
             Some((_, Tok::MacroId(_), _)) |
             Some((_, Tok::Escape(_), _)) |
-            Some((_, Tok::Lookbehind(..), _)) => {
+            Some((_, Tok::Lookbehind, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
                 let __sym2 = __sym2.take().unwrap();
@@ -17215,11 +17215,11 @@ mod __parse__Pattern {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         let __lookahead = match __tokens.next() { Some(Ok(v)) => Some(v), None => None, Some(Err(e)) => return Err(__ParseError::User { error: e }) };
         match __lookahead {
-            Some((_, Tok::LeftParen(..), _)) |
+            Some((_, Tok::LeftParen, _)) |
             Some((_, Tok::Id(_), _)) |
-            Some((_, Tok::Lookbehind(..), _)) |
+            Some((_, Tok::Lookbehind, _)) |
             Some((_, Tok::RegexLiteral(_), _)) |
-            Some((_, Tok::Lookahead(..), _)) |
+            Some((_, Tok::Lookahead, _)) |
             Some((_, Tok::MacroId(_), _)) |
             Some((_, Tok::StringLiteral(_), _)) |
             Some((_, Tok::Escape(_), _)) => {
@@ -17280,8 +17280,8 @@ mod __parse__Pattern {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, Tok::Comma(..), _)) |
-            Some((_, Tok::RightBrace(..), _)) => {
+            Some((_, Tok::Comma, _)) |
+            Some((_, Tok::RightBrace, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
                 let __sym2 = __sym2.take().unwrap();
@@ -17336,16 +17336,16 @@ mod __parse__Pattern {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         let __lookahead = match __tokens.next() { Some(Ok(v)) => Some(v), None => None, Some(Err(e)) => return Err(__ParseError::User { error: e }) };
         match __lookahead {
-            Some((_, Tok::LeftParen(..), _)) |
+            Some((_, Tok::LeftParen, _)) |
             Some((_, Tok::Escape(_), _)) |
             Some((_, Tok::MacroId(_), _)) |
             Some((_, Tok::RegexLiteral(_), _)) |
-            Some((_, Tok::LessThan(..), _)) |
-            Some((_, Tok::GreaterThan(..), _)) |
-            Some((_, Tok::Lookahead(..), _)) |
+            Some((_, Tok::LessThan, _)) |
+            Some((_, Tok::GreaterThan, _)) |
+            Some((_, Tok::Lookahead, _)) |
             Some((_, Tok::StringLiteral(_), _)) |
             Some((_, Tok::Id(_), _)) |
-            Some((_, Tok::Lookbehind(..), _)) => {
+            Some((_, Tok::Lookbehind, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
                 let __nt = super::__action161(text, __sym0, __sym1);
@@ -17443,7 +17443,7 @@ mod __parse__Pattern {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, __tok @ Tok::LeftParen(..), __loc)) => {
+            Some((_, __tok @ Tok::LeftParen, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym1 = &mut Some((__tok));
                 __result = try!(__state65(text, __lookbehind, __tokens, __sym1));
@@ -17463,7 +17463,7 @@ mod __parse__Pattern {
                 let mut __sym1 = &mut Some((__tok0));
                 __result = try!(__state57(text, __lookbehind, __tokens, __sym1));
             }
-            Some((_, __tok @ Tok::Lookahead(..), __loc)) => {
+            Some((_, __tok @ Tok::Lookahead, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym1 = &mut Some((__tok));
                 __result = try!(__state56(text, __lookbehind, __tokens, __sym1));
@@ -17478,7 +17478,7 @@ mod __parse__Pattern {
                 let mut __sym1 = &mut Some((__tok0));
                 __result = try!(__state68(text, __lookbehind, __tokens, __sym1));
             }
-            Some((_, __tok @ Tok::Lookbehind(..), __loc)) => {
+            Some((_, __tok @ Tok::Lookbehind, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym1 = &mut Some((__tok));
                 __result = try!(__state61(text, __lookbehind, __tokens, __sym1));
@@ -17612,22 +17612,22 @@ mod __parse__Pattern {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, __tok @ Tok::Star(..), __loc)) => {
+            Some((_, __tok @ Tok::Star, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym6 = &mut Some((__tok));
                 __result = try!(__state50(text, __lookbehind, __tokens, __sym6));
             }
-            Some((_, __tok @ Tok::Question(..), __loc)) => {
+            Some((_, __tok @ Tok::Question, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym6 = &mut Some((__tok));
                 __result = try!(__state49(text, __lookbehind, __tokens, __sym6));
             }
-            Some((_, __tok @ Tok::GreaterThan(..), __loc)) => {
+            Some((_, __tok @ Tok::GreaterThan, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym6 = &mut Some((__tok));
                 __result = try!(__state119(text, __lookbehind, __tokens, __sym0, __sym1, __sym2, __sym3, __sym4, __sym5, __sym6));
             }
-            Some((_, __tok @ Tok::Plus(..), __loc)) => {
+            Some((_, __tok @ Tok::Plus, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym6 = &mut Some((__tok));
                 __result = try!(__state51(text, __lookbehind, __tokens, __sym6));
@@ -17716,19 +17716,19 @@ mod __parse__Pattern {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         let __lookahead = match __tokens.next() { Some(Ok(v)) => Some(v), None => None, Some(Err(e)) => return Err(__ParseError::User { error: e }) };
         match __lookahead {
-            Some((_, Tok::GreaterThan(..), _)) |
+            Some((_, Tok::GreaterThan, _)) |
             Some((_, Tok::Id(_), _)) |
             Some((_, Tok::Escape(_), _)) |
-            Some((_, Tok::Lookahead(..), _)) |
+            Some((_, Tok::Lookahead, _)) |
             Some((_, Tok::RegexLiteral(_), _)) |
             Some((_, Tok::MacroId(_), _)) |
-            Some((_, Tok::LeftParen(..), _)) |
+            Some((_, Tok::LeftParen, _)) |
             Some((_, Tok::StringLiteral(_), _)) |
-            Some((_, Tok::Comma(..), _)) |
-            Some((_, Tok::Lookbehind(..), _)) |
-            Some((_, Tok::LessThan(..), _)) |
-            Some((_, Tok::Hash(..), _)) |
-            Some((_, Tok::RightParen(..), _)) => {
+            Some((_, Tok::Comma, _)) |
+            Some((_, Tok::Lookbehind, _)) |
+            Some((_, Tok::LessThan, _)) |
+            Some((_, Tok::Hash, _)) |
+            Some((_, Tok::RightParen, _)) => {
                 let __nt = ::std::clone::Clone::clone(&__lookbehind).unwrap_or_default();
                 __result = (__lookbehind, __lookahead, __Nonterminal::_40R(__nt));
             }
@@ -17804,16 +17804,16 @@ mod __parse__Pattern {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
             Some((_, Tok::MacroId(_), _)) |
-            Some((_, Tok::LeftParen(..), _)) |
-            Some((_, Tok::RightParen(..), _)) |
-            Some((_, Tok::Lookbehind(..), _)) |
-            Some((_, Tok::Comma(..), _)) |
-            Some((_, Tok::Lookahead(..), _)) |
+            Some((_, Tok::LeftParen, _)) |
+            Some((_, Tok::RightParen, _)) |
+            Some((_, Tok::Lookbehind, _)) |
+            Some((_, Tok::Comma, _)) |
+            Some((_, Tok::Lookahead, _)) |
             Some((_, Tok::Escape(_), _)) |
-            Some((_, Tok::Hash(..), _)) |
-            Some((_, Tok::LessThan(..), _)) |
+            Some((_, Tok::Hash, _)) |
+            Some((_, Tok::LessThan, _)) |
             Some((_, Tok::Id(_), _)) |
-            Some((_, Tok::GreaterThan(..), _)) |
+            Some((_, Tok::GreaterThan, _)) |
             Some((_, Tok::StringLiteral(_), _)) |
             Some((_, Tok::RegexLiteral(_), _)) => {
                 let __sym0 = __sym0.take().unwrap();
@@ -18008,7 +18008,7 @@ mod __parse__Grammar {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, Tok::Grammar(..), _)) |
+            Some((_, Tok::Grammar, _)) |
             Some((_, Tok::Use(_), _)) => {
                 let __nt = super::__action135(text, );
                 __result = (__lookbehind, __lookahead, __Nonterminal::Use_2a(__nt));
@@ -18101,7 +18101,7 @@ mod __parse__Grammar {
                 let mut __sym1 = &mut Some((__tok0));
                 __result = try!(__state5(text, __lookbehind, __tokens, __sym1));
             }
-            Some((_, Tok::Grammar(..), _)) => {
+            Some((_, Tok::Grammar, _)) => {
                 let __nt = __lookahead.as_ref().map(|o| ::std::clone::Clone::clone(&o.0)).or_else(|| ::std::clone::Clone::clone(&__lookbehind)).unwrap_or_default();
                 __result = (__lookbehind, __lookahead, __Nonterminal::_40L(__nt));
             }
@@ -18153,7 +18153,7 @@ mod __parse__Grammar {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
             Some((_, Tok::Use(_), _)) |
-            Some((_, Tok::Grammar(..), _)) => {
+            Some((_, Tok::Grammar, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
                 let __nt = super::__action136(text, __sym0, __sym1);
@@ -18187,7 +18187,7 @@ mod __parse__Grammar {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, __tok @ Tok::Grammar(..), __loc)) => {
+            Some((_, __tok @ Tok::Grammar, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym2 = &mut Some((__tok));
                 __result = try!(__state6(text, __lookbehind, __tokens, __sym0, __sym1, __sym2));
@@ -18229,7 +18229,7 @@ mod __parse__Grammar {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         let __lookahead = match __tokens.next() { Some(Ok(v)) => Some(v), None => None, Some(Err(e)) => return Err(__ParseError::User { error: e }) };
         match __lookahead {
-            Some((_, __tok @ Tok::Semi(..), __loc)) => {
+            Some((_, __tok @ Tok::Semi, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym1 = &mut Some((__tok));
                 __result = try!(__state7(text, __lookbehind, __tokens, __sym0, __sym1));
@@ -18275,10 +18275,10 @@ mod __parse__Grammar {
         let __lookahead = match __tokens.next() { Some(Ok(v)) => Some(v), None => None, Some(Err(e)) => return Err(__ParseError::User { error: e }) };
         match __lookahead {
             Some((_, Tok::Where(_), _)) |
-            Some((_, Tok::LeftParen(..), _)) |
-            Some((_, Tok::LessThan(..), _)) |
-            Some((_, Tok::Semi(..), _)) |
-            Some((_, Tok::LeftBracket(..), _)) => {
+            Some((_, Tok::LeftParen, _)) |
+            Some((_, Tok::LessThan, _)) |
+            Some((_, Tok::Semi, _)) |
+            Some((_, Tok::LeftBracket, _)) => {
                 let __nt = ::std::clone::Clone::clone(&__lookbehind).unwrap_or_default();
                 __result = (__lookbehind, __lookahead, __Nonterminal::_40R(__nt));
             }
@@ -18340,14 +18340,14 @@ mod __parse__Grammar {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         let __lookahead = match __tokens.next() { Some(Ok(v)) => Some(v), None => None, Some(Err(e)) => return Err(__ParseError::User { error: e }) };
         match __lookahead {
-            Some((_, Tok::Grammar(..), _)) |
+            Some((_, Tok::Grammar, _)) |
             None |
             Some((_, Tok::MacroId(_), _)) |
             Some((_, Tok::Escape(_), _)) |
-            Some((_, Tok::Hash(..), _)) |
+            Some((_, Tok::Hash, _)) |
             Some((_, Tok::Use(_), _)) |
-            Some((_, Tok::Extern(..), _)) |
-            Some((_, Tok::Pub(..), _)) |
+            Some((_, Tok::Extern, _)) |
+            Some((_, Tok::Pub, _)) |
             Some((_, Tok::Id(_), _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
@@ -18402,15 +18402,15 @@ mod __parse__Grammar {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, __tok @ Tok::LessThan(..), __loc)) => {
+            Some((_, __tok @ Tok::LessThan, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym4 = &mut Some((__tok));
                 __result = try!(__state9(text, __lookbehind, __tokens, __sym4));
             }
-            Some((_, Tok::LeftParen(..), _)) |
+            Some((_, Tok::LeftParen, _)) |
             Some((_, Tok::Where(_), _)) |
-            Some((_, Tok::LeftBracket(..), _)) |
-            Some((_, Tok::Semi(..), _)) => {
+            Some((_, Tok::LeftBracket, _)) |
+            Some((_, Tok::Semi, _)) => {
                 let __nt = super::__action134(text, );
                 __result = (__lookbehind, __lookahead, __Nonterminal::GrammarTypeParameters_3f(__nt));
             }
@@ -18475,7 +18475,7 @@ mod __parse__Grammar {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         let __lookahead = match __tokens.next() { Some(Ok(v)) => Some(v), None => None, Some(Err(e)) => return Err(__ParseError::User { error: e }) };
         match __lookahead {
-            Some((_, Tok::GreaterThan(..), _)) |
+            Some((_, Tok::GreaterThan, _)) |
             Some((_, Tok::Lifetime(_), _)) |
             Some((_, Tok::MacroId(_), _)) |
             Some((_, Tok::Id(_), _)) => {
@@ -18532,10 +18532,10 @@ mod __parse__Grammar {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, Tok::LeftParen(..), _)) |
+            Some((_, Tok::LeftParen, _)) |
             Some((_, Tok::Where(_), _)) |
-            Some((_, Tok::Semi(..), _)) |
-            Some((_, Tok::LeftBracket(..), _)) => {
+            Some((_, Tok::Semi, _)) |
+            Some((_, Tok::LeftBracket, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __nt = super::__action133(text, __sym0);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::GrammarTypeParameters_3f(__nt)));
@@ -18585,13 +18585,13 @@ mod __parse__Grammar {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, __tok @ Tok::LeftParen(..), __loc)) => {
+            Some((_, __tok @ Tok::LeftParen, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym5 = &mut Some((__tok));
                 __result = try!(__state15(text, __lookbehind, __tokens, __sym5));
             }
-            Some((_, Tok::LeftBracket(..), _)) |
-            Some((_, Tok::Semi(..), _)) |
+            Some((_, Tok::LeftBracket, _)) |
+            Some((_, Tok::Semi, _)) |
             Some((_, Tok::Where(_), _)) => {
                 let __nt = super::__action132(text, );
                 __result = (__lookbehind, __lookahead, __Nonterminal::GrammarParameters_3f(__nt));
@@ -18683,7 +18683,7 @@ mod __parse__Grammar {
                 let mut __sym1 = &mut Some((__tok0));
                 __result = try!(__state21(text, __lookbehind, __tokens, __sym1));
             }
-            Some((_, Tok::GreaterThan(..), _)) => {
+            Some((_, Tok::GreaterThan, _)) => {
                 let __nt = super::__action138(text, );
                 __result = (__lookbehind, __lookahead, __Nonterminal::TypeParameter_3f(__nt));
             }
@@ -18747,7 +18747,7 @@ mod __parse__Grammar {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, __tok @ Tok::GreaterThan(..), __loc)) => {
+            Some((_, __tok @ Tok::GreaterThan, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym2 = &mut Some((__tok));
                 __result = try!(__state25(text, __lookbehind, __tokens, __sym0, __sym1, __sym2));
@@ -18797,8 +18797,8 @@ mod __parse__Grammar {
                 let mut __sym6 = &mut Some((__tok0));
                 __result = try!(__state27(text, __lookbehind, __tokens, __sym6));
             }
-            Some((_, Tok::LeftBracket(..), _)) |
-            Some((_, Tok::Semi(..), _)) => {
+            Some((_, Tok::LeftBracket, _)) |
+            Some((_, Tok::Semi, _)) => {
                 let __nt = super::__action130(text, );
                 __result = (__lookbehind, __lookahead, __Nonterminal::_22where_22_3f(__nt));
             }
@@ -18856,7 +18856,7 @@ mod __parse__Grammar {
         let __lookahead = match __tokens.next() { Some(Ok(v)) => Some(v), None => None, Some(Err(e)) => return Err(__ParseError::User { error: e }) };
         match __lookahead {
             Some((_, Tok::Id(_), _)) |
-            Some((_, Tok::RightParen(..), _)) |
+            Some((_, Tok::RightParen, _)) |
             Some((_, Tok::MacroId(_), _)) => {
                 let __nt = super::__action144(text, );
                 __result = (__lookbehind, __lookahead, __Nonterminal::_28_3cGrammarParameter_3e_20_22_2c_22_29_2a(__nt));
@@ -18909,8 +18909,8 @@ mod __parse__Grammar {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, Tok::Semi(..), _)) |
-            Some((_, Tok::LeftBracket(..), _)) |
+            Some((_, Tok::Semi, _)) |
+            Some((_, Tok::LeftBracket, _)) |
             Some((_, Tok::Where(_), _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __nt = super::__action131(text, __sym0);
@@ -18944,7 +18944,7 @@ mod __parse__Grammar {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, Tok::GreaterThan(..), _)) => {
+            Some((_, Tok::GreaterThan, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
                 let __nt = super::__action124(text, __sym0, __sym1);
@@ -18982,12 +18982,12 @@ mod __parse__Grammar {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, __tok @ Tok::Comma(..), __loc)) => {
+            Some((_, __tok @ Tok::Comma, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym1 = &mut Some((__tok));
                 __result = try!(__state30(text, __lookbehind, __tokens, __sym0, __sym1));
             }
-            Some((_, Tok::GreaterThan(..), _)) => {
+            Some((_, Tok::GreaterThan, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __nt = super::__action137(text, __sym0);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::TypeParameter_3f(__nt)));
@@ -19022,8 +19022,8 @@ mod __parse__Grammar {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, Tok::GreaterThan(..), _)) |
-            Some((_, Tok::Comma(..), _)) => {
+            Some((_, Tok::GreaterThan, _)) |
+            Some((_, Tok::Comma, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __nt = super::__action7(text, __sym0);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::TypeParameter(__nt)));
@@ -19057,8 +19057,8 @@ mod __parse__Grammar {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, Tok::GreaterThan(..), _)) |
-            Some((_, Tok::Comma(..), _)) => {
+            Some((_, Tok::GreaterThan, _)) |
+            Some((_, Tok::Comma, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __nt = super::__action6(text, __sym0);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::TypeParameter(__nt)));
@@ -19120,16 +19120,16 @@ mod __parse__Grammar {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         let __lookahead = match __tokens.next() { Some(Ok(v)) => Some(v), None => None, Some(Err(e)) => return Err(__ParseError::User { error: e }) };
         match __lookahead {
-            Some((_, Tok::ColonColon(..), _)) |
-            Some((_, Tok::RightParen(..), _)) |
-            Some((_, Tok::Semi(..), _)) |
-            Some((_, Tok::LeftBrace(..), _)) |
-            Some((_, Tok::Equals(..), _)) |
-            Some((_, Tok::GreaterThan(..), _)) |
-            Some((_, Tok::Colon(..), _)) |
-            Some((_, Tok::Comma(..), _)) |
-            Some((_, Tok::LessThan(..), _)) |
-            Some((_, Tok::RightBracket(..), _)) => {
+            Some((_, Tok::ColonColon, _)) |
+            Some((_, Tok::RightParen, _)) |
+            Some((_, Tok::Semi, _)) |
+            Some((_, Tok::LeftBrace, _)) |
+            Some((_, Tok::Equals, _)) |
+            Some((_, Tok::GreaterThan, _)) |
+            Some((_, Tok::Colon, _)) |
+            Some((_, Tok::Comma, _)) |
+            Some((_, Tok::LessThan, _)) |
+            Some((_, Tok::RightBracket, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __nt = super::__action75(text, __sym0);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::Id(__nt)));
@@ -19170,7 +19170,7 @@ mod __parse__Grammar {
         match __lookahead {
             Some((_, Tok::MacroId(_), _)) |
             Some((_, Tok::Lifetime(_), _)) |
-            Some((_, Tok::GreaterThan(..), _)) |
+            Some((_, Tok::GreaterThan, _)) |
             Some((_, Tok::Id(_), _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
@@ -19234,16 +19234,16 @@ mod __parse__Grammar {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         let __lookahead = match __tokens.next() { Some(Ok(v)) => Some(v), None => None, Some(Err(e)) => return Err(__ParseError::User { error: e }) };
         match __lookahead {
-            Some((_, Tok::Colon(..), _)) |
-            Some((_, Tok::Semi(..), _)) |
-            Some((_, Tok::GreaterThan(..), _)) |
-            Some((_, Tok::Comma(..), _)) |
-            Some((_, Tok::ColonColon(..), _)) |
-            Some((_, Tok::LessThan(..), _)) |
-            Some((_, Tok::RightBracket(..), _)) |
-            Some((_, Tok::Equals(..), _)) |
-            Some((_, Tok::LeftBrace(..), _)) |
-            Some((_, Tok::RightParen(..), _)) => {
+            Some((_, Tok::Colon, _)) |
+            Some((_, Tok::Semi, _)) |
+            Some((_, Tok::GreaterThan, _)) |
+            Some((_, Tok::Comma, _)) |
+            Some((_, Tok::ColonColon, _)) |
+            Some((_, Tok::LessThan, _)) |
+            Some((_, Tok::RightBracket, _)) |
+            Some((_, Tok::Equals, _)) |
+            Some((_, Tok::LeftBrace, _)) |
+            Some((_, Tok::RightParen, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __nt = super::__action74(text, __sym0);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::Id(__nt)));
@@ -19292,14 +19292,14 @@ mod __parse__Grammar {
         let __lookahead = match __tokens.next() { Some(Ok(v)) => Some(v), None => None, Some(Err(e)) => return Err(__ParseError::User { error: e }) };
         match __lookahead {
             Some((_, Tok::Id(_), _)) |
-            Some((_, Tok::Comma(..), _)) |
+            Some((_, Tok::Comma, _)) |
             Some((_, Tok::MacroId(_), _)) |
-            Some((_, Tok::GreaterThan(..), _)) |
-            Some((_, Tok::LeftParen(..), _)) |
-            Some((_, Tok::Hash(..), _)) |
-            Some((_, Tok::ColonColon(..), _)) |
-            Some((_, Tok::Ampersand(..), _)) |
-            Some((_, Tok::Mut(..), _)) => {
+            Some((_, Tok::GreaterThan, _)) |
+            Some((_, Tok::LeftParen, _)) |
+            Some((_, Tok::Hash, _)) |
+            Some((_, Tok::ColonColon, _)) |
+            Some((_, Tok::Ampersand, _)) |
+            Some((_, Tok::Mut, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __nt = super::__action77(text, __sym0);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::Lifetime(__nt)));
@@ -19339,10 +19339,10 @@ mod __parse__Grammar {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         let __lookahead = match __tokens.next() { Some(Ok(v)) => Some(v), None => None, Some(Err(e)) => return Err(__ParseError::User { error: e }) };
         match __lookahead {
-            Some((_, Tok::LeftParen(..), _)) |
+            Some((_, Tok::LeftParen, _)) |
             Some((_, Tok::Where(_), _)) |
-            Some((_, Tok::LeftBracket(..), _)) |
-            Some((_, Tok::Semi(..), _)) => {
+            Some((_, Tok::LeftBracket, _)) |
+            Some((_, Tok::Semi, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
                 let __sym2 = __sym2.take().unwrap();
@@ -19388,12 +19388,12 @@ mod __parse__Grammar {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, __tok @ Tok::LeftBracket(..), __loc)) => {
+            Some((_, __tok @ Tok::LeftBracket, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym7 = &mut Some((__tok));
                 __result = try!(__state32(text, __lookbehind, __tokens, __sym7));
             }
-            Some((_, Tok::Semi(..), _)) => {
+            Some((_, Tok::Semi, _)) => {
                 let __nt = super::__action128(text, );
                 __result = (__lookbehind, __lookahead, __Nonterminal::Algorithm_3f(__nt));
             }
@@ -19443,8 +19443,8 @@ mod __parse__Grammar {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         let __lookahead = match __tokens.next() { Some(Ok(v)) => Some(v), None => None, Some(Err(e)) => return Err(__ParseError::User { error: e }) };
         match __lookahead {
-            Some((_, Tok::Semi(..), _)) |
-            Some((_, Tok::LeftBracket(..), _)) => {
+            Some((_, Tok::Semi, _)) |
+            Some((_, Tok::LeftBracket, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __nt = super::__action129(text, __sym0);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::_22where_22_3f(__nt)));
@@ -19504,7 +19504,7 @@ mod __parse__Grammar {
                 let mut __sym1 = &mut Some((__tok0));
                 __result = try!(__state23(text, __lookbehind, __tokens, __sym1));
             }
-            Some((_, Tok::RightParen(..), _)) => {
+            Some((_, Tok::RightParen, _)) => {
                 let __nt = super::__action143(text, );
                 __result = (__lookbehind, __lookahead, __Nonterminal::GrammarParameter_3f(__nt));
             }
@@ -19563,7 +19563,7 @@ mod __parse__Grammar {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, __tok @ Tok::RightParen(..), __loc)) => {
+            Some((_, __tok @ Tok::RightParen, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym2 = &mut Some((__tok));
                 __result = try!(__state38(text, __lookbehind, __tokens, __sym0, __sym1, __sym2));
@@ -19603,7 +19603,7 @@ mod __parse__Grammar {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         let __lookahead = match __tokens.next() { Some(Ok(v)) => Some(v), None => None, Some(Err(e)) => return Err(__ParseError::User { error: e }) };
         match __lookahead {
-            Some((_, Tok::GreaterThan(..), _)) |
+            Some((_, Tok::GreaterThan, _)) |
             Some((_, Tok::MacroId(_), _)) |
             Some((_, Tok::Id(_), _)) |
             Some((_, Tok::Lifetime(_), _)) => {
@@ -19639,7 +19639,7 @@ mod __parse__Grammar {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, Tok::Semi(..), _)) => {
+            Some((_, Tok::Semi, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __nt = super::__action127(text, __sym0);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::Algorithm_3f(__nt)));
@@ -19724,7 +19724,7 @@ mod __parse__Grammar {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, __tok @ Tok::Semi(..), __loc)) => {
+            Some((_, __tok @ Tok::Semi, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym8 = &mut Some((__tok));
                 __result = try!(__state40(text, __lookbehind, __tokens, __sym0, __sym1, __sym2, __sym3, __sym4, __sym5, __sym6, __sym7, __sym8));
@@ -19761,12 +19761,12 @@ mod __parse__Grammar {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, __tok @ Tok::Comma(..), __loc)) => {
+            Some((_, __tok @ Tok::Comma, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym1 = &mut Some((__tok));
                 __result = try!(__state41(text, __lookbehind, __tokens, __sym0, __sym1));
             }
-            Some((_, Tok::RightParen(..), _)) => {
+            Some((_, Tok::RightParen, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __nt = super::__action142(text, __sym0);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::GrammarParameter_3f(__nt)));
@@ -19800,7 +19800,7 @@ mod __parse__Grammar {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, __tok @ Tok::Colon(..), __loc)) => {
+            Some((_, __tok @ Tok::Colon, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym1 = &mut Some((__tok));
                 __result = try!(__state42(text, __lookbehind, __tokens, __sym0, __sym1));
@@ -19834,7 +19834,7 @@ mod __parse__Grammar {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, Tok::RightParen(..), _)) => {
+            Some((_, Tok::RightParen, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
                 let __nt = super::__action123(text, __sym0, __sym1);
@@ -19874,7 +19874,7 @@ mod __parse__Grammar {
         match __lookahead {
             Some((_, Tok::Id(_), _)) |
             Some((_, Tok::MacroId(_), _)) |
-            Some((_, Tok::RightParen(..), _)) => {
+            Some((_, Tok::RightParen, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
                 let __nt = super::__action145(text, __sym0, __sym1);
@@ -19913,9 +19913,9 @@ mod __parse__Grammar {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         let __lookahead = match __tokens.next() { Some(Ok(v)) => Some(v), None => None, Some(Err(e)) => return Err(__ParseError::User { error: e }) };
         match __lookahead {
-            Some((_, Tok::Semi(..), _)) |
+            Some((_, Tok::Semi, _)) |
             Some((_, Tok::Where(_), _)) |
-            Some((_, Tok::LeftBracket(..), _)) => {
+            Some((_, Tok::LeftBracket, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
                 let __sym2 = __sym2.take().unwrap();
@@ -20029,14 +20029,14 @@ mod __parse__Grammar {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         let __lookahead = match __tokens.next() { Some(Ok(v)) => Some(v), None => None, Some(Err(e)) => return Err(__ParseError::User { error: e }) };
         match __lookahead {
-            Some((_, Tok::Extern(..), _)) |
+            Some((_, Tok::Extern, _)) |
             Some((_, Tok::Use(_), _)) |
             Some((_, Tok::Escape(_), _)) |
             Some((_, Tok::Id(_), _)) |
             Some((_, Tok::MacroId(_), _)) |
             None |
-            Some((_, Tok::Hash(..), _)) |
-            Some((_, Tok::Pub(..), _)) => {
+            Some((_, Tok::Hash, _)) |
+            Some((_, Tok::Pub, _)) => {
                 let __nt = super::__action125(text, );
                 __result = (__lookbehind, __lookahead, __Nonterminal::GrammarItem_2a(__nt));
             }
@@ -20085,7 +20085,7 @@ mod __parse__Grammar {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         let __lookahead = match __tokens.next() { Some(Ok(v)) => Some(v), None => None, Some(Err(e)) => return Err(__ParseError::User { error: e }) };
         match __lookahead {
-            Some((_, Tok::RightParen(..), _)) |
+            Some((_, Tok::RightParen, _)) |
             Some((_, Tok::Id(_), _)) |
             Some((_, Tok::MacroId(_), _)) => {
                 let __sym0 = __sym0.take().unwrap();
@@ -20147,22 +20147,22 @@ mod __parse__Grammar {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         let __lookahead = match __tokens.next() { Some(Ok(v)) => Some(v), None => None, Some(Err(e)) => return Err(__ParseError::User { error: e }) };
         match __lookahead {
-            Some((_, __tok @ Tok::Hash(..), __loc)) => {
+            Some((_, __tok @ Tok::Hash, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym2 = &mut Some((__tok));
                 __result = try!(__state47(text, __lookbehind, __tokens, __sym2));
             }
-            Some((_, __tok @ Tok::ColonColon(..), __loc)) => {
+            Some((_, __tok @ Tok::ColonColon, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym2 = &mut Some((__tok));
                 __result = try!(__state46(text, __lookbehind, __tokens, __sym2));
             }
-            Some((_, __tok @ Tok::LeftParen(..), __loc)) => {
+            Some((_, __tok @ Tok::LeftParen, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym2 = &mut Some((__tok));
                 __result = try!(__state48(text, __lookbehind, __tokens, __sym2));
             }
-            Some((_, __tok @ Tok::Ampersand(..), __loc)) => {
+            Some((_, __tok @ Tok::Ampersand, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym2 = &mut Some((__tok));
                 __result = try!(__state49(text, __lookbehind, __tokens, __sym2));
@@ -20322,30 +20322,30 @@ mod __parse__Grammar {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         let __lookahead = match __tokens.next() { Some(Ok(v)) => Some(v), None => None, Some(Err(e)) => return Err(__ParseError::User { error: e }) };
         match __lookahead {
-            Some((_, Tok::Lookbehind(..), _)) |
+            Some((_, Tok::Lookbehind, _)) |
             Some((_, Tok::RegexLiteral(_), _)) |
-            Some((_, Tok::GreaterThan(..), _)) |
-            Some((_, Tok::Comma(..), _)) |
-            Some((_, Tok::RightParen(..), _)) |
-            Some((_, Tok::Hash(..), _)) |
+            Some((_, Tok::GreaterThan, _)) |
+            Some((_, Tok::Comma, _)) |
+            Some((_, Tok::RightParen, _)) |
+            Some((_, Tok::Hash, _)) |
             Some((_, Tok::Escape(_), _)) |
-            Some((_, Tok::Lookahead(..), _)) |
+            Some((_, Tok::Lookahead, _)) |
             Some((_, Tok::EqualsGreaterThanQuestionCode(_), _)) |
-            Some((_, Tok::EqualsGreaterThanLookahead(..), _)) |
+            Some((_, Tok::EqualsGreaterThanLookahead, _)) |
             Some((_, Tok::Id(_), _)) |
-            Some((_, Tok::LeftParen(..), _)) |
-            Some((_, Tok::EqualsGreaterThanLookbehind(..), _)) |
+            Some((_, Tok::LeftParen, _)) |
+            Some((_, Tok::EqualsGreaterThanLookbehind, _)) |
             Some((_, Tok::StringLiteral(_), _)) |
-            Some((_, Tok::Semi(..), _)) |
-            Some((_, Tok::LessThan(..), _)) |
-            Some((_, Tok::If(..), _)) |
-            Some((_, Tok::Star(..), _)) |
+            Some((_, Tok::Semi, _)) |
+            Some((_, Tok::LessThan, _)) |
+            Some((_, Tok::If, _)) |
+            Some((_, Tok::Star, _)) |
             Some((_, Tok::EqualsGreaterThanCode(_), _)) |
-            Some((_, Tok::Question(..), _)) |
-            Some((_, Tok::Plus(..), _)) |
-            Some((_, Tok::RightBracket(..), _)) |
+            Some((_, Tok::Question, _)) |
+            Some((_, Tok::Plus, _)) |
+            Some((_, Tok::RightBracket, _)) |
             Some((_, Tok::MacroId(_), _)) |
-            Some((_, Tok::RightBrace(..), _)) => {
+            Some((_, Tok::RightBrace, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __nt = super::__action82(text, __sym0);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::StringLiteral(__nt)));
@@ -20381,7 +20381,7 @@ mod __parse__Grammar {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, Tok::RightBracket(..), _)) => {
+            Some((_, Tok::RightBracket, _)) => {
                 let __nt = ::std::clone::Clone::clone(&__lookbehind).unwrap_or_default();
                 __result = (__lookbehind, __lookahead, __Nonterminal::_40R(__nt));
             }
@@ -20527,7 +20527,7 @@ mod __parse__Grammar {
                 let mut __sym10 = &mut Some((__tok0));
                 __result = try!(__state5(text, __lookbehind, __tokens, __sym10));
             }
-            Some((_, Tok::Extern(..), _)) => {
+            Some((_, Tok::Extern, _)) => {
                 let __nt = __lookahead.as_ref().map(|o| ::std::clone::Clone::clone(&o.0)).or_else(|| ::std::clone::Clone::clone(&__lookbehind)).unwrap_or_default();
                 __result = (__lookbehind, __lookahead, __Nonterminal::_40L(__nt));
             }
@@ -20545,11 +20545,11 @@ mod __parse__Grammar {
                 let __nt = super::__action3(text, __sym0, __sym1, __sym2, __sym3, __sym4, __sym5, __sym6, __sym7, __sym8, __sym9);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::Grammar(__nt)));
             }
-            Some((_, Tok::Pub(..), _)) |
+            Some((_, Tok::Pub, _)) |
             Some((_, Tok::MacroId(_), _)) |
             Some((_, Tok::Id(_), _)) |
             Some((_, Tok::Escape(_), _)) |
-            Some((_, Tok::Hash(..), _)) => {
+            Some((_, Tok::Hash, _)) => {
                 let __nt = super::__action121(text, );
                 __result = (__lookbehind, __lookahead, __Nonterminal::Annotation_2a(__nt));
             }
@@ -20786,14 +20786,14 @@ mod __parse__Grammar {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         let __lookahead = match __tokens.next() { Some(Ok(v)) => Some(v), None => None, Some(Err(e)) => return Err(__ParseError::User { error: e }) };
         match __lookahead {
-            Some((_, Tok::LeftParen(..), _)) |
+            Some((_, Tok::LeftParen, _)) |
             Some((_, Tok::StringLiteral(_), _)) |
             Some((_, Tok::MacroId(_), _)) |
             Some((_, Tok::RegexLiteral(_), _)) |
             Some((_, Tok::Escape(_), _)) |
-            Some((_, Tok::Lookahead(..), _)) |
-            Some((_, Tok::LessThan(..), _)) |
-            Some((_, Tok::Lookbehind(..), _)) |
+            Some((_, Tok::Lookahead, _)) |
+            Some((_, Tok::LessThan, _)) |
+            Some((_, Tok::Lookbehind, _)) |
             Some((_, Tok::Id(_), _)) => {
                 let __nt = __lookahead.as_ref().map(|o| ::std::clone::Clone::clone(&o.0)).or_else(|| ::std::clone::Clone::clone(&__lookbehind)).unwrap_or_default();
                 __result = (__lookbehind, __lookahead, __Nonterminal::_40L(__nt));
@@ -20940,12 +20940,12 @@ mod __parse__Grammar {
         let __lookahead = match __tokens.next() { Some(Ok(v)) => Some(v), None => None, Some(Err(e)) => return Err(__ParseError::User { error: e }) };
         match __lookahead {
             Some((_, Tok::MacroId(_), _)) |
-            Some((_, Tok::LeftParen(..), _)) |
-            Some((_, Tok::RightParen(..), _)) |
-            Some((_, Tok::Ampersand(..), _)) |
-            Some((_, Tok::ColonColon(..), _)) |
+            Some((_, Tok::LeftParen, _)) |
+            Some((_, Tok::RightParen, _)) |
+            Some((_, Tok::Ampersand, _)) |
+            Some((_, Tok::ColonColon, _)) |
             Some((_, Tok::Id(_), _)) |
-            Some((_, Tok::Hash(..), _)) => {
+            Some((_, Tok::Hash, _)) => {
                 let __nt = super::__action164(text, );
                 __result = (__lookbehind, __lookahead, __Nonterminal::_28_3cTypeRef_3e_20_22_2c_22_29_2a(__nt));
             }
@@ -21118,12 +21118,12 @@ mod __parse__Grammar {
                 let mut __sym1 = &mut Some((__tok0));
                 __result = try!(__state24(text, __lookbehind, __tokens, __sym1));
             }
-            Some((_, Tok::Hash(..), _)) |
-            Some((_, Tok::Ampersand(..), _)) |
-            Some((_, Tok::Mut(..), _)) |
+            Some((_, Tok::Hash, _)) |
+            Some((_, Tok::Ampersand, _)) |
+            Some((_, Tok::Mut, _)) |
             Some((_, Tok::Id(_), _)) |
-            Some((_, Tok::ColonColon(..), _)) |
-            Some((_, Tok::LeftParen(..), _)) |
+            Some((_, Tok::ColonColon, _)) |
+            Some((_, Tok::LeftParen, _)) |
             Some((_, Tok::MacroId(_), _)) => {
                 let __nt = super::__action102(text, );
                 __result = (__lookbehind, __lookahead, __Nonterminal::Lifetime_3f(__nt));
@@ -21191,17 +21191,17 @@ mod __parse__Grammar {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, __tok @ Tok::LessThan(..), __loc)) => {
+            Some((_, __tok @ Tok::LessThan, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym1 = &mut Some((__tok));
                 __result = try!(__state68(text, __lookbehind, __tokens, __sym0, __sym1));
             }
-            Some((_, Tok::RightParen(..), _)) |
-            Some((_, Tok::Semi(..), _)) |
-            Some((_, Tok::LeftBrace(..), _)) |
-            Some((_, Tok::Equals(..), _)) |
-            Some((_, Tok::GreaterThan(..), _)) |
-            Some((_, Tok::Comma(..), _)) => {
+            Some((_, Tok::RightParen, _)) |
+            Some((_, Tok::Semi, _)) |
+            Some((_, Tok::LeftBrace, _)) |
+            Some((_, Tok::Equals, _)) |
+            Some((_, Tok::GreaterThan, _)) |
+            Some((_, Tok::Comma, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __nt = super::__action53(text, __sym0);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::TypeRef(__nt)));
@@ -21238,8 +21238,8 @@ mod __parse__Grammar {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, Tok::RightParen(..), _)) |
-            Some((_, Tok::Comma(..), _)) => {
+            Some((_, Tok::RightParen, _)) |
+            Some((_, Tok::Comma, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
                 let __sym2 = __sym2.take().unwrap();
@@ -21354,7 +21354,7 @@ mod __parse__Grammar {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, __tok @ Tok::RightBracket(..), __loc)) => {
+            Some((_, __tok @ Tok::RightBracket, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym4 = &mut Some((__tok));
                 __result = try!(__state70(text, __lookbehind, __tokens, __sym0, __sym1, __sym2, __sym3, __sym4));
@@ -21404,9 +21404,9 @@ mod __parse__Grammar {
             Some((_, Tok::Escape(_), _)) |
             Some((_, Tok::Use(_), _)) |
             Some((_, Tok::Id(_), _)) |
-            Some((_, Tok::Extern(..), _)) |
-            Some((_, Tok::Hash(..), _)) |
-            Some((_, Tok::Pub(..), _)) |
+            Some((_, Tok::Extern, _)) |
+            Some((_, Tok::Hash, _)) |
+            Some((_, Tok::Pub, _)) |
             Some((_, Tok::MacroId(_), _)) |
             None => {
                 let __sym0 = __sym0.take().unwrap();
@@ -21454,14 +21454,14 @@ mod __parse__Grammar {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, Tok::Hash(..), _)) |
+            Some((_, Tok::Hash, _)) |
             None |
             Some((_, Tok::Escape(_), _)) |
             Some((_, Tok::Id(_), _)) |
-            Some((_, Tok::Extern(..), _)) |
+            Some((_, Tok::Extern, _)) |
             Some((_, Tok::Use(_), _)) |
             Some((_, Tok::MacroId(_), _)) |
-            Some((_, Tok::Pub(..), _)) => {
+            Some((_, Tok::Pub, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __nt = super::__action11(text, __sym0);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::GrammarItem(__nt)));
@@ -21522,12 +21522,12 @@ mod __parse__Grammar {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, __tok @ Tok::Hash(..), __loc)) => {
+            Some((_, __tok @ Tok::Hash, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym1 = &mut Some((__tok));
                 __result = try!(__state71(text, __lookbehind, __tokens, __sym1));
             }
-            Some((_, __tok @ Tok::Pub(..), __loc)) => {
+            Some((_, __tok @ Tok::Pub, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym1 = &mut Some((__tok));
                 __result = try!(__state73(text, __lookbehind, __tokens, __sym1));
@@ -21597,7 +21597,7 @@ mod __parse__Grammar {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, __tok @ Tok::Extern(..), __loc)) => {
+            Some((_, __tok @ Tok::Extern, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym1 = &mut Some((__tok));
                 __result = try!(__state75(text, __lookbehind, __tokens, __sym0, __sym1));
@@ -21645,9 +21645,9 @@ mod __parse__Grammar {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
             Some((_, Tok::Use(_), _)) |
-            Some((_, Tok::Pub(..), _)) |
-            Some((_, Tok::Extern(..), _)) |
-            Some((_, Tok::Hash(..), _)) |
+            Some((_, Tok::Pub, _)) |
+            Some((_, Tok::Extern, _)) |
+            Some((_, Tok::Hash, _)) |
             None |
             Some((_, Tok::MacroId(_), _)) |
             Some((_, Tok::Escape(_), _)) |
@@ -21701,11 +21701,11 @@ mod __parse__Grammar {
             None |
             Some((_, Tok::Id(_), _)) |
             Some((_, Tok::Use(_), _)) |
-            Some((_, Tok::Pub(..), _)) |
-            Some((_, Tok::Hash(..), _)) |
+            Some((_, Tok::Pub, _)) |
+            Some((_, Tok::Hash, _)) |
             Some((_, Tok::MacroId(_), _)) |
             Some((_, Tok::Escape(_), _)) |
-            Some((_, Tok::Extern(..), _)) => {
+            Some((_, Tok::Extern, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
                 let __nt = super::__action126(text, __sym0, __sym1);
@@ -21822,29 +21822,29 @@ mod __parse__Grammar {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, Tok::Star(..), _)) |
-            Some((_, Tok::Semi(..), _)) |
+            Some((_, Tok::Star, _)) |
+            Some((_, Tok::Semi, _)) |
             Some((_, Tok::RegexLiteral(_), _)) |
             Some((_, Tok::EqualsGreaterThanCode(_), _)) |
             Some((_, Tok::StringLiteral(_), _)) |
-            Some((_, Tok::LeftParen(..), _)) |
-            Some((_, Tok::EqualsGreaterThanLookahead(..), _)) |
-            Some((_, Tok::Lookahead(..), _)) |
+            Some((_, Tok::LeftParen, _)) |
+            Some((_, Tok::EqualsGreaterThanLookahead, _)) |
+            Some((_, Tok::Lookahead, _)) |
             Some((_, Tok::MacroId(_), _)) |
-            Some((_, Tok::RightBrace(..), _)) |
-            Some((_, Tok::LessThan(..), _)) |
-            Some((_, Tok::Lookbehind(..), _)) |
-            Some((_, Tok::GreaterThan(..), _)) |
+            Some((_, Tok::RightBrace, _)) |
+            Some((_, Tok::LessThan, _)) |
+            Some((_, Tok::Lookbehind, _)) |
+            Some((_, Tok::GreaterThan, _)) |
             Some((_, Tok::Escape(_), _)) |
-            Some((_, Tok::Question(..), _)) |
-            Some((_, Tok::Plus(..), _)) |
+            Some((_, Tok::Question, _)) |
+            Some((_, Tok::Plus, _)) |
             Some((_, Tok::Id(_), _)) |
-            Some((_, Tok::If(..), _)) |
-            Some((_, Tok::Comma(..), _)) |
-            Some((_, Tok::EqualsGreaterThanLookbehind(..), _)) |
-            Some((_, Tok::Hash(..), _)) |
+            Some((_, Tok::If, _)) |
+            Some((_, Tok::Comma, _)) |
+            Some((_, Tok::EqualsGreaterThanLookbehind, _)) |
+            Some((_, Tok::Hash, _)) |
             Some((_, Tok::EqualsGreaterThanQuestionCode(_), _)) |
-            Some((_, Tok::RightParen(..), _)) => {
+            Some((_, Tok::RightParen, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __nt = super::__action36(text, __sym0);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::Symbol0(__nt)));
@@ -22749,7 +22749,7 @@ mod __parse__Grammar {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, __tok @ Tok::Lookbehind(..), __loc)) => {
+            Some((_, __tok @ Tok::Lookbehind, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym1 = &mut Some((__tok));
                 __result = try!(__state78(text, __lookbehind, __tokens, __sym1));
@@ -22764,12 +22764,12 @@ mod __parse__Grammar {
                 let mut __sym1 = &mut Some((__tok0));
                 __result = try!(__state86(text, __lookbehind, __tokens, __sym1));
             }
-            Some((_, __tok @ Tok::Lookahead(..), __loc)) => {
+            Some((_, __tok @ Tok::Lookahead, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym1 = &mut Some((__tok));
                 __result = try!(__state84(text, __lookbehind, __tokens, __sym1));
             }
-            Some((_, __tok @ Tok::LeftParen(..), __loc)) => {
+            Some((_, __tok @ Tok::LeftParen, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym1 = &mut Some((__tok));
                 __result = try!(__state82(text, __lookbehind, __tokens, __sym1));
@@ -22779,7 +22779,7 @@ mod __parse__Grammar {
                 let mut __sym1 = &mut Some((__tok0));
                 __result = try!(__state77(text, __lookbehind, __tokens, __sym1));
             }
-            Some((_, __tok @ Tok::LessThan(..), __loc)) => {
+            Some((_, __tok @ Tok::LessThan, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym1 = &mut Some((__tok));
                 __result = try!(__state83(text, __lookbehind, __tokens, __sym0, __sym1));
@@ -22861,7 +22861,7 @@ mod __parse__Grammar {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, __tok @ Tok::Hash(..), __loc)) => {
+            Some((_, __tok @ Tok::Hash, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym2 = &mut Some((__tok));
                 __result = try!(__state90(text, __lookbehind, __tokens, __sym0, __sym1, __sym2));
@@ -23196,41 +23196,41 @@ mod __parse__Grammar {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, __tok @ Tok::Question(..), __loc)) => {
+            Some((_, __tok @ Tok::Question, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym1 = &mut Some((__tok));
                 __result = try!(__state92(text, __lookbehind, __tokens, __sym1));
             }
-            Some((_, __tok @ Tok::Star(..), __loc)) => {
+            Some((_, __tok @ Tok::Star, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym1 = &mut Some((__tok));
                 __result = try!(__state91(text, __lookbehind, __tokens, __sym1));
             }
-            Some((_, __tok @ Tok::Plus(..), __loc)) => {
+            Some((_, __tok @ Tok::Plus, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym1 = &mut Some((__tok));
                 __result = try!(__state93(text, __lookbehind, __tokens, __sym1));
             }
-            Some((_, Tok::Hash(..), _)) |
+            Some((_, Tok::Hash, _)) |
             Some((_, Tok::Escape(_), _)) |
             Some((_, Tok::RegexLiteral(_), _)) |
             Some((_, Tok::StringLiteral(_), _)) |
-            Some((_, Tok::EqualsGreaterThanLookahead(..), _)) |
+            Some((_, Tok::EqualsGreaterThanLookahead, _)) |
             Some((_, Tok::Id(_), _)) |
-            Some((_, Tok::Semi(..), _)) |
-            Some((_, Tok::GreaterThan(..), _)) |
-            Some((_, Tok::RightBrace(..), _)) |
-            Some((_, Tok::LessThan(..), _)) |
-            Some((_, Tok::RightParen(..), _)) |
-            Some((_, Tok::LeftParen(..), _)) |
+            Some((_, Tok::Semi, _)) |
+            Some((_, Tok::GreaterThan, _)) |
+            Some((_, Tok::RightBrace, _)) |
+            Some((_, Tok::LessThan, _)) |
+            Some((_, Tok::RightParen, _)) |
+            Some((_, Tok::LeftParen, _)) |
             Some((_, Tok::EqualsGreaterThanQuestionCode(_), _)) |
-            Some((_, Tok::Comma(..), _)) |
+            Some((_, Tok::Comma, _)) |
             Some((_, Tok::MacroId(_), _)) |
             Some((_, Tok::EqualsGreaterThanCode(_), _)) |
-            Some((_, Tok::EqualsGreaterThanLookbehind(..), _)) |
-            Some((_, Tok::Lookbehind(..), _)) |
-            Some((_, Tok::Lookahead(..), _)) |
-            Some((_, Tok::If(..), _)) => {
+            Some((_, Tok::EqualsGreaterThanLookbehind, _)) |
+            Some((_, Tok::Lookbehind, _)) |
+            Some((_, Tok::Lookahead, _)) |
+            Some((_, Tok::If, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __nt = super::__action35(text, __sym0);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::Symbol(__nt)));
@@ -23282,7 +23282,7 @@ mod __parse__Grammar {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, __tok @ Tok::RightParen(..), __loc)) => {
+            Some((_, __tok @ Tok::RightParen, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym2 = &mut Some((__tok));
                 __result = try!(__state95(text, __lookbehind, __tokens, __sym0, __sym1, __sym2));
@@ -23359,22 +23359,22 @@ mod __parse__Grammar {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, __tok @ Tok::Ampersand(..), __loc)) => {
+            Some((_, __tok @ Tok::Ampersand, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym1 = &mut Some((__tok));
                 __result = try!(__state49(text, __lookbehind, __tokens, __sym1));
             }
-            Some((_, __tok @ Tok::Hash(..), __loc)) => {
+            Some((_, __tok @ Tok::Hash, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym1 = &mut Some((__tok));
                 __result = try!(__state47(text, __lookbehind, __tokens, __sym1));
             }
-            Some((_, __tok @ Tok::ColonColon(..), __loc)) => {
+            Some((_, __tok @ Tok::ColonColon, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym1 = &mut Some((__tok));
                 __result = try!(__state46(text, __lookbehind, __tokens, __sym1));
             }
-            Some((_, __tok @ Tok::LeftParen(..), __loc)) => {
+            Some((_, __tok @ Tok::LeftParen, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym1 = &mut Some((__tok));
                 __result = try!(__state48(text, __lookbehind, __tokens, __sym1));
@@ -23384,7 +23384,7 @@ mod __parse__Grammar {
                 let __nt = super::__action97(text, );
                 __result = (__lookbehind, __lookahead, __Nonterminal::_22_3a_3a_22_3f(__nt));
             }
-            Some((_, Tok::RightParen(..), _)) => {
+            Some((_, Tok::RightParen, _)) => {
                 let __nt = super::__action163(text, );
                 __result = (__lookbehind, __lookahead, __Nonterminal::TypeRef_3f(__nt));
             }
@@ -23518,16 +23518,16 @@ mod __parse__Grammar {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, __tok @ Tok::Mut(..), __loc)) => {
+            Some((_, __tok @ Tok::Mut, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym2 = &mut Some((__tok));
                 __result = try!(__state99(text, __lookbehind, __tokens, __sym2));
             }
             Some((_, Tok::MacroId(_), _)) |
-            Some((_, Tok::LeftParen(..), _)) |
-            Some((_, Tok::Ampersand(..), _)) |
-            Some((_, Tok::Hash(..), _)) |
-            Some((_, Tok::ColonColon(..), _)) |
+            Some((_, Tok::LeftParen, _)) |
+            Some((_, Tok::Ampersand, _)) |
+            Some((_, Tok::Hash, _)) |
+            Some((_, Tok::ColonColon, _)) |
             Some((_, Tok::Id(_), _)) => {
                 let __nt = super::__action100(text, );
                 __result = (__lookbehind, __lookahead, __Nonterminal::_22mut_22_3f(__nt));
@@ -23584,13 +23584,13 @@ mod __parse__Grammar {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, Tok::Ampersand(..), _)) |
+            Some((_, Tok::Ampersand, _)) |
             Some((_, Tok::MacroId(_), _)) |
             Some((_, Tok::Id(_), _)) |
-            Some((_, Tok::ColonColon(..), _)) |
-            Some((_, Tok::Mut(..), _)) |
-            Some((_, Tok::LeftParen(..), _)) |
-            Some((_, Tok::Hash(..), _)) => {
+            Some((_, Tok::ColonColon, _)) |
+            Some((_, Tok::Mut, _)) |
+            Some((_, Tok::LeftParen, _)) |
+            Some((_, Tok::Hash, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __nt = super::__action101(text, __sym0);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::Lifetime_3f(__nt)));
@@ -23723,14 +23723,14 @@ mod __parse__Grammar {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         let __lookahead = match __tokens.next() { Some(Ok(v)) => Some(v), None => None, Some(Err(e)) => return Err(__ParseError::User { error: e }) };
         match __lookahead {
-            Some((_, Tok::LeftParen(..), _)) |
+            Some((_, Tok::LeftParen, _)) |
             Some((_, Tok::Lifetime(_), _)) |
-            Some((_, Tok::Ampersand(..), _)) |
-            Some((_, Tok::ColonColon(..), _)) |
+            Some((_, Tok::Ampersand, _)) |
+            Some((_, Tok::ColonColon, _)) |
             Some((_, Tok::Id(_), _)) |
             Some((_, Tok::MacroId(_), _)) |
-            Some((_, Tok::GreaterThan(..), _)) |
-            Some((_, Tok::Hash(..), _)) => {
+            Some((_, Tok::GreaterThan, _)) |
+            Some((_, Tok::Hash, _)) => {
                 let __nt = super::__action169(text, );
                 __result = (__lookbehind, __lookahead, __Nonterminal::_28_3cTypeRefOrLifetime_3e_20_22_2c_22_29_2a(__nt));
             }
@@ -23905,7 +23905,7 @@ mod __parse__Grammar {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         let __lookahead = match __tokens.next() { Some(Ok(v)) => Some(v), None => None, Some(Err(e)) => return Err(__ParseError::User { error: e }) };
         match __lookahead {
-            Some((_, Tok::Semi(..), _)) => {
+            Some((_, Tok::Semi, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
                 let __sym2 = __sym2.take().unwrap();
@@ -23945,7 +23945,7 @@ mod __parse__Grammar {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         let __lookahead = match __tokens.next() { Some(Ok(v)) => Some(v), None => None, Some(Err(e)) => return Err(__ParseError::User { error: e }) };
         match __lookahead {
-            Some((_, __tok @ Tok::LeftBracket(..), __loc)) => {
+            Some((_, __tok @ Tok::LeftBracket, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym1 = &mut Some((__tok));
                 __result = try!(__state105(text, __lookbehind, __tokens, __sym0, __sym1));
@@ -24085,11 +24085,11 @@ mod __parse__Grammar {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, Tok::Pub(..), _)) |
+            Some((_, Tok::Pub, _)) |
             Some((_, Tok::MacroId(_), _)) |
             Some((_, Tok::Escape(_), _)) |
             Some((_, Tok::Id(_), _)) |
-            Some((_, Tok::Hash(..), _)) => {
+            Some((_, Tok::Hash, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
                 let __nt = super::__action122(text, __sym0, __sym1);
@@ -24140,7 +24140,7 @@ mod __parse__Grammar {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         let __lookahead = match __tokens.next() { Some(Ok(v)) => Some(v), None => None, Some(Err(e)) => return Err(__ParseError::User { error: e }) };
         match __lookahead {
-            Some((_, Tok::LeftBrace(..), _)) => {
+            Some((_, Tok::LeftBrace, _)) => {
                 let __nt = ::std::clone::Clone::clone(&__lookbehind).unwrap_or_default();
                 __result = (__lookbehind, __lookahead, __Nonterminal::_40R(__nt));
             }
@@ -24270,27 +24270,27 @@ mod __parse__Grammar {
         match __lookahead {
             Some((_, Tok::RegexLiteral(_), _)) |
             Some((_, Tok::StringLiteral(_), _)) |
-            Some((_, Tok::RightParen(..), _)) |
-            Some((_, Tok::Lookahead(..), _)) |
-            Some((_, Tok::If(..), _)) |
-            Some((_, Tok::Plus(..), _)) |
+            Some((_, Tok::RightParen, _)) |
+            Some((_, Tok::Lookahead, _)) |
+            Some((_, Tok::If, _)) |
+            Some((_, Tok::Plus, _)) |
             Some((_, Tok::MacroId(_), _)) |
-            Some((_, Tok::Hash(..), _)) |
+            Some((_, Tok::Hash, _)) |
             Some((_, Tok::EqualsGreaterThanQuestionCode(_), _)) |
-            Some((_, Tok::Question(..), _)) |
-            Some((_, Tok::GreaterThan(..), _)) |
-            Some((_, Tok::LeftParen(..), _)) |
-            Some((_, Tok::Comma(..), _)) |
-            Some((_, Tok::RightBrace(..), _)) |
-            Some((_, Tok::EqualsGreaterThanLookahead(..), _)) |
+            Some((_, Tok::Question, _)) |
+            Some((_, Tok::GreaterThan, _)) |
+            Some((_, Tok::LeftParen, _)) |
+            Some((_, Tok::Comma, _)) |
+            Some((_, Tok::RightBrace, _)) |
+            Some((_, Tok::EqualsGreaterThanLookahead, _)) |
             Some((_, Tok::Id(_), _)) |
-            Some((_, Tok::Lookbehind(..), _)) |
-            Some((_, Tok::Star(..), _)) |
+            Some((_, Tok::Lookbehind, _)) |
+            Some((_, Tok::Star, _)) |
             Some((_, Tok::EqualsGreaterThanCode(_), _)) |
-            Some((_, Tok::Semi(..), _)) |
-            Some((_, Tok::LessThan(..), _)) |
+            Some((_, Tok::Semi, _)) |
+            Some((_, Tok::LessThan, _)) |
             Some((_, Tok::Escape(_), _)) |
-            Some((_, Tok::EqualsGreaterThanLookbehind(..), _)) => {
+            Some((_, Tok::EqualsGreaterThanLookbehind, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __nt = super::__action43(text, __sym0);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::SymbolKind1(__nt)));
@@ -24407,28 +24407,28 @@ mod __parse__Grammar {
         let __lookahead = match __tokens.next() { Some(Ok(v)) => Some(v), None => None, Some(Err(e)) => return Err(__ParseError::User { error: e }) };
         match __lookahead {
             Some((_, Tok::StringLiteral(_), _)) |
-            Some((_, Tok::EqualsGreaterThanLookahead(..), _)) |
-            Some((_, Tok::If(..), _)) |
-            Some((_, Tok::Hash(..), _)) |
-            Some((_, Tok::Plus(..), _)) |
+            Some((_, Tok::EqualsGreaterThanLookahead, _)) |
+            Some((_, Tok::If, _)) |
+            Some((_, Tok::Hash, _)) |
+            Some((_, Tok::Plus, _)) |
             Some((_, Tok::Id(_), _)) |
-            Some((_, Tok::RightBrace(..), _)) |
-            Some((_, Tok::EqualsGreaterThanLookbehind(..), _)) |
-            Some((_, Tok::LeftParen(..), _)) |
-            Some((_, Tok::Star(..), _)) |
-            Some((_, Tok::Lookbehind(..), _)) |
+            Some((_, Tok::RightBrace, _)) |
+            Some((_, Tok::EqualsGreaterThanLookbehind, _)) |
+            Some((_, Tok::LeftParen, _)) |
+            Some((_, Tok::Star, _)) |
+            Some((_, Tok::Lookbehind, _)) |
             Some((_, Tok::EqualsGreaterThanCode(_), _)) |
             Some((_, Tok::RegexLiteral(_), _)) |
             Some((_, Tok::Escape(_), _)) |
-            Some((_, Tok::GreaterThan(..), _)) |
-            Some((_, Tok::Question(..), _)) |
+            Some((_, Tok::GreaterThan, _)) |
+            Some((_, Tok::Question, _)) |
             Some((_, Tok::MacroId(_), _)) |
-            Some((_, Tok::Comma(..), _)) |
-            Some((_, Tok::Semi(..), _)) |
-            Some((_, Tok::LessThan(..), _)) |
+            Some((_, Tok::Comma, _)) |
+            Some((_, Tok::Semi, _)) |
+            Some((_, Tok::LessThan, _)) |
             Some((_, Tok::EqualsGreaterThanQuestionCode(_), _)) |
-            Some((_, Tok::RightParen(..), _)) |
-            Some((_, Tok::Lookahead(..), _)) => {
+            Some((_, Tok::RightParen, _)) |
+            Some((_, Tok::Lookahead, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __nt = super::__action44(text, __sym0);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::SymbolKind1(__nt)));
@@ -24545,28 +24545,28 @@ mod __parse__Grammar {
         let __lookahead = match __tokens.next() { Some(Ok(v)) => Some(v), None => None, Some(Err(e)) => return Err(__ParseError::User { error: e }) };
         match __lookahead {
             Some((_, Tok::EqualsGreaterThanCode(_), _)) |
-            Some((_, Tok::Semi(..), _)) |
-            Some((_, Tok::GreaterThan(..), _)) |
+            Some((_, Tok::Semi, _)) |
+            Some((_, Tok::GreaterThan, _)) |
             Some((_, Tok::RegexLiteral(_), _)) |
             Some((_, Tok::Escape(_), _)) |
-            Some((_, Tok::If(..), _)) |
+            Some((_, Tok::If, _)) |
             Some((_, Tok::StringLiteral(_), _)) |
-            Some((_, Tok::LessThan(..), _)) |
-            Some((_, Tok::Lookbehind(..), _)) |
-            Some((_, Tok::Star(..), _)) |
-            Some((_, Tok::Hash(..), _)) |
+            Some((_, Tok::LessThan, _)) |
+            Some((_, Tok::Lookbehind, _)) |
+            Some((_, Tok::Star, _)) |
+            Some((_, Tok::Hash, _)) |
             Some((_, Tok::EqualsGreaterThanQuestionCode(_), _)) |
-            Some((_, Tok::Comma(..), _)) |
-            Some((_, Tok::EqualsGreaterThanLookahead(..), _)) |
-            Some((_, Tok::RightParen(..), _)) |
+            Some((_, Tok::Comma, _)) |
+            Some((_, Tok::EqualsGreaterThanLookahead, _)) |
+            Some((_, Tok::RightParen, _)) |
             Some((_, Tok::Id(_), _)) |
             Some((_, Tok::MacroId(_), _)) |
-            Some((_, Tok::Question(..), _)) |
-            Some((_, Tok::Lookahead(..), _)) |
-            Some((_, Tok::LeftParen(..), _)) |
-            Some((_, Tok::Plus(..), _)) |
-            Some((_, Tok::EqualsGreaterThanLookbehind(..), _)) |
-            Some((_, Tok::RightBrace(..), _)) => {
+            Some((_, Tok::Question, _)) |
+            Some((_, Tok::Lookahead, _)) |
+            Some((_, Tok::LeftParen, _)) |
+            Some((_, Tok::Plus, _)) |
+            Some((_, Tok::EqualsGreaterThanLookbehind, _)) |
+            Some((_, Tok::RightBrace, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __nt = super::__action48(text, __sym0);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::SymbolKind1(__nt)));
@@ -24660,7 +24660,7 @@ mod __parse__Grammar {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, __tok @ Tok::LessThan(..), __loc)) => {
+            Some((_, __tok @ Tok::LessThan, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym1 = &mut Some((__tok));
                 __result = try!(__state108(text, __lookbehind, __tokens, __sym0, __sym1));
@@ -24778,28 +24778,28 @@ mod __parse__Grammar {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, Tok::GreaterThan(..), _)) |
-            Some((_, Tok::LessThan(..), _)) |
+            Some((_, Tok::GreaterThan, _)) |
+            Some((_, Tok::LessThan, _)) |
             Some((_, Tok::EqualsGreaterThanCode(_), _)) |
             Some((_, Tok::EqualsGreaterThanQuestionCode(_), _)) |
             Some((_, Tok::StringLiteral(_), _)) |
-            Some((_, Tok::Question(..), _)) |
-            Some((_, Tok::Comma(..), _)) |
-            Some((_, Tok::If(..), _)) |
-            Some((_, Tok::EqualsGreaterThanLookbehind(..), _)) |
-            Some((_, Tok::RightParen(..), _)) |
-            Some((_, Tok::RightBrace(..), _)) |
-            Some((_, Tok::Lookahead(..), _)) |
-            Some((_, Tok::Plus(..), _)) |
-            Some((_, Tok::Star(..), _)) |
-            Some((_, Tok::Semi(..), _)) |
-            Some((_, Tok::LeftParen(..), _)) |
-            Some((_, Tok::Hash(..), _)) |
-            Some((_, Tok::EqualsGreaterThanLookahead(..), _)) |
+            Some((_, Tok::Question, _)) |
+            Some((_, Tok::Comma, _)) |
+            Some((_, Tok::If, _)) |
+            Some((_, Tok::EqualsGreaterThanLookbehind, _)) |
+            Some((_, Tok::RightParen, _)) |
+            Some((_, Tok::RightBrace, _)) |
+            Some((_, Tok::Lookahead, _)) |
+            Some((_, Tok::Plus, _)) |
+            Some((_, Tok::Star, _)) |
+            Some((_, Tok::Semi, _)) |
+            Some((_, Tok::LeftParen, _)) |
+            Some((_, Tok::Hash, _)) |
+            Some((_, Tok::EqualsGreaterThanLookahead, _)) |
             Some((_, Tok::Id(_), _)) |
             Some((_, Tok::MacroId(_), _)) |
             Some((_, Tok::Escape(_), _)) |
-            Some((_, Tok::Lookbehind(..), _)) |
+            Some((_, Tok::Lookbehind, _)) |
             Some((_, Tok::RegexLiteral(_), _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __nt = super::__action80(text, __sym0);
@@ -24981,29 +24981,29 @@ mod __parse__Grammar {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, Tok::GreaterThan(..), _)) |
-            Some((_, Tok::LessThan(..), _)) |
+            Some((_, Tok::GreaterThan, _)) |
+            Some((_, Tok::LessThan, _)) |
             Some((_, Tok::RegexLiteral(_), _)) |
             Some((_, Tok::Id(_), _)) |
-            Some((_, Tok::Comma(..), _)) |
-            Some((_, Tok::Question(..), _)) |
-            Some((_, Tok::EqualsGreaterThanLookbehind(..), _)) |
-            Some((_, Tok::RightBrace(..), _)) |
+            Some((_, Tok::Comma, _)) |
+            Some((_, Tok::Question, _)) |
+            Some((_, Tok::EqualsGreaterThanLookbehind, _)) |
+            Some((_, Tok::RightBrace, _)) |
             Some((_, Tok::MacroId(_), _)) |
-            Some((_, Tok::Star(..), _)) |
+            Some((_, Tok::Star, _)) |
             Some((_, Tok::EqualsGreaterThanCode(_), _)) |
-            Some((_, Tok::If(..), _)) |
+            Some((_, Tok::If, _)) |
             Some((_, Tok::Escape(_), _)) |
             Some((_, Tok::StringLiteral(_), _)) |
             Some((_, Tok::EqualsGreaterThanQuestionCode(_), _)) |
-            Some((_, Tok::Lookbehind(..), _)) |
-            Some((_, Tok::Plus(..), _)) |
-            Some((_, Tok::LeftParen(..), _)) |
-            Some((_, Tok::Hash(..), _)) |
-            Some((_, Tok::EqualsGreaterThanLookahead(..), _)) |
-            Some((_, Tok::Lookahead(..), _)) |
-            Some((_, Tok::Semi(..), _)) |
-            Some((_, Tok::RightParen(..), _)) => {
+            Some((_, Tok::Lookbehind, _)) |
+            Some((_, Tok::Plus, _)) |
+            Some((_, Tok::LeftParen, _)) |
+            Some((_, Tok::Hash, _)) |
+            Some((_, Tok::EqualsGreaterThanLookahead, _)) |
+            Some((_, Tok::Lookahead, _)) |
+            Some((_, Tok::Semi, _)) |
+            Some((_, Tok::RightParen, _)) => {
                 let __nt = ::std::clone::Clone::clone(&__lookbehind).unwrap_or_default();
                 __result = (__lookbehind, __lookahead, __Nonterminal::_40R(__nt));
             }
@@ -25246,15 +25246,15 @@ mod __parse__Grammar {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         let __lookahead = match __tokens.next() { Some(Ok(v)) => Some(v), None => None, Some(Err(e)) => return Err(__ParseError::User { error: e }) };
         match __lookahead {
-            Some((_, Tok::RightParen(..), _)) |
-            Some((_, Tok::LessThan(..), _)) |
+            Some((_, Tok::RightParen, _)) |
+            Some((_, Tok::LessThan, _)) |
             Some((_, Tok::RegexLiteral(_), _)) |
-            Some((_, Tok::Lookahead(..), _)) |
+            Some((_, Tok::Lookahead, _)) |
             Some((_, Tok::Escape(_), _)) |
-            Some((_, Tok::LeftParen(..), _)) |
+            Some((_, Tok::LeftParen, _)) |
             Some((_, Tok::Id(_), _)) |
             Some((_, Tok::MacroId(_), _)) |
-            Some((_, Tok::Lookbehind(..), _)) |
+            Some((_, Tok::Lookbehind, _)) |
             Some((_, Tok::StringLiteral(_), _)) => {
                 let __nt = super::__action105(text, );
                 __result = (__lookbehind, __lookahead, __Nonterminal::Symbol_2a(__nt));
@@ -25501,14 +25501,14 @@ mod __parse__Grammar {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         let __lookahead = match __tokens.next() { Some(Ok(v)) => Some(v), None => None, Some(Err(e)) => return Err(__ParseError::User { error: e }) };
         match __lookahead {
-            Some((_, Tok::LeftParen(..), _)) |
+            Some((_, Tok::LeftParen, _)) |
             Some((_, Tok::RegexLiteral(_), _)) |
             Some((_, Tok::StringLiteral(_), _)) |
             Some((_, Tok::Escape(_), _)) |
             Some((_, Tok::Id(_), _)) |
             Some((_, Tok::MacroId(_), _)) |
-            Some((_, Tok::Lookahead(..), _)) |
-            Some((_, Tok::Lookbehind(..), _)) => {
+            Some((_, Tok::Lookahead, _)) |
+            Some((_, Tok::Lookbehind, _)) => {
                 let __nt = __lookahead.as_ref().map(|o| ::std::clone::Clone::clone(&o.0)).or_else(|| ::std::clone::Clone::clone(&__lookbehind)).unwrap_or_default();
                 __result = (__lookbehind, __lookahead, __Nonterminal::_40L(__nt));
             }
@@ -25646,27 +25646,27 @@ mod __parse__Grammar {
         match __lookahead {
             Some((_, Tok::EqualsGreaterThanQuestionCode(_), _)) |
             Some((_, Tok::MacroId(_), _)) |
-            Some((_, Tok::LessThan(..), _)) |
-            Some((_, Tok::Lookahead(..), _)) |
-            Some((_, Tok::EqualsGreaterThanLookahead(..), _)) |
-            Some((_, Tok::Semi(..), _)) |
-            Some((_, Tok::Hash(..), _)) |
-            Some((_, Tok::If(..), _)) |
+            Some((_, Tok::LessThan, _)) |
+            Some((_, Tok::Lookahead, _)) |
+            Some((_, Tok::EqualsGreaterThanLookahead, _)) |
+            Some((_, Tok::Semi, _)) |
+            Some((_, Tok::Hash, _)) |
+            Some((_, Tok::If, _)) |
             Some((_, Tok::Id(_), _)) |
             Some((_, Tok::StringLiteral(_), _)) |
-            Some((_, Tok::Star(..), _)) |
+            Some((_, Tok::Star, _)) |
             Some((_, Tok::RegexLiteral(_), _)) |
-            Some((_, Tok::Lookbehind(..), _)) |
-            Some((_, Tok::RightParen(..), _)) |
+            Some((_, Tok::Lookbehind, _)) |
+            Some((_, Tok::RightParen, _)) |
             Some((_, Tok::Escape(_), _)) |
-            Some((_, Tok::Comma(..), _)) |
-            Some((_, Tok::RightBrace(..), _)) |
+            Some((_, Tok::Comma, _)) |
+            Some((_, Tok::RightBrace, _)) |
             Some((_, Tok::EqualsGreaterThanCode(_), _)) |
-            Some((_, Tok::LeftParen(..), _)) |
-            Some((_, Tok::Question(..), _)) |
-            Some((_, Tok::Plus(..), _)) |
-            Some((_, Tok::GreaterThan(..), _)) |
-            Some((_, Tok::EqualsGreaterThanLookbehind(..), _)) => {
+            Some((_, Tok::LeftParen, _)) |
+            Some((_, Tok::Question, _)) |
+            Some((_, Tok::Plus, _)) |
+            Some((_, Tok::GreaterThan, _)) |
+            Some((_, Tok::EqualsGreaterThanLookbehind, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __nt = super::__action47(text, __sym0);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::SymbolKind1(__nt)));
@@ -25782,29 +25782,29 @@ mod __parse__Grammar {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, Tok::LeftParen(..), _)) |
-            Some((_, Tok::Question(..), _)) |
-            Some((_, Tok::Comma(..), _)) |
-            Some((_, Tok::If(..), _)) |
-            Some((_, Tok::Lookahead(..), _)) |
-            Some((_, Tok::Plus(..), _)) |
+            Some((_, Tok::LeftParen, _)) |
+            Some((_, Tok::Question, _)) |
+            Some((_, Tok::Comma, _)) |
+            Some((_, Tok::If, _)) |
+            Some((_, Tok::Lookahead, _)) |
+            Some((_, Tok::Plus, _)) |
             Some((_, Tok::Id(_), _)) |
-            Some((_, Tok::Hash(..), _)) |
-            Some((_, Tok::RightBrace(..), _)) |
-            Some((_, Tok::RightParen(..), _)) |
-            Some((_, Tok::Semi(..), _)) |
-            Some((_, Tok::Star(..), _)) |
-            Some((_, Tok::Lookbehind(..), _)) |
+            Some((_, Tok::Hash, _)) |
+            Some((_, Tok::RightBrace, _)) |
+            Some((_, Tok::RightParen, _)) |
+            Some((_, Tok::Semi, _)) |
+            Some((_, Tok::Star, _)) |
+            Some((_, Tok::Lookbehind, _)) |
             Some((_, Tok::EqualsGreaterThanCode(_), _)) |
             Some((_, Tok::StringLiteral(_), _)) |
             Some((_, Tok::MacroId(_), _)) |
-            Some((_, Tok::LessThan(..), _)) |
+            Some((_, Tok::LessThan, _)) |
             Some((_, Tok::Escape(_), _)) |
-            Some((_, Tok::EqualsGreaterThanLookahead(..), _)) |
+            Some((_, Tok::EqualsGreaterThanLookahead, _)) |
             Some((_, Tok::RegexLiteral(_), _)) |
-            Some((_, Tok::EqualsGreaterThanLookbehind(..), _)) |
+            Some((_, Tok::EqualsGreaterThanLookbehind, _)) |
             Some((_, Tok::EqualsGreaterThanQuestionCode(_), _)) |
-            Some((_, Tok::GreaterThan(..), _)) => {
+            Some((_, Tok::GreaterThan, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __nt = super::__action45(text, __sym0);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::SymbolKind1(__nt)));
@@ -25920,29 +25920,29 @@ mod __parse__Grammar {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         let __lookahead = match __tokens.next() { Some(Ok(v)) => Some(v), None => None, Some(Err(e)) => return Err(__ParseError::User { error: e }) };
         match __lookahead {
-            Some((_, Tok::EqualsGreaterThanLookbehind(..), _)) |
-            Some((_, Tok::LeftParen(..), _)) |
+            Some((_, Tok::EqualsGreaterThanLookbehind, _)) |
+            Some((_, Tok::LeftParen, _)) |
             Some((_, Tok::Id(_), _)) |
-            Some((_, Tok::Lookbehind(..), _)) |
-            Some((_, Tok::Semi(..), _)) |
+            Some((_, Tok::Lookbehind, _)) |
+            Some((_, Tok::Semi, _)) |
             Some((_, Tok::EqualsGreaterThanCode(_), _)) |
-            Some((_, Tok::GreaterThan(..), _)) |
-            Some((_, Tok::Comma(..), _)) |
-            Some((_, Tok::Plus(..), _)) |
-            Some((_, Tok::EqualsGreaterThanLookahead(..), _)) |
+            Some((_, Tok::GreaterThan, _)) |
+            Some((_, Tok::Comma, _)) |
+            Some((_, Tok::Plus, _)) |
+            Some((_, Tok::EqualsGreaterThanLookahead, _)) |
             Some((_, Tok::MacroId(_), _)) |
-            Some((_, Tok::LessThan(..), _)) |
-            Some((_, Tok::Lookahead(..), _)) |
+            Some((_, Tok::LessThan, _)) |
+            Some((_, Tok::Lookahead, _)) |
             Some((_, Tok::Escape(_), _)) |
-            Some((_, Tok::Hash(..), _)) |
+            Some((_, Tok::Hash, _)) |
             Some((_, Tok::RegexLiteral(_), _)) |
-            Some((_, Tok::RightParen(..), _)) |
-            Some((_, Tok::RightBrace(..), _)) |
+            Some((_, Tok::RightParen, _)) |
+            Some((_, Tok::RightBrace, _)) |
             Some((_, Tok::StringLiteral(_), _)) |
-            Some((_, Tok::If(..), _)) |
+            Some((_, Tok::If, _)) |
             Some((_, Tok::EqualsGreaterThanQuestionCode(_), _)) |
-            Some((_, Tok::Question(..), _)) |
-            Some((_, Tok::Star(..), _)) => {
+            Some((_, Tok::Question, _)) |
+            Some((_, Tok::Star, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __nt = super::__action76(text, __sym0);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::Escape(__nt)));
@@ -26061,27 +26061,27 @@ mod __parse__Grammar {
         match __lookahead {
             Some((_, Tok::MacroId(_), _)) |
             Some((_, Tok::StringLiteral(_), _)) |
-            Some((_, Tok::If(..), _)) |
-            Some((_, Tok::LeftParen(..), _)) |
-            Some((_, Tok::RightBrace(..), _)) |
-            Some((_, Tok::Lookbehind(..), _)) |
-            Some((_, Tok::Question(..), _)) |
+            Some((_, Tok::If, _)) |
+            Some((_, Tok::LeftParen, _)) |
+            Some((_, Tok::RightBrace, _)) |
+            Some((_, Tok::Lookbehind, _)) |
+            Some((_, Tok::Question, _)) |
             Some((_, Tok::Escape(_), _)) |
-            Some((_, Tok::Semi(..), _)) |
-            Some((_, Tok::EqualsGreaterThanLookbehind(..), _)) |
-            Some((_, Tok::GreaterThan(..), _)) |
-            Some((_, Tok::Hash(..), _)) |
-            Some((_, Tok::LessThan(..), _)) |
-            Some((_, Tok::Star(..), _)) |
+            Some((_, Tok::Semi, _)) |
+            Some((_, Tok::EqualsGreaterThanLookbehind, _)) |
+            Some((_, Tok::GreaterThan, _)) |
+            Some((_, Tok::Hash, _)) |
+            Some((_, Tok::LessThan, _)) |
+            Some((_, Tok::Star, _)) |
             Some((_, Tok::RegexLiteral(_), _)) |
-            Some((_, Tok::Lookahead(..), _)) |
-            Some((_, Tok::Plus(..), _)) |
+            Some((_, Tok::Lookahead, _)) |
+            Some((_, Tok::Plus, _)) |
             Some((_, Tok::EqualsGreaterThanQuestionCode(_), _)) |
             Some((_, Tok::EqualsGreaterThanCode(_), _)) |
-            Some((_, Tok::EqualsGreaterThanLookahead(..), _)) |
+            Some((_, Tok::EqualsGreaterThanLookahead, _)) |
             Some((_, Tok::Id(_), _)) |
-            Some((_, Tok::Comma(..), _)) |
-            Some((_, Tok::RightParen(..), _)) => {
+            Some((_, Tok::Comma, _)) |
+            Some((_, Tok::RightParen, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __nt = super::__action81(text, __sym0);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::QuotedTerminal(__nt)));
@@ -26198,28 +26198,28 @@ mod __parse__Grammar {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         let __lookahead = match __tokens.next() { Some(Ok(v)) => Some(v), None => None, Some(Err(e)) => return Err(__ParseError::User { error: e }) };
         match __lookahead {
-            Some((_, Tok::EqualsGreaterThanLookahead(..), _)) |
-            Some((_, Tok::LeftParen(..), _)) |
+            Some((_, Tok::EqualsGreaterThanLookahead, _)) |
+            Some((_, Tok::LeftParen, _)) |
             Some((_, Tok::StringLiteral(_), _)) |
-            Some((_, Tok::Comma(..), _)) |
-            Some((_, Tok::LessThan(..), _)) |
+            Some((_, Tok::Comma, _)) |
+            Some((_, Tok::LessThan, _)) |
             Some((_, Tok::EqualsGreaterThanCode(_), _)) |
-            Some((_, Tok::Hash(..), _)) |
-            Some((_, Tok::RightParen(..), _)) |
+            Some((_, Tok::Hash, _)) |
+            Some((_, Tok::RightParen, _)) |
             Some((_, Tok::MacroId(_), _)) |
             Some((_, Tok::Escape(_), _)) |
             Some((_, Tok::EqualsGreaterThanQuestionCode(_), _)) |
             Some((_, Tok::Id(_), _)) |
-            Some((_, Tok::Lookahead(..), _)) |
-            Some((_, Tok::If(..), _)) |
-            Some((_, Tok::Plus(..), _)) |
-            Some((_, Tok::RightBrace(..), _)) |
-            Some((_, Tok::Question(..), _)) |
-            Some((_, Tok::GreaterThan(..), _)) |
-            Some((_, Tok::Semi(..), _)) |
-            Some((_, Tok::Lookbehind(..), _)) |
-            Some((_, Tok::EqualsGreaterThanLookbehind(..), _)) |
-            Some((_, Tok::Star(..), _)) |
+            Some((_, Tok::Lookahead, _)) |
+            Some((_, Tok::If, _)) |
+            Some((_, Tok::Plus, _)) |
+            Some((_, Tok::RightBrace, _)) |
+            Some((_, Tok::Question, _)) |
+            Some((_, Tok::GreaterThan, _)) |
+            Some((_, Tok::Semi, _)) |
+            Some((_, Tok::Lookbehind, _)) |
+            Some((_, Tok::EqualsGreaterThanLookbehind, _)) |
+            Some((_, Tok::Star, _)) |
             Some((_, Tok::RegexLiteral(_), _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __nt = super::__action83(text, __sym0);
@@ -26252,7 +26252,7 @@ mod __parse__Grammar {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         let __lookahead = match __tokens.next() { Some(Ok(v)) => Some(v), None => None, Some(Err(e)) => return Err(__ParseError::User { error: e }) };
         match __lookahead {
-            Some((_, Tok::LessThan(..), _)) => {
+            Some((_, Tok::LessThan, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __nt = super::__action72(text, __sym0);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::MacroId(__nt)));
@@ -26297,12 +26297,12 @@ mod __parse__Grammar {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         let __lookahead = match __tokens.next() { Some(Ok(v)) => Some(v), None => None, Some(Err(e)) => return Err(__ParseError::User { error: e }) };
         match __lookahead {
-            Some((_, Tok::Semi(..), _)) |
-            Some((_, Tok::LeftBrace(..), _)) |
-            Some((_, Tok::RightParen(..), _)) |
-            Some((_, Tok::Equals(..), _)) |
-            Some((_, Tok::GreaterThan(..), _)) |
-            Some((_, Tok::Comma(..), _)) => {
+            Some((_, Tok::Semi, _)) |
+            Some((_, Tok::LeftBrace, _)) |
+            Some((_, Tok::RightParen, _)) |
+            Some((_, Tok::Equals, _)) |
+            Some((_, Tok::GreaterThan, _)) |
+            Some((_, Tok::Comma, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
                 let __sym2 = __sym2.take().unwrap();
@@ -26420,28 +26420,28 @@ mod __parse__Grammar {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         let __lookahead = match __tokens.next() { Some(Ok(v)) => Some(v), None => None, Some(Err(e)) => return Err(__ParseError::User { error: e }) };
         match __lookahead {
-            Some((_, Tok::LessThan(..), _)) |
-            Some((_, Tok::RightParen(..), _)) |
+            Some((_, Tok::LessThan, _)) |
+            Some((_, Tok::RightParen, _)) |
             Some((_, Tok::StringLiteral(_), _)) |
-            Some((_, Tok::Semi(..), _)) |
-            Some((_, Tok::RightBrace(..), _)) |
+            Some((_, Tok::Semi, _)) |
+            Some((_, Tok::RightBrace, _)) |
             Some((_, Tok::RegexLiteral(_), _)) |
-            Some((_, Tok::Hash(..), _)) |
+            Some((_, Tok::Hash, _)) |
             Some((_, Tok::Id(_), _)) |
-            Some((_, Tok::EqualsGreaterThanLookbehind(..), _)) |
-            Some((_, Tok::Lookahead(..), _)) |
-            Some((_, Tok::If(..), _)) |
+            Some((_, Tok::EqualsGreaterThanLookbehind, _)) |
+            Some((_, Tok::Lookahead, _)) |
+            Some((_, Tok::If, _)) |
             Some((_, Tok::Escape(_), _)) |
-            Some((_, Tok::Lookbehind(..), _)) |
+            Some((_, Tok::Lookbehind, _)) |
             Some((_, Tok::EqualsGreaterThanCode(_), _)) |
-            Some((_, Tok::Question(..), _)) |
+            Some((_, Tok::Question, _)) |
             Some((_, Tok::EqualsGreaterThanQuestionCode(_), _)) |
-            Some((_, Tok::Plus(..), _)) |
-            Some((_, Tok::GreaterThan(..), _)) |
-            Some((_, Tok::Comma(..), _)) |
-            Some((_, Tok::Star(..), _)) |
-            Some((_, Tok::EqualsGreaterThanLookahead(..), _)) |
-            Some((_, Tok::LeftParen(..), _)) |
+            Some((_, Tok::Plus, _)) |
+            Some((_, Tok::GreaterThan, _)) |
+            Some((_, Tok::Comma, _)) |
+            Some((_, Tok::Star, _)) |
+            Some((_, Tok::EqualsGreaterThanLookahead, _)) |
+            Some((_, Tok::LeftParen, _)) |
             Some((_, Tok::MacroId(_), _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __nt = super::__action39(text, __sym0);
@@ -26561,26 +26561,26 @@ mod __parse__Grammar {
             Some((_, Tok::MacroId(_), _)) |
             Some((_, Tok::StringLiteral(_), _)) |
             Some((_, Tok::Id(_), _)) |
-            Some((_, Tok::Semi(..), _)) |
+            Some((_, Tok::Semi, _)) |
             Some((_, Tok::Escape(_), _)) |
-            Some((_, Tok::RightBrace(..), _)) |
-            Some((_, Tok::Plus(..), _)) |
+            Some((_, Tok::RightBrace, _)) |
+            Some((_, Tok::Plus, _)) |
             Some((_, Tok::EqualsGreaterThanQuestionCode(_), _)) |
-            Some((_, Tok::Lookbehind(..), _)) |
+            Some((_, Tok::Lookbehind, _)) |
             Some((_, Tok::RegexLiteral(_), _)) |
             Some((_, Tok::EqualsGreaterThanCode(_), _)) |
-            Some((_, Tok::LeftParen(..), _)) |
-            Some((_, Tok::Question(..), _)) |
-            Some((_, Tok::LessThan(..), _)) |
-            Some((_, Tok::Hash(..), _)) |
-            Some((_, Tok::If(..), _)) |
-            Some((_, Tok::EqualsGreaterThanLookahead(..), _)) |
-            Some((_, Tok::Comma(..), _)) |
-            Some((_, Tok::EqualsGreaterThanLookbehind(..), _)) |
-            Some((_, Tok::GreaterThan(..), _)) |
-            Some((_, Tok::Star(..), _)) |
-            Some((_, Tok::RightParen(..), _)) |
-            Some((_, Tok::Lookahead(..), _)) => {
+            Some((_, Tok::LeftParen, _)) |
+            Some((_, Tok::Question, _)) |
+            Some((_, Tok::LessThan, _)) |
+            Some((_, Tok::Hash, _)) |
+            Some((_, Tok::If, _)) |
+            Some((_, Tok::EqualsGreaterThanLookahead, _)) |
+            Some((_, Tok::Comma, _)) |
+            Some((_, Tok::EqualsGreaterThanLookbehind, _)) |
+            Some((_, Tok::GreaterThan, _)) |
+            Some((_, Tok::Star, _)) |
+            Some((_, Tok::RightParen, _)) |
+            Some((_, Tok::Lookahead, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __nt = super::__action40(text, __sym0);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::RepeatOp(__nt)));
@@ -26696,29 +26696,29 @@ mod __parse__Grammar {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         let __lookahead = match __tokens.next() { Some(Ok(v)) => Some(v), None => None, Some(Err(e)) => return Err(__ParseError::User { error: e }) };
         match __lookahead {
-            Some((_, Tok::RightBrace(..), _)) |
-            Some((_, Tok::LessThan(..), _)) |
-            Some((_, Tok::Star(..), _)) |
-            Some((_, Tok::Lookbehind(..), _)) |
+            Some((_, Tok::RightBrace, _)) |
+            Some((_, Tok::LessThan, _)) |
+            Some((_, Tok::Star, _)) |
+            Some((_, Tok::Lookbehind, _)) |
             Some((_, Tok::StringLiteral(_), _)) |
-            Some((_, Tok::Comma(..), _)) |
-            Some((_, Tok::LeftParen(..), _)) |
-            Some((_, Tok::Hash(..), _)) |
+            Some((_, Tok::Comma, _)) |
+            Some((_, Tok::LeftParen, _)) |
+            Some((_, Tok::Hash, _)) |
             Some((_, Tok::EqualsGreaterThanQuestionCode(_), _)) |
             Some((_, Tok::RegexLiteral(_), _)) |
             Some((_, Tok::EqualsGreaterThanCode(_), _)) |
-            Some((_, Tok::GreaterThan(..), _)) |
-            Some((_, Tok::EqualsGreaterThanLookahead(..), _)) |
-            Some((_, Tok::EqualsGreaterThanLookbehind(..), _)) |
-            Some((_, Tok::RightParen(..), _)) |
-            Some((_, Tok::Question(..), _)) |
-            Some((_, Tok::Semi(..), _)) |
-            Some((_, Tok::Lookahead(..), _)) |
+            Some((_, Tok::GreaterThan, _)) |
+            Some((_, Tok::EqualsGreaterThanLookahead, _)) |
+            Some((_, Tok::EqualsGreaterThanLookbehind, _)) |
+            Some((_, Tok::RightParen, _)) |
+            Some((_, Tok::Question, _)) |
+            Some((_, Tok::Semi, _)) |
+            Some((_, Tok::Lookahead, _)) |
             Some((_, Tok::MacroId(_), _)) |
-            Some((_, Tok::If(..), _)) |
+            Some((_, Tok::If, _)) |
             Some((_, Tok::Escape(_), _)) |
             Some((_, Tok::Id(_), _)) |
-            Some((_, Tok::Plus(..), _)) => {
+            Some((_, Tok::Plus, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __nt = super::__action38(text, __sym0);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::RepeatOp(__nt)));
@@ -26899,28 +26899,28 @@ mod __parse__Grammar {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, Tok::Question(..), _)) |
-            Some((_, Tok::LessThan(..), _)) |
-            Some((_, Tok::Lookbehind(..), _)) |
-            Some((_, Tok::Comma(..), _)) |
-            Some((_, Tok::If(..), _)) |
+            Some((_, Tok::Question, _)) |
+            Some((_, Tok::LessThan, _)) |
+            Some((_, Tok::Lookbehind, _)) |
+            Some((_, Tok::Comma, _)) |
+            Some((_, Tok::If, _)) |
             Some((_, Tok::EqualsGreaterThanQuestionCode(_), _)) |
-            Some((_, Tok::Lookahead(..), _)) |
-            Some((_, Tok::EqualsGreaterThanLookahead(..), _)) |
+            Some((_, Tok::Lookahead, _)) |
+            Some((_, Tok::EqualsGreaterThanLookahead, _)) |
             Some((_, Tok::Id(_), _)) |
-            Some((_, Tok::EqualsGreaterThanLookbehind(..), _)) |
+            Some((_, Tok::EqualsGreaterThanLookbehind, _)) |
             Some((_, Tok::EqualsGreaterThanCode(_), _)) |
             Some((_, Tok::StringLiteral(_), _)) |
-            Some((_, Tok::Semi(..), _)) |
+            Some((_, Tok::Semi, _)) |
             Some((_, Tok::MacroId(_), _)) |
-            Some((_, Tok::RightParen(..), _)) |
-            Some((_, Tok::Star(..), _)) |
-            Some((_, Tok::GreaterThan(..), _)) |
-            Some((_, Tok::Plus(..), _)) |
+            Some((_, Tok::RightParen, _)) |
+            Some((_, Tok::Star, _)) |
+            Some((_, Tok::GreaterThan, _)) |
+            Some((_, Tok::Plus, _)) |
             Some((_, Tok::Escape(_), _)) |
-            Some((_, Tok::Hash(..), _)) |
-            Some((_, Tok::RightBrace(..), _)) |
-            Some((_, Tok::LeftParen(..), _)) |
+            Some((_, Tok::Hash, _)) |
+            Some((_, Tok::RightBrace, _)) |
+            Some((_, Tok::LeftParen, _)) |
             Some((_, Tok::RegexLiteral(_), _)) => {
                 let __nt = ::std::clone::Clone::clone(&__lookbehind).unwrap_or_default();
                 __result = (__lookbehind, __lookahead, __Nonterminal::_40R(__nt));
@@ -26978,12 +26978,12 @@ mod __parse__Grammar {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         let __lookahead = match __tokens.next() { Some(Ok(v)) => Some(v), None => None, Some(Err(e)) => return Err(__ParseError::User { error: e }) };
         match __lookahead {
-            Some((_, Tok::Equals(..), _)) |
-            Some((_, Tok::LeftBrace(..), _)) |
-            Some((_, Tok::RightParen(..), _)) |
-            Some((_, Tok::GreaterThan(..), _)) |
-            Some((_, Tok::Semi(..), _)) |
-            Some((_, Tok::Comma(..), _)) => {
+            Some((_, Tok::Equals, _)) |
+            Some((_, Tok::LeftBrace, _)) |
+            Some((_, Tok::RightParen, _)) |
+            Some((_, Tok::GreaterThan, _)) |
+            Some((_, Tok::Semi, _)) |
+            Some((_, Tok::Comma, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
                 let __sym2 = __sym2.take().unwrap();
@@ -27018,7 +27018,7 @@ mod __parse__Grammar {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, Tok::RightParen(..), _)) => {
+            Some((_, Tok::RightParen, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
                 let __nt = super::__action103(text, __sym0, __sym1);
@@ -27059,12 +27059,12 @@ mod __parse__Grammar {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, __tok @ Tok::Comma(..), __loc)) => {
+            Some((_, __tok @ Tok::Comma, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym1 = &mut Some((__tok));
                 __result = try!(__state115(text, __lookbehind, __tokens, __sym0, __sym1));
             }
-            Some((_, Tok::RightParen(..), _)) => {
+            Some((_, Tok::RightParen, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __nt = super::__action162(text, __sym0);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::TypeRef_3f(__nt)));
@@ -27110,13 +27110,13 @@ mod __parse__Grammar {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, Tok::ColonColon(..), _)) |
+            Some((_, Tok::ColonColon, _)) |
             Some((_, Tok::Id(_), _)) |
-            Some((_, Tok::RightParen(..), _)) |
-            Some((_, Tok::LeftParen(..), _)) |
-            Some((_, Tok::Ampersand(..), _)) |
+            Some((_, Tok::RightParen, _)) |
+            Some((_, Tok::LeftParen, _)) |
+            Some((_, Tok::Ampersand, _)) |
             Some((_, Tok::MacroId(_), _)) |
-            Some((_, Tok::Hash(..), _)) => {
+            Some((_, Tok::Hash, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
                 let __nt = super::__action165(text, __sym0, __sym1);
@@ -27159,12 +27159,12 @@ mod __parse__Grammar {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         let __lookahead = match __tokens.next() { Some(Ok(v)) => Some(v), None => None, Some(Err(e)) => return Err(__ParseError::User { error: e }) };
         match __lookahead {
-            Some((_, Tok::Hash(..), _)) |
+            Some((_, Tok::Hash, _)) |
             Some((_, Tok::MacroId(_), _)) |
-            Some((_, Tok::LeftParen(..), _)) |
-            Some((_, Tok::Ampersand(..), _)) |
+            Some((_, Tok::LeftParen, _)) |
+            Some((_, Tok::Ampersand, _)) |
             Some((_, Tok::Id(_), _)) |
-            Some((_, Tok::ColonColon(..), _)) => {
+            Some((_, Tok::ColonColon, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __nt = super::__action99(text, __sym0);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::_22mut_22_3f(__nt)));
@@ -27279,22 +27279,22 @@ mod __parse__Grammar {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, __tok @ Tok::Ampersand(..), __loc)) => {
+            Some((_, __tok @ Tok::Ampersand, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym3 = &mut Some((__tok));
                 __result = try!(__state49(text, __lookbehind, __tokens, __sym3));
             }
-            Some((_, __tok @ Tok::Hash(..), __loc)) => {
+            Some((_, __tok @ Tok::Hash, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym3 = &mut Some((__tok));
                 __result = try!(__state47(text, __lookbehind, __tokens, __sym3));
             }
-            Some((_, __tok @ Tok::ColonColon(..), __loc)) => {
+            Some((_, __tok @ Tok::ColonColon, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym3 = &mut Some((__tok));
                 __result = try!(__state46(text, __lookbehind, __tokens, __sym3));
             }
-            Some((_, __tok @ Tok::LeftParen(..), __loc)) => {
+            Some((_, __tok @ Tok::LeftParen, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym3 = &mut Some((__tok));
                 __result = try!(__state48(text, __lookbehind, __tokens, __sym3));
@@ -27360,7 +27360,7 @@ mod __parse__Grammar {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, __tok @ Tok::GreaterThan(..), __loc)) => {
+            Some((_, __tok @ Tok::GreaterThan, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym3 = &mut Some((__tok));
                 __result = try!(__state117(text, __lookbehind, __tokens, __sym0, __sym1, __sym2, __sym3));
@@ -27453,27 +27453,27 @@ mod __parse__Grammar {
                 let mut __sym1 = &mut Some((__tok0));
                 __result = try!(__state24(text, __lookbehind, __tokens, __sym1));
             }
-            Some((_, __tok @ Tok::Ampersand(..), __loc)) => {
+            Some((_, __tok @ Tok::Ampersand, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym1 = &mut Some((__tok));
                 __result = try!(__state49(text, __lookbehind, __tokens, __sym1));
             }
-            Some((_, __tok @ Tok::ColonColon(..), __loc)) => {
+            Some((_, __tok @ Tok::ColonColon, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym1 = &mut Some((__tok));
                 __result = try!(__state46(text, __lookbehind, __tokens, __sym1));
             }
-            Some((_, __tok @ Tok::Hash(..), __loc)) => {
+            Some((_, __tok @ Tok::Hash, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym1 = &mut Some((__tok));
                 __result = try!(__state47(text, __lookbehind, __tokens, __sym1));
             }
-            Some((_, __tok @ Tok::LeftParen(..), __loc)) => {
+            Some((_, __tok @ Tok::LeftParen, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym1 = &mut Some((__tok));
                 __result = try!(__state48(text, __lookbehind, __tokens, __sym1));
             }
-            Some((_, Tok::GreaterThan(..), _)) => {
+            Some((_, Tok::GreaterThan, _)) => {
                 let __nt = super::__action168(text, );
                 __result = (__lookbehind, __lookahead, __Nonterminal::TypeRefOrLifetime_3f(__nt));
             }
@@ -27576,18 +27576,18 @@ mod __parse__Grammar {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, __tok @ Tok::ColonColon(..), __loc)) => {
+            Some((_, __tok @ Tok::ColonColon, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym3 = &mut Some((__tok));
                 __result = try!(__state123(text, __lookbehind, __tokens, __sym2, __sym3));
             }
-            Some((_, Tok::RightParen(..), _)) |
-            Some((_, Tok::Semi(..), _)) |
-            Some((_, Tok::LeftBrace(..), _)) |
-            Some((_, Tok::Equals(..), _)) |
-            Some((_, Tok::Comma(..), _)) |
-            Some((_, Tok::GreaterThan(..), _)) |
-            Some((_, Tok::LessThan(..), _)) => {
+            Some((_, Tok::RightParen, _)) |
+            Some((_, Tok::Semi, _)) |
+            Some((_, Tok::LeftBrace, _)) |
+            Some((_, Tok::Equals, _)) |
+            Some((_, Tok::Comma, _)) |
+            Some((_, Tok::GreaterThan, _)) |
+            Some((_, Tok::LessThan, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
                 let __sym2 = __sym2.take().unwrap();
@@ -27816,7 +27816,7 @@ mod __parse__Grammar {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, __tok @ Tok::LeftBrace(..), __loc)) => {
+            Some((_, __tok @ Tok::LeftBrace, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym3 = &mut Some((__tok));
                 __result = try!(__state130(text, __lookbehind, __tokens, __sym0, __sym1, __sym2, __sym3));
@@ -28049,16 +28049,16 @@ mod __parse__Grammar {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         let __lookahead = match __tokens.next() { Some(Ok(v)) => Some(v), None => None, Some(Err(e)) => return Err(__ParseError::User { error: e }) };
         match __lookahead {
-            Some((_, Tok::Lookahead(..), _)) |
-            Some((_, Tok::LeftParen(..), _)) |
-            Some((_, Tok::LessThan(..), _)) |
+            Some((_, Tok::Lookahead, _)) |
+            Some((_, Tok::LeftParen, _)) |
+            Some((_, Tok::LessThan, _)) |
             Some((_, Tok::StringLiteral(_), _)) |
             Some((_, Tok::RegexLiteral(_), _)) |
             Some((_, Tok::MacroId(_), _)) |
-            Some((_, Tok::GreaterThan(..), _)) |
+            Some((_, Tok::GreaterThan, _)) |
             Some((_, Tok::Id(_), _)) |
             Some((_, Tok::Escape(_), _)) |
-            Some((_, Tok::Lookbehind(..), _)) => {
+            Some((_, Tok::Lookbehind, _)) => {
                 let __nt = super::__action159(text, );
                 __result = (__lookbehind, __lookahead, __Nonterminal::_28_3cSymbol_3e_20_22_2c_22_29_2a(__nt));
             }
@@ -28192,29 +28192,29 @@ mod __parse__Grammar {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, Tok::EqualsGreaterThanLookbehind(..), _)) |
+            Some((_, Tok::EqualsGreaterThanLookbehind, _)) |
             Some((_, Tok::MacroId(_), _)) |
             Some((_, Tok::StringLiteral(_), _)) |
             Some((_, Tok::Id(_), _)) |
-            Some((_, Tok::Lookahead(..), _)) |
-            Some((_, Tok::EqualsGreaterThanLookahead(..), _)) |
+            Some((_, Tok::Lookahead, _)) |
+            Some((_, Tok::EqualsGreaterThanLookahead, _)) |
             Some((_, Tok::EqualsGreaterThanQuestionCode(_), _)) |
-            Some((_, Tok::GreaterThan(..), _)) |
+            Some((_, Tok::GreaterThan, _)) |
             Some((_, Tok::Escape(_), _)) |
-            Some((_, Tok::Hash(..), _)) |
-            Some((_, Tok::Semi(..), _)) |
+            Some((_, Tok::Hash, _)) |
+            Some((_, Tok::Semi, _)) |
             Some((_, Tok::EqualsGreaterThanCode(_), _)) |
-            Some((_, Tok::RightBrace(..), _)) |
+            Some((_, Tok::RightBrace, _)) |
             Some((_, Tok::RegexLiteral(_), _)) |
-            Some((_, Tok::RightParen(..), _)) |
-            Some((_, Tok::If(..), _)) |
-            Some((_, Tok::LeftParen(..), _)) |
-            Some((_, Tok::Comma(..), _)) |
-            Some((_, Tok::LessThan(..), _)) |
-            Some((_, Tok::Question(..), _)) |
-            Some((_, Tok::Star(..), _)) |
-            Some((_, Tok::Plus(..), _)) |
-            Some((_, Tok::Lookbehind(..), _)) => {
+            Some((_, Tok::RightParen, _)) |
+            Some((_, Tok::If, _)) |
+            Some((_, Tok::LeftParen, _)) |
+            Some((_, Tok::Comma, _)) |
+            Some((_, Tok::LessThan, _)) |
+            Some((_, Tok::Question, _)) |
+            Some((_, Tok::Star, _)) |
+            Some((_, Tok::Plus, _)) |
+            Some((_, Tok::Lookbehind, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
                 let __sym2 = __sym2.take().unwrap();
@@ -28311,7 +28311,7 @@ mod __parse__Grammar {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, __tok @ Tok::RightParen(..), __loc)) => {
+            Some((_, __tok @ Tok::RightParen, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym2 = &mut Some((__tok));
                 __result = try!(__state133(text, __lookbehind, __tokens, __sym0, __sym1, __sym2));
@@ -28445,19 +28445,19 @@ mod __parse__Grammar {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, Tok::RightParen(..), _)) => {
+            Some((_, Tok::RightParen, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __nt = super::__action32(text, __sym0);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::ExprSymbol(__nt)));
             }
             Some((_, Tok::MacroId(_), _)) |
-            Some((_, Tok::Lookahead(..), _)) |
+            Some((_, Tok::Lookahead, _)) |
             Some((_, Tok::StringLiteral(_), _)) |
-            Some((_, Tok::Lookbehind(..), _)) |
-            Some((_, Tok::LessThan(..), _)) |
+            Some((_, Tok::Lookbehind, _)) |
+            Some((_, Tok::LessThan, _)) |
             Some((_, Tok::Escape(_), _)) |
             Some((_, Tok::RegexLiteral(_), _)) |
-            Some((_, Tok::LeftParen(..), _)) |
+            Some((_, Tok::LeftParen, _)) |
             Some((_, Tok::Id(_), _)) => {
                 let __nt = __lookahead.as_ref().map(|o| ::std::clone::Clone::clone(&o.0)).or_else(|| ::std::clone::Clone::clone(&__lookbehind)).unwrap_or_default();
                 __result = (__lookbehind, __lookahead, __Nonterminal::_40L(__nt));
@@ -28643,22 +28643,22 @@ mod __parse__Grammar {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, __tok @ Tok::Star(..), __loc)) => {
+            Some((_, __tok @ Tok::Star, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym3 = &mut Some((__tok));
                 __result = try!(__state91(text, __lookbehind, __tokens, __sym3));
             }
-            Some((_, __tok @ Tok::Plus(..), __loc)) => {
+            Some((_, __tok @ Tok::Plus, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym3 = &mut Some((__tok));
                 __result = try!(__state93(text, __lookbehind, __tokens, __sym3));
             }
-            Some((_, __tok @ Tok::GreaterThan(..), __loc)) => {
+            Some((_, __tok @ Tok::GreaterThan, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym3 = &mut Some((__tok));
                 __result = try!(__state135(text, __lookbehind, __tokens, __sym0, __sym1, __sym2, __sym3));
             }
-            Some((_, __tok @ Tok::Question(..), __loc)) => {
+            Some((_, __tok @ Tok::Question, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym3 = &mut Some((__tok));
                 __result = try!(__state92(text, __lookbehind, __tokens, __sym3));
@@ -29037,7 +29037,7 @@ mod __parse__Grammar {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, __tok @ Tok::Lookbehind(..), __loc)) => {
+            Some((_, __tok @ Tok::Lookbehind, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym3 = &mut Some((__tok));
                 __result = try!(__state78(text, __lookbehind, __tokens, __sym3));
@@ -29052,7 +29052,7 @@ mod __parse__Grammar {
                 let mut __sym3 = &mut Some((__tok0));
                 __result = try!(__state88(text, __lookbehind, __tokens, __sym3));
             }
-            Some((_, __tok @ Tok::LeftParen(..), __loc)) => {
+            Some((_, __tok @ Tok::LeftParen, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym3 = &mut Some((__tok));
                 __result = try!(__state82(text, __lookbehind, __tokens, __sym3));
@@ -29067,7 +29067,7 @@ mod __parse__Grammar {
                 let mut __sym3 = &mut Some((__tok0));
                 __result = try!(__state43(text, __lookbehind, __tokens, __sym3));
             }
-            Some((_, __tok @ Tok::Lookahead(..), __loc)) => {
+            Some((_, __tok @ Tok::Lookahead, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym3 = &mut Some((__tok));
                 __result = try!(__state84(text, __lookbehind, __tokens, __sym3));
@@ -29227,29 +29227,29 @@ mod __parse__Grammar {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, Tok::LessThan(..), _)) |
+            Some((_, Tok::LessThan, _)) |
             Some((_, Tok::MacroId(_), _)) |
-            Some((_, Tok::Semi(..), _)) |
+            Some((_, Tok::Semi, _)) |
             Some((_, Tok::EqualsGreaterThanQuestionCode(_), _)) |
-            Some((_, Tok::GreaterThan(..), _)) |
-            Some((_, Tok::RightBrace(..), _)) |
-            Some((_, Tok::Plus(..), _)) |
-            Some((_, Tok::EqualsGreaterThanLookbehind(..), _)) |
+            Some((_, Tok::GreaterThan, _)) |
+            Some((_, Tok::RightBrace, _)) |
+            Some((_, Tok::Plus, _)) |
+            Some((_, Tok::EqualsGreaterThanLookbehind, _)) |
             Some((_, Tok::Id(_), _)) |
-            Some((_, Tok::If(..), _)) |
+            Some((_, Tok::If, _)) |
             Some((_, Tok::RegexLiteral(_), _)) |
-            Some((_, Tok::Lookahead(..), _)) |
-            Some((_, Tok::Hash(..), _)) |
-            Some((_, Tok::LeftParen(..), _)) |
+            Some((_, Tok::Lookahead, _)) |
+            Some((_, Tok::Hash, _)) |
+            Some((_, Tok::LeftParen, _)) |
             Some((_, Tok::Escape(_), _)) |
-            Some((_, Tok::Comma(..), _)) |
-            Some((_, Tok::Question(..), _)) |
-            Some((_, Tok::RightParen(..), _)) |
-            Some((_, Tok::EqualsGreaterThanLookahead(..), _)) |
+            Some((_, Tok::Comma, _)) |
+            Some((_, Tok::Question, _)) |
+            Some((_, Tok::RightParen, _)) |
+            Some((_, Tok::EqualsGreaterThanLookahead, _)) |
             Some((_, Tok::StringLiteral(_), _)) |
             Some((_, Tok::EqualsGreaterThanCode(_), _)) |
-            Some((_, Tok::Lookbehind(..), _)) |
-            Some((_, Tok::Star(..), _)) => {
+            Some((_, Tok::Lookbehind, _)) |
+            Some((_, Tok::Star, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
                 let __sym2 = __sym2.take().unwrap();
@@ -29296,13 +29296,13 @@ mod __parse__Grammar {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         let __lookahead = match __tokens.next() { Some(Ok(v)) => Some(v), None => None, Some(Err(e)) => return Err(__ParseError::User { error: e }) };
         match __lookahead {
-            Some((_, Tok::Hash(..), _)) |
+            Some((_, Tok::Hash, _)) |
             Some((_, Tok::MacroId(_), _)) |
             Some((_, Tok::Id(_), _)) |
-            Some((_, Tok::ColonColon(..), _)) |
-            Some((_, Tok::LeftParen(..), _)) |
-            Some((_, Tok::RightParen(..), _)) |
-            Some((_, Tok::Ampersand(..), _)) => {
+            Some((_, Tok::ColonColon, _)) |
+            Some((_, Tok::LeftParen, _)) |
+            Some((_, Tok::RightParen, _)) |
+            Some((_, Tok::Ampersand, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
                 let __nt = super::__action166(text, __sym0, __sym1);
@@ -29349,12 +29349,12 @@ mod __parse__Grammar {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, Tok::Equals(..), _)) |
-            Some((_, Tok::Semi(..), _)) |
-            Some((_, Tok::GreaterThan(..), _)) |
-            Some((_, Tok::Comma(..), _)) |
-            Some((_, Tok::RightParen(..), _)) |
-            Some((_, Tok::LeftBrace(..), _)) => {
+            Some((_, Tok::Equals, _)) |
+            Some((_, Tok::Semi, _)) |
+            Some((_, Tok::GreaterThan, _)) |
+            Some((_, Tok::Comma, _)) |
+            Some((_, Tok::RightParen, _)) |
+            Some((_, Tok::LeftBrace, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
                 let __sym2 = __sym2.take().unwrap();
@@ -29403,12 +29403,12 @@ mod __parse__Grammar {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         let __lookahead = match __tokens.next() { Some(Ok(v)) => Some(v), None => None, Some(Err(e)) => return Err(__ParseError::User { error: e }) };
         match __lookahead {
-            Some((_, Tok::RightParen(..), _)) |
-            Some((_, Tok::LeftBrace(..), _)) |
-            Some((_, Tok::Semi(..), _)) |
-            Some((_, Tok::Comma(..), _)) |
-            Some((_, Tok::Equals(..), _)) |
-            Some((_, Tok::GreaterThan(..), _)) => {
+            Some((_, Tok::RightParen, _)) |
+            Some((_, Tok::LeftBrace, _)) |
+            Some((_, Tok::Semi, _)) |
+            Some((_, Tok::Comma, _)) |
+            Some((_, Tok::Equals, _)) |
+            Some((_, Tok::GreaterThan, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
                 let __sym2 = __sym2.take().unwrap();
@@ -29444,7 +29444,7 @@ mod __parse__Grammar {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, Tok::GreaterThan(..), _)) => {
+            Some((_, Tok::GreaterThan, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
                 let __nt = super::__action98(text, __sym0, __sym1);
@@ -29479,8 +29479,8 @@ mod __parse__Grammar {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, Tok::GreaterThan(..), _)) |
-            Some((_, Tok::Comma(..), _)) => {
+            Some((_, Tok::GreaterThan, _)) |
+            Some((_, Tok::Comma, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __nt = super::__action55(text, __sym0);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::TypeRefOrLifetime(__nt)));
@@ -29514,8 +29514,8 @@ mod __parse__Grammar {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, Tok::Comma(..), _)) |
-            Some((_, Tok::GreaterThan(..), _)) => {
+            Some((_, Tok::Comma, _)) |
+            Some((_, Tok::GreaterThan, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __nt = super::__action54(text, __sym0);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::TypeRefOrLifetime(__nt)));
@@ -29562,12 +29562,12 @@ mod __parse__Grammar {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, Tok::GreaterThan(..), _)) |
-            Some((_, Tok::LeftParen(..), _)) |
+            Some((_, Tok::GreaterThan, _)) |
+            Some((_, Tok::LeftParen, _)) |
             Some((_, Tok::Lifetime(_), _)) |
-            Some((_, Tok::Hash(..), _)) |
-            Some((_, Tok::Ampersand(..), _)) |
-            Some((_, Tok::ColonColon(..), _)) |
+            Some((_, Tok::Hash, _)) |
+            Some((_, Tok::Ampersand, _)) |
+            Some((_, Tok::ColonColon, _)) |
             Some((_, Tok::MacroId(_), _)) |
             Some((_, Tok::Id(_), _)) => {
                 let __sym0 = __sym0.take().unwrap();
@@ -29611,12 +29611,12 @@ mod __parse__Grammar {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, __tok @ Tok::Comma(..), __loc)) => {
+            Some((_, __tok @ Tok::Comma, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym1 = &mut Some((__tok));
                 __result = try!(__state139(text, __lookbehind, __tokens, __sym0, __sym1));
             }
-            Some((_, Tok::GreaterThan(..), _)) => {
+            Some((_, Tok::GreaterThan, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __nt = super::__action167(text, __sym0);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::TypeRefOrLifetime_3f(__nt)));
@@ -29748,8 +29748,8 @@ mod __parse__Grammar {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         let __lookahead = match __tokens.next() { Some(Ok(v)) => Some(v), None => None, Some(Err(e)) => return Err(__ParseError::User { error: e }) };
         match __lookahead {
-            Some((_, Tok::Colon(..), _)) |
-            Some((_, Tok::Equals(..), _)) => {
+            Some((_, Tok::Colon, _)) |
+            Some((_, Tok::Equals, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __nt = super::__action18(text, __sym0);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::NonterminalName(__nt)));
@@ -29795,8 +29795,8 @@ mod __parse__Grammar {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, Tok::Equals(..), _)) |
-            Some((_, Tok::Colon(..), _)) => {
+            Some((_, Tok::Equals, _)) |
+            Some((_, Tok::Colon, _)) => {
                 let __nt = ::std::clone::Clone::clone(&__lookbehind).unwrap_or_default();
                 __result = (__lookbehind, __lookahead, __Nonterminal::_40R(__nt));
             }
@@ -29842,8 +29842,8 @@ mod __parse__Grammar {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, Tok::Equals(..), _)) |
-            Some((_, Tok::Colon(..), _)) => {
+            Some((_, Tok::Equals, _)) |
+            Some((_, Tok::Colon, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __nt = super::__action17(text, __sym0);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::NonterminalName(__nt)));
@@ -29876,7 +29876,7 @@ mod __parse__Grammar {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, __tok @ Tok::LessThan(..), __loc)) => {
+            Some((_, __tok @ Tok::LessThan, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym1 = &mut Some((__tok));
                 __result = try!(__state142(text, __lookbehind, __tokens, __sym0, __sym1));
@@ -29923,14 +29923,14 @@ mod __parse__Grammar {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         let __lookahead = match __tokens.next() { Some(Ok(v)) => Some(v), None => None, Some(Err(e)) => return Err(__ParseError::User { error: e }) };
         match __lookahead {
-            Some((_, Tok::BangTilde(..), _)) |
-            Some((_, Tok::GreaterThan(..), _)) |
-            Some((_, Tok::Equals(..), _)) |
-            Some((_, Tok::Comma(..), _)) |
-            Some((_, Tok::BangEquals(..), _)) |
-            Some((_, Tok::Colon(..), _)) |
-            Some((_, Tok::EqualsEquals(..), _)) |
-            Some((_, Tok::TildeTilde(..), _)) => {
+            Some((_, Tok::BangTilde, _)) |
+            Some((_, Tok::GreaterThan, _)) |
+            Some((_, Tok::Equals, _)) |
+            Some((_, Tok::Comma, _)) |
+            Some((_, Tok::BangEquals, _)) |
+            Some((_, Tok::Colon, _)) |
+            Some((_, Tok::EqualsEquals, _)) |
+            Some((_, Tok::TildeTilde, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __nt = super::__action73(text, __sym0);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::NotMacroId(__nt)));
@@ -29989,9 +29989,9 @@ mod __parse__Grammar {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         let __lookahead = match __tokens.next() { Some(Ok(v)) => Some(v), None => None, Some(Err(e)) => return Err(__ParseError::User { error: e }) };
         match __lookahead {
-            Some((_, Tok::Enum(..), _)) |
-            Some((_, Tok::Type(..), _)) |
-            Some((_, Tok::RightBrace(..), _)) => {
+            Some((_, Tok::Enum, _)) |
+            Some((_, Tok::Type, _)) |
+            Some((_, Tok::RightBrace, _)) => {
                 let __nt = super::__action91(text, );
                 __result = (__lookbehind, __lookahead, __Nonterminal::AssociatedType_2a(__nt));
             }
@@ -30099,7 +30099,7 @@ mod __parse__Grammar {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, __tok @ Tok::GreaterThan(..), __loc)) => {
+            Some((_, __tok @ Tok::GreaterThan, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym3 = &mut Some((__tok));
                 __result = try!(__state144(text, __lookbehind, __tokens, __sym0, __sym1, __sym2, __sym3));
@@ -30199,11 +30199,11 @@ mod __parse__Grammar {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, Tok::LessThan(..), _)) |
-            Some((_, Tok::LeftParen(..), _)) |
+            Some((_, Tok::LessThan, _)) |
+            Some((_, Tok::LeftParen, _)) |
             Some((_, Tok::Escape(_), _)) |
-            Some((_, Tok::Lookbehind(..), _)) |
-            Some((_, Tok::Lookahead(..), _)) |
+            Some((_, Tok::Lookbehind, _)) |
+            Some((_, Tok::Lookahead, _)) |
             Some((_, Tok::StringLiteral(_), _)) |
             Some((_, Tok::RegexLiteral(_), _)) |
             Some((_, Tok::MacroId(_), _)) |
@@ -30211,7 +30211,7 @@ mod __parse__Grammar {
                 let __nt = __lookahead.as_ref().map(|o| ::std::clone::Clone::clone(&o.0)).or_else(|| ::std::clone::Clone::clone(&__lookbehind)).unwrap_or_default();
                 __result = (__lookbehind, __lookahead, __Nonterminal::_40L(__nt));
             }
-            Some((_, Tok::GreaterThan(..), _)) => {
+            Some((_, Tok::GreaterThan, _)) => {
                 let __nt = super::__action158(text, );
                 __result = (__lookbehind, __lookahead, __Nonterminal::Symbol_3f(__nt));
             }
@@ -30361,29 +30361,29 @@ mod __parse__Grammar {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         let __lookahead = match __tokens.next() { Some(Ok(v)) => Some(v), None => None, Some(Err(e)) => return Err(__ParseError::User { error: e }) };
         match __lookahead {
-            Some((_, Tok::Star(..), _)) |
-            Some((_, Tok::Lookbehind(..), _)) |
+            Some((_, Tok::Star, _)) |
+            Some((_, Tok::Lookbehind, _)) |
             Some((_, Tok::Escape(_), _)) |
             Some((_, Tok::RegexLiteral(_), _)) |
-            Some((_, Tok::Lookahead(..), _)) |
-            Some((_, Tok::Question(..), _)) |
+            Some((_, Tok::Lookahead, _)) |
+            Some((_, Tok::Question, _)) |
             Some((_, Tok::EqualsGreaterThanCode(_), _)) |
             Some((_, Tok::Id(_), _)) |
-            Some((_, Tok::LessThan(..), _)) |
-            Some((_, Tok::Semi(..), _)) |
-            Some((_, Tok::RightParen(..), _)) |
-            Some((_, Tok::Hash(..), _)) |
-            Some((_, Tok::EqualsGreaterThanLookbehind(..), _)) |
-            Some((_, Tok::If(..), _)) |
+            Some((_, Tok::LessThan, _)) |
+            Some((_, Tok::Semi, _)) |
+            Some((_, Tok::RightParen, _)) |
+            Some((_, Tok::Hash, _)) |
+            Some((_, Tok::EqualsGreaterThanLookbehind, _)) |
+            Some((_, Tok::If, _)) |
             Some((_, Tok::EqualsGreaterThanQuestionCode(_), _)) |
-            Some((_, Tok::LeftParen(..), _)) |
+            Some((_, Tok::LeftParen, _)) |
             Some((_, Tok::MacroId(_), _)) |
             Some((_, Tok::StringLiteral(_), _)) |
-            Some((_, Tok::GreaterThan(..), _)) |
-            Some((_, Tok::EqualsGreaterThanLookahead(..), _)) |
-            Some((_, Tok::RightBrace(..), _)) |
-            Some((_, Tok::Plus(..), _)) |
-            Some((_, Tok::Comma(..), _)) => {
+            Some((_, Tok::GreaterThan, _)) |
+            Some((_, Tok::EqualsGreaterThanLookahead, _)) |
+            Some((_, Tok::RightBrace, _)) |
+            Some((_, Tok::Plus, _)) |
+            Some((_, Tok::Comma, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
                 let __sym2 = __sym2.take().unwrap();
@@ -30440,12 +30440,12 @@ mod __parse__Grammar {
             Some((_, Tok::Escape(_), _)) |
             Some((_, Tok::MacroId(_), _)) |
             Some((_, Tok::RegexLiteral(_), _)) |
-            Some((_, Tok::Lookahead(..), _)) |
-            Some((_, Tok::RightParen(..), _)) |
+            Some((_, Tok::Lookahead, _)) |
+            Some((_, Tok::RightParen, _)) |
             Some((_, Tok::Id(_), _)) |
-            Some((_, Tok::LeftParen(..), _)) |
-            Some((_, Tok::LessThan(..), _)) |
-            Some((_, Tok::Lookbehind(..), _)) => {
+            Some((_, Tok::LeftParen, _)) |
+            Some((_, Tok::LessThan, _)) |
+            Some((_, Tok::Lookbehind, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
                 let __nt = super::__action106(text, __sym0, __sym1);
@@ -30588,26 +30588,26 @@ mod __parse__Grammar {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         let __lookahead = match __tokens.next() { Some(Ok(v)) => Some(v), None => None, Some(Err(e)) => return Err(__ParseError::User { error: e }) };
         match __lookahead {
-            Some((_, Tok::LessThan(..), _)) |
-            Some((_, Tok::Comma(..), _)) |
+            Some((_, Tok::LessThan, _)) |
+            Some((_, Tok::Comma, _)) |
             Some((_, Tok::EqualsGreaterThanQuestionCode(_), _)) |
-            Some((_, Tok::EqualsGreaterThanLookbehind(..), _)) |
-            Some((_, Tok::Semi(..), _)) |
+            Some((_, Tok::EqualsGreaterThanLookbehind, _)) |
+            Some((_, Tok::Semi, _)) |
             Some((_, Tok::EqualsGreaterThanCode(_), _)) |
-            Some((_, Tok::RightBrace(..), _)) |
+            Some((_, Tok::RightBrace, _)) |
             Some((_, Tok::MacroId(_), _)) |
             Some((_, Tok::Escape(_), _)) |
-            Some((_, Tok::GreaterThan(..), _)) |
+            Some((_, Tok::GreaterThan, _)) |
             Some((_, Tok::Id(_), _)) |
-            Some((_, Tok::Lookbehind(..), _)) |
-            Some((_, Tok::If(..), _)) |
+            Some((_, Tok::Lookbehind, _)) |
+            Some((_, Tok::If, _)) |
             Some((_, Tok::RegexLiteral(_), _)) |
-            Some((_, Tok::EqualsGreaterThanLookahead(..), _)) |
-            Some((_, Tok::Hash(..), _)) |
-            Some((_, Tok::RightParen(..), _)) |
-            Some((_, Tok::Lookahead(..), _)) |
+            Some((_, Tok::EqualsGreaterThanLookahead, _)) |
+            Some((_, Tok::Hash, _)) |
+            Some((_, Tok::RightParen, _)) |
+            Some((_, Tok::Lookahead, _)) |
             Some((_, Tok::StringLiteral(_), _)) |
-            Some((_, Tok::LeftParen(..), _)) => {
+            Some((_, Tok::LeftParen, _)) => {
                 let __nt = ::std::clone::Clone::clone(&__lookbehind).unwrap_or_default();
                 __result = (__lookbehind, __lookahead, __Nonterminal::_40R(__nt));
             }
@@ -30659,15 +30659,15 @@ mod __parse__Grammar {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         let __lookahead = match __tokens.next() { Some(Ok(v)) => Some(v), None => None, Some(Err(e)) => return Err(__ParseError::User { error: e }) };
         match __lookahead {
-            Some((_, Tok::Question(..), _)) |
-            Some((_, Tok::Star(..), _)) |
-            Some((_, Tok::Plus(..), _)) |
-            Some((_, Tok::GreaterThan(..), _)) => {
+            Some((_, Tok::Question, _)) |
+            Some((_, Tok::Star, _)) |
+            Some((_, Tok::Plus, _)) |
+            Some((_, Tok::GreaterThan, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __nt = super::__action44(text, __sym0);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::SymbolKind1(__nt)));
             }
-            Some((_, Tok::Colon(..), _)) => {
+            Some((_, Tok::Colon, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __nt = super::__action74(text, __sym0);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::Id(__nt)));
@@ -30701,12 +30701,12 @@ mod __parse__Grammar {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         let __lookahead = match __tokens.next() { Some(Ok(v)) => Some(v), None => None, Some(Err(e)) => return Err(__ParseError::User { error: e }) };
         match __lookahead {
-            Some((_, Tok::LessThan(..), _)) => {
+            Some((_, Tok::LessThan, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __nt = super::__action72(text, __sym0);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::MacroId(__nt)));
             }
-            Some((_, Tok::Colon(..), _)) => {
+            Some((_, Tok::Colon, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __nt = super::__action75(text, __sym0);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::Id(__nt)));
@@ -30784,7 +30784,7 @@ mod __parse__Grammar {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, __tok @ Tok::Colon(..), __loc)) => {
+            Some((_, __tok @ Tok::Colon, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym4 = &mut Some((__tok));
                 __result = try!(__state149(text, __lookbehind, __tokens, __sym0, __sym1, __sym2, __sym3, __sym4));
@@ -30833,13 +30833,13 @@ mod __parse__Grammar {
         let __lookahead = match __tokens.next() { Some(Ok(v)) => Some(v), None => None, Some(Err(e)) => return Err(__ParseError::User { error: e }) };
         match __lookahead {
             Some((_, Tok::Lifetime(_), _)) |
-            Some((_, Tok::Hash(..), _)) |
+            Some((_, Tok::Hash, _)) |
             Some((_, Tok::MacroId(_), _)) |
             Some((_, Tok::Id(_), _)) |
-            Some((_, Tok::GreaterThan(..), _)) |
-            Some((_, Tok::ColonColon(..), _)) |
-            Some((_, Tok::LeftParen(..), _)) |
-            Some((_, Tok::Ampersand(..), _)) => {
+            Some((_, Tok::GreaterThan, _)) |
+            Some((_, Tok::ColonColon, _)) |
+            Some((_, Tok::LeftParen, _)) |
+            Some((_, Tok::Ampersand, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
                 let __nt = super::__action171(text, __sym0, __sym1);
@@ -30881,7 +30881,7 @@ mod __parse__Grammar {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, Tok::RightBracket(..), _)) => {
+            Some((_, Tok::RightBracket, _)) => {
                 let __nt = ::std::clone::Clone::clone(&__lookbehind).unwrap_or_default();
                 __result = (__lookbehind, __lookahead, __Nonterminal::_40R(__nt));
             }
@@ -30942,12 +30942,12 @@ mod __parse__Grammar {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, __tok @ Tok::Colon(..), __loc)) => {
+            Some((_, __tok @ Tok::Colon, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym5 = &mut Some((__tok));
                 __result = try!(__state153(text, __lookbehind, __tokens, __sym5));
             }
-            Some((_, Tok::Equals(..), _)) => {
+            Some((_, Tok::Equals, _)) => {
                 let __nt = super::__action117(text, );
                 __result = (__lookbehind, __lookahead, __Nonterminal::_28_22_3a_22_20_3cTypeRef_3e_29_3f(__nt));
             }
@@ -31006,7 +31006,7 @@ mod __parse__Grammar {
         let __lookahead = match __tokens.next() { Some(Ok(v)) => Some(v), None => None, Some(Err(e)) => return Err(__ParseError::User { error: e }) };
         match __lookahead {
             Some((_, Tok::Id(_), _)) |
-            Some((_, Tok::GreaterThan(..), _)) => {
+            Some((_, Tok::GreaterThan, _)) => {
                 let __nt = super::__action149(text, );
                 __result = (__lookbehind, __lookahead, __Nonterminal::_28_3cNotMacroId_3e_20_22_2c_22_29_2a(__nt));
             }
@@ -31085,17 +31085,17 @@ mod __parse__Grammar {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, __tok @ Tok::Type(..), __loc)) => {
+            Some((_, __tok @ Tok::Type, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym5 = &mut Some((__tok));
                 __result = try!(__state159(text, __lookbehind, __tokens, __sym5));
             }
-            Some((_, __tok @ Tok::Enum(..), __loc)) => {
+            Some((_, __tok @ Tok::Enum, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym5 = &mut Some((__tok));
                 __result = try!(__state157(text, __lookbehind, __tokens, __sym5));
             }
-            Some((_, __tok @ Tok::RightBrace(..), __loc)) => {
+            Some((_, __tok @ Tok::RightBrace, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym5 = &mut Some((__tok));
                 __result = try!(__state156(text, __lookbehind, __tokens, __sym0, __sym1, __sym2, __sym3, __sym4, __sym5));
@@ -31232,28 +31232,28 @@ mod __parse__Grammar {
         let __lookahead = match __tokens.next() { Some(Ok(v)) => Some(v), None => None, Some(Err(e)) => return Err(__ParseError::User { error: e }) };
         match __lookahead {
             Some((_, Tok::MacroId(_), _)) |
-            Some((_, Tok::Lookbehind(..), _)) |
-            Some((_, Tok::RightBrace(..), _)) |
-            Some((_, Tok::Star(..), _)) |
+            Some((_, Tok::Lookbehind, _)) |
+            Some((_, Tok::RightBrace, _)) |
+            Some((_, Tok::Star, _)) |
             Some((_, Tok::StringLiteral(_), _)) |
-            Some((_, Tok::Lookahead(..), _)) |
-            Some((_, Tok::If(..), _)) |
-            Some((_, Tok::RightParen(..), _)) |
-            Some((_, Tok::Comma(..), _)) |
-            Some((_, Tok::Hash(..), _)) |
-            Some((_, Tok::LessThan(..), _)) |
-            Some((_, Tok::GreaterThan(..), _)) |
-            Some((_, Tok::EqualsGreaterThanLookahead(..), _)) |
+            Some((_, Tok::Lookahead, _)) |
+            Some((_, Tok::If, _)) |
+            Some((_, Tok::RightParen, _)) |
+            Some((_, Tok::Comma, _)) |
+            Some((_, Tok::Hash, _)) |
+            Some((_, Tok::LessThan, _)) |
+            Some((_, Tok::GreaterThan, _)) |
+            Some((_, Tok::EqualsGreaterThanLookahead, _)) |
             Some((_, Tok::Escape(_), _)) |
             Some((_, Tok::EqualsGreaterThanCode(_), _)) |
-            Some((_, Tok::Semi(..), _)) |
+            Some((_, Tok::Semi, _)) |
             Some((_, Tok::Id(_), _)) |
-            Some((_, Tok::Question(..), _)) |
-            Some((_, Tok::LeftParen(..), _)) |
+            Some((_, Tok::Question, _)) |
+            Some((_, Tok::LeftParen, _)) |
             Some((_, Tok::RegexLiteral(_), _)) |
-            Some((_, Tok::EqualsGreaterThanLookbehind(..), _)) |
+            Some((_, Tok::EqualsGreaterThanLookbehind, _)) |
             Some((_, Tok::EqualsGreaterThanQuestionCode(_), _)) |
-            Some((_, Tok::Plus(..), _)) => {
+            Some((_, Tok::Plus, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
                 let __sym2 = __sym2.take().unwrap();
@@ -31289,7 +31289,7 @@ mod __parse__Grammar {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, Tok::GreaterThan(..), _)) => {
+            Some((_, Tok::GreaterThan, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
                 let __nt = super::__action104(text, __sym0, __sym1);
@@ -31333,12 +31333,12 @@ mod __parse__Grammar {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, __tok @ Tok::Comma(..), __loc)) => {
+            Some((_, __tok @ Tok::Comma, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym1 = &mut Some((__tok));
                 __result = try!(__state161(text, __lookbehind, __tokens, __sym0, __sym1));
             }
-            Some((_, Tok::GreaterThan(..), _)) => {
+            Some((_, Tok::GreaterThan, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __nt = super::__action157(text, __sym0);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::Symbol_3f(__nt)));
@@ -31390,13 +31390,13 @@ mod __parse__Grammar {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, Tok::Lookbehind(..), _)) |
-            Some((_, Tok::GreaterThan(..), _)) |
+            Some((_, Tok::Lookbehind, _)) |
+            Some((_, Tok::GreaterThan, _)) |
             Some((_, Tok::MacroId(_), _)) |
-            Some((_, Tok::LeftParen(..), _)) |
-            Some((_, Tok::LessThan(..), _)) |
+            Some((_, Tok::LeftParen, _)) |
+            Some((_, Tok::LessThan, _)) |
             Some((_, Tok::Id(_), _)) |
-            Some((_, Tok::Lookahead(..), _)) |
+            Some((_, Tok::Lookahead, _)) |
             Some((_, Tok::StringLiteral(_), _)) |
             Some((_, Tok::RegexLiteral(_), _)) |
             Some((_, Tok::Escape(_), _)) => {
@@ -31498,26 +31498,26 @@ mod __parse__Grammar {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, Tok::RightBrace(..), _)) |
+            Some((_, Tok::RightBrace, _)) |
             Some((_, Tok::StringLiteral(_), _)) |
-            Some((_, Tok::Comma(..), _)) |
-            Some((_, Tok::If(..), _)) |
-            Some((_, Tok::Lookbehind(..), _)) |
-            Some((_, Tok::EqualsGreaterThanLookbehind(..), _)) |
-            Some((_, Tok::RightParen(..), _)) |
-            Some((_, Tok::Lookahead(..), _)) |
+            Some((_, Tok::Comma, _)) |
+            Some((_, Tok::If, _)) |
+            Some((_, Tok::Lookbehind, _)) |
+            Some((_, Tok::EqualsGreaterThanLookbehind, _)) |
+            Some((_, Tok::RightParen, _)) |
+            Some((_, Tok::Lookahead, _)) |
             Some((_, Tok::MacroId(_), _)) |
-            Some((_, Tok::Hash(..), _)) |
+            Some((_, Tok::Hash, _)) |
             Some((_, Tok::RegexLiteral(_), _)) |
             Some((_, Tok::Escape(_), _)) |
             Some((_, Tok::EqualsGreaterThanCode(_), _)) |
-            Some((_, Tok::EqualsGreaterThanLookahead(..), _)) |
-            Some((_, Tok::GreaterThan(..), _)) |
+            Some((_, Tok::EqualsGreaterThanLookahead, _)) |
+            Some((_, Tok::GreaterThan, _)) |
             Some((_, Tok::Id(_), _)) |
-            Some((_, Tok::LessThan(..), _)) |
-            Some((_, Tok::Semi(..), _)) |
+            Some((_, Tok::LessThan, _)) |
+            Some((_, Tok::Semi, _)) |
             Some((_, Tok::EqualsGreaterThanQuestionCode(_), _)) |
-            Some((_, Tok::LeftParen(..), _)) => {
+            Some((_, Tok::LeftParen, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
                 let __sym2 = __sym2.take().unwrap();
@@ -31710,14 +31710,14 @@ mod __parse__Grammar {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         let __lookahead = match __tokens.next() { Some(Ok(v)) => Some(v), None => None, Some(Err(e)) => return Err(__ParseError::User { error: e }) };
         match __lookahead {
-            Some((_, Tok::Lookbehind(..), _)) |
+            Some((_, Tok::Lookbehind, _)) |
             Some((_, Tok::StringLiteral(_), _)) |
             Some((_, Tok::RegexLiteral(_), _)) |
             Some((_, Tok::Escape(_), _)) |
             Some((_, Tok::Id(_), _)) |
             Some((_, Tok::MacroId(_), _)) |
-            Some((_, Tok::LeftParen(..), _)) |
-            Some((_, Tok::Lookahead(..), _)) => {
+            Some((_, Tok::LeftParen, _)) |
+            Some((_, Tok::Lookahead, _)) => {
                 let __nt = __lookahead.as_ref().map(|o| ::std::clone::Clone::clone(&o.0)).or_else(|| ::std::clone::Clone::clone(&__lookbehind)).unwrap_or_default();
                 __result = (__lookbehind, __lookahead, __Nonterminal::_40L(__nt));
             }
@@ -31777,7 +31777,7 @@ mod __parse__Grammar {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, __tok @ Tok::RightBracket(..), __loc)) => {
+            Some((_, __tok @ Tok::RightBracket, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym5 = &mut Some((__tok));
                 __result = try!(__state164(text, __lookbehind, __tokens, __sym0, __sym1, __sym2, __sym3, __sym4, __sym5));
@@ -31810,7 +31810,7 @@ mod __parse__Grammar {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, Tok::Equals(..), _)) => {
+            Some((_, Tok::Equals, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __nt = super::__action116(text, __sym0);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::_28_22_3a_22_20_3cTypeRef_3e_29_3f(__nt)));
@@ -31854,7 +31854,7 @@ mod __parse__Grammar {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, __tok @ Tok::Equals(..), __loc)) => {
+            Some((_, __tok @ Tok::Equals, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym6 = &mut Some((__tok));
                 __result = try!(__state165(text, __lookbehind, __tokens, __sym0, __sym1, __sym2, __sym3, __sym4, __sym5, __sym6));
@@ -31906,22 +31906,22 @@ mod __parse__Grammar {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         let __lookahead = match __tokens.next() { Some(Ok(v)) => Some(v), None => None, Some(Err(e)) => return Err(__ParseError::User { error: e }) };
         match __lookahead {
-            Some((_, __tok @ Tok::Hash(..), __loc)) => {
+            Some((_, __tok @ Tok::Hash, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym1 = &mut Some((__tok));
                 __result = try!(__state47(text, __lookbehind, __tokens, __sym1));
             }
-            Some((_, __tok @ Tok::Ampersand(..), __loc)) => {
+            Some((_, __tok @ Tok::Ampersand, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym1 = &mut Some((__tok));
                 __result = try!(__state49(text, __lookbehind, __tokens, __sym1));
             }
-            Some((_, __tok @ Tok::ColonColon(..), __loc)) => {
+            Some((_, __tok @ Tok::ColonColon, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym1 = &mut Some((__tok));
                 __result = try!(__state46(text, __lookbehind, __tokens, __sym1));
             }
-            Some((_, __tok @ Tok::LeftParen(..), __loc)) => {
+            Some((_, __tok @ Tok::LeftParen, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym1 = &mut Some((__tok));
                 __result = try!(__state48(text, __lookbehind, __tokens, __sym1));
@@ -31982,7 +31982,7 @@ mod __parse__Grammar {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, __tok @ Tok::GreaterThan(..), __loc)) => {
+            Some((_, __tok @ Tok::GreaterThan, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym3 = &mut Some((__tok));
                 __result = try!(__state167(text, __lookbehind, __tokens, __sym0, __sym1, __sym2, __sym3));
@@ -32032,7 +32032,7 @@ mod __parse__Grammar {
                 let mut __sym1 = &mut Some((__tok0));
                 __result = try!(__state129(text, __lookbehind, __tokens, __sym1));
             }
-            Some((_, Tok::GreaterThan(..), _)) => {
+            Some((_, Tok::GreaterThan, _)) => {
                 let __nt = super::__action148(text, );
                 __result = (__lookbehind, __lookahead, __Nonterminal::NotMacroId_3f(__nt));
             }
@@ -32103,14 +32103,14 @@ mod __parse__Grammar {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         let __lookahead = match __tokens.next() { Some(Ok(v)) => Some(v), None => None, Some(Err(e)) => return Err(__ParseError::User { error: e }) };
         match __lookahead {
-            Some((_, Tok::Pub(..), _)) |
+            Some((_, Tok::Pub, _)) |
             None |
             Some((_, Tok::Escape(_), _)) |
             Some((_, Tok::Use(_), _)) |
             Some((_, Tok::MacroId(_), _)) |
             Some((_, Tok::Id(_), _)) |
-            Some((_, Tok::Extern(..), _)) |
-            Some((_, Tok::Hash(..), _)) => {
+            Some((_, Tok::Extern, _)) |
+            Some((_, Tok::Hash, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
                 let __sym2 = __sym2.take().unwrap();
@@ -32160,10 +32160,10 @@ mod __parse__Grammar {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         let __lookahead = match __tokens.next() { Some(Ok(v)) => Some(v), None => None, Some(Err(e)) => return Err(__ParseError::User { error: e }) };
         match __lookahead {
-            Some((_, Tok::Ampersand(..), _)) |
-            Some((_, Tok::Hash(..), _)) |
-            Some((_, Tok::ColonColon(..), _)) |
-            Some((_, Tok::LeftParen(..), _)) |
+            Some((_, Tok::Ampersand, _)) |
+            Some((_, Tok::Hash, _)) |
+            Some((_, Tok::ColonColon, _)) |
+            Some((_, Tok::LeftParen, _)) |
             Some((_, Tok::Id(_), _)) |
             Some((_, Tok::MacroId(_), _)) => {
                 let __nt = __lookahead.as_ref().map(|o| ::std::clone::Clone::clone(&o.0)).or_else(|| ::std::clone::Clone::clone(&__lookbehind)).unwrap_or_default();
@@ -32216,9 +32216,9 @@ mod __parse__Grammar {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, Tok::Type(..), _)) |
-            Some((_, Tok::RightBrace(..), _)) |
-            Some((_, Tok::Enum(..), _)) => {
+            Some((_, Tok::Type, _)) |
+            Some((_, Tok::RightBrace, _)) |
+            Some((_, Tok::Enum, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
                 let __nt = super::__action92(text, __sym0, __sym1);
@@ -32324,8 +32324,8 @@ mod __parse__Grammar {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, Tok::Type(..), _)) |
-            Some((_, Tok::RightBrace(..), _)) => {
+            Some((_, Tok::Type, _)) |
+            Some((_, Tok::RightBrace, _)) => {
                 let __nt = super::__action91(text, );
                 __result = (__lookbehind, __lookahead, __Nonterminal::AssociatedType_2a(__nt));
             }
@@ -32390,14 +32390,14 @@ mod __parse__Grammar {
         match __lookahead {
             Some((_, Tok::MacroId(_), _)) |
             Some((_, Tok::Escape(_), _)) |
-            Some((_, Tok::Lookahead(..), _)) |
+            Some((_, Tok::Lookahead, _)) |
             Some((_, Tok::RegexLiteral(_), _)) |
-            Some((_, Tok::LeftParen(..), _)) |
-            Some((_, Tok::Lookbehind(..), _)) |
-            Some((_, Tok::LessThan(..), _)) |
+            Some((_, Tok::LeftParen, _)) |
+            Some((_, Tok::Lookbehind, _)) |
+            Some((_, Tok::LessThan, _)) |
             Some((_, Tok::StringLiteral(_), _)) |
             Some((_, Tok::Id(_), _)) |
-            Some((_, Tok::GreaterThan(..), _)) => {
+            Some((_, Tok::GreaterThan, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
                 let __nt = super::__action161(text, __sym0, __sym1);
@@ -32562,22 +32562,22 @@ mod __parse__Grammar {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, __tok @ Tok::Star(..), __loc)) => {
+            Some((_, __tok @ Tok::Star, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym6 = &mut Some((__tok));
                 __result = try!(__state91(text, __lookbehind, __tokens, __sym6));
             }
-            Some((_, __tok @ Tok::Plus(..), __loc)) => {
+            Some((_, __tok @ Tok::Plus, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym6 = &mut Some((__tok));
                 __result = try!(__state93(text, __lookbehind, __tokens, __sym6));
             }
-            Some((_, __tok @ Tok::Question(..), __loc)) => {
+            Some((_, __tok @ Tok::Question, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym6 = &mut Some((__tok));
                 __result = try!(__state92(text, __lookbehind, __tokens, __sym6));
             }
-            Some((_, __tok @ Tok::GreaterThan(..), __loc)) => {
+            Some((_, __tok @ Tok::GreaterThan, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym6 = &mut Some((__tok));
                 __result = try!(__state174(text, __lookbehind, __tokens, __sym0, __sym1, __sym2, __sym3, __sym4, __sym5, __sym6));
@@ -32692,12 +32692,12 @@ mod __parse__Grammar {
                 let mut __sym1 = &mut Some((__tok0));
                 __result = try!(__state43(text, __lookbehind, __tokens, __sym1));
             }
-            Some((_, __tok @ Tok::LeftParen(..), __loc)) => {
+            Some((_, __tok @ Tok::LeftParen, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym1 = &mut Some((__tok));
                 __result = try!(__state82(text, __lookbehind, __tokens, __sym1));
             }
-            Some((_, __tok @ Tok::Lookahead(..), __loc)) => {
+            Some((_, __tok @ Tok::Lookahead, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym1 = &mut Some((__tok));
                 __result = try!(__state84(text, __lookbehind, __tokens, __sym1));
@@ -32722,7 +32722,7 @@ mod __parse__Grammar {
                 let mut __sym1 = &mut Some((__tok0));
                 __result = try!(__state88(text, __lookbehind, __tokens, __sym1));
             }
-            Some((_, __tok @ Tok::Lookbehind(..), __loc)) => {
+            Some((_, __tok @ Tok::Lookbehind, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym1 = &mut Some((__tok));
                 __result = try!(__state78(text, __lookbehind, __tokens, __sym1));
@@ -32802,9 +32802,9 @@ mod __parse__Grammar {
         match __lookahead {
             Some((_, Tok::Id(_), _)) |
             Some((_, Tok::MacroId(_), _)) |
-            Some((_, Tok::Pub(..), _)) |
+            Some((_, Tok::Pub, _)) |
             Some((_, Tok::Escape(_), _)) |
-            Some((_, Tok::Hash(..), _)) => {
+            Some((_, Tok::Hash, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
                 let __sym2 = __sym2.take().unwrap();
@@ -32903,25 +32903,25 @@ mod __parse__Grammar {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         let __lookahead = match __tokens.next() { Some(Ok(v)) => Some(v), None => None, Some(Err(e)) => return Err(__ParseError::User { error: e }) };
         match __lookahead {
-            Some((_, __tok @ Tok::LeftBrace(..), __loc)) => {
+            Some((_, __tok @ Tok::LeftBrace, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym7 = &mut Some((__tok));
                 __result = try!(__state177(text, __lookbehind, __tokens, __sym7));
             }
             Some((_, Tok::MacroId(_), _)) |
             Some((_, Tok::EqualsGreaterThanCode(_), _)) |
-            Some((_, Tok::LeftParen(..), _)) |
-            Some((_, Tok::If(..), _)) |
+            Some((_, Tok::LeftParen, _)) |
+            Some((_, Tok::If, _)) |
             Some((_, Tok::Id(_), _)) |
             Some((_, Tok::Escape(_), _)) |
-            Some((_, Tok::EqualsGreaterThanLookahead(..), _)) |
-            Some((_, Tok::Lookahead(..), _)) |
-            Some((_, Tok::Lookbehind(..), _)) |
+            Some((_, Tok::EqualsGreaterThanLookahead, _)) |
+            Some((_, Tok::Lookahead, _)) |
+            Some((_, Tok::Lookbehind, _)) |
             Some((_, Tok::StringLiteral(_), _)) |
             Some((_, Tok::EqualsGreaterThanQuestionCode(_), _)) |
-            Some((_, Tok::EqualsGreaterThanLookbehind(..), _)) |
+            Some((_, Tok::EqualsGreaterThanLookbehind, _)) |
             Some((_, Tok::RegexLiteral(_), _)) |
-            Some((_, Tok::LessThan(..), _)) => {
+            Some((_, Tok::LessThan, _)) => {
                 let __nt = __lookahead.as_ref().map(|o| ::std::clone::Clone::clone(&o.0)).or_else(|| ::std::clone::Clone::clone(&__lookbehind)).unwrap_or_default();
                 __result = (__lookbehind, __lookahead, __Nonterminal::_40L(__nt));
             }
@@ -32974,7 +32974,7 @@ mod __parse__Grammar {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, Tok::Equals(..), _)) => {
+            Some((_, Tok::Equals, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
                 let __nt = super::__action118(text, __sym0, __sym1);
@@ -33012,8 +33012,8 @@ mod __parse__Grammar {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         let __lookahead = match __tokens.next() { Some(Ok(v)) => Some(v), None => None, Some(Err(e)) => return Err(__ParseError::User { error: e }) };
         match __lookahead {
-            Some((_, Tok::Equals(..), _)) |
-            Some((_, Tok::Colon(..), _)) => {
+            Some((_, Tok::Equals, _)) |
+            Some((_, Tok::Colon, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
                 let __sym2 = __sym2.take().unwrap();
@@ -33049,7 +33049,7 @@ mod __parse__Grammar {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, Tok::GreaterThan(..), _)) => {
+            Some((_, Tok::GreaterThan, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
                 let __nt = super::__action115(text, __sym0, __sym1);
@@ -33086,7 +33086,7 @@ mod __parse__Grammar {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
             Some((_, Tok::Id(_), _)) |
-            Some((_, Tok::GreaterThan(..), _)) => {
+            Some((_, Tok::GreaterThan, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
                 let __nt = super::__action150(text, __sym0, __sym1);
@@ -33122,12 +33122,12 @@ mod __parse__Grammar {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, __tok @ Tok::Comma(..), __loc)) => {
+            Some((_, __tok @ Tok::Comma, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym1 = &mut Some((__tok));
                 __result = try!(__state179(text, __lookbehind, __tokens, __sym0, __sym1));
             }
-            Some((_, Tok::GreaterThan(..), _)) => {
+            Some((_, Tok::GreaterThan, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __nt = super::__action147(text, __sym0);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::NotMacroId_3f(__nt)));
@@ -33181,22 +33181,22 @@ mod __parse__Grammar {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, __tok @ Tok::Ampersand(..), __loc)) => {
+            Some((_, __tok @ Tok::Ampersand, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym2 = &mut Some((__tok));
                 __result = try!(__state49(text, __lookbehind, __tokens, __sym2));
             }
-            Some((_, __tok @ Tok::LeftParen(..), __loc)) => {
+            Some((_, __tok @ Tok::LeftParen, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym2 = &mut Some((__tok));
                 __result = try!(__state48(text, __lookbehind, __tokens, __sym2));
             }
-            Some((_, __tok @ Tok::Hash(..), __loc)) => {
+            Some((_, __tok @ Tok::Hash, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym2 = &mut Some((__tok));
                 __result = try!(__state47(text, __lookbehind, __tokens, __sym2));
             }
-            Some((_, __tok @ Tok::ColonColon(..), __loc)) => {
+            Some((_, __tok @ Tok::ColonColon, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym2 = &mut Some((__tok));
                 __result = try!(__state46(text, __lookbehind, __tokens, __sym2));
@@ -33334,12 +33334,12 @@ mod __parse__Grammar {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, __tok @ Tok::Type(..), __loc)) => {
+            Some((_, __tok @ Tok::Type, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym7 = &mut Some((__tok));
                 __result = try!(__state159(text, __lookbehind, __tokens, __sym7));
             }
-            Some((_, __tok @ Tok::RightBrace(..), __loc)) => {
+            Some((_, __tok @ Tok::RightBrace, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym7 = &mut Some((__tok));
                 __result = try!(__state182(text, __lookbehind, __tokens, __sym0, __sym1, __sym2, __sym3, __sym4, __sym5, __sym6, __sym7));
@@ -33497,26 +33497,26 @@ mod __parse__Grammar {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         let __lookahead = match __tokens.next() { Some(Ok(v)) => Some(v), None => None, Some(Err(e)) => return Err(__ParseError::User { error: e }) };
         match __lookahead {
-            Some((_, Tok::LeftParen(..), _)) |
-            Some((_, Tok::LessThan(..), _)) |
+            Some((_, Tok::LeftParen, _)) |
+            Some((_, Tok::LessThan, _)) |
             Some((_, Tok::EqualsGreaterThanCode(_), _)) |
-            Some((_, Tok::If(..), _)) |
-            Some((_, Tok::Semi(..), _)) |
-            Some((_, Tok::Comma(..), _)) |
-            Some((_, Tok::GreaterThan(..), _)) |
+            Some((_, Tok::If, _)) |
+            Some((_, Tok::Semi, _)) |
+            Some((_, Tok::Comma, _)) |
+            Some((_, Tok::GreaterThan, _)) |
             Some((_, Tok::Escape(_), _)) |
-            Some((_, Tok::EqualsGreaterThanLookbehind(..), _)) |
-            Some((_, Tok::RightParen(..), _)) |
+            Some((_, Tok::EqualsGreaterThanLookbehind, _)) |
+            Some((_, Tok::RightParen, _)) |
             Some((_, Tok::EqualsGreaterThanQuestionCode(_), _)) |
-            Some((_, Tok::Hash(..), _)) |
+            Some((_, Tok::Hash, _)) |
             Some((_, Tok::MacroId(_), _)) |
-            Some((_, Tok::RightBrace(..), _)) |
+            Some((_, Tok::RightBrace, _)) |
             Some((_, Tok::Id(_), _)) |
-            Some((_, Tok::EqualsGreaterThanLookahead(..), _)) |
+            Some((_, Tok::EqualsGreaterThanLookahead, _)) |
             Some((_, Tok::StringLiteral(_), _)) |
-            Some((_, Tok::Lookbehind(..), _)) |
+            Some((_, Tok::Lookbehind, _)) |
             Some((_, Tok::RegexLiteral(_), _)) |
-            Some((_, Tok::Lookahead(..), _)) => {
+            Some((_, Tok::Lookahead, _)) => {
                 let __nt = ::std::clone::Clone::clone(&__lookbehind).unwrap_or_default();
                 __result = (__lookbehind, __lookahead, __Nonterminal::_40R(__nt));
             }
@@ -33582,12 +33582,12 @@ mod __parse__Grammar {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
             Some((_, Tok::Escape(_), _)) |
-            Some((_, Tok::Pub(..), _)) |
+            Some((_, Tok::Pub, _)) |
             None |
             Some((_, Tok::MacroId(_), _)) |
-            Some((_, Tok::Hash(..), _)) |
+            Some((_, Tok::Hash, _)) |
             Some((_, Tok::Use(_), _)) |
-            Some((_, Tok::Extern(..), _)) |
+            Some((_, Tok::Extern, _)) |
             Some((_, Tok::Id(_), _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
@@ -33960,23 +33960,23 @@ mod __parse__Grammar {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, __tok @ Tok::If(..), __loc)) => {
+            Some((_, __tok @ Tok::If, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym1 = &mut Some((__tok));
                 __result = try!(__state188(text, __lookbehind, __tokens, __sym1));
             }
             Some((_, Tok::EqualsGreaterThanQuestionCode(_), _)) |
             Some((_, Tok::EqualsGreaterThanCode(_), _)) |
-            Some((_, Tok::EqualsGreaterThanLookahead(..), _)) |
-            Some((_, Tok::EqualsGreaterThanLookbehind(..), _)) => {
+            Some((_, Tok::EqualsGreaterThanLookahead, _)) |
+            Some((_, Tok::EqualsGreaterThanLookbehind, _)) => {
                 let __nt = super::__action110(text, );
                 __result = (__lookbehind, __lookahead, __Nonterminal::_28_22if_22_20_3cCond_3e_29_3f(__nt));
             }
-            Some((_, Tok::Lookahead(..), _)) |
-            Some((_, Tok::LeftParen(..), _)) |
-            Some((_, Tok::Lookbehind(..), _)) |
+            Some((_, Tok::Lookahead, _)) |
+            Some((_, Tok::LeftParen, _)) |
+            Some((_, Tok::Lookbehind, _)) |
             Some((_, Tok::Id(_), _)) |
-            Some((_, Tok::LessThan(..), _)) |
+            Some((_, Tok::LessThan, _)) |
             Some((_, Tok::MacroId(_), _)) |
             Some((_, Tok::Escape(_), _)) |
             Some((_, Tok::RegexLiteral(_), _)) |
@@ -34102,21 +34102,21 @@ mod __parse__Grammar {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         let __lookahead = match __tokens.next() { Some(Ok(v)) => Some(v), None => None, Some(Err(e)) => return Err(__ParseError::User { error: e }) };
         match __lookahead {
-            Some((_, Tok::Lookbehind(..), _)) |
-            Some((_, Tok::LeftParen(..), _)) |
+            Some((_, Tok::Lookbehind, _)) |
+            Some((_, Tok::LeftParen, _)) |
             Some((_, Tok::RegexLiteral(_), _)) |
             Some((_, Tok::EqualsGreaterThanCode(_), _)) |
-            Some((_, Tok::Lookahead(..), _)) |
+            Some((_, Tok::Lookahead, _)) |
             Some((_, Tok::Escape(_), _)) |
             Some((_, Tok::Id(_), _)) |
             Some((_, Tok::EqualsGreaterThanQuestionCode(_), _)) |
-            Some((_, Tok::EqualsGreaterThanLookahead(..), _)) |
-            Some((_, Tok::LessThan(..), _)) |
-            Some((_, Tok::RightBrace(..), _)) |
+            Some((_, Tok::EqualsGreaterThanLookahead, _)) |
+            Some((_, Tok::LessThan, _)) |
+            Some((_, Tok::RightBrace, _)) |
             Some((_, Tok::StringLiteral(_), _)) |
             Some((_, Tok::MacroId(_), _)) |
-            Some((_, Tok::EqualsGreaterThanLookbehind(..), _)) |
-            Some((_, Tok::If(..), _)) => {
+            Some((_, Tok::EqualsGreaterThanLookbehind, _)) |
+            Some((_, Tok::If, _)) => {
                 let __nt = super::__action154(text, );
                 __result = (__lookbehind, __lookahead, __Nonterminal::_28_3cAlternative_3e_20_22_2c_22_29_2a(__nt));
             }
@@ -34171,7 +34171,7 @@ mod __parse__Grammar {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, __tok @ Tok::Semi(..), __loc)) => {
+            Some((_, __tok @ Tok::Semi, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym1 = &mut Some((__tok));
                 __result = try!(__state191(text, __lookbehind, __tokens, __sym0, __sym1));
@@ -34207,7 +34207,7 @@ mod __parse__Grammar {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         let __lookahead = match __tokens.next() { Some(Ok(v)) => Some(v), None => None, Some(Err(e)) => return Err(__ParseError::User { error: e }) };
         match __lookahead {
-            Some((_, Tok::GreaterThan(..), _)) |
+            Some((_, Tok::GreaterThan, _)) |
             Some((_, Tok::Id(_), _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
@@ -34246,7 +34246,7 @@ mod __parse__Grammar {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, Tok::LeftBrace(..), _)) => {
+            Some((_, Tok::LeftBrace, _)) => {
                 let __nt = ::std::clone::Clone::clone(&__lookbehind).unwrap_or_default();
                 __result = (__lookbehind, __lookahead, __Nonterminal::_40R(__nt));
             }
@@ -34299,7 +34299,7 @@ mod __parse__Grammar {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, Tok::Equals(..), _)) => {
+            Some((_, Tok::Equals, _)) => {
                 let __nt = ::std::clone::Clone::clone(&__lookbehind).unwrap_or_default();
                 __result = (__lookbehind, __lookahead, __Nonterminal::_40R(__nt));
             }
@@ -34364,14 +34364,14 @@ mod __parse__Grammar {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         let __lookahead = match __tokens.next() { Some(Ok(v)) => Some(v), None => None, Some(Err(e)) => return Err(__ParseError::User { error: e }) };
         match __lookahead {
-            Some((_, Tok::Extern(..), _)) |
+            Some((_, Tok::Extern, _)) |
             Some((_, Tok::Id(_), _)) |
-            Some((_, Tok::Hash(..), _)) |
+            Some((_, Tok::Hash, _)) |
             None |
             Some((_, Tok::Escape(_), _)) |
             Some((_, Tok::MacroId(_), _)) |
             Some((_, Tok::Use(_), _)) |
-            Some((_, Tok::Pub(..), _)) => {
+            Some((_, Tok::Pub, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
                 let __sym2 = __sym2.take().unwrap();
@@ -34479,26 +34479,26 @@ mod __parse__Grammar {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, Tok::LessThan(..), _)) |
-            Some((_, Tok::Lookbehind(..), _)) |
+            Some((_, Tok::LessThan, _)) |
+            Some((_, Tok::Lookbehind, _)) |
             Some((_, Tok::Id(_), _)) |
-            Some((_, Tok::RightParen(..), _)) |
-            Some((_, Tok::Comma(..), _)) |
+            Some((_, Tok::RightParen, _)) |
+            Some((_, Tok::Comma, _)) |
             Some((_, Tok::EqualsGreaterThanQuestionCode(_), _)) |
             Some((_, Tok::RegexLiteral(_), _)) |
-            Some((_, Tok::RightBrace(..), _)) |
+            Some((_, Tok::RightBrace, _)) |
             Some((_, Tok::MacroId(_), _)) |
-            Some((_, Tok::EqualsGreaterThanLookahead(..), _)) |
+            Some((_, Tok::EqualsGreaterThanLookahead, _)) |
             Some((_, Tok::EqualsGreaterThanCode(_), _)) |
             Some((_, Tok::Escape(_), _)) |
-            Some((_, Tok::Hash(..), _)) |
-            Some((_, Tok::Lookahead(..), _)) |
-            Some((_, Tok::EqualsGreaterThanLookbehind(..), _)) |
+            Some((_, Tok::Hash, _)) |
+            Some((_, Tok::Lookahead, _)) |
+            Some((_, Tok::EqualsGreaterThanLookbehind, _)) |
             Some((_, Tok::StringLiteral(_), _)) |
-            Some((_, Tok::LeftParen(..), _)) |
-            Some((_, Tok::If(..), _)) |
-            Some((_, Tok::GreaterThan(..), _)) |
-            Some((_, Tok::Semi(..), _)) => {
+            Some((_, Tok::LeftParen, _)) |
+            Some((_, Tok::If, _)) |
+            Some((_, Tok::GreaterThan, _)) |
+            Some((_, Tok::Semi, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
                 let __sym2 = __sym2.take().unwrap();
@@ -34557,13 +34557,13 @@ mod __parse__Grammar {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, Tok::EqualsGreaterThanLookbehind(..), _)) |
-            Some((_, Tok::Comma(..), _)) |
+            Some((_, Tok::EqualsGreaterThanLookbehind, _)) |
+            Some((_, Tok::Comma, _)) |
             Some((_, Tok::EqualsGreaterThanCode(_), _)) |
-            Some((_, Tok::Semi(..), _)) |
-            Some((_, Tok::RightBrace(..), _)) |
+            Some((_, Tok::Semi, _)) |
+            Some((_, Tok::RightBrace, _)) |
             Some((_, Tok::EqualsGreaterThanQuestionCode(_), _)) |
-            Some((_, Tok::EqualsGreaterThanLookahead(..), _)) => {
+            Some((_, Tok::EqualsGreaterThanLookahead, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __nt = super::__action109(text, __sym0);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::_28_22if_22_20_3cCond_3e_29_3f(__nt)));
@@ -34906,30 +34906,30 @@ mod __parse__Grammar {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, __tok @ Tok::If(..), __loc)) => {
+            Some((_, __tok @ Tok::If, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym2 = &mut Some((__tok));
                 __result = try!(__state188(text, __lookbehind, __tokens, __sym2));
             }
             Some((_, Tok::Escape(_), _)) |
             Some((_, Tok::StringLiteral(_), _)) |
-            Some((_, Tok::LeftParen(..), _)) |
+            Some((_, Tok::LeftParen, _)) |
             Some((_, Tok::MacroId(_), _)) |
-            Some((_, Tok::LessThan(..), _)) |
+            Some((_, Tok::LessThan, _)) |
             Some((_, Tok::Id(_), _)) |
-            Some((_, Tok::Lookbehind(..), _)) |
+            Some((_, Tok::Lookbehind, _)) |
             Some((_, Tok::RegexLiteral(_), _)) |
-            Some((_, Tok::Lookahead(..), _)) => {
+            Some((_, Tok::Lookahead, _)) => {
                 let __nt = __lookahead.as_ref().map(|o| ::std::clone::Clone::clone(&o.0)).or_else(|| ::std::clone::Clone::clone(&__lookbehind)).unwrap_or_default();
                 __result = (__lookbehind, __lookahead, __Nonterminal::_40L(__nt));
             }
-            Some((_, Tok::RightBrace(..), _)) |
-            Some((_, Tok::EqualsGreaterThanLookbehind(..), _)) |
+            Some((_, Tok::RightBrace, _)) |
+            Some((_, Tok::EqualsGreaterThanLookbehind, _)) |
             Some((_, Tok::EqualsGreaterThanCode(_), _)) |
-            Some((_, Tok::Semi(..), _)) |
+            Some((_, Tok::Semi, _)) |
             Some((_, Tok::EqualsGreaterThanQuestionCode(_), _)) |
-            Some((_, Tok::EqualsGreaterThanLookahead(..), _)) |
-            Some((_, Tok::Comma(..), _)) => {
+            Some((_, Tok::EqualsGreaterThanLookahead, _)) |
+            Some((_, Tok::Comma, _)) => {
                 let __nt = super::__action110(text, );
                 __result = (__lookbehind, __lookahead, __Nonterminal::_28_22if_22_20_3cCond_3e_29_3f(__nt));
             }
@@ -35039,22 +35039,22 @@ mod __parse__Grammar {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, Tok::Semi(..), _)) |
+            Some((_, Tok::Semi, _)) |
             Some((_, Tok::EqualsGreaterThanCode(_), _)) |
             Some((_, Tok::StringLiteral(_), _)) |
-            Some((_, Tok::RightBrace(..), _)) |
+            Some((_, Tok::RightBrace, _)) |
             Some((_, Tok::Id(_), _)) |
-            Some((_, Tok::Lookbehind(..), _)) |
+            Some((_, Tok::Lookbehind, _)) |
             Some((_, Tok::RegexLiteral(_), _)) |
-            Some((_, Tok::If(..), _)) |
-            Some((_, Tok::EqualsGreaterThanLookbehind(..), _)) |
-            Some((_, Tok::LeftParen(..), _)) |
-            Some((_, Tok::Lookahead(..), _)) |
-            Some((_, Tok::EqualsGreaterThanLookahead(..), _)) |
-            Some((_, Tok::Comma(..), _)) |
+            Some((_, Tok::If, _)) |
+            Some((_, Tok::EqualsGreaterThanLookbehind, _)) |
+            Some((_, Tok::LeftParen, _)) |
+            Some((_, Tok::Lookahead, _)) |
+            Some((_, Tok::EqualsGreaterThanLookahead, _)) |
+            Some((_, Tok::Comma, _)) |
             Some((_, Tok::Escape(_), _)) |
             Some((_, Tok::EqualsGreaterThanQuestionCode(_), _)) |
-            Some((_, Tok::LessThan(..), _)) |
+            Some((_, Tok::LessThan, _)) |
             Some((_, Tok::MacroId(_), _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __nt = super::__action112(text, __sym0);
@@ -35111,7 +35111,7 @@ mod __parse__Grammar {
                 let mut __sym2 = &mut Some((__tok0));
                 __result = try!(__state199(text, __lookbehind, __tokens, __sym2));
             }
-            Some((_, __tok @ Tok::EqualsGreaterThanLookbehind(..), __loc)) => {
+            Some((_, __tok @ Tok::EqualsGreaterThanLookbehind, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym2 = &mut Some((__tok));
                 __result = try!(__state198(text, __lookbehind, __tokens, __sym2));
@@ -35121,7 +35121,7 @@ mod __parse__Grammar {
                 let mut __sym2 = &mut Some((__tok0));
                 __result = try!(__state200(text, __lookbehind, __tokens, __sym2));
             }
-            Some((_, __tok @ Tok::EqualsGreaterThanLookahead(..), __loc)) => {
+            Some((_, __tok @ Tok::EqualsGreaterThanLookahead, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym2 = &mut Some((__tok));
                 __result = try!(__state197(text, __lookbehind, __tokens, __sym2));
@@ -35256,7 +35256,7 @@ mod __parse__Grammar {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, __tok @ Tok::RightBrace(..), __loc)) => {
+            Some((_, __tok @ Tok::RightBrace, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym2 = &mut Some((__tok));
                 __result = try!(__state203(text, __lookbehind, __tokens, __sym0, __sym1, __sym2));
@@ -35357,21 +35357,21 @@ mod __parse__Grammar {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, Tok::RightBrace(..), _)) => {
+            Some((_, Tok::RightBrace, _)) => {
                 let __nt = super::__action153(text, );
                 __result = (__lookbehind, __lookahead, __Nonterminal::Alternative_3f(__nt));
             }
-            Some((_, Tok::If(..), _)) |
+            Some((_, Tok::If, _)) |
             Some((_, Tok::RegexLiteral(_), _)) |
             Some((_, Tok::Id(_), _)) |
-            Some((_, Tok::Lookbehind(..), _)) |
-            Some((_, Tok::EqualsGreaterThanLookbehind(..), _)) |
-            Some((_, Tok::Lookahead(..), _)) |
-            Some((_, Tok::LessThan(..), _)) |
+            Some((_, Tok::Lookbehind, _)) |
+            Some((_, Tok::EqualsGreaterThanLookbehind, _)) |
+            Some((_, Tok::Lookahead, _)) |
+            Some((_, Tok::LessThan, _)) |
             Some((_, Tok::EqualsGreaterThanCode(_), _)) |
-            Some((_, Tok::LeftParen(..), _)) |
+            Some((_, Tok::LeftParen, _)) |
             Some((_, Tok::Escape(_), _)) |
-            Some((_, Tok::EqualsGreaterThanLookahead(..), _)) |
+            Some((_, Tok::EqualsGreaterThanLookahead, _)) |
             Some((_, Tok::StringLiteral(_), _)) |
             Some((_, Tok::EqualsGreaterThanQuestionCode(_), _)) |
             Some((_, Tok::MacroId(_), _)) => {
@@ -35446,13 +35446,13 @@ mod __parse__Grammar {
         let __lookahead = match __tokens.next() { Some(Ok(v)) => Some(v), None => None, Some(Err(e)) => return Err(__ParseError::User { error: e }) };
         match __lookahead {
             Some((_, Tok::Escape(_), _)) |
-            Some((_, Tok::Extern(..), _)) |
+            Some((_, Tok::Extern, _)) |
             Some((_, Tok::MacroId(_), _)) |
             Some((_, Tok::Use(_), _)) |
-            Some((_, Tok::Hash(..), _)) |
+            Some((_, Tok::Hash, _)) |
             None |
             Some((_, Tok::Id(_), _)) |
-            Some((_, Tok::Pub(..), _)) => {
+            Some((_, Tok::Pub, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
                 let __nt = super::__action19(text, __sym0, __sym1);
@@ -35489,7 +35489,7 @@ mod __parse__Grammar {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, __tok @ Tok::LeftBrace(..), __loc)) => {
+            Some((_, __tok @ Tok::LeftBrace, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym4 = &mut Some((__tok));
                 __result = try!(__state207(text, __lookbehind, __tokens, __sym0, __sym1, __sym2, __sym3, __sym4));
@@ -35529,7 +35529,7 @@ mod __parse__Grammar {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, __tok @ Tok::Equals(..), __loc)) => {
+            Some((_, __tok @ Tok::Equals, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym4 = &mut Some((__tok));
                 __result = try!(__state208(text, __lookbehind, __tokens, __sym0, __sym1, __sym2, __sym3, __sym4));
@@ -35610,22 +35610,22 @@ mod __parse__Grammar {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
             Some((_, Tok::EqualsGreaterThanCode(_), _)) |
-            Some((_, Tok::Semi(..), _)) |
-            Some((_, Tok::Lookbehind(..), _)) |
-            Some((_, Tok::If(..), _)) |
-            Some((_, Tok::EqualsGreaterThanLookbehind(..), _)) |
+            Some((_, Tok::Semi, _)) |
+            Some((_, Tok::Lookbehind, _)) |
+            Some((_, Tok::If, _)) |
+            Some((_, Tok::EqualsGreaterThanLookbehind, _)) |
             Some((_, Tok::Escape(_), _)) |
-            Some((_, Tok::LessThan(..), _)) |
+            Some((_, Tok::LessThan, _)) |
             Some((_, Tok::StringLiteral(_), _)) |
             Some((_, Tok::MacroId(_), _)) |
-            Some((_, Tok::Comma(..), _)) |
+            Some((_, Tok::Comma, _)) |
             Some((_, Tok::Id(_), _)) |
-            Some((_, Tok::Lookahead(..), _)) |
-            Some((_, Tok::LeftParen(..), _)) |
+            Some((_, Tok::Lookahead, _)) |
+            Some((_, Tok::LeftParen, _)) |
             Some((_, Tok::RegexLiteral(_), _)) |
-            Some((_, Tok::EqualsGreaterThanLookahead(..), _)) |
+            Some((_, Tok::EqualsGreaterThanLookahead, _)) |
             Some((_, Tok::EqualsGreaterThanQuestionCode(_), _)) |
-            Some((_, Tok::RightBrace(..), _)) => {
+            Some((_, Tok::RightBrace, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
                 let __nt = super::__action113(text, __sym0, __sym1);
@@ -35693,7 +35693,7 @@ mod __parse__Grammar {
                 let mut __sym3 = &mut Some((__tok0));
                 __result = try!(__state199(text, __lookbehind, __tokens, __sym3));
             }
-            Some((_, __tok @ Tok::EqualsGreaterThanLookahead(..), __loc)) => {
+            Some((_, __tok @ Tok::EqualsGreaterThanLookahead, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym3 = &mut Some((__tok));
                 __result = try!(__state197(text, __lookbehind, __tokens, __sym3));
@@ -35703,14 +35703,14 @@ mod __parse__Grammar {
                 let mut __sym3 = &mut Some((__tok0));
                 __result = try!(__state200(text, __lookbehind, __tokens, __sym3));
             }
-            Some((_, __tok @ Tok::EqualsGreaterThanLookbehind(..), __loc)) => {
+            Some((_, __tok @ Tok::EqualsGreaterThanLookbehind, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym3 = &mut Some((__tok));
                 __result = try!(__state198(text, __lookbehind, __tokens, __sym3));
             }
-            Some((_, Tok::RightBrace(..), _)) |
-            Some((_, Tok::Semi(..), _)) |
-            Some((_, Tok::Comma(..), _)) => {
+            Some((_, Tok::RightBrace, _)) |
+            Some((_, Tok::Semi, _)) |
+            Some((_, Tok::Comma, _)) => {
                 let __nt = super::__action108(text, );
                 __result = (__lookbehind, __lookahead, __Nonterminal::Action_3f(__nt));
             }
@@ -35768,9 +35768,9 @@ mod __parse__Grammar {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, Tok::Semi(..), _)) |
-            Some((_, Tok::RightBrace(..), _)) |
-            Some((_, Tok::Comma(..), _)) => {
+            Some((_, Tok::Semi, _)) |
+            Some((_, Tok::RightBrace, _)) |
+            Some((_, Tok::Comma, _)) => {
                 let __nt = ::std::clone::Clone::clone(&__lookbehind).unwrap_or_default();
                 __result = (__lookbehind, __lookahead, __Nonterminal::_40R(__nt));
             }
@@ -35818,9 +35818,9 @@ mod __parse__Grammar {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         let __lookahead = match __tokens.next() { Some(Ok(v)) => Some(v), None => None, Some(Err(e)) => return Err(__ParseError::User { error: e }) };
         match __lookahead {
-            Some((_, Tok::RightBrace(..), _)) |
-            Some((_, Tok::Semi(..), _)) |
-            Some((_, Tok::Comma(..), _)) => {
+            Some((_, Tok::RightBrace, _)) |
+            Some((_, Tok::Semi, _)) |
+            Some((_, Tok::Comma, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __nt = super::__action23(text, __sym0);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::Action(__nt)));
@@ -35856,9 +35856,9 @@ mod __parse__Grammar {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         let __lookahead = match __tokens.next() { Some(Ok(v)) => Some(v), None => None, Some(Err(e)) => return Err(__ParseError::User { error: e }) };
         match __lookahead {
-            Some((_, Tok::RightBrace(..), _)) |
-            Some((_, Tok::Semi(..), _)) |
-            Some((_, Tok::Comma(..), _)) => {
+            Some((_, Tok::RightBrace, _)) |
+            Some((_, Tok::Semi, _)) |
+            Some((_, Tok::Comma, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __nt = super::__action24(text, __sym0);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::Action(__nt)));
@@ -35894,9 +35894,9 @@ mod __parse__Grammar {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         let __lookahead = match __tokens.next() { Some(Ok(v)) => Some(v), None => None, Some(Err(e)) => return Err(__ParseError::User { error: e }) };
         match __lookahead {
-            Some((_, Tok::Semi(..), _)) |
-            Some((_, Tok::Comma(..), _)) |
-            Some((_, Tok::RightBrace(..), _)) => {
+            Some((_, Tok::Semi, _)) |
+            Some((_, Tok::Comma, _)) |
+            Some((_, Tok::RightBrace, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __nt = super::__action25(text, __sym0);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::Action(__nt)));
@@ -35932,9 +35932,9 @@ mod __parse__Grammar {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         let __lookahead = match __tokens.next() { Some(Ok(v)) => Some(v), None => None, Some(Err(e)) => return Err(__ParseError::User { error: e }) };
         match __lookahead {
-            Some((_, Tok::RightBrace(..), _)) |
-            Some((_, Tok::Comma(..), _)) |
-            Some((_, Tok::Semi(..), _)) => {
+            Some((_, Tok::RightBrace, _)) |
+            Some((_, Tok::Comma, _)) |
+            Some((_, Tok::Semi, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __nt = super::__action26(text, __sym0);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::Action(__nt)));
@@ -36059,13 +36059,13 @@ mod __parse__Grammar {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, Tok::Comma(..), _)) |
-            Some((_, Tok::EqualsGreaterThanLookbehind(..), _)) |
-            Some((_, Tok::RightBrace(..), _)) |
+            Some((_, Tok::Comma, _)) |
+            Some((_, Tok::EqualsGreaterThanLookbehind, _)) |
+            Some((_, Tok::RightBrace, _)) |
             Some((_, Tok::EqualsGreaterThanQuestionCode(_), _)) |
             Some((_, Tok::EqualsGreaterThanCode(_), _)) |
-            Some((_, Tok::EqualsGreaterThanLookahead(..), _)) |
-            Some((_, Tok::Semi(..), _)) => {
+            Some((_, Tok::EqualsGreaterThanLookahead, _)) |
+            Some((_, Tok::Semi, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
                 let __nt = super::__action111(text, __sym0, __sym1);
@@ -36107,7 +36107,7 @@ mod __parse__Grammar {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         let __lookahead = match __tokens.next() { Some(Ok(v)) => Some(v), None => None, Some(Err(e)) => return Err(__ParseError::User { error: e }) };
         match __lookahead {
-            Some((_, __tok @ Tok::Semi(..), __loc)) => {
+            Some((_, __tok @ Tok::Semi, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym3 = &mut Some((__tok));
                 __result = try!(__state213(text, __lookbehind, __tokens, __sym0, __sym1, __sym2, __sym3));
@@ -36170,20 +36170,20 @@ mod __parse__Grammar {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
             Some((_, Tok::MacroId(_), _)) |
-            Some((_, Tok::LessThan(..), _)) |
-            Some((_, Tok::RightBrace(..), _)) |
+            Some((_, Tok::LessThan, _)) |
+            Some((_, Tok::RightBrace, _)) |
             Some((_, Tok::Escape(_), _)) |
             Some((_, Tok::Id(_), _)) |
             Some((_, Tok::StringLiteral(_), _)) |
-            Some((_, Tok::Lookahead(..), _)) |
+            Some((_, Tok::Lookahead, _)) |
             Some((_, Tok::EqualsGreaterThanQuestionCode(_), _)) |
-            Some((_, Tok::If(..), _)) |
+            Some((_, Tok::If, _)) |
             Some((_, Tok::RegexLiteral(_), _)) |
-            Some((_, Tok::LeftParen(..), _)) |
+            Some((_, Tok::LeftParen, _)) |
             Some((_, Tok::EqualsGreaterThanCode(_), _)) |
-            Some((_, Tok::EqualsGreaterThanLookbehind(..), _)) |
-            Some((_, Tok::EqualsGreaterThanLookahead(..), _)) |
-            Some((_, Tok::Lookbehind(..), _)) => {
+            Some((_, Tok::EqualsGreaterThanLookbehind, _)) |
+            Some((_, Tok::EqualsGreaterThanLookahead, _)) |
+            Some((_, Tok::Lookbehind, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
                 let __nt = super::__action155(text, __sym0, __sym1);
@@ -36232,12 +36232,12 @@ mod __parse__Grammar {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, __tok @ Tok::Comma(..), __loc)) => {
+            Some((_, __tok @ Tok::Comma, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym1 = &mut Some((__tok));
                 __result = try!(__state214(text, __lookbehind, __tokens, __sym0, __sym1));
             }
-            Some((_, Tok::RightBrace(..), _)) => {
+            Some((_, Tok::RightBrace, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __nt = super::__action152(text, __sym0);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::Alternative_3f(__nt)));
@@ -36271,7 +36271,7 @@ mod __parse__Grammar {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, Tok::RightBrace(..), _)) => {
+            Some((_, Tok::RightBrace, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
                 let __nt = super::__action114(text, __sym0, __sym1);
@@ -36325,7 +36325,7 @@ mod __parse__Grammar {
         match __lookahead {
             Some((_, Tok::Id(_), _)) |
             Some((_, Tok::RegexLiteral(_), _)) |
-            Some((_, Tok::RightBrace(..), _)) |
+            Some((_, Tok::RightBrace, _)) |
             Some((_, Tok::StringLiteral(_), _)) => {
                 let __nt = super::__action174(text, );
                 __result = (__lookbehind, __lookahead, __Nonterminal::_28_3cConversion_3e_20_22_2c_22_29_2a(__nt));
@@ -36412,22 +36412,22 @@ mod __parse__Grammar {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         let __lookahead = match __tokens.next() { Some(Ok(v)) => Some(v), None => None, Some(Err(e)) => return Err(__ParseError::User { error: e }) };
         match __lookahead {
-            Some((_, __tok @ Tok::LeftParen(..), __loc)) => {
+            Some((_, __tok @ Tok::LeftParen, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym5 = &mut Some((__tok));
                 __result = try!(__state48(text, __lookbehind, __tokens, __sym5));
             }
-            Some((_, __tok @ Tok::ColonColon(..), __loc)) => {
+            Some((_, __tok @ Tok::ColonColon, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym5 = &mut Some((__tok));
                 __result = try!(__state46(text, __lookbehind, __tokens, __sym5));
             }
-            Some((_, __tok @ Tok::Hash(..), __loc)) => {
+            Some((_, __tok @ Tok::Hash, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym5 = &mut Some((__tok));
                 __result = try!(__state47(text, __lookbehind, __tokens, __sym5));
             }
-            Some((_, __tok @ Tok::Ampersand(..), __loc)) => {
+            Some((_, __tok @ Tok::Ampersand, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym5 = &mut Some((__tok));
                 __result = try!(__state49(text, __lookbehind, __tokens, __sym5));
@@ -36489,9 +36489,9 @@ mod __parse__Grammar {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, Tok::Comma(..), _)) |
-            Some((_, Tok::RightBrace(..), _)) |
-            Some((_, Tok::Semi(..), _)) => {
+            Some((_, Tok::Comma, _)) |
+            Some((_, Tok::RightBrace, _)) |
+            Some((_, Tok::Semi, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __nt = super::__action107(text, __sym0);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::Action_3f(__nt)));
@@ -36534,9 +36534,9 @@ mod __parse__Grammar {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, Tok::Semi(..), _)) |
-            Some((_, Tok::RightBrace(..), _)) |
-            Some((_, Tok::Comma(..), _)) => {
+            Some((_, Tok::Semi, _)) |
+            Some((_, Tok::RightBrace, _)) |
+            Some((_, Tok::Comma, _)) => {
                 let __nt = ::std::clone::Clone::clone(&__lookbehind).unwrap_or_default();
                 __result = (__lookbehind, __lookahead, __Nonterminal::_40R(__nt));
             }
@@ -36587,9 +36587,9 @@ mod __parse__Grammar {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, Tok::RightBrace(..), _)) |
-            Some((_, Tok::Semi(..), _)) |
-            Some((_, Tok::Comma(..), _)) => {
+            Some((_, Tok::RightBrace, _)) |
+            Some((_, Tok::Semi, _)) |
+            Some((_, Tok::Comma, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
                 let __sym2 = __sym2.take().unwrap();
@@ -36655,22 +36655,22 @@ mod __parse__Grammar {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, __tok @ Tok::EqualsEquals(..), __loc)) => {
+            Some((_, __tok @ Tok::EqualsEquals, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym2 = &mut Some((__tok));
                 __result = try!(__state222(text, __lookbehind, __tokens, __sym2));
             }
-            Some((_, __tok @ Tok::BangEquals(..), __loc)) => {
+            Some((_, __tok @ Tok::BangEquals, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym2 = &mut Some((__tok));
                 __result = try!(__state219(text, __lookbehind, __tokens, __sym2));
             }
-            Some((_, __tok @ Tok::BangTilde(..), __loc)) => {
+            Some((_, __tok @ Tok::BangTilde, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym2 = &mut Some((__tok));
                 __result = try!(__state220(text, __lookbehind, __tokens, __sym2));
             }
-            Some((_, __tok @ Tok::TildeTilde(..), __loc)) => {
+            Some((_, __tok @ Tok::TildeTilde, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym2 = &mut Some((__tok));
                 __result = try!(__state221(text, __lookbehind, __tokens, __sym2));
@@ -36732,12 +36732,12 @@ mod __parse__Grammar {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         let __lookahead = match __tokens.next() { Some(Ok(v)) => Some(v), None => None, Some(Err(e)) => return Err(__ParseError::User { error: e }) };
         match __lookahead {
-            Some((_, Tok::Pub(..), _)) |
+            Some((_, Tok::Pub, _)) |
             Some((_, Tok::Use(_), _)) |
             None |
-            Some((_, Tok::Extern(..), _)) |
+            Some((_, Tok::Extern, _)) |
             Some((_, Tok::Escape(_), _)) |
-            Some((_, Tok::Hash(..), _)) |
+            Some((_, Tok::Hash, _)) |
             Some((_, Tok::MacroId(_), _)) |
             Some((_, Tok::Id(_), _)) => {
                 let __sym0 = __sym0.take().unwrap();
@@ -36803,20 +36803,20 @@ mod __parse__Grammar {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         let __lookahead = match __tokens.next() { Some(Ok(v)) => Some(v), None => None, Some(Err(e)) => return Err(__ParseError::User { error: e }) };
         match __lookahead {
-            Some((_, Tok::Lookahead(..), _)) |
-            Some((_, Tok::LeftParen(..), _)) |
+            Some((_, Tok::Lookahead, _)) |
+            Some((_, Tok::LeftParen, _)) |
             Some((_, Tok::MacroId(_), _)) |
-            Some((_, Tok::RightBrace(..), _)) |
-            Some((_, Tok::If(..), _)) |
+            Some((_, Tok::RightBrace, _)) |
+            Some((_, Tok::If, _)) |
             Some((_, Tok::StringLiteral(_), _)) |
-            Some((_, Tok::Lookbehind(..), _)) |
+            Some((_, Tok::Lookbehind, _)) |
             Some((_, Tok::RegexLiteral(_), _)) |
             Some((_, Tok::EqualsGreaterThanQuestionCode(_), _)) |
             Some((_, Tok::Escape(_), _)) |
-            Some((_, Tok::EqualsGreaterThanLookbehind(..), _)) |
-            Some((_, Tok::LessThan(..), _)) |
+            Some((_, Tok::EqualsGreaterThanLookbehind, _)) |
+            Some((_, Tok::LessThan, _)) |
             Some((_, Tok::Id(_), _)) |
-            Some((_, Tok::EqualsGreaterThanLookahead(..), _)) |
+            Some((_, Tok::EqualsGreaterThanLookahead, _)) |
             Some((_, Tok::EqualsGreaterThanCode(_), _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
@@ -36878,7 +36878,7 @@ mod __parse__Grammar {
                 let __nt = __lookahead.as_ref().map(|o| ::std::clone::Clone::clone(&o.0)).or_else(|| ::std::clone::Clone::clone(&__lookbehind)).unwrap_or_default();
                 __result = (__lookbehind, __lookahead, __Nonterminal::_40L(__nt));
             }
-            Some((_, Tok::RightBrace(..), _)) => {
+            Some((_, Tok::RightBrace, _)) => {
                 let __nt = super::__action173(text, );
                 __result = (__lookbehind, __lookahead, __Nonterminal::Conversion_3f(__nt));
             }
@@ -36940,7 +36940,7 @@ mod __parse__Grammar {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, __tok @ Tok::RightBrace(..), __loc)) => {
+            Some((_, __tok @ Tok::RightBrace, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym6 = &mut Some((__tok));
                 __result = try!(__state228(text, __lookbehind, __tokens, __sym0, __sym1, __sym2, __sym3, __sym4, __sym5, __sym6));
@@ -36982,7 +36982,7 @@ mod __parse__Grammar {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, __tok @ Tok::Semi(..), __loc)) => {
+            Some((_, __tok @ Tok::Semi, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym6 = &mut Some((__tok));
                 __result = try!(__state229(text, __lookbehind, __tokens, __sym0, __sym1, __sym2, __sym3, __sym4, __sym5, __sym6));
@@ -37023,9 +37023,9 @@ mod __parse__Grammar {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, Tok::Semi(..), _)) |
-            Some((_, Tok::Comma(..), _)) |
-            Some((_, Tok::RightBrace(..), _)) => {
+            Some((_, Tok::Semi, _)) |
+            Some((_, Tok::Comma, _)) |
+            Some((_, Tok::RightBrace, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
                 let __sym2 = __sym2.take().unwrap();
@@ -37271,12 +37271,12 @@ mod __parse__Grammar {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, __tok @ Tok::Comma(..), __loc)) => {
+            Some((_, __tok @ Tok::Comma, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym1 = &mut Some((__tok));
                 __result = try!(__state231(text, __lookbehind, __tokens, __sym0, __sym1));
             }
-            Some((_, Tok::RightBrace(..), _)) => {
+            Some((_, Tok::RightBrace, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __nt = super::__action172(text, __sym0);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::Conversion_3f(__nt)));
@@ -37310,7 +37310,7 @@ mod __parse__Grammar {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, Tok::RightBrace(..), _)) => {
+            Some((_, Tok::RightBrace, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
                 let __nt = super::__action90(text, __sym0, __sym1);
@@ -37350,7 +37350,7 @@ mod __parse__Grammar {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, Tok::RightBrace(..), _)) |
+            Some((_, Tok::RightBrace, _)) |
             Some((_, Tok::StringLiteral(_), _)) |
             Some((_, Tok::Id(_), _)) |
             Some((_, Tok::RegexLiteral(_), _)) => {
@@ -37474,8 +37474,8 @@ mod __parse__Grammar {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         let __lookahead = match __tokens.next() { Some(Ok(v)) => Some(v), None => None, Some(Err(e)) => return Err(__ParseError::User { error: e }) };
         match __lookahead {
-            Some((_, Tok::Type(..), _)) |
-            Some((_, Tok::RightBrace(..), _)) => {
+            Some((_, Tok::Type, _)) |
+            Some((_, Tok::RightBrace, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
                 let __sym2 = __sym2.take().unwrap();
@@ -37525,9 +37525,9 @@ mod __parse__Grammar {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         let __lookahead = match __tokens.next() { Some(Ok(v)) => Some(v), None => None, Some(Err(e)) => return Err(__ParseError::User { error: e }) };
         match __lookahead {
-            Some((_, Tok::Enum(..), _)) |
-            Some((_, Tok::Type(..), _)) |
-            Some((_, Tok::RightBrace(..), _)) => {
+            Some((_, Tok::Enum, _)) |
+            Some((_, Tok::Type, _)) |
+            Some((_, Tok::RightBrace, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
                 let __sym2 = __sym2.take().unwrap();
@@ -37605,11 +37605,11 @@ mod __parse__Grammar {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
             Some((_, Tok::EqualsGreaterThanQuestionCode(_), _)) |
-            Some((_, Tok::RightBrace(..), _)) |
-            Some((_, Tok::Semi(..), _)) |
-            Some((_, Tok::EqualsGreaterThanLookahead(..), _)) |
-            Some((_, Tok::EqualsGreaterThanLookbehind(..), _)) |
-            Some((_, Tok::Comma(..), _)) |
+            Some((_, Tok::RightBrace, _)) |
+            Some((_, Tok::Semi, _)) |
+            Some((_, Tok::EqualsGreaterThanLookahead, _)) |
+            Some((_, Tok::EqualsGreaterThanLookbehind, _)) |
+            Some((_, Tok::Comma, _)) |
             Some((_, Tok::EqualsGreaterThanCode(_), _)) => {
                 let __nt = ::std::clone::Clone::clone(&__lookbehind).unwrap_or_default();
                 __result = (__lookbehind, __lookahead, __Nonterminal::_40R(__nt));
@@ -37664,7 +37664,7 @@ mod __parse__Grammar {
             Some((_, Tok::Id(_), _)) |
             Some((_, Tok::StringLiteral(_), _)) |
             Some((_, Tok::RegexLiteral(_), _)) |
-            Some((_, Tok::RightBrace(..), _)) => {
+            Some((_, Tok::RightBrace, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
                 let __nt = super::__action176(text, __sym0, __sym1);
@@ -37833,12 +37833,12 @@ mod __parse__Grammar {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, Tok::EqualsGreaterThanLookahead(..), _)) |
-            Some((_, Tok::Comma(..), _)) |
+            Some((_, Tok::EqualsGreaterThanLookahead, _)) |
+            Some((_, Tok::Comma, _)) |
             Some((_, Tok::EqualsGreaterThanCode(_), _)) |
-            Some((_, Tok::RightBrace(..), _)) |
-            Some((_, Tok::Semi(..), _)) |
-            Some((_, Tok::EqualsGreaterThanLookbehind(..), _)) |
+            Some((_, Tok::RightBrace, _)) |
+            Some((_, Tok::Semi, _)) |
+            Some((_, Tok::EqualsGreaterThanLookbehind, _)) |
             Some((_, Tok::EqualsGreaterThanQuestionCode(_), _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
@@ -37919,8 +37919,8 @@ mod __parse__Grammar {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         let __lookahead = match __tokens.next() { Some(Ok(v)) => Some(v), None => None, Some(Err(e)) => return Err(__ParseError::User { error: e }) };
         match __lookahead {
-            Some((_, Tok::Comma(..), _)) |
-            Some((_, Tok::RightBrace(..), _)) => {
+            Some((_, Tok::Comma, _)) |
+            Some((_, Tok::RightBrace, _)) => {
                 let __nt = ::std::clone::Clone::clone(&__lookbehind).unwrap_or_default();
                 __result = (__lookbehind, __lookahead, __Nonterminal::_40R(__nt));
             }
@@ -37970,8 +37970,8 @@ mod __parse__Grammar {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok<'input>, usize)>, __Nonterminal<'input, >);
         match __lookahead {
-            Some((_, Tok::RightBrace(..), _)) |
-            Some((_, Tok::Comma(..), _)) => {
+            Some((_, Tok::RightBrace, _)) |
+            Some((_, Tok::Comma, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
                 let __sym2 = __sym2.take().unwrap();

@@ -99,7 +99,7 @@ mod __parse__Expr {
     {
         let mut __result: (Option<()>, Option<((), Tok, ())>, __Nonterminal<>);
         match __lookahead {
-            Some((_, __tok @ Tok::LParen(..), __loc)) => {
+            Some((_, __tok @ Tok::LParen, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym0 = &mut Some((__tok));
                 __result = try!(__state4(scale, __lookbehind, __tokens, __sym0));
@@ -163,12 +163,12 @@ mod __parse__Expr {
     {
         let mut __result: (Option<()>, Option<((), Tok, ())>, __Nonterminal<>);
         match __lookahead {
-            Some((_, __tok @ Tok::Plus(..), __loc)) => {
+            Some((_, __tok @ Tok::Plus, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym1 = &mut Some((__tok));
                 __result = try!(__state6(scale, __lookbehind, __tokens, __sym0, __sym1));
             }
-            Some((_, __tok @ Tok::Minus(..), __loc)) => {
+            Some((_, __tok @ Tok::Minus, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym1 = &mut Some((__tok));
                 __result = try!(__state7(scale, __lookbehind, __tokens, __sym0, __sym1));
@@ -235,20 +235,20 @@ mod __parse__Expr {
     {
         let mut __result: (Option<()>, Option<((), Tok, ())>, __Nonterminal<>);
         match __lookahead {
-            Some((_, __tok @ Tok::Times(..), __loc)) => {
+            Some((_, __tok @ Tok::Times, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym1 = &mut Some((__tok));
                 __result = try!(__state8(scale, __lookbehind, __tokens, __sym0, __sym1));
             }
-            Some((_, __tok @ Tok::Div(..), __loc)) => {
+            Some((_, __tok @ Tok::Div, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym1 = &mut Some((__tok));
                 __result = try!(__state9(scale, __lookbehind, __tokens, __sym0, __sym1));
             }
             None |
-            Some((_, Tok::RParen(..), _)) |
-            Some((_, Tok::Plus(..), _)) |
-            Some((_, Tok::Minus(..), _)) => {
+            Some((_, Tok::RParen, _)) |
+            Some((_, Tok::Plus, _)) |
+            Some((_, Tok::Minus, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __nt = super::__action3(scale, __sym0, &__lookbehind, &__lookahead);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::Expr(__nt)));
@@ -295,11 +295,11 @@ mod __parse__Expr {
         let mut __result: (Option<()>, Option<((), Tok, ())>, __Nonterminal<>);
         match __lookahead {
             None |
-            Some((_, Tok::RParen(..), _)) |
-            Some((_, Tok::Times(..), _)) |
-            Some((_, Tok::Plus(..), _)) |
-            Some((_, Tok::Minus(..), _)) |
-            Some((_, Tok::Div(..), _)) => {
+            Some((_, Tok::RParen, _)) |
+            Some((_, Tok::Times, _)) |
+            Some((_, Tok::Plus, _)) |
+            Some((_, Tok::Minus, _)) |
+            Some((_, Tok::Div, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __nt = super::__action6(scale, __sym0, &__lookbehind, &__lookahead);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::Factor(__nt)));
@@ -415,7 +415,7 @@ mod __parse__Expr {
             Some(Err(e)) => return Err(__ParseError::User { error: e }),
         };
         match __lookahead {
-            Some((_, __tok @ Tok::LParen(..), __loc)) => {
+            Some((_, __tok @ Tok::LParen, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym1 = &mut Some((__tok));
                 __result = try!(__state4(scale, __lookbehind, __tokens, __sym1));
@@ -491,11 +491,11 @@ mod __parse__Expr {
         };
         match __lookahead {
             None |
-            Some((_, Tok::RParen(..), _)) |
-            Some((_, Tok::Times(..), _)) |
-            Some((_, Tok::Plus(..), _)) |
-            Some((_, Tok::Minus(..), _)) |
-            Some((_, Tok::Div(..), _)) => {
+            Some((_, Tok::RParen, _)) |
+            Some((_, Tok::Times, _)) |
+            Some((_, Tok::Plus, _)) |
+            Some((_, Tok::Minus, _)) |
+            Some((_, Tok::Div, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __nt = super::__action7(scale, __sym0, &__lookbehind, &__lookahead);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::Term(__nt)));
@@ -589,7 +589,7 @@ mod __parse__Expr {
             Some(Err(e)) => return Err(__ParseError::User { error: e }),
         };
         match __lookahead {
-            Some((_, __tok @ Tok::LParen(..), __loc)) => {
+            Some((_, __tok @ Tok::LParen, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym2 = &mut Some((__tok));
                 __result = try!(__state4(scale, __lookbehind, __tokens, __sym2));
@@ -705,7 +705,7 @@ mod __parse__Expr {
             Some(Err(e)) => return Err(__ParseError::User { error: e }),
         };
         match __lookahead {
-            Some((_, __tok @ Tok::LParen(..), __loc)) => {
+            Some((_, __tok @ Tok::LParen, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym2 = &mut Some((__tok));
                 __result = try!(__state4(scale, __lookbehind, __tokens, __sym2));
@@ -794,7 +794,7 @@ mod __parse__Expr {
             Some(Err(e)) => return Err(__ParseError::User { error: e }),
         };
         match __lookahead {
-            Some((_, __tok @ Tok::LParen(..), __loc)) => {
+            Some((_, __tok @ Tok::LParen, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym2 = &mut Some((__tok));
                 __result = try!(__state4(scale, __lookbehind, __tokens, __sym2));
@@ -879,7 +879,7 @@ mod __parse__Expr {
             Some(Err(e)) => return Err(__ParseError::User { error: e }),
         };
         match __lookahead {
-            Some((_, __tok @ Tok::LParen(..), __loc)) => {
+            Some((_, __tok @ Tok::LParen, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym2 = &mut Some((__tok));
                 __result = try!(__state4(scale, __lookbehind, __tokens, __sym2));
@@ -952,17 +952,17 @@ mod __parse__Expr {
     {
         let mut __result: (Option<()>, Option<((), Tok, ())>, __Nonterminal<>);
         match __lookahead {
-            Some((_, __tok @ Tok::RParen(..), __loc)) => {
+            Some((_, __tok @ Tok::RParen, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym2 = &mut Some((__tok));
                 __result = try!(__state15(scale, __lookbehind, __tokens, __sym0, __sym1, __sym2));
             }
-            Some((_, __tok @ Tok::Plus(..), __loc)) => {
+            Some((_, __tok @ Tok::Plus, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym2 = &mut Some((__tok));
                 __result = try!(__state6(scale, __lookbehind, __tokens, __sym1, __sym2));
             }
-            Some((_, __tok @ Tok::Minus(..), __loc)) => {
+            Some((_, __tok @ Tok::Minus, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym2 = &mut Some((__tok));
                 __result = try!(__state7(scale, __lookbehind, __tokens, __sym1, __sym2));
@@ -1026,20 +1026,20 @@ mod __parse__Expr {
     {
         let mut __result: (Option<()>, Option<((), Tok, ())>, __Nonterminal<>);
         match __lookahead {
-            Some((_, __tok @ Tok::Times(..), __loc)) => {
+            Some((_, __tok @ Tok::Times, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym3 = &mut Some((__tok));
                 __result = try!(__state8(scale, __lookbehind, __tokens, __sym2, __sym3));
             }
-            Some((_, __tok @ Tok::Div(..), __loc)) => {
+            Some((_, __tok @ Tok::Div, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym3 = &mut Some((__tok));
                 __result = try!(__state9(scale, __lookbehind, __tokens, __sym2, __sym3));
             }
             None |
-            Some((_, Tok::RParen(..), _)) |
-            Some((_, Tok::Plus(..), _)) |
-            Some((_, Tok::Minus(..), _)) => {
+            Some((_, Tok::RParen, _)) |
+            Some((_, Tok::Plus, _)) |
+            Some((_, Tok::Minus, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
                 let __sym2 = __sym2.take().unwrap();
@@ -1105,20 +1105,20 @@ mod __parse__Expr {
     {
         let mut __result: (Option<()>, Option<((), Tok, ())>, __Nonterminal<>);
         match __lookahead {
-            Some((_, __tok @ Tok::Times(..), __loc)) => {
+            Some((_, __tok @ Tok::Times, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym3 = &mut Some((__tok));
                 __result = try!(__state8(scale, __lookbehind, __tokens, __sym2, __sym3));
             }
-            Some((_, __tok @ Tok::Div(..), __loc)) => {
+            Some((_, __tok @ Tok::Div, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym3 = &mut Some((__tok));
                 __result = try!(__state9(scale, __lookbehind, __tokens, __sym2, __sym3));
             }
             None |
-            Some((_, Tok::RParen(..), _)) |
-            Some((_, Tok::Plus(..), _)) |
-            Some((_, Tok::Minus(..), _)) => {
+            Some((_, Tok::RParen, _)) |
+            Some((_, Tok::Plus, _)) |
+            Some((_, Tok::Minus, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
                 let __sym2 = __sym2.take().unwrap();
@@ -1169,11 +1169,11 @@ mod __parse__Expr {
         let mut __result: (Option<()>, Option<((), Tok, ())>, __Nonterminal<>);
         match __lookahead {
             None |
-            Some((_, Tok::RParen(..), _)) |
-            Some((_, Tok::Times(..), _)) |
-            Some((_, Tok::Plus(..), _)) |
-            Some((_, Tok::Minus(..), _)) |
-            Some((_, Tok::Div(..), _)) => {
+            Some((_, Tok::RParen, _)) |
+            Some((_, Tok::Times, _)) |
+            Some((_, Tok::Plus, _)) |
+            Some((_, Tok::Minus, _)) |
+            Some((_, Tok::Div, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
                 let __sym2 = __sym2.take().unwrap();
@@ -1223,11 +1223,11 @@ mod __parse__Expr {
         let mut __result: (Option<()>, Option<((), Tok, ())>, __Nonterminal<>);
         match __lookahead {
             None |
-            Some((_, Tok::RParen(..), _)) |
-            Some((_, Tok::Times(..), _)) |
-            Some((_, Tok::Plus(..), _)) |
-            Some((_, Tok::Minus(..), _)) |
-            Some((_, Tok::Div(..), _)) => {
+            Some((_, Tok::RParen, _)) |
+            Some((_, Tok::Times, _)) |
+            Some((_, Tok::Plus, _)) |
+            Some((_, Tok::Minus, _)) |
+            Some((_, Tok::Div, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
                 let __sym2 = __sym2.take().unwrap();
@@ -1281,11 +1281,11 @@ mod __parse__Expr {
         };
         match __lookahead {
             None |
-            Some((_, Tok::RParen(..), _)) |
-            Some((_, Tok::Times(..), _)) |
-            Some((_, Tok::Plus(..), _)) |
-            Some((_, Tok::Minus(..), _)) |
-            Some((_, Tok::Div(..), _)) => {
+            Some((_, Tok::RParen, _)) |
+            Some((_, Tok::Times, _)) |
+            Some((_, Tok::Plus, _)) |
+            Some((_, Tok::Minus, _)) |
+            Some((_, Tok::Div, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
                 let __sym2 = __sym2.take().unwrap();

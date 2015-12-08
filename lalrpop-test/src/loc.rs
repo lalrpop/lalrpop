@@ -76,8 +76,8 @@ mod __parse__Items {
         let mut __result: (Option<usize>, Option<(usize, Tok, usize)>, __Nonterminal<>);
         match __lookahead {
             None |
-            Some((_, Tok::Plus(..), _)) |
-            Some((_, Tok::Minus(..), _)) => {
+            Some((_, Tok::Plus, _)) |
+            Some((_, Tok::Minus, _)) => {
                 let __nt = super::__action6(&__lookbehind, &__lookahead);
                 __result = (__lookbehind, __lookahead, __Nonterminal::_40L(__nt));
             }
@@ -131,8 +131,8 @@ mod __parse__Items {
         let mut __result: (Option<usize>, Option<(usize, Tok, usize)>, __Nonterminal<>);
         match __lookahead {
             None |
-            Some((_, Tok::Plus(..), _)) |
-            Some((_, Tok::Minus(..), _)) => {
+            Some((_, Tok::Plus, _)) |
+            Some((_, Tok::Minus, _)) => {
                 let __nt = super::__action5(&__lookbehind, &__lookahead);
                 __result = (__lookbehind, __lookahead, __Nonterminal::_40R(__nt));
             }
@@ -188,12 +188,12 @@ mod __parse__Items {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok, usize)>, __Nonterminal<>);
         match __lookahead {
-            Some((_, __tok @ Tok::Minus(..), __loc)) => {
+            Some((_, __tok @ Tok::Minus, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym1 = &mut Some((__tok));
                 __result = try!(__state6(__lookbehind, __tokens, __sym0, __sym1));
             }
-            Some((_, Tok::Plus(..), _)) => {
+            Some((_, Tok::Plus, _)) => {
                 let __nt = super::__action6(&__lookbehind, &__lookahead);
                 __result = (__lookbehind, __lookahead, __Nonterminal::_40L(__nt));
             }
@@ -250,8 +250,8 @@ mod __parse__Items {
         let mut __result: (Option<usize>, Option<(usize, Tok, usize)>, __Nonterminal<>);
         match __lookahead {
             None |
-            Some((_, Tok::Plus(..), _)) |
-            Some((_, Tok::Minus(..), _)) => {
+            Some((_, Tok::Plus, _)) |
+            Some((_, Tok::Minus, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
                 let __nt = super::__action1(__sym0, __sym1, &__lookbehind, &__lookahead);
@@ -284,7 +284,7 @@ mod __parse__Items {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok, usize)>, __Nonterminal<>);
         match __lookahead {
-            Some((_, __tok @ Tok::Plus(..), __loc)) => {
+            Some((_, __tok @ Tok::Plus, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym1 = &mut Some((__tok));
                 __result = try!(__state7(__lookbehind, __tokens, __sym0, __sym1));
@@ -321,8 +321,8 @@ mod __parse__Items {
         let mut __result: (Option<usize>, Option<(usize, Tok, usize)>, __Nonterminal<>);
         match __lookahead {
             None |
-            Some((_, Tok::Plus(..), _)) |
-            Some((_, Tok::Minus(..), _)) => {
+            Some((_, Tok::Plus, _)) |
+            Some((_, Tok::Minus, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
                 let __nt = super::__action2(__sym0, __sym1, &__lookbehind, &__lookahead);
@@ -363,8 +363,8 @@ mod __parse__Items {
         };
         match __lookahead {
             None |
-            Some((_, Tok::Plus(..), _)) |
-            Some((_, Tok::Minus(..), _)) => {
+            Some((_, Tok::Plus, _)) |
+            Some((_, Tok::Minus, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
                 let __nt = super::__action3(__sym0, __sym1, &__lookbehind, &__lookahead);
@@ -409,8 +409,8 @@ mod __parse__Items {
         };
         match __lookahead {
             None |
-            Some((_, Tok::Plus(..), _)) |
-            Some((_, Tok::Minus(..), _)) => {
+            Some((_, Tok::Plus, _)) |
+            Some((_, Tok::Minus, _)) => {
                 let __nt = super::__action5(&__lookbehind, &__lookahead);
                 __result = (__lookbehind, __lookahead, __Nonterminal::_40R(__nt));
             }
@@ -459,8 +459,8 @@ mod __parse__Items {
         let mut __result: (Option<usize>, Option<(usize, Tok, usize)>, __Nonterminal<>);
         match __lookahead {
             None |
-            Some((_, Tok::Plus(..), _)) |
-            Some((_, Tok::Minus(..), _)) => {
+            Some((_, Tok::Plus, _)) |
+            Some((_, Tok::Minus, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
                 let __sym2 = __sym2.take().unwrap();

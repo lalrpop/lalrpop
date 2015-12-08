@@ -4,12 +4,12 @@ use util::tok::Tok;
 
 extern {
     enum Tok {
-        "(" => Tok::LParen(..),
-        ")" => Tok::RParen(..),
-        "-" => Tok::Minus(..),
-        "+" => Tok::Plus(..),
-        "*" => Tok::Times(..),
-        "/" => Tok::Div(..),
+        "(" => Tok::LParen,
+        ")" => Tok::RParen,
+        "-" => Tok::Minus,
+        "+" => Tok::Plus,
+        "*" => Tok::Times,
+        "/" => Tok::Div,
         Num => Tok::Num(<i32>)
     }
 }

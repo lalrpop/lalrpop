@@ -58,7 +58,7 @@ mod __parse__S {
     {
         let mut __result: (Option<()>, Option<((), Tok, ())>, __Nonterminal<>);
         match __lookahead {
-            Some((_, __tok @ Tok::LParen(..), __loc)) => {
+            Some((_, __tok @ Tok::LParen, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym0 = &mut Some((__tok));
                 __result = try!(__state2(__lookbehind, __tokens, __sym0));
@@ -134,7 +134,7 @@ mod __parse__S {
             Some(Err(e)) => return Err(__ParseError::User { error: e }),
         };
         match __lookahead {
-            Some((_, __tok @ Tok::RParen(..), __loc)) => {
+            Some((_, __tok @ Tok::RParen, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym1 = &mut Some((__tok));
                 __result = try!(__state3(__lookbehind, __tokens, __sym0, __sym1));
