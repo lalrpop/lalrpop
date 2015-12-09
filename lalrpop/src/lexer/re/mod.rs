@@ -103,7 +103,7 @@ impl<'str> RegexParser<'str> {
             alternatives.push(try!(self.alternative()));
 
             match self.lookahead {
-                Some((_, '|')) => { continue; }
+                Some((_, '|')) => { self.bump(); continue; }
                 _ => { break; }
             }
         }
