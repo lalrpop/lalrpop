@@ -4,9 +4,9 @@ use util::tok::Tok;
 
 extern {
     enum Tok {
-        "(" => Tok::LParen(..),
-        ")" => Tok::RParen(..),
-        "-" => Tok::Minus(..),
+        "(" => Tok::LParen,
+        ")" => Tok::RParen,
+        "-" => Tok::Minus,
         Num => Tok::Num(<i32>),
     }
 }

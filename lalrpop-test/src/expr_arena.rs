@@ -114,12 +114,12 @@ mod __parse__Expr {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok, usize)>, __Nonterminal<'ast>);
         match __lookahead {
-            Some((_, __tok @ Tok::LParen(..), __loc)) => {
+            Some((_, __tok @ Tok::LParen, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym0 = &mut Some((__tok));
                 __result = try!(__state4(arena, __lookbehind, __tokens, __sym0));
             }
-            Some((_, __tok @ Tok::Times(..), __loc)) => {
+            Some((_, __tok @ Tok::Times, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym0 = &mut Some((__tok));
                 __result = try!(__state5(arena, __lookbehind, __tokens, __sym0));
@@ -184,12 +184,12 @@ mod __parse__Expr {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok, usize)>, __Nonterminal<'ast>);
         match __lookahead {
-            Some((_, __tok @ Tok::Plus(..), __loc)) => {
+            Some((_, __tok @ Tok::Plus, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym1 = &mut Some((__tok));
                 __result = try!(__state7(arena, __lookbehind, __tokens, __sym0, __sym1));
             }
-            Some((_, __tok @ Tok::Minus(..), __loc)) => {
+            Some((_, __tok @ Tok::Minus, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym1 = &mut Some((__tok));
                 __result = try!(__state8(arena, __lookbehind, __tokens, __sym0, __sym1));
@@ -243,19 +243,19 @@ mod __parse__Expr {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok, usize)>, __Nonterminal<'ast>);
         match __lookahead {
-            Some((_, __tok @ Tok::Times(..), __loc)) => {
+            Some((_, __tok @ Tok::Times, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym1 = &mut Some((__tok));
                 __result = try!(__state9(arena, __lookbehind, __tokens, __sym0, __sym1));
             }
-            Some((_, __tok @ Tok::Div(..), __loc)) => {
+            Some((_, __tok @ Tok::Div, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym1 = &mut Some((__tok));
                 __result = try!(__state10(arena, __lookbehind, __tokens, __sym0, __sym1));
             }
             None |
-            Some((_, Tok::Plus(..), _)) |
-            Some((_, Tok::Minus(..), _)) => {
+            Some((_, Tok::Plus, _)) |
+            Some((_, Tok::Minus, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __nt = super::__action3(arena, __sym0, &__lookbehind, &__lookahead);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::Expr(__nt)));
@@ -297,10 +297,10 @@ mod __parse__Expr {
         let mut __result: (Option<usize>, Option<(usize, Tok, usize)>, __Nonterminal<'ast>);
         match __lookahead {
             None |
-            Some((_, Tok::Times(..), _)) |
-            Some((_, Tok::Plus(..), _)) |
-            Some((_, Tok::Minus(..), _)) |
-            Some((_, Tok::Div(..), _)) => {
+            Some((_, Tok::Times, _)) |
+            Some((_, Tok::Plus, _)) |
+            Some((_, Tok::Minus, _)) |
+            Some((_, Tok::Div, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __nt = super::__action7(arena, __sym0, &__lookbehind, &__lookahead);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::Factor(__nt)));
@@ -384,12 +384,12 @@ mod __parse__Expr {
             Some(Err(e)) => return Err(__ParseError::User { error: e }),
         };
         match __lookahead {
-            Some((_, __tok @ Tok::LParen(..), __loc)) => {
+            Some((_, __tok @ Tok::LParen, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym1 = &mut Some((__tok));
                 __result = try!(__state14(arena, __lookbehind, __tokens, __sym1));
             }
-            Some((_, __tok @ Tok::Times(..), __loc)) => {
+            Some((_, __tok @ Tok::Times, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym1 = &mut Some((__tok));
                 __result = try!(__state15(arena, __lookbehind, __tokens, __sym1));
@@ -455,7 +455,7 @@ mod __parse__Expr {
             Some(Err(e)) => return Err(__ParseError::User { error: e }),
         };
         match __lookahead {
-            Some((_, __tok @ Tok::LParen(..), __loc)) => {
+            Some((_, __tok @ Tok::LParen, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym1 = &mut Some((__tok));
                 __result = try!(__state17(arena, __lookbehind, __tokens, __sym0, __sym1));
@@ -501,10 +501,10 @@ mod __parse__Expr {
         };
         match __lookahead {
             None |
-            Some((_, Tok::Times(..), _)) |
-            Some((_, Tok::Plus(..), _)) |
-            Some((_, Tok::Minus(..), _)) |
-            Some((_, Tok::Div(..), _)) => {
+            Some((_, Tok::Times, _)) |
+            Some((_, Tok::Plus, _)) |
+            Some((_, Tok::Minus, _)) |
+            Some((_, Tok::Div, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __nt = super::__action8(arena, __sym0, &__lookbehind, &__lookahead);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::Term(__nt)));
@@ -577,12 +577,12 @@ mod __parse__Expr {
             Some(Err(e)) => return Err(__ParseError::User { error: e }),
         };
         match __lookahead {
-            Some((_, __tok @ Tok::LParen(..), __loc)) => {
+            Some((_, __tok @ Tok::LParen, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym2 = &mut Some((__tok));
                 __result = try!(__state4(arena, __lookbehind, __tokens, __sym2));
             }
-            Some((_, __tok @ Tok::Times(..), __loc)) => {
+            Some((_, __tok @ Tok::Times, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym2 = &mut Some((__tok));
                 __result = try!(__state5(arena, __lookbehind, __tokens, __sym2));
@@ -677,12 +677,12 @@ mod __parse__Expr {
             Some(Err(e)) => return Err(__ParseError::User { error: e }),
         };
         match __lookahead {
-            Some((_, __tok @ Tok::LParen(..), __loc)) => {
+            Some((_, __tok @ Tok::LParen, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym2 = &mut Some((__tok));
                 __result = try!(__state4(arena, __lookbehind, __tokens, __sym2));
             }
-            Some((_, __tok @ Tok::Times(..), __loc)) => {
+            Some((_, __tok @ Tok::Times, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym2 = &mut Some((__tok));
                 __result = try!(__state5(arena, __lookbehind, __tokens, __sym2));
@@ -757,7 +757,7 @@ mod __parse__Expr {
             Some(Err(e)) => return Err(__ParseError::User { error: e }),
         };
         match __lookahead {
-            Some((_, __tok @ Tok::LParen(..), __loc)) => {
+            Some((_, __tok @ Tok::LParen, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym2 = &mut Some((__tok));
                 __result = try!(__state4(arena, __lookbehind, __tokens, __sym2));
@@ -828,7 +828,7 @@ mod __parse__Expr {
             Some(Err(e)) => return Err(__ParseError::User { error: e }),
         };
         match __lookahead {
-            Some((_, __tok @ Tok::LParen(..), __loc)) => {
+            Some((_, __tok @ Tok::LParen, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym2 = &mut Some((__tok));
                 __result = try!(__state4(arena, __lookbehind, __tokens, __sym2));
@@ -891,17 +891,17 @@ mod __parse__Expr {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok, usize)>, __Nonterminal<'ast>);
         match __lookahead {
-            Some((_, __tok @ Tok::RParen(..), __loc)) => {
+            Some((_, __tok @ Tok::RParen, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym2 = &mut Some((__tok));
                 __result = try!(__state22(arena, __lookbehind, __tokens, __sym0, __sym1, __sym2));
             }
-            Some((_, __tok @ Tok::Plus(..), __loc)) => {
+            Some((_, __tok @ Tok::Plus, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym2 = &mut Some((__tok));
                 __result = try!(__state23(arena, __lookbehind, __tokens, __sym1, __sym2));
             }
-            Some((_, __tok @ Tok::Minus(..), __loc)) => {
+            Some((_, __tok @ Tok::Minus, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym2 = &mut Some((__tok));
                 __result = try!(__state24(arena, __lookbehind, __tokens, __sym1, __sym2));
@@ -950,19 +950,19 @@ mod __parse__Expr {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok, usize)>, __Nonterminal<'ast>);
         match __lookahead {
-            Some((_, __tok @ Tok::Times(..), __loc)) => {
+            Some((_, __tok @ Tok::Times, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym1 = &mut Some((__tok));
                 __result = try!(__state25(arena, __lookbehind, __tokens, __sym0, __sym1));
             }
-            Some((_, __tok @ Tok::Div(..), __loc)) => {
+            Some((_, __tok @ Tok::Div, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym1 = &mut Some((__tok));
                 __result = try!(__state26(arena, __lookbehind, __tokens, __sym0, __sym1));
             }
-            Some((_, Tok::RParen(..), _)) |
-            Some((_, Tok::Plus(..), _)) |
-            Some((_, Tok::Minus(..), _)) => {
+            Some((_, Tok::RParen, _)) |
+            Some((_, Tok::Plus, _)) |
+            Some((_, Tok::Minus, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __nt = super::__action3(arena, __sym0, &__lookbehind, &__lookahead);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::Expr(__nt)));
@@ -1003,11 +1003,11 @@ mod __parse__Expr {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok, usize)>, __Nonterminal<'ast>);
         match __lookahead {
-            Some((_, Tok::RParen(..), _)) |
-            Some((_, Tok::Times(..), _)) |
-            Some((_, Tok::Plus(..), _)) |
-            Some((_, Tok::Minus(..), _)) |
-            Some((_, Tok::Div(..), _)) => {
+            Some((_, Tok::RParen, _)) |
+            Some((_, Tok::Times, _)) |
+            Some((_, Tok::Plus, _)) |
+            Some((_, Tok::Minus, _)) |
+            Some((_, Tok::Div, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __nt = super::__action7(arena, __sym0, &__lookbehind, &__lookahead);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::Factor(__nt)));
@@ -1091,12 +1091,12 @@ mod __parse__Expr {
             Some(Err(e)) => return Err(__ParseError::User { error: e }),
         };
         match __lookahead {
-            Some((_, __tok @ Tok::LParen(..), __loc)) => {
+            Some((_, __tok @ Tok::LParen, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym1 = &mut Some((__tok));
                 __result = try!(__state14(arena, __lookbehind, __tokens, __sym1));
             }
-            Some((_, __tok @ Tok::Times(..), __loc)) => {
+            Some((_, __tok @ Tok::Times, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym1 = &mut Some((__tok));
                 __result = try!(__state15(arena, __lookbehind, __tokens, __sym1));
@@ -1162,7 +1162,7 @@ mod __parse__Expr {
             Some(Err(e)) => return Err(__ParseError::User { error: e }),
         };
         match __lookahead {
-            Some((_, __tok @ Tok::LParen(..), __loc)) => {
+            Some((_, __tok @ Tok::LParen, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym1 = &mut Some((__tok));
                 __result = try!(__state28(arena, __lookbehind, __tokens, __sym0, __sym1));
@@ -1207,11 +1207,11 @@ mod __parse__Expr {
             Some(Err(e)) => return Err(__ParseError::User { error: e }),
         };
         match __lookahead {
-            Some((_, Tok::RParen(..), _)) |
-            Some((_, Tok::Times(..), _)) |
-            Some((_, Tok::Plus(..), _)) |
-            Some((_, Tok::Minus(..), _)) |
-            Some((_, Tok::Div(..), _)) => {
+            Some((_, Tok::RParen, _)) |
+            Some((_, Tok::Times, _)) |
+            Some((_, Tok::Plus, _)) |
+            Some((_, Tok::Minus, _)) |
+            Some((_, Tok::Div, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __nt = super::__action8(arena, __sym0, &__lookbehind, &__lookahead);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::Term(__nt)));
@@ -1320,12 +1320,12 @@ mod __parse__Expr {
             Some(Err(e)) => return Err(__ParseError::User { error: e }),
         };
         match __lookahead {
-            Some((_, __tok @ Tok::LParen(..), __loc)) => {
+            Some((_, __tok @ Tok::LParen, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym2 = &mut Some((__tok));
                 __result = try!(__state34(arena, __lookbehind, __tokens, __sym2));
             }
-            Some((_, __tok @ Tok::Times(..), __loc)) => {
+            Some((_, __tok @ Tok::Times, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym2 = &mut Some((__tok));
                 __result = try!(__state35(arena, __lookbehind, __tokens, __sym2));
@@ -1335,7 +1335,7 @@ mod __parse__Expr {
                 let mut __sym2 = &mut Some((__tok0));
                 __result = try!(__state36(arena, __lookbehind, __tokens, __sym2));
             }
-            Some((_, Tok::RParen(..), _)) => {
+            Some((_, Tok::RParen, _)) => {
                 let __nt = super::__action23(arena, &__lookbehind, &__lookahead);
                 __result = (__lookbehind, __lookahead, __Nonterminal::Comma_3cExpr_3e(__nt));
             }
@@ -1413,19 +1413,19 @@ mod __parse__Expr {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok, usize)>, __Nonterminal<'ast>);
         match __lookahead {
-            Some((_, __tok @ Tok::Times(..), __loc)) => {
+            Some((_, __tok @ Tok::Times, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym3 = &mut Some((__tok));
                 __result = try!(__state9(arena, __lookbehind, __tokens, __sym2, __sym3));
             }
-            Some((_, __tok @ Tok::Div(..), __loc)) => {
+            Some((_, __tok @ Tok::Div, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym3 = &mut Some((__tok));
                 __result = try!(__state10(arena, __lookbehind, __tokens, __sym2, __sym3));
             }
             None |
-            Some((_, Tok::Plus(..), _)) |
-            Some((_, Tok::Minus(..), _)) => {
+            Some((_, Tok::Plus, _)) |
+            Some((_, Tok::Minus, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
                 let __sym2 = __sym2.take().unwrap();
@@ -1478,19 +1478,19 @@ mod __parse__Expr {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok, usize)>, __Nonterminal<'ast>);
         match __lookahead {
-            Some((_, __tok @ Tok::Times(..), __loc)) => {
+            Some((_, __tok @ Tok::Times, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym3 = &mut Some((__tok));
                 __result = try!(__state9(arena, __lookbehind, __tokens, __sym2, __sym3));
             }
-            Some((_, __tok @ Tok::Div(..), __loc)) => {
+            Some((_, __tok @ Tok::Div, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym3 = &mut Some((__tok));
                 __result = try!(__state10(arena, __lookbehind, __tokens, __sym2, __sym3));
             }
             None |
-            Some((_, Tok::Plus(..), _)) |
-            Some((_, Tok::Minus(..), _)) => {
+            Some((_, Tok::Plus, _)) |
+            Some((_, Tok::Minus, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
                 let __sym2 = __sym2.take().unwrap();
@@ -1536,10 +1536,10 @@ mod __parse__Expr {
         let mut __result: (Option<usize>, Option<(usize, Tok, usize)>, __Nonterminal<'ast>);
         match __lookahead {
             None |
-            Some((_, Tok::Times(..), _)) |
-            Some((_, Tok::Plus(..), _)) |
-            Some((_, Tok::Minus(..), _)) |
-            Some((_, Tok::Div(..), _)) => {
+            Some((_, Tok::Times, _)) |
+            Some((_, Tok::Plus, _)) |
+            Some((_, Tok::Minus, _)) |
+            Some((_, Tok::Div, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
                 let __sym2 = __sym2.take().unwrap();
@@ -1584,10 +1584,10 @@ mod __parse__Expr {
         let mut __result: (Option<usize>, Option<(usize, Tok, usize)>, __Nonterminal<'ast>);
         match __lookahead {
             None |
-            Some((_, Tok::Times(..), _)) |
-            Some((_, Tok::Plus(..), _)) |
-            Some((_, Tok::Minus(..), _)) |
-            Some((_, Tok::Div(..), _)) => {
+            Some((_, Tok::Times, _)) |
+            Some((_, Tok::Plus, _)) |
+            Some((_, Tok::Minus, _)) |
+            Some((_, Tok::Div, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
                 let __sym2 = __sym2.take().unwrap();
@@ -1636,10 +1636,10 @@ mod __parse__Expr {
         };
         match __lookahead {
             None |
-            Some((_, Tok::Times(..), _)) |
-            Some((_, Tok::Plus(..), _)) |
-            Some((_, Tok::Minus(..), _)) |
-            Some((_, Tok::Div(..), _)) => {
+            Some((_, Tok::Times, _)) |
+            Some((_, Tok::Plus, _)) |
+            Some((_, Tok::Minus, _)) |
+            Some((_, Tok::Div, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
                 let __sym2 = __sym2.take().unwrap();
@@ -1714,12 +1714,12 @@ mod __parse__Expr {
             Some(Err(e)) => return Err(__ParseError::User { error: e }),
         };
         match __lookahead {
-            Some((_, __tok @ Tok::LParen(..), __loc)) => {
+            Some((_, __tok @ Tok::LParen, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym2 = &mut Some((__tok));
                 __result = try!(__state14(arena, __lookbehind, __tokens, __sym2));
             }
-            Some((_, __tok @ Tok::Times(..), __loc)) => {
+            Some((_, __tok @ Tok::Times, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym2 = &mut Some((__tok));
                 __result = try!(__state15(arena, __lookbehind, __tokens, __sym2));
@@ -1814,12 +1814,12 @@ mod __parse__Expr {
             Some(Err(e)) => return Err(__ParseError::User { error: e }),
         };
         match __lookahead {
-            Some((_, __tok @ Tok::LParen(..), __loc)) => {
+            Some((_, __tok @ Tok::LParen, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym2 = &mut Some((__tok));
                 __result = try!(__state14(arena, __lookbehind, __tokens, __sym2));
             }
-            Some((_, __tok @ Tok::Times(..), __loc)) => {
+            Some((_, __tok @ Tok::Times, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym2 = &mut Some((__tok));
                 __result = try!(__state15(arena, __lookbehind, __tokens, __sym2));
@@ -1894,7 +1894,7 @@ mod __parse__Expr {
             Some(Err(e)) => return Err(__ParseError::User { error: e }),
         };
         match __lookahead {
-            Some((_, __tok @ Tok::LParen(..), __loc)) => {
+            Some((_, __tok @ Tok::LParen, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym2 = &mut Some((__tok));
                 __result = try!(__state14(arena, __lookbehind, __tokens, __sym2));
@@ -1965,7 +1965,7 @@ mod __parse__Expr {
             Some(Err(e)) => return Err(__ParseError::User { error: e }),
         };
         match __lookahead {
-            Some((_, __tok @ Tok::LParen(..), __loc)) => {
+            Some((_, __tok @ Tok::LParen, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym2 = &mut Some((__tok));
                 __result = try!(__state14(arena, __lookbehind, __tokens, __sym2));
@@ -2028,17 +2028,17 @@ mod __parse__Expr {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok, usize)>, __Nonterminal<'ast>);
         match __lookahead {
-            Some((_, __tok @ Tok::RParen(..), __loc)) => {
+            Some((_, __tok @ Tok::RParen, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym2 = &mut Some((__tok));
                 __result = try!(__state41(arena, __lookbehind, __tokens, __sym0, __sym1, __sym2));
             }
-            Some((_, __tok @ Tok::Plus(..), __loc)) => {
+            Some((_, __tok @ Tok::Plus, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym2 = &mut Some((__tok));
                 __result = try!(__state23(arena, __lookbehind, __tokens, __sym1, __sym2));
             }
-            Some((_, __tok @ Tok::Minus(..), __loc)) => {
+            Some((_, __tok @ Tok::Minus, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym2 = &mut Some((__tok));
                 __result = try!(__state24(arena, __lookbehind, __tokens, __sym1, __sym2));
@@ -2148,12 +2148,12 @@ mod __parse__Expr {
             Some(Err(e)) => return Err(__ParseError::User { error: e }),
         };
         match __lookahead {
-            Some((_, __tok @ Tok::LParen(..), __loc)) => {
+            Some((_, __tok @ Tok::LParen, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym2 = &mut Some((__tok));
                 __result = try!(__state34(arena, __lookbehind, __tokens, __sym2));
             }
-            Some((_, __tok @ Tok::Times(..), __loc)) => {
+            Some((_, __tok @ Tok::Times, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym2 = &mut Some((__tok));
                 __result = try!(__state35(arena, __lookbehind, __tokens, __sym2));
@@ -2163,7 +2163,7 @@ mod __parse__Expr {
                 let mut __sym2 = &mut Some((__tok0));
                 __result = try!(__state36(arena, __lookbehind, __tokens, __sym2));
             }
-            Some((_, Tok::RParen(..), _)) => {
+            Some((_, Tok::RParen, _)) => {
                 let __nt = super::__action23(arena, &__lookbehind, &__lookahead);
                 __result = (__lookbehind, __lookahead, __Nonterminal::Comma_3cExpr_3e(__nt));
             }
@@ -2282,12 +2282,12 @@ mod __parse__Expr {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok, usize)>, __Nonterminal<'ast>);
         match __lookahead {
-            Some((_, __tok @ Tok::LParen(..), __loc)) => {
+            Some((_, __tok @ Tok::LParen, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym1 = &mut Some((__tok));
                 __result = try!(__state34(arena, __lookbehind, __tokens, __sym1));
             }
-            Some((_, __tok @ Tok::Times(..), __loc)) => {
+            Some((_, __tok @ Tok::Times, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym1 = &mut Some((__tok));
                 __result = try!(__state35(arena, __lookbehind, __tokens, __sym1));
@@ -2297,7 +2297,7 @@ mod __parse__Expr {
                 let mut __sym1 = &mut Some((__tok0));
                 __result = try!(__state36(arena, __lookbehind, __tokens, __sym1));
             }
-            Some((_, Tok::RParen(..), _)) => {
+            Some((_, Tok::RParen, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __nt = super::__action25(arena, __sym0, &__lookbehind, &__lookahead);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::Comma_3cExpr_3e(__nt)));
@@ -2356,7 +2356,7 @@ mod __parse__Expr {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok, usize)>, __Nonterminal<'ast>);
         match __lookahead {
-            Some((_, __tok @ Tok::RParen(..), __loc)) => {
+            Some((_, __tok @ Tok::RParen, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym3 = &mut Some((__tok));
                 __result = try!(__state44(arena, __lookbehind, __tokens, __sym0, __sym1, __sym2, __sym3));
@@ -2404,22 +2404,22 @@ mod __parse__Expr {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok, usize)>, __Nonterminal<'ast>);
         match __lookahead {
-            Some((_, __tok @ Tok::Plus(..), __loc)) => {
+            Some((_, __tok @ Tok::Plus, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym1 = &mut Some((__tok));
                 __result = try!(__state45(arena, __lookbehind, __tokens, __sym0, __sym1));
             }
-            Some((_, __tok @ Tok::Comma(..), __loc)) => {
+            Some((_, __tok @ Tok::Comma, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym1 = &mut Some((__tok));
                 __result = try!(__state46(arena, __lookbehind, __tokens, __sym0, __sym1));
             }
-            Some((_, __tok @ Tok::Minus(..), __loc)) => {
+            Some((_, __tok @ Tok::Minus, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym1 = &mut Some((__tok));
                 __result = try!(__state47(arena, __lookbehind, __tokens, __sym0, __sym1));
             }
-            Some((_, Tok::RParen(..), _)) => {
+            Some((_, Tok::RParen, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __nt = super::__action22(arena, __sym0, &__lookbehind, &__lookahead);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::Comma_3cExpr_3e(__nt)));
@@ -2472,20 +2472,20 @@ mod __parse__Expr {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok, usize)>, __Nonterminal<'ast>);
         match __lookahead {
-            Some((_, __tok @ Tok::Times(..), __loc)) => {
+            Some((_, __tok @ Tok::Times, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym1 = &mut Some((__tok));
                 __result = try!(__state48(arena, __lookbehind, __tokens, __sym0, __sym1));
             }
-            Some((_, __tok @ Tok::Div(..), __loc)) => {
+            Some((_, __tok @ Tok::Div, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym1 = &mut Some((__tok));
                 __result = try!(__state49(arena, __lookbehind, __tokens, __sym0, __sym1));
             }
-            Some((_, Tok::RParen(..), _)) |
-            Some((_, Tok::Plus(..), _)) |
-            Some((_, Tok::Comma(..), _)) |
-            Some((_, Tok::Minus(..), _)) => {
+            Some((_, Tok::RParen, _)) |
+            Some((_, Tok::Plus, _)) |
+            Some((_, Tok::Comma, _)) |
+            Some((_, Tok::Minus, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __nt = super::__action3(arena, __sym0, &__lookbehind, &__lookahead);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::Expr(__nt)));
@@ -2528,12 +2528,12 @@ mod __parse__Expr {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok, usize)>, __Nonterminal<'ast>);
         match __lookahead {
-            Some((_, Tok::RParen(..), _)) |
-            Some((_, Tok::Times(..), _)) |
-            Some((_, Tok::Plus(..), _)) |
-            Some((_, Tok::Comma(..), _)) |
-            Some((_, Tok::Minus(..), _)) |
-            Some((_, Tok::Div(..), _)) => {
+            Some((_, Tok::RParen, _)) |
+            Some((_, Tok::Times, _)) |
+            Some((_, Tok::Plus, _)) |
+            Some((_, Tok::Comma, _)) |
+            Some((_, Tok::Minus, _)) |
+            Some((_, Tok::Div, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __nt = super::__action7(arena, __sym0, &__lookbehind, &__lookahead);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::Factor(__nt)));
@@ -2618,12 +2618,12 @@ mod __parse__Expr {
             Some(Err(e)) => return Err(__ParseError::User { error: e }),
         };
         match __lookahead {
-            Some((_, __tok @ Tok::LParen(..), __loc)) => {
+            Some((_, __tok @ Tok::LParen, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym1 = &mut Some((__tok));
                 __result = try!(__state14(arena, __lookbehind, __tokens, __sym1));
             }
-            Some((_, __tok @ Tok::Times(..), __loc)) => {
+            Some((_, __tok @ Tok::Times, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym1 = &mut Some((__tok));
                 __result = try!(__state15(arena, __lookbehind, __tokens, __sym1));
@@ -2690,7 +2690,7 @@ mod __parse__Expr {
             Some(Err(e)) => return Err(__ParseError::User { error: e }),
         };
         match __lookahead {
-            Some((_, __tok @ Tok::LParen(..), __loc)) => {
+            Some((_, __tok @ Tok::LParen, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym1 = &mut Some((__tok));
                 __result = try!(__state51(arena, __lookbehind, __tokens, __sym0, __sym1));
@@ -2737,12 +2737,12 @@ mod __parse__Expr {
             Some(Err(e)) => return Err(__ParseError::User { error: e }),
         };
         match __lookahead {
-            Some((_, Tok::RParen(..), _)) |
-            Some((_, Tok::Times(..), _)) |
-            Some((_, Tok::Plus(..), _)) |
-            Some((_, Tok::Comma(..), _)) |
-            Some((_, Tok::Minus(..), _)) |
-            Some((_, Tok::Div(..), _)) => {
+            Some((_, Tok::RParen, _)) |
+            Some((_, Tok::Times, _)) |
+            Some((_, Tok::Plus, _)) |
+            Some((_, Tok::Comma, _)) |
+            Some((_, Tok::Minus, _)) |
+            Some((_, Tok::Div, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __nt = super::__action8(arena, __sym0, &__lookbehind, &__lookahead);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::Term(__nt)));
@@ -2792,19 +2792,19 @@ mod __parse__Expr {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok, usize)>, __Nonterminal<'ast>);
         match __lookahead {
-            Some((_, __tok @ Tok::Times(..), __loc)) => {
+            Some((_, __tok @ Tok::Times, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym3 = &mut Some((__tok));
                 __result = try!(__state25(arena, __lookbehind, __tokens, __sym2, __sym3));
             }
-            Some((_, __tok @ Tok::Div(..), __loc)) => {
+            Some((_, __tok @ Tok::Div, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym3 = &mut Some((__tok));
                 __result = try!(__state26(arena, __lookbehind, __tokens, __sym2, __sym3));
             }
-            Some((_, Tok::RParen(..), _)) |
-            Some((_, Tok::Plus(..), _)) |
-            Some((_, Tok::Minus(..), _)) => {
+            Some((_, Tok::RParen, _)) |
+            Some((_, Tok::Plus, _)) |
+            Some((_, Tok::Minus, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
                 let __sym2 = __sym2.take().unwrap();
@@ -2857,19 +2857,19 @@ mod __parse__Expr {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok, usize)>, __Nonterminal<'ast>);
         match __lookahead {
-            Some((_, __tok @ Tok::Times(..), __loc)) => {
+            Some((_, __tok @ Tok::Times, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym3 = &mut Some((__tok));
                 __result = try!(__state25(arena, __lookbehind, __tokens, __sym2, __sym3));
             }
-            Some((_, __tok @ Tok::Div(..), __loc)) => {
+            Some((_, __tok @ Tok::Div, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym3 = &mut Some((__tok));
                 __result = try!(__state26(arena, __lookbehind, __tokens, __sym2, __sym3));
             }
-            Some((_, Tok::RParen(..), _)) |
-            Some((_, Tok::Plus(..), _)) |
-            Some((_, Tok::Minus(..), _)) => {
+            Some((_, Tok::RParen, _)) |
+            Some((_, Tok::Plus, _)) |
+            Some((_, Tok::Minus, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
                 let __sym2 = __sym2.take().unwrap();
@@ -2914,11 +2914,11 @@ mod __parse__Expr {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok, usize)>, __Nonterminal<'ast>);
         match __lookahead {
-            Some((_, Tok::RParen(..), _)) |
-            Some((_, Tok::Times(..), _)) |
-            Some((_, Tok::Plus(..), _)) |
-            Some((_, Tok::Minus(..), _)) |
-            Some((_, Tok::Div(..), _)) => {
+            Some((_, Tok::RParen, _)) |
+            Some((_, Tok::Times, _)) |
+            Some((_, Tok::Plus, _)) |
+            Some((_, Tok::Minus, _)) |
+            Some((_, Tok::Div, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
                 let __sym2 = __sym2.take().unwrap();
@@ -2962,11 +2962,11 @@ mod __parse__Expr {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok, usize)>, __Nonterminal<'ast>);
         match __lookahead {
-            Some((_, Tok::RParen(..), _)) |
-            Some((_, Tok::Times(..), _)) |
-            Some((_, Tok::Plus(..), _)) |
-            Some((_, Tok::Minus(..), _)) |
-            Some((_, Tok::Div(..), _)) => {
+            Some((_, Tok::RParen, _)) |
+            Some((_, Tok::Times, _)) |
+            Some((_, Tok::Plus, _)) |
+            Some((_, Tok::Minus, _)) |
+            Some((_, Tok::Div, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
                 let __sym2 = __sym2.take().unwrap();
@@ -3014,11 +3014,11 @@ mod __parse__Expr {
             Some(Err(e)) => return Err(__ParseError::User { error: e }),
         };
         match __lookahead {
-            Some((_, Tok::RParen(..), _)) |
-            Some((_, Tok::Times(..), _)) |
-            Some((_, Tok::Plus(..), _)) |
-            Some((_, Tok::Minus(..), _)) |
-            Some((_, Tok::Div(..), _)) => {
+            Some((_, Tok::RParen, _)) |
+            Some((_, Tok::Times, _)) |
+            Some((_, Tok::Plus, _)) |
+            Some((_, Tok::Minus, _)) |
+            Some((_, Tok::Div, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
                 let __sym2 = __sym2.take().unwrap();
@@ -3058,7 +3058,7 @@ mod __parse__Expr {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok, usize)>, __Nonterminal<'ast>);
         match __lookahead {
-            Some((_, __tok @ Tok::RParen(..), __loc)) => {
+            Some((_, __tok @ Tok::RParen, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym3 = &mut Some((__tok));
                 __result = try!(__state52(arena, __lookbehind, __tokens, __sym0, __sym1, __sym2, __sym3));
@@ -3107,22 +3107,22 @@ mod __parse__Expr {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok, usize)>, __Nonterminal<'ast>);
         match __lookahead {
-            Some((_, __tok @ Tok::Plus(..), __loc)) => {
+            Some((_, __tok @ Tok::Plus, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym2 = &mut Some((__tok));
                 __result = try!(__state45(arena, __lookbehind, __tokens, __sym1, __sym2));
             }
-            Some((_, __tok @ Tok::Comma(..), __loc)) => {
+            Some((_, __tok @ Tok::Comma, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym2 = &mut Some((__tok));
                 __result = try!(__state53(arena, __lookbehind, __tokens, __sym0, __sym1, __sym2));
             }
-            Some((_, __tok @ Tok::Minus(..), __loc)) => {
+            Some((_, __tok @ Tok::Minus, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym2 = &mut Some((__tok));
                 __result = try!(__state47(arena, __lookbehind, __tokens, __sym1, __sym2));
             }
-            Some((_, Tok::RParen(..), _)) => {
+            Some((_, Tok::RParen, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
                 let __nt = super::__action24(arena, __sym0, __sym1, &__lookbehind, &__lookahead);
@@ -3172,10 +3172,10 @@ mod __parse__Expr {
         };
         match __lookahead {
             None |
-            Some((_, Tok::Times(..), _)) |
-            Some((_, Tok::Plus(..), _)) |
-            Some((_, Tok::Minus(..), _)) |
-            Some((_, Tok::Div(..), _)) => {
+            Some((_, Tok::Times, _)) |
+            Some((_, Tok::Plus, _)) |
+            Some((_, Tok::Minus, _)) |
+            Some((_, Tok::Div, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
                 let __sym2 = __sym2.take().unwrap();
@@ -3258,12 +3258,12 @@ mod __parse__Expr {
             Some(Err(e)) => return Err(__ParseError::User { error: e }),
         };
         match __lookahead {
-            Some((_, __tok @ Tok::LParen(..), __loc)) => {
+            Some((_, __tok @ Tok::LParen, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym2 = &mut Some((__tok));
                 __result = try!(__state34(arena, __lookbehind, __tokens, __sym2));
             }
-            Some((_, __tok @ Tok::Times(..), __loc)) => {
+            Some((_, __tok @ Tok::Times, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym2 = &mut Some((__tok));
                 __result = try!(__state35(arena, __lookbehind, __tokens, __sym2));
@@ -3328,9 +3328,9 @@ mod __parse__Expr {
             Some(Err(e)) => return Err(__ParseError::User { error: e }),
         };
         match __lookahead {
-            Some((_, Tok::LParen(..), _)) |
-            Some((_, Tok::RParen(..), _)) |
-            Some((_, Tok::Times(..), _)) |
+            Some((_, Tok::LParen, _)) |
+            Some((_, Tok::RParen, _)) |
+            Some((_, Tok::Times, _)) |
             Some((_, Tok::Num(_), _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
@@ -3412,12 +3412,12 @@ mod __parse__Expr {
             Some(Err(e)) => return Err(__ParseError::User { error: e }),
         };
         match __lookahead {
-            Some((_, __tok @ Tok::LParen(..), __loc)) => {
+            Some((_, __tok @ Tok::LParen, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym2 = &mut Some((__tok));
                 __result = try!(__state34(arena, __lookbehind, __tokens, __sym2));
             }
-            Some((_, __tok @ Tok::Times(..), __loc)) => {
+            Some((_, __tok @ Tok::Times, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym2 = &mut Some((__tok));
                 __result = try!(__state35(arena, __lookbehind, __tokens, __sym2));
@@ -3495,7 +3495,7 @@ mod __parse__Expr {
             Some(Err(e)) => return Err(__ParseError::User { error: e }),
         };
         match __lookahead {
-            Some((_, __tok @ Tok::LParen(..), __loc)) => {
+            Some((_, __tok @ Tok::LParen, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym2 = &mut Some((__tok));
                 __result = try!(__state34(arena, __lookbehind, __tokens, __sym2));
@@ -3569,7 +3569,7 @@ mod __parse__Expr {
             Some(Err(e)) => return Err(__ParseError::User { error: e }),
         };
         match __lookahead {
-            Some((_, __tok @ Tok::LParen(..), __loc)) => {
+            Some((_, __tok @ Tok::LParen, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym2 = &mut Some((__tok));
                 __result = try!(__state34(arena, __lookbehind, __tokens, __sym2));
@@ -3633,17 +3633,17 @@ mod __parse__Expr {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok, usize)>, __Nonterminal<'ast>);
         match __lookahead {
-            Some((_, __tok @ Tok::RParen(..), __loc)) => {
+            Some((_, __tok @ Tok::RParen, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym2 = &mut Some((__tok));
                 __result = try!(__state58(arena, __lookbehind, __tokens, __sym0, __sym1, __sym2));
             }
-            Some((_, __tok @ Tok::Plus(..), __loc)) => {
+            Some((_, __tok @ Tok::Plus, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym2 = &mut Some((__tok));
                 __result = try!(__state23(arena, __lookbehind, __tokens, __sym1, __sym2));
             }
-            Some((_, __tok @ Tok::Minus(..), __loc)) => {
+            Some((_, __tok @ Tok::Minus, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym2 = &mut Some((__tok));
                 __result = try!(__state24(arena, __lookbehind, __tokens, __sym1, __sym2));
@@ -3754,12 +3754,12 @@ mod __parse__Expr {
             Some(Err(e)) => return Err(__ParseError::User { error: e }),
         };
         match __lookahead {
-            Some((_, __tok @ Tok::LParen(..), __loc)) => {
+            Some((_, __tok @ Tok::LParen, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym2 = &mut Some((__tok));
                 __result = try!(__state34(arena, __lookbehind, __tokens, __sym2));
             }
-            Some((_, __tok @ Tok::Times(..), __loc)) => {
+            Some((_, __tok @ Tok::Times, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym2 = &mut Some((__tok));
                 __result = try!(__state35(arena, __lookbehind, __tokens, __sym2));
@@ -3769,7 +3769,7 @@ mod __parse__Expr {
                 let mut __sym2 = &mut Some((__tok0));
                 __result = try!(__state36(arena, __lookbehind, __tokens, __sym2));
             }
-            Some((_, Tok::RParen(..), _)) => {
+            Some((_, Tok::RParen, _)) => {
                 let __nt = super::__action23(arena, &__lookbehind, &__lookahead);
                 __result = (__lookbehind, __lookahead, __Nonterminal::Comma_3cExpr_3e(__nt));
             }
@@ -3844,11 +3844,11 @@ mod __parse__Expr {
             Some(Err(e)) => return Err(__ParseError::User { error: e }),
         };
         match __lookahead {
-            Some((_, Tok::RParen(..), _)) |
-            Some((_, Tok::Times(..), _)) |
-            Some((_, Tok::Plus(..), _)) |
-            Some((_, Tok::Minus(..), _)) |
-            Some((_, Tok::Div(..), _)) => {
+            Some((_, Tok::RParen, _)) |
+            Some((_, Tok::Times, _)) |
+            Some((_, Tok::Plus, _)) |
+            Some((_, Tok::Minus, _)) |
+            Some((_, Tok::Div, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
                 let __sym2 = __sym2.take().unwrap();
@@ -3895,9 +3895,9 @@ mod __parse__Expr {
             Some(Err(e)) => return Err(__ParseError::User { error: e }),
         };
         match __lookahead {
-            Some((_, Tok::LParen(..), _)) |
-            Some((_, Tok::RParen(..), _)) |
-            Some((_, Tok::Times(..), _)) |
+            Some((_, Tok::LParen, _)) |
+            Some((_, Tok::RParen, _)) |
+            Some((_, Tok::Times, _)) |
             Some((_, Tok::Num(_), _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
@@ -3954,20 +3954,20 @@ mod __parse__Expr {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok, usize)>, __Nonterminal<'ast>);
         match __lookahead {
-            Some((_, __tok @ Tok::Times(..), __loc)) => {
+            Some((_, __tok @ Tok::Times, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym3 = &mut Some((__tok));
                 __result = try!(__state48(arena, __lookbehind, __tokens, __sym2, __sym3));
             }
-            Some((_, __tok @ Tok::Div(..), __loc)) => {
+            Some((_, __tok @ Tok::Div, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym3 = &mut Some((__tok));
                 __result = try!(__state49(arena, __lookbehind, __tokens, __sym2, __sym3));
             }
-            Some((_, Tok::RParen(..), _)) |
-            Some((_, Tok::Plus(..), _)) |
-            Some((_, Tok::Comma(..), _)) |
-            Some((_, Tok::Minus(..), _)) => {
+            Some((_, Tok::RParen, _)) |
+            Some((_, Tok::Plus, _)) |
+            Some((_, Tok::Comma, _)) |
+            Some((_, Tok::Minus, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
                 let __sym2 = __sym2.take().unwrap();
@@ -4024,20 +4024,20 @@ mod __parse__Expr {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok, usize)>, __Nonterminal<'ast>);
         match __lookahead {
-            Some((_, __tok @ Tok::Times(..), __loc)) => {
+            Some((_, __tok @ Tok::Times, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym3 = &mut Some((__tok));
                 __result = try!(__state48(arena, __lookbehind, __tokens, __sym2, __sym3));
             }
-            Some((_, __tok @ Tok::Div(..), __loc)) => {
+            Some((_, __tok @ Tok::Div, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym3 = &mut Some((__tok));
                 __result = try!(__state49(arena, __lookbehind, __tokens, __sym2, __sym3));
             }
-            Some((_, Tok::RParen(..), _)) |
-            Some((_, Tok::Plus(..), _)) |
-            Some((_, Tok::Comma(..), _)) |
-            Some((_, Tok::Minus(..), _)) => {
+            Some((_, Tok::RParen, _)) |
+            Some((_, Tok::Plus, _)) |
+            Some((_, Tok::Comma, _)) |
+            Some((_, Tok::Minus, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
                 let __sym2 = __sym2.take().unwrap();
@@ -4084,12 +4084,12 @@ mod __parse__Expr {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok, usize)>, __Nonterminal<'ast>);
         match __lookahead {
-            Some((_, Tok::RParen(..), _)) |
-            Some((_, Tok::Times(..), _)) |
-            Some((_, Tok::Plus(..), _)) |
-            Some((_, Tok::Comma(..), _)) |
-            Some((_, Tok::Minus(..), _)) |
-            Some((_, Tok::Div(..), _)) => {
+            Some((_, Tok::RParen, _)) |
+            Some((_, Tok::Times, _)) |
+            Some((_, Tok::Plus, _)) |
+            Some((_, Tok::Comma, _)) |
+            Some((_, Tok::Minus, _)) |
+            Some((_, Tok::Div, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
                 let __sym2 = __sym2.take().unwrap();
@@ -4135,12 +4135,12 @@ mod __parse__Expr {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok, usize)>, __Nonterminal<'ast>);
         match __lookahead {
-            Some((_, Tok::RParen(..), _)) |
-            Some((_, Tok::Times(..), _)) |
-            Some((_, Tok::Plus(..), _)) |
-            Some((_, Tok::Comma(..), _)) |
-            Some((_, Tok::Minus(..), _)) |
-            Some((_, Tok::Div(..), _)) => {
+            Some((_, Tok::RParen, _)) |
+            Some((_, Tok::Times, _)) |
+            Some((_, Tok::Plus, _)) |
+            Some((_, Tok::Comma, _)) |
+            Some((_, Tok::Minus, _)) |
+            Some((_, Tok::Div, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
                 let __sym2 = __sym2.take().unwrap();
@@ -4190,12 +4190,12 @@ mod __parse__Expr {
             Some(Err(e)) => return Err(__ParseError::User { error: e }),
         };
         match __lookahead {
-            Some((_, Tok::RParen(..), _)) |
-            Some((_, Tok::Times(..), _)) |
-            Some((_, Tok::Plus(..), _)) |
-            Some((_, Tok::Comma(..), _)) |
-            Some((_, Tok::Minus(..), _)) |
-            Some((_, Tok::Div(..), _)) => {
+            Some((_, Tok::RParen, _)) |
+            Some((_, Tok::Times, _)) |
+            Some((_, Tok::Plus, _)) |
+            Some((_, Tok::Comma, _)) |
+            Some((_, Tok::Minus, _)) |
+            Some((_, Tok::Div, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
                 let __sym2 = __sym2.take().unwrap();
@@ -4236,7 +4236,7 @@ mod __parse__Expr {
     {
         let mut __result: (Option<usize>, Option<(usize, Tok, usize)>, __Nonterminal<'ast>);
         match __lookahead {
-            Some((_, __tok @ Tok::RParen(..), __loc)) => {
+            Some((_, __tok @ Tok::RParen, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym3 = &mut Some((__tok));
                 __result = try!(__state60(arena, __lookbehind, __tokens, __sym0, __sym1, __sym2, __sym3));
@@ -4286,12 +4286,12 @@ mod __parse__Expr {
             Some(Err(e)) => return Err(__ParseError::User { error: e }),
         };
         match __lookahead {
-            Some((_, Tok::RParen(..), _)) |
-            Some((_, Tok::Times(..), _)) |
-            Some((_, Tok::Plus(..), _)) |
-            Some((_, Tok::Comma(..), _)) |
-            Some((_, Tok::Minus(..), _)) |
-            Some((_, Tok::Div(..), _)) => {
+            Some((_, Tok::RParen, _)) |
+            Some((_, Tok::Times, _)) |
+            Some((_, Tok::Plus, _)) |
+            Some((_, Tok::Comma, _)) |
+            Some((_, Tok::Minus, _)) |
+            Some((_, Tok::Div, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
                 let __sym2 = __sym2.take().unwrap();

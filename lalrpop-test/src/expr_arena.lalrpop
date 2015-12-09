@@ -7,13 +7,13 @@ extern {
     type Location = usize;
 
     enum Tok {
-        "(" => Tok::LParen(..),
-        ")" => Tok::RParen(..),
-        "-" => Tok::Minus(..),
-        "+" => Tok::Plus(..),
-        "*" => Tok::Times(..),
-        "/" => Tok::Div(..),
-        "," => Tok::Comma(..),
+        "(" => Tok::LParen,
+        ")" => Tok::RParen,
+        "-" => Tok::Minus,
+        "+" => Tok::Plus,
+        "*" => Tok::Times,
+        "/" => Tok::Div,
+        "," => Tok::Comma,
         Num => Tok::Num(<i32>)
     }
 }

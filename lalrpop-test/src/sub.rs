@@ -71,7 +71,7 @@ mod __parse__S {
     {
         let mut __result: (Option<()>, Option<((), Tok, ())>, __Nonterminal<>);
         match __lookahead {
-            Some((_, __tok @ Tok::LParen(..), __loc)) => {
+            Some((_, __tok @ Tok::LParen, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym0 = &mut Some((__tok));
                 __result = try!(__state4(__lookbehind, __tokens, __sym0));
@@ -129,7 +129,7 @@ mod __parse__S {
     {
         let mut __result: (Option<()>, Option<((), Tok, ())>, __Nonterminal<>);
         match __lookahead {
-            Some((_, __tok @ Tok::Minus(..), __loc)) => {
+            Some((_, __tok @ Tok::Minus, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym1 = &mut Some((__tok));
                 __result = try!(__state6(__lookbehind, __tokens, __sym0, __sym1));
@@ -198,7 +198,7 @@ mod __parse__S {
         let mut __result: (Option<()>, Option<((), Tok, ())>, __Nonterminal<>);
         match __lookahead {
             None |
-            Some((_, Tok::Minus(..), _)) => {
+            Some((_, Tok::Minus, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __nt = super::__action3(__sym0, &__lookbehind, &__lookahead);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::E(__nt)));
@@ -244,7 +244,7 @@ mod __parse__S {
             Some(Err(e)) => return Err(__ParseError::User { error: e }),
         };
         match __lookahead {
-            Some((_, __tok @ Tok::LParen(..), __loc)) => {
+            Some((_, __tok @ Tok::LParen, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym1 = &mut Some((__tok));
                 __result = try!(__state9(__lookbehind, __tokens, __sym1));
@@ -303,7 +303,7 @@ mod __parse__S {
         };
         match __lookahead {
             None |
-            Some((_, Tok::Minus(..), _)) => {
+            Some((_, Tok::Minus, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __nt = super::__action4(__sym0, &__lookbehind, &__lookahead);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::T(__nt)));
@@ -345,7 +345,7 @@ mod __parse__S {
             Some(Err(e)) => return Err(__ParseError::User { error: e }),
         };
         match __lookahead {
-            Some((_, __tok @ Tok::LParen(..), __loc)) => {
+            Some((_, __tok @ Tok::LParen, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym2 = &mut Some((__tok));
                 __result = try!(__state4(__lookbehind, __tokens, __sym2));
@@ -398,12 +398,12 @@ mod __parse__S {
     {
         let mut __result: (Option<()>, Option<((), Tok, ())>, __Nonterminal<>);
         match __lookahead {
-            Some((_, __tok @ Tok::RParen(..), __loc)) => {
+            Some((_, __tok @ Tok::RParen, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym2 = &mut Some((__tok));
                 __result = try!(__state12(__lookbehind, __tokens, __sym0, __sym1, __sym2));
             }
-            Some((_, __tok @ Tok::Minus(..), __loc)) => {
+            Some((_, __tok @ Tok::Minus, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym2 = &mut Some((__tok));
                 __result = try!(__state13(__lookbehind, __tokens, __sym1, __sym2));
@@ -436,8 +436,8 @@ mod __parse__S {
     {
         let mut __result: (Option<()>, Option<((), Tok, ())>, __Nonterminal<>);
         match __lookahead {
-            Some((_, Tok::RParen(..), _)) |
-            Some((_, Tok::Minus(..), _)) => {
+            Some((_, Tok::RParen, _)) |
+            Some((_, Tok::Minus, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __nt = super::__action3(__sym0, &__lookbehind, &__lookahead);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::E(__nt)));
@@ -483,7 +483,7 @@ mod __parse__S {
             Some(Err(e)) => return Err(__ParseError::User { error: e }),
         };
         match __lookahead {
-            Some((_, __tok @ Tok::LParen(..), __loc)) => {
+            Some((_, __tok @ Tok::LParen, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym1 = &mut Some((__tok));
                 __result = try!(__state9(__lookbehind, __tokens, __sym1));
@@ -541,8 +541,8 @@ mod __parse__S {
             Some(Err(e)) => return Err(__ParseError::User { error: e }),
         };
         match __lookahead {
-            Some((_, Tok::RParen(..), _)) |
-            Some((_, Tok::Minus(..), _)) => {
+            Some((_, Tok::RParen, _)) |
+            Some((_, Tok::Minus, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __nt = super::__action4(__sym0, &__lookbehind, &__lookahead);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::T(__nt)));
@@ -577,7 +577,7 @@ mod __parse__S {
         let mut __result: (Option<()>, Option<((), Tok, ())>, __Nonterminal<>);
         match __lookahead {
             None |
-            Some((_, Tok::Minus(..), _)) => {
+            Some((_, Tok::Minus, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
                 let __sym2 = __sym2.take().unwrap();
@@ -618,7 +618,7 @@ mod __parse__S {
         };
         match __lookahead {
             None |
-            Some((_, Tok::Minus(..), _)) => {
+            Some((_, Tok::Minus, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
                 let __sym2 = __sym2.take().unwrap();
@@ -662,7 +662,7 @@ mod __parse__S {
             Some(Err(e)) => return Err(__ParseError::User { error: e }),
         };
         match __lookahead {
-            Some((_, __tok @ Tok::LParen(..), __loc)) => {
+            Some((_, __tok @ Tok::LParen, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym2 = &mut Some((__tok));
                 __result = try!(__state9(__lookbehind, __tokens, __sym2));
@@ -715,12 +715,12 @@ mod __parse__S {
     {
         let mut __result: (Option<()>, Option<((), Tok, ())>, __Nonterminal<>);
         match __lookahead {
-            Some((_, __tok @ Tok::RParen(..), __loc)) => {
+            Some((_, __tok @ Tok::RParen, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym2 = &mut Some((__tok));
                 __result = try!(__state16(__lookbehind, __tokens, __sym0, __sym1, __sym2));
             }
-            Some((_, __tok @ Tok::Minus(..), __loc)) => {
+            Some((_, __tok @ Tok::Minus, __loc)) => {
                 let mut __lookbehind = Some(__loc);
                 let mut __sym2 = &mut Some((__tok));
                 __result = try!(__state13(__lookbehind, __tokens, __sym1, __sym2));
@@ -755,8 +755,8 @@ mod __parse__S {
     {
         let mut __result: (Option<()>, Option<((), Tok, ())>, __Nonterminal<>);
         match __lookahead {
-            Some((_, Tok::RParen(..), _)) |
-            Some((_, Tok::Minus(..), _)) => {
+            Some((_, Tok::RParen, _)) |
+            Some((_, Tok::Minus, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
                 let __sym2 = __sym2.take().unwrap();
@@ -796,8 +796,8 @@ mod __parse__S {
             Some(Err(e)) => return Err(__ParseError::User { error: e }),
         };
         match __lookahead {
-            Some((_, Tok::RParen(..), _)) |
-            Some((_, Tok::Minus(..), _)) => {
+            Some((_, Tok::RParen, _)) |
+            Some((_, Tok::Minus, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
                 let __sym2 = __sym2.take().unwrap();

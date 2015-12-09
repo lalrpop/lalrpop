@@ -6,8 +6,8 @@ extern {
     type Location = usize;
 
     enum Tok {
-        "-" => Tok::Minus(..),
-        "+" => Tok::Plus(..)
+        "-" => Tok::Minus,
+        "+" => Tok::Plus
     }
 }
 

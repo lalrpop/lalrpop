@@ -283,7 +283,7 @@ impl LowerState {
                              symbols.len());
                 let name_str = intern::read(|interner| {
                     let name_strs: Vec<_> = names.iter().map(|&n| interner.data(n)).collect();
-                    name_strs.connect(", ")
+                    name_strs.join(", ")
                 });
                 let action = action.replace("<>", &name_str);
                 r::ActionFnDefn {

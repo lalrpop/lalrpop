@@ -4,8 +4,8 @@ use super::util::tok::Tok;
 
 extern {
     enum Tok {
-        "(" => Tok::LParen(..),
-        ")" => Tok::RParen(..),
+        "(" => Tok::LParen,
+        ")" => Tok::RParen,
     }
 }
 
