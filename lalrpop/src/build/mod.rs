@@ -11,6 +11,7 @@ use rust::RustWrite;
 use tok;
 use self::filetext::FileText;
 
+use std::env::current_dir;
 use std::fs;
 use std::io::{self, Write};
 use std::path::{Path, PathBuf};
@@ -20,11 +21,11 @@ mod action;
 mod filetext;
 
 pub fn process_root() -> io::Result<()> {
-    process_dir("src", false)
+    process_dir(try!(current_dir()), false)
 }
 
 pub fn process_root_unconditionally() -> io::Result<()> {
-    process_dir("src", true)
+    process_dir(try!(current_dir()), true)
 }
 
 fn process_dir<P:AsRef<Path>>(root_dir: P, force_build: bool) -> io::Result<()> {
