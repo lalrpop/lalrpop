@@ -85,7 +85,7 @@ Here you can see that we parsed `((123))` by finding a `Num` in the
 middle, calling that `Num` a `Term`, and matching up the parentheses
 to form two more terms on top of that.
 
-Nnote that this parse tree is not a data structure but more a
+Note that this parse tree is not a data structure but more a
 visualization of the parse. I mean, you *can* build up a parse tree as
 a data structure, but typically you don't want to: it is more detailed
 than you need. For example, you may not be that interested in the
@@ -177,7 +177,7 @@ fn main() {
 The function `process_root` processes your `src` directory, converting
 all `lalrpop` files into `rs` files. It is smart enough to check
 timestamps and do nothing if the `rs` file is newer than the `lalrpop`
-file, and to mark the geneated `rs` file as read-only. It returns an
+file, and to mark the generated `rs` file as read-only. It returns an
 `io::Result<()>`, so the `unwrap()` call just asserts that no
 file-system errors occurred.
 
