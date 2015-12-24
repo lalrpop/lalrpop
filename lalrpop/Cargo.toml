@@ -16,7 +16,6 @@ doctest = false
 regex = "0.1"
 diff = "0.1"
 itertools = "0.3"
-term = "0.2"
 unicode-xid = "0.0.2"
 petgraph = "0.1.11"
 
