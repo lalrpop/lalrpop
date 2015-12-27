@@ -13,7 +13,6 @@ extern crate lalrpop_intern as intern;
 extern crate lalrpop_util;
 extern crate petgraph;
 extern crate regex;
-extern crate term;
 extern crate itertools;
 extern crate unicode_xid;
 
