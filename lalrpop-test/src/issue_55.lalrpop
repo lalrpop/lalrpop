@@ -1,0 +1,13 @@
+grammar;
+
+pub E: (Vec<&'input str>, &'input str, Vec<&'input str>) = {
+    "{" <AT*> <ET> <AT*> "}"
+};
+
+AT: &'input str = {
+    "type" <r"[a-zA-Z]+"> ";"
+};
+
+ET: &'input str = {
+    "enum" <r"[a-zA-Z]+"> "{" "}"
+};
