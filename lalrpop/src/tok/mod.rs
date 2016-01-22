@@ -379,7 +379,6 @@ impl<'input> Tokenizer<'input> {
         // for a suitable terminator: `,`, `;`, `]`, `}`, or `)`.
         let mut balance = 0; // number of unclosed `(` etc
         loop {
-            println!("code: balance={:?} self.lookahead={:?}", balance, self.lookahead);
             if let Some((idx, c)) = self.lookahead {
                 if c == '"' {
                     self.bump();
