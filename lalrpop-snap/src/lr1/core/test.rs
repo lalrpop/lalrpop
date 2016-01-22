@@ -55,9 +55,8 @@ grammar;
 "#);
     let items = items(&grammar, "A", 0, EOF);
     expect_debug(items.vec, r#"[
-    () = (*) ["C"],
     A = (*) B "C" [EOF],
-    B = (*) () ["C"],
+    B = (*) ["C"],
     B = (*) "D" ["C"]
 ]"#);
 }
@@ -79,19 +78,16 @@ C: Option<u32> = {
 "#);
 
     expect_debug(items(&grammar, "A", 0, EOF).vec, r#"[
-    () = (*) [EOF],
-    () = (*) ["C1"],
     A = (*) B C [EOF],
-    B = (*) () [EOF],
-    B = (*) () ["C1"],
+    B = (*) [EOF],
+    B = (*) ["C1"],
     B = (*) "B1" [EOF],
     B = (*) "B1" ["C1"]
 ]"#);
 
     expect_debug(items(&grammar, "A", 1, EOF).vec, r#"[
-    () = (*) [EOF],
     A = B (*) C [EOF],
-    C = (*) () [EOF],
+    C = (*) [EOF],
     C = (*) "C1" [EOF]
 ]"#);
 }

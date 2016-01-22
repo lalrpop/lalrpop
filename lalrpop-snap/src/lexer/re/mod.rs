@@ -103,7 +103,7 @@ impl<'str> RegexParser<'str> {
             alternatives.push(try!(self.alternative()));
 
             match self.lookahead {
-                Some((_, '|')) => { continue; }
+                Some((_, '|')) => { self.bump(); continue; }
                 _ => { break; }
             }
         }
@@ -124,7 +124,7 @@ impl<'str> RegexParser<'str> {
                 '['  => { elems.push(try!(self.range(index))); }
                 ']'  => { break; }
                 '|'  => { break; }
-                '.'  => { elems.push(Elem::Any); }
+                '.'  => { self.bump(); elems.push(Elem::Any); }
                 _    => { self.bump(); elems.push(Elem::Test(Test::Char(c))); }
             }
         }

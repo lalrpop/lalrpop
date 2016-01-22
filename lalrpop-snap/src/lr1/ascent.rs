@@ -2,8 +2,7 @@
 //!
 //! [recursive ascent]: https://en.wikipedia.org/wiki/Recursive_ascent_parser
 
-use grammar::repr::{ActionKind,
-                    Grammar,
+use grammar::repr::{Grammar,
                     NonterminalString,
                     Symbol,
                     TerminalString, TypeParameter, TypeRepr, Types};
@@ -142,7 +141,7 @@ impl<'ascent,'grammar,W:Write> RecursiveAscent<'ascent,'grammar,W> {
         // making different enums per state, but this would mean we
         // have to unwrap and rewrap as we pass up the stack, which
         // seems silly
-        for &nt in self.grammar.productions.keys() {
+        for &nt in self.grammar.nonterminals.keys() {
             rust!(self.out, "{}({}),", Escape(nt), self.types.nonterminal_type(nt));
         }
 
@@ -360,51 +359,32 @@ impl<'ascent,'grammar,W:Write> RecursiveAscent<'ascent,'grammar,W> {
                 rust!(self.out, "let {} = {}.take().unwrap();", sym, sym);
             }
 
+            let transfered_syms = transfer_syms.len();
+
+            let mut args = transfer_syms;
+            args.push(format!("&{}lookbehind", self.prefix));
+            args.push(format!("&{}lookahead", self.prefix));
+
             // invoke the action code
-            match production.action {
-                ActionKind::Call(action_fn) => {
-                    rust!(self.out, "let {}nt = super::{}action{}({}{});",
-                          self.prefix,
-                          self.prefix,
-                          action_fn.index(),
-                          self.grammar.user_parameter_refs(),
-                          Sep(", ", &transfer_syms))
-                }
-
-                ActionKind::TryCall(action_fn) => {
-                    rust!(self.out, "let {}nt = try!(super::{}action{}({}{}));",
-                          self.prefix,
-                          self.prefix,
-                          action_fn.index(),
-                          self.grammar.user_parameter_refs(),
-                          Sep(", ", &transfer_syms))
-                }
-
-                ActionKind::Lookahead => {
-                    // take the lookahead, if any; otherwise, we are
-                    // at EOF, so taker the lookbehind (end of last
-                    // pushed token); if that is missing too, then
-                    // supply default.
-                    rust!(self.out,
-                          "let {}nt = \
-                               {}lookahead.as_ref()\
-                                          .map(|o| ::std::clone::Clone::clone(&o.0))\
-                                          .or_else(|| ::std::clone::Clone::clone(&{}lookbehind))\
-                                          .unwrap_or_default();",
-                          self.prefix, self.prefix, self.prefix);
-                }
-
-                ActionKind::Lookbehind => {
-                    // take lookbehind or supply default.
-                    rust!(self.out,
-                          "let {}nt = ::std::clone::Clone::clone(&{}lookbehind)\
-                                      .unwrap_or_default();",
-                          self.prefix, self.prefix);
-                }
+            let is_fallible = self.grammar.action_is_fallible(production.action);
+            if is_fallible {
+                rust!(self.out, "let {}nt = try!(super::{}action{}({}{}));",
+                      self.prefix,
+                      self.prefix,
+                      production.action.index(),
+                      self.grammar.user_parameter_refs(),
+                      Sep(", ", &args))
+            } else {
+                rust!(self.out, "let {}nt = super::{}action{}({}{});",
+                      self.prefix,
+                      self.prefix,
+                      production.action.index(),
+                      self.grammar.user_parameter_refs(),
+                      Sep(", ", &args))
             }
 
             // wrap up the result along with the (unused) lookahead
-            if !transfer_syms.is_empty() {
+            if transfered_syms != 0 {
                 // if we popped anything off of the stack, then this frame is done
                 rust!(self.out, "return Ok(({}lookbehind, {}lookahead, {}Nonterminal::{}({}nt)));",
                       self.prefix, self.prefix, self.prefix,
@@ -455,7 +435,7 @@ impl<'ascent,'grammar,W:Write> RecursiveAscent<'ascent,'grammar,W> {
 
             // errors are not possible in the goto phase; a missing entry
             // indicates parse successfully completed, so just bail out
-            if this_state.gotos.len() != self.grammar.productions.keys().len() {
+            if this_state.gotos.len() != self.grammar.nonterminals.keys().len() {
                 rust!(self.out, "_ => {{");
                 rust!(self.out, "return Ok(({}lookbehind, {}lookahead, {}nt));",
                       self.prefix, self.prefix, self.prefix);

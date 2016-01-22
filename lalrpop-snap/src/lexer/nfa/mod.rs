@@ -31,7 +31,7 @@ pub struct Other;
 /// edges by enumerating subsequent edges in the vectors until you
 /// find one with a different `from` value.
 #[derive(Debug)]
-struct State {
+pub struct State {
     kind: StateKind,
     first_noop_edge: usize,
     first_test_edge: usize,
@@ -52,7 +52,7 @@ pub struct NFAStateIndex(usize);
 /// now we just ensure this during construction, but one could easily
 /// sort).
 #[derive(Debug)]
-struct Edges {
+pub struct Edges {
     noop_edges: Vec<Edge<Noop>>,
 
     // edges where we are testing the character in some way; for any

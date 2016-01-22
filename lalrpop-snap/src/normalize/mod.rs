@@ -35,6 +35,11 @@ pub fn normalize_without_validating(grammar: pt::Grammar) -> NormResult<r::Gramm
 }
 
 fn normalize_helper(grammar: pt::Grammar, validate: bool) -> NormResult<r::Grammar> {
+    let grammar = try!(lower_helper(grammar, validate));
+    inline::inline(grammar)
+}
+
+fn lower_helper(grammar: pt::Grammar, validate: bool) -> NormResult<r::Grammar> {
     if validate { try!(prevalidate::validate(&grammar)); }
     let grammar = try!(resolve::resolve(grammar));
     let grammar = try!(macro_expand::expand_macros(grammar));
@@ -79,6 +84,9 @@ mod tyinfer;
 
 // Lowers the parse tree to the repr notation.
 mod lower;
+
+// Inline nonterminals that have requested it.
+mod inline;
 
 ///////////////////////////////////////////////////////////////////////////
 // Shared routines

@@ -38,3 +38,14 @@ fn ambiguous_regex() {
     assert!(dfa(&[(r#"class"#, P0),
                   (r#"[a-zA-Z_][a-zA-Z0-9_]*"#, P0)]).is_err());
 }
+
+#[test]
+fn issue_32() {
+    assert!(dfa(&[(r#"."#, P0)]).is_ok());
+}
+
+#[test]
+fn issue_35() {
+    assert!(dfa(&[(r#".*"#, P0),
+                  (r"[-+]?[0-9]*\.?[0-9]+", P0)]).is_err());
+}
