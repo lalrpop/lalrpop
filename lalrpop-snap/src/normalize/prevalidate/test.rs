@@ -54,3 +54,19 @@ fn unrecognized_annotation() {
         r#"grammar; #[foo] Term = ();"#,
         r#"           ~~~            "#);
 }
+
+#[test]
+fn duplicate_annotation() {
+    check_err(
+        r#"duplicate annotation `inline`"#,
+        r#"grammar; #[inline] #[inline] Term = ();"#,
+        r#"                     ~~~~~~            "#);
+}
+
+#[test]
+fn pub_inline_annotation() {
+    check_err(
+        r#"public items cannot be marked #\[inline\]"#,
+        r#"grammar; #[inline] pub Term = ();"#,
+        r#"           ~~~~~~            "#);
+}

@@ -46,6 +46,32 @@ fn code1() {
 }
 
 #[test]
+fn code_paren() { // Issue #25
+    test(r#"=> a("(", c),"#, vec![
+        (r#"~~~~~~~~~~~~ "#, EqualsGreaterThanCode(r#" a("(", c)"#)),
+        (r#"            ~"#, Comma),
+    ]);
+}
+
+#[test]
+fn code_regex_paren() { // Issue #25
+    test(r###"=> a(r##"("#""##, c),"###, vec![
+        (r###"~~~~~~~~~~~~~~~~~~~~ "###, EqualsGreaterThanCode(r###" a(r##"("#""##, c)"###)),
+        (r###"                    ~"###, Comma),
+    ]);
+}
+
+#[test]
+fn code_comment_eol() {
+    test("=> a(// (
+),", vec![
+        ("~~~~~~~~~
+~,", EqualsGreaterThanCode(" a(// (\n)")),
+        ("=> a(// (
+)~", Comma)]);
+}
+
+#[test]
 fn code2() {
     test("=>? a(b, c),", vec![
         ("~~~~~~~~~~~ ", EqualsGreaterThanQuestionCode(" a(b, c)")),

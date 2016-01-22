@@ -40,7 +40,7 @@ struct Items<'grammar> {
 struct StateIndex(usize);
 
 #[derive(Copy, Clone, Hash, PartialEq, Eq, PartialOrd, Ord)]
-enum Lookahead {
+pub enum Lookahead {
     EOF,
     Terminal(TerminalString),
 }

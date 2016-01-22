@@ -2,11 +2,9 @@ use super::{NormResult, NormError};
 use super::norm_util::{self, AlternativeAction, Symbols};
 
 use std::collections::{HashMap};
+use grammar::consts::{ERROR, INPUT_LIFETIME, LOCATION};
 use grammar::parse_tree::{ActionKind, Alternative,
-                          ERROR,
                           Grammar,
-                          INPUT_LIFETIME,
-                          LOCATION,
                           NonterminalData, NonterminalString,
                           Path,
                           Span,

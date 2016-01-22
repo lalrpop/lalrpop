@@ -14,6 +14,8 @@ use util::Sep;
 
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct Grammar {
+    // see field `prefix` in `grammar::repr::Grammar`
+    pub prefix: String,
     pub span: Span,
     pub type_parameters: Vec<TypeParameter>,
     pub parameters: Vec<Parameter>,
@@ -62,12 +64,6 @@ pub struct AssociatedType {
     pub type_ref: TypeRef,
 }
 
-/// Recognized associated type for the token location
-pub const LOCATION: &'static str = "Location";
-
-/// Recognized associated type for custom errors
-pub const ERROR: &'static str = "Error";
-
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct EnumToken {
     pub type_name: TypeRef,
@@ -115,17 +111,11 @@ pub enum TypeRef {
     OfSymbol(SymbolKind),
 }
 
-/// The lifetime parameter injected when we do not have an external token enum
-pub const INPUT_LIFETIME: &'static str = "'input";
-
 #[derive(Clone, Debug, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub enum TypeParameter {
     Lifetime(InternedString),
     Id(InternedString),
 }
-
-/// The parameter injected when we do not have an external token enum
-pub const INPUT_PARAMETER: &'static str = "input";
 
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct Parameter {
@@ -602,15 +592,6 @@ impl Path {
             Some(self.ids[0])
         } else {
             None
-        }
-    }
-}
-
-impl ActionKind {
-    pub fn as_user(&self) -> Option<&String> {
-        match *self {
-            ActionKind::User(ref s) => Some(s),
-            _ => None
         }
     }
 }

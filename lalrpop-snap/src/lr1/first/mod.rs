@@ -20,7 +20,7 @@ impl FirstSets {
         let mut changed = true;
         while changed {
             changed = false;
-            for production in grammar.productions.values().flat_map(|p| p.iter()) {
+            for production in grammar.nonterminals.values().flat_map(|p| &p.productions) {
                 let nt = production.nonterminal;
                 let lookahead = this.first(&production.symbols, Lookahead::EOF);
                 let first_set = this.map.entry(nt).or_insert_with(|| set());
