@@ -30,18 +30,18 @@ fn inline_nt(grammar: &mut Grammar, inline_nt: NonterminalString) {
                 continue;
             }
 
-            for inline_production in &inline_productions {
-                let mut inliner = Inliner {
-                    action_fn_defns: &grammar.action_fn_defns,
-                    inline_production: inline_production,
-                    into_production: into_production,
-                    new_symbols: vec![],
-                    new_productions: &mut new_productions,
-                    new_action_fn_defns: &mut new_action_fn_defns,
-                };
+            let mut inliner = Inliner {
+                action_fn_defns: &grammar.action_fn_defns,
+                inline_nonterminal: inline_nt,
+                into_production: into_production,
+                inline_fallible: 0,
+                inline_productions: &inline_productions,
+                new_symbols: vec![],
+                new_productions: &mut new_productions,
+                new_action_fn_defns: &mut new_action_fn_defns,
+            };
 
-                inliner.inline(&into_production.symbols);
-            }
+            inliner.inline(&into_production.symbols);
         }
 
         data.productions = new_productions;
@@ -53,8 +53,19 @@ struct Inliner<'a> {
     /// Action fn defns
     action_fn_defns: &'a [ActionFnDefn],
 
-    /// The production `A = B C D` being inlined
-    inline_production: &'a Production,
+    /// The nonterminal `A` being inlined
+    inline_nonterminal: NonterminalString,
+
+    /// The full set of productions `A = B C D | E F G` for the
+    /// nonterminal `A` being inlined
+    inline_productions: &'a [Production],
+
+    /// Number of actions that we have inlined for `A` so far which
+    /// have been fallible. IOW, if we are inlining `A` into `X = Y A
+    /// A Z`, and in the first instance of `A` we used a fallible
+    /// action, but the second we used an infallible one, count would
+    /// be 1.
+    inline_fallible: u32,
 
     /// The `X = Y A Z` being inlined into
     into_production: &'a Production,
@@ -73,15 +84,12 @@ struct Inliner<'a> {
 
 impl<'a> Inliner<'a> {
     fn inline(&mut self, into_symbols: &[Symbol]) {
-        let new_symbols_len = self.new_symbols.len();
-
         if into_symbols.is_empty() {
             // create an action fn for the result of inlining
             let into_action = self.into_production.action;
-            let inline_action = self.inline_production.action;
             let into_fallible = self.action_fn_defns[into_action.index()].fallible;
             let into_ret_type = self.action_fn_defns[into_action.index()].ret_type.clone();
-            let inline_fallible = self.action_fn_defns[inline_action.index()].fallible;
+            let inline_fallible = self.inline_fallible != 0;
             let index = self.action_fn_defns.len() + self.new_action_fn_defns.len();
             let action_fn = ActionFn::new(index);
             let inline_defn = InlineActionFnDefn {
@@ -109,19 +117,36 @@ impl<'a> Inliner<'a> {
         } else {
             let next_symbol = into_symbols[0];
             match next_symbol {
-                Symbol::Nonterminal(n) if n == self.inline_production.nonterminal => {
-                    self.new_symbols.push(
-                        InlinedSymbol::Inlined(
-                            self.inline_production.action,
-                            self.inline_production.symbols.clone()));
+                Symbol::Nonterminal(n) if n == self.inline_nonterminal => {
+                    // Replace the current symbol with each of the
+                    // `inline_productions` in turn.
+                    for inline_production in self.inline_productions {
+                        // If this production is fallible, increment
+                        // count of fallible actions.
+                        let inline_action = inline_production.action;
+                        let fallible = self.action_fn_defns[inline_action.index()].fallible;
+                        self.inline_fallible += fallible as u32;
+
+                        // Push the symbols of the production inline.
+                        self.new_symbols.push(
+                            InlinedSymbol::Inlined(
+                                inline_production.action,
+                                inline_production.symbols.clone()));
+
+                        // Inline remaining symbols:
+                        self.inline(&into_symbols[1..]);
+
+                        // Reset state after we have inlined remaining symbols:
+                        self.new_symbols.pop();
+                        self.inline_fallible -= fallible as u32;
+                    }
                 }
                 _ => {
                     self.new_symbols.push(InlinedSymbol::Original(next_symbol));
+                    self.inline(&into_symbols[1..]);
+                    self.new_symbols.pop();
                 }
             }
-            self.inline(&into_symbols[1..]);
         }
-
-        self.new_symbols.truncate(new_symbols_len);
     }
 }

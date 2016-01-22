@@ -67,3 +67,28 @@ fn sri() {
     assert_eq!(format!("{:?}", e_productions[1].symbols), r#"["&", E]"#);
     assert_eq!(format!("{:?}", e_productions[2].symbols), r#"["&", "L", E]"#);
 }
+
+#[test]
+fn issue_55() {
+    let grammar = inlined_grammar(r#"
+grammar;
+
+pub E: () = {
+    "X" "{" <a:AT*> <e:ET> <b:AT*> "}" => ()
+};
+
+AT: () = {
+    "type" ";" => ()
+};
+
+ET: () = {
+    "enum" "{" "}" => ()
+};
+    "#).unwrap();
+    let nt = NonterminalString(intern("E"));
+
+    // The problem in issue #55 was that we would inline both `AT*`
+    // the same way, so we ended up with `E = X { ET }` and `E = X {
+    // AT+ ET AT+ }` but not `E = X { AT+ ET }` or `E = X { ET AT+ }`.
+    assert!(grammar.productions_for(nt).len() == 4);
+}

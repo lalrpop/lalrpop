@@ -46,6 +46,9 @@ mod use_super;
 /// test that exercises locations and spans
 mod error;
 
+/// test for inlining expansion issue #55
+mod issue_55;
+
 mod util;
 
 /// This constant is here so that some of the generator parsers can
@@ -234,5 +237,22 @@ fn error_test1() {
             panic!("unexpected response from parser: {:?}", r);
         }
     }
+}
+
+#[test]
+fn issue_55_test1() {
+    // Issue 55 caused us to either accept NO assoc types or assoc
+    // types both before and after, so check that we can parse with
+    // assoc types on either side.
+    
+    let (a, b, c) = issue_55::parse_E("{ type X; type Y; enum Z { } }").unwrap();
+    assert_eq!(a, vec!["X", "Y"]);
+    assert_eq!(b, "Z");
+    assert!(c.is_empty());
+
+    let (a, b, c) = issue_55::parse_E("{ enum Z { } type X; type Y; }").unwrap();
+    assert!(a.is_empty());
+    assert_eq!(b, "Z");
+    assert_eq!(c, vec!["X", "Y"]);
 }
 
