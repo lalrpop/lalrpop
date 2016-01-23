@@ -8,3 +8,5 @@ script:
   - cargo test
   - cd ../lalrpop-test
   - cargo test
+  - cd ../doc/calculator
+  - cargo test
