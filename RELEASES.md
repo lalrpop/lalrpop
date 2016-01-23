@@ -1,4 +1,10 @@
-# Version 0.8 (not yet released)
+# Version 0.9
+
+Miscellaneous bug fixes, mostly. Processing for a `build.rs` file now
+starts from the project directory, rather than being hardcoded to
+start from `src`.
+
+# Version 0.8
 
 Add support for inlining nonterminals. Nonterminals can now be
 annotated with `#[inline]`. If you do so, each use of the nonterminal

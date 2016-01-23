@@ -1,6 +1,6 @@
 [package]
 name = "lalrpop-intern"
-version = "0.8.0" # LALRPOP
+version = "0.9.0" # LALRPOP
 description = "Simple string interner used by LALRPOP"
 repository = "https://github.com/nikomatsakis/lalrpop"
 license = "Unlicense"
