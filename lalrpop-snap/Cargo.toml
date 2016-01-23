@@ -1,6 +1,6 @@
 [package]
 name = "lalrpop-snap"
-version = "0.9.0" # LALRPOP
+version = "0.10.0" # LALRPOP
 description = "snapshot of LALRPOP for use in bootstrapping"
 repository = "https://github.com/nikomatsakis/lalrpop"
 license = "Unlicense"
@@ -18,8 +18,8 @@ petgraph = "0.1.11"
 
 [dependencies.lalrpop-util]
 path = "../lalrpop-util"
-version = "0.9.0" # LALRPOP
+version = "0.10.0" # LALRPOP
 
 [dependencies.lalrpop-intern]
 path = "../lalrpop-intern"
-version = "0.9.0" # LALRPOP
+version = "0.10.0" # LALRPOP
