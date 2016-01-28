@@ -2,6 +2,7 @@
 name = "lalrpop-test"
 version = "0.10.0" # LALRPOP
 authors = ["Niko Matsakis <niko@alum.mit.edu>"]
+license = "Apache-2.0/MIT"
 build = "build.rs"
 
 [dependencies.lalrpop-util]

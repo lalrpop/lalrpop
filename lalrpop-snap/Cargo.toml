@@ -3,7 +3,7 @@ name = "lalrpop-snap"
 version = "0.10.0" # LALRPOP
 description = "snapshot of LALRPOP for use in bootstrapping"
 repository = "https://github.com/nikomatsakis/lalrpop"
-license = "Unlicense"
+license = "Apache-2.0/MIT"
 authors = ["Niko Matsakis <niko@alum.mit.edu>"]
 # build = "build.rs"
 
