@@ -33,10 +33,11 @@ fn process_dir<P:AsRef<Path>>(root_dir: P, force_build: bool) -> io::Result<()> 
     for lalrpop_file in lalrpop_files {
         let rs_file = lalrpop_file.with_extension("rs");
         if force_build || try!(needs_rebuild(&lalrpop_file, &rs_file)) {
+            try!(make_read_only(&rs_file, false));
             try!(remove_old_file(&rs_file));
             let grammar = try!(parse_and_normalize_grammar(lalrpop_file));
             try!(emit_recursive_ascent(&rs_file, &grammar));
-            try!(make_read_only(&rs_file));
+            try!(make_read_only(&rs_file, true));
         }
     }
     Ok(())
@@ -99,10 +100,10 @@ fn needs_rebuild(lalrpop_file: &Path,
     }
 }
 
-fn make_read_only(rs_file: &Path) -> io::Result<()> {
+fn make_read_only(rs_file: &Path, ro: bool) -> io::Result<()> {
     let rs_metadata = try!(fs::metadata(&rs_file));
     let mut rs_permissions = rs_metadata.permissions();
-    rs_permissions.set_readonly(true);
+    rs_permissions.set_readonly(ro);
     fs::set_permissions(&rs_file, rs_permissions)
 }
 
