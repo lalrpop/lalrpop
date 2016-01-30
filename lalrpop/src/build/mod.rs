@@ -101,10 +101,14 @@ fn needs_rebuild(lalrpop_file: &Path,
 }
 
 fn make_read_only(rs_file: &Path, ro: bool) -> io::Result<()> {
-    let rs_metadata = try!(fs::metadata(&rs_file));
-    let mut rs_permissions = rs_metadata.permissions();
-    rs_permissions.set_readonly(ro);
-    fs::set_permissions(&rs_file, rs_permissions)
+    if (rs_file.is_file()) {
+        let rs_metadata = try!(fs::metadata(&rs_file));
+        let mut rs_permissions = rs_metadata.permissions();
+        rs_permissions.set_readonly(ro);
+        fs::set_permissions(&rs_file, rs_permissions)
+    } else {
+        Ok(())
+    }
 }
 
 fn lalrpop_files<P:AsRef<Path>>(root_dir: P) -> io::Result<Vec<PathBuf>> {
