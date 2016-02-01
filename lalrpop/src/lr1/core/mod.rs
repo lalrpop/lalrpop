@@ -88,6 +88,8 @@ impl<'session, 'grammar> LR1<'session, 'grammar> {
                 let prev = this_state.tokens.insert(item.lookahead, action);
                 if let Some(conflict) = prev {
                     return Err(TableConstructionError {
+                        states: Some(states),
+                        index: index,
                         items: items.clone(),
                         lookahead: item.lookahead,
                         production: item.production,

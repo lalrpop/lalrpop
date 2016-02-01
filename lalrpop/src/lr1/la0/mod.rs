@@ -93,7 +93,7 @@ pub fn collapse_to_lalr_states<'grammar>(lr_states: &[State<'grammar>])
                 Entry::Occupied(slot) => {
                     let old_action = *slot.get();
                     if old_action != lalr1_action {
-                        return Err(conflict(&lalr1_state.items, lookahead,
+                        return Err(conflict(lalr1_index, &lalr1_state.items, lookahead,
                                             old_action, lalr1_action));
                     }
                 }
@@ -130,7 +130,8 @@ pub fn collapse_to_lalr_states<'grammar>(lr_states: &[State<'grammar>])
                     .collect())
 }
 
-fn conflict<'grammar>(items: &[Item<'grammar>],
+fn conflict<'grammar>(index: StateIndex,
+                      items: &[Item<'grammar>],
                       lookahead: Lookahead,
                       action1: Action<'grammar>,
                       action2: Action<'grammar>)
@@ -145,6 +146,8 @@ fn conflict<'grammar>(items: &[Item<'grammar>],
     };
 
     TableConstructionError {
+        states: None,
+        index: index,
         items: Items { vec: Rc::new(items.to_vec()) },
         lookahead: lookahead,
         production: production,
