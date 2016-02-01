@@ -39,7 +39,14 @@ it's quite powerful already. It's also [self-hosting], which is fun.
 
 [self-hosting]: https://github.com/nikomatsakis/lalrpop/blob/master/lalrpop/src/parser/lrgrammar.lalrpop
 
-### Cargo cheat sheet
+### Using LALRPOP
+
+#### Configuration cargo
+
+There are two ways to use LALRPOP. The recommended way is to
+configure Cargo to automatically change all `.lalrpop` files
+into `.rs` files by adding a `build.rs` file. Here is a "cheat sheet"
+for how to do that.
 
 This section is for if you already know what you're doing and just
 want to copy-and-paste some code for adding LALRPOP to your Cargo
@@ -73,3 +80,18 @@ fn main() {
 call `process_root` in addition to whatever else that file is doing.)
 
 That's it!
+
+#### Running manually
+
+If you prefer, you can also run the `lalrpop-exe` crate. Simply run
+`cargo install lalrpop-exe` and then you will get a `lalrpop-exe`
+binary you can execute, like so:
+
+```
+./lalrpop-exe file.lalrpop
+```
+
+This will generate `file.rs` for you. Note that it only executes if
+`file.lalrpop` is newer than `file.rs`; if you'd prefer to execute
+unconditionally, pass `-f` (also try `--help` for other options).
+

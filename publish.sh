@@ -38,6 +38,7 @@ publish lalrpop-intern
 publish lalrpop-util
 publish lalrpop-snap
 publish lalrpop
+publish lalrpop-exe
 
 printf "Updated version in README and tutorial..."
 perl -p -i -e 's/^version = "[0-9.]+"$/version = "'$VERSION'"/' \
