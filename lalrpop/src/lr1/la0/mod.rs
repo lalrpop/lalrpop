@@ -3,6 +3,7 @@
 use itertools::Itertools;
 use lr1::core;
 use grammar::repr::*;
+use session::Session;
 use std::rc::Rc;
 use util::{map, Map};
 use util::map::Entry;
@@ -28,12 +29,13 @@ struct LALR1State<'grammar> {
     gotos: Map<NonterminalString, StateIndex>,
 }
 
-pub fn lalr_states<'grammar>(grammar: &'grammar Grammar,
+pub fn lalr_states<'grammar>(session: &Session,
+                             grammar: &'grammar Grammar,
                              start: NonterminalString)
                              -> Result<Vec<State<'grammar>>, TableConstructionError<'grammar>>
 {
     // First build the LR(1) states
-    let lr_states = try!(core::build_lr1_states(grammar, start));
+    let lr_states = try!(core::build_lr1_states(session, grammar, start));
     collapse_to_lalr_states(&lr_states)
 }
 

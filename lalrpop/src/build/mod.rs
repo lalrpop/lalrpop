@@ -8,6 +8,7 @@ use lr1;
 use normalize;
 use parser;
 use rust::RustWrite;
+use session::Session;
 use tok;
 use self::filetext::FileText;
 
@@ -21,23 +22,33 @@ mod action;
 mod filetext;
 
 pub fn process_root() -> io::Result<()> {
-    process_dir(try!(current_dir()), false)
+    let session = Session::new();
+    process_dir(&session, try!(current_dir()))
 }
 
 pub fn process_root_unconditionally() -> io::Result<()> {
-    process_dir(try!(current_dir()), true)
+    let mut session = Session::new();
+    session.set_force_build();
+    process_dir(&session, try!(current_dir()))
 }
 
-fn process_dir<P:AsRef<Path>>(root_dir: P, force_build: bool) -> io::Result<()> {
+fn process_dir<P:AsRef<Path>>(session: &Session, root_dir: P) -> io::Result<()> {
     let lalrpop_files = try!(lalrpop_files(root_dir));
     for lalrpop_file in lalrpop_files {
-        let rs_file = lalrpop_file.with_extension("rs");
-        if force_build || try!(needs_rebuild(&lalrpop_file, &rs_file)) {
-            try!(remove_old_file(&rs_file));
-            let grammar = try!(parse_and_normalize_grammar(lalrpop_file));
-            try!(emit_recursive_ascent(&rs_file, &grammar));
-            try!(make_read_only(&rs_file));
-        }
+        try!(process_file(session, lalrpop_file));
+    }
+    Ok(())
+}
+
+pub fn process_file<P:AsRef<Path>>(session: &Session, lalrpop_file: P) -> io::Result<()> {
+    let lalrpop_file: &Path = lalrpop_file.as_ref();
+    let rs_file = lalrpop_file.with_extension("rs");
+    if session.force_build() || try!(needs_rebuild(&lalrpop_file, &rs_file)) {
+        log!(session, Informative, "processing file `{}`", lalrpop_file.to_string_lossy());
+        try!(remove_old_file(&rs_file));
+        let grammar = try!(parse_and_normalize_grammar(&session, lalrpop_file));
+        try!(emit_recursive_ascent(&session, &rs_file, &grammar));
+        try!(make_read_only(&rs_file));
     }
     Ok(())
 }
@@ -48,7 +59,7 @@ fn remove_old_file(rs_file: &Path) -> io::Result<()> {
         Err(e) => {
             // Unix reports NotFound, Windows PermissionDenied!
             match e.kind() {
-                io::ErrorKind::NotFound | io::ErrorKind::PermissionDenied=> Ok(()),
+                io::ErrorKind::NotFound | io::ErrorKind::PermissionDenied => Ok(()),
                 _ => Err(e),
             }
         }
@@ -129,7 +140,8 @@ fn lalrpop_files<P:AsRef<Path>>(root_dir: P) -> io::Result<Vec<PathBuf>> {
     Ok(result)
 }
 
-fn parse_and_normalize_grammar(path: PathBuf) -> io::Result<r::Grammar> {
+fn parse_and_normalize_grammar(session: &Session, path: &Path) -> io::Result<r::Grammar> {
+    let path = path.to_path_buf();
     let input = try!(FileText::from_path(path));
 
     let grammar = match parser::parse_grammar(input.text()) {
@@ -184,7 +196,7 @@ fn parse_and_normalize_grammar(path: PathBuf) -> io::Result<r::Grammar> {
         }
     };
 
-    match normalize::normalize(grammar) {
+    match normalize::normalize(session, grammar) {
         Ok(grammar) => Ok(grammar),
         Err(error) => {
             report_error(&input,
@@ -211,7 +223,10 @@ fn emit_uses<W:Write>(grammar: &r::Grammar,
     rust.write_uses("", grammar)
 }
 
-fn emit_recursive_ascent(output_path: &Path, grammar: &r::Grammar) -> io::Result<()>
+fn emit_recursive_ascent(session: &Session,
+                         output_path: &Path,
+                         grammar: &r::Grammar)
+                         -> io::Result<()>
 {
     let output_file = try!(fs::File::create(output_path));
     let mut rust = RustWrite::new(output_file);
@@ -258,7 +273,9 @@ fn emit_recursive_ascent(output_path: &Path, grammar: &r::Grammar) -> io::Result
         // where to stop!
         assert_eq!(grammar.productions_for(start_nt).len(), 1);
 
-        let states = match lr1::build_states(&grammar, start_nt) {
+        log!(session, Verbose, "Building states for public nonterminal `{}`", user_nt);
+
+        let states = match lr1::build_states(session, &grammar, start_nt) {
             Ok(states) => states,
             Err(error) => {
                 try!(lr1::report_error(&mut io::stdout(), &grammar, &error));

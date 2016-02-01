@@ -14,14 +14,17 @@ extern crate lalrpop_util;
 extern crate petgraph;
 extern crate regex;
 extern crate itertools;
+extern crate time;
 extern crate unicode_xid;
 
 #[cfg(test)]
 extern crate rand;
 
-// rust exports a macro that others use, so hoist it early.
+// hoist the modules that define macros up earlier
 #[macro_use]
 mod rust;
+#[macro_use]
+mod log;
 
 mod build;
 mod grammar;
@@ -30,6 +33,7 @@ mod lr1;
 mod normalize;
 mod parser;
 mod kernel_set;
+mod session;
 mod tok;
 mod util;
 
@@ -38,3 +42,7 @@ mod util;
 
 pub use build::process_root;
 pub use build::process_root_unconditionally;
+pub use build::process_file;
+pub use log::Level;
+pub use log::Log;
+pub use session::Session;

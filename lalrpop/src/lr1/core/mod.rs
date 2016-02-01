@@ -1,6 +1,7 @@
 //! Core LR(1) state construction algorithm.
 
 use kernel_set;
+use session::Session;
 use grammar::repr::*;
 use lr1::first;
 use lr1::{Action, Lookahead, Item, Items, State, StateIndex, TableConstructionError};
@@ -9,23 +10,26 @@ use util::{map, Multimap, Set};
 
 #[cfg(test)] mod test;
 
-pub fn build_lr1_states<'grammar>(grammar: &'grammar Grammar,
+pub fn build_lr1_states<'grammar>(session: &Session,
+                                  grammar: &'grammar Grammar,
                                   start: NonterminalString)
                                   -> Result<Vec<State<'grammar>>,
                                             TableConstructionError<'grammar>>
 {
-    let lr1 = LR1::new(grammar);
+    let lr1 = LR1::new(session, grammar);
     lr1.build_states(start)
 }
 
-struct LR1<'grammar> {
+struct LR1<'session, 'grammar> {
+    session: &'session Session,
     grammar: &'grammar Grammar,
     first_sets: first::FirstSets,
 }
 
-impl<'grammar> LR1<'grammar> {
-    fn new(grammar: &'grammar Grammar) -> LR1 {
+impl<'session, 'grammar> LR1<'session, 'grammar> {
+    fn new(session: &'session Session, grammar: &'grammar Grammar) -> Self {
         LR1 {
+            session: session,
             grammar: grammar,
             first_sets: first::FirstSets::new(grammar),
         }
@@ -44,6 +48,9 @@ impl<'grammar> LR1<'grammar> {
 
         while let Some(items) = kernel_set.next() {
             let index = StateIndex(states.len());
+            log!(self.session, Debug, "Building state {:?} with {} items",
+                 index, items.vec.len());
+
             let mut this_state = State { index: index, items: items.clone(),
                                          tokens: map(), gotos: map() };
 
@@ -58,6 +65,8 @@ impl<'grammar> LR1<'grammar> {
             for (symbol, items) in transitions.into_iter() {
                 let items = self.transitive_closure(items);
                 let next_state = kernel_set.add_state(items);
+                log!(self.session, Debug, "on {:?} to state {:?}",
+                     symbol, next_state);
 
                 match symbol {
                     Symbol::Terminal(s) => {

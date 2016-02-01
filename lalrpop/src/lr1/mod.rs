@@ -1,6 +1,7 @@
 //! Naive LR(1) generation algorithm.
 
 use kernel_set;
+use session::Session;
 use grammar::repr::*;
 use std::fmt::{Debug, Formatter, Error};
 use std::rc::Rc;
@@ -67,13 +68,14 @@ pub struct TableConstructionError<'grammar> {
     conflict: Action<'grammar>,
 }
 
-pub fn build_states<'grammar>(grammar: &'grammar Grammar,
+pub fn build_states<'grammar>(session: &Session,
+                              grammar: &'grammar Grammar,
                               start: NonterminalString)
                               -> Result<Vec<State<'grammar>>, TableConstructionError<'grammar>>
 {
     match grammar.algorithm {
-        Algorithm::LR1 => core::build_lr1_states(grammar, start),
-        Algorithm::LALR1 => la0::lalr_states(grammar, start),
+        Algorithm::LR1 => core::build_lr1_states(session, grammar, start),
+        Algorithm::LALR1 => la0::lalr_states(session, grammar, start),
     }
 }
 
