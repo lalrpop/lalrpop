@@ -3,12 +3,13 @@ use grammar::repr::Grammar;
 use intern::intern;
 use normalize::{self, NormResult};
 use parser;
+use session::Session;
 
 use super::inline;
 
 fn inlined_grammar(text: &str) -> NormResult<Grammar> {
     let g = parser::parse_grammar(text).unwrap();
-    let g = normalize::lower_helper(g, true).unwrap();
+    let g = normalize::lower_helper(&Session::test(), g, true).unwrap();
     inline(g)
 }
 

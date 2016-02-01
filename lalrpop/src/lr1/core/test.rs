@@ -1,6 +1,7 @@
 use intern::intern;
 use generate;
 use grammar::repr::*;
+use session::Session;
 use test_util::{compare, expect_debug, normalized_grammar};
 use lr1::Lookahead::EOF;
 use lr1::interpret::interpret;
@@ -33,9 +34,10 @@ macro_rules! tokens {
 }
 
 fn items<'g>(grammar: &'g Grammar, nonterminal: &str, index: usize, la: Lookahead)
-                      -> Items<'g>
+             -> Items<'g>
 {
-    let lr1 = LR1::new(&grammar);
+    let session = Session::test();
+    let lr1 = LR1::new(&session,  &grammar);
     let items =
         lr1.transitive_closure(
             lr1.items(nt(nonterminal), index, la));
@@ -114,7 +116,7 @@ grammar;
 
     // for now, just test that process does not result in an error
     // and yields expected number of states.
-    let states = build_lr1_states(&grammar, nt("S")).unwrap();
+    let states = build_lr1_states(&Session::test(), &grammar, nt("S")).unwrap();
     assert_eq!(states.len(), 16);
 
     // execute it on some sample inputs.
@@ -182,5 +184,5 @@ fn shift_reduce_conflict1() {
         };
     "#);
 
-    assert!(build_lr1_states(&grammar, nt("E")).is_err());
+    assert!(build_lr1_states(&Session::test(), &grammar, nt("E")).is_err());
 }

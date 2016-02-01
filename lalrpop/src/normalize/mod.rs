@@ -29,10 +29,10 @@ pub fn normalize(session: &Session, grammar: pt::Grammar) -> NormResult<r::Gramm
     normalize_helper(session, grammar, true)
 }
 
-/// for unit tests, it is convenient to skip the validation step
+/// for unit tests, it is convenient to skip the validation step, and supply a dummy session
 #[cfg(test)]
 pub fn normalize_without_validating(grammar: pt::Grammar) -> NormResult<r::Grammar> {
-    normalize_helper(grammar, false)
+    normalize_helper(&Session::new(), grammar, false)
 }
 
 macro_rules! profile {

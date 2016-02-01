@@ -14,6 +14,15 @@ impl Session {
         }
     }
 
+    /// A session suitable for use in testing.
+    #[cfg(test)]
+    pub fn test() -> Session {
+        Session {
+            log: Log::new(Level::Debug),
+            force_build: false,
+        }
+    }
+
     pub fn set_force_build(&mut self) {
         self.force_build = true;
     }
