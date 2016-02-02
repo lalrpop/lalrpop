@@ -4,7 +4,7 @@ use kernel_set;
 use session::Session;
 use grammar::repr::*;
 use lr1::first;
-use lr1::{Action, Lookahead, Item, Items, State, StateIndex, TableConstructionError};
+use lr1::{Action, Conflict, Lookahead, Item, Items, State, StateIndex, TableConstructionError};
 use std::rc::Rc;
 use util::{map, Multimap, Set};
 
@@ -40,6 +40,7 @@ impl<'session, 'grammar> LR1<'session, 'grammar> {
     {
         let mut kernel_set = kernel_set::KernelSet::new();
         let mut states = vec![];
+        let mut errors = 0;
 
         // create the starting state
         kernel_set.add_state(
@@ -52,7 +53,8 @@ impl<'session, 'grammar> LR1<'session, 'grammar> {
                  index, items.vec.len());
 
             let mut this_state = State { index: index, items: items.clone(),
-                                         tokens: map(), gotos: map() };
+                                         tokens: map(), gotos: map(),
+                                         conflicts: map() };
 
             // group the items that we can transition into by shifting
             // over a term or nonterm
@@ -87,14 +89,13 @@ impl<'session, 'grammar> LR1<'session, 'grammar> {
                 let action = Action::Reduce(item.production);
                 let prev = this_state.tokens.insert(item.lookahead, action);
                 if let Some(conflict) = prev {
-                    return Err(TableConstructionError {
-                        states: Some(states),
-                        index: index,
-                        items: items.clone(),
-                        lookahead: item.lookahead,
-                        production: item.production,
-                        conflict: conflict,
-                    });
+                    this_state.conflicts.entry(item.lookahead)
+                                        .or_insert(vec![])
+                                        .push(Conflict {
+                                            state: index,
+                                            production: item.production,
+                                            action: conflict,
+                                        });
                 }
             }
 
@@ -102,7 +103,11 @@ impl<'session, 'grammar> LR1<'session, 'grammar> {
             states.push(this_state);
         }
 
-        Ok(states)
+        if states.iter().any(|s| !s.conflicts.is_empty()) {
+            Err(TableConstructionError { states: states })
+        } else {
+            Ok(states)
+        }
     }
 
     fn items(&self,

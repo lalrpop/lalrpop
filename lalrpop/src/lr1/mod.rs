@@ -23,6 +23,7 @@ pub struct State<'grammar> {
     index: StateIndex,
     items: Items<'grammar>,
     tokens: Map<Lookahead, Action<'grammar>>,
+    conflicts: Map<Lookahead, Vec<Conflict<'grammar>>>,
     gotos: Map<NonterminalString, StateIndex>,
 }
 
@@ -30,6 +31,18 @@ pub struct State<'grammar> {
 enum Action<'grammar> {
     Shift(StateIndex),
     Reduce(&'grammar Production),
+}
+
+#[derive(Copy, Clone, Debug, PartialEq, Eq)]
+struct Conflict<'grammar> {
+    // when in this state...
+    state: StateIndex,
+
+    // we can reduce...
+    production: &'grammar Production,
+
+    // but we can also...
+    action: Action<'grammar>,
 }
 
 #[derive(Clone, Debug, Hash, PartialEq, Eq, PartialOrd, Ord)]
@@ -55,32 +68,8 @@ struct Item<'grammar> {
 
 #[derive(Debug)]
 pub struct TableConstructionError<'grammar> {
-    // completed states: note that these may reference states that
-    // were never processed, so you can't follow outgoing edges with
-    // impunity.
-    //
-    // This is optional because, in the current LALR(1) code, we don't
-    // have a notion of "complete" states to supply. Really we should
-    // special case the error reporting there. Or, better yet, make
-    // the LR(1) -> LALR(1) compression infallible, by just detecting
-    // when it's going to work. (Or, the other way, only use the full
-    // LR(1) when needed.)
-    states: Option<Vec<State<'grammar>>>,
-
-    // state index where we encountered a failure
-    index: StateIndex,
-
-    // when in this state:
-    items: Items<'grammar>,
-
-    // and looking at this token:
-    lookahead: Lookahead,
-
-    // we can reduce using this production:
-    production: &'grammar Production,
-
-    // but we can also:
-    conflict: Action<'grammar>,
+    // LR(1) state set. Some of these states are in error.
+    states: Vec<State<'grammar>>,
 }
 
 pub fn build_states<'grammar>(session: &Session,
