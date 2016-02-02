@@ -101,7 +101,7 @@ fn needs_rebuild(lalrpop_file: &Path,
 }
 
 fn make_read_only(rs_file: &Path, ro: bool) -> io::Result<()> {
-    if (rs_file.is_file()) {
+    if rs_file.is_file() {
         let rs_metadata = try!(fs::metadata(&rs_file));
         let mut rs_permissions = rs_metadata.permissions();
         rs_permissions.set_readonly(ro);
