@@ -96,11 +96,16 @@ impl<'session, 'grammar> LR1<'session, 'grammar> {
                                             production: item.production,
                                             action: conflict,
                                         });
+                    errors += 1;
                 }
             }
 
             // extract a new state
             states.push(this_state);
+
+            if self.session.stop_after(errors) {
+                break;
+            }
         }
 
         if states.iter().any(|s| !s.conflicts.is_empty()) {
@@ -151,7 +156,7 @@ impl<'session, 'grammar> LR1<'session, 'grammar> {
                     }
                 })
                 .flat_map(|(nt, remainder, lookahead)| {
-                    let first_set = self.first_sets.first(remainder, lookahead);
+                    let (first_set, _) = self.first_sets.first(remainder, lookahead);
                     first_set.into_iter()
                              .flat_map(move |l| self.items(nt, 0, l))
                 })

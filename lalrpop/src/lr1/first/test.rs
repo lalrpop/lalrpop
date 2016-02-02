@@ -18,7 +18,7 @@ fn la(t: &str) -> Lookahead {
 }
 
 fn first(first: &FirstSets, symbols: &[Symbol], lookahead: Lookahead) -> Vec<Lookahead> {
-    let mut v = first.first(symbols, lookahead);
+    let (mut v, _) = first.first(symbols, lookahead);
     v.sort();
     v
 }

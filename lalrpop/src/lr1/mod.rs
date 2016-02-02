@@ -9,6 +9,7 @@ use util::{Map, Prefix};
 
 pub mod ascent;
 
+mod backtrace;
 mod core;
 mod error;
 mod first;
@@ -51,7 +52,7 @@ struct Items<'grammar> {
 }
 
 #[derive(Copy, Clone, Hash, PartialEq, Eq, PartialOrd, Ord)]
-struct StateIndex(usize);
+pub struct StateIndex(usize);
 
 #[derive(Copy, Clone, Hash, PartialEq, Eq, PartialOrd, Ord)]
 pub enum Lookahead {
@@ -64,6 +65,28 @@ struct Item<'grammar> {
     production: &'grammar Production,
     index: usize, // the dot comes before `index`, so `index` would be 1 for X = A (*) B C
     lookahead: Lookahead,
+}
+
+/// Stores a backtrace tree used in error reporting. Consider a simple
+/// example where we want the backtrace of EXPR with lookahead `,`,
+/// given this grammar:
+///
+///     START = EXPRS ";"
+///           | EXPRS
+///     EXPRS = EXPR
+///           | EXPRS "," EXPR
+///     EXPR = ...
+///
+/// We would result in a sort of inverted tree like:
+///
+///     EXPR = ... (*) [","]
+///         EXPRS = (*) EXPR [","]
+///             EXPRS = (*) EXPRS "," EXPR [";"]
+///             EXPRS = (*) EXPRS "," EXPR [EOF]
+#[derive(Debug)]
+struct BacktraceNode<'grammar> {
+    item: Item<'grammar>,
+    parents: Vec<BacktraceNode<'grammar>>,
 }
 
 #[derive(Debug)]
@@ -178,5 +201,11 @@ impl<'grammar> Action<'grammar> {
             Action::Reduce(production) => Some(production),
             _ => None,
         }
+    }
+}
+
+impl<'grammar> BacktraceNode<'grammar> {
+    fn new(item: Item<'grammar>) -> Self {
+        BacktraceNode { item: item, parents: vec![] }
     }
 }

@@ -1,6 +1,6 @@
 //! LR(1) interpeter. Just builds up parse trees. Intended for testing.
 
-use lr1::{Action, State, Lookahead};
+use lr1::{Action, State, StateIndex, Lookahead};
 use generate::ParseTree;
 use grammar::repr::*;
 use std::iter::IntoIterator;
@@ -9,6 +9,7 @@ use util::Sep;
 
 pub type InterpretError<'grammar> = (&'grammar State<'grammar>, Lookahead);
 
+/// Feed in the given tokens and then EOF, returning the final parse tree that is reduced.
 pub fn interpret<'grammar,TOKENS>(states: &'grammar [State<'grammar>], tokens: TOKENS)
                          -> Result<ParseTree, InterpretError<'grammar>>
     where TOKENS: IntoIterator<Item=TerminalString>
@@ -17,9 +18,19 @@ pub fn interpret<'grammar,TOKENS>(states: &'grammar [State<'grammar>], tokens: T
     m.execute(tokens.into_iter())
 }
 
+/// Feed in the given tokens and returns the states on the stack.
+pub fn interpret_partial<'grammar,TOKENS>(states: &'grammar [State<'grammar>], tokens: TOKENS)
+                                          -> Result<Vec<StateIndex>, InterpretError<'grammar>>
+    where TOKENS: IntoIterator<Item=TerminalString>
+{
+    let mut m = Machine::new(states);
+    try!(m.execute_partial(tokens.into_iter()));
+    Ok(m.state_stack)
+}
+
 struct Machine<'grammar> {
     states: &'grammar [State<'grammar>],
-    state_stack: Vec<&'grammar State<'grammar>>,
+    state_stack: Vec<StateIndex>,
     data_stack: Vec<ParseTree>,
 }
 
@@ -30,18 +41,23 @@ impl<'grammar> Machine<'grammar> {
                   data_stack: vec![] }
     }
 
-    fn execute<TOKENS>(&mut self, mut tokens: TOKENS)
-                       -> Result<ParseTree, InterpretError<'grammar>>
+    fn top_state(&self) -> &'grammar State<'grammar> {
+        let index = self.state_stack.last().unwrap();
+        &self.states[index.0]
+    }
+
+    fn execute_partial<TOKENS>(&mut self, mut tokens: TOKENS)
+                               -> Result<(), InterpretError<'grammar>>
         where TOKENS: Iterator<Item=TerminalString>
     {
         assert!(self.state_stack.is_empty());
         assert!(self.data_stack.is_empty());
 
-        self.state_stack.push(&self.states[0]);
+        self.state_stack.push(StateIndex(0));
 
         let mut token = tokens.next();
         while let Some(terminal) = token {
-            let state = *self.state_stack.last().unwrap();
+            let state = self.top_state();
 
             // check whether we can shift this token
             match state.tokens.get(&Lookahead::Terminal(terminal)) {
@@ -49,7 +65,7 @@ impl<'grammar> Machine<'grammar> {
 
                 Some(&Action::Shift(next_index)) => {
                     self.data_stack.push(ParseTree::Terminal(terminal));
-                    self.state_stack.push(&self.states[next_index.0]);
+                    self.state_stack.push(next_index);
                     token = tokens.next();
                 }
 
@@ -60,9 +76,18 @@ impl<'grammar> Machine<'grammar> {
             }
         }
 
+        Ok(())
+    }
+
+    fn execute<TOKENS>(&mut self, tokens: TOKENS)
+                           -> Result<ParseTree, InterpretError<'grammar>>
+        where TOKENS: Iterator<Item=TerminalString>
+    {
+        try!(self.execute_partial(tokens));
+
         // drain now for EOF
         loop {
-            let state = *self.state_stack.last().unwrap();
+            let state = self.top_state();
             match state.tokens.get(&Lookahead::EOF) {
                 None => { return Err((state, Lookahead::EOF)); }
                 Some(&Action::Shift(_)) => { unreachable!("cannot shift EOF") }
@@ -96,10 +121,10 @@ impl<'grammar> Machine<'grammar> {
         self.data_stack.push(tree);
 
         // recover the state and extract the "Goto" action
-        let receiving_state = *self.state_stack.last().unwrap();
+        let receiving_state = self.top_state();
         match receiving_state.gotos.get(&production.nonterminal) {
-            Some(goto_state) => {
-                self.state_stack.push(&self.states[goto_state.0]);
+            Some(&goto_state) => {
+                self.state_stack.push(goto_state);
                 true // keep going
             }
             None => {

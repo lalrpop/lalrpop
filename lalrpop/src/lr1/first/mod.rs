@@ -22,7 +22,7 @@ impl FirstSets {
             changed = false;
             for production in grammar.nonterminals.values().flat_map(|p| &p.productions) {
                 let nt = production.nonterminal;
-                let lookahead = this.first(&production.symbols, Lookahead::EOF);
+                let (lookahead, _) = this.first(&production.symbols, Lookahead::EOF);
                 let first_set = this.map.entry(nt).or_insert_with(|| set());
                 let cardinality = first_set.len();
                 first_set.extend(
@@ -37,14 +37,14 @@ impl FirstSets {
         this
     }
 
-    pub fn first(&self, symbols: &[Symbol], lookahead: Lookahead) -> Vec<Lookahead> {
+    pub fn first(&self, symbols: &[Symbol], lookahead: Lookahead) -> (Vec<Lookahead>, bool) {
         let mut result = vec![];
 
         for symbol in symbols {
             match *symbol {
                 Symbol::Terminal(t) => {
                     result.push(Lookahead::Terminal(t));
-                    return result;
+                    return (result, false);
                 }
 
                 Symbol::Nonterminal(nt) => {
@@ -70,14 +70,14 @@ impl FirstSets {
                         }
                     }
                     if !empty_prod {
-                        return result;
+                        return (result, false);
                     }
                 }
             }
         }
 
         result.push(lookahead);
-        result
+        (result, true)
     }
 }
 
