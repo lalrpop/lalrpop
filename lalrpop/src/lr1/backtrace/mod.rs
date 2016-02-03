@@ -2,10 +2,11 @@ use lr1::first::FirstSets;
 use lr1::{BacktraceNode, Item, State, StateIndex};
 use grammar::repr::*;
 use session::Session;
-use self::state_graph::StateGraph;
 
 mod state_graph;
 mod test;
+
+use self::state_graph::StateGraph;
 
 pub struct Tracer<'trace, 'grammar: 'trace> {
     session: &'trace Session,
@@ -90,9 +91,9 @@ impl<'trace, 'grammar> Tracer<'trace, 'grammar> {
 
                             if continue_tracing {
                                 let parent_node = self.backtrace(pred_state, *item);
-                                result_node.parents.push(parent_node);
+                                result_node.merge_parent(parent_node);
                             } else {
-                                result_node.parents.push(BacktraceNode::new(*item));
+                                result_node.merge_parent(BacktraceNode::new(*item));
                             }
                         }
                     }

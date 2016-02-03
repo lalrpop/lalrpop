@@ -7,17 +7,12 @@ use session::Session;
 use std::rc::Rc;
 use util::{map, Map};
 use util::map::Entry;
-use super::{Action, Conflict, Item, Items, Lookahead, State, StateIndex, TableConstructionError};
+use super::{Action, Conflict, Item, Items, LR0Item, Lookahead,
+            State, StateIndex, TableConstructionError};
 use super::Action::{Reduce, Shift};
 
 #[cfg(test)]
 mod test;
-
-#[derive(Clone, Debug, PartialEq, Eq, PartialOrd, Ord, Hash)]
-struct LR0Item<'grammar> {
-    production: &'grammar Production,
-    index: usize
-}
 
 // Intermediate LALR(1) state. Identical to an LR(1) state, but that
 // the items can be pushed to. We initially create these with an empty

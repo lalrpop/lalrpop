@@ -63,8 +63,15 @@ pub enum Lookahead {
 #[derive(Copy, Clone, Hash, PartialEq, Eq, PartialOrd, Ord)]
 struct Item<'grammar> {
     production: &'grammar Production,
-    index: usize, // the dot comes before `index`, so `index` would be 1 for X = A (*) B C
+    /// the dot comes before `index`, so `index` would be 1 for X = A (*) B C
+    index: usize,
     lookahead: Lookahead,
+}
+
+#[derive(Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
+struct LR0Item<'grammar> {
+    production: &'grammar Production,
+    index: usize
 }
 
 /// Stores a backtrace tree used in error reporting. Consider a simple
@@ -79,13 +86,15 @@ struct Item<'grammar> {
 ///
 /// We would result in a sort of inverted tree like:
 ///
-///     EXPR = ... (*) [","]
-///         EXPRS = (*) EXPR [","]
-///             EXPRS = (*) EXPRS "," EXPR [";"]
-///             EXPRS = (*) EXPRS "," EXPR [EOF]
+///     EXPR = ... (*)
+///         EXPRS = (*) EXPR
+///             EXPRS = (*) EXPRS "," EXPR
+///                 START = (*) EXPRS ";"
+///         EXPRS = EXPRS "," (*) EXPR
+///             START = (*) EXPRS ";"
 #[derive(Debug)]
 struct BacktraceNode<'grammar> {
-    item: Item<'grammar>,
+    item: LR0Item<'grammar>,
     parents: Vec<BacktraceNode<'grammar>>,
 }
 
@@ -153,6 +162,15 @@ impl<'grammar> Debug for Item<'grammar> {
     }
 }
 
+impl<'grammar> Debug for LR0Item<'grammar> {
+    fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
+        write!(fmt, "{} ={} (*){}",
+               self.production.nonterminal,
+               Prefix(" ", &self.production.symbols[..self.index]),
+               Prefix(" ", &self.production.symbols[self.index..]))
+    }
+}
+
 impl Debug for Lookahead {
     fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
         match *self {
@@ -206,6 +224,21 @@ impl<'grammar> Action<'grammar> {
 
 impl<'grammar> BacktraceNode<'grammar> {
     fn new(item: Item<'grammar>) -> Self {
-        BacktraceNode { item: item, parents: vec![] }
+        BacktraceNode { item: LR0Item { production: item.production,
+                                        index: item.index },
+                        parents: vec![] }
+    }
+
+    fn merge_parent(&mut self, new_parent: BacktraceNode<'grammar>) {
+        for old_parent in &mut self.parents {
+            if old_parent.item == new_parent.item {
+                for new_grandparent in new_parent.parents {
+                    old_parent.merge_parent(new_grandparent);
+                }
+                return;
+            }
+        }
+
+        self.parents.push(new_parent);
     }
 }

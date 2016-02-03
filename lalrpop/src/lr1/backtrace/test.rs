@@ -71,23 +71,24 @@ fn backtrace1() {
 
     let backtrace = tracer.backtrace(top_state, *semi_item);
 
+    println!("{:#?}", backtrace);
     expect_debug(&backtrace, r#"BacktraceNode {
-    item: Expr = "Int" (*) [";"],
+    item: Expr = "Int" (*),
     parents: [
         BacktraceNode {
-            item: Exprs = (*) Expr [";"],
+            item: Exprs = (*) Expr,
             parents: [
                 BacktraceNode {
-                    item: Stmt = (*) Exprs ";" [EOF],
+                    item: Stmt = (*) Exprs ";",
                     parents: []
                 }
             ]
         },
         BacktraceNode {
-            item: Exprs = Exprs "," (*) Expr [";"],
+            item: Exprs = Exprs "," (*) Expr,
             parents: [
                 BacktraceNode {
-                    item: Stmt = (*) Exprs ";" [EOF],
+                    item: Stmt = (*) Exprs ";",
                     parents: []
                 }
             ]
@@ -123,38 +124,10 @@ fn backtrace2() {
 
     println!("{:#?}", backtrace);
     expect_debug(&backtrace, r#"BacktraceNode {
-    item: Expr = "Int" (*) ["+"],
+    item: Expr = "Int" (*),
     parents: [
         BacktraceNode {
-            item: Expr = (*) Expr "+" "Int" [EOF],
-            parents: []
-        },
-        BacktraceNode {
-            item: Expr = (*) Expr "+" "Int" ["+"],
-            parents: []
-        },
-        BacktraceNode {
-            item: Expr = (*) Expr "+" "Int" [","],
-            parents: []
-        },
-        BacktraceNode {
-            item: Expr = (*) Expr "+" "Int" [";"],
-            parents: []
-        },
-        BacktraceNode {
-            item: Expr = (*) Expr "+" "Int" [EOF],
-            parents: []
-        },
-        BacktraceNode {
-            item: Expr = (*) Expr "+" "Int" ["+"],
-            parents: []
-        },
-        BacktraceNode {
-            item: Expr = (*) Expr "+" "Int" [","],
-            parents: []
-        },
-        BacktraceNode {
-            item: Expr = (*) Expr "+" "Int" [";"],
+            item: Expr = (*) Expr "+" "Int",
             parents: []
         }
     ]
@@ -187,46 +160,23 @@ pub Ty: () = {
                       lookahead: lookahead };
     println!("item={:?}", item);
     let backtrace = tracer.backtrace(conflict.state, item);
+    println!("{:#?}", backtrace);
     expect_debug(&backtrace, r#"BacktraceNode {
-    item: Ty = Ty "->" Ty (*) ["->"],
+    item: Ty = Ty "->" Ty (*),
     parents: [
         BacktraceNode {
-            item: Ty = (*) Ty "->" Ty [EOF],
+            item: Ty = (*) Ty "->" Ty,
             parents: []
         },
         BacktraceNode {
-            item: Ty = (*) Ty "->" Ty ["->"],
-            parents: []
-        },
-        BacktraceNode {
-            item: Ty = (*) Ty "->" Ty [EOF],
-            parents: []
-        },
-        BacktraceNode {
-            item: Ty = (*) Ty "->" Ty ["->"],
-            parents: []
-        },
-        BacktraceNode {
-            item: Ty = Ty "->" (*) Ty ["->"],
+            item: Ty = Ty "->" (*) Ty,
             parents: [
                 BacktraceNode {
-                    item: Ty = (*) Ty "->" Ty [EOF],
+                    item: Ty = (*) Ty "->" Ty,
                     parents: []
                 },
                 BacktraceNode {
-                    item: Ty = (*) Ty "->" Ty ["->"],
-                    parents: []
-                },
-                BacktraceNode {
-                    item: Ty = (*) Ty "->" Ty [EOF],
-                    parents: []
-                },
-                BacktraceNode {
-                    item: Ty = (*) Ty "->" Ty ["->"],
-                    parents: []
-                },
-                BacktraceNode {
-                    item: Ty = Ty "->" (*) Ty ["->"],
+                    item: Ty = Ty "->" (*) Ty,
                     parents: []
                 }
             ]
