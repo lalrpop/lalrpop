@@ -7,7 +7,7 @@ use lr1::{Item, Lookahead};
 use session::Session;
 use test_util::{expect_debug, normalized_grammar};
 
-use super::Tracer;
+use super::{ExampleIterator, Tracer};
 
 fn nt(t: &str) -> NonterminalString {
     NonterminalString(intern(t))
@@ -183,4 +183,8 @@ pub Ty: () = {
         }
     ]
 }"#);
+
+    let examples: Vec<_> = ExampleIterator::new(&backtrace).collect();
+    println!("{:#?}", examples);
+    unimplemented!();
 }

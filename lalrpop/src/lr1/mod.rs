@@ -74,30 +74,6 @@ struct LR0Item<'grammar> {
     index: usize
 }
 
-/// Stores a backtrace tree used in error reporting. Consider a simple
-/// example where we want the backtrace of EXPR with lookahead `,`,
-/// given this grammar:
-///
-///     START = EXPRS ";"
-///           | EXPRS
-///     EXPRS = EXPR
-///           | EXPRS "," EXPR
-///     EXPR = ...
-///
-/// We would result in a sort of inverted tree like:
-///
-///     EXPR = ... (*)
-///         EXPRS = (*) EXPR
-///             EXPRS = (*) EXPRS "," EXPR
-///                 START = (*) EXPRS ";"
-///         EXPRS = EXPRS "," (*) EXPR
-///             START = (*) EXPRS ";"
-#[derive(Debug)]
-struct BacktraceNode<'grammar> {
-    item: LR0Item<'grammar>,
-    parents: Vec<BacktraceNode<'grammar>>,
-}
-
 #[derive(Debug)]
 pub struct TableConstructionError<'grammar> {
     // LR(1) state set. Some of these states are in error.
@@ -222,23 +198,3 @@ impl<'grammar> Action<'grammar> {
     }
 }
 
-impl<'grammar> BacktraceNode<'grammar> {
-    fn new(item: Item<'grammar>) -> Self {
-        BacktraceNode { item: LR0Item { production: item.production,
-                                        index: item.index },
-                        parents: vec![] }
-    }
-
-    fn merge_parent(&mut self, new_parent: BacktraceNode<'grammar>) {
-        for old_parent in &mut self.parents {
-            if old_parent.item == new_parent.item {
-                for new_grandparent in new_parent.parents {
-                    old_parent.merge_parent(new_grandparent);
-                }
-                return;
-            }
-        }
-
-        self.parents.push(new_parent);
-    }
-}
