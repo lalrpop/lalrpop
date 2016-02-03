@@ -7,7 +7,7 @@ use lr1::{Item, Lookahead};
 use session::Session;
 use test_util::{expect_debug, normalized_grammar};
 
-use super::{ExampleIterator, Tracer};
+use super::Tracer;
 
 fn nt(t: &str) -> NonterminalString {
     NonterminalString(intern(t))
@@ -155,6 +155,7 @@ pub Ty: () = {
               .flat_map(|(l, cs)| cs.iter().map(move |c| (l, c)))
               .next()
               .unwrap();
+    println!("conflict={:?}", conflict);
     let item = Item { production: conflict.production,
                       index: conflict.production.symbols.len(),
                       lookahead: lookahead };
@@ -184,7 +185,7 @@ pub Ty: () = {
     ]
 }"#);
 
-    let examples: Vec<_> = ExampleIterator::new(&backtrace).collect();
+    let examples: Vec<_> = backtrace.examples().collect();
     println!("{:#?}", examples);
     unimplemented!();
 }
