@@ -12,6 +12,7 @@ pub struct Tracer<'trace, 'grammar: 'trace> {
     states: &'trace [State<'grammar>],
     first_sets: FirstSets,
     state_graph: StateGraph,
+    stack: Vec<(StateIndex, Item<'grammar>)>,
 }
 
 impl<'trace, 'grammar> Tracer<'trace, 'grammar> {
@@ -24,6 +25,7 @@ impl<'trace, 'grammar> Tracer<'trace, 'grammar> {
             states: states,
             first_sets: FirstSets::new(grammar),
             state_graph: StateGraph::new(states),
+            stack: vec![],
         }
     }
 
@@ -34,11 +36,13 @@ impl<'trace, 'grammar> Tracer<'trace, 'grammar> {
     ///
     /// In particular, how we came to be able to reduce `NT` with
     /// lookahead `L`.
-    pub fn backtrace(&self, item_state: StateIndex, item: Item<'grammar>)
+    pub fn backtrace(&mut self, item_state: StateIndex, item: Item<'grammar>)
                      -> BacktraceNode<'grammar> {
         log!(self.session, Debug, "backtrace(item_state={:?} item={:?})", item_state, item);
 
         let mut result_node = BacktraceNode::new(item);
+
+        self.stack.push((item_state, item));
 
         // The nonterminal NT and lookahead L we are looking for
         let nt_sym = Symbol::Nonterminal(item.production.nonterminal);
@@ -72,12 +76,19 @@ impl<'trace, 'grammar> Tracer<'trace, 'grammar> {
                             // Found such a state. Now, continue
                             // tracing back so long as the lookahead
                             // may still have come from the
-                            // surrounding context. This can occur if
-                            // `...x` may be empty *and* the lookahead
-                            // matches (if the lookahead doesn't
-                            // match, then the only source for L is
-                            // `...x`).
-                            if maybe_empty && item.lookahead == lookahead {
+                            // surrounding context (1), and this will not
+                            // trigger an infinite loop (2). This can
+                            // occur if `...x` may be empty *and* the
+                            // lookahead matches (if the lookahead
+                            // doesn't match, then the only source for
+                            // L is `...x`).
+
+                            let continue_tracing =
+                                maybe_empty && // (1)
+                                item.lookahead == lookahead && // (1)
+                                !self.stack.contains(&(pred_state, *item)); // (2)
+
+                            if continue_tracing {
                                 let parent_node = self.backtrace(pred_state, *item);
                                 result_node.parents.push(parent_node);
                             } else {
@@ -88,6 +99,8 @@ impl<'trace, 'grammar> Tracer<'trace, 'grammar> {
                 }
             }
         }
+
+        self.stack.pop().unwrap();
 
         result_node
     }

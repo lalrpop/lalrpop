@@ -3,7 +3,7 @@ use grammar::parse_tree::TerminalLiteral;
 use grammar::repr::*;
 use lr1::build_states;
 use lr1::interpret::interpret_partial;
-use lr1::Lookahead;
+use lr1::{Item, Lookahead};
 use session::Session;
 use test_util::{expect_debug, normalized_grammar};
 
@@ -51,7 +51,7 @@ fn backtrace1() {
     let grammar = test_grammar1();
     let session = Session::test();
     let states = build_states(&session, &grammar, nt("Start")).unwrap();
-    let tracer = Tracer::new(&session, &grammar, &states);
+    let mut tracer = Tracer::new(&session, &grammar, &states);
     let state_stack = interpret_partial(&states, terms!["Int"]).unwrap();
     let top_state = *state_stack.last().unwrap();
 
@@ -101,7 +101,7 @@ fn backtrace2() {
     let grammar = test_grammar1();
     let session = Session::test();
     let states = build_states(&session, &grammar, nt("Start")).unwrap();
-    let tracer = Tracer::new(&session, &grammar, &states);
+    let mut tracer = Tracer::new(&session, &grammar, &states);
     let state_stack = interpret_partial(&states, terms!["Int"]).unwrap();
     let top_state = *state_stack.last().unwrap();
 
@@ -156,6 +156,80 @@ fn backtrace2() {
         BacktraceNode {
             item: Expr = (*) Expr "+" "Int" [";"],
             parents: []
+        }
+    ]
+}"#);
+}
+
+#[test]
+fn backtrace3() {
+    // This grammar yields a S/R conflict. Is it (int -> int) -> int
+    // or int -> (int -> int)?
+    let grammar = normalized_grammar(r#"
+grammar;
+pub Ty: () = {
+    "int" => (),
+    "bool" => (),
+    <t1:Ty> "->" <t2:Ty> => (),
+};
+"#);
+    let session = Session::test();
+    let states = build_states(&session, &grammar, nt("Ty")).unwrap_err().states;
+    let mut tracer = Tracer::new(&session, &grammar, &states);
+    let (&lookahead, conflict) =
+        states.iter()
+              .flat_map(|s| &s.conflicts)
+              .flat_map(|(l, cs)| cs.iter().map(move |c| (l, c)))
+              .next()
+              .unwrap();
+    let item = Item { production: conflict.production,
+                      index: conflict.production.symbols.len(),
+                      lookahead: lookahead };
+    println!("item={:?}", item);
+    let backtrace = tracer.backtrace(conflict.state, item);
+    expect_debug(&backtrace, r#"BacktraceNode {
+    item: Ty = Ty "->" Ty (*) ["->"],
+    parents: [
+        BacktraceNode {
+            item: Ty = (*) Ty "->" Ty [EOF],
+            parents: []
+        },
+        BacktraceNode {
+            item: Ty = (*) Ty "->" Ty ["->"],
+            parents: []
+        },
+        BacktraceNode {
+            item: Ty = (*) Ty "->" Ty [EOF],
+            parents: []
+        },
+        BacktraceNode {
+            item: Ty = (*) Ty "->" Ty ["->"],
+            parents: []
+        },
+        BacktraceNode {
+            item: Ty = Ty "->" (*) Ty ["->"],
+            parents: [
+                BacktraceNode {
+                    item: Ty = (*) Ty "->" Ty [EOF],
+                    parents: []
+                },
+                BacktraceNode {
+                    item: Ty = (*) Ty "->" Ty ["->"],
+                    parents: []
+                },
+                BacktraceNode {
+                    item: Ty = (*) Ty "->" Ty [EOF],
+                    parents: []
+                },
+                BacktraceNode {
+                    item: Ty = (*) Ty "->" Ty ["->"],
+                    parents: []
+                },
+                BacktraceNode {
+                    item: Ty = Ty "->" (*) Ty ["->"],
+                    parents: []
+                }
+            ]
         }
     ]
 }"#);
