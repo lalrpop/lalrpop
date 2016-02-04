@@ -5,7 +5,7 @@ use session::Session;
 
 mod example;
 mod state_graph;
-mod test;
+#[cfg(test)] mod test;
 
 use self::example::ExampleIterator;
 use self::state_graph::StateGraph;

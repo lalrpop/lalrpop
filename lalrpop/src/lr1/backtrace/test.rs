@@ -184,8 +184,4 @@ pub Ty: () = {
         }
     ]
 }"#);
-
-    let examples: Vec<_> = backtrace.examples().collect();
-    println!("{:#?}", examples);
-    unimplemented!();
 }
