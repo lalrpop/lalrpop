@@ -4,6 +4,7 @@ use lr1::LR0Item;
 
 use super::{BacktraceNode, Example, Reduction};
 
+mod ascii_canvas;
 #[cfg(test)] mod test;
 
 pub struct ExampleIterator<'ex> {
@@ -70,17 +71,32 @@ impl<'ex> ExampleIterator<'ex> {
 
         let start = example.symbols.len();
 
+        // Push items before the cursor in the current item.
+        // e.g, in `Foo = W X (*) Y Z`, push "W X".
         let prefix = &item.production.symbols[..item.index];
-        example.symbols.extend(prefix);
+        example.symbols.extend(prefix.iter().map(|&s| Some(s)));
 
+        // Recurse to expand the item *at* the cursor (if any).  e.g.,
+        // in `Foo = W X (*) Y Z`, this would expand `Y` with its
+        // derivation.
         self.unwind(rev_items, example);
 
+        // Push items after the cursor in the current item.
+        // e.g., in `Foo = W X (*) Y Z`, push "Z".
         if item.index != item.production.symbols.len() {
             let suffix = &item.production.symbols[item.index+1..];
-            example.symbols.extend(suffix);
+            example.symbols.extend(suffix.iter().map(|&s| Some(s)));
+        }
+
+        // If it turns out that we did not push anything, then push
+        // `None` to represent the "empty sequence" that is being
+        // reduced here (e.g., if the item is `Foo = (*)`).
+        if start == example.symbols.len() {
+            example.symbols.push(None);
         }
 
         let end = example.symbols.len();
+
         example.reductions.push(Reduction {
             start: start,
             end: end,
@@ -114,12 +130,17 @@ impl<'ex> Iterator for ExampleIterator<'ex> {
 }
 
 impl Example {
-    /// Length of each symbol. Each will need *at least* that
-    /// amount of space. :) Measure in characters, under the
-    /// assumption of a mono-spaced font.
+    /// Length of each symbol. Each will need *at least* that amount
+    /// of space. :) Measure in characters, under the assumption of a
+    /// mono-spaced font. Also add a final `0` marker which will serve
+    /// as the end position.
     fn lengths(&self) -> Vec<usize> {
         self.symbols.iter()
-                    .map(|s| format!("{}", s).chars().count())
+                    .map(|s| match *s {
+                        Some(s) => format!("{}", s).chars().count(),
+                        None => 1, // display \epsilon symbols as " ", effectively.
+                    })
+                    .chain(Some(0))
                     .collect()
     }
 
@@ -135,15 +156,23 @@ impl Example {
         //     X Y Z
         let mut positions: Vec<_> =
             lengths.iter()
-                   .scan(0, |counter, len| {
+                   .scan(0, |counter, &len| {
                        let start = *counter;
 
                        // Leave space for "NT " (if "NT" is the name
                        // of the nonterminal).
                        *counter = start + len + 1;
+
                        Some(start)
                    })
                    .collect();
+
+        // The final position is a marker. Currently we will leave
+        // an extra space, so remove it:
+        //
+        //     X Y Z
+        //           ^ where the marker would be otherwise
+        *positions.last_mut().unwrap() -= 1;
 
         println!("positions: initial={:?}", positions);
 
@@ -168,19 +197,12 @@ impl Example {
 
             let nt_len = format!("{}", nonterminal).chars().count();
 
-            // number of symbols we are reducing
+            // Number of symbols we are reducing. This should always
+            // be non-zero because even in the case of a \epsilon
+            // rule, we ought to be have a `None` entry in the symbol array.
             let num_syms = end - start;
+            assert!(num_syms > 0);
             println!("positions: num_syms={:?} nt_len={:?}", num_syms, nt_len);
-
-            if num_syms == 0 {
-                // Empty, so we need to display like this.
-                //
-                // A1 B2         C3
-                //       |     |
-                //       +-Foo-+
-                shift(&mut positions[start..], nt_len + 4 + 1);
-                continue;
-            }
 
             // Let's use the expansion from above as our running example.
             // We start out with positions like this:
@@ -227,34 +249,55 @@ impl Example {
             // In the example above, that is E5 and F6.
             shift(&mut positions[end..], difference);
 
-            // For the things that ARE part of this nonterminal, we will
-            // want to adjust the spacing as evenly as possible.
-            let num_gaps = num_syms - 1; // number of gaps we can adjust. Here, 3.
-            let amount = difference / num_gaps; // amount to add to each gap. Here, 1.
-            let extra = difference % num_gaps; // number of gaps to add extra. Here, 1.
+            if num_syms > 1 {
+                // If there is just one symbol being reduced here,
+                // then we have shifted over the things that follow
+                // it, and we are done. This would be a case like:
+                //
+                //     X         Y Z
+                //     |       |
+                //     +-Label-+
+                //
+                // (which maybe ought to be rendered slightly
+                // differently).
+                //
+                // But if there are multiple symbols, we're not quite
+                // done, because there would be an unsightly gap:
+                //
+                //       (gaps)
+                //      |  |  |
+                //      v  v  v
+                //    A1 B2 C3 D4     E5 F6
+                //    |             |
+                //    +-LongLabel22-+
+                //
+                // we'd like to make things line up, so we have to
+                // distribute that extra space internally by
+                // increasing the "gaps" (marked above) as evenly as
+                // possible (basically, full justification).
+                //
+                // We do this by dividing up the spaces evenly and
+                // then taking the remainder `N` and distributing 1
+                // extra to the first N.
+                let num_gaps = num_syms - 1; // number of gaps we can adjust. Here, 3.
+                let amount = difference / num_gaps; // what to add to each gap. Here, 1.
+                let extra = difference % num_gaps; // the remainder. Here, 1.
 
-            println!("positions: num_gaps={:?} amount={:?} extra={:?}",
-                     num_gaps, amount, extra);
+                println!("positions: num_gaps={:?} amount={:?} extra={:?}",
+                         num_gaps, amount, extra);
 
-            // for the first `extra` symbols, give them amount + 1
-            // extra space. After that, just amount.
-            let mut adjustment = 0;
-            for i in 0 .. extra {
-                adjustment += amount + 1;
-                positions[start + 1 + i] += adjustment;
-            }
-            for i in extra .. num_gaps {
-                adjustment += amount;
-                positions[start + 1 + i] += adjustment;
+                // For the first `extra` symbols, give them amount + 1
+                // extra space. After that, just amount. (O(n^2). Sue me.)
+                for i in 0 .. extra {
+                    shift(&mut positions[start + 1 + i .. end], amount + 1);
+                }
+                for i in extra .. num_gaps {
+                    shift(&mut positions[start + 1 + i .. end], amount);
+                }
             }
 
             println!("positions: current = {:?}", positions);
         }
-
-        let end_pos =
-            *positions.last().unwrap_or(&0) +
-            *lengths.last().unwrap_or(&0);
-        positions.push(end_pos);
 
         positions
     }

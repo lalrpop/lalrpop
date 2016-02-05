@@ -57,9 +57,21 @@ pub struct BacktraceNode<'grammar> {
 /// The top-line is the `symbols` vector. The groupings below are
 /// stored in the `reductions` vector, in order from smallest to
 /// largest (they are always properly nested).
+///
+/// The `symbols` vector is actually `Option<Symbol>` to account
+/// for empty reductions:
+///
+/// ```
+/// A       B
+/// | |   | |
+/// | +-Y-+ |
+/// +-Z-----+
+/// ```
+///
+/// The "empty space" between A and B would be represented as `None`.
 #[derive(Debug)]
 pub struct Example {
-    pub symbols: Vec<Symbol>,
+    pub symbols: Vec<Option<Symbol>>,
     pub reductions: Vec<Reduction>,
 }
 
