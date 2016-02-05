@@ -18,7 +18,6 @@ impl AsciiCanvas {
     }
 
     fn index(&self, r: usize, c: usize) -> usize {
-        println!("r={} c={} dims={}x{}", r, c, self.rows, self.columns);
         assert!(r < self.rows);
         assert!(c <= self.columns);
         r * self.columns + c

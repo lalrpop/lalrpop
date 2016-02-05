@@ -1,6 +1,7 @@
 use intern::intern;
 use grammar::parse_tree::TerminalLiteral;
 use grammar::repr::*;
+use test_util::compare;
 
 use super::super::{Example, Reduction};
 
@@ -23,7 +24,7 @@ macro_rules! syms {
     }
 }
 
-//  012345678901234567890
+//  01234567890123456789012
 //  A1   B2  C3  D4 E5 F6
 //  |             |     |
 //  +-LongLabel22-+     |
@@ -43,18 +44,33 @@ fn long_label_1_positions() {
     let example = long_label_1_example();
     let lengths = example.lengths();
     let positions = example.positions(&lengths);
-    assert_eq!(positions, vec![0, 5, 9, 13, 16, 19, 21]);
+    assert_eq!(positions, vec![0, 5, 9, 13, 16, 19, 22]);
 }
 
-// Note that `positions` can handle this,
-// but maybe not `paint`.
+#[test]
+fn long_label_1_strings() {
+    let strings = long_label_1_example().paint();
+    compare(strings,
+            vec!["A1   B2  C3  D4 E5 F6",
+                 "|             |     |",
+                 "+-LongLabel22-+     |",
+                 "|                   |",
+                 "+-Label-------------+"]);
+}
+
+// Example with some empty sequences and
+// other edge cases.
 //
-//  01234567890123456789012345678901234
+//  012345678901234567890123456789012345
 //         A1  B2  C3 D4 E5       F6
 //  |   |           |       |   | |   |
-//  +-X-+           |       +-Y-+ +-Z-+
-//  |               |
-//  +-MegaLongLabel-+
+//  +-X-+           |       |   | |   |
+//  |               |       |   | |   |
+//  +-MegaLongLabel-+       |   | |   |
+//                          |   | |   |
+//                          +-Y-+ |   |
+//                                |   |
+//                                +-Z-+
 fn empty_labels_example() -> Example {
     Example {
         //             0 1  2  3  4  5  6 7
@@ -73,5 +89,20 @@ fn empty_labels_positions() {
     let lengths = example.lengths();
     let positions = example.positions(&lengths);
     //                            A1 B2  C3  D4  E5      F6
-    assert_eq!(positions, vec![0, 7, 11, 15, 18, 21, 24, 30, 35]);
+    assert_eq!(positions, vec![0, 7, 11, 15, 18, 21, 24, 30, 36]);
+}
+
+#[test]
+fn empty_labels_strings() {
+    let strings = empty_labels_example().paint();
+    compare(strings,
+            vec!["       A1  B2  C3 D4 E5       F6",
+                 "|    |          |       |   | |   |",
+                 "+-X--+          |       |   | |   |",
+                 "|               |       |   | |   |",
+                 "+-MegaLongLabel-+       |   | |   |",
+                 "                        |   | |   |",
+                 "                        +-Y-+ |   |",
+                 "                              |   |",
+                 "                              +-Z-+"]);
 }

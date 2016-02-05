@@ -2,6 +2,7 @@
 
 use lr1::LR0Item;
 
+use self::ascii_canvas::AsciiCanvas;
 use super::{BacktraceNode, Example, Reduction};
 
 mod ascii_canvas;
@@ -148,8 +149,6 @@ impl Example {
     /// measured in characters. These are spaced to leave enough room
     /// for the reductions below.
     fn positions(&self, lengths: &[usize]) -> Vec<usize> {
-        println!("positions({:?}, lengths={:?})", self.symbols, lengths);
-
         // Initially, position each symbol with one space in between,
         // like:
         //
@@ -167,15 +166,6 @@ impl Example {
                    })
                    .collect();
 
-        // The final position is a marker. Currently we will leave
-        // an extra space, so remove it:
-        //
-        //     X Y Z
-        //           ^ where the marker would be otherwise
-        *positions.last_mut().unwrap() -= 1;
-
-        println!("positions: initial={:?}", positions);
-
         // Adjust spacing to account for the nonterminal labels
         // we will have to add. It will display
         // like this:
@@ -192,9 +182,6 @@ impl Example {
         //    |             |
         //    +-LongLabel22-+
         for &Reduction { start, end, nonterminal } in &self.reductions {
-            println!("positions: nonterminal={:?} start={:?} end={:?}",
-                     nonterminal, start, end);
-
             let nt_len = format!("{}", nonterminal).chars().count();
 
             // Number of symbols we are reducing. This should always
@@ -202,7 +189,6 @@ impl Example {
             // rule, we ought to be have a `None` entry in the symbol array.
             let num_syms = end - start;
             assert!(num_syms > 0);
-            println!("positions: num_syms={:?} nt_len={:?}", num_syms, nt_len);
 
             // Let's use the expansion from above as our running example.
             // We start out with positions like this:
@@ -225,10 +211,6 @@ impl Example {
             //            ^ here
             let end_position = positions[end - 1] + lengths[end - 1];
 
-            println!("positions: start_position={:?} end_position={:?}",
-                     start_position,
-                     end_position);
-
             // We need space to draw `+-Label-+` between
             // start_position and end_position.
             let required_len = nt_len + 4; // here, 15
@@ -239,11 +221,6 @@ impl Example {
 
             // Have to add `difference` characters altogether.
             let difference = required_len - actual_len; // here, 4
-
-            println!("positions: nt_len={:?} required_len={:?} \
-                      actual_len={:?} difference={:?}",
-                     nt_len, required_len,
-                     actual_len, difference);
 
             // Increment over everything that is not part of this nonterminal.
             // In the example above, that is E5 and F6.
@@ -283,9 +260,6 @@ impl Example {
                 let amount = difference / num_gaps; // what to add to each gap. Here, 1.
                 let extra = difference % num_gaps; // the remainder. Here, 1.
 
-                println!("positions: num_gaps={:?} amount={:?} extra={:?}",
-                         num_gaps, amount, extra);
-
                 // For the first `extra` symbols, give them amount + 1
                 // extra space. After that, just amount. (O(n^2). Sue me.)
                 for i in 0 .. extra {
@@ -295,11 +269,49 @@ impl Example {
                     shift(&mut positions[start + 1 + i .. end], amount);
                 }
             }
-
-            println!("positions: current = {:?}", positions);
         }
 
         positions
+    }
+
+    pub fn paint(&self) -> Vec<String> {
+        let lengths = self.lengths();
+        let positions = self.positions(&lengths);
+        let rows = 1 + self.reductions.len() * 2;
+        let columns = *positions.last().unwrap();
+        let mut canvas = AsciiCanvas::new(rows, columns);
+
+        // Write the labels:
+        //    A1   B2  C3  D4 E5 F6
+        for (index, opt_symbol) in self.symbols.iter().enumerate() {
+            if let &Some(symbol) = opt_symbol {
+                let column = positions[index];
+                canvas.write(0, column, format!("{}", symbol).chars());
+            }
+        }
+
+        // Draw the brackets for each reduction:
+        for (index, reduction) in self.reductions.iter().enumerate() {
+            let start_column = positions[reduction.start];
+            let end_column = positions[reduction.end] - 1;
+            let row = 2 + index * 2;
+            println!("reduction: {:?} columns={}..{} row={}",
+                     reduction, start_column, end_column, row);
+            canvas.draw_vertical_line(1 .. row + 1, start_column);
+            canvas.draw_vertical_line(1 .. row + 1, end_column - 1);
+            canvas.draw_horizontal_line(row, start_column .. end_column);
+        }
+
+        // Write the labels for each reduction. Do this after the
+        // brackets so that ascii canvas can convert `|` to `+`
+        // without interfering with the text (in case of weird overlap).
+        for (index, reduction) in self.reductions.iter().enumerate() {
+            let column = positions[reduction.start] + 2;
+            let row = 2 + index * 2;
+            canvas.write(row, column, format!("{}", reduction.nonterminal).chars());
+        }
+
+        canvas.to_strings()
     }
 }
 
