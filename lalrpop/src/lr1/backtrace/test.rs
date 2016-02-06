@@ -162,7 +162,8 @@ pub Ty: () = {
     println!("item={:?}", item);
     let backtrace = tracer.backtrace(conflict.state, item);
     println!("{:#?}", backtrace);
-    expect_debug(&backtrace, r#"BacktraceNode {
+    expect_debug(&backtrace, r#"
+BacktraceNode {
     item: Ty = Ty "->" Ty (*),
     parents: [
         BacktraceNode {
@@ -183,5 +184,39 @@ pub Ty: () = {
             ]
         }
     ]
-}"#);
+}
+"#.trim());
+
+    // Check that we can successfully enumerate and pain the examples
+    // here.
+    let pictures: Vec<_> = backtrace.examples().map(|e| e.paint()).collect();
+    expect_debug(&pictures, r#"
+[
+    [
+        "Ty \"->\" Ty \"->\" Ty",
+        "|        |       |",
+        "+-Ty-----+       |",
+        "|                |",
+        "+-Ty-------------+"
+    ],
+    [
+        "Ty \"->\" Ty \"->\" Ty \"->\" Ty",
+        "|       |        |       |",
+        "|       +-Ty-----+       |",
+        "|                |       |",
+        "+-Ty-------------+       |",
+        "|                        |",
+        "+-Ty---------------------+"
+    ],
+    [
+        "Ty \"->\" Ty \"->\" Ty \"->\" Ty",
+        "|       |       |        |",
+        "|       |       +-Ty-----+",
+        "|       |                |",
+        "|       +-Ty-------------+",
+        "|                        |",
+        "+-Ty---------------------+"
+    ]
+]
+"#.trim());
 }
