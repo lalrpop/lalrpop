@@ -104,8 +104,8 @@ impl<'grammar> Item<'grammar> {
         if self.can_shift() {
             Some((self.production.symbols[self.index],
                   Item { production: self.production,
-                                  index: self.index + 1,
-                                  lookahead: self.lookahead }))
+                         index: self.index + 1,
+                         lookahead: self.lookahead }))
         } else {
             None
         }

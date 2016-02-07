@@ -1,5 +1,5 @@
 use lr1::first::FirstSets;
-use lr1::{LR0Item, Item, State, StateIndex};
+use lr1::{LR0Item, Item, Lookahead, State, StateIndex};
 use grammar::repr::*;
 use session::Session;
 
@@ -7,6 +7,7 @@ mod example;
 mod state_graph;
 #[cfg(test)] mod test;
 
+use self::CanShiftResult::*;
 use self::example::ExampleIterator;
 use self::state_graph::StateGraph;
 
@@ -121,15 +122,73 @@ impl<'trace, 'grammar> Tracer<'trace, 'grammar> {
         }
     }
 
-    /// Returns a backtrace explaining how the state `item_state` came
-    /// to contain the item `item`:
-    ///
-    ///    NT = ... (*) ... [L]
-    ///
-    /// In particular, how we came to be able to reduce `NT` with
-    /// lookahead `L`.
     pub fn backtrace(&mut self, item_state: StateIndex, item: Item<'grammar>)
                      -> BacktraceNode<'grammar> {
+        if item.can_shift() {
+            self.backtrace_shift(item_state, item)
+        } else {
+            self.backtrace_reduce(item_state, item)
+        }
+    }
+
+    fn backtrace_shift(&mut self,
+                       item_state: StateIndex, item: Item<'grammar>)
+                       -> BacktraceNode<'grammar> {
+        assert!(item.can_shift());
+
+        log!(self.session, Debug, "backtrace_shift(item_state={:?}, item={:?})",
+             item_state, item);
+
+        let mut result_node = BacktraceNode::new(item);
+
+        // Found an item with context `Foo = ... (*) L`, stop.
+        if item.index > 0 {
+            return result_node;
+        }
+
+        // Otherwise, we have something like `Foo = (*) ... [L]`.  We
+        // want to find out where this item came from. Either we are
+        // in the start state, or else it arose from a \epsilon
+        // transition.  In the latter case, then there is another item
+        // in the same state like `Bar = ...p (*) Foo ...s [L1]` where
+        // `L in First(...s, L1)`. Find that item.
+
+        let nt_sym = Symbol::Nonterminal(item.production.nonterminal);
+        let lookahead = item.lookahead;
+
+        for &pred_item in self.states[item_state.0].items.vec.iter() {
+            log!(self.session, Debug, "backtrace_shift: pred_item = {:?}", pred_item);
+            match self.can_shift_with_lookahead(pred_item, nt_sym, lookahead) {
+                CannotShift => { }
+                CanShift(_) => {
+                    // Found something like the:
+                    //
+                    //     Bar = ...p (*) Foo ...s [L1]
+                    //
+                    // that we were looking for. At this point, if
+                    // `...p` is non-empty, we are
+                    // done. Otherwise, we must recurse further.
+                    let parent_node = self.backtrace_shift(item_state, pred_item);
+                    result_node.merge_parent(parent_node);
+                }
+            }
+        }
+
+        result_node
+    }
+
+    /// Returns a backtrace explaining how the state `item_state` came
+    /// to contain the reducable item `item`:
+    ///
+    ///    NT = ... (*) [L]
+    ///
+    /// In particular, how we came to be able to reduce `NT` with
+    /// lookahead `L`. Basically, we want to walk back through the
+    /// states to find one where there is some concrete context:
+    ///
+    ///    NT = ... (*) L ...
+    fn backtrace_reduce(&mut self, item_state: StateIndex, item: Item<'grammar>)
+                        -> BacktraceNode<'grammar> {
         log!(self.session, Debug, "backtrace(item_state={:?} item={:?})", item_state, item);
 
         let mut result_node = BacktraceNode::new(item);
@@ -156,36 +215,33 @@ impl<'trace, 'grammar> Tracer<'trace, 'grammar> {
             //     A := ... (*) NT ...x [L1]
             //
             // where the lookahead L is in FIRST(...x, L1).
-            for item in self.states[pred_state.0].items.vec.iter() {
+            for &pred_item in self.states[pred_state.0].items.vec.iter() {
                 log!(self.session, Debug, "backtrace: pred_state {:?} has item {:?}",
-                     pred_state, item);
-                if let Some((shifted, remainder)) = item.shift_symbol() {
-                    if shifted == nt_sym {
-                        let (first, maybe_empty) = self.first_sets.first(remainder, item.lookahead);
-                        log!(self.session, Debug, "backtrace: first={:?} maybe_empty={:?}",
-                             first, maybe_empty);
-                        if first.contains(&lookahead) {
-                            // Found such a state. Now, continue
-                            // tracing back so long as the lookahead
-                            // may still have come from the
-                            // surrounding context (1), and this will not
-                            // trigger an infinite loop (2). This can
-                            // occur if `...x` may be empty *and* the
-                            // lookahead matches (if the lookahead
-                            // doesn't match, then the only source for
-                            // L is `...x`).
+                     pred_state, pred_item);
+                match self.can_shift_with_lookahead(pred_item, nt_sym, lookahead) {
+                    CannotShift => { }
+                    CanShift(maybe_empty) => {
+                        // Found such a state. Now, continue tracing
+                        // back so long as the lookahead may still
+                        // have come from the surrounding context (1),
+                        // and this will not trigger an infinite loop
+                        // (2). This can occur if `...x` may be empty
+                        // *and* the lookahead matches (if the
+                        // lookahead doesn't match, then the only
+                        // source for L is `...x`).
+                        log!(self.session, Debug, "backtrace: maybe_empty={:?}",
+                             maybe_empty);
 
-                            let continue_tracing =
-                                maybe_empty && // (1)
-                                item.lookahead == lookahead && // (1)
-                                !self.stack.contains(&(pred_state, *item)); // (2)
+                        let continue_tracing =
+                            maybe_empty && // (1)
+                            pred_item.lookahead == lookahead && // (1)
+                            !self.stack.contains(&(pred_state, pred_item)); // (2)
 
-                            if continue_tracing {
-                                let parent_node = self.backtrace(pred_state, *item);
-                                result_node.merge_parent(parent_node);
-                            } else {
-                                result_node.merge_parent(BacktraceNode::new(*item));
-                            }
+                        if continue_tracing {
+                            let parent_node = self.backtrace_reduce(pred_state, pred_item);
+                            result_node.merge_parent(parent_node);
+                        } else {
+                            result_node.merge_parent(BacktraceNode::new(pred_item));
                         }
                     }
                 }
@@ -196,5 +252,38 @@ impl<'trace, 'grammar> Tracer<'trace, 'grammar> {
 
         result_node
     }
+
+    fn can_shift_with_lookahead(&self,
+                                item: Item<'grammar>,
+                                nt_sym: Symbol,
+                                lookahead: Lookahead)
+                                -> CanShiftResult
+    {
+        self.can_shift_with_lookahead_from(item, nt_sym, &[lookahead])
+    }
+
+    fn can_shift_with_lookahead_from(&self,
+                                     item: Item<'grammar>,
+                                     nt_sym: Symbol,
+                                     lookaheads: &[Lookahead])
+                                     -> CanShiftResult
+    {
+        if let Some((shifted, remainder)) = item.shift_symbol() {
+            if shifted == nt_sym {
+                let (first, maybe_empty) =
+                    self.first_sets.first(remainder, item.lookahead);
+                for l in lookaheads {
+                    if first.contains(&l) {
+                        return CanShift(maybe_empty);
+                    }
+                }
+            }
+        }
+        CannotShift
+    }
 }
 
+enum CanShiftResult {
+    CannotShift,
+    CanShift(bool) // if true, remainder is maybe empty
+}
