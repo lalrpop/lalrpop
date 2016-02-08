@@ -1,5 +1,10 @@
+use ansi_term::{Colour, Style};
 use log::{Log, Level};
 
+/// Various options to control debug output. Although this struct is
+/// technically part of LALRPOP's exported interface, it is not
+/// considered part of the semver guarantees as end-users are not
+/// expected to use it.
 #[derive(Clone)]
 pub struct Session {
     log: Log,
@@ -9,6 +14,13 @@ pub struct Session {
     /// report *all* errors. Note that we MAY always report more than
     /// this value if we so choose.
     max_errors: usize,
+
+    // Styles to use when formatting error reports
+    pub heading: Style,
+    pub ambig_symbols: Style,
+    pub observed_symbols: Style,
+    pub cursor_symbol: Style,
+    pub unobserved_symbols: Style,
 }
 
 impl Session {
@@ -17,6 +29,11 @@ impl Session {
             log: Log::new(Level::Informative),
             force_build: false,
             max_errors: 1,
+            heading: Colour::White.bold(),
+            ambig_symbols: Colour::White.normal(),
+            observed_symbols: Colour::White.normal(),
+            cursor_symbol: Colour::White.bold().underline(),
+            unobserved_symbols: Colour::White.dimmed(),
         }
     }
 
@@ -27,6 +44,11 @@ impl Session {
             log: Log::new(Level::Debug),
             force_build: false,
             max_errors: 1,
+            heading: Style::new(),
+            ambig_symbols: Style::new(),
+            observed_symbols: Style::new(),
+            cursor_symbol: Style::new(),
+            unobserved_symbols: Style::new(),
         }
     }
 

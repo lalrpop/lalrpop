@@ -186,9 +186,9 @@ BacktraceNode {
 }
 "#.trim());
 
-    // Check that we can successfully enumerate and pain the examples
+    // Check that we can successfully enumerate and paint the examples
     // here.
-    let pictures: Vec<_> = backtrace.examples().map(|e| e.paint()).collect();
+    let pictures: Vec<_> = backtrace.examples().map(|e| e.paint_unstyled()).collect();
     expect_debug(&pictures, r#"
 [
     [

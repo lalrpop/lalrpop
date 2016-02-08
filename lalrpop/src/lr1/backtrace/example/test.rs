@@ -49,7 +49,7 @@ fn long_label_1_positions() {
 
 #[test]
 fn long_label_1_strings() {
-    let strings = long_label_1_example().paint();
+    let strings = long_label_1_example().paint_unstyled();
     compare(strings,
             vec!["A1   B2  C3  D4 E5 F6",
                  "|             |     |",
@@ -95,7 +95,7 @@ fn empty_labels_positions() {
 
 #[test]
 fn empty_labels_strings() {
-    let strings = empty_labels_example().paint();
+    let strings = empty_labels_example().paint_unstyled();
     compare(strings,
             vec!["       A1  B2  C3 D4 E5       F6",
                  "|    |          |       |   | |   |",

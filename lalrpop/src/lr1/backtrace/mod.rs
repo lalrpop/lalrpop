@@ -9,8 +9,9 @@ mod state_graph;
 #[cfg(test)] mod test;
 
 use self::CanShiftResult::*;
-use self::example::ExampleIterator;
 use self::state_graph::StateGraph;
+
+pub use self::example::{Example, ExampleSymbol, ExampleIterator, ExampleStyles};
 
 pub struct Tracer<'trace, 'grammar: 'trace> {
     session: &'trace Session,
@@ -42,50 +43,6 @@ pub struct Tracer<'trace, 'grammar: 'trace> {
 pub struct BacktraceNode<'grammar> {
     item: LR0Item<'grammar>,
     parents: Vec<BacktraceNode<'grammar>>,
-}
-
-/// An "example" input and the way it was derived. This can be
-/// serialized into useful text. For example, it might represent
-/// something like this:
-///
-/// ```
-///          Looking at
-///              |
-///              v
-/// Ty "->" Ty "->" Ty
-/// |        |       |
-/// +-Ty-----+       |
-/// |                |
-/// +-Ty-------------+
-/// ```
-///
-/// The top-line is the `symbols` vector. The groupings below are
-/// stored in the `reductions` vector, in order from smallest to
-/// largest (they are always properly nested). The `cursor` field
-/// indicates the current lookahead token.
-///
-/// The `symbols` vector is actually `Option<Symbol>` to account
-/// for empty reductions:
-///
-/// ```
-/// A       B
-/// | |   | |
-/// | +-Y-+ |
-/// +-Z-----+
-/// ```
-///
-/// The "empty space" between A and B would be represented as `None`.
-#[derive(Clone, Debug)]
-pub struct Example {
-    pub symbols: Vec<ExampleSymbol>,
-    pub cursor: usize,
-    pub reductions: Vec<Reduction>,
-}
-
-#[derive(Copy, Clone, Debug, PartialEq, Eq)]
-pub enum ExampleSymbol {
-    Symbol(Symbol),
-    Epsilon,
 }
 
 #[derive(Copy, Clone, Debug)]

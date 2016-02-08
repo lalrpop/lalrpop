@@ -1,10 +1,8 @@
 use intern::intern;
 use grammar::repr::*;
-use lr1::backtrace::Tracer;
 use lr1::build_states;
-use lr1::{Item, StateIndex};
 use session::Session;
-use test_util::{expect_debug, normalized_grammar};
+use test_util::normalized_grammar;
 
 use super::{ConflictClassification, ErrorReportingCx};
 
@@ -123,8 +121,8 @@ fn inline_conflict() {
 
     match cx.classify(lookahead, conflict) {
         ConflictClassification::SuggestQuestion {
-            shift,
-            reduce,
+            shift: _,
+            reduce: _,
             nonterminal,
             symbol,
         } => {

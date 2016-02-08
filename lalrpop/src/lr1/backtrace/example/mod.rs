@@ -1,13 +1,62 @@
 //! Code to compute example inputs given a backtrace.
 
+use ansi_term::Style;
+use grammar::repr::Symbol;
 use lr1::LR0Item;
+use session::Session;
+use std::default::Default;
 
 use self::ascii_canvas::{AsciiCanvas, Row};
-use super::{BacktraceNode, Example, ExampleSymbol, Reduction};
+use super::{BacktraceNode, Reduction};
 
 mod ascii_canvas;
 #[cfg(test)] mod test;
 
+/// An "example" input and the way it was derived. This can be
+/// serialized into useful text. For example, it might represent
+/// something like this:
+///
+/// ```
+///          Looking at
+///              |
+///              v
+/// Ty "->" Ty "->" Ty
+/// |        |       |
+/// +-Ty-----+       |
+/// |                |
+/// +-Ty-------------+
+/// ```
+///
+/// The top-line is the `symbols` vector. The groupings below are
+/// stored in the `reductions` vector, in order from smallest to
+/// largest (they are always properly nested). The `cursor` field
+/// indicates the current lookahead token.
+///
+/// The `symbols` vector is actually `Option<Symbol>` to account
+/// for empty reductions:
+///
+/// ```
+/// A       B
+/// | |   | |
+/// | +-Y-+ |
+/// +-Z-----+
+/// ```
+///
+/// The "empty space" between A and B would be represented as `None`.
+#[derive(Clone, Debug)]
+pub struct Example {
+    pub symbols: Vec<ExampleSymbol>,
+    pub cursor: usize,
+    pub reductions: Vec<Reduction>,
+}
+
+#[derive(Copy, Clone, Debug, PartialEq, Eq)]
+pub enum ExampleSymbol {
+    Symbol(Symbol),
+    Epsilon,
+}
+
+/// Derives examples from a backtrace node.
 pub struct ExampleIterator<'ex> {
     stack: Vec<ExampleState<'ex>>,
 }
@@ -19,6 +68,13 @@ struct ExampleState<'ex> {
 
     // Index of next parent to explore
     index: usize,
+}
+
+#[derive(Default)]
+pub struct ExampleStyles {
+    pub before_cursor: Style,
+    pub on_cursor: Style,
+    pub after_cursor: Style,
 }
 
 impl<'ex> ExampleIterator<'ex> {
@@ -152,6 +208,20 @@ impl Example {
                     .collect()
     }
 
+    fn starting_positions(&self, lengths: &[usize]) -> Vec<usize> {
+        lengths.iter()
+               .scan(0, |counter, &len| {
+                   let start = *counter;
+
+                   // Leave space for "NT " (if "NT" is the name
+                   // of the nonterminal).
+                   *counter = start + len + 1;
+
+                   Some(start)
+               })
+               .collect()
+    }
+
     /// Start index where each symbol in the example should appear,
     /// measured in characters. These are spaced to leave enough room
     /// for the reductions below.
@@ -160,18 +230,7 @@ impl Example {
         // like:
         //
         //     X Y Z
-        let mut positions: Vec<_> =
-            lengths.iter()
-                   .scan(0, |counter, &len| {
-                       let start = *counter;
-
-                       // Leave space for "NT " (if "NT" is the name
-                       // of the nonterminal).
-                       *counter = start + len + 1;
-
-                       Some(start)
-                   })
-                   .collect();
+        let mut positions = self.starting_positions(lengths);
 
         // Adjust spacing to account for the nonterminal labels
         // we will have to add. It will display
@@ -281,7 +340,27 @@ impl Example {
         positions
     }
 
-    pub fn paint(&self) -> Vec<Row> {
+    /// Paints a prefix of the symbols from this example using the
+    /// given styles. `number` is the number of symbols to print;
+    /// typically it would be either `symbols.len()` (all symbols) or
+    /// `cursor` (up until the current token).
+    pub fn paint_symbols(&self,
+                         number: usize,
+                         styles: &ExampleStyles)
+                         -> Row {
+        let lengths = self.lengths();
+        let positions = self.starting_positions(&lengths);
+        let columns = *positions.last().unwrap();
+        let mut canvas = AsciiCanvas::new(1, columns);
+        self.paint_symbols_on(&self.symbols[..number], &positions, styles, &mut canvas);
+        canvas.to_strings().pop().unwrap()
+    }
+
+    pub fn paint_unstyled(&self) -> Vec<Row> {
+        self.paint(&ExampleStyles::default())
+    }
+
+    pub fn paint(&self, styles: &ExampleStyles) -> Vec<Row> {
         let lengths = self.lengths();
         let positions = self.positions(&lengths);
         let rows = 1 + self.reductions.len() * 2;
@@ -290,16 +369,7 @@ impl Example {
 
         // Write the labels:
         //    A1   B2  C3  D4 E5 F6
-        for (index, ex_symbol) in self.symbols.iter().enumerate() {
-            match *ex_symbol {
-                ExampleSymbol::Symbol(symbol) => {
-                    let column = positions[index];
-                    canvas.write(0, column, format!("{}", symbol).chars());
-                }
-                ExampleSymbol::Epsilon => {
-                }
-            }
-        }
+        self.paint_symbols_on(&self.symbols, &positions, styles, &mut canvas);
 
         // Draw the brackets for each reduction:
         for (index, reduction) in self.reductions.iter().enumerate() {
@@ -324,10 +394,60 @@ impl Example {
 
         canvas.to_strings()
     }
+
+    fn paint_symbols_on(&self,
+                        symbols: &[ExampleSymbol],
+                        positions: &[usize],
+                        styles: &ExampleStyles,
+                        canvas: &mut AsciiCanvas) {
+        for (index, ex_symbol) in symbols.iter().enumerate() {
+            let style = if index < self.cursor {
+                styles.before_cursor
+            } else if index == self.cursor {
+                // Only display actual terminals in the "on-cursor"
+                // font, because it might be misleading to show a
+                // nonterminal that way. Really it'd be nice to expand
+                // so that the cursor is always a terminal.
+                match *ex_symbol {
+                    ExampleSymbol::Symbol(Symbol::Terminal(_)) => styles.on_cursor,
+                    _ => styles.after_cursor,
+                }
+            } else {
+                styles.after_cursor
+            };
+
+            match *ex_symbol {
+                ExampleSymbol::Symbol(symbol) => {
+                    let column = positions[index];
+                    canvas.write_styled(0, column, format!("{}", symbol).chars(), style);
+                }
+                ExampleSymbol::Epsilon => {
+                }
+            }
+        }
+    }
 }
 
 fn shift(positions: &mut [usize], amount: usize) {
     for position in positions {
         *position += amount;
+    }
+}
+
+impl ExampleStyles {
+    pub fn ambig(session: &Session) -> Self {
+        ExampleStyles {
+            before_cursor: session.ambig_symbols,
+            on_cursor: session.ambig_symbols,
+            after_cursor: session.ambig_symbols,
+        }
+    }
+
+    pub fn new(session: &Session) -> Self {
+        ExampleStyles {
+            before_cursor: session.observed_symbols,
+            on_cursor: session.cursor_symbol,
+            after_cursor: session.unobserved_symbols,
+        }
     }
 }

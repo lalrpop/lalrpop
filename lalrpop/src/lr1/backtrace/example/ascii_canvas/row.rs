@@ -1,5 +1,4 @@
 use ansi_term::{ANSIString, ANSIStrings, Style};
-use std::borrow::Cow;
 use std::fmt::{Debug, Display, Formatter, Error};
 
 pub struct Row {

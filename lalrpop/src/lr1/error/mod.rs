@@ -5,7 +5,7 @@ use grammar::repr::*;
 use session::Session;
 use std::io::{self, Result, Write};
 use util::Multimap;
-use lr1::backtrace::{Example, ExampleSymbol, Tracer};
+use lr1::backtrace::{Example, ExampleStyles, ExampleSymbol, Tracer};
 use super::{Action, Conflict, LR0Item, Lookahead, Item,
             State, StateIndex, TableConstructionError};
 
@@ -94,15 +94,20 @@ impl<'cx> ErrorReportingCx<'cx> {
                 self.report_error_precedence(shift, reduce, nonterminal, out)
             }
             ConflictClassification::SuggestInline { shift, reduce, nonterminal } => {
-                self.report_error_suggest_inline(shift, reduce, nonterminal, out)
+                self.report_error_suggest_inline(lookahead, conflict,
+                                                 shift, reduce,
+                                                 nonterminal, out)
             }
             ConflictClassification::SuggestQuestion { shift, reduce,
                                                       nonterminal, symbol } => {
-                self.report_error_suggest_question(shift, reduce, nonterminal,
-                                                   symbol, out)
+                self.report_error_suggest_question(lookahead, conflict,
+                                                   shift, reduce,
+                                                   nonterminal, symbol, out)
             }
             ConflictClassification::InsufficientLookahead { action, reduce } => {
-                self.report_error_insufficient_lookahead(action, reduce, out)
+                self.report_error_insufficient_lookahead(lookahead, conflict,
+                                                         action, reduce,
+                                                         out)
             }
             ConflictClassification::Naive => {
                 self.report_error_naive(lookahead, conflict, out)
@@ -112,11 +117,41 @@ impl<'cx> ErrorReportingCx<'cx> {
 
     fn paint_example(&self,
                      example: &Example,
+                     styles: &ExampleStyles,
                      out: &mut Write)
                      -> io::Result<()> {
-        for line in example.paint() {
+        for line in example.paint(styles) {
             try!(writeln!(out, "{}", line));
         }
+        Ok(())
+    }
+
+    fn paint_example_symbols(&self,
+                             example: &Example,
+                             number_syms: usize,
+                             styles: &ExampleStyles,
+                             out: &mut Write)
+                             -> io::Result<()> {
+        let line = example.paint_symbols(number_syms, styles);
+        try!(writeln!(out, "{}", line));
+        Ok(())
+    }
+
+    fn report_error_ambiguity_core(&self,
+                                   shift: &Example,
+                                   reduce: &Example,
+                                   out: &mut Write)
+                                   -> io::Result<()> {
+        let styles = ExampleStyles::ambig(self.session);
+        try!(writeln!(out, "{}",
+                      self.session.heading.paint("Ambiguous grammar detected")));
+        try!(writeln!(out, ""));
+        try!(writeln!(out, "The following symbols can be reduced in two ways:"));
+        try!(self.paint_example_symbols(shift, shift.symbols.len(), &styles, out));
+        try!(writeln!(out, "They could be reduced like so:"));
+        try!(self.paint_example(shift, &styles, out));
+        try!(writeln!(out, "Alternatively, they could be reduced like so:"));
+        try!(self.paint_example(reduce, &styles, out));
         Ok(())
     }
 
@@ -125,9 +160,11 @@ impl<'cx> ErrorReportingCx<'cx> {
                               reduce: Example,
                               out: &mut Write)
                               -> io::Result<()> {
-        try!(writeln!(out, "Ambiguous grammar detected"));
-        try!(self.paint_example(&shift, out));
-        try!(self.paint_example(&reduce, out));
+        try!(self.report_error_ambiguity_core(&shift, &reduce, out));
+        try!(writeln!(out, ""));
+        try!(writeln!(out, "LALRPOP does not yet support ambiguous grammars."));
+        try!(writeln!(out, "See the LALRPOP manual for advice on \
+                            making your grammar unambiguous."));
         Ok(())
     }
 
@@ -137,55 +174,115 @@ impl<'cx> ErrorReportingCx<'cx> {
                                nonterminal: NonterminalString,
                                out: &mut Write)
                                -> io::Result<()> {
-        try!(writeln!(out, "Ambiguous grammar detected"));
-        try!(self.paint_example(&shift, out));
-        try!(self.paint_example(&reduce, out));
+        try!(self.report_error_ambiguity_core(&shift, &reduce, out));
+        try!(writeln!(out, ""));
+        try!(writeln!(out, "This looks like a precedence error related to `{}`.",
+                      nonterminal));
+        try!(writeln!(out, "See the LALRPOP manual for advice on encoding precedence."));
+        Ok(())
+    }
+
+    fn report_error_not_lr1_core(&self,
+                                 lookahead: Lookahead,
+                                 conflict: &Conflict,
+                                 action: &Example,
+                                 reduce: &Example,
+                                 out: &mut Write)
+                                 -> io::Result<()> {
+        let styles = ExampleStyles::new(self.session);
+        try!(writeln!(out, "{}", self.session.heading.paint("Grammar is not LR(1)")));
+        try!(writeln!(out, ""));
+        try!(writeln!(out, "The grammar as written cannot be parsed using an LR(1)"));
+        try!(writeln!(out, "parser, as more than one token of lookahead would be required."));
+        try!(writeln!(out, "After encountering the following symbols in the input:"));
+        if action.cursor >= reduce.cursor {
+            try!(self.paint_example_symbols(&action, action.cursor, &styles, out));
+        } else {
+            try!(self.paint_example_symbols(&reduce, reduce.cursor, &styles, out));
+        }
+        match lookahead {
+            Lookahead::Terminal(term) => {
+                let term = term.to_string();
+                try!(writeln!(out, "and when looking at the terminal `{}`,",
+                              self.session.cursor_symbol.paint(term)));
+            }
+            Lookahead::EOF => {
+                try!(writeln!(out, "and when there are no more input tokens,"));
+            }
+        }
+        try!(writeln!(out, "parsing could continue in two distinct ways."));
+
+        try!(writeln!(out, ""));
+        match conflict.action {
+            Action::Shift(_) =>
+                try!(writeln!(out, "First, the parser could take no action yet, \
+                                    leading to:")),
+            Action::Reduce(production) =>
+                try!(writeln!(out, "First, the parser could reduce `{}`, \
+                                    leading to:", production.nonterminal)),
+        }
+        try!(self.paint_example(&action, &styles, out));
+
+        try!(writeln!(out, ""));
+        try!(writeln!(out, "Second, the parser could reduce `{}`, leading to:",
+                      reduce.reductions[0].nonterminal));
+        try!(self.paint_example(&reduce, &styles, out));
+        try!(writeln!(out, "(Note that an LR(1) parser must execute reductions"));
+        try!(writeln!(out, "as soon as it can.)"));
+
         Ok(())
     }
 
     fn report_error_suggest_inline(&self,
+                                   lookahead: Lookahead,
+                                   conflict: &Conflict,
                                    shift: Example,
                                    reduce: Example,
                                    nonterminal: NonterminalString,
                                    out: &mut Write)
                                    -> io::Result<()> {
-        try!(writeln!(out, "Grammar is not LR(1)"));
-        try!(self.paint_example(&shift, out));
-        try!(self.paint_example(&reduce, out));
-        try!(writeln!(out, "Try adding `#[inline]` to {}", nonterminal));
+        try!(self.report_error_not_lr1_core(lookahead, conflict, &shift, &reduce, out));
+        try!(writeln!(out, ""));
+        try!(writeln!(out, "It appears you could resolve this problem by adding"));
+        try!(writeln!(out, "the annotation `#[inline]` to the definition of `{}`.",
+                      nonterminal));
+        try!(writeln!(out, "For more information, see the section on inlining"));
+        try!(writeln!(out, "in the LALROP manual."));
         Ok(())
     }
 
     fn report_error_suggest_question(&self,
+                                     lookahead: Lookahead,
+                                     conflict: &Conflict,
                                      shift: Example,
                                      reduce: Example,
                                      nonterminal: NonterminalString,
                                      symbol: Symbol,
                                      out: &mut Write)
                                      -> io::Result<()> {
-        try!(writeln!(out, "Grammar is not LR(1)"));
-        try!(self.paint_example(&shift, out));
-        try!(self.paint_example(&reduce, out));
-        try!(writeln!(out, "Try replacing `{}` with `{}?`",
+        try!(self.report_error_not_lr1_core(lookahead, conflict, &shift, &reduce, out));
+        try!(writeln!(out, ""));
+        try!(writeln!(out, "It appears you could resolve this problem by replacing"));
+        try!(writeln!(out, "uses of `{}` with `{}?` (or, alternatively, by adding the",
                       nonterminal, symbol));
+        try!(writeln!(out, "annotation `#[inline]` to the definition of `{}`.",
+                      nonterminal));
+        try!(writeln!(out, "For more information, see the section on inlining"));
+        try!(writeln!(out, "in the LALROP manual."));
         Ok(())
     }
 
     fn report_error_insufficient_lookahead(&self,
+                                           lookahead: Lookahead,
+                                           conflict: &Conflict,
                                            action: Example,
                                            reduce: Example,
                                            out: &mut Write)
                                            -> io::Result<()> {
-        try!(writeln!(out, "More lookahead needed to parse this grammar"));
-
-        for line in action.paint() {
-            try!(writeln!(out, "{}", line));
-        }
-
-        for line in reduce.paint() {
-            try!(writeln!(out, "{}", line));
-        }
-
+        try!(self.report_error_not_lr1_core(lookahead, conflict, &action, &reduce, out));
+        try!(writeln!(out, ""));
+        try!(writeln!(out, "See the LALRPOP manual for advice on \
+                            making your grammar LR(1)."));
         Ok(())
     }
 
@@ -306,8 +403,8 @@ impl<'cx> ErrorReportingCx<'cx> {
     }
 
     fn try_classify_inline(&self,
-                           lookahead: Lookahead,
-                           conflict: &'cx Conflict<'cx>,
+                           _lookahead: Lookahead,
+                           _conflict: &'cx Conflict<'cx>,
                            action_examples: &[Example],
                            reduce_examples: &[Example])
                            -> Option<ConflictClassification> {
@@ -392,7 +489,7 @@ impl<'cx> ErrorReportingCx<'cx> {
     fn conflicting_shift_items(&self,
                                state: &'cx State,
                                lookahead: Lookahead,
-                               conflict: &Conflict)
+                               _conflict: &Conflict)
                                -> Multimap<LR0Item<'cx>, Lookahead> {
         // Lookahead must be a terminal, not EOF.
         // Find an item J like `Bar = ... (*) L ...`.
