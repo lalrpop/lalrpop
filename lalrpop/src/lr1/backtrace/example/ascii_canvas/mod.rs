@@ -1,11 +1,16 @@
+use ansi_term::Style;
 use std::ops::Range;
 
+mod row;
 mod test;
+
+pub use self::row::Row;
 
 pub struct AsciiCanvas {
     columns: usize,
     rows: usize,
     characters: Vec<char>,
+    styles: Vec<Style>,
 }
 
 impl AsciiCanvas {
@@ -14,6 +19,7 @@ impl AsciiCanvas {
             rows: rows,
             columns: columns,
             characters: vec![' '; columns * rows],
+            styles: vec![Style::new(); columns * rows],
         }
     }
 
@@ -31,15 +37,18 @@ impl AsciiCanvas {
         self.index(r, self.columns)
     }
 
-    fn row(&self, r: usize) -> &[char] {
+    fn row_chars(&self, r: usize) -> &[char] {
         &self.characters[self.start_index(r) .. self.end_index(r)]
     }
 
-    pub fn to_strings(&self) -> Vec<String> {
+    pub fn to_strings(&self) -> Vec<Row> {
         (0..self.rows)
             .map(|row| {
-                let s: String = self.row(row).iter().cloned().collect();
-                String::from(s.trim_right())
+                let start = self.start_index(row);
+                let end = self.end_index(row);
+                let chars = &self.characters[start..end];
+                let styles = &self.styles[start..end];
+                Row::new(chars, styles)
             })
             .collect()
     }
@@ -47,6 +56,14 @@ impl AsciiCanvas {
     pub fn draw_vertical_line(&mut self,
                               rows: Range<usize>,
                               column: usize)
+    {
+        self.draw_vertical_line_styled(rows, column, Style::new())
+    }
+
+    pub fn draw_vertical_line_styled(&mut self,
+                                     rows: Range<usize>,
+                                     column: usize,
+                                     style: Style)
     {
         for r in rows {
             let index = self.index(r, column);
@@ -58,6 +75,7 @@ impl AsciiCanvas {
                 _ => panic!("unexpected character when drawing lines"),
             };
             self.characters[index] = new_char;
+            self.styles[index] = style;
         }
     }
 
@@ -84,9 +102,21 @@ impl AsciiCanvas {
                     chars: I)
         where I: Iterator<Item=char>
     {
+        self.write_styled(row, column, chars, Style::new());
+    }
+
+    pub fn write_styled<I>(&mut self,
+                           row: usize,
+                           column: usize,
+                           chars: I,
+                           style: Style)
+        where I: Iterator<Item=char>
+    {
         for (i, ch) in chars.enumerate() {
             let index = self.index(row, column + i);
             self.characters[index] = ch;
+            self.styles[index] = style;
         }
     }
 }
+

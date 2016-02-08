@@ -8,6 +8,7 @@
 // too darn annoying to try and make them do so.
 #![cfg_attr(test, allow(dead_code))]
 
+extern crate ansi_term;
 extern crate diff;
 extern crate lalrpop_intern as intern;
 extern crate lalrpop_util;

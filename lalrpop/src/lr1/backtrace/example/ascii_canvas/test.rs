@@ -1,4 +1,5 @@
 use super::AsciiCanvas;
+use test_util::expect_debug;
 
 #[test] fn draw_box() {
     let mut canvas = AsciiCanvas::new(5, 10);
@@ -6,11 +7,15 @@ use super::AsciiCanvas;
     canvas.draw_vertical_line(2..5, 7);
     canvas.draw_horizontal_line(2, 2..8);
     canvas.draw_horizontal_line(4, 2..8);
-    assert_eq!(
-        canvas.to_strings(),
-        vec!["",
-             "",
-             "  +----+",
-             "  |    |",
-             "  +----+"]);
+    expect_debug(
+        &canvas.to_strings(),
+        r#"
+[
+    "",
+    "",
+    "  +----+",
+    "  |    |",
+    "  +----+"
+]
+"#.trim());
 }

@@ -2,7 +2,7 @@
 
 use lr1::LR0Item;
 
-use self::ascii_canvas::AsciiCanvas;
+use self::ascii_canvas::{AsciiCanvas, Row};
 use super::{BacktraceNode, Example, ExampleSymbol, Reduction};
 
 mod ascii_canvas;
@@ -281,7 +281,7 @@ impl Example {
         positions
     }
 
-    pub fn paint(&self) -> Vec<String> {
+    pub fn paint(&self) -> Vec<Row> {
         let lengths = self.lengths();
         let positions = self.positions(&lengths);
         let rows = 1 + self.reductions.len() * 2;
