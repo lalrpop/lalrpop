@@ -2,6 +2,7 @@ use lr1::first::FirstSets;
 use lr1::{LR0Item, Item, Lookahead, State, StateIndex};
 use grammar::repr::*;
 use session::Session;
+use util::Multimap;
 
 mod example;
 mod state_graph;
@@ -70,13 +71,20 @@ pub struct BacktraceNode<'grammar> {
 /// ```
 ///
 /// The "empty space" between A and B would be represented as `None`.
-#[derive(Debug)]
+#[derive(Clone, Debug)]
 pub struct Example {
-    pub symbols: Vec<Option<Symbol>>,
+    pub symbols: Vec<ExampleSymbol>,
     pub reductions: Vec<Reduction>,
 }
 
-#[derive(Debug)]
+#[derive(Copy, Clone, Debug, PartialEq, Eq)]
+pub enum ExampleSymbol {
+    Symbol(Symbol),
+    Cursor,
+    Epsilon,
+}
+
+#[derive(Copy, Clone, Debug)]
 pub struct Reduction {
     pub start: usize,
     pub end: usize,
@@ -84,10 +92,8 @@ pub struct Reduction {
 }
 
 impl<'grammar> BacktraceNode<'grammar> {
-    fn new(item: Item<'grammar>) -> Self {
-        BacktraceNode { item: LR0Item { production: item.production,
-                                        index: item.index },
-                        parents: vec![] }
+    fn new(item: LR0Item<'grammar>) -> Self {
+        BacktraceNode { item: item, parents: vec![] }
     }
 
     fn merge_parent(&mut self, new_parent: BacktraceNode<'grammar>) {
@@ -122,29 +128,15 @@ impl<'trace, 'grammar> Tracer<'trace, 'grammar> {
         }
     }
 
-    pub fn backtrace(&mut self, item_state: StateIndex, item: Item<'grammar>)
-                     -> BacktraceNode<'grammar> {
-        if item.can_shift() {
-            self.backtrace_shift(item_state, item)
-        } else {
-            self.backtrace_reduce(item_state, item)
-        }
-    }
-
-    fn backtrace_shift(&mut self,
-                       item_state: StateIndex, item: Item<'grammar>)
-                       -> BacktraceNode<'grammar> {
-        assert!(item.can_shift());
-
+    pub fn backtrace_shift(&mut self,
+                           item_state: StateIndex,
+                           item: LR0Item<'grammar>,
+                           lookaheads: &[Lookahead])
+                           -> BacktraceNode<'grammar> {
         log!(self.session, Debug, "backtrace_shift(item_state={:?}, item={:?})",
              item_state, item);
 
         let mut result_node = BacktraceNode::new(item);
-
-        // Found an item with context `Foo = ... (*) L`, stop.
-        if item.index > 0 {
-            return result_node;
-        }
 
         // Otherwise, we have something like `Foo = (*) ... [L]`.  We
         // want to find out where this item came from. Either we are
@@ -154,24 +146,42 @@ impl<'trace, 'grammar> Tracer<'trace, 'grammar> {
         // `L in First(...s, L1)`. Find that item.
 
         let nt_sym = Symbol::Nonterminal(item.production.nonterminal);
-        let lookahead = item.lookahead;
 
-        for &pred_item in self.states[item_state.0].items.vec.iter() {
-            log!(self.session, Debug, "backtrace_shift: pred_item = {:?}", pred_item);
-            match self.can_shift_with_lookahead(pred_item, nt_sym, lookahead) {
-                CannotShift => { }
-                CanShift(_) => {
-                    // Found something like the:
-                    //
-                    //     Bar = ...p (*) Foo ...s [L1]
-                    //
-                    // that we were looking for. At this point, if
-                    // `...p` is non-empty, we are
-                    // done. Otherwise, we must recurse further.
-                    let parent_node = self.backtrace_shift(item_state, pred_item);
-                    result_node.merge_parent(parent_node);
+        let mut pred_items = Multimap::new();
+        let pred_states = self.state_graph.predecessors_at_distance(item_state, item.index);
+        for pred_state in pred_states {
+            for &pred_item in self.states[pred_state.0].items.vec.iter() {
+                log!(self.session, Debug,
+                     "backtrace_shift: pred_state={:?} pred_item={:?}",
+                     pred_state, pred_item);
+                match self.can_shift_with_lookahead_from(pred_item, nt_sym, lookaheads) {
+                    CannotShift => { }
+                    CanShift(_) => {
+                        // Found something like the:
+                        //
+                        //     Bar = ...p (*) Foo ...s [L1]
+                        //
+                        // that we were looking for. At this point, if
+                        // `...p` is non-empty, we are
+                        // done. Otherwise, we must recurse further.
+                        pred_items.push(LR0Item { production: pred_item.production,
+                                                  index: pred_item.index },
+                                        pred_item.lookahead);
+                    }
                 }
             }
+        }
+
+        for (pred_item0, lookaheads) in pred_items {
+            log!(self.session, Debug,
+                 "backtrace_shift: pred_item0={:?} lookaheads={:?}",
+                 pred_item0, lookaheads);
+            let parent_node = if pred_item0.index > 0 {
+                BacktraceNode::new(pred_item0)
+            } else {
+                self.backtrace_shift(item_state, pred_item0, &lookaheads)
+            };
+            result_node.merge_parent(parent_node);
         }
 
         result_node
@@ -187,11 +197,11 @@ impl<'trace, 'grammar> Tracer<'trace, 'grammar> {
     /// states to find one where there is some concrete context:
     ///
     ///    NT = ... (*) L ...
-    fn backtrace_reduce(&mut self, item_state: StateIndex, item: Item<'grammar>)
-                        -> BacktraceNode<'grammar> {
-        log!(self.session, Debug, "backtrace(item_state={:?} item={:?})", item_state, item);
+    pub fn backtrace_reduce(&mut self, item_state: StateIndex, item: Item<'grammar>)
+                            -> BacktraceNode<'grammar> {
+        log!(self.session, Debug, "backtrace_reduce(item_state={:?} item={:?})", item_state, item);
 
-        let mut result_node = BacktraceNode::new(item);
+        let mut result_node = BacktraceNode::new(item.to_lr0());
 
         self.stack.push((item_state, item));
 
@@ -237,12 +247,12 @@ impl<'trace, 'grammar> Tracer<'trace, 'grammar> {
                             pred_item.lookahead == lookahead && // (1)
                             !self.stack.contains(&(pred_state, pred_item)); // (2)
 
-                        if continue_tracing {
-                            let parent_node = self.backtrace_reduce(pred_state, pred_item);
-                            result_node.merge_parent(parent_node);
+                        let parent_node = if continue_tracing {
+                            self.backtrace_reduce(pred_state, pred_item)
                         } else {
-                            result_node.merge_parent(BacktraceNode::new(pred_item));
-                        }
+                            BacktraceNode::new(pred_item.to_lr0())
+                        };
+                        result_node.merge_parent(parent_node);
                     }
                 }
             }

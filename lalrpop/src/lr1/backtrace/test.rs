@@ -1,5 +1,4 @@
 use intern::intern;
-use grammar::parse_tree::TerminalLiteral;
 use grammar::repr::*;
 use lr1::build_states;
 use lr1::interpret::interpret_partial;
@@ -69,7 +68,7 @@ fn backtrace1() {
                                                  .next()
                                                  .unwrap();
 
-    let backtrace = tracer.backtrace(top_state, *semi_item);
+    let backtrace = tracer.backtrace_reduce(top_state, *semi_item);
 
     println!("{:#?}", backtrace);
     expect_debug(&backtrace, r#"BacktraceNode {
@@ -120,7 +119,7 @@ fn backtrace2() {
                                                  .next()
                                                  .unwrap();
 
-    let backtrace = tracer.backtrace(top_state, *plus_item);
+    let backtrace = tracer.backtrace_reduce(top_state, *plus_item);
 
     println!("{:#?}", backtrace);
     expect_debug(&backtrace, r#"BacktraceNode {
@@ -160,7 +159,7 @@ pub Ty: () = {
                       index: conflict.production.symbols.len(),
                       lookahead: lookahead };
     println!("item={:?}", item);
-    let backtrace = tracer.backtrace(conflict.state, item);
+    let backtrace = tracer.backtrace_reduce(conflict.state, item);
     println!("{:#?}", backtrace);
     expect_debug(&backtrace, r#"
 BacktraceNode {
@@ -193,29 +192,29 @@ BacktraceNode {
     expect_debug(&pictures, r#"
 [
     [
-        "Ty \"->\" Ty \"->\" Ty",
-        "|        |       |",
-        "+-Ty-----+       |",
-        "|                |",
-        "+-Ty-------------+"
+        "Ty \"->\" Ty (*) \"->\" Ty",
+        "|            |       |",
+        "+-Ty---------+       |",
+        "|                    |",
+        "+-Ty-----------------+"
     ],
     [
-        "Ty \"->\" Ty \"->\" Ty \"->\" Ty",
-        "|       |        |       |",
-        "|       +-Ty-----+       |",
-        "|                |       |",
-        "+-Ty-------------+       |",
-        "|                        |",
-        "+-Ty---------------------+"
+        "Ty \"->\" Ty \"->\" Ty (*) \"->\" Ty",
+        "|       |            |       |",
+        "|       +-Ty---------+       |",
+        "|                    |       |",
+        "+-Ty-----------------+       |",
+        "|                            |",
+        "+-Ty-------------------------+"
     ],
     [
-        "Ty \"->\" Ty \"->\" Ty \"->\" Ty",
-        "|       |       |        |",
-        "|       |       +-Ty-----+",
-        "|       |                |",
-        "|       +-Ty-------------+",
-        "|                        |",
-        "+-Ty---------------------+"
+        "Ty \"->\" Ty \"->\" Ty \"->\" Ty (*)",
+        "|       |       |            |",
+        "|       |       +-Ty---------+",
+        "|       |                    |",
+        "|       +-Ty-----------------+",
+        "|                            |",
+        "+-Ty-------------------------+"
     ]
 ]
 "#.trim());

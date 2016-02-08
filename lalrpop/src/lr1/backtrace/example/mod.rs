@@ -3,7 +3,7 @@
 use lr1::LR0Item;
 
 use self::ascii_canvas::AsciiCanvas;
-use super::{BacktraceNode, Example, Reduction};
+use super::{BacktraceNode, Example, ExampleSymbol, Reduction};
 
 mod ascii_canvas;
 #[cfg(test)] mod test;
@@ -62,38 +62,45 @@ impl<'ex> ExampleIterator<'ex> {
     }
 
     fn unwind<I: Iterator<Item=&'ex LR0Item<'ex>>>(&self,
+                                                   item: &'ex LR0Item<'ex>,
                                                    mut rev_items: I,
                                                    example: &mut Example) {
-        let item = if let Some(item) = rev_items.next() {
-            item
-        } else {
-            return;
-        };
-
         let start = example.symbols.len();
 
         // Push items before the cursor in the current item.
         // e.g, in `Foo = W X (*) Y Z`, push "W X".
         let prefix = &item.production.symbols[..item.index];
-        example.symbols.extend(prefix.iter().map(|&s| Some(s)));
+        example.symbols.extend(prefix.iter().map(|&s| ExampleSymbol::Symbol(s)));
 
         // Recurse to expand the item *at* the cursor (if any).  e.g.,
         // in `Foo = W X (*) Y Z`, this would expand `Y` with its
-        // derivation.
-        self.unwind(rev_items, example);
+        // derivation. But if this is the last item in the list,
+        // then there is no expansion, so just insert the item at the cursor (if any).q
+        if let Some(next_item) = rev_items.next() {
+            // Expand cursor.
+            self.unwind(next_item, rev_items, example);
 
-        // Push items after the cursor in the current item.
-        // e.g., in `Foo = W X (*) Y Z`, push "Z".
-        if item.index != item.production.symbols.len() {
-            let suffix = &item.production.symbols[item.index+1..];
-            example.symbols.extend(suffix.iter().map(|&s| Some(s)));
-        }
+            // Push items after the cursor in the current item.
+            // e.g., in `Foo = W X (*) Y Z`, push "Z".
+            if item.index != item.production.symbols.len() {
+                let suffix = &item.production.symbols[item.index+1..];
+                example.symbols.extend(suffix.iter().map(|&s| ExampleSymbol::Symbol(s)));
+            }
+        } else {
+            example.symbols.extend(
+                Some(ExampleSymbol::Cursor)
+                    .into_iter()
+                    .chain(
+                        item.production.symbols[item.index..]
+                            .iter()
+                            .map(|&s| ExampleSymbol::Symbol(s))));
+        };
 
         // If it turns out that we did not push anything, then push
         // `None` to represent the "empty sequence" that is being
         // reduced here (e.g., if the item is `Foo = (*)`).
         if start == example.symbols.len() {
-            example.symbols.push(None);
+            example.symbols.push(ExampleSymbol::Epsilon);
         }
 
         let end = example.symbols.len();
@@ -120,8 +127,9 @@ impl<'ex> Iterator for ExampleIterator<'ex> {
         };
 
         {
-            let rev_items = self.stack.iter().rev().map(|s| &s.node.item);
-            self.unwind(rev_items, &mut example);
+            let mut rev_items = self.stack.iter().rev().map(|s| &s.node.item);
+            let item = rev_items.next().unwrap();
+            self.unwind(item, rev_items, &mut example);
         }
 
         self.iterate();
@@ -138,8 +146,9 @@ impl Example {
     fn lengths(&self) -> Vec<usize> {
         self.symbols.iter()
                     .map(|s| match *s {
-                        Some(s) => format!("{}", s).chars().count(),
-                        None => 1, // display \epsilon symbols as " ", effectively.
+                        ExampleSymbol::Symbol(s) => format!("{}", s).chars().count(),
+                        ExampleSymbol::Cursor => 3, // display as "(*)"
+                        ExampleSymbol::Epsilon => 1, // display as " "
                     })
                     .chain(Some(0))
                     .collect()
@@ -283,10 +292,18 @@ impl Example {
 
         // Write the labels:
         //    A1   B2  C3  D4 E5 F6
-        for (index, opt_symbol) in self.symbols.iter().enumerate() {
-            if let &Some(symbol) = opt_symbol {
-                let column = positions[index];
-                canvas.write(0, column, format!("{}", symbol).chars());
+        for (index, ex_symbol) in self.symbols.iter().enumerate() {
+            match *ex_symbol {
+                ExampleSymbol::Symbol(symbol) => {
+                    let column = positions[index];
+                    canvas.write(0, column, format!("{}", symbol).chars());
+                }
+                ExampleSymbol::Cursor => {
+                    let column = positions[index];
+                    canvas.write(0, column, "(*)".chars());
+                }
+                ExampleSymbol::Epsilon => {
+                }
             }
         }
 

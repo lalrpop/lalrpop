@@ -15,7 +15,7 @@ pub use grammar::parse_tree::{Annotation,
                               NonterminalString,
                               Path,
                               Span,
-                              TerminalString, TypeParameter};
+                              TerminalLiteral, TerminalString, TypeParameter};
 
 #[derive(Clone, Debug)]
 pub struct Grammar {

@@ -1,9 +1,8 @@
 use intern::intern;
-use grammar::parse_tree::TerminalLiteral;
 use grammar::repr::*;
 use test_util::compare;
 
-use super::super::{Example, Reduction};
+use super::super::{Example, ExampleSymbol, Reduction};
 
 fn nt(t: &str) -> NonterminalString {
     NonterminalString(intern(t))
@@ -14,8 +13,8 @@ fn term(t: &str) -> TerminalString {
 }
 
 macro_rules! sym {
-    (ε) => { None };
-    ($t:ident) => { Some(Symbol::Nonterminal(nt(stringify!($t)))) }
+    (ε) => { ExampleSymbol::Epsilon };
+    ($t:ident) => { ExampleSymbol::Symbol(Symbol::Nonterminal(nt(stringify!($t)))) }
 }
 
 macro_rules! syms {

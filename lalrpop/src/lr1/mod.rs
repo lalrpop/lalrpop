@@ -68,7 +68,7 @@ struct Item<'grammar> {
     lookahead: Lookahead,
 }
 
-#[derive(Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
+#[derive(Copy, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
 struct LR0Item<'grammar> {
     production: &'grammar Production,
     index: usize
@@ -92,6 +92,10 @@ pub fn build_states<'grammar>(session: &Session,
 }
 
 impl<'grammar> Item<'grammar> {
+    fn to_lr0(&self) -> LR0Item<'grammar> {
+        LR0Item { production: self.production, index: self.index }
+    }
+
     fn can_shift(&self) -> bool {
         self.index < self.production.symbols.len()
     }

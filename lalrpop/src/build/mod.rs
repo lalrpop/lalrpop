@@ -278,7 +278,10 @@ fn emit_recursive_ascent(session: &Session,
         let states = match lr1::build_states(session, &grammar, start_nt) {
             Ok(states) => states,
             Err(error) => {
-                try!(lr1::report_error(&mut io::stdout(), &grammar, &error));
+                try!(lr1::report_error(session,
+                                       &grammar,
+                                       &error,
+                                       &mut io::stdout()));
                 exit(1)
             }
         };
