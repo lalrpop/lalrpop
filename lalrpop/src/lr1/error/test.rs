@@ -46,8 +46,10 @@ pub Ty: () = {
         } => {
             println!("shift={:#?}, reduce={:#?}, nonterminal={:?}",
                      shift, reduce, nonterminal);
-            assert_eq!(shift.symbols.len(), 6); // Ty -> Ty (*) -> Ty
+            assert_eq!(shift.symbols.len(), 5); // Ty -> Ty -> Ty
+            assert_eq!(shift.cursor, 3); // Ty -> Ty -> Ty
             assert_eq!(shift.symbols, reduce.symbols);
+            assert_eq!(shift.cursor, reduce.cursor);
             assert_eq!(nonterminal, nt("Ty"));
         }
         r => panic!("wrong classification {:#?}", r)

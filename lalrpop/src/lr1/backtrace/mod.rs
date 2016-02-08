@@ -49,6 +49,9 @@ pub struct BacktraceNode<'grammar> {
 /// something like this:
 ///
 /// ```
+///          Looking at
+///              |
+///              v
 /// Ty "->" Ty "->" Ty
 /// |        |       |
 /// +-Ty-----+       |
@@ -58,7 +61,8 @@ pub struct BacktraceNode<'grammar> {
 ///
 /// The top-line is the `symbols` vector. The groupings below are
 /// stored in the `reductions` vector, in order from smallest to
-/// largest (they are always properly nested).
+/// largest (they are always properly nested). The `cursor` field
+/// indicates the current lookahead token.
 ///
 /// The `symbols` vector is actually `Option<Symbol>` to account
 /// for empty reductions:
@@ -74,13 +78,13 @@ pub struct BacktraceNode<'grammar> {
 #[derive(Clone, Debug)]
 pub struct Example {
     pub symbols: Vec<ExampleSymbol>,
+    pub cursor: usize,
     pub reductions: Vec<Reduction>,
 }
 
 #[derive(Copy, Clone, Debug, PartialEq, Eq)]
 pub enum ExampleSymbol {
     Symbol(Symbol),
-    Cursor,
     Epsilon,
 }
 

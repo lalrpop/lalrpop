@@ -32,6 +32,7 @@ macro_rules! syms {
 fn long_label_1_example() -> Example {
     Example {
         symbols: syms!(A1,B2,C3,D4,E5,F6),
+        cursor: 5,
         reductions: vec![
             Reduction { start: 0, end: 4, nonterminal: nt("LongLabel22") },
             Reduction { start: 0, end: 6, nonterminal: nt("Label") }],
@@ -74,6 +75,7 @@ fn empty_labels_example() -> Example {
     Example {
         //             0 1  2  3  4  5  6 7
         symbols: syms!(ε,A1,B2,C3,D4,E5,ε,F6),
+        cursor: 5,
         reductions: vec![
             Reduction { start: 0, end: 1, nonterminal: nt("X") },
             Reduction { start: 0, end: 4, nonterminal: nt("MegaLongLabel") },

@@ -87,13 +87,11 @@ impl<'ex> ExampleIterator<'ex> {
                 example.symbols.extend(suffix.iter().map(|&s| ExampleSymbol::Symbol(s)));
             }
         } else {
+            example.cursor = example.symbols.len();
             example.symbols.extend(
-                Some(ExampleSymbol::Cursor)
-                    .into_iter()
-                    .chain(
-                        item.production.symbols[item.index..]
-                            .iter()
-                            .map(|&s| ExampleSymbol::Symbol(s))));
+                item.production.symbols[item.index..]
+                    .iter()
+                    .map(|&s| ExampleSymbol::Symbol(s)));
         };
 
         // If it turns out that we did not push anything, then push
@@ -122,6 +120,7 @@ impl<'ex> Iterator for ExampleIterator<'ex> {
         }
 
         let mut example = Example {
+            cursor: 0,
             symbols: vec![],
             reductions: vec![],
         };
@@ -147,7 +146,6 @@ impl Example {
         self.symbols.iter()
                     .map(|s| match *s {
                         ExampleSymbol::Symbol(s) => format!("{}", s).chars().count(),
-                        ExampleSymbol::Cursor => 3, // display as "(*)"
                         ExampleSymbol::Epsilon => 1, // display as " "
                     })
                     .chain(Some(0))
@@ -297,10 +295,6 @@ impl Example {
                 ExampleSymbol::Symbol(symbol) => {
                     let column = positions[index];
                     canvas.write(0, column, format!("{}", symbol).chars());
-                }
-                ExampleSymbol::Cursor => {
-                    let column = positions[index];
-                    canvas.write(0, column, "(*)".chars());
                 }
                 ExampleSymbol::Epsilon => {
                 }

@@ -80,14 +80,122 @@ impl<'cx> ErrorReportingCx<'cx> {
         Ok(())
     }
 
+    fn report_error(&self,
+                    lookahead: Lookahead,
+                    conflict: &Conflict,
+                    out: &mut Write)
+                    -> io::Result<()>
+    {
+        match self.classify(lookahead, conflict) {
+            ConflictClassification::Ambiguity { action, reduce } => {
+                self.report_error_ambiguity(action, reduce, out)
+            }
+            ConflictClassification::Precedence { shift, reduce, nonterminal } => {
+                self.report_error_precedence(shift, reduce, nonterminal, out)
+            }
+            ConflictClassification::SuggestInline { shift, reduce, nonterminal } => {
+                self.report_error_suggest_inline(shift, reduce, nonterminal, out)
+            }
+            ConflictClassification::SuggestQuestion { shift, reduce,
+                                                      nonterminal, symbol } => {
+                self.report_error_suggest_question(shift, reduce, nonterminal,
+                                                   symbol, out)
+            }
+            ConflictClassification::InsufficientLookahead { action, reduce } => {
+                self.report_error_insufficient_lookahead(action, reduce, out)
+            }
+            ConflictClassification::Naive => {
+                self.report_error_naive(lookahead, conflict, out)
+            }
+        }
+    }
+
+    fn paint_example(&self,
+                     example: &Example,
+                     out: &mut Write)
+                     -> io::Result<()> {
+        for line in example.paint() {
+            try!(writeln!(out, "{}", line));
+        }
+        Ok(())
+    }
+
+    fn report_error_ambiguity(&self,
+                              shift: Example,
+                              reduce: Example,
+                              out: &mut Write)
+                              -> io::Result<()> {
+        try!(writeln!(out, "Ambiguous grammar detected"));
+        try!(self.paint_example(&shift, out));
+        try!(self.paint_example(&reduce, out));
+        Ok(())
+    }
+
+    fn report_error_precedence(&self,
+                               shift: Example,
+                               reduce: Example,
+                               nonterminal: NonterminalString,
+                               out: &mut Write)
+                               -> io::Result<()> {
+        try!(writeln!(out, "Ambiguous grammar detected"));
+        try!(self.paint_example(&shift, out));
+        try!(self.paint_example(&reduce, out));
+        Ok(())
+    }
+
+    fn report_error_suggest_inline(&self,
+                                   shift: Example,
+                                   reduce: Example,
+                                   nonterminal: NonterminalString,
+                                   out: &mut Write)
+                                   -> io::Result<()> {
+        try!(writeln!(out, "Grammar is not LR(1)"));
+        try!(self.paint_example(&shift, out));
+        try!(self.paint_example(&reduce, out));
+        try!(writeln!(out, "Try adding `#[inline]` to {}", nonterminal));
+        Ok(())
+    }
+
+    fn report_error_suggest_question(&self,
+                                     shift: Example,
+                                     reduce: Example,
+                                     nonterminal: NonterminalString,
+                                     symbol: Symbol,
+                                     out: &mut Write)
+                                     -> io::Result<()> {
+        try!(writeln!(out, "Grammar is not LR(1)"));
+        try!(self.paint_example(&shift, out));
+        try!(self.paint_example(&reduce, out));
+        try!(writeln!(out, "Try replacing `{}` with `{}?`",
+                      nonterminal, symbol));
+        Ok(())
+    }
+
+    fn report_error_insufficient_lookahead(&self,
+                                           action: Example,
+                                           reduce: Example,
+                                           out: &mut Write)
+                                           -> io::Result<()> {
+        try!(writeln!(out, "More lookahead needed to parse this grammar"));
+
+        for line in action.paint() {
+            try!(writeln!(out, "{}", line));
+        }
+
+        for line in reduce.paint() {
+            try!(writeln!(out, "{}", line));
+        }
+
+        Ok(())
+    }
+
     /// Naive error reporting. This is still used for LALR(1) reduction
     /// errors but ought to be phased out completely, I imagine.
     fn report_error_naive(&self,
                           lookahead: Lookahead,
                           conflict: &Conflict,
                           out: &mut Write)
-                          -> io::Result<()>
-    {
+                          -> io::Result<()> {
         try!(writeln!(out, "when in this state:"));
         for item in self.states[conflict.state.0].items.vec.iter() {
             try!(writeln!(out, "  {:?}", item));
@@ -168,6 +276,7 @@ impl<'cx> ErrorReportingCx<'cx> {
             .iter()
             .cartesian_product(reduce_examples)
             .filter(|&(action, reduce)| action.symbols == reduce.symbols)
+            .filter(|&(action, reduce)| action.cursor == reduce.cursor)
             .map(|(action, reduce)| {
                 // Consider whether to call this a precedence
                 // error. We do this if we are stuck between reducing
