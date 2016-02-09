@@ -18,14 +18,15 @@ pub fn report_error(session: &Session,
                     out: &mut Write)
                     -> io::Result<()>
 {
-    let cx = ErrorReportingCx::new(session, grammar, &error.states);
+    let mut cx = ErrorReportingCx::new(session, grammar, &error.states);
     cx.report_errors(out)
 }
 
-struct ErrorReportingCx<'cx> {
+struct ErrorReportingCx<'cx, 'grammar: 'cx> {
     session: &'cx Session,
-    grammar: &'cx Grammar,
-    states: &'cx [State<'cx>],
+    grammar: &'grammar Grammar,
+    states: &'cx [State<'grammar>],
+    tracer: Tracer<'cx, 'grammar>,
 }
 
 #[derive(Debug)]
@@ -60,17 +61,20 @@ enum ConflictClassification {
     Naive,
 }
 
-impl<'cx> ErrorReportingCx<'cx> {
-    fn new(session: &'cx Session, grammar: &'cx Grammar, states: &'cx [State<'cx>])
+impl<'cx, 'grammar> ErrorReportingCx<'cx, 'grammar> {
+    fn new(session: &'cx Session,
+           grammar: &'grammar Grammar,
+           states: &'cx [State<'grammar>])
            -> Self {
         ErrorReportingCx {
             session: session,
             grammar: grammar,
             states: states,
+            tracer: Tracer::new(session, grammar, states),
         }
     }
 
-    fn report_errors(&self, out: &mut Write) -> io::Result<()> {
+    fn report_errors(&mut self, out: &mut Write) -> io::Result<()> {
         for state in self.states {
             for (&lookahead, conflicts) in &state.conflicts {
                 for conflict in conflicts {
@@ -81,9 +85,9 @@ impl<'cx> ErrorReportingCx<'cx> {
         Ok(())
     }
 
-    fn report_error(&self,
+    fn report_error(&mut self,
                     lookahead: Lookahead,
-                    conflict: &Conflict,
+                    conflict: &Conflict<'grammar>,
                     out: &mut Write)
                     -> io::Result<()>
     {
@@ -185,7 +189,7 @@ impl<'cx> ErrorReportingCx<'cx> {
 
     fn report_error_not_lr1_core(&self,
                                  lookahead: Lookahead,
-                                 conflict: &Conflict,
+                                 conflict: &Conflict<'grammar>,
                                  action: &Example,
                                  reduce: &Example,
                                  out: &mut Write)
@@ -236,7 +240,7 @@ impl<'cx> ErrorReportingCx<'cx> {
 
     fn report_error_suggest_inline(&self,
                                    lookahead: Lookahead,
-                                   conflict: &Conflict,
+                                   conflict: &Conflict<'grammar>,
                                    shift: Example,
                                    reduce: Example,
                                    nonterminal: NonterminalString,
@@ -254,7 +258,7 @@ impl<'cx> ErrorReportingCx<'cx> {
 
     fn report_error_suggest_question(&self,
                                      lookahead: Lookahead,
-                                     conflict: &Conflict,
+                                     conflict: &Conflict<'grammar>,
                                      shift: Example,
                                      reduce: Example,
                                      nonterminal: NonterminalString,
@@ -275,7 +279,7 @@ impl<'cx> ErrorReportingCx<'cx> {
 
     fn report_error_insufficient_lookahead(&self,
                                            lookahead: Lookahead,
-                                           conflict: &Conflict,
+                                           conflict: &Conflict<'grammar>,
                                            action: Example,
                                            reduce: Example,
                                            out: &mut Write)
@@ -291,7 +295,7 @@ impl<'cx> ErrorReportingCx<'cx> {
     /// errors but ought to be phased out completely, I imagine.
     fn report_error_naive(&self,
                           lookahead: Lookahead,
-                          conflict: &Conflict,
+                          conflict: &Conflict<'grammar>,
                           out: &mut Write)
                           -> io::Result<()> {
         try!(writeln!(out, "when in this state:"));
@@ -311,13 +315,9 @@ impl<'cx> ErrorReportingCx<'cx> {
         Ok(())
     }
 
-    fn tracer(&self) -> Tracer<'cx, 'cx> {
-        Tracer::new(self.session, self.grammar, self.states)
-    }
-
-    fn classify(&self,
+    fn classify(&mut self,
                 lookahead: Lookahead,
-                conflict: &'cx Conflict<'cx>)
+                conflict: &Conflict<'grammar>)
                 -> ConflictClassification
     {
         // Find examples from the conflicting action (either a shift
@@ -366,7 +366,7 @@ impl<'cx> ErrorReportingCx<'cx> {
 
     fn try_classify_ambiguity(&self,
                               lookahead: Lookahead,
-                              conflict: &'cx Conflict<'cx>,
+                              conflict: &Conflict<'grammar>,
                               action_examples: &[Example],
                               reduce_examples: &[Example])
                               -> Option<ConflictClassification> {
@@ -405,7 +405,7 @@ impl<'cx> ErrorReportingCx<'cx> {
 
     fn try_classify_inline(&self,
                            _lookahead: Lookahead,
-                           _conflict: &'cx Conflict<'cx>,
+                           _conflict: &Conflict<'grammar>,
                            action_examples: &[Example],
                            reduce_examples: &[Example])
                            -> Option<ConflictClassification> {
@@ -454,19 +454,19 @@ impl<'cx> ErrorReportingCx<'cx> {
         &example.symbols[end..]
     }
 
-    fn shift_examples(&self,
+    fn shift_examples(&mut self,
                       lookahead: Lookahead,
-                      conflict: &'cx Conflict<'cx>)
+                      conflict: &Conflict<'grammar>)
                       -> Vec<Example> {
         log!(self.session, Verbose, "Gathering shift examples");
         let state = &self.states[conflict.state.0];
         let conflicting_items = self.conflicting_shift_items(state, lookahead, conflict);
-        let mut tracer = self.tracer();
+        let tracer = &mut self.tracer;
         conflicting_items
             .into_iter()
             .flat_map(|(item, lookaheads)| {
                 let shift_trace =
-                    tracer.backtrace_shift(conflict.state, item, &lookaheads);
+                    tracer.backtrace_shift(conflict.state, item, lookaheads);
                 let local_examples: Vec<Example> =
                     shift_trace.examples().collect();
                 local_examples
@@ -474,14 +474,13 @@ impl<'cx> ErrorReportingCx<'cx> {
             .collect()
     }
 
-    fn reduce_examples(&self,
+    fn reduce_examples(&mut self,
                        state: StateIndex,
-                       production: &'cx Production,
+                       production: &'grammar Production,
                        lookahead: Lookahead)
                        -> Vec<Example> {
         log!(self.session, Verbose, "Gathering reduce examples");
-        let mut tracer = self.tracer();
-        let reduce_trace = tracer.backtrace_reduce(state, Item {
+        let reduce_trace = self.tracer.backtrace_reduce(state, Item {
             production: production,
             index: production.symbols.len(),
             lookahead: lookahead
@@ -490,10 +489,10 @@ impl<'cx> ErrorReportingCx<'cx> {
     }
 
     fn conflicting_shift_items(&self,
-                               state: &'cx State,
+                               state: &State<'grammar>,
                                lookahead: Lookahead,
-                               _conflict: &Conflict)
-                               -> Map<LR0Item<'cx>, LookaheadSet> {
+                               _conflict: &Conflict<'grammar>)
+                               -> Map<LR0Item<'grammar>, LookaheadSet> {
         // Lookahead must be a terminal, not EOF.
         // Find an item J like `Bar = ... (*) L ...`.
         let lookahead = match lookahead {

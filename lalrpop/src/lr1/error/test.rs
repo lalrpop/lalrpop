@@ -22,7 +22,7 @@ pub Ty: () = {
 "#);
     let session = Session::test();
     let states = build_states(&session, &grammar, nt("Ty")).unwrap_err().states;
-    let cx = ErrorReportingCx::new(&session, &grammar, &states);
+    let mut cx = ErrorReportingCx::new(&session, &grammar, &states);
     let (&lookahead, conflict) =
         states.iter()
               .flat_map(|state| {
@@ -67,7 +67,7 @@ pub Expr: () = {
 "#);
     let session = Session::test();
     let states = build_states(&session, &grammar, nt("Expr")).unwrap_err().states;
-    let cx = ErrorReportingCx::new(&session, &grammar, &states);
+    let mut cx = ErrorReportingCx::new(&session, &grammar, &states);
     let (&lookahead, conflict) =
         states.iter()
               .flat_map(|state| {
@@ -105,7 +105,7 @@ fn inline_conflict() {
     let session = Session::test();
     let states = build_states(&session, &grammar, nt("E")).unwrap_err().states;
 
-    let cx = ErrorReportingCx::new(&session, &grammar, &states);
+    let mut cx = ErrorReportingCx::new(&session, &grammar, &states);
     let (&lookahead, conflict) =
         states.iter()
               .flat_map(|state| {

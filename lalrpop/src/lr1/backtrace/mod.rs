@@ -20,7 +20,7 @@ pub struct Tracer<'trace, 'grammar: 'trace> {
     states: &'trace [State<'grammar>],
     first_sets: FirstSets,
     state_graph: StateGraph,
-    shift_stack: Vec<(StateIndex, LR0Item<'grammar>)>,
+    shift_cache: ShiftCache<'grammar>,
     reduce_stack: Vec<(StateIndex, Item<'grammar>)>,
 }
 
@@ -42,7 +42,7 @@ pub struct Tracer<'trace, 'grammar: 'trace> {
 ///                 START = (*) EXPRS ";"
 ///         EXPRS = EXPRS "," (*) EXPR
 ///             START = (*) EXPRS ";"
-#[derive(Debug)]
+#[derive(Clone, Debug)]
 pub struct BacktraceNode<'grammar> {
     item: LR0Item<'grammar>,
     parents: Vec<BacktraceNode<'grammar>>,
@@ -89,7 +89,7 @@ impl<'trace, 'grammar> Tracer<'trace, 'grammar> {
             states: states,
             first_sets: FirstSets::new(grammar),
             state_graph: StateGraph::new(states),
-            shift_stack: vec![],
+            shift_cache: ShiftCache::new(),
             reduce_stack: vec![],
         }
     }
@@ -112,25 +112,38 @@ impl<'trace, 'grammar> Tracer<'trace, 'grammar> {
     pub fn backtrace_shift(&mut self,
                            item_state: StateIndex,
                            item: LR0Item<'grammar>,
-                           lookaheads: &LookaheadSet)
+                           lookaheads: LookaheadSet)
                            -> BacktraceNode<'grammar> {
         {
             let lookaheads = lookaheads.debug(self.grammar);
             log!(self.session, Verbose, "backtrace_shift(item_state={:?}, item={:?}, \
-                                         lookaheads={:?}, depth={})",
-                 item_state, item, lookaheads, self.shift_stack.len());
+                                         lookaheads={:?})",
+                 item_state, item, lookaheads);
         }
 
-        self.shift_stack.push((item_state, item));
+        let key = ShiftKey {
+            item_state: item_state,
+            item: item,
+            lookaheads: lookaheads,
+        };
+
+        // check for previous result (or a cycle)
+        if let Some(result) = self.shift_cache.lookup(&key) {
+            return result;
+        }
 
         let mut result_node = BacktraceNode::new(item);
+
+        // insert a placeholder so that we can detect cycles
+        self.shift_cache.insert(key.clone(), result_node.clone());
 
         // `NT1`, in the example above.
         let nt_sym = Symbol::Nonterminal(item.production.nonterminal);
 
         // If the cursor is not at the start of `NT1`, then walk back
         // through the graph to the state(s) where it was.
-        let pred_states = self.state_graph.predecessors_at_distance(item_state, item.index);
+        let pred_states = self.state_graph.predecessors_at_distance(item_state,
+                                                                    item.index);
 
         // Each of those pred states must contain `NT1 = (*) ... [Li]`
         // (where Li in lookaheads). Either this is the start state
@@ -147,7 +160,9 @@ impl<'trace, 'grammar> Tracer<'trace, 'grammar> {
                 log!(self.session, Debug,
                      "backtrace_shift: pred_state={:?} pred_item={:?}",
                      pred_state, pred_item);
-                match self.can_shift_with_lookahead_from(pred_item, nt_sym, lookaheads) {
+                match self.can_shift_with_lookahead_from(pred_item,
+                                                         nt_sym,
+                                                         &key.lookaheads) {
                     CannotShift => { }
                     CanShift(_) => {
                         pred_items
@@ -166,16 +181,11 @@ impl<'trace, 'grammar> Tracer<'trace, 'grammar> {
                  pred_item0, lookaheads.debug(&*self.grammar));
 
             // For each of the items we found, we want to continue
-            // tracing if `...p` is empty (1), since we haven't
-            // actually gained any context. However, we have to watch
-            // out for left-recursion (e.g., where NT2 == NT1), so
-            // check the stack (2).
-            let continue_tracing =
-                pred_item0.index == 0 && // (1)
-                !self.shift_stack.contains(&(item_state, pred_item0)); // (2)
-
-            let parent_node = if continue_tracing {
-                self.backtrace_shift(item_state, pred_item0, &lookaheads)
+            // tracing if `...p` is empty, since we haven't actually
+            // gained any context. (Note that the recursive step will
+            // also detect cycles.)
+            let parent_node = if pred_item0.index == 0 {
+                self.backtrace_shift(item_state, pred_item0, lookaheads)
             } else {
                 BacktraceNode::new(pred_item0)
             };
@@ -183,7 +193,7 @@ impl<'trace, 'grammar> Tracer<'trace, 'grammar> {
             result_node.merge_parent(parent_node);
         }
 
-        self.shift_stack.pop().unwrap();
+        self.shift_cache.update(&key, result_node.clone());
 
         result_node
     }
@@ -311,4 +321,34 @@ impl<'trace, 'grammar> Tracer<'trace, 'grammar> {
 enum CanShiftResult {
     CannotShift,
     CanShift(bool) // if true, remainder is maybe empty
+}
+
+#[derive(Clone, PartialOrd, Ord, PartialEq, Eq)]
+struct ShiftKey<'grammar> {
+    item_state: StateIndex,
+    item: LR0Item<'grammar>,
+    lookaheads: LookaheadSet,
+}
+
+struct ShiftCache<'grammar> {
+    cache: Map<ShiftKey<'grammar>, BacktraceNode<'grammar>>
+}
+
+impl<'grammar> ShiftCache<'grammar> {
+    fn new() -> Self {
+        ShiftCache { cache: map() }
+    }
+
+    fn lookup(&self, state: &ShiftKey<'grammar>) -> Option<BacktraceNode<'grammar>> {
+        self.cache.get(state).cloned()
+    }
+
+    fn insert(&mut self, state: ShiftKey<'grammar>, node: BacktraceNode<'grammar>) {
+        let prev = self.cache.insert(state, node);
+        assert!(prev.is_none());
+    }
+
+    fn update(&mut self, state: &ShiftKey<'grammar>, node: BacktraceNode<'grammar>) {
+        *self.cache.get_mut(state).unwrap() = node;
+    }
 }

@@ -1,5 +1,5 @@
 use bit_set::{self, BitSet};
-use std::fmt::{Debug, Display, Formatter, Error};
+use std::fmt::{Debug, Formatter, Error};
 use grammar::repr::*;
 
 #[derive(Copy, Clone, Hash, PartialEq, Eq, PartialOrd, Ord)]
