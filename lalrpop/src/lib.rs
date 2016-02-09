@@ -9,6 +9,7 @@
 #![cfg_attr(test, allow(dead_code))]
 
 extern crate ansi_term;
+extern crate bit_set;
 extern crate diff;
 extern crate lalrpop_intern as intern;
 extern crate lalrpop_util;

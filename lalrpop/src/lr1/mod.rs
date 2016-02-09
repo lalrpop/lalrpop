@@ -7,6 +7,8 @@ use std::fmt::{Debug, Formatter, Error};
 use std::rc::Rc;
 use util::{Map, Prefix};
 
+use self::lookahead::Lookahead;
+
 pub mod ascent;
 
 mod backtrace;
@@ -14,6 +16,7 @@ mod core;
 mod error;
 mod first;
 mod la0;
+mod lookahead;
 
 #[cfg(test)] mod interpret;
 
@@ -53,12 +56,6 @@ struct Items<'grammar> {
 
 #[derive(Copy, Clone, Hash, PartialEq, Eq, PartialOrd, Ord)]
 pub struct StateIndex(usize);
-
-#[derive(Copy, Clone, Hash, PartialEq, Eq, PartialOrd, Ord)]
-pub enum Lookahead {
-    EOF,
-    Terminal(TerminalString),
-}
 
 #[derive(Copy, Clone, Hash, PartialEq, Eq, PartialOrd, Ord)]
 struct Item<'grammar> {

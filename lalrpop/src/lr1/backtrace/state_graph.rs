@@ -57,13 +57,4 @@ impl StateGraph {
         }
         result
     }
-
-    /// Given a state `s`, returns all states `p` where either `p ==
-    /// s` or `p` is an immediate predecessor of `s`.
-    pub fn predecessors_or_self(&self, state_index: StateIndex) -> Vec<StateIndex> {
-        self.graph.neighbors_directed(NodeIndex::new(state_index.0), EdgeDirection::Incoming)
-                  .map(|n| StateIndex(n.index()))
-                  .chain(Some(state_index))
-                  .collect()
-    }
 }

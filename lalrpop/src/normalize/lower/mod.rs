@@ -135,6 +135,16 @@ impl LowerState {
                 Some(ref a) => r::Algorithm::from_str(a.text).unwrap(),
             };
 
+        let mut all_terminals: Vec<_> = self.conversions.iter()
+                                                        .map(|c| c.0)
+                                                        .collect();
+        all_terminals.sort();
+
+        let terminal_bits: Map<_,_> = all_terminals.iter()
+                                                   .cloned()
+                                                   .zip(0..)
+                                                   .collect();
+
         Ok(r::Grammar {
             prefix: self.prefix,
             start_nonterminals: start_symbols,
@@ -149,6 +159,8 @@ impl LowerState {
             where_clauses: grammar.where_clauses,
             algorithm: algorithm,
             intern_token: self.intern_token,
+            all_terminals: all_terminals,
+            terminal_bits: terminal_bits,
         })
     }
 

@@ -2,7 +2,7 @@ use ansi_term::Style;
 use std::ops::Range;
 
 mod row;
-mod test;
+#[cfg(test)] mod test;
 
 pub use self::row::Row;
 
@@ -35,10 +35,6 @@ impl AsciiCanvas {
 
     fn end_index(&self, r: usize) -> usize {
         self.index(r, self.columns)
-    }
-
-    fn row_chars(&self, r: usize) -> &[char] {
-        &self.characters[self.start_index(r) .. self.end_index(r)]
     }
 
     pub fn to_strings(&self) -> Vec<Row> {

@@ -55,6 +55,10 @@ pub struct Grammar {
     pub token_span: Span,
     pub conversions: Map<TerminalString, Pattern<TypeRepr>>,
     pub types: Types,
+
+    // for each terminal, we map it to a small integer from 0 to N
+    pub all_terminals: Vec<TerminalString>,
+    pub terminal_bits: Map<TerminalString, usize>,
 }
 
 #[derive(Clone, Debug)]

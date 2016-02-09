@@ -4,7 +4,6 @@ use ansi_term::Style;
 use grammar::repr::Symbol;
 use lr1::LR0Item;
 use session::Session;
-use std::default::Default;
 
 use self::ascii_canvas::{AsciiCanvas, Row};
 use super::{BacktraceNode, Reduction};
@@ -356,7 +355,9 @@ impl Example {
         canvas.to_strings().pop().unwrap()
     }
 
+    #[cfg(test)]
     pub fn paint_unstyled(&self) -> Vec<Row> {
+        use std::default::Default;
         self.paint(&ExampleStyles::default())
     }
 

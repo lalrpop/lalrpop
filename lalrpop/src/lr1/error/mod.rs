@@ -6,7 +6,8 @@ use session::Session;
 use std::io::{self, Result, Write};
 use util::Multimap;
 use lr1::backtrace::{Example, ExampleStyles, ExampleSymbol, Tracer};
-use super::{Action, Conflict, LR0Item, Lookahead, Item,
+use lr1::lookahead::Lookahead;
+use super::{Action, Conflict, LR0Item, Item,
             State, StateIndex, TableConstructionError};
 
 #[cfg(test)] mod test;
@@ -73,7 +74,7 @@ impl<'cx> ErrorReportingCx<'cx> {
         for state in self.states {
             for (&lookahead, conflicts) in &state.conflicts {
                 for conflict in conflicts {
-                    try!(self.report_error_naive(lookahead, conflict, out));
+                    try!(self.report_error(lookahead, conflict, out));
                 }
             }
         }
@@ -457,6 +458,7 @@ impl<'cx> ErrorReportingCx<'cx> {
                       lookahead: Lookahead,
                       conflict: &'cx Conflict<'cx>)
                       -> Vec<Example> {
+        log!(self.session, Verbose, "Gathering shift examples");
         let state = &self.states[conflict.state.0];
         let conflicting_items = self.conflicting_shift_items(state, lookahead, conflict);
         let mut tracer = self.tracer();
@@ -477,6 +479,7 @@ impl<'cx> ErrorReportingCx<'cx> {
                        production: &'cx Production,
                        lookahead: Lookahead)
                        -> Vec<Example> {
+        log!(self.session, Verbose, "Gathering reduce examples");
         let mut tracer = self.tracer();
         let reduce_trace = tracer.backtrace_reduce(state, Item {
             production: production,

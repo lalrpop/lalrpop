@@ -3,8 +3,9 @@
 use kernel_set;
 use session::Session;
 use grammar::repr::*;
+use lr1::{Action, Conflict, Item, Items, State, StateIndex, TableConstructionError};
 use lr1::first;
-use lr1::{Action, Conflict, Lookahead, Item, Items, State, StateIndex, TableConstructionError};
+use lr1::lookahead::Lookahead;
 use std::rc::Rc;
 use util::{map, Multimap, Set};
 
@@ -49,8 +50,12 @@ impl<'session, 'grammar> LR1<'session, 'grammar> {
 
         while let Some(items) = kernel_set.next() {
             let index = StateIndex(states.len());
+
             log!(self.session, Debug, "Building state {:?} with {} items",
                  index, items.vec.len());
+            if index.0 % 10000 == 0 && index.0 > 0 {
+                log!(self.session, Verbose, "{} states created so far.", index.0);
+            }
 
             let mut this_state = State { index: index, items: items.clone(),
                                          tokens: map(), gotos: map(),
@@ -89,6 +94,8 @@ impl<'session, 'grammar> LR1<'session, 'grammar> {
                 let action = Action::Reduce(item.production);
                 let prev = this_state.tokens.insert(item.lookahead, action);
                 if let Some(conflict) = prev {
+                    log!(self.session, Verbose, "Encountered conflict in state {}",
+                         index.0);
                     this_state.conflicts.entry(item.lookahead)
                                         .or_insert(vec![])
                                         .push(Conflict {
@@ -104,6 +111,8 @@ impl<'session, 'grammar> LR1<'session, 'grammar> {
             states.push(this_state);
 
             if self.session.stop_after(errors) {
+                log!(self.session, Verbose,
+                     "{} conflicts encountered, stopping.", errors);
                 break;
             }
         }

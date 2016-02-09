@@ -1,15 +1,16 @@
 //! Mega naive LALR(1) generation algorithm.
 
 use itertools::Itertools;
+use lr1::{Action, Conflict, Item, Items, LR0Item,
+          State, StateIndex, TableConstructionError};
+use lr1::Action::{Reduce, Shift};
 use lr1::core;
+use lr1::lookahead::Lookahead;
 use grammar::repr::*;
 use session::Session;
 use std::rc::Rc;
 use util::{map, Map};
 use util::map::Entry;
-use super::{Action, Conflict, Item, Items, LR0Item, Lookahead,
-            State, StateIndex, TableConstructionError};
-use super::Action::{Reduce, Shift};
 
 #[cfg(test)]
 mod test;
