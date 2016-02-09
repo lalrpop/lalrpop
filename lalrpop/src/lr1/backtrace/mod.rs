@@ -116,8 +116,8 @@ impl<'trace, 'grammar> Tracer<'trace, 'grammar> {
                            -> BacktraceNode<'grammar> {
         {
             let lookaheads = lookaheads.debug(self.grammar);
-            log!(self.session, Verbose, "backtrace_shift(item_state={:?}, item={:?}, \
-                                         lookaheads={:?})",
+            log!(self.session, Debug, "backtrace_shift(item_state={:?}, item={:?}, \
+                                       lookaheads={:?})",
                  item_state, item, lookaheads);
         }
 

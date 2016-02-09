@@ -51,8 +51,6 @@ impl<'session, 'grammar> LR1<'session, 'grammar> {
         while let Some(items) = kernel_set.next() {
             let index = StateIndex(states.len());
 
-            log!(self.session, Debug, "Building state {:?} with {} items",
-                 index, items.vec.len());
             if index.0 % 10000 == 0 && index.0 > 0 {
                 log!(self.session, Verbose, "{} states created so far.", index.0);
             }
@@ -72,8 +70,6 @@ impl<'session, 'grammar> LR1<'session, 'grammar> {
             for (symbol, items) in transitions.into_iter() {
                 let items = self.transitive_closure(items);
                 let next_state = kernel_set.add_state(items);
-                log!(self.session, Debug, "on {:?} to state {:?}",
-                     symbol, next_state);
 
                 match symbol {
                     Symbol::Terminal(s) => {
