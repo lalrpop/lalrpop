@@ -3,10 +3,11 @@ use generate;
 use grammar::repr::*;
 use session::Session;
 use test_util::{compare, expect_debug, normalized_grammar};
-use lr1::Lookahead::EOF;
-use lr1::interpret::interpret;
 use lr1::core::{LR1, build_lr1_states};
-use lr1::{State, Items, Lookahead};
+use lr1::interpret::interpret;
+use lr1::lookahead::Lookahead;
+use lr1::lookahead::Lookahead::EOF;
+use lr1::{State, Items};
 
 fn nt(t: &str) -> NonterminalString {
     NonterminalString(intern(t))

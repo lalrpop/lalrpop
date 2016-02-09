@@ -165,9 +165,11 @@ impl<'session, 'grammar> LR1<'session, 'grammar> {
                     }
                 })
                 .flat_map(|(nt, remainder, lookahead)| {
-                    let (first_set, _) = self.first_sets.first(remainder, lookahead);
-                    first_set.into_iter()
-                             .flat_map(move |l| self.items(nt, 0, l))
+                    let (first_set, _) =
+                        self.first_sets.first(self.grammar, remainder, lookahead);
+                    first_set.iter(self.grammar)
+                             .flat_map(|l| self.items(nt, 0, l))
+                             .collect::<Vec<_>>()
                 })
                 .filter(|&item| set.insert(item))
                 .collect();

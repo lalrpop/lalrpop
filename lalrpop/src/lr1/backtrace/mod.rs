@@ -16,6 +16,7 @@ pub use self::example::{Example, ExampleSymbol, ExampleIterator, ExampleStyles};
 
 pub struct Tracer<'trace, 'grammar: 'trace> {
     session: &'trace Session,
+    grammar: &'trace Grammar,
     states: &'trace [State<'grammar>],
     first_sets: FirstSets,
     state_graph: StateGraph,
@@ -84,6 +85,7 @@ impl<'trace, 'grammar> Tracer<'trace, 'grammar> {
                -> Self {
         Tracer {
             session: session,
+            grammar: grammar,
             states: states,
             first_sets: FirstSets::new(grammar),
             state_graph: StateGraph::new(states),
@@ -275,9 +277,9 @@ impl<'trace, 'grammar> Tracer<'trace, 'grammar> {
         if let Some((shifted, remainder)) = item.shift_symbol() {
             if shifted == nt_sym {
                 let (first, maybe_empty) =
-                    self.first_sets.first(remainder, item.lookahead);
-                for l in lookaheads {
-                    if first.contains(&l) {
+                    self.first_sets.first(self.grammar, remainder, item.lookahead);
+                for &l in lookaheads {
+                    if first.contains(self.grammar, l) {
                         return CanShift(maybe_empty);
                     }
                 }

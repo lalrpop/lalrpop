@@ -1,6 +1,7 @@
 //! LR(1) interpeter. Just builds up parse trees. Intended for testing.
 
-use lr1::{Action, State, StateIndex, Lookahead};
+use lr1::{Action, State, StateIndex};
+use lr1::lookahead::Lookahead;
 use generate::ParseTree;
 use grammar::repr::*;
 use std::iter::IntoIterator;

@@ -13,7 +13,7 @@ pub struct LookaheadSet {
 }
 
 impl LookaheadSet {
-    fn new(grammar: &Grammar) -> Self {
+    pub fn new(grammar: &Grammar) -> Self {
         LookaheadSet {
             bit_set: BitSet::with_capacity(grammar.all_terminals.len() + 1)
         }
@@ -35,8 +35,18 @@ impl LookaheadSet {
         self.bit_set.insert(bit)
     }
 
+    pub fn insert_set(&mut self, set: &LookaheadSet) -> bool {
+        let len = self.len();
+        self.bit_set.union_with(&set.bit_set);
+        self.len() != len
+    }
+
     pub fn contains(&self, grammar: &Grammar, lookahead: Lookahead) -> bool {
         self.bit_set.contains(self.bit(grammar, lookahead))
+    }
+
+    pub fn intersects(&self, other: &LookaheadSet) -> bool {
+        !self.bit_set.is_disjoint(&other.bit_set)
     }
 
     pub fn iter<'iter>(&'iter self, grammar: &'iter Grammar)
@@ -44,14 +54,6 @@ impl LookaheadSet {
         LookaheadSetIter {
             bit_set: self.bit_set.iter(),
             grammar: grammar,
-        }
-    }
-}
-
-impl Extend<Lookahead> for LookaheadSet {
-    fn extend<T: IterIterator<Item=Lookahead>>(&mut self, iterable: T) {
-        for lookahead in iterable {
-            self.insert(lookahead);
         }
     }
 }
