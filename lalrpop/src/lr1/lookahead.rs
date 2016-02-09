@@ -1,4 +1,5 @@
 use bit_set::{self, BitSet};
+use std::fmt::{Debug, Display, Formatter, Error};
 use grammar::repr::*;
 
 #[derive(Copy, Clone, Hash, PartialEq, Eq, PartialOrd, Ord)]
@@ -56,6 +57,14 @@ impl LookaheadSet {
             grammar: grammar,
         }
     }
+
+    pub fn debug<'debug>(&'debug self, grammar: &'debug Grammar)
+                       -> LookaheadSetDebug<'debug> {
+        LookaheadSetDebug {
+            set: self,
+            grammar: grammar,
+        }
+    }
 }
 
 pub struct LookaheadSetIter<'iter> {
@@ -75,5 +84,17 @@ impl<'iter> Iterator for LookaheadSetIter<'iter> {
                             Lookahead::Terminal(self.grammar.all_terminals[bit])
                         }
                     })
+    }
+}
+
+pub struct LookaheadSetDebug<'debug> {
+    set: &'debug LookaheadSet,
+    grammar: &'debug Grammar
+}
+
+impl<'debug> Debug for LookaheadSetDebug<'debug> {
+    fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
+        let terminals: Vec<_> = self.set.iter(self.grammar).collect();
+        Debug::fmt(&terminals, fmt)
     }
 }

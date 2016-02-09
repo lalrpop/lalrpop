@@ -4,9 +4,9 @@ use itertools::Itertools;
 use grammar::repr::*;
 use session::Session;
 use std::io::{self, Result, Write};
-use util::Multimap;
+use util::{Map, map};
 use lr1::backtrace::{Example, ExampleStyles, ExampleSymbol, Tracer};
-use lr1::lookahead::Lookahead;
+use lr1::lookahead::{Lookahead, LookaheadSet};
 use super::{Action, Conflict, LR0Item, Item,
             State, StateIndex, TableConstructionError};
 
@@ -493,18 +493,24 @@ impl<'cx> ErrorReportingCx<'cx> {
                                state: &'cx State,
                                lookahead: Lookahead,
                                _conflict: &Conflict)
-                               -> Multimap<LR0Item<'cx>, Lookahead> {
+                               -> Map<LR0Item<'cx>, LookaheadSet> {
         // Lookahead must be a terminal, not EOF.
         // Find an item J like `Bar = ... (*) L ...`.
         let lookahead = match lookahead {
             Lookahead::EOF => panic!("can't shift EOF"),
             Lookahead::Terminal(s) => Symbol::Terminal(s),
         };
-        state.items.vec.iter()
-                       .filter(|i| i.can_shift())
-                       .filter(|i| i.production.symbols[i.index] == lookahead)
-                       .map(|i| (i.to_lr0(), i.lookahead))
-                       .collect()
+        let mut result = map();
+        for item in
+            state.items.vec.iter()
+                           .filter(|i| i.can_shift())
+                           .filter(|i| i.production.symbols[i.index] == lookahead)
+        {
+            result.entry(item.to_lr0())
+                  .or_insert_with(|| LookaheadSet::new(self.grammar))
+                  .insert(self.grammar, item.lookahead);
+        }
+        result
     }
 }
 

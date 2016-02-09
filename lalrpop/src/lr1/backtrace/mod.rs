@@ -1,9 +1,9 @@
 use lr1::first::FirstSets;
-use lr1::lookahead::Lookahead;
+use lr1::lookahead::{Lookahead, LookaheadSet};
 use lr1::{LR0Item, Item, State, StateIndex};
 use grammar::repr::*;
 use session::Session;
-use util::Multimap;
+use util::{Map, map};
 
 mod example;
 mod state_graph;
@@ -112,11 +112,14 @@ impl<'trace, 'grammar> Tracer<'trace, 'grammar> {
     pub fn backtrace_shift(&mut self,
                            item_state: StateIndex,
                            item: LR0Item<'grammar>,
-                           lookaheads: &[Lookahead])
+                           lookaheads: &LookaheadSet)
                            -> BacktraceNode<'grammar> {
-        log!(self.session, Verbose, "backtrace_shift(item_state={:?}, item={:?}, \
-                                     lookaheads={:?}, depth={})",
-             item_state, item, lookaheads, self.shift_stack.len());
+        {
+            let lookaheads = lookaheads.debug(self.grammar);
+            log!(self.session, Verbose, "backtrace_shift(item_state={:?}, item={:?}, \
+                                         lookaheads={:?}, depth={})",
+                 item_state, item, lookaheads, self.shift_stack.len());
+        }
 
         self.shift_stack.push((item_state, item));
 
@@ -136,9 +139,9 @@ impl<'trace, 'grammar> Tracer<'trace, 'grammar> {
         //
         //     NT2 = ...p (*) NT1 ...s [L]
         //
-        // Look for items like that and collect them up into a
-        // multi-map `pred_items`.
-        let mut pred_items: Multimap<LR0Item<'grammar>, Lookahead> = Multimap::new();
+        // Look for items like that and collect them up into a map
+        // going from LR0 items to a lookahead set.
+        let mut pred_items: Map<LR0Item<'grammar>, LookaheadSet> = map();
         for pred_state in pred_states {
             for &pred_item in self.states[pred_state.0].items.vec.iter() {
                 log!(self.session, Debug,
@@ -147,9 +150,11 @@ impl<'trace, 'grammar> Tracer<'trace, 'grammar> {
                 match self.can_shift_with_lookahead_from(pred_item, nt_sym, lookaheads) {
                     CannotShift => { }
                     CanShift(_) => {
-                        pred_items.push(LR0Item { production: pred_item.production,
-                                                  index: pred_item.index },
-                                        pred_item.lookahead);
+                        pred_items
+                            .entry(LR0Item { production: pred_item.production,
+                                             index: pred_item.index })
+                            .or_insert_with(|| LookaheadSet::new(self.grammar))
+                            .insert(self.grammar, pred_item.lookahead);
                     }
                 }
             }
@@ -158,7 +163,7 @@ impl<'trace, 'grammar> Tracer<'trace, 'grammar> {
         for (pred_item0, lookaheads) in pred_items {
             log!(self.session, Debug,
                  "backtrace_shift: pred_item0={:?} lookaheads={:?}",
-                 pred_item0, lookaheads);
+                 pred_item0, lookaheads.debug(&*self.grammar));
 
             // For each of the items we found, we want to continue
             // tracing if `...p` is empty (1), since we haven't
@@ -265,23 +270,37 @@ impl<'trace, 'grammar> Tracer<'trace, 'grammar> {
                                 lookahead: Lookahead)
                                 -> CanShiftResult
     {
-        self.can_shift_with_lookahead_from(item, nt_sym, &[lookahead])
+        self.can_shift_with_lookahead_core(
+            item,
+            nt_sym,
+            |first| first.contains(self.grammar, lookahead))
     }
 
     fn can_shift_with_lookahead_from(&self,
                                      item: Item<'grammar>,
                                      nt_sym: Symbol,
-                                     lookaheads: &[Lookahead])
+                                     lookaheads: &LookaheadSet)
                                      -> CanShiftResult
+    {
+        self.can_shift_with_lookahead_core(
+            item,
+            nt_sym,
+            |first| first.intersects(lookaheads))
+    }
+
+    fn can_shift_with_lookahead_core<F>(&self,
+                                        item: Item<'grammar>,
+                                        nt_sym: Symbol,
+                                        mut contains: F)
+                                        -> CanShiftResult
+        where F: FnMut(&LookaheadSet) -> bool
     {
         if let Some((shifted, remainder)) = item.shift_symbol() {
             if shifted == nt_sym {
                 let (first, maybe_empty) =
                     self.first_sets.first(self.grammar, remainder, item.lookahead);
-                for &l in lookaheads {
-                    if first.contains(self.grammar, l) {
-                        return CanShift(maybe_empty);
-                    }
+                if contains(&first) {
+                    return CanShift(maybe_empty);
                 }
             }
         }
