@@ -2,7 +2,7 @@ use intern::intern;
 use grammar::repr::*;
 use session::Session;
 use test_util::{normalized_grammar};
-use super::lalr_states;
+use super::build_lalr_states;
 use super::super::interpret::interpret;
 
 fn nt(t: &str) -> NonterminalString {
@@ -31,7 +31,7 @@ fn figure9_23() {
         };
    "#);
 
-    let states = lalr_states(&Session::test(), &grammar, nt("S")).unwrap();
+    let states = build_lalr_states(&Session::test(), &grammar, nt("S")).unwrap();
     println!("{:#?}", states);
 
     let tree = interpret(&states, tokens!["N", "-", "(", "N", "-", "N", ")"]).unwrap();

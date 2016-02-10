@@ -1,9 +1,9 @@
 use intern::intern;
 use grammar::repr::*;
 use lr1::build_states;
+use lr1::core::Item;
 use lr1::interpret::interpret_partial;
 use lr1::lookahead::Lookahead;
-use lr1::Item;
 use session::Session;
 use test_util::{expect_debug, normalized_grammar};
 

@@ -1,10 +1,9 @@
 //! Mega naive LALR(1) generation algorithm.
 
 use itertools::Itertools;
-use lr1::{Action, Conflict, Item, Items, LR0Item,
-          State, StateIndex, TableConstructionError};
-use lr1::Action::{Reduce, Shift};
-use lr1::core;
+use lr1::build;
+use lr1::core::*;
+use lr1::core::Action::{Reduce, Shift};
 use lr1::lookahead::Lookahead;
 use grammar::repr::*;
 use session::Session;
@@ -26,13 +25,14 @@ struct LALR1State<'grammar> {
     conflicts: Map<Lookahead, Vec<Conflict<'grammar>>>,
 }
 
-pub fn lalr_states<'grammar>(session: &Session,
-                             grammar: &'grammar Grammar,
-                             start: NonterminalString)
-                             -> Result<Vec<State<'grammar>>, TableConstructionError<'grammar>>
+pub fn build_lalr_states<'grammar>(session: &Session,
+                                   grammar: &'grammar Grammar,
+                                   start: NonterminalString)
+                                   -> Result<Vec<State<'grammar>>,
+                                             TableConstructionError<'grammar>>
 {
     // First build the LR(1) states
-    let lr_states = try!(core::build_lr1_states(session, grammar, start));
+    let lr_states = try!(build::build_lr1_states(session, grammar, start));
     collapse_to_lalr_states(&lr_states)
 }
 

@@ -2,7 +2,7 @@ use intern::intern;
 use grammar::repr::*;
 use test_util::compare;
 
-use super::super::{Example, ExampleSymbol, Reduction};
+use super::{Example, ExampleSymbol, Reduction};
 
 fn nt(t: &str) -> NonterminalString {
     NonterminalString(intern(t))

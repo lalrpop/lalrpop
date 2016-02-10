@@ -1,18 +1,15 @@
+use lr1::core::*;
+use lr1::example::*;
 use lr1::first::FirstSets;
 use lr1::lookahead::{Lookahead, LookaheadSet};
-use lr1::{LR0Item, Item, State, StateIndex};
+use lr1::state_graph::StateGraph;
 use grammar::repr::*;
 use session::Session;
 use util::{Map, map};
 
-mod example;
-mod state_graph;
 #[cfg(test)] mod test;
 
 use self::CanShiftResult::*;
-use self::state_graph::StateGraph;
-
-pub use self::example::{Example, ExampleSymbol, ExampleIterator, ExampleStyles};
 
 pub struct Tracer<'trace, 'grammar: 'trace> {
     session: &'trace Session,
@@ -44,15 +41,8 @@ pub struct Tracer<'trace, 'grammar: 'trace> {
 ///             START = (*) EXPRS ";"
 #[derive(Clone, Debug)]
 pub struct BacktraceNode<'grammar> {
-    item: LR0Item<'grammar>,
-    parents: Vec<BacktraceNode<'grammar>>,
-}
-
-#[derive(Copy, Clone, Debug)]
-pub struct Reduction {
-    pub start: usize,
-    pub end: usize,
-    pub nonterminal: NonterminalString,
+    pub item: LR0Item<'grammar>,
+    pub parents: Vec<BacktraceNode<'grammar>>,
 }
 
 impl<'grammar> BacktraceNode<'grammar> {

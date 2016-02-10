@@ -1,12 +1,12 @@
 //! Code to compute example inputs given a backtrace.
 
 use ansi_term::Style;
-use grammar::repr::Symbol;
-use lr1::LR0Item;
+use grammar::repr::{NonterminalString, Symbol};
+use lr1::backtrace::BacktraceNode;
+use lr1::core::LR0Item;
 use session::Session;
 
 use self::ascii_canvas::{AsciiCanvas, Row};
-use super::{BacktraceNode, Reduction};
 
 mod ascii_canvas;
 #[cfg(test)] mod test;
@@ -74,6 +74,13 @@ pub struct ExampleStyles {
     pub before_cursor: Style,
     pub on_cursor: Style,
     pub after_cursor: Style,
+}
+
+#[derive(Copy, Clone, Debug)]
+pub struct Reduction {
+    pub start: usize,
+    pub end: usize,
+    pub nonterminal: NonterminalString,
 }
 
 impl<'ex> ExampleIterator<'ex> {

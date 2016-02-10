@@ -1,5 +1,5 @@
 use grammar::repr::*;
-use lr1::{Action, State, StateIndex};
+use lr1::core::*;
 use petgraph::{EdgeDirection, Graph};
 use petgraph::graph::NodeIndex;
 

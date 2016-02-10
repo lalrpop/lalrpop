@@ -6,7 +6,7 @@ use grammar::repr::{Grammar,
                     NonterminalString,
                     Symbol,
                     TerminalString, TypeParameter, TypeRepr, Types};
-use lr1::{State, StateIndex};
+use lr1::core::*;
 use lr1::lookahead::Lookahead;
 use rust::RustWrite;
 use std::io::{self, Write};
