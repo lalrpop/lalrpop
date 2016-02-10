@@ -5,7 +5,6 @@ use grammar::repr::*;
 
 pub mod ascent;
 
-mod backtrace;
 mod build;
 mod build_lalr;
 mod core;
@@ -13,6 +12,7 @@ mod error;
 mod example;
 mod first;
 mod lookahead;
+mod trace;
 mod state_graph;
 
 #[cfg(test)] mod interpret;

@@ -2,8 +2,8 @@
 
 use ansi_term::Style;
 use grammar::repr::{NonterminalString, Symbol};
-use lr1::backtrace::BacktraceNode;
 use lr1::core::LR0Item;
+use lr1::trace::BacktraceNode;
 use session::Session;
 
 use self::ascii_canvas::{AsciiCanvas, Row};
@@ -55,11 +55,6 @@ pub enum ExampleSymbol {
     Epsilon,
 }
 
-/// Derives examples from a backtrace node.
-pub struct ExampleIterator<'ex> {
-    stack: Vec<ExampleState<'ex>>,
-}
-
 #[derive(Debug)]
 struct ExampleState<'ex> {
     // Node we are exploring
@@ -81,6 +76,11 @@ pub struct Reduction {
     pub start: usize,
     pub end: usize,
     pub nonterminal: NonterminalString,
+}
+
+/// Derives examples from a backtrace node.
+pub struct ExampleIterator<'ex> {
+    stack: Vec<ExampleState<'ex>>,
 }
 
 impl<'ex> ExampleIterator<'ex> {

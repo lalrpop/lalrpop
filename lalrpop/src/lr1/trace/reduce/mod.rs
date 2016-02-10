@@ -5,21 +5,12 @@ use lr1::lookahead::{Lookahead, LookaheadSet};
 use lr1::state_graph::StateGraph;
 use grammar::repr::*;
 use session::Session;
+use std::rc::Rc;
 use util::{Map, map};
 
-#[cfg(test)] mod test;
+use super::Tracer;
 
 use self::CanShiftResult::*;
-
-pub struct Tracer<'trace, 'grammar: 'trace> {
-    session: &'trace Session,
-    grammar: &'trace Grammar,
-    states: &'trace [State<'grammar>],
-    first_sets: FirstSets,
-    state_graph: StateGraph,
-    shift_cache: ShiftCache<'grammar>,
-    reduce_stack: Vec<(StateIndex, Item<'grammar>)>,
-}
 
 /// Stores a backtrace tree used in error reporting. Consider a simple
 /// example where we want the backtrace of EXPR with lookahead `,`,
@@ -69,21 +60,6 @@ impl<'grammar> BacktraceNode<'grammar> {
 }
 
 impl<'trace, 'grammar> Tracer<'trace, 'grammar> {
-    pub fn new(session: &'trace Session,
-               grammar: &'grammar Grammar,
-               states: &'trace [State<'grammar>])
-               -> Self {
-        Tracer {
-            session: session,
-            grammar: grammar,
-            states: states,
-            first_sets: FirstSets::new(grammar),
-            state_graph: StateGraph::new(states),
-            shift_cache: ShiftCache::new(),
-            reduce_stack: vec![],
-        }
-    }
-
     /// Returns a backtrace explaining how the state `item_state` came
     /// to contain a set of shiftable items, each with the same LR0
     /// subset (represented by `item`) but with various lookaheads
@@ -319,7 +295,7 @@ struct ShiftKey<'grammar> {
     lookaheads: LookaheadSet,
 }
 
-struct ShiftCache<'grammar> {
+pub struct ShiftCache<'grammar> {
     cache: Map<ShiftKey<'grammar>, BacktraceNode<'grammar>>
 }
 

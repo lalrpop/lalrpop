@@ -5,7 +5,7 @@ use grammar::repr::*;
 use session::Session;
 use std::io::{self, Result, Write};
 use util::{Map, map};
-use lr1::backtrace::Tracer;
+use lr1::trace::Tracer;
 use lr1::core::*;
 use lr1::example::{Example, ExampleStyles, ExampleSymbol};
 use lr1::lookahead::{Lookahead, LookaheadSet};
