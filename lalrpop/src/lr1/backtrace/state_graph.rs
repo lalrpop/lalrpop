@@ -1,3 +1,4 @@
+use grammar::repr::*;
 use lr1::{Action, State, StateIndex};
 use petgraph::{EdgeDirection, Graph};
 use petgraph::graph::NodeIndex;
@@ -5,7 +6,7 @@ use petgraph::graph::NodeIndex;
 // Each state `s` corresponds to the node in the graph with index
 // `s`. The edges are the shift transitions.
 pub struct StateGraph {
-    graph: Graph<(), ()>
+    graph: Graph<(), Symbol>
 }
 
 impl StateGraph {
@@ -24,37 +25,54 @@ impl StateGraph {
             // - shifts (found in the `conflicts` and `tokens` maps)
             // - gotos (found in the `gotos` map)
             graph.extend_with_edges(
-                state.conflicts.values()
-                               .flat_map(|conflicts| conflicts)
-                               .map(|conflict| &conflict.action)
-                               .chain(state.tokens.values())
-                               .filter_map(|action| match *action {
-                                   Action::Shift(ref target) => Some(target),
-                                   Action::Reduce(_) => None,
-                               })
-                               .chain(state.gotos.values())
-                               .map(|&successor| (NodeIndex::new(i), NodeIndex::new(successor.0))));
+                state.conflicts
+                     .iter()
+                     .flat_map(|(lookahead, conflicts)| {
+                         conflicts.iter()
+                                  .map(move |conflict| (lookahead, &conflict.action))
+                     })
+                     .chain(state.tokens.iter())
+                     .filter_map(|(l, action)| match *action {
+                         Action::Reduce(_) => None,
+                         Action::Shift(target) => {
+                             Some((Symbol::Terminal(l.unwrap_terminal()), target))
+                         }
+                     })
+                     .chain(
+                         state.gotos
+                              .iter()
+                              .map(|(&nt, &state)| (Symbol::Nonterminal(nt), state)))
+                     .map(|(symbol, successor)| {
+                         (NodeIndex::new(i), NodeIndex::new(successor.0), symbol)
+                     }));
         }
 
         StateGraph { graph: graph }
     }
 
-    pub fn predecessors_at_distance(&self,
-                                    state_index: StateIndex,
-                                    distance: usize)
-                                    -> Vec<StateIndex> {
+    /// Given a list of symbols `[X, Y, Z]`, traces back from
+    /// `initial_state_index` to find the set of states whence we
+    /// could have arrived at `initial_state_index` after pushing `X`,
+    /// `Y`, and `Z`.
+    pub fn trace_back(&self,
+                      initial_state_index: StateIndex,
+                      initial_symbols: &[Symbol])
+                      -> Vec<StateIndex> {
+        let mut stack = vec![(initial_state_index, initial_symbols)];
         let mut result = vec![];
-        let mut stack = Vec::new();
-        stack.push((state_index, 0));
-        while let Some((n, d)) = stack.pop() {
-            if d == distance {
-                result.push(n);
-            } else {
+        while let Some((state_index, symbols)) = stack.pop() {
+            if let Some((head, tail)) = symbols.split_last() {
                 stack.extend(
-                    self.graph.neighbors_directed(NodeIndex::new(n.0), EdgeDirection::Incoming)
-                              .map(|pred| (StateIndex(pred.index()), d + 1)));
+                    self.graph.edges_directed(NodeIndex::new(state_index.0),
+                                              EdgeDirection::Incoming)
+                              .filter(|&(_, symbol)| symbol == head)
+                              .map(|(pred, _)| (StateIndex(pred.index()), tail)));
+            } else {
+                result.push(state_index);
             }
         }
+        result.sort();
+        result.dedup();
         result
     }
 }

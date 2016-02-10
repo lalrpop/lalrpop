@@ -89,6 +89,10 @@ pub fn build_states<'grammar>(session: &Session,
 }
 
 impl<'grammar> Item<'grammar> {
+    fn prefix(&self) -> &[Symbol] {
+        &self.production.symbols[..self.index]
+    }
+
     fn to_lr0(&self) -> LR0Item<'grammar> {
         LR0Item { production: self.production, index: self.index }
     }
@@ -118,6 +122,12 @@ impl<'grammar> Item<'grammar> {
         } else {
             None
         }
+    }
+}
+
+impl<'grammar> LR0Item<'grammar> {
+    fn prefix(&self) -> &[Symbol] {
+        &self.production.symbols[..self.index]
     }
 }
 

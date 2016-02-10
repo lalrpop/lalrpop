@@ -142,8 +142,7 @@ impl<'trace, 'grammar> Tracer<'trace, 'grammar> {
 
         // If the cursor is not at the start of `NT1`, then walk back
         // through the graph to the state(s) where it was.
-        let pred_states = self.state_graph.predecessors_at_distance(item_state,
-                                                                    item.index);
+        let pred_states = self.state_graph.trace_back(item_state, item.prefix());
 
         // Each of those pred states must contain `NT1 = (*) ... [Li]`
         // (where Li in lookaheads). Either this is the start state
@@ -226,7 +225,7 @@ impl<'trace, 'grammar> Tracer<'trace, 'grammar> {
         // where we had something like
         //
         //     A := ... (*) NT ... [L1]
-        let pred_states = self.state_graph.predecessors_at_distance(item_state, item.index);
+        let pred_states = self.state_graph.trace_back(item_state, item.prefix());
         log!(self.session, Debug, "backtrace: pred_states={:?}", pred_states);
 
         // For each such predecessor state P...

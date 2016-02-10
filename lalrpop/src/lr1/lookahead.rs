@@ -8,6 +8,15 @@ pub enum Lookahead {
     Terminal(TerminalString),
 }
 
+impl Lookahead {
+    pub fn unwrap_terminal(self) -> TerminalString {
+        match self {
+            Lookahead::Terminal(t) => t,
+            Lookahead::EOF => panic!("`unwrap_terminal()` invoked but with EOF"),
+        }
+    }
+}
+
 #[derive(Clone, Hash, PartialEq, Eq, PartialOrd, Ord)]
 pub struct LookaheadSet {
     bit_set: BitSet<u32>
