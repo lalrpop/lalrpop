@@ -1,12 +1,10 @@
 use lr1::core::*;
-use lr1::example::*;
-use lr1::first::FirstSets;
-use lr1::lookahead::{Lookahead, LookaheadSet};
-use lr1::state_graph::StateGraph;
 use grammar::repr::*;
-use session::Session;
-use std::rc::Rc;
-use util::{Map, map};
+
+use super::Tracer;
+use super::trace_graph::*;
+
+#[cfg(test)] mod test;
 
 /// A backtrace explaining how a particular shift:
 ///
@@ -36,55 +34,76 @@ use util::{Map, map};
 /// Ultimately this "trace" is best represented as a DAG. The problem
 /// is that some of those nonterminals could, for example, be
 /// optional.
-pub struct ShiftTrace<'grammar> {
-    contents: ShiftTraceContents<'grammar>,
-    parents: Vec<Rc<ShiftTrace<'grammar>>>,
-}
-
-enum ShiftTraceContents<'grammar> {
-    Item(LR0Item<'grammar>),
-    Nonterminal(NonterminalString),
-}
-
-pub struct Tracer<'trace, 'grammar: 'trace> {
-    session: &'trace Session,
-    grammar: &'trace Grammar,
-    states: &'trace [State<'grammar>],
-    first_sets: FirstSets,
-    state_graph: StateGraph,
-}
 
 impl<'trace, 'grammar> Tracer<'trace, 'grammar> {
-    pub fn backtrace_shift(&mut self,
-                           item_state: StateIndex,
-                           item: LR0Item<'grammar>)
-                           -> BacktraceNode<'grammar> {
-        log!(self.session, Debug, "backtrace_shift(item_state={:?}, item={:?})");
+    pub fn backtrace_shift_graph(mut self,
+                                 item_state: StateIndex,
+                                 item: LR0Item<'grammar>)
+                                 -> TraceGraph<'grammar> {
+        log!(self.session, Debug, "backtrace_shift_graph(item_state={:?}, item={:?})",
+             item_state, item);
 
-        let mut head_node = ShiftTrace {
-            contents: ShiftTraceContents::Item(item),
-            parents: vec![],
-        };
+        let prefix = item.prefix();
 
-        // Find the predecessor states which contain:
-        //
-        //     X = (*) ...p Token ...
-        //
-        // and then iterate through their items to uncover
-        // items of the kind:
-        //
-        //    Y = ...p (*) X ...s
-        //
-        // If `...p` is empty, these are intermediate nonterminals;
-        // otherwise, these are terminating states.
-        let pred_states = self.state_graph.trace_back(item_state, item.prefix());
-        
+        // The states `S`
+        let pred_states = self.state_graph.trace_back(item_state, prefix);
+
+        // Add the edge `[X] -{...p}-> [X = ...p (*) Token ...]`
+        self.trace_graph.add_edge(item.production.nonterminal, item, prefix);
+
+        for pred_state in pred_states {
+            self.trace_epsilon_edges(pred_state, item.production.nonterminal);
+        }
+
+        self.trace_graph
     }
 
-    fn backtrace_epsilon(&mut self,
-                         item_state: StateIndex,
-                         nonterminal: NonterminalString)
-                         -> Arc<ShiftTrace<'grammar>>
+    // Because item.index is 0, we know we are at an index
+    // like:
+    //
+    //     Y = (*) ...
+    //
+    // This can only arise if `Y` is the start nonterminal
+    // or if there is an epsilon move from another item
+    // like:
+    //
+    //     Z = ...p (*) Y ...
+    //
+    // So search for items like Z.
+    fn trace_epsilon_edges(&mut self,
+                           item_state: StateIndex,
+                           nonterminal: NonterminalString) // "Y"
     {
+        log!(self.session, Debug,
+             "trace_epsilon_edges(item_state={:?}, nonterminal={:?})",
+             item_state, nonterminal);
+        if self.visited_set.insert((item_state, nonterminal)) {
+            for &pred_item in self.states[item_state.0].items.vec.iter() {
+                if self.can_shift(pred_item, nonterminal) {
+                    if pred_item.index > 0 {
+                        // Add an edge:
+                        //
+                        //     [Z = ...p (*) Y ...] -\epsilon-> [Y]
+                        self.trace_graph.add_edge(pred_item, nonterminal, &[]);
+                    } else {
+                        // Trace back any incoming edges to [Z = ...p (*) Y ...].
+                        let pred_nonterminal = pred_item.production.nonterminal;
+                        self.trace_graph.add_edge(pred_nonterminal, nonterminal, &[]);
+                        self.trace_epsilon_edges(item_state, pred_nonterminal);
+                    }
+                }
+            }
+        }
+    }
+
+    fn can_shift(&self,
+                 item: Item<'grammar>,
+                 nonterminal: NonterminalString)
+                 -> bool
+    {
+        match item.shift_symbol() {
+            Some((Symbol::Nonterminal(shifted), _)) => shifted == nonterminal,
+            _ => false,
+        }
     }
 }

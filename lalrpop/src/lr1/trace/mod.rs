@@ -1,15 +1,13 @@
 use lr1::core::*;
-use lr1::example::*;
 use lr1::first::FirstSets;
-use lr1::lookahead::{Lookahead, LookaheadSet};
 use lr1::state_graph::StateGraph;
 use grammar::repr::*;
 use session::Session;
-use std::rc::Rc;
-use util::{Map, map};
+use util::{Set, set};
 
-// mod shift;
 mod reduce;
+mod shift;
+mod trace_graph;
 
 pub struct Tracer<'trace, 'grammar: 'trace> {
     session: &'trace Session,
@@ -17,6 +15,8 @@ pub struct Tracer<'trace, 'grammar: 'trace> {
     states: &'trace [State<'grammar>],
     first_sets: FirstSets,
     state_graph: StateGraph,
+    trace_graph: TraceGraph<'grammar>,
+    visited_set: Set<(StateIndex, NonterminalString)>,
     shift_cache: reduce::ShiftCache<'grammar>,
     reduce_stack: Vec<(StateIndex, Item<'grammar>)>,
 }
@@ -32,6 +32,8 @@ impl<'trace, 'grammar> Tracer<'trace, 'grammar> {
             states: states,
             first_sets: FirstSets::new(grammar),
             state_graph: StateGraph::new(states),
+            trace_graph: TraceGraph::new(),
+            visited_set: set(),
             shift_cache: reduce::ShiftCache::new(),
             reduce_stack: vec![],
         }
@@ -39,3 +41,4 @@ impl<'trace, 'grammar> Tracer<'trace, 'grammar> {
 }
 
 pub use self::reduce::BacktraceNode;
+pub use self::trace_graph::TraceGraph;

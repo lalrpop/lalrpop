@@ -17,7 +17,7 @@ pub struct Item<'grammar> {
 }
 
 impl<'grammar> Item<'grammar> {
-    pub fn prefix(&self) -> &[Symbol] {
+    pub fn prefix(&self) -> &'grammar [Symbol] {
         &self.production.symbols[..self.index]
     }
 
@@ -60,7 +60,7 @@ pub struct LR0Item<'grammar> {
 }
 
 impl<'grammar> LR0Item<'grammar> {
-    pub fn prefix(&self) -> &[Symbol] {
+    pub fn prefix(&self) -> &'grammar [Symbol] {
         &self.production.symbols[..self.index]
     }
 }

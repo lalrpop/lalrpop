@@ -1,16 +1,15 @@
 use lr1::core::*;
 use lr1::example::*;
-use lr1::first::FirstSets;
 use lr1::lookahead::{Lookahead, LookaheadSet};
-use lr1::state_graph::StateGraph;
 use grammar::repr::*;
-use session::Session;
-use std::rc::Rc;
 use util::{Map, map};
 
 use super::Tracer;
+use super::trace_graph::*;
 
 use self::CanShiftResult::*;
+
+#[cfg(test)] mod test;
 
 /// Stores a backtrace tree used in error reporting. Consider a simple
 /// example where we want the backtrace of EXPR with lookahead `,`,
@@ -60,6 +59,119 @@ impl<'grammar> BacktraceNode<'grammar> {
 }
 
 impl<'trace, 'grammar> Tracer<'trace, 'grammar> {
+    pub fn backtrace_reduce_graph(mut self,
+                                  item_state: StateIndex,
+                                  item: Item<'grammar>)
+                                  -> TraceGraph<'grammar>
+    {
+        self.trace_reduce_item(item_state, item);
+        self.trace_graph
+    }
+
+    fn trace_reduce_item(&mut self,
+                         item_state: StateIndex,
+                         item: Item<'grammar>)
+    {
+        log!(self.session, Debug, "trace_reduce_item(item_state={:?} item={:?})",
+             item_state, item);
+
+        // We start out with an item
+        //
+        //     X = ...p (*) ...s [L]
+        //
+        // which we can (eventually) reduce when we see [L], though we
+        // may have to do some epsilon reductions first if ...s is
+        // non-empty.
+        let nonterminal = item.production.nonterminal; // X
+        let lookahead = item.lookahead; // L
+
+        // Add an edge
+        //
+        //     [X = ...p (*) ...s] -{...p}-> [X]
+        //
+        // because from that item we can reduce to an X, popping
+        // `...p` in the process.
+        self.trace_graph.add_edge(item, nonterminal, item.prefix());
+
+        // Walk back to the set of states S where we had:
+        //
+        //     X = (*) ...p
+        let pred_states = self.state_graph.trace_back(item_state, item.prefix());
+
+        // Add in edges from [X] to all the places [X] can be consumed.
+        for pred_state in pred_states {
+            self.trace_reduce_from_state(pred_state, nonterminal, lookahead);
+        }
+    }
+
+    // We know that we can reduce the nonterminal Y with lookahead
+    // L. We want to find out who will consume that reduced value. So
+    // search for those items that can shift an `X`:
+    //
+    //     Z = ... (*) Y ...s [L1]
+    //
+    // where L is in FIRST(...s, L1).
+    //
+    // (Note that `lookahead` remains constant for the entire reduce backtrace.)
+    fn trace_reduce_from_state(&mut self,
+                               item_state: StateIndex,
+                               nonterminal: NonterminalString, // "Y"
+                               lookahead: Lookahead) // "L"
+    {
+        log!(self.session, Debug,
+             "trace_reduce_from_state(item_state={:?}, \
+              nonterminal={:?}, lookahead={:?})",
+             item_state, nonterminal, lookahead);
+        if !self.visited_set.insert((item_state, nonterminal)) {
+            return;
+        }
+        for &pred_item in self.states[item_state.0].items.vec.iter() {
+            match self.can_shift_with_lookahead(pred_item, nonterminal, lookahead) {
+                CannotShift => { }
+                CanShift(maybe_empty) => {
+                    // Found a state:
+                    //
+                    //     Z = ...p (*) Y ...s [L1]
+                    //
+                    // where L is in FIRST(...s, L1). We need to
+                    // continue tracing back so long as the lookahead
+                    // may still have come from the surrounding
+                    // context. This can occur if `...x` may be empty
+                    // *and* the lookahead matches (if the lookahead
+                    // doesn't match, then the only source for L is
+                    // `...x`).
+                    let continue_tracing =
+                        maybe_empty &&
+                        pred_item.lookahead == lookahead;
+
+                    if !continue_tracing {
+                        // Add an edge
+                        //
+                        //    [Y] -{...p}-> [Z = ...p (*) Y ...s]
+                        //
+                        // and stop.
+                        self.trace_graph.add_edge(nonterminal,
+                                                  pred_item,
+                                                  pred_item.prefix());
+                    } else {
+                        // Add an edge
+                        //
+                        //    [Y] -{...p}-> [Z]
+                        //
+                        // because we can reduce by consuming `...p`
+                        // tokens, and continue tracing.
+                        self.trace_graph.add_edge(
+                            nonterminal,
+                            pred_item.production.nonterminal,
+                            &[]);
+
+                        self.trace_reduce_item(item_state, pred_item);
+                    }
+                }
+            }
+        }
+    }
+
     /// Returns a backtrace explaining how the state `item_state` came
     /// to contain a set of shiftable items, each with the same LR0
     /// subset (represented by `item`) but with various lookaheads
@@ -104,7 +216,7 @@ impl<'trace, 'grammar> Tracer<'trace, 'grammar> {
         self.shift_cache.insert(key.clone(), result_node.clone());
 
         // `NT1`, in the example above.
-        let nt_sym = Symbol::Nonterminal(item.production.nonterminal);
+        let nonterminal = item.production.nonterminal;
 
         // If the cursor is not at the start of `NT1`, then walk back
         // through the graph to the state(s) where it was.
@@ -126,7 +238,7 @@ impl<'trace, 'grammar> Tracer<'trace, 'grammar> {
                      "backtrace_shift: pred_state={:?} pred_item={:?}",
                      pred_state, pred_item);
                 match self.can_shift_with_lookahead_from(pred_item,
-                                                         nt_sym,
+                                                         nonterminal,
                                                          &key.lookaheads) {
                     CannotShift => { }
                     CanShift(_) => {
@@ -182,7 +294,7 @@ impl<'trace, 'grammar> Tracer<'trace, 'grammar> {
         self.reduce_stack.push((item_state, item));
 
         // The nonterminal NT and lookahead L we are looking for
-        let nt_sym = Symbol::Nonterminal(item.production.nonterminal);
+        let nonterminal = item.production.nonterminal;
         let lookahead = item.lookahead;
 
         // We will have arrived at the current state after pushing N
@@ -204,7 +316,7 @@ impl<'trace, 'grammar> Tracer<'trace, 'grammar> {
             for &pred_item in self.states[pred_state.0].items.vec.iter() {
                 log!(self.session, Debug, "backtrace: pred_state {:?} has item {:?}",
                      pred_state, pred_item);
-                match self.can_shift_with_lookahead(pred_item, nt_sym, lookahead) {
+                match self.can_shift_with_lookahead(pred_item, nonterminal, lookahead) {
                     CannotShift => { }
                     CanShift(maybe_empty) => {
                         // Found such a state. Now, continue tracing
@@ -241,37 +353,37 @@ impl<'trace, 'grammar> Tracer<'trace, 'grammar> {
 
     fn can_shift_with_lookahead(&self,
                                 item: Item<'grammar>,
-                                nt_sym: Symbol,
+                                nonterminal: NonterminalString,
                                 lookahead: Lookahead)
                                 -> CanShiftResult
     {
         self.can_shift_with_lookahead_core(
             item,
-            nt_sym,
+            nonterminal,
             |first| first.contains(self.grammar, lookahead))
     }
 
     fn can_shift_with_lookahead_from(&self,
                                      item: Item<'grammar>,
-                                     nt_sym: Symbol,
+                                     nonterminal: NonterminalString,
                                      lookaheads: &LookaheadSet)
                                      -> CanShiftResult
     {
         self.can_shift_with_lookahead_core(
             item,
-            nt_sym,
+            nonterminal,
             |first| first.intersects(lookaheads))
     }
 
     fn can_shift_with_lookahead_core<F>(&self,
                                         item: Item<'grammar>,
-                                        nt_sym: Symbol,
+                                        nonterminal: NonterminalString,
                                         mut contains: F)
                                         -> CanShiftResult
         where F: FnMut(&LookaheadSet) -> bool
     {
         if let Some((shifted, remainder)) = item.shift_symbol() {
-            if shifted == nt_sym {
+            if shifted == Symbol::Nonterminal(nonterminal) {
                 let (first, maybe_empty) =
                     self.first_sets.first(self.grammar, remainder, item.lookahead);
                 if contains(&first) {
@@ -300,7 +412,7 @@ pub struct ShiftCache<'grammar> {
 }
 
 impl<'grammar> ShiftCache<'grammar> {
-    fn new() -> Self {
+    pub fn new() -> Self {
         ShiftCache { cache: map() }
     }
 

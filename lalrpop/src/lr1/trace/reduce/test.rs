@@ -7,7 +7,7 @@ use lr1::lookahead::Lookahead;
 use session::Session;
 use test_util::{expect_debug, normalized_grammar};
 
-use super::Tracer;
+use super::super::Tracer;
 
 fn nt(t: &str) -> NonterminalString {
     NonterminalString(intern(t))
@@ -217,6 +217,44 @@ BacktraceNode {
         "|                        |",
         "+-Ty---------------------+"
     ]
+]
+"#.trim());
+}
+
+#[test]
+fn reduce_backtrace_3_graph() {
+    // This grammar yields a S/R conflict. Is it `(int -> int) -> int`
+    // or `int -> (int -> int)`?
+
+    let grammar = normalized_grammar(r#"
+grammar;
+pub Ty: () = {
+    "int" => (),
+    "bool" => (),
+    <t1:Ty> "->" <t2:Ty> => (),
+};
+"#);
+    let session = Session::test();
+    let states = build_states(&session, &grammar, nt("Ty")).unwrap_err().states;
+    let (&lookahead, conflict) =
+        states.iter()
+              .flat_map(|s| &s.conflicts)
+              .flat_map(|(l, cs)| cs.iter().map(move |c| (l, c)))
+              .next()
+              .unwrap();
+    println!("conflict={:?}", conflict);
+    let item = Item { production: conflict.production,
+                      index: conflict.production.symbols.len(),
+                      lookahead: lookahead };
+    println!("item={:?}", item);
+    let tracer = Tracer::new(&session, &grammar, &states);
+    let graph = tracer.backtrace_reduce_graph(conflict.state, item);
+    expect_debug(&graph, r#"
+[
+    (Nonterminal(Ty) -[]-> Nonterminal(Ty)),
+    (Nonterminal(Ty) -[]-> Item(Ty = (*) Ty "->" Ty)),
+    (Item(Ty = Ty "->" (*) Ty) -[Ty, "->"]-> Nonterminal(Ty)),
+    (Item(Ty = Ty "->" Ty (*)) -[Ty, "->", Ty]-> Nonterminal(Ty))
 ]
 "#.trim());
 }
