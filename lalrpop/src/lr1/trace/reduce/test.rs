@@ -251,10 +251,18 @@ pub Ty: () = {
     let graph = tracer.backtrace_reduce_graph(conflict.state, item);
     expect_debug(&graph, r#"
 [
-    (Nonterminal(Ty) -[]-> Nonterminal(Ty)),
-    (Nonterminal(Ty) -[]-> Item(Ty = (*) Ty "->" Ty)),
-    (Item(Ty = Ty "->" (*) Ty) -[Ty, "->"]-> Nonterminal(Ty)),
-    (Item(Ty = Ty "->" Ty (*)) -[Ty, "->", Ty]-> Nonterminal(Ty))
+    (Nonterminal(Ty) -[Ty, "->"]-> Item(Ty = Ty "->" (*) Ty)),
+    (Nonterminal(Ty) -[Ty, "->"]-> Nonterminal(Ty)),
+    (Nonterminal(Ty) -[Ty, "->", Ty]-> Item(Ty = Ty "->" Ty (*))),
+    (Item(Ty = (*) Ty "->" Ty) -[]-> Nonterminal(Ty))
 ]
 "#.trim());
+
+    let mut enumerator = graph.enumerate_paths_from(item.to_lr0());
+    loop {
+        println!("{:?}", enumerator.symbols_and_cursor());
+        if !enumerator.advance() { break; }
+    }
+
+    unimplemented!();
 }

@@ -87,11 +87,12 @@ impl<'trace, 'grammar> Tracer<'trace, 'grammar> {
 
         // Add an edge
         //
-        //     [X = ...p (*) ...s] -{...p}-> [X]
+        //     [X] -{...p}-> [X = ...p (*) ...s]
         //
-        // because from that item we can reduce to an X, popping
-        // `...p` in the process.
-        self.trace_graph.add_edge(item, nonterminal, item.prefix());
+        // because to reach that item we pushed `...p` from the start
+        // of `X` (or, to interpret another way, we could pop `...p`
+        // to reach the start of `X`).
+        self.trace_graph.add_edge(nonterminal, item, item.prefix());
 
         // Walk back to the set of states S where we had:
         //
@@ -147,23 +148,21 @@ impl<'trace, 'grammar> Tracer<'trace, 'grammar> {
                     if !continue_tracing {
                         // Add an edge
                         //
-                        //    [Y] -{...p}-> [Z = ...p (*) Y ...s]
+                        //    [Z = ...p (*) Y ...s] -{}-> [Y]
                         //
                         // and stop.
-                        self.trace_graph.add_edge(nonterminal,
-                                                  pred_item,
-                                                  pred_item.prefix());
+                        self.trace_graph.add_edge(pred_item, nonterminal, &[]);
                     } else {
                         // Add an edge
                         //
-                        //    [Y] -{...p}-> [Z]
+                        //    [Z] -{..p}-> [Y]
                         //
                         // because we can reduce by consuming `...p`
                         // tokens, and continue tracing.
                         self.trace_graph.add_edge(
-                            nonterminal,
                             pred_item.production.nonterminal,
-                            &[]);
+                            nonterminal,
+                            pred_item.prefix());
 
                         self.trace_reduce_item(item_state, pred_item);
                     }

@@ -63,6 +63,10 @@ impl<'grammar> LR0Item<'grammar> {
     pub fn prefix(&self) -> &'grammar [Symbol] {
         &self.production.symbols[..self.index]
     }
+
+    pub fn can_shift(&self) -> bool {
+        self.index < self.production.symbols.len()
+    }
 }
 
 #[derive(Copy, Clone, Hash, PartialEq, Eq, PartialOrd, Ord)]

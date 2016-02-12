@@ -54,4 +54,12 @@ pub Ty: () = {
     (Item(Ty = Ty "->" (*) Ty) -[]-> Nonterminal(Ty))
 ]
 "#.trim());
+
+    let mut enumerator = graph.enumerate_paths_from(item);
+    loop {
+        println!("{:?}", enumerator.symbols_and_cursor());
+        if !enumerator.advance() { break; }
+    }
+
+    unimplemented!();
 }
