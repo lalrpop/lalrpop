@@ -5,6 +5,8 @@ use petgraph::graph::{Edges, NodeIndex};
 use std::fmt::{Debug, Formatter, Error};
 use util::{Map, map};
 
+#[cfg(test)] mod test;
+
 pub struct TraceGraph<'grammar> {
     // A -L-> B means:
     //
@@ -281,6 +283,8 @@ impl<'graph, 'grammar> PathEnumerator<'graph, 'grammar> {
     /// In between iterations, we keep the symbols in reverse order so
     /// that people can read from them.
     fn found_trace(&mut self, item: LR0Item<'grammar>) -> bool {
+        println!("found_trace(item={:?})", item);
+
         // the end point of a trace is always some place we could have
         // shifted a nonterminal
         assert!(item.can_shift());
@@ -295,16 +299,31 @@ impl<'graph, 'grammar> PathEnumerator<'graph, 'grammar> {
         self.reset = self.symbols.len();
 
         self.symbols.extend(&item.production.symbols[item.index+1..]);
+
+        println!("found_trace: symbols={:?} cursor={:?} reset={:?}",
+                 self.symbols, self.cursor, self.reset);
         true
     }
 
     /// Return the symbols of the current trace, or None if there is
     /// no current trace.
     pub fn symbols_and_cursor(&self) -> Option<(&[Symbol], usize)> {
-        if self.symbols.is_empty() {
+        if self.stack.is_empty() {
             None
         } else {
             Some((&self.symbols[..], self.cursor))
         }
+    }
+}
+
+impl<'graph, 'grammar> Iterator for PathEnumerator<'graph, 'grammar> {
+    type Item = (Vec<Symbol>, usize);
+
+    fn next(&mut self) -> Option<Self::Item> {
+        let this =
+            self.symbols_and_cursor()
+                .map(|(symbols, cursor)| (symbols.to_vec(), cursor));
+        self.advance();
+        this
     }
 }
