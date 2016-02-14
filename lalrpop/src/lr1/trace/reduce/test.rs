@@ -251,18 +251,26 @@ pub Ty: () = {
     let graph = tracer.backtrace_reduce_graph(conflict.state, item);
     expect_debug(&graph, r#"
 [
-    (Nonterminal(Ty) -[Ty, "->"]-> Item(Ty = Ty "->" (*) Ty)),
-    (Nonterminal(Ty) -[Ty, "->"]-> Nonterminal(Ty)),
-    (Nonterminal(Ty) -[Ty, "->", Ty]-> Item(Ty = Ty "->" Ty (*))),
-    (Item(Ty = (*) Ty "->" Ty) -[]-> Nonterminal(Ty))
+    (Nonterminal(Ty) -([Ty, "->"], Some(Ty), [])-> Item(Ty = Ty "->" (*) Ty)),
+    (Nonterminal(Ty) -([Ty, "->"], Some(Ty), [])-> Nonterminal(Ty)),
+    (Nonterminal(Ty) -([Ty, "->", Ty], None, [])-> Item(Ty = Ty "->" Ty (*))),
+    (Item(Ty = (*) Ty "->" Ty) -([], None, [])-> Nonterminal(Ty))
 ]
 "#.trim());
 
-    let mut enumerator = graph.enumerate_paths_from(item.to_lr0());
-    loop {
-        println!("{:?}", enumerator.symbols_and_cursor());
-        if !enumerator.advance() { break; }
-    }
-
-    unimplemented!();
+    let list: Vec<_> = graph.enumerate_paths_from(item.to_lr0()).collect();
+    expect_debug(&list, r#"
+[
+    (
+        [
+            Ty,
+            "->",
+            Ty,
+            "->",
+            Ty
+        ],
+        3
+    )
+]
+"#.trim());
 }

@@ -49,17 +49,25 @@ pub Ty: () = {
     let graph = tracer.backtrace_shift_graph(conflict.state, item);
     expect_debug(&graph, r#"
 [
-    (Nonterminal(Ty) -[]-> Nonterminal(Ty)),
-    (Nonterminal(Ty) -[Ty]-> Item(Ty = Ty (*) "->" Ty)),
-    (Item(Ty = Ty "->" (*) Ty) -[]-> Nonterminal(Ty))
+    (Nonterminal(Ty) -([], Some(Ty), ["->", Ty])-> Nonterminal(Ty)),
+    (Nonterminal(Ty) -([Ty], Some("->"), [Ty])-> Item(Ty = Ty (*) "->" Ty)),
+    (Item(Ty = Ty "->" (*) Ty) -([], None, [])-> Nonterminal(Ty))
 ]
 "#.trim());
 
-    let mut enumerator = graph.enumerate_paths_from(item);
-    loop {
-        println!("{:?}", enumerator.symbols_and_cursor());
-        if !enumerator.advance() { break; }
-    }
-
-    unimplemented!();
+    let list: Vec<_> = graph.enumerate_paths_from(item).collect();
+    expect_debug(&list, r#"
+[
+    (
+        [
+            Ty,
+            "->",
+            Ty,
+            "->",
+            Ty
+        ],
+        3
+    )
+]
+"#.trim());
 }

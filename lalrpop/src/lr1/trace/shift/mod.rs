@@ -43,13 +43,13 @@ impl<'trace, 'grammar> Tracer<'trace, 'grammar> {
         log!(self.session, Debug, "backtrace_shift_graph(item_state={:?}, item={:?})",
              item_state, item);
 
-        let prefix = item.prefix();
+        let symbol_sets = item.symbol_sets();
 
         // The states `S`
-        let pred_states = self.state_graph.trace_back(item_state, prefix);
+        let pred_states = self.state_graph.trace_back(item_state, symbol_sets.prefix);
 
         // Add the edge `[X] -{...p}-> [X = ...p (*) Token ...]`
-        self.trace_graph.add_edge(item.production.nonterminal, item, prefix);
+        self.trace_graph.add_edge(item.production.nonterminal, item, symbol_sets);
 
         for pred_state in pred_states {
             self.trace_epsilon_edges(pred_state, item.production.nonterminal);
@@ -84,11 +84,15 @@ impl<'trace, 'grammar> Tracer<'trace, 'grammar> {
                         // Add an edge:
                         //
                         //     [Z = ...p (*) Y ...] -\epsilon-> [Y]
-                        self.trace_graph.add_edge(pred_item, nonterminal, &[]);
+                        self.trace_graph.add_edge(pred_item,
+                                                  nonterminal,
+                                                  SymbolSets::new());
                     } else {
                         // Trace back any incoming edges to [Z = ...p (*) Y ...].
                         let pred_nonterminal = pred_item.production.nonterminal;
-                        self.trace_graph.add_edge(pred_nonterminal, nonterminal, &[]);
+                        self.trace_graph.add_edge(pred_nonterminal,
+                                                  nonterminal,
+                                                  pred_item.symbol_sets());
                         self.trace_epsilon_edges(item_state, pred_nonterminal);
                     }
                 }

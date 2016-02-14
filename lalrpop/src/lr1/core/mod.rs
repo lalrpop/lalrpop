@@ -21,6 +21,10 @@ impl<'grammar> Item<'grammar> {
         &self.production.symbols[..self.index]
     }
 
+    pub fn symbol_sets(&self) -> SymbolSets<'grammar> {
+        self.to_lr0().symbol_sets()
+    }
+
     pub fn to_lr0(&self) -> LR0Item<'grammar> {
         LR0Item { production: self.production, index: self.index }
     }
@@ -62,6 +66,23 @@ pub struct LR0Item<'grammar> {
 impl<'grammar> LR0Item<'grammar> {
     pub fn prefix(&self) -> &'grammar [Symbol] {
         &self.production.symbols[..self.index]
+    }
+
+    pub fn symbol_sets(&self) -> SymbolSets<'grammar> {
+        let symbols = &self.production.symbols;
+        if self.can_shift() {
+            SymbolSets {
+                prefix: &symbols[..self.index],
+                cursor: Some(&symbols[self.index]),
+                suffix: &symbols[self.index+1..],
+            }
+        } else {
+            SymbolSets {
+                prefix: &symbols[..self.index],
+                cursor: None,
+                suffix: &[],
+            }
+        }
     }
 
     pub fn can_shift(&self) -> bool {
@@ -188,3 +209,20 @@ impl<'grammar> Action<'grammar> {
     }
 }
 
+/// `A = B C (*) D E F` or `A = B C (*)`
+#[derive(Copy, Clone, Debug, PartialEq, Eq)]
+pub struct SymbolSets<'grammar> {
+    pub prefix: &'grammar [Symbol], // both cases, [B, C]
+    pub cursor: Option<&'grammar Symbol>, // first [D], second []
+    pub suffix: &'grammar [Symbol], // first [E, F], second []
+}
+
+impl<'grammar> SymbolSets<'grammar> {
+    pub fn new() -> Self {
+        SymbolSets {
+            prefix: &[],
+            cursor: None,
+            suffix: &[],
+        }
+    }
+}

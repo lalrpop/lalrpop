@@ -92,7 +92,7 @@ impl<'trace, 'grammar> Tracer<'trace, 'grammar> {
         // because to reach that item we pushed `...p` from the start
         // of `X` (or, to interpret another way, we could pop `...p`
         // to reach the start of `X`).
-        self.trace_graph.add_edge(nonterminal, item, item.prefix());
+        self.trace_graph.add_edge(nonterminal, item, item.symbol_sets());
 
         // Walk back to the set of states S where we had:
         //
@@ -151,7 +151,8 @@ impl<'trace, 'grammar> Tracer<'trace, 'grammar> {
                         //    [Z = ...p (*) Y ...s] -{}-> [Y]
                         //
                         // and stop.
-                        self.trace_graph.add_edge(pred_item, nonterminal, &[]);
+                        self.trace_graph.add_edge(pred_item, nonterminal,
+                                                  SymbolSets::new())
                     } else {
                         // Add an edge
                         //
@@ -162,7 +163,7 @@ impl<'trace, 'grammar> Tracer<'trace, 'grammar> {
                         self.trace_graph.add_edge(
                             pred_item.production.nonterminal,
                             nonterminal,
-                            pred_item.prefix());
+                            pred_item.symbol_sets());
 
                         self.trace_reduce_item(item_state, pred_item);
                     }
