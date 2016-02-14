@@ -194,9 +194,22 @@ impl<'graph, 'grammar> PathEnumerator<'graph, 'grammar> {
     /// Advance to the next example. Returns false if there are no more
     /// examples.
     pub fn advance(&mut self) -> bool {
-        // while advancing, we keep the symbols reversed so that we
-        // can push onto the back rather than inserting in the front
-        self.find_next_trace()
+        // If we have not yet exhausted all the examples, then the top
+        // of the stack should be the last target item that we
+        // found. Pop it off.
+        match self.stack.pop() {
+            Some(top_state) => {
+                assert!(match self.graph.graph[top_state.index] {
+                    TraceGraphNode::Item(_) => true,
+                    TraceGraphNode::Nonterminal(_) => false,
+                });
+
+                self.find_next_trace()
+            }
+            None => {
+                false
+            }
+        }
     }
 
     fn incoming_edges(&self, index: NodeIndex) -> Edges<'graph, SymbolSets<'grammar>> {
@@ -265,14 +278,20 @@ impl<'graph, 'grammar> PathEnumerator<'graph, 'grammar> {
                  self.graph.graph[index], symbol_sets);
 
         match self.graph.graph[index] {
-            TraceGraphNode::Item(item) => {
+            TraceGraphNode::Item(_) => {
                 // If we reached an item like
                 //
                 //     X = ...p (*) ...s
                 //
                 // then we are done, but we still need to push on the
                 // symbols `...p`.
-                self.found_trace(item, symbol_sets)
+                let edges = self.incoming_edges(index);
+                self.stack.push(EnumeratorState {
+                    index: index,
+                    symbol_sets: symbol_sets,
+                    edges: edges,
+                });
+                self.found_trace()
             }
             TraceGraphNode::Nonterminal(_) => {
                 // If this node already appears on the stack, do not
@@ -290,17 +309,12 @@ impl<'graph, 'grammar> PathEnumerator<'graph, 'grammar> {
         }
     }
 
-    /// In between iterations, we keep the symbols in reverse order so
-    /// that people can read from them.
-    fn found_trace(&mut self,
-                   item: LR0Item<'grammar>,
-                   item_sets: SymbolSets<'grammar>)
+    // Assemble the `symbols` vector and `cursor`
+    fn found_trace(&mut self)
                    -> bool {
-        println!("found_trace(item={:?})", item);
+        println!("found_trace()");
 
         self.symbols.truncate(0);
-
-        self.symbols.extend(item_sets.prefix);
 
         self.symbols.extend(
             self.stack.iter()
@@ -315,8 +329,6 @@ impl<'graph, 'grammar> PathEnumerator<'graph, 'grammar> {
         self.symbols.extend(
             self.stack.iter()
                       .flat_map(|s| s.symbol_sets.suffix));
-
-        self.symbols.extend(item_sets.suffix);
 
         println!("found_trace: symbols={:?} cursor={:?}",
                  self.symbols, self.cursor);
