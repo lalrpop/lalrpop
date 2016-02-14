@@ -364,7 +364,10 @@ impl<'graph, 'grammar> PathEnumerator<'graph, 'grammar> {
 
         match self.stack[1].symbol_sets.cursor {
             Some(&s) => symbols.push(ExampleSymbol::Symbol(s)),
-            None => symbols.push(ExampleSymbol::Epsilon),
+            None => if self.stack[1].symbol_sets.prefix.is_empty() {
+                symbols.push(ExampleSymbol::Epsilon)
+            } else {
+            },
         }
 
         symbols.extend(
