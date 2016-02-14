@@ -1,4 +1,5 @@
 use lr1::core::*;
+use lr1::example::*;
 use grammar::repr::*;
 use petgraph::{EdgeDirection, Graph};
 use petgraph::graph::{Edges, NodeIndex};
@@ -345,62 +346,74 @@ impl<'graph, 'grammar> PathEnumerator<'graph, 'grammar> {
         }
     }
 
+    pub fn example(&self) -> Option<Example> {
+        if self.stack.is_empty() {
+            return None;
+        }
+
+        let mut symbols = vec![];
+
+        symbols.extend(
+            self.stack.iter()
+                      .rev()
+                      .flat_map(|s| s.symbol_sets.prefix)
+                      .cloned()
+                      .map(ExampleSymbol::Symbol));
+
+        let cursor = symbols.len();
+
+        match self.stack[1].symbol_sets.cursor {
+            Some(&s) => symbols.push(ExampleSymbol::Symbol(s)),
+            None => symbols.push(ExampleSymbol::Epsilon),
+        }
+
+        symbols.extend(
+            self.stack.iter()
+                      .flat_map(|s| s.symbol_sets.suffix)
+                      .cloned()
+                      .map(ExampleSymbol::Symbol));
+
+        let mut cursors = (0, symbols.len());
+
+        let mut reductions: Vec<_> =
+            self.stack[1..]
+                .iter()
+                .rev()
+                .map(|state| {
+                    let nonterminal = match self.graph.graph[state.index] {
+                        TraceGraphNode::Nonterminal(nonterminal) => nonterminal,
+                        TraceGraphNode::Item(item) => item.production.nonterminal,
+                    };
+                    let reduction = Reduction {
+                        start: cursors.0,
+                        end: cursors.1,
+                        nonterminal: nonterminal
+                    };
+                    cursors.0 += state.symbol_sets.prefix.len();
+                    cursors.1 -= state.symbol_sets.suffix.len();
+                    reduction
+                })
+                .collect();
+        reductions.reverse();
+
+        Some(Example {
+            symbols: symbols,
+            cursor: cursor,
+            reductions: reductions
+        })
+    }
+
     fn stack(&self) -> &[EnumeratorState<'graph, 'grammar>] {
         &self.stack
     }
 }
 
 impl<'graph, 'grammar> Iterator for PathEnumerator<'graph, 'grammar> {
-    type Item = (Vec<Symbol>, usize);
+    type Item = Example;
 
-    fn next(&mut self) -> Option<Self::Item> {
-        let this =
-            self.symbols_and_cursor()
-                .map(|(symbols, cursor)| (symbols.to_vec(), cursor));
+    fn next(&mut self) -> Option<Example> {
+        let example = self.example();
         self.advance();
-        this
+        example
     }
 }
-
-///////////////////////////////////////////////////////////////////////////
-// ExampleEnumerator
-//
-// Wraps a path enumerater and builds examples.
-//
-//pub struct ExampleEnumerator<'graph, 'grammar: 'graph> {
-//    paths: PathEnumerator<'graph, 'grammar>,
-//}
-//
-//impl<'graph, 'grammar> Iterator for PathEnumerator<'graph, 'grammar> {
-//    type Item = (Vec<Symbol>, usize);
-//
-//    fn next(&mut self) -> Option<Self::Item> {
-//        let this =
-//            self.paths
-//                .symbols_and_cursor()
-//                .map(|(symbols, cursor)| {
-//                    // The bottom of the path enumerator stack (index
-//                    // 0) is the starting item, but all the other
-//                    // entries are nonterminal intermediate nodes that
-//                    // represent reductions. Convert those into the
-//                    // reductions vector.
-//                    let reductions =
-//                        self.paths
-//                            .stack()
-//                            .iter()
-//                            .skip(1)
-//                            .map(|stack_elem| {
-//                                Reduction
-//                            });
-//
-//                    Example {
-//                        symbols: symbols.to_vec(),
-//                        cursor: cursor,
-//                        reductions:
-//                    }
-//                });
-//
-//        self.paths.advance();
-//        this
-//    }
-//}

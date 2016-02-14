@@ -2,6 +2,7 @@ use intern::intern;
 use grammar::repr::*;
 use lr1::build_states;
 use lr1::core::Item;
+use lr1::example::*;
 use lr1::interpret::interpret_partial;
 use lr1::lookahead::Lookahead;
 use session::Session;
@@ -258,19 +259,19 @@ pub Ty: () = {
 ]
 "#.trim());
 
-    let list: Vec<_> = graph.enumerate_paths_from(item.to_lr0()).collect();
+    let list: Vec<_> =
+        graph.enumerate_paths_from(item.to_lr0())
+             .map(|example| example.paint(&ExampleStyles::new(&session)))
+             .collect();
     expect_debug(&list, r#"
 [
-    (
-        [
-            Ty,
-            "->",
-            Ty,
-            "->",
-            Ty
-        ],
-        3
-    )
+    [
+        "Ty \"->\" Ty   \"->\" Ty",
+        "|          |       |",
+        "+-Ty-------+       |",
+        "|                  |",
+        "+-Ty---------------+"
+    ]
 ]
 "#.trim());
 }

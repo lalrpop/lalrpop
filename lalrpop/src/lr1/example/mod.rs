@@ -443,6 +443,10 @@ fn shift(positions: &mut [usize], amount: usize) {
 }
 
 impl ExampleStyles {
+    pub fn test() -> Self {
+        ExampleStyles::new(&Session::test())
+    }
+
     pub fn ambig(session: &Session) -> Self {
         ExampleStyles {
             before_cursor: session.ambig_symbols,

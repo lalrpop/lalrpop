@@ -1,6 +1,7 @@
 use intern::intern;
 use grammar::repr::*;
 use lr1::core::*;
+use lr1::example::*;
 use test_util::expect_debug;
 
 macro_rules! nt {
@@ -70,27 +71,25 @@ fn enumerator() {
         production: &productions[0],
         index: 1
     });
-    let list: Vec<_> = enumerator.collect();
+    let list: Vec<_> =
+        enumerator.map(|example| example.paint(&ExampleStyles::test()))
+                  .collect();
     expect_debug(&list, r#"
 [
-    (
-        [
-            Z0,
-            X0,
-            X1,
-            Z1
-        ],
-        2
-    ),
-    (
-        [
-            Y0,
-            X0,
-            X1,
-            Y1
-        ],
-        2
-    )
+    [
+        "Z0 X0 X1 Z1",
+        "|  |   |  |",
+        "|  +-X-+  |",
+        "|         |",
+        "+-Z-------+"
+    ],
+    [
+        "Y0 X0 X1 Y1",
+        "|  |   |  |",
+        "|  +-X-+  |",
+        "|         |",
+        "+-Y-------+"
+    ]
 ]
 "#.trim());
 }
@@ -144,31 +143,29 @@ fn enumerator1() {
         production: &productions[0],
         index: 2,
     });
-    let list: Vec<_> = enumerator.collect();
+    let list: Vec<_> =
+        enumerator.map(|example| example.paint(&ExampleStyles::test()))
+                  .collect();
     expect_debug(&list, r#"
 [
-    (
-        [
-            Z0,
-            X0,
-            W0,
-            W1,
-            X1,
-            Z1
-        ],
-        4
-    ),
-    (
-        [
-            Y0,
-            X0,
-            W0,
-            W1,
-            X1,
-            Y1
-        ],
-        4
-    )
+    [
+        "Z0 X0 W0 W1   X1 Z1",
+        "|  |  |     |  |  |",
+        "|  |  +-W---+  |  |",
+        "|  |           |  |",
+        "|  +-X---------+  |",
+        "|                 |",
+        "+-Z---------------+"
+    ],
+    [
+        "Y0 X0 W0 W1   X1 Y1",
+        "|  |  |     |  |  |",
+        "|  |  +-W---+  |  |",
+        "|  |           |  |",
+        "|  +-X---------+  |",
+        "|                 |",
+        "+-Y---------------+"
+    ]
 ]
 "#.trim());
 }
