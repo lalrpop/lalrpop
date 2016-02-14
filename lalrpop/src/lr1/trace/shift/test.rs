@@ -51,7 +51,7 @@ pub Ty: () = {
 [
     (Nonterminal(Ty) -([], Some(Ty), ["->", Ty])-> Nonterminal(Ty)),
     (Nonterminal(Ty) -([Ty], Some("->"), [Ty])-> Item(Ty = Ty (*) "->" Ty)),
-    (Item(Ty = Ty "->" (*) Ty) -([], None, [])-> Nonterminal(Ty))
+    (Item(Ty = Ty "->" (*) Ty) -([Ty, "->"], Some(Ty), [])-> Nonterminal(Ty))
 ]
 "#.trim());
 

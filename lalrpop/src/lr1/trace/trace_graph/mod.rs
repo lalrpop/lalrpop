@@ -7,6 +7,34 @@ use util::{Map, map};
 
 #[cfg(test)] mod test;
 
+/// Trace graphs are used to summarize how it is that we came to be in
+/// a state where we can take some particular shift/reduce action; put
+/// another way, how it is that we came to be in a state with some
+/// particular LR(1) item.
+///
+/// The nodes in the graph are each labeled with a TraceGraphNode and
+/// hence take one of two forms:
+///
+/// - TraceGraphNode::Item -- represents an LR0 item. These nodes are
+///   used for the starting/end points in the graph only.  Basically a
+///   complete trace stretches from the start item to some end item,
+///   and all intermediate nodes are nonterminals.
+/// - TraceGraphNode::Nonterminal -- if this graph is for a shift,
+///   then these represent items where the cursor is at the beginning:
+///   `X = (*) ...`. If the graph is for a reduce, they represent
+///   items where a reduce is possible without shifting any more
+///   terminals (though further reductions may be needed): `X =
+///   ... (*) ...s` where `FIRST(...s)` includes `\epsilon`.
+///
+/// The edges in the graph are also important. They are labeled with
+/// `SymbolSets` instances, meaning that each carries a (prefix,
+/// cursor, and suffix) tuple. The label on an edge `A -> B` means
+/// that transitioning from a state containing `A` to a state
+/// containing `B` is possible if you:
+///
+/// - shift the symbols in `prefix`
+/// - `B` will produce the symbol in `cursor`
+/// - shift the symbols in `suffix` after `B` is popped
 pub struct TraceGraph<'grammar> {
     // A -L-> B means:
     //
@@ -244,7 +272,7 @@ impl<'graph, 'grammar> PathEnumerator<'graph, 'grammar> {
                 //
                 // then we are done, but we still need to push on the
                 // symbols `...p`.
-                self.found_trace(item)
+                self.found_trace(item, symbol_sets)
             }
             TraceGraphNode::Nonterminal(_) => {
                 // If this node already appears on the stack, do not
@@ -264,12 +292,13 @@ impl<'graph, 'grammar> PathEnumerator<'graph, 'grammar> {
 
     /// In between iterations, we keep the symbols in reverse order so
     /// that people can read from them.
-    fn found_trace(&mut self, item: LR0Item<'grammar>) -> bool {
+    fn found_trace(&mut self,
+                   item: LR0Item<'grammar>,
+                   item_sets: SymbolSets<'grammar>)
+                   -> bool {
         println!("found_trace(item={:?})", item);
 
         self.symbols.truncate(0);
-
-        let item_sets = item.symbol_sets();
 
         self.symbols.extend(item_sets.prefix);
 

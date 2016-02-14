@@ -60,15 +60,11 @@ fn enumerator() {
         item0,
         item0.symbol_sets());
 
-    graph.add_edge(
-        LR0Item { production: &productions[1], index: 1 }, // Y = Y0 (*) X Y1
-        nt!(X),
-        SymbolSets::new());
+    let item1 = LR0Item { production: &productions[1], index: 1 }; // Y = Y0 (*) X Y1
+    graph.add_edge(item1, nt!(X), item1.symbol_sets());
 
-    graph.add_edge(
-        LR0Item { production: &productions[2], index: 1 }, // Z = Z0 (*) X Z1
-        nt!(X),
-        SymbolSets::new());
+    let item2 = LR0Item { production: &productions[2], index: 1 }; // Z = Z0 (*) X Z1
+    graph.add_edge(item2, nt!(X), item2.symbol_sets());
 
     let enumerator = graph.enumerate_paths_from(LR0Item {
         production: &productions[0],
@@ -130,29 +126,19 @@ fn enumerator1() {
     let mut graph = TraceGraph::new();
 
     let item0 = LR0Item { production: &productions[0], index: 2 }; // W = W0 W1 (*)
-    graph.add_edge(
-        nt!(W),
-        item0,
-        item0.symbol_sets());
+    graph.add_edge(nt!(W), item0, item0.symbol_sets());
 
-    graph.add_edge(
-        nt!(X),
-        nt!(W),
-        SymbolSets {
-            prefix: &productions[1].symbols[..1],
-            cursor: Some(&productions[1].symbols[1]),
-            suffix: &productions[1].symbols[2..]
-        });
+    graph.add_edge(nt!(X), nt!(W), SymbolSets {
+        prefix: &productions[1].symbols[..1],
+        cursor: Some(&productions[1].symbols[1]),
+        suffix: &productions[1].symbols[2..]
+    });
 
-    graph.add_edge(
-        LR0Item { production: &productions[2], index: 1 },
-        nt!(X),
-        SymbolSets::new());
+    let item1 = LR0Item { production: &productions[2], index: 1 };
+    graph.add_edge(item1, nt!(X), item1.symbol_sets());
 
-    graph.add_edge(
-        LR0Item { production: &productions[3], index: 1 },
-        nt!(X),
-        SymbolSets::new());
+    let item2 = LR0Item { production: &productions[3], index: 1 };
+    graph.add_edge(item2, nt!(X), item2.symbol_sets());
 
     let enumerator = graph.enumerate_paths_from(LR0Item {
         production: &productions[0],

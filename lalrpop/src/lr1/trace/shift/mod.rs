@@ -48,7 +48,7 @@ impl<'trace, 'grammar> Tracer<'trace, 'grammar> {
         // The states `S`
         let pred_states = self.state_graph.trace_back(item_state, symbol_sets.prefix);
 
-        // Add the edge `[X] -{...p}-> [X = ...p (*) Token ...]`
+        // Add the edge `[X] -{...p,Token,...s}-> [X = ...p (*) Token ...s]`
         self.trace_graph.add_edge(item.production.nonterminal, item, symbol_sets);
 
         for pred_state in pred_states {
@@ -83,10 +83,10 @@ impl<'trace, 'grammar> Tracer<'trace, 'grammar> {
                     if pred_item.index > 0 {
                         // Add an edge:
                         //
-                        //     [Z = ...p (*) Y ...] -\epsilon-> [Y]
+                        //     [Z = ...p (*) Y ...s] -(...p,Y,...s)-> [Y]
                         self.trace_graph.add_edge(pred_item,
                                                   nonterminal,
-                                                  SymbolSets::new());
+                                                  pred_item.symbol_sets());
                     } else {
                         // Trace back any incoming edges to [Z = ...p (*) Y ...].
                         let pred_nonterminal = pred_item.production.nonterminal;
