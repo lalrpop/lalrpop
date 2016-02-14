@@ -2,7 +2,6 @@ use intern::intern;
 use grammar::repr::*;
 use lr1::build_states;
 use lr1::core::*;
-use lr1::example::*;
 use session::Session;
 use test_util::{expect_debug, normalized_grammar};
 
@@ -47,7 +46,7 @@ pub Ty: () = {
     let item = LR0Item { production: conflict.production, index: 1 };
     println!("item={:?}", item);
     let tracer = Tracer::new(&session, &grammar, &states);
-    let graph = tracer.backtrace_shift_graph(conflict.state, item);
+    let graph = tracer.backtrace_shift(conflict.state, item);
     expect_debug(&graph, r#"
 [
     (Nonterminal(Ty) -([], Some(Ty), ["->", Ty])-> Nonterminal(Ty)),
@@ -57,8 +56,8 @@ pub Ty: () = {
 "#.trim());
 
     let list: Vec<_> =
-        graph.enumerate_paths_from(item)
-             .map(|example| example.paint(&ExampleStyles::new(&session)))
+        graph.examples(item)
+             .map(|example| example.paint_unstyled())
              .collect();
     expect_debug(&list, r#"
 [

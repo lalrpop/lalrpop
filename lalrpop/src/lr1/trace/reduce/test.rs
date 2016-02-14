@@ -2,7 +2,6 @@ use intern::intern;
 use grammar::repr::*;
 use lr1::build_states;
 use lr1::core::Item;
-use lr1::example::*;
 use lr1::interpret::interpret_partial;
 use lr1::lookahead::Lookahead;
 use session::Session;
@@ -52,7 +51,7 @@ fn backtrace1() {
     let grammar = test_grammar1();
     let session = Session::test();
     let states = build_states(&session, &grammar, nt("Start")).unwrap();
-    let mut tracer = Tracer::new(&session, &grammar, &states);
+    let tracer = Tracer::new(&session, &grammar, &states);
     let state_stack = interpret_partial(&states, terms!["Int"]).unwrap();
     let top_state = *state_stack.last().unwrap();
 
@@ -73,29 +72,16 @@ fn backtrace1() {
     let backtrace = tracer.backtrace_reduce(top_state, *semi_item);
 
     println!("{:#?}", backtrace);
-    expect_debug(&backtrace, r#"BacktraceNode {
-    item: Expr = "Int" (*),
-    parents: [
-        BacktraceNode {
-            item: Exprs = (*) Expr,
-            parents: [
-                BacktraceNode {
-                    item: Stmt = (*) Exprs ";",
-                    parents: []
-                }
-            ]
-        },
-        BacktraceNode {
-            item: Exprs = Exprs "," (*) Expr,
-            parents: [
-                BacktraceNode {
-                    item: Stmt = (*) Exprs ";",
-                    parents: []
-                }
-            ]
-        }
-    ]
-}"#);
+    expect_debug(&backtrace, r#"
+[
+    (Nonterminal(Expr) -(["Int"], None, [])-> Item(Expr = "Int" (*))),
+    (Nonterminal(Exprs) -([Exprs, ","], Some(Expr), [])-> Item(Exprs = Exprs "," (*) Expr)),
+    (Nonterminal(Exprs) -([Exprs, ","], Some(Expr), [])-> Nonterminal(Expr)),
+    (Nonterminal(Exprs) -([], Some(Expr), [])-> Item(Exprs = (*) Expr)),
+    (Nonterminal(Exprs) -([], Some(Expr), [])-> Nonterminal(Expr)),
+    (Item(Stmt = (*) Exprs ";") -([], Some(Exprs), [";"])-> Nonterminal(Exprs))
+]
+"#.trim());
 }
 
 #[test]
@@ -103,7 +89,7 @@ fn backtrace2() {
     let grammar = test_grammar1();
     let session = Session::test();
     let states = build_states(&session, &grammar, nt("Start")).unwrap();
-    let mut tracer = Tracer::new(&session, &grammar, &states);
+    let tracer = Tracer::new(&session, &grammar, &states);
     let state_stack = interpret_partial(&states, terms!["Int"]).unwrap();
     let top_state = *state_stack.last().unwrap();
 
@@ -124,15 +110,12 @@ fn backtrace2() {
     let backtrace = tracer.backtrace_reduce(top_state, *plus_item);
 
     println!("{:#?}", backtrace);
-    expect_debug(&backtrace, r#"BacktraceNode {
-    item: Expr = "Int" (*),
-    parents: [
-        BacktraceNode {
-            item: Expr = (*) Expr "+" "Int",
-            parents: []
-        }
-    ]
-}"#);
+    expect_debug(&backtrace, r#"
+[
+    (Nonterminal(Expr) -(["Int"], None, [])-> Item(Expr = "Int" (*))),
+    (Item(Expr = (*) Expr "+" "Int") -([], Some(Expr), ["+", "Int"])-> Nonterminal(Expr))
+]
+"#.trim());
 }
 
 #[test]
@@ -149,7 +132,7 @@ pub Ty: () = {
 "#);
     let session = Session::test();
     let states = build_states(&session, &grammar, nt("Ty")).unwrap_err().states;
-    let mut tracer = Tracer::new(&session, &grammar, &states);
+    let tracer = Tracer::new(&session, &grammar, &states);
     let (&lookahead, conflict) =
         states.iter()
               .flat_map(|s| &s.conflicts)
@@ -164,33 +147,19 @@ pub Ty: () = {
     let backtrace = tracer.backtrace_reduce(conflict.state, item);
     println!("{:#?}", backtrace);
     expect_debug(&backtrace, r#"
-BacktraceNode {
-    item: Ty = Ty "->" Ty (*),
-    parents: [
-        BacktraceNode {
-            item: Ty = (*) Ty "->" Ty,
-            parents: []
-        },
-        BacktraceNode {
-            item: Ty = Ty "->" (*) Ty,
-            parents: [
-                BacktraceNode {
-                    item: Ty = (*) Ty "->" Ty,
-                    parents: []
-                },
-                BacktraceNode {
-                    item: Ty = Ty "->" (*) Ty,
-                    parents: []
-                }
-            ]
-        }
-    ]
-}
+[
+    (Nonterminal(Ty) -([Ty, "->"], Some(Ty), [])-> Item(Ty = Ty "->" (*) Ty)),
+    (Nonterminal(Ty) -([Ty, "->"], Some(Ty), [])-> Nonterminal(Ty)),
+    (Nonterminal(Ty) -([Ty, "->", Ty], None, [])-> Item(Ty = Ty "->" Ty (*))),
+    (Item(Ty = (*) Ty "->" Ty) -([], Some(Ty), ["->", Ty])-> Nonterminal(Ty))
+]
 "#.trim());
 
     // Check that we can successfully enumerate and paint the examples
     // here.
-    let pictures: Vec<_> = backtrace.examples().map(|e| e.paint_unstyled()).collect();
+    let pictures: Vec<_> = backtrace.examples(item.to_lr0())
+                                    .map(|e| e.paint_unstyled())
+                                    .collect();
     expect_debug(&pictures, r#"
 [
     [
@@ -199,24 +168,6 @@ BacktraceNode {
         "+-Ty-----+       |",
         "|                |",
         "+-Ty-------------+"
-    ],
-    [
-        "Ty \"->\" Ty \"->\" Ty \"->\" Ty",
-        "|       |        |       |",
-        "|       +-Ty-----+       |",
-        "|                |       |",
-        "+-Ty-------------+       |",
-        "|                        |",
-        "+-Ty---------------------+"
-    ],
-    [
-        "Ty \"->\" Ty \"->\" Ty \"->\" Ty",
-        "|       |       |        |",
-        "|       |       +-Ty-----+",
-        "|       |                |",
-        "|       +-Ty-------------+",
-        "|                        |",
-        "+-Ty---------------------+"
     ]
 ]
 "#.trim());
@@ -249,7 +200,7 @@ pub Ty: () = {
                       lookahead: lookahead };
     println!("item={:?}", item);
     let tracer = Tracer::new(&session, &grammar, &states);
-    let graph = tracer.backtrace_reduce_graph(conflict.state, item);
+    let graph = tracer.backtrace_reduce(conflict.state, item);
     expect_debug(&graph, r#"
 [
     (Nonterminal(Ty) -([Ty, "->"], Some(Ty), [])-> Item(Ty = Ty "->" (*) Ty)),
@@ -260,8 +211,8 @@ pub Ty: () = {
 "#.trim());
 
     let list: Vec<_> =
-        graph.enumerate_paths_from(item.to_lr0())
-             .map(|example| example.paint(&ExampleStyles::new(&session)))
+        graph.examples(item.to_lr0())
+             .map(|example| example.paint_unstyled())
              .collect();
     expect_debug(&list, r#"
 [

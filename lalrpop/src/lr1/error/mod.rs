@@ -26,7 +26,6 @@ struct ErrorReportingCx<'cx, 'grammar: 'cx> {
     session: &'cx Session,
     grammar: &'grammar Grammar,
     states: &'cx [State<'grammar>],
-    tracer: Tracer<'cx, 'grammar>,
 }
 
 #[derive(Debug)]
@@ -70,7 +69,6 @@ impl<'cx, 'grammar> ErrorReportingCx<'cx, 'grammar> {
             session: session,
             grammar: grammar,
             states: states,
-            tracer: Tracer::new(session, grammar, states),
         }
     }
 
@@ -454,38 +452,40 @@ impl<'cx, 'grammar> ErrorReportingCx<'cx, 'grammar> {
         &example.symbols[end..]
     }
 
-    fn shift_examples(&mut self,
+    fn shift_examples(&self,
                       lookahead: Lookahead,
                       conflict: &Conflict<'grammar>)
                       -> Vec<Example> {
         log!(self.session, Verbose, "Gathering shift examples");
         let state = &self.states[conflict.state.0];
         let conflicting_items = self.conflicting_shift_items(state, lookahead, conflict);
-        let tracer = &mut self.tracer;
         conflicting_items
             .into_iter()
-            .flat_map(|(item, lookaheads)| {
+            .flat_map(|(item, _lookaheads)| {
+                let tracer = Tracer::new(self.session, self.grammar, self.states);
                 let shift_trace =
-                    tracer.backtrace_shift(conflict.state, item, lookaheads);
+                    tracer.backtrace_shift(conflict.state, item);
                 let local_examples: Vec<Example> =
-                    shift_trace.examples().collect();
+                    shift_trace.examples(item).collect();
                 local_examples
             })
             .collect()
     }
 
-    fn reduce_examples(&mut self,
+    fn reduce_examples(&self,
                        state: StateIndex,
                        production: &'grammar Production,
                        lookahead: Lookahead)
                        -> Vec<Example> {
         log!(self.session, Verbose, "Gathering reduce examples");
-        let reduce_trace = self.tracer.backtrace_reduce(state, Item {
+        let item = Item {
             production: production,
             index: production.symbols.len(),
             lookahead: lookahead
-        });
-        reduce_trace.examples().collect()
+        };
+        let tracer = Tracer::new(self.session, self.grammar, self.states);
+        let reduce_trace = tracer.backtrace_reduce(state, item);
+        reduce_trace.examples(item.to_lr0()).collect()
     }
 
     fn conflicting_shift_items(&self,

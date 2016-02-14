@@ -36,10 +36,10 @@ use super::trace_graph::*;
 /// optional.
 
 impl<'trace, 'grammar> Tracer<'trace, 'grammar> {
-    pub fn backtrace_shift_graph(mut self,
-                                 item_state: StateIndex,
-                                 item: LR0Item<'grammar>)
-                                 -> TraceGraph<'grammar> {
+    pub fn backtrace_shift(mut self,
+                           item_state: StateIndex,
+                           item: LR0Item<'grammar>)
+                           -> TraceGraph<'grammar> {
         log!(self.session, Debug, "backtrace_shift_graph(item_state={:?}, item={:?})",
              item_state, item);
 

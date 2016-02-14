@@ -90,9 +90,9 @@ impl<'grammar> TraceGraph<'grammar> {
         }
     }
 
-    pub fn enumerate_paths_from<'graph>(&'graph self,
-                                        lr0_item: LR0Item<'grammar>)
-                                        -> PathEnumerator<'graph, 'grammar>
+    pub fn examples<'graph>(&'graph self,
+                            lr0_item: LR0Item<'grammar>)
+                            -> PathEnumerator<'graph, 'grammar>
     {
         PathEnumerator::new(self, lr0_item)
     }
