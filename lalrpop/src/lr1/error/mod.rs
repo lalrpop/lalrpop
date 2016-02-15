@@ -320,7 +320,7 @@ impl<'cx, 'grammar> ErrorReportingCx<'cx, 'grammar> {
     {
         // Find examples from the conflicting action (either a shift
         // or a reduce).
-        let action_examples = match conflict.action {
+        let mut action_examples = match conflict.action {
             Action::Shift(_) => self.shift_examples(lookahead, conflict),
             Action::Reduce(production) => self.reduce_examples(conflict.state,
                                                                production,
@@ -328,9 +328,13 @@ impl<'cx, 'grammar> ErrorReportingCx<'cx, 'grammar> {
         };
 
         // Find examples from the conflicting reduce.
-        let reduce_examples = self.reduce_examples(conflict.state,
-                                                   conflict.production,
-                                                   lookahead);
+        let mut reduce_examples = self.reduce_examples(conflict.state,
+                                                       conflict.production,
+                                                       lookahead);
+
+        // Prefer shorter examples to longer ones.
+        action_examples.sort_by(|e, f| e.symbols.len().cmp(&f.symbols.len()));
+        reduce_examples.sort_by(|e, f| e.symbols.len().cmp(&f.symbols.len()));
 
         if let Some(classification) = self.try_classify_ambiguity(lookahead,
                                                                   conflict,

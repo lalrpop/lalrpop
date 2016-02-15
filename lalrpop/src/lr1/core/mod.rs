@@ -64,10 +64,6 @@ pub struct LR0Item<'grammar> {
 }
 
 impl<'grammar> LR0Item<'grammar> {
-    pub fn prefix(&self) -> &'grammar [Symbol] {
-        &self.production.symbols[..self.index]
-    }
-
     pub fn symbol_sets(&self) -> SymbolSets<'grammar> {
         let symbols = &self.production.symbols;
         if self.can_shift() {

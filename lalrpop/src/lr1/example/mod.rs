@@ -2,8 +2,6 @@
 
 use ansi_term::Style;
 use grammar::repr::{NonterminalString, Symbol};
-use lr1::core::LR0Item;
-use lr1::trace::BacktraceNode;
 use session::Session;
 
 use self::ascii_canvas::{AsciiCanvas, Row};
@@ -55,15 +53,6 @@ pub enum ExampleSymbol {
     Epsilon,
 }
 
-#[derive(Debug)]
-struct ExampleState<'ex> {
-    // Node we are exploring
-    node: &'ex BacktraceNode<'ex>,
-
-    // Index of next parent to explore
-    index: usize,
-}
-
 #[derive(Default)]
 pub struct ExampleStyles {
     pub before_cursor: Style,
@@ -76,127 +65,6 @@ pub struct Reduction {
     pub start: usize,
     pub end: usize,
     pub nonterminal: NonterminalString,
-}
-
-/// Derives examples from a backtrace node.
-pub struct ExampleIterator<'ex> {
-    stack: Vec<ExampleState<'ex>>,
-}
-
-impl<'ex> ExampleIterator<'ex> {
-    pub fn new(backtrace: &'ex BacktraceNode<'ex>) -> Self {
-        let mut this = ExampleIterator { stack: vec![] };
-        this.stack.push(ExampleState { node: backtrace, index: 0 });
-        this.populate();
-        this
-    }
-
-    fn populate(&mut self) -> bool {
-        let parent = {
-            // Obtain parent from top of stack, if any, and increment
-            // index for top of stack.
-            let top = self.stack.last_mut().expect("populate called but stack is empty");
-            let index = top.index;
-            if index == top.node.parents.len() {
-                return false; // top of stack has no parent
-            }
-            top.index += 1;
-            &top.node.parents[index]
-        };
-        self.stack.push(ExampleState { node: parent, index: 0 });
-        self.populate();
-        return true; // top of stack had a parent (now pushed)
-    }
-
-    fn iterate(&mut self) {
-        // When this function is called, the top of the stack should
-        // always be some leaf node in the tree.
-        let top = self.stack.pop().unwrap();
-        assert!(top.node.parents.len() == 0 && top.index == 0);
-
-        while !self.stack.is_empty() {
-            if self.populate() {
-                return;
-            }
-
-            self.stack.pop();
-        }
-    }
-
-    fn unwind<I: Iterator<Item=&'ex LR0Item<'ex>>>(&self,
-                                                   item: &'ex LR0Item<'ex>,
-                                                   mut rev_items: I,
-                                                   example: &mut Example) {
-        let start = example.symbols.len();
-
-        // Push items before the cursor in the current item.
-        // e.g, in `Foo = W X (*) Y Z`, push "W X".
-        let prefix = &item.production.symbols[..item.index];
-        example.symbols.extend(prefix.iter().map(|&s| ExampleSymbol::Symbol(s)));
-
-        // Recurse to expand the item *at* the cursor (if any).  e.g.,
-        // in `Foo = W X (*) Y Z`, this would expand `Y` with its
-        // derivation. But if this is the last item in the list,
-        // then there is no expansion, so just insert the item at the cursor (if any).q
-        if let Some(next_item) = rev_items.next() {
-            // Expand cursor.
-            self.unwind(next_item, rev_items, example);
-
-            // Push items after the cursor in the current item.
-            // e.g., in `Foo = W X (*) Y Z`, push "Z".
-            if item.index != item.production.symbols.len() {
-                let suffix = &item.production.symbols[item.index+1..];
-                example.symbols.extend(suffix.iter().map(|&s| ExampleSymbol::Symbol(s)));
-            }
-        } else {
-            example.cursor = example.symbols.len();
-            example.symbols.extend(
-                item.production.symbols[item.index..]
-                    .iter()
-                    .map(|&s| ExampleSymbol::Symbol(s)));
-        };
-
-        // If it turns out that we did not push anything, then push
-        // `None` to represent the "empty sequence" that is being
-        // reduced here (e.g., if the item is `Foo = (*)`).
-        if start == example.symbols.len() {
-            example.symbols.push(ExampleSymbol::Epsilon);
-        }
-
-        let end = example.symbols.len();
-
-        example.reductions.push(Reduction {
-            start: start,
-            end: end,
-            nonterminal: item.production.nonterminal
-        });
-    }
-}
-
-impl<'ex> Iterator for ExampleIterator<'ex> {
-    type Item = Example;
-
-    fn next(&mut self) -> Option<Example> {
-        if self.stack.is_empty() {
-            return None;
-        }
-
-        let mut example = Example {
-            cursor: 0,
-            symbols: vec![],
-            reductions: vec![],
-        };
-
-        {
-            let mut rev_items = self.stack.iter().rev().map(|s| &s.node.item);
-            let item = rev_items.next().unwrap();
-            self.unwind(item, rev_items, &mut example);
-        }
-
-        self.iterate();
-
-        Some(example)
-    }
 }
 
 impl Example {
@@ -384,8 +252,6 @@ impl Example {
             let start_column = positions[reduction.start];
             let end_column = positions[reduction.end] - 1;
             let row = 2 + index * 2;
-            println!("reduction: {:?} columns={}..{} row={}",
-                     reduction, start_column, end_column, row);
             canvas.draw_vertical_line(1 .. row + 1, start_column);
             canvas.draw_vertical_line(1 .. row + 1, end_column - 1);
             canvas.draw_horizontal_line(row, start_column .. end_column);
@@ -443,10 +309,6 @@ fn shift(positions: &mut [usize], amount: usize) {
 }
 
 impl ExampleStyles {
-    pub fn test() -> Self {
-        ExampleStyles::new(&Session::test())
-    }
-
     pub fn ambig(session: &Session) -> Self {
         ExampleStyles {
             before_cursor: session.ambig_symbols,

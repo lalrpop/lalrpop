@@ -1,8 +1,6 @@
 use lr1::core::*;
-use lr1::example::*;
-use lr1::lookahead::{Lookahead, LookaheadSet};
+use lr1::lookahead::Lookahead;
 use grammar::repr::*;
-use util::{Map, map};
 
 use super::Tracer;
 use super::trace_graph::*;
@@ -10,53 +8,6 @@ use super::trace_graph::*;
 use self::CanShiftResult::*;
 
 #[cfg(test)] mod test;
-
-/// Stores a backtrace tree used in error reporting. Consider a simple
-/// example where we want the backtrace of EXPR with lookahead `,`,
-/// given this grammar:
-///
-///     START = EXPRS ";"
-///           | EXPRS
-///     EXPRS = EXPR
-///           | EXPRS "," EXPR
-///     EXPR = ...
-///
-/// We would result in a sort of inverted tree like:
-///
-///     EXPR = ... (*)
-///         EXPRS = (*) EXPR
-///             EXPRS = (*) EXPRS "," EXPR
-///                 START = (*) EXPRS ";"
-///         EXPRS = EXPRS "," (*) EXPR
-///             START = (*) EXPRS ";"
-#[derive(Clone, Debug)]
-pub struct BacktraceNode<'grammar> {
-    pub item: LR0Item<'grammar>,
-    pub parents: Vec<BacktraceNode<'grammar>>,
-}
-
-impl<'grammar> BacktraceNode<'grammar> {
-    fn new(item: LR0Item<'grammar>) -> Self {
-        BacktraceNode { item: item, parents: vec![] }
-    }
-
-    fn merge_parent(&mut self, new_parent: BacktraceNode<'grammar>) {
-        for old_parent in &mut self.parents {
-            if old_parent.item == new_parent.item {
-                for new_grandparent in new_parent.parents {
-                    old_parent.merge_parent(new_grandparent);
-                }
-                return;
-            }
-        }
-
-        self.parents.push(new_parent);
-    }
-
-    pub fn examples<'ex>(&'ex self) -> ExampleIterator<'ex> {
-        ExampleIterator::new(self)
-    }
-}
 
 impl<'trace, 'grammar> Tracer<'trace, 'grammar> {
     pub fn backtrace_reduce(mut self,
@@ -194,34 +145,4 @@ impl<'trace, 'grammar> Tracer<'trace, 'grammar> {
 enum CanShiftResult {
     CannotShift,
     CanShift(bool) // if true, remainder is maybe empty
-}
-
-#[derive(Clone, PartialOrd, Ord, PartialEq, Eq)]
-struct ShiftKey<'grammar> {
-    item_state: StateIndex,
-    item: LR0Item<'grammar>,
-    lookaheads: LookaheadSet,
-}
-
-pub struct ShiftCache<'grammar> {
-    cache: Map<ShiftKey<'grammar>, BacktraceNode<'grammar>>
-}
-
-impl<'grammar> ShiftCache<'grammar> {
-    pub fn new() -> Self {
-        ShiftCache { cache: map() }
-    }
-
-    fn lookup(&self, state: &ShiftKey<'grammar>) -> Option<BacktraceNode<'grammar>> {
-        self.cache.get(state).cloned()
-    }
-
-    fn insert(&mut self, state: ShiftKey<'grammar>, node: BacktraceNode<'grammar>) {
-        let prev = self.cache.insert(state, node);
-        assert!(prev.is_none());
-    }
-
-    fn update(&mut self, state: &ShiftKey<'grammar>, node: BacktraceNode<'grammar>) {
-        *self.cache.get_mut(state).unwrap() = node;
-    }
 }

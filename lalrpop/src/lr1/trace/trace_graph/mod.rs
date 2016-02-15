@@ -81,8 +81,6 @@ impl<'grammar> TraceGraph<'grammar> {
     {
         let from = self.add_node(from.into());
         let to = self.add_node(to.into());
-        println!("add_edge({:?} -{:?}-> {:?})",
-                 self.graph[from], labels, self.graph[to]);
         if !self.graph.edges_directed(from, EdgeDirection::Outgoing)
                       .any(|(t, &l)| t == to && l == labels)
         {
@@ -223,7 +221,6 @@ impl<'graph, 'grammar> PathEnumerator<'graph, 'grammar> {
     /// whatever is on the top of the stack. It simply withdraws
     /// that next child (if any) and hands it to `push_next`.
     fn find_next_trace(&mut self) -> bool {
-        println!("proceed()");
         if !self.stack.is_empty() {
             let next_edge = {
                 let top_of_stack = self.stack.last_mut().unwrap();
@@ -275,9 +272,6 @@ impl<'graph, 'grammar> PathEnumerator<'graph, 'grammar> {
                        index: NodeIndex,
                        symbol_sets: SymbolSets<'grammar>)
                        -> bool {
-        println!("push(index={:?}, symbol_sets={:?}",
-                 self.graph.graph[index], symbol_sets);
-
         match self.graph.graph[index] {
             TraceGraphNode::Item(_) => {
                 // If we reached an item like
@@ -313,8 +307,6 @@ impl<'graph, 'grammar> PathEnumerator<'graph, 'grammar> {
     // Assemble the `symbols` vector and `cursor`
     fn found_trace(&mut self)
                    -> bool {
-        println!("found_trace()");
-
         self.symbols.truncate(0);
 
         self.symbols.extend(
@@ -331,19 +323,7 @@ impl<'graph, 'grammar> PathEnumerator<'graph, 'grammar> {
             self.stack.iter()
                       .flat_map(|s| s.symbol_sets.suffix));
 
-        println!("found_trace: symbols={:?} cursor={:?}",
-                 self.symbols, self.cursor);
         true
-    }
-
-    /// Return the symbols of the current trace, or None if there is
-    /// no current trace.
-    pub fn symbols_and_cursor(&self) -> Option<(&[Symbol], usize)> {
-        if self.stack.is_empty() {
-            None
-        } else {
-            Some((&self.symbols[..], self.cursor))
-        }
     }
 
     pub fn example(&self) -> Option<Example> {
@@ -404,10 +384,6 @@ impl<'graph, 'grammar> PathEnumerator<'graph, 'grammar> {
             cursor: cursor,
             reductions: reductions
         })
-    }
-
-    fn stack(&self) -> &[EnumeratorState<'graph, 'grammar>] {
-        &self.stack
     }
 }
 

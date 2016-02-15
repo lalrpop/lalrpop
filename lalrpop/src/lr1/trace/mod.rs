@@ -17,8 +17,6 @@ pub struct Tracer<'trace, 'grammar: 'trace> {
     state_graph: StateGraph,
     trace_graph: TraceGraph<'grammar>,
     visited_set: Set<(StateIndex, NonterminalString)>,
-    shift_cache: reduce::ShiftCache<'grammar>,
-    reduce_stack: Vec<(StateIndex, Item<'grammar>)>,
 }
 
 impl<'trace, 'grammar> Tracer<'trace, 'grammar> {
@@ -34,11 +32,8 @@ impl<'trace, 'grammar> Tracer<'trace, 'grammar> {
             state_graph: StateGraph::new(states),
             trace_graph: TraceGraph::new(),
             visited_set: set(),
-            shift_cache: reduce::ShiftCache::new(),
-            reduce_stack: vec![],
         }
     }
 }
 
-pub use self::reduce::BacktraceNode;
 pub use self::trace_graph::TraceGraph;

@@ -55,10 +55,6 @@ impl LookaheadSet {
         self.bit_set.contains(self.bit(grammar, lookahead))
     }
 
-    pub fn intersects(&self, other: &LookaheadSet) -> bool {
-        !self.bit_set.is_disjoint(&other.bit_set)
-    }
-
     pub fn iter<'iter>(&'iter self, grammar: &'iter Grammar)
                        -> LookaheadSetIter<'iter> {
         LookaheadSetIter {
@@ -67,6 +63,7 @@ impl LookaheadSet {
         }
     }
 
+    #[allow(dead_code)]
     pub fn debug<'debug>(&'debug self, grammar: &'debug Grammar)
                        -> LookaheadSetDebug<'debug> {
         LookaheadSetDebug {
@@ -96,6 +93,7 @@ impl<'iter> Iterator for LookaheadSetIter<'iter> {
     }
 }
 
+#[allow(dead_code)]
 pub struct LookaheadSetDebug<'debug> {
     set: &'debug LookaheadSet,
     grammar: &'debug Grammar
