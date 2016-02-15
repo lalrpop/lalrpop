@@ -1,5 +1,6 @@
 //! Utilies for running in a build script.
 
+use filetext::FileText;
 use grammar::parse_tree as pt;
 use grammar::repr as r;
 use lalrpop_util::ParseError;
@@ -10,7 +11,6 @@ use parser;
 use rust::RustWrite;
 use session::Session;
 use tok;
-use self::filetext::FileText;
 
 use std::env::current_dir;
 use std::fs;
@@ -19,7 +19,6 @@ use std::path::{Path, PathBuf};
 use std::process::exit;
 
 mod action;
-mod filetext;
 
 pub fn process_root() -> io::Result<()> {
     let session = Session::new();

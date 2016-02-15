@@ -2,7 +2,7 @@
 
 use ansi_term::Style;
 use grammar::repr::{NonterminalString, Symbol};
-use message::ascii_canvas::{AsciiCanvas, Row};
+use message::ascii_canvas::{AsciiCanvas, AsciiView, Row};
 use session::Session;
 
 #[cfg(test)] mod test;
@@ -225,7 +225,8 @@ impl Example {
         let positions = self.starting_positions(&lengths);
         let columns = *positions.last().unwrap();
         let mut canvas = AsciiCanvas::new(1, columns);
-        self.paint_symbols_on(&self.symbols[..number], &positions, styles, &mut canvas);
+        self.paint_symbols_on(&self.symbols[..number], &positions,
+                              styles, &mut canvas.view());
         canvas.to_strings().pop().unwrap()
     }
 
@@ -241,19 +242,26 @@ impl Example {
         let rows = 1 + self.reductions.len() * 2;
         let columns = *positions.last().unwrap();
         let mut canvas = AsciiCanvas::new(rows, columns);
+        self.paint_on(styles, &positions, &mut canvas.view());
+        canvas.to_strings()
+    }
 
+    fn paint_on(&self,
+                styles: &ExampleStyles,
+                positions: &[usize],
+                view: &mut AsciiView) {
         // Write the labels:
         //    A1   B2  C3  D4 E5 F6
-        self.paint_symbols_on(&self.symbols, &positions, styles, &mut canvas);
+        self.paint_symbols_on(&self.symbols, &positions, styles, view);
 
         // Draw the brackets for each reduction:
         for (index, reduction) in self.reductions.iter().enumerate() {
             let start_column = positions[reduction.start];
             let end_column = positions[reduction.end] - 1;
             let row = 2 + index * 2;
-            canvas.draw_vertical_line(1 .. row + 1, start_column);
-            canvas.draw_vertical_line(1 .. row + 1, end_column - 1);
-            canvas.draw_horizontal_line(row, start_column .. end_column);
+            view.draw_vertical_line(1 .. row + 1, start_column);
+            view.draw_vertical_line(1 .. row + 1, end_column - 1);
+            view.draw_horizontal_line(row, start_column .. end_column);
         }
 
         // Write the labels for each reduction. Do this after the
@@ -262,20 +270,18 @@ impl Example {
         for (index, reduction) in self.reductions.iter().enumerate() {
             let column = positions[reduction.start] + 2;
             let row = 2 + index * 2;
-            canvas.view().write_chars(row,
-                                      column,
-                                      format!("{}", reduction.nonterminal).chars(),
-                                      Style::new());
+            view.write_chars(row,
+                             column,
+                             format!("{}", reduction.nonterminal).chars(),
+                             Style::new());
         }
-
-        canvas.to_strings()
     }
 
     fn paint_symbols_on(&self,
                         symbols: &[ExampleSymbol],
                         positions: &[usize],
                         styles: &ExampleStyles,
-                        canvas: &mut AsciiCanvas) {
+                        view: &mut AsciiView) {
         for (index, ex_symbol) in symbols.iter().enumerate() {
             let style = if index < self.cursor {
                 styles.before_cursor
@@ -295,10 +301,7 @@ impl Example {
             match *ex_symbol {
                 ExampleSymbol::Symbol(symbol) => {
                     let column = positions[index];
-                    canvas.view().write_chars(0,
-                                              column,
-                                              format!("{}", symbol).chars(),
-                                              style);
+                    view.write_chars(0, column, format!("{}", symbol).chars(), style);
                 }
                 ExampleSymbol::Epsilon => {
                 }

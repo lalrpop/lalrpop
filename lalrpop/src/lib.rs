@@ -29,6 +29,7 @@ mod rust;
 mod log;
 
 mod build;
+mod filetext;
 mod grammar;
 mod lexer;
 mod lr1;
