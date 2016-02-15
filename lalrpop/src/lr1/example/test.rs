@@ -107,3 +107,37 @@ fn empty_labels_strings() {
                  "                              |   |",
                  "                              +-Z-+"]);
 }
+
+// _return_      _A_ Expression _B_
+// |            |                  |
+// +-ExprAtom---+                  |
+// |            |                  |
+// +-ExprSuffix-+                  |
+// |                               |
+// +-ExprSuffix--------------------+
+fn single_token_example() -> Example {
+    Example {
+        //             0 1  2  3  4  5  6 7
+        symbols: syms!(_return_,_A_,Expression,_B_),
+        cursor: 5,
+        reductions: vec![
+            Reduction { start: 0, end: 1, nonterminal: nt("ExprAtom") },
+            Reduction { start: 0, end: 1, nonterminal: nt("ExprSuffix") },
+            Reduction { start: 0, end: 4, nonterminal: nt("ExprSuffix") },
+        ]
+    }
+}
+
+#[test]
+fn single_token_strings() {
+    let strings = single_token_example().paint_unstyled();
+    compare(strings, vec![
+        "_return_       _A_ Expression _B_",
+        "|            |                  |",
+        "+-ExprAtom---+                  |",
+        "|            |                  |",
+        "+-ExprSuffix-+                  |",
+        "|                               |",
+        "+-ExprSuffix--------------------+",
+    ]);
+}

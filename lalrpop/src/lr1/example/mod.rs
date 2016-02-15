@@ -147,9 +147,10 @@ impl Example {
 
             // End of last symbol to be reduced. Here, 11.
             //
-            // A1 B2 C3 D4
-            //            ^ here
-            let end_position = positions[end - 1] + lengths[end - 1];
+            // A1 B2 C3 D4 E5
+            //             ^ positions[end]
+            //            ^ here -- positions[end] - 1
+            let end_position = positions[end] - 1;
 
             // We need space to draw `+-Label-+` between
             // start_position and end_position.
