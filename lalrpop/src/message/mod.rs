@@ -1,17 +1,10 @@
 use grammar::parse_tree::Span;
-use std::io;
 
 pub mod ascii_canvas;
-use self::ascii_canvas::AsciiCanvas;
+use self::ascii_canvas::AsciiView;
 
 pub trait Content {
-    fn emit(&mut self, out: &mut AsciiCanvas, upper_left: Point);
-}
-
-#[derive(Copy, Clone, PartialEq, Eq)]
-pub struct Point {
-    row: usize,
-    col: usize,
+    fn emit(&mut self, view: &mut AsciiView);
 }
 
 pub struct Message {

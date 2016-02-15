@@ -262,7 +262,10 @@ impl Example {
         for (index, reduction) in self.reductions.iter().enumerate() {
             let column = positions[reduction.start] + 2;
             let row = 2 + index * 2;
-            canvas.write(row, column, format!("{}", reduction.nonterminal).chars());
+            canvas.view().write_chars(row,
+                                      column,
+                                      format!("{}", reduction.nonterminal).chars(),
+                                      Style::new());
         }
 
         canvas.to_strings()
@@ -292,7 +295,10 @@ impl Example {
             match *ex_symbol {
                 ExampleSymbol::Symbol(symbol) => {
                     let column = positions[index];
-                    canvas.write_styled(0, column, format!("{}", symbol).chars(), style);
+                    canvas.view().write_chars(0,
+                                              column,
+                                              format!("{}", symbol).chars(),
+                                              style);
                 }
                 ExampleSymbol::Epsilon => {
                 }
