@@ -2,11 +2,9 @@
 
 use ansi_term::Style;
 use grammar::repr::{NonterminalString, Symbol};
+use message::ascii_canvas::{AsciiCanvas, Row};
 use session::Session;
 
-use self::ascii_canvas::{AsciiCanvas, Row};
-
-mod ascii_canvas;
 #[cfg(test)] mod test;
 
 /// An "example" input and the way it was derived. This can be

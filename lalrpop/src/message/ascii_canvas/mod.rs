@@ -1,3 +1,7 @@
+//! An "ASCII Canvas" allows us to draw lines and write text into a
+//! fixed-sized canvas and then convert that canvas into ASCII
+//! characters. ANSI styling is supported.
+
 use ansi_term::Style;
 use std::ops::Range;
 
@@ -13,6 +17,10 @@ pub struct AsciiCanvas {
     styles: Vec<Style>,
 }
 
+/// To use an `AsciiCanvas`, first create the canvas, then draw any
+/// lines, then write text labels. It is required to draw the lines
+/// first so that we can detect intersecting lines properly (we could
+/// track which characters belong to lines, I suppose).
 impl AsciiCanvas {
     pub fn new(rows: usize, columns: usize) -> Self {
         AsciiCanvas {
@@ -21,6 +29,20 @@ impl AsciiCanvas {
             characters: vec![' '; columns * rows],
             styles: vec![Style::new(); columns * rows],
         }
+    }
+
+    fn grow_rows_if_needed(&mut self, new_rows: usize) {
+        if new_rows >= self.rows {
+            let new_chars = (new_rows - self.rows) * self.columns;
+            self.characters.extend((0..new_chars).map(|_| ' '));
+            self.styles.extend((0..new_chars).map(|_| Style::new()));
+            self.rows = new_rows;
+        }
+    }
+
+    fn index_grow(&mut self, r: usize, c: usize) -> usize {
+        self.grow_rows_if_needed(r + 1);
+        self.index(r, c)
     }
 
     fn index(&self, r: usize, c: usize) -> usize {
@@ -62,7 +84,7 @@ impl AsciiCanvas {
                                      style: Style)
     {
         for r in rows {
-            let index = self.index(r, column);
+            let index = self.index_grow(r, column);
             let new_char = match self.characters[index] {
                 ' ' => '|',
                 '|' => '|',
@@ -80,7 +102,7 @@ impl AsciiCanvas {
                                 columns: Range<usize>)
     {
         for c in columns {
-            let index = self.index(row, c);
+            let index = self.index_grow(row, c);
             let new_char = match self.characters[index] {
                 ' ' => '-',
                 '-' => '-',
@@ -109,7 +131,7 @@ impl AsciiCanvas {
         where I: Iterator<Item=char>
     {
         for (i, ch) in chars.enumerate() {
-            let index = self.index(row, column + i);
+            let index = self.index_grow(row, column + i);
             self.characters[index] = ch;
             self.styles[index] = style;
         }
