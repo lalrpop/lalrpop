@@ -21,4 +21,8 @@ impl Content for Citation {
         let text = self.file_text.span_str(self.span);
         view.write_chars(0, 0, text.chars(), Style::new())
     }
+
+    fn into_wrap_items(self: Box<Self>, wrap_items: &mut Vec<Box<Content>>) {
+        wrap_items.push(self);
+    }
 }

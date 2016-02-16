@@ -1,15 +1,17 @@
-use ansi_term::Style;
 use test_util::expect_debug;
 
-use super::AsciiCanvas;
+use super::{AsciiCanvas, AsciiView};
 
 #[test]
 fn draw_box() {
     let mut canvas = AsciiCanvas::new(5, 10);
-    canvas.view().draw_vertical_line(2..5, 2);
-    canvas.view().draw_vertical_line(2..5, 7);
-    canvas.view().draw_horizontal_line(2, 2..8);
-    canvas.view().draw_horizontal_line(4, 2..8);
+    {
+        let view: &mut AsciiView = &mut canvas;
+        view.draw_vertical_line(2..5, 2);
+        view.draw_vertical_line(2..5, 7);
+        view.draw_horizontal_line(2, 2..8);
+        view.draw_horizontal_line(4, 2..8);
+    }
     expect_debug(
         &canvas.to_strings(),
         r#"
@@ -26,10 +28,13 @@ fn draw_box() {
 #[test]
 fn grow_box() {
     let mut canvas = AsciiCanvas::new(0, 10);
-    canvas.view().draw_vertical_line(2..5, 2);
-    canvas.view().draw_vertical_line(2..5, 7);
-    canvas.view().draw_horizontal_line(2, 2..8);
-    canvas.view().draw_horizontal_line(4, 2..8);
+    {
+        let view: &mut AsciiView = &mut canvas;
+        view.draw_vertical_line(2..5, 2);
+        view.draw_vertical_line(2..5, 7);
+        view.draw_horizontal_line(2, 2..8);
+        view.draw_horizontal_line(4, 2..8);
+    }
     expect_debug(
         &canvas.to_strings(),
         r#"
@@ -43,25 +48,3 @@ fn grow_box() {
 "#.trim());
 }
 
-#[test]
-fn wrap() {
-    let mut canvas = AsciiCanvas::new(0, 10);
-    {
-        let mut view = canvas.view();
-        view.write_wrap(3, 5, "Hi Ho Off ToWorkWeGo".chars().map(|c| (c, Style::new())));
-    }
-
-    expect_debug(
-        &canvas.to_strings(),
-        r#"
-[
-    "",
-    "",
-    "",
-    "     Hi Ho",
-    "     Off",
-    "     ToWor",
-    "     kWeGo"
-]
-"#.trim());
-}

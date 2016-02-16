@@ -226,7 +226,7 @@ impl Example {
         let columns = *positions.last().unwrap();
         let mut canvas = AsciiCanvas::new(1, columns);
         self.paint_symbols_on(&self.symbols[..number], &positions,
-                              styles, &mut canvas.view());
+                              styles, &mut canvas);
         canvas.to_strings().pop().unwrap()
     }
 
@@ -242,7 +242,7 @@ impl Example {
         let rows = 1 + self.reductions.len() * 2;
         let columns = *positions.last().unwrap();
         let mut canvas = AsciiCanvas::new(rows, columns);
-        self.paint_on(styles, &positions, &mut canvas.view());
+        self.paint_on(styles, &positions, &mut canvas);
         canvas.to_strings()
     }
 

@@ -11,10 +11,66 @@ mod row;
 
 pub use self::row::Row;
 
-pub trait CanvasLike {
+pub trait AsciiView {
     fn columns(&self) -> usize;
     fn read_char(&mut self, row: usize, column: usize) -> char;
     fn write_char(&mut self, row: usize, column: usize, ch: char, style: Style);
+}
+
+impl<'a> AsciiView+'a {
+    pub fn draw_vertical_line(&mut self,
+                              rows: Range<usize>,
+                              column: usize)
+    {
+        for r in rows {
+            let new_char = match self.read_char(r, column) {
+                ' ' => '|',
+                '|' => '|',
+                '-' => '+',
+                '+' => '+',
+                _ => panic!("unexpected character when drawing lines"),
+            };
+            self.write_char(r, column, new_char, Style::new());
+        }
+    }
+
+    pub fn draw_horizontal_line(&mut self,
+                                row: usize,
+                                columns: Range<usize>)
+    {
+        for c in columns {
+            let new_char = match self.read_char(row, c) {
+                ' ' => '-',
+                '-' => '-',
+                '|' => '+',
+                '+' => '+',
+                _ => panic!("unexpected character when drawing lines"),
+            };
+            self.write_char(row, c, new_char, Style::new());
+        }
+    }
+
+    pub fn write_chars<I>(&mut self,
+                          row: usize,
+                          column: usize,
+                          chars: I,
+                          style: Style)
+        where I: Iterator<Item=char>
+    {
+        for (i, ch) in chars.enumerate() {
+            self.write_char(row, column + i, ch, style);
+        }
+    }
+
+    pub fn shift<'c>(&'c mut self, row: usize, column: usize) -> ShiftedView<'c> {
+        ShiftedView::new(self, row, column)
+    }
+
+    pub fn styled<'c, F>(&'c mut self, style_fn: F) -> StyleView<'c, F>
+        where F: Fn(&Style) -> Style
+    {
+        StyleView::new(self, style_fn)
+    }
 }
 
 pub struct AsciiCanvas {
@@ -77,17 +133,9 @@ impl AsciiCanvas {
             })
             .collect()
     }
-
-    pub fn view<'c>(&'c mut self) -> AsciiView<'c> {
-        AsciiView::new(self, 0, 0)
-    }
-
-    pub fn view_at<'c>(&'c mut self, row: usize, column: usize) -> AsciiView<'c> {
-        AsciiView::new(self, row, column)
-    }
 }
 
-impl CanvasLike for AsciiCanvas {
+impl AsciiView for AsciiCanvas {
     fn columns(&self) -> usize {
         self.columns
     }
@@ -117,9 +165,9 @@ struct Point {
 
 /// Gives a view onto an AsciiCanvas that has a fixed upper-left
 /// point.
-pub struct AsciiView<'canvas> {
+pub struct ShiftedView<'canvas> {
     // either the base canvas or another view
-    base: &'canvas mut CanvasLike,
+    base: &'canvas mut AsciiView,
 
     // fixed at creation: the content is always allowed to grow down,
     // but cannot grow right more than `num_columns`
@@ -129,21 +177,17 @@ pub struct AsciiView<'canvas> {
     lower_right: Point,
 }
 
-impl<'canvas> AsciiView<'canvas> {
-    pub fn new(base: &'canvas mut CanvasLike,
+impl<'canvas> ShiftedView<'canvas> {
+    pub fn new(base: &'canvas mut AsciiView,
                row: usize,
                column: usize)
-               -> AsciiView {
+               -> Self {
         let upper_left = Point { row: row, column: column };
-        AsciiView {
+        ShiftedView {
             base: base,
             upper_left: upper_left,
             lower_right: upper_left,
         }
-    }
-
-    pub fn view(&mut self, row: usize, column: usize) -> AsciiView {
-        AsciiView::new(self, row, column)
     }
 
     // Finalize the view and learn how much was written.
@@ -155,109 +199,9 @@ impl<'canvas> AsciiView<'canvas> {
         self.lower_right.row = cmp::max(self.lower_right.column, row);
         self.lower_right.column = cmp::max(self.lower_right.column, column);
     }
-
-    pub fn draw_vertical_line(&mut self,
-                              rows: Range<usize>,
-                              column: usize)
-    {
-        for r in rows {
-            let new_char = match self.read_char(r, column) {
-                ' ' => '|',
-                '|' => '|',
-                '-' => '+',
-                '+' => '+',
-                _ => panic!("unexpected character when drawing lines"),
-            };
-            self.write_char(r, column, new_char, Style::new());
-        }
-    }
-
-    pub fn draw_horizontal_line(&mut self,
-                                row: usize,
-                                columns: Range<usize>)
-    {
-        for c in columns {
-            let new_char = match self.read_char(row, c) {
-                ' ' => '-',
-                '-' => '-',
-                '|' => '+',
-                '+' => '+',
-                _ => panic!("unexpected character when drawing lines"),
-            };
-            self.write_char(row, c, new_char, Style::new());
-        }
-    }
-
-    pub fn write_chars<I>(&mut self,
-                          row: usize,
-                          column: usize,
-                          chars: I,
-                          style: Style)
-        where I: Iterator<Item=char>
-    {
-        for (i, ch) in chars.enumerate() {
-            self.write_char(row, column + i, ch, style);
-        }
-    }
-
-    /// Wraps words at the column limit into multiple rows.
-    pub fn write_wrap<I>(&mut self,
-                         mut row: usize,
-                         column0: usize,
-                         chars: I)
-        where I: Iterator<Item=(char, Style)>
-    {
-        let mut column = column0;
-        let mut buffer = Vec::new();
-        let max_buf_len = self.columns() - column;
-
-        // Accumulate characters until we have seen a word.
-        for (ch, style) in chars {
-            if ch.is_whitespace() {
-                if !buffer.is_empty() {
-                    self.drain_buffer(column0, &mut row, &mut column, &mut buffer);
-                    column += 1; // leave a space between next word
-                }
-            } else {
-                buffer.push((ch, style));
-
-                if buffer.len() >= max_buf_len {
-                    self.drain_buffer(column0, &mut row, &mut column, &mut buffer);
-                }
-            }
-        }
-
-        if !buffer.is_empty() {
-            self.drain_buffer(column0, &mut row, &mut column, &mut buffer);
-        }
-    }
-
-    fn drain_buffer(&mut self,
-                    column0: usize,
-                    row: &mut usize,
-                    column: &mut usize,
-                    buffer: &mut Vec<(char, Style)>)
-    {
-        let len = buffer.len();
-        assert!(len > 0);
-
-        if *column + len > self.columns() {
-            *row += 1;
-            *column = column0;
-        }
-
-        // should be ensured because we track the max-buf-len and
-        // eagerly drain if it is exceeded
-        assert!(*column + len <= self.columns());
-
-        for (ch, style) in buffer.drain(..) {
-            self.write_char(*row, *column, ch, style);
-            *column += 1;
-        }
-    }
 }
 
-impl<'canvas> CanvasLike for AsciiView<'canvas> {
+impl<'canvas> AsciiView for ShiftedView<'canvas> {
     fn columns(&self) -> usize {
         self.base.columns() - self.upper_left.column
     }
@@ -281,4 +225,42 @@ impl<'canvas> CanvasLike for AsciiView<'canvas> {
     }
 }
 
+pub struct StyleView<'canvas, F>
+    where F: Fn(&Style) -> Style
+{
+    base: &'canvas mut AsciiView,
+    style_fn: F
+}
 
+impl<'canvas, F> StyleView<'canvas, F>
+    where F: Fn(&Style) -> Style
+{
+    pub fn new(base: &'canvas mut AsciiView, style_fn: F) -> Self {
+        StyleView {
+            base: base,
+            style_fn: style_fn
+        }
+    }
+}
+
+impl<'canvas, F> AsciiView for StyleView<'canvas, F>
+    where F: Fn(&Style) -> Style
+{
+    fn columns(&self) -> usize {
+        self.base.columns()
+    }
+
+    fn read_char(&mut self, row: usize, column: usize) -> char {
+        self.base.read_char(row, column)
+    }
+
+    fn write_char(&mut self,
+                  row: usize,
+                  column: usize,
+                  ch: char,
+                  style: Style)
+    {
+        let style = (self.style_fn)(&style);
+        self.base.write_char(row, column, ch, style)
+    }
+}

@@ -1,17 +1,27 @@
 use std::cmp;
 use super::*;
-use super::ascii_canvas::{AsciiView, CanvasLike};
+use super::ascii_canvas::AsciiView;
 
 pub struct Wrap {
-    content: Vec<Box<WrapContent>>,
+    items: Vec<Box<Content>>
+}
+
+impl Wrap {
+    pub fn new(items: Vec<Box<Content>>) -> Self {
+        let mut wrap_items = vec![];
+        for item in items {
+            item.into_wrap_items(&mut wrap_items);
+        }
+        Wrap { items: wrap_items }
+    }
 }
 
 impl Content for Wrap {
     fn min_width(&self) -> usize {
-        self.content.iter()
-                    .map(|c| c.min_width())
-                    .max()
-                    .unwrap()
+        self.items.iter()
+                  .map(|c| c.min_width())
+                  .max()
+                  .unwrap()
     }
 
     fn emit(&self, view: &mut AsciiView) {
@@ -20,9 +30,11 @@ impl Content for Wrap {
         let mut height = 1; // max height of anything in this row
         let mut column = 0; // current column in this row
 
-        for content in &self.content {
-            let len = content.width();
+        for item in &self.items {
+            let len = item.min_width();
 
+            // If we don't have enough space for this content,
+            // then move to the next line.
             if column + len > columns {
                 column = 0;
                 row += height;
@@ -31,10 +43,14 @@ impl Content for Wrap {
 
             assert!(column + len < columns);
 
-            let (c_row, c_column) = content.emit_at(view, row, column);
+            let (c_row, c_column) = item.emit_at(view, row, column);
             assert!(c_column >= column);
             column = c_column + 1;
             height = cmp::max(c_row - row + 1, height);
         }
+    }
+
+    fn into_wrap_items(self: Box<Self>, wrap_items: &mut Vec<Box<Content>>) {
+        wrap_items.extend(self.items); // `items` are already subdivided
     }
 }
