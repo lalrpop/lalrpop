@@ -1,8 +1,8 @@
 //! Code to compute example inputs given a backtrace.
 
 use ansi_term::Style;
+use ascii_canvas::{AsciiCanvas, AsciiView, Row};
 use grammar::repr::{NonterminalString, Symbol};
-use message::ascii_canvas::{AsciiCanvas, AsciiView, Row};
 use session::Session;
 
 #[cfg(test)] mod test;

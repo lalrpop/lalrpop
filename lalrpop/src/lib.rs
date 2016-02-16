@@ -28,6 +28,7 @@ mod rust;
 #[macro_use]
 mod log;
 
+mod ascii_canvas;
 mod build;
 mod filetext;
 mod grammar;

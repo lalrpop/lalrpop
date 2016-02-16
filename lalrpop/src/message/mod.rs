@@ -1,7 +1,8 @@
+use ascii_canvas::{AsciiCanvas, AsciiView};
+
 use std::cmp;
 use std::fmt::Debug;
 
-pub mod ascii_canvas;
 pub mod builder;
 pub mod citation;
 pub mod horiz;
@@ -12,8 +13,6 @@ pub mod styled;
 pub mod text;
 pub mod vert;
 pub mod wrap;
-
-use self::ascii_canvas::{AsciiCanvas, AsciiView};
 
 /// Content which can be rendered.
 pub trait Content: Debug {

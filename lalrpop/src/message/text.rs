@@ -1,6 +1,6 @@
 use ansi_term::Style;
+use ascii_canvas::AsciiView;
 
-use super::ascii_canvas::AsciiView;
 use super::*;
 
 /// Text to be display. This will be flowed appropriately depending on

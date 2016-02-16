@@ -1,7 +1,7 @@
 use ansi_term::Style;
+use ascii_canvas::AsciiView;
 use filetext::FileText;
 use grammar::parse_tree::Span;
-use message::ascii_canvas::AsciiView;
 use message::Content;
 use std::cmp;
 use std::fmt::{Debug, Formatter, Error};

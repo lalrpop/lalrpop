@@ -1,11 +1,11 @@
 use ansi_term::Style;
+use ascii_canvas::AsciiView;
 use filetext::FileText;
 use grammar::parse_tree::Span;
 use std::fmt::{Debug, Formatter, Error};
 use std::rc::Rc;
 
 use super::*;
-use super::ascii_canvas::AsciiView;
 
 pub struct Citation {
     span: Span,

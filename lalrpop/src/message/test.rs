@@ -1,4 +1,4 @@
-use message::ascii_canvas::AsciiCanvas;
+use ascii_canvas::AsciiCanvas;
 use filetext::FileText;
 use grammar::parse_tree::Span;
 use std::path::PathBuf;
