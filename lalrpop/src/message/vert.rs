@@ -1,6 +1,7 @@
 use super::*;
 use super::ascii_canvas::AsciiView;
 
+#[derive(Debug)]
 pub struct Vert {
     items: Vec<Box<Content>>,
     separate: usize, // 0 => overlapping, 1 => each on its own line, 2 => paragraphs

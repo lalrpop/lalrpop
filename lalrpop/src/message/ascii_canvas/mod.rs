@@ -190,13 +190,16 @@ impl<'canvas> ShiftedView<'canvas> {
         }
     }
 
-    // Finalize the view and learn how much was written.
+    // Finalize the view and learn how much was written.  What is
+    // returned is the *maximal* row/column -- so if you write to that
+    // location, you would overwrite some of the content that was
+    // written.
     pub fn close(self) -> (usize, usize) {
         (self.lower_right.row, self.lower_right.column)
     }
 
     fn track_max(&mut self, row: usize, column: usize) {
-        self.lower_right.row = cmp::max(self.lower_right.column, row);
+        self.lower_right.row = cmp::max(self.lower_right.row, row);
         self.lower_right.column = cmp::max(self.lower_right.column, column);
     }
 }
@@ -208,7 +211,7 @@ impl<'canvas> AsciiView for ShiftedView<'canvas> {
 
     fn read_char(&mut self, row: usize, column: usize) -> char {
         let row = self.upper_left.row + row;
-        let column = self.upper_left.row + column;
+        let column = self.upper_left.column + column;
         self.base.read_char(row, column)
     }
 
@@ -219,7 +222,7 @@ impl<'canvas> AsciiView for ShiftedView<'canvas> {
                   style: Style)
     {
         let row = self.upper_left.row + row;
-        let column = self.upper_left.row + column;
+        let column = self.upper_left.column + column;
         self.track_max(row, column);
         self.base.write_char(row, column, ch, style)
     }

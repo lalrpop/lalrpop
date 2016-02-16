@@ -6,6 +6,7 @@ use super::*;
 /// Text to be display. This will be flowed appropriately depending on
 /// the container; e.g., in a Horiz, it will be one unit, but in a
 /// Wrap, it will be broken up word by word.
+#[derive(Debug)]
 pub struct Text {
     text: String,
 }

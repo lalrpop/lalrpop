@@ -137,12 +137,16 @@ impl<C: Character> Builder<C> {
         self.push(Box::new(Styled::new(Style::underline, content)))
     }
 
-    pub fn indent(mut self, amount: usize) -> Self {
+    pub fn indent_by(mut self, amount: usize) -> Self {
         let content = self.pop().expect("indent must be applied to an item");
-        self.push(Box::new(Indent::new(4, content)))
+        self.push(Box::new(Indent::new(amount, content)))
     }
 
-    pub fn text<T:ToString>(mut self, text: T) -> Self {
+    pub fn indent(self) -> Self {
+        self.indent_by(2)
+    }
+
+    pub fn text<T:ToString>(self, text: T) -> Self {
         self.push(Box::new(Text::new(text.to_string())))
     }
 

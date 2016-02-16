@@ -1,6 +1,7 @@
 use super::*;
 use super::ascii_canvas::AsciiView;
 
+#[derive(Debug)]
 pub struct Indent {
     amount: usize,
     content: Box<Content>
@@ -23,9 +24,6 @@ impl Content for Indent {
     }
 
     fn into_wrap_items(self: Box<Self>, wrap_items: &mut Vec<Box<Content>>) {
-        let amount = self.amount;
-        super::into_wrap_items_map(self.content,
-                                   wrap_items,
-                                   |item| Indent::new(amount, item))
+        wrap_items.push(self);
     }
 }

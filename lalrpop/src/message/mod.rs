@@ -1,4 +1,5 @@
-use grammar::parse_tree::Span;
+use std::cmp;
+use std::fmt::Debug;
 
 pub mod ascii_canvas;
 pub mod builder;
@@ -7,16 +8,29 @@ pub mod horiz;
 pub mod message;
 pub mod indent;
 pub mod styled;
+#[cfg(test)] mod test;
 pub mod text;
 pub mod vert;
 pub mod wrap;
-use self::ascii_canvas::AsciiView;
+
+use self::ascii_canvas::{AsciiCanvas, AsciiView};
 
 /// Content which can be rendered.
-pub trait Content {
+pub trait Content: Debug {
     fn min_width(&self) -> usize;
 
     fn emit(&self, view: &mut AsciiView);
+
+    /// Creates a canvas at least `min_width` in width (it may be
+    /// larger if the content requires that) and fills it with the
+    /// current content. Returns the canvas. Typically `min_width`
+    /// would be 80 or the width of the current terminal.
+    fn emit_to_canvas(&self, min_width: usize) -> AsciiCanvas {
+        let min_width = cmp::max(min_width, self.min_width());
+        let mut canvas = AsciiCanvas::new(0, min_width);
+        self.emit(&mut canvas);
+        canvas
+    }
 
     /// Emit at a particular upper-left corner, returning the
     /// lower-right corner that was emitted.
@@ -25,9 +39,12 @@ pub trait Content {
                row: usize,
                column: usize)
                -> (usize, usize) {
+        println!("emit_at{:#?}", (row, column, self));
         let mut shifted_view = view.shift(row, column);
         self.emit(&mut shifted_view);
-        shifted_view.close()
+        let (r, c) = shifted_view.close();
+        println!("emit_at: ({}, {})", r, c);
+        (r, c)
     }
 
     /// When items are enclosed into a wrap, this method deconstructs
@@ -45,12 +62,12 @@ fn into_wrap_items_map<OP,C>(content: Box<Content>,
     where OP: FnMut(Box<Content>) -> C,
           C: Content + 'static,
 {
-        let mut subvector = vec![];
-        content.into_wrap_items(&mut subvector);
-        wrap_items.extend(
-            subvector.into_iter()
-                     .map(op)
-                     .map(|item| Box::new(item) as Box<Content>));
+    let mut subvector = vec![];
+    content.into_wrap_items(&mut subvector);
+    wrap_items.extend(
+        subvector.into_iter()
+                 .map(op)
+                 .map(|item| Box::new(item) as Box<Content>));
 }
 
 pub use self::message::Message;

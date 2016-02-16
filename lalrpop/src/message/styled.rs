@@ -1,4 +1,5 @@
 use ansi_term::Style;
+use std::fmt::{Debug, Formatter, Error};
 use super::*;
 use super::ascii_canvas::AsciiView;
 
@@ -33,5 +34,13 @@ impl Content for Styled {
         super::into_wrap_items_map(self.content,
                                    wrap_items,
                                    |item| Styled::new(style_fn, item))
+    }
+}
+
+impl Debug for Styled {
+    fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
+        fmt.debug_struct("Styled")
+           .field("content", &self.content)
+           .finish()
     }
 }

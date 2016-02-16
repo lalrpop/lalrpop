@@ -2,6 +2,7 @@ use std::cmp;
 use super::*;
 use super::ascii_canvas::AsciiView;
 
+#[derive(Debug)]
 pub struct Wrap {
     items: Vec<Box<Content>>
 }
@@ -33,6 +34,9 @@ impl Content for Wrap {
         for item in &self.items {
             let len = item.min_width();
 
+            println!("column={} len={} columns={}",
+                     column, len, columns);
+
             // If we don't have enough space for this content,
             // then move to the next line.
             if column + len > columns {
@@ -41,12 +45,15 @@ impl Content for Wrap {
                 height = 1;
             }
 
-            assert!(column + len < columns);
+            assert!(column + len <= columns);
 
             let (c_row, c_column) = item.emit_at(view, row, column);
             assert!(c_column >= column);
-            column = c_column + 1;
+            column = c_column + 2;
             height = cmp::max(c_row - row + 1, height);
+
+            println!("item={:?} c_row={} c_column={} column={} height={}",
+                     item, c_row, c_column, column, height);
         }
     }
 

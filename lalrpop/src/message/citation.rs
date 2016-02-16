@@ -1,6 +1,7 @@
 use ansi_term::Style;
 use filetext::FileText;
 use grammar::parse_tree::Span;
+use std::fmt::{Debug, Formatter, Error};
 use std::rc::Rc;
 
 use super::*;
@@ -24,5 +25,13 @@ impl Content for Citation {
 
     fn into_wrap_items(self: Box<Self>, wrap_items: &mut Vec<Box<Content>>) {
         wrap_items.push(self);
+    }
+}
+
+impl Debug for Citation {
+    fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
+        fmt.debug_struct("Citation")
+           .field("span", &self.span)
+           .finish()
     }
 }

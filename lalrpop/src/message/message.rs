@@ -4,6 +4,7 @@ use grammar::parse_tree::Span;
 use message::ascii_canvas::AsciiView;
 use message::Content;
 use std::cmp;
+use std::fmt::{Debug, Formatter, Error};
 use std::rc::Rc;
 
 /// The top-level message display like this:
@@ -54,7 +55,7 @@ impl Content for Message {
         let span = self.file_text.span_str(self.span).chars().count();
         let heading = self.heading.min_width();
         let body = self.heading.min_width();
-        cmp::max(span + heading + 2, body)
+        cmp::max(span + heading + 2, body + 2)
     }
 
     fn emit(&self, view: &mut AsciiView) {
@@ -63,11 +64,21 @@ impl Content for Message {
         let count = span.chars().count();
         view.write_chars(0, count, ":".chars(), Style::new());
 
-        let (row, column) = self.heading.emit_at(view, 0, count + 2);
-        self.body.emit_at(view, row + 2, 0);
+        let (row, _) = self.heading.emit_at(view, 0, count + 2);
+        self.body.emit_at(view, row + 2, 2);
     }
 
     fn into_wrap_items(self: Box<Self>, wrap_items: &mut Vec<Box<Content>>) {
         wrap_items.push(self);
+    }
+}
+
+impl Debug for Message {
+    fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
+        fmt.debug_struct("Message")
+           .field("span", &self.span)
+           .field("heading", &self.heading)
+           .field("body", &self.body)
+           .finish()
     }
 }

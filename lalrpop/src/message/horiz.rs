@@ -2,6 +2,7 @@ use itertools::Itertools;
 use super::*;
 use super::ascii_canvas::AsciiView;
 
+#[derive(Debug)]
 pub struct Horiz {
     items: Vec<Box<Content>>,
     separate: usize, // 0 => overlapping, 1 => each on its own line, 2 => paragraphs
