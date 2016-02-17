@@ -146,11 +146,6 @@ impl<C: Character> Builder<C> {
         self.horiz(1)
     }
 
-    /// "item1 item2"
-    pub fn spaced(self) -> Builder<HorizCharacter<C>> {
-        self.horiz(2) // what you normally want
-    }
-
     pub fn wrap(self) -> Builder<WrapCharacter<C>> {
         Builder::new(WrapCharacter {
             base: self,
@@ -160,14 +155,6 @@ impl<C: Character> Builder<C> {
     pub fn styled(mut self, style: Style) -> Self {
         let content = self.pop().expect("bold must be applied to an item");
         self.push(Box::new(Styled::new(style, content)))
-    }
-
-    pub fn bolded(self) -> Self {
-        self.styled(style::BOLD)
-    }
-
-    pub fn underline(self) -> Self {
-        self.styled(style::UNDERLINE)
     }
 
     pub fn indent_by(mut self, amount: usize) -> Self {
@@ -198,14 +185,6 @@ impl<C: Character> Builder<C> {
 
     pub fn verbatimed(self) -> Self {
         self.adjacent_text("`", "`")
-    }
-
-    pub fn double_quoted(self) -> Self {
-        self.adjacent_text("\"", "\"")
-    }
-
-    pub fn single_quoted(self) -> Self {
-        self.adjacent_text("'", "'")
     }
 
     pub fn punctuated<T:ToString>(self, text: T) -> Self {

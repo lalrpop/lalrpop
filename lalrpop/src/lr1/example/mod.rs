@@ -265,12 +265,8 @@ impl Example {
     #[cfg(test)]
     pub fn paint_unstyled(&self) -> Vec<Row> {
         use std::default::Default;
-        self.paint(ExampleStyles::default())
-    }
-
-    pub fn paint(&self, styles: ExampleStyles) -> Vec<Row> {
         let this = self.clone();
-        let content = this.into_picture(styles);
+        let content = this.into_picture(ExampleStyles::default());
         let min_width = content.min_width();
         let canvas = content.emit_to_canvas(min_width);
         canvas.to_strings()

@@ -7,7 +7,7 @@ use std::cell::RefCell;
 use std::rc::Rc;
 
 pub struct Tls {
-    dummy: ()
+    _dummy: ()
 }
 
 #[derive(Clone)]
