@@ -95,6 +95,33 @@ impl Character for InlineBuilder {
 ///////////////////////////////////////////////////////////////////////////
 // Builder -- generic helper for multi-part items
 
+/// The builder is used to construct multi-part items. It is intended
+/// to be used in a "method-call chain" style. The base method is
+/// called `push`, and it simply pushes a new child of the current
+/// parent.
+///
+/// Methods whose name like `begin_foo` are used to create a new
+/// multi-part child; they return a fresh builder corresponding to the
+/// child. When the child is completely constructed, call `end` to
+/// finish the child builder and return to the parent builder.
+///
+/// Methods whose name ends in "-ed", such as `styled`, post-process
+/// the last item pushed. They will panic if invoked before any items
+/// have been pushed.
+///
+/// Example:
+///
+/// ```
+/// let node =
+///    InlineBuilder::new()
+///        .begin_lines() // starts a child builder for adjacent lines
+///        .text("foo")   // add a text node "foo" to the child builder
+///        .text("bar")   // add a text node "bar" to the child builder
+///        .end()         // finish the lines builder, return to the parent
+///        .end();        // finish the parent `InlineBuilder`, yielding up the
+///                       // `lines` child that was pushed (see `InlineBuilder`
+///                       // for more details)
+/// ```
 pub struct Builder<C: Character> {
     items: Vec<Box<Content>>,
     character: C,
@@ -119,22 +146,22 @@ impl<C: Character> Builder<C> {
         self.items.pop()
     }
 
-    pub fn vert(self, separate: usize) -> Builder<VertCharacter<C>> {
+    pub fn begin_vert(self, separate: usize) -> Builder<VertCharacter<C>> {
         Builder::new(VertCharacter {
             base: self,
             separate: separate,
         })
     }
 
-    pub fn lines(self) -> Builder<VertCharacter<C>> {
-        self.vert(1)
+    pub fn begin_lines(self) -> Builder<VertCharacter<C>> {
+        self.begin_vert(1)
     }
 
-    pub fn paragraphs(self) -> Builder<VertCharacter<C>> {
-        self.vert(2)
+    pub fn begin_paragraphs(self) -> Builder<VertCharacter<C>> {
+        self.begin_vert(2)
     }
 
-    pub fn horiz(self, separate: usize) -> Builder<HorizCharacter<C>> {
+    pub fn begin_horiz(self, separate: usize) -> Builder<HorizCharacter<C>> {
         Builder::new(HorizCharacter {
             base: self,
             separate: separate,
@@ -142,16 +169,16 @@ impl<C: Character> Builder<C> {
     }
 
     // "item1item2"
-    pub fn adjacent(self) -> Builder<HorizCharacter<C>> {
-        self.horiz(1)
+    pub fn begin_adjacent(self) -> Builder<HorizCharacter<C>> {
+        self.begin_horiz(1)
     }
 
     // "item1 item2"
-    pub fn spaced(self) -> Builder<HorizCharacter<C>> {
-        self.horiz(2)
+    pub fn begin_spaced(self) -> Builder<HorizCharacter<C>> {
+        self.begin_horiz(2)
     }
 
-    pub fn wrap(self) -> Builder<WrapCharacter<C>> {
+    pub fn begin_wrap(self) -> Builder<WrapCharacter<C>> {
         Builder::new(WrapCharacter {
             base: self,
         })
@@ -184,18 +211,18 @@ impl<C: Character> Builder<C> {
         let prefix = prefix.to_string();
         let suffix = suffix.to_string();
         if !prefix.is_empty() && !suffix.is_empty() {
-            self.adjacent()
+            self.begin_adjacent()
                 .text(prefix)
                 .push(item)
                 .text(suffix)
                 .end()
         } else if !suffix.is_empty() {
-            self.adjacent()
+            self.begin_adjacent()
                 .push(item)
                 .text(suffix)
                 .end()
         } else if !prefix.is_empty() {
-            self.adjacent()
+            self.begin_adjacent()
                 .text(prefix)
                 .push(item)
                 .end()
@@ -213,7 +240,7 @@ impl<C: Character> Builder<C> {
     }
 
     pub fn wrap_text<T:ToString>(self, text: T) -> Self {
-        self.wrap()
+        self.begin_wrap()
             .text(text)
             .end()
     }

@@ -240,7 +240,7 @@ fn report_error(file_text: &FileText, span: pt::Span, message: &str) -> ! {
 }
 
 fn report_messages(messages: Vec<Message>) -> term::Result<()> {
-    let builder = InlineBuilder::new().paragraphs();
+    let builder = InlineBuilder::new().begin_paragraphs();
     let builder = messages.into_iter().fold(builder, |b, m| b.push(Box::new(m)));
     let content = builder.end().end();
     report_content(&*content)

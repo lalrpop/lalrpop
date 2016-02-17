@@ -125,17 +125,17 @@ impl<'cx, 'grammar> ErrorReportingCx<'cx, 'grammar> {
             .end()
             .body()
 
-            .lines()
+            .begin_lines()
             .wrap_text("The following symbols can be reduced in two ways:")
             .push(reduce.to_symbol_list(reduce.symbols.len(), styles))
             .end()
 
-            .lines()
+            .begin_lines()
             .wrap_text("They could be reduced like so:")
             .push(reduce.into_picture(styles))
             .end()
 
-            .lines()
+            .begin_lines()
             .wrap_text("Alternatively, they could be reduced like so:")
             .push(shift.into_picture(styles))
             .end()
@@ -161,7 +161,7 @@ impl<'cx, 'grammar> ErrorReportingCx<'cx, 'grammar> {
                                nonterminal: NonterminalString)
                                -> Message {
         self.report_error_ambiguity_core(conflict, shift, reduce)
-            .wrap()
+            .begin_wrap()
             .text("This looks like a precedence error related to")
             .push(nonterminal)
             .verbatimed()
@@ -186,7 +186,7 @@ impl<'cx, 'grammar> ErrorReportingCx<'cx, 'grammar> {
             .end()
 
             .body()
-            .lines()
+            .begin_lines()
             .wrap_text("The grammar as written cannot be parsed using an LR(1) \
                         parser, as more than one token of lookahead would be required. \
                         After encountering the following symbols in the input:")
@@ -196,7 +196,7 @@ impl<'cx, 'grammar> ErrorReportingCx<'cx, 'grammar> {
                 reduce.to_symbol_list(reduce.cursor, styles)
             });
 
-        let builder = builder.wrap();
+        let builder = builder.begin_wrap();
 
         let builder = match lookahead {
             Lookahead::Terminal(term) => {
@@ -218,13 +218,13 @@ impl<'cx, 'grammar> ErrorReportingCx<'cx, 'grammar> {
                    .end()
                    .end();
 
-        let builder = builder.lines();
+        let builder = builder.begin_lines();
         let builder = match conflict.action {
             Action::Shift(_) =>
                 builder.wrap_text("First, the parser could take no action yet, \
                                    leading to:"),
             Action::Reduce(production) =>
-                builder.wrap()
+                builder.begin_wrap()
                        .text("First, the parser could reduce")
                        .push(production.nonterminal)
                        .verbatimed()
@@ -237,8 +237,8 @@ impl<'cx, 'grammar> ErrorReportingCx<'cx, 'grammar> {
                    .end();
 
         builder
-            .lines()
-            .wrap()
+            .begin_lines()
+            .begin_wrap()
             .text("Second, the parser could reduce")
             .push(reduce.reductions[0].nonterminal)
             .verbatimed()
@@ -263,7 +263,7 @@ impl<'cx, 'grammar> ErrorReportingCx<'cx, 'grammar> {
                                                      shift, reduce);
 
         builder
-            .wrap()
+            .begin_wrap()
             .text("It appears you could resolve this problem by adding")
             .text("the annotation `#[inline]` to the definition of")
             .push(nonterminal)
@@ -289,7 +289,7 @@ impl<'cx, 'grammar> ErrorReportingCx<'cx, 'grammar> {
                                                      shift, reduce);
 
         builder
-            .wrap()
+            .begin_wrap()
             .text("It appears you could resolve this problem by replacing")
             .text("uses of")
             .push(nonterminal)
@@ -334,7 +334,7 @@ impl<'cx, 'grammar> ErrorReportingCx<'cx, 'grammar> {
             .text("Conflict detected")
             .end()
             .body()
-            .lines()
+            .begin_lines()
             .wrap_text("when in this state:")
             .indented();
         for item in self.states[conflict.state.0].items.vec.iter() {
@@ -342,7 +342,7 @@ impl<'cx, 'grammar> ErrorReportingCx<'cx, 'grammar> {
         }
         let mut builder =
             builder.end()
-                   .wrap()
+                   .begin_wrap()
                    .text(format!("and looking at a token `{:?}`", lookahead))
                    .text("we can reduce to a")
                    .push(conflict.production.nonterminal)

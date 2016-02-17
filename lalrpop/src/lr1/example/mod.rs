@@ -88,7 +88,7 @@ impl Example {
     ///
     ///    Ty "->" Ty -> "Ty"
     pub fn to_symbol_list(&self, length: usize, styles: ExampleStyles) -> Box<Content> {
-        let mut builder = InlineBuilder::new().spaced();
+        let mut builder = InlineBuilder::new().begin_spaced();
 
         for (index, symbol) in self.symbols[..length].iter().enumerate() {
             let style = if index < self.cursor {
