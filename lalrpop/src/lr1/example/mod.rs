@@ -273,17 +273,13 @@ impl Example {
                 styles: &ExampleStyles,
                 positions: &[usize],
                 view: &mut AsciiView) {
-        // Write the labels:
-        //    A1   B2  C3  D4 E5 F6
-        self.paint_symbols_on(&self.symbols, &positions, styles, view);
-
         // Draw the brackets for each reduction:
         for (index, reduction) in self.reductions.iter().enumerate() {
             let start_column = positions[reduction.start];
             let end_column = positions[reduction.end] - 1;
-            let row = 2 + index * 2;
-            view.draw_vertical_line(1 .. row + 1, start_column);
-            view.draw_vertical_line(1 .. row + 1, end_column - 1);
+            let row = 1 + index;
+            view.draw_vertical_line(0 .. row + 1, start_column);
+            view.draw_vertical_line(0 .. row + 1, end_column - 1);
             view.draw_horizontal_line(row, start_column .. end_column);
         }
 
@@ -293,12 +289,16 @@ impl Example {
         let session = Tls::session();
         for (index, reduction) in self.reductions.iter().enumerate() {
             let column = positions[reduction.start] + 2;
-            let row = 2 + index * 2;
+            let row = 1 + index;
             view.write_chars(row,
                              column,
                              reduction.nonterminal.to_string().chars(),
                              session.nonterminal_symbol);
         }
+
+        // Write the labels on top:
+        //    A1   B2  C3  D4 E5 F6
+        self.paint_symbols_on(&self.symbols, &positions, styles, view);
     }
 
     fn paint_symbols_on(&self,

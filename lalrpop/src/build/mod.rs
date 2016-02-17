@@ -257,14 +257,14 @@ fn report_content(content: &Content) -> term::Result<()> {
     };
 
     if try_colors {
-        if let Some(mut stderr) = term::stderr() {
-            return canvas.write_to(&mut *stderr);
+        if let Some(mut stdout) = term::stdout() {
+            return canvas.write_to(&mut *stdout);
         }
     }
 
-    let stderr = io::stderr();
-    let mut stderr = FakeTerminal::new(stderr.lock());
-    canvas.write_to(&mut stderr)
+    let stdout = io::stdout();
+    let mut stdout = FakeTerminal::new(stdout.lock());
+    canvas.write_to(&mut stdout)
 }
 
 fn emit_uses<W:Write>(grammar: &r::Grammar,

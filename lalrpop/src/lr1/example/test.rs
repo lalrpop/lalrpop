@@ -56,9 +56,7 @@ fn long_label_1_strings() {
     expect_debug(strings, r#"
 [
     "  A1   B2  C3  D4 E5 F6",
-    "  ╷             ╷     ╷",
     "  ├─LongLabel22─┘     │",
-    "  │                   │",
     "  └─Label─────────────┘"
 ]
 "#.trim());
@@ -106,14 +104,10 @@ fn empty_labels_strings() {
     let strings = empty_labels_example().paint_unstyled();
     expect_debug(strings, r#"
 [
-    "         A1  B2  C3 D4 E5       F6",
-    "  ╷    ╷          ╷       ╷   ╷ ╷   ╷",
+    "  ╷    ╷ A1  B2  C3 D4 E5 ╷   ╷ F6  ╷",
     "  ├─X──┘          │       │   │ │   │",
-    "  │               │       │   │ │   │",
     "  └─MegaLongLabel─┘       │   │ │   │",
-    "                          │   │ │   │",
     "                          └─Y─┘ │   │",
-    "                                │   │",
     "                                └─Z─┘"
 ]
 "#.trim());
@@ -145,12 +139,9 @@ fn single_token_strings() {
     let strings = single_token_example().paint_unstyled();
     expect_debug(strings, r#"
 [
-    "  _return_       _A_ Expression _B_",
-    "  ╷            ╷                  ╷",
+    "  _return_     ╷ _A_ Expression _B_",
     "  ├─ExprAtom───┤                  │",
-    "  │            │                  │",
     "  ├─ExprSuffix─┘                  │",
-    "  │                               │",
     "  └─ExprSuffix────────────────────┘"
 ]
 "#.trim());
