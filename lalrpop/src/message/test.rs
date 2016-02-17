@@ -11,14 +11,10 @@ use tls::Tls;
 use super::*;
 
 fn install_tls() -> Tls {
-    let session = Rc::new(Session::test());
-    let path = PathBuf::from("tmp.txt");
-    let text = r#"foo
+    Tls::test_string(r#"foo
 bar
 baz
-"#;
-    let file_text = Rc::new(FileText::new(path, text.to_string()));
-    Tls::install(session, file_text)
+"#)
 }
 
 #[test]
@@ -34,11 +30,10 @@ fn hello_world() {
         .text("This is a very, very, very, very long sentence. \
                OK, not THAT long!")
         .end()
-        .indent_by(4)
+        .indented_by(4)
         .end()
         .end();
     let min_width = msg.min_width();
-    println!("min_width={}", min_width);
     let mut canvas = AsciiCanvas::new(0, min_width);
     msg.emit(&mut canvas);
     expect_debug(&canvas.to_strings(), r#"
@@ -48,6 +43,33 @@ fn hello_world() {
     "      This is a very, very,",
     "      very, very long sentence.",
     "      OK, not THAT long!"
+]
+"#.trim());
+}
+
+/// Test a case where the body in the message is longer than the
+/// header (which used to mess up the `min_width` computation).
+#[test]
+fn long_body() {
+    let _tls = install_tls();
+    let msg =
+        MessageBuilder::new(Span(0, 2))
+        .heading()
+        .text("Hello, world!")
+        .end()
+        .body()
+        .text("This is a very, very, very, very long sentence. \
+               OK, not THAT long!")
+        .end()
+        .end();
+    let min_width = msg.min_width();
+    let mut canvas = AsciiCanvas::new(0, min_width);
+    msg.emit(&mut canvas);
+    expect_debug(&canvas.to_strings(), r#"
+[
+    "tmp.txt:1:1: 1:2: Hello, world!",
+    "",
+    "  This is a very, very, very, very long sentence. OK, not THAT long!"
 ]
 "#.trim());
 }
@@ -80,7 +102,6 @@ fn paragraphs() {
         .end()
         .end();
     let min_width = msg.min_width();
-    println!("min_width={}", min_width);
     let mut canvas = AsciiCanvas::new(0, min_width);
     msg.emit(&mut canvas);
     expect_debug(&canvas.to_strings(), r#"

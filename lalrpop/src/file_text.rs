@@ -33,6 +33,11 @@ impl FileText {
         FileText { path: path, input_str: input_str, newlines: newline_indices }
     }
 
+    #[cfg(test)]
+    pub fn test() -> FileText {
+        Self::new(PathBuf::from("test.lalrpop"), String::from(""))
+    }
+
     pub fn text(&self) -> &String {
         &self.input_str
     }

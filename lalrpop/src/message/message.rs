@@ -51,18 +51,23 @@ impl Content for Message {
         let file_text = Tls::file_text();
         let span = file_text.span_str(self.span).chars().count();
         let heading = self.heading.min_width();
-        let body = self.heading.min_width();
+        let body = self.body.min_width();
         cmp::max(span + heading + 2, body + 2)
     }
 
     fn emit(&self, view: &mut AsciiView) {
+        let session = Tls::session();
         let file_text = Tls::file_text();
+
         let span = file_text.span_str(self.span);
         view.write_chars(0, 0, span.chars(), Style::new());
         let count = span.chars().count();
         view.write_chars(0, count, ":".chars(), Style::new());
 
-        let (row, _) = self.heading.emit_at(view, 0, count + 2);
+        let (row, _) = self.heading.emit_at(&mut view.styled(session.heading),
+                                            0,
+                                            count + 2);
+
         self.body.emit_at(view, row + 2, 2);
     }
 

@@ -6,7 +6,7 @@ use message::styled::Styled;
 use message::text::Text;
 use message::vert::Vert;
 use message::wrap::Wrap;
-use style::{self, Style};
+use style::Style;
 
 pub struct MessageBuilder {
     span: Span,
@@ -146,6 +146,11 @@ impl<C: Character> Builder<C> {
         self.horiz(1)
     }
 
+    // "item1 item2"
+    pub fn spaced(self) -> Builder<HorizCharacter<C>> {
+        self.horiz(2)
+    }
+
     pub fn wrap(self) -> Builder<WrapCharacter<C>> {
         Builder::new(WrapCharacter {
             base: self,
@@ -157,13 +162,13 @@ impl<C: Character> Builder<C> {
         self.push(Box::new(Styled::new(style, content)))
     }
 
-    pub fn indent_by(mut self, amount: usize) -> Self {
+    pub fn indented_by(mut self, amount: usize) -> Self {
         let content = self.pop().expect("indent must be applied to an item");
         self.push(Box::new(Indent::new(amount, content)))
     }
 
-    pub fn indent(self) -> Self {
-        self.indent_by(2)
+    pub fn indented(self) -> Self {
+        self.indented_by(2)
     }
 
     pub fn text<T:ToString>(self, text: T) -> Self {
@@ -176,11 +181,27 @@ impl<C: Character> Builder<C> {
     /// between.
     pub fn adjacent_text<T:ToString,U:ToString>(mut self, prefix: T, suffix: U) -> Self {
         let item = self.pop().expect("adjacent text must be added to an item");
-        self.adjacent()
-            .text(prefix)
-            .push(item)
-            .text(suffix)
-            .end()
+        let prefix = prefix.to_string();
+        let suffix = suffix.to_string();
+        if !prefix.is_empty() && !suffix.is_empty() {
+            self.adjacent()
+                .text(prefix)
+                .push(item)
+                .text(suffix)
+                .end()
+        } else if !suffix.is_empty() {
+            self.adjacent()
+                .push(item)
+                .text(suffix)
+                .end()
+        } else if !prefix.is_empty() {
+            self.adjacent()
+                .text(prefix)
+                .push(item)
+                .end()
+        } else {
+            self.push(item)
+        }
     }
 
     pub fn verbatimed(self) -> Self {

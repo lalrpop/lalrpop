@@ -2,8 +2,8 @@ use intern::intern;
 use grammar::repr::*;
 use lr1::build_states;
 use lr1::core::*;
-use session::Session;
 use test_util::{expect_debug, normalized_grammar};
+use tls::Tls;
 
 use super::super::Tracer;
 
@@ -16,6 +16,7 @@ fn shift_backtrace_1() {
     // This grammar yields a S/R conflict. Is it `(int -> int) -> int`
     // or `int -> (int -> int)`?
 
+    let _tls = Tls::test();
     let grammar = normalized_grammar(r#"
 grammar;
 pub Ty: () = {
@@ -24,8 +25,7 @@ pub Ty: () = {
     <t1:Ty> "->" <t2:Ty> => (),
 };
 "#);
-    let session = Session::test();
-    let states = build_states(&session, &grammar, nt("Ty")).unwrap_err().states;
+    let states = build_states(&grammar, nt("Ty")).unwrap_err().states;
     let conflict =
         states.iter()
               .flat_map(|s| s.conflicts.values())
@@ -45,7 +45,7 @@ pub Ty: () = {
     assert!(conflict.production.symbols.len() == 3);
     let item = LR0Item { production: conflict.production, index: 1 };
     println!("item={:?}", item);
-    let tracer = Tracer::new(&session, &grammar, &states);
+    let tracer = Tracer::new(&grammar, &states);
     let graph = tracer.backtrace_shift(conflict.state, item);
     expect_debug(&graph, r#"
 [

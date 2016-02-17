@@ -1,6 +1,7 @@
 use intern::intern;
 use grammar::repr::*;
 use test_util::compare;
+use tls::Tls;
 
 use super::{Example, ExampleSymbol, Reduction};
 
@@ -41,6 +42,7 @@ fn long_label_1_example() -> Example {
 
 #[test]
 fn long_label_1_positions() {
+    let _tls = Tls::test();
     let example = long_label_1_example();
     let lengths = example.lengths();
     let positions = example.positions(&lengths);
@@ -49,6 +51,7 @@ fn long_label_1_positions() {
 
 #[test]
 fn long_label_1_strings() {
+    let _tls = Tls::test();
     let strings = long_label_1_example().paint_unstyled();
     compare(strings,
             vec!["A1   B2  C3  D4 E5 F6",
@@ -86,6 +89,7 @@ fn empty_labels_example() -> Example {
 
 #[test]
 fn empty_labels_positions() {
+    let _tls = Tls::test();
     let example = empty_labels_example();
     let lengths = example.lengths();
     let positions = example.positions(&lengths);
@@ -95,6 +99,7 @@ fn empty_labels_positions() {
 
 #[test]
 fn empty_labels_strings() {
+    let _tls = Tls::test();
     let strings = empty_labels_example().paint_unstyled();
     compare(strings,
             vec!["       A1  B2  C3 D4 E5       F6",
@@ -130,6 +135,7 @@ fn single_token_example() -> Example {
 
 #[test]
 fn single_token_strings() {
+    let _tls = Tls::test();
     let strings = single_token_example().paint_unstyled();
     compare(strings, vec![
         "_return_       _A_ Expression _B_",

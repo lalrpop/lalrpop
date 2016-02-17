@@ -4,7 +4,6 @@ use std::cmp;
 use std::fmt::Debug;
 
 pub mod builder;
-pub mod citation;
 pub mod horiz;
 pub mod message;
 pub mod indent;
@@ -25,7 +24,10 @@ pub trait Content: Debug {
     /// current content. Returns the canvas. Typically `min_width`
     /// would be 80 or the width of the current terminal.
     fn emit_to_canvas(&self, min_width: usize) -> AsciiCanvas {
-        let min_width = cmp::max(min_width, self.min_width());
+        let computed_min = self.min_width();
+        let min_width = cmp::max(min_width, computed_min);
+        debug!("emit_to_canvas: min_width={} computed_min={} self={:#?}",
+               min_width, computed_min, self);
         let mut canvas = AsciiCanvas::new(0, min_width);
         self.emit(&mut canvas);
         canvas
@@ -38,11 +40,11 @@ pub trait Content: Debug {
                row: usize,
                column: usize)
                -> (usize, usize) {
-        println!("emit_at{:#?}", (row, column, self));
+        debug!("emit_at({},{}) self={:?} min_width={:?}",
+               row, column, self, self.min_width());
         let mut shifted_view = view.shift(row, column);
         self.emit(&mut shifted_view);
         let (r, c) = shifted_view.close();
-        println!("emit_at: ({}, {})", r, c);
         (r, c)
     }
 

@@ -4,8 +4,8 @@ use lr1::build_states;
 use lr1::core::Item;
 use lr1::interpret::interpret_partial;
 use lr1::lookahead::Lookahead;
-use session::Session;
 use test_util::{expect_debug, normalized_grammar};
+use tls::Tls;
 
 use super::super::Tracer;
 
@@ -48,10 +48,10 @@ fn test_grammar1() -> Grammar {
 
 #[test]
 fn backtrace1() {
+    let _tls = Tls::test();
     let grammar = test_grammar1();
-    let session = Session::test();
-    let states = build_states(&session, &grammar, nt("Start")).unwrap();
-    let tracer = Tracer::new(&session, &grammar, &states);
+    let states = build_states(&grammar, nt("Start")).unwrap();
+    let tracer = Tracer::new(&grammar, &states);
     let state_stack = interpret_partial(&states, terms!["Int"]).unwrap();
     let top_state = *state_stack.last().unwrap();
 
@@ -86,10 +86,10 @@ fn backtrace1() {
 
 #[test]
 fn backtrace2() {
+    let _tls = Tls::test();
     let grammar = test_grammar1();
-    let session = Session::test();
-    let states = build_states(&session, &grammar, nt("Start")).unwrap();
-    let tracer = Tracer::new(&session, &grammar, &states);
+    let states = build_states(&grammar, nt("Start")).unwrap();
+    let tracer = Tracer::new(&grammar, &states);
     let state_stack = interpret_partial(&states, terms!["Int"]).unwrap();
     let top_state = *state_stack.last().unwrap();
 
@@ -120,6 +120,7 @@ fn backtrace2() {
 
 #[test]
 fn backtrace3() {
+    let _tls = Tls::test();
     // This grammar yields a S/R conflict. Is it (int -> int) -> int
     // or int -> (int -> int)?
     let grammar = normalized_grammar(r#"
@@ -130,9 +131,8 @@ pub Ty: () = {
     <t1:Ty> "->" <t2:Ty> => (),
 };
 "#);
-    let session = Session::test();
-    let states = build_states(&session, &grammar, nt("Ty")).unwrap_err().states;
-    let tracer = Tracer::new(&session, &grammar, &states);
+    let states = build_states(&grammar, nt("Ty")).unwrap_err().states;
+    let tracer = Tracer::new(&grammar, &states);
     let (&lookahead, conflict) =
         states.iter()
               .flat_map(|s| &s.conflicts)
@@ -177,7 +177,7 @@ pub Ty: () = {
 fn reduce_backtrace_3_graph() {
     // This grammar yields a S/R conflict. Is it `(int -> int) -> int`
     // or `int -> (int -> int)`?
-
+    let _tls = Tls::test();
     let grammar = normalized_grammar(r#"
 grammar;
 pub Ty: () = {
@@ -186,8 +186,7 @@ pub Ty: () = {
     <t1:Ty> "->" <t2:Ty> => (),
 };
 "#);
-    let session = Session::test();
-    let states = build_states(&session, &grammar, nt("Ty")).unwrap_err().states;
+    let states = build_states(&grammar, nt("Ty")).unwrap_err().states;
     let (&lookahead, conflict) =
         states.iter()
               .flat_map(|s| &s.conflicts)
@@ -199,7 +198,7 @@ pub Ty: () = {
                       index: conflict.production.symbols.len(),
                       lookahead: lookahead };
     println!("item={:?}", item);
-    let tracer = Tracer::new(&session, &grammar, &states);
+    let tracer = Tracer::new(&grammar, &states);
     let graph = tracer.backtrace_reduce(conflict.state, item);
     expect_debug(&graph, r#"
 [

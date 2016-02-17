@@ -22,6 +22,19 @@ thread_local! {
 }
 
 impl Tls {
+    #[cfg(test)]
+    pub fn test() -> Tls {
+        Self::install(Rc::new(Session::test()), Rc::new(FileText::test()))
+    }
+
+    #[cfg(test)]
+    pub fn test_string(text: &str) -> Tls {
+        use std::path::PathBuf;
+        Self::install(Rc::new(Session::test()),
+                      Rc::new(FileText::new(PathBuf::from("tmp.txt"),
+                                            String::from(text))))
+    }
+
     /// Installs `Tls` and returns a placeholder value.  When this
     /// value is dropped, the `Tls` entries will be removed. To access
     /// the values from `Tls`, call `Tls::session()` or
@@ -41,13 +54,14 @@ impl Tls {
             *s = Some(fields.clone());
         });
 
-        Tls { dummy: () }
+        Tls { _dummy: () }
     }
 
     fn fields() -> TlsFields {
         THE_TLS_FIELDS.with(|s| s.borrow().clone().expect("TLS is not installed"))
     }
 
+    #[allow(dead_code)] // not used yet, but I feel like I will at some point
     pub fn session() -> Rc<Session> {
         Self::fields().session
     }

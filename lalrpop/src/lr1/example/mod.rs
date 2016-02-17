@@ -1,12 +1,12 @@
 //! Code to compute example inputs given a backtrace.
 
-use ascii_canvas::{AsciiView, Row};
+use ascii_canvas::{AsciiView};
 use message::Content;
 use message::builder::InlineBuilder;
 use grammar::repr::{NonterminalString, Symbol};
-use session::Session;
 use std::fmt::{Debug, Formatter, Error};
 use style::Style;
+use tls::Tls;
 
 #[cfg(test)] mod test;
 
@@ -83,38 +83,32 @@ impl Example {
                     .collect()
     }
 
-    /// Extract the list of symbols from this `Example` and make
-    /// a styled list of them, like:
+    /// Extract a prefix of the list of symbols from this `Example`
+    /// and make a styled list of them, like:
     ///
     ///    Ty "->" Ty -> "Ty"
-    pub fn to_symbol_list(&self, styles: ExampleStyles) -> Box<Content> {
-        let mut builder = InlineBuilder::new();
+    pub fn to_symbol_list(&self, length: usize, styles: ExampleStyles) -> Box<Content> {
+        let mut builder = InlineBuilder::new().spaced();
 
-        for symbol in &self.symbols[..self.cursor] {
-            if let &ExampleSymbol::Symbol(s) = symbol {
-                builder = builder.push(s).styled(styles.before_cursor);
-            }
-        }
-
-        for symbol in self.symbols[self.cursor..].iter().take(1) {
-            match *symbol {
-                ExampleSymbol::Symbol(Symbol::Terminal(term)) => {
-                    builder = builder.push(term).styled(styles.on_cursor);
+        for (index, symbol) in self.symbols[..length].iter().enumerate() {
+            let style = if index < self.cursor {
+                styles.before_cursor
+            } else if index > self.cursor {
+                styles.after_cursor
+            } else {
+                match *symbol {
+                    ExampleSymbol::Symbol(Symbol::Terminal(_)) => styles.on_cursor,
+                    ExampleSymbol::Symbol(Symbol::Nonterminal(_)) => styles.after_cursor,
+                    ExampleSymbol::Epsilon => styles.after_cursor,
                 }
-                ExampleSymbol::Symbol(Symbol::Nonterminal(nt)) => {
-                    builder = builder.push(nt).styled(styles.after_cursor);
-                }
-                ExampleSymbol::Epsilon => { }
-            }
-        }
+            };
 
-        for symbol in self.symbols[self.cursor..].iter().skip(1) {
             if let &ExampleSymbol::Symbol(s) = symbol {
-                builder = builder.push(s).styled(styles.after_cursor);
+                builder = builder.push(s).styled(style);
             }
         }
 
-        builder.end()
+        builder.end().indented().end()
     }
 
     /// Render the example into a styled diagram suitable for
@@ -122,11 +116,14 @@ impl Example {
     pub fn into_picture(self, styles: ExampleStyles) -> Box<Content> {
         let lengths = self.lengths();
         let positions = self.positions(&lengths);
-        Box::new(ExamplePicture {
-            example: self,
-            positions: positions,
-            styles: styles,
-        })
+        InlineBuilder::new()
+            .push(Box::new(ExamplePicture {
+                example: self,
+                positions: positions,
+                styles: styles,
+            }))
+            .indented()
+            .end()
     }
 
     fn starting_positions(&self, lengths: &[usize]) -> Vec<usize> {
@@ -263,7 +260,7 @@ impl Example {
     }
 
     #[cfg(test)]
-    pub fn paint_unstyled(&self) -> Vec<Row> {
+    pub fn paint_unstyled(&self) -> Vec<::ascii_canvas::Row> {
         use std::default::Default;
         let this = self.clone();
         let content = this.into_picture(ExampleStyles::default());
@@ -369,7 +366,8 @@ fn shift(positions: &mut [usize], amount: usize) {
 }
 
 impl ExampleStyles {
-    pub fn ambig(session: &Session) -> Self {
+    pub fn ambig() -> Self {
+        let session = Tls::session();
         ExampleStyles {
             before_cursor: session.ambig_symbols,
             on_cursor: session.ambig_symbols,
@@ -377,7 +375,8 @@ impl ExampleStyles {
         }
     }
 
-    pub fn new(session: &Session) -> Self {
+    pub fn new() -> Self {
+        let session = Tls::session();
         ExampleStyles {
             before_cursor: session.observed_symbols,
             on_cursor: session.cursor_symbol,

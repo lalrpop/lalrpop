@@ -1,36 +1,33 @@
 //! LR(1) state construction algorithm.
 
 use kernel_set;
-use session::Session;
 use grammar::repr::*;
 use lr1::core::*;
 use lr1::first;
 use lr1::lookahead::Lookahead;
 use std::rc::Rc;
+use tls::Tls;
 use util::{map, Multimap, Set};
 
 #[cfg(test)] mod test;
 
-pub fn build_lr1_states<'grammar>(session: &Session,
-                                  grammar: &'grammar Grammar,
+pub fn build_lr1_states<'grammar>(grammar: &'grammar Grammar,
                                   start: NonterminalString)
                                   -> Result<Vec<State<'grammar>>,
                                             TableConstructionError<'grammar>>
 {
-    let lr1 = LR1::new(session, grammar);
+    let lr1 = LR1::new(grammar);
     lr1.build_states(start)
 }
 
-struct LR1<'session, 'grammar> {
-    session: &'session Session,
+struct LR1<'grammar> {
     grammar: &'grammar Grammar,
     first_sets: first::FirstSets,
 }
 
-impl<'session, 'grammar> LR1<'session, 'grammar> {
-    fn new(session: &'session Session, grammar: &'grammar Grammar) -> Self {
+impl<'grammar> LR1<'grammar> {
+    fn new(grammar: &'grammar Grammar) -> Self {
         LR1 {
-            session: session,
             grammar: grammar,
             first_sets: first::FirstSets::new(grammar),
         }
@@ -39,6 +36,7 @@ impl<'session, 'grammar> LR1<'session, 'grammar> {
     fn build_states(&self, start_nt: NonterminalString)
                     -> Result<Vec<State<'grammar>>, TableConstructionError<'grammar>>
     {
+        let session = Tls::session();
         let mut kernel_set = kernel_set::KernelSet::new();
         let mut states = vec![];
         let mut errors = 0;
@@ -52,7 +50,7 @@ impl<'session, 'grammar> LR1<'session, 'grammar> {
             let index = StateIndex(states.len());
 
             if index.0 % 10000 == 0 && index.0 > 0 {
-                log!(self.session, Verbose, "{} states created so far.", index.0);
+                log!(session, Verbose, "{} states created so far.", index.0);
             }
 
             let mut this_state = State { index: index, items: items.clone(),
@@ -90,7 +88,7 @@ impl<'session, 'grammar> LR1<'session, 'grammar> {
                 let action = Action::Reduce(item.production);
                 let prev = this_state.tokens.insert(item.lookahead, action);
                 if let Some(conflict) = prev {
-                    log!(self.session, Verbose, "Encountered conflict in state {}",
+                    log!(session, Verbose, "Encountered conflict in state {}",
                          index.0);
                     this_state.conflicts.entry(item.lookahead)
                                         .or_insert(vec![])
@@ -106,8 +104,8 @@ impl<'session, 'grammar> LR1<'session, 'grammar> {
             // extract a new state
             states.push(this_state);
 
-            if self.session.stop_after(errors) {
-                log!(self.session, Verbose,
+            if session.stop_after(errors) {
+                log!(session, Verbose,
                      "{} conflicts encountered, stopping.", errors);
                 break;
             }

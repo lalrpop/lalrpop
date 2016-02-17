@@ -23,9 +23,6 @@ impl<'trace, 'grammar> Tracer<'trace, 'grammar> {
                          item_state: StateIndex,
                          item: Item<'grammar>)
     {
-        log!(self.session, Debug, "trace_reduce_item(item_state={:?} item={:?})",
-             item_state, item);
-
         // We start out with an item
         //
         //     X = ...p (*) ...s [L]
@@ -69,10 +66,6 @@ impl<'trace, 'grammar> Tracer<'trace, 'grammar> {
                                nonterminal: NonterminalString, // "Y"
                                lookahead: Lookahead) // "L"
     {
-        log!(self.session, Debug,
-             "trace_reduce_from_state(item_state={:?}, \
-              nonterminal={:?}, lookahead={:?})",
-             item_state, nonterminal, lookahead);
         if !self.visited_set.insert((item_state, nonterminal)) {
             return;
         }

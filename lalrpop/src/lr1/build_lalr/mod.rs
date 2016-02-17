@@ -6,7 +6,6 @@ use lr1::core::*;
 use lr1::core::Action::{Reduce, Shift};
 use lr1::lookahead::Lookahead;
 use grammar::repr::*;
-use session::Session;
 use std::rc::Rc;
 use util::{map, Map};
 use util::map::Entry;
@@ -25,14 +24,13 @@ struct LALR1State<'grammar> {
     conflicts: Map<Lookahead, Vec<Conflict<'grammar>>>,
 }
 
-pub fn build_lalr_states<'grammar>(session: &Session,
-                                   grammar: &'grammar Grammar,
+pub fn build_lalr_states<'grammar>(grammar: &'grammar Grammar,
                                    start: NonterminalString)
                                    -> Result<Vec<State<'grammar>>,
                                              TableConstructionError<'grammar>>
 {
     // First build the LR(1) states
-    let lr_states = try!(build::build_lr1_states(session, grammar, start));
+    let lr_states = try!(build::build_lr1_states(grammar, start));
     collapse_to_lalr_states(&lr_states)
 }
 

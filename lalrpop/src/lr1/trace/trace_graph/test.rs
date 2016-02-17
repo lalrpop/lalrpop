@@ -2,6 +2,7 @@ use intern::intern;
 use grammar::repr::*;
 use lr1::core::*;
 use test_util::expect_debug;
+use tls::Tls;
 
 macro_rules! nt {
     ($x:ident) => {
@@ -30,6 +31,8 @@ use super::TraceGraph;
 
 #[test]
 fn enumerator() {
+    let _tls = Tls::test();
+
     // Build this graph:
     //
     //     X = X0 (*) X1
@@ -95,6 +98,8 @@ fn enumerator() {
 
 #[test]
 fn enumerator1() {
+    let _tls = Tls::test();
+
     // Build this graph:
     //
     //     W = W0 W1 (*)

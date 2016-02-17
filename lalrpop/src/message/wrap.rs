@@ -34,9 +34,6 @@ impl Content for Wrap {
         for item in &self.items {
             let len = item.min_width();
 
-            println!("column={} len={} columns={}",
-                     column, len, columns);
-
             // If we don't have enough space for this content,
             // then move to the next line.
             if column + len > columns {
@@ -51,9 +48,6 @@ impl Content for Wrap {
             assert!(c_column >= column);
             column = c_column + 2;
             height = cmp::max(c_row - row + 1, height);
-
-            println!("item={:?} c_row={} c_column={} column={} height={}",
-                     item, c_row, c_column, column, height);
         }
     }
 

@@ -16,11 +16,28 @@ pub struct Session {
     max_errors: usize,
 
     // Styles to use when formatting error reports
+
+    /// Applied to the heading in a message.
     pub heading: Style,
+
+    /// Applied to symbols in an ambiguity report (where there is no cursor)
     pub ambig_symbols: Style,
+
+    /// Applied to symbols before the cursor in a local ambiguity report
     pub observed_symbols: Style,
+
+    /// Applied to symbols at the cursor in a local ambiguity report,
+    /// if it is a non-terminal
     pub cursor_symbol: Style,
+
+    /// Applied to symbols after the cursor in a local ambiguity report
     pub unobserved_symbols: Style,
+
+    /// Applied to terminal symbols, in addition to the above styles
+    pub terminal_symbol: Style,
+
+    /// Applied to nonterminal symbols, in addition to the above styles
+    pub nonterminal_symbol: Style,
 }
 
 impl Session {
@@ -34,6 +51,8 @@ impl Session {
             observed_symbols: style::FG_BRIGHT_GREEN,
             cursor_symbol: style::FG_BRIGHT_WHITE,
             unobserved_symbols: style::FG_BRIGHT_RED,
+            terminal_symbol: style::BOLD,
+            nonterminal_symbol: style::DEFAULT,
         }
     }
 
@@ -49,6 +68,8 @@ impl Session {
             observed_symbols: Style::new(),
             cursor_symbol: Style::new(),
             unobserved_symbols: Style::new(),
+            terminal_symbol: Style::new(),
+            nonterminal_symbol: Style::new(),
         }
     }
 

@@ -1,5 +1,6 @@
 //! Utilies for running in a build script.
 
+use atty;
 use file_text::FileText;
 use grammar::parse_tree as pt;
 use grammar::repr as r;
@@ -48,12 +49,28 @@ fn process_dir<P:AsRef<Path>>(session: &Session, root_dir: P) -> io::Result<()> 
 }
 
 pub fn process_file<P:AsRef<Path>>(session: &Session, lalrpop_file: P) -> io::Result<()> {
+    // Promote the session to an Rc so that we can stick it in TLS. I
+    // don't want this to be part of LALRPOP's "official" interface
+    // yet so don't take an `Rc<Session>` as an argument.
+    let session = Rc::new(session.clone());
     let lalrpop_file: &Path = lalrpop_file.as_ref();
     let rs_file = lalrpop_file.with_extension("rs");
     if session.force_build() || try!(needs_rebuild(&lalrpop_file, &rs_file)) {
         log!(session, Informative, "processing file `{}`", lalrpop_file.to_string_lossy());
         try!(remove_old_file(&rs_file));
-        let grammar = try!(parse_and_normalize_grammar(&session, lalrpop_file));
+
+        // Load the LALRPOP source text for this file:
+        let file_text = Rc::new(try!(FileText::from_path(lalrpop_file.to_path_buf())));
+
+        // Store the session and file-text in TLS -- this is not
+        // intended to be used in this high-level code, but it gives
+        // easy access to this information pervasively in the
+        // low-level LR(1) and grammar normalization code. This is
+        // particularly useful for error-reporting.
+        let _tls = Tls::install(session.clone(), file_text.clone());
+
+        // Do the LALRPOP processing itself.
+        let grammar = try!(parse_and_normalize_grammar(&session, &file_text));
         try!(emit_recursive_ascent(&session, &rs_file, &grammar));
         try!(make_read_only(&rs_file));
     }
@@ -147,17 +164,9 @@ fn lalrpop_files<P:AsRef<Path>>(root_dir: P) -> io::Result<Vec<PathBuf>> {
     Ok(result)
 }
 
-fn parse_and_normalize_grammar(session: &Session, path: &Path) -> io::Result<r::Grammar> {
-    let path = path.to_path_buf();
-    let file_text = Rc::new(try!(FileText::from_path(path)));
-
-    // Store the session and file-text in TLS -- this is not intended
-    // to be used in this high-level code, but it gives easy access to
-    // this information pervasively in the low-level LR(1) and grammar
-    // normalization code. This is particularly useful for
-    // error-reporting.
-    let _tls = Tls::install(Rc::new(session.clone()), file_text.clone());
-
+fn parse_and_normalize_grammar(session: &Session,
+                               file_text: &FileText)
+                               -> io::Result<r::Grammar> {
     let grammar = match parser::parse_grammar(file_text.text()) {
         Ok(grammar) => grammar,
 
@@ -241,13 +250,15 @@ fn report_content(content: &Content) -> term::Result<()> {
     // FIXME -- can we query the size of the terminal somehow?
     let canvas = content.emit_to_canvas(80);
 
-    if let Some(mut stderr) = term::stderr() {
-        canvas.write_to(&mut *stderr)
-    } else {
-        let stderr = io::stderr();
-        let mut stderr = FakeTerminal::new(stderr.lock());
-        canvas.write_to(&mut stderr)
+    if atty::is() {
+        if let Some(mut stderr) = term::stderr() {
+            return canvas.write_to(&mut *stderr);
+        }
     }
+
+    let stderr = io::stderr();
+    let mut stderr = FakeTerminal::new(stderr.lock());
+    canvas.write_to(&mut stderr)
 }
 
 fn emit_uses<W:Write>(grammar: &r::Grammar,
@@ -309,10 +320,10 @@ fn emit_recursive_ascent(session: &Session,
 
         log!(session, Verbose, "Building states for public nonterminal `{}`", user_nt);
 
-        let states = match lr1::build_states(session, &grammar, start_nt) {
+        let states = match lr1::build_states(&grammar, start_nt) {
             Ok(states) => states,
             Err(error) => {
-                let messages = lr1::report_error(session, &grammar, &error);
+                let messages = lr1::report_error(&grammar, &error);
                 let _ = report_messages(messages);
                 exit(1) // FIXME -- propagate up instead of calling `exit`
             }

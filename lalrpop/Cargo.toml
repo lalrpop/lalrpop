@@ -13,6 +13,7 @@ build = "build.rs"
 doctest = false
 
 [dependencies]
+atty = "0.1.2"
 bit-set = "0.3.0"    
 bitflags = "0.4.0"
 regex = "0.1"

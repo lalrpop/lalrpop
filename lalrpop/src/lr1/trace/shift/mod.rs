@@ -40,9 +40,6 @@ impl<'trace, 'grammar> Tracer<'trace, 'grammar> {
                            item_state: StateIndex,
                            item: LR0Item<'grammar>)
                            -> TraceGraph<'grammar> {
-        log!(self.session, Debug, "backtrace_shift_graph(item_state={:?}, item={:?})",
-             item_state, item);
-
         let symbol_sets = item.symbol_sets();
 
         // The states `S`
@@ -74,9 +71,6 @@ impl<'trace, 'grammar> Tracer<'trace, 'grammar> {
                            item_state: StateIndex,
                            nonterminal: NonterminalString) // "Y"
     {
-        log!(self.session, Debug,
-             "trace_epsilon_edges(item_state={:?}, nonterminal={:?})",
-             item_state, nonterminal);
         if self.visited_set.insert((item_state, nonterminal)) {
             for &pred_item in self.states[item_state.0].items.vec.iter() {
                 if self.can_shift(pred_item, nonterminal) {

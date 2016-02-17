@@ -20,10 +20,12 @@ macro_rules! declare_styles {
         }
 
         $(
-            pub const $style: Style = Style { bits: StyleBit::$style as u64 };
+            pub const $style: Style = Style { bits: 1 << (StyleBit::$style as u64) };
         )*
     }
 }
+
+pub const DEFAULT: Style = Style { bits: 0 };
 
 declare_styles! {
     // Foreground colors:

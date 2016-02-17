@@ -2,7 +2,6 @@ use lr1::core::*;
 use lr1::first::FirstSets;
 use lr1::state_graph::StateGraph;
 use grammar::repr::*;
-use session::Session;
 use util::{Set, set};
 
 mod reduce;
@@ -10,7 +9,6 @@ mod shift;
 mod trace_graph;
 
 pub struct Tracer<'trace, 'grammar: 'trace> {
-    session: &'trace Session,
     grammar: &'trace Grammar,
     states: &'trace [State<'grammar>],
     first_sets: FirstSets,
@@ -20,12 +18,10 @@ pub struct Tracer<'trace, 'grammar: 'trace> {
 }
 
 impl<'trace, 'grammar> Tracer<'trace, 'grammar> {
-    pub fn new(session: &'trace Session,
-               grammar: &'grammar Grammar,
+    pub fn new(grammar: &'grammar Grammar,
                states: &'trace [State<'grammar>])
                -> Self {
         Tracer {
-            session: session,
             grammar: grammar,
             states: states,
             first_sets: FirstSets::new(grammar),

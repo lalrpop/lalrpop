@@ -3,6 +3,7 @@ use grammar::repr::*;
 use lr1::build_states;
 use session::Session;
 use test_util::normalized_grammar;
+use tls::Tls;
 
 use super::{ConflictClassification, ErrorReportingCx};
 
@@ -12,7 +13,8 @@ fn nt(t: &str) -> NonterminalString {
 
 #[test]
 fn priority_conflict() {
-        let grammar = normalized_grammar(r#"
+    let _tls = Tls::test();
+    let grammar = normalized_grammar(r#"
 grammar;
 pub Ty: () = {
     "int" => (),
@@ -20,9 +22,8 @@ pub Ty: () = {
     <t1:Ty> "->" <t2:Ty> => (),
 };
 "#);
-    let session = Session::test();
-    let states = build_states(&session, &grammar, nt("Ty")).unwrap_err().states;
-    let mut cx = ErrorReportingCx::new(&session, &grammar, &states);
+    let states = build_states(&grammar, nt("Ty")).unwrap_err().states;
+    let mut cx = ErrorReportingCx::new(&grammar, &states);
     let (&lookahead, conflict) =
         states.iter()
               .flat_map(|state| {
@@ -56,7 +57,8 @@ pub Ty: () = {
 
 #[test]
 fn expr_braced_conflict() {
-        let grammar = normalized_grammar(r#"
+    let _tls = Tls::test();
+    let grammar = normalized_grammar(r#"
 grammar;
 pub Expr: () = {
     "Id" => (),
@@ -66,8 +68,8 @@ pub Expr: () = {
 };
 "#);
     let session = Session::test();
-    let states = build_states(&session, &grammar, nt("Expr")).unwrap_err().states;
-    let mut cx = ErrorReportingCx::new(&session, &grammar, &states);
+    let states = build_states(&grammar, nt("Expr")).unwrap_err().states;
+    let mut cx = ErrorReportingCx::new(&grammar, &states);
     let (&lookahead, conflict) =
         states.iter()
               .flat_map(|state| {
@@ -89,7 +91,8 @@ pub Expr: () = {
 
 #[test]
 fn inline_conflict() {
-        let grammar = normalized_grammar(r#"
+    let _tls = Tls::test();
+    let grammar = normalized_grammar(r#"
         grammar;
 
         pub E: () = {
@@ -102,10 +105,9 @@ fn inline_conflict() {
             "L"
         };
 "#);
-    let session = Session::test();
-    let states = build_states(&session, &grammar, nt("E")).unwrap_err().states;
+    let states = build_states(&grammar, nt("E")).unwrap_err().states;
 
-    let mut cx = ErrorReportingCx::new(&session, &grammar, &states);
+    let mut cx = ErrorReportingCx::new(&grammar, &states);
     let (&lookahead, conflict) =
         states.iter()
               .flat_map(|state| {

@@ -4,26 +4,24 @@ use itertools::Itertools;
 use grammar::repr::*;
 use message::{Message};
 use message::builder::{Builder, BodyCharacter, MessageBuilder};
-use session::Session;
 use util::{Map, map};
 use lr1::trace::Tracer;
 use lr1::core::*;
 use lr1::example::{Example, ExampleStyles, ExampleSymbol};
 use lr1::lookahead::{Lookahead, LookaheadSet};
+use tls::Tls;
 
 #[cfg(test)] mod test;
 
-pub fn report_error(session: &Session,
-                    grammar: &Grammar,
+pub fn report_error(grammar: &Grammar,
                     error: &TableConstructionError)
                     -> Vec<Message>
 {
-    let mut cx = ErrorReportingCx::new(session, grammar, &error.states);
+    let mut cx = ErrorReportingCx::new(grammar, &error.states);
     cx.report_errors()
 }
 
 struct ErrorReportingCx<'cx, 'grammar: 'cx> {
-    session: &'cx Session,
     grammar: &'grammar Grammar,
     states: &'cx [State<'grammar>],
 }
@@ -61,12 +59,10 @@ enum ConflictClassification {
 }
 
 impl<'cx, 'grammar> ErrorReportingCx<'cx, 'grammar> {
-    fn new(session: &'cx Session,
-           grammar: &'grammar Grammar,
+    fn new(grammar: &'grammar Grammar,
            states: &'cx [State<'grammar>])
            -> Self {
         ErrorReportingCx {
-            session: session,
             grammar: grammar,
             states: states,
         }
@@ -122,7 +118,7 @@ impl<'cx, 'grammar> ErrorReportingCx<'cx, 'grammar> {
                                    shift: Example,
                                    reduce: Example)
                                    -> Builder<BodyCharacter> {
-        let styles = ExampleStyles::ambig(self.session);
+        let styles = ExampleStyles::ambig();
         MessageBuilder::new(conflict.production.span)
             .heading()
             .text("Ambiguous grammar detected")
@@ -131,7 +127,7 @@ impl<'cx, 'grammar> ErrorReportingCx<'cx, 'grammar> {
 
             .lines()
             .wrap_text("The following symbols can be reduced in two ways:")
-            .push(reduce.to_symbol_list(styles))
+            .push(reduce.to_symbol_list(reduce.symbols.len(), styles))
             .end()
 
             .lines()
@@ -182,7 +178,7 @@ impl<'cx, 'grammar> ErrorReportingCx<'cx, 'grammar> {
                                  action: Example,
                                  reduce: Example)
                                  -> Builder<BodyCharacter> {
-        let styles = ExampleStyles::new(self.session);
+        let styles = ExampleStyles::new();
         let builder =
             MessageBuilder::new(conflict.production.span)
             .heading()
@@ -195,9 +191,9 @@ impl<'cx, 'grammar> ErrorReportingCx<'cx, 'grammar> {
                         parser, as more than one token of lookahead would be required. \
                         After encountering the following symbols in the input:")
             .push(if action.cursor >= reduce.cursor {
-                action.to_symbol_list(styles)
+                action.to_symbol_list(action.cursor, styles)
             } else {
-                reduce.to_symbol_list(styles)
+                reduce.to_symbol_list(reduce.cursor, styles)
             });
 
         let builder = builder.wrap();
@@ -208,7 +204,7 @@ impl<'cx, 'grammar> ErrorReportingCx<'cx, 'grammar> {
                     .text("and when looking at the terminal")
                     .push(term)
                     .verbatimed()
-                    .styled(self.session.cursor_symbol)
+                    .styled(Tls::session().cursor_symbol)
                     .punctuated(",")
             }
             Lookahead::EOF => {
@@ -340,7 +336,7 @@ impl<'cx, 'grammar> ErrorReportingCx<'cx, 'grammar> {
             .body()
             .lines()
             .wrap_text("when in this state:")
-            .indent();
+            .indented();
         for item in self.states[conflict.state.0].items.vec.iter() {
             builder = builder.text(format!("{:?}", item));
         }
@@ -511,13 +507,13 @@ impl<'cx, 'grammar> ErrorReportingCx<'cx, 'grammar> {
                       lookahead: Lookahead,
                       conflict: &Conflict<'grammar>)
                       -> Vec<Example> {
-        log!(self.session, Verbose, "Gathering shift examples");
+        log!(Tls::session(), Verbose, "Gathering shift examples");
         let state = &self.states[conflict.state.0];
         let conflicting_items = self.conflicting_shift_items(state, lookahead, conflict);
         conflicting_items
             .into_iter()
             .flat_map(|(item, _lookaheads)| {
-                let tracer = Tracer::new(self.session, self.grammar, self.states);
+                let tracer = Tracer::new(self.grammar, self.states);
                 let shift_trace =
                     tracer.backtrace_shift(conflict.state, item);
                 let local_examples: Vec<Example> =
@@ -532,13 +528,13 @@ impl<'cx, 'grammar> ErrorReportingCx<'cx, 'grammar> {
                        production: &'grammar Production,
                        lookahead: Lookahead)
                        -> Vec<Example> {
-        log!(self.session, Verbose, "Gathering reduce examples");
+        log!(Tls::session(), Verbose, "Gathering reduce examples");
         let item = Item {
             production: production,
             index: production.symbols.len(),
             lookahead: lookahead
         };
-        let tracer = Tracer::new(self.session, self.grammar, self.states);
+        let tracer = Tracer::new(self.grammar, self.states);
         let reduce_trace = tracer.backtrace_reduce(state, item);
         reduce_trace.examples(item.to_lr0()).collect()
     }

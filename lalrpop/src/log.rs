@@ -41,3 +41,9 @@ macro_rules! log {
         $session.log(::log::Level::$level, || ::std::fmt::format(format_args!($($args),*)))
     }
 }
+
+macro_rules! debug {
+    ($($args:expr),*) => {
+        log!(::tls::Tls::session(), Debug, $($args),*)
+    }
+}

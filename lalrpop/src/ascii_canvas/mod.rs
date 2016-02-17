@@ -131,6 +131,7 @@ impl AsciiCanvas {
     pub fn write_to<T:Terminal+?Sized>(&self, term: &mut T) -> term::Result<()> {
         for row in self.to_strings() {
             try!(row.write_to(term));
+            try!(writeln!(term, ""));
         }
         Ok(())
     }
@@ -153,8 +154,9 @@ impl AsciiView for AsciiCanvas {
         self.columns
     }
 
-    fn read_char(&mut self, r: usize, c: usize) -> char {
-        let index = self.index(r, c);
+    fn read_char(&mut self, row: usize, column: usize) -> char {
+        assert!(column < self.columns);
+        let index = self.index(row, column);
         self.characters[index]
     }
 
@@ -164,6 +166,7 @@ impl AsciiView for AsciiCanvas {
                   ch: char,
                   style: Style)
     {
+        assert!(column < self.columns);
         let index = self.index(row, column);
         self.characters[index] = ch;
         self.styles[index] = style;
