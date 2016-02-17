@@ -162,6 +162,8 @@ impl<'cx, 'grammar> ErrorReportingCx<'cx, 'grammar> {
                                -> Message {
         self.report_error_ambiguity_core(conflict, shift, reduce)
             .begin_wrap()
+            .text("Hint:")
+            .styled(Tls::session().hint_text)
             .text("This looks like a precedence error related to")
             .push(nonterminal)
             .verbatimed()

@@ -31,7 +31,7 @@ impl<'a> AsciiView+'a {
                               column: usize)
     {
         for r in rows {
-            let new_char = AsciiView::vertical_mid_char(self.read_char(r, column));
+            let new_char = Ascii::vertical_mid_char(self.read_char(r, column));
             self.write_char(r, column, new_char, Style::new());
         }
     }
@@ -41,7 +41,7 @@ impl<'a> AsciiView+'a {
                                 columns: Range<usize>)
     {
         for c in columns {
-            let new_char = AsciiView::horizontal_mid_char(self.read_char(row, c));
+            let new_char = Ascii::horizontal_mid_char(self.read_char(row, c));
             self.write_char(row, c, new_char, Style::new());
         }
     }
@@ -276,9 +276,9 @@ trait LineChars {
     fn horizontal_end_char(old_ch: char) -> char;
 }
 
-struct AsciiLines;
+struct Ascii;
 
-impl AsciiLines for LineChars {
+impl LineChars for Ascii {
     fn vertical_start_char(old_ch: char) -> char {
         match old_ch {
             ' ' => '|',
@@ -290,15 +290,15 @@ impl AsciiLines for LineChars {
     }
 
     fn vertical_mid_char(old_ch: char) -> char {
-        self.vertical_start_char(old_ch)
+        Self::vertical_start_char(old_ch)
     }
 
     fn vertical_end_char(old_ch: char) -> char {
-        self.vertical_start_char(old_ch)
+        Self::vertical_start_char(old_ch)
     }
 
     fn horizontal_start_char(old_ch: char) -> char {
-        self.read_char(row, c) {
+        match old_ch {
             ' ' => '-',
             '-' => '-',
             '|' => '+',
@@ -308,10 +308,10 @@ impl AsciiLines for LineChars {
     }
 
     fn horizontal_mid_char(old_ch: char) -> char {
-        self.horizontal_start_char(old_ch)
+        Self::horizontal_start_char(old_ch)
     }
 
-    fn horizontal_mid_char(old_ch: char) -> char {
-        self.horizontal_start_char(old_ch)
+    fn horizontal_end_char(old_ch: char) -> char {
+        Self::horizontal_start_char(old_ch)
     }
 }
