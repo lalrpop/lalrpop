@@ -9,6 +9,8 @@ use intern::{intern, InternedString};
 use lexer::dfa::DFA;
 use grammar::repr::{NominalTypeRepr, TypeRepr};
 use grammar::pattern::Pattern;
+use message::Content;
+use message::builder::InlineBuilder;
 use std::fmt::{Debug, Display, Formatter, Error};
 use util::Sep;
 
@@ -239,6 +241,12 @@ pub enum TerminalLiteral {
 #[derive(Copy, Clone, Hash, PartialEq, Eq, PartialOrd, Ord)]
 pub struct NonterminalString(pub InternedString);
 
+impl Into<Box<Content>> for NonterminalString {
+    fn into(self) -> Box<Content> {
+        InlineBuilder::new().text(self).end()
+    }
+}
+
 #[derive(Copy, Clone, Debug, PartialEq, Eq)]
 pub enum RepeatOp {
     Star, Plus, Question
@@ -268,6 +276,14 @@ impl TerminalString {
 
     pub fn regex(i: InternedString) -> TerminalString {
         TerminalString::Literal(TerminalLiteral::Regex(i))
+    }
+}
+
+impl Into<Box<Content>> for TerminalString {
+    fn into(self) -> Box<Content> {
+        InlineBuilder::new()
+            .text(self)
+            .end()
     }
 }
 

@@ -1,9 +1,9 @@
-use ansi_term::Style;
 use ascii_canvas::AsciiView;
-use filetext::FileText;
+use file_text::FileText;
 use grammar::parse_tree::Span;
 use std::fmt::{Debug, Formatter, Error};
 use std::rc::Rc;
+use style::Style;
 
 use super::*;
 

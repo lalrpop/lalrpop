@@ -1,9 +1,12 @@
 //! Code to compute example inputs given a backtrace.
 
-use ansi_term::Style;
-use ascii_canvas::{AsciiCanvas, AsciiView, Row};
+use ascii_canvas::{AsciiView, Row};
+use message::Content;
+use message::builder::InlineBuilder;
 use grammar::repr::{NonterminalString, Symbol};
 use session::Session;
+use std::fmt::{Debug, Formatter, Error};
+use style::Style;
 
 #[cfg(test)] mod test;
 
@@ -51,7 +54,7 @@ pub enum ExampleSymbol {
     Epsilon,
 }
 
-#[derive(Default)]
+#[derive(Copy, Clone, Default)]
 pub struct ExampleStyles {
     pub before_cursor: Style,
     pub on_cursor: Style,
@@ -78,6 +81,52 @@ impl Example {
                     })
                     .chain(Some(0))
                     .collect()
+    }
+
+    /// Extract the list of symbols from this `Example` and make
+    /// a styled list of them, like:
+    ///
+    ///    Ty "->" Ty -> "Ty"
+    pub fn to_symbol_list(&self, styles: ExampleStyles) -> Box<Content> {
+        let mut builder = InlineBuilder::new();
+
+        for symbol in &self.symbols[..self.cursor] {
+            if let &ExampleSymbol::Symbol(s) = symbol {
+                builder = builder.push(s).styled(styles.before_cursor);
+            }
+        }
+
+        for symbol in self.symbols[self.cursor..].iter().take(1) {
+            match *symbol {
+                ExampleSymbol::Symbol(Symbol::Terminal(term)) => {
+                    builder = builder.push(term).styled(styles.on_cursor);
+                }
+                ExampleSymbol::Symbol(Symbol::Nonterminal(nt)) => {
+                    builder = builder.push(nt).styled(styles.after_cursor);
+                }
+                ExampleSymbol::Epsilon => { }
+            }
+        }
+
+        for symbol in self.symbols[self.cursor..].iter().skip(1) {
+            if let &ExampleSymbol::Symbol(s) = symbol {
+                builder = builder.push(s).styled(styles.after_cursor);
+            }
+        }
+
+        builder.end()
+    }
+
+    /// Render the example into a styled diagram suitable for
+    /// embedding in an error message.
+    pub fn into_picture(self, styles: ExampleStyles) -> Box<Content> {
+        let lengths = self.lengths();
+        let positions = self.positions(&lengths);
+        Box::new(ExamplePicture {
+            example: self,
+            positions: positions,
+            styles: styles,
+        })
     }
 
     fn starting_positions(&self, lengths: &[usize]) -> Vec<usize> {
@@ -213,36 +262,17 @@ impl Example {
         positions
     }
 
-    /// Paints a prefix of the symbols from this example using the
-    /// given styles. `number` is the number of symbols to print;
-    /// typically it would be either `symbols.len()` (all symbols) or
-    /// `cursor` (up until the current token).
-    pub fn paint_symbols(&self,
-                         number: usize,
-                         styles: &ExampleStyles)
-                         -> Row {
-        let lengths = self.lengths();
-        let positions = self.starting_positions(&lengths);
-        let columns = *positions.last().unwrap();
-        let mut canvas = AsciiCanvas::new(1, columns);
-        self.paint_symbols_on(&self.symbols[..number], &positions,
-                              styles, &mut canvas);
-        canvas.to_strings().pop().unwrap()
-    }
-
     #[cfg(test)]
     pub fn paint_unstyled(&self) -> Vec<Row> {
         use std::default::Default;
-        self.paint(&ExampleStyles::default())
+        self.paint(ExampleStyles::default())
     }
 
-    pub fn paint(&self, styles: &ExampleStyles) -> Vec<Row> {
-        let lengths = self.lengths();
-        let positions = self.positions(&lengths);
-        let rows = 1 + self.reductions.len() * 2;
-        let columns = *positions.last().unwrap();
-        let mut canvas = AsciiCanvas::new(rows, columns);
-        self.paint_on(styles, &positions, &mut canvas);
+    pub fn paint(&self, styles: ExampleStyles) -> Vec<Row> {
+        let this = self.clone();
+        let content = this.into_picture(styles);
+        let min_width = content.min_width();
+        let canvas = content.emit_to_canvas(min_width);
         canvas.to_strings()
     }
 
@@ -310,6 +340,32 @@ impl Example {
     }
 }
 
+struct ExamplePicture {
+    example: Example,
+    positions: Vec<usize>,
+    styles: ExampleStyles,
+}
+
+impl Content for ExamplePicture {
+    fn min_width(&self) -> usize {
+        *self.positions.last().unwrap()
+    }
+
+    fn emit(&self, view: &mut AsciiView) {
+        self.example.paint_on(&self.styles, &self.positions, view);
+    }
+
+    fn into_wrap_items(self: Box<Self>, wrap_items: &mut Vec<Box<Content>>) {
+        wrap_items.push(self);
+    }
+}
+
+impl Debug for ExamplePicture {
+    fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
+        Debug::fmt(&self.example, fmt)
+    }
+}
+
 fn shift(positions: &mut [usize], amount: usize) {
     for position in positions {
         *position += amount;
@@ -333,3 +389,4 @@ impl ExampleStyles {
         }
     }
 }
+

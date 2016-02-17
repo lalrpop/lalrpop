@@ -1,5 +1,3 @@
-use ansi_term::Style;
-use filetext::FileText;
 use grammar::parse_tree::Span;
 use message::{Content, Message};
 use message::indent::Indent;
@@ -8,11 +6,10 @@ use message::styled::Styled;
 use message::text::Text;
 use message::vert::Vert;
 use message::wrap::Wrap;
-use std::rc::Rc;
+use style::{self, Style};
 
 pub struct MessageBuilder {
     span: Span,
-    file_text: Rc<FileText>,
     heading: Option<Box<Content>>,
     body: Option<Box<Content>>,
 }
@@ -26,8 +23,8 @@ pub struct BodyCharacter {
 }
 
 impl MessageBuilder {
-    pub fn new(span: Span, file_text: Rc<FileText>) -> Self {
-        MessageBuilder { span: span, file_text: file_text,
+    pub fn new(span: Span) -> Self {
+        MessageBuilder { span: span,
                          heading: None, body: None }
     }
 
@@ -41,7 +38,6 @@ impl MessageBuilder {
 
     pub fn end(self) -> Message {
         Message::new(self.span,
-                     self.file_text,
                      self.heading.expect("never defined a heading"),
                      self.body.expect("never defined a body"))
     }
@@ -70,6 +66,33 @@ impl Character for BodyCharacter {
 }
 
 ///////////////////////////////////////////////////////////////////////////
+// Inline builder: Useful for constructing little bits of content: for
+// example, converting an Example into something renderable. Using an
+// inline builder, if you push exactly one item, then when you call
+// `end` that is what you get; otherwise, you get items laid out
+// adjacent to one another horizontally (no spaces in between).
+
+pub struct InlineBuilder;
+
+impl InlineBuilder {
+    pub fn new() -> Builder<InlineBuilder> {
+        Builder::new(InlineBuilder)
+    }
+}
+
+impl Character for InlineBuilder {
+    type End = Box<Content>;
+
+    fn end(self, mut items: Vec<Box<Content>>) -> Box<Content> {
+        if items.len() == 1 {
+            items.pop().unwrap()
+        } else {
+            Box::new(Horiz::new(items, 1))
+        }
+    }
+}
+
+///////////////////////////////////////////////////////////////////////////
 // Builder -- generic helper for multi-part items
 
 pub struct Builder<C: Character> {
@@ -85,8 +108,10 @@ impl<C: Character> Builder<C> {
         }
     }
 
-    pub fn push(mut self, item: Box<Content>) -> Self {
-        self.items.push(item);
+    pub fn push<I>(mut self, item: I) -> Self
+        where I: Into<Box<Content>>
+    {
+        self.items.push(item.into());
         self
     }
 
@@ -116,6 +141,11 @@ impl<C: Character> Builder<C> {
         })
     }
 
+    // "item1item2"
+    pub fn adjacent(self) -> Builder<HorizCharacter<C>> {
+        self.horiz(1)
+    }
+
     /// "item1 item2"
     pub fn spaced(self) -> Builder<HorizCharacter<C>> {
         self.horiz(2) // what you normally want
@@ -127,14 +157,17 @@ impl<C: Character> Builder<C> {
         })
     }
 
-    pub fn bold(mut self) -> Self {
+    pub fn styled(mut self, style: Style) -> Self {
         let content = self.pop().expect("bold must be applied to an item");
-        self.push(Box::new(Styled::new(Style::bold, content)))
+        self.push(Box::new(Styled::new(style, content)))
     }
 
-    pub fn underline(mut self) -> Self {
-        let content = self.pop().expect("underline must be applied to an item");
-        self.push(Box::new(Styled::new(Style::underline, content)))
+    pub fn bolded(self) -> Self {
+        self.styled(style::BOLD)
+    }
+
+    pub fn underline(self) -> Self {
+        self.styled(style::UNDERLINE)
     }
 
     pub fn indent_by(mut self, amount: usize) -> Self {
@@ -148,6 +181,41 @@ impl<C: Character> Builder<C> {
 
     pub fn text<T:ToString>(self, text: T) -> Self {
         self.push(Box::new(Text::new(text.to_string())))
+    }
+
+    /// Take the item just pushed and makes some text adjacent to it.
+    /// E.g. `builder.wrap().text("foo").adjacent_text(".").end()`
+    /// result in `"foo."` being printed without any wrapping in
+    /// between.
+    pub fn adjacent_text<T:ToString,U:ToString>(mut self, prefix: T, suffix: U) -> Self {
+        let item = self.pop().expect("adjacent text must be added to an item");
+        self.adjacent()
+            .text(prefix)
+            .push(item)
+            .text(suffix)
+            .end()
+    }
+
+    pub fn verbatimed(self) -> Self {
+        self.adjacent_text("`", "`")
+    }
+
+    pub fn double_quoted(self) -> Self {
+        self.adjacent_text("\"", "\"")
+    }
+
+    pub fn single_quoted(self) -> Self {
+        self.adjacent_text("'", "'")
+    }
+
+    pub fn punctuated<T:ToString>(self, text: T) -> Self {
+        self.adjacent_text("", text)
+    }
+
+    pub fn wrap_text<T:ToString>(self, text: T) -> Self {
+        self.wrap()
+            .text(text)
+            .end()
     }
 
     pub fn end(self) -> C::End {
@@ -201,5 +269,13 @@ impl<C: Character> Character for WrapCharacter<C> {
 
     fn end(self, items: Vec<Box<Content>>) -> Builder<C> {
         self.base.push(Box::new(Wrap::new(items)))
+    }
+}
+
+impl<T> From<Box<T>> for Box<Content>
+    where T: Content + 'static
+{
+    fn from(b: Box<T>) -> Box<Content> {
+        b
     }
 }

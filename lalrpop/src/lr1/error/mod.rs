@@ -2,8 +2,9 @@
 
 use itertools::Itertools;
 use grammar::repr::*;
+use message::{Message};
+use message::builder::{Builder, BodyCharacter, MessageBuilder};
 use session::Session;
-use std::io::{self, Result, Write};
 use util::{Map, map};
 use lr1::trace::Tracer;
 use lr1::core::*;
@@ -14,12 +15,11 @@ use lr1::lookahead::{Lookahead, LookaheadSet};
 
 pub fn report_error(session: &Session,
                     grammar: &Grammar,
-                    error: &TableConstructionError,
-                    out: &mut Write)
-                    -> io::Result<()>
+                    error: &TableConstructionError)
+                    -> Vec<Message>
 {
     let mut cx = ErrorReportingCx::new(session, grammar, &error.states);
-    cx.report_errors(out)
+    cx.report_errors()
 }
 
 struct ErrorReportingCx<'cx, 'grammar: 'cx> {
@@ -72,168 +72,187 @@ impl<'cx, 'grammar> ErrorReportingCx<'cx, 'grammar> {
         }
     }
 
-    fn report_errors(&mut self, out: &mut Write) -> io::Result<()> {
-        for state in self.states {
-            for (&lookahead, conflicts) in &state.conflicts {
-                for conflict in conflicts {
-                    try!(self.report_error(lookahead, conflict, out));
-                }
-            }
-        }
-        Ok(())
+    fn report_errors(&mut self) -> Vec<Message> {
+        self.states
+            .iter()
+            .flat_map(|state|
+                      &state.conflicts)
+            .flat_map(|(&lookahead, conflicts)|
+                      conflicts.iter().map(move |c| (lookahead, c)))
+            .map(|(lookahead, conflict)|
+                 self.report_error(lookahead, conflict))
+            .collect()
     }
 
     fn report_error(&mut self,
                     lookahead: Lookahead,
-                    conflict: &Conflict<'grammar>,
-                    out: &mut Write)
-                    -> io::Result<()>
+                    conflict: &Conflict<'grammar>)
+                    -> Message
     {
         match self.classify(lookahead, conflict) {
             ConflictClassification::Ambiguity { action, reduce } => {
-                self.report_error_ambiguity(action, reduce, out)
+                self.report_error_ambiguity(conflict, action, reduce)
             }
             ConflictClassification::Precedence { shift, reduce, nonterminal } => {
-                self.report_error_precedence(shift, reduce, nonterminal, out)
+                self.report_error_precedence(conflict, shift, reduce, nonterminal)
             }
             ConflictClassification::SuggestInline { shift, reduce, nonterminal } => {
                 self.report_error_suggest_inline(lookahead, conflict,
                                                  shift, reduce,
-                                                 nonterminal, out)
+                                                 nonterminal)
             }
             ConflictClassification::SuggestQuestion { shift, reduce,
                                                       nonterminal, symbol } => {
                 self.report_error_suggest_question(lookahead, conflict,
                                                    shift, reduce,
-                                                   nonterminal, symbol, out)
+                                                   nonterminal, symbol)
             }
             ConflictClassification::InsufficientLookahead { action, reduce } => {
                 self.report_error_insufficient_lookahead(lookahead, conflict,
-                                                         action, reduce,
-                                                         out)
+                                                         action, reduce)
             }
             ConflictClassification::Naive => {
-                self.report_error_naive(lookahead, conflict, out)
+                self.report_error_naive(lookahead, conflict)
             }
         }
-    }
-
-    fn paint_example(&self,
-                     example: &Example,
-                     styles: &ExampleStyles,
-                     out: &mut Write)
-                     -> io::Result<()> {
-        for line in example.paint(styles) {
-            try!(writeln!(out, "{}", line));
-        }
-        Ok(())
-    }
-
-    fn paint_example_symbols(&self,
-                             example: &Example,
-                             number_syms: usize,
-                             styles: &ExampleStyles,
-                             out: &mut Write)
-                             -> io::Result<()> {
-        let line = example.paint_symbols(number_syms, styles);
-        try!(writeln!(out, "{}", line));
-        Ok(())
     }
 
     fn report_error_ambiguity_core(&self,
-                                   shift: &Example,
-                                   reduce: &Example,
-                                   out: &mut Write)
-                                   -> io::Result<()> {
+                                   conflict: &Conflict<'grammar>,
+                                   shift: Example,
+                                   reduce: Example)
+                                   -> Builder<BodyCharacter> {
         let styles = ExampleStyles::ambig(self.session);
-        try!(writeln!(out, "{}",
-                      self.session.heading.paint("Ambiguous grammar detected")));
-        try!(writeln!(out, ""));
-        try!(writeln!(out, "The following symbols can be reduced in two ways:"));
-        try!(self.paint_example_symbols(shift, shift.symbols.len(), &styles, out));
-        try!(writeln!(out, "They could be reduced like so:"));
-        try!(self.paint_example(shift, &styles, out));
-        try!(writeln!(out, "Alternatively, they could be reduced like so:"));
-        try!(self.paint_example(reduce, &styles, out));
-        Ok(())
+        MessageBuilder::new(conflict.production.span)
+            .heading()
+            .text("Ambiguous grammar detected")
+            .end()
+            .body()
+
+            .lines()
+            .wrap_text("The following symbols can be reduced in two ways:")
+            .push(reduce.to_symbol_list(styles))
+            .end()
+
+            .lines()
+            .wrap_text("They could be reduced like so:")
+            .push(reduce.into_picture(styles))
+            .end()
+
+            .lines()
+            .wrap_text("Alternatively, they could be reduced like so:")
+            .push(shift.into_picture(styles))
+            .end()
     }
 
     fn report_error_ambiguity(&self,
+                              conflict: &Conflict<'grammar>,
                               shift: Example,
-                              reduce: Example,
-                              out: &mut Write)
-                              -> io::Result<()> {
-        try!(self.report_error_ambiguity_core(&shift, &reduce, out));
-        try!(writeln!(out, ""));
-        try!(writeln!(out, "LALRPOP does not yet support ambiguous grammars."));
-        try!(writeln!(out, "See the LALRPOP manual for advice on \
-                            making your grammar unambiguous."));
-        Ok(())
+                              reduce: Example)
+                              -> Message {
+        self.report_error_ambiguity_core(conflict, shift, reduce)
+            .wrap_text("LALRPOP does not yet support ambiguous grammars. \
+                        See the LALRPOP manual for advice on \
+                        making your grammar unambiguous.")
+            .end()
+            .end()
     }
 
     fn report_error_precedence(&self,
+                               conflict: &Conflict<'grammar>,
                                shift: Example,
                                reduce: Example,
-                               nonterminal: NonterminalString,
-                               out: &mut Write)
-                               -> io::Result<()> {
-        try!(self.report_error_ambiguity_core(&shift, &reduce, out));
-        try!(writeln!(out, ""));
-        try!(writeln!(out, "This looks like a precedence error related to `{}`.",
-                      nonterminal));
-        try!(writeln!(out, "See the LALRPOP manual for advice on encoding precedence."));
-        Ok(())
+                               nonterminal: NonterminalString)
+                               -> Message {
+        self.report_error_ambiguity_core(conflict, shift, reduce)
+            .wrap()
+            .text("This looks like a precedence error related to")
+            .push(nonterminal)
+            .verbatimed()
+            .punctuated(".")
+            .text("See the LALRPOP manual for advice on encoding precedence.")
+            .end()
+            .end()
+            .end()
     }
 
     fn report_error_not_lr1_core(&self,
                                  lookahead: Lookahead,
                                  conflict: &Conflict<'grammar>,
-                                 action: &Example,
-                                 reduce: &Example,
-                                 out: &mut Write)
-                                 -> io::Result<()> {
+                                 action: Example,
+                                 reduce: Example)
+                                 -> Builder<BodyCharacter> {
         let styles = ExampleStyles::new(self.session);
-        try!(writeln!(out, "{}", self.session.heading.paint("Grammar is not LR(1)")));
-        try!(writeln!(out, ""));
-        try!(writeln!(out, "The grammar as written cannot be parsed using an LR(1)"));
-        try!(writeln!(out, "parser, as more than one token of lookahead would be required."));
-        try!(writeln!(out, "After encountering the following symbols in the input:"));
-        if action.cursor >= reduce.cursor {
-            try!(self.paint_example_symbols(&action, action.cursor, &styles, out));
-        } else {
-            try!(self.paint_example_symbols(&reduce, reduce.cursor, &styles, out));
-        }
-        match lookahead {
+        let builder =
+            MessageBuilder::new(conflict.production.span)
+            .heading()
+            .text("Local ambiguity detected")
+            .end()
+
+            .body()
+            .lines()
+            .wrap_text("The grammar as written cannot be parsed using an LR(1) \
+                        parser, as more than one token of lookahead would be required. \
+                        After encountering the following symbols in the input:")
+            .push(if action.cursor >= reduce.cursor {
+                action.to_symbol_list(styles)
+            } else {
+                reduce.to_symbol_list(styles)
+            });
+
+        let builder = builder.wrap();
+
+        let builder = match lookahead {
             Lookahead::Terminal(term) => {
-                let term = term.to_string();
-                try!(writeln!(out, "and when looking at the terminal `{}`,",
-                              self.session.cursor_symbol.paint(term)));
+                builder
+                    .text("and when looking at the terminal")
+                    .push(term)
+                    .verbatimed()
+                    .styled(self.session.cursor_symbol)
+                    .punctuated(",")
             }
             Lookahead::EOF => {
-                try!(writeln!(out, "and when there are no more input tokens,"));
+                builder
+                    .text("and when there are no more input tokens,")
             }
-        }
-        try!(writeln!(out, "parsing could continue in two distinct ways."));
+        };
 
-        try!(writeln!(out, ""));
-        match conflict.action {
+        let builder =
+            builder.text("parsing could continue in two distinct ways.")
+                   .end()
+                   .end();
+
+        let builder = builder.lines();
+        let builder = match conflict.action {
             Action::Shift(_) =>
-                try!(writeln!(out, "First, the parser could take no action yet, \
-                                    leading to:")),
+                builder.wrap_text("First, the parser could take no action yet, \
+                                   leading to:"),
             Action::Reduce(production) =>
-                try!(writeln!(out, "First, the parser could reduce `{}`, \
-                                    leading to:", production.nonterminal)),
-        }
-        try!(self.paint_example(&action, &styles, out));
+                builder.wrap()
+                       .text("First, the parser could reduce")
+                       .push(production.nonterminal)
+                       .verbatimed()
+                       .punctuated(",")
+                       .text("leading to:")
+                       .end(),
+        };
+        let builder =
+            builder.push(action.into_picture(styles))
+                   .end();
 
-        try!(writeln!(out, ""));
-        try!(writeln!(out, "Second, the parser could reduce `{}`, leading to:",
-                      reduce.reductions[0].nonterminal));
-        try!(self.paint_example(&reduce, &styles, out));
-        try!(writeln!(out, "(Note that an LR(1) parser must execute reductions"));
-        try!(writeln!(out, "as soon as it can.)"));
-
-        Ok(())
+        builder
+            .lines()
+            .wrap()
+            .text("Second, the parser could reduce")
+            .push(reduce.reductions[0].nonterminal)
+            .verbatimed()
+            .punctuated(",")
+            .text("leading to:")
+            .end()
+            .push(reduce.into_picture(styles))
+            .wrap_text("(Note that an LR(1) parser must execute reductions \
+                        as soon as it can.)")
+            .end()
     }
 
     fn report_error_suggest_inline(&self,
@@ -241,17 +260,24 @@ impl<'cx, 'grammar> ErrorReportingCx<'cx, 'grammar> {
                                    conflict: &Conflict<'grammar>,
                                    shift: Example,
                                    reduce: Example,
-                                   nonterminal: NonterminalString,
-                                   out: &mut Write)
-                                   -> io::Result<()> {
-        try!(self.report_error_not_lr1_core(lookahead, conflict, &shift, &reduce, out));
-        try!(writeln!(out, ""));
-        try!(writeln!(out, "It appears you could resolve this problem by adding"));
-        try!(writeln!(out, "the annotation `#[inline]` to the definition of `{}`.",
-                      nonterminal));
-        try!(writeln!(out, "For more information, see the section on inlining"));
-        try!(writeln!(out, "in the LALROP manual."));
-        Ok(())
+                                   nonterminal: NonterminalString)
+                                   -> Message
+    {
+        let builder = self.report_error_not_lr1_core(lookahead, conflict,
+                                                     shift, reduce);
+
+        builder
+            .wrap()
+            .text("It appears you could resolve this problem by adding")
+            .text("the annotation `#[inline]` to the definition of")
+            .push(nonterminal)
+            .verbatimed()
+            .punctuated(".")
+            .text("For more information, see the section on inlining")
+            .text("in the LALROP manual.")
+            .end()
+            .end()
+            .end()
     }
 
     fn report_error_suggest_question(&self,
@@ -260,57 +286,82 @@ impl<'cx, 'grammar> ErrorReportingCx<'cx, 'grammar> {
                                      shift: Example,
                                      reduce: Example,
                                      nonterminal: NonterminalString,
-                                     symbol: Symbol,
-                                     out: &mut Write)
-                                     -> io::Result<()> {
-        try!(self.report_error_not_lr1_core(lookahead, conflict, &shift, &reduce, out));
-        try!(writeln!(out, ""));
-        try!(writeln!(out, "It appears you could resolve this problem by replacing"));
-        try!(writeln!(out, "uses of `{}` with `{}?` (or, alternatively, by adding the",
-                      nonterminal, symbol));
-        try!(writeln!(out, "annotation `#[inline]` to the definition of `{}`.",
-                      nonterminal));
-        try!(writeln!(out, "For more information, see the section on inlining"));
-        try!(writeln!(out, "in the LALROP manual."));
-        Ok(())
+                                     symbol: Symbol)
+                                     -> Message
+    {
+        let builder = self.report_error_not_lr1_core(lookahead, conflict,
+                                                     shift, reduce);
+
+        builder
+            .wrap()
+            .text("It appears you could resolve this problem by replacing")
+            .text("uses of")
+            .push(nonterminal)
+            .text("with")
+            .push(symbol)
+            .adjacent_text("`", "?`")
+            .text("(or, alternatively, by adding the annotation `#[inline]` \
+                   to the definition of")
+            .push(nonterminal)
+            .end()
+            .wrap_text("For more information, see the section on inlining \
+                        in the LALROP manual.")
+            .end()
+            .end()
     }
 
     fn report_error_insufficient_lookahead(&self,
                                            lookahead: Lookahead,
                                            conflict: &Conflict<'grammar>,
                                            action: Example,
-                                           reduce: Example,
-                                           out: &mut Write)
-                                           -> io::Result<()> {
-        try!(self.report_error_not_lr1_core(lookahead, conflict, &action, &reduce, out));
-        try!(writeln!(out, ""));
-        try!(writeln!(out, "See the LALRPOP manual for advice on \
-                            making your grammar LR(1)."));
-        Ok(())
+                                           reduce: Example)
+                                           -> Message {
+        let builder = self.report_error_not_lr1_core(lookahead, conflict,
+                                                     action, reduce);
+
+        builder
+            .wrap_text("See the LALRPOP manual for advice on \
+                        making your grammar LR(1).")
+            .end()
+            .end()
     }
 
-    /// Naive error reporting. This is still used for LALR(1) reduction
-    /// errors but ought to be phased out completely, I imagine.
+    /// Naive error reporting. This is a fallback path which (I think)
+    /// never actually executes.
     fn report_error_naive(&self,
                           lookahead: Lookahead,
-                          conflict: &Conflict<'grammar>,
-                          out: &mut Write)
-                          -> io::Result<()> {
-        try!(writeln!(out, "when in this state:"));
+                          conflict: &Conflict<'grammar>)
+                          -> Message {
+        let mut builder =
+            MessageBuilder::new(conflict.production.span)
+            .heading()
+            .text("Conflict detected")
+            .end()
+            .body()
+            .lines()
+            .wrap_text("when in this state:")
+            .indent();
         for item in self.states[conflict.state.0].items.vec.iter() {
-            try!(writeln!(out, "  {:?}", item));
+            builder = builder.text(format!("{:?}", item));
         }
-        try!(writeln!(out, "and looking at a token `{:?}`,", lookahead));
-        try!(writeln!(out, "we can reduce to a `{}`",
-                      conflict.production.nonterminal));
-        match conflict.action {
+        let mut builder =
+            builder.end()
+                   .wrap()
+                   .text(format!("and looking at a token `{:?}`", lookahead))
+                   .text("we can reduce to a")
+                   .push(conflict.production.nonterminal)
+                   .verbatimed();
+        builder = match conflict.action {
             Action::Shift(_) =>
-                try!(writeln!(out, "but we can also shift")),
+                builder.text("but we can also shift"),
             Action::Reduce(prod) =>
-                try!(writeln!(out, "but we can also reduce to a `{}`",
-                              prod.nonterminal)),
-        }
-        Ok(())
+                builder.text("but we can also reduce to a")
+                       .text(prod.nonterminal)
+                       .verbatimed()
+        };
+        builder.end()
+               .end()
+               .end()
     }
 
     fn classify(&mut self,

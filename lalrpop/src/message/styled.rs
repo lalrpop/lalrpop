@@ -1,20 +1,17 @@
-use ansi_term::Style;
 use ascii_canvas::AsciiView;
 use std::fmt::{Debug, Formatter, Error};
+use style::Style;
 use super::*;
 
 pub struct Styled {
-    style_fn: StyleFn,
+    style: Style,
     content: Box<Content>
 }
 
-/// "Style fn", usually `Style::bold` etc
-pub type StyleFn = fn(&Style) -> Style;
-
 impl Styled {
-    pub fn new(style_fn: StyleFn, content: Box<Content>) -> Self {
+    pub fn new(style: Style, content: Box<Content>) -> Self {
         Styled {
-            style_fn: style_fn,
+            style: style,
             content: content,
         }
     }
@@ -26,14 +23,14 @@ impl Content for Styled {
     }
 
     fn emit(&self, view: &mut AsciiView) {
-        self.content.emit(&mut view.styled(&self.style_fn))
+        self.content.emit(&mut view.styled(self.style))
     }
 
     fn into_wrap_items(self: Box<Self>, wrap_items: &mut Vec<Box<Content>>) {
-        let style_fn = self.style_fn;
+        let style = self.style;
         super::into_wrap_items_map(self.content,
                                    wrap_items,
-                                   |item| Styled::new(style_fn, item))
+                                   |item| Styled::new(style, item))
     }
 }
 

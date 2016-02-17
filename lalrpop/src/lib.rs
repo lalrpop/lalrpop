@@ -8,14 +8,15 @@
 // too darn annoying to try and make them do so.
 #![cfg_attr(test, allow(dead_code))]
 
-extern crate ansi_term;
 extern crate bit_set;
+#[macro_use] extern crate bitflags;
 extern crate diff;
 extern crate lalrpop_intern as intern;
 extern crate lalrpop_util;
 extern crate petgraph;
 extern crate regex;
 extern crate itertools;
+extern crate term;
 extern crate time;
 extern crate unicode_xid;
 
@@ -30,7 +31,7 @@ mod log;
 
 mod ascii_canvas;
 mod build;
-mod filetext;
+mod file_text;
 mod grammar;
 mod lexer;
 mod lr1;
@@ -39,6 +40,8 @@ mod normalize;
 mod parser;
 mod kernel_set;
 mod session;
+pub mod style;
+mod tls;
 mod tok;
 mod util;
 

@@ -1,11 +1,10 @@
-use ansi_term::Style;
 use ascii_canvas::AsciiView;
-use filetext::FileText;
 use grammar::parse_tree::Span;
 use message::Content;
 use std::cmp;
 use std::fmt::{Debug, Formatter, Error};
-use std::rc::Rc;
+use style::Style;
+use tls::Tls;
 
 /// The top-level message display like this:
 ///
@@ -31,19 +30,16 @@ use std::rc::Rc;
 /// ```
 pub struct Message {
     span: Span,
-    file_text: Rc<FileText>,
     heading: Box<Content>,
     body: Box<Content>,
 }
 
 impl Message {
     pub fn new(span: Span,
-               file_text: Rc<FileText>,
                heading: Box<Content>,
                body: Box<Content>) -> Self {
         Message {
             span: span,
-            file_text: file_text,
             heading: heading,
             body: body,
         }
@@ -52,14 +48,16 @@ impl Message {
 
 impl Content for Message {
     fn min_width(&self) -> usize {
-        let span = self.file_text.span_str(self.span).chars().count();
+        let file_text = Tls::file_text();
+        let span = file_text.span_str(self.span).chars().count();
         let heading = self.heading.min_width();
         let body = self.heading.min_width();
         cmp::max(span + heading + 2, body + 2)
     }
 
     fn emit(&self, view: &mut AsciiView) {
-        let span = self.file_text.span_str(self.span);
+        let file_text = Tls::file_text();
+        let span = file_text.span_str(self.span);
         view.write_chars(0, 0, span.chars(), Style::new());
         let count = span.chars().count();
         view.write_chars(0, count, ":".chars(), Style::new());

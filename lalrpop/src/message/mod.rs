@@ -70,4 +70,3 @@ fn into_wrap_items_map<OP,C>(content: Box<Content>,
 }
 
 pub use self::message::Message;
-pub use self::builder::MessageBuilder;

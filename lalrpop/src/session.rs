@@ -1,4 +1,4 @@
-use ansi_term::{Colour, Style};
+use style::{self, Style};
 use log::{Log, Level};
 
 /// Various options to control debug output. Although this struct is
@@ -29,11 +29,11 @@ impl Session {
             log: Log::new(Level::Informative),
             force_build: false,
             max_errors: 1,
-            heading: Colour::White.bold(),
-            ambig_symbols: Colour::White.normal(),
-            observed_symbols: Colour::White.normal(),
-            cursor_symbol: Colour::White.bold().underline(),
-            unobserved_symbols: Colour::White.dimmed(),
+            heading: style::FG_WHITE.with(style::BOLD),
+            ambig_symbols: style::FG_WHITE,
+            observed_symbols: style::FG_BRIGHT_GREEN,
+            cursor_symbol: style::FG_BRIGHT_WHITE,
+            unobserved_symbols: style::FG_BRIGHT_RED,
         }
     }
 

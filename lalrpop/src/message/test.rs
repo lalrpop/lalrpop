@@ -1,34 +1,40 @@
 use ascii_canvas::AsciiCanvas;
-use filetext::FileText;
+use file_text::FileText;
 use grammar::parse_tree::Span;
+use message::builder::MessageBuilder;
+use session::Session;
 use std::path::PathBuf;
 use std::rc::Rc;
 use test_util::expect_debug;
+use tls::Tls;
 
 use super::*;
 
-fn file_text() -> Rc<FileText> {
+fn install_tls() -> Tls {
+    let session = Rc::new(Session::test());
     let path = PathBuf::from("tmp.txt");
     let text = r#"foo
 bar
 baz
 "#;
-    Rc::new(FileText::new(path, text.to_string()))
+    let file_text = Rc::new(FileText::new(path, text.to_string()));
+    Tls::install(session, file_text)
 }
 
 #[test]
 fn hello_world() {
+    let _tls = install_tls();
     let msg =
-        MessageBuilder::new(Span(0, 2), file_text())
+        MessageBuilder::new(Span(0, 2))
         .heading()
         .text("Hello, world!")
-        .end() // heading
+        .end()
         .body()
         .wrap()
         .text("This is a very, very, very, very long sentence. \
                OK, not THAT long!")
         .end()
-        .indent_by(4) // note that message already indents by 2
+        .indent_by(4)
         .end()
         .end();
     let min_width = msg.min_width();
@@ -48,8 +54,9 @@ fn hello_world() {
 
 #[test]
 fn paragraphs() {
+    let _tls = install_tls();
     let msg =
-        MessageBuilder::new(Span(0, 2), file_text())
+        MessageBuilder::new(Span(0, 2))
         .heading()
         .text("Hello, world!")
         .end() // heading

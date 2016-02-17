@@ -1,5 +1,6 @@
-use ansi_term::{ANSIString, ANSIStrings, Style};
 use std::fmt::{Debug, Display, Formatter, Error};
+use style::{Style, StyleCursor};
+use term::{self, Terminal};
 
 pub struct Row {
     text: String,
@@ -8,26 +9,30 @@ pub struct Row {
 
 impl Row {
     pub fn new(chars: &[char], styles: &[Style]) -> Row {
+        assert_eq!(chars.len(), styles.len());
         Row {
             text: chars.iter().cloned().collect(),
             styles: styles.to_vec()
         }
     }
+
+    pub fn write_to<T:Terminal+?Sized>(&self, term: &mut T) -> term::Result<()> {
+        let mut cursor = try!(StyleCursor::new(term));
+        for (character, &style) in self.text.trim_right().chars()
+                                                         .zip(&self.styles)
+        {
+            try!(cursor.set_style(style));
+            try!(write!(cursor.term(), "{}", character));
+        }
+        Ok(())
+    }
 }
+
+// Using display/debug just skips the styling.
 
 impl Display for Row {
     fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
-        // FIXME -- trim_right when not styled
-        let ansi_strings: Vec<ANSIString> =
-            self.text.char_indices()
-                     .map(|(index, ch)| {
-                         let len = ch.len_utf8();
-                         &self.text[index..index+len]
-                     })
-                     .zip(self.styles.iter().cloned())
-                     .map(|(str, style)| style.paint(str))
-                     .collect();
-        Display::fmt(&ANSIStrings(&ansi_strings), fmt)
+        Display::fmt(self.text.trim_right(), fmt)
     }
 }
 

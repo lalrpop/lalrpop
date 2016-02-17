@@ -1,4 +1,4 @@
-use ansi_term::Style;
+use style::Style;
 use test_util::expect_debug;
 
 use super::{AsciiCanvas, AsciiView};

@@ -1,15 +1,19 @@
 //! Utilies for running in a build script.
 
-use filetext::FileText;
+use file_text::FileText;
 use grammar::parse_tree as pt;
 use grammar::repr as r;
 use lalrpop_util::ParseError;
 use lexer::intern_token;
 use lr1;
+use message::{Content, Message};
+use message::builder::InlineBuilder;
 use normalize;
 use parser;
 use rust::RustWrite;
 use session::Session;
+use term;
+use tls::Tls;
 use tok;
 
 use std::env::current_dir;
@@ -17,8 +21,12 @@ use std::fs;
 use std::io::{self, Write};
 use std::path::{Path, PathBuf};
 use std::process::exit;
+use std::rc::Rc;
 
 mod action;
+mod fake_term;
+
+use self::fake_term::FakeTerminal;
 
 pub fn process_root() -> io::Result<()> {
     let session = Session::new();
@@ -141,36 +149,43 @@ fn lalrpop_files<P:AsRef<Path>>(root_dir: P) -> io::Result<Vec<PathBuf>> {
 
 fn parse_and_normalize_grammar(session: &Session, path: &Path) -> io::Result<r::Grammar> {
     let path = path.to_path_buf();
-    let input = try!(FileText::from_path(path));
+    let file_text = Rc::new(try!(FileText::from_path(path)));
 
-    let grammar = match parser::parse_grammar(input.text()) {
+    // Store the session and file-text in TLS -- this is not intended
+    // to be used in this high-level code, but it gives easy access to
+    // this information pervasively in the low-level LR(1) and grammar
+    // normalization code. This is particularly useful for
+    // error-reporting.
+    let _tls = Tls::install(Rc::new(session.clone()), file_text.clone());
+
+    let grammar = match parser::parse_grammar(file_text.text()) {
         Ok(grammar) => grammar,
 
         Err(ParseError::InvalidToken { location }) => {
-            let ch = input.text()[location..].chars().next().unwrap();
-            report_error(&input,
+            let ch = file_text.text()[location..].chars().next().unwrap();
+            report_error(&file_text,
                          pt::Span(location, location),
                          &format!("invalid character `{}`", ch));
         }
 
         Err(ParseError::UnrecognizedToken { token: None, expected: _ }) => {
-            let len = input.text().len();
-            report_error(&input,
+            let len = file_text.text().len();
+            report_error(&file_text,
                          pt::Span(len, len),
                          &format!("unexpected end of file"));
         }
 
         Err(ParseError::UnrecognizedToken { token: Some((lo, _, hi)), expected }) => {
             assert!(expected.is_empty()); // didn't implement this yet :)
-            let text = &input.text()[lo..hi];
-            report_error(&input,
+            let text = &file_text.text()[lo..hi];
+            report_error(&file_text,
                          pt::Span(lo, hi),
                          &format!("unexpected token: `{}`", text));
         }
 
         Err(ParseError::ExtraToken { token: (lo, _, hi) }) => {
-            let text = &input.text()[lo..hi];
-            report_error(&input,
+            let text = &file_text.text()[lo..hi];
+            report_error(&file_text,
                          pt::Span(lo, hi),
                          &format!("extra token at end of input: `{}`", text));
         }
@@ -189,7 +204,7 @@ fn parse_and_normalize_grammar(session: &Session, path: &Path) -> io::Result<r::
                     "unterminated code block; perhaps a missing `;`, `)`, `]` or `}`?"
             };
 
-            report_error(&input,
+            report_error(&file_text,
                          pt::Span(error.location, error.location + 1),
                          string)
         }
@@ -198,7 +213,7 @@ fn parse_and_normalize_grammar(session: &Session, path: &Path) -> io::Result<r::
     match normalize::normalize(session, grammar) {
         Ok(grammar) => Ok(grammar),
         Err(error) => {
-            report_error(&input,
+            report_error(&file_text,
                          error.span,
                          &error.message)
         }
@@ -208,11 +223,31 @@ fn parse_and_normalize_grammar(session: &Session, path: &Path) -> io::Result<r::
 fn report_error(file_text: &FileText, span: pt::Span, message: &str) -> ! {
     println!("{} error: {}", file_text.span_str(span), message);
 
-    let out = io::stdout();
+    let out = io::stderr();
     let mut out = out.lock();
     file_text.highlight(span, &mut out).unwrap();
 
     exit(1);
+}
+
+fn report_messages(messages: Vec<Message>) -> term::Result<()> {
+    let builder = InlineBuilder::new().paragraphs();
+    let builder = messages.into_iter().fold(builder, |b, m| b.push(Box::new(m)));
+    let content = builder.end().end();
+    report_content(&*content)
+}
+
+fn report_content(content: &Content) -> term::Result<()> {
+    // FIXME -- can we query the size of the terminal somehow?
+    let canvas = content.emit_to_canvas(80);
+
+    if let Some(mut stderr) = term::stderr() {
+        canvas.write_to(&mut *stderr)
+    } else {
+        let stderr = io::stderr();
+        let mut stderr = FakeTerminal::new(stderr.lock());
+        canvas.write_to(&mut stderr)
+    }
 }
 
 fn emit_uses<W:Write>(grammar: &r::Grammar,
@@ -277,11 +312,9 @@ fn emit_recursive_ascent(session: &Session,
         let states = match lr1::build_states(session, &grammar, start_nt) {
             Ok(states) => states,
             Err(error) => {
-                try!(lr1::report_error(session,
-                                       &grammar,
-                                       &error,
-                                       &mut io::stdout()));
-                exit(1)
+                let messages = lr1::report_error(session, &grammar, &error);
+                let _ = report_messages(messages);
+                exit(1) // FIXME -- propagate up instead of calling `exit`
             }
         };
 

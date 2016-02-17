@@ -2,15 +2,23 @@
 //! fixed-sized canvas and then convert that canvas into ASCII
 //! characters. ANSI styling is supported.
 
-use ansi_term::Style;
 use std::cmp;
 use std::ops::Range;
+use style::Style;
+use term::{self, Terminal};
 
 mod row;
 #[cfg(test)] mod test;
 
 pub use self::row::Row;
 
+///////////////////////////////////////////////////////////////////////////
+
+/// AsciiView is a view onto an `AsciiCanvas` which potentially
+/// applies transformations along the way (e.g., shifting, adding
+/// styling information). Most of the main drawing methods for
+/// `AsciiCanvas` are defined as inherent methods on an `AsciiView`
+/// trait object.
 pub trait AsciiView {
     fn columns(&self) -> usize;
     fn read_char(&mut self, row: usize, column: usize) -> char;
@@ -66,10 +74,8 @@ impl<'a> AsciiView+'a {
         ShiftedView::new(self, row, column)
     }
 
-    pub fn styled<'c, F>(&'c mut self, style_fn: F) -> StyleView<'c, F>
-        where F: Fn(&Style) -> Style
-    {
-        StyleView::new(self, style_fn)
+    pub fn styled<'c>(&'c mut self, style: Style) -> StyleView<'c> {
+        StyleView::new(self, style)
     }
 }
 
@@ -120,6 +126,13 @@ impl AsciiCanvas {
 
     fn end_index(&self, r: usize) -> usize {
         self.in_range_index(r, self.columns)
+    }
+
+    pub fn write_to<T:Terminal+?Sized>(&self, term: &mut T) -> term::Result<()> {
+        for row in self.to_strings() {
+            try!(row.write_to(term));
+        }
+        Ok(())
     }
 
     pub fn to_strings(&self) -> Vec<Row> {
@@ -228,27 +241,21 @@ impl<'canvas> AsciiView for ShiftedView<'canvas> {
     }
 }
 
-pub struct StyleView<'canvas, F>
-    where F: Fn(&Style) -> Style
-{
+pub struct StyleView<'canvas> {
     base: &'canvas mut AsciiView,
-    style_fn: F
+    style: Style,
 }
 
-impl<'canvas, F> StyleView<'canvas, F>
-    where F: Fn(&Style) -> Style
-{
-    pub fn new(base: &'canvas mut AsciiView, style_fn: F) -> Self {
+impl<'canvas> StyleView<'canvas> {
+    pub fn new(base: &'canvas mut AsciiView, style: Style) -> Self {
         StyleView {
             base: base,
-            style_fn: style_fn
+            style: style,
         }
     }
 }
 
-impl<'canvas, F> AsciiView for StyleView<'canvas, F>
-    where F: Fn(&Style) -> Style
-{
+impl<'canvas> AsciiView for StyleView<'canvas> {
     fn columns(&self) -> usize {
         self.base.columns()
     }
@@ -263,7 +270,6 @@ impl<'canvas, F> AsciiView for StyleView<'canvas, F>
                   ch: char,
                   style: Style)
     {
-        let style = (self.style_fn)(&style);
-        self.base.write_char(row, column, ch, style)
+        self.base.write_char(row, column, ch, style.with(self.style))
     }
 }

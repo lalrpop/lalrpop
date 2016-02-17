@@ -6,6 +6,7 @@
 
 use intern::{self, InternedString};
 use grammar::pattern::{Pattern};
+use message::Content;
 use std::fmt::{Debug, Display, Formatter, Error};
 use util::{map, Map, Sep};
 
@@ -374,6 +375,15 @@ impl Display for Symbol {
 impl Debug for Symbol {
     fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
         Display::fmt(self, fmt)
+    }
+}
+
+impl Into<Box<Content>> for Symbol {
+    fn into(self) -> Box<Content> {
+        match self {
+            Symbol::Nonterminal(nt) => nt.into(),
+            Symbol::Terminal(term) => term.into(),
+        }
     }
 }
 
