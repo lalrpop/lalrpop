@@ -3,7 +3,7 @@ extern crate lalrpop;
 extern crate rustc_serialize;
 
 use docopt::Docopt;
-use lalrpop::{process_file, Level, Session};
+use lalrpop::{process_file, Level, ColorConfig, Session};
 use std::env;
 use std::io::{self, Write};
 use std::process;
@@ -38,6 +38,10 @@ fn main1() -> io::Result<()> {
         process::exit(1);
     }
 
+    if args.flag_color {
+        session.set_color_config(ColorConfig::Yes);
+    }
+
     if args.arg_inputs.len() == 0 {
         try!(writeln!(stderr, "Error: no input files specified! Try -h for help."));
         process::exit(1);
@@ -65,6 +69,7 @@ Options:
     -l, --level LEVEL    Set the debug level. (Default: info)
                          Valid values: quiet, info, verbose, debug.
     -f, --force          Force execution, even if the .lalrpop file is older than the .rs file.
+    -c, --color          Force colorful output, even if this is not a TTY.
 ";
 
 #[derive(Debug, RustcDecodable)]
@@ -73,6 +78,7 @@ struct Args {
     flag_level: Option<LevelFlag>,
     flag_force: bool,
     flag_help: bool,
+    flag_color: bool,
 }
 
 #[derive(Debug, RustcDecodable)]

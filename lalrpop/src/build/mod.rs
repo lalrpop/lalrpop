@@ -12,7 +12,7 @@ use message::builder::InlineBuilder;
 use normalize;
 use parser;
 use rust::RustWrite;
-use session::Session;
+use session::{ColorConfig, Session};
 use term;
 use tls::Tls;
 use tok;
@@ -250,7 +250,13 @@ fn report_content(content: &Content) -> term::Result<()> {
     // FIXME -- can we query the size of the terminal somehow?
     let canvas = content.emit_to_canvas(80);
 
-    if atty::is() {
+    let try_colors = match Tls::session().color_config() {
+        ColorConfig::Yes => true,
+        ColorConfig::No => false,
+        ColorConfig::IfTty => atty::is(),
+    };
+
+    if try_colors {
         if let Some(mut stderr) = term::stderr() {
             return canvas.write_to(&mut *stderr);
         }

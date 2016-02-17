@@ -31,13 +31,7 @@ impl<'a> AsciiView+'a {
                               column: usize)
     {
         for r in rows {
-            let new_char = match self.read_char(r, column) {
-                ' ' => '|',
-                '|' => '|',
-                '-' => '+',
-                '+' => '+',
-                _ => panic!("unexpected character when drawing lines"),
-            };
+            let new_char = AsciiView::vertical_mid_char(self.read_char(r, column));
             self.write_char(r, column, new_char, Style::new());
         }
     }
@@ -47,13 +41,7 @@ impl<'a> AsciiView+'a {
                                 columns: Range<usize>)
     {
         for c in columns {
-            let new_char = match self.read_char(row, c) {
-                ' ' => '-',
-                '-' => '-',
-                '|' => '+',
-                '+' => '+',
-                _ => panic!("unexpected character when drawing lines"),
-            };
+            let new_char = AsciiView::horizontal_mid_char(self.read_char(row, c));
             self.write_char(row, c, new_char, Style::new());
         }
     }
@@ -274,5 +262,56 @@ impl<'canvas> AsciiView for StyleView<'canvas> {
                   style: Style)
     {
         self.base.write_char(row, column, ch, style.with(self.style))
+    }
+}
+
+///////////////////////////////////////////////////////////////////////////
+
+trait LineChars {
+    fn vertical_start_char(old_ch: char) -> char;
+    fn vertical_mid_char(old_ch: char) -> char;
+    fn vertical_end_char(old_ch: char) -> char;
+    fn horizontal_start_char(old_ch: char) -> char;
+    fn horizontal_mid_char(old_ch: char) -> char;
+    fn horizontal_end_char(old_ch: char) -> char;
+}
+
+struct AsciiLines;
+
+impl AsciiLines for LineChars {
+    fn vertical_start_char(old_ch: char) -> char {
+        match old_ch {
+            ' ' => '|',
+            '|' => '|',
+            '-' => '+',
+            '+' => '+',
+            _ => panic!("unexpected character when drawing lines"),
+        }
+    }
+
+    fn vertical_mid_char(old_ch: char) -> char {
+        self.vertical_start_char(old_ch)
+    }
+
+    fn vertical_end_char(old_ch: char) -> char {
+        self.vertical_start_char(old_ch)
+    }
+
+    fn horizontal_start_char(old_ch: char) -> char {
+        self.read_char(row, c) {
+            ' ' => '-',
+            '-' => '-',
+            '|' => '+',
+            '+' => '+',
+            _ => panic!("unexpected character when drawing lines"),
+        }
+    }
+
+    fn horizontal_mid_char(old_ch: char) -> char {
+        self.horizontal_start_char(old_ch)
+    }
+
+    fn horizontal_mid_char(old_ch: char) -> char {
+        self.horizontal_start_char(old_ch)
     }
 }

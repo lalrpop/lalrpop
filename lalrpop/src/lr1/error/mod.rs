@@ -3,7 +3,7 @@
 use itertools::Itertools;
 use grammar::repr::*;
 use message::{Message};
-use message::builder::{Builder, BodyCharacter, MessageBuilder};
+use message::builder::{Builder, BodyCharacter, Character, MessageBuilder};
 use util::{Map, map};
 use lr1::trace::Tracer;
 use lr1::core::*;
@@ -178,6 +178,11 @@ impl<'cx, 'grammar> ErrorReportingCx<'cx, 'grammar> {
                                  action: Example,
                                  reduce: Example)
                                  -> Builder<BodyCharacter> {
+        let kind = match conflict.action {
+            Action::Shift(_) => "shift/reduce",
+            Action::Reduce(_) => "reduce/reduce",
+        };
+
         let styles = ExampleStyles::new();
         let builder =
             MessageBuilder::new(conflict.production.span)
@@ -186,68 +191,127 @@ impl<'cx, 'grammar> ErrorReportingCx<'cx, 'grammar> {
             .end()
 
             .body()
+            .begin_wrap()
+            .text("The grammar as written cannot be parsed using an LR(1)")
+            .text("parser because of a")
+            .text(kind)
+            .text("conflict. Often these sorts of conflicts indicate an underlying")
+            .text("ambiguity in the grammar, but they may also be an artifact ")
+            .text("of the LR(1) algorithm.")
+            .end();
+
+        let builder = builder
             .begin_lines()
-            .wrap_text("The grammar as written cannot be parsed using an LR(1) \
-                        parser, as more than one token of lookahead would be required. \
-                        After encountering the following symbols in the input:")
+            .begin_wrap()
+            .text("The problem arises after having observed the following symbols")
+            .text("in the input:")
+            .end()
             .push(if action.cursor >= reduce.cursor {
                 action.to_symbol_list(action.cursor, styles)
             } else {
                 reduce.to_symbol_list(reduce.cursor, styles)
-            });
-
-        let builder = builder.begin_wrap();
+            })
+            .begin_wrap();
 
         let builder = match lookahead {
             Lookahead::Terminal(term) => {
                 builder
-                    .text("and when looking at the terminal")
+                    .text("At that point, if the next token is a")
                     .push(term)
                     .verbatimed()
                     .styled(Tls::session().cursor_symbol)
                     .punctuated(",")
             }
-            Lookahead::EOF => {
-                builder
-                    .text("and when there are no more input tokens,")
-            }
+            Lookahead::EOF =>
+                builder.text("If the end of the input is reached,")
         };
 
-        let builder =
-            builder.text("parsing could continue in two distinct ways.")
-                   .end()
-                   .end();
+        let builder = builder
+            .text("then the parser can proceed in two different ways.")
+            .end()
+            .end();
 
-        let builder = builder.begin_lines();
-        let builder = match conflict.action {
+        let builder =
+            self.describe_reduce(builder, styles, conflict.production,
+                                 reduce, "First");
+
+        match conflict.action {
             Action::Shift(_) =>
-                builder.wrap_text("First, the parser could take no action yet, \
-                                   leading to:"),
+                self.describe_shift(builder, styles, lookahead,
+                                    action, "Alternatively"),
             Action::Reduce(production) =>
-                builder.begin_wrap()
-                       .text("First, the parser could reduce")
-                       .push(production.nonterminal)
-                       .verbatimed()
-                       .punctuated(",")
-                       .text("leading to:")
-                       .end(),
-        };
-        let builder =
-            builder.push(action.into_picture(styles))
-                   .end();
+                self.describe_reduce(builder, styles, production,
+                                     action, "Alternatively"),
+        }
+    }
+
+    fn describe_shift<C: Character>(&self,
+                                    builder: Builder<C>,
+                                    styles: ExampleStyles,
+                                    lookahead: Lookahead,
+                                    example: Example,
+                                    intro_word: &str)
+                                    -> Builder<C>
+    {
+        // Shift actions can only happen with non-EOF lookaheads:
+        let lookahead = lookahead.unwrap_terminal();
+
+        // A shift example looks like:
+        //
+        // ...p1 ...p2 (*) L ...s2 ...s1
+        // |     |               |     |
+        // |     +-NT1-----------+     |
+        // |                           |
+        // |           ...             |
+        // |                           |
+        // +-NT2-----------------------+
+
+        let nt1 = example.reductions[0].nonterminal;
 
         builder
             .begin_lines()
             .begin_wrap()
-            .text("Second, the parser could reduce")
-            .push(reduce.reductions[0].nonterminal)
-            .verbatimed()
+            .text(intro_word)
             .punctuated(",")
-            .text("leading to:")
+            .text("the parser could shift the")
+            .push(lookahead)
+            .verbatimed()
+            .text("token and later use it to construct a")
+            .push(nt1)
+            .verbatimed()
+            .punctuated(".")
+            .text("This might then yield a parse tree like")
             .end()
-            .push(reduce.into_picture(styles))
-            .wrap_text("(Note that an LR(1) parser must execute reductions \
-                        as soon as it can.)")
+            .push(example.into_picture(styles))
+            .end()
+    }
+
+    fn describe_reduce<C: Character>(&self,
+                                     builder: Builder<C>,
+                                     styles: ExampleStyles,
+                                     production: &Production,
+                                     example: Example,
+                                     intro_word: &str)
+                                     -> Builder<C>
+    {
+        builder
+            .begin_lines()
+            .begin_wrap()
+            .text(intro_word)
+            .punctuated(",")
+            .text("the parser could execute the production at")
+            .push(production.span)
+            .punctuated(",")
+            .text("which would consume the top")
+            .text(production.symbols.len())
+            .text("token(s) from the stack")
+            .text("and produce a")
+            .push(production.nonterminal)
+            .verbatimed()
+            .punctuated(".")
+            .text("This might then yield a parse tree like")
+            .end()
+            .push(example.into_picture(styles))
             .end()
     }
 
@@ -264,6 +328,8 @@ impl<'cx, 'grammar> ErrorReportingCx<'cx, 'grammar> {
 
         builder
             .begin_wrap()
+            .text("Hint:")
+            .styled(Tls::session().hint_text)
             .text("It appears you could resolve this problem by adding")
             .text("the annotation `#[inline]` to the definition of")
             .push(nonterminal)
@@ -290,6 +356,8 @@ impl<'cx, 'grammar> ErrorReportingCx<'cx, 'grammar> {
 
         builder
             .begin_wrap()
+            .text("Hint:")
+            .styled(Tls::session().hint_text)
             .text("It appears you could resolve this problem by replacing")
             .text("uses of")
             .push(nonterminal)
@@ -299,9 +367,10 @@ impl<'cx, 'grammar> ErrorReportingCx<'cx, 'grammar> {
             .text("(or, alternatively, by adding the annotation `#[inline]` \
                    to the definition of")
             .push(nonterminal)
+            .punctuated(").")
+            .text("For more information, see the section on inlining")
+            .text("in the LALROP manual.")
             .end()
-            .wrap_text("For more information, see the section on inlining \
-                        in the LALROP manual.")
             .end()
             .end()
     }
@@ -312,6 +381,23 @@ impl<'cx, 'grammar> ErrorReportingCx<'cx, 'grammar> {
                                            action: Example,
                                            reduce: Example)
                                            -> Message {
+        // The reduce example will look something like:
+        //
+        //
+        // ...p1 ...p2 (*) L ...s2 ...s1
+        // |     |               |     |
+        // |     +-NT1-----------+     |
+        // |     |               |     |
+        // |     +-...-----------+     |
+        // |     |               |     |
+        // |     +-NTn-----------+     |
+        // |                           |
+        // +-NTn+1---------------------+
+        //
+        // To solve the conflict, essentially, the user needs to
+        // modify the grammar so that `NTn` does not appear with `L`
+        // in its follow-set. How to guide them in this?
+
         let builder = self.report_error_not_lr1_core(lookahead, conflict,
                                                      action, reduce);
 
@@ -618,4 +704,3 @@ impl<'cx, 'grammar> ErrorReportingCx<'cx, 'grammar> {
 //        }
 //    }
 //}
-

@@ -54,4 +54,5 @@ pub use build::process_root_unconditionally;
 pub use build::process_file;
 pub use log::Level;
 pub use log::Log;
+pub use session::ColorConfig;
 pub use session::Session;

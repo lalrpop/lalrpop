@@ -290,13 +290,14 @@ impl Example {
         // Write the labels for each reduction. Do this after the
         // brackets so that ascii canvas can convert `|` to `+`
         // without interfering with the text (in case of weird overlap).
+        let session = Tls::session();
         for (index, reduction) in self.reductions.iter().enumerate() {
             let column = positions[reduction.start] + 2;
             let row = 2 + index * 2;
             view.write_chars(row,
                              column,
-                             format!("{}", reduction.nonterminal).chars(),
-                             Style::new());
+                             reduction.nonterminal.to_string().chars(),
+                             session.nonterminal_symbol);
         }
     }
 
@@ -305,6 +306,7 @@ impl Example {
                         positions: &[usize],
                         styles: &ExampleStyles,
                         view: &mut AsciiView) {
+        let session = Tls::session();
         for (index, ex_symbol) in symbols.iter().enumerate() {
             let style = if index < self.cursor {
                 styles.before_cursor
@@ -321,10 +323,19 @@ impl Example {
                 styles.after_cursor
             };
 
+            let column = positions[index];
             match *ex_symbol {
-                ExampleSymbol::Symbol(symbol) => {
-                    let column = positions[index];
-                    view.write_chars(0, column, format!("{}", symbol).chars(), style);
+                ExampleSymbol::Symbol(Symbol::Terminal(term)) => {
+                    view.write_chars(0,
+                                     column,
+                                     term.to_string().chars(),
+                                     style.with(session.terminal_symbol));
+                }
+                ExampleSymbol::Symbol(Symbol::Nonterminal(nt)) => {
+                    view.write_chars(0,
+                                     column,
+                                     nt.to_string().chars(),
+                                     style.with(session.nonterminal_symbol));
                 }
                 ExampleSymbol::Epsilon => {
                 }

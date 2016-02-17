@@ -1,5 +1,18 @@
+use std::default::Default;
 use style::{self, Style};
 use log::{Log, Level};
+
+#[derive(Copy, Clone)]
+pub enum ColorConfig {
+    /// Use ANSI colors.
+    Yes,
+
+    /// Do NOT use ANSI colors.
+    No,
+
+    /// Use them if we detect a TTY output (default).
+    IfTty,
+}
 
 /// Various options to control debug output. Although this struct is
 /// technically part of LALRPOP's exported interface, it is not
@@ -8,7 +21,10 @@ use log::{Log, Level};
 #[derive(Clone)]
 pub struct Session {
     log: Log,
+
     force_build: bool,
+
+    color_config: ColorConfig,
 
     /// Stop after you find `max_errors` errors. If this value is 0,
     /// report *all* errors. Note that we MAY always report more than
@@ -38,6 +54,9 @@ pub struct Session {
 
     /// Applied to nonterminal symbols, in addition to the above styles
     pub nonterminal_symbol: Style,
+
+    /// Style to use when printing "Hint:"
+    pub hint_text: Style,
 }
 
 impl Session {
@@ -45,6 +64,7 @@ impl Session {
         Session {
             log: Log::new(Level::Informative),
             force_build: false,
+            color_config: ColorConfig::default(),
             max_errors: 1,
             heading: style::FG_WHITE.with(style::BOLD),
             ambig_symbols: style::FG_WHITE,
@@ -53,6 +73,7 @@ impl Session {
             unobserved_symbols: style::FG_BRIGHT_RED,
             terminal_symbol: style::BOLD,
             nonterminal_symbol: style::DEFAULT,
+            hint_text: style::FG_BRIGHT_MAGENTA.with(style::BOLD),
         }
     }
 
@@ -62,6 +83,7 @@ impl Session {
         Session {
             log: Log::new(Level::Debug),
             force_build: false,
+            color_config: ColorConfig::IfTty,
             max_errors: 1,
             heading: Style::new(),
             ambig_symbols: Style::new(),
@@ -70,7 +92,16 @@ impl Session {
             unobserved_symbols: Style::new(),
             terminal_symbol: Style::new(),
             nonterminal_symbol: Style::new(),
+            hint_text: Style::new(),
         }
+    }
+
+    pub fn color_config(&self) -> ColorConfig {
+        self.color_config
+    }
+
+    pub fn set_color_config(&mut self, config: ColorConfig) {
+        self.color_config = config;
     }
 
     pub fn set_force_build(&mut self) {
@@ -99,5 +130,17 @@ impl Session {
         where M: FnOnce() -> String
     {
         self.log.log(level, message)
+    }
+}
+
+impl Default for Session {
+    fn default() -> Self {
+        Session::new()
+    }
+}
+
+impl Default for ColorConfig {
+    fn default() -> Self {
+        ColorConfig::IfTty
     }
 }
