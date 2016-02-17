@@ -4,6 +4,7 @@
 
 use std::cmp;
 use std::ops::Range;
+use std::iter::ExactSizeIterator;
 use style::Style;
 use term::{self, Terminal};
 
@@ -26,13 +27,30 @@ pub trait AsciiView {
 }
 
 impl<'a> AsciiView+'a {
+    fn add_box_dirs(&mut self,
+                    row: usize,
+                    column: usize,
+                    dirs: u8)
+    {
+        let old_ch = self.read_char(row, column);
+        let new_ch = add_dirs(old_ch, dirs);
+        self.write_char(row, column, new_ch, Style::new());
+    }
+
     pub fn draw_vertical_line(&mut self,
                               rows: Range<usize>,
                               column: usize)
     {
-        for r in rows {
-            let new_char = Ascii::vertical_mid_char(self.read_char(r, column));
-            self.write_char(r, column, new_char, Style::new());
+        let len = rows.len();
+        for (index, r) in rows.enumerate() {
+            let new_dirs = if index == 0 {
+                DOWN
+            } else if index == len - 1 {
+                UP
+            } else {
+                UP | DOWN
+            };
+            self.add_box_dirs(r, column, new_dirs);
         }
     }
 
@@ -40,9 +58,16 @@ impl<'a> AsciiView+'a {
                                 row: usize,
                                 columns: Range<usize>)
     {
-        for c in columns {
-            let new_char = Ascii::horizontal_mid_char(self.read_char(row, c));
-            self.write_char(row, c, new_char, Style::new());
+        let len = columns.len();
+        for (index, c) in columns.enumerate() {
+            let new_dirs = if index == 0 {
+                RIGHT
+            } else if index == len - 1 {
+                LEFT
+            } else {
+                LEFT | RIGHT
+            };
+            self.add_box_dirs(row, c, new_dirs);
         }
     }
 
@@ -266,52 +291,59 @@ impl<'canvas> AsciiView for StyleView<'canvas> {
 }
 
 ///////////////////////////////////////////////////////////////////////////
+// Unicode box-drawing characters
 
-trait LineChars {
-    fn vertical_start_char(old_ch: char) -> char;
-    fn vertical_mid_char(old_ch: char) -> char;
-    fn vertical_end_char(old_ch: char) -> char;
-    fn horizontal_start_char(old_ch: char) -> char;
-    fn horizontal_mid_char(old_ch: char) -> char;
-    fn horizontal_end_char(old_ch: char) -> char;
+pub const UP: u8 = 0b0001;
+pub const DOWN: u8 = 0b0010;
+pub const LEFT: u8 = 0b0100;
+pub const RIGHT: u8 = 0b1000;
+
+pub const BOX_CHARS: &'static [(char, u8)] = &[
+    ('╵', UP),
+    ('│', UP | DOWN),
+    ('┤', UP | DOWN | LEFT),
+    ('├', UP | DOWN | RIGHT),
+    ('┼', UP | DOWN | LEFT | RIGHT),
+    ('┘', UP | LEFT),
+    ('└', UP | RIGHT),
+    ('┴', UP | LEFT | RIGHT),
+
+    // No UP:
+    ('╷', DOWN),
+    ('┐', DOWN | LEFT),
+    ('┌', DOWN | RIGHT),
+    ('┬', DOWN | LEFT | RIGHT),
+
+    // No UP|DOWN:
+    ('╶', LEFT),
+    ('─', LEFT | RIGHT),
+
+    // No LEFT:
+    ('╴', RIGHT),
+
+    // No RIGHT:
+    (' ', 0),
+];
+
+fn box_char_for_dirs(dirs: u8) -> char {
+    for &(c, d) in BOX_CHARS {
+        if dirs == d {
+            return c;
+        }
+    }
+    panic!("no box character for dirs: {:b}", dirs);
 }
 
-struct Ascii;
-
-impl LineChars for Ascii {
-    fn vertical_start_char(old_ch: char) -> char {
-        match old_ch {
-            ' ' => '|',
-            '|' => '|',
-            '-' => '+',
-            '+' => '+',
-            _ => panic!("unexpected character when drawing lines"),
+fn dirs_for_box_char(ch: char) -> Option<u8> {
+    for &(c, d) in BOX_CHARS {
+        if c == ch {
+            return Some(d);
         }
     }
+    None
+}
 
-    fn vertical_mid_char(old_ch: char) -> char {
-        Self::vertical_start_char(old_ch)
-    }
-
-    fn vertical_end_char(old_ch: char) -> char {
-        Self::vertical_start_char(old_ch)
-    }
-
-    fn horizontal_start_char(old_ch: char) -> char {
-        match old_ch {
-            ' ' => '-',
-            '-' => '-',
-            '|' => '+',
-            '+' => '+',
-            _ => panic!("unexpected character when drawing lines"),
-        }
-    }
-
-    fn horizontal_mid_char(old_ch: char) -> char {
-        Self::horizontal_start_char(old_ch)
-    }
-
-    fn horizontal_end_char(old_ch: char) -> char {
-        Self::horizontal_start_char(old_ch)
-    }
+fn add_dirs(old_ch: char, new_dirs: u8) -> char {
+    let old_dirs = dirs_for_box_char(old_ch).unwrap_or(0);
+    box_char_for_dirs(old_dirs | new_dirs)
 }

@@ -38,6 +38,9 @@ impl Display for Row {
 
 impl Debug for Row {
     fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
-        Debug::fmt(self.text.trim_right(), fmt)
+        // NB: use Display, not Debug, just throw some quotes around it
+        try!(write!(fmt, "\""));
+        try!(Display::fmt(self.text.trim_right(), fmt));
+        write!(fmt, "\"")
     }
 }

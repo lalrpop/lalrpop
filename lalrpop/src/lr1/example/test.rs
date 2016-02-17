@@ -1,6 +1,6 @@
 use intern::intern;
 use grammar::repr::*;
-use test_util::compare;
+use test_util::expect_debug;
 use tls::Tls;
 
 use super::{Example, ExampleSymbol, Reduction};
@@ -53,12 +53,15 @@ fn long_label_1_positions() {
 fn long_label_1_strings() {
     let _tls = Tls::test();
     let strings = long_label_1_example().paint_unstyled();
-    compare(strings,
-            vec!["A1   B2  C3  D4 E5 F6",
-                 "|             |     |",
-                 "+-LongLabel22-+     |",
-                 "|                   |",
-                 "+-Label-------------+"]);
+    expect_debug(strings, r#"
+[
+    "  A1   B2  C3  D4 E5 F6",
+    "  ╷             ╷     ╷",
+    "  ├─LongLabel22─┘     │",
+    "  │                   │",
+    "  └─Label─────────────┘"
+]
+"#.trim());
 }
 
 // Example with some empty sequences and
@@ -101,16 +104,19 @@ fn empty_labels_positions() {
 fn empty_labels_strings() {
     let _tls = Tls::test();
     let strings = empty_labels_example().paint_unstyled();
-    compare(strings,
-            vec!["       A1  B2  C3 D4 E5       F6",
-                 "|    |          |       |   | |   |",
-                 "+-X--+          |       |   | |   |",
-                 "|               |       |   | |   |",
-                 "+-MegaLongLabel-+       |   | |   |",
-                 "                        |   | |   |",
-                 "                        +-Y-+ |   |",
-                 "                              |   |",
-                 "                              +-Z-+"]);
+    expect_debug(strings, r#"
+[
+    "         A1  B2  C3 D4 E5       F6",
+    "  ╷    ╷          ╷       ╷   ╷ ╷   ╷",
+    "  ├─X──┘          │       │   │ │   │",
+    "  │               │       │   │ │   │",
+    "  └─MegaLongLabel─┘       │   │ │   │",
+    "                          │   │ │   │",
+    "                          └─Y─┘ │   │",
+    "                                │   │",
+    "                                └─Z─┘"
+]
+"#.trim());
 }
 
 // _return_      _A_ Expression _B_
@@ -137,13 +143,15 @@ fn single_token_example() -> Example {
 fn single_token_strings() {
     let _tls = Tls::test();
     let strings = single_token_example().paint_unstyled();
-    compare(strings, vec![
-        "_return_       _A_ Expression _B_",
-        "|            |                  |",
-        "+-ExprAtom---+                  |",
-        "|            |                  |",
-        "+-ExprSuffix-+                  |",
-        "|                               |",
-        "+-ExprSuffix--------------------+",
-    ]);
+    expect_debug(strings, r#"
+[
+    "  _return_       _A_ Expression _B_",
+    "  ╷            ╷                  ╷",
+    "  ├─ExprAtom───┤                  │",
+    "  │            │                  │",
+    "  ├─ExprSuffix─┘                  │",
+    "  │                               │",
+    "  └─ExprSuffix────────────────────┘"
+]
+"#.trim());
 }
