@@ -75,10 +75,25 @@ Nonterminal: GrammarItem =
                                                    alternatives: a })
     };
 
-Annotation: Annotation =
+Annotation: Annotation = {
     "#" "[" <lo:@L> <id:Id> <hi:@R> "]" => {
-        Annotation { id_span: Span(lo, hi), id: id }
-    };
+        Annotation {
+            id_span: Span(lo, hi),
+            id: id,
+            parameters: vec![],
+        }
+    },
+    "#" "[" <lo:@L> <id:Id> "(" <l:Comma<EqPair>> ")" <hi:@R> "]" => {
+        Annotation {
+            id_span: Span(lo, hi),
+            id: id,
+            parameters: l,
+        }
+    },
+};
+
+EqPair: (InternedString, InternedString) =
+    <l:Id> "=" <r:Id> => (l, r);
 
 NonterminalName: (NonterminalString, Vec<NonterminalString>) = {
     <MacroId> "<" <Comma<NotMacroId>> ">",

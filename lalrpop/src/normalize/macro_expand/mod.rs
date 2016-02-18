@@ -542,5 +542,6 @@ fn inline(span: Span) -> Vec<Annotation> {
     vec![Annotation {
                 id_span: span,
                 id: intern(INLINE),
+                parameters: vec![],
     }]
 }

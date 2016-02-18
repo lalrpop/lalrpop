@@ -153,6 +153,8 @@ pub struct NonterminalData {
 pub struct Annotation {
     pub id_span: Span,
     pub id: InternedString,
+    // TODO nixpulvis: This is not exactly the correct type.
+    pub parameters: Vec<(InternedString, InternedString)>,
 }
 
 #[derive(Clone, Debug, PartialEq, Eq)]
