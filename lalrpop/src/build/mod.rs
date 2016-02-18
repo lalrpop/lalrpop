@@ -57,6 +57,7 @@ pub fn process_file<P:AsRef<Path>>(session: &Session, lalrpop_file: P) -> io::Re
     let rs_file = lalrpop_file.with_extension("rs");
     if session.force_build() || try!(needs_rebuild(&lalrpop_file, &rs_file)) {
         log!(session, Informative, "processing file `{}`", lalrpop_file.to_string_lossy());
+        try!(make_read_only(&rs_file, false));
         try!(remove_old_file(&rs_file));
 
         // Load the LALRPOP source text for this file:
@@ -72,7 +73,7 @@ pub fn process_file<P:AsRef<Path>>(session: &Session, lalrpop_file: P) -> io::Re
         // Do the LALRPOP processing itself.
         let grammar = try!(parse_and_normalize_grammar(&session, &file_text));
         try!(emit_recursive_ascent(&session, &rs_file, &grammar));
-        try!(make_read_only(&rs_file));
+        try!(make_read_only(&rs_file, true));
     }
     Ok(())
 }
@@ -134,11 +135,15 @@ fn needs_rebuild(lalrpop_file: &Path,
     }
 }
 
-fn make_read_only(rs_file: &Path) -> io::Result<()> {
-    let rs_metadata = try!(fs::metadata(&rs_file));
-    let mut rs_permissions = rs_metadata.permissions();
-    rs_permissions.set_readonly(true);
-    fs::set_permissions(&rs_file, rs_permissions)
+fn make_read_only(rs_file: &Path, ro: bool) -> io::Result<()> {
+    if rs_file.is_file() {
+        let rs_metadata = try!(fs::metadata(&rs_file));
+        let mut rs_permissions = rs_metadata.permissions();
+        rs_permissions.set_readonly(ro);
+        fs::set_permissions(&rs_file, rs_permissions)
+    } else {
+        Ok(())
+    }
 }
 
 fn lalrpop_files<P:AsRef<Path>>(root_dir: P) -> io::Result<Vec<PathBuf>> {
