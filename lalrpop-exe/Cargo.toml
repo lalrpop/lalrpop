@@ -1,0 +1,15 @@
+[package]
+name = "lalrpop-exe"
+version = "0.10.0" # LALRPOP
+authors = ["Niko Matsakis <niko@alum.mit.edu>"]
+license = "Apache-2.0/MIT"
+
+[dependencies.lalrpop-util]
+path = "../lalrpop-util"
+
+[dependencies.lalrpop]
+path = "../lalrpop"
+
+[dependencies]
+docopt = "0.6"
+rustc-serialize = "0.3"

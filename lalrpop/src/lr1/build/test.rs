@@ -1,11 +1,15 @@
 use intern::intern;
 use generate;
 use grammar::repr::*;
+use session::Session;
 use test_util::{compare, expect_debug, normalized_grammar};
-use lr1::Lookahead::EOF;
+use lr1::core::*;
 use lr1::interpret::interpret;
-use lr1::core::{LR1, build_lr1_states};
-use lr1::{State, Items, Lookahead};
+use lr1::lookahead::Lookahead;
+use lr1::lookahead::Lookahead::EOF;
+use tls::Tls;
+
+use super::{LR1, build_lr1_states};
 
 fn nt(t: &str) -> NonterminalString {
     NonterminalString(intern(t))
@@ -33,8 +37,9 @@ macro_rules! tokens {
 }
 
 fn items<'g>(grammar: &'g Grammar, nonterminal: &str, index: usize, la: Lookahead)
-                      -> Items<'g>
+             -> Items<'g>
 {
+    let session = Session::test();
     let lr1 = LR1::new(&grammar);
     let items =
         lr1.transitive_closure(
@@ -94,6 +99,8 @@ C: Option<u32> = {
 
 #[test]
 fn expr_grammar1() {
+    let _tls = Tls::test();
+
     let grammar = normalized_grammar(r#"
 grammar;
     extern { enum Tok { "-" => .., "N" => .., "(" => .., ")" => .. } }
@@ -145,6 +152,8 @@ grammar;
 
 #[test]
 fn shift_reduce_conflict1() {
+    let _tls = Tls::test();
+
     // This grammar gets a shift-reduce conflict because if the input
     // is "&" (*) "L", then we see two possibilities, and we must decide
     // between them:

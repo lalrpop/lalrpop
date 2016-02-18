@@ -9,7 +9,10 @@ use intern::{intern, InternedString};
 use lexer::dfa::DFA;
 use grammar::repr::{NominalTypeRepr, TypeRepr};
 use grammar::pattern::Pattern;
+use message::Content;
+use message::builder::InlineBuilder;
 use std::fmt::{Debug, Display, Formatter, Error};
+use tls::Tls;
 use util::Sep;
 
 #[derive(Clone, Debug, PartialEq, Eq)]
@@ -32,6 +35,17 @@ pub struct Algorithm {
 
 #[derive(Copy, Clone, Debug, Hash, PartialEq, Eq, PartialOrd, Ord)]
 pub struct Span(pub usize, pub usize);
+
+impl Into<Box<Content>> for Span {
+    fn into(self) -> Box<Content> {
+        let file_text = Tls::file_text();
+        let string = file_text.span_str(self);
+
+        // Insert an Adjacent block to prevent wrapping inside this
+        // string:
+        InlineBuilder::new().begin_adjacent().text(string).end().end()
+    }
+}
 
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub enum GrammarItem {
@@ -239,6 +253,14 @@ pub enum TerminalLiteral {
 #[derive(Copy, Clone, Hash, PartialEq, Eq, PartialOrd, Ord)]
 pub struct NonterminalString(pub InternedString);
 
+impl Into<Box<Content>> for NonterminalString {
+    fn into(self) -> Box<Content> {
+        let session = Tls::session();
+
+        InlineBuilder::new().text(self).styled(session.nonterminal_symbol).end()
+    }
+}
+
 #[derive(Copy, Clone, Debug, PartialEq, Eq)]
 pub enum RepeatOp {
     Star, Plus, Question
@@ -268,6 +290,16 @@ impl TerminalString {
 
     pub fn regex(i: InternedString) -> TerminalString {
         TerminalString::Literal(TerminalLiteral::Regex(i))
+    }
+}
+
+impl Into<Box<Content>> for TerminalString {
+    fn into(self) -> Box<Content> {
+        let session = Tls::session();
+        InlineBuilder::new()
+            .text(self)
+            .styled(session.terminal_symbol)
+            .end()
     }
 }
 

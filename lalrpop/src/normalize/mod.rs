@@ -6,6 +6,7 @@
 
 use grammar::parse_tree as pt;
 use grammar::repr as r;
+use session::Session;
 
 pub type NormResult<T> = Result<T, NormError>;
 
@@ -24,28 +25,46 @@ macro_rules! return_err {
     }
 }
 
-pub fn normalize(grammar: pt::Grammar) -> NormResult<r::Grammar> {
-    normalize_helper(grammar, true)
+pub fn normalize(session: &Session, grammar: pt::Grammar) -> NormResult<r::Grammar> {
+    normalize_helper(session, grammar, true)
 }
 
-/// for unit tests, it is convenient to skip the validation step
+/// for unit tests, it is convenient to skip the validation step, and supply a dummy session
 #[cfg(test)]
 pub fn normalize_without_validating(grammar: pt::Grammar) -> NormResult<r::Grammar> {
-    normalize_helper(grammar, false)
+    normalize_helper(&Session::new(), grammar, false)
 }
 
-fn normalize_helper(grammar: pt::Grammar, validate: bool) -> NormResult<r::Grammar> {
-    let grammar = try!(lower_helper(grammar, validate));
-    inline::inline(grammar)
+macro_rules! profile {
+    ($session:expr, $phase_name:expr, $action:expr) => {
+        {
+            log!($session, Verbose, "Phase `{}` begun", $phase_name);
+            let time_stamp = $crate::time::precise_time_s();
+            let result = $action;
+            log!($session, Verbose, "Phase `{}` completed in {} seconds",
+                 $phase_name, $crate::time::precise_time_s() - time_stamp);
+            result
+        }
+    }
 }
 
-fn lower_helper(grammar: pt::Grammar, validate: bool) -> NormResult<r::Grammar> {
-    if validate { try!(prevalidate::validate(&grammar)); }
-    let grammar = try!(resolve::resolve(grammar));
-    let grammar = try!(macro_expand::expand_macros(grammar));
-    let grammar = try!(token_check::validate(grammar));
-    let types = try!(tyinfer::infer_types(&grammar));
-    lower::lower(grammar, types)
+fn normalize_helper(session: &Session,
+                    grammar: pt::Grammar,
+                    validate: bool)
+                    -> NormResult<r::Grammar> {
+    let grammar = try!(lower_helper(session, grammar, validate));
+    let grammar = profile!(session, "Inlining", try!(inline::inline(grammar)));
+    Ok(grammar)
+}
+
+fn lower_helper(session: &Session, grammar: pt::Grammar, validate: bool) -> NormResult<r::Grammar> {
+    profile!(session, "Grammar validation", if validate { try!(prevalidate::validate(&grammar)); });
+    let grammar = profile!(session, "Grammar resolution", try!(resolve::resolve(grammar)));
+    let grammar = profile!(session, "Macro expansion", try!(macro_expand::expand_macros(grammar)));
+    let grammar = profile!(session, "Token check", try!(token_check::validate(grammar)));
+    let types = profile!(session, "Infer types", try!(tyinfer::infer_types(&grammar)));
+    let grammar = profile!(session, "Lowering", try!(lower::lower(grammar, types)));
+    Ok(grammar)
 }
 
 // These are executed *IN ORDER*:

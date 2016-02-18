@@ -6,6 +6,7 @@
 
 use intern::{self, InternedString};
 use grammar::pattern::{Pattern};
+use message::Content;
 use std::fmt::{Debug, Display, Formatter, Error};
 use util::{map, Map, Sep};
 
@@ -15,7 +16,7 @@ pub use grammar::parse_tree::{Annotation,
                               NonterminalString,
                               Path,
                               Span,
-                              TerminalString, TypeParameter};
+                              TerminalLiteral, TerminalString, TypeParameter};
 
 #[derive(Clone, Debug)]
 pub struct Grammar {
@@ -55,6 +56,10 @@ pub struct Grammar {
     pub token_span: Span,
     pub conversions: Map<TerminalString, Pattern<TypeRepr>>,
     pub types: Types,
+
+    // for each terminal, we map it to a small integer from 0 to N
+    pub all_terminals: Vec<TerminalString>,
+    pub terminal_bits: Map<TerminalString, usize>,
 }
 
 #[derive(Clone, Debug)]
@@ -370,6 +375,15 @@ impl Display for Symbol {
 impl Debug for Symbol {
     fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
         Display::fmt(self, fmt)
+    }
+}
+
+impl Into<Box<Content>> for Symbol {
+    fn into(self) -> Box<Content> {
+        match self {
+            Symbol::Nonterminal(nt) => nt.into(),
+            Symbol::Terminal(term) => term.into(),
+        }
     }
 }
 

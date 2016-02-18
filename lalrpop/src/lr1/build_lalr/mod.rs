@@ -1,22 +1,17 @@
 //! Mega naive LALR(1) generation algorithm.
 
 use itertools::Itertools;
-use lr1::core;
+use lr1::build;
+use lr1::core::*;
+use lr1::core::Action::{Reduce, Shift};
+use lr1::lookahead::Lookahead;
 use grammar::repr::*;
 use std::rc::Rc;
 use util::{map, Map};
 use util::map::Entry;
-use super::{Action, State, StateIndex, Item, Items, Lookahead, TableConstructionError};
-use super::Action::{Reduce, Shift};
 
 #[cfg(test)]
 mod test;
-
-#[derive(Clone, Debug, PartialEq, Eq, PartialOrd, Ord, Hash)]
-struct LR0Item<'grammar> {
-    production: &'grammar Production,
-    index: usize
-}
 
 // Intermediate LALR(1) state. Identical to an LR(1) state, but that
 // the items can be pushed to. We initially create these with an empty
@@ -26,14 +21,16 @@ struct LALR1State<'grammar> {
     items: Vec<Item<'grammar>>,
     tokens: Map<Lookahead, Action<'grammar>>,
     gotos: Map<NonterminalString, StateIndex>,
+    conflicts: Map<Lookahead, Vec<Conflict<'grammar>>>,
 }
 
-pub fn lalr_states<'grammar>(grammar: &'grammar Grammar,
-                             start: NonterminalString)
-                             -> Result<Vec<State<'grammar>>, TableConstructionError<'grammar>>
+pub fn build_lalr_states<'grammar>(grammar: &'grammar Grammar,
+                                   start: NonterminalString)
+                                   -> Result<Vec<State<'grammar>>,
+                                             TableConstructionError<'grammar>>
 {
     // First build the LR(1) states
-    let lr_states = try!(core::build_lr1_states(grammar, start));
+    let lr_states = try!(build::build_lr1_states(grammar, start));
     collapse_to_lalr_states(&lr_states)
 }
 
@@ -65,7 +62,8 @@ pub fn collapse_to_lalr_states<'grammar>(lr_states: &[State<'grammar>])
                               index: index,
                               items: vec![],
                               tokens: map(),
-                              gotos: map()
+                              gotos: map(),
+                              conflicts: map(),
                           });
                           index
                       });
@@ -91,8 +89,10 @@ pub fn collapse_to_lalr_states<'grammar>(lr_states: &[State<'grammar>])
                 Entry::Occupied(slot) => {
                     let old_action = *slot.get();
                     if old_action != lalr1_action {
-                        return Err(conflict(&lalr1_state.items, lookahead,
-                                            old_action, lalr1_action));
+                        lalr1_state.conflicts
+                                   .entry(lookahead)
+                                   .or_insert(vec![])
+                                   .push(conflict(lalr1_index, old_action, lalr1_action));
                     }
                 }
                 Entry::Vacant(slot) => {
@@ -117,35 +117,38 @@ pub fn collapse_to_lalr_states<'grammar>(lr_states: &[State<'grammar>])
     }
 
     // Finally, create the new states
-    Ok(
+    let lr1_states: Vec<_> =
         lalr1_states.into_iter()
                     .map(|lr| State {
                         index: lr.index,
                         items: Items { vec: Rc::new(lr.items) },
                         tokens: lr.tokens,
-                        gotos: lr.gotos
+                        gotos: lr.gotos,
+                        conflicts: lr.conflicts,
                     })
-                    .collect())
+                    .collect();
+
+    if lr1_states.iter().any(|s| !s.conflicts.is_empty()) {
+        Err(TableConstructionError { states: lr1_states })
+    } else {
+        Ok(lr1_states)
+    }
 }
 
-fn conflict<'grammar>(items: &[Item<'grammar>],
-                      lookahead: Lookahead,
+fn conflict<'grammar>(index: StateIndex,
                       action1: Action<'grammar>,
                       action2: Action<'grammar>)
-                      -> TableConstructionError<'grammar> {
+                      -> Conflict<'grammar> {
     let (production, conflict) = match (action1, action2) {
         (c @ Shift(_), Reduce(p)) |
         (Reduce(p), c @ Shift(_)) |
         (Reduce(p), c @ Reduce(_)) => { (p, c) }
-        _ => {
-            panic!("conflict between {:?} and {:?}", action1, action2) 
-        }
+        _ => panic!("conflict between {:?} and {:?}", action1, action2)
     };
 
-    TableConstructionError {
-        items: Items { vec: Rc::new(items.to_vec()) },
-        lookahead: lookahead,
+    Conflict {
+        state: index,
         production: production,
-        conflict: conflict,
+        action: conflict,
     }
 }

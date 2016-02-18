@@ -13,11 +13,16 @@ build = "build.rs"
 doctest = false
 
 [dependencies]
+atty = "0.1.2"
+bit-set = "0.3.0"    
+bitflags = "0.4.0"
 regex = "0.1"
 diff = "0.1"
 itertools = "0.3"
 unicode-xid = "0.0.2"
 petgraph = "0.1.11"
+term = "0.4.4"
+time = "0.1"
 
 [dev-dependencies]
 rand = "0.3"

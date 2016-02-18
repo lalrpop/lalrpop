@@ -1,44 +1,79 @@
 //! Utilies for running in a build script.
 
+use atty;
+use file_text::FileText;
 use grammar::parse_tree as pt;
 use grammar::repr as r;
 use lalrpop_util::ParseError;
 use lexer::intern_token;
 use lr1;
+use message::{Content, Message};
+use message::builder::InlineBuilder;
 use normalize;
 use parser;
 use rust::RustWrite;
+use session::{ColorConfig, Session};
+use term;
+use tls::Tls;
 use tok;
-use self::filetext::FileText;
 
 use std::env::current_dir;
 use std::fs;
 use std::io::{self, Write};
 use std::path::{Path, PathBuf};
 use std::process::exit;
+use std::rc::Rc;
 
 mod action;
-mod filetext;
+mod fake_term;
+
+use self::fake_term::FakeTerminal;
 
 pub fn process_root() -> io::Result<()> {
-    process_dir(try!(current_dir()), false)
+    let session = Session::new();
+    process_dir(&session, try!(current_dir()))
 }
 
 pub fn process_root_unconditionally() -> io::Result<()> {
-    process_dir(try!(current_dir()), true)
+    let mut session = Session::new();
+    session.set_force_build();
+    process_dir(&session, try!(current_dir()))
 }
 
-fn process_dir<P:AsRef<Path>>(root_dir: P, force_build: bool) -> io::Result<()> {
+fn process_dir<P:AsRef<Path>>(session: &Session, root_dir: P) -> io::Result<()> {
     let lalrpop_files = try!(lalrpop_files(root_dir));
     for lalrpop_file in lalrpop_files {
-        let rs_file = lalrpop_file.with_extension("rs");
-        if force_build || try!(needs_rebuild(&lalrpop_file, &rs_file)) {
-            try!(make_read_only(&rs_file, false));
-            try!(remove_old_file(&rs_file));
-            let grammar = try!(parse_and_normalize_grammar(lalrpop_file));
-            try!(emit_recursive_ascent(&rs_file, &grammar));
-            try!(make_read_only(&rs_file, true));
-        }
+        try!(process_file(session, lalrpop_file));
+    }
+    Ok(())
+}
+
+pub fn process_file<P:AsRef<Path>>(session: &Session, lalrpop_file: P) -> io::Result<()> {
+    // Promote the session to an Rc so that we can stick it in TLS. I
+    // don't want this to be part of LALRPOP's "official" interface
+    // yet so don't take an `Rc<Session>` as an argument.
+    let session = Rc::new(session.clone());
+    let lalrpop_file: &Path = lalrpop_file.as_ref();
+    let rs_file = lalrpop_file.with_extension("rs");
+    if session.force_build() || try!(needs_rebuild(&lalrpop_file, &rs_file)) {
+        log!(session, Informative, "processing file `{}`", lalrpop_file.to_string_lossy());
+        try!(make_read_only(&rs_file, false));
+        try!(remove_old_file(&rs_file));
+
+        // Load the LALRPOP source text for this file:
+        let file_text = Rc::new(try!(FileText::from_path(lalrpop_file.to_path_buf())));
+
+        // Store the session and file-text in TLS -- this is not
+        // intended to be used in this high-level code, but it gives
+        // easy access to this information pervasively in the
+        // low-level LR(1) and grammar normalization code. This is
+        // particularly useful for error-reporting.
+        let _tls = Tls::install(session.clone(), file_text.clone());
+
+        // Do the LALRPOP processing itself.
+        let grammar = try!(parse_and_normalize_grammar(&session, &file_text));
+        try!(emit_recursive_ascent(&session, &rs_file, &grammar));
+        try!(make_read_only(&rs_file, true));
     }
     Ok(())
 }
@@ -49,7 +84,7 @@ fn remove_old_file(rs_file: &Path) -> io::Result<()> {
         Err(e) => {
             // Unix reports NotFound, Windows PermissionDenied!
             match e.kind() {
-                io::ErrorKind::NotFound | io::ErrorKind::PermissionDenied=> Ok(()),
+                io::ErrorKind::NotFound | io::ErrorKind::PermissionDenied => Ok(()),
                 _ => Err(e),
             }
         }
@@ -134,37 +169,37 @@ fn lalrpop_files<P:AsRef<Path>>(root_dir: P) -> io::Result<Vec<PathBuf>> {
     Ok(result)
 }
 
-fn parse_and_normalize_grammar(path: PathBuf) -> io::Result<r::Grammar> {
-    let input = try!(FileText::from_path(path));
-
-    let grammar = match parser::parse_grammar(input.text()) {
+fn parse_and_normalize_grammar(session: &Session,
+                               file_text: &FileText)
+                               -> io::Result<r::Grammar> {
+    let grammar = match parser::parse_grammar(file_text.text()) {
         Ok(grammar) => grammar,
 
         Err(ParseError::InvalidToken { location }) => {
-            let ch = input.text()[location..].chars().next().unwrap();
-            report_error(&input,
+            let ch = file_text.text()[location..].chars().next().unwrap();
+            report_error(&file_text,
                          pt::Span(location, location),
                          &format!("invalid character `{}`", ch));
         }
 
         Err(ParseError::UnrecognizedToken { token: None, expected: _ }) => {
-            let len = input.text().len();
-            report_error(&input,
+            let len = file_text.text().len();
+            report_error(&file_text,
                          pt::Span(len, len),
                          &format!("unexpected end of file"));
         }
 
         Err(ParseError::UnrecognizedToken { token: Some((lo, _, hi)), expected }) => {
             assert!(expected.is_empty()); // didn't implement this yet :)
-            let text = &input.text()[lo..hi];
-            report_error(&input,
+            let text = &file_text.text()[lo..hi];
+            report_error(&file_text,
                          pt::Span(lo, hi),
                          &format!("unexpected token: `{}`", text));
         }
 
         Err(ParseError::ExtraToken { token: (lo, _, hi) }) => {
-            let text = &input.text()[lo..hi];
-            report_error(&input,
+            let text = &file_text.text()[lo..hi];
+            report_error(&file_text,
                          pt::Span(lo, hi),
                          &format!("extra token at end of input: `{}`", text));
         }
@@ -183,16 +218,16 @@ fn parse_and_normalize_grammar(path: PathBuf) -> io::Result<r::Grammar> {
                     "unterminated code block; perhaps a missing `;`, `)`, `]` or `}`?"
             };
 
-            report_error(&input,
+            report_error(&file_text,
                          pt::Span(error.location, error.location + 1),
                          string)
         }
     };
 
-    match normalize::normalize(grammar) {
+    match normalize::normalize(session, grammar) {
         Ok(grammar) => Ok(grammar),
         Err(error) => {
-            report_error(&input,
+            report_error(&file_text,
                          error.span,
                          &error.message)
         }
@@ -202,11 +237,39 @@ fn parse_and_normalize_grammar(path: PathBuf) -> io::Result<r::Grammar> {
 fn report_error(file_text: &FileText, span: pt::Span, message: &str) -> ! {
     println!("{} error: {}", file_text.span_str(span), message);
 
-    let out = io::stdout();
+    let out = io::stderr();
     let mut out = out.lock();
     file_text.highlight(span, &mut out).unwrap();
 
     exit(1);
+}
+
+fn report_messages(messages: Vec<Message>) -> term::Result<()> {
+    let builder = InlineBuilder::new().begin_paragraphs();
+    let builder = messages.into_iter().fold(builder, |b, m| b.push(Box::new(m)));
+    let content = builder.end().end();
+    report_content(&*content)
+}
+
+fn report_content(content: &Content) -> term::Result<()> {
+    // FIXME -- can we query the size of the terminal somehow?
+    let canvas = content.emit_to_canvas(80);
+
+    let try_colors = match Tls::session().color_config() {
+        ColorConfig::Yes => true,
+        ColorConfig::No => false,
+        ColorConfig::IfTty => atty::is(),
+    };
+
+    if try_colors {
+        if let Some(mut stdout) = term::stdout() {
+            return canvas.write_to(&mut *stdout);
+        }
+    }
+
+    let stdout = io::stdout();
+    let mut stdout = FakeTerminal::new(stdout.lock());
+    canvas.write_to(&mut stdout)
 }
 
 fn emit_uses<W:Write>(grammar: &r::Grammar,
@@ -216,7 +279,10 @@ fn emit_uses<W:Write>(grammar: &r::Grammar,
     rust.write_uses("", grammar)
 }
 
-fn emit_recursive_ascent(output_path: &Path, grammar: &r::Grammar) -> io::Result<()>
+fn emit_recursive_ascent(session: &Session,
+                         output_path: &Path,
+                         grammar: &r::Grammar)
+                         -> io::Result<()>
 {
     let output_file = try!(fs::File::create(output_path));
     let mut rust = RustWrite::new(output_file);
@@ -263,11 +329,14 @@ fn emit_recursive_ascent(output_path: &Path, grammar: &r::Grammar) -> io::Result
         // where to stop!
         assert_eq!(grammar.productions_for(start_nt).len(), 1);
 
+        log!(session, Verbose, "Building states for public nonterminal `{}`", user_nt);
+
         let states = match lr1::build_states(&grammar, start_nt) {
             Ok(states) => states,
             Err(error) => {
-                try!(lr1::report_error(&mut io::stdout(), &grammar, &error));
-                exit(1)
+                let messages = lr1::report_error(&grammar, &error);
+                let _ = report_messages(messages);
+                exit(1) // FIXME -- propagate up instead of calling `exit`
             }
         };
 

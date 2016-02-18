@@ -2,6 +2,7 @@ use intern::intern;
 use grammar::repr::NonterminalString;
 use normalize::lower_helper;
 use parser;
+use session::Session;
 use super::inline_order;
 
 #[test]
@@ -11,7 +12,7 @@ fn test_inline_self_cycle() {
     extern { }
     #[inline] A: () = A;
 "#).unwrap();
-    let grammar = lower_helper(grammar, true).unwrap();
+    let grammar = lower_helper(&Session::test(), grammar, true).unwrap();
     assert!(inline_order(&grammar).is_err());
 }
 
@@ -24,7 +25,7 @@ fn test_inline_cycle_3() {
     #[inline] B: () = C;
     #[inline] C: () = A;
 "#).unwrap();
-    let grammar = lower_helper(grammar, true).unwrap();
+    let grammar = lower_helper(&Session::test(), grammar, true).unwrap();
     assert!(inline_order(&grammar).is_err());
 }
 
@@ -38,7 +39,7 @@ fn test_inline_order() {
     B: () = C;
     #[inline] C: () = A;
 "#).unwrap();
-    let grammar = lower_helper(grammar, true).unwrap();
+    let grammar = lower_helper(&Session::test(), grammar, true).unwrap();
     let a = NonterminalString(intern("A"));
     let c = NonterminalString(intern("C"));
     assert_eq!(inline_order(&grammar).unwrap(), vec![a, c]);

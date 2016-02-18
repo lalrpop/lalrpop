@@ -1,7 +1,7 @@
 use intern::intern;
 use grammar::repr::*;
-use lr1::Lookahead;
-use lr1::Lookahead::EOF;
+use lr1::lookahead::Lookahead;
+use lr1::lookahead::Lookahead::EOF;
 use test_util::{normalized_grammar};
 use super::FirstSets;
 
@@ -17,34 +17,42 @@ fn la(t: &str) -> Lookahead {
     Lookahead::Terminal(TerminalString::quoted(intern(t)))
 }
 
-fn first(first: &FirstSets, symbols: &[Symbol], lookahead: Lookahead) -> Vec<Lookahead> {
-    let mut v = first.first(symbols, lookahead);
-    v.sort();
-    v
+fn first(grammar: &Grammar,
+         first: &FirstSets,
+         symbols: &[Symbol],
+         lookahead: Lookahead)
+         -> Vec<Lookahead>
+{
+    let (v, _) = first.first(grammar, symbols, lookahead);
+    v.iter(grammar).collect()
 }
 
 #[test]
 fn basic() {
     let grammar = normalized_grammar(r#"
-grammar;
-    extern { enum Tok { "C" => .., "D" => .. } }
+    grammar;
     A = B "C";
     B: Option<u32> = {
         "D" => Some(1),
         => None
     };
+    X = "E"; // intentionally unreachable
 "#);
     let first_sets = FirstSets::new(&grammar);
 
     assert_eq!(
-        first(&first_sets, &[nt("A")], EOF),
+        first(&grammar, &first_sets, &[nt("A")], EOF),
         vec![la("C"), la("D")]);
 
     assert_eq!(
-        first(&first_sets, &[nt("B")], EOF),
-        vec![EOF, la("D")]);
+        first(&grammar, &first_sets, &[nt("B")], EOF),
+        vec![la("D"), EOF]);
 
     assert_eq!(
-        first(&first_sets, &[nt("B"), term("E")], EOF),
+        first(&grammar, &first_sets, &[nt("B"), term("E")], EOF),
+        vec![la("D"), la("E")]);
+
+    assert_eq!(
+        first(&grammar, &first_sets, &[nt("B"), nt("X")], EOF),
         vec![la("D"), la("E")]);
 }
