@@ -180,11 +180,6 @@ impl<'cx, 'grammar> ErrorReportingCx<'cx, 'grammar> {
                                  action: Example,
                                  reduce: Example)
                                  -> Builder<BodyCharacter> {
-        let kind = match conflict.action {
-            Action::Shift(_) => "shift/reduce",
-            Action::Reduce(_) => "reduce/reduce",
-        };
-
         let styles = ExampleStyles::new();
         let builder =
             MessageBuilder::new(conflict.production.span)
@@ -192,15 +187,7 @@ impl<'cx, 'grammar> ErrorReportingCx<'cx, 'grammar> {
             .text("Local ambiguity detected")
             .end()
 
-            .body()
-            .begin_wrap()
-            .text("The grammar as written cannot be parsed using an LR(1)")
-            .text("parser because of a")
-            .text(kind)
-            .text("conflict. Often these sorts of conflicts indicate an underlying")
-            .text("ambiguity in the grammar, but they may also be an artifact ")
-            .text("of the LR(1) algorithm.")
-            .end();
+            .body();
 
         let builder = builder
             .begin_lines()
