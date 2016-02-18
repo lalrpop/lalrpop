@@ -96,6 +96,7 @@ Alternative: Alternative = {
         Alternative {
             span: Span(lo, hi),
             expr: ExprSymbol { symbols: s },
+            annotations: vec![],
             condition: c,
             action: a
         }
@@ -104,6 +105,7 @@ Alternative: Alternative = {
         Alternative {
             span: Span(lo, hi),
             expr: ExprSymbol { symbols: vec![] },
+            annotations: vec![],
             condition: c,
             action: Some(a)
         }
@@ -385,6 +387,3 @@ extern {
         "_" => Tok::Underscore,
     }
 }
-
-
-
