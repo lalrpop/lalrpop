@@ -88,6 +88,7 @@ pub struct Production {
     // handy to have it
     pub nonterminal: NonterminalString,
     pub symbols: Vec<Symbol>,
+    pub annotations: Vec<Annotation>,
     pub action: ActionFn,
     pub span: Span,
 }
