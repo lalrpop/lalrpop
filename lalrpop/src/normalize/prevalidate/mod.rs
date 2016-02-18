@@ -124,6 +124,20 @@ impl<'grammar> Validator<'grammar> {
             }
             Symbols::Anon(_) => { }
         }
+        let precedence_annotation = intern(PRECEDENCE);
+        let known_annotations = vec![precedence_annotation];
+        let mut found_annotations = set();
+        for annotation in &alternative.annotations {
+            if !known_annotations.contains(&annotation.id) {
+                return_err!(annotation.id_span,
+                            "unrecognized annotation `{}`",
+                            annotation.id);
+            } else if !found_annotations.insert(annotation.id) {
+                return_err!(annotation.id_span,
+                            "duplicate annotation `{}`",
+                            annotation.id);
+            }
+        }
 
         Ok(())
     }

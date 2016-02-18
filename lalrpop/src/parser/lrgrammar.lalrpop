@@ -92,20 +92,20 @@ Alternatives: Vec<Alternative> = {
 };
 
 Alternative: Alternative = {
-    <lo:@L> <s:Symbol+> <c:("if" <Cond>)?> <a:Action?> <hi:@R> => {
+    <lo:@L> <n:Annotation*> <s:Symbol+> <c:("if" <Cond>)?> <a:Action?> <hi:@R> => {
         Alternative {
             span: Span(lo, hi),
             expr: ExprSymbol { symbols: s },
-            annotations: vec![],
+            annotations: n,
             condition: c,
             action: a
         }
     },
-    <lo:@L> <c:("if" <Cond>)?> <a:Action> <hi:@R> => {
+    <lo:@L> <n:Annotation*> <c:("if" <Cond>)?> <a:Action> <hi:@R> => {
         Alternative {
             span: Span(lo, hi),
             expr: ExprSymbol { symbols: vec![] },
-            annotations: vec![],
+            annotations: n,
             condition: c,
             action: Some(a)
         }
