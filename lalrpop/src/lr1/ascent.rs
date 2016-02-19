@@ -10,6 +10,7 @@ use lr1::core::*;
 use lr1::lookahead::Lookahead;
 use rust::RustWrite;
 use std::io::{self, Write};
+use tls::Tls;
 use util::{Escape, Multimap, Set, Sep};
 
 pub fn compile<'grammar,W:Write>(
@@ -243,17 +244,19 @@ impl<'ascent,'grammar,W:Write> RecursiveAscent<'ascent,'grammar,W> {
         };
 
         // Leave a comment explaining what this state is.
-        rust!(self.out, "// State {}", this_index.0);
-        for item in this_state.items.vec.iter() {
-            rust!(self.out, "//   {:?}", item);
-        }
-        rust!(self.out, "//");
-        for (token, action) in &this_state.tokens {
-            rust!(self.out, "//   {:?} -> {:?}", token, action);
-        }
-        rust!(self.out, "//");
-        for (nt, state) in &this_state.gotos {
-            rust!(self.out, "//   {:?} -> {:?}", nt, state);
+        if Tls::session().emit_comments {
+            rust!(self.out, "// State {}", this_index.0);
+            for item in this_state.items.vec.iter() {
+                rust!(self.out, "//   {:?}", item);
+            }
+            rust!(self.out, "//");
+            for (token, action) in &this_state.tokens {
+                rust!(self.out, "//   {:?} -> {:?}", token, action);
+            }
+            rust!(self.out, "//");
+            for (nt, state) in &this_state.gotos {
+                rust!(self.out, "//   {:?} -> {:?}", nt, state);
+            }
         }
 
         // set to true if goto actions are worth generating

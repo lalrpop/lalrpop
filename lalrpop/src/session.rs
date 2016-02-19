@@ -24,6 +24,10 @@ pub struct Session {
 
     force_build: bool,
 
+    /// Emit comments in generated code explaining the states and so
+    /// forth.
+    emit_comments: bool,
+
     color_config: ColorConfig,
 
     /// Stop after you find `max_errors` errors. If this value is 0,
@@ -64,6 +68,7 @@ impl Session {
         Session {
             log: Log::new(Level::Informative),
             force_build: false,
+            emit_comments: false,
             color_config: ColorConfig::default(),
             max_errors: 1,
             heading: style::FG_WHITE.with(style::BOLD),
@@ -83,6 +88,7 @@ impl Session {
         Session {
             log: Log::new(Level::Debug),
             force_build: false,
+            emit_comments: false,
             color_config: ColorConfig::IfTty,
             max_errors: 1,
             heading: Style::new(),
@@ -106,6 +112,10 @@ impl Session {
 
     pub fn set_force_build(&mut self) {
         self.force_build = true;
+    }
+
+    pub fn set_emit_comments(&mut self) {
+        self.emit_comments = true;
     }
 
     pub fn set_max_errors(&mut self, errors: usize) {
