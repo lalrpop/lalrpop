@@ -53,55 +53,6 @@ mod __parse__Expr {
         ____Expr(&'ast Node<'ast>),
     }
 
-    // State 0
-    //   Expr = (*) Expr "+" Factor [EOF]
-    //   Expr = (*) Expr "+" Factor ["+"]
-    //   Expr = (*) Expr "+" Factor ["-"]
-    //   Expr = (*) Expr "-" Factor [EOF]
-    //   Expr = (*) Expr "-" Factor ["+"]
-    //   Expr = (*) Expr "-" Factor ["-"]
-    //   Expr = (*) Factor [EOF]
-    //   Expr = (*) Factor ["+"]
-    //   Expr = (*) Factor ["-"]
-    //   Factor = (*) Factor "*" Term [EOF]
-    //   Factor = (*) Factor "*" Term ["*"]
-    //   Factor = (*) Factor "*" Term ["+"]
-    //   Factor = (*) Factor "*" Term ["-"]
-    //   Factor = (*) Factor "*" Term ["/"]
-    //   Factor = (*) Factor "/" Term [EOF]
-    //   Factor = (*) Factor "/" Term ["*"]
-    //   Factor = (*) Factor "/" Term ["+"]
-    //   Factor = (*) Factor "/" Term ["-"]
-    //   Factor = (*) Factor "/" Term ["/"]
-    //   Factor = (*) Term [EOF]
-    //   Factor = (*) Term ["*"]
-    //   Factor = (*) Term ["+"]
-    //   Factor = (*) Term ["-"]
-    //   Factor = (*) Term ["/"]
-    //   Factor = (*) "*" "(" Comma<Expr> ")" [EOF]
-    //   Factor = (*) "*" "(" Comma<Expr> ")" ["*"]
-    //   Factor = (*) "*" "(" Comma<Expr> ")" ["+"]
-    //   Factor = (*) "*" "(" Comma<Expr> ")" ["-"]
-    //   Factor = (*) "*" "(" Comma<Expr> ")" ["/"]
-    //   Term = (*) "(" Expr ")" [EOF]
-    //   Term = (*) "(" Expr ")" ["*"]
-    //   Term = (*) "(" Expr ")" ["+"]
-    //   Term = (*) "(" Expr ")" ["-"]
-    //   Term = (*) "(" Expr ")" ["/"]
-    //   Term = (*) Num [EOF]
-    //   Term = (*) Num ["*"]
-    //   Term = (*) Num ["+"]
-    //   Term = (*) Num ["-"]
-    //   Term = (*) Num ["/"]
-    //   __Expr = (*) Expr [EOF]
-    //
-    //   "(" -> Shift(S4)
-    //   "*" -> Shift(S5)
-    //   Num -> Shift(S6)
-    //
-    //   Expr -> S1
-    //   Factor -> S2
-    //   Term -> S3
     pub fn __state0<
         'ast,
         __TOKENS: Iterator<Item=Result<(usize, Tok, usize),()>>,
@@ -158,19 +109,6 @@ mod __parse__Expr {
         }
     }
 
-    // State 1
-    //   Expr = Expr (*) "+" Factor [EOF]
-    //   Expr = Expr (*) "+" Factor ["+"]
-    //   Expr = Expr (*) "+" Factor ["-"]
-    //   Expr = Expr (*) "-" Factor [EOF]
-    //   Expr = Expr (*) "-" Factor ["+"]
-    //   Expr = Expr (*) "-" Factor ["-"]
-    //   __Expr = Expr (*) [EOF]
-    //
-    //   EOF -> Reduce(__Expr = Expr => ActionFn(0);)
-    //   "+" -> Shift(S7)
-    //   "-" -> Shift(S8)
-    //
     pub fn __state1<
         'ast,
         __TOKENS: Iterator<Item=Result<(usize, Tok, usize),()>>,
@@ -209,27 +147,6 @@ mod __parse__Expr {
         return Ok(__result);
     }
 
-    // State 2
-    //   Expr = Factor (*) [EOF]
-    //   Expr = Factor (*) ["+"]
-    //   Expr = Factor (*) ["-"]
-    //   Factor = Factor (*) "*" Term [EOF]
-    //   Factor = Factor (*) "*" Term ["*"]
-    //   Factor = Factor (*) "*" Term ["+"]
-    //   Factor = Factor (*) "*" Term ["-"]
-    //   Factor = Factor (*) "*" Term ["/"]
-    //   Factor = Factor (*) "/" Term [EOF]
-    //   Factor = Factor (*) "/" Term ["*"]
-    //   Factor = Factor (*) "/" Term ["+"]
-    //   Factor = Factor (*) "/" Term ["-"]
-    //   Factor = Factor (*) "/" Term ["/"]
-    //
-    //   EOF -> Reduce(Expr = Factor => ActionFn(3);)
-    //   "*" -> Shift(S9)
-    //   "+" -> Reduce(Expr = Factor => ActionFn(3);)
-    //   "-" -> Reduce(Expr = Factor => ActionFn(3);)
-    //   "/" -> Shift(S10)
-    //
     pub fn __state2<
         'ast,
         __TOKENS: Iterator<Item=Result<(usize, Tok, usize),()>>,
@@ -270,19 +187,6 @@ mod __parse__Expr {
         return Ok(__result);
     }
 
-    // State 3
-    //   Factor = Term (*) [EOF]
-    //   Factor = Term (*) ["*"]
-    //   Factor = Term (*) ["+"]
-    //   Factor = Term (*) ["-"]
-    //   Factor = Term (*) ["/"]
-    //
-    //   EOF -> Reduce(Factor = Term => ActionFn(7);)
-    //   "*" -> Reduce(Factor = Term => ActionFn(7);)
-    //   "+" -> Reduce(Factor = Term => ActionFn(7);)
-    //   "-" -> Reduce(Factor = Term => ActionFn(7);)
-    //   "/" -> Reduce(Factor = Term => ActionFn(7);)
-    //
     pub fn __state3<
         'ast,
         __TOKENS: Iterator<Item=Result<(usize, Tok, usize),()>>,
@@ -314,59 +218,6 @@ mod __parse__Expr {
         }
     }
 
-    // State 4
-    //   Expr = (*) Expr "+" Factor [")"]
-    //   Expr = (*) Expr "+" Factor ["+"]
-    //   Expr = (*) Expr "+" Factor ["-"]
-    //   Expr = (*) Expr "-" Factor [")"]
-    //   Expr = (*) Expr "-" Factor ["+"]
-    //   Expr = (*) Expr "-" Factor ["-"]
-    //   Expr = (*) Factor [")"]
-    //   Expr = (*) Factor ["+"]
-    //   Expr = (*) Factor ["-"]
-    //   Factor = (*) Factor "*" Term [")"]
-    //   Factor = (*) Factor "*" Term ["*"]
-    //   Factor = (*) Factor "*" Term ["+"]
-    //   Factor = (*) Factor "*" Term ["-"]
-    //   Factor = (*) Factor "*" Term ["/"]
-    //   Factor = (*) Factor "/" Term [")"]
-    //   Factor = (*) Factor "/" Term ["*"]
-    //   Factor = (*) Factor "/" Term ["+"]
-    //   Factor = (*) Factor "/" Term ["-"]
-    //   Factor = (*) Factor "/" Term ["/"]
-    //   Factor = (*) Term [")"]
-    //   Factor = (*) Term ["*"]
-    //   Factor = (*) Term ["+"]
-    //   Factor = (*) Term ["-"]
-    //   Factor = (*) Term ["/"]
-    //   Factor = (*) "*" "(" Comma<Expr> ")" [")"]
-    //   Factor = (*) "*" "(" Comma<Expr> ")" ["*"]
-    //   Factor = (*) "*" "(" Comma<Expr> ")" ["+"]
-    //   Factor = (*) "*" "(" Comma<Expr> ")" ["-"]
-    //   Factor = (*) "*" "(" Comma<Expr> ")" ["/"]
-    //   Term = (*) "(" Expr ")" [")"]
-    //   Term = (*) "(" Expr ")" ["*"]
-    //   Term = (*) "(" Expr ")" ["+"]
-    //   Term = (*) "(" Expr ")" ["-"]
-    //   Term = (*) "(" Expr ")" ["/"]
-    //   Term = "(" (*) Expr ")" [EOF]
-    //   Term = "(" (*) Expr ")" ["*"]
-    //   Term = "(" (*) Expr ")" ["+"]
-    //   Term = "(" (*) Expr ")" ["-"]
-    //   Term = "(" (*) Expr ")" ["/"]
-    //   Term = (*) Num [")"]
-    //   Term = (*) Num ["*"]
-    //   Term = (*) Num ["+"]
-    //   Term = (*) Num ["-"]
-    //   Term = (*) Num ["/"]
-    //
-    //   "(" -> Shift(S14)
-    //   "*" -> Shift(S15)
-    //   Num -> Shift(S16)
-    //
-    //   Expr -> S11
-    //   Factor -> S12
-    //   Term -> S13
     pub fn __state4<
         'ast,
         __TOKENS: Iterator<Item=Result<(usize, Tok, usize),()>>,
@@ -429,15 +280,6 @@ mod __parse__Expr {
         return Ok(__result);
     }
 
-    // State 5
-    //   Factor = "*" (*) "(" Comma<Expr> ")" [EOF]
-    //   Factor = "*" (*) "(" Comma<Expr> ")" ["*"]
-    //   Factor = "*" (*) "(" Comma<Expr> ")" ["+"]
-    //   Factor = "*" (*) "(" Comma<Expr> ")" ["-"]
-    //   Factor = "*" (*) "(" Comma<Expr> ")" ["/"]
-    //
-    //   "(" -> Shift(S17)
-    //
     pub fn __state5<
         'ast,
         __TOKENS: Iterator<Item=Result<(usize, Tok, usize),()>>,
@@ -470,19 +312,6 @@ mod __parse__Expr {
         return Ok(__result);
     }
 
-    // State 6
-    //   Term = Num (*) [EOF]
-    //   Term = Num (*) ["*"]
-    //   Term = Num (*) ["+"]
-    //   Term = Num (*) ["-"]
-    //   Term = Num (*) ["/"]
-    //
-    //   EOF -> Reduce(Term = Num => ActionFn(8);)
-    //   "*" -> Reduce(Term = Num => ActionFn(8);)
-    //   "+" -> Reduce(Term = Num => ActionFn(8);)
-    //   "-" -> Reduce(Term = Num => ActionFn(8);)
-    //   "/" -> Reduce(Term = Num => ActionFn(8);)
-    //
     pub fn __state6<
         'ast,
         __TOKENS: Iterator<Item=Result<(usize, Tok, usize),()>>,
@@ -518,47 +347,6 @@ mod __parse__Expr {
         }
     }
 
-    // State 7
-    //   Expr = Expr "+" (*) Factor [EOF]
-    //   Expr = Expr "+" (*) Factor ["+"]
-    //   Expr = Expr "+" (*) Factor ["-"]
-    //   Factor = (*) Factor "*" Term [EOF]
-    //   Factor = (*) Factor "*" Term ["*"]
-    //   Factor = (*) Factor "*" Term ["+"]
-    //   Factor = (*) Factor "*" Term ["-"]
-    //   Factor = (*) Factor "*" Term ["/"]
-    //   Factor = (*) Factor "/" Term [EOF]
-    //   Factor = (*) Factor "/" Term ["*"]
-    //   Factor = (*) Factor "/" Term ["+"]
-    //   Factor = (*) Factor "/" Term ["-"]
-    //   Factor = (*) Factor "/" Term ["/"]
-    //   Factor = (*) Term [EOF]
-    //   Factor = (*) Term ["*"]
-    //   Factor = (*) Term ["+"]
-    //   Factor = (*) Term ["-"]
-    //   Factor = (*) Term ["/"]
-    //   Factor = (*) "*" "(" Comma<Expr> ")" [EOF]
-    //   Factor = (*) "*" "(" Comma<Expr> ")" ["*"]
-    //   Factor = (*) "*" "(" Comma<Expr> ")" ["+"]
-    //   Factor = (*) "*" "(" Comma<Expr> ")" ["-"]
-    //   Factor = (*) "*" "(" Comma<Expr> ")" ["/"]
-    //   Term = (*) "(" Expr ")" [EOF]
-    //   Term = (*) "(" Expr ")" ["*"]
-    //   Term = (*) "(" Expr ")" ["+"]
-    //   Term = (*) "(" Expr ")" ["-"]
-    //   Term = (*) "(" Expr ")" ["/"]
-    //   Term = (*) Num [EOF]
-    //   Term = (*) Num ["*"]
-    //   Term = (*) Num ["+"]
-    //   Term = (*) Num ["-"]
-    //   Term = (*) Num ["/"]
-    //
-    //   "(" -> Shift(S4)
-    //   "*" -> Shift(S5)
-    //   Num -> Shift(S6)
-    //
-    //   Factor -> S18
-    //   Term -> S3
     pub fn __state7<
         'ast,
         __TOKENS: Iterator<Item=Result<(usize, Tok, usize),()>>,
@@ -618,47 +406,6 @@ mod __parse__Expr {
         return Ok(__result);
     }
 
-    // State 8
-    //   Expr = Expr "-" (*) Factor [EOF]
-    //   Expr = Expr "-" (*) Factor ["+"]
-    //   Expr = Expr "-" (*) Factor ["-"]
-    //   Factor = (*) Factor "*" Term [EOF]
-    //   Factor = (*) Factor "*" Term ["*"]
-    //   Factor = (*) Factor "*" Term ["+"]
-    //   Factor = (*) Factor "*" Term ["-"]
-    //   Factor = (*) Factor "*" Term ["/"]
-    //   Factor = (*) Factor "/" Term [EOF]
-    //   Factor = (*) Factor "/" Term ["*"]
-    //   Factor = (*) Factor "/" Term ["+"]
-    //   Factor = (*) Factor "/" Term ["-"]
-    //   Factor = (*) Factor "/" Term ["/"]
-    //   Factor = (*) Term [EOF]
-    //   Factor = (*) Term ["*"]
-    //   Factor = (*) Term ["+"]
-    //   Factor = (*) Term ["-"]
-    //   Factor = (*) Term ["/"]
-    //   Factor = (*) "*" "(" Comma<Expr> ")" [EOF]
-    //   Factor = (*) "*" "(" Comma<Expr> ")" ["*"]
-    //   Factor = (*) "*" "(" Comma<Expr> ")" ["+"]
-    //   Factor = (*) "*" "(" Comma<Expr> ")" ["-"]
-    //   Factor = (*) "*" "(" Comma<Expr> ")" ["/"]
-    //   Term = (*) "(" Expr ")" [EOF]
-    //   Term = (*) "(" Expr ")" ["*"]
-    //   Term = (*) "(" Expr ")" ["+"]
-    //   Term = (*) "(" Expr ")" ["-"]
-    //   Term = (*) "(" Expr ")" ["/"]
-    //   Term = (*) Num [EOF]
-    //   Term = (*) Num ["*"]
-    //   Term = (*) Num ["+"]
-    //   Term = (*) Num ["-"]
-    //   Term = (*) Num ["/"]
-    //
-    //   "(" -> Shift(S4)
-    //   "*" -> Shift(S5)
-    //   Num -> Shift(S6)
-    //
-    //   Factor -> S19
-    //   Term -> S3
     pub fn __state8<
         'ast,
         __TOKENS: Iterator<Item=Result<(usize, Tok, usize),()>>,
@@ -718,27 +465,6 @@ mod __parse__Expr {
         return Ok(__result);
     }
 
-    // State 9
-    //   Factor = Factor "*" (*) Term [EOF]
-    //   Factor = Factor "*" (*) Term ["*"]
-    //   Factor = Factor "*" (*) Term ["+"]
-    //   Factor = Factor "*" (*) Term ["-"]
-    //   Factor = Factor "*" (*) Term ["/"]
-    //   Term = (*) "(" Expr ")" [EOF]
-    //   Term = (*) "(" Expr ")" ["*"]
-    //   Term = (*) "(" Expr ")" ["+"]
-    //   Term = (*) "(" Expr ")" ["-"]
-    //   Term = (*) "(" Expr ")" ["/"]
-    //   Term = (*) Num [EOF]
-    //   Term = (*) Num ["*"]
-    //   Term = (*) Num ["+"]
-    //   Term = (*) Num ["-"]
-    //   Term = (*) Num ["/"]
-    //
-    //   "(" -> Shift(S4)
-    //   Num -> Shift(S6)
-    //
-    //   Term -> S20
     pub fn __state9<
         'ast,
         __TOKENS: Iterator<Item=Result<(usize, Tok, usize),()>>,
@@ -789,27 +515,6 @@ mod __parse__Expr {
         return Ok(__result);
     }
 
-    // State 10
-    //   Factor = Factor "/" (*) Term [EOF]
-    //   Factor = Factor "/" (*) Term ["*"]
-    //   Factor = Factor "/" (*) Term ["+"]
-    //   Factor = Factor "/" (*) Term ["-"]
-    //   Factor = Factor "/" (*) Term ["/"]
-    //   Term = (*) "(" Expr ")" [EOF]
-    //   Term = (*) "(" Expr ")" ["*"]
-    //   Term = (*) "(" Expr ")" ["+"]
-    //   Term = (*) "(" Expr ")" ["-"]
-    //   Term = (*) "(" Expr ")" ["/"]
-    //   Term = (*) Num [EOF]
-    //   Term = (*) Num ["*"]
-    //   Term = (*) Num ["+"]
-    //   Term = (*) Num ["-"]
-    //   Term = (*) Num ["/"]
-    //
-    //   "(" -> Shift(S4)
-    //   Num -> Shift(S6)
-    //
-    //   Term -> S21
     pub fn __state10<
         'ast,
         __TOKENS: Iterator<Item=Result<(usize, Tok, usize),()>>,
@@ -860,23 +565,6 @@ mod __parse__Expr {
         return Ok(__result);
     }
 
-    // State 11
-    //   Expr = Expr (*) "+" Factor [")"]
-    //   Expr = Expr (*) "+" Factor ["+"]
-    //   Expr = Expr (*) "+" Factor ["-"]
-    //   Expr = Expr (*) "-" Factor [")"]
-    //   Expr = Expr (*) "-" Factor ["+"]
-    //   Expr = Expr (*) "-" Factor ["-"]
-    //   Term = "(" Expr (*) ")" [EOF]
-    //   Term = "(" Expr (*) ")" ["*"]
-    //   Term = "(" Expr (*) ")" ["+"]
-    //   Term = "(" Expr (*) ")" ["-"]
-    //   Term = "(" Expr (*) ")" ["/"]
-    //
-    //   ")" -> Shift(S22)
-    //   "+" -> Shift(S23)
-    //   "-" -> Shift(S24)
-    //
     pub fn __state11<
         'ast,
         __TOKENS: Iterator<Item=Result<(usize, Tok, usize),()>>,
@@ -916,27 +604,6 @@ mod __parse__Expr {
         return Ok(__result);
     }
 
-    // State 12
-    //   Expr = Factor (*) [")"]
-    //   Expr = Factor (*) ["+"]
-    //   Expr = Factor (*) ["-"]
-    //   Factor = Factor (*) "*" Term [")"]
-    //   Factor = Factor (*) "*" Term ["*"]
-    //   Factor = Factor (*) "*" Term ["+"]
-    //   Factor = Factor (*) "*" Term ["-"]
-    //   Factor = Factor (*) "*" Term ["/"]
-    //   Factor = Factor (*) "/" Term [")"]
-    //   Factor = Factor (*) "/" Term ["*"]
-    //   Factor = Factor (*) "/" Term ["+"]
-    //   Factor = Factor (*) "/" Term ["-"]
-    //   Factor = Factor (*) "/" Term ["/"]
-    //
-    //   ")" -> Reduce(Expr = Factor => ActionFn(3);)
-    //   "*" -> Shift(S25)
-    //   "+" -> Reduce(Expr = Factor => ActionFn(3);)
-    //   "-" -> Reduce(Expr = Factor => ActionFn(3);)
-    //   "/" -> Shift(S26)
-    //
     pub fn __state12<
         'ast,
         __TOKENS: Iterator<Item=Result<(usize, Tok, usize),()>>,
@@ -977,19 +644,6 @@ mod __parse__Expr {
         return Ok(__result);
     }
 
-    // State 13
-    //   Factor = Term (*) [")"]
-    //   Factor = Term (*) ["*"]
-    //   Factor = Term (*) ["+"]
-    //   Factor = Term (*) ["-"]
-    //   Factor = Term (*) ["/"]
-    //
-    //   ")" -> Reduce(Factor = Term => ActionFn(7);)
-    //   "*" -> Reduce(Factor = Term => ActionFn(7);)
-    //   "+" -> Reduce(Factor = Term => ActionFn(7);)
-    //   "-" -> Reduce(Factor = Term => ActionFn(7);)
-    //   "/" -> Reduce(Factor = Term => ActionFn(7);)
-    //
     pub fn __state13<
         'ast,
         __TOKENS: Iterator<Item=Result<(usize, Tok, usize),()>>,
@@ -1021,59 +675,6 @@ mod __parse__Expr {
         }
     }
 
-    // State 14
-    //   Expr = (*) Expr "+" Factor [")"]
-    //   Expr = (*) Expr "+" Factor ["+"]
-    //   Expr = (*) Expr "+" Factor ["-"]
-    //   Expr = (*) Expr "-" Factor [")"]
-    //   Expr = (*) Expr "-" Factor ["+"]
-    //   Expr = (*) Expr "-" Factor ["-"]
-    //   Expr = (*) Factor [")"]
-    //   Expr = (*) Factor ["+"]
-    //   Expr = (*) Factor ["-"]
-    //   Factor = (*) Factor "*" Term [")"]
-    //   Factor = (*) Factor "*" Term ["*"]
-    //   Factor = (*) Factor "*" Term ["+"]
-    //   Factor = (*) Factor "*" Term ["-"]
-    //   Factor = (*) Factor "*" Term ["/"]
-    //   Factor = (*) Factor "/" Term [")"]
-    //   Factor = (*) Factor "/" Term ["*"]
-    //   Factor = (*) Factor "/" Term ["+"]
-    //   Factor = (*) Factor "/" Term ["-"]
-    //   Factor = (*) Factor "/" Term ["/"]
-    //   Factor = (*) Term [")"]
-    //   Factor = (*) Term ["*"]
-    //   Factor = (*) Term ["+"]
-    //   Factor = (*) Term ["-"]
-    //   Factor = (*) Term ["/"]
-    //   Factor = (*) "*" "(" Comma<Expr> ")" [")"]
-    //   Factor = (*) "*" "(" Comma<Expr> ")" ["*"]
-    //   Factor = (*) "*" "(" Comma<Expr> ")" ["+"]
-    //   Factor = (*) "*" "(" Comma<Expr> ")" ["-"]
-    //   Factor = (*) "*" "(" Comma<Expr> ")" ["/"]
-    //   Term = (*) "(" Expr ")" [")"]
-    //   Term = (*) "(" Expr ")" ["*"]
-    //   Term = (*) "(" Expr ")" ["+"]
-    //   Term = (*) "(" Expr ")" ["-"]
-    //   Term = (*) "(" Expr ")" ["/"]
-    //   Term = "(" (*) Expr ")" [")"]
-    //   Term = "(" (*) Expr ")" ["*"]
-    //   Term = "(" (*) Expr ")" ["+"]
-    //   Term = "(" (*) Expr ")" ["-"]
-    //   Term = "(" (*) Expr ")" ["/"]
-    //   Term = (*) Num [")"]
-    //   Term = (*) Num ["*"]
-    //   Term = (*) Num ["+"]
-    //   Term = (*) Num ["-"]
-    //   Term = (*) Num ["/"]
-    //
-    //   "(" -> Shift(S14)
-    //   "*" -> Shift(S15)
-    //   Num -> Shift(S16)
-    //
-    //   Expr -> S27
-    //   Factor -> S12
-    //   Term -> S13
     pub fn __state14<
         'ast,
         __TOKENS: Iterator<Item=Result<(usize, Tok, usize),()>>,
@@ -1136,15 +737,6 @@ mod __parse__Expr {
         return Ok(__result);
     }
 
-    // State 15
-    //   Factor = "*" (*) "(" Comma<Expr> ")" [")"]
-    //   Factor = "*" (*) "(" Comma<Expr> ")" ["*"]
-    //   Factor = "*" (*) "(" Comma<Expr> ")" ["+"]
-    //   Factor = "*" (*) "(" Comma<Expr> ")" ["-"]
-    //   Factor = "*" (*) "(" Comma<Expr> ")" ["/"]
-    //
-    //   "(" -> Shift(S28)
-    //
     pub fn __state15<
         'ast,
         __TOKENS: Iterator<Item=Result<(usize, Tok, usize),()>>,
@@ -1177,19 +769,6 @@ mod __parse__Expr {
         return Ok(__result);
     }
 
-    // State 16
-    //   Term = Num (*) [")"]
-    //   Term = Num (*) ["*"]
-    //   Term = Num (*) ["+"]
-    //   Term = Num (*) ["-"]
-    //   Term = Num (*) ["/"]
-    //
-    //   ")" -> Reduce(Term = Num => ActionFn(8);)
-    //   "*" -> Reduce(Term = Num => ActionFn(8);)
-    //   "+" -> Reduce(Term = Num => ActionFn(8);)
-    //   "-" -> Reduce(Term = Num => ActionFn(8);)
-    //   "/" -> Reduce(Term = Num => ActionFn(8);)
-    //
     pub fn __state16<
         'ast,
         __TOKENS: Iterator<Item=Result<(usize, Tok, usize),()>>,
@@ -1225,83 +804,6 @@ mod __parse__Expr {
         }
     }
 
-    // State 17
-    //   (<Expr> ",")+ = (*) (<Expr> ",")+ Expr "," ["("]
-    //   (<Expr> ",")+ = (*) (<Expr> ",")+ Expr "," [")"]
-    //   (<Expr> ",")+ = (*) (<Expr> ",")+ Expr "," ["*"]
-    //   (<Expr> ",")+ = (*) (<Expr> ",")+ Expr "," [Num]
-    //   (<Expr> ",")+ = (*) Expr "," ["("]
-    //   (<Expr> ",")+ = (*) Expr "," [")"]
-    //   (<Expr> ",")+ = (*) Expr "," ["*"]
-    //   (<Expr> ",")+ = (*) Expr "," [Num]
-    //   Comma<Expr> = (*) [")"]
-    //   Comma<Expr> = (*) (<Expr> ",")+ [")"]
-    //   Comma<Expr> = (*) (<Expr> ",")+ Expr [")"]
-    //   Comma<Expr> = (*) Expr [")"]
-    //   Expr = (*) Expr "+" Factor [")"]
-    //   Expr = (*) Expr "+" Factor ["+"]
-    //   Expr = (*) Expr "+" Factor [","]
-    //   Expr = (*) Expr "+" Factor ["-"]
-    //   Expr = (*) Expr "-" Factor [")"]
-    //   Expr = (*) Expr "-" Factor ["+"]
-    //   Expr = (*) Expr "-" Factor [","]
-    //   Expr = (*) Expr "-" Factor ["-"]
-    //   Expr = (*) Factor [")"]
-    //   Expr = (*) Factor ["+"]
-    //   Expr = (*) Factor [","]
-    //   Expr = (*) Factor ["-"]
-    //   Factor = (*) Factor "*" Term [")"]
-    //   Factor = (*) Factor "*" Term ["*"]
-    //   Factor = (*) Factor "*" Term ["+"]
-    //   Factor = (*) Factor "*" Term [","]
-    //   Factor = (*) Factor "*" Term ["-"]
-    //   Factor = (*) Factor "*" Term ["/"]
-    //   Factor = (*) Factor "/" Term [")"]
-    //   Factor = (*) Factor "/" Term ["*"]
-    //   Factor = (*) Factor "/" Term ["+"]
-    //   Factor = (*) Factor "/" Term [","]
-    //   Factor = (*) Factor "/" Term ["-"]
-    //   Factor = (*) Factor "/" Term ["/"]
-    //   Factor = (*) Term [")"]
-    //   Factor = (*) Term ["*"]
-    //   Factor = (*) Term ["+"]
-    //   Factor = (*) Term [","]
-    //   Factor = (*) Term ["-"]
-    //   Factor = (*) Term ["/"]
-    //   Factor = (*) "*" "(" Comma<Expr> ")" [")"]
-    //   Factor = (*) "*" "(" Comma<Expr> ")" ["*"]
-    //   Factor = (*) "*" "(" Comma<Expr> ")" ["+"]
-    //   Factor = (*) "*" "(" Comma<Expr> ")" [","]
-    //   Factor = (*) "*" "(" Comma<Expr> ")" ["-"]
-    //   Factor = (*) "*" "(" Comma<Expr> ")" ["/"]
-    //   Factor = "*" "(" (*) Comma<Expr> ")" [EOF]
-    //   Factor = "*" "(" (*) Comma<Expr> ")" ["*"]
-    //   Factor = "*" "(" (*) Comma<Expr> ")" ["+"]
-    //   Factor = "*" "(" (*) Comma<Expr> ")" ["-"]
-    //   Factor = "*" "(" (*) Comma<Expr> ")" ["/"]
-    //   Term = (*) "(" Expr ")" [")"]
-    //   Term = (*) "(" Expr ")" ["*"]
-    //   Term = (*) "(" Expr ")" ["+"]
-    //   Term = (*) "(" Expr ")" [","]
-    //   Term = (*) "(" Expr ")" ["-"]
-    //   Term = (*) "(" Expr ")" ["/"]
-    //   Term = (*) Num [")"]
-    //   Term = (*) Num ["*"]
-    //   Term = (*) Num ["+"]
-    //   Term = (*) Num [","]
-    //   Term = (*) Num ["-"]
-    //   Term = (*) Num ["/"]
-    //
-    //   "(" -> Shift(S34)
-    //   ")" -> Reduce(Comma<Expr> =  => ActionFn(23);)
-    //   "*" -> Shift(S35)
-    //   Num -> Shift(S36)
-    //
-    //   (<Expr> ",")+ -> S29
-    //   Comma<Expr> -> S30
-    //   Expr -> S31
-    //   Factor -> S32
-    //   Term -> S33
     pub fn __state17<
         'ast,
         __TOKENS: Iterator<Item=Result<(usize, Tok, usize),()>>,
@@ -1377,27 +879,6 @@ mod __parse__Expr {
         return Ok(__result);
     }
 
-    // State 18
-    //   Expr = Expr "+" Factor (*) [EOF]
-    //   Expr = Expr "+" Factor (*) ["+"]
-    //   Expr = Expr "+" Factor (*) ["-"]
-    //   Factor = Factor (*) "*" Term [EOF]
-    //   Factor = Factor (*) "*" Term ["*"]
-    //   Factor = Factor (*) "*" Term ["+"]
-    //   Factor = Factor (*) "*" Term ["-"]
-    //   Factor = Factor (*) "*" Term ["/"]
-    //   Factor = Factor (*) "/" Term [EOF]
-    //   Factor = Factor (*) "/" Term ["*"]
-    //   Factor = Factor (*) "/" Term ["+"]
-    //   Factor = Factor (*) "/" Term ["-"]
-    //   Factor = Factor (*) "/" Term ["/"]
-    //
-    //   EOF -> Reduce(Expr = Expr, "+", Factor => ActionFn(2);)
-    //   "*" -> Shift(S9)
-    //   "+" -> Reduce(Expr = Expr, "+", Factor => ActionFn(2);)
-    //   "-" -> Reduce(Expr = Expr, "+", Factor => ActionFn(2);)
-    //   "/" -> Shift(S10)
-    //
     pub fn __state18<
         'ast,
         __TOKENS: Iterator<Item=Result<(usize, Tok, usize),()>>,
@@ -1442,27 +923,6 @@ mod __parse__Expr {
         return Ok(__result);
     }
 
-    // State 19
-    //   Expr = Expr "-" Factor (*) [EOF]
-    //   Expr = Expr "-" Factor (*) ["+"]
-    //   Expr = Expr "-" Factor (*) ["-"]
-    //   Factor = Factor (*) "*" Term [EOF]
-    //   Factor = Factor (*) "*" Term ["*"]
-    //   Factor = Factor (*) "*" Term ["+"]
-    //   Factor = Factor (*) "*" Term ["-"]
-    //   Factor = Factor (*) "*" Term ["/"]
-    //   Factor = Factor (*) "/" Term [EOF]
-    //   Factor = Factor (*) "/" Term ["*"]
-    //   Factor = Factor (*) "/" Term ["+"]
-    //   Factor = Factor (*) "/" Term ["-"]
-    //   Factor = Factor (*) "/" Term ["/"]
-    //
-    //   EOF -> Reduce(Expr = Expr, "-", Factor => ActionFn(1);)
-    //   "*" -> Shift(S9)
-    //   "+" -> Reduce(Expr = Expr, "-", Factor => ActionFn(1);)
-    //   "-" -> Reduce(Expr = Expr, "-", Factor => ActionFn(1);)
-    //   "/" -> Shift(S10)
-    //
     pub fn __state19<
         'ast,
         __TOKENS: Iterator<Item=Result<(usize, Tok, usize),()>>,
@@ -1507,19 +967,6 @@ mod __parse__Expr {
         return Ok(__result);
     }
 
-    // State 20
-    //   Factor = Factor "*" Term (*) [EOF]
-    //   Factor = Factor "*" Term (*) ["*"]
-    //   Factor = Factor "*" Term (*) ["+"]
-    //   Factor = Factor "*" Term (*) ["-"]
-    //   Factor = Factor "*" Term (*) ["/"]
-    //
-    //   EOF -> Reduce(Factor = Factor, "*", Term => ActionFn(4);)
-    //   "*" -> Reduce(Factor = Factor, "*", Term => ActionFn(4);)
-    //   "+" -> Reduce(Factor = Factor, "*", Term => ActionFn(4);)
-    //   "-" -> Reduce(Factor = Factor, "*", Term => ActionFn(4);)
-    //   "/" -> Reduce(Factor = Factor, "*", Term => ActionFn(4);)
-    //
     pub fn __state20<
         'ast,
         __TOKENS: Iterator<Item=Result<(usize, Tok, usize),()>>,
@@ -1555,19 +1002,6 @@ mod __parse__Expr {
         }
     }
 
-    // State 21
-    //   Factor = Factor "/" Term (*) [EOF]
-    //   Factor = Factor "/" Term (*) ["*"]
-    //   Factor = Factor "/" Term (*) ["+"]
-    //   Factor = Factor "/" Term (*) ["-"]
-    //   Factor = Factor "/" Term (*) ["/"]
-    //
-    //   EOF -> Reduce(Factor = Factor, "/", Term => ActionFn(5);)
-    //   "*" -> Reduce(Factor = Factor, "/", Term => ActionFn(5);)
-    //   "+" -> Reduce(Factor = Factor, "/", Term => ActionFn(5);)
-    //   "-" -> Reduce(Factor = Factor, "/", Term => ActionFn(5);)
-    //   "/" -> Reduce(Factor = Factor, "/", Term => ActionFn(5);)
-    //
     pub fn __state21<
         'ast,
         __TOKENS: Iterator<Item=Result<(usize, Tok, usize),()>>,
@@ -1603,19 +1037,6 @@ mod __parse__Expr {
         }
     }
 
-    // State 22
-    //   Term = "(" Expr ")" (*) [EOF]
-    //   Term = "(" Expr ")" (*) ["*"]
-    //   Term = "(" Expr ")" (*) ["+"]
-    //   Term = "(" Expr ")" (*) ["-"]
-    //   Term = "(" Expr ")" (*) ["/"]
-    //
-    //   EOF -> Reduce(Term = "(", Expr, ")" => ActionFn(9);)
-    //   "*" -> Reduce(Term = "(", Expr, ")" => ActionFn(9);)
-    //   "+" -> Reduce(Term = "(", Expr, ")" => ActionFn(9);)
-    //   "-" -> Reduce(Term = "(", Expr, ")" => ActionFn(9);)
-    //   "/" -> Reduce(Term = "(", Expr, ")" => ActionFn(9);)
-    //
     pub fn __state22<
         'ast,
         __TOKENS: Iterator<Item=Result<(usize, Tok, usize),()>>,
@@ -1655,47 +1076,6 @@ mod __parse__Expr {
         }
     }
 
-    // State 23
-    //   Expr = Expr "+" (*) Factor [")"]
-    //   Expr = Expr "+" (*) Factor ["+"]
-    //   Expr = Expr "+" (*) Factor ["-"]
-    //   Factor = (*) Factor "*" Term [")"]
-    //   Factor = (*) Factor "*" Term ["*"]
-    //   Factor = (*) Factor "*" Term ["+"]
-    //   Factor = (*) Factor "*" Term ["-"]
-    //   Factor = (*) Factor "*" Term ["/"]
-    //   Factor = (*) Factor "/" Term [")"]
-    //   Factor = (*) Factor "/" Term ["*"]
-    //   Factor = (*) Factor "/" Term ["+"]
-    //   Factor = (*) Factor "/" Term ["-"]
-    //   Factor = (*) Factor "/" Term ["/"]
-    //   Factor = (*) Term [")"]
-    //   Factor = (*) Term ["*"]
-    //   Factor = (*) Term ["+"]
-    //   Factor = (*) Term ["-"]
-    //   Factor = (*) Term ["/"]
-    //   Factor = (*) "*" "(" Comma<Expr> ")" [")"]
-    //   Factor = (*) "*" "(" Comma<Expr> ")" ["*"]
-    //   Factor = (*) "*" "(" Comma<Expr> ")" ["+"]
-    //   Factor = (*) "*" "(" Comma<Expr> ")" ["-"]
-    //   Factor = (*) "*" "(" Comma<Expr> ")" ["/"]
-    //   Term = (*) "(" Expr ")" [")"]
-    //   Term = (*) "(" Expr ")" ["*"]
-    //   Term = (*) "(" Expr ")" ["+"]
-    //   Term = (*) "(" Expr ")" ["-"]
-    //   Term = (*) "(" Expr ")" ["/"]
-    //   Term = (*) Num [")"]
-    //   Term = (*) Num ["*"]
-    //   Term = (*) Num ["+"]
-    //   Term = (*) Num ["-"]
-    //   Term = (*) Num ["/"]
-    //
-    //   "(" -> Shift(S14)
-    //   "*" -> Shift(S15)
-    //   Num -> Shift(S16)
-    //
-    //   Factor -> S37
-    //   Term -> S13
     pub fn __state23<
         'ast,
         __TOKENS: Iterator<Item=Result<(usize, Tok, usize),()>>,
@@ -1755,47 +1135,6 @@ mod __parse__Expr {
         return Ok(__result);
     }
 
-    // State 24
-    //   Expr = Expr "-" (*) Factor [")"]
-    //   Expr = Expr "-" (*) Factor ["+"]
-    //   Expr = Expr "-" (*) Factor ["-"]
-    //   Factor = (*) Factor "*" Term [")"]
-    //   Factor = (*) Factor "*" Term ["*"]
-    //   Factor = (*) Factor "*" Term ["+"]
-    //   Factor = (*) Factor "*" Term ["-"]
-    //   Factor = (*) Factor "*" Term ["/"]
-    //   Factor = (*) Factor "/" Term [")"]
-    //   Factor = (*) Factor "/" Term ["*"]
-    //   Factor = (*) Factor "/" Term ["+"]
-    //   Factor = (*) Factor "/" Term ["-"]
-    //   Factor = (*) Factor "/" Term ["/"]
-    //   Factor = (*) Term [")"]
-    //   Factor = (*) Term ["*"]
-    //   Factor = (*) Term ["+"]
-    //   Factor = (*) Term ["-"]
-    //   Factor = (*) Term ["/"]
-    //   Factor = (*) "*" "(" Comma<Expr> ")" [")"]
-    //   Factor = (*) "*" "(" Comma<Expr> ")" ["*"]
-    //   Factor = (*) "*" "(" Comma<Expr> ")" ["+"]
-    //   Factor = (*) "*" "(" Comma<Expr> ")" ["-"]
-    //   Factor = (*) "*" "(" Comma<Expr> ")" ["/"]
-    //   Term = (*) "(" Expr ")" [")"]
-    //   Term = (*) "(" Expr ")" ["*"]
-    //   Term = (*) "(" Expr ")" ["+"]
-    //   Term = (*) "(" Expr ")" ["-"]
-    //   Term = (*) "(" Expr ")" ["/"]
-    //   Term = (*) Num [")"]
-    //   Term = (*) Num ["*"]
-    //   Term = (*) Num ["+"]
-    //   Term = (*) Num ["-"]
-    //   Term = (*) Num ["/"]
-    //
-    //   "(" -> Shift(S14)
-    //   "*" -> Shift(S15)
-    //   Num -> Shift(S16)
-    //
-    //   Factor -> S38
-    //   Term -> S13
     pub fn __state24<
         'ast,
         __TOKENS: Iterator<Item=Result<(usize, Tok, usize),()>>,
@@ -1855,27 +1194,6 @@ mod __parse__Expr {
         return Ok(__result);
     }
 
-    // State 25
-    //   Factor = Factor "*" (*) Term [")"]
-    //   Factor = Factor "*" (*) Term ["*"]
-    //   Factor = Factor "*" (*) Term ["+"]
-    //   Factor = Factor "*" (*) Term ["-"]
-    //   Factor = Factor "*" (*) Term ["/"]
-    //   Term = (*) "(" Expr ")" [")"]
-    //   Term = (*) "(" Expr ")" ["*"]
-    //   Term = (*) "(" Expr ")" ["+"]
-    //   Term = (*) "(" Expr ")" ["-"]
-    //   Term = (*) "(" Expr ")" ["/"]
-    //   Term = (*) Num [")"]
-    //   Term = (*) Num ["*"]
-    //   Term = (*) Num ["+"]
-    //   Term = (*) Num ["-"]
-    //   Term = (*) Num ["/"]
-    //
-    //   "(" -> Shift(S14)
-    //   Num -> Shift(S16)
-    //
-    //   Term -> S39
     pub fn __state25<
         'ast,
         __TOKENS: Iterator<Item=Result<(usize, Tok, usize),()>>,
@@ -1926,27 +1244,6 @@ mod __parse__Expr {
         return Ok(__result);
     }
 
-    // State 26
-    //   Factor = Factor "/" (*) Term [")"]
-    //   Factor = Factor "/" (*) Term ["*"]
-    //   Factor = Factor "/" (*) Term ["+"]
-    //   Factor = Factor "/" (*) Term ["-"]
-    //   Factor = Factor "/" (*) Term ["/"]
-    //   Term = (*) "(" Expr ")" [")"]
-    //   Term = (*) "(" Expr ")" ["*"]
-    //   Term = (*) "(" Expr ")" ["+"]
-    //   Term = (*) "(" Expr ")" ["-"]
-    //   Term = (*) "(" Expr ")" ["/"]
-    //   Term = (*) Num [")"]
-    //   Term = (*) Num ["*"]
-    //   Term = (*) Num ["+"]
-    //   Term = (*) Num ["-"]
-    //   Term = (*) Num ["/"]
-    //
-    //   "(" -> Shift(S14)
-    //   Num -> Shift(S16)
-    //
-    //   Term -> S40
     pub fn __state26<
         'ast,
         __TOKENS: Iterator<Item=Result<(usize, Tok, usize),()>>,
@@ -1997,23 +1294,6 @@ mod __parse__Expr {
         return Ok(__result);
     }
 
-    // State 27
-    //   Expr = Expr (*) "+" Factor [")"]
-    //   Expr = Expr (*) "+" Factor ["+"]
-    //   Expr = Expr (*) "+" Factor ["-"]
-    //   Expr = Expr (*) "-" Factor [")"]
-    //   Expr = Expr (*) "-" Factor ["+"]
-    //   Expr = Expr (*) "-" Factor ["-"]
-    //   Term = "(" Expr (*) ")" [")"]
-    //   Term = "(" Expr (*) ")" ["*"]
-    //   Term = "(" Expr (*) ")" ["+"]
-    //   Term = "(" Expr (*) ")" ["-"]
-    //   Term = "(" Expr (*) ")" ["/"]
-    //
-    //   ")" -> Shift(S41)
-    //   "+" -> Shift(S23)
-    //   "-" -> Shift(S24)
-    //
     pub fn __state27<
         'ast,
         __TOKENS: Iterator<Item=Result<(usize, Tok, usize),()>>,
@@ -2053,83 +1333,6 @@ mod __parse__Expr {
         return Ok(__result);
     }
 
-    // State 28
-    //   (<Expr> ",")+ = (*) (<Expr> ",")+ Expr "," ["("]
-    //   (<Expr> ",")+ = (*) (<Expr> ",")+ Expr "," [")"]
-    //   (<Expr> ",")+ = (*) (<Expr> ",")+ Expr "," ["*"]
-    //   (<Expr> ",")+ = (*) (<Expr> ",")+ Expr "," [Num]
-    //   (<Expr> ",")+ = (*) Expr "," ["("]
-    //   (<Expr> ",")+ = (*) Expr "," [")"]
-    //   (<Expr> ",")+ = (*) Expr "," ["*"]
-    //   (<Expr> ",")+ = (*) Expr "," [Num]
-    //   Comma<Expr> = (*) [")"]
-    //   Comma<Expr> = (*) (<Expr> ",")+ [")"]
-    //   Comma<Expr> = (*) (<Expr> ",")+ Expr [")"]
-    //   Comma<Expr> = (*) Expr [")"]
-    //   Expr = (*) Expr "+" Factor [")"]
-    //   Expr = (*) Expr "+" Factor ["+"]
-    //   Expr = (*) Expr "+" Factor [","]
-    //   Expr = (*) Expr "+" Factor ["-"]
-    //   Expr = (*) Expr "-" Factor [")"]
-    //   Expr = (*) Expr "-" Factor ["+"]
-    //   Expr = (*) Expr "-" Factor [","]
-    //   Expr = (*) Expr "-" Factor ["-"]
-    //   Expr = (*) Factor [")"]
-    //   Expr = (*) Factor ["+"]
-    //   Expr = (*) Factor [","]
-    //   Expr = (*) Factor ["-"]
-    //   Factor = (*) Factor "*" Term [")"]
-    //   Factor = (*) Factor "*" Term ["*"]
-    //   Factor = (*) Factor "*" Term ["+"]
-    //   Factor = (*) Factor "*" Term [","]
-    //   Factor = (*) Factor "*" Term ["-"]
-    //   Factor = (*) Factor "*" Term ["/"]
-    //   Factor = (*) Factor "/" Term [")"]
-    //   Factor = (*) Factor "/" Term ["*"]
-    //   Factor = (*) Factor "/" Term ["+"]
-    //   Factor = (*) Factor "/" Term [","]
-    //   Factor = (*) Factor "/" Term ["-"]
-    //   Factor = (*) Factor "/" Term ["/"]
-    //   Factor = (*) Term [")"]
-    //   Factor = (*) Term ["*"]
-    //   Factor = (*) Term ["+"]
-    //   Factor = (*) Term [","]
-    //   Factor = (*) Term ["-"]
-    //   Factor = (*) Term ["/"]
-    //   Factor = (*) "*" "(" Comma<Expr> ")" [")"]
-    //   Factor = (*) "*" "(" Comma<Expr> ")" ["*"]
-    //   Factor = (*) "*" "(" Comma<Expr> ")" ["+"]
-    //   Factor = (*) "*" "(" Comma<Expr> ")" [","]
-    //   Factor = (*) "*" "(" Comma<Expr> ")" ["-"]
-    //   Factor = (*) "*" "(" Comma<Expr> ")" ["/"]
-    //   Factor = "*" "(" (*) Comma<Expr> ")" [")"]
-    //   Factor = "*" "(" (*) Comma<Expr> ")" ["*"]
-    //   Factor = "*" "(" (*) Comma<Expr> ")" ["+"]
-    //   Factor = "*" "(" (*) Comma<Expr> ")" ["-"]
-    //   Factor = "*" "(" (*) Comma<Expr> ")" ["/"]
-    //   Term = (*) "(" Expr ")" [")"]
-    //   Term = (*) "(" Expr ")" ["*"]
-    //   Term = (*) "(" Expr ")" ["+"]
-    //   Term = (*) "(" Expr ")" [","]
-    //   Term = (*) "(" Expr ")" ["-"]
-    //   Term = (*) "(" Expr ")" ["/"]
-    //   Term = (*) Num [")"]
-    //   Term = (*) Num ["*"]
-    //   Term = (*) Num ["+"]
-    //   Term = (*) Num [","]
-    //   Term = (*) Num ["-"]
-    //   Term = (*) Num ["/"]
-    //
-    //   "(" -> Shift(S34)
-    //   ")" -> Reduce(Comma<Expr> =  => ActionFn(23);)
-    //   "*" -> Shift(S35)
-    //   Num -> Shift(S36)
-    //
-    //   (<Expr> ",")+ -> S29
-    //   Comma<Expr> -> S42
-    //   Expr -> S31
-    //   Factor -> S32
-    //   Term -> S33
     pub fn __state28<
         'ast,
         __TOKENS: Iterator<Item=Result<(usize, Tok, usize),()>>,
@@ -2205,70 +1408,6 @@ mod __parse__Expr {
         return Ok(__result);
     }
 
-    // State 29
-    //   (<Expr> ",")+ = (<Expr> ",")+ (*) Expr "," ["("]
-    //   (<Expr> ",")+ = (<Expr> ",")+ (*) Expr "," [")"]
-    //   (<Expr> ",")+ = (<Expr> ",")+ (*) Expr "," ["*"]
-    //   (<Expr> ",")+ = (<Expr> ",")+ (*) Expr "," [Num]
-    //   Comma<Expr> = (<Expr> ",")+ (*) [")"]
-    //   Comma<Expr> = (<Expr> ",")+ (*) Expr [")"]
-    //   Expr = (*) Expr "+" Factor [")"]
-    //   Expr = (*) Expr "+" Factor ["+"]
-    //   Expr = (*) Expr "+" Factor [","]
-    //   Expr = (*) Expr "+" Factor ["-"]
-    //   Expr = (*) Expr "-" Factor [")"]
-    //   Expr = (*) Expr "-" Factor ["+"]
-    //   Expr = (*) Expr "-" Factor [","]
-    //   Expr = (*) Expr "-" Factor ["-"]
-    //   Expr = (*) Factor [")"]
-    //   Expr = (*) Factor ["+"]
-    //   Expr = (*) Factor [","]
-    //   Expr = (*) Factor ["-"]
-    //   Factor = (*) Factor "*" Term [")"]
-    //   Factor = (*) Factor "*" Term ["*"]
-    //   Factor = (*) Factor "*" Term ["+"]
-    //   Factor = (*) Factor "*" Term [","]
-    //   Factor = (*) Factor "*" Term ["-"]
-    //   Factor = (*) Factor "*" Term ["/"]
-    //   Factor = (*) Factor "/" Term [")"]
-    //   Factor = (*) Factor "/" Term ["*"]
-    //   Factor = (*) Factor "/" Term ["+"]
-    //   Factor = (*) Factor "/" Term [","]
-    //   Factor = (*) Factor "/" Term ["-"]
-    //   Factor = (*) Factor "/" Term ["/"]
-    //   Factor = (*) Term [")"]
-    //   Factor = (*) Term ["*"]
-    //   Factor = (*) Term ["+"]
-    //   Factor = (*) Term [","]
-    //   Factor = (*) Term ["-"]
-    //   Factor = (*) Term ["/"]
-    //   Factor = (*) "*" "(" Comma<Expr> ")" [")"]
-    //   Factor = (*) "*" "(" Comma<Expr> ")" ["*"]
-    //   Factor = (*) "*" "(" Comma<Expr> ")" ["+"]
-    //   Factor = (*) "*" "(" Comma<Expr> ")" [","]
-    //   Factor = (*) "*" "(" Comma<Expr> ")" ["-"]
-    //   Factor = (*) "*" "(" Comma<Expr> ")" ["/"]
-    //   Term = (*) "(" Expr ")" [")"]
-    //   Term = (*) "(" Expr ")" ["*"]
-    //   Term = (*) "(" Expr ")" ["+"]
-    //   Term = (*) "(" Expr ")" [","]
-    //   Term = (*) "(" Expr ")" ["-"]
-    //   Term = (*) "(" Expr ")" ["/"]
-    //   Term = (*) Num [")"]
-    //   Term = (*) Num ["*"]
-    //   Term = (*) Num ["+"]
-    //   Term = (*) Num [","]
-    //   Term = (*) Num ["-"]
-    //   Term = (*) Num ["/"]
-    //
-    //   "(" -> Shift(S34)
-    //   ")" -> Reduce(Comma<Expr> = (<Expr> ",")+ => ActionFn(25);)
-    //   "*" -> Shift(S35)
-    //   Num -> Shift(S36)
-    //
-    //   Expr -> S43
-    //   Factor -> S32
-    //   Term -> S33
     pub fn __state29<
         'ast,
         __TOKENS: Iterator<Item=Result<(usize, Tok, usize),()>>,
@@ -2332,15 +1471,6 @@ mod __parse__Expr {
         return Ok(__result);
     }
 
-    // State 30
-    //   Factor = "*" "(" Comma<Expr> (*) ")" [EOF]
-    //   Factor = "*" "(" Comma<Expr> (*) ")" ["*"]
-    //   Factor = "*" "(" Comma<Expr> (*) ")" ["+"]
-    //   Factor = "*" "(" Comma<Expr> (*) ")" ["-"]
-    //   Factor = "*" "(" Comma<Expr> (*) ")" ["/"]
-    //
-    //   ")" -> Shift(S44)
-    //
     pub fn __state30<
         'ast,
         __TOKENS: Iterator<Item=Result<(usize, Tok, usize),()>>,
@@ -2371,26 +1501,6 @@ mod __parse__Expr {
         return Ok(__result);
     }
 
-    // State 31
-    //   (<Expr> ",")+ = Expr (*) "," ["("]
-    //   (<Expr> ",")+ = Expr (*) "," [")"]
-    //   (<Expr> ",")+ = Expr (*) "," ["*"]
-    //   (<Expr> ",")+ = Expr (*) "," [Num]
-    //   Comma<Expr> = Expr (*) [")"]
-    //   Expr = Expr (*) "+" Factor [")"]
-    //   Expr = Expr (*) "+" Factor ["+"]
-    //   Expr = Expr (*) "+" Factor [","]
-    //   Expr = Expr (*) "+" Factor ["-"]
-    //   Expr = Expr (*) "-" Factor [")"]
-    //   Expr = Expr (*) "-" Factor ["+"]
-    //   Expr = Expr (*) "-" Factor [","]
-    //   Expr = Expr (*) "-" Factor ["-"]
-    //
-    //   ")" -> Reduce(Comma<Expr> = Expr => ActionFn(22);)
-    //   "+" -> Shift(S45)
-    //   "," -> Shift(S46)
-    //   "-" -> Shift(S47)
-    //
     pub fn __state31<
         'ast,
         __TOKENS: Iterator<Item=Result<(usize, Tok, usize),()>>,
@@ -2434,31 +1544,6 @@ mod __parse__Expr {
         return Ok(__result);
     }
 
-    // State 32
-    //   Expr = Factor (*) [")"]
-    //   Expr = Factor (*) ["+"]
-    //   Expr = Factor (*) [","]
-    //   Expr = Factor (*) ["-"]
-    //   Factor = Factor (*) "*" Term [")"]
-    //   Factor = Factor (*) "*" Term ["*"]
-    //   Factor = Factor (*) "*" Term ["+"]
-    //   Factor = Factor (*) "*" Term [","]
-    //   Factor = Factor (*) "*" Term ["-"]
-    //   Factor = Factor (*) "*" Term ["/"]
-    //   Factor = Factor (*) "/" Term [")"]
-    //   Factor = Factor (*) "/" Term ["*"]
-    //   Factor = Factor (*) "/" Term ["+"]
-    //   Factor = Factor (*) "/" Term [","]
-    //   Factor = Factor (*) "/" Term ["-"]
-    //   Factor = Factor (*) "/" Term ["/"]
-    //
-    //   ")" -> Reduce(Expr = Factor => ActionFn(3);)
-    //   "*" -> Shift(S48)
-    //   "+" -> Reduce(Expr = Factor => ActionFn(3);)
-    //   "," -> Reduce(Expr = Factor => ActionFn(3);)
-    //   "-" -> Reduce(Expr = Factor => ActionFn(3);)
-    //   "/" -> Shift(S49)
-    //
     pub fn __state32<
         'ast,
         __TOKENS: Iterator<Item=Result<(usize, Tok, usize),()>>,
@@ -2500,21 +1585,6 @@ mod __parse__Expr {
         return Ok(__result);
     }
 
-    // State 33
-    //   Factor = Term (*) [")"]
-    //   Factor = Term (*) ["*"]
-    //   Factor = Term (*) ["+"]
-    //   Factor = Term (*) [","]
-    //   Factor = Term (*) ["-"]
-    //   Factor = Term (*) ["/"]
-    //
-    //   ")" -> Reduce(Factor = Term => ActionFn(7);)
-    //   "*" -> Reduce(Factor = Term => ActionFn(7);)
-    //   "+" -> Reduce(Factor = Term => ActionFn(7);)
-    //   "," -> Reduce(Factor = Term => ActionFn(7);)
-    //   "-" -> Reduce(Factor = Term => ActionFn(7);)
-    //   "/" -> Reduce(Factor = Term => ActionFn(7);)
-    //
     pub fn __state33<
         'ast,
         __TOKENS: Iterator<Item=Result<(usize, Tok, usize),()>>,
@@ -2547,60 +1617,6 @@ mod __parse__Expr {
         }
     }
 
-    // State 34
-    //   Expr = (*) Expr "+" Factor [")"]
-    //   Expr = (*) Expr "+" Factor ["+"]
-    //   Expr = (*) Expr "+" Factor ["-"]
-    //   Expr = (*) Expr "-" Factor [")"]
-    //   Expr = (*) Expr "-" Factor ["+"]
-    //   Expr = (*) Expr "-" Factor ["-"]
-    //   Expr = (*) Factor [")"]
-    //   Expr = (*) Factor ["+"]
-    //   Expr = (*) Factor ["-"]
-    //   Factor = (*) Factor "*" Term [")"]
-    //   Factor = (*) Factor "*" Term ["*"]
-    //   Factor = (*) Factor "*" Term ["+"]
-    //   Factor = (*) Factor "*" Term ["-"]
-    //   Factor = (*) Factor "*" Term ["/"]
-    //   Factor = (*) Factor "/" Term [")"]
-    //   Factor = (*) Factor "/" Term ["*"]
-    //   Factor = (*) Factor "/" Term ["+"]
-    //   Factor = (*) Factor "/" Term ["-"]
-    //   Factor = (*) Factor "/" Term ["/"]
-    //   Factor = (*) Term [")"]
-    //   Factor = (*) Term ["*"]
-    //   Factor = (*) Term ["+"]
-    //   Factor = (*) Term ["-"]
-    //   Factor = (*) Term ["/"]
-    //   Factor = (*) "*" "(" Comma<Expr> ")" [")"]
-    //   Factor = (*) "*" "(" Comma<Expr> ")" ["*"]
-    //   Factor = (*) "*" "(" Comma<Expr> ")" ["+"]
-    //   Factor = (*) "*" "(" Comma<Expr> ")" ["-"]
-    //   Factor = (*) "*" "(" Comma<Expr> ")" ["/"]
-    //   Term = (*) "(" Expr ")" [")"]
-    //   Term = (*) "(" Expr ")" ["*"]
-    //   Term = (*) "(" Expr ")" ["+"]
-    //   Term = (*) "(" Expr ")" ["-"]
-    //   Term = (*) "(" Expr ")" ["/"]
-    //   Term = "(" (*) Expr ")" [")"]
-    //   Term = "(" (*) Expr ")" ["*"]
-    //   Term = "(" (*) Expr ")" ["+"]
-    //   Term = "(" (*) Expr ")" [","]
-    //   Term = "(" (*) Expr ")" ["-"]
-    //   Term = "(" (*) Expr ")" ["/"]
-    //   Term = (*) Num [")"]
-    //   Term = (*) Num ["*"]
-    //   Term = (*) Num ["+"]
-    //   Term = (*) Num ["-"]
-    //   Term = (*) Num ["/"]
-    //
-    //   "(" -> Shift(S14)
-    //   "*" -> Shift(S15)
-    //   Num -> Shift(S16)
-    //
-    //   Expr -> S50
-    //   Factor -> S12
-    //   Term -> S13
     pub fn __state34<
         'ast,
         __TOKENS: Iterator<Item=Result<(usize, Tok, usize),()>>,
@@ -2663,16 +1679,6 @@ mod __parse__Expr {
         return Ok(__result);
     }
 
-    // State 35
-    //   Factor = "*" (*) "(" Comma<Expr> ")" [")"]
-    //   Factor = "*" (*) "(" Comma<Expr> ")" ["*"]
-    //   Factor = "*" (*) "(" Comma<Expr> ")" ["+"]
-    //   Factor = "*" (*) "(" Comma<Expr> ")" [","]
-    //   Factor = "*" (*) "(" Comma<Expr> ")" ["-"]
-    //   Factor = "*" (*) "(" Comma<Expr> ")" ["/"]
-    //
-    //   "(" -> Shift(S51)
-    //
     pub fn __state35<
         'ast,
         __TOKENS: Iterator<Item=Result<(usize, Tok, usize),()>>,
@@ -2705,21 +1711,6 @@ mod __parse__Expr {
         return Ok(__result);
     }
 
-    // State 36
-    //   Term = Num (*) [")"]
-    //   Term = Num (*) ["*"]
-    //   Term = Num (*) ["+"]
-    //   Term = Num (*) [","]
-    //   Term = Num (*) ["-"]
-    //   Term = Num (*) ["/"]
-    //
-    //   ")" -> Reduce(Term = Num => ActionFn(8);)
-    //   "*" -> Reduce(Term = Num => ActionFn(8);)
-    //   "+" -> Reduce(Term = Num => ActionFn(8);)
-    //   "," -> Reduce(Term = Num => ActionFn(8);)
-    //   "-" -> Reduce(Term = Num => ActionFn(8);)
-    //   "/" -> Reduce(Term = Num => ActionFn(8);)
-    //
     pub fn __state36<
         'ast,
         __TOKENS: Iterator<Item=Result<(usize, Tok, usize),()>>,
@@ -2756,27 +1747,6 @@ mod __parse__Expr {
         }
     }
 
-    // State 37
-    //   Expr = Expr "+" Factor (*) [")"]
-    //   Expr = Expr "+" Factor (*) ["+"]
-    //   Expr = Expr "+" Factor (*) ["-"]
-    //   Factor = Factor (*) "*" Term [")"]
-    //   Factor = Factor (*) "*" Term ["*"]
-    //   Factor = Factor (*) "*" Term ["+"]
-    //   Factor = Factor (*) "*" Term ["-"]
-    //   Factor = Factor (*) "*" Term ["/"]
-    //   Factor = Factor (*) "/" Term [")"]
-    //   Factor = Factor (*) "/" Term ["*"]
-    //   Factor = Factor (*) "/" Term ["+"]
-    //   Factor = Factor (*) "/" Term ["-"]
-    //   Factor = Factor (*) "/" Term ["/"]
-    //
-    //   ")" -> Reduce(Expr = Expr, "+", Factor => ActionFn(2);)
-    //   "*" -> Shift(S25)
-    //   "+" -> Reduce(Expr = Expr, "+", Factor => ActionFn(2);)
-    //   "-" -> Reduce(Expr = Expr, "+", Factor => ActionFn(2);)
-    //   "/" -> Shift(S26)
-    //
     pub fn __state37<
         'ast,
         __TOKENS: Iterator<Item=Result<(usize, Tok, usize),()>>,
@@ -2821,27 +1791,6 @@ mod __parse__Expr {
         return Ok(__result);
     }
 
-    // State 38
-    //   Expr = Expr "-" Factor (*) [")"]
-    //   Expr = Expr "-" Factor (*) ["+"]
-    //   Expr = Expr "-" Factor (*) ["-"]
-    //   Factor = Factor (*) "*" Term [")"]
-    //   Factor = Factor (*) "*" Term ["*"]
-    //   Factor = Factor (*) "*" Term ["+"]
-    //   Factor = Factor (*) "*" Term ["-"]
-    //   Factor = Factor (*) "*" Term ["/"]
-    //   Factor = Factor (*) "/" Term [")"]
-    //   Factor = Factor (*) "/" Term ["*"]
-    //   Factor = Factor (*) "/" Term ["+"]
-    //   Factor = Factor (*) "/" Term ["-"]
-    //   Factor = Factor (*) "/" Term ["/"]
-    //
-    //   ")" -> Reduce(Expr = Expr, "-", Factor => ActionFn(1);)
-    //   "*" -> Shift(S25)
-    //   "+" -> Reduce(Expr = Expr, "-", Factor => ActionFn(1);)
-    //   "-" -> Reduce(Expr = Expr, "-", Factor => ActionFn(1);)
-    //   "/" -> Shift(S26)
-    //
     pub fn __state38<
         'ast,
         __TOKENS: Iterator<Item=Result<(usize, Tok, usize),()>>,
@@ -2886,19 +1835,6 @@ mod __parse__Expr {
         return Ok(__result);
     }
 
-    // State 39
-    //   Factor = Factor "*" Term (*) [")"]
-    //   Factor = Factor "*" Term (*) ["*"]
-    //   Factor = Factor "*" Term (*) ["+"]
-    //   Factor = Factor "*" Term (*) ["-"]
-    //   Factor = Factor "*" Term (*) ["/"]
-    //
-    //   ")" -> Reduce(Factor = Factor, "*", Term => ActionFn(4);)
-    //   "*" -> Reduce(Factor = Factor, "*", Term => ActionFn(4);)
-    //   "+" -> Reduce(Factor = Factor, "*", Term => ActionFn(4);)
-    //   "-" -> Reduce(Factor = Factor, "*", Term => ActionFn(4);)
-    //   "/" -> Reduce(Factor = Factor, "*", Term => ActionFn(4);)
-    //
     pub fn __state39<
         'ast,
         __TOKENS: Iterator<Item=Result<(usize, Tok, usize),()>>,
@@ -2934,19 +1870,6 @@ mod __parse__Expr {
         }
     }
 
-    // State 40
-    //   Factor = Factor "/" Term (*) [")"]
-    //   Factor = Factor "/" Term (*) ["*"]
-    //   Factor = Factor "/" Term (*) ["+"]
-    //   Factor = Factor "/" Term (*) ["-"]
-    //   Factor = Factor "/" Term (*) ["/"]
-    //
-    //   ")" -> Reduce(Factor = Factor, "/", Term => ActionFn(5);)
-    //   "*" -> Reduce(Factor = Factor, "/", Term => ActionFn(5);)
-    //   "+" -> Reduce(Factor = Factor, "/", Term => ActionFn(5);)
-    //   "-" -> Reduce(Factor = Factor, "/", Term => ActionFn(5);)
-    //   "/" -> Reduce(Factor = Factor, "/", Term => ActionFn(5);)
-    //
     pub fn __state40<
         'ast,
         __TOKENS: Iterator<Item=Result<(usize, Tok, usize),()>>,
@@ -2982,19 +1905,6 @@ mod __parse__Expr {
         }
     }
 
-    // State 41
-    //   Term = "(" Expr ")" (*) [")"]
-    //   Term = "(" Expr ")" (*) ["*"]
-    //   Term = "(" Expr ")" (*) ["+"]
-    //   Term = "(" Expr ")" (*) ["-"]
-    //   Term = "(" Expr ")" (*) ["/"]
-    //
-    //   ")" -> Reduce(Term = "(", Expr, ")" => ActionFn(9);)
-    //   "*" -> Reduce(Term = "(", Expr, ")" => ActionFn(9);)
-    //   "+" -> Reduce(Term = "(", Expr, ")" => ActionFn(9);)
-    //   "-" -> Reduce(Term = "(", Expr, ")" => ActionFn(9);)
-    //   "/" -> Reduce(Term = "(", Expr, ")" => ActionFn(9);)
-    //
     pub fn __state41<
         'ast,
         __TOKENS: Iterator<Item=Result<(usize, Tok, usize),()>>,
@@ -3034,15 +1944,6 @@ mod __parse__Expr {
         }
     }
 
-    // State 42
-    //   Factor = "*" "(" Comma<Expr> (*) ")" [")"]
-    //   Factor = "*" "(" Comma<Expr> (*) ")" ["*"]
-    //   Factor = "*" "(" Comma<Expr> (*) ")" ["+"]
-    //   Factor = "*" "(" Comma<Expr> (*) ")" ["-"]
-    //   Factor = "*" "(" Comma<Expr> (*) ")" ["/"]
-    //
-    //   ")" -> Shift(S52)
-    //
     pub fn __state42<
         'ast,
         __TOKENS: Iterator<Item=Result<(usize, Tok, usize),()>>,
@@ -3073,26 +1974,6 @@ mod __parse__Expr {
         return Ok(__result);
     }
 
-    // State 43
-    //   (<Expr> ",")+ = (<Expr> ",")+ Expr (*) "," ["("]
-    //   (<Expr> ",")+ = (<Expr> ",")+ Expr (*) "," [")"]
-    //   (<Expr> ",")+ = (<Expr> ",")+ Expr (*) "," ["*"]
-    //   (<Expr> ",")+ = (<Expr> ",")+ Expr (*) "," [Num]
-    //   Comma<Expr> = (<Expr> ",")+ Expr (*) [")"]
-    //   Expr = Expr (*) "+" Factor [")"]
-    //   Expr = Expr (*) "+" Factor ["+"]
-    //   Expr = Expr (*) "+" Factor [","]
-    //   Expr = Expr (*) "+" Factor ["-"]
-    //   Expr = Expr (*) "-" Factor [")"]
-    //   Expr = Expr (*) "-" Factor ["+"]
-    //   Expr = Expr (*) "-" Factor [","]
-    //   Expr = Expr (*) "-" Factor ["-"]
-    //
-    //   ")" -> Reduce(Comma<Expr> = (<Expr> ",")+, Expr => ActionFn(24);)
-    //   "+" -> Shift(S45)
-    //   "," -> Shift(S53)
-    //   "-" -> Shift(S47)
-    //
     pub fn __state43<
         'ast,
         __TOKENS: Iterator<Item=Result<(usize, Tok, usize),()>>,
@@ -3138,19 +2019,6 @@ mod __parse__Expr {
         return Ok(__result);
     }
 
-    // State 44
-    //   Factor = "*" "(" Comma<Expr> ")" (*) [EOF]
-    //   Factor = "*" "(" Comma<Expr> ")" (*) ["*"]
-    //   Factor = "*" "(" Comma<Expr> ")" (*) ["+"]
-    //   Factor = "*" "(" Comma<Expr> ")" (*) ["-"]
-    //   Factor = "*" "(" Comma<Expr> ")" (*) ["/"]
-    //
-    //   EOF -> Reduce(Factor = "*", "(", Comma<Expr>, ")" => ActionFn(6);)
-    //   "*" -> Reduce(Factor = "*", "(", Comma<Expr>, ")" => ActionFn(6);)
-    //   "+" -> Reduce(Factor = "*", "(", Comma<Expr>, ")" => ActionFn(6);)
-    //   "-" -> Reduce(Factor = "*", "(", Comma<Expr>, ")" => ActionFn(6);)
-    //   "/" -> Reduce(Factor = "*", "(", Comma<Expr>, ")" => ActionFn(6);)
-    //
     pub fn __state44<
         'ast,
         __TOKENS: Iterator<Item=Result<(usize, Tok, usize),()>>,
@@ -3192,54 +2060,6 @@ mod __parse__Expr {
         }
     }
 
-    // State 45
-    //   Expr = Expr "+" (*) Factor [")"]
-    //   Expr = Expr "+" (*) Factor ["+"]
-    //   Expr = Expr "+" (*) Factor [","]
-    //   Expr = Expr "+" (*) Factor ["-"]
-    //   Factor = (*) Factor "*" Term [")"]
-    //   Factor = (*) Factor "*" Term ["*"]
-    //   Factor = (*) Factor "*" Term ["+"]
-    //   Factor = (*) Factor "*" Term [","]
-    //   Factor = (*) Factor "*" Term ["-"]
-    //   Factor = (*) Factor "*" Term ["/"]
-    //   Factor = (*) Factor "/" Term [")"]
-    //   Factor = (*) Factor "/" Term ["*"]
-    //   Factor = (*) Factor "/" Term ["+"]
-    //   Factor = (*) Factor "/" Term [","]
-    //   Factor = (*) Factor "/" Term ["-"]
-    //   Factor = (*) Factor "/" Term ["/"]
-    //   Factor = (*) Term [")"]
-    //   Factor = (*) Term ["*"]
-    //   Factor = (*) Term ["+"]
-    //   Factor = (*) Term [","]
-    //   Factor = (*) Term ["-"]
-    //   Factor = (*) Term ["/"]
-    //   Factor = (*) "*" "(" Comma<Expr> ")" [")"]
-    //   Factor = (*) "*" "(" Comma<Expr> ")" ["*"]
-    //   Factor = (*) "*" "(" Comma<Expr> ")" ["+"]
-    //   Factor = (*) "*" "(" Comma<Expr> ")" [","]
-    //   Factor = (*) "*" "(" Comma<Expr> ")" ["-"]
-    //   Factor = (*) "*" "(" Comma<Expr> ")" ["/"]
-    //   Term = (*) "(" Expr ")" [")"]
-    //   Term = (*) "(" Expr ")" ["*"]
-    //   Term = (*) "(" Expr ")" ["+"]
-    //   Term = (*) "(" Expr ")" [","]
-    //   Term = (*) "(" Expr ")" ["-"]
-    //   Term = (*) "(" Expr ")" ["/"]
-    //   Term = (*) Num [")"]
-    //   Term = (*) Num ["*"]
-    //   Term = (*) Num ["+"]
-    //   Term = (*) Num [","]
-    //   Term = (*) Num ["-"]
-    //   Term = (*) Num ["/"]
-    //
-    //   "(" -> Shift(S34)
-    //   "*" -> Shift(S35)
-    //   Num -> Shift(S36)
-    //
-    //   Factor -> S54
-    //   Term -> S33
     pub fn __state45<
         'ast,
         __TOKENS: Iterator<Item=Result<(usize, Tok, usize),()>>,
@@ -3299,17 +2119,6 @@ mod __parse__Expr {
         return Ok(__result);
     }
 
-    // State 46
-    //   (<Expr> ",")+ = Expr "," (*) ["("]
-    //   (<Expr> ",")+ = Expr "," (*) [")"]
-    //   (<Expr> ",")+ = Expr "," (*) ["*"]
-    //   (<Expr> ",")+ = Expr "," (*) [Num]
-    //
-    //   "(" -> Reduce((<Expr> ",")+ = Expr, "," => ActionFn(18);)
-    //   ")" -> Reduce((<Expr> ",")+ = Expr, "," => ActionFn(18);)
-    //   "*" -> Reduce((<Expr> ",")+ = Expr, "," => ActionFn(18);)
-    //   Num -> Reduce((<Expr> ",")+ = Expr, "," => ActionFn(18);)
-    //
     pub fn __state46<
         'ast,
         __TOKENS: Iterator<Item=Result<(usize, Tok, usize),()>>,
@@ -3346,54 +2155,6 @@ mod __parse__Expr {
         }
     }
 
-    // State 47
-    //   Expr = Expr "-" (*) Factor [")"]
-    //   Expr = Expr "-" (*) Factor ["+"]
-    //   Expr = Expr "-" (*) Factor [","]
-    //   Expr = Expr "-" (*) Factor ["-"]
-    //   Factor = (*) Factor "*" Term [")"]
-    //   Factor = (*) Factor "*" Term ["*"]
-    //   Factor = (*) Factor "*" Term ["+"]
-    //   Factor = (*) Factor "*" Term [","]
-    //   Factor = (*) Factor "*" Term ["-"]
-    //   Factor = (*) Factor "*" Term ["/"]
-    //   Factor = (*) Factor "/" Term [")"]
-    //   Factor = (*) Factor "/" Term ["*"]
-    //   Factor = (*) Factor "/" Term ["+"]
-    //   Factor = (*) Factor "/" Term [","]
-    //   Factor = (*) Factor "/" Term ["-"]
-    //   Factor = (*) Factor "/" Term ["/"]
-    //   Factor = (*) Term [")"]
-    //   Factor = (*) Term ["*"]
-    //   Factor = (*) Term ["+"]
-    //   Factor = (*) Term [","]
-    //   Factor = (*) Term ["-"]
-    //   Factor = (*) Term ["/"]
-    //   Factor = (*) "*" "(" Comma<Expr> ")" [")"]
-    //   Factor = (*) "*" "(" Comma<Expr> ")" ["*"]
-    //   Factor = (*) "*" "(" Comma<Expr> ")" ["+"]
-    //   Factor = (*) "*" "(" Comma<Expr> ")" [","]
-    //   Factor = (*) "*" "(" Comma<Expr> ")" ["-"]
-    //   Factor = (*) "*" "(" Comma<Expr> ")" ["/"]
-    //   Term = (*) "(" Expr ")" [")"]
-    //   Term = (*) "(" Expr ")" ["*"]
-    //   Term = (*) "(" Expr ")" ["+"]
-    //   Term = (*) "(" Expr ")" [","]
-    //   Term = (*) "(" Expr ")" ["-"]
-    //   Term = (*) "(" Expr ")" ["/"]
-    //   Term = (*) Num [")"]
-    //   Term = (*) Num ["*"]
-    //   Term = (*) Num ["+"]
-    //   Term = (*) Num [","]
-    //   Term = (*) Num ["-"]
-    //   Term = (*) Num ["/"]
-    //
-    //   "(" -> Shift(S34)
-    //   "*" -> Shift(S35)
-    //   Num -> Shift(S36)
-    //
-    //   Factor -> S55
-    //   Term -> S33
     pub fn __state47<
         'ast,
         __TOKENS: Iterator<Item=Result<(usize, Tok, usize),()>>,
@@ -3453,30 +2214,6 @@ mod __parse__Expr {
         return Ok(__result);
     }
 
-    // State 48
-    //   Factor = Factor "*" (*) Term [")"]
-    //   Factor = Factor "*" (*) Term ["*"]
-    //   Factor = Factor "*" (*) Term ["+"]
-    //   Factor = Factor "*" (*) Term [","]
-    //   Factor = Factor "*" (*) Term ["-"]
-    //   Factor = Factor "*" (*) Term ["/"]
-    //   Term = (*) "(" Expr ")" [")"]
-    //   Term = (*) "(" Expr ")" ["*"]
-    //   Term = (*) "(" Expr ")" ["+"]
-    //   Term = (*) "(" Expr ")" [","]
-    //   Term = (*) "(" Expr ")" ["-"]
-    //   Term = (*) "(" Expr ")" ["/"]
-    //   Term = (*) Num [")"]
-    //   Term = (*) Num ["*"]
-    //   Term = (*) Num ["+"]
-    //   Term = (*) Num [","]
-    //   Term = (*) Num ["-"]
-    //   Term = (*) Num ["/"]
-    //
-    //   "(" -> Shift(S34)
-    //   Num -> Shift(S36)
-    //
-    //   Term -> S56
     pub fn __state48<
         'ast,
         __TOKENS: Iterator<Item=Result<(usize, Tok, usize),()>>,
@@ -3527,30 +2264,6 @@ mod __parse__Expr {
         return Ok(__result);
     }
 
-    // State 49
-    //   Factor = Factor "/" (*) Term [")"]
-    //   Factor = Factor "/" (*) Term ["*"]
-    //   Factor = Factor "/" (*) Term ["+"]
-    //   Factor = Factor "/" (*) Term [","]
-    //   Factor = Factor "/" (*) Term ["-"]
-    //   Factor = Factor "/" (*) Term ["/"]
-    //   Term = (*) "(" Expr ")" [")"]
-    //   Term = (*) "(" Expr ")" ["*"]
-    //   Term = (*) "(" Expr ")" ["+"]
-    //   Term = (*) "(" Expr ")" [","]
-    //   Term = (*) "(" Expr ")" ["-"]
-    //   Term = (*) "(" Expr ")" ["/"]
-    //   Term = (*) Num [")"]
-    //   Term = (*) Num ["*"]
-    //   Term = (*) Num ["+"]
-    //   Term = (*) Num [","]
-    //   Term = (*) Num ["-"]
-    //   Term = (*) Num ["/"]
-    //
-    //   "(" -> Shift(S34)
-    //   Num -> Shift(S36)
-    //
-    //   Term -> S57
     pub fn __state49<
         'ast,
         __TOKENS: Iterator<Item=Result<(usize, Tok, usize),()>>,
@@ -3601,24 +2314,6 @@ mod __parse__Expr {
         return Ok(__result);
     }
 
-    // State 50
-    //   Expr = Expr (*) "+" Factor [")"]
-    //   Expr = Expr (*) "+" Factor ["+"]
-    //   Expr = Expr (*) "+" Factor ["-"]
-    //   Expr = Expr (*) "-" Factor [")"]
-    //   Expr = Expr (*) "-" Factor ["+"]
-    //   Expr = Expr (*) "-" Factor ["-"]
-    //   Term = "(" Expr (*) ")" [")"]
-    //   Term = "(" Expr (*) ")" ["*"]
-    //   Term = "(" Expr (*) ")" ["+"]
-    //   Term = "(" Expr (*) ")" [","]
-    //   Term = "(" Expr (*) ")" ["-"]
-    //   Term = "(" Expr (*) ")" ["/"]
-    //
-    //   ")" -> Shift(S58)
-    //   "+" -> Shift(S23)
-    //   "-" -> Shift(S24)
-    //
     pub fn __state50<
         'ast,
         __TOKENS: Iterator<Item=Result<(usize, Tok, usize),()>>,
@@ -3658,84 +2353,6 @@ mod __parse__Expr {
         return Ok(__result);
     }
 
-    // State 51
-    //   (<Expr> ",")+ = (*) (<Expr> ",")+ Expr "," ["("]
-    //   (<Expr> ",")+ = (*) (<Expr> ",")+ Expr "," [")"]
-    //   (<Expr> ",")+ = (*) (<Expr> ",")+ Expr "," ["*"]
-    //   (<Expr> ",")+ = (*) (<Expr> ",")+ Expr "," [Num]
-    //   (<Expr> ",")+ = (*) Expr "," ["("]
-    //   (<Expr> ",")+ = (*) Expr "," [")"]
-    //   (<Expr> ",")+ = (*) Expr "," ["*"]
-    //   (<Expr> ",")+ = (*) Expr "," [Num]
-    //   Comma<Expr> = (*) [")"]
-    //   Comma<Expr> = (*) (<Expr> ",")+ [")"]
-    //   Comma<Expr> = (*) (<Expr> ",")+ Expr [")"]
-    //   Comma<Expr> = (*) Expr [")"]
-    //   Expr = (*) Expr "+" Factor [")"]
-    //   Expr = (*) Expr "+" Factor ["+"]
-    //   Expr = (*) Expr "+" Factor [","]
-    //   Expr = (*) Expr "+" Factor ["-"]
-    //   Expr = (*) Expr "-" Factor [")"]
-    //   Expr = (*) Expr "-" Factor ["+"]
-    //   Expr = (*) Expr "-" Factor [","]
-    //   Expr = (*) Expr "-" Factor ["-"]
-    //   Expr = (*) Factor [")"]
-    //   Expr = (*) Factor ["+"]
-    //   Expr = (*) Factor [","]
-    //   Expr = (*) Factor ["-"]
-    //   Factor = (*) Factor "*" Term [")"]
-    //   Factor = (*) Factor "*" Term ["*"]
-    //   Factor = (*) Factor "*" Term ["+"]
-    //   Factor = (*) Factor "*" Term [","]
-    //   Factor = (*) Factor "*" Term ["-"]
-    //   Factor = (*) Factor "*" Term ["/"]
-    //   Factor = (*) Factor "/" Term [")"]
-    //   Factor = (*) Factor "/" Term ["*"]
-    //   Factor = (*) Factor "/" Term ["+"]
-    //   Factor = (*) Factor "/" Term [","]
-    //   Factor = (*) Factor "/" Term ["-"]
-    //   Factor = (*) Factor "/" Term ["/"]
-    //   Factor = (*) Term [")"]
-    //   Factor = (*) Term ["*"]
-    //   Factor = (*) Term ["+"]
-    //   Factor = (*) Term [","]
-    //   Factor = (*) Term ["-"]
-    //   Factor = (*) Term ["/"]
-    //   Factor = (*) "*" "(" Comma<Expr> ")" [")"]
-    //   Factor = (*) "*" "(" Comma<Expr> ")" ["*"]
-    //   Factor = (*) "*" "(" Comma<Expr> ")" ["+"]
-    //   Factor = (*) "*" "(" Comma<Expr> ")" [","]
-    //   Factor = (*) "*" "(" Comma<Expr> ")" ["-"]
-    //   Factor = (*) "*" "(" Comma<Expr> ")" ["/"]
-    //   Factor = "*" "(" (*) Comma<Expr> ")" [")"]
-    //   Factor = "*" "(" (*) Comma<Expr> ")" ["*"]
-    //   Factor = "*" "(" (*) Comma<Expr> ")" ["+"]
-    //   Factor = "*" "(" (*) Comma<Expr> ")" [","]
-    //   Factor = "*" "(" (*) Comma<Expr> ")" ["-"]
-    //   Factor = "*" "(" (*) Comma<Expr> ")" ["/"]
-    //   Term = (*) "(" Expr ")" [")"]
-    //   Term = (*) "(" Expr ")" ["*"]
-    //   Term = (*) "(" Expr ")" ["+"]
-    //   Term = (*) "(" Expr ")" [","]
-    //   Term = (*) "(" Expr ")" ["-"]
-    //   Term = (*) "(" Expr ")" ["/"]
-    //   Term = (*) Num [")"]
-    //   Term = (*) Num ["*"]
-    //   Term = (*) Num ["+"]
-    //   Term = (*) Num [","]
-    //   Term = (*) Num ["-"]
-    //   Term = (*) Num ["/"]
-    //
-    //   "(" -> Shift(S34)
-    //   ")" -> Reduce(Comma<Expr> =  => ActionFn(23);)
-    //   "*" -> Shift(S35)
-    //   Num -> Shift(S36)
-    //
-    //   (<Expr> ",")+ -> S29
-    //   Comma<Expr> -> S59
-    //   Expr -> S31
-    //   Factor -> S32
-    //   Term -> S33
     pub fn __state51<
         'ast,
         __TOKENS: Iterator<Item=Result<(usize, Tok, usize),()>>,
@@ -3811,19 +2428,6 @@ mod __parse__Expr {
         return Ok(__result);
     }
 
-    // State 52
-    //   Factor = "*" "(" Comma<Expr> ")" (*) [")"]
-    //   Factor = "*" "(" Comma<Expr> ")" (*) ["*"]
-    //   Factor = "*" "(" Comma<Expr> ")" (*) ["+"]
-    //   Factor = "*" "(" Comma<Expr> ")" (*) ["-"]
-    //   Factor = "*" "(" Comma<Expr> ")" (*) ["/"]
-    //
-    //   ")" -> Reduce(Factor = "*", "(", Comma<Expr>, ")" => ActionFn(6);)
-    //   "*" -> Reduce(Factor = "*", "(", Comma<Expr>, ")" => ActionFn(6);)
-    //   "+" -> Reduce(Factor = "*", "(", Comma<Expr>, ")" => ActionFn(6);)
-    //   "-" -> Reduce(Factor = "*", "(", Comma<Expr>, ")" => ActionFn(6);)
-    //   "/" -> Reduce(Factor = "*", "(", Comma<Expr>, ")" => ActionFn(6);)
-    //
     pub fn __state52<
         'ast,
         __TOKENS: Iterator<Item=Result<(usize, Tok, usize),()>>,
@@ -3865,17 +2469,6 @@ mod __parse__Expr {
         }
     }
 
-    // State 53
-    //   (<Expr> ",")+ = (<Expr> ",")+ Expr "," (*) ["("]
-    //   (<Expr> ",")+ = (<Expr> ",")+ Expr "," (*) [")"]
-    //   (<Expr> ",")+ = (<Expr> ",")+ Expr "," (*) ["*"]
-    //   (<Expr> ",")+ = (<Expr> ",")+ Expr "," (*) [Num]
-    //
-    //   "(" -> Reduce((<Expr> ",")+ = (<Expr> ",")+, Expr, "," => ActionFn(19);)
-    //   ")" -> Reduce((<Expr> ",")+ = (<Expr> ",")+, Expr, "," => ActionFn(19);)
-    //   "*" -> Reduce((<Expr> ",")+ = (<Expr> ",")+, Expr, "," => ActionFn(19);)
-    //   Num -> Reduce((<Expr> ",")+ = (<Expr> ",")+, Expr, "," => ActionFn(19);)
-    //
     pub fn __state53<
         'ast,
         __TOKENS: Iterator<Item=Result<(usize, Tok, usize),()>>,
@@ -3914,31 +2507,6 @@ mod __parse__Expr {
         }
     }
 
-    // State 54
-    //   Expr = Expr "+" Factor (*) [")"]
-    //   Expr = Expr "+" Factor (*) ["+"]
-    //   Expr = Expr "+" Factor (*) [","]
-    //   Expr = Expr "+" Factor (*) ["-"]
-    //   Factor = Factor (*) "*" Term [")"]
-    //   Factor = Factor (*) "*" Term ["*"]
-    //   Factor = Factor (*) "*" Term ["+"]
-    //   Factor = Factor (*) "*" Term [","]
-    //   Factor = Factor (*) "*" Term ["-"]
-    //   Factor = Factor (*) "*" Term ["/"]
-    //   Factor = Factor (*) "/" Term [")"]
-    //   Factor = Factor (*) "/" Term ["*"]
-    //   Factor = Factor (*) "/" Term ["+"]
-    //   Factor = Factor (*) "/" Term [","]
-    //   Factor = Factor (*) "/" Term ["-"]
-    //   Factor = Factor (*) "/" Term ["/"]
-    //
-    //   ")" -> Reduce(Expr = Expr, "+", Factor => ActionFn(2);)
-    //   "*" -> Shift(S48)
-    //   "+" -> Reduce(Expr = Expr, "+", Factor => ActionFn(2);)
-    //   "," -> Reduce(Expr = Expr, "+", Factor => ActionFn(2);)
-    //   "-" -> Reduce(Expr = Expr, "+", Factor => ActionFn(2);)
-    //   "/" -> Shift(S49)
-    //
     pub fn __state54<
         'ast,
         __TOKENS: Iterator<Item=Result<(usize, Tok, usize),()>>,
@@ -3984,31 +2552,6 @@ mod __parse__Expr {
         return Ok(__result);
     }
 
-    // State 55
-    //   Expr = Expr "-" Factor (*) [")"]
-    //   Expr = Expr "-" Factor (*) ["+"]
-    //   Expr = Expr "-" Factor (*) [","]
-    //   Expr = Expr "-" Factor (*) ["-"]
-    //   Factor = Factor (*) "*" Term [")"]
-    //   Factor = Factor (*) "*" Term ["*"]
-    //   Factor = Factor (*) "*" Term ["+"]
-    //   Factor = Factor (*) "*" Term [","]
-    //   Factor = Factor (*) "*" Term ["-"]
-    //   Factor = Factor (*) "*" Term ["/"]
-    //   Factor = Factor (*) "/" Term [")"]
-    //   Factor = Factor (*) "/" Term ["*"]
-    //   Factor = Factor (*) "/" Term ["+"]
-    //   Factor = Factor (*) "/" Term [","]
-    //   Factor = Factor (*) "/" Term ["-"]
-    //   Factor = Factor (*) "/" Term ["/"]
-    //
-    //   ")" -> Reduce(Expr = Expr, "-", Factor => ActionFn(1);)
-    //   "*" -> Shift(S48)
-    //   "+" -> Reduce(Expr = Expr, "-", Factor => ActionFn(1);)
-    //   "," -> Reduce(Expr = Expr, "-", Factor => ActionFn(1);)
-    //   "-" -> Reduce(Expr = Expr, "-", Factor => ActionFn(1);)
-    //   "/" -> Shift(S49)
-    //
     pub fn __state55<
         'ast,
         __TOKENS: Iterator<Item=Result<(usize, Tok, usize),()>>,
@@ -4054,21 +2597,6 @@ mod __parse__Expr {
         return Ok(__result);
     }
 
-    // State 56
-    //   Factor = Factor "*" Term (*) [")"]
-    //   Factor = Factor "*" Term (*) ["*"]
-    //   Factor = Factor "*" Term (*) ["+"]
-    //   Factor = Factor "*" Term (*) [","]
-    //   Factor = Factor "*" Term (*) ["-"]
-    //   Factor = Factor "*" Term (*) ["/"]
-    //
-    //   ")" -> Reduce(Factor = Factor, "*", Term => ActionFn(4);)
-    //   "*" -> Reduce(Factor = Factor, "*", Term => ActionFn(4);)
-    //   "+" -> Reduce(Factor = Factor, "*", Term => ActionFn(4);)
-    //   "," -> Reduce(Factor = Factor, "*", Term => ActionFn(4);)
-    //   "-" -> Reduce(Factor = Factor, "*", Term => ActionFn(4);)
-    //   "/" -> Reduce(Factor = Factor, "*", Term => ActionFn(4);)
-    //
     pub fn __state56<
         'ast,
         __TOKENS: Iterator<Item=Result<(usize, Tok, usize),()>>,
@@ -4105,21 +2633,6 @@ mod __parse__Expr {
         }
     }
 
-    // State 57
-    //   Factor = Factor "/" Term (*) [")"]
-    //   Factor = Factor "/" Term (*) ["*"]
-    //   Factor = Factor "/" Term (*) ["+"]
-    //   Factor = Factor "/" Term (*) [","]
-    //   Factor = Factor "/" Term (*) ["-"]
-    //   Factor = Factor "/" Term (*) ["/"]
-    //
-    //   ")" -> Reduce(Factor = Factor, "/", Term => ActionFn(5);)
-    //   "*" -> Reduce(Factor = Factor, "/", Term => ActionFn(5);)
-    //   "+" -> Reduce(Factor = Factor, "/", Term => ActionFn(5);)
-    //   "," -> Reduce(Factor = Factor, "/", Term => ActionFn(5);)
-    //   "-" -> Reduce(Factor = Factor, "/", Term => ActionFn(5);)
-    //   "/" -> Reduce(Factor = Factor, "/", Term => ActionFn(5);)
-    //
     pub fn __state57<
         'ast,
         __TOKENS: Iterator<Item=Result<(usize, Tok, usize),()>>,
@@ -4156,21 +2669,6 @@ mod __parse__Expr {
         }
     }
 
-    // State 58
-    //   Term = "(" Expr ")" (*) [")"]
-    //   Term = "(" Expr ")" (*) ["*"]
-    //   Term = "(" Expr ")" (*) ["+"]
-    //   Term = "(" Expr ")" (*) [","]
-    //   Term = "(" Expr ")" (*) ["-"]
-    //   Term = "(" Expr ")" (*) ["/"]
-    //
-    //   ")" -> Reduce(Term = "(", Expr, ")" => ActionFn(9);)
-    //   "*" -> Reduce(Term = "(", Expr, ")" => ActionFn(9);)
-    //   "+" -> Reduce(Term = "(", Expr, ")" => ActionFn(9);)
-    //   "," -> Reduce(Term = "(", Expr, ")" => ActionFn(9);)
-    //   "-" -> Reduce(Term = "(", Expr, ")" => ActionFn(9);)
-    //   "/" -> Reduce(Term = "(", Expr, ")" => ActionFn(9);)
-    //
     pub fn __state58<
         'ast,
         __TOKENS: Iterator<Item=Result<(usize, Tok, usize),()>>,
@@ -4211,16 +2709,6 @@ mod __parse__Expr {
         }
     }
 
-    // State 59
-    //   Factor = "*" "(" Comma<Expr> (*) ")" [")"]
-    //   Factor = "*" "(" Comma<Expr> (*) ")" ["*"]
-    //   Factor = "*" "(" Comma<Expr> (*) ")" ["+"]
-    //   Factor = "*" "(" Comma<Expr> (*) ")" [","]
-    //   Factor = "*" "(" Comma<Expr> (*) ")" ["-"]
-    //   Factor = "*" "(" Comma<Expr> (*) ")" ["/"]
-    //
-    //   ")" -> Shift(S60)
-    //
     pub fn __state59<
         'ast,
         __TOKENS: Iterator<Item=Result<(usize, Tok, usize),()>>,
@@ -4251,21 +2739,6 @@ mod __parse__Expr {
         return Ok(__result);
     }
 
-    // State 60
-    //   Factor = "*" "(" Comma<Expr> ")" (*) [")"]
-    //   Factor = "*" "(" Comma<Expr> ")" (*) ["*"]
-    //   Factor = "*" "(" Comma<Expr> ")" (*) ["+"]
-    //   Factor = "*" "(" Comma<Expr> ")" (*) [","]
-    //   Factor = "*" "(" Comma<Expr> ")" (*) ["-"]
-    //   Factor = "*" "(" Comma<Expr> ")" (*) ["/"]
-    //
-    //   ")" -> Reduce(Factor = "*", "(", Comma<Expr>, ")" => ActionFn(6);)
-    //   "*" -> Reduce(Factor = "*", "(", Comma<Expr>, ")" => ActionFn(6);)
-    //   "+" -> Reduce(Factor = "*", "(", Comma<Expr>, ")" => ActionFn(6);)
-    //   "," -> Reduce(Factor = "*", "(", Comma<Expr>, ")" => ActionFn(6);)
-    //   "-" -> Reduce(Factor = "*", "(", Comma<Expr>, ")" => ActionFn(6);)
-    //   "/" -> Reduce(Factor = "*", "(", Comma<Expr>, ")" => ActionFn(6);)
-    //
     pub fn __state60<
         'ast,
         __TOKENS: Iterator<Item=Result<(usize, Tok, usize),()>>,
