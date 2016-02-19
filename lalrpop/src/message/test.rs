@@ -1,10 +1,6 @@
 use ascii_canvas::AsciiCanvas;
-use file_text::FileText;
 use grammar::parse_tree::Span;
 use message::builder::MessageBuilder;
-use session::Session;
-use std::path::PathBuf;
-use std::rc::Rc;
 use test_util::expect_debug;
 use tls::Tls;
 

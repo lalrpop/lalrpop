@@ -42,6 +42,10 @@ fn main1() -> io::Result<()> {
         session.set_color_config(ColorConfig::Yes);
     }
 
+    if args.flag_comments {
+        session.set_emit_comments();
+    }
+
     if args.arg_inputs.len() == 0 {
         try!(writeln!(stderr, "Error: no input files specified! Try -h for help."));
         process::exit(1);
@@ -70,6 +74,7 @@ Options:
                          Valid values: quiet, info, verbose, debug.
     -f, --force          Force execution, even if the .lalrpop file is older than the .rs file.
     -c, --color          Force colorful output, even if this is not a TTY.
+    --comments           Enable comments in the generated code.
 ";
 
 #[derive(Debug, RustcDecodable)]
@@ -79,6 +84,7 @@ struct Args {
     flag_force: bool,
     flag_help: bool,
     flag_color: bool,
+    flag_comments: bool,
 }
 
 #[derive(Debug, RustcDecodable)]

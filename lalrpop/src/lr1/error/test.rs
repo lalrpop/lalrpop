@@ -1,7 +1,6 @@
 use intern::intern;
 use grammar::repr::*;
 use lr1::build_states;
-use session::Session;
 use test_util::normalized_grammar;
 use tls::Tls;
 
@@ -67,7 +66,6 @@ pub Expr: () = {
     "if" Expr "{" "}" => (),
 };
 "#);
-    let session = Session::test();
     let states = build_states(&grammar, nt("Expr")).unwrap_err().states;
     let mut cx = ErrorReportingCx::new(&grammar, &states);
     let (&lookahead, conflict) =

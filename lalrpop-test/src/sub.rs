@@ -43,24 +43,6 @@ mod __parse__S {
         ____S(i32),
     }
 
-    // State 0
-    //   E = (*) E "-" T [EOF]
-    //   E = (*) E "-" T ["-"]
-    //   E = (*) T [EOF]
-    //   E = (*) T ["-"]
-    //   S = (*) E [EOF]
-    //   T = (*) "(" E ")" [EOF]
-    //   T = (*) "(" E ")" ["-"]
-    //   T = (*) Num [EOF]
-    //   T = (*) Num ["-"]
-    //   __S = (*) S [EOF]
-    //
-    //   "(" -> Shift(S4)
-    //   Num -> Shift(S5)
-    //
-    //   E -> S1
-    //   S -> S2
-    //   T -> S3
     pub fn __state0<
         __TOKENS: Iterator<Item=Result<((), Tok, ()),()>>,
     >(
@@ -110,14 +92,6 @@ mod __parse__S {
         }
     }
 
-    // State 1
-    //   E = E (*) "-" T [EOF]
-    //   E = E (*) "-" T ["-"]
-    //   S = E (*) [EOF]
-    //
-    //   EOF -> Reduce(S = E => ActionFn(1);)
-    //   "-" -> Shift(S6)
-    //
     pub fn __state1<
         __TOKENS: Iterator<Item=Result<((), Tok, ()),()>>,
     >(
@@ -149,11 +123,6 @@ mod __parse__S {
         return Ok(__result);
     }
 
-    // State 2
-    //   __S = S (*) [EOF]
-    //
-    //   EOF -> Reduce(__S = S => ActionFn(0);)
-    //
     pub fn __state2<
         __TOKENS: Iterator<Item=Result<((), Tok, ()),()>>,
     >(
@@ -179,13 +148,6 @@ mod __parse__S {
         }
     }
 
-    // State 3
-    //   E = T (*) [EOF]
-    //   E = T (*) ["-"]
-    //
-    //   EOF -> Reduce(E = T => ActionFn(3);)
-    //   "-" -> Reduce(E = T => ActionFn(3);)
-    //
     pub fn __state3<
         __TOKENS: Iterator<Item=Result<((), Tok, ()),()>>,
     >(
@@ -212,23 +174,6 @@ mod __parse__S {
         }
     }
 
-    // State 4
-    //   E = (*) E "-" T [")"]
-    //   E = (*) E "-" T ["-"]
-    //   E = (*) T [")"]
-    //   E = (*) T ["-"]
-    //   T = (*) "(" E ")" [")"]
-    //   T = (*) "(" E ")" ["-"]
-    //   T = "(" (*) E ")" [EOF]
-    //   T = "(" (*) E ")" ["-"]
-    //   T = (*) Num [")"]
-    //   T = (*) Num ["-"]
-    //
-    //   "(" -> Shift(S9)
-    //   Num -> Shift(S10)
-    //
-    //   E -> S7
-    //   T -> S8
     pub fn __state4<
         __TOKENS: Iterator<Item=Result<((), Tok, ()),()>>,
     >(
@@ -280,13 +225,6 @@ mod __parse__S {
         return Ok(__result);
     }
 
-    // State 5
-    //   T = Num (*) [EOF]
-    //   T = Num (*) ["-"]
-    //
-    //   EOF -> Reduce(T = Num => ActionFn(4);)
-    //   "-" -> Reduce(T = Num => ActionFn(4);)
-    //
     pub fn __state5<
         __TOKENS: Iterator<Item=Result<((), Tok, ()),()>>,
     >(
@@ -317,18 +255,6 @@ mod __parse__S {
         }
     }
 
-    // State 6
-    //   E = E "-" (*) T [EOF]
-    //   E = E "-" (*) T ["-"]
-    //   T = (*) "(" E ")" [EOF]
-    //   T = (*) "(" E ")" ["-"]
-    //   T = (*) Num [EOF]
-    //   T = (*) Num ["-"]
-    //
-    //   "(" -> Shift(S4)
-    //   Num -> Shift(S5)
-    //
-    //   T -> S11
     pub fn __state6<
         __TOKENS: Iterator<Item=Result<((), Tok, ()),()>>,
     >(
@@ -377,15 +303,6 @@ mod __parse__S {
         return Ok(__result);
     }
 
-    // State 7
-    //   E = E (*) "-" T [")"]
-    //   E = E (*) "-" T ["-"]
-    //   T = "(" E (*) ")" [EOF]
-    //   T = "(" E (*) ")" ["-"]
-    //
-    //   ")" -> Shift(S12)
-    //   "-" -> Shift(S13)
-    //
     pub fn __state7<
         __TOKENS: Iterator<Item=Result<((), Tok, ()),()>>,
     >(
@@ -418,13 +335,6 @@ mod __parse__S {
         return Ok(__result);
     }
 
-    // State 8
-    //   E = T (*) [")"]
-    //   E = T (*) ["-"]
-    //
-    //   ")" -> Reduce(E = T => ActionFn(3);)
-    //   "-" -> Reduce(E = T => ActionFn(3);)
-    //
     pub fn __state8<
         __TOKENS: Iterator<Item=Result<((), Tok, ()),()>>,
     >(
@@ -451,23 +361,6 @@ mod __parse__S {
         }
     }
 
-    // State 9
-    //   E = (*) E "-" T [")"]
-    //   E = (*) E "-" T ["-"]
-    //   E = (*) T [")"]
-    //   E = (*) T ["-"]
-    //   T = (*) "(" E ")" [")"]
-    //   T = (*) "(" E ")" ["-"]
-    //   T = "(" (*) E ")" [")"]
-    //   T = "(" (*) E ")" ["-"]
-    //   T = (*) Num [")"]
-    //   T = (*) Num ["-"]
-    //
-    //   "(" -> Shift(S9)
-    //   Num -> Shift(S10)
-    //
-    //   E -> S14
-    //   T -> S8
     pub fn __state9<
         __TOKENS: Iterator<Item=Result<((), Tok, ()),()>>,
     >(
@@ -519,13 +412,6 @@ mod __parse__S {
         return Ok(__result);
     }
 
-    // State 10
-    //   T = Num (*) [")"]
-    //   T = Num (*) ["-"]
-    //
-    //   ")" -> Reduce(T = Num => ActionFn(4);)
-    //   "-" -> Reduce(T = Num => ActionFn(4);)
-    //
     pub fn __state10<
         __TOKENS: Iterator<Item=Result<((), Tok, ()),()>>,
     >(
@@ -556,13 +442,6 @@ mod __parse__S {
         }
     }
 
-    // State 11
-    //   E = E "-" T (*) [EOF]
-    //   E = E "-" T (*) ["-"]
-    //
-    //   EOF -> Reduce(E = E, "-", T => ActionFn(2);)
-    //   "-" -> Reduce(E = E, "-", T => ActionFn(2);)
-    //
     pub fn __state11<
         __TOKENS: Iterator<Item=Result<((), Tok, ()),()>>,
     >(
@@ -593,13 +472,6 @@ mod __parse__S {
         }
     }
 
-    // State 12
-    //   T = "(" E ")" (*) [EOF]
-    //   T = "(" E ")" (*) ["-"]
-    //
-    //   EOF -> Reduce(T = "(", E, ")" => ActionFn(5);)
-    //   "-" -> Reduce(T = "(", E, ")" => ActionFn(5);)
-    //
     pub fn __state12<
         __TOKENS: Iterator<Item=Result<((), Tok, ()),()>>,
     >(
@@ -634,18 +506,6 @@ mod __parse__S {
         }
     }
 
-    // State 13
-    //   E = E "-" (*) T [")"]
-    //   E = E "-" (*) T ["-"]
-    //   T = (*) "(" E ")" [")"]
-    //   T = (*) "(" E ")" ["-"]
-    //   T = (*) Num [")"]
-    //   T = (*) Num ["-"]
-    //
-    //   "(" -> Shift(S9)
-    //   Num -> Shift(S10)
-    //
-    //   T -> S15
     pub fn __state13<
         __TOKENS: Iterator<Item=Result<((), Tok, ()),()>>,
     >(
@@ -694,15 +554,6 @@ mod __parse__S {
         return Ok(__result);
     }
 
-    // State 14
-    //   E = E (*) "-" T [")"]
-    //   E = E (*) "-" T ["-"]
-    //   T = "(" E (*) ")" [")"]
-    //   T = "(" E (*) ")" ["-"]
-    //
-    //   ")" -> Shift(S16)
-    //   "-" -> Shift(S13)
-    //
     pub fn __state14<
         __TOKENS: Iterator<Item=Result<((), Tok, ()),()>>,
     >(
@@ -735,13 +586,6 @@ mod __parse__S {
         return Ok(__result);
     }
 
-    // State 15
-    //   E = E "-" T (*) [")"]
-    //   E = E "-" T (*) ["-"]
-    //
-    //   ")" -> Reduce(E = E, "-", T => ActionFn(2);)
-    //   "-" -> Reduce(E = E, "-", T => ActionFn(2);)
-    //
     pub fn __state15<
         __TOKENS: Iterator<Item=Result<((), Tok, ()),()>>,
     >(
@@ -772,13 +616,6 @@ mod __parse__S {
         }
     }
 
-    // State 16
-    //   T = "(" E ")" (*) [")"]
-    //   T = "(" E ")" (*) ["-"]
-    //
-    //   ")" -> Reduce(T = "(", E, ")" => ActionFn(5);)
-    //   "-" -> Reduce(T = "(", E, ")" => ActionFn(5);)
-    //
     pub fn __state16<
         __TOKENS: Iterator<Item=Result<((), Tok, ()),()>>,
     >(

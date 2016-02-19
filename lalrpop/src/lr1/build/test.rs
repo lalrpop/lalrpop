@@ -1,7 +1,6 @@
 use intern::intern;
 use generate;
 use grammar::repr::*;
-use session::Session;
 use test_util::{compare, expect_debug, normalized_grammar};
 use lr1::core::*;
 use lr1::interpret::interpret;
@@ -39,7 +38,6 @@ macro_rules! tokens {
 fn items<'g>(grammar: &'g Grammar, nonterminal: &str, index: usize, la: Lookahead)
              -> Items<'g>
 {
-    let session = Session::test();
     let lr1 = LR1::new(&grammar);
     let items =
         lr1.transitive_closure(

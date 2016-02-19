@@ -39,16 +39,6 @@ mod __parse__E {
         ____E(String),
     }
 
-    // State 0
-    //   E = (*) "&" E [EOF]
-    //   E = (*) "&" "L" E [EOF]
-    //   E = (*) "L" [EOF]
-    //   __E = (*) E [EOF]
-    //
-    //   "&" -> Shift(S2)
-    //   "L" -> Shift(S3)
-    //
-    //   E -> S1
     pub fn __state0<
         'input,
         __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__ParseError<usize,(usize, &'input str),()>>>,
@@ -92,11 +82,6 @@ mod __parse__E {
         }
     }
 
-    // State 1
-    //   __E = E (*) [EOF]
-    //
-    //   EOF -> Reduce(__E = E => ActionFn(0);)
-    //
     pub fn __state1<
         'input,
         __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__ParseError<usize,(usize, &'input str),()>>>,
@@ -124,17 +109,6 @@ mod __parse__E {
         }
     }
 
-    // State 2
-    //   E = (*) "&" E [EOF]
-    //   E = "&" (*) E [EOF]
-    //   E = (*) "&" "L" E [EOF]
-    //   E = "&" (*) "L" E [EOF]
-    //   E = (*) "L" [EOF]
-    //
-    //   "&" -> Shift(S2)
-    //   "L" -> Shift(S5)
-    //
-    //   E -> S4
     pub fn __state2<
         'input,
         __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__ParseError<usize,(usize, &'input str),()>>>,
@@ -184,11 +158,6 @@ mod __parse__E {
         return Ok(__result);
     }
 
-    // State 3
-    //   E = "L" (*) [EOF]
-    //
-    //   EOF -> Reduce(E = "L" => ActionFn(1);)
-    //
     pub fn __state3<
         'input,
         __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__ParseError<usize,(usize, &'input str),()>>>,
@@ -220,11 +189,6 @@ mod __parse__E {
         }
     }
 
-    // State 4
-    //   E = "&" E (*) [EOF]
-    //
-    //   EOF -> Reduce(E = "&", E => ActionFn(7);)
-    //
     pub fn __state4<
         'input,
         __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__ParseError<usize,(usize, &'input str),()>>>,
@@ -254,18 +218,6 @@ mod __parse__E {
         }
     }
 
-    // State 5
-    //   E = (*) "&" E [EOF]
-    //   E = (*) "&" "L" E [EOF]
-    //   E = "&" "L" (*) E [EOF]
-    //   E = (*) "L" [EOF]
-    //   E = "L" (*) [EOF]
-    //
-    //   EOF -> Reduce(E = "L" => ActionFn(1);)
-    //   "&" -> Shift(S2)
-    //   "L" -> Shift(S3)
-    //
-    //   E -> S6
     pub fn __state5<
         'input,
         __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__ParseError<usize,(usize, &'input str),()>>>,
@@ -321,11 +273,6 @@ mod __parse__E {
         return Ok(__result);
     }
 
-    // State 6
-    //   E = "&" "L" E (*) [EOF]
-    //
-    //   EOF -> Reduce(E = "&", "L", E => ActionFn(8);)
-    //
     pub fn __state6<
         'input,
         __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__ParseError<usize,(usize, &'input str),()>>>,

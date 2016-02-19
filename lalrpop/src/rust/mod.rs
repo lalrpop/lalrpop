@@ -42,6 +42,10 @@ impl<W:Write> RustWrite<W> {
         RustWrite { write: w, indent: 0 }
     }
 
+    pub fn into_inner(self) -> W {
+        self.write
+    }
+
     fn write_indented(&mut self, out: &str) -> io::Result<()> {
         writeln!(self.write, "{0:1$}{2}", "", self.indent, out)
     }
