@@ -5,6 +5,8 @@ reduce/reduce conflicts. The messages now try to explain the problem
 in terms of your grammar, as well as diagnosing common problem
 scenarios and suggesting solutions.
 
+Added a standalone LALRPOP executable.
+
 # Version 0.9
 
 Miscellaneous bug fixes, mostly. Processing for a `build.rs` file now
