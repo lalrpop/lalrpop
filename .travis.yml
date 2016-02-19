@@ -10,5 +10,3 @@ script:
   - cargo test
   - cd ../doc/calculator
   - cargo test
-  - cd ../../lalrpop-exe
-  - cargo build
