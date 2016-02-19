@@ -12,3 +12,4 @@ pub const INPUT_PARAMETER: &'static str = "input";
 
 /// The annotation to request inlining.
 pub const INLINE: &'static str = "inline";
+
