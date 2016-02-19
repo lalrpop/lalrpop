@@ -7,6 +7,9 @@ scenarios and suggesting solutions.
 
 Added a standalone LALRPOP executable.
 
+We no longer generate incomplete files when grammar generation fails
+(Issue #57).
+
 # Version 0.9
 
 Miscellaneous bug fixes, mostly. Processing for a `build.rs` file now
