@@ -21,6 +21,7 @@ macro_rules! production {
         Production {
             nonterminal: nt!($x),
             symbols: syms![$($y),*],
+            annotations: vec![],
             action: ActionFn::new(0),
             span: Span(0, 0)
         }
