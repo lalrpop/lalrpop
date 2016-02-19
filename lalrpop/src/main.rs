@@ -62,7 +62,7 @@ fn main1() -> io::Result<()> {
 }
 
 const USAGE: &'static str = "
-Usage: lalrpop-exe [options] <inputs>...
+Usage: lalrpop [options] <inputs>...
 
 Options:
     -h, --help           Show this message.
