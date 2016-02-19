@@ -1,4 +1,6 @@
-# Version 0.10 (not yet released)
+# Version 0.11 (not yet released)
+
+# Version 0.10
 
 Major update to LALRPOP error messages in cases of shift/reduce and
 reduce/reduce conflicts. The messages now try to explain the problem
