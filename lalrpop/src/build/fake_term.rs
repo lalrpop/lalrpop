@@ -1,5 +1,5 @@
 use std::io::{self, Write};
-use term::{self, Attr, Result, Terminal};
+use term::{self, Attr, Terminal};
 use term::color::Color;
 
 /// A `Terminal` that just ignores all attempts at formatting. Used
