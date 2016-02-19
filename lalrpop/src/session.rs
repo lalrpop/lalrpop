@@ -136,6 +136,10 @@ impl Session {
         self.force_build
     }
 
+    pub fn emit_comments(&self) -> bool {
+        self.emit_comments
+    }
+
     pub fn log<M>(&self, level: Level, message: M)
         where M: FnOnce() -> String
     {

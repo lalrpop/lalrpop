@@ -1,6 +1,5 @@
 use intern::intern;
 use grammar::repr::*;
-use session::Session;
 use test_util::{normalized_grammar};
 use tls::Tls;
 use super::build_lalr_states;
