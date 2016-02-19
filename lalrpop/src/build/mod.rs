@@ -70,9 +70,17 @@ pub fn process_file<P:AsRef<Path>>(session: &Session, lalrpop_file: P) -> io::Re
         // particularly useful for error-reporting.
         let _tls = Tls::install(session.clone(), file_text.clone());
 
-        // Do the LALRPOP processing itself.
-        let grammar = try!(parse_and_normalize_grammar(&session, &file_text));
-        try!(emit_recursive_ascent(&session, &rs_file, &grammar));
+        // Do the LALRPOP processing itself and write the resulting
+        // buffer into a file. We use a buffer so that if LR(1)
+        // generation fails at some point, we don't leave a partial
+        // file behind.
+        {
+            let grammar = try!(parse_and_normalize_grammar(&session, &file_text));
+            let buffer = try!(emit_recursive_ascent(&session, &grammar));
+            let mut output_file = try!(fs::File::create(&rs_file));
+            try!(output_file.write_all(&buffer));
+        }
+
         try!(make_read_only(&rs_file, true));
     }
     Ok(())
@@ -280,12 +288,10 @@ fn emit_uses<W:Write>(grammar: &r::Grammar,
 }
 
 fn emit_recursive_ascent(session: &Session,
-                         output_path: &Path,
                          grammar: &r::Grammar)
-                         -> io::Result<()>
+                         -> io::Result<Vec<u8>>
 {
-    let output_file = try!(fs::File::create(output_path));
-    let mut rust = RustWrite::new(output_file);
+    let mut rust = RustWrite::new(vec![]);
 
     // We generate a module structure like this:
     //
@@ -354,7 +360,7 @@ fn emit_recursive_ascent(session: &Session,
 
     try!(emit_to_triple_trait(grammar, &mut rust));
 
-    Ok(())
+    Ok(rust.into_inner())
 }
 
 fn emit_to_triple_trait<W:Write>(grammar: &r::Grammar,
