@@ -190,7 +190,7 @@ impl MacroExpander {
             alternatives.push(Alternative {
                 span: span,
                 expr: self.macro_expand_expr_symbol(&args, &alternative.expr),
-                annotations: vec![], // TODO nixpulvis
+                annotations: alternative.annotations.clone(),
                 condition: None,
                 action: alternative.action.clone(),
             });
@@ -368,7 +368,7 @@ impl MacroExpander {
             type_decl: Some(ty_ref),
             alternatives: vec![Alternative { span: span,
                                              expr: expr,
-                                             annotations: vec![],  // TODO nixpulvis
+                                             annotations: vec![],
                                              condition: None,
                                              action: action("(<>)") }]
         }))

@@ -110,7 +110,7 @@ impl LowerState {
                                   nonterminal: nt_name,
                                   span: alt.span,
                                   symbols: symbols,
-                                  annotations: vec![],
+                                  annotations: alt.annotations.clone(),
                                   action: action,
                               }
                           })
