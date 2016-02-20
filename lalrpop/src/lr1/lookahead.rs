@@ -55,6 +55,10 @@ impl LookaheadSet {
         self.bit_set.contains(self.bit(grammar, lookahead))
     }
 
+    pub fn is_disjoint(&self, other: LookaheadSet) -> bool {
+        self.bit_set.is_disjoint(&other.bit_set)
+    }
+
     pub fn iter<'iter>(&'iter self, grammar: &'iter Grammar)
                        -> LookaheadSetIter<'iter> {
         LookaheadSetIter {

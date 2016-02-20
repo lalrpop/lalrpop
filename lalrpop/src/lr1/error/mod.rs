@@ -8,8 +8,10 @@ use util::{Map, map};
 use lr1::trace::Tracer;
 use lr1::core::*;
 use lr1::example::{Example, ExampleStyles, ExampleSymbol};
+use lr1::first::FirstSets;
 use lr1::lookahead::{Lookahead, LookaheadSet};
 use tls::Tls;
+use util::set;
 
 #[cfg(test)] mod test;
 
@@ -23,6 +25,7 @@ pub fn report_error(grammar: &Grammar,
 
 struct ErrorReportingCx<'cx, 'grammar: 'cx> {
     grammar: &'grammar Grammar,
+    first_sets: FirstSets,
     states: &'cx [State<'grammar>],
 }
 
@@ -64,6 +67,7 @@ impl<'cx, 'grammar> ErrorReportingCx<'cx, 'grammar> {
            -> Self {
         ErrorReportingCx {
             grammar: grammar,
+            first_sets: FirstSets::new(grammar),
             states: states,
         }
     }
@@ -350,8 +354,9 @@ impl<'cx, 'grammar> ErrorReportingCx<'cx, 'grammar> {
             .text("It appears you could resolve this problem by replacing")
             .text("uses of")
             .push(nonterminal)
+            .verbatimed()
             .text("with")
-            .push(symbol)
+            .text(symbol) // intentionally disable coloring here, looks better
             .adjacent_text("`", "?`")
             .text("(or, alternatively, by adding the annotation `#[inline]` \
                    to the definition of")
@@ -465,6 +470,13 @@ impl<'cx, 'grammar> ErrorReportingCx<'cx, 'grammar> {
             return classification;
         }
 
+        if let Some(classification) = self.try_classify_question(lookahead,
+                                                                 conflict,
+                                                                 &action_examples,
+                                                                 &reduce_examples) {
+            return classification;
+        }
+
         if let Some(classification) = self.try_classify_inline(lookahead,
                                                                conflict,
                                                                &action_examples,
@@ -527,55 +539,197 @@ impl<'cx, 'grammar> ErrorReportingCx<'cx, 'grammar> {
             .next()
     }
 
+    fn try_classify_question(&self,
+                             _lookahead: Lookahead,
+                             conflict: &Conflict<'grammar>,
+                             action_examples: &[Example],
+                             reduce_examples: &[Example])
+                             -> Option<ConflictClassification> {
+        // If we get a shift/reduce conflict and the reduce
+        // is of a nonterminal like:
+        //
+        //     T = { () | U }
+        //
+        // then suggest replacing T with U?. I'm being a bit lenient
+        // here since I do not KNOW that it will help, but it often
+        // does, and it's better style anyhow.
+
+        match conflict.action {
+            Action::Shift(_) => { }
+            Action::Reduce(_) => {
+                return None;
+            }
+        }
+
+        let nt = conflict.production.nonterminal;
+        let nt_productions = self.grammar.productions_for(nt);
+        if nt_productions.len() == 2 {
+            for &(i, j) in &[(0, 1), (1, 0)] {
+                if
+                    nt_productions[i].symbols.is_empty() &&
+                    nt_productions[j].symbols.len() == 1
+                {
+                    return Some(ConflictClassification::SuggestQuestion {
+                        shift: action_examples[0].clone(),
+                        reduce: reduce_examples[0].clone(),
+                        nonterminal: nt,
+                        symbol: nt_productions[j].symbols[0],
+                    });
+                }
+            }
+        }
+
+        None
+    }
+
     fn try_classify_inline(&self,
                            _lookahead: Lookahead,
-                           _conflict: &Conflict<'grammar>,
+                           conflict: &Conflict<'grammar>,
                            action_examples: &[Example],
                            reduce_examples: &[Example])
                            -> Option<ConflictClassification> {
+        // Inlining can help resolve a shift/reduce conflict because
+        // it defers the need to reduce. In particular, if we inlined
+        // all the reductions up until the last one, then we would be
+        // able to *shift* the lookahead instead of having to reduce.
+        // This can be helpful if we can see that shifting would let
+        // us delay reducing until the lookahead diverges.
+
+        // Only applicable to shift/reduce:
+        match conflict.action {
+            Action::Shift(_) => { }
+            Action::Reduce(_) => {
+                return None;
+            }
+        }
+
+        // FIXME: The logic here finds the first example where inline
+        // would help; but maybe we want to restrict it to cases
+        // where inlining would help *all* the examples...?
+
         action_examples
             .iter()
             .cartesian_product(reduce_examples)
-            .filter(|&(action, _)| action.reductions.len() == 2)
-            .filter(|&(_, reduce)| reduce.reductions.len() == 2)
-            .filter(|&(_, reduce)|
-                    reduce.reductions[0].nonterminal !=
-                    reduce.reductions[1].nonterminal)
-            .filter(|&(action, reduce)| {
-                let action_suffix = self.inner_suffix(action);
-                let reduce_suffix = self.inner_suffix(reduce);
-                action_suffix == reduce_suffix
-            })
-            .map(|(action, reduce)| {
-                let nt = reduce.reductions[0].nonterminal;
-                let nt_productions = self.grammar.productions_for(nt);
-                if nt_productions.len() == 2 {
-                    for &(i, j) in &[(0, 1), (1, 0)] {
-                        if
-                            nt_productions[i].symbols.is_empty() &&
-                            nt_productions[j].symbols.len() == 1
-                        {
-                            return ConflictClassification::SuggestQuestion {
-                                shift: action.clone(),
-                                reduce: reduce.clone(),
-                                nonterminal: nt,
-                                symbol: nt_productions[j].symbols[0],
-                            }
-                        }
-                    }
-                }
-                ConflictClassification::SuggestInline {
-                    shift: action.clone(),
-                    reduce: reduce.clone(),
-                    nonterminal: nt,
+            .filter_map(|(shift, reduce)| {
+                if self.try_classify_inline_example(shift, reduce) {
+                    let nt = reduce.reductions[0].nonterminal;
+                    Some(ConflictClassification::SuggestInline {
+                        shift: shift.clone(),
+                        reduce: reduce.clone(),
+                        nonterminal: nt,
+                    })
+                } else {
+                    None
                 }
             })
             .next()
     }
 
-    fn inner_suffix<'ex>(&self, example: &'ex Example) -> &'ex [ExampleSymbol] {
-        let end = example.reductions[0].end;
-        &example.symbols[end..]
+    fn try_classify_inline_example<'ex>(&self,
+                                        shift: &Example,
+                                        reduce: &Example)
+                                        -> bool {
+        debug!("try_classify_inline_example({:?}, {:?})",
+               shift, reduce);
+
+        // In the case of shift, the example will look like
+        //
+        // ```
+        // ... ... (*) L ...s1 ...
+        // |   |             |   |
+        // |   +-R0----------+   |
+        // |  ...                |
+        // +-Rn------------------+
+        // ```
+        //
+        // We want to extract the symbols ...s1: these are the
+        // things we are able to shift before being forced to
+        // make our next hard decision (to reduce R0 or not).
+        let shift_upcoming =
+            &shift.symbols[shift.cursor+1 .. shift.reductions[0].end];
+        debug!("try_classify_inline_example: shift_upcoming={:?}",
+               shift_upcoming);
+
+        // For the reduce, the example might look like
+        //
+        // ```
+        // ...  ...   (*) ...s ...
+        // | | |    |        |
+        // | | +-R0-+        |
+        // | | ...  |        |
+        // | +--Ri--+        |
+        // |  ...            |
+        // +-R(i+1)----------+
+        // ```
+        //
+        // where Ri is the last reduction that requires
+        // shifting no additional symbols. In this case, if we
+        // inlined R0...Ri, then we know we can shift L.
+        let r0_end = reduce.reductions[0].end;
+        let i = reduce.reductions.iter().position(|r| r.end != r0_end);
+        let i = match i { Some(v) => v, None => return false };
+        let ri = &reduce.reductions[i];
+        let reduce_upcoming = &reduce.symbols[r0_end..ri.end];
+        debug!("try_classify_inline_example: reduce_upcoming={:?} i={:?}",
+               reduce_upcoming, i);
+
+        // For now, we only suggest inlining a single nonterminal,
+        // mostly because I am too lazy to weak the suggestion struct
+        // and error messages (but the rest of the code below doesn't
+        // make this assumption for the most part).
+        if i != 1 {
+            return false;
+        }
+
+        // Make sure that all the things we are suggesting inlining
+        // are distinct so that we are not introducing a cycle.
+        let mut duplicates = set();
+        if reduce.reductions[0..i+1].iter()
+                                    .any(|r| !duplicates.insert(r.nonterminal)) {
+            return false;
+        }
+
+        // Compare the two suffixes to see whether they
+        // diverge at some point.
+        shift_upcoming
+            .iter()
+            .zip(reduce_upcoming)
+            .filter_map(|(shift_sym, reduce_sym)| match (shift_sym, reduce_sym) {
+                (&ExampleSymbol::Symbol(shift_sym),
+                 &ExampleSymbol::Symbol(reduce_sym)) => {
+                    if shift_sym == reduce_sym {
+                        // same symbol on both; we'll be able to shift them
+                        None
+                    } else {
+                        // different symbols: for this to
+                        // work, must have disjoint first
+                        // sets. We'll be approximate and
+                        // supply the same Lookahead::EOF to
+                        // both, though in fact the actual
+                        // lookahead may be helpful here.
+                        let (shift_first, _) =
+                            self.first_sets.first(self.grammar, &[shift_sym],
+                                                  Lookahead::EOF);
+                        let (reduce_first, _) =
+                            self.first_sets.first(self.grammar, &[reduce_sym],
+                                                  Lookahead::EOF);
+                        if shift_first.is_disjoint(reduce_first) {
+                            Some(true)
+                        } else {
+                            Some(false)
+                        }
+                    }
+                }
+                _ => {
+                    // we don't expect to encounter any
+                    // epsilons, I don't think, because those
+                    // only occur with an empty reduce at the
+                    // top level
+                    Some(false)
+                }
+            })
+            .next()
+            .unwrap_or(false)
     }
 
     fn shift_examples(&self,

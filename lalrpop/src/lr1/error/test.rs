@@ -88,7 +88,7 @@ pub Expr: () = {
 }
 
 #[test]
-fn inline_conflict() {
+fn suggest_question_conflict() {
     let _tls = Tls::test();
     let grammar = normalized_grammar(r#"
         grammar;
@@ -128,6 +128,51 @@ fn inline_conflict() {
         } => {
             assert_eq!(nonterminal, nt("OPT_L"));
             assert_eq!(symbol, Symbol::Terminal(TerminalString::Literal(TerminalLiteral::Quoted(intern("L")))));
+        }
+        r => panic!("wrong classification {:#?}", r)
+    }
+}
+
+#[test]
+fn suggest_inline_conflict() {
+    let _tls = Tls::test();
+    let grammar = normalized_grammar(r##"
+grammar;
+
+pub ImportDecl: () = {
+    "import" <Path> ";" => (),
+    "import" <Path> "." "*" ";" => (),
+};
+
+Path: () = {
+    <head: Ident> <tail: ("." <Ident>)*> => ()
+};
+
+Ident = r#"[a-zA-Z][a-zA-Z0-9]*"#;
+"##);
+    let states = build_states(&grammar, nt("ImportDecl")).unwrap_err().states;
+
+    let mut cx = ErrorReportingCx::new(&grammar, &states);
+    let (&lookahead, conflict) =
+        states.iter()
+              .flat_map(|state| {
+                  state.conflicts.iter().flat_map(move |(l, cs)| {
+                      cs.iter().map(move |c| (l, c))
+                  })
+              })
+              .next()
+              .unwrap();
+
+    println!("lookahead={:?} conflict={:?}",
+             lookahead, conflict);
+
+    match cx.classify(lookahead, conflict) {
+        ConflictClassification::SuggestInline {
+            shift: _,
+            reduce: _,
+            nonterminal,
+        } => {
+            assert_eq!(nonterminal, nt("Path"));
         }
         r => panic!("wrong classification {:#?}", r)
     }
