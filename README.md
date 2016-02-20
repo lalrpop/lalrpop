@@ -6,6 +6,7 @@ LALRPOP is a Rust parser generator framework with *usability* as its
 primary goal. You should be able to write compact, DRY, readable
 grammars. To this end, LALRPOP offers a number of nifty features:
 
+0. Nice error messages in case parser constructor fails. 
 1. Macros that let you extract common parts of your grammar. This
    means you can go beyond simple repetition like `Id*` and define
    things like `Comma<Id>` for a comma-separated list of identifiers.
@@ -60,10 +61,10 @@ build = "build.rs" # LALRPOP preprocessing
 
 # Add a dependency on the LALRPOP runtime library:
 [dependencies.lalrpop-util]
-version = "0.9.0"
+version = "0.10.0"
 
 [build-dependencies.lalrpop]
-version = "0.9.0"
+version = "0.10.0"
 ```
 
 And create a `build.rs` file that looks like:
@@ -83,12 +84,12 @@ That's it!
 
 #### Running manually
 
-If you prefer, you can also run the `lalrpop-exe` crate. Simply run
-`cargo install lalrpop-exe` and then you will get a `lalrpop-exe`
-binary you can execute, like so:
+If you prefer, you can also run the `lalrpop` crate as an
+executable. Simply run `cargo install lalrpop` and then you will get a
+`lalrpop` binary you can execute, like so:
 
 ```
-./lalrpop-exe file.lalrpop
+lalrpop file.lalrpop
 ```
 
 This will generate `file.rs` for you. Note that it only executes if
