@@ -1,5 +1,6 @@
 //! A parser and representation of regular expressions.
 
+use std::char;
 use std::fmt::{Debug, Display, Formatter, Error};
 use std::str::CharIndices;
 
@@ -22,9 +23,12 @@ pub enum Elem {
     Repeat(RepeatOp, Box<Elem>),
 }
 
+/// Range of characters, inclusive. Note that this range may contain
+/// some endpoints that are not valid unicode, hence we store u32.
 #[derive(Copy, Clone, Debug, Hash, PartialEq, Eq, PartialOrd, Ord)]
-pub enum Test {
-    Char(char), // some specific character
+pub struct Test {
+    pub start: u32,
+    pub end: u32,
 }
 
 #[derive(Copy, Clone, PartialEq, Eq)]
@@ -54,7 +58,7 @@ pub fn parse_literal(s: &str) -> Regex {
     Regex {
         alternatives: vec![
             Alternative {
-                elems: s.chars().map(|c| Elem::Test(Test::Char(c))).collect()
+                elems: s.chars().map(|c| Elem::Test(Test::char(c))).collect()
             }]
     }
 }
@@ -125,7 +129,7 @@ impl<'str> RegexParser<'str> {
                 ']'  => { break; }
                 '|'  => { break; }
                 '.'  => { self.bump(); elems.push(Elem::Any); }
-                _    => { self.bump(); elems.push(Elem::Test(Test::Char(c))); }
+                _    => { self.bump(); elems.push(Elem::Test(Test::char(c))); }
             }
         }
         Ok(Alternative { elems: elems })
@@ -149,7 +153,7 @@ impl<'str> RegexParser<'str> {
             }
             Some((_, c)) => {
                 self.bump();
-                Ok(Elem::Test(Test::Char(c))) // FIXME there are other escapes, like \s
+                Ok(Elem::Test(Test::char(c))) // FIXME there are other escapes, like \s
             }
         }
     }
@@ -203,7 +207,7 @@ impl<'str> RegexParser<'str> {
                     let regex = Regex {
                         alternatives: chars.into_iter()
                                            .map(|c| Alternative {
-                                               elems: vec![Elem::Test(Test::Char(c))]
+                                               elems: vec![Elem::Test(Test::char(c))]
                                            })
                                            .collect()
                     };
@@ -310,11 +314,22 @@ impl Debug for Elem {
     fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
         match *self {
             Elem::Any => write!(fmt, "."),
-            Elem::Test(Test::Char(c)) => {
-                if ".[]()?+*!".contains(c) {
-                    write!(fmt, "\\{}", c)
-                } else {
-                    write!(fmt, "{}", c)
+            Elem::Test(test) => {
+                match (char::from_u32(test.start), char::from_u32(test.end)) {
+                    (Some(start), Some(end)) => {
+                        if test.is_char() {
+                            if ".[]()?+*!".contains(start) {
+                                write!(fmt, "\\{}", start)
+                            } else {
+                                write!(fmt, "{}", start)
+                            }
+                        } else {
+                            write!(fmt, "[{:?}..{:?}]", start, end)
+                        }
+                    }
+                    _ => {
+                        write!(fmt, "[{:?}..{:?}]", test.start, test.end)
+                    }
                 }
             }
             Elem::Group(ref regex) => write!(fmt, "({:?})", regex),
@@ -325,10 +340,40 @@ impl Debug for Elem {
 }
 
 impl Test {
-    pub fn meets(self, t: Test) -> bool {
-        use self::Test::*;
-        match (self, t) {
-            (Char(c), Char(d)) => c == d,
-        }
+    pub fn char(c: char) -> Test {
+        let c = c as u32;
+        Test { start: c, end: c + 1 }
+    }
+
+    pub fn range(s: char, e: char) -> Test {
+        Test { start: s as u32, end: e as u32 }
+    }
+
+    pub fn is_char(self) -> bool {
+        self.len() == 1
+    }
+
+    pub fn len(self) -> u32 {
+        self.end - self.start
+    }
+
+    pub fn contains_u32(self, c: u32) -> bool {
+        c >= self.start && c < self.end
+    }
+
+    pub fn contains_char(self, c: char) -> bool {
+        self.contains_u32(c as u32)
+    }
+
+    pub fn intersects(self, r: Test) -> bool {
+        self.contains_u32(r.start) || r.contains_u32(self.start)
+    }
+
+    pub fn is_disjoint(self, r: Test) -> bool {
+        !self.intersects(r)
+    }
+
+    pub fn is_empty(self) -> bool {
+        self.start == self.end
     }
 }

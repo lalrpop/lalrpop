@@ -17,17 +17,12 @@
 //! covered when we started, and that each of the input ranges is
 //! covered precisely by some set of ranges in the output.
 
-use lexer::re;
+use lexer::re::Test;
+use std::char;
 use std::cmp;
 use util::{set, Set};
 
-#[derive(Copy, Clone, Debug, PartialOrd, Ord, PartialEq, Eq)]
-pub struct Range {
-    start: char,
-    end: char
-}
-
-pub fn remove_overlap(ranges: &Set<Range>) -> Vec<Range> {
+pub fn remove_overlap(ranges: &Set<Test>) -> Vec<Test> {
     // We will do this in the dumbest possible way to start. :)
     // Maintain a result vector that contains disjoint ranges.  To
     // insert a new range, we walk over this vector and split things
@@ -47,9 +42,9 @@ pub fn remove_overlap(ranges: &Set<Range>) -> Vec<Range> {
     disjoint_ranges
 }
 
-fn add_range(range: Range,
+fn add_range(range: Test,
              start_index: usize,
-             disjoint_ranges: &mut Vec<Range>)
+             disjoint_ranges: &mut Vec<Test>)
 {
     if range.is_empty() {
         return;
@@ -72,9 +67,9 @@ fn add_range(range: Range,
             let mid_min = cmp::max(range.start, overlapping_range.start);
             let mid_max = cmp::min(range.end, overlapping_range.end);
             let max_max = cmp::max(range.end, overlapping_range.end);
-            let low_range = Range { start: min_min, end: mid_min };
-            let mid_range = Range { start: mid_min, end: mid_max };
-            let max_range = Range { start: mid_max, end: max_max };
+            let low_range = Test { start: min_min, end: mid_min };
+            let mid_range = Test { start: mid_min, end: mid_max };
+            let max_range = Test { start: mid_max, end: max_max };
 
             println!("{:?}", range);
             println!("{:?}", overlapping_range);
@@ -101,31 +96,15 @@ fn add_range(range: Range,
     }
 }
 
-impl Range {
-    fn contains_char(self, c: char) -> bool {
-        c >= self.start && c < self.end
-    }
-
-    fn intersects(self, r: Range) -> bool {
-        self.contains_char(r.start) || r.contains_char(self.start)
-    }
-
-    fn is_disjoint(self, r: Range) -> bool {
-        !self.intersects(r)
-    }
-
-    fn is_empty(self) -> bool {
-        self.start == self.end
-    }
-}
-
 macro_rules! test {
     ($($range:expr),*) => {
         {
             let mut s = set();
-            $({ let r = $range; s.insert(Range { start: r.start, end: r.end }); })*
+            $({ let r = $range; s.insert(Test::range(r.start, r.end)); })*
             remove_overlap(&s).into_iter()
-                              .map(|r| r.start .. r.end)
+                              .map(|r|
+                                   char::from_u32(r.start).unwrap() ..
+                                   char::from_u32(r.end).unwrap())
                               .collect::<Vec<_>>()
         }
     }

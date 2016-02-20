@@ -108,6 +108,7 @@ impl<'nfa> DFABuilder<'nfa> {
                                 .map(|edge| edge.label)
                         })
                         .collect();
+            let tests = overlap::remove_overlap(&tests);
 
             // if any NFA is in an accepting state, that makes this
             // DFA state an accepting state
@@ -206,7 +207,7 @@ impl<'nfa> DFABuilder<'nfa> {
 
         let matching_test =
             nfa.edges::<re::Test>(item.nfa_state)
-               .filter(|edge| edge.label.meets(test))
+               .filter(|edge| edge.label.intersects(test))
                .map(|edge| item.to(edge.to));
 
         let matching_other =
