@@ -16,6 +16,8 @@ pub mod interpret;
 
 pub mod codegen;
 
+mod overlap;
+
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct DFA {
     pub states: Vec<State>
