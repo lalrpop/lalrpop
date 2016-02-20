@@ -18,9 +18,8 @@
 //! covered precisely by some set of ranges in the output.
 
 use lexer::re::Test;
-use std::char;
 use std::cmp;
-use util::{set, Set};
+use util::Set;
 
 pub fn remove_overlap(ranges: &Set<Test>) -> Vec<Test> {
     // We will do this in the dumbest possible way to start. :)
@@ -99,6 +98,9 @@ fn add_range(range: Test,
 macro_rules! test {
     ($($range:expr),*) => {
         {
+            use re::Test;
+            use std::char;
+            use util::set;
             let mut s = set();
             $({ let r = $range; s.insert(Test::range(r.start, r.end)); })*
             remove_overlap(&s).into_iter()

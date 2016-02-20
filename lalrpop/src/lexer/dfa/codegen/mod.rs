@@ -1,5 +1,4 @@
 use lexer::dfa::*;
-use lexer::re::Test;
 use rust::RustWrite;
 use std::char;
 use std::io::{self, Write};
