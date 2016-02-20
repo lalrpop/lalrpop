@@ -5,6 +5,7 @@
 use std::fmt::{Debug, Formatter, Error};
 use std::usize;
 use lexer::re::{Regex, Alternative, Elem, RepeatOp, Test};
+use regex_syntax::{Expr, Repeater};
 
 #[cfg(test)]
 mod interpret;
@@ -160,6 +161,179 @@ impl NFA {
             // otherwise, check that all edges are continuous
             assert_eq!(edge_vec[edge_index - 1].from, from);
         }
+    }
+
+    fn expr(&mut self, expr: &Expr, accept: NFAStateIndex, reject: NFAStateIndex) -> NFAStateIndex {
+        match *expr {
+            Expr::Empty => {
+                accept
+            }
+
+            Expr::Literal { ref chars, casei } => {
+                if casei {
+                    panic!("case insensitive literals");
+                }
+
+                // for e.g. "abc":
+                // [s0] -a-> [ ] -b-> [ ] -c-> [accept]
+                //   |        |        |
+                //   +--------+--------+--otherwise-> [reject]
+
+                chars.iter()
+                     .rev()
+                     .fold(accept, |s, &ch| {
+                         let s1 = self.new_state(StateKind::Neither);
+                         self.push_edge(s1, Test::char(ch), s);
+                         self.push_edge(s1, Other, reject);
+                         s1
+                     })
+            }
+
+            Expr::AnyChar => {
+                // [s0] -otherwise-> [accept]
+
+                let s0 = self.new_state(StateKind::Neither);
+                self.push_edge(s0, Other, accept);
+                s0
+            }
+
+            Expr::AnyCharNoNL => {
+                panic!("AnyCharNoNL");
+            }
+
+            Expr::Class(_) => {
+                panic!("class");
+            }
+
+            Expr::StartLine |
+            Expr::EndLine |
+            Expr::StartText |
+            Expr::EndText |
+            Expr::WordBoundary |
+            Expr::NotWordBoundary => {
+                panic!("boundaries of various kinds")
+            }
+
+            Expr::Group { ref e, i: _, name: _ } => {
+                self.expr(e, accept, reject)
+            }
+
+            Expr::Repeat { ref e, r: Repeater::ZeroOrOne, greedy: _ } => {
+                // [s0] ----> [accept]
+                //   |           ^
+                //   v           |
+                // [s1] --...----+
+                //         |
+                //         v
+                //      [reject]
+
+                let s1 = self.expr(e, accept, reject);
+
+                let s0 = self.new_state(StateKind::Neither);
+                self.push_edge(s0, Noop, accept); // they might supply nothing
+                self.push_edge(s0, Noop, s1);
+
+                s0
+            }
+
+            Expr::Repeat { ref e, r: Repeater::ZeroOrMore, greedy: _ } => {
+                self.star_expr(e, accept, reject)
+            }
+
+            Expr::Repeat { ref e, r: Repeater::OneOrMore, greedy: _ } => {
+                self.plus_expr(e, accept, reject)
+            }
+
+            Expr::Repeat { ref e, r: Repeater::Range { min, max: None }, greedy: _ } => {
+                // +---min times----+
+                // |                |
+                //
+                // [s0] --..e..-- [s1] --..e*..--> [accept]
+                //          |      |
+                //          |      v
+                //          +-> [reject]
+
+                let s1 = self.star_expr(e, accept, reject);
+                (0..min).fold(s1, |s, _| self.expr(e, s, reject))
+            }
+
+            Expr::Repeat { e: _, r: Repeater::Range { min: _, max: Some(_) }, greedy: _ } => {
+                panic!("unimplemented -- repeat with max range")
+            }
+
+            Expr::Concat(ref exprs) => {
+                exprs.iter()
+                     .rev()
+                     .fold(accept, |s, e| self.expr(e, s, reject))
+            }
+
+            Expr::Alternate(ref exprs) => {
+                // [s0] --exprs[0]--> [accept/reject]
+                //   |                   ^
+                //   |                   |
+                //   +----exprs[..]------+
+                //   |                   |
+                //   |                   |
+                //   +----exprs[n-1]-----+
+
+                let s0 = self.new_state(StateKind::Neither);
+                for expr in exprs {
+                    let s1 = self.expr(expr, accept, reject);
+                    self.push_edge(s0, Noop, s1);
+                }
+                s0
+            }
+        }
+    }
+
+    fn star_expr(&mut self,
+                 expr: &Expr,
+                 accept: NFAStateIndex,
+                 reject: NFAStateIndex)
+                 -> NFAStateIndex {
+        // [s0] ----> [accept]
+        //  | ^
+        //  | |
+        //  | +----------+
+        //  v            |
+        // [s1] --...----+
+        //         |
+        //         v
+        //      [reject]
+
+        let s0 = self.new_state(StateKind::Neither);
+
+        let s1 = self.expr(expr, s0, reject);
+
+        self.push_edge(s0, Noop, accept);
+        self.push_edge(s0, Noop, s1);
+
+        s0
+    }
+
+    fn plus_expr(&mut self,
+                 expr: &Expr,
+                 accept: NFAStateIndex,
+                 reject: NFAStateIndex)
+                 -> NFAStateIndex {
+        //            [accept]
+        //               ^
+        //               |
+        //    +----------+
+        //    v          |
+        // [s0] --...--[s1]
+        //         |
+        //         v
+        //      [reject]
+
+        let s1 = self.new_state(StateKind::Neither);
+
+        let s0 = self.expr(expr, s1, reject);
+
+        self.push_edge(s1, Noop, accept);
+        self.push_edge(s1, Noop, s0);
+
+        s0
     }
 
     fn regex(&mut self, regex: &Regex, accept: NFAStateIndex, reject: NFAStateIndex) -> NFAStateIndex {
