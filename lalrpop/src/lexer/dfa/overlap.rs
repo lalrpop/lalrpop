@@ -70,11 +70,11 @@ fn add_range(range: Test,
             let mid_range = Test { start: mid_min, end: mid_max };
             let max_range = Test { start: mid_max, end: max_max };
 
-            println!("{:?}", range);
-            println!("{:?}", overlapping_range);
-            println!("{:?}", low_range);
-            println!("{:?}", mid_range);
-            println!("{:?}", max_range);
+            println!("range={:?}", range);
+            println!("overlapping_range={:?}", overlapping_range);
+            println!("low_range={:?}", low_range);
+            println!("mid_range={:?}", mid_range);
+            println!("max_range={:?}", max_range);
 
             assert!(low_range.is_disjoint(mid_range));
             assert!(low_range.is_disjoint(max_range));
@@ -96,13 +96,13 @@ fn add_range(range: Test,
 }
 
 macro_rules! test {
-    ($($range:expr),*) => {
+    ($($range:expr,)*) => {
         {
-            use re::Test;
+            use lexer::re::Test;
             use std::char;
             use util::set;
             let mut s = set();
-            $({ let r = $range; s.insert(Test::range(r.start, r.end)); })*
+            $({ let r = $range; s.insert(Test::exclusive_range(r.start, r.end)); })*
             remove_overlap(&s).into_iter()
                               .map(|r|
                                    char::from_u32(r.start).unwrap() ..
@@ -117,7 +117,7 @@ fn alphabet() {
     let result = test! {
         'a' .. 'z',
         'c' .. 'l',
-        '0' .. '9'
+        '0' .. '9',
     };
     assert_eq!(result, vec!['0'..'9', 'a'..'c', 'c'..'l', 'l'..'z']);
 }
@@ -128,7 +128,17 @@ fn repeat() {
         'a' .. 'z',
         'c' .. 'l',
         'l' .. 'z',
-        '0' .. '9'
+        '0' .. '9',
     };
     assert_eq!(result, vec!['0'..'9', 'a'..'c', 'c'..'l', 'l'..'z']);
+}
+
+#[test]
+fn stagger() {
+    let result = test! {
+        '0' .. '3',
+        '2' .. '4',
+        '3' .. '5',
+    };
+    assert_eq!(result, vec!['0'..'2', '2'..'3', '3'..'4', '4'..'5']);
 }

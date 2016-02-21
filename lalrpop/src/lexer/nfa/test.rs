@@ -38,7 +38,9 @@ fn edge_iter() {
 #[test]
 fn identifier_regex() {
     let ident = re::parse_regex(r#"[a-zA-Z_][a-zA-Z0-9_]*"#).unwrap();
+    println!("{:#?}", ident);
     let nfa = NFA::from_re(&ident);
+    println!("{:#?}", nfa);
     assert_eq!(interpret(&nfa, "0123"), None);
     assert_eq!(interpret(&nfa, "hello0123"), Some("hello0123"));
     assert_eq!(interpret(&nfa, "hello0123 abc"), Some("hello0123"));
@@ -57,4 +59,17 @@ fn regex_number() {
     let num = re::parse_regex(r#"[0-9]+"#).unwrap();
     let nfa = NFA::from_re(&num);
     assert_eq!(interpret(&nfa, "123"), Some("123"));
+}
+
+#[test]
+fn max_range() {
+    let num = re::parse_regex(r#"ab{2,4}"#).unwrap();
+    let nfa = NFA::from_re(&num);
+    assert_eq!(interpret(&nfa, "a"), None);
+    assert_eq!(interpret(&nfa, "ab"), None);
+    assert_eq!(interpret(&nfa, "abb"), Some("abb"));
+    assert_eq!(interpret(&nfa, "abbb"), Some("abbb"));
+    assert_eq!(interpret(&nfa, "abbbb"), Some("abbbb"));
+    assert_eq!(interpret(&nfa, "abbbbb"), Some("abbbb"));
+    assert_eq!(interpret(&nfa, "ac"), None);
 }

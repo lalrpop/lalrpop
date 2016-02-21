@@ -2,10 +2,10 @@
 //! really of interest, we represent this just as a vector of labeled
 //! edges.
 
+use lexer::re::{Regex, Test};
+use regex_syntax::{Expr, Repeater};
 use std::fmt::{Debug, Formatter, Error};
 use std::usize;
-use lexer::re::{Regex, Alternative, Elem, RepeatOp, Test};
-use regex_syntax::{Expr, Repeater};
 
 #[cfg(test)]
 mod interpret;
@@ -79,7 +79,7 @@ pub const START: NFAStateIndex = NFAStateIndex(2);
 impl NFA {
     pub fn from_re(regex: &Regex) -> NFA {
         let mut nfa = NFA::new();
-        let s0 = nfa.regex(regex, ACCEPT, REJECT);
+        let s0 = nfa.expr(regex, ACCEPT, REJECT);
         nfa.push_edge(START, Noop, s0);
         nfa
     }
@@ -189,6 +189,10 @@ impl NFA {
                      })
             }
 
+            // FIXME(rust-lang-nursery/regex#172) since `.` always produces
+            // AnyCharNoNL, treat it as AnyChar for now; might want to change
+            // this later
+            Expr::AnyCharNoNL |
             Expr::AnyChar => {
                 // [s0] -otherwise-> [accept]
 
@@ -197,12 +201,21 @@ impl NFA {
                 s0
             }
 
-            Expr::AnyCharNoNL => {
-                panic!("AnyCharNoNL");
-            }
+            Expr::Class(ref class) => {
+                // [s0] --c0--> [accept]
+                //  | |            ^
+                //  | |   ...      |
+                //  | |            |
+                //  | +---cn-------+
+                //  +---------------> [reject]
 
-            Expr::Class(_) => {
-                panic!("class");
+                let s0 = self.new_state(StateKind::Neither);
+                for &range in class {
+                    let test: Test = range.into();
+                    self.push_edge(s0, test, accept);
+                }
+                self.push_edge(s0, Other, reject);
+                s0
             }
 
             Expr::StartLine |
@@ -219,21 +232,7 @@ impl NFA {
             }
 
             Expr::Repeat { ref e, r: Repeater::ZeroOrOne, greedy: _ } => {
-                // [s0] ----> [accept]
-                //   |           ^
-                //   v           |
-                // [s1] --...----+
-                //         |
-                //         v
-                //      [reject]
-
-                let s1 = self.expr(e, accept, reject);
-
-                let s0 = self.new_state(StateKind::Neither);
-                self.push_edge(s0, Noop, accept); // they might supply nothing
-                self.push_edge(s0, Noop, s1);
-
-                s0
+                self.optional_expr(e, accept, reject)
             }
 
             Expr::Repeat { ref e, r: Repeater::ZeroOrMore, greedy: _ } => {
@@ -257,8 +256,9 @@ impl NFA {
                 (0..min).fold(s1, |s, _| self.expr(e, s, reject))
             }
 
-            Expr::Repeat { e: _, r: Repeater::Range { min: _, max: Some(_) }, greedy: _ } => {
-                panic!("unimplemented -- repeat with max range")
+            Expr::Repeat { ref e, r: Repeater::Range { min, max: Some(max) }, greedy: _ } => {
+                let s1 = (min..max).fold(accept, |s, _| self.optional_expr(e, s, reject));
+                (0..min).fold(s1, |s, _| self.expr(e, s, reject))
             }
 
             Expr::Concat(ref exprs) => {
@@ -284,6 +284,28 @@ impl NFA {
                 s0
             }
         }
+    }
+
+    fn optional_expr(&mut self,
+                     expr: &Expr,
+                     accept: NFAStateIndex,
+                     reject: NFAStateIndex)
+                     -> NFAStateIndex {
+        // [s0] ----> [accept]
+        //   |           ^
+        //   v           |
+        // [s1] --...----+
+        //         |
+        //         v
+        //      [reject]
+
+        let s1 = self.expr(expr, accept, reject);
+
+        let s0 = self.new_state(StateKind::Neither);
+        self.push_edge(s0, Noop, accept); // they might supply nothing
+        self.push_edge(s0, Noop, s1);
+
+        s0
     }
 
     fn star_expr(&mut self,
@@ -334,132 +356,6 @@ impl NFA {
         self.push_edge(s1, Noop, s0);
 
         s0
-    }
-
-    fn regex(&mut self, regex: &Regex, accept: NFAStateIndex, reject: NFAStateIndex) -> NFAStateIndex {
-        match regex.alternatives.len() {
-            0 => accept, // matches the empty string
-            1 => self.alternative(&regex.alternatives[0], accept, reject),
-            _ => {
-                // NB -- it is important that we *collect* into a
-                // vector, because we don't want to intersperse
-                // compiling each alternative with adding the edges
-                // below
-                let alt_starts: Vec<_> =
-                    regex.alternatives.iter()
-                                      .map(|alt| self.alternative(alt, accept, reject))
-                                      .collect();
-
-                let start = self.new_state(StateKind::Neither);
-                for alt_start in alt_starts {
-                    self.push_edge(start, Noop, alt_start);
-                }
-
-                start
-            }
-        }
-    }
-
-    fn alternative(&mut self, alt: &Alternative, accept: NFAStateIndex, reject: NFAStateIndex)
-                   -> NFAStateIndex {
-        // build our way from the back
-        let mut p = accept;
-        for elem in alt.elems.iter().rev() {
-            p = self.elem(elem, p, reject);
-        }
-        p
-    }
-
-    fn elem(&mut self, elem: &Elem, accept: NFAStateIndex, reject: NFAStateIndex) -> NFAStateIndex {
-        match *elem {
-            Elem::Any => {
-                // [s0] -otherwise-> [accept]
-
-                let s0 = self.new_state(StateKind::Neither);
-                self.push_edge(s0, Other, accept);
-                s0
-            }
-
-            Elem::Test(test) => {
-                // [s0] -----c---> [accept]
-                //   |
-                //   +-otherwise-> [reject]
-
-                let s0 = self.new_state(StateKind::Neither);
-                self.push_edge(s0, test, accept);
-                self.push_edge(s0, Other, reject);
-
-                s0
-            }
-
-            Elem::Group(ref regex) => {
-                self.regex(regex, accept, reject)
-            }
-
-            Elem::NotGroup(ref regex) => {
-                self.regex(regex, reject, accept) // NB: swapped accept/reject here :)
-            }
-
-            Elem::Repeat(RepeatOp::Question, ref elem) => {
-                // [s0] ----> [accept]
-                //   |           ^
-                //   v           |
-                // [s1] --...----+
-                //         |
-                //         v
-                //      [reject]
-
-                let s1 = self.elem(elem, accept, reject);
-
-                let s0 = self.new_state(StateKind::Neither);
-                self.push_edge(s0, Noop, accept); // they might supply nothing
-                self.push_edge(s0, Noop, s1);
-
-                s0
-            }
-
-            Elem::Repeat(RepeatOp::Star, ref elem) => {
-                // [s0] ----> [accept]
-                //  | ^
-                //  | |
-                //  | +----------+
-                //  v            |
-                // [s1] --...----+
-                //         |
-                //         v
-                //      [reject]
-
-                let s0 = self.new_state(StateKind::Neither);
-
-                let s1 = self.elem(elem, s0, reject);
-
-                self.push_edge(s0, Noop, accept);
-                self.push_edge(s0, Noop, s1);
-
-                s0
-            }
-
-            Elem::Repeat(RepeatOp::Plus, ref elem) => {
-                //            [accept]
-                //               ^
-                //               |
-                //    +----------+
-                //    v          |
-                // [s0] --...--[s1]
-                //         |
-                //         v
-                //      [reject]
-
-                let s1 = self.new_state(StateKind::Neither);
-
-                let s0 = self.elem(elem, s1, reject);
-
-                self.push_edge(s1, Noop, accept);
-                self.push_edge(s1, Noop, s0);
-
-                s0
-            }
-        }
     }
 }
 

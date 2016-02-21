@@ -3,8 +3,14 @@ use lexer::dfa::interpret::interpret;
 use lexer::re;
 
 pub fn dfa(inputs: &[(&str, Precedence)]) -> Result<DFA,Ambiguity> {
-    let regexs: Result<Vec<_>, _> = inputs.iter().map(|&(s, _)| re::parse_regex(s)).collect();
-    let regexs = regexs.unwrap();
+    let regexs: Result<Vec<_>, _> =
+        inputs.iter()
+              .map(|&(s, _)| re::parse_regex(s))
+              .collect();
+    let regexs = match regexs {
+        Ok(rs) => rs,
+        Err(_) => panic!("unexpected parse error")
+    };
     let precedences: Vec<_> = inputs.iter().map(|&(_, p)| p).collect();
     dfa::build_dfa(&regexs, &precedences)
 }

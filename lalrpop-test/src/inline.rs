@@ -321,13 +321,13 @@ mod __intern_token {
             match __current_state {
                 0 => {
                     let (__index, __ch) = match __chars.next() { Some(p) => p, None => return __current_match };
-                    match __ch {
-                        '&' => {
+                    match __ch as u32 {
+                        38 => /* '&' */ {
                             __current_match = Some((0, __index + 1));
                             __current_state = 1;
                             continue;
                         }
-                        'L' => {
+                        76 => /* 'L' */ {
                             __current_match = Some((1, __index + 1));
                             __current_state = 2;
                             continue;
@@ -339,7 +339,7 @@ mod __intern_token {
                 }
                 1 => {
                     let (__index, __ch) = match __chars.next() { Some(p) => p, None => return __current_match };
-                    match __ch {
+                    match __ch as u32 {
                         _ => {
                             return __current_match;
                         }
@@ -347,7 +347,7 @@ mod __intern_token {
                 }
                 2 => {
                     let (__index, __ch) = match __chars.next() { Some(p) => p, None => return __current_match };
-                    match __ch {
+                    match __ch as u32 {
                         _ => {
                             return __current_match;
                         }
@@ -355,7 +355,7 @@ mod __intern_token {
                 }
                 3 => {
                     let (__index, __ch) = match __chars.next() { Some(p) => p, None => return __current_match };
-                    match __ch {
+                    match __ch as u32 {
                         _ => {
                             return __current_match;
                         }

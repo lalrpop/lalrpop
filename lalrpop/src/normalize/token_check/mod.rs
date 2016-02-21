@@ -181,7 +181,7 @@ pub fn construct(grammar: &mut Grammar, literals_map: Map<TerminalLiteral, Span>
                             return_err!(
                                 literal_span,
                                 "invalid regular expression: {}",
-                                error.message);
+                                error);
                         }
                     }
                 }

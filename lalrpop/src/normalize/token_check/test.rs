@@ -71,7 +71,7 @@ fn input_parameter_already_declared() {
 #[test]
 fn invalid_regular_expression_unterminated_group() {
     check_err(
-        r#"invalid regular expression: expected '\)', but regex ended"#,
+        r#"Unclosed parenthesis"#,
         r#"grammar; X = X r"(123";"#,
         r#"               ~~~~~~~ "#);
 }

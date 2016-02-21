@@ -66,7 +66,7 @@ impl<'m,W> Matcher<'m,W>
                          match {}chars.next() {{ Some(p) => p, \
                          None => return {}current_match }};",
               self.prefix, self.prefix, self.prefix, self.prefix);
-        rust!(self.out, "match ({}ch as u32) {{", self.prefix);
+        rust!(self.out, "match {}ch as u32 {{", self.prefix);
         for &(test, target_state) in &state.test_edges {
             if test.len() == 1 {
                 match char::from_u32(test.start) {
@@ -83,7 +83,7 @@ impl<'m,W> Matcher<'m,W>
                     }
                 }
             } else {
-                rust!(self.out, "{:?} ... {:?} => {{", test.start, test.end);
+                rust!(self.out, "{:?} ... {:?} => {{", test.start, test.end - 1);
                 let index = format!("{}index + {}ch.len_utf8()",
                                     self.prefix, self.prefix);
                 try!(self.transition(target_state, &index));
