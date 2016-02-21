@@ -20,6 +20,7 @@ extern crate itertools;
 extern crate term;
 extern crate time;
 extern crate unicode_xid;
+extern crate walkdir;
 
 #[cfg(test)]
 extern crate rand;
@@ -49,6 +50,7 @@ mod util;
 #[cfg(test)] mod generate;
 #[cfg(test)] mod test_util;
 
+pub use build::process;
 pub use build::process_root;
 pub use build::process_root_unconditionally;
 pub use build::process_file;
