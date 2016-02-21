@@ -18,6 +18,7 @@ use tls::Tls;
 use tok;
 use walkdir;
 
+use std::env;
 use std::env::current_dir;
 use std::fs;
 use std::io::{self, Write};
@@ -37,7 +38,7 @@ pub fn process() -> io::Result<()> {
 
     // The environment variable OUT_DIR is set by cargo, and specifies
     // a directory where generated code should be put.
-    process_dir(&session, &src_dir, Path::new(env!("OUT_DIR")))
+    process_dir(&session, &src_dir, Path::new(&env::var("OUT_DIR").unwrap()))
 }
 
 pub fn process_root() -> io::Result<()> {
