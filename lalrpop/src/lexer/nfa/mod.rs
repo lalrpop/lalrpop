@@ -2,9 +2,10 @@
 //! really of interest, we represent this just as a vector of labeled
 //! edges.
 
-use lexer::re::{Regex, Test};
-use regex_syntax::{Expr, Repeater};
-use std::fmt::{Debug, Formatter, Error};
+use lexer::re::Regex;
+use regex_syntax::{ClassRange, Expr, Repeater};
+use std::char;
+use std::fmt::{Debug, Formatter, Error as FmtError};
 use std::usize;
 
 #[cfg(test)]
@@ -19,11 +20,20 @@ pub struct NFA {
     edges: Edges
 }
 
-// An "epsilon" edge -- no input
+/// An edge label representing a range of characters, inclusive. Note
+/// that this range may contain some endpoints that are not valid
+/// unicode, hence we store u32.
+#[derive(Copy, Clone, Hash, PartialEq, Eq, PartialOrd, Ord)]
+pub struct Test {
+    pub start: u32,
+    pub end: u32,
+}
+
+/// An "epsilon" edge -- no input
 #[derive(Debug, PartialEq, Eq)]
 pub struct Noop;
 
-// An "other" edge -- fallback if no other edges apply
+/// An "other" edge -- fallback if no other edges apply
 #[derive(Debug, PartialEq, Eq)]
 pub struct Other;
 
@@ -424,14 +434,87 @@ impl<'nfa,L:EdgeLabel> Iterator for EdgeIterator<'nfa,L> {
     }
 }
 
+impl Test {
+    pub fn char(c: char) -> Test {
+        let c = c as u32;
+        Test { start: c, end: c + 1 }
+    }
+
+    pub fn inclusive_range(s: char, e: char) -> Test {
+        Test { start: s as u32, end: e as u32 + 1 }
+    }
+
+
+    pub fn exclusive_range(s: char, e: char) -> Test {
+        Test { start: s as u32, end: e as u32 }
+    }
+
+    pub fn is_char(self) -> bool {
+        self.len() == 1
+    }
+
+    pub fn len(self) -> u32 {
+        self.end - self.start
+    }
+
+    pub fn contains_u32(self, c: u32) -> bool {
+        c >= self.start && c < self.end
+    }
+
+    pub fn contains_char(self, c: char) -> bool {
+        self.contains_u32(c as u32)
+    }
+
+    pub fn intersects(self, r: Test) -> bool {
+        !self.is_empty() && !r.is_empty() && (
+            self.contains_u32(r.start) || r.contains_u32(self.start))
+    }
+
+    pub fn is_disjoint(self, r: Test) -> bool {
+        !self.intersects(r)
+    }
+
+    pub fn is_empty(self) -> bool {
+        self.start == self.end
+    }
+}
+
+impl From<ClassRange> for Test {
+    fn from(range: ClassRange) -> Test {
+        Test::inclusive_range(range.start, range.end)
+    }
+}
+
+impl Debug for Test {
+    fn fmt(&self, fmt: &mut Formatter) -> Result<(), FmtError> {
+        match (char::from_u32(self.start), char::from_u32(self.end)) {
+            (Some(start), Some(end)) => {
+                if self.is_char() {
+                    if ".[]()?+*!".contains(start) {
+                        write!(fmt, "\\{}", start)
+                    } else {
+                        write!(fmt, "{}", start)
+                    }
+                } else {
+                    write!(fmt, "[{:?}..{:?}]", start, end)
+                }
+            }
+            _ => {
+                write!(fmt, "[{:?}..{:?}]", self.start, self.end)
+            }
+        }
+    }
+}
+
 impl Debug for NFAStateIndex {
-    fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
+    fn fmt(&self, fmt: &mut Formatter) -> Result<(), FmtError> {
         write!(fmt, "NFA{}", self.0)
     }
 }
 
 impl<L:Debug> Debug for Edge<L> {
-    fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
+    fn fmt(&self, fmt: &mut Formatter) -> Result<(), FmtError> {
         write!(fmt, "{:?} -{:?}-> {:?}", self.from, self.label, self.to)
     }
 }
+

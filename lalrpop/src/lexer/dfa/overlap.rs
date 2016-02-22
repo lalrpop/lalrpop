@@ -17,7 +17,7 @@
 //! covered when we started, and that each of the input ranges is
 //! covered precisely by some set of ranges in the output.
 
-use lexer::re::Test;
+use lexer::nfa::Test;
 use std::cmp;
 use util::Set;
 
@@ -98,7 +98,7 @@ fn add_range(range: Test,
 macro_rules! test {
     ($($range:expr,)*) => {
         {
-            use lexer::re::Test;
+            use lexer::nfa::Test;
             use std::char;
             use util::set;
             let mut s = set();

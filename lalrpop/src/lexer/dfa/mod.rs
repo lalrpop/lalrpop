@@ -5,7 +5,7 @@ use kernel_set::{Kernel, KernelSet};
 use std::fmt::{Debug, Display, Formatter, Error};
 use std::rc::Rc;
 use lexer::re;
-use lexer::nfa::{self, NFA, NFAStateIndex};
+use lexer::nfa::{self, NFA, NFAStateIndex, Test};
 use util::Set;
 
 #[cfg(test)]
@@ -45,7 +45,7 @@ struct DFABuilder<'nfa> {
 pub struct State {
     item_set: DFAItemSet,
     pub kind: Kind,
-    pub test_edges: Vec<(re::Test, DFAStateIndex)>,
+    pub test_edges: Vec<(Test, DFAStateIndex)>,
     pub other_edge: DFAStateIndex,
 }
 
@@ -99,12 +99,12 @@ impl<'nfa> DFABuilder<'nfa> {
         while let Some(item_set) = kernel_set.next() {
             // collect all the specific tests we expect from any of
             // the items in this state
-            let tests: Set<re::Test> =
+            let tests: Set<Test> =
                 item_set.items
                         .iter()
                         .flat_map(|&item| {
                             self.nfa(item)
-                                .edges::<re::Test>(item.nfa_state)
+                                .edges::<Test>(item.nfa_state)
                                 .map(|edge| edge.label)
                         })
                         .collect();
@@ -146,7 +146,7 @@ impl<'nfa> DFABuilder<'nfa> {
 
             // for each specific test, find what happens if we see a
             // character matching that test
-            let mut test_edges: Vec<(re::Test, DFAStateIndex)> =
+            let mut test_edges: Vec<(Test, DFAStateIndex)> =
                 tests.iter()
                      .map(|&test| {
                          let items: Vec<_> =
@@ -202,11 +202,11 @@ impl<'nfa> DFABuilder<'nfa> {
         kernel_set.add_state(item_set)
     }
 
-    fn accept_test(&self, item: Item, test: re::Test) -> Option<Item> {
+    fn accept_test(&self, item: Item, test: Test) -> Option<Item> {
         let nfa = self.nfa(item);
 
         let matching_test =
-            nfa.edges::<re::Test>(item.nfa_state)
+            nfa.edges::<Test>(item.nfa_state)
                .filter(|edge| edge.label.intersects(test))
                .map(|edge| item.to(edge.to));
 
