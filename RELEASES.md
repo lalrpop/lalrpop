@@ -1,5 +1,12 @@
 # Version 0.11 (not yet released)
 
+Updated to use the `regex-syntax` crate for regular expression
+parsing instead of rolling our own parser. This means we can now
+support the [same regular expression syntax as the regex crate](https://doc.rust-lang.org/regex/regex/index.html#syntax),
+and in particular can support unicode character classes like `\p{Greek}`.
+Note that some regex features -- such as non-greedy repetition and
+named capture groups -- are still not supported (or just not meaningful).
+
 # Version 0.10
 
 Major update to LALRPOP error messages in cases of shift/reduce and
