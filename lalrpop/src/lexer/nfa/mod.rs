@@ -86,12 +86,21 @@ pub const ACCEPT: NFAStateIndex = NFAStateIndex(0);
 pub const REJECT: NFAStateIndex = NFAStateIndex(1);
 pub const START: NFAStateIndex = NFAStateIndex(2);
 
+#[derive(Debug, PartialEq, Eq)]
+pub enum NFAConstructionError {
+    NamedCaptures,
+    NonGreedy,
+    WordBoundary,
+    LineBoundary,
+    TextBoundary,
+}
+
 impl NFA {
-    pub fn from_re(regex: &Regex) -> NFA {
+    pub fn from_re(regex: &Regex) -> Result<NFA, NFAConstructionError> {
         let mut nfa = NFA::new();
-        let s0 = nfa.expr(regex, ACCEPT, REJECT);
+        let s0 = try!(nfa.expr(regex, ACCEPT, REJECT));
         nfa.push_edge(START, Noop, s0);
-        nfa
+        Ok(nfa)
     }
 
     ///////////////////////////////////////////////////////////////////////////
@@ -174,10 +183,10 @@ impl NFA {
     }
 
     fn expr(&mut self, expr: &Expr, accept: NFAStateIndex, reject: NFAStateIndex)
-            -> NFAStateIndex {
+            -> Result<NFAStateIndex, NFAConstructionError> {
         match *expr {
             Expr::Empty => {
-                accept
+                Ok(accept)
             }
 
             Expr::Literal { ref chars, casei } => {
@@ -186,7 +195,7 @@ impl NFA {
                 //   |        |        |
                 //   +--------+--------+--otherwise-> [reject]
 
-                if casei {
+                Ok(if casei {
                     chars.iter()
                          .rev()
                          .fold(accept, |s, &ch| {
@@ -197,7 +206,6 @@ impl NFA {
                              self.push_edge(s1, Other, reject);
                              s1
                          })
-
                 } else {
                     chars.iter()
                          .rev()
@@ -207,19 +215,18 @@ impl NFA {
                              self.push_edge(s1, Other, reject);
                              s1
                          })
-                }
+                })
             }
 
-            // FIXME(rust-lang-nursery/regex#172) since `.` always produces
-            // AnyCharNoNL, treat it as AnyChar for now; might want to change
-            // this later
+            // FIXME since `.` always produces AnyCharNoNL, treat it
+            // as AnyChar for now; might want to change this later
             Expr::AnyCharNoNL |
             Expr::AnyChar => {
                 // [s0] -otherwise-> [accept]
 
                 let s0 = self.new_state(StateKind::Neither);
                 self.push_edge(s0, Other, accept);
-                s0
+                Ok(s0)
             }
 
             Expr::Class(ref class) => {
@@ -236,35 +243,53 @@ impl NFA {
                     self.push_edge(s0, test, accept);
                 }
                 self.push_edge(s0, Other, reject);
-                s0
+                Ok(s0)
             }
 
-            Expr::StartLine |
-            Expr::EndLine |
-            Expr::StartText |
-            Expr::EndText |
-            Expr::WordBoundary |
-            Expr::NotWordBoundary => {
-                panic!("boundaries of various kinds")
+            // currently we don't support any boundaries because
+            // I was too lazy to code them up or think about them
+            Expr::StartLine | Expr::EndLine => {
+                Err(NFAConstructionError::LineBoundary)
             }
 
-            Expr::Group { ref e, i: _, name: _ } => {
+            Expr::StartText | Expr::EndText => {
+                Err(NFAConstructionError::TextBoundary)
+            }
+
+            Expr::WordBoundary | Expr::NotWordBoundary => {
+                Err(NFAConstructionError::WordBoundary)
+            }
+
+            // currently we treat all groups the same, whether they
+            // capture or not; but we don't permit named groups,
+            // in case we want to give them significance in the future 
+            Expr::Group { ref e, i: _, name: None } => {
                 self.expr(e, accept, reject)
             }
+            Expr::Group { name: Some(_), .. } => {
+                Err(NFAConstructionError::NamedCaptures)
+            }
 
-            Expr::Repeat { ref e, r: Repeater::ZeroOrOne, greedy: _ } => {
+            // currently we always report the longest match possible
+            Expr::Repeat { greedy: false, .. } => {
+                Err(NFAConstructionError::NonGreedy)
+            }
+
+            Expr::Repeat { ref e, r: Repeater::ZeroOrOne, greedy: true } => {
                 self.optional_expr(e, accept, reject)
             }
 
-            Expr::Repeat { ref e, r: Repeater::ZeroOrMore, greedy: _ } => {
+            Expr::Repeat { ref e, r: Repeater::ZeroOrMore, greedy: true } => {
                 self.star_expr(e, accept, reject)
             }
 
-            Expr::Repeat { ref e, r: Repeater::OneOrMore, greedy: _ } => {
+            Expr::Repeat { ref e, r: Repeater::OneOrMore, greedy: true } => {
                 self.plus_expr(e, accept, reject)
             }
 
-            Expr::Repeat { ref e, r: Repeater::Range { min, max: None }, greedy: _ } => {
+            Expr::Repeat { ref e,
+                           r: Repeater::Range { min, max: None },
+                           greedy: true } => {
                 // +---min times----+
                 // |                |
                 //
@@ -273,19 +298,32 @@ impl NFA {
                 //          |      v
                 //          +-> [reject]
 
-                let s1 = self.star_expr(e, accept, reject);
-                (0..min).fold(s1, |s, _| self.expr(e, s, reject))
+                let mut s = try!(self.star_expr(e, accept, reject));
+                for _ in 0..min {
+                    s = try!(self.expr(e, s, reject));
+                }
+                Ok(s)
             }
 
-            Expr::Repeat { ref e, r: Repeater::Range { min, max: Some(max) }, greedy: _ } => {
-                let s1 = (min..max).fold(accept, |s, _| self.optional_expr(e, s, reject));
-                (0..min).fold(s1, |s, _| self.expr(e, s, reject))
+            Expr::Repeat { ref e,
+                           r: Repeater::Range { min, max: Some(max) },
+                           greedy: true } => {
+                let mut s = accept;
+                for _ in min..max {
+                    s = try!(self.optional_expr(e, s, reject));
+                }
+                for _ in 0..min {
+                    s = try!(self.expr(e, s, reject));
+                }
+                Ok(s)
             }
 
             Expr::Concat(ref exprs) => {
-                exprs.iter()
-                     .rev()
-                     .fold(accept, |s, e| self.expr(e, s, reject))
+                let mut s = accept;
+                for expr in exprs.iter().rev() {
+                    s = try!(self.expr(expr, s, reject));
+                }
+                Ok(s)
             }
 
             Expr::Alternate(ref exprs) => {
@@ -299,10 +337,10 @@ impl NFA {
 
                 let s0 = self.new_state(StateKind::Neither);
                 for expr in exprs {
-                    let s1 = self.expr(expr, accept, reject);
+                    let s1 = try!(self.expr(expr, accept, reject));
                     self.push_edge(s0, Noop, s1);
                 }
-                s0
+                Ok(s0)
             }
         }
     }
@@ -311,7 +349,7 @@ impl NFA {
                      expr: &Expr,
                      accept: NFAStateIndex,
                      reject: NFAStateIndex)
-                     -> NFAStateIndex {
+                     -> Result<NFAStateIndex, NFAConstructionError> {
         // [s0] ----> [accept]
         //   |           ^
         //   v           |
@@ -320,20 +358,20 @@ impl NFA {
         //         v
         //      [reject]
 
-        let s1 = self.expr(expr, accept, reject);
+        let s1 = try!(self.expr(expr, accept, reject));
 
         let s0 = self.new_state(StateKind::Neither);
         self.push_edge(s0, Noop, accept); // they might supply nothing
         self.push_edge(s0, Noop, s1);
 
-        s0
+        Ok(s0)
     }
 
     fn star_expr(&mut self,
                  expr: &Expr,
                  accept: NFAStateIndex,
                  reject: NFAStateIndex)
-                 -> NFAStateIndex {
+                 -> Result<NFAStateIndex, NFAConstructionError> {
         // [s0] ----> [accept]
         //  | ^
         //  | |
@@ -346,19 +384,19 @@ impl NFA {
 
         let s0 = self.new_state(StateKind::Neither);
 
-        let s1 = self.expr(expr, s0, reject);
+        let s1 = try!(self.expr(expr, s0, reject));
 
         self.push_edge(s0, Noop, accept);
         self.push_edge(s0, Noop, s1);
 
-        s0
+        Ok(s0)
     }
 
     fn plus_expr(&mut self,
                  expr: &Expr,
                  accept: NFAStateIndex,
                  reject: NFAStateIndex)
-                 -> NFAStateIndex {
+                 -> Result<NFAStateIndex, NFAConstructionError> {
         //            [accept]
         //               ^
         //               |
@@ -371,12 +409,12 @@ impl NFA {
 
         let s1 = self.new_state(StateKind::Neither);
 
-        let s0 = self.expr(expr, s1, reject);
+        let s0 = try!(self.expr(expr, s1, reject));
 
         self.push_edge(s1, Noop, accept);
         self.push_edge(s1, Noop, s0);
 
-        s0
+        Ok(s0)
     }
 }
 

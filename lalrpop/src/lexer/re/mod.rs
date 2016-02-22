@@ -1,8 +1,6 @@
 //! A parser and representation of regular expressions.
 
-use regex_syntax::{self, ClassRange, Error, Expr};
-use std::char;
-use std::fmt::{Debug, Formatter, Error as FmtError};
+use regex_syntax::{self, Error, Expr};
 
 #[cfg(test)]
 mod test;

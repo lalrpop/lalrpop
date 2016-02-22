@@ -5,7 +5,7 @@ use kernel_set::{Kernel, KernelSet};
 use std::fmt::{Debug, Display, Formatter, Error};
 use std::rc::Rc;
 use lexer::re;
-use lexer::nfa::{self, NFA, NFAStateIndex, Test};
+use lexer::nfa::{self, NFA, NFAConstructionError, NFAStateIndex, Test};
 use util::Set;
 
 #[cfg(test)]
@@ -26,14 +26,40 @@ pub struct DFA {
 #[derive(Copy, Clone, Debug, PartialOrd, Ord, PartialEq, Eq)]
 pub struct Precedence(pub usize);
 
+#[derive(Debug)]
+pub enum DFAConstructionError {
+    NFAConstructionError {
+        index: NFAIndex,
+        error: NFAConstructionError
+    },
+
+    /// Either of the two regexs listed could match, and they have equal
+    /// priority.
+    Ambiguity {
+        match0: NFAIndex,
+        match1: NFAIndex,
+    }
+}
+
 pub fn build_dfa(regexs: &[re::Regex],
                  precedences: &[Precedence])
-                 -> Result<DFA, Ambiguity> {
+                 -> Result<DFA, DFAConstructionError> {
     assert_eq!(regexs.len(), precedences.len());
-    let nfas: Vec<_> = regexs.iter().map(|r| NFA::from_re(r)).collect();
+    let nfas: Vec<_> = try! {
+        regexs.iter()
+              .enumerate()
+              .map(|(i, r)| match NFA::from_re(r) {
+                  Ok(nfa) => Ok(nfa),
+                  Err(e) => Err(DFAConstructionError::NFAConstructionError {
+                      index: NFAIndex(i),
+                      error: e
+                  }),
+              })
+              .collect()
+    };
     let builder = DFABuilder { nfas: &nfas, precedences: precedences.to_vec() };
-    let dfa = builder.build();
-    dfa
+    let dfa = try!(builder.build());
+    Ok(dfa)
 }
 
 struct DFABuilder<'nfa> {
@@ -80,16 +106,8 @@ struct Item {
 
 const START: DFAStateIndex = DFAStateIndex(0);
 
-/// Either of the two regexs listed could match, and they have equal
-/// priority.
-#[derive(Debug)]
-pub struct Ambiguity {
-    pub match0: NFAIndex,
-    pub match1: NFAIndex,
-}
-
 impl<'nfa> DFABuilder<'nfa> {
-    fn build(&self) -> Result<DFA, Ambiguity> {
+    fn build(&self) -> Result<DFA, DFAConstructionError> {
         let mut kernel_set = KernelSet::new();
         let mut states = vec![];
 
@@ -139,7 +157,10 @@ impl<'nfa> DFABuilder<'nfa> {
                 let (best_priority, best_nfa) = all_accepts[all_accepts.len() - 1];
                 let (next_priority, next_nfa) = all_accepts[all_accepts.len() - 2];
                 if best_priority == next_priority {
-                    return Err(Ambiguity { match0: best_nfa, match1: next_nfa });
+                    return Err(DFAConstructionError::Ambiguity {
+                        match0: best_nfa,
+                        match1: next_nfa
+                    });
                 }
                 Kind::Accepts(best_nfa)
             };

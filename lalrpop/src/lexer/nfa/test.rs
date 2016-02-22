@@ -1,4 +1,4 @@
-use lexer::nfa::{NFA, Noop, Other, StateKind, Test};
+use lexer::nfa::{NFA, NFAConstructionError, Noop, Other, StateKind, Test};
 use lexer::nfa::interpret::interpret;
 use lexer::re::{self};
 
@@ -39,7 +39,7 @@ fn edge_iter() {
 fn identifier_regex() {
     let ident = re::parse_regex(r#"[a-zA-Z_][a-zA-Z0-9_]*"#).unwrap();
     println!("{:#?}", ident);
-    let nfa = NFA::from_re(&ident);
+    let nfa = NFA::from_re(&ident).unwrap();
     println!("{:#?}", nfa);
     assert_eq!(interpret(&nfa, "0123"), None);
     assert_eq!(interpret(&nfa, "hello0123"), Some("hello0123"));
@@ -50,21 +50,21 @@ fn identifier_regex() {
 #[test]
 fn regex_star_group() {
     let ident = re::parse_regex(r#"(abc)*"#).unwrap();
-    let nfa = NFA::from_re(&ident);
+    let nfa = NFA::from_re(&ident).unwrap();
     assert_eq!(interpret(&nfa, "abcabcabcab"), Some("abcabcabc"));
 }
 
 #[test]
 fn regex_number() {
     let num = re::parse_regex(r#"[0-9]+"#).unwrap();
-    let nfa = NFA::from_re(&num);
+    let nfa = NFA::from_re(&num).unwrap();
     assert_eq!(interpret(&nfa, "123"), Some("123"));
 }
 
 #[test]
 fn max_range() {
     let num = re::parse_regex(r#"ab{2,4}"#).unwrap();
-    let nfa = NFA::from_re(&num);
+    let nfa = NFA::from_re(&num).unwrap();
     assert_eq!(interpret(&nfa, "a"), None);
     assert_eq!(interpret(&nfa, "ab"), None);
     assert_eq!(interpret(&nfa, "abb"), Some("abb"));
@@ -77,7 +77,49 @@ fn max_range() {
 #[test]
 fn literal() {
     let num = re::parse_regex(r#"(?i:aBCdeF)"#).unwrap();
-    let nfa = NFA::from_re(&num);
+    let nfa = NFA::from_re(&num).unwrap();
     assert_eq!(interpret(&nfa, "abcdef"), Some("abcdef"));
     assert_eq!(interpret(&nfa, "AbcDEf"), Some("AbcDEf"));
+}
+
+// Test that uses of disallowed features trigger errors
+// during NFA construction:
+
+#[test]
+fn captures() {
+    let num = re::parse_regex(r#"(aBCdeF)"#).unwrap();
+    NFA::from_re(&num).unwrap(); // captures are ok
+
+    let num = re::parse_regex(r#"(?:aBCdeF)"#).unwrap();
+    NFA::from_re(&num).unwrap(); // non-captures are ok
+
+    let num = re::parse_regex(r#"(?P<foo>aBCdeF)"#).unwrap(); // named captures are not
+    assert_eq!(NFA::from_re(&num).unwrap_err(), NFAConstructionError::NamedCaptures);
+}
+
+#[test]
+fn line_boundaries() {
+    let num = re::parse_regex(r#"^aBCdeF"#).unwrap();
+    assert_eq!(NFA::from_re(&num).unwrap_err(), NFAConstructionError::TextBoundary);
+
+    let num = re::parse_regex(r#"aBCdeF$"#).unwrap();
+    assert_eq!(NFA::from_re(&num).unwrap_err(), NFAConstructionError::TextBoundary);
+}
+
+#[test]
+fn text_boundaries() {
+    let num = re::parse_regex(r#"(?m)^aBCdeF"#).unwrap();
+    assert_eq!(NFA::from_re(&num).unwrap_err(), NFAConstructionError::LineBoundary);
+
+    let num = re::parse_regex(r#"(?m)aBCdeF$"#).unwrap();
+    assert_eq!(NFA::from_re(&num).unwrap_err(), NFAConstructionError::LineBoundary);
+}
+
+#[test]
+fn word_boundaries() {
+    let num = re::parse_regex(r#"\baBCdeF"#).unwrap();
+    assert_eq!(NFA::from_re(&num).unwrap_err(), NFAConstructionError::WordBoundary);
+
+    let num = re::parse_regex(r#"aBCdeF\B"#).unwrap();
+    assert_eq!(NFA::from_re(&num).unwrap_err(), NFAConstructionError::WordBoundary);
 }

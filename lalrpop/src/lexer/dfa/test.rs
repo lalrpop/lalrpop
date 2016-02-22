@@ -1,8 +1,8 @@
-use lexer::dfa::{self, Ambiguity, DFA, NFAIndex, Precedence};
+use lexer::dfa::{self, DFA, DFAConstructionError, NFAIndex, Precedence};
 use lexer::dfa::interpret::interpret;
 use lexer::re;
 
-pub fn dfa(inputs: &[(&str, Precedence)]) -> Result<DFA,Ambiguity> {
+pub fn dfa(inputs: &[(&str, Precedence)]) -> Result<DFA, DFAConstructionError> {
     let regexs: Result<Vec<_>, _> =
         inputs.iter()
               .map(|&(s, _)| re::parse_regex(s))
