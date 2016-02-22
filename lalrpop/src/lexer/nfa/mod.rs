@@ -2,9 +2,11 @@
 //! really of interest, we represent this just as a vector of labeled
 //! edges.
 
-use std::fmt::{Debug, Formatter, Error};
+use lexer::re::Regex;
+use regex_syntax::{ClassRange, Expr, Repeater};
+use std::char;
+use std::fmt::{Debug, Formatter, Error as FmtError};
 use std::usize;
-use lexer::re::{Regex, Alternative, Elem, RepeatOp, Test};
 
 #[cfg(test)]
 mod interpret;
@@ -18,11 +20,20 @@ pub struct NFA {
     edges: Edges
 }
 
-// An "epsilon" edge -- no input
+/// An edge label representing a range of characters, inclusive. Note
+/// that this range may contain some endpoints that are not valid
+/// unicode, hence we store u32.
+#[derive(Copy, Clone, Hash, PartialEq, Eq, PartialOrd, Ord)]
+pub struct Test {
+    pub start: u32,
+    pub end: u32,
+}
+
+/// An "epsilon" edge -- no input
 #[derive(Debug, PartialEq, Eq)]
 pub struct Noop;
 
-// An "other" edge -- fallback if no other edges apply
+/// An "other" edge -- fallback if no other edges apply
 #[derive(Debug, PartialEq, Eq)]
 pub struct Other;
 
@@ -75,12 +86,21 @@ pub const ACCEPT: NFAStateIndex = NFAStateIndex(0);
 pub const REJECT: NFAStateIndex = NFAStateIndex(1);
 pub const START: NFAStateIndex = NFAStateIndex(2);
 
+#[derive(Debug, PartialEq, Eq)]
+pub enum NFAConstructionError {
+    NamedCaptures,
+    NonGreedy,
+    WordBoundary,
+    LineBoundary,
+    TextBoundary,
+}
+
 impl NFA {
-    pub fn from_re(regex: &Regex) -> NFA {
+    pub fn from_re(regex: &Regex) -> Result<NFA, NFAConstructionError> {
         let mut nfa = NFA::new();
-        let s0 = nfa.regex(regex, ACCEPT, REJECT);
+        let s0 = try!(nfa.expr(regex, ACCEPT, REJECT));
         nfa.push_edge(START, Noop, s0);
-        nfa
+        Ok(nfa)
     }
 
     ///////////////////////////////////////////////////////////////////////////
@@ -162,130 +182,252 @@ impl NFA {
         }
     }
 
-    fn regex(&mut self, regex: &Regex, accept: NFAStateIndex, reject: NFAStateIndex) -> NFAStateIndex {
-        match regex.alternatives.len() {
-            0 => accept, // matches the empty string
-            1 => self.alternative(&regex.alternatives[0], accept, reject),
-            _ => {
-                // NB -- it is important that we *collect* into a
-                // vector, because we don't want to intersperse
-                // compiling each alternative with adding the edges
-                // below
-                let alt_starts: Vec<_> =
-                    regex.alternatives.iter()
-                                      .map(|alt| self.alternative(alt, accept, reject))
-                                      .collect();
-
-                let start = self.new_state(StateKind::Neither);
-                for alt_start in alt_starts {
-                    self.push_edge(start, Noop, alt_start);
-                }
-
-                start
+    fn expr(&mut self, expr: &Expr, accept: NFAStateIndex, reject: NFAStateIndex)
+            -> Result<NFAStateIndex, NFAConstructionError> {
+        match *expr {
+            Expr::Empty => {
+                Ok(accept)
             }
-        }
-    }
 
-    fn alternative(&mut self, alt: &Alternative, accept: NFAStateIndex, reject: NFAStateIndex)
-                   -> NFAStateIndex {
-        // build our way from the back
-        let mut p = accept;
-        for elem in alt.elems.iter().rev() {
-            p = self.elem(elem, p, reject);
-        }
-        p
-    }
+            Expr::Literal { ref chars, casei } => {
+                // for e.g. "abc":
+                // [s0] -a-> [ ] -b-> [ ] -c-> [accept]
+                //   |        |        |
+                //   +--------+--------+--otherwise-> [reject]
 
-    fn elem(&mut self, elem: &Elem, accept: NFAStateIndex, reject: NFAStateIndex) -> NFAStateIndex {
-        match *elem {
-            Elem::Any => {
+                Ok(if casei {
+                    chars.iter()
+                         .rev()
+                         .fold(accept, |s, &ch| {
+                             let s1 = self.new_state(StateKind::Neither);
+                             for ch1 in ch.to_lowercase().chain(ch.to_uppercase()) {
+                                 self.push_edge(s1, Test::char(ch1), s);
+                             }
+                             self.push_edge(s1, Other, reject);
+                             s1
+                         })
+                } else {
+                    chars.iter()
+                         .rev()
+                         .fold(accept, |s, &ch| {
+                             let s1 = self.new_state(StateKind::Neither);
+                             self.push_edge(s1, Test::char(ch), s);
+                             self.push_edge(s1, Other, reject);
+                             s1
+                         })
+                })
+            }
+
+            Expr::AnyCharNoNL => {
+                // [s0] -otherwise-> [accept]
+                //   |
+                // '\n' etc
+                //   |
+                //   v
+                // [reject]
+
+                let s0 = self.new_state(StateKind::Neither);
+                for nl_char in "\n\r".chars() {
+                    self.push_edge(s0, Test::char(nl_char), reject);
+                }
+                self.push_edge(s0, Other, accept);
+                Ok(s0)
+            }
+
+            Expr::AnyChar => {
                 // [s0] -otherwise-> [accept]
 
                 let s0 = self.new_state(StateKind::Neither);
                 self.push_edge(s0, Other, accept);
-                s0
+                Ok(s0)
             }
 
-            Elem::Test(test) => {
-                // [s0] -----c---> [accept]
-                //   |
-                //   +-otherwise-> [reject]
+            Expr::Class(ref class) => {
+                // [s0] --c0--> [accept]
+                //  | |            ^
+                //  | |   ...      |
+                //  | |            |
+                //  | +---cn-------+
+                //  +---------------> [reject]
 
                 let s0 = self.new_state(StateKind::Neither);
-                self.push_edge(s0, test, accept);
+                for &range in class {
+                    let test: Test = range.into();
+                    self.push_edge(s0, test, accept);
+                }
                 self.push_edge(s0, Other, reject);
-
-                s0
+                Ok(s0)
             }
 
-            Elem::Group(ref regex) => {
-                self.regex(regex, accept, reject)
+            // currently we don't support any boundaries because
+            // I was too lazy to code them up or think about them
+            Expr::StartLine | Expr::EndLine => {
+                Err(NFAConstructionError::LineBoundary)
             }
 
-            Elem::NotGroup(ref regex) => {
-                self.regex(regex, reject, accept) // NB: swapped accept/reject here :)
+            Expr::StartText | Expr::EndText => {
+                Err(NFAConstructionError::TextBoundary)
             }
 
-            Elem::Repeat(RepeatOp::Question, ref elem) => {
-                // [s0] ----> [accept]
-                //   |           ^
-                //   v           |
-                // [s1] --...----+
-                //         |
-                //         v
-                //      [reject]
+            Expr::WordBoundary | Expr::NotWordBoundary => {
+                Err(NFAConstructionError::WordBoundary)
+            }
 
-                let s1 = self.elem(elem, accept, reject);
+            // currently we treat all groups the same, whether they
+            // capture or not; but we don't permit named groups,
+            // in case we want to give them significance in the future 
+            Expr::Group { ref e, i: _, name: None } => {
+                self.expr(e, accept, reject)
+            }
+            Expr::Group { name: Some(_), .. } => {
+                Err(NFAConstructionError::NamedCaptures)
+            }
+
+            // currently we always report the longest match possible
+            Expr::Repeat { greedy: false, .. } => {
+                Err(NFAConstructionError::NonGreedy)
+            }
+
+            Expr::Repeat { ref e, r: Repeater::ZeroOrOne, greedy: true } => {
+                self.optional_expr(e, accept, reject)
+            }
+
+            Expr::Repeat { ref e, r: Repeater::ZeroOrMore, greedy: true } => {
+                self.star_expr(e, accept, reject)
+            }
+
+            Expr::Repeat { ref e, r: Repeater::OneOrMore, greedy: true } => {
+                self.plus_expr(e, accept, reject)
+            }
+
+            Expr::Repeat { ref e,
+                           r: Repeater::Range { min, max: None },
+                           greedy: true } => {
+                // +---min times----+
+                // |                |
+                //
+                // [s0] --..e..-- [s1] --..e*..--> [accept]
+                //          |      |
+                //          |      v
+                //          +-> [reject]
+
+                let mut s = try!(self.star_expr(e, accept, reject));
+                for _ in 0..min {
+                    s = try!(self.expr(e, s, reject));
+                }
+                Ok(s)
+            }
+
+            Expr::Repeat { ref e,
+                           r: Repeater::Range { min, max: Some(max) },
+                           greedy: true } => {
+                let mut s = accept;
+                for _ in min..max {
+                    s = try!(self.optional_expr(e, s, reject));
+                }
+                for _ in 0..min {
+                    s = try!(self.expr(e, s, reject));
+                }
+                Ok(s)
+            }
+
+            Expr::Concat(ref exprs) => {
+                let mut s = accept;
+                for expr in exprs.iter().rev() {
+                    s = try!(self.expr(expr, s, reject));
+                }
+                Ok(s)
+            }
+
+            Expr::Alternate(ref exprs) => {
+                // [s0] --exprs[0]--> [accept/reject]
+                //   |                   ^
+                //   |                   |
+                //   +----exprs[..]------+
+                //   |                   |
+                //   |                   |
+                //   +----exprs[n-1]-----+
 
                 let s0 = self.new_state(StateKind::Neither);
-                self.push_edge(s0, Noop, accept); // they might supply nothing
-                self.push_edge(s0, Noop, s1);
-
-                s0
-            }
-
-            Elem::Repeat(RepeatOp::Star, ref elem) => {
-                // [s0] ----> [accept]
-                //  | ^
-                //  | |
-                //  | +----------+
-                //  v            |
-                // [s1] --...----+
-                //         |
-                //         v
-                //      [reject]
-
-                let s0 = self.new_state(StateKind::Neither);
-
-                let s1 = self.elem(elem, s0, reject);
-
-                self.push_edge(s0, Noop, accept);
-                self.push_edge(s0, Noop, s1);
-
-                s0
-            }
-
-            Elem::Repeat(RepeatOp::Plus, ref elem) => {
-                //            [accept]
-                //               ^
-                //               |
-                //    +----------+
-                //    v          |
-                // [s0] --...--[s1]
-                //         |
-                //         v
-                //      [reject]
-
-                let s1 = self.new_state(StateKind::Neither);
-
-                let s0 = self.elem(elem, s1, reject);
-
-                self.push_edge(s1, Noop, accept);
-                self.push_edge(s1, Noop, s0);
-
-                s0
+                for expr in exprs {
+                    let s1 = try!(self.expr(expr, accept, reject));
+                    self.push_edge(s0, Noop, s1);
+                }
+                Ok(s0)
             }
         }
+    }
+
+    fn optional_expr(&mut self,
+                     expr: &Expr,
+                     accept: NFAStateIndex,
+                     reject: NFAStateIndex)
+                     -> Result<NFAStateIndex, NFAConstructionError> {
+        // [s0] ----> [accept]
+        //   |           ^
+        //   v           |
+        // [s1] --...----+
+        //         |
+        //         v
+        //      [reject]
+
+        let s1 = try!(self.expr(expr, accept, reject));
+
+        let s0 = self.new_state(StateKind::Neither);
+        self.push_edge(s0, Noop, accept); // they might supply nothing
+        self.push_edge(s0, Noop, s1);
+
+        Ok(s0)
+    }
+
+    fn star_expr(&mut self,
+                 expr: &Expr,
+                 accept: NFAStateIndex,
+                 reject: NFAStateIndex)
+                 -> Result<NFAStateIndex, NFAConstructionError> {
+        // [s0] ----> [accept]
+        //  | ^
+        //  | |
+        //  | +----------+
+        //  v            |
+        // [s1] --...----+
+        //         |
+        //         v
+        //      [reject]
+
+        let s0 = self.new_state(StateKind::Neither);
+
+        let s1 = try!(self.expr(expr, s0, reject));
+
+        self.push_edge(s0, Noop, accept);
+        self.push_edge(s0, Noop, s1);
+
+        Ok(s0)
+    }
+
+    fn plus_expr(&mut self,
+                 expr: &Expr,
+                 accept: NFAStateIndex,
+                 reject: NFAStateIndex)
+                 -> Result<NFAStateIndex, NFAConstructionError> {
+        //            [accept]
+        //               ^
+        //               |
+        //    +----------+
+        //    v          |
+        // [s0] --...--[s1]
+        //         |
+        //         v
+        //      [reject]
+
+        let s1 = self.new_state(StateKind::Neither);
+
+        let s0 = try!(self.expr(expr, s1, reject));
+
+        self.push_edge(s1, Noop, accept);
+        self.push_edge(s1, Noop, s0);
+
+        Ok(s0)
     }
 }
 
@@ -343,14 +485,87 @@ impl<'nfa,L:EdgeLabel> Iterator for EdgeIterator<'nfa,L> {
     }
 }
 
+impl Test {
+    pub fn char(c: char) -> Test {
+        let c = c as u32;
+        Test { start: c, end: c + 1 }
+    }
+
+    pub fn inclusive_range(s: char, e: char) -> Test {
+        Test { start: s as u32, end: e as u32 + 1 }
+    }
+
+
+    pub fn exclusive_range(s: char, e: char) -> Test {
+        Test { start: s as u32, end: e as u32 }
+    }
+
+    pub fn is_char(self) -> bool {
+        self.len() == 1
+    }
+
+    pub fn len(self) -> u32 {
+        self.end - self.start
+    }
+
+    pub fn contains_u32(self, c: u32) -> bool {
+        c >= self.start && c < self.end
+    }
+
+    pub fn contains_char(self, c: char) -> bool {
+        self.contains_u32(c as u32)
+    }
+
+    pub fn intersects(self, r: Test) -> bool {
+        !self.is_empty() && !r.is_empty() && (
+            self.contains_u32(r.start) || r.contains_u32(self.start))
+    }
+
+    pub fn is_disjoint(self, r: Test) -> bool {
+        !self.intersects(r)
+    }
+
+    pub fn is_empty(self) -> bool {
+        self.start == self.end
+    }
+}
+
+impl From<ClassRange> for Test {
+    fn from(range: ClassRange) -> Test {
+        Test::inclusive_range(range.start, range.end)
+    }
+}
+
+impl Debug for Test {
+    fn fmt(&self, fmt: &mut Formatter) -> Result<(), FmtError> {
+        match (char::from_u32(self.start), char::from_u32(self.end)) {
+            (Some(start), Some(end)) => {
+                if self.is_char() {
+                    if ".[]()?+*!".contains(start) {
+                        write!(fmt, "\\{}", start)
+                    } else {
+                        write!(fmt, "{}", start)
+                    }
+                } else {
+                    write!(fmt, "[{:?}..{:?}]", start, end)
+                }
+            }
+            _ => {
+                write!(fmt, "[{:?}..{:?}]", self.start, self.end)
+            }
+        }
+    }
+}
+
 impl Debug for NFAStateIndex {
-    fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
+    fn fmt(&self, fmt: &mut Formatter) -> Result<(), FmtError> {
         write!(fmt, "NFA{}", self.0)
     }
 }
 
 impl<L:Debug> Debug for Edge<L> {
-    fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
+    fn fmt(&self, fmt: &mut Formatter) -> Result<(), FmtError> {
         write!(fmt, "{:?} -{:?}-> {:?}", self.from, self.label, self.to)
     }
 }
+

@@ -1,6 +1,6 @@
 use lexer::dfa::*;
-use lexer::re::Test;
 use rust::RustWrite;
+use std::char;
 use std::io::{self, Write};
 
 #[cfg(test)]
@@ -63,17 +63,31 @@ impl<'m,W> Matcher<'m,W>
         // encourage LLVM to convert the loop+switch pair into actual
         // gotos.
         rust!(self.out, "let ({}index, {}ch) = \
-                         match {}chars.next() {{ Some(p) => p, None => return {}current_match }};",
+                         match {}chars.next() {{ Some(p) => p, \
+                         None => return {}current_match }};",
               self.prefix, self.prefix, self.prefix, self.prefix);
-        rust!(self.out, "match {}ch {{", self.prefix);
+        rust!(self.out, "match {}ch as u32 {{", self.prefix);
         for &(test, target_state) in &state.test_edges {
-            match test {
-                Test::Char(ch) => {
-                    rust!(self.out, "{:?} => {{", ch);
-                    let index = format!("{}index + {}", self.prefix, ch.len_utf8());
-                    try!(self.transition(target_state, &index));
-                    rust!(self.out, "}}");
+            if test.len() == 1 {
+                match char::from_u32(test.start) {
+                    Some(ch) => {
+                        rust!(self.out, "{} => /* {:?} */ {{", ch as u32, ch);
+                        let index = format!("{}index + {}", self.prefix, ch.len_utf8());
+                        try!(self.transition(target_state, &index));
+                        rust!(self.out, "}}");
+                    }
+                    None => {
+                        // if somehow we have a singleton range that does not
+                        // contain valid unicode, can just ignore it;
+                        // it will never happen in practice
+                    }
                 }
+            } else {
+                rust!(self.out, "{:?} ... {:?} => {{", test.start, test.end - 1);
+                let index = format!("{}index + {}ch.len_utf8()",
+                                    self.prefix, self.prefix);
+                try!(self.transition(target_state, &index));
+                rust!(self.out, "}}");
             }
         }
         rust!(self.out, "_ => {{");
