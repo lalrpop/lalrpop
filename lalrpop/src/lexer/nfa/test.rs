@@ -73,3 +73,11 @@ fn max_range() {
     assert_eq!(interpret(&nfa, "abbbbb"), Some("abbbb"));
     assert_eq!(interpret(&nfa, "ac"), None);
 }
+
+#[test]
+fn literal() {
+    let num = re::parse_regex(r#"(?i:aBCdeF)"#).unwrap();
+    let nfa = NFA::from_re(&num);
+    assert_eq!(interpret(&nfa, "abcdef"), Some("abcdef"));
+    assert_eq!(interpret(&nfa, "AbcDEf"), Some("AbcDEf"));
+}

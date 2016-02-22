@@ -163,30 +163,41 @@ impl NFA {
         }
     }
 
-    fn expr(&mut self, expr: &Expr, accept: NFAStateIndex, reject: NFAStateIndex) -> NFAStateIndex {
+    fn expr(&mut self, expr: &Expr, accept: NFAStateIndex, reject: NFAStateIndex)
+            -> NFAStateIndex {
         match *expr {
             Expr::Empty => {
                 accept
             }
 
             Expr::Literal { ref chars, casei } => {
-                if casei {
-                    panic!("case insensitive literals");
-                }
-
                 // for e.g. "abc":
                 // [s0] -a-> [ ] -b-> [ ] -c-> [accept]
                 //   |        |        |
                 //   +--------+--------+--otherwise-> [reject]
 
-                chars.iter()
-                     .rev()
-                     .fold(accept, |s, &ch| {
-                         let s1 = self.new_state(StateKind::Neither);
-                         self.push_edge(s1, Test::char(ch), s);
-                         self.push_edge(s1, Other, reject);
-                         s1
-                     })
+                if casei {
+                    chars.iter()
+                         .rev()
+                         .fold(accept, |s, &ch| {
+                             let s1 = self.new_state(StateKind::Neither);
+                             for ch1 in ch.to_lowercase().chain(ch.to_uppercase()) {
+                                 self.push_edge(s1, Test::char(ch1), s);
+                             }
+                             self.push_edge(s1, Other, reject);
+                             s1
+                         })
+
+                } else {
+                    chars.iter()
+                         .rev()
+                         .fold(accept, |s, &ch| {
+                             let s1 = self.new_state(StateKind::Neither);
+                             self.push_edge(s1, Test::char(ch), s);
+                             self.push_edge(s1, Other, reject);
+                             s1
+                         })
+                }
             }
 
             // FIXME(rust-lang-nursery/regex#172) since `.` always produces
