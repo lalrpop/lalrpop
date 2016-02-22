@@ -62,6 +62,13 @@ fn regex_number() {
 }
 
 #[test]
+fn dot_newline() {
+    let num = re::parse_regex(r#"."#).unwrap();
+    let nfa = NFA::from_re(&num).unwrap();
+    assert_eq!(interpret(&nfa, "\n"), None);
+}
+
+#[test]
 fn max_range() {
     let num = re::parse_regex(r#"ab{2,4}"#).unwrap();
     let nfa = NFA::from_re(&num).unwrap();

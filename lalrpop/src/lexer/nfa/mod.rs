@@ -218,9 +218,22 @@ impl NFA {
                 })
             }
 
-            // FIXME since `.` always produces AnyCharNoNL, treat it
-            // as AnyChar for now; might want to change this later
-            Expr::AnyCharNoNL |
+            Expr::AnyCharNoNL => {
+                // [s0] -otherwise-> [accept]
+                //   |
+                // '\n' etc
+                //   |
+                //   v
+                // [reject]
+
+                let s0 = self.new_state(StateKind::Neither);
+                for nl_char in "\n\r".chars() {
+                    self.push_edge(s0, Test::char(nl_char), reject);
+                }
+                self.push_edge(s0, Other, accept);
+                Ok(s0)
+            }
+
             Expr::AnyChar => {
                 // [s0] -otherwise-> [accept]
 
