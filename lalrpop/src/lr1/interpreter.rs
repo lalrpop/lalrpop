@@ -26,6 +26,7 @@ pub struct Interpreter<'emitter,'grammar:'emitter> {
     out: &'emitter mut RustWrite<Vec<u8>>,
 
     nonterminal_bits: Map<NonterminalString, usize>,
+
 }
 
 pub fn compile<'emitter, 'grammar>(grammar: &'grammar Grammar,
@@ -60,12 +61,14 @@ impl<'emitter, 'grammar> Interpreter<'emitter, 'grammar> {
     fn write_action_table(&mut self) -> io::Result<()> {
         let row_len = self.grammar.all_terminals.len()+1;
 
-        let rows = self.states.iter().map(|s| {
+        let productions = self.grammar.nonterminals.values().flat_map(|nt| nt.productions.iter()).cloned().collect::<Vec<_>>();
+        let production_bits: Map<_, _> = productions.iter().cloned().zip(0..).collect();
+        let rows = try!(self.states.iter().enumerate().map(|(i, s)| {
             let mut row = iter::repeat("0".to_owned()).take(row_len).collect::<Vec<_>>();
             for (lookahead, action) in &s.tokens {
                 let target = match *action {
                     Action::Shift(index) => format!("{}", (index.0 as i32) + 1),
-                    Action::Reduce(..) => format!("-1") // TODO
+                    Action::Reduce(ref prod) => format!("-{}", production_bits.get(prod).expect("got nonexisting production")),
                 };
 
                 let column_index = match *lookahead {
@@ -78,33 +81,56 @@ impl<'emitter, 'grammar> Interpreter<'emitter, 'grammar> {
                 row[column_index] = target;
             }
 
-            format!("    [{}]", row.join(", "))
-        }).collect::<Vec<_>>().join(",\n");
+            rust!(self.out, "const action_row_{}: &'static [i32] = &[{}];", i, row.join(", "));
+            Ok(format!("action_row_{}", i))
+        }).collect::<io::Result<Vec<_>>>());
 
-        rust!(self.out, "const actions: [[i32; {}]; {}] = [\n{}];", row_len, self.states.len(), rows);
+        rust!(self.out, "const actions: [&'static [i32]; {}] = [{}];", self.states.len(), rows.join(", "));
         Ok(())
     }
 
     fn write_goto_table(&mut self) -> io::Result<()> {
         let row_len = self.grammar.nonterminals.len();
 
-        let rows = self.states.iter().map(|s| {
+        let rows = try!(self.states.iter().enumerate().map(|(i, s)| {
             let mut row = iter::repeat("0".to_owned()).take(row_len).collect::<Vec<_>>();
             for (nt, i) in &s.gotos {
                 let column_index = *self.nonterminal_bits.get(nt)
                                                          .expect("got nonexisting nonterminal");
                 row[column_index] = format!("{}", i.0);
             }
-            format!("    [{}]", row.join(", "))
-        }).collect::<Vec<_>>().join(",\n");
+            rust!(self.out, "const goto_row_{}: &'static [u32] = &[{}];", i, row.join(", "));
+            Ok(format!("goto_row_{}", i))
+        }).collect::<io::Result<Vec<_>>>());
 
-        rust!(self.out, "const gotos: [[u32; {}]; {}] = [\n{}];", row_len, self.states.len(), rows);
+        rust!(self.out, "const gotos: [&'static [u32]; {}] = [\n{}];", self.states.len(), rows.join(", "));
         Ok(())   
     }
 
+    fn write_uses(&mut self) -> io::Result<()> {
+        rust!(self.out, "extern crate lalrpop_util;");
+        rust!(self.out, "use lalrpop_util::Machine;");
+        Ok(())
+    }
+
+    fn write_parse_fn(&mut self) -> io::Result<()> {
+        rust!(self.out, "fn parse() {{");
+        rust!(self.out, "    let machine = Machine::new(&actions, &gotos);");
+        rust!(self.out, "}}");
+        Ok(())
+    }
+
     fn write(&mut self) -> io::Result<()> {
+        try!(self.write_uses());
+        rust!(self.out, "");
+
         try!(self.write_action_table());
+        rust!(self.out, "");
+
         try!(self.write_goto_table());
+        rust!(self.out, "");
+
+        try!(self.write_parse_fn());
         Ok(())
     }
 }
