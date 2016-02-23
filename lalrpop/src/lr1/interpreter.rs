@@ -149,7 +149,7 @@ impl<'emitter, 'grammar> Interpreter<'emitter, 'grammar> {
         rust!(self.out, "fn parse1_{}() {{", self.user_start_symbol);
         try!(self.write_terminal_map());
         try!(self.write_nonterminal_map());
-        rust!(self.out, "    let machine = Machine::new(&actions, &gotos, terminal_bits, nonterminal_bits);");
+        rust!(self.out, "    let machine = Machine::new(&actions, &gotos, &productions, terminal_bits, nonterminal_bits);");
         rust!(self.out, "}}");
         Ok(())
     }

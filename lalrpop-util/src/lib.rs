@@ -38,6 +38,7 @@ pub enum ParseError<L,T,E> {
 pub struct Machine<'table> {
     actions: &'table [&'table [i32]],
     gotos: &'table [&'table [u32]],
+    productions: &'table [ReducedProduction],
     terminal_bits: HashMap<String, usize>,
     nonterminal_bits: HashMap<String, usize>,
     state_stack: Vec<u32>,
@@ -56,12 +57,14 @@ enum Action {
 impl<'table> Machine<'table> {
     pub fn new(actions: &'table [&'table [i32]],
                gotos: &'table [&'table [u32]],
+               productions: &'table [ReducedProduction],
                terminal_bits: HashMap<String, usize>,
                nonterminal_bits: HashMap<String, usize>)
         -> Machine<'table>
     {
         Machine { actions: actions,
                   gotos: gotos,
+                  productions: productions,
                   terminal_bits: terminal_bits,
                   nonterminal_bits: nonterminal_bits,
                   state_stack: Vec::new()}
