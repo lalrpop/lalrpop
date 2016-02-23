@@ -39,7 +39,13 @@ pub struct Machine<'table> {
     actions: &'table [&'table [i32]],
     gotos: &'table [&'table [u32]],
     terminal_bits: HashMap<String, usize>,
+    nonterminal_bits: HashMap<String, usize>,
     state_stack: Vec<u32>,
+}
+
+pub struct ReducedProduction {
+    nonterminal: &'static str,
+    symbol_count: u32,
 }
 
 enum Action {
@@ -48,10 +54,16 @@ enum Action {
 }
 
 impl<'table> Machine<'table> {
-    pub fn new(actions: &'table [&'table [i32]], gotos: &'table [&'table [u32]]) -> Machine<'table> {
+    pub fn new(actions: &'table [&'table [i32]],
+               gotos: &'table [&'table [u32]],
+               terminal_bits: HashMap<String, usize>,
+               nonterminal_bits: HashMap<String, usize>)
+        -> Machine<'table>
+    {
         Machine { actions: actions,
                   gotos: gotos,
-                  terminal_bits: HashMap::new(),
+                  terminal_bits: terminal_bits,
+                  nonterminal_bits: nonterminal_bits,
                   state_stack: Vec::new()}
     }
 

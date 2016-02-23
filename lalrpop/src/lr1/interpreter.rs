@@ -4,6 +4,8 @@ use lr1::core::*;
 use lr1::lookahead::Lookahead;
 use util::Map;
 
+use intern;
+
 use grammar::repr::{Grammar, NonterminalString};
 
 use std::io;
@@ -40,6 +42,7 @@ pub fn compile<'emitter, 'grammar>(grammar: &'grammar Grammar,
     interpreter.write()
 }
 
+
 impl<'emitter, 'grammar> Interpreter<'emitter, 'grammar> {
     fn new(grammar: &'grammar Grammar,
                user_start_symbol: NonterminalString,
@@ -63,6 +66,15 @@ impl<'emitter, 'grammar> Interpreter<'emitter, 'grammar> {
 
         let productions = self.grammar.nonterminals.values().flat_map(|nt| nt.productions.iter()).cloned().collect::<Vec<_>>();
         let production_bits: Map<_, _> = productions.iter().cloned().zip(0..).collect();
+
+        rust!(self.out, "const productions: [ReducedProduction; {}] = [", productions.len());
+
+        for p in &productions {
+            let s = intern::read(|interner| interner.data(p.nonterminal.0).replace("\"", "\\\""));
+            rust!(self.out, "    ReducedProduction {{ nonterminal: \"{}\", symbol_count: {} }},", s, p.symbols.len());
+        }
+        rust!(self.out, "];");
+
         let rows = try!(self.states.iter().enumerate().map(|(i, s)| {
             let mut row = iter::repeat("0".to_owned()).take(row_len).collect::<Vec<_>>();
             for (lookahead, action) in &s.tokens {
@@ -109,13 +121,35 @@ impl<'emitter, 'grammar> Interpreter<'emitter, 'grammar> {
 
     fn write_uses(&mut self) -> io::Result<()> {
         rust!(self.out, "extern crate lalrpop_util;");
-        rust!(self.out, "use lalrpop_util::Machine;");
+        rust!(self.out, "use lalrpop_util::{{Machine, ReducedProduction}};");
         Ok(())
     }
 
-    fn write_parse_fn(&mut self) -> io::Result<()> {
-        rust!(self.out, "fn parse() {{");
-        rust!(self.out, "    let machine = Machine::new(&actions, &gotos);");
+    fn write_nonterminal_map(&mut self) -> io::Result<()> {
+        rust!(self.out, "    let mut nonterminal_bits = HashMap::new();");
+        for (k, v) in &self.nonterminal_bits {
+            let s = intern::read(|interner| interner.data(k.0).replace("\"", "\\\""));
+            rust!(self.out, "    nonterminal_bits.insert(\"{}\".to_owned(), {});", s, *v);
+        }
+
+        Ok(())
+    }
+
+    fn write_terminal_map(&mut self) -> io::Result<()> {
+        rust!(self.out, "    let mut terminal_bits = HashMap::new();");
+        for (k, v) in &self.grammar.terminal_bits {
+            let s = format!("{}", k).replace("\"", "\\\"");
+            rust!(self.out, "    nonterminal_bits.insert(\"{}\".to_owned(), {});", s, *v);
+        }
+
+        Ok(())
+    }
+
+    fn write_start_fn(&mut self) -> io::Result<()> {
+        rust!(self.out, "fn parse1_{}() {{", self.user_start_symbol);
+        try!(self.write_terminal_map());
+        try!(self.write_nonterminal_map());
+        rust!(self.out, "    let machine = Machine::new(&actions, &gotos, terminal_bits, nonterminal_bits);");
         rust!(self.out, "}}");
         Ok(())
     }
@@ -130,7 +164,7 @@ impl<'emitter, 'grammar> Interpreter<'emitter, 'grammar> {
         try!(self.write_goto_table());
         rust!(self.out, "");
 
-        try!(self.write_parse_fn());
+        try!(self.write_start_fn());
         Ok(())
     }
 }
