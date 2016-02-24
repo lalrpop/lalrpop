@@ -1,10 +1,10 @@
+use collections::{Map, map};
 use lr1::core::*;
 use lr1::example::*;
 use grammar::repr::*;
 use petgraph::{EdgeDirection, Graph};
 use petgraph::graph::{Edges, NodeIndex};
 use std::fmt::{Debug, Formatter, Error};
-use util::{Map, map};
 
 #[cfg(test)] mod test;
 

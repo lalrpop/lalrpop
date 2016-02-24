@@ -5,7 +5,7 @@ use normalize::{NormError, NormResult};
 use petgraph::graph::{Graph, NodeIndex};
 use grammar::consts::INLINE;
 use grammar::repr::*;
-use util::{map, Map};
+use collections::{map, Map};
 
 #[cfg(test)]
 mod test;

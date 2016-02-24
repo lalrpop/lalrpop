@@ -5,7 +5,7 @@ use super::{NormResult, NormError};
 
 use grammar::parse_tree::*;
 use intern::{InternedString};
-use util::{map, Map};
+use collections::{map, Map};
 
 #[cfg(test)]
 mod test;

@@ -13,8 +13,8 @@ use lexer::dfa::{self, DFAConstructionError, Precedence};
 use lexer::nfa::NFAConstructionError::*;
 use grammar::consts::*;
 use grammar::parse_tree::*;
-use util::{Set};
-use util::{map, Map};
+use collections::Set;
+use collections::{map, Map};
 
 #[cfg(test)]
 mod test;

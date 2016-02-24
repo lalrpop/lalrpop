@@ -33,6 +33,7 @@ mod log;
 
 mod ascii_canvas;
 mod build;
+mod collections;
 mod file_text;
 mod grammar;
 mod lexer;

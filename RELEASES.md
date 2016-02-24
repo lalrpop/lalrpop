@@ -7,6 +7,8 @@ and in particular can support unicode character classes like `\p{Greek}`.
 Note that some regex features -- such as non-greedy repetition and
 named capture groups -- are still not supported (or just not meaningful).
 
+Optimized LR(1) construction time by approximately 5x.
+
 # Version 0.10
 
 Major update to LALRPOP error messages in cases of shift/reduce and

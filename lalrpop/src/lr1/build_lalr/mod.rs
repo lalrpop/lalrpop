@@ -1,5 +1,6 @@
 //! Mega naive LALR(1) generation algorithm.
 
+use collections::{map, Map};
 use itertools::Itertools;
 use lr1::build;
 use lr1::core::*;
@@ -7,7 +8,7 @@ use lr1::core::Action::{Reduce, Shift};
 use lr1::lookahead::Lookahead;
 use grammar::repr::*;
 use std::rc::Rc;
-use util::{map, Map};
+use tls::Tls;
 use util::map::Entry;
 
 #[cfg(test)]
@@ -31,7 +32,12 @@ pub fn build_lalr_states<'grammar>(grammar: &'grammar Grammar,
 {
     // First build the LR(1) states
     let lr_states = try!(build::build_lr1_states(grammar, start));
-    collapse_to_lalr_states(&lr_states)
+
+    profile! {
+        &Tls::session(),
+        "LALR(1) state collapse",
+        collapse_to_lalr_states(&lr_states)
+    }
 }
 
 pub fn collapse_to_lalr_states<'grammar>(lr_states: &[State<'grammar>])

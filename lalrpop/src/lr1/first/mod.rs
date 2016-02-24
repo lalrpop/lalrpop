@@ -1,8 +1,8 @@
 //! First set construction and computation.
 
+use collections::{Map, map};
 use grammar::repr::*;
 use lr1::lookahead::{Lookahead, LookaheadSet};
-use util::{Map, map};
 
 #[cfg(test)]
 mod test;
