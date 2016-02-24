@@ -57,7 +57,7 @@ mod __parse__Items {
             None |
             Some((_, (0, _), _)) |
             Some((_, (1, _), _)) => {
-                let __nt = super::__action6(input, &__lookbehind, &__lookahead);
+                let __nt = super::__action6(input, __lookbehind.as_ref(), __lookahead.as_ref().map(|o| &o.0));
                 __result = (__lookbehind, __lookahead, __Nonterminal::_40L(__nt));
             }
             _ => {
@@ -101,7 +101,7 @@ mod __parse__Items {
             None |
             Some((_, (0, _), _)) |
             Some((_, (1, _), _)) => {
-                let __nt = super::__action5(input, &__lookbehind, &__lookahead);
+                let __nt = super::__action5(input, __lookbehind.as_ref(), __lookahead.as_ref().map(|o| &o.0));
                 __result = (__lookbehind, __lookahead, __Nonterminal::_40R(__nt));
             }
             _ => {
@@ -145,12 +145,12 @@ mod __parse__Items {
                 __result = try!(__state6(input, __lookbehind, __tokens, __sym0, __sym1));
             }
             Some((_, (0, _), _)) => {
-                let __nt = super::__action6(input, &__lookbehind, &__lookahead);
+                let __nt = super::__action6(input, __lookbehind.as_ref(), __lookahead.as_ref().map(|o| &o.0));
                 __result = (__lookbehind, __lookahead, __Nonterminal::_40L(__nt));
             }
             None => {
                 let __sym0 = __sym0.take().unwrap();
-                let __nt = super::__action0(input, __sym0, &__lookbehind, &__lookahead);
+                let __nt = super::__action0(input, __sym0, __lookbehind.as_ref(), __lookahead.as_ref().map(|o| &o.0));
                 return Ok((__lookbehind, __lookahead, __Nonterminal::____Items(__nt)));
             }
             _ => {
@@ -198,7 +198,7 @@ mod __parse__Items {
             Some((_, (1, _), _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
-                let __nt = super::__action1(input, __sym0, __sym1, &__lookbehind, &__lookahead);
+                let __nt = super::__action1(input, __sym0, __sym1, __lookbehind.as_ref(), __lookahead.as_ref().map(|o| &o.0));
                 return Ok((__lookbehind, __lookahead, __Nonterminal::Items(__nt)));
             }
             _ => {
@@ -257,7 +257,7 @@ mod __parse__Items {
             Some((_, (1, _), _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
-                let __nt = super::__action2(input, __sym0, __sym1, &__lookbehind, &__lookahead);
+                let __nt = super::__action2(input, __sym0, __sym1, __lookbehind.as_ref(), __lookahead.as_ref().map(|o| &o.0));
                 return Ok((__lookbehind, __lookahead, __Nonterminal::Items(__nt)));
             }
             _ => {
@@ -292,7 +292,7 @@ mod __parse__Items {
             Some((_, (1, _), _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
-                let __nt = super::__action3(input, __sym0, __sym1, &__lookbehind, &__lookahead);
+                let __nt = super::__action3(input, __sym0, __sym1, __lookbehind.as_ref(), __lookahead.as_ref().map(|o| &o.0));
                 return Ok((__lookbehind, __lookahead, __Nonterminal::Items(__nt)));
             }
             _ => {
@@ -325,7 +325,7 @@ mod __parse__Items {
             None |
             Some((_, (0, _), _)) |
             Some((_, (1, _), _)) => {
-                let __nt = super::__action5(input, &__lookbehind, &__lookahead);
+                let __nt = super::__action5(input, __lookbehind.as_ref(), __lookahead.as_ref().map(|o| &o.0));
                 __result = (__lookbehind, __lookahead, __Nonterminal::_40R(__nt));
             }
             _ => {
@@ -371,7 +371,7 @@ mod __parse__Items {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
                 let __sym2 = __sym2.take().unwrap();
-                let __nt = super::__action4(input, __sym0, __sym1, __sym2, &__lookbehind, &__lookahead);
+                let __nt = super::__action4(input, __sym0, __sym1, __sym2, __lookbehind.as_ref(), __lookahead.as_ref().map(|o| &o.0));
                 return Ok((__lookbehind, __lookahead, __Nonterminal::Spanned_3c_22_2b_22_3e(__nt)));
             }
             _ => {
@@ -486,8 +486,8 @@ pub fn __action0<
 >(
     input: &'input str,
     __0: Vec<(usize, usize)>,
-    __lookbehind: &Option<usize>,
-    __lookahead: &Option<(usize, (usize, &'input str), usize)>,
+    __lookbehind: Option<&usize>,
+    __lookahead: Option<&usize>,
 ) -> Vec<(usize, usize)>
 {
     (__0)
@@ -499,8 +499,8 @@ pub fn __action1<
     input: &'input str,
     __0: usize,
     __1: usize,
-    __lookbehind: &Option<usize>,
-    __lookahead: &Option<(usize, (usize, &'input str), usize)>,
+    __lookbehind: Option<&usize>,
+    __lookahead: Option<&usize>,
 ) -> Vec<(usize, usize)>
 {
     vec![(__0, __1)]
@@ -512,8 +512,8 @@ pub fn __action2<
     input: &'input str,
     v: Vec<(usize, usize)>,
     e: (usize, usize),
-    __lookbehind: &Option<usize>,
-    __lookahead: &Option<(usize, (usize, &'input str), usize)>,
+    __lookbehind: Option<&usize>,
+    __lookahead: Option<&usize>,
 ) -> Vec<(usize, usize)>
 {
     {
@@ -529,8 +529,8 @@ pub fn __action3<
     input: &'input str,
     v: Vec<(usize, usize)>,
     _: &'input str,
-    __lookbehind: &Option<usize>,
-    __lookahead: &Option<(usize, (usize, &'input str), usize)>,
+    __lookbehind: Option<&usize>,
+    __lookahead: Option<&usize>,
 ) -> Vec<(usize, usize)>
 {
     v
@@ -543,8 +543,8 @@ pub fn __action4<
     __0: usize,
     _: &'input str,
     __1: usize,
-    __lookbehind: &Option<usize>,
-    __lookahead: &Option<(usize, (usize, &'input str), usize)>,
+    __lookbehind: Option<&usize>,
+    __lookahead: Option<&usize>,
 ) -> (usize, usize)
 {
     (__0, __1)
@@ -554,22 +554,22 @@ pub fn __action5<
     'input,
 >(
     input: &'input str,
-    __lookbehind: &Option<usize>,
-    __lookahead: &Option<(usize, (usize, &'input str), usize)>,
+    __lookbehind: Option<&usize>,
+    __lookahead: Option<&usize>,
 ) -> usize
 {
-    ::std::clone::Clone::clone(&__lookbehind).unwrap_or_default()
+    __lookbehind.cloned().unwrap_or_default()
 }
 
 pub fn __action6<
     'input,
 >(
     input: &'input str,
-    __lookbehind: &Option<usize>,
-    __lookahead: &Option<(usize, (usize, &'input str), usize)>,
+    __lookbehind: Option<&usize>,
+    __lookahead: Option<&usize>,
 ) -> usize
 {
-    __lookahead.as_ref().map(|o| ::std::clone::Clone::clone(&o.0)).or_else(|| ::std::clone::Clone::clone(&__lookbehind)).unwrap_or_default()
+    __lookahead.or(__lookbehind).cloned().unwrap_or_default()
 }
 
 pub trait __ToTriple<'input, > {

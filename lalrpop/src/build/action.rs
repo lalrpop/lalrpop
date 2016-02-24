@@ -45,12 +45,12 @@ fn emit_user_action_code<W: Write>(grammar: &r::Grammar,
                                    -> io::Result<()> {
     let ret_type = ret_type_string(grammar, defn);
 
-    let lookarounds = vec![format!("{}lookbehind: &Option<{}>",
+    let lookarounds = vec![format!("{}lookbehind: Option<&{}>",
                                    grammar.prefix,
                                    grammar.types.terminal_loc_type()),
-                           format!("{}lookahead: &Option<{}>",
+                           format!("{}lookahead: Option<&{}>",
                                    grammar.prefix,
-                                   grammar.types.triple_type())];
+                                   grammar.types.terminal_loc_type())];
 
     try!(rust.write_pub_fn_header(grammar,
                                   format!("{}action{}", grammar.prefix, index),
@@ -78,12 +78,12 @@ fn emit_lookaround_action_code<W: Write>(grammar: &r::Grammar,
     try!(rust.write_pub_fn_header(grammar,
                                   format!("{}action{}", grammar.prefix, index),
                                   vec![],
-                                  vec![format!("{}lookbehind: &Option<{}>",
+                                  vec![format!("{}lookbehind: Option<&{}>",
                                                grammar.prefix,
                                                grammar.types.terminal_loc_type()),
-                                       format!("{}lookahead: &Option<{}>",
+                                       format!("{}lookahead: Option<&{}>",
                                                grammar.prefix,
-                                               grammar.types.triple_type())],
+                                               grammar.types.terminal_loc_type())],
                                   format!("{}", grammar.types.terminal_loc_type()),
                                   vec![]));
 
@@ -95,15 +95,14 @@ fn emit_lookaround_action_code<W: Write>(grammar: &r::Grammar,
             // pushed token); if that is missing too, then
             // supply default.
             rust!(rust,
-                  "{}lookahead.as_ref().map(|o| ::std::clone::Clone::clone(&o.0)).or_else(|| \
-                   ::std::clone::Clone::clone(&{}lookbehind)).unwrap_or_default()",
+                  "{}lookahead.or({}lookbehind).cloned().unwrap_or_default()",
                   grammar.prefix,
                   grammar.prefix);
         }
         r::LookaroundActionFnDefn::Lookbehind => {
             // take lookbehind or supply default
             rust!(rust,
-                  "::std::clone::Clone::clone(&{}lookbehind).unwrap_or_default()",
+                  "{}lookbehind.cloned().unwrap_or_default()",
                   grammar.prefix);
         }
     }
@@ -133,12 +132,12 @@ fn emit_inline_action_code<W: Write>(grammar: &r::Grammar,
     let arguments: Vec<_> = arg_types.iter()
                                      .enumerate()
                                      .map(|(i, t)| format!("{}{}: {}", grammar.prefix, i, t))
-                                     .chain(vec![format!("{}lookbehind: &Option<{}>",
+                                     .chain(vec![format!("{}lookbehind: Option<&{}>",
                                                          grammar.prefix,
                                                          grammar.types.terminal_loc_type()),
-                                                 format!("{}lookahead: &Option<{}>",
+                                                 format!("{}lookahead: Option<&{}>",
                                                          grammar.prefix,
-                                                         grammar.types.triple_type())])
+                                                         grammar.types.terminal_loc_type())])
                                      .collect();
 
     try!(rust.write_pub_fn_header(grammar,

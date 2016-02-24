@@ -367,8 +367,8 @@ impl<'ascent,'grammar,W:Write> RecursiveAscent<'ascent,'grammar,W> {
             let transfered_syms = transfer_syms.len();
 
             let mut args = transfer_syms;
-            args.push(format!("&{}lookbehind", self.prefix));
-            args.push(format!("&{}lookahead", self.prefix));
+            args.push(format!("{}lookbehind.as_ref()", self.prefix));
+            args.push(format!("{}lookahead.as_ref().map(|o| &o.0)", self.prefix));
 
             // invoke the action code
             let is_fallible = self.grammar.action_is_fallible(production.action);

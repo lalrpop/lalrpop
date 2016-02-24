@@ -97,7 +97,7 @@ mod __parse__E {
         match __lookahead {
             None => {
                 let __sym0 = __sym0.take().unwrap();
-                let __nt = super::__action0(input, __sym0, &__lookbehind, &__lookahead);
+                let __nt = super::__action0(input, __sym0, __lookbehind.as_ref(), __lookahead.as_ref().map(|o| &o.0));
                 return Ok((__lookbehind, __lookahead, __Nonterminal::____E(__nt)));
             }
             _ => {
@@ -177,7 +177,7 @@ mod __parse__E {
         match __lookahead {
             None => {
                 let __sym0 = __sym0.take().unwrap();
-                let __nt = super::__action1(input, __sym0, &__lookbehind, &__lookahead);
+                let __nt = super::__action1(input, __sym0, __lookbehind.as_ref(), __lookahead.as_ref().map(|o| &o.0));
                 return Ok((__lookbehind, __lookahead, __Nonterminal::E(__nt)));
             }
             _ => {
@@ -206,7 +206,7 @@ mod __parse__E {
             None => {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
-                let __nt = super::__action7(input, __sym0, __sym1, &__lookbehind, &__lookahead);
+                let __nt = super::__action7(input, __sym0, __sym1, __lookbehind.as_ref(), __lookahead.as_ref().map(|o| &o.0));
                 return Ok((__lookbehind, __lookahead, __Nonterminal::E(__nt)));
             }
             _ => {
@@ -248,7 +248,7 @@ mod __parse__E {
             }
             None => {
                 let __sym1 = __sym1.take().unwrap();
-                let __nt = super::__action1(input, __sym1, &__lookbehind, &__lookahead);
+                let __nt = super::__action1(input, __sym1, __lookbehind.as_ref(), __lookahead.as_ref().map(|o| &o.0));
                 return Ok((__lookbehind, __lookahead, __Nonterminal::E(__nt)));
             }
             _ => {
@@ -292,7 +292,7 @@ mod __parse__E {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
                 let __sym2 = __sym2.take().unwrap();
-                let __nt = super::__action8(input, __sym0, __sym1, __sym2, &__lookbehind, &__lookahead);
+                let __nt = super::__action8(input, __sym0, __sym1, __sym2, __lookbehind.as_ref(), __lookahead.as_ref().map(|o| &o.0));
                 return Ok((__lookbehind, __lookahead, __Nonterminal::E(__nt)));
             }
             _ => {
@@ -407,8 +407,8 @@ pub fn __action0<
 >(
     input: &'input str,
     __0: String,
-    __lookbehind: &Option<usize>,
-    __lookahead: &Option<(usize, (usize, &'input str), usize)>,
+    __lookbehind: Option<&usize>,
+    __lookahead: Option<&usize>,
 ) -> String
 {
     (__0)
@@ -419,8 +419,8 @@ pub fn __action1<
 >(
     input: &'input str,
     __0: &'input str,
-    __lookbehind: &Option<usize>,
-    __lookahead: &Option<(usize, (usize, &'input str), usize)>,
+    __lookbehind: Option<&usize>,
+    __lookahead: Option<&usize>,
 ) -> String
 {
     format!("L")
@@ -433,8 +433,8 @@ pub fn __action2<
     _: &'input str,
     __0: String,
     __1: String,
-    __lookbehind: &Option<usize>,
-    __lookahead: &Option<(usize, (usize, &'input str), usize)>,
+    __lookbehind: Option<&usize>,
+    __lookahead: Option<&usize>,
 ) -> String
 {
     format!("& {} {}", __0, __1)
@@ -445,8 +445,8 @@ pub fn __action3<
 >(
     input: &'input str,
     __0: (),
-    __lookbehind: &Option<usize>,
-    __lookahead: &Option<(usize, (usize, &'input str), usize)>,
+    __lookbehind: Option<&usize>,
+    __lookahead: Option<&usize>,
 ) -> String
 {
     format!("()")
@@ -457,8 +457,8 @@ pub fn __action4<
 >(
     input: &'input str,
     __0: &'input str,
-    __lookbehind: &Option<usize>,
-    __lookahead: &Option<(usize, (usize, &'input str), usize)>,
+    __lookbehind: Option<&usize>,
+    __lookahead: Option<&usize>,
 ) -> String
 {
     format!("L")
@@ -468,8 +468,8 @@ pub fn __action5<
     'input,
 >(
     input: &'input str,
-    __lookbehind: &Option<usize>,
-    __lookahead: &Option<(usize, (usize, &'input str), usize)>,
+    __lookbehind: Option<&usize>,
+    __lookahead: Option<&usize>,
 ) -> ()
 {
     ()
@@ -479,8 +479,8 @@ pub fn __action6<
     'input,
 >(
     input: &'input str,
-    __lookbehind: &Option<usize>,
-    __lookahead: &Option<(usize, (usize, &'input str), usize)>,
+    __lookbehind: Option<&usize>,
+    __lookahead: Option<&usize>,
 ) -> String
 {
     let __temp0 = __action5(
@@ -502,8 +502,8 @@ pub fn __action7<
     input: &'input str,
     __0: &'input str,
     __1: String,
-    __lookbehind: &Option<usize>,
-    __lookahead: &Option<(usize, (usize, &'input str), usize)>,
+    __lookbehind: Option<&usize>,
+    __lookahead: Option<&usize>,
 ) -> String
 {
     let __temp0 = __action6(
@@ -528,8 +528,8 @@ pub fn __action8<
     __0: &'input str,
     __1: &'input str,
     __2: String,
-    __lookbehind: &Option<usize>,
-    __lookahead: &Option<(usize, (usize, &'input str), usize)>,
+    __lookbehind: Option<&usize>,
+    __lookahead: Option<&usize>,
 ) -> String
 {
     let __temp0 = __action4(
