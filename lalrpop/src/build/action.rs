@@ -45,7 +45,7 @@ fn emit_user_action_code<W: Write>(grammar: &r::Grammar,
                                    -> io::Result<()> {
     let ret_type = ret_type_string(grammar, defn);
 
-    let lookarounds = vec![format!("{}lookbehind: Option<&{}>",
+    let lookarounds = vec![format!("{}lookbehind: &{}",
                                    grammar.prefix,
                                    grammar.types.terminal_loc_type()),
                            format!("{}lookahead: Option<&{}>",
@@ -78,7 +78,7 @@ fn emit_lookaround_action_code<W: Write>(grammar: &r::Grammar,
     try!(rust.write_pub_fn_header(grammar,
                                   format!("{}action{}", grammar.prefix, index),
                                   vec![],
-                                  vec![format!("{}lookbehind: Option<&{}>",
+                                  vec![format!("{}lookbehind: &{}",
                                                grammar.prefix,
                                                grammar.types.terminal_loc_type()),
                                        format!("{}lookahead: Option<&{}>",
@@ -95,14 +95,14 @@ fn emit_lookaround_action_code<W: Write>(grammar: &r::Grammar,
             // pushed token); if that is missing too, then
             // supply default.
             rust!(rust,
-                  "{}lookahead.or({}lookbehind).cloned().unwrap_or_default()",
+                  "{}lookahead.cloned().unwrap_or_else(|| {}lookbehind.clone())",
                   grammar.prefix,
                   grammar.prefix);
         }
         r::LookaroundActionFnDefn::Lookbehind => {
             // take lookbehind or supply default
             rust!(rust,
-                  "{}lookbehind.cloned().unwrap_or_default()",
+                  "{}lookbehind.clone()",
                   grammar.prefix);
         }
     }
@@ -132,7 +132,7 @@ fn emit_inline_action_code<W: Write>(grammar: &r::Grammar,
     let arguments: Vec<_> = arg_types.iter()
                                      .enumerate()
                                      .map(|(i, t)| format!("{}{}: {}", grammar.prefix, i, t))
-                                     .chain(vec![format!("{}lookbehind: Option<&{}>",
+                                     .chain(vec![format!("{}lookbehind: &{}",
                                                          grammar.prefix,
                                                          grammar.types.terminal_loc_type()),
                                                  format!("{}lookahead: Option<&{}>",

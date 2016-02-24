@@ -24,7 +24,8 @@ mod __parse__S {
             None => None,
             Some(Err(e)) => return Err(__ParseError::User { error: e }),
         };
-        match try!(__state0(None, &mut __tokens, __lookahead)) {
+        let __lookbehind: () = ::std::default::Default::default();
+        match try!(__state0(__lookbehind, &mut __tokens, __lookahead)) {
             (_, Some(__lookahead), _) => {
                 Err(__ParseError::ExtraToken { token: __lookahead })
             }
@@ -44,15 +45,15 @@ mod __parse__S {
     pub fn __state0<
         __TOKENS: Iterator<Item=Result<((), Tok, ()),()>>,
     >(
-        __lookbehind: Option<()>,
+        __lookbehind: (),
         __tokens: &mut __TOKENS,
         __lookahead: Option<((), Tok, ())>,
-    ) -> Result<(Option<()>, Option<((), Tok, ())>, __Nonterminal<>), __ParseError<(),Tok,()>>
+    ) -> Result<((), Option<((), Tok, ())>, __Nonterminal<>), __ParseError<(),Tok,()>>
     {
-        let mut __result: (Option<()>, Option<((), Tok, ())>, __Nonterminal<>);
+        let mut __result: ((), Option<((), Tok, ())>, __Nonterminal<>);
         match __lookahead {
             Some((_, __tok @ Tok::LParen, __loc)) => {
-                let mut __lookbehind = Some(__loc);
+                let __lookbehind = __loc;
                 let mut __sym0 = &mut Some((__tok));
                 __result = try!(__state2(__lookbehind, __tokens, __sym0));
             }
@@ -80,17 +81,17 @@ mod __parse__S {
     pub fn __state1<
         __TOKENS: Iterator<Item=Result<((), Tok, ()),()>>,
     >(
-        __lookbehind: Option<()>,
+        __lookbehind: (),
         __tokens: &mut __TOKENS,
         __lookahead: Option<((), Tok, ())>,
         __sym0: &mut Option<i32>,
-    ) -> Result<(Option<()>, Option<((), Tok, ())>, __Nonterminal<>), __ParseError<(),Tok,()>>
+    ) -> Result<((), Option<((), Tok, ())>, __Nonterminal<>), __ParseError<(),Tok,()>>
     {
-        let mut __result: (Option<()>, Option<((), Tok, ())>, __Nonterminal<>);
+        let mut __result: ((), Option<((), Tok, ())>, __Nonterminal<>);
         match __lookahead {
             None => {
                 let __sym0 = __sym0.take().unwrap();
-                let __nt = super::__action0(__sym0, __lookbehind.as_ref(), __lookahead.as_ref().map(|o| &o.0));
+                let __nt = super::__action0(__sym0, &__lookbehind, __lookahead.as_ref().map(|o| &o.0));
                 return Ok((__lookbehind, __lookahead, __Nonterminal::____S(__nt)));
             }
             _ => {
@@ -105,12 +106,12 @@ mod __parse__S {
     pub fn __state2<
         __TOKENS: Iterator<Item=Result<((), Tok, ()),()>>,
     >(
-        __lookbehind: Option<()>,
+        __lookbehind: (),
         __tokens: &mut __TOKENS,
         __sym0: &mut Option<Tok>,
-    ) -> Result<(Option<()>, Option<((), Tok, ())>, __Nonterminal<>), __ParseError<(),Tok,()>>
+    ) -> Result<((), Option<((), Tok, ())>, __Nonterminal<>), __ParseError<(),Tok,()>>
     {
-        let mut __result: (Option<()>, Option<((), Tok, ())>, __Nonterminal<>);
+        let mut __result: ((), Option<((), Tok, ())>, __Nonterminal<>);
         let __lookahead = match __tokens.next() {
             Some(Ok(v)) => Some(v),
             None => None,
@@ -118,7 +119,7 @@ mod __parse__S {
         };
         match __lookahead {
             Some((_, __tok @ Tok::RParen, __loc)) => {
-                let mut __lookbehind = Some(__loc);
+                let __lookbehind = __loc;
                 let mut __sym1 = &mut Some((__tok));
                 __result = try!(__state3(__lookbehind, __tokens, __sym0, __sym1));
             }
@@ -135,13 +136,13 @@ mod __parse__S {
     pub fn __state3<
         __TOKENS: Iterator<Item=Result<((), Tok, ()),()>>,
     >(
-        __lookbehind: Option<()>,
+        __lookbehind: (),
         __tokens: &mut __TOKENS,
         __sym0: &mut Option<Tok>,
         __sym1: &mut Option<Tok>,
-    ) -> Result<(Option<()>, Option<((), Tok, ())>, __Nonterminal<>), __ParseError<(),Tok,()>>
+    ) -> Result<((), Option<((), Tok, ())>, __Nonterminal<>), __ParseError<(),Tok,()>>
     {
-        let mut __result: (Option<()>, Option<((), Tok, ())>, __Nonterminal<>);
+        let mut __result: ((), Option<((), Tok, ())>, __Nonterminal<>);
         let __lookahead = match __tokens.next() {
             Some(Ok(v)) => Some(v),
             None => None,
@@ -151,7 +152,7 @@ mod __parse__S {
             None => {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
-                let __nt = super::__action1(__sym0, __sym1, __lookbehind.as_ref(), __lookahead.as_ref().map(|o| &o.0));
+                let __nt = super::__action1(__sym0, __sym1, &__lookbehind, __lookahead.as_ref().map(|o| &o.0));
                 return Ok((__lookbehind, __lookahead, __Nonterminal::S(__nt)));
             }
             _ => {
@@ -168,7 +169,7 @@ pub use self::__parse__S::parse_S;
 pub fn __action0<
 >(
     __0: i32,
-    __lookbehind: Option<&()>,
+    __lookbehind: &(),
     __lookahead: Option<&()>,
 ) -> i32
 {
@@ -179,7 +180,7 @@ pub fn __action1<
 >(
     __0: Tok,
     __1: Tok,
-    __lookbehind: Option<&()>,
+    __lookbehind: &(),
     __lookahead: Option<&()>,
 ) -> i32
 {

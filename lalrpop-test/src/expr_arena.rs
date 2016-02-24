@@ -29,7 +29,8 @@ mod __parse__Expr {
             None => None,
             Some(Err(e)) => return Err(__ParseError::User { error: e }),
         };
-        match try!(__state0(arena, None, &mut __tokens, __lookahead)) {
+        let __lookbehind: usize = ::std::default::Default::default();
+        match try!(__state0(arena, __lookbehind, &mut __tokens, __lookahead)) {
             (_, Some(__lookahead), _) => {
                 Err(__ParseError::ExtraToken { token: __lookahead })
             }
@@ -58,25 +59,25 @@ mod __parse__Expr {
         __TOKENS: Iterator<Item=Result<(usize, Tok, usize),()>>,
     >(
         arena: &'ast Arena<'ast>,
-        __lookbehind: Option<usize>,
+        __lookbehind: usize,
         __tokens: &mut __TOKENS,
         __lookahead: Option<(usize, Tok, usize)>,
-    ) -> Result<(Option<usize>, Option<(usize, Tok, usize)>, __Nonterminal<'ast>), __ParseError<usize,Tok,()>>
+    ) -> Result<(usize, Option<(usize, Tok, usize)>, __Nonterminal<'ast>), __ParseError<usize,Tok,()>>
     {
-        let mut __result: (Option<usize>, Option<(usize, Tok, usize)>, __Nonterminal<'ast>);
+        let mut __result: (usize, Option<(usize, Tok, usize)>, __Nonterminal<'ast>);
         match __lookahead {
             Some((_, __tok @ Tok::LParen, __loc)) => {
-                let mut __lookbehind = Some(__loc);
+                let __lookbehind = __loc;
                 let mut __sym0 = &mut Some((__tok));
                 __result = try!(__state4(arena, __lookbehind, __tokens, __sym0));
             }
             Some((_, __tok @ Tok::Times, __loc)) => {
-                let mut __lookbehind = Some(__loc);
+                let __lookbehind = __loc;
                 let mut __sym0 = &mut Some((__tok));
                 __result = try!(__state5(arena, __lookbehind, __tokens, __sym0));
             }
             Some((_, Tok::Num(__tok0), __loc)) => {
-                let mut __lookbehind = Some(__loc);
+                let __lookbehind = __loc;
                 let mut __sym0 = &mut Some((__tok0));
                 __result = try!(__state6(arena, __lookbehind, __tokens, __sym0));
             }
@@ -114,27 +115,27 @@ mod __parse__Expr {
         __TOKENS: Iterator<Item=Result<(usize, Tok, usize),()>>,
     >(
         arena: &'ast Arena<'ast>,
-        __lookbehind: Option<usize>,
+        __lookbehind: usize,
         __tokens: &mut __TOKENS,
         __lookahead: Option<(usize, Tok, usize)>,
         __sym0: &mut Option<&'ast Node<'ast>>,
-    ) -> Result<(Option<usize>, Option<(usize, Tok, usize)>, __Nonterminal<'ast>), __ParseError<usize,Tok,()>>
+    ) -> Result<(usize, Option<(usize, Tok, usize)>, __Nonterminal<'ast>), __ParseError<usize,Tok,()>>
     {
-        let mut __result: (Option<usize>, Option<(usize, Tok, usize)>, __Nonterminal<'ast>);
+        let mut __result: (usize, Option<(usize, Tok, usize)>, __Nonterminal<'ast>);
         match __lookahead {
             Some((_, __tok @ Tok::Plus, __loc)) => {
-                let mut __lookbehind = Some(__loc);
+                let __lookbehind = __loc;
                 let mut __sym1 = &mut Some((__tok));
                 __result = try!(__state7(arena, __lookbehind, __tokens, __sym0, __sym1));
             }
             Some((_, __tok @ Tok::Minus, __loc)) => {
-                let mut __lookbehind = Some(__loc);
+                let __lookbehind = __loc;
                 let mut __sym1 = &mut Some((__tok));
                 __result = try!(__state8(arena, __lookbehind, __tokens, __sym0, __sym1));
             }
             None => {
                 let __sym0 = __sym0.take().unwrap();
-                let __nt = super::__action0(arena, __sym0, __lookbehind.as_ref(), __lookahead.as_ref().map(|o| &o.0));
+                let __nt = super::__action0(arena, __sym0, &__lookbehind, __lookahead.as_ref().map(|o| &o.0));
                 return Ok((__lookbehind, __lookahead, __Nonterminal::____Expr(__nt)));
             }
             _ => {
@@ -152,21 +153,21 @@ mod __parse__Expr {
         __TOKENS: Iterator<Item=Result<(usize, Tok, usize),()>>,
     >(
         arena: &'ast Arena<'ast>,
-        __lookbehind: Option<usize>,
+        __lookbehind: usize,
         __tokens: &mut __TOKENS,
         __lookahead: Option<(usize, Tok, usize)>,
         __sym0: &mut Option<&'ast Node<'ast>>,
-    ) -> Result<(Option<usize>, Option<(usize, Tok, usize)>, __Nonterminal<'ast>), __ParseError<usize,Tok,()>>
+    ) -> Result<(usize, Option<(usize, Tok, usize)>, __Nonterminal<'ast>), __ParseError<usize,Tok,()>>
     {
-        let mut __result: (Option<usize>, Option<(usize, Tok, usize)>, __Nonterminal<'ast>);
+        let mut __result: (usize, Option<(usize, Tok, usize)>, __Nonterminal<'ast>);
         match __lookahead {
             Some((_, __tok @ Tok::Times, __loc)) => {
-                let mut __lookbehind = Some(__loc);
+                let __lookbehind = __loc;
                 let mut __sym1 = &mut Some((__tok));
                 __result = try!(__state9(arena, __lookbehind, __tokens, __sym0, __sym1));
             }
             Some((_, __tok @ Tok::Div, __loc)) => {
-                let mut __lookbehind = Some(__loc);
+                let __lookbehind = __loc;
                 let mut __sym1 = &mut Some((__tok));
                 __result = try!(__state10(arena, __lookbehind, __tokens, __sym0, __sym1));
             }
@@ -174,7 +175,7 @@ mod __parse__Expr {
             Some((_, Tok::Plus, _)) |
             Some((_, Tok::Minus, _)) => {
                 let __sym0 = __sym0.take().unwrap();
-                let __nt = super::__action3(arena, __sym0, __lookbehind.as_ref(), __lookahead.as_ref().map(|o| &o.0));
+                let __nt = super::__action3(arena, __sym0, &__lookbehind, __lookahead.as_ref().map(|o| &o.0));
                 return Ok((__lookbehind, __lookahead, __Nonterminal::Expr(__nt)));
             }
             _ => {
@@ -192,13 +193,13 @@ mod __parse__Expr {
         __TOKENS: Iterator<Item=Result<(usize, Tok, usize),()>>,
     >(
         arena: &'ast Arena<'ast>,
-        __lookbehind: Option<usize>,
+        __lookbehind: usize,
         __tokens: &mut __TOKENS,
         __lookahead: Option<(usize, Tok, usize)>,
         __sym0: &mut Option<&'ast Node<'ast>>,
-    ) -> Result<(Option<usize>, Option<(usize, Tok, usize)>, __Nonterminal<'ast>), __ParseError<usize,Tok,()>>
+    ) -> Result<(usize, Option<(usize, Tok, usize)>, __Nonterminal<'ast>), __ParseError<usize,Tok,()>>
     {
-        let mut __result: (Option<usize>, Option<(usize, Tok, usize)>, __Nonterminal<'ast>);
+        let mut __result: (usize, Option<(usize, Tok, usize)>, __Nonterminal<'ast>);
         match __lookahead {
             None |
             Some((_, Tok::Times, _)) |
@@ -206,7 +207,7 @@ mod __parse__Expr {
             Some((_, Tok::Minus, _)) |
             Some((_, Tok::Div, _)) => {
                 let __sym0 = __sym0.take().unwrap();
-                let __nt = super::__action7(arena, __sym0, __lookbehind.as_ref(), __lookahead.as_ref().map(|o| &o.0));
+                let __nt = super::__action7(arena, __sym0, &__lookbehind, __lookahead.as_ref().map(|o| &o.0));
                 return Ok((__lookbehind, __lookahead, __Nonterminal::Factor(__nt)));
             }
             _ => {
@@ -223,12 +224,12 @@ mod __parse__Expr {
         __TOKENS: Iterator<Item=Result<(usize, Tok, usize),()>>,
     >(
         arena: &'ast Arena<'ast>,
-        __lookbehind: Option<usize>,
+        __lookbehind: usize,
         __tokens: &mut __TOKENS,
         __sym0: &mut Option<Tok>,
-    ) -> Result<(Option<usize>, Option<(usize, Tok, usize)>, __Nonterminal<'ast>), __ParseError<usize,Tok,()>>
+    ) -> Result<(usize, Option<(usize, Tok, usize)>, __Nonterminal<'ast>), __ParseError<usize,Tok,()>>
     {
-        let mut __result: (Option<usize>, Option<(usize, Tok, usize)>, __Nonterminal<'ast>);
+        let mut __result: (usize, Option<(usize, Tok, usize)>, __Nonterminal<'ast>);
         let __lookahead = match __tokens.next() {
             Some(Ok(v)) => Some(v),
             None => None,
@@ -236,17 +237,17 @@ mod __parse__Expr {
         };
         match __lookahead {
             Some((_, __tok @ Tok::LParen, __loc)) => {
-                let mut __lookbehind = Some(__loc);
+                let __lookbehind = __loc;
                 let mut __sym1 = &mut Some((__tok));
                 __result = try!(__state14(arena, __lookbehind, __tokens, __sym1));
             }
             Some((_, __tok @ Tok::Times, __loc)) => {
-                let mut __lookbehind = Some(__loc);
+                let __lookbehind = __loc;
                 let mut __sym1 = &mut Some((__tok));
                 __result = try!(__state15(arena, __lookbehind, __tokens, __sym1));
             }
             Some((_, Tok::Num(__tok0), __loc)) => {
-                let mut __lookbehind = Some(__loc);
+                let __lookbehind = __loc;
                 let mut __sym1 = &mut Some((__tok0));
                 __result = try!(__state16(arena, __lookbehind, __tokens, __sym1));
             }
@@ -285,12 +286,12 @@ mod __parse__Expr {
         __TOKENS: Iterator<Item=Result<(usize, Tok, usize),()>>,
     >(
         arena: &'ast Arena<'ast>,
-        __lookbehind: Option<usize>,
+        __lookbehind: usize,
         __tokens: &mut __TOKENS,
         __sym0: &mut Option<Tok>,
-    ) -> Result<(Option<usize>, Option<(usize, Tok, usize)>, __Nonterminal<'ast>), __ParseError<usize,Tok,()>>
+    ) -> Result<(usize, Option<(usize, Tok, usize)>, __Nonterminal<'ast>), __ParseError<usize,Tok,()>>
     {
-        let mut __result: (Option<usize>, Option<(usize, Tok, usize)>, __Nonterminal<'ast>);
+        let mut __result: (usize, Option<(usize, Tok, usize)>, __Nonterminal<'ast>);
         let __lookahead = match __tokens.next() {
             Some(Ok(v)) => Some(v),
             None => None,
@@ -298,7 +299,7 @@ mod __parse__Expr {
         };
         match __lookahead {
             Some((_, __tok @ Tok::LParen, __loc)) => {
-                let mut __lookbehind = Some(__loc);
+                let __lookbehind = __loc;
                 let mut __sym1 = &mut Some((__tok));
                 __result = try!(__state17(arena, __lookbehind, __tokens, __sym0, __sym1));
             }
@@ -317,12 +318,12 @@ mod __parse__Expr {
         __TOKENS: Iterator<Item=Result<(usize, Tok, usize),()>>,
     >(
         arena: &'ast Arena<'ast>,
-        __lookbehind: Option<usize>,
+        __lookbehind: usize,
         __tokens: &mut __TOKENS,
         __sym0: &mut Option<i32>,
-    ) -> Result<(Option<usize>, Option<(usize, Tok, usize)>, __Nonterminal<'ast>), __ParseError<usize,Tok,()>>
+    ) -> Result<(usize, Option<(usize, Tok, usize)>, __Nonterminal<'ast>), __ParseError<usize,Tok,()>>
     {
-        let mut __result: (Option<usize>, Option<(usize, Tok, usize)>, __Nonterminal<'ast>);
+        let mut __result: (usize, Option<(usize, Tok, usize)>, __Nonterminal<'ast>);
         let __lookahead = match __tokens.next() {
             Some(Ok(v)) => Some(v),
             None => None,
@@ -335,7 +336,7 @@ mod __parse__Expr {
             Some((_, Tok::Minus, _)) |
             Some((_, Tok::Div, _)) => {
                 let __sym0 = __sym0.take().unwrap();
-                let __nt = super::__action8(arena, __sym0, __lookbehind.as_ref(), __lookahead.as_ref().map(|o| &o.0));
+                let __nt = super::__action8(arena, __sym0, &__lookbehind, __lookahead.as_ref().map(|o| &o.0));
                 return Ok((__lookbehind, __lookahead, __Nonterminal::Term(__nt)));
             }
             _ => {
@@ -352,13 +353,13 @@ mod __parse__Expr {
         __TOKENS: Iterator<Item=Result<(usize, Tok, usize),()>>,
     >(
         arena: &'ast Arena<'ast>,
-        __lookbehind: Option<usize>,
+        __lookbehind: usize,
         __tokens: &mut __TOKENS,
         __sym0: &mut Option<&'ast Node<'ast>>,
         __sym1: &mut Option<Tok>,
-    ) -> Result<(Option<usize>, Option<(usize, Tok, usize)>, __Nonterminal<'ast>), __ParseError<usize,Tok,()>>
+    ) -> Result<(usize, Option<(usize, Tok, usize)>, __Nonterminal<'ast>), __ParseError<usize,Tok,()>>
     {
-        let mut __result: (Option<usize>, Option<(usize, Tok, usize)>, __Nonterminal<'ast>);
+        let mut __result: (usize, Option<(usize, Tok, usize)>, __Nonterminal<'ast>);
         let __lookahead = match __tokens.next() {
             Some(Ok(v)) => Some(v),
             None => None,
@@ -366,17 +367,17 @@ mod __parse__Expr {
         };
         match __lookahead {
             Some((_, __tok @ Tok::LParen, __loc)) => {
-                let mut __lookbehind = Some(__loc);
+                let __lookbehind = __loc;
                 let mut __sym2 = &mut Some((__tok));
                 __result = try!(__state4(arena, __lookbehind, __tokens, __sym2));
             }
             Some((_, __tok @ Tok::Times, __loc)) => {
-                let mut __lookbehind = Some(__loc);
+                let __lookbehind = __loc;
                 let mut __sym2 = &mut Some((__tok));
                 __result = try!(__state5(arena, __lookbehind, __tokens, __sym2));
             }
             Some((_, Tok::Num(__tok0), __loc)) => {
-                let mut __lookbehind = Some(__loc);
+                let __lookbehind = __loc;
                 let mut __sym2 = &mut Some((__tok0));
                 __result = try!(__state6(arena, __lookbehind, __tokens, __sym2));
             }
@@ -411,13 +412,13 @@ mod __parse__Expr {
         __TOKENS: Iterator<Item=Result<(usize, Tok, usize),()>>,
     >(
         arena: &'ast Arena<'ast>,
-        __lookbehind: Option<usize>,
+        __lookbehind: usize,
         __tokens: &mut __TOKENS,
         __sym0: &mut Option<&'ast Node<'ast>>,
         __sym1: &mut Option<Tok>,
-    ) -> Result<(Option<usize>, Option<(usize, Tok, usize)>, __Nonterminal<'ast>), __ParseError<usize,Tok,()>>
+    ) -> Result<(usize, Option<(usize, Tok, usize)>, __Nonterminal<'ast>), __ParseError<usize,Tok,()>>
     {
-        let mut __result: (Option<usize>, Option<(usize, Tok, usize)>, __Nonterminal<'ast>);
+        let mut __result: (usize, Option<(usize, Tok, usize)>, __Nonterminal<'ast>);
         let __lookahead = match __tokens.next() {
             Some(Ok(v)) => Some(v),
             None => None,
@@ -425,17 +426,17 @@ mod __parse__Expr {
         };
         match __lookahead {
             Some((_, __tok @ Tok::LParen, __loc)) => {
-                let mut __lookbehind = Some(__loc);
+                let __lookbehind = __loc;
                 let mut __sym2 = &mut Some((__tok));
                 __result = try!(__state4(arena, __lookbehind, __tokens, __sym2));
             }
             Some((_, __tok @ Tok::Times, __loc)) => {
-                let mut __lookbehind = Some(__loc);
+                let __lookbehind = __loc;
                 let mut __sym2 = &mut Some((__tok));
                 __result = try!(__state5(arena, __lookbehind, __tokens, __sym2));
             }
             Some((_, Tok::Num(__tok0), __loc)) => {
-                let mut __lookbehind = Some(__loc);
+                let __lookbehind = __loc;
                 let mut __sym2 = &mut Some((__tok0));
                 __result = try!(__state6(arena, __lookbehind, __tokens, __sym2));
             }
@@ -470,13 +471,13 @@ mod __parse__Expr {
         __TOKENS: Iterator<Item=Result<(usize, Tok, usize),()>>,
     >(
         arena: &'ast Arena<'ast>,
-        __lookbehind: Option<usize>,
+        __lookbehind: usize,
         __tokens: &mut __TOKENS,
         __sym0: &mut Option<&'ast Node<'ast>>,
         __sym1: &mut Option<Tok>,
-    ) -> Result<(Option<usize>, Option<(usize, Tok, usize)>, __Nonterminal<'ast>), __ParseError<usize,Tok,()>>
+    ) -> Result<(usize, Option<(usize, Tok, usize)>, __Nonterminal<'ast>), __ParseError<usize,Tok,()>>
     {
-        let mut __result: (Option<usize>, Option<(usize, Tok, usize)>, __Nonterminal<'ast>);
+        let mut __result: (usize, Option<(usize, Tok, usize)>, __Nonterminal<'ast>);
         let __lookahead = match __tokens.next() {
             Some(Ok(v)) => Some(v),
             None => None,
@@ -484,12 +485,12 @@ mod __parse__Expr {
         };
         match __lookahead {
             Some((_, __tok @ Tok::LParen, __loc)) => {
-                let mut __lookbehind = Some(__loc);
+                let __lookbehind = __loc;
                 let mut __sym2 = &mut Some((__tok));
                 __result = try!(__state4(arena, __lookbehind, __tokens, __sym2));
             }
             Some((_, Tok::Num(__tok0), __loc)) => {
-                let mut __lookbehind = Some(__loc);
+                let __lookbehind = __loc;
                 let mut __sym2 = &mut Some((__tok0));
                 __result = try!(__state6(arena, __lookbehind, __tokens, __sym2));
             }
@@ -520,13 +521,13 @@ mod __parse__Expr {
         __TOKENS: Iterator<Item=Result<(usize, Tok, usize),()>>,
     >(
         arena: &'ast Arena<'ast>,
-        __lookbehind: Option<usize>,
+        __lookbehind: usize,
         __tokens: &mut __TOKENS,
         __sym0: &mut Option<&'ast Node<'ast>>,
         __sym1: &mut Option<Tok>,
-    ) -> Result<(Option<usize>, Option<(usize, Tok, usize)>, __Nonterminal<'ast>), __ParseError<usize,Tok,()>>
+    ) -> Result<(usize, Option<(usize, Tok, usize)>, __Nonterminal<'ast>), __ParseError<usize,Tok,()>>
     {
-        let mut __result: (Option<usize>, Option<(usize, Tok, usize)>, __Nonterminal<'ast>);
+        let mut __result: (usize, Option<(usize, Tok, usize)>, __Nonterminal<'ast>);
         let __lookahead = match __tokens.next() {
             Some(Ok(v)) => Some(v),
             None => None,
@@ -534,12 +535,12 @@ mod __parse__Expr {
         };
         match __lookahead {
             Some((_, __tok @ Tok::LParen, __loc)) => {
-                let mut __lookbehind = Some(__loc);
+                let __lookbehind = __loc;
                 let mut __sym2 = &mut Some((__tok));
                 __result = try!(__state4(arena, __lookbehind, __tokens, __sym2));
             }
             Some((_, Tok::Num(__tok0), __loc)) => {
-                let mut __lookbehind = Some(__loc);
+                let __lookbehind = __loc;
                 let mut __sym2 = &mut Some((__tok0));
                 __result = try!(__state6(arena, __lookbehind, __tokens, __sym2));
             }
@@ -570,27 +571,27 @@ mod __parse__Expr {
         __TOKENS: Iterator<Item=Result<(usize, Tok, usize),()>>,
     >(
         arena: &'ast Arena<'ast>,
-        __lookbehind: Option<usize>,
+        __lookbehind: usize,
         __tokens: &mut __TOKENS,
         __lookahead: Option<(usize, Tok, usize)>,
         __sym0: &mut Option<Tok>,
         __sym1: &mut Option<&'ast Node<'ast>>,
-    ) -> Result<(Option<usize>, Option<(usize, Tok, usize)>, __Nonterminal<'ast>), __ParseError<usize,Tok,()>>
+    ) -> Result<(usize, Option<(usize, Tok, usize)>, __Nonterminal<'ast>), __ParseError<usize,Tok,()>>
     {
-        let mut __result: (Option<usize>, Option<(usize, Tok, usize)>, __Nonterminal<'ast>);
+        let mut __result: (usize, Option<(usize, Tok, usize)>, __Nonterminal<'ast>);
         match __lookahead {
             Some((_, __tok @ Tok::RParen, __loc)) => {
-                let mut __lookbehind = Some(__loc);
+                let __lookbehind = __loc;
                 let mut __sym2 = &mut Some((__tok));
                 __result = try!(__state22(arena, __lookbehind, __tokens, __sym0, __sym1, __sym2));
             }
             Some((_, __tok @ Tok::Plus, __loc)) => {
-                let mut __lookbehind = Some(__loc);
+                let __lookbehind = __loc;
                 let mut __sym2 = &mut Some((__tok));
                 __result = try!(__state23(arena, __lookbehind, __tokens, __sym1, __sym2));
             }
             Some((_, __tok @ Tok::Minus, __loc)) => {
-                let mut __lookbehind = Some(__loc);
+                let __lookbehind = __loc;
                 let mut __sym2 = &mut Some((__tok));
                 __result = try!(__state24(arena, __lookbehind, __tokens, __sym1, __sym2));
             }
@@ -609,21 +610,21 @@ mod __parse__Expr {
         __TOKENS: Iterator<Item=Result<(usize, Tok, usize),()>>,
     >(
         arena: &'ast Arena<'ast>,
-        __lookbehind: Option<usize>,
+        __lookbehind: usize,
         __tokens: &mut __TOKENS,
         __lookahead: Option<(usize, Tok, usize)>,
         __sym0: &mut Option<&'ast Node<'ast>>,
-    ) -> Result<(Option<usize>, Option<(usize, Tok, usize)>, __Nonterminal<'ast>), __ParseError<usize,Tok,()>>
+    ) -> Result<(usize, Option<(usize, Tok, usize)>, __Nonterminal<'ast>), __ParseError<usize,Tok,()>>
     {
-        let mut __result: (Option<usize>, Option<(usize, Tok, usize)>, __Nonterminal<'ast>);
+        let mut __result: (usize, Option<(usize, Tok, usize)>, __Nonterminal<'ast>);
         match __lookahead {
             Some((_, __tok @ Tok::Times, __loc)) => {
-                let mut __lookbehind = Some(__loc);
+                let __lookbehind = __loc;
                 let mut __sym1 = &mut Some((__tok));
                 __result = try!(__state25(arena, __lookbehind, __tokens, __sym0, __sym1));
             }
             Some((_, __tok @ Tok::Div, __loc)) => {
-                let mut __lookbehind = Some(__loc);
+                let __lookbehind = __loc;
                 let mut __sym1 = &mut Some((__tok));
                 __result = try!(__state26(arena, __lookbehind, __tokens, __sym0, __sym1));
             }
@@ -631,7 +632,7 @@ mod __parse__Expr {
             Some((_, Tok::Plus, _)) |
             Some((_, Tok::Minus, _)) => {
                 let __sym0 = __sym0.take().unwrap();
-                let __nt = super::__action3(arena, __sym0, __lookbehind.as_ref(), __lookahead.as_ref().map(|o| &o.0));
+                let __nt = super::__action3(arena, __sym0, &__lookbehind, __lookahead.as_ref().map(|o| &o.0));
                 return Ok((__lookbehind, __lookahead, __Nonterminal::Expr(__nt)));
             }
             _ => {
@@ -649,13 +650,13 @@ mod __parse__Expr {
         __TOKENS: Iterator<Item=Result<(usize, Tok, usize),()>>,
     >(
         arena: &'ast Arena<'ast>,
-        __lookbehind: Option<usize>,
+        __lookbehind: usize,
         __tokens: &mut __TOKENS,
         __lookahead: Option<(usize, Tok, usize)>,
         __sym0: &mut Option<&'ast Node<'ast>>,
-    ) -> Result<(Option<usize>, Option<(usize, Tok, usize)>, __Nonterminal<'ast>), __ParseError<usize,Tok,()>>
+    ) -> Result<(usize, Option<(usize, Tok, usize)>, __Nonterminal<'ast>), __ParseError<usize,Tok,()>>
     {
-        let mut __result: (Option<usize>, Option<(usize, Tok, usize)>, __Nonterminal<'ast>);
+        let mut __result: (usize, Option<(usize, Tok, usize)>, __Nonterminal<'ast>);
         match __lookahead {
             Some((_, Tok::RParen, _)) |
             Some((_, Tok::Times, _)) |
@@ -663,7 +664,7 @@ mod __parse__Expr {
             Some((_, Tok::Minus, _)) |
             Some((_, Tok::Div, _)) => {
                 let __sym0 = __sym0.take().unwrap();
-                let __nt = super::__action7(arena, __sym0, __lookbehind.as_ref(), __lookahead.as_ref().map(|o| &o.0));
+                let __nt = super::__action7(arena, __sym0, &__lookbehind, __lookahead.as_ref().map(|o| &o.0));
                 return Ok((__lookbehind, __lookahead, __Nonterminal::Factor(__nt)));
             }
             _ => {
@@ -680,12 +681,12 @@ mod __parse__Expr {
         __TOKENS: Iterator<Item=Result<(usize, Tok, usize),()>>,
     >(
         arena: &'ast Arena<'ast>,
-        __lookbehind: Option<usize>,
+        __lookbehind: usize,
         __tokens: &mut __TOKENS,
         __sym0: &mut Option<Tok>,
-    ) -> Result<(Option<usize>, Option<(usize, Tok, usize)>, __Nonterminal<'ast>), __ParseError<usize,Tok,()>>
+    ) -> Result<(usize, Option<(usize, Tok, usize)>, __Nonterminal<'ast>), __ParseError<usize,Tok,()>>
     {
-        let mut __result: (Option<usize>, Option<(usize, Tok, usize)>, __Nonterminal<'ast>);
+        let mut __result: (usize, Option<(usize, Tok, usize)>, __Nonterminal<'ast>);
         let __lookahead = match __tokens.next() {
             Some(Ok(v)) => Some(v),
             None => None,
@@ -693,17 +694,17 @@ mod __parse__Expr {
         };
         match __lookahead {
             Some((_, __tok @ Tok::LParen, __loc)) => {
-                let mut __lookbehind = Some(__loc);
+                let __lookbehind = __loc;
                 let mut __sym1 = &mut Some((__tok));
                 __result = try!(__state14(arena, __lookbehind, __tokens, __sym1));
             }
             Some((_, __tok @ Tok::Times, __loc)) => {
-                let mut __lookbehind = Some(__loc);
+                let __lookbehind = __loc;
                 let mut __sym1 = &mut Some((__tok));
                 __result = try!(__state15(arena, __lookbehind, __tokens, __sym1));
             }
             Some((_, Tok::Num(__tok0), __loc)) => {
-                let mut __lookbehind = Some(__loc);
+                let __lookbehind = __loc;
                 let mut __sym1 = &mut Some((__tok0));
                 __result = try!(__state16(arena, __lookbehind, __tokens, __sym1));
             }
@@ -742,12 +743,12 @@ mod __parse__Expr {
         __TOKENS: Iterator<Item=Result<(usize, Tok, usize),()>>,
     >(
         arena: &'ast Arena<'ast>,
-        __lookbehind: Option<usize>,
+        __lookbehind: usize,
         __tokens: &mut __TOKENS,
         __sym0: &mut Option<Tok>,
-    ) -> Result<(Option<usize>, Option<(usize, Tok, usize)>, __Nonterminal<'ast>), __ParseError<usize,Tok,()>>
+    ) -> Result<(usize, Option<(usize, Tok, usize)>, __Nonterminal<'ast>), __ParseError<usize,Tok,()>>
     {
-        let mut __result: (Option<usize>, Option<(usize, Tok, usize)>, __Nonterminal<'ast>);
+        let mut __result: (usize, Option<(usize, Tok, usize)>, __Nonterminal<'ast>);
         let __lookahead = match __tokens.next() {
             Some(Ok(v)) => Some(v),
             None => None,
@@ -755,7 +756,7 @@ mod __parse__Expr {
         };
         match __lookahead {
             Some((_, __tok @ Tok::LParen, __loc)) => {
-                let mut __lookbehind = Some(__loc);
+                let __lookbehind = __loc;
                 let mut __sym1 = &mut Some((__tok));
                 __result = try!(__state28(arena, __lookbehind, __tokens, __sym0, __sym1));
             }
@@ -774,12 +775,12 @@ mod __parse__Expr {
         __TOKENS: Iterator<Item=Result<(usize, Tok, usize),()>>,
     >(
         arena: &'ast Arena<'ast>,
-        __lookbehind: Option<usize>,
+        __lookbehind: usize,
         __tokens: &mut __TOKENS,
         __sym0: &mut Option<i32>,
-    ) -> Result<(Option<usize>, Option<(usize, Tok, usize)>, __Nonterminal<'ast>), __ParseError<usize,Tok,()>>
+    ) -> Result<(usize, Option<(usize, Tok, usize)>, __Nonterminal<'ast>), __ParseError<usize,Tok,()>>
     {
-        let mut __result: (Option<usize>, Option<(usize, Tok, usize)>, __Nonterminal<'ast>);
+        let mut __result: (usize, Option<(usize, Tok, usize)>, __Nonterminal<'ast>);
         let __lookahead = match __tokens.next() {
             Some(Ok(v)) => Some(v),
             None => None,
@@ -792,7 +793,7 @@ mod __parse__Expr {
             Some((_, Tok::Minus, _)) |
             Some((_, Tok::Div, _)) => {
                 let __sym0 = __sym0.take().unwrap();
-                let __nt = super::__action8(arena, __sym0, __lookbehind.as_ref(), __lookahead.as_ref().map(|o| &o.0));
+                let __nt = super::__action8(arena, __sym0, &__lookbehind, __lookahead.as_ref().map(|o| &o.0));
                 return Ok((__lookbehind, __lookahead, __Nonterminal::Term(__nt)));
             }
             _ => {
@@ -809,13 +810,13 @@ mod __parse__Expr {
         __TOKENS: Iterator<Item=Result<(usize, Tok, usize),()>>,
     >(
         arena: &'ast Arena<'ast>,
-        __lookbehind: Option<usize>,
+        __lookbehind: usize,
         __tokens: &mut __TOKENS,
         __sym0: &mut Option<Tok>,
         __sym1: &mut Option<Tok>,
-    ) -> Result<(Option<usize>, Option<(usize, Tok, usize)>, __Nonterminal<'ast>), __ParseError<usize,Tok,()>>
+    ) -> Result<(usize, Option<(usize, Tok, usize)>, __Nonterminal<'ast>), __ParseError<usize,Tok,()>>
     {
-        let mut __result: (Option<usize>, Option<(usize, Tok, usize)>, __Nonterminal<'ast>);
+        let mut __result: (usize, Option<(usize, Tok, usize)>, __Nonterminal<'ast>);
         let __lookahead = match __tokens.next() {
             Some(Ok(v)) => Some(v),
             None => None,
@@ -823,22 +824,22 @@ mod __parse__Expr {
         };
         match __lookahead {
             Some((_, __tok @ Tok::LParen, __loc)) => {
-                let mut __lookbehind = Some(__loc);
+                let __lookbehind = __loc;
                 let mut __sym2 = &mut Some((__tok));
                 __result = try!(__state34(arena, __lookbehind, __tokens, __sym2));
             }
             Some((_, __tok @ Tok::Times, __loc)) => {
-                let mut __lookbehind = Some(__loc);
+                let __lookbehind = __loc;
                 let mut __sym2 = &mut Some((__tok));
                 __result = try!(__state35(arena, __lookbehind, __tokens, __sym2));
             }
             Some((_, Tok::Num(__tok0), __loc)) => {
-                let mut __lookbehind = Some(__loc);
+                let __lookbehind = __loc;
                 let mut __sym2 = &mut Some((__tok0));
                 __result = try!(__state36(arena, __lookbehind, __tokens, __sym2));
             }
             Some((_, Tok::RParen, _)) => {
-                let __nt = super::__action23(arena, __lookbehind.as_ref(), __lookahead.as_ref().map(|o| &o.0));
+                let __nt = super::__action23(arena, &__lookbehind, __lookahead.as_ref().map(|o| &o.0));
                 __result = (__lookbehind, __lookahead, __Nonterminal::Comma_3cExpr_3e(__nt));
             }
             _ => {
@@ -884,23 +885,23 @@ mod __parse__Expr {
         __TOKENS: Iterator<Item=Result<(usize, Tok, usize),()>>,
     >(
         arena: &'ast Arena<'ast>,
-        __lookbehind: Option<usize>,
+        __lookbehind: usize,
         __tokens: &mut __TOKENS,
         __lookahead: Option<(usize, Tok, usize)>,
         __sym0: &mut Option<&'ast Node<'ast>>,
         __sym1: &mut Option<Tok>,
         __sym2: &mut Option<&'ast Node<'ast>>,
-    ) -> Result<(Option<usize>, Option<(usize, Tok, usize)>, __Nonterminal<'ast>), __ParseError<usize,Tok,()>>
+    ) -> Result<(usize, Option<(usize, Tok, usize)>, __Nonterminal<'ast>), __ParseError<usize,Tok,()>>
     {
-        let mut __result: (Option<usize>, Option<(usize, Tok, usize)>, __Nonterminal<'ast>);
+        let mut __result: (usize, Option<(usize, Tok, usize)>, __Nonterminal<'ast>);
         match __lookahead {
             Some((_, __tok @ Tok::Times, __loc)) => {
-                let mut __lookbehind = Some(__loc);
+                let __lookbehind = __loc;
                 let mut __sym3 = &mut Some((__tok));
                 __result = try!(__state9(arena, __lookbehind, __tokens, __sym2, __sym3));
             }
             Some((_, __tok @ Tok::Div, __loc)) => {
-                let mut __lookbehind = Some(__loc);
+                let __lookbehind = __loc;
                 let mut __sym3 = &mut Some((__tok));
                 __result = try!(__state10(arena, __lookbehind, __tokens, __sym2, __sym3));
             }
@@ -910,7 +911,7 @@ mod __parse__Expr {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
                 let __sym2 = __sym2.take().unwrap();
-                let __nt = super::__action2(arena, __sym0, __sym1, __sym2, __lookbehind.as_ref(), __lookahead.as_ref().map(|o| &o.0));
+                let __nt = super::__action2(arena, __sym0, __sym1, __sym2, &__lookbehind, __lookahead.as_ref().map(|o| &o.0));
                 return Ok((__lookbehind, __lookahead, __Nonterminal::Expr(__nt)));
             }
             _ => {
@@ -928,23 +929,23 @@ mod __parse__Expr {
         __TOKENS: Iterator<Item=Result<(usize, Tok, usize),()>>,
     >(
         arena: &'ast Arena<'ast>,
-        __lookbehind: Option<usize>,
+        __lookbehind: usize,
         __tokens: &mut __TOKENS,
         __lookahead: Option<(usize, Tok, usize)>,
         __sym0: &mut Option<&'ast Node<'ast>>,
         __sym1: &mut Option<Tok>,
         __sym2: &mut Option<&'ast Node<'ast>>,
-    ) -> Result<(Option<usize>, Option<(usize, Tok, usize)>, __Nonterminal<'ast>), __ParseError<usize,Tok,()>>
+    ) -> Result<(usize, Option<(usize, Tok, usize)>, __Nonterminal<'ast>), __ParseError<usize,Tok,()>>
     {
-        let mut __result: (Option<usize>, Option<(usize, Tok, usize)>, __Nonterminal<'ast>);
+        let mut __result: (usize, Option<(usize, Tok, usize)>, __Nonterminal<'ast>);
         match __lookahead {
             Some((_, __tok @ Tok::Times, __loc)) => {
-                let mut __lookbehind = Some(__loc);
+                let __lookbehind = __loc;
                 let mut __sym3 = &mut Some((__tok));
                 __result = try!(__state9(arena, __lookbehind, __tokens, __sym2, __sym3));
             }
             Some((_, __tok @ Tok::Div, __loc)) => {
-                let mut __lookbehind = Some(__loc);
+                let __lookbehind = __loc;
                 let mut __sym3 = &mut Some((__tok));
                 __result = try!(__state10(arena, __lookbehind, __tokens, __sym2, __sym3));
             }
@@ -954,7 +955,7 @@ mod __parse__Expr {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
                 let __sym2 = __sym2.take().unwrap();
-                let __nt = super::__action1(arena, __sym0, __sym1, __sym2, __lookbehind.as_ref(), __lookahead.as_ref().map(|o| &o.0));
+                let __nt = super::__action1(arena, __sym0, __sym1, __sym2, &__lookbehind, __lookahead.as_ref().map(|o| &o.0));
                 return Ok((__lookbehind, __lookahead, __Nonterminal::Expr(__nt)));
             }
             _ => {
@@ -972,15 +973,15 @@ mod __parse__Expr {
         __TOKENS: Iterator<Item=Result<(usize, Tok, usize),()>>,
     >(
         arena: &'ast Arena<'ast>,
-        __lookbehind: Option<usize>,
+        __lookbehind: usize,
         __tokens: &mut __TOKENS,
         __lookahead: Option<(usize, Tok, usize)>,
         __sym0: &mut Option<&'ast Node<'ast>>,
         __sym1: &mut Option<Tok>,
         __sym2: &mut Option<&'ast Node<'ast>>,
-    ) -> Result<(Option<usize>, Option<(usize, Tok, usize)>, __Nonterminal<'ast>), __ParseError<usize,Tok,()>>
+    ) -> Result<(usize, Option<(usize, Tok, usize)>, __Nonterminal<'ast>), __ParseError<usize,Tok,()>>
     {
-        let mut __result: (Option<usize>, Option<(usize, Tok, usize)>, __Nonterminal<'ast>);
+        let mut __result: (usize, Option<(usize, Tok, usize)>, __Nonterminal<'ast>);
         match __lookahead {
             None |
             Some((_, Tok::Times, _)) |
@@ -990,7 +991,7 @@ mod __parse__Expr {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
                 let __sym2 = __sym2.take().unwrap();
-                let __nt = super::__action4(arena, __sym0, __sym1, __sym2, __lookbehind.as_ref(), __lookahead.as_ref().map(|o| &o.0));
+                let __nt = super::__action4(arena, __sym0, __sym1, __sym2, &__lookbehind, __lookahead.as_ref().map(|o| &o.0));
                 return Ok((__lookbehind, __lookahead, __Nonterminal::Factor(__nt)));
             }
             _ => {
@@ -1007,15 +1008,15 @@ mod __parse__Expr {
         __TOKENS: Iterator<Item=Result<(usize, Tok, usize),()>>,
     >(
         arena: &'ast Arena<'ast>,
-        __lookbehind: Option<usize>,
+        __lookbehind: usize,
         __tokens: &mut __TOKENS,
         __lookahead: Option<(usize, Tok, usize)>,
         __sym0: &mut Option<&'ast Node<'ast>>,
         __sym1: &mut Option<Tok>,
         __sym2: &mut Option<&'ast Node<'ast>>,
-    ) -> Result<(Option<usize>, Option<(usize, Tok, usize)>, __Nonterminal<'ast>), __ParseError<usize,Tok,()>>
+    ) -> Result<(usize, Option<(usize, Tok, usize)>, __Nonterminal<'ast>), __ParseError<usize,Tok,()>>
     {
-        let mut __result: (Option<usize>, Option<(usize, Tok, usize)>, __Nonterminal<'ast>);
+        let mut __result: (usize, Option<(usize, Tok, usize)>, __Nonterminal<'ast>);
         match __lookahead {
             None |
             Some((_, Tok::Times, _)) |
@@ -1025,7 +1026,7 @@ mod __parse__Expr {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
                 let __sym2 = __sym2.take().unwrap();
-                let __nt = super::__action5(arena, __sym0, __sym1, __sym2, __lookbehind.as_ref(), __lookahead.as_ref().map(|o| &o.0));
+                let __nt = super::__action5(arena, __sym0, __sym1, __sym2, &__lookbehind, __lookahead.as_ref().map(|o| &o.0));
                 return Ok((__lookbehind, __lookahead, __Nonterminal::Factor(__nt)));
             }
             _ => {
@@ -1042,14 +1043,14 @@ mod __parse__Expr {
         __TOKENS: Iterator<Item=Result<(usize, Tok, usize),()>>,
     >(
         arena: &'ast Arena<'ast>,
-        __lookbehind: Option<usize>,
+        __lookbehind: usize,
         __tokens: &mut __TOKENS,
         __sym0: &mut Option<Tok>,
         __sym1: &mut Option<&'ast Node<'ast>>,
         __sym2: &mut Option<Tok>,
-    ) -> Result<(Option<usize>, Option<(usize, Tok, usize)>, __Nonterminal<'ast>), __ParseError<usize,Tok,()>>
+    ) -> Result<(usize, Option<(usize, Tok, usize)>, __Nonterminal<'ast>), __ParseError<usize,Tok,()>>
     {
-        let mut __result: (Option<usize>, Option<(usize, Tok, usize)>, __Nonterminal<'ast>);
+        let mut __result: (usize, Option<(usize, Tok, usize)>, __Nonterminal<'ast>);
         let __lookahead = match __tokens.next() {
             Some(Ok(v)) => Some(v),
             None => None,
@@ -1064,7 +1065,7 @@ mod __parse__Expr {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
                 let __sym2 = __sym2.take().unwrap();
-                let __nt = super::__action9(arena, __sym0, __sym1, __sym2, __lookbehind.as_ref(), __lookahead.as_ref().map(|o| &o.0));
+                let __nt = super::__action9(arena, __sym0, __sym1, __sym2, &__lookbehind, __lookahead.as_ref().map(|o| &o.0));
                 return Ok((__lookbehind, __lookahead, __Nonterminal::Term(__nt)));
             }
             _ => {
@@ -1081,13 +1082,13 @@ mod __parse__Expr {
         __TOKENS: Iterator<Item=Result<(usize, Tok, usize),()>>,
     >(
         arena: &'ast Arena<'ast>,
-        __lookbehind: Option<usize>,
+        __lookbehind: usize,
         __tokens: &mut __TOKENS,
         __sym0: &mut Option<&'ast Node<'ast>>,
         __sym1: &mut Option<Tok>,
-    ) -> Result<(Option<usize>, Option<(usize, Tok, usize)>, __Nonterminal<'ast>), __ParseError<usize,Tok,()>>
+    ) -> Result<(usize, Option<(usize, Tok, usize)>, __Nonterminal<'ast>), __ParseError<usize,Tok,()>>
     {
-        let mut __result: (Option<usize>, Option<(usize, Tok, usize)>, __Nonterminal<'ast>);
+        let mut __result: (usize, Option<(usize, Tok, usize)>, __Nonterminal<'ast>);
         let __lookahead = match __tokens.next() {
             Some(Ok(v)) => Some(v),
             None => None,
@@ -1095,17 +1096,17 @@ mod __parse__Expr {
         };
         match __lookahead {
             Some((_, __tok @ Tok::LParen, __loc)) => {
-                let mut __lookbehind = Some(__loc);
+                let __lookbehind = __loc;
                 let mut __sym2 = &mut Some((__tok));
                 __result = try!(__state14(arena, __lookbehind, __tokens, __sym2));
             }
             Some((_, __tok @ Tok::Times, __loc)) => {
-                let mut __lookbehind = Some(__loc);
+                let __lookbehind = __loc;
                 let mut __sym2 = &mut Some((__tok));
                 __result = try!(__state15(arena, __lookbehind, __tokens, __sym2));
             }
             Some((_, Tok::Num(__tok0), __loc)) => {
-                let mut __lookbehind = Some(__loc);
+                let __lookbehind = __loc;
                 let mut __sym2 = &mut Some((__tok0));
                 __result = try!(__state16(arena, __lookbehind, __tokens, __sym2));
             }
@@ -1140,13 +1141,13 @@ mod __parse__Expr {
         __TOKENS: Iterator<Item=Result<(usize, Tok, usize),()>>,
     >(
         arena: &'ast Arena<'ast>,
-        __lookbehind: Option<usize>,
+        __lookbehind: usize,
         __tokens: &mut __TOKENS,
         __sym0: &mut Option<&'ast Node<'ast>>,
         __sym1: &mut Option<Tok>,
-    ) -> Result<(Option<usize>, Option<(usize, Tok, usize)>, __Nonterminal<'ast>), __ParseError<usize,Tok,()>>
+    ) -> Result<(usize, Option<(usize, Tok, usize)>, __Nonterminal<'ast>), __ParseError<usize,Tok,()>>
     {
-        let mut __result: (Option<usize>, Option<(usize, Tok, usize)>, __Nonterminal<'ast>);
+        let mut __result: (usize, Option<(usize, Tok, usize)>, __Nonterminal<'ast>);
         let __lookahead = match __tokens.next() {
             Some(Ok(v)) => Some(v),
             None => None,
@@ -1154,17 +1155,17 @@ mod __parse__Expr {
         };
         match __lookahead {
             Some((_, __tok @ Tok::LParen, __loc)) => {
-                let mut __lookbehind = Some(__loc);
+                let __lookbehind = __loc;
                 let mut __sym2 = &mut Some((__tok));
                 __result = try!(__state14(arena, __lookbehind, __tokens, __sym2));
             }
             Some((_, __tok @ Tok::Times, __loc)) => {
-                let mut __lookbehind = Some(__loc);
+                let __lookbehind = __loc;
                 let mut __sym2 = &mut Some((__tok));
                 __result = try!(__state15(arena, __lookbehind, __tokens, __sym2));
             }
             Some((_, Tok::Num(__tok0), __loc)) => {
-                let mut __lookbehind = Some(__loc);
+                let __lookbehind = __loc;
                 let mut __sym2 = &mut Some((__tok0));
                 __result = try!(__state16(arena, __lookbehind, __tokens, __sym2));
             }
@@ -1199,13 +1200,13 @@ mod __parse__Expr {
         __TOKENS: Iterator<Item=Result<(usize, Tok, usize),()>>,
     >(
         arena: &'ast Arena<'ast>,
-        __lookbehind: Option<usize>,
+        __lookbehind: usize,
         __tokens: &mut __TOKENS,
         __sym0: &mut Option<&'ast Node<'ast>>,
         __sym1: &mut Option<Tok>,
-    ) -> Result<(Option<usize>, Option<(usize, Tok, usize)>, __Nonterminal<'ast>), __ParseError<usize,Tok,()>>
+    ) -> Result<(usize, Option<(usize, Tok, usize)>, __Nonterminal<'ast>), __ParseError<usize,Tok,()>>
     {
-        let mut __result: (Option<usize>, Option<(usize, Tok, usize)>, __Nonterminal<'ast>);
+        let mut __result: (usize, Option<(usize, Tok, usize)>, __Nonterminal<'ast>);
         let __lookahead = match __tokens.next() {
             Some(Ok(v)) => Some(v),
             None => None,
@@ -1213,12 +1214,12 @@ mod __parse__Expr {
         };
         match __lookahead {
             Some((_, __tok @ Tok::LParen, __loc)) => {
-                let mut __lookbehind = Some(__loc);
+                let __lookbehind = __loc;
                 let mut __sym2 = &mut Some((__tok));
                 __result = try!(__state14(arena, __lookbehind, __tokens, __sym2));
             }
             Some((_, Tok::Num(__tok0), __loc)) => {
-                let mut __lookbehind = Some(__loc);
+                let __lookbehind = __loc;
                 let mut __sym2 = &mut Some((__tok0));
                 __result = try!(__state16(arena, __lookbehind, __tokens, __sym2));
             }
@@ -1249,13 +1250,13 @@ mod __parse__Expr {
         __TOKENS: Iterator<Item=Result<(usize, Tok, usize),()>>,
     >(
         arena: &'ast Arena<'ast>,
-        __lookbehind: Option<usize>,
+        __lookbehind: usize,
         __tokens: &mut __TOKENS,
         __sym0: &mut Option<&'ast Node<'ast>>,
         __sym1: &mut Option<Tok>,
-    ) -> Result<(Option<usize>, Option<(usize, Tok, usize)>, __Nonterminal<'ast>), __ParseError<usize,Tok,()>>
+    ) -> Result<(usize, Option<(usize, Tok, usize)>, __Nonterminal<'ast>), __ParseError<usize,Tok,()>>
     {
-        let mut __result: (Option<usize>, Option<(usize, Tok, usize)>, __Nonterminal<'ast>);
+        let mut __result: (usize, Option<(usize, Tok, usize)>, __Nonterminal<'ast>);
         let __lookahead = match __tokens.next() {
             Some(Ok(v)) => Some(v),
             None => None,
@@ -1263,12 +1264,12 @@ mod __parse__Expr {
         };
         match __lookahead {
             Some((_, __tok @ Tok::LParen, __loc)) => {
-                let mut __lookbehind = Some(__loc);
+                let __lookbehind = __loc;
                 let mut __sym2 = &mut Some((__tok));
                 __result = try!(__state14(arena, __lookbehind, __tokens, __sym2));
             }
             Some((_, Tok::Num(__tok0), __loc)) => {
-                let mut __lookbehind = Some(__loc);
+                let __lookbehind = __loc;
                 let mut __sym2 = &mut Some((__tok0));
                 __result = try!(__state16(arena, __lookbehind, __tokens, __sym2));
             }
@@ -1299,27 +1300,27 @@ mod __parse__Expr {
         __TOKENS: Iterator<Item=Result<(usize, Tok, usize),()>>,
     >(
         arena: &'ast Arena<'ast>,
-        __lookbehind: Option<usize>,
+        __lookbehind: usize,
         __tokens: &mut __TOKENS,
         __lookahead: Option<(usize, Tok, usize)>,
         __sym0: &mut Option<Tok>,
         __sym1: &mut Option<&'ast Node<'ast>>,
-    ) -> Result<(Option<usize>, Option<(usize, Tok, usize)>, __Nonterminal<'ast>), __ParseError<usize,Tok,()>>
+    ) -> Result<(usize, Option<(usize, Tok, usize)>, __Nonterminal<'ast>), __ParseError<usize,Tok,()>>
     {
-        let mut __result: (Option<usize>, Option<(usize, Tok, usize)>, __Nonterminal<'ast>);
+        let mut __result: (usize, Option<(usize, Tok, usize)>, __Nonterminal<'ast>);
         match __lookahead {
             Some((_, __tok @ Tok::RParen, __loc)) => {
-                let mut __lookbehind = Some(__loc);
+                let __lookbehind = __loc;
                 let mut __sym2 = &mut Some((__tok));
                 __result = try!(__state41(arena, __lookbehind, __tokens, __sym0, __sym1, __sym2));
             }
             Some((_, __tok @ Tok::Plus, __loc)) => {
-                let mut __lookbehind = Some(__loc);
+                let __lookbehind = __loc;
                 let mut __sym2 = &mut Some((__tok));
                 __result = try!(__state23(arena, __lookbehind, __tokens, __sym1, __sym2));
             }
             Some((_, __tok @ Tok::Minus, __loc)) => {
-                let mut __lookbehind = Some(__loc);
+                let __lookbehind = __loc;
                 let mut __sym2 = &mut Some((__tok));
                 __result = try!(__state24(arena, __lookbehind, __tokens, __sym1, __sym2));
             }
@@ -1338,13 +1339,13 @@ mod __parse__Expr {
         __TOKENS: Iterator<Item=Result<(usize, Tok, usize),()>>,
     >(
         arena: &'ast Arena<'ast>,
-        __lookbehind: Option<usize>,
+        __lookbehind: usize,
         __tokens: &mut __TOKENS,
         __sym0: &mut Option<Tok>,
         __sym1: &mut Option<Tok>,
-    ) -> Result<(Option<usize>, Option<(usize, Tok, usize)>, __Nonterminal<'ast>), __ParseError<usize,Tok,()>>
+    ) -> Result<(usize, Option<(usize, Tok, usize)>, __Nonterminal<'ast>), __ParseError<usize,Tok,()>>
     {
-        let mut __result: (Option<usize>, Option<(usize, Tok, usize)>, __Nonterminal<'ast>);
+        let mut __result: (usize, Option<(usize, Tok, usize)>, __Nonterminal<'ast>);
         let __lookahead = match __tokens.next() {
             Some(Ok(v)) => Some(v),
             None => None,
@@ -1352,22 +1353,22 @@ mod __parse__Expr {
         };
         match __lookahead {
             Some((_, __tok @ Tok::LParen, __loc)) => {
-                let mut __lookbehind = Some(__loc);
+                let __lookbehind = __loc;
                 let mut __sym2 = &mut Some((__tok));
                 __result = try!(__state34(arena, __lookbehind, __tokens, __sym2));
             }
             Some((_, __tok @ Tok::Times, __loc)) => {
-                let mut __lookbehind = Some(__loc);
+                let __lookbehind = __loc;
                 let mut __sym2 = &mut Some((__tok));
                 __result = try!(__state35(arena, __lookbehind, __tokens, __sym2));
             }
             Some((_, Tok::Num(__tok0), __loc)) => {
-                let mut __lookbehind = Some(__loc);
+                let __lookbehind = __loc;
                 let mut __sym2 = &mut Some((__tok0));
                 __result = try!(__state36(arena, __lookbehind, __tokens, __sym2));
             }
             Some((_, Tok::RParen, _)) => {
-                let __nt = super::__action23(arena, __lookbehind.as_ref(), __lookahead.as_ref().map(|o| &o.0));
+                let __nt = super::__action23(arena, &__lookbehind, __lookahead.as_ref().map(|o| &o.0));
                 __result = (__lookbehind, __lookahead, __Nonterminal::Comma_3cExpr_3e(__nt));
             }
             _ => {
@@ -1413,32 +1414,32 @@ mod __parse__Expr {
         __TOKENS: Iterator<Item=Result<(usize, Tok, usize),()>>,
     >(
         arena: &'ast Arena<'ast>,
-        __lookbehind: Option<usize>,
+        __lookbehind: usize,
         __tokens: &mut __TOKENS,
         __lookahead: Option<(usize, Tok, usize)>,
         __sym0: &mut Option<::std::vec::Vec<&'ast Node<'ast>>>,
-    ) -> Result<(Option<usize>, Option<(usize, Tok, usize)>, __Nonterminal<'ast>), __ParseError<usize,Tok,()>>
+    ) -> Result<(usize, Option<(usize, Tok, usize)>, __Nonterminal<'ast>), __ParseError<usize,Tok,()>>
     {
-        let mut __result: (Option<usize>, Option<(usize, Tok, usize)>, __Nonterminal<'ast>);
+        let mut __result: (usize, Option<(usize, Tok, usize)>, __Nonterminal<'ast>);
         match __lookahead {
             Some((_, __tok @ Tok::LParen, __loc)) => {
-                let mut __lookbehind = Some(__loc);
+                let __lookbehind = __loc;
                 let mut __sym1 = &mut Some((__tok));
                 __result = try!(__state34(arena, __lookbehind, __tokens, __sym1));
             }
             Some((_, __tok @ Tok::Times, __loc)) => {
-                let mut __lookbehind = Some(__loc);
+                let __lookbehind = __loc;
                 let mut __sym1 = &mut Some((__tok));
                 __result = try!(__state35(arena, __lookbehind, __tokens, __sym1));
             }
             Some((_, Tok::Num(__tok0), __loc)) => {
-                let mut __lookbehind = Some(__loc);
+                let __lookbehind = __loc;
                 let mut __sym1 = &mut Some((__tok0));
                 __result = try!(__state36(arena, __lookbehind, __tokens, __sym1));
             }
             Some((_, Tok::RParen, _)) => {
                 let __sym0 = __sym0.take().unwrap();
-                let __nt = super::__action25(arena, __sym0, __lookbehind.as_ref(), __lookahead.as_ref().map(|o| &o.0));
+                let __nt = super::__action25(arena, __sym0, &__lookbehind, __lookahead.as_ref().map(|o| &o.0));
                 return Ok((__lookbehind, __lookahead, __Nonterminal::Comma_3cExpr_3e(__nt)));
             }
             _ => {
@@ -1476,18 +1477,18 @@ mod __parse__Expr {
         __TOKENS: Iterator<Item=Result<(usize, Tok, usize),()>>,
     >(
         arena: &'ast Arena<'ast>,
-        __lookbehind: Option<usize>,
+        __lookbehind: usize,
         __tokens: &mut __TOKENS,
         __lookahead: Option<(usize, Tok, usize)>,
         __sym0: &mut Option<Tok>,
         __sym1: &mut Option<Tok>,
         __sym2: &mut Option<Vec<&'ast Node<'ast>>>,
-    ) -> Result<(Option<usize>, Option<(usize, Tok, usize)>, __Nonterminal<'ast>), __ParseError<usize,Tok,()>>
+    ) -> Result<(usize, Option<(usize, Tok, usize)>, __Nonterminal<'ast>), __ParseError<usize,Tok,()>>
     {
-        let mut __result: (Option<usize>, Option<(usize, Tok, usize)>, __Nonterminal<'ast>);
+        let mut __result: (usize, Option<(usize, Tok, usize)>, __Nonterminal<'ast>);
         match __lookahead {
             Some((_, __tok @ Tok::RParen, __loc)) => {
-                let mut __lookbehind = Some(__loc);
+                let __lookbehind = __loc;
                 let mut __sym3 = &mut Some((__tok));
                 __result = try!(__state44(arena, __lookbehind, __tokens, __sym0, __sym1, __sym2, __sym3));
             }
@@ -1506,32 +1507,32 @@ mod __parse__Expr {
         __TOKENS: Iterator<Item=Result<(usize, Tok, usize),()>>,
     >(
         arena: &'ast Arena<'ast>,
-        __lookbehind: Option<usize>,
+        __lookbehind: usize,
         __tokens: &mut __TOKENS,
         __lookahead: Option<(usize, Tok, usize)>,
         __sym0: &mut Option<&'ast Node<'ast>>,
-    ) -> Result<(Option<usize>, Option<(usize, Tok, usize)>, __Nonterminal<'ast>), __ParseError<usize,Tok,()>>
+    ) -> Result<(usize, Option<(usize, Tok, usize)>, __Nonterminal<'ast>), __ParseError<usize,Tok,()>>
     {
-        let mut __result: (Option<usize>, Option<(usize, Tok, usize)>, __Nonterminal<'ast>);
+        let mut __result: (usize, Option<(usize, Tok, usize)>, __Nonterminal<'ast>);
         match __lookahead {
             Some((_, __tok @ Tok::Plus, __loc)) => {
-                let mut __lookbehind = Some(__loc);
+                let __lookbehind = __loc;
                 let mut __sym1 = &mut Some((__tok));
                 __result = try!(__state45(arena, __lookbehind, __tokens, __sym0, __sym1));
             }
             Some((_, __tok @ Tok::Comma, __loc)) => {
-                let mut __lookbehind = Some(__loc);
+                let __lookbehind = __loc;
                 let mut __sym1 = &mut Some((__tok));
                 __result = try!(__state46(arena, __lookbehind, __tokens, __sym0, __sym1));
             }
             Some((_, __tok @ Tok::Minus, __loc)) => {
-                let mut __lookbehind = Some(__loc);
+                let __lookbehind = __loc;
                 let mut __sym1 = &mut Some((__tok));
                 __result = try!(__state47(arena, __lookbehind, __tokens, __sym0, __sym1));
             }
             Some((_, Tok::RParen, _)) => {
                 let __sym0 = __sym0.take().unwrap();
-                let __nt = super::__action22(arena, __sym0, __lookbehind.as_ref(), __lookahead.as_ref().map(|o| &o.0));
+                let __nt = super::__action22(arena, __sym0, &__lookbehind, __lookahead.as_ref().map(|o| &o.0));
                 return Ok((__lookbehind, __lookahead, __Nonterminal::Comma_3cExpr_3e(__nt)));
             }
             _ => {
@@ -1549,21 +1550,21 @@ mod __parse__Expr {
         __TOKENS: Iterator<Item=Result<(usize, Tok, usize),()>>,
     >(
         arena: &'ast Arena<'ast>,
-        __lookbehind: Option<usize>,
+        __lookbehind: usize,
         __tokens: &mut __TOKENS,
         __lookahead: Option<(usize, Tok, usize)>,
         __sym0: &mut Option<&'ast Node<'ast>>,
-    ) -> Result<(Option<usize>, Option<(usize, Tok, usize)>, __Nonterminal<'ast>), __ParseError<usize,Tok,()>>
+    ) -> Result<(usize, Option<(usize, Tok, usize)>, __Nonterminal<'ast>), __ParseError<usize,Tok,()>>
     {
-        let mut __result: (Option<usize>, Option<(usize, Tok, usize)>, __Nonterminal<'ast>);
+        let mut __result: (usize, Option<(usize, Tok, usize)>, __Nonterminal<'ast>);
         match __lookahead {
             Some((_, __tok @ Tok::Times, __loc)) => {
-                let mut __lookbehind = Some(__loc);
+                let __lookbehind = __loc;
                 let mut __sym1 = &mut Some((__tok));
                 __result = try!(__state48(arena, __lookbehind, __tokens, __sym0, __sym1));
             }
             Some((_, __tok @ Tok::Div, __loc)) => {
-                let mut __lookbehind = Some(__loc);
+                let __lookbehind = __loc;
                 let mut __sym1 = &mut Some((__tok));
                 __result = try!(__state49(arena, __lookbehind, __tokens, __sym0, __sym1));
             }
@@ -1572,7 +1573,7 @@ mod __parse__Expr {
             Some((_, Tok::Comma, _)) |
             Some((_, Tok::Minus, _)) => {
                 let __sym0 = __sym0.take().unwrap();
-                let __nt = super::__action3(arena, __sym0, __lookbehind.as_ref(), __lookahead.as_ref().map(|o| &o.0));
+                let __nt = super::__action3(arena, __sym0, &__lookbehind, __lookahead.as_ref().map(|o| &o.0));
                 return Ok((__lookbehind, __lookahead, __Nonterminal::Expr(__nt)));
             }
             _ => {
@@ -1590,13 +1591,13 @@ mod __parse__Expr {
         __TOKENS: Iterator<Item=Result<(usize, Tok, usize),()>>,
     >(
         arena: &'ast Arena<'ast>,
-        __lookbehind: Option<usize>,
+        __lookbehind: usize,
         __tokens: &mut __TOKENS,
         __lookahead: Option<(usize, Tok, usize)>,
         __sym0: &mut Option<&'ast Node<'ast>>,
-    ) -> Result<(Option<usize>, Option<(usize, Tok, usize)>, __Nonterminal<'ast>), __ParseError<usize,Tok,()>>
+    ) -> Result<(usize, Option<(usize, Tok, usize)>, __Nonterminal<'ast>), __ParseError<usize,Tok,()>>
     {
-        let mut __result: (Option<usize>, Option<(usize, Tok, usize)>, __Nonterminal<'ast>);
+        let mut __result: (usize, Option<(usize, Tok, usize)>, __Nonterminal<'ast>);
         match __lookahead {
             Some((_, Tok::RParen, _)) |
             Some((_, Tok::Times, _)) |
@@ -1605,7 +1606,7 @@ mod __parse__Expr {
             Some((_, Tok::Minus, _)) |
             Some((_, Tok::Div, _)) => {
                 let __sym0 = __sym0.take().unwrap();
-                let __nt = super::__action7(arena, __sym0, __lookbehind.as_ref(), __lookahead.as_ref().map(|o| &o.0));
+                let __nt = super::__action7(arena, __sym0, &__lookbehind, __lookahead.as_ref().map(|o| &o.0));
                 return Ok((__lookbehind, __lookahead, __Nonterminal::Factor(__nt)));
             }
             _ => {
@@ -1622,12 +1623,12 @@ mod __parse__Expr {
         __TOKENS: Iterator<Item=Result<(usize, Tok, usize),()>>,
     >(
         arena: &'ast Arena<'ast>,
-        __lookbehind: Option<usize>,
+        __lookbehind: usize,
         __tokens: &mut __TOKENS,
         __sym0: &mut Option<Tok>,
-    ) -> Result<(Option<usize>, Option<(usize, Tok, usize)>, __Nonterminal<'ast>), __ParseError<usize,Tok,()>>
+    ) -> Result<(usize, Option<(usize, Tok, usize)>, __Nonterminal<'ast>), __ParseError<usize,Tok,()>>
     {
-        let mut __result: (Option<usize>, Option<(usize, Tok, usize)>, __Nonterminal<'ast>);
+        let mut __result: (usize, Option<(usize, Tok, usize)>, __Nonterminal<'ast>);
         let __lookahead = match __tokens.next() {
             Some(Ok(v)) => Some(v),
             None => None,
@@ -1635,17 +1636,17 @@ mod __parse__Expr {
         };
         match __lookahead {
             Some((_, __tok @ Tok::LParen, __loc)) => {
-                let mut __lookbehind = Some(__loc);
+                let __lookbehind = __loc;
                 let mut __sym1 = &mut Some((__tok));
                 __result = try!(__state14(arena, __lookbehind, __tokens, __sym1));
             }
             Some((_, __tok @ Tok::Times, __loc)) => {
-                let mut __lookbehind = Some(__loc);
+                let __lookbehind = __loc;
                 let mut __sym1 = &mut Some((__tok));
                 __result = try!(__state15(arena, __lookbehind, __tokens, __sym1));
             }
             Some((_, Tok::Num(__tok0), __loc)) => {
-                let mut __lookbehind = Some(__loc);
+                let __lookbehind = __loc;
                 let mut __sym1 = &mut Some((__tok0));
                 __result = try!(__state16(arena, __lookbehind, __tokens, __sym1));
             }
@@ -1684,12 +1685,12 @@ mod __parse__Expr {
         __TOKENS: Iterator<Item=Result<(usize, Tok, usize),()>>,
     >(
         arena: &'ast Arena<'ast>,
-        __lookbehind: Option<usize>,
+        __lookbehind: usize,
         __tokens: &mut __TOKENS,
         __sym0: &mut Option<Tok>,
-    ) -> Result<(Option<usize>, Option<(usize, Tok, usize)>, __Nonterminal<'ast>), __ParseError<usize,Tok,()>>
+    ) -> Result<(usize, Option<(usize, Tok, usize)>, __Nonterminal<'ast>), __ParseError<usize,Tok,()>>
     {
-        let mut __result: (Option<usize>, Option<(usize, Tok, usize)>, __Nonterminal<'ast>);
+        let mut __result: (usize, Option<(usize, Tok, usize)>, __Nonterminal<'ast>);
         let __lookahead = match __tokens.next() {
             Some(Ok(v)) => Some(v),
             None => None,
@@ -1697,7 +1698,7 @@ mod __parse__Expr {
         };
         match __lookahead {
             Some((_, __tok @ Tok::LParen, __loc)) => {
-                let mut __lookbehind = Some(__loc);
+                let __lookbehind = __loc;
                 let mut __sym1 = &mut Some((__tok));
                 __result = try!(__state51(arena, __lookbehind, __tokens, __sym0, __sym1));
             }
@@ -1716,12 +1717,12 @@ mod __parse__Expr {
         __TOKENS: Iterator<Item=Result<(usize, Tok, usize),()>>,
     >(
         arena: &'ast Arena<'ast>,
-        __lookbehind: Option<usize>,
+        __lookbehind: usize,
         __tokens: &mut __TOKENS,
         __sym0: &mut Option<i32>,
-    ) -> Result<(Option<usize>, Option<(usize, Tok, usize)>, __Nonterminal<'ast>), __ParseError<usize,Tok,()>>
+    ) -> Result<(usize, Option<(usize, Tok, usize)>, __Nonterminal<'ast>), __ParseError<usize,Tok,()>>
     {
-        let mut __result: (Option<usize>, Option<(usize, Tok, usize)>, __Nonterminal<'ast>);
+        let mut __result: (usize, Option<(usize, Tok, usize)>, __Nonterminal<'ast>);
         let __lookahead = match __tokens.next() {
             Some(Ok(v)) => Some(v),
             None => None,
@@ -1735,7 +1736,7 @@ mod __parse__Expr {
             Some((_, Tok::Minus, _)) |
             Some((_, Tok::Div, _)) => {
                 let __sym0 = __sym0.take().unwrap();
-                let __nt = super::__action8(arena, __sym0, __lookbehind.as_ref(), __lookahead.as_ref().map(|o| &o.0));
+                let __nt = super::__action8(arena, __sym0, &__lookbehind, __lookahead.as_ref().map(|o| &o.0));
                 return Ok((__lookbehind, __lookahead, __Nonterminal::Term(__nt)));
             }
             _ => {
@@ -1752,23 +1753,23 @@ mod __parse__Expr {
         __TOKENS: Iterator<Item=Result<(usize, Tok, usize),()>>,
     >(
         arena: &'ast Arena<'ast>,
-        __lookbehind: Option<usize>,
+        __lookbehind: usize,
         __tokens: &mut __TOKENS,
         __lookahead: Option<(usize, Tok, usize)>,
         __sym0: &mut Option<&'ast Node<'ast>>,
         __sym1: &mut Option<Tok>,
         __sym2: &mut Option<&'ast Node<'ast>>,
-    ) -> Result<(Option<usize>, Option<(usize, Tok, usize)>, __Nonterminal<'ast>), __ParseError<usize,Tok,()>>
+    ) -> Result<(usize, Option<(usize, Tok, usize)>, __Nonterminal<'ast>), __ParseError<usize,Tok,()>>
     {
-        let mut __result: (Option<usize>, Option<(usize, Tok, usize)>, __Nonterminal<'ast>);
+        let mut __result: (usize, Option<(usize, Tok, usize)>, __Nonterminal<'ast>);
         match __lookahead {
             Some((_, __tok @ Tok::Times, __loc)) => {
-                let mut __lookbehind = Some(__loc);
+                let __lookbehind = __loc;
                 let mut __sym3 = &mut Some((__tok));
                 __result = try!(__state25(arena, __lookbehind, __tokens, __sym2, __sym3));
             }
             Some((_, __tok @ Tok::Div, __loc)) => {
-                let mut __lookbehind = Some(__loc);
+                let __lookbehind = __loc;
                 let mut __sym3 = &mut Some((__tok));
                 __result = try!(__state26(arena, __lookbehind, __tokens, __sym2, __sym3));
             }
@@ -1778,7 +1779,7 @@ mod __parse__Expr {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
                 let __sym2 = __sym2.take().unwrap();
-                let __nt = super::__action2(arena, __sym0, __sym1, __sym2, __lookbehind.as_ref(), __lookahead.as_ref().map(|o| &o.0));
+                let __nt = super::__action2(arena, __sym0, __sym1, __sym2, &__lookbehind, __lookahead.as_ref().map(|o| &o.0));
                 return Ok((__lookbehind, __lookahead, __Nonterminal::Expr(__nt)));
             }
             _ => {
@@ -1796,23 +1797,23 @@ mod __parse__Expr {
         __TOKENS: Iterator<Item=Result<(usize, Tok, usize),()>>,
     >(
         arena: &'ast Arena<'ast>,
-        __lookbehind: Option<usize>,
+        __lookbehind: usize,
         __tokens: &mut __TOKENS,
         __lookahead: Option<(usize, Tok, usize)>,
         __sym0: &mut Option<&'ast Node<'ast>>,
         __sym1: &mut Option<Tok>,
         __sym2: &mut Option<&'ast Node<'ast>>,
-    ) -> Result<(Option<usize>, Option<(usize, Tok, usize)>, __Nonterminal<'ast>), __ParseError<usize,Tok,()>>
+    ) -> Result<(usize, Option<(usize, Tok, usize)>, __Nonterminal<'ast>), __ParseError<usize,Tok,()>>
     {
-        let mut __result: (Option<usize>, Option<(usize, Tok, usize)>, __Nonterminal<'ast>);
+        let mut __result: (usize, Option<(usize, Tok, usize)>, __Nonterminal<'ast>);
         match __lookahead {
             Some((_, __tok @ Tok::Times, __loc)) => {
-                let mut __lookbehind = Some(__loc);
+                let __lookbehind = __loc;
                 let mut __sym3 = &mut Some((__tok));
                 __result = try!(__state25(arena, __lookbehind, __tokens, __sym2, __sym3));
             }
             Some((_, __tok @ Tok::Div, __loc)) => {
-                let mut __lookbehind = Some(__loc);
+                let __lookbehind = __loc;
                 let mut __sym3 = &mut Some((__tok));
                 __result = try!(__state26(arena, __lookbehind, __tokens, __sym2, __sym3));
             }
@@ -1822,7 +1823,7 @@ mod __parse__Expr {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
                 let __sym2 = __sym2.take().unwrap();
-                let __nt = super::__action1(arena, __sym0, __sym1, __sym2, __lookbehind.as_ref(), __lookahead.as_ref().map(|o| &o.0));
+                let __nt = super::__action1(arena, __sym0, __sym1, __sym2, &__lookbehind, __lookahead.as_ref().map(|o| &o.0));
                 return Ok((__lookbehind, __lookahead, __Nonterminal::Expr(__nt)));
             }
             _ => {
@@ -1840,15 +1841,15 @@ mod __parse__Expr {
         __TOKENS: Iterator<Item=Result<(usize, Tok, usize),()>>,
     >(
         arena: &'ast Arena<'ast>,
-        __lookbehind: Option<usize>,
+        __lookbehind: usize,
         __tokens: &mut __TOKENS,
         __lookahead: Option<(usize, Tok, usize)>,
         __sym0: &mut Option<&'ast Node<'ast>>,
         __sym1: &mut Option<Tok>,
         __sym2: &mut Option<&'ast Node<'ast>>,
-    ) -> Result<(Option<usize>, Option<(usize, Tok, usize)>, __Nonterminal<'ast>), __ParseError<usize,Tok,()>>
+    ) -> Result<(usize, Option<(usize, Tok, usize)>, __Nonterminal<'ast>), __ParseError<usize,Tok,()>>
     {
-        let mut __result: (Option<usize>, Option<(usize, Tok, usize)>, __Nonterminal<'ast>);
+        let mut __result: (usize, Option<(usize, Tok, usize)>, __Nonterminal<'ast>);
         match __lookahead {
             Some((_, Tok::RParen, _)) |
             Some((_, Tok::Times, _)) |
@@ -1858,7 +1859,7 @@ mod __parse__Expr {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
                 let __sym2 = __sym2.take().unwrap();
-                let __nt = super::__action4(arena, __sym0, __sym1, __sym2, __lookbehind.as_ref(), __lookahead.as_ref().map(|o| &o.0));
+                let __nt = super::__action4(arena, __sym0, __sym1, __sym2, &__lookbehind, __lookahead.as_ref().map(|o| &o.0));
                 return Ok((__lookbehind, __lookahead, __Nonterminal::Factor(__nt)));
             }
             _ => {
@@ -1875,15 +1876,15 @@ mod __parse__Expr {
         __TOKENS: Iterator<Item=Result<(usize, Tok, usize),()>>,
     >(
         arena: &'ast Arena<'ast>,
-        __lookbehind: Option<usize>,
+        __lookbehind: usize,
         __tokens: &mut __TOKENS,
         __lookahead: Option<(usize, Tok, usize)>,
         __sym0: &mut Option<&'ast Node<'ast>>,
         __sym1: &mut Option<Tok>,
         __sym2: &mut Option<&'ast Node<'ast>>,
-    ) -> Result<(Option<usize>, Option<(usize, Tok, usize)>, __Nonterminal<'ast>), __ParseError<usize,Tok,()>>
+    ) -> Result<(usize, Option<(usize, Tok, usize)>, __Nonterminal<'ast>), __ParseError<usize,Tok,()>>
     {
-        let mut __result: (Option<usize>, Option<(usize, Tok, usize)>, __Nonterminal<'ast>);
+        let mut __result: (usize, Option<(usize, Tok, usize)>, __Nonterminal<'ast>);
         match __lookahead {
             Some((_, Tok::RParen, _)) |
             Some((_, Tok::Times, _)) |
@@ -1893,7 +1894,7 @@ mod __parse__Expr {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
                 let __sym2 = __sym2.take().unwrap();
-                let __nt = super::__action5(arena, __sym0, __sym1, __sym2, __lookbehind.as_ref(), __lookahead.as_ref().map(|o| &o.0));
+                let __nt = super::__action5(arena, __sym0, __sym1, __sym2, &__lookbehind, __lookahead.as_ref().map(|o| &o.0));
                 return Ok((__lookbehind, __lookahead, __Nonterminal::Factor(__nt)));
             }
             _ => {
@@ -1910,14 +1911,14 @@ mod __parse__Expr {
         __TOKENS: Iterator<Item=Result<(usize, Tok, usize),()>>,
     >(
         arena: &'ast Arena<'ast>,
-        __lookbehind: Option<usize>,
+        __lookbehind: usize,
         __tokens: &mut __TOKENS,
         __sym0: &mut Option<Tok>,
         __sym1: &mut Option<&'ast Node<'ast>>,
         __sym2: &mut Option<Tok>,
-    ) -> Result<(Option<usize>, Option<(usize, Tok, usize)>, __Nonterminal<'ast>), __ParseError<usize,Tok,()>>
+    ) -> Result<(usize, Option<(usize, Tok, usize)>, __Nonterminal<'ast>), __ParseError<usize,Tok,()>>
     {
-        let mut __result: (Option<usize>, Option<(usize, Tok, usize)>, __Nonterminal<'ast>);
+        let mut __result: (usize, Option<(usize, Tok, usize)>, __Nonterminal<'ast>);
         let __lookahead = match __tokens.next() {
             Some(Ok(v)) => Some(v),
             None => None,
@@ -1932,7 +1933,7 @@ mod __parse__Expr {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
                 let __sym2 = __sym2.take().unwrap();
-                let __nt = super::__action9(arena, __sym0, __sym1, __sym2, __lookbehind.as_ref(), __lookahead.as_ref().map(|o| &o.0));
+                let __nt = super::__action9(arena, __sym0, __sym1, __sym2, &__lookbehind, __lookahead.as_ref().map(|o| &o.0));
                 return Ok((__lookbehind, __lookahead, __Nonterminal::Term(__nt)));
             }
             _ => {
@@ -1949,18 +1950,18 @@ mod __parse__Expr {
         __TOKENS: Iterator<Item=Result<(usize, Tok, usize),()>>,
     >(
         arena: &'ast Arena<'ast>,
-        __lookbehind: Option<usize>,
+        __lookbehind: usize,
         __tokens: &mut __TOKENS,
         __lookahead: Option<(usize, Tok, usize)>,
         __sym0: &mut Option<Tok>,
         __sym1: &mut Option<Tok>,
         __sym2: &mut Option<Vec<&'ast Node<'ast>>>,
-    ) -> Result<(Option<usize>, Option<(usize, Tok, usize)>, __Nonterminal<'ast>), __ParseError<usize,Tok,()>>
+    ) -> Result<(usize, Option<(usize, Tok, usize)>, __Nonterminal<'ast>), __ParseError<usize,Tok,()>>
     {
-        let mut __result: (Option<usize>, Option<(usize, Tok, usize)>, __Nonterminal<'ast>);
+        let mut __result: (usize, Option<(usize, Tok, usize)>, __Nonterminal<'ast>);
         match __lookahead {
             Some((_, __tok @ Tok::RParen, __loc)) => {
-                let mut __lookbehind = Some(__loc);
+                let __lookbehind = __loc;
                 let mut __sym3 = &mut Some((__tok));
                 __result = try!(__state52(arena, __lookbehind, __tokens, __sym0, __sym1, __sym2, __sym3));
             }
@@ -1979,34 +1980,34 @@ mod __parse__Expr {
         __TOKENS: Iterator<Item=Result<(usize, Tok, usize),()>>,
     >(
         arena: &'ast Arena<'ast>,
-        __lookbehind: Option<usize>,
+        __lookbehind: usize,
         __tokens: &mut __TOKENS,
         __lookahead: Option<(usize, Tok, usize)>,
         __sym0: &mut Option<::std::vec::Vec<&'ast Node<'ast>>>,
         __sym1: &mut Option<&'ast Node<'ast>>,
-    ) -> Result<(Option<usize>, Option<(usize, Tok, usize)>, __Nonterminal<'ast>), __ParseError<usize,Tok,()>>
+    ) -> Result<(usize, Option<(usize, Tok, usize)>, __Nonterminal<'ast>), __ParseError<usize,Tok,()>>
     {
-        let mut __result: (Option<usize>, Option<(usize, Tok, usize)>, __Nonterminal<'ast>);
+        let mut __result: (usize, Option<(usize, Tok, usize)>, __Nonterminal<'ast>);
         match __lookahead {
             Some((_, __tok @ Tok::Plus, __loc)) => {
-                let mut __lookbehind = Some(__loc);
+                let __lookbehind = __loc;
                 let mut __sym2 = &mut Some((__tok));
                 __result = try!(__state45(arena, __lookbehind, __tokens, __sym1, __sym2));
             }
             Some((_, __tok @ Tok::Comma, __loc)) => {
-                let mut __lookbehind = Some(__loc);
+                let __lookbehind = __loc;
                 let mut __sym2 = &mut Some((__tok));
                 __result = try!(__state53(arena, __lookbehind, __tokens, __sym0, __sym1, __sym2));
             }
             Some((_, __tok @ Tok::Minus, __loc)) => {
-                let mut __lookbehind = Some(__loc);
+                let __lookbehind = __loc;
                 let mut __sym2 = &mut Some((__tok));
                 __result = try!(__state47(arena, __lookbehind, __tokens, __sym1, __sym2));
             }
             Some((_, Tok::RParen, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
-                let __nt = super::__action24(arena, __sym0, __sym1, __lookbehind.as_ref(), __lookahead.as_ref().map(|o| &o.0));
+                let __nt = super::__action24(arena, __sym0, __sym1, &__lookbehind, __lookahead.as_ref().map(|o| &o.0));
                 return Ok((__lookbehind, __lookahead, __Nonterminal::Comma_3cExpr_3e(__nt)));
             }
             _ => {
@@ -2024,15 +2025,15 @@ mod __parse__Expr {
         __TOKENS: Iterator<Item=Result<(usize, Tok, usize),()>>,
     >(
         arena: &'ast Arena<'ast>,
-        __lookbehind: Option<usize>,
+        __lookbehind: usize,
         __tokens: &mut __TOKENS,
         __sym0: &mut Option<Tok>,
         __sym1: &mut Option<Tok>,
         __sym2: &mut Option<Vec<&'ast Node<'ast>>>,
         __sym3: &mut Option<Tok>,
-    ) -> Result<(Option<usize>, Option<(usize, Tok, usize)>, __Nonterminal<'ast>), __ParseError<usize,Tok,()>>
+    ) -> Result<(usize, Option<(usize, Tok, usize)>, __Nonterminal<'ast>), __ParseError<usize,Tok,()>>
     {
-        let mut __result: (Option<usize>, Option<(usize, Tok, usize)>, __Nonterminal<'ast>);
+        let mut __result: (usize, Option<(usize, Tok, usize)>, __Nonterminal<'ast>);
         let __lookahead = match __tokens.next() {
             Some(Ok(v)) => Some(v),
             None => None,
@@ -2048,7 +2049,7 @@ mod __parse__Expr {
                 let __sym1 = __sym1.take().unwrap();
                 let __sym2 = __sym2.take().unwrap();
                 let __sym3 = __sym3.take().unwrap();
-                let __nt = super::__action6(arena, __sym0, __sym1, __sym2, __sym3, __lookbehind.as_ref(), __lookahead.as_ref().map(|o| &o.0));
+                let __nt = super::__action6(arena, __sym0, __sym1, __sym2, __sym3, &__lookbehind, __lookahead.as_ref().map(|o| &o.0));
                 return Ok((__lookbehind, __lookahead, __Nonterminal::Factor(__nt)));
             }
             _ => {
@@ -2065,13 +2066,13 @@ mod __parse__Expr {
         __TOKENS: Iterator<Item=Result<(usize, Tok, usize),()>>,
     >(
         arena: &'ast Arena<'ast>,
-        __lookbehind: Option<usize>,
+        __lookbehind: usize,
         __tokens: &mut __TOKENS,
         __sym0: &mut Option<&'ast Node<'ast>>,
         __sym1: &mut Option<Tok>,
-    ) -> Result<(Option<usize>, Option<(usize, Tok, usize)>, __Nonterminal<'ast>), __ParseError<usize,Tok,()>>
+    ) -> Result<(usize, Option<(usize, Tok, usize)>, __Nonterminal<'ast>), __ParseError<usize,Tok,()>>
     {
-        let mut __result: (Option<usize>, Option<(usize, Tok, usize)>, __Nonterminal<'ast>);
+        let mut __result: (usize, Option<(usize, Tok, usize)>, __Nonterminal<'ast>);
         let __lookahead = match __tokens.next() {
             Some(Ok(v)) => Some(v),
             None => None,
@@ -2079,17 +2080,17 @@ mod __parse__Expr {
         };
         match __lookahead {
             Some((_, __tok @ Tok::LParen, __loc)) => {
-                let mut __lookbehind = Some(__loc);
+                let __lookbehind = __loc;
                 let mut __sym2 = &mut Some((__tok));
                 __result = try!(__state34(arena, __lookbehind, __tokens, __sym2));
             }
             Some((_, __tok @ Tok::Times, __loc)) => {
-                let mut __lookbehind = Some(__loc);
+                let __lookbehind = __loc;
                 let mut __sym2 = &mut Some((__tok));
                 __result = try!(__state35(arena, __lookbehind, __tokens, __sym2));
             }
             Some((_, Tok::Num(__tok0), __loc)) => {
-                let mut __lookbehind = Some(__loc);
+                let __lookbehind = __loc;
                 let mut __sym2 = &mut Some((__tok0));
                 __result = try!(__state36(arena, __lookbehind, __tokens, __sym2));
             }
@@ -2124,13 +2125,13 @@ mod __parse__Expr {
         __TOKENS: Iterator<Item=Result<(usize, Tok, usize),()>>,
     >(
         arena: &'ast Arena<'ast>,
-        __lookbehind: Option<usize>,
+        __lookbehind: usize,
         __tokens: &mut __TOKENS,
         __sym0: &mut Option<&'ast Node<'ast>>,
         __sym1: &mut Option<Tok>,
-    ) -> Result<(Option<usize>, Option<(usize, Tok, usize)>, __Nonterminal<'ast>), __ParseError<usize,Tok,()>>
+    ) -> Result<(usize, Option<(usize, Tok, usize)>, __Nonterminal<'ast>), __ParseError<usize,Tok,()>>
     {
-        let mut __result: (Option<usize>, Option<(usize, Tok, usize)>, __Nonterminal<'ast>);
+        let mut __result: (usize, Option<(usize, Tok, usize)>, __Nonterminal<'ast>);
         let __lookahead = match __tokens.next() {
             Some(Ok(v)) => Some(v),
             None => None,
@@ -2143,7 +2144,7 @@ mod __parse__Expr {
             Some((_, Tok::Num(_), _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
-                let __nt = super::__action18(arena, __sym0, __sym1, __lookbehind.as_ref(), __lookahead.as_ref().map(|o| &o.0));
+                let __nt = super::__action18(arena, __sym0, __sym1, &__lookbehind, __lookahead.as_ref().map(|o| &o.0));
                 return Ok((__lookbehind, __lookahead, __Nonterminal::_28_3cExpr_3e_20_22_2c_22_29_2b(__nt)));
             }
             _ => {
@@ -2160,13 +2161,13 @@ mod __parse__Expr {
         __TOKENS: Iterator<Item=Result<(usize, Tok, usize),()>>,
     >(
         arena: &'ast Arena<'ast>,
-        __lookbehind: Option<usize>,
+        __lookbehind: usize,
         __tokens: &mut __TOKENS,
         __sym0: &mut Option<&'ast Node<'ast>>,
         __sym1: &mut Option<Tok>,
-    ) -> Result<(Option<usize>, Option<(usize, Tok, usize)>, __Nonterminal<'ast>), __ParseError<usize,Tok,()>>
+    ) -> Result<(usize, Option<(usize, Tok, usize)>, __Nonterminal<'ast>), __ParseError<usize,Tok,()>>
     {
-        let mut __result: (Option<usize>, Option<(usize, Tok, usize)>, __Nonterminal<'ast>);
+        let mut __result: (usize, Option<(usize, Tok, usize)>, __Nonterminal<'ast>);
         let __lookahead = match __tokens.next() {
             Some(Ok(v)) => Some(v),
             None => None,
@@ -2174,17 +2175,17 @@ mod __parse__Expr {
         };
         match __lookahead {
             Some((_, __tok @ Tok::LParen, __loc)) => {
-                let mut __lookbehind = Some(__loc);
+                let __lookbehind = __loc;
                 let mut __sym2 = &mut Some((__tok));
                 __result = try!(__state34(arena, __lookbehind, __tokens, __sym2));
             }
             Some((_, __tok @ Tok::Times, __loc)) => {
-                let mut __lookbehind = Some(__loc);
+                let __lookbehind = __loc;
                 let mut __sym2 = &mut Some((__tok));
                 __result = try!(__state35(arena, __lookbehind, __tokens, __sym2));
             }
             Some((_, Tok::Num(__tok0), __loc)) => {
-                let mut __lookbehind = Some(__loc);
+                let __lookbehind = __loc;
                 let mut __sym2 = &mut Some((__tok0));
                 __result = try!(__state36(arena, __lookbehind, __tokens, __sym2));
             }
@@ -2219,13 +2220,13 @@ mod __parse__Expr {
         __TOKENS: Iterator<Item=Result<(usize, Tok, usize),()>>,
     >(
         arena: &'ast Arena<'ast>,
-        __lookbehind: Option<usize>,
+        __lookbehind: usize,
         __tokens: &mut __TOKENS,
         __sym0: &mut Option<&'ast Node<'ast>>,
         __sym1: &mut Option<Tok>,
-    ) -> Result<(Option<usize>, Option<(usize, Tok, usize)>, __Nonterminal<'ast>), __ParseError<usize,Tok,()>>
+    ) -> Result<(usize, Option<(usize, Tok, usize)>, __Nonterminal<'ast>), __ParseError<usize,Tok,()>>
     {
-        let mut __result: (Option<usize>, Option<(usize, Tok, usize)>, __Nonterminal<'ast>);
+        let mut __result: (usize, Option<(usize, Tok, usize)>, __Nonterminal<'ast>);
         let __lookahead = match __tokens.next() {
             Some(Ok(v)) => Some(v),
             None => None,
@@ -2233,12 +2234,12 @@ mod __parse__Expr {
         };
         match __lookahead {
             Some((_, __tok @ Tok::LParen, __loc)) => {
-                let mut __lookbehind = Some(__loc);
+                let __lookbehind = __loc;
                 let mut __sym2 = &mut Some((__tok));
                 __result = try!(__state34(arena, __lookbehind, __tokens, __sym2));
             }
             Some((_, Tok::Num(__tok0), __loc)) => {
-                let mut __lookbehind = Some(__loc);
+                let __lookbehind = __loc;
                 let mut __sym2 = &mut Some((__tok0));
                 __result = try!(__state36(arena, __lookbehind, __tokens, __sym2));
             }
@@ -2269,13 +2270,13 @@ mod __parse__Expr {
         __TOKENS: Iterator<Item=Result<(usize, Tok, usize),()>>,
     >(
         arena: &'ast Arena<'ast>,
-        __lookbehind: Option<usize>,
+        __lookbehind: usize,
         __tokens: &mut __TOKENS,
         __sym0: &mut Option<&'ast Node<'ast>>,
         __sym1: &mut Option<Tok>,
-    ) -> Result<(Option<usize>, Option<(usize, Tok, usize)>, __Nonterminal<'ast>), __ParseError<usize,Tok,()>>
+    ) -> Result<(usize, Option<(usize, Tok, usize)>, __Nonterminal<'ast>), __ParseError<usize,Tok,()>>
     {
-        let mut __result: (Option<usize>, Option<(usize, Tok, usize)>, __Nonterminal<'ast>);
+        let mut __result: (usize, Option<(usize, Tok, usize)>, __Nonterminal<'ast>);
         let __lookahead = match __tokens.next() {
             Some(Ok(v)) => Some(v),
             None => None,
@@ -2283,12 +2284,12 @@ mod __parse__Expr {
         };
         match __lookahead {
             Some((_, __tok @ Tok::LParen, __loc)) => {
-                let mut __lookbehind = Some(__loc);
+                let __lookbehind = __loc;
                 let mut __sym2 = &mut Some((__tok));
                 __result = try!(__state34(arena, __lookbehind, __tokens, __sym2));
             }
             Some((_, Tok::Num(__tok0), __loc)) => {
-                let mut __lookbehind = Some(__loc);
+                let __lookbehind = __loc;
                 let mut __sym2 = &mut Some((__tok0));
                 __result = try!(__state36(arena, __lookbehind, __tokens, __sym2));
             }
@@ -2319,27 +2320,27 @@ mod __parse__Expr {
         __TOKENS: Iterator<Item=Result<(usize, Tok, usize),()>>,
     >(
         arena: &'ast Arena<'ast>,
-        __lookbehind: Option<usize>,
+        __lookbehind: usize,
         __tokens: &mut __TOKENS,
         __lookahead: Option<(usize, Tok, usize)>,
         __sym0: &mut Option<Tok>,
         __sym1: &mut Option<&'ast Node<'ast>>,
-    ) -> Result<(Option<usize>, Option<(usize, Tok, usize)>, __Nonterminal<'ast>), __ParseError<usize,Tok,()>>
+    ) -> Result<(usize, Option<(usize, Tok, usize)>, __Nonterminal<'ast>), __ParseError<usize,Tok,()>>
     {
-        let mut __result: (Option<usize>, Option<(usize, Tok, usize)>, __Nonterminal<'ast>);
+        let mut __result: (usize, Option<(usize, Tok, usize)>, __Nonterminal<'ast>);
         match __lookahead {
             Some((_, __tok @ Tok::RParen, __loc)) => {
-                let mut __lookbehind = Some(__loc);
+                let __lookbehind = __loc;
                 let mut __sym2 = &mut Some((__tok));
                 __result = try!(__state58(arena, __lookbehind, __tokens, __sym0, __sym1, __sym2));
             }
             Some((_, __tok @ Tok::Plus, __loc)) => {
-                let mut __lookbehind = Some(__loc);
+                let __lookbehind = __loc;
                 let mut __sym2 = &mut Some((__tok));
                 __result = try!(__state23(arena, __lookbehind, __tokens, __sym1, __sym2));
             }
             Some((_, __tok @ Tok::Minus, __loc)) => {
-                let mut __lookbehind = Some(__loc);
+                let __lookbehind = __loc;
                 let mut __sym2 = &mut Some((__tok));
                 __result = try!(__state24(arena, __lookbehind, __tokens, __sym1, __sym2));
             }
@@ -2358,13 +2359,13 @@ mod __parse__Expr {
         __TOKENS: Iterator<Item=Result<(usize, Tok, usize),()>>,
     >(
         arena: &'ast Arena<'ast>,
-        __lookbehind: Option<usize>,
+        __lookbehind: usize,
         __tokens: &mut __TOKENS,
         __sym0: &mut Option<Tok>,
         __sym1: &mut Option<Tok>,
-    ) -> Result<(Option<usize>, Option<(usize, Tok, usize)>, __Nonterminal<'ast>), __ParseError<usize,Tok,()>>
+    ) -> Result<(usize, Option<(usize, Tok, usize)>, __Nonterminal<'ast>), __ParseError<usize,Tok,()>>
     {
-        let mut __result: (Option<usize>, Option<(usize, Tok, usize)>, __Nonterminal<'ast>);
+        let mut __result: (usize, Option<(usize, Tok, usize)>, __Nonterminal<'ast>);
         let __lookahead = match __tokens.next() {
             Some(Ok(v)) => Some(v),
             None => None,
@@ -2372,22 +2373,22 @@ mod __parse__Expr {
         };
         match __lookahead {
             Some((_, __tok @ Tok::LParen, __loc)) => {
-                let mut __lookbehind = Some(__loc);
+                let __lookbehind = __loc;
                 let mut __sym2 = &mut Some((__tok));
                 __result = try!(__state34(arena, __lookbehind, __tokens, __sym2));
             }
             Some((_, __tok @ Tok::Times, __loc)) => {
-                let mut __lookbehind = Some(__loc);
+                let __lookbehind = __loc;
                 let mut __sym2 = &mut Some((__tok));
                 __result = try!(__state35(arena, __lookbehind, __tokens, __sym2));
             }
             Some((_, Tok::Num(__tok0), __loc)) => {
-                let mut __lookbehind = Some(__loc);
+                let __lookbehind = __loc;
                 let mut __sym2 = &mut Some((__tok0));
                 __result = try!(__state36(arena, __lookbehind, __tokens, __sym2));
             }
             Some((_, Tok::RParen, _)) => {
-                let __nt = super::__action23(arena, __lookbehind.as_ref(), __lookahead.as_ref().map(|o| &o.0));
+                let __nt = super::__action23(arena, &__lookbehind, __lookahead.as_ref().map(|o| &o.0));
                 __result = (__lookbehind, __lookahead, __Nonterminal::Comma_3cExpr_3e(__nt));
             }
             _ => {
@@ -2433,15 +2434,15 @@ mod __parse__Expr {
         __TOKENS: Iterator<Item=Result<(usize, Tok, usize),()>>,
     >(
         arena: &'ast Arena<'ast>,
-        __lookbehind: Option<usize>,
+        __lookbehind: usize,
         __tokens: &mut __TOKENS,
         __sym0: &mut Option<Tok>,
         __sym1: &mut Option<Tok>,
         __sym2: &mut Option<Vec<&'ast Node<'ast>>>,
         __sym3: &mut Option<Tok>,
-    ) -> Result<(Option<usize>, Option<(usize, Tok, usize)>, __Nonterminal<'ast>), __ParseError<usize,Tok,()>>
+    ) -> Result<(usize, Option<(usize, Tok, usize)>, __Nonterminal<'ast>), __ParseError<usize,Tok,()>>
     {
-        let mut __result: (Option<usize>, Option<(usize, Tok, usize)>, __Nonterminal<'ast>);
+        let mut __result: (usize, Option<(usize, Tok, usize)>, __Nonterminal<'ast>);
         let __lookahead = match __tokens.next() {
             Some(Ok(v)) => Some(v),
             None => None,
@@ -2457,7 +2458,7 @@ mod __parse__Expr {
                 let __sym1 = __sym1.take().unwrap();
                 let __sym2 = __sym2.take().unwrap();
                 let __sym3 = __sym3.take().unwrap();
-                let __nt = super::__action6(arena, __sym0, __sym1, __sym2, __sym3, __lookbehind.as_ref(), __lookahead.as_ref().map(|o| &o.0));
+                let __nt = super::__action6(arena, __sym0, __sym1, __sym2, __sym3, &__lookbehind, __lookahead.as_ref().map(|o| &o.0));
                 return Ok((__lookbehind, __lookahead, __Nonterminal::Factor(__nt)));
             }
             _ => {
@@ -2474,14 +2475,14 @@ mod __parse__Expr {
         __TOKENS: Iterator<Item=Result<(usize, Tok, usize),()>>,
     >(
         arena: &'ast Arena<'ast>,
-        __lookbehind: Option<usize>,
+        __lookbehind: usize,
         __tokens: &mut __TOKENS,
         __sym0: &mut Option<::std::vec::Vec<&'ast Node<'ast>>>,
         __sym1: &mut Option<&'ast Node<'ast>>,
         __sym2: &mut Option<Tok>,
-    ) -> Result<(Option<usize>, Option<(usize, Tok, usize)>, __Nonterminal<'ast>), __ParseError<usize,Tok,()>>
+    ) -> Result<(usize, Option<(usize, Tok, usize)>, __Nonterminal<'ast>), __ParseError<usize,Tok,()>>
     {
-        let mut __result: (Option<usize>, Option<(usize, Tok, usize)>, __Nonterminal<'ast>);
+        let mut __result: (usize, Option<(usize, Tok, usize)>, __Nonterminal<'ast>);
         let __lookahead = match __tokens.next() {
             Some(Ok(v)) => Some(v),
             None => None,
@@ -2495,7 +2496,7 @@ mod __parse__Expr {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
                 let __sym2 = __sym2.take().unwrap();
-                let __nt = super::__action19(arena, __sym0, __sym1, __sym2, __lookbehind.as_ref(), __lookahead.as_ref().map(|o| &o.0));
+                let __nt = super::__action19(arena, __sym0, __sym1, __sym2, &__lookbehind, __lookahead.as_ref().map(|o| &o.0));
                 return Ok((__lookbehind, __lookahead, __Nonterminal::_28_3cExpr_3e_20_22_2c_22_29_2b(__nt)));
             }
             _ => {
@@ -2512,23 +2513,23 @@ mod __parse__Expr {
         __TOKENS: Iterator<Item=Result<(usize, Tok, usize),()>>,
     >(
         arena: &'ast Arena<'ast>,
-        __lookbehind: Option<usize>,
+        __lookbehind: usize,
         __tokens: &mut __TOKENS,
         __lookahead: Option<(usize, Tok, usize)>,
         __sym0: &mut Option<&'ast Node<'ast>>,
         __sym1: &mut Option<Tok>,
         __sym2: &mut Option<&'ast Node<'ast>>,
-    ) -> Result<(Option<usize>, Option<(usize, Tok, usize)>, __Nonterminal<'ast>), __ParseError<usize,Tok,()>>
+    ) -> Result<(usize, Option<(usize, Tok, usize)>, __Nonterminal<'ast>), __ParseError<usize,Tok,()>>
     {
-        let mut __result: (Option<usize>, Option<(usize, Tok, usize)>, __Nonterminal<'ast>);
+        let mut __result: (usize, Option<(usize, Tok, usize)>, __Nonterminal<'ast>);
         match __lookahead {
             Some((_, __tok @ Tok::Times, __loc)) => {
-                let mut __lookbehind = Some(__loc);
+                let __lookbehind = __loc;
                 let mut __sym3 = &mut Some((__tok));
                 __result = try!(__state48(arena, __lookbehind, __tokens, __sym2, __sym3));
             }
             Some((_, __tok @ Tok::Div, __loc)) => {
-                let mut __lookbehind = Some(__loc);
+                let __lookbehind = __loc;
                 let mut __sym3 = &mut Some((__tok));
                 __result = try!(__state49(arena, __lookbehind, __tokens, __sym2, __sym3));
             }
@@ -2539,7 +2540,7 @@ mod __parse__Expr {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
                 let __sym2 = __sym2.take().unwrap();
-                let __nt = super::__action2(arena, __sym0, __sym1, __sym2, __lookbehind.as_ref(), __lookahead.as_ref().map(|o| &o.0));
+                let __nt = super::__action2(arena, __sym0, __sym1, __sym2, &__lookbehind, __lookahead.as_ref().map(|o| &o.0));
                 return Ok((__lookbehind, __lookahead, __Nonterminal::Expr(__nt)));
             }
             _ => {
@@ -2557,23 +2558,23 @@ mod __parse__Expr {
         __TOKENS: Iterator<Item=Result<(usize, Tok, usize),()>>,
     >(
         arena: &'ast Arena<'ast>,
-        __lookbehind: Option<usize>,
+        __lookbehind: usize,
         __tokens: &mut __TOKENS,
         __lookahead: Option<(usize, Tok, usize)>,
         __sym0: &mut Option<&'ast Node<'ast>>,
         __sym1: &mut Option<Tok>,
         __sym2: &mut Option<&'ast Node<'ast>>,
-    ) -> Result<(Option<usize>, Option<(usize, Tok, usize)>, __Nonterminal<'ast>), __ParseError<usize,Tok,()>>
+    ) -> Result<(usize, Option<(usize, Tok, usize)>, __Nonterminal<'ast>), __ParseError<usize,Tok,()>>
     {
-        let mut __result: (Option<usize>, Option<(usize, Tok, usize)>, __Nonterminal<'ast>);
+        let mut __result: (usize, Option<(usize, Tok, usize)>, __Nonterminal<'ast>);
         match __lookahead {
             Some((_, __tok @ Tok::Times, __loc)) => {
-                let mut __lookbehind = Some(__loc);
+                let __lookbehind = __loc;
                 let mut __sym3 = &mut Some((__tok));
                 __result = try!(__state48(arena, __lookbehind, __tokens, __sym2, __sym3));
             }
             Some((_, __tok @ Tok::Div, __loc)) => {
-                let mut __lookbehind = Some(__loc);
+                let __lookbehind = __loc;
                 let mut __sym3 = &mut Some((__tok));
                 __result = try!(__state49(arena, __lookbehind, __tokens, __sym2, __sym3));
             }
@@ -2584,7 +2585,7 @@ mod __parse__Expr {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
                 let __sym2 = __sym2.take().unwrap();
-                let __nt = super::__action1(arena, __sym0, __sym1, __sym2, __lookbehind.as_ref(), __lookahead.as_ref().map(|o| &o.0));
+                let __nt = super::__action1(arena, __sym0, __sym1, __sym2, &__lookbehind, __lookahead.as_ref().map(|o| &o.0));
                 return Ok((__lookbehind, __lookahead, __Nonterminal::Expr(__nt)));
             }
             _ => {
@@ -2602,15 +2603,15 @@ mod __parse__Expr {
         __TOKENS: Iterator<Item=Result<(usize, Tok, usize),()>>,
     >(
         arena: &'ast Arena<'ast>,
-        __lookbehind: Option<usize>,
+        __lookbehind: usize,
         __tokens: &mut __TOKENS,
         __lookahead: Option<(usize, Tok, usize)>,
         __sym0: &mut Option<&'ast Node<'ast>>,
         __sym1: &mut Option<Tok>,
         __sym2: &mut Option<&'ast Node<'ast>>,
-    ) -> Result<(Option<usize>, Option<(usize, Tok, usize)>, __Nonterminal<'ast>), __ParseError<usize,Tok,()>>
+    ) -> Result<(usize, Option<(usize, Tok, usize)>, __Nonterminal<'ast>), __ParseError<usize,Tok,()>>
     {
-        let mut __result: (Option<usize>, Option<(usize, Tok, usize)>, __Nonterminal<'ast>);
+        let mut __result: (usize, Option<(usize, Tok, usize)>, __Nonterminal<'ast>);
         match __lookahead {
             Some((_, Tok::RParen, _)) |
             Some((_, Tok::Times, _)) |
@@ -2621,7 +2622,7 @@ mod __parse__Expr {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
                 let __sym2 = __sym2.take().unwrap();
-                let __nt = super::__action4(arena, __sym0, __sym1, __sym2, __lookbehind.as_ref(), __lookahead.as_ref().map(|o| &o.0));
+                let __nt = super::__action4(arena, __sym0, __sym1, __sym2, &__lookbehind, __lookahead.as_ref().map(|o| &o.0));
                 return Ok((__lookbehind, __lookahead, __Nonterminal::Factor(__nt)));
             }
             _ => {
@@ -2638,15 +2639,15 @@ mod __parse__Expr {
         __TOKENS: Iterator<Item=Result<(usize, Tok, usize),()>>,
     >(
         arena: &'ast Arena<'ast>,
-        __lookbehind: Option<usize>,
+        __lookbehind: usize,
         __tokens: &mut __TOKENS,
         __lookahead: Option<(usize, Tok, usize)>,
         __sym0: &mut Option<&'ast Node<'ast>>,
         __sym1: &mut Option<Tok>,
         __sym2: &mut Option<&'ast Node<'ast>>,
-    ) -> Result<(Option<usize>, Option<(usize, Tok, usize)>, __Nonterminal<'ast>), __ParseError<usize,Tok,()>>
+    ) -> Result<(usize, Option<(usize, Tok, usize)>, __Nonterminal<'ast>), __ParseError<usize,Tok,()>>
     {
-        let mut __result: (Option<usize>, Option<(usize, Tok, usize)>, __Nonterminal<'ast>);
+        let mut __result: (usize, Option<(usize, Tok, usize)>, __Nonterminal<'ast>);
         match __lookahead {
             Some((_, Tok::RParen, _)) |
             Some((_, Tok::Times, _)) |
@@ -2657,7 +2658,7 @@ mod __parse__Expr {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
                 let __sym2 = __sym2.take().unwrap();
-                let __nt = super::__action5(arena, __sym0, __sym1, __sym2, __lookbehind.as_ref(), __lookahead.as_ref().map(|o| &o.0));
+                let __nt = super::__action5(arena, __sym0, __sym1, __sym2, &__lookbehind, __lookahead.as_ref().map(|o| &o.0));
                 return Ok((__lookbehind, __lookahead, __Nonterminal::Factor(__nt)));
             }
             _ => {
@@ -2674,14 +2675,14 @@ mod __parse__Expr {
         __TOKENS: Iterator<Item=Result<(usize, Tok, usize),()>>,
     >(
         arena: &'ast Arena<'ast>,
-        __lookbehind: Option<usize>,
+        __lookbehind: usize,
         __tokens: &mut __TOKENS,
         __sym0: &mut Option<Tok>,
         __sym1: &mut Option<&'ast Node<'ast>>,
         __sym2: &mut Option<Tok>,
-    ) -> Result<(Option<usize>, Option<(usize, Tok, usize)>, __Nonterminal<'ast>), __ParseError<usize,Tok,()>>
+    ) -> Result<(usize, Option<(usize, Tok, usize)>, __Nonterminal<'ast>), __ParseError<usize,Tok,()>>
     {
-        let mut __result: (Option<usize>, Option<(usize, Tok, usize)>, __Nonterminal<'ast>);
+        let mut __result: (usize, Option<(usize, Tok, usize)>, __Nonterminal<'ast>);
         let __lookahead = match __tokens.next() {
             Some(Ok(v)) => Some(v),
             None => None,
@@ -2697,7 +2698,7 @@ mod __parse__Expr {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
                 let __sym2 = __sym2.take().unwrap();
-                let __nt = super::__action9(arena, __sym0, __sym1, __sym2, __lookbehind.as_ref(), __lookahead.as_ref().map(|o| &o.0));
+                let __nt = super::__action9(arena, __sym0, __sym1, __sym2, &__lookbehind, __lookahead.as_ref().map(|o| &o.0));
                 return Ok((__lookbehind, __lookahead, __Nonterminal::Term(__nt)));
             }
             _ => {
@@ -2714,18 +2715,18 @@ mod __parse__Expr {
         __TOKENS: Iterator<Item=Result<(usize, Tok, usize),()>>,
     >(
         arena: &'ast Arena<'ast>,
-        __lookbehind: Option<usize>,
+        __lookbehind: usize,
         __tokens: &mut __TOKENS,
         __lookahead: Option<(usize, Tok, usize)>,
         __sym0: &mut Option<Tok>,
         __sym1: &mut Option<Tok>,
         __sym2: &mut Option<Vec<&'ast Node<'ast>>>,
-    ) -> Result<(Option<usize>, Option<(usize, Tok, usize)>, __Nonterminal<'ast>), __ParseError<usize,Tok,()>>
+    ) -> Result<(usize, Option<(usize, Tok, usize)>, __Nonterminal<'ast>), __ParseError<usize,Tok,()>>
     {
-        let mut __result: (Option<usize>, Option<(usize, Tok, usize)>, __Nonterminal<'ast>);
+        let mut __result: (usize, Option<(usize, Tok, usize)>, __Nonterminal<'ast>);
         match __lookahead {
             Some((_, __tok @ Tok::RParen, __loc)) => {
-                let mut __lookbehind = Some(__loc);
+                let __lookbehind = __loc;
                 let mut __sym3 = &mut Some((__tok));
                 __result = try!(__state60(arena, __lookbehind, __tokens, __sym0, __sym1, __sym2, __sym3));
             }
@@ -2744,15 +2745,15 @@ mod __parse__Expr {
         __TOKENS: Iterator<Item=Result<(usize, Tok, usize),()>>,
     >(
         arena: &'ast Arena<'ast>,
-        __lookbehind: Option<usize>,
+        __lookbehind: usize,
         __tokens: &mut __TOKENS,
         __sym0: &mut Option<Tok>,
         __sym1: &mut Option<Tok>,
         __sym2: &mut Option<Vec<&'ast Node<'ast>>>,
         __sym3: &mut Option<Tok>,
-    ) -> Result<(Option<usize>, Option<(usize, Tok, usize)>, __Nonterminal<'ast>), __ParseError<usize,Tok,()>>
+    ) -> Result<(usize, Option<(usize, Tok, usize)>, __Nonterminal<'ast>), __ParseError<usize,Tok,()>>
     {
-        let mut __result: (Option<usize>, Option<(usize, Tok, usize)>, __Nonterminal<'ast>);
+        let mut __result: (usize, Option<(usize, Tok, usize)>, __Nonterminal<'ast>);
         let __lookahead = match __tokens.next() {
             Some(Ok(v)) => Some(v),
             None => None,
@@ -2769,7 +2770,7 @@ mod __parse__Expr {
                 let __sym1 = __sym1.take().unwrap();
                 let __sym2 = __sym2.take().unwrap();
                 let __sym3 = __sym3.take().unwrap();
-                let __nt = super::__action6(arena, __sym0, __sym1, __sym2, __sym3, __lookbehind.as_ref(), __lookahead.as_ref().map(|o| &o.0));
+                let __nt = super::__action6(arena, __sym0, __sym1, __sym2, __sym3, &__lookbehind, __lookahead.as_ref().map(|o| &o.0));
                 return Ok((__lookbehind, __lookahead, __Nonterminal::Factor(__nt)));
             }
             _ => {
@@ -2788,7 +2789,7 @@ pub fn __action0<
 >(
     arena: &'ast Arena<'ast>,
     __0: &'ast Node<'ast>,
-    __lookbehind: Option<&usize>,
+    __lookbehind: &usize,
     __lookahead: Option<&usize>,
 ) -> &'ast Node<'ast>
 {
@@ -2802,7 +2803,7 @@ pub fn __action1<
     l: &'ast Node<'ast>,
     _: Tok,
     r: &'ast Node<'ast>,
-    __lookbehind: Option<&usize>,
+    __lookbehind: &usize,
     __lookahead: Option<&usize>,
 ) -> &'ast Node<'ast>
 {
@@ -2816,7 +2817,7 @@ pub fn __action2<
     l: &'ast Node<'ast>,
     _: Tok,
     r: &'ast Node<'ast>,
-    __lookbehind: Option<&usize>,
+    __lookbehind: &usize,
     __lookahead: Option<&usize>,
 ) -> &'ast Node<'ast>
 {
@@ -2828,7 +2829,7 @@ pub fn __action3<
 >(
     arena: &'ast Arena<'ast>,
     __0: &'ast Node<'ast>,
-    __lookbehind: Option<&usize>,
+    __lookbehind: &usize,
     __lookahead: Option<&usize>,
 ) -> &'ast Node<'ast>
 {
@@ -2842,7 +2843,7 @@ pub fn __action4<
     l: &'ast Node<'ast>,
     _: Tok,
     r: &'ast Node<'ast>,
-    __lookbehind: Option<&usize>,
+    __lookbehind: &usize,
     __lookahead: Option<&usize>,
 ) -> &'ast Node<'ast>
 {
@@ -2856,7 +2857,7 @@ pub fn __action5<
     l: &'ast Node<'ast>,
     _: Tok,
     r: &'ast Node<'ast>,
-    __lookbehind: Option<&usize>,
+    __lookbehind: &usize,
     __lookahead: Option<&usize>,
 ) -> &'ast Node<'ast>
 {
@@ -2871,7 +2872,7 @@ pub fn __action6<
     _: Tok,
     __0: Vec<&'ast Node<'ast>>,
     _: Tok,
-    __lookbehind: Option<&usize>,
+    __lookbehind: &usize,
     __lookahead: Option<&usize>,
 ) -> &'ast Node<'ast>
 {
@@ -2883,7 +2884,7 @@ pub fn __action7<
 >(
     arena: &'ast Arena<'ast>,
     __0: &'ast Node<'ast>,
-    __lookbehind: Option<&usize>,
+    __lookbehind: &usize,
     __lookahead: Option<&usize>,
 ) -> &'ast Node<'ast>
 {
@@ -2895,7 +2896,7 @@ pub fn __action8<
 >(
     arena: &'ast Arena<'ast>,
     n: i32,
-    __lookbehind: Option<&usize>,
+    __lookbehind: &usize,
     __lookahead: Option<&usize>,
 ) -> &'ast Node<'ast>
 {
@@ -2909,7 +2910,7 @@ pub fn __action9<
     _: Tok,
     __0: &'ast Node<'ast>,
     _: Tok,
-    __lookbehind: Option<&usize>,
+    __lookbehind: &usize,
     __lookahead: Option<&usize>,
 ) -> &'ast Node<'ast>
 {
@@ -2922,7 +2923,7 @@ pub fn __action10<
     arena: &'ast Arena<'ast>,
     h: ::std::vec::Vec<&'ast Node<'ast>>,
     t: ::std::option::Option<&'ast Node<'ast>>,
-    __lookbehind: Option<&usize>,
+    __lookbehind: &usize,
     __lookahead: Option<&usize>,
 ) -> Vec<&'ast Node<'ast>>
 {
@@ -2934,7 +2935,7 @@ pub fn __action11<
 >(
     arena: &'ast Arena<'ast>,
     __0: &'ast Node<'ast>,
-    __lookbehind: Option<&usize>,
+    __lookbehind: &usize,
     __lookahead: Option<&usize>,
 ) -> ::std::option::Option<&'ast Node<'ast>>
 {
@@ -2945,7 +2946,7 @@ pub fn __action12<
     'ast,
 >(
     arena: &'ast Arena<'ast>,
-    __lookbehind: Option<&usize>,
+    __lookbehind: &usize,
     __lookahead: Option<&usize>,
 ) -> ::std::option::Option<&'ast Node<'ast>>
 {
@@ -2956,7 +2957,7 @@ pub fn __action13<
     'ast,
 >(
     arena: &'ast Arena<'ast>,
-    __lookbehind: Option<&usize>,
+    __lookbehind: &usize,
     __lookahead: Option<&usize>,
 ) -> ::std::vec::Vec<&'ast Node<'ast>>
 {
@@ -2968,7 +2969,7 @@ pub fn __action14<
 >(
     arena: &'ast Arena<'ast>,
     v: ::std::vec::Vec<&'ast Node<'ast>>,
-    __lookbehind: Option<&usize>,
+    __lookbehind: &usize,
     __lookahead: Option<&usize>,
 ) -> ::std::vec::Vec<&'ast Node<'ast>>
 {
@@ -2981,7 +2982,7 @@ pub fn __action15<
     arena: &'ast Arena<'ast>,
     __0: &'ast Node<'ast>,
     _: Tok,
-    __lookbehind: Option<&usize>,
+    __lookbehind: &usize,
     __lookahead: Option<&usize>,
 ) -> &'ast Node<'ast>
 {
@@ -2993,7 +2994,7 @@ pub fn __action16<
 >(
     arena: &'ast Arena<'ast>,
     __0: &'ast Node<'ast>,
-    __lookbehind: Option<&usize>,
+    __lookbehind: &usize,
     __lookahead: Option<&usize>,
 ) -> ::std::vec::Vec<&'ast Node<'ast>>
 {
@@ -3006,7 +3007,7 @@ pub fn __action17<
     arena: &'ast Arena<'ast>,
     v: ::std::vec::Vec<&'ast Node<'ast>>,
     e: &'ast Node<'ast>,
-    __lookbehind: Option<&usize>,
+    __lookbehind: &usize,
     __lookahead: Option<&usize>,
 ) -> ::std::vec::Vec<&'ast Node<'ast>>
 {
@@ -3019,7 +3020,7 @@ pub fn __action18<
     arena: &'ast Arena<'ast>,
     __0: &'ast Node<'ast>,
     __1: Tok,
-    __lookbehind: Option<&usize>,
+    __lookbehind: &usize,
     __lookahead: Option<&usize>,
 ) -> ::std::vec::Vec<&'ast Node<'ast>>
 {
@@ -3045,7 +3046,7 @@ pub fn __action19<
     __0: ::std::vec::Vec<&'ast Node<'ast>>,
     __1: &'ast Node<'ast>,
     __2: Tok,
-    __lookbehind: Option<&usize>,
+    __lookbehind: &usize,
     __lookahead: Option<&usize>,
 ) -> ::std::vec::Vec<&'ast Node<'ast>>
 {
@@ -3070,7 +3071,7 @@ pub fn __action20<
 >(
     arena: &'ast Arena<'ast>,
     __0: ::std::option::Option<&'ast Node<'ast>>,
-    __lookbehind: Option<&usize>,
+    __lookbehind: &usize,
     __lookahead: Option<&usize>,
 ) -> Vec<&'ast Node<'ast>>
 {
@@ -3094,7 +3095,7 @@ pub fn __action21<
     arena: &'ast Arena<'ast>,
     __0: ::std::vec::Vec<&'ast Node<'ast>>,
     __1: ::std::option::Option<&'ast Node<'ast>>,
-    __lookbehind: Option<&usize>,
+    __lookbehind: &usize,
     __lookahead: Option<&usize>,
 ) -> Vec<&'ast Node<'ast>>
 {
@@ -3118,7 +3119,7 @@ pub fn __action22<
 >(
     arena: &'ast Arena<'ast>,
     __0: &'ast Node<'ast>,
-    __lookbehind: Option<&usize>,
+    __lookbehind: &usize,
     __lookahead: Option<&usize>,
 ) -> Vec<&'ast Node<'ast>>
 {
@@ -3140,7 +3141,7 @@ pub fn __action23<
     'ast,
 >(
     arena: &'ast Arena<'ast>,
-    __lookbehind: Option<&usize>,
+    __lookbehind: &usize,
     __lookahead: Option<&usize>,
 ) -> Vec<&'ast Node<'ast>>
 {
@@ -3163,7 +3164,7 @@ pub fn __action24<
     arena: &'ast Arena<'ast>,
     __0: ::std::vec::Vec<&'ast Node<'ast>>,
     __1: &'ast Node<'ast>,
-    __lookbehind: Option<&usize>,
+    __lookbehind: &usize,
     __lookahead: Option<&usize>,
 ) -> Vec<&'ast Node<'ast>>
 {
@@ -3187,7 +3188,7 @@ pub fn __action25<
 >(
     arena: &'ast Arena<'ast>,
     __0: ::std::vec::Vec<&'ast Node<'ast>>,
-    __lookbehind: Option<&usize>,
+    __lookbehind: &usize,
     __lookahead: Option<&usize>,
 ) -> Vec<&'ast Node<'ast>>
 {

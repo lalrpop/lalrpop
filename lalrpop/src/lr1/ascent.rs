@@ -156,6 +156,7 @@ impl<'ascent,'grammar,W:Write> RecursiveAscent<'ascent,'grammar,W> {
     // input as `Foo`. An error is reported if the entire input is not
     // consumed.
     fn write_start_fn(&mut self) -> io::Result<()> {
+        let loc_type = self.types.terminal_loc_type();
         let error_type = self.types.error_type();
         let parse_error_type = self.parse_error_type();
 
@@ -205,8 +206,11 @@ impl<'ascent,'grammar,W:Write> RecursiveAscent<'ascent,'grammar,W> {
         }
 
         try!(self.next_token("lookahead", "tokens"));
-        rust!(self.out, "match try!({}state0({}None, &mut {}tokens, {}lookahead)) {{",
-              self.prefix, self.grammar.user_parameter_refs(), self.prefix, self.prefix);
+        rust!(self.out, "let {}lookbehind: {} = ::std::default::Default::default();",
+              self.prefix, loc_type);
+        rust!(self.out, "match try!({}state0({}{}lookbehind, &mut {}tokens, {}lookahead)) {{",
+              self.prefix, self.grammar.user_parameter_refs(),
+              self.prefix, self.prefix, self.prefix);
 
         // extra tokens?
         rust!(self.out, "(_, Some({}lookahead), _) => {{", self.prefix);
@@ -274,7 +278,7 @@ impl<'ascent,'grammar,W:Write> RecursiveAscent<'ascent,'grammar,W> {
 
         // compute the set of arguments that this state function expects
         let mut base_args =
-            vec![format!("{}lookbehind: Option<{}>", self.prefix, loc_type),
+            vec![format!("{}lookbehind: {}", self.prefix, loc_type),
                  format!("{}tokens: &mut {}TOKENS", self.prefix, self.prefix)];
         if !starts_with_terminal {
             base_args.push(format!("{}lookahead: Option<{}>", self.prefix, triple_type));
@@ -291,7 +295,7 @@ impl<'ascent,'grammar,W:Write> RecursiveAscent<'ascent,'grammar,W> {
             vec![format!("{}TOKENS: Iterator<Item=Result<{},{}>>",
                          self.prefix, triple_type, iter_error_type)],
             base_args.into_iter().chain(sym_args).collect(),
-            format!("Result<(Option<{}>, Option<{}>, {}Nonterminal<{}>), {}>",
+            format!("Result<({}, Option<{}>, {}Nonterminal<{}>), {}>",
                     loc_type,
                     triple_type, self.prefix,
                     Sep(", ", &self.nonterminal_type_params),
@@ -299,7 +303,7 @@ impl<'ascent,'grammar,W:Write> RecursiveAscent<'ascent,'grammar,W> {
             vec![]));
 
         rust!(self.out, "{{");
-        rust!(self.out, "let mut {}result: (Option<{}>, Option<{}>, {}Nonterminal<{}>);",
+        rust!(self.out, "let mut {}result: ({}, Option<{}>, {}Nonterminal<{}>);",
               self.prefix, loc_type, triple_type, self.prefix,
               Sep(", ", &self.nonterminal_type_params));
 
@@ -367,7 +371,7 @@ impl<'ascent,'grammar,W:Write> RecursiveAscent<'ascent,'grammar,W> {
             let transfered_syms = transfer_syms.len();
 
             let mut args = transfer_syms;
-            args.push(format!("{}lookbehind.as_ref()", self.prefix));
+            args.push(format!("&{}lookbehind", self.prefix));
             args.push(format!("{}lookahead.as_ref().map(|o| &o.0)", self.prefix));
 
             // invoke the action code
@@ -529,7 +533,7 @@ impl<'ascent,'grammar,W:Write> RecursiveAscent<'ascent,'grammar,W> {
 
         rust!(self.out, "Some({}) => {{", pattern);
 
-        rust!(self.out, "let mut {} = Some({}loc);",
+        rust!(self.out, "let {} = {}loc;",
               lb_name, self.prefix);
 
         rust!(self.out, "let mut {} = &mut Some(({}));",
