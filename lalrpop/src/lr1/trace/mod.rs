@@ -1,8 +1,8 @@
+use collections::{Set, set};
 use lr1::core::*;
 use lr1::first::FirstSets;
 use lr1::state_graph::StateGraph;
 use grammar::repr::*;
-use util::{Set, set};
 
 mod reduce;
 mod shift;

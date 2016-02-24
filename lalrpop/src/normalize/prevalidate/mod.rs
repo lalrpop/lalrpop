@@ -7,7 +7,8 @@ use grammar::consts::*;
 use grammar::parse_tree::*;
 use grammar::repr;
 use intern::{intern, InternedString};
-use util::{Multimap, Sep, set};
+use collections::{Multimap, set};
+use util::Sep;
 
 #[cfg(test)]
 mod test;

@@ -2,6 +2,7 @@
 //!
 //! [recursive ascent]: https://en.wikipedia.org/wiki/Recursive_ascent_parser
 
+use collections::{Multimap, Set};
 use grammar::repr::{Grammar,
                     NonterminalString,
                     Symbol,
@@ -11,7 +12,7 @@ use lr1::lookahead::Lookahead;
 use rust::RustWrite;
 use std::io::{self, Write};
 use tls::Tls;
-use util::{Escape, Multimap, Set, Sep};
+use util::{Escape, Sep};
 
 pub fn compile<'grammar,W:Write>(
     grammar: &'grammar Grammar,

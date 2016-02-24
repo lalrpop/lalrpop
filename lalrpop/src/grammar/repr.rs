@@ -8,7 +8,8 @@ use intern::{self, InternedString};
 use grammar::pattern::{Pattern};
 use message::Content;
 use std::fmt::{Debug, Display, Formatter, Error};
-use util::{map, Map, Sep};
+use collections::{map, Map};
+use util::Sep;
 
 // These concepts we re-use wholesale
 pub use grammar::parse_tree::{Annotation,

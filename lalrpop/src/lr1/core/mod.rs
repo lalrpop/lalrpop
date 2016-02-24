@@ -1,10 +1,11 @@
 //! Core LR(1) types.
 
+use collections::Map;
 use kernel_set;
 use grammar::repr::*;
 use std::fmt::{Debug, Formatter, Error};
 use std::rc::Rc;
-use util::{Map, Prefix};
+use util::Prefix;
 
 use super::lookahead::Lookahead;
 

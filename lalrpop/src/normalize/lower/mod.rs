@@ -10,7 +10,7 @@ use grammar::pattern::{Pattern, PatternKind};
 use grammar::parse_tree as pt;
 use grammar::parse_tree::{InternToken, NonterminalString, TerminalString};
 use grammar::repr as r;
-use util::{map, Map};
+use collections::{map, Map};
 
 pub fn lower(grammar: pt::Grammar, types: r::Types) -> NormResult<r::Grammar> {
     let state = LowerState::new(types, &grammar);

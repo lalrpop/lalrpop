@@ -1,12 +1,12 @@
 //! Constructs a DFA which picks the longest matching regular
 //! expression from the input.
 
+use collections::Set;
 use kernel_set::{Kernel, KernelSet};
 use std::fmt::{Debug, Display, Formatter, Error};
 use std::rc::Rc;
 use lexer::re;
 use lexer::nfa::{self, NFA, NFAConstructionError, NFAStateIndex, Test};
-use util::Set;
 
 #[cfg(test)]
 mod test;

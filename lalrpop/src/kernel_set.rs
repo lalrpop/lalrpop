@@ -1,7 +1,7 @@
 use std::collections::VecDeque;
 use std::fmt::Debug;
 use std::hash::Hash;
-use util::{map, Map};
+use collections::{map, Map};
 
 pub struct KernelSet<K: Kernel> {
     counter: usize,

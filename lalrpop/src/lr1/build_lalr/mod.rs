@@ -7,7 +7,7 @@ use lr1::core::Action::{Reduce, Shift};
 use lr1::lookahead::Lookahead;
 use grammar::repr::*;
 use std::rc::Rc;
-use util::{map, Map};
+use collections::{map, Map};
 use util::map::Entry;
 
 #[cfg(test)]

@@ -1,5 +1,6 @@
 //! LR(1) state construction algorithm.
 
+use collections::{map, Multimap, Set};
 use kernel_set;
 use grammar::repr::*;
 use lr1::core::*;
@@ -7,7 +8,6 @@ use lr1::first;
 use lr1::lookahead::Lookahead;
 use std::rc::Rc;
 use tls::Tls;
-use util::{map, Multimap, Set};
 
 #[cfg(test)] mod test;
 

@@ -1,17 +1,16 @@
 //! Error reporting. For now very stupid and simplistic.
 
-use itertools::Itertools;
-use grammar::repr::*;
-use message::{Message};
-use message::builder::{Builder, BodyCharacter, Character, MessageBuilder};
-use util::{Map, map};
+use collections::{Map, map, set};
 use lr1::trace::Tracer;
 use lr1::core::*;
 use lr1::example::{Example, ExampleStyles, ExampleSymbol};
 use lr1::first::FirstSets;
 use lr1::lookahead::{Lookahead, LookaheadSet};
+use itertools::Itertools;
+use grammar::repr::*;
+use message::{Message};
+use message::builder::{Builder, BodyCharacter, Character, MessageBuilder};
 use tls::Tls;
-use util::set;
 
 #[cfg(test)] mod test;
 
