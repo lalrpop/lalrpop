@@ -49,7 +49,7 @@ impl<'grammar> LR1<'grammar> {
         while let Some(items) = kernel_set.next() {
             let index = StateIndex(states.len());
 
-            if index.0 % 10000 == 0 && index.0 > 0 {
+            if index.0 % 5000 == 0 && index.0 > 0 {
                 log!(session, Verbose, "{} states created so far.", index.0);
             }
 
