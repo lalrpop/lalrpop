@@ -337,7 +337,7 @@ impl<'ascent,'grammar,W:Write> RecursiveAscent<'ascent,'grammar,W> {
         // now emit reduces. It frequently happens that many tokens
         // trigger the same reduction, so group these by the
         // production that we are going to be reducing.
-        let reductions: Multimap<_, _> =
+        let reductions: Multimap<_, Vec<_>> =
             this_state.tokens.iter()
                              .filter_map(|(&token, action)| action.reduce().map(|p| (p, token)))
                              .collect();

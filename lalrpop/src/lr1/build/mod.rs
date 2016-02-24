@@ -9,7 +9,8 @@ use lr1::lookahead::Lookahead;
 use std::rc::Rc;
 use tls::Tls;
 
-#[cfg(test)] mod test;
+#[cfg(test)]
+mod test;
 
 pub fn build_lr1_states<'grammar>(grammar: &'grammar Grammar,
                                   start: NonterminalString)
@@ -59,7 +60,7 @@ impl<'grammar> LR1<'grammar> {
 
             // group the items that we can transition into by shifting
             // over a term or nonterm
-            let transitions: Multimap<Symbol, Item<'grammar>> =
+            let transitions: Multimap<Symbol, Vec<Item<'grammar>>> =
                 items.vec
                      .iter()
                      .filter_map(|item| item.shifted_item())

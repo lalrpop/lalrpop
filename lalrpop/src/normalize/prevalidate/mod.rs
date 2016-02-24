@@ -143,7 +143,7 @@ impl<'grammar> Validator<'grammar> {
                         })
                         .collect();
 
-        let named: Multimap<InternedString, &Symbol> =
+        let named: Multimap<InternedString, Vec<&Symbol>> =
             expr.symbols.iter()
                         .filter_map(|sym| match sym.kind {
                             SymbolKind::Name(nt, _) => Some((nt, sym)),
