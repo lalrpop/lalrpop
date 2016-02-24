@@ -17,8 +17,14 @@ pub fn build_lr1_states<'grammar>(grammar: &'grammar Grammar,
                                   -> Result<Vec<State<'grammar>>,
                                             TableConstructionError<'grammar>>
 {
-    let lr1 = LR1::new(grammar);
-    lr1.build_states(start)
+    profile! {
+        &Tls::session(),
+        "LR(1) state construction",
+        {
+            let lr1 = LR1::new(grammar);
+            lr1.build_states(start)
+        }
+    }
 }
 
 struct LR1<'grammar> {

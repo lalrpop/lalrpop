@@ -47,3 +47,17 @@ macro_rules! debug {
         log!(::tls::Tls::session(), Debug, $($args),*)
     }
 }
+
+macro_rules! profile {
+    ($session:expr, $phase_name:expr, $action:expr) => {
+        {
+            log!($session, Verbose, "Phase `{}` begun", $phase_name);
+            let time_stamp = $crate::time::precise_time_s();
+            let result = $action;
+            log!($session, Verbose, "Phase `{}` completed in {} seconds",
+                 $phase_name, $crate::time::precise_time_s() - time_stamp);
+            result
+        }
+    }
+}
+
