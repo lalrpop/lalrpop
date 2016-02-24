@@ -277,11 +277,18 @@ impl Types {
                               .collect()
     }
 
+    /// Returns a type `(L, T, L)` where L is the location type and T
+    /// is the token type.
     pub fn triple_type(&self) -> TypeRepr {
-        let enum_type = self.terminal_token_type();
+        self.spanned_type(self.terminal_token_type().clone())
+    }
+
+    /// Returns a type `(L, T, L)` where L is the location type and T
+    /// is the argument.
+    pub fn spanned_type(&self, ty: TypeRepr) -> TypeRepr {
         let location_type = self.terminal_loc_type();
         TypeRepr::Tuple(vec![location_type.clone(),
-                             enum_type.clone(),
+                             ty,
                              location_type])
     }
 }
