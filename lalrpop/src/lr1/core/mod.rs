@@ -1,7 +1,6 @@
 //! Core LR(1) types.
 
 use collections::Map;
-use kernel_set;
 use grammar::repr::*;
 use std::fmt::{Debug, Formatter, Error};
 use std::rc::Rc;
@@ -93,14 +92,6 @@ pub struct StateIndex(pub usize);
 #[derive(Clone, Debug, Hash, PartialEq, Eq, PartialOrd, Ord)]
 pub struct Items<'grammar> {
     pub vec: Rc<Vec<Item<'grammar>>>
-}
-
-impl<'grammar> kernel_set::Kernel for Items<'grammar> {
-    type Index = StateIndex;
-
-    fn index(c: usize) -> StateIndex {
-        StateIndex(c)
-    }
 }
 
 #[derive(Debug)]
