@@ -9,7 +9,89 @@ pub enum Expr<'input> {
     Upgrade(usize, Box<Expr<'input>>, usize),
     Ident(usize, &'input str, usize),
     Maybe(usize, usize),
+    Wacky(usize, usize),
+    Wonky(usize, usize),
     Ref(usize, Box<Expr<'input>>, Box<Expr<'input>>, usize),
+}
+
+#[test]
+fn loc_issue_90_wonky() {
+    //                              0123456789abc
+    let result = parse_Expression2("wonky * wonky");
+    println!("{:#?}", result);
+    expect_debug(result, r#"
+Ok(
+    Adjacent(
+        0,
+        Upgrade(
+            0,
+            Wonky(
+                5,
+                6
+            ),
+            6
+        ),
+        Mul(
+            6,
+            7
+        ),
+        Wonky(
+            13,
+            13
+        ),
+        13
+    )
+)
+"#.trim());
+}
+
+#[test]
+fn loc_issue_90_wacky() {
+    let result = parse_Expression2("wacky");
+    println!("{:#?}", result);
+    expect_debug(result, r#"
+Ok(
+    Upgrade(
+        0,
+        Wacky(
+            0,
+            5
+        ),
+        5
+    )
+)
+"#.trim());
+}
+
+#[test]
+fn loc_issue_90_wacky_3() {
+    //                              0123456789abc
+    let result = parse_Expression2("wacky * wacky");
+    println!("{:#?}", result);
+    expect_debug(result, r#"
+Ok(
+    Adjacent(
+        0,
+        Upgrade(
+            0,
+            Wacky(
+                0,
+                5
+            ),
+            5
+        ),
+        Mul(
+            6,
+            7
+        ),
+        Wacky(
+            8,
+            13
+        ),
+        13
+    )
+)
+"#.trim());
 }
 
 #[test]

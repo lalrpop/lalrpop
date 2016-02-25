@@ -18,9 +18,22 @@ Expression1: Box<Expr<'input>> = {
     <@L> "(" <Expression2> ")" <@R> => Box::new(Expr::Paren(<>)),
     @L r"\w+" @R => Box::new(Expr::Ident(<>)),
     <@L> "&" <Maybe> <Expression1> <@R> => Box::new(Expr::Ref(<>)),
+    "wonky" <Wonky>,
+    Wacky
 };
 
+// test what results we get with an empty, non-inlined reduction
 Maybe: Box<Expr<'input>> = {
     @L @R => Box::new(Expr::Maybe(<>)),
     <@L> "[" "]" <@R> => Box::new(Expr::Maybe(<>)),
+};
+
+// put @R and @L in the wrong places, just to see what happens
+Wacky: Box<Expr<'input>> = {
+    <@R> "wacky" <@L> => Box::new(Expr::Wacky(<>)),
+};
+
+// put @R and @L in the wrong places in an empty reduction
+Wonky: Box<Expr<'input>> = {
+    <@R> <@L> => Box::new(Expr::Wonky(<>)),
 };
