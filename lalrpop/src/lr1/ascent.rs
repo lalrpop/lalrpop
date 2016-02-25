@@ -368,11 +368,27 @@ impl<'ascent,'grammar,W:Write> RecursiveAscent<'ascent,'grammar,W> {
                 rust!(self.out, "let {} = {}.take().unwrap();", sym, sym);
             }
 
+            // identify the "start" location for this production; this
+            // is typically the start of the first symbol we are
+            // reducing, but in the case of an empty production it
+            // will be the `lookbehind` that was passed into us
+            rust!(self.out, "let {}start = {}lookbehind.clone();",
+                  self.prefix, self.prefix);
+
+            // identify the "end" location for this production;
+            // this is typically the end of the last symbol we are reducing,
+            // but in the case of an empty production it will come from the
+            // lookahead
+            rust!(self.out, "let {}end = {}lookahead.as_ref()\
+                             .map(|o| o.0.clone())\
+                             .unwrap_or_else(|| {}start.clone());",
+                  self.prefix, self.prefix, self.prefix);
+
             let transfered_syms = transfer_syms.len();
 
             let mut args = transfer_syms;
-            args.push(format!("&{}lookbehind", self.prefix));
-            args.push(format!("{}lookahead.as_ref().map(|o| &o.0)", self.prefix));
+            args.push(format!("&{}start", self.prefix));
+            args.push(format!("&{}end", self.prefix));
 
             // invoke the action code
             let is_fallible = self.grammar.action_is_fallible(production.action);

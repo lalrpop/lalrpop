@@ -62,7 +62,9 @@ mod __parse__Expr {
                 __result = try!(__state3(__lookbehind, __tokens, __sym0));
             }
             None => {
-                let __nt = super::__action6(&__lookbehind, __lookahead.as_ref().map(|o| &o.0));
+                let __start = __lookbehind.clone();
+                let __end = __lookahead.as_ref().map(|o| o.0.clone()).unwrap_or_else(|| __start.clone());
+                let __nt = super::__action6(&__start, &__end);
                 __result = (__lookbehind, __lookahead, __Nonterminal::Expr(__nt));
             }
             _ => {
@@ -104,7 +106,9 @@ mod __parse__Expr {
         match __lookahead {
             None => {
                 let __sym0 = __sym0.take().unwrap();
-                let __nt = super::__action0(__sym0, &__lookbehind, __lookahead.as_ref().map(|o| &o.0));
+                let __start = __lookbehind.clone();
+                let __end = __lookahead.as_ref().map(|o| o.0.clone()).unwrap_or_else(|| __start.clone());
+                let __nt = super::__action0(__sym0, &__start, &__end);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::____Expr(__nt)));
             }
             _ => {
@@ -135,7 +139,9 @@ mod __parse__Expr {
             }
             None => {
                 let __sym0 = __sym0.take().unwrap();
-                let __nt = super::__action7(__sym0, &__lookbehind, __lookahead.as_ref().map(|o| &o.0));
+                let __start = __lookbehind.clone();
+                let __end = __lookahead.as_ref().map(|o| o.0.clone()).unwrap_or_else(|| __start.clone());
+                let __nt = super::__action7(__sym0, &__start, &__end);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::Expr(__nt)));
             }
             _ => {
@@ -167,7 +173,9 @@ mod __parse__Expr {
             None |
             Some((_, LtTok::Other(_), _)) => {
                 let __sym0 = __sym0.take().unwrap();
-                let __nt = super::__action4(__sym0, &__lookbehind, __lookahead.as_ref().map(|o| &o.0));
+                let __start = __lookbehind.clone();
+                let __end = __lookahead.as_ref().map(|o| o.0.clone()).unwrap_or_else(|| __start.clone());
+                let __nt = super::__action4(__sym0, &__start, &__end);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::Other_2b(__nt)));
             }
             _ => {
@@ -200,7 +208,9 @@ mod __parse__Expr {
             Some((_, LtTok::Other(_), _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
-                let __nt = super::__action5(__sym0, __sym1, &__lookbehind, __lookahead.as_ref().map(|o| &o.0));
+                let __start = __lookbehind.clone();
+                let __end = __lookahead.as_ref().map(|o| o.0.clone()).unwrap_or_else(|| __start.clone());
+                let __nt = super::__action5(__sym0, __sym1, &__start, &__end);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::Other_2b(__nt)));
             }
             _ => {
@@ -219,7 +229,7 @@ pub fn __action0<
 >(
     __0: Vec<&'input str>,
     __lookbehind: &(),
-    __lookahead: Option<&()>,
+    __lookahead: &(),
 ) -> Vec<&'input str>
 {
     (__0)
@@ -230,7 +240,7 @@ pub fn __action1<
 >(
     __0: ::std::vec::Vec<&'input str>,
     __lookbehind: &(),
-    __lookahead: Option<&()>,
+    __lookahead: &(),
 ) -> Vec<&'input str>
 {
     (__0)
@@ -240,7 +250,7 @@ pub fn __action2<
     'input,
 >(
     __lookbehind: &(),
-    __lookahead: Option<&()>,
+    __lookahead: &(),
 ) -> ::std::vec::Vec<&'input str>
 {
     vec![]
@@ -251,7 +261,7 @@ pub fn __action3<
 >(
     v: ::std::vec::Vec<&'input str>,
     __lookbehind: &(),
-    __lookahead: Option<&()>,
+    __lookahead: &(),
 ) -> ::std::vec::Vec<&'input str>
 {
     v
@@ -262,7 +272,7 @@ pub fn __action4<
 >(
     __0: &'input str,
     __lookbehind: &(),
-    __lookahead: Option<&()>,
+    __lookahead: &(),
 ) -> ::std::vec::Vec<&'input str>
 {
     vec![__0]
@@ -274,7 +284,7 @@ pub fn __action5<
     v: ::std::vec::Vec<&'input str>,
     e: &'input str,
     __lookbehind: &(),
-    __lookahead: Option<&()>,
+    __lookahead: &(),
 ) -> ::std::vec::Vec<&'input str>
 {
     { let mut v = v; v.push(e); v }
@@ -284,7 +294,7 @@ pub fn __action6<
     'input,
 >(
     __lookbehind: &(),
-    __lookahead: Option<&()>,
+    __lookahead: &(),
 ) -> Vec<&'input str>
 {
     let __temp0 = __action2(
@@ -303,7 +313,7 @@ pub fn __action7<
 >(
     __0: ::std::vec::Vec<&'input str>,
     __lookbehind: &(),
-    __lookahead: Option<&()>,
+    __lookahead: &(),
 ) -> Vec<&'input str>
 {
     let __temp0 = __action3(

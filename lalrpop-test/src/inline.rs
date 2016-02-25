@@ -98,7 +98,9 @@ mod __parse__E {
         match __lookahead {
             None => {
                 let __sym0 = __sym0.take().unwrap();
-                let __nt = super::__action0(input, __sym0, &__lookbehind, __lookahead.as_ref().map(|o| &o.0));
+                let __start = __lookbehind.clone();
+                let __end = __lookahead.as_ref().map(|o| o.0.clone()).unwrap_or_else(|| __start.clone());
+                let __nt = super::__action0(input, __sym0, &__start, &__end);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::____E(__nt)));
             }
             _ => {
@@ -178,7 +180,9 @@ mod __parse__E {
         match __lookahead {
             None => {
                 let __sym0 = __sym0.take().unwrap();
-                let __nt = super::__action1(input, __sym0, &__lookbehind, __lookahead.as_ref().map(|o| &o.0));
+                let __start = __lookbehind.clone();
+                let __end = __lookahead.as_ref().map(|o| o.0.clone()).unwrap_or_else(|| __start.clone());
+                let __nt = super::__action1(input, __sym0, &__start, &__end);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::E(__nt)));
             }
             _ => {
@@ -207,7 +211,9 @@ mod __parse__E {
             None => {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
-                let __nt = super::__action7(input, __sym0, __sym1, &__lookbehind, __lookahead.as_ref().map(|o| &o.0));
+                let __start = __lookbehind.clone();
+                let __end = __lookahead.as_ref().map(|o| o.0.clone()).unwrap_or_else(|| __start.clone());
+                let __nt = super::__action7(input, __sym0, __sym1, &__start, &__end);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::E(__nt)));
             }
             _ => {
@@ -249,7 +255,9 @@ mod __parse__E {
             }
             None => {
                 let __sym1 = __sym1.take().unwrap();
-                let __nt = super::__action1(input, __sym1, &__lookbehind, __lookahead.as_ref().map(|o| &o.0));
+                let __start = __lookbehind.clone();
+                let __end = __lookahead.as_ref().map(|o| o.0.clone()).unwrap_or_else(|| __start.clone());
+                let __nt = super::__action1(input, __sym1, &__start, &__end);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::E(__nt)));
             }
             _ => {
@@ -293,7 +301,9 @@ mod __parse__E {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
                 let __sym2 = __sym2.take().unwrap();
-                let __nt = super::__action8(input, __sym0, __sym1, __sym2, &__lookbehind, __lookahead.as_ref().map(|o| &o.0));
+                let __start = __lookbehind.clone();
+                let __end = __lookahead.as_ref().map(|o| o.0.clone()).unwrap_or_else(|| __start.clone());
+                let __nt = super::__action8(input, __sym0, __sym1, __sym2, &__start, &__end);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::E(__nt)));
             }
             _ => {
@@ -409,7 +419,7 @@ pub fn __action0<
     input: &'input str,
     __0: String,
     __lookbehind: &usize,
-    __lookahead: Option<&usize>,
+    __lookahead: &usize,
 ) -> String
 {
     (__0)
@@ -421,7 +431,7 @@ pub fn __action1<
     input: &'input str,
     __0: &'input str,
     __lookbehind: &usize,
-    __lookahead: Option<&usize>,
+    __lookahead: &usize,
 ) -> String
 {
     format!("L")
@@ -435,7 +445,7 @@ pub fn __action2<
     __0: String,
     __1: String,
     __lookbehind: &usize,
-    __lookahead: Option<&usize>,
+    __lookahead: &usize,
 ) -> String
 {
     format!("& {} {}", __0, __1)
@@ -447,7 +457,7 @@ pub fn __action3<
     input: &'input str,
     __0: (),
     __lookbehind: &usize,
-    __lookahead: Option<&usize>,
+    __lookahead: &usize,
 ) -> String
 {
     format!("()")
@@ -459,7 +469,7 @@ pub fn __action4<
     input: &'input str,
     __0: &'input str,
     __lookbehind: &usize,
-    __lookahead: Option<&usize>,
+    __lookahead: &usize,
 ) -> String
 {
     format!("L")
@@ -470,7 +480,7 @@ pub fn __action5<
 >(
     input: &'input str,
     __lookbehind: &usize,
-    __lookahead: Option<&usize>,
+    __lookahead: &usize,
 ) -> ()
 {
     ()
@@ -481,7 +491,7 @@ pub fn __action6<
 >(
     input: &'input str,
     __lookbehind: &usize,
-    __lookahead: Option<&usize>,
+    __lookahead: &usize,
 ) -> String
 {
     let __temp0 = __action5(
@@ -504,7 +514,7 @@ pub fn __action7<
     __0: &'input str,
     __1: String,
     __lookbehind: &usize,
-    __lookahead: Option<&usize>,
+    __lookahead: &usize,
 ) -> String
 {
     let __temp0 = __action6(
@@ -530,7 +540,7 @@ pub fn __action8<
     __1: &'input str,
     __2: String,
     __lookbehind: &usize,
-    __lookahead: Option<&usize>,
+    __lookahead: &usize,
 ) -> String
 {
     let __temp0 = __action4(

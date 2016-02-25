@@ -58,7 +58,9 @@ mod __parse__Items {
             None |
             Some((_, Tok::Plus, _)) |
             Some((_, Tok::Minus, _)) => {
-                let __nt = super::__action6(&__lookbehind, __lookahead.as_ref().map(|o| &o.0));
+                let __start = __lookbehind.clone();
+                let __end = __lookahead.as_ref().map(|o| o.0.clone()).unwrap_or_else(|| __start.clone());
+                let __nt = super::__action6(&__start, &__end);
                 __result = (__lookbehind, __lookahead, __Nonterminal::_40L(__nt));
             }
             _ => {
@@ -100,7 +102,9 @@ mod __parse__Items {
             None |
             Some((_, Tok::Plus, _)) |
             Some((_, Tok::Minus, _)) => {
-                let __nt = super::__action5(&__lookbehind, __lookahead.as_ref().map(|o| &o.0));
+                let __start = __lookbehind.clone();
+                let __end = __lookahead.as_ref().map(|o| o.0.clone()).unwrap_or_else(|| __start.clone());
+                let __nt = super::__action5(&__start, &__end);
                 __result = (__lookbehind, __lookahead, __Nonterminal::_40R(__nt));
             }
             _ => {
@@ -142,12 +146,16 @@ mod __parse__Items {
                 __result = try!(__state6(__lookbehind, __tokens, __sym0, __sym1));
             }
             Some((_, Tok::Plus, _)) => {
-                let __nt = super::__action6(&__lookbehind, __lookahead.as_ref().map(|o| &o.0));
+                let __start = __lookbehind.clone();
+                let __end = __lookahead.as_ref().map(|o| o.0.clone()).unwrap_or_else(|| __start.clone());
+                let __nt = super::__action6(&__start, &__end);
                 __result = (__lookbehind, __lookahead, __Nonterminal::_40L(__nt));
             }
             None => {
                 let __sym0 = __sym0.take().unwrap();
-                let __nt = super::__action0(__sym0, &__lookbehind, __lookahead.as_ref().map(|o| &o.0));
+                let __start = __lookbehind.clone();
+                let __end = __lookahead.as_ref().map(|o| o.0.clone()).unwrap_or_else(|| __start.clone());
+                let __nt = super::__action0(__sym0, &__start, &__end);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::____Items(__nt)));
             }
             _ => {
@@ -193,7 +201,9 @@ mod __parse__Items {
             Some((_, Tok::Minus, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
-                let __nt = super::__action1(__sym0, __sym1, &__lookbehind, __lookahead.as_ref().map(|o| &o.0));
+                let __start = __lookbehind.clone();
+                let __end = __lookahead.as_ref().map(|o| o.0.clone()).unwrap_or_else(|| __start.clone());
+                let __nt = super::__action1(__sym0, __sym1, &__start, &__end);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::Items(__nt)));
             }
             _ => {
@@ -248,7 +258,9 @@ mod __parse__Items {
             Some((_, Tok::Minus, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
-                let __nt = super::__action2(__sym0, __sym1, &__lookbehind, __lookahead.as_ref().map(|o| &o.0));
+                let __start = __lookbehind.clone();
+                let __end = __lookahead.as_ref().map(|o| o.0.clone()).unwrap_or_else(|| __start.clone());
+                let __nt = super::__action2(__sym0, __sym1, &__start, &__end);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::Items(__nt)));
             }
             _ => {
@@ -281,7 +293,9 @@ mod __parse__Items {
             Some((_, Tok::Minus, _)) => {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
-                let __nt = super::__action3(__sym0, __sym1, &__lookbehind, __lookahead.as_ref().map(|o| &o.0));
+                let __start = __lookbehind.clone();
+                let __end = __lookahead.as_ref().map(|o| o.0.clone()).unwrap_or_else(|| __start.clone());
+                let __nt = super::__action3(__sym0, __sym1, &__start, &__end);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::Items(__nt)));
             }
             _ => {
@@ -312,7 +326,9 @@ mod __parse__Items {
             None |
             Some((_, Tok::Plus, _)) |
             Some((_, Tok::Minus, _)) => {
-                let __nt = super::__action5(&__lookbehind, __lookahead.as_ref().map(|o| &o.0));
+                let __start = __lookbehind.clone();
+                let __end = __lookahead.as_ref().map(|o| o.0.clone()).unwrap_or_else(|| __start.clone());
+                let __nt = super::__action5(&__start, &__end);
                 __result = (__lookbehind, __lookahead, __Nonterminal::_40R(__nt));
             }
             _ => {
@@ -356,7 +372,9 @@ mod __parse__Items {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
                 let __sym2 = __sym2.take().unwrap();
-                let __nt = super::__action4(__sym0, __sym1, __sym2, &__lookbehind, __lookahead.as_ref().map(|o| &o.0));
+                let __start = __lookbehind.clone();
+                let __end = __lookahead.as_ref().map(|o| o.0.clone()).unwrap_or_else(|| __start.clone());
+                let __nt = super::__action4(__sym0, __sym1, __sym2, &__start, &__end);
                 return Ok((__lookbehind, __lookahead, __Nonterminal::Spanned_3c_22_2b_22_3e(__nt)));
             }
             _ => {
@@ -374,7 +392,7 @@ pub fn __action0<
 >(
     __0: Vec<(usize, usize)>,
     __lookbehind: &usize,
-    __lookahead: Option<&usize>,
+    __lookahead: &usize,
 ) -> Vec<(usize, usize)>
 {
     (__0)
@@ -385,7 +403,7 @@ pub fn __action1<
     __0: usize,
     __1: usize,
     __lookbehind: &usize,
-    __lookahead: Option<&usize>,
+    __lookahead: &usize,
 ) -> Vec<(usize, usize)>
 {
     vec![(__0, __1)]
@@ -396,7 +414,7 @@ pub fn __action2<
     v: Vec<(usize, usize)>,
     e: (usize, usize),
     __lookbehind: &usize,
-    __lookahead: Option<&usize>,
+    __lookahead: &usize,
 ) -> Vec<(usize, usize)>
 {
     {
@@ -411,7 +429,7 @@ pub fn __action3<
     v: Vec<(usize, usize)>,
     _: Tok,
     __lookbehind: &usize,
-    __lookahead: Option<&usize>,
+    __lookahead: &usize,
 ) -> Vec<(usize, usize)>
 {
     v
@@ -423,7 +441,7 @@ pub fn __action4<
     _: Tok,
     __1: usize,
     __lookbehind: &usize,
-    __lookahead: Option<&usize>,
+    __lookahead: &usize,
 ) -> (usize, usize)
 {
     (__0, __1)
@@ -432,7 +450,7 @@ pub fn __action4<
 pub fn __action5<
 >(
     __lookbehind: &usize,
-    __lookahead: Option<&usize>,
+    __lookahead: &usize,
 ) -> usize
 {
     __lookbehind.clone()
@@ -441,10 +459,10 @@ pub fn __action5<
 pub fn __action6<
 >(
     __lookbehind: &usize,
-    __lookahead: Option<&usize>,
+    __lookahead: &usize,
 ) -> usize
 {
-    __lookahead.cloned().unwrap_or_else(|| __lookbehind.clone())
+    __lookahead.clone()
 }
 
 pub trait __ToTriple<> {

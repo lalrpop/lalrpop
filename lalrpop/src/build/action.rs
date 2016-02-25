@@ -48,7 +48,7 @@ fn emit_user_action_code<W: Write>(grammar: &r::Grammar,
     let lookarounds = vec![format!("{}lookbehind: &{}",
                                    grammar.prefix,
                                    grammar.types.terminal_loc_type()),
-                           format!("{}lookahead: Option<&{}>",
+                           format!("{}lookahead: &{}",
                                    grammar.prefix,
                                    grammar.types.terminal_loc_type())];
 
@@ -81,7 +81,7 @@ fn emit_lookaround_action_code<W: Write>(grammar: &r::Grammar,
                                   vec![format!("{}lookbehind: &{}",
                                                grammar.prefix,
                                                grammar.types.terminal_loc_type()),
-                                       format!("{}lookahead: Option<&{}>",
+                                       format!("{}lookahead: &{}",
                                                grammar.prefix,
                                                grammar.types.terminal_loc_type())],
                                   format!("{}", grammar.types.terminal_loc_type()),
@@ -95,8 +95,7 @@ fn emit_lookaround_action_code<W: Write>(grammar: &r::Grammar,
             // pushed token); if that is missing too, then
             // supply default.
             rust!(rust,
-                  "{}lookahead.cloned().unwrap_or_else(|| {}lookbehind.clone())",
-                  grammar.prefix,
+                  "{}lookahead.clone()",
                   grammar.prefix);
         }
         r::LookaroundActionFnDefn::Lookbehind => {
@@ -135,7 +134,7 @@ fn emit_inline_action_code<W: Write>(grammar: &r::Grammar,
                                      .chain(vec![format!("{}lookbehind: &{}",
                                                          grammar.prefix,
                                                          grammar.types.terminal_loc_type()),
-                                                 format!("{}lookahead: Option<&{}>",
+                                                 format!("{}lookahead: &{}",
                                                          grammar.prefix,
                                                          grammar.types.terminal_loc_type())])
                                      .collect();
