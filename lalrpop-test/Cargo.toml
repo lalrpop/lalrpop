@@ -5,6 +5,9 @@ authors = ["Niko Matsakis <niko@alum.mit.edu>"]
 license = "Apache-2.0/MIT"
 build = "build.rs"
 
+[dependencies]
+diff = "0.1"
+
 [dependencies.lalrpop-util]
 path = "../lalrpop-util"
 

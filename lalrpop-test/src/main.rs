@@ -1,3 +1,4 @@
+extern crate diff;
 extern crate lalrpop_util;
 
 use lalrpop_util::ParseError;
@@ -39,6 +40,10 @@ mod lifetime_tok_lib;
 
 /// test that exercises locations and spans
 mod loc;
+
+/// regression test for location issue #90
+mod loc_issue_90;
+mod loc_issue_90_lib;
 
 /// test that uses `super` in paths in various places
 mod use_super;

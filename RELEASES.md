@@ -9,6 +9,9 @@ named capture groups -- are still not supported (or just not meaningful).
 
 Optimized LR(1) construction time by approximately 5x.
 
+Improved handling of location tokens `@L` and `@R` so that they can be
+freely used without ever causing parse conflicts.
+
 # Version 0.10
 
 Major update to LALRPOP error messages in cases of shift/reduce and

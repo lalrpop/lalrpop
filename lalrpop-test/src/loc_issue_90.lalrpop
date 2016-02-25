@@ -1,0 +1,39 @@
+use loc_issue_90_lib::Expr;
+
+grammar;
+
+// This used to generate shift/reduce conflicts due to the excessive
+// use of `@L`, but it should be fine now.
+
+pub Expression2: Box<Expr<'input>> = {
+    @L Expression2 Expression2Op Expression1 @R => Box::new(Expr::Adjacent(<>)),
+    @L Expression1 @R => Box::new(Expr::Upgrade(<>)),
+};
+
+Expression2Op: Box<Expr<'input>> = {
+    <@L> "*" <@R> => Box::new(Expr::Mul(<>)),
+};
+
+Expression1: Box<Expr<'input>> = {
+    <@L> "(" <Expression2> ")" <@R> => Box::new(Expr::Paren(<>)),
+    @L r"\w+" @R => Box::new(Expr::Ident(<>)),
+    <@L> "&" <Maybe> <Expression1> <@R> => Box::new(Expr::Ref(<>)),
+    "wonky" <Wonky>,
+    Wacky
+};
+
+// test what results we get with an empty, non-inlined reduction
+Maybe: Box<Expr<'input>> = {
+    @L @R => Box::new(Expr::Maybe(<>)),
+    <@L> "[" "]" <@R> => Box::new(Expr::Maybe(<>)),
+};
+
+// put @R and @L in the wrong places, just to see what happens
+Wacky: Box<Expr<'input>> = {
+    <@R> "wacky" <@L> => Box::new(Expr::Wacky(<>)),
+};
+
+// put @R and @L in the wrong places in an empty reduction
+Wonky: Box<Expr<'input>> = {
+    <@R> <@L> => Box::new(Expr::Wonky(<>)),
+};
