@@ -1,4 +1,34 @@
 //! Code for generating action code.
+//!
+//! From the outside, action fns have one of two forms. If they take
+//! symbols as input, e.g. from a production like `X = Y Z => ...`
+//! (which takes Y and Z as input), they have this form:
+//!
+//! ```
+//! pub fn __action17<
+//!     'input,                       // user-declared type parameters (*)
+//! >(
+//!     input: &'input str,           // user-declared parameters
+//!     __0: (usize, usize, usize),   // symbols being reduced, if any
+//!     ...
+//!     __N: (usize, Foo, usize),     // each has a type (L, T, L)
+//! ) -> Box<Expr<'input>>
+//! ```
+//!
+//! Otherwise, they have this form:
+//!
+//! ```
+//! pub fn __action17<
+//!     'input,                       // user-declared type parameters (*)
+//! >(
+//!     input: &'input str,           // user-declared parameters
+//!    __lookbehind: &usize,          // value for @R -- "end of previous token"
+//!    __lookahead: &usize,           // value for @L -- "start of next token"
+//! ) -> Box<Expr<'input>>
+//! ```
+//!
+//! * -- in this case, those "user-declared" parameters are inserted by
+//! the "internal tokenizer".
 
 use grammar::repr as r;
 use rust::RustWrite;
