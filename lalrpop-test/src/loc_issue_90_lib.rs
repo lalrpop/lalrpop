@@ -8,6 +8,35 @@ pub enum Expr<'input> {
     Adjacent(usize, Box<Expr<'input>>, Box<Expr<'input>>, Box<Expr<'input>>, usize),
     Upgrade(usize, Box<Expr<'input>>, usize),
     Ident(usize, &'input str, usize),
+    Maybe(usize, usize),
+    Ref(usize, Box<Expr<'input>>, Box<Expr<'input>>, usize),
+}
+
+#[test]
+fn loc_issue_90_maybe() {
+    let result = parse_Expression2("& x");
+    println!("{:#?}", result);
+    expect_debug(result, r#"
+Ok(
+    Upgrade(
+        0,
+        Ref(
+            0,
+            Maybe(
+                1,
+                1
+            ),
+            Ident(
+                2,
+                "x",
+                3
+            ),
+            3
+        ),
+        3
+    )
+)
+"#.trim());
 }
 
 #[test]

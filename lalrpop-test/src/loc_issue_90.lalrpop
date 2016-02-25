@@ -17,4 +17,10 @@ Expression2Op: Box<Expr<'input>> = {
 Expression1: Box<Expr<'input>> = {
     <@L> "(" <Expression2> ")" <@R> => Box::new(Expr::Paren(<>)),
     @L r"\w+" @R => Box::new(Expr::Ident(<>)),
+    <@L> "&" <Maybe> <Expression1> <@R> => Box::new(Expr::Ref(<>)),
+};
+
+Maybe: Box<Expr<'input>> = {
+    @L @R => Box::new(Expr::Maybe(<>)),
+    <@L> "[" "]" <@R> => Box::new(Expr::Maybe(<>)),
 };
