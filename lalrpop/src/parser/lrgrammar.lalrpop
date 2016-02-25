@@ -83,7 +83,7 @@ Annotation: Annotation = {
             parameters: vec![],
         }
     },
-    "#" "[" <lo:@L> <id:Id> "(" <l:Comma<EqPair>> ")" <hi:@R> "]" => {
+    "#" "[" <lo:@L> <id:Id> "(" <l:Comma<AnnotationKeyValue>> ")" <hi:@R> "]" => {
         Annotation {
             id_span: Span(lo, hi),
             id: id,
@@ -92,8 +92,15 @@ Annotation: Annotation = {
     },
 };
 
-EqPair: (InternedString, InternedString) =
-    <l:Id> "=" <r:Id> => (l, r);
+AnnotationKeyValue: AnnotationKeyValue = {
+    <lo:@L> <key:Id> "=" <value:Id> <hi:@R> => {
+        AnnotationKeyValue {
+            span: Span(lo, hi),
+            key: key,
+            value: value,
+        }
+    }
+};
 
 NonterminalName: (NonterminalString, Vec<NonterminalString>) = {
     <MacroId> "<" <Comma<NotMacroId>> ">",
