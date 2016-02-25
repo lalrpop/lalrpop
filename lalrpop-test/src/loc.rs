@@ -114,7 +114,7 @@ mod __parse__Items {
                 let __sym0 = __sym0.take().unwrap();
                 let __start = __sym0.0.clone();
                 let __end = __sym0.2.clone();
-                let __nt = super::__action0(__sym0, &__start, &__end);
+                let __nt = super::__action0(__sym0);
                 let __nt = __Nonterminal::____Items((
                     __start,
                     __nt,
@@ -163,7 +163,7 @@ mod __parse__Items {
                 let __sym1 = __sym1.take().unwrap();
                 let __start = __sym0.0.clone();
                 let __end = __sym1.2.clone();
-                let __nt = super::__action2(__sym0, __sym1, &__start, &__end);
+                let __nt = super::__action2(__sym0, __sym1);
                 let __nt = __Nonterminal::Items((
                     __start,
                     __nt,
@@ -201,7 +201,7 @@ mod __parse__Items {
                 let __sym0 = __sym0.take().unwrap();
                 let __start = __sym0.0.clone();
                 let __end = __sym0.2.clone();
-                let __nt = super::__action10(__sym0, &__start, &__end);
+                let __nt = super::__action10(__sym0);
                 let __nt = __Nonterminal::Spanned_3c_22_2b_22_3e((
                     __start,
                     __nt,
@@ -241,7 +241,7 @@ mod __parse__Items {
                 let __sym1 = __sym1.take().unwrap();
                 let __start = __sym0.0.clone();
                 let __end = __sym1.2.clone();
-                let __nt = super::__action3(__sym0, __sym1, &__start, &__end);
+                let __nt = super::__action3(__sym0, __sym1);
                 let __nt = __Nonterminal::Items((
                     __start,
                     __nt,
@@ -263,8 +263,6 @@ pub use self::__parse__Items::parse_Items;
 pub fn __action0<
 >(
     (_, __0, _): (usize, Vec<(usize, usize)>, usize),
-    __lookbehind: &usize,
-    __lookahead: &usize,
 ) -> Vec<(usize, usize)>
 {
     (__0)
@@ -274,8 +272,6 @@ pub fn __action1<
 >(
     (_, __0, _): (usize, usize, usize),
     (_, __1, _): (usize, usize, usize),
-    __lookbehind: &usize,
-    __lookahead: &usize,
 ) -> Vec<(usize, usize)>
 {
     vec![(__0, __1)]
@@ -285,8 +281,6 @@ pub fn __action2<
 >(
     (_, v, _): (usize, Vec<(usize, usize)>, usize),
     (_, e, _): (usize, (usize, usize), usize),
-    __lookbehind: &usize,
-    __lookahead: &usize,
 ) -> Vec<(usize, usize)>
 {
     {
@@ -300,8 +294,6 @@ pub fn __action3<
 >(
     (_, v, _): (usize, Vec<(usize, usize)>, usize),
     (_, _, _): (usize, Tok, usize),
-    __lookbehind: &usize,
-    __lookahead: &usize,
 ) -> Vec<(usize, usize)>
 {
     v
@@ -312,8 +304,6 @@ pub fn __action4<
     (_, __0, _): (usize, usize, usize),
     (_, _, _): (usize, Tok, usize),
     (_, __1, _): (usize, usize, usize),
-    __lookbehind: &usize,
-    __lookahead: &usize,
 ) -> (usize, usize)
 {
     /* spanned */ (__0, __1)
@@ -340,11 +330,9 @@ pub fn __action6<
 pub fn __action7<
 >(
     __0: (usize, usize, usize),
-    __lookbehind: &usize,
-    __lookahead: &usize,
 ) -> Vec<(usize, usize)>
 {
-    let __start0 = __lookbehind.clone();
+    let __start0 = __0.0.clone();
     let __end0 = __0.0.clone();
     let __temp0 = __action6(
         &__start0,
@@ -354,8 +342,6 @@ pub fn __action7<
     __action1(
         __temp0,
         __0,
-        __lookbehind,
-        __lookahead,
     )
 }
 
@@ -363,11 +349,9 @@ pub fn __action8<
 >(
     __0: (usize, Tok, usize),
     __1: (usize, usize, usize),
-    __lookbehind: &usize,
-    __lookahead: &usize,
 ) -> (usize, usize)
 {
-    let __start0 = __lookbehind.clone();
+    let __start0 = __0.0.clone();
     let __end0 = __0.0.clone();
     let __temp0 = __action6(
         &__start0,
@@ -378,8 +362,6 @@ pub fn __action8<
         __temp0,
         __0,
         __1,
-        __lookbehind,
-        __lookahead,
     )
 }
 
@@ -398,20 +380,16 @@ pub fn __action9<
     let __temp0 = (__start0, __temp0, __end0);
     __action7(
         __temp0,
-        __lookbehind,
-        __lookahead,
     )
 }
 
 pub fn __action10<
 >(
     __0: (usize, Tok, usize),
-    __lookbehind: &usize,
-    __lookahead: &usize,
 ) -> (usize, usize)
 {
     let __start0 = __0.2.clone();
-    let __end0 = __lookahead.clone();
+    let __end0 = __0.2.clone();
     let __temp0 = __action5(
         &__start0,
         &__end0,
@@ -420,8 +398,6 @@ pub fn __action10<
     __action8(
         __0,
         __temp0,
-        __lookbehind,
-        __lookahead,
     )
 }
 

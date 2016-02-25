@@ -93,7 +93,7 @@ mod __parse__S {
                 let __sym0 = __sym0.take().unwrap();
                 let __start = __sym0.0.clone();
                 let __end = __sym0.2.clone();
-                let __nt = super::__action0(__sym0, &__start, &__end);
+                let __nt = super::__action0(__sym0);
                 let __nt = __Nonterminal::____S((
                     __start,
                     __nt,
@@ -161,7 +161,7 @@ mod __parse__S {
                 let __sym1 = __sym1.take().unwrap();
                 let __start = __sym0.0.clone();
                 let __end = __sym1.2.clone();
-                let __nt = super::__action1(__sym0, __sym1, &__start, &__end);
+                let __nt = super::__action1(__sym0, __sym1);
                 let __nt = __Nonterminal::S((
                     __start,
                     __nt,
@@ -183,8 +183,6 @@ pub use self::__parse__S::parse_S;
 pub fn __action0<
 >(
     (_, __0, _): ((), i32, ()),
-    __lookbehind: &(),
-    __lookahead: &(),
 ) -> i32
 {
     (__0)
@@ -194,8 +192,6 @@ pub fn __action1<
 >(
     (_, __0, _): ((), Tok, ()),
     (_, __1, _): ((), Tok, ()),
-    __lookbehind: &(),
-    __lookahead: &(),
 ) -> i32
 {
     super::ZERO

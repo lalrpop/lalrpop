@@ -45,25 +45,36 @@ fn emit_user_action_code<W: Write>(grammar: &r::Grammar,
                                    -> io::Result<()> {
     let ret_type = ret_type_string(grammar, defn);
 
-    let lookarounds = vec![format!("{}lookbehind: &{}",
-                                   grammar.prefix,
-                                   grammar.types.terminal_loc_type()),
-                           format!("{}lookahead: &{}",
-                                   grammar.prefix,
-                                   grammar.types.terminal_loc_type())];
+    // For each symbol to be reduced, we will receive
+    // a (L, T, L) triple where the Ls are locations and
+    // the T is the data. Ignore the locations and bind
+    // the data to the name the user gave.
+    let mut arguments: Vec<String> = data.arg_patterns
+                                         .iter()
+                                         .zip(data.arg_types
+                                                  .iter()
+                                                  .cloned()
+                                                  .map(|t| grammar.types.spanned_type(t)))
+                                         .map(|(p, t)| format!("(_, {}, _): {}", p, t))
+                                         .collect();
+
+    // If this is a reduce of an empty production, we will
+    // automatically add position information in the form of
+    // lookbehind/lookahead values. Otherwise, those values would be
+    // determined from the arguments themselves.
+    if data.arg_patterns.is_empty() {
+        arguments.extend(vec![format!("{}lookbehind: &{}",
+                                      grammar.prefix,
+                                      grammar.types.terminal_loc_type()),
+                              format!("{}lookahead: &{}",
+                                      grammar.prefix,
+                                      grammar.types.terminal_loc_type())]);
+    }
 
     try!(rust.write_pub_fn_header(grammar,
                                   format!("{}action{}", grammar.prefix, index),
                                   vec![],
-                                  data.arg_patterns
-                                      .iter()
-                                      .zip(data.arg_types
-                                               .iter()
-                                               .cloned()
-                                               .map(|t| grammar.types.spanned_type(t)))
-                                      .map(|(p, t)| format!("(_, {}, _): {}", p, t))
-                                      .chain(lookarounds)
-                                      .collect(),
+                                  arguments,
                                   ret_type,
                                   vec![]));
     rust!(rust, "{{");
@@ -97,15 +108,11 @@ fn emit_lookaround_action_code<W: Write>(grammar: &r::Grammar,
             // at EOF, so taker the lookbehind (end of last
             // pushed token); if that is missing too, then
             // supply default.
-            rust!(rust,
-                  "{}lookahead.clone()",
-                  grammar.prefix);
+            rust!(rust, "{}lookahead.clone()", grammar.prefix);
         }
         r::LookaroundActionFnDefn::Lookbehind => {
             // take lookbehind or supply default
-            rust!(rust,
-                  "{}lookbehind.clone()",
-                  grammar.prefix);
+            rust!(rust, "{}lookbehind.clone()", grammar.prefix);
         }
     }
     rust!(rust, "}}");
@@ -136,17 +143,22 @@ fn emit_inline_action_code<W: Write>(grammar: &r::Grammar,
     // inlined actions with no input symbols
     let num_flat_args = arg_types.len();
 
-    let arguments: Vec<_> = arg_types.iter()
-                                     .map(|&t| grammar.types.spanned_type(t.clone()))
-                                     .enumerate()
-                                     .map(|(i, t)| format!("{}{}: {}", grammar.prefix, i, t))
-                                     .chain(vec![format!("{}lookbehind: &{}",
-                                                         grammar.prefix,
-                                                         grammar.types.terminal_loc_type()),
-                                                 format!("{}lookahead: &{}",
-                                                         grammar.prefix,
-                                                         grammar.types.terminal_loc_type())])
-                                     .collect();
+    let mut arguments: Vec<_> = arg_types.iter()
+                                         .map(|&t| grammar.types.spanned_type(t.clone()))
+                                         .enumerate()
+                                         .map(|(i, t)| format!("{}{}: {}", grammar.prefix, i, t))
+                                         .collect();
+
+    // If no symbols are being reduced, add in the
+    // lookbehind/lookahead.
+    if arguments.len() == 0 {
+        arguments.extend(vec![format!("{}lookbehind: &{}",
+                                      grammar.prefix,
+                                      grammar.types.terminal_loc_type()),
+                              format!("{}lookahead: &{}",
+                                      grammar.prefix,
+                                      grammar.types.terminal_loc_type())]);
+    }
 
     try!(rust.write_pub_fn_header(grammar,
                                   format!("{}action{}", grammar.prefix, index),
@@ -172,14 +184,20 @@ fn emit_inline_action_code<W: Write>(grammar: &r::Grammar,
                     // can be the start/end location of the first/last
                     // symbol respectively. Easy peezy.
 
-                    rust!(rust, "let {}start{} = {}{}.0.clone();",
-                          grammar.prefix, temp_counter,
-                          grammar.prefix, arg_counter);
+                    rust!(rust,
+                          "let {}start{} = {}{}.0.clone();",
+                          grammar.prefix,
+                          temp_counter,
+                          grammar.prefix,
+                          arg_counter);
 
                     let last_arg_index = arg_counter + syms.len() - 1;
-                    rust!(rust, "let {}end{} = {}{}.2.clone();",
-                          grammar.prefix, temp_counter,
-                          grammar.prefix, last_arg_index);
+                    rust!(rust,
+                          "let {}end{} = {}{}.2.clone();",
+                          grammar.prefix,
+                          temp_counter,
+                          grammar.prefix,
+                          last_arg_index);
                 } else {
                     // If we have no symbols, then `arg_counter`
                     // represents index of the first symbol after this
@@ -188,22 +206,46 @@ fn emit_inline_action_code<W: Write>(grammar: &r::Grammar,
                     // item.
 
                     if arg_counter > 0 {
-                        rust!(rust, "let {}start{} = {}{}.2.clone();",
-                              grammar.prefix, temp_counter,
-                              grammar.prefix, arg_counter - 1);
+                        rust!(rust,
+                              "let {}start{} = {}{}.2.clone();",
+                              grammar.prefix,
+                              temp_counter,
+                              grammar.prefix,
+                              arg_counter - 1);
+                    } else if num_flat_args > 0 {
+                        rust!(rust,
+                              "let {}start{} = {}{}.0.clone();",
+                              grammar.prefix,
+                              temp_counter,
+                              grammar.prefix,
+                              arg_counter);
                     } else {
-                        rust!(rust, "let {}start{} = {}lookbehind.clone();",
-                              grammar.prefix, temp_counter,
+                        rust!(rust,
+                              "let {}start{} = {}lookbehind.clone();",
+                              grammar.prefix,
+                              temp_counter,
                               grammar.prefix);
                     }
 
                     if arg_counter < num_flat_args {
-                        rust!(rust, "let {}end{} = {}{}.0.clone();",
-                              grammar.prefix, temp_counter,
-                              grammar.prefix, arg_counter);
+                        rust!(rust,
+                              "let {}end{} = {}{}.0.clone();",
+                              grammar.prefix,
+                              temp_counter,
+                              grammar.prefix,
+                              arg_counter);
+                    } else if num_flat_args > 0 {
+                        rust!(rust,
+                              "let {}end{} = {}{}.2.clone();",
+                              grammar.prefix,
+                              temp_counter,
+                              grammar.prefix,
+                              num_flat_args - 1);
                     } else {
-                        rust!(rust, "let {}end{} = {}lookahead.clone();",
-                              grammar.prefix, temp_counter,
+                        rust!(rust,
+                              "let {}end{} = {}lookahead.clone();",
+                              grammar.prefix,
+                              temp_counter,
                               grammar.prefix);
                     }
                 }
@@ -236,17 +278,23 @@ fn emit_inline_action_code<W: Write>(grammar: &r::Grammar,
                 for i in 0..syms.len() {
                     rust!(rust, "{}{},", grammar.prefix, arg_counter + i);
                 }
-                rust!(rust, "&{}start{},", grammar.prefix, temp_counter);
-                rust!(rust, "&{}end{},", grammar.prefix, temp_counter);
+                if syms.len() == 0 {
+                    rust!(rust, "&{}start{},", grammar.prefix, temp_counter);
+                    rust!(rust, "&{}end{},", grammar.prefix, temp_counter);
+                }
                 rust!(rust, ");");
 
                 // wrap up the inlined value along with its span
                 rust!(rust,
                       "let {}temp{} = ({}start{}, {}temp{}, {}end{});",
-                      grammar.prefix, temp_counter,
-                      grammar.prefix, temp_counter,
-                      grammar.prefix, temp_counter,
-                      grammar.prefix, temp_counter);
+                      grammar.prefix,
+                      temp_counter,
+                      grammar.prefix,
+                      temp_counter,
+                      grammar.prefix,
+                      temp_counter,
+                      grammar.prefix,
+                      temp_counter);
 
                 temp_counter += 1;
                 arg_counter += syms.len();
@@ -273,8 +321,7 @@ fn emit_inline_action_code<W: Write>(grammar: &r::Grammar,
             }
         }
     }
-    rust!(rust, "{}lookbehind,", grammar.prefix);
-    rust!(rust, "{}lookahead,", grammar.prefix);
+    assert!(data.symbols.len() > 0);
     rust!(rust, ")");
 
     rust!(rust, "}}");

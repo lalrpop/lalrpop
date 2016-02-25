@@ -130,7 +130,7 @@ mod __parse__Expr {
                 let __sym0 = __sym0.take().unwrap();
                 let __start = __sym0.0.clone();
                 let __end = __sym0.2.clone();
-                let __nt = super::__action0(scale, input, __sym0, &__start, &__end);
+                let __nt = super::__action0(scale, input, __sym0);
                 let __nt = __Nonterminal::____Expr((
                     __start,
                     __nt,
@@ -178,7 +178,7 @@ mod __parse__Expr {
                 let __sym0 = __sym0.take().unwrap();
                 let __start = __sym0.0.clone();
                 let __end = __sym0.2.clone();
-                let __nt = super::__action3(scale, input, __sym0, &__start, &__end);
+                let __nt = super::__action3(scale, input, __sym0);
                 let __nt = __Nonterminal::Expr((
                     __start,
                     __nt,
@@ -218,7 +218,7 @@ mod __parse__Expr {
                 let __sym0 = __sym0.take().unwrap();
                 let __start = __sym0.0.clone();
                 let __end = __sym0.2.clone();
-                let __nt = super::__action7(scale, input, __sym0, &__start, &__end);
+                let __nt = super::__action7(scale, input, __sym0);
                 let __nt = __Nonterminal::Term((
                     __start,
                     __nt,
@@ -257,7 +257,7 @@ mod __parse__Expr {
                 let __sym0 = __sym0.take().unwrap();
                 let __start = __sym0.0.clone();
                 let __end = __sym0.2.clone();
-                let __nt = super::__action6(scale, input, __sym0, &__start, &__end);
+                let __nt = super::__action6(scale, input, __sym0);
                 let __nt = __Nonterminal::Factor((
                     __start,
                     __nt,
@@ -362,7 +362,7 @@ mod __parse__Expr {
                 let __sym0 = __sym0.take().unwrap();
                 let __start = __sym0.0.clone();
                 let __end = __sym0.2.clone();
-                let __nt = super::__action9(scale, input, __sym0, &__start, &__end);
+                let __nt = super::__action9(scale, input, __sym0);
                 let __nt = __Nonterminal::Num((
                     __start,
                     __nt,
@@ -677,7 +677,7 @@ mod __parse__Expr {
                 let __sym0 = __sym0.take().unwrap();
                 let __start = __sym0.0.clone();
                 let __end = __sym0.2.clone();
-                let __nt = super::__action3(scale, input, __sym0, &__start, &__end);
+                let __nt = super::__action3(scale, input, __sym0);
                 let __nt = __Nonterminal::Expr((
                     __start,
                     __nt,
@@ -717,7 +717,7 @@ mod __parse__Expr {
                 let __sym0 = __sym0.take().unwrap();
                 let __start = __sym0.0.clone();
                 let __end = __sym0.2.clone();
-                let __nt = super::__action7(scale, input, __sym0, &__start, &__end);
+                let __nt = super::__action7(scale, input, __sym0);
                 let __nt = __Nonterminal::Term((
                     __start,
                     __nt,
@@ -756,7 +756,7 @@ mod __parse__Expr {
                 let __sym0 = __sym0.take().unwrap();
                 let __start = __sym0.0.clone();
                 let __end = __sym0.2.clone();
-                let __nt = super::__action6(scale, input, __sym0, &__start, &__end);
+                let __nt = super::__action6(scale, input, __sym0);
                 let __nt = __Nonterminal::Factor((
                     __start,
                     __nt,
@@ -861,7 +861,7 @@ mod __parse__Expr {
                 let __sym0 = __sym0.take().unwrap();
                 let __start = __sym0.0.clone();
                 let __end = __sym0.2.clone();
-                let __nt = super::__action9(scale, input, __sym0, &__start, &__end);
+                let __nt = super::__action9(scale, input, __sym0);
                 let __nt = __Nonterminal::Num((
                     __start,
                     __nt,
@@ -912,7 +912,7 @@ mod __parse__Expr {
                 let __sym2 = __sym2.take().unwrap();
                 let __start = __sym0.0.clone();
                 let __end = __sym2.2.clone();
-                let __nt = super::__action2(scale, input, __sym0, __sym1, __sym2, &__start, &__end);
+                let __nt = super::__action2(scale, input, __sym0, __sym1, __sym2);
                 let __nt = __Nonterminal::Expr((
                     __start,
                     __nt,
@@ -964,7 +964,7 @@ mod __parse__Expr {
                 let __sym2 = __sym2.take().unwrap();
                 let __start = __sym0.0.clone();
                 let __end = __sym2.2.clone();
-                let __nt = super::__action1(scale, input, __sym0, __sym1, __sym2, &__start, &__end);
+                let __nt = super::__action1(scale, input, __sym0, __sym1, __sym2);
                 let __nt = __Nonterminal::Expr((
                     __start,
                     __nt,
@@ -1008,7 +1008,7 @@ mod __parse__Expr {
                 let __sym2 = __sym2.take().unwrap();
                 let __start = __sym0.0.clone();
                 let __end = __sym2.2.clone();
-                let __nt = super::__action4(scale, input, __sym0, __sym1, __sym2, &__start, &__end);
+                let __nt = super::__action4(scale, input, __sym0, __sym1, __sym2);
                 let __nt = __Nonterminal::Factor((
                     __start,
                     __nt,
@@ -1051,7 +1051,7 @@ mod __parse__Expr {
                 let __sym2 = __sym2.take().unwrap();
                 let __start = __sym0.0.clone();
                 let __end = __sym2.2.clone();
-                let __nt = super::__action5(scale, input, __sym0, __sym1, __sym2, &__start, &__end);
+                let __nt = super::__action5(scale, input, __sym0, __sym1, __sym2);
                 let __nt = __Nonterminal::Factor((
                     __start,
                     __nt,
@@ -1098,7 +1098,7 @@ mod __parse__Expr {
                 let __sym2 = __sym2.take().unwrap();
                 let __start = __sym0.0.clone();
                 let __end = __sym2.2.clone();
-                let __nt = super::__action8(scale, input, __sym0, __sym1, __sym2, &__start, &__end);
+                let __nt = super::__action8(scale, input, __sym0, __sym1, __sym2);
                 let __nt = __Nonterminal::Term((
                     __start,
                     __nt,
@@ -1417,7 +1417,7 @@ mod __parse__Expr {
                 let __sym2 = __sym2.take().unwrap();
                 let __start = __sym0.0.clone();
                 let __end = __sym2.2.clone();
-                let __nt = super::__action2(scale, input, __sym0, __sym1, __sym2, &__start, &__end);
+                let __nt = super::__action2(scale, input, __sym0, __sym1, __sym2);
                 let __nt = __Nonterminal::Expr((
                     __start,
                     __nt,
@@ -1469,7 +1469,7 @@ mod __parse__Expr {
                 let __sym2 = __sym2.take().unwrap();
                 let __start = __sym0.0.clone();
                 let __end = __sym2.2.clone();
-                let __nt = super::__action1(scale, input, __sym0, __sym1, __sym2, &__start, &__end);
+                let __nt = super::__action1(scale, input, __sym0, __sym1, __sym2);
                 let __nt = __Nonterminal::Expr((
                     __start,
                     __nt,
@@ -1513,7 +1513,7 @@ mod __parse__Expr {
                 let __sym2 = __sym2.take().unwrap();
                 let __start = __sym0.0.clone();
                 let __end = __sym2.2.clone();
-                let __nt = super::__action4(scale, input, __sym0, __sym1, __sym2, &__start, &__end);
+                let __nt = super::__action4(scale, input, __sym0, __sym1, __sym2);
                 let __nt = __Nonterminal::Factor((
                     __start,
                     __nt,
@@ -1556,7 +1556,7 @@ mod __parse__Expr {
                 let __sym2 = __sym2.take().unwrap();
                 let __start = __sym0.0.clone();
                 let __end = __sym2.2.clone();
-                let __nt = super::__action5(scale, input, __sym0, __sym1, __sym2, &__start, &__end);
+                let __nt = super::__action5(scale, input, __sym0, __sym1, __sym2);
                 let __nt = __Nonterminal::Factor((
                     __start,
                     __nt,
@@ -1603,7 +1603,7 @@ mod __parse__Expr {
                 let __sym2 = __sym2.take().unwrap();
                 let __start = __sym0.0.clone();
                 let __end = __sym2.2.clone();
-                let __nt = super::__action8(scale, input, __sym0, __sym1, __sym2, &__start, &__end);
+                let __nt = super::__action8(scale, input, __sym0, __sym1, __sym2);
                 let __nt = __Nonterminal::Term((
                     __start,
                     __nt,
@@ -1807,8 +1807,6 @@ pub fn __action0<
     scale: i32,
     input: &'input str,
     (_, __0, _): (usize, i32, usize),
-    __lookbehind: &usize,
-    __lookahead: &usize,
 ) -> i32
 {
     (__0)
@@ -1822,8 +1820,6 @@ pub fn __action1<
     (_, l, _): (usize, i32, usize),
     (_, _, _): (usize, &'input str, usize),
     (_, r, _): (usize, i32, usize),
-    __lookbehind: &usize,
-    __lookahead: &usize,
 ) -> i32
 {
     l - r
@@ -1837,8 +1833,6 @@ pub fn __action2<
     (_, l, _): (usize, i32, usize),
     (_, _, _): (usize, &'input str, usize),
     (_, r, _): (usize, i32, usize),
-    __lookbehind: &usize,
-    __lookahead: &usize,
 ) -> i32
 {
     l + r
@@ -1850,8 +1844,6 @@ pub fn __action3<
     scale: i32,
     input: &'input str,
     (_, __0, _): (usize, i32, usize),
-    __lookbehind: &usize,
-    __lookahead: &usize,
 ) -> i32
 {
     (__0)
@@ -1865,8 +1857,6 @@ pub fn __action4<
     (_, l, _): (usize, i32, usize),
     (_, _, _): (usize, &'input str, usize),
     (_, r, _): (usize, i32, usize),
-    __lookbehind: &usize,
-    __lookahead: &usize,
 ) -> i32
 {
     l * r
@@ -1880,8 +1870,6 @@ pub fn __action5<
     (_, l, _): (usize, i32, usize),
     (_, _, _): (usize, &'input str, usize),
     (_, r, _): (usize, i32, usize),
-    __lookbehind: &usize,
-    __lookahead: &usize,
 ) -> i32
 {
     l / r
@@ -1893,8 +1881,6 @@ pub fn __action6<
     scale: i32,
     input: &'input str,
     (_, __0, _): (usize, i32, usize),
-    __lookbehind: &usize,
-    __lookahead: &usize,
 ) -> i32
 {
     (__0)
@@ -1906,8 +1892,6 @@ pub fn __action7<
     scale: i32,
     input: &'input str,
     (_, n, _): (usize, i32, usize),
-    __lookbehind: &usize,
-    __lookahead: &usize,
 ) -> i32
 {
     n * scale
@@ -1921,8 +1905,6 @@ pub fn __action8<
     (_, _, _): (usize, &'input str, usize),
     (_, __0, _): (usize, i32, usize),
     (_, _, _): (usize, &'input str, usize),
-    __lookbehind: &usize,
-    __lookahead: &usize,
 ) -> i32
 {
     (__0)
@@ -1934,8 +1916,6 @@ pub fn __action9<
     scale: i32,
     input: &'input str,
     (_, __0, _): (usize, &'input str, usize),
-    __lookbehind: &usize,
-    __lookahead: &usize,
 ) -> i32
 {
     i32::from_str(__0).unwrap()

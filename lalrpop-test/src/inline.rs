@@ -100,7 +100,7 @@ mod __parse__E {
                 let __sym0 = __sym0.take().unwrap();
                 let __start = __sym0.0.clone();
                 let __end = __sym0.2.clone();
-                let __nt = super::__action0(input, __sym0, &__start, &__end);
+                let __nt = super::__action0(input, __sym0);
                 let __nt = __Nonterminal::____E((
                     __start,
                     __nt,
@@ -187,7 +187,7 @@ mod __parse__E {
                 let __sym0 = __sym0.take().unwrap();
                 let __start = __sym0.0.clone();
                 let __end = __sym0.2.clone();
-                let __nt = super::__action1(input, __sym0, &__start, &__end);
+                let __nt = super::__action1(input, __sym0);
                 let __nt = __Nonterminal::E((
                     __start,
                     __nt,
@@ -223,7 +223,7 @@ mod __parse__E {
                 let __sym1 = __sym1.take().unwrap();
                 let __start = __sym0.0.clone();
                 let __end = __sym1.2.clone();
-                let __nt = super::__action7(input, __sym0, __sym1, &__start, &__end);
+                let __nt = super::__action7(input, __sym0, __sym1);
                 let __nt = __Nonterminal::E((
                     __start,
                     __nt,
@@ -272,7 +272,7 @@ mod __parse__E {
                 let __sym1 = __sym1.take().unwrap();
                 let __start = __sym1.0.clone();
                 let __end = __sym1.2.clone();
-                let __nt = super::__action1(input, __sym1, &__start, &__end);
+                let __nt = super::__action1(input, __sym1);
                 let __nt = __Nonterminal::E((
                     __start,
                     __nt,
@@ -323,7 +323,7 @@ mod __parse__E {
                 let __sym2 = __sym2.take().unwrap();
                 let __start = __sym0.0.clone();
                 let __end = __sym2.2.clone();
-                let __nt = super::__action8(input, __sym0, __sym1, __sym2, &__start, &__end);
+                let __nt = super::__action8(input, __sym0, __sym1, __sym2);
                 let __nt = __Nonterminal::E((
                     __start,
                     __nt,
@@ -443,8 +443,6 @@ pub fn __action0<
 >(
     input: &'input str,
     (_, __0, _): (usize, String, usize),
-    __lookbehind: &usize,
-    __lookahead: &usize,
 ) -> String
 {
     (__0)
@@ -455,8 +453,6 @@ pub fn __action1<
 >(
     input: &'input str,
     (_, __0, _): (usize, &'input str, usize),
-    __lookbehind: &usize,
-    __lookahead: &usize,
 ) -> String
 {
     format!("L")
@@ -469,8 +465,6 @@ pub fn __action2<
     (_, _, _): (usize, &'input str, usize),
     (_, __0, _): (usize, String, usize),
     (_, __1, _): (usize, String, usize),
-    __lookbehind: &usize,
-    __lookahead: &usize,
 ) -> String
 {
     format!("& {} {}", __0, __1)
@@ -481,8 +475,6 @@ pub fn __action3<
 >(
     input: &'input str,
     (_, __0, _): (usize, (), usize),
-    __lookbehind: &usize,
-    __lookahead: &usize,
 ) -> String
 {
     format!("()")
@@ -493,8 +485,6 @@ pub fn __action4<
 >(
     input: &'input str,
     (_, __0, _): (usize, &'input str, usize),
-    __lookbehind: &usize,
-    __lookahead: &usize,
 ) -> String
 {
     format!("L")
@@ -530,8 +520,6 @@ pub fn __action6<
     __action3(
         input,
         __temp0,
-        __lookbehind,
-        __lookahead,
     )
 }
 
@@ -541,8 +529,6 @@ pub fn __action7<
     input: &'input str,
     __0: (usize, &'input str, usize),
     __1: (usize, String, usize),
-    __lookbehind: &usize,
-    __lookahead: &usize,
 ) -> String
 {
     let __start0 = __0.2.clone();
@@ -558,8 +544,6 @@ pub fn __action7<
         __0,
         __temp0,
         __1,
-        __lookbehind,
-        __lookahead,
     )
 }
 
@@ -570,8 +554,6 @@ pub fn __action8<
     __0: (usize, &'input str, usize),
     __1: (usize, &'input str, usize),
     __2: (usize, String, usize),
-    __lookbehind: &usize,
-    __lookahead: &usize,
 ) -> String
 {
     let __start0 = __1.0.clone();
@@ -579,8 +561,6 @@ pub fn __action8<
     let __temp0 = __action4(
         input,
         __1,
-        &__start0,
-        &__end0,
     );
     let __temp0 = (__start0, __temp0, __end0);
     __action2(
@@ -588,8 +568,6 @@ pub fn __action8<
         __0,
         __temp0,
         __2,
-        __lookbehind,
-        __lookahead,
     )
 }
 

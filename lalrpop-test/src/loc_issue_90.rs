@@ -109,7 +109,7 @@ mod __parse__Expression2 {
                 let __sym0 = __sym0.take().unwrap();
                 let __start = __sym0.0.clone();
                 let __end = __sym0.2.clone();
-                let __nt = super::__action16(input, __sym0, &__start, &__end);
+                let __nt = super::__action16(input, __sym0);
                 let __nt = __Nonterminal::Expression2((
                     __start,
                     __nt,
@@ -148,7 +148,7 @@ mod __parse__Expression2 {
                 let __sym0 = __sym0.take().unwrap();
                 let __start = __sym0.0.clone();
                 let __end = __sym0.2.clone();
-                let __nt = super::__action0(input, __sym0, &__start, &__end);
+                let __nt = super::__action0(input, __sym0);
                 let __nt = __Nonterminal::____Expression2((
                     __start,
                     __nt,
@@ -253,7 +253,7 @@ mod __parse__Expression2 {
                 let __sym0 = __sym0.take().unwrap();
                 let __start = __sym0.0.clone();
                 let __end = __sym0.2.clone();
-                let __nt = super::__action14(input, __sym0, &__start, &__end);
+                let __nt = super::__action14(input, __sym0);
                 let __nt = __Nonterminal::Expression1((
                     __start,
                     __nt,
@@ -338,7 +338,7 @@ mod __parse__Expression2 {
                 let __sym0 = __sym0.take().unwrap();
                 let __start = __sym0.0.clone();
                 let __end = __sym0.2.clone();
-                let __nt = super::__action17(input, __sym0, &__start, &__end);
+                let __nt = super::__action17(input, __sym0);
                 let __nt = __Nonterminal::Expression2Op((
                     __start,
                     __nt,
@@ -373,7 +373,7 @@ mod __parse__Expression2 {
                 let __sym0 = __sym0.take().unwrap();
                 let __start = __sym0.0.clone();
                 let __end = __sym0.2.clone();
-                let __nt = super::__action16(input, __sym0, &__start, &__end);
+                let __nt = super::__action16(input, __sym0);
                 let __nt = __Nonterminal::Expression2((
                     __start,
                     __nt,
@@ -511,7 +511,7 @@ mod __parse__Expression2 {
                 let __sym0 = __sym0.take().unwrap();
                 let __start = __sym0.0.clone();
                 let __end = __sym0.2.clone();
-                let __nt = super::__action14(input, __sym0, &__start, &__end);
+                let __nt = super::__action14(input, __sym0);
                 let __nt = __Nonterminal::Expression1((
                     __start,
                     __nt,
@@ -550,7 +550,7 @@ mod __parse__Expression2 {
                 let __sym2 = __sym2.take().unwrap();
                 let __start = __sym0.0.clone();
                 let __end = __sym2.2.clone();
-                let __nt = super::__action15(input, __sym0, __sym1, __sym2, &__start, &__end);
+                let __nt = super::__action15(input, __sym0, __sym1, __sym2);
                 let __nt = __Nonterminal::Expression2((
                     __start,
                     __nt,
@@ -639,7 +639,7 @@ mod __parse__Expression2 {
                 let __sym2 = __sym2.take().unwrap();
                 let __start = __sym0.0.clone();
                 let __end = __sym2.2.clone();
-                let __nt = super::__action13(input, __sym0, __sym1, __sym2, &__start, &__end);
+                let __nt = super::__action13(input, __sym0, __sym1, __sym2);
                 let __nt = __Nonterminal::Expression1((
                     __start,
                     __nt,
@@ -724,7 +724,7 @@ mod __parse__Expression2 {
                 let __sym2 = __sym2.take().unwrap();
                 let __start = __sym0.0.clone();
                 let __end = __sym2.2.clone();
-                let __nt = super::__action15(input, __sym0, __sym1, __sym2, &__start, &__end);
+                let __nt = super::__action15(input, __sym0, __sym1, __sym2);
                 let __nt = __Nonterminal::Expression2((
                     __start,
                     __nt,
@@ -767,7 +767,7 @@ mod __parse__Expression2 {
                 let __sym2 = __sym2.take().unwrap();
                 let __start = __sym0.0.clone();
                 let __end = __sym2.2.clone();
-                let __nt = super::__action13(input, __sym0, __sym1, __sym2, &__start, &__end);
+                let __nt = super::__action13(input, __sym0, __sym1, __sym2);
                 let __nt = __Nonterminal::Expression1((
                     __start,
                     __nt,
@@ -10741,8 +10741,6 @@ pub fn __action0<
 >(
     input: &'input str,
     (_, __0, _): (usize, Box<Expr<'input>>, usize),
-    __lookbehind: &usize,
-    __lookahead: &usize,
 ) -> Box<Expr<'input>>
 {
     (__0)
@@ -10757,8 +10755,6 @@ pub fn __action1<
     (_, __2, _): (usize, Box<Expr<'input>>, usize),
     (_, __3, _): (usize, Box<Expr<'input>>, usize),
     (_, __4, _): (usize, usize, usize),
-    __lookbehind: &usize,
-    __lookahead: &usize,
 ) -> Box<Expr<'input>>
 {
     Box::new(Expr::Adjacent(__0, __1, __2, __3, __4))
@@ -10771,8 +10767,6 @@ pub fn __action2<
     (_, __0, _): (usize, usize, usize),
     (_, __1, _): (usize, Box<Expr<'input>>, usize),
     (_, __2, _): (usize, usize, usize),
-    __lookbehind: &usize,
-    __lookahead: &usize,
 ) -> Box<Expr<'input>>
 {
     Box::new(Expr::Upgrade(__0, __1, __2))
@@ -10785,8 +10779,6 @@ pub fn __action3<
     (_, __0, _): (usize, usize, usize),
     (_, _, _): (usize, &'input str, usize),
     (_, __1, _): (usize, usize, usize),
-    __lookbehind: &usize,
-    __lookahead: &usize,
 ) -> Box<Expr<'input>>
 {
     Box::new(Expr::Mul(__0, __1))
@@ -10801,8 +10793,6 @@ pub fn __action4<
     (_, __1, _): (usize, Box<Expr<'input>>, usize),
     (_, _, _): (usize, &'input str, usize),
     (_, __2, _): (usize, usize, usize),
-    __lookbehind: &usize,
-    __lookahead: &usize,
 ) -> Box<Expr<'input>>
 {
     Box::new(Expr::Paren(__0, __1, __2))
@@ -10815,8 +10805,6 @@ pub fn __action5<
     (_, __0, _): (usize, usize, usize),
     (_, __1, _): (usize, &'input str, usize),
     (_, __2, _): (usize, usize, usize),
-    __lookbehind: &usize,
-    __lookahead: &usize,
 ) -> Box<Expr<'input>>
 {
     Box::new(Expr::Ident(__0, __1, __2))
@@ -10852,11 +10840,9 @@ pub fn __action8<
     __1: (usize, Box<Expr<'input>>, usize),
     __2: (usize, &'input str, usize),
     __3: (usize, usize, usize),
-    __lookbehind: &usize,
-    __lookahead: &usize,
 ) -> Box<Expr<'input>>
 {
-    let __start0 = __lookbehind.clone();
+    let __start0 = __0.0.clone();
     let __end0 = __0.0.clone();
     let __temp0 = __action7(
         input,
@@ -10871,8 +10857,6 @@ pub fn __action8<
         __1,
         __2,
         __3,
-        __lookbehind,
-        __lookahead,
     )
 }
 
@@ -10882,11 +10866,9 @@ pub fn __action9<
     input: &'input str,
     __0: (usize, &'input str, usize),
     __1: (usize, usize, usize),
-    __lookbehind: &usize,
-    __lookahead: &usize,
 ) -> Box<Expr<'input>>
 {
-    let __start0 = __lookbehind.clone();
+    let __start0 = __0.0.clone();
     let __end0 = __0.0.clone();
     let __temp0 = __action7(
         input,
@@ -10899,8 +10881,6 @@ pub fn __action9<
         __temp0,
         __0,
         __1,
-        __lookbehind,
-        __lookahead,
     )
 }
 
@@ -10912,11 +10892,9 @@ pub fn __action10<
     __1: (usize, Box<Expr<'input>>, usize),
     __2: (usize, Box<Expr<'input>>, usize),
     __3: (usize, usize, usize),
-    __lookbehind: &usize,
-    __lookahead: &usize,
 ) -> Box<Expr<'input>>
 {
-    let __start0 = __lookbehind.clone();
+    let __start0 = __0.0.clone();
     let __end0 = __0.0.clone();
     let __temp0 = __action7(
         input,
@@ -10931,8 +10909,6 @@ pub fn __action10<
         __1,
         __2,
         __3,
-        __lookbehind,
-        __lookahead,
     )
 }
 
@@ -10942,11 +10918,9 @@ pub fn __action11<
     input: &'input str,
     __0: (usize, Box<Expr<'input>>, usize),
     __1: (usize, usize, usize),
-    __lookbehind: &usize,
-    __lookahead: &usize,
 ) -> Box<Expr<'input>>
 {
-    let __start0 = __lookbehind.clone();
+    let __start0 = __0.0.clone();
     let __end0 = __0.0.clone();
     let __temp0 = __action7(
         input,
@@ -10959,8 +10933,6 @@ pub fn __action11<
         __temp0,
         __0,
         __1,
-        __lookbehind,
-        __lookahead,
     )
 }
 
@@ -10970,11 +10942,9 @@ pub fn __action12<
     input: &'input str,
     __0: (usize, &'input str, usize),
     __1: (usize, usize, usize),
-    __lookbehind: &usize,
-    __lookahead: &usize,
 ) -> Box<Expr<'input>>
 {
-    let __start0 = __lookbehind.clone();
+    let __start0 = __0.0.clone();
     let __end0 = __0.0.clone();
     let __temp0 = __action7(
         input,
@@ -10987,8 +10957,6 @@ pub fn __action12<
         __temp0,
         __0,
         __1,
-        __lookbehind,
-        __lookahead,
     )
 }
 
@@ -10999,12 +10967,10 @@ pub fn __action13<
     __0: (usize, &'input str, usize),
     __1: (usize, Box<Expr<'input>>, usize),
     __2: (usize, &'input str, usize),
-    __lookbehind: &usize,
-    __lookahead: &usize,
 ) -> Box<Expr<'input>>
 {
     let __start0 = __2.2.clone();
-    let __end0 = __lookahead.clone();
+    let __end0 = __2.2.clone();
     let __temp0 = __action6(
         input,
         &__start0,
@@ -11017,8 +10983,6 @@ pub fn __action13<
         __1,
         __2,
         __temp0,
-        __lookbehind,
-        __lookahead,
     )
 }
 
@@ -11027,12 +10991,10 @@ pub fn __action14<
 >(
     input: &'input str,
     __0: (usize, &'input str, usize),
-    __lookbehind: &usize,
-    __lookahead: &usize,
 ) -> Box<Expr<'input>>
 {
     let __start0 = __0.2.clone();
-    let __end0 = __lookahead.clone();
+    let __end0 = __0.2.clone();
     let __temp0 = __action6(
         input,
         &__start0,
@@ -11043,8 +11005,6 @@ pub fn __action14<
         input,
         __0,
         __temp0,
-        __lookbehind,
-        __lookahead,
     )
 }
 
@@ -11055,12 +11015,10 @@ pub fn __action15<
     __0: (usize, Box<Expr<'input>>, usize),
     __1: (usize, Box<Expr<'input>>, usize),
     __2: (usize, Box<Expr<'input>>, usize),
-    __lookbehind: &usize,
-    __lookahead: &usize,
 ) -> Box<Expr<'input>>
 {
     let __start0 = __2.2.clone();
-    let __end0 = __lookahead.clone();
+    let __end0 = __2.2.clone();
     let __temp0 = __action6(
         input,
         &__start0,
@@ -11073,8 +11031,6 @@ pub fn __action15<
         __1,
         __2,
         __temp0,
-        __lookbehind,
-        __lookahead,
     )
 }
 
@@ -11083,12 +11039,10 @@ pub fn __action16<
 >(
     input: &'input str,
     __0: (usize, Box<Expr<'input>>, usize),
-    __lookbehind: &usize,
-    __lookahead: &usize,
 ) -> Box<Expr<'input>>
 {
     let __start0 = __0.2.clone();
-    let __end0 = __lookahead.clone();
+    let __end0 = __0.2.clone();
     let __temp0 = __action6(
         input,
         &__start0,
@@ -11099,8 +11053,6 @@ pub fn __action16<
         input,
         __0,
         __temp0,
-        __lookbehind,
-        __lookahead,
     )
 }
 
@@ -11109,12 +11061,10 @@ pub fn __action17<
 >(
     input: &'input str,
     __0: (usize, &'input str, usize),
-    __lookbehind: &usize,
-    __lookahead: &usize,
 ) -> Box<Expr<'input>>
 {
     let __start0 = __0.2.clone();
-    let __end0 = __lookahead.clone();
+    let __end0 = __0.2.clone();
     let __temp0 = __action6(
         input,
         &__start0,
@@ -11125,8 +11075,6 @@ pub fn __action17<
         input,
         __0,
         __temp0,
-        __lookbehind,
-        __lookahead,
     )
 }
 

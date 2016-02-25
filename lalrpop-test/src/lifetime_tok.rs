@@ -113,7 +113,7 @@ mod __parse__Expr {
                 let __sym0 = __sym0.take().unwrap();
                 let __start = __sym0.0.clone();
                 let __end = __sym0.2.clone();
-                let __nt = super::__action0(__sym0, &__start, &__end);
+                let __nt = super::__action0(__sym0);
                 let __nt = __Nonterminal::____Expr((
                     __start,
                     __nt,
@@ -151,7 +151,7 @@ mod __parse__Expr {
                 let __sym0 = __sym0.take().unwrap();
                 let __start = __sym0.0.clone();
                 let __end = __sym0.2.clone();
-                let __nt = super::__action7(__sym0, &__start, &__end);
+                let __nt = super::__action7(__sym0);
                 let __nt = __Nonterminal::Expr((
                     __start,
                     __nt,
@@ -190,7 +190,7 @@ mod __parse__Expr {
                 let __sym0 = __sym0.take().unwrap();
                 let __start = __sym0.0.clone();
                 let __end = __sym0.2.clone();
-                let __nt = super::__action4(__sym0, &__start, &__end);
+                let __nt = super::__action4(__sym0);
                 let __nt = __Nonterminal::Other_2b((
                     __start,
                     __nt,
@@ -230,7 +230,7 @@ mod __parse__Expr {
                 let __sym1 = __sym1.take().unwrap();
                 let __start = __sym0.0.clone();
                 let __end = __sym1.2.clone();
-                let __nt = super::__action5(__sym0, __sym1, &__start, &__end);
+                let __nt = super::__action5(__sym0, __sym1);
                 let __nt = __Nonterminal::Other_2b((
                     __start,
                     __nt,
@@ -253,8 +253,6 @@ pub fn __action0<
     'input,
 >(
     (_, __0, _): ((), Vec<&'input str>, ()),
-    __lookbehind: &(),
-    __lookahead: &(),
 ) -> Vec<&'input str>
 {
     (__0)
@@ -264,8 +262,6 @@ pub fn __action1<
     'input,
 >(
     (_, __0, _): ((), ::std::vec::Vec<&'input str>, ()),
-    __lookbehind: &(),
-    __lookahead: &(),
 ) -> Vec<&'input str>
 {
     (__0)
@@ -285,8 +281,6 @@ pub fn __action3<
     'input,
 >(
     (_, v, _): ((), ::std::vec::Vec<&'input str>, ()),
-    __lookbehind: &(),
-    __lookahead: &(),
 ) -> ::std::vec::Vec<&'input str>
 {
     v
@@ -296,8 +290,6 @@ pub fn __action4<
     'input,
 >(
     (_, __0, _): ((), &'input str, ()),
-    __lookbehind: &(),
-    __lookahead: &(),
 ) -> ::std::vec::Vec<&'input str>
 {
     vec![__0]
@@ -308,8 +300,6 @@ pub fn __action5<
 >(
     (_, v, _): ((), ::std::vec::Vec<&'input str>, ()),
     (_, e, _): ((), &'input str, ()),
-    __lookbehind: &(),
-    __lookahead: &(),
 ) -> ::std::vec::Vec<&'input str>
 {
     { let mut v = v; v.push(e); v }
@@ -331,8 +321,6 @@ pub fn __action6<
     let __temp0 = (__start0, __temp0, __end0);
     __action1(
         __temp0,
-        __lookbehind,
-        __lookahead,
     )
 }
 
@@ -340,22 +328,16 @@ pub fn __action7<
     'input,
 >(
     __0: ((), ::std::vec::Vec<&'input str>, ()),
-    __lookbehind: &(),
-    __lookahead: &(),
 ) -> Vec<&'input str>
 {
     let __start0 = __0.0.clone();
     let __end0 = __0.2.clone();
     let __temp0 = __action3(
         __0,
-        &__start0,
-        &__end0,
     );
     let __temp0 = (__start0, __temp0, __end0);
     __action1(
         __temp0,
-        __lookbehind,
-        __lookahead,
     )
 }
 

@@ -113,7 +113,7 @@ mod __parse__Items {
                 let __sym0 = __sym0.take().unwrap();
                 let __start = __sym0.0.clone();
                 let __end = __sym0.2.clone();
-                let __nt = super::__action0(__sym0, &__start, &__end);
+                let __nt = super::__action0(__sym0);
                 let __nt = __Nonterminal::____Items((
                     __start,
                     __nt,
@@ -154,7 +154,7 @@ mod __parse__Items {
                 let __sym1 = __sym1.take().unwrap();
                 let __start = __sym0.0.clone();
                 let __end = __sym1.2.clone();
-                let __nt = try!(super::__action2(__sym0, __sym1, &__start, &__end));
+                let __nt = try!(super::__action2(__sym0, __sym1));
                 let __nt = __Nonterminal::Items((
                     __start,
                     __nt,
@@ -194,7 +194,7 @@ mod __parse__Items {
                 let __sym1 = __sym1.take().unwrap();
                 let __start = __sym0.0.clone();
                 let __end = __sym1.2.clone();
-                let __nt = try!(super::__action3(__sym0, __sym1, &__start, &__end));
+                let __nt = try!(super::__action3(__sym0, __sym1));
                 let __nt = __Nonterminal::Items((
                     __start,
                     __nt,
@@ -216,8 +216,6 @@ pub use self::__parse__Items::parse_Items;
 pub fn __action0<
 >(
     (_, __0, _): (usize, Vec<(usize, usize)>, usize),
-    __lookbehind: &usize,
-    __lookahead: &usize,
 ) -> Vec<(usize, usize)>
 {
     (__0)
@@ -236,8 +234,6 @@ pub fn __action2<
 >(
     (_, __0, _): (usize, Vec<(usize, usize)>, usize),
     (_, __1, _): (usize, Tok, usize),
-    __lookbehind: &usize,
-    __lookahead: &usize,
 ) -> Result<Vec<(usize, usize)>,__ParseError<usize,Tok,char>>
 {
     Err(ParseError::User { error: '+' })
@@ -247,8 +243,6 @@ pub fn __action3<
 >(
     (_, v, _): (usize, Vec<(usize, usize)>, usize),
     (_, _, _): (usize, Tok, usize),
-    __lookbehind: &usize,
-    __lookahead: &usize,
 ) -> Result<Vec<(usize, usize)>,__ParseError<usize,Tok,char>>
 {
     Ok(v)

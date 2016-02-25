@@ -401,8 +401,10 @@ impl<'ascent,'grammar,W:Write> RecursiveAscent<'ascent,'grammar,W> {
             let transfered_syms = transfer_syms.len();
 
             let mut args = transfer_syms;
-            args.push(format!("&{}start", self.prefix));
-            args.push(format!("&{}end", self.prefix));
+            if transfered_syms == 0 {
+                args.push(format!("&{}start", self.prefix));
+                args.push(format!("&{}end", self.prefix));
+            }
 
             // invoke the action code
             let is_fallible = self.grammar.action_is_fallible(production.action);
