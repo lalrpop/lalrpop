@@ -1,0 +1,20 @@
+use loc_issue_90_lib::Expr;
+
+grammar;
+
+// This used to generate shift/reduce conflicts due to the excessive
+// use of `@L`, but it should be fine now.
+
+pub Expression2: Box<Expr<'input>> = {
+    @L Expression2 Expression2Op Expression1 @R => Box::new(Expr::Adjacent(<>)),
+    @L Expression1 @R => Box::new(Expr::Upgrade(<>)),
+};
+
+Expression2Op: Box<Expr<'input>> = {
+    <@L> "*" <@R> => Box::new(Expr::Mul(<>)),
+};
+
+Expression1: Box<Expr<'input>> = {
+    <@L> "(" <Expression2> ")" <@R> => Box::new(Expr::Paren(<>)),
+    @L r"\w+" @R => Box::new(Expr::Ident(<>)),
+};
