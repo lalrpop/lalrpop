@@ -3305,8 +3305,8 @@ pub fn __action19<
     __lookahead: &usize,
 ) -> ::std::vec::Vec<&'ast Node<'ast>>
 {
-    let __start0 = __0.0.clone();
-    let __end0 = __1.2.clone();
+    let __start0 = __1.0.clone();
+    let __end0 = __2.2.clone();
     let __temp0 = __action15(
         arena,
         __1,
@@ -3334,7 +3334,7 @@ pub fn __action20<
 ) -> Vec<&'ast Node<'ast>>
 {
     let __start0 = __lookbehind.clone();
-    let __end0 = __lookahead.clone();
+    let __end0 = __0.0.clone();
     let __temp0 = __action13(
         arena,
         &__start0,
@@ -3438,8 +3438,8 @@ pub fn __action24<
     __lookahead: &usize,
 ) -> Vec<&'ast Node<'ast>>
 {
-    let __start0 = __0.0.clone();
-    let __end0 = __0.2.clone();
+    let __start0 = __1.0.clone();
+    let __end0 = __1.2.clone();
     let __temp0 = __action11(
         arena,
         __1,
@@ -3465,7 +3465,7 @@ pub fn __action25<
     __lookahead: &usize,
 ) -> Vec<&'ast Node<'ast>>
 {
-    let __start0 = __lookbehind.clone();
+    let __start0 = __0.2.clone();
     let __end0 = __lookahead.clone();
     let __temp0 = __action12(
         arena,

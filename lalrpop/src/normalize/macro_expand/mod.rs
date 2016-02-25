@@ -505,7 +505,7 @@ impl MacroExpander {
             public: false,
             span: span,
             name: name,
-            annotations: vec![],
+            annotations: inline(span),
             args: vec![],
             type_decl: None,
             alternatives: vec![

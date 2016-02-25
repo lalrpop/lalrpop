@@ -131,6 +131,11 @@ fn emit_inline_action_code<W: Write>(grammar: &r::Grammar,
                                 .map(|s| s.ty(&grammar.types))
                                 .collect();
 
+    // this is the number of symbols we expect to be passed in; it is
+    // distinct from data.symbols.len(), because sometimes we have
+    // inlined actions with no input symbols
+    let num_flat_args = arg_types.len();
+
     let arguments: Vec<_> = arg_types.iter()
                                      .map(|&t| grammar.types.spanned_type(t.clone()))
                                      .enumerate()
@@ -158,33 +163,49 @@ fn emit_inline_action_code<W: Write>(grammar: &r::Grammar,
     let mut temp_counter = 0;
     for symbol in &data.symbols {
         match *symbol {
-            r::InlinedSymbol::Original(_) => { }
+            r::InlinedSymbol::Original(_) => {
+                arg_counter += 1;
+            }
             r::InlinedSymbol::Inlined(_, ref syms) => {
-                // the start location for this inlined action is the
-                // location of the first argument we are reducing; if
-                // we are not reducing any arguments, then steal the
-                // end of the symbol before
                 if syms.len() > 0 {
+                    // If we are reducing symbols, then start and end
+                    // can be the start/end location of the first/last
+                    // symbol respectively. Easy peezy.
+
                     rust!(rust, "let {}start{} = {}{}.0.clone();",
                           grammar.prefix, temp_counter,
                           grammar.prefix, arg_counter);
-                } else {
-                    rust!(rust, "let {}start{} = {}lookbehind.clone();",
-                          grammar.prefix, temp_counter,
-                          grammar.prefix);
-                }
 
-                // the end is the end location for the last thing we are
-                // reducing, or start of symbol after if no such item exists
-                if syms.len() > 0 {
                     let last_arg_index = arg_counter + syms.len() - 1;
                     rust!(rust, "let {}end{} = {}{}.2.clone();",
                           grammar.prefix, temp_counter,
                           grammar.prefix, last_arg_index);
                 } else {
-                    rust!(rust, "let {}end{} = {}lookahead.clone();",
-                          grammar.prefix, temp_counter,
-                          grammar.prefix);
+                    // If we have no symbols, then `arg_counter`
+                    // represents index of the first symbol after this
+                    // inlined item (if any), and `arg_counter-1`
+                    // represents index of the symbol before this
+                    // item.
+
+                    if arg_counter > 0 {
+                        rust!(rust, "let {}start{} = {}{}.2.clone();",
+                              grammar.prefix, temp_counter,
+                              grammar.prefix, arg_counter - 1);
+                    } else {
+                        rust!(rust, "let {}start{} = {}lookbehind.clone();",
+                              grammar.prefix, temp_counter,
+                              grammar.prefix);
+                    }
+
+                    if arg_counter < num_flat_args {
+                        rust!(rust, "let {}end{} = {}{}.0.clone();",
+                              grammar.prefix, temp_counter,
+                              grammar.prefix, arg_counter);
+                    } else {
+                        rust!(rust, "let {}end{} = {}lookahead.clone();",
+                              grammar.prefix, temp_counter,
+                              grammar.prefix);
+                    }
                 }
 
                 temp_counter += 1;
@@ -193,7 +214,7 @@ fn emit_inline_action_code<W: Write>(grammar: &r::Grammar,
         }
     }
 
-    // Now create temporaries for the inlined things.
+    // Now create temporaries for the inlined things
     let mut arg_counter = 0;
     let mut temp_counter = 0;
     for symbol in &data.symbols {

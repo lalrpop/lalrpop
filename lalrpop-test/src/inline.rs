@@ -545,8 +545,8 @@ pub fn __action7<
     __lookahead: &usize,
 ) -> String
 {
-    let __start0 = __lookbehind.clone();
-    let __end0 = __lookahead.clone();
+    let __start0 = __0.2.clone();
+    let __end0 = __1.0.clone();
     let __temp0 = __action6(
         input,
         &__start0,
@@ -574,8 +574,8 @@ pub fn __action8<
     __lookahead: &usize,
 ) -> String
 {
-    let __start0 = __0.0.clone();
-    let __end0 = __0.2.clone();
+    let __start0 = __1.0.clone();
+    let __end0 = __1.2.clone();
     let __temp0 = __action4(
         input,
         __1,
