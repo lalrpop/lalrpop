@@ -35,7 +35,7 @@ mod __parse__Expr {
             (_, Some(__lookahead), _) => {
                 Err(__ParseError::ExtraToken { token: __lookahead })
             }
-            (_, None, __Nonterminal::____Expr(__nt)) => {
+            (_, None, __Nonterminal::____Expr((_, __nt, _))) => {
                 Ok(__nt)
             }
             _ => unreachable!(),
@@ -44,10 +44,10 @@ mod __parse__Expr {
 
     #[allow(dead_code)]
     pub enum __Nonterminal<F> {
-        Expr(F),
-        Factor(F),
-        Term(F),
-        ____Expr(F),
+        Expr((usize, F, usize)),
+        Factor((usize, F, usize)),
+        Term((usize, F, usize)),
+        ____Expr((usize, F, usize)),
     }
 
     pub fn __state0<
@@ -64,14 +64,14 @@ mod __parse__Expr {
     {
         let mut __result: (usize, Option<(usize, (usize, &'input str), usize)>, __Nonterminal<F>);
         match __lookahead {
-            Some((_, (0, __tok0), __loc)) => {
-                let __lookbehind = __loc;
-                let mut __sym0 = &mut Some((__tok0));
+            Some((__loc1, (0, __tok0), __loc2)) => {
+                let __lookbehind = __loc2.clone();
+                let mut __sym0 = &mut Some((__loc1, (__tok0), __loc2));
                 __result = try!(__state4(input, __lookbehind, __tokens, __sym0));
             }
-            Some((_, (6, __tok0), __loc)) => {
-                let __lookbehind = __loc;
-                let mut __sym0 = &mut Some((__tok0));
+            Some((__loc1, (6, __tok0), __loc2)) => {
+                let __lookbehind = __loc2.clone();
+                let mut __sym0 = &mut Some((__loc1, (__tok0), __loc2));
                 __result = try!(__state5(input, __lookbehind, __tokens, __sym0));
             }
             _ => {
@@ -112,28 +112,33 @@ mod __parse__Expr {
         __lookbehind: usize,
         __tokens: &mut __TOKENS,
         __lookahead: Option<(usize, (usize, &'input str), usize)>,
-        __sym0: &mut Option<F>,
+        __sym0: &mut Option<(usize, F, usize)>,
     ) -> Result<(usize, Option<(usize, (usize, &'input str), usize)>, __Nonterminal<F>), __ParseError<usize,(usize, &'input str),()>> where
       F: Debug + FromStr + Sub<Output=F> + Add<Output=F> + Mul<Output=F> + Div<Output=F>,
     {
         let mut __result: (usize, Option<(usize, (usize, &'input str), usize)>, __Nonterminal<F>);
         match __lookahead {
-            Some((_, (3, __tok0), __loc)) => {
-                let __lookbehind = __loc;
-                let mut __sym1 = &mut Some((__tok0));
+            Some((__loc1, (3, __tok0), __loc2)) => {
+                let __lookbehind = __loc2.clone();
+                let mut __sym1 = &mut Some((__loc1, (__tok0), __loc2));
                 __result = try!(__state6(input, __lookbehind, __tokens, __sym0, __sym1));
             }
-            Some((_, (4, __tok0), __loc)) => {
-                let __lookbehind = __loc;
-                let mut __sym1 = &mut Some((__tok0));
+            Some((__loc1, (4, __tok0), __loc2)) => {
+                let __lookbehind = __loc2.clone();
+                let mut __sym1 = &mut Some((__loc1, (__tok0), __loc2));
                 __result = try!(__state7(input, __lookbehind, __tokens, __sym0, __sym1));
             }
             None => {
                 let __sym0 = __sym0.take().unwrap();
-                let __start = __lookbehind.clone();
-                let __end = __lookahead.as_ref().map(|o| o.0.clone()).unwrap_or_else(|| __start.clone());
+                let __start = __sym0.0.clone();
+                let __end = __sym0.2.clone();
                 let __nt = super::__action0(input, __sym0, &__start, &__end);
-                return Ok((__lookbehind, __lookahead, __Nonterminal::____Expr(__nt)));
+                let __nt = __Nonterminal::____Expr((
+                    __start,
+                    __nt,
+                    __end,
+                ));
+                return Ok((__lookbehind, __lookahead, __nt));
             }
             _ => {
                 return Err(__ParseError::UnrecognizedToken {
@@ -154,30 +159,35 @@ mod __parse__Expr {
         __lookbehind: usize,
         __tokens: &mut __TOKENS,
         __lookahead: Option<(usize, (usize, &'input str), usize)>,
-        __sym0: &mut Option<F>,
+        __sym0: &mut Option<(usize, F, usize)>,
     ) -> Result<(usize, Option<(usize, (usize, &'input str), usize)>, __Nonterminal<F>), __ParseError<usize,(usize, &'input str),()>> where
       F: Debug + FromStr + Sub<Output=F> + Add<Output=F> + Mul<Output=F> + Div<Output=F>,
     {
         let mut __result: (usize, Option<(usize, (usize, &'input str), usize)>, __Nonterminal<F>);
         match __lookahead {
-            Some((_, (2, __tok0), __loc)) => {
-                let __lookbehind = __loc;
-                let mut __sym1 = &mut Some((__tok0));
+            Some((__loc1, (2, __tok0), __loc2)) => {
+                let __lookbehind = __loc2.clone();
+                let mut __sym1 = &mut Some((__loc1, (__tok0), __loc2));
                 __result = try!(__state8(input, __lookbehind, __tokens, __sym0, __sym1));
             }
-            Some((_, (5, __tok0), __loc)) => {
-                let __lookbehind = __loc;
-                let mut __sym1 = &mut Some((__tok0));
+            Some((__loc1, (5, __tok0), __loc2)) => {
+                let __lookbehind = __loc2.clone();
+                let mut __sym1 = &mut Some((__loc1, (__tok0), __loc2));
                 __result = try!(__state9(input, __lookbehind, __tokens, __sym0, __sym1));
             }
             None |
             Some((_, (3, _), _)) |
             Some((_, (4, _), _)) => {
                 let __sym0 = __sym0.take().unwrap();
-                let __start = __lookbehind.clone();
-                let __end = __lookahead.as_ref().map(|o| o.0.clone()).unwrap_or_else(|| __start.clone());
+                let __start = __sym0.0.clone();
+                let __end = __sym0.2.clone();
                 let __nt = super::__action3(input, __sym0, &__start, &__end);
-                return Ok((__lookbehind, __lookahead, __Nonterminal::Expr(__nt)));
+                let __nt = __Nonterminal::Expr((
+                    __start,
+                    __nt,
+                    __end,
+                ));
+                return Ok((__lookbehind, __lookahead, __nt));
             }
             _ => {
                 return Err(__ParseError::UnrecognizedToken {
@@ -198,7 +208,7 @@ mod __parse__Expr {
         __lookbehind: usize,
         __tokens: &mut __TOKENS,
         __lookahead: Option<(usize, (usize, &'input str), usize)>,
-        __sym0: &mut Option<F>,
+        __sym0: &mut Option<(usize, F, usize)>,
     ) -> Result<(usize, Option<(usize, (usize, &'input str), usize)>, __Nonterminal<F>), __ParseError<usize,(usize, &'input str),()>> where
       F: Debug + FromStr + Sub<Output=F> + Add<Output=F> + Mul<Output=F> + Div<Output=F>,
     {
@@ -210,10 +220,15 @@ mod __parse__Expr {
             Some((_, (4, _), _)) |
             Some((_, (5, _), _)) => {
                 let __sym0 = __sym0.take().unwrap();
-                let __start = __lookbehind.clone();
-                let __end = __lookahead.as_ref().map(|o| o.0.clone()).unwrap_or_else(|| __start.clone());
+                let __start = __sym0.0.clone();
+                let __end = __sym0.2.clone();
                 let __nt = super::__action6(input, __sym0, &__start, &__end);
-                return Ok((__lookbehind, __lookahead, __Nonterminal::Factor(__nt)));
+                let __nt = __Nonterminal::Factor((
+                    __start,
+                    __nt,
+                    __end,
+                ));
+                return Ok((__lookbehind, __lookahead, __nt));
             }
             _ => {
                 return Err(__ParseError::UnrecognizedToken {
@@ -232,7 +247,7 @@ mod __parse__Expr {
         input: &'input str,
         __lookbehind: usize,
         __tokens: &mut __TOKENS,
-        __sym0: &mut Option<&'input str>,
+        __sym0: &mut Option<(usize, &'input str, usize)>,
     ) -> Result<(usize, Option<(usize, (usize, &'input str), usize)>, __Nonterminal<F>), __ParseError<usize,(usize, &'input str),()>> where
       F: Debug + FromStr + Sub<Output=F> + Add<Output=F> + Mul<Output=F> + Div<Output=F>,
     {
@@ -243,14 +258,14 @@ mod __parse__Expr {
             Some(Err(e)) => return Err(e),
         };
         match __lookahead {
-            Some((_, (0, __tok0), __loc)) => {
-                let __lookbehind = __loc;
-                let mut __sym1 = &mut Some((__tok0));
+            Some((__loc1, (0, __tok0), __loc2)) => {
+                let __lookbehind = __loc2.clone();
+                let mut __sym1 = &mut Some((__loc1, (__tok0), __loc2));
                 __result = try!(__state13(input, __lookbehind, __tokens, __sym1));
             }
-            Some((_, (6, __tok0), __loc)) => {
-                let __lookbehind = __loc;
-                let mut __sym1 = &mut Some((__tok0));
+            Some((__loc1, (6, __tok0), __loc2)) => {
+                let __lookbehind = __loc2.clone();
+                let mut __sym1 = &mut Some((__loc1, (__tok0), __loc2));
                 __result = try!(__state14(input, __lookbehind, __tokens, __sym1));
             }
             _ => {
@@ -291,7 +306,7 @@ mod __parse__Expr {
         input: &'input str,
         __lookbehind: usize,
         __tokens: &mut __TOKENS,
-        __sym0: &mut Option<&'input str>,
+        __sym0: &mut Option<(usize, &'input str, usize)>,
     ) -> Result<(usize, Option<(usize, (usize, &'input str), usize)>, __Nonterminal<F>), __ParseError<usize,(usize, &'input str),()>> where
       F: Debug + FromStr + Sub<Output=F> + Add<Output=F> + Mul<Output=F> + Div<Output=F>,
     {
@@ -308,10 +323,15 @@ mod __parse__Expr {
             Some((_, (4, _), _)) |
             Some((_, (5, _), _)) => {
                 let __sym0 = __sym0.take().unwrap();
-                let __start = __lookbehind.clone();
-                let __end = __lookahead.as_ref().map(|o| o.0.clone()).unwrap_or_else(|| __start.clone());
+                let __start = __sym0.0.clone();
+                let __end = __sym0.2.clone();
                 let __nt = super::__action7(input, __sym0, &__start, &__end);
-                return Ok((__lookbehind, __lookahead, __Nonterminal::Term(__nt)));
+                let __nt = __Nonterminal::Term((
+                    __start,
+                    __nt,
+                    __end,
+                ));
+                return Ok((__lookbehind, __lookahead, __nt));
             }
             _ => {
                 return Err(__ParseError::UnrecognizedToken {
@@ -330,8 +350,8 @@ mod __parse__Expr {
         input: &'input str,
         __lookbehind: usize,
         __tokens: &mut __TOKENS,
-        __sym0: &mut Option<F>,
-        __sym1: &mut Option<&'input str>,
+        __sym0: &mut Option<(usize, F, usize)>,
+        __sym1: &mut Option<(usize, &'input str, usize)>,
     ) -> Result<(usize, Option<(usize, (usize, &'input str), usize)>, __Nonterminal<F>), __ParseError<usize,(usize, &'input str),()>> where
       F: Debug + FromStr + Sub<Output=F> + Add<Output=F> + Mul<Output=F> + Div<Output=F>,
     {
@@ -342,14 +362,14 @@ mod __parse__Expr {
             Some(Err(e)) => return Err(e),
         };
         match __lookahead {
-            Some((_, (0, __tok0), __loc)) => {
-                let __lookbehind = __loc;
-                let mut __sym2 = &mut Some((__tok0));
+            Some((__loc1, (0, __tok0), __loc2)) => {
+                let __lookbehind = __loc2.clone();
+                let mut __sym2 = &mut Some((__loc1, (__tok0), __loc2));
                 __result = try!(__state4(input, __lookbehind, __tokens, __sym2));
             }
-            Some((_, (6, __tok0), __loc)) => {
-                let __lookbehind = __loc;
-                let mut __sym2 = &mut Some((__tok0));
+            Some((__loc1, (6, __tok0), __loc2)) => {
+                let __lookbehind = __loc2.clone();
+                let mut __sym2 = &mut Some((__loc1, (__tok0), __loc2));
                 __result = try!(__state5(input, __lookbehind, __tokens, __sym2));
             }
             _ => {
@@ -386,8 +406,8 @@ mod __parse__Expr {
         input: &'input str,
         __lookbehind: usize,
         __tokens: &mut __TOKENS,
-        __sym0: &mut Option<F>,
-        __sym1: &mut Option<&'input str>,
+        __sym0: &mut Option<(usize, F, usize)>,
+        __sym1: &mut Option<(usize, &'input str, usize)>,
     ) -> Result<(usize, Option<(usize, (usize, &'input str), usize)>, __Nonterminal<F>), __ParseError<usize,(usize, &'input str),()>> where
       F: Debug + FromStr + Sub<Output=F> + Add<Output=F> + Mul<Output=F> + Div<Output=F>,
     {
@@ -398,14 +418,14 @@ mod __parse__Expr {
             Some(Err(e)) => return Err(e),
         };
         match __lookahead {
-            Some((_, (0, __tok0), __loc)) => {
-                let __lookbehind = __loc;
-                let mut __sym2 = &mut Some((__tok0));
+            Some((__loc1, (0, __tok0), __loc2)) => {
+                let __lookbehind = __loc2.clone();
+                let mut __sym2 = &mut Some((__loc1, (__tok0), __loc2));
                 __result = try!(__state4(input, __lookbehind, __tokens, __sym2));
             }
-            Some((_, (6, __tok0), __loc)) => {
-                let __lookbehind = __loc;
-                let mut __sym2 = &mut Some((__tok0));
+            Some((__loc1, (6, __tok0), __loc2)) => {
+                let __lookbehind = __loc2.clone();
+                let mut __sym2 = &mut Some((__loc1, (__tok0), __loc2));
                 __result = try!(__state5(input, __lookbehind, __tokens, __sym2));
             }
             _ => {
@@ -442,8 +462,8 @@ mod __parse__Expr {
         input: &'input str,
         __lookbehind: usize,
         __tokens: &mut __TOKENS,
-        __sym0: &mut Option<F>,
-        __sym1: &mut Option<&'input str>,
+        __sym0: &mut Option<(usize, F, usize)>,
+        __sym1: &mut Option<(usize, &'input str, usize)>,
     ) -> Result<(usize, Option<(usize, (usize, &'input str), usize)>, __Nonterminal<F>), __ParseError<usize,(usize, &'input str),()>> where
       F: Debug + FromStr + Sub<Output=F> + Add<Output=F> + Mul<Output=F> + Div<Output=F>,
     {
@@ -454,14 +474,14 @@ mod __parse__Expr {
             Some(Err(e)) => return Err(e),
         };
         match __lookahead {
-            Some((_, (0, __tok0), __loc)) => {
-                let __lookbehind = __loc;
-                let mut __sym2 = &mut Some((__tok0));
+            Some((__loc1, (0, __tok0), __loc2)) => {
+                let __lookbehind = __loc2.clone();
+                let mut __sym2 = &mut Some((__loc1, (__tok0), __loc2));
                 __result = try!(__state4(input, __lookbehind, __tokens, __sym2));
             }
-            Some((_, (6, __tok0), __loc)) => {
-                let __lookbehind = __loc;
-                let mut __sym2 = &mut Some((__tok0));
+            Some((__loc1, (6, __tok0), __loc2)) => {
+                let __lookbehind = __loc2.clone();
+                let mut __sym2 = &mut Some((__loc1, (__tok0), __loc2));
                 __result = try!(__state5(input, __lookbehind, __tokens, __sym2));
             }
             _ => {
@@ -494,8 +514,8 @@ mod __parse__Expr {
         input: &'input str,
         __lookbehind: usize,
         __tokens: &mut __TOKENS,
-        __sym0: &mut Option<F>,
-        __sym1: &mut Option<&'input str>,
+        __sym0: &mut Option<(usize, F, usize)>,
+        __sym1: &mut Option<(usize, &'input str, usize)>,
     ) -> Result<(usize, Option<(usize, (usize, &'input str), usize)>, __Nonterminal<F>), __ParseError<usize,(usize, &'input str),()>> where
       F: Debug + FromStr + Sub<Output=F> + Add<Output=F> + Mul<Output=F> + Div<Output=F>,
     {
@@ -506,14 +526,14 @@ mod __parse__Expr {
             Some(Err(e)) => return Err(e),
         };
         match __lookahead {
-            Some((_, (0, __tok0), __loc)) => {
-                let __lookbehind = __loc;
-                let mut __sym2 = &mut Some((__tok0));
+            Some((__loc1, (0, __tok0), __loc2)) => {
+                let __lookbehind = __loc2.clone();
+                let mut __sym2 = &mut Some((__loc1, (__tok0), __loc2));
                 __result = try!(__state4(input, __lookbehind, __tokens, __sym2));
             }
-            Some((_, (6, __tok0), __loc)) => {
-                let __lookbehind = __loc;
-                let mut __sym2 = &mut Some((__tok0));
+            Some((__loc1, (6, __tok0), __loc2)) => {
+                let __lookbehind = __loc2.clone();
+                let mut __sym2 = &mut Some((__loc1, (__tok0), __loc2));
                 __result = try!(__state5(input, __lookbehind, __tokens, __sym2));
             }
             _ => {
@@ -547,26 +567,26 @@ mod __parse__Expr {
         __lookbehind: usize,
         __tokens: &mut __TOKENS,
         __lookahead: Option<(usize, (usize, &'input str), usize)>,
-        __sym0: &mut Option<&'input str>,
-        __sym1: &mut Option<F>,
+        __sym0: &mut Option<(usize, &'input str, usize)>,
+        __sym1: &mut Option<(usize, F, usize)>,
     ) -> Result<(usize, Option<(usize, (usize, &'input str), usize)>, __Nonterminal<F>), __ParseError<usize,(usize, &'input str),()>> where
       F: Debug + FromStr + Sub<Output=F> + Add<Output=F> + Mul<Output=F> + Div<Output=F>,
     {
         let mut __result: (usize, Option<(usize, (usize, &'input str), usize)>, __Nonterminal<F>);
         match __lookahead {
-            Some((_, (1, __tok0), __loc)) => {
-                let __lookbehind = __loc;
-                let mut __sym2 = &mut Some((__tok0));
+            Some((__loc1, (1, __tok0), __loc2)) => {
+                let __lookbehind = __loc2.clone();
+                let mut __sym2 = &mut Some((__loc1, (__tok0), __loc2));
                 __result = try!(__state19(input, __lookbehind, __tokens, __sym0, __sym1, __sym2));
             }
-            Some((_, (3, __tok0), __loc)) => {
-                let __lookbehind = __loc;
-                let mut __sym2 = &mut Some((__tok0));
+            Some((__loc1, (3, __tok0), __loc2)) => {
+                let __lookbehind = __loc2.clone();
+                let mut __sym2 = &mut Some((__loc1, (__tok0), __loc2));
                 __result = try!(__state20(input, __lookbehind, __tokens, __sym1, __sym2));
             }
-            Some((_, (4, __tok0), __loc)) => {
-                let __lookbehind = __loc;
-                let mut __sym2 = &mut Some((__tok0));
+            Some((__loc1, (4, __tok0), __loc2)) => {
+                let __lookbehind = __loc2.clone();
+                let mut __sym2 = &mut Some((__loc1, (__tok0), __loc2));
                 __result = try!(__state21(input, __lookbehind, __tokens, __sym1, __sym2));
             }
             _ => {
@@ -588,30 +608,35 @@ mod __parse__Expr {
         __lookbehind: usize,
         __tokens: &mut __TOKENS,
         __lookahead: Option<(usize, (usize, &'input str), usize)>,
-        __sym0: &mut Option<F>,
+        __sym0: &mut Option<(usize, F, usize)>,
     ) -> Result<(usize, Option<(usize, (usize, &'input str), usize)>, __Nonterminal<F>), __ParseError<usize,(usize, &'input str),()>> where
       F: Debug + FromStr + Sub<Output=F> + Add<Output=F> + Mul<Output=F> + Div<Output=F>,
     {
         let mut __result: (usize, Option<(usize, (usize, &'input str), usize)>, __Nonterminal<F>);
         match __lookahead {
-            Some((_, (2, __tok0), __loc)) => {
-                let __lookbehind = __loc;
-                let mut __sym1 = &mut Some((__tok0));
+            Some((__loc1, (2, __tok0), __loc2)) => {
+                let __lookbehind = __loc2.clone();
+                let mut __sym1 = &mut Some((__loc1, (__tok0), __loc2));
                 __result = try!(__state22(input, __lookbehind, __tokens, __sym0, __sym1));
             }
-            Some((_, (5, __tok0), __loc)) => {
-                let __lookbehind = __loc;
-                let mut __sym1 = &mut Some((__tok0));
+            Some((__loc1, (5, __tok0), __loc2)) => {
+                let __lookbehind = __loc2.clone();
+                let mut __sym1 = &mut Some((__loc1, (__tok0), __loc2));
                 __result = try!(__state23(input, __lookbehind, __tokens, __sym0, __sym1));
             }
             Some((_, (1, _), _)) |
             Some((_, (3, _), _)) |
             Some((_, (4, _), _)) => {
                 let __sym0 = __sym0.take().unwrap();
-                let __start = __lookbehind.clone();
-                let __end = __lookahead.as_ref().map(|o| o.0.clone()).unwrap_or_else(|| __start.clone());
+                let __start = __sym0.0.clone();
+                let __end = __sym0.2.clone();
                 let __nt = super::__action3(input, __sym0, &__start, &__end);
-                return Ok((__lookbehind, __lookahead, __Nonterminal::Expr(__nt)));
+                let __nt = __Nonterminal::Expr((
+                    __start,
+                    __nt,
+                    __end,
+                ));
+                return Ok((__lookbehind, __lookahead, __nt));
             }
             _ => {
                 return Err(__ParseError::UnrecognizedToken {
@@ -632,7 +657,7 @@ mod __parse__Expr {
         __lookbehind: usize,
         __tokens: &mut __TOKENS,
         __lookahead: Option<(usize, (usize, &'input str), usize)>,
-        __sym0: &mut Option<F>,
+        __sym0: &mut Option<(usize, F, usize)>,
     ) -> Result<(usize, Option<(usize, (usize, &'input str), usize)>, __Nonterminal<F>), __ParseError<usize,(usize, &'input str),()>> where
       F: Debug + FromStr + Sub<Output=F> + Add<Output=F> + Mul<Output=F> + Div<Output=F>,
     {
@@ -644,10 +669,15 @@ mod __parse__Expr {
             Some((_, (4, _), _)) |
             Some((_, (5, _), _)) => {
                 let __sym0 = __sym0.take().unwrap();
-                let __start = __lookbehind.clone();
-                let __end = __lookahead.as_ref().map(|o| o.0.clone()).unwrap_or_else(|| __start.clone());
+                let __start = __sym0.0.clone();
+                let __end = __sym0.2.clone();
                 let __nt = super::__action6(input, __sym0, &__start, &__end);
-                return Ok((__lookbehind, __lookahead, __Nonterminal::Factor(__nt)));
+                let __nt = __Nonterminal::Factor((
+                    __start,
+                    __nt,
+                    __end,
+                ));
+                return Ok((__lookbehind, __lookahead, __nt));
             }
             _ => {
                 return Err(__ParseError::UnrecognizedToken {
@@ -666,7 +696,7 @@ mod __parse__Expr {
         input: &'input str,
         __lookbehind: usize,
         __tokens: &mut __TOKENS,
-        __sym0: &mut Option<&'input str>,
+        __sym0: &mut Option<(usize, &'input str, usize)>,
     ) -> Result<(usize, Option<(usize, (usize, &'input str), usize)>, __Nonterminal<F>), __ParseError<usize,(usize, &'input str),()>> where
       F: Debug + FromStr + Sub<Output=F> + Add<Output=F> + Mul<Output=F> + Div<Output=F>,
     {
@@ -677,14 +707,14 @@ mod __parse__Expr {
             Some(Err(e)) => return Err(e),
         };
         match __lookahead {
-            Some((_, (0, __tok0), __loc)) => {
-                let __lookbehind = __loc;
-                let mut __sym1 = &mut Some((__tok0));
+            Some((__loc1, (0, __tok0), __loc2)) => {
+                let __lookbehind = __loc2.clone();
+                let mut __sym1 = &mut Some((__loc1, (__tok0), __loc2));
                 __result = try!(__state13(input, __lookbehind, __tokens, __sym1));
             }
-            Some((_, (6, __tok0), __loc)) => {
-                let __lookbehind = __loc;
-                let mut __sym1 = &mut Some((__tok0));
+            Some((__loc1, (6, __tok0), __loc2)) => {
+                let __lookbehind = __loc2.clone();
+                let mut __sym1 = &mut Some((__loc1, (__tok0), __loc2));
                 __result = try!(__state14(input, __lookbehind, __tokens, __sym1));
             }
             _ => {
@@ -725,7 +755,7 @@ mod __parse__Expr {
         input: &'input str,
         __lookbehind: usize,
         __tokens: &mut __TOKENS,
-        __sym0: &mut Option<&'input str>,
+        __sym0: &mut Option<(usize, &'input str, usize)>,
     ) -> Result<(usize, Option<(usize, (usize, &'input str), usize)>, __Nonterminal<F>), __ParseError<usize,(usize, &'input str),()>> where
       F: Debug + FromStr + Sub<Output=F> + Add<Output=F> + Mul<Output=F> + Div<Output=F>,
     {
@@ -742,10 +772,15 @@ mod __parse__Expr {
             Some((_, (4, _), _)) |
             Some((_, (5, _), _)) => {
                 let __sym0 = __sym0.take().unwrap();
-                let __start = __lookbehind.clone();
-                let __end = __lookahead.as_ref().map(|o| o.0.clone()).unwrap_or_else(|| __start.clone());
+                let __start = __sym0.0.clone();
+                let __end = __sym0.2.clone();
                 let __nt = super::__action7(input, __sym0, &__start, &__end);
-                return Ok((__lookbehind, __lookahead, __Nonterminal::Term(__nt)));
+                let __nt = __Nonterminal::Term((
+                    __start,
+                    __nt,
+                    __end,
+                ));
+                return Ok((__lookbehind, __lookahead, __nt));
             }
             _ => {
                 return Err(__ParseError::UnrecognizedToken {
@@ -765,22 +800,22 @@ mod __parse__Expr {
         __lookbehind: usize,
         __tokens: &mut __TOKENS,
         __lookahead: Option<(usize, (usize, &'input str), usize)>,
-        __sym0: &mut Option<F>,
-        __sym1: &mut Option<&'input str>,
-        __sym2: &mut Option<F>,
+        __sym0: &mut Option<(usize, F, usize)>,
+        __sym1: &mut Option<(usize, &'input str, usize)>,
+        __sym2: &mut Option<(usize, F, usize)>,
     ) -> Result<(usize, Option<(usize, (usize, &'input str), usize)>, __Nonterminal<F>), __ParseError<usize,(usize, &'input str),()>> where
       F: Debug + FromStr + Sub<Output=F> + Add<Output=F> + Mul<Output=F> + Div<Output=F>,
     {
         let mut __result: (usize, Option<(usize, (usize, &'input str), usize)>, __Nonterminal<F>);
         match __lookahead {
-            Some((_, (2, __tok0), __loc)) => {
-                let __lookbehind = __loc;
-                let mut __sym3 = &mut Some((__tok0));
+            Some((__loc1, (2, __tok0), __loc2)) => {
+                let __lookbehind = __loc2.clone();
+                let mut __sym3 = &mut Some((__loc1, (__tok0), __loc2));
                 __result = try!(__state8(input, __lookbehind, __tokens, __sym2, __sym3));
             }
-            Some((_, (5, __tok0), __loc)) => {
-                let __lookbehind = __loc;
-                let mut __sym3 = &mut Some((__tok0));
+            Some((__loc1, (5, __tok0), __loc2)) => {
+                let __lookbehind = __loc2.clone();
+                let mut __sym3 = &mut Some((__loc1, (__tok0), __loc2));
                 __result = try!(__state9(input, __lookbehind, __tokens, __sym2, __sym3));
             }
             None |
@@ -789,10 +824,15 @@ mod __parse__Expr {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
                 let __sym2 = __sym2.take().unwrap();
-                let __start = __lookbehind.clone();
-                let __end = __lookahead.as_ref().map(|o| o.0.clone()).unwrap_or_else(|| __start.clone());
+                let __start = __sym0.0.clone();
+                let __end = __sym2.2.clone();
                 let __nt = super::__action2(input, __sym0, __sym1, __sym2, &__start, &__end);
-                return Ok((__lookbehind, __lookahead, __Nonterminal::Expr(__nt)));
+                let __nt = __Nonterminal::Expr((
+                    __start,
+                    __nt,
+                    __end,
+                ));
+                return Ok((__lookbehind, __lookahead, __nt));
             }
             _ => {
                 return Err(__ParseError::UnrecognizedToken {
@@ -813,22 +853,22 @@ mod __parse__Expr {
         __lookbehind: usize,
         __tokens: &mut __TOKENS,
         __lookahead: Option<(usize, (usize, &'input str), usize)>,
-        __sym0: &mut Option<F>,
-        __sym1: &mut Option<&'input str>,
-        __sym2: &mut Option<F>,
+        __sym0: &mut Option<(usize, F, usize)>,
+        __sym1: &mut Option<(usize, &'input str, usize)>,
+        __sym2: &mut Option<(usize, F, usize)>,
     ) -> Result<(usize, Option<(usize, (usize, &'input str), usize)>, __Nonterminal<F>), __ParseError<usize,(usize, &'input str),()>> where
       F: Debug + FromStr + Sub<Output=F> + Add<Output=F> + Mul<Output=F> + Div<Output=F>,
     {
         let mut __result: (usize, Option<(usize, (usize, &'input str), usize)>, __Nonterminal<F>);
         match __lookahead {
-            Some((_, (2, __tok0), __loc)) => {
-                let __lookbehind = __loc;
-                let mut __sym3 = &mut Some((__tok0));
+            Some((__loc1, (2, __tok0), __loc2)) => {
+                let __lookbehind = __loc2.clone();
+                let mut __sym3 = &mut Some((__loc1, (__tok0), __loc2));
                 __result = try!(__state8(input, __lookbehind, __tokens, __sym2, __sym3));
             }
-            Some((_, (5, __tok0), __loc)) => {
-                let __lookbehind = __loc;
-                let mut __sym3 = &mut Some((__tok0));
+            Some((__loc1, (5, __tok0), __loc2)) => {
+                let __lookbehind = __loc2.clone();
+                let mut __sym3 = &mut Some((__loc1, (__tok0), __loc2));
                 __result = try!(__state9(input, __lookbehind, __tokens, __sym2, __sym3));
             }
             None |
@@ -837,10 +877,15 @@ mod __parse__Expr {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
                 let __sym2 = __sym2.take().unwrap();
-                let __start = __lookbehind.clone();
-                let __end = __lookahead.as_ref().map(|o| o.0.clone()).unwrap_or_else(|| __start.clone());
+                let __start = __sym0.0.clone();
+                let __end = __sym2.2.clone();
                 let __nt = super::__action1(input, __sym0, __sym1, __sym2, &__start, &__end);
-                return Ok((__lookbehind, __lookahead, __Nonterminal::Expr(__nt)));
+                let __nt = __Nonterminal::Expr((
+                    __start,
+                    __nt,
+                    __end,
+                ));
+                return Ok((__lookbehind, __lookahead, __nt));
             }
             _ => {
                 return Err(__ParseError::UnrecognizedToken {
@@ -861,9 +906,9 @@ mod __parse__Expr {
         __lookbehind: usize,
         __tokens: &mut __TOKENS,
         __lookahead: Option<(usize, (usize, &'input str), usize)>,
-        __sym0: &mut Option<F>,
-        __sym1: &mut Option<&'input str>,
-        __sym2: &mut Option<F>,
+        __sym0: &mut Option<(usize, F, usize)>,
+        __sym1: &mut Option<(usize, &'input str, usize)>,
+        __sym2: &mut Option<(usize, F, usize)>,
     ) -> Result<(usize, Option<(usize, (usize, &'input str), usize)>, __Nonterminal<F>), __ParseError<usize,(usize, &'input str),()>> where
       F: Debug + FromStr + Sub<Output=F> + Add<Output=F> + Mul<Output=F> + Div<Output=F>,
     {
@@ -877,10 +922,15 @@ mod __parse__Expr {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
                 let __sym2 = __sym2.take().unwrap();
-                let __start = __lookbehind.clone();
-                let __end = __lookahead.as_ref().map(|o| o.0.clone()).unwrap_or_else(|| __start.clone());
+                let __start = __sym0.0.clone();
+                let __end = __sym2.2.clone();
                 let __nt = super::__action4(input, __sym0, __sym1, __sym2, &__start, &__end);
-                return Ok((__lookbehind, __lookahead, __Nonterminal::Factor(__nt)));
+                let __nt = __Nonterminal::Factor((
+                    __start,
+                    __nt,
+                    __end,
+                ));
+                return Ok((__lookbehind, __lookahead, __nt));
             }
             _ => {
                 return Err(__ParseError::UnrecognizedToken {
@@ -900,9 +950,9 @@ mod __parse__Expr {
         __lookbehind: usize,
         __tokens: &mut __TOKENS,
         __lookahead: Option<(usize, (usize, &'input str), usize)>,
-        __sym0: &mut Option<F>,
-        __sym1: &mut Option<&'input str>,
-        __sym2: &mut Option<F>,
+        __sym0: &mut Option<(usize, F, usize)>,
+        __sym1: &mut Option<(usize, &'input str, usize)>,
+        __sym2: &mut Option<(usize, F, usize)>,
     ) -> Result<(usize, Option<(usize, (usize, &'input str), usize)>, __Nonterminal<F>), __ParseError<usize,(usize, &'input str),()>> where
       F: Debug + FromStr + Sub<Output=F> + Add<Output=F> + Mul<Output=F> + Div<Output=F>,
     {
@@ -916,10 +966,15 @@ mod __parse__Expr {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
                 let __sym2 = __sym2.take().unwrap();
-                let __start = __lookbehind.clone();
-                let __end = __lookahead.as_ref().map(|o| o.0.clone()).unwrap_or_else(|| __start.clone());
+                let __start = __sym0.0.clone();
+                let __end = __sym2.2.clone();
                 let __nt = super::__action5(input, __sym0, __sym1, __sym2, &__start, &__end);
-                return Ok((__lookbehind, __lookahead, __Nonterminal::Factor(__nt)));
+                let __nt = __Nonterminal::Factor((
+                    __start,
+                    __nt,
+                    __end,
+                ));
+                return Ok((__lookbehind, __lookahead, __nt));
             }
             _ => {
                 return Err(__ParseError::UnrecognizedToken {
@@ -938,9 +993,9 @@ mod __parse__Expr {
         input: &'input str,
         __lookbehind: usize,
         __tokens: &mut __TOKENS,
-        __sym0: &mut Option<&'input str>,
-        __sym1: &mut Option<F>,
-        __sym2: &mut Option<&'input str>,
+        __sym0: &mut Option<(usize, &'input str, usize)>,
+        __sym1: &mut Option<(usize, F, usize)>,
+        __sym2: &mut Option<(usize, &'input str, usize)>,
     ) -> Result<(usize, Option<(usize, (usize, &'input str), usize)>, __Nonterminal<F>), __ParseError<usize,(usize, &'input str),()>> where
       F: Debug + FromStr + Sub<Output=F> + Add<Output=F> + Mul<Output=F> + Div<Output=F>,
     {
@@ -959,10 +1014,15 @@ mod __parse__Expr {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
                 let __sym2 = __sym2.take().unwrap();
-                let __start = __lookbehind.clone();
-                let __end = __lookahead.as_ref().map(|o| o.0.clone()).unwrap_or_else(|| __start.clone());
+                let __start = __sym0.0.clone();
+                let __end = __sym2.2.clone();
                 let __nt = super::__action8(input, __sym0, __sym1, __sym2, &__start, &__end);
-                return Ok((__lookbehind, __lookahead, __Nonterminal::Term(__nt)));
+                let __nt = __Nonterminal::Term((
+                    __start,
+                    __nt,
+                    __end,
+                ));
+                return Ok((__lookbehind, __lookahead, __nt));
             }
             _ => {
                 return Err(__ParseError::UnrecognizedToken {
@@ -981,8 +1041,8 @@ mod __parse__Expr {
         input: &'input str,
         __lookbehind: usize,
         __tokens: &mut __TOKENS,
-        __sym0: &mut Option<F>,
-        __sym1: &mut Option<&'input str>,
+        __sym0: &mut Option<(usize, F, usize)>,
+        __sym1: &mut Option<(usize, &'input str, usize)>,
     ) -> Result<(usize, Option<(usize, (usize, &'input str), usize)>, __Nonterminal<F>), __ParseError<usize,(usize, &'input str),()>> where
       F: Debug + FromStr + Sub<Output=F> + Add<Output=F> + Mul<Output=F> + Div<Output=F>,
     {
@@ -993,14 +1053,14 @@ mod __parse__Expr {
             Some(Err(e)) => return Err(e),
         };
         match __lookahead {
-            Some((_, (0, __tok0), __loc)) => {
-                let __lookbehind = __loc;
-                let mut __sym2 = &mut Some((__tok0));
+            Some((__loc1, (0, __tok0), __loc2)) => {
+                let __lookbehind = __loc2.clone();
+                let mut __sym2 = &mut Some((__loc1, (__tok0), __loc2));
                 __result = try!(__state13(input, __lookbehind, __tokens, __sym2));
             }
-            Some((_, (6, __tok0), __loc)) => {
-                let __lookbehind = __loc;
-                let mut __sym2 = &mut Some((__tok0));
+            Some((__loc1, (6, __tok0), __loc2)) => {
+                let __lookbehind = __loc2.clone();
+                let mut __sym2 = &mut Some((__loc1, (__tok0), __loc2));
                 __result = try!(__state14(input, __lookbehind, __tokens, __sym2));
             }
             _ => {
@@ -1037,8 +1097,8 @@ mod __parse__Expr {
         input: &'input str,
         __lookbehind: usize,
         __tokens: &mut __TOKENS,
-        __sym0: &mut Option<F>,
-        __sym1: &mut Option<&'input str>,
+        __sym0: &mut Option<(usize, F, usize)>,
+        __sym1: &mut Option<(usize, &'input str, usize)>,
     ) -> Result<(usize, Option<(usize, (usize, &'input str), usize)>, __Nonterminal<F>), __ParseError<usize,(usize, &'input str),()>> where
       F: Debug + FromStr + Sub<Output=F> + Add<Output=F> + Mul<Output=F> + Div<Output=F>,
     {
@@ -1049,14 +1109,14 @@ mod __parse__Expr {
             Some(Err(e)) => return Err(e),
         };
         match __lookahead {
-            Some((_, (0, __tok0), __loc)) => {
-                let __lookbehind = __loc;
-                let mut __sym2 = &mut Some((__tok0));
+            Some((__loc1, (0, __tok0), __loc2)) => {
+                let __lookbehind = __loc2.clone();
+                let mut __sym2 = &mut Some((__loc1, (__tok0), __loc2));
                 __result = try!(__state13(input, __lookbehind, __tokens, __sym2));
             }
-            Some((_, (6, __tok0), __loc)) => {
-                let __lookbehind = __loc;
-                let mut __sym2 = &mut Some((__tok0));
+            Some((__loc1, (6, __tok0), __loc2)) => {
+                let __lookbehind = __loc2.clone();
+                let mut __sym2 = &mut Some((__loc1, (__tok0), __loc2));
                 __result = try!(__state14(input, __lookbehind, __tokens, __sym2));
             }
             _ => {
@@ -1093,8 +1153,8 @@ mod __parse__Expr {
         input: &'input str,
         __lookbehind: usize,
         __tokens: &mut __TOKENS,
-        __sym0: &mut Option<F>,
-        __sym1: &mut Option<&'input str>,
+        __sym0: &mut Option<(usize, F, usize)>,
+        __sym1: &mut Option<(usize, &'input str, usize)>,
     ) -> Result<(usize, Option<(usize, (usize, &'input str), usize)>, __Nonterminal<F>), __ParseError<usize,(usize, &'input str),()>> where
       F: Debug + FromStr + Sub<Output=F> + Add<Output=F> + Mul<Output=F> + Div<Output=F>,
     {
@@ -1105,14 +1165,14 @@ mod __parse__Expr {
             Some(Err(e)) => return Err(e),
         };
         match __lookahead {
-            Some((_, (0, __tok0), __loc)) => {
-                let __lookbehind = __loc;
-                let mut __sym2 = &mut Some((__tok0));
+            Some((__loc1, (0, __tok0), __loc2)) => {
+                let __lookbehind = __loc2.clone();
+                let mut __sym2 = &mut Some((__loc1, (__tok0), __loc2));
                 __result = try!(__state13(input, __lookbehind, __tokens, __sym2));
             }
-            Some((_, (6, __tok0), __loc)) => {
-                let __lookbehind = __loc;
-                let mut __sym2 = &mut Some((__tok0));
+            Some((__loc1, (6, __tok0), __loc2)) => {
+                let __lookbehind = __loc2.clone();
+                let mut __sym2 = &mut Some((__loc1, (__tok0), __loc2));
                 __result = try!(__state14(input, __lookbehind, __tokens, __sym2));
             }
             _ => {
@@ -1145,8 +1205,8 @@ mod __parse__Expr {
         input: &'input str,
         __lookbehind: usize,
         __tokens: &mut __TOKENS,
-        __sym0: &mut Option<F>,
-        __sym1: &mut Option<&'input str>,
+        __sym0: &mut Option<(usize, F, usize)>,
+        __sym1: &mut Option<(usize, &'input str, usize)>,
     ) -> Result<(usize, Option<(usize, (usize, &'input str), usize)>, __Nonterminal<F>), __ParseError<usize,(usize, &'input str),()>> where
       F: Debug + FromStr + Sub<Output=F> + Add<Output=F> + Mul<Output=F> + Div<Output=F>,
     {
@@ -1157,14 +1217,14 @@ mod __parse__Expr {
             Some(Err(e)) => return Err(e),
         };
         match __lookahead {
-            Some((_, (0, __tok0), __loc)) => {
-                let __lookbehind = __loc;
-                let mut __sym2 = &mut Some((__tok0));
+            Some((__loc1, (0, __tok0), __loc2)) => {
+                let __lookbehind = __loc2.clone();
+                let mut __sym2 = &mut Some((__loc1, (__tok0), __loc2));
                 __result = try!(__state13(input, __lookbehind, __tokens, __sym2));
             }
-            Some((_, (6, __tok0), __loc)) => {
-                let __lookbehind = __loc;
-                let mut __sym2 = &mut Some((__tok0));
+            Some((__loc1, (6, __tok0), __loc2)) => {
+                let __lookbehind = __loc2.clone();
+                let mut __sym2 = &mut Some((__loc1, (__tok0), __loc2));
                 __result = try!(__state14(input, __lookbehind, __tokens, __sym2));
             }
             _ => {
@@ -1198,26 +1258,26 @@ mod __parse__Expr {
         __lookbehind: usize,
         __tokens: &mut __TOKENS,
         __lookahead: Option<(usize, (usize, &'input str), usize)>,
-        __sym0: &mut Option<&'input str>,
-        __sym1: &mut Option<F>,
+        __sym0: &mut Option<(usize, &'input str, usize)>,
+        __sym1: &mut Option<(usize, F, usize)>,
     ) -> Result<(usize, Option<(usize, (usize, &'input str), usize)>, __Nonterminal<F>), __ParseError<usize,(usize, &'input str),()>> where
       F: Debug + FromStr + Sub<Output=F> + Add<Output=F> + Mul<Output=F> + Div<Output=F>,
     {
         let mut __result: (usize, Option<(usize, (usize, &'input str), usize)>, __Nonterminal<F>);
         match __lookahead {
-            Some((_, (1, __tok0), __loc)) => {
-                let __lookbehind = __loc;
-                let mut __sym2 = &mut Some((__tok0));
+            Some((__loc1, (1, __tok0), __loc2)) => {
+                let __lookbehind = __loc2.clone();
+                let mut __sym2 = &mut Some((__loc1, (__tok0), __loc2));
                 __result = try!(__state29(input, __lookbehind, __tokens, __sym0, __sym1, __sym2));
             }
-            Some((_, (3, __tok0), __loc)) => {
-                let __lookbehind = __loc;
-                let mut __sym2 = &mut Some((__tok0));
+            Some((__loc1, (3, __tok0), __loc2)) => {
+                let __lookbehind = __loc2.clone();
+                let mut __sym2 = &mut Some((__loc1, (__tok0), __loc2));
                 __result = try!(__state20(input, __lookbehind, __tokens, __sym1, __sym2));
             }
-            Some((_, (4, __tok0), __loc)) => {
-                let __lookbehind = __loc;
-                let mut __sym2 = &mut Some((__tok0));
+            Some((__loc1, (4, __tok0), __loc2)) => {
+                let __lookbehind = __loc2.clone();
+                let mut __sym2 = &mut Some((__loc1, (__tok0), __loc2));
                 __result = try!(__state21(input, __lookbehind, __tokens, __sym1, __sym2));
             }
             _ => {
@@ -1239,22 +1299,22 @@ mod __parse__Expr {
         __lookbehind: usize,
         __tokens: &mut __TOKENS,
         __lookahead: Option<(usize, (usize, &'input str), usize)>,
-        __sym0: &mut Option<F>,
-        __sym1: &mut Option<&'input str>,
-        __sym2: &mut Option<F>,
+        __sym0: &mut Option<(usize, F, usize)>,
+        __sym1: &mut Option<(usize, &'input str, usize)>,
+        __sym2: &mut Option<(usize, F, usize)>,
     ) -> Result<(usize, Option<(usize, (usize, &'input str), usize)>, __Nonterminal<F>), __ParseError<usize,(usize, &'input str),()>> where
       F: Debug + FromStr + Sub<Output=F> + Add<Output=F> + Mul<Output=F> + Div<Output=F>,
     {
         let mut __result: (usize, Option<(usize, (usize, &'input str), usize)>, __Nonterminal<F>);
         match __lookahead {
-            Some((_, (2, __tok0), __loc)) => {
-                let __lookbehind = __loc;
-                let mut __sym3 = &mut Some((__tok0));
+            Some((__loc1, (2, __tok0), __loc2)) => {
+                let __lookbehind = __loc2.clone();
+                let mut __sym3 = &mut Some((__loc1, (__tok0), __loc2));
                 __result = try!(__state22(input, __lookbehind, __tokens, __sym2, __sym3));
             }
-            Some((_, (5, __tok0), __loc)) => {
-                let __lookbehind = __loc;
-                let mut __sym3 = &mut Some((__tok0));
+            Some((__loc1, (5, __tok0), __loc2)) => {
+                let __lookbehind = __loc2.clone();
+                let mut __sym3 = &mut Some((__loc1, (__tok0), __loc2));
                 __result = try!(__state23(input, __lookbehind, __tokens, __sym2, __sym3));
             }
             Some((_, (1, _), _)) |
@@ -1263,10 +1323,15 @@ mod __parse__Expr {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
                 let __sym2 = __sym2.take().unwrap();
-                let __start = __lookbehind.clone();
-                let __end = __lookahead.as_ref().map(|o| o.0.clone()).unwrap_or_else(|| __start.clone());
+                let __start = __sym0.0.clone();
+                let __end = __sym2.2.clone();
                 let __nt = super::__action2(input, __sym0, __sym1, __sym2, &__start, &__end);
-                return Ok((__lookbehind, __lookahead, __Nonterminal::Expr(__nt)));
+                let __nt = __Nonterminal::Expr((
+                    __start,
+                    __nt,
+                    __end,
+                ));
+                return Ok((__lookbehind, __lookahead, __nt));
             }
             _ => {
                 return Err(__ParseError::UnrecognizedToken {
@@ -1287,22 +1352,22 @@ mod __parse__Expr {
         __lookbehind: usize,
         __tokens: &mut __TOKENS,
         __lookahead: Option<(usize, (usize, &'input str), usize)>,
-        __sym0: &mut Option<F>,
-        __sym1: &mut Option<&'input str>,
-        __sym2: &mut Option<F>,
+        __sym0: &mut Option<(usize, F, usize)>,
+        __sym1: &mut Option<(usize, &'input str, usize)>,
+        __sym2: &mut Option<(usize, F, usize)>,
     ) -> Result<(usize, Option<(usize, (usize, &'input str), usize)>, __Nonterminal<F>), __ParseError<usize,(usize, &'input str),()>> where
       F: Debug + FromStr + Sub<Output=F> + Add<Output=F> + Mul<Output=F> + Div<Output=F>,
     {
         let mut __result: (usize, Option<(usize, (usize, &'input str), usize)>, __Nonterminal<F>);
         match __lookahead {
-            Some((_, (2, __tok0), __loc)) => {
-                let __lookbehind = __loc;
-                let mut __sym3 = &mut Some((__tok0));
+            Some((__loc1, (2, __tok0), __loc2)) => {
+                let __lookbehind = __loc2.clone();
+                let mut __sym3 = &mut Some((__loc1, (__tok0), __loc2));
                 __result = try!(__state22(input, __lookbehind, __tokens, __sym2, __sym3));
             }
-            Some((_, (5, __tok0), __loc)) => {
-                let __lookbehind = __loc;
-                let mut __sym3 = &mut Some((__tok0));
+            Some((__loc1, (5, __tok0), __loc2)) => {
+                let __lookbehind = __loc2.clone();
+                let mut __sym3 = &mut Some((__loc1, (__tok0), __loc2));
                 __result = try!(__state23(input, __lookbehind, __tokens, __sym2, __sym3));
             }
             Some((_, (1, _), _)) |
@@ -1311,10 +1376,15 @@ mod __parse__Expr {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
                 let __sym2 = __sym2.take().unwrap();
-                let __start = __lookbehind.clone();
-                let __end = __lookahead.as_ref().map(|o| o.0.clone()).unwrap_or_else(|| __start.clone());
+                let __start = __sym0.0.clone();
+                let __end = __sym2.2.clone();
                 let __nt = super::__action1(input, __sym0, __sym1, __sym2, &__start, &__end);
-                return Ok((__lookbehind, __lookahead, __Nonterminal::Expr(__nt)));
+                let __nt = __Nonterminal::Expr((
+                    __start,
+                    __nt,
+                    __end,
+                ));
+                return Ok((__lookbehind, __lookahead, __nt));
             }
             _ => {
                 return Err(__ParseError::UnrecognizedToken {
@@ -1335,9 +1405,9 @@ mod __parse__Expr {
         __lookbehind: usize,
         __tokens: &mut __TOKENS,
         __lookahead: Option<(usize, (usize, &'input str), usize)>,
-        __sym0: &mut Option<F>,
-        __sym1: &mut Option<&'input str>,
-        __sym2: &mut Option<F>,
+        __sym0: &mut Option<(usize, F, usize)>,
+        __sym1: &mut Option<(usize, &'input str, usize)>,
+        __sym2: &mut Option<(usize, F, usize)>,
     ) -> Result<(usize, Option<(usize, (usize, &'input str), usize)>, __Nonterminal<F>), __ParseError<usize,(usize, &'input str),()>> where
       F: Debug + FromStr + Sub<Output=F> + Add<Output=F> + Mul<Output=F> + Div<Output=F>,
     {
@@ -1351,10 +1421,15 @@ mod __parse__Expr {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
                 let __sym2 = __sym2.take().unwrap();
-                let __start = __lookbehind.clone();
-                let __end = __lookahead.as_ref().map(|o| o.0.clone()).unwrap_or_else(|| __start.clone());
+                let __start = __sym0.0.clone();
+                let __end = __sym2.2.clone();
                 let __nt = super::__action4(input, __sym0, __sym1, __sym2, &__start, &__end);
-                return Ok((__lookbehind, __lookahead, __Nonterminal::Factor(__nt)));
+                let __nt = __Nonterminal::Factor((
+                    __start,
+                    __nt,
+                    __end,
+                ));
+                return Ok((__lookbehind, __lookahead, __nt));
             }
             _ => {
                 return Err(__ParseError::UnrecognizedToken {
@@ -1374,9 +1449,9 @@ mod __parse__Expr {
         __lookbehind: usize,
         __tokens: &mut __TOKENS,
         __lookahead: Option<(usize, (usize, &'input str), usize)>,
-        __sym0: &mut Option<F>,
-        __sym1: &mut Option<&'input str>,
-        __sym2: &mut Option<F>,
+        __sym0: &mut Option<(usize, F, usize)>,
+        __sym1: &mut Option<(usize, &'input str, usize)>,
+        __sym2: &mut Option<(usize, F, usize)>,
     ) -> Result<(usize, Option<(usize, (usize, &'input str), usize)>, __Nonterminal<F>), __ParseError<usize,(usize, &'input str),()>> where
       F: Debug + FromStr + Sub<Output=F> + Add<Output=F> + Mul<Output=F> + Div<Output=F>,
     {
@@ -1390,10 +1465,15 @@ mod __parse__Expr {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
                 let __sym2 = __sym2.take().unwrap();
-                let __start = __lookbehind.clone();
-                let __end = __lookahead.as_ref().map(|o| o.0.clone()).unwrap_or_else(|| __start.clone());
+                let __start = __sym0.0.clone();
+                let __end = __sym2.2.clone();
                 let __nt = super::__action5(input, __sym0, __sym1, __sym2, &__start, &__end);
-                return Ok((__lookbehind, __lookahead, __Nonterminal::Factor(__nt)));
+                let __nt = __Nonterminal::Factor((
+                    __start,
+                    __nt,
+                    __end,
+                ));
+                return Ok((__lookbehind, __lookahead, __nt));
             }
             _ => {
                 return Err(__ParseError::UnrecognizedToken {
@@ -1412,9 +1492,9 @@ mod __parse__Expr {
         input: &'input str,
         __lookbehind: usize,
         __tokens: &mut __TOKENS,
-        __sym0: &mut Option<&'input str>,
-        __sym1: &mut Option<F>,
-        __sym2: &mut Option<&'input str>,
+        __sym0: &mut Option<(usize, &'input str, usize)>,
+        __sym1: &mut Option<(usize, F, usize)>,
+        __sym2: &mut Option<(usize, &'input str, usize)>,
     ) -> Result<(usize, Option<(usize, (usize, &'input str), usize)>, __Nonterminal<F>), __ParseError<usize,(usize, &'input str),()>> where
       F: Debug + FromStr + Sub<Output=F> + Add<Output=F> + Mul<Output=F> + Div<Output=F>,
     {
@@ -1433,10 +1513,15 @@ mod __parse__Expr {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
                 let __sym2 = __sym2.take().unwrap();
-                let __start = __lookbehind.clone();
-                let __end = __lookahead.as_ref().map(|o| o.0.clone()).unwrap_or_else(|| __start.clone());
+                let __start = __sym0.0.clone();
+                let __end = __sym2.2.clone();
                 let __nt = super::__action8(input, __sym0, __sym1, __sym2, &__start, &__end);
-                return Ok((__lookbehind, __lookahead, __Nonterminal::Term(__nt)));
+                let __nt = __Nonterminal::Term((
+                    __start,
+                    __nt,
+                    __end,
+                ));
+                return Ok((__lookbehind, __lookahead, __nt));
             }
             _ => {
                 return Err(__ParseError::UnrecognizedToken {
@@ -1633,7 +1718,7 @@ pub fn __action0<
     F,
 >(
     input: &'input str,
-    __0: F,
+    (_, __0, _): (usize, F, usize),
     __lookbehind: &usize,
     __lookahead: &usize,
 ) -> F where
@@ -1647,9 +1732,9 @@ pub fn __action1<
     F,
 >(
     input: &'input str,
-    l: F,
-    _: &'input str,
-    r: F,
+    (_, l, _): (usize, F, usize),
+    (_, _, _): (usize, &'input str, usize),
+    (_, r, _): (usize, F, usize),
     __lookbehind: &usize,
     __lookahead: &usize,
 ) -> F where
@@ -1663,9 +1748,9 @@ pub fn __action2<
     F,
 >(
     input: &'input str,
-    l: F,
-    _: &'input str,
-    r: F,
+    (_, l, _): (usize, F, usize),
+    (_, _, _): (usize, &'input str, usize),
+    (_, r, _): (usize, F, usize),
     __lookbehind: &usize,
     __lookahead: &usize,
 ) -> F where
@@ -1679,7 +1764,7 @@ pub fn __action3<
     F,
 >(
     input: &'input str,
-    __0: F,
+    (_, __0, _): (usize, F, usize),
     __lookbehind: &usize,
     __lookahead: &usize,
 ) -> F where
@@ -1693,9 +1778,9 @@ pub fn __action4<
     F,
 >(
     input: &'input str,
-    l: F,
-    _: &'input str,
-    r: F,
+    (_, l, _): (usize, F, usize),
+    (_, _, _): (usize, &'input str, usize),
+    (_, r, _): (usize, F, usize),
     __lookbehind: &usize,
     __lookahead: &usize,
 ) -> F where
@@ -1709,9 +1794,9 @@ pub fn __action5<
     F,
 >(
     input: &'input str,
-    l: F,
-    _: &'input str,
-    r: F,
+    (_, l, _): (usize, F, usize),
+    (_, _, _): (usize, &'input str, usize),
+    (_, r, _): (usize, F, usize),
     __lookbehind: &usize,
     __lookahead: &usize,
 ) -> F where
@@ -1725,7 +1810,7 @@ pub fn __action6<
     F,
 >(
     input: &'input str,
-    __0: F,
+    (_, __0, _): (usize, F, usize),
     __lookbehind: &usize,
     __lookahead: &usize,
 ) -> F where
@@ -1739,7 +1824,7 @@ pub fn __action7<
     F,
 >(
     input: &'input str,
-    n: &'input str,
+    (_, n, _): (usize, &'input str, usize),
     __lookbehind: &usize,
     __lookahead: &usize,
 ) -> F where
@@ -1753,9 +1838,9 @@ pub fn __action8<
     F,
 >(
     input: &'input str,
-    _: &'input str,
-    __0: F,
-    _: &'input str,
+    (_, _, _): (usize, &'input str, usize),
+    (_, __0, _): (usize, F, usize),
+    (_, _, _): (usize, &'input str, usize),
     __lookbehind: &usize,
     __lookahead: &usize,
 ) -> F where

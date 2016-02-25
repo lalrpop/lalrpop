@@ -57,8 +57,11 @@ fn emit_user_action_code<W: Write>(grammar: &r::Grammar,
                                   vec![],
                                   data.arg_patterns
                                       .iter()
-                                      .zip(data.arg_types.iter())
-                                      .map(|(p, t)| format!("{}: {}", p, t))
+                                      .zip(data.arg_types
+                                               .iter()
+                                               .cloned()
+                                               .map(|t| grammar.types.spanned_type(t)))
+                                      .map(|(p, t)| format!("(_, {}, _): {}", p, t))
                                       .chain(lookarounds)
                                       .collect(),
                                   ret_type,
@@ -129,6 +132,7 @@ fn emit_inline_action_code<W: Write>(grammar: &r::Grammar,
                                 .collect();
 
     let arguments: Vec<_> = arg_types.iter()
+                                     .map(|&t| grammar.types.spanned_type(t.clone()))
                                      .enumerate()
                                      .map(|(i, t)| format!("{}{}: {}", grammar.prefix, i, t))
                                      .chain(vec![format!("{}lookbehind: &{}",
@@ -147,7 +151,49 @@ fn emit_inline_action_code<W: Write>(grammar: &r::Grammar,
                                   vec![]));
     rust!(rust, "{{");
 
-    // create temporaries for the inlined things
+    // For each inlined thing, compute the start/end locations.
+    // Do this first so that none of the arguments have been moved
+    // yet and we can easily access their locations.
+    let mut arg_counter = 0;
+    let mut temp_counter = 0;
+    for symbol in &data.symbols {
+        match *symbol {
+            r::InlinedSymbol::Original(_) => { }
+            r::InlinedSymbol::Inlined(_, ref syms) => {
+                // the start location for this inlined action is the
+                // location of the first argument we are reducing; if
+                // we are not reducing any arguments, then steal the
+                // end of the symbol before
+                if syms.len() > 0 {
+                    rust!(rust, "let {}start{} = {}{}.0.clone();",
+                          grammar.prefix, temp_counter,
+                          grammar.prefix, arg_counter);
+                } else {
+                    rust!(rust, "let {}start{} = {}lookbehind.clone();",
+                          grammar.prefix, temp_counter,
+                          grammar.prefix);
+                }
+
+                // the end is the end location for the last thing we are
+                // reducing, or start of symbol after if no such item exists
+                if syms.len() > 0 {
+                    let last_arg_index = arg_counter + syms.len() - 1;
+                    rust!(rust, "let {}end{} = {}{}.2.clone();",
+                          grammar.prefix, temp_counter,
+                          grammar.prefix, last_arg_index);
+                } else {
+                    rust!(rust, "let {}end{} = {}lookahead.clone();",
+                          grammar.prefix, temp_counter,
+                          grammar.prefix);
+                }
+
+                temp_counter += 1;
+                arg_counter += syms.len();
+            }
+        }
+    }
+
+    // Now create temporaries for the inlined things.
     let mut arg_counter = 0;
     let mut temp_counter = 0;
     for symbol in &data.symbols {
@@ -156,6 +202,7 @@ fn emit_inline_action_code<W: Write>(grammar: &r::Grammar,
                 arg_counter += 1;
             }
             r::InlinedSymbol::Inlined(inlined_action, ref syms) => {
+                // execute the inlined reduce action
                 rust!(rust,
                       "let {}temp{} = {}action{}(",
                       grammar.prefix,
@@ -165,14 +212,23 @@ fn emit_inline_action_code<W: Write>(grammar: &r::Grammar,
                 for parameter in &grammar.parameters {
                     rust!(rust, "{},", parameter.name);
                 }
-                for _ in syms {
-                    rust!(rust, "{}{},", grammar.prefix, arg_counter);
-                    arg_counter += 1;
+                for i in 0..syms.len() {
+                    rust!(rust, "{}{},", grammar.prefix, arg_counter + i);
                 }
-                rust!(rust, "{}lookbehind,", grammar.prefix);
-                rust!(rust, "{}lookahead,", grammar.prefix);
+                rust!(rust, "&{}start{},", grammar.prefix, temp_counter);
+                rust!(rust, "&{}end{},", grammar.prefix, temp_counter);
                 rust!(rust, ");");
+
+                // wrap up the inlined value along with its span
+                rust!(rust,
+                      "let {}temp{} = ({}start{}, {}temp{}, {}end{});",
+                      grammar.prefix, temp_counter,
+                      grammar.prefix, temp_counter,
+                      grammar.prefix, temp_counter,
+                      grammar.prefix, temp_counter);
+
                 temp_counter += 1;
+                arg_counter += syms.len();
             }
         }
     }

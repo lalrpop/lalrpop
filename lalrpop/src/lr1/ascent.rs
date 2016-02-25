@@ -145,7 +145,8 @@ impl<'ascent,'grammar,W:Write> RecursiveAscent<'ascent,'grammar,W> {
         // have to unwrap and rewrap as we pass up the stack, which
         // seems silly
         for &nt in self.grammar.nonterminals.keys() {
-            rust!(self.out, "{}({}),", Escape(nt), self.types.nonterminal_type(nt));
+            let ty = self.types.spanned_type(self.types.nonterminal_type(nt).clone());
+            rust!(self.out, "{}({}),", Escape(nt), ty);
         }
 
         rust!(self.out, "}}");
@@ -219,7 +220,7 @@ impl<'ascent,'grammar,W:Write> RecursiveAscent<'ascent,'grammar,W> {
         rust!(self.out, "}}");
 
         // otherwise, we expect to see only the goal terminal
-        rust!(self.out, "(_, None, {}Nonterminal::{}({}nt)) => {{",
+        rust!(self.out, "(_, None, {}Nonterminal::{}((_, {}nt, _))) => {{",
               self.prefix, Escape(self.start_symbol), self.prefix);
         rust!(self.out, "Ok({}nt)", self.prefix);
         rust!(self.out, "}}");
@@ -286,7 +287,10 @@ impl<'ascent,'grammar,W:Write> RecursiveAscent<'ascent,'grammar,W> {
         let sym_args: Vec<_> =
             (0..this_prefix.len())
             .map(|i| format!("{}sym{}: &mut Option<{}>",
-                             self.prefix, i, this_prefix[i].ty(&self.types)))
+                             self.prefix,
+                             i,
+                             self.types.spanned_type(
+                                 this_prefix[i].ty(&self.types).clone())))
             .collect();
 
         try!(self.out.write_pub_fn_header(
@@ -372,17 +376,27 @@ impl<'ascent,'grammar,W:Write> RecursiveAscent<'ascent,'grammar,W> {
             // is typically the start of the first symbol we are
             // reducing, but in the case of an empty production it
             // will be the `lookbehind` that was passed into us
-            rust!(self.out, "let {}start = {}lookbehind.clone();",
-                  self.prefix, self.prefix);
+            if let Some(first_sym) = transfer_syms.first() {
+                rust!(self.out, "let {}start = {}.0.clone();",
+                      self.prefix, first_sym);
+            } else {
+                rust!(self.out, "let {}start = {}lookbehind.clone();",
+                      self.prefix, self.prefix);
+            }
 
             // identify the "end" location for this production;
             // this is typically the end of the last symbol we are reducing,
             // but in the case of an empty production it will come from the
             // lookahead
-            rust!(self.out, "let {}end = {}lookahead.as_ref()\
-                             .map(|o| o.0.clone())\
-                             .unwrap_or_else(|| {}start.clone());",
-                  self.prefix, self.prefix, self.prefix);
+            if let Some(last_sym) = transfer_syms.last() {
+                rust!(self.out, "let {}end = {}.2.clone();",
+                      self.prefix, last_sym);
+            } else {
+                rust!(self.out, "let {}end = {}lookahead.as_ref()\
+                                 .map(|o| o.0.clone())\
+                                 .unwrap_or_else(|| {}start.clone());",
+                      self.prefix, self.prefix, self.prefix);
+            }
 
             let transfered_syms = transfer_syms.len();
 
@@ -408,17 +422,23 @@ impl<'ascent,'grammar,W:Write> RecursiveAscent<'ascent,'grammar,W> {
                       Sep(", ", &args))
             }
 
+            // wrap up the produced value into `Nonterminal` along with
+            rust!(self.out, "let {}nt = {}Nonterminal::{}((",
+                  self.prefix, self.prefix, Escape(production.nonterminal));
+            rust!(self.out, "{}start,", self.prefix);
+            rust!(self.out, "{}nt,", self.prefix);
+            rust!(self.out, "{}end,", self.prefix);
+            rust!(self.out, "));");
+
             // wrap up the result along with the (unused) lookahead
             if transfered_syms != 0 {
                 // if we popped anything off of the stack, then this frame is done
-                rust!(self.out, "return Ok(({}lookbehind, {}lookahead, {}Nonterminal::{}({}nt)));",
-                      self.prefix, self.prefix, self.prefix,
-                      Escape(production.nonterminal), self.prefix);
+                rust!(self.out, "return Ok(({}lookbehind, {}lookahead, {}nt));",
+                      self.prefix, self.prefix, self.prefix);
             } else {
                 // otherwise, pop back
-                rust!(self.out, "{}result = ({}lookbehind, {}lookahead, {}Nonterminal::{}({}nt));",
-                      self.prefix, self.prefix, self.prefix, self.prefix,
-                      Escape(production.nonterminal), self.prefix);
+                rust!(self.out, "{}result = ({}lookbehind.clone(), {}lookahead, {}nt);",
+                      self.prefix, self.prefix, self.prefix, self.prefix);
                 fallthrough = true;
             }
 
@@ -545,15 +565,15 @@ impl<'ascent,'grammar,W:Write> RecursiveAscent<'ascent,'grammar,W> {
             pattern = format!("{}tok @ {}", self.prefix, pattern);
         }
 
-        pattern = format!("(_, {}, {}loc)", pattern, self.prefix);
+        pattern = format!("({}loc1, {}, {}loc2)", self.prefix, pattern, self.prefix);
 
         rust!(self.out, "Some({}) => {{", pattern);
 
-        rust!(self.out, "let {} = {}loc;",
+        rust!(self.out, "let {} = {}loc2.clone();",
               lb_name, self.prefix);
 
-        rust!(self.out, "let mut {} = &mut Some(({}));",
-              let_name, pattern_names.join(", "));
+        rust!(self.out, "let mut {} = &mut Some(({}loc1, ({}), {}loc2));",
+              let_name, self.prefix, pattern_names.join(", "), self.prefix);
 
         Ok(())
     }
