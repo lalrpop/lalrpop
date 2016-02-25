@@ -25,12 +25,11 @@ mod __parse__Expr {
             None => None,
             Some(Err(e)) => return Err(__ParseError::User { error: e }),
         };
-        let __lookbehind: () = ::std::default::Default::default();
-        match try!(__state0(__lookbehind, &mut __tokens, __lookahead)) {
-            (_, Some(__lookahead), _) => {
+        match try!(__state0(&mut __tokens, __lookahead)) {
+            (Some(__lookahead), _) => {
                 Err(__ParseError::ExtraToken { token: __lookahead })
             }
-            (_, None, __Nonterminal::____Expr((_, __nt, _))) => {
+            (None, __Nonterminal::____Expr((_, __nt, _))) => {
                 Ok(__nt)
             }
             _ => unreachable!(),
@@ -49,20 +48,18 @@ mod __parse__Expr {
         'input,
         __TOKENS: Iterator<Item=Result<((), LtTok<'input>, ()),()>>,
     >(
-        __lookbehind: (),
         __tokens: &mut __TOKENS,
         __lookahead: Option<((), LtTok<'input>, ())>,
-    ) -> Result<((), Option<((), LtTok<'input>, ())>, __Nonterminal<'input>), __ParseError<(),LtTok<'input>,()>>
+    ) -> Result<(Option<((), LtTok<'input>, ())>, __Nonterminal<'input>), __ParseError<(),LtTok<'input>,()>>
     {
-        let mut __result: ((), Option<((), LtTok<'input>, ())>, __Nonterminal<'input>);
+        let mut __result: (Option<((), LtTok<'input>, ())>, __Nonterminal<'input>);
         match __lookahead {
             Some((__loc1, LtTok::Other(__tok0), __loc2)) => {
-                let __lookbehind = __loc2.clone();
                 let mut __sym0 = &mut Some((__loc1, (__tok0), __loc2));
-                __result = try!(__state3(__lookbehind, __tokens, __sym0));
+                __result = try!(__state3(__tokens, __sym0));
             }
             None => {
-                let __start = __lookbehind.clone();
+                let __start: () = ::std::default::Default::default();
                 let __end = __lookahead.as_ref().map(|o| o.0.clone()).unwrap_or_else(|| __start.clone());
                 let __nt = super::__action6(&__start, &__end);
                 let __nt = __Nonterminal::Expr((
@@ -70,7 +67,7 @@ mod __parse__Expr {
                     __nt,
                     __end,
                 ));
-                __result = (__lookbehind.clone(), __lookahead, __nt);
+                __result = (__lookahead, __nt);
             }
             _ => {
                 return Err(__ParseError::UnrecognizedToken {
@@ -80,18 +77,18 @@ mod __parse__Expr {
             }
         }
         loop {
-            let (__lookbehind, __lookahead, __nt) = __result;
+            let (__lookahead, __nt) = __result;
             match __nt {
                 __Nonterminal::Expr(__nt) => {
                     let __sym0 = &mut Some(__nt);
-                    __result = try!(__state1(__lookbehind, __tokens, __lookahead, __sym0));
+                    __result = try!(__state1(__tokens, __lookahead, __sym0));
                 }
                 __Nonterminal::Other_2b(__nt) => {
                     let __sym0 = &mut Some(__nt);
-                    __result = try!(__state2(__lookbehind, __tokens, __lookahead, __sym0));
+                    __result = try!(__state2(__tokens, __lookahead, __sym0));
                 }
                 _ => {
-                    return Ok((__lookbehind, __lookahead, __nt));
+                    return Ok((__lookahead, __nt));
                 }
             }
         }
@@ -101,13 +98,12 @@ mod __parse__Expr {
         'input,
         __TOKENS: Iterator<Item=Result<((), LtTok<'input>, ()),()>>,
     >(
-        __lookbehind: (),
         __tokens: &mut __TOKENS,
         __lookahead: Option<((), LtTok<'input>, ())>,
         __sym0: &mut Option<((), Vec<&'input str>, ())>,
-    ) -> Result<((), Option<((), LtTok<'input>, ())>, __Nonterminal<'input>), __ParseError<(),LtTok<'input>,()>>
+    ) -> Result<(Option<((), LtTok<'input>, ())>, __Nonterminal<'input>), __ParseError<(),LtTok<'input>,()>>
     {
-        let mut __result: ((), Option<((), LtTok<'input>, ())>, __Nonterminal<'input>);
+        let mut __result: (Option<((), LtTok<'input>, ())>, __Nonterminal<'input>);
         match __lookahead {
             None => {
                 let __sym0 = __sym0.take().unwrap();
@@ -119,7 +115,7 @@ mod __parse__Expr {
                     __nt,
                     __end,
                 ));
-                return Ok((__lookbehind, __lookahead, __nt));
+                return Ok((__lookahead, __nt));
             }
             _ => {
                 return Err(__ParseError::UnrecognizedToken {
@@ -134,18 +130,16 @@ mod __parse__Expr {
         'input,
         __TOKENS: Iterator<Item=Result<((), LtTok<'input>, ()),()>>,
     >(
-        __lookbehind: (),
         __tokens: &mut __TOKENS,
         __lookahead: Option<((), LtTok<'input>, ())>,
         __sym0: &mut Option<((), ::std::vec::Vec<&'input str>, ())>,
-    ) -> Result<((), Option<((), LtTok<'input>, ())>, __Nonterminal<'input>), __ParseError<(),LtTok<'input>,()>>
+    ) -> Result<(Option<((), LtTok<'input>, ())>, __Nonterminal<'input>), __ParseError<(),LtTok<'input>,()>>
     {
-        let mut __result: ((), Option<((), LtTok<'input>, ())>, __Nonterminal<'input>);
+        let mut __result: (Option<((), LtTok<'input>, ())>, __Nonterminal<'input>);
         match __lookahead {
             Some((__loc1, LtTok::Other(__tok0), __loc2)) => {
-                let __lookbehind = __loc2.clone();
                 let mut __sym1 = &mut Some((__loc1, (__tok0), __loc2));
-                __result = try!(__state4(__lookbehind, __tokens, __sym0, __sym1));
+                __result = try!(__state4(__tokens, __sym0, __sym1));
             }
             None => {
                 let __sym0 = __sym0.take().unwrap();
@@ -157,7 +151,7 @@ mod __parse__Expr {
                     __nt,
                     __end,
                 ));
-                return Ok((__lookbehind, __lookahead, __nt));
+                return Ok((__lookahead, __nt));
             }
             _ => {
                 return Err(__ParseError::UnrecognizedToken {
@@ -173,12 +167,11 @@ mod __parse__Expr {
         'input,
         __TOKENS: Iterator<Item=Result<((), LtTok<'input>, ()),()>>,
     >(
-        __lookbehind: (),
         __tokens: &mut __TOKENS,
         __sym0: &mut Option<((), &'input str, ())>,
-    ) -> Result<((), Option<((), LtTok<'input>, ())>, __Nonterminal<'input>), __ParseError<(),LtTok<'input>,()>>
+    ) -> Result<(Option<((), LtTok<'input>, ())>, __Nonterminal<'input>), __ParseError<(),LtTok<'input>,()>>
     {
-        let mut __result: ((), Option<((), LtTok<'input>, ())>, __Nonterminal<'input>);
+        let mut __result: (Option<((), LtTok<'input>, ())>, __Nonterminal<'input>);
         let __lookahead = match __tokens.next() {
             Some(Ok(v)) => Some(v),
             None => None,
@@ -196,7 +189,7 @@ mod __parse__Expr {
                     __nt,
                     __end,
                 ));
-                return Ok((__lookbehind, __lookahead, __nt));
+                return Ok((__lookahead, __nt));
             }
             _ => {
                 return Err(__ParseError::UnrecognizedToken {
@@ -211,13 +204,12 @@ mod __parse__Expr {
         'input,
         __TOKENS: Iterator<Item=Result<((), LtTok<'input>, ()),()>>,
     >(
-        __lookbehind: (),
         __tokens: &mut __TOKENS,
         __sym0: &mut Option<((), ::std::vec::Vec<&'input str>, ())>,
         __sym1: &mut Option<((), &'input str, ())>,
-    ) -> Result<((), Option<((), LtTok<'input>, ())>, __Nonterminal<'input>), __ParseError<(),LtTok<'input>,()>>
+    ) -> Result<(Option<((), LtTok<'input>, ())>, __Nonterminal<'input>), __ParseError<(),LtTok<'input>,()>>
     {
-        let mut __result: ((), Option<((), LtTok<'input>, ())>, __Nonterminal<'input>);
+        let mut __result: (Option<((), LtTok<'input>, ())>, __Nonterminal<'input>);
         let __lookahead = match __tokens.next() {
             Some(Ok(v)) => Some(v),
             None => None,
@@ -236,7 +228,7 @@ mod __parse__Expr {
                     __nt,
                     __end,
                 ));
-                return Ok((__lookbehind, __lookahead, __nt));
+                return Ok((__lookahead, __nt));
             }
             _ => {
                 return Err(__ParseError::UnrecognizedToken {

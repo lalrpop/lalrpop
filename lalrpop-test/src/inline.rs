@@ -20,12 +20,11 @@ mod __parse__E {
             None => None,
             Some(Err(e)) => return Err(e),
         };
-        let __lookbehind: usize = ::std::default::Default::default();
-        match try!(__state0(input, __lookbehind, &mut __tokens, __lookahead)) {
-            (_, Some(__lookahead), _) => {
+        match try!(__state0(input, &mut __tokens, __lookahead)) {
+            (Some(__lookahead), _) => {
                 Err(__ParseError::ExtraToken { token: __lookahead })
             }
-            (_, None, __Nonterminal::____E((_, __nt, _))) => {
+            (None, __Nonterminal::____E((_, __nt, _))) => {
                 Ok(__nt)
             }
             _ => unreachable!(),
@@ -45,22 +44,19 @@ mod __parse__E {
         __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__ParseError<usize,(usize, &'input str),()>>>,
     >(
         input: &'input str,
-        __lookbehind: usize,
         __tokens: &mut __TOKENS,
         __lookahead: Option<(usize, (usize, &'input str), usize)>,
-    ) -> Result<(usize, Option<(usize, (usize, &'input str), usize)>, __Nonterminal<>), __ParseError<usize,(usize, &'input str),()>>
+    ) -> Result<(Option<(usize, (usize, &'input str), usize)>, __Nonterminal<>), __ParseError<usize,(usize, &'input str),()>>
     {
-        let mut __result: (usize, Option<(usize, (usize, &'input str), usize)>, __Nonterminal<>);
+        let mut __result: (Option<(usize, (usize, &'input str), usize)>, __Nonterminal<>);
         match __lookahead {
             Some((__loc1, (0, __tok0), __loc2)) => {
-                let __lookbehind = __loc2.clone();
                 let mut __sym0 = &mut Some((__loc1, (__tok0), __loc2));
-                __result = try!(__state2(input, __lookbehind, __tokens, __sym0));
+                __result = try!(__state2(input, __tokens, __sym0));
             }
             Some((__loc1, (1, __tok0), __loc2)) => {
-                let __lookbehind = __loc2.clone();
                 let mut __sym0 = &mut Some((__loc1, (__tok0), __loc2));
-                __result = try!(__state3(input, __lookbehind, __tokens, __sym0));
+                __result = try!(__state3(input, __tokens, __sym0));
             }
             _ => {
                 return Err(__ParseError::UnrecognizedToken {
@@ -70,14 +66,14 @@ mod __parse__E {
             }
         }
         loop {
-            let (__lookbehind, __lookahead, __nt) = __result;
+            let (__lookahead, __nt) = __result;
             match __nt {
                 __Nonterminal::E(__nt) => {
                     let __sym0 = &mut Some(__nt);
-                    __result = try!(__state1(input, __lookbehind, __tokens, __lookahead, __sym0));
+                    __result = try!(__state1(input, __tokens, __lookahead, __sym0));
                 }
                 _ => {
-                    return Ok((__lookbehind, __lookahead, __nt));
+                    return Ok((__lookahead, __nt));
                 }
             }
         }
@@ -88,13 +84,12 @@ mod __parse__E {
         __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__ParseError<usize,(usize, &'input str),()>>>,
     >(
         input: &'input str,
-        __lookbehind: usize,
         __tokens: &mut __TOKENS,
         __lookahead: Option<(usize, (usize, &'input str), usize)>,
         __sym0: &mut Option<(usize, String, usize)>,
-    ) -> Result<(usize, Option<(usize, (usize, &'input str), usize)>, __Nonterminal<>), __ParseError<usize,(usize, &'input str),()>>
+    ) -> Result<(Option<(usize, (usize, &'input str), usize)>, __Nonterminal<>), __ParseError<usize,(usize, &'input str),()>>
     {
-        let mut __result: (usize, Option<(usize, (usize, &'input str), usize)>, __Nonterminal<>);
+        let mut __result: (Option<(usize, (usize, &'input str), usize)>, __Nonterminal<>);
         match __lookahead {
             None => {
                 let __sym0 = __sym0.take().unwrap();
@@ -106,7 +101,7 @@ mod __parse__E {
                     __nt,
                     __end,
                 ));
-                return Ok((__lookbehind, __lookahead, __nt));
+                return Ok((__lookahead, __nt));
             }
             _ => {
                 return Err(__ParseError::UnrecognizedToken {
@@ -122,12 +117,11 @@ mod __parse__E {
         __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__ParseError<usize,(usize, &'input str),()>>>,
     >(
         input: &'input str,
-        __lookbehind: usize,
         __tokens: &mut __TOKENS,
         __sym0: &mut Option<(usize, &'input str, usize)>,
-    ) -> Result<(usize, Option<(usize, (usize, &'input str), usize)>, __Nonterminal<>), __ParseError<usize,(usize, &'input str),()>>
+    ) -> Result<(Option<(usize, (usize, &'input str), usize)>, __Nonterminal<>), __ParseError<usize,(usize, &'input str),()>>
     {
-        let mut __result: (usize, Option<(usize, (usize, &'input str), usize)>, __Nonterminal<>);
+        let mut __result: (Option<(usize, (usize, &'input str), usize)>, __Nonterminal<>);
         let __lookahead = match __tokens.next() {
             Some(Ok(v)) => Some(v),
             None => None,
@@ -135,14 +129,12 @@ mod __parse__E {
         };
         match __lookahead {
             Some((__loc1, (0, __tok0), __loc2)) => {
-                let __lookbehind = __loc2.clone();
                 let mut __sym1 = &mut Some((__loc1, (__tok0), __loc2));
-                __result = try!(__state2(input, __lookbehind, __tokens, __sym1));
+                __result = try!(__state2(input, __tokens, __sym1));
             }
             Some((__loc1, (1, __tok0), __loc2)) => {
-                let __lookbehind = __loc2.clone();
                 let mut __sym1 = &mut Some((__loc1, (__tok0), __loc2));
-                __result = try!(__state5(input, __lookbehind, __tokens, __sym0, __sym1));
+                __result = try!(__state5(input, __tokens, __sym0, __sym1));
             }
             _ => {
                 return Err(__ParseError::UnrecognizedToken {
@@ -152,14 +144,14 @@ mod __parse__E {
             }
         }
         while __sym0.is_some() {
-            let (__lookbehind, __lookahead, __nt) = __result;
+            let (__lookahead, __nt) = __result;
             match __nt {
                 __Nonterminal::E(__nt) => {
                     let __sym1 = &mut Some(__nt);
-                    __result = try!(__state4(input, __lookbehind, __tokens, __lookahead, __sym0, __sym1));
+                    __result = try!(__state4(input, __tokens, __lookahead, __sym0, __sym1));
                 }
                 _ => {
-                    return Ok((__lookbehind, __lookahead, __nt));
+                    return Ok((__lookahead, __nt));
                 }
             }
         }
@@ -171,12 +163,11 @@ mod __parse__E {
         __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__ParseError<usize,(usize, &'input str),()>>>,
     >(
         input: &'input str,
-        __lookbehind: usize,
         __tokens: &mut __TOKENS,
         __sym0: &mut Option<(usize, &'input str, usize)>,
-    ) -> Result<(usize, Option<(usize, (usize, &'input str), usize)>, __Nonterminal<>), __ParseError<usize,(usize, &'input str),()>>
+    ) -> Result<(Option<(usize, (usize, &'input str), usize)>, __Nonterminal<>), __ParseError<usize,(usize, &'input str),()>>
     {
-        let mut __result: (usize, Option<(usize, (usize, &'input str), usize)>, __Nonterminal<>);
+        let mut __result: (Option<(usize, (usize, &'input str), usize)>, __Nonterminal<>);
         let __lookahead = match __tokens.next() {
             Some(Ok(v)) => Some(v),
             None => None,
@@ -193,7 +184,7 @@ mod __parse__E {
                     __nt,
                     __end,
                 ));
-                return Ok((__lookbehind, __lookahead, __nt));
+                return Ok((__lookahead, __nt));
             }
             _ => {
                 return Err(__ParseError::UnrecognizedToken {
@@ -209,14 +200,13 @@ mod __parse__E {
         __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__ParseError<usize,(usize, &'input str),()>>>,
     >(
         input: &'input str,
-        __lookbehind: usize,
         __tokens: &mut __TOKENS,
         __lookahead: Option<(usize, (usize, &'input str), usize)>,
         __sym0: &mut Option<(usize, &'input str, usize)>,
         __sym1: &mut Option<(usize, String, usize)>,
-    ) -> Result<(usize, Option<(usize, (usize, &'input str), usize)>, __Nonterminal<>), __ParseError<usize,(usize, &'input str),()>>
+    ) -> Result<(Option<(usize, (usize, &'input str), usize)>, __Nonterminal<>), __ParseError<usize,(usize, &'input str),()>>
     {
-        let mut __result: (usize, Option<(usize, (usize, &'input str), usize)>, __Nonterminal<>);
+        let mut __result: (Option<(usize, (usize, &'input str), usize)>, __Nonterminal<>);
         match __lookahead {
             None => {
                 let __sym0 = __sym0.take().unwrap();
@@ -229,7 +219,7 @@ mod __parse__E {
                     __nt,
                     __end,
                 ));
-                return Ok((__lookbehind, __lookahead, __nt));
+                return Ok((__lookahead, __nt));
             }
             _ => {
                 return Err(__ParseError::UnrecognizedToken {
@@ -245,13 +235,12 @@ mod __parse__E {
         __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__ParseError<usize,(usize, &'input str),()>>>,
     >(
         input: &'input str,
-        __lookbehind: usize,
         __tokens: &mut __TOKENS,
         __sym0: &mut Option<(usize, &'input str, usize)>,
         __sym1: &mut Option<(usize, &'input str, usize)>,
-    ) -> Result<(usize, Option<(usize, (usize, &'input str), usize)>, __Nonterminal<>), __ParseError<usize,(usize, &'input str),()>>
+    ) -> Result<(Option<(usize, (usize, &'input str), usize)>, __Nonterminal<>), __ParseError<usize,(usize, &'input str),()>>
     {
-        let mut __result: (usize, Option<(usize, (usize, &'input str), usize)>, __Nonterminal<>);
+        let mut __result: (Option<(usize, (usize, &'input str), usize)>, __Nonterminal<>);
         let __lookahead = match __tokens.next() {
             Some(Ok(v)) => Some(v),
             None => None,
@@ -259,14 +248,12 @@ mod __parse__E {
         };
         match __lookahead {
             Some((__loc1, (0, __tok0), __loc2)) => {
-                let __lookbehind = __loc2.clone();
                 let mut __sym2 = &mut Some((__loc1, (__tok0), __loc2));
-                __result = try!(__state2(input, __lookbehind, __tokens, __sym2));
+                __result = try!(__state2(input, __tokens, __sym2));
             }
             Some((__loc1, (1, __tok0), __loc2)) => {
-                let __lookbehind = __loc2.clone();
                 let mut __sym2 = &mut Some((__loc1, (__tok0), __loc2));
-                __result = try!(__state3(input, __lookbehind, __tokens, __sym2));
+                __result = try!(__state3(input, __tokens, __sym2));
             }
             None => {
                 let __sym1 = __sym1.take().unwrap();
@@ -278,7 +265,7 @@ mod __parse__E {
                     __nt,
                     __end,
                 ));
-                return Ok((__lookbehind, __lookahead, __nt));
+                return Ok((__lookahead, __nt));
             }
             _ => {
                 return Err(__ParseError::UnrecognizedToken {
@@ -288,14 +275,14 @@ mod __parse__E {
             }
         }
         while __sym1.is_some() {
-            let (__lookbehind, __lookahead, __nt) = __result;
+            let (__lookahead, __nt) = __result;
             match __nt {
                 __Nonterminal::E(__nt) => {
                     let __sym2 = &mut Some(__nt);
-                    __result = try!(__state6(input, __lookbehind, __tokens, __lookahead, __sym0, __sym1, __sym2));
+                    __result = try!(__state6(input, __tokens, __lookahead, __sym0, __sym1, __sym2));
                 }
                 _ => {
-                    return Ok((__lookbehind, __lookahead, __nt));
+                    return Ok((__lookahead, __nt));
                 }
             }
         }
@@ -307,15 +294,14 @@ mod __parse__E {
         __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__ParseError<usize,(usize, &'input str),()>>>,
     >(
         input: &'input str,
-        __lookbehind: usize,
         __tokens: &mut __TOKENS,
         __lookahead: Option<(usize, (usize, &'input str), usize)>,
         __sym0: &mut Option<(usize, &'input str, usize)>,
         __sym1: &mut Option<(usize, &'input str, usize)>,
         __sym2: &mut Option<(usize, String, usize)>,
-    ) -> Result<(usize, Option<(usize, (usize, &'input str), usize)>, __Nonterminal<>), __ParseError<usize,(usize, &'input str),()>>
+    ) -> Result<(Option<(usize, (usize, &'input str), usize)>, __Nonterminal<>), __ParseError<usize,(usize, &'input str),()>>
     {
-        let mut __result: (usize, Option<(usize, (usize, &'input str), usize)>, __Nonterminal<>);
+        let mut __result: (Option<(usize, (usize, &'input str), usize)>, __Nonterminal<>);
         match __lookahead {
             None => {
                 let __sym0 = __sym0.take().unwrap();
@@ -329,7 +315,7 @@ mod __parse__E {
                     __nt,
                     __end,
                 ));
-                return Ok((__lookbehind, __lookahead, __nt));
+                return Ok((__lookahead, __nt));
             }
             _ => {
                 return Err(__ParseError::UnrecognizedToken {
