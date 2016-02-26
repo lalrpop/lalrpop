@@ -45,7 +45,7 @@ pub struct Machine<'table> {
 }
 
 pub struct ReducedProduction {
-    nonterminal: &'static str,
+    nonterminal: u32,
     symbol_count: u32,
 }
 

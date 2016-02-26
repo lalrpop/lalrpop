@@ -70,8 +70,7 @@ impl<'emitter, 'grammar> Interpreter<'emitter, 'grammar> {
         rust!(self.out, "const productions: [ReducedProduction; {}] = [", productions.len());
 
         for p in &productions {
-            let s = intern::read(|interner| interner.data(p.nonterminal.0).replace("\"", "\\\""));
-            rust!(self.out, "    ReducedProduction {{ nonterminal: \"{}\", symbol_count: {} }},", s, p.symbols.len());
+            rust!(self.out, "    ReducedProduction {{ nonterminal: {}, symbol_count: {} }},", *self.nonterminal_bits.get(&p.nonterminal).expect("got nonexisting nonterminal"), p.symbols.len());
         }
         rust!(self.out, "];");
 

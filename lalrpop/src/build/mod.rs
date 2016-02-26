@@ -317,7 +317,13 @@ fn emit_interpreter(session: &Session,
 
         try!(lr1::interpreter::compile(&grammar, user_nt, start_nt, &states, &mut rust));
 
-     }
+    }
+
+    if let Some(ref intern_token) = grammar.intern_token {
+        try!(intern_token::compile(&grammar, intern_token, &mut rust));
+    }
+
+    try!(action::emit_action_code(grammar, &mut rust));
 
     Ok(rust.into_inner())
 }
