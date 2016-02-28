@@ -1,5 +1,6 @@
 use collections::{Map, map};
 use lr1::core::*;
+use lr1::lookahead::*;
 use lr1::example::*;
 use grammar::repr::*;
 use petgraph::{EdgeDirection, Graph};
@@ -102,7 +103,7 @@ impl<'grammar> Into<TraceGraphNode<'grammar>> for NonterminalString {
     }
 }
 
-impl<'grammar, L: Clone> Into<TraceGraphNode<'grammar>> for Item<'grammar, L> {
+impl<'grammar, L: Lookahead> Into<TraceGraphNode<'grammar>> for Item<'grammar, L> {
     fn into(self) -> TraceGraphNode<'grammar> {
         TraceGraphNode::Item(self.to_lr0())
     }

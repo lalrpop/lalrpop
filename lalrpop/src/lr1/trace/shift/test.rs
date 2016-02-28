@@ -43,7 +43,7 @@ pub Ty: () = {
     //     Ty = Ty -> Ty (*) (reduce)
 
     assert!(conflict.production.symbols.len() == 3);
-    let item = Item { production: conflict.production, index: 1, lookahead: () };
+    let item = Item::lr0(conflict.production, 1);
     println!("item={:?}", item);
     let tracer = Tracer::new(&grammar, &states);
     let graph = tracer.backtrace_shift(conflict.state, item);

@@ -3,34 +3,34 @@
 use collections::Map;
 use grammar::repr::*;
 use itertools::Itertools;
-use std::fmt::{Debug, Formatter, Error};
+use std::fmt::{Debug, Display, Formatter, Error};
 use std::rc::Rc;
 use util::Prefix;
 
-use super::lookahead::Token;
+use super::lookahead::*;
 
 #[derive(Copy, Clone, Hash, PartialEq, Eq, PartialOrd, Ord)]
-pub struct Item<'grammar, L: Clone> {
+pub struct Item<'grammar, L: Lookahead> {
     pub production: &'grammar Production,
     /// the dot comes before `index`, so `index` would be 1 for X = A (*) B C
     pub index: usize,
     pub lookahead: L,
 }
 
-pub type LR0Item<'grammar> = Item<'grammar, ()>;
+pub type LR0Item<'grammar> = Item<'grammar, Nil>;
 
 pub type LR1Item<'grammar> = Item<'grammar, Token>;
 
-impl<'grammar> Item<'grammar, ()> {
+impl<'grammar> Item<'grammar, Nil> {
     #[cfg(test)]
     pub fn lr0(production: &'grammar Production,
                index: usize)
                -> Self {
-        Item { production: production, index: index, lookahead: () }
+        Item { production: production, index: index, lookahead: Nil }
     }
 }
 
-impl<'grammar, L: Clone> Item<'grammar, L> {
+impl<'grammar, L: Lookahead> Item<'grammar, L> {
     pub fn prefix(&self) -> &'grammar [Symbol] {
         &self.production.symbols[..self.index]
     }
@@ -53,7 +53,7 @@ impl<'grammar, L: Clone> Item<'grammar, L> {
     }
 
     pub fn to_lr0(&self) -> LR0Item<'grammar> {
-        Item { production: self.production, index: self.index, lookahead: () }
+        Item { production: self.production, index: self.index, lookahead: Nil }
     }
 
     pub fn can_shift(&self) -> bool {
@@ -88,15 +88,15 @@ impl<'grammar, L: Clone> Item<'grammar, L> {
 pub struct StateIndex(pub usize);
 
 #[derive(Clone, Debug, Hash, PartialEq, Eq, PartialOrd, Ord)]
-pub struct Items<'grammar, L: Clone> {
+pub struct Items<'grammar, L: Lookahead> {
     pub vec: Rc<Vec<Item<'grammar, L>>>
 }
 
-pub type LR0Items<'grammar> = Items<'grammar, ()>;
+pub type LR0Items<'grammar> = Items<'grammar, Nil>;
 pub type LR1Items<'grammar> = Items<'grammar, Token>;
 
 #[derive(Debug)]
-pub struct State<'grammar, L: Clone> {
+pub struct State<'grammar, L: Lookahead> {
     pub index: StateIndex,
     pub items: Items<'grammar, L>,
     pub tokens: Map<Token, Action<'grammar>>,
@@ -104,7 +104,7 @@ pub struct State<'grammar, L: Clone> {
     pub gotos: Map<NonterminalString, StateIndex>,
 }
 
-pub type LR0State<'grammar> = State<'grammar, ()>;
+pub type LR0State<'grammar> = State<'grammar, Nil>;
 pub type LR1State<'grammar> = State<'grammar, Token>;
 
 #[derive(Copy, Clone, Debug, PartialEq, Eq)]
@@ -131,29 +131,29 @@ pub struct TableConstructionError<'grammar> {
     pub states: Vec<LR1State<'grammar>>,
 }
 
-impl<'grammar, L: Clone+Debug> Debug for Item<'grammar, L> {
+impl<'grammar, L: Lookahead> Debug for Item<'grammar, L> {
     fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
-        let mut lookahead_debug = format!("{:?}", self.lookahead);
-        if lookahead_debug != "()" {
-            lookahead_debug = format!(" [{}]", lookahead_debug);
-        } else {
-            lookahead_debug = format!("");
-        }
+        try!(write!(fmt, "{} ={} (*){}",
+                    self.production.nonterminal,
+                    Prefix(" ", &self.production.symbols[..self.index]),
+                    Prefix(" ", &self.production.symbols[self.index..])));
 
-        write!(fmt, "{} ={} (*){}{}",
-               self.production.nonterminal,
-               Prefix(" ", &self.production.symbols[..self.index]),
-               Prefix(" ", &self.production.symbols[self.index..]),
-               lookahead_debug)
+        self.lookahead.fmt_as_item_suffix(fmt)
     }
 }
 
-impl Debug for Token {
+impl Display for Token {
     fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
         match *self {
             Token::EOF => write!(fmt, "EOF"),
             Token::Terminal(s) => write!(fmt, "{}", s),
         }
+    }
+}
+
+impl Debug for Token {
+    fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
+        write!(fmt, "{}", self)
     }
 }
 
@@ -163,7 +163,7 @@ impl Debug for StateIndex {
     }
 }
 
-impl<'grammar, L: Clone> State<'grammar, L> {
+impl<'grammar, L: Lookahead> State<'grammar, L> {
     /// Returns the set of symbols which must appear on the stack to
     /// be in this state. This is the *maximum* prefix of any item,
     /// basically.
