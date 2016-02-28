@@ -4,8 +4,8 @@ use grammar::repr::*;
 use test_util::{compare, expect_debug, normalized_grammar};
 use lr1::core::*;
 use lr1::interpret::interpret;
-use lr1::lookahead::Lookahead;
-use lr1::lookahead::Lookahead::EOF;
+use lr1::lookahead::Token;
+use lr1::lookahead::Token::EOF;
 use tls::Tls;
 
 use super::{LR1, build_lr1_states};
@@ -37,7 +37,7 @@ macro_rules! tokens {
     }
 }
 
-fn items<'g>(grammar: &'g Grammar, nonterminal: &str, index: usize, la: Lookahead)
+fn items<'g>(grammar: &'g Grammar, nonterminal: &str, index: usize, la: Token)
              -> LR1Items<'g>
 {
     let lr1 = LR1::new(&grammar);

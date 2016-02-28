@@ -5,7 +5,7 @@ use itertools::Itertools;
 use lr1::build;
 use lr1::core::*;
 use lr1::core::Action::{Reduce, Shift};
-use lr1::lookahead::Lookahead;
+use lr1::lookahead::Token;
 use grammar::repr::*;
 use std::rc::Rc;
 use tls::Tls;
@@ -20,9 +20,9 @@ mod test;
 struct LALR1State<'grammar> {
     index: StateIndex,
     items: Vec<LR1Item<'grammar>>,
-    tokens: Map<Lookahead, Action<'grammar>>,
+    tokens: Map<Token, Action<'grammar>>,
     gotos: Map<NonterminalString, StateIndex>,
-    conflicts: Map<Lookahead, Vec<Conflict<'grammar>>>,
+    conflicts: Map<Token, Vec<Conflict<'grammar>>>,
 }
 
 pub fn build_lalr_states<'grammar>(grammar: &'grammar Grammar,

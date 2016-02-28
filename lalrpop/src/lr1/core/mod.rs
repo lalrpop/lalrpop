@@ -7,7 +7,7 @@ use std::fmt::{Debug, Formatter, Error};
 use std::rc::Rc;
 use util::Prefix;
 
-use super::lookahead::Lookahead;
+use super::lookahead::Token;
 
 #[derive(Copy, Clone, Hash, PartialEq, Eq, PartialOrd, Ord)]
 pub struct Item<'grammar, L: Clone> {
@@ -19,7 +19,7 @@ pub struct Item<'grammar, L: Clone> {
 
 pub type LR0Item<'grammar> = Item<'grammar, ()>;
 
-pub type LR1Item<'grammar> = Item<'grammar, Lookahead>;
+pub type LR1Item<'grammar> = Item<'grammar, Token>;
 
 impl<'grammar> Item<'grammar, ()> {
     #[cfg(test)]
@@ -93,19 +93,19 @@ pub struct Items<'grammar, L: Clone> {
 }
 
 pub type LR0Items<'grammar> = Items<'grammar, ()>;
-pub type LR1Items<'grammar> = Items<'grammar, Lookahead>;
+pub type LR1Items<'grammar> = Items<'grammar, Token>;
 
 #[derive(Debug)]
 pub struct State<'grammar, L: Clone> {
     pub index: StateIndex,
     pub items: Items<'grammar, L>,
-    pub tokens: Map<Lookahead, Action<'grammar>>,
-    pub conflicts: Map<Lookahead, Vec<Conflict<'grammar>>>,
+    pub tokens: Map<Token, Action<'grammar>>,
+    pub conflicts: Map<Token, Vec<Conflict<'grammar>>>,
     pub gotos: Map<NonterminalString, StateIndex>,
 }
 
 pub type LR0State<'grammar> = State<'grammar, ()>;
-pub type LR1State<'grammar> = State<'grammar, Lookahead>;
+pub type LR1State<'grammar> = State<'grammar, Token>;
 
 #[derive(Copy, Clone, Debug, PartialEq, Eq)]
 pub enum Action<'grammar> {
@@ -148,11 +148,11 @@ impl<'grammar, L: Clone+Debug> Debug for Item<'grammar, L> {
     }
 }
 
-impl Debug for Lookahead {
+impl Debug for Token {
     fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
         match *self {
-            Lookahead::EOF => write!(fmt, "EOF"),
-            Lookahead::Terminal(s) => write!(fmt, "{}", s),
+            Token::EOF => write!(fmt, "EOF"),
+            Token::Terminal(s) => write!(fmt, "{}", s),
         }
     }
 }

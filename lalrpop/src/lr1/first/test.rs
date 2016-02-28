@@ -1,7 +1,7 @@
 use intern::intern;
 use grammar::repr::*;
-use lr1::lookahead::Lookahead;
-use lr1::lookahead::Lookahead::EOF;
+use lr1::lookahead::Token;
+use lr1::lookahead::Token::EOF;
 use test_util::{normalized_grammar};
 use super::FirstSets;
 
@@ -13,15 +13,15 @@ pub fn term(t: &str) -> Symbol {
     Symbol::Terminal(TerminalString::quoted(intern(t)))
 }
 
-fn la(t: &str) -> Lookahead {
-    Lookahead::Terminal(TerminalString::quoted(intern(t)))
+fn la(t: &str) -> Token {
+    Token::Terminal(TerminalString::quoted(intern(t)))
 }
 
 fn first(grammar: &Grammar,
          first: &FirstSets,
          symbols: &[Symbol],
-         lookahead: Lookahead)
-         -> Vec<Lookahead>
+         lookahead: Token)
+         -> Vec<Token>
 {
     let (v, _) = first.first(grammar, symbols, lookahead);
     v.iter(grammar).collect()

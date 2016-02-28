@@ -2,37 +2,40 @@ use bit_set::{self, BitSet};
 use std::fmt::{Debug, Formatter, Error};
 use grammar::repr::*;
 
+/// I have semi-arbitrarily decided to say that a "token" is either
+/// one of the terminals of our language, or else the pseudo-symbol
+/// EOF that represents "end of input".
 #[derive(Copy, Clone, Hash, PartialEq, Eq, PartialOrd, Ord)]
-pub enum Lookahead {
+pub enum Token {
     EOF,
     Terminal(TerminalString),
 }
 
-impl Lookahead {
+impl Token {
     pub fn unwrap_terminal(self) -> TerminalString {
         match self {
-            Lookahead::Terminal(t) => t,
-            Lookahead::EOF => panic!("`unwrap_terminal()` invoked but with EOF"),
+            Token::Terminal(t) => t,
+            Token::EOF => panic!("`unwrap_terminal()` invoked but with EOF"),
         }
     }
 }
 
 #[derive(Clone, Hash, PartialEq, Eq, PartialOrd, Ord)]
-pub struct LookaheadSet {
+pub struct TokenSet {
     bit_set: BitSet<u32>
 }
 
-impl LookaheadSet {
+impl TokenSet {
     pub fn new(grammar: &Grammar) -> Self {
-        LookaheadSet {
+        TokenSet {
             bit_set: BitSet::with_capacity(grammar.all_terminals.len() + 1)
         }
     }
 
-    fn bit(&self, grammar: &Grammar, lookahead: Lookahead) -> usize {
+    fn bit(&self, grammar: &Grammar, lookahead: Token) -> usize {
         match lookahead {
-            Lookahead::EOF => grammar.all_terminals.len(),
-            Lookahead::Terminal(t) => grammar.terminal_bits[&t],
+            Token::EOF => grammar.all_terminals.len(),
+            Token::Terminal(t) => grammar.terminal_bits[&t],
         }
     }
 
@@ -40,28 +43,28 @@ impl LookaheadSet {
         self.bit_set.len()
     }
 
-    pub fn insert(&mut self, grammar: &Grammar, lookahead: Lookahead) -> bool {
+    pub fn insert(&mut self, grammar: &Grammar, lookahead: Token) -> bool {
         let bit = self.bit(grammar, lookahead);
         self.bit_set.insert(bit)
     }
 
-    pub fn insert_set(&mut self, set: &LookaheadSet) -> bool {
+    pub fn insert_set(&mut self, set: &TokenSet) -> bool {
         let len = self.len();
         self.bit_set.union_with(&set.bit_set);
         self.len() != len
     }
 
-    pub fn contains(&self, grammar: &Grammar, lookahead: Lookahead) -> bool {
+    pub fn contains(&self, grammar: &Grammar, lookahead: Token) -> bool {
         self.bit_set.contains(self.bit(grammar, lookahead))
     }
 
-    pub fn is_disjoint(&self, other: LookaheadSet) -> bool {
+    pub fn is_disjoint(&self, other: TokenSet) -> bool {
         self.bit_set.is_disjoint(&other.bit_set)
     }
 
     pub fn iter<'iter>(&'iter self, grammar: &'iter Grammar)
-                       -> LookaheadSetIter<'iter> {
-        LookaheadSetIter {
+                       -> TokenSetIter<'iter> {
+        TokenSetIter {
             bit_set: self.bit_set.iter(),
             grammar: grammar,
         }
@@ -69,41 +72,41 @@ impl LookaheadSet {
 
     #[allow(dead_code)]
     pub fn debug<'debug>(&'debug self, grammar: &'debug Grammar)
-                       -> LookaheadSetDebug<'debug> {
-        LookaheadSetDebug {
+                       -> TokenSetDebug<'debug> {
+        TokenSetDebug {
             set: self,
             grammar: grammar,
         }
     }
 }
 
-pub struct LookaheadSetIter<'iter> {
+pub struct TokenSetIter<'iter> {
     bit_set: bit_set::Iter<'iter, u32>,
     grammar: &'iter Grammar,
 }
 
-impl<'iter> Iterator for LookaheadSetIter<'iter> {
-    type Item = Lookahead;
+impl<'iter> Iterator for TokenSetIter<'iter> {
+    type Item = Token;
 
-    fn next(&mut self) -> Option<Lookahead> {
+    fn next(&mut self) -> Option<Token> {
         self.bit_set.next()
                     .map(|bit| {
                         if bit == self.grammar.all_terminals.len() {
-                            Lookahead::EOF
+                            Token::EOF
                         } else {
-                            Lookahead::Terminal(self.grammar.all_terminals[bit])
+                            Token::Terminal(self.grammar.all_terminals[bit])
                         }
                     })
     }
 }
 
 #[allow(dead_code)]
-pub struct LookaheadSetDebug<'debug> {
-    set: &'debug LookaheadSet,
+pub struct TokenSetDebug<'debug> {
+    set: &'debug TokenSet,
     grammar: &'debug Grammar
 }
 
-impl<'debug> Debug for LookaheadSetDebug<'debug> {
+impl<'debug> Debug for TokenSetDebug<'debug> {
     fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
         let terminals: Vec<_> = self.set.iter(self.grammar).collect();
         Debug::fmt(&terminals, fmt)

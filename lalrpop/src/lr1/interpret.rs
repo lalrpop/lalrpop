@@ -1,14 +1,14 @@
 //! LR(1) interpeter. Just builds up parse trees. Intended for testing.
 
 use lr1::core::*;
-use lr1::lookahead::Lookahead;
+use lr1::lookahead::Token;
 use generate::ParseTree;
 use grammar::repr::*;
 use std::iter::IntoIterator;
 use std::fmt::{Debug, Display, Formatter, Error};
 use util::Sep;
 
-pub type InterpretError<'grammar> = (&'grammar LR1State<'grammar>, Lookahead);
+pub type InterpretError<'grammar> = (&'grammar LR1State<'grammar>, Token);
 
 /// Feed in the given tokens and then EOF, returning the final parse tree that is reduced.
 pub fn interpret<'grammar,TOKENS>(states: &'grammar [LR1State<'grammar>], tokens: TOKENS)
@@ -63,8 +63,8 @@ impl<'grammar> Machine<'grammar> {
             let state = self.top_state();
 
             // check whether we can shift this token
-            match state.tokens.get(&Lookahead::Terminal(terminal)) {
-                None => { return Err((state, Lookahead::Terminal(terminal))); }
+            match state.tokens.get(&Token::Terminal(terminal)) {
+                None => { return Err((state, Token::Terminal(terminal))); }
 
                 Some(&Action::Shift(next_index)) => {
                     self.data_stack.push(ParseTree::Terminal(terminal));
@@ -91,8 +91,8 @@ impl<'grammar> Machine<'grammar> {
         // drain now for EOF
         loop {
             let state = self.top_state();
-            match state.tokens.get(&Lookahead::EOF) {
-                None => { return Err((state, Lookahead::EOF)); }
+            match state.tokens.get(&Token::EOF) {
+                None => { return Err((state, Token::EOF)); }
                 Some(&Action::Shift(_)) => { unreachable!("cannot shift EOF") }
                 Some(&Action::Reduce(production)) => {
                     if !self.reduce(production) {

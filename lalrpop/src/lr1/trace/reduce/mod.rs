@@ -1,5 +1,5 @@
 use lr1::core::*;
-use lr1::lookahead::Lookahead;
+use lr1::lookahead::Token;
 use grammar::repr::*;
 
 use super::Tracer;
@@ -64,7 +64,7 @@ impl<'trace, 'grammar> Tracer<'trace, 'grammar> {
     fn trace_reduce_from_state(&mut self,
                                item_state: StateIndex,
                                nonterminal: NonterminalString, // "Y"
-                               lookahead: Lookahead) // "L"
+                               lookahead: Token) // "L"
     {
         if !self.visited_set.insert((item_state, nonterminal)) {
             return;
@@ -119,7 +119,7 @@ impl<'trace, 'grammar> Tracer<'trace, 'grammar> {
     fn can_shift_with_lookahead(&self,
                                 item: LR1Item<'grammar>,
                                 nonterminal: NonterminalString,
-                                lookahead: Lookahead)
+                                lookahead: Token)
                                 -> CanShiftResult
     {
         if let Some((shifted, remainder)) = item.shift_symbol() {

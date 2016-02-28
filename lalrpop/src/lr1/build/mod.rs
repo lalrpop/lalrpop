@@ -5,7 +5,7 @@ use kernel_set;
 use grammar::repr::*;
 use lr1::core::*;
 use lr1::first;
-use lr1::lookahead::Lookahead;
+use lr1::lookahead::Token;
 use std::rc::Rc;
 use tls::Tls;
 
@@ -49,7 +49,7 @@ impl<'grammar> LR1<'grammar> {
         let mut errors = 0;
 
         // create the starting state
-        kernel_set.add_state(Kernel::start(self.items(start_nt, 0, Lookahead::EOF)));
+        kernel_set.add_state(Kernel::start(self.items(start_nt, 0, Token::EOF)));
 
         while let Some(Kernel { items: seed_items }) = kernel_set.next() {
             let items = self.transitive_closure(seed_items);
@@ -82,7 +82,7 @@ impl<'grammar> LR1<'grammar> {
                 match symbol {
                     Symbol::Terminal(s) => {
                         let action = Action::Shift(next_state);
-                        let prev = this_state.tokens.insert(Lookahead::Terminal(s), action);
+                        let prev = this_state.tokens.insert(Token::Terminal(s), action);
                         assert!(prev.is_none()); // cannot have a shift/shift conflict
                     }
 
@@ -131,7 +131,7 @@ impl<'grammar> LR1<'grammar> {
     fn items(&self,
              id: NonterminalString,
              index: usize,
-             lookahead: Lookahead)
+             lookahead: Token)
              -> Vec<LR1Item<'grammar>>
     {
         self.grammar.productions_for(id)

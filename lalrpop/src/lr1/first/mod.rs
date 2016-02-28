@@ -2,13 +2,13 @@
 
 use collections::{Map, map};
 use grammar::repr::*;
-use lr1::lookahead::{Lookahead, LookaheadSet};
+use lr1::lookahead::{Token, TokenSet};
 
 #[cfg(test)]
 mod test;
 
 pub struct FirstSets {
-    map: Map<NonterminalString, LookaheadSet>
+    map: Map<NonterminalString, TokenSet>
 }
 
 impl FirstSets {
@@ -21,23 +21,23 @@ impl FirstSets {
                                                   .flat_map(|p| &p.productions) {
                 let nt = production.nonterminal;
                 let (lookahead, _) =
-                    this.first(grammar, &production.symbols, Lookahead::EOF);
+                    this.first(grammar, &production.symbols, Token::EOF);
                 let first_set =
-                    this.map.entry(nt).or_insert_with(|| LookaheadSet::new(grammar));
+                    this.map.entry(nt).or_insert_with(|| TokenSet::new(grammar));
                 changed |= first_set.insert_set(&lookahead);
             }
         }
         this
     }
 
-    pub fn first(&self, grammar: &Grammar, symbols: &[Symbol], lookahead: Lookahead)
-                 -> (LookaheadSet, bool) {
-        let mut result = LookaheadSet::new(grammar);
+    pub fn first(&self, grammar: &Grammar, symbols: &[Symbol], lookahead: Token)
+                 -> (TokenSet, bool) {
+        let mut result = TokenSet::new(grammar);
 
         for symbol in symbols {
             match *symbol {
                 Symbol::Terminal(t) => {
-                    result.insert(grammar, Lookahead::Terminal(t));
+                    result.insert(grammar, Token::Terminal(t));
                     return (result, false);
                 }
 
@@ -56,10 +56,10 @@ impl FirstSets {
                         Some(set) => {
                             for lookahead in set.iter(grammar) {
                                 match lookahead {
-                                    Lookahead::EOF => {
+                                    Token::EOF => {
                                         empty_prod = true;
                                     }
-                                    Lookahead::Terminal(_) => {
+                                    Token::Terminal(_) => {
                                         result.insert(grammar, lookahead);
                                     }
                                 }

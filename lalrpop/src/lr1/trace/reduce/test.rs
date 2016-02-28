@@ -3,7 +3,7 @@ use grammar::repr::*;
 use lr1::build_states;
 use lr1::core::Item;
 use lr1::interpret::interpret_partial;
-use lr1::lookahead::Lookahead;
+use lr1::lookahead::Token;
 use test_util::{expect_debug, normalized_grammar};
 use tls::Tls;
 
@@ -63,7 +63,7 @@ fn backtrace1() {
     // Expr = "Int" (*) [";"]
     //
     // Select the last one.
-    let semi = Lookahead::Terminal(term(";"));
+    let semi = Token::Terminal(term(";"));
     let semi_item = states[top_state.0].items.vec.iter()
                                                  .filter(|item| item.lookahead == semi)
                                                  .next()
@@ -101,7 +101,7 @@ fn backtrace2() {
     // Expr = "Int" (*) [";"]
     //
     // Select the last one.
-    let plus = Lookahead::Terminal(term("+"));
+    let plus = Token::Terminal(term("+"));
     let plus_item = states[top_state.0].items.vec.iter()
                                                  .filter(|item| item.lookahead == plus)
                                                  .next()
