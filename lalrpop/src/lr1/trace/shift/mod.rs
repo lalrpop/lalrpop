@@ -95,7 +95,7 @@ impl<'trace, 'grammar> Tracer<'trace, 'grammar> {
     }
 
     fn can_shift(&self,
-                 item: Item<'grammar>,
+                 item: LR1Item<'grammar>,
                  nonterminal: NonterminalString)
                  -> bool
     {

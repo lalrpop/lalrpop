@@ -12,7 +12,7 @@ use self::CanShiftResult::*;
 impl<'trace, 'grammar> Tracer<'trace, 'grammar> {
     pub fn backtrace_reduce(mut self,
                             item_state: StateIndex,
-                            item: Item<'grammar>)
+                            item: LR1Item<'grammar>)
                             -> TraceGraph<'grammar>
     {
         self.trace_reduce_item(item_state, item);
@@ -21,7 +21,7 @@ impl<'trace, 'grammar> Tracer<'trace, 'grammar> {
 
     fn trace_reduce_item(&mut self,
                          item_state: StateIndex,
-                         item: Item<'grammar>)
+                         item: LR1Item<'grammar>)
     {
         // We start out with an item
         //
@@ -117,7 +117,7 @@ impl<'trace, 'grammar> Tracer<'trace, 'grammar> {
     }
 
     fn can_shift_with_lookahead(&self,
-                                item: Item<'grammar>,
+                                item: LR1Item<'grammar>,
                                 nonterminal: NonterminalString,
                                 lookahead: Lookahead)
                                 -> CanShiftResult

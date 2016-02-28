@@ -102,13 +102,7 @@ impl<'grammar> Into<TraceGraphNode<'grammar>> for NonterminalString {
     }
 }
 
-impl<'grammar> Into<TraceGraphNode<'grammar>> for LR0Item<'grammar> {
-    fn into(self) -> TraceGraphNode<'grammar> {
-        TraceGraphNode::Item(self)
-    }
-}
-
-impl<'grammar> Into<TraceGraphNode<'grammar>> for Item<'grammar> {
+impl<'grammar, L: Clone> Into<TraceGraphNode<'grammar>> for Item<'grammar, L> {
     fn into(self) -> TraceGraphNode<'grammar> {
         TraceGraphNode::Item(self.to_lr0())
     }

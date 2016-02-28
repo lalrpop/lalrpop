@@ -10,61 +10,31 @@ use util::Prefix;
 use super::lookahead::Lookahead;
 
 #[derive(Copy, Clone, Hash, PartialEq, Eq, PartialOrd, Ord)]
-pub struct Item<'grammar> {
+pub struct Item<'grammar, L: Clone> {
     pub production: &'grammar Production,
     /// the dot comes before `index`, so `index` would be 1 for X = A (*) B C
     pub index: usize,
-    pub lookahead: Lookahead,
+    pub lookahead: L,
 }
 
-impl<'grammar> Item<'grammar> {
+pub type LR0Item<'grammar> = Item<'grammar, ()>;
+
+pub type LR1Item<'grammar> = Item<'grammar, Lookahead>;
+
+impl<'grammar> Item<'grammar, ()> {
+    #[cfg(test)]
+    pub fn lr0(production: &'grammar Production,
+               index: usize)
+               -> Self {
+        Item { production: production, index: index, lookahead: () }
+    }
+}
+
+impl<'grammar, L: Clone> Item<'grammar, L> {
     pub fn prefix(&self) -> &'grammar [Symbol] {
         &self.production.symbols[..self.index]
     }
 
-    pub fn symbol_sets(&self) -> SymbolSets<'grammar> {
-        self.to_lr0().symbol_sets()
-    }
-
-    pub fn to_lr0(&self) -> LR0Item<'grammar> {
-        LR0Item { production: self.production, index: self.index }
-    }
-
-    pub fn can_shift(&self) -> bool {
-        self.index < self.production.symbols.len()
-    }
-
-    pub fn can_reduce(&self) -> bool {
-        self.index == self.production.symbols.len()
-    }
-
-    pub fn shifted_item(&self) -> Option<(Symbol, Item<'grammar>)> {
-        if self.can_shift() {
-            Some((self.production.symbols[self.index],
-                  Item { production: self.production,
-                         index: self.index + 1,
-                         lookahead: self.lookahead }))
-        } else {
-            None
-        }
-    }
-
-    pub fn shift_symbol(&self) -> Option<(Symbol, &[Symbol])> {
-        if self.can_shift() {
-            Some((self.production.symbols[self.index], &self.production.symbols[self.index+1..]))
-        } else {
-            None
-        }
-    }
-}
-
-#[derive(Copy, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
-pub struct LR0Item<'grammar> {
-    pub production: &'grammar Production,
-    pub index: usize
-}
-
-impl<'grammar> LR0Item<'grammar> {
     pub fn symbol_sets(&self) -> SymbolSets<'grammar> {
         let symbols = &self.production.symbols;
         if self.can_shift() {
@@ -82,8 +52,35 @@ impl<'grammar> LR0Item<'grammar> {
         }
     }
 
+    pub fn to_lr0(&self) -> LR0Item<'grammar> {
+        Item { production: self.production, index: self.index, lookahead: () }
+    }
+
     pub fn can_shift(&self) -> bool {
         self.index < self.production.symbols.len()
+    }
+
+    pub fn can_reduce(&self) -> bool {
+        self.index == self.production.symbols.len()
+    }
+
+    pub fn shifted_item(&self) -> Option<(Symbol, Item<'grammar, L>)> {
+        if self.can_shift() {
+            Some((self.production.symbols[self.index],
+                  Item { production: self.production,
+                         index: self.index + 1,
+                         lookahead: self.lookahead.clone() }))
+        } else {
+            None
+        }
+    }
+
+    pub fn shift_symbol(&self) -> Option<(Symbol, &[Symbol])> {
+        if self.can_shift() {
+            Some((self.production.symbols[self.index], &self.production.symbols[self.index+1..]))
+        } else {
+            None
+        }
     }
 }
 
@@ -91,18 +88,24 @@ impl<'grammar> LR0Item<'grammar> {
 pub struct StateIndex(pub usize);
 
 #[derive(Clone, Debug, Hash, PartialEq, Eq, PartialOrd, Ord)]
-pub struct Items<'grammar> {
-    pub vec: Rc<Vec<Item<'grammar>>>
+pub struct Items<'grammar, L: Clone> {
+    pub vec: Rc<Vec<Item<'grammar, L>>>
 }
 
+pub type LR0Items<'grammar> = Items<'grammar, ()>;
+pub type LR1Items<'grammar> = Items<'grammar, Lookahead>;
+
 #[derive(Debug)]
-pub struct State<'grammar> {
+pub struct State<'grammar, L: Clone> {
     pub index: StateIndex,
-    pub items: Items<'grammar>,
+    pub items: Items<'grammar, L>,
     pub tokens: Map<Lookahead, Action<'grammar>>,
     pub conflicts: Map<Lookahead, Vec<Conflict<'grammar>>>,
     pub gotos: Map<NonterminalString, StateIndex>,
 }
+
+pub type LR0State<'grammar> = State<'grammar, ()>;
+pub type LR1State<'grammar> = State<'grammar, Lookahead>;
 
 #[derive(Copy, Clone, Debug, PartialEq, Eq)]
 pub enum Action<'grammar> {
@@ -125,25 +128,23 @@ pub struct Conflict<'grammar> {
 #[derive(Debug)]
 pub struct TableConstructionError<'grammar> {
     // LR(1) state set. Some of these states are in error.
-    pub states: Vec<State<'grammar>>,
+    pub states: Vec<LR1State<'grammar>>,
 }
 
-impl<'grammar> Debug for Item<'grammar> {
+impl<'grammar, L: Clone+Debug> Debug for Item<'grammar, L> {
     fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
-        write!(fmt, "{} ={} (*){} [{:?}]",
+        let mut lookahead_debug = format!("{:?}", self.lookahead);
+        if lookahead_debug != "()" {
+            lookahead_debug = format!(" [{}]", lookahead_debug);
+        } else {
+            lookahead_debug = format!("");
+        }
+
+        write!(fmt, "{} ={} (*){}{}",
                self.production.nonterminal,
                Prefix(" ", &self.production.symbols[..self.index]),
                Prefix(" ", &self.production.symbols[self.index..]),
-               self.lookahead)
-    }
-}
-
-impl<'grammar> Debug for LR0Item<'grammar> {
-    fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
-        write!(fmt, "{} ={} (*){}",
-               self.production.nonterminal,
-               Prefix(" ", &self.production.symbols[..self.index]),
-               Prefix(" ", &self.production.symbols[self.index..]))
+               lookahead_debug)
     }
 }
 
@@ -162,7 +163,7 @@ impl Debug for StateIndex {
     }
 }
 
-impl<'grammar> State<'grammar> {
+impl<'grammar, L: Clone> State<'grammar, L> {
     /// Returns the set of symbols which must appear on the stack to
     /// be in this state. This is the *maximum* prefix of any item,
     /// basically.

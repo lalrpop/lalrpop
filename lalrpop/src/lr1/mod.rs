@@ -16,14 +16,14 @@ mod state_graph;
 
 #[cfg(test)] mod interpret;
 
-use self::core::{State};
+use self::core::LR1State;
 
 pub use self::core::TableConstructionError;
 pub use self::error::report_error;
 
 pub fn build_states<'grammar>(grammar: &'grammar Grammar,
                               start: NonterminalString)
-                              -> Result<Vec<State<'grammar>>,
+                              -> Result<Vec<LR1State<'grammar>>,
                                         TableConstructionError<'grammar>>
 {
     match grammar.algorithm {

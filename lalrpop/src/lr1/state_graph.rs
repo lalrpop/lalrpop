@@ -10,7 +10,7 @@ pub struct StateGraph {
 }
 
 impl StateGraph {
-    pub fn new<'grammar>(states: &[State<'grammar>]) -> StateGraph {
+    pub fn new<'grammar>(states: &[LR1State<'grammar>]) -> StateGraph {
         let mut graph = Graph::new();
 
         // First, create the nodes.

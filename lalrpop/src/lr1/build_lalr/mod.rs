@@ -19,7 +19,7 @@ mod test;
 // set of actions, as well.
 struct LALR1State<'grammar> {
     index: StateIndex,
-    items: Vec<Item<'grammar>>,
+    items: Vec<LR1Item<'grammar>>,
     tokens: Map<Lookahead, Action<'grammar>>,
     gotos: Map<NonterminalString, StateIndex>,
     conflicts: Map<Lookahead, Vec<Conflict<'grammar>>>,
@@ -27,7 +27,7 @@ struct LALR1State<'grammar> {
 
 pub fn build_lalr_states<'grammar>(grammar: &'grammar Grammar,
                                    start: NonterminalString)
-                                   -> Result<Vec<State<'grammar>>,
+                                   -> Result<Vec<LR1State<'grammar>>,
                                              TableConstructionError<'grammar>>
 {
     // First build the LR(1) states
@@ -40,8 +40,8 @@ pub fn build_lalr_states<'grammar>(grammar: &'grammar Grammar,
     }
 }
 
-pub fn collapse_to_lalr_states<'grammar>(lr_states: &[State<'grammar>])
-                                         -> Result<Vec<State<'grammar>>,
+pub fn collapse_to_lalr_states<'grammar>(lr_states: &[LR1State<'grammar>])
+                                         -> Result<Vec<LR1State<'grammar>>,
                                                    TableConstructionError<'grammar>>
 {
     // Now compress them. This vector stores, for each state, the
@@ -53,10 +53,7 @@ pub fn collapse_to_lalr_states<'grammar>(lr_states: &[State<'grammar>])
     for (lr1_index, lr1_state) in lr_states.iter().enumerate() {
         let lr0_kernel: Vec<_> =
             lr1_state.items.vec.iter()
-                               .map(|item| LR0Item {
-                                   production: item.production,
-                                   index: item.index,
-                               })
+                               .map(|item| item.to_lr0())
                                .dedup()
                                .collect();
 

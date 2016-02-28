@@ -10,7 +10,7 @@ mod trace_graph;
 
 pub struct Tracer<'trace, 'grammar: 'trace> {
     grammar: &'trace Grammar,
-    states: &'trace [State<'grammar>],
+    states: &'trace [LR1State<'grammar>],
     first_sets: FirstSets,
     state_graph: StateGraph,
     trace_graph: TraceGraph<'grammar>,
@@ -19,7 +19,7 @@ pub struct Tracer<'trace, 'grammar: 'trace> {
 
 impl<'trace, 'grammar> Tracer<'trace, 'grammar> {
     pub fn new(grammar: &'grammar Grammar,
-               states: &'trace [State<'grammar>])
+               states: &'trace [LR1State<'grammar>])
                -> Self {
         Tracer {
             grammar: grammar,

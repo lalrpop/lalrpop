@@ -21,7 +21,7 @@ pub fn compile<'grammar,W:Write>(
     grammar: &'grammar Grammar,
     user_start_symbol: NonterminalString,
     start_symbol: NonterminalString,
-    states: &[State<'grammar>],
+    states: &[LR1State<'grammar>],
     out: &mut RustWrite<W>)
     -> io::Result<()>
 {
@@ -50,7 +50,7 @@ struct RecursiveAscent<'ascent,'grammar:'ascent,W:Write+'ascent> {
     start_symbol: NonterminalString,
 
     /// the vector of states
-    states: &'ascent [State<'grammar>],
+    states: &'ascent [LR1State<'grammar>],
 
     /// for each state, the set of symbols that it will require for
     /// input
@@ -129,7 +129,7 @@ impl<'ascent,'grammar,W:Write> RecursiveAscent<'ascent,'grammar,W> {
            user_start_symbol: NonterminalString,
            start_symbol: NonterminalString,
            graph: &'ascent StateGraph,
-           states: &'ascent [State<'grammar>],
+           states: &'ascent [LR1State<'grammar>],
            out: &'ascent mut RustWrite<W>)
            -> RecursiveAscent<'ascent,'grammar,W>
     {
@@ -170,7 +170,7 @@ impl<'ascent,'grammar,W:Write> RecursiveAscent<'ascent,'grammar,W> {
     }
 
     /// Compute the stack suffix that the state expects on entry.
-    fn state_input_for(state: &'ascent State<'grammar>)
+    fn state_input_for(state: &'ascent LR1State<'grammar>)
                        -> StackSuffix<'grammar>
     {
         let max_prefix = state.max_prefix();

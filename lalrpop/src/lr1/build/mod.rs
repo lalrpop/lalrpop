@@ -14,7 +14,7 @@ mod test;
 
 pub fn build_lr1_states<'grammar>(grammar: &'grammar Grammar,
                                   start: NonterminalString)
-                                  -> Result<Vec<State<'grammar>>,
+                                  -> Result<Vec<LR1State<'grammar>>,
                                             TableConstructionError<'grammar>>
 {
     profile! {
@@ -41,7 +41,7 @@ impl<'grammar> LR1<'grammar> {
     }
 
     fn build_states(&self, start_nt: NonterminalString)
-                    -> Result<Vec<State<'grammar>>, TableConstructionError<'grammar>>
+                    -> Result<Vec<LR1State<'grammar>>, TableConstructionError<'grammar>>
     {
         let session = Tls::session();
         let mut kernel_set = kernel_set::KernelSet::new();
@@ -65,7 +65,7 @@ impl<'grammar> LR1<'grammar> {
 
             // group the items that we can transition into by shifting
             // over a term or nonterm
-            let transitions: Multimap<Symbol, Vec<Item<'grammar>>> =
+            let transitions: Multimap<Symbol, Vec<LR1Item<'grammar>>> =
                 items.vec
                      .iter()
                      .filter_map(|item| item.shifted_item())
@@ -132,7 +132,7 @@ impl<'grammar> LR1<'grammar> {
              id: NonterminalString,
              index: usize,
              lookahead: Lookahead)
-             -> Vec<Item<'grammar>>
+             -> Vec<LR1Item<'grammar>>
     {
         self.grammar.productions_for(id)
                     .iter()
@@ -146,12 +146,12 @@ impl<'grammar> LR1<'grammar> {
     }
 
     // expands `state` with epsilon moves
-    fn transitive_closure(&self, mut items: Vec<Item<'grammar>>)
-                          -> Items<'grammar>
+    fn transitive_closure(&self, mut items: Vec<LR1Item<'grammar>>)
+                          -> LR1Items<'grammar>
     {
         let mut counter = 0;
 
-        let mut set: Set<Item<'grammar>> =
+        let mut set: Set<LR1Item<'grammar>> =
             items.iter().cloned().collect();
 
         while counter < items.len() {
@@ -211,17 +211,17 @@ impl<'grammar> LR1<'grammar> {
 /// item found in a kernel set.
 #[derive(Clone, Debug, Hash, PartialEq, Eq, PartialOrd, Ord)]
 struct Kernel<'grammar> {
-    items: Vec<Item<'grammar>>
+    items: Vec<LR1Item<'grammar>>
 }
 
 impl<'grammar> Kernel<'grammar> {
-    pub fn start(items: Vec<Item<'grammar>>) -> Kernel<'grammar> {
+    pub fn start(items: Vec<LR1Item<'grammar>>) -> Kernel<'grammar> {
         // In start state, kernel should have only items with `index == 0`.
         debug_assert!(items.iter().all(|item| item.index == 0));
         Kernel { items: items }
     }
 
-    pub fn shifted(items: Vec<Item<'grammar>>) -> Kernel<'grammar> {
+    pub fn shifted(items: Vec<LR1Item<'grammar>>) -> Kernel<'grammar> {
         // Assert that this kernel consists only of shifted items
         // where `index > 0`. This assertion could cost real time to
         // check so only do it in debug mode.

@@ -8,10 +8,10 @@ use std::iter::IntoIterator;
 use std::fmt::{Debug, Display, Formatter, Error};
 use util::Sep;
 
-pub type InterpretError<'grammar> = (&'grammar State<'grammar>, Lookahead);
+pub type InterpretError<'grammar> = (&'grammar LR1State<'grammar>, Lookahead);
 
 /// Feed in the given tokens and then EOF, returning the final parse tree that is reduced.
-pub fn interpret<'grammar,TOKENS>(states: &'grammar [State<'grammar>], tokens: TOKENS)
+pub fn interpret<'grammar,TOKENS>(states: &'grammar [LR1State<'grammar>], tokens: TOKENS)
                          -> Result<ParseTree, InterpretError<'grammar>>
     where TOKENS: IntoIterator<Item=TerminalString>
 {
@@ -20,8 +20,10 @@ pub fn interpret<'grammar,TOKENS>(states: &'grammar [State<'grammar>], tokens: T
 }
 
 /// Feed in the given tokens and returns the states on the stack.
-pub fn interpret_partial<'grammar,TOKENS>(states: &'grammar [State<'grammar>], tokens: TOKENS)
-                                          -> Result<Vec<StateIndex>, InterpretError<'grammar>>
+pub fn interpret_partial<'grammar,TOKENS>(states: &'grammar [LR1State<'grammar>],
+                                          tokens: TOKENS)
+                                          -> Result<Vec<StateIndex>,
+                                                    InterpretError<'grammar>>
     where TOKENS: IntoIterator<Item=TerminalString>
 {
     let mut m = Machine::new(states);
@@ -30,19 +32,19 @@ pub fn interpret_partial<'grammar,TOKENS>(states: &'grammar [State<'grammar>], t
 }
 
 struct Machine<'grammar> {
-    states: &'grammar [State<'grammar>],
+    states: &'grammar [LR1State<'grammar>],
     state_stack: Vec<StateIndex>,
     data_stack: Vec<ParseTree>,
 }
 
 impl<'grammar> Machine<'grammar> {
-    fn new(states: &'grammar [State<'grammar>]) -> Machine<'grammar> {
+    fn new(states: &'grammar [LR1State<'grammar>]) -> Machine<'grammar> {
         Machine { states: states,
                   state_stack: vec![],
                   data_stack: vec![] }
     }
 
-    fn top_state(&self) -> &'grammar State<'grammar> {
+    fn top_state(&self) -> &'grammar LR1State<'grammar> {
         let index = self.state_stack.last().unwrap();
         &self.states[index.0]
     }

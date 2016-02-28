@@ -25,7 +25,7 @@ pub fn report_error(grammar: &Grammar,
 struct ErrorReportingCx<'cx, 'grammar: 'cx> {
     grammar: &'grammar Grammar,
     first_sets: FirstSets,
-    states: &'cx [State<'grammar>],
+    states: &'cx [LR1State<'grammar>],
 }
 
 #[derive(Debug)]
@@ -62,7 +62,7 @@ enum ConflictClassification {
 
 impl<'cx, 'grammar> ErrorReportingCx<'cx, 'grammar> {
     fn new(grammar: &'grammar Grammar,
-           states: &'cx [State<'grammar>])
+           states: &'cx [LR1State<'grammar>])
            -> Self {
         ErrorReportingCx {
             grammar: grammar,
@@ -768,7 +768,7 @@ impl<'cx, 'grammar> ErrorReportingCx<'cx, 'grammar> {
     }
 
     fn conflicting_shift_items(&self,
-                               state: &State<'grammar>,
+                               state: &LR1State<'grammar>,
                                lookahead: Lookahead,
                                _conflict: &Conflict<'grammar>)
                                -> Map<LR0Item<'grammar>, LookaheadSet> {

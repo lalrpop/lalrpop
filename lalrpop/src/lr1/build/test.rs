@@ -16,7 +16,9 @@ fn nt(t: &str) -> NonterminalString {
 
 const ITERATIONS: usize = 22;
 
-fn random_test<'g>(grammar: &Grammar, states: &'g [State<'g>], start_symbol: NonterminalString) {
+fn random_test<'g>(grammar: &Grammar,
+                   states: &'g [LR1State<'g>],
+                   start_symbol: NonterminalString) {
     for i in 0..ITERATIONS {
         let input_tree = generate::random_parse_tree(grammar, start_symbol);
         let output_tree = interpret(&states, input_tree.terminals()).unwrap();
@@ -36,7 +38,7 @@ macro_rules! tokens {
 }
 
 fn items<'g>(grammar: &'g Grammar, nonterminal: &str, index: usize, la: Lookahead)
-             -> Items<'g>
+             -> LR1Items<'g>
 {
     let lr1 = LR1::new(&grammar);
     let items =
