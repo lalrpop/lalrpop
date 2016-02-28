@@ -1,4 +1,6 @@
-# Version 0.11 (not yet released)
+# Version 0.12 (not yet released)
+
+# Version 0.11
 
 Updated to use the `regex-syntax` crate for regular expression
 parsing instead of rolling our own parser. This means we can now
