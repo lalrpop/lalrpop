@@ -293,6 +293,8 @@ fn emit_interpreter(session: &Session,
 {
     let mut rust = RustWrite::new(vec![]);
 
+    try!(emit_uses(grammar, &mut rust));
+
     if grammar.start_nonterminals.is_empty() {
         println!("Error: no public symbols declared in grammar");
         exit(1);
@@ -316,6 +318,8 @@ fn emit_interpreter(session: &Session,
         };
 
         try!(lr1::interpreter::compile(&grammar, user_nt, start_nt, &states, &mut rust));
+        rust!(rust, "pub use self::{}parse{}::parse_{};",
+              grammar.prefix, start_nt, user_nt);
 
     }
 

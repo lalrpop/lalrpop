@@ -10,6 +10,7 @@ use grammar::repr::{Grammar, NonterminalString, Types};
 
 use std::io;
 use std::iter;
+use std::collections::HashSet;
 
 pub struct Interpreter<'emitter,'grammar:'emitter> {
     /// the complete grammar
@@ -134,14 +135,19 @@ impl<'emitter, 'grammar> Interpreter<'emitter, 'grammar> {
         Ok(())   
     }
 
+    fn write_types(&mut self) -> io::Result<()> {
+        rust!(self.out, "struct ReducedProduction {{");
+        rust!(self.out, "nonterminal: u32,");
+        rust!(self.out, "symbol_count: u32,");
+        rust!(self.out, "}}");
+        Ok(())   
+    }
+
     fn write_uses(&mut self) -> io::Result<()> {
         try!(self.out.write_uses("super::", &self.grammar));
         if self.grammar.intern_token.is_none() {
             rust!(self.out, "use super::{}ToTriple;", self.prefix);
-
-
         }
-        rust!(self.out ,"__lalrpop_util::{{Machine, ReducedProduction}};");
         Ok(())
     }
 
@@ -201,14 +207,15 @@ impl<'emitter, 'grammar> Interpreter<'emitter, 'grammar> {
     }
 
     fn write_terminal_to_index_fn(&mut self) -> io::Result<()> {
-
-        if self.grammar.intern_token.is_some() {
-            rust!(self.out, "fn terminal_to_index<'input>(token: &{}) -> usize {{", self.grammar.types.terminal_token_type());
-        } else {
-            rust!(self.out, "fn terminal_to_index(token: &{}) -> usize {{", self.grammar.types.terminal_token_type());
-        }
-
-        rust!(self.out, "    match *token {{");
+        try!(self.out.write_pub_fn_header(
+            self.grammar,
+            "terminal_to_index".to_owned(),
+            vec![],
+            vec![format!("token: {}", self.grammar.types.terminal_token_type())],
+            "usize".to_owned(),
+            vec![]));
+        rust!(self.out, "{{");
+        rust!(self.out, "match token {{");
 
         for (&k, v) in &self.grammar.terminal_bits {
             // TODO same as in ascent.rs
@@ -224,18 +231,31 @@ impl<'emitter, 'grammar> Interpreter<'emitter, 'grammar> {
                 pattern_names.push(format!("{}tok", self.prefix));
                 pattern = format!("{}tok @ {}", self.prefix, pattern);
             }
-            rust!(self.out, "        {} => {},", pattern, v);
+            rust!(self.out, "{} => {},", pattern, v);
         }
-        rust!(self.out, "    }}");
+
+        rust!(self.out, "_ => panic!(\"unuspported token\"),");
+
+        rust!(self.out, "}}");
         rust!(self.out, "}}");
 
         Ok(())
     }
 
+    fn write_execute_partial(&mut self) -> io::Result<()> {
+
+        //rust!()
+
+        Ok(())
+    }
+
     fn write(&mut self) -> io::Result<()> {
-       rust!(self.out, "mod {}parse{} {{",
+        rust!(self.out, "mod {}parse{} {{",
               self.prefix, self.start_symbol);
         try!(self.write_uses());
+        rust!(self.out, "");
+
+        try!(self.write_types());
         rust!(self.out, "");
 
         try!(self.write_action_table());
