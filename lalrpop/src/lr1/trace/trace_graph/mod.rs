@@ -151,11 +151,6 @@ impl<'grammar> Debug for TraceGraph<'grammar> {
 pub struct PathEnumerator<'graph, 'grammar: 'graph> {
     graph: &'graph TraceGraph<'grammar>,
     stack: Vec<EnumeratorState<'graph, 'grammar>>,
-
-    // The list of symbols for the current item.
-    symbols: Vec<Symbol>,
-
-    cursor: usize,
 }
 
 struct EnumeratorState<'graph, 'grammar: 'graph> {
@@ -172,8 +167,6 @@ impl<'graph, 'grammar> PathEnumerator<'graph, 'grammar> {
         let mut enumerator = PathEnumerator {
             graph: graph,
             stack: vec![],
-            symbols: vec![],
-            cursor: 0,
         };
         let edges = enumerator.incoming_edges(start_state);
         enumerator.stack.push(EnumeratorState {
@@ -299,25 +292,7 @@ impl<'graph, 'grammar> PathEnumerator<'graph, 'grammar> {
         }
     }
 
-    // Assemble the `symbols` vector and `cursor`
-    fn found_trace(&mut self)
-                   -> bool {
-        self.symbols.truncate(0);
-
-        self.symbols.extend(
-            self.stack.iter()
-                      .rev()
-                      .flat_map(|s| s.symbol_sets.prefix));
-
-        self.cursor = self.symbols.len();
-
-        self.symbols.extend(
-            self.stack[1].symbol_sets.cursor);
-
-        self.symbols.extend(
-            self.stack.iter()
-                      .flat_map(|s| s.symbol_sets.suffix));
-
+    fn found_trace(&mut self) -> bool {
         true
     }
 
