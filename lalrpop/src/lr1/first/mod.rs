@@ -30,15 +30,17 @@ impl FirstSets {
         this
     }
 
-    pub fn first(&self, grammar: &Grammar, symbols: &[Symbol], lookahead: Token)
-                 -> (TokenSet, bool) {
+    /// Returns `FIRST(...symbols)`. If `...symbols` may match
+    /// epsilon, then this returned set will include EOF. (This is
+    /// kind of repurposing EOF to serve as a binary flag of sorts.)
+    pub fn first0(&self, grammar: &Grammar, symbols: &[Symbol]) -> TokenSet {
         let mut result = TokenSet::new(grammar);
 
         for symbol in symbols {
             match *symbol {
                 Symbol::Terminal(t) => {
                     result.insert(grammar, Token::Terminal(t));
-                    return (result, false);
+                    return result;
                 }
 
                 Symbol::Nonterminal(nt) => {
@@ -67,14 +69,29 @@ impl FirstSets {
                         }
                     }
                     if !empty_prod {
-                        return (result, false);
+                        return result;
                     }
                 }
             }
         }
 
-        result.insert(grammar, lookahead);
-        (result, true)
+        result.insert(grammar, Token::EOF);
+        result
+    }
+
+    pub fn first1(&self, grammar: &Grammar, symbols: &[Symbol], lookahead: Token)
+                  -> TokenSet
+    {
+        let mut set = self.first0(grammar, symbols);
+
+        // we use EOF as the signal that `symbols` matches epsilon:
+        let epsilon = set.take_eof(grammar);
+
+        if epsilon {
+            set.insert(grammar, lookahead);
+        }
+
+        set
     }
 }
 
