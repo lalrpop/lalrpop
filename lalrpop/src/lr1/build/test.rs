@@ -8,7 +8,7 @@ use lr1::lookahead::Token;
 use lr1::lookahead::Token::EOF;
 use tls::Tls;
 
-use super::{LR1, build_lr1_states};
+use super::{LR, build_lr1_states};
 
 fn nt(t: &str) -> NonterminalString {
     NonterminalString(intern(t))
@@ -40,7 +40,7 @@ macro_rules! tokens {
 fn items<'g>(grammar: &'g Grammar, nonterminal: &str, index: usize, la: Token)
              -> LR1Items<'g>
 {
-    let lr1 = LR1::new(&grammar);
+    let lr1: LR<Token> = LR::new(&grammar, nt(nonterminal), la);
     let items =
         lr1.transitive_closure(
             lr1.items(nt(nonterminal), index, la));

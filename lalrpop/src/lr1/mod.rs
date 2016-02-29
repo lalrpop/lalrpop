@@ -18,13 +18,13 @@ mod state_graph;
 
 use self::core::LR1State;
 
-pub use self::core::TableConstructionError;
+pub use self::core::LR1TableConstructionError;
 pub use self::error::report_error;
 
 pub fn build_states<'grammar>(grammar: &'grammar Grammar,
                               start: NonterminalString)
                               -> Result<Vec<LR1State<'grammar>>,
-                                        TableConstructionError<'grammar>>
+                                        LR1TableConstructionError<'grammar>>
 {
     match grammar.algorithm {
         Algorithm::LR1 => build::build_lr1_states(grammar, start),

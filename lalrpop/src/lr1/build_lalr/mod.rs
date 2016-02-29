@@ -28,7 +28,7 @@ struct LALR1State<'grammar> {
 pub fn build_lalr_states<'grammar>(grammar: &'grammar Grammar,
                                    start: NonterminalString)
                                    -> Result<Vec<LR1State<'grammar>>,
-                                             TableConstructionError<'grammar>>
+                                             LR1TableConstructionError<'grammar>>
 {
     // First build the LR(1) states
     let lr_states = try!(build::build_lr1_states(grammar, start));
@@ -42,7 +42,7 @@ pub fn build_lalr_states<'grammar>(grammar: &'grammar Grammar,
 
 pub fn collapse_to_lalr_states<'grammar>(lr_states: &[LR1State<'grammar>])
                                          -> Result<Vec<LR1State<'grammar>>,
-                                                   TableConstructionError<'grammar>>
+                                                   LR1TableConstructionError<'grammar>>
 {
     // Now compress them. This vector stores, for each state, the
     // LALR(1) state to which we will remap it.

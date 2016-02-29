@@ -1,8 +1,9 @@
 use bit_set::{self, BitSet};
 use std::fmt::{Debug, Formatter, Error};
+use std::hash::Hash;
 use grammar::repr::*;
 
-pub trait Lookahead: Clone + Debug + PartialEq + Eq + PartialOrd + Ord {
+pub trait Lookahead: Copy + Debug + Eq + Ord + Hash {
     fn fmt_as_item_suffix(&self, fmt: &mut Formatter) -> Result<(), Error>;
 }
 
@@ -15,9 +16,9 @@ impl Lookahead for Nil {
     }
 }
 
-/// I have semi-arbitrarily decided to say that a "token" is either
-/// one of the terminals of our language, or else the pseudo-symbol
-/// EOF that represents "end of input".
+/// I have semi-arbitrarily decided to use the term "token" to mean
+/// either one of the terminals of our language, or else the
+/// pseudo-symbol EOF that represents "end of input".
 #[derive(Copy, Clone, Hash, PartialEq, Eq, PartialOrd, Ord)]
 pub enum Token {
     EOF,

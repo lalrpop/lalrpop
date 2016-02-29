@@ -133,10 +133,12 @@ pub type LR0Conflict<'grammar> = Conflict<'grammar, Nil>;
 pub type LR1Conflict<'grammar> = Conflict<'grammar, Token>;
 
 #[derive(Debug)]
-pub struct TableConstructionError<'grammar> {
+pub struct TableConstructionError<'grammar, L: Lookahead> {
     // LR(1) state set. Some of these states are in error.
-    pub states: Vec<LR1State<'grammar>>,
+    pub states: Vec<State<'grammar, L>>,
 }
+
+pub type LR1TableConstructionError<'grammar> = TableConstructionError<'grammar, Token>;
 
 impl<'grammar, L: Lookahead> Debug for Item<'grammar, L> {
     fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
