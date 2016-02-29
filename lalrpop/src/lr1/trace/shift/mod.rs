@@ -73,7 +73,7 @@ impl<'trace, 'grammar> Tracer<'trace, 'grammar> {
     {
         if self.visited_set.insert((item_state, nonterminal)) {
             for &pred_item in self.states[item_state.0].items.vec.iter() {
-                if self.can_shift(pred_item, nonterminal) {
+                if pred_item.can_shift_nonterminal(nonterminal) {
                     if pred_item.index > 0 {
                         // Add an edge:
                         //
@@ -91,17 +91,6 @@ impl<'trace, 'grammar> Tracer<'trace, 'grammar> {
                     }
                 }
             }
-        }
-    }
-
-    fn can_shift(&self,
-                 item: LR1Item<'grammar>,
-                 nonterminal: NonterminalString)
-                 -> bool
-    {
-        match item.shift_symbol() {
-            Some((Symbol::Nonterminal(shifted), _)) => shifted == nonterminal,
-            _ => false,
         }
     }
 }

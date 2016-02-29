@@ -62,64 +62,57 @@ fn backtrace1() {
     // Expr = "Int" (*) [","],
     // Expr = "Int" (*) [";"]
     //
-    // Select the last one.
+    // Select the ";" one.
     let semi = Token::Terminal(term(";"));
     let semi_item = states[top_state.0].items.vec.iter()
                                                  .filter(|item| item.lookahead == semi)
                                                  .next()
                                                  .unwrap();
 
-    let backtrace = tracer.backtrace_reduce(top_state, *semi_item);
+    let backtrace = tracer.backtrace_reduce(top_state, semi_item.to_lr0());
 
     println!("{:#?}", backtrace);
-    expect_debug(&backtrace, r#"
+
+    let pictures: Vec<_> = backtrace.examples(semi_item.to_lr0())
+                                    .map(|e| e.paint_unstyled())
+                                    .collect();
+    expect_debug(&pictures, r#"
 [
-    (Nonterminal(Expr) -(["Int"], None, [])-> Item(Expr = "Int" (*))),
-    (Nonterminal(Exprs) -([Exprs, ","], Some(Expr), [])-> Item(Exprs = Exprs "," (*) Expr)),
-    (Nonterminal(Exprs) -([Exprs, ","], Some(Expr), [])-> Nonterminal(Expr)),
-    (Nonterminal(Exprs) -([], Some(Expr), [])-> Item(Exprs = (*) Expr)),
-    (Nonterminal(Exprs) -([], Some(Expr), [])-> Nonterminal(Expr)),
-    (Item(Stmt = (*) Exprs ";") -([], Some(Exprs), [";"])-> Nonterminal(Exprs))
+    [
+        "  Exprs "," "Int"  ╷ ";"",
+        "  │         └─Expr─┤   │",
+        "  ├─Exprs──────────┘   │",
+        "  └─Stmt───────────────┘"
+    ],
+    [
+        "  Exprs "," "Int"  ╷ "," Expr",
+        "  │         └─Expr─┤        │",
+        "  ├─Exprs──────────┘        │",
+        "  └─Exprs───────────────────┘"
+    ],
+    [
+        "  "Int"   ╷ ";"",
+        "  ├─Expr──┤   │",
+        "  ├─Exprs─┘   │",
+        "  └─Stmt──────┘"
+    ],
+    [
+        "  "Int"   ╷ "," Expr",
+        "  ├─Expr──┤        │",
+        "  ├─Exprs─┘        │",
+        "  └─Exprs──────────┘"
+    ],
+    [
+        "  "Int"  ╷ "+" "Int"",
+        "  ├─Expr─┘         │",
+        "  └─Expr───────────┘"
+    ]
 ]
 "#.trim());
 }
 
 #[test]
 fn backtrace2() {
-    let _tls = Tls::test();
-    let grammar = test_grammar1();
-    let states = build_states(&grammar, nt("Start")).unwrap();
-    let tracer = Tracer::new(&grammar, &states);
-    let state_stack = interpret_partial(&states, terms!["Int"]).unwrap();
-    let top_state = *state_stack.last().unwrap();
-
-    // Top state will have items like:
-    //
-    // Expr = "Int" (*) [EOF],
-    // Expr = "Int" (*) ["+"],
-    // Expr = "Int" (*) [","],
-    // Expr = "Int" (*) [";"]
-    //
-    // Select the last one.
-    let plus = Token::Terminal(term("+"));
-    let plus_item = states[top_state.0].items.vec.iter()
-                                                 .filter(|item| item.lookahead == plus)
-                                                 .next()
-                                                 .unwrap();
-
-    let backtrace = tracer.backtrace_reduce(top_state, *plus_item);
-
-    println!("{:#?}", backtrace);
-    expect_debug(&backtrace, r#"
-[
-    (Nonterminal(Expr) -(["Int"], None, [])-> Item(Expr = "Int" (*))),
-    (Item(Expr = (*) Expr "+" "Int") -([], Some(Expr), ["+", "Int"])-> Nonterminal(Expr))
-]
-"#.trim());
-}
-
-#[test]
-fn backtrace3() {
     let _tls = Tls::test();
     // This grammar yields a S/R conflict. Is it (int -> int) -> int
     // or int -> (int -> int)?
@@ -143,7 +136,7 @@ pub Ty: () = {
                       index: conflict.production.symbols.len(),
                       lookahead: conflict.lookahead };
     println!("item={:?}", item);
-    let backtrace = tracer.backtrace_reduce(conflict.state, item);
+    let backtrace = tracer.backtrace_reduce(conflict.state, item.to_lr0());
     println!("{:#?}", backtrace);
     expect_debug(&backtrace, r#"
 [
@@ -195,7 +188,7 @@ pub Ty: () = {
                       lookahead: conflict.lookahead };
     println!("item={:?}", item);
     let tracer = Tracer::new(&grammar, &states);
-    let graph = tracer.backtrace_reduce(conflict.state, item);
+    let graph = tracer.backtrace_reduce(conflict.state, item.to_lr0());
     expect_debug(&graph, r#"
 [
     (Nonterminal(Ty) -([Ty, "->"], Some(Ty), [])-> Item(Ty = Ty "->" (*) Ty)),

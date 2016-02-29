@@ -732,7 +732,7 @@ impl<'cx, 'grammar> ErrorReportingCx<'cx, 'grammar> {
             lookahead: lookahead
         };
         let tracer = Tracer::new(self.grammar, self.states);
-        let reduce_trace = tracer.backtrace_reduce(state, item);
+        let reduce_trace = tracer.backtrace_reduce(state, item.to_lr0());
         reduce_trace.examples(item.to_lr0()).collect()
     }
 

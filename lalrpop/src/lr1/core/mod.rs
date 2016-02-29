@@ -60,6 +60,13 @@ impl<'grammar, L: Lookahead> Item<'grammar, L> {
         self.index < self.production.symbols.len()
     }
 
+    pub fn can_shift_nonterminal(&self, nt: NonterminalString) -> bool {
+        match self.shift_symbol() {
+            Some((Symbol::Nonterminal(shifted), _)) => shifted == nt,
+            _ => false,
+        }
+    }
+
     pub fn can_reduce(&self) -> bool {
         self.index == self.production.symbols.len()
     }
