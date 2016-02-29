@@ -28,8 +28,7 @@ pub Ty: () = {
     let states = build_states(&grammar, nt("Ty")).unwrap_err().states;
     let conflict =
         states.iter()
-              .flat_map(|s| s.conflicts.values())
-              .flat_map(|cs| cs.iter())
+              .flat_map(|s| &s.conflicts)
               .next()
               .unwrap();
     println!("conflict={:?}", conflict);

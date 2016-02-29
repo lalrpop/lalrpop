@@ -99,8 +99,9 @@ pub type LR1Items<'grammar> = Items<'grammar, Token>;
 pub struct State<'grammar, L: Lookahead> {
     pub index: StateIndex,
     pub items: Items<'grammar, L>,
-    pub tokens: Map<Token, Action<'grammar>>,
-    pub conflicts: Map<Token, Vec<Conflict<'grammar>>>,
+    pub shifts: Map<TerminalString, StateIndex>,
+    pub reductions: Map<L, &'grammar Production>,
+    pub conflicts: Vec<Conflict<'grammar, L>>,
     pub gotos: Map<NonterminalString, StateIndex>,
 }
 
@@ -114,9 +115,12 @@ pub enum Action<'grammar> {
 }
 
 #[derive(Copy, Clone, Debug, PartialEq, Eq)]
-pub struct Conflict<'grammar> {
+pub struct Conflict<'grammar, L: Lookahead> {
     // when in this state...
     pub state: StateIndex,
+
+    // with the following lookahead...
+    pub lookahead: L,
 
     // we can reduce...
     pub production: &'grammar Production,
@@ -124,6 +128,9 @@ pub struct Conflict<'grammar> {
     // but we can also...
     pub action: Action<'grammar>,
 }
+
+pub type LR0Conflict<'grammar> = Conflict<'grammar, Nil>;
+pub type LR1Conflict<'grammar> = Conflict<'grammar, Token>;
 
 #[derive(Debug)]
 pub struct TableConstructionError<'grammar> {
@@ -242,21 +249,6 @@ impl<'grammar, L: Lookahead> State<'grammar, L> {
         }
     }
 
-}
-
-impl<'grammar> Action<'grammar> {
-    pub fn shift(&self) -> Option<StateIndex> {
-        match *self {
-            Action::Shift(next_index) => Some(next_index),
-            _ => None
-        }
-    }
-    pub fn reduce(&self) -> Option<&'grammar Production> {
-        match *self {
-            Action::Reduce(production) => Some(production),
-            _ => None,
-        }
-    }
 }
 
 /// `A = B C (*) D E F` or `A = B C (*)`

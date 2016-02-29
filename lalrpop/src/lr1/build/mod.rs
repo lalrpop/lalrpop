@@ -60,8 +60,8 @@ impl<'grammar> LR1<'grammar> {
             }
 
             let mut this_state = State { index: index, items: items.clone(),
-                                         tokens: map(), gotos: map(),
-                                         conflicts: map() };
+                                         shifts: map(), reductions: map(),
+                                         conflicts: vec!(), gotos: map() };
 
             // group the items that we can transition into by shifting
             // over a term or nonterm
@@ -81,8 +81,7 @@ impl<'grammar> LR1<'grammar> {
 
                 match symbol {
                     Symbol::Terminal(s) => {
-                        let action = Action::Shift(next_state);
-                        let prev = this_state.tokens.insert(Token::Terminal(s), action);
+                        let prev = this_state.shifts.insert(s, next_state);
                         assert!(prev.is_none()); // cannot have a shift/shift conflict
                     }
 
@@ -95,18 +94,30 @@ impl<'grammar> LR1<'grammar> {
 
             // finally, consider the reductions
             for item in items.vec.iter().filter(|i| i.can_reduce()) {
-                let action = Action::Reduce(item.production);
-                let prev = this_state.tokens.insert(item.lookahead, action);
-                if let Some(conflict) = prev {
+                let prev = this_state.reductions.insert(item.lookahead, item.production);
+                if let Some(other_production) = prev {
                     log!(session, Verbose, "Encountered conflict in state {}",
                          index.0);
-                    this_state.conflicts.entry(item.lookahead)
-                                        .or_insert(vec![])
-                                        .push(Conflict {
-                                            state: index,
-                                            production: item.production,
-                                            action: conflict,
-                                        });
+                    this_state.conflicts.push(Conflict {
+                        state: index,
+                        lookahead: item.lookahead,
+                        production: item.production,
+                        action: Action::Reduce(other_production),
+                    });
+                    errors += 1;
+                }
+            }
+
+            // check for shift-reduce conflicts (reduce-reduce detected above)
+            for (&terminal, &next_state) in &this_state.shifts {
+                let token = Token::Terminal(terminal);
+                if let Some(&production) = this_state.reductions.get(&token) {
+                    this_state.conflicts.push(Conflict {
+                        state: index,
+                        lookahead: token,
+                        production: production,
+                        action: Action::Shift(next_state),
+                    });
                     errors += 1;
                 }
             }

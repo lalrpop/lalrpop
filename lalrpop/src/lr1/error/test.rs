@@ -23,20 +23,15 @@ pub Ty: () = {
 "#);
     let states = build_states(&grammar, nt("Ty")).unwrap_err().states;
     let mut cx = ErrorReportingCx::new(&grammar, &states);
-    let (&lookahead, conflict) =
+    let conflict =
         states.iter()
-              .flat_map(|state| {
-                  state.conflicts.iter().flat_map(move |(l, cs)| {
-                      cs.iter().map(move |c| (l, c))
-                  })
-              })
+              .flat_map(|state| &state.conflicts)
               .next()
               .unwrap();
 
-    println!("lookahead={:?} conflict={:?}",
-             lookahead, conflict);
+    println!("conflict={:?}", conflict);
 
-    match cx.classify(lookahead, conflict) {
+    match cx.classify(conflict) {
         ConflictClassification::Precedence {
             shift,
             reduce,
@@ -68,20 +63,15 @@ pub Expr: () = {
 "#);
     let states = build_states(&grammar, nt("Expr")).unwrap_err().states;
     let mut cx = ErrorReportingCx::new(&grammar, &states);
-    let (&lookahead, conflict) =
+    let conflict =
         states.iter()
-              .flat_map(|state| {
-                  state.conflicts.iter().flat_map(move |(l, cs)| {
-                      cs.iter().map(move |c| (l, c))
-                  })
-              })
+              .flat_map(|state| &state.conflicts)
               .next()
               .unwrap();
 
-    println!("lookahead={:?} conflict={:?}",
-             lookahead, conflict);
+    println!("conflict={:?}", conflict);
 
-    match cx.classify(lookahead, conflict) {
+    match cx.classify(conflict) {
         ConflictClassification::InsufficientLookahead { .. } => { }
         r => panic!("wrong classification {:#?}", r)
     }
@@ -106,20 +96,15 @@ fn suggest_question_conflict() {
     let states = build_states(&grammar, nt("E")).unwrap_err().states;
 
     let mut cx = ErrorReportingCx::new(&grammar, &states);
-    let (&lookahead, conflict) =
+    let conflict =
         states.iter()
-              .flat_map(|state| {
-                  state.conflicts.iter().flat_map(move |(l, cs)| {
-                      cs.iter().map(move |c| (l, c))
-                  })
-              })
+              .flat_map(|state| &state.conflicts)
               .next()
               .unwrap();
 
-    println!("lookahead={:?} conflict={:?}",
-             lookahead, conflict);
+    println!("conflict={:?}", conflict);
 
-    match cx.classify(lookahead, conflict) {
+    match cx.classify(conflict) {
         ConflictClassification::SuggestQuestion {
             shift: _,
             reduce: _,
@@ -153,20 +138,15 @@ Ident = r#"[a-zA-Z][a-zA-Z0-9]*"#;
     let states = build_states(&grammar, nt("ImportDecl")).unwrap_err().states;
 
     let mut cx = ErrorReportingCx::new(&grammar, &states);
-    let (&lookahead, conflict) =
+    let conflict =
         states.iter()
-              .flat_map(|state| {
-                  state.conflicts.iter().flat_map(move |(l, cs)| {
-                      cs.iter().map(move |c| (l, c))
-                  })
-              })
+              .flat_map(|state| &state.conflicts)
               .next()
               .unwrap();
 
-    println!("lookahead={:?} conflict={:?}",
-             lookahead, conflict);
+    println!("conflict={:?}", conflict);
 
-    match cx.classify(lookahead, conflict) {
+    match cx.classify(conflict) {
         ConflictClassification::SuggestInline {
             shift: _,
             reduce: _,

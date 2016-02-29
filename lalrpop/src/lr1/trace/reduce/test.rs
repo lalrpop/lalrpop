@@ -133,16 +133,15 @@ pub Ty: () = {
 "#);
     let states = build_states(&grammar, nt("Ty")).unwrap_err().states;
     let tracer = Tracer::new(&grammar, &states);
-    let (&lookahead, conflict) =
+    let conflict =
         states.iter()
-              .flat_map(|s| &s.conflicts)
-              .flat_map(|(l, cs)| cs.iter().map(move |c| (l, c)))
+              .flat_map(|state| &state.conflicts)
               .next()
               .unwrap();
     println!("conflict={:?}", conflict);
     let item = Item { production: conflict.production,
                       index: conflict.production.symbols.len(),
-                      lookahead: lookahead };
+                      lookahead: conflict.lookahead };
     println!("item={:?}", item);
     let backtrace = tracer.backtrace_reduce(conflict.state, item);
     println!("{:#?}", backtrace);
@@ -185,16 +184,15 @@ pub Ty: () = {
 };
 "#);
     let states = build_states(&grammar, nt("Ty")).unwrap_err().states;
-    let (&lookahead, conflict) =
+    let conflict =
         states.iter()
-              .flat_map(|s| &s.conflicts)
-              .flat_map(|(l, cs)| cs.iter().map(move |c| (l, c)))
+              .flat_map(|state| &state.conflicts)
               .next()
               .unwrap();
     println!("conflict={:?}", conflict);
     let item = Item { production: conflict.production,
                       index: conflict.production.symbols.len(),
-                      lookahead: lookahead };
+                      lookahead: conflict.lookahead };
     println!("item={:?}", item);
     let tracer = Tracer::new(&grammar, &states);
     let graph = tracer.backtrace_reduce(conflict.state, item);

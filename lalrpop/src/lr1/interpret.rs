@@ -63,19 +63,15 @@ impl<'grammar> Machine<'grammar> {
             let state = self.top_state();
 
             // check whether we can shift this token
-            match state.tokens.get(&Token::Terminal(terminal)) {
-                None => { return Err((state, Token::Terminal(terminal))); }
-
-                Some(&Action::Shift(next_index)) => {
-                    self.data_stack.push(ParseTree::Terminal(terminal));
-                    self.state_stack.push(next_index);
-                    token = tokens.next();
-                }
-
-                Some(&Action::Reduce(production)) => {
-                    let more = self.reduce(production);
-                    assert!(more);
-                }
+            if let Some(&next_index) = state.shifts.get(&terminal) {
+                self.data_stack.push(ParseTree::Terminal(terminal));
+                self.state_stack.push(next_index);
+                token = tokens.next();
+            } else if let Some(&production) = state.reductions.get(&Token::Terminal(terminal)) {
+                let more = self.reduce(production);
+                assert!(more);
+            } else {
+                return Err((state, Token::Terminal(terminal)));
             }
         }
 
@@ -91,10 +87,9 @@ impl<'grammar> Machine<'grammar> {
         // drain now for EOF
         loop {
             let state = self.top_state();
-            match state.tokens.get(&Token::EOF) {
+            match state.reductions.get(&Token::EOF) {
                 None => { return Err((state, Token::EOF)); }
-                Some(&Action::Shift(_)) => { unreachable!("cannot shift EOF") }
-                Some(&Action::Reduce(production)) => {
+                Some(&production) => {
                     if !self.reduce(production) {
                         assert_eq!(self.data_stack.len(), 1);
                         return Ok(self.data_stack.pop().unwrap());

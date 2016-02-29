@@ -47,7 +47,6 @@ mod __parse__Expression2 {
     }
 
     // State 0
-    //     Kind = None
     //     AllInputs = []
     //     OptionalInputs = []
     //     FixedInputs = []
@@ -73,11 +72,11 @@ mod __parse__Expression2 {
     //     Wacky = (*) "wacky" ["*"]
     //     __Expression2 = (*) Expression2 [EOF]
     //
-    //     "&" -> Shift(S4)
-    //     "(" -> Shift(S5)
-    //     "wacky" -> Shift(S6)
-    //     "wonky" -> Shift(S7)
-    //     r#"\\w+"# -> Shift(S8)
+    //   "&" -> S4
+    //   "(" -> S5
+    //   "wacky" -> S6
+    //   "wonky" -> S7
+    //   r#"\\w+"# -> S8
     //
     //     Expression1 -> S1
     //     Expression2 -> S2
@@ -103,7 +102,7 @@ mod __parse__Expression2 {
             }
             Some((__loc1, (6, __tok0), __loc2)) => {
                 let __sym0 = (__loc1, (__tok0), __loc2);
-                __result = try!(__custom2(input, __tokens, __sym0));
+                __result = try!(__state6(input, __tokens, __sym0));
             }
             Some((__loc1, (7, __tok0), __loc2)) => {
                 let __sym0 = (__loc1, (__tok0), __loc2);
@@ -111,7 +110,7 @@ mod __parse__Expression2 {
             }
             Some((__loc1, (8, __tok0), __loc2)) => {
                 let __sym0 = (__loc1, (__tok0), __loc2);
-                __result = try!(__custom3(input, __tokens, __sym0));
+                __result = try!(__state8(input, __tokens, __sym0));
             }
             _ => {
                 return Err(__ParseError::UnrecognizedToken {
@@ -124,13 +123,13 @@ mod __parse__Expression2 {
             let (__lookahead, __nt) = __result;
             match __nt {
                 __Nonterminal::Expression1(__sym0) => {
-                    __result = try!(__custom0(input, __tokens, __lookahead, __sym0));
+                    __result = try!(__state1(input, __tokens, __lookahead, __sym0));
                 }
                 __Nonterminal::Expression2(__sym0) => {
                     __result = try!(__state2(input, __tokens, __lookahead, __sym0));
                 }
                 __Nonterminal::Wacky(__sym0) => {
-                    __result = try!(__custom1(input, __tokens, __lookahead, __sym0));
+                    __result = try!(__state3(input, __tokens, __lookahead, __sym0));
                 }
                 _ => {
                     return Ok((__lookahead, __nt));
@@ -139,8 +138,55 @@ mod __parse__Expression2 {
         }
     }
 
+    // State 1
+    //     AllInputs = [Expression1]
+    //     OptionalInputs = []
+    //     FixedInputs = [Expression1]
+    //     WillPushLen = 0
+    //     WillPush = []
+    //     WillProduce = Some(Expression2)
+    //
+    //     Expression2 = Expression1 (*) [EOF]
+    //     Expression2 = Expression1 (*) ["*"]
+    //
+    //   EOF -> Expression2 = Expression1 => ActionFn(29);
+    //   "*" -> Expression2 = Expression1 => ActionFn(29);
+    //
+    pub fn __state1<
+        'input,
+        __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__ParseError<usize,(usize, &'input str),()>>>,
+    >(
+        input: &'input str,
+        __tokens: &mut __TOKENS,
+        __lookahead: Option<(usize, (usize, &'input str), usize)>,
+        __sym0: (usize, Box<Expr<'input>>, usize),
+    ) -> Result<(Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>), __ParseError<usize,(usize, &'input str),()>>
+    {
+        let mut __result: (Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>);
+        match __lookahead {
+            None |
+            Some((_, (3, _), _)) => {
+                let __start = __sym0.0.clone();
+                let __end = __sym0.2.clone();
+                let __nt = super::__action29(input, __sym0);
+                let __nt = __Nonterminal::Expression2((
+                    __start,
+                    __nt,
+                    __end,
+                ));
+                __result = (__lookahead, __nt);
+                return Ok(__result);
+            }
+            _ => {
+                return Err(__ParseError::UnrecognizedToken {
+                    token: __lookahead,
+                    expected: vec![],
+                });
+            }
+        }
+    }
+
     // State 2
-    //     Kind = None
     //     AllInputs = [Expression2]
     //     OptionalInputs = []
     //     FixedInputs = [Expression2]
@@ -157,8 +203,8 @@ mod __parse__Expression2 {
     //     Expression2Op = (*) "*" [r#"\\w+"#]
     //     __Expression2 = Expression2 (*) [EOF]
     //
-    //     EOF -> Reduce(__Expression2 = Expression2 => ActionFn(0);)
-    //     "*" -> Shift(S10)
+    //   "*" -> S10
+    //   EOF -> __Expression2 = Expression2 => ActionFn(0);
     //
     //     Expression2Op -> S9
     pub fn __state2<
@@ -175,7 +221,7 @@ mod __parse__Expression2 {
         match __lookahead {
             Some((__loc1, (3, __tok0), __loc2)) => {
                 let __sym1 = (__loc1, (__tok0), __loc2);
-                __result = try!(__custom4(input, __tokens, __sym1));
+                __result = try!(__state10(input, __tokens, __sym1));
             }
             None => {
                 let __start = __sym0.0.clone();
@@ -210,8 +256,55 @@ mod __parse__Expression2 {
         }
     }
 
+    // State 3
+    //     AllInputs = [Wacky]
+    //     OptionalInputs = []
+    //     FixedInputs = [Wacky]
+    //     WillPushLen = 0
+    //     WillPush = []
+    //     WillProduce = Some(Expression1)
+    //
+    //     Expression1 = Wacky (*) [EOF]
+    //     Expression1 = Wacky (*) ["*"]
+    //
+    //   EOF -> Expression1 = Wacky => ActionFn(8);
+    //   "*" -> Expression1 = Wacky => ActionFn(8);
+    //
+    pub fn __state3<
+        'input,
+        __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__ParseError<usize,(usize, &'input str),()>>>,
+    >(
+        input: &'input str,
+        __tokens: &mut __TOKENS,
+        __lookahead: Option<(usize, (usize, &'input str), usize)>,
+        __sym0: (usize, Box<Expr<'input>>, usize),
+    ) -> Result<(Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>), __ParseError<usize,(usize, &'input str),()>>
+    {
+        let mut __result: (Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>);
+        match __lookahead {
+            None |
+            Some((_, (3, _), _)) => {
+                let __start = __sym0.0.clone();
+                let __end = __sym0.2.clone();
+                let __nt = super::__action8(input, __sym0);
+                let __nt = __Nonterminal::Expression1((
+                    __start,
+                    __nt,
+                    __end,
+                ));
+                __result = (__lookahead, __nt);
+                return Ok(__result);
+            }
+            _ => {
+                return Err(__ParseError::UnrecognizedToken {
+                    token: __lookahead,
+                    expected: vec![],
+                });
+            }
+        }
+    }
+
     // State 4
-    //     Kind = None
     //     AllInputs = ["&"]
     //     OptionalInputs = []
     //     FixedInputs = ["&"]
@@ -232,12 +325,12 @@ mod __parse__Expression2 {
     //     Maybe = (*) "[" "]" ["wonky"]
     //     Maybe = (*) "[" "]" [r#"\\w+"#]
     //
-    //     "&" -> Reduce(Maybe =  => ActionFn(31);)
-    //     "(" -> Reduce(Maybe =  => ActionFn(31);)
-    //     "[" -> Shift(S12)
-    //     "wacky" -> Reduce(Maybe =  => ActionFn(31);)
-    //     "wonky" -> Reduce(Maybe =  => ActionFn(31);)
-    //     r#"\\w+"# -> Reduce(Maybe =  => ActionFn(31);)
+    //   "[" -> S12
+    //   "&" -> Maybe =  => ActionFn(31);
+    //   "(" -> Maybe =  => ActionFn(31);
+    //   "wacky" -> Maybe =  => ActionFn(31);
+    //   "wonky" -> Maybe =  => ActionFn(31);
+    //   r#"\\w+"# -> Maybe =  => ActionFn(31);
     //
     //     Maybe -> S11
     pub fn __state4<
@@ -297,7 +390,6 @@ mod __parse__Expression2 {
     }
 
     // State 5
-    //     Kind = None
     //     AllInputs = ["("]
     //     OptionalInputs = []
     //     FixedInputs = ["("]
@@ -324,11 +416,11 @@ mod __parse__Expression2 {
     //     Wacky = (*) "wacky" [")"]
     //     Wacky = (*) "wacky" ["*"]
     //
-    //     "&" -> Shift(S16)
-    //     "(" -> Shift(S17)
-    //     "wacky" -> Shift(S18)
-    //     "wonky" -> Shift(S19)
-    //     r#"\\w+"# -> Shift(S20)
+    //   "&" -> S16
+    //   "(" -> S17
+    //   "wacky" -> S18
+    //   "wonky" -> S19
+    //   r#"\\w+"# -> S20
     //
     //     Expression1 -> S13
     //     Expression2 -> S14
@@ -360,7 +452,7 @@ mod __parse__Expression2 {
             }
             Some((__loc1, (6, __tok0), __loc2)) => {
                 let __sym1 = (__loc1, (__tok0), __loc2);
-                __result = try!(__custom2(input, __tokens, __sym1));
+                __result = try!(__state18(input, __tokens, __sym1));
             }
             Some((__loc1, (7, __tok0), __loc2)) => {
                 let __sym1 = (__loc1, (__tok0), __loc2);
@@ -368,7 +460,7 @@ mod __parse__Expression2 {
             }
             Some((__loc1, (8, __tok0), __loc2)) => {
                 let __sym1 = (__loc1, (__tok0), __loc2);
-                __result = try!(__custom3(input, __tokens, __sym1));
+                __result = try!(__state20(input, __tokens, __sym1));
             }
             _ => {
                 return Err(__ParseError::UnrecognizedToken {
@@ -384,13 +476,13 @@ mod __parse__Expression2 {
             let (__lookahead, __nt) = __result;
             match __nt {
                 __Nonterminal::Expression1(__sym1) => {
-                    __result = try!(__custom0(input, __tokens, __lookahead, __sym1));
+                    __result = try!(__state13(input, __tokens, __lookahead, __sym1));
                 }
                 __Nonterminal::Expression2(__sym1) => {
                     __result = try!(__state14(input, __tokens, __lookahead, __sym0, __sym1));
                 }
                 __Nonterminal::Wacky(__sym1) => {
-                    __result = try!(__custom1(input, __tokens, __lookahead, __sym1));
+                    __result = try!(__state15(input, __tokens, __lookahead, __sym1));
                 }
                 _ => {
                     return Ok((__lookahead, __nt));
@@ -399,8 +491,59 @@ mod __parse__Expression2 {
         }
     }
 
+    // State 6
+    //     AllInputs = ["wacky"]
+    //     OptionalInputs = []
+    //     FixedInputs = ["wacky"]
+    //     WillPushLen = 0
+    //     WillPush = []
+    //     WillProduce = Some(Wacky)
+    //
+    //     Wacky = "wacky" (*) [EOF]
+    //     Wacky = "wacky" (*) ["*"]
+    //
+    //   EOF -> Wacky = "wacky" => ActionFn(33);
+    //   "*" -> Wacky = "wacky" => ActionFn(33);
+    //
+    pub fn __state6<
+        'input,
+        __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__ParseError<usize,(usize, &'input str),()>>>,
+    >(
+        input: &'input str,
+        __tokens: &mut __TOKENS,
+        __sym0: (usize, &'input str, usize),
+    ) -> Result<(Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>), __ParseError<usize,(usize, &'input str),()>>
+    {
+        let mut __result: (Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>);
+        let __lookahead = match __tokens.next() {
+            Some(Ok(v)) => Some(v),
+            None => None,
+            Some(Err(e)) => return Err(e),
+        };
+        match __lookahead {
+            None |
+            Some((_, (3, _), _)) => {
+                let __start = __sym0.0.clone();
+                let __end = __sym0.2.clone();
+                let __nt = super::__action33(input, __sym0);
+                let __nt = __Nonterminal::Wacky((
+                    __start,
+                    __nt,
+                    __end,
+                ));
+                __result = (__lookahead, __nt);
+                return Ok(__result);
+            }
+            _ => {
+                return Err(__ParseError::UnrecognizedToken {
+                    token: __lookahead,
+                    expected: vec![],
+                });
+            }
+        }
+    }
+
     // State 7
-    //     Kind = None
     //     AllInputs = ["wonky"]
     //     OptionalInputs = []
     //     FixedInputs = ["wonky"]
@@ -413,8 +556,8 @@ mod __parse__Expression2 {
     //     Wonky = (*) [EOF]
     //     Wonky = (*) ["*"]
     //
-    //     EOF -> Reduce(Wonky =  => ActionFn(34);)
-    //     "*" -> Reduce(Wonky =  => ActionFn(34);)
+    //   EOF -> Wonky =  => ActionFn(34);
+    //   "*" -> Wonky =  => ActionFn(34);
     //
     //     Wonky -> S21
     pub fn __state7<
@@ -456,7 +599,7 @@ mod __parse__Expression2 {
             let (__lookahead, __nt) = __result;
             match __nt {
                 __Nonterminal::Wonky(__sym1) => {
-                    __result = try!(__custom5(input, __tokens, __lookahead, __sym0, __sym1));
+                    __result = try!(__state21(input, __tokens, __lookahead, __sym0, __sym1));
                     return Ok(__result);
                 }
                 _ => {
@@ -466,8 +609,59 @@ mod __parse__Expression2 {
         }
     }
 
+    // State 8
+    //     AllInputs = [r#"\\w+"#]
+    //     OptionalInputs = []
+    //     FixedInputs = [r#"\\w+"#]
+    //     WillPushLen = 0
+    //     WillPush = []
+    //     WillProduce = Some(Expression1)
+    //
+    //     Expression1 = r#"\\w+"# (*) [EOF]
+    //     Expression1 = r#"\\w+"# (*) ["*"]
+    //
+    //   EOF -> Expression1 = r#"\\w+"# => ActionFn(26);
+    //   "*" -> Expression1 = r#"\\w+"# => ActionFn(26);
+    //
+    pub fn __state8<
+        'input,
+        __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__ParseError<usize,(usize, &'input str),()>>>,
+    >(
+        input: &'input str,
+        __tokens: &mut __TOKENS,
+        __sym0: (usize, &'input str, usize),
+    ) -> Result<(Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>), __ParseError<usize,(usize, &'input str),()>>
+    {
+        let mut __result: (Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>);
+        let __lookahead = match __tokens.next() {
+            Some(Ok(v)) => Some(v),
+            None => None,
+            Some(Err(e)) => return Err(e),
+        };
+        match __lookahead {
+            None |
+            Some((_, (3, _), _)) => {
+                let __start = __sym0.0.clone();
+                let __end = __sym0.2.clone();
+                let __nt = super::__action26(input, __sym0);
+                let __nt = __Nonterminal::Expression1((
+                    __start,
+                    __nt,
+                    __end,
+                ));
+                __result = (__lookahead, __nt);
+                return Ok(__result);
+            }
+            _ => {
+                return Err(__ParseError::UnrecognizedToken {
+                    token: __lookahead,
+                    expected: vec![],
+                });
+            }
+        }
+    }
+
     // State 9
-    //     Kind = None
     //     AllInputs = [Expression2, Expression2Op]
     //     OptionalInputs = []
     //     FixedInputs = [Expression2, Expression2Op]
@@ -490,11 +684,11 @@ mod __parse__Expression2 {
     //     Wacky = (*) "wacky" [EOF]
     //     Wacky = (*) "wacky" ["*"]
     //
-    //     "&" -> Shift(S4)
-    //     "(" -> Shift(S5)
-    //     "wacky" -> Shift(S6)
-    //     "wonky" -> Shift(S7)
-    //     r#"\\w+"# -> Shift(S8)
+    //   "&" -> S4
+    //   "(" -> S5
+    //   "wacky" -> S6
+    //   "wonky" -> S7
+    //   r#"\\w+"# -> S8
     //
     //     Expression1 -> S22
     //     Wacky -> S3
@@ -521,7 +715,7 @@ mod __parse__Expression2 {
             }
             Some((__loc1, (6, __tok0), __loc2)) => {
                 let __sym2 = (__loc1, (__tok0), __loc2);
-                __result = try!(__custom2(input, __tokens, __sym2));
+                __result = try!(__state6(input, __tokens, __sym2));
             }
             Some((__loc1, (7, __tok0), __loc2)) => {
                 let __sym2 = (__loc1, (__tok0), __loc2);
@@ -529,7 +723,7 @@ mod __parse__Expression2 {
             }
             Some((__loc1, (8, __tok0), __loc2)) => {
                 let __sym2 = (__loc1, (__tok0), __loc2);
-                __result = try!(__custom3(input, __tokens, __sym2));
+                __result = try!(__state8(input, __tokens, __sym2));
             }
             _ => {
                 return Err(__ParseError::UnrecognizedToken {
@@ -542,11 +736,11 @@ mod __parse__Expression2 {
             let (__lookahead, __nt) = __result;
             match __nt {
                 __Nonterminal::Expression1(__sym2) => {
-                    __result = try!(__custom6(input, __tokens, __lookahead, __sym0, __sym1, __sym2));
+                    __result = try!(__state22(input, __tokens, __lookahead, __sym0, __sym1, __sym2));
                     return Ok(__result);
                 }
                 __Nonterminal::Wacky(__sym2) => {
-                    __result = try!(__custom1(input, __tokens, __lookahead, __sym2));
+                    __result = try!(__state3(input, __tokens, __lookahead, __sym2));
                 }
                 _ => {
                     return Ok((__lookahead, __nt));
@@ -555,8 +749,68 @@ mod __parse__Expression2 {
         }
     }
 
+    // State 10
+    //     AllInputs = ["*"]
+    //     OptionalInputs = []
+    //     FixedInputs = ["*"]
+    //     WillPushLen = 0
+    //     WillPush = []
+    //     WillProduce = Some(Expression2Op)
+    //
+    //     Expression2Op = "*" (*) ["&"]
+    //     Expression2Op = "*" (*) ["("]
+    //     Expression2Op = "*" (*) ["wacky"]
+    //     Expression2Op = "*" (*) ["wonky"]
+    //     Expression2Op = "*" (*) [r#"\\w+"#]
+    //
+    //   "&" -> Expression2Op = "*" => ActionFn(30);
+    //   "(" -> Expression2Op = "*" => ActionFn(30);
+    //   "wacky" -> Expression2Op = "*" => ActionFn(30);
+    //   "wonky" -> Expression2Op = "*" => ActionFn(30);
+    //   r#"\\w+"# -> Expression2Op = "*" => ActionFn(30);
+    //
+    pub fn __state10<
+        'input,
+        __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__ParseError<usize,(usize, &'input str),()>>>,
+    >(
+        input: &'input str,
+        __tokens: &mut __TOKENS,
+        __sym0: (usize, &'input str, usize),
+    ) -> Result<(Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>), __ParseError<usize,(usize, &'input str),()>>
+    {
+        let mut __result: (Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>);
+        let __lookahead = match __tokens.next() {
+            Some(Ok(v)) => Some(v),
+            None => None,
+            Some(Err(e)) => return Err(e),
+        };
+        match __lookahead {
+            Some((_, (0, _), _)) |
+            Some((_, (1, _), _)) |
+            Some((_, (6, _), _)) |
+            Some((_, (7, _), _)) |
+            Some((_, (8, _), _)) => {
+                let __start = __sym0.0.clone();
+                let __end = __sym0.2.clone();
+                let __nt = super::__action30(input, __sym0);
+                let __nt = __Nonterminal::Expression2Op((
+                    __start,
+                    __nt,
+                    __end,
+                ));
+                __result = (__lookahead, __nt);
+                return Ok(__result);
+            }
+            _ => {
+                return Err(__ParseError::UnrecognizedToken {
+                    token: __lookahead,
+                    expected: vec![],
+                });
+            }
+        }
+    }
+
     // State 11
-    //     Kind = None
     //     AllInputs = ["&", Maybe]
     //     OptionalInputs = []
     //     FixedInputs = ["&", Maybe]
@@ -579,11 +833,11 @@ mod __parse__Expression2 {
     //     Wacky = (*) "wacky" [EOF]
     //     Wacky = (*) "wacky" ["*"]
     //
-    //     "&" -> Shift(S4)
-    //     "(" -> Shift(S5)
-    //     "wacky" -> Shift(S6)
-    //     "wonky" -> Shift(S7)
-    //     r#"\\w+"# -> Shift(S8)
+    //   "&" -> S4
+    //   "(" -> S5
+    //   "wacky" -> S6
+    //   "wonky" -> S7
+    //   r#"\\w+"# -> S8
     //
     //     Expression1 -> S23
     //     Wacky -> S3
@@ -610,7 +864,7 @@ mod __parse__Expression2 {
             }
             Some((__loc1, (6, __tok0), __loc2)) => {
                 let __sym2 = (__loc1, (__tok0), __loc2);
-                __result = try!(__custom2(input, __tokens, __sym2));
+                __result = try!(__state6(input, __tokens, __sym2));
             }
             Some((__loc1, (7, __tok0), __loc2)) => {
                 let __sym2 = (__loc1, (__tok0), __loc2);
@@ -618,7 +872,7 @@ mod __parse__Expression2 {
             }
             Some((__loc1, (8, __tok0), __loc2)) => {
                 let __sym2 = (__loc1, (__tok0), __loc2);
-                __result = try!(__custom3(input, __tokens, __sym2));
+                __result = try!(__state8(input, __tokens, __sym2));
             }
             _ => {
                 return Err(__ParseError::UnrecognizedToken {
@@ -631,11 +885,11 @@ mod __parse__Expression2 {
             let (__lookahead, __nt) = __result;
             match __nt {
                 __Nonterminal::Expression1(__sym2) => {
-                    __result = try!(__custom7(input, __tokens, __lookahead, __sym0, __sym1, __sym2));
+                    __result = try!(__state23(input, __tokens, __lookahead, __sym0, __sym1, __sym2));
                     return Ok(__result);
                 }
                 __Nonterminal::Wacky(__sym2) => {
-                    __result = try!(__custom1(input, __tokens, __lookahead, __sym2));
+                    __result = try!(__state3(input, __tokens, __lookahead, __sym2));
                 }
                 _ => {
                     return Ok((__lookahead, __nt));
@@ -645,7 +899,6 @@ mod __parse__Expression2 {
     }
 
     // State 12
-    //     Kind = None
     //     AllInputs = ["["]
     //     OptionalInputs = []
     //     FixedInputs = ["["]
@@ -659,7 +912,7 @@ mod __parse__Expression2 {
     //     Maybe = "[" (*) "]" ["wonky"]
     //     Maybe = "[" (*) "]" [r#"\\w+"#]
     //
-    //     "]" -> Shift(S24)
+    //   "]" -> S24
     //
     pub fn __state12<
         'input,
@@ -679,7 +932,55 @@ mod __parse__Expression2 {
         match __lookahead {
             Some((__loc1, (5, __tok0), __loc2)) => {
                 let __sym1 = (__loc1, (__tok0), __loc2);
-                __result = try!(__custom8(input, __tokens, __sym0, __sym1));
+                __result = try!(__state24(input, __tokens, __sym0, __sym1));
+                return Ok(__result);
+            }
+            _ => {
+                return Err(__ParseError::UnrecognizedToken {
+                    token: __lookahead,
+                    expected: vec![],
+                });
+            }
+        }
+    }
+
+    // State 13
+    //     AllInputs = [Expression1]
+    //     OptionalInputs = []
+    //     FixedInputs = [Expression1]
+    //     WillPushLen = 0
+    //     WillPush = []
+    //     WillProduce = Some(Expression2)
+    //
+    //     Expression2 = Expression1 (*) [")"]
+    //     Expression2 = Expression1 (*) ["*"]
+    //
+    //   ")" -> Expression2 = Expression1 => ActionFn(29);
+    //   "*" -> Expression2 = Expression1 => ActionFn(29);
+    //
+    pub fn __state13<
+        'input,
+        __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__ParseError<usize,(usize, &'input str),()>>>,
+    >(
+        input: &'input str,
+        __tokens: &mut __TOKENS,
+        __lookahead: Option<(usize, (usize, &'input str), usize)>,
+        __sym0: (usize, Box<Expr<'input>>, usize),
+    ) -> Result<(Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>), __ParseError<usize,(usize, &'input str),()>>
+    {
+        let mut __result: (Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>);
+        match __lookahead {
+            Some((_, (2, _), _)) |
+            Some((_, (3, _), _)) => {
+                let __start = __sym0.0.clone();
+                let __end = __sym0.2.clone();
+                let __nt = super::__action29(input, __sym0);
+                let __nt = __Nonterminal::Expression2((
+                    __start,
+                    __nt,
+                    __end,
+                ));
+                __result = (__lookahead, __nt);
                 return Ok(__result);
             }
             _ => {
@@ -692,7 +993,6 @@ mod __parse__Expression2 {
     }
 
     // State 14
-    //     Kind = None
     //     AllInputs = ["(", Expression2]
     //     OptionalInputs = ["("]
     //     FixedInputs = [Expression2]
@@ -710,8 +1010,8 @@ mod __parse__Expression2 {
     //     Expression2Op = (*) "*" ["wonky"]
     //     Expression2Op = (*) "*" [r#"\\w+"#]
     //
-    //     ")" -> Shift(S26)
-    //     "*" -> Shift(S10)
+    //   ")" -> S26
+    //   "*" -> S10
     //
     //     Expression2Op -> S25
     pub fn __state14<
@@ -730,12 +1030,12 @@ mod __parse__Expression2 {
             Some((__loc1, (2, __tok0), __loc2)) => {
                 let __sym2 = (__loc1, (__tok0), __loc2);
                 let __sym0 = __sym0.take().unwrap();
-                __result = try!(__custom9(input, __tokens, __sym0, __sym1, __sym2));
+                __result = try!(__state26(input, __tokens, __sym0, __sym1, __sym2));
                 return Ok(__result);
             }
             Some((__loc1, (3, __tok0), __loc2)) => {
                 let __sym2 = (__loc1, (__tok0), __loc2);
-                __result = try!(__custom4(input, __tokens, __sym2));
+                __result = try!(__state10(input, __tokens, __sym2));
             }
             _ => {
                 return Err(__ParseError::UnrecognizedToken {
@@ -758,8 +1058,55 @@ mod __parse__Expression2 {
         }
     }
 
+    // State 15
+    //     AllInputs = [Wacky]
+    //     OptionalInputs = []
+    //     FixedInputs = [Wacky]
+    //     WillPushLen = 0
+    //     WillPush = []
+    //     WillProduce = Some(Expression1)
+    //
+    //     Expression1 = Wacky (*) [")"]
+    //     Expression1 = Wacky (*) ["*"]
+    //
+    //   ")" -> Expression1 = Wacky => ActionFn(8);
+    //   "*" -> Expression1 = Wacky => ActionFn(8);
+    //
+    pub fn __state15<
+        'input,
+        __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__ParseError<usize,(usize, &'input str),()>>>,
+    >(
+        input: &'input str,
+        __tokens: &mut __TOKENS,
+        __lookahead: Option<(usize, (usize, &'input str), usize)>,
+        __sym0: (usize, Box<Expr<'input>>, usize),
+    ) -> Result<(Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>), __ParseError<usize,(usize, &'input str),()>>
+    {
+        let mut __result: (Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>);
+        match __lookahead {
+            Some((_, (2, _), _)) |
+            Some((_, (3, _), _)) => {
+                let __start = __sym0.0.clone();
+                let __end = __sym0.2.clone();
+                let __nt = super::__action8(input, __sym0);
+                let __nt = __Nonterminal::Expression1((
+                    __start,
+                    __nt,
+                    __end,
+                ));
+                __result = (__lookahead, __nt);
+                return Ok(__result);
+            }
+            _ => {
+                return Err(__ParseError::UnrecognizedToken {
+                    token: __lookahead,
+                    expected: vec![],
+                });
+            }
+        }
+    }
+
     // State 16
-    //     Kind = None
     //     AllInputs = ["&"]
     //     OptionalInputs = []
     //     FixedInputs = ["&"]
@@ -780,12 +1127,12 @@ mod __parse__Expression2 {
     //     Maybe = (*) "[" "]" ["wonky"]
     //     Maybe = (*) "[" "]" [r#"\\w+"#]
     //
-    //     "&" -> Reduce(Maybe =  => ActionFn(31);)
-    //     "(" -> Reduce(Maybe =  => ActionFn(31);)
-    //     "[" -> Shift(S12)
-    //     "wacky" -> Reduce(Maybe =  => ActionFn(31);)
-    //     "wonky" -> Reduce(Maybe =  => ActionFn(31);)
-    //     r#"\\w+"# -> Reduce(Maybe =  => ActionFn(31);)
+    //   "[" -> S12
+    //   "&" -> Maybe =  => ActionFn(31);
+    //   "(" -> Maybe =  => ActionFn(31);
+    //   "wacky" -> Maybe =  => ActionFn(31);
+    //   "wonky" -> Maybe =  => ActionFn(31);
+    //   r#"\\w+"# -> Maybe =  => ActionFn(31);
     //
     //     Maybe -> S27
     pub fn __state16<
@@ -845,7 +1192,6 @@ mod __parse__Expression2 {
     }
 
     // State 17
-    //     Kind = None
     //     AllInputs = ["("]
     //     OptionalInputs = []
     //     FixedInputs = ["("]
@@ -872,11 +1218,11 @@ mod __parse__Expression2 {
     //     Wacky = (*) "wacky" [")"]
     //     Wacky = (*) "wacky" ["*"]
     //
-    //     "&" -> Shift(S16)
-    //     "(" -> Shift(S17)
-    //     "wacky" -> Shift(S18)
-    //     "wonky" -> Shift(S19)
-    //     r#"\\w+"# -> Shift(S20)
+    //   "&" -> S16
+    //   "(" -> S17
+    //   "wacky" -> S18
+    //   "wonky" -> S19
+    //   r#"\\w+"# -> S20
     //
     //     Expression1 -> S13
     //     Expression2 -> S28
@@ -908,7 +1254,7 @@ mod __parse__Expression2 {
             }
             Some((__loc1, (6, __tok0), __loc2)) => {
                 let __sym1 = (__loc1, (__tok0), __loc2);
-                __result = try!(__custom2(input, __tokens, __sym1));
+                __result = try!(__state18(input, __tokens, __sym1));
             }
             Some((__loc1, (7, __tok0), __loc2)) => {
                 let __sym1 = (__loc1, (__tok0), __loc2);
@@ -916,7 +1262,7 @@ mod __parse__Expression2 {
             }
             Some((__loc1, (8, __tok0), __loc2)) => {
                 let __sym1 = (__loc1, (__tok0), __loc2);
-                __result = try!(__custom3(input, __tokens, __sym1));
+                __result = try!(__state20(input, __tokens, __sym1));
             }
             _ => {
                 return Err(__ParseError::UnrecognizedToken {
@@ -932,13 +1278,13 @@ mod __parse__Expression2 {
             let (__lookahead, __nt) = __result;
             match __nt {
                 __Nonterminal::Expression1(__sym1) => {
-                    __result = try!(__custom0(input, __tokens, __lookahead, __sym1));
+                    __result = try!(__state13(input, __tokens, __lookahead, __sym1));
                 }
                 __Nonterminal::Expression2(__sym1) => {
                     __result = try!(__state28(input, __tokens, __lookahead, __sym0, __sym1));
                 }
                 __Nonterminal::Wacky(__sym1) => {
-                    __result = try!(__custom1(input, __tokens, __lookahead, __sym1));
+                    __result = try!(__state15(input, __tokens, __lookahead, __sym1));
                 }
                 _ => {
                     return Ok((__lookahead, __nt));
@@ -947,8 +1293,59 @@ mod __parse__Expression2 {
         }
     }
 
+    // State 18
+    //     AllInputs = ["wacky"]
+    //     OptionalInputs = []
+    //     FixedInputs = ["wacky"]
+    //     WillPushLen = 0
+    //     WillPush = []
+    //     WillProduce = Some(Wacky)
+    //
+    //     Wacky = "wacky" (*) [")"]
+    //     Wacky = "wacky" (*) ["*"]
+    //
+    //   ")" -> Wacky = "wacky" => ActionFn(33);
+    //   "*" -> Wacky = "wacky" => ActionFn(33);
+    //
+    pub fn __state18<
+        'input,
+        __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__ParseError<usize,(usize, &'input str),()>>>,
+    >(
+        input: &'input str,
+        __tokens: &mut __TOKENS,
+        __sym0: (usize, &'input str, usize),
+    ) -> Result<(Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>), __ParseError<usize,(usize, &'input str),()>>
+    {
+        let mut __result: (Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>);
+        let __lookahead = match __tokens.next() {
+            Some(Ok(v)) => Some(v),
+            None => None,
+            Some(Err(e)) => return Err(e),
+        };
+        match __lookahead {
+            Some((_, (2, _), _)) |
+            Some((_, (3, _), _)) => {
+                let __start = __sym0.0.clone();
+                let __end = __sym0.2.clone();
+                let __nt = super::__action33(input, __sym0);
+                let __nt = __Nonterminal::Wacky((
+                    __start,
+                    __nt,
+                    __end,
+                ));
+                __result = (__lookahead, __nt);
+                return Ok(__result);
+            }
+            _ => {
+                return Err(__ParseError::UnrecognizedToken {
+                    token: __lookahead,
+                    expected: vec![],
+                });
+            }
+        }
+    }
+
     // State 19
-    //     Kind = None
     //     AllInputs = ["wonky"]
     //     OptionalInputs = []
     //     FixedInputs = ["wonky"]
@@ -961,8 +1358,8 @@ mod __parse__Expression2 {
     //     Wonky = (*) [")"]
     //     Wonky = (*) ["*"]
     //
-    //     ")" -> Reduce(Wonky =  => ActionFn(34);)
-    //     "*" -> Reduce(Wonky =  => ActionFn(34);)
+    //   ")" -> Wonky =  => ActionFn(34);
+    //   "*" -> Wonky =  => ActionFn(34);
     //
     //     Wonky -> S29
     pub fn __state19<
@@ -1004,7 +1401,7 @@ mod __parse__Expression2 {
             let (__lookahead, __nt) = __result;
             match __nt {
                 __Nonterminal::Wonky(__sym1) => {
-                    __result = try!(__custom5(input, __tokens, __lookahead, __sym0, __sym1));
+                    __result = try!(__state29(input, __tokens, __lookahead, __sym0, __sym1));
                     return Ok(__result);
                 }
                 _ => {
@@ -1014,8 +1411,270 @@ mod __parse__Expression2 {
         }
     }
 
+    // State 20
+    //     AllInputs = [r#"\\w+"#]
+    //     OptionalInputs = []
+    //     FixedInputs = [r#"\\w+"#]
+    //     WillPushLen = 0
+    //     WillPush = []
+    //     WillProduce = Some(Expression1)
+    //
+    //     Expression1 = r#"\\w+"# (*) [")"]
+    //     Expression1 = r#"\\w+"# (*) ["*"]
+    //
+    //   ")" -> Expression1 = r#"\\w+"# => ActionFn(26);
+    //   "*" -> Expression1 = r#"\\w+"# => ActionFn(26);
+    //
+    pub fn __state20<
+        'input,
+        __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__ParseError<usize,(usize, &'input str),()>>>,
+    >(
+        input: &'input str,
+        __tokens: &mut __TOKENS,
+        __sym0: (usize, &'input str, usize),
+    ) -> Result<(Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>), __ParseError<usize,(usize, &'input str),()>>
+    {
+        let mut __result: (Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>);
+        let __lookahead = match __tokens.next() {
+            Some(Ok(v)) => Some(v),
+            None => None,
+            Some(Err(e)) => return Err(e),
+        };
+        match __lookahead {
+            Some((_, (2, _), _)) |
+            Some((_, (3, _), _)) => {
+                let __start = __sym0.0.clone();
+                let __end = __sym0.2.clone();
+                let __nt = super::__action26(input, __sym0);
+                let __nt = __Nonterminal::Expression1((
+                    __start,
+                    __nt,
+                    __end,
+                ));
+                __result = (__lookahead, __nt);
+                return Ok(__result);
+            }
+            _ => {
+                return Err(__ParseError::UnrecognizedToken {
+                    token: __lookahead,
+                    expected: vec![],
+                });
+            }
+        }
+    }
+
+    // State 21
+    //     AllInputs = ["wonky", Wonky]
+    //     OptionalInputs = []
+    //     FixedInputs = ["wonky", Wonky]
+    //     WillPushLen = 0
+    //     WillPush = []
+    //     WillProduce = Some(Expression1)
+    //
+    //     Expression1 = "wonky" Wonky (*) [EOF]
+    //     Expression1 = "wonky" Wonky (*) ["*"]
+    //
+    //   EOF -> Expression1 = "wonky", Wonky => ActionFn(7);
+    //   "*" -> Expression1 = "wonky", Wonky => ActionFn(7);
+    //
+    pub fn __state21<
+        'input,
+        __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__ParseError<usize,(usize, &'input str),()>>>,
+    >(
+        input: &'input str,
+        __tokens: &mut __TOKENS,
+        __lookahead: Option<(usize, (usize, &'input str), usize)>,
+        __sym0: (usize, &'input str, usize),
+        __sym1: (usize, Box<Expr<'input>>, usize),
+    ) -> Result<(Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>), __ParseError<usize,(usize, &'input str),()>>
+    {
+        let mut __result: (Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>);
+        match __lookahead {
+            None |
+            Some((_, (3, _), _)) => {
+                let __start = __sym0.0.clone();
+                let __end = __sym1.2.clone();
+                let __nt = super::__action7(input, __sym0, __sym1);
+                let __nt = __Nonterminal::Expression1((
+                    __start,
+                    __nt,
+                    __end,
+                ));
+                __result = (__lookahead, __nt);
+                return Ok(__result);
+            }
+            _ => {
+                return Err(__ParseError::UnrecognizedToken {
+                    token: __lookahead,
+                    expected: vec![],
+                });
+            }
+        }
+    }
+
+    // State 22
+    //     AllInputs = [Expression2, Expression2Op, Expression1]
+    //     OptionalInputs = []
+    //     FixedInputs = [Expression2, Expression2Op, Expression1]
+    //     WillPushLen = 0
+    //     WillPush = []
+    //     WillProduce = Some(Expression2)
+    //
+    //     Expression2 = Expression2 Expression2Op Expression1 (*) [EOF]
+    //     Expression2 = Expression2 Expression2Op Expression1 (*) ["*"]
+    //
+    //   EOF -> Expression2 = Expression2, Expression2Op, Expression1 => ActionFn(28);
+    //   "*" -> Expression2 = Expression2, Expression2Op, Expression1 => ActionFn(28);
+    //
+    pub fn __state22<
+        'input,
+        __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__ParseError<usize,(usize, &'input str),()>>>,
+    >(
+        input: &'input str,
+        __tokens: &mut __TOKENS,
+        __lookahead: Option<(usize, (usize, &'input str), usize)>,
+        __sym0: (usize, Box<Expr<'input>>, usize),
+        __sym1: (usize, Box<Expr<'input>>, usize),
+        __sym2: (usize, Box<Expr<'input>>, usize),
+    ) -> Result<(Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>), __ParseError<usize,(usize, &'input str),()>>
+    {
+        let mut __result: (Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>);
+        match __lookahead {
+            None |
+            Some((_, (3, _), _)) => {
+                let __start = __sym0.0.clone();
+                let __end = __sym2.2.clone();
+                let __nt = super::__action28(input, __sym0, __sym1, __sym2);
+                let __nt = __Nonterminal::Expression2((
+                    __start,
+                    __nt,
+                    __end,
+                ));
+                __result = (__lookahead, __nt);
+                return Ok(__result);
+            }
+            _ => {
+                return Err(__ParseError::UnrecognizedToken {
+                    token: __lookahead,
+                    expected: vec![],
+                });
+            }
+        }
+    }
+
+    // State 23
+    //     AllInputs = ["&", Maybe, Expression1]
+    //     OptionalInputs = []
+    //     FixedInputs = ["&", Maybe, Expression1]
+    //     WillPushLen = 0
+    //     WillPush = []
+    //     WillProduce = Some(Expression1)
+    //
+    //     Expression1 = "&" Maybe Expression1 (*) [EOF]
+    //     Expression1 = "&" Maybe Expression1 (*) ["*"]
+    //
+    //   EOF -> Expression1 = "&", Maybe, Expression1 => ActionFn(27);
+    //   "*" -> Expression1 = "&", Maybe, Expression1 => ActionFn(27);
+    //
+    pub fn __state23<
+        'input,
+        __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__ParseError<usize,(usize, &'input str),()>>>,
+    >(
+        input: &'input str,
+        __tokens: &mut __TOKENS,
+        __lookahead: Option<(usize, (usize, &'input str), usize)>,
+        __sym0: (usize, &'input str, usize),
+        __sym1: (usize, Box<Expr<'input>>, usize),
+        __sym2: (usize, Box<Expr<'input>>, usize),
+    ) -> Result<(Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>), __ParseError<usize,(usize, &'input str),()>>
+    {
+        let mut __result: (Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>);
+        match __lookahead {
+            None |
+            Some((_, (3, _), _)) => {
+                let __start = __sym0.0.clone();
+                let __end = __sym2.2.clone();
+                let __nt = super::__action27(input, __sym0, __sym1, __sym2);
+                let __nt = __Nonterminal::Expression1((
+                    __start,
+                    __nt,
+                    __end,
+                ));
+                __result = (__lookahead, __nt);
+                return Ok(__result);
+            }
+            _ => {
+                return Err(__ParseError::UnrecognizedToken {
+                    token: __lookahead,
+                    expected: vec![],
+                });
+            }
+        }
+    }
+
+    // State 24
+    //     AllInputs = ["[", "]"]
+    //     OptionalInputs = []
+    //     FixedInputs = ["[", "]"]
+    //     WillPushLen = 0
+    //     WillPush = []
+    //     WillProduce = Some(Maybe)
+    //
+    //     Maybe = "[" "]" (*) ["&"]
+    //     Maybe = "[" "]" (*) ["("]
+    //     Maybe = "[" "]" (*) ["wacky"]
+    //     Maybe = "[" "]" (*) ["wonky"]
+    //     Maybe = "[" "]" (*) [r#"\\w+"#]
+    //
+    //   "&" -> Maybe = "[", "]" => ActionFn(32);
+    //   "(" -> Maybe = "[", "]" => ActionFn(32);
+    //   "wacky" -> Maybe = "[", "]" => ActionFn(32);
+    //   "wonky" -> Maybe = "[", "]" => ActionFn(32);
+    //   r#"\\w+"# -> Maybe = "[", "]" => ActionFn(32);
+    //
+    pub fn __state24<
+        'input,
+        __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__ParseError<usize,(usize, &'input str),()>>>,
+    >(
+        input: &'input str,
+        __tokens: &mut __TOKENS,
+        __sym0: (usize, &'input str, usize),
+        __sym1: (usize, &'input str, usize),
+    ) -> Result<(Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>), __ParseError<usize,(usize, &'input str),()>>
+    {
+        let mut __result: (Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>);
+        let __lookahead = match __tokens.next() {
+            Some(Ok(v)) => Some(v),
+            None => None,
+            Some(Err(e)) => return Err(e),
+        };
+        match __lookahead {
+            Some((_, (0, _), _)) |
+            Some((_, (1, _), _)) |
+            Some((_, (6, _), _)) |
+            Some((_, (7, _), _)) |
+            Some((_, (8, _), _)) => {
+                let __start = __sym0.0.clone();
+                let __end = __sym1.2.clone();
+                let __nt = super::__action32(input, __sym0, __sym1);
+                let __nt = __Nonterminal::Maybe((
+                    __start,
+                    __nt,
+                    __end,
+                ));
+                __result = (__lookahead, __nt);
+                return Ok(__result);
+            }
+            _ => {
+                return Err(__ParseError::UnrecognizedToken {
+                    token: __lookahead,
+                    expected: vec![],
+                });
+            }
+        }
+    }
+
     // State 25
-    //     Kind = None
     //     AllInputs = [Expression2, Expression2Op]
     //     OptionalInputs = []
     //     FixedInputs = [Expression2, Expression2Op]
@@ -1038,11 +1697,11 @@ mod __parse__Expression2 {
     //     Wacky = (*) "wacky" [")"]
     //     Wacky = (*) "wacky" ["*"]
     //
-    //     "&" -> Shift(S16)
-    //     "(" -> Shift(S17)
-    //     "wacky" -> Shift(S18)
-    //     "wonky" -> Shift(S19)
-    //     r#"\\w+"# -> Shift(S20)
+    //   "&" -> S16
+    //   "(" -> S17
+    //   "wacky" -> S18
+    //   "wonky" -> S19
+    //   r#"\\w+"# -> S20
     //
     //     Expression1 -> S30
     //     Wacky -> S15
@@ -1069,7 +1728,7 @@ mod __parse__Expression2 {
             }
             Some((__loc1, (6, __tok0), __loc2)) => {
                 let __sym2 = (__loc1, (__tok0), __loc2);
-                __result = try!(__custom2(input, __tokens, __sym2));
+                __result = try!(__state18(input, __tokens, __sym2));
             }
             Some((__loc1, (7, __tok0), __loc2)) => {
                 let __sym2 = (__loc1, (__tok0), __loc2);
@@ -1077,7 +1736,7 @@ mod __parse__Expression2 {
             }
             Some((__loc1, (8, __tok0), __loc2)) => {
                 let __sym2 = (__loc1, (__tok0), __loc2);
-                __result = try!(__custom3(input, __tokens, __sym2));
+                __result = try!(__state20(input, __tokens, __sym2));
             }
             _ => {
                 return Err(__ParseError::UnrecognizedToken {
@@ -1090,11 +1749,11 @@ mod __parse__Expression2 {
             let (__lookahead, __nt) = __result;
             match __nt {
                 __Nonterminal::Expression1(__sym2) => {
-                    __result = try!(__custom6(input, __tokens, __lookahead, __sym0, __sym1, __sym2));
+                    __result = try!(__state30(input, __tokens, __lookahead, __sym0, __sym1, __sym2));
                     return Ok(__result);
                 }
                 __Nonterminal::Wacky(__sym2) => {
-                    __result = try!(__custom1(input, __tokens, __lookahead, __sym2));
+                    __result = try!(__state15(input, __tokens, __lookahead, __sym2));
                 }
                 _ => {
                     return Ok((__lookahead, __nt));
@@ -1103,8 +1762,61 @@ mod __parse__Expression2 {
         }
     }
 
+    // State 26
+    //     AllInputs = ["(", Expression2, ")"]
+    //     OptionalInputs = []
+    //     FixedInputs = ["(", Expression2, ")"]
+    //     WillPushLen = 0
+    //     WillPush = []
+    //     WillProduce = Some(Expression1)
+    //
+    //     Expression1 = "(" Expression2 ")" (*) [EOF]
+    //     Expression1 = "(" Expression2 ")" (*) ["*"]
+    //
+    //   EOF -> Expression1 = "(", Expression2, ")" => ActionFn(25);
+    //   "*" -> Expression1 = "(", Expression2, ")" => ActionFn(25);
+    //
+    pub fn __state26<
+        'input,
+        __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__ParseError<usize,(usize, &'input str),()>>>,
+    >(
+        input: &'input str,
+        __tokens: &mut __TOKENS,
+        __sym0: (usize, &'input str, usize),
+        __sym1: (usize, Box<Expr<'input>>, usize),
+        __sym2: (usize, &'input str, usize),
+    ) -> Result<(Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>), __ParseError<usize,(usize, &'input str),()>>
+    {
+        let mut __result: (Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>);
+        let __lookahead = match __tokens.next() {
+            Some(Ok(v)) => Some(v),
+            None => None,
+            Some(Err(e)) => return Err(e),
+        };
+        match __lookahead {
+            None |
+            Some((_, (3, _), _)) => {
+                let __start = __sym0.0.clone();
+                let __end = __sym2.2.clone();
+                let __nt = super::__action25(input, __sym0, __sym1, __sym2);
+                let __nt = __Nonterminal::Expression1((
+                    __start,
+                    __nt,
+                    __end,
+                ));
+                __result = (__lookahead, __nt);
+                return Ok(__result);
+            }
+            _ => {
+                return Err(__ParseError::UnrecognizedToken {
+                    token: __lookahead,
+                    expected: vec![],
+                });
+            }
+        }
+    }
+
     // State 27
-    //     Kind = None
     //     AllInputs = ["&", Maybe]
     //     OptionalInputs = []
     //     FixedInputs = ["&", Maybe]
@@ -1127,11 +1839,11 @@ mod __parse__Expression2 {
     //     Wacky = (*) "wacky" [")"]
     //     Wacky = (*) "wacky" ["*"]
     //
-    //     "&" -> Shift(S16)
-    //     "(" -> Shift(S17)
-    //     "wacky" -> Shift(S18)
-    //     "wonky" -> Shift(S19)
-    //     r#"\\w+"# -> Shift(S20)
+    //   "&" -> S16
+    //   "(" -> S17
+    //   "wacky" -> S18
+    //   "wonky" -> S19
+    //   r#"\\w+"# -> S20
     //
     //     Expression1 -> S31
     //     Wacky -> S15
@@ -1158,7 +1870,7 @@ mod __parse__Expression2 {
             }
             Some((__loc1, (6, __tok0), __loc2)) => {
                 let __sym2 = (__loc1, (__tok0), __loc2);
-                __result = try!(__custom2(input, __tokens, __sym2));
+                __result = try!(__state18(input, __tokens, __sym2));
             }
             Some((__loc1, (7, __tok0), __loc2)) => {
                 let __sym2 = (__loc1, (__tok0), __loc2);
@@ -1166,7 +1878,7 @@ mod __parse__Expression2 {
             }
             Some((__loc1, (8, __tok0), __loc2)) => {
                 let __sym2 = (__loc1, (__tok0), __loc2);
-                __result = try!(__custom3(input, __tokens, __sym2));
+                __result = try!(__state20(input, __tokens, __sym2));
             }
             _ => {
                 return Err(__ParseError::UnrecognizedToken {
@@ -1179,11 +1891,11 @@ mod __parse__Expression2 {
             let (__lookahead, __nt) = __result;
             match __nt {
                 __Nonterminal::Expression1(__sym2) => {
-                    __result = try!(__custom7(input, __tokens, __lookahead, __sym0, __sym1, __sym2));
+                    __result = try!(__state31(input, __tokens, __lookahead, __sym0, __sym1, __sym2));
                     return Ok(__result);
                 }
                 __Nonterminal::Wacky(__sym2) => {
-                    __result = try!(__custom1(input, __tokens, __lookahead, __sym2));
+                    __result = try!(__state15(input, __tokens, __lookahead, __sym2));
                 }
                 _ => {
                     return Ok((__lookahead, __nt));
@@ -1193,7 +1905,6 @@ mod __parse__Expression2 {
     }
 
     // State 28
-    //     Kind = None
     //     AllInputs = ["(", Expression2]
     //     OptionalInputs = ["("]
     //     FixedInputs = [Expression2]
@@ -1211,8 +1922,8 @@ mod __parse__Expression2 {
     //     Expression2Op = (*) "*" ["wonky"]
     //     Expression2Op = (*) "*" [r#"\\w+"#]
     //
-    //     ")" -> Shift(S32)
-    //     "*" -> Shift(S10)
+    //   ")" -> S32
+    //   "*" -> S10
     //
     //     Expression2Op -> S25
     pub fn __state28<
@@ -1231,12 +1942,12 @@ mod __parse__Expression2 {
             Some((__loc1, (2, __tok0), __loc2)) => {
                 let __sym2 = (__loc1, (__tok0), __loc2);
                 let __sym0 = __sym0.take().unwrap();
-                __result = try!(__custom9(input, __tokens, __sym0, __sym1, __sym2));
+                __result = try!(__state32(input, __tokens, __sym0, __sym1, __sym2));
                 return Ok(__result);
             }
             Some((__loc1, (3, __tok0), __loc2)) => {
                 let __sym2 = (__loc1, (__tok0), __loc2);
-                __result = try!(__custom4(input, __tokens, __sym2));
+                __result = try!(__state10(input, __tokens, __sym2));
             }
             _ => {
                 return Err(__ParseError::UnrecognizedToken {
@@ -1259,146 +1970,21 @@ mod __parse__Expression2 {
         }
     }
 
-    // Custom 0
-    //    Reduce Expression2 = Expression1 => ActionFn(29);
-    pub fn __custom0<
-        'input,
-        __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__ParseError<usize,(usize, &'input str),()>>>,
-    >(
-        input: &'input str,
-        __tokens: &mut __TOKENS,
-        __lookahead: Option<(usize, (usize, &'input str), usize)>,
-        __sym0: (usize, Box<Expr<'input>>, usize),
-    ) -> Result<(Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>), __ParseError<usize,(usize, &'input str),()>>
-    {
-        let mut __result: (Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>);
-        let __start = __sym0.0.clone();
-        let __end = __sym0.2.clone();
-        let __nt = super::__action29(input, __sym0);
-        let __nt = __Nonterminal::Expression2((
-            __start,
-            __nt,
-            __end,
-        ));
-        __result = (__lookahead, __nt);
-        return Ok(__result);
-    }
-
-    // Custom 1
-    //    Reduce Expression1 = Wacky => ActionFn(8);
-    pub fn __custom1<
-        'input,
-        __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__ParseError<usize,(usize, &'input str),()>>>,
-    >(
-        input: &'input str,
-        __tokens: &mut __TOKENS,
-        __lookahead: Option<(usize, (usize, &'input str), usize)>,
-        __sym0: (usize, Box<Expr<'input>>, usize),
-    ) -> Result<(Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>), __ParseError<usize,(usize, &'input str),()>>
-    {
-        let mut __result: (Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>);
-        let __start = __sym0.0.clone();
-        let __end = __sym0.2.clone();
-        let __nt = super::__action8(input, __sym0);
-        let __nt = __Nonterminal::Expression1((
-            __start,
-            __nt,
-            __end,
-        ));
-        __result = (__lookahead, __nt);
-        return Ok(__result);
-    }
-
-    // Custom 2
-    //    Reduce Wacky = "wacky" => ActionFn(33);
-    pub fn __custom2<
-        'input,
-        __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__ParseError<usize,(usize, &'input str),()>>>,
-    >(
-        input: &'input str,
-        __tokens: &mut __TOKENS,
-        __sym0: (usize, &'input str, usize),
-    ) -> Result<(Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>), __ParseError<usize,(usize, &'input str),()>>
-    {
-        let mut __result: (Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>);
-        let __lookahead = match __tokens.next() {
-            Some(Ok(v)) => Some(v),
-            None => None,
-            Some(Err(e)) => return Err(e),
-        };
-        let __start = __sym0.0.clone();
-        let __end = __sym0.2.clone();
-        let __nt = super::__action33(input, __sym0);
-        let __nt = __Nonterminal::Wacky((
-            __start,
-            __nt,
-            __end,
-        ));
-        __result = (__lookahead, __nt);
-        return Ok(__result);
-    }
-
-    // Custom 3
-    //    Reduce Expression1 = r#"\\w+"# => ActionFn(26);
-    pub fn __custom3<
-        'input,
-        __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__ParseError<usize,(usize, &'input str),()>>>,
-    >(
-        input: &'input str,
-        __tokens: &mut __TOKENS,
-        __sym0: (usize, &'input str, usize),
-    ) -> Result<(Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>), __ParseError<usize,(usize, &'input str),()>>
-    {
-        let mut __result: (Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>);
-        let __lookahead = match __tokens.next() {
-            Some(Ok(v)) => Some(v),
-            None => None,
-            Some(Err(e)) => return Err(e),
-        };
-        let __start = __sym0.0.clone();
-        let __end = __sym0.2.clone();
-        let __nt = super::__action26(input, __sym0);
-        let __nt = __Nonterminal::Expression1((
-            __start,
-            __nt,
-            __end,
-        ));
-        __result = (__lookahead, __nt);
-        return Ok(__result);
-    }
-
-    // Custom 4
-    //    Reduce Expression2Op = "*" => ActionFn(30);
-    pub fn __custom4<
-        'input,
-        __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__ParseError<usize,(usize, &'input str),()>>>,
-    >(
-        input: &'input str,
-        __tokens: &mut __TOKENS,
-        __sym0: (usize, &'input str, usize),
-    ) -> Result<(Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>), __ParseError<usize,(usize, &'input str),()>>
-    {
-        let mut __result: (Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>);
-        let __lookahead = match __tokens.next() {
-            Some(Ok(v)) => Some(v),
-            None => None,
-            Some(Err(e)) => return Err(e),
-        };
-        let __start = __sym0.0.clone();
-        let __end = __sym0.2.clone();
-        let __nt = super::__action30(input, __sym0);
-        let __nt = __Nonterminal::Expression2Op((
-            __start,
-            __nt,
-            __end,
-        ));
-        __result = (__lookahead, __nt);
-        return Ok(__result);
-    }
-
-    // Custom 5
-    //    Reduce Expression1 = "wonky", Wonky => ActionFn(7);
-    pub fn __custom5<
+    // State 29
+    //     AllInputs = ["wonky", Wonky]
+    //     OptionalInputs = []
+    //     FixedInputs = ["wonky", Wonky]
+    //     WillPushLen = 0
+    //     WillPush = []
+    //     WillProduce = Some(Expression1)
+    //
+    //     Expression1 = "wonky" Wonky (*) [")"]
+    //     Expression1 = "wonky" Wonky (*) ["*"]
+    //
+    //   ")" -> Expression1 = "wonky", Wonky => ActionFn(7);
+    //   "*" -> Expression1 = "wonky", Wonky => ActionFn(7);
+    //
+    pub fn __state29<
         'input,
         __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__ParseError<usize,(usize, &'input str),()>>>,
     >(
@@ -1410,21 +1996,44 @@ mod __parse__Expression2 {
     ) -> Result<(Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>), __ParseError<usize,(usize, &'input str),()>>
     {
         let mut __result: (Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>);
-        let __start = __sym0.0.clone();
-        let __end = __sym1.2.clone();
-        let __nt = super::__action7(input, __sym0, __sym1);
-        let __nt = __Nonterminal::Expression1((
-            __start,
-            __nt,
-            __end,
-        ));
-        __result = (__lookahead, __nt);
-        return Ok(__result);
+        match __lookahead {
+            Some((_, (2, _), _)) |
+            Some((_, (3, _), _)) => {
+                let __start = __sym0.0.clone();
+                let __end = __sym1.2.clone();
+                let __nt = super::__action7(input, __sym0, __sym1);
+                let __nt = __Nonterminal::Expression1((
+                    __start,
+                    __nt,
+                    __end,
+                ));
+                __result = (__lookahead, __nt);
+                return Ok(__result);
+            }
+            _ => {
+                return Err(__ParseError::UnrecognizedToken {
+                    token: __lookahead,
+                    expected: vec![],
+                });
+            }
+        }
     }
 
-    // Custom 6
-    //    Reduce Expression2 = Expression2, Expression2Op, Expression1 => ActionFn(28);
-    pub fn __custom6<
+    // State 30
+    //     AllInputs = [Expression2, Expression2Op, Expression1]
+    //     OptionalInputs = []
+    //     FixedInputs = [Expression2, Expression2Op, Expression1]
+    //     WillPushLen = 0
+    //     WillPush = []
+    //     WillProduce = Some(Expression2)
+    //
+    //     Expression2 = Expression2 Expression2Op Expression1 (*) [")"]
+    //     Expression2 = Expression2 Expression2Op Expression1 (*) ["*"]
+    //
+    //   ")" -> Expression2 = Expression2, Expression2Op, Expression1 => ActionFn(28);
+    //   "*" -> Expression2 = Expression2, Expression2Op, Expression1 => ActionFn(28);
+    //
+    pub fn __state30<
         'input,
         __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__ParseError<usize,(usize, &'input str),()>>>,
     >(
@@ -1437,21 +2046,44 @@ mod __parse__Expression2 {
     ) -> Result<(Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>), __ParseError<usize,(usize, &'input str),()>>
     {
         let mut __result: (Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>);
-        let __start = __sym0.0.clone();
-        let __end = __sym2.2.clone();
-        let __nt = super::__action28(input, __sym0, __sym1, __sym2);
-        let __nt = __Nonterminal::Expression2((
-            __start,
-            __nt,
-            __end,
-        ));
-        __result = (__lookahead, __nt);
-        return Ok(__result);
+        match __lookahead {
+            Some((_, (2, _), _)) |
+            Some((_, (3, _), _)) => {
+                let __start = __sym0.0.clone();
+                let __end = __sym2.2.clone();
+                let __nt = super::__action28(input, __sym0, __sym1, __sym2);
+                let __nt = __Nonterminal::Expression2((
+                    __start,
+                    __nt,
+                    __end,
+                ));
+                __result = (__lookahead, __nt);
+                return Ok(__result);
+            }
+            _ => {
+                return Err(__ParseError::UnrecognizedToken {
+                    token: __lookahead,
+                    expected: vec![],
+                });
+            }
+        }
     }
 
-    // Custom 7
-    //    Reduce Expression1 = "&", Maybe, Expression1 => ActionFn(27);
-    pub fn __custom7<
+    // State 31
+    //     AllInputs = ["&", Maybe, Expression1]
+    //     OptionalInputs = []
+    //     FixedInputs = ["&", Maybe, Expression1]
+    //     WillPushLen = 0
+    //     WillPush = []
+    //     WillProduce = Some(Expression1)
+    //
+    //     Expression1 = "&" Maybe Expression1 (*) [")"]
+    //     Expression1 = "&" Maybe Expression1 (*) ["*"]
+    //
+    //   ")" -> Expression1 = "&", Maybe, Expression1 => ActionFn(27);
+    //   "*" -> Expression1 = "&", Maybe, Expression1 => ActionFn(27);
+    //
+    pub fn __state31<
         'input,
         __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__ParseError<usize,(usize, &'input str),()>>>,
     >(
@@ -1464,51 +2096,44 @@ mod __parse__Expression2 {
     ) -> Result<(Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>), __ParseError<usize,(usize, &'input str),()>>
     {
         let mut __result: (Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>);
-        let __start = __sym0.0.clone();
-        let __end = __sym2.2.clone();
-        let __nt = super::__action27(input, __sym0, __sym1, __sym2);
-        let __nt = __Nonterminal::Expression1((
-            __start,
-            __nt,
-            __end,
-        ));
-        __result = (__lookahead, __nt);
-        return Ok(__result);
+        match __lookahead {
+            Some((_, (2, _), _)) |
+            Some((_, (3, _), _)) => {
+                let __start = __sym0.0.clone();
+                let __end = __sym2.2.clone();
+                let __nt = super::__action27(input, __sym0, __sym1, __sym2);
+                let __nt = __Nonterminal::Expression1((
+                    __start,
+                    __nt,
+                    __end,
+                ));
+                __result = (__lookahead, __nt);
+                return Ok(__result);
+            }
+            _ => {
+                return Err(__ParseError::UnrecognizedToken {
+                    token: __lookahead,
+                    expected: vec![],
+                });
+            }
+        }
     }
 
-    // Custom 8
-    //    Reduce Maybe = "[", "]" => ActionFn(32);
-    pub fn __custom8<
-        'input,
-        __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__ParseError<usize,(usize, &'input str),()>>>,
-    >(
-        input: &'input str,
-        __tokens: &mut __TOKENS,
-        __sym0: (usize, &'input str, usize),
-        __sym1: (usize, &'input str, usize),
-    ) -> Result<(Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>), __ParseError<usize,(usize, &'input str),()>>
-    {
-        let mut __result: (Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>);
-        let __lookahead = match __tokens.next() {
-            Some(Ok(v)) => Some(v),
-            None => None,
-            Some(Err(e)) => return Err(e),
-        };
-        let __start = __sym0.0.clone();
-        let __end = __sym1.2.clone();
-        let __nt = super::__action32(input, __sym0, __sym1);
-        let __nt = __Nonterminal::Maybe((
-            __start,
-            __nt,
-            __end,
-        ));
-        __result = (__lookahead, __nt);
-        return Ok(__result);
-    }
-
-    // Custom 9
-    //    Reduce Expression1 = "(", Expression2, ")" => ActionFn(25);
-    pub fn __custom9<
+    // State 32
+    //     AllInputs = ["(", Expression2, ")"]
+    //     OptionalInputs = []
+    //     FixedInputs = ["(", Expression2, ")"]
+    //     WillPushLen = 0
+    //     WillPush = []
+    //     WillProduce = Some(Expression1)
+    //
+    //     Expression1 = "(" Expression2 ")" (*) [")"]
+    //     Expression1 = "(" Expression2 ")" (*) ["*"]
+    //
+    //   ")" -> Expression1 = "(", Expression2, ")" => ActionFn(25);
+    //   "*" -> Expression1 = "(", Expression2, ")" => ActionFn(25);
+    //
+    pub fn __state32<
         'input,
         __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__ParseError<usize,(usize, &'input str),()>>>,
     >(
@@ -1525,16 +2150,27 @@ mod __parse__Expression2 {
             None => None,
             Some(Err(e)) => return Err(e),
         };
-        let __start = __sym0.0.clone();
-        let __end = __sym2.2.clone();
-        let __nt = super::__action25(input, __sym0, __sym1, __sym2);
-        let __nt = __Nonterminal::Expression1((
-            __start,
-            __nt,
-            __end,
-        ));
-        __result = (__lookahead, __nt);
-        return Ok(__result);
+        match __lookahead {
+            Some((_, (2, _), _)) |
+            Some((_, (3, _), _)) => {
+                let __start = __sym0.0.clone();
+                let __end = __sym2.2.clone();
+                let __nt = super::__action25(input, __sym0, __sym1, __sym2);
+                let __nt = __Nonterminal::Expression1((
+                    __start,
+                    __nt,
+                    __end,
+                ));
+                __result = (__lookahead, __nt);
+                return Ok(__result);
+            }
+            _ => {
+                return Err(__ParseError::UnrecognizedToken {
+                    token: __lookahead,
+                    expected: vec![],
+                });
+            }
+        }
     }
 }
 pub use self::__parse__Expression2::parse_Expression2;

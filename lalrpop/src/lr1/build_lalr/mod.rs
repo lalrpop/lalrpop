@@ -4,8 +4,7 @@ use collections::{map, Map};
 use itertools::Itertools;
 use lr1::build;
 use lr1::core::*;
-use lr1::core::Action::{Reduce, Shift};
-use lr1::lookahead::Token;
+use lr1::lookahead::*;
 use grammar::repr::*;
 use std::rc::Rc;
 use tls::Tls;
@@ -18,11 +17,12 @@ mod test;
 // the items can be pushed to. We initially create these with an empty
 // set of actions, as well.
 struct LALR1State<'grammar> {
-    index: StateIndex,
-    items: Vec<LR1Item<'grammar>>,
-    tokens: Map<Token, Action<'grammar>>,
-    gotos: Map<NonterminalString, StateIndex>,
-    conflicts: Map<Token, Vec<Conflict<'grammar>>>,
+    pub index: StateIndex,
+    pub items: Vec<LR1Item<'grammar>>,
+    pub shifts: Map<TerminalString, StateIndex>,
+    pub reductions: Map<Token, &'grammar Production>,
+    pub conflicts: Vec<LR1Conflict<'grammar>>,
+    pub gotos: Map<NonterminalString, StateIndex>,
 }
 
 pub fn build_lalr_states<'grammar>(grammar: &'grammar Grammar,
@@ -64,9 +64,10 @@ pub fn collapse_to_lalr_states<'grammar>(lr_states: &[LR1State<'grammar>])
                           lalr1_states.push(LALR1State {
                               index: index,
                               items: vec![],
-                              tokens: map(),
+                              shifts: map(),
+                              reductions: map(),
                               gotos: map(),
-                              conflicts: map(),
+                              conflicts: lr1_state.conflicts.clone()
                           });
                           index
                       });
@@ -82,24 +83,24 @@ pub fn collapse_to_lalr_states<'grammar>(lr_states: &[LR1State<'grammar>])
         let lalr1_index = remap[lr1_index];
         let lalr1_state = &mut lalr1_states[lalr1_index.0];
 
-        for (&lookahead, &lr1_action) in &lr1_state.tokens {
-            let lalr1_action = match lr1_action {
-                Action::Shift(state) => Action::Shift(remap[state.0]),
-                Action::Reduce(prod) => Action::Reduce(prod),
-            };
+        for (&terminal, &lr1_state) in &lr1_state.shifts {
+            let target_state = remap[lr1_state.0];
+            let prev = lalr1_state.shifts.insert(terminal, target_state);
 
-            match lalr1_state.tokens.entry(lookahead) {
-                Entry::Occupied(slot) => {
-                    let old_action = *slot.get();
-                    if old_action != lalr1_action {
-                        lalr1_state.conflicts
-                                   .entry(lookahead)
-                                   .or_insert(vec![])
-                                   .push(conflict(lalr1_index, old_action, lalr1_action));
-                    }
-                }
-                Entry::Vacant(slot) => {
-                    slot.insert(lalr1_action);
+            // LALR(1) should not introduce shift/reduce
+            assert!(prev.unwrap_or(target_state) == target_state);
+        }
+
+        for (&token, &production) in &lr1_state.reductions {
+            let prev = lalr1_state.reductions.insert(token, production);
+            if let Some(prev_production) = prev {
+                if prev_production != production {
+                    lalr1_state.conflicts.push(Conflict {
+                        state: lalr1_index,
+                        lookahead: token,
+                        production: production,
+                        action: Action::Reduce(prev_production),
+                    });
                 }
             }
         }
@@ -125,7 +126,8 @@ pub fn collapse_to_lalr_states<'grammar>(lr_states: &[LR1State<'grammar>])
                     .map(|lr| State {
                         index: lr.index,
                         items: Items { vec: Rc::new(lr.items) },
-                        tokens: lr.tokens,
+                        shifts: lr.shifts,
+                        reductions: lr.reductions,
                         gotos: lr.gotos,
                         conflicts: lr.conflicts,
                     })
@@ -135,23 +137,5 @@ pub fn collapse_to_lalr_states<'grammar>(lr_states: &[LR1State<'grammar>])
         Err(TableConstructionError { states: lr1_states })
     } else {
         Ok(lr1_states)
-    }
-}
-
-fn conflict<'grammar>(index: StateIndex,
-                      action1: Action<'grammar>,
-                      action2: Action<'grammar>)
-                      -> Conflict<'grammar> {
-    let (production, conflict) = match (action1, action2) {
-        (c @ Shift(_), Reduce(p)) |
-        (Reduce(p), c @ Shift(_)) |
-        (Reduce(p), c @ Reduce(_)) => { (p, c) }
-        _ => panic!("conflict between {:?} and {:?}", action1, action2)
-    };
-
-    Conflict {
-        state: index,
-        production: production,
-        action: conflict,
     }
 }

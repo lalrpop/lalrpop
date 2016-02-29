@@ -43,7 +43,6 @@ mod __parse__Items {
     }
 
     // State 0
-    //     Kind = None
     //     AllInputs = []
     //     OptionalInputs = []
     //     FixedInputs = []
@@ -62,9 +61,9 @@ mod __parse__Items {
     //     Items = (*) Items "-" ["-"]
     //     __Items = (*) Items [EOF]
     //
-    //     EOF -> Reduce(Items =  => ActionFn(9);)
-    //     "+" -> Reduce(Items =  => ActionFn(9);)
-    //     "-" -> Reduce(Items =  => ActionFn(9);)
+    //   EOF -> Items =  => ActionFn(9);
+    //   "+" -> Items =  => ActionFn(9);
+    //   "-" -> Items =  => ActionFn(9);
     //
     //     Items -> S1
     pub fn __state0<
@@ -112,7 +111,6 @@ mod __parse__Items {
     }
 
     // State 1
-    //     Kind = None
     //     AllInputs = [Items]
     //     OptionalInputs = []
     //     FixedInputs = [Items]
@@ -131,9 +129,9 @@ mod __parse__Items {
     //     Spanned<"+"> = (*) "+" ["-"]
     //     __Items = Items (*) [EOF]
     //
-    //     EOF -> Reduce(__Items = Items => ActionFn(0);)
-    //     "+" -> Shift(S3)
-    //     "-" -> Shift(S4)
+    //   "+" -> S3
+    //   "-" -> S4
+    //   EOF -> __Items = Items => ActionFn(0);
     //
     //     Spanned<"+"> -> S2
     pub fn __state1<
@@ -150,11 +148,11 @@ mod __parse__Items {
         match __lookahead {
             Some((__loc1, (0, __tok0), __loc2)) => {
                 let __sym1 = (__loc1, (__tok0), __loc2);
-                __result = try!(__custom1(input, __tokens, __sym1));
+                __result = try!(__state3(input, __tokens, __sym1));
             }
             Some((__loc1, (1, __tok0), __loc2)) => {
                 let __sym1 = (__loc1, (__tok0), __loc2);
-                __result = try!(__custom2(input, __tokens, __sym0, __sym1));
+                __result = try!(__state4(input, __tokens, __sym0, __sym1));
                 return Ok(__result);
             }
             None => {
@@ -180,7 +178,7 @@ mod __parse__Items {
             let (__lookahead, __nt) = __result;
             match __nt {
                 __Nonterminal::Spanned_3c_22_2b_22_3e(__sym1) => {
-                    __result = try!(__custom0(input, __tokens, __lookahead, __sym0, __sym1));
+                    __result = try!(__state2(input, __tokens, __lookahead, __sym0, __sym1));
                     return Ok(__result);
                 }
                 _ => {
@@ -190,9 +188,23 @@ mod __parse__Items {
         }
     }
 
-    // Custom 0
-    //    Reduce Items = Items, Spanned<"+"> => ActionFn(2);
-    pub fn __custom0<
+    // State 2
+    //     AllInputs = [Items, Spanned<"+">]
+    //     OptionalInputs = []
+    //     FixedInputs = [Items, Spanned<"+">]
+    //     WillPushLen = 0
+    //     WillPush = []
+    //     WillProduce = Some(Items)
+    //
+    //     Items = Items Spanned<"+"> (*) [EOF]
+    //     Items = Items Spanned<"+"> (*) ["+"]
+    //     Items = Items Spanned<"+"> (*) ["-"]
+    //
+    //   EOF -> Items = Items, Spanned<"+"> => ActionFn(2);
+    //   "+" -> Items = Items, Spanned<"+"> => ActionFn(2);
+    //   "-" -> Items = Items, Spanned<"+"> => ActionFn(2);
+    //
+    pub fn __state2<
         'input,
         __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__ParseError<usize,(usize, &'input str),()>>>,
     >(
@@ -204,21 +216,47 @@ mod __parse__Items {
     ) -> Result<(Option<(usize, (usize, &'input str), usize)>, __Nonterminal<>), __ParseError<usize,(usize, &'input str),()>>
     {
         let mut __result: (Option<(usize, (usize, &'input str), usize)>, __Nonterminal<>);
-        let __start = __sym0.0.clone();
-        let __end = __sym1.2.clone();
-        let __nt = super::__action2(input, __sym0, __sym1);
-        let __nt = __Nonterminal::Items((
-            __start,
-            __nt,
-            __end,
-        ));
-        __result = (__lookahead, __nt);
-        return Ok(__result);
+        match __lookahead {
+            None |
+            Some((_, (0, _), _)) |
+            Some((_, (1, _), _)) => {
+                let __start = __sym0.0.clone();
+                let __end = __sym1.2.clone();
+                let __nt = super::__action2(input, __sym0, __sym1);
+                let __nt = __Nonterminal::Items((
+                    __start,
+                    __nt,
+                    __end,
+                ));
+                __result = (__lookahead, __nt);
+                return Ok(__result);
+            }
+            _ => {
+                return Err(__ParseError::UnrecognizedToken {
+                    token: __lookahead,
+                    expected: vec![],
+                });
+            }
+        }
     }
 
-    // Custom 1
-    //    Reduce Spanned<"+"> = "+" => ActionFn(10);
-    pub fn __custom1<
+    // State 3
+    //     AllInputs = ["+"]
+    //     OptionalInputs = []
+    //     FixedInputs = ["+"]
+    //     WillPushLen = 0
+    //     WillPush = []
+    //     WillProduce = Some(Spanned<"+">)
+    //
+    //     Spanned<"+"> = "+" (*) [EOF]
+    //     Spanned<"+"> = "+" (*) ["+"]
+    //     Spanned<"+"> = "+" (*) ["-"]
+    //
+    //   EOF -> Spanned<"+"> = "+" => ActionFn(10);
+    //   "+" -> Spanned<"+"> = "+" => ActionFn(10);
+    //   "-" -> Spanned<"+"> = "+" => ActionFn(10);
+    //
+    pub fn __state3<
         'input,
         __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__ParseError<usize,(usize, &'input str),()>>>,
     >(
@@ -233,21 +271,47 @@ mod __parse__Items {
             None => None,
             Some(Err(e)) => return Err(e),
         };
-        let __start = __sym0.0.clone();
-        let __end = __sym0.2.clone();
-        let __nt = super::__action10(input, __sym0);
-        let __nt = __Nonterminal::Spanned_3c_22_2b_22_3e((
-            __start,
-            __nt,
-            __end,
-        ));
-        __result = (__lookahead, __nt);
-        return Ok(__result);
+        match __lookahead {
+            None |
+            Some((_, (0, _), _)) |
+            Some((_, (1, _), _)) => {
+                let __start = __sym0.0.clone();
+                let __end = __sym0.2.clone();
+                let __nt = super::__action10(input, __sym0);
+                let __nt = __Nonterminal::Spanned_3c_22_2b_22_3e((
+                    __start,
+                    __nt,
+                    __end,
+                ));
+                __result = (__lookahead, __nt);
+                return Ok(__result);
+            }
+            _ => {
+                return Err(__ParseError::UnrecognizedToken {
+                    token: __lookahead,
+                    expected: vec![],
+                });
+            }
+        }
     }
 
-    // Custom 2
-    //    Reduce Items = Items, "-" => ActionFn(3);
-    pub fn __custom2<
+    // State 4
+    //     AllInputs = [Items, "-"]
+    //     OptionalInputs = []
+    //     FixedInputs = [Items, "-"]
+    //     WillPushLen = 0
+    //     WillPush = []
+    //     WillProduce = Some(Items)
+    //
+    //     Items = Items "-" (*) [EOF]
+    //     Items = Items "-" (*) ["+"]
+    //     Items = Items "-" (*) ["-"]
+    //
+    //   EOF -> Items = Items, "-" => ActionFn(3);
+    //   "+" -> Items = Items, "-" => ActionFn(3);
+    //   "-" -> Items = Items, "-" => ActionFn(3);
+    //
+    pub fn __state4<
         'input,
         __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__ParseError<usize,(usize, &'input str),()>>>,
     >(
@@ -263,16 +327,28 @@ mod __parse__Items {
             None => None,
             Some(Err(e)) => return Err(e),
         };
-        let __start = __sym0.0.clone();
-        let __end = __sym1.2.clone();
-        let __nt = super::__action3(input, __sym0, __sym1);
-        let __nt = __Nonterminal::Items((
-            __start,
-            __nt,
-            __end,
-        ));
-        __result = (__lookahead, __nt);
-        return Ok(__result);
+        match __lookahead {
+            None |
+            Some((_, (0, _), _)) |
+            Some((_, (1, _), _)) => {
+                let __start = __sym0.0.clone();
+                let __end = __sym1.2.clone();
+                let __nt = super::__action3(input, __sym0, __sym1);
+                let __nt = __Nonterminal::Items((
+                    __start,
+                    __nt,
+                    __end,
+                ));
+                __result = (__lookahead, __nt);
+                return Ok(__result);
+            }
+            _ => {
+                return Err(__ParseError::UnrecognizedToken {
+                    token: __lookahead,
+                    expected: vec![],
+                });
+            }
+        }
     }
 }
 pub use self::__parse__Items::parse_Items;

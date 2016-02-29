@@ -27,17 +27,18 @@ impl StateGraph {
             graph.extend_with_edges(
                 state.conflicts
                      .iter()
-                     .flat_map(|(lookahead, conflicts)| {
-                         conflicts.iter()
-                                  .map(move |conflict| (lookahead, &conflict.action))
-                     })
-                     .chain(state.tokens.iter())
-                     .filter_map(|(l, action)| match *action {
-                         Action::Reduce(_) => None,
-                         Action::Shift(target) => {
-                             Some((Symbol::Terminal(l.unwrap_terminal()), target))
+                     .filter_map(|conflict| {
+                         match conflict.action {
+                             Action::Shift(state) => {
+                                 Some((conflict.lookahead.unwrap_terminal(), state))
+                             }
+                             Action::Reduce(_) => None,
                          }
                      })
+                     .chain(
+                         state.shifts.iter()
+                                     .map(|(&terminal, &state)| (terminal, state)))
+                     .map(|(terminal, state)| (Symbol::Terminal(terminal), state))
                      .chain(
                          state.gotos
                               .iter()
