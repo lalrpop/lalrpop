@@ -673,18 +673,15 @@ impl<'cx, 'grammar> ErrorReportingCx<'cx, 'grammar> {
                         // same symbol on both; we'll be able to shift them
                         None
                     } else {
-                        // different symbols: for this to
-                        // work, must have disjoint first
-                        // sets. We'll be approximate and
-                        // supply the same Token::EOF to
-                        // both, though in fact the actual
-                        // lookahead may be helpful here.
-                        let (shift_first, _) =
-                            self.first_sets.first(self.grammar, &[shift_sym],
-                                                  Token::EOF);
-                        let (reduce_first, _) =
-                            self.first_sets.first(self.grammar, &[reduce_sym],
-                                                  Token::EOF);
+                        // different symbols: for this to work, must
+                        // have disjoint first sets. Note that we
+                        // consider a suffix matching epsilon to be
+                        // potentially overlapping, though we could
+                        // supply the actual lookahead for more precision.
+                        let shift_first =
+                            self.first_sets.first0(self.grammar, &[shift_sym]);
+                        let reduce_first =
+                            self.first_sets.first0(self.grammar, &[reduce_sym]);
                         if shift_first.is_disjoint(reduce_first) {
                             Some(true)
                         } else {

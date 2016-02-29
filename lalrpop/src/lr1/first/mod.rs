@@ -20,8 +20,7 @@ impl FirstSets {
             for production in grammar.nonterminals.values()
                                                   .flat_map(|p| &p.productions) {
                 let nt = production.nonterminal;
-                let (lookahead, _) =
-                    this.first(grammar, &production.symbols, Token::EOF);
+                let lookahead = this.first0(grammar, &production.symbols);
                 let first_set =
                     this.map.entry(nt).or_insert_with(|| TokenSet::new(grammar));
                 changed |= first_set.insert_set(&lookahead);
@@ -75,6 +74,8 @@ impl FirstSets {
             }
         }
 
+        // control only reaches here if either symbols is empty, or it
+        // consists of nonterminals all of which may match epsilon
         result.insert(grammar, Token::EOF);
         result
     }

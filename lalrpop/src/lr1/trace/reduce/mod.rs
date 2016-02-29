@@ -84,11 +84,8 @@ impl<'trace, 'grammar> Tracer<'trace, 'grammar> {
                     // *and* the lookahead matches (if the lookahead
                     // doesn't match, then the only source for L is
                     // `...x`).
-                    let continue_tracing =
-                        maybe_empty &&
-                        pred_item.lookahead == lookahead;
 
-                    if !continue_tracing {
+                    if !maybe_empty {
                         // Add an edge
                         //
                         //    [Z = ...p (*) Y ...s] -(...p,Y,...s)-> [Y]
@@ -124,10 +121,22 @@ impl<'trace, 'grammar> Tracer<'trace, 'grammar> {
     {
         if let Some((shifted, remainder)) = item.shift_symbol() {
             if shifted == Symbol::Nonterminal(nonterminal) {
-                let (first, maybe_empty) =
-                    self.first_sets.first(self.grammar, remainder, item.lookahead);
+                let mut first = self.first_sets.first0(self.grammar, remainder);
+
+                // if the result contains EOF, then the suffix may
+                // match nothing; in that case, check the lookahead on
+                // the item itself
+                let epsilon = first.take_eof(self.grammar);
+                if epsilon {
+                    if item.lookahead == lookahead {
+                        return CanShift(true);
+                    }
+                }
+
+                // otherwise, the suffix always matches something; see
+                // if our intended lookahead is within
                 if first.contains(self.grammar, lookahead) {
-                    return CanShift(maybe_empty);
+                    return CanShift(false);
                 }
             }
         }

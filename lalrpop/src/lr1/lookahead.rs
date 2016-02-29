@@ -52,9 +52,13 @@ impl TokenSet {
         }
     }
 
+    fn eof_bit(&self, grammar: &Grammar) -> usize {
+        grammar.all_terminals.len()
+    }
+
     fn bit(&self, grammar: &Grammar, lookahead: Token) -> usize {
         match lookahead {
-            Token::EOF => grammar.all_terminals.len(),
+            Token::EOF => self.eof_bit(grammar),
             Token::Terminal(t) => grammar.terminal_bits[&t],
         }
     }
@@ -76,6 +80,15 @@ impl TokenSet {
 
     pub fn contains(&self, grammar: &Grammar, lookahead: Token) -> bool {
         self.bit_set.contains(self.bit(grammar, lookahead))
+    }
+
+    /// If this set contains EOF, removes it from the set and returns
+    /// true. Otherwise, returns false.
+    pub fn take_eof(&mut self, grammar: &Grammar) -> bool {
+        let eof_bit = self.eof_bit(grammar);
+        let contains_eof = self.bit_set.contains(eof_bit);
+        self.bit_set.remove(eof_bit);
+        contains_eof
     }
 
     pub fn is_disjoint(&self, other: TokenSet) -> bool {
