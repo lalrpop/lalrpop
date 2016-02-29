@@ -39,8 +39,6 @@ pub struct Machine<'table> {
     actions: &'table [&'table [i32]],
     gotos: &'table [&'table [u32]],
     productions: &'table [ReducedProduction],
-    terminal_bits: HashMap<String, usize>,
-    nonterminal_bits: HashMap<String, usize>,
     state_stack: Vec<u32>,
 }
 
@@ -57,21 +55,18 @@ enum Action {
 impl<'table> Machine<'table> {
     pub fn new(actions: &'table [&'table [i32]],
                gotos: &'table [&'table [u32]],
-               productions: &'table [ReducedProduction],
-               terminal_bits: HashMap<String, usize>,
-               nonterminal_bits: HashMap<String, usize>)
+               productions: &'table [ReducedProduction])
         -> Machine<'table>
     {
         Machine { actions: actions,
                   gotos: gotos,
                   productions: productions,
-                  terminal_bits: terminal_bits,
-                  nonterminal_bits: nonterminal_bits,
                   state_stack: Vec::new()}
     }
 
     fn get_action(&self, state: usize, terminal: &str) -> Option<Action> {
         // TODO propagate error
+        /*
         let terminal_index = if let Some(i) = self.terminal_bits.get(terminal) {
             *i
         } else {
@@ -87,6 +82,8 @@ impl<'table> Machine<'table> {
         } else {
             Some(Action::Reduce(((-1) * a) as u32 + 1))
         }
+        */
+        None
     }
 
     fn top_state(&self) -> usize {

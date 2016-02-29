@@ -323,7 +323,9 @@ fn emit_interpreter(session: &Session,
         try!(intern_token::compile(&grammar, intern_token, &mut rust));
     }
 
-    try!(action::emit_action_code(grammar, &mut rust));
+    //try!(action::emit_action_code(grammar, &mut rust));
+
+    try!(emit_to_triple_trait(grammar, &mut rust));
 
     Ok(rust.into_inner())
 }

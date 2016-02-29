@@ -14,8 +14,8 @@ use tls::Tls;
 
 #[cfg(test)] mod test;
 
-pub fn report_error(grammar: &Grammar,
-                    error: &TableConstructionError)
+pub fn report_error<'a>(grammar: &'a Grammar,
+                    error: &TableConstructionError<'a>)
                     -> Vec<Message>
 {
     let mut cx = ErrorReportingCx::new(grammar, &error.states);
