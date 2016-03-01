@@ -78,6 +78,10 @@ impl TokenSet {
         self.len() != len
     }
 
+    pub fn contains(&self, grammar: &Grammar, token: Token) -> bool {
+        self.bit_set.contains(self.bit(grammar, token))
+    }
+
     pub fn contains_eof(&self, grammar: &Grammar) -> bool {
         self.bit_set.contains(self.eof_bit(grammar))
     }

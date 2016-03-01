@@ -7,6 +7,7 @@ use lr1::lookahead::{Token, TokenSet};
 #[cfg(test)]
 mod test;
 
+#[derive(Clone)]
 pub struct FirstSets {
     map: Map<NonterminalString, TokenSet>
 }
@@ -29,10 +30,12 @@ impl FirstSets {
         this
     }
 
-    /// Returns `FIRST(...symbols)`. If `...symbols` may match
+    /// Returns `FIRST(...symbols)`. If `...symbols` may derive
     /// epsilon, then this returned set will include EOF. (This is
     /// kind of repurposing EOF to serve as a binary flag of sorts.)
-    pub fn first0(&self, grammar: &Grammar, symbols: &[Symbol]) -> TokenSet {
+    pub fn first0<'s,I>(&self, grammar: &Grammar, symbols: I) -> TokenSet
+        where I: IntoIterator<Item=&'s Symbol>
+    {
         let mut result = TokenSet::new(grammar);
 
         for symbol in symbols {
@@ -75,7 +78,7 @@ impl FirstSets {
         }
 
         // control only reaches here if either symbols is empty, or it
-        // consists of nonterminals all of which may match epsilon
+        // consists of nonterminals all of which may derive epsilon
         result.insert(grammar, Token::EOF);
         result
     }
@@ -85,7 +88,7 @@ impl FirstSets {
     {
         let mut set = self.first0(grammar, symbols);
 
-        // we use EOF as the signal that `symbols` matches epsilon:
+        // we use EOF as the signal that `symbols` derives epsilon:
         let epsilon = set.take_eof(grammar);
 
         if epsilon {

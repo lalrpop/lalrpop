@@ -2,6 +2,7 @@ use intern::intern;
 use grammar::repr::*;
 use lr1::build_states;
 use lr1::core::*;
+use lr1::first::FirstSets;
 use test_util::{expect_debug, normalized_grammar};
 use tls::Tls;
 
@@ -25,6 +26,7 @@ pub Ty: () = {
     <t1:Ty> "->" <t2:Ty> => (),
 };
 "#);
+    let first_sets = FirstSets::new(&grammar);
     let states = build_states(&grammar, nt("Ty")).unwrap_err().states;
     let conflict =
         states.iter()
@@ -44,7 +46,7 @@ pub Ty: () = {
     assert!(conflict.production.symbols.len() == 3);
     let item = Item::lr0(conflict.production, 1);
     println!("item={:?}", item);
-    let tracer = Tracer::new(&grammar, &states);
+    let tracer = Tracer::new(&grammar, &first_sets, &states);
     let graph = tracer.backtrace_shift(conflict.state, item);
     expect_debug(&graph, r#"
 [
@@ -55,7 +57,7 @@ pub Ty: () = {
 "#.trim());
 
     let list: Vec<_> =
-        graph.examples(item)
+        graph.lr0_examples(item)
              .map(|example| example.paint_unstyled())
              .collect();
     expect_debug(&list, r#"

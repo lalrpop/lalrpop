@@ -69,7 +69,7 @@ fn enumerator() {
     let item2 = Item::lr0(&productions[2], 1); // Z = Z0 (*) X Z1
     graph.add_edge(item2, nt!(X), item2.symbol_sets());
 
-    let enumerator = graph.examples(Item::lr0(&productions[0], 1));
+    let enumerator = graph.lr0_examples(Item::lr0(&productions[0], 1));
     let list: Vec<_> =
         enumerator.map(|example| example.paint_unstyled())
                   .collect();
@@ -136,7 +136,7 @@ fn enumerator1() {
     let item2 = Item::lr0(&productions[3], 1);
     graph.add_edge(item2, nt!(X), item2.symbol_sets());
 
-    let enumerator = graph.examples(Item::lr0(&productions[0], 2));
+    let enumerator = graph.lr0_examples(Item::lr0(&productions[0], 2));
     let list: Vec<_> =
         enumerator.map(|example| example.paint_unstyled())
                   .collect();

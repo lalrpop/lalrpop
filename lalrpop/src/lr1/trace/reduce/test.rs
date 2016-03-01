@@ -2,6 +2,7 @@ use intern::intern;
 use grammar::repr::*;
 use lr1::build_states;
 use lr1::core::Item;
+use lr1::first::FirstSets;
 use lr1::interpret::interpret_partial;
 use lr1::lookahead::Token;
 use test_util::{expect_debug, normalized_grammar};
@@ -50,8 +51,9 @@ fn test_grammar1() -> Grammar {
 fn backtrace1() {
     let _tls = Tls::test();
     let grammar = test_grammar1();
+    let first_sets = FirstSets::new(&grammar);
     let states = build_states(&grammar, nt("Start")).unwrap();
-    let tracer = Tracer::new(&grammar, &states);
+    let tracer = Tracer::new(&grammar, &first_sets, &states);
     let state_stack = interpret_partial(&states, terms!["Int"]).unwrap();
     let top_state = *state_stack.last().unwrap();
 
@@ -73,7 +75,7 @@ fn backtrace1() {
 
     println!("{:#?}", backtrace);
 
-    let pictures: Vec<_> = backtrace.examples(semi_item.to_lr0())
+    let pictures: Vec<_> = backtrace.lr0_examples(semi_item.to_lr0())
                                     .map(|e| e.paint_unstyled())
                                     .collect();
     expect_debug(&pictures, r#"
@@ -124,8 +126,9 @@ pub Ty: () = {
     <t1:Ty> "->" <t2:Ty> => (),
 };
 "#);
+    let first_sets = FirstSets::new(&grammar);
     let states = build_states(&grammar, nt("Ty")).unwrap_err().states;
-    let tracer = Tracer::new(&grammar, &states);
+    let tracer = Tracer::new(&grammar, &first_sets, &states);
     let conflict =
         states.iter()
               .flat_map(|state| &state.conflicts)
@@ -149,7 +152,7 @@ pub Ty: () = {
 
     // Check that we can successfully enumerate and paint the examples
     // here.
-    let pictures: Vec<_> = backtrace.examples(item.to_lr0())
+    let pictures: Vec<_> = backtrace.lr1_examples(&grammar, &first_sets, item)
                                     .map(|e| e.paint_unstyled())
                                     .collect();
     expect_debug(&pictures, r#"
@@ -176,6 +179,7 @@ pub Ty: () = {
     <t1:Ty> "->" <t2:Ty> => (),
 };
 "#);
+    let first_sets = FirstSets::new(&grammar);
     let states = build_states(&grammar, nt("Ty")).unwrap_err().states;
     let conflict =
         states.iter()
@@ -187,7 +191,7 @@ pub Ty: () = {
                       index: conflict.production.symbols.len(),
                       lookahead: conflict.lookahead };
     println!("item={:?}", item);
-    let tracer = Tracer::new(&grammar, &states);
+    let tracer = Tracer::new(&grammar, &first_sets, &states);
     let graph = tracer.backtrace_reduce(conflict.state, item.to_lr0());
     expect_debug(&graph, r#"
 [
@@ -199,7 +203,7 @@ pub Ty: () = {
 "#.trim());
 
     let list: Vec<_> =
-        graph.examples(item.to_lr0())
+        graph.lr1_examples(&grammar, &first_sets, item)
              .map(|example| example.paint_unstyled())
              .collect();
     expect_debug(&list, r#"
@@ -212,3 +216,119 @@ pub Ty: () = {
 ]
 "#.trim());
 }
+
+#[test]
+fn backtrace_filter() {
+    let _tls = Tls::test();
+    let grammar = normalized_grammar(r#"
+    grammar;
+
+    pub Start: () = Stmt;
+
+    pub Stmt: () = {
+        Exprs ";"
+    };
+
+    Exprs: () = {
+        Expr,
+        Exprs "," Expr
+    };
+
+    Expr: () = {
+        ExprAtom ExprSuffix
+    };
+
+    ExprSuffix: () = {
+        (),
+        "?",
+    };
+
+    ExprAtom: () = {
+        "Int",
+    };
+"#);
+    let states = build_states(&grammar, nt("Start")).unwrap();
+    let first_sets = FirstSets::new(&grammar);
+    let tracer = Tracer::new(&grammar, &first_sets, &states);
+    let state_stack = interpret_partial(&states, terms!["Int"]).unwrap();
+    let top_state = *state_stack.last().unwrap();
+
+    // Top state will have items like:
+    //
+    // Expr = "Int" (*) [","],
+    // Expr = "Int" (*) [";"]
+    //
+    // Select the `;` one, just because.
+    let semi = Token::Terminal(term(";"));
+    let semi_item = states[top_state.0].items.vec.iter()
+                                                 .filter(|item| item.lookahead == semi)
+                                                 .next()
+                                                 .unwrap();
+
+    let backtrace = tracer.backtrace_reduce(top_state, semi_item.to_lr0());
+
+    println!("{:#?}", backtrace);
+
+    // With no filtering, we get examples with both `;` and `,` as
+    // lookahead (though `ExprSuffix` is in the way).
+    let pictures: Vec<_> = backtrace.lr0_examples(semi_item.to_lr0())
+                                    .map(|e| e.paint_unstyled())
+                                    .collect();
+    expect_debug(&pictures, r#"
+[
+    [
+        "  Exprs "," "Int"      ╷ ExprSuffix ";"",
+        "  │         ├─ExprAtom─┘          │   │",
+        "  │         └─Expr────────────────┤   │",
+        "  ├─Exprs─────────────────────────┘   │",
+        "  └─Stmt──────────────────────────────┘"
+    ],
+    [
+        "  Exprs "," "Int"      ╷ ExprSuffix "," Expr",
+        "  │         ├─ExprAtom─┘          │        │",
+        "  │         └─Expr────────────────┤        │",
+        "  ├─Exprs─────────────────────────┘        │",
+        "  └─Exprs──────────────────────────────────┘"
+    ],
+    [
+        "  "Int"      ╷ ExprSuffix ";"",
+        "  ├─ExprAtom─┘          │   │",
+        "  ├─Expr────────────────┤   │",
+        "  ├─Exprs───────────────┘   │",
+        "  └─Stmt────────────────────┘"
+    ],
+    [
+        "  "Int"      ╷ ExprSuffix "," Expr",
+        "  ├─ExprAtom─┘          │        │",
+        "  ├─Expr────────────────┤        │",
+        "  ├─Exprs───────────────┘        │",
+        "  └─Exprs────────────────────────┘"
+    ]
+]
+"#.trim());
+
+    // Select those with `;` as lookahead
+    let pictures: Vec<_> =
+        backtrace.lr1_examples(&grammar, &first_sets, *semi_item)
+                 .map(|e| e.paint_unstyled())
+                 .collect();
+    expect_debug(&pictures, r#"
+[
+    [
+        "  Exprs "," "Int"      ╷ ExprSuffix ";"",
+        "  │         ├─ExprAtom─┘          │   │",
+        "  │         └─Expr────────────────┤   │",
+        "  ├─Exprs─────────────────────────┘   │",
+        "  └─Stmt──────────────────────────────┘"
+    ],
+    [
+        "  "Int"      ╷ ExprSuffix ";"",
+        "  ├─ExprAtom─┘          │   │",
+        "  ├─Expr────────────────┤   │",
+        "  ├─Exprs───────────────┘   │",
+        "  └─Stmt────────────────────┘"
+    ]
+]
+"#.trim());
+}
+

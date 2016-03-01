@@ -1,11 +1,11 @@
 //! Error reporting. For now very stupid and simplistic.
 
-use collections::{Map, map, set};
+use collections::{set, Set};
 use lr1::trace::Tracer;
 use lr1::core::*;
 use lr1::example::{Example, ExampleStyles, ExampleSymbol};
 use lr1::first::FirstSets;
-use lr1::lookahead::{Token, TokenSet};
+use lr1::lookahead::Token;
 use itertools::Itertools;
 use grammar::repr::*;
 use message::{Message};
@@ -709,12 +709,12 @@ impl<'cx, 'grammar> ErrorReportingCx<'cx, 'grammar> {
         let conflicting_items = self.conflicting_shift_items(state, conflict);
         conflicting_items
             .into_iter()
-            .flat_map(|(item, _lookaheads)| {
-                let tracer = Tracer::new(self.grammar, self.states);
+            .flat_map(|item| {
+                let tracer = Tracer::new(self.grammar, &self.first_sets, self.states);
                 let shift_trace =
                     tracer.backtrace_shift(conflict.state, item);
                 let local_examples: Vec<Example> =
-                    shift_trace.examples(item).collect();
+                    shift_trace.lr0_examples(item).collect();
                 local_examples
             })
             .collect()
@@ -731,29 +731,24 @@ impl<'cx, 'grammar> ErrorReportingCx<'cx, 'grammar> {
             index: production.symbols.len(),
             lookahead: lookahead
         };
-        let tracer = Tracer::new(self.grammar, self.states);
+        let tracer = Tracer::new(self.grammar, &self.first_sets, self.states);
         let reduce_trace = tracer.backtrace_reduce(state, item.to_lr0());
-        reduce_trace.examples(item.to_lr0()).collect()
+        reduce_trace.lr1_examples(self.grammar, &self.first_sets, item)
+                    .collect()
     }
 
     fn conflicting_shift_items(&self,
                                state: &LR1State<'grammar>,
                                conflict: &LR1Conflict<'grammar>)
-                               -> Map<LR0Item<'grammar>, TokenSet> {
+                               -> Set<LR0Item<'grammar>> {
         // Lookahead must be a terminal, not EOF.
         // Find an item J like `Bar = ... (*) L ...`.
         let lookahead = Symbol::Terminal(conflict.lookahead.unwrap_terminal());
-        let mut result = map();
-        for item in
-            state.items.vec.iter()
-                           .filter(|i| i.can_shift())
-                           .filter(|i| i.production.symbols[i.index] == lookahead)
-        {
-            result.entry(item.to_lr0())
-                  .or_insert_with(|| TokenSet::new(self.grammar))
-                  .insert(self.grammar, item.lookahead);
-        }
-        result
+        state.items.vec.iter()
+                       .filter(|i| i.can_shift())
+                       .filter(|i| i.production.symbols[i.index] == lookahead)
+                       .map(|i| i.to_lr0())
+                       .collect()
     }
 }
 
