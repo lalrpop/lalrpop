@@ -8,7 +8,7 @@ use lr1::lookahead::Token;
 use lr1::lookahead::Token::EOF;
 use tls::Tls;
 
-use super::{LR, build_lr1_states};
+use super::{LR, build_lr0_states, build_lr1_states};
 
 fn nt(t: &str) -> NonterminalString {
     NonterminalString(intern(t))
@@ -193,3 +193,56 @@ fn shift_reduce_conflict1() {
 
     assert!(build_lr1_states(&grammar, nt("E")).is_err());
 }
+
+/// One of the few grammars that IS LR(0).
+#[test]
+fn lr0_expr_grammar_with_explicit_eof() {
+    let _tls = Tls::test();
+
+    let grammar = normalized_grammar(r#"
+grammar;
+
+S: () = E "$";
+
+E: () = {
+    E "-" T,
+    T,
+};
+
+T: () = {
+    "N",
+    "(" E ")",
+};
+"#);
+
+    // for now, just test that process does not result in an error
+    // and yields expected number of states.
+    let states = build_lr0_states(&grammar, nt("S")).unwrap();
+    assert_eq!(states.len(), 10);
+}
+
+
+/// Without the artifical '$', grammar is not LR(0).
+#[test]
+fn lr0_expr_grammar_with_implicit_eof() {
+    let _tls = Tls::test();
+
+    let grammar = normalized_grammar(r#"
+grammar;
+
+S: () = E;
+
+E: () = {
+    E "-" T,
+    T,
+};
+
+T: () = {
+    "N",
+    "(" E ")",
+};
+"#);
+
+    build_lr0_states(&grammar, nt("S")).unwrap_err();
+}
+

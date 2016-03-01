@@ -145,6 +145,7 @@ pub struct TableConstructionError<'grammar, L: Lookahead> {
     pub states: Vec<State<'grammar, L>>,
 }
 
+pub type LR0TableConstructionError<'grammar> = TableConstructionError<'grammar, Nil>;
 pub type LR1TableConstructionError<'grammar> = TableConstructionError<'grammar, Token>;
 
 impl<'grammar, L: Lookahead> Debug for Item<'grammar, L> {

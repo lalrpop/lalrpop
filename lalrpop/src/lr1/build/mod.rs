@@ -21,10 +21,20 @@ pub fn build_lr1_states<'grammar>(grammar: &'grammar Grammar,
         &Tls::session(),
         "LR(1) state construction",
         {
-            let lr1: LR<'grammar, Token> = LR::new(grammar, start, Token::EOF);
+            let mut lr1: LR<'grammar, Token> = LR::new(grammar, start, Token::EOF);
+            lr1.set_permit_early_stop(true);
             lr1.build_states()
         }
     }
+}
+
+pub fn build_lr0_states<'grammar>(grammar: &'grammar Grammar,
+                                  start: NonterminalString)
+                                  -> Result<Vec<LR0State<'grammar>>,
+                                            LR0TableConstructionError<'grammar>>
+{
+    let lr1 = LR::new(grammar, start, Nil);
+    lr1.build_states()
 }
 
 struct LR<'grammar, L: LookaheadBuild> {
@@ -32,6 +42,7 @@ struct LR<'grammar, L: LookaheadBuild> {
     first_sets: first::FirstSets,
     start_nt: NonterminalString,
     start_lookahead: L,
+    permit_early_stop: bool,
 }
 
 impl<'grammar, L: LookaheadBuild> LR<'grammar, L> {
@@ -44,7 +55,12 @@ impl<'grammar, L: LookaheadBuild> LR<'grammar, L> {
             first_sets: first::FirstSets::new(grammar),
             start_nt: start_nt,
             start_lookahead: start_lookahead,
+            permit_early_stop: false,
         }
+    }
+
+    fn set_permit_early_stop(&mut self, v: bool) {
+        self.permit_early_stop = v;
     }
 
     fn build_states(&self)
@@ -126,7 +142,7 @@ impl<'grammar, L: LookaheadBuild> LR<'grammar, L> {
             // extract a new state
             states.push(this_state);
 
-            if session.stop_after(errors) {
+            if self.permit_early_stop && session.stop_after(errors) {
                 log!(session, Verbose,
                      "{} conflicts encountered, stopping.", errors);
                 break;
@@ -270,6 +286,34 @@ trait LookaheadBuild: Lookahead {
 
     fn find_shift_reduce<'grammar>(lr: &LR<'grammar, Self>,
                                    this_state: &mut State<'grammar, Self>);
+}
+
+impl LookaheadBuild for Nil {
+    fn epsilon_moves<'grammar>(lr: &LR<'grammar, Self>,
+                               nt: NonterminalString,
+                               remainder: &[Symbol],
+                               lookahead: Nil)
+                               -> Vec<LR0Item<'grammar>>
+    {
+        lr.items(nt, 0, lookahead)
+    }
+
+    fn find_shift_reduce<'grammar>(_lr: &LR<'grammar, Self>,
+                                   this_state: &mut State<'grammar, Self>)
+    {
+        let index = this_state.index;
+        for (&terminal, &next_state) in &this_state.shifts {
+            this_state.conflicts.extend(
+                this_state.reductions
+                          .values()
+                          .map(|production| Conflict {
+                              state: index,
+                              lookahead: Nil,
+                              production: production,
+                              action: Action::Shift(next_state),
+                          }));
+        }
+    }
 }
 
 impl LookaheadBuild for Token {
