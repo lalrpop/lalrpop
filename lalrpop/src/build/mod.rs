@@ -16,7 +16,9 @@ use session::{ColorConfig, Session};
 use term;
 use tls::Tls;
 use tok;
+use walkdir;
 
+use std::env;
 use std::env::current_dir;
 use std::fs;
 use std::io::{self, Write};
@@ -29,32 +31,56 @@ mod fake_term;
 
 use self::fake_term::FakeTerminal;
 
+pub fn process() -> io::Result<()> {
+    let session = Session::new();
+
+    let src_dir = try!(current_dir()).join("src");
+
+    // The environment variable OUT_DIR is set by cargo, and specifies
+    // a directory where generated code should be put.
+    process_dir(&session, &src_dir, Path::new(&env::var("OUT_DIR").unwrap()))
+}
+
 pub fn process_root() -> io::Result<()> {
     let session = Session::new();
-    process_dir(&session, try!(current_dir()))
+    let cwd = try!(current_dir());
+    process_dir(&session, &cwd, &cwd)
 }
 
 pub fn process_root_unconditionally() -> io::Result<()> {
     let mut session = Session::new();
     session.set_force_build();
-    process_dir(&session, try!(current_dir()))
+    let cwd = try!(current_dir());
+    process_dir(&session, &cwd, &cwd)
 }
 
-fn process_dir<P:AsRef<Path>>(session: &Session, root_dir: P) -> io::Result<()> {
-    let lalrpop_files = try!(lalrpop_files(root_dir));
-    for lalrpop_file in lalrpop_files {
-        try!(process_file(session, lalrpop_file));
+fn process_dir(session: &Session, in_dir: &Path, out_dir: &Path) -> io::Result<()> {
+    for relative_lalrpop_file in try!(lalrpop_files(in_dir)) {
+        let rs_file = out_dir.join(&relative_lalrpop_file).with_extension("rs");
+        let lalrpop_file = in_dir.join(&relative_lalrpop_file);
+        try!(process_file_to(session, &lalrpop_file, &rs_file));
     }
     Ok(())
 }
 
 pub fn process_file<P:AsRef<Path>>(session: &Session, lalrpop_file: P) -> io::Result<()> {
+    let rs_file = lalrpop_file.as_ref().with_extension("rs");
+    process_file_to(session, lalrpop_file.as_ref(), &rs_file)
+}
+
+pub fn process_file_to<InPath, OutPath>(session: &Session,
+                                        lalrpop_file: InPath,
+                                        rs_file: OutPath)
+                                        -> io::Result<()>
+    where InPath: AsRef<Path>,
+          OutPath: AsRef<Path>
+{
     // Promote the session to an Rc so that we can stick it in TLS. I
     // don't want this to be part of LALRPOP's "official" interface
     // yet so don't take an `Rc<Session>` as an argument.
     let session = Rc::new(session.clone());
-    let lalrpop_file: &Path = lalrpop_file.as_ref();
-    let rs_file = lalrpop_file.with_extension("rs");
+    let lalrpop_file = lalrpop_file.as_ref();
+    let rs_file = rs_file.as_ref();
     if session.force_build() || try!(needs_rebuild(&lalrpop_file, &rs_file)) {
         log!(session, Informative, "processing file `{}`", lalrpop_file.to_string_lossy());
         try!(make_read_only(&rs_file, false));
@@ -77,6 +103,11 @@ pub fn process_file<P:AsRef<Path>>(session: &Session, lalrpop_file: P) -> io::Re
         {
             let grammar = try!(parse_and_normalize_grammar(&session, &file_text));
             let buffer = try!(emit_recursive_ascent(&session, &grammar));
+
+            if let Some(parent) = rs_file.parent() {
+                try!(fs::create_dir_all(parent));
+            }
+
             let mut output_file = try!(fs::File::create(&rs_file));
             try!(output_file.write_all(&buffer));
         }
@@ -154,24 +185,32 @@ fn make_read_only(rs_file: &Path, ro: bool) -> io::Result<()> {
     }
 }
 
-fn lalrpop_files<P:AsRef<Path>>(root_dir: P) -> io::Result<Vec<PathBuf>> {
+fn lalrpop_files(root_dir: &Path) -> io::Result<Vec<PathBuf>> {
+    // Note: this function returns paths relative to root_dir
     let mut result = vec![];
-    for entry in try!(fs::read_dir(root_dir)) {
+    let depth = root_dir.components().count();
+    for entry in walkdir::WalkDir::new(root_dir).follow_links(true) {
         let entry = try!(entry);
-        let file_type = try!(entry.file_type());
-
+        let file_type = entry.file_type();
         let path = entry.path();
-
-        if file_type.is_dir() {
-            result.extend(try!(lalrpop_files(&path)));
-        }
 
         if
             file_type.is_file() &&
             path.extension().is_some() &&
             path.extension().unwrap() == "lalrpop"
         {
-            result.push(path);
+            // Ensure that we can safely do the component stripping
+            assert!(path.starts_with(root_dir));
+
+            let mut components = path.components();
+
+            // Can't use components.skip(depth) because then we can't
+            // call as_path() after
+            for _ in 0..depth {
+                components.next();
+            }
+
+            result.push(components.as_path().to_path_buf());
         }
     }
     Ok(result)
