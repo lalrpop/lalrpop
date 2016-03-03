@@ -291,7 +291,7 @@ trait LookaheadBuild: Lookahead {
 impl LookaheadBuild for Nil {
     fn epsilon_moves<'grammar>(lr: &LR<'grammar, Self>,
                                nt: NonterminalString,
-                               remainder: &[Symbol],
+                               _remainder: &[Symbol],
                                lookahead: Nil)
                                -> Vec<LR0Item<'grammar>>
     {
@@ -302,7 +302,7 @@ impl LookaheadBuild for Nil {
                                    this_state: &mut State<'grammar, Self>)
     {
         let index = this_state.index;
-        for (&terminal, &next_state) in &this_state.shifts {
+        for (&_terminal, &next_state) in &this_state.shifts {
             this_state.conflicts.extend(
                 this_state.reductions
                           .values()

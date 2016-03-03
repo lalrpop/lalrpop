@@ -72,6 +72,11 @@ impl TokenSet {
         self.bit_set.insert(bit)
     }
 
+    pub fn insert_eof(&mut self, grammar: &Grammar) -> bool {
+        let bit = self.eof_bit(grammar);
+        self.bit_set.insert(bit)
+    }
+
     pub fn insert_set(&mut self, set: &TokenSet) -> bool {
         let len = self.len();
         self.bit_set.union_with(&set.bit_set);

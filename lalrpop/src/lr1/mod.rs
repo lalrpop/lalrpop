@@ -10,6 +10,7 @@ mod core;
 mod error;
 mod example;
 mod first;
+mod lane_table;
 mod lookahead;
 mod trace;
 mod state_graph;

@@ -68,3 +68,9 @@ impl<T: Ord> Collection for Set<T> {
         self.insert(item);
     }
 }
+
+impl<K: Ord, C: Collection> Default for Multimap<K, C> {
+    fn default() -> Self {
+        Multimap::new()
+    }
+}
