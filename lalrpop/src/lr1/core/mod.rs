@@ -22,7 +22,6 @@ pub type LR0Item<'grammar> = Item<'grammar, Nil>;
 pub type LR1Item<'grammar> = Item<'grammar, Token>;
 
 impl<'grammar> Item<'grammar, Nil> {
-    #[cfg(test)]
     pub fn lr0(production: &'grammar Production,
                index: usize)
                -> Self {
@@ -63,6 +62,13 @@ impl<'grammar, L: Lookahead> Item<'grammar, L> {
     pub fn can_shift_nonterminal(&self, nt: NonterminalString) -> bool {
         match self.shift_symbol() {
             Some((Symbol::Nonterminal(shifted), _)) => shifted == nt,
+            _ => false,
+        }
+    }
+
+    pub fn can_shift_terminal(&self, term: TerminalString) -> bool {
+        match self.shift_symbol() {
+            Some((Symbol::Terminal(shifted), _)) => shifted == term,
             _ => false,
         }
     }
