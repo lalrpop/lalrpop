@@ -218,8 +218,8 @@ impl<'cx, 'grammar> ErrorReportingCx<'cx, 'grammar> {
                                  reduce, "First");
 
         match conflict.action {
-            Action::Shift(_) =>
-                self.describe_shift(builder, styles, conflict.lookahead,
+            Action::Shift(lookahead, _) =>
+                self.describe_shift(builder, styles, lookahead,
                                     action, "Alternatively"),
             Action::Reduce(production) =>
                 self.describe_reduce(builder, styles, production,
@@ -230,14 +230,11 @@ impl<'cx, 'grammar> ErrorReportingCx<'cx, 'grammar> {
     fn describe_shift<C: Character>(&self,
                                     builder: Builder<C>,
                                     styles: ExampleStyles,
-                                    lookahead: Token,
+                                    lookahead: TerminalString,
                                     example: Example,
                                     intro_word: &str)
                                     -> Builder<C>
     {
-        // Shift actions can only happen with non-EOF lookaheads:
-        let lookahead = lookahead.unwrap_terminal();
-
         // A shift example looks like:
         //
         // ...p1 ...p2 (*) L ...s2 ...s1
@@ -410,7 +407,7 @@ impl<'cx, 'grammar> ErrorReportingCx<'cx, 'grammar> {
                    .push(conflict.production.nonterminal)
                    .verbatimed();
         builder = match conflict.action {
-            Action::Shift(_) =>
+            Action::Shift(..) =>
                 builder.text("but we can also shift"),
             Action::Reduce(prod) =>
                 builder.text("but we can also reduce to a")
@@ -426,7 +423,7 @@ impl<'cx, 'grammar> ErrorReportingCx<'cx, 'grammar> {
         // Find examples from the conflicting action (either a shift
         // or a reduce).
         let mut action_examples = match conflict.action {
-            Action::Shift(_) => self.shift_examples(conflict),
+            Action::Shift(..) => self.shift_examples(conflict),
             Action::Reduce(production) => self.reduce_examples(conflict.state,
                                                                production,
                                                                conflict.lookahead)
@@ -489,20 +486,18 @@ impl<'cx, 'grammar> ErrorReportingCx<'cx, 'grammar> {
                 // Consider whether to call this a precedence
                 // error. We do this if we are stuck between reducing
                 // `T = T S T` and shifting `S`.
-                if let Action::Shift(_) = conflict.action {
-                    if let Token::Terminal(term) = conflict.lookahead {
-                        let nt = conflict.production.nonterminal;
-                        if conflict.production.symbols.len() == 3 &&
-                            conflict.production.symbols[0] == Symbol::Nonterminal(nt) &&
-                            conflict.production.symbols[1] == Symbol::Terminal(term) &&
-                            conflict.production.symbols[2] == Symbol::Nonterminal(nt)
-                        {
-                            return ConflictClassification::Precedence {
-                                shift: action.clone(),
-                                reduce: reduce.clone(),
-                                nonterminal: conflict.production.nonterminal,
-                            };
-                        }
+                if let Action::Shift(term, _) = conflict.action {
+                    let nt = conflict.production.nonterminal;
+                    if conflict.production.symbols.len() == 3 &&
+                        conflict.production.symbols[0] == Symbol::Nonterminal(nt) &&
+                        conflict.production.symbols[1] == Symbol::Terminal(term) &&
+                        conflict.production.symbols[2] == Symbol::Nonterminal(nt)
+                    {
+                        return ConflictClassification::Precedence {
+                            shift: action.clone(),
+                            reduce: reduce.clone(),
+                            nonterminal: conflict.production.nonterminal,
+                        };
                     }
                 }
                 ConflictClassification::Ambiguity {
@@ -527,11 +522,8 @@ impl<'cx, 'grammar> ErrorReportingCx<'cx, 'grammar> {
         // here since I do not KNOW that it will help, but it often
         // does, and it's better style anyhow.
 
-        match conflict.action {
-            Action::Shift(_) => { }
-            Action::Reduce(_) => {
-                return None;
-            }
+        if let Action::Reduce(_) = conflict.action {
+            return None;
         }
 
         let nt = conflict.production.nonterminal;
@@ -568,11 +560,8 @@ impl<'cx, 'grammar> ErrorReportingCx<'cx, 'grammar> {
         // us delay reducing until the lookahead diverges.
 
         // Only applicable to shift/reduce:
-        match conflict.action {
-            Action::Shift(_) => { }
-            Action::Reduce(_) => {
-                return None;
-            }
+        if let Action::Reduce(_) = conflict.action {
+            return None;
         }
 
         // FIXME: The logic here finds the first example where inline

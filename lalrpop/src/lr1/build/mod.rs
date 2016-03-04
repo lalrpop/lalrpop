@@ -302,7 +302,7 @@ impl LookaheadBuild for Nil {
                                    this_state: &mut State<'grammar, Self>)
     {
         let index = this_state.index;
-        for (&_terminal, &next_state) in &this_state.shifts {
+        for (&terminal, &next_state) in &this_state.shifts {
             this_state.conflicts.extend(
                 this_state.reductions
                           .values()
@@ -310,7 +310,7 @@ impl LookaheadBuild for Nil {
                               state: index,
                               lookahead: Nil,
                               production: production,
-                              action: Action::Shift(next_state),
+                              action: Action::Shift(terminal, next_state),
                           }));
         }
     }
@@ -339,7 +339,7 @@ impl LookaheadBuild for Token {
                     state: this_state.index,
                     lookahead: token,
                     production: production,
-                    action: Action::Shift(next_state),
+                    action: Action::Shift(terminal, next_state),
                 });
             }
         }

@@ -25,20 +25,11 @@ impl StateGraph {
             // - shifts (found in the `conflicts` and `tokens` maps)
             // - gotos (found in the `gotos` map)
             graph.extend_with_edges(
-                state.conflicts
+                state.shifts
                      .iter()
-                     .filter_map(|conflict| {
-                         match conflict.action {
-                             Action::Shift(state) => {
-                                 Some((conflict.lookahead.unwrap_terminal(), state))
-                             }
-                             Action::Reduce(_) => None,
-                         }
+                     .map(|(&terminal, &state)| {
+                         (Symbol::Terminal(terminal), state)
                      })
-                     .chain(
-                         state.shifts.iter()
-                                     .map(|(&terminal, &state)| (terminal, state)))
-                     .map(|(terminal, state)| (Symbol::Terminal(terminal), state))
                      .chain(
                          state.gotos
                               .iter()
