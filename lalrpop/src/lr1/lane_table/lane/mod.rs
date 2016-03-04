@@ -2,28 +2,38 @@
 //! lane table as we go.
 
 use collections::Set;
+use grammar::repr::*;
+use lr1::core::*;
+use lr1::first::FirstSets;
+use lr1::lookahead::*;
+use lr1::state_graph::StateGraph;
+
+use super::table::{ConflictIndex, LaneTable};
 
 pub struct LaneTracer<'trace, 'grammar: 'trace> {
-    grammar: &'trace Grammar,
+    grammar: &'grammar Grammar,
     states: &'trace [LR0State<'grammar>],
     first_sets: FirstSets,
     state_graph: StateGraph,
-    table: LaneTable,
+    table: LaneTable<'grammar>,
 }
 
 impl<'trace, 'grammar> LaneTracer<'trace, 'grammar> {
     pub fn new(grammar: &'grammar Grammar,
-               first_sets: &'trace FirstSets,
                states: &'trace [LR0State<'grammar>],
-               state_graph: &'trace StateGraph)
+               conflicts: usize)
                -> Self {
         LaneTracer {
             grammar: grammar,
             states: states,
             first_sets: FirstSets::new(grammar),
             state_graph: StateGraph::new(states),
-            table: LaneTable::new(),
+            table: LaneTable::new(grammar, conflicts),
         }
+    }
+
+    pub fn into_table(self) -> LaneTable<'grammar> {
+        self.table
     }
 
     pub fn start_trace(&mut self,
@@ -31,14 +41,14 @@ impl<'trace, 'grammar> LaneTracer<'trace, 'grammar> {
                        conflict: ConflictIndex,
                        item: LR0Item<'grammar>) {
         let mut visited_set = Set::default();
-        self.continue_trace(state, item, &mut visited_set);
+        self.continue_trace(state, conflict, item, &mut visited_set);
     }
 
-    pub fn continue_trace(&mut self,
-                          state: StateIndex,
-                          conflict: ConflictIndex,
-                          item: LR0Item<'grammar>,
-                          visited: &mut Set<(StateIndex, LR0Item<'grammar>)>) {
+    fn continue_trace(&mut self,
+                      state: StateIndex,
+                      conflict: ConflictIndex,
+                      item: LR0Item<'grammar>,
+                      visited: &mut Set<(StateIndex, LR0Item<'grammar>)>) {
         if !visited.insert((state, item)) {
             return;
         }
@@ -61,8 +71,8 @@ impl<'trace, 'grammar> LaneTracer<'trace, 'grammar> {
             let unshifted_item = Item { index: item.index - 1, ..item };
             let predecessors = self.state_graph.predecessors(state, shifted_symbol);
             for predecessor in predecessors {
-                self.add_successor(state, predecessor);
-                self.continue_trace(predecessor, unshifted_item, visited);
+                self.table.add_successor(state, predecessor);
+                self.continue_trace(predecessor, conflict, unshifted_item, visited);
             }
             return;
         }
@@ -85,7 +95,8 @@ impl<'trace, 'grammar> LaneTracer<'trace, 'grammar> {
         // `conflict`. If `...s` may derive epsilon, though, we
         // have to recurse and search with the previous item.
 
-        let state_items = self.states[state.0].items.vec;
+        let state_items = &self.states[state.0].items.vec;
+        let nonterminal = item.production.nonterminal;
         for &pred_item in state_items.iter()
                                      .filter(|i| i.can_shift_nonterminal(nonterminal)) {
             let symbol_sets = pred_item.symbol_sets();
@@ -96,7 +107,5 @@ impl<'trace, 'grammar> LaneTracer<'trace, 'grammar> {
                 self.continue_trace(state, conflict, pred_item, visited);
             }
         }
-
-        // need some logic for start state and eof
     }
 }

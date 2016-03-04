@@ -1,14 +1,13 @@
-use collections::{map, Map};
-use itertools::Itertools;
+use collections::Set;
 use lr1::build;
 use lr1::core::*;
-use lr1::lookahead::*;
 use grammar::repr::*;
-use std::rc::Rc;
-use tls::Tls;
-use util::map::Entry;
 
+mod lane;
 mod table;
+
+#[cfg(test)]
+mod test;
 
 pub fn build_lane_table_states<'grammar>
     (grammar: &'grammar Grammar,
@@ -21,4 +20,38 @@ pub fn build_lane_table_states<'grammar>
     };
 
     unimplemented!()
+}
+
+fn conflicting_items<'grammar>(state: &LR0State<'grammar>)
+                               -> Set<LR0Item<'grammar>>
+{
+    let reductions1 =
+        state.conflicts
+             .iter()
+             .map(|c| Item::lr0(c.production, c.production.symbols.len()));
+
+    let reductions2 =
+        state.conflicts
+             .iter()
+             .filter_map(|c| match c.action {
+                 Action::Reduce(p) => Some(Item::lr0(p, p.symbols.len())),
+                 Action::Shift(..) => None,
+             });
+
+    let shifts =
+        state.conflicts
+             .iter()
+             .filter_map(|c| match c.action {
+                 Action::Shift(term, _) => Some(term),
+                 Action::Reduce(..) => None,
+             })
+             .flat_map(|term| {
+                 state.items
+                      .vec
+                      .iter()
+                      .filter(move |item| item.can_shift_terminal(term))
+                      .cloned()
+             });
+
+    reductions1.chain(reductions2).chain(shifts).collect()
 }
