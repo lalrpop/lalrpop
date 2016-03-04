@@ -1,5 +1,6 @@
 use grammar::repr::*;
 use lr1::core::*;
+use lr1::lookahead::Lookahead;
 use petgraph::{EdgeDirection, Graph};
 use petgraph::graph::NodeIndex;
 
@@ -10,7 +11,9 @@ pub struct StateGraph {
 }
 
 impl StateGraph {
-    pub fn new<'grammar>(states: &[LR1State<'grammar>]) -> StateGraph {
+    pub fn new<'grammar, L>(states: &[State<'grammar, L>]) -> StateGraph
+        where L: Lookahead
+    {
         let mut graph = Graph::new();
 
         // First, create the nodes.
