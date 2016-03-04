@@ -28,6 +28,14 @@ impl<K: Ord, C: Collection> Multimap<K, C> {
         self.map.entry(key).or_insert_with(|| C::default()).push(value);
     }
 
+    pub fn get(&self, key: &K) -> Option<&C> {
+        self.map.get(key)
+    }
+
+    pub fn iter(&self) -> btree_map::Iter<K, C> {
+        self.map.iter()
+    }
+
     pub fn into_iter(self) -> btree_map::IntoIter<K, C> {
         self.map.into_iter()
     }
