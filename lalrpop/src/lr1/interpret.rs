@@ -1,57 +1,65 @@
 //! LR(1) interpeter. Just builds up parse trees. Intended for testing.
 
 use lr1::core::*;
-use lr1::lookahead::Token;
+use lr1::lookahead::*;
 use generate::ParseTree;
 use grammar::repr::*;
 use std::iter::IntoIterator;
 use std::fmt::{Debug, Display, Formatter, Error};
 use util::Sep;
 
-pub type InterpretError<'grammar> = (&'grammar LR1State<'grammar>, Token);
+pub type InterpretError<'grammar, L> = (&'grammar State<'grammar, L>, Token);
 
 /// Feed in the given tokens and then EOF, returning the final parse tree that is reduced.
-pub fn interpret<'grammar,TOKENS>(states: &'grammar [LR1State<'grammar>], tokens: TOKENS)
-                         -> Result<ParseTree, InterpretError<'grammar>>
-    where TOKENS: IntoIterator<Item=TerminalString>
+pub fn interpret<'grammar, TOKENS, L>(states: &'grammar [State<'grammar, L>],
+                                      tokens: TOKENS)
+                                      -> Result<ParseTree, InterpretError<'grammar, L>>
+    where TOKENS: IntoIterator<Item = TerminalString>,
+          L: LookaheadInterpret
 {
     let mut m = Machine::new(states);
     m.execute(tokens.into_iter())
 }
 
 /// Feed in the given tokens and returns the states on the stack.
-pub fn interpret_partial<'grammar,TOKENS>(states: &'grammar [LR1State<'grammar>],
-                                          tokens: TOKENS)
-                                          -> Result<Vec<StateIndex>,
-                                                    InterpretError<'grammar>>
-    where TOKENS: IntoIterator<Item=TerminalString>
+pub fn interpret_partial<'grammar, TOKENS, L>
+    (states: &'grammar [State<'grammar, L>],
+     tokens: TOKENS)
+     -> Result<Vec<StateIndex>, InterpretError<'grammar, L>>
+    where TOKENS: IntoIterator<Item = TerminalString>,
+          L: LookaheadInterpret
 {
     let mut m = Machine::new(states);
     try!(m.execute_partial(tokens.into_iter()));
     Ok(m.state_stack)
 }
 
-struct Machine<'grammar> {
-    states: &'grammar [LR1State<'grammar>],
+struct Machine<'grammar, L: LookaheadInterpret + 'grammar> {
+    states: &'grammar [State<'grammar, L>],
     state_stack: Vec<StateIndex>,
     data_stack: Vec<ParseTree>,
 }
 
-impl<'grammar> Machine<'grammar> {
-    fn new(states: &'grammar [LR1State<'grammar>]) -> Machine<'grammar> {
-        Machine { states: states,
-                  state_stack: vec![],
-                  data_stack: vec![] }
+impl<'grammar, L> Machine<'grammar, L>
+    where L: LookaheadInterpret
+{
+    fn new(states: &'grammar [State<'grammar, L>]) -> Machine<'grammar, L> {
+        Machine {
+            states: states,
+            state_stack: vec![],
+            data_stack: vec![],
+        }
     }
 
-    fn top_state(&self) -> &'grammar LR1State<'grammar> {
+    fn top_state(&self) -> &'grammar State<'grammar, L> {
         let index = self.state_stack.last().unwrap();
         &self.states[index.0]
     }
 
-    fn execute_partial<TOKENS>(&mut self, mut tokens: TOKENS)
-                               -> Result<(), InterpretError<'grammar>>
-        where TOKENS: Iterator<Item=TerminalString>
+    fn execute_partial<TOKENS>(&mut self,
+                               mut tokens: TOKENS)
+                               -> Result<(), InterpretError<'grammar, L>>
+        where TOKENS: Iterator<Item = TerminalString>
     {
         assert!(self.state_stack.is_empty());
         assert!(self.data_stack.is_empty());
@@ -67,7 +75,7 @@ impl<'grammar> Machine<'grammar> {
                 self.data_stack.push(ParseTree::Terminal(terminal));
                 self.state_stack.push(next_index);
                 token = tokens.next();
-            } else if let Some(&production) = state.reductions.get(&Token::Terminal(terminal)) {
+            } else if let Some(production) = L::reduction(state, Token::Terminal(terminal)) {
                 let more = self.reduce(production);
                 assert!(more);
             } else {
@@ -78,18 +86,19 @@ impl<'grammar> Machine<'grammar> {
         Ok(())
     }
 
-    fn execute<TOKENS>(&mut self, tokens: TOKENS)
-                           -> Result<ParseTree, InterpretError<'grammar>>
-        where TOKENS: Iterator<Item=TerminalString>
+    fn execute<TOKENS>(&mut self, tokens: TOKENS) -> Result<ParseTree, InterpretError<'grammar, L>>
+        where TOKENS: Iterator<Item = TerminalString>
     {
         try!(self.execute_partial(tokens));
 
         // drain now for EOF
         loop {
             let state = self.top_state();
-            match state.reductions.get(&Token::EOF) {
-                None => { return Err((state, Token::EOF)); }
-                Some(&production) => {
+            match L::reduction(state, Token::EOF) {
+                None => {
+                    return Err((state, Token::EOF));
+                }
+                Some(production) => {
                     if !self.reduce(production) {
                         assert_eq!(self.data_stack.len(), 1);
                         return Ok(self.data_stack.pop().unwrap());
@@ -104,13 +113,13 @@ impl<'grammar> Machine<'grammar> {
 
         // remove the top N items from the data stack
         let mut popped = vec![];
-        for _ in 0 .. args {
+        for _ in 0..args {
             popped.push(self.data_stack.pop().unwrap());
         }
         popped.reverse();
 
         // remove the top N states
-        for _ in 0 .. args {
+        for _ in 0..args {
             self.state_stack.pop().unwrap();
         }
 
@@ -144,5 +153,27 @@ impl Display for ParseTree {
             ParseTree::Nonterminal(id, ref trees) => write!(fmt, "[{}: {}]", id, Sep(", ", trees)),
             ParseTree::Terminal(id) => write!(fmt, "{}", id),
         }
+    }
+}
+
+pub trait LookaheadInterpret: Lookahead {
+    fn reduction<'grammar>(state: &State<'grammar, Self>,
+                           token: Token)
+                           -> Option<&'grammar Production>;
+}
+
+impl LookaheadInterpret for Nil {
+    fn reduction<'grammar>(state: &State<'grammar, Self>,
+                           token: Token)
+                           -> Option<&'grammar Production> {
+        state.reductions.values().next().cloned()
+    }
+}
+
+impl LookaheadInterpret for Token {
+    fn reduction<'grammar>(state: &State<'grammar, Self>,
+                           token: Token)
+                           -> Option<&'grammar Production> {
+        state.reductions.get(&token).cloned()
     }
 }
