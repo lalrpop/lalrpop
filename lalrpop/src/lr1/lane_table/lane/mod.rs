@@ -90,7 +90,7 @@ impl<'trace, 'grammar> LaneTracer<'trace, 'grammar> {
             let unshifted_item = Item { index: item.index - 1, ..item };
             let predecessors = self.state_graph.predecessors(state, shifted_symbol);
             for predecessor in predecessors {
-                self.table.add_successor(state, predecessor);
+                self.table.add_successor(predecessor, state);
                 self.continue_trace(predecessor, conflict, unshifted_item, visited);
             }
             return;
