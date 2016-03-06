@@ -3,10 +3,11 @@ use grammar::repr::*;
 use test_util::{compare, expect_debug, normalized_grammar};
 use lr1::build;
 use lr1::core::*;
+use lr1::interpret;
 use tls::Tls;
 
-use super::lane::LaneTracer;
-use super::table::ConflictIndex;
+use super::lane::*;
+use super::table::*;
 
 fn sym(t: &str) -> Symbol {
     if t.chars().next().unwrap().is_uppercase() {
@@ -22,6 +23,10 @@ fn term(t: &str) -> TerminalString {
 
 fn nt(t: &str) -> NonterminalString {
     NonterminalString(intern(t))
+}
+
+fn traverse(states: &[LR0State], tokens: &[&str]) -> StateIndex {
+    interpret::interpret_partial(states, tokens.iter().map(|&s| term(s))).unwrap().pop().unwrap()
 }
 
 /// A simplified version of the paper's initial grammar; this version
@@ -48,31 +53,46 @@ Y: () = {
 "#)
 }
 
-#[test]
-fn small_conflict_1() {
-    let _tls = Tls::test();
-    let grammar = paper_example_small();
-    let lr0_states = build::build_lr0_states(&grammar, nt("G")).unwrap_err().states;
-    assert_eq!(lr0_states.iter().filter(|s| !s.conflicts.is_empty()).count(), 1);
-    let inconsistent_state = lr0_states.iter()
-                                       .filter(|s| !s.conflicts.is_empty())
-                                       .next()
-                                       .unwrap();
+fn build_table<'grammar>(grammar: &'grammar Grammar,
+                         goal: &str,
+                         tokens: &[&str])
+                         -> LaneTable<'grammar> {
+    let lr0_states = build::build_lr0_states(&grammar, nt(goal)).unwrap_err().states;
+    assert_eq!(lr0_states.iter().filter(|s| !s.conflicts.is_empty()).count(),
+               1);
+
+    // Push the `tokens` to find the index of the inconsistent state
+    let inconsistent_state_index = traverse(&lr0_states, tokens);
+    let inconsistent_state = &lr0_states[inconsistent_state_index.0];
+    assert!(!inconsistent_state.conflicts.is_empty());
+    println!("inconsistent_state={:#?}", inconsistent_state.items);
+
+    // Extract conflicting items and trace the lanes, constructing a table
     let conflicting_items = super::conflicting_items(inconsistent_state);
-    println!("{:#?}", conflicting_items);
+    println!("conflicting_items={:#?}", conflicting_items);
     let mut tracer = LaneTracer::new(&grammar, &lr0_states, conflicting_items.len());
     for (i, &conflicting_item) in conflicting_items.iter().enumerate() {
         tracer.start_trace(inconsistent_state.index,
                            ConflictIndex::new(i),
                            conflicting_item);
     }
-    let table = tracer.into_table();
+
+    tracer.into_table()
+}
+
+#[test]
+fn small_conflict_1() {
+    let _tls = Tls::test();
+    let grammar = paper_example_small();
+    let table = build_table(&grammar, "G", &["e"]);
     println!("{:#?}", table);
-    expect_debug(&table, r#"
+    expect_debug(&table,
+                 r#"
 | State | C0    | C1    | C2    | C3    | C4    | C5    | Successors |
 | S0    | ["c"] | ["c"] | ["c"] | ["d"] | ["d"] | ["d"] |            |
 | S3    | []    | []    | []    | []    | []    | []    | {S0, S3}   |
-"#.trim_left());
+"#
+                     .trim_left());
 }
 
 pub fn paper_example_large() -> Grammar {
@@ -131,3 +151,55 @@ P: () = {
 "#)
 }
 
+#[test]
+fn large_conflict_1() {
+    let _tls = Tls::test();
+    let grammar = paper_example_large();
+    let table = build_table(&grammar, "G", &["x", "s", "k", "t"]);
+    println!("{:#?}", table);
+    expect_debug(&table,
+                 r#"
+| State | C0    | C1    | C2         | C3    | Successors |
+| S1    | ["k"] |       |            |       | {S5}       |
+| S2    | ["k"] |       |            |       | {S7}       |
+| S3    | ["k"] |       |            |       | {S7}       |
+| S4    | ["k"] |       |            |       | {S7}       |
+| S5    |       |       | ["a"]      | ["r"] | {S16}      |
+| S7    |       |       | ["c", "w"] | ["d"] | {S16}      |
+| S16   |       |       |            |       | {S27}      |
+| S27   | ["k"] | ["s"] |            |       | {S32}      |
+| S32   |       |       | ["z"]      | ["u"] | {S16}      |
+"#
+                 .trim_left());
+
+    // ^^ This differs in some particulars from what appears in the
+    // paper, but I believe it to be correct, and the paper to be wrong.
+    //
+    // Here is the table using the state names from the paper. I've marked
+    // the differences with `(*)`.
+    //
+    // | State | pi1   | pi2   | pi3        | Successors |
+    // | B     | ["k"] |       | *1         | {G}        |
+    // | C     | ["k"] |       | *1         | {G}        |
+    // | D     | ["k"] |       | *1         | {G}        |
+    // | E     | ["k"] |       |            | {F}        |
+    // | F     |       | ["r"] | ["a"]      | {H}        |
+    // | G     |       | ["d"] | ["c", "w"] | {H}        |
+    // | H     |       |       |            | {I}        |
+    // | I     | ["k"] |       |            | {J}        |
+    // | J     |       | ["u"] | ["z"] *2   | {H}        |
+    //
+    // *1 - the paper lists "a", "b", and "r" here as lookaheads.  We
+    // do not. This is because when we trace back pi3, we never reach
+    // those states, as we have already acquired the necessary token
+    // of context earlier. I can imagine a distinct lane tracing
+    // algorithm that considers *sets* of conflicts and only
+    // terminates when all sets have context, but it's much more
+    // complex to implement, and seems to add little value.
+    //
+    // *2 - the paper does not list this context, and yet it seems to
+    // present. If you trace back "t" and "k" you reach state J which
+    // has the item "X = k t (*)". This "unepsilons" to "X = k t U (*)
+    // X P", and the lookahead from the "X" here is FIRST(P) which is
+    // "z".
+}
