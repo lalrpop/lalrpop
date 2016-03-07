@@ -70,12 +70,6 @@ fn add_range(range: Test,
             let mid_range = Test { start: mid_min, end: mid_max };
             let max_range = Test { start: mid_max, end: max_max };
 
-            println!("range={:?}", range);
-            println!("overlapping_range={:?}", overlapping_range);
-            println!("low_range={:?}", low_range);
-            println!("mid_range={:?}", mid_range);
-            println!("max_range={:?}", max_range);
-
             assert!(low_range.is_disjoint(mid_range));
             assert!(low_range.is_disjoint(max_range));
             assert!(mid_range.is_disjoint(max_range));
