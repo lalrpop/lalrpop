@@ -31,6 +31,7 @@ mod rust;
 #[macro_use]
 mod log;
 
+mod api;
 mod ascii_canvas;
 mod build;
 mod collections;
@@ -51,10 +52,7 @@ mod util;
 #[cfg(test)] mod generate;
 #[cfg(test)] mod test_util;
 
-pub use build::process_root;
-pub use build::process_root_unconditionally;
-pub use build::process_file;
-pub use log::Level;
-pub use log::Log;
-pub use session::ColorConfig;
-pub use session::Session;
+pub use api::Configuration;
+pub use api::process_root;
+pub use api::process_root_unconditionally;
+
