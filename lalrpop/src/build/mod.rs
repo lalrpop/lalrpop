@@ -17,7 +17,6 @@ use term;
 use tls::Tls;
 use tok;
 
-use std::env::current_dir;
 use std::fs;
 use std::io::{self, Write};
 use std::path::{Path, PathBuf};
@@ -29,33 +28,18 @@ mod fake_term;
 
 use self::fake_term::FakeTerminal;
 
-pub fn process_root() -> io::Result<()> {
-    let session = Session::new();
-    process_dir(&session, try!(current_dir()))
-}
-
-pub fn process_root_unconditionally() -> io::Result<()> {
-    let mut session = Session::new();
-    session.set_force_build();
-    process_dir(&session, try!(current_dir()))
-}
-
-fn process_dir<P:AsRef<Path>>(session: &Session, root_dir: P) -> io::Result<()> {
+pub fn process_dir<P:AsRef<Path>>(session: Rc<Session>, root_dir: P) -> io::Result<()> {
     let lalrpop_files = try!(lalrpop_files(root_dir));
     for lalrpop_file in lalrpop_files {
-        try!(process_file(session, lalrpop_file));
+        try!(process_file(session.clone(), lalrpop_file));
     }
     Ok(())
 }
 
-pub fn process_file<P:AsRef<Path>>(session: &Session, lalrpop_file: P) -> io::Result<()> {
-    // Promote the session to an Rc so that we can stick it in TLS. I
-    // don't want this to be part of LALRPOP's "official" interface
-    // yet so don't take an `Rc<Session>` as an argument.
-    let session = Rc::new(session.clone());
+pub fn process_file<P:AsRef<Path>>(session: Rc<Session>, lalrpop_file: P) -> io::Result<()> {
     let lalrpop_file: &Path = lalrpop_file.as_ref();
     let rs_file = lalrpop_file.with_extension("rs");
-    if session.force_build() || try!(needs_rebuild(&lalrpop_file, &rs_file)) {
+    if session.force_build || try!(needs_rebuild(&lalrpop_file, &rs_file)) {
         log!(session, Informative, "processing file `{}`", lalrpop_file.to_string_lossy());
         try!(make_read_only(&rs_file, false));
         try!(remove_old_file(&rs_file));
@@ -263,7 +247,7 @@ fn report_content(content: &Content) -> term::Result<()> {
     // FIXME -- can we query the size of the terminal somehow?
     let canvas = content.emit_to_canvas(80);
 
-    let try_colors = match Tls::session().color_config() {
+    let try_colors = match Tls::session().color_config {
         ColorConfig::Yes => true,
         ColorConfig::No => false,
         ColorConfig::IfTty => atty::is(),

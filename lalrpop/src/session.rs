@@ -1,6 +1,13 @@
+//! Internal configuration and session-specific settings. This is similar
+//! to `configuration::Configuration`, but it is not exported outside the
+//! crate. Note that all fields are public and so forth for convenience.
+
 use std::default::Default;
 use style::{self, Style};
 use log::{Log, Level};
+
+// These two, ubiquitous types are defined here so that their fields can be private
+// across crate, but visible within the crate:
 
 #[derive(Copy, Clone)]
 pub enum ColorConfig {
@@ -20,20 +27,20 @@ pub enum ColorConfig {
 /// expected to use it.
 #[derive(Clone)]
 pub struct Session {
-    log: Log,
+    pub log: Log,
 
-    force_build: bool,
+    pub force_build: bool,
 
     /// Emit comments in generated code explaining the states and so
     /// forth.
-    emit_comments: bool,
+    pub emit_comments: bool,
 
-    color_config: ColorConfig,
+    pub color_config: ColorConfig,
 
     /// Stop after you find `max_errors` errors. If this value is 0,
     /// report *all* errors. Note that we MAY always report more than
     /// this value if we so choose.
-    max_errors: usize,
+    pub max_errors: usize,
 
     // Styles to use when formatting error reports
 
@@ -102,42 +109,10 @@ impl Session {
         }
     }
 
-    pub fn color_config(&self) -> ColorConfig {
-        self.color_config
-    }
-
-    pub fn set_color_config(&mut self, config: ColorConfig) {
-        self.color_config = config;
-    }
-
-    pub fn set_force_build(&mut self) {
-        self.force_build = true;
-    }
-
-    pub fn set_emit_comments(&mut self) {
-        self.emit_comments = true;
-    }
-
-    pub fn set_max_errors(&mut self, errors: usize) {
-        self.max_errors = errors;
-    }
-
-    pub fn set_log_level(&mut self, level: Level) {
-        self.log.set_level(level);
-    }
-
     /// Indicates whether we should stop after `actual_errors` number
     /// of errors have been reported.
     pub fn stop_after(&self, actual_errors: usize) -> bool {
         self.max_errors != 0 && actual_errors >= self.max_errors
-    }
-
-    pub fn force_build(&self) -> bool {
-        self.force_build
-    }
-
-    pub fn emit_comments(&self) -> bool {
-        self.emit_comments
     }
 
     pub fn log<M>(&self, level: Level, message: M)
