@@ -44,6 +44,20 @@ mod __parse__Expr {
         ____Expr(((), Vec<&'input str>, ())),
     }
 
+    // State 0
+    //   Expr = (*) [EOF]
+    //   Expr = (*) Other+ [EOF]
+    //   Other+ = (*) Other+ Other [EOF]
+    //   Other+ = (*) Other+ Other [Other]
+    //   Other+ = (*) Other [EOF]
+    //   Other+ = (*) Other [Other]
+    //   __Expr = (*) Expr [EOF]
+    //
+    //   EOF -> Reduce(Expr =  => ActionFn(6);)
+    //   Other -> Shift(S3)
+    //
+    //   Expr -> S1
+    //   Other+ -> S2
     pub fn __state0<
         'input,
         __TOKENS: Iterator<Item=Result<((), LtTok<'input>, ()),()>>,
@@ -94,6 +108,11 @@ mod __parse__Expr {
         }
     }
 
+    // State 1
+    //   __Expr = Expr (*) [EOF]
+    //
+    //   EOF -> Reduce(__Expr = Expr => ActionFn(0);)
+    //
     pub fn __state1<
         'input,
         __TOKENS: Iterator<Item=Result<((), LtTok<'input>, ()),()>>,
@@ -126,6 +145,14 @@ mod __parse__Expr {
         }
     }
 
+    // State 2
+    //   Expr = Other+ (*) [EOF]
+    //   Other+ = Other+ (*) Other [EOF]
+    //   Other+ = Other+ (*) Other [Other]
+    //
+    //   EOF -> Reduce(Expr = Other+ => ActionFn(7);)
+    //   Other -> Shift(S4)
+    //
     pub fn __state2<
         'input,
         __TOKENS: Iterator<Item=Result<((), LtTok<'input>, ()),()>>,
@@ -163,6 +190,13 @@ mod __parse__Expr {
         return Ok(__result);
     }
 
+    // State 3
+    //   Other+ = Other (*) [EOF]
+    //   Other+ = Other (*) [Other]
+    //
+    //   EOF -> Reduce(Other+ = Other => ActionFn(4);)
+    //   Other -> Reduce(Other+ = Other => ActionFn(4);)
+    //
     pub fn __state3<
         'input,
         __TOKENS: Iterator<Item=Result<((), LtTok<'input>, ()),()>>,
@@ -200,6 +234,13 @@ mod __parse__Expr {
         }
     }
 
+    // State 4
+    //   Other+ = Other+ Other (*) [EOF]
+    //   Other+ = Other+ Other (*) [Other]
+    //
+    //   EOF -> Reduce(Other+ = Other+, Other => ActionFn(5);)
+    //   Other -> Reduce(Other+ = Other+, Other => ActionFn(5);)
+    //
     pub fn __state4<
         'input,
         __TOKENS: Iterator<Item=Result<((), LtTok<'input>, ()),()>>,

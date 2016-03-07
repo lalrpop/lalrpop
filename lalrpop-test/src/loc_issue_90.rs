@@ -46,6 +46,34 @@ mod __parse__Expression2 {
         ____Expression2((usize, Box<Expr<'input>>, usize)),
     }
 
+    // State 0
+    //   Expression1 = (*) Wacky [EOF]
+    //   Expression1 = (*) Wacky ["*"]
+    //   Expression1 = (*) "&" Maybe Expression1 [EOF]
+    //   Expression1 = (*) "&" Maybe Expression1 ["*"]
+    //   Expression1 = (*) "(" Expression2 ")" [EOF]
+    //   Expression1 = (*) "(" Expression2 ")" ["*"]
+    //   Expression1 = (*) "wonky" Wonky [EOF]
+    //   Expression1 = (*) "wonky" Wonky ["*"]
+    //   Expression1 = (*) r#"\\w+"# [EOF]
+    //   Expression1 = (*) r#"\\w+"# ["*"]
+    //   Expression2 = (*) Expression1 [EOF]
+    //   Expression2 = (*) Expression1 ["*"]
+    //   Expression2 = (*) Expression2 Expression2Op Expression1 [EOF]
+    //   Expression2 = (*) Expression2 Expression2Op Expression1 ["*"]
+    //   Wacky = (*) "wacky" [EOF]
+    //   Wacky = (*) "wacky" ["*"]
+    //   __Expression2 = (*) Expression2 [EOF]
+    //
+    //   "&" -> Shift(S4)
+    //   "(" -> Shift(S5)
+    //   "wacky" -> Shift(S6)
+    //   "wonky" -> Shift(S7)
+    //   r#"\\w+"# -> Shift(S8)
+    //
+    //   Expression1 -> S1
+    //   Expression2 -> S2
+    //   Wacky -> S3
     pub fn __state0<
         'input,
         __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__ParseError<usize,(usize, &'input str),()>>>,
@@ -106,6 +134,13 @@ mod __parse__Expression2 {
         }
     }
 
+    // State 1
+    //   Expression2 = Expression1 (*) [EOF]
+    //   Expression2 = Expression1 (*) ["*"]
+    //
+    //   EOF -> Reduce(Expression2 = Expression1 => ActionFn(29);)
+    //   "*" -> Reduce(Expression2 = Expression1 => ActionFn(29);)
+    //
     pub fn __state1<
         'input,
         __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__ParseError<usize,(usize, &'input str),()>>>,
@@ -140,6 +175,20 @@ mod __parse__Expression2 {
         }
     }
 
+    // State 2
+    //   Expression2 = Expression2 (*) Expression2Op Expression1 [EOF]
+    //   Expression2 = Expression2 (*) Expression2Op Expression1 ["*"]
+    //   Expression2Op = (*) "*" ["&"]
+    //   Expression2Op = (*) "*" ["("]
+    //   Expression2Op = (*) "*" ["wacky"]
+    //   Expression2Op = (*) "*" ["wonky"]
+    //   Expression2Op = (*) "*" [r#"\\w+"#]
+    //   __Expression2 = Expression2 (*) [EOF]
+    //
+    //   EOF -> Reduce(__Expression2 = Expression2 => ActionFn(0);)
+    //   "*" -> Shift(S10)
+    //
+    //   Expression2Op -> S9
     pub fn __state2<
         'input,
         __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__ParseError<usize,(usize, &'input str),()>>>,
@@ -190,6 +239,13 @@ mod __parse__Expression2 {
         return Ok(__result);
     }
 
+    // State 3
+    //   Expression1 = Wacky (*) [EOF]
+    //   Expression1 = Wacky (*) ["*"]
+    //
+    //   EOF -> Reduce(Expression1 = Wacky => ActionFn(8);)
+    //   "*" -> Reduce(Expression1 = Wacky => ActionFn(8);)
+    //
     pub fn __state3<
         'input,
         __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__ParseError<usize,(usize, &'input str),()>>>,
@@ -224,6 +280,28 @@ mod __parse__Expression2 {
         }
     }
 
+    // State 4
+    //   Expression1 = "&" (*) Maybe Expression1 [EOF]
+    //   Expression1 = "&" (*) Maybe Expression1 ["*"]
+    //   Maybe = (*) ["&"]
+    //   Maybe = (*) ["("]
+    //   Maybe = (*) ["wacky"]
+    //   Maybe = (*) ["wonky"]
+    //   Maybe = (*) [r#"\\w+"#]
+    //   Maybe = (*) "[" "]" ["&"]
+    //   Maybe = (*) "[" "]" ["("]
+    //   Maybe = (*) "[" "]" ["wacky"]
+    //   Maybe = (*) "[" "]" ["wonky"]
+    //   Maybe = (*) "[" "]" [r#"\\w+"#]
+    //
+    //   "&" -> Reduce(Maybe =  => ActionFn(31);)
+    //   "(" -> Reduce(Maybe =  => ActionFn(31);)
+    //   "[" -> Shift(S12)
+    //   "wacky" -> Reduce(Maybe =  => ActionFn(31);)
+    //   "wonky" -> Reduce(Maybe =  => ActionFn(31);)
+    //   r#"\\w+"# -> Reduce(Maybe =  => ActionFn(31);)
+    //
+    //   Maybe -> S11
     pub fn __state4<
         'input,
         __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__ParseError<usize,(usize, &'input str),()>>>,
@@ -281,6 +359,35 @@ mod __parse__Expression2 {
         return Ok(__result);
     }
 
+    // State 5
+    //   Expression1 = (*) Wacky [")"]
+    //   Expression1 = (*) Wacky ["*"]
+    //   Expression1 = (*) "&" Maybe Expression1 [")"]
+    //   Expression1 = (*) "&" Maybe Expression1 ["*"]
+    //   Expression1 = (*) "(" Expression2 ")" [")"]
+    //   Expression1 = (*) "(" Expression2 ")" ["*"]
+    //   Expression1 = "(" (*) Expression2 ")" [EOF]
+    //   Expression1 = "(" (*) Expression2 ")" ["*"]
+    //   Expression1 = (*) "wonky" Wonky [")"]
+    //   Expression1 = (*) "wonky" Wonky ["*"]
+    //   Expression1 = (*) r#"\\w+"# [")"]
+    //   Expression1 = (*) r#"\\w+"# ["*"]
+    //   Expression2 = (*) Expression1 [")"]
+    //   Expression2 = (*) Expression1 ["*"]
+    //   Expression2 = (*) Expression2 Expression2Op Expression1 [")"]
+    //   Expression2 = (*) Expression2 Expression2Op Expression1 ["*"]
+    //   Wacky = (*) "wacky" [")"]
+    //   Wacky = (*) "wacky" ["*"]
+    //
+    //   "&" -> Shift(S16)
+    //   "(" -> Shift(S17)
+    //   "wacky" -> Shift(S18)
+    //   "wonky" -> Shift(S19)
+    //   r#"\\w+"# -> Shift(S20)
+    //
+    //   Expression1 -> S13
+    //   Expression2 -> S14
+    //   Wacky -> S15
     pub fn __state5<
         'input,
         __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__ParseError<usize,(usize, &'input str),()>>>,
@@ -347,6 +454,13 @@ mod __parse__Expression2 {
         return Ok(__result);
     }
 
+    // State 6
+    //   Wacky = "wacky" (*) [EOF]
+    //   Wacky = "wacky" (*) ["*"]
+    //
+    //   EOF -> Reduce(Wacky = "wacky" => ActionFn(33);)
+    //   "*" -> Reduce(Wacky = "wacky" => ActionFn(33);)
+    //
     pub fn __state6<
         'input,
         __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__ParseError<usize,(usize, &'input str),()>>>,
@@ -385,6 +499,16 @@ mod __parse__Expression2 {
         }
     }
 
+    // State 7
+    //   Expression1 = "wonky" (*) Wonky [EOF]
+    //   Expression1 = "wonky" (*) Wonky ["*"]
+    //   Wonky = (*) [EOF]
+    //   Wonky = (*) ["*"]
+    //
+    //   EOF -> Reduce(Wonky =  => ActionFn(34);)
+    //   "*" -> Reduce(Wonky =  => ActionFn(34);)
+    //
+    //   Wonky -> S21
     pub fn __state7<
         'input,
         __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__ParseError<usize,(usize, &'input str),()>>>,
@@ -435,6 +559,13 @@ mod __parse__Expression2 {
         return Ok(__result);
     }
 
+    // State 8
+    //   Expression1 = r#"\\w+"# (*) [EOF]
+    //   Expression1 = r#"\\w+"# (*) ["*"]
+    //
+    //   EOF -> Reduce(Expression1 = r#"\\w+"# => ActionFn(26);)
+    //   "*" -> Reduce(Expression1 = r#"\\w+"# => ActionFn(26);)
+    //
     pub fn __state8<
         'input,
         __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__ParseError<usize,(usize, &'input str),()>>>,
@@ -473,6 +604,30 @@ mod __parse__Expression2 {
         }
     }
 
+    // State 9
+    //   Expression1 = (*) Wacky [EOF]
+    //   Expression1 = (*) Wacky ["*"]
+    //   Expression1 = (*) "&" Maybe Expression1 [EOF]
+    //   Expression1 = (*) "&" Maybe Expression1 ["*"]
+    //   Expression1 = (*) "(" Expression2 ")" [EOF]
+    //   Expression1 = (*) "(" Expression2 ")" ["*"]
+    //   Expression1 = (*) "wonky" Wonky [EOF]
+    //   Expression1 = (*) "wonky" Wonky ["*"]
+    //   Expression1 = (*) r#"\\w+"# [EOF]
+    //   Expression1 = (*) r#"\\w+"# ["*"]
+    //   Expression2 = Expression2 Expression2Op (*) Expression1 [EOF]
+    //   Expression2 = Expression2 Expression2Op (*) Expression1 ["*"]
+    //   Wacky = (*) "wacky" [EOF]
+    //   Wacky = (*) "wacky" ["*"]
+    //
+    //   "&" -> Shift(S4)
+    //   "(" -> Shift(S5)
+    //   "wacky" -> Shift(S6)
+    //   "wonky" -> Shift(S7)
+    //   r#"\\w+"# -> Shift(S8)
+    //
+    //   Expression1 -> S22
+    //   Wacky -> S3
     pub fn __state9<
         'input,
         __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__ParseError<usize,(usize, &'input str),()>>>,
@@ -532,6 +687,19 @@ mod __parse__Expression2 {
         return Ok(__result);
     }
 
+    // State 10
+    //   Expression2Op = "*" (*) ["&"]
+    //   Expression2Op = "*" (*) ["("]
+    //   Expression2Op = "*" (*) ["wacky"]
+    //   Expression2Op = "*" (*) ["wonky"]
+    //   Expression2Op = "*" (*) [r#"\\w+"#]
+    //
+    //   "&" -> Reduce(Expression2Op = "*" => ActionFn(30);)
+    //   "(" -> Reduce(Expression2Op = "*" => ActionFn(30);)
+    //   "wacky" -> Reduce(Expression2Op = "*" => ActionFn(30);)
+    //   "wonky" -> Reduce(Expression2Op = "*" => ActionFn(30);)
+    //   r#"\\w+"# -> Reduce(Expression2Op = "*" => ActionFn(30);)
+    //
     pub fn __state10<
         'input,
         __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__ParseError<usize,(usize, &'input str),()>>>,
@@ -573,6 +741,30 @@ mod __parse__Expression2 {
         }
     }
 
+    // State 11
+    //   Expression1 = (*) Wacky [EOF]
+    //   Expression1 = (*) Wacky ["*"]
+    //   Expression1 = (*) "&" Maybe Expression1 [EOF]
+    //   Expression1 = (*) "&" Maybe Expression1 ["*"]
+    //   Expression1 = "&" Maybe (*) Expression1 [EOF]
+    //   Expression1 = "&" Maybe (*) Expression1 ["*"]
+    //   Expression1 = (*) "(" Expression2 ")" [EOF]
+    //   Expression1 = (*) "(" Expression2 ")" ["*"]
+    //   Expression1 = (*) "wonky" Wonky [EOF]
+    //   Expression1 = (*) "wonky" Wonky ["*"]
+    //   Expression1 = (*) r#"\\w+"# [EOF]
+    //   Expression1 = (*) r#"\\w+"# ["*"]
+    //   Wacky = (*) "wacky" [EOF]
+    //   Wacky = (*) "wacky" ["*"]
+    //
+    //   "&" -> Shift(S4)
+    //   "(" -> Shift(S5)
+    //   "wacky" -> Shift(S6)
+    //   "wonky" -> Shift(S7)
+    //   r#"\\w+"# -> Shift(S8)
+    //
+    //   Expression1 -> S23
+    //   Wacky -> S3
     pub fn __state11<
         'input,
         __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__ParseError<usize,(usize, &'input str),()>>>,
@@ -632,6 +824,15 @@ mod __parse__Expression2 {
         return Ok(__result);
     }
 
+    // State 12
+    //   Maybe = "[" (*) "]" ["&"]
+    //   Maybe = "[" (*) "]" ["("]
+    //   Maybe = "[" (*) "]" ["wacky"]
+    //   Maybe = "[" (*) "]" ["wonky"]
+    //   Maybe = "[" (*) "]" [r#"\\w+"#]
+    //
+    //   "]" -> Shift(S24)
+    //
     pub fn __state12<
         'input,
         __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__ParseError<usize,(usize, &'input str),()>>>,
@@ -662,6 +863,13 @@ mod __parse__Expression2 {
         return Ok(__result);
     }
 
+    // State 13
+    //   Expression2 = Expression1 (*) [")"]
+    //   Expression2 = Expression1 (*) ["*"]
+    //
+    //   ")" -> Reduce(Expression2 = Expression1 => ActionFn(29);)
+    //   "*" -> Reduce(Expression2 = Expression1 => ActionFn(29);)
+    //
     pub fn __state13<
         'input,
         __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__ParseError<usize,(usize, &'input str),()>>>,
@@ -696,6 +904,21 @@ mod __parse__Expression2 {
         }
     }
 
+    // State 14
+    //   Expression1 = "(" Expression2 (*) ")" [EOF]
+    //   Expression1 = "(" Expression2 (*) ")" ["*"]
+    //   Expression2 = Expression2 (*) Expression2Op Expression1 [")"]
+    //   Expression2 = Expression2 (*) Expression2Op Expression1 ["*"]
+    //   Expression2Op = (*) "*" ["&"]
+    //   Expression2Op = (*) "*" ["("]
+    //   Expression2Op = (*) "*" ["wacky"]
+    //   Expression2Op = (*) "*" ["wonky"]
+    //   Expression2Op = (*) "*" [r#"\\w+"#]
+    //
+    //   ")" -> Shift(S26)
+    //   "*" -> Shift(S10)
+    //
+    //   Expression2Op -> S25
     pub fn __state14<
         'input,
         __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__ParseError<usize,(usize, &'input str),()>>>,
@@ -739,6 +962,13 @@ mod __parse__Expression2 {
         return Ok(__result);
     }
 
+    // State 15
+    //   Expression1 = Wacky (*) [")"]
+    //   Expression1 = Wacky (*) ["*"]
+    //
+    //   ")" -> Reduce(Expression1 = Wacky => ActionFn(8);)
+    //   "*" -> Reduce(Expression1 = Wacky => ActionFn(8);)
+    //
     pub fn __state15<
         'input,
         __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__ParseError<usize,(usize, &'input str),()>>>,
@@ -773,6 +1003,28 @@ mod __parse__Expression2 {
         }
     }
 
+    // State 16
+    //   Expression1 = "&" (*) Maybe Expression1 [")"]
+    //   Expression1 = "&" (*) Maybe Expression1 ["*"]
+    //   Maybe = (*) ["&"]
+    //   Maybe = (*) ["("]
+    //   Maybe = (*) ["wacky"]
+    //   Maybe = (*) ["wonky"]
+    //   Maybe = (*) [r#"\\w+"#]
+    //   Maybe = (*) "[" "]" ["&"]
+    //   Maybe = (*) "[" "]" ["("]
+    //   Maybe = (*) "[" "]" ["wacky"]
+    //   Maybe = (*) "[" "]" ["wonky"]
+    //   Maybe = (*) "[" "]" [r#"\\w+"#]
+    //
+    //   "&" -> Reduce(Maybe =  => ActionFn(31);)
+    //   "(" -> Reduce(Maybe =  => ActionFn(31);)
+    //   "[" -> Shift(S12)
+    //   "wacky" -> Reduce(Maybe =  => ActionFn(31);)
+    //   "wonky" -> Reduce(Maybe =  => ActionFn(31);)
+    //   r#"\\w+"# -> Reduce(Maybe =  => ActionFn(31);)
+    //
+    //   Maybe -> S27
     pub fn __state16<
         'input,
         __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__ParseError<usize,(usize, &'input str),()>>>,
@@ -830,6 +1082,35 @@ mod __parse__Expression2 {
         return Ok(__result);
     }
 
+    // State 17
+    //   Expression1 = (*) Wacky [")"]
+    //   Expression1 = (*) Wacky ["*"]
+    //   Expression1 = (*) "&" Maybe Expression1 [")"]
+    //   Expression1 = (*) "&" Maybe Expression1 ["*"]
+    //   Expression1 = (*) "(" Expression2 ")" [")"]
+    //   Expression1 = (*) "(" Expression2 ")" ["*"]
+    //   Expression1 = "(" (*) Expression2 ")" [")"]
+    //   Expression1 = "(" (*) Expression2 ")" ["*"]
+    //   Expression1 = (*) "wonky" Wonky [")"]
+    //   Expression1 = (*) "wonky" Wonky ["*"]
+    //   Expression1 = (*) r#"\\w+"# [")"]
+    //   Expression1 = (*) r#"\\w+"# ["*"]
+    //   Expression2 = (*) Expression1 [")"]
+    //   Expression2 = (*) Expression1 ["*"]
+    //   Expression2 = (*) Expression2 Expression2Op Expression1 [")"]
+    //   Expression2 = (*) Expression2 Expression2Op Expression1 ["*"]
+    //   Wacky = (*) "wacky" [")"]
+    //   Wacky = (*) "wacky" ["*"]
+    //
+    //   "&" -> Shift(S16)
+    //   "(" -> Shift(S17)
+    //   "wacky" -> Shift(S18)
+    //   "wonky" -> Shift(S19)
+    //   r#"\\w+"# -> Shift(S20)
+    //
+    //   Expression1 -> S13
+    //   Expression2 -> S28
+    //   Wacky -> S15
     pub fn __state17<
         'input,
         __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__ParseError<usize,(usize, &'input str),()>>>,
@@ -896,6 +1177,13 @@ mod __parse__Expression2 {
         return Ok(__result);
     }
 
+    // State 18
+    //   Wacky = "wacky" (*) [")"]
+    //   Wacky = "wacky" (*) ["*"]
+    //
+    //   ")" -> Reduce(Wacky = "wacky" => ActionFn(33);)
+    //   "*" -> Reduce(Wacky = "wacky" => ActionFn(33);)
+    //
     pub fn __state18<
         'input,
         __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__ParseError<usize,(usize, &'input str),()>>>,
@@ -934,6 +1222,16 @@ mod __parse__Expression2 {
         }
     }
 
+    // State 19
+    //   Expression1 = "wonky" (*) Wonky [")"]
+    //   Expression1 = "wonky" (*) Wonky ["*"]
+    //   Wonky = (*) [")"]
+    //   Wonky = (*) ["*"]
+    //
+    //   ")" -> Reduce(Wonky =  => ActionFn(34);)
+    //   "*" -> Reduce(Wonky =  => ActionFn(34);)
+    //
+    //   Wonky -> S29
     pub fn __state19<
         'input,
         __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__ParseError<usize,(usize, &'input str),()>>>,
@@ -984,6 +1282,13 @@ mod __parse__Expression2 {
         return Ok(__result);
     }
 
+    // State 20
+    //   Expression1 = r#"\\w+"# (*) [")"]
+    //   Expression1 = r#"\\w+"# (*) ["*"]
+    //
+    //   ")" -> Reduce(Expression1 = r#"\\w+"# => ActionFn(26);)
+    //   "*" -> Reduce(Expression1 = r#"\\w+"# => ActionFn(26);)
+    //
     pub fn __state20<
         'input,
         __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__ParseError<usize,(usize, &'input str),()>>>,
@@ -1022,6 +1327,13 @@ mod __parse__Expression2 {
         }
     }
 
+    // State 21
+    //   Expression1 = "wonky" Wonky (*) [EOF]
+    //   Expression1 = "wonky" Wonky (*) ["*"]
+    //
+    //   EOF -> Reduce(Expression1 = "wonky", Wonky => ActionFn(7);)
+    //   "*" -> Reduce(Expression1 = "wonky", Wonky => ActionFn(7);)
+    //
     pub fn __state21<
         'input,
         __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__ParseError<usize,(usize, &'input str),()>>>,
@@ -1058,6 +1370,13 @@ mod __parse__Expression2 {
         }
     }
 
+    // State 22
+    //   Expression2 = Expression2 Expression2Op Expression1 (*) [EOF]
+    //   Expression2 = Expression2 Expression2Op Expression1 (*) ["*"]
+    //
+    //   EOF -> Reduce(Expression2 = Expression2, Expression2Op, Expression1 => ActionFn(28);)
+    //   "*" -> Reduce(Expression2 = Expression2, Expression2Op, Expression1 => ActionFn(28);)
+    //
     pub fn __state22<
         'input,
         __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__ParseError<usize,(usize, &'input str),()>>>,
@@ -1096,6 +1415,13 @@ mod __parse__Expression2 {
         }
     }
 
+    // State 23
+    //   Expression1 = "&" Maybe Expression1 (*) [EOF]
+    //   Expression1 = "&" Maybe Expression1 (*) ["*"]
+    //
+    //   EOF -> Reduce(Expression1 = "&", Maybe, Expression1 => ActionFn(27);)
+    //   "*" -> Reduce(Expression1 = "&", Maybe, Expression1 => ActionFn(27);)
+    //
     pub fn __state23<
         'input,
         __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__ParseError<usize,(usize, &'input str),()>>>,
@@ -1134,6 +1460,19 @@ mod __parse__Expression2 {
         }
     }
 
+    // State 24
+    //   Maybe = "[" "]" (*) ["&"]
+    //   Maybe = "[" "]" (*) ["("]
+    //   Maybe = "[" "]" (*) ["wacky"]
+    //   Maybe = "[" "]" (*) ["wonky"]
+    //   Maybe = "[" "]" (*) [r#"\\w+"#]
+    //
+    //   "&" -> Reduce(Maybe = "[", "]" => ActionFn(32);)
+    //   "(" -> Reduce(Maybe = "[", "]" => ActionFn(32);)
+    //   "wacky" -> Reduce(Maybe = "[", "]" => ActionFn(32);)
+    //   "wonky" -> Reduce(Maybe = "[", "]" => ActionFn(32);)
+    //   r#"\\w+"# -> Reduce(Maybe = "[", "]" => ActionFn(32);)
+    //
     pub fn __state24<
         'input,
         __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__ParseError<usize,(usize, &'input str),()>>>,
@@ -1177,6 +1516,30 @@ mod __parse__Expression2 {
         }
     }
 
+    // State 25
+    //   Expression1 = (*) Wacky [")"]
+    //   Expression1 = (*) Wacky ["*"]
+    //   Expression1 = (*) "&" Maybe Expression1 [")"]
+    //   Expression1 = (*) "&" Maybe Expression1 ["*"]
+    //   Expression1 = (*) "(" Expression2 ")" [")"]
+    //   Expression1 = (*) "(" Expression2 ")" ["*"]
+    //   Expression1 = (*) "wonky" Wonky [")"]
+    //   Expression1 = (*) "wonky" Wonky ["*"]
+    //   Expression1 = (*) r#"\\w+"# [")"]
+    //   Expression1 = (*) r#"\\w+"# ["*"]
+    //   Expression2 = Expression2 Expression2Op (*) Expression1 [")"]
+    //   Expression2 = Expression2 Expression2Op (*) Expression1 ["*"]
+    //   Wacky = (*) "wacky" [")"]
+    //   Wacky = (*) "wacky" ["*"]
+    //
+    //   "&" -> Shift(S16)
+    //   "(" -> Shift(S17)
+    //   "wacky" -> Shift(S18)
+    //   "wonky" -> Shift(S19)
+    //   r#"\\w+"# -> Shift(S20)
+    //
+    //   Expression1 -> S30
+    //   Wacky -> S15
     pub fn __state25<
         'input,
         __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__ParseError<usize,(usize, &'input str),()>>>,
@@ -1236,6 +1599,13 @@ mod __parse__Expression2 {
         return Ok(__result);
     }
 
+    // State 26
+    //   Expression1 = "(" Expression2 ")" (*) [EOF]
+    //   Expression1 = "(" Expression2 ")" (*) ["*"]
+    //
+    //   EOF -> Reduce(Expression1 = "(", Expression2, ")" => ActionFn(25);)
+    //   "*" -> Reduce(Expression1 = "(", Expression2, ")" => ActionFn(25);)
+    //
     pub fn __state26<
         'input,
         __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__ParseError<usize,(usize, &'input str),()>>>,
@@ -1278,6 +1648,30 @@ mod __parse__Expression2 {
         }
     }
 
+    // State 27
+    //   Expression1 = (*) Wacky [")"]
+    //   Expression1 = (*) Wacky ["*"]
+    //   Expression1 = (*) "&" Maybe Expression1 [")"]
+    //   Expression1 = (*) "&" Maybe Expression1 ["*"]
+    //   Expression1 = "&" Maybe (*) Expression1 [")"]
+    //   Expression1 = "&" Maybe (*) Expression1 ["*"]
+    //   Expression1 = (*) "(" Expression2 ")" [")"]
+    //   Expression1 = (*) "(" Expression2 ")" ["*"]
+    //   Expression1 = (*) "wonky" Wonky [")"]
+    //   Expression1 = (*) "wonky" Wonky ["*"]
+    //   Expression1 = (*) r#"\\w+"# [")"]
+    //   Expression1 = (*) r#"\\w+"# ["*"]
+    //   Wacky = (*) "wacky" [")"]
+    //   Wacky = (*) "wacky" ["*"]
+    //
+    //   "&" -> Shift(S16)
+    //   "(" -> Shift(S17)
+    //   "wacky" -> Shift(S18)
+    //   "wonky" -> Shift(S19)
+    //   r#"\\w+"# -> Shift(S20)
+    //
+    //   Expression1 -> S31
+    //   Wacky -> S15
     pub fn __state27<
         'input,
         __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__ParseError<usize,(usize, &'input str),()>>>,
@@ -1337,6 +1731,21 @@ mod __parse__Expression2 {
         return Ok(__result);
     }
 
+    // State 28
+    //   Expression1 = "(" Expression2 (*) ")" [")"]
+    //   Expression1 = "(" Expression2 (*) ")" ["*"]
+    //   Expression2 = Expression2 (*) Expression2Op Expression1 [")"]
+    //   Expression2 = Expression2 (*) Expression2Op Expression1 ["*"]
+    //   Expression2Op = (*) "*" ["&"]
+    //   Expression2Op = (*) "*" ["("]
+    //   Expression2Op = (*) "*" ["wacky"]
+    //   Expression2Op = (*) "*" ["wonky"]
+    //   Expression2Op = (*) "*" [r#"\\w+"#]
+    //
+    //   ")" -> Shift(S32)
+    //   "*" -> Shift(S10)
+    //
+    //   Expression2Op -> S25
     pub fn __state28<
         'input,
         __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__ParseError<usize,(usize, &'input str),()>>>,
@@ -1380,6 +1789,13 @@ mod __parse__Expression2 {
         return Ok(__result);
     }
 
+    // State 29
+    //   Expression1 = "wonky" Wonky (*) [")"]
+    //   Expression1 = "wonky" Wonky (*) ["*"]
+    //
+    //   ")" -> Reduce(Expression1 = "wonky", Wonky => ActionFn(7);)
+    //   "*" -> Reduce(Expression1 = "wonky", Wonky => ActionFn(7);)
+    //
     pub fn __state29<
         'input,
         __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__ParseError<usize,(usize, &'input str),()>>>,
@@ -1416,6 +1832,13 @@ mod __parse__Expression2 {
         }
     }
 
+    // State 30
+    //   Expression2 = Expression2 Expression2Op Expression1 (*) [")"]
+    //   Expression2 = Expression2 Expression2Op Expression1 (*) ["*"]
+    //
+    //   ")" -> Reduce(Expression2 = Expression2, Expression2Op, Expression1 => ActionFn(28);)
+    //   "*" -> Reduce(Expression2 = Expression2, Expression2Op, Expression1 => ActionFn(28);)
+    //
     pub fn __state30<
         'input,
         __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__ParseError<usize,(usize, &'input str),()>>>,
@@ -1454,6 +1877,13 @@ mod __parse__Expression2 {
         }
     }
 
+    // State 31
+    //   Expression1 = "&" Maybe Expression1 (*) [")"]
+    //   Expression1 = "&" Maybe Expression1 (*) ["*"]
+    //
+    //   ")" -> Reduce(Expression1 = "&", Maybe, Expression1 => ActionFn(27);)
+    //   "*" -> Reduce(Expression1 = "&", Maybe, Expression1 => ActionFn(27);)
+    //
     pub fn __state31<
         'input,
         __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__ParseError<usize,(usize, &'input str),()>>>,
@@ -1492,6 +1922,13 @@ mod __parse__Expression2 {
         }
     }
 
+    // State 32
+    //   Expression1 = "(" Expression2 ")" (*) [")"]
+    //   Expression1 = "(" Expression2 ")" (*) ["*"]
+    //
+    //   ")" -> Reduce(Expression1 = "(", Expression2, ")" => ActionFn(25);)
+    //   "*" -> Reduce(Expression1 = "(", Expression2, ")" => ActionFn(25);)
+    //
     pub fn __state32<
         'input,
         __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__ParseError<usize,(usize, &'input str),()>>>,

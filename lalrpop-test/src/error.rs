@@ -43,6 +43,23 @@ mod __parse__Items {
         ____Items((usize, Vec<(usize, usize)>, usize)),
     }
 
+    // State 0
+    //   Items = (*) [EOF]
+    //   Items = (*) ["+"]
+    //   Items = (*) ["-"]
+    //   Items = (*) Items "+" [EOF]
+    //   Items = (*) Items "+" ["+"]
+    //   Items = (*) Items "+" ["-"]
+    //   Items = (*) Items "-" [EOF]
+    //   Items = (*) Items "-" ["+"]
+    //   Items = (*) Items "-" ["-"]
+    //   __Items = (*) Items [EOF]
+    //
+    //   EOF -> Reduce(Items =  => ActionFn(1);)
+    //   "+" -> Reduce(Items =  => ActionFn(1);)
+    //   "-" -> Reduce(Items =  => ActionFn(1);)
+    //
+    //   Items -> S1
     pub fn __state0<
         __TOKENS: Iterator<Item=Result<(usize, Tok, usize),char>>,
     >(
@@ -86,6 +103,19 @@ mod __parse__Items {
         }
     }
 
+    // State 1
+    //   Items = Items (*) "+" [EOF]
+    //   Items = Items (*) "+" ["+"]
+    //   Items = Items (*) "+" ["-"]
+    //   Items = Items (*) "-" [EOF]
+    //   Items = Items (*) "-" ["+"]
+    //   Items = Items (*) "-" ["-"]
+    //   __Items = Items (*) [EOF]
+    //
+    //   EOF -> Reduce(__Items = Items => ActionFn(0);)
+    //   "+" -> Shift(S2)
+    //   "-" -> Shift(S3)
+    //
     pub fn __state1<
         __TOKENS: Iterator<Item=Result<(usize, Tok, usize),char>>,
     >(
@@ -126,6 +156,15 @@ mod __parse__Items {
         return Ok(__result);
     }
 
+    // State 2
+    //   Items = Items "+" (*) [EOF]
+    //   Items = Items "+" (*) ["+"]
+    //   Items = Items "+" (*) ["-"]
+    //
+    //   EOF -> Reduce(Items = Items, "+" => ActionFn(2);)
+    //   "+" -> Reduce(Items = Items, "+" => ActionFn(2);)
+    //   "-" -> Reduce(Items = Items, "+" => ActionFn(2);)
+    //
     pub fn __state2<
         __TOKENS: Iterator<Item=Result<(usize, Tok, usize),char>>,
     >(
@@ -165,6 +204,15 @@ mod __parse__Items {
         }
     }
 
+    // State 3
+    //   Items = Items "-" (*) [EOF]
+    //   Items = Items "-" (*) ["+"]
+    //   Items = Items "-" (*) ["-"]
+    //
+    //   EOF -> Reduce(Items = Items, "-" => ActionFn(3);)
+    //   "+" -> Reduce(Items = Items, "-" => ActionFn(3);)
+    //   "-" -> Reduce(Items = Items, "-" => ActionFn(3);)
+    //
     pub fn __state3<
         __TOKENS: Iterator<Item=Result<(usize, Tok, usize),char>>,
     >(
