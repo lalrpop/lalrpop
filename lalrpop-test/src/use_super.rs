@@ -1,4 +1,3 @@
-use super::util::tok::Tok;
 extern crate lalrpop_util as __lalrpop_util;
 use self::__lalrpop_util::ParseError as __ParseError;
 mod __parse__S {
@@ -60,6 +59,7 @@ goto_row_0, goto_row_1, goto_row_2, goto_row_3];
         Nt1(i32),
     }
 
+<<<<<<< 0f2545c366e7d96b9d69553c96cba06c64fc5ee3
     struct Machine {
         state_stack: Vec<u32>,
         data_stack: Vec<StackData>
@@ -67,10 +67,39 @@ goto_row_0, goto_row_1, goto_row_2, goto_row_3];
     impl Machine {
         fn new() -> Machine {
             Machine { state_stack: Vec::new(), data_stack: Vec::new() }
+=======
+    // State 0
+    //   S = (*) "(" ")" [EOF]
+    //   __S = (*) S [EOF]
+    //
+    //   "(" -> Shift(S2)
+    //
+    //   S -> S1
+    pub fn __state0<
+        __TOKENS: Iterator<Item=Result<((), Tok, ()),()>>,
+    >(
+        __tokens: &mut __TOKENS,
+        __lookahead: Option<((), Tok, ())>,
+    ) -> Result<(Option<((), Tok, ())>, __Nonterminal<>), __ParseError<(),Tok,()>>
+    {
+        let mut __result: (Option<((), Tok, ())>, __Nonterminal<>);
+        match __lookahead {
+            Some((__loc1, __tok @ Tok::LParen, __loc2)) => {
+                let mut __sym0 = &mut Some((__loc1, (__tok), __loc2));
+                __result = try!(__state2(__tokens, __sym0));
+            }
+            _ => {
+                return Err(__ParseError::UnrecognizedToken {
+                    token: __lookahead,
+                    expected: vec![],
+                });
+            }
+>>>>>>> Port lalrpop-test to use new `Configuration` value
         }
         fn top_state(&self) -> usize {
             *self.state_stack.last().expect("state stack is empty!") as usize
         }
+<<<<<<< 0f2545c366e7d96b9d69553c96cba06c64fc5ee3
         fn dispatch_action(&self, nonterminal: u32, args: Vec<StackData>) -> StackData {
             StackData::Empty
         }
@@ -79,12 +108,81 @@ goto_row_0, goto_row_1, goto_row_2, goto_row_3];
             for _ in 0 .. production.symbol_count {
                 args.push(self.data_stack.pop().expect("popped data stack"));
                 self.state_stack.pop();
+=======
+    }
+
+    // State 1
+    //   __S = S (*) [EOF]
+    //
+    //   EOF -> Reduce(__S = S => ActionFn(0);)
+    //
+    pub fn __state1<
+        __TOKENS: Iterator<Item=Result<((), Tok, ()),()>>,
+    >(
+        __tokens: &mut __TOKENS,
+        __lookahead: Option<((), Tok, ())>,
+        __sym0: &mut Option<((), i32, ())>,
+    ) -> Result<(Option<((), Tok, ())>, __Nonterminal<>), __ParseError<(),Tok,()>>
+    {
+        let mut __result: (Option<((), Tok, ())>, __Nonterminal<>);
+        match __lookahead {
+            None => {
+                let __sym0 = __sym0.take().unwrap();
+                let __start = __sym0.0.clone();
+                let __end = __sym0.2.clone();
+                let __nt = super::__action0(__sym0);
+                let __nt = __Nonterminal::____S((
+                    __start,
+                    __nt,
+                    __end,
+                ));
+                return Ok((__lookahead, __nt));
+            }
+            _ => {
+                return Err(__ParseError::UnrecognizedToken {
+                    token: __lookahead,
+                    expected: vec![],
+                });
+            }
+        }
+    }
+
+    // State 2
+    //   S = "(" (*) ")" [EOF]
+    //
+    //   ")" -> Shift(S3)
+    //
+    pub fn __state2<
+        __TOKENS: Iterator<Item=Result<((), Tok, ()),()>>,
+    >(
+        __tokens: &mut __TOKENS,
+        __sym0: &mut Option<((), Tok, ())>,
+    ) -> Result<(Option<((), Tok, ())>, __Nonterminal<>), __ParseError<(),Tok,()>>
+    {
+        let mut __result: (Option<((), Tok, ())>, __Nonterminal<>);
+        let __lookahead = match __tokens.next() {
+            Some(Ok(v)) => Some(v),
+            None => None,
+            Some(Err(e)) => return Err(__ParseError::User { error: e }),
+        };
+        match __lookahead {
+            Some((__loc1, __tok @ Tok::RParen, __loc2)) => {
+                let mut __sym1 = &mut Some((__loc1, (__tok), __loc2));
+                __result = try!(__state3(__tokens, __sym0, __sym1));
+            }
+            _ => {
+                return Err(__ParseError::UnrecognizedToken {
+                    token: __lookahead,
+                    expected: vec![],
+                });
+>>>>>>> Port lalrpop-test to use new `Configuration` value
             }
             let top_state = self.top_state();
             self.state_stack.push(gotos[top_state][production.nonterminal as usize]);
             let res = self.dispatch_action(production.nonterminal, args);
             self.data_stack.push(res);
         }
+<<<<<<< 0f2545c366e7d96b9d69553c96cba06c64fc5ee3
         fn execute_partial<
             __TOKENS: Iterator<Item=Result<((), Tok, ()),()>>,
         >(
@@ -109,6 +207,49 @@ goto_row_0, goto_row_1, goto_row_2, goto_row_3];
                     __token = None;
                     // error
                 }
+=======
+        return Ok(__result);
+    }
+
+    // State 3
+    //   S = "(" ")" (*) [EOF]
+    //
+    //   EOF -> Reduce(S = "(", ")" => ActionFn(1);)
+    //
+    pub fn __state3<
+        __TOKENS: Iterator<Item=Result<((), Tok, ()),()>>,
+    >(
+        __tokens: &mut __TOKENS,
+        __sym0: &mut Option<((), Tok, ())>,
+        __sym1: &mut Option<((), Tok, ())>,
+    ) -> Result<(Option<((), Tok, ())>, __Nonterminal<>), __ParseError<(),Tok,()>>
+    {
+        let mut __result: (Option<((), Tok, ())>, __Nonterminal<>);
+        let __lookahead = match __tokens.next() {
+            Some(Ok(v)) => Some(v),
+            None => None,
+            Some(Err(e)) => return Err(__ParseError::User { error: e }),
+        };
+        match __lookahead {
+            None => {
+                let __sym0 = __sym0.take().unwrap();
+                let __sym1 = __sym1.take().unwrap();
+                let __start = __sym0.0.clone();
+                let __end = __sym1.2.clone();
+                let __nt = super::__action1(__sym0, __sym1);
+                let __nt = __Nonterminal::S((
+                    __start,
+                    __nt,
+                    __end,
+                ));
+                return Ok((__lookahead, __nt));
+            }
+            _ => {
+                return Err(__ParseError::UnrecognizedToken {
+                    token: __lookahead,
+                    expected: vec![],
+                });
+>>>>>>> Port lalrpop-test to use new `Configuration` value
             }
             0
         }
