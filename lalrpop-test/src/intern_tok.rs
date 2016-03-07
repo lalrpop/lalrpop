@@ -42,6 +42,23 @@ mod __parse__Items {
         ____Items((usize, Vec<(usize, usize)>, usize)),
     }
 
+    // State 0
+    //   Items = (*) [EOF]
+    //   Items = (*) ["+"]
+    //   Items = (*) ["-"]
+    //   Items = (*) Items Spanned<"+"> [EOF]
+    //   Items = (*) Items Spanned<"+"> ["+"]
+    //   Items = (*) Items Spanned<"+"> ["-"]
+    //   Items = (*) Items "-" [EOF]
+    //   Items = (*) Items "-" ["+"]
+    //   Items = (*) Items "-" ["-"]
+    //   __Items = (*) Items [EOF]
+    //
+    //   EOF -> Reduce(Items =  => ActionFn(9);)
+    //   "+" -> Reduce(Items =  => ActionFn(9);)
+    //   "-" -> Reduce(Items =  => ActionFn(9);)
+    //
+    //   Items -> S1
     pub fn __state0<
         'input,
         __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__ParseError<usize,(usize, &'input str),()>>>,
@@ -87,6 +104,23 @@ mod __parse__Items {
         }
     }
 
+    // State 1
+    //   Items = Items (*) Spanned<"+"> [EOF]
+    //   Items = Items (*) Spanned<"+"> ["+"]
+    //   Items = Items (*) Spanned<"+"> ["-"]
+    //   Items = Items (*) "-" [EOF]
+    //   Items = Items (*) "-" ["+"]
+    //   Items = Items (*) "-" ["-"]
+    //   Spanned<"+"> = (*) "+" [EOF]
+    //   Spanned<"+"> = (*) "+" ["+"]
+    //   Spanned<"+"> = (*) "+" ["-"]
+    //   __Items = Items (*) [EOF]
+    //
+    //   EOF -> Reduce(__Items = Items => ActionFn(0);)
+    //   "+" -> Shift(S3)
+    //   "-" -> Shift(S4)
+    //
+    //   Spanned<"+"> -> S2
     pub fn __state1<
         'input,
         __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__ParseError<usize,(usize, &'input str),()>>>,
@@ -141,6 +175,15 @@ mod __parse__Items {
         return Ok(__result);
     }
 
+    // State 2
+    //   Items = Items Spanned<"+"> (*) [EOF]
+    //   Items = Items Spanned<"+"> (*) ["+"]
+    //   Items = Items Spanned<"+"> (*) ["-"]
+    //
+    //   EOF -> Reduce(Items = Items, Spanned<"+"> => ActionFn(2);)
+    //   "+" -> Reduce(Items = Items, Spanned<"+"> => ActionFn(2);)
+    //   "-" -> Reduce(Items = Items, Spanned<"+"> => ActionFn(2);)
+    //
     pub fn __state2<
         'input,
         __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__ParseError<usize,(usize, &'input str),()>>>,
@@ -178,6 +221,15 @@ mod __parse__Items {
         }
     }
 
+    // State 3
+    //   Spanned<"+"> = "+" (*) [EOF]
+    //   Spanned<"+"> = "+" (*) ["+"]
+    //   Spanned<"+"> = "+" (*) ["-"]
+    //
+    //   EOF -> Reduce(Spanned<"+"> = "+" => ActionFn(10);)
+    //   "+" -> Reduce(Spanned<"+"> = "+" => ActionFn(10);)
+    //   "-" -> Reduce(Spanned<"+"> = "+" => ActionFn(10);)
+    //
     pub fn __state3<
         'input,
         __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__ParseError<usize,(usize, &'input str),()>>>,
@@ -217,6 +269,15 @@ mod __parse__Items {
         }
     }
 
+    // State 4
+    //   Items = Items "-" (*) [EOF]
+    //   Items = Items "-" (*) ["+"]
+    //   Items = Items "-" (*) ["-"]
+    //
+    //   EOF -> Reduce(Items = Items, "-" => ActionFn(3);)
+    //   "+" -> Reduce(Items = Items, "-" => ActionFn(3);)
+    //   "-" -> Reduce(Items = Items, "-" => ActionFn(3);)
+    //
     pub fn __state4<
         'input,
         __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__ParseError<usize,(usize, &'input str),()>>>,

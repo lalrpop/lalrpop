@@ -247,7 +247,7 @@ impl<'ascent,'grammar,W:Write> RecursiveAscent<'ascent,'grammar,W> {
         };
 
         // Leave a comment explaining what this state is.
-        if Tls::session().emit_comments() {
+        if Tls::session().emit_comments {
             rust!(self.out, "// State {}", this_index.0);
             for item in this_state.items.vec.iter() {
                 rust!(self.out, "//   {:?}", item);

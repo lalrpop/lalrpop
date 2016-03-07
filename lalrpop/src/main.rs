@@ -3,7 +3,7 @@ extern crate lalrpop;
 extern crate rustc_serialize;
 
 use docopt::Docopt;
-use lalrpop::{process_file, Level, ColorConfig, Session};
+use lalrpop::Configuration;
 use std::env;
 use std::io::{self, Write};
 use std::process;
@@ -20,39 +20,34 @@ fn main1() -> io::Result<()> {
         .and_then(|d| d.argv(env::args()).decode())
         .unwrap_or_else(|e| e.exit());
 
-    let mut session = Session::new();
+    let mut config = Configuration::new();
 
     match args.flag_level.unwrap_or(LevelFlag::Info) {
-        LevelFlag::Quiet => session.set_log_level(Level::Taciturn),
-        LevelFlag::Info => session.set_log_level(Level::Informative),
-        LevelFlag::Verbose => session.set_log_level(Level::Verbose),
-        LevelFlag::Debug => session.set_log_level(Level::Debug),
-    }
+        LevelFlag::Quiet => config.log_quiet(),
+        LevelFlag::Info => config.log_info(),
+        LevelFlag::Verbose => config.log_verbose(),
+        LevelFlag::Debug => config.log_debug(),
+    };
 
     if args.flag_force {
-        session.set_force_build();
-    }
-
-    if args.flag_help {
-        try!(writeln!(stderr, "{}", USAGE));
-        process::exit(1);
+        config.force_build(true);
     }
 
     if args.flag_color {
-        session.set_color_config(ColorConfig::Yes);
+        config.always_use_colors();
     }
 
     if args.flag_comments {
-        session.set_emit_comments();
+        config.emit_comments(true);
     }
 
     if args.arg_inputs.len() == 0 {
-        try!(writeln!(stderr, "Error: no input files specified! Try -h for help."));
+        try!(writeln!(stderr, "Error: no input files specified! Try --help for help."));
         process::exit(1);
     }
 
     for arg in args.arg_inputs {
-        match process_file(&session, &arg) {
+        match config.process_file(&arg) {
             Ok(()) => { }
             Err(err) => {
                 try!(writeln!(stderr, "Error encountered processing `{}`: {}",
@@ -66,10 +61,13 @@ fn main1() -> io::Result<()> {
 }
 
 const USAGE: &'static str = "
-Usage: lalrpop [options] <inputs>...
+Usage: lalrpop [options] inputs...
+       lalrpop --help
+
+Convert each of the given inputs (which should be a `.lalrpop` file)
+into a `.rs` file, just as a `build.rs` script using LALRPOP would do.
 
 Options:
-    -h, --help           Show this message.
     -l, --level LEVEL    Set the debug level. (Default: info)
                          Valid values: quiet, info, verbose, debug.
     -f, --force          Force execution, even if the .lalrpop file is older than the .rs file.
@@ -82,7 +80,6 @@ struct Args {
     arg_inputs: Vec<String>,
     flag_level: Option<LevelFlag>,
     flag_force: bool,
-    flag_help: bool,
     flag_color: bool,
     flag_comments: bool,
 }

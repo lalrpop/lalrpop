@@ -41,6 +41,13 @@ mod __parse__S {
         ____S(((), i32, ())),
     }
 
+    // State 0
+    //   S = (*) "(" ")" [EOF]
+    //   __S = (*) S [EOF]
+    //
+    //   "(" -> Shift(S2)
+    //
+    //   S -> S1
     pub fn __state0<
         __TOKENS: Iterator<Item=Result<((), Tok, ()),()>>,
     >(
@@ -75,6 +82,11 @@ mod __parse__S {
         }
     }
 
+    // State 1
+    //   __S = S (*) [EOF]
+    //
+    //   EOF -> Reduce(__S = S => ActionFn(0);)
+    //
     pub fn __state1<
         __TOKENS: Iterator<Item=Result<((), Tok, ()),()>>,
     >(
@@ -106,6 +118,11 @@ mod __parse__S {
         }
     }
 
+    // State 2
+    //   S = "(" (*) ")" [EOF]
+    //
+    //   ")" -> Shift(S3)
+    //
     pub fn __state2<
         __TOKENS: Iterator<Item=Result<((), Tok, ()),()>>,
     >(
@@ -134,6 +151,11 @@ mod __parse__S {
         return Ok(__result);
     }
 
+    // State 3
+    //   S = "(" ")" (*) [EOF]
+    //
+    //   EOF -> Reduce(S = "(", ")" => ActionFn(1);)
+    //
     pub fn __state3<
         __TOKENS: Iterator<Item=Result<((), Tok, ()),()>>,
     >(
