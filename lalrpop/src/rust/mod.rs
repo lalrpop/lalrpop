@@ -88,8 +88,26 @@ impl<W:Write> RustWrite<W> {
                                     parameters, return_type, where_clauses)
     }
 
-    fn write_fn_header_helper(&mut self,
+    pub fn write_fn_header_helper(&mut self,
                               grammar: &Grammar,
+                              qualifiers: &str,
+                              name: String,
+                              type_parameters: Vec<String>,
+                              parameters: Vec<String>,
+                              return_type: String,
+                              where_clauses: Vec<String>)
+                              -> io::Result<()>
+    {
+
+        self.write_fn_header_helper2(qualifiers,
+                                    name,
+                                    grammar.type_parameters.iter().map(|p| format!("{}", p)).chain(type_parameters.iter().cloned()).collect(),
+                                    grammar.parameters.iter().map(|p| format!("{}", p)).chain(parameters.iter().cloned()).collect(),
+                                    return_type,
+                                    grammar.where_clauses.iter().map(|p| format!("{}", p)).chain(where_clauses.iter().cloned()).collect())
+    }
+
+    pub fn write_fn_header_helper2(&mut self,
                               qualifiers: &str,
                               name: String,
                               type_parameters: Vec<String>,
@@ -100,30 +118,18 @@ impl<W:Write> RustWrite<W> {
     {
         rust!(self, "{}fn {}<", qualifiers, name);
 
-        for type_parameter in &grammar.type_parameters {
-            rust!(self, "{0:1$}{2},", "", TAB, type_parameter);
-        }
-
-        for type_parameter in type_parameters {
+        for type_parameter in &type_parameters {
             rust!(self, "{0:1$}{2},", "", TAB, type_parameter);
         }
 
         rust!(self, ">(");
 
-        for parameter in &grammar.parameters {
-            rust!(self, "{}: {},", parameter.name, parameter.ty);
-        }
-
         for parameter in &parameters {
             rust!(self, "{},", parameter);
         }
 
-        if !grammar.where_clauses.is_empty() || !where_clauses.is_empty() {
+        if !where_clauses.is_empty() {
             rust!(self, ") -> {} where", return_type);
-
-            for where_clause in &grammar.where_clauses {
-                rust!(self, "  {},", where_clause);
-            }
 
             for where_clause in &where_clauses {
                 rust!(self, "  {},", where_clause);

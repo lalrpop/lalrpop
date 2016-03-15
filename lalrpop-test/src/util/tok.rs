@@ -10,6 +10,7 @@ pub enum Tok {
     Times,
     Div,
     Comma,
+    Foo,
 }
 
 // simplest and stupidest possible tokenizer

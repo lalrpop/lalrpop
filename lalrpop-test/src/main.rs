@@ -16,15 +16,9 @@ mod expr_lalr;
 /// more interesting demonstration of parsing full expressions, using intern tok
 mod expr_intern_tok;
 
-/// test that passes in lifetime/type/formal parameters and threads
-/// them through, building an AST from the result
-mod expr_arena;
-
 /// definitions of the AST
 mod expr_arena_ast;
 
-/// expr defined with a generic type `F`
-mod expr_generic;
 
 /// test of inlining
 mod inline;
@@ -32,8 +26,6 @@ mod inline;
 /// test that exercises internal token generation, as well as locations and spans
 mod intern_tok;
 
-/// test that exercises using a lifetime parameter in the token type
-mod lifetime_tok;
 
 /// library for lifetime_tok test
 mod lifetime_tok_lib;
@@ -109,14 +101,6 @@ fn expr_intern_tok_test_err() {
 }
 
 #[test]
-fn expr_lifetime_tok1() {
-    // the problem here was that we were improperly pruning the 'input from the
-    let tokens = lifetime_tok_lib::lt_tokenize("x");
-    let tree = lifetime_tok::parse_Expr(tokens).unwrap();
-    assert_eq!(tree, vec!["x"]);
-}
-
-#[test]
 fn expr_lalr_test1() {
     util::test(|v| expr_lalr::parse_Expr(1, v), "22 - 3", 22 - 3);
 }
@@ -159,39 +143,6 @@ fn sub_test2() {
 #[test]
 fn sub_test3() {
     util::test(sub::parse_S, "22 - (3 - 5) - 13", 22 - (3 - 5) - 13);
-}
-
-#[test]
-fn expr_arena_test1() {
-    use expr_arena_ast::*;
-    let arena = Arena::new();
-    let expected =
-        arena.alloc(Node::Binary(Op::Sub,
-                                 arena.alloc(Node::Binary(Op::Mul,
-                                                          arena.alloc(Node::Value(22)),
-                                                          arena.alloc(Node::Value(3)))),
-                                 arena.alloc(Node::Value(6))));
-    util::test_loc(|v| expr_arena::parse_Expr(&arena, v), "22 * 3 - 6", expected);
-}
-
-#[test]
-fn expr_arena_test2() {
-    use expr_arena_ast::*;
-    let arena = Arena::new();
-    let expected =
-        arena.alloc(Node::Reduce(Op::Mul,
-                                 vec![arena.alloc(Node::Value(22)),
-                                      arena.alloc(Node::Value(3)),
-                                      arena.alloc(Node::Value(6))]));;
-    util::test_loc(|v| expr_arena::parse_Expr(&arena, v), "*(22, 3, 6)", expected);
-    util::test_loc(|v| expr_arena::parse_Expr(&arena, v), "*(22, 3, 6,)", expected);
-}
-
-#[test]
-fn expr_generic_test1() {
-    let expected: i32 = 22 * 3 - 6;
-    let actual = expr_generic::parse_Expr::<i32>("22 * 3 - 6").unwrap();
-    assert_eq!(expected, actual);
 }
 
 #[test]

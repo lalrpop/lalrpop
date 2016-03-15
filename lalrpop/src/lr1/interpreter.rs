@@ -6,7 +6,7 @@ use collections::Map;
 
 use intern;
 
-use grammar::repr::{Grammar, NonterminalString, Types};
+use grammar::repr::{Grammar, NonterminalString, Types, TypeRepr};
 
 use std::io;
 use std::iter;
@@ -38,6 +38,8 @@ pub struct Interpreter<'emitter,'grammar:'emitter> {
 
 }
 
+const TAB: usize = 4;
+
 pub fn compile<'emitter, 'grammar>(grammar: &'grammar Grammar,
                                    user_start_symbol: NonterminalString,
                                    start_symbol: NonterminalString,
@@ -48,7 +50,6 @@ pub fn compile<'emitter, 'grammar>(grammar: &'grammar Grammar,
 
     interpreter.write()
 }
-
 
 impl<'emitter, 'grammar> Interpreter<'emitter, 'grammar> {
     fn new(grammar: &'grammar Grammar,
@@ -87,7 +88,9 @@ impl<'emitter, 'grammar> Interpreter<'emitter, 'grammar> {
         rust!(self.out, "const productions: [ReducedProduction; {}] = [", productions.len());
 
         for p in &productions {
-            rust!(self.out, "    ReducedProduction {{ nonterminal: {}, symbol_count: {} }},", *self.nonterminal_bits.get(&p.nonterminal).expect("got nonexisting nonterminal"), p.symbols.len());
+            rust!(self.out,
+                  "    ReducedProduction {{ nonterminal: {}, symbol_count: {} }},",
+                  self.nonterminal_bits[&p.nonterminal], p.symbols.len());
         }
         rust!(self.out, "];");
 
@@ -96,13 +99,11 @@ impl<'emitter, 'grammar> Interpreter<'emitter, 'grammar> {
             for (lookahead, action) in &s.tokens {
                 let target = match *action {
                     Action::Shift(index) => format!("{}", (index.0 as i32) + 1),
-                    Action::Reduce(ref prod) => format!("-{}", production_bits.get(prod).expect("got nonexisting production")),
+                    Action::Reduce(prod) => format!("-{}", production_bits[prod]),
                 };
 
                 let column_index = match *lookahead {
-                    Lookahead::Terminal(ref s) =>
-                        *self.grammar.terminal_bits.get(s)
-                                                   .expect("got nonexisting terminal string"),
+                    Lookahead::Terminal(ref s) => self.grammar.terminal_bits[s],
                     Lookahead::EOF => self.grammar.all_terminals.len()
                 };
 
@@ -123,8 +124,7 @@ impl<'emitter, 'grammar> Interpreter<'emitter, 'grammar> {
         let rows = try!(self.states.iter().enumerate().map(|(i, s)| {
             let mut row = iter::repeat("0".to_owned()).take(row_len).collect::<Vec<_>>();
             for (nt, i) in &s.gotos {
-                let column_index = *self.nonterminal_bits.get(nt)
-                                                         .expect("got nonexisting nonterminal");
+                let column_index = self.nonterminal_bits[nt];
                 row[column_index] = format!("{}", i.0);
             }
             rust!(self.out, "const goto_row_{}: &'static [u32] = &[{}];", i, row.join(", "));
@@ -200,22 +200,29 @@ impl<'emitter, 'grammar> Interpreter<'emitter, 'grammar> {
                   self.prefix, self.prefix, self.prefix);
         }
 
+        rust!(self.out, "let mut {}machine = Machine::new();", self.prefix);
+        rust!(self.out,
+              "{}machine.execute_partial(&mut {}tokens);",
+              //self.grammar.parameters.iter().map(|p| format!("{}", p)).collect::<Vec<_>>().join(", "),
+              self.prefix, self.prefix);
 
+
+        rust!(self.out, "Err({}ParseError::ExtraToken {{ token: {}tokens.next().expect(\"no more tokens\").unwrap() }})", self.prefix, self.prefix);
         //rust!(self.out, "    let machine = Machine::new(&actions, &gotos, &productions);");
         rust!(self.out, "}}");
         Ok(())
     }
 
     fn write_terminal_to_index_fn(&mut self) -> io::Result<()> {
-        try!(self.out.write_pub_fn_header(
-            self.grammar,
+        try!(self.out.write_fn_header_helper2(
+            "",
             "terminal_to_index".to_owned(),
-            vec![],
-            vec![format!("token: {}", self.grammar.types.terminal_token_type())],
+            self.grammar.type_parameters.iter().map(|p| format!("{}", p)).collect(),
+            vec![format!("token: &{}", self.grammar.types.terminal_token_type())],
             "usize".to_owned(),
-            vec![]));
+            self.grammar.where_clauses.iter().map(|p| format!("{}", p)).collect()));
         rust!(self.out, "{{");
-        rust!(self.out, "match token {{");
+        rust!(self.out, "match *token {{");
 
         for (&k, v) in &self.grammar.terminal_bits {
             // TODO same as in ascent.rs
@@ -226,11 +233,6 @@ impl<'emitter, 'grammar> Interpreter<'emitter, 'grammar> {
                 pattern_names.last().cloned().unwrap()
             });
 
-            let mut pattern = format!("{}", pattern);
-            if pattern_names.is_empty() {
-                pattern_names.push(format!("{}tok", self.prefix));
-                pattern = format!("{}tok @ {}", self.prefix, pattern);
-            }
             rust!(self.out, "{} => {},", pattern, v);
         }
 
@@ -242,9 +244,153 @@ impl<'emitter, 'grammar> Interpreter<'emitter, 'grammar> {
         Ok(())
     }
 
-    fn write_execute_partial(&mut self) -> io::Result<()> {
+    fn collect_lifetimes(&self, t: &TypeRepr, lifetimes: &mut Vec<String>) {
+        match t {
+            &TypeRepr::Tuple(ref args) => {
+                for a in args {
+                    self.collect_lifetimes(a, lifetimes);
+                }
+            }
+            &TypeRepr::Nominal(ref nt) => {
+                for a in &nt.types {
+                    self.collect_lifetimes(a, lifetimes);
+                }
+            }
+            &TypeRepr::Ref { lifetime: Some(lt), referent: ref r, ..} => {
+                lifetimes.push(format!("{}", lt));
+                self.collect_lifetimes(r, lifetimes);
+            }
+            _ => {}
+        }
+    }
 
-        //rust!()
+    fn write_machine(&mut self) -> io::Result<()> {
+        let mut lts = Vec::new();
+        self.collect_lifetimes(self.types.terminal_token_type(), &mut lts);
+        let type_parameters = if lts.is_empty() {
+            "".to_owned()
+        } else {
+            format!("<{}>", lts.join(","))
+        };
+        rust!(self.out, "enum StackData{} {{", type_parameters);
+        rust!(self.out, "Empty,");
+        rust!(self.out, "Terminal(({}, {}, {})),", self.types.terminal_loc_type(), self.types.terminal_token_type(), self.types.terminal_loc_type());
+
+        for nt in self.grammar.nonterminals.keys() {
+            rust!(self.out, "Nt{}({}),", self.nonterminal_bits[nt], self.types.nonterminal_type(*nt));
+        
+        }
+        rust!(self.out, "}}");
+        rust!(self.out, "");
+
+        rust!(self.out, "struct Machine{} {{", type_parameters);
+        rust!(self.out, "state_stack: Vec<u32>,");
+        rust!(self.out, "data_stack: Vec<StackData{}>", type_parameters);
+        rust!(self.out, "}}");
+
+        rust!(self.out, "impl{} Machine{} {{", type_parameters, type_parameters);
+
+        rust!(self.out, "fn new() -> Machine{} {{", type_parameters);
+        rust!(self.out, "Machine {{ state_stack: Vec::new(), data_stack: Vec::new() }}");
+        rust!(self.out, "}}");
+
+        rust!(self.out, "fn top_state(&self) -> usize {{");
+        rust!(self.out, "*self.state_stack.last().expect(\"state stack is empty!\") as usize");
+        rust!(self.out, "}}");
+
+        rust!(self.out, "fn dispatch_action(&self, nonterminal: u32, args: Vec<StackData{}>) -> StackData{} {{",type_parameters, type_parameters);
+        rust!(self.out, "StackData::Empty");
+        /*
+        for i in 0 .. self.nonterminal_bits.len() {
+
+        
+        }
+        */
+        rust!(self.out, "}}");
+
+        rust!(self.out, "fn reduce(&mut self, production: &ReducedProduction) {{");
+
+        rust!(self.out, "let mut args = Vec::new();");
+        rust!(self.out, "for _ in 0 .. production.symbol_count {{");
+        rust!(self.out, "args.push(self.data_stack.pop().expect(\"popped data stack\"));");
+        rust!(self.out, "self.state_stack.pop();");
+        rust!(self.out, "}}");
+
+        rust!(self.out, "let top_state = self.top_state();");
+        rust!(self.out, "self.state_stack.push(gotos[top_state][production.nonterminal as usize]);");
+        rust!(self.out, "let res = self.dispatch_action(production.nonterminal, args);");
+        rust!(self.out, "self.data_stack.push(res);");
+
+        rust!(self.out, "}}");
+
+
+        let triple_type = self.types.triple_type();
+        //
+        // If we are generated the tokenizer, it generates ParseError
+        // errors, otherwise they are user errors.
+        let iter_error_type = if self.grammar.intern_token.is_some() {
+            self.parse_error_type()
+        } else {
+            format!("{}", self.types.error_type())
+        };
+
+        let mut parameters = vec!["&mut self".to_owned()];
+        //parameters.extend(self.grammar.parameters.iter().map(|p| format!("{}", p)));
+        parameters.push(format!("{}tokens: &mut {}TOKENS", self.prefix, self.prefix));
+
+        let mut tps: Vec<String> = Vec::new(); //self.grammar.type_parameters.iter().map(|p| format!("{}", p)).collect();
+        tps.push(format!("{}TOKENS: Iterator<Item=Result<{},{}>>", self.prefix, triple_type, iter_error_type));
+
+        try!(self.out.write_fn_header_helper2(
+            "",
+            "execute_partial".to_owned(),
+            tps,
+            parameters,
+            "usize".to_owned(),
+            self.grammar.where_clauses.iter().map(|p| format!("{}", p)).collect()));
+
+        rust!(self.out, "{{");
+        rust!(self.out, "self.state_stack.push(0);");
+        rust!(self.out, "let mut {}token = {}tokens.next();", self.prefix, self.prefix);
+        rust!(self.out, "while let Some(Ok((l, terminal, r))) = {}token {{", self.prefix);
+
+        rust!(self.out, "let terminal_index = terminal_to_index(&terminal);");
+        rust!(self.out, "let state = self.top_state();");
+        rust!(self.out, "let action = actions[state][terminal_index];");
+
+        rust!(self.out, "if action > 0 {{");
+        rust!(self.out, "self.state_stack.push((action-1) as u32);");
+        rust!(self.out, "self.data_stack.push(StackData::Terminal((l, terminal, r)));");
+        rust!(self.out, "{}token = {}tokens.next();", self.prefix, self.prefix);
+        rust!(self.out, "}} else if action < 0 {{");
+        rust!(self.out, "self.reduce(&productions[(action*-1) as usize]);");
+        rust!(self.out, "{}token = Some(Ok((l, terminal, r)));", self.prefix);
+        rust!(self.out, "}} else {{");
+        rust!(self.out, "{}token = None;", self.prefix);
+        rust!(self.out, "// error");
+        rust!(self.out, "}}");
+
+        rust!(self.out, "}}");
+        /*
+
+            // check whether we can shift this token
+            match self.get_action(state, &terminal) {
+                None => { panic!("Error"); }
+                Some(Action::Shift(next_index)) => {
+                    self.state_stack.push(next_index);
+                    token = tokens.next();
+                }
+
+                Some(Action::Reduce(index)) => {
+                    token = Some(terminal);
+                }
+            }
+        }
+        */
+        rust!(self.out, "0");
+        rust!(self.out, "}}");
+
+        rust!(self.out, "}}");
 
         Ok(())
     }
@@ -266,6 +412,8 @@ impl<'emitter, 'grammar> Interpreter<'emitter, 'grammar> {
 
         try!(self.write_terminal_to_index_fn());
         try!(self.write_start_fn());
+
+        try!(self.write_machine());
 
         rust!(self.out, "}}");
         Ok(())
