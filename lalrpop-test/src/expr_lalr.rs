@@ -1,3 +1,6 @@
+=======
+use util::tok::Tok;
+>>>>>>> More progress
 extern crate lalrpop_util as __lalrpop_util;
 use self::__lalrpop_util::ParseError as __ParseError;
 mod __parse__Expr {
@@ -11,6 +14,7 @@ mod __parse__Expr {
         symbol_count: u32,
     }
 
+<<<<<<< 80265c63a967adf0d43a709fc83192e57465b51b
 <<<<<<< 0f2545c366e7d96b9d69553c96cba06c64fc5ee3
     const productions: [ReducedProduction; 9] = [
             ReducedProduction { nonterminal: 0, symbol_count: 3 },
@@ -62,6 +66,9 @@ goto_row_0, goto_row_1, goto_row_2, goto_row_3, goto_row_4, goto_row_5, goto_row
 
     fn terminal_to_index<
 =======
+=======
+<<<<<<< 045f2bbc1f5b2d428fd580aa4bb6cc6303850c61
+>>>>>>> More progress
     // State 0
     //     Kind = None
     //     AllInputs = []
@@ -1425,7 +1432,151 @@ goto_row_0, goto_row_1, goto_row_2, goto_row_3, goto_row_4, goto_row_5, goto_row
         ));
         __result = (__lookahead, __nt);
         return Ok(__result);
+<<<<<<< 80265c63a967adf0d43a709fc83192e57465b51b
 >>>>>>> update test output
+=======
+=======
+    const productions: [ReducedProduction; 9] = [
+            ReducedProduction { nonterminal: 0, symbol_count: 3 },
+            ReducedProduction { nonterminal: 0, symbol_count: 3 },
+            ReducedProduction { nonterminal: 0, symbol_count: 1 },
+            ReducedProduction { nonterminal: 1, symbol_count: 3 },
+            ReducedProduction { nonterminal: 1, symbol_count: 3 },
+            ReducedProduction { nonterminal: 1, symbol_count: 1 },
+            ReducedProduction { nonterminal: 2, symbol_count: 1 },
+            ReducedProduction { nonterminal: 2, symbol_count: 3 },
+            ReducedProduction { nonterminal: 3, symbol_count: 1 },
+    ];
+    const action_row_0: &'static [i32] = &[5, 0, 0, 0, 0, 0, 6, 0];
+    const action_row_1: &'static [i32] = &[0, 0, 0, 7, 8, 0, 0, -8];
+    const action_row_2: &'static [i32] = &[0, -2, 9, -2, -2, 10, 0, -2];
+    const action_row_3: &'static [i32] = &[0, -5, -5, -5, -5, -5, 0, -5];
+    const action_row_4: &'static [i32] = &[5, 0, 0, 0, 0, 0, 6, 0];
+    const action_row_5: &'static [i32] = &[0, -6, -6, -6, -6, -6, 0, -6];
+    const action_row_6: &'static [i32] = &[5, 0, 0, 0, 0, 0, 6, 0];
+    const action_row_7: &'static [i32] = &[5, 0, 0, 0, 0, 0, 6, 0];
+    const action_row_8: &'static [i32] = &[5, 0, 0, 0, 0, 0, 6, 0];
+    const action_row_9: &'static [i32] = &[5, 0, 0, 0, 0, 0, 6, 0];
+    const action_row_10: &'static [i32] = &[0, 16, 0, 7, 8, 0, 0, 0];
+    const action_row_11: &'static [i32] = &[0, -1, 9, -1, -1, 10, 0, -1];
+    const action_row_12: &'static [i32] = &[0, -0, 9, -0, -0, 10, 0, -0];
+    const action_row_13: &'static [i32] = &[0, -3, -3, -3, -3, -3, 0, -3];
+    const action_row_14: &'static [i32] = &[0, -4, -4, -4, -4, -4, 0, -4];
+    const action_row_15: &'static [i32] = &[0, -7, -7, -7, -7, -7, 0, -7];
+    const actions: [&'static [i32]; 16] = [action_row_0, action_row_1, action_row_2, action_row_3, action_row_4, action_row_5, action_row_6, action_row_7, action_row_8, action_row_9, action_row_10, action_row_11, action_row_12, action_row_13, action_row_14, action_row_15];
+
+    const goto_row_0: &'static [u32] = &[1, 2, 3, 0];
+    const goto_row_1: &'static [u32] = &[0, 0, 0, 0];
+    const goto_row_2: &'static [u32] = &[0, 0, 0, 0];
+    const goto_row_3: &'static [u32] = &[0, 0, 0, 0];
+    const goto_row_4: &'static [u32] = &[10, 2, 3, 0];
+    const goto_row_5: &'static [u32] = &[0, 0, 0, 0];
+    const goto_row_6: &'static [u32] = &[0, 11, 3, 0];
+    const goto_row_7: &'static [u32] = &[0, 12, 3, 0];
+    const goto_row_8: &'static [u32] = &[0, 0, 13, 0];
+    const goto_row_9: &'static [u32] = &[0, 0, 14, 0];
+    const goto_row_10: &'static [u32] = &[0, 0, 0, 0];
+    const goto_row_11: &'static [u32] = &[0, 0, 0, 0];
+    const goto_row_12: &'static [u32] = &[0, 0, 0, 0];
+    const goto_row_13: &'static [u32] = &[0, 0, 0, 0];
+    const goto_row_14: &'static [u32] = &[0, 0, 0, 0];
+    const goto_row_15: &'static [u32] = &[0, 0, 0, 0];
+    const gotos: [&'static [u32]; 16] = [
+goto_row_0, goto_row_1, goto_row_2, goto_row_3, goto_row_4, goto_row_5, goto_row_6, goto_row_7, goto_row_8, goto_row_9, goto_row_10, goto_row_11, goto_row_12, goto_row_13, goto_row_14, goto_row_15];
+
+    fn terminal_to_index<
+    >(
+        token: &Tok,
+    ) -> usize
+    {
+        match *token {
+            Tok::LParen => 0,
+            Tok::RParen => 1,
+            Tok::Times => 2,
+            Tok::Plus => 3,
+            Tok::Minus => 4,
+            Tok::Div => 5,
+            Tok::Num(__tok0) => 6,
+            _ => panic!("unuspported token"),
+        }
+    }
+    pub fn parse_Expr<
+        __TOKEN: __ToTriple<Error=()>,
+        __TOKENS: IntoIterator<Item=__TOKEN>,
+    >(
+        scale: i32,
+        __tokens: __TOKENS,
+    ) -> Result<i32, __ParseError<(),Tok,()>>
+    {
+        let __tokens = __tokens.into_iter();
+        let mut __tokens = __tokens.map(|t| __ToTriple::to_triple(t));
+        let mut __machine = Machine::new();
+        __machine.execute_partial(&mut __tokens);
+        Err(__ParseError::ExtraToken { token: __tokens.next().expect("no more tokens").unwrap() })
+    }
+    enum StackData {
+        Empty,
+        Terminal(((), Tok, ())),
+        Nt0(i32),
+        Nt1(i32),
+        Nt2(i32),
+        Nt3(i32),
+    }
+
+    struct Machine {
+        state_stack: Vec<u32>,
+        data_stack: Vec<StackData>
+    }
+    impl Machine {
+        fn new() -> Machine {
+            Machine { state_stack: Vec::new(), data_stack: Vec::new() }
+        }
+        fn top_state(&self) -> usize {
+            *self.state_stack.last().expect("state stack is empty!") as usize
+        }
+        fn dispatch_action(&self, nonterminal: u32, args: Vec<StackData>) -> StackData {
+            StackData::Empty
+        }
+        fn reduce(&mut self, production: &ReducedProduction) {
+            let mut args = Vec::new();
+            for _ in 0 .. production.symbol_count {
+                args.push(self.data_stack.pop().expect("popped data stack"));
+                self.state_stack.pop();
+            }
+            let top_state = self.top_state();
+            self.state_stack.push(gotos[top_state][production.nonterminal as usize]);
+            let res = self.dispatch_action(production.nonterminal, args);
+            self.data_stack.push(res);
+        }
+        fn execute_partial<
+            __TOKENS: Iterator<Item=Result<((), Tok, ()),()>>,
+        >(
+            &mut self,
+            __tokens: &mut __TOKENS,
+        ) -> usize
+        {
+            self.state_stack.push(0);
+            let mut __token = __tokens.next();
+            while let Some(Ok((l, terminal, r))) = __token {
+                let terminal_index = terminal_to_index(&terminal);
+                let state = self.top_state();
+                let action = actions[state][terminal_index];
+                if action > 0 {
+                    self.state_stack.push((action-1) as u32);
+                    self.data_stack.push(StackData::Terminal((l, terminal, r)));
+                    __token = __tokens.next();
+                } else if action < 0 {
+                    self.reduce(&productions[(action*-1) as usize]);
+                    __token = Some(Ok((l, terminal, r)));
+                } else {
+                    __token = None;
+                    // error
+                }
+            }
+            0
+        }
+>>>>>>> More progress
+>>>>>>> More progress
     }
 }
 pub use self::__parse__Expr::parse_Expr;

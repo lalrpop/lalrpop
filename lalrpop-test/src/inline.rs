@@ -1,3 +1,6 @@
+=======
+extern crate lalrpop_util as __lalrpop_util;
+>>>>>>> More progress
 use self::__lalrpop_util::ParseError as __ParseError;
 mod __parse__E {
     extern crate lalrpop_util as __lalrpop_util;
@@ -26,6 +29,7 @@ mod __parse__E {
     const action_row_6: &'static [i32] = &[0, 0, -3];
     const actions: [&'static [i32]; 7] = [action_row_0, action_row_1, action_row_2, action_row_3, action_row_4, action_row_5, action_row_6];
 
+<<<<<<< 80265c63a967adf0d43a709fc83192e57465b51b
     const goto_row_0: &'static [u32] = &[0, 1, 0, 0];
     const goto_row_1: &'static [u32] = &[0, 0, 0, 0];
     const goto_row_2: &'static [u32] = &[0, 4, 0, 0];
@@ -38,6 +42,9 @@ goto_row_0, goto_row_1, goto_row_2, goto_row_3, goto_row_4, goto_row_5, goto_row
 
     fn terminal_to_index<
 =======
+=======
+<<<<<<< 045f2bbc1f5b2d428fd580aa4bb6cc6303850c61
+>>>>>>> More progress
     // State 0
     //     Kind = None
     //     AllInputs = []
@@ -115,6 +122,7 @@ goto_row_0, goto_row_1, goto_row_2, goto_row_3, goto_row_4, goto_row_5, goto_row
     //
     //     E -> S4
     pub fn __state2<
+<<<<<<< 80265c63a967adf0d43a709fc83192e57465b51b
 >>>>>>> Port lalrpop-test to use new `Configuration` value
         'input,
     >(
@@ -127,6 +135,42 @@ goto_row_0, goto_row_1, goto_row_2, goto_row_3, goto_row_4, goto_row_5, goto_row
             (1, __tok0) => 1,
             _ => panic!("unuspported token"),
 =======
+=======
+=======
+    const productions: [ReducedProduction; 7] = [
+            ReducedProduction { nonterminal: 0, symbol_count: 0 },
+            ReducedProduction { nonterminal: 1, symbol_count: 1 },
+            ReducedProduction { nonterminal: 1, symbol_count: 2 },
+            ReducedProduction { nonterminal: 1, symbol_count: 3 },
+            ReducedProduction { nonterminal: 2, symbol_count: 0 },
+            ReducedProduction { nonterminal: 2, symbol_count: 1 },
+            ReducedProduction { nonterminal: 3, symbol_count: 1 },
+    ];
+    const action_row_0: &'static [i32] = &[3, 4, 0];
+    const action_row_1: &'static [i32] = &[0, 0, -6];
+    const action_row_2: &'static [i32] = &[3, 6, 0];
+    const action_row_3: &'static [i32] = &[0, 0, -1];
+    const action_row_4: &'static [i32] = &[0, 0, -2];
+    const action_row_5: &'static [i32] = &[3, 4, -1];
+    const action_row_6: &'static [i32] = &[0, 0, -3];
+    const actions: [&'static [i32]; 7] = [action_row_0, action_row_1, action_row_2, action_row_3, action_row_4, action_row_5, action_row_6];
+
+    const goto_row_0: &'static [u32] = &[0, 1, 0, 0];
+    const goto_row_1: &'static [u32] = &[0, 0, 0, 0];
+    const goto_row_2: &'static [u32] = &[0, 4, 0, 0];
+    const goto_row_3: &'static [u32] = &[0, 0, 0, 0];
+    const goto_row_4: &'static [u32] = &[0, 0, 0, 0];
+    const goto_row_5: &'static [u32] = &[0, 6, 0, 0];
+    const goto_row_6: &'static [u32] = &[0, 0, 0, 0];
+    const gotos: [&'static [u32]; 7] = [
+goto_row_0, goto_row_1, goto_row_2, goto_row_3, goto_row_4, goto_row_5, goto_row_6];
+
+    fn terminal_to_index<
+>>>>>>> More progress
+        'input,
+    >(
+<<<<<<< 045f2bbc1f5b2d428fd580aa4bb6cc6303850c61
+>>>>>>> More progress
         input: &'input str,
         __tokens: &mut __TOKENS,
         __sym0: (usize, &'input str, usize),
@@ -202,6 +246,7 @@ goto_row_0, goto_row_1, goto_row_2, goto_row_3, goto_row_4, goto_row_5, goto_row
 =======
     //     E -> S6
     pub fn __state5<
+<<<<<<< 80265c63a967adf0d43a709fc83192e57465b51b
 >>>>>>> update test output
         'input,
     >(
@@ -240,6 +285,24 @@ goto_row_0, goto_row_1, goto_row_2, goto_row_3, goto_row_4, goto_row_5, goto_row
     //
     pub fn __state4<
 =======
+=======
+=======
+        token: &(usize, &'input str),
+    ) -> usize
+    {
+        match *token {
+            (0, __tok0) => 0,
+            (1, __tok0) => 1,
+            _ => panic!("unuspported token"),
+        }
+    }
+    pub fn parse_E<
+>>>>>>> More progress
+        'input,
+    >(
+        input: &'input str,
+<<<<<<< 045f2bbc1f5b2d428fd580aa4bb6cc6303850c61
+>>>>>>> More progress
         __tokens: &mut __TOKENS,
         __sym0: &mut Option<(usize, &'input str, usize)>,
         __sym1: (usize, &'input str, usize),
@@ -495,7 +558,80 @@ goto_row_0, goto_row_1, goto_row_2, goto_row_3, goto_row_4, goto_row_5, goto_row
         ));
         __result = (__lookahead, __nt);
         return Ok(__result);
+<<<<<<< 80265c63a967adf0d43a709fc83192e57465b51b
 >>>>>>> update test output
+=======
+=======
+    ) -> Result<String, __ParseError<usize,(usize, &'input str),()>>
+    {
+        let mut __tokens = super::__intern_token::__Matcher::new(input);
+        let mut __machine = Machine::new();
+        __machine.execute_partial(&mut __tokens);
+        Err(__ParseError::ExtraToken { token: __tokens.next().expect("no more tokens").unwrap() })
+    }
+    enum StackData<'input> {
+        Empty,
+        Terminal((usize, (usize, &'input str), usize)),
+        Nt0(()),
+        Nt1(String),
+        Nt2(String),
+        Nt3(String),
+    }
+
+    struct Machine<'input> {
+        state_stack: Vec<u32>,
+        data_stack: Vec<StackData<'input>>
+    }
+    impl<'input> Machine<'input> {
+        fn new() -> Machine<'input> {
+            Machine { state_stack: Vec::new(), data_stack: Vec::new() }
+        }
+        fn top_state(&self) -> usize {
+            *self.state_stack.last().expect("state stack is empty!") as usize
+        }
+        fn dispatch_action(&self, nonterminal: u32, args: Vec<StackData<'input>>) -> StackData<'input> {
+            StackData::Empty
+        }
+        fn reduce(&mut self, production: &ReducedProduction) {
+            let mut args = Vec::new();
+            for _ in 0 .. production.symbol_count {
+                args.push(self.data_stack.pop().expect("popped data stack"));
+                self.state_stack.pop();
+            }
+            let top_state = self.top_state();
+            self.state_stack.push(gotos[top_state][production.nonterminal as usize]);
+            let res = self.dispatch_action(production.nonterminal, args);
+            self.data_stack.push(res);
+        }
+        fn execute_partial<
+            __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__ParseError<usize,(usize, &'input str),()>>>,
+        >(
+            &mut self,
+            __tokens: &mut __TOKENS,
+        ) -> usize
+        {
+            self.state_stack.push(0);
+            let mut __token = __tokens.next();
+            while let Some(Ok((l, terminal, r))) = __token {
+                let terminal_index = terminal_to_index(&terminal);
+                let state = self.top_state();
+                let action = actions[state][terminal_index];
+                if action > 0 {
+                    self.state_stack.push((action-1) as u32);
+                    self.data_stack.push(StackData::Terminal((l, terminal, r)));
+                    __token = __tokens.next();
+                } else if action < 0 {
+                    self.reduce(&productions[(action*-1) as usize]);
+                    __token = Some(Ok((l, terminal, r)));
+                } else {
+                    __token = None;
+                    // error
+                }
+            }
+            0
+        }
+>>>>>>> More progress
+>>>>>>> More progress
     }
 }
 pub use self::__parse__E::parse_E;

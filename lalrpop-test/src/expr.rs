@@ -1,3 +1,6 @@
+=======
+use util::tok::Tok;
+>>>>>>> More progress
 extern crate lalrpop_util as __lalrpop_util;
 use self::__lalrpop_util::ParseError as __ParseError;
 mod __parse__Expr {
@@ -113,6 +116,7 @@ goto_row_0, goto_row_1, goto_row_2, goto_row_3, goto_row_4, goto_row_5, goto_row
     {
         let __tokens = __tokens.into_iter();
         let mut __tokens = __tokens.map(|t| __ToTriple::to_triple(t));
+<<<<<<< 80265c63a967adf0d43a709fc83192e57465b51b
 <<<<<<< 0f2545c366e7d96b9d69553c96cba06c64fc5ee3
         let mut __machine = Machine::new();
         __machine.execute_partial(&mut __tokens);
@@ -179,6 +183,9 @@ goto_row_0, goto_row_1, goto_row_2, goto_row_3, goto_row_4, goto_row_5, goto_row
             }
             0
 =======
+=======
+<<<<<<< 045f2bbc1f5b2d428fd580aa4bb6cc6303850c61
+>>>>>>> More progress
         let __lookahead = match __tokens.next() {
             Some(Ok(v)) => Some(v),
             None => None,
@@ -1992,7 +1999,77 @@ goto_row_0, goto_row_1, goto_row_2, goto_row_3, goto_row_4, goto_row_5, goto_row
         ));
         __result = (__lookahead, __nt);
         return Ok(__result);
+<<<<<<< 80265c63a967adf0d43a709fc83192e57465b51b
 >>>>>>> update test output
+=======
+=======
+        let mut __machine = Machine::new();
+        __machine.execute_partial(&mut __tokens);
+        Err(__ParseError::ExtraToken { token: __tokens.next().expect("no more tokens").unwrap() })
+    }
+    enum StackData {
+        Empty,
+        Terminal(((), Tok, ())),
+        Nt0(i32),
+        Nt1(i32),
+        Nt2(i32),
+        Nt3(i32),
+    }
+
+    struct Machine {
+        state_stack: Vec<u32>,
+        data_stack: Vec<StackData>
+    }
+    impl Machine {
+        fn new() -> Machine {
+            Machine { state_stack: Vec::new(), data_stack: Vec::new() }
+        }
+        fn top_state(&self) -> usize {
+            *self.state_stack.last().expect("state stack is empty!") as usize
+        }
+        fn dispatch_action(&self, nonterminal: u32, args: Vec<StackData>) -> StackData {
+            StackData::Empty
+        }
+        fn reduce(&mut self, production: &ReducedProduction) {
+            let mut args = Vec::new();
+            for _ in 0 .. production.symbol_count {
+                args.push(self.data_stack.pop().expect("popped data stack"));
+                self.state_stack.pop();
+            }
+            let top_state = self.top_state();
+            self.state_stack.push(gotos[top_state][production.nonterminal as usize]);
+            let res = self.dispatch_action(production.nonterminal, args);
+            self.data_stack.push(res);
+        }
+        fn execute_partial<
+            __TOKENS: Iterator<Item=Result<((), Tok, ()),()>>,
+        >(
+            &mut self,
+            __tokens: &mut __TOKENS,
+        ) -> usize
+        {
+            self.state_stack.push(0);
+            let mut __token = __tokens.next();
+            while let Some(Ok((l, terminal, r))) = __token {
+                let terminal_index = terminal_to_index(&terminal);
+                let state = self.top_state();
+                let action = actions[state][terminal_index];
+                if action > 0 {
+                    self.state_stack.push((action-1) as u32);
+                    self.data_stack.push(StackData::Terminal((l, terminal, r)));
+                    __token = __tokens.next();
+                } else if action < 0 {
+                    self.reduce(&productions[(action*-1) as usize]);
+                    __token = Some(Ok((l, terminal, r)));
+                } else {
+                    __token = None;
+                    // error
+                }
+            }
+            0
+        }
+>>>>>>> More progress
+>>>>>>> More progress
     }
 }
 pub use self::__parse__Expr::parse_Expr;
