@@ -3,6 +3,7 @@
 use grammar::repr::*;
 
 pub mod ascent;
+pub mod interpreter;
 
 mod build;
 mod build_lalr;
@@ -31,4 +32,3 @@ pub fn build_states<'grammar>(grammar: &'grammar Grammar,
         Algorithm::LALR1 => build_lalr::build_lalr_states(grammar, start),
     }
 }
-

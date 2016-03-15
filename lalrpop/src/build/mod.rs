@@ -60,7 +60,7 @@ pub fn process_file<P:AsRef<Path>>(session: Rc<Session>, lalrpop_file: P) -> io:
         // file behind.
         {
             let grammar = try!(parse_and_normalize_grammar(&session, &file_text));
-            let buffer = try!(emit_recursive_ascent(&session, &grammar));
+            let buffer = try!(emit_interpreter(&session, &grammar));
             let mut output_file = try!(fs::File::create(&rs_file));
             try!(output_file.write_all(&buffer));
         }
@@ -270,6 +270,54 @@ fn emit_uses<W:Write>(grammar: &r::Grammar,
 {
     rust.write_uses("", grammar)
 }
+
+fn emit_interpreter(session: &Session,
+                         grammar: &r::Grammar)
+                         -> io::Result<Vec<u8>>
+{
+    let mut rust = RustWrite::new(vec![]);
+
+    try!(emit_uses(grammar, &mut rust));
+
+    if grammar.start_nonterminals.is_empty() {
+        println!("Error: no public symbols declared in grammar");
+        exit(1);
+    }
+
+    for (&user_nt, &start_nt) in &grammar.start_nonterminals {
+        // We generate these, so there should always be exactly 1
+        // production. Otherwise the LR(1) algorithm doesn't know
+        // where to stop!
+        assert_eq!(grammar.productions_for(start_nt).len(), 1);
+
+        log!(session, Verbose, "Building states for public nonterminal `{}`", user_nt);
+
+        let states = match lr1::build_states(&grammar, start_nt) {
+            Ok(states) => states,
+            Err(error) => {
+                let messages = lr1::report_error(&grammar, &error);
+                let _ = report_messages(messages);
+                exit(1) // FIXME -- propagate up instead of calling `exit`
+            }
+        };
+
+        try!(lr1::interpreter::compile(&grammar, user_nt, start_nt, &states, &mut rust));
+        rust!(rust, "pub use self::{}parse{}::parse_{};",
+              grammar.prefix, start_nt, user_nt);
+
+    }
+
+    if let Some(ref intern_token) = grammar.intern_token {
+        try!(intern_token::compile(&grammar, intern_token, &mut rust));
+    }
+
+    //try!(action::emit_action_code(grammar, &mut rust));
+
+    try!(emit_to_triple_trait(grammar, &mut rust));
+
+    Ok(rust.into_inner())
+}
+
 
 fn emit_recursive_ascent(session: &Session,
                          grammar: &r::Grammar)
