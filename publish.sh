@@ -41,12 +41,12 @@ publish lalrpop
 
 printf "Updated version in README and tutorial..."
 perl -p -i -e 's/^version = "[0-9.]+"$/version = "'$VERSION'"/' \
-     README.md doc/tutorial.md doc/calculator/Cargo.toml >& $TMPDIR/publish-log || publish_fail
+     README.md doc/tutorial.md doc/*/Cargo.toml >& $TMPDIR/publish-log || publish_fail
 perl -p -i -e 's/^lalrpop = "[0-9.]+"$/lalrpop = "'$VERSION'"/' \
-     doc/tutorial.md doc/calculator/Cargo.toml >& $TMPDIR/publish-log || publish_fail
+     doc/tutorial.md doc/*/Cargo.toml >& $TMPDIR/publish-log || publish_fail
 perl -p -i -e 's/^lalrpop-util = "[0-9.]+"$/lalrpop-util = "'$VERSION'"/' \
-     doc/tutorial.md doc/calculator/Cargo.toml >& $TMPDIR/publish-log || publish_fail
-git add README.md doc/tutorial.md doc/calculator/Cargo.toml >& $TMPDIR/publish-log || publish_fail
+     doc/tutorial.md doc/*/Cargo.toml >& $TMPDIR/publish-log || publish_fail
+git add README.md doc/tutorial.md doc/*/Cargo.toml >& $TMPDIR/publish-log || publish_fail
 printf "OK\n"
 
 printf "\nAll set. Do not forget to commit new README.md et al.\n"

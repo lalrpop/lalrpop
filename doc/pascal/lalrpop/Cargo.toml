@@ -1,0 +1,14 @@
+[package]
+name = "pascal"
+version = "0.11.0"
+authors = ["Niko Matsakis <niko@alum.mit.edu>"]
+build = "build.rs"
+
+[build-dependencies.lalrpop]
+path = "../../../lalrpop"
+
+[dependencies]
+docopt = "0.6"
+lalrpop-util = "0.11.0"
+rustc-serialize = "0.3"
+time = "0.1"
