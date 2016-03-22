@@ -61,11 +61,8 @@ fn main1() -> io::Result<()> {
 }
 
 const USAGE: &'static str = "
-Usage: lalrpop [options] inputs...
+Usage: lalrpop [options] <inputs>...
        lalrpop --help
-
-Convert each of the given inputs (which should be a `.lalrpop` file)
-into a `.rs` file, just as a `build.rs` script using LALRPOP would do.
 
 Options:
     -l, --level LEVEL    Set the debug level. (Default: info)
