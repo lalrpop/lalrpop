@@ -164,6 +164,13 @@ pub enum TypeRepr {
 }
 
 impl TypeRepr {
+    pub fn is_unit(&self) -> bool {
+        match *self {
+            TypeRepr::Tuple(ref v) => v.is_empty(),
+            _ => false,
+        }
+    }
+
     pub fn usize() -> TypeRepr {
         TypeRepr::Nominal(NominalTypeRepr {
             path: Path::usize(),
