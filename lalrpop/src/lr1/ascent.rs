@@ -5,10 +5,13 @@
 use collections::{Multimap, Set};
 use grammar::repr::{Grammar,
                     NonterminalString,
+                    Production,
                     Symbol,
                     TerminalString, TypeParameter, TypeRepr, Types};
+use itertools::Itertools;
 use lr1::core::*;
 use lr1::lookahead::Lookahead;
+use lr1::state_graph::StateGraph;
 use rust::RustWrite;
 use std::io::{self, Write};
 use tls::Tls;
@@ -22,13 +25,17 @@ pub fn compile<'grammar,W:Write>(
     out: &mut RustWrite<W>)
     -> io::Result<()>
 {
-    let mut ascent = RecursiveAscent::new(grammar, user_start_symbol, start_symbol, states, out);
+    let graph = StateGraph::new(&states);
+    let mut ascent = RecursiveAscent::new(grammar, user_start_symbol, start_symbol,
+                                          &graph, states, out);
     ascent.write()
 }
 
 struct RecursiveAscent<'ascent,'grammar:'ascent,W:Write+'ascent> {
     /// the complete grammar
     grammar: &'grammar Grammar,
+
+    graph: &'ascent StateGraph,
 
     /// some suitable prefix to separate our identifiers from the user's
     prefix: &'grammar str,
@@ -45,9 +52,9 @@ struct RecursiveAscent<'ascent,'grammar:'ascent,W:Write+'ascent> {
     /// the vector of states
     states: &'ascent [State<'grammar>],
 
-    /// for each state, the maximal prefix of tokens on the stack;
-    /// this is the number of arguments that the state fn expects
-    state_prefixes: Vec<&'grammar [Symbol]>,
+    /// for each state, the set of symbols that it will require for
+    /// input
+    state_inputs: Vec<StackSuffix<'grammar>>,
 
     /// where we write output
     out: &'ascent mut RustWrite<W>,
@@ -56,10 +63,72 @@ struct RecursiveAscent<'ascent,'grammar:'ascent,W:Write+'ascent> {
     nonterminal_type_params: Vec<TypeParameter>,
 }
 
+/// Tracks the suffix of the stack (that is, top-most elements) that any
+/// particular state is aware of. We break the suffix into two parts:
+/// optional and fixed, which always look like this:
+///
+/// ```
+/// ... A B C X Y Z
+/// ~~~ ~~~~~ ~~~~~
+///  |    |     |
+///  |    |   Fixed (top of the stack)
+///  |    |
+///  |  Optional (will be popped after the fixed portion)
+///  |
+/// Prefix (stuff we don't know about that is also on the stack
+/// ```
+///
+/// The idea of an "optional" member is not that it may or may not be
+/// on the stack. The entire suffix will always be on the stack. An
+/// *optional* member is one that *we* may or may not *consume*. So
+/// the above stack suffix could occur given a state with items like:
+///
+/// ```
+/// NT1 = A B C X Y Z (*) "."
+/// NT2 = X Y Z (*) ","
+/// ```
+///
+/// Depending on what comes next, if we reduce NT1, we will consume
+/// all six symbols, but if we reduce NT2, we will only reduce three.
+#[derive(Copy, Clone, Debug)]
+struct StackSuffix<'grammar> {
+    /// all symbols that are known to be on the stack (optional + fixed).
+    all: &'grammar [Symbol],
+
+    /// optional symbols will be consumed by *some* reductions in this
+    /// state, but not all
+    len_optional: usize,
+}
+
+impl<'grammar> StackSuffix<'grammar> {
+    fn len(&self) -> usize {
+        self.all.len()
+    }
+
+    /// returns the (optional, fixed) -- number of optional
+    /// items in stack prefix and numer of fixed
+    fn optional_fixed_lens(&self) -> (usize, usize) {
+        (self.len_optional, self.len() - self.len_optional)
+    }
+
+    fn is_not_empty(&self) -> bool {
+        self.len() > 0
+    }
+
+    fn optional(&self) -> &'grammar [Symbol] {
+        &self.all[..self.len_optional]
+    }
+
+    fn fixed(&self) -> &'grammar [Symbol] {
+        &self.all[self.len_optional..]
+    }
+}
+
 impl<'ascent,'grammar,W:Write> RecursiveAscent<'ascent,'grammar,W> {
     fn new(grammar: &'grammar Grammar,
            user_start_symbol: NonterminalString,
            start_symbol: NonterminalString,
+           graph: &'ascent StateGraph,
            states: &'ascent [State<'grammar>],
            out: &'ascent mut RustWrite<W>)
            -> RecursiveAscent<'ascent,'grammar,W>
@@ -81,16 +150,34 @@ impl<'ascent,'grammar,W:Write> RecursiveAscent<'ascent,'grammar,W> {
                                    .cloned()
                                    .collect();
 
+        let state_inputs =
+            states.iter()
+                  .map(|state| Self::state_input_for(state))
+                  .collect();
+
         RecursiveAscent {
             grammar: grammar,
             prefix: &grammar.prefix,
             types: &grammar.types,
+            graph: graph,
             states: states,
-            state_prefixes: states.iter().map(|s| s.prefix()).collect(),
+            state_inputs: state_inputs,
             user_start_symbol: user_start_symbol,
             start_symbol: start_symbol,
             out: out,
             nonterminal_type_params: nonterminal_type_params,
+        }
+    }
+
+    /// Compute the stack suffix that the state expects on entry.
+    fn state_input_for(state: &'ascent State<'grammar>)
+                       -> StackSuffix<'grammar>
+    {
+        let max_prefix = state.max_prefix();
+        let will_pop = state.will_pop();
+        StackSuffix {
+            all: max_prefix,
+            len_optional: max_prefix.len() - will_pop.len(),
         }
     }
 
@@ -113,7 +200,6 @@ impl<'ascent,'grammar,W:Write> RecursiveAscent<'ascent,'grammar,W> {
         try!(self.write_return_type_defn());
 
         for i in 0..self.states.len() {
-            rust!(self.out, "");
             try!(self.write_state_fn(StateIndex(i)));
         }
 
@@ -230,86 +316,51 @@ impl<'ascent,'grammar,W:Write> RecursiveAscent<'ascent,'grammar,W> {
         Ok(())
     }
 
+    /// Writes the function that corresponds to a given state. This
+    /// function takes arguments corresponding to the stack slots of
+    /// the LR(1) machine. It consumes tokens and handles reduces
+    /// etc. It will return once it has popped at least one symbol off
+    /// of the LR stack.
+    ///
+    /// Note that for states which have a custom kind, this function
+    /// emits nothing at all other than a possible comment explaining
+    /// the state.
     fn write_state_fn(&mut self, this_index: StateIndex) -> io::Result<()> {
         let this_state = &self.states[this_index.0];
-        let this_prefix = self.state_prefixes[this_index.0];
-        let loc_type = self.types.terminal_loc_type();
-        let triple_type = self.triple_type();
-        let parse_error_type = self.parse_error_type();
-        let error_type = self.types.error_type();
+        let inputs = self.state_inputs[this_index.0];
 
-        // If we are generated the tokenizer, it generates ParseError
-        // errors, otherwise they are user errors.
-        let iter_error_type = if self.grammar.intern_token.is_some() {
-            parse_error_type.clone()
-        } else {
-            format!("{}", error_type)
-        };
+        rust!(self.out, "");
 
         // Leave a comment explaining what this state is.
         if Tls::session().emit_comments {
             rust!(self.out, "// State {}", this_index.0);
+            rust!(self.out, "//     AllInputs = {:?}", inputs.all);
+            rust!(self.out, "//     OptionalInputs = {:?}", inputs.optional());
+            rust!(self.out, "//     FixedInputs = {:?}", inputs.fixed());
+            rust!(self.out, "//     WillPushLen = {:?}", this_state.will_push().len());
+            rust!(self.out, "//     WillPush = {:?}", this_state.will_push());
+            rust!(self.out, "//     WillProduce = {:?}", this_state.will_produce());
+            rust!(self.out, "//");
             for item in this_state.items.vec.iter() {
-                rust!(self.out, "//   {:?}", item);
+                rust!(self.out, "//     {:?}", item);
             }
             rust!(self.out, "//");
             for (token, action) in &this_state.tokens {
-                rust!(self.out, "//   {:?} -> {:?}", token, action);
+                rust!(self.out, "//     {:?} -> {:?}", token, action);
             }
             rust!(self.out, "//");
             for (nt, state) in &this_state.gotos {
-                rust!(self.out, "//   {:?} -> {:?}", nt, state);
+                rust!(self.out, "//     {:?} -> {:?}", nt, state);
             }
         }
 
+        try!(self.emit_state_fn_header("state", this_index.0, inputs));
+
+        // possibly move some fixed inputs into optional stack slots
+        let stack_suffix = try!(self.adjust_inputs(this_index, inputs));
+
         // set to true if goto actions are worth generating
         let mut fallthrough = false;
-
-        // to reduce the size of the generated code, if the state
-        // results from shifting a terminal, then we do not pass the
-        // lookahead in as an argument, but rather we load it as the
-        // first thing in this function; this saves some space because
-        // there are more edges than there are states in the graph.
-        let starts_with_terminal =
-            this_prefix.last().map(|l| l.is_terminal())
-                              .unwrap_or(false);
-
-        // compute the set of arguments that this state function expects
-        let mut base_args =
-            vec![format!("{}tokens: &mut {}TOKENS", self.prefix, self.prefix)];
-        if !starts_with_terminal {
-            base_args.push(format!("{}lookahead: Option<{}>", self.prefix, triple_type));
-        }
-        let sym_args: Vec<_> =
-            (0..this_prefix.len())
-            .map(|i| format!("{}sym{}: &mut Option<{}>",
-                             self.prefix,
-                             i,
-                             self.types.spanned_type(
-                                 this_prefix[i].ty(&self.types).clone())))
-            .collect();
-
-        try!(self.out.write_pub_fn_header(
-            self.grammar,
-            format!("{}state{}", self.prefix, this_index.0),
-            vec![format!("{}TOKENS: Iterator<Item=Result<{},{}>>",
-                         self.prefix, triple_type, iter_error_type)],
-            base_args.into_iter().chain(sym_args).collect(),
-            format!("Result<(Option<{}>, {}Nonterminal<{}>), {}>",
-                    triple_type, self.prefix,
-                    Sep(", ", &self.nonterminal_type_params),
-                    parse_error_type),
-            vec![]));
-
-        rust!(self.out, "{{");
-        rust!(self.out, "let mut {}result: (Option<{}>, {}Nonterminal<{}>);",
-              self.prefix, triple_type, self.prefix,
-              Sep(", ", &self.nonterminal_type_params));
-
-        // shift lookahead is necessary; see `starts_with_terminal` above
-        if starts_with_terminal {
-            try!(self.next_token("lookahead", "tokens"));
-        }
 
         rust!(self.out, "match {}lookahead {{", self.prefix);
 
@@ -320,7 +371,7 @@ impl<'ascent,'grammar,W:Write> RecursiveAscent<'ascent,'grammar,W> {
         {
             match *token {
                 Lookahead::Terminal(s) => {
-                    let sym_name = format!("{}sym{}", self.prefix, this_prefix.len());
+                    let sym_name = format!("{}sym{}", self.prefix, inputs.len());
                     try!(self.consume_terminal(s, sym_name));
                 }
                 Lookahead::EOF =>
@@ -328,12 +379,11 @@ impl<'ascent,'grammar,W:Write> RecursiveAscent<'ascent,'grammar,W> {
             }
 
             // transition to the new state
-            let transition =
-                self.transition(this_prefix, next_index, &["tokens"]);
-            rust!(self.out, "{}result = {};", self.prefix, transition);
+            if try!(self.transition("result", stack_suffix, next_index, &["tokens"])) {
+                fallthrough = true;
+            }
 
             rust!(self.out, "}}");
-            fallthrough = true;
         }
 
         // now emit reduces. It frequently happens that many tokens
@@ -356,92 +406,12 @@ impl<'ascent,'grammar,W:Write> RecursiveAscent<'ascent,'grammar,W> {
                 }
             }
 
-            let n = this_prefix.len(); // number of symbols we have on the stack
-            let m = production.symbols.len(); // number action code wants
-            assert!(n >= m);
-            let transfer_syms = self.pop_syms(n, m);
+            try!(self.emit_reduce_action("result", stack_suffix, production));
 
-            // "pop" the items off the stack
-            for sym in &transfer_syms {
-                rust!(self.out, "let {} = {}.take().unwrap();", sym, sym);
-            }
-
-            // identify the "start" location for this production; this
-            // is typically the start of the first symbol we are
-            // reducing; but in the case of an empty production, it
-            // will be the last symbol pushed, or at worst `default`.
-            if let Some(first_sym) = transfer_syms.first() {
-                rust!(self.out, "let {}start = {}.0.clone();",
-                      self.prefix, first_sym);
-            } else if this_prefix.len() > 0 {
-                // we can safely unwrap because top of stack we popped
-                // no symbols from stack, so top should be Some
-                let top = this_prefix.len() - 1;
-                rust!(self.out, "let {}start = {}sym{}.as_ref().unwrap().2.clone();",
-                      self.prefix, self.prefix, top);
-            } else {
-                // this only occurs in the start state
-                rust!(self.out, "let {}start: {} = ::std::default::Default::default();",
-                      self.prefix, loc_type);
-            }
-
-            // identify the "end" location for this production;
-            // this is typically the end of the last symbol we are reducing,
-            // but in the case of an empty production it will come from the
-            // lookahead
-            if let Some(last_sym) = transfer_syms.last() {
-                rust!(self.out, "let {}end = {}.2.clone();",
-                      self.prefix, last_sym);
-            } else {
-                rust!(self.out, "let {}end = {}lookahead.as_ref()\
-                                 .map(|o| o.0.clone())\
-                                 .unwrap_or_else(|| {}start.clone());",
-                      self.prefix, self.prefix, self.prefix);
-            }
-
-            let transfered_syms = transfer_syms.len();
-
-            let mut args = transfer_syms;
-            if transfered_syms == 0 {
-                args.push(format!("&{}start", self.prefix));
-                args.push(format!("&{}end", self.prefix));
-            }
-
-            // invoke the action code
-            let is_fallible = self.grammar.action_is_fallible(production.action);
-            if is_fallible {
-                rust!(self.out, "let {}nt = try!(super::{}action{}({}{}));",
-                      self.prefix,
-                      self.prefix,
-                      production.action.index(),
-                      self.grammar.user_parameter_refs(),
-                      Sep(", ", &args))
-            } else {
-                rust!(self.out, "let {}nt = super::{}action{}({}{});",
-                      self.prefix,
-                      self.prefix,
-                      production.action.index(),
-                      self.grammar.user_parameter_refs(),
-                      Sep(", ", &args))
-            }
-
-            // wrap up the produced value into `Nonterminal` along with
-            rust!(self.out, "let {}nt = {}Nonterminal::{}((",
-                  self.prefix, self.prefix, Escape(production.nonterminal));
-            rust!(self.out, "{}start,", self.prefix);
-            rust!(self.out, "{}nt,", self.prefix);
-            rust!(self.out, "{}end,", self.prefix);
-            rust!(self.out, "));");
-
-            // wrap up the result along with the (unused) lookahead
-            if transfered_syms != 0 {
+            if production.symbols.len() > 0 {
                 // if we popped anything off of the stack, then this frame is done
-                rust!(self.out, "return Ok(({}lookahead, {}nt));",
-                      self.prefix, self.prefix);
+                rust!(self.out, "return Ok({}result);", self.prefix);
             } else {
-                // otherwise, pop back
-                rust!(self.out, "{}result = ({}lookahead, {}nt);",
-                      self.prefix, self.prefix, self.prefix);
                 fallthrough = true;
             }
 
@@ -460,10 +430,41 @@ impl<'ascent,'grammar,W:Write> RecursiveAscent<'ascent,'grammar,W> {
 
         // finally, emit gotos (if relevant)
         if fallthrough && !this_state.gotos.is_empty() {
-            if this_prefix.len() > 0 {
-                rust!(self.out, "while {}sym{}.is_some() {{", self.prefix, this_prefix.len() - 1);
-            } else {
-                rust!(self.out, "loop {{");
+            rust!(self.out, "loop {{");
+
+            // In most states, we know precisely when the top stack
+            // slot will be consumed (basically, when we reduce or
+            // when we transition to another state). But in some states,
+            // we may not know. Consider:
+            //
+            //     X = A (*) "0" ["."]
+            //     X = A (*) B ["."]
+            //     B = (*) "0" "1" ["."]
+            //
+            // Now if we see a `"0"` this *could* be the start of a `B
+            // = "0" "1"` or it could be the continuation of `X = A
+            // "0"`. We won't know until we see the *next* character
+            // (which will either be `"0"` or `"."`). If it turns out to be
+            // `X = A "0"`, then the state handling the `"0"` will reduce
+            // and consume the `A` and the `"0"`. But otherwise it will shift
+            // the `"1"` and leave the `A` unprocessed.
+            //
+            // In cases like this, the `adjust_inputs` routine will
+            // have taken the top of the stack ("A") and put it into
+            // an `Option`. After the state processing the `"0"`
+            // returns then, we can check this option to see whether
+            // it has popped the `"A"` (in which case we ought to
+            // return) or not (in which case we ought to shift the `B`
+            // value that it returned to us).
+            let top_slot_optional = {
+                stack_suffix.is_not_empty() &&
+                    stack_suffix.fixed().is_empty()
+            };
+            if top_slot_optional {
+                rust!(self.out, "if {}sym{}.is_none() {{",
+                      self.prefix, stack_suffix.len() - 1);
+                rust!(self.out, "return Ok({}result);", self.prefix);
+                rust!(self.out, "}}");
             }
 
             rust!(self.out, "let ({}lookahead, {}nt) = {}result;",
@@ -471,18 +472,20 @@ impl<'ascent,'grammar,W:Write> RecursiveAscent<'ascent,'grammar,W> {
 
             rust!(self.out, "match {}nt {{", self.prefix);
             for (&nt, &next_index) in &this_state.gotos {
-                rust!(self.out, "{}Nonterminal::{}({}nt) => {{",
-                      self.prefix, Escape(nt), self.prefix);
-                rust!(self.out, "let {}sym{} = &mut Some({}nt);",
-                      self.prefix, this_prefix.len(), self.prefix);
-                let transition = self.transition(this_prefix, next_index,
-                                                 &["tokens", "lookahead"]);
-                rust!(self.out, "{}result = {};", self.prefix, transition);
+                // The nonterminal we are shifting becomes symN, where
+                // N is the number of inputs to this state (which are
+                // numbered sym0..sym(N-1)). It is never optional
+                // because we always transition to a state with at
+                // least *one* fixed input.
+                rust!(self.out, "{}Nonterminal::{}({}sym{}) => {{",
+                      self.prefix, Escape(nt), self.prefix, stack_suffix.len());
+                try!(self.transition("result", stack_suffix, next_index,
+                                     &["tokens", "lookahead"]));
                 rust!(self.out, "}}");
             }
 
-            // errors are not possible in the goto phase; a missing entry
-            // indicates parse successfully completed, so just bail out
+            // Errors are not possible in the goto phase; a missing entry
+            // indicates parse successfully completed, so just bail out.
             if this_state.gotos.len() != self.grammar.nonterminals.keys().len() {
                 rust!(self.out, "_ => {{");
                 rust!(self.out, "return Ok(({}lookahead, {}nt));",
@@ -493,10 +496,6 @@ impl<'ascent,'grammar,W:Write> RecursiveAscent<'ascent,'grammar,W> {
             rust!(self.out, "}}"); // match
 
             rust!(self.out, "}}"); // while/loop
-
-            if this_prefix.len() > 0 {
-                rust!(self.out, "return Ok({}result);", self.prefix);
-            }
         } else if fallthrough {
             rust!(self.out, "return Ok({}result);", self.prefix);
         }
@@ -506,38 +505,365 @@ impl<'ascent,'grammar,W:Write> RecursiveAscent<'ascent,'grammar,W> {
         Ok(())
     }
 
-    fn pop_syms(&self, depth: usize, to_pop: usize) -> Vec<String> {
-        (depth-to_pop .. depth).map(|i| format!("{}sym{}", self.prefix, i)).collect()
+    fn emit_state_fn_header(
+        &mut self,
+        fn_kind: &str, // e.g. "state", "custom"
+        fn_index: usize, // state index, custom kind index, etc
+        suffix: StackSuffix<'grammar>)
+        -> io::Result<()>
+    {
+        let optional_prefix = suffix.optional();
+        let fixed_prefix = suffix.fixed();
+
+        let triple_type = self.triple_type();
+        let parse_error_type = self.parse_error_type();
+        let error_type = self.types.error_type();
+
+        // If we are generated the tokenizer, it generates ParseError
+        // errors, otherwise they are user errors.
+        let iter_error_type = if self.grammar.intern_token.is_some() {
+            parse_error_type.clone()
+        } else {
+            format!("{}", error_type)
+        };
+
+        let (fn_args, starts_with_terminal) =
+            self.fn_args(optional_prefix, fixed_prefix);
+
+        try!(self.out.write_pub_fn_header(
+            self.grammar,
+            format!("{}{}{}", self.prefix, fn_kind, fn_index),
+            vec![format!("{}TOKENS: Iterator<Item=Result<{},{}>>",
+                         self.prefix, triple_type, iter_error_type)],
+            fn_args,
+            format!("Result<(Option<{}>, {}Nonterminal<{}>), {}>",
+                    triple_type, self.prefix,
+                    Sep(", ", &self.nonterminal_type_params),
+                    parse_error_type),
+            vec![]));
+
+        rust!(self.out, "{{");
+
+        rust!(self.out, "let mut {}result: (Option<{}>, {}Nonterminal<{}>);",
+              self.prefix, triple_type, self.prefix,
+              Sep(", ", &self.nonterminal_type_params));
+
+        // shift lookahead is necessary; see `starts_with_terminal` above
+        if starts_with_terminal {
+            try!(self.next_token("lookahead", "tokens"));
+        }
+
+        Ok(())
     }
 
-    fn transition(&self,
-                  prefix: &[Symbol],
+    // Compute the set of arguments that the function for a state or
+    // custom-kind expects.  The argument `symbols` represents the top
+    // portion of the stack which this function expects to be given.
+    // Each of them will be given an argument like `sym3: &mut
+    // Option<Sym3>` where `Sym3` is the type of the symbol.
+    //
+    // Returns a list of argument names and a flag if this fn resulted
+    // from pushing a terminal (in which case the lookahead must be
+    // computed interally).
+    fn fn_args(&mut self,
+               optional_prefix: &[Symbol],
+               fixed_prefix: &[Symbol])
+               -> (Vec<String>, bool) {
+        assert!(
+            /* start state: */ (optional_prefix.is_empty() && fixed_prefix.is_empty()) ||
+            /* any other state: */ !fixed_prefix.is_empty());
+        let triple_type = self.triple_type();
+
+        // to reduce the size of the generated code, if the state
+        // results from shifting a terminal, then we do not pass the
+        // lookahead in as an argument, but rather we load it as the
+        // first thing in this function; this saves some space because
+        // there are more edges than there are states in the graph.
+        let starts_with_terminal =
+            fixed_prefix.last().map(|l| l.is_terminal())
+                               .unwrap_or(false);
+
+
+        let mut base_args =
+            vec![format!("{}tokens: &mut {}TOKENS", self.prefix, self.prefix)];
+        if !starts_with_terminal {
+            base_args.push(format!("{}lookahead: Option<{}>", self.prefix, triple_type));
+        }
+
+        // "Optional symbols" may or may not be consumed, so take an
+        // `&mut Option`
+        let optional_args =
+            (0..optional_prefix.len())
+            .map(|i| format!("{}sym{}: &mut Option<{}>",
+                             self.prefix,
+                             i,
+                             self.types.spanned_type(
+                                 optional_prefix[i].ty(&self.types).clone())));
+
+        // "Fixed symbols" will be consumed before we return, so take the value itself
+        let fixed_args =
+            (0..fixed_prefix.len())
+            .map(|i| format!("{}sym{}: {}",
+                             self.prefix,
+                             optional_prefix.len() + i,
+                             self.types.spanned_type(
+                                 fixed_prefix[i].ty(&self.types).clone())));
+
+        let all_args =
+            base_args.into_iter()
+                     .chain(optional_args)
+                     .chain(fixed_args)
+                     .collect();
+
+        (all_args, starts_with_terminal)
+    }
+
+    /// Examine the states that we may transition to. Unless this is
+    /// the start state, we will always take at least 1 fixed input:
+    /// the most recently pushed symbol (let's call it `symX`), and we
+    /// may have others as well. But if this state can transition to
+    /// another state can takes some of those inputs as optional
+    /// parameters, we need to convert them them options. This
+    /// function thus emits code to move each sum `symX` into an
+    /// option, and returns an adjusted stack-suffix that reflects the
+    /// changes made.
+    fn adjust_inputs(&mut self,
+                     state_index: StateIndex,
+                     inputs: StackSuffix<'grammar>)
+                     -> io::Result<StackSuffix<'grammar>>
+    {
+        let mut result = inputs;
+
+        let top_opt =
+            self.graph.successors(state_index)
+                      .iter()
+                      .any(|succ_state| {
+                          let succ_inputs = &self.state_inputs[succ_state.0];
+
+                          // Check for a successor state with a suffix like:
+                          //
+                          //     ... OPT_1 ... OPT_N FIXED_1
+                          //
+                          // (Remember that *every* successor state will have
+                          // at least one fixed input.)
+                          //
+                          // So basically we are looking for states
+                          // that, when they return, may *optionally* have consumed
+                          // the top of our stack.
+                          assert!(succ_inputs.fixed().len() >= 1);
+                          succ_inputs.fixed().len() == 1 &&
+                              succ_inputs.optional().len() > 0
+                      });
+
+        // If we find a successor that may optionally consume the top
+        // of our stack, convert our fixed inputs into optional ones.
+        //
+        // (Here we convert *all* fixed inputs. Honestly, I can't
+        // remember if this is necessary, or just for simplicity. I
+        // suspect the latter. --nmatsakis)
+        if top_opt {
+            let start_num = inputs.optional().len();
+            for sym_num in (start_num .. start_num + inputs.fixed().len()) {
+                rust!(self.out,
+                      "let {}sym{} = &mut Some({}sym{});",
+                      self.prefix, sym_num,
+                      self.prefix, sym_num);
+            }
+            result.len_optional = result.len();
+        }
+
+        Ok(result)
+    }
+
+    /// Given that we have, locally, `optional` number of optional stack slots
+    /// followed by `fixed` number of fixed stack slots, prepare the inputs
+    /// to be supplied to `inputs`. Returns a string of names for this inputs.
+    fn pop_syms(&mut self, optional: usize, fixed: usize, inputs: StackSuffix<'grammar>)
+                -> io::Result<Vec<String>> {
+        let total_have = optional + fixed;
+        let total_need = inputs.len();
+        (total_have - total_need .. total_have) // number relative to us
+            .zip(0 .. total_need) // number relative to them
+            .map(|(h, n)| {
+                let name = format!("{}sym{}", self.prefix, h);
+                let have_optional = h < optional;
+                let need_optional = n < inputs.len_optional;
+
+                // if we have something stored in an `Option`, but the next state
+                // consumes it unconditionally, then "pop" it
+                if have_optional && !need_optional {
+                    rust!(self.out, "let {} = {}.take().unwrap();", name, name);
+                } else {
+                    // we should never have something stored
+                    // unconditionally that the next state only
+                    // "maybe" consumes -- we should have fixed this
+                    // in the `adjust_inputs` phase
+                    assert_eq!(have_optional, need_optional);
+                }
+                Ok(name)
+            })
+            .collect()
+    }
+
+    /// Emit code to shift/goto into the state `next_index`. Returns
+    /// `true` if the current state may be valid after the target
+    /// state returns, or `false` if `transition` will just return
+    /// afterwards.
+    ///
+    /// # Arguments
+    ///
+    /// - `into_result`: name of variable to store result from target state into
+    /// - `stack_suffix`: the suffix of the LR stack that current state is aware of,
+    ///   and how it is distributed into optional/fixed slots
+    /// - `next_index`: target state
+    /// - `other_args`: other arguments we are threading along
+    fn transition(&mut self,
+                  into_result: &str,
+                  stack_suffix: StackSuffix<'grammar>,
                   next_index: StateIndex,
                   other_args: &[&str])
-                  -> String
+                  -> io::Result<bool>
     {
-        // depth of stack, including the newly shifted token
-        let n = prefix.len() + 1;
+        // the depth of the suffix of the stack that we are aware of
+        // in the current state, including the newly shifted token
+        let (optional, mut fixed) = stack_suffix.optional_fixed_lens();
+        fixed += 1; // we just shifted another symbol
+        let total = optional + fixed;
+        assert!(total == stack_suffix.len() + 1);
 
-        // number of tokens next state expects; will
-        // always be at least 1 for the newly shifted
-        // token
-        let m = self.state_prefixes[next_index.0].len();
-        assert!(m >= 1);
+        // symbols that the next state expects; will always be include
+        // at least one fixed input
+        let next_inputs = self.state_inputs[next_index.0];
+        assert!(next_inputs.fixed().len() >= 1);
+        assert!(next_inputs.len() <= total);
 
-        let transfer_syms = self.pop_syms(n, m);
+        let transfer_syms =
+            try!(self.pop_syms(optional, fixed, next_inputs));
 
         let other_args =
             other_args.iter()
                       .map(|s| format!("{}{}", self.prefix, s))
                       .collect();
 
+        let fn_name = format!("{}state{}", self.prefix, next_index.0);
+
         // invoke next state, transferring the top `m` tokens
-        format!("try!({}state{}({}{}, {}))",
-                self.prefix, next_index.0,
-                self.grammar.user_parameter_refs(),
-                Sep(", ", &other_args),
-                Sep(", ", &transfer_syms))
+        rust!(self.out,
+              "{}{} = try!({}({}{}, {}));",
+              self.prefix,
+              into_result,
+              fn_name,
+              self.grammar.user_parameter_refs(),
+              Sep(", ", &other_args),
+              Sep(", ", &transfer_syms));
+
+        // if the target state takes at least **two** fixed tokens,
+        // then it will have consumed the top of **our** stack frame,
+        // so we should just return
+        if next_inputs.fixed().len() >= 2 {
+            rust!(self.out, "return Ok({}{});", self.prefix, into_result);
+            Ok(false)
+        } else {
+            Ok(true)
+        }
+    }
+
+    /// Executes a reduction of `production`, storing the result into
+    /// the variable `into_var`, which should have type
+    /// `(Option<(L,T,L)>, Nonterminal)`.
+    fn emit_reduce_action(&mut self,
+                          into_var: &str,
+                          stack_suffix: StackSuffix<'grammar>,
+                          production: &'grammar Production)
+                          -> io::Result<()>
+    {
+        let loc_type = self.types.terminal_loc_type();
+
+        let (optional, fixed) = stack_suffix.optional_fixed_lens();
+        let production_inputs = StackSuffix {
+            all: &production.symbols,
+            len_optional: 0,
+        };
+        let transfer_syms = try!(self.pop_syms(optional, fixed, production_inputs));
+
+        // identify the "start" location for this production; this
+        // is typically the start of the first symbol we are
+        // reducing; but in the case of an empty production, it
+        // will be the last symbol pushed, or at worst `default`.
+        if let Some(first_sym) = transfer_syms.first() {
+            rust!(self.out, "let {}start = {}.0.clone();",
+                  self.prefix, first_sym);
+        } else if stack_suffix.len() > 0 {
+            // we pop no symbols, so grab from the top of the stack
+            // (unless we are in the start state)
+            let top = stack_suffix.len() - 1;
+            if !stack_suffix.fixed().is_empty() {
+                rust!(self.out, "let {}start = {}sym{}.2.clone();",
+                      self.prefix, self.prefix, top);
+            } else {
+                // top of stack is optional; should not have been popped yet tho
+                rust!(self.out, "let {}start = {}sym{}.as_ref().unwrap().2.clone();",
+                      self.prefix, self.prefix, top);
+            }
+        } else {
+            // this only occurs in the start state
+            rust!(self.out, "let {}start: {} = ::std::default::Default::default();",
+                  self.prefix, loc_type);
+        }
+
+        // identify the "end" location for this production;
+        // this is typically the end of the last symbol we are reducing,
+        // but in the case of an empty production it will come from the
+        // lookahead
+        if let Some(last_sym) = transfer_syms.last() {
+            rust!(self.out, "let {}end = {}.2.clone();",
+                  self.prefix, last_sym);
+        } else {
+            rust!(self.out, "let {}end = {}lookahead.as_ref()\
+                             .map(|o| o.0.clone())\
+                             .unwrap_or_else(|| {}start.clone());",
+                  self.prefix, self.prefix, self.prefix);
+        }
+
+        let transfered_syms = transfer_syms.len();
+
+        let mut args = transfer_syms;
+        if transfered_syms == 0 {
+            args.push(format!("&{}start", self.prefix));
+            args.push(format!("&{}end", self.prefix));
+        }
+
+        // invoke the action code
+        let is_fallible = self.grammar.action_is_fallible(production.action);
+        if is_fallible {
+            rust!(self.out, "let {}nt = try!(super::{}action{}({}{}));",
+                  self.prefix,
+                  self.prefix,
+                  production.action.index(),
+                  self.grammar.user_parameter_refs(),
+                  Sep(", ", &args))
+        } else {
+            rust!(self.out, "let {}nt = super::{}action{}({}{});",
+                  self.prefix,
+                  self.prefix,
+                  production.action.index(),
+                  self.grammar.user_parameter_refs(),
+                  Sep(", ", &args))
+        }
+
+        // wrap up the produced value into `Nonterminal` along with
+        rust!(self.out, "let {}nt = {}Nonterminal::{}((",
+              self.prefix, self.prefix, Escape(production.nonterminal));
+        rust!(self.out, "{}start,", self.prefix);
+        rust!(self.out, "{}nt,", self.prefix);
+        rust!(self.out, "{}end,", self.prefix);
+        rust!(self.out, "));");
+
+        // wrap up the result along with the (unused) lookahead
+        rust!(self.out, "{}{} = ({}lookahead, {}nt);",
+              self.prefix, into_var, self.prefix, self.prefix);
+
+        Ok(())
     }
 
     /// Emit a pattern that matches `id` but doesn't extract any data.
@@ -571,17 +897,17 @@ impl<'ascent,'grammar,W:Write> RecursiveAscent<'ascent,'grammar,W> {
 
         rust!(self.out, "Some({}) => {{", pattern);
 
-        rust!(self.out, "let mut {} = &mut Some(({}loc1, ({}), {}loc2));",
+        rust!(self.out, "let {} = ({}loc1, ({}), {}loc2);",
               let_name, self.prefix, pattern_names.join(", "), self.prefix);
 
         Ok(())
     }
 
-    fn triple_type(&mut self) -> TypeRepr {
+    fn triple_type(&self) -> TypeRepr {
         self.types.triple_type()
     }
 
-    fn parse_error_type(&mut self) -> String {
+    fn parse_error_type(&self) -> String {
         format!("{}ParseError<{},{},{}>",
                 self.prefix,
                 self.types.terminal_loc_type(),
@@ -606,4 +932,3 @@ impl<'ascent,'grammar,W:Write> RecursiveAscent<'ascent,'grammar,W> {
         Ok(())
     }
 }
-
