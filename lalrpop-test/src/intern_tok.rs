@@ -1,4 +1,3 @@
-extern crate lalrpop_util as __lalrpop_util;
 use self::__lalrpop_util::ParseError as __ParseError;
 mod __parse__Items {
     use util::tok::Tok;
@@ -38,22 +37,30 @@ goto_row_0, goto_row_1, goto_row_2, goto_row_3, goto_row_4];
     fn terminal_to_index<
 =======
     // State 0
-    //   Items = (*) [EOF]
-    //   Items = (*) ["+"]
-    //   Items = (*) ["-"]
-    //   Items = (*) Items Spanned<"+"> [EOF]
-    //   Items = (*) Items Spanned<"+"> ["+"]
-    //   Items = (*) Items Spanned<"+"> ["-"]
-    //   Items = (*) Items "-" [EOF]
-    //   Items = (*) Items "-" ["+"]
-    //   Items = (*) Items "-" ["-"]
-    //   __Items = (*) Items [EOF]
+    //     Kind = None
+    //     AllInputs = []
+    //     OptionalInputs = []
+    //     FixedInputs = []
+    //     WillPushLen = 0
+    //     WillPush = []
+    //     WillProduce = None
     //
-    //   EOF -> Reduce(Items =  => ActionFn(9);)
-    //   "+" -> Reduce(Items =  => ActionFn(9);)
-    //   "-" -> Reduce(Items =  => ActionFn(9);)
+    //     Items = (*) [EOF]
+    //     Items = (*) ["+"]
+    //     Items = (*) ["-"]
+    //     Items = (*) Items Spanned<"+"> [EOF]
+    //     Items = (*) Items Spanned<"+"> ["+"]
+    //     Items = (*) Items Spanned<"+"> ["-"]
+    //     Items = (*) Items "-" [EOF]
+    //     Items = (*) Items "-" ["+"]
+    //     Items = (*) Items "-" ["-"]
+    //     __Items = (*) Items [EOF]
     //
-    //   Items -> S1
+    //     EOF -> Reduce(Items =  => ActionFn(9);)
+    //     "+" -> Reduce(Items =  => ActionFn(9);)
+    //     "-" -> Reduce(Items =  => ActionFn(9);)
+    //
+    //     Items -> S1
     pub fn __state0<
         'input,
         __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__ParseError<usize,(usize, &'input str),()>>>,
@@ -88,8 +95,7 @@ goto_row_0, goto_row_1, goto_row_2, goto_row_3, goto_row_4];
         loop {
             let (__lookahead, __nt) = __result;
             match __nt {
-                __Nonterminal::Items(__nt) => {
-                    let __sym0 = &mut Some(__nt);
+                __Nonterminal::Items(__sym0) => {
                     __result = try!(__state1(input, __tokens, __lookahead, __sym0));
                 }
                 _ => {
@@ -100,22 +106,30 @@ goto_row_0, goto_row_1, goto_row_2, goto_row_3, goto_row_4];
     }
 
     // State 1
-    //   Items = Items (*) Spanned<"+"> [EOF]
-    //   Items = Items (*) Spanned<"+"> ["+"]
-    //   Items = Items (*) Spanned<"+"> ["-"]
-    //   Items = Items (*) "-" [EOF]
-    //   Items = Items (*) "-" ["+"]
-    //   Items = Items (*) "-" ["-"]
-    //   Spanned<"+"> = (*) "+" [EOF]
-    //   Spanned<"+"> = (*) "+" ["+"]
-    //   Spanned<"+"> = (*) "+" ["-"]
-    //   __Items = Items (*) [EOF]
+    //     Kind = None
+    //     AllInputs = [Items]
+    //     OptionalInputs = []
+    //     FixedInputs = [Items]
+    //     WillPushLen = 0
+    //     WillPush = []
+    //     WillProduce = None
     //
-    //   EOF -> Reduce(__Items = Items => ActionFn(0);)
-    //   "+" -> Shift(S3)
-    //   "-" -> Shift(S4)
+    //     Items = Items (*) Spanned<"+"> [EOF]
+    //     Items = Items (*) Spanned<"+"> ["+"]
+    //     Items = Items (*) Spanned<"+"> ["-"]
+    //     Items = Items (*) "-" [EOF]
+    //     Items = Items (*) "-" ["+"]
+    //     Items = Items (*) "-" ["-"]
+    //     Spanned<"+"> = (*) "+" [EOF]
+    //     Spanned<"+"> = (*) "+" ["+"]
+    //     Spanned<"+"> = (*) "+" ["-"]
+    //     __Items = Items (*) [EOF]
     //
-    //   Spanned<"+"> -> S2
+    //     EOF -> Reduce(__Items = Items => ActionFn(0);)
+    //     "+" -> Shift(S3)
+    //     "-" -> Shift(S4)
+    //
+    //     Spanned<"+"> -> S2
     pub fn __state1<
         'input,
         __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__ParseError<usize,(usize, &'input str),()>>>,
@@ -123,21 +137,21 @@ goto_row_0, goto_row_1, goto_row_2, goto_row_3, goto_row_4];
         input: &'input str,
         __tokens: &mut __TOKENS,
         __lookahead: Option<(usize, (usize, &'input str), usize)>,
-        __sym0: &mut Option<(usize, Vec<(usize, usize)>, usize)>,
+        __sym0: (usize, Vec<(usize, usize)>, usize),
     ) -> Result<(Option<(usize, (usize, &'input str), usize)>, __Nonterminal<>), __ParseError<usize,(usize, &'input str),()>>
     {
         let mut __result: (Option<(usize, (usize, &'input str), usize)>, __Nonterminal<>);
         match __lookahead {
             Some((__loc1, (0, __tok0), __loc2)) => {
-                let mut __sym1 = &mut Some((__loc1, (__tok0), __loc2));
-                __result = try!(__state3(input, __tokens, __sym1));
+                let __sym1 = (__loc1, (__tok0), __loc2);
+                __result = try!(__custom1(input, __tokens, __sym1));
             }
             Some((__loc1, (1, __tok0), __loc2)) => {
-                let mut __sym1 = &mut Some((__loc1, (__tok0), __loc2));
-                __result = try!(__state4(input, __tokens, __sym0, __sym1));
+                let __sym1 = (__loc1, (__tok0), __loc2);
+                __result = try!(__custom2(input, __tokens, __sym0, __sym1));
+                return Ok(__result);
             }
             None => {
-                let __sym0 = __sym0.take().unwrap();
                 let __start = __sym0.0.clone();
                 let __end = __sym0.2.clone();
                 let __nt = super::__action0(input, __sym0);
@@ -146,7 +160,8 @@ goto_row_0, goto_row_1, goto_row_2, goto_row_3, goto_row_4];
                     __nt,
                     __end,
                 ));
-                return Ok((__lookahead, __nt));
+                __result = (__lookahead, __nt);
+                return Ok(__result);
             }
             _ => {
                 return Err(__ParseError::UnrecognizedToken {
@@ -155,21 +170,21 @@ goto_row_0, goto_row_1, goto_row_2, goto_row_3, goto_row_4];
                 });
             }
         }
-        while __sym0.is_some() {
+        loop {
             let (__lookahead, __nt) = __result;
             match __nt {
-                __Nonterminal::Spanned_3c_22_2b_22_3e(__nt) => {
-                    let __sym1 = &mut Some(__nt);
-                    __result = try!(__state2(input, __tokens, __lookahead, __sym0, __sym1));
+                __Nonterminal::Spanned_3c_22_2b_22_3e(__sym1) => {
+                    __result = try!(__custom0(input, __tokens, __lookahead, __sym0, __sym1));
+                    return Ok(__result);
                 }
                 _ => {
                     return Ok((__lookahead, __nt));
                 }
             }
         }
-        return Ok(__result);
     }
 
+<<<<<<< 59cc89ee5a918263721461655ed742ebfeaf2fa6
     // State 2
     //   Items = Items Spanned<"+"> (*) [EOF]
     //   Items = Items Spanned<"+"> (*) ["+"]
@@ -181,8 +196,14 @@ goto_row_0, goto_row_1, goto_row_2, goto_row_3, goto_row_4];
     //
     pub fn __state2<
 >>>>>>> Port lalrpop-test to use new `Configuration` value
+=======
+    // Custom 0
+    //    Reduce Items = Items, Spanned<"+"> => ActionFn(2);
+    pub fn __custom0<
+>>>>>>> update test output
         'input,
     >(
+<<<<<<< 59cc89ee5a918263721461655ed742ebfeaf2fa6
         token: &(usize, &'input str),
     ) -> usize
     {
@@ -191,11 +212,32 @@ goto_row_0, goto_row_1, goto_row_2, goto_row_3, goto_row_4];
             (1, __tok0) => 1,
             _ => panic!("unuspported token"),
         }
+=======
+        input: &'input str,
+        __tokens: &mut __TOKENS,
+        __lookahead: Option<(usize, (usize, &'input str), usize)>,
+        __sym0: (usize, Vec<(usize, usize)>, usize),
+        __sym1: (usize, (usize, usize), usize),
+    ) -> Result<(Option<(usize, (usize, &'input str), usize)>, __Nonterminal<>), __ParseError<usize,(usize, &'input str),()>>
+    {
+        let mut __result: (Option<(usize, (usize, &'input str), usize)>, __Nonterminal<>);
+        let __start = __sym0.0.clone();
+        let __end = __sym1.2.clone();
+        let __nt = super::__action2(input, __sym0, __sym1);
+        let __nt = __Nonterminal::Items((
+            __start,
+            __nt,
+            __end,
+        ));
+        __result = (__lookahead, __nt);
+        return Ok(__result);
+>>>>>>> update test output
     }
 <<<<<<< 0f2545c366e7d96b9d69553c96cba06c64fc5ee3
     pub fn parse_Items<
 =======
 
+<<<<<<< 59cc89ee5a918263721461655ed742ebfeaf2fa6
     // State 3
     //   Spanned<"+"> = "+" (*) [EOF]
     //   Spanned<"+"> = "+" (*) ["+"]
@@ -207,9 +249,15 @@ goto_row_0, goto_row_1, goto_row_2, goto_row_3, goto_row_4];
     //
     pub fn __state3<
 >>>>>>> Port lalrpop-test to use new `Configuration` value
+=======
+    // Custom 1
+    //    Reduce Spanned<"+"> = "+" => ActionFn(10);
+    pub fn __custom1<
+>>>>>>> update test output
         'input,
     >(
         input: &'input str,
+<<<<<<< 59cc89ee5a918263721461655ed742ebfeaf2fa6
     ) -> Result<Vec<(usize, usize)>, __ParseError<usize,(usize, &'input str),()>>
     {
         let mut __tokens = super::__intern_token::__Matcher::new(input);
@@ -258,13 +306,9 @@ goto_row_0, goto_row_1, goto_row_2, goto_row_3, goto_row_4];
     //   "-" -> Reduce(Items = Items, "-" => ActionFn(3);)
     //
     pub fn __state4<
-        'input,
-        __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__ParseError<usize,(usize, &'input str),()>>>,
-    >(
-        input: &'input str,
+=======
         __tokens: &mut __TOKENS,
-        __sym0: &mut Option<(usize, Vec<(usize, usize)>, usize)>,
-        __sym1: &mut Option<(usize, &'input str, usize)>,
+        __sym0: (usize, &'input str, usize),
     ) -> Result<(Option<(usize, (usize, &'input str), usize)>, __Nonterminal<>), __ParseError<usize,(usize, &'input str),()>>
     {
         let mut __result: (Option<(usize, (usize, &'input str), usize)>, __Nonterminal<>);
@@ -273,6 +317,38 @@ goto_row_0, goto_row_1, goto_row_2, goto_row_3, goto_row_4];
             None => None,
             Some(Err(e)) => return Err(e),
         };
+        let __start = __sym0.0.clone();
+        let __end = __sym0.2.clone();
+        let __nt = super::__action10(input, __sym0);
+        let __nt = __Nonterminal::Spanned_3c_22_2b_22_3e((
+            __start,
+            __nt,
+            __end,
+        ));
+        __result = (__lookahead, __nt);
+        return Ok(__result);
+    }
+
+    // Custom 2
+    //    Reduce Items = Items, "-" => ActionFn(3);
+    pub fn __custom2<
+>>>>>>> update test output
+        'input,
+        __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__ParseError<usize,(usize, &'input str),()>>>,
+    >(
+        input: &'input str,
+        __tokens: &mut __TOKENS,
+        __sym0: (usize, Vec<(usize, usize)>, usize),
+        __sym1: (usize, &'input str, usize),
+    ) -> Result<(Option<(usize, (usize, &'input str), usize)>, __Nonterminal<>), __ParseError<usize,(usize, &'input str),()>>
+    {
+        let mut __result: (Option<(usize, (usize, &'input str), usize)>, __Nonterminal<>);
+        let __lookahead = match __tokens.next() {
+            Some(Ok(v)) => Some(v),
+            None => None,
+            Some(Err(e)) => return Err(e),
+        };
+<<<<<<< 59cc89ee5a918263721461655ed742ebfeaf2fa6
         match __lookahead {
             None |
             Some((_, (0, _), _)) |
@@ -322,6 +398,18 @@ goto_row_0, goto_row_1, goto_row_2, goto_row_3, goto_row_4];
             }
             0
         }
+=======
+        let __start = __sym0.0.clone();
+        let __end = __sym1.2.clone();
+        let __nt = super::__action3(input, __sym0, __sym1);
+        let __nt = __Nonterminal::Items((
+            __start,
+            __nt,
+            __end,
+        ));
+        __result = (__lookahead, __nt);
+        return Ok(__result);
+>>>>>>> update test output
     }
 }
 pub use self::__parse__Items::parse_Items;

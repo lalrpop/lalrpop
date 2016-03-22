@@ -10,6 +10,7 @@ pub enum Node<'ast> {
     Value(i32),
     Binary(Op, &'ast Node<'ast>, &'ast Node<'ast>),
     Reduce(Op, Vec<&'ast Node<'ast>>),
+    Paren(&'ast Node<'ast>),
 }
 
 pub struct Arena<'ast> {

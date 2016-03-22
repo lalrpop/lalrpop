@@ -46,6 +46,9 @@ mod error;
 /// test for inlining expansion issue #55
 mod issue_55;
 
+/// test for unit action code
+mod unit;
+
 mod util;
 
 /// This constant is here so that some of the generator parsers can
@@ -146,6 +149,55 @@ fn sub_test3() {
 }
 
 #[test]
+fn expr_arena_test1() {
+    use expr_arena_ast::*;
+    let arena = Arena::new();
+    let expected =
+        arena.alloc(Node::Binary(Op::Sub,
+                                 arena.alloc(Node::Binary(Op::Mul,
+                                                          arena.alloc(Node::Value(22)),
+                                                          arena.alloc(Node::Value(3)))),
+                                 arena.alloc(Node::Value(6))));
+    util::test_loc(|v| expr_arena::parse_Expr(&arena, v), "22 * 3 - 6", expected);
+}
+
+#[test]
+fn expr_arena_test2() {
+    use expr_arena_ast::*;
+    let arena = Arena::new();
+    let expected =
+        arena.alloc(Node::Reduce(Op::Mul,
+                                 vec![arena.alloc(Node::Value(22)),
+                                      arena.alloc(Node::Value(3)),
+                                      arena.alloc(Node::Value(6))]));;
+    util::test_loc(|v| expr_arena::parse_Expr(&arena, v), "*(22, 3, 6)", expected);
+    util::test_loc(|v| expr_arena::parse_Expr(&arena, v), "*(22, 3, 6,)", expected);
+}
+
+#[test]
+fn expr_arena_test3() {
+    use expr_arena_ast::*;
+    let arena = Arena::new();
+    let expected =
+        arena.alloc(
+            Node::Binary(Op::Mul,
+                         arena.alloc(Node::Value(22)),
+                         arena.alloc(Node::Paren(
+                             arena.alloc(
+                                 Node::Binary(Op::Sub,
+                                              arena.alloc(Node::Value(3)),
+                                              arena.alloc(Node::Value(6))))))));
+    util::test_loc(|v| expr_arena::parse_Expr(&arena, v), "22 * (3 - 6)", expected);
+}
+
+#[test]
+fn expr_generic_test1() {
+    let expected: i32 = 22 * 3 - 6;
+    let actual = expr_generic::parse_Expr::<i32>("22 * 3 - 6").unwrap();
+    assert_eq!(expected, actual);
+}
+
+#[test]
 fn intern_tok_test1() {
     let expected = vec![(0, 0), // spans of `+` characters, measured in bytes
                         (2, 3),
@@ -212,3 +264,8 @@ fn issue_55_test1() {
     assert_eq!(c, vec!["X", "Y"]);
 }
 
+#[test]
+fn unit_test1() {
+    assert!(unit::parse_Expr("3 + 4 * 5").is_ok());
+    assert!(unit::parse_Expr("3 + +").is_err());
+}
