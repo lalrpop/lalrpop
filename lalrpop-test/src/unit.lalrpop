@@ -1,0 +1,22 @@
+grammar;
+
+// Test that, as long as all nonterminals have type unit, we don't
+// need to write any action code, because the lowering will supply
+// `()` as the action. This is handy when building up a grammar.
+
+pub Expr: () = {
+    Expr "-" Factor,
+    Expr "+" Factor,
+    Factor,
+};
+
+Factor: () = {
+    Factor "*" Term,
+    Factor "/" Term,
+    Term,
+};
+
+Term: () = {
+    r"\d+",
+    "(" Expr ")",
+};
