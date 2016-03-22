@@ -89,8 +89,8 @@ fn small_conflict_1() {
     expect_debug(&table,
                  r#"
 | State | C0    | C1    | C2    | C3    | C4    | C5    | Successors |
-| S0    | ["c"] | ["c"] | ["c"] | ["d"] | ["d"] | ["d"] |            |
-| S3    | []    | []    | []    | []    | []    | []    | {S0, S3}   |
+| S0    |       | ["c"] |       |       | ["d"] |       | {S3}       |
+| S3    | ["e"] | []    | ["e"] | ["e"] | []    | ["e"] | {S3}       |
 "#
                      .trim_left());
 }
