@@ -257,7 +257,17 @@ impl LowerState {
     {
         let action = match action {
             Some(s) => s,
-            None => format!("(<>)"),
+            None => {
+                // If the user declared a type `()`, or we inferred
+                // it, then there is only one possible action that
+                // will type-check (`()`), so supply that. Otherwise,
+                // default is to include all selected items.
+                if nt_type.is_unit() {
+                    format!("()")
+                } else {
+                    format!("(<>)")
+                }
+            }
         };
 
         // Note that the action fn takes ALL of the symbols in `expr`
