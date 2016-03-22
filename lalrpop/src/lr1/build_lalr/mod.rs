@@ -20,7 +20,7 @@ struct LALR1State<'grammar> {
     pub index: StateIndex,
     pub items: Vec<LR1Item<'grammar>>,
     pub shifts: Map<TerminalString, StateIndex>,
-    pub reductions: Map<Token, &'grammar Production>,
+    pub reductions: Vec<(Token, &'grammar Production)>,
     pub conflicts: Vec<LR1Conflict<'grammar>>,
     pub gotos: Map<NonterminalString, StateIndex>,
 }
@@ -65,7 +65,7 @@ pub fn collapse_to_lalr_states<'grammar>(lr_states: &[LR1State<'grammar>])
                               index: index,
                               items: vec![],
                               shifts: map(),
-                              reductions: map(),
+                              reductions: vec![],
                               gotos: map(),
                               conflicts: lr1_state.conflicts.clone()
                           });
@@ -91,16 +91,26 @@ pub fn collapse_to_lalr_states<'grammar>(lr_states: &[LR1State<'grammar>])
             assert!(prev.unwrap_or(target_state) == target_state);
         }
 
-        for (&token, &production) in &lr1_state.reductions {
-            let prev = lalr1_state.reductions.insert(token, production);
-            if let Some(prev_production) = prev {
-                if prev_production != production {
-                    lalr1_state.conflicts.push(Conflict {
-                        state: lalr1_index,
-                        lookahead: token,
-                        production: production,
-                        action: Action::Reduce(prev_production),
-                    });
+        for &(token, production) in &lr1_state.reductions {
+            let conflict =
+                lalr1_state.reductions
+                           .iter()
+                           .filter(|&&(prev_token, prev_production)| {
+                               prev_token == token && prev_production != production
+                           })
+                           .map(|&(_, prev_production)| prev_production)
+                           .next();
+            if let Some(prev_production) = conflict {
+                lalr1_state.conflicts.push(Conflict {
+                    state: lalr1_index,
+                    lookahead: token,
+                    production: production,
+                    action: Action::Reduce(prev_production),
+                });
+            } else {
+                let pair = (token, production);
+                if !lalr1_state.reductions.contains(&pair) {
+                    lalr1_state.reductions.push(pair);
                 }
             }
         }

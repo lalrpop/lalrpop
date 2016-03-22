@@ -86,7 +86,7 @@ impl<'grammar, L: LookaheadBuild> LR<'grammar, L> {
             }
 
             let mut this_state = State { index: index, items: items.clone(),
-                                         shifts: map(), reductions: map(),
+                                         shifts: map(), reductions: vec!(),
                                          conflicts: vec!(), gotos: map() };
 
             // group the items that we can transition into by shifting
@@ -120,21 +120,11 @@ impl<'grammar, L: LookaheadBuild> LR<'grammar, L> {
 
             // finally, consider the reductions
             for item in items.vec.iter().filter(|i| i.can_reduce()) {
-                let prev = this_state.reductions.insert(item.lookahead, item.production);
-                if let Some(other_production) = prev {
-                    log!(session, Verbose, "Encountered conflict in state {}",
-                         index.0);
-                    this_state.conflicts.push(Conflict {
-                        state: index,
-                        lookahead: item.lookahead,
-                        production: item.production,
-                        action: Action::Reduce(other_production),
-                    });
-                }
+                this_state.reductions.push((item.lookahead, item.production));
             }
 
             // check for shift-reduce conflicts (reduce-reduce detected above)
-            L::find_shift_reduce(self, &mut this_state);
+            L::find_conflicts(self, &mut this_state);
 
             // track total conflicts thus far
             errors += this_state.conflicts.len();
@@ -284,7 +274,7 @@ trait LookaheadBuild: Lookahead {
                                -> Vec<Item<'grammar, Self>>;
 
 
-    fn find_shift_reduce<'grammar>(lr: &LR<'grammar, Self>,
+    fn find_conflicts<'grammar>(lr: &LR<'grammar, Self>,
                                    this_state: &mut State<'grammar, Self>);
 }
 
@@ -298,20 +288,33 @@ impl LookaheadBuild for Nil {
         lr.items(nt, 0, lookahead)
     }
 
-    fn find_shift_reduce<'grammar>(_lr: &LR<'grammar, Self>,
+    fn find_conflicts<'grammar>(_lr: &LR<'grammar, Self>,
                                    this_state: &mut State<'grammar, Self>)
     {
         let index = this_state.index;
+
         for (&terminal, &next_state) in &this_state.shifts {
             this_state.conflicts.extend(
                 this_state.reductions
-                          .values()
-                          .map(|production| Conflict {
+                          .iter()
+                          .map(|&(_, production)| Conflict {
                               state: index,
                               lookahead: Nil,
                               production: production,
                               action: Action::Shift(terminal, next_state),
                           }));
+        }
+
+        if this_state.reductions.len() > 1 {
+            for &(_, production) in &this_state.reductions[1..] {
+                let other_production = this_state.reductions[0].1;
+                this_state.conflicts.push(Conflict {
+                    state: index,
+                    lookahead: Nil,
+                    production: production,
+                    action: Action::Reduce(other_production),
+                });
+            }
         }
     }
 }
@@ -329,17 +332,32 @@ impl LookaheadBuild for Token {
                  .collect::<Vec<_>>()
     }
 
-    fn find_shift_reduce<'grammar>(_lr: &LR<'grammar, Self>,
-                                   this_state: &mut State<'grammar, Self>)
+    fn find_conflicts<'grammar>(_lr: &LR<'grammar, Self>,
+                                this_state: &mut State<'grammar, Self>)
     {
         for (&terminal, &next_state) in &this_state.shifts {
             let token = Token::Terminal(terminal);
-            if let Some(&production) = this_state.reductions.get(&token) {
+            for &(reduce_token, production) in &this_state.reductions {
+                if token == reduce_token {
+                    this_state.conflicts.push(Conflict {
+                        state: this_state.index,
+                        lookahead: token,
+                        production: production,
+                        action: Action::Shift(terminal, next_state),
+                    });
+                }
+            }
+        }
+
+        let mut reductions = map();
+        for &(token, production) in &this_state.reductions {
+            let prev = reductions.insert(token, production);
+            if let Some(other_production) = prev {
                 this_state.conflicts.push(Conflict {
                     state: this_state.index,
                     lookahead: token,
                     production: production,
-                    action: Action::Shift(terminal, next_state),
+                    action: Action::Reduce(other_production),
                 });
             }
         }

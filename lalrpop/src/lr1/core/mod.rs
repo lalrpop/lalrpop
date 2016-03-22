@@ -113,7 +113,7 @@ pub struct State<'grammar, L: Lookahead> {
     pub index: StateIndex,
     pub items: Items<'grammar, L>,
     pub shifts: Map<TerminalString, StateIndex>,
-    pub reductions: Map<L, &'grammar Production>,
+    pub reductions: Vec<(L, &'grammar Production)>,
     pub conflicts: Vec<Conflict<'grammar, L>>,
     pub gotos: Map<NonterminalString, StateIndex>,
 }

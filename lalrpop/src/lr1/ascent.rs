@@ -347,7 +347,7 @@ impl<'ascent,'grammar,W:Write> RecursiveAscent<'ascent,'grammar,W> {
             for (terminal, action) in &this_state.shifts {
                 rust!(self.out, "//   {:?} -> {:?}", terminal, action);
             }
-            for (token, action) in &this_state.reductions {
+            for &(token, action) in &this_state.reductions {
                 rust!(self.out, "//   {:?} -> {:?}", token, action);
             }
             rust!(self.out, "//");
@@ -384,7 +384,7 @@ impl<'ascent,'grammar,W:Write> RecursiveAscent<'ascent,'grammar,W> {
         // production that we are going to be reducing.
         let reductions: Multimap<_, Vec<_>> =
             this_state.reductions.iter()
-                                 .map(|(&token, &production)| (production, token))
+                                 .map(|&(token, production)| (production, token))
                                  .collect();
         for (production, tokens) in reductions {
             for (index, &token) in tokens.iter().enumerate() {

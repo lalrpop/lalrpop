@@ -164,16 +164,23 @@ pub trait LookaheadInterpret: Lookahead {
 
 impl LookaheadInterpret for Nil {
     fn reduction<'grammar>(state: &State<'grammar, Self>,
-                           token: Token)
-                           -> Option<&'grammar Production> {
-        state.reductions.values().next().cloned()
+                           _token: Token)
+                           -> Option<&'grammar Production>
+    {
+        state.reductions.iter()
+                        .map(|&(_, production)| production)
+                        .next()
     }
 }
 
 impl LookaheadInterpret for Token {
     fn reduction<'grammar>(state: &State<'grammar, Self>,
                            token: Token)
-                           -> Option<&'grammar Production> {
-        state.reductions.get(&token).cloned()
+                           -> Option<&'grammar Production>
+    {
+        state.reductions.iter()
+                        .filter(|&&(token1, _)| token == token1)
+                        .map(|&(_, production)| production)
+                        .next()
     }
 }
