@@ -36,7 +36,7 @@ Factor = {
     Term,
 };
 
-Term = {
+Term: &'ast Node<'ast> = {
     <n:Num> => arena.alloc(Node::Value(n)),
-    "(" <Expr> ")",
+    "(" <Expr> ")" => arena.alloc(Node::Paren(<>)),
 };
