@@ -159,8 +159,10 @@ impl LowerState {
             where_clauses: grammar.where_clauses,
             algorithm: algorithm,
             intern_token: self.intern_token,
-            all_terminals: all_terminals,
-            terminal_bits: terminal_bits,
+            terminals: r::TerminalSet {
+                all: all_terminals,
+                bits: terminal_bits,
+            }
         })
     }
 

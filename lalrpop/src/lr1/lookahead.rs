@@ -48,18 +48,18 @@ pub struct TokenSet {
 impl TokenSet {
     pub fn new(grammar: &Grammar) -> Self {
         TokenSet {
-            bit_set: BitSet::with_capacity(grammar.all_terminals.len() + 1)
+            bit_set: BitSet::with_capacity(grammar.terminals.all.len() + 1)
         }
     }
 
     fn eof_bit(&self, grammar: &Grammar) -> usize {
-        grammar.all_terminals.len()
+        grammar.terminals.all.len()
     }
 
     fn bit(&self, grammar: &Grammar, lookahead: Token) -> usize {
         match lookahead {
             Token::EOF => self.eof_bit(grammar),
-            Token::Terminal(t) => grammar.terminal_bits[&t],
+            Token::Terminal(t) => grammar.terminals.bits[&t],
         }
     }
 
@@ -133,10 +133,10 @@ impl<'iter> Iterator for TokenSetIter<'iter> {
     fn next(&mut self) -> Option<Token> {
         self.bit_set.next()
                     .map(|bit| {
-                        if bit == self.grammar.all_terminals.len() {
+                        if bit == self.grammar.terminals.all.len() {
                             Token::EOF
                         } else {
-                            Token::Terminal(self.grammar.all_terminals[bit])
+                            Token::Terminal(self.grammar.terminals.all[bit])
                         }
                     })
     }
