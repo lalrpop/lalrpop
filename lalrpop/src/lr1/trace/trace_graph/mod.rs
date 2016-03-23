@@ -316,7 +316,6 @@ impl<'graph, 'grammar> PathEnumerator<'graph, 'grammar> {
     pub fn first0(&self, grammar: &Grammar, first_sets: &FirstSets) -> TokenSet {
         assert!(self.found_trace());
         first_sets.first0(
-            grammar,
             self.stack[1].symbol_sets
                          .cursor
                          .into_iter()
@@ -433,7 +432,7 @@ impl<'graph, 'grammar> Iterator for FilteredPathEnumerator<'graph, 'grammar> {
     fn next(&mut self) -> Option<Example> {
         while self.base.found_trace() {
             let firsts = self.base.first0(self.grammar, self.first_sets);
-            if firsts.contains(self.grammar, self.lookahead) {
+            if firsts.contains(self.lookahead) {
                 let example = self.base.example();
                 self.base.advance();
                 return Some(example);

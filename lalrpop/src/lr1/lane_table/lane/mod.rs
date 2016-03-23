@@ -47,8 +47,8 @@ impl<'trace, 'grammar> LaneTracer<'trace, 'grammar> {
         // around shifting terminal, so it must be a terminal)
         match item.shift_symbol() {
             Some((Symbol::Terminal(term), _)) => {
-                let mut token_set = TokenSet::new(self.grammar);
-                token_set.insert(self.grammar, Token::Terminal(term));
+                let mut token_set = TokenSet::new();
+                token_set.insert(Token::Terminal(term));
                 self.table.add_lookahead(state, conflict, &token_set);
             }
 
@@ -119,8 +119,8 @@ impl<'trace, 'grammar> LaneTracer<'trace, 'grammar> {
         for &pred_item in state_items.iter()
                                      .filter(|i| i.can_shift_nonterminal(nonterminal)) {
             let symbol_sets = pred_item.symbol_sets();
-            let mut first = self.first_sets.first0(self.grammar, symbol_sets.suffix);
-            let derives_epsilon = first.take_eof(self.grammar);
+            let mut first = self.first_sets.first0(symbol_sets.suffix);
+            let derives_epsilon = first.take_eof();
             self.table.add_lookahead(state, conflict, &first);
             if derives_epsilon {
                 self.continue_trace(state, conflict, pred_item, visited);

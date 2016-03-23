@@ -1,5 +1,6 @@
 use intern::intern;
 use grammar::repr::*;
+use lr1::tls::Lr1Tls;
 use test_util::{normalized_grammar};
 use tls::Tls;
 use super::build_lalr_states;
@@ -32,6 +33,8 @@ fn figure9_23() {
             "(" E ")"   => ()
         };
    "#);
+
+    let _lr1_tls = Lr1Tls::install(grammar.terminals.clone());
 
     let states = build_lalr_states(&grammar, nt("S")).unwrap();
     println!("{:#?}", states);

@@ -326,8 +326,8 @@ impl LookaheadBuild for Token {
                                lookahead: Self)
                                -> Vec<LR1Item<'grammar>>
     {
-        let first_set = lr.first_sets.first1(lr.grammar, remainder, lookahead);
-        first_set.iter(lr.grammar)
+        let first_set = lr.first_sets.first1(remainder, lookahead);
+        first_set.iter()
                  .flat_map(|l| lr.items(nt, 0, l))
                  .collect::<Vec<_>>()
     }

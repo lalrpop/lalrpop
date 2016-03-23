@@ -2,6 +2,7 @@ use intern::intern;
 use grammar::repr::*;
 use lr1::lookahead::Token;
 use lr1::lookahead::Token::EOF;
+use lr1::tls::Lr1Tls;
 use test_util::{normalized_grammar};
 use super::FirstSets;
 
@@ -17,23 +18,21 @@ fn la(t: &str) -> Token {
     Token::Terminal(TerminalString::quoted(intern(t)))
 }
 
-fn first0(grammar: &Grammar,
-          first: &FirstSets,
+fn first0(first: &FirstSets,
           symbols: &[Symbol])
           -> Vec<Token>
 {
-    let v = first.first0(grammar, symbols);
-    v.iter(grammar).collect()
+    let v = first.first0(symbols);
+    v.iter().collect()
 }
 
-fn first1(grammar: &Grammar,
-          first: &FirstSets,
+fn first1(first: &FirstSets,
           symbols: &[Symbol],
           lookahead: Token)
           -> Vec<Token>
 {
-    let v = first.first1(grammar, symbols, lookahead);
-    v.iter(grammar).collect()
+    let v = first.first1(symbols, lookahead);
+    v.iter().collect()
 }
 
 #[test]
@@ -47,22 +46,23 @@ fn basic_first1() {
     };
     X = "E"; // intentionally unreachable
 "#);
+    let _lr1_tls = Lr1Tls::install(grammar.terminals.clone());
     let first_sets = FirstSets::new(&grammar);
 
     assert_eq!(
-        first1(&grammar, &first_sets, &[nt("A")], EOF),
+        first1(&first_sets, &[nt("A")], EOF),
         vec![la("C"), la("D")]);
 
     assert_eq!(
-        first1(&grammar, &first_sets, &[nt("B")], EOF),
+        first1(&first_sets, &[nt("B")], EOF),
         vec![la("D"), EOF]);
 
     assert_eq!(
-        first1(&grammar, &first_sets, &[nt("B"), term("E")], EOF),
+        first1(&first_sets, &[nt("B"), term("E")], EOF),
         vec![la("D"), la("E")]);
 
     assert_eq!(
-        first1(&grammar, &first_sets, &[nt("B"), nt("X")], EOF),
+        first1(&first_sets, &[nt("B"), nt("X")], EOF),
         vec![la("D"), la("E")]);
 }
 
@@ -77,25 +77,26 @@ fn basic_first0() {
     };
     X = "E"; // intentionally unreachable
 "#);
+    let _lr1_tls = Lr1Tls::install(grammar.terminals.clone());
     let first_sets = FirstSets::new(&grammar);
 
     assert_eq!(
-        first0(&grammar, &first_sets, &[nt("A")]),
+        first0(&first_sets, &[nt("A")]),
         vec![la("C"), la("D")]);
 
     assert_eq!(
-        first0(&grammar, &first_sets, &[nt("B")]),
+        first0(&first_sets, &[nt("B")]),
         vec![la("D"), EOF]);
 
     assert_eq!(
-        first0(&grammar, &first_sets, &[nt("B"), term("E")]),
+        first0(&first_sets, &[nt("B"), term("E")]),
         vec![la("D"), la("E")]);
 
     assert_eq!(
-        first0(&grammar, &first_sets, &[nt("B"), nt("X")]),
+        first0(&first_sets, &[nt("B"), nt("X")]),
         vec![la("D"), la("E")]);
 
     assert_eq!(
-        first0(&grammar, &first_sets, &[nt("X")]),
+        first0(&first_sets, &[nt("X")]),
         vec![la("E")]);
 }

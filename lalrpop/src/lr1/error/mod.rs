@@ -668,9 +668,9 @@ impl<'cx, 'grammar> ErrorReportingCx<'cx, 'grammar> {
                         // potentially overlapping, though we could
                         // supply the actual lookahead for more precision.
                         let shift_first =
-                            self.first_sets.first0(self.grammar, &[shift_sym]);
+                            self.first_sets.first0(&[shift_sym]);
                         let reduce_first =
-                            self.first_sets.first0(self.grammar, &[reduce_sym]);
+                            self.first_sets.first0(&[reduce_sym]);
                         if shift_first.is_disjoint(reduce_first) {
                             Some(true)
                         } else {

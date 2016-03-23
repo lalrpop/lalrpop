@@ -4,6 +4,7 @@ use test_util::{compare, expect_debug, normalized_grammar};
 use lr1::build;
 use lr1::core::*;
 use lr1::interpret;
+use lr1::tls::Lr1Tls;
 use tls::Tls;
 
 use super::lane::*;
@@ -84,6 +85,7 @@ fn build_table<'grammar>(grammar: &'grammar Grammar,
 fn small_conflict_1() {
     let _tls = Tls::test();
     let grammar = paper_example_small();
+    let _lr1_tls = Lr1Tls::install(grammar.terminals.clone());
     let table = build_table(&grammar, "G", &["e"]);
     println!("{:#?}", table);
     expect_debug(&table,
@@ -155,6 +157,7 @@ P: () = {
 fn large_conflict_1() {
     let _tls = Tls::test();
     let grammar = paper_example_large();
+    let _lr1_tls = Lr1Tls::install(grammar.terminals.clone());
     let table = build_table(&grammar, "G", &["x", "s", "k", "t"]);
     println!("{:#?}", table);
     expect_debug(&table,

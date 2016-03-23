@@ -1,4 +1,5 @@
 use bit_set::{self, BitSet};
+use lr1::tls::Lr1Tls;
 use std::fmt::{Debug, Formatter, Error};
 use std::hash::Hash;
 use grammar::repr::*;
@@ -45,21 +46,31 @@ pub struct TokenSet {
     bit_set: BitSet<u32>
 }
 
+fn with<OP,RET>(op: OP) -> RET
+    where OP: FnOnce(&TerminalSet) -> RET
+{
+    Lr1Tls::with(op)
+}
+
 impl TokenSet {
-    pub fn new(grammar: &Grammar) -> Self {
-        TokenSet {
-            bit_set: BitSet::with_capacity(grammar.terminals.all.len() + 1)
-        }
+    pub fn new() -> Self {
+        with(|terminals| {
+            TokenSet {
+                bit_set: BitSet::with_capacity(terminals.all.len() + 1)
+            }
+        })
     }
 
-    fn eof_bit(&self, grammar: &Grammar) -> usize {
-        grammar.terminals.all.len()
+    fn eof_bit(&self) -> usize {
+        with(|terminals| {
+            terminals.all.len()
+        })
     }
 
-    fn bit(&self, grammar: &Grammar, lookahead: Token) -> usize {
+    fn bit(&self, lookahead: Token) -> usize {
         match lookahead {
-            Token::EOF => self.eof_bit(grammar),
-            Token::Terminal(t) => grammar.terminals.bits[&t],
+            Token::EOF => self.eof_bit(),
+            Token::Terminal(t) => with(|terminals| terminals.bits[&t])
         }
     }
 
@@ -67,13 +78,13 @@ impl TokenSet {
         self.bit_set.len()
     }
 
-    pub fn insert(&mut self, grammar: &Grammar, lookahead: Token) -> bool {
-        let bit = self.bit(grammar, lookahead);
+    pub fn insert(&mut self, lookahead: Token) -> bool {
+        let bit = self.bit(lookahead);
         self.bit_set.insert(bit)
     }
 
-    pub fn insert_eof(&mut self, grammar: &Grammar) -> bool {
-        let bit = self.eof_bit(grammar);
+    pub fn insert_eof(&mut self) -> bool {
+        let bit = self.eof_bit();
         self.bit_set.insert(bit)
     }
 
@@ -83,18 +94,18 @@ impl TokenSet {
         self.len() != len
     }
 
-    pub fn contains(&self, grammar: &Grammar, token: Token) -> bool {
-        self.bit_set.contains(self.bit(grammar, token))
+    pub fn contains(&self, token: Token) -> bool {
+        self.bit_set.contains(self.bit(token))
     }
 
-    pub fn contains_eof(&self, grammar: &Grammar) -> bool {
-        self.bit_set.contains(self.eof_bit(grammar))
+    pub fn contains_eof(&self) -> bool {
+        self.bit_set.contains(self.eof_bit())
     }
 
     /// If this set contains EOF, removes it from the set and returns
     /// true. Otherwise, returns false.
-    pub fn take_eof(&mut self, grammar: &Grammar) -> bool {
-        let eof_bit = self.eof_bit(grammar);
+    pub fn take_eof(&mut self) -> bool {
+        let eof_bit = self.eof_bit();
         let contains_eof = self.bit_set.contains(eof_bit);
         self.bit_set.remove(eof_bit);
         contains_eof
@@ -104,27 +115,15 @@ impl TokenSet {
         self.bit_set.is_disjoint(&other.bit_set)
     }
 
-    pub fn iter<'iter>(&'iter self, grammar: &'iter Grammar)
-                       -> TokenSetIter<'iter> {
+    pub fn iter<'iter>(&'iter self) -> TokenSetIter<'iter> {
         TokenSetIter {
             bit_set: self.bit_set.iter(),
-            grammar: grammar,
-        }
-    }
-
-    #[allow(dead_code)]
-    pub fn debug<'debug>(&'debug self, grammar: &'debug Grammar)
-                       -> TokenSetDebug<'debug> {
-        TokenSetDebug {
-            set: self,
-            grammar: grammar,
         }
     }
 }
 
 pub struct TokenSetIter<'iter> {
     bit_set: bit_set::Iter<'iter, u32>,
-    grammar: &'iter Grammar,
 }
 
 impl<'iter> Iterator for TokenSetIter<'iter> {
@@ -133,24 +132,20 @@ impl<'iter> Iterator for TokenSetIter<'iter> {
     fn next(&mut self) -> Option<Token> {
         self.bit_set.next()
                     .map(|bit| {
-                        if bit == self.grammar.terminals.all.len() {
-                            Token::EOF
-                        } else {
-                            Token::Terminal(self.grammar.terminals.all[bit])
-                        }
+                        with(|terminals| {
+                            if bit == terminals.all.len() {
+                                Token::EOF
+                            } else {
+                                Token::Terminal(terminals.all[bit])
+                            }
+                        })
                     })
     }
 }
 
-#[allow(dead_code)]
-pub struct TokenSetDebug<'debug> {
-    set: &'debug TokenSet,
-    grammar: &'debug Grammar
-}
-
-impl<'debug> Debug for TokenSetDebug<'debug> {
+impl<'debug> Debug for TokenSet {
     fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
-        let terminals: Vec<_> = self.set.iter(self.grammar).collect();
+        let terminals: Vec<_> = self.iter().collect();
         Debug::fmt(&terminals, fmt)
     }
 }

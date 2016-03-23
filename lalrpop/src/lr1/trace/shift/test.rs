@@ -3,6 +3,7 @@ use grammar::repr::*;
 use lr1::build_states;
 use lr1::core::*;
 use lr1::first::FirstSets;
+use lr1::tls::Lr1Tls;
 use test_util::{expect_debug, normalized_grammar};
 use tls::Tls;
 
@@ -26,6 +27,7 @@ pub Ty: () = {
     <t1:Ty> "->" <t2:Ty> => (),
 };
 "#);
+    let _lr1_tls = Lr1Tls::install(grammar.terminals.clone());
     let first_sets = FirstSets::new(&grammar);
     let states = build_states(&grammar, nt("Ty")).unwrap_err().states;
     let conflict =

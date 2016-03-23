@@ -1,6 +1,7 @@
 use intern::intern;
 use grammar::repr::*;
 use lr1::build_states;
+use lr1::tls::Lr1Tls;
 use test_util::normalized_grammar;
 use tls::Tls;
 
@@ -21,6 +22,7 @@ pub Ty: () = {
     <t1:Ty> "->" <t2:Ty> => (),
 };
 "#);
+    let _lr1_tls = Lr1Tls::install(grammar.terminals.clone());
     let states = build_states(&grammar, nt("Ty")).unwrap_err().states;
     let mut cx = ErrorReportingCx::new(&grammar, &states);
     let conflict =
@@ -61,6 +63,7 @@ pub Expr: () = {
     "if" Expr "{" "}" => (),
 };
 "#);
+    let _lr1_tls = Lr1Tls::install(grammar.terminals.clone());
     let states = build_states(&grammar, nt("Expr")).unwrap_err().states;
     let mut cx = ErrorReportingCx::new(&grammar, &states);
     let conflict =
@@ -93,6 +96,7 @@ fn suggest_question_conflict() {
             "L"
         };
 "#);
+    let _lr1_tls = Lr1Tls::install(grammar.terminals.clone());
     let states = build_states(&grammar, nt("E")).unwrap_err().states;
 
     let mut cx = ErrorReportingCx::new(&grammar, &states);
@@ -135,6 +139,7 @@ Path: () = {
 
 Ident = r#"[a-zA-Z][a-zA-Z0-9]*"#;
 "##);
+    let _lr1_tls = Lr1Tls::install(grammar.terminals.clone());
     let states = build_states(&grammar, nt("ImportDecl")).unwrap_err().states;
 
     let mut cx = ErrorReportingCx::new(&grammar, &states);

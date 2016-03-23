@@ -81,8 +81,8 @@ impl<'trace, 'grammar> Tracer<'trace, 'grammar> {
 
             let symbol_sets = pred_item.symbol_sets();
 
-            let first_suffix = self.first_sets.first0(self.grammar, symbol_sets.suffix);
-            let continue_tracing = first_suffix.contains_eof(self.grammar);
+            let first_suffix = self.first_sets.first0(symbol_sets.suffix);
+            let continue_tracing = first_suffix.contains_eof();
 
             if !continue_tracing {
                 // Add an edge

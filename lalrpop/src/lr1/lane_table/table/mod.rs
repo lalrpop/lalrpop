@@ -53,10 +53,9 @@ impl<'grammar> LaneTable<'grammar> {
                          state: StateIndex,
                          conflict: ConflictIndex,
                          tokens: &TokenSet) {
-        let grammar = self.grammar;
         self.lookaheads
             .entry((state, conflict))
-            .or_insert_with(|| TokenSet::new(grammar))
+            .or_insert_with(|| TokenSet::new())
             .insert_set(&tokens);
     }
 
@@ -85,7 +84,7 @@ impl<'grammar> Debug for LaneTable<'grammar> {
                 .chain((0..self.conflicts).map(|i| {
                     self.lookaheads
                         .get(&(index, ConflictIndex::new(i)))
-                        .map(|token_set| format!("{:?}", token_set.debug(self.grammar)))
+                        .map(|token_set| format!("{:?}", token_set))
                         .unwrap_or(String::new())
                 }))
                 .chain(Some(self.successors

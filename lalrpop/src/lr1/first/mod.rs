@@ -21,9 +21,9 @@ impl FirstSets {
             for production in grammar.nonterminals.values()
                                                   .flat_map(|p| &p.productions) {
                 let nt = production.nonterminal;
-                let lookahead = this.first0(grammar, &production.symbols);
+                let lookahead = this.first0(&production.symbols);
                 let first_set =
-                    this.map.entry(nt).or_insert_with(|| TokenSet::new(grammar));
+                    this.map.entry(nt).or_insert_with(|| TokenSet::new());
                 changed |= first_set.insert_set(&lookahead);
             }
         }
@@ -33,15 +33,15 @@ impl FirstSets {
     /// Returns `FIRST(...symbols)`. If `...symbols` may derive
     /// epsilon, then this returned set will include EOF. (This is
     /// kind of repurposing EOF to serve as a binary flag of sorts.)
-    pub fn first0<'s,I>(&self, grammar: &Grammar, symbols: I) -> TokenSet
+    pub fn first0<'s,I>(&self, symbols: I) -> TokenSet
         where I: IntoIterator<Item=&'s Symbol>
     {
-        let mut result = TokenSet::new(grammar);
+        let mut result = TokenSet::new();
 
         for symbol in symbols {
             match *symbol {
                 Symbol::Terminal(t) => {
-                    result.insert(grammar, Token::Terminal(t));
+                    result.insert(Token::Terminal(t));
                     return result;
                 }
 
@@ -58,13 +58,13 @@ impl FirstSets {
                             // empty.
                         }
                         Some(set) => {
-                            for lookahead in set.iter(grammar) {
+                            for lookahead in set.iter() {
                                 match lookahead {
                                     Token::EOF => {
                                         empty_prod = true;
                                     }
                                     Token::Terminal(_) => {
-                                        result.insert(grammar, lookahead);
+                                        result.insert(lookahead);
                                     }
                                 }
                             }
@@ -79,20 +79,20 @@ impl FirstSets {
 
         // control only reaches here if either symbols is empty, or it
         // consists of nonterminals all of which may derive epsilon
-        result.insert(grammar, Token::EOF);
+        result.insert(Token::EOF);
         result
     }
 
-    pub fn first1(&self, grammar: &Grammar, symbols: &[Symbol], lookahead: Token)
+    pub fn first1(&self, symbols: &[Symbol], lookahead: Token)
                   -> TokenSet
     {
-        let mut set = self.first0(grammar, symbols);
+        let mut set = self.first0(symbols);
 
         // we use EOF as the signal that `symbols` derives epsilon:
-        let epsilon = set.take_eof(grammar);
+        let epsilon = set.take_eof();
 
         if epsilon {
-            set.insert(grammar, lookahead);
+            set.insert(lookahead);
         }
 
         set

@@ -6,6 +6,7 @@ use lr1::core::*;
 use lr1::interpret::interpret;
 use lr1::lookahead::Token;
 use lr1::lookahead::Token::EOF;
+use lr1::tls::Lr1Tls;
 use tls::Tls;
 
 use super::{LR, build_lr0_states, build_lr1_states};
@@ -58,6 +59,7 @@ grammar;
         () => None
     };
 "#);
+    let _lr1_tls = Lr1Tls::install(grammar.terminals.clone());
     let items = items(&grammar, "A", 0, EOF);
     expect_debug(items.vec, r#"[
     A = (*) B "C" [EOF],
@@ -81,6 +83,8 @@ C: Option<u32> = {
     () => None
 };
 "#);
+
+    let _lr1_tls = Lr1Tls::install(grammar.terminals.clone());
 
     expect_debug(items(&grammar, "A", 0, EOF).vec, r#"[
     A = (*) B C [EOF],
@@ -118,6 +122,8 @@ grammar;
         "(" E ")" => ()
     };
 "#);
+
+    let _lr1_tls = Lr1Tls::install(grammar.terminals.clone());
 
     // for now, just test that process does not result in an error
     // and yields expected number of states.
@@ -191,6 +197,8 @@ fn shift_reduce_conflict1() {
         };
     "#);
 
+    let _lr1_tls = Lr1Tls::install(grammar.terminals.clone());
+
     assert!(build_lr1_states(&grammar, nt("E")).is_err());
 }
 
@@ -214,6 +222,8 @@ T: () = {
     "(" E ")",
 };
 "#);
+
+    let _lr1_tls = Lr1Tls::install(grammar.terminals.clone());
 
     // for now, just test that process does not result in an error
     // and yields expected number of states.
@@ -242,6 +252,8 @@ T: () = {
     "(" E ")",
 };
 "#);
+
+    let _lr1_tls = Lr1Tls::install(grammar.terminals.clone());
 
     build_lr0_states(&grammar, nt("S")).unwrap_err();
 }
