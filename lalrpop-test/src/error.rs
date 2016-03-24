@@ -51,20 +51,20 @@ mod __parse__Items {
     //     WillPush = []
     //     WillProduce = None
     //
-    //     Items = (*) [EOF]
     //     Items = (*) ["+"]
     //     Items = (*) ["-"]
-    //     Items = (*) Items "+" [EOF]
+    //     Items = (*) [EOF]
     //     Items = (*) Items "+" ["+"]
     //     Items = (*) Items "+" ["-"]
-    //     Items = (*) Items "-" [EOF]
+    //     Items = (*) Items "+" [EOF]
     //     Items = (*) Items "-" ["+"]
     //     Items = (*) Items "-" ["-"]
+    //     Items = (*) Items "-" [EOF]
     //     __Items = (*) Items [EOF]
     //
-    //   EOF -> Items =  => ActionFn(1);
-    //   "+" -> Items =  => ActionFn(1);
-    //   "-" -> Items =  => ActionFn(1);
+    //   ["+"] -> Items =  => ActionFn(1);
+    //   ["-"] -> Items =  => ActionFn(1);
+    //   [EOF] -> Items =  => ActionFn(1);
     //
     //     Items -> S1
     pub fn __state0<
@@ -76,9 +76,9 @@ mod __parse__Items {
     {
         let mut __result: (Option<(usize, Tok, usize)>, __Nonterminal<>);
         match __lookahead {
-            None |
             Some((_, Tok::Plus, _)) |
-            Some((_, Tok::Minus, _)) => {
+            Some((_, Tok::Minus, _)) |
+            None => {
                 let __start: usize = ::std::default::Default::default();
                 let __end = __lookahead.as_ref().map(|o| o.0.clone()).unwrap_or_else(|| __start.clone());
                 let __nt = super::__action1(&__start, &__end);
@@ -117,17 +117,13 @@ mod __parse__Items {
     //     WillPush = []
     //     WillProduce = None
     //
-    //     Items = Items (*) "+" [EOF]
-    //     Items = Items (*) "+" ["+"]
-    //     Items = Items (*) "+" ["-"]
-    //     Items = Items (*) "-" [EOF]
-    //     Items = Items (*) "-" ["+"]
-    //     Items = Items (*) "-" ["-"]
+    //     Items = Items (*) "+" ["+", "-", EOF]
+    //     Items = Items (*) "-" ["+", "-", EOF]
     //     __Items = Items (*) [EOF]
     //
     //   "+" -> S2
     //   "-" -> S3
-    //   EOF -> __Items = Items => ActionFn(0);
+    //   [EOF] -> __Items = Items => ActionFn(0);
     //
     pub fn __state1<
         __TOKENS: Iterator<Item=Result<(usize, Tok, usize),char>>,
@@ -178,13 +174,9 @@ mod __parse__Items {
     //     WillPush = []
     //     WillProduce = Some(Items)
     //
-    //     Items = Items "+" (*) [EOF]
-    //     Items = Items "+" (*) ["+"]
-    //     Items = Items "+" (*) ["-"]
+    //     Items = Items "+" (*) ["+", "-", EOF]
     //
-    //   EOF -> Items = Items, "+" => ActionFn(2);
-    //   "+" -> Items = Items, "+" => ActionFn(2);
-    //   "-" -> Items = Items, "+" => ActionFn(2);
+    //   ["+", "-", EOF] -> Items = Items, "+" => ActionFn(2);
     //
     pub fn __state2<
         __TOKENS: Iterator<Item=Result<(usize, Tok, usize),char>>,
@@ -201,9 +193,9 @@ mod __parse__Items {
             Some(Err(e)) => return Err(__ParseError::User { error: e }),
         };
         match __lookahead {
-            None |
             Some((_, Tok::Plus, _)) |
-            Some((_, Tok::Minus, _)) => {
+            Some((_, Tok::Minus, _)) |
+            None => {
                 let __start = __sym0.0.clone();
                 let __end = __sym1.2.clone();
                 let __nt = try!(super::__action2(__sym0, __sym1));
@@ -232,13 +224,9 @@ mod __parse__Items {
     //     WillPush = []
     //     WillProduce = Some(Items)
     //
-    //     Items = Items "-" (*) [EOF]
-    //     Items = Items "-" (*) ["+"]
-    //     Items = Items "-" (*) ["-"]
+    //     Items = Items "-" (*) ["+", "-", EOF]
     //
-    //   EOF -> Items = Items, "-" => ActionFn(3);
-    //   "+" -> Items = Items, "-" => ActionFn(3);
-    //   "-" -> Items = Items, "-" => ActionFn(3);
+    //   ["+", "-", EOF] -> Items = Items, "-" => ActionFn(3);
     //
     pub fn __state3<
         __TOKENS: Iterator<Item=Result<(usize, Tok, usize),char>>,
@@ -255,9 +243,9 @@ mod __parse__Items {
             Some(Err(e)) => return Err(__ParseError::User { error: e }),
         };
         match __lookahead {
-            None |
             Some((_, Tok::Plus, _)) |
-            Some((_, Tok::Minus, _)) => {
+            Some((_, Tok::Minus, _)) |
+            None => {
                 let __start = __sym0.0.clone();
                 let __end = __sym1.2.clone();
                 let __nt = try!(super::__action3(__sym0, __sym1));

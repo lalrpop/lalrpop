@@ -24,7 +24,7 @@ impl FirstSets {
                 let lookahead = this.first0(&production.symbols);
                 let first_set =
                     this.map.entry(nt).or_insert_with(|| TokenSet::new());
-                changed |= first_set.insert_set(&lookahead);
+                changed |= first_set.union_with(&lookahead);
             }
         }
         this
@@ -83,7 +83,7 @@ impl FirstSets {
         result
     }
 
-    pub fn first1(&self, symbols: &[Symbol], lookahead: Token)
+    pub fn first1(&self, symbols: &[Symbol], lookahead: TokenSet)
                   -> TokenSet
     {
         let mut set = self.first0(symbols);
@@ -92,7 +92,7 @@ impl FirstSets {
         let epsilon = set.take_eof();
 
         if epsilon {
-            set.insert(lookahead);
+            set.union_with(&lookahead);
         }
 
         set

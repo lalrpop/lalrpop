@@ -1,15 +1,23 @@
 use bit_set::{self, BitSet};
+use collections::Collection;
 use lr1::tls::Lr1Tls;
 use std::fmt::{Debug, Formatter, Error};
 use std::hash::Hash;
 use grammar::repr::*;
 
-pub trait Lookahead: Copy + Debug + Eq + Ord + Hash {
+pub trait Lookahead: Clone + Debug + Eq + Ord + Hash + Collection<Item=Self> {
     fn fmt_as_item_suffix(&self, fmt: &mut Formatter) -> Result<(), Error>;
 }
 
-#[derive(Copy, Clone, Debug, Hash, PartialEq, Eq, PartialOrd, Ord)]
+#[derive(Copy, Clone, Debug, Default, Hash, PartialEq, Eq, PartialOrd, Ord)]
 pub struct Nil;
+
+impl Collection for Nil {
+    type Item = Nil;
+
+    fn push(&mut self, _: Nil) {
+    }
+}
 
 impl Lookahead for Nil {
     fn fmt_as_item_suffix(&self, _fmt: &mut Formatter) -> Result<(), Error> {
@@ -26,9 +34,9 @@ pub enum Token {
     Terminal(TerminalString),
 }
 
-impl Lookahead for Token {
+impl Lookahead for TokenSet {
     fn fmt_as_item_suffix(&self, fmt: &mut Formatter) -> Result<(), Error> {
-        write!(fmt, " [{}]", self)
+        write!(fmt, " {:?}", self)
     }
 }
 
@@ -41,7 +49,7 @@ impl Token {
     }
 }
 
-#[derive(Clone, Hash, PartialEq, Eq, PartialOrd, Ord)]
+#[derive(Clone, Default, Hash, PartialEq, Eq, PartialOrd, Ord)]
 pub struct TokenSet {
     bit_set: BitSet<u32>
 }
@@ -59,6 +67,12 @@ impl TokenSet {
                 bit_set: BitSet::with_capacity(terminals.all.len() + 1)
             }
         })
+    }
+
+    pub fn eof() -> Self {
+        let mut set = TokenSet::new();
+        set.insert_eof();
+        set
     }
 
     fn eof_bit(&self) -> usize {
@@ -88,10 +102,16 @@ impl TokenSet {
         self.bit_set.insert(bit)
     }
 
-    pub fn insert_set(&mut self, set: &TokenSet) -> bool {
+    pub fn union_with(&mut self, set: &TokenSet) -> bool {
         let len = self.len();
         self.bit_set.union_with(&set.bit_set);
         self.len() != len
+    }
+
+    pub fn intersection(&self, set: &TokenSet) -> TokenSet {
+        let mut bit_set = self.bit_set.clone();
+        bit_set.intersect_with(&set.bit_set);
+        TokenSet { bit_set: bit_set }
     }
 
     pub fn contains(&self, token: Token) -> bool {
@@ -111,8 +131,12 @@ impl TokenSet {
         contains_eof
     }
 
-    pub fn is_disjoint(&self, other: TokenSet) -> bool {
+    pub fn is_disjoint(&self, other: &TokenSet) -> bool {
         self.bit_set.is_disjoint(&other.bit_set)
+    }
+
+    pub fn is_intersecting(&self, other: &TokenSet) -> bool {
+        !self.is_disjoint(other)
     }
 
     pub fn iter<'iter>(&'iter self) -> TokenSetIter<'iter> {
@@ -147,5 +171,30 @@ impl<'debug> Debug for TokenSet {
     fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
         let terminals: Vec<_> = self.iter().collect();
         Debug::fmt(&terminals, fmt)
+    }
+}
+
+impl<'iter> IntoIterator for &'iter TokenSet {
+    type IntoIter = TokenSetIter<'iter>;
+    type Item = Token;
+
+    fn into_iter(self) -> Self::IntoIter {
+        self.iter()
+    }
+}
+
+impl Collection for TokenSet {
+    type Item = TokenSet;
+
+    fn push(&mut self, item: TokenSet) {
+        self.union_with(&item);
+    }
+}
+
+impl From<Token> for TokenSet {
+    fn from(token: Token) -> Self {
+        let mut set = TokenSet::new();
+        set.insert(token);
+        set
     }
 }

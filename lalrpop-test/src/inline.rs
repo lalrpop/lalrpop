@@ -105,7 +105,7 @@ mod __parse__E {
     //
     //     __E = E (*) [EOF]
     //
-    //   EOF -> __E = E => ActionFn(0);
+    //   [EOF] -> __E = E => ActionFn(0);
     //
     pub fn __state1<
         'input,
@@ -218,7 +218,7 @@ mod __parse__E {
     //
     //     E = "L" (*) [EOF]
     //
-    //   EOF -> E = "L" => ActionFn(1);
+    //   [EOF] -> E = "L" => ActionFn(1);
     //
     pub fn __state3<
         'input,
@@ -267,7 +267,7 @@ mod __parse__E {
     //
     //     E = "&" E (*) [EOF]
     //
-    //   EOF -> E = "&", E => ActionFn(7);
+    //   [EOF] -> E = "&", E => ActionFn(7);
     //
     pub fn __state4<
         'input,
@@ -319,7 +319,7 @@ mod __parse__E {
     //
     //   "&" -> S2
     //   "L" -> S3
-    //   EOF -> E = "L" => ActionFn(1);
+    //   [EOF] -> E = "L" => ActionFn(1);
     //
     //     E -> S6
     pub fn __state5<
@@ -391,7 +391,7 @@ mod __parse__E {
     //
     //     E = "&" "L" E (*) [EOF]
     //
-    //   EOF -> E = "&", "L", E => ActionFn(8);
+    //   [EOF] -> E = "&", "L", E => ActionFn(8);
     //
     pub fn __state6<
         'input,

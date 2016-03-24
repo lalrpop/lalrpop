@@ -21,7 +21,8 @@ pub fn build_lr1_states<'grammar>(grammar: &'grammar Grammar,
         &Tls::session(),
         "LR(1) state construction",
         {
-            let mut lr1: LR<'grammar, Token> = LR::new(grammar, start, Token::EOF);
+            let eof = TokenSet::eof();
+            let mut lr1: LR<'grammar, TokenSet> = LR::new(grammar, start, eof);
             lr1.set_permit_early_stop(true);
             lr1.build_states()
         }
@@ -37,7 +38,7 @@ pub fn build_lr0_states<'grammar>(grammar: &'grammar Grammar,
     lr1.build_states()
 }
 
-struct LR<'grammar, L: LookaheadBuild> {
+pub struct LR<'grammar, L: LookaheadBuild> {
     grammar: &'grammar Grammar,
     first_sets: first::FirstSets,
     start_nt: NonterminalString,
@@ -75,7 +76,7 @@ impl<'grammar, L: LookaheadBuild> LR<'grammar, L> {
         // create the starting state
         kernel_set.add_state(Kernel::start(self.items(self.start_nt,
                                                       0,
-                                                      self.start_lookahead)));
+                                                      &self.start_lookahead)));
 
         while let Some(Kernel { items: seed_items }) = kernel_set.next() {
             let items = self.transitive_closure(seed_items);
@@ -91,13 +92,23 @@ impl<'grammar, L: LookaheadBuild> LR<'grammar, L> {
 
             // group the items that we can transition into by shifting
             // over a term or nonterm
-            let transitions: Multimap<Symbol, Vec<Item<'grammar, L>>> =
+            let transitions: Multimap<Symbol, Multimap<LR0Item<'grammar>, L>> =
                 items.vec
                      .iter()
                      .filter_map(|item| item.shifted_item())
+                     .map(|(symbol, Item { production, index, lookahead })| {
+                         (symbol, (Item::lr0(production, index), lookahead))
+                     })
                      .collect();
 
             for (symbol, shifted_items) in transitions.into_iter() {
+                let shifted_items: Vec<Item<'grammar, L>> =
+                    shifted_items.into_iter()
+                                 .map(|(lr0_item, lookahead)| {
+                                     lr0_item.with_lookahead(lookahead)
+                                 })
+                                 .collect();
+
                 // Not entirely obvious: if the original set of items
                 // is sorted to begin with (and it is), then this new
                 // set of shifted items is *also* sorted. This is
@@ -120,11 +131,11 @@ impl<'grammar, L: LookaheadBuild> LR<'grammar, L> {
 
             // finally, consider the reductions
             for item in items.vec.iter().filter(|i| i.can_reduce()) {
-                this_state.reductions.push((item.lookahead, item.production));
+                this_state.reductions.push((item.lookahead.clone(), item.production));
             }
 
             // check for shift-reduce conflicts (reduce-reduce detected above)
-            L::find_conflicts(self, &mut this_state);
+            L::find_conflicts(&mut this_state);
 
             // track total conflicts thus far
             errors += this_state.conflicts.len();
@@ -149,7 +160,7 @@ impl<'grammar, L: LookaheadBuild> LR<'grammar, L> {
     fn items(&self,
              id: NonterminalString,
              index: usize,
-             lookahead: L)
+             lookahead: &L)
              -> Vec<Item<'grammar, L>>
     {
         self.grammar.productions_for(id)
@@ -158,7 +169,7 @@ impl<'grammar, L: LookaheadBuild> LR<'grammar, L> {
                         debug_assert!(index <= production.symbols.len());
                         Item { production: production,
                                index: index,
-                               lookahead: lookahead }
+                               lookahead: lookahead.clone() }
                     })
                     .collect()
     }
@@ -182,14 +193,14 @@ impl<'grammar, L: LookaheadBuild> LR<'grammar, L> {
                         None => None, // requires a reduce
                         Some((Symbol::Terminal(_), _)) => None, // requires a shift
                         Some((Symbol::Nonterminal(nt), remainder)) => {
-                            Some((nt, remainder, item.lookahead))
+                            Some((nt, remainder, item.lookahead.clone()))
                         }
                     }
                 })
                 .flat_map(|(nt, remainder, lookahead)| {
                     L::epsilon_moves(self, nt, remainder, lookahead)
                 })
-                .filter(|&item| set.insert(item))
+                .filter(|item| set.insert(item.clone()))
                 .collect();
 
             counter = items.len();
@@ -252,8 +263,7 @@ impl<'grammar, L: LookaheadBuild> kernel_set::Kernel for Kernel<'grammar, L> {
     }
 }
 
-
-trait LookaheadBuild: Lookahead {
+pub trait LookaheadBuild: Lookahead {
     // Given that there exists an item
     //
     //     X = ... (*) Y ...s [L]
@@ -274,8 +284,7 @@ trait LookaheadBuild: Lookahead {
                                -> Vec<Item<'grammar, Self>>;
 
 
-    fn find_conflicts<'grammar>(lr: &LR<'grammar, Self>,
-                                   this_state: &mut State<'grammar, Self>);
+    fn find_conflicts<'grammar>(this_state: &mut State<'grammar, Self>);
 }
 
 impl LookaheadBuild for Nil {
@@ -285,12 +294,10 @@ impl LookaheadBuild for Nil {
                                lookahead: Nil)
                                -> Vec<LR0Item<'grammar>>
     {
-        lr.items(nt, 0, lookahead)
+        lr.items(nt, 0, &lookahead)
     }
 
-    fn find_conflicts<'grammar>(_lr: &LR<'grammar, Self>,
-                                   this_state: &mut State<'grammar, Self>)
-    {
+    fn find_conflicts<'grammar>(this_state: &mut State<'grammar, Self>) {
         let index = this_state.index;
 
         for (&terminal, &next_state) in &this_state.shifts {
@@ -319,7 +326,7 @@ impl LookaheadBuild for Nil {
     }
 }
 
-impl LookaheadBuild for Token {
+impl LookaheadBuild for TokenSet {
     fn epsilon_moves<'grammar>(lr: &LR<'grammar, Self>,
                                nt: NonterminalString,
                                remainder: &[Symbol],
@@ -327,37 +334,48 @@ impl LookaheadBuild for Token {
                                -> Vec<LR1Item<'grammar>>
     {
         let first_set = lr.first_sets.first1(remainder, lookahead);
-        first_set.iter()
-                 .flat_map(|l| lr.items(nt, 0, l))
-                 .collect::<Vec<_>>()
+        lr.items(nt, 0, &first_set)
     }
 
-    fn find_conflicts<'grammar>(_lr: &LR<'grammar, Self>,
-                                this_state: &mut State<'grammar, Self>)
-    {
+    fn find_conflicts<'grammar>(this_state: &mut State<'grammar, Self>) {
         for (&terminal, &next_state) in &this_state.shifts {
             let token = Token::Terminal(terminal);
-            for &(reduce_token, production) in &this_state.reductions {
-                if token == reduce_token {
-                    this_state.conflicts.push(Conflict {
-                        state: this_state.index,
-                        lookahead: token,
-                        production: production,
-                        action: Action::Shift(terminal, next_state),
-                    });
-                }
+            let inconsistent =
+                this_state.reductions
+                          .iter()
+                          .filter_map(|&(ref reduce_tokens, production)| {
+                              if reduce_tokens.contains(token) {
+                                  Some(production)
+                              } else {
+                                  None
+                              }
+                          });
+            let set = TokenSet::from(token);
+            for production in inconsistent {
+                this_state.conflicts.push(Conflict {
+                    state: this_state.index,
+                    lookahead: set.clone(),
+                    production: production,
+                    action: Action::Shift(terminal, next_state),
+                });
             }
         }
 
-        let mut reductions = map();
-        for &(token, production) in &this_state.reductions {
-            let prev = reductions.insert(token, production);
-            if let Some(other_production) = prev {
+        let len = this_state.reductions.len();
+        for i in 0..len {
+            for j in i+1..len {
+                let &(ref i_tokens, i_production) = &this_state.reductions[i];
+                let &(ref j_tokens, j_production) = &this_state.reductions[j];
+
+                if i_tokens.is_disjoint(j_tokens) {
+                    continue;
+                }
+
                 this_state.conflicts.push(Conflict {
                     state: this_state.index,
-                    lookahead: token,
-                    production: production,
-                    action: Action::Reduce(other_production),
+                    lookahead: i_tokens.intersection(j_tokens),
+                    production: i_production,
+                    action: Action::Reduce(j_production),
                 });
             }
         }

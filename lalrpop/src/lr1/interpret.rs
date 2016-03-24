@@ -43,7 +43,8 @@ struct Machine<'grammar, L: LookaheadInterpret + 'grammar> {
 impl<'grammar, L> Machine<'grammar, L>
     where L: LookaheadInterpret
 {
-    fn new(states: &'grammar [State<'grammar, L>]) -> Machine<'grammar, L> {
+    fn new(states: &'grammar [State<'grammar, L>])
+           -> Machine<'grammar, L> {
         Machine {
             states: states,
             state_stack: vec![],
@@ -69,6 +70,9 @@ impl<'grammar, L> Machine<'grammar, L>
         let mut token = tokens.next();
         while let Some(terminal) = token {
             let state = self.top_state();
+
+            println!("state={:?}", state);
+            println!("terminal={:?}", terminal);
 
             // check whether we can shift this token
             if let Some(&next_index) = state.shifts.get(&terminal) {
@@ -109,6 +113,8 @@ impl<'grammar, L> Machine<'grammar, L>
     }
 
     fn reduce(&mut self, production: &Production) -> bool {
+        println!("reduce={:?}", production);
+
         let args = production.symbols.len();
 
         // remove the top N items from the data stack
@@ -173,13 +179,13 @@ impl LookaheadInterpret for Nil {
     }
 }
 
-impl LookaheadInterpret for Token {
+impl LookaheadInterpret for TokenSet {
     fn reduction<'grammar>(state: &State<'grammar, Self>,
                            token: Token)
                            -> Option<&'grammar Production>
     {
         state.reductions.iter()
-                        .filter(|&&(token1, _)| token == token1)
+                        .filter(|&&(ref tokens, _)| tokens.contains(token))
                         .map(|&(_, production)| production)
                         .next()
     }

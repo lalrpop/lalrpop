@@ -56,7 +56,7 @@ impl<'grammar> LaneTable<'grammar> {
         self.lookaheads
             .entry((state, conflict))
             .or_insert_with(|| TokenSet::new())
-            .insert_set(&tokens);
+            .union_with(&tokens);
     }
 
     pub fn add_successor(&mut self, state: StateIndex, succ: StateIndex) {

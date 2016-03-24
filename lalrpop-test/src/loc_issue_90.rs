@@ -54,22 +54,22 @@ mod __parse__Expression2 {
     //     WillPush = []
     //     WillProduce = None
     //
-    //     Expression1 = (*) Wacky [EOF]
     //     Expression1 = (*) Wacky ["*"]
-    //     Expression1 = (*) "&" Maybe Expression1 [EOF]
+    //     Expression1 = (*) Wacky [EOF]
     //     Expression1 = (*) "&" Maybe Expression1 ["*"]
-    //     Expression1 = (*) "(" Expression2 ")" [EOF]
+    //     Expression1 = (*) "&" Maybe Expression1 [EOF]
     //     Expression1 = (*) "(" Expression2 ")" ["*"]
-    //     Expression1 = (*) "wonky" Wonky [EOF]
+    //     Expression1 = (*) "(" Expression2 ")" [EOF]
     //     Expression1 = (*) "wonky" Wonky ["*"]
-    //     Expression1 = (*) r#"\\w+"# [EOF]
+    //     Expression1 = (*) "wonky" Wonky [EOF]
     //     Expression1 = (*) r#"\\w+"# ["*"]
-    //     Expression2 = (*) Expression1 [EOF]
+    //     Expression1 = (*) r#"\\w+"# [EOF]
     //     Expression2 = (*) Expression1 ["*"]
-    //     Expression2 = (*) Expression2 Expression2Op Expression1 [EOF]
+    //     Expression2 = (*) Expression1 [EOF]
     //     Expression2 = (*) Expression2 Expression2Op Expression1 ["*"]
-    //     Wacky = (*) "wacky" [EOF]
+    //     Expression2 = (*) Expression2 Expression2Op Expression1 [EOF]
     //     Wacky = (*) "wacky" ["*"]
+    //     Wacky = (*) "wacky" [EOF]
     //     __Expression2 = (*) Expression2 [EOF]
     //
     //   "&" -> S4
@@ -146,11 +146,9 @@ mod __parse__Expression2 {
     //     WillPush = []
     //     WillProduce = Some(Expression2)
     //
-    //     Expression2 = Expression1 (*) [EOF]
-    //     Expression2 = Expression1 (*) ["*"]
+    //     Expression2 = Expression1 (*) ["*", EOF]
     //
-    //   EOF -> Expression2 = Expression1 => ActionFn(29);
-    //   "*" -> Expression2 = Expression1 => ActionFn(29);
+    //   ["*", EOF] -> Expression2 = Expression1 => ActionFn(29);
     //
     pub fn __state1<
         'input,
@@ -164,8 +162,8 @@ mod __parse__Expression2 {
     {
         let mut __result: (Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>);
         match __lookahead {
-            None |
-            Some((_, (3, _), _)) => {
+            Some((_, (3, _), _)) |
+            None => {
                 let __start = __sym0.0.clone();
                 let __end = __sym0.2.clone();
                 let __nt = super::__action29(input, __sym0);
@@ -194,17 +192,12 @@ mod __parse__Expression2 {
     //     WillPush = []
     //     WillProduce = None
     //
-    //     Expression2 = Expression2 (*) Expression2Op Expression1 [EOF]
-    //     Expression2 = Expression2 (*) Expression2Op Expression1 ["*"]
-    //     Expression2Op = (*) "*" ["&"]
-    //     Expression2Op = (*) "*" ["("]
-    //     Expression2Op = (*) "*" ["wacky"]
-    //     Expression2Op = (*) "*" ["wonky"]
-    //     Expression2Op = (*) "*" [r#"\\w+"#]
+    //     Expression2 = Expression2 (*) Expression2Op Expression1 ["*", EOF]
+    //     Expression2Op = (*) "*" ["&", "(", "wacky", "wonky", r#"\\w+"#]
     //     __Expression2 = Expression2 (*) [EOF]
     //
     //   "*" -> S10
-    //   EOF -> __Expression2 = Expression2 => ActionFn(0);
+    //   [EOF] -> __Expression2 = Expression2 => ActionFn(0);
     //
     //     Expression2Op -> S9
     pub fn __state2<
@@ -264,11 +257,9 @@ mod __parse__Expression2 {
     //     WillPush = []
     //     WillProduce = Some(Expression1)
     //
-    //     Expression1 = Wacky (*) [EOF]
-    //     Expression1 = Wacky (*) ["*"]
+    //     Expression1 = Wacky (*) ["*", EOF]
     //
-    //   EOF -> Expression1 = Wacky => ActionFn(8);
-    //   "*" -> Expression1 = Wacky => ActionFn(8);
+    //   ["*", EOF] -> Expression1 = Wacky => ActionFn(8);
     //
     pub fn __state3<
         'input,
@@ -282,8 +273,8 @@ mod __parse__Expression2 {
     {
         let mut __result: (Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>);
         match __lookahead {
-            None |
-            Some((_, (3, _), _)) => {
+            Some((_, (3, _), _)) |
+            None => {
                 let __start = __sym0.0.clone();
                 let __end = __sym0.2.clone();
                 let __nt = super::__action8(input, __sym0);
@@ -312,25 +303,12 @@ mod __parse__Expression2 {
     //     WillPush = [Maybe, Expression1]
     //     WillProduce = Some(Expression1)
     //
-    //     Expression1 = "&" (*) Maybe Expression1 [EOF]
-    //     Expression1 = "&" (*) Maybe Expression1 ["*"]
-    //     Maybe = (*) ["&"]
-    //     Maybe = (*) ["("]
-    //     Maybe = (*) ["wacky"]
-    //     Maybe = (*) ["wonky"]
-    //     Maybe = (*) [r#"\\w+"#]
-    //     Maybe = (*) "[" "]" ["&"]
-    //     Maybe = (*) "[" "]" ["("]
-    //     Maybe = (*) "[" "]" ["wacky"]
-    //     Maybe = (*) "[" "]" ["wonky"]
-    //     Maybe = (*) "[" "]" [r#"\\w+"#]
+    //     Expression1 = "&" (*) Maybe Expression1 ["*", EOF]
+    //     Maybe = (*) ["&", "(", "wacky", "wonky", r#"\\w+"#]
+    //     Maybe = (*) "[" "]" ["&", "(", "wacky", "wonky", r#"\\w+"#]
     //
     //   "[" -> S12
-    //   "&" -> Maybe =  => ActionFn(31);
-    //   "(" -> Maybe =  => ActionFn(31);
-    //   "wacky" -> Maybe =  => ActionFn(31);
-    //   "wonky" -> Maybe =  => ActionFn(31);
-    //   r#"\\w+"# -> Maybe =  => ActionFn(31);
+    //   ["&", "(", "wacky", "wonky", r#"\\w+"#] -> Maybe =  => ActionFn(31);
     //
     //     Maybe -> S11
     pub fn __state4<
@@ -403,8 +381,7 @@ mod __parse__Expression2 {
     //     Expression1 = (*) "&" Maybe Expression1 ["*"]
     //     Expression1 = (*) "(" Expression2 ")" [")"]
     //     Expression1 = (*) "(" Expression2 ")" ["*"]
-    //     Expression1 = "(" (*) Expression2 ")" [EOF]
-    //     Expression1 = "(" (*) Expression2 ")" ["*"]
+    //     Expression1 = "(" (*) Expression2 ")" ["*", EOF]
     //     Expression1 = (*) "wonky" Wonky [")"]
     //     Expression1 = (*) "wonky" Wonky ["*"]
     //     Expression1 = (*) r#"\\w+"# [")"]
@@ -499,11 +476,9 @@ mod __parse__Expression2 {
     //     WillPush = []
     //     WillProduce = Some(Wacky)
     //
-    //     Wacky = "wacky" (*) [EOF]
-    //     Wacky = "wacky" (*) ["*"]
+    //     Wacky = "wacky" (*) ["*", EOF]
     //
-    //   EOF -> Wacky = "wacky" => ActionFn(33);
-    //   "*" -> Wacky = "wacky" => ActionFn(33);
+    //   ["*", EOF] -> Wacky = "wacky" => ActionFn(33);
     //
     pub fn __state6<
         'input,
@@ -521,8 +496,8 @@ mod __parse__Expression2 {
             Some(Err(e)) => return Err(e),
         };
         match __lookahead {
-            None |
-            Some((_, (3, _), _)) => {
+            Some((_, (3, _), _)) |
+            None => {
                 let __start = __sym0.0.clone();
                 let __end = __sym0.2.clone();
                 let __nt = super::__action33(input, __sym0);
@@ -551,13 +526,10 @@ mod __parse__Expression2 {
     //     WillPush = [Wonky]
     //     WillProduce = Some(Expression1)
     //
-    //     Expression1 = "wonky" (*) Wonky [EOF]
-    //     Expression1 = "wonky" (*) Wonky ["*"]
-    //     Wonky = (*) [EOF]
-    //     Wonky = (*) ["*"]
+    //     Expression1 = "wonky" (*) Wonky ["*", EOF]
+    //     Wonky = (*) ["*", EOF]
     //
-    //   EOF -> Wonky =  => ActionFn(34);
-    //   "*" -> Wonky =  => ActionFn(34);
+    //   ["*", EOF] -> Wonky =  => ActionFn(34);
     //
     //     Wonky -> S21
     pub fn __state7<
@@ -576,8 +548,8 @@ mod __parse__Expression2 {
             Some(Err(e)) => return Err(e),
         };
         match __lookahead {
-            None |
-            Some((_, (3, _), _)) => {
+            Some((_, (3, _), _)) |
+            None => {
                 let __start = __sym0.2.clone();
                 let __end = __lookahead.as_ref().map(|o| o.0.clone()).unwrap_or_else(|| __start.clone());
                 let __nt = super::__action34(input, &__start, &__end);
@@ -617,11 +589,9 @@ mod __parse__Expression2 {
     //     WillPush = []
     //     WillProduce = Some(Expression1)
     //
-    //     Expression1 = r#"\\w+"# (*) [EOF]
-    //     Expression1 = r#"\\w+"# (*) ["*"]
+    //     Expression1 = r#"\\w+"# (*) ["*", EOF]
     //
-    //   EOF -> Expression1 = r#"\\w+"# => ActionFn(26);
-    //   "*" -> Expression1 = r#"\\w+"# => ActionFn(26);
+    //   ["*", EOF] -> Expression1 = r#"\\w+"# => ActionFn(26);
     //
     pub fn __state8<
         'input,
@@ -639,8 +609,8 @@ mod __parse__Expression2 {
             Some(Err(e)) => return Err(e),
         };
         match __lookahead {
-            None |
-            Some((_, (3, _), _)) => {
+            Some((_, (3, _), _)) |
+            None => {
                 let __start = __sym0.0.clone();
                 let __end = __sym0.2.clone();
                 let __nt = super::__action26(input, __sym0);
@@ -669,20 +639,13 @@ mod __parse__Expression2 {
     //     WillPush = [Expression1]
     //     WillProduce = Some(Expression2)
     //
-    //     Expression1 = (*) Wacky [EOF]
-    //     Expression1 = (*) Wacky ["*"]
-    //     Expression1 = (*) "&" Maybe Expression1 [EOF]
-    //     Expression1 = (*) "&" Maybe Expression1 ["*"]
-    //     Expression1 = (*) "(" Expression2 ")" [EOF]
-    //     Expression1 = (*) "(" Expression2 ")" ["*"]
-    //     Expression1 = (*) "wonky" Wonky [EOF]
-    //     Expression1 = (*) "wonky" Wonky ["*"]
-    //     Expression1 = (*) r#"\\w+"# [EOF]
-    //     Expression1 = (*) r#"\\w+"# ["*"]
-    //     Expression2 = Expression2 Expression2Op (*) Expression1 [EOF]
-    //     Expression2 = Expression2 Expression2Op (*) Expression1 ["*"]
-    //     Wacky = (*) "wacky" [EOF]
-    //     Wacky = (*) "wacky" ["*"]
+    //     Expression1 = (*) Wacky ["*", EOF]
+    //     Expression1 = (*) "&" Maybe Expression1 ["*", EOF]
+    //     Expression1 = (*) "(" Expression2 ")" ["*", EOF]
+    //     Expression1 = (*) "wonky" Wonky ["*", EOF]
+    //     Expression1 = (*) r#"\\w+"# ["*", EOF]
+    //     Expression2 = Expression2 Expression2Op (*) Expression1 ["*", EOF]
+    //     Wacky = (*) "wacky" ["*", EOF]
     //
     //   "&" -> S4
     //   "(" -> S5
@@ -757,17 +720,9 @@ mod __parse__Expression2 {
     //     WillPush = []
     //     WillProduce = Some(Expression2Op)
     //
-    //     Expression2Op = "*" (*) ["&"]
-    //     Expression2Op = "*" (*) ["("]
-    //     Expression2Op = "*" (*) ["wacky"]
-    //     Expression2Op = "*" (*) ["wonky"]
-    //     Expression2Op = "*" (*) [r#"\\w+"#]
+    //     Expression2Op = "*" (*) ["&", "(", "wacky", "wonky", r#"\\w+"#]
     //
-    //   "&" -> Expression2Op = "*" => ActionFn(30);
-    //   "(" -> Expression2Op = "*" => ActionFn(30);
-    //   "wacky" -> Expression2Op = "*" => ActionFn(30);
-    //   "wonky" -> Expression2Op = "*" => ActionFn(30);
-    //   r#"\\w+"# -> Expression2Op = "*" => ActionFn(30);
+    //   ["&", "(", "wacky", "wonky", r#"\\w+"#] -> Expression2Op = "*" => ActionFn(30);
     //
     pub fn __state10<
         'input,
@@ -818,20 +773,13 @@ mod __parse__Expression2 {
     //     WillPush = [Expression1]
     //     WillProduce = Some(Expression1)
     //
-    //     Expression1 = (*) Wacky [EOF]
-    //     Expression1 = (*) Wacky ["*"]
-    //     Expression1 = (*) "&" Maybe Expression1 [EOF]
-    //     Expression1 = (*) "&" Maybe Expression1 ["*"]
-    //     Expression1 = "&" Maybe (*) Expression1 [EOF]
-    //     Expression1 = "&" Maybe (*) Expression1 ["*"]
-    //     Expression1 = (*) "(" Expression2 ")" [EOF]
-    //     Expression1 = (*) "(" Expression2 ")" ["*"]
-    //     Expression1 = (*) "wonky" Wonky [EOF]
-    //     Expression1 = (*) "wonky" Wonky ["*"]
-    //     Expression1 = (*) r#"\\w+"# [EOF]
-    //     Expression1 = (*) r#"\\w+"# ["*"]
-    //     Wacky = (*) "wacky" [EOF]
-    //     Wacky = (*) "wacky" ["*"]
+    //     Expression1 = (*) Wacky ["*", EOF]
+    //     Expression1 = (*) "&" Maybe Expression1 ["*", EOF]
+    //     Expression1 = "&" Maybe (*) Expression1 ["*", EOF]
+    //     Expression1 = (*) "(" Expression2 ")" ["*", EOF]
+    //     Expression1 = (*) "wonky" Wonky ["*", EOF]
+    //     Expression1 = (*) r#"\\w+"# ["*", EOF]
+    //     Wacky = (*) "wacky" ["*", EOF]
     //
     //   "&" -> S4
     //   "(" -> S5
@@ -906,11 +854,7 @@ mod __parse__Expression2 {
     //     WillPush = ["]"]
     //     WillProduce = Some(Maybe)
     //
-    //     Maybe = "[" (*) "]" ["&"]
-    //     Maybe = "[" (*) "]" ["("]
-    //     Maybe = "[" (*) "]" ["wacky"]
-    //     Maybe = "[" (*) "]" ["wonky"]
-    //     Maybe = "[" (*) "]" [r#"\\w+"#]
+    //     Maybe = "[" (*) "]" ["&", "(", "wacky", "wonky", r#"\\w+"#]
     //
     //   "]" -> S24
     //
@@ -952,11 +896,9 @@ mod __parse__Expression2 {
     //     WillPush = []
     //     WillProduce = Some(Expression2)
     //
-    //     Expression2 = Expression1 (*) [")"]
-    //     Expression2 = Expression1 (*) ["*"]
+    //     Expression2 = Expression1 (*) [")", "*"]
     //
-    //   ")" -> Expression2 = Expression1 => ActionFn(29);
-    //   "*" -> Expression2 = Expression1 => ActionFn(29);
+    //   [")", "*"] -> Expression2 = Expression1 => ActionFn(29);
     //
     pub fn __state13<
         'input,
@@ -1000,15 +942,9 @@ mod __parse__Expression2 {
     //     WillPush = [")"]
     //     WillProduce = None
     //
-    //     Expression1 = "(" Expression2 (*) ")" [EOF]
-    //     Expression1 = "(" Expression2 (*) ")" ["*"]
-    //     Expression2 = Expression2 (*) Expression2Op Expression1 [")"]
-    //     Expression2 = Expression2 (*) Expression2Op Expression1 ["*"]
-    //     Expression2Op = (*) "*" ["&"]
-    //     Expression2Op = (*) "*" ["("]
-    //     Expression2Op = (*) "*" ["wacky"]
-    //     Expression2Op = (*) "*" ["wonky"]
-    //     Expression2Op = (*) "*" [r#"\\w+"#]
+    //     Expression1 = "(" Expression2 (*) ")" ["*", EOF]
+    //     Expression2 = Expression2 (*) Expression2Op Expression1 [")", "*"]
+    //     Expression2Op = (*) "*" ["&", "(", "wacky", "wonky", r#"\\w+"#]
     //
     //   ")" -> S26
     //   "*" -> S10
@@ -1066,11 +1002,9 @@ mod __parse__Expression2 {
     //     WillPush = []
     //     WillProduce = Some(Expression1)
     //
-    //     Expression1 = Wacky (*) [")"]
-    //     Expression1 = Wacky (*) ["*"]
+    //     Expression1 = Wacky (*) [")", "*"]
     //
-    //   ")" -> Expression1 = Wacky => ActionFn(8);
-    //   "*" -> Expression1 = Wacky => ActionFn(8);
+    //   [")", "*"] -> Expression1 = Wacky => ActionFn(8);
     //
     pub fn __state15<
         'input,
@@ -1114,25 +1048,12 @@ mod __parse__Expression2 {
     //     WillPush = [Maybe, Expression1]
     //     WillProduce = Some(Expression1)
     //
-    //     Expression1 = "&" (*) Maybe Expression1 [")"]
-    //     Expression1 = "&" (*) Maybe Expression1 ["*"]
-    //     Maybe = (*) ["&"]
-    //     Maybe = (*) ["("]
-    //     Maybe = (*) ["wacky"]
-    //     Maybe = (*) ["wonky"]
-    //     Maybe = (*) [r#"\\w+"#]
-    //     Maybe = (*) "[" "]" ["&"]
-    //     Maybe = (*) "[" "]" ["("]
-    //     Maybe = (*) "[" "]" ["wacky"]
-    //     Maybe = (*) "[" "]" ["wonky"]
-    //     Maybe = (*) "[" "]" [r#"\\w+"#]
+    //     Expression1 = "&" (*) Maybe Expression1 [")", "*"]
+    //     Maybe = (*) ["&", "(", "wacky", "wonky", r#"\\w+"#]
+    //     Maybe = (*) "[" "]" ["&", "(", "wacky", "wonky", r#"\\w+"#]
     //
     //   "[" -> S12
-    //   "&" -> Maybe =  => ActionFn(31);
-    //   "(" -> Maybe =  => ActionFn(31);
-    //   "wacky" -> Maybe =  => ActionFn(31);
-    //   "wonky" -> Maybe =  => ActionFn(31);
-    //   r#"\\w+"# -> Maybe =  => ActionFn(31);
+    //   ["&", "(", "wacky", "wonky", r#"\\w+"#] -> Maybe =  => ActionFn(31);
     //
     //     Maybe -> S27
     pub fn __state16<
@@ -1205,8 +1126,7 @@ mod __parse__Expression2 {
     //     Expression1 = (*) "&" Maybe Expression1 ["*"]
     //     Expression1 = (*) "(" Expression2 ")" [")"]
     //     Expression1 = (*) "(" Expression2 ")" ["*"]
-    //     Expression1 = "(" (*) Expression2 ")" [")"]
-    //     Expression1 = "(" (*) Expression2 ")" ["*"]
+    //     Expression1 = "(" (*) Expression2 ")" [")", "*"]
     //     Expression1 = (*) "wonky" Wonky [")"]
     //     Expression1 = (*) "wonky" Wonky ["*"]
     //     Expression1 = (*) r#"\\w+"# [")"]
@@ -1301,11 +1221,9 @@ mod __parse__Expression2 {
     //     WillPush = []
     //     WillProduce = Some(Wacky)
     //
-    //     Wacky = "wacky" (*) [")"]
-    //     Wacky = "wacky" (*) ["*"]
+    //     Wacky = "wacky" (*) [")", "*"]
     //
-    //   ")" -> Wacky = "wacky" => ActionFn(33);
-    //   "*" -> Wacky = "wacky" => ActionFn(33);
+    //   [")", "*"] -> Wacky = "wacky" => ActionFn(33);
     //
     pub fn __state18<
         'input,
@@ -1353,13 +1271,10 @@ mod __parse__Expression2 {
     //     WillPush = [Wonky]
     //     WillProduce = Some(Expression1)
     //
-    //     Expression1 = "wonky" (*) Wonky [")"]
-    //     Expression1 = "wonky" (*) Wonky ["*"]
-    //     Wonky = (*) [")"]
-    //     Wonky = (*) ["*"]
+    //     Expression1 = "wonky" (*) Wonky [")", "*"]
+    //     Wonky = (*) [")", "*"]
     //
-    //   ")" -> Wonky =  => ActionFn(34);
-    //   "*" -> Wonky =  => ActionFn(34);
+    //   [")", "*"] -> Wonky =  => ActionFn(34);
     //
     //     Wonky -> S29
     pub fn __state19<
@@ -1419,11 +1334,9 @@ mod __parse__Expression2 {
     //     WillPush = []
     //     WillProduce = Some(Expression1)
     //
-    //     Expression1 = r#"\\w+"# (*) [")"]
-    //     Expression1 = r#"\\w+"# (*) ["*"]
+    //     Expression1 = r#"\\w+"# (*) [")", "*"]
     //
-    //   ")" -> Expression1 = r#"\\w+"# => ActionFn(26);
-    //   "*" -> Expression1 = r#"\\w+"# => ActionFn(26);
+    //   [")", "*"] -> Expression1 = r#"\\w+"# => ActionFn(26);
     //
     pub fn __state20<
         'input,
@@ -1471,11 +1384,9 @@ mod __parse__Expression2 {
     //     WillPush = []
     //     WillProduce = Some(Expression1)
     //
-    //     Expression1 = "wonky" Wonky (*) [EOF]
-    //     Expression1 = "wonky" Wonky (*) ["*"]
+    //     Expression1 = "wonky" Wonky (*) ["*", EOF]
     //
-    //   EOF -> Expression1 = "wonky", Wonky => ActionFn(7);
-    //   "*" -> Expression1 = "wonky", Wonky => ActionFn(7);
+    //   ["*", EOF] -> Expression1 = "wonky", Wonky => ActionFn(7);
     //
     pub fn __state21<
         'input,
@@ -1490,8 +1401,8 @@ mod __parse__Expression2 {
     {
         let mut __result: (Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>);
         match __lookahead {
-            None |
-            Some((_, (3, _), _)) => {
+            Some((_, (3, _), _)) |
+            None => {
                 let __start = __sym0.0.clone();
                 let __end = __sym1.2.clone();
                 let __nt = super::__action7(input, __sym0, __sym1);
@@ -1520,11 +1431,9 @@ mod __parse__Expression2 {
     //     WillPush = []
     //     WillProduce = Some(Expression2)
     //
-    //     Expression2 = Expression2 Expression2Op Expression1 (*) [EOF]
-    //     Expression2 = Expression2 Expression2Op Expression1 (*) ["*"]
+    //     Expression2 = Expression2 Expression2Op Expression1 (*) ["*", EOF]
     //
-    //   EOF -> Expression2 = Expression2, Expression2Op, Expression1 => ActionFn(28);
-    //   "*" -> Expression2 = Expression2, Expression2Op, Expression1 => ActionFn(28);
+    //   ["*", EOF] -> Expression2 = Expression2, Expression2Op, Expression1 => ActionFn(28);
     //
     pub fn __state22<
         'input,
@@ -1540,8 +1449,8 @@ mod __parse__Expression2 {
     {
         let mut __result: (Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>);
         match __lookahead {
-            None |
-            Some((_, (3, _), _)) => {
+            Some((_, (3, _), _)) |
+            None => {
                 let __start = __sym0.0.clone();
                 let __end = __sym2.2.clone();
                 let __nt = super::__action28(input, __sym0, __sym1, __sym2);
@@ -1570,11 +1479,9 @@ mod __parse__Expression2 {
     //     WillPush = []
     //     WillProduce = Some(Expression1)
     //
-    //     Expression1 = "&" Maybe Expression1 (*) [EOF]
-    //     Expression1 = "&" Maybe Expression1 (*) ["*"]
+    //     Expression1 = "&" Maybe Expression1 (*) ["*", EOF]
     //
-    //   EOF -> Expression1 = "&", Maybe, Expression1 => ActionFn(27);
-    //   "*" -> Expression1 = "&", Maybe, Expression1 => ActionFn(27);
+    //   ["*", EOF] -> Expression1 = "&", Maybe, Expression1 => ActionFn(27);
     //
     pub fn __state23<
         'input,
@@ -1590,8 +1497,8 @@ mod __parse__Expression2 {
     {
         let mut __result: (Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>);
         match __lookahead {
-            None |
-            Some((_, (3, _), _)) => {
+            Some((_, (3, _), _)) |
+            None => {
                 let __start = __sym0.0.clone();
                 let __end = __sym2.2.clone();
                 let __nt = super::__action27(input, __sym0, __sym1, __sym2);
@@ -1620,17 +1527,9 @@ mod __parse__Expression2 {
     //     WillPush = []
     //     WillProduce = Some(Maybe)
     //
-    //     Maybe = "[" "]" (*) ["&"]
-    //     Maybe = "[" "]" (*) ["("]
-    //     Maybe = "[" "]" (*) ["wacky"]
-    //     Maybe = "[" "]" (*) ["wonky"]
-    //     Maybe = "[" "]" (*) [r#"\\w+"#]
+    //     Maybe = "[" "]" (*) ["&", "(", "wacky", "wonky", r#"\\w+"#]
     //
-    //   "&" -> Maybe = "[", "]" => ActionFn(32);
-    //   "(" -> Maybe = "[", "]" => ActionFn(32);
-    //   "wacky" -> Maybe = "[", "]" => ActionFn(32);
-    //   "wonky" -> Maybe = "[", "]" => ActionFn(32);
-    //   r#"\\w+"# -> Maybe = "[", "]" => ActionFn(32);
+    //   ["&", "(", "wacky", "wonky", r#"\\w+"#] -> Maybe = "[", "]" => ActionFn(32);
     //
     pub fn __state24<
         'input,
@@ -1682,20 +1581,13 @@ mod __parse__Expression2 {
     //     WillPush = [Expression1]
     //     WillProduce = Some(Expression2)
     //
-    //     Expression1 = (*) Wacky [")"]
-    //     Expression1 = (*) Wacky ["*"]
-    //     Expression1 = (*) "&" Maybe Expression1 [")"]
-    //     Expression1 = (*) "&" Maybe Expression1 ["*"]
-    //     Expression1 = (*) "(" Expression2 ")" [")"]
-    //     Expression1 = (*) "(" Expression2 ")" ["*"]
-    //     Expression1 = (*) "wonky" Wonky [")"]
-    //     Expression1 = (*) "wonky" Wonky ["*"]
-    //     Expression1 = (*) r#"\\w+"# [")"]
-    //     Expression1 = (*) r#"\\w+"# ["*"]
-    //     Expression2 = Expression2 Expression2Op (*) Expression1 [")"]
-    //     Expression2 = Expression2 Expression2Op (*) Expression1 ["*"]
-    //     Wacky = (*) "wacky" [")"]
-    //     Wacky = (*) "wacky" ["*"]
+    //     Expression1 = (*) Wacky [")", "*"]
+    //     Expression1 = (*) "&" Maybe Expression1 [")", "*"]
+    //     Expression1 = (*) "(" Expression2 ")" [")", "*"]
+    //     Expression1 = (*) "wonky" Wonky [")", "*"]
+    //     Expression1 = (*) r#"\\w+"# [")", "*"]
+    //     Expression2 = Expression2 Expression2Op (*) Expression1 [")", "*"]
+    //     Wacky = (*) "wacky" [")", "*"]
     //
     //   "&" -> S16
     //   "(" -> S17
@@ -1770,11 +1662,9 @@ mod __parse__Expression2 {
     //     WillPush = []
     //     WillProduce = Some(Expression1)
     //
-    //     Expression1 = "(" Expression2 ")" (*) [EOF]
-    //     Expression1 = "(" Expression2 ")" (*) ["*"]
+    //     Expression1 = "(" Expression2 ")" (*) ["*", EOF]
     //
-    //   EOF -> Expression1 = "(", Expression2, ")" => ActionFn(25);
-    //   "*" -> Expression1 = "(", Expression2, ")" => ActionFn(25);
+    //   ["*", EOF] -> Expression1 = "(", Expression2, ")" => ActionFn(25);
     //
     pub fn __state26<
         'input,
@@ -1794,8 +1684,8 @@ mod __parse__Expression2 {
             Some(Err(e)) => return Err(e),
         };
         match __lookahead {
-            None |
-            Some((_, (3, _), _)) => {
+            Some((_, (3, _), _)) |
+            None => {
                 let __start = __sym0.0.clone();
                 let __end = __sym2.2.clone();
                 let __nt = super::__action25(input, __sym0, __sym1, __sym2);
@@ -1824,20 +1714,13 @@ mod __parse__Expression2 {
     //     WillPush = [Expression1]
     //     WillProduce = Some(Expression1)
     //
-    //     Expression1 = (*) Wacky [")"]
-    //     Expression1 = (*) Wacky ["*"]
-    //     Expression1 = (*) "&" Maybe Expression1 [")"]
-    //     Expression1 = (*) "&" Maybe Expression1 ["*"]
-    //     Expression1 = "&" Maybe (*) Expression1 [")"]
-    //     Expression1 = "&" Maybe (*) Expression1 ["*"]
-    //     Expression1 = (*) "(" Expression2 ")" [")"]
-    //     Expression1 = (*) "(" Expression2 ")" ["*"]
-    //     Expression1 = (*) "wonky" Wonky [")"]
-    //     Expression1 = (*) "wonky" Wonky ["*"]
-    //     Expression1 = (*) r#"\\w+"# [")"]
-    //     Expression1 = (*) r#"\\w+"# ["*"]
-    //     Wacky = (*) "wacky" [")"]
-    //     Wacky = (*) "wacky" ["*"]
+    //     Expression1 = (*) Wacky [")", "*"]
+    //     Expression1 = (*) "&" Maybe Expression1 [")", "*"]
+    //     Expression1 = "&" Maybe (*) Expression1 [")", "*"]
+    //     Expression1 = (*) "(" Expression2 ")" [")", "*"]
+    //     Expression1 = (*) "wonky" Wonky [")", "*"]
+    //     Expression1 = (*) r#"\\w+"# [")", "*"]
+    //     Wacky = (*) "wacky" [")", "*"]
     //
     //   "&" -> S16
     //   "(" -> S17
@@ -1912,15 +1795,9 @@ mod __parse__Expression2 {
     //     WillPush = [")"]
     //     WillProduce = None
     //
-    //     Expression1 = "(" Expression2 (*) ")" [")"]
-    //     Expression1 = "(" Expression2 (*) ")" ["*"]
-    //     Expression2 = Expression2 (*) Expression2Op Expression1 [")"]
-    //     Expression2 = Expression2 (*) Expression2Op Expression1 ["*"]
-    //     Expression2Op = (*) "*" ["&"]
-    //     Expression2Op = (*) "*" ["("]
-    //     Expression2Op = (*) "*" ["wacky"]
-    //     Expression2Op = (*) "*" ["wonky"]
-    //     Expression2Op = (*) "*" [r#"\\w+"#]
+    //     Expression1 = "(" Expression2 (*) ")" [")", "*"]
+    //     Expression2 = Expression2 (*) Expression2Op Expression1 [")", "*"]
+    //     Expression2Op = (*) "*" ["&", "(", "wacky", "wonky", r#"\\w+"#]
     //
     //   ")" -> S32
     //   "*" -> S10
@@ -1978,11 +1855,9 @@ mod __parse__Expression2 {
     //     WillPush = []
     //     WillProduce = Some(Expression1)
     //
-    //     Expression1 = "wonky" Wonky (*) [")"]
-    //     Expression1 = "wonky" Wonky (*) ["*"]
+    //     Expression1 = "wonky" Wonky (*) [")", "*"]
     //
-    //   ")" -> Expression1 = "wonky", Wonky => ActionFn(7);
-    //   "*" -> Expression1 = "wonky", Wonky => ActionFn(7);
+    //   [")", "*"] -> Expression1 = "wonky", Wonky => ActionFn(7);
     //
     pub fn __state29<
         'input,
@@ -2027,11 +1902,9 @@ mod __parse__Expression2 {
     //     WillPush = []
     //     WillProduce = Some(Expression2)
     //
-    //     Expression2 = Expression2 Expression2Op Expression1 (*) [")"]
-    //     Expression2 = Expression2 Expression2Op Expression1 (*) ["*"]
+    //     Expression2 = Expression2 Expression2Op Expression1 (*) [")", "*"]
     //
-    //   ")" -> Expression2 = Expression2, Expression2Op, Expression1 => ActionFn(28);
-    //   "*" -> Expression2 = Expression2, Expression2Op, Expression1 => ActionFn(28);
+    //   [")", "*"] -> Expression2 = Expression2, Expression2Op, Expression1 => ActionFn(28);
     //
     pub fn __state30<
         'input,
@@ -2077,11 +1950,9 @@ mod __parse__Expression2 {
     //     WillPush = []
     //     WillProduce = Some(Expression1)
     //
-    //     Expression1 = "&" Maybe Expression1 (*) [")"]
-    //     Expression1 = "&" Maybe Expression1 (*) ["*"]
+    //     Expression1 = "&" Maybe Expression1 (*) [")", "*"]
     //
-    //   ")" -> Expression1 = "&", Maybe, Expression1 => ActionFn(27);
-    //   "*" -> Expression1 = "&", Maybe, Expression1 => ActionFn(27);
+    //   [")", "*"] -> Expression1 = "&", Maybe, Expression1 => ActionFn(27);
     //
     pub fn __state31<
         'input,
@@ -2127,11 +1998,9 @@ mod __parse__Expression2 {
     //     WillPush = []
     //     WillProduce = Some(Expression1)
     //
-    //     Expression1 = "(" Expression2 ")" (*) [")"]
-    //     Expression1 = "(" Expression2 ")" (*) ["*"]
+    //     Expression1 = "(" Expression2 ")" (*) [")", "*"]
     //
-    //   ")" -> Expression1 = "(", Expression2, ")" => ActionFn(25);
-    //   "*" -> Expression1 = "(", Expression2, ")" => ActionFn(25);
+    //   [")", "*"] -> Expression1 = "(", Expression2, ")" => ActionFn(25);
     //
     pub fn __state32<
         'input,

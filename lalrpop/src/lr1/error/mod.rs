@@ -5,7 +5,7 @@ use lr1::trace::Tracer;
 use lr1::core::*;
 use lr1::example::{Example, ExampleStyles, ExampleSymbol};
 use lr1::first::FirstSets;
-use lr1::lookahead::Token;
+use lr1::lookahead::{Token, TokenSet};
 use itertools::Itertools;
 use grammar::repr::*;
 use message::{Message};
@@ -60,6 +60,8 @@ enum ConflictClassification {
     Naive,
 }
 
+type TokenConflict<'grammar> = Conflict<'grammar, Token>;
+
 impl<'cx, 'grammar> ErrorReportingCx<'cx, 'grammar> {
     fn new(grammar: &'grammar Grammar,
            states: &'cx [LR1State<'grammar>])
@@ -72,14 +74,13 @@ impl<'cx, 'grammar> ErrorReportingCx<'cx, 'grammar> {
     }
 
     fn report_errors(&mut self) -> Vec<Message> {
-        self.states
+        token_conflicts(self.states)
             .iter()
-            .flat_map(|state| &state.conflicts)
             .map(|conflict| self.report_error(conflict))
             .collect()
     }
 
-    fn report_error(&mut self, conflict: &LR1Conflict<'grammar>) -> Message {
+    fn report_error(&mut self, conflict: &TokenConflict<'grammar>) -> Message {
         match self.classify(conflict) {
             ConflictClassification::Ambiguity { action, reduce } => {
                 self.report_error_ambiguity(conflict, action, reduce)
@@ -108,7 +109,7 @@ impl<'cx, 'grammar> ErrorReportingCx<'cx, 'grammar> {
     }
 
     fn report_error_ambiguity_core(&self,
-                                   conflict: &LR1Conflict<'grammar>,
+                                   conflict: &TokenConflict<'grammar>,
                                    shift: Example,
                                    reduce: Example)
                                    -> Builder<BodyCharacter> {
@@ -136,7 +137,7 @@ impl<'cx, 'grammar> ErrorReportingCx<'cx, 'grammar> {
     }
 
     fn report_error_ambiguity(&self,
-                              conflict: &LR1Conflict<'grammar>,
+                              conflict: &TokenConflict<'grammar>,
                               shift: Example,
                               reduce: Example)
                               -> Message {
@@ -149,7 +150,7 @@ impl<'cx, 'grammar> ErrorReportingCx<'cx, 'grammar> {
     }
 
     fn report_error_precedence(&self,
-                               conflict: &LR1Conflict<'grammar>,
+                               conflict: &TokenConflict<'grammar>,
                                shift: Example,
                                reduce: Example,
                                nonterminal: NonterminalString)
@@ -169,7 +170,7 @@ impl<'cx, 'grammar> ErrorReportingCx<'cx, 'grammar> {
     }
 
     fn report_error_not_lr1_core(&self,
-                                 conflict: &LR1Conflict<'grammar>,
+                                 conflict: &TokenConflict<'grammar>,
                                  action: Example,
                                  reduce: Example)
                                  -> Builder<BodyCharacter> {
@@ -295,7 +296,7 @@ impl<'cx, 'grammar> ErrorReportingCx<'cx, 'grammar> {
     }
 
     fn report_error_suggest_inline(&self,
-                                   conflict: &LR1Conflict<'grammar>,
+                                   conflict: &TokenConflict<'grammar>,
                                    shift: Example,
                                    reduce: Example,
                                    nonterminal: NonterminalString)
@@ -320,7 +321,7 @@ impl<'cx, 'grammar> ErrorReportingCx<'cx, 'grammar> {
     }
 
     fn report_error_suggest_question(&self,
-                                     conflict: &LR1Conflict<'grammar>,
+                                     conflict: &TokenConflict<'grammar>,
                                      shift: Example,
                                      reduce: Example,
                                      nonterminal: NonterminalString,
@@ -352,7 +353,7 @@ impl<'cx, 'grammar> ErrorReportingCx<'cx, 'grammar> {
     }
 
     fn report_error_insufficient_lookahead(&self,
-                                           conflict: &LR1Conflict<'grammar>,
+                                           conflict: &TokenConflict<'grammar>,
                                            action: Example,
                                            reduce: Example)
                                            -> Message {
@@ -385,7 +386,7 @@ impl<'cx, 'grammar> ErrorReportingCx<'cx, 'grammar> {
     /// Naive error reporting. This is a fallback path which (I think)
     /// never actually executes.
     fn report_error_naive(&self,
-                          conflict: &LR1Conflict<'grammar>)
+                          conflict: &TokenConflict<'grammar>)
                           -> Message {
         let mut builder =
             MessageBuilder::new(conflict.production.span)
@@ -419,7 +420,7 @@ impl<'cx, 'grammar> ErrorReportingCx<'cx, 'grammar> {
                .end()
     }
 
-    fn classify(&mut self, conflict: &LR1Conflict<'grammar>) -> ConflictClassification {
+    fn classify(&mut self, conflict: &TokenConflict<'grammar>) -> ConflictClassification {
         // Find examples from the conflicting action (either a shift
         // or a reduce).
         let mut action_examples = match conflict.action {
@@ -473,7 +474,7 @@ impl<'cx, 'grammar> ErrorReportingCx<'cx, 'grammar> {
     }
 
     fn try_classify_ambiguity(&self,
-                              conflict: &LR1Conflict<'grammar>,
+                              conflict: &TokenConflict<'grammar>,
                               action_examples: &[Example],
                               reduce_examples: &[Example])
                               -> Option<ConflictClassification> {
@@ -509,7 +510,7 @@ impl<'cx, 'grammar> ErrorReportingCx<'cx, 'grammar> {
     }
 
     fn try_classify_question(&self,
-                             conflict: &LR1Conflict<'grammar>,
+                             conflict: &TokenConflict<'grammar>,
                              action_examples: &[Example],
                              reduce_examples: &[Example])
                              -> Option<ConflictClassification> {
@@ -548,7 +549,7 @@ impl<'cx, 'grammar> ErrorReportingCx<'cx, 'grammar> {
     }
 
     fn try_classify_inline(&self,
-                           conflict: &LR1Conflict<'grammar>,
+                           conflict: &TokenConflict<'grammar>,
                            action_examples: &[Example],
                            reduce_examples: &[Example])
                            -> Option<ConflictClassification> {
@@ -671,7 +672,7 @@ impl<'cx, 'grammar> ErrorReportingCx<'cx, 'grammar> {
                             self.first_sets.first0(&[shift_sym]);
                         let reduce_first =
                             self.first_sets.first0(&[reduce_sym]);
-                        if shift_first.is_disjoint(reduce_first) {
+                        if shift_first.is_disjoint(&reduce_first) {
                             Some(true)
                         } else {
                             Some(false)
@@ -691,7 +692,7 @@ impl<'cx, 'grammar> ErrorReportingCx<'cx, 'grammar> {
     }
 
     fn shift_examples(&self,
-                      conflict: &LR1Conflict<'grammar>)
+                      conflict: &TokenConflict<'grammar>)
                       -> Vec<Example> {
         log!(Tls::session(), Verbose, "Gathering shift examples");
         let state = &self.states[conflict.state.0];
@@ -718,17 +719,17 @@ impl<'cx, 'grammar> ErrorReportingCx<'cx, 'grammar> {
         let item = Item {
             production: production,
             index: production.symbols.len(),
-            lookahead: lookahead
+            lookahead: TokenSet::from(lookahead),
         };
         let tracer = Tracer::new(self.grammar, &self.first_sets, self.states);
         let reduce_trace = tracer.backtrace_reduce(state, item.to_lr0());
-        reduce_trace.lr1_examples(self.grammar, &self.first_sets, item)
+        reduce_trace.lr1_examples(self.grammar, &self.first_sets, &item)
                     .collect()
     }
 
     fn conflicting_shift_items(&self,
                                state: &LR1State<'grammar>,
-                               conflict: &LR1Conflict<'grammar>)
+                               conflict: &TokenConflict<'grammar>)
                                -> Set<LR0Item<'grammar>> {
         // Lookahead must be a terminal, not EOF.
         // Find an item J like `Bar = ... (*) L ...`.
@@ -741,9 +742,28 @@ impl<'cx, 'grammar> ErrorReportingCx<'cx, 'grammar> {
     }
 }
 
+fn token_conflicts<'grammar>(states: &[LR1State<'grammar>])
+                             -> Vec<TokenConflict<'grammar>> {
+    states
+        .iter()
+        .flat_map(|state| &state.conflicts)
+        .flat_map(|conflict| {
+            conflict.lookahead
+                    .iter()
+                    .map(move |token| Conflict {
+                        state: conflict.state,
+                        lookahead: token,
+                        production: conflict.production,
+                        action: conflict.action,
+                    })
+        })
+        .collect()
+}
+
+
 //fn choose_example<'grammar>(states: &[State<'grammar>],
 //                            lookahead: Token,
-//                            conflict: &LR1Conflict<'grammar>)
+//                            conflict: &TokenConflict<'grammar>)
 //{
 //    // Whenever we have a conflict in state S, there is always:
 //    // - a given lookahead L that permits some reduction, due to
@@ -777,7 +797,7 @@ impl<'cx, 'grammar> ErrorReportingCx<'cx, 'grammar> {
 //
 //fn conflicting_item<'grammar>(state: &State<'grammar>,
 //                              lookahead: Token,
-//                              conflict: &LR1Conflict<'grammar>)
+//                              conflict: &TokenConflict<'grammar>)
 //                              -> Item<'grammar>
 //{
 //    match conflict.action {

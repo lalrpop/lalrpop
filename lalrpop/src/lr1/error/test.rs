@@ -25,11 +25,8 @@ pub Ty: () = {
     let _lr1_tls = Lr1Tls::install(grammar.terminals.clone());
     let states = build_states(&grammar, nt("Ty")).unwrap_err().states;
     let mut cx = ErrorReportingCx::new(&grammar, &states);
-    let conflict =
-        states.iter()
-              .flat_map(|state| &state.conflicts)
-              .next()
-              .unwrap();
+    let conflicts = super::token_conflicts(&states);
+    let conflict = &conflicts[0];
 
     println!("conflict={:?}", conflict);
 
@@ -66,11 +63,8 @@ pub Expr: () = {
     let _lr1_tls = Lr1Tls::install(grammar.terminals.clone());
     let states = build_states(&grammar, nt("Expr")).unwrap_err().states;
     let mut cx = ErrorReportingCx::new(&grammar, &states);
-    let conflict =
-        states.iter()
-              .flat_map(|state| &state.conflicts)
-              .next()
-              .unwrap();
+    let conflicts = super::token_conflicts(&states);
+    let conflict = &conflicts[0];
 
     println!("conflict={:?}", conflict);
 
@@ -100,11 +94,8 @@ fn suggest_question_conflict() {
     let states = build_states(&grammar, nt("E")).unwrap_err().states;
 
     let mut cx = ErrorReportingCx::new(&grammar, &states);
-    let conflict =
-        states.iter()
-              .flat_map(|state| &state.conflicts)
-              .next()
-              .unwrap();
+    let conflicts = super::token_conflicts(&states);
+    let conflict = &conflicts[0];
 
     println!("conflict={:?}", conflict);
 
@@ -141,13 +132,9 @@ Ident = r#"[a-zA-Z][a-zA-Z0-9]*"#;
 "##);
     let _lr1_tls = Lr1Tls::install(grammar.terminals.clone());
     let states = build_states(&grammar, nt("ImportDecl")).unwrap_err().states;
-
     let mut cx = ErrorReportingCx::new(&grammar, &states);
-    let conflict =
-        states.iter()
-              .flat_map(|state| &state.conflicts)
-              .next()
-              .unwrap();
+    let conflicts = super::token_conflicts(&states);
+    let conflict = &conflicts[0];
 
     println!("conflict={:?}", conflict);
 

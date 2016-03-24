@@ -101,11 +101,14 @@ impl<'grammar> TraceGraph<'grammar> {
     pub fn lr1_examples<'trace>(&'trace self,
                                 grammar: &'grammar Grammar,
                                 first_sets: &'trace FirstSets,
-                                item: LR1Item<'grammar>)
+                                item: &LR1Item<'grammar>)
                                 -> FilteredPathEnumerator<'trace, 'grammar>
     {
-        FilteredPathEnumerator::new(grammar, first_sets,
-                                    self, item.to_lr0(), item.lookahead)
+        FilteredPathEnumerator::new(grammar,
+                                    first_sets,
+                                    self,
+                                    item.to_lr0(),
+                                    item.lookahead.clone())
     }
 }
 
@@ -116,6 +119,12 @@ impl<'grammar> Into<TraceGraphNode<'grammar>> for NonterminalString {
 }
 
 impl<'grammar, L: Lookahead> Into<TraceGraphNode<'grammar>> for Item<'grammar, L> {
+    fn into(self) -> TraceGraphNode<'grammar> {
+        (&self).into()
+    }
+}
+
+impl<'a, 'grammar, L: Lookahead> Into<TraceGraphNode<'grammar>> for &'a Item<'grammar, L> {
     fn into(self) -> TraceGraphNode<'grammar> {
         TraceGraphNode::Item(self.to_lr0())
     }
@@ -407,7 +416,7 @@ pub struct FilteredPathEnumerator<'graph, 'grammar: 'graph> {
     base: PathEnumerator<'graph, 'grammar>,
     grammar: &'grammar Grammar,
     first_sets: &'graph FirstSets,
-    lookahead: Token,
+    lookahead: TokenSet,
 }
 
 impl<'graph, 'grammar> FilteredPathEnumerator<'graph, 'grammar> {
@@ -415,7 +424,7 @@ impl<'graph, 'grammar> FilteredPathEnumerator<'graph, 'grammar> {
            first_sets: &'graph FirstSets,
            graph: &'graph TraceGraph<'grammar>,
            lr0_item: LR0Item<'grammar>,
-           lookahead: Token,)
+           lookahead: TokenSet)
            -> Self {
         FilteredPathEnumerator {
             base: PathEnumerator::new(graph, lr0_item),
@@ -432,7 +441,7 @@ impl<'graph, 'grammar> Iterator for FilteredPathEnumerator<'graph, 'grammar> {
     fn next(&mut self) -> Option<Example> {
         while self.base.found_trace() {
             let firsts = self.base.first0(self.grammar, self.first_sets);
-            if firsts.contains(self.lookahead) {
+            if firsts.is_intersecting(&self.lookahead) {
                 let example = self.base.example();
                 self.base.advance();
                 return Some(example);

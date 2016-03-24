@@ -51,15 +51,15 @@ mod __parse__S {
     //     WillPush = []
     //     WillProduce = None
     //
-    //     E = (*) E "-" T [EOF]
     //     E = (*) E "-" T ["-"]
-    //     E = (*) T [EOF]
+    //     E = (*) E "-" T [EOF]
     //     E = (*) T ["-"]
+    //     E = (*) T [EOF]
     //     S = (*) E [EOF]
-    //     T = (*) "(" E ")" [EOF]
     //     T = (*) "(" E ")" ["-"]
-    //     T = (*) Num [EOF]
+    //     T = (*) "(" E ")" [EOF]
     //     T = (*) Num ["-"]
+    //     T = (*) Num [EOF]
     //     __S = (*) S [EOF]
     //
     //   "(" -> S4
@@ -119,12 +119,11 @@ mod __parse__S {
     //     WillPush = []
     //     WillProduce = None
     //
-    //     E = E (*) "-" T [EOF]
-    //     E = E (*) "-" T ["-"]
+    //     E = E (*) "-" T ["-", EOF]
     //     S = E (*) [EOF]
     //
     //   "-" -> S6
-    //   EOF -> S = E => ActionFn(1);
+    //   [EOF] -> S = E => ActionFn(1);
     //
     pub fn __state1<
         __TOKENS: Iterator<Item=Result<((), Tok, ()),()>>,
@@ -172,7 +171,7 @@ mod __parse__S {
     //
     //     __S = S (*) [EOF]
     //
-    //   EOF -> __S = S => ActionFn(0);
+    //   [EOF] -> __S = S => ActionFn(0);
     //
     pub fn __state2<
         __TOKENS: Iterator<Item=Result<((), Tok, ()),()>>,
@@ -213,11 +212,9 @@ mod __parse__S {
     //     WillPush = []
     //     WillProduce = Some(E)
     //
-    //     E = T (*) [EOF]
-    //     E = T (*) ["-"]
+    //     E = T (*) ["-", EOF]
     //
-    //   EOF -> E = T => ActionFn(3);
-    //   "-" -> E = T => ActionFn(3);
+    //   ["-", EOF] -> E = T => ActionFn(3);
     //
     pub fn __state3<
         __TOKENS: Iterator<Item=Result<((), Tok, ()),()>>,
@@ -229,8 +226,8 @@ mod __parse__S {
     {
         let mut __result: (Option<((), Tok, ())>, __Nonterminal<>);
         match __lookahead {
-            None |
-            Some((_, Tok::Minus, _)) => {
+            Some((_, Tok::Minus, _)) |
+            None => {
                 let __start = __sym0.0.clone();
                 let __end = __sym0.2.clone();
                 let __nt = super::__action3(__sym0);
@@ -265,8 +262,7 @@ mod __parse__S {
     //     E = (*) T ["-"]
     //     T = (*) "(" E ")" [")"]
     //     T = (*) "(" E ")" ["-"]
-    //     T = "(" (*) E ")" [EOF]
-    //     T = "(" (*) E ")" ["-"]
+    //     T = "(" (*) E ")" ["-", EOF]
     //     T = (*) Num [")"]
     //     T = (*) Num ["-"]
     //
@@ -332,11 +328,9 @@ mod __parse__S {
     //     WillPush = []
     //     WillProduce = Some(T)
     //
-    //     T = Num (*) [EOF]
-    //     T = Num (*) ["-"]
+    //     T = Num (*) ["-", EOF]
     //
-    //   EOF -> T = Num => ActionFn(4);
-    //   "-" -> T = Num => ActionFn(4);
+    //   ["-", EOF] -> T = Num => ActionFn(4);
     //
     pub fn __state5<
         __TOKENS: Iterator<Item=Result<((), Tok, ()),()>>,
@@ -352,8 +346,8 @@ mod __parse__S {
             Some(Err(e)) => return Err(__ParseError::User { error: e }),
         };
         match __lookahead {
-            None |
-            Some((_, Tok::Minus, _)) => {
+            Some((_, Tok::Minus, _)) |
+            None => {
                 let __start = __sym0.0.clone();
                 let __end = __sym0.2.clone();
                 let __nt = super::__action4(__sym0);
@@ -382,12 +376,9 @@ mod __parse__S {
     //     WillPush = [T]
     //     WillProduce = Some(E)
     //
-    //     E = E "-" (*) T [EOF]
-    //     E = E "-" (*) T ["-"]
-    //     T = (*) "(" E ")" [EOF]
-    //     T = (*) "(" E ")" ["-"]
-    //     T = (*) Num [EOF]
-    //     T = (*) Num ["-"]
+    //     E = E "-" (*) T ["-", EOF]
+    //     T = (*) "(" E ")" ["-", EOF]
+    //     T = (*) Num ["-", EOF]
     //
     //   "(" -> S4
     //   Num -> S5
@@ -445,10 +436,8 @@ mod __parse__S {
     //     WillPush = [")"]
     //     WillProduce = None
     //
-    //     E = E (*) "-" T [")"]
-    //     E = E (*) "-" T ["-"]
-    //     T = "(" E (*) ")" [EOF]
-    //     T = "(" E (*) ")" ["-"]
+    //     E = E (*) "-" T [")", "-"]
+    //     T = "(" E (*) ")" ["-", EOF]
     //
     //   ")" -> S12
     //   "-" -> S13
@@ -492,11 +481,9 @@ mod __parse__S {
     //     WillPush = []
     //     WillProduce = Some(E)
     //
-    //     E = T (*) [")"]
-    //     E = T (*) ["-"]
+    //     E = T (*) [")", "-"]
     //
-    //   ")" -> E = T => ActionFn(3);
-    //   "-" -> E = T => ActionFn(3);
+    //   [")", "-"] -> E = T => ActionFn(3);
     //
     pub fn __state8<
         __TOKENS: Iterator<Item=Result<((), Tok, ()),()>>,
@@ -544,8 +531,7 @@ mod __parse__S {
     //     E = (*) T ["-"]
     //     T = (*) "(" E ")" [")"]
     //     T = (*) "(" E ")" ["-"]
-    //     T = "(" (*) E ")" [")"]
-    //     T = "(" (*) E ")" ["-"]
+    //     T = "(" (*) E ")" [")", "-"]
     //     T = (*) Num [")"]
     //     T = (*) Num ["-"]
     //
@@ -611,11 +597,9 @@ mod __parse__S {
     //     WillPush = []
     //     WillProduce = Some(T)
     //
-    //     T = Num (*) [")"]
-    //     T = Num (*) ["-"]
+    //     T = Num (*) [")", "-"]
     //
-    //   ")" -> T = Num => ActionFn(4);
-    //   "-" -> T = Num => ActionFn(4);
+    //   [")", "-"] -> T = Num => ActionFn(4);
     //
     pub fn __state10<
         __TOKENS: Iterator<Item=Result<((), Tok, ()),()>>,
@@ -661,11 +645,9 @@ mod __parse__S {
     //     WillPush = []
     //     WillProduce = Some(E)
     //
-    //     E = E "-" T (*) [EOF]
-    //     E = E "-" T (*) ["-"]
+    //     E = E "-" T (*) ["-", EOF]
     //
-    //   EOF -> E = E, "-", T => ActionFn(2);
-    //   "-" -> E = E, "-", T => ActionFn(2);
+    //   ["-", EOF] -> E = E, "-", T => ActionFn(2);
     //
     pub fn __state11<
         __TOKENS: Iterator<Item=Result<((), Tok, ()),()>>,
@@ -679,8 +661,8 @@ mod __parse__S {
     {
         let mut __result: (Option<((), Tok, ())>, __Nonterminal<>);
         match __lookahead {
-            None |
-            Some((_, Tok::Minus, _)) => {
+            Some((_, Tok::Minus, _)) |
+            None => {
                 let __start = __sym0.0.clone();
                 let __end = __sym2.2.clone();
                 let __nt = super::__action2(__sym0, __sym1, __sym2);
@@ -709,11 +691,9 @@ mod __parse__S {
     //     WillPush = []
     //     WillProduce = Some(T)
     //
-    //     T = "(" E ")" (*) [EOF]
-    //     T = "(" E ")" (*) ["-"]
+    //     T = "(" E ")" (*) ["-", EOF]
     //
-    //   EOF -> T = "(", E, ")" => ActionFn(5);
-    //   "-" -> T = "(", E, ")" => ActionFn(5);
+    //   ["-", EOF] -> T = "(", E, ")" => ActionFn(5);
     //
     pub fn __state12<
         __TOKENS: Iterator<Item=Result<((), Tok, ()),()>>,
@@ -731,8 +711,8 @@ mod __parse__S {
             Some(Err(e)) => return Err(__ParseError::User { error: e }),
         };
         match __lookahead {
-            None |
-            Some((_, Tok::Minus, _)) => {
+            Some((_, Tok::Minus, _)) |
+            None => {
                 let __start = __sym0.0.clone();
                 let __end = __sym2.2.clone();
                 let __nt = super::__action5(__sym0, __sym1, __sym2);
@@ -761,12 +741,9 @@ mod __parse__S {
     //     WillPush = [T]
     //     WillProduce = Some(E)
     //
-    //     E = E "-" (*) T [")"]
-    //     E = E "-" (*) T ["-"]
-    //     T = (*) "(" E ")" [")"]
-    //     T = (*) "(" E ")" ["-"]
-    //     T = (*) Num [")"]
-    //     T = (*) Num ["-"]
+    //     E = E "-" (*) T [")", "-"]
+    //     T = (*) "(" E ")" [")", "-"]
+    //     T = (*) Num [")", "-"]
     //
     //   "(" -> S9
     //   Num -> S10
@@ -824,10 +801,8 @@ mod __parse__S {
     //     WillPush = [")"]
     //     WillProduce = None
     //
-    //     E = E (*) "-" T [")"]
-    //     E = E (*) "-" T ["-"]
-    //     T = "(" E (*) ")" [")"]
-    //     T = "(" E (*) ")" ["-"]
+    //     E = E (*) "-" T [")", "-"]
+    //     T = "(" E (*) ")" [")", "-"]
     //
     //   ")" -> S16
     //   "-" -> S13
@@ -871,11 +846,9 @@ mod __parse__S {
     //     WillPush = []
     //     WillProduce = Some(E)
     //
-    //     E = E "-" T (*) [")"]
-    //     E = E "-" T (*) ["-"]
+    //     E = E "-" T (*) [")", "-"]
     //
-    //   ")" -> E = E, "-", T => ActionFn(2);
-    //   "-" -> E = E, "-", T => ActionFn(2);
+    //   [")", "-"] -> E = E, "-", T => ActionFn(2);
     //
     pub fn __state15<
         __TOKENS: Iterator<Item=Result<((), Tok, ()),()>>,
@@ -919,11 +892,9 @@ mod __parse__S {
     //     WillPush = []
     //     WillProduce = Some(T)
     //
-    //     T = "(" E ")" (*) [")"]
-    //     T = "(" E ")" (*) ["-"]
+    //     T = "(" E ")" (*) [")", "-"]
     //
-    //   ")" -> T = "(", E, ")" => ActionFn(5);
-    //   "-" -> T = "(", E, ")" => ActionFn(5);
+    //   [")", "-"] -> T = "(", E, ")" => ActionFn(5);
     //
     pub fn __state16<
         __TOKENS: Iterator<Item=Result<((), Tok, ()),()>>,

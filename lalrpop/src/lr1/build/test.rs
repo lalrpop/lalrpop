@@ -6,6 +6,7 @@ use lr1::core::*;
 use lr1::interpret::interpret;
 use lr1::lookahead::Token;
 use lr1::lookahead::Token::EOF;
+use lr1::lookahead::TokenSet;
 use lr1::tls::Lr1Tls;
 use tls::Tls;
 
@@ -41,10 +42,11 @@ macro_rules! tokens {
 fn items<'g>(grammar: &'g Grammar, nonterminal: &str, index: usize, la: Token)
              -> LR1Items<'g>
 {
-    let lr1: LR<Token> = LR::new(&grammar, nt(nonterminal), la);
+    let set = TokenSet::from(la);
+    let lr1: LR<TokenSet> = LR::new(&grammar, nt(nonterminal), set.clone());
     let items =
         lr1.transitive_closure(
-            lr1.items(nt(nonterminal), index, la));
+            lr1.items(nt(nonterminal), index, &set));
     items
 }
 
@@ -88,10 +90,8 @@ C: Option<u32> = {
 
     expect_debug(items(&grammar, "A", 0, EOF).vec, r#"[
     A = (*) B C [EOF],
-    B = (*) [EOF],
-    B = (*) ["C1"],
-    B = (*) "B1" [EOF],
-    B = (*) "B1" ["C1"]
+    B = (*) ["C1", EOF],
+    B = (*) "B1" ["C1", EOF]
 ]"#);
 
     expect_debug(items(&grammar, "A", 1, EOF).vec, r#"[

@@ -54,14 +54,14 @@ mod __parse__Expr {
     //
     //     Expr = (*) [EOF]
     //     Expr = (*) Other+ [EOF]
-    //     Other+ = (*) Other+ Other [EOF]
     //     Other+ = (*) Other+ Other [Other]
-    //     Other+ = (*) Other [EOF]
+    //     Other+ = (*) Other+ Other [EOF]
     //     Other+ = (*) Other [Other]
+    //     Other+ = (*) Other [EOF]
     //     __Expr = (*) Expr [EOF]
     //
     //   Other -> S3
-    //   EOF -> Expr =  => ActionFn(6);
+    //   [EOF] -> Expr =  => ActionFn(6);
     //
     //     Expr -> S1
     //     Other+ -> S2
@@ -123,7 +123,7 @@ mod __parse__Expr {
     //
     //     __Expr = Expr (*) [EOF]
     //
-    //   EOF -> __Expr = Expr => ActionFn(0);
+    //   [EOF] -> __Expr = Expr => ActionFn(0);
     //
     pub fn __state1<
         'input,
@@ -166,11 +166,10 @@ mod __parse__Expr {
     //     WillProduce = None
     //
     //     Expr = Other+ (*) [EOF]
-    //     Other+ = Other+ (*) Other [EOF]
-    //     Other+ = Other+ (*) Other [Other]
+    //     Other+ = Other+ (*) Other [Other, EOF]
     //
     //   Other -> S4
-    //   EOF -> Expr = Other+ => ActionFn(7);
+    //   [EOF] -> Expr = Other+ => ActionFn(7);
     //
     pub fn __state2<
         'input,
@@ -217,11 +216,9 @@ mod __parse__Expr {
     //     WillPush = []
     //     WillProduce = Some(Other+)
     //
-    //     Other+ = Other (*) [EOF]
-    //     Other+ = Other (*) [Other]
+    //     Other+ = Other (*) [Other, EOF]
     //
-    //   EOF -> Other+ = Other => ActionFn(4);
-    //   Other -> Other+ = Other => ActionFn(4);
+    //   [Other, EOF] -> Other+ = Other => ActionFn(4);
     //
     pub fn __state3<
         'input,
@@ -238,8 +235,8 @@ mod __parse__Expr {
             Some(Err(e)) => return Err(__ParseError::User { error: e }),
         };
         match __lookahead {
-            None |
-            Some((_, LtTok::Other(_), _)) => {
+            Some((_, LtTok::Other(_), _)) |
+            None => {
                 let __start = __sym0.0.clone();
                 let __end = __sym0.2.clone();
                 let __nt = super::__action4(__sym0);
@@ -268,11 +265,9 @@ mod __parse__Expr {
     //     WillPush = []
     //     WillProduce = Some(Other+)
     //
-    //     Other+ = Other+ Other (*) [EOF]
-    //     Other+ = Other+ Other (*) [Other]
+    //     Other+ = Other+ Other (*) [Other, EOF]
     //
-    //   EOF -> Other+ = Other+, Other => ActionFn(5);
-    //   Other -> Other+ = Other+, Other => ActionFn(5);
+    //   [Other, EOF] -> Other+ = Other+, Other => ActionFn(5);
     //
     pub fn __state4<
         'input,
@@ -290,8 +285,8 @@ mod __parse__Expr {
             Some(Err(e)) => return Err(__ParseError::User { error: e }),
         };
         match __lookahead {
-            None |
-            Some((_, LtTok::Other(_), _)) => {
+            Some((_, LtTok::Other(_), _)) |
+            None => {
                 let __start = __sym0.0.clone();
                 let __end = __sym1.2.clone();
                 let __nt = super::__action5(__sym0, __sym1);

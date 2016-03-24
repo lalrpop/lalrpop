@@ -1,12 +1,13 @@
 //! Mega naive LALR(1) generation algorithm.
 
-use collections::{map, Map};
+use collections::{map, Map, Multimap};
 use itertools::Itertools;
-use lr1::build;
+use lr1::build::{self, LookaheadBuild};
 use lr1::core::*;
 use lr1::lookahead::*;
 use grammar::repr::*;
 use std::rc::Rc;
+use std::mem;
 use tls::Tls;
 use util::map::Entry;
 
@@ -20,8 +21,7 @@ struct LALR1State<'grammar> {
     pub index: StateIndex,
     pub items: Vec<LR1Item<'grammar>>,
     pub shifts: Map<TerminalString, StateIndex>,
-    pub reductions: Vec<(Token, &'grammar Production)>,
-    pub conflicts: Vec<LR1Conflict<'grammar>>,
+    pub reductions: Multimap<&'grammar Production, TokenSet>,
     pub gotos: Map<NonterminalString, StateIndex>,
 }
 
@@ -65,9 +65,8 @@ pub fn collapse_to_lalr_states<'grammar>(lr_states: &[LR1State<'grammar>])
                               index: index,
                               items: vec![],
                               shifts: map(),
-                              reductions: vec![],
+                              reductions: Multimap::new(),
                               gotos: map(),
-                              conflicts: lr1_state.conflicts.clone()
                           });
                           index
                       });
@@ -78,7 +77,34 @@ pub fn collapse_to_lalr_states<'grammar>(lr_states: &[LR1State<'grammar>])
         remap[lr1_index] = lalr1_index;
     }
 
+    // The reduction process can leave us with multiple
+    // overlapping LR(0) items, whose lookaheads must be
+    // unioned. e.g. we may now have:
+    //
+    //     X = "(" (*) ")" ["Foo"]
+    //     X = "(" (*) ")" ["Bar"]
+    //
+    // which we will convert to:
+    //
+    //     X = "(" (*) ")" ["Foo", "Bar"]
+    for lalr1_state in &mut lalr1_states {
+        let items = mem::replace(&mut lalr1_state.items, vec![]);
+
+        let items: Multimap<LR0Item<'grammar>, TokenSet> =
+            items.into_iter()
+                 .map(|Item { production, index, lookahead }| {
+                     (Item::lr0(production, index), lookahead)
+                 })
+                 .collect();
+
+        lalr1_state.items =
+            items.into_iter()
+                 .map(|(lr0_item, lookahead)| lr0_item.with_lookahead(lookahead))
+                 .collect();
+    }
+
     // Now that items are fully built, create the actions
+    let reductions: Multimap<&'grammar Production, TokenSet> = Multimap::new();
     for (lr1_index, lr1_state) in lr_states.iter().enumerate() {
         let lalr1_index = remap[lr1_index];
         let lalr1_state = &mut lalr1_states[lalr1_index.0];
@@ -86,62 +112,38 @@ pub fn collapse_to_lalr_states<'grammar>(lr_states: &[LR1State<'grammar>])
         for (&terminal, &lr1_state) in &lr1_state.shifts {
             let target_state = remap[lr1_state.0];
             let prev = lalr1_state.shifts.insert(terminal, target_state);
-
-            // LALR(1) should not introduce shift/reduce
             assert!(prev.unwrap_or(target_state) == target_state);
         }
 
-        for &(token, production) in &lr1_state.reductions {
-            let conflict =
-                lalr1_state.reductions
-                           .iter()
-                           .filter(|&&(prev_token, prev_production)| {
-                               prev_token == token && prev_production != production
-                           })
-                           .map(|&(_, prev_production)| prev_production)
-                           .next();
-            if let Some(prev_production) = conflict {
-                lalr1_state.conflicts.push(Conflict {
-                    state: lalr1_index,
-                    lookahead: token,
-                    production: production,
-                    action: Action::Reduce(prev_production),
-                });
-            } else {
-                let pair = (token, production);
-                if !lalr1_state.reductions.contains(&pair) {
-                    lalr1_state.reductions.push(pair);
-                }
-            }
+        for (&nt, lr1_state) in &lr1_state.gotos {
+            let target_state = remap[lr1_state.0];
+            let prev = lalr1_state.gotos.insert(nt, target_state);
+            assert!(prev.unwrap_or(target_state) == target_state); // as above
         }
 
-        for (&nt, &lr1_dest) in &lr1_state.gotos {
-            let lalr1_dest = remap[lr1_dest.0];
-
-            match lalr1_state.gotos.entry(nt) {
-                Entry::Occupied(slot) => {
-                    let old_dest = *slot.get();
-                    assert_eq!(old_dest, lalr1_dest);
-                }
-                Entry::Vacant(slot) => {
-                    slot.insert(lalr1_dest);
-                }
-            }
+        for &(ref token_set, production) in &lr1_state.reductions {
+            lalr1_state.reductions.push(production, token_set.clone());
         }
     }
 
-    // Finally, create the new states
-    let lr1_states: Vec<_> =
+    // Finally, create the new states and detect conflicts
+    let mut lr1_states: Vec<_> =
         lalr1_states.into_iter()
                     .map(|lr| State {
                         index: lr.index,
                         items: Items { vec: Rc::new(lr.items) },
                         shifts: lr.shifts,
-                        reductions: lr.reductions,
+                        reductions: lr.reductions.into_iter()
+                                                 .map(|(p, ts)| (ts, p))
+                                                 .collect(),
                         gotos: lr.gotos,
-                        conflicts: lr.conflicts,
+                        conflicts: vec![],
                     })
                     .collect();
+
+    for lr1_state in &mut lr1_states {
+        TokenSet::find_conflicts(lr1_state);
+    }
 
     if lr1_states.iter().any(|s| !s.conflicts.is_empty()) {
         Err(TableConstructionError { states: lr1_states })

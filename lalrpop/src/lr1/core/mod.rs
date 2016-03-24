@@ -19,7 +19,7 @@ pub struct Item<'grammar, L: Lookahead> {
 
 pub type LR0Item<'grammar> = Item<'grammar, Nil>;
 
-pub type LR1Item<'grammar> = Item<'grammar, Token>;
+pub type LR1Item<'grammar> = Item<'grammar, TokenSet>;
 
 impl<'grammar> Item<'grammar, Nil> {
     pub fn lr0(production: &'grammar Production,
@@ -30,6 +30,14 @@ impl<'grammar> Item<'grammar, Nil> {
 }
 
 impl<'grammar, L: Lookahead> Item<'grammar, L> {
+    pub fn with_lookahead<L1: Lookahead>(&self, l: L1) -> Item<'grammar, L1> {
+        Item {
+            production: self.production,
+            index: self.index,
+            lookahead: l
+        }
+    }
+
     pub fn prefix(&self) -> &'grammar [Symbol] {
         &self.production.symbols[..self.index]
     }
@@ -106,7 +114,7 @@ pub struct Items<'grammar, L: Lookahead> {
 }
 
 pub type LR0Items<'grammar> = Items<'grammar, Nil>;
-pub type LR1Items<'grammar> = Items<'grammar, Token>;
+pub type LR1Items<'grammar> = Items<'grammar, TokenSet>;
 
 #[derive(Debug)]
 pub struct State<'grammar, L: Lookahead> {
@@ -119,7 +127,7 @@ pub struct State<'grammar, L: Lookahead> {
 }
 
 pub type LR0State<'grammar> = State<'grammar, Nil>;
-pub type LR1State<'grammar> = State<'grammar, Token>;
+pub type LR1State<'grammar> = State<'grammar, TokenSet>;
 
 #[derive(Copy, Clone, Debug, PartialEq, Eq)]
 pub enum Action<'grammar> {
@@ -128,7 +136,7 @@ pub enum Action<'grammar> {
 }
 
 #[derive(Copy, Clone, Debug, PartialEq, Eq)]
-pub struct Conflict<'grammar, L: Lookahead> {
+pub struct Conflict<'grammar, L> {
     // when in this state...
     pub state: StateIndex,
 
@@ -143,7 +151,7 @@ pub struct Conflict<'grammar, L: Lookahead> {
 }
 
 pub type LR0Conflict<'grammar> = Conflict<'grammar, Nil>;
-pub type LR1Conflict<'grammar> = Conflict<'grammar, Token>;
+pub type LR1Conflict<'grammar> = Conflict<'grammar, TokenSet>;
 
 #[derive(Debug)]
 pub struct TableConstructionError<'grammar, L: Lookahead> {
@@ -152,7 +160,7 @@ pub struct TableConstructionError<'grammar, L: Lookahead> {
 }
 
 pub type LR0TableConstructionError<'grammar> = TableConstructionError<'grammar, Nil>;
-pub type LR1TableConstructionError<'grammar> = TableConstructionError<'grammar, Token>;
+pub type LR1TableConstructionError<'grammar> = TableConstructionError<'grammar, TokenSet>;
 
 impl<'grammar, L: Lookahead> Debug for Item<'grammar, L> {
     fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {

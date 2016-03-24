@@ -11,6 +11,7 @@ use grammar::repr::{Grammar,
 use lr1::core::*;
 use lr1::lookahead::Token;
 use lr1::state_graph::StateGraph;
+use lr1::tls::Lr1Tls;
 use rust::RustWrite;
 use std::io::{self, Write};
 use tls::Tls;
@@ -24,6 +25,7 @@ pub fn compile<'grammar,W:Write>(
     out: &mut RustWrite<W>)
     -> io::Result<()>
 {
+    let _lr1_tls = Lr1Tls::install(grammar.terminals.clone());
     let graph = StateGraph::new(&states);
     let mut ascent = RecursiveAscent::new(grammar, user_start_symbol, start_symbol,
                                           &graph, states, out);
@@ -347,8 +349,8 @@ impl<'ascent,'grammar,W:Write> RecursiveAscent<'ascent,'grammar,W> {
             for (terminal, action) in &this_state.shifts {
                 rust!(self.out, "//   {:?} -> {:?}", terminal, action);
             }
-            for &(token, action) in &this_state.reductions {
-                rust!(self.out, "//   {:?} -> {:?}", token, action);
+            for &(ref tokens, action) in &this_state.reductions {
+                rust!(self.out, "//   {:?} -> {:?}", tokens, action);
             }
             rust!(self.out, "//");
             for (nt, state) in &this_state.gotos {
@@ -384,7 +386,10 @@ impl<'ascent,'grammar,W:Write> RecursiveAscent<'ascent,'grammar,W> {
         // production that we are going to be reducing.
         let reductions: Multimap<_, Vec<_>> =
             this_state.reductions.iter()
-                                 .map(|&(token, production)| (production, token))
+                                 .flat_map(|&(ref tokens, production)| {
+                                     tokens.iter()
+                                           .map(move |t| (production, t))
+                                 })
                                  .collect();
         for (production, tokens) in reductions {
             for (index, &token) in tokens.iter().enumerate() {

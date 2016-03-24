@@ -52,20 +52,20 @@ mod __parse__Items {
     //     WillPush = []
     //     WillProduce = None
     //
-    //     Items = (*) [EOF]
     //     Items = (*) ["+"]
     //     Items = (*) ["-"]
-    //     Items = (*) Items Spanned<"+"> [EOF]
+    //     Items = (*) [EOF]
     //     Items = (*) Items Spanned<"+"> ["+"]
     //     Items = (*) Items Spanned<"+"> ["-"]
-    //     Items = (*) Items "-" [EOF]
+    //     Items = (*) Items Spanned<"+"> [EOF]
     //     Items = (*) Items "-" ["+"]
     //     Items = (*) Items "-" ["-"]
+    //     Items = (*) Items "-" [EOF]
     //     __Items = (*) Items [EOF]
     //
-    //   EOF -> Items =  => ActionFn(9);
-    //   "+" -> Items =  => ActionFn(9);
-    //   "-" -> Items =  => ActionFn(9);
+    //   ["+"] -> Items =  => ActionFn(9);
+    //   ["-"] -> Items =  => ActionFn(9);
+    //   [EOF] -> Items =  => ActionFn(9);
     //
     //     Items -> S1
     pub fn __state0<
@@ -77,9 +77,9 @@ mod __parse__Items {
     {
         let mut __result: (Option<(usize, Tok, usize)>, __Nonterminal<>);
         match __lookahead {
-            None |
             Some((_, Tok::Plus, _)) |
-            Some((_, Tok::Minus, _)) => {
+            Some((_, Tok::Minus, _)) |
+            None => {
                 let __start: usize = ::std::default::Default::default();
                 let __end = __lookahead.as_ref().map(|o| o.0.clone()).unwrap_or_else(|| __start.clone());
                 let __nt = super::__action9(&__start, &__end);
@@ -118,20 +118,14 @@ mod __parse__Items {
     //     WillPush = []
     //     WillProduce = None
     //
-    //     Items = Items (*) Spanned<"+"> [EOF]
-    //     Items = Items (*) Spanned<"+"> ["+"]
-    //     Items = Items (*) Spanned<"+"> ["-"]
-    //     Items = Items (*) "-" [EOF]
-    //     Items = Items (*) "-" ["+"]
-    //     Items = Items (*) "-" ["-"]
-    //     Spanned<"+"> = (*) "+" [EOF]
-    //     Spanned<"+"> = (*) "+" ["+"]
-    //     Spanned<"+"> = (*) "+" ["-"]
+    //     Items = Items (*) Spanned<"+"> ["+", "-", EOF]
+    //     Items = Items (*) "-" ["+", "-", EOF]
+    //     Spanned<"+"> = (*) "+" ["+", "-", EOF]
     //     __Items = Items (*) [EOF]
     //
     //   "+" -> S3
     //   "-" -> S4
-    //   EOF -> __Items = Items => ActionFn(0);
+    //   [EOF] -> __Items = Items => ActionFn(0);
     //
     //     Spanned<"+"> -> S2
     pub fn __state1<
@@ -194,13 +188,9 @@ mod __parse__Items {
     //     WillPush = []
     //     WillProduce = Some(Items)
     //
-    //     Items = Items Spanned<"+"> (*) [EOF]
-    //     Items = Items Spanned<"+"> (*) ["+"]
-    //     Items = Items Spanned<"+"> (*) ["-"]
+    //     Items = Items Spanned<"+"> (*) ["+", "-", EOF]
     //
-    //   EOF -> Items = Items, Spanned<"+"> => ActionFn(2);
-    //   "+" -> Items = Items, Spanned<"+"> => ActionFn(2);
-    //   "-" -> Items = Items, Spanned<"+"> => ActionFn(2);
+    //   ["+", "-", EOF] -> Items = Items, Spanned<"+"> => ActionFn(2);
     //
     pub fn __state2<
         __TOKENS: Iterator<Item=Result<(usize, Tok, usize),()>>,
@@ -213,9 +203,9 @@ mod __parse__Items {
     {
         let mut __result: (Option<(usize, Tok, usize)>, __Nonterminal<>);
         match __lookahead {
-            None |
             Some((_, Tok::Plus, _)) |
-            Some((_, Tok::Minus, _)) => {
+            Some((_, Tok::Minus, _)) |
+            None => {
                 let __start = __sym0.0.clone();
                 let __end = __sym1.2.clone();
                 let __nt = super::__action2(__sym0, __sym1);
@@ -244,13 +234,9 @@ mod __parse__Items {
     //     WillPush = []
     //     WillProduce = Some(Spanned<"+">)
     //
-    //     Spanned<"+"> = "+" (*) [EOF]
-    //     Spanned<"+"> = "+" (*) ["+"]
-    //     Spanned<"+"> = "+" (*) ["-"]
+    //     Spanned<"+"> = "+" (*) ["+", "-", EOF]
     //
-    //   EOF -> Spanned<"+"> = "+" => ActionFn(10);
-    //   "+" -> Spanned<"+"> = "+" => ActionFn(10);
-    //   "-" -> Spanned<"+"> = "+" => ActionFn(10);
+    //   ["+", "-", EOF] -> Spanned<"+"> = "+" => ActionFn(10);
     //
     pub fn __state3<
         __TOKENS: Iterator<Item=Result<(usize, Tok, usize),()>>,
@@ -266,9 +252,9 @@ mod __parse__Items {
             Some(Err(e)) => return Err(__ParseError::User { error: e }),
         };
         match __lookahead {
-            None |
             Some((_, Tok::Plus, _)) |
-            Some((_, Tok::Minus, _)) => {
+            Some((_, Tok::Minus, _)) |
+            None => {
                 let __start = __sym0.0.clone();
                 let __end = __sym0.2.clone();
                 let __nt = super::__action10(__sym0);
@@ -297,13 +283,9 @@ mod __parse__Items {
     //     WillPush = []
     //     WillProduce = Some(Items)
     //
-    //     Items = Items "-" (*) [EOF]
-    //     Items = Items "-" (*) ["+"]
-    //     Items = Items "-" (*) ["-"]
+    //     Items = Items "-" (*) ["+", "-", EOF]
     //
-    //   EOF -> Items = Items, "-" => ActionFn(3);
-    //   "+" -> Items = Items, "-" => ActionFn(3);
-    //   "-" -> Items = Items, "-" => ActionFn(3);
+    //   ["+", "-", EOF] -> Items = Items, "-" => ActionFn(3);
     //
     pub fn __state4<
         __TOKENS: Iterator<Item=Result<(usize, Tok, usize),()>>,
@@ -320,9 +302,9 @@ mod __parse__Items {
             Some(Err(e)) => return Err(__ParseError::User { error: e }),
         };
         match __lookahead {
-            None |
             Some((_, Tok::Plus, _)) |
-            Some((_, Tok::Minus, _)) => {
+            Some((_, Tok::Minus, _)) |
+            None => {
                 let __start = __sym0.0.clone();
                 let __end = __sym1.2.clone();
                 let __nt = super::__action3(__sym0, __sym1);

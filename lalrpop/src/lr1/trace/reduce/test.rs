@@ -4,7 +4,7 @@ use lr1::build_states;
 use lr1::core::Item;
 use lr1::first::FirstSets;
 use lr1::interpret::interpret_partial;
-use lr1::lookahead::Token;
+use lr1::lookahead::{Token, TokenSet};
 use lr1::tls::Lr1Tls;
 use test_util::{expect_debug, normalized_grammar};
 use tls::Tls;
@@ -68,10 +68,12 @@ fn backtrace1() {
     //
     // Select the ";" one.
     let semi = Token::Terminal(term(";"));
-    let semi_item = states[top_state.0].items.vec.iter()
-                                                 .filter(|item| item.lookahead == semi)
-                                                 .next()
-                                                 .unwrap();
+    let semi_item = states[top_state.0].items
+                                       .vec
+                                       .iter()
+                                       .filter(|item| item.lookahead.contains(semi))
+                                       .next()
+                                       .unwrap();
 
     let backtrace = tracer.backtrace_reduce(top_state, semi_item.to_lr0());
 
@@ -140,7 +142,7 @@ pub Ty: () = {
     println!("conflict={:?}", conflict);
     let item = Item { production: conflict.production,
                       index: conflict.production.symbols.len(),
-                      lookahead: conflict.lookahead };
+                      lookahead: conflict.lookahead.clone() };
     println!("item={:?}", item);
     let backtrace = tracer.backtrace_reduce(conflict.state, item.to_lr0());
     println!("{:#?}", backtrace);
@@ -155,7 +157,7 @@ pub Ty: () = {
 
     // Check that we can successfully enumerate and paint the examples
     // here.
-    let pictures: Vec<_> = backtrace.lr1_examples(&grammar, &first_sets, item)
+    let pictures: Vec<_> = backtrace.lr1_examples(&grammar, &first_sets, &item)
                                     .map(|e| e.paint_unstyled())
                                     .collect();
     expect_debug(&pictures, r#"
@@ -193,7 +195,7 @@ pub Ty: () = {
     println!("conflict={:?}", conflict);
     let item = Item { production: conflict.production,
                       index: conflict.production.symbols.len(),
-                      lookahead: conflict.lookahead };
+                      lookahead: conflict.lookahead.clone() };
     println!("item={:?}", item);
     let tracer = Tracer::new(&grammar, &first_sets, &states);
     let graph = tracer.backtrace_reduce(conflict.state, item.to_lr0());
@@ -207,7 +209,7 @@ pub Ty: () = {
 "#.trim());
 
     let list: Vec<_> =
-        graph.lr1_examples(&grammar, &first_sets, item)
+        graph.lr1_examples(&grammar, &first_sets, &item)
              .map(|example| example.paint_unstyled())
              .collect();
     expect_debug(&list, r#"
@@ -258,25 +260,24 @@ fn backtrace_filter() {
     let state_stack = interpret_partial(&states, terms!["Int"]).unwrap();
     let top_state = *state_stack.last().unwrap();
 
-    // Top state will have items like:
+    // Top state will have an item like:
     //
-    // Expr = "Int" (*) [","],
-    // Expr = "Int" (*) [";"]
-    //
-    // Select the `;` one, just because.
+    // Expr = "Int" (*) [",", ";"],
     let semi = Token::Terminal(term(";"));
-    let semi_item = states[top_state.0].items.vec.iter()
-                                                 .filter(|item| item.lookahead == semi)
-                                                 .next()
-                                                 .unwrap();
+    let lr1_item = states[top_state.0].items
+                                      .vec
+                                      .iter()
+                                      .filter(|item| item.lookahead.contains(semi))
+                                      .next()
+                                      .unwrap();
 
-    let backtrace = tracer.backtrace_reduce(top_state, semi_item.to_lr0());
+    let backtrace = tracer.backtrace_reduce(top_state, lr1_item.to_lr0());
 
     println!("{:#?}", backtrace);
 
     // With no filtering, we get examples with both `;` and `,` as
     // lookahead (though `ExprSuffix` is in the way).
-    let pictures: Vec<_> = backtrace.lr0_examples(semi_item.to_lr0())
+    let pictures: Vec<_> = backtrace.lr0_examples(lr1_item.to_lr0())
                                     .map(|e| e.paint_unstyled())
                                     .collect();
     expect_debug(&pictures, r#"
@@ -313,8 +314,9 @@ fn backtrace_filter() {
 "#.trim());
 
     // Select those with `;` as lookahead
+    let semi_item = lr1_item.with_lookahead(TokenSet::from(semi));
     let pictures: Vec<_> =
-        backtrace.lr1_examples(&grammar, &first_sets, *semi_item)
+        backtrace.lr1_examples(&grammar, &first_sets, &semi_item)
                  .map(|e| e.paint_unstyled())
                  .collect();
     expect_debug(&pictures, r#"

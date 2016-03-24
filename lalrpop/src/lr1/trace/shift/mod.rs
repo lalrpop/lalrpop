@@ -72,7 +72,7 @@ impl<'trace, 'grammar> Tracer<'trace, 'grammar> {
                            nonterminal: NonterminalString) // "Y"
     {
         if self.visited_set.insert((item_state, nonterminal)) {
-            for &pred_item in self.states[item_state.0].items.vec.iter() {
+            for pred_item in self.states[item_state.0].items.vec.iter() {
                 if pred_item.can_shift_nonterminal(nonterminal) {
                     if pred_item.index > 0 {
                         // Add an edge:

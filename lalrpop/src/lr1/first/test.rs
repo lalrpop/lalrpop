@@ -1,6 +1,6 @@
 use intern::intern;
 use grammar::repr::*;
-use lr1::lookahead::Token;
+use lr1::lookahead::{Token, TokenSet};
 use lr1::lookahead::Token::EOF;
 use lr1::tls::Lr1Tls;
 use test_util::{normalized_grammar};
@@ -31,7 +31,7 @@ fn first1(first: &FirstSets,
           lookahead: Token)
           -> Vec<Token>
 {
-    let v = first.first1(symbols, lookahead);
+    let v = first.first1(symbols, TokenSet::from(lookahead));
     v.iter().collect()
 }
 

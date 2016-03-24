@@ -66,11 +66,11 @@ impl<'trace, 'grammar> Tracer<'trace, 'grammar> {
         if !self.visited_set.insert((item_state, nonterminal)) {
             return;
         }
-        for &pred_item in self.states[item_state.0]
-                              .items
-                              .vec
-                              .iter()
-                              .filter(|i| i.can_shift_nonterminal(nonterminal)) {
+        for pred_item in self.states[item_state.0]
+                             .items
+                             .vec
+                             .iter()
+                             .filter(|i| i.can_shift_nonterminal(nonterminal)) {
             // Found a state:
             //
             //     Z = ...p (*) Y ...s
@@ -90,7 +90,7 @@ impl<'trace, 'grammar> Tracer<'trace, 'grammar> {
                 //    [Z = ...p (*) Y ...s] -(...p,Y,...s)-> [Y]
                 //
                 // and stop.
-                self.trace_graph.add_edge(pred_item, nonterminal, symbol_sets);
+                self.trace_graph.add_edge(pred_item.to_lr0(), nonterminal, symbol_sets);
             } else {
                 // Add an edge
                 //

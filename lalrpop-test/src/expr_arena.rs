@@ -61,45 +61,45 @@ mod __parse__Expr {
     //     WillPush = []
     //     WillProduce = None
     //
-    //     Expr = (*) Expr "+" Factor [EOF]
     //     Expr = (*) Expr "+" Factor ["+"]
     //     Expr = (*) Expr "+" Factor ["-"]
-    //     Expr = (*) Expr "-" Factor [EOF]
+    //     Expr = (*) Expr "+" Factor [EOF]
     //     Expr = (*) Expr "-" Factor ["+"]
     //     Expr = (*) Expr "-" Factor ["-"]
-    //     Expr = (*) Factor [EOF]
+    //     Expr = (*) Expr "-" Factor [EOF]
     //     Expr = (*) Factor ["+"]
     //     Expr = (*) Factor ["-"]
-    //     Factor = (*) Factor "*" Term [EOF]
+    //     Expr = (*) Factor [EOF]
     //     Factor = (*) Factor "*" Term ["*"]
     //     Factor = (*) Factor "*" Term ["+"]
     //     Factor = (*) Factor "*" Term ["-"]
     //     Factor = (*) Factor "*" Term ["/"]
-    //     Factor = (*) Factor "/" Term [EOF]
+    //     Factor = (*) Factor "*" Term [EOF]
     //     Factor = (*) Factor "/" Term ["*"]
     //     Factor = (*) Factor "/" Term ["+"]
     //     Factor = (*) Factor "/" Term ["-"]
     //     Factor = (*) Factor "/" Term ["/"]
-    //     Factor = (*) Term [EOF]
+    //     Factor = (*) Factor "/" Term [EOF]
     //     Factor = (*) Term ["*"]
     //     Factor = (*) Term ["+"]
     //     Factor = (*) Term ["-"]
     //     Factor = (*) Term ["/"]
-    //     Factor = (*) "*" "(" Comma<Expr> ")" [EOF]
+    //     Factor = (*) Term [EOF]
     //     Factor = (*) "*" "(" Comma<Expr> ")" ["*"]
     //     Factor = (*) "*" "(" Comma<Expr> ")" ["+"]
     //     Factor = (*) "*" "(" Comma<Expr> ")" ["-"]
     //     Factor = (*) "*" "(" Comma<Expr> ")" ["/"]
-    //     Term = (*) "(" Expr ")" [EOF]
+    //     Factor = (*) "*" "(" Comma<Expr> ")" [EOF]
     //     Term = (*) "(" Expr ")" ["*"]
     //     Term = (*) "(" Expr ")" ["+"]
     //     Term = (*) "(" Expr ")" ["-"]
     //     Term = (*) "(" Expr ")" ["/"]
-    //     Term = (*) Num [EOF]
+    //     Term = (*) "(" Expr ")" [EOF]
     //     Term = (*) Num ["*"]
     //     Term = (*) Num ["+"]
     //     Term = (*) Num ["-"]
     //     Term = (*) Num ["/"]
+    //     Term = (*) Num [EOF]
     //     __Expr = (*) Expr [EOF]
     //
     //   "(" -> S4
@@ -166,17 +166,13 @@ mod __parse__Expr {
     //     WillPush = []
     //     WillProduce = None
     //
-    //     Expr = Expr (*) "+" Factor [EOF]
-    //     Expr = Expr (*) "+" Factor ["+"]
-    //     Expr = Expr (*) "+" Factor ["-"]
-    //     Expr = Expr (*) "-" Factor [EOF]
-    //     Expr = Expr (*) "-" Factor ["+"]
-    //     Expr = Expr (*) "-" Factor ["-"]
+    //     Expr = Expr (*) "+" Factor ["+", "-", EOF]
+    //     Expr = Expr (*) "-" Factor ["+", "-", EOF]
     //     __Expr = Expr (*) [EOF]
     //
     //   "+" -> S7
     //   "-" -> S8
-    //   EOF -> __Expr = Expr => ActionFn(0);
+    //   [EOF] -> __Expr = Expr => ActionFn(0);
     //
     pub fn __state1<
         'ast,
@@ -229,25 +225,13 @@ mod __parse__Expr {
     //     WillPush = []
     //     WillProduce = None
     //
-    //     Expr = Factor (*) [EOF]
-    //     Expr = Factor (*) ["+"]
-    //     Expr = Factor (*) ["-"]
-    //     Factor = Factor (*) "*" Term [EOF]
-    //     Factor = Factor (*) "*" Term ["*"]
-    //     Factor = Factor (*) "*" Term ["+"]
-    //     Factor = Factor (*) "*" Term ["-"]
-    //     Factor = Factor (*) "*" Term ["/"]
-    //     Factor = Factor (*) "/" Term [EOF]
-    //     Factor = Factor (*) "/" Term ["*"]
-    //     Factor = Factor (*) "/" Term ["+"]
-    //     Factor = Factor (*) "/" Term ["-"]
-    //     Factor = Factor (*) "/" Term ["/"]
+    //     Expr = Factor (*) ["+", "-", EOF]
+    //     Factor = Factor (*) "*" Term ["*", "+", "-", "/", EOF]
+    //     Factor = Factor (*) "/" Term ["*", "+", "-", "/", EOF]
     //
     //   "*" -> S9
     //   "/" -> S10
-    //   EOF -> Expr = Factor => ActionFn(3);
-    //   "+" -> Expr = Factor => ActionFn(3);
-    //   "-" -> Expr = Factor => ActionFn(3);
+    //   ["+", "-", EOF] -> Expr = Factor => ActionFn(3);
     //
     pub fn __state2<
         'ast,
@@ -271,9 +255,9 @@ mod __parse__Expr {
                 __result = try!(__state10(arena, __tokens, __sym0, __sym1));
                 return Ok(__result);
             }
-            None |
             Some((_, Tok::Plus, _)) |
-            Some((_, Tok::Minus, _)) => {
+            Some((_, Tok::Minus, _)) |
+            None => {
                 let __start = __sym0.0.clone();
                 let __end = __sym0.2.clone();
                 let __nt = super::__action3(arena, __sym0);
@@ -302,17 +286,9 @@ mod __parse__Expr {
     //     WillPush = []
     //     WillProduce = Some(Factor)
     //
-    //     Factor = Term (*) [EOF]
-    //     Factor = Term (*) ["*"]
-    //     Factor = Term (*) ["+"]
-    //     Factor = Term (*) ["-"]
-    //     Factor = Term (*) ["/"]
+    //     Factor = Term (*) ["*", "+", "-", "/", EOF]
     //
-    //   EOF -> Factor = Term => ActionFn(7);
-    //   "*" -> Factor = Term => ActionFn(7);
-    //   "+" -> Factor = Term => ActionFn(7);
-    //   "-" -> Factor = Term => ActionFn(7);
-    //   "/" -> Factor = Term => ActionFn(7);
+    //   ["*", "+", "-", "/", EOF] -> Factor = Term => ActionFn(7);
     //
     pub fn __state3<
         'ast,
@@ -326,11 +302,11 @@ mod __parse__Expr {
     {
         let mut __result: (Option<(usize, Tok, usize)>, __Nonterminal<'ast>);
         match __lookahead {
-            None |
             Some((_, Tok::Times, _)) |
             Some((_, Tok::Plus, _)) |
             Some((_, Tok::Minus, _)) |
-            Some((_, Tok::Div, _)) => {
+            Some((_, Tok::Div, _)) |
+            None => {
                 let __start = __sym0.0.clone();
                 let __end = __sym0.2.clone();
                 let __nt = super::__action7(arena, __sym0);
@@ -393,11 +369,7 @@ mod __parse__Expr {
     //     Term = (*) "(" Expr ")" ["+"]
     //     Term = (*) "(" Expr ")" ["-"]
     //     Term = (*) "(" Expr ")" ["/"]
-    //     Term = "(" (*) Expr ")" [EOF]
-    //     Term = "(" (*) Expr ")" ["*"]
-    //     Term = "(" (*) Expr ")" ["+"]
-    //     Term = "(" (*) Expr ")" ["-"]
-    //     Term = "(" (*) Expr ")" ["/"]
+    //     Term = "(" (*) Expr ")" ["*", "+", "-", "/", EOF]
     //     Term = (*) Num [")"]
     //     Term = (*) Num ["*"]
     //     Term = (*) Num ["+"]
@@ -477,11 +449,7 @@ mod __parse__Expr {
     //     WillPush = ["(", Comma<Expr>, ")"]
     //     WillProduce = Some(Factor)
     //
-    //     Factor = "*" (*) "(" Comma<Expr> ")" [EOF]
-    //     Factor = "*" (*) "(" Comma<Expr> ")" ["*"]
-    //     Factor = "*" (*) "(" Comma<Expr> ")" ["+"]
-    //     Factor = "*" (*) "(" Comma<Expr> ")" ["-"]
-    //     Factor = "*" (*) "(" Comma<Expr> ")" ["/"]
+    //     Factor = "*" (*) "(" Comma<Expr> ")" ["*", "+", "-", "/", EOF]
     //
     //   "(" -> S17
     //
@@ -523,17 +491,9 @@ mod __parse__Expr {
     //     WillPush = []
     //     WillProduce = Some(Term)
     //
-    //     Term = Num (*) [EOF]
-    //     Term = Num (*) ["*"]
-    //     Term = Num (*) ["+"]
-    //     Term = Num (*) ["-"]
-    //     Term = Num (*) ["/"]
+    //     Term = Num (*) ["*", "+", "-", "/", EOF]
     //
-    //   EOF -> Term = Num => ActionFn(8);
-    //   "*" -> Term = Num => ActionFn(8);
-    //   "+" -> Term = Num => ActionFn(8);
-    //   "-" -> Term = Num => ActionFn(8);
-    //   "/" -> Term = Num => ActionFn(8);
+    //   ["*", "+", "-", "/", EOF] -> Term = Num => ActionFn(8);
     //
     pub fn __state6<
         'ast,
@@ -551,11 +511,11 @@ mod __parse__Expr {
             Some(Err(e)) => return Err(__ParseError::User { error: e }),
         };
         match __lookahead {
-            None |
             Some((_, Tok::Times, _)) |
             Some((_, Tok::Plus, _)) |
             Some((_, Tok::Minus, _)) |
-            Some((_, Tok::Div, _)) => {
+            Some((_, Tok::Div, _)) |
+            None => {
                 let __start = __sym0.0.clone();
                 let __end = __sym0.2.clone();
                 let __nt = super::__action8(arena, __sym0);
@@ -584,38 +544,24 @@ mod __parse__Expr {
     //     WillPush = [Factor]
     //     WillProduce = Some(Expr)
     //
-    //     Expr = Expr "+" (*) Factor [EOF]
-    //     Expr = Expr "+" (*) Factor ["+"]
-    //     Expr = Expr "+" (*) Factor ["-"]
-    //     Factor = (*) Factor "*" Term [EOF]
+    //     Expr = Expr "+" (*) Factor ["+", "-", EOF]
     //     Factor = (*) Factor "*" Term ["*"]
-    //     Factor = (*) Factor "*" Term ["+"]
-    //     Factor = (*) Factor "*" Term ["-"]
+    //     Factor = (*) Factor "*" Term ["+", "-", EOF]
     //     Factor = (*) Factor "*" Term ["/"]
-    //     Factor = (*) Factor "/" Term [EOF]
     //     Factor = (*) Factor "/" Term ["*"]
-    //     Factor = (*) Factor "/" Term ["+"]
-    //     Factor = (*) Factor "/" Term ["-"]
+    //     Factor = (*) Factor "/" Term ["+", "-", EOF]
     //     Factor = (*) Factor "/" Term ["/"]
-    //     Factor = (*) Term [EOF]
     //     Factor = (*) Term ["*"]
-    //     Factor = (*) Term ["+"]
-    //     Factor = (*) Term ["-"]
+    //     Factor = (*) Term ["+", "-", EOF]
     //     Factor = (*) Term ["/"]
-    //     Factor = (*) "*" "(" Comma<Expr> ")" [EOF]
     //     Factor = (*) "*" "(" Comma<Expr> ")" ["*"]
-    //     Factor = (*) "*" "(" Comma<Expr> ")" ["+"]
-    //     Factor = (*) "*" "(" Comma<Expr> ")" ["-"]
+    //     Factor = (*) "*" "(" Comma<Expr> ")" ["+", "-", EOF]
     //     Factor = (*) "*" "(" Comma<Expr> ")" ["/"]
-    //     Term = (*) "(" Expr ")" [EOF]
     //     Term = (*) "(" Expr ")" ["*"]
-    //     Term = (*) "(" Expr ")" ["+"]
-    //     Term = (*) "(" Expr ")" ["-"]
+    //     Term = (*) "(" Expr ")" ["+", "-", EOF]
     //     Term = (*) "(" Expr ")" ["/"]
-    //     Term = (*) Num [EOF]
     //     Term = (*) Num ["*"]
-    //     Term = (*) Num ["+"]
-    //     Term = (*) Num ["-"]
+    //     Term = (*) Num ["+", "-", EOF]
     //     Term = (*) Num ["/"]
     //
     //   "(" -> S4
@@ -689,38 +635,24 @@ mod __parse__Expr {
     //     WillPush = [Factor]
     //     WillProduce = Some(Expr)
     //
-    //     Expr = Expr "-" (*) Factor [EOF]
-    //     Expr = Expr "-" (*) Factor ["+"]
-    //     Expr = Expr "-" (*) Factor ["-"]
-    //     Factor = (*) Factor "*" Term [EOF]
+    //     Expr = Expr "-" (*) Factor ["+", "-", EOF]
     //     Factor = (*) Factor "*" Term ["*"]
-    //     Factor = (*) Factor "*" Term ["+"]
-    //     Factor = (*) Factor "*" Term ["-"]
+    //     Factor = (*) Factor "*" Term ["+", "-", EOF]
     //     Factor = (*) Factor "*" Term ["/"]
-    //     Factor = (*) Factor "/" Term [EOF]
     //     Factor = (*) Factor "/" Term ["*"]
-    //     Factor = (*) Factor "/" Term ["+"]
-    //     Factor = (*) Factor "/" Term ["-"]
+    //     Factor = (*) Factor "/" Term ["+", "-", EOF]
     //     Factor = (*) Factor "/" Term ["/"]
-    //     Factor = (*) Term [EOF]
     //     Factor = (*) Term ["*"]
-    //     Factor = (*) Term ["+"]
-    //     Factor = (*) Term ["-"]
+    //     Factor = (*) Term ["+", "-", EOF]
     //     Factor = (*) Term ["/"]
-    //     Factor = (*) "*" "(" Comma<Expr> ")" [EOF]
     //     Factor = (*) "*" "(" Comma<Expr> ")" ["*"]
-    //     Factor = (*) "*" "(" Comma<Expr> ")" ["+"]
-    //     Factor = (*) "*" "(" Comma<Expr> ")" ["-"]
+    //     Factor = (*) "*" "(" Comma<Expr> ")" ["+", "-", EOF]
     //     Factor = (*) "*" "(" Comma<Expr> ")" ["/"]
-    //     Term = (*) "(" Expr ")" [EOF]
     //     Term = (*) "(" Expr ")" ["*"]
-    //     Term = (*) "(" Expr ")" ["+"]
-    //     Term = (*) "(" Expr ")" ["-"]
+    //     Term = (*) "(" Expr ")" ["+", "-", EOF]
     //     Term = (*) "(" Expr ")" ["/"]
-    //     Term = (*) Num [EOF]
     //     Term = (*) Num ["*"]
-    //     Term = (*) Num ["+"]
-    //     Term = (*) Num ["-"]
+    //     Term = (*) Num ["+", "-", EOF]
     //     Term = (*) Num ["/"]
     //
     //   "(" -> S4
@@ -794,21 +726,9 @@ mod __parse__Expr {
     //     WillPush = [Term]
     //     WillProduce = Some(Factor)
     //
-    //     Factor = Factor "*" (*) Term [EOF]
-    //     Factor = Factor "*" (*) Term ["*"]
-    //     Factor = Factor "*" (*) Term ["+"]
-    //     Factor = Factor "*" (*) Term ["-"]
-    //     Factor = Factor "*" (*) Term ["/"]
-    //     Term = (*) "(" Expr ")" [EOF]
-    //     Term = (*) "(" Expr ")" ["*"]
-    //     Term = (*) "(" Expr ")" ["+"]
-    //     Term = (*) "(" Expr ")" ["-"]
-    //     Term = (*) "(" Expr ")" ["/"]
-    //     Term = (*) Num [EOF]
-    //     Term = (*) Num ["*"]
-    //     Term = (*) Num ["+"]
-    //     Term = (*) Num ["-"]
-    //     Term = (*) Num ["/"]
+    //     Factor = Factor "*" (*) Term ["*", "+", "-", "/", EOF]
+    //     Term = (*) "(" Expr ")" ["*", "+", "-", "/", EOF]
+    //     Term = (*) Num ["*", "+", "-", "/", EOF]
     //
     //   "(" -> S4
     //   Num -> S6
@@ -868,21 +788,9 @@ mod __parse__Expr {
     //     WillPush = [Term]
     //     WillProduce = Some(Factor)
     //
-    //     Factor = Factor "/" (*) Term [EOF]
-    //     Factor = Factor "/" (*) Term ["*"]
-    //     Factor = Factor "/" (*) Term ["+"]
-    //     Factor = Factor "/" (*) Term ["-"]
-    //     Factor = Factor "/" (*) Term ["/"]
-    //     Term = (*) "(" Expr ")" [EOF]
-    //     Term = (*) "(" Expr ")" ["*"]
-    //     Term = (*) "(" Expr ")" ["+"]
-    //     Term = (*) "(" Expr ")" ["-"]
-    //     Term = (*) "(" Expr ")" ["/"]
-    //     Term = (*) Num [EOF]
-    //     Term = (*) Num ["*"]
-    //     Term = (*) Num ["+"]
-    //     Term = (*) Num ["-"]
-    //     Term = (*) Num ["/"]
+    //     Factor = Factor "/" (*) Term ["*", "+", "-", "/", EOF]
+    //     Term = (*) "(" Expr ")" ["*", "+", "-", "/", EOF]
+    //     Term = (*) Num ["*", "+", "-", "/", EOF]
     //
     //   "(" -> S4
     //   Num -> S6
@@ -942,17 +850,9 @@ mod __parse__Expr {
     //     WillPush = [")"]
     //     WillProduce = None
     //
-    //     Expr = Expr (*) "+" Factor [")"]
-    //     Expr = Expr (*) "+" Factor ["+"]
-    //     Expr = Expr (*) "+" Factor ["-"]
-    //     Expr = Expr (*) "-" Factor [")"]
-    //     Expr = Expr (*) "-" Factor ["+"]
-    //     Expr = Expr (*) "-" Factor ["-"]
-    //     Term = "(" Expr (*) ")" [EOF]
-    //     Term = "(" Expr (*) ")" ["*"]
-    //     Term = "(" Expr (*) ")" ["+"]
-    //     Term = "(" Expr (*) ")" ["-"]
-    //     Term = "(" Expr (*) ")" ["/"]
+    //     Expr = Expr (*) "+" Factor [")", "+", "-"]
+    //     Expr = Expr (*) "-" Factor [")", "+", "-"]
+    //     Term = "(" Expr (*) ")" ["*", "+", "-", "/", EOF]
     //
     //   ")" -> S22
     //   "+" -> S23
@@ -1004,25 +904,13 @@ mod __parse__Expr {
     //     WillPush = []
     //     WillProduce = None
     //
-    //     Expr = Factor (*) [")"]
-    //     Expr = Factor (*) ["+"]
-    //     Expr = Factor (*) ["-"]
-    //     Factor = Factor (*) "*" Term [")"]
-    //     Factor = Factor (*) "*" Term ["*"]
-    //     Factor = Factor (*) "*" Term ["+"]
-    //     Factor = Factor (*) "*" Term ["-"]
-    //     Factor = Factor (*) "*" Term ["/"]
-    //     Factor = Factor (*) "/" Term [")"]
-    //     Factor = Factor (*) "/" Term ["*"]
-    //     Factor = Factor (*) "/" Term ["+"]
-    //     Factor = Factor (*) "/" Term ["-"]
-    //     Factor = Factor (*) "/" Term ["/"]
+    //     Expr = Factor (*) [")", "+", "-"]
+    //     Factor = Factor (*) "*" Term [")", "*", "+", "-", "/"]
+    //     Factor = Factor (*) "/" Term [")", "*", "+", "-", "/"]
     //
     //   "*" -> S25
     //   "/" -> S26
-    //   ")" -> Expr = Factor => ActionFn(3);
-    //   "+" -> Expr = Factor => ActionFn(3);
-    //   "-" -> Expr = Factor => ActionFn(3);
+    //   [")", "+", "-"] -> Expr = Factor => ActionFn(3);
     //
     pub fn __state12<
         'ast,
@@ -1077,17 +965,9 @@ mod __parse__Expr {
     //     WillPush = []
     //     WillProduce = Some(Factor)
     //
-    //     Factor = Term (*) [")"]
-    //     Factor = Term (*) ["*"]
-    //     Factor = Term (*) ["+"]
-    //     Factor = Term (*) ["-"]
-    //     Factor = Term (*) ["/"]
+    //     Factor = Term (*) [")", "*", "+", "-", "/"]
     //
-    //   ")" -> Factor = Term => ActionFn(7);
-    //   "*" -> Factor = Term => ActionFn(7);
-    //   "+" -> Factor = Term => ActionFn(7);
-    //   "-" -> Factor = Term => ActionFn(7);
-    //   "/" -> Factor = Term => ActionFn(7);
+    //   [")", "*", "+", "-", "/"] -> Factor = Term => ActionFn(7);
     //
     pub fn __state13<
         'ast,
@@ -1168,11 +1048,7 @@ mod __parse__Expr {
     //     Term = (*) "(" Expr ")" ["+"]
     //     Term = (*) "(" Expr ")" ["-"]
     //     Term = (*) "(" Expr ")" ["/"]
-    //     Term = "(" (*) Expr ")" [")"]
-    //     Term = "(" (*) Expr ")" ["*"]
-    //     Term = "(" (*) Expr ")" ["+"]
-    //     Term = "(" (*) Expr ")" ["-"]
-    //     Term = "(" (*) Expr ")" ["/"]
+    //     Term = "(" (*) Expr ")" [")", "*", "+", "-", "/"]
     //     Term = (*) Num [")"]
     //     Term = (*) Num ["*"]
     //     Term = (*) Num ["+"]
@@ -1252,11 +1128,7 @@ mod __parse__Expr {
     //     WillPush = ["(", Comma<Expr>, ")"]
     //     WillProduce = Some(Factor)
     //
-    //     Factor = "*" (*) "(" Comma<Expr> ")" [")"]
-    //     Factor = "*" (*) "(" Comma<Expr> ")" ["*"]
-    //     Factor = "*" (*) "(" Comma<Expr> ")" ["+"]
-    //     Factor = "*" (*) "(" Comma<Expr> ")" ["-"]
-    //     Factor = "*" (*) "(" Comma<Expr> ")" ["/"]
+    //     Factor = "*" (*) "(" Comma<Expr> ")" [")", "*", "+", "-", "/"]
     //
     //   "(" -> S28
     //
@@ -1298,17 +1170,9 @@ mod __parse__Expr {
     //     WillPush = []
     //     WillProduce = Some(Term)
     //
-    //     Term = Num (*) [")"]
-    //     Term = Num (*) ["*"]
-    //     Term = Num (*) ["+"]
-    //     Term = Num (*) ["-"]
-    //     Term = Num (*) ["/"]
+    //     Term = Num (*) [")", "*", "+", "-", "/"]
     //
-    //   ")" -> Term = Num => ActionFn(8);
-    //   "*" -> Term = Num => ActionFn(8);
-    //   "+" -> Term = Num => ActionFn(8);
-    //   "-" -> Term = Num => ActionFn(8);
-    //   "/" -> Term = Num => ActionFn(8);
+    //   [")", "*", "+", "-", "/"] -> Term = Num => ActionFn(8);
     //
     pub fn __state16<
         'ast,
@@ -1359,14 +1223,10 @@ mod __parse__Expr {
     //     WillPush = [Comma<Expr>, ")"]
     //     WillProduce = Some(Factor)
     //
-    //     (<Expr> ",")+ = (*) (<Expr> ",")+ Expr "," ["("]
+    //     (<Expr> ",")+ = (*) (<Expr> ",")+ Expr "," ["(", "*", Num]
     //     (<Expr> ",")+ = (*) (<Expr> ",")+ Expr "," [")"]
-    //     (<Expr> ",")+ = (*) (<Expr> ",")+ Expr "," ["*"]
-    //     (<Expr> ",")+ = (*) (<Expr> ",")+ Expr "," [Num]
-    //     (<Expr> ",")+ = (*) Expr "," ["("]
+    //     (<Expr> ",")+ = (*) Expr "," ["(", "*", Num]
     //     (<Expr> ",")+ = (*) Expr "," [")"]
-    //     (<Expr> ",")+ = (*) Expr "," ["*"]
-    //     (<Expr> ",")+ = (*) Expr "," [Num]
     //     Comma<Expr> = (*) [")"]
     //     Comma<Expr> = (*) (<Expr> ",")+ [")"]
     //     Comma<Expr> = (*) (<Expr> ",")+ Expr [")"]
@@ -1407,11 +1267,7 @@ mod __parse__Expr {
     //     Factor = (*) "*" "(" Comma<Expr> ")" [","]
     //     Factor = (*) "*" "(" Comma<Expr> ")" ["-"]
     //     Factor = (*) "*" "(" Comma<Expr> ")" ["/"]
-    //     Factor = "*" "(" (*) Comma<Expr> ")" [EOF]
-    //     Factor = "*" "(" (*) Comma<Expr> ")" ["*"]
-    //     Factor = "*" "(" (*) Comma<Expr> ")" ["+"]
-    //     Factor = "*" "(" (*) Comma<Expr> ")" ["-"]
-    //     Factor = "*" "(" (*) Comma<Expr> ")" ["/"]
+    //     Factor = "*" "(" (*) Comma<Expr> ")" ["*", "+", "-", "/", EOF]
     //     Term = (*) "(" Expr ")" [")"]
     //     Term = (*) "(" Expr ")" ["*"]
     //     Term = (*) "(" Expr ")" ["+"]
@@ -1428,7 +1284,7 @@ mod __parse__Expr {
     //   "(" -> S34
     //   "*" -> S35
     //   Num -> S36
-    //   ")" -> Comma<Expr> =  => ActionFn(23);
+    //   [")"] -> Comma<Expr> =  => ActionFn(23);
     //
     //     (<Expr> ",")+ -> S29
     //     Comma<Expr> -> S30
@@ -1516,25 +1372,13 @@ mod __parse__Expr {
     //     WillPush = []
     //     WillProduce = None
     //
-    //     Expr = Expr "+" Factor (*) [EOF]
-    //     Expr = Expr "+" Factor (*) ["+"]
-    //     Expr = Expr "+" Factor (*) ["-"]
-    //     Factor = Factor (*) "*" Term [EOF]
-    //     Factor = Factor (*) "*" Term ["*"]
-    //     Factor = Factor (*) "*" Term ["+"]
-    //     Factor = Factor (*) "*" Term ["-"]
-    //     Factor = Factor (*) "*" Term ["/"]
-    //     Factor = Factor (*) "/" Term [EOF]
-    //     Factor = Factor (*) "/" Term ["*"]
-    //     Factor = Factor (*) "/" Term ["+"]
-    //     Factor = Factor (*) "/" Term ["-"]
-    //     Factor = Factor (*) "/" Term ["/"]
+    //     Expr = Expr "+" Factor (*) ["+", "-", EOF]
+    //     Factor = Factor (*) "*" Term ["*", "+", "-", "/", EOF]
+    //     Factor = Factor (*) "/" Term ["*", "+", "-", "/", EOF]
     //
     //   "*" -> S9
     //   "/" -> S10
-    //   EOF -> Expr = Expr, "+", Factor => ActionFn(2);
-    //   "+" -> Expr = Expr, "+", Factor => ActionFn(2);
-    //   "-" -> Expr = Expr, "+", Factor => ActionFn(2);
+    //   ["+", "-", EOF] -> Expr = Expr, "+", Factor => ActionFn(2);
     //
     pub fn __state18<
         'ast,
@@ -1560,9 +1404,9 @@ mod __parse__Expr {
                 __result = try!(__state10(arena, __tokens, __sym2, __sym3));
                 return Ok(__result);
             }
-            None |
             Some((_, Tok::Plus, _)) |
-            Some((_, Tok::Minus, _)) => {
+            Some((_, Tok::Minus, _)) |
+            None => {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
                 let __start = __sym0.0.clone();
@@ -1593,25 +1437,13 @@ mod __parse__Expr {
     //     WillPush = []
     //     WillProduce = None
     //
-    //     Expr = Expr "-" Factor (*) [EOF]
-    //     Expr = Expr "-" Factor (*) ["+"]
-    //     Expr = Expr "-" Factor (*) ["-"]
-    //     Factor = Factor (*) "*" Term [EOF]
-    //     Factor = Factor (*) "*" Term ["*"]
-    //     Factor = Factor (*) "*" Term ["+"]
-    //     Factor = Factor (*) "*" Term ["-"]
-    //     Factor = Factor (*) "*" Term ["/"]
-    //     Factor = Factor (*) "/" Term [EOF]
-    //     Factor = Factor (*) "/" Term ["*"]
-    //     Factor = Factor (*) "/" Term ["+"]
-    //     Factor = Factor (*) "/" Term ["-"]
-    //     Factor = Factor (*) "/" Term ["/"]
+    //     Expr = Expr "-" Factor (*) ["+", "-", EOF]
+    //     Factor = Factor (*) "*" Term ["*", "+", "-", "/", EOF]
+    //     Factor = Factor (*) "/" Term ["*", "+", "-", "/", EOF]
     //
     //   "*" -> S9
     //   "/" -> S10
-    //   EOF -> Expr = Expr, "-", Factor => ActionFn(1);
-    //   "+" -> Expr = Expr, "-", Factor => ActionFn(1);
-    //   "-" -> Expr = Expr, "-", Factor => ActionFn(1);
+    //   ["+", "-", EOF] -> Expr = Expr, "-", Factor => ActionFn(1);
     //
     pub fn __state19<
         'ast,
@@ -1637,9 +1469,9 @@ mod __parse__Expr {
                 __result = try!(__state10(arena, __tokens, __sym2, __sym3));
                 return Ok(__result);
             }
-            None |
             Some((_, Tok::Plus, _)) |
-            Some((_, Tok::Minus, _)) => {
+            Some((_, Tok::Minus, _)) |
+            None => {
                 let __sym0 = __sym0.take().unwrap();
                 let __sym1 = __sym1.take().unwrap();
                 let __start = __sym0.0.clone();
@@ -1670,17 +1502,9 @@ mod __parse__Expr {
     //     WillPush = []
     //     WillProduce = Some(Factor)
     //
-    //     Factor = Factor "*" Term (*) [EOF]
-    //     Factor = Factor "*" Term (*) ["*"]
-    //     Factor = Factor "*" Term (*) ["+"]
-    //     Factor = Factor "*" Term (*) ["-"]
-    //     Factor = Factor "*" Term (*) ["/"]
+    //     Factor = Factor "*" Term (*) ["*", "+", "-", "/", EOF]
     //
-    //   EOF -> Factor = Factor, "*", Term => ActionFn(4);
-    //   "*" -> Factor = Factor, "*", Term => ActionFn(4);
-    //   "+" -> Factor = Factor, "*", Term => ActionFn(4);
-    //   "-" -> Factor = Factor, "*", Term => ActionFn(4);
-    //   "/" -> Factor = Factor, "*", Term => ActionFn(4);
+    //   ["*", "+", "-", "/", EOF] -> Factor = Factor, "*", Term => ActionFn(4);
     //
     pub fn __state20<
         'ast,
@@ -1696,11 +1520,11 @@ mod __parse__Expr {
     {
         let mut __result: (Option<(usize, Tok, usize)>, __Nonterminal<'ast>);
         match __lookahead {
-            None |
             Some((_, Tok::Times, _)) |
             Some((_, Tok::Plus, _)) |
             Some((_, Tok::Minus, _)) |
-            Some((_, Tok::Div, _)) => {
+            Some((_, Tok::Div, _)) |
+            None => {
                 let __start = __sym0.0.clone();
                 let __end = __sym2.2.clone();
                 let __nt = super::__action4(arena, __sym0, __sym1, __sym2);
@@ -1729,17 +1553,9 @@ mod __parse__Expr {
     //     WillPush = []
     //     WillProduce = Some(Factor)
     //
-    //     Factor = Factor "/" Term (*) [EOF]
-    //     Factor = Factor "/" Term (*) ["*"]
-    //     Factor = Factor "/" Term (*) ["+"]
-    //     Factor = Factor "/" Term (*) ["-"]
-    //     Factor = Factor "/" Term (*) ["/"]
+    //     Factor = Factor "/" Term (*) ["*", "+", "-", "/", EOF]
     //
-    //   EOF -> Factor = Factor, "/", Term => ActionFn(5);
-    //   "*" -> Factor = Factor, "/", Term => ActionFn(5);
-    //   "+" -> Factor = Factor, "/", Term => ActionFn(5);
-    //   "-" -> Factor = Factor, "/", Term => ActionFn(5);
-    //   "/" -> Factor = Factor, "/", Term => ActionFn(5);
+    //   ["*", "+", "-", "/", EOF] -> Factor = Factor, "/", Term => ActionFn(5);
     //
     pub fn __state21<
         'ast,
@@ -1755,11 +1571,11 @@ mod __parse__Expr {
     {
         let mut __result: (Option<(usize, Tok, usize)>, __Nonterminal<'ast>);
         match __lookahead {
-            None |
             Some((_, Tok::Times, _)) |
             Some((_, Tok::Plus, _)) |
             Some((_, Tok::Minus, _)) |
-            Some((_, Tok::Div, _)) => {
+            Some((_, Tok::Div, _)) |
+            None => {
                 let __start = __sym0.0.clone();
                 let __end = __sym2.2.clone();
                 let __nt = super::__action5(arena, __sym0, __sym1, __sym2);
@@ -1788,17 +1604,9 @@ mod __parse__Expr {
     //     WillPush = []
     //     WillProduce = Some(Term)
     //
-    //     Term = "(" Expr ")" (*) [EOF]
-    //     Term = "(" Expr ")" (*) ["*"]
-    //     Term = "(" Expr ")" (*) ["+"]
-    //     Term = "(" Expr ")" (*) ["-"]
-    //     Term = "(" Expr ")" (*) ["/"]
+    //     Term = "(" Expr ")" (*) ["*", "+", "-", "/", EOF]
     //
-    //   EOF -> Term = "(", Expr, ")" => ActionFn(9);
-    //   "*" -> Term = "(", Expr, ")" => ActionFn(9);
-    //   "+" -> Term = "(", Expr, ")" => ActionFn(9);
-    //   "-" -> Term = "(", Expr, ")" => ActionFn(9);
-    //   "/" -> Term = "(", Expr, ")" => ActionFn(9);
+    //   ["*", "+", "-", "/", EOF] -> Term = "(", Expr, ")" => ActionFn(9);
     //
     pub fn __state22<
         'ast,
@@ -1818,11 +1626,11 @@ mod __parse__Expr {
             Some(Err(e)) => return Err(__ParseError::User { error: e }),
         };
         match __lookahead {
-            None |
             Some((_, Tok::Times, _)) |
             Some((_, Tok::Plus, _)) |
             Some((_, Tok::Minus, _)) |
-            Some((_, Tok::Div, _)) => {
+            Some((_, Tok::Div, _)) |
+            None => {
                 let __start = __sym0.0.clone();
                 let __end = __sym2.2.clone();
                 let __nt = super::__action9(arena, __sym0, __sym1, __sym2);
@@ -1851,38 +1659,24 @@ mod __parse__Expr {
     //     WillPush = [Factor]
     //     WillProduce = Some(Expr)
     //
-    //     Expr = Expr "+" (*) Factor [")"]
-    //     Expr = Expr "+" (*) Factor ["+"]
-    //     Expr = Expr "+" (*) Factor ["-"]
-    //     Factor = (*) Factor "*" Term [")"]
+    //     Expr = Expr "+" (*) Factor [")", "+", "-"]
+    //     Factor = (*) Factor "*" Term [")", "+", "-"]
     //     Factor = (*) Factor "*" Term ["*"]
-    //     Factor = (*) Factor "*" Term ["+"]
-    //     Factor = (*) Factor "*" Term ["-"]
     //     Factor = (*) Factor "*" Term ["/"]
-    //     Factor = (*) Factor "/" Term [")"]
+    //     Factor = (*) Factor "/" Term [")", "+", "-"]
     //     Factor = (*) Factor "/" Term ["*"]
-    //     Factor = (*) Factor "/" Term ["+"]
-    //     Factor = (*) Factor "/" Term ["-"]
     //     Factor = (*) Factor "/" Term ["/"]
-    //     Factor = (*) Term [")"]
+    //     Factor = (*) Term [")", "+", "-"]
     //     Factor = (*) Term ["*"]
-    //     Factor = (*) Term ["+"]
-    //     Factor = (*) Term ["-"]
     //     Factor = (*) Term ["/"]
-    //     Factor = (*) "*" "(" Comma<Expr> ")" [")"]
+    //     Factor = (*) "*" "(" Comma<Expr> ")" [")", "+", "-"]
     //     Factor = (*) "*" "(" Comma<Expr> ")" ["*"]
-    //     Factor = (*) "*" "(" Comma<Expr> ")" ["+"]
-    //     Factor = (*) "*" "(" Comma<Expr> ")" ["-"]
     //     Factor = (*) "*" "(" Comma<Expr> ")" ["/"]
-    //     Term = (*) "(" Expr ")" [")"]
+    //     Term = (*) "(" Expr ")" [")", "+", "-"]
     //     Term = (*) "(" Expr ")" ["*"]
-    //     Term = (*) "(" Expr ")" ["+"]
-    //     Term = (*) "(" Expr ")" ["-"]
     //     Term = (*) "(" Expr ")" ["/"]
-    //     Term = (*) Num [")"]
+    //     Term = (*) Num [")", "+", "-"]
     //     Term = (*) Num ["*"]
-    //     Term = (*) Num ["+"]
-    //     Term = (*) Num ["-"]
     //     Term = (*) Num ["/"]
     //
     //   "(" -> S14
@@ -1956,38 +1750,24 @@ mod __parse__Expr {
     //     WillPush = [Factor]
     //     WillProduce = Some(Expr)
     //
-    //     Expr = Expr "-" (*) Factor [")"]
-    //     Expr = Expr "-" (*) Factor ["+"]
-    //     Expr = Expr "-" (*) Factor ["-"]
-    //     Factor = (*) Factor "*" Term [")"]
+    //     Expr = Expr "-" (*) Factor [")", "+", "-"]
+    //     Factor = (*) Factor "*" Term [")", "+", "-"]
     //     Factor = (*) Factor "*" Term ["*"]
-    //     Factor = (*) Factor "*" Term ["+"]
-    //     Factor = (*) Factor "*" Term ["-"]
     //     Factor = (*) Factor "*" Term ["/"]
-    //     Factor = (*) Factor "/" Term [")"]
+    //     Factor = (*) Factor "/" Term [")", "+", "-"]
     //     Factor = (*) Factor "/" Term ["*"]
-    //     Factor = (*) Factor "/" Term ["+"]
-    //     Factor = (*) Factor "/" Term ["-"]
     //     Factor = (*) Factor "/" Term ["/"]
-    //     Factor = (*) Term [")"]
+    //     Factor = (*) Term [")", "+", "-"]
     //     Factor = (*) Term ["*"]
-    //     Factor = (*) Term ["+"]
-    //     Factor = (*) Term ["-"]
     //     Factor = (*) Term ["/"]
-    //     Factor = (*) "*" "(" Comma<Expr> ")" [")"]
+    //     Factor = (*) "*" "(" Comma<Expr> ")" [")", "+", "-"]
     //     Factor = (*) "*" "(" Comma<Expr> ")" ["*"]
-    //     Factor = (*) "*" "(" Comma<Expr> ")" ["+"]
-    //     Factor = (*) "*" "(" Comma<Expr> ")" ["-"]
     //     Factor = (*) "*" "(" Comma<Expr> ")" ["/"]
-    //     Term = (*) "(" Expr ")" [")"]
+    //     Term = (*) "(" Expr ")" [")", "+", "-"]
     //     Term = (*) "(" Expr ")" ["*"]
-    //     Term = (*) "(" Expr ")" ["+"]
-    //     Term = (*) "(" Expr ")" ["-"]
     //     Term = (*) "(" Expr ")" ["/"]
-    //     Term = (*) Num [")"]
+    //     Term = (*) Num [")", "+", "-"]
     //     Term = (*) Num ["*"]
-    //     Term = (*) Num ["+"]
-    //     Term = (*) Num ["-"]
     //     Term = (*) Num ["/"]
     //
     //   "(" -> S14
@@ -2061,21 +1841,9 @@ mod __parse__Expr {
     //     WillPush = [Term]
     //     WillProduce = Some(Factor)
     //
-    //     Factor = Factor "*" (*) Term [")"]
-    //     Factor = Factor "*" (*) Term ["*"]
-    //     Factor = Factor "*" (*) Term ["+"]
-    //     Factor = Factor "*" (*) Term ["-"]
-    //     Factor = Factor "*" (*) Term ["/"]
-    //     Term = (*) "(" Expr ")" [")"]
-    //     Term = (*) "(" Expr ")" ["*"]
-    //     Term = (*) "(" Expr ")" ["+"]
-    //     Term = (*) "(" Expr ")" ["-"]
-    //     Term = (*) "(" Expr ")" ["/"]
-    //     Term = (*) Num [")"]
-    //     Term = (*) Num ["*"]
-    //     Term = (*) Num ["+"]
-    //     Term = (*) Num ["-"]
-    //     Term = (*) Num ["/"]
+    //     Factor = Factor "*" (*) Term [")", "*", "+", "-", "/"]
+    //     Term = (*) "(" Expr ")" [")", "*", "+", "-", "/"]
+    //     Term = (*) Num [")", "*", "+", "-", "/"]
     //
     //   "(" -> S14
     //   Num -> S16
@@ -2135,21 +1903,9 @@ mod __parse__Expr {
     //     WillPush = [Term]
     //     WillProduce = Some(Factor)
     //
-    //     Factor = Factor "/" (*) Term [")"]
-    //     Factor = Factor "/" (*) Term ["*"]
-    //     Factor = Factor "/" (*) Term ["+"]
-    //     Factor = Factor "/" (*) Term ["-"]
-    //     Factor = Factor "/" (*) Term ["/"]
-    //     Term = (*) "(" Expr ")" [")"]
-    //     Term = (*) "(" Expr ")" ["*"]
-    //     Term = (*) "(" Expr ")" ["+"]
-    //     Term = (*) "(" Expr ")" ["-"]
-    //     Term = (*) "(" Expr ")" ["/"]
-    //     Term = (*) Num [")"]
-    //     Term = (*) Num ["*"]
-    //     Term = (*) Num ["+"]
-    //     Term = (*) Num ["-"]
-    //     Term = (*) Num ["/"]
+    //     Factor = Factor "/" (*) Term [")", "*", "+", "-", "/"]
+    //     Term = (*) "(" Expr ")" [")", "*", "+", "-", "/"]
+    //     Term = (*) Num [")", "*", "+", "-", "/"]
     //
     //   "(" -> S14
     //   Num -> S16
@@ -2209,17 +1965,9 @@ mod __parse__Expr {
     //     WillPush = [")"]
     //     WillProduce = None
     //
-    //     Expr = Expr (*) "+" Factor [")"]
-    //     Expr = Expr (*) "+" Factor ["+"]
-    //     Expr = Expr (*) "+" Factor ["-"]
-    //     Expr = Expr (*) "-" Factor [")"]
-    //     Expr = Expr (*) "-" Factor ["+"]
-    //     Expr = Expr (*) "-" Factor ["-"]
-    //     Term = "(" Expr (*) ")" [")"]
-    //     Term = "(" Expr (*) ")" ["*"]
-    //     Term = "(" Expr (*) ")" ["+"]
-    //     Term = "(" Expr (*) ")" ["-"]
-    //     Term = "(" Expr (*) ")" ["/"]
+    //     Expr = Expr (*) "+" Factor [")", "+", "-"]
+    //     Expr = Expr (*) "-" Factor [")", "+", "-"]
+    //     Term = "(" Expr (*) ")" [")", "*", "+", "-", "/"]
     //
     //   ")" -> S41
     //   "+" -> S23
@@ -2271,14 +2019,10 @@ mod __parse__Expr {
     //     WillPush = [Comma<Expr>, ")"]
     //     WillProduce = Some(Factor)
     //
-    //     (<Expr> ",")+ = (*) (<Expr> ",")+ Expr "," ["("]
+    //     (<Expr> ",")+ = (*) (<Expr> ",")+ Expr "," ["(", "*", Num]
     //     (<Expr> ",")+ = (*) (<Expr> ",")+ Expr "," [")"]
-    //     (<Expr> ",")+ = (*) (<Expr> ",")+ Expr "," ["*"]
-    //     (<Expr> ",")+ = (*) (<Expr> ",")+ Expr "," [Num]
-    //     (<Expr> ",")+ = (*) Expr "," ["("]
+    //     (<Expr> ",")+ = (*) Expr "," ["(", "*", Num]
     //     (<Expr> ",")+ = (*) Expr "," [")"]
-    //     (<Expr> ",")+ = (*) Expr "," ["*"]
-    //     (<Expr> ",")+ = (*) Expr "," [Num]
     //     Comma<Expr> = (*) [")"]
     //     Comma<Expr> = (*) (<Expr> ",")+ [")"]
     //     Comma<Expr> = (*) (<Expr> ",")+ Expr [")"]
@@ -2319,11 +2063,7 @@ mod __parse__Expr {
     //     Factor = (*) "*" "(" Comma<Expr> ")" [","]
     //     Factor = (*) "*" "(" Comma<Expr> ")" ["-"]
     //     Factor = (*) "*" "(" Comma<Expr> ")" ["/"]
-    //     Factor = "*" "(" (*) Comma<Expr> ")" [")"]
-    //     Factor = "*" "(" (*) Comma<Expr> ")" ["*"]
-    //     Factor = "*" "(" (*) Comma<Expr> ")" ["+"]
-    //     Factor = "*" "(" (*) Comma<Expr> ")" ["-"]
-    //     Factor = "*" "(" (*) Comma<Expr> ")" ["/"]
+    //     Factor = "*" "(" (*) Comma<Expr> ")" [")", "*", "+", "-", "/"]
     //     Term = (*) "(" Expr ")" [")"]
     //     Term = (*) "(" Expr ")" ["*"]
     //     Term = (*) "(" Expr ")" ["+"]
@@ -2340,7 +2080,7 @@ mod __parse__Expr {
     //   "(" -> S34
     //   "*" -> S35
     //   Num -> S36
-    //   ")" -> Comma<Expr> =  => ActionFn(23);
+    //   [")"] -> Comma<Expr> =  => ActionFn(23);
     //
     //     (<Expr> ",")+ -> S29
     //     Comma<Expr> -> S42
@@ -2428,10 +2168,7 @@ mod __parse__Expr {
     //     WillPush = []
     //     WillProduce = None
     //
-    //     (<Expr> ",")+ = (<Expr> ",")+ (*) Expr "," ["("]
-    //     (<Expr> ",")+ = (<Expr> ",")+ (*) Expr "," [")"]
-    //     (<Expr> ",")+ = (<Expr> ",")+ (*) Expr "," ["*"]
-    //     (<Expr> ",")+ = (<Expr> ",")+ (*) Expr "," [Num]
+    //     (<Expr> ",")+ = (<Expr> ",")+ (*) Expr "," ["(", ")", "*", Num]
     //     Comma<Expr> = (<Expr> ",")+ (*) [")"]
     //     Comma<Expr> = (<Expr> ",")+ (*) Expr [")"]
     //     Expr = (*) Expr "+" Factor [")"]
@@ -2486,7 +2223,7 @@ mod __parse__Expr {
     //   "(" -> S34
     //   "*" -> S35
     //   Num -> S36
-    //   ")" -> Comma<Expr> = (<Expr> ",")+ => ActionFn(25);
+    //   [")"] -> Comma<Expr> = (<Expr> ",")+ => ActionFn(25);
     //
     //     Expr -> S43
     //     Factor -> S32
@@ -2566,11 +2303,7 @@ mod __parse__Expr {
     //     WillPush = [")"]
     //     WillProduce = Some(Factor)
     //
-    //     Factor = "*" "(" Comma<Expr> (*) ")" [EOF]
-    //     Factor = "*" "(" Comma<Expr> (*) ")" ["*"]
-    //     Factor = "*" "(" Comma<Expr> (*) ")" ["+"]
-    //     Factor = "*" "(" Comma<Expr> (*) ")" ["-"]
-    //     Factor = "*" "(" Comma<Expr> (*) ")" ["/"]
+    //     Factor = "*" "(" Comma<Expr> (*) ")" ["*", "+", "-", "/", EOF]
     //
     //   ")" -> S44
     //
@@ -2610,24 +2343,15 @@ mod __parse__Expr {
     //     WillPush = []
     //     WillProduce = None
     //
-    //     (<Expr> ",")+ = Expr (*) "," ["("]
-    //     (<Expr> ",")+ = Expr (*) "," [")"]
-    //     (<Expr> ",")+ = Expr (*) "," ["*"]
-    //     (<Expr> ",")+ = Expr (*) "," [Num]
+    //     (<Expr> ",")+ = Expr (*) "," ["(", ")", "*", Num]
     //     Comma<Expr> = Expr (*) [")"]
-    //     Expr = Expr (*) "+" Factor [")"]
-    //     Expr = Expr (*) "+" Factor ["+"]
-    //     Expr = Expr (*) "+" Factor [","]
-    //     Expr = Expr (*) "+" Factor ["-"]
-    //     Expr = Expr (*) "-" Factor [")"]
-    //     Expr = Expr (*) "-" Factor ["+"]
-    //     Expr = Expr (*) "-" Factor [","]
-    //     Expr = Expr (*) "-" Factor ["-"]
+    //     Expr = Expr (*) "+" Factor [")", "+", ",", "-"]
+    //     Expr = Expr (*) "-" Factor [")", "+", ",", "-"]
     //
     //   "+" -> S45
     //   "," -> S46
     //   "-" -> S47
-    //   ")" -> Comma<Expr> = Expr => ActionFn(22);
+    //   [")"] -> Comma<Expr> = Expr => ActionFn(22);
     //
     pub fn __state31<
         'ast,
@@ -2685,29 +2409,13 @@ mod __parse__Expr {
     //     WillPush = []
     //     WillProduce = None
     //
-    //     Expr = Factor (*) [")"]
-    //     Expr = Factor (*) ["+"]
-    //     Expr = Factor (*) [","]
-    //     Expr = Factor (*) ["-"]
-    //     Factor = Factor (*) "*" Term [")"]
-    //     Factor = Factor (*) "*" Term ["*"]
-    //     Factor = Factor (*) "*" Term ["+"]
-    //     Factor = Factor (*) "*" Term [","]
-    //     Factor = Factor (*) "*" Term ["-"]
-    //     Factor = Factor (*) "*" Term ["/"]
-    //     Factor = Factor (*) "/" Term [")"]
-    //     Factor = Factor (*) "/" Term ["*"]
-    //     Factor = Factor (*) "/" Term ["+"]
-    //     Factor = Factor (*) "/" Term [","]
-    //     Factor = Factor (*) "/" Term ["-"]
-    //     Factor = Factor (*) "/" Term ["/"]
+    //     Expr = Factor (*) [")", "+", ",", "-"]
+    //     Factor = Factor (*) "*" Term [")", "*", "+", ",", "-", "/"]
+    //     Factor = Factor (*) "/" Term [")", "*", "+", ",", "-", "/"]
     //
     //   "*" -> S48
     //   "/" -> S49
-    //   ")" -> Expr = Factor => ActionFn(3);
-    //   "+" -> Expr = Factor => ActionFn(3);
-    //   "," -> Expr = Factor => ActionFn(3);
-    //   "-" -> Expr = Factor => ActionFn(3);
+    //   [")", "+", ",", "-"] -> Expr = Factor => ActionFn(3);
     //
     pub fn __state32<
         'ast,
@@ -2763,19 +2471,9 @@ mod __parse__Expr {
     //     WillPush = []
     //     WillProduce = Some(Factor)
     //
-    //     Factor = Term (*) [")"]
-    //     Factor = Term (*) ["*"]
-    //     Factor = Term (*) ["+"]
-    //     Factor = Term (*) [","]
-    //     Factor = Term (*) ["-"]
-    //     Factor = Term (*) ["/"]
+    //     Factor = Term (*) [")", "*", "+", ",", "-", "/"]
     //
-    //   ")" -> Factor = Term => ActionFn(7);
-    //   "*" -> Factor = Term => ActionFn(7);
-    //   "+" -> Factor = Term => ActionFn(7);
-    //   "," -> Factor = Term => ActionFn(7);
-    //   "-" -> Factor = Term => ActionFn(7);
-    //   "/" -> Factor = Term => ActionFn(7);
+    //   [")", "*", "+", ",", "-", "/"] -> Factor = Term => ActionFn(7);
     //
     pub fn __state33<
         'ast,
@@ -2857,12 +2555,7 @@ mod __parse__Expr {
     //     Term = (*) "(" Expr ")" ["+"]
     //     Term = (*) "(" Expr ")" ["-"]
     //     Term = (*) "(" Expr ")" ["/"]
-    //     Term = "(" (*) Expr ")" [")"]
-    //     Term = "(" (*) Expr ")" ["*"]
-    //     Term = "(" (*) Expr ")" ["+"]
-    //     Term = "(" (*) Expr ")" [","]
-    //     Term = "(" (*) Expr ")" ["-"]
-    //     Term = "(" (*) Expr ")" ["/"]
+    //     Term = "(" (*) Expr ")" [")", "*", "+", ",", "-", "/"]
     //     Term = (*) Num [")"]
     //     Term = (*) Num ["*"]
     //     Term = (*) Num ["+"]
@@ -2942,12 +2635,7 @@ mod __parse__Expr {
     //     WillPush = ["(", Comma<Expr>, ")"]
     //     WillProduce = Some(Factor)
     //
-    //     Factor = "*" (*) "(" Comma<Expr> ")" [")"]
-    //     Factor = "*" (*) "(" Comma<Expr> ")" ["*"]
-    //     Factor = "*" (*) "(" Comma<Expr> ")" ["+"]
-    //     Factor = "*" (*) "(" Comma<Expr> ")" [","]
-    //     Factor = "*" (*) "(" Comma<Expr> ")" ["-"]
-    //     Factor = "*" (*) "(" Comma<Expr> ")" ["/"]
+    //     Factor = "*" (*) "(" Comma<Expr> ")" [")", "*", "+", ",", "-", "/"]
     //
     //   "(" -> S51
     //
@@ -2989,19 +2677,9 @@ mod __parse__Expr {
     //     WillPush = []
     //     WillProduce = Some(Term)
     //
-    //     Term = Num (*) [")"]
-    //     Term = Num (*) ["*"]
-    //     Term = Num (*) ["+"]
-    //     Term = Num (*) [","]
-    //     Term = Num (*) ["-"]
-    //     Term = Num (*) ["/"]
+    //     Term = Num (*) [")", "*", "+", ",", "-", "/"]
     //
-    //   ")" -> Term = Num => ActionFn(8);
-    //   "*" -> Term = Num => ActionFn(8);
-    //   "+" -> Term = Num => ActionFn(8);
-    //   "," -> Term = Num => ActionFn(8);
-    //   "-" -> Term = Num => ActionFn(8);
-    //   "/" -> Term = Num => ActionFn(8);
+    //   [")", "*", "+", ",", "-", "/"] -> Term = Num => ActionFn(8);
     //
     pub fn __state36<
         'ast,
@@ -3053,25 +2731,13 @@ mod __parse__Expr {
     //     WillPush = []
     //     WillProduce = None
     //
-    //     Expr = Expr "+" Factor (*) [")"]
-    //     Expr = Expr "+" Factor (*) ["+"]
-    //     Expr = Expr "+" Factor (*) ["-"]
-    //     Factor = Factor (*) "*" Term [")"]
-    //     Factor = Factor (*) "*" Term ["*"]
-    //     Factor = Factor (*) "*" Term ["+"]
-    //     Factor = Factor (*) "*" Term ["-"]
-    //     Factor = Factor (*) "*" Term ["/"]
-    //     Factor = Factor (*) "/" Term [")"]
-    //     Factor = Factor (*) "/" Term ["*"]
-    //     Factor = Factor (*) "/" Term ["+"]
-    //     Factor = Factor (*) "/" Term ["-"]
-    //     Factor = Factor (*) "/" Term ["/"]
+    //     Expr = Expr "+" Factor (*) [")", "+", "-"]
+    //     Factor = Factor (*) "*" Term [")", "*", "+", "-", "/"]
+    //     Factor = Factor (*) "/" Term [")", "*", "+", "-", "/"]
     //
     //   "*" -> S25
     //   "/" -> S26
-    //   ")" -> Expr = Expr, "+", Factor => ActionFn(2);
-    //   "+" -> Expr = Expr, "+", Factor => ActionFn(2);
-    //   "-" -> Expr = Expr, "+", Factor => ActionFn(2);
+    //   [")", "+", "-"] -> Expr = Expr, "+", Factor => ActionFn(2);
     //
     pub fn __state37<
         'ast,
@@ -3130,25 +2796,13 @@ mod __parse__Expr {
     //     WillPush = []
     //     WillProduce = None
     //
-    //     Expr = Expr "-" Factor (*) [")"]
-    //     Expr = Expr "-" Factor (*) ["+"]
-    //     Expr = Expr "-" Factor (*) ["-"]
-    //     Factor = Factor (*) "*" Term [")"]
-    //     Factor = Factor (*) "*" Term ["*"]
-    //     Factor = Factor (*) "*" Term ["+"]
-    //     Factor = Factor (*) "*" Term ["-"]
-    //     Factor = Factor (*) "*" Term ["/"]
-    //     Factor = Factor (*) "/" Term [")"]
-    //     Factor = Factor (*) "/" Term ["*"]
-    //     Factor = Factor (*) "/" Term ["+"]
-    //     Factor = Factor (*) "/" Term ["-"]
-    //     Factor = Factor (*) "/" Term ["/"]
+    //     Expr = Expr "-" Factor (*) [")", "+", "-"]
+    //     Factor = Factor (*) "*" Term [")", "*", "+", "-", "/"]
+    //     Factor = Factor (*) "/" Term [")", "*", "+", "-", "/"]
     //
     //   "*" -> S25
     //   "/" -> S26
-    //   ")" -> Expr = Expr, "-", Factor => ActionFn(1);
-    //   "+" -> Expr = Expr, "-", Factor => ActionFn(1);
-    //   "-" -> Expr = Expr, "-", Factor => ActionFn(1);
+    //   [")", "+", "-"] -> Expr = Expr, "-", Factor => ActionFn(1);
     //
     pub fn __state38<
         'ast,
@@ -3207,17 +2861,9 @@ mod __parse__Expr {
     //     WillPush = []
     //     WillProduce = Some(Factor)
     //
-    //     Factor = Factor "*" Term (*) [")"]
-    //     Factor = Factor "*" Term (*) ["*"]
-    //     Factor = Factor "*" Term (*) ["+"]
-    //     Factor = Factor "*" Term (*) ["-"]
-    //     Factor = Factor "*" Term (*) ["/"]
+    //     Factor = Factor "*" Term (*) [")", "*", "+", "-", "/"]
     //
-    //   ")" -> Factor = Factor, "*", Term => ActionFn(4);
-    //   "*" -> Factor = Factor, "*", Term => ActionFn(4);
-    //   "+" -> Factor = Factor, "*", Term => ActionFn(4);
-    //   "-" -> Factor = Factor, "*", Term => ActionFn(4);
-    //   "/" -> Factor = Factor, "*", Term => ActionFn(4);
+    //   [")", "*", "+", "-", "/"] -> Factor = Factor, "*", Term => ActionFn(4);
     //
     pub fn __state39<
         'ast,
@@ -3266,17 +2912,9 @@ mod __parse__Expr {
     //     WillPush = []
     //     WillProduce = Some(Factor)
     //
-    //     Factor = Factor "/" Term (*) [")"]
-    //     Factor = Factor "/" Term (*) ["*"]
-    //     Factor = Factor "/" Term (*) ["+"]
-    //     Factor = Factor "/" Term (*) ["-"]
-    //     Factor = Factor "/" Term (*) ["/"]
+    //     Factor = Factor "/" Term (*) [")", "*", "+", "-", "/"]
     //
-    //   ")" -> Factor = Factor, "/", Term => ActionFn(5);
-    //   "*" -> Factor = Factor, "/", Term => ActionFn(5);
-    //   "+" -> Factor = Factor, "/", Term => ActionFn(5);
-    //   "-" -> Factor = Factor, "/", Term => ActionFn(5);
-    //   "/" -> Factor = Factor, "/", Term => ActionFn(5);
+    //   [")", "*", "+", "-", "/"] -> Factor = Factor, "/", Term => ActionFn(5);
     //
     pub fn __state40<
         'ast,
@@ -3325,17 +2963,9 @@ mod __parse__Expr {
     //     WillPush = []
     //     WillProduce = Some(Term)
     //
-    //     Term = "(" Expr ")" (*) [")"]
-    //     Term = "(" Expr ")" (*) ["*"]
-    //     Term = "(" Expr ")" (*) ["+"]
-    //     Term = "(" Expr ")" (*) ["-"]
-    //     Term = "(" Expr ")" (*) ["/"]
+    //     Term = "(" Expr ")" (*) [")", "*", "+", "-", "/"]
     //
-    //   ")" -> Term = "(", Expr, ")" => ActionFn(9);
-    //   "*" -> Term = "(", Expr, ")" => ActionFn(9);
-    //   "+" -> Term = "(", Expr, ")" => ActionFn(9);
-    //   "-" -> Term = "(", Expr, ")" => ActionFn(9);
-    //   "/" -> Term = "(", Expr, ")" => ActionFn(9);
+    //   [")", "*", "+", "-", "/"] -> Term = "(", Expr, ")" => ActionFn(9);
     //
     pub fn __state41<
         'ast,
@@ -3388,11 +3018,7 @@ mod __parse__Expr {
     //     WillPush = [")"]
     //     WillProduce = Some(Factor)
     //
-    //     Factor = "*" "(" Comma<Expr> (*) ")" [")"]
-    //     Factor = "*" "(" Comma<Expr> (*) ")" ["*"]
-    //     Factor = "*" "(" Comma<Expr> (*) ")" ["+"]
-    //     Factor = "*" "(" Comma<Expr> (*) ")" ["-"]
-    //     Factor = "*" "(" Comma<Expr> (*) ")" ["/"]
+    //     Factor = "*" "(" Comma<Expr> (*) ")" [")", "*", "+", "-", "/"]
     //
     //   ")" -> S52
     //
@@ -3432,24 +3058,15 @@ mod __parse__Expr {
     //     WillPush = []
     //     WillProduce = None
     //
-    //     (<Expr> ",")+ = (<Expr> ",")+ Expr (*) "," ["("]
-    //     (<Expr> ",")+ = (<Expr> ",")+ Expr (*) "," [")"]
-    //     (<Expr> ",")+ = (<Expr> ",")+ Expr (*) "," ["*"]
-    //     (<Expr> ",")+ = (<Expr> ",")+ Expr (*) "," [Num]
+    //     (<Expr> ",")+ = (<Expr> ",")+ Expr (*) "," ["(", ")", "*", Num]
     //     Comma<Expr> = (<Expr> ",")+ Expr (*) [")"]
-    //     Expr = Expr (*) "+" Factor [")"]
-    //     Expr = Expr (*) "+" Factor ["+"]
-    //     Expr = Expr (*) "+" Factor [","]
-    //     Expr = Expr (*) "+" Factor ["-"]
-    //     Expr = Expr (*) "-" Factor [")"]
-    //     Expr = Expr (*) "-" Factor ["+"]
-    //     Expr = Expr (*) "-" Factor [","]
-    //     Expr = Expr (*) "-" Factor ["-"]
+    //     Expr = Expr (*) "+" Factor [")", "+", ",", "-"]
+    //     Expr = Expr (*) "-" Factor [")", "+", ",", "-"]
     //
     //   "+" -> S45
     //   "," -> S53
     //   "-" -> S47
-    //   ")" -> Comma<Expr> = (<Expr> ",")+, Expr => ActionFn(24);
+    //   [")"] -> Comma<Expr> = (<Expr> ",")+, Expr => ActionFn(24);
     //
     pub fn __state43<
         'ast,
@@ -3510,17 +3127,9 @@ mod __parse__Expr {
     //     WillPush = []
     //     WillProduce = Some(Factor)
     //
-    //     Factor = "*" "(" Comma<Expr> ")" (*) [EOF]
-    //     Factor = "*" "(" Comma<Expr> ")" (*) ["*"]
-    //     Factor = "*" "(" Comma<Expr> ")" (*) ["+"]
-    //     Factor = "*" "(" Comma<Expr> ")" (*) ["-"]
-    //     Factor = "*" "(" Comma<Expr> ")" (*) ["/"]
+    //     Factor = "*" "(" Comma<Expr> ")" (*) ["*", "+", "-", "/", EOF]
     //
-    //   EOF -> Factor = "*", "(", Comma<Expr>, ")" => ActionFn(6);
-    //   "*" -> Factor = "*", "(", Comma<Expr>, ")" => ActionFn(6);
-    //   "+" -> Factor = "*", "(", Comma<Expr>, ")" => ActionFn(6);
-    //   "-" -> Factor = "*", "(", Comma<Expr>, ")" => ActionFn(6);
-    //   "/" -> Factor = "*", "(", Comma<Expr>, ")" => ActionFn(6);
+    //   ["*", "+", "-", "/", EOF] -> Factor = "*", "(", Comma<Expr>, ")" => ActionFn(6);
     //
     pub fn __state44<
         'ast,
@@ -3541,11 +3150,11 @@ mod __parse__Expr {
             Some(Err(e)) => return Err(__ParseError::User { error: e }),
         };
         match __lookahead {
-            None |
             Some((_, Tok::Times, _)) |
             Some((_, Tok::Plus, _)) |
             Some((_, Tok::Minus, _)) |
-            Some((_, Tok::Div, _)) => {
+            Some((_, Tok::Div, _)) |
+            None => {
                 let __start = __sym0.0.clone();
                 let __end = __sym3.2.clone();
                 let __nt = super::__action6(arena, __sym0, __sym1, __sym2, __sym3);
@@ -3574,45 +3183,24 @@ mod __parse__Expr {
     //     WillPush = [Factor]
     //     WillProduce = Some(Expr)
     //
-    //     Expr = Expr "+" (*) Factor [")"]
-    //     Expr = Expr "+" (*) Factor ["+"]
-    //     Expr = Expr "+" (*) Factor [","]
-    //     Expr = Expr "+" (*) Factor ["-"]
-    //     Factor = (*) Factor "*" Term [")"]
+    //     Expr = Expr "+" (*) Factor [")", "+", ",", "-"]
+    //     Factor = (*) Factor "*" Term [")", "+", ",", "-"]
     //     Factor = (*) Factor "*" Term ["*"]
-    //     Factor = (*) Factor "*" Term ["+"]
-    //     Factor = (*) Factor "*" Term [","]
-    //     Factor = (*) Factor "*" Term ["-"]
     //     Factor = (*) Factor "*" Term ["/"]
-    //     Factor = (*) Factor "/" Term [")"]
+    //     Factor = (*) Factor "/" Term [")", "+", ",", "-"]
     //     Factor = (*) Factor "/" Term ["*"]
-    //     Factor = (*) Factor "/" Term ["+"]
-    //     Factor = (*) Factor "/" Term [","]
-    //     Factor = (*) Factor "/" Term ["-"]
     //     Factor = (*) Factor "/" Term ["/"]
-    //     Factor = (*) Term [")"]
+    //     Factor = (*) Term [")", "+", ",", "-"]
     //     Factor = (*) Term ["*"]
-    //     Factor = (*) Term ["+"]
-    //     Factor = (*) Term [","]
-    //     Factor = (*) Term ["-"]
     //     Factor = (*) Term ["/"]
-    //     Factor = (*) "*" "(" Comma<Expr> ")" [")"]
+    //     Factor = (*) "*" "(" Comma<Expr> ")" [")", "+", ",", "-"]
     //     Factor = (*) "*" "(" Comma<Expr> ")" ["*"]
-    //     Factor = (*) "*" "(" Comma<Expr> ")" ["+"]
-    //     Factor = (*) "*" "(" Comma<Expr> ")" [","]
-    //     Factor = (*) "*" "(" Comma<Expr> ")" ["-"]
     //     Factor = (*) "*" "(" Comma<Expr> ")" ["/"]
-    //     Term = (*) "(" Expr ")" [")"]
+    //     Term = (*) "(" Expr ")" [")", "+", ",", "-"]
     //     Term = (*) "(" Expr ")" ["*"]
-    //     Term = (*) "(" Expr ")" ["+"]
-    //     Term = (*) "(" Expr ")" [","]
-    //     Term = (*) "(" Expr ")" ["-"]
     //     Term = (*) "(" Expr ")" ["/"]
-    //     Term = (*) Num [")"]
+    //     Term = (*) Num [")", "+", ",", "-"]
     //     Term = (*) Num ["*"]
-    //     Term = (*) Num ["+"]
-    //     Term = (*) Num [","]
-    //     Term = (*) Num ["-"]
     //     Term = (*) Num ["/"]
     //
     //   "(" -> S34
@@ -3686,15 +3274,9 @@ mod __parse__Expr {
     //     WillPush = []
     //     WillProduce = Some((<Expr> ",")+)
     //
-    //     (<Expr> ",")+ = Expr "," (*) ["("]
-    //     (<Expr> ",")+ = Expr "," (*) [")"]
-    //     (<Expr> ",")+ = Expr "," (*) ["*"]
-    //     (<Expr> ",")+ = Expr "," (*) [Num]
+    //     (<Expr> ",")+ = Expr "," (*) ["(", ")", "*", Num]
     //
-    //   "(" -> (<Expr> ",")+ = Expr, "," => ActionFn(18);
-    //   ")" -> (<Expr> ",")+ = Expr, "," => ActionFn(18);
-    //   "*" -> (<Expr> ",")+ = Expr, "," => ActionFn(18);
-    //   Num -> (<Expr> ",")+ = Expr, "," => ActionFn(18);
+    //   ["(", ")", "*", Num] -> (<Expr> ",")+ = Expr, "," => ActionFn(18);
     //
     pub fn __state46<
         'ast,
@@ -3745,45 +3327,24 @@ mod __parse__Expr {
     //     WillPush = [Factor]
     //     WillProduce = Some(Expr)
     //
-    //     Expr = Expr "-" (*) Factor [")"]
-    //     Expr = Expr "-" (*) Factor ["+"]
-    //     Expr = Expr "-" (*) Factor [","]
-    //     Expr = Expr "-" (*) Factor ["-"]
-    //     Factor = (*) Factor "*" Term [")"]
+    //     Expr = Expr "-" (*) Factor [")", "+", ",", "-"]
+    //     Factor = (*) Factor "*" Term [")", "+", ",", "-"]
     //     Factor = (*) Factor "*" Term ["*"]
-    //     Factor = (*) Factor "*" Term ["+"]
-    //     Factor = (*) Factor "*" Term [","]
-    //     Factor = (*) Factor "*" Term ["-"]
     //     Factor = (*) Factor "*" Term ["/"]
-    //     Factor = (*) Factor "/" Term [")"]
+    //     Factor = (*) Factor "/" Term [")", "+", ",", "-"]
     //     Factor = (*) Factor "/" Term ["*"]
-    //     Factor = (*) Factor "/" Term ["+"]
-    //     Factor = (*) Factor "/" Term [","]
-    //     Factor = (*) Factor "/" Term ["-"]
     //     Factor = (*) Factor "/" Term ["/"]
-    //     Factor = (*) Term [")"]
+    //     Factor = (*) Term [")", "+", ",", "-"]
     //     Factor = (*) Term ["*"]
-    //     Factor = (*) Term ["+"]
-    //     Factor = (*) Term [","]
-    //     Factor = (*) Term ["-"]
     //     Factor = (*) Term ["/"]
-    //     Factor = (*) "*" "(" Comma<Expr> ")" [")"]
+    //     Factor = (*) "*" "(" Comma<Expr> ")" [")", "+", ",", "-"]
     //     Factor = (*) "*" "(" Comma<Expr> ")" ["*"]
-    //     Factor = (*) "*" "(" Comma<Expr> ")" ["+"]
-    //     Factor = (*) "*" "(" Comma<Expr> ")" [","]
-    //     Factor = (*) "*" "(" Comma<Expr> ")" ["-"]
     //     Factor = (*) "*" "(" Comma<Expr> ")" ["/"]
-    //     Term = (*) "(" Expr ")" [")"]
+    //     Term = (*) "(" Expr ")" [")", "+", ",", "-"]
     //     Term = (*) "(" Expr ")" ["*"]
-    //     Term = (*) "(" Expr ")" ["+"]
-    //     Term = (*) "(" Expr ")" [","]
-    //     Term = (*) "(" Expr ")" ["-"]
     //     Term = (*) "(" Expr ")" ["/"]
-    //     Term = (*) Num [")"]
+    //     Term = (*) Num [")", "+", ",", "-"]
     //     Term = (*) Num ["*"]
-    //     Term = (*) Num ["+"]
-    //     Term = (*) Num [","]
-    //     Term = (*) Num ["-"]
     //     Term = (*) Num ["/"]
     //
     //   "(" -> S34
@@ -3857,24 +3418,9 @@ mod __parse__Expr {
     //     WillPush = [Term]
     //     WillProduce = Some(Factor)
     //
-    //     Factor = Factor "*" (*) Term [")"]
-    //     Factor = Factor "*" (*) Term ["*"]
-    //     Factor = Factor "*" (*) Term ["+"]
-    //     Factor = Factor "*" (*) Term [","]
-    //     Factor = Factor "*" (*) Term ["-"]
-    //     Factor = Factor "*" (*) Term ["/"]
-    //     Term = (*) "(" Expr ")" [")"]
-    //     Term = (*) "(" Expr ")" ["*"]
-    //     Term = (*) "(" Expr ")" ["+"]
-    //     Term = (*) "(" Expr ")" [","]
-    //     Term = (*) "(" Expr ")" ["-"]
-    //     Term = (*) "(" Expr ")" ["/"]
-    //     Term = (*) Num [")"]
-    //     Term = (*) Num ["*"]
-    //     Term = (*) Num ["+"]
-    //     Term = (*) Num [","]
-    //     Term = (*) Num ["-"]
-    //     Term = (*) Num ["/"]
+    //     Factor = Factor "*" (*) Term [")", "*", "+", ",", "-", "/"]
+    //     Term = (*) "(" Expr ")" [")", "*", "+", ",", "-", "/"]
+    //     Term = (*) Num [")", "*", "+", ",", "-", "/"]
     //
     //   "(" -> S34
     //   Num -> S36
@@ -3934,24 +3480,9 @@ mod __parse__Expr {
     //     WillPush = [Term]
     //     WillProduce = Some(Factor)
     //
-    //     Factor = Factor "/" (*) Term [")"]
-    //     Factor = Factor "/" (*) Term ["*"]
-    //     Factor = Factor "/" (*) Term ["+"]
-    //     Factor = Factor "/" (*) Term [","]
-    //     Factor = Factor "/" (*) Term ["-"]
-    //     Factor = Factor "/" (*) Term ["/"]
-    //     Term = (*) "(" Expr ")" [")"]
-    //     Term = (*) "(" Expr ")" ["*"]
-    //     Term = (*) "(" Expr ")" ["+"]
-    //     Term = (*) "(" Expr ")" [","]
-    //     Term = (*) "(" Expr ")" ["-"]
-    //     Term = (*) "(" Expr ")" ["/"]
-    //     Term = (*) Num [")"]
-    //     Term = (*) Num ["*"]
-    //     Term = (*) Num ["+"]
-    //     Term = (*) Num [","]
-    //     Term = (*) Num ["-"]
-    //     Term = (*) Num ["/"]
+    //     Factor = Factor "/" (*) Term [")", "*", "+", ",", "-", "/"]
+    //     Term = (*) "(" Expr ")" [")", "*", "+", ",", "-", "/"]
+    //     Term = (*) Num [")", "*", "+", ",", "-", "/"]
     //
     //   "(" -> S34
     //   Num -> S36
@@ -4011,18 +3542,9 @@ mod __parse__Expr {
     //     WillPush = [")"]
     //     WillProduce = None
     //
-    //     Expr = Expr (*) "+" Factor [")"]
-    //     Expr = Expr (*) "+" Factor ["+"]
-    //     Expr = Expr (*) "+" Factor ["-"]
-    //     Expr = Expr (*) "-" Factor [")"]
-    //     Expr = Expr (*) "-" Factor ["+"]
-    //     Expr = Expr (*) "-" Factor ["-"]
-    //     Term = "(" Expr (*) ")" [")"]
-    //     Term = "(" Expr (*) ")" ["*"]
-    //     Term = "(" Expr (*) ")" ["+"]
-    //     Term = "(" Expr (*) ")" [","]
-    //     Term = "(" Expr (*) ")" ["-"]
-    //     Term = "(" Expr (*) ")" ["/"]
+    //     Expr = Expr (*) "+" Factor [")", "+", "-"]
+    //     Expr = Expr (*) "-" Factor [")", "+", "-"]
+    //     Term = "(" Expr (*) ")" [")", "*", "+", ",", "-", "/"]
     //
     //   ")" -> S58
     //   "+" -> S23
@@ -4074,14 +3596,10 @@ mod __parse__Expr {
     //     WillPush = [Comma<Expr>, ")"]
     //     WillProduce = Some(Factor)
     //
-    //     (<Expr> ",")+ = (*) (<Expr> ",")+ Expr "," ["("]
+    //     (<Expr> ",")+ = (*) (<Expr> ",")+ Expr "," ["(", "*", Num]
     //     (<Expr> ",")+ = (*) (<Expr> ",")+ Expr "," [")"]
-    //     (<Expr> ",")+ = (*) (<Expr> ",")+ Expr "," ["*"]
-    //     (<Expr> ",")+ = (*) (<Expr> ",")+ Expr "," [Num]
-    //     (<Expr> ",")+ = (*) Expr "," ["("]
+    //     (<Expr> ",")+ = (*) Expr "," ["(", "*", Num]
     //     (<Expr> ",")+ = (*) Expr "," [")"]
-    //     (<Expr> ",")+ = (*) Expr "," ["*"]
-    //     (<Expr> ",")+ = (*) Expr "," [Num]
     //     Comma<Expr> = (*) [")"]
     //     Comma<Expr> = (*) (<Expr> ",")+ [")"]
     //     Comma<Expr> = (*) (<Expr> ",")+ Expr [")"]
@@ -4122,12 +3640,7 @@ mod __parse__Expr {
     //     Factor = (*) "*" "(" Comma<Expr> ")" [","]
     //     Factor = (*) "*" "(" Comma<Expr> ")" ["-"]
     //     Factor = (*) "*" "(" Comma<Expr> ")" ["/"]
-    //     Factor = "*" "(" (*) Comma<Expr> ")" [")"]
-    //     Factor = "*" "(" (*) Comma<Expr> ")" ["*"]
-    //     Factor = "*" "(" (*) Comma<Expr> ")" ["+"]
-    //     Factor = "*" "(" (*) Comma<Expr> ")" [","]
-    //     Factor = "*" "(" (*) Comma<Expr> ")" ["-"]
-    //     Factor = "*" "(" (*) Comma<Expr> ")" ["/"]
+    //     Factor = "*" "(" (*) Comma<Expr> ")" [")", "*", "+", ",", "-", "/"]
     //     Term = (*) "(" Expr ")" [")"]
     //     Term = (*) "(" Expr ")" ["*"]
     //     Term = (*) "(" Expr ")" ["+"]
@@ -4144,7 +3657,7 @@ mod __parse__Expr {
     //   "(" -> S34
     //   "*" -> S35
     //   Num -> S36
-    //   ")" -> Comma<Expr> =  => ActionFn(23);
+    //   [")"] -> Comma<Expr> =  => ActionFn(23);
     //
     //     (<Expr> ",")+ -> S29
     //     Comma<Expr> -> S59
@@ -4232,17 +3745,9 @@ mod __parse__Expr {
     //     WillPush = []
     //     WillProduce = Some(Factor)
     //
-    //     Factor = "*" "(" Comma<Expr> ")" (*) [")"]
-    //     Factor = "*" "(" Comma<Expr> ")" (*) ["*"]
-    //     Factor = "*" "(" Comma<Expr> ")" (*) ["+"]
-    //     Factor = "*" "(" Comma<Expr> ")" (*) ["-"]
-    //     Factor = "*" "(" Comma<Expr> ")" (*) ["/"]
+    //     Factor = "*" "(" Comma<Expr> ")" (*) [")", "*", "+", "-", "/"]
     //
-    //   ")" -> Factor = "*", "(", Comma<Expr>, ")" => ActionFn(6);
-    //   "*" -> Factor = "*", "(", Comma<Expr>, ")" => ActionFn(6);
-    //   "+" -> Factor = "*", "(", Comma<Expr>, ")" => ActionFn(6);
-    //   "-" -> Factor = "*", "(", Comma<Expr>, ")" => ActionFn(6);
-    //   "/" -> Factor = "*", "(", Comma<Expr>, ")" => ActionFn(6);
+    //   [")", "*", "+", "-", "/"] -> Factor = "*", "(", Comma<Expr>, ")" => ActionFn(6);
     //
     pub fn __state52<
         'ast,
@@ -4296,15 +3801,9 @@ mod __parse__Expr {
     //     WillPush = []
     //     WillProduce = Some((<Expr> ",")+)
     //
-    //     (<Expr> ",")+ = (<Expr> ",")+ Expr "," (*) ["("]
-    //     (<Expr> ",")+ = (<Expr> ",")+ Expr "," (*) [")"]
-    //     (<Expr> ",")+ = (<Expr> ",")+ Expr "," (*) ["*"]
-    //     (<Expr> ",")+ = (<Expr> ",")+ Expr "," (*) [Num]
+    //     (<Expr> ",")+ = (<Expr> ",")+ Expr "," (*) ["(", ")", "*", Num]
     //
-    //   "(" -> (<Expr> ",")+ = (<Expr> ",")+, Expr, "," => ActionFn(19);
-    //   ")" -> (<Expr> ",")+ = (<Expr> ",")+, Expr, "," => ActionFn(19);
-    //   "*" -> (<Expr> ",")+ = (<Expr> ",")+, Expr, "," => ActionFn(19);
-    //   Num -> (<Expr> ",")+ = (<Expr> ",")+, Expr, "," => ActionFn(19);
+    //   ["(", ")", "*", Num] -> (<Expr> ",")+ = (<Expr> ",")+, Expr, "," => ActionFn(19);
     //
     pub fn __state53<
         'ast,
@@ -4356,29 +3855,13 @@ mod __parse__Expr {
     //     WillPush = []
     //     WillProduce = None
     //
-    //     Expr = Expr "+" Factor (*) [")"]
-    //     Expr = Expr "+" Factor (*) ["+"]
-    //     Expr = Expr "+" Factor (*) [","]
-    //     Expr = Expr "+" Factor (*) ["-"]
-    //     Factor = Factor (*) "*" Term [")"]
-    //     Factor = Factor (*) "*" Term ["*"]
-    //     Factor = Factor (*) "*" Term ["+"]
-    //     Factor = Factor (*) "*" Term [","]
-    //     Factor = Factor (*) "*" Term ["-"]
-    //     Factor = Factor (*) "*" Term ["/"]
-    //     Factor = Factor (*) "/" Term [")"]
-    //     Factor = Factor (*) "/" Term ["*"]
-    //     Factor = Factor (*) "/" Term ["+"]
-    //     Factor = Factor (*) "/" Term [","]
-    //     Factor = Factor (*) "/" Term ["-"]
-    //     Factor = Factor (*) "/" Term ["/"]
+    //     Expr = Expr "+" Factor (*) [")", "+", ",", "-"]
+    //     Factor = Factor (*) "*" Term [")", "*", "+", ",", "-", "/"]
+    //     Factor = Factor (*) "/" Term [")", "*", "+", ",", "-", "/"]
     //
     //   "*" -> S48
     //   "/" -> S49
-    //   ")" -> Expr = Expr, "+", Factor => ActionFn(2);
-    //   "+" -> Expr = Expr, "+", Factor => ActionFn(2);
-    //   "," -> Expr = Expr, "+", Factor => ActionFn(2);
-    //   "-" -> Expr = Expr, "+", Factor => ActionFn(2);
+    //   [")", "+", ",", "-"] -> Expr = Expr, "+", Factor => ActionFn(2);
     //
     pub fn __state54<
         'ast,
@@ -4438,29 +3921,13 @@ mod __parse__Expr {
     //     WillPush = []
     //     WillProduce = None
     //
-    //     Expr = Expr "-" Factor (*) [")"]
-    //     Expr = Expr "-" Factor (*) ["+"]
-    //     Expr = Expr "-" Factor (*) [","]
-    //     Expr = Expr "-" Factor (*) ["-"]
-    //     Factor = Factor (*) "*" Term [")"]
-    //     Factor = Factor (*) "*" Term ["*"]
-    //     Factor = Factor (*) "*" Term ["+"]
-    //     Factor = Factor (*) "*" Term [","]
-    //     Factor = Factor (*) "*" Term ["-"]
-    //     Factor = Factor (*) "*" Term ["/"]
-    //     Factor = Factor (*) "/" Term [")"]
-    //     Factor = Factor (*) "/" Term ["*"]
-    //     Factor = Factor (*) "/" Term ["+"]
-    //     Factor = Factor (*) "/" Term [","]
-    //     Factor = Factor (*) "/" Term ["-"]
-    //     Factor = Factor (*) "/" Term ["/"]
+    //     Expr = Expr "-" Factor (*) [")", "+", ",", "-"]
+    //     Factor = Factor (*) "*" Term [")", "*", "+", ",", "-", "/"]
+    //     Factor = Factor (*) "/" Term [")", "*", "+", ",", "-", "/"]
     //
     //   "*" -> S48
     //   "/" -> S49
-    //   ")" -> Expr = Expr, "-", Factor => ActionFn(1);
-    //   "+" -> Expr = Expr, "-", Factor => ActionFn(1);
-    //   "," -> Expr = Expr, "-", Factor => ActionFn(1);
-    //   "-" -> Expr = Expr, "-", Factor => ActionFn(1);
+    //   [")", "+", ",", "-"] -> Expr = Expr, "-", Factor => ActionFn(1);
     //
     pub fn __state55<
         'ast,
@@ -4520,19 +3987,9 @@ mod __parse__Expr {
     //     WillPush = []
     //     WillProduce = Some(Factor)
     //
-    //     Factor = Factor "*" Term (*) [")"]
-    //     Factor = Factor "*" Term (*) ["*"]
-    //     Factor = Factor "*" Term (*) ["+"]
-    //     Factor = Factor "*" Term (*) [","]
-    //     Factor = Factor "*" Term (*) ["-"]
-    //     Factor = Factor "*" Term (*) ["/"]
+    //     Factor = Factor "*" Term (*) [")", "*", "+", ",", "-", "/"]
     //
-    //   ")" -> Factor = Factor, "*", Term => ActionFn(4);
-    //   "*" -> Factor = Factor, "*", Term => ActionFn(4);
-    //   "+" -> Factor = Factor, "*", Term => ActionFn(4);
-    //   "," -> Factor = Factor, "*", Term => ActionFn(4);
-    //   "-" -> Factor = Factor, "*", Term => ActionFn(4);
-    //   "/" -> Factor = Factor, "*", Term => ActionFn(4);
+    //   [")", "*", "+", ",", "-", "/"] -> Factor = Factor, "*", Term => ActionFn(4);
     //
     pub fn __state56<
         'ast,
@@ -4582,19 +4039,9 @@ mod __parse__Expr {
     //     WillPush = []
     //     WillProduce = Some(Factor)
     //
-    //     Factor = Factor "/" Term (*) [")"]
-    //     Factor = Factor "/" Term (*) ["*"]
-    //     Factor = Factor "/" Term (*) ["+"]
-    //     Factor = Factor "/" Term (*) [","]
-    //     Factor = Factor "/" Term (*) ["-"]
-    //     Factor = Factor "/" Term (*) ["/"]
+    //     Factor = Factor "/" Term (*) [")", "*", "+", ",", "-", "/"]
     //
-    //   ")" -> Factor = Factor, "/", Term => ActionFn(5);
-    //   "*" -> Factor = Factor, "/", Term => ActionFn(5);
-    //   "+" -> Factor = Factor, "/", Term => ActionFn(5);
-    //   "," -> Factor = Factor, "/", Term => ActionFn(5);
-    //   "-" -> Factor = Factor, "/", Term => ActionFn(5);
-    //   "/" -> Factor = Factor, "/", Term => ActionFn(5);
+    //   [")", "*", "+", ",", "-", "/"] -> Factor = Factor, "/", Term => ActionFn(5);
     //
     pub fn __state57<
         'ast,
@@ -4644,19 +4091,9 @@ mod __parse__Expr {
     //     WillPush = []
     //     WillProduce = Some(Term)
     //
-    //     Term = "(" Expr ")" (*) [")"]
-    //     Term = "(" Expr ")" (*) ["*"]
-    //     Term = "(" Expr ")" (*) ["+"]
-    //     Term = "(" Expr ")" (*) [","]
-    //     Term = "(" Expr ")" (*) ["-"]
-    //     Term = "(" Expr ")" (*) ["/"]
+    //     Term = "(" Expr ")" (*) [")", "*", "+", ",", "-", "/"]
     //
-    //   ")" -> Term = "(", Expr, ")" => ActionFn(9);
-    //   "*" -> Term = "(", Expr, ")" => ActionFn(9);
-    //   "+" -> Term = "(", Expr, ")" => ActionFn(9);
-    //   "," -> Term = "(", Expr, ")" => ActionFn(9);
-    //   "-" -> Term = "(", Expr, ")" => ActionFn(9);
-    //   "/" -> Term = "(", Expr, ")" => ActionFn(9);
+    //   [")", "*", "+", ",", "-", "/"] -> Term = "(", Expr, ")" => ActionFn(9);
     //
     pub fn __state58<
         'ast,
@@ -4710,12 +4147,7 @@ mod __parse__Expr {
     //     WillPush = [")"]
     //     WillProduce = Some(Factor)
     //
-    //     Factor = "*" "(" Comma<Expr> (*) ")" [")"]
-    //     Factor = "*" "(" Comma<Expr> (*) ")" ["*"]
-    //     Factor = "*" "(" Comma<Expr> (*) ")" ["+"]
-    //     Factor = "*" "(" Comma<Expr> (*) ")" [","]
-    //     Factor = "*" "(" Comma<Expr> (*) ")" ["-"]
-    //     Factor = "*" "(" Comma<Expr> (*) ")" ["/"]
+    //     Factor = "*" "(" Comma<Expr> (*) ")" [")", "*", "+", ",", "-", "/"]
     //
     //   ")" -> S60
     //
@@ -4755,19 +4187,9 @@ mod __parse__Expr {
     //     WillPush = []
     //     WillProduce = Some(Factor)
     //
-    //     Factor = "*" "(" Comma<Expr> ")" (*) [")"]
-    //     Factor = "*" "(" Comma<Expr> ")" (*) ["*"]
-    //     Factor = "*" "(" Comma<Expr> ")" (*) ["+"]
-    //     Factor = "*" "(" Comma<Expr> ")" (*) [","]
-    //     Factor = "*" "(" Comma<Expr> ")" (*) ["-"]
-    //     Factor = "*" "(" Comma<Expr> ")" (*) ["/"]
+    //     Factor = "*" "(" Comma<Expr> ")" (*) [")", "*", "+", ",", "-", "/"]
     //
-    //   ")" -> Factor = "*", "(", Comma<Expr>, ")" => ActionFn(6);
-    //   "*" -> Factor = "*", "(", Comma<Expr>, ")" => ActionFn(6);
-    //   "+" -> Factor = "*", "(", Comma<Expr>, ")" => ActionFn(6);
-    //   "," -> Factor = "*", "(", Comma<Expr>, ")" => ActionFn(6);
-    //   "-" -> Factor = "*", "(", Comma<Expr>, ")" => ActionFn(6);
-    //   "/" -> Factor = "*", "(", Comma<Expr>, ")" => ActionFn(6);
+    //   [")", "*", "+", ",", "-", "/"] -> Factor = "*", "(", Comma<Expr>, ")" => ActionFn(6);
     //
     pub fn __state60<
         'ast,
