@@ -9,7 +9,6 @@ use grammar::repr::*;
 use std::rc::Rc;
 use std::mem;
 use tls::Tls;
-use util::map::Entry;
 
 #[cfg(test)]
 mod test;
@@ -104,7 +103,6 @@ pub fn collapse_to_lalr_states<'grammar>(lr_states: &[LR1State<'grammar>])
     }
 
     // Now that items are fully built, create the actions
-    let reductions: Multimap<&'grammar Production, TokenSet> = Multimap::new();
     for (lr1_index, lr1_state) in lr_states.iter().enumerate() {
         let lalr1_index = remap[lr1_index];
         let lalr1_state = &mut lalr1_states[lalr1_index.0];
@@ -127,7 +125,7 @@ pub fn collapse_to_lalr_states<'grammar>(lr_states: &[LR1State<'grammar>])
     }
 
     // Finally, create the new states and detect conflicts
-    let mut lr1_states: Vec<_> =
+    let lr1_states: Vec<_> =
         lalr1_states.into_iter()
                     .map(|lr| State {
                         index: lr.index,
