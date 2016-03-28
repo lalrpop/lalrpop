@@ -71,7 +71,7 @@ impl<'grammar, L: LookaheadBuild> LR<'grammar, L> {
         let session = Tls::session();
         let mut kernel_set = kernel_set::KernelSet::new();
         let mut states = vec![];
-        let mut errors = 0;
+        let mut conflicts = vec![];
 
         // create the starting state
         kernel_set.add_state(Kernel::start(self.items(self.start_nt,
@@ -86,9 +86,11 @@ impl<'grammar, L: LookaheadBuild> LR<'grammar, L> {
                 log!(session, Verbose, "{} states created so far.", index.0);
             }
 
-            let mut this_state = State { index: index, items: items.clone(),
-                                         shifts: map(), reductions: vec!(),
-                                         conflicts: vec!(), gotos: map() };
+            let mut this_state = State { index: index,
+                                         items: items.clone(),
+                                         shifts: map(),
+                                         reductions: vec!(),
+                                         gotos: map() };
 
             // group the items that we can transition into by shifting
             // over a term or nonterm
@@ -135,23 +137,20 @@ impl<'grammar, L: LookaheadBuild> LR<'grammar, L> {
             }
 
             // check for shift-reduce conflicts (reduce-reduce detected above)
-            L::find_conflicts(&mut this_state);
-
-            // track total conflicts thus far
-            errors += this_state.conflicts.len();
+            conflicts.extend(L::conflicts(&this_state));
 
             // extract a new state
             states.push(this_state);
 
-            if self.permit_early_stop && session.stop_after(errors) {
+            if self.permit_early_stop && session.stop_after(conflicts.len()) {
                 log!(session, Verbose,
-                     "{} conflicts encountered, stopping.", errors);
+                     "{} conflicts encountered, stopping.", conflicts.len());
                 break;
             }
         }
 
-        if states.iter().any(|s| !s.conflicts.is_empty()) {
-            Err(TableConstructionError { states: states })
+        if !conflicts.is_empty() {
+            Err(TableConstructionError { states: states, conflicts: conflicts })
         } else {
             Ok(states)
         }
@@ -282,9 +281,6 @@ pub trait LookaheadBuild: Lookahead {
                                remainder: &[Symbol],
                                lookahead: Self)
                                -> Vec<Item<'grammar, Self>>;
-
-
-    fn find_conflicts<'grammar>(this_state: &mut State<'grammar, Self>);
 }
 
 impl LookaheadBuild for Nil {
@@ -295,34 +291,6 @@ impl LookaheadBuild for Nil {
                                -> Vec<LR0Item<'grammar>>
     {
         lr.items(nt, 0, &lookahead)
-    }
-
-    fn find_conflicts<'grammar>(this_state: &mut State<'grammar, Self>) {
-        let index = this_state.index;
-
-        for (&terminal, &next_state) in &this_state.shifts {
-            this_state.conflicts.extend(
-                this_state.reductions
-                          .iter()
-                          .map(|&(_, production)| Conflict {
-                              state: index,
-                              lookahead: Nil,
-                              production: production,
-                              action: Action::Shift(terminal, next_state),
-                          }));
-        }
-
-        if this_state.reductions.len() > 1 {
-            for &(_, production) in &this_state.reductions[1..] {
-                let other_production = this_state.reductions[0].1;
-                this_state.conflicts.push(Conflict {
-                    state: index,
-                    lookahead: Nil,
-                    production: production,
-                    action: Action::Reduce(other_production),
-                });
-            }
-        }
     }
 }
 
@@ -335,49 +303,5 @@ impl LookaheadBuild for TokenSet {
     {
         let first_set = lr.first_sets.first1(remainder, lookahead);
         lr.items(nt, 0, &first_set)
-    }
-
-    fn find_conflicts<'grammar>(this_state: &mut State<'grammar, Self>) {
-        for (&terminal, &next_state) in &this_state.shifts {
-            let token = Token::Terminal(terminal);
-            let inconsistent =
-                this_state.reductions
-                          .iter()
-                          .filter_map(|&(ref reduce_tokens, production)| {
-                              if reduce_tokens.contains(token) {
-                                  Some(production)
-                              } else {
-                                  None
-                              }
-                          });
-            let set = TokenSet::from(token);
-            for production in inconsistent {
-                this_state.conflicts.push(Conflict {
-                    state: this_state.index,
-                    lookahead: set.clone(),
-                    production: production,
-                    action: Action::Shift(terminal, next_state),
-                });
-            }
-        }
-
-        let len = this_state.reductions.len();
-        for i in 0..len {
-            for j in i+1..len {
-                let &(ref i_tokens, i_production) = &this_state.reductions[i];
-                let &(ref j_tokens, j_production) = &this_state.reductions[j];
-
-                if i_tokens.is_disjoint(j_tokens) {
-                    continue;
-                }
-
-                this_state.conflicts.push(Conflict {
-                    state: this_state.index,
-                    lookahead: i_tokens.intersection(j_tokens),
-                    production: i_production,
-                    action: Action::Reduce(j_production),
-                });
-            }
-        }
     }
 }

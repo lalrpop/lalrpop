@@ -1,5 +1,6 @@
 use bit_set::{self, BitSet};
 use collections::Collection;
+use lr1::core::*;
 use lr1::tls::Lr1Tls;
 use std::fmt::{Debug, Formatter, Error};
 use std::hash::Hash;
@@ -7,6 +8,9 @@ use grammar::repr::*;
 
 pub trait Lookahead: Clone + Debug + Eq + Ord + Hash + Collection<Item=Self> {
     fn fmt_as_item_suffix(&self, fmt: &mut Formatter) -> Result<(), Error>;
+
+    fn conflicts<'grammar>(this_state: &State<'grammar, Self>)
+                           -> Vec<Conflict<'grammar, Self>>;
 }
 
 #[derive(Copy, Clone, Debug, Default, Hash, PartialEq, Eq, PartialOrd, Ord)]
@@ -23,6 +27,39 @@ impl Lookahead for Nil {
     fn fmt_as_item_suffix(&self, _fmt: &mut Formatter) -> Result<(), Error> {
         Ok(())
     }
+
+    fn conflicts<'grammar>(this_state: &State<'grammar, Self>)
+                           -> Vec<Conflict<'grammar, Self>> {
+        let index = this_state.index;
+
+        let mut conflicts = vec![];
+
+        for (&terminal, &next_state) in &this_state.shifts {
+            conflicts.extend(
+                this_state.reductions
+                          .iter()
+                          .map(|&(_, production)| Conflict {
+                              state: index,
+                              lookahead: Nil,
+                              production: production,
+                              action: Action::Shift(terminal, next_state),
+                          }));
+        }
+
+        if this_state.reductions.len() > 1 {
+            for &(_, production) in &this_state.reductions[1..] {
+                let other_production = this_state.reductions[0].1;
+                conflicts.push(Conflict {
+                    state: index,
+                    lookahead: Nil,
+                    production: production,
+                    action: Action::Reduce(other_production),
+                });
+            }
+        }
+
+        conflicts
+    }
 }
 
 /// I have semi-arbitrarily decided to use the term "token" to mean
@@ -37,6 +74,55 @@ pub enum Token {
 impl Lookahead for TokenSet {
     fn fmt_as_item_suffix(&self, fmt: &mut Formatter) -> Result<(), Error> {
         write!(fmt, " {:?}", self)
+    }
+
+    fn conflicts<'grammar>(this_state: &State<'grammar, Self>)
+                           -> Vec<Conflict<'grammar, Self>> {
+        let mut conflicts = vec![];
+
+        for (&terminal, &next_state) in &this_state.shifts {
+            let token = Token::Terminal(terminal);
+            let inconsistent =
+                this_state.reductions
+                          .iter()
+                          .filter_map(|&(ref reduce_tokens, production)| {
+                              if reduce_tokens.contains(token) {
+                                  Some(production)
+                              } else {
+                                  None
+                              }
+                          });
+            let set = TokenSet::from(token);
+            for production in inconsistent {
+                conflicts.push(Conflict {
+                    state: this_state.index,
+                    lookahead: set.clone(),
+                    production: production,
+                    action: Action::Shift(terminal, next_state),
+                });
+            }
+        }
+
+        let len = this_state.reductions.len();
+        for i in 0..len {
+            for j in i+1..len {
+                let &(ref i_tokens, i_production) = &this_state.reductions[i];
+                let &(ref j_tokens, j_production) = &this_state.reductions[j];
+
+                if i_tokens.is_disjoint(j_tokens) {
+                    continue;
+                }
+
+                conflicts.push(Conflict {
+                    state: this_state.index,
+                    lookahead: i_tokens.intersection(j_tokens),
+                    production: i_production,
+                    action: Action::Reduce(j_production),
+                });
+            }
+        }
+
+        conflicts
     }
 }
 

@@ -18,7 +18,7 @@ pub fn report_error(grammar: &Grammar,
                     error: &LR1TableConstructionError)
                     -> Vec<Message>
 {
-    let mut cx = ErrorReportingCx::new(grammar, &error.states);
+    let mut cx = ErrorReportingCx::new(grammar, &error.states, &error.conflicts);
     cx.report_errors()
 }
 
@@ -26,6 +26,7 @@ struct ErrorReportingCx<'cx, 'grammar: 'cx> {
     grammar: &'grammar Grammar,
     first_sets: FirstSets,
     states: &'cx [LR1State<'grammar>],
+    conflicts: &'cx [LR1Conflict<'grammar>],
 }
 
 #[derive(Debug)]
@@ -64,17 +65,19 @@ type TokenConflict<'grammar> = Conflict<'grammar, Token>;
 
 impl<'cx, 'grammar> ErrorReportingCx<'cx, 'grammar> {
     fn new(grammar: &'grammar Grammar,
-           states: &'cx [LR1State<'grammar>])
+           states: &'cx [LR1State<'grammar>],
+           conflicts: &'cx [LR1Conflict<'grammar>])
            -> Self {
         ErrorReportingCx {
             grammar: grammar,
             first_sets: FirstSets::new(grammar),
             states: states,
+            conflicts: conflicts,
         }
     }
 
     fn report_errors(&mut self) -> Vec<Message> {
-        token_conflicts(self.states)
+        token_conflicts(self.conflicts)
             .iter()
             .map(|conflict| self.report_error(conflict))
             .collect()
@@ -742,11 +745,10 @@ impl<'cx, 'grammar> ErrorReportingCx<'cx, 'grammar> {
     }
 }
 
-fn token_conflicts<'grammar>(states: &[LR1State<'grammar>])
+fn token_conflicts<'grammar>(conflicts: &[Conflict<'grammar, TokenSet>])
                              -> Vec<TokenConflict<'grammar>> {
-    states
+    conflicts
         .iter()
-        .flat_map(|state| &state.conflicts)
         .flat_map(|conflict| {
             conflict.lookahead
                     .iter()

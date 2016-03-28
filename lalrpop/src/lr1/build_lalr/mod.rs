@@ -137,16 +137,16 @@ pub fn collapse_to_lalr_states<'grammar>(lr_states: &[LR1State<'grammar>])
                                                  .map(|(p, ts)| (ts, p))
                                                  .collect(),
                         gotos: lr.gotos,
-                        conflicts: vec![],
                     })
                     .collect();
 
-    for lr1_state in &mut lr1_states {
-        TokenSet::find_conflicts(lr1_state);
-    }
+    let conflicts: Vec<_> =
+        lr1_states.iter()
+                  .flat_map(|s| TokenSet::conflicts(s))
+                  .collect();
 
-    if lr1_states.iter().any(|s| !s.conflicts.is_empty()) {
-        Err(TableConstructionError { states: lr1_states })
+    if !conflicts.is_empty() {
+        Err(TableConstructionError { states: lr1_states, conflicts: conflicts })
     } else {
         Ok(lr1_states)
     }

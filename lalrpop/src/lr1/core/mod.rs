@@ -122,7 +122,6 @@ pub struct State<'grammar, L: Lookahead> {
     pub items: Items<'grammar, L>,
     pub shifts: Map<TerminalString, StateIndex>,
     pub reductions: Vec<(L, &'grammar Production)>,
-    pub conflicts: Vec<Conflict<'grammar, L>>,
     pub gotos: Map<NonterminalString, StateIndex>,
 }
 
@@ -155,8 +154,12 @@ pub type LR1Conflict<'grammar> = Conflict<'grammar, TokenSet>;
 
 #[derive(Debug)]
 pub struct TableConstructionError<'grammar, L: Lookahead> {
-    // LR(1) state set. Some of these states are in error.
+    // LR(1) state set, possibly incomplete if construction is
+    // configured to terminate early.
     pub states: Vec<State<'grammar, L>>,
+
+    // Conflicts (non-empty) found in those states.
+    pub conflicts: Vec<Conflict<'grammar, L>>,
 }
 
 pub type LR0TableConstructionError<'grammar> = TableConstructionError<'grammar, Nil>;
