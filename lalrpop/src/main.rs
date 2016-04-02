@@ -85,3 +85,34 @@ struct Args {
 enum LevelFlag {
     Quiet, Info, Verbose, Debug
 }
+
+#[cfg(test)]
+mod test {
+    use docopt::Docopt;
+    use super::USAGE;
+    use super::Args;
+
+    #[test]
+    fn test_usage_help() {
+        let argv = || vec!["lalrpop", "--help"];
+        let _: Args = Docopt::new(USAGE)
+            .and_then(|d| d.help(false).argv(argv().into_iter()).decode())
+            .unwrap();
+    }
+
+    #[test]
+    fn test_usage_single_input() {
+        let argv = || vec!["lalrpop", "file.lalrpop"];
+        let _: Args = Docopt::new(USAGE)
+            .and_then(|d| d.argv(argv().into_iter()).decode())
+            .unwrap();
+    }
+
+    #[test]
+    fn test_usage_multiple_inputs() {
+        let argv = || vec!["lalrpop", "file.lalrpop", "../file2.lalrpop"];
+        let _: Args = Docopt::new(USAGE)
+            .and_then(|d| d.argv(argv().into_iter()).decode())
+            .unwrap();
+    }
+}
