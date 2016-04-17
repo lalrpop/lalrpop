@@ -109,6 +109,17 @@ impl Configuration {
         self
     }
 
+    /// Process all files according to the `set_in_dir` and
+    /// `set_out_dir` configuration.
+    pub fn process(&self) -> Result<(), Box<Error>> {
+        let root = if let Some(ref d) = self.session.in_dir {
+            d.as_path()
+        } else {
+            Path::new(".")
+        };
+        self.process_dir(root)
+    }
+
     /// Process all files in the current directory, which -- unless you
     /// have changed it -- is typically the root of the crate being compiled.
     pub fn process_current_dir(&self) -> Result<(), Box<Error>> {
