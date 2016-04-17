@@ -3,6 +3,7 @@
 //! crate. Note that all fields are public and so forth for convenience.
 
 use std::default::Default;
+use std::path;
 use style::{self, Style};
 use log::{Log, Level};
 
@@ -30,6 +31,10 @@ pub struct Session {
     pub log: Log,
 
     pub force_build: bool,
+
+    pub in_dir: Option<path::PathBuf>,
+
+    pub out_dir: Option<path::PathBuf>,
 
     /// Emit comments in generated code explaining the states and so
     /// forth.
@@ -74,6 +79,8 @@ impl Session {
     pub fn new() -> Session {
         Session {
             log: Log::new(Level::Informative),
+            in_dir: None,
+            out_dir: None,
             force_build: false,
             emit_comments: false,
             color_config: ColorConfig::default(),
@@ -94,6 +101,8 @@ impl Session {
     pub fn test() -> Session {
         Session {
             log: Log::new(Level::Debug),
+            in_dir: None,
+            out_dir: None,
             force_build: false,
             emit_comments: false,
             color_config: ColorConfig::IfTty,

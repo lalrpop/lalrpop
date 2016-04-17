@@ -2,9 +2,10 @@ use build;
 use log::Level;
 use session::{ColorConfig, Session};
 use std::default::Default;
+use std::env;
 use std::env::current_dir;
 use std::error::Error;
-use std::path::Path;
+use std::path::{Path, PathBuf};
 use std::rc::Rc;
 
 /// Configure various aspects of how LALRPOP works.
@@ -37,6 +38,34 @@ impl Configuration {
     /// not otherwise. This is the default.
     pub fn use_colors_if_tty(&mut self) -> &mut Configuration {
         self.session.color_config = ColorConfig::IfTty;
+        self
+    }
+
+    /// Specify a custom directory to search for input files.  This
+    /// directory is recursively searched for `.lalrpop` files to be
+    /// considered as input files.  This configuration setting also
+    /// impacts where output files are placed; paths are made relative
+    /// to the input path before being resolved relative to the output
+    /// path.  By default, the input directory is the current working
+    /// directory.
+    pub fn set_in_dir<P>(&mut self, dir: P) -> &mut Self where P: Into<PathBuf> {
+        self.session.in_dir = Some(dir.into());
+        self
+    }
+
+    /// Specify a custom directory to use when writing output files.
+    /// By default, the output directory is the same as the input
+    /// directory.
+    pub fn set_out_dir<P>(&mut self, dir: P) -> &mut Self where P: Into<PathBuf> {
+        self.session.out_dir = Some(dir.into());
+        self
+    }
+
+    /// Apply `cargo` directory location conventions, by setting the
+    /// input directory to `src` and the output directory to
+    /// `$OUT_DIR`.
+    pub fn use_cargo_dir_conventions(&mut self) -> &mut Self {
+        self.set_in_dir("src").set_out_dir(env::var("OUT_DIR").unwrap());
         self
     }
 
