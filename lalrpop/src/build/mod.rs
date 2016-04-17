@@ -37,10 +37,36 @@ pub fn process_dir<P:AsRef<Path>>(session: Rc<Session>, root_dir: P) -> io::Resu
 }
 
 pub fn process_file<P:AsRef<Path>>(session: Rc<Session>, lalrpop_file: P) -> io::Result<()> {
-    let lalrpop_file: &Path = lalrpop_file.as_ref();
-    let rs_file = lalrpop_file.with_extension("rs");
+    let lalrpop_file = lalrpop_file.as_ref();
+    let rs_file = try!(resolve_rs_file(&session, lalrpop_file));
+    process_file_into(session, lalrpop_file, &rs_file)
+}
+
+fn resolve_rs_file(session: &Session, lalrpop_file: &Path) -> io::Result<PathBuf> {
+    let in_dir = if let Some(ref d) = session.in_dir {
+        d.as_path()
+    } else {
+        Path::new(".")
+    };
+    let out_dir = if let Some(ref d) = session.out_dir {
+        d.as_path()
+    } else {
+        in_dir
+    };
+
+    // If the lalrpop file is not in in_dir, the result is that the
+    // .rs file is created in the same directory as the lalrpop file
+    // for compatibility reasons
+    Ok(out_dir.join(lalrpop_file.strip_prefix(&in_dir).unwrap_or(lalrpop_file))
+        .with_extension("rs"))
+}
+
+fn process_file_into(session: Rc<Session>, lalrpop_file: &Path, rs_file: &Path) -> io::Result<()> {
     if session.force_build || try!(needs_rebuild(&lalrpop_file, &rs_file)) {
         log!(session, Informative, "processing file `{}`", lalrpop_file.to_string_lossy());
+        if let Some(parent) = rs_file.parent() {
+            try!(fs::create_dir_all(parent));
+        }
         try!(make_read_only(&rs_file, false));
         try!(remove_old_file(&rs_file));
 
