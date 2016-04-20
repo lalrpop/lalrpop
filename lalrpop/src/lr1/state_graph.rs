@@ -75,4 +75,13 @@ impl StateGraph {
         result.dedup();
         result
     }
+
+    pub fn successors(&self,
+                      state_index: StateIndex)
+                      -> Vec<StateIndex> {
+        self.graph.edges_directed(NodeIndex::new(state_index.0),
+                                  EdgeDirection::Outgoing)
+                  .map(|(succ, _)| StateIndex(succ.index()))
+                  .collect()
+    }
 }

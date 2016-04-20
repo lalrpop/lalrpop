@@ -1,0 +1,656 @@
+grammar;
+
+pub file: () = {
+    program,
+    module,
+};
+
+program: () = {
+    program_heading semicolon block ".",
+};
+
+program_heading: () = {
+    "PROGRAM" identifier,
+    "PROGRAM" identifier "(" identifier_list ")",
+};
+
+identifier_list: () = {
+    identifier_list comma identifier,
+    identifier,
+};
+
+block: () = {
+    label_declaration_part constant_definition_part type_definition_part variable_declaration_part procedure_and_function_declaration_part statement_part,
+};
+
+module: () = {
+    constant_definition_part type_definition_part variable_declaration_part procedure_and_function_declaration_part,
+};
+
+label_declaration_part: () = {
+    "LABEL" label_list semicolon,
+    () ,
+};
+
+label_list: () = {
+    label_list comma label,
+    label,
+};
+
+label: () = {
+    r"\d+",
+};
+
+constant_definition_part: () = {
+    "CONST" constant_list,
+    () ,
+};
+
+constant_list: () = {
+    constant_list constant_definition,
+    constant_definition,
+};
+
+constant_definition: () = {
+    identifier "=" cexpression semicolon,
+};
+
+cexpression: () = {
+    csimple_expression,
+    csimple_expression relop csimple_expression,
+};
+
+csimple_expression: () = {
+    cterm,
+    csimple_expression addop cterm,
+};
+
+cterm: () = {
+    cfactor,
+    cterm mulop cfactor,
+};
+
+cfactor: () = {
+    sign cfactor,
+    cexponentiation,
+};
+
+cexponentiation: () = {
+    cprimary,
+    cprimary "**" cexponentiation,
+};
+
+cprimary: () = {
+    identifier,
+    "(" cexpression ")",
+    unsigned_constant,
+    "NOT" cprimary,
+};
+
+constant: () = {
+    non_string,
+    sign non_string,
+    r"'[^']*'",
+};
+
+sign: () = {
+    "+",
+    "-",
+};
+
+non_string: () = {
+    r"\d+",
+    identifier,
+    r"\d+\.\d+",
+};
+
+type_definition_part: () = {
+    "TYPE" type_definition_list,
+    () ,
+};
+
+type_definition_list: () = {
+    type_definition_list type_definition,
+    type_definition,
+};
+
+type_definition: () = {
+    identifier "=" type_denoter semicolon,
+};
+
+type_denoter: () = {
+    identifier,
+    new_type,
+};
+
+new_type: () = {
+    new_ordinal_type,
+    new_structured_type,
+    new_pointer_type,
+};
+
+new_ordinal_type: () = {
+    enumerated_type,
+    subrange_type,
+};
+
+enumerated_type: () = {
+    "(" identifier_list ")",
+};
+
+subrange_type: () = {
+    constant ".." constant,
+};
+
+new_structured_type: () = {
+    structured_type,
+    "PACKED" structured_type,
+};
+
+structured_type: () = {
+    array_type,
+    record_type,
+    set_type,
+    file_type,
+};
+
+array_type: () = {
+    "ARRAY" "[" index_list "]" "OF" component_type,
+};
+
+index_list: () = {
+    index_list comma index_type,
+    index_type,
+};
+
+index_type: () = {
+    ordinal_type,
+};
+
+ordinal_type: () = {
+    new_ordinal_type,
+    identifier,
+};
+
+component_type: () = {
+    type_denoter,
+};
+
+record_type: () = {
+    "RECORD" record_section_list "END",
+    "RECORD" record_section_list semicolon variant_part "END",
+    "RECORD" variant_part "END",
+};
+
+record_section_list: () = {
+    record_section_list semicolon record_section,
+    record_section,
+};
+
+record_section: () = {
+    identifier_list ":" type_denoter,
+};
+
+variant_part: () = {
+    "CASE" variant_selector "OF" variant_list semicolon,
+    "CASE" variant_selector "OF" variant_list,
+    () ,
+};
+
+variant_selector: () = {
+    tag_field ":" tag_type,
+    tag_type,
+};
+
+variant_list: () = {
+    variant_list semicolon variant,
+    variant,
+};
+
+variant: () = {
+    case_constant_list ":" "(" record_section_list ")",
+    case_constant_list ":" "(" record_section_list semicolon variant_part ")",
+    case_constant_list ":" "(" variant_part ")",
+};
+
+case_constant_list: () = {
+    case_constant_list comma case_constant,
+    case_constant,
+};
+
+case_constant: () = {
+    constant,
+    constant ".." constant,
+};
+
+tag_field: () = {
+    identifier,
+};
+
+tag_type: () = {
+    identifier,
+};
+
+set_type: () = {
+    "SET" "OF" base_type,
+};
+
+base_type: () = {
+    ordinal_type,
+};
+
+file_type: () = {
+    "PFILE" "OF" component_type,
+};
+
+new_pointer_type: () = {
+    "^" domain_type,
+};
+
+domain_type: () = {
+    identifier,
+};
+
+variable_declaration_part: () = {
+    "VAR" variable_declaration_list semicolon,
+    () ,
+};
+
+variable_declaration_list: () = {
+    variable_declaration_list semicolon variable_declaration,
+    variable_declaration,
+};
+
+variable_declaration: () = {
+    identifier_list ":" type_denoter,
+};
+
+procedure_and_function_declaration_part: () = {
+    proc_or_func_declaration_list semicolon,
+    () ,
+};
+
+proc_or_func_declaration_list: () = {
+    proc_or_func_declaration_list semicolon proc_or_func_declaration,
+    proc_or_func_declaration,
+};
+
+proc_or_func_declaration: () = {
+    procedure_declaration,
+    function_declaration,
+};
+
+procedure_declaration: () = {
+    procedure_heading semicolon directive,
+    procedure_heading semicolon procedure_block,
+};
+
+procedure_heading: () = {
+    procedure_identification,
+    procedure_identification formal_parameter_list,
+};
+
+directive: () = {
+    "FORWARD",
+    "EXTERNAL",
+};
+
+formal_parameter_list: () = {
+    "(" formal_parameter_section_list ")",
+};
+
+formal_parameter_section_list: () = {
+    formal_parameter_section_list semicolon formal_parameter_section,
+    formal_parameter_section,
+};
+
+formal_parameter_section: () = {
+    value_parameter_specification,
+    variable_parameter_specification,
+    procedural_parameter_specification,
+    functional_parameter_specification,
+};
+
+value_parameter_specification: () = {
+    identifier_list ":" identifier,
+};
+
+variable_parameter_specification: () = {
+    "VAR" identifier_list ":" identifier,
+};
+
+procedural_parameter_specification: () = {
+    procedure_heading,
+};
+
+functional_parameter_specification: () = {
+    function_heading,
+};
+
+procedure_identification: () = {
+    "PROCEDURE" identifier,
+};
+
+procedure_block: () = {
+    block,
+};
+
+function_declaration: () = {
+    function_heading semicolon directive,
+    function_identification semicolon function_block,
+    function_heading semicolon function_block,
+};
+
+function_heading: () = {
+    "FUNCTION" identifier ":" result_type,
+    "FUNCTION" identifier formal_parameter_list ":" result_type,
+};
+
+result_type: () = {
+    identifier,
+};
+
+function_identification: () = {
+    "FUNCTION" identifier,
+};
+
+function_block: () = {
+    block,
+};
+
+statement_part: () = {
+    compound_statement,
+};
+
+compound_statement: () = {
+    "BEGIN" statement_sequence "END",
+};
+
+statement_sequence: () = {
+    statement_sequence semicolon statement,
+    statement,
+};
+
+statement: () = {
+    open_statement,
+    closed_statement,
+};
+
+open_statement: () = {
+    label ":" non_labeled_open_statement,
+    non_labeled_open_statement,
+};
+
+closed_statement: () = {
+    label ":" non_labeled_closed_statement,
+    non_labeled_closed_statement,
+};
+
+non_labeled_closed_statement: () = {
+    assignment_statement,
+    procedure_statement,
+    goto_statement,
+    compound_statement,
+    case_statement,
+    repeat_statement,
+    closed_with_statement,
+    closed_if_statement,
+    closed_while_statement,
+    closed_for_statement,
+    () ,
+};
+
+non_labeled_open_statement: () = {
+    open_with_statement,
+    open_if_statement,
+    open_while_statement,
+    open_for_statement,
+};
+
+repeat_statement: () = {
+    "REPEAT" statement_sequence "UNTIL" boolean_expression,
+};
+
+open_while_statement: () = {
+    "WHILE" boolean_expression "DO" open_statement,
+};
+
+closed_while_statement: () = {
+    "WHILE" boolean_expression "DO" closed_statement,
+};
+
+open_for_statement: () = {
+    "FOR" control_variable ":=" initial_value direction final_value "DO" open_statement,
+};
+
+closed_for_statement: () = {
+    "FOR" control_variable ":=" initial_value direction final_value "DO" closed_statement,
+};
+
+open_with_statement: () = {
+    "WITH" record_variable_list "DO" open_statement,
+};
+
+closed_with_statement: () = {
+    "WITH" record_variable_list "DO" closed_statement,
+};
+
+open_if_statement: () = {
+    "IF" boolean_expression "THEN" statement,
+    "IF" boolean_expression "THEN" closed_statement "ELSE" open_statement,
+};
+
+closed_if_statement: () = {
+    "IF" boolean_expression "THEN" closed_statement "ELSE" closed_statement,
+};
+
+assignment_statement: () = {
+    variable_access ":=" expression,
+};
+
+variable_access: () = {
+    identifier,
+    indexed_variable,
+    field_designator,
+    variable_access "^",
+};
+
+indexed_variable: () = {
+    variable_access "[" index_expression_list "]",
+};
+
+index_expression_list: () = {
+    index_expression_list comma index_expression,
+    index_expression,
+};
+
+index_expression: () = {
+    expression,
+};
+
+field_designator: () = {
+    variable_access "." identifier,
+};
+
+procedure_statement: () = {
+    identifier params,
+    identifier,
+};
+
+params: () = {
+    "(" actual_parameter_list ")",
+};
+
+actual_parameter_list: () = {
+    actual_parameter_list comma actual_parameter,
+    actual_parameter,
+};
+
+actual_parameter: () = {
+    expression,
+    expression ":" expression,
+    expression ":" expression ":" expression,
+};
+
+goto_statement: () = {
+    "GOTO" label,
+};
+
+case_statement: () = {
+    "CASE" case_index "OF" case_list_element_list "END",
+    "CASE" case_index "OF" case_list_element_list ";" "END",
+    "CASE" case_index "OF" case_list_element_list semicolon otherwisepart statement "END",
+    "CASE" case_index "OF" case_list_element_list semicolon otherwisepart statement ";" "END",
+};
+
+case_index: () = {
+    expression,
+};
+
+case_list_element_list: () = {
+    case_list_element_list semicolon case_list_element,
+    case_list_element,
+};
+
+case_list_element: () = {
+    case_constant_list ":" statement,
+};
+
+otherwisepart: () = {
+    "OTHERWISE",
+    "OTHERWISE" ":",
+};
+
+control_variable: () = {
+    identifier,
+};
+
+initial_value: () = {
+    expression,
+};
+
+direction: () = {
+    "TO",
+    "DOWNTO",
+};
+
+final_value: () = {
+    expression,
+};
+
+record_variable_list: () = {
+    record_variable_list comma variable_access,
+    variable_access,
+};
+
+boolean_expression: () = {
+    expression,
+};
+
+expression: () = {
+    simple_expression,
+    simple_expression relop simple_expression,
+};
+
+simple_expression: () = {
+    term,
+    simple_expression addop term,
+};
+
+term: () = {
+    factor,
+    term mulop factor,
+};
+
+factor: () = {
+    sign factor,
+    exponentiation,
+};
+
+exponentiation: () = {
+    primary,
+    primary "**" exponentiation,
+};
+
+primary: () = {
+    variable_access,
+    unsigned_constant,
+    function_designator,
+    set_constructor,
+    "(" expression ")",
+    "NOT" primary,
+};
+
+unsigned_constant: () = {
+    unsigned_number,
+    r"'[^']*'",
+    "NIL",
+};
+
+unsigned_number: () = {
+    unsigned_integer,
+    unsigned_real,
+};
+
+unsigned_integer: () = {
+    r"\d+",
+};
+
+unsigned_real: () = {
+    r"\d+\.\d+",
+};
+
+function_designator: () = {
+    identifier params,
+};
+
+set_constructor: () = {
+    "[" member_designator_list "]",
+    "[" "]",
+};
+
+member_designator_list: () = {
+    member_designator_list comma member_designator,
+    member_designator,
+};
+
+member_designator: () = {
+    member_designator ".." expression,
+    expression,
+};
+
+addop: () = {
+    "+",
+    "-",
+    "OR",
+};
+
+mulop: () = {
+    "*",
+    "/",
+    "DIV",
+    "MOD",
+    "AND",
+};
+
+relop: () = {
+    "=",
+    "<>",
+    "<",
+    ">",
+    "<=",
+    ">=",
+    "IN",
+};
+
+identifier: () = {
+    r"[a-zA-Z][a-zA-Z0-9]*",
+};
+
+semicolon: () = {
+    ";",
+};
+
+comma: () = {
+    ",",
+};

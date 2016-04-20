@@ -2,6 +2,7 @@
 
 use collections::Map;
 use grammar::repr::*;
+use itertools::Itertools;
 use std::fmt::{Debug, Formatter, Error};
 use std::rc::Rc;
 use util::Prefix;
@@ -162,15 +163,17 @@ impl Debug for StateIndex {
 }
 
 impl<'grammar> State<'grammar> {
-    pub fn prefix(&self) -> &'grammar [Symbol] {
+    /// Returns the set of symbols which must appear on the stack to
+    /// be in this state. This is the *maximum* prefix of any item,
+    /// basically.
+    pub fn max_prefix(&self) -> &'grammar [Symbol] {
         // Each state fn takes as argument the longest prefix of any
         // item. Note that all items must have compatible prefixes.
-        let (_, prefix) =
+        let prefix =
             self.items.vec
                       .iter()
-                      .map(|item| &item.production.symbols[..item.index])
-                      .map(|symbols| (symbols.len(), symbols))
-                      .max() // grr, max_by is unstable :(
+                      .map(|item| item.prefix())
+                      .max_by_key(|symbols| symbols.len())
                       .unwrap();
 
         debug_assert!(
@@ -180,6 +183,64 @@ impl<'grammar> State<'grammar> {
 
         prefix
     }
+
+    /// Returns the set of symbols from the stack that must be popped
+    /// for this state to return. If we have a state like:
+    ///
+    /// ```
+    /// X = A B C (*) C
+    /// Y = B C (*) C
+    /// C = (*) ...
+    /// ```
+    ///
+    /// This would return `[B, C]`. For every state other than the
+    /// start state, this will return a list of length at least 1.
+    /// For the start state, returns `[]`.
+    pub fn will_pop(&self) -> &'grammar [Symbol] {
+        let prefix =
+            self.items.vec.iter()
+                          .filter(|item| item.index > 0)
+                          .map(|item| item.prefix())
+                          .min_by_key(|symbols| symbols.len())
+                          .unwrap_or(&[]);
+
+        debug_assert!(
+            self.items.vec
+                      .iter()
+                      .filter(|item| item.index > 0)
+                      .all(|item| item.prefix().ends_with(prefix)));
+
+        prefix
+    }
+
+    pub fn will_push(&self) -> &[Symbol] {
+        self.items.vec.iter()
+                      .filter(|item| item.index > 0)
+                      .map(|item| &item.production.symbols[item.index..])
+                      .min_by_key(|symbols| symbols.len())
+                      .unwrap_or(&[])
+    }
+
+    /// Returns the type of nonterminal that this state will produce;
+    /// if `None` is returned, then this state may produce more than
+    /// one kind of nonterminal.
+    ///
+    /// FIXME -- currently, the start state returns `None` instead of
+    /// the goal symbol.
+    pub fn will_produce(&self) -> Option<NonterminalString> {
+        let mut returnable_nonterminals: Vec<_> =
+            self.items.vec.iter()
+                          .filter(|item| item.index > 0)
+                          .map(|item| item.production.nonterminal)
+                          .dedup()
+                          .collect();
+        if returnable_nonterminals.len() == 1 {
+            returnable_nonterminals.pop()
+        } else {
+            None
+        }
+    }
+
 }
 
 impl<'grammar> Action<'grammar> {
