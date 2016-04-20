@@ -23,9 +23,9 @@ pub Ty: () = {
 };
 "#);
     let _lr1_tls = Lr1Tls::install(grammar.terminals.clone());
-    let states = build_states(&grammar, nt("Ty")).unwrap_err().states;
-    let mut cx = ErrorReportingCx::new(&grammar, &states);
-    let conflicts = super::token_conflicts(&states);
+    let err = build_states(&grammar, nt("Ty")).unwrap_err();
+    let mut cx = ErrorReportingCx::new(&grammar, &err.states, &err.conflicts);
+    let conflicts = super::token_conflicts(&err.conflicts);
     let conflict = &conflicts[0];
 
     println!("conflict={:?}", conflict);
@@ -61,9 +61,9 @@ pub Expr: () = {
 };
 "#);
     let _lr1_tls = Lr1Tls::install(grammar.terminals.clone());
-    let states = build_states(&grammar, nt("Expr")).unwrap_err().states;
-    let mut cx = ErrorReportingCx::new(&grammar, &states);
-    let conflicts = super::token_conflicts(&states);
+    let err = build_states(&grammar, nt("Expr")).unwrap_err();
+    let mut cx = ErrorReportingCx::new(&grammar, &err.states, &err.conflicts);
+    let conflicts = super::token_conflicts(&err.conflicts);
     let conflict = &conflicts[0];
 
     println!("conflict={:?}", conflict);
@@ -91,10 +91,9 @@ fn suggest_question_conflict() {
         };
 "#);
     let _lr1_tls = Lr1Tls::install(grammar.terminals.clone());
-    let states = build_states(&grammar, nt("E")).unwrap_err().states;
-
-    let mut cx = ErrorReportingCx::new(&grammar, &states);
-    let conflicts = super::token_conflicts(&states);
+    let err = build_states(&grammar, nt("E")).unwrap_err();
+    let mut cx = ErrorReportingCx::new(&grammar, &err.states, &err.conflicts);
+    let conflicts = super::token_conflicts(&err.conflicts);
     let conflict = &conflicts[0];
 
     println!("conflict={:?}", conflict);
@@ -131,9 +130,9 @@ Path: () = {
 Ident = r#"[a-zA-Z][a-zA-Z0-9]*"#;
 "##);
     let _lr1_tls = Lr1Tls::install(grammar.terminals.clone());
-    let states = build_states(&grammar, nt("ImportDecl")).unwrap_err().states;
-    let mut cx = ErrorReportingCx::new(&grammar, &states);
-    let conflicts = super::token_conflicts(&states);
+    let err = build_states(&grammar, nt("ImportDecl")).unwrap_err();
+    let mut cx = ErrorReportingCx::new(&grammar, &err.states, &err.conflicts);
+    let conflicts = super::token_conflicts(&err.conflicts);
     let conflict = &conflicts[0];
 
     println!("conflict={:?}", conflict);

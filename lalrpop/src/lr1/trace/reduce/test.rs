@@ -132,13 +132,9 @@ pub Ty: () = {
 "#);
     let _lr1_tls = Lr1Tls::install(grammar.terminals.clone());
     let first_sets = FirstSets::new(&grammar);
-    let states = build_states(&grammar, nt("Ty")).unwrap_err().states;
-    let tracer = Tracer::new(&grammar, &first_sets, &states);
-    let conflict =
-        states.iter()
-              .flat_map(|state| &state.conflicts)
-              .next()
-              .unwrap();
+    let err = build_states(&grammar, nt("Ty")).unwrap_err();
+    let tracer = Tracer::new(&grammar, &first_sets, &err.states);
+    let conflict = err.conflicts[0].clone();
     println!("conflict={:?}", conflict);
     let item = Item { production: conflict.production,
                       index: conflict.production.symbols.len(),
@@ -186,18 +182,14 @@ pub Ty: () = {
 "#);
     let _lr1_tls = Lr1Tls::install(grammar.terminals.clone());
     let first_sets = FirstSets::new(&grammar);
-    let states = build_states(&grammar, nt("Ty")).unwrap_err().states;
-    let conflict =
-        states.iter()
-              .flat_map(|state| &state.conflicts)
-              .next()
-              .unwrap();
+    let err = build_states(&grammar, nt("Ty")).unwrap_err();
+    let conflict = err.conflicts[0].clone();
     println!("conflict={:?}", conflict);
     let item = Item { production: conflict.production,
                       index: conflict.production.symbols.len(),
                       lookahead: conflict.lookahead.clone() };
     println!("item={:?}", item);
-    let tracer = Tracer::new(&grammar, &first_sets, &states);
+    let tracer = Tracer::new(&grammar, &first_sets, &err.states);
     let graph = tracer.backtrace_reduce(conflict.state, item.to_lr0());
     expect_debug(&graph, r#"
 [

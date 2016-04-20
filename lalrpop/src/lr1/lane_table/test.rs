@@ -58,20 +58,18 @@ fn build_table<'grammar>(grammar: &'grammar Grammar,
                          goal: &str,
                          tokens: &[&str])
                          -> LaneTable<'grammar> {
-    let lr0_states = build::build_lr0_states(&grammar, nt(goal)).unwrap_err().states;
-    assert_eq!(lr0_states.iter().filter(|s| !s.conflicts.is_empty()).count(),
-               1);
+    let lr0_err = build::build_lr0_states(&grammar, nt(goal)).unwrap_err();
 
     // Push the `tokens` to find the index of the inconsistent state
-    let inconsistent_state_index = traverse(&lr0_states, tokens);
-    let inconsistent_state = &lr0_states[inconsistent_state_index.0];
-    assert!(!inconsistent_state.conflicts.is_empty());
+    let inconsistent_state_index = traverse(&lr0_err.states, tokens);
+    assert!(lr0_err.conflicts.iter().any(|c| c.state == inconsistent_state_index));
+    let inconsistent_state = &lr0_err.states[inconsistent_state_index.0];
     println!("inconsistent_state={:#?}", inconsistent_state.items);
 
     // Extract conflicting items and trace the lanes, constructing a table
     let conflicting_items = super::conflicting_items(inconsistent_state);
     println!("conflicting_items={:#?}", conflicting_items);
-    let mut tracer = LaneTracer::new(&grammar, &lr0_states, conflicting_items.len());
+    let mut tracer = LaneTracer::new(&grammar, &lr0_err.states, conflicting_items.len());
     for (i, &conflicting_item) in conflicting_items.iter().enumerate() {
         tracer.start_trace(inconsistent_state.index,
                            ConflictIndex::new(i),
