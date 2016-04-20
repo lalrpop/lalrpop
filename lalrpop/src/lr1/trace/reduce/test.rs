@@ -55,7 +55,7 @@ fn backtrace1() {
     let _lr1_tls = Lr1Tls::install(grammar.terminals.clone());
     let first_sets = FirstSets::new(&grammar);
     let states = build_states(&grammar, nt("Start")).unwrap();
-    let tracer = Tracer::new(&grammar, &first_sets, &states);
+    let tracer = Tracer::new(&first_sets, &states);
     let state_stack = interpret_partial(&states, terms!["Int"]).unwrap();
     let top_state = *state_stack.last().unwrap();
 
@@ -133,7 +133,7 @@ pub Ty: () = {
     let _lr1_tls = Lr1Tls::install(grammar.terminals.clone());
     let first_sets = FirstSets::new(&grammar);
     let err = build_states(&grammar, nt("Ty")).unwrap_err();
-    let tracer = Tracer::new(&grammar, &first_sets, &err.states);
+    let tracer = Tracer::new(&first_sets, &err.states);
     let conflict = err.conflicts[0].clone();
     println!("conflict={:?}", conflict);
     let item = Item { production: conflict.production,
@@ -153,7 +153,7 @@ pub Ty: () = {
 
     // Check that we can successfully enumerate and paint the examples
     // here.
-    let pictures: Vec<_> = backtrace.lr1_examples(&grammar, &first_sets, &item)
+    let pictures: Vec<_> = backtrace.lr1_examples(&first_sets, &item)
                                     .map(|e| e.paint_unstyled())
                                     .collect();
     expect_debug(&pictures, r#"
@@ -189,7 +189,7 @@ pub Ty: () = {
                       index: conflict.production.symbols.len(),
                       lookahead: conflict.lookahead.clone() };
     println!("item={:?}", item);
-    let tracer = Tracer::new(&grammar, &first_sets, &err.states);
+    let tracer = Tracer::new(&first_sets, &err.states);
     let graph = tracer.backtrace_reduce(conflict.state, item.to_lr0());
     expect_debug(&graph, r#"
 [
@@ -201,7 +201,7 @@ pub Ty: () = {
 "#.trim());
 
     let list: Vec<_> =
-        graph.lr1_examples(&grammar, &first_sets, &item)
+        graph.lr1_examples(&first_sets, &item)
              .map(|example| example.paint_unstyled())
              .collect();
     expect_debug(&list, r#"
@@ -248,7 +248,7 @@ fn backtrace_filter() {
     let _lr1_tls = Lr1Tls::install(grammar.terminals.clone());
     let states = build_states(&grammar, nt("Start")).unwrap();
     let first_sets = FirstSets::new(&grammar);
-    let tracer = Tracer::new(&grammar, &first_sets, &states);
+    let tracer = Tracer::new(&first_sets, &states);
     let state_stack = interpret_partial(&states, terms!["Int"]).unwrap();
     let top_state = *state_stack.last().unwrap();
 
@@ -308,7 +308,7 @@ fn backtrace_filter() {
     // Select those with `;` as lookahead
     let semi_item = lr1_item.with_lookahead(TokenSet::from(semi));
     let pictures: Vec<_> =
-        backtrace.lr1_examples(&grammar, &first_sets, &semi_item)
+        backtrace.lr1_examples(&first_sets, &semi_item)
                  .map(|e| e.paint_unstyled())
                  .collect();
     expect_debug(&pictures, r#"

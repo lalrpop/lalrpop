@@ -9,7 +9,6 @@ mod shift;
 mod trace_graph;
 
 pub struct Tracer<'trace, 'grammar: 'trace> {
-    grammar: &'trace Grammar,
     states: &'trace [LR1State<'grammar>],
     first_sets: &'trace FirstSets,
     state_graph: StateGraph,
@@ -18,12 +17,10 @@ pub struct Tracer<'trace, 'grammar: 'trace> {
 }
 
 impl<'trace, 'grammar> Tracer<'trace, 'grammar> {
-    pub fn new(grammar: &'grammar Grammar,
-               first_sets: &'trace FirstSets,
+    pub fn new(first_sets: &'trace FirstSets,
                states: &'trace [LR1State<'grammar>])
                -> Self {
         Tracer {
-            grammar: grammar,
             states: states,
             first_sets: first_sets,
             state_graph: StateGraph::new(states),

@@ -1,6 +1,6 @@
 use intern::intern;
 use grammar::repr::*;
-use test_util::{compare, expect_debug, normalized_grammar};
+use test_util::{expect_debug, normalized_grammar};
 use lr1::build;
 use lr1::core::*;
 use lr1::interpret;

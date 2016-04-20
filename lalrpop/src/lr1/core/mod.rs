@@ -164,6 +164,8 @@ pub struct TableConstructionError<'grammar, L: Lookahead> {
 
 pub type LR0TableConstructionError<'grammar> = TableConstructionError<'grammar, Nil>;
 pub type LR1TableConstructionError<'grammar> = TableConstructionError<'grammar, TokenSet>;
+pub type LR1Result<'grammar> = Result<Vec<LR1State<'grammar>>,
+                                      LR1TableConstructionError<'grammar>>;
 
 impl<'grammar, L: Lookahead> Debug for Item<'grammar, L> {
     fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {

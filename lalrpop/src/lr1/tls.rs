@@ -23,10 +23,6 @@ impl Lr1Tls {
         Lr1Tls { old_value: old_value }
     }
 
-    pub fn terminals() -> Arc<TerminalSet> {
-        TERMINALS.with(|s| s.borrow().clone().expect("LR1 TLS not installed"))
-    }
-
     pub fn with<OP,RET>(op: OP) -> RET
         where OP: FnOnce(&TerminalSet) -> RET
     {

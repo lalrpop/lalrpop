@@ -703,7 +703,7 @@ impl<'cx, 'grammar> ErrorReportingCx<'cx, 'grammar> {
         conflicting_items
             .into_iter()
             .flat_map(|item| {
-                let tracer = Tracer::new(self.grammar, &self.first_sets, self.states);
+                let tracer = Tracer::new(&self.first_sets, self.states);
                 let shift_trace =
                     tracer.backtrace_shift(conflict.state, item);
                 let local_examples: Vec<Example> =
@@ -724,9 +724,9 @@ impl<'cx, 'grammar> ErrorReportingCx<'cx, 'grammar> {
             index: production.symbols.len(),
             lookahead: TokenSet::from(lookahead),
         };
-        let tracer = Tracer::new(self.grammar, &self.first_sets, self.states);
+        let tracer = Tracer::new(&self.first_sets, self.states);
         let reduce_trace = tracer.backtrace_reduce(state, item.to_lr0());
-        reduce_trace.lr1_examples(self.grammar, &self.first_sets, &item)
+        reduce_trace.lr1_examples(&self.first_sets, &item)
                     .collect()
     }
 

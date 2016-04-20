@@ -21,14 +21,12 @@ mod trace;
 
 use self::core::LR1State;
 
-pub use self::core::LR1TableConstructionError;
+pub use self::core::{LR1Result, LR1TableConstructionError};
 pub use self::error::report_error;
 
 pub fn build_states<'grammar>(grammar: &'grammar Grammar,
                               start: NonterminalString)
-                              -> Result<Vec<LR1State<'grammar>>,
-                                        LR1TableConstructionError<'grammar>>
-{
+                              -> LR1Result<'grammar> {
     let _lr1_tls = Lr1Tls::install(grammar.terminals.clone());
 
     match grammar.algorithm {

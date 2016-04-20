@@ -14,8 +14,7 @@ mod test;
 
 pub fn build_lr1_states<'grammar>(grammar: &'grammar Grammar,
                                   start: NonterminalString)
-                                  -> Result<Vec<LR1State<'grammar>>,
-                                            LR1TableConstructionError<'grammar>>
+                                  -> LR1Result<'grammar>
 {
     profile! {
         &Tls::session(),

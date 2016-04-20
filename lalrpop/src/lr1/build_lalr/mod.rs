@@ -2,7 +2,7 @@
 
 use collections::{map, Map, Multimap};
 use itertools::Itertools;
-use lr1::build::{self, LookaheadBuild};
+use lr1::build;
 use lr1::core::*;
 use lr1::lookahead::*;
 use grammar::repr::*;
@@ -26,9 +26,7 @@ struct LALR1State<'grammar> {
 
 pub fn build_lalr_states<'grammar>(grammar: &'grammar Grammar,
                                    start: NonterminalString)
-                                   -> Result<Vec<LR1State<'grammar>>,
-                                             LR1TableConstructionError<'grammar>>
-{
+                                   -> LR1Result<'grammar> {
     // First build the LR(1) states
     let lr_states = try!(build::build_lr1_states(grammar, start));
 
@@ -40,9 +38,7 @@ pub fn build_lalr_states<'grammar>(grammar: &'grammar Grammar,
 }
 
 pub fn collapse_to_lalr_states<'grammar>(lr_states: &[LR1State<'grammar>])
-                                         -> Result<Vec<LR1State<'grammar>>,
-                                                   LR1TableConstructionError<'grammar>>
-{
+                                         -> LR1Result<'grammar> {
     // Now compress them. This vector stores, for each state, the
     // LALR(1) state to which we will remap it.
     let mut remap: Vec<_> = (0..lr_states.len()).map(|_| StateIndex(0)).collect();
@@ -50,28 +46,27 @@ pub fn collapse_to_lalr_states<'grammar>(lr_states: &[LR1State<'grammar>])
     let mut lalr1_states: Vec<LALR1State> = vec![];
 
     for (lr1_index, lr1_state) in lr_states.iter().enumerate() {
-        let lr0_kernel: Vec<_> =
-            lr1_state.items.vec.iter()
-                               .map(|item| item.to_lr0())
-                               .dedup()
-                               .collect();
+        let lr0_kernel: Vec<_> = lr1_state.items
+                                          .vec
+                                          .iter()
+                                          .map(|item| item.to_lr0())
+                                          .dedup()
+                                          .collect();
 
-        let lalr1_index =
-            *lalr1_map.entry(lr0_kernel)
-                      .or_insert_with(|| {
-                          let index = StateIndex(lalr1_states.len());
-                          lalr1_states.push(LALR1State {
-                              index: index,
-                              items: vec![],
-                              shifts: map(),
-                              reductions: Multimap::new(),
-                              gotos: map(),
-                          });
-                          index
-                      });
+        let lalr1_index = *lalr1_map.entry(lr0_kernel)
+                                    .or_insert_with(|| {
+                                        let index = StateIndex(lalr1_states.len());
+                                        lalr1_states.push(LALR1State {
+                                            index: index,
+                                            items: vec![],
+                                            shifts: map(),
+                                            reductions: Multimap::new(),
+                                            gotos: map(),
+                                        });
+                                        index
+                                    });
 
-        lalr1_states[lalr1_index.0].items.extend(
-            lr1_state.items.vec.iter().cloned());
+        lalr1_states[lalr1_index.0].items.extend(lr1_state.items.vec.iter().cloned());
 
         remap[lr1_index] = lalr1_index;
     }
@@ -96,10 +91,9 @@ pub fn collapse_to_lalr_states<'grammar>(lr_states: &[LR1State<'grammar>])
                  })
                  .collect();
 
-        lalr1_state.items =
-            items.into_iter()
-                 .map(|(lr0_item, lookahead)| lr0_item.with_lookahead(lookahead))
-                 .collect();
+        lalr1_state.items = items.into_iter()
+                                 .map(|(lr0_item, lookahead)| lr0_item.with_lookahead(lookahead))
+                                 .collect();
     }
 
     // Now that items are fully built, create the actions
@@ -125,26 +119,30 @@ pub fn collapse_to_lalr_states<'grammar>(lr_states: &[LR1State<'grammar>])
     }
 
     // Finally, create the new states and detect conflicts
-    let lr1_states: Vec<_> =
-        lalr1_states.into_iter()
-                    .map(|lr| State {
-                        index: lr.index,
-                        items: Items { vec: Rc::new(lr.items) },
-                        shifts: lr.shifts,
-                        reductions: lr.reductions.into_iter()
-                                                 .map(|(p, ts)| (ts, p))
-                                                 .collect(),
-                        gotos: lr.gotos,
-                    })
-                    .collect();
+    let lr1_states: Vec<_> = lalr1_states.into_iter()
+                                         .map(|lr| {
+                                             State {
+                                                 index: lr.index,
+                                                 items: Items { vec: Rc::new(lr.items) },
+                                                 shifts: lr.shifts,
+                                                 reductions: lr.reductions
+                                                               .into_iter()
+                                                               .map(|(p, ts)| (ts, p))
+                                                               .collect(),
+                                                 gotos: lr.gotos,
+                                             }
+                                         })
+                                         .collect();
 
-    let conflicts: Vec<_> =
-        lr1_states.iter()
-                  .flat_map(|s| TokenSet::conflicts(s))
-                  .collect();
+    let conflicts: Vec<_> = lr1_states.iter()
+                                      .flat_map(|s| TokenSet::conflicts(s))
+                                      .collect();
 
     if !conflicts.is_empty() {
-        Err(TableConstructionError { states: lr1_states, conflicts: conflicts })
+        Err(TableConstructionError {
+            states: lr1_states,
+            conflicts: conflicts,
+        })
     } else {
         Ok(lr1_states)
     }

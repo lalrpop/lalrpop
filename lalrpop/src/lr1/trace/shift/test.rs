@@ -44,7 +44,7 @@ pub Ty: () = {
     assert!(conflict.production.symbols.len() == 3);
     let item = Item::lr0(conflict.production, 1);
     println!("item={:?}", item);
-    let tracer = Tracer::new(&grammar, &first_sets, &err.states);
+    let tracer = Tracer::new(&first_sets, &err.states);
     let graph = tracer.backtrace_shift(conflict.state, item);
     expect_debug(&graph, r#"
 [
