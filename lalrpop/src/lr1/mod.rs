@@ -19,8 +19,6 @@ mod trace;
 
 #[cfg(test)] mod interpret;
 
-use self::core::LR1State;
-
 pub use self::core::{LR1Result, LR1TableConstructionError};
 pub use self::error::report_error;
 
