@@ -35,7 +35,6 @@ pub struct Interpreter<'emitter,'grammar:'emitter> {
     out: &'emitter mut RustWrite<Vec<u8>>,
 
     nonterminal_bits: Map<NonterminalString, usize>,
-
 }
 
 const TAB: usize = 4;
@@ -85,12 +84,12 @@ impl<'emitter, 'grammar> Interpreter<'emitter, 'grammar> {
         let productions = self.grammar.nonterminals.values().flat_map(|nt| nt.productions.iter()).cloned().collect::<Vec<_>>();
         let production_bits: Map<_, _> = productions.iter().cloned().zip(0..).collect();
 
-        rust!(self.out, "const productions: [ReducedProduction; {}] = [", productions.len());
+        rust!(self.out, "const PRODUCTIONS: [ReducedProduction; {}] = [", productions.len());
 
         for p in &productions {
             rust!(self.out,
-                  "    ReducedProduction {{ nonterminal: {}, symbol_count: {} }},",
-                  self.nonterminal_bits[&p.nonterminal], p.symbols.len());
+                  "    ReducedProduction {{ nonterminal: {}, symbol_count: {}, action_fn_id: {} }},",
+                  self.nonterminal_bits[&p.nonterminal], p.symbols.len(), p.action.index());
         }
         rust!(self.out, "];");
 
@@ -110,11 +109,11 @@ impl<'emitter, 'grammar> Interpreter<'emitter, 'grammar> {
                 row[column_index] = target;
             }
 
-            rust!(self.out, "const action_row_{}: &'static [i32] = &[{}];", i, row.join(", "));
-            Ok(format!("action_row_{}", i))
+            rust!(self.out, "const ACTION_ROW_{}: &'static [i32] = &[{}];", i, row.join(", "));
+            Ok(format!("ACTION_ROW_{}", i))
         }).collect::<io::Result<Vec<_>>>());
 
-        rust!(self.out, "const actions: [&'static [i32]; {}] = [{}];", self.states.len(), rows.join(", "));
+        rust!(self.out, "const ACTIONS: [&'static [i32]; {}] = [{}];", self.states.len(), rows.join(", "));
         Ok(())
     }
 
@@ -127,11 +126,11 @@ impl<'emitter, 'grammar> Interpreter<'emitter, 'grammar> {
                 let column_index = self.nonterminal_bits[nt];
                 row[column_index] = format!("{}", i.0);
             }
-            rust!(self.out, "const goto_row_{}: &'static [u32] = &[{}];", i, row.join(", "));
-            Ok(format!("goto_row_{}", i))
+            rust!(self.out, "const GOTO_ROW_{}: &'static [u32] = &[{}];", i, row.join(", "));
+            Ok(format!("GOTO_ROW_{}", i))
         }).collect::<io::Result<Vec<_>>>());
 
-        rust!(self.out, "const gotos: [&'static [u32]; {}] = [\n{}];", self.states.len(), rows.join(", "));
+        rust!(self.out, "const GOTOS: [&'static [u32]; {}] = [\n{}];", self.states.len(), rows.join(", "));
         Ok(())   
     }
 
@@ -139,6 +138,7 @@ impl<'emitter, 'grammar> Interpreter<'emitter, 'grammar> {
         rust!(self.out, "struct ReducedProduction {{");
         rust!(self.out, "nonterminal: u32,");
         rust!(self.out, "symbol_count: u32,");
+        rust!(self.out, "action_fn_id: u32,");
         rust!(self.out, "}}");
         Ok(())   
     }
@@ -208,7 +208,7 @@ impl<'emitter, 'grammar> Interpreter<'emitter, 'grammar> {
 
 
         rust!(self.out, "Err({}ParseError::ExtraToken {{ token: {}tokens.next().expect(\"no more tokens\").unwrap() }})", self.prefix, self.prefix);
-        //rust!(self.out, "    let machine = Machine::new(&actions, &gotos, &productions);");
+        //rust!(self.out, "    let machine = Machine::new(&ACTIONS, &GOTOS, &PRODUCTIONS);");
         rust!(self.out, "}}");
         Ok(())
     }
@@ -274,12 +274,13 @@ impl<'emitter, 'grammar> Interpreter<'emitter, 'grammar> {
         };
         rust!(self.out, "enum StackData{} {{", type_parameters);
         rust!(self.out, "Empty,");
-        rust!(self.out, "Terminal(({}, {}, {})),", self.types.terminal_loc_type(), self.types.terminal_token_type(), self.types.terminal_loc_type());
+        rust!(self.out, "__{}(({}, {}, {})),", self.types.terminal_token_type(), self.types.terminal_loc_type(), self.types.terminal_token_type(), self.types.terminal_loc_type());
 
-        for nt in self.grammar.nonterminals.keys() {
-            rust!(self.out, "Nt{}({}),", self.nonterminal_bits[nt], self.types.nonterminal_type(*nt));
-        
+        for t in self.grammar.action_fn_defns.iter().map(|a| format!("{}", a.ret_type)).collect::<HashSet<_>>().iter() {
+            rust!(self.out, "__{}({}),", t, t);
         }
+        rust!(self.out, "}}");
+        rust!(self.out, "impl StackData{} {{", type_parameters);
         rust!(self.out, "}}");
         rust!(self.out, "");
 
@@ -298,14 +299,15 @@ impl<'emitter, 'grammar> Interpreter<'emitter, 'grammar> {
         rust!(self.out, "*self.state_stack.last().expect(\"state stack is empty!\") as usize");
         rust!(self.out, "}}");
 
-        rust!(self.out, "fn dispatch_action(&self, nonterminal: u32, args: Vec<StackData{}>) -> StackData{} {{",type_parameters, type_parameters);
-        rust!(self.out, "StackData::Empty");
-        /*
-        for i in 0 .. self.nonterminal_bits.len() {
+        rust!(self.out, "fn dispatch_action(&self, action_fn_id: u32, args: Vec<StackData{}>) -> StackData{} {{",type_parameters, type_parameters);
 
-        
+        rust!(self.out, "match action_fn_id {{");
+        for (i, _) in self.grammar.action_fn_defns.iter().enumerate() {
+            rust!(self.out, "{} => {},", i, i);
         }
-        */
+            rust!(self.out, "_ => panic!(\"invalid action\"),");
+        rust!(self.out, "}};");
+        rust!(self.out, "StackData::Empty");
         rust!(self.out, "}}");
 
         rust!(self.out, "fn reduce(&mut self, production: &ReducedProduction) {{");
@@ -317,7 +319,7 @@ impl<'emitter, 'grammar> Interpreter<'emitter, 'grammar> {
         rust!(self.out, "}}");
 
         rust!(self.out, "let top_state = self.top_state();");
-        rust!(self.out, "self.state_stack.push(gotos[top_state][production.nonterminal as usize]);");
+        rust!(self.out, "self.state_stack.push(GOTOS[top_state][production.nonterminal as usize]);");
         rust!(self.out, "let res = self.dispatch_action(production.nonterminal, args);");
         rust!(self.out, "self.data_stack.push(res);");
 
@@ -356,14 +358,14 @@ impl<'emitter, 'grammar> Interpreter<'emitter, 'grammar> {
 
         rust!(self.out, "let terminal_index = terminal_to_index(&terminal);");
         rust!(self.out, "let state = self.top_state();");
-        rust!(self.out, "let action = actions[state][terminal_index];");
+        rust!(self.out, "let action = ACTIONS[state][terminal_index];");
 
         rust!(self.out, "if action > 0 {{");
         rust!(self.out, "self.state_stack.push((action-1) as u32);");
         rust!(self.out, "self.data_stack.push(StackData::Terminal((l, terminal, r)));");
         rust!(self.out, "{}token = {}tokens.next();", self.prefix, self.prefix);
         rust!(self.out, "}} else if action < 0 {{");
-        rust!(self.out, "self.reduce(&productions[(action*-1) as usize]);");
+        rust!(self.out, "self.reduce(&PRODUCTIONS[(action*-1) as usize]);");
         rust!(self.out, "{}token = Some(Ok((l, terminal, r)));", self.prefix);
         rust!(self.out, "}} else {{");
         rust!(self.out, "{}token = None;", self.prefix);
