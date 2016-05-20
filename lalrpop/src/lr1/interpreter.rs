@@ -6,7 +6,7 @@ use collections::Map;
 
 use intern;
 
-use grammar::repr::{Grammar, NonterminalString, Types, TypeRepr};
+use grammar::repr::{ActionFnDefnKind, Grammar, NonterminalString, Types, TypeRepr};
 
 use std::io;
 use std::iter;
@@ -145,9 +145,7 @@ impl<'emitter, 'grammar> Interpreter<'emitter, 'grammar> {
 
     fn write_uses(&mut self) -> io::Result<()> {
         try!(self.out.write_uses("super::", &self.grammar));
-        if self.grammar.intern_token.is_none() {
-            rust!(self.out, "use super::{}ToTriple;", self.prefix);
-        }
+        rust!(self.out, "use super::*;");
         Ok(())
     }
 
@@ -272,15 +270,51 @@ impl<'emitter, 'grammar> Interpreter<'emitter, 'grammar> {
         } else {
             format!("<{}>", lts.join(","))
         };
-        rust!(self.out, "enum StackData{} {{", type_parameters);
-        rust!(self.out, "Empty,");
-        rust!(self.out, "__{}(({}, {}, {})),", self.types.terminal_token_type(), self.types.terminal_loc_type(), self.types.terminal_token_type(), self.types.terminal_loc_type());
+        rust!(self.out, "struct StackData{} {{", type_parameters);
+        rust!(self.out, "start: {},", self.types.terminal_loc_type());
+        rust!(self.out, "end: {},", self.types.terminal_loc_type());
+        rust!(self.out, "data: StackData_{}", type_parameters);
+        rust!(self.out, "}}");
+        rust!(self.out, "impl StackData{} {{", type_parameters);
+        rust!(self.out, "fn from_{}(l: {}, r: {}, d: {}) -> StackData{} {{", self.types.terminal_token_type(), self.types.terminal_loc_type(), self.types.terminal_loc_type(), self.types.terminal_token_type(), type_parameters);
+        rust!(self.out, "StackData{}::new(l, r, StackData_{}::__{}(d))", type_parameters, type_parameters, self.types.terminal_token_type());
+        rust!(self.out, "}}");
+
+
+        rust!(self.out, "fn {}_triple(self) -> ({}, {}, {}) {{", self.types.terminal_token_type(), self.types.terminal_loc_type(), self.types.terminal_token_type(), self.types.terminal_loc_type());
+        rust!(self.out, "if let StackData_::__{}(d) = self.data {{", self.types.terminal_token_type());
+        rust!(self.out, "(self.start, d, self.end)");
+        rust!(self.out, "}} else {{");
+        rust!(self.out, "panic!()"); 
+        rust!(self.out, "}}");
+        rust!(self.out, "}}");
+
+        for t in self.grammar.action_fn_defns.iter().map(|a| format!("{}", a.ret_type)).collect::<HashSet<_>>().iter() {
+            rust!(self.out, "fn from_{}(l: {}, r: {}, d: {}) -> StackData{} {{", t, self.types.terminal_loc_type(), self.types.terminal_loc_type(), t, type_parameters);
+            rust!(self.out, "StackData{}::new(l, r, StackData_{}::__{}(d))", type_parameters, type_parameters, t);
+            rust!(self.out, "}}");
+
+            rust!(self.out, "fn {}_triple(&self) -> ({}, {}, {}) {{", t, self.types.terminal_loc_type(), t, self.types.terminal_loc_type());
+            rust!(self.out, "if let StackData_::__{}(d) = self.data {{", t);
+            rust!(self.out, "(self.start, d, self.end)");
+            rust!(self.out, "}} else {{");
+            rust!(self.out, "panic!()"); 
+            rust!(self.out, "}}");
+            rust!(self.out, "}}");
+        }
+        rust!(self.out, "fn new(start: {}, end: {}, data: StackData_{}) -> StackData{} {{", self.types.terminal_loc_type(), self.types.terminal_loc_type(), type_parameters, type_parameters);
+        rust!(self.out, "StackData{} {{ start: start, end:end, data: data }}", type_parameters);
+        rust!(self.out, "}}");
+        rust!(self.out, "}}");
+
+        rust!(self.out, "enum StackData_{} {{", type_parameters);
+        rust!(self.out, "__{}({}),", self.types.terminal_token_type(), self.types.terminal_token_type());
 
         for t in self.grammar.action_fn_defns.iter().map(|a| format!("{}", a.ret_type)).collect::<HashSet<_>>().iter() {
             rust!(self.out, "__{}({}),", t, t);
         }
         rust!(self.out, "}}");
-        rust!(self.out, "impl StackData{} {{", type_parameters);
+        rust!(self.out, "impl StackData_{} {{", type_parameters);
         rust!(self.out, "}}");
         rust!(self.out, "");
 
@@ -299,28 +333,39 @@ impl<'emitter, 'grammar> Interpreter<'emitter, 'grammar> {
         rust!(self.out, "*self.state_stack.last().expect(\"state stack is empty!\") as usize");
         rust!(self.out, "}}");
 
-        rust!(self.out, "fn dispatch_action(&self, action_fn_id: u32, args: Vec<StackData{}>) -> StackData{} {{",type_parameters, type_parameters);
+        rust!(self.out, "fn dispatch_action(&mut self, l: {}, r: {}, action_fn_id: u32) -> StackData{} {{", self.types.terminal_loc_type(), self.types.terminal_loc_type(), type_parameters);
 
         rust!(self.out, "match action_fn_id {{");
-        for (i, _) in self.grammar.action_fn_defns.iter().enumerate() {
-            rust!(self.out, "{} => {},", i, i);
+        for (i, d) in self.grammar.action_fn_defns.iter().enumerate() {
+            rust!(self.out, "{} => {{", i);
+            if let ActionFnDefnKind::User(ref def) = d.kind {
+                let mut args = Vec::new();
+                for (i, t) in def.arg_types.iter().enumerate() {
+                    rust!(self.out, "let a{} = self.data_stack.pop().expect(\"element must be there\").{}_triple();", i, t);
+                    args.push(format!("a{}", i));
+                }
+                args.reverse();
+                rust!(self.out, "StackData{}::from_{}(l, r,__action{}(0, {}))", type_parameters, d.ret_type, i, args.join(", "));
+            } else {
+                rust!(self.out, "{}", i);
+            }
+            rust!(self.out, "}},");
         }
             rust!(self.out, "_ => panic!(\"invalid action\"),");
-        rust!(self.out, "}};");
-        rust!(self.out, "StackData::Empty");
+        rust!(self.out, "}}");
         rust!(self.out, "}}");
 
-        rust!(self.out, "fn reduce(&mut self, production: &ReducedProduction) {{");
+        rust!(self.out, "fn reduce(&mut self, l: {}, r: {}, production: &ReducedProduction) {{",  self.types.terminal_loc_type(), self.types.terminal_loc_type());
 
-        rust!(self.out, "let mut args = Vec::new();");
-        rust!(self.out, "for _ in 0 .. production.symbol_count {{");
-        rust!(self.out, "args.push(self.data_stack.pop().expect(\"popped data stack\"));");
-        rust!(self.out, "self.state_stack.pop();");
-        rust!(self.out, "}}");
+        //rust!(self.out, "let mut args = Vec::new();");
+        //rust!(self.out, "for _ in 0 .. production.symbol_count {{");
+        //rust!(self.out, "args.push(self.data_stack.pop().expect(\"popped data stack\"));");
+        //rust!(self.out, "self.state_stack.pop();");
+        //rust!(self.out, "}}");
 
         rust!(self.out, "let top_state = self.top_state();");
         rust!(self.out, "self.state_stack.push(GOTOS[top_state][production.nonterminal as usize]);");
-        rust!(self.out, "let res = self.dispatch_action(production.nonterminal, args);");
+        rust!(self.out, "let res = self.dispatch_action(l, r, production.nonterminal);");
         rust!(self.out, "self.data_stack.push(res);");
 
         rust!(self.out, "}}");
@@ -362,10 +407,10 @@ impl<'emitter, 'grammar> Interpreter<'emitter, 'grammar> {
 
         rust!(self.out, "if action > 0 {{");
         rust!(self.out, "self.state_stack.push((action-1) as u32);");
-        rust!(self.out, "self.data_stack.push(StackData::Terminal((l, terminal, r)));");
+        rust!(self.out, "self.data_stack.push(StackData::new(l, r, StackData_::__{}(terminal)));", self.types.terminal_token_type());
         rust!(self.out, "{}token = {}tokens.next();", self.prefix, self.prefix);
         rust!(self.out, "}} else if action < 0 {{");
-        rust!(self.out, "self.reduce(&PRODUCTIONS[(action*-1) as usize]);");
+        rust!(self.out, "self.reduce(l, r, &PRODUCTIONS[(action*-1) as usize]);");
         rust!(self.out, "{}token = Some(Ok((l, terminal, r)));", self.prefix);
         rust!(self.out, "}} else {{");
         rust!(self.out, "{}token = None;", self.prefix);
