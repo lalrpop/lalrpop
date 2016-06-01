@@ -11,7 +11,6 @@ use lr1::state_graph::StateGraph;
 use super::table::{ConflictIndex, LaneTable};
 
 pub struct LaneTracer<'trace, 'grammar: 'trace> {
-    grammar: &'grammar Grammar,
     states: &'trace [LR0State<'grammar>],
     first_sets: FirstSets,
     state_graph: StateGraph,
@@ -24,7 +23,6 @@ impl<'trace, 'grammar> LaneTracer<'trace, 'grammar> {
                conflicts: usize)
                -> Self {
         LaneTracer {
-            grammar: grammar,
             states: states,
             first_sets: FirstSets::new(grammar),
             state_graph: StateGraph::new(states),
