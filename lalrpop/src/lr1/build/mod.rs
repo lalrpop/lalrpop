@@ -5,6 +5,7 @@ use kernel_set;
 use grammar::repr::*;
 use lr1::core::*;
 use lr1::first;
+use lr1::lane_table::*;
 use lr1::lookahead::*;
 use std::rc::Rc;
 use tls::Tls;
@@ -16,6 +17,12 @@ pub fn build_lr1_states<'grammar>(grammar: &'grammar Grammar,
                                   start: NonterminalString)
                                   -> LR1Result<'grammar>
 {
+    // this is just here to squash dead code warnings while work on
+    // lane-table proceeds
+    if false {
+        let _ = build_lane_table_states(grammar, start);
+    }
+
     profile! {
         &Tls::session(),
         "LR(1) state construction",

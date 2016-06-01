@@ -1,4 +1,4 @@
-#![allow(dead_code)] // still working on this stuff!
+#![allow(dead_code)] // still building this
 
 use collections::Set;
 use lr1::build;
@@ -15,7 +15,7 @@ mod test;
 pub fn build_lane_table_states<'grammar>(grammar: &'grammar Grammar,
                                          start: NonterminalString)
                                          -> LR1Result<'grammar> {
-    let (lr0_states, lr0_conflicts) = match build::build_lr0_states(grammar, start) {
+    let (_lr0_states, _lr0_conflicts) = match build::build_lr0_states(grammar, start) {
         Ok(s) => (s, vec![]),
         Err(e) => (e.states, e.conflicts),
     };
