@@ -8,10 +8,10 @@ use grammar::repr::{Grammar,
                     Production,
                     Symbol,
                     TerminalString, TypeParameter, TypeRepr, Types};
-use itertools::Itertools;
 use lr1::core::*;
-use lr1::lookahead::Lookahead;
+use lr1::lookahead::Token;
 use lr1::state_graph::StateGraph;
+use lr1::tls::Lr1Tls;
 use rust::RustWrite;
 use std::io::{self, Write};
 use tls::Tls;
@@ -21,10 +21,11 @@ pub fn compile<'grammar,W:Write>(
     grammar: &'grammar Grammar,
     user_start_symbol: NonterminalString,
     start_symbol: NonterminalString,
-    states: &[State<'grammar>],
+    states: &[LR1State<'grammar>],
     out: &mut RustWrite<W>)
     -> io::Result<()>
 {
+    let _lr1_tls = Lr1Tls::install(grammar.terminals.clone());
     let graph = StateGraph::new(&states);
     let mut ascent = RecursiveAscent::new(grammar, user_start_symbol, start_symbol,
                                           &graph, states, out);
@@ -50,7 +51,7 @@ struct RecursiveAscent<'ascent,'grammar:'ascent,W:Write+'ascent> {
     start_symbol: NonterminalString,
 
     /// the vector of states
-    states: &'ascent [State<'grammar>],
+    states: &'ascent [LR1State<'grammar>],
 
     /// for each state, the set of symbols that it will require for
     /// input
@@ -129,7 +130,7 @@ impl<'ascent,'grammar,W:Write> RecursiveAscent<'ascent,'grammar,W> {
            user_start_symbol: NonterminalString,
            start_symbol: NonterminalString,
            graph: &'ascent StateGraph,
-           states: &'ascent [State<'grammar>],
+           states: &'ascent [LR1State<'grammar>],
            out: &'ascent mut RustWrite<W>)
            -> RecursiveAscent<'ascent,'grammar,W>
     {
@@ -170,7 +171,7 @@ impl<'ascent,'grammar,W:Write> RecursiveAscent<'ascent,'grammar,W> {
     }
 
     /// Compute the stack suffix that the state expects on entry.
-    fn state_input_for(state: &'ascent State<'grammar>)
+    fn state_input_for(state: &'ascent LR1State<'grammar>)
                        -> StackSuffix<'grammar>
     {
         let max_prefix = state.max_prefix();
@@ -345,8 +346,11 @@ impl<'ascent,'grammar,W:Write> RecursiveAscent<'ascent,'grammar,W> {
                 rust!(self.out, "//     {:?}", item);
             }
             rust!(self.out, "//");
-            for (token, action) in &this_state.tokens {
-                rust!(self.out, "//     {:?} -> {:?}", token, action);
+            for (terminal, action) in &this_state.shifts {
+                rust!(self.out, "//   {:?} -> {:?}", terminal, action);
+            }
+            for &(ref tokens, action) in &this_state.reductions {
+                rust!(self.out, "//   {:?} -> {:?}", tokens, action);
             }
             rust!(self.out, "//");
             for (nt, state) in &this_state.gotos {
@@ -365,18 +369,9 @@ impl<'ascent,'grammar,W:Write> RecursiveAscent<'ascent,'grammar,W> {
         rust!(self.out, "match {}lookahead {{", self.prefix);
 
         // first emit shifts:
-        for (token, next_index) in
-            this_state.tokens.iter()
-                             .filter_map(|(token, action)| action.shift().map(|n| (token, n)))
-        {
-            match *token {
-                Lookahead::Terminal(s) => {
-                    let sym_name = format!("{}sym{}", self.prefix, inputs.len());
-                    try!(self.consume_terminal(s, sym_name));
-                }
-                Lookahead::EOF =>
-                    unreachable!("should never have to shift EOF")
-            }
+        for (&terminal, &next_index) in &this_state.shifts {
+            let sym_name = format!("{}sym{}", self.prefix, inputs.len());
+            try!(self.consume_terminal(terminal, sym_name));
 
             // transition to the new state
             if try!(self.transition("result", stack_suffix, next_index, &["tokens"])) {
@@ -390,14 +385,17 @@ impl<'ascent,'grammar,W:Write> RecursiveAscent<'ascent,'grammar,W> {
         // trigger the same reduction, so group these by the
         // production that we are going to be reducing.
         let reductions: Multimap<_, Vec<_>> =
-            this_state.tokens.iter()
-                             .filter_map(|(&token, action)| action.reduce().map(|p| (p, token)))
-                             .collect();
+            this_state.reductions.iter()
+                                 .flat_map(|&(ref tokens, production)| {
+                                     tokens.iter()
+                                           .map(move |t| (production, t))
+                                 })
+                                 .collect();
         for (production, tokens) in reductions {
             for (index, &token) in tokens.iter().enumerate() {
                 let pattern = match token {
-                    Lookahead::Terminal(s) => format!("Some({})", self.match_terminal_pattern(s)),
-                    Lookahead::EOF => format!("None"),
+                    Token::Terminal(s) => format!("Some({})", self.match_terminal_pattern(s)),
+                    Token::EOF => format!("None"),
                 };
                 if index < tokens.len() - 1 {
                     rust!(self.out, "{} |", pattern);

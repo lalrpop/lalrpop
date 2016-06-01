@@ -4,11 +4,13 @@ use grammar::repr::*;
 use test_util::{compare, expect_debug, normalized_grammar};
 use lr1::core::*;
 use lr1::interpret::interpret;
-use lr1::lookahead::Lookahead;
-use lr1::lookahead::Lookahead::EOF;
+use lr1::lookahead::Token;
+use lr1::lookahead::Token::EOF;
+use lr1::lookahead::TokenSet;
+use lr1::tls::Lr1Tls;
 use tls::Tls;
 
-use super::{LR1, build_lr1_states};
+use super::{LR, build_lr0_states, build_lr1_states};
 
 fn nt(t: &str) -> NonterminalString {
     NonterminalString(intern(t))
@@ -16,7 +18,9 @@ fn nt(t: &str) -> NonterminalString {
 
 const ITERATIONS: usize = 22;
 
-fn random_test<'g>(grammar: &Grammar, states: &'g [State<'g>], start_symbol: NonterminalString) {
+fn random_test<'g>(grammar: &Grammar,
+                   states: &'g [LR1State<'g>],
+                   start_symbol: NonterminalString) {
     for i in 0..ITERATIONS {
         let input_tree = generate::random_parse_tree(grammar, start_symbol);
         let output_tree = interpret(&states, input_tree.terminals()).unwrap();
@@ -35,13 +39,14 @@ macro_rules! tokens {
     }
 }
 
-fn items<'g>(grammar: &'g Grammar, nonterminal: &str, index: usize, la: Lookahead)
-             -> Items<'g>
+fn items<'g>(grammar: &'g Grammar, nonterminal: &str, index: usize, la: Token)
+             -> LR1Items<'g>
 {
-    let lr1 = LR1::new(&grammar);
+    let set = TokenSet::from(la);
+    let lr1: LR<TokenSet> = LR::new(&grammar, nt(nonterminal), set.clone());
     let items =
         lr1.transitive_closure(
-            lr1.items(nt(nonterminal), index, la));
+            lr1.items(nt(nonterminal), index, &set));
     items
 }
 
@@ -56,6 +61,7 @@ grammar;
         () => None
     };
 "#);
+    let _lr1_tls = Lr1Tls::install(grammar.terminals.clone());
     let items = items(&grammar, "A", 0, EOF);
     expect_debug(items.vec, r#"[
     A = (*) B "C" [EOF],
@@ -80,12 +86,12 @@ C: Option<u32> = {
 };
 "#);
 
+    let _lr1_tls = Lr1Tls::install(grammar.terminals.clone());
+
     expect_debug(items(&grammar, "A", 0, EOF).vec, r#"[
     A = (*) B C [EOF],
-    B = (*) [EOF],
-    B = (*) ["C1"],
-    B = (*) "B1" [EOF],
-    B = (*) "B1" ["C1"]
+    B = (*) ["C1", EOF],
+    B = (*) "B1" ["C1", EOF]
 ]"#);
 
     expect_debug(items(&grammar, "A", 1, EOF).vec, r#"[
@@ -116,6 +122,8 @@ grammar;
         "(" E ")" => ()
     };
 "#);
+
+    let _lr1_tls = Lr1Tls::install(grammar.terminals.clone());
 
     // for now, just test that process does not result in an error
     // and yields expected number of states.
@@ -189,5 +197,64 @@ fn shift_reduce_conflict1() {
         };
     "#);
 
+    let _lr1_tls = Lr1Tls::install(grammar.terminals.clone());
+
     assert!(build_lr1_states(&grammar, nt("E")).is_err());
 }
+
+/// One of the few grammars that IS LR(0).
+#[test]
+fn lr0_expr_grammar_with_explicit_eof() {
+    let _tls = Tls::test();
+
+    let grammar = normalized_grammar(r#"
+grammar;
+
+S: () = E "$";
+
+E: () = {
+    E "-" T,
+    T,
+};
+
+T: () = {
+    "N",
+    "(" E ")",
+};
+"#);
+
+    let _lr1_tls = Lr1Tls::install(grammar.terminals.clone());
+
+    // for now, just test that process does not result in an error
+    // and yields expected number of states.
+    let states = build_lr0_states(&grammar, nt("S")).unwrap();
+    assert_eq!(states.len(), 10);
+}
+
+
+/// Without the artifical '$', grammar is not LR(0).
+#[test]
+fn lr0_expr_grammar_with_implicit_eof() {
+    let _tls = Tls::test();
+
+    let grammar = normalized_grammar(r#"
+grammar;
+
+S: () = E;
+
+E: () = {
+    E "-" T,
+    T,
+};
+
+T: () = {
+    "N",
+    "(" E ")",
+};
+"#);
+
+    let _lr1_tls = Lr1Tls::install(grammar.terminals.clone());
+
+    build_lr0_states(&grammar, nt("S")).unwrap_err();
+}
+

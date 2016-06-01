@@ -1,5 +1,6 @@
 use grammar::repr::*;
 use lr1::core::*;
+use lr1::lookahead::Lookahead;
 use petgraph::{EdgeDirection, Graph};
 use petgraph::graph::NodeIndex;
 
@@ -10,7 +11,9 @@ pub struct StateGraph {
 }
 
 impl StateGraph {
-    pub fn new<'grammar>(states: &[State<'grammar>]) -> StateGraph {
+    pub fn new<'grammar, L>(states: &[State<'grammar, L>]) -> StateGraph
+        where L: Lookahead
+    {
         let mut graph = Graph::new();
 
         // First, create the nodes.
@@ -25,18 +28,10 @@ impl StateGraph {
             // - shifts (found in the `conflicts` and `tokens` maps)
             // - gotos (found in the `gotos` map)
             graph.extend_with_edges(
-                state.conflicts
+                state.shifts
                      .iter()
-                     .flat_map(|(lookahead, conflicts)| {
-                         conflicts.iter()
-                                  .map(move |conflict| (lookahead, &conflict.action))
-                     })
-                     .chain(state.tokens.iter())
-                     .filter_map(|(l, action)| match *action {
-                         Action::Reduce(_) => None,
-                         Action::Shift(target) => {
-                             Some((Symbol::Terminal(l.unwrap_terminal()), target))
-                         }
+                     .map(|(&terminal, &state)| {
+                         (Symbol::Terminal(terminal), state)
                      })
                      .chain(
                          state.gotos
@@ -82,6 +77,17 @@ impl StateGraph {
         self.graph.edges_directed(NodeIndex::new(state_index.0),
                                   EdgeDirection::Outgoing)
                   .map(|(succ, _)| StateIndex(succ.index()))
+                  .collect()
+    }
+
+    pub fn predecessors(&self,
+                        state_index: StateIndex,
+                        symbol: Symbol)
+                        -> Vec<StateIndex> {
+        self.graph.edges_directed(NodeIndex::new(state_index.0),
+                                  EdgeDirection::Incoming)
+                  .filter(|&(_, s)| *s == symbol)
+                  .map(|(pred, _)| StateIndex(pred.index()))
                   .collect()
     }
 }

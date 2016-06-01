@@ -3,7 +3,7 @@
 use ascii_canvas::{AsciiView};
 use message::Content;
 use message::builder::InlineBuilder;
-use grammar::repr::{NonterminalString, Symbol};
+use grammar::repr::*;
 use std::fmt::{Debug, Formatter, Error};
 use style::Style;
 use tls::Tls;

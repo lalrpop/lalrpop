@@ -1,11 +1,11 @@
 //! Error reporting. For now very stupid and simplistic.
 
-use collections::{Map, map, set};
+use collections::{set, Set};
 use lr1::trace::Tracer;
 use lr1::core::*;
 use lr1::example::{Example, ExampleStyles, ExampleSymbol};
 use lr1::first::FirstSets;
-use lr1::lookahead::{Lookahead, LookaheadSet};
+use lr1::lookahead::{Token, TokenSet};
 use itertools::Itertools;
 use grammar::repr::*;
 use message::{Message};
@@ -15,17 +15,18 @@ use tls::Tls;
 #[cfg(test)] mod test;
 
 pub fn report_error(grammar: &Grammar,
-                    error: &TableConstructionError)
+                    error: &LR1TableConstructionError)
                     -> Vec<Message>
 {
-    let mut cx = ErrorReportingCx::new(grammar, &error.states);
+    let mut cx = ErrorReportingCx::new(grammar, &error.states, &error.conflicts);
     cx.report_errors()
 }
 
 struct ErrorReportingCx<'cx, 'grammar: 'cx> {
     grammar: &'grammar Grammar,
     first_sets: FirstSets,
-    states: &'cx [State<'grammar>],
+    states: &'cx [LR1State<'grammar>],
+    conflicts: &'cx [LR1Conflict<'grammar>],
 }
 
 #[derive(Debug)]
@@ -60,35 +61,30 @@ enum ConflictClassification {
     Naive,
 }
 
+type TokenConflict<'grammar> = Conflict<'grammar, Token>;
+
 impl<'cx, 'grammar> ErrorReportingCx<'cx, 'grammar> {
     fn new(grammar: &'grammar Grammar,
-           states: &'cx [State<'grammar>])
+           states: &'cx [LR1State<'grammar>],
+           conflicts: &'cx [LR1Conflict<'grammar>])
            -> Self {
         ErrorReportingCx {
             grammar: grammar,
             first_sets: FirstSets::new(grammar),
             states: states,
+            conflicts: conflicts,
         }
     }
 
     fn report_errors(&mut self) -> Vec<Message> {
-        self.states
+        token_conflicts(self.conflicts)
             .iter()
-            .flat_map(|state|
-                      &state.conflicts)
-            .flat_map(|(&lookahead, conflicts)|
-                      conflicts.iter().map(move |c| (lookahead, c)))
-            .map(|(lookahead, conflict)|
-                 self.report_error(lookahead, conflict))
+            .map(|conflict| self.report_error(conflict))
             .collect()
     }
 
-    fn report_error(&mut self,
-                    lookahead: Lookahead,
-                    conflict: &Conflict<'grammar>)
-                    -> Message
-    {
-        match self.classify(lookahead, conflict) {
+    fn report_error(&mut self, conflict: &TokenConflict<'grammar>) -> Message {
+        match self.classify(conflict) {
             ConflictClassification::Ambiguity { action, reduce } => {
                 self.report_error_ambiguity(conflict, action, reduce)
             }
@@ -96,28 +92,27 @@ impl<'cx, 'grammar> ErrorReportingCx<'cx, 'grammar> {
                 self.report_error_precedence(conflict, shift, reduce, nonterminal)
             }
             ConflictClassification::SuggestInline { shift, reduce, nonterminal } => {
-                self.report_error_suggest_inline(lookahead, conflict,
+                self.report_error_suggest_inline(conflict,
                                                  shift, reduce,
                                                  nonterminal)
             }
             ConflictClassification::SuggestQuestion { shift, reduce,
                                                       nonterminal, symbol } => {
-                self.report_error_suggest_question(lookahead, conflict,
+                self.report_error_suggest_question(conflict,
                                                    shift, reduce,
                                                    nonterminal, symbol)
             }
             ConflictClassification::InsufficientLookahead { action, reduce } => {
-                self.report_error_insufficient_lookahead(lookahead, conflict,
-                                                         action, reduce)
+                self.report_error_insufficient_lookahead(conflict, action, reduce)
             }
             ConflictClassification::Naive => {
-                self.report_error_naive(lookahead, conflict)
+                self.report_error_naive(conflict)
             }
         }
     }
 
     fn report_error_ambiguity_core(&self,
-                                   conflict: &Conflict<'grammar>,
+                                   conflict: &TokenConflict<'grammar>,
                                    shift: Example,
                                    reduce: Example)
                                    -> Builder<BodyCharacter> {
@@ -145,7 +140,7 @@ impl<'cx, 'grammar> ErrorReportingCx<'cx, 'grammar> {
     }
 
     fn report_error_ambiguity(&self,
-                              conflict: &Conflict<'grammar>,
+                              conflict: &TokenConflict<'grammar>,
                               shift: Example,
                               reduce: Example)
                               -> Message {
@@ -158,7 +153,7 @@ impl<'cx, 'grammar> ErrorReportingCx<'cx, 'grammar> {
     }
 
     fn report_error_precedence(&self,
-                               conflict: &Conflict<'grammar>,
+                               conflict: &TokenConflict<'grammar>,
                                shift: Example,
                                reduce: Example,
                                nonterminal: NonterminalString)
@@ -178,8 +173,7 @@ impl<'cx, 'grammar> ErrorReportingCx<'cx, 'grammar> {
     }
 
     fn report_error_not_lr1_core(&self,
-                                 lookahead: Lookahead,
-                                 conflict: &Conflict<'grammar>,
+                                 conflict: &TokenConflict<'grammar>,
                                  action: Example,
                                  reduce: Example)
                                  -> Builder<BodyCharacter> {
@@ -205,8 +199,8 @@ impl<'cx, 'grammar> ErrorReportingCx<'cx, 'grammar> {
             })
             .begin_wrap();
 
-        let builder = match lookahead {
-            Lookahead::Terminal(term) => {
+        let builder = match conflict.lookahead {
+            Token::Terminal(term) => {
                 builder
                     .text("At that point, if the next token is a")
                     .push(term)
@@ -214,7 +208,7 @@ impl<'cx, 'grammar> ErrorReportingCx<'cx, 'grammar> {
                     .styled(Tls::session().cursor_symbol)
                     .punctuated(",")
             }
-            Lookahead::EOF =>
+            Token::EOF =>
                 builder.text("If the end of the input is reached,")
         };
 
@@ -228,7 +222,7 @@ impl<'cx, 'grammar> ErrorReportingCx<'cx, 'grammar> {
                                  reduce, "First");
 
         match conflict.action {
-            Action::Shift(_) =>
+            Action::Shift(lookahead, _) =>
                 self.describe_shift(builder, styles, lookahead,
                                     action, "Alternatively"),
             Action::Reduce(production) =>
@@ -240,14 +234,11 @@ impl<'cx, 'grammar> ErrorReportingCx<'cx, 'grammar> {
     fn describe_shift<C: Character>(&self,
                                     builder: Builder<C>,
                                     styles: ExampleStyles,
-                                    lookahead: Lookahead,
+                                    lookahead: TerminalString,
                                     example: Example,
                                     intro_word: &str)
                                     -> Builder<C>
     {
-        // Shift actions can only happen with non-EOF lookaheads:
-        let lookahead = lookahead.unwrap_terminal();
-
         // A shift example looks like:
         //
         // ...p1 ...p2 (*) L ...s2 ...s1
@@ -308,15 +299,13 @@ impl<'cx, 'grammar> ErrorReportingCx<'cx, 'grammar> {
     }
 
     fn report_error_suggest_inline(&self,
-                                   lookahead: Lookahead,
-                                   conflict: &Conflict<'grammar>,
+                                   conflict: &TokenConflict<'grammar>,
                                    shift: Example,
                                    reduce: Example,
                                    nonterminal: NonterminalString)
                                    -> Message
     {
-        let builder = self.report_error_not_lr1_core(lookahead, conflict,
-                                                     shift, reduce);
+        let builder = self.report_error_not_lr1_core(conflict, shift, reduce);
 
         builder
             .begin_wrap()
@@ -335,16 +324,14 @@ impl<'cx, 'grammar> ErrorReportingCx<'cx, 'grammar> {
     }
 
     fn report_error_suggest_question(&self,
-                                     lookahead: Lookahead,
-                                     conflict: &Conflict<'grammar>,
+                                     conflict: &TokenConflict<'grammar>,
                                      shift: Example,
                                      reduce: Example,
                                      nonterminal: NonterminalString,
                                      symbol: Symbol)
                                      -> Message
     {
-        let builder = self.report_error_not_lr1_core(lookahead, conflict,
-                                                     shift, reduce);
+        let builder = self.report_error_not_lr1_core(conflict, shift, reduce);
 
         builder
             .begin_wrap()
@@ -369,8 +356,7 @@ impl<'cx, 'grammar> ErrorReportingCx<'cx, 'grammar> {
     }
 
     fn report_error_insufficient_lookahead(&self,
-                                           lookahead: Lookahead,
-                                           conflict: &Conflict<'grammar>,
+                                           conflict: &TokenConflict<'grammar>,
                                            action: Example,
                                            reduce: Example)
                                            -> Message {
@@ -391,8 +377,7 @@ impl<'cx, 'grammar> ErrorReportingCx<'cx, 'grammar> {
         // modify the grammar so that `NTn` does not appear with `L`
         // in its follow-set. How to guide them in this?
 
-        let builder = self.report_error_not_lr1_core(lookahead, conflict,
-                                                     action, reduce);
+        let builder = self.report_error_not_lr1_core(conflict, action, reduce);
 
         builder
             .wrap_text("See the LALRPOP manual for advice on \
@@ -404,8 +389,7 @@ impl<'cx, 'grammar> ErrorReportingCx<'cx, 'grammar> {
     /// Naive error reporting. This is a fallback path which (I think)
     /// never actually executes.
     fn report_error_naive(&self,
-                          lookahead: Lookahead,
-                          conflict: &Conflict<'grammar>)
+                          conflict: &TokenConflict<'grammar>)
                           -> Message {
         let mut builder =
             MessageBuilder::new(conflict.production.span)
@@ -422,12 +406,12 @@ impl<'cx, 'grammar> ErrorReportingCx<'cx, 'grammar> {
         let mut builder =
             builder.end()
                    .begin_wrap()
-                   .text(format!("and looking at a token `{:?}`", lookahead))
+                   .text(format!("and looking at a token `{:?}`", conflict.lookahead))
                    .text("we can reduce to a")
                    .push(conflict.production.nonterminal)
                    .verbatimed();
         builder = match conflict.action {
-            Action::Shift(_) =>
+            Action::Shift(..) =>
                 builder.text("but we can also shift"),
             Action::Reduce(prod) =>
                 builder.text("but we can also reduce to a")
@@ -439,45 +423,38 @@ impl<'cx, 'grammar> ErrorReportingCx<'cx, 'grammar> {
                .end()
     }
 
-    fn classify(&mut self,
-                lookahead: Lookahead,
-                conflict: &Conflict<'grammar>)
-                -> ConflictClassification
-    {
+    fn classify(&mut self, conflict: &TokenConflict<'grammar>) -> ConflictClassification {
         // Find examples from the conflicting action (either a shift
         // or a reduce).
         let mut action_examples = match conflict.action {
-            Action::Shift(_) => self.shift_examples(lookahead, conflict),
+            Action::Shift(..) => self.shift_examples(conflict),
             Action::Reduce(production) => self.reduce_examples(conflict.state,
                                                                production,
-                                                               lookahead)
+                                                               conflict.lookahead)
         };
 
         // Find examples from the conflicting reduce.
         let mut reduce_examples = self.reduce_examples(conflict.state,
                                                        conflict.production,
-                                                       lookahead);
+                                                       conflict.lookahead);
 
         // Prefer shorter examples to longer ones.
         action_examples.sort_by(|e, f| e.symbols.len().cmp(&f.symbols.len()));
         reduce_examples.sort_by(|e, f| e.symbols.len().cmp(&f.symbols.len()));
 
-        if let Some(classification) = self.try_classify_ambiguity(lookahead,
-                                                                  conflict,
+        if let Some(classification) = self.try_classify_ambiguity(conflict,
                                                                   &action_examples,
                                                                   &reduce_examples) {
             return classification;
         }
 
-        if let Some(classification) = self.try_classify_question(lookahead,
-                                                                 conflict,
+        if let Some(classification) = self.try_classify_question(conflict,
                                                                  &action_examples,
                                                                  &reduce_examples) {
             return classification;
         }
 
-        if let Some(classification) = self.try_classify_inline(lookahead,
-                                                               conflict,
+        if let Some(classification) = self.try_classify_inline(conflict,
                                                                &action_examples,
                                                                &reduce_examples) {
             return classification;
@@ -500,8 +477,7 @@ impl<'cx, 'grammar> ErrorReportingCx<'cx, 'grammar> {
     }
 
     fn try_classify_ambiguity(&self,
-                              lookahead: Lookahead,
-                              conflict: &Conflict<'grammar>,
+                              conflict: &TokenConflict<'grammar>,
                               action_examples: &[Example],
                               reduce_examples: &[Example])
                               -> Option<ConflictClassification> {
@@ -514,20 +490,18 @@ impl<'cx, 'grammar> ErrorReportingCx<'cx, 'grammar> {
                 // Consider whether to call this a precedence
                 // error. We do this if we are stuck between reducing
                 // `T = T S T` and shifting `S`.
-                if let Action::Shift(_) = conflict.action {
-                    if let Lookahead::Terminal(term) = lookahead {
-                        let nt = conflict.production.nonterminal;
-                        if conflict.production.symbols.len() == 3 &&
-                            conflict.production.symbols[0] == Symbol::Nonterminal(nt) &&
-                            conflict.production.symbols[1] == Symbol::Terminal(term) &&
-                            conflict.production.symbols[2] == Symbol::Nonterminal(nt)
-                        {
-                            return ConflictClassification::Precedence {
-                                shift: action.clone(),
-                                reduce: reduce.clone(),
-                                nonterminal: conflict.production.nonterminal,
-                            };
-                        }
+                if let Action::Shift(term, _) = conflict.action {
+                    let nt = conflict.production.nonterminal;
+                    if conflict.production.symbols.len() == 3 &&
+                        conflict.production.symbols[0] == Symbol::Nonterminal(nt) &&
+                        conflict.production.symbols[1] == Symbol::Terminal(term) &&
+                        conflict.production.symbols[2] == Symbol::Nonterminal(nt)
+                    {
+                        return ConflictClassification::Precedence {
+                            shift: action.clone(),
+                            reduce: reduce.clone(),
+                            nonterminal: conflict.production.nonterminal,
+                        };
                     }
                 }
                 ConflictClassification::Ambiguity {
@@ -539,8 +513,7 @@ impl<'cx, 'grammar> ErrorReportingCx<'cx, 'grammar> {
     }
 
     fn try_classify_question(&self,
-                             _lookahead: Lookahead,
-                             conflict: &Conflict<'grammar>,
+                             conflict: &TokenConflict<'grammar>,
                              action_examples: &[Example],
                              reduce_examples: &[Example])
                              -> Option<ConflictClassification> {
@@ -553,11 +526,8 @@ impl<'cx, 'grammar> ErrorReportingCx<'cx, 'grammar> {
         // here since I do not KNOW that it will help, but it often
         // does, and it's better style anyhow.
 
-        match conflict.action {
-            Action::Shift(_) => { }
-            Action::Reduce(_) => {
-                return None;
-            }
+        if let Action::Reduce(_) = conflict.action {
+            return None;
         }
 
         let nt = conflict.production.nonterminal;
@@ -582,8 +552,7 @@ impl<'cx, 'grammar> ErrorReportingCx<'cx, 'grammar> {
     }
 
     fn try_classify_inline(&self,
-                           _lookahead: Lookahead,
-                           conflict: &Conflict<'grammar>,
+                           conflict: &TokenConflict<'grammar>,
                            action_examples: &[Example],
                            reduce_examples: &[Example])
                            -> Option<ConflictClassification> {
@@ -595,11 +564,8 @@ impl<'cx, 'grammar> ErrorReportingCx<'cx, 'grammar> {
         // us delay reducing until the lookahead diverges.
 
         // Only applicable to shift/reduce:
-        match conflict.action {
-            Action::Shift(_) => { }
-            Action::Reduce(_) => {
-                return None;
-            }
+        if let Action::Reduce(_) = conflict.action {
+            return None;
         }
 
         // FIXME: The logic here finds the first example where inline
@@ -700,19 +666,16 @@ impl<'cx, 'grammar> ErrorReportingCx<'cx, 'grammar> {
                         // same symbol on both; we'll be able to shift them
                         None
                     } else {
-                        // different symbols: for this to
-                        // work, must have disjoint first
-                        // sets. We'll be approximate and
-                        // supply the same Lookahead::EOF to
-                        // both, though in fact the actual
-                        // lookahead may be helpful here.
-                        let (shift_first, _) =
-                            self.first_sets.first(self.grammar, &[shift_sym],
-                                                  Lookahead::EOF);
-                        let (reduce_first, _) =
-                            self.first_sets.first(self.grammar, &[reduce_sym],
-                                                  Lookahead::EOF);
-                        if shift_first.is_disjoint(reduce_first) {
+                        // different symbols: for this to work, must
+                        // have disjoint first sets. Note that we
+                        // consider a suffix matching epsilon to be
+                        // potentially overlapping, though we could
+                        // supply the actual lookahead for more precision.
+                        let shift_first =
+                            self.first_sets.first0(&[shift_sym]);
+                        let reduce_first =
+                            self.first_sets.first0(&[reduce_sym]);
+                        if shift_first.is_disjoint(&reduce_first) {
                             Some(true)
                         } else {
                             Some(false)
@@ -732,20 +695,19 @@ impl<'cx, 'grammar> ErrorReportingCx<'cx, 'grammar> {
     }
 
     fn shift_examples(&self,
-                      lookahead: Lookahead,
-                      conflict: &Conflict<'grammar>)
+                      conflict: &TokenConflict<'grammar>)
                       -> Vec<Example> {
         log!(Tls::session(), Verbose, "Gathering shift examples");
         let state = &self.states[conflict.state.0];
-        let conflicting_items = self.conflicting_shift_items(state, lookahead, conflict);
+        let conflicting_items = self.conflicting_shift_items(state, conflict);
         conflicting_items
             .into_iter()
-            .flat_map(|(item, _lookaheads)| {
-                let tracer = Tracer::new(self.grammar, self.states);
+            .flat_map(|item| {
+                let tracer = Tracer::new(&self.first_sets, self.states);
                 let shift_trace =
                     tracer.backtrace_shift(conflict.state, item);
                 let local_examples: Vec<Example> =
-                    shift_trace.examples(item).collect();
+                    shift_trace.lr0_examples(item).collect();
                 local_examples
             })
             .collect()
@@ -754,47 +716,56 @@ impl<'cx, 'grammar> ErrorReportingCx<'cx, 'grammar> {
     fn reduce_examples(&self,
                        state: StateIndex,
                        production: &'grammar Production,
-                       lookahead: Lookahead)
+                       lookahead: Token)
                        -> Vec<Example> {
         log!(Tls::session(), Verbose, "Gathering reduce examples");
         let item = Item {
             production: production,
             index: production.symbols.len(),
-            lookahead: lookahead
+            lookahead: TokenSet::from(lookahead),
         };
-        let tracer = Tracer::new(self.grammar, self.states);
-        let reduce_trace = tracer.backtrace_reduce(state, item);
-        reduce_trace.examples(item.to_lr0()).collect()
+        let tracer = Tracer::new(&self.first_sets, self.states);
+        let reduce_trace = tracer.backtrace_reduce(state, item.to_lr0());
+        reduce_trace.lr1_examples(&self.first_sets, &item)
+                    .collect()
     }
 
     fn conflicting_shift_items(&self,
-                               state: &State<'grammar>,
-                               lookahead: Lookahead,
-                               _conflict: &Conflict<'grammar>)
-                               -> Map<LR0Item<'grammar>, LookaheadSet> {
+                               state: &LR1State<'grammar>,
+                               conflict: &TokenConflict<'grammar>)
+                               -> Set<LR0Item<'grammar>> {
         // Lookahead must be a terminal, not EOF.
         // Find an item J like `Bar = ... (*) L ...`.
-        let lookahead = match lookahead {
-            Lookahead::EOF => panic!("can't shift EOF"),
-            Lookahead::Terminal(s) => Symbol::Terminal(s),
-        };
-        let mut result = map();
-        for item in
-            state.items.vec.iter()
-                           .filter(|i| i.can_shift())
-                           .filter(|i| i.production.symbols[i.index] == lookahead)
-        {
-            result.entry(item.to_lr0())
-                  .or_insert_with(|| LookaheadSet::new(self.grammar))
-                  .insert(self.grammar, item.lookahead);
-        }
-        result
+        let lookahead = Symbol::Terminal(conflict.lookahead.unwrap_terminal());
+        state.items.vec.iter()
+                       .filter(|i| i.can_shift())
+                       .filter(|i| i.production.symbols[i.index] == lookahead)
+                       .map(|i| i.to_lr0())
+                       .collect()
     }
 }
 
+fn token_conflicts<'grammar>(conflicts: &[Conflict<'grammar, TokenSet>])
+                             -> Vec<TokenConflict<'grammar>> {
+    conflicts
+        .iter()
+        .flat_map(|conflict| {
+            conflict.lookahead
+                    .iter()
+                    .map(move |token| Conflict {
+                        state: conflict.state,
+                        lookahead: token,
+                        production: conflict.production,
+                        action: conflict.action,
+                    })
+        })
+        .collect()
+}
+
+
 //fn choose_example<'grammar>(states: &[State<'grammar>],
-//                            lookahead: Lookahead,
-//                            conflict: &Conflict<'grammar>)
+//                            lookahead: Token,
+//                            conflict: &TokenConflict<'grammar>)
 //{
 //    // Whenever we have a conflict in state S, there is always:
 //    // - a given lookahead L that permits some reduction, due to
@@ -827,8 +798,8 @@ impl<'cx, 'grammar> ErrorReportingCx<'cx, 'grammar> {
 //}
 //
 //fn conflicting_item<'grammar>(state: &State<'grammar>,
-//                              lookahead: Lookahead,
-//                              conflict: &Conflict<'grammar>)
+//                              lookahead: Token,
+//                              conflict: &TokenConflict<'grammar>)
 //                              -> Item<'grammar>
 //{
 //    match conflict.action {

@@ -2,8 +2,10 @@ use intern::intern;
 use grammar::repr::*;
 use lr1::build_states;
 use lr1::core::Item;
+use lr1::first::FirstSets;
 use lr1::interpret::interpret_partial;
-use lr1::lookahead::Lookahead;
+use lr1::lookahead::{Token, TokenSet};
+use lr1::tls::Lr1Tls;
 use test_util::{expect_debug, normalized_grammar};
 use tls::Tls;
 
@@ -50,8 +52,10 @@ fn test_grammar1() -> Grammar {
 fn backtrace1() {
     let _tls = Tls::test();
     let grammar = test_grammar1();
+    let _lr1_tls = Lr1Tls::install(grammar.terminals.clone());
+    let first_sets = FirstSets::new(&grammar);
     let states = build_states(&grammar, nt("Start")).unwrap();
-    let tracer = Tracer::new(&grammar, &states);
+    let tracer = Tracer::new(&first_sets, &states);
     let state_stack = interpret_partial(&states, terms!["Int"]).unwrap();
     let top_state = *state_stack.last().unwrap();
 
@@ -62,64 +66,59 @@ fn backtrace1() {
     // Expr = "Int" (*) [","],
     // Expr = "Int" (*) [";"]
     //
-    // Select the last one.
-    let semi = Lookahead::Terminal(term(";"));
-    let semi_item = states[top_state.0].items.vec.iter()
-                                                 .filter(|item| item.lookahead == semi)
-                                                 .next()
-                                                 .unwrap();
+    // Select the ";" one.
+    let semi = Token::Terminal(term(";"));
+    let semi_item = states[top_state.0].items
+                                       .vec
+                                       .iter()
+                                       .filter(|item| item.lookahead.contains(semi))
+                                       .next()
+                                       .unwrap();
 
-    let backtrace = tracer.backtrace_reduce(top_state, *semi_item);
+    let backtrace = tracer.backtrace_reduce(top_state, semi_item.to_lr0());
 
     println!("{:#?}", backtrace);
-    expect_debug(&backtrace, r#"
+
+    let pictures: Vec<_> = backtrace.lr0_examples(semi_item.to_lr0())
+                                    .map(|e| e.paint_unstyled())
+                                    .collect();
+    expect_debug(&pictures, r#"
 [
-    (Nonterminal(Expr) -(["Int"], None, [])-> Item(Expr = "Int" (*))),
-    (Nonterminal(Exprs) -([Exprs, ","], Some(Expr), [])-> Item(Exprs = Exprs "," (*) Expr)),
-    (Nonterminal(Exprs) -([Exprs, ","], Some(Expr), [])-> Nonterminal(Expr)),
-    (Nonterminal(Exprs) -([], Some(Expr), [])-> Item(Exprs = (*) Expr)),
-    (Nonterminal(Exprs) -([], Some(Expr), [])-> Nonterminal(Expr)),
-    (Item(Stmt = (*) Exprs ";") -([], Some(Exprs), [";"])-> Nonterminal(Exprs))
+    [
+        "  Exprs "," "Int"  ╷ ";"",
+        "  │         └─Expr─┤   │",
+        "  ├─Exprs──────────┘   │",
+        "  └─Stmt───────────────┘"
+    ],
+    [
+        "  Exprs "," "Int"  ╷ "," Expr",
+        "  │         └─Expr─┤        │",
+        "  ├─Exprs──────────┘        │",
+        "  └─Exprs───────────────────┘"
+    ],
+    [
+        "  "Int"   ╷ ";"",
+        "  ├─Expr──┤   │",
+        "  ├─Exprs─┘   │",
+        "  └─Stmt──────┘"
+    ],
+    [
+        "  "Int"   ╷ "," Expr",
+        "  ├─Expr──┤        │",
+        "  ├─Exprs─┘        │",
+        "  └─Exprs──────────┘"
+    ],
+    [
+        "  "Int"  ╷ "+" "Int"",
+        "  ├─Expr─┘         │",
+        "  └─Expr───────────┘"
+    ]
 ]
 "#.trim());
 }
 
 #[test]
 fn backtrace2() {
-    let _tls = Tls::test();
-    let grammar = test_grammar1();
-    let states = build_states(&grammar, nt("Start")).unwrap();
-    let tracer = Tracer::new(&grammar, &states);
-    let state_stack = interpret_partial(&states, terms!["Int"]).unwrap();
-    let top_state = *state_stack.last().unwrap();
-
-    // Top state will have items like:
-    //
-    // Expr = "Int" (*) [EOF],
-    // Expr = "Int" (*) ["+"],
-    // Expr = "Int" (*) [","],
-    // Expr = "Int" (*) [";"]
-    //
-    // Select the last one.
-    let plus = Lookahead::Terminal(term("+"));
-    let plus_item = states[top_state.0].items.vec.iter()
-                                                 .filter(|item| item.lookahead == plus)
-                                                 .next()
-                                                 .unwrap();
-
-    let backtrace = tracer.backtrace_reduce(top_state, *plus_item);
-
-    println!("{:#?}", backtrace);
-    expect_debug(&backtrace, r#"
-[
-    (Nonterminal(Expr) -(["Int"], None, [])-> Item(Expr = "Int" (*))),
-    (Item(Expr = (*) Expr "+" "Int") -([], Some(Expr), ["+", "Int"])-> Nonterminal(Expr))
-]
-"#.trim());
-}
-
-#[test]
-fn backtrace3() {
     let _tls = Tls::test();
     // This grammar yields a S/R conflict. Is it (int -> int) -> int
     // or int -> (int -> int)?
@@ -131,20 +130,17 @@ pub Ty: () = {
     <t1:Ty> "->" <t2:Ty> => (),
 };
 "#);
-    let states = build_states(&grammar, nt("Ty")).unwrap_err().states;
-    let tracer = Tracer::new(&grammar, &states);
-    let (&lookahead, conflict) =
-        states.iter()
-              .flat_map(|s| &s.conflicts)
-              .flat_map(|(l, cs)| cs.iter().map(move |c| (l, c)))
-              .next()
-              .unwrap();
+    let _lr1_tls = Lr1Tls::install(grammar.terminals.clone());
+    let first_sets = FirstSets::new(&grammar);
+    let err = build_states(&grammar, nt("Ty")).unwrap_err();
+    let tracer = Tracer::new(&first_sets, &err.states);
+    let conflict = err.conflicts[0].clone();
     println!("conflict={:?}", conflict);
     let item = Item { production: conflict.production,
                       index: conflict.production.symbols.len(),
-                      lookahead: lookahead };
+                      lookahead: conflict.lookahead.clone() };
     println!("item={:?}", item);
-    let backtrace = tracer.backtrace_reduce(conflict.state, item);
+    let backtrace = tracer.backtrace_reduce(conflict.state, item.to_lr0());
     println!("{:#?}", backtrace);
     expect_debug(&backtrace, r#"
 [
@@ -157,7 +153,7 @@ pub Ty: () = {
 
     // Check that we can successfully enumerate and paint the examples
     // here.
-    let pictures: Vec<_> = backtrace.examples(item.to_lr0())
+    let pictures: Vec<_> = backtrace.lr1_examples(&first_sets, &item)
                                     .map(|e| e.paint_unstyled())
                                     .collect();
     expect_debug(&pictures, r#"
@@ -184,20 +180,17 @@ pub Ty: () = {
     <t1:Ty> "->" <t2:Ty> => (),
 };
 "#);
-    let states = build_states(&grammar, nt("Ty")).unwrap_err().states;
-    let (&lookahead, conflict) =
-        states.iter()
-              .flat_map(|s| &s.conflicts)
-              .flat_map(|(l, cs)| cs.iter().map(move |c| (l, c)))
-              .next()
-              .unwrap();
+    let _lr1_tls = Lr1Tls::install(grammar.terminals.clone());
+    let first_sets = FirstSets::new(&grammar);
+    let err = build_states(&grammar, nt("Ty")).unwrap_err();
+    let conflict = err.conflicts[0].clone();
     println!("conflict={:?}", conflict);
     let item = Item { production: conflict.production,
                       index: conflict.production.symbols.len(),
-                      lookahead: lookahead };
+                      lookahead: conflict.lookahead.clone() };
     println!("item={:?}", item);
-    let tracer = Tracer::new(&grammar, &states);
-    let graph = tracer.backtrace_reduce(conflict.state, item);
+    let tracer = Tracer::new(&first_sets, &err.states);
+    let graph = tracer.backtrace_reduce(conflict.state, item.to_lr0());
     expect_debug(&graph, r#"
 [
     (Nonterminal(Ty) -([Ty, "->"], Some(Ty), [])-> Item(Ty = Ty "->" (*) Ty)),
@@ -208,7 +201,7 @@ pub Ty: () = {
 "#.trim());
 
     let list: Vec<_> =
-        graph.examples(item.to_lr0())
+        graph.lr1_examples(&first_sets, &item)
              .map(|example| example.paint_unstyled())
              .collect();
     expect_debug(&list, r#"
@@ -221,3 +214,120 @@ pub Ty: () = {
 ]
 "#.trim());
 }
+
+#[test]
+fn backtrace_filter() {
+    let _tls = Tls::test();
+    let grammar = normalized_grammar(r#"
+    grammar;
+
+    pub Start: () = Stmt;
+
+    pub Stmt: () = {
+        Exprs ";"
+    };
+
+    Exprs: () = {
+        Expr,
+        Exprs "," Expr
+    };
+
+    Expr: () = {
+        ExprAtom ExprSuffix
+    };
+
+    ExprSuffix: () = {
+        (),
+        "?",
+    };
+
+    ExprAtom: () = {
+        "Int",
+    };
+"#);
+    let _lr1_tls = Lr1Tls::install(grammar.terminals.clone());
+    let states = build_states(&grammar, nt("Start")).unwrap();
+    let first_sets = FirstSets::new(&grammar);
+    let tracer = Tracer::new(&first_sets, &states);
+    let state_stack = interpret_partial(&states, terms!["Int"]).unwrap();
+    let top_state = *state_stack.last().unwrap();
+
+    // Top state will have an item like:
+    //
+    // Expr = "Int" (*) [",", ";"],
+    let semi = Token::Terminal(term(";"));
+    let lr1_item = states[top_state.0].items
+                                      .vec
+                                      .iter()
+                                      .filter(|item| item.lookahead.contains(semi))
+                                      .next()
+                                      .unwrap();
+
+    let backtrace = tracer.backtrace_reduce(top_state, lr1_item.to_lr0());
+
+    println!("{:#?}", backtrace);
+
+    // With no filtering, we get examples with both `;` and `,` as
+    // lookahead (though `ExprSuffix` is in the way).
+    let pictures: Vec<_> = backtrace.lr0_examples(lr1_item.to_lr0())
+                                    .map(|e| e.paint_unstyled())
+                                    .collect();
+    expect_debug(&pictures, r#"
+[
+    [
+        "  Exprs "," "Int"      ╷ ExprSuffix ";"",
+        "  │         ├─ExprAtom─┘          │   │",
+        "  │         └─Expr────────────────┤   │",
+        "  ├─Exprs─────────────────────────┘   │",
+        "  └─Stmt──────────────────────────────┘"
+    ],
+    [
+        "  Exprs "," "Int"      ╷ ExprSuffix "," Expr",
+        "  │         ├─ExprAtom─┘          │        │",
+        "  │         └─Expr────────────────┤        │",
+        "  ├─Exprs─────────────────────────┘        │",
+        "  └─Exprs──────────────────────────────────┘"
+    ],
+    [
+        "  "Int"      ╷ ExprSuffix ";"",
+        "  ├─ExprAtom─┘          │   │",
+        "  ├─Expr────────────────┤   │",
+        "  ├─Exprs───────────────┘   │",
+        "  └─Stmt────────────────────┘"
+    ],
+    [
+        "  "Int"      ╷ ExprSuffix "," Expr",
+        "  ├─ExprAtom─┘          │        │",
+        "  ├─Expr────────────────┤        │",
+        "  ├─Exprs───────────────┘        │",
+        "  └─Exprs────────────────────────┘"
+    ]
+]
+"#.trim());
+
+    // Select those with `;` as lookahead
+    let semi_item = lr1_item.with_lookahead(TokenSet::from(semi));
+    let pictures: Vec<_> =
+        backtrace.lr1_examples(&first_sets, &semi_item)
+                 .map(|e| e.paint_unstyled())
+                 .collect();
+    expect_debug(&pictures, r#"
+[
+    [
+        "  Exprs "," "Int"      ╷ ExprSuffix ";"",
+        "  │         ├─ExprAtom─┘          │   │",
+        "  │         └─Expr────────────────┤   │",
+        "  ├─Exprs─────────────────────────┘   │",
+        "  └─Stmt──────────────────────────────┘"
+    ],
+    [
+        "  "Int"      ╷ ExprSuffix ";"",
+        "  ├─ExprAtom─┘          │   │",
+        "  ├─Expr────────────────┤   │",
+        "  ├─Exprs───────────────┘   │",
+        "  └─Stmt────────────────────┘"
+    ]
+]
+"#.trim());
+}
+

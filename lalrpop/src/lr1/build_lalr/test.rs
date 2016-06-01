@@ -1,5 +1,6 @@
 use intern::intern;
 use grammar::repr::*;
+use lr1::tls::Lr1Tls;
 use test_util::{normalized_grammar};
 use tls::Tls;
 use super::build_lalr_states;
@@ -33,10 +34,13 @@ fn figure9_23() {
         };
    "#);
 
+    let _lr1_tls = Lr1Tls::install(grammar.terminals.clone());
+
     let states = build_lalr_states(&grammar, nt("S")).unwrap();
     println!("{:#?}", states);
 
-    let tree = interpret(&states, tokens!["N", "-", "(", "N", "-", "N", ")"]).unwrap();
+    let tree = interpret(&states, tokens!["N", "-", "(", "N", "-", "N", ")"])
+        .unwrap();
     assert_eq!(
         &format!("{:?}", tree)[..],
         r#"[S: [E: [E: [T: "N"]], "-", [T: "(", [E: [E: [T: "N"]], "-", [T: "N"]], ")"]]]"#);

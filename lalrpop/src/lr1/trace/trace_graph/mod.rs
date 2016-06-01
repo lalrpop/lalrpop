@@ -1,5 +1,7 @@
 use collections::{Map, map};
 use lr1::core::*;
+use lr1::first::*;
+use lr1::lookahead::*;
 use lr1::example::*;
 use grammar::repr::*;
 use petgraph::{EdgeDirection, Graph};
@@ -45,6 +47,7 @@ pub struct TraceGraph<'grammar> {
     // If this trace graph represents a shift backtrace, then the
     // labels are symbols that are pushed. Otherwise they are labels
     // that are popped.
+
     graph: Graph<TraceGraphNode<'grammar>, SymbolSets<'grammar>>,
     indices: Map<TraceGraphNode<'grammar>, NodeIndex>,
 }
@@ -56,7 +59,7 @@ pub enum TraceGraphNode<'grammar> {
 }
 
 impl<'grammar> TraceGraph<'grammar> {
-    pub fn new() -> TraceGraph<'grammar> {
+    pub fn new() -> Self {
         TraceGraph {
             graph: Graph::new(),
             indices: map(),
@@ -88,11 +91,22 @@ impl<'grammar> TraceGraph<'grammar> {
         }
     }
 
-    pub fn examples<'graph>(&'graph self,
-                            lr0_item: LR0Item<'grammar>)
-                            -> PathEnumerator<'graph, 'grammar>
+    pub fn lr0_examples<'graph>(&'graph self,
+                                lr0_item: LR0Item<'grammar>)
+                                -> PathEnumerator<'graph, 'grammar>
     {
         PathEnumerator::new(self, lr0_item)
+    }
+
+    pub fn lr1_examples<'trace>(&'trace self,
+                                first_sets: &'trace FirstSets,
+                                item: &LR1Item<'grammar>)
+                                -> FilteredPathEnumerator<'trace, 'grammar>
+    {
+        FilteredPathEnumerator::new(first_sets,
+                                    self,
+                                    item.to_lr0(),
+                                    item.lookahead.clone())
     }
 }
 
@@ -102,13 +116,13 @@ impl<'grammar> Into<TraceGraphNode<'grammar>> for NonterminalString {
     }
 }
 
-impl<'grammar> Into<TraceGraphNode<'grammar>> for LR0Item<'grammar> {
+impl<'grammar, L: Lookahead> Into<TraceGraphNode<'grammar>> for Item<'grammar, L> {
     fn into(self) -> TraceGraphNode<'grammar> {
-        TraceGraphNode::Item(self)
+        (&self).into()
     }
 }
 
-impl<'grammar> Into<TraceGraphNode<'grammar>> for Item<'grammar> {
+impl<'a, 'grammar, L: Lookahead> Into<TraceGraphNode<'grammar>> for &'a Item<'grammar, L> {
     fn into(self) -> TraceGraphNode<'grammar> {
         TraceGraphNode::Item(self.to_lr0())
     }
@@ -156,11 +170,6 @@ impl<'grammar> Debug for TraceGraph<'grammar> {
 pub struct PathEnumerator<'graph, 'grammar: 'graph> {
     graph: &'graph TraceGraph<'grammar>,
     stack: Vec<EnumeratorState<'graph, 'grammar>>,
-
-    // The list of symbols for the current item.
-    symbols: Vec<Symbol>,
-
-    cursor: usize,
 }
 
 struct EnumeratorState<'graph, 'grammar: 'graph> {
@@ -177,8 +186,6 @@ impl<'graph, 'grammar> PathEnumerator<'graph, 'grammar> {
         let mut enumerator = PathEnumerator {
             graph: graph,
             stack: vec![],
-            symbols: vec![],
-            cursor: 0,
         };
         let edges = enumerator.incoming_edges(start_state);
         enumerator.stack.push(EnumeratorState {
@@ -257,8 +264,7 @@ impl<'graph, 'grammar> PathEnumerator<'graph, 'grammar> {
     ///
     /// If the child is an `Item` node, we have found the next trace,
     /// and hence our search terminates. We push the symbols from this
-    /// item node into the symbols vector and then call `found_trace`
-    /// (which will ultimately return `true`).
+    /// item node into the symbols vector and then return true.
     ///
     /// Otherwise, we check whether this new node would cause a cycle.
     /// If so, we do *not* push it, and instead just call
@@ -286,7 +292,7 @@ impl<'graph, 'grammar> PathEnumerator<'graph, 'grammar> {
                     symbol_sets: symbol_sets,
                     edges: edges,
                 });
-                self.found_trace()
+                return true;
             }
             TraceGraphNode::Nonterminal(_) => {
                 // If this node already appears on the stack, do not
@@ -304,32 +310,29 @@ impl<'graph, 'grammar> PathEnumerator<'graph, 'grammar> {
         }
     }
 
-    // Assemble the `symbols` vector and `cursor`
-    fn found_trace(&mut self)
-                   -> bool {
-        self.symbols.truncate(0);
-
-        self.symbols.extend(
-            self.stack.iter()
-                      .rev()
-                      .flat_map(|s| s.symbol_sets.prefix));
-
-        self.cursor = self.symbols.len();
-
-        self.symbols.extend(
-            self.stack[1].symbol_sets.cursor);
-
-        self.symbols.extend(
-            self.stack.iter()
-                      .flat_map(|s| s.symbol_sets.suffix));
-
-        true
+    pub fn found_trace(&self) -> bool {
+        !self.stack.is_empty()
     }
 
-    pub fn example(&self) -> Option<Example> {
-        if self.stack.is_empty() {
-            return None;
-        }
+    /// Returns the 1-context for the current trace. In other words,
+    /// the set of tokens that may appear next in the input. If this
+    /// trace was derived from a shiftable item, this will always be
+    /// the terminal that was to be shifted; if derived from a reduce
+    /// item, this constitutes the set of lookaheads that will trigger
+    /// a reduce.
+    pub fn first0(&self, first_sets: &FirstSets) -> TokenSet {
+        assert!(self.found_trace());
+        first_sets.first0(
+            self.stack[1].symbol_sets
+                         .cursor
+                         .into_iter()
+                         .chain(
+                             self.stack.iter()
+                                       .flat_map(|s| s.symbol_sets.suffix)))
+    }
+
+    pub fn example(&self) -> Example {
+        assert!(self.found_trace());
 
         let mut symbols = vec![];
 
@@ -379,11 +382,11 @@ impl<'graph, 'grammar> PathEnumerator<'graph, 'grammar> {
                 .collect();
         reductions.reverse();
 
-        Some(Example {
+        Example {
             symbols: symbols,
             cursor: cursor,
             reductions: reductions
-        })
+        }
     }
 }
 
@@ -391,8 +394,56 @@ impl<'graph, 'grammar> Iterator for PathEnumerator<'graph, 'grammar> {
     type Item = Example;
 
     fn next(&mut self) -> Option<Example> {
-        let example = self.example();
-        self.advance();
-        example
+        if self.found_trace() {
+            let example = self.example();
+            self.advance();
+            Some(example)
+        } else {
+            None
+        }
     }
 }
+
+///////////////////////////////////////////////////////////////////////////
+// FilteredPathEnumerator
+//
+// Like the path enumerator, but tests for examples with some specific
+// lookahead
+
+pub struct FilteredPathEnumerator<'graph, 'grammar: 'graph> {
+    base: PathEnumerator<'graph, 'grammar>,
+    first_sets: &'graph FirstSets,
+    lookahead: TokenSet,
+}
+
+impl<'graph, 'grammar> FilteredPathEnumerator<'graph, 'grammar> {
+    fn new(first_sets: &'graph FirstSets,
+           graph: &'graph TraceGraph<'grammar>,
+           lr0_item: LR0Item<'grammar>,
+           lookahead: TokenSet)
+           -> Self {
+        FilteredPathEnumerator {
+            base: PathEnumerator::new(graph, lr0_item),
+            first_sets: first_sets,
+            lookahead: lookahead,
+        }
+    }
+}
+
+impl<'graph, 'grammar> Iterator for FilteredPathEnumerator<'graph, 'grammar> {
+    type Item = Example;
+
+    fn next(&mut self) -> Option<Example> {
+        while self.base.found_trace() {
+            let firsts = self.base.first0(self.first_sets);
+            if firsts.is_intersecting(&self.lookahead) {
+                let example = self.base.example();
+                self.base.advance();
+                return Some(example);
+            }
+            self.base.advance();
+        }
+        None
+    }
+}
+

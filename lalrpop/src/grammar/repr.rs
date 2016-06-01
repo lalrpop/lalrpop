@@ -53,14 +53,19 @@ pub struct Grammar {
     // the grammar proper:
 
     pub action_fn_defns: Vec<ActionFnDefn>,
+    pub terminals: TerminalSet,
     pub nonterminals: Map<NonterminalString, NonterminalData>,
     pub token_span: Span,
     pub conversions: Map<TerminalString, Pattern<TypeRepr>>,
     pub types: Types,
+}
 
-    // for each terminal, we map it to a small integer from 0 to N
-    pub all_terminals: Vec<TerminalString>,
-    pub terminal_bits: Map<TerminalString, usize>,
+/// For each terminal, we map it to a small integer from 0 to N.
+/// This struct contains the mappings to go back and forth.
+#[derive(Clone, Debug)]
+pub struct TerminalSet {
+    pub all: Vec<TerminalString>,
+    pub bits: Map<TerminalString, usize>,
 }
 
 #[derive(Clone, Debug)]

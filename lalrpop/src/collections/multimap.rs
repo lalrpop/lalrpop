@@ -28,6 +28,14 @@ impl<K: Ord, C: Collection> Multimap<K, C> {
         self.map.entry(key).or_insert_with(|| C::default()).push(value);
     }
 
+    pub fn get(&self, key: &K) -> Option<&C> {
+        self.map.get(key)
+    }
+
+    pub fn iter(&self) -> btree_map::Iter<K, C> {
+        self.map.iter()
+    }
+
     pub fn into_iter(self) -> btree_map::IntoIter<K, C> {
         self.map.into_iter()
     }
@@ -38,6 +46,14 @@ impl<K: Ord, C: Collection> IntoIterator for Multimap<K, C> {
     type IntoIter = btree_map::IntoIter<K, C>;
     fn into_iter(self) -> btree_map::IntoIter<K, C> {
         self.into_iter()
+    }
+}
+
+impl<'iter, K: Ord, C: Collection> IntoIterator for &'iter Multimap<K, C> {
+    type Item = (&'iter K, &'iter C);
+    type IntoIter = btree_map::Iter<'iter, K, C>;
+    fn into_iter(self) -> btree_map::Iter<'iter, K, C> {
+        self.iter()
     }
 }
 
@@ -68,3 +84,19 @@ impl<T: Ord> Collection for Set<T> {
         self.insert(item);
     }
 }
+
+impl<K: Ord, C: Collection> Default for Multimap<K, C> {
+    fn default() -> Self {
+        Multimap::new()
+    }
+}
+
+impl<K: Ord, C: Collection<Item=I>, I> Collection for Multimap<K, C> {
+    type Item = (K, I);
+
+    fn push(&mut self, item: (K, I)) {
+        let (key, value) = item;
+        self.push(key, value);
+    }
+}
+

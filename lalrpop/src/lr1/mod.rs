@@ -1,6 +1,7 @@
 //! Naive LR(1) generation algorithm.
 
 use grammar::repr::*;
+use self::tls::Lr1Tls;
 
 pub mod ascent;
 
@@ -10,22 +11,22 @@ mod core;
 mod error;
 mod example;
 mod first;
+mod lane_table;
 mod lookahead;
-mod trace;
 mod state_graph;
+mod tls;
+mod trace;
 
 #[cfg(test)] mod interpret;
 
-use self::core::{State};
-
-pub use self::core::TableConstructionError;
+pub use self::core::{LR1Result, LR1TableConstructionError};
 pub use self::error::report_error;
 
 pub fn build_states<'grammar>(grammar: &'grammar Grammar,
                               start: NonterminalString)
-                              -> Result<Vec<State<'grammar>>,
-                                        TableConstructionError<'grammar>>
-{
+                              -> LR1Result<'grammar> {
+    let _lr1_tls = Lr1Tls::install(grammar.terminals.clone());
+
     match grammar.algorithm {
         Algorithm::LR1 => build::build_lr1_states(grammar, start),
         Algorithm::LALR1 => build_lalr::build_lalr_states(grammar, start),
