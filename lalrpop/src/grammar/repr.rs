@@ -275,6 +275,12 @@ impl Types {
         self.terminal_types.get(&id).unwrap_or(&self.terminal_token_type)
     }
 
+    pub fn terminal_types(&self) -> Vec<TypeRepr> {
+        self.terminal_types.values()
+                           .cloned()
+                           .collect()
+    }
+
     pub fn lookup_nonterminal_type(&self, id: NonterminalString) -> Option<&TypeRepr> {
         self.nonterminal_types.get(&id)
     }

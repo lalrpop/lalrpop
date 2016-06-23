@@ -346,7 +346,11 @@ fn emit_recursive_ascent(session: &Session,
             }
         };
 
-        try!(lr1::ascent::compile(&grammar, user_nt, start_nt, &states, &mut rust));
+        if false { // FIXME
+            try!(lr1::ascent::compile(&grammar, user_nt, start_nt, &states, &mut rust));
+        } else {
+            try!(lr1::parse_table::compile(&grammar, user_nt, start_nt, &states, &mut rust));
+        }
 
         rust!(rust, "pub use self::{}parse{}::parse_{};",
               grammar.prefix, start_nt, user_nt);
