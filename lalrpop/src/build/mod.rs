@@ -325,13 +325,6 @@ fn emit_recursive_ascent(session: &Session,
     // often some of the uses are not used here
     rust!(rust, "#![allow(unused_imports)]");
 
-    // we always thread the parameters through to the action code,
-    // even if they are not used, and hence we need to disable the
-    // unused variables lint, which otherwise gets very excited.
-    if !grammar.parameters.is_empty() {
-        rust!(rust, "#![allow(unused_variables)]");
-    }
-
     try!(emit_uses(grammar, &mut rust));
 
     if grammar.start_nonterminals.is_empty() {
