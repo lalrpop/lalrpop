@@ -63,7 +63,7 @@ pub fn emit_action_code<W: Write>(grammar: &r::Grammar, rust: &mut RustWrite<W>)
 
 fn ret_type_string(grammar: &r::Grammar, defn: &r::ActionFnDefn) -> String {
     if defn.fallible {
-        format!("Result<{},{}ParseError<{},{},{}>>",
+        format!("Result<{},{}lalrpop_util::ParseError<{},{},{}>>",
                 defn.ret_type,
                 grammar.prefix,
                 grammar.types.terminal_loc_type(),

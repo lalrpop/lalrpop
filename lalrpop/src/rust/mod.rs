@@ -156,8 +156,6 @@ impl<W:Write> RustWrite<W> {
         // stuff that we plan to use
         rust!(self, "extern crate lalrpop_util as {}lalrpop_util;",
               prefix);
-        rust!(self, "use self::{}lalrpop_util::ParseError as {}ParseError;",
-              prefix, prefix);
 
         Ok(())
     }

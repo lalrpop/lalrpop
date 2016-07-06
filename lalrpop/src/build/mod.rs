@@ -322,9 +322,6 @@ fn emit_recursive_ascent(session: &Session,
     // includes things like `super::` it will resolve in the natural
     // way.
 
-    // often some of the uses are not used here
-    rust!(rust, "#![allow(unused_imports)]");
-
     try!(emit_uses(grammar, &mut rust));
 
     if grammar.start_nonterminals.is_empty() {

@@ -299,7 +299,7 @@ impl<'ascent,'grammar,W:Write> RecursiveAscent<'ascent,'grammar,W> {
 
         // extra tokens?
         rust!(self.out, "(Some({}lookahead), _) => {{", self.prefix);
-        rust!(self.out, "Err({}ParseError::ExtraToken {{ token: {}lookahead }})",
+        rust!(self.out, "Err({}lalrpop_util::ParseError::ExtraToken {{ token: {}lookahead }})",
               self.prefix, self.prefix);
         rust!(self.out, "}}");
 
@@ -418,7 +418,7 @@ impl<'ascent,'grammar,W:Write> RecursiveAscent<'ascent,'grammar,W> {
 
         // if we hit this, the next token is not recognized, so generate an error
         rust!(self.out, "_ => {{");
-        rust!(self.out, "return Err({}ParseError::UnrecognizedToken {{", self.prefix);
+        rust!(self.out, "return Err({}lalrpop_util::ParseError::UnrecognizedToken {{", self.prefix);
         rust!(self.out, "token: {}lookahead,", self.prefix);
         rust!(self.out, "expected: vec![],");
         rust!(self.out, "}});");
@@ -906,7 +906,7 @@ impl<'ascent,'grammar,W:Write> RecursiveAscent<'ascent,'grammar,W> {
     }
 
     fn parse_error_type(&self) -> String {
-        format!("{}ParseError<{},{},{}>",
+        format!("{}lalrpop_util::ParseError<{},{},{}>",
                 self.prefix,
                 self.types.terminal_loc_type(),
                 self.types.terminal_token_type(),
@@ -923,7 +923,7 @@ impl<'ascent,'grammar,W:Write> RecursiveAscent<'ascent,'grammar,W> {
             rust!(self.out, "Some(Err(e)) => return Err(e),");
         } else {
             // otherwise, they are user errors
-            rust!(self.out, "Some(Err(e)) => return Err({}ParseError::User {{ error: e }}),",
+            rust!(self.out, "Some(Err(e)) => return Err({}lalrpop_util::ParseError::User {{ error: e }}),",
                   self.prefix);
         }
         rust!(self.out, "}};");
