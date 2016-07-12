@@ -52,6 +52,7 @@ fn add_range(range: Test,
     // Find first overlapping range in `disjoint_ranges`, if any.
     match disjoint_ranges[start_index..].iter().position(|r| r.intersects(range)) {
         Some(index) => {
+            let index = index + start_index;
             let overlapping_range = disjoint_ranges[index];
 
             // If the range we are trying to add already exists, we're all done.
