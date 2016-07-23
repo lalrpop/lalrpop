@@ -1860,7 +1860,6 @@ mod __parse__Expr {
         let mut __states = vec![0_i32];
         let mut __symbols = vec![];
         '__shift: loop {
-            println!("outer loop");
             let __lookahead = match __tokens.next() {
                 Some(Ok(v)) => v,
                 None => break '__shift,
@@ -1883,12 +1882,9 @@ mod __parse__Expr {
                 }
             };
             loop {
-                println!("inner loop");
                 let __state = *__states.last().unwrap() as usize;
                 let __action = __ACTION[__state * 8 + __integer];
-                println!("state: {} lookahead: {} action: {} stack-depth: {}", __state, __integer, __action, __symbols.len());
                 if __action > 0 {
-                    println!("--> shift");
                     let __symbol = match __integer {
                         0 => match __lookahead.1 {
                             __tok @ Tok::LParen => __Symbol::Term_22_28_22(__tok),
@@ -1928,7 +1924,6 @@ mod __parse__Expr {
                     __symbols.push((__lookahead.0, __symbol, __lookahead.2));
                     continue '__shift;
                 } else if __action < 0 {
-                    println!("--> reduce");
                     if let Some(r) = __reduce(arena, __action, Some(&__lookahead.0), &mut __states, &mut __symbols) {
                         return r;
                     }
@@ -1942,9 +1937,7 @@ mod __parse__Expr {
         }
         loop {
             let __state = *__states.last().unwrap() as usize;
-            println!("EOF loop state: {}", __state);
             let __action = __EOF_ACTION[__state];
-            println!("EOF in state {} takes action {}", __state, __action);
             if __action < 0 {
                 if let Some(r) = __reduce(arena, __action, None, &mut __states, &mut __symbols) {
                     return r;
@@ -2215,7 +2208,6 @@ mod __parse__Expr {
         };
         let __state = *__states.last().unwrap() as usize;
         let __next_state = __GOTO[__state * 9 + __nonterminal] - 1;
-        println!("goto state {} from {} due to nonterminal {}", __next_state, __state, __nonterminal);
         __states.push(__next_state);
         None
     }
@@ -2224,7 +2216,6 @@ mod __parse__Expr {
     >(
         __symbols: &mut ::std::vec::Vec<(usize,__Symbol<'ast>,usize)>
     ) -> (usize, Tok, usize) {
-        println!("pop_Term_22_28_22");
         match __symbols.pop().unwrap() {
             (__l, __Symbol::Term_22_28_22(__v), __r) => (__l, __v, __r),
             _ => panic!("symbol type mismatch")
@@ -2235,7 +2226,6 @@ mod __parse__Expr {
     >(
         __symbols: &mut ::std::vec::Vec<(usize,__Symbol<'ast>,usize)>
     ) -> (usize, Tok, usize) {
-        println!("pop_Term_22_29_22");
         match __symbols.pop().unwrap() {
             (__l, __Symbol::Term_22_29_22(__v), __r) => (__l, __v, __r),
             _ => panic!("symbol type mismatch")
@@ -2246,7 +2236,6 @@ mod __parse__Expr {
     >(
         __symbols: &mut ::std::vec::Vec<(usize,__Symbol<'ast>,usize)>
     ) -> (usize, Tok, usize) {
-        println!("pop_Term_22_2a_22");
         match __symbols.pop().unwrap() {
             (__l, __Symbol::Term_22_2a_22(__v), __r) => (__l, __v, __r),
             _ => panic!("symbol type mismatch")
@@ -2257,7 +2246,6 @@ mod __parse__Expr {
     >(
         __symbols: &mut ::std::vec::Vec<(usize,__Symbol<'ast>,usize)>
     ) -> (usize, Tok, usize) {
-        println!("pop_Term_22_2b_22");
         match __symbols.pop().unwrap() {
             (__l, __Symbol::Term_22_2b_22(__v), __r) => (__l, __v, __r),
             _ => panic!("symbol type mismatch")
@@ -2268,7 +2256,6 @@ mod __parse__Expr {
     >(
         __symbols: &mut ::std::vec::Vec<(usize,__Symbol<'ast>,usize)>
     ) -> (usize, Tok, usize) {
-        println!("pop_Term_22_2c_22");
         match __symbols.pop().unwrap() {
             (__l, __Symbol::Term_22_2c_22(__v), __r) => (__l, __v, __r),
             _ => panic!("symbol type mismatch")
@@ -2279,7 +2266,6 @@ mod __parse__Expr {
     >(
         __symbols: &mut ::std::vec::Vec<(usize,__Symbol<'ast>,usize)>
     ) -> (usize, Tok, usize) {
-        println!("pop_Term_22_2d_22");
         match __symbols.pop().unwrap() {
             (__l, __Symbol::Term_22_2d_22(__v), __r) => (__l, __v, __r),
             _ => panic!("symbol type mismatch")
@@ -2290,7 +2276,6 @@ mod __parse__Expr {
     >(
         __symbols: &mut ::std::vec::Vec<(usize,__Symbol<'ast>,usize)>
     ) -> (usize, Tok, usize) {
-        println!("pop_Term_22_2f_22");
         match __symbols.pop().unwrap() {
             (__l, __Symbol::Term_22_2f_22(__v), __r) => (__l, __v, __r),
             _ => panic!("symbol type mismatch")
@@ -2301,7 +2286,6 @@ mod __parse__Expr {
     >(
         __symbols: &mut ::std::vec::Vec<(usize,__Symbol<'ast>,usize)>
     ) -> (usize, i32, usize) {
-        println!("pop_TermNum");
         match __symbols.pop().unwrap() {
             (__l, __Symbol::TermNum(__v), __r) => (__l, __v, __r),
             _ => panic!("symbol type mismatch")
@@ -2312,7 +2296,6 @@ mod __parse__Expr {
     >(
         __symbols: &mut ::std::vec::Vec<(usize,__Symbol<'ast>,usize)>
     ) -> (usize, &'ast Node<'ast>, usize) {
-        println!("pop_Nt_28_3cExpr_3e_20_22_2c_22_29");
         match __symbols.pop().unwrap() {
             (__l, __Symbol::Nt_28_3cExpr_3e_20_22_2c_22_29(__v), __r) => (__l, __v, __r),
             _ => panic!("symbol type mismatch")
@@ -2323,7 +2306,6 @@ mod __parse__Expr {
     >(
         __symbols: &mut ::std::vec::Vec<(usize,__Symbol<'ast>,usize)>
     ) -> (usize, ::std::vec::Vec<&'ast Node<'ast>>, usize) {
-        println!("pop_Nt_28_3cExpr_3e_20_22_2c_22_29_2a");
         match __symbols.pop().unwrap() {
             (__l, __Symbol::Nt_28_3cExpr_3e_20_22_2c_22_29_2a(__v), __r) => (__l, __v, __r),
             _ => panic!("symbol type mismatch")
@@ -2334,7 +2316,6 @@ mod __parse__Expr {
     >(
         __symbols: &mut ::std::vec::Vec<(usize,__Symbol<'ast>,usize)>
     ) -> (usize, ::std::vec::Vec<&'ast Node<'ast>>, usize) {
-        println!("pop_Nt_28_3cExpr_3e_20_22_2c_22_29_2b");
         match __symbols.pop().unwrap() {
             (__l, __Symbol::Nt_28_3cExpr_3e_20_22_2c_22_29_2b(__v), __r) => (__l, __v, __r),
             _ => panic!("symbol type mismatch")
@@ -2345,7 +2326,6 @@ mod __parse__Expr {
     >(
         __symbols: &mut ::std::vec::Vec<(usize,__Symbol<'ast>,usize)>
     ) -> (usize, Vec<&'ast Node<'ast>>, usize) {
-        println!("pop_NtComma_3cExpr_3e");
         match __symbols.pop().unwrap() {
             (__l, __Symbol::NtComma_3cExpr_3e(__v), __r) => (__l, __v, __r),
             _ => panic!("symbol type mismatch")
@@ -2356,7 +2336,6 @@ mod __parse__Expr {
     >(
         __symbols: &mut ::std::vec::Vec<(usize,__Symbol<'ast>,usize)>
     ) -> (usize, &'ast Node<'ast>, usize) {
-        println!("pop_NtExpr");
         match __symbols.pop().unwrap() {
             (__l, __Symbol::NtExpr(__v), __r) => (__l, __v, __r),
             _ => panic!("symbol type mismatch")
@@ -2367,7 +2346,6 @@ mod __parse__Expr {
     >(
         __symbols: &mut ::std::vec::Vec<(usize,__Symbol<'ast>,usize)>
     ) -> (usize, ::std::option::Option<&'ast Node<'ast>>, usize) {
-        println!("pop_NtExpr_3f");
         match __symbols.pop().unwrap() {
             (__l, __Symbol::NtExpr_3f(__v), __r) => (__l, __v, __r),
             _ => panic!("symbol type mismatch")
@@ -2378,7 +2356,6 @@ mod __parse__Expr {
     >(
         __symbols: &mut ::std::vec::Vec<(usize,__Symbol<'ast>,usize)>
     ) -> (usize, &'ast Node<'ast>, usize) {
-        println!("pop_NtFactor");
         match __symbols.pop().unwrap() {
             (__l, __Symbol::NtFactor(__v), __r) => (__l, __v, __r),
             _ => panic!("symbol type mismatch")
@@ -2389,7 +2366,6 @@ mod __parse__Expr {
     >(
         __symbols: &mut ::std::vec::Vec<(usize,__Symbol<'ast>,usize)>
     ) -> (usize, &'ast Node<'ast>, usize) {
-        println!("pop_NtTerm");
         match __symbols.pop().unwrap() {
             (__l, __Symbol::NtTerm(__v), __r) => (__l, __v, __r),
             _ => panic!("symbol type mismatch")
@@ -2400,7 +2376,6 @@ mod __parse__Expr {
     >(
         __symbols: &mut ::std::vec::Vec<(usize,__Symbol<'ast>,usize)>
     ) -> (usize, &'ast Node<'ast>, usize) {
-        println!("pop_Nt____Expr");
         match __symbols.pop().unwrap() {
             (__l, __Symbol::Nt____Expr(__v), __r) => (__l, __v, __r),
             _ => panic!("symbol type mismatch")

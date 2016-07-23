@@ -105,7 +105,6 @@ mod __parse__Items {
         let mut __states = vec![0_i32];
         let mut __symbols = vec![];
         '__shift: loop {
-            println!("outer loop");
             let __lookahead = match __tokens.next() {
                 Some(Ok(v)) => v,
                 None => break '__shift,
@@ -122,12 +121,9 @@ mod __parse__Items {
                 }
             };
             loop {
-                println!("inner loop");
                 let __state = *__states.last().unwrap() as usize;
                 let __action = __ACTION[__state * 2 + __integer];
-                println!("state: {} lookahead: {} action: {} stack-depth: {}", __state, __integer, __action, __symbols.len());
                 if __action > 0 {
-                    println!("--> shift");
                     let __symbol = match __integer {
                         0 => match __lookahead.1 {
                             __tok @ Tok::Plus => __Symbol::Term_22_2b_22(__tok),
@@ -143,7 +139,6 @@ mod __parse__Items {
                     __symbols.push((__lookahead.0, __symbol, __lookahead.2));
                     continue '__shift;
                 } else if __action < 0 {
-                    println!("--> reduce");
                     if let Some(r) = __reduce(__action, Some(&__lookahead.0), &mut __states, &mut __symbols) {
                         return r;
                     }
@@ -157,9 +152,7 @@ mod __parse__Items {
         }
         loop {
             let __state = *__states.last().unwrap() as usize;
-            println!("EOF loop state: {}", __state);
             let __action = __EOF_ACTION[__state];
-            println!("EOF in state {} takes action {}", __state, __action);
             if __action < 0 {
                 if let Some(r) = __reduce(__action, None, &mut __states, &mut __symbols) {
                     return r;
@@ -258,7 +251,6 @@ mod __parse__Items {
         };
         let __state = *__states.last().unwrap() as usize;
         let __next_state = __GOTO[__state * 5 + __nonterminal] - 1;
-        println!("goto state {} from {} due to nonterminal {}", __next_state, __state, __nonterminal);
         __states.push(__next_state);
         None
     }
@@ -266,7 +258,6 @@ mod __parse__Items {
     >(
         __symbols: &mut ::std::vec::Vec<(usize,__Symbol<>,usize)>
     ) -> (usize, Tok, usize) {
-        println!("pop_Term_22_2b_22");
         match __symbols.pop().unwrap() {
             (__l, __Symbol::Term_22_2b_22(__v), __r) => (__l, __v, __r),
             _ => panic!("symbol type mismatch")
@@ -276,7 +267,6 @@ mod __parse__Items {
     >(
         __symbols: &mut ::std::vec::Vec<(usize,__Symbol<>,usize)>
     ) -> (usize, Tok, usize) {
-        println!("pop_Term_22_2d_22");
         match __symbols.pop().unwrap() {
             (__l, __Symbol::Term_22_2d_22(__v), __r) => (__l, __v, __r),
             _ => panic!("symbol type mismatch")
@@ -286,7 +276,6 @@ mod __parse__Items {
     >(
         __symbols: &mut ::std::vec::Vec<(usize,__Symbol<>,usize)>
     ) -> (usize, usize, usize) {
-        println!("pop_Nt_40L");
         match __symbols.pop().unwrap() {
             (__l, __Symbol::Nt_40L(__v), __r) => (__l, __v, __r),
             _ => panic!("symbol type mismatch")
@@ -296,7 +285,6 @@ mod __parse__Items {
     >(
         __symbols: &mut ::std::vec::Vec<(usize,__Symbol<>,usize)>
     ) -> (usize, usize, usize) {
-        println!("pop_Nt_40R");
         match __symbols.pop().unwrap() {
             (__l, __Symbol::Nt_40R(__v), __r) => (__l, __v, __r),
             _ => panic!("symbol type mismatch")
@@ -306,7 +294,6 @@ mod __parse__Items {
     >(
         __symbols: &mut ::std::vec::Vec<(usize,__Symbol<>,usize)>
     ) -> (usize, Vec<(usize, usize)>, usize) {
-        println!("pop_NtItems");
         match __symbols.pop().unwrap() {
             (__l, __Symbol::NtItems(__v), __r) => (__l, __v, __r),
             _ => panic!("symbol type mismatch")
@@ -316,7 +303,6 @@ mod __parse__Items {
     >(
         __symbols: &mut ::std::vec::Vec<(usize,__Symbol<>,usize)>
     ) -> (usize, (usize, usize), usize) {
-        println!("pop_NtSpanned_3c_22_2b_22_3e");
         match __symbols.pop().unwrap() {
             (__l, __Symbol::NtSpanned_3c_22_2b_22_3e(__v), __r) => (__l, __v, __r),
             _ => panic!("symbol type mismatch")
@@ -326,7 +312,6 @@ mod __parse__Items {
     >(
         __symbols: &mut ::std::vec::Vec<(usize,__Symbol<>,usize)>
     ) -> (usize, Vec<(usize, usize)>, usize) {
-        println!("pop_Nt____Items");
         match __symbols.pop().unwrap() {
             (__l, __Symbol::Nt____Items(__v), __r) => (__l, __v, __r),
             _ => panic!("symbol type mismatch")

@@ -89,7 +89,6 @@ mod __parse__Expr {
         let mut __states = vec![0_i32];
         let mut __symbols = vec![];
         '__shift: loop {
-            println!("outer loop");
             let __lookahead = match __tokens.next() {
                 Some(Ok(v)) => v,
                 None => break '__shift,
@@ -105,12 +104,9 @@ mod __parse__Expr {
                 }
             };
             loop {
-                println!("inner loop");
                 let __state = *__states.last().unwrap() as usize;
                 let __action = __ACTION[__state * 1 + __integer];
-                println!("state: {} lookahead: {} action: {} stack-depth: {}", __state, __integer, __action, __symbols.len());
                 if __action > 0 {
-                    println!("--> shift");
                     let __symbol = match __integer {
                         0 => match __lookahead.1 {
                             LtTok::Other(__tok0) => __Symbol::TermOther(__tok0),
@@ -122,7 +118,6 @@ mod __parse__Expr {
                     __symbols.push((__lookahead.0, __symbol, __lookahead.2));
                     continue '__shift;
                 } else if __action < 0 {
-                    println!("--> reduce");
                     if let Some(r) = __reduce(__action, Some(&__lookahead.0), &mut __states, &mut __symbols) {
                         return r;
                     }
@@ -136,9 +131,7 @@ mod __parse__Expr {
         }
         loop {
             let __state = *__states.last().unwrap() as usize;
-            println!("EOF loop state: {}", __state);
             let __action = __EOF_ACTION[__state];
-            println!("EOF in state {} takes action {}", __state, __action);
             if __action < 0 {
                 if let Some(r) = __reduce(__action, None, &mut __states, &mut __symbols) {
                     return r;
@@ -238,7 +231,6 @@ mod __parse__Expr {
         };
         let __state = *__states.last().unwrap() as usize;
         let __next_state = __GOTO[__state * 4 + __nonterminal] - 1;
-        println!("goto state {} from {} due to nonterminal {}", __next_state, __state, __nonterminal);
         __states.push(__next_state);
         None
     }
@@ -247,7 +239,6 @@ mod __parse__Expr {
     >(
         __symbols: &mut ::std::vec::Vec<((),__Symbol<'input>,())>
     ) -> ((), &'input str, ()) {
-        println!("pop_TermOther");
         match __symbols.pop().unwrap() {
             (__l, __Symbol::TermOther(__v), __r) => (__l, __v, __r),
             _ => panic!("symbol type mismatch")
@@ -258,7 +249,6 @@ mod __parse__Expr {
     >(
         __symbols: &mut ::std::vec::Vec<((),__Symbol<'input>,())>
     ) -> ((), Vec<&'input str>, ()) {
-        println!("pop_NtExpr");
         match __symbols.pop().unwrap() {
             (__l, __Symbol::NtExpr(__v), __r) => (__l, __v, __r),
             _ => panic!("symbol type mismatch")
@@ -269,7 +259,6 @@ mod __parse__Expr {
     >(
         __symbols: &mut ::std::vec::Vec<((),__Symbol<'input>,())>
     ) -> ((), ::std::vec::Vec<&'input str>, ()) {
-        println!("pop_NtOther_2a");
         match __symbols.pop().unwrap() {
             (__l, __Symbol::NtOther_2a(__v), __r) => (__l, __v, __r),
             _ => panic!("symbol type mismatch")
@@ -280,7 +269,6 @@ mod __parse__Expr {
     >(
         __symbols: &mut ::std::vec::Vec<((),__Symbol<'input>,())>
     ) -> ((), ::std::vec::Vec<&'input str>, ()) {
-        println!("pop_NtOther_2b");
         match __symbols.pop().unwrap() {
             (__l, __Symbol::NtOther_2b(__v), __r) => (__l, __v, __r),
             _ => panic!("symbol type mismatch")
@@ -291,7 +279,6 @@ mod __parse__Expr {
     >(
         __symbols: &mut ::std::vec::Vec<((),__Symbol<'input>,())>
     ) -> ((), Vec<&'input str>, ()) {
-        println!("pop_Nt____Expr");
         match __symbols.pop().unwrap() {
             (__l, __Symbol::Nt____Expr(__v), __r) => (__l, __v, __r),
             _ => panic!("symbol type mismatch")
