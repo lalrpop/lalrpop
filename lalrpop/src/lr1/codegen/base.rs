@@ -156,7 +156,7 @@ impl<'codegen, 'grammar, W: Write, C> CodeGenerator<'codegen, 'grammar, W, C> {
     }
 
     pub fn parse_error_type(&self) -> String {
-        format!("{}ParseError<{},{},{}>",
+        format!("{}lalrpop_util::ParseError<{},{},{}>",
                 self.prefix,
                 self.types.terminal_loc_type(),
                 self.types.terminal_token_type(),

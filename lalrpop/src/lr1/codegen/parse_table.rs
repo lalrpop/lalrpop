@@ -402,7 +402,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
         // Error.
         rust!(self.out, "}} else {{");
         rust!(self.out,
-              "return Err({}ParseError::UnrecognizedToken {{",
+              "return Err({}lalrpop_util::ParseError::UnrecognizedToken {{",
               self.prefix);
         rust!(self.out, "token: Some({}lookahead),", self.prefix);
         rust!(self.out, "expected: vec![],");
@@ -447,7 +447,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
         rust!(self.out, "}}");
         rust!(self.out, "}} else {{");
         rust!(self.out,
-              "return Err({}ParseError::UnrecognizedToken {{",
+              "return Err({}lalrpop_util::ParseError::UnrecognizedToken {{",
               self.prefix);
         rust!(self.out, "token: None,");
         rust!(self.out, "expected: vec![],");
@@ -472,7 +472,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
         } else {
             // otherwise, they are user errors
             rust!(self.out,
-                  "Some(Err(e)) => return Err({}ParseError::User {{ error: e }}),",
+                  "Some(Err(e)) => return Err({}lalrpop_util::ParseError::User {{ error: e }}),",
                   self.prefix);
         }
         rust!(self.out, "}};");
@@ -491,7 +491,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
 
         rust!(self.out, "_ => {{");
         rust!(self.out,
-              "return Err({}ParseError::UnrecognizedToken {{",
+              "return Err({}lalrpop_util::ParseError::UnrecognizedToken {{",
               self.prefix);
         rust!(self.out, "token: Some({}lookahead),", self.prefix);
         rust!(self.out, "expected: vec![],");
