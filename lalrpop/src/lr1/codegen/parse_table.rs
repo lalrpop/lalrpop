@@ -1,7 +1,5 @@
 //! A compiler from an LR(1) table to a traditional table driven parser.
 
-#![allow(dead_code)]
-
 use collections::{Map, Set};
 use grammar::repr::*;
 use lr1::core::*;
@@ -10,6 +8,8 @@ use lr1::tls::Lr1Tls;
 use rust::RustWrite;
 use std::io::{self, Write};
 use util::{Escape, Sep};
+
+use super::base::CodeGenerator;
 
 const DEBUG_PRINT: bool = false;
 
@@ -20,7 +20,11 @@ pub fn compile<'grammar, W: Write>(grammar: &'grammar Grammar,
                                    out: &mut RustWrite<W>)
                                    -> io::Result<()> {
     let _lr1_tls = Lr1Tls::install(grammar.terminals.clone());
-    let mut table_driven = TableDriven::new(grammar, user_start_symbol, start_symbol, states, out);
+    let mut table_driven = CodeGenerator::new_table_driven(grammar,
+                                                           user_start_symbol,
+                                                           start_symbol,
+                                                           states,
+                                                           out);
     table_driven.write()
 }
 
@@ -135,28 +139,7 @@ pub fn compile<'grammar, W: Write>(grammar: &'grammar Grammar,
 // }
 // ```
 
-struct TableDriven<'ascent, 'grammar: 'ascent, W: Write + 'ascent> {
-    /// the complete grammar
-    grammar: &'grammar Grammar,
-
-    /// some suitable prefix to separate our identifiers from the user's
-    prefix: &'grammar str,
-
-    /// types from the grammar
-    types: &'grammar Types,
-
-    /// the start symbol S the user specified
-    user_start_symbol: NonterminalString,
-
-    /// the synthetic start symbol S' that we specified
-    start_symbol: NonterminalString,
-
-    /// the vector of states
-    states: &'ascent [LR1State<'grammar>],
-
-    /// where we write output
-    out: &'ascent mut RustWrite<W>,
-
+struct TableDriven<'grammar> {
     /// type parameters for the `Nonterminal` type
     symbol_type_params: Vec<TypeParameter>,
 
@@ -166,13 +149,13 @@ struct TableDriven<'ascent, 'grammar: 'ascent, W: Write + 'ascent> {
     reduce_indices: Map<&'grammar Production, usize>,
 }
 
-impl<'ascent, 'grammar, W: Write> TableDriven<'ascent, 'grammar, W> {
-    fn new(grammar: &'grammar Grammar,
-           user_start_symbol: NonterminalString,
-           start_symbol: NonterminalString,
-           states: &'ascent [LR1State<'grammar>],
-           out: &'ascent mut RustWrite<W>)
-           -> Self {
+impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDriven<'grammar>> {
+    fn new_table_driven(grammar: &'grammar Grammar,
+                        user_start_symbol: NonterminalString,
+                        start_symbol: NonterminalString,
+                        states: &'ascent [LR1State<'grammar>],
+                        out: &'ascent mut RustWrite<W>)
+                        -> Self {
         // The nonterminal type needs to be parameterized by all the
         // type parameters that actually appear in the types of
         // nonterminals.  We can't just use *all* type parameters
@@ -202,55 +185,30 @@ impl<'ascent, 'grammar, W: Write> TableDriven<'ascent, 'grammar, W> {
                                                                       .zip(0..)
                                                                       .collect();
 
-        TableDriven {
-            grammar: grammar,
-            prefix: &grammar.prefix,
-            types: &grammar.types,
-            states: states,
-            user_start_symbol: user_start_symbol,
-            start_symbol: start_symbol,
-            out: out,
-            symbol_type_params: symbol_type_params,
-            all_nonterminals: grammar.nonterminals.keys().cloned().collect(),
-            reduce_indices: reduce_indices,
-        }
+        CodeGenerator::new(grammar,
+                           user_start_symbol,
+                           start_symbol,
+                           states,
+                           out,
+                           TableDriven {
+                               symbol_type_params: symbol_type_params,
+                               all_nonterminals: grammar.nonterminals
+                                                        .keys()
+                                                        .cloned()
+                                                        .collect(),
+                               reduce_indices: reduce_indices,
+                           })
     }
 
     fn write(&mut self) -> io::Result<()> {
-        rust!(self.out, "");
-        rust!(self.out, "mod {}parse{} {{", self.prefix, self.start_symbol);
-
-        // these stylistic lints are annoying for the generated code,
-        // which doesn't follow conventions:
-        rust!(self.out,
-              "#![allow(non_snake_case, non_camel_case_types, unused_mut, unused_variables, \
-               unused_imports)]");
-        rust!(self.out, "");
-
-        try!(self.write_uses());
-
-        try!(self.write_value_type_defn());
-
-        try!(self.write_parse_table());
-
-        try!(self.write_parser_fn());
-
-        try!(self.emit_reduce_actions());
-
-        try!(self.emit_downcast_fns());
-
-        rust!(self.out, "}}");
-        Ok(())
-    }
-
-    fn write_uses(&mut self) -> io::Result<()> {
-        try!(self.out.write_uses("super::", &self.grammar));
-
-        if self.grammar.intern_token.is_none() {
-            rust!(self.out, "use super::{}ToTriple;", self.prefix);
-        }
-
-        Ok(())
+        self.write_parse_mod(|this| {
+            try!(this.write_value_type_defn());
+            try!(this.write_parse_table());
+            try!(this.write_parser_fn());
+            try!(this.emit_reduce_actions());
+            try!(this.emit_downcast_fns());
+            Ok(())
+        })
     }
 
     fn write_value_type_defn(&mut self) -> io::Result<()> {
@@ -260,7 +218,7 @@ impl<'ascent, 'grammar, W: Write> TableDriven<'ascent, 'grammar, W> {
         rust!(self.out,
               "pub enum {}Symbol<{}> {{",
               self.prefix,
-              Sep(", ", &self.symbol_type_params));
+              Sep(", ", &self.custom.symbol_type_params));
 
         // make one variant per terminal
         for &term in &self.grammar.terminals.all {
@@ -344,7 +302,7 @@ impl<'ascent, 'grammar, W: Write> TableDriven<'ascent, 'grammar, W> {
                              .map(|&(_, p)| p)
                              .next();
         if let Some(production) = reduction {
-            let action = self.reduce_indices[production];
+            let action = self.custom.reduce_indices[production];
             rust!(self.out,
                   "-{}, // on {}, reduce `{:?}`",
                   action + 1,
@@ -358,65 +316,7 @@ impl<'ascent, 'grammar, W: Write> TableDriven<'ascent, 'grammar, W> {
     }
 
     fn write_parser_fn(&mut self) -> io::Result<()> {
-        let error_type = self.types.error_type();
-        let parse_error_type = self.parse_error_type();
-
-        let (type_parameters, parameters);
-
-        if self.grammar.intern_token.is_some() {
-            // if we are generating the tokenizer, we just need the
-            // input, and that has already been added as one of the
-            // user parameters
-            type_parameters = vec![];
-            parameters = vec![];
-        } else {
-            // otherwise, we need an iterator of type `TOKENS`
-            let mut user_type_parameters = String::new();
-            for type_parameter in &self.grammar.type_parameters {
-                user_type_parameters.push_str(&format!("{}, ", type_parameter));
-            }
-            type_parameters = vec![format!("{}TOKEN: {}ToTriple<{}Error={}>",
-                                           self.prefix,
-                                           self.prefix,
-                                           user_type_parameters,
-                                           error_type),
-                                   format!("{}TOKENS: IntoIterator<Item={}TOKEN>",
-                                           self.prefix,
-                                           self.prefix)];
-            parameters = vec![format!("{}tokens: {}TOKENS", self.prefix, self.prefix)];
-        }
-
-        try!(self.out.write_pub_fn_header(self.grammar,
-                                          format!("parse_{}", self.user_start_symbol),
-                                          type_parameters,
-                                          parameters,
-                                          format!("Result<{}, {}>",
-                                                  self.types.nonterminal_type(self.start_symbol),
-                                                  parse_error_type),
-                                          vec![]));
-        rust!(self.out, "{{");
-
-        if self.grammar.intern_token.is_some() {
-            // if we are generating the tokenizer, create a matcher as our input iterator
-            rust!(self.out,
-                  "let mut {}tokens = super::{}intern_token::{}Matcher::new(input);",
-                  self.prefix,
-                  self.prefix,
-                  self.prefix);
-        } else {
-            // otherwise, convert one from the `IntoIterator`
-            // supplied, using the `ToTriple` trait which inserts
-            // errors/locations etc if none are given
-            rust!(self.out,
-                  "let {}tokens = {}tokens.into_iter();",
-                  self.prefix,
-                  self.prefix);
-            rust!(self.out,
-                  "let mut {}tokens = {}tokens.map(|t| {}ToTriple::to_triple(t));",
-                  self.prefix,
-                  self.prefix,
-                  self.prefix);
-        }
+        try!(self.start_parser_fn());
 
         // State and data stack.
         rust!(self.out, "let mut {}states = vec![0_i32];", self.prefix);
@@ -427,7 +327,9 @@ impl<'ascent, 'grammar, W: Write> TableDriven<'ascent, 'grammar, W> {
         // when the end of the input is reached (we return early if an
         // error occurs).
         rust!(self.out, "'{}shift: loop {{", self.prefix);
-        if DEBUG_PRINT { rust!(self.out, "println!(\"outer loop\");"); }
+        if DEBUG_PRINT {
+            rust!(self.out, "println!(\"outer loop\");");
+        }
 
         // Read next token from input; defines `integer` and `symbol`.
         try!(self.next_token());
@@ -435,7 +337,9 @@ impl<'ascent, 'grammar, W: Write> TableDriven<'ascent, 'grammar, W> {
 
         // Loop.
         rust!(self.out, "loop {{");
-        if DEBUG_PRINT { rust!(self.out, "println!(\"inner loop\");"); }
+        if DEBUG_PRINT {
+            rust!(self.out, "println!(\"inner loop\");");
+        }
         rust!(self.out,
               "let {}state = *{}states.last().unwrap() as usize;",
               self.prefix,
@@ -451,9 +355,9 @@ impl<'ascent, 'grammar, W: Write> TableDriven<'ascent, 'grammar, W> {
               self.prefix);
 
         if DEBUG_PRINT {
-            rust!(self.out, "println!(\"state: {{}} lookahead: {{}} action: {{}} \
-                             stack-depth: {{}}\", \
-                             {}state, {}integer, {}action, {}symbols.len());",
+            rust!(self.out,
+                  "println!(\"state: {{}} lookahead: {{}} action: {{}} stack-depth: {{}}\", \
+                   {}state, {}integer, {}action, {}symbols.len());",
                   self.prefix,
                   self.prefix,
                   self.prefix,
@@ -516,7 +420,9 @@ impl<'ascent, 'grammar, W: Write> TableDriven<'ascent, 'grammar, W> {
               self.prefix,
               self.prefix);
         if DEBUG_PRINT {
-            rust!(self.out, "println!(\"EOF loop state: {{}}\", {}state);", self.prefix);
+            rust!(self.out,
+                  "println!(\"EOF loop state: {{}}\", {}state);",
+                  self.prefix);
         }
         rust!(self.out,
               "let {}action = {}EOF_ACTION[{}state];",
@@ -524,9 +430,10 @@ impl<'ascent, 'grammar, W: Write> TableDriven<'ascent, 'grammar, W> {
               self.prefix,
               self.prefix);
         if DEBUG_PRINT {
-            rust!(self.out, "println!(\"EOF in state {{}} takes action {{}}\", \
-                             {}state, {}action);",
-                  self.prefix, self.prefix);
+            rust!(self.out,
+                  "println!(\"EOF in state {{}} takes action {{}}\", {}state, {}action);",
+                  self.prefix,
+                  self.prefix);
         }
         rust!(self.out, "if {}action < 0 {{", self.prefix);
         rust!(self.out,
@@ -549,9 +456,7 @@ impl<'ascent, 'grammar, W: Write> TableDriven<'ascent, 'grammar, W> {
 
         rust!(self.out, "}}"); // while let
 
-        rust!(self.out, "}}"); // fn
-
-        Ok(())
+        self.end_parser_fn()
     }
 
     fn next_token(&mut self) -> io::Result<()> {
@@ -635,13 +540,6 @@ impl<'ascent, 'grammar, W: Write> TableDriven<'ascent, 'grammar, W> {
         Ok(())
     }
 
-    /// Emit a pattern that matches `id` but doesn't extract any data.
-    fn match_terminal_pattern(&mut self, id: TerminalString) -> String {
-        let pattern = self.grammar.pattern(id).map(&mut |_| "_");
-        format!("(_, {}, _)", pattern)
-    }
-
-    /// Emit a pattern that kexecmatches the terminal
     fn emit_reduce_actions(&mut self) -> io::Result<()> {
         let success_type = self.types.nonterminal_type(self.start_symbol);
         let parse_error_type = self.parse_error_type();
@@ -694,9 +592,12 @@ impl<'ascent, 'grammar, W: Write> TableDriven<'ascent, 'grammar, W> {
               self.grammar.nonterminals.len(),
               self.prefix);
         if DEBUG_PRINT {
-            rust!(self.out, "println!(\"goto state {{}} from {{}} due to nonterminal {{}}\", \
-                             {}next_state, {}state, {}nonterminal);",
-                  self.prefix, self.prefix, self.prefix);
+            rust!(self.out,
+                  "println!(\"goto state {{}} from {{}} due to nonterminal {{}}\", {}next_state, \
+                   {}state, {}nonterminal);",
+                  self.prefix,
+                  self.prefix,
+                  self.prefix);
         }
         rust!(self.out,
               "{}states.push({}next_state);",
@@ -821,7 +722,8 @@ impl<'ascent, 'grammar, W: Write> TableDriven<'ascent, 'grammar, W> {
 
         // produce the index that we will use to extract the next state
         // from GOTO array
-        let index = self.all_nonterminals
+        let index = self.custom
+                        .all_nonterminals
                         .iter()
                         .position(|&x| x == production.nonterminal)
                         .unwrap();
@@ -857,7 +759,7 @@ impl<'ascent, 'grammar, W: Write> TableDriven<'ascent, 'grammar, W> {
         let spanned_symbol_type = self.spanned_symbol_type();
 
         rust!(self.out, "fn {}pop_{}<", self.prefix, variant_name);
-        for type_parameter in &self.symbol_type_params {
+        for type_parameter in &self.custom.symbol_type_params {
             rust!(self.out, "  {},", type_parameter);
         }
         rust!(self.out, ">(");
@@ -889,18 +791,10 @@ impl<'ascent, 'grammar, W: Write> TableDriven<'ascent, 'grammar, W> {
         Ok(())
     }
 
-    fn parse_error_type(&self) -> String {
-        format!("{}ParseError<{},{},{}>",
-                self.prefix,
-                self.types.terminal_loc_type(),
-                self.types.terminal_token_type(),
-                self.types.error_type())
-    }
-
     fn symbol_type(&self) -> String {
         format!("{}Symbol<{}>",
                 self.prefix,
-                Sep(", ", &self.symbol_type_params))
+                Sep(", ", &self.custom.symbol_type_params))
     }
 
     fn spanned_symbol_type(&self) -> String {

@@ -3,7 +3,7 @@
 use grammar::repr::*;
 use self::tls::Lr1Tls;
 
-pub mod ascent;
+pub mod codegen;
 mod build;
 mod build_lalr;
 mod core;
@@ -12,7 +12,6 @@ mod example;
 mod first;
 mod lane_table;
 mod lookahead;
-pub mod parse_table;
 mod state_graph;
 mod tls;
 mod trace;
