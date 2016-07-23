@@ -11,6 +11,8 @@ use rust::RustWrite;
 use std::io::{self, Write};
 use util::{Escape, Sep};
 
+const DEBUG_PRINT: bool = false;
+
 pub fn compile<'grammar, W: Write>(grammar: &'grammar Grammar,
                                    user_start_symbol: NonterminalString,
                                    start_symbol: NonterminalString,
@@ -425,7 +427,7 @@ impl<'ascent, 'grammar, W: Write> TableDriven<'ascent, 'grammar, W> {
         // when the end of the input is reached (we return early if an
         // error occurs).
         rust!(self.out, "'{}shift: loop {{", self.prefix);
-        rust!(self.out, "println!(\"outer loop\");");
+        if DEBUG_PRINT { rust!(self.out, "println!(\"outer loop\");"); }
 
         // Read next token from input; defines `integer` and `symbol`.
         try!(self.next_token());
@@ -433,7 +435,7 @@ impl<'ascent, 'grammar, W: Write> TableDriven<'ascent, 'grammar, W> {
 
         // Loop.
         rust!(self.out, "loop {{");
-        rust!(self.out, "println!(\"inner loop\");");
+        if DEBUG_PRINT { rust!(self.out, "println!(\"inner loop\");"); }
         rust!(self.out,
               "let {}state = *{}states.last().unwrap() as usize;",
               self.prefix,
@@ -448,16 +450,21 @@ impl<'ascent, 'grammar, W: Write> TableDriven<'ascent, 'grammar, W> {
               self.grammar.terminals.all.len(),
               self.prefix);
 
-        rust!(self.out, "println!(\"state: {{}} lookahead: {{}} action: {{}} stack-depth: {{}}\", \
-                         {}state, {}integer, {}action, {}symbols.len());",
-              self.prefix,
-              self.prefix,
-              self.prefix,
-        self.prefix);
+        if DEBUG_PRINT {
+            rust!(self.out, "println!(\"state: {{}} lookahead: {{}} action: {{}} \
+                             stack-depth: {{}}\", \
+                             {}state, {}integer, {}action, {}symbols.len());",
+                  self.prefix,
+                  self.prefix,
+                  self.prefix,
+                  self.prefix);
+        }
 
         // Shift.
         rust!(self.out, "if {}action > 0 {{", self.prefix);
-        rust!(self.out, "println!(\"--> shift\");");
+        if DEBUG_PRINT {
+            rust!(self.out, "println!(\"--> shift\");");
+        }
         try!(self.token_to_symbol());
         rust!(self.out,
               "{}states.push({}action - 1);",
@@ -473,7 +480,9 @@ impl<'ascent, 'grammar, W: Write> TableDriven<'ascent, 'grammar, W> {
 
         // Reduce.
         rust!(self.out, "}} else if {}action < 0 {{", self.prefix);
-        rust!(self.out, "println!(\"--> reduce\");");
+        if DEBUG_PRINT {
+            rust!(self.out, "println!(\"--> reduce\");");
+        }
         rust!(self.out,
               "if let Some(r) = {}reduce({}{}action, Some(&{}lookahead.0), &mut {}states, &mut \
                {}symbols) {{",
@@ -506,14 +515,19 @@ impl<'ascent, 'grammar, W: Write> TableDriven<'ascent, 'grammar, W> {
               "let {}state = *{}states.last().unwrap() as usize;",
               self.prefix,
               self.prefix);
-        rust!(self.out, "println!(\"EOF loop state: {{}}\", {}state);", self.prefix);
+        if DEBUG_PRINT {
+            rust!(self.out, "println!(\"EOF loop state: {{}}\", {}state);", self.prefix);
+        }
         rust!(self.out,
               "let {}action = {}EOF_ACTION[{}state];",
               self.prefix,
               self.prefix,
               self.prefix);
-        rust!(self.out, "println!(\"EOF in state {{}} takes action {{}}\", {}state, {}action);",
-              self.prefix, self.prefix);
+        if DEBUG_PRINT {
+            rust!(self.out, "println!(\"EOF in state {{}} takes action {{}}\", \
+                             {}state, {}action);",
+                  self.prefix, self.prefix);
+        }
         rust!(self.out, "if {}action < 0 {{", self.prefix);
         rust!(self.out,
               "if let Some(r) = {}reduce({}{}action, None, &mut {}states, &mut {}symbols) {{",
@@ -679,9 +693,11 @@ impl<'ascent, 'grammar, W: Write> TableDriven<'ascent, 'grammar, W> {
               self.prefix,
               self.grammar.nonterminals.len(),
               self.prefix);
-        rust!(self.out, "println!(\"goto state {{}} from {{}} due to nonterminal {{}}\", \
-                         {}next_state, {}state, {}nonterminal);",
-              self.prefix, self.prefix, self.prefix);
+        if DEBUG_PRINT {
+            rust!(self.out, "println!(\"goto state {{}} from {{}} due to nonterminal {{}}\", \
+                             {}next_state, {}state, {}nonterminal);",
+                  self.prefix, self.prefix, self.prefix);
+        }
         rust!(self.out,
               "{}states.push({}next_state);",
               self.prefix,
@@ -851,7 +867,9 @@ impl<'ascent, 'grammar, W: Write> TableDriven<'ascent, 'grammar, W> {
               spanned_symbol_type);
         rust!(self.out, ") -> {} {{", self.types.spanned_type(variant_ty));
 
-        rust!(self.out, "println!(\"pop_{}\");", variant_name);
+        if DEBUG_PRINT {
+            rust!(self.out, "println!(\"pop_{}\");", variant_name);
+        }
         rust!(self.out, "match {}symbols.pop().unwrap() {{", self.prefix);
         rust!(self.out,
               "({}l, {}Symbol::{}({}v), {}r) => ({}l, {}v, {}r),",
