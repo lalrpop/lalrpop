@@ -19,7 +19,6 @@ extern crate petgraph;
 extern crate regex;
 extern crate regex_syntax;
 extern crate term;
-extern crate time;
 extern crate unicode_xid;
 
 #[cfg(test)]
