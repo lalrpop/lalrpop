@@ -17,6 +17,7 @@ pub fn compile<'grammar, W: Write>(grammar: &'grammar Grammar,
                                    user_start_symbol: NonterminalString,
                                    start_symbol: NonterminalString,
                                    states: &[LR1State<'grammar>],
+                                   action_module: &str,
                                    out: &mut RustWrite<W>)
                                    -> io::Result<()> {
     let _lr1_tls = Lr1Tls::install(grammar.terminals.clone());
@@ -24,6 +25,7 @@ pub fn compile<'grammar, W: Write>(grammar: &'grammar Grammar,
                                                            user_start_symbol,
                                                            start_symbol,
                                                            states,
+                                                           action_module,
                                                            out);
     table_driven.write()
 }
@@ -154,6 +156,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
                         user_start_symbol: NonterminalString,
                         start_symbol: NonterminalString,
                         states: &'ascent [LR1State<'grammar>],
+                        action_module: &str,
                         out: &'ascent mut RustWrite<W>)
                         -> Self {
         // The nonterminal type needs to be parameterized by all the
@@ -190,6 +193,8 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
                            start_symbol,
                            states,
                            out,
+                           false,
+                           action_module,
                            TableDriven {
                                symbol_type_params: symbol_type_params,
                                all_nonterminals: grammar.nonterminals
@@ -317,6 +322,8 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
 
     fn write_parser_fn(&mut self) -> io::Result<()> {
         try!(self.start_parser_fn());
+
+        try!(self.define_tokens());
 
         // State and data stack.
         rust!(self.out, "let mut {}states = vec![0_i32];", self.prefix);
@@ -673,8 +680,9 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
         let is_fallible = self.grammar.action_is_fallible(production.action);
         if is_fallible {
             rust!(self.out,
-                  "let {}nt = match super::{}action{}({}{}) {{",
+                  "let {}nt = match {}::{}action{}({}{}) {{",
                   self.prefix,
+                  self.action_module,
                   self.prefix,
                   production.action.index(),
                   self.grammar.user_parameter_refs(),
@@ -684,8 +692,9 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
             rust!(self.out, "}};");
         } else {
             rust!(self.out,
-                  "let {}nt = super::{}action{}({}{});",
+                  "let {}nt = {}::{}action{}({}{});",
                   self.prefix,
+                  self.action_module,
                   self.prefix,
                   production.action.index(),
                   self.grammar.user_parameter_refs(),

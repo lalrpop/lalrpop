@@ -30,9 +30,14 @@ pub struct CodeGenerator<'codegen, 'grammar: 'codegen, W: Write + 'codegen, C> {
     /// where we write output
     pub out: &'codegen mut RustWrite<W>,
 
+    /// where to find the action routines (typically `super`)
+    pub action_module: String,
+
     /// custom fields for the specific kind of codegenerator
     /// (recursive ascent, table-driven, etc)
-    pub custom: C
+    pub custom: C,
+
+    pub repeatable: bool,
 }
 
 impl<'codegen, 'grammar, W: Write, C> CodeGenerator<'codegen, 'grammar, W, C> {
@@ -41,6 +46,8 @@ impl<'codegen, 'grammar, W: Write, C> CodeGenerator<'codegen, 'grammar, W, C> {
                start_symbol: NonterminalString,
                states: &'codegen [LR1State<'grammar>],
                out: &'codegen mut RustWrite<W>,
+               repeatable: bool,
+               action_module: &str,
                custom: C)
                -> Self {
         CodeGenerator {
@@ -51,7 +58,9 @@ impl<'codegen, 'grammar, W: Write, C> CodeGenerator<'codegen, 'grammar, W, C> {
             user_start_symbol: user_start_symbol,
             start_symbol: start_symbol,
             out: out,
-            custom: custom
+            custom: custom,
+            repeatable: repeatable,
+            action_module: action_module.to_string(),
         }
     }
 
@@ -77,10 +86,10 @@ impl<'codegen, 'grammar, W: Write, C> CodeGenerator<'codegen, 'grammar, W, C> {
     }
 
     pub fn write_uses(&mut self) -> io::Result<()> {
-        try!(self.out.write_uses("super::", &self.grammar));
+        try!(self.out.write_uses(&format!("{}::", self.action_module), &self.grammar));
 
         if self.grammar.intern_token.is_none() {
-            rust!(self.out, "use super::{}ToTriple;", self.prefix);
+            rust!(self.out, "use {}::{}ToTriple;", self.action_module, self.prefix);
         }
 
         Ok(())
@@ -90,7 +99,7 @@ impl<'codegen, 'grammar, W: Write, C> CodeGenerator<'codegen, 'grammar, W, C> {
         let error_type = self.types.error_type();
         let parse_error_type = self.parse_error_type();
 
-        let (type_parameters, parameters);
+        let (type_parameters, parameters, mut where_clauses);
 
         if self.grammar.intern_token.is_some() {
             // if we are generating the tokenizer, we just need the
@@ -98,6 +107,7 @@ impl<'codegen, 'grammar, W: Write, C> CodeGenerator<'codegen, 'grammar, W, C> {
             // user parameters
             type_parameters = vec![];
             parameters = vec![];
+            where_clauses = vec![];
         } else {
             // otherwise, we need an iterator of type `TOKENS`
             let mut user_type_parameters = String::new();
@@ -112,7 +122,12 @@ impl<'codegen, 'grammar, W: Write, C> CodeGenerator<'codegen, 'grammar, W, C> {
                                    format!("{}TOKENS: IntoIterator<Item={}TOKEN>",
                                            self.prefix,
                                            self.prefix)];
-            parameters = vec![format!("{}tokens: {}TOKENS", self.prefix, self.prefix)];
+            parameters = vec![format!("{}tokens0: {}TOKENS", self.prefix, self.prefix)];
+            where_clauses = vec![];
+
+            if self.repeatable {
+                where_clauses.push(format!("{}TOKENS: Clone", self.prefix));
+            }
         }
 
         try!(self.out.write_pub_fn_header(self.grammar,
@@ -122,24 +137,32 @@ impl<'codegen, 'grammar, W: Write, C> CodeGenerator<'codegen, 'grammar, W, C> {
                                           format!("Result<{}, {}>",
                                                   self.types.nonterminal_type(self.start_symbol),
                                                   parse_error_type),
-                                          vec![]));
+                                          where_clauses));
         rust!(self.out, "{{");
 
+        Ok(())
+    }
+
+    pub fn define_tokens(&mut self) -> io::Result<()> {
         if self.grammar.intern_token.is_some() {
             // if we are generating the tokenizer, create a matcher as our input iterator
             rust!(self.out,
-                  "let mut {}tokens = super::{}intern_token::{}Matcher::new(input);",
+                  "let mut {}tokens = {}::{}intern_token::{}Matcher::new(input);",
                   self.prefix,
+                  self.action_module,
                   self.prefix,
                   self.prefix);
         } else {
             // otherwise, convert one from the `IntoIterator`
             // supplied, using the `ToTriple` trait which inserts
             // errors/locations etc if none are given
+            let clone_call = if self.repeatable { ".clone()" } else { "" };
             rust!(self.out,
-                  "let {}tokens = {}tokens.into_iter();",
+                  "let {}tokens = {}tokens0{}.into_iter();",
                   self.prefix,
-                  self.prefix);
+                  self.prefix,
+                  clone_call);
+
             rust!(self.out,
                   "let mut {}tokens = {}tokens.map(|t| {}ToTriple::to_triple(t));",
                   self.prefix,

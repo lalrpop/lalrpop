@@ -20,6 +20,7 @@ pub fn compile<'grammar, W: Write>(grammar: &'grammar Grammar,
                                    user_start_symbol: NonterminalString,
                                    start_symbol: NonterminalString,
                                    states: &[LR1State<'grammar>],
+                                   action_module: &str,
                                    out: &mut RustWrite<W>)
                                    -> io::Result<()> {
     let _lr1_tls = Lr1Tls::install(grammar.terminals.clone());
@@ -29,6 +30,7 @@ pub fn compile<'grammar, W: Write>(grammar: &'grammar Grammar,
                                                start_symbol,
                                                &graph,
                                                states,
+                                               action_module,
                                                out);
     ascent.write()
 }
@@ -114,6 +116,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent,
                   start_symbol: NonterminalString,
                   graph: &'ascent StateGraph,
                   states: &'ascent [LR1State<'grammar>],
+                  action_module: &str,
                   out: &'ascent mut RustWrite<W>)
                   -> Self {
         // The nonterminal type needs to be parameterized by all the
@@ -142,6 +145,8 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent,
                            start_symbol,
                            states,
                            out,
+                           false,
+                           action_module,
                            RecursiveAscent {
                                graph: graph,
                                state_inputs: state_inputs,
@@ -198,6 +203,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent,
     // consumed.
     fn write_start_fn(&mut self) -> io::Result<()> {
         try!(self.start_parser_fn());
+        try!(self.define_tokens());
 
         try!(self.next_token("lookahead", "tokens"));
         rust!(self.out,
@@ -770,16 +776,18 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent,
         let is_fallible = self.grammar.action_is_fallible(production.action);
         if is_fallible {
             rust!(self.out,
-                  "let {}nt = try!(super::{}action{}({}{}));",
+                  "let {}nt = try!({}::{}action{}({}{}));",
                   self.prefix,
+                  self.action_module,
                   self.prefix,
                   production.action.index(),
                   self.grammar.user_parameter_refs(),
                   Sep(", ", &args))
         } else {
             rust!(self.out,
-                  "let {}nt = super::{}action{}({}{});",
+                  "let {}nt = {}::{}action{}({}{});",
                   self.prefix,
+                  self.action_module,
                   self.prefix,
                   production.action.index(),
                   self.grammar.user_parameter_refs(),

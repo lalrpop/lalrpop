@@ -1,5 +1,5 @@
 /// A token that includes a lifetime parameter.
-#[derive(Debug)]
+#[derive(Clone, Debug, PartialEq, Eq)]
 #[allow(dead_code)]
 pub enum LtTok<'input> {
     Other(&'input str),

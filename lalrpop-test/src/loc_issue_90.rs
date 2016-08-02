@@ -10,1311 +10,3379 @@ mod __parse__Expression2 {
     use loc_issue_90_lib::Expr;
     extern crate lalrpop_util as __lalrpop_util;
     use self::__lalrpop_util::ParseError as __ParseError;
-    #[allow(dead_code)]
-    pub enum __Symbol<'input> {
-        Term_22_26_22(&'input str),
-        Term_22_28_22(&'input str),
-        Term_22_29_22(&'input str),
-        Term_22_2a_22(&'input str),
-        Term_22_5b_22(&'input str),
-        Term_22_5d_22(&'input str),
-        Term_22wacky_22(&'input str),
-        Term_22wonky_22(&'input str),
-        Termr_23_22_5c_5cw_2b_22_23(&'input str),
-        Nt_40L(usize),
-        Nt_40R(usize),
-        NtExpression1(Box<Expr<'input>>),
-        NtExpression2(Box<Expr<'input>>),
-        NtExpression2Op(Box<Expr<'input>>),
-        NtMaybe(Box<Expr<'input>>),
-        NtWacky(Box<Expr<'input>>),
-        NtWonky(Box<Expr<'input>>),
-        Nt____Expression2(Box<Expr<'input>>),
-    }
-    const __ACTION: &'static [i32] = &[
-        // State 0
-        //     Expression1 = (*) Wacky ["*"]
-        //     Expression1 = (*) Wacky [EOF]
-        //     Expression1 = (*) "&" Maybe Expression1 ["*"]
-        //     Expression1 = (*) "&" Maybe Expression1 [EOF]
-        //     Expression1 = (*) "(" Expression2 ")" ["*"]
-        //     Expression1 = (*) "(" Expression2 ")" [EOF]
-        //     Expression1 = (*) "wonky" Wonky ["*"]
-        //     Expression1 = (*) "wonky" Wonky [EOF]
-        //     Expression1 = (*) r#"\\w+"# ["*"]
-        //     Expression1 = (*) r#"\\w+"# [EOF]
-        //     Expression2 = (*) Expression1 ["*"]
-        //     Expression2 = (*) Expression1 [EOF]
-        //     Expression2 = (*) Expression2 Expression2Op Expression1 ["*"]
-        //     Expression2 = (*) Expression2 Expression2Op Expression1 [EOF]
-        //     Wacky = (*) "wacky" ["*"]
-        //     Wacky = (*) "wacky" [EOF]
-        //     __Expression2 = (*) Expression2 [EOF]
-        5, // on "&", goto 4
-        6, // on "(", goto 5
-        0, // on ")", error
-        0, // on "*", error
-        0, // on "[", error
-        0, // on "]", error
-        7, // on "wacky", goto 6
-        8, // on "wonky", goto 7
-        9, // on r#"\\w+"#, goto 8
-        // State 1
-        //     Expression2 = Expression1 (*) ["*", EOF]
-        0, // on "&", error
-        0, // on "(", error
-        0, // on ")", error
-        -9, // on "*", reduce `Expression2 = Expression1 => ActionFn(29);`
-        0, // on "[", error
-        0, // on "]", error
-        0, // on "wacky", error
-        0, // on "wonky", error
-        0, // on r#"\\w+"#, error
-        // State 2
-        //     Expression2 = Expression2 (*) Expression2Op Expression1 ["*", EOF]
-        //     Expression2Op = (*) "*" ["&", "(", "wacky", "wonky", r#"\\w+"#]
-        //     __Expression2 = Expression2 (*) [EOF]
-        0, // on "&", error
-        0, // on "(", error
-        0, // on ")", error
-        11, // on "*", goto 10
-        0, // on "[", error
-        0, // on "]", error
-        0, // on "wacky", error
-        0, // on "wonky", error
-        0, // on r#"\\w+"#, error
-        // State 3
-        //     Expression1 = Wacky (*) ["*", EOF]
-        0, // on "&", error
-        0, // on "(", error
-        0, // on ")", error
-        -7, // on "*", reduce `Expression1 = Wacky => ActionFn(8);`
-        0, // on "[", error
-        0, // on "]", error
-        0, // on "wacky", error
-        0, // on "wonky", error
-        0, // on r#"\\w+"#, error
-        // State 4
-        //     Expression1 = "&" (*) Maybe Expression1 ["*", EOF]
-        //     Maybe = (*) ["&", "(", "wacky", "wonky", r#"\\w+"#]
-        //     Maybe = (*) "[" "]" ["&", "(", "wacky", "wonky", r#"\\w+"#]
-        -11, // on "&", reduce `Maybe =  => ActionFn(31);`
-        -11, // on "(", reduce `Maybe =  => ActionFn(31);`
-        0, // on ")", error
-        0, // on "*", error
-        13, // on "[", goto 12
-        0, // on "]", error
-        -11, // on "wacky", reduce `Maybe =  => ActionFn(31);`
-        -11, // on "wonky", reduce `Maybe =  => ActionFn(31);`
-        -11, // on r#"\\w+"#, reduce `Maybe =  => ActionFn(31);`
-        // State 5
-        //     Expression1 = (*) Wacky [")"]
-        //     Expression1 = (*) Wacky ["*"]
-        //     Expression1 = (*) "&" Maybe Expression1 [")"]
-        //     Expression1 = (*) "&" Maybe Expression1 ["*"]
-        //     Expression1 = (*) "(" Expression2 ")" [")"]
-        //     Expression1 = (*) "(" Expression2 ")" ["*"]
-        //     Expression1 = "(" (*) Expression2 ")" ["*", EOF]
-        //     Expression1 = (*) "wonky" Wonky [")"]
-        //     Expression1 = (*) "wonky" Wonky ["*"]
-        //     Expression1 = (*) r#"\\w+"# [")"]
-        //     Expression1 = (*) r#"\\w+"# ["*"]
-        //     Expression2 = (*) Expression1 [")"]
-        //     Expression2 = (*) Expression1 ["*"]
-        //     Expression2 = (*) Expression2 Expression2Op Expression1 [")"]
-        //     Expression2 = (*) Expression2 Expression2Op Expression1 ["*"]
-        //     Wacky = (*) "wacky" [")"]
-        //     Wacky = (*) "wacky" ["*"]
-        17, // on "&", goto 16
-        18, // on "(", goto 17
-        0, // on ")", error
-        0, // on "*", error
-        0, // on "[", error
-        0, // on "]", error
-        19, // on "wacky", goto 18
-        20, // on "wonky", goto 19
-        21, // on r#"\\w+"#, goto 20
-        // State 6
-        //     Wacky = "wacky" (*) ["*", EOF]
-        0, // on "&", error
-        0, // on "(", error
-        0, // on ")", error
-        -13, // on "*", reduce `Wacky = "wacky" => ActionFn(33);`
-        0, // on "[", error
-        0, // on "]", error
-        0, // on "wacky", error
-        0, // on "wonky", error
-        0, // on r#"\\w+"#, error
-        // State 7
-        //     Expression1 = "wonky" (*) Wonky ["*", EOF]
-        //     Wonky = (*) ["*", EOF]
-        0, // on "&", error
-        0, // on "(", error
-        0, // on ")", error
-        -14, // on "*", reduce `Wonky =  => ActionFn(34);`
-        0, // on "[", error
-        0, // on "]", error
-        0, // on "wacky", error
-        0, // on "wonky", error
-        0, // on r#"\\w+"#, error
-        // State 8
-        //     Expression1 = r#"\\w+"# (*) ["*", EOF]
-        0, // on "&", error
-        0, // on "(", error
-        0, // on ")", error
-        -4, // on "*", reduce `Expression1 = r#"\\w+"# => ActionFn(26);`
-        0, // on "[", error
-        0, // on "]", error
-        0, // on "wacky", error
-        0, // on "wonky", error
-        0, // on r#"\\w+"#, error
-        // State 9
-        //     Expression1 = (*) Wacky ["*", EOF]
-        //     Expression1 = (*) "&" Maybe Expression1 ["*", EOF]
-        //     Expression1 = (*) "(" Expression2 ")" ["*", EOF]
-        //     Expression1 = (*) "wonky" Wonky ["*", EOF]
-        //     Expression1 = (*) r#"\\w+"# ["*", EOF]
-        //     Expression2 = Expression2 Expression2Op (*) Expression1 ["*", EOF]
-        //     Wacky = (*) "wacky" ["*", EOF]
-        5, // on "&", goto 4
-        6, // on "(", goto 5
-        0, // on ")", error
-        0, // on "*", error
-        0, // on "[", error
-        0, // on "]", error
-        7, // on "wacky", goto 6
-        8, // on "wonky", goto 7
-        9, // on r#"\\w+"#, goto 8
-        // State 10
-        //     Expression2Op = "*" (*) ["&", "(", "wacky", "wonky", r#"\\w+"#]
-        -10, // on "&", reduce `Expression2Op = "*" => ActionFn(30);`
-        -10, // on "(", reduce `Expression2Op = "*" => ActionFn(30);`
-        0, // on ")", error
-        0, // on "*", error
-        0, // on "[", error
-        0, // on "]", error
-        -10, // on "wacky", reduce `Expression2Op = "*" => ActionFn(30);`
-        -10, // on "wonky", reduce `Expression2Op = "*" => ActionFn(30);`
-        -10, // on r#"\\w+"#, reduce `Expression2Op = "*" => ActionFn(30);`
-        // State 11
-        //     Expression1 = (*) Wacky ["*", EOF]
-        //     Expression1 = (*) "&" Maybe Expression1 ["*", EOF]
-        //     Expression1 = "&" Maybe (*) Expression1 ["*", EOF]
-        //     Expression1 = (*) "(" Expression2 ")" ["*", EOF]
-        //     Expression1 = (*) "wonky" Wonky ["*", EOF]
-        //     Expression1 = (*) r#"\\w+"# ["*", EOF]
-        //     Wacky = (*) "wacky" ["*", EOF]
-        5, // on "&", goto 4
-        6, // on "(", goto 5
-        0, // on ")", error
-        0, // on "*", error
-        0, // on "[", error
-        0, // on "]", error
-        7, // on "wacky", goto 6
-        8, // on "wonky", goto 7
-        9, // on r#"\\w+"#, goto 8
-        // State 12
-        //     Maybe = "[" (*) "]" ["&", "(", "wacky", "wonky", r#"\\w+"#]
-        0, // on "&", error
-        0, // on "(", error
-        0, // on ")", error
-        0, // on "*", error
-        0, // on "[", error
-        25, // on "]", goto 24
-        0, // on "wacky", error
-        0, // on "wonky", error
-        0, // on r#"\\w+"#, error
-        // State 13
-        //     Expression2 = Expression1 (*) [")", "*"]
-        0, // on "&", error
-        0, // on "(", error
-        -9, // on ")", reduce `Expression2 = Expression1 => ActionFn(29);`
-        -9, // on "*", reduce `Expression2 = Expression1 => ActionFn(29);`
-        0, // on "[", error
-        0, // on "]", error
-        0, // on "wacky", error
-        0, // on "wonky", error
-        0, // on r#"\\w+"#, error
-        // State 14
-        //     Expression1 = "(" Expression2 (*) ")" ["*", EOF]
-        //     Expression2 = Expression2 (*) Expression2Op Expression1 [")", "*"]
-        //     Expression2Op = (*) "*" ["&", "(", "wacky", "wonky", r#"\\w+"#]
-        0, // on "&", error
-        0, // on "(", error
-        27, // on ")", goto 26
-        11, // on "*", goto 10
-        0, // on "[", error
-        0, // on "]", error
-        0, // on "wacky", error
-        0, // on "wonky", error
-        0, // on r#"\\w+"#, error
-        // State 15
-        //     Expression1 = Wacky (*) [")", "*"]
-        0, // on "&", error
-        0, // on "(", error
-        -7, // on ")", reduce `Expression1 = Wacky => ActionFn(8);`
-        -7, // on "*", reduce `Expression1 = Wacky => ActionFn(8);`
-        0, // on "[", error
-        0, // on "]", error
-        0, // on "wacky", error
-        0, // on "wonky", error
-        0, // on r#"\\w+"#, error
-        // State 16
-        //     Expression1 = "&" (*) Maybe Expression1 [")", "*"]
-        //     Maybe = (*) ["&", "(", "wacky", "wonky", r#"\\w+"#]
-        //     Maybe = (*) "[" "]" ["&", "(", "wacky", "wonky", r#"\\w+"#]
-        -11, // on "&", reduce `Maybe =  => ActionFn(31);`
-        -11, // on "(", reduce `Maybe =  => ActionFn(31);`
-        0, // on ")", error
-        0, // on "*", error
-        13, // on "[", goto 12
-        0, // on "]", error
-        -11, // on "wacky", reduce `Maybe =  => ActionFn(31);`
-        -11, // on "wonky", reduce `Maybe =  => ActionFn(31);`
-        -11, // on r#"\\w+"#, reduce `Maybe =  => ActionFn(31);`
-        // State 17
-        //     Expression1 = (*) Wacky [")"]
-        //     Expression1 = (*) Wacky ["*"]
-        //     Expression1 = (*) "&" Maybe Expression1 [")"]
-        //     Expression1 = (*) "&" Maybe Expression1 ["*"]
-        //     Expression1 = (*) "(" Expression2 ")" [")"]
-        //     Expression1 = (*) "(" Expression2 ")" ["*"]
-        //     Expression1 = "(" (*) Expression2 ")" [")", "*"]
-        //     Expression1 = (*) "wonky" Wonky [")"]
-        //     Expression1 = (*) "wonky" Wonky ["*"]
-        //     Expression1 = (*) r#"\\w+"# [")"]
-        //     Expression1 = (*) r#"\\w+"# ["*"]
-        //     Expression2 = (*) Expression1 [")"]
-        //     Expression2 = (*) Expression1 ["*"]
-        //     Expression2 = (*) Expression2 Expression2Op Expression1 [")"]
-        //     Expression2 = (*) Expression2 Expression2Op Expression1 ["*"]
-        //     Wacky = (*) "wacky" [")"]
-        //     Wacky = (*) "wacky" ["*"]
-        17, // on "&", goto 16
-        18, // on "(", goto 17
-        0, // on ")", error
-        0, // on "*", error
-        0, // on "[", error
-        0, // on "]", error
-        19, // on "wacky", goto 18
-        20, // on "wonky", goto 19
-        21, // on r#"\\w+"#, goto 20
-        // State 18
-        //     Wacky = "wacky" (*) [")", "*"]
-        0, // on "&", error
-        0, // on "(", error
-        -13, // on ")", reduce `Wacky = "wacky" => ActionFn(33);`
-        -13, // on "*", reduce `Wacky = "wacky" => ActionFn(33);`
-        0, // on "[", error
-        0, // on "]", error
-        0, // on "wacky", error
-        0, // on "wonky", error
-        0, // on r#"\\w+"#, error
-        // State 19
-        //     Expression1 = "wonky" (*) Wonky [")", "*"]
-        //     Wonky = (*) [")", "*"]
-        0, // on "&", error
-        0, // on "(", error
-        -14, // on ")", reduce `Wonky =  => ActionFn(34);`
-        -14, // on "*", reduce `Wonky =  => ActionFn(34);`
-        0, // on "[", error
-        0, // on "]", error
-        0, // on "wacky", error
-        0, // on "wonky", error
-        0, // on r#"\\w+"#, error
-        // State 20
-        //     Expression1 = r#"\\w+"# (*) [")", "*"]
-        0, // on "&", error
-        0, // on "(", error
-        -4, // on ")", reduce `Expression1 = r#"\\w+"# => ActionFn(26);`
-        -4, // on "*", reduce `Expression1 = r#"\\w+"# => ActionFn(26);`
-        0, // on "[", error
-        0, // on "]", error
-        0, // on "wacky", error
-        0, // on "wonky", error
-        0, // on r#"\\w+"#, error
-        // State 21
-        //     Expression1 = "wonky" Wonky (*) ["*", EOF]
-        0, // on "&", error
-        0, // on "(", error
-        0, // on ")", error
-        -6, // on "*", reduce `Expression1 = "wonky", Wonky => ActionFn(7);`
-        0, // on "[", error
-        0, // on "]", error
-        0, // on "wacky", error
-        0, // on "wonky", error
-        0, // on r#"\\w+"#, error
-        // State 22
-        //     Expression2 = Expression2 Expression2Op Expression1 (*) ["*", EOF]
-        0, // on "&", error
-        0, // on "(", error
-        0, // on ")", error
-        -8, // on "*", reduce `Expression2 = Expression2, Expression2Op, Expression1 => ActionFn(28);`
-        0, // on "[", error
-        0, // on "]", error
-        0, // on "wacky", error
-        0, // on "wonky", error
-        0, // on r#"\\w+"#, error
-        // State 23
-        //     Expression1 = "&" Maybe Expression1 (*) ["*", EOF]
-        0, // on "&", error
-        0, // on "(", error
-        0, // on ")", error
-        -5, // on "*", reduce `Expression1 = "&", Maybe, Expression1 => ActionFn(27);`
-        0, // on "[", error
-        0, // on "]", error
-        0, // on "wacky", error
-        0, // on "wonky", error
-        0, // on r#"\\w+"#, error
-        // State 24
-        //     Maybe = "[" "]" (*) ["&", "(", "wacky", "wonky", r#"\\w+"#]
-        -12, // on "&", reduce `Maybe = "[", "]" => ActionFn(32);`
-        -12, // on "(", reduce `Maybe = "[", "]" => ActionFn(32);`
-        0, // on ")", error
-        0, // on "*", error
-        0, // on "[", error
-        0, // on "]", error
-        -12, // on "wacky", reduce `Maybe = "[", "]" => ActionFn(32);`
-        -12, // on "wonky", reduce `Maybe = "[", "]" => ActionFn(32);`
-        -12, // on r#"\\w+"#, reduce `Maybe = "[", "]" => ActionFn(32);`
-        // State 25
-        //     Expression1 = (*) Wacky [")", "*"]
-        //     Expression1 = (*) "&" Maybe Expression1 [")", "*"]
-        //     Expression1 = (*) "(" Expression2 ")" [")", "*"]
-        //     Expression1 = (*) "wonky" Wonky [")", "*"]
-        //     Expression1 = (*) r#"\\w+"# [")", "*"]
-        //     Expression2 = Expression2 Expression2Op (*) Expression1 [")", "*"]
-        //     Wacky = (*) "wacky" [")", "*"]
-        17, // on "&", goto 16
-        18, // on "(", goto 17
-        0, // on ")", error
-        0, // on "*", error
-        0, // on "[", error
-        0, // on "]", error
-        19, // on "wacky", goto 18
-        20, // on "wonky", goto 19
-        21, // on r#"\\w+"#, goto 20
-        // State 26
-        //     Expression1 = "(" Expression2 ")" (*) ["*", EOF]
-        0, // on "&", error
-        0, // on "(", error
-        0, // on ")", error
-        -3, // on "*", reduce `Expression1 = "(", Expression2, ")" => ActionFn(25);`
-        0, // on "[", error
-        0, // on "]", error
-        0, // on "wacky", error
-        0, // on "wonky", error
-        0, // on r#"\\w+"#, error
-        // State 27
-        //     Expression1 = (*) Wacky [")", "*"]
-        //     Expression1 = (*) "&" Maybe Expression1 [")", "*"]
-        //     Expression1 = "&" Maybe (*) Expression1 [")", "*"]
-        //     Expression1 = (*) "(" Expression2 ")" [")", "*"]
-        //     Expression1 = (*) "wonky" Wonky [")", "*"]
-        //     Expression1 = (*) r#"\\w+"# [")", "*"]
-        //     Wacky = (*) "wacky" [")", "*"]
-        17, // on "&", goto 16
-        18, // on "(", goto 17
-        0, // on ")", error
-        0, // on "*", error
-        0, // on "[", error
-        0, // on "]", error
-        19, // on "wacky", goto 18
-        20, // on "wonky", goto 19
-        21, // on r#"\\w+"#, goto 20
-        // State 28
-        //     Expression1 = "(" Expression2 (*) ")" [")", "*"]
-        //     Expression2 = Expression2 (*) Expression2Op Expression1 [")", "*"]
-        //     Expression2Op = (*) "*" ["&", "(", "wacky", "wonky", r#"\\w+"#]
-        0, // on "&", error
-        0, // on "(", error
-        33, // on ")", goto 32
-        11, // on "*", goto 10
-        0, // on "[", error
-        0, // on "]", error
-        0, // on "wacky", error
-        0, // on "wonky", error
-        0, // on r#"\\w+"#, error
-        // State 29
-        //     Expression1 = "wonky" Wonky (*) [")", "*"]
-        0, // on "&", error
-        0, // on "(", error
-        -6, // on ")", reduce `Expression1 = "wonky", Wonky => ActionFn(7);`
-        -6, // on "*", reduce `Expression1 = "wonky", Wonky => ActionFn(7);`
-        0, // on "[", error
-        0, // on "]", error
-        0, // on "wacky", error
-        0, // on "wonky", error
-        0, // on r#"\\w+"#, error
-        // State 30
-        //     Expression2 = Expression2 Expression2Op Expression1 (*) [")", "*"]
-        0, // on "&", error
-        0, // on "(", error
-        -8, // on ")", reduce `Expression2 = Expression2, Expression2Op, Expression1 => ActionFn(28);`
-        -8, // on "*", reduce `Expression2 = Expression2, Expression2Op, Expression1 => ActionFn(28);`
-        0, // on "[", error
-        0, // on "]", error
-        0, // on "wacky", error
-        0, // on "wonky", error
-        0, // on r#"\\w+"#, error
-        // State 31
-        //     Expression1 = "&" Maybe Expression1 (*) [")", "*"]
-        0, // on "&", error
-        0, // on "(", error
-        -5, // on ")", reduce `Expression1 = "&", Maybe, Expression1 => ActionFn(27);`
-        -5, // on "*", reduce `Expression1 = "&", Maybe, Expression1 => ActionFn(27);`
-        0, // on "[", error
-        0, // on "]", error
-        0, // on "wacky", error
-        0, // on "wonky", error
-        0, // on r#"\\w+"#, error
-        // State 32
-        //     Expression1 = "(" Expression2 ")" (*) [")", "*"]
-        0, // on "&", error
-        0, // on "(", error
-        -3, // on ")", reduce `Expression1 = "(", Expression2, ")" => ActionFn(25);`
-        -3, // on "*", reduce `Expression1 = "(", Expression2, ")" => ActionFn(25);`
-        0, // on "[", error
-        0, // on "]", error
-        0, // on "wacky", error
-        0, // on "wonky", error
-        0, // on r#"\\w+"#, error
-    ];
-    const __EOF_ACTION: &'static [i32] = &[
-        0, // on EOF, error
-        -9, // on EOF, reduce `Expression2 = Expression1 => ActionFn(29);`
-        -15, // on EOF, reduce `__Expression2 = Expression2 => ActionFn(0);`
-        -7, // on EOF, reduce `Expression1 = Wacky => ActionFn(8);`
-        0, // on EOF, error
-        0, // on EOF, error
-        -13, // on EOF, reduce `Wacky = "wacky" => ActionFn(33);`
-        -14, // on EOF, reduce `Wonky =  => ActionFn(34);`
-        -4, // on EOF, reduce `Expression1 = r#"\\w+"# => ActionFn(26);`
-        0, // on EOF, error
-        0, // on EOF, error
-        0, // on EOF, error
-        0, // on EOF, error
-        0, // on EOF, error
-        0, // on EOF, error
-        0, // on EOF, error
-        0, // on EOF, error
-        0, // on EOF, error
-        0, // on EOF, error
-        0, // on EOF, error
-        0, // on EOF, error
-        -6, // on EOF, reduce `Expression1 = "wonky", Wonky => ActionFn(7);`
-        -8, // on EOF, reduce `Expression2 = Expression2, Expression2Op, Expression1 => ActionFn(28);`
-        -5, // on EOF, reduce `Expression1 = "&", Maybe, Expression1 => ActionFn(27);`
-        0, // on EOF, error
-        0, // on EOF, error
-        -3, // on EOF, reduce `Expression1 = "(", Expression2, ")" => ActionFn(25);`
-        0, // on EOF, error
-        0, // on EOF, error
-        0, // on EOF, error
-        0, // on EOF, error
-        0, // on EOF, error
-        0, // on EOF, error
-    ];
-    const __GOTO: &'static [i32] = &[
-        // State 0
-        0, // on @L, error
-        0, // on @R, error
-        2, // on Expression1, goto 1
-        3, // on Expression2, goto 2
-        0, // on Expression2Op, error
-        0, // on Maybe, error
-        4, // on Wacky, goto 3
-        0, // on Wonky, error
-        0, // on __Expression2, error
-        // State 1
-        0, // on @L, error
-        0, // on @R, error
-        0, // on Expression1, error
-        0, // on Expression2, error
-        0, // on Expression2Op, error
-        0, // on Maybe, error
-        0, // on Wacky, error
-        0, // on Wonky, error
-        0, // on __Expression2, error
-        // State 2
-        0, // on @L, error
-        0, // on @R, error
-        0, // on Expression1, error
-        0, // on Expression2, error
-        10, // on Expression2Op, goto 9
-        0, // on Maybe, error
-        0, // on Wacky, error
-        0, // on Wonky, error
-        0, // on __Expression2, error
-        // State 3
-        0, // on @L, error
-        0, // on @R, error
-        0, // on Expression1, error
-        0, // on Expression2, error
-        0, // on Expression2Op, error
-        0, // on Maybe, error
-        0, // on Wacky, error
-        0, // on Wonky, error
-        0, // on __Expression2, error
-        // State 4
-        0, // on @L, error
-        0, // on @R, error
-        0, // on Expression1, error
-        0, // on Expression2, error
-        0, // on Expression2Op, error
-        12, // on Maybe, goto 11
-        0, // on Wacky, error
-        0, // on Wonky, error
-        0, // on __Expression2, error
-        // State 5
-        0, // on @L, error
-        0, // on @R, error
-        14, // on Expression1, goto 13
-        15, // on Expression2, goto 14
-        0, // on Expression2Op, error
-        0, // on Maybe, error
-        16, // on Wacky, goto 15
-        0, // on Wonky, error
-        0, // on __Expression2, error
-        // State 6
-        0, // on @L, error
-        0, // on @R, error
-        0, // on Expression1, error
-        0, // on Expression2, error
-        0, // on Expression2Op, error
-        0, // on Maybe, error
-        0, // on Wacky, error
-        0, // on Wonky, error
-        0, // on __Expression2, error
-        // State 7
-        0, // on @L, error
-        0, // on @R, error
-        0, // on Expression1, error
-        0, // on Expression2, error
-        0, // on Expression2Op, error
-        0, // on Maybe, error
-        0, // on Wacky, error
-        22, // on Wonky, goto 21
-        0, // on __Expression2, error
-        // State 8
-        0, // on @L, error
-        0, // on @R, error
-        0, // on Expression1, error
-        0, // on Expression2, error
-        0, // on Expression2Op, error
-        0, // on Maybe, error
-        0, // on Wacky, error
-        0, // on Wonky, error
-        0, // on __Expression2, error
-        // State 9
-        0, // on @L, error
-        0, // on @R, error
-        23, // on Expression1, goto 22
-        0, // on Expression2, error
-        0, // on Expression2Op, error
-        0, // on Maybe, error
-        4, // on Wacky, goto 3
-        0, // on Wonky, error
-        0, // on __Expression2, error
-        // State 10
-        0, // on @L, error
-        0, // on @R, error
-        0, // on Expression1, error
-        0, // on Expression2, error
-        0, // on Expression2Op, error
-        0, // on Maybe, error
-        0, // on Wacky, error
-        0, // on Wonky, error
-        0, // on __Expression2, error
-        // State 11
-        0, // on @L, error
-        0, // on @R, error
-        24, // on Expression1, goto 23
-        0, // on Expression2, error
-        0, // on Expression2Op, error
-        0, // on Maybe, error
-        4, // on Wacky, goto 3
-        0, // on Wonky, error
-        0, // on __Expression2, error
-        // State 12
-        0, // on @L, error
-        0, // on @R, error
-        0, // on Expression1, error
-        0, // on Expression2, error
-        0, // on Expression2Op, error
-        0, // on Maybe, error
-        0, // on Wacky, error
-        0, // on Wonky, error
-        0, // on __Expression2, error
-        // State 13
-        0, // on @L, error
-        0, // on @R, error
-        0, // on Expression1, error
-        0, // on Expression2, error
-        0, // on Expression2Op, error
-        0, // on Maybe, error
-        0, // on Wacky, error
-        0, // on Wonky, error
-        0, // on __Expression2, error
-        // State 14
-        0, // on @L, error
-        0, // on @R, error
-        0, // on Expression1, error
-        0, // on Expression2, error
-        26, // on Expression2Op, goto 25
-        0, // on Maybe, error
-        0, // on Wacky, error
-        0, // on Wonky, error
-        0, // on __Expression2, error
-        // State 15
-        0, // on @L, error
-        0, // on @R, error
-        0, // on Expression1, error
-        0, // on Expression2, error
-        0, // on Expression2Op, error
-        0, // on Maybe, error
-        0, // on Wacky, error
-        0, // on Wonky, error
-        0, // on __Expression2, error
-        // State 16
-        0, // on @L, error
-        0, // on @R, error
-        0, // on Expression1, error
-        0, // on Expression2, error
-        0, // on Expression2Op, error
-        28, // on Maybe, goto 27
-        0, // on Wacky, error
-        0, // on Wonky, error
-        0, // on __Expression2, error
-        // State 17
-        0, // on @L, error
-        0, // on @R, error
-        14, // on Expression1, goto 13
-        29, // on Expression2, goto 28
-        0, // on Expression2Op, error
-        0, // on Maybe, error
-        16, // on Wacky, goto 15
-        0, // on Wonky, error
-        0, // on __Expression2, error
-        // State 18
-        0, // on @L, error
-        0, // on @R, error
-        0, // on Expression1, error
-        0, // on Expression2, error
-        0, // on Expression2Op, error
-        0, // on Maybe, error
-        0, // on Wacky, error
-        0, // on Wonky, error
-        0, // on __Expression2, error
-        // State 19
-        0, // on @L, error
-        0, // on @R, error
-        0, // on Expression1, error
-        0, // on Expression2, error
-        0, // on Expression2Op, error
-        0, // on Maybe, error
-        0, // on Wacky, error
-        30, // on Wonky, goto 29
-        0, // on __Expression2, error
-        // State 20
-        0, // on @L, error
-        0, // on @R, error
-        0, // on Expression1, error
-        0, // on Expression2, error
-        0, // on Expression2Op, error
-        0, // on Maybe, error
-        0, // on Wacky, error
-        0, // on Wonky, error
-        0, // on __Expression2, error
-        // State 21
-        0, // on @L, error
-        0, // on @R, error
-        0, // on Expression1, error
-        0, // on Expression2, error
-        0, // on Expression2Op, error
-        0, // on Maybe, error
-        0, // on Wacky, error
-        0, // on Wonky, error
-        0, // on __Expression2, error
-        // State 22
-        0, // on @L, error
-        0, // on @R, error
-        0, // on Expression1, error
-        0, // on Expression2, error
-        0, // on Expression2Op, error
-        0, // on Maybe, error
-        0, // on Wacky, error
-        0, // on Wonky, error
-        0, // on __Expression2, error
-        // State 23
-        0, // on @L, error
-        0, // on @R, error
-        0, // on Expression1, error
-        0, // on Expression2, error
-        0, // on Expression2Op, error
-        0, // on Maybe, error
-        0, // on Wacky, error
-        0, // on Wonky, error
-        0, // on __Expression2, error
-        // State 24
-        0, // on @L, error
-        0, // on @R, error
-        0, // on Expression1, error
-        0, // on Expression2, error
-        0, // on Expression2Op, error
-        0, // on Maybe, error
-        0, // on Wacky, error
-        0, // on Wonky, error
-        0, // on __Expression2, error
-        // State 25
-        0, // on @L, error
-        0, // on @R, error
-        31, // on Expression1, goto 30
-        0, // on Expression2, error
-        0, // on Expression2Op, error
-        0, // on Maybe, error
-        16, // on Wacky, goto 15
-        0, // on Wonky, error
-        0, // on __Expression2, error
-        // State 26
-        0, // on @L, error
-        0, // on @R, error
-        0, // on Expression1, error
-        0, // on Expression2, error
-        0, // on Expression2Op, error
-        0, // on Maybe, error
-        0, // on Wacky, error
-        0, // on Wonky, error
-        0, // on __Expression2, error
-        // State 27
-        0, // on @L, error
-        0, // on @R, error
-        32, // on Expression1, goto 31
-        0, // on Expression2, error
-        0, // on Expression2Op, error
-        0, // on Maybe, error
-        16, // on Wacky, goto 15
-        0, // on Wonky, error
-        0, // on __Expression2, error
-        // State 28
-        0, // on @L, error
-        0, // on @R, error
-        0, // on Expression1, error
-        0, // on Expression2, error
-        26, // on Expression2Op, goto 25
-        0, // on Maybe, error
-        0, // on Wacky, error
-        0, // on Wonky, error
-        0, // on __Expression2, error
-        // State 29
-        0, // on @L, error
-        0, // on @R, error
-        0, // on Expression1, error
-        0, // on Expression2, error
-        0, // on Expression2Op, error
-        0, // on Maybe, error
-        0, // on Wacky, error
-        0, // on Wonky, error
-        0, // on __Expression2, error
-        // State 30
-        0, // on @L, error
-        0, // on @R, error
-        0, // on Expression1, error
-        0, // on Expression2, error
-        0, // on Expression2Op, error
-        0, // on Maybe, error
-        0, // on Wacky, error
-        0, // on Wonky, error
-        0, // on __Expression2, error
-        // State 31
-        0, // on @L, error
-        0, // on @R, error
-        0, // on Expression1, error
-        0, // on Expression2, error
-        0, // on Expression2Op, error
-        0, // on Maybe, error
-        0, // on Wacky, error
-        0, // on Wonky, error
-        0, // on __Expression2, error
-        // State 32
-        0, // on @L, error
-        0, // on @R, error
-        0, // on Expression1, error
-        0, // on Expression2, error
-        0, // on Expression2Op, error
-        0, // on Maybe, error
-        0, // on Wacky, error
-        0, // on Wonky, error
-        0, // on __Expression2, error
-    ];
     pub fn parse_Expression2<
         'input,
     >(
         input: &'input str,
     ) -> Result<Box<Expr<'input>>, __ParseError<usize,(usize, &'input str),()>>
     {
-        let mut __tokens = super::__intern_token::__Matcher::new(input);
-        let mut __states = vec![0_i32];
-        let mut __symbols = vec![];
-        '__shift: loop {
-            let __lookahead = match __tokens.next() {
-                Some(Ok(v)) => v,
-                None => break '__shift,
-                Some(Err(e)) => return Err(e),
-            };
-            let __integer = match __lookahead {
-                (_, (0, _), _) if true => 0,
-                (_, (1, _), _) if true => 1,
-                (_, (2, _), _) if true => 2,
-                (_, (3, _), _) if true => 3,
-                (_, (4, _), _) if true => 4,
-                (_, (5, _), _) if true => 5,
-                (_, (6, _), _) if true => 6,
-                (_, (7, _), _) if true => 7,
-                (_, (8, _), _) if true => 8,
-                _ => {
-                    return Err(__ParseError::UnrecognizedToken {
-                        token: Some(__lookahead),
-                        expected: vec![],
-                    });
-                }
-            };
-            loop {
-                let __state = *__states.last().unwrap() as usize;
-                let __action = __ACTION[__state * 9 + __integer];
-                if __action > 0 {
-                    let __symbol = match __integer {
-                        0 => match __lookahead.1 {
-                            (0, __tok0) => __Symbol::Term_22_26_22(__tok0),
-                            _ => unreachable!(),
-                        },
-                        1 => match __lookahead.1 {
-                            (1, __tok0) => __Symbol::Term_22_28_22(__tok0),
-                            _ => unreachable!(),
-                        },
-                        2 => match __lookahead.1 {
-                            (2, __tok0) => __Symbol::Term_22_29_22(__tok0),
-                            _ => unreachable!(),
-                        },
-                        3 => match __lookahead.1 {
-                            (3, __tok0) => __Symbol::Term_22_2a_22(__tok0),
-                            _ => unreachable!(),
-                        },
-                        4 => match __lookahead.1 {
-                            (4, __tok0) => __Symbol::Term_22_5b_22(__tok0),
-                            _ => unreachable!(),
-                        },
-                        5 => match __lookahead.1 {
-                            (5, __tok0) => __Symbol::Term_22_5d_22(__tok0),
-                            _ => unreachable!(),
-                        },
-                        6 => match __lookahead.1 {
-                            (6, __tok0) => __Symbol::Term_22wacky_22(__tok0),
-                            _ => unreachable!(),
-                        },
-                        7 => match __lookahead.1 {
-                            (7, __tok0) => __Symbol::Term_22wonky_22(__tok0),
-                            _ => unreachable!(),
-                        },
-                        8 => match __lookahead.1 {
-                            (8, __tok0) => __Symbol::Termr_23_22_5c_5cw_2b_22_23(__tok0),
-                            _ => unreachable!(),
-                        },
-                        _ => unreachable!(),
-                    };
-                    __states.push(__action - 1);
-                    __symbols.push((__lookahead.0, __symbol, __lookahead.2));
-                    continue '__shift;
-                } else if __action < 0 {
-                    if let Some(r) = __reduce(input, __action, Some(&__lookahead.0), &mut __states, &mut __symbols) {
-                        return r;
+        let __ascent = __ascent::parse_Expression2(
+            input,
+        );
+        let __parse_table = __parse_table::parse_Expression2(
+            input,
+        );
+        assert_eq!(__ascent, __parse_table);
+        return __ascent;
+    }
+    mod __ascent {
+
+        mod __parse__Expression2 {
+            #![allow(non_snake_case, non_camel_case_types, unused_mut, unused_variables, unused_imports)]
+
+            use loc_issue_90_lib::Expr;
+            extern crate lalrpop_util as __lalrpop_util;
+            use self::__lalrpop_util::ParseError as __ParseError;
+            pub fn parse_Expression2<
+                'input,
+            >(
+                input: &'input str,
+            ) -> Result<Box<Expr<'input>>, __ParseError<usize,(usize, &'input str),()>>
+            {
+                let mut __tokens = super::super::super::__intern_token::__Matcher::new(input);
+                let __lookahead = match __tokens.next() {
+                    Some(Ok(v)) => Some(v),
+                    None => None,
+                    Some(Err(e)) => return Err(e),
+                };
+                match try!(__state0(input, &mut __tokens, __lookahead)) {
+                    (Some(__lookahead), _) => {
+                        Err(__ParseError::ExtraToken { token: __lookahead })
                     }
-                } else {
-                    return Err(__ParseError::UnrecognizedToken {
-                        token: Some(__lookahead),
-                        expected: vec![],
-                    });
+                    (None, __Nonterminal::____Expression2((_, __nt, _))) => {
+                        Ok(__nt)
+                    }
+                    _ => unreachable!(),
+                }
+            }
+
+            #[allow(dead_code)]
+            pub enum __Nonterminal<'input> {
+                _40L((usize, usize, usize)),
+                _40R((usize, usize, usize)),
+                Expression1((usize, Box<Expr<'input>>, usize)),
+                Expression2((usize, Box<Expr<'input>>, usize)),
+                Expression2Op((usize, Box<Expr<'input>>, usize)),
+                Maybe((usize, Box<Expr<'input>>, usize)),
+                Wacky((usize, Box<Expr<'input>>, usize)),
+                Wonky((usize, Box<Expr<'input>>, usize)),
+                ____Expression2((usize, Box<Expr<'input>>, usize)),
+            }
+
+            // State 0
+            //     AllInputs = []
+            //     OptionalInputs = []
+            //     FixedInputs = []
+            //     WillPushLen = 0
+            //     WillPush = []
+            //     WillProduce = None
+            //
+            //     Expression1 = (*) Wacky ["*"]
+            //     Expression1 = (*) Wacky [EOF]
+            //     Expression1 = (*) "&" Maybe Expression1 ["*"]
+            //     Expression1 = (*) "&" Maybe Expression1 [EOF]
+            //     Expression1 = (*) "(" Expression2 ")" ["*"]
+            //     Expression1 = (*) "(" Expression2 ")" [EOF]
+            //     Expression1 = (*) "wonky" Wonky ["*"]
+            //     Expression1 = (*) "wonky" Wonky [EOF]
+            //     Expression1 = (*) r#"\\w+"# ["*"]
+            //     Expression1 = (*) r#"\\w+"# [EOF]
+            //     Expression2 = (*) Expression1 ["*"]
+            //     Expression2 = (*) Expression1 [EOF]
+            //     Expression2 = (*) Expression2 Expression2Op Expression1 ["*"]
+            //     Expression2 = (*) Expression2 Expression2Op Expression1 [EOF]
+            //     Wacky = (*) "wacky" ["*"]
+            //     Wacky = (*) "wacky" [EOF]
+            //     __Expression2 = (*) Expression2 [EOF]
+            //
+            //   "&" -> S4
+            //   "(" -> S5
+            //   "wacky" -> S6
+            //   "wonky" -> S7
+            //   r#"\\w+"# -> S8
+            //
+            //     Expression1 -> S1
+            //     Expression2 -> S2
+            //     Wacky -> S3
+            pub fn __state0<
+                'input,
+                __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__ParseError<usize,(usize, &'input str),()>>>,
+            >(
+                input: &'input str,
+                __tokens: &mut __TOKENS,
+                __lookahead: Option<(usize, (usize, &'input str), usize)>,
+            ) -> Result<(Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>), __ParseError<usize,(usize, &'input str),()>>
+            {
+                let mut __result: (Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>);
+                match __lookahead {
+                    Some((__loc1, (0, __tok0), __loc2)) => {
+                        let __sym0 = (__loc1, (__tok0), __loc2);
+                        __result = try!(__state4(input, __tokens, __sym0));
+                    }
+                    Some((__loc1, (1, __tok0), __loc2)) => {
+                        let __sym0 = (__loc1, (__tok0), __loc2);
+                        __result = try!(__state5(input, __tokens, __sym0));
+                    }
+                    Some((__loc1, (6, __tok0), __loc2)) => {
+                        let __sym0 = (__loc1, (__tok0), __loc2);
+                        __result = try!(__state6(input, __tokens, __sym0));
+                    }
+                    Some((__loc1, (7, __tok0), __loc2)) => {
+                        let __sym0 = (__loc1, (__tok0), __loc2);
+                        __result = try!(__state7(input, __tokens, __sym0));
+                    }
+                    Some((__loc1, (8, __tok0), __loc2)) => {
+                        let __sym0 = (__loc1, (__tok0), __loc2);
+                        __result = try!(__state8(input, __tokens, __sym0));
+                    }
+                    _ => {
+                        return Err(__ParseError::UnrecognizedToken {
+                            token: __lookahead,
+                            expected: vec![],
+                        });
+                    }
+                }
+                loop {
+                    let (__lookahead, __nt) = __result;
+                    match __nt {
+                        __Nonterminal::Expression1(__sym0) => {
+                            __result = try!(__state1(input, __tokens, __lookahead, __sym0));
+                        }
+                        __Nonterminal::Expression2(__sym0) => {
+                            __result = try!(__state2(input, __tokens, __lookahead, __sym0));
+                        }
+                        __Nonterminal::Wacky(__sym0) => {
+                            __result = try!(__state3(input, __tokens, __lookahead, __sym0));
+                        }
+                        _ => {
+                            return Ok((__lookahead, __nt));
+                        }
+                    }
+                }
+            }
+
+            // State 1
+            //     AllInputs = [Expression1]
+            //     OptionalInputs = []
+            //     FixedInputs = [Expression1]
+            //     WillPushLen = 0
+            //     WillPush = []
+            //     WillProduce = Some(Expression2)
+            //
+            //     Expression2 = Expression1 (*) ["*", EOF]
+            //
+            //   ["*", EOF] -> Expression2 = Expression1 => ActionFn(29);
+            //
+            pub fn __state1<
+                'input,
+                __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__ParseError<usize,(usize, &'input str),()>>>,
+            >(
+                input: &'input str,
+                __tokens: &mut __TOKENS,
+                __lookahead: Option<(usize, (usize, &'input str), usize)>,
+                __sym0: (usize, Box<Expr<'input>>, usize),
+            ) -> Result<(Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>), __ParseError<usize,(usize, &'input str),()>>
+            {
+                let mut __result: (Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>);
+                match __lookahead {
+                    Some((_, (3, _), _)) |
+                    None => {
+                        let __start = __sym0.0.clone();
+                        let __end = __sym0.2.clone();
+                        let __nt = super::super::super::__action29(input, __sym0);
+                        let __nt = __Nonterminal::Expression2((
+                            __start,
+                            __nt,
+                            __end,
+                        ));
+                        __result = (__lookahead, __nt);
+                        return Ok(__result);
+                    }
+                    _ => {
+                        return Err(__ParseError::UnrecognizedToken {
+                            token: __lookahead,
+                            expected: vec![],
+                        });
+                    }
+                }
+            }
+
+            // State 2
+            //     AllInputs = [Expression2]
+            //     OptionalInputs = []
+            //     FixedInputs = [Expression2]
+            //     WillPushLen = 0
+            //     WillPush = []
+            //     WillProduce = None
+            //
+            //     Expression2 = Expression2 (*) Expression2Op Expression1 ["*", EOF]
+            //     Expression2Op = (*) "*" ["&", "(", "wacky", "wonky", r#"\\w+"#]
+            //     __Expression2 = Expression2 (*) [EOF]
+            //
+            //   "*" -> S10
+            //   [EOF] -> __Expression2 = Expression2 => ActionFn(0);
+            //
+            //     Expression2Op -> S9
+            pub fn __state2<
+                'input,
+                __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__ParseError<usize,(usize, &'input str),()>>>,
+            >(
+                input: &'input str,
+                __tokens: &mut __TOKENS,
+                __lookahead: Option<(usize, (usize, &'input str), usize)>,
+                __sym0: (usize, Box<Expr<'input>>, usize),
+            ) -> Result<(Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>), __ParseError<usize,(usize, &'input str),()>>
+            {
+                let mut __result: (Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>);
+                match __lookahead {
+                    Some((__loc1, (3, __tok0), __loc2)) => {
+                        let __sym1 = (__loc1, (__tok0), __loc2);
+                        __result = try!(__state10(input, __tokens, __sym1));
+                    }
+                    None => {
+                        let __start = __sym0.0.clone();
+                        let __end = __sym0.2.clone();
+                        let __nt = super::super::super::__action0(input, __sym0);
+                        let __nt = __Nonterminal::____Expression2((
+                            __start,
+                            __nt,
+                            __end,
+                        ));
+                        __result = (__lookahead, __nt);
+                        return Ok(__result);
+                    }
+                    _ => {
+                        return Err(__ParseError::UnrecognizedToken {
+                            token: __lookahead,
+                            expected: vec![],
+                        });
+                    }
+                }
+                loop {
+                    let (__lookahead, __nt) = __result;
+                    match __nt {
+                        __Nonterminal::Expression2Op(__sym1) => {
+                            __result = try!(__state9(input, __tokens, __lookahead, __sym0, __sym1));
+                            return Ok(__result);
+                        }
+                        _ => {
+                            return Ok((__lookahead, __nt));
+                        }
+                    }
+                }
+            }
+
+            // State 3
+            //     AllInputs = [Wacky]
+            //     OptionalInputs = []
+            //     FixedInputs = [Wacky]
+            //     WillPushLen = 0
+            //     WillPush = []
+            //     WillProduce = Some(Expression1)
+            //
+            //     Expression1 = Wacky (*) ["*", EOF]
+            //
+            //   ["*", EOF] -> Expression1 = Wacky => ActionFn(8);
+            //
+            pub fn __state3<
+                'input,
+                __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__ParseError<usize,(usize, &'input str),()>>>,
+            >(
+                input: &'input str,
+                __tokens: &mut __TOKENS,
+                __lookahead: Option<(usize, (usize, &'input str), usize)>,
+                __sym0: (usize, Box<Expr<'input>>, usize),
+            ) -> Result<(Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>), __ParseError<usize,(usize, &'input str),()>>
+            {
+                let mut __result: (Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>);
+                match __lookahead {
+                    Some((_, (3, _), _)) |
+                    None => {
+                        let __start = __sym0.0.clone();
+                        let __end = __sym0.2.clone();
+                        let __nt = super::super::super::__action8(input, __sym0);
+                        let __nt = __Nonterminal::Expression1((
+                            __start,
+                            __nt,
+                            __end,
+                        ));
+                        __result = (__lookahead, __nt);
+                        return Ok(__result);
+                    }
+                    _ => {
+                        return Err(__ParseError::UnrecognizedToken {
+                            token: __lookahead,
+                            expected: vec![],
+                        });
+                    }
+                }
+            }
+
+            // State 4
+            //     AllInputs = ["&"]
+            //     OptionalInputs = []
+            //     FixedInputs = ["&"]
+            //     WillPushLen = 2
+            //     WillPush = [Maybe, Expression1]
+            //     WillProduce = Some(Expression1)
+            //
+            //     Expression1 = "&" (*) Maybe Expression1 ["*", EOF]
+            //     Maybe = (*) ["&", "(", "wacky", "wonky", r#"\\w+"#]
+            //     Maybe = (*) "[" "]" ["&", "(", "wacky", "wonky", r#"\\w+"#]
+            //
+            //   "[" -> S12
+            //   ["&", "(", "wacky", "wonky", r#"\\w+"#] -> Maybe =  => ActionFn(31);
+            //
+            //     Maybe -> S11
+            pub fn __state4<
+                'input,
+                __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__ParseError<usize,(usize, &'input str),()>>>,
+            >(
+                input: &'input str,
+                __tokens: &mut __TOKENS,
+                __sym0: (usize, &'input str, usize),
+            ) -> Result<(Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>), __ParseError<usize,(usize, &'input str),()>>
+            {
+                let mut __result: (Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>);
+                let __lookahead = match __tokens.next() {
+                    Some(Ok(v)) => Some(v),
+                    None => None,
+                    Some(Err(e)) => return Err(e),
+                };
+                match __lookahead {
+                    Some((__loc1, (4, __tok0), __loc2)) => {
+                        let __sym1 = (__loc1, (__tok0), __loc2);
+                        __result = try!(__state12(input, __tokens, __sym1));
+                    }
+                    Some((_, (0, _), _)) |
+                    Some((_, (1, _), _)) |
+                    Some((_, (6, _), _)) |
+                    Some((_, (7, _), _)) |
+                    Some((_, (8, _), _)) => {
+                        let __start = __sym0.2.clone();
+                        let __end = __lookahead.as_ref().map(|o| o.0.clone()).unwrap_or_else(|| __start.clone());
+                        let __nt = super::super::super::__action31(input, &__start, &__end);
+                        let __nt = __Nonterminal::Maybe((
+                            __start,
+                            __nt,
+                            __end,
+                        ));
+                        __result = (__lookahead, __nt);
+                    }
+                    _ => {
+                        return Err(__ParseError::UnrecognizedToken {
+                            token: __lookahead,
+                            expected: vec![],
+                        });
+                    }
+                }
+                loop {
+                    let (__lookahead, __nt) = __result;
+                    match __nt {
+                        __Nonterminal::Maybe(__sym1) => {
+                            __result = try!(__state11(input, __tokens, __lookahead, __sym0, __sym1));
+                            return Ok(__result);
+                        }
+                        _ => {
+                            return Ok((__lookahead, __nt));
+                        }
+                    }
+                }
+            }
+
+            // State 5
+            //     AllInputs = ["("]
+            //     OptionalInputs = []
+            //     FixedInputs = ["("]
+            //     WillPushLen = 2
+            //     WillPush = [Expression2, ")"]
+            //     WillProduce = Some(Expression1)
+            //
+            //     Expression1 = (*) Wacky [")"]
+            //     Expression1 = (*) Wacky ["*"]
+            //     Expression1 = (*) "&" Maybe Expression1 [")"]
+            //     Expression1 = (*) "&" Maybe Expression1 ["*"]
+            //     Expression1 = (*) "(" Expression2 ")" [")"]
+            //     Expression1 = (*) "(" Expression2 ")" ["*"]
+            //     Expression1 = "(" (*) Expression2 ")" ["*", EOF]
+            //     Expression1 = (*) "wonky" Wonky [")"]
+            //     Expression1 = (*) "wonky" Wonky ["*"]
+            //     Expression1 = (*) r#"\\w+"# [")"]
+            //     Expression1 = (*) r#"\\w+"# ["*"]
+            //     Expression2 = (*) Expression1 [")"]
+            //     Expression2 = (*) Expression1 ["*"]
+            //     Expression2 = (*) Expression2 Expression2Op Expression1 [")"]
+            //     Expression2 = (*) Expression2 Expression2Op Expression1 ["*"]
+            //     Wacky = (*) "wacky" [")"]
+            //     Wacky = (*) "wacky" ["*"]
+            //
+            //   "&" -> S16
+            //   "(" -> S17
+            //   "wacky" -> S18
+            //   "wonky" -> S19
+            //   r#"\\w+"# -> S20
+            //
+            //     Expression1 -> S13
+            //     Expression2 -> S14
+            //     Wacky -> S15
+            pub fn __state5<
+                'input,
+                __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__ParseError<usize,(usize, &'input str),()>>>,
+            >(
+                input: &'input str,
+                __tokens: &mut __TOKENS,
+                __sym0: (usize, &'input str, usize),
+            ) -> Result<(Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>), __ParseError<usize,(usize, &'input str),()>>
+            {
+                let mut __result: (Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>);
+                let __lookahead = match __tokens.next() {
+                    Some(Ok(v)) => Some(v),
+                    None => None,
+                    Some(Err(e)) => return Err(e),
+                };
+                let __sym0 = &mut Some(__sym0);
+                match __lookahead {
+                    Some((__loc1, (0, __tok0), __loc2)) => {
+                        let __sym1 = (__loc1, (__tok0), __loc2);
+                        __result = try!(__state16(input, __tokens, __sym1));
+                    }
+                    Some((__loc1, (1, __tok0), __loc2)) => {
+                        let __sym1 = (__loc1, (__tok0), __loc2);
+                        __result = try!(__state17(input, __tokens, __sym1));
+                    }
+                    Some((__loc1, (6, __tok0), __loc2)) => {
+                        let __sym1 = (__loc1, (__tok0), __loc2);
+                        __result = try!(__state18(input, __tokens, __sym1));
+                    }
+                    Some((__loc1, (7, __tok0), __loc2)) => {
+                        let __sym1 = (__loc1, (__tok0), __loc2);
+                        __result = try!(__state19(input, __tokens, __sym1));
+                    }
+                    Some((__loc1, (8, __tok0), __loc2)) => {
+                        let __sym1 = (__loc1, (__tok0), __loc2);
+                        __result = try!(__state20(input, __tokens, __sym1));
+                    }
+                    _ => {
+                        return Err(__ParseError::UnrecognizedToken {
+                            token: __lookahead,
+                            expected: vec![],
+                        });
+                    }
+                }
+                loop {
+                    if __sym0.is_none() {
+                        return Ok(__result);
+                    }
+                    let (__lookahead, __nt) = __result;
+                    match __nt {
+                        __Nonterminal::Expression1(__sym1) => {
+                            __result = try!(__state13(input, __tokens, __lookahead, __sym1));
+                        }
+                        __Nonterminal::Expression2(__sym1) => {
+                            __result = try!(__state14(input, __tokens, __lookahead, __sym0, __sym1));
+                        }
+                        __Nonterminal::Wacky(__sym1) => {
+                            __result = try!(__state15(input, __tokens, __lookahead, __sym1));
+                        }
+                        _ => {
+                            return Ok((__lookahead, __nt));
+                        }
+                    }
+                }
+            }
+
+            // State 6
+            //     AllInputs = ["wacky"]
+            //     OptionalInputs = []
+            //     FixedInputs = ["wacky"]
+            //     WillPushLen = 0
+            //     WillPush = []
+            //     WillProduce = Some(Wacky)
+            //
+            //     Wacky = "wacky" (*) ["*", EOF]
+            //
+            //   ["*", EOF] -> Wacky = "wacky" => ActionFn(33);
+            //
+            pub fn __state6<
+                'input,
+                __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__ParseError<usize,(usize, &'input str),()>>>,
+            >(
+                input: &'input str,
+                __tokens: &mut __TOKENS,
+                __sym0: (usize, &'input str, usize),
+            ) -> Result<(Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>), __ParseError<usize,(usize, &'input str),()>>
+            {
+                let mut __result: (Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>);
+                let __lookahead = match __tokens.next() {
+                    Some(Ok(v)) => Some(v),
+                    None => None,
+                    Some(Err(e)) => return Err(e),
+                };
+                match __lookahead {
+                    Some((_, (3, _), _)) |
+                    None => {
+                        let __start = __sym0.0.clone();
+                        let __end = __sym0.2.clone();
+                        let __nt = super::super::super::__action33(input, __sym0);
+                        let __nt = __Nonterminal::Wacky((
+                            __start,
+                            __nt,
+                            __end,
+                        ));
+                        __result = (__lookahead, __nt);
+                        return Ok(__result);
+                    }
+                    _ => {
+                        return Err(__ParseError::UnrecognizedToken {
+                            token: __lookahead,
+                            expected: vec![],
+                        });
+                    }
+                }
+            }
+
+            // State 7
+            //     AllInputs = ["wonky"]
+            //     OptionalInputs = []
+            //     FixedInputs = ["wonky"]
+            //     WillPushLen = 1
+            //     WillPush = [Wonky]
+            //     WillProduce = Some(Expression1)
+            //
+            //     Expression1 = "wonky" (*) Wonky ["*", EOF]
+            //     Wonky = (*) ["*", EOF]
+            //
+            //   ["*", EOF] -> Wonky =  => ActionFn(34);
+            //
+            //     Wonky -> S21
+            pub fn __state7<
+                'input,
+                __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__ParseError<usize,(usize, &'input str),()>>>,
+            >(
+                input: &'input str,
+                __tokens: &mut __TOKENS,
+                __sym0: (usize, &'input str, usize),
+            ) -> Result<(Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>), __ParseError<usize,(usize, &'input str),()>>
+            {
+                let mut __result: (Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>);
+                let __lookahead = match __tokens.next() {
+                    Some(Ok(v)) => Some(v),
+                    None => None,
+                    Some(Err(e)) => return Err(e),
+                };
+                match __lookahead {
+                    Some((_, (3, _), _)) |
+                    None => {
+                        let __start = __sym0.2.clone();
+                        let __end = __lookahead.as_ref().map(|o| o.0.clone()).unwrap_or_else(|| __start.clone());
+                        let __nt = super::super::super::__action34(input, &__start, &__end);
+                        let __nt = __Nonterminal::Wonky((
+                            __start,
+                            __nt,
+                            __end,
+                        ));
+                        __result = (__lookahead, __nt);
+                    }
+                    _ => {
+                        return Err(__ParseError::UnrecognizedToken {
+                            token: __lookahead,
+                            expected: vec![],
+                        });
+                    }
+                }
+                loop {
+                    let (__lookahead, __nt) = __result;
+                    match __nt {
+                        __Nonterminal::Wonky(__sym1) => {
+                            __result = try!(__state21(input, __tokens, __lookahead, __sym0, __sym1));
+                            return Ok(__result);
+                        }
+                        _ => {
+                            return Ok((__lookahead, __nt));
+                        }
+                    }
+                }
+            }
+
+            // State 8
+            //     AllInputs = [r#"\\w+"#]
+            //     OptionalInputs = []
+            //     FixedInputs = [r#"\\w+"#]
+            //     WillPushLen = 0
+            //     WillPush = []
+            //     WillProduce = Some(Expression1)
+            //
+            //     Expression1 = r#"\\w+"# (*) ["*", EOF]
+            //
+            //   ["*", EOF] -> Expression1 = r#"\\w+"# => ActionFn(26);
+            //
+            pub fn __state8<
+                'input,
+                __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__ParseError<usize,(usize, &'input str),()>>>,
+            >(
+                input: &'input str,
+                __tokens: &mut __TOKENS,
+                __sym0: (usize, &'input str, usize),
+            ) -> Result<(Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>), __ParseError<usize,(usize, &'input str),()>>
+            {
+                let mut __result: (Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>);
+                let __lookahead = match __tokens.next() {
+                    Some(Ok(v)) => Some(v),
+                    None => None,
+                    Some(Err(e)) => return Err(e),
+                };
+                match __lookahead {
+                    Some((_, (3, _), _)) |
+                    None => {
+                        let __start = __sym0.0.clone();
+                        let __end = __sym0.2.clone();
+                        let __nt = super::super::super::__action26(input, __sym0);
+                        let __nt = __Nonterminal::Expression1((
+                            __start,
+                            __nt,
+                            __end,
+                        ));
+                        __result = (__lookahead, __nt);
+                        return Ok(__result);
+                    }
+                    _ => {
+                        return Err(__ParseError::UnrecognizedToken {
+                            token: __lookahead,
+                            expected: vec![],
+                        });
+                    }
+                }
+            }
+
+            // State 9
+            //     AllInputs = [Expression2, Expression2Op]
+            //     OptionalInputs = []
+            //     FixedInputs = [Expression2, Expression2Op]
+            //     WillPushLen = 1
+            //     WillPush = [Expression1]
+            //     WillProduce = Some(Expression2)
+            //
+            //     Expression1 = (*) Wacky ["*", EOF]
+            //     Expression1 = (*) "&" Maybe Expression1 ["*", EOF]
+            //     Expression1 = (*) "(" Expression2 ")" ["*", EOF]
+            //     Expression1 = (*) "wonky" Wonky ["*", EOF]
+            //     Expression1 = (*) r#"\\w+"# ["*", EOF]
+            //     Expression2 = Expression2 Expression2Op (*) Expression1 ["*", EOF]
+            //     Wacky = (*) "wacky" ["*", EOF]
+            //
+            //   "&" -> S4
+            //   "(" -> S5
+            //   "wacky" -> S6
+            //   "wonky" -> S7
+            //   r#"\\w+"# -> S8
+            //
+            //     Expression1 -> S22
+            //     Wacky -> S3
+            pub fn __state9<
+                'input,
+                __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__ParseError<usize,(usize, &'input str),()>>>,
+            >(
+                input: &'input str,
+                __tokens: &mut __TOKENS,
+                __lookahead: Option<(usize, (usize, &'input str), usize)>,
+                __sym0: (usize, Box<Expr<'input>>, usize),
+                __sym1: (usize, Box<Expr<'input>>, usize),
+            ) -> Result<(Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>), __ParseError<usize,(usize, &'input str),()>>
+            {
+                let mut __result: (Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>);
+                match __lookahead {
+                    Some((__loc1, (0, __tok0), __loc2)) => {
+                        let __sym2 = (__loc1, (__tok0), __loc2);
+                        __result = try!(__state4(input, __tokens, __sym2));
+                    }
+                    Some((__loc1, (1, __tok0), __loc2)) => {
+                        let __sym2 = (__loc1, (__tok0), __loc2);
+                        __result = try!(__state5(input, __tokens, __sym2));
+                    }
+                    Some((__loc1, (6, __tok0), __loc2)) => {
+                        let __sym2 = (__loc1, (__tok0), __loc2);
+                        __result = try!(__state6(input, __tokens, __sym2));
+                    }
+                    Some((__loc1, (7, __tok0), __loc2)) => {
+                        let __sym2 = (__loc1, (__tok0), __loc2);
+                        __result = try!(__state7(input, __tokens, __sym2));
+                    }
+                    Some((__loc1, (8, __tok0), __loc2)) => {
+                        let __sym2 = (__loc1, (__tok0), __loc2);
+                        __result = try!(__state8(input, __tokens, __sym2));
+                    }
+                    _ => {
+                        return Err(__ParseError::UnrecognizedToken {
+                            token: __lookahead,
+                            expected: vec![],
+                        });
+                    }
+                }
+                loop {
+                    let (__lookahead, __nt) = __result;
+                    match __nt {
+                        __Nonterminal::Expression1(__sym2) => {
+                            __result = try!(__state22(input, __tokens, __lookahead, __sym0, __sym1, __sym2));
+                            return Ok(__result);
+                        }
+                        __Nonterminal::Wacky(__sym2) => {
+                            __result = try!(__state3(input, __tokens, __lookahead, __sym2));
+                        }
+                        _ => {
+                            return Ok((__lookahead, __nt));
+                        }
+                    }
+                }
+            }
+
+            // State 10
+            //     AllInputs = ["*"]
+            //     OptionalInputs = []
+            //     FixedInputs = ["*"]
+            //     WillPushLen = 0
+            //     WillPush = []
+            //     WillProduce = Some(Expression2Op)
+            //
+            //     Expression2Op = "*" (*) ["&", "(", "wacky", "wonky", r#"\\w+"#]
+            //
+            //   ["&", "(", "wacky", "wonky", r#"\\w+"#] -> Expression2Op = "*" => ActionFn(30);
+            //
+            pub fn __state10<
+                'input,
+                __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__ParseError<usize,(usize, &'input str),()>>>,
+            >(
+                input: &'input str,
+                __tokens: &mut __TOKENS,
+                __sym0: (usize, &'input str, usize),
+            ) -> Result<(Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>), __ParseError<usize,(usize, &'input str),()>>
+            {
+                let mut __result: (Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>);
+                let __lookahead = match __tokens.next() {
+                    Some(Ok(v)) => Some(v),
+                    None => None,
+                    Some(Err(e)) => return Err(e),
+                };
+                match __lookahead {
+                    Some((_, (0, _), _)) |
+                    Some((_, (1, _), _)) |
+                    Some((_, (6, _), _)) |
+                    Some((_, (7, _), _)) |
+                    Some((_, (8, _), _)) => {
+                        let __start = __sym0.0.clone();
+                        let __end = __sym0.2.clone();
+                        let __nt = super::super::super::__action30(input, __sym0);
+                        let __nt = __Nonterminal::Expression2Op((
+                            __start,
+                            __nt,
+                            __end,
+                        ));
+                        __result = (__lookahead, __nt);
+                        return Ok(__result);
+                    }
+                    _ => {
+                        return Err(__ParseError::UnrecognizedToken {
+                            token: __lookahead,
+                            expected: vec![],
+                        });
+                    }
+                }
+            }
+
+            // State 11
+            //     AllInputs = ["&", Maybe]
+            //     OptionalInputs = []
+            //     FixedInputs = ["&", Maybe]
+            //     WillPushLen = 1
+            //     WillPush = [Expression1]
+            //     WillProduce = Some(Expression1)
+            //
+            //     Expression1 = (*) Wacky ["*", EOF]
+            //     Expression1 = (*) "&" Maybe Expression1 ["*", EOF]
+            //     Expression1 = "&" Maybe (*) Expression1 ["*", EOF]
+            //     Expression1 = (*) "(" Expression2 ")" ["*", EOF]
+            //     Expression1 = (*) "wonky" Wonky ["*", EOF]
+            //     Expression1 = (*) r#"\\w+"# ["*", EOF]
+            //     Wacky = (*) "wacky" ["*", EOF]
+            //
+            //   "&" -> S4
+            //   "(" -> S5
+            //   "wacky" -> S6
+            //   "wonky" -> S7
+            //   r#"\\w+"# -> S8
+            //
+            //     Expression1 -> S23
+            //     Wacky -> S3
+            pub fn __state11<
+                'input,
+                __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__ParseError<usize,(usize, &'input str),()>>>,
+            >(
+                input: &'input str,
+                __tokens: &mut __TOKENS,
+                __lookahead: Option<(usize, (usize, &'input str), usize)>,
+                __sym0: (usize, &'input str, usize),
+                __sym1: (usize, Box<Expr<'input>>, usize),
+            ) -> Result<(Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>), __ParseError<usize,(usize, &'input str),()>>
+            {
+                let mut __result: (Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>);
+                match __lookahead {
+                    Some((__loc1, (0, __tok0), __loc2)) => {
+                        let __sym2 = (__loc1, (__tok0), __loc2);
+                        __result = try!(__state4(input, __tokens, __sym2));
+                    }
+                    Some((__loc1, (1, __tok0), __loc2)) => {
+                        let __sym2 = (__loc1, (__tok0), __loc2);
+                        __result = try!(__state5(input, __tokens, __sym2));
+                    }
+                    Some((__loc1, (6, __tok0), __loc2)) => {
+                        let __sym2 = (__loc1, (__tok0), __loc2);
+                        __result = try!(__state6(input, __tokens, __sym2));
+                    }
+                    Some((__loc1, (7, __tok0), __loc2)) => {
+                        let __sym2 = (__loc1, (__tok0), __loc2);
+                        __result = try!(__state7(input, __tokens, __sym2));
+                    }
+                    Some((__loc1, (8, __tok0), __loc2)) => {
+                        let __sym2 = (__loc1, (__tok0), __loc2);
+                        __result = try!(__state8(input, __tokens, __sym2));
+                    }
+                    _ => {
+                        return Err(__ParseError::UnrecognizedToken {
+                            token: __lookahead,
+                            expected: vec![],
+                        });
+                    }
+                }
+                loop {
+                    let (__lookahead, __nt) = __result;
+                    match __nt {
+                        __Nonterminal::Expression1(__sym2) => {
+                            __result = try!(__state23(input, __tokens, __lookahead, __sym0, __sym1, __sym2));
+                            return Ok(__result);
+                        }
+                        __Nonterminal::Wacky(__sym2) => {
+                            __result = try!(__state3(input, __tokens, __lookahead, __sym2));
+                        }
+                        _ => {
+                            return Ok((__lookahead, __nt));
+                        }
+                    }
+                }
+            }
+
+            // State 12
+            //     AllInputs = ["["]
+            //     OptionalInputs = []
+            //     FixedInputs = ["["]
+            //     WillPushLen = 1
+            //     WillPush = ["]"]
+            //     WillProduce = Some(Maybe)
+            //
+            //     Maybe = "[" (*) "]" ["&", "(", "wacky", "wonky", r#"\\w+"#]
+            //
+            //   "]" -> S24
+            //
+            pub fn __state12<
+                'input,
+                __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__ParseError<usize,(usize, &'input str),()>>>,
+            >(
+                input: &'input str,
+                __tokens: &mut __TOKENS,
+                __sym0: (usize, &'input str, usize),
+            ) -> Result<(Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>), __ParseError<usize,(usize, &'input str),()>>
+            {
+                let mut __result: (Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>);
+                let __lookahead = match __tokens.next() {
+                    Some(Ok(v)) => Some(v),
+                    None => None,
+                    Some(Err(e)) => return Err(e),
+                };
+                match __lookahead {
+                    Some((__loc1, (5, __tok0), __loc2)) => {
+                        let __sym1 = (__loc1, (__tok0), __loc2);
+                        __result = try!(__state24(input, __tokens, __sym0, __sym1));
+                        return Ok(__result);
+                    }
+                    _ => {
+                        return Err(__ParseError::UnrecognizedToken {
+                            token: __lookahead,
+                            expected: vec![],
+                        });
+                    }
+                }
+            }
+
+            // State 13
+            //     AllInputs = [Expression1]
+            //     OptionalInputs = []
+            //     FixedInputs = [Expression1]
+            //     WillPushLen = 0
+            //     WillPush = []
+            //     WillProduce = Some(Expression2)
+            //
+            //     Expression2 = Expression1 (*) [")", "*"]
+            //
+            //   [")", "*"] -> Expression2 = Expression1 => ActionFn(29);
+            //
+            pub fn __state13<
+                'input,
+                __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__ParseError<usize,(usize, &'input str),()>>>,
+            >(
+                input: &'input str,
+                __tokens: &mut __TOKENS,
+                __lookahead: Option<(usize, (usize, &'input str), usize)>,
+                __sym0: (usize, Box<Expr<'input>>, usize),
+            ) -> Result<(Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>), __ParseError<usize,(usize, &'input str),()>>
+            {
+                let mut __result: (Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>);
+                match __lookahead {
+                    Some((_, (2, _), _)) |
+                    Some((_, (3, _), _)) => {
+                        let __start = __sym0.0.clone();
+                        let __end = __sym0.2.clone();
+                        let __nt = super::super::super::__action29(input, __sym0);
+                        let __nt = __Nonterminal::Expression2((
+                            __start,
+                            __nt,
+                            __end,
+                        ));
+                        __result = (__lookahead, __nt);
+                        return Ok(__result);
+                    }
+                    _ => {
+                        return Err(__ParseError::UnrecognizedToken {
+                            token: __lookahead,
+                            expected: vec![],
+                        });
+                    }
+                }
+            }
+
+            // State 14
+            //     AllInputs = ["(", Expression2]
+            //     OptionalInputs = ["("]
+            //     FixedInputs = [Expression2]
+            //     WillPushLen = 1
+            //     WillPush = [")"]
+            //     WillProduce = None
+            //
+            //     Expression1 = "(" Expression2 (*) ")" ["*", EOF]
+            //     Expression2 = Expression2 (*) Expression2Op Expression1 [")", "*"]
+            //     Expression2Op = (*) "*" ["&", "(", "wacky", "wonky", r#"\\w+"#]
+            //
+            //   ")" -> S26
+            //   "*" -> S10
+            //
+            //     Expression2Op -> S25
+            pub fn __state14<
+                'input,
+                __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__ParseError<usize,(usize, &'input str),()>>>,
+            >(
+                input: &'input str,
+                __tokens: &mut __TOKENS,
+                __lookahead: Option<(usize, (usize, &'input str), usize)>,
+                __sym0: &mut Option<(usize, &'input str, usize)>,
+                __sym1: (usize, Box<Expr<'input>>, usize),
+            ) -> Result<(Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>), __ParseError<usize,(usize, &'input str),()>>
+            {
+                let mut __result: (Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>);
+                match __lookahead {
+                    Some((__loc1, (2, __tok0), __loc2)) => {
+                        let __sym2 = (__loc1, (__tok0), __loc2);
+                        let __sym0 = __sym0.take().unwrap();
+                        __result = try!(__state26(input, __tokens, __sym0, __sym1, __sym2));
+                        return Ok(__result);
+                    }
+                    Some((__loc1, (3, __tok0), __loc2)) => {
+                        let __sym2 = (__loc1, (__tok0), __loc2);
+                        __result = try!(__state10(input, __tokens, __sym2));
+                    }
+                    _ => {
+                        return Err(__ParseError::UnrecognizedToken {
+                            token: __lookahead,
+                            expected: vec![],
+                        });
+                    }
+                }
+                loop {
+                    let (__lookahead, __nt) = __result;
+                    match __nt {
+                        __Nonterminal::Expression2Op(__sym2) => {
+                            __result = try!(__state25(input, __tokens, __lookahead, __sym1, __sym2));
+                            return Ok(__result);
+                        }
+                        _ => {
+                            return Ok((__lookahead, __nt));
+                        }
+                    }
+                }
+            }
+
+            // State 15
+            //     AllInputs = [Wacky]
+            //     OptionalInputs = []
+            //     FixedInputs = [Wacky]
+            //     WillPushLen = 0
+            //     WillPush = []
+            //     WillProduce = Some(Expression1)
+            //
+            //     Expression1 = Wacky (*) [")", "*"]
+            //
+            //   [")", "*"] -> Expression1 = Wacky => ActionFn(8);
+            //
+            pub fn __state15<
+                'input,
+                __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__ParseError<usize,(usize, &'input str),()>>>,
+            >(
+                input: &'input str,
+                __tokens: &mut __TOKENS,
+                __lookahead: Option<(usize, (usize, &'input str), usize)>,
+                __sym0: (usize, Box<Expr<'input>>, usize),
+            ) -> Result<(Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>), __ParseError<usize,(usize, &'input str),()>>
+            {
+                let mut __result: (Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>);
+                match __lookahead {
+                    Some((_, (2, _), _)) |
+                    Some((_, (3, _), _)) => {
+                        let __start = __sym0.0.clone();
+                        let __end = __sym0.2.clone();
+                        let __nt = super::super::super::__action8(input, __sym0);
+                        let __nt = __Nonterminal::Expression1((
+                            __start,
+                            __nt,
+                            __end,
+                        ));
+                        __result = (__lookahead, __nt);
+                        return Ok(__result);
+                    }
+                    _ => {
+                        return Err(__ParseError::UnrecognizedToken {
+                            token: __lookahead,
+                            expected: vec![],
+                        });
+                    }
+                }
+            }
+
+            // State 16
+            //     AllInputs = ["&"]
+            //     OptionalInputs = []
+            //     FixedInputs = ["&"]
+            //     WillPushLen = 2
+            //     WillPush = [Maybe, Expression1]
+            //     WillProduce = Some(Expression1)
+            //
+            //     Expression1 = "&" (*) Maybe Expression1 [")", "*"]
+            //     Maybe = (*) ["&", "(", "wacky", "wonky", r#"\\w+"#]
+            //     Maybe = (*) "[" "]" ["&", "(", "wacky", "wonky", r#"\\w+"#]
+            //
+            //   "[" -> S12
+            //   ["&", "(", "wacky", "wonky", r#"\\w+"#] -> Maybe =  => ActionFn(31);
+            //
+            //     Maybe -> S27
+            pub fn __state16<
+                'input,
+                __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__ParseError<usize,(usize, &'input str),()>>>,
+            >(
+                input: &'input str,
+                __tokens: &mut __TOKENS,
+                __sym0: (usize, &'input str, usize),
+            ) -> Result<(Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>), __ParseError<usize,(usize, &'input str),()>>
+            {
+                let mut __result: (Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>);
+                let __lookahead = match __tokens.next() {
+                    Some(Ok(v)) => Some(v),
+                    None => None,
+                    Some(Err(e)) => return Err(e),
+                };
+                match __lookahead {
+                    Some((__loc1, (4, __tok0), __loc2)) => {
+                        let __sym1 = (__loc1, (__tok0), __loc2);
+                        __result = try!(__state12(input, __tokens, __sym1));
+                    }
+                    Some((_, (0, _), _)) |
+                    Some((_, (1, _), _)) |
+                    Some((_, (6, _), _)) |
+                    Some((_, (7, _), _)) |
+                    Some((_, (8, _), _)) => {
+                        let __start = __sym0.2.clone();
+                        let __end = __lookahead.as_ref().map(|o| o.0.clone()).unwrap_or_else(|| __start.clone());
+                        let __nt = super::super::super::__action31(input, &__start, &__end);
+                        let __nt = __Nonterminal::Maybe((
+                            __start,
+                            __nt,
+                            __end,
+                        ));
+                        __result = (__lookahead, __nt);
+                    }
+                    _ => {
+                        return Err(__ParseError::UnrecognizedToken {
+                            token: __lookahead,
+                            expected: vec![],
+                        });
+                    }
+                }
+                loop {
+                    let (__lookahead, __nt) = __result;
+                    match __nt {
+                        __Nonterminal::Maybe(__sym1) => {
+                            __result = try!(__state27(input, __tokens, __lookahead, __sym0, __sym1));
+                            return Ok(__result);
+                        }
+                        _ => {
+                            return Ok((__lookahead, __nt));
+                        }
+                    }
+                }
+            }
+
+            // State 17
+            //     AllInputs = ["("]
+            //     OptionalInputs = []
+            //     FixedInputs = ["("]
+            //     WillPushLen = 2
+            //     WillPush = [Expression2, ")"]
+            //     WillProduce = Some(Expression1)
+            //
+            //     Expression1 = (*) Wacky [")"]
+            //     Expression1 = (*) Wacky ["*"]
+            //     Expression1 = (*) "&" Maybe Expression1 [")"]
+            //     Expression1 = (*) "&" Maybe Expression1 ["*"]
+            //     Expression1 = (*) "(" Expression2 ")" [")"]
+            //     Expression1 = (*) "(" Expression2 ")" ["*"]
+            //     Expression1 = "(" (*) Expression2 ")" [")", "*"]
+            //     Expression1 = (*) "wonky" Wonky [")"]
+            //     Expression1 = (*) "wonky" Wonky ["*"]
+            //     Expression1 = (*) r#"\\w+"# [")"]
+            //     Expression1 = (*) r#"\\w+"# ["*"]
+            //     Expression2 = (*) Expression1 [")"]
+            //     Expression2 = (*) Expression1 ["*"]
+            //     Expression2 = (*) Expression2 Expression2Op Expression1 [")"]
+            //     Expression2 = (*) Expression2 Expression2Op Expression1 ["*"]
+            //     Wacky = (*) "wacky" [")"]
+            //     Wacky = (*) "wacky" ["*"]
+            //
+            //   "&" -> S16
+            //   "(" -> S17
+            //   "wacky" -> S18
+            //   "wonky" -> S19
+            //   r#"\\w+"# -> S20
+            //
+            //     Expression1 -> S13
+            //     Expression2 -> S28
+            //     Wacky -> S15
+            pub fn __state17<
+                'input,
+                __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__ParseError<usize,(usize, &'input str),()>>>,
+            >(
+                input: &'input str,
+                __tokens: &mut __TOKENS,
+                __sym0: (usize, &'input str, usize),
+            ) -> Result<(Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>), __ParseError<usize,(usize, &'input str),()>>
+            {
+                let mut __result: (Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>);
+                let __lookahead = match __tokens.next() {
+                    Some(Ok(v)) => Some(v),
+                    None => None,
+                    Some(Err(e)) => return Err(e),
+                };
+                let __sym0 = &mut Some(__sym0);
+                match __lookahead {
+                    Some((__loc1, (0, __tok0), __loc2)) => {
+                        let __sym1 = (__loc1, (__tok0), __loc2);
+                        __result = try!(__state16(input, __tokens, __sym1));
+                    }
+                    Some((__loc1, (1, __tok0), __loc2)) => {
+                        let __sym1 = (__loc1, (__tok0), __loc2);
+                        __result = try!(__state17(input, __tokens, __sym1));
+                    }
+                    Some((__loc1, (6, __tok0), __loc2)) => {
+                        let __sym1 = (__loc1, (__tok0), __loc2);
+                        __result = try!(__state18(input, __tokens, __sym1));
+                    }
+                    Some((__loc1, (7, __tok0), __loc2)) => {
+                        let __sym1 = (__loc1, (__tok0), __loc2);
+                        __result = try!(__state19(input, __tokens, __sym1));
+                    }
+                    Some((__loc1, (8, __tok0), __loc2)) => {
+                        let __sym1 = (__loc1, (__tok0), __loc2);
+                        __result = try!(__state20(input, __tokens, __sym1));
+                    }
+                    _ => {
+                        return Err(__ParseError::UnrecognizedToken {
+                            token: __lookahead,
+                            expected: vec![],
+                        });
+                    }
+                }
+                loop {
+                    if __sym0.is_none() {
+                        return Ok(__result);
+                    }
+                    let (__lookahead, __nt) = __result;
+                    match __nt {
+                        __Nonterminal::Expression1(__sym1) => {
+                            __result = try!(__state13(input, __tokens, __lookahead, __sym1));
+                        }
+                        __Nonterminal::Expression2(__sym1) => {
+                            __result = try!(__state28(input, __tokens, __lookahead, __sym0, __sym1));
+                        }
+                        __Nonterminal::Wacky(__sym1) => {
+                            __result = try!(__state15(input, __tokens, __lookahead, __sym1));
+                        }
+                        _ => {
+                            return Ok((__lookahead, __nt));
+                        }
+                    }
+                }
+            }
+
+            // State 18
+            //     AllInputs = ["wacky"]
+            //     OptionalInputs = []
+            //     FixedInputs = ["wacky"]
+            //     WillPushLen = 0
+            //     WillPush = []
+            //     WillProduce = Some(Wacky)
+            //
+            //     Wacky = "wacky" (*) [")", "*"]
+            //
+            //   [")", "*"] -> Wacky = "wacky" => ActionFn(33);
+            //
+            pub fn __state18<
+                'input,
+                __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__ParseError<usize,(usize, &'input str),()>>>,
+            >(
+                input: &'input str,
+                __tokens: &mut __TOKENS,
+                __sym0: (usize, &'input str, usize),
+            ) -> Result<(Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>), __ParseError<usize,(usize, &'input str),()>>
+            {
+                let mut __result: (Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>);
+                let __lookahead = match __tokens.next() {
+                    Some(Ok(v)) => Some(v),
+                    None => None,
+                    Some(Err(e)) => return Err(e),
+                };
+                match __lookahead {
+                    Some((_, (2, _), _)) |
+                    Some((_, (3, _), _)) => {
+                        let __start = __sym0.0.clone();
+                        let __end = __sym0.2.clone();
+                        let __nt = super::super::super::__action33(input, __sym0);
+                        let __nt = __Nonterminal::Wacky((
+                            __start,
+                            __nt,
+                            __end,
+                        ));
+                        __result = (__lookahead, __nt);
+                        return Ok(__result);
+                    }
+                    _ => {
+                        return Err(__ParseError::UnrecognizedToken {
+                            token: __lookahead,
+                            expected: vec![],
+                        });
+                    }
+                }
+            }
+
+            // State 19
+            //     AllInputs = ["wonky"]
+            //     OptionalInputs = []
+            //     FixedInputs = ["wonky"]
+            //     WillPushLen = 1
+            //     WillPush = [Wonky]
+            //     WillProduce = Some(Expression1)
+            //
+            //     Expression1 = "wonky" (*) Wonky [")", "*"]
+            //     Wonky = (*) [")", "*"]
+            //
+            //   [")", "*"] -> Wonky =  => ActionFn(34);
+            //
+            //     Wonky -> S29
+            pub fn __state19<
+                'input,
+                __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__ParseError<usize,(usize, &'input str),()>>>,
+            >(
+                input: &'input str,
+                __tokens: &mut __TOKENS,
+                __sym0: (usize, &'input str, usize),
+            ) -> Result<(Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>), __ParseError<usize,(usize, &'input str),()>>
+            {
+                let mut __result: (Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>);
+                let __lookahead = match __tokens.next() {
+                    Some(Ok(v)) => Some(v),
+                    None => None,
+                    Some(Err(e)) => return Err(e),
+                };
+                match __lookahead {
+                    Some((_, (2, _), _)) |
+                    Some((_, (3, _), _)) => {
+                        let __start = __sym0.2.clone();
+                        let __end = __lookahead.as_ref().map(|o| o.0.clone()).unwrap_or_else(|| __start.clone());
+                        let __nt = super::super::super::__action34(input, &__start, &__end);
+                        let __nt = __Nonterminal::Wonky((
+                            __start,
+                            __nt,
+                            __end,
+                        ));
+                        __result = (__lookahead, __nt);
+                    }
+                    _ => {
+                        return Err(__ParseError::UnrecognizedToken {
+                            token: __lookahead,
+                            expected: vec![],
+                        });
+                    }
+                }
+                loop {
+                    let (__lookahead, __nt) = __result;
+                    match __nt {
+                        __Nonterminal::Wonky(__sym1) => {
+                            __result = try!(__state29(input, __tokens, __lookahead, __sym0, __sym1));
+                            return Ok(__result);
+                        }
+                        _ => {
+                            return Ok((__lookahead, __nt));
+                        }
+                    }
+                }
+            }
+
+            // State 20
+            //     AllInputs = [r#"\\w+"#]
+            //     OptionalInputs = []
+            //     FixedInputs = [r#"\\w+"#]
+            //     WillPushLen = 0
+            //     WillPush = []
+            //     WillProduce = Some(Expression1)
+            //
+            //     Expression1 = r#"\\w+"# (*) [")", "*"]
+            //
+            //   [")", "*"] -> Expression1 = r#"\\w+"# => ActionFn(26);
+            //
+            pub fn __state20<
+                'input,
+                __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__ParseError<usize,(usize, &'input str),()>>>,
+            >(
+                input: &'input str,
+                __tokens: &mut __TOKENS,
+                __sym0: (usize, &'input str, usize),
+            ) -> Result<(Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>), __ParseError<usize,(usize, &'input str),()>>
+            {
+                let mut __result: (Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>);
+                let __lookahead = match __tokens.next() {
+                    Some(Ok(v)) => Some(v),
+                    None => None,
+                    Some(Err(e)) => return Err(e),
+                };
+                match __lookahead {
+                    Some((_, (2, _), _)) |
+                    Some((_, (3, _), _)) => {
+                        let __start = __sym0.0.clone();
+                        let __end = __sym0.2.clone();
+                        let __nt = super::super::super::__action26(input, __sym0);
+                        let __nt = __Nonterminal::Expression1((
+                            __start,
+                            __nt,
+                            __end,
+                        ));
+                        __result = (__lookahead, __nt);
+                        return Ok(__result);
+                    }
+                    _ => {
+                        return Err(__ParseError::UnrecognizedToken {
+                            token: __lookahead,
+                            expected: vec![],
+                        });
+                    }
+                }
+            }
+
+            // State 21
+            //     AllInputs = ["wonky", Wonky]
+            //     OptionalInputs = []
+            //     FixedInputs = ["wonky", Wonky]
+            //     WillPushLen = 0
+            //     WillPush = []
+            //     WillProduce = Some(Expression1)
+            //
+            //     Expression1 = "wonky" Wonky (*) ["*", EOF]
+            //
+            //   ["*", EOF] -> Expression1 = "wonky", Wonky => ActionFn(7);
+            //
+            pub fn __state21<
+                'input,
+                __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__ParseError<usize,(usize, &'input str),()>>>,
+            >(
+                input: &'input str,
+                __tokens: &mut __TOKENS,
+                __lookahead: Option<(usize, (usize, &'input str), usize)>,
+                __sym0: (usize, &'input str, usize),
+                __sym1: (usize, Box<Expr<'input>>, usize),
+            ) -> Result<(Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>), __ParseError<usize,(usize, &'input str),()>>
+            {
+                let mut __result: (Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>);
+                match __lookahead {
+                    Some((_, (3, _), _)) |
+                    None => {
+                        let __start = __sym0.0.clone();
+                        let __end = __sym1.2.clone();
+                        let __nt = super::super::super::__action7(input, __sym0, __sym1);
+                        let __nt = __Nonterminal::Expression1((
+                            __start,
+                            __nt,
+                            __end,
+                        ));
+                        __result = (__lookahead, __nt);
+                        return Ok(__result);
+                    }
+                    _ => {
+                        return Err(__ParseError::UnrecognizedToken {
+                            token: __lookahead,
+                            expected: vec![],
+                        });
+                    }
+                }
+            }
+
+            // State 22
+            //     AllInputs = [Expression2, Expression2Op, Expression1]
+            //     OptionalInputs = []
+            //     FixedInputs = [Expression2, Expression2Op, Expression1]
+            //     WillPushLen = 0
+            //     WillPush = []
+            //     WillProduce = Some(Expression2)
+            //
+            //     Expression2 = Expression2 Expression2Op Expression1 (*) ["*", EOF]
+            //
+            //   ["*", EOF] -> Expression2 = Expression2, Expression2Op, Expression1 => ActionFn(28);
+            //
+            pub fn __state22<
+                'input,
+                __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__ParseError<usize,(usize, &'input str),()>>>,
+            >(
+                input: &'input str,
+                __tokens: &mut __TOKENS,
+                __lookahead: Option<(usize, (usize, &'input str), usize)>,
+                __sym0: (usize, Box<Expr<'input>>, usize),
+                __sym1: (usize, Box<Expr<'input>>, usize),
+                __sym2: (usize, Box<Expr<'input>>, usize),
+            ) -> Result<(Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>), __ParseError<usize,(usize, &'input str),()>>
+            {
+                let mut __result: (Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>);
+                match __lookahead {
+                    Some((_, (3, _), _)) |
+                    None => {
+                        let __start = __sym0.0.clone();
+                        let __end = __sym2.2.clone();
+                        let __nt = super::super::super::__action28(input, __sym0, __sym1, __sym2);
+                        let __nt = __Nonterminal::Expression2((
+                            __start,
+                            __nt,
+                            __end,
+                        ));
+                        __result = (__lookahead, __nt);
+                        return Ok(__result);
+                    }
+                    _ => {
+                        return Err(__ParseError::UnrecognizedToken {
+                            token: __lookahead,
+                            expected: vec![],
+                        });
+                    }
+                }
+            }
+
+            // State 23
+            //     AllInputs = ["&", Maybe, Expression1]
+            //     OptionalInputs = []
+            //     FixedInputs = ["&", Maybe, Expression1]
+            //     WillPushLen = 0
+            //     WillPush = []
+            //     WillProduce = Some(Expression1)
+            //
+            //     Expression1 = "&" Maybe Expression1 (*) ["*", EOF]
+            //
+            //   ["*", EOF] -> Expression1 = "&", Maybe, Expression1 => ActionFn(27);
+            //
+            pub fn __state23<
+                'input,
+                __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__ParseError<usize,(usize, &'input str),()>>>,
+            >(
+                input: &'input str,
+                __tokens: &mut __TOKENS,
+                __lookahead: Option<(usize, (usize, &'input str), usize)>,
+                __sym0: (usize, &'input str, usize),
+                __sym1: (usize, Box<Expr<'input>>, usize),
+                __sym2: (usize, Box<Expr<'input>>, usize),
+            ) -> Result<(Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>), __ParseError<usize,(usize, &'input str),()>>
+            {
+                let mut __result: (Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>);
+                match __lookahead {
+                    Some((_, (3, _), _)) |
+                    None => {
+                        let __start = __sym0.0.clone();
+                        let __end = __sym2.2.clone();
+                        let __nt = super::super::super::__action27(input, __sym0, __sym1, __sym2);
+                        let __nt = __Nonterminal::Expression1((
+                            __start,
+                            __nt,
+                            __end,
+                        ));
+                        __result = (__lookahead, __nt);
+                        return Ok(__result);
+                    }
+                    _ => {
+                        return Err(__ParseError::UnrecognizedToken {
+                            token: __lookahead,
+                            expected: vec![],
+                        });
+                    }
+                }
+            }
+
+            // State 24
+            //     AllInputs = ["[", "]"]
+            //     OptionalInputs = []
+            //     FixedInputs = ["[", "]"]
+            //     WillPushLen = 0
+            //     WillPush = []
+            //     WillProduce = Some(Maybe)
+            //
+            //     Maybe = "[" "]" (*) ["&", "(", "wacky", "wonky", r#"\\w+"#]
+            //
+            //   ["&", "(", "wacky", "wonky", r#"\\w+"#] -> Maybe = "[", "]" => ActionFn(32);
+            //
+            pub fn __state24<
+                'input,
+                __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__ParseError<usize,(usize, &'input str),()>>>,
+            >(
+                input: &'input str,
+                __tokens: &mut __TOKENS,
+                __sym0: (usize, &'input str, usize),
+                __sym1: (usize, &'input str, usize),
+            ) -> Result<(Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>), __ParseError<usize,(usize, &'input str),()>>
+            {
+                let mut __result: (Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>);
+                let __lookahead = match __tokens.next() {
+                    Some(Ok(v)) => Some(v),
+                    None => None,
+                    Some(Err(e)) => return Err(e),
+                };
+                match __lookahead {
+                    Some((_, (0, _), _)) |
+                    Some((_, (1, _), _)) |
+                    Some((_, (6, _), _)) |
+                    Some((_, (7, _), _)) |
+                    Some((_, (8, _), _)) => {
+                        let __start = __sym0.0.clone();
+                        let __end = __sym1.2.clone();
+                        let __nt = super::super::super::__action32(input, __sym0, __sym1);
+                        let __nt = __Nonterminal::Maybe((
+                            __start,
+                            __nt,
+                            __end,
+                        ));
+                        __result = (__lookahead, __nt);
+                        return Ok(__result);
+                    }
+                    _ => {
+                        return Err(__ParseError::UnrecognizedToken {
+                            token: __lookahead,
+                            expected: vec![],
+                        });
+                    }
+                }
+            }
+
+            // State 25
+            //     AllInputs = [Expression2, Expression2Op]
+            //     OptionalInputs = []
+            //     FixedInputs = [Expression2, Expression2Op]
+            //     WillPushLen = 1
+            //     WillPush = [Expression1]
+            //     WillProduce = Some(Expression2)
+            //
+            //     Expression1 = (*) Wacky [")", "*"]
+            //     Expression1 = (*) "&" Maybe Expression1 [")", "*"]
+            //     Expression1 = (*) "(" Expression2 ")" [")", "*"]
+            //     Expression1 = (*) "wonky" Wonky [")", "*"]
+            //     Expression1 = (*) r#"\\w+"# [")", "*"]
+            //     Expression2 = Expression2 Expression2Op (*) Expression1 [")", "*"]
+            //     Wacky = (*) "wacky" [")", "*"]
+            //
+            //   "&" -> S16
+            //   "(" -> S17
+            //   "wacky" -> S18
+            //   "wonky" -> S19
+            //   r#"\\w+"# -> S20
+            //
+            //     Expression1 -> S30
+            //     Wacky -> S15
+            pub fn __state25<
+                'input,
+                __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__ParseError<usize,(usize, &'input str),()>>>,
+            >(
+                input: &'input str,
+                __tokens: &mut __TOKENS,
+                __lookahead: Option<(usize, (usize, &'input str), usize)>,
+                __sym0: (usize, Box<Expr<'input>>, usize),
+                __sym1: (usize, Box<Expr<'input>>, usize),
+            ) -> Result<(Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>), __ParseError<usize,(usize, &'input str),()>>
+            {
+                let mut __result: (Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>);
+                match __lookahead {
+                    Some((__loc1, (0, __tok0), __loc2)) => {
+                        let __sym2 = (__loc1, (__tok0), __loc2);
+                        __result = try!(__state16(input, __tokens, __sym2));
+                    }
+                    Some((__loc1, (1, __tok0), __loc2)) => {
+                        let __sym2 = (__loc1, (__tok0), __loc2);
+                        __result = try!(__state17(input, __tokens, __sym2));
+                    }
+                    Some((__loc1, (6, __tok0), __loc2)) => {
+                        let __sym2 = (__loc1, (__tok0), __loc2);
+                        __result = try!(__state18(input, __tokens, __sym2));
+                    }
+                    Some((__loc1, (7, __tok0), __loc2)) => {
+                        let __sym2 = (__loc1, (__tok0), __loc2);
+                        __result = try!(__state19(input, __tokens, __sym2));
+                    }
+                    Some((__loc1, (8, __tok0), __loc2)) => {
+                        let __sym2 = (__loc1, (__tok0), __loc2);
+                        __result = try!(__state20(input, __tokens, __sym2));
+                    }
+                    _ => {
+                        return Err(__ParseError::UnrecognizedToken {
+                            token: __lookahead,
+                            expected: vec![],
+                        });
+                    }
+                }
+                loop {
+                    let (__lookahead, __nt) = __result;
+                    match __nt {
+                        __Nonterminal::Expression1(__sym2) => {
+                            __result = try!(__state30(input, __tokens, __lookahead, __sym0, __sym1, __sym2));
+                            return Ok(__result);
+                        }
+                        __Nonterminal::Wacky(__sym2) => {
+                            __result = try!(__state15(input, __tokens, __lookahead, __sym2));
+                        }
+                        _ => {
+                            return Ok((__lookahead, __nt));
+                        }
+                    }
+                }
+            }
+
+            // State 26
+            //     AllInputs = ["(", Expression2, ")"]
+            //     OptionalInputs = []
+            //     FixedInputs = ["(", Expression2, ")"]
+            //     WillPushLen = 0
+            //     WillPush = []
+            //     WillProduce = Some(Expression1)
+            //
+            //     Expression1 = "(" Expression2 ")" (*) ["*", EOF]
+            //
+            //   ["*", EOF] -> Expression1 = "(", Expression2, ")" => ActionFn(25);
+            //
+            pub fn __state26<
+                'input,
+                __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__ParseError<usize,(usize, &'input str),()>>>,
+            >(
+                input: &'input str,
+                __tokens: &mut __TOKENS,
+                __sym0: (usize, &'input str, usize),
+                __sym1: (usize, Box<Expr<'input>>, usize),
+                __sym2: (usize, &'input str, usize),
+            ) -> Result<(Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>), __ParseError<usize,(usize, &'input str),()>>
+            {
+                let mut __result: (Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>);
+                let __lookahead = match __tokens.next() {
+                    Some(Ok(v)) => Some(v),
+                    None => None,
+                    Some(Err(e)) => return Err(e),
+                };
+                match __lookahead {
+                    Some((_, (3, _), _)) |
+                    None => {
+                        let __start = __sym0.0.clone();
+                        let __end = __sym2.2.clone();
+                        let __nt = super::super::super::__action25(input, __sym0, __sym1, __sym2);
+                        let __nt = __Nonterminal::Expression1((
+                            __start,
+                            __nt,
+                            __end,
+                        ));
+                        __result = (__lookahead, __nt);
+                        return Ok(__result);
+                    }
+                    _ => {
+                        return Err(__ParseError::UnrecognizedToken {
+                            token: __lookahead,
+                            expected: vec![],
+                        });
+                    }
+                }
+            }
+
+            // State 27
+            //     AllInputs = ["&", Maybe]
+            //     OptionalInputs = []
+            //     FixedInputs = ["&", Maybe]
+            //     WillPushLen = 1
+            //     WillPush = [Expression1]
+            //     WillProduce = Some(Expression1)
+            //
+            //     Expression1 = (*) Wacky [")", "*"]
+            //     Expression1 = (*) "&" Maybe Expression1 [")", "*"]
+            //     Expression1 = "&" Maybe (*) Expression1 [")", "*"]
+            //     Expression1 = (*) "(" Expression2 ")" [")", "*"]
+            //     Expression1 = (*) "wonky" Wonky [")", "*"]
+            //     Expression1 = (*) r#"\\w+"# [")", "*"]
+            //     Wacky = (*) "wacky" [")", "*"]
+            //
+            //   "&" -> S16
+            //   "(" -> S17
+            //   "wacky" -> S18
+            //   "wonky" -> S19
+            //   r#"\\w+"# -> S20
+            //
+            //     Expression1 -> S31
+            //     Wacky -> S15
+            pub fn __state27<
+                'input,
+                __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__ParseError<usize,(usize, &'input str),()>>>,
+            >(
+                input: &'input str,
+                __tokens: &mut __TOKENS,
+                __lookahead: Option<(usize, (usize, &'input str), usize)>,
+                __sym0: (usize, &'input str, usize),
+                __sym1: (usize, Box<Expr<'input>>, usize),
+            ) -> Result<(Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>), __ParseError<usize,(usize, &'input str),()>>
+            {
+                let mut __result: (Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>);
+                match __lookahead {
+                    Some((__loc1, (0, __tok0), __loc2)) => {
+                        let __sym2 = (__loc1, (__tok0), __loc2);
+                        __result = try!(__state16(input, __tokens, __sym2));
+                    }
+                    Some((__loc1, (1, __tok0), __loc2)) => {
+                        let __sym2 = (__loc1, (__tok0), __loc2);
+                        __result = try!(__state17(input, __tokens, __sym2));
+                    }
+                    Some((__loc1, (6, __tok0), __loc2)) => {
+                        let __sym2 = (__loc1, (__tok0), __loc2);
+                        __result = try!(__state18(input, __tokens, __sym2));
+                    }
+                    Some((__loc1, (7, __tok0), __loc2)) => {
+                        let __sym2 = (__loc1, (__tok0), __loc2);
+                        __result = try!(__state19(input, __tokens, __sym2));
+                    }
+                    Some((__loc1, (8, __tok0), __loc2)) => {
+                        let __sym2 = (__loc1, (__tok0), __loc2);
+                        __result = try!(__state20(input, __tokens, __sym2));
+                    }
+                    _ => {
+                        return Err(__ParseError::UnrecognizedToken {
+                            token: __lookahead,
+                            expected: vec![],
+                        });
+                    }
+                }
+                loop {
+                    let (__lookahead, __nt) = __result;
+                    match __nt {
+                        __Nonterminal::Expression1(__sym2) => {
+                            __result = try!(__state31(input, __tokens, __lookahead, __sym0, __sym1, __sym2));
+                            return Ok(__result);
+                        }
+                        __Nonterminal::Wacky(__sym2) => {
+                            __result = try!(__state15(input, __tokens, __lookahead, __sym2));
+                        }
+                        _ => {
+                            return Ok((__lookahead, __nt));
+                        }
+                    }
+                }
+            }
+
+            // State 28
+            //     AllInputs = ["(", Expression2]
+            //     OptionalInputs = ["("]
+            //     FixedInputs = [Expression2]
+            //     WillPushLen = 1
+            //     WillPush = [")"]
+            //     WillProduce = None
+            //
+            //     Expression1 = "(" Expression2 (*) ")" [")", "*"]
+            //     Expression2 = Expression2 (*) Expression2Op Expression1 [")", "*"]
+            //     Expression2Op = (*) "*" ["&", "(", "wacky", "wonky", r#"\\w+"#]
+            //
+            //   ")" -> S32
+            //   "*" -> S10
+            //
+            //     Expression2Op -> S25
+            pub fn __state28<
+                'input,
+                __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__ParseError<usize,(usize, &'input str),()>>>,
+            >(
+                input: &'input str,
+                __tokens: &mut __TOKENS,
+                __lookahead: Option<(usize, (usize, &'input str), usize)>,
+                __sym0: &mut Option<(usize, &'input str, usize)>,
+                __sym1: (usize, Box<Expr<'input>>, usize),
+            ) -> Result<(Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>), __ParseError<usize,(usize, &'input str),()>>
+            {
+                let mut __result: (Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>);
+                match __lookahead {
+                    Some((__loc1, (2, __tok0), __loc2)) => {
+                        let __sym2 = (__loc1, (__tok0), __loc2);
+                        let __sym0 = __sym0.take().unwrap();
+                        __result = try!(__state32(input, __tokens, __sym0, __sym1, __sym2));
+                        return Ok(__result);
+                    }
+                    Some((__loc1, (3, __tok0), __loc2)) => {
+                        let __sym2 = (__loc1, (__tok0), __loc2);
+                        __result = try!(__state10(input, __tokens, __sym2));
+                    }
+                    _ => {
+                        return Err(__ParseError::UnrecognizedToken {
+                            token: __lookahead,
+                            expected: vec![],
+                        });
+                    }
+                }
+                loop {
+                    let (__lookahead, __nt) = __result;
+                    match __nt {
+                        __Nonterminal::Expression2Op(__sym2) => {
+                            __result = try!(__state25(input, __tokens, __lookahead, __sym1, __sym2));
+                            return Ok(__result);
+                        }
+                        _ => {
+                            return Ok((__lookahead, __nt));
+                        }
+                    }
+                }
+            }
+
+            // State 29
+            //     AllInputs = ["wonky", Wonky]
+            //     OptionalInputs = []
+            //     FixedInputs = ["wonky", Wonky]
+            //     WillPushLen = 0
+            //     WillPush = []
+            //     WillProduce = Some(Expression1)
+            //
+            //     Expression1 = "wonky" Wonky (*) [")", "*"]
+            //
+            //   [")", "*"] -> Expression1 = "wonky", Wonky => ActionFn(7);
+            //
+            pub fn __state29<
+                'input,
+                __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__ParseError<usize,(usize, &'input str),()>>>,
+            >(
+                input: &'input str,
+                __tokens: &mut __TOKENS,
+                __lookahead: Option<(usize, (usize, &'input str), usize)>,
+                __sym0: (usize, &'input str, usize),
+                __sym1: (usize, Box<Expr<'input>>, usize),
+            ) -> Result<(Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>), __ParseError<usize,(usize, &'input str),()>>
+            {
+                let mut __result: (Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>);
+                match __lookahead {
+                    Some((_, (2, _), _)) |
+                    Some((_, (3, _), _)) => {
+                        let __start = __sym0.0.clone();
+                        let __end = __sym1.2.clone();
+                        let __nt = super::super::super::__action7(input, __sym0, __sym1);
+                        let __nt = __Nonterminal::Expression1((
+                            __start,
+                            __nt,
+                            __end,
+                        ));
+                        __result = (__lookahead, __nt);
+                        return Ok(__result);
+                    }
+                    _ => {
+                        return Err(__ParseError::UnrecognizedToken {
+                            token: __lookahead,
+                            expected: vec![],
+                        });
+                    }
+                }
+            }
+
+            // State 30
+            //     AllInputs = [Expression2, Expression2Op, Expression1]
+            //     OptionalInputs = []
+            //     FixedInputs = [Expression2, Expression2Op, Expression1]
+            //     WillPushLen = 0
+            //     WillPush = []
+            //     WillProduce = Some(Expression2)
+            //
+            //     Expression2 = Expression2 Expression2Op Expression1 (*) [")", "*"]
+            //
+            //   [")", "*"] -> Expression2 = Expression2, Expression2Op, Expression1 => ActionFn(28);
+            //
+            pub fn __state30<
+                'input,
+                __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__ParseError<usize,(usize, &'input str),()>>>,
+            >(
+                input: &'input str,
+                __tokens: &mut __TOKENS,
+                __lookahead: Option<(usize, (usize, &'input str), usize)>,
+                __sym0: (usize, Box<Expr<'input>>, usize),
+                __sym1: (usize, Box<Expr<'input>>, usize),
+                __sym2: (usize, Box<Expr<'input>>, usize),
+            ) -> Result<(Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>), __ParseError<usize,(usize, &'input str),()>>
+            {
+                let mut __result: (Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>);
+                match __lookahead {
+                    Some((_, (2, _), _)) |
+                    Some((_, (3, _), _)) => {
+                        let __start = __sym0.0.clone();
+                        let __end = __sym2.2.clone();
+                        let __nt = super::super::super::__action28(input, __sym0, __sym1, __sym2);
+                        let __nt = __Nonterminal::Expression2((
+                            __start,
+                            __nt,
+                            __end,
+                        ));
+                        __result = (__lookahead, __nt);
+                        return Ok(__result);
+                    }
+                    _ => {
+                        return Err(__ParseError::UnrecognizedToken {
+                            token: __lookahead,
+                            expected: vec![],
+                        });
+                    }
+                }
+            }
+
+            // State 31
+            //     AllInputs = ["&", Maybe, Expression1]
+            //     OptionalInputs = []
+            //     FixedInputs = ["&", Maybe, Expression1]
+            //     WillPushLen = 0
+            //     WillPush = []
+            //     WillProduce = Some(Expression1)
+            //
+            //     Expression1 = "&" Maybe Expression1 (*) [")", "*"]
+            //
+            //   [")", "*"] -> Expression1 = "&", Maybe, Expression1 => ActionFn(27);
+            //
+            pub fn __state31<
+                'input,
+                __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__ParseError<usize,(usize, &'input str),()>>>,
+            >(
+                input: &'input str,
+                __tokens: &mut __TOKENS,
+                __lookahead: Option<(usize, (usize, &'input str), usize)>,
+                __sym0: (usize, &'input str, usize),
+                __sym1: (usize, Box<Expr<'input>>, usize),
+                __sym2: (usize, Box<Expr<'input>>, usize),
+            ) -> Result<(Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>), __ParseError<usize,(usize, &'input str),()>>
+            {
+                let mut __result: (Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>);
+                match __lookahead {
+                    Some((_, (2, _), _)) |
+                    Some((_, (3, _), _)) => {
+                        let __start = __sym0.0.clone();
+                        let __end = __sym2.2.clone();
+                        let __nt = super::super::super::__action27(input, __sym0, __sym1, __sym2);
+                        let __nt = __Nonterminal::Expression1((
+                            __start,
+                            __nt,
+                            __end,
+                        ));
+                        __result = (__lookahead, __nt);
+                        return Ok(__result);
+                    }
+                    _ => {
+                        return Err(__ParseError::UnrecognizedToken {
+                            token: __lookahead,
+                            expected: vec![],
+                        });
+                    }
+                }
+            }
+
+            // State 32
+            //     AllInputs = ["(", Expression2, ")"]
+            //     OptionalInputs = []
+            //     FixedInputs = ["(", Expression2, ")"]
+            //     WillPushLen = 0
+            //     WillPush = []
+            //     WillProduce = Some(Expression1)
+            //
+            //     Expression1 = "(" Expression2 ")" (*) [")", "*"]
+            //
+            //   [")", "*"] -> Expression1 = "(", Expression2, ")" => ActionFn(25);
+            //
+            pub fn __state32<
+                'input,
+                __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__ParseError<usize,(usize, &'input str),()>>>,
+            >(
+                input: &'input str,
+                __tokens: &mut __TOKENS,
+                __sym0: (usize, &'input str, usize),
+                __sym1: (usize, Box<Expr<'input>>, usize),
+                __sym2: (usize, &'input str, usize),
+            ) -> Result<(Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>), __ParseError<usize,(usize, &'input str),()>>
+            {
+                let mut __result: (Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>);
+                let __lookahead = match __tokens.next() {
+                    Some(Ok(v)) => Some(v),
+                    None => None,
+                    Some(Err(e)) => return Err(e),
+                };
+                match __lookahead {
+                    Some((_, (2, _), _)) |
+                    Some((_, (3, _), _)) => {
+                        let __start = __sym0.0.clone();
+                        let __end = __sym2.2.clone();
+                        let __nt = super::super::super::__action25(input, __sym0, __sym1, __sym2);
+                        let __nt = __Nonterminal::Expression1((
+                            __start,
+                            __nt,
+                            __end,
+                        ));
+                        __result = (__lookahead, __nt);
+                        return Ok(__result);
+                    }
+                    _ => {
+                        return Err(__ParseError::UnrecognizedToken {
+                            token: __lookahead,
+                            expected: vec![],
+                        });
+                    }
                 }
             }
         }
-        loop {
-            let __state = *__states.last().unwrap() as usize;
-            let __action = __EOF_ACTION[__state];
-            if __action < 0 {
-                if let Some(r) = __reduce(input, __action, None, &mut __states, &mut __symbols) {
-                    return r;
+        pub use self::__parse__Expression2::parse_Expression2;
+    }
+    mod __parse_table {
+
+        mod __parse__Expression2 {
+            #![allow(non_snake_case, non_camel_case_types, unused_mut, unused_variables, unused_imports)]
+
+            use loc_issue_90_lib::Expr;
+            extern crate lalrpop_util as __lalrpop_util;
+            use self::__lalrpop_util::ParseError as __ParseError;
+            #[allow(dead_code)]
+            pub enum __Symbol<'input> {
+                Term_22_26_22(&'input str),
+                Term_22_28_22(&'input str),
+                Term_22_29_22(&'input str),
+                Term_22_2a_22(&'input str),
+                Term_22_5b_22(&'input str),
+                Term_22_5d_22(&'input str),
+                Term_22wacky_22(&'input str),
+                Term_22wonky_22(&'input str),
+                Termr_23_22_5c_5cw_2b_22_23(&'input str),
+                Nt_40L(usize),
+                Nt_40R(usize),
+                NtExpression1(Box<Expr<'input>>),
+                NtExpression2(Box<Expr<'input>>),
+                NtExpression2Op(Box<Expr<'input>>),
+                NtMaybe(Box<Expr<'input>>),
+                NtWacky(Box<Expr<'input>>),
+                NtWonky(Box<Expr<'input>>),
+                Nt____Expression2(Box<Expr<'input>>),
+            }
+            const __ACTION: &'static [i32] = &[
+                // State 0
+                //     Expression1 = (*) Wacky ["*"]
+                //     Expression1 = (*) Wacky [EOF]
+                //     Expression1 = (*) "&" Maybe Expression1 ["*"]
+                //     Expression1 = (*) "&" Maybe Expression1 [EOF]
+                //     Expression1 = (*) "(" Expression2 ")" ["*"]
+                //     Expression1 = (*) "(" Expression2 ")" [EOF]
+                //     Expression1 = (*) "wonky" Wonky ["*"]
+                //     Expression1 = (*) "wonky" Wonky [EOF]
+                //     Expression1 = (*) r#"\\w+"# ["*"]
+                //     Expression1 = (*) r#"\\w+"# [EOF]
+                //     Expression2 = (*) Expression1 ["*"]
+                //     Expression2 = (*) Expression1 [EOF]
+                //     Expression2 = (*) Expression2 Expression2Op Expression1 ["*"]
+                //     Expression2 = (*) Expression2 Expression2Op Expression1 [EOF]
+                //     Wacky = (*) "wacky" ["*"]
+                //     Wacky = (*) "wacky" [EOF]
+                //     __Expression2 = (*) Expression2 [EOF]
+                5, // on "&", goto 4
+                6, // on "(", goto 5
+                0, // on ")", error
+                0, // on "*", error
+                0, // on "[", error
+                0, // on "]", error
+                7, // on "wacky", goto 6
+                8, // on "wonky", goto 7
+                9, // on r#"\\w+"#, goto 8
+                // State 1
+                //     Expression2 = Expression1 (*) ["*", EOF]
+                0, // on "&", error
+                0, // on "(", error
+                0, // on ")", error
+                -9, // on "*", reduce `Expression2 = Expression1 => ActionFn(29);`
+                0, // on "[", error
+                0, // on "]", error
+                0, // on "wacky", error
+                0, // on "wonky", error
+                0, // on r#"\\w+"#, error
+                // State 2
+                //     Expression2 = Expression2 (*) Expression2Op Expression1 ["*", EOF]
+                //     Expression2Op = (*) "*" ["&", "(", "wacky", "wonky", r#"\\w+"#]
+                //     __Expression2 = Expression2 (*) [EOF]
+                0, // on "&", error
+                0, // on "(", error
+                0, // on ")", error
+                11, // on "*", goto 10
+                0, // on "[", error
+                0, // on "]", error
+                0, // on "wacky", error
+                0, // on "wonky", error
+                0, // on r#"\\w+"#, error
+                // State 3
+                //     Expression1 = Wacky (*) ["*", EOF]
+                0, // on "&", error
+                0, // on "(", error
+                0, // on ")", error
+                -7, // on "*", reduce `Expression1 = Wacky => ActionFn(8);`
+                0, // on "[", error
+                0, // on "]", error
+                0, // on "wacky", error
+                0, // on "wonky", error
+                0, // on r#"\\w+"#, error
+                // State 4
+                //     Expression1 = "&" (*) Maybe Expression1 ["*", EOF]
+                //     Maybe = (*) ["&", "(", "wacky", "wonky", r#"\\w+"#]
+                //     Maybe = (*) "[" "]" ["&", "(", "wacky", "wonky", r#"\\w+"#]
+                -11, // on "&", reduce `Maybe =  => ActionFn(31);`
+                -11, // on "(", reduce `Maybe =  => ActionFn(31);`
+                0, // on ")", error
+                0, // on "*", error
+                13, // on "[", goto 12
+                0, // on "]", error
+                -11, // on "wacky", reduce `Maybe =  => ActionFn(31);`
+                -11, // on "wonky", reduce `Maybe =  => ActionFn(31);`
+                -11, // on r#"\\w+"#, reduce `Maybe =  => ActionFn(31);`
+                // State 5
+                //     Expression1 = (*) Wacky [")"]
+                //     Expression1 = (*) Wacky ["*"]
+                //     Expression1 = (*) "&" Maybe Expression1 [")"]
+                //     Expression1 = (*) "&" Maybe Expression1 ["*"]
+                //     Expression1 = (*) "(" Expression2 ")" [")"]
+                //     Expression1 = (*) "(" Expression2 ")" ["*"]
+                //     Expression1 = "(" (*) Expression2 ")" ["*", EOF]
+                //     Expression1 = (*) "wonky" Wonky [")"]
+                //     Expression1 = (*) "wonky" Wonky ["*"]
+                //     Expression1 = (*) r#"\\w+"# [")"]
+                //     Expression1 = (*) r#"\\w+"# ["*"]
+                //     Expression2 = (*) Expression1 [")"]
+                //     Expression2 = (*) Expression1 ["*"]
+                //     Expression2 = (*) Expression2 Expression2Op Expression1 [")"]
+                //     Expression2 = (*) Expression2 Expression2Op Expression1 ["*"]
+                //     Wacky = (*) "wacky" [")"]
+                //     Wacky = (*) "wacky" ["*"]
+                17, // on "&", goto 16
+                18, // on "(", goto 17
+                0, // on ")", error
+                0, // on "*", error
+                0, // on "[", error
+                0, // on "]", error
+                19, // on "wacky", goto 18
+                20, // on "wonky", goto 19
+                21, // on r#"\\w+"#, goto 20
+                // State 6
+                //     Wacky = "wacky" (*) ["*", EOF]
+                0, // on "&", error
+                0, // on "(", error
+                0, // on ")", error
+                -13, // on "*", reduce `Wacky = "wacky" => ActionFn(33);`
+                0, // on "[", error
+                0, // on "]", error
+                0, // on "wacky", error
+                0, // on "wonky", error
+                0, // on r#"\\w+"#, error
+                // State 7
+                //     Expression1 = "wonky" (*) Wonky ["*", EOF]
+                //     Wonky = (*) ["*", EOF]
+                0, // on "&", error
+                0, // on "(", error
+                0, // on ")", error
+                -14, // on "*", reduce `Wonky =  => ActionFn(34);`
+                0, // on "[", error
+                0, // on "]", error
+                0, // on "wacky", error
+                0, // on "wonky", error
+                0, // on r#"\\w+"#, error
+                // State 8
+                //     Expression1 = r#"\\w+"# (*) ["*", EOF]
+                0, // on "&", error
+                0, // on "(", error
+                0, // on ")", error
+                -4, // on "*", reduce `Expression1 = r#"\\w+"# => ActionFn(26);`
+                0, // on "[", error
+                0, // on "]", error
+                0, // on "wacky", error
+                0, // on "wonky", error
+                0, // on r#"\\w+"#, error
+                // State 9
+                //     Expression1 = (*) Wacky ["*", EOF]
+                //     Expression1 = (*) "&" Maybe Expression1 ["*", EOF]
+                //     Expression1 = (*) "(" Expression2 ")" ["*", EOF]
+                //     Expression1 = (*) "wonky" Wonky ["*", EOF]
+                //     Expression1 = (*) r#"\\w+"# ["*", EOF]
+                //     Expression2 = Expression2 Expression2Op (*) Expression1 ["*", EOF]
+                //     Wacky = (*) "wacky" ["*", EOF]
+                5, // on "&", goto 4
+                6, // on "(", goto 5
+                0, // on ")", error
+                0, // on "*", error
+                0, // on "[", error
+                0, // on "]", error
+                7, // on "wacky", goto 6
+                8, // on "wonky", goto 7
+                9, // on r#"\\w+"#, goto 8
+                // State 10
+                //     Expression2Op = "*" (*) ["&", "(", "wacky", "wonky", r#"\\w+"#]
+                -10, // on "&", reduce `Expression2Op = "*" => ActionFn(30);`
+                -10, // on "(", reduce `Expression2Op = "*" => ActionFn(30);`
+                0, // on ")", error
+                0, // on "*", error
+                0, // on "[", error
+                0, // on "]", error
+                -10, // on "wacky", reduce `Expression2Op = "*" => ActionFn(30);`
+                -10, // on "wonky", reduce `Expression2Op = "*" => ActionFn(30);`
+                -10, // on r#"\\w+"#, reduce `Expression2Op = "*" => ActionFn(30);`
+                // State 11
+                //     Expression1 = (*) Wacky ["*", EOF]
+                //     Expression1 = (*) "&" Maybe Expression1 ["*", EOF]
+                //     Expression1 = "&" Maybe (*) Expression1 ["*", EOF]
+                //     Expression1 = (*) "(" Expression2 ")" ["*", EOF]
+                //     Expression1 = (*) "wonky" Wonky ["*", EOF]
+                //     Expression1 = (*) r#"\\w+"# ["*", EOF]
+                //     Wacky = (*) "wacky" ["*", EOF]
+                5, // on "&", goto 4
+                6, // on "(", goto 5
+                0, // on ")", error
+                0, // on "*", error
+                0, // on "[", error
+                0, // on "]", error
+                7, // on "wacky", goto 6
+                8, // on "wonky", goto 7
+                9, // on r#"\\w+"#, goto 8
+                // State 12
+                //     Maybe = "[" (*) "]" ["&", "(", "wacky", "wonky", r#"\\w+"#]
+                0, // on "&", error
+                0, // on "(", error
+                0, // on ")", error
+                0, // on "*", error
+                0, // on "[", error
+                25, // on "]", goto 24
+                0, // on "wacky", error
+                0, // on "wonky", error
+                0, // on r#"\\w+"#, error
+                // State 13
+                //     Expression2 = Expression1 (*) [")", "*"]
+                0, // on "&", error
+                0, // on "(", error
+                -9, // on ")", reduce `Expression2 = Expression1 => ActionFn(29);`
+                -9, // on "*", reduce `Expression2 = Expression1 => ActionFn(29);`
+                0, // on "[", error
+                0, // on "]", error
+                0, // on "wacky", error
+                0, // on "wonky", error
+                0, // on r#"\\w+"#, error
+                // State 14
+                //     Expression1 = "(" Expression2 (*) ")" ["*", EOF]
+                //     Expression2 = Expression2 (*) Expression2Op Expression1 [")", "*"]
+                //     Expression2Op = (*) "*" ["&", "(", "wacky", "wonky", r#"\\w+"#]
+                0, // on "&", error
+                0, // on "(", error
+                27, // on ")", goto 26
+                11, // on "*", goto 10
+                0, // on "[", error
+                0, // on "]", error
+                0, // on "wacky", error
+                0, // on "wonky", error
+                0, // on r#"\\w+"#, error
+                // State 15
+                //     Expression1 = Wacky (*) [")", "*"]
+                0, // on "&", error
+                0, // on "(", error
+                -7, // on ")", reduce `Expression1 = Wacky => ActionFn(8);`
+                -7, // on "*", reduce `Expression1 = Wacky => ActionFn(8);`
+                0, // on "[", error
+                0, // on "]", error
+                0, // on "wacky", error
+                0, // on "wonky", error
+                0, // on r#"\\w+"#, error
+                // State 16
+                //     Expression1 = "&" (*) Maybe Expression1 [")", "*"]
+                //     Maybe = (*) ["&", "(", "wacky", "wonky", r#"\\w+"#]
+                //     Maybe = (*) "[" "]" ["&", "(", "wacky", "wonky", r#"\\w+"#]
+                -11, // on "&", reduce `Maybe =  => ActionFn(31);`
+                -11, // on "(", reduce `Maybe =  => ActionFn(31);`
+                0, // on ")", error
+                0, // on "*", error
+                13, // on "[", goto 12
+                0, // on "]", error
+                -11, // on "wacky", reduce `Maybe =  => ActionFn(31);`
+                -11, // on "wonky", reduce `Maybe =  => ActionFn(31);`
+                -11, // on r#"\\w+"#, reduce `Maybe =  => ActionFn(31);`
+                // State 17
+                //     Expression1 = (*) Wacky [")"]
+                //     Expression1 = (*) Wacky ["*"]
+                //     Expression1 = (*) "&" Maybe Expression1 [")"]
+                //     Expression1 = (*) "&" Maybe Expression1 ["*"]
+                //     Expression1 = (*) "(" Expression2 ")" [")"]
+                //     Expression1 = (*) "(" Expression2 ")" ["*"]
+                //     Expression1 = "(" (*) Expression2 ")" [")", "*"]
+                //     Expression1 = (*) "wonky" Wonky [")"]
+                //     Expression1 = (*) "wonky" Wonky ["*"]
+                //     Expression1 = (*) r#"\\w+"# [")"]
+                //     Expression1 = (*) r#"\\w+"# ["*"]
+                //     Expression2 = (*) Expression1 [")"]
+                //     Expression2 = (*) Expression1 ["*"]
+                //     Expression2 = (*) Expression2 Expression2Op Expression1 [")"]
+                //     Expression2 = (*) Expression2 Expression2Op Expression1 ["*"]
+                //     Wacky = (*) "wacky" [")"]
+                //     Wacky = (*) "wacky" ["*"]
+                17, // on "&", goto 16
+                18, // on "(", goto 17
+                0, // on ")", error
+                0, // on "*", error
+                0, // on "[", error
+                0, // on "]", error
+                19, // on "wacky", goto 18
+                20, // on "wonky", goto 19
+                21, // on r#"\\w+"#, goto 20
+                // State 18
+                //     Wacky = "wacky" (*) [")", "*"]
+                0, // on "&", error
+                0, // on "(", error
+                -13, // on ")", reduce `Wacky = "wacky" => ActionFn(33);`
+                -13, // on "*", reduce `Wacky = "wacky" => ActionFn(33);`
+                0, // on "[", error
+                0, // on "]", error
+                0, // on "wacky", error
+                0, // on "wonky", error
+                0, // on r#"\\w+"#, error
+                // State 19
+                //     Expression1 = "wonky" (*) Wonky [")", "*"]
+                //     Wonky = (*) [")", "*"]
+                0, // on "&", error
+                0, // on "(", error
+                -14, // on ")", reduce `Wonky =  => ActionFn(34);`
+                -14, // on "*", reduce `Wonky =  => ActionFn(34);`
+                0, // on "[", error
+                0, // on "]", error
+                0, // on "wacky", error
+                0, // on "wonky", error
+                0, // on r#"\\w+"#, error
+                // State 20
+                //     Expression1 = r#"\\w+"# (*) [")", "*"]
+                0, // on "&", error
+                0, // on "(", error
+                -4, // on ")", reduce `Expression1 = r#"\\w+"# => ActionFn(26);`
+                -4, // on "*", reduce `Expression1 = r#"\\w+"# => ActionFn(26);`
+                0, // on "[", error
+                0, // on "]", error
+                0, // on "wacky", error
+                0, // on "wonky", error
+                0, // on r#"\\w+"#, error
+                // State 21
+                //     Expression1 = "wonky" Wonky (*) ["*", EOF]
+                0, // on "&", error
+                0, // on "(", error
+                0, // on ")", error
+                -6, // on "*", reduce `Expression1 = "wonky", Wonky => ActionFn(7);`
+                0, // on "[", error
+                0, // on "]", error
+                0, // on "wacky", error
+                0, // on "wonky", error
+                0, // on r#"\\w+"#, error
+                // State 22
+                //     Expression2 = Expression2 Expression2Op Expression1 (*) ["*", EOF]
+                0, // on "&", error
+                0, // on "(", error
+                0, // on ")", error
+                -8, // on "*", reduce `Expression2 = Expression2, Expression2Op, Expression1 => ActionFn(28);`
+                0, // on "[", error
+                0, // on "]", error
+                0, // on "wacky", error
+                0, // on "wonky", error
+                0, // on r#"\\w+"#, error
+                // State 23
+                //     Expression1 = "&" Maybe Expression1 (*) ["*", EOF]
+                0, // on "&", error
+                0, // on "(", error
+                0, // on ")", error
+                -5, // on "*", reduce `Expression1 = "&", Maybe, Expression1 => ActionFn(27);`
+                0, // on "[", error
+                0, // on "]", error
+                0, // on "wacky", error
+                0, // on "wonky", error
+                0, // on r#"\\w+"#, error
+                // State 24
+                //     Maybe = "[" "]" (*) ["&", "(", "wacky", "wonky", r#"\\w+"#]
+                -12, // on "&", reduce `Maybe = "[", "]" => ActionFn(32);`
+                -12, // on "(", reduce `Maybe = "[", "]" => ActionFn(32);`
+                0, // on ")", error
+                0, // on "*", error
+                0, // on "[", error
+                0, // on "]", error
+                -12, // on "wacky", reduce `Maybe = "[", "]" => ActionFn(32);`
+                -12, // on "wonky", reduce `Maybe = "[", "]" => ActionFn(32);`
+                -12, // on r#"\\w+"#, reduce `Maybe = "[", "]" => ActionFn(32);`
+                // State 25
+                //     Expression1 = (*) Wacky [")", "*"]
+                //     Expression1 = (*) "&" Maybe Expression1 [")", "*"]
+                //     Expression1 = (*) "(" Expression2 ")" [")", "*"]
+                //     Expression1 = (*) "wonky" Wonky [")", "*"]
+                //     Expression1 = (*) r#"\\w+"# [")", "*"]
+                //     Expression2 = Expression2 Expression2Op (*) Expression1 [")", "*"]
+                //     Wacky = (*) "wacky" [")", "*"]
+                17, // on "&", goto 16
+                18, // on "(", goto 17
+                0, // on ")", error
+                0, // on "*", error
+                0, // on "[", error
+                0, // on "]", error
+                19, // on "wacky", goto 18
+                20, // on "wonky", goto 19
+                21, // on r#"\\w+"#, goto 20
+                // State 26
+                //     Expression1 = "(" Expression2 ")" (*) ["*", EOF]
+                0, // on "&", error
+                0, // on "(", error
+                0, // on ")", error
+                -3, // on "*", reduce `Expression1 = "(", Expression2, ")" => ActionFn(25);`
+                0, // on "[", error
+                0, // on "]", error
+                0, // on "wacky", error
+                0, // on "wonky", error
+                0, // on r#"\\w+"#, error
+                // State 27
+                //     Expression1 = (*) Wacky [")", "*"]
+                //     Expression1 = (*) "&" Maybe Expression1 [")", "*"]
+                //     Expression1 = "&" Maybe (*) Expression1 [")", "*"]
+                //     Expression1 = (*) "(" Expression2 ")" [")", "*"]
+                //     Expression1 = (*) "wonky" Wonky [")", "*"]
+                //     Expression1 = (*) r#"\\w+"# [")", "*"]
+                //     Wacky = (*) "wacky" [")", "*"]
+                17, // on "&", goto 16
+                18, // on "(", goto 17
+                0, // on ")", error
+                0, // on "*", error
+                0, // on "[", error
+                0, // on "]", error
+                19, // on "wacky", goto 18
+                20, // on "wonky", goto 19
+                21, // on r#"\\w+"#, goto 20
+                // State 28
+                //     Expression1 = "(" Expression2 (*) ")" [")", "*"]
+                //     Expression2 = Expression2 (*) Expression2Op Expression1 [")", "*"]
+                //     Expression2Op = (*) "*" ["&", "(", "wacky", "wonky", r#"\\w+"#]
+                0, // on "&", error
+                0, // on "(", error
+                33, // on ")", goto 32
+                11, // on "*", goto 10
+                0, // on "[", error
+                0, // on "]", error
+                0, // on "wacky", error
+                0, // on "wonky", error
+                0, // on r#"\\w+"#, error
+                // State 29
+                //     Expression1 = "wonky" Wonky (*) [")", "*"]
+                0, // on "&", error
+                0, // on "(", error
+                -6, // on ")", reduce `Expression1 = "wonky", Wonky => ActionFn(7);`
+                -6, // on "*", reduce `Expression1 = "wonky", Wonky => ActionFn(7);`
+                0, // on "[", error
+                0, // on "]", error
+                0, // on "wacky", error
+                0, // on "wonky", error
+                0, // on r#"\\w+"#, error
+                // State 30
+                //     Expression2 = Expression2 Expression2Op Expression1 (*) [")", "*"]
+                0, // on "&", error
+                0, // on "(", error
+                -8, // on ")", reduce `Expression2 = Expression2, Expression2Op, Expression1 => ActionFn(28);`
+                -8, // on "*", reduce `Expression2 = Expression2, Expression2Op, Expression1 => ActionFn(28);`
+                0, // on "[", error
+                0, // on "]", error
+                0, // on "wacky", error
+                0, // on "wonky", error
+                0, // on r#"\\w+"#, error
+                // State 31
+                //     Expression1 = "&" Maybe Expression1 (*) [")", "*"]
+                0, // on "&", error
+                0, // on "(", error
+                -5, // on ")", reduce `Expression1 = "&", Maybe, Expression1 => ActionFn(27);`
+                -5, // on "*", reduce `Expression1 = "&", Maybe, Expression1 => ActionFn(27);`
+                0, // on "[", error
+                0, // on "]", error
+                0, // on "wacky", error
+                0, // on "wonky", error
+                0, // on r#"\\w+"#, error
+                // State 32
+                //     Expression1 = "(" Expression2 ")" (*) [")", "*"]
+                0, // on "&", error
+                0, // on "(", error
+                -3, // on ")", reduce `Expression1 = "(", Expression2, ")" => ActionFn(25);`
+                -3, // on "*", reduce `Expression1 = "(", Expression2, ")" => ActionFn(25);`
+                0, // on "[", error
+                0, // on "]", error
+                0, // on "wacky", error
+                0, // on "wonky", error
+                0, // on r#"\\w+"#, error
+            ];
+            const __EOF_ACTION: &'static [i32] = &[
+                0, // on EOF, error
+                -9, // on EOF, reduce `Expression2 = Expression1 => ActionFn(29);`
+                -15, // on EOF, reduce `__Expression2 = Expression2 => ActionFn(0);`
+                -7, // on EOF, reduce `Expression1 = Wacky => ActionFn(8);`
+                0, // on EOF, error
+                0, // on EOF, error
+                -13, // on EOF, reduce `Wacky = "wacky" => ActionFn(33);`
+                -14, // on EOF, reduce `Wonky =  => ActionFn(34);`
+                -4, // on EOF, reduce `Expression1 = r#"\\w+"# => ActionFn(26);`
+                0, // on EOF, error
+                0, // on EOF, error
+                0, // on EOF, error
+                0, // on EOF, error
+                0, // on EOF, error
+                0, // on EOF, error
+                0, // on EOF, error
+                0, // on EOF, error
+                0, // on EOF, error
+                0, // on EOF, error
+                0, // on EOF, error
+                0, // on EOF, error
+                -6, // on EOF, reduce `Expression1 = "wonky", Wonky => ActionFn(7);`
+                -8, // on EOF, reduce `Expression2 = Expression2, Expression2Op, Expression1 => ActionFn(28);`
+                -5, // on EOF, reduce `Expression1 = "&", Maybe, Expression1 => ActionFn(27);`
+                0, // on EOF, error
+                0, // on EOF, error
+                -3, // on EOF, reduce `Expression1 = "(", Expression2, ")" => ActionFn(25);`
+                0, // on EOF, error
+                0, // on EOF, error
+                0, // on EOF, error
+                0, // on EOF, error
+                0, // on EOF, error
+                0, // on EOF, error
+            ];
+            const __GOTO: &'static [i32] = &[
+                // State 0
+                0, // on @L, error
+                0, // on @R, error
+                2, // on Expression1, goto 1
+                3, // on Expression2, goto 2
+                0, // on Expression2Op, error
+                0, // on Maybe, error
+                4, // on Wacky, goto 3
+                0, // on Wonky, error
+                0, // on __Expression2, error
+                // State 1
+                0, // on @L, error
+                0, // on @R, error
+                0, // on Expression1, error
+                0, // on Expression2, error
+                0, // on Expression2Op, error
+                0, // on Maybe, error
+                0, // on Wacky, error
+                0, // on Wonky, error
+                0, // on __Expression2, error
+                // State 2
+                0, // on @L, error
+                0, // on @R, error
+                0, // on Expression1, error
+                0, // on Expression2, error
+                10, // on Expression2Op, goto 9
+                0, // on Maybe, error
+                0, // on Wacky, error
+                0, // on Wonky, error
+                0, // on __Expression2, error
+                // State 3
+                0, // on @L, error
+                0, // on @R, error
+                0, // on Expression1, error
+                0, // on Expression2, error
+                0, // on Expression2Op, error
+                0, // on Maybe, error
+                0, // on Wacky, error
+                0, // on Wonky, error
+                0, // on __Expression2, error
+                // State 4
+                0, // on @L, error
+                0, // on @R, error
+                0, // on Expression1, error
+                0, // on Expression2, error
+                0, // on Expression2Op, error
+                12, // on Maybe, goto 11
+                0, // on Wacky, error
+                0, // on Wonky, error
+                0, // on __Expression2, error
+                // State 5
+                0, // on @L, error
+                0, // on @R, error
+                14, // on Expression1, goto 13
+                15, // on Expression2, goto 14
+                0, // on Expression2Op, error
+                0, // on Maybe, error
+                16, // on Wacky, goto 15
+                0, // on Wonky, error
+                0, // on __Expression2, error
+                // State 6
+                0, // on @L, error
+                0, // on @R, error
+                0, // on Expression1, error
+                0, // on Expression2, error
+                0, // on Expression2Op, error
+                0, // on Maybe, error
+                0, // on Wacky, error
+                0, // on Wonky, error
+                0, // on __Expression2, error
+                // State 7
+                0, // on @L, error
+                0, // on @R, error
+                0, // on Expression1, error
+                0, // on Expression2, error
+                0, // on Expression2Op, error
+                0, // on Maybe, error
+                0, // on Wacky, error
+                22, // on Wonky, goto 21
+                0, // on __Expression2, error
+                // State 8
+                0, // on @L, error
+                0, // on @R, error
+                0, // on Expression1, error
+                0, // on Expression2, error
+                0, // on Expression2Op, error
+                0, // on Maybe, error
+                0, // on Wacky, error
+                0, // on Wonky, error
+                0, // on __Expression2, error
+                // State 9
+                0, // on @L, error
+                0, // on @R, error
+                23, // on Expression1, goto 22
+                0, // on Expression2, error
+                0, // on Expression2Op, error
+                0, // on Maybe, error
+                4, // on Wacky, goto 3
+                0, // on Wonky, error
+                0, // on __Expression2, error
+                // State 10
+                0, // on @L, error
+                0, // on @R, error
+                0, // on Expression1, error
+                0, // on Expression2, error
+                0, // on Expression2Op, error
+                0, // on Maybe, error
+                0, // on Wacky, error
+                0, // on Wonky, error
+                0, // on __Expression2, error
+                // State 11
+                0, // on @L, error
+                0, // on @R, error
+                24, // on Expression1, goto 23
+                0, // on Expression2, error
+                0, // on Expression2Op, error
+                0, // on Maybe, error
+                4, // on Wacky, goto 3
+                0, // on Wonky, error
+                0, // on __Expression2, error
+                // State 12
+                0, // on @L, error
+                0, // on @R, error
+                0, // on Expression1, error
+                0, // on Expression2, error
+                0, // on Expression2Op, error
+                0, // on Maybe, error
+                0, // on Wacky, error
+                0, // on Wonky, error
+                0, // on __Expression2, error
+                // State 13
+                0, // on @L, error
+                0, // on @R, error
+                0, // on Expression1, error
+                0, // on Expression2, error
+                0, // on Expression2Op, error
+                0, // on Maybe, error
+                0, // on Wacky, error
+                0, // on Wonky, error
+                0, // on __Expression2, error
+                // State 14
+                0, // on @L, error
+                0, // on @R, error
+                0, // on Expression1, error
+                0, // on Expression2, error
+                26, // on Expression2Op, goto 25
+                0, // on Maybe, error
+                0, // on Wacky, error
+                0, // on Wonky, error
+                0, // on __Expression2, error
+                // State 15
+                0, // on @L, error
+                0, // on @R, error
+                0, // on Expression1, error
+                0, // on Expression2, error
+                0, // on Expression2Op, error
+                0, // on Maybe, error
+                0, // on Wacky, error
+                0, // on Wonky, error
+                0, // on __Expression2, error
+                // State 16
+                0, // on @L, error
+                0, // on @R, error
+                0, // on Expression1, error
+                0, // on Expression2, error
+                0, // on Expression2Op, error
+                28, // on Maybe, goto 27
+                0, // on Wacky, error
+                0, // on Wonky, error
+                0, // on __Expression2, error
+                // State 17
+                0, // on @L, error
+                0, // on @R, error
+                14, // on Expression1, goto 13
+                29, // on Expression2, goto 28
+                0, // on Expression2Op, error
+                0, // on Maybe, error
+                16, // on Wacky, goto 15
+                0, // on Wonky, error
+                0, // on __Expression2, error
+                // State 18
+                0, // on @L, error
+                0, // on @R, error
+                0, // on Expression1, error
+                0, // on Expression2, error
+                0, // on Expression2Op, error
+                0, // on Maybe, error
+                0, // on Wacky, error
+                0, // on Wonky, error
+                0, // on __Expression2, error
+                // State 19
+                0, // on @L, error
+                0, // on @R, error
+                0, // on Expression1, error
+                0, // on Expression2, error
+                0, // on Expression2Op, error
+                0, // on Maybe, error
+                0, // on Wacky, error
+                30, // on Wonky, goto 29
+                0, // on __Expression2, error
+                // State 20
+                0, // on @L, error
+                0, // on @R, error
+                0, // on Expression1, error
+                0, // on Expression2, error
+                0, // on Expression2Op, error
+                0, // on Maybe, error
+                0, // on Wacky, error
+                0, // on Wonky, error
+                0, // on __Expression2, error
+                // State 21
+                0, // on @L, error
+                0, // on @R, error
+                0, // on Expression1, error
+                0, // on Expression2, error
+                0, // on Expression2Op, error
+                0, // on Maybe, error
+                0, // on Wacky, error
+                0, // on Wonky, error
+                0, // on __Expression2, error
+                // State 22
+                0, // on @L, error
+                0, // on @R, error
+                0, // on Expression1, error
+                0, // on Expression2, error
+                0, // on Expression2Op, error
+                0, // on Maybe, error
+                0, // on Wacky, error
+                0, // on Wonky, error
+                0, // on __Expression2, error
+                // State 23
+                0, // on @L, error
+                0, // on @R, error
+                0, // on Expression1, error
+                0, // on Expression2, error
+                0, // on Expression2Op, error
+                0, // on Maybe, error
+                0, // on Wacky, error
+                0, // on Wonky, error
+                0, // on __Expression2, error
+                // State 24
+                0, // on @L, error
+                0, // on @R, error
+                0, // on Expression1, error
+                0, // on Expression2, error
+                0, // on Expression2Op, error
+                0, // on Maybe, error
+                0, // on Wacky, error
+                0, // on Wonky, error
+                0, // on __Expression2, error
+                // State 25
+                0, // on @L, error
+                0, // on @R, error
+                31, // on Expression1, goto 30
+                0, // on Expression2, error
+                0, // on Expression2Op, error
+                0, // on Maybe, error
+                16, // on Wacky, goto 15
+                0, // on Wonky, error
+                0, // on __Expression2, error
+                // State 26
+                0, // on @L, error
+                0, // on @R, error
+                0, // on Expression1, error
+                0, // on Expression2, error
+                0, // on Expression2Op, error
+                0, // on Maybe, error
+                0, // on Wacky, error
+                0, // on Wonky, error
+                0, // on __Expression2, error
+                // State 27
+                0, // on @L, error
+                0, // on @R, error
+                32, // on Expression1, goto 31
+                0, // on Expression2, error
+                0, // on Expression2Op, error
+                0, // on Maybe, error
+                16, // on Wacky, goto 15
+                0, // on Wonky, error
+                0, // on __Expression2, error
+                // State 28
+                0, // on @L, error
+                0, // on @R, error
+                0, // on Expression1, error
+                0, // on Expression2, error
+                26, // on Expression2Op, goto 25
+                0, // on Maybe, error
+                0, // on Wacky, error
+                0, // on Wonky, error
+                0, // on __Expression2, error
+                // State 29
+                0, // on @L, error
+                0, // on @R, error
+                0, // on Expression1, error
+                0, // on Expression2, error
+                0, // on Expression2Op, error
+                0, // on Maybe, error
+                0, // on Wacky, error
+                0, // on Wonky, error
+                0, // on __Expression2, error
+                // State 30
+                0, // on @L, error
+                0, // on @R, error
+                0, // on Expression1, error
+                0, // on Expression2, error
+                0, // on Expression2Op, error
+                0, // on Maybe, error
+                0, // on Wacky, error
+                0, // on Wonky, error
+                0, // on __Expression2, error
+                // State 31
+                0, // on @L, error
+                0, // on @R, error
+                0, // on Expression1, error
+                0, // on Expression2, error
+                0, // on Expression2Op, error
+                0, // on Maybe, error
+                0, // on Wacky, error
+                0, // on Wonky, error
+                0, // on __Expression2, error
+                // State 32
+                0, // on @L, error
+                0, // on @R, error
+                0, // on Expression1, error
+                0, // on Expression2, error
+                0, // on Expression2Op, error
+                0, // on Maybe, error
+                0, // on Wacky, error
+                0, // on Wonky, error
+                0, // on __Expression2, error
+            ];
+            pub fn parse_Expression2<
+                'input,
+            >(
+                input: &'input str,
+            ) -> Result<Box<Expr<'input>>, __ParseError<usize,(usize, &'input str),()>>
+            {
+                let mut __tokens = super::super::super::__intern_token::__Matcher::new(input);
+                let mut __states = vec![0_i32];
+                let mut __symbols = vec![];
+                '__shift: loop {
+                    let __lookahead = match __tokens.next() {
+                        Some(Ok(v)) => v,
+                        None => break '__shift,
+                        Some(Err(e)) => return Err(e),
+                    };
+                    let __integer = match __lookahead {
+                        (_, (0, _), _) if true => 0,
+                        (_, (1, _), _) if true => 1,
+                        (_, (2, _), _) if true => 2,
+                        (_, (3, _), _) if true => 3,
+                        (_, (4, _), _) if true => 4,
+                        (_, (5, _), _) if true => 5,
+                        (_, (6, _), _) if true => 6,
+                        (_, (7, _), _) if true => 7,
+                        (_, (8, _), _) if true => 8,
+                        _ => {
+                            return Err(__ParseError::UnrecognizedToken {
+                                token: Some(__lookahead),
+                                expected: vec![],
+                            });
+                        }
+                    };
+                    loop {
+                        let __state = *__states.last().unwrap() as usize;
+                        let __action = __ACTION[__state * 9 + __integer];
+                        if __action > 0 {
+                            let __symbol = match __integer {
+                                0 => match __lookahead.1 {
+                                    (0, __tok0) => __Symbol::Term_22_26_22(__tok0),
+                                    _ => unreachable!(),
+                                },
+                                1 => match __lookahead.1 {
+                                    (1, __tok0) => __Symbol::Term_22_28_22(__tok0),
+                                    _ => unreachable!(),
+                                },
+                                2 => match __lookahead.1 {
+                                    (2, __tok0) => __Symbol::Term_22_29_22(__tok0),
+                                    _ => unreachable!(),
+                                },
+                                3 => match __lookahead.1 {
+                                    (3, __tok0) => __Symbol::Term_22_2a_22(__tok0),
+                                    _ => unreachable!(),
+                                },
+                                4 => match __lookahead.1 {
+                                    (4, __tok0) => __Symbol::Term_22_5b_22(__tok0),
+                                    _ => unreachable!(),
+                                },
+                                5 => match __lookahead.1 {
+                                    (5, __tok0) => __Symbol::Term_22_5d_22(__tok0),
+                                    _ => unreachable!(),
+                                },
+                                6 => match __lookahead.1 {
+                                    (6, __tok0) => __Symbol::Term_22wacky_22(__tok0),
+                                    _ => unreachable!(),
+                                },
+                                7 => match __lookahead.1 {
+                                    (7, __tok0) => __Symbol::Term_22wonky_22(__tok0),
+                                    _ => unreachable!(),
+                                },
+                                8 => match __lookahead.1 {
+                                    (8, __tok0) => __Symbol::Termr_23_22_5c_5cw_2b_22_23(__tok0),
+                                    _ => unreachable!(),
+                                },
+                                _ => unreachable!(),
+                            };
+                            __states.push(__action - 1);
+                            __symbols.push((__lookahead.0, __symbol, __lookahead.2));
+                            continue '__shift;
+                        } else if __action < 0 {
+                            if let Some(r) = __reduce(input, __action, Some(&__lookahead.0), &mut __states, &mut __symbols) {
+                                return r;
+                            }
+                        } else {
+                            return Err(__ParseError::UnrecognizedToken {
+                                token: Some(__lookahead),
+                                expected: vec![],
+                            });
+                        }
+                    }
                 }
-            } else {
-                return Err(__ParseError::UnrecognizedToken {
-                    token: None,
-                    expected: vec![],
-                });
+                loop {
+                    let __state = *__states.last().unwrap() as usize;
+                    let __action = __EOF_ACTION[__state];
+                    if __action < 0 {
+                        if let Some(r) = __reduce(input, __action, None, &mut __states, &mut __symbols) {
+                            return r;
+                        }
+                    } else {
+                        return Err(__ParseError::UnrecognizedToken {
+                            token: None,
+                            expected: vec![],
+                        });
+                    }
+                }
+            }
+            pub fn __reduce<
+                'input,
+            >(
+                input: &'input str,
+                __action: i32,
+                __lookahead_start: Option<&usize>,
+                __states: &mut ::std::vec::Vec<i32>,
+                __symbols: &mut ::std::vec::Vec<(usize,__Symbol<'input>,usize)>,
+            ) -> Option<Result<Box<Expr<'input>>,__ParseError<usize,(usize, &'input str),()>>>
+            {
+                let __nonterminal = match -__action {
+                    1 => {
+                        // @L =  => ActionFn(14);
+                        let __start = __symbols.last().map(|s| s.2.clone()).unwrap_or_default();
+                        let __end = __lookahead_start.cloned().unwrap_or_else(|| __start.clone());
+                        let __nt = super::super::super::__action14(input, &__start, &__end);
+                        let __states_len = __states.len();
+                        __states.truncate(__states_len - 0);
+                        __symbols.push((__start, __Symbol::Nt_40L(__nt), __end));
+                        0
+                    }
+                    2 => {
+                        // @R =  => ActionFn(13);
+                        let __start = __symbols.last().map(|s| s.2.clone()).unwrap_or_default();
+                        let __end = __lookahead_start.cloned().unwrap_or_else(|| __start.clone());
+                        let __nt = super::super::super::__action13(input, &__start, &__end);
+                        let __states_len = __states.len();
+                        __states.truncate(__states_len - 0);
+                        __symbols.push((__start, __Symbol::Nt_40R(__nt), __end));
+                        1
+                    }
+                    3 => {
+                        // Expression1 = "(", Expression2, ")" => ActionFn(25);
+                        let __sym2 = __pop_Term_22_29_22(__symbols);
+                        let __sym1 = __pop_NtExpression2(__symbols);
+                        let __sym0 = __pop_Term_22_28_22(__symbols);
+                        let __start = __sym0.0.clone();
+                        let __end = __sym2.2.clone();
+                        let __nt = super::super::super::__action25(input, __sym0, __sym1, __sym2);
+                        let __states_len = __states.len();
+                        __states.truncate(__states_len - 3);
+                        __symbols.push((__start, __Symbol::NtExpression1(__nt), __end));
+                        2
+                    }
+                    4 => {
+                        // Expression1 = r#"\\w+"# => ActionFn(26);
+                        let __sym0 = __pop_Termr_23_22_5c_5cw_2b_22_23(__symbols);
+                        let __start = __sym0.0.clone();
+                        let __end = __sym0.2.clone();
+                        let __nt = super::super::super::__action26(input, __sym0);
+                        let __states_len = __states.len();
+                        __states.truncate(__states_len - 1);
+                        __symbols.push((__start, __Symbol::NtExpression1(__nt), __end));
+                        2
+                    }
+                    5 => {
+                        // Expression1 = "&", Maybe, Expression1 => ActionFn(27);
+                        let __sym2 = __pop_NtExpression1(__symbols);
+                        let __sym1 = __pop_NtMaybe(__symbols);
+                        let __sym0 = __pop_Term_22_26_22(__symbols);
+                        let __start = __sym0.0.clone();
+                        let __end = __sym2.2.clone();
+                        let __nt = super::super::super::__action27(input, __sym0, __sym1, __sym2);
+                        let __states_len = __states.len();
+                        __states.truncate(__states_len - 3);
+                        __symbols.push((__start, __Symbol::NtExpression1(__nt), __end));
+                        2
+                    }
+                    6 => {
+                        // Expression1 = "wonky", Wonky => ActionFn(7);
+                        let __sym1 = __pop_NtWonky(__symbols);
+                        let __sym0 = __pop_Term_22wonky_22(__symbols);
+                        let __start = __sym0.0.clone();
+                        let __end = __sym1.2.clone();
+                        let __nt = super::super::super::__action7(input, __sym0, __sym1);
+                        let __states_len = __states.len();
+                        __states.truncate(__states_len - 2);
+                        __symbols.push((__start, __Symbol::NtExpression1(__nt), __end));
+                        2
+                    }
+                    7 => {
+                        // Expression1 = Wacky => ActionFn(8);
+                        let __sym0 = __pop_NtWacky(__symbols);
+                        let __start = __sym0.0.clone();
+                        let __end = __sym0.2.clone();
+                        let __nt = super::super::super::__action8(input, __sym0);
+                        let __states_len = __states.len();
+                        __states.truncate(__states_len - 1);
+                        __symbols.push((__start, __Symbol::NtExpression1(__nt), __end));
+                        2
+                    }
+                    8 => {
+                        // Expression2 = Expression2, Expression2Op, Expression1 => ActionFn(28);
+                        let __sym2 = __pop_NtExpression1(__symbols);
+                        let __sym1 = __pop_NtExpression2Op(__symbols);
+                        let __sym0 = __pop_NtExpression2(__symbols);
+                        let __start = __sym0.0.clone();
+                        let __end = __sym2.2.clone();
+                        let __nt = super::super::super::__action28(input, __sym0, __sym1, __sym2);
+                        let __states_len = __states.len();
+                        __states.truncate(__states_len - 3);
+                        __symbols.push((__start, __Symbol::NtExpression2(__nt), __end));
+                        3
+                    }
+                    9 => {
+                        // Expression2 = Expression1 => ActionFn(29);
+                        let __sym0 = __pop_NtExpression1(__symbols);
+                        let __start = __sym0.0.clone();
+                        let __end = __sym0.2.clone();
+                        let __nt = super::super::super::__action29(input, __sym0);
+                        let __states_len = __states.len();
+                        __states.truncate(__states_len - 1);
+                        __symbols.push((__start, __Symbol::NtExpression2(__nt), __end));
+                        3
+                    }
+                    10 => {
+                        // Expression2Op = "*" => ActionFn(30);
+                        let __sym0 = __pop_Term_22_2a_22(__symbols);
+                        let __start = __sym0.0.clone();
+                        let __end = __sym0.2.clone();
+                        let __nt = super::super::super::__action30(input, __sym0);
+                        let __states_len = __states.len();
+                        __states.truncate(__states_len - 1);
+                        __symbols.push((__start, __Symbol::NtExpression2Op(__nt), __end));
+                        4
+                    }
+                    11 => {
+                        // Maybe =  => ActionFn(31);
+                        let __start = __symbols.last().map(|s| s.2.clone()).unwrap_or_default();
+                        let __end = __lookahead_start.cloned().unwrap_or_else(|| __start.clone());
+                        let __nt = super::super::super::__action31(input, &__start, &__end);
+                        let __states_len = __states.len();
+                        __states.truncate(__states_len - 0);
+                        __symbols.push((__start, __Symbol::NtMaybe(__nt), __end));
+                        5
+                    }
+                    12 => {
+                        // Maybe = "[", "]" => ActionFn(32);
+                        let __sym1 = __pop_Term_22_5d_22(__symbols);
+                        let __sym0 = __pop_Term_22_5b_22(__symbols);
+                        let __start = __sym0.0.clone();
+                        let __end = __sym1.2.clone();
+                        let __nt = super::super::super::__action32(input, __sym0, __sym1);
+                        let __states_len = __states.len();
+                        __states.truncate(__states_len - 2);
+                        __symbols.push((__start, __Symbol::NtMaybe(__nt), __end));
+                        5
+                    }
+                    13 => {
+                        // Wacky = "wacky" => ActionFn(33);
+                        let __sym0 = __pop_Term_22wacky_22(__symbols);
+                        let __start = __sym0.0.clone();
+                        let __end = __sym0.2.clone();
+                        let __nt = super::super::super::__action33(input, __sym0);
+                        let __states_len = __states.len();
+                        __states.truncate(__states_len - 1);
+                        __symbols.push((__start, __Symbol::NtWacky(__nt), __end));
+                        6
+                    }
+                    14 => {
+                        // Wonky =  => ActionFn(34);
+                        let __start = __symbols.last().map(|s| s.2.clone()).unwrap_or_default();
+                        let __end = __lookahead_start.cloned().unwrap_or_else(|| __start.clone());
+                        let __nt = super::super::super::__action34(input, &__start, &__end);
+                        let __states_len = __states.len();
+                        __states.truncate(__states_len - 0);
+                        __symbols.push((__start, __Symbol::NtWonky(__nt), __end));
+                        7
+                    }
+                    15 => {
+                        // __Expression2 = Expression2 => ActionFn(0);
+                        let __sym0 = __pop_NtExpression2(__symbols);
+                        let __start = __sym0.0.clone();
+                        let __end = __sym0.2.clone();
+                        let __nt = super::super::super::__action0(input, __sym0);
+                        return Some(Ok(__nt));
+                    }
+                    _ => panic!("invalid action code {}", __action)
+                };
+                let __state = *__states.last().unwrap() as usize;
+                let __next_state = __GOTO[__state * 9 + __nonterminal] - 1;
+                __states.push(__next_state);
+                None
+            }
+            fn __pop_Term_22_26_22<
+              'input,
+            >(
+                __symbols: &mut ::std::vec::Vec<(usize,__Symbol<'input>,usize)>
+            ) -> (usize, &'input str, usize) {
+                match __symbols.pop().unwrap() {
+                    (__l, __Symbol::Term_22_26_22(__v), __r) => (__l, __v, __r),
+                    _ => panic!("symbol type mismatch")
+                }
+            }
+            fn __pop_Term_22_28_22<
+              'input,
+            >(
+                __symbols: &mut ::std::vec::Vec<(usize,__Symbol<'input>,usize)>
+            ) -> (usize, &'input str, usize) {
+                match __symbols.pop().unwrap() {
+                    (__l, __Symbol::Term_22_28_22(__v), __r) => (__l, __v, __r),
+                    _ => panic!("symbol type mismatch")
+                }
+            }
+            fn __pop_Term_22_29_22<
+              'input,
+            >(
+                __symbols: &mut ::std::vec::Vec<(usize,__Symbol<'input>,usize)>
+            ) -> (usize, &'input str, usize) {
+                match __symbols.pop().unwrap() {
+                    (__l, __Symbol::Term_22_29_22(__v), __r) => (__l, __v, __r),
+                    _ => panic!("symbol type mismatch")
+                }
+            }
+            fn __pop_Term_22_2a_22<
+              'input,
+            >(
+                __symbols: &mut ::std::vec::Vec<(usize,__Symbol<'input>,usize)>
+            ) -> (usize, &'input str, usize) {
+                match __symbols.pop().unwrap() {
+                    (__l, __Symbol::Term_22_2a_22(__v), __r) => (__l, __v, __r),
+                    _ => panic!("symbol type mismatch")
+                }
+            }
+            fn __pop_Term_22_5b_22<
+              'input,
+            >(
+                __symbols: &mut ::std::vec::Vec<(usize,__Symbol<'input>,usize)>
+            ) -> (usize, &'input str, usize) {
+                match __symbols.pop().unwrap() {
+                    (__l, __Symbol::Term_22_5b_22(__v), __r) => (__l, __v, __r),
+                    _ => panic!("symbol type mismatch")
+                }
+            }
+            fn __pop_Term_22_5d_22<
+              'input,
+            >(
+                __symbols: &mut ::std::vec::Vec<(usize,__Symbol<'input>,usize)>
+            ) -> (usize, &'input str, usize) {
+                match __symbols.pop().unwrap() {
+                    (__l, __Symbol::Term_22_5d_22(__v), __r) => (__l, __v, __r),
+                    _ => panic!("symbol type mismatch")
+                }
+            }
+            fn __pop_Term_22wacky_22<
+              'input,
+            >(
+                __symbols: &mut ::std::vec::Vec<(usize,__Symbol<'input>,usize)>
+            ) -> (usize, &'input str, usize) {
+                match __symbols.pop().unwrap() {
+                    (__l, __Symbol::Term_22wacky_22(__v), __r) => (__l, __v, __r),
+                    _ => panic!("symbol type mismatch")
+                }
+            }
+            fn __pop_Term_22wonky_22<
+              'input,
+            >(
+                __symbols: &mut ::std::vec::Vec<(usize,__Symbol<'input>,usize)>
+            ) -> (usize, &'input str, usize) {
+                match __symbols.pop().unwrap() {
+                    (__l, __Symbol::Term_22wonky_22(__v), __r) => (__l, __v, __r),
+                    _ => panic!("symbol type mismatch")
+                }
+            }
+            fn __pop_Termr_23_22_5c_5cw_2b_22_23<
+              'input,
+            >(
+                __symbols: &mut ::std::vec::Vec<(usize,__Symbol<'input>,usize)>
+            ) -> (usize, &'input str, usize) {
+                match __symbols.pop().unwrap() {
+                    (__l, __Symbol::Termr_23_22_5c_5cw_2b_22_23(__v), __r) => (__l, __v, __r),
+                    _ => panic!("symbol type mismatch")
+                }
+            }
+            fn __pop_Nt_40L<
+              'input,
+            >(
+                __symbols: &mut ::std::vec::Vec<(usize,__Symbol<'input>,usize)>
+            ) -> (usize, usize, usize) {
+                match __symbols.pop().unwrap() {
+                    (__l, __Symbol::Nt_40L(__v), __r) => (__l, __v, __r),
+                    _ => panic!("symbol type mismatch")
+                }
+            }
+            fn __pop_Nt_40R<
+              'input,
+            >(
+                __symbols: &mut ::std::vec::Vec<(usize,__Symbol<'input>,usize)>
+            ) -> (usize, usize, usize) {
+                match __symbols.pop().unwrap() {
+                    (__l, __Symbol::Nt_40R(__v), __r) => (__l, __v, __r),
+                    _ => panic!("symbol type mismatch")
+                }
+            }
+            fn __pop_NtExpression1<
+              'input,
+            >(
+                __symbols: &mut ::std::vec::Vec<(usize,__Symbol<'input>,usize)>
+            ) -> (usize, Box<Expr<'input>>, usize) {
+                match __symbols.pop().unwrap() {
+                    (__l, __Symbol::NtExpression1(__v), __r) => (__l, __v, __r),
+                    _ => panic!("symbol type mismatch")
+                }
+            }
+            fn __pop_NtExpression2<
+              'input,
+            >(
+                __symbols: &mut ::std::vec::Vec<(usize,__Symbol<'input>,usize)>
+            ) -> (usize, Box<Expr<'input>>, usize) {
+                match __symbols.pop().unwrap() {
+                    (__l, __Symbol::NtExpression2(__v), __r) => (__l, __v, __r),
+                    _ => panic!("symbol type mismatch")
+                }
+            }
+            fn __pop_NtExpression2Op<
+              'input,
+            >(
+                __symbols: &mut ::std::vec::Vec<(usize,__Symbol<'input>,usize)>
+            ) -> (usize, Box<Expr<'input>>, usize) {
+                match __symbols.pop().unwrap() {
+                    (__l, __Symbol::NtExpression2Op(__v), __r) => (__l, __v, __r),
+                    _ => panic!("symbol type mismatch")
+                }
+            }
+            fn __pop_NtMaybe<
+              'input,
+            >(
+                __symbols: &mut ::std::vec::Vec<(usize,__Symbol<'input>,usize)>
+            ) -> (usize, Box<Expr<'input>>, usize) {
+                match __symbols.pop().unwrap() {
+                    (__l, __Symbol::NtMaybe(__v), __r) => (__l, __v, __r),
+                    _ => panic!("symbol type mismatch")
+                }
+            }
+            fn __pop_NtWacky<
+              'input,
+            >(
+                __symbols: &mut ::std::vec::Vec<(usize,__Symbol<'input>,usize)>
+            ) -> (usize, Box<Expr<'input>>, usize) {
+                match __symbols.pop().unwrap() {
+                    (__l, __Symbol::NtWacky(__v), __r) => (__l, __v, __r),
+                    _ => panic!("symbol type mismatch")
+                }
+            }
+            fn __pop_NtWonky<
+              'input,
+            >(
+                __symbols: &mut ::std::vec::Vec<(usize,__Symbol<'input>,usize)>
+            ) -> (usize, Box<Expr<'input>>, usize) {
+                match __symbols.pop().unwrap() {
+                    (__l, __Symbol::NtWonky(__v), __r) => (__l, __v, __r),
+                    _ => panic!("symbol type mismatch")
+                }
+            }
+            fn __pop_Nt____Expression2<
+              'input,
+            >(
+                __symbols: &mut ::std::vec::Vec<(usize,__Symbol<'input>,usize)>
+            ) -> (usize, Box<Expr<'input>>, usize) {
+                match __symbols.pop().unwrap() {
+                    (__l, __Symbol::Nt____Expression2(__v), __r) => (__l, __v, __r),
+                    _ => panic!("symbol type mismatch")
+                }
             }
         }
-    }
-    pub fn __reduce<
-        'input,
-    >(
-        input: &'input str,
-        __action: i32,
-        __lookahead_start: Option<&usize>,
-        __states: &mut ::std::vec::Vec<i32>,
-        __symbols: &mut ::std::vec::Vec<(usize,__Symbol<'input>,usize)>,
-    ) -> Option<Result<Box<Expr<'input>>,__ParseError<usize,(usize, &'input str),()>>>
-    {
-        let __nonterminal = match -__action {
-            1 => {
-                // @L =  => ActionFn(14);
-                let __start = __symbols.last().map(|s| s.2.clone()).unwrap_or_default();
-                let __end = __lookahead_start.cloned().unwrap_or_else(|| __start.clone());
-                let __nt = super::__action14(input, &__start, &__end);
-                let __states_len = __states.len();
-                __states.truncate(__states_len - 0);
-                __symbols.push((__start, __Symbol::Nt_40L(__nt), __end));
-                0
-            }
-            2 => {
-                // @R =  => ActionFn(13);
-                let __start = __symbols.last().map(|s| s.2.clone()).unwrap_or_default();
-                let __end = __lookahead_start.cloned().unwrap_or_else(|| __start.clone());
-                let __nt = super::__action13(input, &__start, &__end);
-                let __states_len = __states.len();
-                __states.truncate(__states_len - 0);
-                __symbols.push((__start, __Symbol::Nt_40R(__nt), __end));
-                1
-            }
-            3 => {
-                // Expression1 = "(", Expression2, ")" => ActionFn(25);
-                let __sym2 = __pop_Term_22_29_22(__symbols);
-                let __sym1 = __pop_NtExpression2(__symbols);
-                let __sym0 = __pop_Term_22_28_22(__symbols);
-                let __start = __sym0.0.clone();
-                let __end = __sym2.2.clone();
-                let __nt = super::__action25(input, __sym0, __sym1, __sym2);
-                let __states_len = __states.len();
-                __states.truncate(__states_len - 3);
-                __symbols.push((__start, __Symbol::NtExpression1(__nt), __end));
-                2
-            }
-            4 => {
-                // Expression1 = r#"\\w+"# => ActionFn(26);
-                let __sym0 = __pop_Termr_23_22_5c_5cw_2b_22_23(__symbols);
-                let __start = __sym0.0.clone();
-                let __end = __sym0.2.clone();
-                let __nt = super::__action26(input, __sym0);
-                let __states_len = __states.len();
-                __states.truncate(__states_len - 1);
-                __symbols.push((__start, __Symbol::NtExpression1(__nt), __end));
-                2
-            }
-            5 => {
-                // Expression1 = "&", Maybe, Expression1 => ActionFn(27);
-                let __sym2 = __pop_NtExpression1(__symbols);
-                let __sym1 = __pop_NtMaybe(__symbols);
-                let __sym0 = __pop_Term_22_26_22(__symbols);
-                let __start = __sym0.0.clone();
-                let __end = __sym2.2.clone();
-                let __nt = super::__action27(input, __sym0, __sym1, __sym2);
-                let __states_len = __states.len();
-                __states.truncate(__states_len - 3);
-                __symbols.push((__start, __Symbol::NtExpression1(__nt), __end));
-                2
-            }
-            6 => {
-                // Expression1 = "wonky", Wonky => ActionFn(7);
-                let __sym1 = __pop_NtWonky(__symbols);
-                let __sym0 = __pop_Term_22wonky_22(__symbols);
-                let __start = __sym0.0.clone();
-                let __end = __sym1.2.clone();
-                let __nt = super::__action7(input, __sym0, __sym1);
-                let __states_len = __states.len();
-                __states.truncate(__states_len - 2);
-                __symbols.push((__start, __Symbol::NtExpression1(__nt), __end));
-                2
-            }
-            7 => {
-                // Expression1 = Wacky => ActionFn(8);
-                let __sym0 = __pop_NtWacky(__symbols);
-                let __start = __sym0.0.clone();
-                let __end = __sym0.2.clone();
-                let __nt = super::__action8(input, __sym0);
-                let __states_len = __states.len();
-                __states.truncate(__states_len - 1);
-                __symbols.push((__start, __Symbol::NtExpression1(__nt), __end));
-                2
-            }
-            8 => {
-                // Expression2 = Expression2, Expression2Op, Expression1 => ActionFn(28);
-                let __sym2 = __pop_NtExpression1(__symbols);
-                let __sym1 = __pop_NtExpression2Op(__symbols);
-                let __sym0 = __pop_NtExpression2(__symbols);
-                let __start = __sym0.0.clone();
-                let __end = __sym2.2.clone();
-                let __nt = super::__action28(input, __sym0, __sym1, __sym2);
-                let __states_len = __states.len();
-                __states.truncate(__states_len - 3);
-                __symbols.push((__start, __Symbol::NtExpression2(__nt), __end));
-                3
-            }
-            9 => {
-                // Expression2 = Expression1 => ActionFn(29);
-                let __sym0 = __pop_NtExpression1(__symbols);
-                let __start = __sym0.0.clone();
-                let __end = __sym0.2.clone();
-                let __nt = super::__action29(input, __sym0);
-                let __states_len = __states.len();
-                __states.truncate(__states_len - 1);
-                __symbols.push((__start, __Symbol::NtExpression2(__nt), __end));
-                3
-            }
-            10 => {
-                // Expression2Op = "*" => ActionFn(30);
-                let __sym0 = __pop_Term_22_2a_22(__symbols);
-                let __start = __sym0.0.clone();
-                let __end = __sym0.2.clone();
-                let __nt = super::__action30(input, __sym0);
-                let __states_len = __states.len();
-                __states.truncate(__states_len - 1);
-                __symbols.push((__start, __Symbol::NtExpression2Op(__nt), __end));
-                4
-            }
-            11 => {
-                // Maybe =  => ActionFn(31);
-                let __start = __symbols.last().map(|s| s.2.clone()).unwrap_or_default();
-                let __end = __lookahead_start.cloned().unwrap_or_else(|| __start.clone());
-                let __nt = super::__action31(input, &__start, &__end);
-                let __states_len = __states.len();
-                __states.truncate(__states_len - 0);
-                __symbols.push((__start, __Symbol::NtMaybe(__nt), __end));
-                5
-            }
-            12 => {
-                // Maybe = "[", "]" => ActionFn(32);
-                let __sym1 = __pop_Term_22_5d_22(__symbols);
-                let __sym0 = __pop_Term_22_5b_22(__symbols);
-                let __start = __sym0.0.clone();
-                let __end = __sym1.2.clone();
-                let __nt = super::__action32(input, __sym0, __sym1);
-                let __states_len = __states.len();
-                __states.truncate(__states_len - 2);
-                __symbols.push((__start, __Symbol::NtMaybe(__nt), __end));
-                5
-            }
-            13 => {
-                // Wacky = "wacky" => ActionFn(33);
-                let __sym0 = __pop_Term_22wacky_22(__symbols);
-                let __start = __sym0.0.clone();
-                let __end = __sym0.2.clone();
-                let __nt = super::__action33(input, __sym0);
-                let __states_len = __states.len();
-                __states.truncate(__states_len - 1);
-                __symbols.push((__start, __Symbol::NtWacky(__nt), __end));
-                6
-            }
-            14 => {
-                // Wonky =  => ActionFn(34);
-                let __start = __symbols.last().map(|s| s.2.clone()).unwrap_or_default();
-                let __end = __lookahead_start.cloned().unwrap_or_else(|| __start.clone());
-                let __nt = super::__action34(input, &__start, &__end);
-                let __states_len = __states.len();
-                __states.truncate(__states_len - 0);
-                __symbols.push((__start, __Symbol::NtWonky(__nt), __end));
-                7
-            }
-            15 => {
-                // __Expression2 = Expression2 => ActionFn(0);
-                let __sym0 = __pop_NtExpression2(__symbols);
-                let __start = __sym0.0.clone();
-                let __end = __sym0.2.clone();
-                let __nt = super::__action0(input, __sym0);
-                return Some(Ok(__nt));
-            }
-            _ => panic!("invalid action code {}", __action)
-        };
-        let __state = *__states.last().unwrap() as usize;
-        let __next_state = __GOTO[__state * 9 + __nonterminal] - 1;
-        __states.push(__next_state);
-        None
-    }
-    fn __pop_Term_22_26_22<
-      'input,
-    >(
-        __symbols: &mut ::std::vec::Vec<(usize,__Symbol<'input>,usize)>
-    ) -> (usize, &'input str, usize) {
-        match __symbols.pop().unwrap() {
-            (__l, __Symbol::Term_22_26_22(__v), __r) => (__l, __v, __r),
-            _ => panic!("symbol type mismatch")
-        }
-    }
-    fn __pop_Term_22_28_22<
-      'input,
-    >(
-        __symbols: &mut ::std::vec::Vec<(usize,__Symbol<'input>,usize)>
-    ) -> (usize, &'input str, usize) {
-        match __symbols.pop().unwrap() {
-            (__l, __Symbol::Term_22_28_22(__v), __r) => (__l, __v, __r),
-            _ => panic!("symbol type mismatch")
-        }
-    }
-    fn __pop_Term_22_29_22<
-      'input,
-    >(
-        __symbols: &mut ::std::vec::Vec<(usize,__Symbol<'input>,usize)>
-    ) -> (usize, &'input str, usize) {
-        match __symbols.pop().unwrap() {
-            (__l, __Symbol::Term_22_29_22(__v), __r) => (__l, __v, __r),
-            _ => panic!("symbol type mismatch")
-        }
-    }
-    fn __pop_Term_22_2a_22<
-      'input,
-    >(
-        __symbols: &mut ::std::vec::Vec<(usize,__Symbol<'input>,usize)>
-    ) -> (usize, &'input str, usize) {
-        match __symbols.pop().unwrap() {
-            (__l, __Symbol::Term_22_2a_22(__v), __r) => (__l, __v, __r),
-            _ => panic!("symbol type mismatch")
-        }
-    }
-    fn __pop_Term_22_5b_22<
-      'input,
-    >(
-        __symbols: &mut ::std::vec::Vec<(usize,__Symbol<'input>,usize)>
-    ) -> (usize, &'input str, usize) {
-        match __symbols.pop().unwrap() {
-            (__l, __Symbol::Term_22_5b_22(__v), __r) => (__l, __v, __r),
-            _ => panic!("symbol type mismatch")
-        }
-    }
-    fn __pop_Term_22_5d_22<
-      'input,
-    >(
-        __symbols: &mut ::std::vec::Vec<(usize,__Symbol<'input>,usize)>
-    ) -> (usize, &'input str, usize) {
-        match __symbols.pop().unwrap() {
-            (__l, __Symbol::Term_22_5d_22(__v), __r) => (__l, __v, __r),
-            _ => panic!("symbol type mismatch")
-        }
-    }
-    fn __pop_Term_22wacky_22<
-      'input,
-    >(
-        __symbols: &mut ::std::vec::Vec<(usize,__Symbol<'input>,usize)>
-    ) -> (usize, &'input str, usize) {
-        match __symbols.pop().unwrap() {
-            (__l, __Symbol::Term_22wacky_22(__v), __r) => (__l, __v, __r),
-            _ => panic!("symbol type mismatch")
-        }
-    }
-    fn __pop_Term_22wonky_22<
-      'input,
-    >(
-        __symbols: &mut ::std::vec::Vec<(usize,__Symbol<'input>,usize)>
-    ) -> (usize, &'input str, usize) {
-        match __symbols.pop().unwrap() {
-            (__l, __Symbol::Term_22wonky_22(__v), __r) => (__l, __v, __r),
-            _ => panic!("symbol type mismatch")
-        }
-    }
-    fn __pop_Termr_23_22_5c_5cw_2b_22_23<
-      'input,
-    >(
-        __symbols: &mut ::std::vec::Vec<(usize,__Symbol<'input>,usize)>
-    ) -> (usize, &'input str, usize) {
-        match __symbols.pop().unwrap() {
-            (__l, __Symbol::Termr_23_22_5c_5cw_2b_22_23(__v), __r) => (__l, __v, __r),
-            _ => panic!("symbol type mismatch")
-        }
-    }
-    fn __pop_Nt_40L<
-      'input,
-    >(
-        __symbols: &mut ::std::vec::Vec<(usize,__Symbol<'input>,usize)>
-    ) -> (usize, usize, usize) {
-        match __symbols.pop().unwrap() {
-            (__l, __Symbol::Nt_40L(__v), __r) => (__l, __v, __r),
-            _ => panic!("symbol type mismatch")
-        }
-    }
-    fn __pop_Nt_40R<
-      'input,
-    >(
-        __symbols: &mut ::std::vec::Vec<(usize,__Symbol<'input>,usize)>
-    ) -> (usize, usize, usize) {
-        match __symbols.pop().unwrap() {
-            (__l, __Symbol::Nt_40R(__v), __r) => (__l, __v, __r),
-            _ => panic!("symbol type mismatch")
-        }
-    }
-    fn __pop_NtExpression1<
-      'input,
-    >(
-        __symbols: &mut ::std::vec::Vec<(usize,__Symbol<'input>,usize)>
-    ) -> (usize, Box<Expr<'input>>, usize) {
-        match __symbols.pop().unwrap() {
-            (__l, __Symbol::NtExpression1(__v), __r) => (__l, __v, __r),
-            _ => panic!("symbol type mismatch")
-        }
-    }
-    fn __pop_NtExpression2<
-      'input,
-    >(
-        __symbols: &mut ::std::vec::Vec<(usize,__Symbol<'input>,usize)>
-    ) -> (usize, Box<Expr<'input>>, usize) {
-        match __symbols.pop().unwrap() {
-            (__l, __Symbol::NtExpression2(__v), __r) => (__l, __v, __r),
-            _ => panic!("symbol type mismatch")
-        }
-    }
-    fn __pop_NtExpression2Op<
-      'input,
-    >(
-        __symbols: &mut ::std::vec::Vec<(usize,__Symbol<'input>,usize)>
-    ) -> (usize, Box<Expr<'input>>, usize) {
-        match __symbols.pop().unwrap() {
-            (__l, __Symbol::NtExpression2Op(__v), __r) => (__l, __v, __r),
-            _ => panic!("symbol type mismatch")
-        }
-    }
-    fn __pop_NtMaybe<
-      'input,
-    >(
-        __symbols: &mut ::std::vec::Vec<(usize,__Symbol<'input>,usize)>
-    ) -> (usize, Box<Expr<'input>>, usize) {
-        match __symbols.pop().unwrap() {
-            (__l, __Symbol::NtMaybe(__v), __r) => (__l, __v, __r),
-            _ => panic!("symbol type mismatch")
-        }
-    }
-    fn __pop_NtWacky<
-      'input,
-    >(
-        __symbols: &mut ::std::vec::Vec<(usize,__Symbol<'input>,usize)>
-    ) -> (usize, Box<Expr<'input>>, usize) {
-        match __symbols.pop().unwrap() {
-            (__l, __Symbol::NtWacky(__v), __r) => (__l, __v, __r),
-            _ => panic!("symbol type mismatch")
-        }
-    }
-    fn __pop_NtWonky<
-      'input,
-    >(
-        __symbols: &mut ::std::vec::Vec<(usize,__Symbol<'input>,usize)>
-    ) -> (usize, Box<Expr<'input>>, usize) {
-        match __symbols.pop().unwrap() {
-            (__l, __Symbol::NtWonky(__v), __r) => (__l, __v, __r),
-            _ => panic!("symbol type mismatch")
-        }
-    }
-    fn __pop_Nt____Expression2<
-      'input,
-    >(
-        __symbols: &mut ::std::vec::Vec<(usize,__Symbol<'input>,usize)>
-    ) -> (usize, Box<Expr<'input>>, usize) {
-        match __symbols.pop().unwrap() {
-            (__l, __Symbol::Nt____Expression2(__v), __r) => (__l, __v, __r),
-            _ => panic!("symbol type mismatch")
-        }
+        pub use self::__parse__Expression2::parse_Expression2;
     }
 }
 pub use self::__parse__Expression2::parse_Expression2;

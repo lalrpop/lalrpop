@@ -332,13 +332,22 @@ fn emit_recursive_ascent(session: &Session, grammar: &r::Grammar) -> io::Result<
 
         if false {
             // FIXME
-            try!(lr1::codegen::ascent::compile(&grammar, user_nt, start_nt, &states, &mut rust));
-        } else {
+            try!(lr1::codegen::ascent::compile(&grammar,
+                                               user_nt,
+                                               start_nt,
+                                               &states,
+                                               "super",
+                                               &mut rust));
+        } else if false {
+            // FIXME
             try!(lr1::codegen::parse_table::compile(&grammar,
                                                     user_nt,
                                                     start_nt,
                                                     &states,
+                                                    "super",
                                                     &mut rust));
+        } else {
+            try!(lr1::codegen::test_all::compile(&grammar, user_nt, start_nt, &states, &mut rust));
         }
 
         rust!(rust,
