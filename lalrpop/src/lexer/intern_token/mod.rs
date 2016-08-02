@@ -50,7 +50,7 @@ pub fn compile<W: Write>(
     rust!(out, "");
     rust!(out, "impl<'input> Iterator for {}Matcher<'input> {{", prefix);
     rust!(out, "type Item = Result<(usize, (usize, &'input str), usize), \
-                {}ParseError<usize,(usize, &'input str),{}>>;",
+                {}lalrpop_util::ParseError<usize,(usize, &'input str),{}>>;",
           prefix, grammar.types.error_type());
     rust!(out, "");
     rust!(out, "fn next(&mut self) -> Option<Self::Item> {{");
@@ -79,7 +79,7 @@ pub fn compile<W: Write>(
           prefix, prefix, prefix, prefix);
     rust!(out, "}}"); // some
     rust!(out, "None => {{");
-    rust!(out, "Some(Err({}ParseError::InvalidToken {{ location: {}start_offset }}))",
+    rust!(out, "Some(Err({}lalrpop_util::ParseError::InvalidToken {{ location: {}start_offset }}))",
           prefix, prefix);
     rust!(out, "}}"); // none
     rust!(out, "}}"); // match
@@ -91,4 +91,3 @@ pub fn compile<W: Write>(
 
     Ok(())
 }
-

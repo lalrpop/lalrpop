@@ -38,6 +38,13 @@ pub fn emit_action_code<W: Write>(grammar: &r::Grammar, rust: &mut RustWrite<W>)
     for (i, defn) in grammar.action_fn_defns.iter().enumerate() {
         rust!(rust, "");
 
+        // we always thread the parameters through to the action code,
+        // even if they are not used, and hence we need to disable the
+        // unused variables lint, which otherwise gets very excited.
+        if !grammar.parameters.is_empty() {
+            rust!(rust, "#[allow(unused_variables)]");
+        }
+
         match defn.kind {
             r::ActionFnDefnKind::User(ref data) => {
                 try!(emit_user_action_code(grammar, rust, i, defn, data))
@@ -56,7 +63,7 @@ pub fn emit_action_code<W: Write>(grammar: &r::Grammar, rust: &mut RustWrite<W>)
 
 fn ret_type_string(grammar: &r::Grammar, defn: &r::ActionFnDefn) -> String {
     if defn.fallible {
-        format!("Result<{},{}ParseError<{},{},{}>>",
+        format!("Result<{},{}lalrpop_util::ParseError<{},{},{}>>",
                 defn.ret_type,
                 grammar.prefix,
                 grammar.types.terminal_loc_type(),
