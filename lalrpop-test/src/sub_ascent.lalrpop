@@ -1,0 +1,28 @@
+// Test requesting recursive ascent:
+
+#[recursive_ascent]
+grammar;
+
+use util::tok::Tok;
+
+extern {
+    enum Tok {
+        "(" => Tok::LParen,
+        ")" => Tok::RParen,
+        "-" => Tok::Minus,
+        Num => Tok::Num(<i32>),
+    }
+}
+
+pub S = E;
+
+E: i32 = {
+    <l:E> "-" <r:T> => l - r,
+    <t:T> => t - super::ZERO,
+};
+
+T = {
+    <Num>,
+    "(" <E> ")",
+};
+

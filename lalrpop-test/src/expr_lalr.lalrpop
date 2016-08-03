@@ -1,4 +1,5 @@
-grammar(scale: i32)["LALR(1)"];
+#[LALR]
+grammar(scale: i32);
 
 use util::tok::Tok;
 

@@ -8,11 +8,12 @@ use util::strip;
 grammar<'input>(text: &'input str)["LALR(1)"];
 
 pub Grammar: Grammar =
-    <uses:Use*> <lo:@L> "grammar" <hi:@R>
+    <uses:Use*>
+    <annotations:Annotation*>
+    <lo:@L> "grammar" <hi:@R>
     <tps:GrammarTypeParameters?>
     <parameters:GrammarParameters?>
     <where_clauses:"where"?>
-    <algorithm:Algorithm?>
     ";"
     <items:GrammarItem*> => {
         let where_clauses =
@@ -28,15 +29,7 @@ pub Grammar: Grammar =
                   parameters: parameters.unwrap_or(vec![]),
                   where_clauses: where_clauses,
                   items: uses.into_iter().chain(items).collect(),
-                  algorithm: algorithm }
-    };
-
-Algorithm: Algorithm =
-    "[" <lo:@L> <t:StringLiteral> <hi:@R> "]" => {
-        Algorithm {
-            span: Span(lo, hi),
-            text: t
-        }
+                  annotations: annotations }
     };
 
 GrammarTypeParameters: Vec<TypeParameter> =

@@ -1,7 +1,7 @@
 use loc_issue_90::parse_Expression2;
 use util::expect_debug;
 
-#[derive(Debug)]
+#[derive(Debug, PartialEq, Eq)]
 pub enum Expr<'input> {
     Paren(usize, Box<Expr<'input>>, usize),
     Mul(usize, usize),

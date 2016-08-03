@@ -33,7 +33,7 @@ impl ConflictIndex {
 }
 
 pub struct LaneTable<'grammar> {
-    grammar: &'grammar Grammar,
+    _grammar: &'grammar Grammar,
     conflicts: usize,
     lookaheads: Map<(StateIndex, ConflictIndex), TokenSet>,
     successors: Multimap<StateIndex, Set<StateIndex>>,
@@ -42,7 +42,7 @@ pub struct LaneTable<'grammar> {
 impl<'grammar> LaneTable<'grammar> {
     pub fn new(grammar: &'grammar Grammar, conflicts: usize) -> LaneTable {
         LaneTable {
-            grammar: grammar,
+            _grammar: grammar,
             conflicts: conflicts,
             lookaheads: Map::default(),
             successors: Multimap::default(),

@@ -13,3 +13,15 @@ pub const INPUT_PARAMETER: &'static str = "input";
 /// The annotation to request inlining.
 pub const INLINE: &'static str = "inline";
 
+/// Annotation to request LALR.
+pub const LALR: &'static str = "LALR";
+
+/// Annotation to request recursive-ascent-style code generation.
+pub const TABLE_DRIVEN: &'static str = "table_driven";
+
+/// Annotation to request recursive-ascent-style code generation.
+pub const RECURSIVE_ASCENT: &'static str = "recursive_ascent";
+
+/// Annotation to request test-all-style code generation.
+pub const TEST_ALL: &'static str = "test_all";
+

@@ -4,7 +4,7 @@
  * representation incrementally.
  */
 
-use intern::{self, InternedString};
+use intern::{InternedString};
 use grammar::pattern::{Pattern};
 use message::Content;
 use std::fmt::{Debug, Display, Formatter, Error};
@@ -77,9 +77,16 @@ pub struct NonterminalData {
 }
 
 #[derive(Clone, Debug, PartialEq, Eq)]
-pub enum Algorithm {
-    LR1,
-    LALR1,
+pub struct Algorithm {
+    pub lalr: bool,
+    pub codegen: LrCodeGeneration,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub enum LrCodeGeneration {
+    TableDriven,
+    RecursiveAscent,
+    TestAll,
 }
 
 #[derive(Clone, Debug, PartialEq, Eq)]
@@ -273,6 +280,12 @@ impl Types {
 
     pub fn terminal_type(&self, id: TerminalString) -> &TypeRepr {
         self.terminal_types.get(&id).unwrap_or(&self.terminal_token_type)
+    }
+
+    pub fn terminal_types(&self) -> Vec<TypeRepr> {
+        self.terminal_types.values()
+                           .cloned()
+                           .collect()
     }
 
     pub fn lookup_nonterminal_type(&self, id: NonterminalString) -> Option<&TypeRepr> {
@@ -487,12 +500,11 @@ impl Grammar {
     }
 }
 
-impl Algorithm {
-    pub fn from_str(s: InternedString) -> Option<Algorithm> {
-        intern::read(|r| match r.data(s) {
-            "LR" | "LR(1)" => Some(Algorithm::LR1),
-            "LALR" | "LALR(1)" => Some(Algorithm::LALR1),
-            _ => None,
-        })
+impl Default for Algorithm {
+    fn default() -> Self {
+        Algorithm {
+            lalr: false,
+            codegen: LrCodeGeneration::TableDriven,
+        }
     }
 }
