@@ -7,6 +7,10 @@ use lalrpop_util::ParseError;
 /// that still ensures we get parse tree correct
 mod sub;
 
+/// test something other than test-all
+mod sub_ascent;
+mod sub_table;
+
 /// more interesting demonstration of parsing full expressions
 mod expr;
 
@@ -162,6 +166,16 @@ fn sub_test2() {
 #[test]
 fn sub_test3() {
     util::test(sub::parse_S, "22 - (3 - 5) - 13", 22 - (3 - 5) - 13);
+}
+
+#[test]
+fn sub_ascent_test1() {
+    util::test(sub_ascent::parse_S, "22 - 3", 22 - 3);
+}
+
+#[test]
+fn sub_table_test1() {
+    util::test(sub_table::parse_S, "22 - 3", 22 - 3);
 }
 
 #[test]

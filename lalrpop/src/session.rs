@@ -73,6 +73,9 @@ pub struct Session {
 
     /// Style to use when printing "Hint:"
     pub hint_text: Style,
+
+    /// Unit testing (lalrpop-test) configuration
+    pub unit_test: bool,
 }
 
 impl Session {
@@ -93,6 +96,7 @@ impl Session {
             terminal_symbol: style::BOLD,
             nonterminal_symbol: style::DEFAULT,
             hint_text: style::FG_BRIGHT_MAGENTA.with(style::BOLD),
+            unit_test: false,
         }
     }
 
@@ -115,6 +119,7 @@ impl Session {
             terminal_symbol: Style::new(),
             nonterminal_symbol: Style::new(),
             hint_text: Style::new(),
+            unit_test: true,
         }
     }
 

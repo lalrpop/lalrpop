@@ -1,20 +1,16 @@
-#![allow(unused_imports)]
-#![allow(unused_variables)]
 use loc_issue_90_lib::Expr;
 extern crate lalrpop_util as __lalrpop_util;
-use self::__lalrpop_util::ParseError as __ParseError;
 
 mod __parse__Expression2 {
     #![allow(non_snake_case, non_camel_case_types, unused_mut, unused_variables, unused_imports)]
 
     use loc_issue_90_lib::Expr;
     extern crate lalrpop_util as __lalrpop_util;
-    use self::__lalrpop_util::ParseError as __ParseError;
     pub fn parse_Expression2<
         'input,
     >(
         input: &'input str,
-    ) -> Result<Box<Expr<'input>>, __ParseError<usize,(usize, &'input str),()>>
+    ) -> Result<Box<Expr<'input>>, __lalrpop_util::ParseError<usize,(usize, &'input str),()>>
     {
         let __ascent = __ascent::parse_Expression2(
             input,
@@ -32,12 +28,11 @@ mod __parse__Expression2 {
 
             use loc_issue_90_lib::Expr;
             extern crate lalrpop_util as __lalrpop_util;
-            use self::__lalrpop_util::ParseError as __ParseError;
             pub fn parse_Expression2<
                 'input,
             >(
                 input: &'input str,
-            ) -> Result<Box<Expr<'input>>, __ParseError<usize,(usize, &'input str),()>>
+            ) -> Result<Box<Expr<'input>>, __lalrpop_util::ParseError<usize,(usize, &'input str),()>>
             {
                 let mut __tokens = super::super::super::__intern_token::__Matcher::new(input);
                 let __lookahead = match __tokens.next() {
@@ -47,7 +42,7 @@ mod __parse__Expression2 {
                 };
                 match try!(__state0(input, &mut __tokens, __lookahead)) {
                     (Some(__lookahead), _) => {
-                        Err(__ParseError::ExtraToken { token: __lookahead })
+                        Err(__lalrpop_util::ParseError::ExtraToken { token: __lookahead })
                     }
                     (None, __Nonterminal::____Expression2((_, __nt, _))) => {
                         Ok(__nt)
@@ -106,12 +101,12 @@ mod __parse__Expression2 {
             //     Wacky -> S3
             pub fn __state0<
                 'input,
-                __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__ParseError<usize,(usize, &'input str),()>>>,
+                __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__lalrpop_util::ParseError<usize,(usize, &'input str),()>>>,
             >(
                 input: &'input str,
                 __tokens: &mut __TOKENS,
                 __lookahead: Option<(usize, (usize, &'input str), usize)>,
-            ) -> Result<(Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>), __ParseError<usize,(usize, &'input str),()>>
+            ) -> Result<(Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>), __lalrpop_util::ParseError<usize,(usize, &'input str),()>>
             {
                 let mut __result: (Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>);
                 match __lookahead {
@@ -136,7 +131,7 @@ mod __parse__Expression2 {
                         __result = try!(__state8(input, __tokens, __sym0));
                     }
                     _ => {
-                        return Err(__ParseError::UnrecognizedToken {
+                        return Err(__lalrpop_util::ParseError::UnrecognizedToken {
                             token: __lookahead,
                             expected: vec![],
                         });
@@ -175,13 +170,13 @@ mod __parse__Expression2 {
             //
             pub fn __state1<
                 'input,
-                __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__ParseError<usize,(usize, &'input str),()>>>,
+                __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__lalrpop_util::ParseError<usize,(usize, &'input str),()>>>,
             >(
                 input: &'input str,
                 __tokens: &mut __TOKENS,
                 __lookahead: Option<(usize, (usize, &'input str), usize)>,
                 __sym0: (usize, Box<Expr<'input>>, usize),
-            ) -> Result<(Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>), __ParseError<usize,(usize, &'input str),()>>
+            ) -> Result<(Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>), __lalrpop_util::ParseError<usize,(usize, &'input str),()>>
             {
                 let mut __result: (Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>);
                 match __lookahead {
@@ -199,7 +194,7 @@ mod __parse__Expression2 {
                         return Ok(__result);
                     }
                     _ => {
-                        return Err(__ParseError::UnrecognizedToken {
+                        return Err(__lalrpop_util::ParseError::UnrecognizedToken {
                             token: __lookahead,
                             expected: vec![],
                         });
@@ -225,13 +220,13 @@ mod __parse__Expression2 {
             //     Expression2Op -> S9
             pub fn __state2<
                 'input,
-                __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__ParseError<usize,(usize, &'input str),()>>>,
+                __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__lalrpop_util::ParseError<usize,(usize, &'input str),()>>>,
             >(
                 input: &'input str,
                 __tokens: &mut __TOKENS,
                 __lookahead: Option<(usize, (usize, &'input str), usize)>,
                 __sym0: (usize, Box<Expr<'input>>, usize),
-            ) -> Result<(Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>), __ParseError<usize,(usize, &'input str),()>>
+            ) -> Result<(Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>), __lalrpop_util::ParseError<usize,(usize, &'input str),()>>
             {
                 let mut __result: (Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>);
                 match __lookahead {
@@ -252,7 +247,7 @@ mod __parse__Expression2 {
                         return Ok(__result);
                     }
                     _ => {
-                        return Err(__ParseError::UnrecognizedToken {
+                        return Err(__lalrpop_util::ParseError::UnrecognizedToken {
                             token: __lookahead,
                             expected: vec![],
                         });
@@ -286,13 +281,13 @@ mod __parse__Expression2 {
             //
             pub fn __state3<
                 'input,
-                __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__ParseError<usize,(usize, &'input str),()>>>,
+                __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__lalrpop_util::ParseError<usize,(usize, &'input str),()>>>,
             >(
                 input: &'input str,
                 __tokens: &mut __TOKENS,
                 __lookahead: Option<(usize, (usize, &'input str), usize)>,
                 __sym0: (usize, Box<Expr<'input>>, usize),
-            ) -> Result<(Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>), __ParseError<usize,(usize, &'input str),()>>
+            ) -> Result<(Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>), __lalrpop_util::ParseError<usize,(usize, &'input str),()>>
             {
                 let mut __result: (Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>);
                 match __lookahead {
@@ -310,7 +305,7 @@ mod __parse__Expression2 {
                         return Ok(__result);
                     }
                     _ => {
-                        return Err(__ParseError::UnrecognizedToken {
+                        return Err(__lalrpop_util::ParseError::UnrecognizedToken {
                             token: __lookahead,
                             expected: vec![],
                         });
@@ -336,12 +331,12 @@ mod __parse__Expression2 {
             //     Maybe -> S11
             pub fn __state4<
                 'input,
-                __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__ParseError<usize,(usize, &'input str),()>>>,
+                __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__lalrpop_util::ParseError<usize,(usize, &'input str),()>>>,
             >(
                 input: &'input str,
                 __tokens: &mut __TOKENS,
                 __sym0: (usize, &'input str, usize),
-            ) -> Result<(Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>), __ParseError<usize,(usize, &'input str),()>>
+            ) -> Result<(Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>), __lalrpop_util::ParseError<usize,(usize, &'input str),()>>
             {
                 let mut __result: (Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>);
                 let __lookahead = match __tokens.next() {
@@ -370,7 +365,7 @@ mod __parse__Expression2 {
                         __result = (__lookahead, __nt);
                     }
                     _ => {
-                        return Err(__ParseError::UnrecognizedToken {
+                        return Err(__lalrpop_util::ParseError::UnrecognizedToken {
                             token: __lookahead,
                             expected: vec![],
                         });
@@ -427,12 +422,12 @@ mod __parse__Expression2 {
             //     Wacky -> S15
             pub fn __state5<
                 'input,
-                __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__ParseError<usize,(usize, &'input str),()>>>,
+                __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__lalrpop_util::ParseError<usize,(usize, &'input str),()>>>,
             >(
                 input: &'input str,
                 __tokens: &mut __TOKENS,
                 __sym0: (usize, &'input str, usize),
-            ) -> Result<(Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>), __ParseError<usize,(usize, &'input str),()>>
+            ) -> Result<(Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>), __lalrpop_util::ParseError<usize,(usize, &'input str),()>>
             {
                 let mut __result: (Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>);
                 let __lookahead = match __tokens.next() {
@@ -463,7 +458,7 @@ mod __parse__Expression2 {
                         __result = try!(__state20(input, __tokens, __sym1));
                     }
                     _ => {
-                        return Err(__ParseError::UnrecognizedToken {
+                        return Err(__lalrpop_util::ParseError::UnrecognizedToken {
                             token: __lookahead,
                             expected: vec![],
                         });
@@ -505,12 +500,12 @@ mod __parse__Expression2 {
             //
             pub fn __state6<
                 'input,
-                __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__ParseError<usize,(usize, &'input str),()>>>,
+                __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__lalrpop_util::ParseError<usize,(usize, &'input str),()>>>,
             >(
                 input: &'input str,
                 __tokens: &mut __TOKENS,
                 __sym0: (usize, &'input str, usize),
-            ) -> Result<(Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>), __ParseError<usize,(usize, &'input str),()>>
+            ) -> Result<(Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>), __lalrpop_util::ParseError<usize,(usize, &'input str),()>>
             {
                 let mut __result: (Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>);
                 let __lookahead = match __tokens.next() {
@@ -533,7 +528,7 @@ mod __parse__Expression2 {
                         return Ok(__result);
                     }
                     _ => {
-                        return Err(__ParseError::UnrecognizedToken {
+                        return Err(__lalrpop_util::ParseError::UnrecognizedToken {
                             token: __lookahead,
                             expected: vec![],
                         });
@@ -557,12 +552,12 @@ mod __parse__Expression2 {
             //     Wonky -> S21
             pub fn __state7<
                 'input,
-                __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__ParseError<usize,(usize, &'input str),()>>>,
+                __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__lalrpop_util::ParseError<usize,(usize, &'input str),()>>>,
             >(
                 input: &'input str,
                 __tokens: &mut __TOKENS,
                 __sym0: (usize, &'input str, usize),
-            ) -> Result<(Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>), __ParseError<usize,(usize, &'input str),()>>
+            ) -> Result<(Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>), __lalrpop_util::ParseError<usize,(usize, &'input str),()>>
             {
                 let mut __result: (Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>);
                 let __lookahead = match __tokens.next() {
@@ -584,7 +579,7 @@ mod __parse__Expression2 {
                         __result = (__lookahead, __nt);
                     }
                     _ => {
-                        return Err(__ParseError::UnrecognizedToken {
+                        return Err(__lalrpop_util::ParseError::UnrecognizedToken {
                             token: __lookahead,
                             expected: vec![],
                         });
@@ -618,12 +613,12 @@ mod __parse__Expression2 {
             //
             pub fn __state8<
                 'input,
-                __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__ParseError<usize,(usize, &'input str),()>>>,
+                __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__lalrpop_util::ParseError<usize,(usize, &'input str),()>>>,
             >(
                 input: &'input str,
                 __tokens: &mut __TOKENS,
                 __sym0: (usize, &'input str, usize),
-            ) -> Result<(Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>), __ParseError<usize,(usize, &'input str),()>>
+            ) -> Result<(Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>), __lalrpop_util::ParseError<usize,(usize, &'input str),()>>
             {
                 let mut __result: (Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>);
                 let __lookahead = match __tokens.next() {
@@ -646,7 +641,7 @@ mod __parse__Expression2 {
                         return Ok(__result);
                     }
                     _ => {
-                        return Err(__ParseError::UnrecognizedToken {
+                        return Err(__lalrpop_util::ParseError::UnrecognizedToken {
                             token: __lookahead,
                             expected: vec![],
                         });
@@ -680,14 +675,14 @@ mod __parse__Expression2 {
             //     Wacky -> S3
             pub fn __state9<
                 'input,
-                __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__ParseError<usize,(usize, &'input str),()>>>,
+                __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__lalrpop_util::ParseError<usize,(usize, &'input str),()>>>,
             >(
                 input: &'input str,
                 __tokens: &mut __TOKENS,
                 __lookahead: Option<(usize, (usize, &'input str), usize)>,
                 __sym0: (usize, Box<Expr<'input>>, usize),
                 __sym1: (usize, Box<Expr<'input>>, usize),
-            ) -> Result<(Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>), __ParseError<usize,(usize, &'input str),()>>
+            ) -> Result<(Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>), __lalrpop_util::ParseError<usize,(usize, &'input str),()>>
             {
                 let mut __result: (Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>);
                 match __lookahead {
@@ -712,7 +707,7 @@ mod __parse__Expression2 {
                         __result = try!(__state8(input, __tokens, __sym2));
                     }
                     _ => {
-                        return Err(__ParseError::UnrecognizedToken {
+                        return Err(__lalrpop_util::ParseError::UnrecognizedToken {
                             token: __lookahead,
                             expected: vec![],
                         });
@@ -749,12 +744,12 @@ mod __parse__Expression2 {
             //
             pub fn __state10<
                 'input,
-                __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__ParseError<usize,(usize, &'input str),()>>>,
+                __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__lalrpop_util::ParseError<usize,(usize, &'input str),()>>>,
             >(
                 input: &'input str,
                 __tokens: &mut __TOKENS,
                 __sym0: (usize, &'input str, usize),
-            ) -> Result<(Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>), __ParseError<usize,(usize, &'input str),()>>
+            ) -> Result<(Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>), __lalrpop_util::ParseError<usize,(usize, &'input str),()>>
             {
                 let mut __result: (Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>);
                 let __lookahead = match __tokens.next() {
@@ -780,7 +775,7 @@ mod __parse__Expression2 {
                         return Ok(__result);
                     }
                     _ => {
-                        return Err(__ParseError::UnrecognizedToken {
+                        return Err(__lalrpop_util::ParseError::UnrecognizedToken {
                             token: __lookahead,
                             expected: vec![],
                         });
@@ -814,14 +809,14 @@ mod __parse__Expression2 {
             //     Wacky -> S3
             pub fn __state11<
                 'input,
-                __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__ParseError<usize,(usize, &'input str),()>>>,
+                __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__lalrpop_util::ParseError<usize,(usize, &'input str),()>>>,
             >(
                 input: &'input str,
                 __tokens: &mut __TOKENS,
                 __lookahead: Option<(usize, (usize, &'input str), usize)>,
                 __sym0: (usize, &'input str, usize),
                 __sym1: (usize, Box<Expr<'input>>, usize),
-            ) -> Result<(Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>), __ParseError<usize,(usize, &'input str),()>>
+            ) -> Result<(Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>), __lalrpop_util::ParseError<usize,(usize, &'input str),()>>
             {
                 let mut __result: (Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>);
                 match __lookahead {
@@ -846,7 +841,7 @@ mod __parse__Expression2 {
                         __result = try!(__state8(input, __tokens, __sym2));
                     }
                     _ => {
-                        return Err(__ParseError::UnrecognizedToken {
+                        return Err(__lalrpop_util::ParseError::UnrecognizedToken {
                             token: __lookahead,
                             expected: vec![],
                         });
@@ -883,12 +878,12 @@ mod __parse__Expression2 {
             //
             pub fn __state12<
                 'input,
-                __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__ParseError<usize,(usize, &'input str),()>>>,
+                __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__lalrpop_util::ParseError<usize,(usize, &'input str),()>>>,
             >(
                 input: &'input str,
                 __tokens: &mut __TOKENS,
                 __sym0: (usize, &'input str, usize),
-            ) -> Result<(Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>), __ParseError<usize,(usize, &'input str),()>>
+            ) -> Result<(Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>), __lalrpop_util::ParseError<usize,(usize, &'input str),()>>
             {
                 let mut __result: (Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>);
                 let __lookahead = match __tokens.next() {
@@ -903,7 +898,7 @@ mod __parse__Expression2 {
                         return Ok(__result);
                     }
                     _ => {
-                        return Err(__ParseError::UnrecognizedToken {
+                        return Err(__lalrpop_util::ParseError::UnrecognizedToken {
                             token: __lookahead,
                             expected: vec![],
                         });
@@ -925,13 +920,13 @@ mod __parse__Expression2 {
             //
             pub fn __state13<
                 'input,
-                __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__ParseError<usize,(usize, &'input str),()>>>,
+                __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__lalrpop_util::ParseError<usize,(usize, &'input str),()>>>,
             >(
                 input: &'input str,
                 __tokens: &mut __TOKENS,
                 __lookahead: Option<(usize, (usize, &'input str), usize)>,
                 __sym0: (usize, Box<Expr<'input>>, usize),
-            ) -> Result<(Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>), __ParseError<usize,(usize, &'input str),()>>
+            ) -> Result<(Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>), __lalrpop_util::ParseError<usize,(usize, &'input str),()>>
             {
                 let mut __result: (Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>);
                 match __lookahead {
@@ -949,7 +944,7 @@ mod __parse__Expression2 {
                         return Ok(__result);
                     }
                     _ => {
-                        return Err(__ParseError::UnrecognizedToken {
+                        return Err(__lalrpop_util::ParseError::UnrecognizedToken {
                             token: __lookahead,
                             expected: vec![],
                         });
@@ -975,14 +970,14 @@ mod __parse__Expression2 {
             //     Expression2Op -> S25
             pub fn __state14<
                 'input,
-                __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__ParseError<usize,(usize, &'input str),()>>>,
+                __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__lalrpop_util::ParseError<usize,(usize, &'input str),()>>>,
             >(
                 input: &'input str,
                 __tokens: &mut __TOKENS,
                 __lookahead: Option<(usize, (usize, &'input str), usize)>,
                 __sym0: &mut Option<(usize, &'input str, usize)>,
                 __sym1: (usize, Box<Expr<'input>>, usize),
-            ) -> Result<(Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>), __ParseError<usize,(usize, &'input str),()>>
+            ) -> Result<(Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>), __lalrpop_util::ParseError<usize,(usize, &'input str),()>>
             {
                 let mut __result: (Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>);
                 match __lookahead {
@@ -997,7 +992,7 @@ mod __parse__Expression2 {
                         __result = try!(__state10(input, __tokens, __sym2));
                     }
                     _ => {
-                        return Err(__ParseError::UnrecognizedToken {
+                        return Err(__lalrpop_util::ParseError::UnrecognizedToken {
                             token: __lookahead,
                             expected: vec![],
                         });
@@ -1031,13 +1026,13 @@ mod __parse__Expression2 {
             //
             pub fn __state15<
                 'input,
-                __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__ParseError<usize,(usize, &'input str),()>>>,
+                __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__lalrpop_util::ParseError<usize,(usize, &'input str),()>>>,
             >(
                 input: &'input str,
                 __tokens: &mut __TOKENS,
                 __lookahead: Option<(usize, (usize, &'input str), usize)>,
                 __sym0: (usize, Box<Expr<'input>>, usize),
-            ) -> Result<(Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>), __ParseError<usize,(usize, &'input str),()>>
+            ) -> Result<(Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>), __lalrpop_util::ParseError<usize,(usize, &'input str),()>>
             {
                 let mut __result: (Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>);
                 match __lookahead {
@@ -1055,7 +1050,7 @@ mod __parse__Expression2 {
                         return Ok(__result);
                     }
                     _ => {
-                        return Err(__ParseError::UnrecognizedToken {
+                        return Err(__lalrpop_util::ParseError::UnrecognizedToken {
                             token: __lookahead,
                             expected: vec![],
                         });
@@ -1081,12 +1076,12 @@ mod __parse__Expression2 {
             //     Maybe -> S27
             pub fn __state16<
                 'input,
-                __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__ParseError<usize,(usize, &'input str),()>>>,
+                __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__lalrpop_util::ParseError<usize,(usize, &'input str),()>>>,
             >(
                 input: &'input str,
                 __tokens: &mut __TOKENS,
                 __sym0: (usize, &'input str, usize),
-            ) -> Result<(Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>), __ParseError<usize,(usize, &'input str),()>>
+            ) -> Result<(Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>), __lalrpop_util::ParseError<usize,(usize, &'input str),()>>
             {
                 let mut __result: (Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>);
                 let __lookahead = match __tokens.next() {
@@ -1115,7 +1110,7 @@ mod __parse__Expression2 {
                         __result = (__lookahead, __nt);
                     }
                     _ => {
-                        return Err(__ParseError::UnrecognizedToken {
+                        return Err(__lalrpop_util::ParseError::UnrecognizedToken {
                             token: __lookahead,
                             expected: vec![],
                         });
@@ -1172,12 +1167,12 @@ mod __parse__Expression2 {
             //     Wacky -> S15
             pub fn __state17<
                 'input,
-                __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__ParseError<usize,(usize, &'input str),()>>>,
+                __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__lalrpop_util::ParseError<usize,(usize, &'input str),()>>>,
             >(
                 input: &'input str,
                 __tokens: &mut __TOKENS,
                 __sym0: (usize, &'input str, usize),
-            ) -> Result<(Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>), __ParseError<usize,(usize, &'input str),()>>
+            ) -> Result<(Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>), __lalrpop_util::ParseError<usize,(usize, &'input str),()>>
             {
                 let mut __result: (Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>);
                 let __lookahead = match __tokens.next() {
@@ -1208,7 +1203,7 @@ mod __parse__Expression2 {
                         __result = try!(__state20(input, __tokens, __sym1));
                     }
                     _ => {
-                        return Err(__ParseError::UnrecognizedToken {
+                        return Err(__lalrpop_util::ParseError::UnrecognizedToken {
                             token: __lookahead,
                             expected: vec![],
                         });
@@ -1250,12 +1245,12 @@ mod __parse__Expression2 {
             //
             pub fn __state18<
                 'input,
-                __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__ParseError<usize,(usize, &'input str),()>>>,
+                __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__lalrpop_util::ParseError<usize,(usize, &'input str),()>>>,
             >(
                 input: &'input str,
                 __tokens: &mut __TOKENS,
                 __sym0: (usize, &'input str, usize),
-            ) -> Result<(Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>), __ParseError<usize,(usize, &'input str),()>>
+            ) -> Result<(Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>), __lalrpop_util::ParseError<usize,(usize, &'input str),()>>
             {
                 let mut __result: (Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>);
                 let __lookahead = match __tokens.next() {
@@ -1278,7 +1273,7 @@ mod __parse__Expression2 {
                         return Ok(__result);
                     }
                     _ => {
-                        return Err(__ParseError::UnrecognizedToken {
+                        return Err(__lalrpop_util::ParseError::UnrecognizedToken {
                             token: __lookahead,
                             expected: vec![],
                         });
@@ -1302,12 +1297,12 @@ mod __parse__Expression2 {
             //     Wonky -> S29
             pub fn __state19<
                 'input,
-                __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__ParseError<usize,(usize, &'input str),()>>>,
+                __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__lalrpop_util::ParseError<usize,(usize, &'input str),()>>>,
             >(
                 input: &'input str,
                 __tokens: &mut __TOKENS,
                 __sym0: (usize, &'input str, usize),
-            ) -> Result<(Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>), __ParseError<usize,(usize, &'input str),()>>
+            ) -> Result<(Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>), __lalrpop_util::ParseError<usize,(usize, &'input str),()>>
             {
                 let mut __result: (Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>);
                 let __lookahead = match __tokens.next() {
@@ -1329,7 +1324,7 @@ mod __parse__Expression2 {
                         __result = (__lookahead, __nt);
                     }
                     _ => {
-                        return Err(__ParseError::UnrecognizedToken {
+                        return Err(__lalrpop_util::ParseError::UnrecognizedToken {
                             token: __lookahead,
                             expected: vec![],
                         });
@@ -1363,12 +1358,12 @@ mod __parse__Expression2 {
             //
             pub fn __state20<
                 'input,
-                __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__ParseError<usize,(usize, &'input str),()>>>,
+                __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__lalrpop_util::ParseError<usize,(usize, &'input str),()>>>,
             >(
                 input: &'input str,
                 __tokens: &mut __TOKENS,
                 __sym0: (usize, &'input str, usize),
-            ) -> Result<(Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>), __ParseError<usize,(usize, &'input str),()>>
+            ) -> Result<(Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>), __lalrpop_util::ParseError<usize,(usize, &'input str),()>>
             {
                 let mut __result: (Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>);
                 let __lookahead = match __tokens.next() {
@@ -1391,7 +1386,7 @@ mod __parse__Expression2 {
                         return Ok(__result);
                     }
                     _ => {
-                        return Err(__ParseError::UnrecognizedToken {
+                        return Err(__lalrpop_util::ParseError::UnrecognizedToken {
                             token: __lookahead,
                             expected: vec![],
                         });
@@ -1413,14 +1408,14 @@ mod __parse__Expression2 {
             //
             pub fn __state21<
                 'input,
-                __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__ParseError<usize,(usize, &'input str),()>>>,
+                __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__lalrpop_util::ParseError<usize,(usize, &'input str),()>>>,
             >(
                 input: &'input str,
                 __tokens: &mut __TOKENS,
                 __lookahead: Option<(usize, (usize, &'input str), usize)>,
                 __sym0: (usize, &'input str, usize),
                 __sym1: (usize, Box<Expr<'input>>, usize),
-            ) -> Result<(Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>), __ParseError<usize,(usize, &'input str),()>>
+            ) -> Result<(Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>), __lalrpop_util::ParseError<usize,(usize, &'input str),()>>
             {
                 let mut __result: (Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>);
                 match __lookahead {
@@ -1438,7 +1433,7 @@ mod __parse__Expression2 {
                         return Ok(__result);
                     }
                     _ => {
-                        return Err(__ParseError::UnrecognizedToken {
+                        return Err(__lalrpop_util::ParseError::UnrecognizedToken {
                             token: __lookahead,
                             expected: vec![],
                         });
@@ -1460,7 +1455,7 @@ mod __parse__Expression2 {
             //
             pub fn __state22<
                 'input,
-                __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__ParseError<usize,(usize, &'input str),()>>>,
+                __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__lalrpop_util::ParseError<usize,(usize, &'input str),()>>>,
             >(
                 input: &'input str,
                 __tokens: &mut __TOKENS,
@@ -1468,7 +1463,7 @@ mod __parse__Expression2 {
                 __sym0: (usize, Box<Expr<'input>>, usize),
                 __sym1: (usize, Box<Expr<'input>>, usize),
                 __sym2: (usize, Box<Expr<'input>>, usize),
-            ) -> Result<(Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>), __ParseError<usize,(usize, &'input str),()>>
+            ) -> Result<(Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>), __lalrpop_util::ParseError<usize,(usize, &'input str),()>>
             {
                 let mut __result: (Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>);
                 match __lookahead {
@@ -1486,7 +1481,7 @@ mod __parse__Expression2 {
                         return Ok(__result);
                     }
                     _ => {
-                        return Err(__ParseError::UnrecognizedToken {
+                        return Err(__lalrpop_util::ParseError::UnrecognizedToken {
                             token: __lookahead,
                             expected: vec![],
                         });
@@ -1508,7 +1503,7 @@ mod __parse__Expression2 {
             //
             pub fn __state23<
                 'input,
-                __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__ParseError<usize,(usize, &'input str),()>>>,
+                __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__lalrpop_util::ParseError<usize,(usize, &'input str),()>>>,
             >(
                 input: &'input str,
                 __tokens: &mut __TOKENS,
@@ -1516,7 +1511,7 @@ mod __parse__Expression2 {
                 __sym0: (usize, &'input str, usize),
                 __sym1: (usize, Box<Expr<'input>>, usize),
                 __sym2: (usize, Box<Expr<'input>>, usize),
-            ) -> Result<(Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>), __ParseError<usize,(usize, &'input str),()>>
+            ) -> Result<(Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>), __lalrpop_util::ParseError<usize,(usize, &'input str),()>>
             {
                 let mut __result: (Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>);
                 match __lookahead {
@@ -1534,7 +1529,7 @@ mod __parse__Expression2 {
                         return Ok(__result);
                     }
                     _ => {
-                        return Err(__ParseError::UnrecognizedToken {
+                        return Err(__lalrpop_util::ParseError::UnrecognizedToken {
                             token: __lookahead,
                             expected: vec![],
                         });
@@ -1556,13 +1551,13 @@ mod __parse__Expression2 {
             //
             pub fn __state24<
                 'input,
-                __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__ParseError<usize,(usize, &'input str),()>>>,
+                __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__lalrpop_util::ParseError<usize,(usize, &'input str),()>>>,
             >(
                 input: &'input str,
                 __tokens: &mut __TOKENS,
                 __sym0: (usize, &'input str, usize),
                 __sym1: (usize, &'input str, usize),
-            ) -> Result<(Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>), __ParseError<usize,(usize, &'input str),()>>
+            ) -> Result<(Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>), __lalrpop_util::ParseError<usize,(usize, &'input str),()>>
             {
                 let mut __result: (Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>);
                 let __lookahead = match __tokens.next() {
@@ -1588,7 +1583,7 @@ mod __parse__Expression2 {
                         return Ok(__result);
                     }
                     _ => {
-                        return Err(__ParseError::UnrecognizedToken {
+                        return Err(__lalrpop_util::ParseError::UnrecognizedToken {
                             token: __lookahead,
                             expected: vec![],
                         });
@@ -1622,14 +1617,14 @@ mod __parse__Expression2 {
             //     Wacky -> S15
             pub fn __state25<
                 'input,
-                __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__ParseError<usize,(usize, &'input str),()>>>,
+                __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__lalrpop_util::ParseError<usize,(usize, &'input str),()>>>,
             >(
                 input: &'input str,
                 __tokens: &mut __TOKENS,
                 __lookahead: Option<(usize, (usize, &'input str), usize)>,
                 __sym0: (usize, Box<Expr<'input>>, usize),
                 __sym1: (usize, Box<Expr<'input>>, usize),
-            ) -> Result<(Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>), __ParseError<usize,(usize, &'input str),()>>
+            ) -> Result<(Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>), __lalrpop_util::ParseError<usize,(usize, &'input str),()>>
             {
                 let mut __result: (Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>);
                 match __lookahead {
@@ -1654,7 +1649,7 @@ mod __parse__Expression2 {
                         __result = try!(__state20(input, __tokens, __sym2));
                     }
                     _ => {
-                        return Err(__ParseError::UnrecognizedToken {
+                        return Err(__lalrpop_util::ParseError::UnrecognizedToken {
                             token: __lookahead,
                             expected: vec![],
                         });
@@ -1691,14 +1686,14 @@ mod __parse__Expression2 {
             //
             pub fn __state26<
                 'input,
-                __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__ParseError<usize,(usize, &'input str),()>>>,
+                __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__lalrpop_util::ParseError<usize,(usize, &'input str),()>>>,
             >(
                 input: &'input str,
                 __tokens: &mut __TOKENS,
                 __sym0: (usize, &'input str, usize),
                 __sym1: (usize, Box<Expr<'input>>, usize),
                 __sym2: (usize, &'input str, usize),
-            ) -> Result<(Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>), __ParseError<usize,(usize, &'input str),()>>
+            ) -> Result<(Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>), __lalrpop_util::ParseError<usize,(usize, &'input str),()>>
             {
                 let mut __result: (Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>);
                 let __lookahead = match __tokens.next() {
@@ -1721,7 +1716,7 @@ mod __parse__Expression2 {
                         return Ok(__result);
                     }
                     _ => {
-                        return Err(__ParseError::UnrecognizedToken {
+                        return Err(__lalrpop_util::ParseError::UnrecognizedToken {
                             token: __lookahead,
                             expected: vec![],
                         });
@@ -1755,14 +1750,14 @@ mod __parse__Expression2 {
             //     Wacky -> S15
             pub fn __state27<
                 'input,
-                __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__ParseError<usize,(usize, &'input str),()>>>,
+                __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__lalrpop_util::ParseError<usize,(usize, &'input str),()>>>,
             >(
                 input: &'input str,
                 __tokens: &mut __TOKENS,
                 __lookahead: Option<(usize, (usize, &'input str), usize)>,
                 __sym0: (usize, &'input str, usize),
                 __sym1: (usize, Box<Expr<'input>>, usize),
-            ) -> Result<(Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>), __ParseError<usize,(usize, &'input str),()>>
+            ) -> Result<(Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>), __lalrpop_util::ParseError<usize,(usize, &'input str),()>>
             {
                 let mut __result: (Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>);
                 match __lookahead {
@@ -1787,7 +1782,7 @@ mod __parse__Expression2 {
                         __result = try!(__state20(input, __tokens, __sym2));
                     }
                     _ => {
-                        return Err(__ParseError::UnrecognizedToken {
+                        return Err(__lalrpop_util::ParseError::UnrecognizedToken {
                             token: __lookahead,
                             expected: vec![],
                         });
@@ -1828,14 +1823,14 @@ mod __parse__Expression2 {
             //     Expression2Op -> S25
             pub fn __state28<
                 'input,
-                __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__ParseError<usize,(usize, &'input str),()>>>,
+                __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__lalrpop_util::ParseError<usize,(usize, &'input str),()>>>,
             >(
                 input: &'input str,
                 __tokens: &mut __TOKENS,
                 __lookahead: Option<(usize, (usize, &'input str), usize)>,
                 __sym0: &mut Option<(usize, &'input str, usize)>,
                 __sym1: (usize, Box<Expr<'input>>, usize),
-            ) -> Result<(Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>), __ParseError<usize,(usize, &'input str),()>>
+            ) -> Result<(Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>), __lalrpop_util::ParseError<usize,(usize, &'input str),()>>
             {
                 let mut __result: (Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>);
                 match __lookahead {
@@ -1850,7 +1845,7 @@ mod __parse__Expression2 {
                         __result = try!(__state10(input, __tokens, __sym2));
                     }
                     _ => {
-                        return Err(__ParseError::UnrecognizedToken {
+                        return Err(__lalrpop_util::ParseError::UnrecognizedToken {
                             token: __lookahead,
                             expected: vec![],
                         });
@@ -1884,14 +1879,14 @@ mod __parse__Expression2 {
             //
             pub fn __state29<
                 'input,
-                __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__ParseError<usize,(usize, &'input str),()>>>,
+                __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__lalrpop_util::ParseError<usize,(usize, &'input str),()>>>,
             >(
                 input: &'input str,
                 __tokens: &mut __TOKENS,
                 __lookahead: Option<(usize, (usize, &'input str), usize)>,
                 __sym0: (usize, &'input str, usize),
                 __sym1: (usize, Box<Expr<'input>>, usize),
-            ) -> Result<(Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>), __ParseError<usize,(usize, &'input str),()>>
+            ) -> Result<(Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>), __lalrpop_util::ParseError<usize,(usize, &'input str),()>>
             {
                 let mut __result: (Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>);
                 match __lookahead {
@@ -1909,7 +1904,7 @@ mod __parse__Expression2 {
                         return Ok(__result);
                     }
                     _ => {
-                        return Err(__ParseError::UnrecognizedToken {
+                        return Err(__lalrpop_util::ParseError::UnrecognizedToken {
                             token: __lookahead,
                             expected: vec![],
                         });
@@ -1931,7 +1926,7 @@ mod __parse__Expression2 {
             //
             pub fn __state30<
                 'input,
-                __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__ParseError<usize,(usize, &'input str),()>>>,
+                __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__lalrpop_util::ParseError<usize,(usize, &'input str),()>>>,
             >(
                 input: &'input str,
                 __tokens: &mut __TOKENS,
@@ -1939,7 +1934,7 @@ mod __parse__Expression2 {
                 __sym0: (usize, Box<Expr<'input>>, usize),
                 __sym1: (usize, Box<Expr<'input>>, usize),
                 __sym2: (usize, Box<Expr<'input>>, usize),
-            ) -> Result<(Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>), __ParseError<usize,(usize, &'input str),()>>
+            ) -> Result<(Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>), __lalrpop_util::ParseError<usize,(usize, &'input str),()>>
             {
                 let mut __result: (Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>);
                 match __lookahead {
@@ -1957,7 +1952,7 @@ mod __parse__Expression2 {
                         return Ok(__result);
                     }
                     _ => {
-                        return Err(__ParseError::UnrecognizedToken {
+                        return Err(__lalrpop_util::ParseError::UnrecognizedToken {
                             token: __lookahead,
                             expected: vec![],
                         });
@@ -1979,7 +1974,7 @@ mod __parse__Expression2 {
             //
             pub fn __state31<
                 'input,
-                __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__ParseError<usize,(usize, &'input str),()>>>,
+                __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__lalrpop_util::ParseError<usize,(usize, &'input str),()>>>,
             >(
                 input: &'input str,
                 __tokens: &mut __TOKENS,
@@ -1987,7 +1982,7 @@ mod __parse__Expression2 {
                 __sym0: (usize, &'input str, usize),
                 __sym1: (usize, Box<Expr<'input>>, usize),
                 __sym2: (usize, Box<Expr<'input>>, usize),
-            ) -> Result<(Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>), __ParseError<usize,(usize, &'input str),()>>
+            ) -> Result<(Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>), __lalrpop_util::ParseError<usize,(usize, &'input str),()>>
             {
                 let mut __result: (Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>);
                 match __lookahead {
@@ -2005,7 +2000,7 @@ mod __parse__Expression2 {
                         return Ok(__result);
                     }
                     _ => {
-                        return Err(__ParseError::UnrecognizedToken {
+                        return Err(__lalrpop_util::ParseError::UnrecognizedToken {
                             token: __lookahead,
                             expected: vec![],
                         });
@@ -2027,14 +2022,14 @@ mod __parse__Expression2 {
             //
             pub fn __state32<
                 'input,
-                __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__ParseError<usize,(usize, &'input str),()>>>,
+                __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__lalrpop_util::ParseError<usize,(usize, &'input str),()>>>,
             >(
                 input: &'input str,
                 __tokens: &mut __TOKENS,
                 __sym0: (usize, &'input str, usize),
                 __sym1: (usize, Box<Expr<'input>>, usize),
                 __sym2: (usize, &'input str, usize),
-            ) -> Result<(Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>), __ParseError<usize,(usize, &'input str),()>>
+            ) -> Result<(Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>), __lalrpop_util::ParseError<usize,(usize, &'input str),()>>
             {
                 let mut __result: (Option<(usize, (usize, &'input str), usize)>, __Nonterminal<'input>);
                 let __lookahead = match __tokens.next() {
@@ -2057,7 +2052,7 @@ mod __parse__Expression2 {
                         return Ok(__result);
                     }
                     _ => {
-                        return Err(__ParseError::UnrecognizedToken {
+                        return Err(__lalrpop_util::ParseError::UnrecognizedToken {
                             token: __lookahead,
                             expected: vec![],
                         });
@@ -2074,7 +2069,6 @@ mod __parse__Expression2 {
 
             use loc_issue_90_lib::Expr;
             extern crate lalrpop_util as __lalrpop_util;
-            use self::__lalrpop_util::ParseError as __ParseError;
             #[allow(dead_code)]
             pub enum __Symbol<'input> {
                 Term_22_26_22(&'input str),
@@ -2916,7 +2910,7 @@ mod __parse__Expression2 {
                 'input,
             >(
                 input: &'input str,
-            ) -> Result<Box<Expr<'input>>, __ParseError<usize,(usize, &'input str),()>>
+            ) -> Result<Box<Expr<'input>>, __lalrpop_util::ParseError<usize,(usize, &'input str),()>>
             {
                 let mut __tokens = super::super::super::__intern_token::__Matcher::new(input);
                 let mut __states = vec![0_i32];
@@ -2938,7 +2932,7 @@ mod __parse__Expression2 {
                         (_, (7, _), _) if true => 7,
                         (_, (8, _), _) if true => 8,
                         _ => {
-                            return Err(__ParseError::UnrecognizedToken {
+                            return Err(__lalrpop_util::ParseError::UnrecognizedToken {
                                 token: Some(__lookahead),
                                 expected: vec![],
                             });
@@ -2995,7 +2989,7 @@ mod __parse__Expression2 {
                                 return r;
                             }
                         } else {
-                            return Err(__ParseError::UnrecognizedToken {
+                            return Err(__lalrpop_util::ParseError::UnrecognizedToken {
                                 token: Some(__lookahead),
                                 expected: vec![],
                             });
@@ -3010,7 +3004,7 @@ mod __parse__Expression2 {
                             return r;
                         }
                     } else {
-                        return Err(__ParseError::UnrecognizedToken {
+                        return Err(__lalrpop_util::ParseError::UnrecognizedToken {
                             token: None,
                             expected: vec![],
                         });
@@ -3025,7 +3019,7 @@ mod __parse__Expression2 {
                 __lookahead_start: Option<&usize>,
                 __states: &mut ::std::vec::Vec<i32>,
                 __symbols: &mut ::std::vec::Vec<(usize,__Symbol<'input>,usize)>,
-            ) -> Option<Result<Box<Expr<'input>>,__ParseError<usize,(usize, &'input str),()>>>
+            ) -> Option<Result<Box<Expr<'input>>,__lalrpop_util::ParseError<usize,(usize, &'input str),()>>>
             {
                 let __nonterminal = match -__action {
                     1 => {
@@ -3388,7 +3382,6 @@ mod __parse__Expression2 {
 pub use self::__parse__Expression2::parse_Expression2;
 mod __intern_token {
     extern crate lalrpop_util as __lalrpop_util;
-    use self::__lalrpop_util::ParseError as __ParseError;
     pub struct __Matcher<'input> {
         text: &'input str,
         consumed: usize,
@@ -42979,7 +42972,7 @@ mod __intern_token {
     }
 
     impl<'input> Iterator for __Matcher<'input> {
-        type Item = Result<(usize, (usize, &'input str), usize), __ParseError<usize,(usize, &'input str),()>>;
+        type Item = Result<(usize, (usize, &'input str), usize), __lalrpop_util::ParseError<usize,(usize, &'input str),()>>;
 
         fn next(&mut self) -> Option<Self::Item> {
             let __text = self.text.trim_left();
@@ -43000,7 +42993,7 @@ mod __intern_token {
                         Some(Ok((__start_offset, (__index, __result), __end_offset)))
                     }
                     None => {
-                        Some(Err(__ParseError::InvalidToken { location: __start_offset }))
+                        Some(Err(__lalrpop_util::ParseError::InvalidToken { location: __start_offset }))
                     }
                 }
             }
@@ -43008,6 +43001,7 @@ mod __intern_token {
     }
 }
 
+#[allow(unused_variables)]
 pub fn __action0<
     'input,
 >(
@@ -43018,6 +43012,7 @@ pub fn __action0<
     (__0)
 }
 
+#[allow(unused_variables)]
 pub fn __action1<
     'input,
 >(
@@ -43032,6 +43027,7 @@ pub fn __action1<
     Box::new(Expr::Adjacent(__0, __1, __2, __3, __4))
 }
 
+#[allow(unused_variables)]
 pub fn __action2<
     'input,
 >(
@@ -43044,6 +43040,7 @@ pub fn __action2<
     Box::new(Expr::Upgrade(__0, __1, __2))
 }
 
+#[allow(unused_variables)]
 pub fn __action3<
     'input,
 >(
@@ -43056,6 +43053,7 @@ pub fn __action3<
     Box::new(Expr::Mul(__0, __1))
 }
 
+#[allow(unused_variables)]
 pub fn __action4<
     'input,
 >(
@@ -43070,6 +43068,7 @@ pub fn __action4<
     Box::new(Expr::Paren(__0, __1, __2))
 }
 
+#[allow(unused_variables)]
 pub fn __action5<
     'input,
 >(
@@ -43082,6 +43081,7 @@ pub fn __action5<
     Box::new(Expr::Ident(__0, __1, __2))
 }
 
+#[allow(unused_variables)]
 pub fn __action6<
     'input,
 >(
@@ -43096,6 +43096,7 @@ pub fn __action6<
     Box::new(Expr::Ref(__0, __1, __2, __3))
 }
 
+#[allow(unused_variables)]
 pub fn __action7<
     'input,
 >(
@@ -43107,6 +43108,7 @@ pub fn __action7<
     (__0)
 }
 
+#[allow(unused_variables)]
 pub fn __action8<
     'input,
 >(
@@ -43117,6 +43119,7 @@ pub fn __action8<
     (__0)
 }
 
+#[allow(unused_variables)]
 pub fn __action9<
     'input,
 >(
@@ -43128,6 +43131,7 @@ pub fn __action9<
     Box::new(Expr::Maybe(__0, __1))
 }
 
+#[allow(unused_variables)]
 pub fn __action10<
     'input,
 >(
@@ -43141,6 +43145,7 @@ pub fn __action10<
     Box::new(Expr::Maybe(__0, __1))
 }
 
+#[allow(unused_variables)]
 pub fn __action11<
     'input,
 >(
@@ -43153,6 +43158,7 @@ pub fn __action11<
     Box::new(Expr::Wacky(__0, __1))
 }
 
+#[allow(unused_variables)]
 pub fn __action12<
     'input,
 >(
@@ -43164,6 +43170,7 @@ pub fn __action12<
     Box::new(Expr::Wonky(__0, __1))
 }
 
+#[allow(unused_variables)]
 pub fn __action13<
     'input,
 >(
@@ -43175,6 +43182,7 @@ pub fn __action13<
     __lookbehind.clone()
 }
 
+#[allow(unused_variables)]
 pub fn __action14<
     'input,
 >(
@@ -43186,6 +43194,7 @@ pub fn __action14<
     __lookahead.clone()
 }
 
+#[allow(unused_variables)]
 pub fn __action15<
     'input,
 >(
@@ -43214,6 +43223,7 @@ pub fn __action15<
     )
 }
 
+#[allow(unused_variables)]
 pub fn __action16<
     'input,
 >(
@@ -43238,6 +43248,7 @@ pub fn __action16<
     )
 }
 
+#[allow(unused_variables)]
 pub fn __action17<
     'input,
 >(
@@ -43266,6 +43277,7 @@ pub fn __action17<
     )
 }
 
+#[allow(unused_variables)]
 pub fn __action18<
     'input,
 >(
@@ -43294,6 +43306,7 @@ pub fn __action18<
     )
 }
 
+#[allow(unused_variables)]
 pub fn __action19<
     'input,
 >(
@@ -43318,6 +43331,7 @@ pub fn __action19<
     )
 }
 
+#[allow(unused_variables)]
 pub fn __action20<
     'input,
 >(
@@ -43342,6 +43356,7 @@ pub fn __action20<
     )
 }
 
+#[allow(unused_variables)]
 pub fn __action21<
     'input,
 >(
@@ -43364,6 +43379,7 @@ pub fn __action21<
     )
 }
 
+#[allow(unused_variables)]
 pub fn __action22<
     'input,
 >(
@@ -43390,6 +43406,7 @@ pub fn __action22<
     )
 }
 
+#[allow(unused_variables)]
 pub fn __action23<
     'input,
 >(
@@ -43414,6 +43431,7 @@ pub fn __action23<
     )
 }
 
+#[allow(unused_variables)]
 pub fn __action24<
     'input,
 >(
@@ -43436,6 +43454,7 @@ pub fn __action24<
     )
 }
 
+#[allow(unused_variables)]
 pub fn __action25<
     'input,
 >(
@@ -43462,6 +43481,7 @@ pub fn __action25<
     )
 }
 
+#[allow(unused_variables)]
 pub fn __action26<
     'input,
 >(
@@ -43484,6 +43504,7 @@ pub fn __action26<
     )
 }
 
+#[allow(unused_variables)]
 pub fn __action27<
     'input,
 >(
@@ -43510,6 +43531,7 @@ pub fn __action27<
     )
 }
 
+#[allow(unused_variables)]
 pub fn __action28<
     'input,
 >(
@@ -43536,6 +43558,7 @@ pub fn __action28<
     )
 }
 
+#[allow(unused_variables)]
 pub fn __action29<
     'input,
 >(
@@ -43558,6 +43581,7 @@ pub fn __action29<
     )
 }
 
+#[allow(unused_variables)]
 pub fn __action30<
     'input,
 >(
@@ -43580,6 +43604,7 @@ pub fn __action30<
     )
 }
 
+#[allow(unused_variables)]
 pub fn __action31<
     'input,
 >(
@@ -43602,6 +43627,7 @@ pub fn __action31<
     )
 }
 
+#[allow(unused_variables)]
 pub fn __action32<
     'input,
 >(
@@ -43626,6 +43652,7 @@ pub fn __action32<
     )
 }
 
+#[allow(unused_variables)]
 pub fn __action33<
     'input,
 >(
@@ -43648,6 +43675,7 @@ pub fn __action33<
     )
 }
 
+#[allow(unused_variables)]
 pub fn __action34<
     'input,
 >(

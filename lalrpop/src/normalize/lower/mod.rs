@@ -5,11 +5,12 @@
 use intern::{self, intern, InternedString};
 use normalize::NormResult;
 use normalize::norm_util::{self, Symbols};
-use grammar::consts::INPUT_LIFETIME;
+use grammar::consts::*;
 use grammar::pattern::{Pattern, PatternKind};
 use grammar::parse_tree as pt;
 use grammar::parse_tree::{InternToken, NonterminalString, TerminalString};
 use grammar::repr as r;
+use tls::Tls;
 use collections::{map, Map};
 
 pub fn lower(grammar: pt::Grammar, types: r::Types) -> NormResult<r::Grammar> {
@@ -129,11 +130,25 @@ impl LowerState {
                               .map(|p| r::Parameter { name: p.name, ty: p.ty.type_repr() })
                               .collect();
 
-        let algorithm =
-            match grammar.algorithm {
-                None => r::Algorithm::LR1,
-                Some(ref a) => r::Algorithm::from_str(a.text).unwrap(),
-            };
+        let mut algorithm = r::Algorithm::default();
+
+        if Tls::session().unit_test {
+            algorithm.codegen = r::LrCodeGeneration::TestAll;
+        }
+
+        for annotation in &grammar.annotations {
+            if annotation.id == intern(LALR) {
+                algorithm.lalr = true;
+            } else if annotation.id == intern(TABLE_DRIVEN) {
+                algorithm.codegen = r::LrCodeGeneration::TableDriven;
+            } else if annotation.id == intern(RECURSIVE_ASCENT) {
+                algorithm.codegen = r::LrCodeGeneration::RecursiveAscent;
+            } else if annotation.id == intern(TEST_ALL) {
+                algorithm.codegen = r::LrCodeGeneration::TestAll;
+            } else {
+                panic!("validation permitted unknown annotation: {:?}", annotation.id);
+            }
+        }
 
         let mut all_terminals: Vec<_> = self.conversions.iter()
                                                         .map(|c| c.0)

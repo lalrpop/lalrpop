@@ -26,9 +26,10 @@ pub fn build_states<'grammar>(grammar: &'grammar Grammar,
                               -> LR1Result<'grammar> {
     let _lr1_tls = Lr1Tls::install(grammar.terminals.clone());
 
-    match grammar.algorithm {
-        Algorithm::LR1 => build::build_lr1_states(grammar, start),
-        Algorithm::LALR1 => build_lalr::build_lalr_states(grammar, start),
+    if !grammar.algorithm.lalr {
+        build::build_lr1_states(grammar, start)
+    } else {
+        build_lalr::build_lalr_states(grammar, start)
     }
 }
 

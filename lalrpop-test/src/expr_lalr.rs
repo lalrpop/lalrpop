@@ -1,15 +1,11 @@
-#![allow(unused_imports)]
-#![allow(unused_variables)]
 use util::tok::Tok;
 extern crate lalrpop_util as __lalrpop_util;
-use self::__lalrpop_util::ParseError as __ParseError;
 
 mod __parse__Expr {
     #![allow(non_snake_case, non_camel_case_types, unused_mut, unused_variables, unused_imports)]
 
     use util::tok::Tok;
     extern crate lalrpop_util as __lalrpop_util;
-    use self::__lalrpop_util::ParseError as __ParseError;
     use super::__ToTriple;
     pub fn parse_Expr<
         __TOKEN: __ToTriple<Error=()>,
@@ -17,7 +13,7 @@ mod __parse__Expr {
     >(
         scale: i32,
         __tokens0: __TOKENS,
-    ) -> Result<i32, __ParseError<(),Tok,()>> where
+    ) -> Result<i32, __lalrpop_util::ParseError<(),Tok,()>> where
       __TOKENS: Clone,
     {
         let __ascent = __ascent::parse_Expr(
@@ -38,7 +34,6 @@ mod __parse__Expr {
 
             use util::tok::Tok;
             extern crate lalrpop_util as __lalrpop_util;
-            use self::__lalrpop_util::ParseError as __ParseError;
             use super::super::super::__ToTriple;
             pub fn parse_Expr<
                 __TOKEN: __ToTriple<Error=()>,
@@ -46,18 +41,18 @@ mod __parse__Expr {
             >(
                 scale: i32,
                 __tokens0: __TOKENS,
-            ) -> Result<i32, __ParseError<(),Tok,()>>
+            ) -> Result<i32, __lalrpop_util::ParseError<(),Tok,()>>
             {
                 let __tokens = __tokens0.into_iter();
                 let mut __tokens = __tokens.map(|t| __ToTriple::to_triple(t));
                 let __lookahead = match __tokens.next() {
                     Some(Ok(v)) => Some(v),
                     None => None,
-                    Some(Err(e)) => return Err(__ParseError::User { error: e }),
+                    Some(Err(e)) => return Err(__lalrpop_util::ParseError::User { error: e }),
                 };
                 match try!(__state0(scale, &mut __tokens, __lookahead)) {
                     (Some(__lookahead), _) => {
-                        Err(__ParseError::ExtraToken { token: __lookahead })
+                        Err(__lalrpop_util::ParseError::ExtraToken { token: __lookahead })
                     }
                     (None, __Nonterminal::____Expr((_, __nt, _))) => {
                         Ok(__nt)
@@ -104,7 +99,7 @@ mod __parse__Expr {
                 scale: i32,
                 __tokens: &mut __TOKENS,
                 __lookahead: Option<((), Tok, ())>,
-            ) -> Result<(Option<((), Tok, ())>, __Nonterminal<>), __ParseError<(),Tok,()>>
+            ) -> Result<(Option<((), Tok, ())>, __Nonterminal<>), __lalrpop_util::ParseError<(),Tok,()>>
             {
                 let mut __result: (Option<((), Tok, ())>, __Nonterminal<>);
                 match __lookahead {
@@ -117,7 +112,7 @@ mod __parse__Expr {
                         __result = try!(__state5(scale, __tokens, __sym0));
                     }
                     _ => {
-                        return Err(__ParseError::UnrecognizedToken {
+                        return Err(__lalrpop_util::ParseError::UnrecognizedToken {
                             token: __lookahead,
                             expected: vec![],
                         });
@@ -165,7 +160,7 @@ mod __parse__Expr {
                 __tokens: &mut __TOKENS,
                 __lookahead: Option<((), Tok, ())>,
                 __sym0: ((), i32, ()),
-            ) -> Result<(Option<((), Tok, ())>, __Nonterminal<>), __ParseError<(),Tok,()>>
+            ) -> Result<(Option<((), Tok, ())>, __Nonterminal<>), __lalrpop_util::ParseError<(),Tok,()>>
             {
                 let mut __result: (Option<((), Tok, ())>, __Nonterminal<>);
                 match __lookahead {
@@ -192,7 +187,7 @@ mod __parse__Expr {
                         return Ok(__result);
                     }
                     _ => {
-                        return Err(__ParseError::UnrecognizedToken {
+                        return Err(__lalrpop_util::ParseError::UnrecognizedToken {
                             token: __lookahead,
                             expected: vec![],
                         });
@@ -223,7 +218,7 @@ mod __parse__Expr {
                 __tokens: &mut __TOKENS,
                 __lookahead: Option<((), Tok, ())>,
                 __sym0: ((), i32, ()),
-            ) -> Result<(Option<((), Tok, ())>, __Nonterminal<>), __ParseError<(),Tok,()>>
+            ) -> Result<(Option<((), Tok, ())>, __Nonterminal<>), __lalrpop_util::ParseError<(),Tok,()>>
             {
                 let mut __result: (Option<((), Tok, ())>, __Nonterminal<>);
                 match __lookahead {
@@ -253,7 +248,7 @@ mod __parse__Expr {
                         return Ok(__result);
                     }
                     _ => {
-                        return Err(__ParseError::UnrecognizedToken {
+                        return Err(__lalrpop_util::ParseError::UnrecognizedToken {
                             token: __lookahead,
                             expected: vec![],
                         });
@@ -280,7 +275,7 @@ mod __parse__Expr {
                 __tokens: &mut __TOKENS,
                 __lookahead: Option<((), Tok, ())>,
                 __sym0: ((), i32, ()),
-            ) -> Result<(Option<((), Tok, ())>, __Nonterminal<>), __ParseError<(),Tok,()>>
+            ) -> Result<(Option<((), Tok, ())>, __Nonterminal<>), __lalrpop_util::ParseError<(),Tok,()>>
             {
                 let mut __result: (Option<((), Tok, ())>, __Nonterminal<>);
                 match __lookahead {
@@ -302,7 +297,7 @@ mod __parse__Expr {
                         return Ok(__result);
                     }
                     _ => {
-                        return Err(__ParseError::UnrecognizedToken {
+                        return Err(__lalrpop_util::ParseError::UnrecognizedToken {
                             token: __lookahead,
                             expected: vec![],
                         });
@@ -340,13 +335,13 @@ mod __parse__Expr {
                 scale: i32,
                 __tokens: &mut __TOKENS,
                 __sym0: ((), Tok, ()),
-            ) -> Result<(Option<((), Tok, ())>, __Nonterminal<>), __ParseError<(),Tok,()>>
+            ) -> Result<(Option<((), Tok, ())>, __Nonterminal<>), __lalrpop_util::ParseError<(),Tok,()>>
             {
                 let mut __result: (Option<((), Tok, ())>, __Nonterminal<>);
                 let __lookahead = match __tokens.next() {
                     Some(Ok(v)) => Some(v),
                     None => None,
-                    Some(Err(e)) => return Err(__ParseError::User { error: e }),
+                    Some(Err(e)) => return Err(__lalrpop_util::ParseError::User { error: e }),
                 };
                 let __sym0 = &mut Some(__sym0);
                 match __lookahead {
@@ -359,7 +354,7 @@ mod __parse__Expr {
                         __result = try!(__state5(scale, __tokens, __sym1));
                     }
                     _ => {
-                        return Err(__ParseError::UnrecognizedToken {
+                        return Err(__lalrpop_util::ParseError::UnrecognizedToken {
                             token: __lookahead,
                             expected: vec![],
                         });
@@ -405,13 +400,13 @@ mod __parse__Expr {
                 scale: i32,
                 __tokens: &mut __TOKENS,
                 __sym0: ((), i32, ()),
-            ) -> Result<(Option<((), Tok, ())>, __Nonterminal<>), __ParseError<(),Tok,()>>
+            ) -> Result<(Option<((), Tok, ())>, __Nonterminal<>), __lalrpop_util::ParseError<(),Tok,()>>
             {
                 let mut __result: (Option<((), Tok, ())>, __Nonterminal<>);
                 let __lookahead = match __tokens.next() {
                     Some(Ok(v)) => Some(v),
                     None => None,
-                    Some(Err(e)) => return Err(__ParseError::User { error: e }),
+                    Some(Err(e)) => return Err(__lalrpop_util::ParseError::User { error: e }),
                 };
                 match __lookahead {
                     Some((_, Tok::RParen, _)) |
@@ -432,7 +427,7 @@ mod __parse__Expr {
                         return Ok(__result);
                     }
                     _ => {
-                        return Err(__ParseError::UnrecognizedToken {
+                        return Err(__lalrpop_util::ParseError::UnrecognizedToken {
                             token: __lookahead,
                             expected: vec![],
                         });
@@ -467,13 +462,13 @@ mod __parse__Expr {
                 __tokens: &mut __TOKENS,
                 __sym0: ((), i32, ()),
                 __sym1: ((), Tok, ()),
-            ) -> Result<(Option<((), Tok, ())>, __Nonterminal<>), __ParseError<(),Tok,()>>
+            ) -> Result<(Option<((), Tok, ())>, __Nonterminal<>), __lalrpop_util::ParseError<(),Tok,()>>
             {
                 let mut __result: (Option<((), Tok, ())>, __Nonterminal<>);
                 let __lookahead = match __tokens.next() {
                     Some(Ok(v)) => Some(v),
                     None => None,
-                    Some(Err(e)) => return Err(__ParseError::User { error: e }),
+                    Some(Err(e)) => return Err(__lalrpop_util::ParseError::User { error: e }),
                 };
                 let __sym0 = &mut Some(__sym0);
                 let __sym1 = &mut Some(__sym1);
@@ -487,7 +482,7 @@ mod __parse__Expr {
                         __result = try!(__state5(scale, __tokens, __sym2));
                     }
                     _ => {
-                        return Err(__ParseError::UnrecognizedToken {
+                        return Err(__lalrpop_util::ParseError::UnrecognizedToken {
                             token: __lookahead,
                             expected: vec![],
                         });
@@ -539,13 +534,13 @@ mod __parse__Expr {
                 __tokens: &mut __TOKENS,
                 __sym0: ((), i32, ()),
                 __sym1: ((), Tok, ()),
-            ) -> Result<(Option<((), Tok, ())>, __Nonterminal<>), __ParseError<(),Tok,()>>
+            ) -> Result<(Option<((), Tok, ())>, __Nonterminal<>), __lalrpop_util::ParseError<(),Tok,()>>
             {
                 let mut __result: (Option<((), Tok, ())>, __Nonterminal<>);
                 let __lookahead = match __tokens.next() {
                     Some(Ok(v)) => Some(v),
                     None => None,
-                    Some(Err(e)) => return Err(__ParseError::User { error: e }),
+                    Some(Err(e)) => return Err(__lalrpop_util::ParseError::User { error: e }),
                 };
                 let __sym0 = &mut Some(__sym0);
                 let __sym1 = &mut Some(__sym1);
@@ -559,7 +554,7 @@ mod __parse__Expr {
                         __result = try!(__state5(scale, __tokens, __sym2));
                     }
                     _ => {
-                        return Err(__ParseError::UnrecognizedToken {
+                        return Err(__lalrpop_util::ParseError::UnrecognizedToken {
                             token: __lookahead,
                             expected: vec![],
                         });
@@ -607,13 +602,13 @@ mod __parse__Expr {
                 __tokens: &mut __TOKENS,
                 __sym0: ((), i32, ()),
                 __sym1: ((), Tok, ()),
-            ) -> Result<(Option<((), Tok, ())>, __Nonterminal<>), __ParseError<(),Tok,()>>
+            ) -> Result<(Option<((), Tok, ())>, __Nonterminal<>), __lalrpop_util::ParseError<(),Tok,()>>
             {
                 let mut __result: (Option<((), Tok, ())>, __Nonterminal<>);
                 let __lookahead = match __tokens.next() {
                     Some(Ok(v)) => Some(v),
                     None => None,
-                    Some(Err(e)) => return Err(__ParseError::User { error: e }),
+                    Some(Err(e)) => return Err(__lalrpop_util::ParseError::User { error: e }),
                 };
                 match __lookahead {
                     Some((__loc1, __tok @ Tok::LParen, __loc2)) => {
@@ -625,7 +620,7 @@ mod __parse__Expr {
                         __result = try!(__state5(scale, __tokens, __sym2));
                     }
                     _ => {
-                        return Err(__ParseError::UnrecognizedToken {
+                        return Err(__lalrpop_util::ParseError::UnrecognizedToken {
                             token: __lookahead,
                             expected: vec![],
                         });
@@ -668,13 +663,13 @@ mod __parse__Expr {
                 __tokens: &mut __TOKENS,
                 __sym0: ((), i32, ()),
                 __sym1: ((), Tok, ()),
-            ) -> Result<(Option<((), Tok, ())>, __Nonterminal<>), __ParseError<(),Tok,()>>
+            ) -> Result<(Option<((), Tok, ())>, __Nonterminal<>), __lalrpop_util::ParseError<(),Tok,()>>
             {
                 let mut __result: (Option<((), Tok, ())>, __Nonterminal<>);
                 let __lookahead = match __tokens.next() {
                     Some(Ok(v)) => Some(v),
                     None => None,
-                    Some(Err(e)) => return Err(__ParseError::User { error: e }),
+                    Some(Err(e)) => return Err(__lalrpop_util::ParseError::User { error: e }),
                 };
                 match __lookahead {
                     Some((__loc1, __tok @ Tok::LParen, __loc2)) => {
@@ -686,7 +681,7 @@ mod __parse__Expr {
                         __result = try!(__state5(scale, __tokens, __sym2));
                     }
                     _ => {
-                        return Err(__ParseError::UnrecognizedToken {
+                        return Err(__lalrpop_util::ParseError::UnrecognizedToken {
                             token: __lookahead,
                             expected: vec![],
                         });
@@ -730,7 +725,7 @@ mod __parse__Expr {
                 __lookahead: Option<((), Tok, ())>,
                 __sym0: &mut Option<((), Tok, ())>,
                 __sym1: ((), i32, ()),
-            ) -> Result<(Option<((), Tok, ())>, __Nonterminal<>), __ParseError<(),Tok,()>>
+            ) -> Result<(Option<((), Tok, ())>, __Nonterminal<>), __lalrpop_util::ParseError<(),Tok,()>>
             {
                 let mut __result: (Option<((), Tok, ())>, __Nonterminal<>);
                 match __lookahead {
@@ -751,7 +746,7 @@ mod __parse__Expr {
                         return Ok(__result);
                     }
                     _ => {
-                        return Err(__ParseError::UnrecognizedToken {
+                        return Err(__lalrpop_util::ParseError::UnrecognizedToken {
                             token: __lookahead,
                             expected: vec![],
                         });
@@ -784,7 +779,7 @@ mod __parse__Expr {
                 __sym0: &mut Option<((), i32, ())>,
                 __sym1: &mut Option<((), Tok, ())>,
                 __sym2: ((), i32, ()),
-            ) -> Result<(Option<((), Tok, ())>, __Nonterminal<>), __ParseError<(),Tok,()>>
+            ) -> Result<(Option<((), Tok, ())>, __Nonterminal<>), __lalrpop_util::ParseError<(),Tok,()>>
             {
                 let mut __result: (Option<((), Tok, ())>, __Nonterminal<>);
                 match __lookahead {
@@ -816,7 +811,7 @@ mod __parse__Expr {
                         return Ok(__result);
                     }
                     _ => {
-                        return Err(__ParseError::UnrecognizedToken {
+                        return Err(__lalrpop_util::ParseError::UnrecognizedToken {
                             token: __lookahead,
                             expected: vec![],
                         });
@@ -849,7 +844,7 @@ mod __parse__Expr {
                 __sym0: &mut Option<((), i32, ())>,
                 __sym1: &mut Option<((), Tok, ())>,
                 __sym2: ((), i32, ()),
-            ) -> Result<(Option<((), Tok, ())>, __Nonterminal<>), __ParseError<(),Tok,()>>
+            ) -> Result<(Option<((), Tok, ())>, __Nonterminal<>), __lalrpop_util::ParseError<(),Tok,()>>
             {
                 let mut __result: (Option<((), Tok, ())>, __Nonterminal<>);
                 match __lookahead {
@@ -881,7 +876,7 @@ mod __parse__Expr {
                         return Ok(__result);
                     }
                     _ => {
-                        return Err(__ParseError::UnrecognizedToken {
+                        return Err(__lalrpop_util::ParseError::UnrecognizedToken {
                             token: __lookahead,
                             expected: vec![],
                         });
@@ -910,7 +905,7 @@ mod __parse__Expr {
                 __sym0: ((), i32, ()),
                 __sym1: ((), Tok, ()),
                 __sym2: ((), i32, ()),
-            ) -> Result<(Option<((), Tok, ())>, __Nonterminal<>), __ParseError<(),Tok,()>>
+            ) -> Result<(Option<((), Tok, ())>, __Nonterminal<>), __lalrpop_util::ParseError<(),Tok,()>>
             {
                 let mut __result: (Option<((), Tok, ())>, __Nonterminal<>);
                 match __lookahead {
@@ -932,7 +927,7 @@ mod __parse__Expr {
                         return Ok(__result);
                     }
                     _ => {
-                        return Err(__ParseError::UnrecognizedToken {
+                        return Err(__lalrpop_util::ParseError::UnrecognizedToken {
                             token: __lookahead,
                             expected: vec![],
                         });
@@ -961,7 +956,7 @@ mod __parse__Expr {
                 __sym0: ((), i32, ()),
                 __sym1: ((), Tok, ()),
                 __sym2: ((), i32, ()),
-            ) -> Result<(Option<((), Tok, ())>, __Nonterminal<>), __ParseError<(),Tok,()>>
+            ) -> Result<(Option<((), Tok, ())>, __Nonterminal<>), __lalrpop_util::ParseError<(),Tok,()>>
             {
                 let mut __result: (Option<((), Tok, ())>, __Nonterminal<>);
                 match __lookahead {
@@ -983,7 +978,7 @@ mod __parse__Expr {
                         return Ok(__result);
                     }
                     _ => {
-                        return Err(__ParseError::UnrecognizedToken {
+                        return Err(__lalrpop_util::ParseError::UnrecognizedToken {
                             token: __lookahead,
                             expected: vec![],
                         });
@@ -1011,13 +1006,13 @@ mod __parse__Expr {
                 __sym0: ((), Tok, ()),
                 __sym1: ((), i32, ()),
                 __sym2: ((), Tok, ()),
-            ) -> Result<(Option<((), Tok, ())>, __Nonterminal<>), __ParseError<(),Tok,()>>
+            ) -> Result<(Option<((), Tok, ())>, __Nonterminal<>), __lalrpop_util::ParseError<(),Tok,()>>
             {
                 let mut __result: (Option<((), Tok, ())>, __Nonterminal<>);
                 let __lookahead = match __tokens.next() {
                     Some(Ok(v)) => Some(v),
                     None => None,
-                    Some(Err(e)) => return Err(__ParseError::User { error: e }),
+                    Some(Err(e)) => return Err(__lalrpop_util::ParseError::User { error: e }),
                 };
                 match __lookahead {
                     Some((_, Tok::RParen, _)) |
@@ -1038,7 +1033,7 @@ mod __parse__Expr {
                         return Ok(__result);
                     }
                     _ => {
-                        return Err(__ParseError::UnrecognizedToken {
+                        return Err(__lalrpop_util::ParseError::UnrecognizedToken {
                             token: __lookahead,
                             expected: vec![],
                         });
@@ -1055,7 +1050,6 @@ mod __parse__Expr {
 
             use util::tok::Tok;
             extern crate lalrpop_util as __lalrpop_util;
-            use self::__lalrpop_util::ParseError as __ParseError;
             use super::super::super::__ToTriple;
             #[allow(dead_code)]
             pub enum __Symbol<> {
@@ -1363,7 +1357,7 @@ mod __parse__Expr {
             >(
                 scale: i32,
                 __tokens0: __TOKENS,
-            ) -> Result<i32, __ParseError<(),Tok,()>>
+            ) -> Result<i32, __lalrpop_util::ParseError<(),Tok,()>>
             {
                 let __tokens = __tokens0.into_iter();
                 let mut __tokens = __tokens.map(|t| __ToTriple::to_triple(t));
@@ -1373,7 +1367,7 @@ mod __parse__Expr {
                     let __lookahead = match __tokens.next() {
                         Some(Ok(v)) => v,
                         None => break '__shift,
-                        Some(Err(e)) => return Err(__ParseError::User { error: e }),
+                        Some(Err(e)) => return Err(__lalrpop_util::ParseError::User { error: e }),
                     };
                     let __integer = match __lookahead {
                         (_, Tok::LParen, _) if true => 0,
@@ -1384,7 +1378,7 @@ mod __parse__Expr {
                         (_, Tok::Div, _) if true => 5,
                         (_, Tok::Num(_), _) if true => 6,
                         _ => {
-                            return Err(__ParseError::UnrecognizedToken {
+                            return Err(__lalrpop_util::ParseError::UnrecognizedToken {
                                 token: Some(__lookahead),
                                 expected: vec![],
                             });
@@ -1433,7 +1427,7 @@ mod __parse__Expr {
                                 return r;
                             }
                         } else {
-                            return Err(__ParseError::UnrecognizedToken {
+                            return Err(__lalrpop_util::ParseError::UnrecognizedToken {
                                 token: Some(__lookahead),
                                 expected: vec![],
                             });
@@ -1448,7 +1442,7 @@ mod __parse__Expr {
                             return r;
                         }
                     } else {
-                        return Err(__ParseError::UnrecognizedToken {
+                        return Err(__lalrpop_util::ParseError::UnrecognizedToken {
                             token: None,
                             expected: vec![],
                         });
@@ -1462,7 +1456,7 @@ mod __parse__Expr {
                 __lookahead_start: Option<&()>,
                 __states: &mut ::std::vec::Vec<i32>,
                 __symbols: &mut ::std::vec::Vec<((),__Symbol<>,())>,
-            ) -> Option<Result<i32,__ParseError<(),Tok,()>>>
+            ) -> Option<Result<i32,__lalrpop_util::ParseError<(),Tok,()>>>
             {
                 let __nonterminal = match -__action {
                     1 => {
@@ -1683,6 +1677,7 @@ mod __parse__Expr {
 }
 pub use self::__parse__Expr::parse_Expr;
 
+#[allow(unused_variables)]
 pub fn __action0<
 >(
     scale: i32,
@@ -1692,6 +1687,7 @@ pub fn __action0<
     (__0)
 }
 
+#[allow(unused_variables)]
 pub fn __action1<
 >(
     scale: i32,
@@ -1703,6 +1699,7 @@ pub fn __action1<
     l - r
 }
 
+#[allow(unused_variables)]
 pub fn __action2<
 >(
     scale: i32,
@@ -1714,6 +1711,7 @@ pub fn __action2<
     l + r
 }
 
+#[allow(unused_variables)]
 pub fn __action3<
 >(
     scale: i32,
@@ -1723,6 +1721,7 @@ pub fn __action3<
     (__0)
 }
 
+#[allow(unused_variables)]
 pub fn __action4<
 >(
     scale: i32,
@@ -1734,6 +1733,7 @@ pub fn __action4<
     l * r
 }
 
+#[allow(unused_variables)]
 pub fn __action5<
 >(
     scale: i32,
@@ -1745,6 +1745,7 @@ pub fn __action5<
     l / r
 }
 
+#[allow(unused_variables)]
 pub fn __action6<
 >(
     scale: i32,
@@ -1754,6 +1755,7 @@ pub fn __action6<
     (__0)
 }
 
+#[allow(unused_variables)]
 pub fn __action7<
 >(
     scale: i32,
@@ -1763,6 +1765,7 @@ pub fn __action7<
     n * scale
 }
 
+#[allow(unused_variables)]
 pub fn __action8<
 >(
     scale: i32,

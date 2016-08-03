@@ -61,7 +61,6 @@ impl Tls {
         THE_TLS_FIELDS.with(|s| s.borrow().clone().expect("TLS is not installed"))
     }
 
-    #[allow(dead_code)] // not used yet, but I feel like I will at some point
     pub fn session() -> Rc<Session> {
         Self::fields().session
     }

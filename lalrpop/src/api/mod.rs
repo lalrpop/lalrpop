@@ -109,6 +109,14 @@ impl Configuration {
         self
     }
 
+    /// Enables "unit-testing" configuration. This is only for
+    /// lalrpop-test.
+    #[doc(hidden)]
+    pub fn unit_test(&mut self) -> &mut Configuration {
+        self.session.unit_test = true;
+        self
+    }
+
     /// Process all files according to the `set_in_dir` and
     /// `set_out_dir` configuration.
     pub fn process(&self) -> Result<(), Box<Error>> {
