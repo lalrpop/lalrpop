@@ -110,6 +110,7 @@ impl LowerState {
                                   nonterminal: nt_name,
                                   span: alt.span,
                                   symbols: symbols,
+                                  annotations: alt.annotations.clone(),
                                   action: action,
                               }
                           })
@@ -192,6 +193,7 @@ impl LowerState {
                    let production = r::Production {
                        nonterminal: fake_name,
                        symbols: symbols,
+                       annotations: vec![],
                        action: action_fn,
                        span: nt.span
                    };

@@ -149,10 +149,18 @@ pub struct NonterminalData {
     pub alternatives: Vec<Alternative>
 }
 
-#[derive(Clone, Debug, PartialEq, Eq)]
+#[derive(Clone, Debug, Hash, PartialEq, Eq, PartialOrd, Ord)]
 pub struct Annotation {
     pub id_span: Span,
     pub id: InternedString,
+    pub parameters: Vec<AnnotationKeyValue>,
+}
+
+#[derive(Clone, Debug, Hash, PartialEq, Eq, PartialOrd, Ord)]
+pub struct AnnotationKeyValue {
+    pub span: Span,
+    pub key: InternedString,
+    pub value: InternedString,  // TODO: Still not sure of this type.
 }
 
 #[derive(Clone, Debug, PartialEq, Eq)]
@@ -160,6 +168,8 @@ pub struct Alternative {
     pub span: Span,
 
     pub expr: ExprSymbol,
+
+    pub annotations: Vec<Annotation>,
 
     // if C, only legal in macros
     pub condition: Option<Condition>,

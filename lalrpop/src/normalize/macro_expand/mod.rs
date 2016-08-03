@@ -190,6 +190,7 @@ impl MacroExpander {
             alternatives.push(Alternative {
                 span: span,
                 expr: self.macro_expand_expr_symbol(&args, &alternative.expr),
+                annotations: alternative.annotations.clone(),
                 condition: None,
                 action: alternative.action.clone(),
             });
@@ -367,6 +368,7 @@ impl MacroExpander {
             type_decl: Some(ty_ref),
             alternatives: vec![Alternative { span: span,
                                              expr: expr,
+                                             annotations: vec![],
                                              condition: None,
                                              action: action("(<>)") }]
         }))
@@ -404,6 +406,7 @@ impl MacroExpander {
                         Alternative {
                             span: span,
                             expr: ExprSymbol { symbols: vec![] },
+                            annotations: vec![],
                             condition: None,
                             action: action("vec![]")
                         },
@@ -421,6 +424,7 @@ impl MacroExpander {
                                                 Symbol::new(span,
                                                             SymbolKind::Repeat(plus_repeat)))))],
                             },
+                            annotations: vec![],
                             condition: None,
                             action: action("v"),
                         }],
@@ -445,6 +449,7 @@ impl MacroExpander {
                             expr: ExprSymbol {
                                 symbols: vec![repeat.symbol.clone()]
                             },
+                            annotations: vec![],
                             condition: None,
                             action: action("vec![<>]"),
                         },
@@ -460,6 +465,7 @@ impl MacroExpander {
                                     Symbol::new(span, SymbolKind::Name(
                                         e, Box::new(repeat.symbol.clone())))]
                             },
+                            annotations: vec![],
                             condition: None,
                             action: action("{ let mut v = v; v.push(e); v }"),
                         }],
@@ -483,6 +489,7 @@ impl MacroExpander {
                                       expr: ExprSymbol {
                                           symbols: vec![repeat.symbol.clone()]
                                       },
+                                      annotations: vec![],
                                       condition: None,
                                       action: action("Some(<>)") },
 
@@ -491,6 +498,7 @@ impl MacroExpander {
                                       expr: ExprSymbol {
                                           symbols: vec![]
                                       },
+                                      annotations: vec![],
                                       condition: None,
                                       action: action("None") }]
                 }))
@@ -511,6 +519,7 @@ impl MacroExpander {
             alternatives: vec![
                 Alternative { span: span,
                               expr: ExprSymbol { symbols: vec![] },
+                              annotations: vec![],
                               condition: None,
                               action: Some(action) }]
         }))
@@ -533,5 +542,6 @@ fn inline(span: Span) -> Vec<Annotation> {
     vec![Annotation {
                 id_span: span,
                 id: intern(INLINE),
+                parameters: vec![],
     }]
 }

@@ -75,10 +75,32 @@ Nonterminal: GrammarItem =
                                                    alternatives: a })
     };
 
-Annotation: Annotation =
+Annotation: Annotation = {
     "#" "[" <lo:@L> <id:Id> <hi:@R> "]" => {
-        Annotation { id_span: Span(lo, hi), id: id }
-    };
+        Annotation {
+            id_span: Span(lo, hi),
+            id: id,
+            parameters: vec![],
+        }
+    },
+    "#" "[" <lo:@L> <id:Id> "(" <l:Comma<AnnotationKeyValue>> ")" <hi:@R> "]" => {
+        Annotation {
+            id_span: Span(lo, hi),
+            id: id,
+            parameters: l,
+        }
+    },
+};
+
+AnnotationKeyValue: AnnotationKeyValue = {
+    <lo:@L> <key:Id> "=" <value:Id> <hi:@R> => {
+        AnnotationKeyValue {
+            span: Span(lo, hi),
+            key: key,
+            value: value,
+        }
+    }
+};
 
 NonterminalName: (NonterminalString, Vec<NonterminalString>) = {
     <MacroId> "<" <Comma<NotMacroId>> ">",
@@ -92,18 +114,20 @@ Alternatives: Vec<Alternative> = {
 };
 
 Alternative: Alternative = {
-    <lo:@L> <s:Symbol+> <c:("if" <Cond>)?> <a:Action?> <hi:@R> => {
+    <lo:@L> <n:Annotation*> <s:Symbol+> <c:("if" <Cond>)?> <a:Action?> <hi:@R> => {
         Alternative {
             span: Span(lo, hi),
             expr: ExprSymbol { symbols: s },
+            annotations: n,
             condition: c,
             action: a
         }
     },
-    <lo:@L> <c:("if" <Cond>)?> <a:Action> <hi:@R> => {
+    <lo:@L> <n:Annotation*> <c:("if" <Cond>)?> <a:Action> <hi:@R> => {
         Alternative {
             span: Span(lo, hi),
             expr: ExprSymbol { symbols: vec![] },
+            annotations: n,
             condition: c,
             action: Some(a)
         }
@@ -385,6 +409,3 @@ extern {
         "_" => Tok::Underscore,
     }
 }
-
-
-

@@ -112,6 +112,7 @@ impl<'a> Inliner<'a> {
                 nonterminal: self.into_production.nonterminal,
                 span: self.into_production.span,
                 symbols: prod_symbols,
+                annotations: self.into_production.annotations.clone(),
                 action: action_fn,
             });
         } else {
