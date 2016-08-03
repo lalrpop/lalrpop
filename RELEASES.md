@@ -1,5 +1,21 @@
 # Version 0.12 (not yet released)
 
+Enabled a new table-driven code-generator by default. This generates
+less code than the older recursive-ascent-based generation scheme, but
+may parse less efficiently. To go back to the old scheme, annotate
+the grammar declaration:
+
+```
+#[recursive_ascent] grammar;
+```
+
+Also, the syntax for requesting LALR-generation has changed to use
+an annotation:
+
+```
+#[LALR] grammar;
+```
+
 # Version 0.11
 
 Updated to use the `regex-syntax` crate for regular expression
