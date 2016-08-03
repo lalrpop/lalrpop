@@ -7,6 +7,7 @@ use lr1::lookahead::Token;
 use lr1::tls::Lr1Tls;
 use rust::RustWrite;
 use std::io::{self, Write};
+use tls::Tls;
 use util::{Escape, Sep};
 
 use super::base::CodeGenerator;
@@ -250,8 +251,11 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
 
         for (index, state) in self.states.iter().enumerate() {
             rust!(self.out, "// State {}", index);
-            for item in state.items.vec.iter() {
-                rust!(self.out, "//     {:?}", item);
+
+            if Tls::session().emit_comments {
+                for item in state.items.vec.iter() {
+                    rust!(self.out, "//     {:?}", item);
+                }
             }
 
             // Write an action for each terminal (either shift, reduce, or error).
