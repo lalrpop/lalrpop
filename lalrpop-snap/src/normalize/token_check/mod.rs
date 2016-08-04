@@ -9,11 +9,12 @@ use super::{NormResult, NormError};
 
 use intern::{self, intern};
 use lexer::re;
-use lexer::dfa::{self, Precedence};
+use lexer::dfa::{self, DFAConstructionError, Precedence};
+use lexer::nfa::NFAConstructionError::*;
 use grammar::consts::*;
 use grammar::parse_tree::*;
-use util::{Set};
-use util::{map, Map};
+use collections::Set;
+use collections::{map, Map};
 
 #[cfg(test)]
 mod test;
@@ -181,7 +182,7 @@ pub fn construct(grammar: &mut Grammar, literals_map: Map<TerminalLiteral, Span>
                             return_err!(
                                 literal_span,
                                 "invalid regular expression: {}",
-                                error.message);
+                                error);
                         }
                     }
                 }
@@ -192,11 +193,27 @@ pub fn construct(grammar: &mut Grammar, literals_map: Map<TerminalLiteral, Span>
 
     let dfa = match dfa::build_dfa(&regexs, &precedences) {
         Ok(dfa) => dfa,
-        Err(ambiguity) => {
-            let literal0 = literals[ambiguity.match0.index()];
-            let literal1 = literals[ambiguity.match1.index()];
+        Err(DFAConstructionError::NFAConstructionError { index, error }) => {
+            let feature = match error {
+                NamedCaptures => r#"named captures (`(?P<foo>...)`)"#,
+                NonGreedy => r#""non-greedy" repetitions (`*?` or `+?`)"#,
+                WordBoundary => r#"word boundaries (`\b` or `\B`)"#,
+                LineBoundary => r#"line boundaries (`^` or `$`)"#,
+                TextBoundary => r#"text boundaries (`^` or `$`)"#,
+            };
+            let literal = literals[index.index()];
+            let span = literals_map[&literal];
+            return_err!(
+                span,
+                "{} are not supported in regular expressions",
+                feature)
+        }
+        Err(DFAConstructionError::Ambiguity { match0, match1 }) => {
+            let literal0 = literals[match0.index()];
+            let literal1 = literals[match1.index()];
             let span0 = literals_map[&literal0];
             let _span1 = literals_map[&literal1];
+            // FIXME(#88) -- it'd be nice to give an example here
             return_err!(
                 span0,
                 "ambiguity detected between the terminal `{}` and the terminal `{}`",

@@ -4,10 +4,12 @@
  * representation incrementally.
  */
 
-use intern::{self, InternedString};
+use intern::{InternedString};
 use grammar::pattern::{Pattern};
+use message::Content;
 use std::fmt::{Debug, Display, Formatter, Error};
-use util::{map, Map, Sep};
+use collections::{map, Map};
+use util::Sep;
 
 // These concepts we re-use wholesale
 pub use grammar::parse_tree::{Annotation,
@@ -15,7 +17,7 @@ pub use grammar::parse_tree::{Annotation,
                               NonterminalString,
                               Path,
                               Span,
-                              TerminalString, TypeParameter};
+                              TerminalLiteral, TerminalString, TypeParameter};
 
 #[derive(Clone, Debug)]
 pub struct Grammar {
@@ -51,10 +53,19 @@ pub struct Grammar {
     // the grammar proper:
 
     pub action_fn_defns: Vec<ActionFnDefn>,
+    pub terminals: TerminalSet,
     pub nonterminals: Map<NonterminalString, NonterminalData>,
     pub token_span: Span,
     pub conversions: Map<TerminalString, Pattern<TypeRepr>>,
     pub types: Types,
+}
+
+/// For each terminal, we map it to a small integer from 0 to N.
+/// This struct contains the mappings to go back and forth.
+#[derive(Clone, Debug)]
+pub struct TerminalSet {
+    pub all: Vec<TerminalString>,
+    pub bits: Map<TerminalString, usize>,
 }
 
 #[derive(Clone, Debug)]
@@ -66,9 +77,16 @@ pub struct NonterminalData {
 }
 
 #[derive(Clone, Debug, PartialEq, Eq)]
-pub enum Algorithm {
-    LR1,
-    LALR1,
+pub struct Algorithm {
+    pub lalr: bool,
+    pub codegen: LrCodeGeneration,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub enum LrCodeGeneration {
+    TableDriven,
+    RecursiveAscent,
+    TestAll,
 }
 
 #[derive(Clone, Debug, PartialEq, Eq)]
@@ -158,6 +176,13 @@ pub enum TypeRepr {
 }
 
 impl TypeRepr {
+    pub fn is_unit(&self) -> bool {
+        match *self {
+            TypeRepr::Tuple(ref v) => v.is_empty(),
+            _ => false,
+        }
+    }
+
     pub fn usize() -> TypeRepr {
         TypeRepr::Nominal(NominalTypeRepr {
             path: Path::usize(),
@@ -257,6 +282,12 @@ impl Types {
         self.terminal_types.get(&id).unwrap_or(&self.terminal_token_type)
     }
 
+    pub fn terminal_types(&self) -> Vec<TypeRepr> {
+        self.terminal_types.values()
+                           .cloned()
+                           .collect()
+    }
+
     pub fn lookup_nonterminal_type(&self, id: NonterminalString) -> Option<&TypeRepr> {
         self.nonterminal_types.get(&id)
     }
@@ -271,11 +302,18 @@ impl Types {
                               .collect()
     }
 
+    /// Returns a type `(L, T, L)` where L is the location type and T
+    /// is the token type.
     pub fn triple_type(&self) -> TypeRepr {
-        let enum_type = self.terminal_token_type();
+        self.spanned_type(self.terminal_token_type().clone())
+    }
+
+    /// Returns a type `(L, T, L)` where L is the location type and T
+    /// is the argument.
+    pub fn spanned_type(&self, ty: TypeRepr) -> TypeRepr {
         let location_type = self.terminal_loc_type();
         TypeRepr::Tuple(vec![location_type.clone(),
-                             enum_type.clone(),
+                             ty,
                              location_type])
     }
 }
@@ -373,6 +411,15 @@ impl Debug for Symbol {
     }
 }
 
+impl Into<Box<Content>> for Symbol {
+    fn into(self) -> Box<Content> {
+        match self {
+            Symbol::Nonterminal(nt) => nt.into(),
+            Symbol::Terminal(term) => term.into(),
+        }
+    }
+}
+
 impl Debug for Production {
     fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
         write!(fmt,
@@ -453,12 +500,11 @@ impl Grammar {
     }
 }
 
-impl Algorithm {
-    pub fn from_str(s: InternedString) -> Option<Algorithm> {
-        intern::read(|r| match r.data(s) {
-            "LR" | "LR(1)" => Some(Algorithm::LR1),
-            "LALR" | "LALR(1)" => Some(Algorithm::LALR1),
-            _ => None,
-        })
+impl Default for Algorithm {
+    fn default() -> Self {
+        Algorithm {
+            lalr: false,
+            codegen: LrCodeGeneration::TableDriven,
+        }
     }
 }

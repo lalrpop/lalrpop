@@ -5,9 +5,9 @@ use super::norm_util::{self, Symbols};
 
 use grammar::consts::*;
 use grammar::parse_tree::*;
-use grammar::repr;
 use intern::{intern, InternedString};
-use util::{Multimap, Sep, set};
+use collections::{Multimap, set};
+use util::Sep;
 
 #[cfg(test)]
 mod test;
@@ -34,14 +34,15 @@ struct Validator<'grammar> {
 
 impl<'grammar> Validator<'grammar> {
     fn validate(&self) -> NormResult<()> {
-        if let Some(ref algorithm) = self.grammar.algorithm {
-            match repr::Algorithm::from_str(algorithm.text) {
-                Some(_) => { }
-                None => {
-                    return_err!(
-                        algorithm.span,
-                        "unrecognized algorithm `{}`", algorithm.text);
-                }
+        let allowed_names = vec![intern(LALR),
+                                 intern(TABLE_DRIVEN),
+                                 intern(RECURSIVE_ASCENT),
+                                 intern(TEST_ALL)];
+        for annotation in &self.grammar.annotations {
+            if !allowed_names.contains(&annotation.id) {
+                return_err!(annotation.id_span,
+                            "unrecognized annotation `{}`",
+                            annotation.id);
             }
         }
 
@@ -142,7 +143,7 @@ impl<'grammar> Validator<'grammar> {
                         })
                         .collect();
 
-        let named: Multimap<InternedString, &Symbol> =
+        let named: Multimap<InternedString, Vec<&Symbol>> =
             expr.symbols.iter()
                         .filter_map(|sym| match sym.kind {
                             SymbolKind::Name(nt, _) => Some((nt, sym)),

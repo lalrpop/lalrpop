@@ -1,18 +1,16 @@
 //! First set construction and computation.
 
+use collections::{Map, map};
 use grammar::repr::*;
-use util::{Map, map, Set, set};
-
-use super::Lookahead;
+use lr1::lookahead::{Token, TokenSet};
 
 #[cfg(test)]
 mod test;
 
+#[derive(Clone)]
 pub struct FirstSets {
-    map: Map<NonterminalString, FirstSet>
+    map: Map<NonterminalString, TokenSet>
 }
-
-pub type FirstSet = Set<Option<TerminalString>>;
 
 impl FirstSets {
     pub fn new(grammar: &Grammar) -> FirstSets {
@@ -20,30 +18,30 @@ impl FirstSets {
         let mut changed = true;
         while changed {
             changed = false;
-            for production in grammar.nonterminals.values().flat_map(|p| &p.productions) {
+            for production in grammar.nonterminals.values()
+                                                  .flat_map(|p| &p.productions) {
                 let nt = production.nonterminal;
-                let lookahead = this.first(&production.symbols, Lookahead::EOF);
-                let first_set = this.map.entry(nt).or_insert_with(|| set());
-                let cardinality = first_set.len();
-                first_set.extend(
-                    lookahead.into_iter()
-                             .map(|la| match la {
-                                 Lookahead::EOF => None,
-                                 Lookahead::Terminal(t) => Some(t),
-                             }));
-                changed |= (cardinality != first_set.len());
+                let lookahead = this.first0(&production.symbols);
+                let first_set =
+                    this.map.entry(nt).or_insert_with(|| TokenSet::new());
+                changed |= first_set.union_with(&lookahead);
             }
         }
         this
     }
 
-    pub fn first(&self, symbols: &[Symbol], lookahead: Lookahead) -> Vec<Lookahead> {
-        let mut result = vec![];
+    /// Returns `FIRST(...symbols)`. If `...symbols` may derive
+    /// epsilon, then this returned set will include EOF. (This is
+    /// kind of repurposing EOF to serve as a binary flag of sorts.)
+    pub fn first0<'s,I>(&self, symbols: I) -> TokenSet
+        where I: IntoIterator<Item=&'s Symbol>
+    {
+        let mut result = TokenSet::new();
 
         for symbol in symbols {
             match *symbol {
                 Symbol::Terminal(t) => {
-                    result.push(Lookahead::Terminal(t));
+                    result.insert(Token::Terminal(t));
                     return result;
                 }
 
@@ -60,11 +58,14 @@ impl FirstSets {
                             // empty.
                         }
                         Some(set) => {
-                            for &opt_terminal in set {
-                                if let Some(terminal) = opt_terminal {
-                                    result.push(Lookahead::Terminal(terminal));
-                                } else {
-                                    empty_prod = true;
+                            for lookahead in set.iter() {
+                                match lookahead {
+                                    Token::EOF => {
+                                        empty_prod = true;
+                                    }
+                                    Token::Terminal(_) => {
+                                        result.insert(lookahead);
+                                    }
                                 }
                             }
                         }
@@ -76,8 +77,25 @@ impl FirstSets {
             }
         }
 
-        result.push(lookahead);
+        // control only reaches here if either symbols is empty, or it
+        // consists of nonterminals all of which may derive epsilon
+        result.insert(Token::EOF);
         result
+    }
+
+    pub fn first1(&self, symbols: &[Symbol], lookahead: TokenSet)
+                  -> TokenSet
+    {
+        let mut set = self.first0(symbols);
+
+        // we use EOF as the signal that `symbols` derives epsilon:
+        let epsilon = set.take_eof();
+
+        if epsilon {
+            set.union_with(&lookahead);
+        }
+
+        set
     }
 }
 

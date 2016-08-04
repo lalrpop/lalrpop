@@ -1,10 +1,16 @@
-use lexer::dfa::{self, Ambiguity, DFA, NFAIndex, Precedence};
+use lexer::dfa::{self, DFA, DFAConstructionError, NFAIndex, Precedence};
 use lexer::dfa::interpret::interpret;
 use lexer::re;
 
-pub fn dfa(inputs: &[(&str, Precedence)]) -> Result<DFA,Ambiguity> {
-    let regexs: Result<Vec<_>, _> = inputs.iter().map(|&(s, _)| re::parse_regex(s)).collect();
-    let regexs = regexs.unwrap();
+pub fn dfa(inputs: &[(&str, Precedence)]) -> Result<DFA, DFAConstructionError> {
+    let regexs: Result<Vec<_>, _> =
+        inputs.iter()
+              .map(|&(s, _)| re::parse_regex(s))
+              .collect();
+    let regexs = match regexs {
+        Ok(rs) => rs,
+        Err(_) => panic!("unexpected parse error")
+    };
     let precedences: Vec<_> = inputs.iter().map(|&(_, p)| p).collect();
     dfa::build_dfa(&regexs, &precedences)
 }
@@ -48,4 +54,28 @@ fn issue_32() {
 fn issue_35() {
     assert!(dfa(&[(r#".*"#, P0),
                   (r"[-+]?[0-9]*\.?[0-9]+", P0)]).is_err());
+}
+
+#[test]
+fn alternatives() {
+    let dfa = dfa(&[(r#"abc|abd"#, P0)]).unwrap();
+    assert_eq!(interpret(&dfa, "abc"), Some((NFAIndex(0), "abc")));
+    assert_eq!(interpret(&dfa, "abd"), Some((NFAIndex(0), "abd")));
+    assert_eq!(interpret(&dfa, "123"), None);
+}
+
+#[test]
+fn alternatives_extension() {
+    let dfa = dfa(&[(r#"abc|abcd"#, P0)]).unwrap();
+    assert_eq!(interpret(&dfa, "abc"), Some((NFAIndex(0), "abc")));
+    assert_eq!(interpret(&dfa, "abcd"), Some((NFAIndex(0), "abcd")));
+    assert_eq!(interpret(&dfa, "123"), None);
+}
+
+#[test]
+fn alternatives_contraction() {
+    let dfa = dfa(&[(r#"abcd|abc"#, P0)]).unwrap();
+    assert_eq!(interpret(&dfa, "abc"), Some((NFAIndex(0), "abc")));
+    assert_eq!(interpret(&dfa, "abcd"), Some((NFAIndex(0), "abcd")));
+    assert_eq!(interpret(&dfa, "123"), None);
 }

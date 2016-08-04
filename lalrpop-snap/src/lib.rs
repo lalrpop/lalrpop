@@ -8,33 +8,50 @@
 // too darn annoying to try and make them do so.
 #![cfg_attr(test, allow(dead_code))]
 
+extern crate atty;
+extern crate bit_set;
+#[macro_use] extern crate bitflags;
 extern crate diff;
+extern crate itertools;
 extern crate lalrpop_intern as intern;
 extern crate lalrpop_util;
 extern crate petgraph;
 extern crate regex;
-extern crate itertools;
+extern crate regex_syntax;
+extern crate term;
 extern crate unicode_xid;
 
 #[cfg(test)]
 extern crate rand;
 
-// rust exports a macro that others use, so hoist it early.
+// hoist the modules that define macros up earlier
 #[macro_use]
 mod rust;
+#[macro_use]
+mod log;
 
+mod api;
+mod ascii_canvas;
 mod build;
+mod collections;
+mod file_text;
 mod grammar;
 mod lexer;
 mod lr1;
+mod message;
 mod normalize;
 mod parser;
 mod kernel_set;
+mod session;
+pub mod style;
+mod tls;
 mod tok;
 mod util;
 
 #[cfg(test)] mod generate;
 #[cfg(test)] mod test_util;
 
-pub use build::process_root;
-pub use build::process_root_unconditionally;
+pub use api::Configuration;
+pub use api::process_root;
+pub use api::process_root_unconditionally;
+

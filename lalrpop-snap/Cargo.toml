@@ -8,11 +8,18 @@ authors = ["Niko Matsakis <niko@alum.mit.edu>"]
 # build = "build.rs"
 
 [dependencies]
-regex = "0.1"
+atty = "0.1.2"
+bit-set = "0.3.0"    
+bitflags = "0.4.0"
 diff = "0.1"
+docopt = "0.6"
 itertools = "0.3"
-unicode-xid = "0.0.2"
+regex = "0.1"
+regex-syntax = "0.2"
 petgraph = "0.1.11"
+rustc-serialize = "0.3"
+term = "0.4.4"
+unicode-xid = "0.0.2"
 
 [dev-dependencies]
 rand = "0.3"
