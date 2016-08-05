@@ -1,6 +1,8 @@
-# Version 0.12 (not yet released)
+# master (not yet released)
 
-Enabled a new table-driven code-generator by default. This generates
+# Version 0.12 
+
+**Enabled a new table-driven code-generator by default.** This generates
 less code than the older recursive-ascent-based generation scheme, but
 may parse less efficiently. To go back to the old scheme, annotate
 the grammar declaration:
@@ -9,12 +11,33 @@ the grammar declaration:
 #[recursive_ascent] grammar;
 ```
 
-Also, the syntax for requesting LALR-generation has changed to use
+Also, **the syntax for requesting LALR-generation has changed** to use
 an annotation:
 
 ```
 #[LALR] grammar;
 ```
+
+We no longer **emit module-level attributes**, which means that unused
+imports in your .lalrpop file may start getting warnings. [Thanks
+@dflemstr!](https://github.com/nikomatsakis/lalrpop/pull/118)
+
+An overflow bug in LALRPOP was
+fixed. [Thanks @larsluthman!](https://github.com/nikomatsakis/lalrpop/pull/120)
+
+We no longer depend on `time`, but now use
+`std::time`. [Thanks @serprex!](https://github.com/nikomatsakis/lalrpop/pull/121)
+
+There is now a `Configuration` object for use in your `build.rs`
+scripts.  And,
+[thanks to @dflemstr!](https://github.com/nikomatsakis/lalrpop/pull/108),
+it permits you to configure the directory where LALRPOP output is
+generated.
+
+Fixed a bug in the LALRPOP option
+parsing. [Thanks @Nemikolh!](https://github.com/nikomatsakis/lalrpop/pull/106)
+
+Various typos and small corrections. Thanks [@reuben](https://github.com/nikomatsakis/lalrpop/pull/1103) and [@ashleygwilliams](https://github.com/nikomatsakis/lalrpop/pull/116)!
 
 # Version 0.11
 

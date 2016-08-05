@@ -42,7 +42,7 @@ it's quite powerful already. It's also [self-hosting], which is fun.
 
 ### Using LALRPOP
 
-#### Configuration cargo
+#### Configuring cargo
 
 There are two ways to use LALRPOP. The recommended way is to
 configure Cargo to automatically change all `.lalrpop` files
@@ -61,10 +61,10 @@ build = "build.rs" # LALRPOP preprocessing
 
 # Add a dependency on the LALRPOP runtime library:
 [dependencies.lalrpop-util]
-version = "0.11.0"
+version = "0.12.0"
 
 [build-dependencies.lalrpop]
-version = "0.11.0"
+version = "0.12.0"
 ```
 
 And create a `build.rs` file that looks like:
@@ -81,6 +81,16 @@ fn main() {
 call `process_root` in addition to whatever else that file is doing.)
 
 That's it!
+
+#### More advanced configuration
+
+The `process_root` applies the default configuration: so it will
+transform `.lalrpop` files into `.rs` files *in-place* (in your `src`
+directory), and it will only do so if the `.lalrpop` file has actually
+changed. But you can also use the [`Configuration`][config] struct to
+get more detailed control.
+
+[config]: https://github.com/nikomatsakis/lalrpop/blob/master/lalrpop/src/apimod.rs
 
 #### Running manually
 
