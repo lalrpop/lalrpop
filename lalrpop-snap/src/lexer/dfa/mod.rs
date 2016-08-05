@@ -1,12 +1,12 @@
 //! Constructs a DFA which picks the longest matching regular
 //! expression from the input.
 
+use collections::Set;
 use kernel_set::{Kernel, KernelSet};
 use std::fmt::{Debug, Display, Formatter, Error};
 use std::rc::Rc;
 use lexer::re;
-use lexer::nfa::{self, NFA, NFAStateIndex};
-use util::Set;
+use lexer::nfa::{self, NFA, NFAConstructionError, NFAStateIndex, Test};
 
 #[cfg(test)]
 mod test;
@@ -16,6 +16,8 @@ pub mod interpret;
 
 pub mod codegen;
 
+mod overlap;
+
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct DFA {
     pub states: Vec<State>
@@ -24,14 +26,40 @@ pub struct DFA {
 #[derive(Copy, Clone, Debug, PartialOrd, Ord, PartialEq, Eq)]
 pub struct Precedence(pub usize);
 
+#[derive(Debug)]
+pub enum DFAConstructionError {
+    NFAConstructionError {
+        index: NFAIndex,
+        error: NFAConstructionError
+    },
+
+    /// Either of the two regexs listed could match, and they have equal
+    /// priority.
+    Ambiguity {
+        match0: NFAIndex,
+        match1: NFAIndex,
+    }
+}
+
 pub fn build_dfa(regexs: &[re::Regex],
                  precedences: &[Precedence])
-                 -> Result<DFA, Ambiguity> {
+                 -> Result<DFA, DFAConstructionError> {
     assert_eq!(regexs.len(), precedences.len());
-    let nfas: Vec<_> = regexs.iter().map(|r| NFA::from_re(r)).collect();
+    let nfas: Vec<_> = try! {
+        regexs.iter()
+              .enumerate()
+              .map(|(i, r)| match NFA::from_re(r) {
+                  Ok(nfa) => Ok(nfa),
+                  Err(e) => Err(DFAConstructionError::NFAConstructionError {
+                      index: NFAIndex(i),
+                      error: e
+                  }),
+              })
+              .collect()
+    };
     let builder = DFABuilder { nfas: &nfas, precedences: precedences.to_vec() };
-    let dfa = builder.build();
-    dfa
+    let dfa = try!(builder.build());
+    Ok(dfa)
 }
 
 struct DFABuilder<'nfa> {
@@ -43,7 +71,7 @@ struct DFABuilder<'nfa> {
 pub struct State {
     item_set: DFAItemSet,
     pub kind: Kind,
-    pub test_edges: Vec<(re::Test, DFAStateIndex)>,
+    pub test_edges: Vec<(Test, DFAStateIndex)>,
     pub other_edge: DFAStateIndex,
 }
 
@@ -78,16 +106,8 @@ struct Item {
 
 const START: DFAStateIndex = DFAStateIndex(0);
 
-/// Either of the two regexs listed could match, and they have equal
-/// priority.
-#[derive(Debug)]
-pub struct Ambiguity {
-    pub match0: NFAIndex,
-    pub match1: NFAIndex,
-}
-
 impl<'nfa> DFABuilder<'nfa> {
-    fn build(&self) -> Result<DFA, Ambiguity> {
+    fn build(&self) -> Result<DFA, DFAConstructionError> {
         let mut kernel_set = KernelSet::new();
         let mut states = vec![];
 
@@ -97,15 +117,16 @@ impl<'nfa> DFABuilder<'nfa> {
         while let Some(item_set) = kernel_set.next() {
             // collect all the specific tests we expect from any of
             // the items in this state
-            let tests: Set<re::Test> =
+            let tests: Set<Test> =
                 item_set.items
                         .iter()
                         .flat_map(|&item| {
                             self.nfa(item)
-                                .edges::<re::Test>(item.nfa_state)
+                                .edges::<Test>(item.nfa_state)
                                 .map(|edge| edge.label)
                         })
                         .collect();
+            let tests = overlap::remove_overlap(&tests);
 
             // if any NFA is in an accepting state, that makes this
             // DFA state an accepting state
@@ -136,14 +157,17 @@ impl<'nfa> DFABuilder<'nfa> {
                 let (best_priority, best_nfa) = all_accepts[all_accepts.len() - 1];
                 let (next_priority, next_nfa) = all_accepts[all_accepts.len() - 2];
                 if best_priority == next_priority {
-                    return Err(Ambiguity { match0: best_nfa, match1: next_nfa });
+                    return Err(DFAConstructionError::Ambiguity {
+                        match0: best_nfa,
+                        match1: next_nfa
+                    });
                 }
                 Kind::Accepts(best_nfa)
             };
 
             // for each specific test, find what happens if we see a
             // character matching that test
-            let mut test_edges: Vec<(re::Test, DFAStateIndex)> =
+            let mut test_edges: Vec<(Test, DFAStateIndex)> =
                 tests.iter()
                      .map(|&test| {
                          let items: Vec<_> =
@@ -199,12 +223,12 @@ impl<'nfa> DFABuilder<'nfa> {
         kernel_set.add_state(item_set)
     }
 
-    fn accept_test(&self, item: Item, test: re::Test) -> Option<Item> {
+    fn accept_test(&self, item: Item, test: Test) -> Option<Item> {
         let nfa = self.nfa(item);
 
         let matching_test =
-            nfa.edges::<re::Test>(item.nfa_state)
-               .filter(|edge| edge.label.meets(test))
+            nfa.edges::<Test>(item.nfa_state)
+               .filter(|edge| edge.label.intersects(test))
                .map(|edge| item.to(edge.to));
 
         let matching_other =

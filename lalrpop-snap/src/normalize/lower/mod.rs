@@ -1,23 +1,24 @@
-/*!
- * Lower
- */
+//! Lower
+//!
 
 use intern::{self, intern, InternedString};
 use normalize::NormResult;
 use normalize::norm_util::{self, Symbols};
-use grammar::consts::INPUT_LIFETIME;
+use grammar::consts::*;
 use grammar::pattern::{Pattern, PatternKind};
 use grammar::parse_tree as pt;
 use grammar::parse_tree::{InternToken, NonterminalString, TerminalString};
 use grammar::repr as r;
-use util::{map, Map};
+use session::Session;
+use collections::{map, Map};
 
-pub fn lower(grammar: pt::Grammar, types: r::Types) -> NormResult<r::Grammar> {
-    let state = LowerState::new(types, &grammar);
+pub fn lower(session: &Session, grammar: pt::Grammar, types: r::Types) -> NormResult<r::Grammar> {
+    let state = LowerState::new(session, types, &grammar);
     state.lower(grammar)
 }
 
-struct LowerState {
+struct LowerState<'s> {
+    session: &'s Session,
     prefix: String,
     action_fn_defns: Vec<r::ActionFnDefn>,
     nonterminals: Map<NonterminalString, r::NonterminalData>,
@@ -26,9 +27,10 @@ struct LowerState {
     types: r::Types,
 }
 
-impl LowerState {
-    fn new(types: r::Types, grammar: &pt::Grammar) -> LowerState {
+impl<'s> LowerState<'s> {
+    fn new(session: &'s Session, types: r::Types, grammar: &pt::Grammar) -> Self {
         LowerState {
+            session: session,
             prefix: grammar.prefix.clone(),
             action_fn_defns: vec![],
             nonterminals: map(),
@@ -58,17 +60,16 @@ impl LowerState {
                         mutable: false,
                         referent: Box::new(r::TypeRepr::Nominal(r::NominalTypeRepr {
                             path: r::Path::str(),
-                            types: vec![]
-                        }))
+                            types: vec![],
+                        })),
                     };
-                    self.conversions.extend(
-                        data.literals
-                            .iter()
-                            .enumerate()
-                            .map(|(index, &literal)| {
-                                let pattern = Pattern {
-                                    span: span,
-                                    kind: PatternKind::Tuple(vec![
+                    self.conversions.extend(data.literals
+                                                .iter()
+                                                .enumerate()
+                                                .map(|(index, &literal)| {
+                                                    let pattern = Pattern {
+                                                        span: span,
+                                                        kind: PatternKind::Tuple(vec![
                                         Pattern {
                                             span: span,
                                             kind: PatternKind::Usize(index),
@@ -77,63 +78,100 @@ impl LowerState {
                                             span: span,
                                             kind: PatternKind::Choose(input_str.clone())
                                         }
-                                        ])
-                                };
-                                (TerminalString::Literal(literal), pattern)
-                            }));
+                                        ]),
+                                                    };
+                                                    (TerminalString::Literal(literal), pattern)
+                                                }));
                     self.intern_token = Some(data);
                 }
 
                 pt::GrammarItem::ExternToken(data) => {
                     if let Some(enum_token) = data.enum_token {
                         token_span = Some(enum_token.type_span);
-                        self.conversions.extend(
-                            enum_token
-                                .conversions
-                                .iter()
-                                .map(|conversion| (conversion.from,
-                                                   conversion.to.map(&mut |t| t.type_repr()))));
+                        self.conversions.extend(enum_token.conversions
+                                                          .iter()
+                                                          .map(|conversion| {
+                                                              (conversion.from,
+                                                               conversion.to.map(&mut |t| {
+                                                                  t.type_repr()
+                                                              }))
+                                                          }));
                     }
                 }
 
                 pt::GrammarItem::Nonterminal(nt) => {
                     let nt_name = nt.name;
-                    let productions: Vec<_> =
-                        nt.alternatives
-                          .into_iter()
-                          .map(|alt| {
-                              let nt_type = self.types.nonterminal_type(nt_name).clone();
-                              let symbols = self.symbols(&alt.expr.symbols);
-                              let action = self.action_kind(nt_type, &alt.expr,
-                                                            &symbols, alt.action);
-                              r::Production {
-                                  nonterminal: nt_name,
-                                  span: alt.span,
-                                  symbols: symbols,
-                                  action: action,
-                              }
-                          })
-                          .collect();
-                    self.nonterminals.insert(nt_name, r::NonterminalData {
-                        name: nt_name,
-                        annotations: nt.annotations,
-                        span: nt.span,
-                        productions: productions
-                    });
+                    let productions: Vec<_> = nt.alternatives
+                                                .into_iter()
+                                                .map(|alt| {
+                                                    let nt_type = self.types
+                                                                      .nonterminal_type(nt_name)
+                                                                      .clone();
+                                                    let symbols = self.symbols(&alt.expr.symbols);
+                                                    let action = self.action_kind(nt_type,
+                                                                                  &alt.expr,
+                                                                                  &symbols,
+                                                                                  alt.action);
+                                                    r::Production {
+                                                        nonterminal: nt_name,
+                                                        span: alt.span,
+                                                        symbols: symbols,
+                                                        action: action,
+                                                    }
+                                                })
+                                                .collect();
+                    self.nonterminals.insert(nt_name,
+                                             r::NonterminalData {
+                                                 name: nt_name,
+                                                 annotations: nt.annotations,
+                                                 span: nt.span,
+                                                 productions: productions,
+                                             });
                 }
             }
         }
 
-        let parameters =
-            grammar.parameters.iter()
-                              .map(|p| r::Parameter { name: p.name, ty: p.ty.type_repr() })
-                              .collect();
+        let parameters = grammar.parameters
+                                .iter()
+                                .map(|p| {
+                                    r::Parameter {
+                                        name: p.name,
+                                        ty: p.ty.type_repr(),
+                                    }
+                                })
+                                .collect();
 
-        let algorithm =
-            match grammar.algorithm {
-                None => r::Algorithm::LR1,
-                Some(ref a) => r::Algorithm::from_str(a.text).unwrap(),
-            };
+        let mut algorithm = r::Algorithm::default();
+
+        if self.session.unit_test {
+            algorithm.codegen = r::LrCodeGeneration::TestAll;
+        }
+
+        for annotation in &grammar.annotations {
+            if annotation.id == intern(LALR) {
+                algorithm.lalr = true;
+            } else if annotation.id == intern(TABLE_DRIVEN) {
+                algorithm.codegen = r::LrCodeGeneration::TableDriven;
+            } else if annotation.id == intern(RECURSIVE_ASCENT) {
+                algorithm.codegen = r::LrCodeGeneration::RecursiveAscent;
+            } else if annotation.id == intern(TEST_ALL) {
+                algorithm.codegen = r::LrCodeGeneration::TestAll;
+            } else {
+                panic!("validation permitted unknown annotation: {:?}",
+                       annotation.id);
+            }
+        }
+
+        let mut all_terminals: Vec<_> = self.conversions
+                                            .iter()
+                                            .map(|c| c.0)
+                                            .collect();
+        all_terminals.sort();
+
+        let terminal_bits: Map<_, _> = all_terminals.iter()
+                                                    .cloned()
+                                                    .zip(0..)
+                                                    .collect();
 
         Ok(r::Grammar {
             prefix: self.prefix,
@@ -149,13 +187,16 @@ impl LowerState {
             where_clauses: grammar.where_clauses,
             algorithm: algorithm,
             intern_token: self.intern_token,
+            terminals: r::TerminalSet {
+                all: all_terminals,
+                bits: terminal_bits,
+            },
         })
     }
 
     fn synthesize_start_symbols(&mut self,
                                 grammar: &pt::Grammar)
-                                -> Map<NonterminalString, NonterminalString>
-    {
+                                -> Map<NonterminalString, NonterminalString> {
         grammar.items
                .iter()
                .filter_map(|item| item.as_nonterminal())
@@ -165,13 +206,14 @@ impl LowerState {
                    // with a rule like:
                    //
                    //     __Foo = Foo;
-                   let fake_name =
-                       pt::NonterminalString(intern(&format!("{}{}", self.prefix, nt.name)));
+                   let fake_name = pt::NonterminalString(intern(&format!("{}{}",
+                                                                         self.prefix,
+                                                                         nt.name)));
                    let nt_type = self.types.nonterminal_type(nt.name).clone();
                    self.types.add_type(fake_name, nt_type.clone());
                    let expr = pt::ExprSymbol {
                        symbols: vec![pt::Symbol::new(nt.span,
-                                                     pt::SymbolKind::Nonterminal(fake_name))]
+                                                     pt::SymbolKind::Nonterminal(fake_name))],
                    };
                    let symbols = vec![r::Symbol::Nonterminal(nt.name)];
                    let action_fn = self.action_fn(nt_type, false, &expr, &symbols, None);
@@ -179,16 +221,15 @@ impl LowerState {
                        nonterminal: fake_name,
                        symbols: symbols,
                        action: action_fn,
-                       span: nt.span
+                       span: nt.span,
                    };
-                   self.nonterminals.insert(
-                       fake_name,
-                       r::NonterminalData {
-                           name: fake_name,
-                           annotations: vec![],
-                           span: nt.span,
-                           productions: vec![production]
-                       });
+                   self.nonterminals.insert(fake_name,
+                                            r::NonterminalData {
+                                                name: fake_name,
+                                                annotations: vec![],
+                                                span: nt.span,
+                                                productions: vec![production],
+                                            });
                    (nt.name, fake_name)
                })
                .collect()
@@ -199,19 +240,17 @@ impl LowerState {
                    expr: &pt::ExprSymbol,
                    symbols: &[r::Symbol],
                    action: Option<pt::ActionKind>)
-                   -> r::ActionFn
-    {
+                   -> r::ActionFn {
         match action {
-            Some(pt::ActionKind::Lookahead) =>
-                self.lookahead_action_fn(),
-            Some(pt::ActionKind::Lookbehind) =>
-                self.lookbehind_action_fn(),
-            Some(pt::ActionKind::User(string)) =>
-                self.action_fn(nt_type, false, &expr, &symbols, Some(string)),
-            Some(pt::ActionKind::Fallible(string)) =>
-                self.action_fn(nt_type, true, &expr, &symbols, Some(string)),
-            None =>
-                self.action_fn(nt_type, false, &expr, &symbols, None),
+            Some(pt::ActionKind::Lookahead) => self.lookahead_action_fn(),
+            Some(pt::ActionKind::Lookbehind) => self.lookbehind_action_fn(),
+            Some(pt::ActionKind::User(string)) => {
+                self.action_fn(nt_type, false, &expr, &symbols, Some(string))
+            }
+            Some(pt::ActionKind::Fallible(string)) => {
+                self.action_fn(nt_type, true, &expr, &symbols, Some(string))
+            }
+            None => self.action_fn(nt_type, false, &expr, &symbols, None),
         }
     }
 
@@ -241,11 +280,20 @@ impl LowerState {
                  expr: &pt::ExprSymbol,
                  symbols: &[r::Symbol],
                  action: Option<String>)
-                 -> r::ActionFn
-    {
+                 -> r::ActionFn {
         let action = match action {
             Some(s) => s,
-            None => format!("(<>)"),
+            None => {
+                // If the user declared a type `()`, or we inferred
+                // it, then there is only one possible action that
+                // will type-check (`()`), so supply that. Otherwise,
+                // default is to include all selected items.
+                if nt_type.is_unit() {
+                    format!("()")
+                } else {
+                    format!("(<>)")
+                }
+            }
         };
 
         // Note that the action fn takes ALL of the symbols in `expr`
@@ -253,16 +301,17 @@ impl LowerState {
         // the user's selections.
 
         // The set of argument types is thus the type of all symbols:
-        let arg_types: Vec<r::TypeRepr> =
-            symbols.iter().map(|s| s.ty(&self.types)).cloned().collect();
+        let arg_types: Vec<r::TypeRepr> = symbols.iter()
+                                                 .map(|s| s.ty(&self.types))
+                                                 .cloned()
+                                                 .collect();
 
         let action_fn_defn = match norm_util::analyze_expr(expr) {
             Symbols::Named(names) => {
                 // if there are named symbols, we want to give the
                 // arguments the names that the user gave them:
-                let arg_patterns =
-                    patterns(names.iter().map(|&(index, name, _)| (index, name)),
-                             symbols.len());
+                let arg_patterns = patterns(names.iter().map(|&(index, name, _)| (index, name)),
+                                            symbols.len());
 
                 r::ActionFnDefn {
                     fallible: fallible,
@@ -275,12 +324,11 @@ impl LowerState {
                 }
             }
             Symbols::Anon(indices) => {
-                let names: Vec<_> =
-                    (0..indices.len()).map(|i| self.fresh_name(i)).collect();
-                let arg_patterns =
-                    patterns(indices.iter().map(|&(index, _)| index)
-                                           .zip(names.iter().cloned()),
-                             symbols.len());
+                let names: Vec<_> = (0..indices.len()).map(|i| self.fresh_name(i)).collect();
+                let arg_patterns = patterns(indices.iter()
+                                                   .map(|&(index, _)| index)
+                                                   .zip(names.iter().cloned()),
+                                            symbols.len());
                 let name_str = intern::read(|interner| {
                     let name_strs: Vec<_> = names.iter().map(|&n| interner.data(n)).collect();
                     name_strs.join(", ")
@@ -323,7 +371,8 @@ impl LowerState {
             pt::SymbolKind::AmbiguousId(_) |
             pt::SymbolKind::Lookahead |
             pt::SymbolKind::Lookbehind => {
-                unreachable!("symbol `{}` should have been normalized away by now", symbol)
+                unreachable!("symbol `{}` should have been normalized away by now",
+                             symbol)
             }
         }
     }
@@ -334,24 +383,23 @@ impl LowerState {
 }
 
 fn patterns<I>(mut chosen: I, num_args: usize) -> Vec<InternedString>
-    where I: Iterator<Item=(usize, InternedString)>
+    where I: Iterator<Item = (usize, InternedString)>
 {
     let blank = intern("_");
 
     let mut next_chosen = chosen.next();
 
-    let result =
-        (0..num_args)
-        .map(|index| {
-            match next_chosen {
-                Some((chosen_index, chosen_name)) if chosen_index == index => {
-                    next_chosen = chosen.next();
-                    chosen_name
-                }
-                _ => blank,
-            }
-        })
-        .collect();
+    let result = (0..num_args)
+                     .map(|index| {
+                         match next_chosen {
+                             Some((chosen_index, chosen_name)) if chosen_index == index => {
+                                 next_chosen = chosen.next();
+                                 chosen_name
+                             }
+                             _ => blank,
+                         }
+                     })
+                     .collect();
 
     debug_assert!(next_chosen.is_none());
 

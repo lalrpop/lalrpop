@@ -1,156 +1,299 @@
-//! Core LR(1) state construction algorithm.
+//! Core LR(1) types.
 
-use kernel_set;
+use collections::Map;
 use grammar::repr::*;
-use lr1::first;
-use lr1::{Action, Lookahead, Item, Items, State, StateIndex, TableConstructionError};
+use itertools::Itertools;
+use std::fmt::{Debug, Display, Formatter, Error};
 use std::rc::Rc;
-use util::{map, Multimap, Set};
+use util::Prefix;
 
-#[cfg(test)] mod test;
+use super::lookahead::*;
 
-pub fn build_lr1_states<'grammar>(grammar: &'grammar Grammar,
-                                  start: NonterminalString)
-                                  -> Result<Vec<State<'grammar>>,
-                                            TableConstructionError<'grammar>>
-{
-    let lr1 = LR1::new(grammar);
-    lr1.build_states(start)
+#[derive(Copy, Clone, Hash, PartialEq, Eq, PartialOrd, Ord)]
+pub struct Item<'grammar, L: Lookahead> {
+    pub production: &'grammar Production,
+    /// the dot comes before `index`, so `index` would be 1 for X = A (*) B C
+    pub index: usize,
+    pub lookahead: L,
 }
 
-struct LR1<'grammar> {
-    grammar: &'grammar Grammar,
-    first_sets: first::FirstSets,
+pub type LR0Item<'grammar> = Item<'grammar, Nil>;
+
+pub type LR1Item<'grammar> = Item<'grammar, TokenSet>;
+
+impl<'grammar> Item<'grammar, Nil> {
+    pub fn lr0(production: &'grammar Production,
+               index: usize)
+               -> Self {
+        Item { production: production, index: index, lookahead: Nil }
+    }
 }
 
-impl<'grammar> LR1<'grammar> {
-    fn new(grammar: &'grammar Grammar) -> LR1 {
-        LR1 {
-            grammar: grammar,
-            first_sets: first::FirstSets::new(grammar),
+impl<'grammar, L: Lookahead> Item<'grammar, L> {
+    pub fn with_lookahead<L1: Lookahead>(&self, l: L1) -> Item<'grammar, L1> {
+        Item {
+            production: self.production,
+            index: self.index,
+            lookahead: l
         }
     }
 
-    fn build_states(&self, start_nt: NonterminalString)
-                    -> Result<Vec<State<'grammar>>, TableConstructionError<'grammar>>
-    {
-        let mut kernel_set = kernel_set::KernelSet::new();
-        let mut states = vec![];
+    pub fn prefix(&self) -> &'grammar [Symbol] {
+        &self.production.symbols[..self.index]
+    }
 
-        // create the starting state
-        kernel_set.add_state(
-            self.transitive_closure(
-                self.items(start_nt, 0, Lookahead::EOF)));
-
-        while let Some(items) = kernel_set.next() {
-            let index = StateIndex(states.len());
-            let mut this_state = State { index: index, items: items.clone(),
-                                         tokens: map(), gotos: map() };
-
-            // group the items that we can transition into by shifting
-            // over a term or nonterm
-            let transitions: Multimap<Symbol, Item<'grammar>> =
-                items.vec
-                     .iter()
-                     .filter_map(|item| item.shifted_item())
-                     .collect();
-
-            for (symbol, items) in transitions.into_iter() {
-                let items = self.transitive_closure(items);
-                let next_state = kernel_set.add_state(items);
-
-                match symbol {
-                    Symbol::Terminal(s) => {
-                        let action = Action::Shift(next_state);
-                        let prev = this_state.tokens.insert(Lookahead::Terminal(s), action);
-                        assert!(prev.is_none()); // cannot have a shift/shift conflict
-                    }
-
-                    Symbol::Nonterminal(s) => {
-                        let prev = this_state.gotos.insert(s, next_state);
-                        assert!(prev.is_none());
-                    }
-                }
+    pub fn symbol_sets(&self) -> SymbolSets<'grammar> {
+        let symbols = &self.production.symbols;
+        if self.can_shift() {
+            SymbolSets {
+                prefix: &symbols[..self.index],
+                cursor: Some(&symbols[self.index]),
+                suffix: &symbols[self.index+1..],
             }
-
-            // finally, consider the reductions
-            for item in items.vec.iter().filter(|i| i.can_reduce()) {
-                let action = Action::Reduce(item.production);
-                let prev = this_state.tokens.insert(item.lookahead, action);
-                if let Some(conflict) = prev {
-                    return Err(TableConstructionError {
-                        items: items.clone(),
-                        lookahead: item.lookahead,
-                        production: item.production,
-                        conflict: conflict,
-                    });
-                }
+        } else {
+            SymbolSets {
+                prefix: &symbols[..self.index],
+                cursor: None,
+                suffix: &[],
             }
-
-            // extract a new state
-            states.push(this_state);
         }
-
-        Ok(states)
     }
 
-    fn items(&self,
-             id: NonterminalString,
-             index: usize,
-             lookahead: Lookahead)
-             -> Vec<Item<'grammar>>
-    {
-        self.grammar.productions_for(id)
-                    .iter()
-                    .map(|production| {
-                        debug_assert!(index <= production.symbols.len());
-                        Item { production: production,
-                                        index: index,
-                                        lookahead: lookahead }
-                    })
-                    .collect()
+    pub fn to_lr0(&self) -> LR0Item<'grammar> {
+        Item { production: self.production, index: self.index, lookahead: Nil }
     }
 
-    // expands `state` with epsilon moves
-    fn transitive_closure(&self, mut items: Vec<Item<'grammar>>)
-                          -> Items<'grammar>
-    {
-        let mut counter = 0;
+    pub fn can_shift(&self) -> bool {
+        self.index < self.production.symbols.len()
+    }
 
-        let mut set: Set<Item<'grammar>> =
-            items.iter().cloned().collect();
-
-        while counter < items.len() {
-            let new_items: Vec<_> =
-                items[counter..]
-                .iter()
-                .filter_map(|item| {
-                    let shift_symbol = item.shift_symbol();
-                    match shift_symbol {
-                        None => None, // requires a reduce
-                        Some((Symbol::Terminal(_), _)) => None, // requires a shift
-                        Some((Symbol::Nonterminal(nt), remainder)) => {
-                            Some((nt, remainder, item.lookahead))
-                        }
-                    }
-                })
-                .flat_map(|(nt, remainder, lookahead)| {
-                    let first_set = self.first_sets.first(remainder, lookahead);
-                    first_set.into_iter()
-                             .flat_map(move |l| self.items(nt, 0, l))
-                })
-                .filter(|&item| set.insert(item))
-                .collect();
-
-            counter = items.len();
-            items.extend(new_items);
+    pub fn can_shift_nonterminal(&self, nt: NonterminalString) -> bool {
+        match self.shift_symbol() {
+            Some((Symbol::Nonterminal(shifted), _)) => shifted == nt,
+            _ => false,
         }
+    }
 
-        items.sort();
-        items.dedup();
+    pub fn can_shift_terminal(&self, term: TerminalString) -> bool {
+        match self.shift_symbol() {
+            Some((Symbol::Terminal(shifted), _)) => shifted == term,
+            _ => false,
+        }
+    }
 
-        Items { vec: Rc::new(items) }
+    pub fn can_reduce(&self) -> bool {
+        self.index == self.production.symbols.len()
+    }
+
+    pub fn shifted_item(&self) -> Option<(Symbol, Item<'grammar, L>)> {
+        if self.can_shift() {
+            Some((self.production.symbols[self.index],
+                  Item { production: self.production,
+                         index: self.index + 1,
+                         lookahead: self.lookahead.clone() }))
+        } else {
+            None
+        }
+    }
+
+    pub fn shift_symbol(&self) -> Option<(Symbol, &[Symbol])> {
+        if self.can_shift() {
+            Some((self.production.symbols[self.index], &self.production.symbols[self.index+1..]))
+        } else {
+            None
+        }
     }
 }
 
+#[derive(Copy, Clone, Hash, PartialEq, Eq, PartialOrd, Ord)]
+pub struct StateIndex(pub usize);
 
+#[derive(Clone, Debug, Hash, PartialEq, Eq, PartialOrd, Ord)]
+pub struct Items<'grammar, L: Lookahead> {
+    pub vec: Rc<Vec<Item<'grammar, L>>>
+}
+
+pub type LR0Items<'grammar> = Items<'grammar, Nil>;
+pub type LR1Items<'grammar> = Items<'grammar, TokenSet>;
+
+#[derive(Debug)]
+pub struct State<'grammar, L: Lookahead> {
+    pub index: StateIndex,
+    pub items: Items<'grammar, L>,
+    pub shifts: Map<TerminalString, StateIndex>,
+    pub reductions: Vec<(L, &'grammar Production)>,
+    pub gotos: Map<NonterminalString, StateIndex>,
+}
+
+pub type LR0State<'grammar> = State<'grammar, Nil>;
+pub type LR1State<'grammar> = State<'grammar, TokenSet>;
+
+#[derive(Copy, Clone, Debug, PartialEq, Eq)]
+pub enum Action<'grammar> {
+    Shift(TerminalString, StateIndex),
+    Reduce(&'grammar Production),
+}
+
+#[derive(Copy, Clone, Debug, PartialEq, Eq)]
+pub struct Conflict<'grammar, L> {
+    // when in this state...
+    pub state: StateIndex,
+
+    // with the following lookahead...
+    pub lookahead: L,
+
+    // we can reduce...
+    pub production: &'grammar Production,
+
+    // but we can also...
+    pub action: Action<'grammar>,
+}
+
+pub type LR0Conflict<'grammar> = Conflict<'grammar, Nil>;
+pub type LR1Conflict<'grammar> = Conflict<'grammar, TokenSet>;
+
+#[derive(Debug)]
+pub struct TableConstructionError<'grammar, L: Lookahead> {
+    // LR(1) state set, possibly incomplete if construction is
+    // configured to terminate early.
+    pub states: Vec<State<'grammar, L>>,
+
+    // Conflicts (non-empty) found in those states.
+    pub conflicts: Vec<Conflict<'grammar, L>>,
+}
+
+pub type LR0TableConstructionError<'grammar> = TableConstructionError<'grammar, Nil>;
+pub type LR1TableConstructionError<'grammar> = TableConstructionError<'grammar, TokenSet>;
+pub type LR1Result<'grammar> = Result<Vec<LR1State<'grammar>>,
+                                      LR1TableConstructionError<'grammar>>;
+
+impl<'grammar, L: Lookahead> Debug for Item<'grammar, L> {
+    fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
+        try!(write!(fmt, "{} ={} (*){}",
+                    self.production.nonterminal,
+                    Prefix(" ", &self.production.symbols[..self.index]),
+                    Prefix(" ", &self.production.symbols[self.index..])));
+
+        self.lookahead.fmt_as_item_suffix(fmt)
+    }
+}
+
+impl Display for Token {
+    fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
+        match *self {
+            Token::EOF => write!(fmt, "EOF"),
+            Token::Terminal(s) => write!(fmt, "{}", s),
+        }
+    }
+}
+
+impl Debug for Token {
+    fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
+        write!(fmt, "{}", self)
+    }
+}
+
+impl Debug for StateIndex {
+    fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
+        write!(fmt, "S{}", self.0)
+    }
+}
+
+impl<'grammar, L: Lookahead> State<'grammar, L> {
+    /// Returns the set of symbols which must appear on the stack to
+    /// be in this state. This is the *maximum* prefix of any item,
+    /// basically.
+    pub fn max_prefix(&self) -> &'grammar [Symbol] {
+        // Each state fn takes as argument the longest prefix of any
+        // item. Note that all items must have compatible prefixes.
+        let prefix =
+            self.items.vec
+                      .iter()
+                      .map(|item| item.prefix())
+                      .max_by_key(|symbols| symbols.len())
+                      .unwrap();
+
+        debug_assert!(
+            self.items.vec
+                      .iter()
+                      .all(|item| prefix.ends_with(&item.production.symbols[..item.index])));
+
+        prefix
+    }
+
+    /// Returns the set of symbols from the stack that must be popped
+    /// for this state to return. If we have a state like:
+    ///
+    /// ```
+    /// X = A B C (*) C
+    /// Y = B C (*) C
+    /// C = (*) ...
+    /// ```
+    ///
+    /// This would return `[B, C]`. For every state other than the
+    /// start state, this will return a list of length at least 1.
+    /// For the start state, returns `[]`.
+    pub fn will_pop(&self) -> &'grammar [Symbol] {
+        let prefix =
+            self.items.vec.iter()
+                          .filter(|item| item.index > 0)
+                          .map(|item| item.prefix())
+                          .min_by_key(|symbols| symbols.len())
+                          .unwrap_or(&[]);
+
+        debug_assert!(
+            self.items.vec
+                      .iter()
+                      .filter(|item| item.index > 0)
+                      .all(|item| item.prefix().ends_with(prefix)));
+
+        prefix
+    }
+
+    pub fn will_push(&self) -> &[Symbol] {
+        self.items.vec.iter()
+                      .filter(|item| item.index > 0)
+                      .map(|item| &item.production.symbols[item.index..])
+                      .min_by_key(|symbols| symbols.len())
+                      .unwrap_or(&[])
+    }
+
+    /// Returns the type of nonterminal that this state will produce;
+    /// if `None` is returned, then this state may produce more than
+    /// one kind of nonterminal.
+    ///
+    /// FIXME -- currently, the start state returns `None` instead of
+    /// the goal symbol.
+    pub fn will_produce(&self) -> Option<NonterminalString> {
+        let mut returnable_nonterminals: Vec<_> =
+            self.items.vec.iter()
+                          .filter(|item| item.index > 0)
+                          .map(|item| item.production.nonterminal)
+                          .dedup()
+                          .collect();
+        if returnable_nonterminals.len() == 1 {
+            returnable_nonterminals.pop()
+        } else {
+            None
+        }
+    }
+
+}
+
+/// `A = B C (*) D E F` or `A = B C (*)`
+#[derive(Copy, Clone, Debug, PartialEq, Eq)]
+pub struct SymbolSets<'grammar> {
+    pub prefix: &'grammar [Symbol], // both cases, [B, C]
+    pub cursor: Option<&'grammar Symbol>, // first [D], second []
+    pub suffix: &'grammar [Symbol], // first [E, F], second []
+}
+
+impl<'grammar> SymbolSets<'grammar> {
+    pub fn new() -> Self {
+        SymbolSets {
+            prefix: &[],
+            cursor: None,
+            suffix: &[],
+        }
+    }
+}

@@ -18,7 +18,7 @@ impl FileText {
         Ok(FileText::new(path, input_str))
     }
 
-    fn new(path: PathBuf, input_str: String) -> FileText {
+    pub fn new(path: PathBuf, input_str: String) -> FileText {
         let newline_indices: Vec<usize> = {
             let input_indices =
                 input_str.as_bytes().iter()
@@ -31,6 +31,11 @@ impl FileText {
         };
 
         FileText { path: path, input_str: input_str, newlines: newline_indices }
+    }
+
+    #[cfg(test)]
+    pub fn test() -> FileText {
+        Self::new(PathBuf::from("test.lalrpop"), String::from(""))
     }
 
     pub fn text(&self) -> &String {

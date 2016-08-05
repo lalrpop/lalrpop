@@ -1,7 +1,6 @@
 //! A depth-first interpreter for NFAs.
 
-use lexer::nfa::{NFA, NFAStateIndex, START, StateKind, Noop, Other};
-use lexer::re::Test;
+use lexer::nfa::{NFA, NFAStateIndex, START, StateKind, Noop, Other, Test};
 use std::cmp::max;
 
 /// Interpret `nfa` applied to `test`, returning the longest matching
@@ -41,7 +40,7 @@ pub fn interpret<'text>(nfa: &NFA, text: &'text str) -> Option<&'text str> {
         // transition test edges
         let mut tests = 0;
         for edge in nfa.edges::<Test>(state) {
-            if edge.label.meets(Test::Char(ch)) {
+            if edge.label.contains_char(ch) {
                 push(&mut stack, (edge.to, offset1));
                 tests += 1;
             }

@@ -1,5 +1,4 @@
 use lexer::dfa::{DFA, Kind, NFAIndex, START};
-use lexer::re::Test;
 
 pub fn interpret<'text>(dfa: &DFA, input: &'text str) -> Option<(NFAIndex, &'text str)> {
     let mut longest: Option<(NFAIndex, usize)> = None;
@@ -12,7 +11,7 @@ pub fn interpret<'text>(dfa: &DFA, input: &'text str) -> Option<(NFAIndex, &'tex
             dfa.state(state_index).test_edges
                                   .iter()
                                   .filter_map(|&(test, target)| {
-                                      if test.meets(Test::Char(ch)) {
+                                      if test.contains_char(ch) {
                                           Some(target)
                                       } else {
                                           None

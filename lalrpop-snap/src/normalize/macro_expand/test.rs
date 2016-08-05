@@ -93,7 +93,7 @@ fn test_lookahead() {
     let expected = parser::parse_grammar(r#"
         grammar;
         Expr = `@L`;
-        `@L` = =>@L;
+        #[inline] `@L` = =>@L;
 "#).unwrap();
 
     compare(actual, expected);
