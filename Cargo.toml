@@ -5,4 +5,5 @@ members = [
         "lalrpop-snap",
         "lalrpop-intern",
         "lalrpop-util",
+        "doc/calculator",
 ]
