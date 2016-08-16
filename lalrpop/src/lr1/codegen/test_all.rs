@@ -4,7 +4,6 @@
 
 use grammar::repr::{Grammar, NonterminalString, TypeParameter};
 use lr1::core::*;
-use lr1::tls::Lr1Tls;
 use rust::RustWrite;
 use std::io::{self, Write};
 use util::Sep;
@@ -17,7 +16,6 @@ pub fn compile<'grammar, W: Write>(grammar: &'grammar Grammar,
                                    states: &[LR1State<'grammar>],
                                    out: &mut RustWrite<W>)
                                    -> io::Result<()> {
-    let _lr1_tls = Lr1Tls::install(grammar.terminals.clone());
     let mut ascent = CodeGenerator::new_test_all(grammar,
                                                  user_start_symbol,
                                                  start_symbol,

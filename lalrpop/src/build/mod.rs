@@ -321,6 +321,8 @@ fn emit_recursive_ascent(session: &Session, grammar: &r::Grammar) -> io::Result<
              "Building states for public nonterminal `{}`",
              user_nt);
 
+        let _lr1_tls = lr1::Lr1Tls::install(grammar.terminals.clone());
+
         let states = match lr1::build_states(&grammar, start_nt) {
             Ok(states) => states,
             Err(error) => {

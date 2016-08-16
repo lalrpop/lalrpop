@@ -8,7 +8,6 @@ use grammar::repr::{Grammar, NonterminalString, Production, Symbol, TerminalStri
 use lr1::core::*;
 use lr1::lookahead::Token;
 use lr1::state_graph::StateGraph;
-use lr1::tls::Lr1Tls;
 use rust::RustWrite;
 use std::io::{self, Write};
 use tls::Tls;
@@ -23,7 +22,6 @@ pub fn compile<'grammar, W: Write>(grammar: &'grammar Grammar,
                                    action_module: &str,
                                    out: &mut RustWrite<W>)
                                    -> io::Result<()> {
-    let _lr1_tls = Lr1Tls::install(grammar.terminals.clone());
     let graph = StateGraph::new(&states);
     let mut ascent = CodeGenerator::new_ascent(grammar,
                                                user_start_symbol,
