@@ -316,7 +316,7 @@ mod __parse__S {
                     __symbols.push((__lookahead.0, __symbol, __lookahead.2));
                     continue '__shift;
                 } else if __action < 0 {
-                    if let Some(r) = __reduce(__action, Some(&__lookahead.0), &mut __states, &mut __symbols) {
+                    if let Some(r) = __reduce(__action, Some(&__lookahead.0), &mut __states, &mut __symbols, ::std::marker::PhantomData::<()>) {
                         return r;
                     }
                 } else {
@@ -331,7 +331,7 @@ mod __parse__S {
             let __state = *__states.last().unwrap() as usize;
             let __action = __EOF_ACTION[__state];
             if __action < 0 {
-                if let Some(r) = __reduce(__action, None, &mut __states, &mut __symbols) {
+                if let Some(r) = __reduce(__action, None, &mut __states, &mut __symbols, ::std::marker::PhantomData::<()>) {
                     return r;
                 }
             } else {
@@ -348,6 +348,7 @@ mod __parse__S {
         __lookahead_start: Option<&()>,
         __states: &mut ::std::vec::Vec<i32>,
         __symbols: &mut ::std::vec::Vec<((),__Symbol<>,())>,
+        _: ::std::marker::PhantomData<()>,
     ) -> Option<Result<i32,__lalrpop_util::ParseError<(),Tok,()>>>
     {
         let __nonterminal = match -__action {
@@ -358,7 +359,7 @@ mod __parse__S {
                 let __sym0 = __pop_NtE(__symbols);
                 let __start = __sym0.0.clone();
                 let __end = __sym2.2.clone();
-                let __nt = super::__action2(__sym0, __sym1, __sym2);
+                let __nt = super::__action2::<>(__sym0, __sym1, __sym2);
                 let __states_len = __states.len();
                 __states.truncate(__states_len - 3);
                 __symbols.push((__start, __Symbol::NtE(__nt), __end));
@@ -369,7 +370,7 @@ mod __parse__S {
                 let __sym0 = __pop_NtT(__symbols);
                 let __start = __sym0.0.clone();
                 let __end = __sym0.2.clone();
-                let __nt = super::__action3(__sym0);
+                let __nt = super::__action3::<>(__sym0);
                 let __states_len = __states.len();
                 __states.truncate(__states_len - 1);
                 __symbols.push((__start, __Symbol::NtE(__nt), __end));
@@ -380,7 +381,7 @@ mod __parse__S {
                 let __sym0 = __pop_NtE(__symbols);
                 let __start = __sym0.0.clone();
                 let __end = __sym0.2.clone();
-                let __nt = super::__action1(__sym0);
+                let __nt = super::__action1::<>(__sym0);
                 let __states_len = __states.len();
                 __states.truncate(__states_len - 1);
                 __symbols.push((__start, __Symbol::NtS(__nt), __end));
@@ -391,7 +392,7 @@ mod __parse__S {
                 let __sym0 = __pop_TermNum(__symbols);
                 let __start = __sym0.0.clone();
                 let __end = __sym0.2.clone();
-                let __nt = super::__action4(__sym0);
+                let __nt = super::__action4::<>(__sym0);
                 let __states_len = __states.len();
                 __states.truncate(__states_len - 1);
                 __symbols.push((__start, __Symbol::NtT(__nt), __end));
@@ -404,7 +405,7 @@ mod __parse__S {
                 let __sym0 = __pop_Term_22_28_22(__symbols);
                 let __start = __sym0.0.clone();
                 let __end = __sym2.2.clone();
-                let __nt = super::__action5(__sym0, __sym1, __sym2);
+                let __nt = super::__action5::<>(__sym0, __sym1, __sym2);
                 let __states_len = __states.len();
                 __states.truncate(__states_len - 3);
                 __symbols.push((__start, __Symbol::NtT(__nt), __end));
@@ -415,7 +416,7 @@ mod __parse__S {
                 let __sym0 = __pop_NtS(__symbols);
                 let __start = __sym0.0.clone();
                 let __end = __sym0.2.clone();
-                let __nt = super::__action0(__sym0);
+                let __nt = super::__action0::<>(__sym0);
                 return Some(Ok(__nt));
             }
             _ => panic!("invalid action code {}", __action)

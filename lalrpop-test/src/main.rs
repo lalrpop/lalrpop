@@ -30,6 +30,9 @@ mod expr_arena_ast;
 /// expr defined with a generic type `F`
 mod expr_generic;
 
+mod generics_issue_104;
+mod generics_issue_104_lib;
+
 /// test of inlining
 mod inline;
 
@@ -282,7 +285,7 @@ fn issue_55_test1() {
     // Issue 55 caused us to either accept NO assoc types or assoc
     // types both before and after, so check that we can parse with
     // assoc types on either side.
-    
+
     let (a, b, c) = issue_55::parse_E("{ type X; type Y; enum Z { } }").unwrap();
     assert_eq!(a, vec!["X", "Y"]);
     assert_eq!(b, "Z");
@@ -298,4 +301,12 @@ fn issue_55_test1() {
 fn unit_test1() {
     assert!(unit::parse_Expr("3 + 4 * 5").is_ok());
     assert!(unit::parse_Expr("3 + +").is_err());
+}
+
+#[test]
+fn generics_issue_104_test1() {
+    // The real thing `generics_issue_104` is testing is that the code
+    // *compiles*, even though the type parameter `T` does not appear
+    // in any of the arguments.
+    assert!(generics_issue_104::parse_Schema::<()>("grammar { foo }").is_ok());
 }

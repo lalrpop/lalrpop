@@ -125,6 +125,15 @@ pub enum TypeParameter {
     Id(InternedString),
 }
 
+impl TypeParameter {
+    pub fn is_lifetime(&self) -> bool {
+        match *self {
+            TypeParameter::Lifetime(_) => true,
+            _ => false
+        }
+    }
+}
+
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct Parameter {
     pub name: InternedString,

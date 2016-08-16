@@ -1,7 +1,6 @@
 use std::fmt::Debug;
 use std::ops::{Add, Div, Mul, Sub};
 use std::str::FromStr;
-use util::tok::Tok;
 extern crate lalrpop_util as __lalrpop_util;
 
 mod __parse__Expr {
@@ -10,7 +9,6 @@ mod __parse__Expr {
     use std::fmt::Debug;
     use std::ops::{Add, Div, Mul, Sub};
     use std::str::FromStr;
-    use util::tok::Tok;
     extern crate lalrpop_util as __lalrpop_util;
     pub fn parse_Expr<
         'input,
@@ -20,10 +18,10 @@ mod __parse__Expr {
     ) -> Result<F, __lalrpop_util::ParseError<usize,(usize, &'input str),()>> where
       F: Debug + FromStr + Sub<Output=F> + Add<Output=F> + Mul<Output=F> + Div<Output=F> + PartialEq + Eq,
     {
-        let __ascent = __ascent::parse_Expr(
+        let __ascent = __ascent::parse_Expr::<F>(
             input,
         );
-        let __parse_table = __parse_table::parse_Expr(
+        let __parse_table = __parse_table::parse_Expr::<F>(
             input,
         );
         assert_eq!(__ascent, __parse_table);
@@ -37,7 +35,6 @@ mod __parse__Expr {
             use std::fmt::Debug;
             use std::ops::{Add, Div, Mul, Sub};
             use std::str::FromStr;
-            use util::tok::Tok;
             extern crate lalrpop_util as __lalrpop_util;
             pub fn parse_Expr<
                 'input,
@@ -53,7 +50,7 @@ mod __parse__Expr {
                     None => None,
                     Some(Err(e)) => return Err(e),
                 };
-                match try!(__state0(input, &mut __tokens, __lookahead)) {
+                match try!(__state0(input, &mut __tokens, __lookahead, ::std::marker::PhantomData::<(F)>)) {
                     (Some(__lookahead), _) => {
                         Err(__lalrpop_util::ParseError::ExtraToken { token: __lookahead })
                     }
@@ -130,6 +127,7 @@ mod __parse__Expr {
                 input: &'input str,
                 __tokens: &mut __TOKENS,
                 __lookahead: Option<(usize, (usize, &'input str), usize)>,
+                _: ::std::marker::PhantomData<(F)>,
             ) -> Result<(Option<(usize, (usize, &'input str), usize)>, __Nonterminal<F>), __lalrpop_util::ParseError<usize,(usize, &'input str),()>> where
               F: Debug + FromStr + Sub<Output=F> + Add<Output=F> + Mul<Output=F> + Div<Output=F> + PartialEq + Eq,
             {
@@ -137,11 +135,11 @@ mod __parse__Expr {
                 match __lookahead {
                     Some((__loc1, (0, __tok0), __loc2)) => {
                         let __sym0 = (__loc1, (__tok0), __loc2);
-                        __result = try!(__state4(input, __tokens, __sym0));
+                        __result = try!(__state4(input, __tokens, __sym0, ::std::marker::PhantomData::<(F)>));
                     }
                     Some((__loc1, (6, __tok0), __loc2)) => {
                         let __sym0 = (__loc1, (__tok0), __loc2);
-                        __result = try!(__state5(input, __tokens, __sym0));
+                        __result = try!(__state5(input, __tokens, __sym0, ::std::marker::PhantomData::<(F)>));
                     }
                     _ => {
                         return Err(__lalrpop_util::ParseError::UnrecognizedToken {
@@ -154,13 +152,13 @@ mod __parse__Expr {
                     let (__lookahead, __nt) = __result;
                     match __nt {
                         __Nonterminal::Expr(__sym0) => {
-                            __result = try!(__state1(input, __tokens, __lookahead, __sym0));
+                            __result = try!(__state1(input, __tokens, __lookahead, __sym0, ::std::marker::PhantomData::<(F)>));
                         }
                         __Nonterminal::Factor(__sym0) => {
-                            __result = try!(__state2(input, __tokens, __lookahead, __sym0));
+                            __result = try!(__state2(input, __tokens, __lookahead, __sym0, ::std::marker::PhantomData::<(F)>));
                         }
                         __Nonterminal::Term(__sym0) => {
-                            __result = try!(__state3(input, __tokens, __lookahead, __sym0));
+                            __result = try!(__state3(input, __tokens, __lookahead, __sym0, ::std::marker::PhantomData::<(F)>));
                         }
                         _ => {
                             return Ok((__lookahead, __nt));
@@ -194,6 +192,7 @@ mod __parse__Expr {
                 __tokens: &mut __TOKENS,
                 __lookahead: Option<(usize, (usize, &'input str), usize)>,
                 __sym0: (usize, F, usize),
+                _: ::std::marker::PhantomData<(F)>,
             ) -> Result<(Option<(usize, (usize, &'input str), usize)>, __Nonterminal<F>), __lalrpop_util::ParseError<usize,(usize, &'input str),()>> where
               F: Debug + FromStr + Sub<Output=F> + Add<Output=F> + Mul<Output=F> + Div<Output=F> + PartialEq + Eq,
             {
@@ -201,18 +200,18 @@ mod __parse__Expr {
                 match __lookahead {
                     Some((__loc1, (3, __tok0), __loc2)) => {
                         let __sym1 = (__loc1, (__tok0), __loc2);
-                        __result = try!(__state6(input, __tokens, __sym0, __sym1));
+                        __result = try!(__state6(input, __tokens, __sym0, __sym1, ::std::marker::PhantomData::<(F)>));
                         return Ok(__result);
                     }
                     Some((__loc1, (4, __tok0), __loc2)) => {
                         let __sym1 = (__loc1, (__tok0), __loc2);
-                        __result = try!(__state7(input, __tokens, __sym0, __sym1));
+                        __result = try!(__state7(input, __tokens, __sym0, __sym1, ::std::marker::PhantomData::<(F)>));
                         return Ok(__result);
                     }
                     None => {
                         let __start = __sym0.0.clone();
                         let __end = __sym0.2.clone();
-                        let __nt = super::super::super::__action0(input, __sym0);
+                        let __nt = super::super::super::__action0::<F>(input, __sym0);
                         let __nt = __Nonterminal::____Expr((
                             __start,
                             __nt,
@@ -255,6 +254,7 @@ mod __parse__Expr {
                 __tokens: &mut __TOKENS,
                 __lookahead: Option<(usize, (usize, &'input str), usize)>,
                 __sym0: (usize, F, usize),
+                _: ::std::marker::PhantomData<(F)>,
             ) -> Result<(Option<(usize, (usize, &'input str), usize)>, __Nonterminal<F>), __lalrpop_util::ParseError<usize,(usize, &'input str),()>> where
               F: Debug + FromStr + Sub<Output=F> + Add<Output=F> + Mul<Output=F> + Div<Output=F> + PartialEq + Eq,
             {
@@ -262,12 +262,12 @@ mod __parse__Expr {
                 match __lookahead {
                     Some((__loc1, (2, __tok0), __loc2)) => {
                         let __sym1 = (__loc1, (__tok0), __loc2);
-                        __result = try!(__state8(input, __tokens, __sym0, __sym1));
+                        __result = try!(__state8(input, __tokens, __sym0, __sym1, ::std::marker::PhantomData::<(F)>));
                         return Ok(__result);
                     }
                     Some((__loc1, (5, __tok0), __loc2)) => {
                         let __sym1 = (__loc1, (__tok0), __loc2);
-                        __result = try!(__state9(input, __tokens, __sym0, __sym1));
+                        __result = try!(__state9(input, __tokens, __sym0, __sym1, ::std::marker::PhantomData::<(F)>));
                         return Ok(__result);
                     }
                     Some((_, (3, _), _)) |
@@ -275,7 +275,7 @@ mod __parse__Expr {
                     None => {
                         let __start = __sym0.0.clone();
                         let __end = __sym0.2.clone();
-                        let __nt = super::super::super::__action3(input, __sym0);
+                        let __nt = super::super::super::__action3::<F>(input, __sym0);
                         let __nt = __Nonterminal::Expr((
                             __start,
                             __nt,
@@ -314,6 +314,7 @@ mod __parse__Expr {
                 __tokens: &mut __TOKENS,
                 __lookahead: Option<(usize, (usize, &'input str), usize)>,
                 __sym0: (usize, F, usize),
+                _: ::std::marker::PhantomData<(F)>,
             ) -> Result<(Option<(usize, (usize, &'input str), usize)>, __Nonterminal<F>), __lalrpop_util::ParseError<usize,(usize, &'input str),()>> where
               F: Debug + FromStr + Sub<Output=F> + Add<Output=F> + Mul<Output=F> + Div<Output=F> + PartialEq + Eq,
             {
@@ -326,7 +327,7 @@ mod __parse__Expr {
                     None => {
                         let __start = __sym0.0.clone();
                         let __end = __sym0.2.clone();
-                        let __nt = super::super::super::__action6(input, __sym0);
+                        let __nt = super::super::super::__action6::<F>(input, __sym0);
                         let __nt = __Nonterminal::Factor((
                             __start,
                             __nt,
@@ -402,6 +403,7 @@ mod __parse__Expr {
                 input: &'input str,
                 __tokens: &mut __TOKENS,
                 __sym0: (usize, &'input str, usize),
+                _: ::std::marker::PhantomData<(F)>,
             ) -> Result<(Option<(usize, (usize, &'input str), usize)>, __Nonterminal<F>), __lalrpop_util::ParseError<usize,(usize, &'input str),()>> where
               F: Debug + FromStr + Sub<Output=F> + Add<Output=F> + Mul<Output=F> + Div<Output=F> + PartialEq + Eq,
             {
@@ -415,11 +417,11 @@ mod __parse__Expr {
                 match __lookahead {
                     Some((__loc1, (0, __tok0), __loc2)) => {
                         let __sym1 = (__loc1, (__tok0), __loc2);
-                        __result = try!(__state13(input, __tokens, __sym1));
+                        __result = try!(__state13(input, __tokens, __sym1, ::std::marker::PhantomData::<(F)>));
                     }
                     Some((__loc1, (6, __tok0), __loc2)) => {
                         let __sym1 = (__loc1, (__tok0), __loc2);
-                        __result = try!(__state14(input, __tokens, __sym1));
+                        __result = try!(__state14(input, __tokens, __sym1, ::std::marker::PhantomData::<(F)>));
                     }
                     _ => {
                         return Err(__lalrpop_util::ParseError::UnrecognizedToken {
@@ -435,13 +437,13 @@ mod __parse__Expr {
                     let (__lookahead, __nt) = __result;
                     match __nt {
                         __Nonterminal::Expr(__sym1) => {
-                            __result = try!(__state10(input, __tokens, __lookahead, __sym0, __sym1));
+                            __result = try!(__state10(input, __tokens, __lookahead, __sym0, __sym1, ::std::marker::PhantomData::<(F)>));
                         }
                         __Nonterminal::Factor(__sym1) => {
-                            __result = try!(__state11(input, __tokens, __lookahead, __sym1));
+                            __result = try!(__state11(input, __tokens, __lookahead, __sym1, ::std::marker::PhantomData::<(F)>));
                         }
                         __Nonterminal::Term(__sym1) => {
-                            __result = try!(__state12(input, __tokens, __lookahead, __sym1));
+                            __result = try!(__state12(input, __tokens, __lookahead, __sym1, ::std::marker::PhantomData::<(F)>));
                         }
                         _ => {
                             return Ok((__lookahead, __nt));
@@ -470,6 +472,7 @@ mod __parse__Expr {
                 input: &'input str,
                 __tokens: &mut __TOKENS,
                 __sym0: (usize, &'input str, usize),
+                _: ::std::marker::PhantomData<(F)>,
             ) -> Result<(Option<(usize, (usize, &'input str), usize)>, __Nonterminal<F>), __lalrpop_util::ParseError<usize,(usize, &'input str),()>> where
               F: Debug + FromStr + Sub<Output=F> + Add<Output=F> + Mul<Output=F> + Div<Output=F> + PartialEq + Eq,
             {
@@ -487,7 +490,7 @@ mod __parse__Expr {
                     None => {
                         let __start = __sym0.0.clone();
                         let __end = __sym0.2.clone();
-                        let __nt = super::super::super::__action7(input, __sym0);
+                        let __nt = super::super::super::__action7::<F>(input, __sym0);
                         let __nt = __Nonterminal::Term((
                             __start,
                             __nt,
@@ -544,6 +547,7 @@ mod __parse__Expr {
                 __tokens: &mut __TOKENS,
                 __sym0: (usize, F, usize),
                 __sym1: (usize, &'input str, usize),
+                _: ::std::marker::PhantomData<(F)>,
             ) -> Result<(Option<(usize, (usize, &'input str), usize)>, __Nonterminal<F>), __lalrpop_util::ParseError<usize,(usize, &'input str),()>> where
               F: Debug + FromStr + Sub<Output=F> + Add<Output=F> + Mul<Output=F> + Div<Output=F> + PartialEq + Eq,
             {
@@ -558,11 +562,11 @@ mod __parse__Expr {
                 match __lookahead {
                     Some((__loc1, (0, __tok0), __loc2)) => {
                         let __sym2 = (__loc1, (__tok0), __loc2);
-                        __result = try!(__state4(input, __tokens, __sym2));
+                        __result = try!(__state4(input, __tokens, __sym2, ::std::marker::PhantomData::<(F)>));
                     }
                     Some((__loc1, (6, __tok0), __loc2)) => {
                         let __sym2 = (__loc1, (__tok0), __loc2);
-                        __result = try!(__state5(input, __tokens, __sym2));
+                        __result = try!(__state5(input, __tokens, __sym2, ::std::marker::PhantomData::<(F)>));
                     }
                     _ => {
                         return Err(__lalrpop_util::ParseError::UnrecognizedToken {
@@ -578,10 +582,10 @@ mod __parse__Expr {
                     let (__lookahead, __nt) = __result;
                     match __nt {
                         __Nonterminal::Factor(__sym2) => {
-                            __result = try!(__state15(input, __tokens, __lookahead, __sym0, __sym1, __sym2));
+                            __result = try!(__state15(input, __tokens, __lookahead, __sym0, __sym1, __sym2, ::std::marker::PhantomData::<(F)>));
                         }
                         __Nonterminal::Term(__sym2) => {
-                            __result = try!(__state3(input, __tokens, __lookahead, __sym2));
+                            __result = try!(__state3(input, __tokens, __lookahead, __sym2, ::std::marker::PhantomData::<(F)>));
                         }
                         _ => {
                             return Ok((__lookahead, __nt));
@@ -629,6 +633,7 @@ mod __parse__Expr {
                 __tokens: &mut __TOKENS,
                 __sym0: (usize, F, usize),
                 __sym1: (usize, &'input str, usize),
+                _: ::std::marker::PhantomData<(F)>,
             ) -> Result<(Option<(usize, (usize, &'input str), usize)>, __Nonterminal<F>), __lalrpop_util::ParseError<usize,(usize, &'input str),()>> where
               F: Debug + FromStr + Sub<Output=F> + Add<Output=F> + Mul<Output=F> + Div<Output=F> + PartialEq + Eq,
             {
@@ -643,11 +648,11 @@ mod __parse__Expr {
                 match __lookahead {
                     Some((__loc1, (0, __tok0), __loc2)) => {
                         let __sym2 = (__loc1, (__tok0), __loc2);
-                        __result = try!(__state4(input, __tokens, __sym2));
+                        __result = try!(__state4(input, __tokens, __sym2, ::std::marker::PhantomData::<(F)>));
                     }
                     Some((__loc1, (6, __tok0), __loc2)) => {
                         let __sym2 = (__loc1, (__tok0), __loc2);
-                        __result = try!(__state5(input, __tokens, __sym2));
+                        __result = try!(__state5(input, __tokens, __sym2, ::std::marker::PhantomData::<(F)>));
                     }
                     _ => {
                         return Err(__lalrpop_util::ParseError::UnrecognizedToken {
@@ -663,10 +668,10 @@ mod __parse__Expr {
                     let (__lookahead, __nt) = __result;
                     match __nt {
                         __Nonterminal::Factor(__sym2) => {
-                            __result = try!(__state16(input, __tokens, __lookahead, __sym0, __sym1, __sym2));
+                            __result = try!(__state16(input, __tokens, __lookahead, __sym0, __sym1, __sym2, ::std::marker::PhantomData::<(F)>));
                         }
                         __Nonterminal::Term(__sym2) => {
-                            __result = try!(__state3(input, __tokens, __lookahead, __sym2));
+                            __result = try!(__state3(input, __tokens, __lookahead, __sym2, ::std::marker::PhantomData::<(F)>));
                         }
                         _ => {
                             return Ok((__lookahead, __nt));
@@ -700,6 +705,7 @@ mod __parse__Expr {
                 __tokens: &mut __TOKENS,
                 __sym0: (usize, F, usize),
                 __sym1: (usize, &'input str, usize),
+                _: ::std::marker::PhantomData<(F)>,
             ) -> Result<(Option<(usize, (usize, &'input str), usize)>, __Nonterminal<F>), __lalrpop_util::ParseError<usize,(usize, &'input str),()>> where
               F: Debug + FromStr + Sub<Output=F> + Add<Output=F> + Mul<Output=F> + Div<Output=F> + PartialEq + Eq,
             {
@@ -712,11 +718,11 @@ mod __parse__Expr {
                 match __lookahead {
                     Some((__loc1, (0, __tok0), __loc2)) => {
                         let __sym2 = (__loc1, (__tok0), __loc2);
-                        __result = try!(__state4(input, __tokens, __sym2));
+                        __result = try!(__state4(input, __tokens, __sym2, ::std::marker::PhantomData::<(F)>));
                     }
                     Some((__loc1, (6, __tok0), __loc2)) => {
                         let __sym2 = (__loc1, (__tok0), __loc2);
-                        __result = try!(__state5(input, __tokens, __sym2));
+                        __result = try!(__state5(input, __tokens, __sym2, ::std::marker::PhantomData::<(F)>));
                     }
                     _ => {
                         return Err(__lalrpop_util::ParseError::UnrecognizedToken {
@@ -729,7 +735,7 @@ mod __parse__Expr {
                     let (__lookahead, __nt) = __result;
                     match __nt {
                         __Nonterminal::Term(__sym2) => {
-                            __result = try!(__state17(input, __tokens, __lookahead, __sym0, __sym1, __sym2));
+                            __result = try!(__state17(input, __tokens, __lookahead, __sym0, __sym1, __sym2, ::std::marker::PhantomData::<(F)>));
                             return Ok(__result);
                         }
                         _ => {
@@ -764,6 +770,7 @@ mod __parse__Expr {
                 __tokens: &mut __TOKENS,
                 __sym0: (usize, F, usize),
                 __sym1: (usize, &'input str, usize),
+                _: ::std::marker::PhantomData<(F)>,
             ) -> Result<(Option<(usize, (usize, &'input str), usize)>, __Nonterminal<F>), __lalrpop_util::ParseError<usize,(usize, &'input str),()>> where
               F: Debug + FromStr + Sub<Output=F> + Add<Output=F> + Mul<Output=F> + Div<Output=F> + PartialEq + Eq,
             {
@@ -776,11 +783,11 @@ mod __parse__Expr {
                 match __lookahead {
                     Some((__loc1, (0, __tok0), __loc2)) => {
                         let __sym2 = (__loc1, (__tok0), __loc2);
-                        __result = try!(__state4(input, __tokens, __sym2));
+                        __result = try!(__state4(input, __tokens, __sym2, ::std::marker::PhantomData::<(F)>));
                     }
                     Some((__loc1, (6, __tok0), __loc2)) => {
                         let __sym2 = (__loc1, (__tok0), __loc2);
-                        __result = try!(__state5(input, __tokens, __sym2));
+                        __result = try!(__state5(input, __tokens, __sym2, ::std::marker::PhantomData::<(F)>));
                     }
                     _ => {
                         return Err(__lalrpop_util::ParseError::UnrecognizedToken {
@@ -793,7 +800,7 @@ mod __parse__Expr {
                     let (__lookahead, __nt) = __result;
                     match __nt {
                         __Nonterminal::Term(__sym2) => {
-                            __result = try!(__state18(input, __tokens, __lookahead, __sym0, __sym1, __sym2));
+                            __result = try!(__state18(input, __tokens, __lookahead, __sym0, __sym1, __sym2, ::std::marker::PhantomData::<(F)>));
                             return Ok(__result);
                         }
                         _ => {
@@ -829,6 +836,7 @@ mod __parse__Expr {
                 __lookahead: Option<(usize, (usize, &'input str), usize)>,
                 __sym0: &mut Option<(usize, &'input str, usize)>,
                 __sym1: (usize, F, usize),
+                _: ::std::marker::PhantomData<(F)>,
             ) -> Result<(Option<(usize, (usize, &'input str), usize)>, __Nonterminal<F>), __lalrpop_util::ParseError<usize,(usize, &'input str),()>> where
               F: Debug + FromStr + Sub<Output=F> + Add<Output=F> + Mul<Output=F> + Div<Output=F> + PartialEq + Eq,
             {
@@ -837,17 +845,17 @@ mod __parse__Expr {
                     Some((__loc1, (1, __tok0), __loc2)) => {
                         let __sym2 = (__loc1, (__tok0), __loc2);
                         let __sym0 = __sym0.take().unwrap();
-                        __result = try!(__state19(input, __tokens, __sym0, __sym1, __sym2));
+                        __result = try!(__state19(input, __tokens, __sym0, __sym1, __sym2, ::std::marker::PhantomData::<(F)>));
                         return Ok(__result);
                     }
                     Some((__loc1, (3, __tok0), __loc2)) => {
                         let __sym2 = (__loc1, (__tok0), __loc2);
-                        __result = try!(__state20(input, __tokens, __sym1, __sym2));
+                        __result = try!(__state20(input, __tokens, __sym1, __sym2, ::std::marker::PhantomData::<(F)>));
                         return Ok(__result);
                     }
                     Some((__loc1, (4, __tok0), __loc2)) => {
                         let __sym2 = (__loc1, (__tok0), __loc2);
-                        __result = try!(__state21(input, __tokens, __sym1, __sym2));
+                        __result = try!(__state21(input, __tokens, __sym1, __sym2, ::std::marker::PhantomData::<(F)>));
                         return Ok(__result);
                     }
                     _ => {
@@ -884,6 +892,7 @@ mod __parse__Expr {
                 __tokens: &mut __TOKENS,
                 __lookahead: Option<(usize, (usize, &'input str), usize)>,
                 __sym0: (usize, F, usize),
+                _: ::std::marker::PhantomData<(F)>,
             ) -> Result<(Option<(usize, (usize, &'input str), usize)>, __Nonterminal<F>), __lalrpop_util::ParseError<usize,(usize, &'input str),()>> where
               F: Debug + FromStr + Sub<Output=F> + Add<Output=F> + Mul<Output=F> + Div<Output=F> + PartialEq + Eq,
             {
@@ -891,12 +900,12 @@ mod __parse__Expr {
                 match __lookahead {
                     Some((__loc1, (2, __tok0), __loc2)) => {
                         let __sym1 = (__loc1, (__tok0), __loc2);
-                        __result = try!(__state22(input, __tokens, __sym0, __sym1));
+                        __result = try!(__state22(input, __tokens, __sym0, __sym1, ::std::marker::PhantomData::<(F)>));
                         return Ok(__result);
                     }
                     Some((__loc1, (5, __tok0), __loc2)) => {
                         let __sym1 = (__loc1, (__tok0), __loc2);
-                        __result = try!(__state23(input, __tokens, __sym0, __sym1));
+                        __result = try!(__state23(input, __tokens, __sym0, __sym1, ::std::marker::PhantomData::<(F)>));
                         return Ok(__result);
                     }
                     Some((_, (1, _), _)) |
@@ -904,7 +913,7 @@ mod __parse__Expr {
                     Some((_, (4, _), _)) => {
                         let __start = __sym0.0.clone();
                         let __end = __sym0.2.clone();
-                        let __nt = super::super::super::__action3(input, __sym0);
+                        let __nt = super::super::super::__action3::<F>(input, __sym0);
                         let __nt = __Nonterminal::Expr((
                             __start,
                             __nt,
@@ -943,6 +952,7 @@ mod __parse__Expr {
                 __tokens: &mut __TOKENS,
                 __lookahead: Option<(usize, (usize, &'input str), usize)>,
                 __sym0: (usize, F, usize),
+                _: ::std::marker::PhantomData<(F)>,
             ) -> Result<(Option<(usize, (usize, &'input str), usize)>, __Nonterminal<F>), __lalrpop_util::ParseError<usize,(usize, &'input str),()>> where
               F: Debug + FromStr + Sub<Output=F> + Add<Output=F> + Mul<Output=F> + Div<Output=F> + PartialEq + Eq,
             {
@@ -955,7 +965,7 @@ mod __parse__Expr {
                     Some((_, (5, _), _)) => {
                         let __start = __sym0.0.clone();
                         let __end = __sym0.2.clone();
-                        let __nt = super::super::super::__action6(input, __sym0);
+                        let __nt = super::super::super::__action6::<F>(input, __sym0);
                         let __nt = __Nonterminal::Factor((
                             __start,
                             __nt,
@@ -1031,6 +1041,7 @@ mod __parse__Expr {
                 input: &'input str,
                 __tokens: &mut __TOKENS,
                 __sym0: (usize, &'input str, usize),
+                _: ::std::marker::PhantomData<(F)>,
             ) -> Result<(Option<(usize, (usize, &'input str), usize)>, __Nonterminal<F>), __lalrpop_util::ParseError<usize,(usize, &'input str),()>> where
               F: Debug + FromStr + Sub<Output=F> + Add<Output=F> + Mul<Output=F> + Div<Output=F> + PartialEq + Eq,
             {
@@ -1044,11 +1055,11 @@ mod __parse__Expr {
                 match __lookahead {
                     Some((__loc1, (0, __tok0), __loc2)) => {
                         let __sym1 = (__loc1, (__tok0), __loc2);
-                        __result = try!(__state13(input, __tokens, __sym1));
+                        __result = try!(__state13(input, __tokens, __sym1, ::std::marker::PhantomData::<(F)>));
                     }
                     Some((__loc1, (6, __tok0), __loc2)) => {
                         let __sym1 = (__loc1, (__tok0), __loc2);
-                        __result = try!(__state14(input, __tokens, __sym1));
+                        __result = try!(__state14(input, __tokens, __sym1, ::std::marker::PhantomData::<(F)>));
                     }
                     _ => {
                         return Err(__lalrpop_util::ParseError::UnrecognizedToken {
@@ -1064,13 +1075,13 @@ mod __parse__Expr {
                     let (__lookahead, __nt) = __result;
                     match __nt {
                         __Nonterminal::Expr(__sym1) => {
-                            __result = try!(__state24(input, __tokens, __lookahead, __sym0, __sym1));
+                            __result = try!(__state24(input, __tokens, __lookahead, __sym0, __sym1, ::std::marker::PhantomData::<(F)>));
                         }
                         __Nonterminal::Factor(__sym1) => {
-                            __result = try!(__state11(input, __tokens, __lookahead, __sym1));
+                            __result = try!(__state11(input, __tokens, __lookahead, __sym1, ::std::marker::PhantomData::<(F)>));
                         }
                         __Nonterminal::Term(__sym1) => {
-                            __result = try!(__state12(input, __tokens, __lookahead, __sym1));
+                            __result = try!(__state12(input, __tokens, __lookahead, __sym1, ::std::marker::PhantomData::<(F)>));
                         }
                         _ => {
                             return Ok((__lookahead, __nt));
@@ -1099,6 +1110,7 @@ mod __parse__Expr {
                 input: &'input str,
                 __tokens: &mut __TOKENS,
                 __sym0: (usize, &'input str, usize),
+                _: ::std::marker::PhantomData<(F)>,
             ) -> Result<(Option<(usize, (usize, &'input str), usize)>, __Nonterminal<F>), __lalrpop_util::ParseError<usize,(usize, &'input str),()>> where
               F: Debug + FromStr + Sub<Output=F> + Add<Output=F> + Mul<Output=F> + Div<Output=F> + PartialEq + Eq,
             {
@@ -1116,7 +1128,7 @@ mod __parse__Expr {
                     Some((_, (5, _), _)) => {
                         let __start = __sym0.0.clone();
                         let __end = __sym0.2.clone();
-                        let __nt = super::super::super::__action7(input, __sym0);
+                        let __nt = super::super::super::__action7::<F>(input, __sym0);
                         let __nt = __Nonterminal::Term((
                             __start,
                             __nt,
@@ -1161,6 +1173,7 @@ mod __parse__Expr {
                 __sym0: &mut Option<(usize, F, usize)>,
                 __sym1: &mut Option<(usize, &'input str, usize)>,
                 __sym2: (usize, F, usize),
+                _: ::std::marker::PhantomData<(F)>,
             ) -> Result<(Option<(usize, (usize, &'input str), usize)>, __Nonterminal<F>), __lalrpop_util::ParseError<usize,(usize, &'input str),()>> where
               F: Debug + FromStr + Sub<Output=F> + Add<Output=F> + Mul<Output=F> + Div<Output=F> + PartialEq + Eq,
             {
@@ -1168,12 +1181,12 @@ mod __parse__Expr {
                 match __lookahead {
                     Some((__loc1, (2, __tok0), __loc2)) => {
                         let __sym3 = (__loc1, (__tok0), __loc2);
-                        __result = try!(__state8(input, __tokens, __sym2, __sym3));
+                        __result = try!(__state8(input, __tokens, __sym2, __sym3, ::std::marker::PhantomData::<(F)>));
                         return Ok(__result);
                     }
                     Some((__loc1, (5, __tok0), __loc2)) => {
                         let __sym3 = (__loc1, (__tok0), __loc2);
-                        __result = try!(__state9(input, __tokens, __sym2, __sym3));
+                        __result = try!(__state9(input, __tokens, __sym2, __sym3, ::std::marker::PhantomData::<(F)>));
                         return Ok(__result);
                     }
                     Some((_, (3, _), _)) |
@@ -1183,7 +1196,7 @@ mod __parse__Expr {
                         let __sym1 = __sym1.take().unwrap();
                         let __start = __sym0.0.clone();
                         let __end = __sym2.2.clone();
-                        let __nt = super::super::super::__action2(input, __sym0, __sym1, __sym2);
+                        let __nt = super::super::super::__action2::<F>(input, __sym0, __sym1, __sym2);
                         let __nt = __Nonterminal::Expr((
                             __start,
                             __nt,
@@ -1228,6 +1241,7 @@ mod __parse__Expr {
                 __sym0: &mut Option<(usize, F, usize)>,
                 __sym1: &mut Option<(usize, &'input str, usize)>,
                 __sym2: (usize, F, usize),
+                _: ::std::marker::PhantomData<(F)>,
             ) -> Result<(Option<(usize, (usize, &'input str), usize)>, __Nonterminal<F>), __lalrpop_util::ParseError<usize,(usize, &'input str),()>> where
               F: Debug + FromStr + Sub<Output=F> + Add<Output=F> + Mul<Output=F> + Div<Output=F> + PartialEq + Eq,
             {
@@ -1235,12 +1249,12 @@ mod __parse__Expr {
                 match __lookahead {
                     Some((__loc1, (2, __tok0), __loc2)) => {
                         let __sym3 = (__loc1, (__tok0), __loc2);
-                        __result = try!(__state8(input, __tokens, __sym2, __sym3));
+                        __result = try!(__state8(input, __tokens, __sym2, __sym3, ::std::marker::PhantomData::<(F)>));
                         return Ok(__result);
                     }
                     Some((__loc1, (5, __tok0), __loc2)) => {
                         let __sym3 = (__loc1, (__tok0), __loc2);
-                        __result = try!(__state9(input, __tokens, __sym2, __sym3));
+                        __result = try!(__state9(input, __tokens, __sym2, __sym3, ::std::marker::PhantomData::<(F)>));
                         return Ok(__result);
                     }
                     Some((_, (3, _), _)) |
@@ -1250,7 +1264,7 @@ mod __parse__Expr {
                         let __sym1 = __sym1.take().unwrap();
                         let __start = __sym0.0.clone();
                         let __end = __sym2.2.clone();
-                        let __nt = super::super::super::__action1(input, __sym0, __sym1, __sym2);
+                        let __nt = super::super::super::__action1::<F>(input, __sym0, __sym1, __sym2);
                         let __nt = __Nonterminal::Expr((
                             __start,
                             __nt,
@@ -1291,6 +1305,7 @@ mod __parse__Expr {
                 __sym0: (usize, F, usize),
                 __sym1: (usize, &'input str, usize),
                 __sym2: (usize, F, usize),
+                _: ::std::marker::PhantomData<(F)>,
             ) -> Result<(Option<(usize, (usize, &'input str), usize)>, __Nonterminal<F>), __lalrpop_util::ParseError<usize,(usize, &'input str),()>> where
               F: Debug + FromStr + Sub<Output=F> + Add<Output=F> + Mul<Output=F> + Div<Output=F> + PartialEq + Eq,
             {
@@ -1303,7 +1318,7 @@ mod __parse__Expr {
                     None => {
                         let __start = __sym0.0.clone();
                         let __end = __sym2.2.clone();
-                        let __nt = super::super::super::__action4(input, __sym0, __sym1, __sym2);
+                        let __nt = super::super::super::__action4::<F>(input, __sym0, __sym1, __sym2);
                         let __nt = __Nonterminal::Factor((
                             __start,
                             __nt,
@@ -1344,6 +1359,7 @@ mod __parse__Expr {
                 __sym0: (usize, F, usize),
                 __sym1: (usize, &'input str, usize),
                 __sym2: (usize, F, usize),
+                _: ::std::marker::PhantomData<(F)>,
             ) -> Result<(Option<(usize, (usize, &'input str), usize)>, __Nonterminal<F>), __lalrpop_util::ParseError<usize,(usize, &'input str),()>> where
               F: Debug + FromStr + Sub<Output=F> + Add<Output=F> + Mul<Output=F> + Div<Output=F> + PartialEq + Eq,
             {
@@ -1356,7 +1372,7 @@ mod __parse__Expr {
                     None => {
                         let __start = __sym0.0.clone();
                         let __end = __sym2.2.clone();
-                        let __nt = super::super::super::__action5(input, __sym0, __sym1, __sym2);
+                        let __nt = super::super::super::__action5::<F>(input, __sym0, __sym1, __sym2);
                         let __nt = __Nonterminal::Factor((
                             __start,
                             __nt,
@@ -1396,6 +1412,7 @@ mod __parse__Expr {
                 __sym0: (usize, &'input str, usize),
                 __sym1: (usize, F, usize),
                 __sym2: (usize, &'input str, usize),
+                _: ::std::marker::PhantomData<(F)>,
             ) -> Result<(Option<(usize, (usize, &'input str), usize)>, __Nonterminal<F>), __lalrpop_util::ParseError<usize,(usize, &'input str),()>> where
               F: Debug + FromStr + Sub<Output=F> + Add<Output=F> + Mul<Output=F> + Div<Output=F> + PartialEq + Eq,
             {
@@ -1413,7 +1430,7 @@ mod __parse__Expr {
                     None => {
                         let __start = __sym0.0.clone();
                         let __end = __sym2.2.clone();
-                        let __nt = super::super::super::__action8(input, __sym0, __sym1, __sym2);
+                        let __nt = super::super::super::__action8::<F>(input, __sym0, __sym1, __sym2);
                         let __nt = __Nonterminal::Term((
                             __start,
                             __nt,
@@ -1470,6 +1487,7 @@ mod __parse__Expr {
                 __tokens: &mut __TOKENS,
                 __sym0: (usize, F, usize),
                 __sym1: (usize, &'input str, usize),
+                _: ::std::marker::PhantomData<(F)>,
             ) -> Result<(Option<(usize, (usize, &'input str), usize)>, __Nonterminal<F>), __lalrpop_util::ParseError<usize,(usize, &'input str),()>> where
               F: Debug + FromStr + Sub<Output=F> + Add<Output=F> + Mul<Output=F> + Div<Output=F> + PartialEq + Eq,
             {
@@ -1484,11 +1502,11 @@ mod __parse__Expr {
                 match __lookahead {
                     Some((__loc1, (0, __tok0), __loc2)) => {
                         let __sym2 = (__loc1, (__tok0), __loc2);
-                        __result = try!(__state13(input, __tokens, __sym2));
+                        __result = try!(__state13(input, __tokens, __sym2, ::std::marker::PhantomData::<(F)>));
                     }
                     Some((__loc1, (6, __tok0), __loc2)) => {
                         let __sym2 = (__loc1, (__tok0), __loc2);
-                        __result = try!(__state14(input, __tokens, __sym2));
+                        __result = try!(__state14(input, __tokens, __sym2, ::std::marker::PhantomData::<(F)>));
                     }
                     _ => {
                         return Err(__lalrpop_util::ParseError::UnrecognizedToken {
@@ -1504,10 +1522,10 @@ mod __parse__Expr {
                     let (__lookahead, __nt) = __result;
                     match __nt {
                         __Nonterminal::Factor(__sym2) => {
-                            __result = try!(__state25(input, __tokens, __lookahead, __sym0, __sym1, __sym2));
+                            __result = try!(__state25(input, __tokens, __lookahead, __sym0, __sym1, __sym2, ::std::marker::PhantomData::<(F)>));
                         }
                         __Nonterminal::Term(__sym2) => {
-                            __result = try!(__state12(input, __tokens, __lookahead, __sym2));
+                            __result = try!(__state12(input, __tokens, __lookahead, __sym2, ::std::marker::PhantomData::<(F)>));
                         }
                         _ => {
                             return Ok((__lookahead, __nt));
@@ -1555,6 +1573,7 @@ mod __parse__Expr {
                 __tokens: &mut __TOKENS,
                 __sym0: (usize, F, usize),
                 __sym1: (usize, &'input str, usize),
+                _: ::std::marker::PhantomData<(F)>,
             ) -> Result<(Option<(usize, (usize, &'input str), usize)>, __Nonterminal<F>), __lalrpop_util::ParseError<usize,(usize, &'input str),()>> where
               F: Debug + FromStr + Sub<Output=F> + Add<Output=F> + Mul<Output=F> + Div<Output=F> + PartialEq + Eq,
             {
@@ -1569,11 +1588,11 @@ mod __parse__Expr {
                 match __lookahead {
                     Some((__loc1, (0, __tok0), __loc2)) => {
                         let __sym2 = (__loc1, (__tok0), __loc2);
-                        __result = try!(__state13(input, __tokens, __sym2));
+                        __result = try!(__state13(input, __tokens, __sym2, ::std::marker::PhantomData::<(F)>));
                     }
                     Some((__loc1, (6, __tok0), __loc2)) => {
                         let __sym2 = (__loc1, (__tok0), __loc2);
-                        __result = try!(__state14(input, __tokens, __sym2));
+                        __result = try!(__state14(input, __tokens, __sym2, ::std::marker::PhantomData::<(F)>));
                     }
                     _ => {
                         return Err(__lalrpop_util::ParseError::UnrecognizedToken {
@@ -1589,10 +1608,10 @@ mod __parse__Expr {
                     let (__lookahead, __nt) = __result;
                     match __nt {
                         __Nonterminal::Factor(__sym2) => {
-                            __result = try!(__state26(input, __tokens, __lookahead, __sym0, __sym1, __sym2));
+                            __result = try!(__state26(input, __tokens, __lookahead, __sym0, __sym1, __sym2, ::std::marker::PhantomData::<(F)>));
                         }
                         __Nonterminal::Term(__sym2) => {
-                            __result = try!(__state12(input, __tokens, __lookahead, __sym2));
+                            __result = try!(__state12(input, __tokens, __lookahead, __sym2, ::std::marker::PhantomData::<(F)>));
                         }
                         _ => {
                             return Ok((__lookahead, __nt));
@@ -1626,6 +1645,7 @@ mod __parse__Expr {
                 __tokens: &mut __TOKENS,
                 __sym0: (usize, F, usize),
                 __sym1: (usize, &'input str, usize),
+                _: ::std::marker::PhantomData<(F)>,
             ) -> Result<(Option<(usize, (usize, &'input str), usize)>, __Nonterminal<F>), __lalrpop_util::ParseError<usize,(usize, &'input str),()>> where
               F: Debug + FromStr + Sub<Output=F> + Add<Output=F> + Mul<Output=F> + Div<Output=F> + PartialEq + Eq,
             {
@@ -1638,11 +1658,11 @@ mod __parse__Expr {
                 match __lookahead {
                     Some((__loc1, (0, __tok0), __loc2)) => {
                         let __sym2 = (__loc1, (__tok0), __loc2);
-                        __result = try!(__state13(input, __tokens, __sym2));
+                        __result = try!(__state13(input, __tokens, __sym2, ::std::marker::PhantomData::<(F)>));
                     }
                     Some((__loc1, (6, __tok0), __loc2)) => {
                         let __sym2 = (__loc1, (__tok0), __loc2);
-                        __result = try!(__state14(input, __tokens, __sym2));
+                        __result = try!(__state14(input, __tokens, __sym2, ::std::marker::PhantomData::<(F)>));
                     }
                     _ => {
                         return Err(__lalrpop_util::ParseError::UnrecognizedToken {
@@ -1655,7 +1675,7 @@ mod __parse__Expr {
                     let (__lookahead, __nt) = __result;
                     match __nt {
                         __Nonterminal::Term(__sym2) => {
-                            __result = try!(__state27(input, __tokens, __lookahead, __sym0, __sym1, __sym2));
+                            __result = try!(__state27(input, __tokens, __lookahead, __sym0, __sym1, __sym2, ::std::marker::PhantomData::<(F)>));
                             return Ok(__result);
                         }
                         _ => {
@@ -1690,6 +1710,7 @@ mod __parse__Expr {
                 __tokens: &mut __TOKENS,
                 __sym0: (usize, F, usize),
                 __sym1: (usize, &'input str, usize),
+                _: ::std::marker::PhantomData<(F)>,
             ) -> Result<(Option<(usize, (usize, &'input str), usize)>, __Nonterminal<F>), __lalrpop_util::ParseError<usize,(usize, &'input str),()>> where
               F: Debug + FromStr + Sub<Output=F> + Add<Output=F> + Mul<Output=F> + Div<Output=F> + PartialEq + Eq,
             {
@@ -1702,11 +1723,11 @@ mod __parse__Expr {
                 match __lookahead {
                     Some((__loc1, (0, __tok0), __loc2)) => {
                         let __sym2 = (__loc1, (__tok0), __loc2);
-                        __result = try!(__state13(input, __tokens, __sym2));
+                        __result = try!(__state13(input, __tokens, __sym2, ::std::marker::PhantomData::<(F)>));
                     }
                     Some((__loc1, (6, __tok0), __loc2)) => {
                         let __sym2 = (__loc1, (__tok0), __loc2);
-                        __result = try!(__state14(input, __tokens, __sym2));
+                        __result = try!(__state14(input, __tokens, __sym2, ::std::marker::PhantomData::<(F)>));
                     }
                     _ => {
                         return Err(__lalrpop_util::ParseError::UnrecognizedToken {
@@ -1719,7 +1740,7 @@ mod __parse__Expr {
                     let (__lookahead, __nt) = __result;
                     match __nt {
                         __Nonterminal::Term(__sym2) => {
-                            __result = try!(__state28(input, __tokens, __lookahead, __sym0, __sym1, __sym2));
+                            __result = try!(__state28(input, __tokens, __lookahead, __sym0, __sym1, __sym2, ::std::marker::PhantomData::<(F)>));
                             return Ok(__result);
                         }
                         _ => {
@@ -1755,6 +1776,7 @@ mod __parse__Expr {
                 __lookahead: Option<(usize, (usize, &'input str), usize)>,
                 __sym0: &mut Option<(usize, &'input str, usize)>,
                 __sym1: (usize, F, usize),
+                _: ::std::marker::PhantomData<(F)>,
             ) -> Result<(Option<(usize, (usize, &'input str), usize)>, __Nonterminal<F>), __lalrpop_util::ParseError<usize,(usize, &'input str),()>> where
               F: Debug + FromStr + Sub<Output=F> + Add<Output=F> + Mul<Output=F> + Div<Output=F> + PartialEq + Eq,
             {
@@ -1763,17 +1785,17 @@ mod __parse__Expr {
                     Some((__loc1, (1, __tok0), __loc2)) => {
                         let __sym2 = (__loc1, (__tok0), __loc2);
                         let __sym0 = __sym0.take().unwrap();
-                        __result = try!(__state29(input, __tokens, __sym0, __sym1, __sym2));
+                        __result = try!(__state29(input, __tokens, __sym0, __sym1, __sym2, ::std::marker::PhantomData::<(F)>));
                         return Ok(__result);
                     }
                     Some((__loc1, (3, __tok0), __loc2)) => {
                         let __sym2 = (__loc1, (__tok0), __loc2);
-                        __result = try!(__state20(input, __tokens, __sym1, __sym2));
+                        __result = try!(__state20(input, __tokens, __sym1, __sym2, ::std::marker::PhantomData::<(F)>));
                         return Ok(__result);
                     }
                     Some((__loc1, (4, __tok0), __loc2)) => {
                         let __sym2 = (__loc1, (__tok0), __loc2);
-                        __result = try!(__state21(input, __tokens, __sym1, __sym2));
+                        __result = try!(__state21(input, __tokens, __sym1, __sym2, ::std::marker::PhantomData::<(F)>));
                         return Ok(__result);
                     }
                     _ => {
@@ -1812,6 +1834,7 @@ mod __parse__Expr {
                 __sym0: &mut Option<(usize, F, usize)>,
                 __sym1: &mut Option<(usize, &'input str, usize)>,
                 __sym2: (usize, F, usize),
+                _: ::std::marker::PhantomData<(F)>,
             ) -> Result<(Option<(usize, (usize, &'input str), usize)>, __Nonterminal<F>), __lalrpop_util::ParseError<usize,(usize, &'input str),()>> where
               F: Debug + FromStr + Sub<Output=F> + Add<Output=F> + Mul<Output=F> + Div<Output=F> + PartialEq + Eq,
             {
@@ -1819,12 +1842,12 @@ mod __parse__Expr {
                 match __lookahead {
                     Some((__loc1, (2, __tok0), __loc2)) => {
                         let __sym3 = (__loc1, (__tok0), __loc2);
-                        __result = try!(__state22(input, __tokens, __sym2, __sym3));
+                        __result = try!(__state22(input, __tokens, __sym2, __sym3, ::std::marker::PhantomData::<(F)>));
                         return Ok(__result);
                     }
                     Some((__loc1, (5, __tok0), __loc2)) => {
                         let __sym3 = (__loc1, (__tok0), __loc2);
-                        __result = try!(__state23(input, __tokens, __sym2, __sym3));
+                        __result = try!(__state23(input, __tokens, __sym2, __sym3, ::std::marker::PhantomData::<(F)>));
                         return Ok(__result);
                     }
                     Some((_, (1, _), _)) |
@@ -1834,7 +1857,7 @@ mod __parse__Expr {
                         let __sym1 = __sym1.take().unwrap();
                         let __start = __sym0.0.clone();
                         let __end = __sym2.2.clone();
-                        let __nt = super::super::super::__action2(input, __sym0, __sym1, __sym2);
+                        let __nt = super::super::super::__action2::<F>(input, __sym0, __sym1, __sym2);
                         let __nt = __Nonterminal::Expr((
                             __start,
                             __nt,
@@ -1879,6 +1902,7 @@ mod __parse__Expr {
                 __sym0: &mut Option<(usize, F, usize)>,
                 __sym1: &mut Option<(usize, &'input str, usize)>,
                 __sym2: (usize, F, usize),
+                _: ::std::marker::PhantomData<(F)>,
             ) -> Result<(Option<(usize, (usize, &'input str), usize)>, __Nonterminal<F>), __lalrpop_util::ParseError<usize,(usize, &'input str),()>> where
               F: Debug + FromStr + Sub<Output=F> + Add<Output=F> + Mul<Output=F> + Div<Output=F> + PartialEq + Eq,
             {
@@ -1886,12 +1910,12 @@ mod __parse__Expr {
                 match __lookahead {
                     Some((__loc1, (2, __tok0), __loc2)) => {
                         let __sym3 = (__loc1, (__tok0), __loc2);
-                        __result = try!(__state22(input, __tokens, __sym2, __sym3));
+                        __result = try!(__state22(input, __tokens, __sym2, __sym3, ::std::marker::PhantomData::<(F)>));
                         return Ok(__result);
                     }
                     Some((__loc1, (5, __tok0), __loc2)) => {
                         let __sym3 = (__loc1, (__tok0), __loc2);
-                        __result = try!(__state23(input, __tokens, __sym2, __sym3));
+                        __result = try!(__state23(input, __tokens, __sym2, __sym3, ::std::marker::PhantomData::<(F)>));
                         return Ok(__result);
                     }
                     Some((_, (1, _), _)) |
@@ -1901,7 +1925,7 @@ mod __parse__Expr {
                         let __sym1 = __sym1.take().unwrap();
                         let __start = __sym0.0.clone();
                         let __end = __sym2.2.clone();
-                        let __nt = super::super::super::__action1(input, __sym0, __sym1, __sym2);
+                        let __nt = super::super::super::__action1::<F>(input, __sym0, __sym1, __sym2);
                         let __nt = __Nonterminal::Expr((
                             __start,
                             __nt,
@@ -1942,6 +1966,7 @@ mod __parse__Expr {
                 __sym0: (usize, F, usize),
                 __sym1: (usize, &'input str, usize),
                 __sym2: (usize, F, usize),
+                _: ::std::marker::PhantomData<(F)>,
             ) -> Result<(Option<(usize, (usize, &'input str), usize)>, __Nonterminal<F>), __lalrpop_util::ParseError<usize,(usize, &'input str),()>> where
               F: Debug + FromStr + Sub<Output=F> + Add<Output=F> + Mul<Output=F> + Div<Output=F> + PartialEq + Eq,
             {
@@ -1954,7 +1979,7 @@ mod __parse__Expr {
                     Some((_, (5, _), _)) => {
                         let __start = __sym0.0.clone();
                         let __end = __sym2.2.clone();
-                        let __nt = super::super::super::__action4(input, __sym0, __sym1, __sym2);
+                        let __nt = super::super::super::__action4::<F>(input, __sym0, __sym1, __sym2);
                         let __nt = __Nonterminal::Factor((
                             __start,
                             __nt,
@@ -1995,6 +2020,7 @@ mod __parse__Expr {
                 __sym0: (usize, F, usize),
                 __sym1: (usize, &'input str, usize),
                 __sym2: (usize, F, usize),
+                _: ::std::marker::PhantomData<(F)>,
             ) -> Result<(Option<(usize, (usize, &'input str), usize)>, __Nonterminal<F>), __lalrpop_util::ParseError<usize,(usize, &'input str),()>> where
               F: Debug + FromStr + Sub<Output=F> + Add<Output=F> + Mul<Output=F> + Div<Output=F> + PartialEq + Eq,
             {
@@ -2007,7 +2033,7 @@ mod __parse__Expr {
                     Some((_, (5, _), _)) => {
                         let __start = __sym0.0.clone();
                         let __end = __sym2.2.clone();
-                        let __nt = super::super::super::__action5(input, __sym0, __sym1, __sym2);
+                        let __nt = super::super::super::__action5::<F>(input, __sym0, __sym1, __sym2);
                         let __nt = __Nonterminal::Factor((
                             __start,
                             __nt,
@@ -2047,6 +2073,7 @@ mod __parse__Expr {
                 __sym0: (usize, &'input str, usize),
                 __sym1: (usize, F, usize),
                 __sym2: (usize, &'input str, usize),
+                _: ::std::marker::PhantomData<(F)>,
             ) -> Result<(Option<(usize, (usize, &'input str), usize)>, __Nonterminal<F>), __lalrpop_util::ParseError<usize,(usize, &'input str),()>> where
               F: Debug + FromStr + Sub<Output=F> + Add<Output=F> + Mul<Output=F> + Div<Output=F> + PartialEq + Eq,
             {
@@ -2064,7 +2091,7 @@ mod __parse__Expr {
                     Some((_, (5, _), _)) => {
                         let __start = __sym0.0.clone();
                         let __end = __sym2.2.clone();
-                        let __nt = super::super::super::__action8(input, __sym0, __sym1, __sym2);
+                        let __nt = super::super::super::__action8::<F>(input, __sym0, __sym1, __sym2);
                         let __nt = __Nonterminal::Term((
                             __start,
                             __nt,
@@ -2092,7 +2119,6 @@ mod __parse__Expr {
             use std::fmt::Debug;
             use std::ops::{Add, Div, Mul, Sub};
             use std::str::FromStr;
-            use util::tok::Tok;
             extern crate lalrpop_util as __lalrpop_util;
             #[allow(dead_code)]
             pub enum __Symbol<'input, F> {
@@ -2823,7 +2849,7 @@ mod __parse__Expr {
                             __symbols.push((__lookahead.0, __symbol, __lookahead.2));
                             continue '__shift;
                         } else if __action < 0 {
-                            if let Some(r) = __reduce(input, __action, Some(&__lookahead.0), &mut __states, &mut __symbols) {
+                            if let Some(r) = __reduce(input, __action, Some(&__lookahead.0), &mut __states, &mut __symbols, ::std::marker::PhantomData::<(F)>) {
                                 return r;
                             }
                         } else {
@@ -2838,7 +2864,7 @@ mod __parse__Expr {
                     let __state = *__states.last().unwrap() as usize;
                     let __action = __EOF_ACTION[__state];
                     if __action < 0 {
-                        if let Some(r) = __reduce(input, __action, None, &mut __states, &mut __symbols) {
+                        if let Some(r) = __reduce(input, __action, None, &mut __states, &mut __symbols, ::std::marker::PhantomData::<(F)>) {
                             return r;
                         }
                     } else {
@@ -2858,6 +2884,7 @@ mod __parse__Expr {
                 __lookahead_start: Option<&usize>,
                 __states: &mut ::std::vec::Vec<i32>,
                 __symbols: &mut ::std::vec::Vec<(usize,__Symbol<'input, F>,usize)>,
+                _: ::std::marker::PhantomData<(F)>,
             ) -> Option<Result<F,__lalrpop_util::ParseError<usize,(usize, &'input str),()>>> where
               F: Debug + FromStr + Sub<Output=F> + Add<Output=F> + Mul<Output=F> + Div<Output=F> + PartialEq + Eq,
             {
@@ -2869,7 +2896,7 @@ mod __parse__Expr {
                         let __sym0 = __pop_NtExpr(__symbols);
                         let __start = __sym0.0.clone();
                         let __end = __sym2.2.clone();
-                        let __nt = super::super::super::__action1(input, __sym0, __sym1, __sym2);
+                        let __nt = super::super::super::__action1::<F>(input, __sym0, __sym1, __sym2);
                         let __states_len = __states.len();
                         __states.truncate(__states_len - 3);
                         __symbols.push((__start, __Symbol::NtExpr(__nt), __end));
@@ -2882,7 +2909,7 @@ mod __parse__Expr {
                         let __sym0 = __pop_NtExpr(__symbols);
                         let __start = __sym0.0.clone();
                         let __end = __sym2.2.clone();
-                        let __nt = super::super::super::__action2(input, __sym0, __sym1, __sym2);
+                        let __nt = super::super::super::__action2::<F>(input, __sym0, __sym1, __sym2);
                         let __states_len = __states.len();
                         __states.truncate(__states_len - 3);
                         __symbols.push((__start, __Symbol::NtExpr(__nt), __end));
@@ -2893,7 +2920,7 @@ mod __parse__Expr {
                         let __sym0 = __pop_NtFactor(__symbols);
                         let __start = __sym0.0.clone();
                         let __end = __sym0.2.clone();
-                        let __nt = super::super::super::__action3(input, __sym0);
+                        let __nt = super::super::super::__action3::<F>(input, __sym0);
                         let __states_len = __states.len();
                         __states.truncate(__states_len - 1);
                         __symbols.push((__start, __Symbol::NtExpr(__nt), __end));
@@ -2906,7 +2933,7 @@ mod __parse__Expr {
                         let __sym0 = __pop_NtFactor(__symbols);
                         let __start = __sym0.0.clone();
                         let __end = __sym2.2.clone();
-                        let __nt = super::super::super::__action4(input, __sym0, __sym1, __sym2);
+                        let __nt = super::super::super::__action4::<F>(input, __sym0, __sym1, __sym2);
                         let __states_len = __states.len();
                         __states.truncate(__states_len - 3);
                         __symbols.push((__start, __Symbol::NtFactor(__nt), __end));
@@ -2919,7 +2946,7 @@ mod __parse__Expr {
                         let __sym0 = __pop_NtFactor(__symbols);
                         let __start = __sym0.0.clone();
                         let __end = __sym2.2.clone();
-                        let __nt = super::super::super::__action5(input, __sym0, __sym1, __sym2);
+                        let __nt = super::super::super::__action5::<F>(input, __sym0, __sym1, __sym2);
                         let __states_len = __states.len();
                         __states.truncate(__states_len - 3);
                         __symbols.push((__start, __Symbol::NtFactor(__nt), __end));
@@ -2930,7 +2957,7 @@ mod __parse__Expr {
                         let __sym0 = __pop_NtTerm(__symbols);
                         let __start = __sym0.0.clone();
                         let __end = __sym0.2.clone();
-                        let __nt = super::super::super::__action6(input, __sym0);
+                        let __nt = super::super::super::__action6::<F>(input, __sym0);
                         let __states_len = __states.len();
                         __states.truncate(__states_len - 1);
                         __symbols.push((__start, __Symbol::NtFactor(__nt), __end));
@@ -2941,7 +2968,7 @@ mod __parse__Expr {
                         let __sym0 = __pop_Termr_23_22_5b0_2d9_5d_2b_22_23(__symbols);
                         let __start = __sym0.0.clone();
                         let __end = __sym0.2.clone();
-                        let __nt = super::super::super::__action7(input, __sym0);
+                        let __nt = super::super::super::__action7::<F>(input, __sym0);
                         let __states_len = __states.len();
                         __states.truncate(__states_len - 1);
                         __symbols.push((__start, __Symbol::NtTerm(__nt), __end));
@@ -2954,7 +2981,7 @@ mod __parse__Expr {
                         let __sym0 = __pop_Term_22_28_22(__symbols);
                         let __start = __sym0.0.clone();
                         let __end = __sym2.2.clone();
-                        let __nt = super::super::super::__action8(input, __sym0, __sym1, __sym2);
+                        let __nt = super::super::super::__action8::<F>(input, __sym0, __sym1, __sym2);
                         let __states_len = __states.len();
                         __states.truncate(__states_len - 3);
                         __symbols.push((__start, __Symbol::NtTerm(__nt), __end));
@@ -2965,7 +2992,7 @@ mod __parse__Expr {
                         let __sym0 = __pop_NtExpr(__symbols);
                         let __start = __sym0.0.clone();
                         let __end = __sym0.2.clone();
-                        let __nt = super::super::super::__action0(input, __sym0);
+                        let __nt = super::super::super::__action0::<F>(input, __sym0);
                         return Some(Ok(__nt));
                     }
                     _ => panic!("invalid action code {}", __action)

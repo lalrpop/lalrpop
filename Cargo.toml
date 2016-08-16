@@ -1,0 +1,8 @@
+[workspace]
+members = [
+        "lalrpop",
+        "lalrpop-test",
+        "lalrpop-snap",
+        "lalrpop-intern",
+        "lalrpop-util",
+]

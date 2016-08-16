@@ -46,7 +46,7 @@ mod __parse__S {
                     None => None,
                     Some(Err(e)) => return Err(__lalrpop_util::ParseError::User { error: e }),
                 };
-                match try!(__state0(&mut __tokens, __lookahead)) {
+                match try!(__state0(&mut __tokens, __lookahead, ::std::marker::PhantomData::<()>)) {
                     (Some(__lookahead), _) => {
                         Err(__lalrpop_util::ParseError::ExtraToken { token: __lookahead })
                     }
@@ -95,17 +95,18 @@ mod __parse__S {
             >(
                 __tokens: &mut __TOKENS,
                 __lookahead: Option<((), Tok, ())>,
+                _: ::std::marker::PhantomData<()>,
             ) -> Result<(Option<((), Tok, ())>, __Nonterminal<>), __lalrpop_util::ParseError<(),Tok,()>>
             {
                 let mut __result: (Option<((), Tok, ())>, __Nonterminal<>);
                 match __lookahead {
                     Some((__loc1, __tok @ Tok::LParen, __loc2)) => {
                         let __sym0 = (__loc1, (__tok), __loc2);
-                        __result = try!(__state4(__tokens, __sym0));
+                        __result = try!(__state4(__tokens, __sym0, ::std::marker::PhantomData::<()>));
                     }
                     Some((__loc1, Tok::Num(__tok0), __loc2)) => {
                         let __sym0 = (__loc1, (__tok0), __loc2);
-                        __result = try!(__state5(__tokens, __sym0));
+                        __result = try!(__state5(__tokens, __sym0, ::std::marker::PhantomData::<()>));
                     }
                     _ => {
                         return Err(__lalrpop_util::ParseError::UnrecognizedToken {
@@ -118,13 +119,13 @@ mod __parse__S {
                     let (__lookahead, __nt) = __result;
                     match __nt {
                         __Nonterminal::E(__sym0) => {
-                            __result = try!(__state1(__tokens, __lookahead, __sym0));
+                            __result = try!(__state1(__tokens, __lookahead, __sym0, ::std::marker::PhantomData::<()>));
                         }
                         __Nonterminal::S(__sym0) => {
-                            __result = try!(__state2(__tokens, __lookahead, __sym0));
+                            __result = try!(__state2(__tokens, __lookahead, __sym0, ::std::marker::PhantomData::<()>));
                         }
                         __Nonterminal::T(__sym0) => {
-                            __result = try!(__state3(__tokens, __lookahead, __sym0));
+                            __result = try!(__state3(__tokens, __lookahead, __sym0, ::std::marker::PhantomData::<()>));
                         }
                         _ => {
                             return Ok((__lookahead, __nt));
@@ -153,19 +154,20 @@ mod __parse__S {
                 __tokens: &mut __TOKENS,
                 __lookahead: Option<((), Tok, ())>,
                 __sym0: ((), i32, ()),
+                _: ::std::marker::PhantomData<()>,
             ) -> Result<(Option<((), Tok, ())>, __Nonterminal<>), __lalrpop_util::ParseError<(),Tok,()>>
             {
                 let mut __result: (Option<((), Tok, ())>, __Nonterminal<>);
                 match __lookahead {
                     Some((__loc1, __tok @ Tok::Minus, __loc2)) => {
                         let __sym1 = (__loc1, (__tok), __loc2);
-                        __result = try!(__state6(__tokens, __sym0, __sym1));
+                        __result = try!(__state6(__tokens, __sym0, __sym1, ::std::marker::PhantomData::<()>));
                         return Ok(__result);
                     }
                     None => {
                         let __start = __sym0.0.clone();
                         let __end = __sym0.2.clone();
-                        let __nt = super::super::super::__action1(__sym0);
+                        let __nt = super::super::super::__action1::<>(__sym0);
                         let __nt = __Nonterminal::S((
                             __start,
                             __nt,
@@ -201,6 +203,7 @@ mod __parse__S {
                 __tokens: &mut __TOKENS,
                 __lookahead: Option<((), Tok, ())>,
                 __sym0: ((), i32, ()),
+                _: ::std::marker::PhantomData<()>,
             ) -> Result<(Option<((), Tok, ())>, __Nonterminal<>), __lalrpop_util::ParseError<(),Tok,()>>
             {
                 let mut __result: (Option<((), Tok, ())>, __Nonterminal<>);
@@ -208,7 +211,7 @@ mod __parse__S {
                     None => {
                         let __start = __sym0.0.clone();
                         let __end = __sym0.2.clone();
-                        let __nt = super::super::super::__action0(__sym0);
+                        let __nt = super::super::super::__action0::<>(__sym0);
                         let __nt = __Nonterminal::____S((
                             __start,
                             __nt,
@@ -244,6 +247,7 @@ mod __parse__S {
                 __tokens: &mut __TOKENS,
                 __lookahead: Option<((), Tok, ())>,
                 __sym0: ((), i32, ()),
+                _: ::std::marker::PhantomData<()>,
             ) -> Result<(Option<((), Tok, ())>, __Nonterminal<>), __lalrpop_util::ParseError<(),Tok,()>>
             {
                 let mut __result: (Option<((), Tok, ())>, __Nonterminal<>);
@@ -252,7 +256,7 @@ mod __parse__S {
                     None => {
                         let __start = __sym0.0.clone();
                         let __end = __sym0.2.clone();
-                        let __nt = super::super::super::__action3(__sym0);
+                        let __nt = super::super::super::__action3::<>(__sym0);
                         let __nt = __Nonterminal::E((
                             __start,
                             __nt,
@@ -298,6 +302,7 @@ mod __parse__S {
             >(
                 __tokens: &mut __TOKENS,
                 __sym0: ((), Tok, ()),
+                _: ::std::marker::PhantomData<()>,
             ) -> Result<(Option<((), Tok, ())>, __Nonterminal<>), __lalrpop_util::ParseError<(),Tok,()>>
             {
                 let mut __result: (Option<((), Tok, ())>, __Nonterminal<>);
@@ -310,11 +315,11 @@ mod __parse__S {
                 match __lookahead {
                     Some((__loc1, __tok @ Tok::LParen, __loc2)) => {
                         let __sym1 = (__loc1, (__tok), __loc2);
-                        __result = try!(__state9(__tokens, __sym1));
+                        __result = try!(__state9(__tokens, __sym1, ::std::marker::PhantomData::<()>));
                     }
                     Some((__loc1, Tok::Num(__tok0), __loc2)) => {
                         let __sym1 = (__loc1, (__tok0), __loc2);
-                        __result = try!(__state10(__tokens, __sym1));
+                        __result = try!(__state10(__tokens, __sym1, ::std::marker::PhantomData::<()>));
                     }
                     _ => {
                         return Err(__lalrpop_util::ParseError::UnrecognizedToken {
@@ -330,10 +335,10 @@ mod __parse__S {
                     let (__lookahead, __nt) = __result;
                     match __nt {
                         __Nonterminal::E(__sym1) => {
-                            __result = try!(__state7(__tokens, __lookahead, __sym0, __sym1));
+                            __result = try!(__state7(__tokens, __lookahead, __sym0, __sym1, ::std::marker::PhantomData::<()>));
                         }
                         __Nonterminal::T(__sym1) => {
-                            __result = try!(__state8(__tokens, __lookahead, __sym1));
+                            __result = try!(__state8(__tokens, __lookahead, __sym1, ::std::marker::PhantomData::<()>));
                         }
                         _ => {
                             return Ok((__lookahead, __nt));
@@ -359,6 +364,7 @@ mod __parse__S {
             >(
                 __tokens: &mut __TOKENS,
                 __sym0: ((), i32, ()),
+                _: ::std::marker::PhantomData<()>,
             ) -> Result<(Option<((), Tok, ())>, __Nonterminal<>), __lalrpop_util::ParseError<(),Tok,()>>
             {
                 let mut __result: (Option<((), Tok, ())>, __Nonterminal<>);
@@ -372,7 +378,7 @@ mod __parse__S {
                     None => {
                         let __start = __sym0.0.clone();
                         let __end = __sym0.2.clone();
-                        let __nt = super::super::super::__action4(__sym0);
+                        let __nt = super::super::super::__action4::<>(__sym0);
                         let __nt = __Nonterminal::T((
                             __start,
                             __nt,
@@ -412,6 +418,7 @@ mod __parse__S {
                 __tokens: &mut __TOKENS,
                 __sym0: ((), i32, ()),
                 __sym1: ((), Tok, ()),
+                _: ::std::marker::PhantomData<()>,
             ) -> Result<(Option<((), Tok, ())>, __Nonterminal<>), __lalrpop_util::ParseError<(),Tok,()>>
             {
                 let mut __result: (Option<((), Tok, ())>, __Nonterminal<>);
@@ -423,11 +430,11 @@ mod __parse__S {
                 match __lookahead {
                     Some((__loc1, __tok @ Tok::LParen, __loc2)) => {
                         let __sym2 = (__loc1, (__tok), __loc2);
-                        __result = try!(__state4(__tokens, __sym2));
+                        __result = try!(__state4(__tokens, __sym2, ::std::marker::PhantomData::<()>));
                     }
                     Some((__loc1, Tok::Num(__tok0), __loc2)) => {
                         let __sym2 = (__loc1, (__tok0), __loc2);
-                        __result = try!(__state5(__tokens, __sym2));
+                        __result = try!(__state5(__tokens, __sym2, ::std::marker::PhantomData::<()>));
                     }
                     _ => {
                         return Err(__lalrpop_util::ParseError::UnrecognizedToken {
@@ -440,7 +447,7 @@ mod __parse__S {
                     let (__lookahead, __nt) = __result;
                     match __nt {
                         __Nonterminal::T(__sym2) => {
-                            __result = try!(__state11(__tokens, __lookahead, __sym0, __sym1, __sym2));
+                            __result = try!(__state11(__tokens, __lookahead, __sym0, __sym1, __sym2, ::std::marker::PhantomData::<()>));
                             return Ok(__result);
                         }
                         _ => {
@@ -471,6 +478,7 @@ mod __parse__S {
                 __lookahead: Option<((), Tok, ())>,
                 __sym0: &mut Option<((), Tok, ())>,
                 __sym1: ((), i32, ()),
+                _: ::std::marker::PhantomData<()>,
             ) -> Result<(Option<((), Tok, ())>, __Nonterminal<>), __lalrpop_util::ParseError<(),Tok,()>>
             {
                 let mut __result: (Option<((), Tok, ())>, __Nonterminal<>);
@@ -478,12 +486,12 @@ mod __parse__S {
                     Some((__loc1, __tok @ Tok::RParen, __loc2)) => {
                         let __sym2 = (__loc1, (__tok), __loc2);
                         let __sym0 = __sym0.take().unwrap();
-                        __result = try!(__state12(__tokens, __sym0, __sym1, __sym2));
+                        __result = try!(__state12(__tokens, __sym0, __sym1, __sym2, ::std::marker::PhantomData::<()>));
                         return Ok(__result);
                     }
                     Some((__loc1, __tok @ Tok::Minus, __loc2)) => {
                         let __sym2 = (__loc1, (__tok), __loc2);
-                        __result = try!(__state13(__tokens, __sym1, __sym2));
+                        __result = try!(__state13(__tokens, __sym1, __sym2, ::std::marker::PhantomData::<()>));
                         return Ok(__result);
                     }
                     _ => {
@@ -513,6 +521,7 @@ mod __parse__S {
                 __tokens: &mut __TOKENS,
                 __lookahead: Option<((), Tok, ())>,
                 __sym0: ((), i32, ()),
+                _: ::std::marker::PhantomData<()>,
             ) -> Result<(Option<((), Tok, ())>, __Nonterminal<>), __lalrpop_util::ParseError<(),Tok,()>>
             {
                 let mut __result: (Option<((), Tok, ())>, __Nonterminal<>);
@@ -521,7 +530,7 @@ mod __parse__S {
                     Some((_, Tok::Minus, _)) => {
                         let __start = __sym0.0.clone();
                         let __end = __sym0.2.clone();
-                        let __nt = super::super::super::__action3(__sym0);
+                        let __nt = super::super::super::__action3::<>(__sym0);
                         let __nt = __Nonterminal::E((
                             __start,
                             __nt,
@@ -567,6 +576,7 @@ mod __parse__S {
             >(
                 __tokens: &mut __TOKENS,
                 __sym0: ((), Tok, ()),
+                _: ::std::marker::PhantomData<()>,
             ) -> Result<(Option<((), Tok, ())>, __Nonterminal<>), __lalrpop_util::ParseError<(),Tok,()>>
             {
                 let mut __result: (Option<((), Tok, ())>, __Nonterminal<>);
@@ -579,11 +589,11 @@ mod __parse__S {
                 match __lookahead {
                     Some((__loc1, __tok @ Tok::LParen, __loc2)) => {
                         let __sym1 = (__loc1, (__tok), __loc2);
-                        __result = try!(__state9(__tokens, __sym1));
+                        __result = try!(__state9(__tokens, __sym1, ::std::marker::PhantomData::<()>));
                     }
                     Some((__loc1, Tok::Num(__tok0), __loc2)) => {
                         let __sym1 = (__loc1, (__tok0), __loc2);
-                        __result = try!(__state10(__tokens, __sym1));
+                        __result = try!(__state10(__tokens, __sym1, ::std::marker::PhantomData::<()>));
                     }
                     _ => {
                         return Err(__lalrpop_util::ParseError::UnrecognizedToken {
@@ -599,10 +609,10 @@ mod __parse__S {
                     let (__lookahead, __nt) = __result;
                     match __nt {
                         __Nonterminal::E(__sym1) => {
-                            __result = try!(__state14(__tokens, __lookahead, __sym0, __sym1));
+                            __result = try!(__state14(__tokens, __lookahead, __sym0, __sym1, ::std::marker::PhantomData::<()>));
                         }
                         __Nonterminal::T(__sym1) => {
-                            __result = try!(__state8(__tokens, __lookahead, __sym1));
+                            __result = try!(__state8(__tokens, __lookahead, __sym1, ::std::marker::PhantomData::<()>));
                         }
                         _ => {
                             return Ok((__lookahead, __nt));
@@ -628,6 +638,7 @@ mod __parse__S {
             >(
                 __tokens: &mut __TOKENS,
                 __sym0: ((), i32, ()),
+                _: ::std::marker::PhantomData<()>,
             ) -> Result<(Option<((), Tok, ())>, __Nonterminal<>), __lalrpop_util::ParseError<(),Tok,()>>
             {
                 let mut __result: (Option<((), Tok, ())>, __Nonterminal<>);
@@ -641,7 +652,7 @@ mod __parse__S {
                     Some((_, Tok::Minus, _)) => {
                         let __start = __sym0.0.clone();
                         let __end = __sym0.2.clone();
-                        let __nt = super::super::super::__action4(__sym0);
+                        let __nt = super::super::super::__action4::<>(__sym0);
                         let __nt = __Nonterminal::T((
                             __start,
                             __nt,
@@ -679,6 +690,7 @@ mod __parse__S {
                 __sym0: ((), i32, ()),
                 __sym1: ((), Tok, ()),
                 __sym2: ((), i32, ()),
+                _: ::std::marker::PhantomData<()>,
             ) -> Result<(Option<((), Tok, ())>, __Nonterminal<>), __lalrpop_util::ParseError<(),Tok,()>>
             {
                 let mut __result: (Option<((), Tok, ())>, __Nonterminal<>);
@@ -687,7 +699,7 @@ mod __parse__S {
                     None => {
                         let __start = __sym0.0.clone();
                         let __end = __sym2.2.clone();
-                        let __nt = super::super::super::__action2(__sym0, __sym1, __sym2);
+                        let __nt = super::super::super::__action2::<>(__sym0, __sym1, __sym2);
                         let __nt = __Nonterminal::E((
                             __start,
                             __nt,
@@ -724,6 +736,7 @@ mod __parse__S {
                 __sym0: ((), Tok, ()),
                 __sym1: ((), i32, ()),
                 __sym2: ((), Tok, ()),
+                _: ::std::marker::PhantomData<()>,
             ) -> Result<(Option<((), Tok, ())>, __Nonterminal<>), __lalrpop_util::ParseError<(),Tok,()>>
             {
                 let mut __result: (Option<((), Tok, ())>, __Nonterminal<>);
@@ -737,7 +750,7 @@ mod __parse__S {
                     None => {
                         let __start = __sym0.0.clone();
                         let __end = __sym2.2.clone();
-                        let __nt = super::super::super::__action5(__sym0, __sym1, __sym2);
+                        let __nt = super::super::super::__action5::<>(__sym0, __sym1, __sym2);
                         let __nt = __Nonterminal::T((
                             __start,
                             __nt,
@@ -777,6 +790,7 @@ mod __parse__S {
                 __tokens: &mut __TOKENS,
                 __sym0: ((), i32, ()),
                 __sym1: ((), Tok, ()),
+                _: ::std::marker::PhantomData<()>,
             ) -> Result<(Option<((), Tok, ())>, __Nonterminal<>), __lalrpop_util::ParseError<(),Tok,()>>
             {
                 let mut __result: (Option<((), Tok, ())>, __Nonterminal<>);
@@ -788,11 +802,11 @@ mod __parse__S {
                 match __lookahead {
                     Some((__loc1, __tok @ Tok::LParen, __loc2)) => {
                         let __sym2 = (__loc1, (__tok), __loc2);
-                        __result = try!(__state9(__tokens, __sym2));
+                        __result = try!(__state9(__tokens, __sym2, ::std::marker::PhantomData::<()>));
                     }
                     Some((__loc1, Tok::Num(__tok0), __loc2)) => {
                         let __sym2 = (__loc1, (__tok0), __loc2);
-                        __result = try!(__state10(__tokens, __sym2));
+                        __result = try!(__state10(__tokens, __sym2, ::std::marker::PhantomData::<()>));
                     }
                     _ => {
                         return Err(__lalrpop_util::ParseError::UnrecognizedToken {
@@ -805,7 +819,7 @@ mod __parse__S {
                     let (__lookahead, __nt) = __result;
                     match __nt {
                         __Nonterminal::T(__sym2) => {
-                            __result = try!(__state15(__tokens, __lookahead, __sym0, __sym1, __sym2));
+                            __result = try!(__state15(__tokens, __lookahead, __sym0, __sym1, __sym2, ::std::marker::PhantomData::<()>));
                             return Ok(__result);
                         }
                         _ => {
@@ -836,6 +850,7 @@ mod __parse__S {
                 __lookahead: Option<((), Tok, ())>,
                 __sym0: &mut Option<((), Tok, ())>,
                 __sym1: ((), i32, ()),
+                _: ::std::marker::PhantomData<()>,
             ) -> Result<(Option<((), Tok, ())>, __Nonterminal<>), __lalrpop_util::ParseError<(),Tok,()>>
             {
                 let mut __result: (Option<((), Tok, ())>, __Nonterminal<>);
@@ -843,12 +858,12 @@ mod __parse__S {
                     Some((__loc1, __tok @ Tok::RParen, __loc2)) => {
                         let __sym2 = (__loc1, (__tok), __loc2);
                         let __sym0 = __sym0.take().unwrap();
-                        __result = try!(__state16(__tokens, __sym0, __sym1, __sym2));
+                        __result = try!(__state16(__tokens, __sym0, __sym1, __sym2, ::std::marker::PhantomData::<()>));
                         return Ok(__result);
                     }
                     Some((__loc1, __tok @ Tok::Minus, __loc2)) => {
                         let __sym2 = (__loc1, (__tok), __loc2);
-                        __result = try!(__state13(__tokens, __sym1, __sym2));
+                        __result = try!(__state13(__tokens, __sym1, __sym2, ::std::marker::PhantomData::<()>));
                         return Ok(__result);
                     }
                     _ => {
@@ -880,6 +895,7 @@ mod __parse__S {
                 __sym0: ((), i32, ()),
                 __sym1: ((), Tok, ()),
                 __sym2: ((), i32, ()),
+                _: ::std::marker::PhantomData<()>,
             ) -> Result<(Option<((), Tok, ())>, __Nonterminal<>), __lalrpop_util::ParseError<(),Tok,()>>
             {
                 let mut __result: (Option<((), Tok, ())>, __Nonterminal<>);
@@ -888,7 +904,7 @@ mod __parse__S {
                     Some((_, Tok::Minus, _)) => {
                         let __start = __sym0.0.clone();
                         let __end = __sym2.2.clone();
-                        let __nt = super::super::super::__action2(__sym0, __sym1, __sym2);
+                        let __nt = super::super::super::__action2::<>(__sym0, __sym1, __sym2);
                         let __nt = __Nonterminal::E((
                             __start,
                             __nt,
@@ -925,6 +941,7 @@ mod __parse__S {
                 __sym0: ((), Tok, ()),
                 __sym1: ((), i32, ()),
                 __sym2: ((), Tok, ()),
+                _: ::std::marker::PhantomData<()>,
             ) -> Result<(Option<((), Tok, ())>, __Nonterminal<>), __lalrpop_util::ParseError<(),Tok,()>>
             {
                 let mut __result: (Option<((), Tok, ())>, __Nonterminal<>);
@@ -938,7 +955,7 @@ mod __parse__S {
                     Some((_, Tok::Minus, _)) => {
                         let __start = __sym0.0.clone();
                         let __end = __sym2.2.clone();
-                        let __nt = super::super::super::__action5(__sym0, __sym1, __sym2);
+                        let __nt = super::super::super::__action5::<>(__sym0, __sym1, __sym2);
                         let __nt = __Nonterminal::T((
                             __start,
                             __nt,
@@ -1275,7 +1292,7 @@ mod __parse__S {
                             __symbols.push((__lookahead.0, __symbol, __lookahead.2));
                             continue '__shift;
                         } else if __action < 0 {
-                            if let Some(r) = __reduce(__action, Some(&__lookahead.0), &mut __states, &mut __symbols) {
+                            if let Some(r) = __reduce(__action, Some(&__lookahead.0), &mut __states, &mut __symbols, ::std::marker::PhantomData::<()>) {
                                 return r;
                             }
                         } else {
@@ -1290,7 +1307,7 @@ mod __parse__S {
                     let __state = *__states.last().unwrap() as usize;
                     let __action = __EOF_ACTION[__state];
                     if __action < 0 {
-                        if let Some(r) = __reduce(__action, None, &mut __states, &mut __symbols) {
+                        if let Some(r) = __reduce(__action, None, &mut __states, &mut __symbols, ::std::marker::PhantomData::<()>) {
                             return r;
                         }
                     } else {
@@ -1307,6 +1324,7 @@ mod __parse__S {
                 __lookahead_start: Option<&()>,
                 __states: &mut ::std::vec::Vec<i32>,
                 __symbols: &mut ::std::vec::Vec<((),__Symbol<>,())>,
+                _: ::std::marker::PhantomData<()>,
             ) -> Option<Result<i32,__lalrpop_util::ParseError<(),Tok,()>>>
             {
                 let __nonterminal = match -__action {
@@ -1317,7 +1335,7 @@ mod __parse__S {
                         let __sym0 = __pop_NtE(__symbols);
                         let __start = __sym0.0.clone();
                         let __end = __sym2.2.clone();
-                        let __nt = super::super::super::__action2(__sym0, __sym1, __sym2);
+                        let __nt = super::super::super::__action2::<>(__sym0, __sym1, __sym2);
                         let __states_len = __states.len();
                         __states.truncate(__states_len - 3);
                         __symbols.push((__start, __Symbol::NtE(__nt), __end));
@@ -1328,7 +1346,7 @@ mod __parse__S {
                         let __sym0 = __pop_NtT(__symbols);
                         let __start = __sym0.0.clone();
                         let __end = __sym0.2.clone();
-                        let __nt = super::super::super::__action3(__sym0);
+                        let __nt = super::super::super::__action3::<>(__sym0);
                         let __states_len = __states.len();
                         __states.truncate(__states_len - 1);
                         __symbols.push((__start, __Symbol::NtE(__nt), __end));
@@ -1339,7 +1357,7 @@ mod __parse__S {
                         let __sym0 = __pop_NtE(__symbols);
                         let __start = __sym0.0.clone();
                         let __end = __sym0.2.clone();
-                        let __nt = super::super::super::__action1(__sym0);
+                        let __nt = super::super::super::__action1::<>(__sym0);
                         let __states_len = __states.len();
                         __states.truncate(__states_len - 1);
                         __symbols.push((__start, __Symbol::NtS(__nt), __end));
@@ -1350,7 +1368,7 @@ mod __parse__S {
                         let __sym0 = __pop_TermNum(__symbols);
                         let __start = __sym0.0.clone();
                         let __end = __sym0.2.clone();
-                        let __nt = super::super::super::__action4(__sym0);
+                        let __nt = super::super::super::__action4::<>(__sym0);
                         let __states_len = __states.len();
                         __states.truncate(__states_len - 1);
                         __symbols.push((__start, __Symbol::NtT(__nt), __end));
@@ -1363,7 +1381,7 @@ mod __parse__S {
                         let __sym0 = __pop_Term_22_28_22(__symbols);
                         let __start = __sym0.0.clone();
                         let __end = __sym2.2.clone();
-                        let __nt = super::super::super::__action5(__sym0, __sym1, __sym2);
+                        let __nt = super::super::super::__action5::<>(__sym0, __sym1, __sym2);
                         let __states_len = __states.len();
                         __states.truncate(__states_len - 3);
                         __symbols.push((__start, __Symbol::NtT(__nt), __end));
@@ -1374,7 +1392,7 @@ mod __parse__S {
                         let __sym0 = __pop_NtS(__symbols);
                         let __start = __sym0.0.clone();
                         let __end = __sym0.2.clone();
-                        let __nt = super::super::super::__action0(__sym0);
+                        let __nt = super::super::super::__action0::<>(__sym0);
                         return Some(Ok(__nt));
                     }
                     _ => panic!("invalid action code {}", __action)

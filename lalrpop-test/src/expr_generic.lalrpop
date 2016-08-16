@@ -5,8 +5,6 @@ use std::str::FromStr;
 grammar<F>
 where F: Debug + FromStr + Sub<Output=F> + Add<Output=F> + Mul<Output=F> + Div<Output=F> + PartialEq + Eq;
 
-use util::tok::Tok;
-
 pub Expr = {
     <l:Expr> "-" <r:Factor> => l - r,
     <l:Expr> "+" <r:Factor> => l + r,
