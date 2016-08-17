@@ -4,6 +4,7 @@ use grammar::repr::*;
 use lr1::core::*;
 use rust::RustWrite;
 use std::io::{self, Write};
+use util::Sep;
 
 /// Base struct for various kinds of code generator. The flavor of
 /// code generator is customized by supplying distinct types for `C`
@@ -184,5 +185,23 @@ impl<'codegen, 'grammar, W: Write, C> CodeGenerator<'codegen, 'grammar, W, C> {
                 self.types.terminal_loc_type(),
                 self.types.terminal_token_type(),
                 self.types.error_type())
+    }
+
+    /// Returns phantom data type that captures the user-declared type
+    /// parameters in a phantom-data. This helps with ensuring that
+    /// all type parameters are constrained, even if they are not
+    /// used.
+    pub fn phantom_data_type(&self) -> String {
+        format!("::std::marker::PhantomData<({})>",
+                Sep(", ", &self.grammar.non_lifetime_type_parameters()))
+    }
+
+    /// Returns expression that captures the user-declared type
+    /// parameters in a phantom-data. This helps with ensuring that
+    /// all type parameters are constrained, even if they are not
+    /// used.
+    pub fn phantom_data_expr(&self) -> String {
+        format!("::std::marker::PhantomData::<({})>",
+                Sep(", ", &self.grammar.non_lifetime_type_parameters()))
     }
 }

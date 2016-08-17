@@ -498,6 +498,16 @@ impl Grammar {
     pub fn action_is_fallible(&self, f: ActionFn) -> bool {
         self.action_fn_defns[f.index()].fallible
     }
+
+    pub fn non_lifetime_type_parameters(&self) -> Vec<&TypeParameter> {
+        self.type_parameters
+            .iter()
+            .filter(|&tp| match *tp {
+                TypeParameter::Lifetime(_) => false,
+                TypeParameter::Id(_) => true,
+            })
+            .collect()
+    }
 }
 
 impl Default for Algorithm {

@@ -1,7 +1,6 @@
 //! Naive LR(1) generation algorithm.
 
 use grammar::repr::*;
-use self::tls::Lr1Tls;
 
 pub mod codegen;
 mod build;
@@ -20,12 +19,11 @@ mod trace;
 
 pub use self::core::{LR1Result, LR1TableConstructionError};
 pub use self::error::report_error;
+pub use self::tls::Lr1Tls;
 
 pub fn build_states<'grammar>(grammar: &'grammar Grammar,
                               start: NonterminalString)
                               -> LR1Result<'grammar> {
-    let _lr1_tls = Lr1Tls::install(grammar.terminals.clone());
-
     if !grammar.algorithm.lalr {
         build::build_lr1_states(grammar, start)
     } else {

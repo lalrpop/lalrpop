@@ -1,0 +1,10 @@
+use lalrpop_util::ParseError;
+use generics_issue_104_lib::Generator;
+
+grammar<T> where T: Generator;
+
+extern {
+    type Error = String;
+}
+
+pub Schema : String = "grammar" "{" <id:r"[a-zA-Z0-9]*"> "}" => T::schema(id);

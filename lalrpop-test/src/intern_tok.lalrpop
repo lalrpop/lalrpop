@@ -2,9 +2,6 @@
 // indirectly the case where there is a type/lifetime parameter
 // (`'input`) that is not used in any nonterminal return type.
 
-
-use util::tok::Tok;
-
 grammar;
 
 pub Items: Vec<(usize, usize)> = {

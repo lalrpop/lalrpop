@@ -4,7 +4,6 @@ use collections::{Map, Set};
 use grammar::repr::*;
 use lr1::core::*;
 use lr1::lookahead::Token;
-use lr1::tls::Lr1Tls;
 use rust::RustWrite;
 use std::io::{self, Write};
 use tls::Tls;
@@ -21,7 +20,6 @@ pub fn compile<'grammar, W: Write>(grammar: &'grammar Grammar,
                                    action_module: &str,
                                    out: &mut RustWrite<W>)
                                    -> io::Result<()> {
-    let _lr1_tls = Lr1Tls::install(grammar.terminals.clone());
     let mut table_driven = CodeGenerator::new_table_driven(grammar,
                                                            user_start_symbol,
                                                            start_symbol,
@@ -325,6 +323,8 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
     }
 
     fn write_parser_fn(&mut self) -> io::Result<()> {
+        let phantom_data_expr = self.phantom_data_expr();
+
         try!(self.start_parser_fn());
 
         try!(self.define_tokens());
@@ -400,13 +400,14 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
         }
         rust!(self.out,
               "if let Some(r) = {}reduce({}{}action, Some(&{}lookahead.0), &mut {}states, &mut \
-               {}symbols) {{",
+               {}symbols, {}) {{",
               self.prefix,
               self.grammar.user_parameter_refs(),
               self.prefix,
               self.prefix,
               self.prefix,
-              self.prefix);
+              self.prefix,
+              phantom_data_expr);
         rust!(self.out, "return r;");
         rust!(self.out, "}}");
 
@@ -448,12 +449,13 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
         }
         rust!(self.out, "if {}action < 0 {{", self.prefix);
         rust!(self.out,
-              "if let Some(r) = {}reduce({}{}action, None, &mut {}states, &mut {}symbols) {{",
+              "if let Some(r) = {}reduce({}{}action, None, &mut {}states, &mut {}symbols, {}) {{",
               self.prefix,
               self.grammar.user_parameter_refs(),
               self.prefix,
               self.prefix,
-              self.prefix);
+              self.prefix,
+              phantom_data_expr);
         rust!(self.out, "return r;");
         rust!(self.out, "}}");
         rust!(self.out, "}} else {{");
@@ -562,7 +564,8 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
                               format!("{}states: &mut ::std::vec::Vec<i32>", self.prefix),
                               format!("{}symbols: &mut ::std::vec::Vec<{}>",
                                       self.prefix,
-                                      spanned_symbol_type)];
+                                      spanned_symbol_type),
+                              format!("_: {}", self.phantom_data_type())];
 
         try!(self.out.write_pub_fn_header(self.grammar,
                                           format!("{}reduce", self.prefix),
@@ -684,11 +687,12 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
         let is_fallible = self.grammar.action_is_fallible(production.action);
         if is_fallible {
             rust!(self.out,
-                  "let {}nt = match {}::{}action{}({}{}) {{",
+                  "let {}nt = match {}::{}action{}::<{}>({}{}) {{",
                   self.prefix,
                   self.action_module,
                   self.prefix,
                   production.action.index(),
+                  Sep(", ", &self.grammar.non_lifetime_type_parameters()),
                   self.grammar.user_parameter_refs(),
                   Sep(", ", &args));
             rust!(self.out, "Ok(v) => v,");
@@ -696,11 +700,12 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
             rust!(self.out, "}};");
         } else {
             rust!(self.out,
-                  "let {}nt = {}::{}action{}({}{});",
+                  "let {}nt = {}::{}action{}::<{}>({}{});",
                   self.prefix,
                   self.action_module,
                   self.prefix,
                   production.action.index(),
+                  Sep(", ", &self.grammar.non_lifetime_type_parameters()),
                   self.grammar.user_parameter_refs(),
                   Sep(", ", &args));
         }
