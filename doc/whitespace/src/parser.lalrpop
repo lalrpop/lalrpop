@@ -1,0 +1,77 @@
+use lexer;
+use ast;
+
+grammar;
+
+pub Program = <Statement*>;
+
+Statement: ast::Stmt = {
+    " " <StackOp>,
+    "\t" " " <MathOp>,
+    "\t" "\t" <HeapOp>,
+    "\n" <FlowCtrl>,
+    "\t" "\n" <Io>,
+};
+
+StackOp: ast::Stmt = {
+    " " <Number> => ast::Stmt::Push(<>),
+    "\n" " " => ast::Stmt::Dup,
+    "\n" "\t" => ast::Stmt::Swap,
+    "\n" "\n" => ast::Stmt::Discard,
+};
+
+MathOp: ast::Stmt = {
+    " " " " => ast::Stmt::Add,
+    " " "\t" => ast::Stmt::Sub,
+    " " "\n" => ast::Stmt::Mul,
+    "\t" " " => ast::Stmt::Div,
+    "\t" "\t" => ast::Stmt::Mod,
+};
+
+HeapOp: ast::Stmt = {
+    " " => ast::Stmt::Store,
+    "\t" => ast::Stmt::Load,
+};
+
+FlowCtrl: ast::Stmt = {
+    " " " " <Label> => ast::Stmt::Mark(<>),
+    " " "\t" <Label> => ast::Stmt::Call(<>),
+    " " "\n" <Label> => ast::Stmt::Jump(<>),
+    "\t" " " <Label> => ast::Stmt::Jz(<>),
+    "\t" "\t" <Label> => ast::Stmt::Js(<>),
+    "\t" "\n" => ast::Stmt::Return,
+    "\n" "\n" => ast::Stmt::Exit,
+};
+
+Io: ast::Stmt = {
+    " " " " => ast::Stmt::PrintChar,
+    " " "\t" => ast::Stmt::PrintNum,
+    "\t" " " => ast::Stmt::ReadChar,
+    "\t" "\t" => ast::Stmt::ReadNum,
+};
+
+Number: ast::Int = {
+    <Digit*> "\n" => ast::number(<>),
+};
+
+Label: String = {
+    <Digit*> "\n" => ast::label(<>),
+};
+
+Digit: u8 = {
+    " " => 0,
+    "\t" => 1,
+};
+
+extern {
+    type Location = usize;
+    type Error = lexer::LexicalError;
+
+    enum lexer::Tok {
+        " " => lexer::Tok::Space,
+        "\t" => lexer::Tok::Tab,
+        "\n" => lexer::Tok::Linefeed,
+    }
+}
+
+// vim: ft=rust
