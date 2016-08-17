@@ -177,7 +177,7 @@ FlowCtrl: ast::Stmt = {
 };
 ```
 
-The complete grammar is available in `whitespace.lalrpop`.
+The complete grammar is available in `whitespace/src/parser.lalrpop`.
 
 ## Where to go from here
 
