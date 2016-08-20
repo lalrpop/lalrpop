@@ -4,7 +4,6 @@ version = "0.12.0" # LALRPOP
 authors = ["Niko Matsakis <niko@alum.mit.edu>"]
 license = "Apache-2.0/MIT"
 build = "build.rs"
-workspace = "../lalrpop"
 
 [dependencies]
 diff = "0.1"

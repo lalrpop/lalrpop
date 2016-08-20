@@ -9,15 +9,6 @@ license = "Apache-2.0/MIT"
 authors = ["Niko Matsakis <niko@alum.mit.edu>"]
 build = "build.rs"
 
-[workspace]
-members = [
-        "../lalrpop-test",
-        "../lalrpop-snap",
-        "../lalrpop-intern",
-        "../lalrpop-util",
-        "../doc/calculator",
-]
-
 [lib]
 doctest = false
 

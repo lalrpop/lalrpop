@@ -6,7 +6,6 @@ repository = "https://github.com/nikomatsakis/lalrpop"
 license = "Apache-2.0/MIT"
 authors = ["Niko Matsakis <niko@alum.mit.edu>"]
 # build = "build.rs"
-workspace = "../lalrpop"
 
 [dependencies]
 atty = "0.1.2"
