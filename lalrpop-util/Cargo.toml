@@ -5,4 +5,4 @@ repository = "https://github.com/nikomatsakis/lalrpop"
 license = "Apache-2.0/MIT"
 version = "0.12.0" # LALRPOP
 authors = ["Niko Matsakis <niko@alum.mit.edu>"]
-workspace = ".."
+workspace = "../lalrpop"

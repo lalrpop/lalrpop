@@ -8,7 +8,15 @@ keywords = ["parser", "generator", "LR", "yacc", "grammar"]
 license = "Apache-2.0/MIT"
 authors = ["Niko Matsakis <niko@alum.mit.edu>"]
 build = "build.rs"
-workspace = ".."
+
+[workspace]
+members = [
+        "../lalrpop-test",
+        "../lalrpop-snap",
+        "../lalrpop-intern",
+        "../lalrpop-util",
+        "../doc/calculator",
+]
 
 [lib]
 doctest = false
