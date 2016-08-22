@@ -114,7 +114,7 @@ That's it. That's all we need.
 
 ## Updating the parser
 
-To use this with LALRPOP, we need to expose its API to the parser. It's pretty easy to do, but also somewhat magical, so pay close attention. At the bottom of the grammar file, we need an `extern` block:
+To use this with LALRPOP, we need to expose its API to the parser. It's pretty easy to do, but also somewhat magical, so pay close attention. Pick a convenient place in the grammar file (I chose the bottom) and insert an `extern` block:
 
 ```rust
 extern {
