@@ -29,14 +29,14 @@ impl<'input> Iterator for Lexer<'input> {
 
     fn next(&mut self) -> Option<Self::Item> {
         loop {
-            return Some(Ok(match self.chars.next() {
-                Some((i, ' ')) => (i, Tok::Space, i+1),
-                Some((i, '\t')) => (i, Tok::Tab, i+1),
-                Some((i, '\n')) => (i, Tok::Linefeed, i+1),
+            match self.chars.next() {
+                Some((i, ' ')) => return Some(Ok((i, Tok::Space, i+1))),
+                Some((i, '\t')) => return Some(Ok((i, Tok::Tab, i+1))),
+                Some((i, '\n')) => return Some(Ok((i, Tok::Linefeed, i+1))),
 
                 None => return None, // End of file
-                _ => continue, // Comment
-            }))
+                _ => continue, // Comment; skip this character
+            }
         }
     }
 }
