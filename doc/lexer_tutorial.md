@@ -163,7 +163,16 @@ extern {
 }
 ```
 
-From now on, the parser will take a `Lexer` as its input instead of a string slice. And any time we write a string literal in the grammar, it'll substitute a variant of our `Tok` enum. This means **we don't have to change any of the rules we already wrote!** This will work as-is:
+From now on, the parser will take a `Lexer` as its input instead of a string slice, like so:
+
+```rust
+    let lexer = lexer::Lexer::new("\n\n\n");
+    match parser::parse_Program(lexer) {
+        ...
+    }
+```
+
+And any time we write a string literal in the grammar, it'll substitute a variant of our `Tok` enum. This means **we don't have to change any of the rules we already wrote!** This will work as-is:
 
 ```rust
 FlowCtrl: ast::Stmt = {
