@@ -609,8 +609,9 @@ mod __parse__Items {
             }
             fn __pop_Term_22_2b_22<
             >(
-                __symbols: &mut ::std::vec::Vec<(usize,__Symbol<>,usize)>
-            ) -> (usize, Tok, usize) {
+                __symbols: &mut ::std::vec::Vec<(usize,__Symbol<>,usize)>,
+            ) -> (usize, Tok, usize)
+            {
                 match __symbols.pop().unwrap() {
                     (__l, __Symbol::Term_22_2b_22(__v), __r) => (__l, __v, __r),
                     _ => panic!("symbol type mismatch")
@@ -618,8 +619,9 @@ mod __parse__Items {
             }
             fn __pop_Term_22_2d_22<
             >(
-                __symbols: &mut ::std::vec::Vec<(usize,__Symbol<>,usize)>
-            ) -> (usize, Tok, usize) {
+                __symbols: &mut ::std::vec::Vec<(usize,__Symbol<>,usize)>,
+            ) -> (usize, Tok, usize)
+            {
                 match __symbols.pop().unwrap() {
                     (__l, __Symbol::Term_22_2d_22(__v), __r) => (__l, __v, __r),
                     _ => panic!("symbol type mismatch")
@@ -627,8 +629,9 @@ mod __parse__Items {
             }
             fn __pop_Nt_40L<
             >(
-                __symbols: &mut ::std::vec::Vec<(usize,__Symbol<>,usize)>
-            ) -> (usize, usize, usize) {
+                __symbols: &mut ::std::vec::Vec<(usize,__Symbol<>,usize)>,
+            ) -> (usize, usize, usize)
+            {
                 match __symbols.pop().unwrap() {
                     (__l, __Symbol::Nt_40L(__v), __r) => (__l, __v, __r),
                     _ => panic!("symbol type mismatch")
@@ -636,8 +639,9 @@ mod __parse__Items {
             }
             fn __pop_Nt_40R<
             >(
-                __symbols: &mut ::std::vec::Vec<(usize,__Symbol<>,usize)>
-            ) -> (usize, usize, usize) {
+                __symbols: &mut ::std::vec::Vec<(usize,__Symbol<>,usize)>,
+            ) -> (usize, usize, usize)
+            {
                 match __symbols.pop().unwrap() {
                     (__l, __Symbol::Nt_40R(__v), __r) => (__l, __v, __r),
                     _ => panic!("symbol type mismatch")
@@ -645,8 +649,9 @@ mod __parse__Items {
             }
             fn __pop_NtItems<
             >(
-                __symbols: &mut ::std::vec::Vec<(usize,__Symbol<>,usize)>
-            ) -> (usize, Vec<(usize, usize)>, usize) {
+                __symbols: &mut ::std::vec::Vec<(usize,__Symbol<>,usize)>,
+            ) -> (usize, Vec<(usize, usize)>, usize)
+            {
                 match __symbols.pop().unwrap() {
                     (__l, __Symbol::NtItems(__v), __r) => (__l, __v, __r),
                     _ => panic!("symbol type mismatch")
@@ -654,8 +659,9 @@ mod __parse__Items {
             }
             fn __pop_NtSpanned_3c_22_2b_22_3e<
             >(
-                __symbols: &mut ::std::vec::Vec<(usize,__Symbol<>,usize)>
-            ) -> (usize, (usize, usize), usize) {
+                __symbols: &mut ::std::vec::Vec<(usize,__Symbol<>,usize)>,
+            ) -> (usize, (usize, usize), usize)
+            {
                 match __symbols.pop().unwrap() {
                     (__l, __Symbol::NtSpanned_3c_22_2b_22_3e(__v), __r) => (__l, __v, __r),
                     _ => panic!("symbol type mismatch")
@@ -663,8 +669,9 @@ mod __parse__Items {
             }
             fn __pop_Nt____Items<
             >(
-                __symbols: &mut ::std::vec::Vec<(usize,__Symbol<>,usize)>
-            ) -> (usize, Vec<(usize, usize)>, usize) {
+                __symbols: &mut ::std::vec::Vec<(usize,__Symbol<>,usize)>,
+            ) -> (usize, Vec<(usize, usize)>, usize)
+            {
                 match __symbols.pop().unwrap() {
                     (__l, __Symbol::Nt____Items(__v), __r) => (__l, __v, __r),
                     _ => panic!("symbol type mismatch")

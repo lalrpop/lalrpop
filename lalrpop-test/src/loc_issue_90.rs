@@ -3230,180 +3230,216 @@ mod __parse__Expression2 {
                 None
             }
             fn __pop_Term_22_26_22<
-              'input,
+                'input,
             >(
-                __symbols: &mut ::std::vec::Vec<(usize,__Symbol<'input>,usize)>
-            ) -> (usize, &'input str, usize) {
+                input: &'input str,
+                __symbols: &mut ::std::vec::Vec<(usize,__Symbol<'input>,usize)>,
+            ) -> (usize, &'input str, usize)
+            {
                 match __symbols.pop().unwrap() {
                     (__l, __Symbol::Term_22_26_22(__v), __r) => (__l, __v, __r),
                     _ => panic!("symbol type mismatch")
                 }
             }
             fn __pop_Term_22_28_22<
-              'input,
+                'input,
             >(
-                __symbols: &mut ::std::vec::Vec<(usize,__Symbol<'input>,usize)>
-            ) -> (usize, &'input str, usize) {
+                input: &'input str,
+                __symbols: &mut ::std::vec::Vec<(usize,__Symbol<'input>,usize)>,
+            ) -> (usize, &'input str, usize)
+            {
                 match __symbols.pop().unwrap() {
                     (__l, __Symbol::Term_22_28_22(__v), __r) => (__l, __v, __r),
                     _ => panic!("symbol type mismatch")
                 }
             }
             fn __pop_Term_22_29_22<
-              'input,
+                'input,
             >(
-                __symbols: &mut ::std::vec::Vec<(usize,__Symbol<'input>,usize)>
-            ) -> (usize, &'input str, usize) {
+                input: &'input str,
+                __symbols: &mut ::std::vec::Vec<(usize,__Symbol<'input>,usize)>,
+            ) -> (usize, &'input str, usize)
+            {
                 match __symbols.pop().unwrap() {
                     (__l, __Symbol::Term_22_29_22(__v), __r) => (__l, __v, __r),
                     _ => panic!("symbol type mismatch")
                 }
             }
             fn __pop_Term_22_2a_22<
-              'input,
+                'input,
             >(
-                __symbols: &mut ::std::vec::Vec<(usize,__Symbol<'input>,usize)>
-            ) -> (usize, &'input str, usize) {
+                input: &'input str,
+                __symbols: &mut ::std::vec::Vec<(usize,__Symbol<'input>,usize)>,
+            ) -> (usize, &'input str, usize)
+            {
                 match __symbols.pop().unwrap() {
                     (__l, __Symbol::Term_22_2a_22(__v), __r) => (__l, __v, __r),
                     _ => panic!("symbol type mismatch")
                 }
             }
             fn __pop_Term_22_5b_22<
-              'input,
+                'input,
             >(
-                __symbols: &mut ::std::vec::Vec<(usize,__Symbol<'input>,usize)>
-            ) -> (usize, &'input str, usize) {
+                input: &'input str,
+                __symbols: &mut ::std::vec::Vec<(usize,__Symbol<'input>,usize)>,
+            ) -> (usize, &'input str, usize)
+            {
                 match __symbols.pop().unwrap() {
                     (__l, __Symbol::Term_22_5b_22(__v), __r) => (__l, __v, __r),
                     _ => panic!("symbol type mismatch")
                 }
             }
             fn __pop_Term_22_5d_22<
-              'input,
+                'input,
             >(
-                __symbols: &mut ::std::vec::Vec<(usize,__Symbol<'input>,usize)>
-            ) -> (usize, &'input str, usize) {
+                input: &'input str,
+                __symbols: &mut ::std::vec::Vec<(usize,__Symbol<'input>,usize)>,
+            ) -> (usize, &'input str, usize)
+            {
                 match __symbols.pop().unwrap() {
                     (__l, __Symbol::Term_22_5d_22(__v), __r) => (__l, __v, __r),
                     _ => panic!("symbol type mismatch")
                 }
             }
             fn __pop_Term_22wacky_22<
-              'input,
+                'input,
             >(
-                __symbols: &mut ::std::vec::Vec<(usize,__Symbol<'input>,usize)>
-            ) -> (usize, &'input str, usize) {
+                input: &'input str,
+                __symbols: &mut ::std::vec::Vec<(usize,__Symbol<'input>,usize)>,
+            ) -> (usize, &'input str, usize)
+            {
                 match __symbols.pop().unwrap() {
                     (__l, __Symbol::Term_22wacky_22(__v), __r) => (__l, __v, __r),
                     _ => panic!("symbol type mismatch")
                 }
             }
             fn __pop_Term_22wonky_22<
-              'input,
+                'input,
             >(
-                __symbols: &mut ::std::vec::Vec<(usize,__Symbol<'input>,usize)>
-            ) -> (usize, &'input str, usize) {
+                input: &'input str,
+                __symbols: &mut ::std::vec::Vec<(usize,__Symbol<'input>,usize)>,
+            ) -> (usize, &'input str, usize)
+            {
                 match __symbols.pop().unwrap() {
                     (__l, __Symbol::Term_22wonky_22(__v), __r) => (__l, __v, __r),
                     _ => panic!("symbol type mismatch")
                 }
             }
             fn __pop_Termr_23_22_5c_5cw_2b_22_23<
-              'input,
+                'input,
             >(
-                __symbols: &mut ::std::vec::Vec<(usize,__Symbol<'input>,usize)>
-            ) -> (usize, &'input str, usize) {
+                input: &'input str,
+                __symbols: &mut ::std::vec::Vec<(usize,__Symbol<'input>,usize)>,
+            ) -> (usize, &'input str, usize)
+            {
                 match __symbols.pop().unwrap() {
                     (__l, __Symbol::Termr_23_22_5c_5cw_2b_22_23(__v), __r) => (__l, __v, __r),
                     _ => panic!("symbol type mismatch")
                 }
             }
             fn __pop_Nt_40L<
-              'input,
+                'input,
             >(
-                __symbols: &mut ::std::vec::Vec<(usize,__Symbol<'input>,usize)>
-            ) -> (usize, usize, usize) {
+                input: &'input str,
+                __symbols: &mut ::std::vec::Vec<(usize,__Symbol<'input>,usize)>,
+            ) -> (usize, usize, usize)
+            {
                 match __symbols.pop().unwrap() {
                     (__l, __Symbol::Nt_40L(__v), __r) => (__l, __v, __r),
                     _ => panic!("symbol type mismatch")
                 }
             }
             fn __pop_Nt_40R<
-              'input,
+                'input,
             >(
-                __symbols: &mut ::std::vec::Vec<(usize,__Symbol<'input>,usize)>
-            ) -> (usize, usize, usize) {
+                input: &'input str,
+                __symbols: &mut ::std::vec::Vec<(usize,__Symbol<'input>,usize)>,
+            ) -> (usize, usize, usize)
+            {
                 match __symbols.pop().unwrap() {
                     (__l, __Symbol::Nt_40R(__v), __r) => (__l, __v, __r),
                     _ => panic!("symbol type mismatch")
                 }
             }
             fn __pop_NtExpression1<
-              'input,
+                'input,
             >(
-                __symbols: &mut ::std::vec::Vec<(usize,__Symbol<'input>,usize)>
-            ) -> (usize, Box<Expr<'input>>, usize) {
+                input: &'input str,
+                __symbols: &mut ::std::vec::Vec<(usize,__Symbol<'input>,usize)>,
+            ) -> (usize, Box<Expr<'input>>, usize)
+            {
                 match __symbols.pop().unwrap() {
                     (__l, __Symbol::NtExpression1(__v), __r) => (__l, __v, __r),
                     _ => panic!("symbol type mismatch")
                 }
             }
             fn __pop_NtExpression2<
-              'input,
+                'input,
             >(
-                __symbols: &mut ::std::vec::Vec<(usize,__Symbol<'input>,usize)>
-            ) -> (usize, Box<Expr<'input>>, usize) {
+                input: &'input str,
+                __symbols: &mut ::std::vec::Vec<(usize,__Symbol<'input>,usize)>,
+            ) -> (usize, Box<Expr<'input>>, usize)
+            {
                 match __symbols.pop().unwrap() {
                     (__l, __Symbol::NtExpression2(__v), __r) => (__l, __v, __r),
                     _ => panic!("symbol type mismatch")
                 }
             }
             fn __pop_NtExpression2Op<
-              'input,
+                'input,
             >(
-                __symbols: &mut ::std::vec::Vec<(usize,__Symbol<'input>,usize)>
-            ) -> (usize, Box<Expr<'input>>, usize) {
+                input: &'input str,
+                __symbols: &mut ::std::vec::Vec<(usize,__Symbol<'input>,usize)>,
+            ) -> (usize, Box<Expr<'input>>, usize)
+            {
                 match __symbols.pop().unwrap() {
                     (__l, __Symbol::NtExpression2Op(__v), __r) => (__l, __v, __r),
                     _ => panic!("symbol type mismatch")
                 }
             }
             fn __pop_NtMaybe<
-              'input,
+                'input,
             >(
-                __symbols: &mut ::std::vec::Vec<(usize,__Symbol<'input>,usize)>
-            ) -> (usize, Box<Expr<'input>>, usize) {
+                input: &'input str,
+                __symbols: &mut ::std::vec::Vec<(usize,__Symbol<'input>,usize)>,
+            ) -> (usize, Box<Expr<'input>>, usize)
+            {
                 match __symbols.pop().unwrap() {
                     (__l, __Symbol::NtMaybe(__v), __r) => (__l, __v, __r),
                     _ => panic!("symbol type mismatch")
                 }
             }
             fn __pop_NtWacky<
-              'input,
+                'input,
             >(
-                __symbols: &mut ::std::vec::Vec<(usize,__Symbol<'input>,usize)>
-            ) -> (usize, Box<Expr<'input>>, usize) {
+                input: &'input str,
+                __symbols: &mut ::std::vec::Vec<(usize,__Symbol<'input>,usize)>,
+            ) -> (usize, Box<Expr<'input>>, usize)
+            {
                 match __symbols.pop().unwrap() {
                     (__l, __Symbol::NtWacky(__v), __r) => (__l, __v, __r),
                     _ => panic!("symbol type mismatch")
                 }
             }
             fn __pop_NtWonky<
-              'input,
+                'input,
             >(
-                __symbols: &mut ::std::vec::Vec<(usize,__Symbol<'input>,usize)>
-            ) -> (usize, Box<Expr<'input>>, usize) {
+                input: &'input str,
+                __symbols: &mut ::std::vec::Vec<(usize,__Symbol<'input>,usize)>,
+            ) -> (usize, Box<Expr<'input>>, usize)
+            {
                 match __symbols.pop().unwrap() {
                     (__l, __Symbol::NtWonky(__v), __r) => (__l, __v, __r),
                     _ => panic!("symbol type mismatch")
                 }
             }
             fn __pop_Nt____Expression2<
-              'input,
+                'input,
             >(
-                __symbols: &mut ::std::vec::Vec<(usize,__Symbol<'input>,usize)>
-            ) -> (usize, Box<Expr<'input>>, usize) {
+                input: &'input str,
+                __symbols: &mut ::std::vec::Vec<(usize,__Symbol<'input>,usize)>,
+            ) -> (usize, Box<Expr<'input>>, usize)
+            {
                 match __symbols.pop().unwrap() {
                     (__l, __Symbol::Nt____Expression2(__v), __r) => (__l, __v, __r),
                     _ => panic!("symbol type mismatch")
@@ -3490,17 +3526,17 @@ mod __intern_token {
                             __current_state = 5;
                             continue;
                         }
-                        170 => /* 'ª' */ {
+                        170 => /* '\u{aa}' */ {
                             __current_match = Some((8, __index + 2));
                             __current_state = 5;
                             continue;
                         }
-                        181 => /* 'µ' */ {
+                        181 => /* '\u{b5}' */ {
                             __current_match = Some((8, __index + 2));
                             __current_state = 5;
                             continue;
                         }
-                        186 => /* 'º' */ {
+                        186 => /* '\u{ba}' */ {
                             __current_match = Some((8, __index + 2));
                             __current_state = 5;
                             continue;
@@ -3530,12 +3566,12 @@ mod __intern_token {
                             __current_state = 5;
                             continue;
                         }
-                        748 => /* 'ˬ' */ {
+                        748 => /* '\u{2ec}' */ {
                             __current_match = Some((8, __index + 2));
                             __current_state = 5;
                             continue;
                         }
-                        750 => /* 'ˮ' */ {
+                        750 => /* '\u{2ee}' */ {
                             __current_match = Some((8, __index + 2));
                             __current_state = 5;
                             continue;
@@ -3560,7 +3596,7 @@ mod __intern_token {
                             __current_state = 5;
                             continue;
                         }
-                        902 => /* 'Ά' */ {
+                        902 => /* '\u{386}' */ {
                             __current_match = Some((8, __index + 2));
                             __current_state = 5;
                             continue;
@@ -3570,7 +3606,7 @@ mod __intern_token {
                             __current_state = 5;
                             continue;
                         }
-                        908 => /* 'Ό' */ {
+                        908 => /* '\u{38c}' */ {
                             __current_match = Some((8, __index + 2));
                             __current_state = 5;
                             continue;
@@ -3600,7 +3636,7 @@ mod __intern_token {
                             __current_state = 5;
                             continue;
                         }
-                        1369 => /* 'ՙ' */ {
+                        1369 => /* '\u{559}' */ {
                             __current_match = Some((8, __index + 2));
                             __current_state = 5;
                             continue;
@@ -3615,7 +3651,7 @@ mod __intern_token {
                             __current_state = 5;
                             continue;
                         }
-                        1471 => /* 'ֿ' */ {
+                        1471 => /* '\u{5bf}' */ {
                             __current_match = Some((8, __index + 2));
                             __current_state = 5;
                             continue;
@@ -3630,7 +3666,7 @@ mod __intern_token {
                             __current_state = 5;
                             continue;
                         }
-                        1479 => /* 'ׇ' */ {
+                        1479 => /* '\u{5c7}' */ {
                             __current_match = Some((8, __index + 2));
                             __current_state = 5;
                             continue;
@@ -3675,7 +3711,7 @@ mod __intern_token {
                             __current_state = 5;
                             continue;
                         }
-                        1791 => /* 'ۿ' */ {
+                        1791 => /* '\u{6ff}' */ {
                             __current_match = Some((8, __index + 2));
                             __current_state = 5;
                             continue;
@@ -3695,7 +3731,7 @@ mod __intern_token {
                             __current_state = 5;
                             continue;
                         }
-                        2042 => /* 'ߺ' */ {
+                        2042 => /* '\u{7fa}' */ {
                             __current_match = Some((8, __index + 2));
                             __current_state = 5;
                             continue;
@@ -3750,7 +3786,7 @@ mod __intern_token {
                             __current_state = 5;
                             continue;
                         }
-                        2482 => /* 'ল' */ {
+                        2482 => /* '\u{9b2}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 5;
                             continue;
@@ -3775,7 +3811,7 @@ mod __intern_token {
                             __current_state = 5;
                             continue;
                         }
-                        2519 => /* 'ৗ' */ {
+                        2519 => /* '\u{9d7}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 5;
                             continue;
@@ -3835,7 +3871,7 @@ mod __intern_token {
                             __current_state = 5;
                             continue;
                         }
-                        2620 => /* '਼' */ {
+                        2620 => /* '\u{a3c}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 5;
                             continue;
@@ -3855,7 +3891,7 @@ mod __intern_token {
                             __current_state = 5;
                             continue;
                         }
-                        2641 => /* 'ੑ' */ {
+                        2641 => /* '\u{a51}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 5;
                             continue;
@@ -3865,7 +3901,7 @@ mod __intern_token {
                             __current_state = 5;
                             continue;
                         }
-                        2654 => /* 'ਫ਼' */ {
+                        2654 => /* '\u{a5e}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 5;
                             continue;
@@ -3925,7 +3961,7 @@ mod __intern_token {
                             __current_state = 5;
                             continue;
                         }
-                        2768 => /* 'ૐ' */ {
+                        2768 => /* '\u{ad0}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 5;
                             continue;
@@ -4015,7 +4051,7 @@ mod __intern_token {
                             __current_state = 5;
                             continue;
                         }
-                        2929 => /* 'ୱ' */ {
+                        2929 => /* '\u{b71}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 5;
                             continue;
@@ -4045,7 +4081,7 @@ mod __intern_token {
                             __current_state = 5;
                             continue;
                         }
-                        2972 => /* 'ஜ' */ {
+                        2972 => /* '\u{b9c}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 5;
                             continue;
@@ -4085,12 +4121,12 @@ mod __intern_token {
                             __current_state = 5;
                             continue;
                         }
-                        3024 => /* 'ௐ' */ {
+                        3024 => /* '\u{bd0}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 5;
                             continue;
                         }
-                        3031 => /* 'ௗ' */ {
+                        3031 => /* '\u{bd7}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 5;
                             continue;
@@ -4210,7 +4246,7 @@ mod __intern_token {
                             __current_state = 5;
                             continue;
                         }
-                        3294 => /* 'ೞ' */ {
+                        3294 => /* '\u{cde}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 5;
                             continue;
@@ -4265,7 +4301,7 @@ mod __intern_token {
                             __current_state = 5;
                             continue;
                         }
-                        3415 => /* 'ൗ' */ {
+                        3415 => /* '\u{d57}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 5;
                             continue;
@@ -4305,7 +4341,7 @@ mod __intern_token {
                             __current_state = 5;
                             continue;
                         }
-                        3517 => /* 'ල' */ {
+                        3517 => /* '\u{dbd}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 5;
                             continue;
@@ -4315,7 +4351,7 @@ mod __intern_token {
                             __current_state = 5;
                             continue;
                         }
-                        3530 => /* '්' */ {
+                        3530 => /* '\u{dca}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 5;
                             continue;
@@ -4325,7 +4361,7 @@ mod __intern_token {
                             __current_state = 5;
                             continue;
                         }
-                        3542 => /* 'ූ' */ {
+                        3542 => /* '\u{dd6}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 5;
                             continue;
@@ -4365,7 +4401,7 @@ mod __intern_token {
                             __current_state = 5;
                             continue;
                         }
-                        3716 => /* 'ຄ' */ {
+                        3716 => /* '\u{e84}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 5;
                             continue;
@@ -4375,12 +4411,12 @@ mod __intern_token {
                             __current_state = 5;
                             continue;
                         }
-                        3722 => /* 'ຊ' */ {
+                        3722 => /* '\u{e8a}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 5;
                             continue;
                         }
-                        3725 => /* 'ຍ' */ {
+                        3725 => /* '\u{e8d}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 5;
                             continue;
@@ -4400,12 +4436,12 @@ mod __intern_token {
                             __current_state = 5;
                             continue;
                         }
-                        3749 => /* 'ລ' */ {
+                        3749 => /* '\u{ea5}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 5;
                             continue;
                         }
-                        3751 => /* 'ວ' */ {
+                        3751 => /* '\u{ea7}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 5;
                             continue;
@@ -4430,7 +4466,7 @@ mod __intern_token {
                             __current_state = 5;
                             continue;
                         }
-                        3782 => /* 'ໆ' */ {
+                        3782 => /* '\u{ec6}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 5;
                             continue;
@@ -4450,7 +4486,7 @@ mod __intern_token {
                             __current_state = 5;
                             continue;
                         }
-                        3840 => /* 'ༀ' */ {
+                        3840 => /* '\u{f00}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 5;
                             continue;
@@ -4465,17 +4501,17 @@ mod __intern_token {
                             __current_state = 5;
                             continue;
                         }
-                        3893 => /* '༵' */ {
+                        3893 => /* '\u{f35}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 5;
                             continue;
                         }
-                        3895 => /* '༷' */ {
+                        3895 => /* '\u{f37}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 5;
                             continue;
                         }
-                        3897 => /* '༹' */ {
+                        3897 => /* '\u{f39}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 5;
                             continue;
@@ -4505,7 +4541,7 @@ mod __intern_token {
                             __current_state = 5;
                             continue;
                         }
-                        4038 => /* '࿆' */ {
+                        4038 => /* '\u{fc6}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 5;
                             continue;
@@ -4525,12 +4561,12 @@ mod __intern_token {
                             __current_state = 5;
                             continue;
                         }
-                        4295 => /* 'Ⴧ' */ {
+                        4295 => /* '\u{10c7}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 5;
                             continue;
                         }
-                        4301 => /* 'Ⴭ' */ {
+                        4301 => /* '\u{10cd}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 5;
                             continue;
@@ -4555,7 +4591,7 @@ mod __intern_token {
                             __current_state = 5;
                             continue;
                         }
-                        4696 => /* 'ቘ' */ {
+                        4696 => /* '\u{1258}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 5;
                             continue;
@@ -4590,7 +4626,7 @@ mod __intern_token {
                             __current_state = 5;
                             continue;
                         }
-                        4800 => /* 'ዀ' */ {
+                        4800 => /* '\u{12c0}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 5;
                             continue;
@@ -4705,7 +4741,7 @@ mod __intern_token {
                             __current_state = 5;
                             continue;
                         }
-                        6103 => /* 'ៗ' */ {
+                        6103 => /* '\u{17d7}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 5;
                             continue;
@@ -4810,7 +4846,7 @@ mod __intern_token {
                             __current_state = 5;
                             continue;
                         }
-                        6823 => /* 'ᪧ' */ {
+                        6823 => /* '\u{1aa7}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 5;
                             continue;
@@ -4900,17 +4936,17 @@ mod __intern_token {
                             __current_state = 5;
                             continue;
                         }
-                        8025 => /* 'Ὑ' */ {
+                        8025 => /* '\u{1f59}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 5;
                             continue;
                         }
-                        8027 => /* 'Ὓ' */ {
+                        8027 => /* '\u{1f5b}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 5;
                             continue;
                         }
-                        8029 => /* 'Ὕ' */ {
+                        8029 => /* '\u{1f5d}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 5;
                             continue;
@@ -4930,7 +4966,7 @@ mod __intern_token {
                             __current_state = 5;
                             continue;
                         }
-                        8126 => /* 'ι' */ {
+                        8126 => /* '\u{1fbe}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 5;
                             continue;
@@ -4980,17 +5016,17 @@ mod __intern_token {
                             __current_state = 5;
                             continue;
                         }
-                        8276 => /* '⁔' */ {
+                        8276 => /* '\u{2054}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 5;
                             continue;
                         }
-                        8305 => /* 'ⁱ' */ {
+                        8305 => /* '\u{2071}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 5;
                             continue;
                         }
-                        8319 => /* 'ⁿ' */ {
+                        8319 => /* '\u{207f}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 5;
                             continue;
@@ -5005,12 +5041,12 @@ mod __intern_token {
                             __current_state = 5;
                             continue;
                         }
-                        8450 => /* 'ℂ' */ {
+                        8450 => /* '\u{2102}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 5;
                             continue;
                         }
-                        8455 => /* 'ℇ' */ {
+                        8455 => /* '\u{2107}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 5;
                             continue;
@@ -5020,7 +5056,7 @@ mod __intern_token {
                             __current_state = 5;
                             continue;
                         }
-                        8469 => /* 'ℕ' */ {
+                        8469 => /* '\u{2115}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 5;
                             continue;
@@ -5030,17 +5066,17 @@ mod __intern_token {
                             __current_state = 5;
                             continue;
                         }
-                        8484 => /* 'ℤ' */ {
+                        8484 => /* '\u{2124}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 5;
                             continue;
                         }
-                        8486 => /* 'Ω' */ {
+                        8486 => /* '\u{2126}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 5;
                             continue;
                         }
-                        8488 => /* 'ℨ' */ {
+                        8488 => /* '\u{2128}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 5;
                             continue;
@@ -5065,7 +5101,7 @@ mod __intern_token {
                             __current_state = 5;
                             continue;
                         }
-                        8526 => /* 'ⅎ' */ {
+                        8526 => /* '\u{214e}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 5;
                             continue;
@@ -5105,12 +5141,12 @@ mod __intern_token {
                             __current_state = 5;
                             continue;
                         }
-                        11559 => /* 'ⴧ' */ {
+                        11559 => /* '\u{2d27}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 5;
                             continue;
                         }
-                        11565 => /* 'ⴭ' */ {
+                        11565 => /* '\u{2d2d}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 5;
                             continue;
@@ -5120,7 +5156,7 @@ mod __intern_token {
                             __current_state = 5;
                             continue;
                         }
-                        11631 => /* 'ⵯ' */ {
+                        11631 => /* '\u{2d6f}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 5;
                             continue;
@@ -5175,7 +5211,7 @@ mod __intern_token {
                             __current_state = 5;
                             continue;
                         }
-                        11823 => /* 'ⸯ' */ {
+                        11823 => /* '\u{2e2f}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 5;
                             continue;
@@ -5335,7 +5371,7 @@ mod __intern_token {
                             __current_state = 5;
                             continue;
                         }
-                        43259 => /* 'ꣻ' */ {
+                        43259 => /* '\u{a8fb}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 5;
                             continue;
@@ -5515,7 +5551,7 @@ mod __intern_token {
                             __current_state = 5;
                             continue;
                         }
-                        64318 => /* 'מּ' */ {
+                        64318 => /* '\u{fb3e}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 5;
                             continue;
@@ -5595,7 +5631,7 @@ mod __intern_token {
                             __current_state = 5;
                             continue;
                         }
-                        65343 => /* '＿' */ {
+                        65343 => /* '\u{ff3f}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 5;
                             continue;
@@ -5670,7 +5706,7 @@ mod __intern_token {
                             __current_state = 5;
                             continue;
                         }
-                        66045 => /* '𐇽' */ {
+                        66045 => /* '\u{101fd}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 5;
                             continue;
@@ -5765,7 +5801,7 @@ mod __intern_token {
                             __current_state = 5;
                             continue;
                         }
-                        67592 => /* '𐠈' */ {
+                        67592 => /* '\u{10808}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 5;
                             continue;
@@ -5780,7 +5816,7 @@ mod __intern_token {
                             __current_state = 5;
                             continue;
                         }
-                        67644 => /* '𐠼' */ {
+                        67644 => /* '\u{1083c}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 5;
                             continue;
@@ -5860,7 +5896,7 @@ mod __intern_token {
                             __current_state = 5;
                             continue;
                         }
-                        68159 => /* '𐨿' */ {
+                        68159 => /* '\u{10a3f}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 5;
                             continue;
@@ -6355,7 +6391,7 @@ mod __intern_token {
                             __current_state = 5;
                             continue;
                         }
-                        119970 => /* '𝒢' */ {
+                        119970 => /* '\u{1d4a2}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 5;
                             continue;
@@ -6375,7 +6411,7 @@ mod __intern_token {
                             __current_state = 5;
                             continue;
                         }
-                        119995 => /* '𝒻' */ {
+                        119995 => /* '\u{1d4bb}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 5;
                             continue;
@@ -6420,7 +6456,7 @@ mod __intern_token {
                             __current_state = 5;
                             continue;
                         }
-                        120134 => /* '𝕆' */ {
+                        120134 => /* '\u{1d546}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 5;
                             continue;
@@ -6550,12 +6586,12 @@ mod __intern_token {
                             __current_state = 5;
                             continue;
                         }
-                        126500 => /* '𞸤' */ {
+                        126500 => /* '\u{1ee24}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 5;
                             continue;
                         }
-                        126503 => /* '𞸧' */ {
+                        126503 => /* '\u{1ee27}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 5;
                             continue;
@@ -6570,32 +6606,32 @@ mod __intern_token {
                             __current_state = 5;
                             continue;
                         }
-                        126521 => /* '𞸹' */ {
+                        126521 => /* '\u{1ee39}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 5;
                             continue;
                         }
-                        126523 => /* '𞸻' */ {
+                        126523 => /* '\u{1ee3b}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 5;
                             continue;
                         }
-                        126530 => /* '𞹂' */ {
+                        126530 => /* '\u{1ee42}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 5;
                             continue;
                         }
-                        126535 => /* '𞹇' */ {
+                        126535 => /* '\u{1ee47}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 5;
                             continue;
                         }
-                        126537 => /* '𞹉' */ {
+                        126537 => /* '\u{1ee49}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 5;
                             continue;
                         }
-                        126539 => /* '𞹋' */ {
+                        126539 => /* '\u{1ee4b}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 5;
                             continue;
@@ -6610,32 +6646,32 @@ mod __intern_token {
                             __current_state = 5;
                             continue;
                         }
-                        126548 => /* '𞹔' */ {
+                        126548 => /* '\u{1ee54}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 5;
                             continue;
                         }
-                        126551 => /* '𞹗' */ {
+                        126551 => /* '\u{1ee57}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 5;
                             continue;
                         }
-                        126553 => /* '𞹙' */ {
+                        126553 => /* '\u{1ee59}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 5;
                             continue;
                         }
-                        126555 => /* '𞹛' */ {
+                        126555 => /* '\u{1ee5b}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 5;
                             continue;
                         }
-                        126557 => /* '𞹝' */ {
+                        126557 => /* '\u{1ee5d}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 5;
                             continue;
                         }
-                        126559 => /* '𞹟' */ {
+                        126559 => /* '\u{1ee5f}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 5;
                             continue;
@@ -6645,7 +6681,7 @@ mod __intern_token {
                             __current_state = 5;
                             continue;
                         }
-                        126564 => /* '𞹤' */ {
+                        126564 => /* '\u{1ee64}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 5;
                             continue;
@@ -6670,7 +6706,7 @@ mod __intern_token {
                             __current_state = 5;
                             continue;
                         }
-                        126590 => /* '𞹾' */ {
+                        126590 => /* '\u{1ee7e}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 5;
                             continue;
@@ -6805,17 +6841,17 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        170 => /* 'ª' */ {
+                        170 => /* '\u{aa}' */ {
                             __current_match = Some((8, __index + 2));
                             __current_state = 10;
                             continue;
                         }
-                        181 => /* 'µ' */ {
+                        181 => /* '\u{b5}' */ {
                             __current_match = Some((8, __index + 2));
                             __current_state = 10;
                             continue;
                         }
-                        186 => /* 'º' */ {
+                        186 => /* '\u{ba}' */ {
                             __current_match = Some((8, __index + 2));
                             __current_state = 10;
                             continue;
@@ -6845,12 +6881,12 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        748 => /* 'ˬ' */ {
+                        748 => /* '\u{2ec}' */ {
                             __current_match = Some((8, __index + 2));
                             __current_state = 10;
                             continue;
                         }
-                        750 => /* 'ˮ' */ {
+                        750 => /* '\u{2ee}' */ {
                             __current_match = Some((8, __index + 2));
                             __current_state = 10;
                             continue;
@@ -6875,7 +6911,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        902 => /* 'Ά' */ {
+                        902 => /* '\u{386}' */ {
                             __current_match = Some((8, __index + 2));
                             __current_state = 10;
                             continue;
@@ -6885,7 +6921,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        908 => /* 'Ό' */ {
+                        908 => /* '\u{38c}' */ {
                             __current_match = Some((8, __index + 2));
                             __current_state = 10;
                             continue;
@@ -6915,7 +6951,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        1369 => /* 'ՙ' */ {
+                        1369 => /* '\u{559}' */ {
                             __current_match = Some((8, __index + 2));
                             __current_state = 10;
                             continue;
@@ -6930,7 +6966,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        1471 => /* 'ֿ' */ {
+                        1471 => /* '\u{5bf}' */ {
                             __current_match = Some((8, __index + 2));
                             __current_state = 10;
                             continue;
@@ -6945,7 +6981,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        1479 => /* 'ׇ' */ {
+                        1479 => /* '\u{5c7}' */ {
                             __current_match = Some((8, __index + 2));
                             __current_state = 10;
                             continue;
@@ -6990,7 +7026,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        1791 => /* 'ۿ' */ {
+                        1791 => /* '\u{6ff}' */ {
                             __current_match = Some((8, __index + 2));
                             __current_state = 10;
                             continue;
@@ -7010,7 +7046,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        2042 => /* 'ߺ' */ {
+                        2042 => /* '\u{7fa}' */ {
                             __current_match = Some((8, __index + 2));
                             __current_state = 10;
                             continue;
@@ -7065,7 +7101,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        2482 => /* 'ল' */ {
+                        2482 => /* '\u{9b2}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -7090,7 +7126,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        2519 => /* 'ৗ' */ {
+                        2519 => /* '\u{9d7}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -7150,7 +7186,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        2620 => /* '਼' */ {
+                        2620 => /* '\u{a3c}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -7170,7 +7206,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        2641 => /* 'ੑ' */ {
+                        2641 => /* '\u{a51}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -7180,7 +7216,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        2654 => /* 'ਫ਼' */ {
+                        2654 => /* '\u{a5e}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -7240,7 +7276,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        2768 => /* 'ૐ' */ {
+                        2768 => /* '\u{ad0}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -7330,7 +7366,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        2929 => /* 'ୱ' */ {
+                        2929 => /* '\u{b71}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -7360,7 +7396,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        2972 => /* 'ஜ' */ {
+                        2972 => /* '\u{b9c}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -7400,12 +7436,12 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        3024 => /* 'ௐ' */ {
+                        3024 => /* '\u{bd0}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
                         }
-                        3031 => /* 'ௗ' */ {
+                        3031 => /* '\u{bd7}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -7525,7 +7561,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        3294 => /* 'ೞ' */ {
+                        3294 => /* '\u{cde}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -7580,7 +7616,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        3415 => /* 'ൗ' */ {
+                        3415 => /* '\u{d57}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -7620,7 +7656,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        3517 => /* 'ල' */ {
+                        3517 => /* '\u{dbd}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -7630,7 +7666,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        3530 => /* '්' */ {
+                        3530 => /* '\u{dca}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -7640,7 +7676,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        3542 => /* 'ූ' */ {
+                        3542 => /* '\u{dd6}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -7680,7 +7716,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        3716 => /* 'ຄ' */ {
+                        3716 => /* '\u{e84}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -7690,12 +7726,12 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        3722 => /* 'ຊ' */ {
+                        3722 => /* '\u{e8a}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
                         }
-                        3725 => /* 'ຍ' */ {
+                        3725 => /* '\u{e8d}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -7715,12 +7751,12 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        3749 => /* 'ລ' */ {
+                        3749 => /* '\u{ea5}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
                         }
-                        3751 => /* 'ວ' */ {
+                        3751 => /* '\u{ea7}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -7745,7 +7781,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        3782 => /* 'ໆ' */ {
+                        3782 => /* '\u{ec6}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -7765,7 +7801,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        3840 => /* 'ༀ' */ {
+                        3840 => /* '\u{f00}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -7780,17 +7816,17 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        3893 => /* '༵' */ {
+                        3893 => /* '\u{f35}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
                         }
-                        3895 => /* '༷' */ {
+                        3895 => /* '\u{f37}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
                         }
-                        3897 => /* '༹' */ {
+                        3897 => /* '\u{f39}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -7820,7 +7856,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        4038 => /* '࿆' */ {
+                        4038 => /* '\u{fc6}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -7840,12 +7876,12 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        4295 => /* 'Ⴧ' */ {
+                        4295 => /* '\u{10c7}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
                         }
-                        4301 => /* 'Ⴭ' */ {
+                        4301 => /* '\u{10cd}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -7870,7 +7906,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        4696 => /* 'ቘ' */ {
+                        4696 => /* '\u{1258}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -7905,7 +7941,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        4800 => /* 'ዀ' */ {
+                        4800 => /* '\u{12c0}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -8020,7 +8056,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        6103 => /* 'ៗ' */ {
+                        6103 => /* '\u{17d7}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -8125,7 +8161,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        6823 => /* 'ᪧ' */ {
+                        6823 => /* '\u{1aa7}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -8215,17 +8251,17 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        8025 => /* 'Ὑ' */ {
+                        8025 => /* '\u{1f59}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
                         }
-                        8027 => /* 'Ὓ' */ {
+                        8027 => /* '\u{1f5b}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
                         }
-                        8029 => /* 'Ὕ' */ {
+                        8029 => /* '\u{1f5d}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -8245,7 +8281,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        8126 => /* 'ι' */ {
+                        8126 => /* '\u{1fbe}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -8295,17 +8331,17 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        8276 => /* '⁔' */ {
+                        8276 => /* '\u{2054}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
                         }
-                        8305 => /* 'ⁱ' */ {
+                        8305 => /* '\u{2071}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
                         }
-                        8319 => /* 'ⁿ' */ {
+                        8319 => /* '\u{207f}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -8320,12 +8356,12 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        8450 => /* 'ℂ' */ {
+                        8450 => /* '\u{2102}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
                         }
-                        8455 => /* 'ℇ' */ {
+                        8455 => /* '\u{2107}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -8335,7 +8371,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        8469 => /* 'ℕ' */ {
+                        8469 => /* '\u{2115}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -8345,17 +8381,17 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        8484 => /* 'ℤ' */ {
+                        8484 => /* '\u{2124}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
                         }
-                        8486 => /* 'Ω' */ {
+                        8486 => /* '\u{2126}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
                         }
-                        8488 => /* 'ℨ' */ {
+                        8488 => /* '\u{2128}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -8380,7 +8416,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        8526 => /* 'ⅎ' */ {
+                        8526 => /* '\u{214e}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -8420,12 +8456,12 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        11559 => /* 'ⴧ' */ {
+                        11559 => /* '\u{2d27}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
                         }
-                        11565 => /* 'ⴭ' */ {
+                        11565 => /* '\u{2d2d}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -8435,7 +8471,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        11631 => /* 'ⵯ' */ {
+                        11631 => /* '\u{2d6f}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -8490,7 +8526,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        11823 => /* 'ⸯ' */ {
+                        11823 => /* '\u{2e2f}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -8650,7 +8686,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        43259 => /* 'ꣻ' */ {
+                        43259 => /* '\u{a8fb}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -8830,7 +8866,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        64318 => /* 'מּ' */ {
+                        64318 => /* '\u{fb3e}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -8910,7 +8946,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        65343 => /* '＿' */ {
+                        65343 => /* '\u{ff3f}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -8985,7 +9021,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        66045 => /* '𐇽' */ {
+                        66045 => /* '\u{101fd}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
@@ -9080,7 +9116,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        67592 => /* '𐠈' */ {
+                        67592 => /* '\u{10808}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
@@ -9095,7 +9131,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        67644 => /* '𐠼' */ {
+                        67644 => /* '\u{1083c}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
@@ -9175,7 +9211,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        68159 => /* '𐨿' */ {
+                        68159 => /* '\u{10a3f}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
@@ -9670,7 +9706,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        119970 => /* '𝒢' */ {
+                        119970 => /* '\u{1d4a2}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
@@ -9690,7 +9726,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        119995 => /* '𝒻' */ {
+                        119995 => /* '\u{1d4bb}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
@@ -9735,7 +9771,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        120134 => /* '𝕆' */ {
+                        120134 => /* '\u{1d546}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
@@ -9865,12 +9901,12 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        126500 => /* '𞸤' */ {
+                        126500 => /* '\u{1ee24}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
                         }
-                        126503 => /* '𞸧' */ {
+                        126503 => /* '\u{1ee27}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
@@ -9885,32 +9921,32 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        126521 => /* '𞸹' */ {
+                        126521 => /* '\u{1ee39}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
                         }
-                        126523 => /* '𞸻' */ {
+                        126523 => /* '\u{1ee3b}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
                         }
-                        126530 => /* '𞹂' */ {
+                        126530 => /* '\u{1ee42}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
                         }
-                        126535 => /* '𞹇' */ {
+                        126535 => /* '\u{1ee47}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
                         }
-                        126537 => /* '𞹉' */ {
+                        126537 => /* '\u{1ee49}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
                         }
-                        126539 => /* '𞹋' */ {
+                        126539 => /* '\u{1ee4b}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
@@ -9925,32 +9961,32 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        126548 => /* '𞹔' */ {
+                        126548 => /* '\u{1ee54}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
                         }
-                        126551 => /* '𞹗' */ {
+                        126551 => /* '\u{1ee57}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
                         }
-                        126553 => /* '𞹙' */ {
+                        126553 => /* '\u{1ee59}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
                         }
-                        126555 => /* '𞹛' */ {
+                        126555 => /* '\u{1ee5b}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
                         }
-                        126557 => /* '𞹝' */ {
+                        126557 => /* '\u{1ee5d}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
                         }
-                        126559 => /* '𞹟' */ {
+                        126559 => /* '\u{1ee5f}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
@@ -9960,7 +9996,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        126564 => /* '𞹤' */ {
+                        126564 => /* '\u{1ee64}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
@@ -9985,7 +10021,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        126590 => /* '𞹾' */ {
+                        126590 => /* '\u{1ee7e}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
@@ -10119,17 +10155,17 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        170 => /* 'ª' */ {
+                        170 => /* '\u{aa}' */ {
                             __current_match = Some((8, __index + 2));
                             __current_state = 10;
                             continue;
                         }
-                        181 => /* 'µ' */ {
+                        181 => /* '\u{b5}' */ {
                             __current_match = Some((8, __index + 2));
                             __current_state = 10;
                             continue;
                         }
-                        186 => /* 'º' */ {
+                        186 => /* '\u{ba}' */ {
                             __current_match = Some((8, __index + 2));
                             __current_state = 10;
                             continue;
@@ -10159,12 +10195,12 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        748 => /* 'ˬ' */ {
+                        748 => /* '\u{2ec}' */ {
                             __current_match = Some((8, __index + 2));
                             __current_state = 10;
                             continue;
                         }
-                        750 => /* 'ˮ' */ {
+                        750 => /* '\u{2ee}' */ {
                             __current_match = Some((8, __index + 2));
                             __current_state = 10;
                             continue;
@@ -10189,7 +10225,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        902 => /* 'Ά' */ {
+                        902 => /* '\u{386}' */ {
                             __current_match = Some((8, __index + 2));
                             __current_state = 10;
                             continue;
@@ -10199,7 +10235,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        908 => /* 'Ό' */ {
+                        908 => /* '\u{38c}' */ {
                             __current_match = Some((8, __index + 2));
                             __current_state = 10;
                             continue;
@@ -10229,7 +10265,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        1369 => /* 'ՙ' */ {
+                        1369 => /* '\u{559}' */ {
                             __current_match = Some((8, __index + 2));
                             __current_state = 10;
                             continue;
@@ -10244,7 +10280,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        1471 => /* 'ֿ' */ {
+                        1471 => /* '\u{5bf}' */ {
                             __current_match = Some((8, __index + 2));
                             __current_state = 10;
                             continue;
@@ -10259,7 +10295,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        1479 => /* 'ׇ' */ {
+                        1479 => /* '\u{5c7}' */ {
                             __current_match = Some((8, __index + 2));
                             __current_state = 10;
                             continue;
@@ -10304,7 +10340,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        1791 => /* 'ۿ' */ {
+                        1791 => /* '\u{6ff}' */ {
                             __current_match = Some((8, __index + 2));
                             __current_state = 10;
                             continue;
@@ -10324,7 +10360,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        2042 => /* 'ߺ' */ {
+                        2042 => /* '\u{7fa}' */ {
                             __current_match = Some((8, __index + 2));
                             __current_state = 10;
                             continue;
@@ -10379,7 +10415,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        2482 => /* 'ল' */ {
+                        2482 => /* '\u{9b2}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -10404,7 +10440,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        2519 => /* 'ৗ' */ {
+                        2519 => /* '\u{9d7}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -10464,7 +10500,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        2620 => /* '਼' */ {
+                        2620 => /* '\u{a3c}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -10484,7 +10520,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        2641 => /* 'ੑ' */ {
+                        2641 => /* '\u{a51}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -10494,7 +10530,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        2654 => /* 'ਫ਼' */ {
+                        2654 => /* '\u{a5e}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -10554,7 +10590,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        2768 => /* 'ૐ' */ {
+                        2768 => /* '\u{ad0}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -10644,7 +10680,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        2929 => /* 'ୱ' */ {
+                        2929 => /* '\u{b71}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -10674,7 +10710,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        2972 => /* 'ஜ' */ {
+                        2972 => /* '\u{b9c}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -10714,12 +10750,12 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        3024 => /* 'ௐ' */ {
+                        3024 => /* '\u{bd0}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
                         }
-                        3031 => /* 'ௗ' */ {
+                        3031 => /* '\u{bd7}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -10839,7 +10875,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        3294 => /* 'ೞ' */ {
+                        3294 => /* '\u{cde}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -10894,7 +10930,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        3415 => /* 'ൗ' */ {
+                        3415 => /* '\u{d57}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -10934,7 +10970,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        3517 => /* 'ල' */ {
+                        3517 => /* '\u{dbd}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -10944,7 +10980,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        3530 => /* '්' */ {
+                        3530 => /* '\u{dca}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -10954,7 +10990,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        3542 => /* 'ූ' */ {
+                        3542 => /* '\u{dd6}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -10994,7 +11030,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        3716 => /* 'ຄ' */ {
+                        3716 => /* '\u{e84}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -11004,12 +11040,12 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        3722 => /* 'ຊ' */ {
+                        3722 => /* '\u{e8a}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
                         }
-                        3725 => /* 'ຍ' */ {
+                        3725 => /* '\u{e8d}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -11029,12 +11065,12 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        3749 => /* 'ລ' */ {
+                        3749 => /* '\u{ea5}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
                         }
-                        3751 => /* 'ວ' */ {
+                        3751 => /* '\u{ea7}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -11059,7 +11095,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        3782 => /* 'ໆ' */ {
+                        3782 => /* '\u{ec6}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -11079,7 +11115,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        3840 => /* 'ༀ' */ {
+                        3840 => /* '\u{f00}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -11094,17 +11130,17 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        3893 => /* '༵' */ {
+                        3893 => /* '\u{f35}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
                         }
-                        3895 => /* '༷' */ {
+                        3895 => /* '\u{f37}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
                         }
-                        3897 => /* '༹' */ {
+                        3897 => /* '\u{f39}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -11134,7 +11170,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        4038 => /* '࿆' */ {
+                        4038 => /* '\u{fc6}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -11154,12 +11190,12 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        4295 => /* 'Ⴧ' */ {
+                        4295 => /* '\u{10c7}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
                         }
-                        4301 => /* 'Ⴭ' */ {
+                        4301 => /* '\u{10cd}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -11184,7 +11220,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        4696 => /* 'ቘ' */ {
+                        4696 => /* '\u{1258}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -11219,7 +11255,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        4800 => /* 'ዀ' */ {
+                        4800 => /* '\u{12c0}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -11334,7 +11370,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        6103 => /* 'ៗ' */ {
+                        6103 => /* '\u{17d7}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -11439,7 +11475,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        6823 => /* 'ᪧ' */ {
+                        6823 => /* '\u{1aa7}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -11529,17 +11565,17 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        8025 => /* 'Ὑ' */ {
+                        8025 => /* '\u{1f59}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
                         }
-                        8027 => /* 'Ὓ' */ {
+                        8027 => /* '\u{1f5b}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
                         }
-                        8029 => /* 'Ὕ' */ {
+                        8029 => /* '\u{1f5d}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -11559,7 +11595,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        8126 => /* 'ι' */ {
+                        8126 => /* '\u{1fbe}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -11609,17 +11645,17 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        8276 => /* '⁔' */ {
+                        8276 => /* '\u{2054}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
                         }
-                        8305 => /* 'ⁱ' */ {
+                        8305 => /* '\u{2071}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
                         }
-                        8319 => /* 'ⁿ' */ {
+                        8319 => /* '\u{207f}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -11634,12 +11670,12 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        8450 => /* 'ℂ' */ {
+                        8450 => /* '\u{2102}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
                         }
-                        8455 => /* 'ℇ' */ {
+                        8455 => /* '\u{2107}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -11649,7 +11685,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        8469 => /* 'ℕ' */ {
+                        8469 => /* '\u{2115}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -11659,17 +11695,17 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        8484 => /* 'ℤ' */ {
+                        8484 => /* '\u{2124}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
                         }
-                        8486 => /* 'Ω' */ {
+                        8486 => /* '\u{2126}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
                         }
-                        8488 => /* 'ℨ' */ {
+                        8488 => /* '\u{2128}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -11694,7 +11730,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        8526 => /* 'ⅎ' */ {
+                        8526 => /* '\u{214e}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -11734,12 +11770,12 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        11559 => /* 'ⴧ' */ {
+                        11559 => /* '\u{2d27}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
                         }
-                        11565 => /* 'ⴭ' */ {
+                        11565 => /* '\u{2d2d}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -11749,7 +11785,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        11631 => /* 'ⵯ' */ {
+                        11631 => /* '\u{2d6f}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -11804,7 +11840,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        11823 => /* 'ⸯ' */ {
+                        11823 => /* '\u{2e2f}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -11964,7 +12000,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        43259 => /* 'ꣻ' */ {
+                        43259 => /* '\u{a8fb}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -12144,7 +12180,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        64318 => /* 'מּ' */ {
+                        64318 => /* '\u{fb3e}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -12224,7 +12260,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        65343 => /* '＿' */ {
+                        65343 => /* '\u{ff3f}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -12299,7 +12335,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        66045 => /* '𐇽' */ {
+                        66045 => /* '\u{101fd}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
@@ -12394,7 +12430,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        67592 => /* '𐠈' */ {
+                        67592 => /* '\u{10808}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
@@ -12409,7 +12445,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        67644 => /* '𐠼' */ {
+                        67644 => /* '\u{1083c}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
@@ -12489,7 +12525,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        68159 => /* '𐨿' */ {
+                        68159 => /* '\u{10a3f}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
@@ -12984,7 +13020,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        119970 => /* '𝒢' */ {
+                        119970 => /* '\u{1d4a2}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
@@ -13004,7 +13040,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        119995 => /* '𝒻' */ {
+                        119995 => /* '\u{1d4bb}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
@@ -13049,7 +13085,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        120134 => /* '𝕆' */ {
+                        120134 => /* '\u{1d546}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
@@ -13179,12 +13215,12 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        126500 => /* '𞸤' */ {
+                        126500 => /* '\u{1ee24}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
                         }
-                        126503 => /* '𞸧' */ {
+                        126503 => /* '\u{1ee27}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
@@ -13199,32 +13235,32 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        126521 => /* '𞸹' */ {
+                        126521 => /* '\u{1ee39}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
                         }
-                        126523 => /* '𞸻' */ {
+                        126523 => /* '\u{1ee3b}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
                         }
-                        126530 => /* '𞹂' */ {
+                        126530 => /* '\u{1ee42}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
                         }
-                        126535 => /* '𞹇' */ {
+                        126535 => /* '\u{1ee47}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
                         }
-                        126537 => /* '𞹉' */ {
+                        126537 => /* '\u{1ee49}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
                         }
-                        126539 => /* '𞹋' */ {
+                        126539 => /* '\u{1ee4b}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
@@ -13239,32 +13275,32 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        126548 => /* '𞹔' */ {
+                        126548 => /* '\u{1ee54}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
                         }
-                        126551 => /* '𞹗' */ {
+                        126551 => /* '\u{1ee57}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
                         }
-                        126553 => /* '𞹙' */ {
+                        126553 => /* '\u{1ee59}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
                         }
-                        126555 => /* '𞹛' */ {
+                        126555 => /* '\u{1ee5b}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
                         }
-                        126557 => /* '𞹝' */ {
+                        126557 => /* '\u{1ee5d}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
                         }
-                        126559 => /* '𞹟' */ {
+                        126559 => /* '\u{1ee5f}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
@@ -13274,7 +13310,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        126564 => /* '𞹤' */ {
+                        126564 => /* '\u{1ee64}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
@@ -13299,7 +13335,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        126590 => /* '𞹾' */ {
+                        126590 => /* '\u{1ee7e}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
@@ -13410,17 +13446,17 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        170 => /* 'ª' */ {
+                        170 => /* '\u{aa}' */ {
                             __current_match = Some((8, __index + 2));
                             __current_state = 10;
                             continue;
                         }
-                        181 => /* 'µ' */ {
+                        181 => /* '\u{b5}' */ {
                             __current_match = Some((8, __index + 2));
                             __current_state = 10;
                             continue;
                         }
-                        186 => /* 'º' */ {
+                        186 => /* '\u{ba}' */ {
                             __current_match = Some((8, __index + 2));
                             __current_state = 10;
                             continue;
@@ -13450,12 +13486,12 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        748 => /* 'ˬ' */ {
+                        748 => /* '\u{2ec}' */ {
                             __current_match = Some((8, __index + 2));
                             __current_state = 10;
                             continue;
                         }
-                        750 => /* 'ˮ' */ {
+                        750 => /* '\u{2ee}' */ {
                             __current_match = Some((8, __index + 2));
                             __current_state = 10;
                             continue;
@@ -13480,7 +13516,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        902 => /* 'Ά' */ {
+                        902 => /* '\u{386}' */ {
                             __current_match = Some((8, __index + 2));
                             __current_state = 10;
                             continue;
@@ -13490,7 +13526,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        908 => /* 'Ό' */ {
+                        908 => /* '\u{38c}' */ {
                             __current_match = Some((8, __index + 2));
                             __current_state = 10;
                             continue;
@@ -13520,7 +13556,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        1369 => /* 'ՙ' */ {
+                        1369 => /* '\u{559}' */ {
                             __current_match = Some((8, __index + 2));
                             __current_state = 10;
                             continue;
@@ -13535,7 +13571,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        1471 => /* 'ֿ' */ {
+                        1471 => /* '\u{5bf}' */ {
                             __current_match = Some((8, __index + 2));
                             __current_state = 10;
                             continue;
@@ -13550,7 +13586,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        1479 => /* 'ׇ' */ {
+                        1479 => /* '\u{5c7}' */ {
                             __current_match = Some((8, __index + 2));
                             __current_state = 10;
                             continue;
@@ -13595,7 +13631,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        1791 => /* 'ۿ' */ {
+                        1791 => /* '\u{6ff}' */ {
                             __current_match = Some((8, __index + 2));
                             __current_state = 10;
                             continue;
@@ -13615,7 +13651,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        2042 => /* 'ߺ' */ {
+                        2042 => /* '\u{7fa}' */ {
                             __current_match = Some((8, __index + 2));
                             __current_state = 10;
                             continue;
@@ -13670,7 +13706,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        2482 => /* 'ল' */ {
+                        2482 => /* '\u{9b2}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -13695,7 +13731,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        2519 => /* 'ৗ' */ {
+                        2519 => /* '\u{9d7}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -13755,7 +13791,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        2620 => /* '਼' */ {
+                        2620 => /* '\u{a3c}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -13775,7 +13811,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        2641 => /* 'ੑ' */ {
+                        2641 => /* '\u{a51}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -13785,7 +13821,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        2654 => /* 'ਫ਼' */ {
+                        2654 => /* '\u{a5e}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -13845,7 +13881,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        2768 => /* 'ૐ' */ {
+                        2768 => /* '\u{ad0}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -13935,7 +13971,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        2929 => /* 'ୱ' */ {
+                        2929 => /* '\u{b71}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -13965,7 +14001,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        2972 => /* 'ஜ' */ {
+                        2972 => /* '\u{b9c}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -14005,12 +14041,12 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        3024 => /* 'ௐ' */ {
+                        3024 => /* '\u{bd0}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
                         }
-                        3031 => /* 'ௗ' */ {
+                        3031 => /* '\u{bd7}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -14130,7 +14166,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        3294 => /* 'ೞ' */ {
+                        3294 => /* '\u{cde}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -14185,7 +14221,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        3415 => /* 'ൗ' */ {
+                        3415 => /* '\u{d57}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -14225,7 +14261,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        3517 => /* 'ල' */ {
+                        3517 => /* '\u{dbd}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -14235,7 +14271,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        3530 => /* '්' */ {
+                        3530 => /* '\u{dca}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -14245,7 +14281,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        3542 => /* 'ූ' */ {
+                        3542 => /* '\u{dd6}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -14285,7 +14321,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        3716 => /* 'ຄ' */ {
+                        3716 => /* '\u{e84}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -14295,12 +14331,12 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        3722 => /* 'ຊ' */ {
+                        3722 => /* '\u{e8a}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
                         }
-                        3725 => /* 'ຍ' */ {
+                        3725 => /* '\u{e8d}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -14320,12 +14356,12 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        3749 => /* 'ລ' */ {
+                        3749 => /* '\u{ea5}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
                         }
-                        3751 => /* 'ວ' */ {
+                        3751 => /* '\u{ea7}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -14350,7 +14386,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        3782 => /* 'ໆ' */ {
+                        3782 => /* '\u{ec6}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -14370,7 +14406,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        3840 => /* 'ༀ' */ {
+                        3840 => /* '\u{f00}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -14385,17 +14421,17 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        3893 => /* '༵' */ {
+                        3893 => /* '\u{f35}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
                         }
-                        3895 => /* '༷' */ {
+                        3895 => /* '\u{f37}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
                         }
-                        3897 => /* '༹' */ {
+                        3897 => /* '\u{f39}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -14425,7 +14461,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        4038 => /* '࿆' */ {
+                        4038 => /* '\u{fc6}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -14445,12 +14481,12 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        4295 => /* 'Ⴧ' */ {
+                        4295 => /* '\u{10c7}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
                         }
-                        4301 => /* 'Ⴭ' */ {
+                        4301 => /* '\u{10cd}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -14475,7 +14511,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        4696 => /* 'ቘ' */ {
+                        4696 => /* '\u{1258}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -14510,7 +14546,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        4800 => /* 'ዀ' */ {
+                        4800 => /* '\u{12c0}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -14625,7 +14661,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        6103 => /* 'ៗ' */ {
+                        6103 => /* '\u{17d7}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -14730,7 +14766,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        6823 => /* 'ᪧ' */ {
+                        6823 => /* '\u{1aa7}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -14820,17 +14856,17 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        8025 => /* 'Ὑ' */ {
+                        8025 => /* '\u{1f59}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
                         }
-                        8027 => /* 'Ὓ' */ {
+                        8027 => /* '\u{1f5b}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
                         }
-                        8029 => /* 'Ὕ' */ {
+                        8029 => /* '\u{1f5d}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -14850,7 +14886,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        8126 => /* 'ι' */ {
+                        8126 => /* '\u{1fbe}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -14900,17 +14936,17 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        8276 => /* '⁔' */ {
+                        8276 => /* '\u{2054}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
                         }
-                        8305 => /* 'ⁱ' */ {
+                        8305 => /* '\u{2071}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
                         }
-                        8319 => /* 'ⁿ' */ {
+                        8319 => /* '\u{207f}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -14925,12 +14961,12 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        8450 => /* 'ℂ' */ {
+                        8450 => /* '\u{2102}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
                         }
-                        8455 => /* 'ℇ' */ {
+                        8455 => /* '\u{2107}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -14940,7 +14976,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        8469 => /* 'ℕ' */ {
+                        8469 => /* '\u{2115}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -14950,17 +14986,17 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        8484 => /* 'ℤ' */ {
+                        8484 => /* '\u{2124}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
                         }
-                        8486 => /* 'Ω' */ {
+                        8486 => /* '\u{2126}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
                         }
-                        8488 => /* 'ℨ' */ {
+                        8488 => /* '\u{2128}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -14985,7 +15021,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        8526 => /* 'ⅎ' */ {
+                        8526 => /* '\u{214e}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -15025,12 +15061,12 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        11559 => /* 'ⴧ' */ {
+                        11559 => /* '\u{2d27}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
                         }
-                        11565 => /* 'ⴭ' */ {
+                        11565 => /* '\u{2d2d}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -15040,7 +15076,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        11631 => /* 'ⵯ' */ {
+                        11631 => /* '\u{2d6f}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -15095,7 +15131,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        11823 => /* 'ⸯ' */ {
+                        11823 => /* '\u{2e2f}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -15255,7 +15291,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        43259 => /* 'ꣻ' */ {
+                        43259 => /* '\u{a8fb}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -15435,7 +15471,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        64318 => /* 'מּ' */ {
+                        64318 => /* '\u{fb3e}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -15515,7 +15551,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        65343 => /* '＿' */ {
+                        65343 => /* '\u{ff3f}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -15590,7 +15626,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        66045 => /* '𐇽' */ {
+                        66045 => /* '\u{101fd}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
@@ -15685,7 +15721,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        67592 => /* '𐠈' */ {
+                        67592 => /* '\u{10808}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
@@ -15700,7 +15736,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        67644 => /* '𐠼' */ {
+                        67644 => /* '\u{1083c}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
@@ -15780,7 +15816,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        68159 => /* '𐨿' */ {
+                        68159 => /* '\u{10a3f}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
@@ -16275,7 +16311,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        119970 => /* '𝒢' */ {
+                        119970 => /* '\u{1d4a2}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
@@ -16295,7 +16331,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        119995 => /* '𝒻' */ {
+                        119995 => /* '\u{1d4bb}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
@@ -16340,7 +16376,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        120134 => /* '𝕆' */ {
+                        120134 => /* '\u{1d546}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
@@ -16470,12 +16506,12 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        126500 => /* '𞸤' */ {
+                        126500 => /* '\u{1ee24}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
                         }
-                        126503 => /* '𞸧' */ {
+                        126503 => /* '\u{1ee27}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
@@ -16490,32 +16526,32 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        126521 => /* '𞸹' */ {
+                        126521 => /* '\u{1ee39}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
                         }
-                        126523 => /* '𞸻' */ {
+                        126523 => /* '\u{1ee3b}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
                         }
-                        126530 => /* '𞹂' */ {
+                        126530 => /* '\u{1ee42}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
                         }
-                        126535 => /* '𞹇' */ {
+                        126535 => /* '\u{1ee47}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
                         }
-                        126537 => /* '𞹉' */ {
+                        126537 => /* '\u{1ee49}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
                         }
-                        126539 => /* '𞹋' */ {
+                        126539 => /* '\u{1ee4b}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
@@ -16530,32 +16566,32 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        126548 => /* '𞹔' */ {
+                        126548 => /* '\u{1ee54}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
                         }
-                        126551 => /* '𞹗' */ {
+                        126551 => /* '\u{1ee57}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
                         }
-                        126553 => /* '𞹙' */ {
+                        126553 => /* '\u{1ee59}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
                         }
-                        126555 => /* '𞹛' */ {
+                        126555 => /* '\u{1ee5b}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
                         }
-                        126557 => /* '𞹝' */ {
+                        126557 => /* '\u{1ee5d}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
                         }
-                        126559 => /* '𞹟' */ {
+                        126559 => /* '\u{1ee5f}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
@@ -16565,7 +16601,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        126564 => /* '𞹤' */ {
+                        126564 => /* '\u{1ee64}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
@@ -16590,7 +16626,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        126590 => /* '𞹾' */ {
+                        126590 => /* '\u{1ee7e}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
@@ -16703,17 +16739,17 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        170 => /* 'ª' */ {
+                        170 => /* '\u{aa}' */ {
                             __current_match = Some((8, __index + 2));
                             __current_state = 10;
                             continue;
                         }
-                        181 => /* 'µ' */ {
+                        181 => /* '\u{b5}' */ {
                             __current_match = Some((8, __index + 2));
                             __current_state = 10;
                             continue;
                         }
-                        186 => /* 'º' */ {
+                        186 => /* '\u{ba}' */ {
                             __current_match = Some((8, __index + 2));
                             __current_state = 10;
                             continue;
@@ -16743,12 +16779,12 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        748 => /* 'ˬ' */ {
+                        748 => /* '\u{2ec}' */ {
                             __current_match = Some((8, __index + 2));
                             __current_state = 10;
                             continue;
                         }
-                        750 => /* 'ˮ' */ {
+                        750 => /* '\u{2ee}' */ {
                             __current_match = Some((8, __index + 2));
                             __current_state = 10;
                             continue;
@@ -16773,7 +16809,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        902 => /* 'Ά' */ {
+                        902 => /* '\u{386}' */ {
                             __current_match = Some((8, __index + 2));
                             __current_state = 10;
                             continue;
@@ -16783,7 +16819,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        908 => /* 'Ό' */ {
+                        908 => /* '\u{38c}' */ {
                             __current_match = Some((8, __index + 2));
                             __current_state = 10;
                             continue;
@@ -16813,7 +16849,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        1369 => /* 'ՙ' */ {
+                        1369 => /* '\u{559}' */ {
                             __current_match = Some((8, __index + 2));
                             __current_state = 10;
                             continue;
@@ -16828,7 +16864,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        1471 => /* 'ֿ' */ {
+                        1471 => /* '\u{5bf}' */ {
                             __current_match = Some((8, __index + 2));
                             __current_state = 10;
                             continue;
@@ -16843,7 +16879,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        1479 => /* 'ׇ' */ {
+                        1479 => /* '\u{5c7}' */ {
                             __current_match = Some((8, __index + 2));
                             __current_state = 10;
                             continue;
@@ -16888,7 +16924,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        1791 => /* 'ۿ' */ {
+                        1791 => /* '\u{6ff}' */ {
                             __current_match = Some((8, __index + 2));
                             __current_state = 10;
                             continue;
@@ -16908,7 +16944,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        2042 => /* 'ߺ' */ {
+                        2042 => /* '\u{7fa}' */ {
                             __current_match = Some((8, __index + 2));
                             __current_state = 10;
                             continue;
@@ -16963,7 +16999,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        2482 => /* 'ল' */ {
+                        2482 => /* '\u{9b2}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -16988,7 +17024,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        2519 => /* 'ৗ' */ {
+                        2519 => /* '\u{9d7}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -17048,7 +17084,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        2620 => /* '਼' */ {
+                        2620 => /* '\u{a3c}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -17068,7 +17104,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        2641 => /* 'ੑ' */ {
+                        2641 => /* '\u{a51}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -17078,7 +17114,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        2654 => /* 'ਫ਼' */ {
+                        2654 => /* '\u{a5e}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -17138,7 +17174,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        2768 => /* 'ૐ' */ {
+                        2768 => /* '\u{ad0}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -17228,7 +17264,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        2929 => /* 'ୱ' */ {
+                        2929 => /* '\u{b71}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -17258,7 +17294,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        2972 => /* 'ஜ' */ {
+                        2972 => /* '\u{b9c}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -17298,12 +17334,12 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        3024 => /* 'ௐ' */ {
+                        3024 => /* '\u{bd0}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
                         }
-                        3031 => /* 'ௗ' */ {
+                        3031 => /* '\u{bd7}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -17423,7 +17459,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        3294 => /* 'ೞ' */ {
+                        3294 => /* '\u{cde}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -17478,7 +17514,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        3415 => /* 'ൗ' */ {
+                        3415 => /* '\u{d57}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -17518,7 +17554,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        3517 => /* 'ල' */ {
+                        3517 => /* '\u{dbd}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -17528,7 +17564,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        3530 => /* '්' */ {
+                        3530 => /* '\u{dca}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -17538,7 +17574,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        3542 => /* 'ූ' */ {
+                        3542 => /* '\u{dd6}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -17578,7 +17614,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        3716 => /* 'ຄ' */ {
+                        3716 => /* '\u{e84}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -17588,12 +17624,12 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        3722 => /* 'ຊ' */ {
+                        3722 => /* '\u{e8a}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
                         }
-                        3725 => /* 'ຍ' */ {
+                        3725 => /* '\u{e8d}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -17613,12 +17649,12 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        3749 => /* 'ລ' */ {
+                        3749 => /* '\u{ea5}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
                         }
-                        3751 => /* 'ວ' */ {
+                        3751 => /* '\u{ea7}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -17643,7 +17679,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        3782 => /* 'ໆ' */ {
+                        3782 => /* '\u{ec6}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -17663,7 +17699,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        3840 => /* 'ༀ' */ {
+                        3840 => /* '\u{f00}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -17678,17 +17714,17 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        3893 => /* '༵' */ {
+                        3893 => /* '\u{f35}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
                         }
-                        3895 => /* '༷' */ {
+                        3895 => /* '\u{f37}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
                         }
-                        3897 => /* '༹' */ {
+                        3897 => /* '\u{f39}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -17718,7 +17754,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        4038 => /* '࿆' */ {
+                        4038 => /* '\u{fc6}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -17738,12 +17774,12 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        4295 => /* 'Ⴧ' */ {
+                        4295 => /* '\u{10c7}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
                         }
-                        4301 => /* 'Ⴭ' */ {
+                        4301 => /* '\u{10cd}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -17768,7 +17804,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        4696 => /* 'ቘ' */ {
+                        4696 => /* '\u{1258}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -17803,7 +17839,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        4800 => /* 'ዀ' */ {
+                        4800 => /* '\u{12c0}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -17918,7 +17954,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        6103 => /* 'ៗ' */ {
+                        6103 => /* '\u{17d7}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -18023,7 +18059,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        6823 => /* 'ᪧ' */ {
+                        6823 => /* '\u{1aa7}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -18113,17 +18149,17 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        8025 => /* 'Ὑ' */ {
+                        8025 => /* '\u{1f59}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
                         }
-                        8027 => /* 'Ὓ' */ {
+                        8027 => /* '\u{1f5b}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
                         }
-                        8029 => /* 'Ὕ' */ {
+                        8029 => /* '\u{1f5d}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -18143,7 +18179,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        8126 => /* 'ι' */ {
+                        8126 => /* '\u{1fbe}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -18193,17 +18229,17 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        8276 => /* '⁔' */ {
+                        8276 => /* '\u{2054}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
                         }
-                        8305 => /* 'ⁱ' */ {
+                        8305 => /* '\u{2071}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
                         }
-                        8319 => /* 'ⁿ' */ {
+                        8319 => /* '\u{207f}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -18218,12 +18254,12 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        8450 => /* 'ℂ' */ {
+                        8450 => /* '\u{2102}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
                         }
-                        8455 => /* 'ℇ' */ {
+                        8455 => /* '\u{2107}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -18233,7 +18269,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        8469 => /* 'ℕ' */ {
+                        8469 => /* '\u{2115}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -18243,17 +18279,17 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        8484 => /* 'ℤ' */ {
+                        8484 => /* '\u{2124}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
                         }
-                        8486 => /* 'Ω' */ {
+                        8486 => /* '\u{2126}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
                         }
-                        8488 => /* 'ℨ' */ {
+                        8488 => /* '\u{2128}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -18278,7 +18314,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        8526 => /* 'ⅎ' */ {
+                        8526 => /* '\u{214e}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -18318,12 +18354,12 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        11559 => /* 'ⴧ' */ {
+                        11559 => /* '\u{2d27}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
                         }
-                        11565 => /* 'ⴭ' */ {
+                        11565 => /* '\u{2d2d}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -18333,7 +18369,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        11631 => /* 'ⵯ' */ {
+                        11631 => /* '\u{2d6f}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -18388,7 +18424,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        11823 => /* 'ⸯ' */ {
+                        11823 => /* '\u{2e2f}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -18548,7 +18584,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        43259 => /* 'ꣻ' */ {
+                        43259 => /* '\u{a8fb}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -18728,7 +18764,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        64318 => /* 'מּ' */ {
+                        64318 => /* '\u{fb3e}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -18808,7 +18844,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        65343 => /* '＿' */ {
+                        65343 => /* '\u{ff3f}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -18883,7 +18919,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        66045 => /* '𐇽' */ {
+                        66045 => /* '\u{101fd}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
@@ -18978,7 +19014,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        67592 => /* '𐠈' */ {
+                        67592 => /* '\u{10808}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
@@ -18993,7 +19029,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        67644 => /* '𐠼' */ {
+                        67644 => /* '\u{1083c}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
@@ -19073,7 +19109,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        68159 => /* '𐨿' */ {
+                        68159 => /* '\u{10a3f}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
@@ -19568,7 +19604,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        119970 => /* '𝒢' */ {
+                        119970 => /* '\u{1d4a2}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
@@ -19588,7 +19624,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        119995 => /* '𝒻' */ {
+                        119995 => /* '\u{1d4bb}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
@@ -19633,7 +19669,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        120134 => /* '𝕆' */ {
+                        120134 => /* '\u{1d546}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
@@ -19763,12 +19799,12 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        126500 => /* '𞸤' */ {
+                        126500 => /* '\u{1ee24}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
                         }
-                        126503 => /* '𞸧' */ {
+                        126503 => /* '\u{1ee27}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
@@ -19783,32 +19819,32 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        126521 => /* '𞸹' */ {
+                        126521 => /* '\u{1ee39}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
                         }
-                        126523 => /* '𞸻' */ {
+                        126523 => /* '\u{1ee3b}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
                         }
-                        126530 => /* '𞹂' */ {
+                        126530 => /* '\u{1ee42}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
                         }
-                        126535 => /* '𞹇' */ {
+                        126535 => /* '\u{1ee47}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
                         }
-                        126537 => /* '𞹉' */ {
+                        126537 => /* '\u{1ee49}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
                         }
-                        126539 => /* '𞹋' */ {
+                        126539 => /* '\u{1ee4b}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
@@ -19823,32 +19859,32 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        126548 => /* '𞹔' */ {
+                        126548 => /* '\u{1ee54}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
                         }
-                        126551 => /* '𞹗' */ {
+                        126551 => /* '\u{1ee57}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
                         }
-                        126553 => /* '𞹙' */ {
+                        126553 => /* '\u{1ee59}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
                         }
-                        126555 => /* '𞹛' */ {
+                        126555 => /* '\u{1ee5b}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
                         }
-                        126557 => /* '𞹝' */ {
+                        126557 => /* '\u{1ee5d}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
                         }
-                        126559 => /* '𞹟' */ {
+                        126559 => /* '\u{1ee5f}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
@@ -19858,7 +19894,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        126564 => /* '𞹤' */ {
+                        126564 => /* '\u{1ee64}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
@@ -19883,7 +19919,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        126590 => /* '𞹾' */ {
+                        126590 => /* '\u{1ee7e}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
@@ -19996,17 +20032,17 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        170 => /* 'ª' */ {
+                        170 => /* '\u{aa}' */ {
                             __current_match = Some((8, __index + 2));
                             __current_state = 10;
                             continue;
                         }
-                        181 => /* 'µ' */ {
+                        181 => /* '\u{b5}' */ {
                             __current_match = Some((8, __index + 2));
                             __current_state = 10;
                             continue;
                         }
-                        186 => /* 'º' */ {
+                        186 => /* '\u{ba}' */ {
                             __current_match = Some((8, __index + 2));
                             __current_state = 10;
                             continue;
@@ -20036,12 +20072,12 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        748 => /* 'ˬ' */ {
+                        748 => /* '\u{2ec}' */ {
                             __current_match = Some((8, __index + 2));
                             __current_state = 10;
                             continue;
                         }
-                        750 => /* 'ˮ' */ {
+                        750 => /* '\u{2ee}' */ {
                             __current_match = Some((8, __index + 2));
                             __current_state = 10;
                             continue;
@@ -20066,7 +20102,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        902 => /* 'Ά' */ {
+                        902 => /* '\u{386}' */ {
                             __current_match = Some((8, __index + 2));
                             __current_state = 10;
                             continue;
@@ -20076,7 +20112,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        908 => /* 'Ό' */ {
+                        908 => /* '\u{38c}' */ {
                             __current_match = Some((8, __index + 2));
                             __current_state = 10;
                             continue;
@@ -20106,7 +20142,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        1369 => /* 'ՙ' */ {
+                        1369 => /* '\u{559}' */ {
                             __current_match = Some((8, __index + 2));
                             __current_state = 10;
                             continue;
@@ -20121,7 +20157,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        1471 => /* 'ֿ' */ {
+                        1471 => /* '\u{5bf}' */ {
                             __current_match = Some((8, __index + 2));
                             __current_state = 10;
                             continue;
@@ -20136,7 +20172,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        1479 => /* 'ׇ' */ {
+                        1479 => /* '\u{5c7}' */ {
                             __current_match = Some((8, __index + 2));
                             __current_state = 10;
                             continue;
@@ -20181,7 +20217,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        1791 => /* 'ۿ' */ {
+                        1791 => /* '\u{6ff}' */ {
                             __current_match = Some((8, __index + 2));
                             __current_state = 10;
                             continue;
@@ -20201,7 +20237,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        2042 => /* 'ߺ' */ {
+                        2042 => /* '\u{7fa}' */ {
                             __current_match = Some((8, __index + 2));
                             __current_state = 10;
                             continue;
@@ -20256,7 +20292,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        2482 => /* 'ল' */ {
+                        2482 => /* '\u{9b2}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -20281,7 +20317,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        2519 => /* 'ৗ' */ {
+                        2519 => /* '\u{9d7}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -20341,7 +20377,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        2620 => /* '਼' */ {
+                        2620 => /* '\u{a3c}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -20361,7 +20397,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        2641 => /* 'ੑ' */ {
+                        2641 => /* '\u{a51}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -20371,7 +20407,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        2654 => /* 'ਫ਼' */ {
+                        2654 => /* '\u{a5e}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -20431,7 +20467,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        2768 => /* 'ૐ' */ {
+                        2768 => /* '\u{ad0}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -20521,7 +20557,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        2929 => /* 'ୱ' */ {
+                        2929 => /* '\u{b71}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -20551,7 +20587,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        2972 => /* 'ஜ' */ {
+                        2972 => /* '\u{b9c}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -20591,12 +20627,12 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        3024 => /* 'ௐ' */ {
+                        3024 => /* '\u{bd0}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
                         }
-                        3031 => /* 'ௗ' */ {
+                        3031 => /* '\u{bd7}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -20716,7 +20752,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        3294 => /* 'ೞ' */ {
+                        3294 => /* '\u{cde}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -20771,7 +20807,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        3415 => /* 'ൗ' */ {
+                        3415 => /* '\u{d57}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -20811,7 +20847,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        3517 => /* 'ල' */ {
+                        3517 => /* '\u{dbd}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -20821,7 +20857,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        3530 => /* '්' */ {
+                        3530 => /* '\u{dca}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -20831,7 +20867,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        3542 => /* 'ූ' */ {
+                        3542 => /* '\u{dd6}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -20871,7 +20907,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        3716 => /* 'ຄ' */ {
+                        3716 => /* '\u{e84}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -20881,12 +20917,12 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        3722 => /* 'ຊ' */ {
+                        3722 => /* '\u{e8a}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
                         }
-                        3725 => /* 'ຍ' */ {
+                        3725 => /* '\u{e8d}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -20906,12 +20942,12 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        3749 => /* 'ລ' */ {
+                        3749 => /* '\u{ea5}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
                         }
-                        3751 => /* 'ວ' */ {
+                        3751 => /* '\u{ea7}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -20936,7 +20972,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        3782 => /* 'ໆ' */ {
+                        3782 => /* '\u{ec6}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -20956,7 +20992,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        3840 => /* 'ༀ' */ {
+                        3840 => /* '\u{f00}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -20971,17 +21007,17 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        3893 => /* '༵' */ {
+                        3893 => /* '\u{f35}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
                         }
-                        3895 => /* '༷' */ {
+                        3895 => /* '\u{f37}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
                         }
-                        3897 => /* '༹' */ {
+                        3897 => /* '\u{f39}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -21011,7 +21047,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        4038 => /* '࿆' */ {
+                        4038 => /* '\u{fc6}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -21031,12 +21067,12 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        4295 => /* 'Ⴧ' */ {
+                        4295 => /* '\u{10c7}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
                         }
-                        4301 => /* 'Ⴭ' */ {
+                        4301 => /* '\u{10cd}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -21061,7 +21097,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        4696 => /* 'ቘ' */ {
+                        4696 => /* '\u{1258}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -21096,7 +21132,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        4800 => /* 'ዀ' */ {
+                        4800 => /* '\u{12c0}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -21211,7 +21247,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        6103 => /* 'ៗ' */ {
+                        6103 => /* '\u{17d7}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -21316,7 +21352,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        6823 => /* 'ᪧ' */ {
+                        6823 => /* '\u{1aa7}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -21406,17 +21442,17 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        8025 => /* 'Ὑ' */ {
+                        8025 => /* '\u{1f59}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
                         }
-                        8027 => /* 'Ὓ' */ {
+                        8027 => /* '\u{1f5b}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
                         }
-                        8029 => /* 'Ὕ' */ {
+                        8029 => /* '\u{1f5d}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -21436,7 +21472,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        8126 => /* 'ι' */ {
+                        8126 => /* '\u{1fbe}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -21486,17 +21522,17 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        8276 => /* '⁔' */ {
+                        8276 => /* '\u{2054}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
                         }
-                        8305 => /* 'ⁱ' */ {
+                        8305 => /* '\u{2071}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
                         }
-                        8319 => /* 'ⁿ' */ {
+                        8319 => /* '\u{207f}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -21511,12 +21547,12 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        8450 => /* 'ℂ' */ {
+                        8450 => /* '\u{2102}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
                         }
-                        8455 => /* 'ℇ' */ {
+                        8455 => /* '\u{2107}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -21526,7 +21562,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        8469 => /* 'ℕ' */ {
+                        8469 => /* '\u{2115}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -21536,17 +21572,17 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        8484 => /* 'ℤ' */ {
+                        8484 => /* '\u{2124}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
                         }
-                        8486 => /* 'Ω' */ {
+                        8486 => /* '\u{2126}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
                         }
-                        8488 => /* 'ℨ' */ {
+                        8488 => /* '\u{2128}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -21571,7 +21607,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        8526 => /* 'ⅎ' */ {
+                        8526 => /* '\u{214e}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -21611,12 +21647,12 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        11559 => /* 'ⴧ' */ {
+                        11559 => /* '\u{2d27}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
                         }
-                        11565 => /* 'ⴭ' */ {
+                        11565 => /* '\u{2d2d}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -21626,7 +21662,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        11631 => /* 'ⵯ' */ {
+                        11631 => /* '\u{2d6f}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -21681,7 +21717,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        11823 => /* 'ⸯ' */ {
+                        11823 => /* '\u{2e2f}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -21841,7 +21877,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        43259 => /* 'ꣻ' */ {
+                        43259 => /* '\u{a8fb}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -22021,7 +22057,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        64318 => /* 'מּ' */ {
+                        64318 => /* '\u{fb3e}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -22101,7 +22137,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        65343 => /* '＿' */ {
+                        65343 => /* '\u{ff3f}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -22176,7 +22212,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        66045 => /* '𐇽' */ {
+                        66045 => /* '\u{101fd}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
@@ -22271,7 +22307,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        67592 => /* '𐠈' */ {
+                        67592 => /* '\u{10808}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
@@ -22286,7 +22322,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        67644 => /* '𐠼' */ {
+                        67644 => /* '\u{1083c}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
@@ -22366,7 +22402,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        68159 => /* '𐨿' */ {
+                        68159 => /* '\u{10a3f}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
@@ -22861,7 +22897,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        119970 => /* '𝒢' */ {
+                        119970 => /* '\u{1d4a2}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
@@ -22881,7 +22917,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        119995 => /* '𝒻' */ {
+                        119995 => /* '\u{1d4bb}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
@@ -22926,7 +22962,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        120134 => /* '𝕆' */ {
+                        120134 => /* '\u{1d546}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
@@ -23056,12 +23092,12 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        126500 => /* '𞸤' */ {
+                        126500 => /* '\u{1ee24}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
                         }
-                        126503 => /* '𞸧' */ {
+                        126503 => /* '\u{1ee27}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
@@ -23076,32 +23112,32 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        126521 => /* '𞸹' */ {
+                        126521 => /* '\u{1ee39}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
                         }
-                        126523 => /* '𞸻' */ {
+                        126523 => /* '\u{1ee3b}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
                         }
-                        126530 => /* '𞹂' */ {
+                        126530 => /* '\u{1ee42}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
                         }
-                        126535 => /* '𞹇' */ {
+                        126535 => /* '\u{1ee47}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
                         }
-                        126537 => /* '𞹉' */ {
+                        126537 => /* '\u{1ee49}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
                         }
-                        126539 => /* '𞹋' */ {
+                        126539 => /* '\u{1ee4b}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
@@ -23116,32 +23152,32 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        126548 => /* '𞹔' */ {
+                        126548 => /* '\u{1ee54}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
                         }
-                        126551 => /* '𞹗' */ {
+                        126551 => /* '\u{1ee57}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
                         }
-                        126553 => /* '𞹙' */ {
+                        126553 => /* '\u{1ee59}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
                         }
-                        126555 => /* '𞹛' */ {
+                        126555 => /* '\u{1ee5b}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
                         }
-                        126557 => /* '𞹝' */ {
+                        126557 => /* '\u{1ee5d}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
                         }
-                        126559 => /* '𞹟' */ {
+                        126559 => /* '\u{1ee5f}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
@@ -23151,7 +23187,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        126564 => /* '𞹤' */ {
+                        126564 => /* '\u{1ee64}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
@@ -23176,7 +23212,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        126590 => /* '𞹾' */ {
+                        126590 => /* '\u{1ee7e}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
@@ -23289,17 +23325,17 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        170 => /* 'ª' */ {
+                        170 => /* '\u{aa}' */ {
                             __current_match = Some((8, __index + 2));
                             __current_state = 10;
                             continue;
                         }
-                        181 => /* 'µ' */ {
+                        181 => /* '\u{b5}' */ {
                             __current_match = Some((8, __index + 2));
                             __current_state = 10;
                             continue;
                         }
-                        186 => /* 'º' */ {
+                        186 => /* '\u{ba}' */ {
                             __current_match = Some((8, __index + 2));
                             __current_state = 10;
                             continue;
@@ -23329,12 +23365,12 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        748 => /* 'ˬ' */ {
+                        748 => /* '\u{2ec}' */ {
                             __current_match = Some((8, __index + 2));
                             __current_state = 10;
                             continue;
                         }
-                        750 => /* 'ˮ' */ {
+                        750 => /* '\u{2ee}' */ {
                             __current_match = Some((8, __index + 2));
                             __current_state = 10;
                             continue;
@@ -23359,7 +23395,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        902 => /* 'Ά' */ {
+                        902 => /* '\u{386}' */ {
                             __current_match = Some((8, __index + 2));
                             __current_state = 10;
                             continue;
@@ -23369,7 +23405,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        908 => /* 'Ό' */ {
+                        908 => /* '\u{38c}' */ {
                             __current_match = Some((8, __index + 2));
                             __current_state = 10;
                             continue;
@@ -23399,7 +23435,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        1369 => /* 'ՙ' */ {
+                        1369 => /* '\u{559}' */ {
                             __current_match = Some((8, __index + 2));
                             __current_state = 10;
                             continue;
@@ -23414,7 +23450,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        1471 => /* 'ֿ' */ {
+                        1471 => /* '\u{5bf}' */ {
                             __current_match = Some((8, __index + 2));
                             __current_state = 10;
                             continue;
@@ -23429,7 +23465,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        1479 => /* 'ׇ' */ {
+                        1479 => /* '\u{5c7}' */ {
                             __current_match = Some((8, __index + 2));
                             __current_state = 10;
                             continue;
@@ -23474,7 +23510,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        1791 => /* 'ۿ' */ {
+                        1791 => /* '\u{6ff}' */ {
                             __current_match = Some((8, __index + 2));
                             __current_state = 10;
                             continue;
@@ -23494,7 +23530,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        2042 => /* 'ߺ' */ {
+                        2042 => /* '\u{7fa}' */ {
                             __current_match = Some((8, __index + 2));
                             __current_state = 10;
                             continue;
@@ -23549,7 +23585,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        2482 => /* 'ল' */ {
+                        2482 => /* '\u{9b2}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -23574,7 +23610,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        2519 => /* 'ৗ' */ {
+                        2519 => /* '\u{9d7}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -23634,7 +23670,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        2620 => /* '਼' */ {
+                        2620 => /* '\u{a3c}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -23654,7 +23690,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        2641 => /* 'ੑ' */ {
+                        2641 => /* '\u{a51}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -23664,7 +23700,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        2654 => /* 'ਫ਼' */ {
+                        2654 => /* '\u{a5e}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -23724,7 +23760,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        2768 => /* 'ૐ' */ {
+                        2768 => /* '\u{ad0}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -23814,7 +23850,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        2929 => /* 'ୱ' */ {
+                        2929 => /* '\u{b71}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -23844,7 +23880,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        2972 => /* 'ஜ' */ {
+                        2972 => /* '\u{b9c}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -23884,12 +23920,12 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        3024 => /* 'ௐ' */ {
+                        3024 => /* '\u{bd0}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
                         }
-                        3031 => /* 'ௗ' */ {
+                        3031 => /* '\u{bd7}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -24009,7 +24045,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        3294 => /* 'ೞ' */ {
+                        3294 => /* '\u{cde}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -24064,7 +24100,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        3415 => /* 'ൗ' */ {
+                        3415 => /* '\u{d57}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -24104,7 +24140,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        3517 => /* 'ල' */ {
+                        3517 => /* '\u{dbd}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -24114,7 +24150,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        3530 => /* '්' */ {
+                        3530 => /* '\u{dca}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -24124,7 +24160,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        3542 => /* 'ූ' */ {
+                        3542 => /* '\u{dd6}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -24164,7 +24200,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        3716 => /* 'ຄ' */ {
+                        3716 => /* '\u{e84}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -24174,12 +24210,12 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        3722 => /* 'ຊ' */ {
+                        3722 => /* '\u{e8a}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
                         }
-                        3725 => /* 'ຍ' */ {
+                        3725 => /* '\u{e8d}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -24199,12 +24235,12 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        3749 => /* 'ລ' */ {
+                        3749 => /* '\u{ea5}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
                         }
-                        3751 => /* 'ວ' */ {
+                        3751 => /* '\u{ea7}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -24229,7 +24265,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        3782 => /* 'ໆ' */ {
+                        3782 => /* '\u{ec6}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -24249,7 +24285,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        3840 => /* 'ༀ' */ {
+                        3840 => /* '\u{f00}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -24264,17 +24300,17 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        3893 => /* '༵' */ {
+                        3893 => /* '\u{f35}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
                         }
-                        3895 => /* '༷' */ {
+                        3895 => /* '\u{f37}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
                         }
-                        3897 => /* '༹' */ {
+                        3897 => /* '\u{f39}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -24304,7 +24340,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        4038 => /* '࿆' */ {
+                        4038 => /* '\u{fc6}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -24324,12 +24360,12 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        4295 => /* 'Ⴧ' */ {
+                        4295 => /* '\u{10c7}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
                         }
-                        4301 => /* 'Ⴭ' */ {
+                        4301 => /* '\u{10cd}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -24354,7 +24390,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        4696 => /* 'ቘ' */ {
+                        4696 => /* '\u{1258}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -24389,7 +24425,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        4800 => /* 'ዀ' */ {
+                        4800 => /* '\u{12c0}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -24504,7 +24540,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        6103 => /* 'ៗ' */ {
+                        6103 => /* '\u{17d7}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -24609,7 +24645,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        6823 => /* 'ᪧ' */ {
+                        6823 => /* '\u{1aa7}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -24699,17 +24735,17 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        8025 => /* 'Ὑ' */ {
+                        8025 => /* '\u{1f59}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
                         }
-                        8027 => /* 'Ὓ' */ {
+                        8027 => /* '\u{1f5b}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
                         }
-                        8029 => /* 'Ὕ' */ {
+                        8029 => /* '\u{1f5d}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -24729,7 +24765,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        8126 => /* 'ι' */ {
+                        8126 => /* '\u{1fbe}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -24779,17 +24815,17 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        8276 => /* '⁔' */ {
+                        8276 => /* '\u{2054}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
                         }
-                        8305 => /* 'ⁱ' */ {
+                        8305 => /* '\u{2071}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
                         }
-                        8319 => /* 'ⁿ' */ {
+                        8319 => /* '\u{207f}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -24804,12 +24840,12 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        8450 => /* 'ℂ' */ {
+                        8450 => /* '\u{2102}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
                         }
-                        8455 => /* 'ℇ' */ {
+                        8455 => /* '\u{2107}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -24819,7 +24855,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        8469 => /* 'ℕ' */ {
+                        8469 => /* '\u{2115}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -24829,17 +24865,17 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        8484 => /* 'ℤ' */ {
+                        8484 => /* '\u{2124}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
                         }
-                        8486 => /* 'Ω' */ {
+                        8486 => /* '\u{2126}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
                         }
-                        8488 => /* 'ℨ' */ {
+                        8488 => /* '\u{2128}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -24864,7 +24900,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        8526 => /* 'ⅎ' */ {
+                        8526 => /* '\u{214e}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -24904,12 +24940,12 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        11559 => /* 'ⴧ' */ {
+                        11559 => /* '\u{2d27}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
                         }
-                        11565 => /* 'ⴭ' */ {
+                        11565 => /* '\u{2d2d}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -24919,7 +24955,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        11631 => /* 'ⵯ' */ {
+                        11631 => /* '\u{2d6f}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -24974,7 +25010,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        11823 => /* 'ⸯ' */ {
+                        11823 => /* '\u{2e2f}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -25134,7 +25170,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        43259 => /* 'ꣻ' */ {
+                        43259 => /* '\u{a8fb}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -25314,7 +25350,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        64318 => /* 'מּ' */ {
+                        64318 => /* '\u{fb3e}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -25394,7 +25430,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        65343 => /* '＿' */ {
+                        65343 => /* '\u{ff3f}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -25469,7 +25505,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        66045 => /* '𐇽' */ {
+                        66045 => /* '\u{101fd}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
@@ -25564,7 +25600,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        67592 => /* '𐠈' */ {
+                        67592 => /* '\u{10808}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
@@ -25579,7 +25615,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        67644 => /* '𐠼' */ {
+                        67644 => /* '\u{1083c}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
@@ -25659,7 +25695,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        68159 => /* '𐨿' */ {
+                        68159 => /* '\u{10a3f}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
@@ -26154,7 +26190,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        119970 => /* '𝒢' */ {
+                        119970 => /* '\u{1d4a2}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
@@ -26174,7 +26210,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        119995 => /* '𝒻' */ {
+                        119995 => /* '\u{1d4bb}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
@@ -26219,7 +26255,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        120134 => /* '𝕆' */ {
+                        120134 => /* '\u{1d546}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
@@ -26349,12 +26385,12 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        126500 => /* '𞸤' */ {
+                        126500 => /* '\u{1ee24}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
                         }
-                        126503 => /* '𞸧' */ {
+                        126503 => /* '\u{1ee27}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
@@ -26369,32 +26405,32 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        126521 => /* '𞸹' */ {
+                        126521 => /* '\u{1ee39}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
                         }
-                        126523 => /* '𞸻' */ {
+                        126523 => /* '\u{1ee3b}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
                         }
-                        126530 => /* '𞹂' */ {
+                        126530 => /* '\u{1ee42}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
                         }
-                        126535 => /* '𞹇' */ {
+                        126535 => /* '\u{1ee47}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
                         }
-                        126537 => /* '𞹉' */ {
+                        126537 => /* '\u{1ee49}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
                         }
-                        126539 => /* '𞹋' */ {
+                        126539 => /* '\u{1ee4b}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
@@ -26409,32 +26445,32 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        126548 => /* '𞹔' */ {
+                        126548 => /* '\u{1ee54}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
                         }
-                        126551 => /* '𞹗' */ {
+                        126551 => /* '\u{1ee57}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
                         }
-                        126553 => /* '𞹙' */ {
+                        126553 => /* '\u{1ee59}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
                         }
-                        126555 => /* '𞹛' */ {
+                        126555 => /* '\u{1ee5b}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
                         }
-                        126557 => /* '𞹝' */ {
+                        126557 => /* '\u{1ee5d}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
                         }
-                        126559 => /* '𞹟' */ {
+                        126559 => /* '\u{1ee5f}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
@@ -26444,7 +26480,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        126564 => /* '𞹤' */ {
+                        126564 => /* '\u{1ee64}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
@@ -26469,7 +26505,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        126590 => /* '𞹾' */ {
+                        126590 => /* '\u{1ee7e}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
@@ -26582,17 +26618,17 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        170 => /* 'ª' */ {
+                        170 => /* '\u{aa}' */ {
                             __current_match = Some((8, __index + 2));
                             __current_state = 10;
                             continue;
                         }
-                        181 => /* 'µ' */ {
+                        181 => /* '\u{b5}' */ {
                             __current_match = Some((8, __index + 2));
                             __current_state = 10;
                             continue;
                         }
-                        186 => /* 'º' */ {
+                        186 => /* '\u{ba}' */ {
                             __current_match = Some((8, __index + 2));
                             __current_state = 10;
                             continue;
@@ -26622,12 +26658,12 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        748 => /* 'ˬ' */ {
+                        748 => /* '\u{2ec}' */ {
                             __current_match = Some((8, __index + 2));
                             __current_state = 10;
                             continue;
                         }
-                        750 => /* 'ˮ' */ {
+                        750 => /* '\u{2ee}' */ {
                             __current_match = Some((8, __index + 2));
                             __current_state = 10;
                             continue;
@@ -26652,7 +26688,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        902 => /* 'Ά' */ {
+                        902 => /* '\u{386}' */ {
                             __current_match = Some((8, __index + 2));
                             __current_state = 10;
                             continue;
@@ -26662,7 +26698,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        908 => /* 'Ό' */ {
+                        908 => /* '\u{38c}' */ {
                             __current_match = Some((8, __index + 2));
                             __current_state = 10;
                             continue;
@@ -26692,7 +26728,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        1369 => /* 'ՙ' */ {
+                        1369 => /* '\u{559}' */ {
                             __current_match = Some((8, __index + 2));
                             __current_state = 10;
                             continue;
@@ -26707,7 +26743,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        1471 => /* 'ֿ' */ {
+                        1471 => /* '\u{5bf}' */ {
                             __current_match = Some((8, __index + 2));
                             __current_state = 10;
                             continue;
@@ -26722,7 +26758,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        1479 => /* 'ׇ' */ {
+                        1479 => /* '\u{5c7}' */ {
                             __current_match = Some((8, __index + 2));
                             __current_state = 10;
                             continue;
@@ -26767,7 +26803,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        1791 => /* 'ۿ' */ {
+                        1791 => /* '\u{6ff}' */ {
                             __current_match = Some((8, __index + 2));
                             __current_state = 10;
                             continue;
@@ -26787,7 +26823,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        2042 => /* 'ߺ' */ {
+                        2042 => /* '\u{7fa}' */ {
                             __current_match = Some((8, __index + 2));
                             __current_state = 10;
                             continue;
@@ -26842,7 +26878,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        2482 => /* 'ল' */ {
+                        2482 => /* '\u{9b2}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -26867,7 +26903,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        2519 => /* 'ৗ' */ {
+                        2519 => /* '\u{9d7}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -26927,7 +26963,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        2620 => /* '਼' */ {
+                        2620 => /* '\u{a3c}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -26947,7 +26983,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        2641 => /* 'ੑ' */ {
+                        2641 => /* '\u{a51}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -26957,7 +26993,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        2654 => /* 'ਫ਼' */ {
+                        2654 => /* '\u{a5e}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -27017,7 +27053,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        2768 => /* 'ૐ' */ {
+                        2768 => /* '\u{ad0}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -27107,7 +27143,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        2929 => /* 'ୱ' */ {
+                        2929 => /* '\u{b71}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -27137,7 +27173,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        2972 => /* 'ஜ' */ {
+                        2972 => /* '\u{b9c}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -27177,12 +27213,12 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        3024 => /* 'ௐ' */ {
+                        3024 => /* '\u{bd0}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
                         }
-                        3031 => /* 'ௗ' */ {
+                        3031 => /* '\u{bd7}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -27302,7 +27338,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        3294 => /* 'ೞ' */ {
+                        3294 => /* '\u{cde}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -27357,7 +27393,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        3415 => /* 'ൗ' */ {
+                        3415 => /* '\u{d57}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -27397,7 +27433,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        3517 => /* 'ල' */ {
+                        3517 => /* '\u{dbd}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -27407,7 +27443,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        3530 => /* '්' */ {
+                        3530 => /* '\u{dca}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -27417,7 +27453,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        3542 => /* 'ූ' */ {
+                        3542 => /* '\u{dd6}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -27457,7 +27493,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        3716 => /* 'ຄ' */ {
+                        3716 => /* '\u{e84}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -27467,12 +27503,12 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        3722 => /* 'ຊ' */ {
+                        3722 => /* '\u{e8a}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
                         }
-                        3725 => /* 'ຍ' */ {
+                        3725 => /* '\u{e8d}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -27492,12 +27528,12 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        3749 => /* 'ລ' */ {
+                        3749 => /* '\u{ea5}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
                         }
-                        3751 => /* 'ວ' */ {
+                        3751 => /* '\u{ea7}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -27522,7 +27558,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        3782 => /* 'ໆ' */ {
+                        3782 => /* '\u{ec6}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -27542,7 +27578,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        3840 => /* 'ༀ' */ {
+                        3840 => /* '\u{f00}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -27557,17 +27593,17 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        3893 => /* '༵' */ {
+                        3893 => /* '\u{f35}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
                         }
-                        3895 => /* '༷' */ {
+                        3895 => /* '\u{f37}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
                         }
-                        3897 => /* '༹' */ {
+                        3897 => /* '\u{f39}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -27597,7 +27633,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        4038 => /* '࿆' */ {
+                        4038 => /* '\u{fc6}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -27617,12 +27653,12 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        4295 => /* 'Ⴧ' */ {
+                        4295 => /* '\u{10c7}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
                         }
-                        4301 => /* 'Ⴭ' */ {
+                        4301 => /* '\u{10cd}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -27647,7 +27683,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        4696 => /* 'ቘ' */ {
+                        4696 => /* '\u{1258}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -27682,7 +27718,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        4800 => /* 'ዀ' */ {
+                        4800 => /* '\u{12c0}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -27797,7 +27833,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        6103 => /* 'ៗ' */ {
+                        6103 => /* '\u{17d7}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -27902,7 +27938,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        6823 => /* 'ᪧ' */ {
+                        6823 => /* '\u{1aa7}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -27992,17 +28028,17 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        8025 => /* 'Ὑ' */ {
+                        8025 => /* '\u{1f59}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
                         }
-                        8027 => /* 'Ὓ' */ {
+                        8027 => /* '\u{1f5b}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
                         }
-                        8029 => /* 'Ὕ' */ {
+                        8029 => /* '\u{1f5d}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -28022,7 +28058,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        8126 => /* 'ι' */ {
+                        8126 => /* '\u{1fbe}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -28072,17 +28108,17 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        8276 => /* '⁔' */ {
+                        8276 => /* '\u{2054}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
                         }
-                        8305 => /* 'ⁱ' */ {
+                        8305 => /* '\u{2071}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
                         }
-                        8319 => /* 'ⁿ' */ {
+                        8319 => /* '\u{207f}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -28097,12 +28133,12 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        8450 => /* 'ℂ' */ {
+                        8450 => /* '\u{2102}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
                         }
-                        8455 => /* 'ℇ' */ {
+                        8455 => /* '\u{2107}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -28112,7 +28148,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        8469 => /* 'ℕ' */ {
+                        8469 => /* '\u{2115}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -28122,17 +28158,17 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        8484 => /* 'ℤ' */ {
+                        8484 => /* '\u{2124}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
                         }
-                        8486 => /* 'Ω' */ {
+                        8486 => /* '\u{2126}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
                         }
-                        8488 => /* 'ℨ' */ {
+                        8488 => /* '\u{2128}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -28157,7 +28193,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        8526 => /* 'ⅎ' */ {
+                        8526 => /* '\u{214e}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -28197,12 +28233,12 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        11559 => /* 'ⴧ' */ {
+                        11559 => /* '\u{2d27}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
                         }
-                        11565 => /* 'ⴭ' */ {
+                        11565 => /* '\u{2d2d}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -28212,7 +28248,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        11631 => /* 'ⵯ' */ {
+                        11631 => /* '\u{2d6f}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -28267,7 +28303,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        11823 => /* 'ⸯ' */ {
+                        11823 => /* '\u{2e2f}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -28427,7 +28463,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        43259 => /* 'ꣻ' */ {
+                        43259 => /* '\u{a8fb}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -28607,7 +28643,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        64318 => /* 'מּ' */ {
+                        64318 => /* '\u{fb3e}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -28687,7 +28723,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        65343 => /* '＿' */ {
+                        65343 => /* '\u{ff3f}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -28762,7 +28798,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        66045 => /* '𐇽' */ {
+                        66045 => /* '\u{101fd}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
@@ -28857,7 +28893,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        67592 => /* '𐠈' */ {
+                        67592 => /* '\u{10808}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
@@ -28872,7 +28908,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        67644 => /* '𐠼' */ {
+                        67644 => /* '\u{1083c}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
@@ -28952,7 +28988,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        68159 => /* '𐨿' */ {
+                        68159 => /* '\u{10a3f}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
@@ -29447,7 +29483,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        119970 => /* '𝒢' */ {
+                        119970 => /* '\u{1d4a2}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
@@ -29467,7 +29503,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        119995 => /* '𝒻' */ {
+                        119995 => /* '\u{1d4bb}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
@@ -29512,7 +29548,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        120134 => /* '𝕆' */ {
+                        120134 => /* '\u{1d546}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
@@ -29642,12 +29678,12 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        126500 => /* '𞸤' */ {
+                        126500 => /* '\u{1ee24}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
                         }
-                        126503 => /* '𞸧' */ {
+                        126503 => /* '\u{1ee27}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
@@ -29662,32 +29698,32 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        126521 => /* '𞸹' */ {
+                        126521 => /* '\u{1ee39}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
                         }
-                        126523 => /* '𞸻' */ {
+                        126523 => /* '\u{1ee3b}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
                         }
-                        126530 => /* '𞹂' */ {
+                        126530 => /* '\u{1ee42}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
                         }
-                        126535 => /* '𞹇' */ {
+                        126535 => /* '\u{1ee47}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
                         }
-                        126537 => /* '𞹉' */ {
+                        126537 => /* '\u{1ee49}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
                         }
-                        126539 => /* '𞹋' */ {
+                        126539 => /* '\u{1ee4b}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
@@ -29702,32 +29738,32 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        126548 => /* '𞹔' */ {
+                        126548 => /* '\u{1ee54}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
                         }
-                        126551 => /* '𞹗' */ {
+                        126551 => /* '\u{1ee57}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
                         }
-                        126553 => /* '𞹙' */ {
+                        126553 => /* '\u{1ee59}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
                         }
-                        126555 => /* '𞹛' */ {
+                        126555 => /* '\u{1ee5b}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
                         }
-                        126557 => /* '𞹝' */ {
+                        126557 => /* '\u{1ee5d}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
                         }
-                        126559 => /* '𞹟' */ {
+                        126559 => /* '\u{1ee5f}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
@@ -29737,7 +29773,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        126564 => /* '𞹤' */ {
+                        126564 => /* '\u{1ee64}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
@@ -29762,7 +29798,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        126590 => /* '𞹾' */ {
+                        126590 => /* '\u{1ee7e}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
@@ -29875,17 +29911,17 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        170 => /* 'ª' */ {
+                        170 => /* '\u{aa}' */ {
                             __current_match = Some((8, __index + 2));
                             __current_state = 10;
                             continue;
                         }
-                        181 => /* 'µ' */ {
+                        181 => /* '\u{b5}' */ {
                             __current_match = Some((8, __index + 2));
                             __current_state = 10;
                             continue;
                         }
-                        186 => /* 'º' */ {
+                        186 => /* '\u{ba}' */ {
                             __current_match = Some((8, __index + 2));
                             __current_state = 10;
                             continue;
@@ -29915,12 +29951,12 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        748 => /* 'ˬ' */ {
+                        748 => /* '\u{2ec}' */ {
                             __current_match = Some((8, __index + 2));
                             __current_state = 10;
                             continue;
                         }
-                        750 => /* 'ˮ' */ {
+                        750 => /* '\u{2ee}' */ {
                             __current_match = Some((8, __index + 2));
                             __current_state = 10;
                             continue;
@@ -29945,7 +29981,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        902 => /* 'Ά' */ {
+                        902 => /* '\u{386}' */ {
                             __current_match = Some((8, __index + 2));
                             __current_state = 10;
                             continue;
@@ -29955,7 +29991,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        908 => /* 'Ό' */ {
+                        908 => /* '\u{38c}' */ {
                             __current_match = Some((8, __index + 2));
                             __current_state = 10;
                             continue;
@@ -29985,7 +30021,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        1369 => /* 'ՙ' */ {
+                        1369 => /* '\u{559}' */ {
                             __current_match = Some((8, __index + 2));
                             __current_state = 10;
                             continue;
@@ -30000,7 +30036,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        1471 => /* 'ֿ' */ {
+                        1471 => /* '\u{5bf}' */ {
                             __current_match = Some((8, __index + 2));
                             __current_state = 10;
                             continue;
@@ -30015,7 +30051,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        1479 => /* 'ׇ' */ {
+                        1479 => /* '\u{5c7}' */ {
                             __current_match = Some((8, __index + 2));
                             __current_state = 10;
                             continue;
@@ -30060,7 +30096,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        1791 => /* 'ۿ' */ {
+                        1791 => /* '\u{6ff}' */ {
                             __current_match = Some((8, __index + 2));
                             __current_state = 10;
                             continue;
@@ -30080,7 +30116,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        2042 => /* 'ߺ' */ {
+                        2042 => /* '\u{7fa}' */ {
                             __current_match = Some((8, __index + 2));
                             __current_state = 10;
                             continue;
@@ -30135,7 +30171,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        2482 => /* 'ল' */ {
+                        2482 => /* '\u{9b2}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -30160,7 +30196,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        2519 => /* 'ৗ' */ {
+                        2519 => /* '\u{9d7}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -30220,7 +30256,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        2620 => /* '਼' */ {
+                        2620 => /* '\u{a3c}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -30240,7 +30276,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        2641 => /* 'ੑ' */ {
+                        2641 => /* '\u{a51}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -30250,7 +30286,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        2654 => /* 'ਫ਼' */ {
+                        2654 => /* '\u{a5e}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -30310,7 +30346,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        2768 => /* 'ૐ' */ {
+                        2768 => /* '\u{ad0}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -30400,7 +30436,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        2929 => /* 'ୱ' */ {
+                        2929 => /* '\u{b71}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -30430,7 +30466,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        2972 => /* 'ஜ' */ {
+                        2972 => /* '\u{b9c}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -30470,12 +30506,12 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        3024 => /* 'ௐ' */ {
+                        3024 => /* '\u{bd0}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
                         }
-                        3031 => /* 'ௗ' */ {
+                        3031 => /* '\u{bd7}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -30595,7 +30631,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        3294 => /* 'ೞ' */ {
+                        3294 => /* '\u{cde}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -30650,7 +30686,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        3415 => /* 'ൗ' */ {
+                        3415 => /* '\u{d57}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -30690,7 +30726,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        3517 => /* 'ල' */ {
+                        3517 => /* '\u{dbd}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -30700,7 +30736,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        3530 => /* '්' */ {
+                        3530 => /* '\u{dca}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -30710,7 +30746,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        3542 => /* 'ූ' */ {
+                        3542 => /* '\u{dd6}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -30750,7 +30786,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        3716 => /* 'ຄ' */ {
+                        3716 => /* '\u{e84}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -30760,12 +30796,12 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        3722 => /* 'ຊ' */ {
+                        3722 => /* '\u{e8a}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
                         }
-                        3725 => /* 'ຍ' */ {
+                        3725 => /* '\u{e8d}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -30785,12 +30821,12 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        3749 => /* 'ລ' */ {
+                        3749 => /* '\u{ea5}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
                         }
-                        3751 => /* 'ວ' */ {
+                        3751 => /* '\u{ea7}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -30815,7 +30851,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        3782 => /* 'ໆ' */ {
+                        3782 => /* '\u{ec6}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -30835,7 +30871,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        3840 => /* 'ༀ' */ {
+                        3840 => /* '\u{f00}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -30850,17 +30886,17 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        3893 => /* '༵' */ {
+                        3893 => /* '\u{f35}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
                         }
-                        3895 => /* '༷' */ {
+                        3895 => /* '\u{f37}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
                         }
-                        3897 => /* '༹' */ {
+                        3897 => /* '\u{f39}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -30890,7 +30926,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        4038 => /* '࿆' */ {
+                        4038 => /* '\u{fc6}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -30910,12 +30946,12 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        4295 => /* 'Ⴧ' */ {
+                        4295 => /* '\u{10c7}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
                         }
-                        4301 => /* 'Ⴭ' */ {
+                        4301 => /* '\u{10cd}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -30940,7 +30976,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        4696 => /* 'ቘ' */ {
+                        4696 => /* '\u{1258}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -30975,7 +31011,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        4800 => /* 'ዀ' */ {
+                        4800 => /* '\u{12c0}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -31090,7 +31126,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        6103 => /* 'ៗ' */ {
+                        6103 => /* '\u{17d7}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -31195,7 +31231,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        6823 => /* 'ᪧ' */ {
+                        6823 => /* '\u{1aa7}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -31285,17 +31321,17 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        8025 => /* 'Ὑ' */ {
+                        8025 => /* '\u{1f59}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
                         }
-                        8027 => /* 'Ὓ' */ {
+                        8027 => /* '\u{1f5b}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
                         }
-                        8029 => /* 'Ὕ' */ {
+                        8029 => /* '\u{1f5d}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -31315,7 +31351,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        8126 => /* 'ι' */ {
+                        8126 => /* '\u{1fbe}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -31365,17 +31401,17 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        8276 => /* '⁔' */ {
+                        8276 => /* '\u{2054}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
                         }
-                        8305 => /* 'ⁱ' */ {
+                        8305 => /* '\u{2071}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
                         }
-                        8319 => /* 'ⁿ' */ {
+                        8319 => /* '\u{207f}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -31390,12 +31426,12 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        8450 => /* 'ℂ' */ {
+                        8450 => /* '\u{2102}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
                         }
-                        8455 => /* 'ℇ' */ {
+                        8455 => /* '\u{2107}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -31405,7 +31441,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        8469 => /* 'ℕ' */ {
+                        8469 => /* '\u{2115}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -31415,17 +31451,17 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        8484 => /* 'ℤ' */ {
+                        8484 => /* '\u{2124}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
                         }
-                        8486 => /* 'Ω' */ {
+                        8486 => /* '\u{2126}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
                         }
-                        8488 => /* 'ℨ' */ {
+                        8488 => /* '\u{2128}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -31450,7 +31486,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        8526 => /* 'ⅎ' */ {
+                        8526 => /* '\u{214e}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -31490,12 +31526,12 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        11559 => /* 'ⴧ' */ {
+                        11559 => /* '\u{2d27}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
                         }
-                        11565 => /* 'ⴭ' */ {
+                        11565 => /* '\u{2d2d}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -31505,7 +31541,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        11631 => /* 'ⵯ' */ {
+                        11631 => /* '\u{2d6f}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -31560,7 +31596,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        11823 => /* 'ⸯ' */ {
+                        11823 => /* '\u{2e2f}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -31720,7 +31756,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        43259 => /* 'ꣻ' */ {
+                        43259 => /* '\u{a8fb}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -31900,7 +31936,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        64318 => /* 'מּ' */ {
+                        64318 => /* '\u{fb3e}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -31980,7 +32016,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        65343 => /* '＿' */ {
+                        65343 => /* '\u{ff3f}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -32055,7 +32091,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        66045 => /* '𐇽' */ {
+                        66045 => /* '\u{101fd}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
@@ -32150,7 +32186,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        67592 => /* '𐠈' */ {
+                        67592 => /* '\u{10808}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
@@ -32165,7 +32201,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        67644 => /* '𐠼' */ {
+                        67644 => /* '\u{1083c}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
@@ -32245,7 +32281,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        68159 => /* '𐨿' */ {
+                        68159 => /* '\u{10a3f}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
@@ -32740,7 +32776,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        119970 => /* '𝒢' */ {
+                        119970 => /* '\u{1d4a2}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
@@ -32760,7 +32796,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        119995 => /* '𝒻' */ {
+                        119995 => /* '\u{1d4bb}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
@@ -32805,7 +32841,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        120134 => /* '𝕆' */ {
+                        120134 => /* '\u{1d546}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
@@ -32935,12 +32971,12 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        126500 => /* '𞸤' */ {
+                        126500 => /* '\u{1ee24}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
                         }
-                        126503 => /* '𞸧' */ {
+                        126503 => /* '\u{1ee27}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
@@ -32955,32 +32991,32 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        126521 => /* '𞸹' */ {
+                        126521 => /* '\u{1ee39}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
                         }
-                        126523 => /* '𞸻' */ {
+                        126523 => /* '\u{1ee3b}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
                         }
-                        126530 => /* '𞹂' */ {
+                        126530 => /* '\u{1ee42}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
                         }
-                        126535 => /* '𞹇' */ {
+                        126535 => /* '\u{1ee47}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
                         }
-                        126537 => /* '𞹉' */ {
+                        126537 => /* '\u{1ee49}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
                         }
-                        126539 => /* '𞹋' */ {
+                        126539 => /* '\u{1ee4b}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
@@ -32995,32 +33031,32 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        126548 => /* '𞹔' */ {
+                        126548 => /* '\u{1ee54}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
                         }
-                        126551 => /* '𞹗' */ {
+                        126551 => /* '\u{1ee57}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
                         }
-                        126553 => /* '𞹙' */ {
+                        126553 => /* '\u{1ee59}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
                         }
-                        126555 => /* '𞹛' */ {
+                        126555 => /* '\u{1ee5b}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
                         }
-                        126557 => /* '𞹝' */ {
+                        126557 => /* '\u{1ee5d}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
                         }
-                        126559 => /* '𞹟' */ {
+                        126559 => /* '\u{1ee5f}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
@@ -33030,7 +33066,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        126564 => /* '𞹤' */ {
+                        126564 => /* '\u{1ee64}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
@@ -33055,7 +33091,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        126590 => /* '𞹾' */ {
+                        126590 => /* '\u{1ee7e}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
@@ -33168,17 +33204,17 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        170 => /* 'ª' */ {
+                        170 => /* '\u{aa}' */ {
                             __current_match = Some((8, __index + 2));
                             __current_state = 10;
                             continue;
                         }
-                        181 => /* 'µ' */ {
+                        181 => /* '\u{b5}' */ {
                             __current_match = Some((8, __index + 2));
                             __current_state = 10;
                             continue;
                         }
-                        186 => /* 'º' */ {
+                        186 => /* '\u{ba}' */ {
                             __current_match = Some((8, __index + 2));
                             __current_state = 10;
                             continue;
@@ -33208,12 +33244,12 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        748 => /* 'ˬ' */ {
+                        748 => /* '\u{2ec}' */ {
                             __current_match = Some((8, __index + 2));
                             __current_state = 10;
                             continue;
                         }
-                        750 => /* 'ˮ' */ {
+                        750 => /* '\u{2ee}' */ {
                             __current_match = Some((8, __index + 2));
                             __current_state = 10;
                             continue;
@@ -33238,7 +33274,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        902 => /* 'Ά' */ {
+                        902 => /* '\u{386}' */ {
                             __current_match = Some((8, __index + 2));
                             __current_state = 10;
                             continue;
@@ -33248,7 +33284,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        908 => /* 'Ό' */ {
+                        908 => /* '\u{38c}' */ {
                             __current_match = Some((8, __index + 2));
                             __current_state = 10;
                             continue;
@@ -33278,7 +33314,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        1369 => /* 'ՙ' */ {
+                        1369 => /* '\u{559}' */ {
                             __current_match = Some((8, __index + 2));
                             __current_state = 10;
                             continue;
@@ -33293,7 +33329,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        1471 => /* 'ֿ' */ {
+                        1471 => /* '\u{5bf}' */ {
                             __current_match = Some((8, __index + 2));
                             __current_state = 10;
                             continue;
@@ -33308,7 +33344,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        1479 => /* 'ׇ' */ {
+                        1479 => /* '\u{5c7}' */ {
                             __current_match = Some((8, __index + 2));
                             __current_state = 10;
                             continue;
@@ -33353,7 +33389,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        1791 => /* 'ۿ' */ {
+                        1791 => /* '\u{6ff}' */ {
                             __current_match = Some((8, __index + 2));
                             __current_state = 10;
                             continue;
@@ -33373,7 +33409,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        2042 => /* 'ߺ' */ {
+                        2042 => /* '\u{7fa}' */ {
                             __current_match = Some((8, __index + 2));
                             __current_state = 10;
                             continue;
@@ -33428,7 +33464,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        2482 => /* 'ল' */ {
+                        2482 => /* '\u{9b2}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -33453,7 +33489,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        2519 => /* 'ৗ' */ {
+                        2519 => /* '\u{9d7}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -33513,7 +33549,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        2620 => /* '਼' */ {
+                        2620 => /* '\u{a3c}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -33533,7 +33569,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        2641 => /* 'ੑ' */ {
+                        2641 => /* '\u{a51}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -33543,7 +33579,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        2654 => /* 'ਫ਼' */ {
+                        2654 => /* '\u{a5e}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -33603,7 +33639,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        2768 => /* 'ૐ' */ {
+                        2768 => /* '\u{ad0}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -33693,7 +33729,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        2929 => /* 'ୱ' */ {
+                        2929 => /* '\u{b71}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -33723,7 +33759,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        2972 => /* 'ஜ' */ {
+                        2972 => /* '\u{b9c}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -33763,12 +33799,12 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        3024 => /* 'ௐ' */ {
+                        3024 => /* '\u{bd0}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
                         }
-                        3031 => /* 'ௗ' */ {
+                        3031 => /* '\u{bd7}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -33888,7 +33924,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        3294 => /* 'ೞ' */ {
+                        3294 => /* '\u{cde}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -33943,7 +33979,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        3415 => /* 'ൗ' */ {
+                        3415 => /* '\u{d57}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -33983,7 +34019,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        3517 => /* 'ල' */ {
+                        3517 => /* '\u{dbd}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -33993,7 +34029,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        3530 => /* '්' */ {
+                        3530 => /* '\u{dca}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -34003,7 +34039,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        3542 => /* 'ූ' */ {
+                        3542 => /* '\u{dd6}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -34043,7 +34079,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        3716 => /* 'ຄ' */ {
+                        3716 => /* '\u{e84}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -34053,12 +34089,12 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        3722 => /* 'ຊ' */ {
+                        3722 => /* '\u{e8a}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
                         }
-                        3725 => /* 'ຍ' */ {
+                        3725 => /* '\u{e8d}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -34078,12 +34114,12 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        3749 => /* 'ລ' */ {
+                        3749 => /* '\u{ea5}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
                         }
-                        3751 => /* 'ວ' */ {
+                        3751 => /* '\u{ea7}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -34108,7 +34144,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        3782 => /* 'ໆ' */ {
+                        3782 => /* '\u{ec6}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -34128,7 +34164,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        3840 => /* 'ༀ' */ {
+                        3840 => /* '\u{f00}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -34143,17 +34179,17 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        3893 => /* '༵' */ {
+                        3893 => /* '\u{f35}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
                         }
-                        3895 => /* '༷' */ {
+                        3895 => /* '\u{f37}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
                         }
-                        3897 => /* '༹' */ {
+                        3897 => /* '\u{f39}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -34183,7 +34219,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        4038 => /* '࿆' */ {
+                        4038 => /* '\u{fc6}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -34203,12 +34239,12 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        4295 => /* 'Ⴧ' */ {
+                        4295 => /* '\u{10c7}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
                         }
-                        4301 => /* 'Ⴭ' */ {
+                        4301 => /* '\u{10cd}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -34233,7 +34269,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        4696 => /* 'ቘ' */ {
+                        4696 => /* '\u{1258}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -34268,7 +34304,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        4800 => /* 'ዀ' */ {
+                        4800 => /* '\u{12c0}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -34383,7 +34419,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        6103 => /* 'ៗ' */ {
+                        6103 => /* '\u{17d7}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -34488,7 +34524,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        6823 => /* 'ᪧ' */ {
+                        6823 => /* '\u{1aa7}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -34578,17 +34614,17 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        8025 => /* 'Ὑ' */ {
+                        8025 => /* '\u{1f59}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
                         }
-                        8027 => /* 'Ὓ' */ {
+                        8027 => /* '\u{1f5b}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
                         }
-                        8029 => /* 'Ὕ' */ {
+                        8029 => /* '\u{1f5d}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -34608,7 +34644,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        8126 => /* 'ι' */ {
+                        8126 => /* '\u{1fbe}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -34658,17 +34694,17 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        8276 => /* '⁔' */ {
+                        8276 => /* '\u{2054}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
                         }
-                        8305 => /* 'ⁱ' */ {
+                        8305 => /* '\u{2071}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
                         }
-                        8319 => /* 'ⁿ' */ {
+                        8319 => /* '\u{207f}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -34683,12 +34719,12 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        8450 => /* 'ℂ' */ {
+                        8450 => /* '\u{2102}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
                         }
-                        8455 => /* 'ℇ' */ {
+                        8455 => /* '\u{2107}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -34698,7 +34734,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        8469 => /* 'ℕ' */ {
+                        8469 => /* '\u{2115}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -34708,17 +34744,17 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        8484 => /* 'ℤ' */ {
+                        8484 => /* '\u{2124}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
                         }
-                        8486 => /* 'Ω' */ {
+                        8486 => /* '\u{2126}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
                         }
-                        8488 => /* 'ℨ' */ {
+                        8488 => /* '\u{2128}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -34743,7 +34779,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        8526 => /* 'ⅎ' */ {
+                        8526 => /* '\u{214e}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -34783,12 +34819,12 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        11559 => /* 'ⴧ' */ {
+                        11559 => /* '\u{2d27}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
                         }
-                        11565 => /* 'ⴭ' */ {
+                        11565 => /* '\u{2d2d}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -34798,7 +34834,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        11631 => /* 'ⵯ' */ {
+                        11631 => /* '\u{2d6f}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -34853,7 +34889,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        11823 => /* 'ⸯ' */ {
+                        11823 => /* '\u{2e2f}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -35013,7 +35049,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        43259 => /* 'ꣻ' */ {
+                        43259 => /* '\u{a8fb}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -35193,7 +35229,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        64318 => /* 'מּ' */ {
+                        64318 => /* '\u{fb3e}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -35273,7 +35309,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        65343 => /* '＿' */ {
+                        65343 => /* '\u{ff3f}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -35348,7 +35384,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        66045 => /* '𐇽' */ {
+                        66045 => /* '\u{101fd}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
@@ -35443,7 +35479,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        67592 => /* '𐠈' */ {
+                        67592 => /* '\u{10808}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
@@ -35458,7 +35494,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        67644 => /* '𐠼' */ {
+                        67644 => /* '\u{1083c}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
@@ -35538,7 +35574,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        68159 => /* '𐨿' */ {
+                        68159 => /* '\u{10a3f}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
@@ -36033,7 +36069,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        119970 => /* '𝒢' */ {
+                        119970 => /* '\u{1d4a2}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
@@ -36053,7 +36089,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        119995 => /* '𝒻' */ {
+                        119995 => /* '\u{1d4bb}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
@@ -36098,7 +36134,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        120134 => /* '𝕆' */ {
+                        120134 => /* '\u{1d546}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
@@ -36228,12 +36264,12 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        126500 => /* '𞸤' */ {
+                        126500 => /* '\u{1ee24}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
                         }
-                        126503 => /* '𞸧' */ {
+                        126503 => /* '\u{1ee27}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
@@ -36248,32 +36284,32 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        126521 => /* '𞸹' */ {
+                        126521 => /* '\u{1ee39}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
                         }
-                        126523 => /* '𞸻' */ {
+                        126523 => /* '\u{1ee3b}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
                         }
-                        126530 => /* '𞹂' */ {
+                        126530 => /* '\u{1ee42}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
                         }
-                        126535 => /* '𞹇' */ {
+                        126535 => /* '\u{1ee47}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
                         }
-                        126537 => /* '𞹉' */ {
+                        126537 => /* '\u{1ee49}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
                         }
-                        126539 => /* '𞹋' */ {
+                        126539 => /* '\u{1ee4b}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
@@ -36288,32 +36324,32 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        126548 => /* '𞹔' */ {
+                        126548 => /* '\u{1ee54}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
                         }
-                        126551 => /* '𞹗' */ {
+                        126551 => /* '\u{1ee57}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
                         }
-                        126553 => /* '𞹙' */ {
+                        126553 => /* '\u{1ee59}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
                         }
-                        126555 => /* '𞹛' */ {
+                        126555 => /* '\u{1ee5b}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
                         }
-                        126557 => /* '𞹝' */ {
+                        126557 => /* '\u{1ee5d}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
                         }
-                        126559 => /* '𞹟' */ {
+                        126559 => /* '\u{1ee5f}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
@@ -36323,7 +36359,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        126564 => /* '𞹤' */ {
+                        126564 => /* '\u{1ee64}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
@@ -36348,7 +36384,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        126590 => /* '𞹾' */ {
+                        126590 => /* '\u{1ee7e}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
@@ -36451,17 +36487,17 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        170 => /* 'ª' */ {
+                        170 => /* '\u{aa}' */ {
                             __current_match = Some((8, __index + 2));
                             __current_state = 10;
                             continue;
                         }
-                        181 => /* 'µ' */ {
+                        181 => /* '\u{b5}' */ {
                             __current_match = Some((8, __index + 2));
                             __current_state = 10;
                             continue;
                         }
-                        186 => /* 'º' */ {
+                        186 => /* '\u{ba}' */ {
                             __current_match = Some((8, __index + 2));
                             __current_state = 10;
                             continue;
@@ -36491,12 +36527,12 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        748 => /* 'ˬ' */ {
+                        748 => /* '\u{2ec}' */ {
                             __current_match = Some((8, __index + 2));
                             __current_state = 10;
                             continue;
                         }
-                        750 => /* 'ˮ' */ {
+                        750 => /* '\u{2ee}' */ {
                             __current_match = Some((8, __index + 2));
                             __current_state = 10;
                             continue;
@@ -36521,7 +36557,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        902 => /* 'Ά' */ {
+                        902 => /* '\u{386}' */ {
                             __current_match = Some((8, __index + 2));
                             __current_state = 10;
                             continue;
@@ -36531,7 +36567,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        908 => /* 'Ό' */ {
+                        908 => /* '\u{38c}' */ {
                             __current_match = Some((8, __index + 2));
                             __current_state = 10;
                             continue;
@@ -36561,7 +36597,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        1369 => /* 'ՙ' */ {
+                        1369 => /* '\u{559}' */ {
                             __current_match = Some((8, __index + 2));
                             __current_state = 10;
                             continue;
@@ -36576,7 +36612,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        1471 => /* 'ֿ' */ {
+                        1471 => /* '\u{5bf}' */ {
                             __current_match = Some((8, __index + 2));
                             __current_state = 10;
                             continue;
@@ -36591,7 +36627,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        1479 => /* 'ׇ' */ {
+                        1479 => /* '\u{5c7}' */ {
                             __current_match = Some((8, __index + 2));
                             __current_state = 10;
                             continue;
@@ -36636,7 +36672,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        1791 => /* 'ۿ' */ {
+                        1791 => /* '\u{6ff}' */ {
                             __current_match = Some((8, __index + 2));
                             __current_state = 10;
                             continue;
@@ -36656,7 +36692,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        2042 => /* 'ߺ' */ {
+                        2042 => /* '\u{7fa}' */ {
                             __current_match = Some((8, __index + 2));
                             __current_state = 10;
                             continue;
@@ -36711,7 +36747,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        2482 => /* 'ল' */ {
+                        2482 => /* '\u{9b2}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -36736,7 +36772,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        2519 => /* 'ৗ' */ {
+                        2519 => /* '\u{9d7}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -36796,7 +36832,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        2620 => /* '਼' */ {
+                        2620 => /* '\u{a3c}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -36816,7 +36852,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        2641 => /* 'ੑ' */ {
+                        2641 => /* '\u{a51}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -36826,7 +36862,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        2654 => /* 'ਫ਼' */ {
+                        2654 => /* '\u{a5e}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -36886,7 +36922,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        2768 => /* 'ૐ' */ {
+                        2768 => /* '\u{ad0}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -36976,7 +37012,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        2929 => /* 'ୱ' */ {
+                        2929 => /* '\u{b71}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -37006,7 +37042,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        2972 => /* 'ஜ' */ {
+                        2972 => /* '\u{b9c}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -37046,12 +37082,12 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        3024 => /* 'ௐ' */ {
+                        3024 => /* '\u{bd0}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
                         }
-                        3031 => /* 'ௗ' */ {
+                        3031 => /* '\u{bd7}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -37171,7 +37207,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        3294 => /* 'ೞ' */ {
+                        3294 => /* '\u{cde}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -37226,7 +37262,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        3415 => /* 'ൗ' */ {
+                        3415 => /* '\u{d57}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -37266,7 +37302,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        3517 => /* 'ල' */ {
+                        3517 => /* '\u{dbd}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -37276,7 +37312,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        3530 => /* '්' */ {
+                        3530 => /* '\u{dca}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -37286,7 +37322,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        3542 => /* 'ූ' */ {
+                        3542 => /* '\u{dd6}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -37326,7 +37362,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        3716 => /* 'ຄ' */ {
+                        3716 => /* '\u{e84}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -37336,12 +37372,12 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        3722 => /* 'ຊ' */ {
+                        3722 => /* '\u{e8a}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
                         }
-                        3725 => /* 'ຍ' */ {
+                        3725 => /* '\u{e8d}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -37361,12 +37397,12 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        3749 => /* 'ລ' */ {
+                        3749 => /* '\u{ea5}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
                         }
-                        3751 => /* 'ວ' */ {
+                        3751 => /* '\u{ea7}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -37391,7 +37427,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        3782 => /* 'ໆ' */ {
+                        3782 => /* '\u{ec6}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -37411,7 +37447,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        3840 => /* 'ༀ' */ {
+                        3840 => /* '\u{f00}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -37426,17 +37462,17 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        3893 => /* '༵' */ {
+                        3893 => /* '\u{f35}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
                         }
-                        3895 => /* '༷' */ {
+                        3895 => /* '\u{f37}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
                         }
-                        3897 => /* '༹' */ {
+                        3897 => /* '\u{f39}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -37466,7 +37502,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        4038 => /* '࿆' */ {
+                        4038 => /* '\u{fc6}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -37486,12 +37522,12 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        4295 => /* 'Ⴧ' */ {
+                        4295 => /* '\u{10c7}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
                         }
-                        4301 => /* 'Ⴭ' */ {
+                        4301 => /* '\u{10cd}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -37516,7 +37552,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        4696 => /* 'ቘ' */ {
+                        4696 => /* '\u{1258}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -37551,7 +37587,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        4800 => /* 'ዀ' */ {
+                        4800 => /* '\u{12c0}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -37666,7 +37702,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        6103 => /* 'ៗ' */ {
+                        6103 => /* '\u{17d7}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -37771,7 +37807,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        6823 => /* 'ᪧ' */ {
+                        6823 => /* '\u{1aa7}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -37861,17 +37897,17 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        8025 => /* 'Ὑ' */ {
+                        8025 => /* '\u{1f59}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
                         }
-                        8027 => /* 'Ὓ' */ {
+                        8027 => /* '\u{1f5b}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
                         }
-                        8029 => /* 'Ὕ' */ {
+                        8029 => /* '\u{1f5d}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -37891,7 +37927,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        8126 => /* 'ι' */ {
+                        8126 => /* '\u{1fbe}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -37941,17 +37977,17 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        8276 => /* '⁔' */ {
+                        8276 => /* '\u{2054}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
                         }
-                        8305 => /* 'ⁱ' */ {
+                        8305 => /* '\u{2071}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
                         }
-                        8319 => /* 'ⁿ' */ {
+                        8319 => /* '\u{207f}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -37966,12 +38002,12 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        8450 => /* 'ℂ' */ {
+                        8450 => /* '\u{2102}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
                         }
-                        8455 => /* 'ℇ' */ {
+                        8455 => /* '\u{2107}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -37981,7 +38017,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        8469 => /* 'ℕ' */ {
+                        8469 => /* '\u{2115}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -37991,17 +38027,17 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        8484 => /* 'ℤ' */ {
+                        8484 => /* '\u{2124}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
                         }
-                        8486 => /* 'Ω' */ {
+                        8486 => /* '\u{2126}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
                         }
-                        8488 => /* 'ℨ' */ {
+                        8488 => /* '\u{2128}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -38026,7 +38062,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        8526 => /* 'ⅎ' */ {
+                        8526 => /* '\u{214e}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -38066,12 +38102,12 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        11559 => /* 'ⴧ' */ {
+                        11559 => /* '\u{2d27}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
                         }
-                        11565 => /* 'ⴭ' */ {
+                        11565 => /* '\u{2d2d}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -38081,7 +38117,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        11631 => /* 'ⵯ' */ {
+                        11631 => /* '\u{2d6f}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -38136,7 +38172,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        11823 => /* 'ⸯ' */ {
+                        11823 => /* '\u{2e2f}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -38296,7 +38332,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        43259 => /* 'ꣻ' */ {
+                        43259 => /* '\u{a8fb}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -38476,7 +38512,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        64318 => /* 'מּ' */ {
+                        64318 => /* '\u{fb3e}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -38556,7 +38592,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        65343 => /* '＿' */ {
+                        65343 => /* '\u{ff3f}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -38631,7 +38667,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        66045 => /* '𐇽' */ {
+                        66045 => /* '\u{101fd}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
@@ -38726,7 +38762,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        67592 => /* '𐠈' */ {
+                        67592 => /* '\u{10808}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
@@ -38741,7 +38777,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        67644 => /* '𐠼' */ {
+                        67644 => /* '\u{1083c}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
@@ -38821,7 +38857,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        68159 => /* '𐨿' */ {
+                        68159 => /* '\u{10a3f}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
@@ -39316,7 +39352,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        119970 => /* '𝒢' */ {
+                        119970 => /* '\u{1d4a2}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
@@ -39336,7 +39372,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        119995 => /* '𝒻' */ {
+                        119995 => /* '\u{1d4bb}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
@@ -39381,7 +39417,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        120134 => /* '𝕆' */ {
+                        120134 => /* '\u{1d546}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
@@ -39511,12 +39547,12 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        126500 => /* '𞸤' */ {
+                        126500 => /* '\u{1ee24}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
                         }
-                        126503 => /* '𞸧' */ {
+                        126503 => /* '\u{1ee27}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
@@ -39531,32 +39567,32 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        126521 => /* '𞸹' */ {
+                        126521 => /* '\u{1ee39}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
                         }
-                        126523 => /* '𞸻' */ {
+                        126523 => /* '\u{1ee3b}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
                         }
-                        126530 => /* '𞹂' */ {
+                        126530 => /* '\u{1ee42}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
                         }
-                        126535 => /* '𞹇' */ {
+                        126535 => /* '\u{1ee47}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
                         }
-                        126537 => /* '𞹉' */ {
+                        126537 => /* '\u{1ee49}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
                         }
-                        126539 => /* '𞹋' */ {
+                        126539 => /* '\u{1ee4b}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
@@ -39571,32 +39607,32 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        126548 => /* '𞹔' */ {
+                        126548 => /* '\u{1ee54}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
                         }
-                        126551 => /* '𞹗' */ {
+                        126551 => /* '\u{1ee57}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
                         }
-                        126553 => /* '𞹙' */ {
+                        126553 => /* '\u{1ee59}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
                         }
-                        126555 => /* '𞹛' */ {
+                        126555 => /* '\u{1ee5b}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
                         }
-                        126557 => /* '𞹝' */ {
+                        126557 => /* '\u{1ee5d}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
                         }
-                        126559 => /* '𞹟' */ {
+                        126559 => /* '\u{1ee5f}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
@@ -39606,7 +39642,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        126564 => /* '𞹤' */ {
+                        126564 => /* '\u{1ee64}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
@@ -39631,7 +39667,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        126590 => /* '𞹾' */ {
+                        126590 => /* '\u{1ee7e}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
@@ -39734,17 +39770,17 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        170 => /* 'ª' */ {
+                        170 => /* '\u{aa}' */ {
                             __current_match = Some((8, __index + 2));
                             __current_state = 10;
                             continue;
                         }
-                        181 => /* 'µ' */ {
+                        181 => /* '\u{b5}' */ {
                             __current_match = Some((8, __index + 2));
                             __current_state = 10;
                             continue;
                         }
-                        186 => /* 'º' */ {
+                        186 => /* '\u{ba}' */ {
                             __current_match = Some((8, __index + 2));
                             __current_state = 10;
                             continue;
@@ -39774,12 +39810,12 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        748 => /* 'ˬ' */ {
+                        748 => /* '\u{2ec}' */ {
                             __current_match = Some((8, __index + 2));
                             __current_state = 10;
                             continue;
                         }
-                        750 => /* 'ˮ' */ {
+                        750 => /* '\u{2ee}' */ {
                             __current_match = Some((8, __index + 2));
                             __current_state = 10;
                             continue;
@@ -39804,7 +39840,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        902 => /* 'Ά' */ {
+                        902 => /* '\u{386}' */ {
                             __current_match = Some((8, __index + 2));
                             __current_state = 10;
                             continue;
@@ -39814,7 +39850,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        908 => /* 'Ό' */ {
+                        908 => /* '\u{38c}' */ {
                             __current_match = Some((8, __index + 2));
                             __current_state = 10;
                             continue;
@@ -39844,7 +39880,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        1369 => /* 'ՙ' */ {
+                        1369 => /* '\u{559}' */ {
                             __current_match = Some((8, __index + 2));
                             __current_state = 10;
                             continue;
@@ -39859,7 +39895,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        1471 => /* 'ֿ' */ {
+                        1471 => /* '\u{5bf}' */ {
                             __current_match = Some((8, __index + 2));
                             __current_state = 10;
                             continue;
@@ -39874,7 +39910,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        1479 => /* 'ׇ' */ {
+                        1479 => /* '\u{5c7}' */ {
                             __current_match = Some((8, __index + 2));
                             __current_state = 10;
                             continue;
@@ -39919,7 +39955,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        1791 => /* 'ۿ' */ {
+                        1791 => /* '\u{6ff}' */ {
                             __current_match = Some((8, __index + 2));
                             __current_state = 10;
                             continue;
@@ -39939,7 +39975,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        2042 => /* 'ߺ' */ {
+                        2042 => /* '\u{7fa}' */ {
                             __current_match = Some((8, __index + 2));
                             __current_state = 10;
                             continue;
@@ -39994,7 +40030,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        2482 => /* 'ল' */ {
+                        2482 => /* '\u{9b2}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -40019,7 +40055,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        2519 => /* 'ৗ' */ {
+                        2519 => /* '\u{9d7}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -40079,7 +40115,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        2620 => /* '਼' */ {
+                        2620 => /* '\u{a3c}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -40099,7 +40135,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        2641 => /* 'ੑ' */ {
+                        2641 => /* '\u{a51}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -40109,7 +40145,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        2654 => /* 'ਫ਼' */ {
+                        2654 => /* '\u{a5e}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -40169,7 +40205,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        2768 => /* 'ૐ' */ {
+                        2768 => /* '\u{ad0}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -40259,7 +40295,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        2929 => /* 'ୱ' */ {
+                        2929 => /* '\u{b71}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -40289,7 +40325,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        2972 => /* 'ஜ' */ {
+                        2972 => /* '\u{b9c}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -40329,12 +40365,12 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        3024 => /* 'ௐ' */ {
+                        3024 => /* '\u{bd0}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
                         }
-                        3031 => /* 'ௗ' */ {
+                        3031 => /* '\u{bd7}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -40454,7 +40490,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        3294 => /* 'ೞ' */ {
+                        3294 => /* '\u{cde}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -40509,7 +40545,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        3415 => /* 'ൗ' */ {
+                        3415 => /* '\u{d57}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -40549,7 +40585,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        3517 => /* 'ල' */ {
+                        3517 => /* '\u{dbd}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -40559,7 +40595,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        3530 => /* '්' */ {
+                        3530 => /* '\u{dca}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -40569,7 +40605,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        3542 => /* 'ූ' */ {
+                        3542 => /* '\u{dd6}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -40609,7 +40645,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        3716 => /* 'ຄ' */ {
+                        3716 => /* '\u{e84}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -40619,12 +40655,12 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        3722 => /* 'ຊ' */ {
+                        3722 => /* '\u{e8a}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
                         }
-                        3725 => /* 'ຍ' */ {
+                        3725 => /* '\u{e8d}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -40644,12 +40680,12 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        3749 => /* 'ລ' */ {
+                        3749 => /* '\u{ea5}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
                         }
-                        3751 => /* 'ວ' */ {
+                        3751 => /* '\u{ea7}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -40674,7 +40710,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        3782 => /* 'ໆ' */ {
+                        3782 => /* '\u{ec6}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -40694,7 +40730,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        3840 => /* 'ༀ' */ {
+                        3840 => /* '\u{f00}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -40709,17 +40745,17 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        3893 => /* '༵' */ {
+                        3893 => /* '\u{f35}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
                         }
-                        3895 => /* '༷' */ {
+                        3895 => /* '\u{f37}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
                         }
-                        3897 => /* '༹' */ {
+                        3897 => /* '\u{f39}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -40749,7 +40785,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        4038 => /* '࿆' */ {
+                        4038 => /* '\u{fc6}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -40769,12 +40805,12 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        4295 => /* 'Ⴧ' */ {
+                        4295 => /* '\u{10c7}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
                         }
-                        4301 => /* 'Ⴭ' */ {
+                        4301 => /* '\u{10cd}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -40799,7 +40835,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        4696 => /* 'ቘ' */ {
+                        4696 => /* '\u{1258}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -40834,7 +40870,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        4800 => /* 'ዀ' */ {
+                        4800 => /* '\u{12c0}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -40949,7 +40985,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        6103 => /* 'ៗ' */ {
+                        6103 => /* '\u{17d7}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -41054,7 +41090,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        6823 => /* 'ᪧ' */ {
+                        6823 => /* '\u{1aa7}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -41144,17 +41180,17 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        8025 => /* 'Ὑ' */ {
+                        8025 => /* '\u{1f59}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
                         }
-                        8027 => /* 'Ὓ' */ {
+                        8027 => /* '\u{1f5b}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
                         }
-                        8029 => /* 'Ὕ' */ {
+                        8029 => /* '\u{1f5d}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -41174,7 +41210,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        8126 => /* 'ι' */ {
+                        8126 => /* '\u{1fbe}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -41224,17 +41260,17 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        8276 => /* '⁔' */ {
+                        8276 => /* '\u{2054}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
                         }
-                        8305 => /* 'ⁱ' */ {
+                        8305 => /* '\u{2071}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
                         }
-                        8319 => /* 'ⁿ' */ {
+                        8319 => /* '\u{207f}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -41249,12 +41285,12 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        8450 => /* 'ℂ' */ {
+                        8450 => /* '\u{2102}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
                         }
-                        8455 => /* 'ℇ' */ {
+                        8455 => /* '\u{2107}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -41264,7 +41300,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        8469 => /* 'ℕ' */ {
+                        8469 => /* '\u{2115}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -41274,17 +41310,17 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        8484 => /* 'ℤ' */ {
+                        8484 => /* '\u{2124}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
                         }
-                        8486 => /* 'Ω' */ {
+                        8486 => /* '\u{2126}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
                         }
-                        8488 => /* 'ℨ' */ {
+                        8488 => /* '\u{2128}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -41309,7 +41345,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        8526 => /* 'ⅎ' */ {
+                        8526 => /* '\u{214e}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -41349,12 +41385,12 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        11559 => /* 'ⴧ' */ {
+                        11559 => /* '\u{2d27}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
                         }
-                        11565 => /* 'ⴭ' */ {
+                        11565 => /* '\u{2d2d}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -41364,7 +41400,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        11631 => /* 'ⵯ' */ {
+                        11631 => /* '\u{2d6f}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -41419,7 +41455,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        11823 => /* 'ⸯ' */ {
+                        11823 => /* '\u{2e2f}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -41579,7 +41615,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        43259 => /* 'ꣻ' */ {
+                        43259 => /* '\u{a8fb}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -41759,7 +41795,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        64318 => /* 'מּ' */ {
+                        64318 => /* '\u{fb3e}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -41839,7 +41875,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        65343 => /* '＿' */ {
+                        65343 => /* '\u{ff3f}' */ {
                             __current_match = Some((8, __index + 3));
                             __current_state = 10;
                             continue;
@@ -41914,7 +41950,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        66045 => /* '𐇽' */ {
+                        66045 => /* '\u{101fd}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
@@ -42009,7 +42045,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        67592 => /* '𐠈' */ {
+                        67592 => /* '\u{10808}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
@@ -42024,7 +42060,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        67644 => /* '𐠼' */ {
+                        67644 => /* '\u{1083c}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
@@ -42104,7 +42140,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        68159 => /* '𐨿' */ {
+                        68159 => /* '\u{10a3f}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
@@ -42599,7 +42635,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        119970 => /* '𝒢' */ {
+                        119970 => /* '\u{1d4a2}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
@@ -42619,7 +42655,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        119995 => /* '𝒻' */ {
+                        119995 => /* '\u{1d4bb}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
@@ -42664,7 +42700,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        120134 => /* '𝕆' */ {
+                        120134 => /* '\u{1d546}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
@@ -42794,12 +42830,12 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        126500 => /* '𞸤' */ {
+                        126500 => /* '\u{1ee24}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
                         }
-                        126503 => /* '𞸧' */ {
+                        126503 => /* '\u{1ee27}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
@@ -42814,32 +42850,32 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        126521 => /* '𞸹' */ {
+                        126521 => /* '\u{1ee39}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
                         }
-                        126523 => /* '𞸻' */ {
+                        126523 => /* '\u{1ee3b}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
                         }
-                        126530 => /* '𞹂' */ {
+                        126530 => /* '\u{1ee42}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
                         }
-                        126535 => /* '𞹇' */ {
+                        126535 => /* '\u{1ee47}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
                         }
-                        126537 => /* '𞹉' */ {
+                        126537 => /* '\u{1ee49}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
                         }
-                        126539 => /* '𞹋' */ {
+                        126539 => /* '\u{1ee4b}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
@@ -42854,32 +42890,32 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        126548 => /* '𞹔' */ {
+                        126548 => /* '\u{1ee54}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
                         }
-                        126551 => /* '𞹗' */ {
+                        126551 => /* '\u{1ee57}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
                         }
-                        126553 => /* '𞹙' */ {
+                        126553 => /* '\u{1ee59}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
                         }
-                        126555 => /* '𞹛' */ {
+                        126555 => /* '\u{1ee5b}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
                         }
-                        126557 => /* '𞹝' */ {
+                        126557 => /* '\u{1ee5d}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
                         }
-                        126559 => /* '𞹟' */ {
+                        126559 => /* '\u{1ee5f}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
@@ -42889,7 +42925,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        126564 => /* '𞹤' */ {
+                        126564 => /* '\u{1ee64}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;
@@ -42914,7 +42950,7 @@ mod __intern_token {
                             __current_state = 10;
                             continue;
                         }
-                        126590 => /* '𞹾' */ {
+                        126590 => /* '\u{1ee7e}' */ {
                             __current_match = Some((8, __index + 4));
                             __current_state = 10;
                             continue;

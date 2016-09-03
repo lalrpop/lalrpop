@@ -412,8 +412,9 @@ mod __parse__S {
             }
             fn __pop_Term_22_28_22<
             >(
-                __symbols: &mut ::std::vec::Vec<((),__Symbol<>,())>
-            ) -> ((), Tok, ()) {
+                __symbols: &mut ::std::vec::Vec<((),__Symbol<>,())>,
+            ) -> ((), Tok, ())
+            {
                 match __symbols.pop().unwrap() {
                     (__l, __Symbol::Term_22_28_22(__v), __r) => (__l, __v, __r),
                     _ => panic!("symbol type mismatch")
@@ -421,8 +422,9 @@ mod __parse__S {
             }
             fn __pop_Term_22_29_22<
             >(
-                __symbols: &mut ::std::vec::Vec<((),__Symbol<>,())>
-            ) -> ((), Tok, ()) {
+                __symbols: &mut ::std::vec::Vec<((),__Symbol<>,())>,
+            ) -> ((), Tok, ())
+            {
                 match __symbols.pop().unwrap() {
                     (__l, __Symbol::Term_22_29_22(__v), __r) => (__l, __v, __r),
                     _ => panic!("symbol type mismatch")
@@ -430,8 +432,9 @@ mod __parse__S {
             }
             fn __pop_NtS<
             >(
-                __symbols: &mut ::std::vec::Vec<((),__Symbol<>,())>
-            ) -> ((), i32, ()) {
+                __symbols: &mut ::std::vec::Vec<((),__Symbol<>,())>,
+            ) -> ((), i32, ())
+            {
                 match __symbols.pop().unwrap() {
                     (__l, __Symbol::NtS(__v), __r) => (__l, __v, __r),
                     _ => panic!("symbol type mismatch")
@@ -439,8 +442,9 @@ mod __parse__S {
             }
             fn __pop_Nt____S<
             >(
-                __symbols: &mut ::std::vec::Vec<((),__Symbol<>,())>
-            ) -> ((), i32, ()) {
+                __symbols: &mut ::std::vec::Vec<((),__Symbol<>,())>,
+            ) -> ((), i32, ())
+            {
                 match __symbols.pop().unwrap() {
                     (__l, __Symbol::Nt____S(__v), __r) => (__l, __v, __r),
                     _ => panic!("symbol type mismatch")

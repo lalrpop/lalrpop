@@ -30,8 +30,13 @@ mod expr_arena_ast;
 /// expr defined with a generic type `F`
 mod expr_generic;
 
+/// regression test for generics issue #104
 mod generics_issue_104;
 mod generics_issue_104_lib;
+
+/// regression test for generics issue #133
+mod generics_issue_133;
+mod generics_issue_133_lib;
 
 /// test of inlining
 mod inline;
