@@ -1,6 +1,6 @@
 //! LR(1) state construction algorithm.
 
-use collections::{map, Multimap, Set};
+use collections::{map, Multimap};
 use kernel_set;
 use grammar::repr::*;
 use lr1::core::*;
@@ -180,42 +180,59 @@ impl<'grammar, L: LookaheadBuild> LR<'grammar, L> {
     }
 
     // expands `state` with epsilon moves
-    fn transitive_closure(&self, mut items: Vec<Item<'grammar, L>>)
+    fn transitive_closure(&self, items: Vec<Item<'grammar, L>>)
                           -> Items<'grammar, L>
     {
-        let mut counter = 0;
+        let mut stack: Vec<LR0Item<'grammar>> =
+            items.iter().map(|item| item.to_lr0()).collect();
+        let mut map: Multimap<LR0Item<'grammar>, L> =
+            items.into_iter()
+                 .map(|item| (item.to_lr0(), item.lookahead))
+                 .collect();
 
-        let mut set: Set<Item<'grammar, L>> =
-            items.iter().cloned().collect();
+        while let Some(item) = stack.pop() {
+            let lookahead = map.get(&item).unwrap().clone();
 
-        while counter < items.len() {
-            let new_items: Vec<_> =
-                items[counter..]
-                .iter()
-                .filter_map(|item| {
-                    let shift_symbol = item.shift_symbol();
-                    match shift_symbol {
-                        None => None, // requires a reduce
-                        Some((Symbol::Terminal(_), _)) => None, // requires a shift
-                        Some((Symbol::Nonterminal(nt), remainder)) => {
-                            Some((nt, remainder, item.lookahead.clone()))
-                        }
-                    }
-                })
-                .flat_map(|(nt, remainder, lookahead)| {
-                    L::epsilon_moves(self, nt, remainder, lookahead)
-                })
-                .filter(|item| set.insert(item.clone()))
-                .collect();
+            let shift_symbol = item.shift_symbol();
 
-            counter = items.len();
-            items.extend(new_items);
+            // Check whether this is an item where the cursor
+            // is resting on a non-terminal:
+            //
+            // I = ... (*) X z... [lookahead]
+            //
+            // The `nt` will be X and the `remainder` will be `z...`.
+            let (nt, remainder) = match shift_symbol {
+                None => continue, // requires a reduce
+                Some((Symbol::Terminal(_), _)) => continue, // requires a shift
+                Some((Symbol::Nonterminal(nt), remainder)) => {
+                    (nt, remainder)
+                }
+            };
+
+            // In that case, for each production of `X`, we are also
+            // in a state where the cursor rests at the start of that production:
+            //
+            // X = (*) a... [lookahead']
+            // X = (*) b... [lookahead']
+            //
+            // Here `lookahead'` is computed based on the `remainder` and our
+            // `lookahead`. In LR1 at least, it is the union of:
+            //
+            //   (a) FIRST(remainder)
+            //   (b) if remainder may match epsilon, also our lookahead.
+            for new_item in L::epsilon_moves(self, nt, remainder, &lookahead) {
+                let new_item0 = new_item.to_lr0();
+                if map.push(new_item0, new_item.lookahead) {
+                    stack.push(new_item0);
+                }
+            }
         }
 
-        items.sort();
-        items.dedup();
+        let final_items = map.into_iter()
+                             .map(|(lr0_item, lookahead)| lr0_item.with_lookahead(lookahead))
+                             .collect();
 
-        Items { vec: Rc::new(items) }
+        Items { vec: Rc::new(final_items) }
     }
 }
 
@@ -274,7 +291,7 @@ pub trait LookaheadBuild: Lookahead {
     //     X = ... (*) Y ...s [L]
     //
     // where `nt` is `Y`, `remainder` is `...s`, and `lookahead` is
-    // `L`, computes the new items resulting from epislon moves (if
+    // `L`, computes the new items resulting from epsilon moves (if
     // any). The technique of doing this will depend on the amount of
     // lookahead.
     //
@@ -285,7 +302,7 @@ pub trait LookaheadBuild: Lookahead {
     fn epsilon_moves<'grammar>(lr: &LR<'grammar, Self>,
                                nt: NonterminalString,
                                remainder: &[Symbol],
-                               lookahead: Self)
+                               lookahead: &Self)
                                -> Vec<Item<'grammar, Self>>;
 }
 
@@ -293,7 +310,7 @@ impl LookaheadBuild for Nil {
     fn epsilon_moves<'grammar>(lr: &LR<'grammar, Self>,
                                nt: NonterminalString,
                                _remainder: &[Symbol],
-                               lookahead: Nil)
+                               lookahead: &Nil)
                                -> Vec<LR0Item<'grammar>>
     {
         lr.items(nt, 0, &lookahead)
@@ -304,7 +321,7 @@ impl LookaheadBuild for TokenSet {
     fn epsilon_moves<'grammar>(lr: &LR<'grammar, Self>,
                                nt: NonterminalString,
                                remainder: &[Symbol],
-                               lookahead: Self)
+                               lookahead: &Self)
                                -> Vec<LR1Item<'grammar>>
     {
         let first_set = lr.first_sets.first1(remainder, lookahead);
