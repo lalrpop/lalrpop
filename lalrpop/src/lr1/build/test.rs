@@ -258,3 +258,53 @@ T: () = {
     build_lr0_states(&grammar, nt("S")).unwrap_err();
 }
 
+/// When we moved to storing items as (lr0 -> TokenSet) pairs, a bug
+/// in the transitive closure routine could cause us to have `(Foo,
+/// S0)` and `(Foo, S1)` as distinct items instead of `(Foo, S0|S1)`.
+#[test]
+fn issue_144() {
+    let _tls = Tls::test();
+
+    let grammar = normalized_grammar(r##"
+grammar;
+
+pub ForeignItem: () = {
+  AttrsAndVis "item_foreign_fn",
+  AttrsAndVis "unsafe" "item_foreign_fn",
+};
+
+AttrsAndVis: () = {
+    MaybeOuterAttrs visibility,
+};
+
+MaybeOuterAttrs: () = {
+    OuterAttrs,
+    (),
+};
+
+visibility: () = {
+  "pub",
+  (),
+};
+
+OuterAttrs: () = {
+    OuterAttr,
+    OuterAttrs OuterAttr,
+};
+
+OuterAttr: () = {
+    "#" "[" "]",
+};
+
+Ident: () = {
+    "IDENT",
+};
+
+ty: () = {
+    "ty"
+};
+"##);
+
+    let _lr1_tls = Lr1Tls::install(grammar.terminals.clone());
+    build_lr1_states(&grammar, nt("ForeignItem")).unwrap();
+}

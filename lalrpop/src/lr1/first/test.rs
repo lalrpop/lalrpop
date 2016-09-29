@@ -31,7 +31,7 @@ fn first1(first: &FirstSets,
           lookahead: Token)
           -> Vec<Token>
 {
-    let v = first.first1(symbols, TokenSet::from(lookahead));
+    let v = first.first1(symbols, &TokenSet::from(lookahead));
     v.iter().collect()
 }
 

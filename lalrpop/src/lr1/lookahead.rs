@@ -19,7 +19,8 @@ pub struct Nil;
 impl Collection for Nil {
     type Item = Nil;
 
-    fn push(&mut self, _: Nil) {
+    fn push(&mut self, _: Nil) -> bool {
+        false
     }
 }
 
@@ -272,8 +273,8 @@ impl<'iter> IntoIterator for &'iter TokenSet {
 impl Collection for TokenSet {
     type Item = TokenSet;
 
-    fn push(&mut self, item: TokenSet) {
-        self.union_with(&item);
+    fn push(&mut self, item: TokenSet) -> bool {
+        self.union_with(&item)
     }
 }
 

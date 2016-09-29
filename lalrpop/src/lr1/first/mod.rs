@@ -83,7 +83,7 @@ impl FirstSets {
         result
     }
 
-    pub fn first1(&self, symbols: &[Symbol], lookahead: TokenSet)
+    pub fn first1(&self, symbols: &[Symbol], lookahead: &TokenSet)
                   -> TokenSet
     {
         let mut set = self.first0(symbols);
