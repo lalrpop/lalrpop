@@ -1,5 +1,15 @@
 # master (not yet released)
 
+# Version 0.12.1
+
+Bug fix release. Major bugs addressed:
+
+- ["LR1 TLS not installed"](https://github.com/nikomatsakis/lalrpop/issues/145);
+- [False conflicts in the LR(1) code generator](https://github.com/nikomatsakis/lalrpop/issues/144).
+
+Also, there is now a tutorial for writing custom lexers.
+[Thanks @malleusinferni!](https://github.com/nikomatsakis/lalrpop/pull/131).
+
 # Version 0.12 
 
 **Enabled a new table-driven code-generator by default.** This generates
