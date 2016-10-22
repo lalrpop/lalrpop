@@ -129,6 +129,7 @@ pub fn collapse_to_lalr_states<'grammar>(lr_states: &[LR1State<'grammar>])
                                                                .into_iter()
                                                                .map(|(p, ts)| (ts, p))
                                                                .collect(),
+                                                 error: None,
                                                  gotos: lr.gotos,
                                              }
                                          })

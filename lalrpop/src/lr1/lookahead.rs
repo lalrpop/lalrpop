@@ -69,6 +69,7 @@ impl Lookahead for Nil {
 #[derive(Copy, Clone, Hash, PartialEq, Eq, PartialOrd, Ord)]
 pub enum Token {
     EOF,
+    Error,
     Terminal(TerminalString),
 }
 
@@ -131,7 +132,7 @@ impl Token {
     pub fn unwrap_terminal(self) -> TerminalString {
         match self {
             Token::Terminal(t) => t,
-            Token::EOF => panic!("`unwrap_terminal()` invoked but with EOF"),
+            Token::EOF | Token::Error => panic!("`unwrap_terminal()` invoked but with EOF or Error"),
         }
     }
 }
@@ -171,6 +172,7 @@ impl TokenSet {
     fn bit(&self, lookahead: Token) -> usize {
         match lookahead {
             Token::EOF => self.eof_bit(),
+            Token::Error => self.eof_bit() + 1,
             Token::Terminal(t) => with(|terminals| terminals.bits[&t])
         }
     }
@@ -244,7 +246,9 @@ impl<'iter> Iterator for TokenSetIter<'iter> {
         self.bit_set.next()
                     .map(|bit| {
                         with(|terminals| {
-                            if bit == terminals.all.len() {
+                            if bit == terminals.all.len() + 1 {
+                                Token::Error
+                            } else if bit == terminals.all.len() {
                                 Token::EOF
                             } else {
                                 Token::Terminal(terminals.all[bit])

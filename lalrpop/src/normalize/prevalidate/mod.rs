@@ -185,6 +185,8 @@ impl<'grammar> Validator<'grammar> {
             SymbolKind::Nonterminal(_) => {
                 /* see resolve */
             }
+            SymbolKind::Error => {
+            }
             SymbolKind::Macro(ref msym) => {
                 debug_assert!(msym.args.len() > 0);
                 for arg in &msym.args {

@@ -205,7 +205,7 @@ pub enum ConditionOp {
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct Symbol {
     pub span: Span,
-    pub kind: SymbolKind
+    pub kind: SymbolKind,
 }
 
 #[derive(Clone, Debug, PartialEq, Eq)]
@@ -239,6 +239,8 @@ pub enum SymbolKind {
 
     // @R
     Lookbehind,
+    
+    Error
 }
 
 #[derive(Copy, Clone, Hash, PartialEq, Eq, PartialOrd, Ord)]
@@ -462,6 +464,8 @@ impl Display for SymbolKind {
                 write!(fmt, "@L"),
             SymbolKind::Lookbehind =>
                 write!(fmt, "@R"),
+            SymbolKind::Error =>
+                write!(fmt, "error"),
         }
     }
 }

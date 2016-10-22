@@ -83,6 +83,7 @@ pub enum Tok<'input> {
     Star,
     TildeTilde,
     Underscore,
+    ErrorT
 }
 
 pub struct Tokenizer<'input> {
@@ -108,6 +109,7 @@ const KEYWORDS: &'static [(&'static str, Tok<'static>)] = &[
     ("mut", Mut),
     ("pub", Pub),
     ("type", Type),
+    ("error", ErrorT),
     ];
 
 impl<'input> Tokenizer<'input> {

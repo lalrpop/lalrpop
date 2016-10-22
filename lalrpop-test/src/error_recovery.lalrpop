@@ -1,0 +1,24 @@
+use std::cell::RefCell;
+
+use util::tok::Tok;
+use lalrpop_util::ParseError;
+
+grammar<'e>(errors: &'e RefCell<Vec<()>>);
+
+extern {
+    enum Tok {
+        "-" => Tok::Minus,
+        "+" => Tok::Plus,
+        "(" => Tok::LParen,
+        ")" => Tok::RParen,
+        Num => Tok::Num(<i32>)
+    }
+}
+
+pub Item: String = {
+    "+" => '+'.to_string(),
+    "-" "-" => "-".to_string(),
+    "-" error => { errors.borrow_mut().push(()); "!".to_string() },
+    "(" <i: Item> ")" => i,
+    "(" error ")" => { errors.borrow_mut().push(()); "()".to_string() },
+};

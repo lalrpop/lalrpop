@@ -104,7 +104,7 @@ impl<'grammar> Validator<'grammar> {
             SymbolKind::Choose(ref sym) | SymbolKind::Name(_, ref sym) => {
                 try!(self.validate_symbol(sym));
             }
-            SymbolKind::Lookahead | SymbolKind::Lookbehind => {
+            SymbolKind::Lookahead | SymbolKind::Lookbehind | SymbolKind::Error => {
             }
             SymbolKind::AmbiguousId(id) => {
                 panic!("ambiguous id `{}` encountered after name resolution", id)
