@@ -364,6 +364,7 @@ impl<'s> LowerState<'s> {
             pt::SymbolKind::Terminal(id) => r::Symbol::Terminal(id),
             pt::SymbolKind::Nonterminal(id) => r::Symbol::Nonterminal(id),
             pt::SymbolKind::Choose(ref s) | pt::SymbolKind::Name(_, ref s) => self.symbol(s),
+            pt::SymbolKind::Error => r::Symbol::Error,
 
             pt::SymbolKind::Macro(..) |
             pt::SymbolKind::Repeat(..) |

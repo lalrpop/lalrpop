@@ -109,6 +109,7 @@ pub struct Production {
 pub enum Symbol {
     Nonterminal(NonterminalString),
     Terminal(TerminalString),
+    Error,
 }
 
 #[derive(Clone, PartialEq, Eq)]
@@ -237,7 +238,8 @@ pub struct Types {
     terminal_loc_type: Option<TypeRepr>,
     error_type: Option<TypeRepr>,
     terminal_types: Map<TerminalString, TypeRepr>,
-    nonterminal_types: Map<NonterminalString, TypeRepr>
+    nonterminal_types: Map<NonterminalString, TypeRepr>,
+    unit_type: TypeRepr,
 }
 
 impl Types {
@@ -249,7 +251,8 @@ impl Types {
                 error_type: error_type,
                 terminal_token_type: terminal_token_type,
                 terminal_types: map(),
-                nonterminal_types: map() }
+                nonterminal_types: map(),
+                unit_type: TypeRepr::Tuple(vec!()) }
     }
 
     pub fn add_type(&mut self, nt_id: NonterminalString, ty: TypeRepr) {
@@ -383,7 +386,7 @@ impl ActionFn {
 impl Symbol {
     pub fn is_terminal(&self) -> bool {
         match *self {
-            Symbol::Terminal(..) => true,
+            Symbol::Terminal(..) | Symbol::Error => true,
             Symbol::Nonterminal(..) => false,
         }
     }
@@ -392,6 +395,7 @@ impl Symbol {
         match *self {
             Symbol::Terminal(id) => t.terminal_type(id),
             Symbol::Nonterminal(id) => t.nonterminal_type(id),
+            Symbol::Error => &t.unit_type,
         }
     }
 }
@@ -401,6 +405,7 @@ impl Display for Symbol {
         match *self {
             Symbol::Nonterminal(id) => write!(fmt, "{}", id),
             Symbol::Terminal(id) => write!(fmt, "{}", id),
+            Symbol::Error => write!(fmt, "error"),
         }
     }
 }
@@ -416,6 +421,7 @@ impl Into<Box<Content>> for Symbol {
         match self {
             Symbol::Nonterminal(nt) => nt.into(),
             Symbol::Terminal(term) => term.into(),
+            Symbol::Error => unimplemented!(),
         }
     }
 }

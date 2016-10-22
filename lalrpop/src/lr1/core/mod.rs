@@ -122,6 +122,7 @@ pub struct State<'grammar, L: Lookahead> {
     pub items: Items<'grammar, L>,
     pub shifts: Map<TerminalString, StateIndex>,
     pub reductions: Vec<(L, &'grammar Production)>,
+    pub error: Option<StateIndex>,
     pub gotos: Map<NonterminalString, StateIndex>,
 }
 
@@ -182,6 +183,7 @@ impl Display for Token {
     fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
         match *self {
             Token::EOF => write!(fmt, "EOF"),
+            Token::Error => write!(fmt, "Error"),
             Token::Terminal(s) => write!(fmt, "{}", s),
         }
     }

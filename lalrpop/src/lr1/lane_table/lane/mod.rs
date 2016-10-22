@@ -41,12 +41,18 @@ impl<'trace, 'grammar> LaneTracer<'trace, 'grammar> {
         let mut visited_set = Set::default();
 
         // if the conflict item is a "shift" item, then the context
-        // is always the termianl to shift (and conflicts only arise
+        // is always the terminal to shift (and conflicts only arise
         // around shifting terminal, so it must be a terminal)
         match item.shift_symbol() {
             Some((Symbol::Terminal(term), _)) => {
                 let mut token_set = TokenSet::new();
                 token_set.insert(Token::Terminal(term));
+                self.table.add_lookahead(state, conflict, &token_set);
+            }
+
+            Some((Symbol::Error, _)) => {
+                let mut token_set = TokenSet::new();
+                token_set.insert(Token::Error);
                 self.table.add_lookahead(state, conflict, &token_set);
             }
 

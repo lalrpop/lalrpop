@@ -317,6 +317,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent,
             for (index, &token) in tokens.iter().enumerate() {
                 let pattern = match token {
                     Token::Terminal(s) => format!("Some({})", self.match_terminal_pattern(s)),
+                    Token::Error => unimplemented!(),
                     Token::EOF => format!("None"),
                 };
                 if index < tokens.len() - 1 {

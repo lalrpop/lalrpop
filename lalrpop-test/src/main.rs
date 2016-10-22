@@ -58,6 +58,9 @@ mod use_super;
 /// test that exercises locations and spans
 mod error;
 
+/// Test error recovery
+mod error_recovery;
+
 /// test for inlining expansion issue #55
 mod issue_55;
 
@@ -278,6 +281,33 @@ fn error_test1() {
             panic!("unexpected response from parser: {:?}", r);
         }
     }
+}
+
+#[test]
+fn error_recovery_eof() {
+    use std::cell::RefCell;
+
+    let errors = RefCell::new(vec![]);
+    util::test(|v| error_recovery::__parse_table::parse_Item(&errors, v), "-", '!'.to_string());
+    assert_eq!(errors.borrow().len(), 1);
+}
+
+#[test]
+fn error_recovery_extra_token() {
+    use std::cell::RefCell;
+
+    let errors = RefCell::new(vec![]);
+    util::test(|v| error_recovery::__parse_table::parse_Item(&errors, v), "(++)", "()".to_string());
+    assert_eq!(errors.borrow().len(), 1);
+}
+
+#[test]
+fn error_recovery_multiple_extra_tokens() {
+    use std::cell::RefCell;
+
+    let errors = RefCell::new(vec![]);
+    util::test(|v| error_recovery::__parse_table::parse_Item(&errors, v), "(+++)", "()".to_string());
+    assert_eq!(errors.borrow().len(), 1);
 }
 
 #[test]

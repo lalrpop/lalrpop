@@ -134,7 +134,8 @@ impl MacroExpander {
                 self.replace_symbol(&mut repeat.symbol);
             }
             SymbolKind::Terminal(_) |
-            SymbolKind::Nonterminal(_) => {
+            SymbolKind::Nonterminal(_) |
+            SymbolKind::Error => {
                 return;
             }
             SymbolKind::Choose(ref mut sym) |
@@ -329,6 +330,8 @@ impl MacroExpander {
                 SymbolKind::Lookahead,
             SymbolKind::Lookbehind =>
                 SymbolKind::Lookbehind,
+            SymbolKind::Error =>
+                SymbolKind::Error,
             SymbolKind::AmbiguousId(id) =>
                 panic!("ambiguous id `{}` encountered after name resolution", id),
         };

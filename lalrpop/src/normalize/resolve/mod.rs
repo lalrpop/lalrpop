@@ -221,7 +221,7 @@ impl Validator {
             SymbolKind::Choose(ref mut sym) | SymbolKind::Name(_, ref mut sym) => {
                 try!(self.validate_symbol(scope, sym));
             }
-            SymbolKind::Lookahead | SymbolKind::Lookbehind => {
+            SymbolKind::Lookahead | SymbolKind::Lookbehind | SymbolKind::Error => {
             }
         }
 
