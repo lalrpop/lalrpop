@@ -61,7 +61,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TestAll> {
                   this.user_start_symbol);
             rust!(this.out, "}}");
 
-            rust!(this.out, "mod {}parse_table {{", this.prefix);
+            rust!(this.out, "pub mod {}parse_table {{", this.prefix);
             try!(super::parse_table::compile(this.grammar,
                                              this.user_start_symbol,
                                              this.start_symbol,
