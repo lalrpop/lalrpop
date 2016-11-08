@@ -607,70 +607,84 @@ mod __parse__Items {
                 None
             }
             fn __pop_Term_22_2b_22<
-              'input,
+                'input,
             >(
-                __symbols: &mut ::std::vec::Vec<(usize,__Symbol<'input>,usize)>
-            ) -> (usize, &'input str, usize) {
+                input: &'input str,
+                __symbols: &mut ::std::vec::Vec<(usize,__Symbol<'input>,usize)>,
+            ) -> (usize, &'input str, usize)
+            {
                 match __symbols.pop().unwrap() {
                     (__l, __Symbol::Term_22_2b_22(__v), __r) => (__l, __v, __r),
                     _ => panic!("symbol type mismatch")
                 }
             }
             fn __pop_Term_22_2d_22<
-              'input,
+                'input,
             >(
-                __symbols: &mut ::std::vec::Vec<(usize,__Symbol<'input>,usize)>
-            ) -> (usize, &'input str, usize) {
+                input: &'input str,
+                __symbols: &mut ::std::vec::Vec<(usize,__Symbol<'input>,usize)>,
+            ) -> (usize, &'input str, usize)
+            {
                 match __symbols.pop().unwrap() {
                     (__l, __Symbol::Term_22_2d_22(__v), __r) => (__l, __v, __r),
                     _ => panic!("symbol type mismatch")
                 }
             }
             fn __pop_Nt_40L<
-              'input,
+                'input,
             >(
-                __symbols: &mut ::std::vec::Vec<(usize,__Symbol<'input>,usize)>
-            ) -> (usize, usize, usize) {
+                input: &'input str,
+                __symbols: &mut ::std::vec::Vec<(usize,__Symbol<'input>,usize)>,
+            ) -> (usize, usize, usize)
+            {
                 match __symbols.pop().unwrap() {
                     (__l, __Symbol::Nt_40L(__v), __r) => (__l, __v, __r),
                     _ => panic!("symbol type mismatch")
                 }
             }
             fn __pop_Nt_40R<
-              'input,
+                'input,
             >(
-                __symbols: &mut ::std::vec::Vec<(usize,__Symbol<'input>,usize)>
-            ) -> (usize, usize, usize) {
+                input: &'input str,
+                __symbols: &mut ::std::vec::Vec<(usize,__Symbol<'input>,usize)>,
+            ) -> (usize, usize, usize)
+            {
                 match __symbols.pop().unwrap() {
                     (__l, __Symbol::Nt_40R(__v), __r) => (__l, __v, __r),
                     _ => panic!("symbol type mismatch")
                 }
             }
             fn __pop_NtItems<
-              'input,
+                'input,
             >(
-                __symbols: &mut ::std::vec::Vec<(usize,__Symbol<'input>,usize)>
-            ) -> (usize, Vec<(usize, usize)>, usize) {
+                input: &'input str,
+                __symbols: &mut ::std::vec::Vec<(usize,__Symbol<'input>,usize)>,
+            ) -> (usize, Vec<(usize, usize)>, usize)
+            {
                 match __symbols.pop().unwrap() {
                     (__l, __Symbol::NtItems(__v), __r) => (__l, __v, __r),
                     _ => panic!("symbol type mismatch")
                 }
             }
             fn __pop_NtSpanned_3c_22_2b_22_3e<
-              'input,
+                'input,
             >(
-                __symbols: &mut ::std::vec::Vec<(usize,__Symbol<'input>,usize)>
-            ) -> (usize, (usize, usize), usize) {
+                input: &'input str,
+                __symbols: &mut ::std::vec::Vec<(usize,__Symbol<'input>,usize)>,
+            ) -> (usize, (usize, usize), usize)
+            {
                 match __symbols.pop().unwrap() {
                     (__l, __Symbol::NtSpanned_3c_22_2b_22_3e(__v), __r) => (__l, __v, __r),
                     _ => panic!("symbol type mismatch")
                 }
             }
             fn __pop_Nt____Items<
-              'input,
+                'input,
             >(
-                __symbols: &mut ::std::vec::Vec<(usize,__Symbol<'input>,usize)>
-            ) -> (usize, Vec<(usize, usize)>, usize) {
+                input: &'input str,
+                __symbols: &mut ::std::vec::Vec<(usize,__Symbol<'input>,usize)>,
+            ) -> (usize, Vec<(usize, usize)>, usize)
+            {
                 match __symbols.pop().unwrap() {
                     (__l, __Symbol::Nt____Items(__v), __r) => (__l, __v, __r),
                     _ => panic!("symbol type mismatch")

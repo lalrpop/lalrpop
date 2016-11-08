@@ -1,0 +1,14 @@
+use generics_issue_133_lib::{Expr, Id, Interner, Token};
+
+grammar<'input, T>(text: &'input str, interner: &mut Interner<T>)
+    where T: Id;
+
+pub Top: Expr<T> = {
+    "Ident" => Expr::Ident(interner.intern(<>)),
+};
+
+extern {
+    enum Token<'input> {
+        "Ident" => Token::Ident(<&'input str>),
+    }
+}

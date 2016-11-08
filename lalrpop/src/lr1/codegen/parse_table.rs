@@ -776,16 +776,15 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
     fn emit_downcast_fn(&mut self, variant_name: &str, variant_ty: TypeRepr) -> io::Result<()> {
         let spanned_symbol_type = self.spanned_symbol_type();
 
-        rust!(self.out, "fn {}pop_{}<", self.prefix, variant_name);
-        for type_parameter in &self.custom.symbol_type_params {
-            rust!(self.out, "  {},", type_parameter);
-        }
-        rust!(self.out, ">(");
-        rust!(self.out,
-              "{}symbols: &mut ::std::vec::Vec<{}>",
-              self.prefix,
-              spanned_symbol_type);
-        rust!(self.out, ") -> {} {{", self.types.spanned_type(variant_ty));
+        try!(self.out.write_fn_header(&self.grammar,
+                                      format!("{}pop_{}", self.prefix, variant_name),
+                                      vec![],
+                                      vec![format!("{}symbols: &mut ::std::vec::Vec<{}>",
+                                                   self.prefix,
+                                                   spanned_symbol_type)],
+                                      self.types.spanned_type(variant_ty).to_string(),
+                                      vec![]));
+        rust!(self.out, "{{");
 
         if DEBUG_PRINT {
             rust!(self.out, "println!(\"pop_{}\");", variant_name);

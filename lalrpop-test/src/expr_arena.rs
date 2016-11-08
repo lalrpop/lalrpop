@@ -6534,170 +6534,204 @@ mod __parse__Expr {
                 None
             }
             fn __pop_Term_22_28_22<
-              'ast,
+                'ast,
             >(
-                __symbols: &mut ::std::vec::Vec<(usize,__Symbol<'ast>,usize)>
-            ) -> (usize, Tok, usize) {
+                arena: &'ast Arena<'ast>,
+                __symbols: &mut ::std::vec::Vec<(usize,__Symbol<'ast>,usize)>,
+            ) -> (usize, Tok, usize)
+            {
                 match __symbols.pop().unwrap() {
                     (__l, __Symbol::Term_22_28_22(__v), __r) => (__l, __v, __r),
                     _ => panic!("symbol type mismatch")
                 }
             }
             fn __pop_Term_22_29_22<
-              'ast,
+                'ast,
             >(
-                __symbols: &mut ::std::vec::Vec<(usize,__Symbol<'ast>,usize)>
-            ) -> (usize, Tok, usize) {
+                arena: &'ast Arena<'ast>,
+                __symbols: &mut ::std::vec::Vec<(usize,__Symbol<'ast>,usize)>,
+            ) -> (usize, Tok, usize)
+            {
                 match __symbols.pop().unwrap() {
                     (__l, __Symbol::Term_22_29_22(__v), __r) => (__l, __v, __r),
                     _ => panic!("symbol type mismatch")
                 }
             }
             fn __pop_Term_22_2a_22<
-              'ast,
+                'ast,
             >(
-                __symbols: &mut ::std::vec::Vec<(usize,__Symbol<'ast>,usize)>
-            ) -> (usize, Tok, usize) {
+                arena: &'ast Arena<'ast>,
+                __symbols: &mut ::std::vec::Vec<(usize,__Symbol<'ast>,usize)>,
+            ) -> (usize, Tok, usize)
+            {
                 match __symbols.pop().unwrap() {
                     (__l, __Symbol::Term_22_2a_22(__v), __r) => (__l, __v, __r),
                     _ => panic!("symbol type mismatch")
                 }
             }
             fn __pop_Term_22_2b_22<
-              'ast,
+                'ast,
             >(
-                __symbols: &mut ::std::vec::Vec<(usize,__Symbol<'ast>,usize)>
-            ) -> (usize, Tok, usize) {
+                arena: &'ast Arena<'ast>,
+                __symbols: &mut ::std::vec::Vec<(usize,__Symbol<'ast>,usize)>,
+            ) -> (usize, Tok, usize)
+            {
                 match __symbols.pop().unwrap() {
                     (__l, __Symbol::Term_22_2b_22(__v), __r) => (__l, __v, __r),
                     _ => panic!("symbol type mismatch")
                 }
             }
             fn __pop_Term_22_2c_22<
-              'ast,
+                'ast,
             >(
-                __symbols: &mut ::std::vec::Vec<(usize,__Symbol<'ast>,usize)>
-            ) -> (usize, Tok, usize) {
+                arena: &'ast Arena<'ast>,
+                __symbols: &mut ::std::vec::Vec<(usize,__Symbol<'ast>,usize)>,
+            ) -> (usize, Tok, usize)
+            {
                 match __symbols.pop().unwrap() {
                     (__l, __Symbol::Term_22_2c_22(__v), __r) => (__l, __v, __r),
                     _ => panic!("symbol type mismatch")
                 }
             }
             fn __pop_Term_22_2d_22<
-              'ast,
+                'ast,
             >(
-                __symbols: &mut ::std::vec::Vec<(usize,__Symbol<'ast>,usize)>
-            ) -> (usize, Tok, usize) {
+                arena: &'ast Arena<'ast>,
+                __symbols: &mut ::std::vec::Vec<(usize,__Symbol<'ast>,usize)>,
+            ) -> (usize, Tok, usize)
+            {
                 match __symbols.pop().unwrap() {
                     (__l, __Symbol::Term_22_2d_22(__v), __r) => (__l, __v, __r),
                     _ => panic!("symbol type mismatch")
                 }
             }
             fn __pop_Term_22_2f_22<
-              'ast,
+                'ast,
             >(
-                __symbols: &mut ::std::vec::Vec<(usize,__Symbol<'ast>,usize)>
-            ) -> (usize, Tok, usize) {
+                arena: &'ast Arena<'ast>,
+                __symbols: &mut ::std::vec::Vec<(usize,__Symbol<'ast>,usize)>,
+            ) -> (usize, Tok, usize)
+            {
                 match __symbols.pop().unwrap() {
                     (__l, __Symbol::Term_22_2f_22(__v), __r) => (__l, __v, __r),
                     _ => panic!("symbol type mismatch")
                 }
             }
             fn __pop_TermNum<
-              'ast,
+                'ast,
             >(
-                __symbols: &mut ::std::vec::Vec<(usize,__Symbol<'ast>,usize)>
-            ) -> (usize, i32, usize) {
+                arena: &'ast Arena<'ast>,
+                __symbols: &mut ::std::vec::Vec<(usize,__Symbol<'ast>,usize)>,
+            ) -> (usize, i32, usize)
+            {
                 match __symbols.pop().unwrap() {
                     (__l, __Symbol::TermNum(__v), __r) => (__l, __v, __r),
                     _ => panic!("symbol type mismatch")
                 }
             }
             fn __pop_Nt_28_3cExpr_3e_20_22_2c_22_29<
-              'ast,
+                'ast,
             >(
-                __symbols: &mut ::std::vec::Vec<(usize,__Symbol<'ast>,usize)>
-            ) -> (usize, &'ast Node<'ast>, usize) {
+                arena: &'ast Arena<'ast>,
+                __symbols: &mut ::std::vec::Vec<(usize,__Symbol<'ast>,usize)>,
+            ) -> (usize, &'ast Node<'ast>, usize)
+            {
                 match __symbols.pop().unwrap() {
                     (__l, __Symbol::Nt_28_3cExpr_3e_20_22_2c_22_29(__v), __r) => (__l, __v, __r),
                     _ => panic!("symbol type mismatch")
                 }
             }
             fn __pop_Nt_28_3cExpr_3e_20_22_2c_22_29_2a<
-              'ast,
+                'ast,
             >(
-                __symbols: &mut ::std::vec::Vec<(usize,__Symbol<'ast>,usize)>
-            ) -> (usize, ::std::vec::Vec<&'ast Node<'ast>>, usize) {
+                arena: &'ast Arena<'ast>,
+                __symbols: &mut ::std::vec::Vec<(usize,__Symbol<'ast>,usize)>,
+            ) -> (usize, ::std::vec::Vec<&'ast Node<'ast>>, usize)
+            {
                 match __symbols.pop().unwrap() {
                     (__l, __Symbol::Nt_28_3cExpr_3e_20_22_2c_22_29_2a(__v), __r) => (__l, __v, __r),
                     _ => panic!("symbol type mismatch")
                 }
             }
             fn __pop_Nt_28_3cExpr_3e_20_22_2c_22_29_2b<
-              'ast,
+                'ast,
             >(
-                __symbols: &mut ::std::vec::Vec<(usize,__Symbol<'ast>,usize)>
-            ) -> (usize, ::std::vec::Vec<&'ast Node<'ast>>, usize) {
+                arena: &'ast Arena<'ast>,
+                __symbols: &mut ::std::vec::Vec<(usize,__Symbol<'ast>,usize)>,
+            ) -> (usize, ::std::vec::Vec<&'ast Node<'ast>>, usize)
+            {
                 match __symbols.pop().unwrap() {
                     (__l, __Symbol::Nt_28_3cExpr_3e_20_22_2c_22_29_2b(__v), __r) => (__l, __v, __r),
                     _ => panic!("symbol type mismatch")
                 }
             }
             fn __pop_NtComma_3cExpr_3e<
-              'ast,
+                'ast,
             >(
-                __symbols: &mut ::std::vec::Vec<(usize,__Symbol<'ast>,usize)>
-            ) -> (usize, Vec<&'ast Node<'ast>>, usize) {
+                arena: &'ast Arena<'ast>,
+                __symbols: &mut ::std::vec::Vec<(usize,__Symbol<'ast>,usize)>,
+            ) -> (usize, Vec<&'ast Node<'ast>>, usize)
+            {
                 match __symbols.pop().unwrap() {
                     (__l, __Symbol::NtComma_3cExpr_3e(__v), __r) => (__l, __v, __r),
                     _ => panic!("symbol type mismatch")
                 }
             }
             fn __pop_NtExpr<
-              'ast,
+                'ast,
             >(
-                __symbols: &mut ::std::vec::Vec<(usize,__Symbol<'ast>,usize)>
-            ) -> (usize, &'ast Node<'ast>, usize) {
+                arena: &'ast Arena<'ast>,
+                __symbols: &mut ::std::vec::Vec<(usize,__Symbol<'ast>,usize)>,
+            ) -> (usize, &'ast Node<'ast>, usize)
+            {
                 match __symbols.pop().unwrap() {
                     (__l, __Symbol::NtExpr(__v), __r) => (__l, __v, __r),
                     _ => panic!("symbol type mismatch")
                 }
             }
             fn __pop_NtExpr_3f<
-              'ast,
+                'ast,
             >(
-                __symbols: &mut ::std::vec::Vec<(usize,__Symbol<'ast>,usize)>
-            ) -> (usize, ::std::option::Option<&'ast Node<'ast>>, usize) {
+                arena: &'ast Arena<'ast>,
+                __symbols: &mut ::std::vec::Vec<(usize,__Symbol<'ast>,usize)>,
+            ) -> (usize, ::std::option::Option<&'ast Node<'ast>>, usize)
+            {
                 match __symbols.pop().unwrap() {
                     (__l, __Symbol::NtExpr_3f(__v), __r) => (__l, __v, __r),
                     _ => panic!("symbol type mismatch")
                 }
             }
             fn __pop_NtFactor<
-              'ast,
+                'ast,
             >(
-                __symbols: &mut ::std::vec::Vec<(usize,__Symbol<'ast>,usize)>
-            ) -> (usize, &'ast Node<'ast>, usize) {
+                arena: &'ast Arena<'ast>,
+                __symbols: &mut ::std::vec::Vec<(usize,__Symbol<'ast>,usize)>,
+            ) -> (usize, &'ast Node<'ast>, usize)
+            {
                 match __symbols.pop().unwrap() {
                     (__l, __Symbol::NtFactor(__v), __r) => (__l, __v, __r),
                     _ => panic!("symbol type mismatch")
                 }
             }
             fn __pop_NtTerm<
-              'ast,
+                'ast,
             >(
-                __symbols: &mut ::std::vec::Vec<(usize,__Symbol<'ast>,usize)>
-            ) -> (usize, &'ast Node<'ast>, usize) {
+                arena: &'ast Arena<'ast>,
+                __symbols: &mut ::std::vec::Vec<(usize,__Symbol<'ast>,usize)>,
+            ) -> (usize, &'ast Node<'ast>, usize)
+            {
                 match __symbols.pop().unwrap() {
                     (__l, __Symbol::NtTerm(__v), __r) => (__l, __v, __r),
                     _ => panic!("symbol type mismatch")
                 }
             }
             fn __pop_Nt____Expr<
-              'ast,
+                'ast,
             >(
-                __symbols: &mut ::std::vec::Vec<(usize,__Symbol<'ast>,usize)>
-            ) -> (usize, &'ast Node<'ast>, usize) {
+                arena: &'ast Arena<'ast>,
+                __symbols: &mut ::std::vec::Vec<(usize,__Symbol<'ast>,usize)>,
+            ) -> (usize, &'ast Node<'ast>, usize)
+            {
                 match __symbols.pop().unwrap() {
                     (__l, __Symbol::Nt____Expr(__v), __r) => (__l, __v, __r),
                     _ => panic!("symbol type mismatch")

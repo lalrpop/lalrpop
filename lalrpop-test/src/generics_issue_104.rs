@@ -569,60 +569,84 @@ mod __parse__Schema {
                 None
             }
             fn __pop_Term_22grammar_22<
-              'input,
+                'input,
+                T,
             >(
-                __symbols: &mut ::std::vec::Vec<(usize,__Symbol<'input>,usize)>
-            ) -> (usize, &'input str, usize) {
+                input: &'input str,
+                __symbols: &mut ::std::vec::Vec<(usize,__Symbol<'input>,usize)>,
+            ) -> (usize, &'input str, usize) where
+              T: Generator,
+            {
                 match __symbols.pop().unwrap() {
                     (__l, __Symbol::Term_22grammar_22(__v), __r) => (__l, __v, __r),
                     _ => panic!("symbol type mismatch")
                 }
             }
             fn __pop_Term_22_7b_22<
-              'input,
+                'input,
+                T,
             >(
-                __symbols: &mut ::std::vec::Vec<(usize,__Symbol<'input>,usize)>
-            ) -> (usize, &'input str, usize) {
+                input: &'input str,
+                __symbols: &mut ::std::vec::Vec<(usize,__Symbol<'input>,usize)>,
+            ) -> (usize, &'input str, usize) where
+              T: Generator,
+            {
                 match __symbols.pop().unwrap() {
                     (__l, __Symbol::Term_22_7b_22(__v), __r) => (__l, __v, __r),
                     _ => panic!("symbol type mismatch")
                 }
             }
             fn __pop_Term_22_7d_22<
-              'input,
+                'input,
+                T,
             >(
-                __symbols: &mut ::std::vec::Vec<(usize,__Symbol<'input>,usize)>
-            ) -> (usize, &'input str, usize) {
+                input: &'input str,
+                __symbols: &mut ::std::vec::Vec<(usize,__Symbol<'input>,usize)>,
+            ) -> (usize, &'input str, usize) where
+              T: Generator,
+            {
                 match __symbols.pop().unwrap() {
                     (__l, __Symbol::Term_22_7d_22(__v), __r) => (__l, __v, __r),
                     _ => panic!("symbol type mismatch")
                 }
             }
             fn __pop_Termr_23_22_5ba_2dzA_2dZ0_2d9_5d_2a_22_23<
-              'input,
+                'input,
+                T,
             >(
-                __symbols: &mut ::std::vec::Vec<(usize,__Symbol<'input>,usize)>
-            ) -> (usize, &'input str, usize) {
+                input: &'input str,
+                __symbols: &mut ::std::vec::Vec<(usize,__Symbol<'input>,usize)>,
+            ) -> (usize, &'input str, usize) where
+              T: Generator,
+            {
                 match __symbols.pop().unwrap() {
                     (__l, __Symbol::Termr_23_22_5ba_2dzA_2dZ0_2d9_5d_2a_22_23(__v), __r) => (__l, __v, __r),
                     _ => panic!("symbol type mismatch")
                 }
             }
             fn __pop_NtSchema<
-              'input,
+                'input,
+                T,
             >(
-                __symbols: &mut ::std::vec::Vec<(usize,__Symbol<'input>,usize)>
-            ) -> (usize, String, usize) {
+                input: &'input str,
+                __symbols: &mut ::std::vec::Vec<(usize,__Symbol<'input>,usize)>,
+            ) -> (usize, String, usize) where
+              T: Generator,
+            {
                 match __symbols.pop().unwrap() {
                     (__l, __Symbol::NtSchema(__v), __r) => (__l, __v, __r),
                     _ => panic!("symbol type mismatch")
                 }
             }
             fn __pop_Nt____Schema<
-              'input,
+                'input,
+                T,
             >(
-                __symbols: &mut ::std::vec::Vec<(usize,__Symbol<'input>,usize)>
-            ) -> (usize, String, usize) {
+                input: &'input str,
+                __symbols: &mut ::std::vec::Vec<(usize,__Symbol<'input>,usize)>,
+            ) -> (usize, String, usize) where
+              T: Generator,
+            {
                 match __symbols.pop().unwrap() {
                     (__l, __Symbol::Nt____Schema(__v), __r) => (__l, __v, __r),
                     _ => panic!("symbol type mismatch")
