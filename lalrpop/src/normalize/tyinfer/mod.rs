@@ -77,7 +77,7 @@ impl<'grammar> TypeInferencer<'grammar> {
             let enum_type = // (usize, &'input str)
                 TypeRepr::Tuple(vec![TypeRepr::usize(), input_str.clone()]);
 
-            let mut types = Types::new(Some(loc_type), error_type, enum_type);
+            let mut types = Types::new(&grammar.prefix, Some(loc_type), error_type, enum_type);
 
             for &literal in &intern_token.literals {
                 types.add_term_type(TerminalString::Literal(literal), input_str.clone());
@@ -93,7 +93,7 @@ impl<'grammar> TypeInferencer<'grammar> {
                                         .unwrap()
                                         .type_name
                                         .type_repr();
-            let mut types = Types::new(loc_type, error_type, enum_type);
+            let mut types = Types::new(&grammar.prefix, loc_type, error_type, enum_type);
 
             // For each defined conversion, figure out the type of the
             // terminal and enter it into `types` by hand if it is not the
