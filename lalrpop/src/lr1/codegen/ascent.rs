@@ -444,15 +444,15 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent,
         let fixed_prefix = suffix.fixed();
 
         let triple_type = self.triple_type();
-        let parse_error_type = self.parse_error_type();
+        let parse_error_type = self.types.parse_error_type();
         let error_type = self.types.error_type();
 
         // If we are generated the tokenizer, it generates ParseError
         // errors, otherwise they are user errors.
         let iter_error_type = if self.grammar.intern_token.is_some() {
-            parse_error_type.clone()
+            parse_error_type
         } else {
-            format!("{}", error_type)
+            &error_type
         };
 
         let (fn_args, starts_with_terminal) = self.fn_args(optional_prefix, fixed_prefix);

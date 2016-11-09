@@ -3,7 +3,7 @@ use std::cell::RefCell;
 use util::tok::Tok;
 use lalrpop_util::ParseError;
 
-grammar<'e>(errors: &'e RefCell<Vec<()>>);
+grammar<'e>(errors: &'e RefCell<Vec<ParseError<(), Tok, ()>>>);
 
 extern {
     enum Tok {
@@ -18,7 +18,7 @@ extern {
 pub Item: String = {
     "+" => '+'.to_string(),
     "-" "-" => "-".to_string(),
-    "-" error => { errors.borrow_mut().push(()); "!".to_string() },
+    "-" <err: error> => { errors.borrow_mut().push(err); "!".to_string() },
     "(" <i: Item> ")" => i,
-    "(" error ")" => { errors.borrow_mut().push(()); "()".to_string() },
+    "(" <err: error> ")" => { errors.borrow_mut().push(err); "()".to_string() },
 };

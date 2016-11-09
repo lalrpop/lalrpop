@@ -259,6 +259,9 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
             rust!(self.out, "{}({}),", name, ty);
         }
 
+        let error_type = self.types.parse_error_type();
+        rust!(self.out, "Error({})", error_type);
+
         rust!(self.out, "}}");
         Ok(())
     }
@@ -361,6 +364,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
         // State and data stack.
         rust!(self.out, "let mut {}states = vec![0_i32];", self.prefix);
         rust!(self.out, "let mut {}symbols = vec![];", self.prefix);
+        rust!(self.out, "let mut {}last_location = Default::default();", self.prefix);
 
         // Outer loop: each time we continue around this loop, we
         // shift a new token from the input. We break from the loop
@@ -443,6 +447,14 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
         // Error.
         rust!(self.out, "}} else {{");
 
+        rust!(self.out,
+              "let {}error = {}lalrpop_util::ParseError::UnrecognizedToken {{",
+              self.prefix,
+              self.prefix);
+        rust!(self.out, "token: Some({}lookahead),", self.prefix);
+        rust!(self.out, "expected: vec![],");
+        rust!(self.out, "}};");
+
         rust!(self.out, "let {}original_state_len = {}states.len();",
               self.prefix,
               self.prefix);
@@ -464,10 +476,16 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
         }
         
         rust!(self.out, "loop {{");
-        rust!(self.out, "let {}integer = {{", self.prefix);
+        rust!(self.out, "let ({}start, {}integer, {}end) = {{",
+              self.prefix,
+              self.prefix,
+              self.prefix);
         try!(self.peek_token());
         try!(self.token_to_integer(true));
-        rust!(self.out, "{}integer", self.prefix);
+        rust!(self.out, "({}lookahead.0.clone(), {}integer, {}lookahead.2.clone())",
+              self.prefix,
+              self.prefix,
+              self.prefix);
         rust!(self.out, "}};");
 
         rust!(self.out, "if {}ACTION[({}error_state as usize - 1) * {} + {}integer] != 0 {{",
@@ -484,6 +502,13 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
               self.prefix,
               self.prefix);
         rust!(self.out, "{}states.push({}error_state - 1);",
+              self.prefix,
+              self.prefix);
+        rust!(self.out,
+              "{}symbols.push(({}start, {}Symbol::Error({}error), {}end));",
+              self.prefix,
+              self.prefix,
+              self.prefix,
               self.prefix,
               self.prefix);
         
@@ -510,11 +535,8 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
         rust!(self.out, "}}"); // Some 
         rust!(self.out, "None => {{");
         rust!(self.out,
-              "return Err({}lalrpop_util::ParseError::UnrecognizedToken {{",
+              "return Err({}error);",
               self.prefix);
-        rust!(self.out, "token: Some({}lookahead),", self.prefix);
-        rust!(self.out, "expected: vec![],");
-        rust!(self.out, "}});");
         rust!(self.out, "}}");
         rust!(self.out, "}}"); // match
 
@@ -566,6 +588,13 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
         rust!(self.out, "}} else {{");
 
         // EOF error recovery
+        rust!(self.out,
+              "let {}error = {}lalrpop_util::ParseError::UnrecognizedToken {{",
+              self.prefix,
+              self.prefix);
+        rust!(self.out, "token: None,");
+        rust!(self.out, "expected: vec![],");
+        rust!(self.out, "}};");
         rust!(self.out, "let {}original_state_len = {}states.len();",
               self.prefix,
               self.prefix);
@@ -590,17 +619,21 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
         rust!(self.out, "{}states.push({}error_state - 1);",
               self.prefix,
               self.prefix);
+        rust!(self.out,
+              "{}symbols.push(({}last_location.clone(), {}Symbol::Error({}error), {}last_location.clone()));",
+              self.prefix,
+              self.prefix,
+              self.prefix,
+              self.prefix,
+              self.prefix);
         rust!(self.out, "break;");
         rust!(self.out, "}}");
         rust!(self.out, "}}"); // Some
         
         rust!(self.out, "None => {{");
         rust!(self.out,
-              "return Err({}lalrpop_util::ParseError::UnrecognizedToken {{",
+              "return Err({}error);",
               self.prefix);
-        rust!(self.out, "token: None,");
-        rust!(self.out, "expected: vec![],");
-        rust!(self.out, "}});");
         rust!(self.out, "}}"); // None
 
         rust!(self.out, "}}"); // match
@@ -641,6 +674,9 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
                   self.prefix);
         }
         rust!(self.out, "}};");
+        rust!(self.out, "{}last_location = {}lookahead.2.clone();",
+              self.prefix,
+              self.prefix);
         Ok(())
     }
 
@@ -711,7 +747,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
 
     fn emit_reduce_actions(&mut self) -> io::Result<()> {
         let success_type = self.types.nonterminal_type(self.start_symbol);
-        let parse_error_type = self.parse_error_type();
+        let parse_error_type = self.types.parse_error_type();
         let loc_type = self.types.terminal_loc_type();
         let spanned_symbol_type = self.spanned_symbol_type();
 
@@ -784,21 +820,14 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
 
         // Pop each of the symbols and their associated states.
         for (index, &symbol) in production.symbols.iter().enumerate().rev() {
-            if symbol == Symbol::Error {
-                rust!(self.out,
-                    "let {}sym{} = ((), (), ());", // FIXME
-                    self.prefix,
-                    index);
-            } else {
-                let name = self.variant_name_for_symbol(symbol);
-                rust!(self.out,
-                    "let {}sym{} = {}pop_{}({}symbols);",
-                    self.prefix,
-                    index,
-                    self.prefix,
-                    name,
-                    self.prefix);
-            }
+            let name = self.variant_name_for_symbol(symbol);
+            rust!(self.out,
+                "let {}sym{} = {}pop_{}({}symbols);",
+                self.prefix,
+                index,
+                self.prefix,
+                name,
+                self.prefix);
         }
         let transfer_syms: Vec<_> = (0..production.symbols.len())
                                         .map(|i| format!("{}sym{}", self.prefix, i))
@@ -934,6 +963,9 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
             let ty = self.types.nonterminal_type(nt).clone();
             try!(self.emit_downcast_fn(&name, ty));
         }
+
+        let error_type = self.types.parse_error_type().clone();
+        try!(self.emit_downcast_fn("Error", error_type));
 
         Ok(())
     }

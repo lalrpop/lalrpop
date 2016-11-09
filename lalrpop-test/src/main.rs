@@ -1,7 +1,11 @@
 extern crate diff;
 extern crate lalrpop_util;
 
+use std::cell::RefCell;
+
 use lalrpop_util::ParseError;
+
+use util::tok::Tok;
 
 /// demonstration from the Greene text; one of the simplest grammars
 /// that still ensures we get parse tree correct
@@ -285,29 +289,38 @@ fn error_test1() {
 
 #[test]
 fn error_recovery_eof() {
-    use std::cell::RefCell;
-
     let errors = RefCell::new(vec![]);
     util::test(|v| error_recovery::__parse_table::parse_Item(&errors, v), "-", '!'.to_string());
+
     assert_eq!(errors.borrow().len(), 1);
+    assert_eq!(errors.borrow()[0], ParseError::UnrecognizedToken {
+        token: None,
+        expected: vec![],
+    });
 }
 
 #[test]
 fn error_recovery_extra_token() {
-    use std::cell::RefCell;
-
     let errors = RefCell::new(vec![]);
     util::test(|v| error_recovery::__parse_table::parse_Item(&errors, v), "(++)", "()".to_string());
+
     assert_eq!(errors.borrow().len(), 1);
+    assert_eq!(errors.borrow()[0], ParseError::UnrecognizedToken {
+        token: Some(((), Tok::Plus,())),
+        expected: vec![],
+    });
 }
 
 #[test]
 fn error_recovery_multiple_extra_tokens() {
-    use std::cell::RefCell;
-
     let errors = RefCell::new(vec![]);
     util::test(|v| error_recovery::__parse_table::parse_Item(&errors, v), "(+++)", "()".to_string());
+
     assert_eq!(errors.borrow().len(), 1);
+    assert_eq!(errors.borrow()[0], ParseError::UnrecognizedToken {
+        token: Some(((), Tok::Plus,())),
+        expected: vec![],
+    });
 }
 
 #[test]

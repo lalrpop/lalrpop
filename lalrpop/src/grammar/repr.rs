@@ -4,7 +4,7 @@
  * representation incrementally.
  */
 
-use intern::{InternedString};
+use intern::{intern, InternedString};
 use grammar::pattern::{Pattern};
 use message::Content;
 use std::fmt::{Debug, Display, Formatter, Error};
@@ -239,20 +239,31 @@ pub struct Types {
     error_type: Option<TypeRepr>,
     terminal_types: Map<TerminalString, TypeRepr>,
     nonterminal_types: Map<NonterminalString, TypeRepr>,
-    unit_type: TypeRepr,
+    parse_error_type: TypeRepr,
 }
 
 impl Types {
-    pub fn new(terminal_loc_type: Option<TypeRepr>,
+    pub fn new(prefix: &str,
+               terminal_loc_type: Option<TypeRepr>,
                error_type: Option<TypeRepr>,
                terminal_token_type: TypeRepr)
                -> Types {
-        Types { terminal_loc_type: terminal_loc_type,
+        let mut types = Types { terminal_loc_type: terminal_loc_type,
                 error_type: error_type,
                 terminal_token_type: terminal_token_type,
                 terminal_types: map(),
                 nonterminal_types: map(),
-                unit_type: TypeRepr::Tuple(vec!()) }
+                parse_error_type: TypeRepr::Tuple(vec![]) };
+
+        types.parse_error_type = TypeRepr::Nominal(NominalTypeRepr {
+            path: Path::from_id(intern(&format!("{}lalrpop_util::ParseError", prefix))),
+            types: vec![
+                types.terminal_loc_type().clone(),
+                types.terminal_token_type().clone(),
+                types.error_type()
+            ],
+        });
+        types
     }
 
     pub fn add_type(&mut self, nt_id: NonterminalString, ty: TypeRepr) {
@@ -303,6 +314,10 @@ impl Types {
         self.nonterminal_types.values()
                               .cloned()
                               .collect()
+    }
+
+    pub fn parse_error_type(&self) -> &TypeRepr {
+        &self.parse_error_type
     }
 
     /// Returns a type `(L, T, L)` where L is the location type and T
@@ -395,7 +410,7 @@ impl Symbol {
         match *self {
             Symbol::Terminal(id) => t.terminal_type(id),
             Symbol::Nonterminal(id) => t.nonterminal_type(id),
-            Symbol::Error => &t.unit_type,
+            Symbol::Error => &t.parse_error_type,
         }
     }
 }
