@@ -564,12 +564,48 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
         rust!(self.out, "return r;");
         rust!(self.out, "}}");
         rust!(self.out, "}} else {{");
+
+        // EOF error recovery
+        rust!(self.out, "let {}original_state_len = {}states.len();",
+              self.prefix,
+              self.prefix);
+        rust!(self.out, "loop {{");
+        rust!(self.out, "match {}states.last().cloned() {{", self.prefix);
+
+        rust!(self.out, "Some({}state) => {{", self.prefix);
+        rust!(self.out, "let {}error_state = {}ERRORS[{}state as usize];",
+              self.prefix,
+              self.prefix,
+              self.prefix);
+
+        rust!(self.out, "if {}error_state != 0 {{", self.prefix);
+        rust!(self.out, "let {}new_len = {}symbols.len() - ({}original_state_len - {}states.len());",
+              self.prefix,
+              self.prefix,
+              self.prefix,
+              self.prefix);
+        rust!(self.out, "{}symbols.truncate({}new_len);",
+              self.prefix,
+              self.prefix);
+        rust!(self.out, "{}states.push({}error_state - 1);",
+              self.prefix,
+              self.prefix);
+        rust!(self.out, "break;");
+        rust!(self.out, "}}");
+        rust!(self.out, "}}"); // Some
+        
+        rust!(self.out, "None => {{");
         rust!(self.out,
               "return Err({}lalrpop_util::ParseError::UnrecognizedToken {{",
               self.prefix);
         rust!(self.out, "token: None,");
         rust!(self.out, "expected: vec![],");
         rust!(self.out, "}});");
+        rust!(self.out, "}}"); // None
+
+        rust!(self.out, "}}"); // match
+        rust!(self.out, "}}"); // loop
+
         rust!(self.out, "}}"); // else
 
         rust!(self.out, "}}"); // while let
