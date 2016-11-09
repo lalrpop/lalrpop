@@ -421,7 +421,14 @@ impl Into<Box<Content>> for Symbol {
         match self {
             Symbol::Nonterminal(nt) => nt.into(),
             Symbol::Terminal(term) => term.into(),
-            Symbol::Error => unimplemented!(),
+            Symbol::Error => {
+                let session = ::tls::Tls::session();
+
+                ::message::builder::InlineBuilder::new()
+                    .text("error")
+                    .styled(session.terminal_symbol)
+                    .end()
+            }
         }
     }
 }
