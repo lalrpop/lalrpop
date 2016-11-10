@@ -275,6 +275,8 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
 
         rust!(self.out, "];");
 
+        // Error transitions which are positive integers for states that can be recovered from and zero
+        // otherwise
         rust!(self.out, "const {}ERRORS: &'static [i32] = &[", self.prefix);
 
         for (index, state) in self.states.iter().enumerate() {
@@ -446,6 +448,8 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
         rust!(self.out, "let {}original_state_len = {}states.len();",
               self.prefix,
               self.prefix);
+
+        // Loop which pops states until a state that can be recovered from is found
         rust!(self.out, "loop {{");
         rust!(self.out, "match {}states.last().cloned() {{", self.prefix);
         rust!(self.out, "Some({}state) => {{", self.prefix);
@@ -463,6 +467,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
                   self.prefix);
         }
         
+        // Loop which drops tokens until parsing can resume again
         rust!(self.out, "loop {{");
         rust!(self.out, "let ({}start, {}integer, {}end) = {{",
               self.prefix,
@@ -586,6 +591,8 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
         rust!(self.out, "let {}original_state_len = {}states.len();",
               self.prefix,
               self.prefix);
+        
+        // Loop which pops states until a state that can be recovered from is found
         rust!(self.out, "loop {{");
         rust!(self.out, "match {}states.last().cloned() {{", self.prefix);
 
@@ -952,6 +959,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
             try!(self.emit_downcast_fn(&name, ty));
         }
 
+        // Generate an extra variant for storing the error for `error` recovery
         let error_type = self.types.parse_error_type().clone();
         try!(self.emit_downcast_fn("Error", error_type));
 
