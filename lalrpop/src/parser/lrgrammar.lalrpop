@@ -82,7 +82,7 @@ NonterminalName: (NonterminalString, Vec<NonterminalString>) = {
 
 Alternatives: Vec<Alternative> = {
     <a:Alternative> ";" => vec![a],
-    "{" <a : Comma<Alternative>> "}" ";" => a,
+    "{" <Comma<Alternative>> "}" ";",
 };
 
 Alternative: Alternative = {
