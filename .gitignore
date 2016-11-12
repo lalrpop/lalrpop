@@ -14,6 +14,7 @@ lalrpop-test/src/expr_lalr.rs
 lalrpop-test/src/generics_issue_104.rs
 lalrpop-test/src/inline.rs
 lalrpop-test/src/intern_tok.rs
+lalrpop-test/src/issue_55.rs
 lalrpop-test/src/lifetime_tok.rs
 lalrpop-test/src/loc.rs
 lalrpop-test/src/loc_issue_90.rs
