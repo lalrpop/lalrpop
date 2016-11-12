@@ -17,8 +17,8 @@ extern {
 
 pub Item: String = {
     "+" => '+'.to_string(),
-    "-" "-" => "-".to_string(),
-    "-" <err: error> => { errors.borrow_mut().push(err); "!".to_string() },
+    "-" "-" "-" => "-".to_string(),
+    "-" "-" <err: error> => { errors.borrow_mut().push(err); "!".to_string() },
     "(" <i: Item> ")" => i,
     "(" <err: error> ")" => { errors.borrow_mut().push(err); "()".to_string() },
 };

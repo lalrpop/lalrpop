@@ -552,6 +552,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
                 self.prefix);
             rust!(self.out, "break;");
             rust!(self.out, "}}");
+            rust!(self.out, "{}states.pop();", self.prefix);
             rust!(self.out, "}}"); // Some
             
             rust!(self.out, "None => {{");
