@@ -278,7 +278,6 @@ fn use_super_test1() {
 
 #[test]
 fn error_test1() {
-    use lalrpop_util::ParseError;
     match util::test_err_gen(error::parse_Items, "---+") {
         Err(ParseError::User { error: '+' }) => { /* OK! */ }
         r => {
@@ -290,13 +289,24 @@ fn error_test1() {
 #[test]
 fn error_recovery_eof() {
     let errors = RefCell::new(vec![]);
-    util::test(|v| error_recovery::__parse_table::parse_Item(&errors, v), "-", '!'.to_string());
+    util::test(|v| error_recovery::__parse_table::parse_Item(&errors, v), "--", '!'.to_string());
 
     assert_eq!(errors.borrow().len(), 1);
     assert_eq!(errors.borrow()[0], ParseError::UnrecognizedToken {
         token: None,
         expected: vec![],
     });
+}
+
+#[test]
+fn error_recovery_eof_without_recovery() {
+    let errors = RefCell::new(vec![]);
+    let tokens = util::tok::tokenize("-").into_iter().map(|t| t.1);
+    let result = error_recovery::__parse_table::parse_Item(&errors, tokens);
+    assert_eq!(result, Err(ParseError::UnrecognizedToken {
+        token: None,
+        expected: vec![],
+    }));
 }
 
 #[test]
