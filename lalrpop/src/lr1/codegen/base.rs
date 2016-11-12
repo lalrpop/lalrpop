@@ -148,7 +148,7 @@ impl<'codegen, 'grammar, W: Write, C> CodeGenerator<'codegen, 'grammar, W, C> {
         if self.grammar.intern_token.is_some() {
             // if we are generating the tokenizer, create a matcher as our input iterator
             rust!(self.out,
-                  "let mut {}tokens = {}::{}intern_token::{}Matcher::new(input).peekable();",
+                  "let mut {}tokens = {}::{}intern_token::{}Matcher::new(input);",
                   self.prefix,
                   self.action_module,
                   self.prefix,
@@ -165,7 +165,7 @@ impl<'codegen, 'grammar, W: Write, C> CodeGenerator<'codegen, 'grammar, W, C> {
                   clone_call);
 
             rust!(self.out,
-                  "let mut {}tokens = {}tokens.map(|t| {}ToTriple::to_triple(t)).peekable();",
+                  "let mut {}tokens = {}tokens.map(|t| {}ToTriple::to_triple(t));",
                   self.prefix,
                   self.prefix,
                   self.prefix);
