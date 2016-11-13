@@ -256,7 +256,11 @@ impl Types {
                 parse_error_type: TypeRepr::Tuple(vec![]) };
 
         types.parse_error_type = TypeRepr::Nominal(NominalTypeRepr {
-            path: Path::from_id(intern(&format!("{}lalrpop_util::ParseError", prefix))),
+            path: Path {
+                absolute: false,
+                ids: vec![intern(&format!("{}lalrpop_util", prefix)),
+                          intern("ParseError")],
+            },
             types: vec![
                 types.terminal_loc_type().clone(),
                 types.terminal_token_type().clone(),

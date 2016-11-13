@@ -214,4 +214,12 @@ grammar;
         ])
 }
 
-
+#[test]
+fn error() {
+    compare(r#"
+grammar;
+    Z = error;
+"#, vec![
+    ("Z", "__lalrpop_util::ParseError<usize, (usize, &'input str), ()>")
+        ])
+}
