@@ -5,6 +5,7 @@ use super::norm_util::{self, Symbols};
 
 use grammar::consts::*;
 use grammar::parse_tree::*;
+use grammar::repr as r;
 use intern::{intern, InternedString};
 use collections::{Multimap, set};
 use util::Sep;
@@ -186,6 +187,11 @@ impl<'grammar> Validator<'grammar> {
                 /* see resolve */
             }
             SymbolKind::Error => {
+                let mut algorithm = r::Algorithm::default();
+                read_algorithm(&self.grammar.annotations, &mut algorithm);
+                if algorithm.codegen == r::LrCodeGeneration::RecursiveAscent {
+                    return_err!(symbol.span, "error recovery is not yet supported by recursive ascent parsers");
+                }
             }
             SymbolKind::Macro(ref msym) => {
                 debug_assert!(msym.args.len() > 0);

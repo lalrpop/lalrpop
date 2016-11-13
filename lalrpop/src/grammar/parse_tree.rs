@@ -7,7 +7,8 @@ some pre-expansion and so forth before creating the proper AST.
 
 use intern::{intern, InternedString};
 use lexer::dfa::DFA;
-use grammar::repr::{NominalTypeRepr, TypeRepr};
+use grammar::consts::{LALR, RECURSIVE_ASCENT, TABLE_DRIVEN, TEST_ALL};
+use grammar::repr::{self as r, NominalTypeRepr, TypeRepr};
 use grammar::pattern::Pattern;
 use message::Content;
 use message::builder::InlineBuilder;
@@ -631,6 +632,23 @@ impl Path {
             Some(self.ids[0])
         } else {
             None
+        }
+    }
+}
+
+pub fn read_algorithm(annotations: &[Annotation], algorithm: &mut r::Algorithm) {
+    for annotation in annotations {
+        if annotation.id == intern(LALR) {
+            algorithm.lalr = true;
+        } else if annotation.id == intern(TABLE_DRIVEN) {
+            algorithm.codegen = r::LrCodeGeneration::TableDriven;
+        } else if annotation.id == intern(RECURSIVE_ASCENT) {
+            algorithm.codegen = r::LrCodeGeneration::RecursiveAscent;
+        } else if annotation.id == intern(TEST_ALL) {
+            algorithm.codegen = r::LrCodeGeneration::TestAll;
+        } else {
+            panic!("validation permitted unknown annotation: {:?}",
+                    annotation.id);
         }
     }
 }
