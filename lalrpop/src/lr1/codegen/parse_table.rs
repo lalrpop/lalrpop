@@ -30,13 +30,14 @@ pub fn compile<'grammar, W: Write>(grammar: &'grammar Grammar,
     table_driven.write()
 }
 
-// We create three parse tables:
+// We create three or four parse tables:
 //
 // - `ACTION[state * num_states + terminal]: i32`: given a state and next token,
 //   yields an integer indicating whether to shift/reduce (see below)
 // - `EOF_ACTION[state]: i32`: as above, but for the EOF token
 // - `GOTO[state * num_states + nonterminal]: i32`: index + 1 of state to jump to when given
 //   nonterminal is pushed (no error is possible)
+// - `ERROR[state]: i32` given a state it yields an integer indicating if it can be recovered from
 //
 // For the `ACTION` and `EOF_ACTION` tables, the value is an `i32` and
 // its interpretation varies depending on whether it is positive or
@@ -46,6 +47,9 @@ pub fn compile<'grammar, W: Write>(grammar: &'grammar Grammar,
 // - if a positive integer (not zero), it is the next state to shift to.
 // - if a negative integer (not zero), it is the index of a reduction
 //   action to execute (actually index + 1).
+//
+// The `ERROR` table is optional and is only generated if error recovery is used. If it exists it is filled
+// with states to shift into when a state is recoverable or zero otherwise.
 //
 // We maintain two stacks: one is a stack of state indexes (each an
 // u32). The other is a stack of values and spans: `(L, T, L)`. `L` is
@@ -89,7 +93,7 @@ pub fn compile<'grammar, W: Write>(grammar: &'grammar Grammar,
 //        };
 //
 //        // Code to process next symbol.
-//        loop {
+//        'inner: loop {
 //            let symbol = match lookahead {
 //               (l, PatternForTerminal0(...), r) => {
 //                   (l, Value::VariantForTerminal0(...), r),
@@ -105,7 +109,7 @@ pub fn compile<'grammar, W: Write>(grammar: &'grammar Grammar,
 //            } else if action < 0 { // reduce
 //                try!(reduce(action, Some(&lookahead.0), &mut states, &mut symbols));
 //            } else {
-//                return Err(...);
+//                try_error_recovery(...)?;
 //            }
 //        }
 //    }
@@ -138,6 +142,47 @@ pub fn compile<'grammar, W: Write>(grammar: &'grammar Grammar,
 //     let state = *states.last().unwrap();
 //     let next_state = GOTO[state * NUM_STATES + nonterminal];
 //     state_stack.push(next_state - 1);
+// }
+// 
+// fn try_error_recovery(...) {
+//     let original_state_len = states.len();
+//     loop {
+//         match states.last().cloned() {
+//             Some(state) => {
+//                 let start = lookahead.0.clone();
+//                 let end = lookahead.2.clone();
+//                 let error_state = ERROR[state as usize];
+//                 if error_state != 0 {
+//                     loop {
+//                         if ACTION[(error_state as usize - 1) * 5 + integer] != 0 {
+//                             let new_len = symbols.len() - (original_state_len - states.len());
+//                             symbols.truncate(new_len);
+//                             states.push(error_state - 1);
+//                             symbols.pushstart Symbol::Error(...), end));
+//                             continue 'inner;
+//                         }
+//                         lookahead = match tokens.next() {
+//                             Some(Ok(v)) => v,
+//                             None => break 'shift,
+//                             Some(Err(e)) => return Err(lalrpop_util::ParseError::User { error: e }),
+//                         };
+//                         last_location = lookahead.2.clone();
+//                         integer = match lookahead {
+//                             (_, PatternForTerminal0(...), _) => 0,
+//                             ...
+//                         };
+//                     }
+//                 }
+//                 states.pop();
+//             }
+//             None => {
+//                 return Err(lalrpop_util::ParseError::UnrecognizedToken {
+//                     token: Some(lookahead),
+//                     expected: vec![],
+//                 });
+//             }
+//         }
+//     }
 // }
 // ```
 
@@ -258,7 +303,8 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
             let ty = self.types.nonterminal_type(nt).clone();
             rust!(self.out, "{}({}),", name, ty);
         }
-
+        // make a variant which stores `lalrpop_util::ParseError`. Naming it `Error` should not cause any
+        // conflicts as the other variants have `Term` or `Nt` prefixes
         let error_type = self.types.parse_error_type();
         rust!(self.out, "Error({})", error_type);
 
@@ -294,11 +340,11 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
 
         rust!(self.out, "];");
 
-        // Only need the ERROR table if error recovery is used
+        // Only need the ERROR table if error recovery is used (if the `error` keyword is used in the grammar)
         if self.states.iter().any(|state| state.error.is_some()) {
-            // Error transitions which are positive integers for states that can be recovered from and zero
+            // Error transitions, which are positive integers for states that can be recovered from and zero
             // otherwise
-            rust!(self.out, "const {}ERRORS: &'static [i32] = &[", self.prefix);
+            rust!(self.out, "const {}ERROR: &'static [i32] = &[", self.prefix);
 
             for (index, state) in self.states.iter().enumerate() {
                 rust!(self.out, "// State {}", index);
@@ -369,8 +415,11 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
         // State and data stack.
         rust!(self.out, "let mut {}states = vec![0_i32];", self.prefix);
         rust!(self.out, "let mut {}symbols = vec![];", self.prefix);
+
         rust!(self.out, "let mut {}integer;", self.prefix);
         rust!(self.out, "let mut {}lookahead;", self.prefix);
+        // The location of the last token is necessary for for error recovery at EOF (or they would not have
+        // a location)
         rust!(self.out, "let mut {}last_location = Default::default();", self.prefix);
 
         // Outer loop: each time we continue around this loop, we
@@ -525,7 +574,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
             rust!(self.out, "match {}states.last().cloned() {{", self.prefix);
 
             rust!(self.out, "Some({}state) => {{", self.prefix);
-            rust!(self.out, "let {}error_state = {}ERRORS[{}state as usize];",
+            rust!(self.out, "let {}error_state = {}ERROR[{}state as usize];",
                 self.prefix,
                 self.prefix,
                 self.prefix);
@@ -938,7 +987,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
         rust!(self.out, "loop {{");
         rust!(self.out, "match {}states.last().cloned() {{", self.prefix);
         rust!(self.out, "Some({}state) => {{", self.prefix);
-        rust!(self.out, "let {}error_state = {}ERRORS[{}state as usize];",
+        rust!(self.out, "let {}error_state = {}ERROR[{}state as usize];",
             self.prefix,
             self.prefix,
             self.prefix);

@@ -340,7 +340,7 @@ extern {
         "mut" => Tok::Mut,
         "pub" => Tok::Pub,
         "type" => Tok::Type,
-        "error" => Tok::ErrorT,
+        "error" => Tok::ErrorTok,
         "use" => Tok::Use(<&'input str>),
         "where" => Tok::Where(<Vec<&'input str>>),
 
