@@ -50,6 +50,7 @@ impl<'grammar> Generator<'grammar> {
         match symbol {
             Symbol::Nonterminal(nt) => self.nonterminal(nt),
             Symbol::Terminal(t) => Some(ParseTree::Terminal(t)),
+            Symbol::Error => None,
         }
     }
 }
