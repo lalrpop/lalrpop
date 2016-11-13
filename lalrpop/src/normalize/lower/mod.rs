@@ -7,7 +7,7 @@ use normalize::norm_util::{self, Symbols};
 use grammar::consts::*;
 use grammar::pattern::{Pattern, PatternKind};
 use grammar::parse_tree as pt;
-use grammar::parse_tree::{InternToken, NonterminalString, TerminalString};
+use grammar::parse_tree::{InternToken, NonterminalString, TerminalString, read_algorithm};
 use grammar::repr as r;
 use session::Session;
 use collections::{map, Map};
@@ -147,20 +147,7 @@ impl<'s> LowerState<'s> {
             algorithm.codegen = r::LrCodeGeneration::TestAll;
         }
 
-        for annotation in &grammar.annotations {
-            if annotation.id == intern(LALR) {
-                algorithm.lalr = true;
-            } else if annotation.id == intern(TABLE_DRIVEN) {
-                algorithm.codegen = r::LrCodeGeneration::TableDriven;
-            } else if annotation.id == intern(RECURSIVE_ASCENT) {
-                algorithm.codegen = r::LrCodeGeneration::RecursiveAscent;
-            } else if annotation.id == intern(TEST_ALL) {
-                algorithm.codegen = r::LrCodeGeneration::TestAll;
-            } else {
-                panic!("validation permitted unknown annotation: {:?}",
-                       annotation.id);
-            }
-        }
+        read_algorithm(&grammar.annotations, &mut algorithm);
 
         let mut all_terminals: Vec<_> = self.conversions
                                             .iter()
