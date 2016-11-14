@@ -317,7 +317,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent,
             for (index, &token) in tokens.iter().enumerate() {
                 let pattern = match token {
                     Token::Terminal(s) => format!("Some({})", self.match_terminal_pattern(s)),
-                    Token::Error => unimplemented!(),
+                    Token::Error => panic!("Error recovery is not implemented for recursive ascent parsers"),
                     Token::EOF => format!("None"),
                 };
                 if index < tokens.len() - 1 {

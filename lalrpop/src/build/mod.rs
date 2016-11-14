@@ -348,14 +348,8 @@ fn emit_recursive_ascent(session: &Session, grammar: &r::Grammar) -> io::Result<
                                                         "super",
                                                         &mut rust)),
 
-            r::LrCodeGeneration::TestAll => {
-                try!(lr1::codegen::test_all::compile(&grammar, user_nt, start_nt, &states, &mut rust));
-                rust!(rust,
-                    "pub use self::{}parse{}::{}parse_table;",
-                    grammar.prefix,
-                    start_nt,
-                    grammar.prefix);
-            }
+            r::LrCodeGeneration::TestAll =>
+                try!(lr1::codegen::test_all::compile(&grammar, user_nt, start_nt, &states, &mut rust)),
         }
 
         rust!(rust,

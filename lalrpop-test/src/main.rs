@@ -289,7 +289,7 @@ fn error_test1() {
 #[test]
 fn error_recovery_eof() {
     let errors = RefCell::new(vec![]);
-    util::test(|v| error_recovery::__parse_table::parse_Item(&errors, v), "--", '!'.to_string());
+    util::test(|v| error_recovery::parse_Item(&errors, v), "--", '!'.to_string());
 
     assert_eq!(errors.borrow().len(), 1);
     assert_eq!(errors.borrow()[0], ParseError::UnrecognizedToken {
@@ -302,7 +302,7 @@ fn error_recovery_eof() {
 fn error_recovery_eof_without_recovery() {
     let errors = RefCell::new(vec![]);
     let tokens = util::tok::tokenize("-").into_iter().map(|t| t.1);
-    let result = error_recovery::__parse_table::parse_Item(&errors, tokens);
+    let result = error_recovery::parse_Item(&errors, tokens);
     assert_eq!(result, Err(ParseError::UnrecognizedToken {
         token: None,
         expected: vec![],
@@ -312,7 +312,7 @@ fn error_recovery_eof_without_recovery() {
 #[test]
 fn error_recovery_extra_token() {
     let errors = RefCell::new(vec![]);
-    util::test(|v| error_recovery::__parse_table::parse_Item(&errors, v), "(++)", "()".to_string());
+    util::test(|v| error_recovery::parse_Item(&errors, v), "(++)", "()".to_string());
 
     assert_eq!(errors.borrow().len(), 1);
     assert_eq!(errors.borrow()[0], ParseError::UnrecognizedToken {
@@ -324,7 +324,7 @@ fn error_recovery_extra_token() {
 #[test]
 fn error_recovery_dont_drop_unrecognized_token() {
     let errors = RefCell::new(vec![]);
-    util::test(|v| error_recovery::__parse_table::parse_Item(&errors, v), "(--)", "!".to_string());
+    util::test(|v| error_recovery::parse_Item(&errors, v), "(--)", "!".to_string());
 
     assert_eq!(errors.borrow().len(), 1);
     assert_eq!(errors.borrow()[0], ParseError::UnrecognizedToken {
@@ -336,7 +336,7 @@ fn error_recovery_dont_drop_unrecognized_token() {
 #[test]
 fn error_recovery_multiple_extra_tokens() {
     let errors = RefCell::new(vec![]);
-    util::test(|v| error_recovery::__parse_table::parse_Item(&errors, v), "(+++)", "()".to_string());
+    util::test(|v| error_recovery::parse_Item(&errors, v), "(+++)", "()".to_string());
 
     assert_eq!(errors.borrow().len(), 1);
     assert_eq!(errors.borrow()[0], ParseError::UnrecognizedToken {
