@@ -25,6 +25,7 @@ struct LowerState<'s> {
     conversions: Vec<(TerminalString, Pattern<r::TypeRepr>)>,
     intern_token: Option<InternToken>,
     types: r::Types,
+    uses_error_recovery: bool,
 }
 
 impl<'s> LowerState<'s> {
@@ -37,6 +38,7 @@ impl<'s> LowerState<'s> {
             conversions: vec![],
             types: types,
             intern_token: None,
+            uses_error_recovery: false,
         }
     }
 
@@ -143,7 +145,9 @@ impl<'s> LowerState<'s> {
 
         let mut algorithm = r::Algorithm::default();
 
-        if self.session.unit_test {
+        // FIXME Error recovery only works for parse tables so temporarily only generate parse tables for
+        // testing
+        if self.session.unit_test && !self.uses_error_recovery {
             algorithm.codegen = r::LrCodeGeneration::TestAll;
         }
 
@@ -351,7 +355,10 @@ impl<'s> LowerState<'s> {
             pt::SymbolKind::Terminal(id) => r::Symbol::Terminal(id),
             pt::SymbolKind::Nonterminal(id) => r::Symbol::Nonterminal(id),
             pt::SymbolKind::Choose(ref s) | pt::SymbolKind::Name(_, ref s) => self.symbol(s),
-            pt::SymbolKind::Error => r::Symbol::Error,
+            pt::SymbolKind::Error => {
+                self.uses_error_recovery = true;
+                r::Symbol::Error
+            }
 
             pt::SymbolKind::Macro(..) |
             pt::SymbolKind::Repeat(..) |
