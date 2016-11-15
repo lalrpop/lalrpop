@@ -50,12 +50,6 @@ impl<'trace, 'grammar> LaneTracer<'trace, 'grammar> {
                 self.table.add_lookahead(state, conflict, &token_set);
             }
 
-            Some((Symbol::Error, _)) => {
-                let mut token_set = TokenSet::new();
-                token_set.insert(Token::Error);
-                self.table.add_lookahead(state, conflict, &token_set);
-            }
-
             Some((Symbol::Nonterminal(_), _)) => {
                 panic!("invalid conflict item `{:?}`: shifts nonterminal",
                        item);

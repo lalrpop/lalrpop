@@ -11,7 +11,7 @@ use util::{Escape, Sep};
 
 use super::base::CodeGenerator;
 
-const DEBUG_PRINT: bool = false;
+const DEBUG_PRINT: bool = true;
 
 pub fn compile<'grammar, W: Write>(grammar: &'grammar Grammar,
                                    user_start_symbol: NonterminalString,
@@ -282,11 +282,6 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
             let ty = self.types.nonterminal_type(nt).clone();
             rust!(self.out, "{}({}),", name, ty);
         }
-        // make a variant which stores `lalrpop_util::ParseError`. Naming it `Error` should not cause any
-        // conflicts as the other variants have `Term` or `Nt` prefixes
-        let error_type = self.types.parse_error_type();
-        rust!(self.out, "Error({})", error_type);
-
         rust!(self.out, "}}");
         Ok(())
     }
@@ -590,7 +585,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
                 self.prefix,
                 self.prefix);
             rust!(self.out,
-                "{}symbols.push(({}last_location.clone(), {}Symbol::Error({}error), {}last_location.clone()));",
+                "{}symbols.push(({}last_location.clone(), {}Symbol::Termerror({}error), {}last_location.clone()));",
                 self.prefix,
                 self.prefix,
                 self.prefix,
@@ -649,6 +644,9 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
               self.prefix,
               self.prefix);
         for (&terminal, index) in self.grammar.terminals.all.iter().zip(0..) {
+            if terminal == TerminalString::Error {
+                continue;
+            }
             let pattern = self.grammar.pattern(terminal).map(&mut |_| "_");
             rust!(self.out, "{} if true => {},", pattern, index);
         }
@@ -672,6 +670,9 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
               self.prefix,
               self.prefix);
         for (&terminal, index) in self.grammar.terminals.all.iter().zip(0..) {
+            if terminal == TerminalString::Error {
+                continue;
+            }
             rust!(self.out, "{} => match {}lookahead.1 {{", index, self.prefix);
 
             let mut pattern_names = vec![];
@@ -906,7 +907,6 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
         match s {
             Symbol::Nonterminal(nt) => format!("Nt{}", Escape(nt)),
             Symbol::Terminal(t) => format!("Term{}", Escape(t)),
-            Symbol::Error => format!("Error")
         }
     }
 
@@ -922,10 +922,6 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
             let ty = self.types.nonterminal_type(nt).clone();
             try!(self.emit_downcast_fn(&name, ty));
         }
-
-        // Generate an extra variant for storing the error for `error` recovery
-        let error_type = self.types.parse_error_type().clone();
-        try!(self.emit_downcast_fn("Error", error_type));
 
         Ok(())
     }
@@ -967,6 +963,44 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
     }
 
     fn error_recovery(&mut self) -> io::Result<()> {
+        let phantom_data_expr = self.phantom_data_expr();
+        
+        rust!(self.out, "loop {{");
+        rust!(self.out, "let {}state = *{}states.last().unwrap() as usize;",
+              self.prefix,
+              self.prefix);
+
+        if DEBUG_PRINT {
+            rust!(self.out, r#"println!("Error recovery in state: {{}}", {}state);"#,
+                  self.prefix);
+        }
+
+        rust!(self.out, "let {}action = {}ACTION[({}state + 1) * {} - 1];",
+              self.prefix,
+              self.prefix,
+              self.prefix,
+              self.grammar.terminals.all.len());
+        rust!(self.out, "if {}action >= 0 {{", self.prefix);
+        rust!(self.out, "break;");
+        rust!(self.out, "}}");
+
+        if DEBUG_PRINT {
+            rust!(self.out, r#"println!("Error recovery reduces on action: {{}}", {}action);"#,
+                  self.prefix);
+        }
+
+        rust!(self.out,
+              "if let Some(r) = {}reduce({}{}action, None, &mut {}states, &mut {}symbols, {}) {{",
+              self.prefix,
+              self.grammar.user_parameter_refs(),
+              self.prefix,
+              self.prefix,
+              self.prefix,
+              phantom_data_expr);
+        rust!(self.out, "return r;");
+        rust!(self.out, "}}");
+        rust!(self.out, "}}");
+
         rust!(self.out, "let {}original_state_len = {}states.len();",
             self.prefix,
             self.prefix);
@@ -1018,7 +1052,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
             self.prefix,
             self.prefix);
         rust!(self.out,
-            "{}symbols.push(({}start, {}Symbol::Error({}error), {}end));",
+            "{}symbols.push(({}start, {}Symbol::Termerror({}error), {}end));",
             self.prefix,
             self.prefix,
             self.prefix,

@@ -142,6 +142,9 @@ impl<'grammar> Validator<'grammar> {
                 TerminalString::Literal(l) => {
                     self.all_literals.entry(l).or_insert(span);
                 }
+
+                // Error is a builtin terminal that always exists
+                TerminalString::Error => (),
             }
         }
 

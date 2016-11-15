@@ -69,7 +69,7 @@ impl<'grammar> NonterminalGraph<'grammar> {
                             self.graph.add_edge(from_index, to_index, ());
                         }
                     }
-                    Symbol::Terminal(_) | Symbol::Error => { }
+                    Symbol::Terminal(_) => { }
                 }
             }
         }

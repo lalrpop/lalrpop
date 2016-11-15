@@ -99,7 +99,6 @@ impl Example {
                 match *symbol {
                     ExampleSymbol::Symbol(Symbol::Terminal(_)) => styles.on_cursor,
                     ExampleSymbol::Symbol(Symbol::Nonterminal(_)) => styles.after_cursor,
-                    ExampleSymbol::Symbol(Symbol::Error) => styles.on_cursor,
                     ExampleSymbol::Epsilon => styles.after_cursor,
                 }
             };
@@ -330,12 +329,6 @@ impl Example {
                     view.write_chars(0,
                                      column,
                                      term.to_string().chars(),
-                                     style.with(session.terminal_symbol));
-                }
-                ExampleSymbol::Symbol(Symbol::Error) => {
-                    view.write_chars(0,
-                                     column,
-                                     "error".chars(),
                                      style.with(session.terminal_symbol));
                 }
                 ExampleSymbol::Symbol(Symbol::Nonterminal(nt)) => {

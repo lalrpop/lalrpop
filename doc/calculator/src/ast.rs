@@ -3,6 +3,7 @@ use std::fmt::{Debug, Formatter, Error};
 pub enum Expr {
     Number(i32),
     Op(Box<Expr>, Opcode, Box<Expr>),
+    Error,
 }
 
 #[derive(Copy, Clone)]
@@ -19,6 +20,7 @@ impl Debug for Expr {
         match *self {
             Number(n) => write!(fmt, "{:?}", n),
             Op(ref l, op, ref r) => write!(fmt, "({:?} {:?} {:?})", l, op, r),
+            Error => write!(fmt, "error"),
         }
     }
 }
