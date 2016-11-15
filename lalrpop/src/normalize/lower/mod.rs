@@ -156,6 +156,7 @@ impl<'s> LowerState<'s> {
         let mut all_terminals: Vec<_> = self.conversions
                                             .iter()
                                             .map(|c| c.0)
+                                            .chain(Some(TerminalString::Error))
                                             .collect();
         all_terminals.sort();
 
@@ -357,7 +358,7 @@ impl<'s> LowerState<'s> {
             pt::SymbolKind::Choose(ref s) | pt::SymbolKind::Name(_, ref s) => self.symbol(s),
             pt::SymbolKind::Error => {
                 self.uses_error_recovery = true;
-                r::Symbol::Error
+                r::Symbol::Terminal(TerminalString::Error)
             }
 
             pt::SymbolKind::Macro(..) |

@@ -45,11 +45,6 @@ impl FirstSets {
                     return result;
                 }
 
-                Symbol::Error => {
-                    result.insert(Token::Error);
-                    return result;
-                }
-
                 Symbol::Nonterminal(nt) => {
                     let mut empty_prod = false;
                     match self.map.get(&nt) {

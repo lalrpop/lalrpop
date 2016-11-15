@@ -248,6 +248,7 @@ pub enum SymbolKind {
 pub enum TerminalString {
     Literal(TerminalLiteral),
     Bare(InternedString),
+    Error,
 }
 
 #[derive(Copy, Clone, Hash, PartialEq, Eq, PartialOrd, Ord)]
@@ -389,6 +390,8 @@ impl Display for TerminalString {
                 write!(fmt, "{}", s),
             TerminalString::Bare(s) =>
                 write!(fmt, "{}", s),
+            TerminalString::Error => 
+                write!(fmt, "error"),
         }
     }
 }

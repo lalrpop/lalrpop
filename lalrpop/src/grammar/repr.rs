@@ -109,7 +109,6 @@ pub struct Production {
 pub enum Symbol {
     Nonterminal(NonterminalString),
     Terminal(TerminalString),
-    Error,
 }
 
 #[derive(Clone, PartialEq, Eq)]
@@ -267,6 +266,7 @@ impl Types {
                 types.error_type()
             ],
         });
+        types.terminal_types.insert(TerminalString::Error, types.parse_error_type.clone());
         types
     }
 
@@ -405,7 +405,7 @@ impl ActionFn {
 impl Symbol {
     pub fn is_terminal(&self) -> bool {
         match *self {
-            Symbol::Terminal(..) | Symbol::Error => true,
+            Symbol::Terminal(..) => true,
             Symbol::Nonterminal(..) => false,
         }
     }
@@ -414,7 +414,6 @@ impl Symbol {
         match *self {
             Symbol::Terminal(id) => t.terminal_type(id),
             Symbol::Nonterminal(id) => t.nonterminal_type(id),
-            Symbol::Error => &t.parse_error_type,
         }
     }
 }
@@ -424,7 +423,6 @@ impl Display for Symbol {
         match *self {
             Symbol::Nonterminal(id) => write!(fmt, "{}", id),
             Symbol::Terminal(id) => write!(fmt, "{}", id),
-            Symbol::Error => write!(fmt, "error"),
         }
     }
 }
@@ -440,14 +438,6 @@ impl Into<Box<Content>> for Symbol {
         match self {
             Symbol::Nonterminal(nt) => nt.into(),
             Symbol::Terminal(term) => term.into(),
-            Symbol::Error => {
-                let session = ::tls::Tls::session();
-
-                ::message::builder::InlineBuilder::new()
-                    .text("error")
-                    .styled(session.terminal_symbol)
-                    .end()
-            }
         }
     }
 }
