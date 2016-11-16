@@ -70,7 +70,7 @@ fn calculator7() {
     assert_eq!(&format!("{:?}", calculator7::parse_Exprs("22 * 44 + 66, *3").unwrap()),
                "[((22 * 44) + 66), (error * 3)]");
     assert_eq!(&format!("{:?}", calculator7::parse_Exprs("*").unwrap()),
-               "[error]");
+               "[(error * error)]");
 }
 
 
