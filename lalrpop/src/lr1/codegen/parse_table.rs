@@ -499,7 +499,69 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
         rust!(self.out, "}} else {{");
 
         if self.states.iter().any(|state| state.error.is_some()) {
-            try!(self.error_recovery());
+            rust!(self.out,
+                "let {}error = {}lalrpop_util::ParseError::UnrecognizedToken {{",
+                self.prefix,
+                self.prefix);
+            rust!(self.out, "token: Some({}lookahead.clone()),", self.prefix);
+            rust!(self.out, "expected: vec![],");
+            rust!(self.out, "}};");
+            try!(self.error_recovery(""));
+            rust!(self.out, "let {}start = {}lookahead.0.clone();", self.prefix, self.prefix);
+            rust!(self.out, "let {}end = {}lookahead.2.clone();", self.prefix, self.prefix);
+
+            if DEBUG_PRINT {
+                rust!(self.out, "println!(\"Attempting to recover on state: {{}}, error_state: {{}}, symbols: {{}}\", {}state, {}error_state - 1, {}symbols.len());",
+                    self.prefix,
+                    self.prefix,
+                    self.prefix);
+            }
+            
+            // Loop which drops tokens until parsing can resume again
+            rust!(self.out, "loop {{");
+            rust!(self.out, "if {}ACTION[({}error_state as usize - 1) * {} + {}integer] != 0 {{",
+                self.prefix,
+                self.prefix,
+                self.grammar.terminals.all.len(),
+                self.prefix);
+            rust!(self.out, "let {}new_len = {}symbols.len() - ({}original_state_len - {}states.len());",
+                self.prefix,
+                self.prefix,
+                self.prefix,
+                self.prefix);
+            rust!(self.out, "{}symbols.truncate({}new_len);",
+                self.prefix,
+                self.prefix);
+            rust!(self.out, "{}states.push({}error_state - 1);",
+                self.prefix,
+                self.prefix);
+            rust!(self.out,
+                "{}symbols.push(({}start, {}Symbol::Termerror({}error), {}end));",
+                self.prefix,
+                self.prefix,
+                self.prefix,
+                self.prefix,
+                self.prefix);
+            
+            if DEBUG_PRINT {
+                rust!(self.out, "println!(\"Recovering on state: {{}}, lookahead: {{}}, symbols: {{}}\", {}error_state - 1, {}integer, {}symbols.len());",
+                    self.prefix,
+                    self.prefix,
+                    self.prefix);
+            }
+            
+            rust!(self.out, "continue '{}inner;", self.prefix);
+            rust!(self.out, "}}");// if ACTION
+
+            try!(self.next_token());
+            try!(self.token_to_integer());
+
+            if DEBUG_PRINT {
+                rust!(self.out, "println!(\"Skipping token: {{}}\", {}integer);",
+                    self.prefix);
+            }
+            
+            rust!(self.out, "}}"); // loop
         } else {
             rust!(self.out,
                 "return Err({}lalrpop_util::ParseError::UnrecognizedToken {{",
@@ -560,31 +622,10 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
         rust!(self.out, "}};");
 
         if self.states.iter().any(|state| state.error.is_some()) {
-            rust!(self.out, "let {}original_state_len = {}states.len();",
+            let extra_test = format!("&& {}EOF_ACTION[({}error_state as usize - 1)] != 0 ",
                 self.prefix,
                 self.prefix);
-            
-            // Loop which pops states until a state that can be recovered from is found
-            rust!(self.out, "loop {{");
-            rust!(self.out, "match {}states.last().cloned() {{", self.prefix);
-
-            rust!(self.out, "Some({}state) => {{", self.prefix);
-            rust!(self.out, "let {}error_state = {}ERROR[{}state as usize];",
-                self.prefix,
-                self.prefix,
-                self.prefix);
-
-            if DEBUG_PRINT {
-                rust!(self.out, "println!(\"Attempting to recover on EOF in state: {{}}, error_state: {{}}, symbols: {{}}\", {}state, {}error_state - 1, {}symbols.len());",
-                    self.prefix,
-                    self.prefix,
-                    self.prefix);
-            }
-
-            rust!(self.out, "if {}error_state != 0 && {}EOF_ACTION[({}error_state as usize - 1)] != 0 {{",
-                self.prefix,
-                self.prefix,
-                self.prefix);
+            try!(self.error_recovery(&extra_test));
             rust!(self.out, "let {}new_len = {}symbols.len() - ({}original_state_len - {}states.len());",
                 self.prefix,
                 self.prefix,
@@ -603,19 +644,6 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
                 self.prefix,
                 self.prefix,
                 self.prefix);
-            rust!(self.out, "break;");
-            rust!(self.out, "}}");
-            rust!(self.out, "{}states.pop();", self.prefix);
-            rust!(self.out, "}}"); // Some
-            
-            rust!(self.out, "None => {{");
-            rust!(self.out,
-                "return Err({}error);",
-                self.prefix);
-            rust!(self.out, "}}"); // None
-
-            rust!(self.out, "}}"); // match
-            rust!(self.out, "}}"); // loop
         } else {
             rust!(self.out, "return Err({}error);", self.prefix);
         }
@@ -974,7 +1002,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
         Ok(())
     }
 
-    fn error_recovery(&mut self) -> io::Result<()> {
+    fn error_recovery(&mut self, extra_test: &str) -> io::Result<()> {
         let phantom_data_expr = self.phantom_data_expr();
         
         rust!(self.out, "loop {{");
@@ -1017,89 +1045,24 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
             self.prefix,
             self.prefix);
 
+        // Used after breaking out of the loop
+        rust!(self.out, "let mut {}error_state;", self.prefix);
         // Loop which pops states until a state that can be recovered from is found
         rust!(self.out, "loop {{");
         rust!(self.out, "match {}states.last().cloned() {{", self.prefix);
         rust!(self.out, "Some({}state) => {{", self.prefix);
-        rust!(self.out, "let {}error_state = {}ERROR[{}state as usize];",
+        rust!(self.out, "{}error_state = {}ERROR[{}state as usize];",
             self.prefix,
             self.prefix,
             self.prefix);
 
-        rust!(self.out, "if {}error_state != 0 {{", self.prefix);
-
-        rust!(self.out, "let {}start = {}lookahead.0.clone();", self.prefix, self.prefix);
-        rust!(self.out, "let {}end = {}lookahead.2.clone();", self.prefix, self.prefix);
-        rust!(self.out,
-            "let {}error = {}lalrpop_util::ParseError::UnrecognizedToken {{",
-            self.prefix,
-            self.prefix);
-        rust!(self.out, "token: Some({}lookahead.clone()),", self.prefix);
-        rust!(self.out, "expected: vec![],");
-        rust!(self.out, "}};");
-
-        if DEBUG_PRINT {
-            rust!(self.out, "println!(\"Attempting to recover on state: {{}}, error_state: {{}}, symbols: {{}}\", {}state, {}error_state - 1, {}symbols.len());",
-                self.prefix,
-                self.prefix,
-                self.prefix);
-        }
-        
-        // Loop which drops tokens until parsing can resume again
-        rust!(self.out, "loop {{");
-        rust!(self.out, "if {}ACTION[({}error_state as usize - 1) * {} + {}integer] != 0 {{",
-            self.prefix,
-            self.prefix,
-            self.grammar.terminals.all.len(),
-            self.prefix);
-        rust!(self.out, "let {}new_len = {}symbols.len() - ({}original_state_len - {}states.len());",
-            self.prefix,
-            self.prefix,
-            self.prefix,
-            self.prefix);
-        rust!(self.out, "{}symbols.truncate({}new_len);",
-            self.prefix,
-            self.prefix);
-        rust!(self.out, "{}states.push({}error_state - 1);",
-            self.prefix,
-            self.prefix);
-        rust!(self.out,
-            "{}symbols.push(({}start, {}Symbol::Termerror({}error), {}end));",
-            self.prefix,
-            self.prefix,
-            self.prefix,
-            self.prefix,
-            self.prefix);
-        
-        if DEBUG_PRINT {
-            rust!(self.out, "println!(\"Recovering on state: {{}}, lookahead: {{}}, symbols: {{}}\", {}error_state - 1, {}integer, {}symbols.len());",
-                self.prefix,
-                self.prefix,
-                self.prefix);
-        }
-        
-        rust!(self.out, "continue '{}inner;", self.prefix);
-        rust!(self.out, "}}");// if ACTION
-
-        try!(self.next_token());
-        try!(self.token_to_integer());
-
-        if DEBUG_PRINT {
-            rust!(self.out, "println!(\"Skipping token: {{}}\", {}integer);",
-                self.prefix);
-        }
-        
-        rust!(self.out, "}}"); // loop
+        rust!(self.out, "if {}error_state != 0 {} {{", self.prefix, extra_test);
+        rust!(self.out, "break;");
         rust!(self.out, "}}");
         rust!(self.out, "{}states.pop();", self.prefix);
         rust!(self.out, "}}"); // Some 
         rust!(self.out, "None => {{");
-        rust!(self.out,
-            "return Err({}lalrpop_util::ParseError::UnrecognizedToken {{",
-            self.prefix);
-        rust!(self.out, "token: Some({}lookahead),", self.prefix);
-        rust!(self.out, "expected: vec![],");
-        rust!(self.out, "}});");
+        rust!(self.out, "return Err({}error);", self.prefix);
         rust!(self.out, "}}");
         rust!(self.out, "}}"); // match
 

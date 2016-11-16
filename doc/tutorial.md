@@ -691,6 +691,25 @@ fn calculator5() {
 }
 ```
 
+<a id="calculator7"></a>
+### calculator5: Error recovery
+
+```rust
+pub enum Expr {
+    Number(i32),
+    Op(Box<Expr>, Opcode, Box<Expr>),
+    Error,
+}
+```
+
+```rust
+Term: Box<Expr> = {
+    Num => Box::new(Expr::Number(<>)),
+    "(" <Expr> ")",
+    error => Box::new(Expr::Error),
+};
+```
+
 [main]: ./calculator/src/main.rs
 [calculator]: ./calculator/
 [cargotoml]: ./calculator/Cargo.toml
@@ -700,4 +719,5 @@ fn calculator5() {
 [calculator4]: ./calculator/src/calculator4.lalrpop
 [calculator5]: ./calculator/src/calculator5.lalrpop
 [calculator6]: ./calculator/src/calculator6.lalrpop
+[calculator7]: ./calculator/src/calculator7.lalrpop
 [astrs]: ./calculator/src/ast.rs
