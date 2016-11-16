@@ -692,7 +692,27 @@ fn calculator5() {
 ```
 
 <a id="calculator7"></a>
-### calculator5: Error recovery
+### calculator7: Error recovery
+
+To make the parser more friendly we can add error recovery to the grammar.
+Error recovery is added by using the `error` keyword in an alternative and
+is only matched when the parser encounters an error. If the parser does
+encounter an error it will do any reductions it can, then try and find a state
+which can be recovered from (as indicated by the `error` keyword) finally it
+drops tokens until it encounters a token which lets parsing continue successfully.
+
+Lets see how we can use error recovery to attempt to find multiple errors during
+parsing. First we need a way to return multiple errors as this is not something
+that LALRPOP does by itself so we add a `Vec` storing the errors we found during
+parsing.
+
+```
+grammar<'err>(errors: &'err mut Vec<ParseError<usize, (usize, &'input str), ()>>);
+```
+
+Since an alternative containing `error` is expected to return the same type of
+value as the other alternatives in the production we add an extra variant to
+`Expr` to indicate that an error was found.
 
 ```rust
 pub enum Expr {
@@ -702,12 +722,31 @@ pub enum Expr {
 }
 ```
 
+Finally we modify the grammar, adding a third alternative containing `error`
+which simply stores the `ParseError` received from `error` in `errors` and
+returns an `Expr::Error`.
+
 ```rust
 Term: Box<Expr> = {
     Num => Box::new(Expr::Number(<>)),
     "(" <Expr> ")",
-    error => Box::new(Expr::Error),
+    error => { errors.push(<>); Box::new(Expr::Error) },
 };
+```
+
+```rust
+#[test]
+fn calculator7() {
+    let mut errors = Vec::new();
+    assert_eq!(&format!("{:?}", calculator7::parse_Exprs(&mut errors, "22 * + 3").unwrap()),
+               "[((22 * error) + 3)]");
+    assert_eq!(&format!("{:?}", calculator7::parse_Exprs(&mut errors, "22 * 44 + 66, *3").unwrap()),
+               "[((22 * 44) + 66), (error * 3)]");
+    assert_eq!(&format!("{:?}", calculator7::parse_Exprs(&mut errors, "*").unwrap()),
+               "[(error * error)]");
+    
+    assert_eq!(errors.len(), 4);
+}
 ```
 
 [main]: ./calculator/src/main.rs

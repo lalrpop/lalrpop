@@ -1,3 +1,5 @@
+extern crate lalrpop_util;
+
 pub mod calculator1; // syntesized by LALRPOP
 
 #[test]
@@ -65,14 +67,16 @@ pub mod calculator7;
 
 #[test]
 fn calculator7() {
-    assert_eq!(&format!("{:?}", calculator7::parse_Exprs("22 * + 3").unwrap()),
+    let mut errors = Vec::new();
+    assert_eq!(&format!("{:?}", calculator7::parse_Exprs(&mut errors, "22 * + 3").unwrap()),
                "[((22 * error) + 3)]");
-    assert_eq!(&format!("{:?}", calculator7::parse_Exprs("22 * 44 + 66, *3").unwrap()),
+    assert_eq!(&format!("{:?}", calculator7::parse_Exprs(&mut errors, "22 * 44 + 66, *3").unwrap()),
                "[((22 * 44) + 66), (error * 3)]");
-    assert_eq!(&format!("{:?}", calculator7::parse_Exprs("*").unwrap()),
+    assert_eq!(&format!("{:?}", calculator7::parse_Exprs(&mut errors, "*").unwrap()),
                "[(error * error)]");
+    
+    assert_eq!(errors.len(), 4);
 }
-
 
 #[cfg(not(test))]
 fn main() {
