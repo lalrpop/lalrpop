@@ -12,7 +12,7 @@ use util::{Escape, Sep};
 
 use super::base::CodeGenerator;
 
-const DEBUG_PRINT: bool = true;
+const DEBUG_PRINT: bool = false;
 
 pub fn compile<'grammar, W: Write>(grammar: &'grammar Grammar,
                                    user_start_symbol: NonterminalString,
@@ -30,14 +30,13 @@ pub fn compile<'grammar, W: Write>(grammar: &'grammar Grammar,
     table_driven.write()
 }
 
-// We create three or four parse tables:
+// We create three parse tables:
 //
 // - `ACTION[state * num_states + terminal]: i32`: given a state and next token,
 //   yields an integer indicating whether to shift/reduce (see below)
 // - `EOF_ACTION[state]: i32`: as above, but for the EOF token
 // - `GOTO[state * num_states + nonterminal]: i32`: index + 1 of state to jump to when given
 //   nonterminal is pushed (no error is possible)
-// - `ERROR[state]: i32` given a state it yields an integer indicating if it can be recovered from
 //
 // For the `ACTION` and `EOF_ACTION` tables, the value is an `i32` and
 // its interpretation varies depending on whether it is positive or
@@ -47,9 +46,6 @@ pub fn compile<'grammar, W: Write>(grammar: &'grammar Grammar,
 // - if a positive integer (not zero), it is the next state to shift to.
 // - if a negative integer (not zero), it is the index of a reduction
 //   action to execute (actually index + 1).
-//
-// The `ERROR` table is optional and is only generated if error recovery is used. If it exists it is filled
-// with states to shift into when a state is recoverable or zero otherwise.
 //
 // We maintain two stacks: one is a stack of state indexes (each an
 // u32). The other is a stack of values and spans: `(L, T, L)`. `L` is
@@ -145,43 +141,57 @@ pub fn compile<'grammar, W: Write>(grammar: &'grammar Grammar,
 // }
 // 
 // fn try_error_recovery(...) {
+//     loop {
+//         let state = *states.last().unwrap() as usize;
+//         let action = ACTION[(state + 1) * 6 - 1];
+//         if action >= 0 {
+//             break;
+//         }
+//         if let Some(r) = reduce(errors, action, None, &mut states, &mut symbols, ::std::marker::PhantomData::<()>) {
+//             return r;
+//         }
+//     }
 //     let original_state_len = states.len();
+//     let mut error_state;
 //     loop {
 //         match states.last().cloned() {
 //             Some(state) => {
-//                 let start = lookahead.0.clone();
-//                 let end = lookahead.2.clone();
-//                 let error_state = ERROR[state as usize];
-//                 if error_state != 0 {
-//                     loop {
-//                         if ACTION[(error_state as usize - 1) * 5 + integer] != 0 {
-//                             let new_len = symbols.len() - (original_state_len - states.len());
-//                             symbols.truncate(new_len);
-//                             states.push(error_state - 1);
-//                             symbols.pushstart Symbol::Error(...), end));
-//                             continue 'inner;
-//                         }
-//                         lookahead = match tokens.next() {
-//                             Some(Ok(v)) => v,
-//                             None => break 'shift,
-//                             Some(Err(e)) => return Err(lalrpop_util::ParseError::User { error: e }),
-//                         };
-//                         last_location = lookahead.2.clone();
-//                         integer = match lookahead {
-//                             (_, PatternForTerminal0(...), _) => 0,
-//                             ...
-//                         };
-//                     }
+//                 error_state = ACTION[(state as usize + 1) * 6 - 1];
+//                 if error_state != 0  {
+//                     break;
 //                 }
 //                 states.pop();
 //             }
 //             None => {
+//                 return Err(error);
+//             }
+//         }
+//     }
+//     let start = lookahead.0.clone();
+//     let end = lookahead.2.clone();
+//     loop {
+//         if ACTION[(error_state as usize - 1) * 6 + integer] != 0 {
+//             let new_len = symbols.len() - (original_state_len - states.len());
+//             symbols.truncate(new_len);
+//             states.push(error_state - 1);
+//             symbols.push((start, Symbol::Termerror(error), end));
+//             continue 'inner;
+//         }
+//         lookahead = match tokens.next() {
+//             Some(Ok(v)) => v,
+//             None => break 'shift,
+//             Some(Err(e)) => return Err(lalrpop_util::ParseError::User { error: e }),
+//         };
+//         last_location = lookahead.2.clone();
+//         integer = match lookahead.1 {
+//             ... => ...,
+//             _ => {
 //                 return Err(lalrpop_util::ParseError::UnrecognizedToken {
 //                     token: Some(lookahead),
 //                     expected: vec![],
 //                 });
 //             }
-//         }
+//         };
 //     }
 // }
 // ```
@@ -335,28 +345,6 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
 
         rust!(self.out, "];");
 
-        // Only need the ERROR table if error recovery is used (if the `error` keyword is used in the grammar)
-        if self.states.iter().any(|state| state.error.is_some()) {
-            // Error transitions, which are positive integers for states that can be recovered from and zero
-            // otherwise
-            rust!(self.out, "const {}ERROR: &'static [i32] = &[", self.prefix);
-
-            for (index, state) in self.states.iter().enumerate() {
-                rust!(self.out, "// State {}", index);
-
-                if let Some(ref new_state) = state.error {
-                    rust!(self.out,
-                            "{}, // goto {}",
-                            new_state.0 + 1,
-                            new_state.0);
-                } else {
-                    rust!(self.out, "0, // error");
-                }
-            }
-
-            rust!(self.out, "];");
-        }
-
         // Actions on EOF. Indexed just by state.
         rust!(self.out,
               "const {}EOF_ACTION: &'static [i32] = &[",
@@ -498,78 +486,69 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
         // Error.
         rust!(self.out, "}} else {{");
 
-        if self.states.iter().any(|state| state.error.is_some()) {
-            rust!(self.out,
-                "let {}error = {}lalrpop_util::ParseError::UnrecognizedToken {{",
-                self.prefix,
-                self.prefix);
-            rust!(self.out, "token: Some({}lookahead.clone()),", self.prefix);
-            rust!(self.out, "expected: vec![],");
-            rust!(self.out, "}};");
-            try!(self.error_recovery(""));
-            rust!(self.out, "let {}start = {}lookahead.0.clone();", self.prefix, self.prefix);
-            rust!(self.out, "let {}end = {}lookahead.2.clone();", self.prefix, self.prefix);
+        rust!(self.out,
+            "let {}error = {}lalrpop_util::ParseError::UnrecognizedToken {{",
+            self.prefix,
+            self.prefix);
+        rust!(self.out, "token: Some({}lookahead.clone()),", self.prefix);
+        rust!(self.out, "expected: vec![],");
+        rust!(self.out, "}};");
+        try!(self.error_recovery(""));
+        rust!(self.out, "let {}start = {}lookahead.0.clone();", self.prefix, self.prefix);
+        rust!(self.out, "let {}end = {}lookahead.2.clone();", self.prefix, self.prefix);
 
-            if DEBUG_PRINT {
-                rust!(self.out, "println!(\"Attempting to recover on state: {{}}, error_state: {{}}, symbols: {{}}\", {}state, {}error_state - 1, {}symbols.len());",
-                    self.prefix,
-                    self.prefix,
-                    self.prefix);
-            }
-            
-            // Loop which drops tokens until parsing can resume again
-            rust!(self.out, "loop {{");
-            rust!(self.out, "if {}ACTION[({}error_state as usize - 1) * {} + {}integer] != 0 {{",
-                self.prefix,
-                self.prefix,
-                self.grammar.terminals.all.len(),
-                self.prefix);
-            rust!(self.out, "let {}new_len = {}symbols.len() - ({}original_state_len - {}states.len());",
-                self.prefix,
+        if DEBUG_PRINT {
+            rust!(self.out, "println!(\"Attempting to recover on state: {{}}, error_state: {{}}, symbols: {{}}\", {}state, {}error_state - 1, {}symbols.len());",
                 self.prefix,
                 self.prefix,
                 self.prefix);
-            rust!(self.out, "{}symbols.truncate({}new_len);",
-                self.prefix,
-                self.prefix);
-            rust!(self.out, "{}states.push({}error_state - 1);",
-                self.prefix,
-                self.prefix);
-            rust!(self.out,
-                "{}symbols.push(({}start, {}Symbol::Termerror({}error), {}end));",
-                self.prefix,
-                self.prefix,
-                self.prefix,
-                self.prefix,
-                self.prefix);
-            
-            if DEBUG_PRINT {
-                rust!(self.out, "println!(\"Recovering on state: {{}}, lookahead: {{}}, symbols: {{}}\", {}error_state - 1, {}integer, {}symbols.len());",
-                    self.prefix,
-                    self.prefix,
-                    self.prefix);
-            }
-            
-            rust!(self.out, "continue '{}inner;", self.prefix);
-            rust!(self.out, "}}");// if ACTION
-
-            try!(self.next_token());
-            try!(self.token_to_integer());
-
-            if DEBUG_PRINT {
-                rust!(self.out, "println!(\"Skipping token: {{}}\", {}integer);",
-                    self.prefix);
-            }
-            
-            rust!(self.out, "}}"); // loop
-        } else {
-            rust!(self.out,
-                "return Err({}lalrpop_util::ParseError::UnrecognizedToken {{",
-                self.prefix);
-            rust!(self.out, "token: Some({}lookahead),", self.prefix);
-            rust!(self.out, "expected: vec![],");
-            rust!(self.out, "}});");
         }
+        
+        // Loop which drops tokens until parsing can resume again
+        rust!(self.out, "loop {{");
+        rust!(self.out, "if {}ACTION[({}error_state as usize - 1) * {} + {}integer] != 0 {{",
+            self.prefix,
+            self.prefix,
+            self.grammar.terminals.all.len(),
+            self.prefix);
+        rust!(self.out, "let {}new_len = {}symbols.len() - ({}original_state_len - {}states.len());",
+            self.prefix,
+            self.prefix,
+            self.prefix,
+            self.prefix);
+        rust!(self.out, "{}symbols.truncate({}new_len);",
+            self.prefix,
+            self.prefix);
+        rust!(self.out, "{}states.push({}error_state - 1);",
+            self.prefix,
+            self.prefix);
+        rust!(self.out,
+            "{}symbols.push(({}start, {}Symbol::Termerror({}error), {}end));",
+            self.prefix,
+            self.prefix,
+            self.prefix,
+            self.prefix,
+            self.prefix);
+        
+        if DEBUG_PRINT {
+            rust!(self.out, "println!(\"Recovering on state: {{}}, lookahead: {{}}, symbols: {{}}\", {}error_state - 1, {}integer, {}symbols.len());",
+                self.prefix,
+                self.prefix,
+                self.prefix);
+        }
+        
+        rust!(self.out, "continue '{}inner;", self.prefix);
+        rust!(self.out, "}}");// if ACTION
+
+        try!(self.next_token());
+        try!(self.token_to_integer());
+
+        if DEBUG_PRINT {
+            rust!(self.out, "println!(\"Skipping token: {{}}\", {}integer);",
+                self.prefix);
+        }
+        
+        rust!(self.out, "}}"); // loop
 
         rust!(self.out, "}}"); // if-else-if-else
 
@@ -621,32 +600,28 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
         rust!(self.out, "expected: vec![],");
         rust!(self.out, "}};");
 
-        if self.states.iter().any(|state| state.error.is_some()) {
-            let extra_test = format!("&& {}EOF_ACTION[({}error_state as usize - 1)] != 0 ",
-                self.prefix,
-                self.prefix);
-            try!(self.error_recovery(&extra_test));
-            rust!(self.out, "let {}new_len = {}symbols.len() - ({}original_state_len - {}states.len());",
-                self.prefix,
-                self.prefix,
-                self.prefix,
-                self.prefix);
-            rust!(self.out, "{}symbols.truncate({}new_len);",
-                self.prefix,
-                self.prefix);
-            rust!(self.out, "{}states.push({}error_state - 1);",
-                self.prefix,
-                self.prefix);
-            rust!(self.out,
-                "{}symbols.push(({}last_location.clone(), {}Symbol::Termerror({}error), {}last_location.clone()));",
-                self.prefix,
-                self.prefix,
-                self.prefix,
-                self.prefix,
-                self.prefix);
-        } else {
-            rust!(self.out, "return Err({}error);", self.prefix);
-        }
+        let extra_test = format!("&& {}EOF_ACTION[({}error_state as usize - 1)] != 0 ",
+            self.prefix,
+            self.prefix);
+        try!(self.error_recovery(&extra_test));
+        rust!(self.out, "let {}new_len = {}symbols.len() - ({}original_state_len - {}states.len());",
+            self.prefix,
+            self.prefix,
+            self.prefix,
+            self.prefix);
+        rust!(self.out, "{}symbols.truncate({}new_len);",
+            self.prefix,
+            self.prefix);
+        rust!(self.out, "{}states.push({}error_state - 1);",
+            self.prefix,
+            self.prefix);
+        rust!(self.out,
+            "{}symbols.push(({}last_location.clone(), {}Symbol::Termerror({}error), {}last_location.clone()));",
+            self.prefix,
+            self.prefix,
+            self.prefix,
+            self.prefix,
+            self.prefix);
 
         rust!(self.out, "}}"); // else
 
@@ -1005,6 +980,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
     fn error_recovery(&mut self, extra_test: &str) -> io::Result<()> {
         let phantom_data_expr = self.phantom_data_expr();
         
+        // First perform all reductions from the current state
         rust!(self.out, "loop {{");
         rust!(self.out, "let {}state = *{}states.last().unwrap() as usize;",
               self.prefix,
@@ -1015,6 +991,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
                   self.prefix);
         }
 
+        // Access the action with `error` as the lookahead
         rust!(self.out, "let {}action = {}ACTION[({}state + 1) * {} - 1];",
               self.prefix,
               self.prefix,
@@ -1051,10 +1028,11 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
         rust!(self.out, "loop {{");
         rust!(self.out, "match {}states.last().cloned() {{", self.prefix);
         rust!(self.out, "Some({}state) => {{", self.prefix);
-        rust!(self.out, "{}error_state = {}ERROR[{}state as usize];",
+        rust!(self.out, "{}error_state = {}ACTION[({}state as usize + 1) * {} - 1];",
             self.prefix,
             self.prefix,
-            self.prefix);
+            self.prefix,
+            self.grammar.terminals.all.len());
 
         rust!(self.out, "if {}error_state != 0 {} {{", self.prefix, extra_test);
         rust!(self.out, "break;");

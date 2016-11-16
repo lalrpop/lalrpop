@@ -96,7 +96,6 @@ impl<'grammar, L: LookaheadBuild> LR<'grammar, L> {
                                          items: items.clone(),
                                          shifts: map(),
                                          reductions: vec!(),
-                                         error: None,
                                          gotos: map() };
 
             // group the items that we can transition into by shifting
@@ -129,10 +128,6 @@ impl<'grammar, L: LookaheadBuild> LR<'grammar, L> {
                     Symbol::Terminal(s) => {
                         let prev = this_state.shifts.insert(s, next_state);
                         assert!(prev.is_none()); // cannot have a shift/shift conflict
-                        if s == TerminalString::Error {
-                            assert!(this_state.error.is_none());
-                            this_state.error = Some(next_state);
-                        }
                     }
 
                     Symbol::Nonterminal(s) => {
