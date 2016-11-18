@@ -5,6 +5,7 @@ use grammar::repr::*;
 use lr1::core::*;
 use lr1::lookahead::Token;
 use rust::RustWrite;
+use std::fmt;
 use std::io::{self, Write};
 use tls::Tls;
 use util::{Escape, Sep};
@@ -140,6 +141,26 @@ pub fn compile<'grammar, W: Write>(grammar: &'grammar Grammar,
 // }
 // ```
 
+
+enum Comment<'a, T> {
+    Goto(T, usize),
+    Error(T),
+    Reduce(T, &'a Production),
+}
+
+impl<'a, T: fmt::Display> fmt::Display for Comment<'a, T> {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        match *self {
+            Comment::Goto(ref token, new_state) => 
+                write!(f, " // on {}, goto {}", token, new_state),
+            Comment::Error(ref token) =>
+                write!(f, " // on {}, error", token),
+            Comment::Reduce(ref token, production) =>
+                write!(f, " // on {}, reduce `{:?}`", token, production)
+        }
+    }
+}
+
 struct TableDriven<'grammar> {
     /// type parameters for the `Nonterminal` type
     symbol_type_params: Vec<TypeParameter>,
@@ -257,17 +278,15 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
             }
 
             // Write an action for each terminal (either shift, reduce, or error).
-            for &terminal in &self.grammar.terminals.all {
+            let custom = &self.custom;
+            let iterator = self.grammar.terminals.all.iter().map(|terminal| {
                 if let Some(new_state) = state.shifts.get(&terminal) {
-                    rust!(self.out,
-                          "{}, // on {}, goto {}",
-                          new_state.0 + 1,
-                          terminal,
-                          new_state.0);
+                    (new_state.0 as i32 + 1, Comment::Goto(Token::Terminal(*terminal), new_state.0))
                 } else {
-                    try!(self.write_reduction(state, Token::Terminal(terminal)));
+                    Self::write_reduction(custom, state, Token::Terminal(*terminal))
                 }
-            }
+            });
+            try!(self.out.write_table_row(iterator))
         }
 
         rust!(self.out, "];");
@@ -277,7 +296,8 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
               "const {}EOF_ACTION: &'static [i32] = &[",
               self.prefix);
         for state in self.states {
-            try!(self.write_reduction(state, Token::EOF));
+            let reduction = Self::write_reduction(&self.custom, state, Token::EOF);
+            try!(self.out.write_table_row(Some(reduction)));
         }
         rust!(self.out, "];");
 
@@ -285,41 +305,33 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
         rust!(self.out, "const {}GOTO: &'static [i32] = &[", self.prefix);
         for (index, state) in self.states.iter().enumerate() {
             rust!(self.out, "// State {}", index);
-            for nonterminal in self.grammar.nonterminals.keys() {
+            let iterator = self.grammar.nonterminals.keys().map(|nonterminal| {
                 if let Some(&new_state) = state.gotos.get(nonterminal) {
-                    rust!(self.out,
-                          "{}, // on {}, goto {}",
-                          new_state.0 + 1,
-                          nonterminal,
-                          new_state.0);
+                    (new_state.0 as i32 + 1, Comment::Goto(*nonterminal, new_state.0))
                 } else {
-                    rust!(self.out, "0, // on {}, error", nonterminal);
+                    (0, Comment::Error(*nonterminal))
                 }
-            }
+            });
+            try!(self.out.write_table_row(iterator));
         }
         rust!(self.out, "];");
 
         Ok(())
     }
 
-    fn write_reduction(&mut self, state: &LR1State, token: Token) -> io::Result<()> {
+    fn write_reduction<'s>(custom: &TableDriven<'grammar>, state: &'s LR1State, token: Token) -> (i32, Comment<'s, Token>) {
         let reduction = state.reductions
                              .iter()
                              .filter(|&&(ref t, _)| t.contains(token))
                              .map(|&(_, p)| p)
                              .next();
         if let Some(production) = reduction {
-            let action = self.custom.reduce_indices[production];
-            rust!(self.out,
-                  "-{}, // on {}, reduce `{:?}`",
-                  action + 1,
-                  token,
-                  production);
+            let action = custom.reduce_indices[production];
+            (-(action as i32 + 1), Comment::Reduce(token, production))
         } else {
             // Otherwise, this is an error. Store 0.
-            rust!(self.out, "0, // on {}, error", token);
+            (0, Comment::Error(token))
         }
-        Ok(())
     }
 
     fn write_parser_fn(&mut self) -> io::Result<()> {
