@@ -4,9 +4,4 @@ rust:
   - beta
   - nightly
 script:
-  - cd lalrpop
-  - cargo test
-  - cd ../lalrpop-test
-  - cargo test
-  - cd ../doc/calculator
-  - cargo test
+  - sh ./test.sh
