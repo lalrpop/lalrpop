@@ -6,4 +6,6 @@ members = [
         "lalrpop-intern",
         "lalrpop-util",
         "doc/calculator",
+        "doc/pascal/lalrpop",
+        "doc/whitespace",
 ]
