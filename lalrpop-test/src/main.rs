@@ -299,7 +299,7 @@ fn error_recovery_eof() {
     assert_eq!(errors.borrow()[0], ErrorRecovery {
         error: ParseError::UnrecognizedToken {
             token: None,
-            expected: vec![],
+            expected: vec!["\"-\"".to_string()],
         },
         dropped_tokens: vec![],
     });
@@ -312,7 +312,7 @@ fn error_recovery_eof_without_recovery() {
     let result = error_recovery::parse_Item(&errors, tokens);
     assert_eq!(result, Err(ParseError::UnrecognizedToken {
         token: None,
-        expected: vec![],
+        expected: vec!["\"-\"".to_string()],
     }));
 }
 
@@ -325,7 +325,7 @@ fn error_recovery_extra_token() {
     assert_eq!(errors.borrow()[0], ErrorRecovery {
         error: ParseError::UnrecognizedToken {
             token: Some(((), Tok::Plus,())),
-            expected: vec![],
+            expected: vec!["\")\"".to_string()],
         },
         dropped_tokens: vec![((), Tok::Plus, ())],
     });
@@ -340,7 +340,7 @@ fn error_recovery_dont_drop_unrecognized_token() {
     assert_eq!(errors.borrow()[0], ErrorRecovery {
         error: ParseError::UnrecognizedToken {
             token: Some(((), Tok::RParen,())),
-            expected: vec![],
+            expected: vec!["\"-\"".to_string()],
         },
         dropped_tokens: vec![],
     });
@@ -355,7 +355,7 @@ fn error_recovery_multiple_extra_tokens() {
     assert_eq!(errors.borrow()[0], ErrorRecovery {
         error: ParseError::UnrecognizedToken {
             token: Some(((), Tok::Plus,())),
-            expected: vec![],
+            expected: vec!["\")\"".to_string()],
         },
         dropped_tokens: vec![((), Tok::Plus, ()), ((), Tok::Plus, ())],
     });

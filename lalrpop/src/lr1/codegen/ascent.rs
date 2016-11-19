@@ -341,9 +341,20 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent,
 
         // if we hit this, the next token is not recognized, so generate an error
         rust!(self.out, "_ => {{");
+        // The terminals which would have resulted in a successful parse in this state
+        let successful_terminals = self.grammar.terminals.all.iter().filter(|&terminal| {
+                this_state.shifts.contains_key(terminal) ||
+                    this_state.reductions
+                        .iter()
+                        .any(|&(ref t, _)| t.contains(Token::Terminal(*terminal)))
+            });
         rust!(self.out, "return Err({}lalrpop_util::ParseError::UnrecognizedToken {{", self.prefix);
         rust!(self.out, "token: {}lookahead,", self.prefix);
-        rust!(self.out, "expected: vec![],");
+        rust!(self.out, "expected: vec![");
+        for terminal in successful_terminals {
+            rust!(self.out, "r###\"{}\"###.to_string(),", terminal);
+        }
+        rust!(self.out, "]");
         rust!(self.out, "}});");
         rust!(self.out, "}}");
 
