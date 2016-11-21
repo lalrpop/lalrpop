@@ -324,7 +324,7 @@ fn error_recovery_extra_token() {
 #[test]
 fn error_recovery_dont_drop_unrecognized_token() {
     let errors = RefCell::new(vec![]);
-    util::test(|v| error_recovery::parse_Item(&errors, v), "(--)", "!".to_string());
+    util::test(|v| error_recovery::parse_Item(&errors, v), "(--)", "(!)".to_string());
 
     assert_eq!(errors.borrow().len(), 1);
     assert_eq!(errors.borrow()[0], ParseError::UnrecognizedToken {
