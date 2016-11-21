@@ -481,7 +481,8 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
         rust!(self.out, "token: Some({}lookahead.clone()),", self.prefix);
         rust!(self.out, "expected: vec![],");
         rust!(self.out, "}};");
-        try!(self.error_recovery(""));
+        let lookahead_start = format!("Some(&{}lookahead.0)", self.prefix);
+        try!(self.error_recovery(&lookahead_start, ""));
         rust!(self.out, "let {}start = {}lookahead.0.clone();", self.prefix, self.prefix);
         rust!(self.out, "let {}end = {}lookahead.2.clone();", self.prefix, self.prefix);
 
@@ -591,7 +592,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
         let extra_test = format!("&& {}EOF_ACTION[({}error_state as usize - 1)] != 0 ",
             self.prefix,
             self.prefix);
-        try!(self.error_recovery(&extra_test));
+        try!(self.error_recovery("None", &extra_test));
         rust!(self.out, "let {}new_len = {}symbols.len() - ({}original_state_len - {}states.len());",
             self.prefix,
             self.prefix,
@@ -965,7 +966,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
         Ok(())
     }
 
-    fn error_recovery(&mut self, extra_test: &str) -> io::Result<()> {
+    fn error_recovery(&mut self, lookahead_start: &str, extra_test: &str) -> io::Result<()> {
         let phantom_data_expr = self.phantom_data_expr();
         
         // First perform all reductions from the current state
@@ -995,10 +996,11 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
         }
 
         rust!(self.out,
-              "if let Some(r) = {}reduce({}{}action, None, &mut {}states, &mut {}symbols, {}) {{",
+              "if let Some(r) = {}reduce({}{}action, {}, &mut {}states, &mut {}symbols, {}) {{",
               self.prefix,
               self.grammar.user_parameter_refs(),
               self.prefix,
+              lookahead_start,
               self.prefix,
               self.prefix,
               phantom_data_expr);
