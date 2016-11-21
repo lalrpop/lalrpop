@@ -33,6 +33,8 @@ want to skip ahead, or just look at the LALRPOP sources:
   ([source][calculator4], [read](#calculator4))
 - calculator5: Macros
   ([source][calculator5], [read](#calculator5))
+- calculator6: Error recovery
+  ([source][calculator6], [read](#calculator6))
 
 This tutorial is still incomplete. Here are some topics that I aim to
 cover when I get time to write about them:
@@ -694,17 +696,21 @@ fn calculator5() {
 <a id="calculator7"></a>
 ### calculator7: Error recovery
 
-To make the parser more friendly we can add error recovery to the grammar.
-Error recovery is added by using the `error` keyword in an alternative and
-is only matched when the parser encounters an error. If the parser does
-encounter an error it will do any reductions it can, then try and find a state
-which can be recovered from (as indicated by the `error` keyword) finally it
-drops tokens until it encounters a token which lets parsing continue successfully.
+By default, the parser will stop as soon as it encounters an error.
+Sometimes though we would like to try and recover and keep going.
+LALRPOP can support this, but you have to help it by defining various
+"error recovery" points in your grammar. This is done by using a
+special `error` token: this token only occurs when the parser
+encounters an error in the input. When an error does occur, the parser
+will try to recover and keep going; it does this by injecting the
+`error` token into the stream, execution any actions that it can, and
+then dropping input tokens until it finds something that lets it
+continue.
 
-Lets see how we can use error recovery to attempt to find multiple errors during
-parsing. First we need a way to return multiple errors as this is not something
-that LALRPOP does by itself so we add a `Vec` storing the errors we found during
-parsing.
+Let's see how we can use error recovery to attempt to find multiple
+errors during parsing. First we need a way to return multiple errors
+as this is not something that LALRPOP does by itself so we add a `Vec`
+storing the errors we found during parsing.
 
 ```
 grammar<'err>(errors: &'err mut Vec<ParseError<usize, (usize, &'input str), ()>>);
@@ -724,7 +730,8 @@ pub enum Expr {
 
 Finally we modify the grammar, adding a third alternative containing `error`
 which simply stores the `ParseError` received from `error` in `errors` and
-returns an `Expr::Error`.
+returns an `Expr::Error`. The value of the error token will be a [`ParseError`
+value](https://docs.rs/lalrpop-util/0.12.1/lalrpop_util/enum.ParseError.html).
 
 ```rust
 Term: Box<Expr> = {
@@ -733,6 +740,10 @@ Term: Box<Expr> = {
     error => { errors.push(<>); Box::new(Expr::Error) },
 };
 ```
+
+Now we can add a test that includes various errors (e.g., missing
+operands). You can see that the parser recovered from missing operands
+by inserting this `error` token where necessary.
 
 ```rust
 #[test]
@@ -757,6 +768,5 @@ fn calculator7() {
 [calculator3]: ./calculator/src/calculator3.lalrpop
 [calculator4]: ./calculator/src/calculator4.lalrpop
 [calculator5]: ./calculator/src/calculator5.lalrpop
-[calculator6]: ./calculator/src/calculator6.lalrpop
 [calculator7]: ./calculator/src/calculator7.lalrpop
 [astrs]: ./calculator/src/ast.rs
