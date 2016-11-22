@@ -175,7 +175,7 @@ SymbolKind1: SymbolKind = {
     "@R" =>
         SymbolKind::Lookbehind,
     
-    "error" =>
+    "!" =>
         SymbolKind::Error,
 };
 
@@ -340,7 +340,7 @@ extern {
         "mut" => Tok::Mut,
         "pub" => Tok::Pub,
         "type" => Tok::Type,
-        "error" => Tok::ErrorTok,
+        "!" => Tok::Bang,
         "use" => Tok::Use(<&'input str>),
         "where" => Tok::Where(<Vec<&'input str>>),
 
@@ -383,6 +383,3 @@ extern {
         "_" => Tok::Underscore,
     }
 }
-
-
-

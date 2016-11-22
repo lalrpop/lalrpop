@@ -83,7 +83,7 @@ pub enum Tok<'input> {
     Star,
     TildeTilde,
     Underscore,
-    ErrorTok
+    Bang
 }
 
 pub struct Tokenizer<'input> {
@@ -109,7 +109,6 @@ const KEYWORDS: &'static [(&'static str, Tok<'static>)] = &[
     ("mut", Mut),
     ("pub", Pub),
     ("type", Type),
-    ("error", ErrorTok),
     ];
 
 impl<'input> Tokenizer<'input> {
@@ -142,7 +141,7 @@ impl<'input> Tokenizer<'input> {
                             Some(Ok((idx0, BangTilde, idx1+1)))
                         }
                         _ => {
-                            Some(error(UnrecognizedToken, idx0))
+                            Some(Ok((idx0, Bang, idx0+1)))
                         }
                     }
                 }

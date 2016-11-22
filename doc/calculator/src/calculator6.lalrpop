@@ -38,7 +38,7 @@ FactorOp: Opcode = {
 Term: Box<Expr> = {
     Num => Box::new(Expr::Number(<>)),
     "(" <Expr> ")",
-    error => { errors.push(<>); Box::new(Expr::Error) },
+    ! => { errors.push(<>); Box::new(Expr::Error) },
 };
 
 Num: i32 = {
