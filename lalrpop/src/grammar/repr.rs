@@ -239,6 +239,7 @@ pub struct Types {
     terminal_types: Map<TerminalString, TypeRepr>,
     nonterminal_types: Map<NonterminalString, TypeRepr>,
     parse_error_type: TypeRepr,
+    error_recovery_type: TypeRepr,
 }
 
 impl Types {
@@ -252,21 +253,31 @@ impl Types {
                 terminal_token_type: terminal_token_type,
                 terminal_types: map(),
                 nonterminal_types: map(),
-                parse_error_type: TypeRepr::Tuple(vec![]) };
+                parse_error_type: TypeRepr::Tuple(vec![]),
+                error_recovery_type: TypeRepr::Tuple(vec![]) };
 
+        let args = vec![
+            types.terminal_loc_type().clone(),
+            types.terminal_token_type().clone(),
+            types.error_type()
+        ];
         types.parse_error_type = TypeRepr::Nominal(NominalTypeRepr {
             path: Path {
                 absolute: false,
                 ids: vec![intern(&format!("{}lalrpop_util", prefix)),
                           intern("ParseError")],
             },
-            types: vec![
-                types.terminal_loc_type().clone(),
-                types.terminal_token_type().clone(),
-                types.error_type()
-            ],
+            types: args.clone(),
         });
-        types.terminal_types.insert(TerminalString::Error, types.parse_error_type.clone());
+        types.error_recovery_type = TypeRepr::Nominal(NominalTypeRepr {
+            path: Path {
+                absolute: false,
+                ids: vec![intern(&format!("{}lalrpop_util", prefix)),
+                          intern("ErrorRecovery")],
+            },
+            types: args,
+        });
+        types.terminal_types.insert(TerminalString::Error, types.error_recovery_type.clone());
         types
     }
 

@@ -506,6 +506,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
         rust!(self.out, "token: Some({}lookahead.clone()),", self.prefix);
         rust!(self.out, "expected: vec![],");
         rust!(self.out, "}};");
+        rust!(self.out, "let mut {}dropped_tokens = Vec::new();", self.prefix);
         let lookahead_start = format!("Some(&{}lookahead.0)", self.prefix);
         try!(self.error_recovery(&lookahead_start, ""));
         rust!(self.out, "let {}start = {}lookahead.0.clone();", self.prefix, self.prefix);
@@ -536,8 +537,14 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
         rust!(self.out, "{}states.push({}error_state - 1);",
             self.prefix,
             self.prefix);
+        rust!(self.out, "let {}recovery = {}lalrpop_util::ErrorRecovery {{",
+              self.prefix,
+              self.prefix);
+        rust!(self.out, "error: {}error,", self.prefix);
+        rust!(self.out, "dropped_tokens: {}dropped_tokens,", self.prefix);
+        rust!(self.out, "}};");
         rust!(self.out,
-            "{}symbols.push(({}start, {}Symbol::Termerror({}error), {}end));",
+            "{}symbols.push(({}start, {}Symbol::Termerror({}recovery), {}end));",
             self.prefix,
             self.prefix,
             self.prefix,
@@ -554,6 +561,9 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
         rust!(self.out, "continue '{}inner;", self.prefix);
         rust!(self.out, "}}");// if ACTION
 
+        rust!(self.out, "{}dropped_tokens.push({}lookahead);",
+              self.prefix,
+              self.prefix);
         try!(self.next_token());
         try!(self.token_to_integer());
 
@@ -629,8 +639,14 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
         rust!(self.out, "{}states.push({}error_state - 1);",
             self.prefix,
             self.prefix);
+        rust!(self.out, "let {}recovery = {}lalrpop_util::ErrorRecovery {{",
+              self.prefix,
+              self.prefix);
+        rust!(self.out, "error: {}error,", self.prefix);
+        rust!(self.out, "dropped_tokens: Vec::new(),");
+        rust!(self.out, "}};");
         rust!(self.out,
-            "{}symbols.push(({}last_location.clone(), {}Symbol::Termerror({}error), {}last_location.clone()));",
+            "{}symbols.push(({}last_location.clone(), {}Symbol::Termerror({}recovery), {}last_location.clone()));",
             self.prefix,
             self.prefix,
             self.prefix,

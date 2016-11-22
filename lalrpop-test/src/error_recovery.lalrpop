@@ -1,9 +1,9 @@
 use std::cell::RefCell;
 
 use util::tok::Tok;
-use lalrpop_util::ParseError;
+use lalrpop_util::ErrorRecovery;
 
-grammar<'e>(errors: &'e RefCell<Vec<ParseError<(), Tok, ()>>>);
+grammar<'e>(errors: &'e RefCell<Vec<ErrorRecovery<(), Tok, ()>>>);
 
 extern {
     enum Tok {

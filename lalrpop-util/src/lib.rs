@@ -86,6 +86,12 @@ where L: fmt::Debug + fmt::Display,
     }
 }
 
+#[derive(Clone, Debug, PartialEq, Eq, PartialOrd, Ord)]
+pub struct ErrorRecovery<L, T, E> {
+    pub error: ParseError<L, T, E>,
+    pub dropped_tokens: Vec<(L, T, L)>,
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;

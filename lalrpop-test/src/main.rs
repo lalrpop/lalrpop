@@ -3,7 +3,7 @@ extern crate lalrpop_util;
 
 use std::cell::RefCell;
 
-use lalrpop_util::ParseError;
+use lalrpop_util::{ErrorRecovery, ParseError};
 
 use util::tok::Tok;
 
@@ -292,9 +292,12 @@ fn error_recovery_eof() {
     util::test(|v| error_recovery::parse_Item(&errors, v), "--", '!'.to_string());
 
     assert_eq!(errors.borrow().len(), 1);
-    assert_eq!(errors.borrow()[0], ParseError::UnrecognizedToken {
-        token: None,
-        expected: vec![],
+    assert_eq!(errors.borrow()[0], ErrorRecovery {
+        error: ParseError::UnrecognizedToken {
+            token: None,
+            expected: vec![],
+        },
+        dropped_tokens: vec![],
     });
 }
 
@@ -315,9 +318,12 @@ fn error_recovery_extra_token() {
     util::test(|v| error_recovery::parse_Item(&errors, v), "(++)", "()".to_string());
 
     assert_eq!(errors.borrow().len(), 1);
-    assert_eq!(errors.borrow()[0], ParseError::UnrecognizedToken {
-        token: Some(((), Tok::Plus,())),
-        expected: vec![],
+    assert_eq!(errors.borrow()[0], ErrorRecovery {
+        error: ParseError::UnrecognizedToken {
+            token: Some(((), Tok::Plus,())),
+            expected: vec![],
+        },
+        dropped_tokens: vec![((), Tok::Plus, ())],
     });
 }
 
@@ -327,9 +333,12 @@ fn error_recovery_dont_drop_unrecognized_token() {
     util::test(|v| error_recovery::parse_Item(&errors, v), "(--)", "(!)".to_string());
 
     assert_eq!(errors.borrow().len(), 1);
-    assert_eq!(errors.borrow()[0], ParseError::UnrecognizedToken {
-        token: Some(((), Tok::RParen,())),
-        expected: vec![],
+    assert_eq!(errors.borrow()[0], ErrorRecovery {
+        error: ParseError::UnrecognizedToken {
+            token: Some(((), Tok::RParen,())),
+            expected: vec![],
+        },
+        dropped_tokens: vec![],
     });
 }
 
@@ -339,9 +348,12 @@ fn error_recovery_multiple_extra_tokens() {
     util::test(|v| error_recovery::parse_Item(&errors, v), "(+++)", "()".to_string());
 
     assert_eq!(errors.borrow().len(), 1);
-    assert_eq!(errors.borrow()[0], ParseError::UnrecognizedToken {
-        token: Some(((), Tok::Plus,())),
-        expected: vec![],
+    assert_eq!(errors.borrow()[0], ErrorRecovery {
+        error: ParseError::UnrecognizedToken {
+            token: Some(((), Tok::Plus,())),
+            expected: vec![],
+        },
+        dropped_tokens: vec![((), Tok::Plus, ()), ((), Tok::Plus, ())],
     });
 }
 
