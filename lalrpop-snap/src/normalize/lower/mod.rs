@@ -7,7 +7,7 @@ use normalize::norm_util::{self, Symbols};
 use grammar::consts::*;
 use grammar::pattern::{Pattern, PatternKind};
 use grammar::parse_tree as pt;
-use grammar::parse_tree::{InternToken, NonterminalString, TerminalString};
+use grammar::parse_tree::{InternToken, NonterminalString, TerminalString, read_algorithm};
 use grammar::repr as r;
 use session::Session;
 use collections::{map, Map};
@@ -25,6 +25,7 @@ struct LowerState<'s> {
     conversions: Vec<(TerminalString, Pattern<r::TypeRepr>)>,
     intern_token: Option<InternToken>,
     types: r::Types,
+    uses_error_recovery: bool,
 }
 
 impl<'s> LowerState<'s> {
@@ -37,6 +38,7 @@ impl<'s> LowerState<'s> {
             conversions: vec![],
             types: types,
             intern_token: None,
+            uses_error_recovery: false,
         }
     }
 
@@ -143,28 +145,18 @@ impl<'s> LowerState<'s> {
 
         let mut algorithm = r::Algorithm::default();
 
-        if self.session.unit_test {
+        // FIXME Error recovery only works for parse tables so temporarily only generate parse tables for
+        // testing
+        if self.session.unit_test && !self.uses_error_recovery {
             algorithm.codegen = r::LrCodeGeneration::TestAll;
         }
 
-        for annotation in &grammar.annotations {
-            if annotation.id == intern(LALR) {
-                algorithm.lalr = true;
-            } else if annotation.id == intern(TABLE_DRIVEN) {
-                algorithm.codegen = r::LrCodeGeneration::TableDriven;
-            } else if annotation.id == intern(RECURSIVE_ASCENT) {
-                algorithm.codegen = r::LrCodeGeneration::RecursiveAscent;
-            } else if annotation.id == intern(TEST_ALL) {
-                algorithm.codegen = r::LrCodeGeneration::TestAll;
-            } else {
-                panic!("validation permitted unknown annotation: {:?}",
-                       annotation.id);
-            }
-        }
+        read_algorithm(&grammar.annotations, &mut algorithm);
 
         let mut all_terminals: Vec<_> = self.conversions
                                             .iter()
                                             .map(|c| c.0)
+                                            .chain(Some(TerminalString::Error))
                                             .collect();
         all_terminals.sort();
 
@@ -364,6 +356,10 @@ impl<'s> LowerState<'s> {
             pt::SymbolKind::Terminal(id) => r::Symbol::Terminal(id),
             pt::SymbolKind::Nonterminal(id) => r::Symbol::Nonterminal(id),
             pt::SymbolKind::Choose(ref s) | pt::SymbolKind::Name(_, ref s) => self.symbol(s),
+            pt::SymbolKind::Error => {
+                self.uses_error_recovery = true;
+                r::Symbol::Terminal(TerminalString::Error)
+            }
 
             pt::SymbolKind::Macro(..) |
             pt::SymbolKind::Repeat(..) |

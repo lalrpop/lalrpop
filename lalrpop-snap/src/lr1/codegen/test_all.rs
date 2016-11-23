@@ -2,11 +2,11 @@
 //!
 //! [recursive ascent]: https://en.wikipedia.org/wiki/Recursive_ascent_parser
 
-use grammar::repr::{Grammar, NonterminalString};
+use grammar::repr::{Grammar, NonterminalString, TypeParameter};
 use lr1::core::*;
-use lr1::tls::Lr1Tls;
 use rust::RustWrite;
 use std::io::{self, Write};
+use util::Sep;
 
 use super::base::CodeGenerator;
 
@@ -16,7 +16,6 @@ pub fn compile<'grammar, W: Write>(grammar: &'grammar Grammar,
                                    states: &[LR1State<'grammar>],
                                    out: &mut RustWrite<W>)
                                    -> io::Result<()> {
-    let _lr1_tls = Lr1Tls::install(grammar.terminals.clone());
     let mut ascent = CodeGenerator::new_test_all(grammar,
                                                  user_start_symbol,
                                                  start_symbol,
@@ -101,13 +100,28 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TestAll> {
     }
 
     fn call_delegate(&mut self, delegate: &str) -> io::Result<()> {
+        let non_lifetimes: Vec<_> =
+            self.grammar.type_parameters
+                        .iter()
+                        .filter(|&tp| match *tp {
+                            TypeParameter::Lifetime(_) => false,
+                            TypeParameter::Id(_) => true,
+                        })
+                        .cloned()
+                        .collect();
+        let parameters = if non_lifetimes.is_empty() {
+            String::new()
+        } else {
+            format!("::<{}>", Sep(", ", &non_lifetimes))
+        };
         rust!(self.out,
-              "let {}{} = {}{}::parse_{}(",
+              "let {}{} = {}{}::parse_{}{}(",
               self.prefix,
               delegate,
               self.prefix,
               delegate,
-              self.user_start_symbol);
+              self.user_start_symbol,
+              parameters);
         for parameter in &self.grammar.parameters {
             rust!(self.out, "{},", parameter.name);
         }

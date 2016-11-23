@@ -41,12 +41,3 @@ version = "0.12.1" # LALRPOP
 [build-dependencies.lalrpop-snap]
 path = "../lalrpop-snap"
 version = "0.12.1" # LALRPOP
-
-# Enable codegen units: this is probably not the optimal way to do it,
-# but codegen units helps a lot with compiling lrgrammar.rs (I think).
-
-[profile.dev]
-codegen-units = 4
-
-[profile.test]
-codegen-units = 4

@@ -1,5 +1,5 @@
 extern crate docopt;
-extern crate lalrpop_snap as lalrpop;
+extern crate lalrpop;
 extern crate rustc_serialize;
 
 use docopt::Docopt;

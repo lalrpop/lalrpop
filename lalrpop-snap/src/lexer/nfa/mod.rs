@@ -349,9 +349,15 @@ impl NFA {
                 //   +----exprs[n-1]-----+
 
                 let s0 = self.new_state(StateKind::Neither);
-                for expr in exprs {
-                    let s1 = try!(self.expr(expr, accept, reject));
-                    self.push_edge(s0, Noop, s1);
+                let targets: Vec<_> =
+                    try!(exprs.iter()
+                         .map(|expr| self.expr(expr, accept, reject))
+                         .collect());
+
+                // push edges from s0 all together so they are
+                // adjacant in the edge array
+                for target in targets {
+                    self.push_edge(s0, Noop, target);
                 }
                 Ok(s0)
             }

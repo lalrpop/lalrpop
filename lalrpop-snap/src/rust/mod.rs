@@ -2,6 +2,8 @@
 //! which then gets serialized.
 
 use grammar::repr::Grammar;
+use tls::Tls;
+use std::fmt;
 use std::io::{self, Write};
 
 macro_rules! rust {
@@ -46,8 +48,35 @@ impl<W:Write> RustWrite<W> {
         self.write
     }
 
+    fn write_indentation(&mut self) -> io::Result<()> {
+        write!(self.write, "{0:1$}", "", self.indent)
+    }
+
     fn write_indented(&mut self, out: &str) -> io::Result<()> {
         writeln!(self.write, "{0:1$}{2}", "", self.indent, out)
+    }
+
+    pub fn write_table_row<I, C>(&mut self, iterable: I) -> io::Result<()>
+    where I: IntoIterator<Item=(i32, C)>,
+          C: fmt::Display,
+    {
+        if Tls::session().emit_comments {
+            for (i, comment) in iterable {
+                try!(self.write_indentation());
+                try!(writeln!(self.write, "{}, {}", i, comment));
+            }
+        } else {
+            try!(self.write_indentation());
+            let mut first = true;
+            for (i, _comment) in iterable {
+                if !first {
+                    try!(write!(self.write, " "));
+                }
+                try!(write!(self.write, "{},", i));
+                first = false;
+            }
+        }
+        writeln!(self.write, "")
     }
 
     pub fn writeln(&mut self, out: &str) -> io::Result<()> {

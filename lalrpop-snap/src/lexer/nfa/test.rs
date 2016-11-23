@@ -130,3 +130,9 @@ fn word_boundaries() {
     let num = re::parse_regex(r#"aBCdeF\B"#).unwrap();
     assert_eq!(NFA::from_re(&num).unwrap_err(), NFAConstructionError::WordBoundary);
 }
+
+#[test]
+fn issue_101() {
+    let num = re::parse_regex(r#"(1|0?)"#).unwrap();
+    NFA::from_re(&num).unwrap();
+}
