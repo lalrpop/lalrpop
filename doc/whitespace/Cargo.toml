@@ -1,11 +1,11 @@
 [package]
 name = "whitespace"
-version = "0.1.0"
+version = "0.12.2"
 authors = ["Mako <jlauve@rsmw.net>"]
 build = "build.rs"
 
 [build-dependencies]
-lalrpop = "0.12.0"
+lalrpop = "0.12.2"
 
 [dependencies]
-lalrpop-util = "0.12.0"
+lalrpop-util = "0.12.2"

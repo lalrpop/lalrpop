@@ -1,5 +1,7 @@
 # master (not yet released)
 
+# Version 0.12.2
+
 Major new feature! @Marwes
 [added support for error recovery](https://github.com/nikomatsakis/lalrpop/pull/160).
 
