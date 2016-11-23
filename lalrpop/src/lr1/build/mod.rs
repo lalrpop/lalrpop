@@ -203,7 +203,9 @@ impl<'grammar, L: LookaheadBuild> LR<'grammar, L> {
             // The `nt` will be X and the `remainder` will be `z...`.
             let (nt, remainder) = match shift_symbol {
                 None => continue, // requires a reduce
-                Some((Symbol::Terminal(_), _)) => continue, // requires a shift
+                Some((Symbol::Terminal(_), _)) => {
+                    continue; // requires a shift
+                }
                 Some((Symbol::Nonterminal(nt), remainder)) => {
                     (nt, remainder)
                 }

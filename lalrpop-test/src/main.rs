@@ -1,7 +1,11 @@
 extern crate diff;
 extern crate lalrpop_util;
 
-use lalrpop_util::ParseError;
+use std::cell::RefCell;
+
+use lalrpop_util::{ErrorRecovery, ParseError};
+
+use util::tok::Tok;
 
 /// demonstration from the Greene text; one of the simplest grammars
 /// that still ensures we get parse tree correct
@@ -57,6 +61,9 @@ mod use_super;
 
 /// test that exercises locations and spans
 mod error;
+
+/// Test error recovery
+mod error_recovery;
 
 /// test for inlining expansion issue #55
 mod issue_55;
@@ -271,13 +278,83 @@ fn use_super_test1() {
 
 #[test]
 fn error_test1() {
-    use lalrpop_util::ParseError;
     match util::test_err_gen(error::parse_Items, "---+") {
         Err(ParseError::User { error: '+' }) => { /* OK! */ }
         r => {
             panic!("unexpected response from parser: {:?}", r);
         }
     }
+}
+
+#[test]
+fn error_recovery_eof() {
+    let errors = RefCell::new(vec![]);
+    util::test(|v| error_recovery::parse_Item(&errors, v), "--", '!'.to_string());
+
+    assert_eq!(errors.borrow().len(), 1);
+    assert_eq!(errors.borrow()[0], ErrorRecovery {
+        error: ParseError::UnrecognizedToken {
+            token: None,
+            expected: vec![],
+        },
+        dropped_tokens: vec![],
+    });
+}
+
+#[test]
+fn error_recovery_eof_without_recovery() {
+    let errors = RefCell::new(vec![]);
+    let tokens = util::tok::tokenize("-").into_iter().map(|t| t.1);
+    let result = error_recovery::parse_Item(&errors, tokens);
+    assert_eq!(result, Err(ParseError::UnrecognizedToken {
+        token: None,
+        expected: vec![],
+    }));
+}
+
+#[test]
+fn error_recovery_extra_token() {
+    let errors = RefCell::new(vec![]);
+    util::test(|v| error_recovery::parse_Item(&errors, v), "(++)", "()".to_string());
+
+    assert_eq!(errors.borrow().len(), 1);
+    assert_eq!(errors.borrow()[0], ErrorRecovery {
+        error: ParseError::UnrecognizedToken {
+            token: Some(((), Tok::Plus,())),
+            expected: vec![],
+        },
+        dropped_tokens: vec![((), Tok::Plus, ())],
+    });
+}
+
+#[test]
+fn error_recovery_dont_drop_unrecognized_token() {
+    let errors = RefCell::new(vec![]);
+    util::test(|v| error_recovery::parse_Item(&errors, v), "(--)", "(!)".to_string());
+
+    assert_eq!(errors.borrow().len(), 1);
+    assert_eq!(errors.borrow()[0], ErrorRecovery {
+        error: ParseError::UnrecognizedToken {
+            token: Some(((), Tok::RParen,())),
+            expected: vec![],
+        },
+        dropped_tokens: vec![],
+    });
+}
+
+#[test]
+fn error_recovery_multiple_extra_tokens() {
+    let errors = RefCell::new(vec![]);
+    util::test(|v| error_recovery::parse_Item(&errors, v), "(+++)", "()".to_string());
+
+    assert_eq!(errors.borrow().len(), 1);
+    assert_eq!(errors.borrow()[0], ErrorRecovery {
+        error: ParseError::UnrecognizedToken {
+            token: Some(((), Tok::Plus,())),
+            expected: vec![],
+        },
+        dropped_tokens: vec![((), Tok::Plus, ()), ((), Tok::Plus, ())],
+    });
 }
 
 #[test]

@@ -182,6 +182,7 @@ impl Display for Token {
     fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
         match *self {
             Token::EOF => write!(fmt, "EOF"),
+            Token::Error => write!(fmt, "Error"),
             Token::Terminal(s) => write!(fmt, "{}", s),
         }
     }

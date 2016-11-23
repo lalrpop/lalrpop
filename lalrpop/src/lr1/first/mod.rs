@@ -63,7 +63,7 @@ impl FirstSets {
                                     Token::EOF => {
                                         empty_prod = true;
                                     }
-                                    Token::Terminal(_) => {
+                                    Token::Error | Token::Terminal(_) => {
                                         result.insert(lookahead);
                                     }
                                 }

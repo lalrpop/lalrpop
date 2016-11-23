@@ -98,7 +98,7 @@ impl<'codegen, 'grammar, W: Write, C> CodeGenerator<'codegen, 'grammar, W, C> {
 
     pub fn start_parser_fn(&mut self) -> io::Result<()> {
         let error_type = self.types.error_type();
-        let parse_error_type = self.parse_error_type();
+        let parse_error_type = self.types.parse_error_type();
 
         let (type_parameters, parameters, mut where_clauses);
 
@@ -177,14 +177,6 @@ impl<'codegen, 'grammar, W: Write, C> CodeGenerator<'codegen, 'grammar, W, C> {
     pub fn end_parser_fn(&mut self) -> io::Result<()> {
         rust!(self.out, "}}");
         Ok(())
-    }
-
-    pub fn parse_error_type(&self) -> String {
-        format!("{}lalrpop_util::ParseError<{},{},{}>",
-                self.prefix,
-                self.types.terminal_loc_type(),
-                self.types.terminal_token_type(),
-                self.types.error_type())
     }
 
     /// Returns phantom data type that captures the user-declared type

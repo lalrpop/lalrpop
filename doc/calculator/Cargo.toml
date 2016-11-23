@@ -6,7 +6,7 @@ build = "build.rs" # <-- We added this and everything after!
 workspace = "../.."
 
 [build-dependencies]
-lalrpop = "0.12.0"
+lalrpop = { version = "0.12.0", path = "../../lalrpop" }
 
 [dependencies]
-lalrpop-util = "0.12.0"
+lalrpop-util = { version = "0.12.0", path = "../../lalrpop-util" }
