@@ -8,7 +8,6 @@ use grammar::repr::{Grammar, NonterminalString, Production, Symbol, TerminalStri
 use lr1::core::*;
 use lr1::lookahead::Token;
 use lr1::state_graph::StateGraph;
-use lr1::tls::Lr1Tls;
 use rust::RustWrite;
 use std::io::{self, Write};
 use tls::Tls;
@@ -23,7 +22,6 @@ pub fn compile<'grammar, W: Write>(grammar: &'grammar Grammar,
                                    action_module: &str,
                                    out: &mut RustWrite<W>)
                                    -> io::Result<()> {
-    let _lr1_tls = Lr1Tls::install(grammar.terminals.clone());
     let graph = StateGraph::new(&states);
     let mut ascent = CodeGenerator::new_ascent(grammar,
                                                user_start_symbol,
@@ -202,16 +200,18 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent,
     // input as `Foo`. An error is reported if the entire input is not
     // consumed.
     fn write_start_fn(&mut self) -> io::Result<()> {
+        let phantom_data = self.phantom_data_expr();
         try!(self.start_parser_fn());
         try!(self.define_tokens());
 
         try!(self.next_token("lookahead", "tokens"));
         rust!(self.out,
-              "match try!({}state0({}&mut {}tokens, {}lookahead)) {{",
+              "match try!({}state0({}&mut {}tokens, {}lookahead, {})) {{",
               self.prefix,
               self.grammar.user_parameter_refs(),
               self.prefix,
-              self.prefix);
+              self.prefix,
+              phantom_data);
 
         // extra tokens?
         rust!(self.out, "(Some({}lookahead), _) => {{", self.prefix);
@@ -317,6 +317,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent,
             for (index, &token) in tokens.iter().enumerate() {
                 let pattern = match token {
                     Token::Terminal(s) => format!("Some({})", self.match_terminal_pattern(s)),
+                    Token::Error => panic!("Error recovery is not implemented for recursive ascent parsers"),
                     Token::EOF => format!("None"),
                 };
                 if index < tokens.len() - 1 {
@@ -443,15 +444,15 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent,
         let fixed_prefix = suffix.fixed();
 
         let triple_type = self.triple_type();
-        let parse_error_type = self.parse_error_type();
+        let parse_error_type = self.types.parse_error_type();
         let error_type = self.types.error_type();
 
         // If we are generated the tokenizer, it generates ParseError
         // errors, otherwise they are user errors.
         let iter_error_type = if self.grammar.intern_token.is_some() {
-            parse_error_type.clone()
+            parse_error_type
         } else {
-            format!("{}", error_type)
+            &error_type
         };
 
         let (fn_args, starts_with_terminal) = self.fn_args(optional_prefix, fixed_prefix);
@@ -541,6 +542,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent,
         let all_args = base_args.into_iter()
                                 .chain(optional_args)
                                 .chain(fixed_args)
+                                .chain(Some(format!("_: {}", self.phantom_data_type())))
                                 .collect();
 
         (all_args, starts_with_terminal)
@@ -677,14 +679,16 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent,
         let fn_name = format!("{}state{}", self.prefix, next_index.0);
 
         // invoke next state, transferring the top `m` tokens
+        let phantom_data_expr = self.phantom_data_expr();
         rust!(self.out,
-              "{}{} = try!({}({}{}, {}));",
+              "{}{} = try!({}({}{}, {}, {}));",
               self.prefix,
               into_result,
               fn_name,
               self.grammar.user_parameter_refs(),
               Sep(", ", &other_args),
-              Sep(", ", &transfer_syms));
+              Sep(", ", &transfer_syms),
+              phantom_data_expr);
 
         // if the target state takes at least **two** fixed tokens,
         // then it will have consumed the top of **our** stack frame,
@@ -776,20 +780,22 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent,
         let is_fallible = self.grammar.action_is_fallible(production.action);
         if is_fallible {
             rust!(self.out,
-                  "let {}nt = try!({}::{}action{}({}{}));",
+                  "let {}nt = try!({}::{}action{}::<{}>({}{}));",
                   self.prefix,
                   self.action_module,
                   self.prefix,
                   production.action.index(),
+                  Sep(", ", &self.grammar.non_lifetime_type_parameters()),
                   self.grammar.user_parameter_refs(),
                   Sep(", ", &args))
         } else {
             rust!(self.out,
-                  "let {}nt = {}::{}action{}({}{});",
+                  "let {}nt = {}::{}action{}::<{}>({}{});",
                   self.prefix,
                   self.action_module,
                   self.prefix,
                   production.action.index(),
+                  Sep(", ", &self.grammar.non_lifetime_type_parameters()),
                   self.grammar.user_parameter_refs(),
                   Sep(", ", &args))
         }

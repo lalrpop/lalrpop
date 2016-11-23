@@ -83,6 +83,7 @@ pub enum Tok<'input> {
     Star,
     TildeTilde,
     Underscore,
+    Bang
 }
 
 pub struct Tokenizer<'input> {
@@ -140,7 +141,7 @@ impl<'input> Tokenizer<'input> {
                             Some(Ok((idx0, BangTilde, idx1+1)))
                         }
                         _ => {
-                            Some(error(UnrecognizedToken, idx0))
+                            Some(Ok((idx0, Bang, idx0+1)))
                         }
                     }
                 }
@@ -262,10 +263,6 @@ impl<'input> Tokenizer<'input> {
                             Some(error(UnrecognizedToken, idx0))
                         }
                     }
-                }
-                Some((idx0, '_')) => {
-                    self.bump();
-                    Some(Ok((idx0, Underscore, idx0+1)))
                 }
                 Some((idx0, '`')) => {
                     self.bump();
@@ -520,6 +517,10 @@ impl<'input> Tokenizer<'input> {
     fn identifierish(&mut self, idx0: usize) -> Result<Spanned<Tok<'input>>, Error> {
         let (start, word, end) = self.word(idx0);
 
+        if word == "_" {
+            return Ok((idx0, Underscore, idx0+1));
+        }
+
         if word == "use" {
             let code_end = try!(self.code(idx0, "([{", "}])"));
             let code = &self.text[end..code_end];
@@ -618,9 +619,9 @@ impl<'input> Iterator for Tokenizer<'input> {
 }
 
 fn is_identifier_start(c: char) -> bool {
-    UnicodeXID::is_xid_start(c)
+    UnicodeXID::is_xid_start(c) || c == '_'
 }
 
 fn is_identifier_continue(c: char) -> bool {
-    UnicodeXID::is_xid_continue(c)
+    UnicodeXID::is_xid_continue(c) || c == '_'
 }

@@ -208,6 +208,8 @@ impl<'cx, 'grammar> ErrorReportingCx<'cx, 'grammar> {
                     .styled(Tls::session().cursor_symbol)
                     .punctuated(",")
             }
+            Token::Error =>
+                builder.text("If an error has been found,"),
             Token::EOF =>
                 builder.text("If the end of the input is reached,")
         };

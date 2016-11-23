@@ -104,7 +104,7 @@ impl<'grammar> Validator<'grammar> {
             SymbolKind::Choose(ref sym) | SymbolKind::Name(_, ref sym) => {
                 try!(self.validate_symbol(sym));
             }
-            SymbolKind::Lookahead | SymbolKind::Lookbehind => {
+            SymbolKind::Lookahead | SymbolKind::Lookbehind | SymbolKind::Error => {
             }
             SymbolKind::AmbiguousId(id) => {
                 panic!("ambiguous id `{}` encountered after name resolution", id)
@@ -142,6 +142,9 @@ impl<'grammar> Validator<'grammar> {
                 TerminalString::Literal(l) => {
                     self.all_literals.entry(l).or_insert(span);
                 }
+
+                // Error is a builtin terminal that always exists
+                TerminalString::Error => (),
             }
         }
 

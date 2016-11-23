@@ -30,7 +30,7 @@ fn resolve_in_place(grammar: &mut Grammar) -> NormResult<()> {
                    .flat_map(|extern_token| extern_token.enum_token.as_ref())
                    .flat_map(|enum_token| &enum_token.conversions)
                    .filter_map(|conversion| match conversion.from {
-                       TerminalString::Literal(..) => None,
+                       TerminalString::Literal(..) | TerminalString::Error => None,
                        TerminalString::Bare(id) => Some((conversion.span, id, Def::Terminal)),
                    });
 
@@ -221,7 +221,7 @@ impl Validator {
             SymbolKind::Choose(ref mut sym) | SymbolKind::Name(_, ref mut sym) => {
                 try!(self.validate_symbol(scope, sym));
             }
-            SymbolKind::Lookahead | SymbolKind::Lookbehind => {
+            SymbolKind::Lookahead | SymbolKind::Lookbehind | SymbolKind::Error => {
             }
         }
 

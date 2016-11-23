@@ -63,7 +63,7 @@ impl FirstSets {
                                     Token::EOF => {
                                         empty_prod = true;
                                     }
-                                    Token::Terminal(_) => {
+                                    Token::Error | Token::Terminal(_) => {
                                         result.insert(lookahead);
                                     }
                                 }
@@ -83,7 +83,7 @@ impl FirstSets {
         result
     }
 
-    pub fn first1(&self, symbols: &[Symbol], lookahead: TokenSet)
+    pub fn first1(&self, symbols: &[Symbol], lookahead: &TokenSet)
                   -> TokenSet
     {
         let mut set = self.first0(symbols);
