@@ -703,17 +703,18 @@ LALRPOP can support this, but you have to help it by defining various
 special `!` token: this token only occurs when the parser
 encounters an error in the input. When an error does occur, the parser
 will try to recover and keep going; it does this by injecting the
-`!` token into the stream, execution any actions that it can, and
+`!` token into the stream, executing any actions that it can, and
 then dropping input tokens until it finds something that lets it
 continue.
 
 Let's see how we can use error recovery to attempt to find multiple
 errors during parsing. First we need a way to return multiple errors
 as this is not something that LALRPOP does by itself so we add a `Vec`
-storing the errors we found during parsing.
+storing the errors we found during parsing. Since the result of `!`
+contains a token, error recovery requires that tokens can be cloned.
 
 ```
-grammar<'err>(errors: &'err mut Vec<ParseError<usize, (usize, &'input str), ()>>);
+grammar<'err>(errors: &'err mut Vec<ErrorRecovery<usize, (usize, &'input str), ()>>);
 ```
 
 Since an alternative containing `!` is expected to return the same type of
