@@ -1,5 +1,13 @@
 # master (not yet released)
 
+Major new feature! @Marwes
+[added support for error recovery](https://github.com/nikomatsakis/lalrpop/pull/160).
+
+There have also been a number of other improvements:
+
+- The `ParseError` type now implements `Error` and `Display` ([thanks @Marwes!](https://github.com/nikomatsakis/lalrpop/pull/167).
+- We no longer emit comments in generated code by default ([thanks @Marwes!](https://github.com/nikomatsakis/lalrpop/pull/165).
+
 # Version 0.12.1
 
 Bug fix release. Major bugs addressed:
