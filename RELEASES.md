@@ -7,8 +7,8 @@ Major new feature! @Marwes
 
 There have also been a number of other improvements:
 
-- The `ParseError` type now implements `Error` and `Display` ([thanks @Marwes!](https://github.com/nikomatsakis/lalrpop/pull/167).
-- We no longer emit comments in generated code by default ([thanks @Marwes!](https://github.com/nikomatsakis/lalrpop/pull/165).
+- The `ParseError` type now implements `Error` and `Display` ([thanks @Marwes!](https://github.com/nikomatsakis/lalrpop/pull/167)).
+- We no longer emit comments in generated code by default ([thanks @Marwes!](https://github.com/nikomatsakis/lalrpop/pull/165)).
 
 # Version 0.12.1
 
