@@ -71,6 +71,10 @@ mod issue_55;
 /// test for unit action code
 mod unit;
 
+// Check that error recovery (which requires cloneable tokens) is not created if it is not used
+#[allow(unused)]
+mod no_clone_tok;
+
 mod util;
 
 /// This constant is here so that some of the generator parsers can

@@ -499,14 +499,14 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
         // Error.
         rust!(self.out, "}} else {{");
 
-        rust!(self.out,
-            "let {}error = {}lalrpop_util::ParseError::UnrecognizedToken {{",
-            self.prefix,
-            self.prefix);
-        rust!(self.out, "token: Some({}lookahead.clone()),", self.prefix);
-        rust!(self.out, "expected: vec![],");
-        rust!(self.out, "}};");
         if self.uses_error_recovery() {
+            rust!(self.out,
+                "let {}error = {}lalrpop_util::ParseError::UnrecognizedToken {{",
+                self.prefix,
+                self.prefix);
+            rust!(self.out, "token: Some({}lookahead.clone()),", self.prefix);
+            rust!(self.out, "expected: vec![],");
+            rust!(self.out, "}};");
             rust!(self.out, "let mut {}dropped_tokens = Vec::new();", self.prefix);
             let lookahead_start = format!("Some(&{}lookahead.0)", self.prefix);
             try!(self.error_recovery(&lookahead_start, ""));
@@ -575,7 +575,12 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
 
             rust!(self.out, "}}"); // loop
         } else {
-            rust!(self.out, "return Err({}error);", self.prefix);
+            rust!(self.out,
+                "return Err({}lalrpop_util::ParseError::UnrecognizedToken {{",
+                self.prefix);
+            rust!(self.out, "token: Some({}lookahead),", self.prefix);
+            rust!(self.out, "expected: vec![],");
+            rust!(self.out, "}});");
         }
 
         rust!(self.out, "}}"); // if-else-if-else
