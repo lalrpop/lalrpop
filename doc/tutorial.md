@@ -149,15 +149,15 @@ look something like:
 ```
 [package]
 name = "calculator"
-version = "0.12.3"
+version = "0.12.4"
 authors = ["Niko Matsakis <niko@alum.mit.edu>"]
 build = "build.rs" # <-- We added this and everything after!
 
 [build-dependencies]
-lalrpop = "0.12.3"
+lalrpop = "0.12.4"
 
 [dependencies]
-lalrpop-util = "0.12.3"
+lalrpop-util = "0.12.4"
 ```
 
 Adding a `build` directive to the `[package]` section tells Cargo to
