@@ -92,7 +92,7 @@ directory), and it will only do so if the `.lalrpop` file has actually
 changed. But you can also use the [`Configuration`][config] struct to
 get more detailed control.
 
-[config]: https://github.com/nikomatsakis/lalrpop/blob/master/lalrpop/src/apimod.rs
+[config]: https://github.com/nikomatsakis/lalrpop/blob/master/lalrpop/src/api/mod.rs
 
 #### Running manually
 
