@@ -383,6 +383,8 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
         }
         rust!(self.out, "];");
 
+        try!(self.emit_expected_tokens_fn());
+
         Ok(())
     }
 
@@ -500,13 +502,8 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
         rust!(self.out, "}} else {{");
 
         if self.uses_error_recovery() {
-            rust!(self.out,
-                "let {}error = {}lalrpop_util::ParseError::UnrecognizedToken {{",
-                self.prefix,
-                self.prefix);
-            rust!(self.out, "token: Some({}lookahead.clone()),", self.prefix);
-            rust!(self.out, "expected: vec![],");
-            rust!(self.out, "}};");
+            let prefix = self.prefix;
+            try!(self.unrecognized_token_error(&format!("Some({}lookahead.clone())", prefix)));
             rust!(self.out, "let mut {}dropped_tokens = Vec::new();", self.prefix);
             let lookahead_start = format!("Some(&{}lookahead.0)", self.prefix);
             try!(self.error_recovery(&lookahead_start, ""));
@@ -575,12 +572,9 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
 
             rust!(self.out, "}}"); // loop
         } else {
-            rust!(self.out,
-                "return Err({}lalrpop_util::ParseError::UnrecognizedToken {{",
-                self.prefix);
-            rust!(self.out, "token: Some({}lookahead),", self.prefix);
-            rust!(self.out, "expected: vec![],");
-            rust!(self.out, "}});");
+            let prefix = self.prefix;
+            try!(self.unrecognized_token_error(&format!("Some({}lookahead)", prefix)));
+            rust!(self.out, "return Err({}error)", self.prefix);
         }
 
         rust!(self.out, "}}"); // if-else-if-else
@@ -625,13 +619,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
         rust!(self.out, "}} else {{");
 
         // EOF error recovery
-        rust!(self.out,
-              "let {}error = {}lalrpop_util::ParseError::UnrecognizedToken {{",
-              self.prefix,
-              self.prefix);
-        rust!(self.out, "token: None,");
-        rust!(self.out, "expected: vec![],");
-        rust!(self.out, "}};");
+        try!(self.unrecognized_token_error("None"));
 
         if self.uses_error_recovery() {
             let extra_test = format!("&& {}EOF_ACTION[({}error_state as usize - 1)] != 0 ",
@@ -711,12 +699,9 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
         }
 
         rust!(self.out, "_ => {{");
-        rust!(self.out,
-              "return Err({}lalrpop_util::ParseError::UnrecognizedToken {{",
-              self.prefix);
-        rust!(self.out, "token: Some({}lookahead),", self.prefix);
-        rust!(self.out, "expected: vec![],");
-        rust!(self.out, "}});");
+        let prefix = self.prefix;
+        try!(self.unrecognized_token_error(&format!("Some({}lookahead)", prefix)));
+        rust!(self.out, "return Err({}error);", self.prefix);
         rust!(self.out, "}}");
 
         rust!(self.out, "}};");
@@ -1118,5 +1103,50 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
                     .iter()
                     .any(|&(ref t, _)| t.contains(Token::Terminal(TerminalString::Error)))
         })
+    }
+
+    fn unrecognized_token_error(&mut self, token: &str) -> io::Result<()> {
+        rust!(self.out, "let {}state = *{}states.last().unwrap() as usize;",
+            self.prefix,
+            self.prefix);
+        rust!(self.out,
+            "let {}error = {}lalrpop_util::ParseError::UnrecognizedToken {{",
+            self.prefix,
+            self.prefix);
+        rust!(self.out, "token: {},", token);
+        rust!(self.out, "expected: {}expected_tokens({}state),",
+            self.prefix,
+            self.prefix);
+        rust!(self.out, "}};");
+        Ok(())
+    }
+
+    fn emit_expected_tokens_fn(&mut self) -> io::Result<()> {
+        rust!(self.out, "fn {}expected_tokens({}state: usize) -> Vec<::std::string::String> {{",
+            self.prefix,
+            self.prefix);
+
+        rust!(self.out, "const {}TERMINAL: &'static [&'static str] = &[", self.prefix);
+        // Subtract one to exlude the error terminal
+        for &terminal in &self.grammar.terminals.all[..self.grammar.terminals.all.len() - 1] {
+            // Three # should hopefully be enough to prevent any reasonable terminal from escaping the literal
+            rust!(self.out, "r###\"{}\"###,", terminal);
+        }
+        rust!(self.out, "];");
+
+        // Grab any terminals in the current state which would have resulted in a successful parse
+        rust!(self.out, "{}ACTION[({}state * {})..].iter().zip({}TERMINAL).filter_map(|(&state, terminal)| {{",
+            self.prefix,
+            self.prefix,
+            self.grammar.terminals.all.len(),
+            self.prefix);
+        rust!(self.out, "if state == 0 {{");
+        rust!(self.out, "None");
+        rust!(self.out, "}} else {{");
+        rust!(self.out, "Some(terminal.to_string())");
+        rust!(self.out, "}}");
+        rust!(self.out, "}}).collect()");
+        rust!(self.out, "}}");
+        Ok(())
     }
 }
