@@ -166,7 +166,7 @@ pub fn compile<'grammar, W: Write>(grammar: &'grammar Grammar,
 //         match states.last().cloned() {
 //             Some(state) => {
 //                 error_state = ACTION[(state as usize + 1) * NUM_STATES - 1];
-//                 if error_state != 0  {
+//                 if error_state > 0 {
 //                     break;
 //                 }
 //                 states.pop();
@@ -1065,7 +1065,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
             self.prefix,
             self.grammar.terminals.all.len());
 
-        rust!(self.out, "if {}error_state != 0 {} {{", self.prefix, extra_test);
+        rust!(self.out, "if {}error_state > 0 {} {{", self.prefix, extra_test);
         rust!(self.out, "break;");
         rust!(self.out, "}}");
         rust!(self.out, "{}states.pop();", self.prefix);

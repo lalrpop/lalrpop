@@ -4,8 +4,12 @@ TAGS
 Cargo.lock
 lalrpop/src/parser/lrgrammar.rs
 
+doc/calculator/src/calculator6.rs
+doc/whitespace/src/parser.rs
+
 lalrpop-test/src/error.rs
 lalrpop-test/src/error_recovery.rs
+lalrpop-test/src/error_recovery_pull_182.rs
 lalrpop-test/src/expr.rs
 lalrpop-test/src/expr_arena.rs
 lalrpop-test/src/expr_generic.rs
