@@ -64,6 +64,7 @@ mod error;
 
 /// Test error recovery
 mod error_recovery;
+mod error_recovery_pull_182;
 
 /// test for inlining expansion issue #55
 mod issue_55;
@@ -359,6 +360,22 @@ fn error_recovery_multiple_extra_tokens() {
         },
         dropped_tokens: vec![((), Tok::Plus, ()), ((), Tok::Plus, ())],
     });
+}
+
+#[test]
+fn error_recovery_dont_panic_on_reduce_normal() {
+    let mut errors = vec![];
+    util::test(|v| error_recovery_pull_182::parse_Item(&mut errors, v), "1+/", ());
+
+    assert_eq!(errors.len(), 1);
+}
+
+#[test]
+fn error_recovery_dont_panic_on_reduce_at_eof() {
+    let mut errors = vec![];
+    util::test(|v| error_recovery_pull_182::parse_Item(&mut errors, v), "1+", ());
+
+    assert_eq!(errors.len(), 1);
 }
 
 #[test]
