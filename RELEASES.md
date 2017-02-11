@@ -1,5 +1,10 @@
 # master (not yet released)
 
+# Version 0.12.5
+
+- Add the expected successor tokens to `UnrecognizedToken` errors ([thanks @Marwes!](https://github.com/nikomatsakis/lalrpop/pull/178)).
+- Fix to error recovery doing a bad cast ([thanks @Marwes!](https://github.com/nikomatsakis/lalrpop/pull/182)).
+
 # Version 0.12.4
 
 Major new feature! @Marwes
