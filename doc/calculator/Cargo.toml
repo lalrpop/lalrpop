@@ -1,6 +1,6 @@
 [package]
 name = "calculator"
-version = "0.12.4"
+version = "0.12.5"
 authors = ["Niko Matsakis <niko@alum.mit.edu>"]
 build = "build.rs" # <-- We added this and everything after!
 workspace = "../.."
