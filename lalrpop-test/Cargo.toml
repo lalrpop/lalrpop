@@ -8,6 +8,7 @@ workspace = ".."
 
 [dependencies]
 diff = "0.1"
+regex = "0.2"
 
 [dependencies.lalrpop-util]
 path = "../lalrpop-util"

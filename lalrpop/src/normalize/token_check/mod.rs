@@ -157,10 +157,13 @@ impl<'grammar> Validator<'grammar> {
 // phase builds up an internal token DFA.
 
 pub fn construct(grammar: &mut Grammar, literals_map: Map<TerminalLiteral, Span>) -> NormResult<()> {
-    let literals: Vec<TerminalLiteral> =
+    let mut literals: Vec<TerminalLiteral> =
         literals_map.keys()
                     .cloned()
                     .collect();
+
+    // Sort literals by order of increasing precedence.
+    literals.sort_by_key(|literal| literal.precedence());
 
     // Build up two vectors, one of parsed regular expressions and
     // one of precedences, that are parallel with `literals`.
@@ -168,13 +171,12 @@ pub fn construct(grammar: &mut Grammar, literals_map: Map<TerminalLiteral, Span>
     let mut precedences = Vec::with_capacity(literals.len());
     try!(intern::read(|interner| {
         for &literal in &literals {
+            precedences.push(Precedence(literal.precedence()));
             match literal {
                 TerminalLiteral::Quoted(s) => {
-                    precedences.push(Precedence(1));
                     regexs.push(re::parse_literal(interner.data(s)));
                 }
                 TerminalLiteral::Regex(s) => {
-                    precedences.push(Precedence(0));
                     match re::parse_regex(interner.data(s)) {
                         Ok(regex) => regexs.push(regex),
                         Err(error) => {

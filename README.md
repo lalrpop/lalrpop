@@ -61,6 +61,12 @@ project. To enable LALRPOP, add the following lines to your
 ...
 build = "build.rs" # LALRPOP preprocessing
 
+# Add a dependency on the regex crate; this is not
+# needed if you are writing your own tokenizer by
+# hand (or if you are already using the regex crate)
+[dependencies.regex]
+version = "0.2"
+
 # Add a dependency on the LALRPOP runtime library:
 [dependencies.lalrpop-util]
 version = "0.12.5"

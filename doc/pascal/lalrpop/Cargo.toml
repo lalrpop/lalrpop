@@ -11,3 +11,4 @@ path = "../../../lalrpop"
 docopt = "0.6"
 lalrpop-util = { version = "0.12.1", path = "../../../lalrpop-util" }
 rustc-serialize = "0.3"
+regex = "0.2"
