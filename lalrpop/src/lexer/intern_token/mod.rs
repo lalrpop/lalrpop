@@ -77,11 +77,13 @@ pub fn compile<W: Write>(
                     .collect()
     });
 
-    rust!(out, "let {}regex_set = {}regex::RegexSet::new(&[", prefix, prefix);
+    rust!(out, "let {}strs: &[&str] = &[", prefix);
     for literal in &regex_strings {
         rust!(out, "{},", literal);
     }
-    rust!(out, "]).unwrap();");
+    rust!(out, "];");
+    rust!(out, "let {}regex_set = {}regex::RegexSet::new({}strs).unwrap();",
+          prefix, prefix, prefix);
 
     rust!(out, "let {}regex_vec = vec![", prefix);
     for literal in &regex_strings {
