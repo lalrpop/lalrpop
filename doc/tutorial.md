@@ -158,12 +158,24 @@ lalrpop = "0.12.5"
 
 [dependencies]
 lalrpop-util = "0.12.5"
+regex = "0.2"
 ```
 
 Adding a `build` directive to the `[package]` section tells Cargo to
 run `build.rs` as a pre-processing step. The `[build-dependencies]`
 section that specifies the dependencies for `build.rs` -- in this
 case, just LALRPOP.
+
+The `[dependencies]` section describes the dependencies that LALRPOP
+needs at runtime. All LALRPOP parsers require at least the
+`lalrpop-util` crate. In addition, if you don't want to write the
+lexer by hand, you need to add a dependency on the regex crate.  (If
+you don't know what a lexer is, don't worry, it's not important just
+now; if you *do* know what a lexer is, and you want to know how to
+write a lexer by hand and use it with LALRPOP, then check out the
+[lexer tutorial].)
+
+[lexer tutorial]: lexer_tutorial.md
 
 Next we have to add `build.rs` itself. This should just look like the
 following:

@@ -55,6 +55,8 @@ pub enum GrammarItem {
 /// string literals etc that appear in the grammar.
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct InternToken {
+    /// Set of `r"foo"` and `"foo"` literals extracted from the
+    /// grammar. Sorted by order of increasing precedence.
     pub literals: Vec<TerminalLiteral>,
     pub dfa: DFA
 }
@@ -257,6 +259,18 @@ pub enum TerminalLiteral {
     Regex(InternedString),
 }
 
+impl TerminalLiteral {
+    /// Currently, at least, quoted literals ("foo") always have
+    /// higher precedence than regex literals (r"foo"). This only
+    /// applies when we are creating the tokenizer anyhow.
+    pub fn precedence(&self) -> usize {
+        match *self {
+            TerminalLiteral::Quoted(_) => 1,
+            TerminalLiteral::Regex(_) => 0,
+        }
+    }
+}
+
 #[derive(Copy, Clone, Hash, PartialEq, Eq, PartialOrd, Ord)]
 pub struct NonterminalString(pub InternedString);
 
@@ -406,7 +420,7 @@ impl Display for TerminalLiteral {
     fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
         match *self {
             TerminalLiteral::Quoted(s) =>
-                write!(fmt, "{:?}", s),
+                write!(fmt, "{:?}", s), // the Debug impl adds the `"` and escaping
             TerminalLiteral::Regex(s) =>
                 write!(fmt, "r#{:?}#", s), // FIXME -- need to determine proper number of #
         }

@@ -10,3 +10,4 @@ lalrpop = { version = "0.12.0", path = "../../lalrpop" }
 
 [dependencies]
 lalrpop-util = { version = "0.12.0", path = "../../lalrpop-util" }
+regex = "0.2"
