@@ -1,7 +1,7 @@
 use grammar::repr::*;
 use lr1::core::*;
 use lr1::lookahead::Lookahead;
-use petgraph::{EdgeDirection, Graph};
+use petgraph::{Direction, Graph};
 use petgraph::graph::NodeIndex;
 
 // Each state `s` corresponds to the node in the graph with index
@@ -59,7 +59,7 @@ impl StateGraph {
             if let Some((head, tail)) = symbols.split_last() {
                 stack.extend(
                     self.graph.edges_directed(NodeIndex::new(state_index.0),
-                                              EdgeDirection::Incoming)
+                                              Direction::Incoming)
                               .filter(|&(_, symbol)| symbol == head)
                               .map(|(pred, _)| (StateIndex(pred.index()), tail)));
             } else {
@@ -75,7 +75,7 @@ impl StateGraph {
                       state_index: StateIndex)
                       -> Vec<StateIndex> {
         self.graph.edges_directed(NodeIndex::new(state_index.0),
-                                  EdgeDirection::Outgoing)
+                                  Direction::Outgoing)
                   .map(|(succ, _)| StateIndex(succ.index()))
                   .collect()
     }
@@ -85,7 +85,7 @@ impl StateGraph {
                         symbol: Symbol)
                         -> Vec<StateIndex> {
         self.graph.edges_directed(NodeIndex::new(state_index.0),
-                                  EdgeDirection::Incoming)
+                                  Direction::Incoming)
                   .filter(|&(_, s)| *s == symbol)
                   .map(|(pred, _)| StateIndex(pred.index()))
                   .collect()

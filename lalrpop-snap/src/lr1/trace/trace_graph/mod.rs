@@ -4,7 +4,7 @@ use lr1::first::*;
 use lr1::lookahead::*;
 use lr1::example::*;
 use grammar::repr::*;
-use petgraph::{EdgeDirection, Graph};
+use petgraph::{Direction, Graph};
 use petgraph::graph::{Edges, NodeIndex};
 use std::fmt::{Debug, Formatter, Error};
 
@@ -84,7 +84,7 @@ impl<'grammar> TraceGraph<'grammar> {
     {
         let from = self.add_node(from.into());
         let to = self.add_node(to.into());
-        if !self.graph.edges_directed(from, EdgeDirection::Outgoing)
+        if !self.graph.edges_directed(from, Direction::Outgoing)
                       .any(|(t, &l)| t == to && l == labels)
         {
             self.graph.add_edge(from, to, labels);
@@ -146,7 +146,7 @@ impl<'grammar> Debug for TraceGraph<'grammar> {
         let mut s = fmt.debug_list();
         for (&node, &index) in &self.indices {
             for (target, label) in
-                self.graph.edges_directed(index, EdgeDirection::Outgoing)
+                self.graph.edges_directed(index, Direction::Outgoing)
             {
                 s.entry(&TraceGraphEdge { from: node,
                                           to: self.graph[target],
@@ -219,7 +219,7 @@ impl<'graph, 'grammar> PathEnumerator<'graph, 'grammar> {
     }
 
     fn incoming_edges(&self, index: NodeIndex) -> Edges<'graph, SymbolSets<'grammar>> {
-        self.graph.graph.edges_directed(index, EdgeDirection::Incoming)
+        self.graph.graph.edges_directed(index, Direction::Incoming)
     }
 
     /// This is the main operation, written in CPS style and hence it
