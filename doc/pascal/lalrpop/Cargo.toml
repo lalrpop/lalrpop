@@ -8,7 +8,7 @@ build = "build.rs"
 path = "../../../lalrpop"
 
 [dependencies]
-docopt = "0.6"
-lalrpop-util = { version = "0.12.1", path = "../../../lalrpop-util" }
+docopt = "0.7"
+lalrpop-util = { version = "0.12.5", path = "../../../lalrpop-util" }
 rustc-serialize = "0.3"
-regex = "0.2"
+regex = "0.2.1"

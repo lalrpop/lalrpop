@@ -15,18 +15,18 @@ doctest = false
 
 [dependencies]
 atty = "0.1.2"
-bit-set = "0.3.0"    
-bitflags = "0.4.0"
-diff = "0.1"
-docopt = "0.6"
-itertools = "0.3"
-regex = "0.1"
+bit-set = "0.4.0"
+bitflags = "0.8.0"
+diff = "0.1.9"
+docopt = "0.7"
+itertools = "0.5.9"
+regex = "0.2.1"
 regex-syntax = "0.2"
-petgraph = "0.1.11"
+petgraph = "0.3.2"
 rustc-serialize = "0.3"
-term = "0.4.4"
-unicode-xid = "0.0.2"
-        
+term = "0.4.5"
+unicode-xid = "0.0.4"
+
 [dev-dependencies]
 rand = "0.3"
 
