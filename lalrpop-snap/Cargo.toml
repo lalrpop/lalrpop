@@ -8,6 +8,9 @@ authors = ["Niko Matsakis <niko@alum.mit.edu>"]
 # build = "build.rs"
 workspace = ".."
 
+[lib]
+doctest = false
+
 [dependencies]
 atty = "0.1.2"
 bit-set = "0.3.0"    
