@@ -113,7 +113,9 @@ pub struct Items<'grammar, L: Lookahead> {
     pub vec: Rc<Vec<Item<'grammar, L>>>
 }
 
+#[allow(dead_code)]
 pub type LR0Items<'grammar> = Items<'grammar, Nil>;
+#[allow(dead_code)]
 pub type LR1Items<'grammar> = Items<'grammar, TokenSet>;
 
 #[derive(Debug)]
@@ -149,6 +151,7 @@ pub struct Conflict<'grammar, L> {
     pub action: Action<'grammar>,
 }
 
+#[allow(dead_code)]
 pub type LR0Conflict<'grammar> = Conflict<'grammar, Nil>;
 pub type LR1Conflict<'grammar> = Conflict<'grammar, TokenSet>;
 
