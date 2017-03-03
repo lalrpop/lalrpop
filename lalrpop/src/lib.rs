@@ -8,6 +8,7 @@
 // too darn annoying to try and make them do so.
 #![cfg_attr(test, allow(dead_code))]
 
+extern crate ascii_canvas;
 extern crate atty;
 extern crate bit_set;
 extern crate diff;
@@ -30,7 +31,6 @@ mod rust;
 mod log;
 
 mod api;
-mod ascii_canvas;
 mod build;
 mod collections;
 mod file_text;
@@ -42,7 +42,6 @@ mod normalize;
 mod parser;
 mod kernel_set;
 mod session;
-pub mod style;
 mod tls;
 mod tok;
 mod util;
@@ -53,4 +52,4 @@ mod util;
 pub use api::Configuration;
 pub use api::process_root;
 pub use api::process_root_unconditionally;
-
+pub use ascii_canvas::style;
