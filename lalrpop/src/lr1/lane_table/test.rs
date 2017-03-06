@@ -33,13 +33,46 @@ fn traverse(states: &[LR0State], tokens: &[&str]) -> StateIndex {
 /// A simplified version of the paper's initial grammar; this version
 /// only has one inconsistent state (the same state they talk about in
 /// the paper).
-pub fn paper_example_small() -> Grammar {
+pub fn paper_example_g0() -> Grammar {
     normalized_grammar(r#"
 grammar;
 
 pub G: () = {
     X "c",
     Y "d",
+};
+
+X: () = {
+    "e" X,
+    "e",}
+;
+
+Y: () = {
+    "e" Y,
+    "e"
+};
+"#)
+}
+
+/// A (corrected) version of the sample grammar G1 from the paper. The
+/// grammar as written in the text omits some items, but the diagrams
+/// seem to contain the full set. I believe this is one of the
+/// smallest examples that still requires splitting states from the
+/// LR0 states.
+pub fn paper_example_g1() -> Grammar {
+    normalized_grammar(r#"
+grammar;
+
+pub G: () = {
+    // if "a" is input, then lookahead "d" means "reduce X"
+    // and lookahead "c" means "reduce "Y"
+    "a" X "d",
+    "a" Y "c",
+
+    // if "b" is input, then lookahead "d" means "reduce Y"
+    // and lookahead "c" means "reduce X.
+    "b" X "c",
+    "b" Y "d",
 };
 
 X: () = {
@@ -80,17 +113,50 @@ fn build_table<'grammar>(grammar: &'grammar Grammar,
 }
 
 #[test]
-fn small_conflict_1() {
+fn g0_conflict_1() {
     let _tls = Tls::test();
-    let grammar = paper_example_small();
+    let grammar = paper_example_g0();
     let _lr1_tls = Lr1Tls::install(grammar.terminals.clone());
     let table = build_table(&grammar, "G", &["e"]);
     println!("{:#?}", table);
+    // conflicting_items={
+    //     X = (*) "e",        // C0 -- shift, trivial
+    //     X = "e" (*),        // C1 -- steps back to state S0, finds lookahead "c"
+    //     X = (*) "e" X,      // C2 -- shift, trivial
+    //     Y = (*) "e",        // C3 -- shift, trivial
+    //     Y = "e" (*),        // C4 -- steps back to state S0, finds lookahead "d"
+    //     Y = (*) "e" Y       // C5 -- shift, trivial
+    // }
     expect_debug(&table,
                  r#"
 | State | C0    | C1    | C2    | C3    | C4    | C5    | Successors |
 | S0    |       | ["c"] |       |       | ["d"] |       | {S3}       |
 | S3    | ["e"] | []    | ["e"] | ["e"] | []    | ["e"] | {S3}       |
+"#
+                     .trim_left());
+}
+
+#[test]
+fn paper_example_g1_conflict_1() {
+    let _tls = Tls::test();
+    let grammar = paper_example_g1();
+    let _lr1_tls = Lr1Tls::install(grammar.terminals.clone());
+    let table = build_table(&grammar, "G", &["a", "e"]);
+    println!("{:#?}", table);
+    // conflicting_items={
+    //     X = (*) "e",    // C0 -- shift
+    //     X = "e" (*),    // C1 -- trace back to S1 and S2
+    //     X = (*) "e" X,  // C2 -- shift
+    //     Y = (*) "e",    // C3 -- shift
+    //     Y = "e" (*),    // C4 -- trace back to S1 and S2
+    //     Y = (*) "e" Y   // C5 -- shift
+    // }
+    expect_debug(&table,
+                 r#"
+| State | C0    | C1    | C2    | C3    | C4    | C5    | Successors |
+| S1    |       | ["d"] |       |       | ["c"] |       | {S5}       |
+| S2    |       | ["c"] |       |       | ["d"] |       | {S5}       |
+| S5    | ["e"] | []    | ["e"] | ["e"] | []    | ["e"] | {S5}       |
 "#
                      .trim_left());
 }
