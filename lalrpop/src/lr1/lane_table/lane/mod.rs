@@ -10,16 +10,16 @@ use lr1::state_graph::StateGraph;
 
 use super::table::{ConflictIndex, LaneTable};
 
-pub struct LaneTracer<'trace, 'grammar: 'trace> {
-    states: &'trace [LR0State<'grammar>],
+pub struct LaneTracer<'trace, 'grammar: 'trace, L: Lookahead + 'trace> {
+    states: &'trace [State<'grammar, L>],
     first_sets: FirstSets,
     state_graph: StateGraph,
     table: LaneTable<'grammar>,
 }
 
-impl<'trace, 'grammar> LaneTracer<'trace, 'grammar> {
+impl<'trace, 'grammar, L: Lookahead> LaneTracer<'trace, 'grammar, L> {
     pub fn new(grammar: &'grammar Grammar,
-               states: &'trace [LR0State<'grammar>],
+               states: &'trace [State<'grammar, L>],
                conflicts: usize)
                -> Self {
         LaneTracer {
@@ -37,7 +37,7 @@ impl<'trace, 'grammar> LaneTracer<'trace, 'grammar> {
     pub fn start_trace(&mut self,
                        state: StateIndex,
                        conflict: ConflictIndex,
-                       item: LR0Item<'grammar>) {
+                       item: Item<'grammar, L>) {
         let mut visited_set = Set::default();
 
         // if the conflict item is a "shift" item, then the context
@@ -64,9 +64,9 @@ impl<'trace, 'grammar> LaneTracer<'trace, 'grammar> {
     fn continue_trace(&mut self,
                       state: StateIndex,
                       conflict: ConflictIndex,
-                      item: LR0Item<'grammar>,
-                      visited: &mut Set<(StateIndex, LR0Item<'grammar>)>) {
-        if !visited.insert((state, item)) {
+                      item: Item<'grammar, L>,
+                      visited: &mut Set<(StateIndex, Item<'grammar, L>)>) {
+        if !visited.insert((state, item.clone())) {
             return;
         }
 
@@ -89,7 +89,7 @@ impl<'trace, 'grammar> LaneTracer<'trace, 'grammar> {
             let predecessors = self.state_graph.predecessors(state, shifted_symbol);
             for predecessor in predecessors {
                 self.table.add_successor(predecessor, state);
-                self.continue_trace(predecessor, conflict, unshifted_item, visited);
+                self.continue_trace(predecessor, conflict, unshifted_item.clone(), visited);
             }
             return;
         }
@@ -114,14 +114,14 @@ impl<'trace, 'grammar> LaneTracer<'trace, 'grammar> {
 
         let state_items = &self.states[state.0].items.vec;
         let nonterminal = item.production.nonterminal;
-        for &pred_item in state_items.iter()
-                                     .filter(|i| i.can_shift_nonterminal(nonterminal)) {
+        for pred_item in state_items.iter()
+                                    .filter(|i| i.can_shift_nonterminal(nonterminal)) {
             let symbol_sets = pred_item.symbol_sets();
             let mut first = self.first_sets.first0(symbol_sets.suffix);
             let derives_epsilon = first.take_eof();
             self.table.add_lookahead(state, conflict, &first);
             if derives_epsilon {
-                self.continue_trace(state, conflict, pred_item, visited);
+                self.continue_trace(state, conflict, pred_item.clone(), visited);
             }
         }
     }
