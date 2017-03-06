@@ -4,8 +4,10 @@ version = "0.12.5"
 authors = ["Mako <jlauve@rsmw.net>"]
 build = "build.rs"
 
-[build-dependencies]
-lalrpop = "0.12.5"
+[build-dependencies.lalrpop]
+version = "0.12.5"
+path = "../../lalrpop"
 
-[dependencies]
-lalrpop-util = "0.12.5"
+[dependencies.lalrpop-util]
+version = "0.12.5"
+path = "../../lalrpop-util"
