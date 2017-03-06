@@ -17,7 +17,6 @@ doctest = false
 ascii-canvas = "1.0"
 atty = "0.1.2"
 bit-set = "0.4.0"
-bitflags = "0.8.0"
 diff = "0.1.9"
 docopt = "0.7"
 itertools = "0.5.9"
