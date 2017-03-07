@@ -37,7 +37,7 @@ impl<'trace, 'grammar, L: Lookahead> LaneTracer<'trace, 'grammar, L> {
     pub fn start_trace(&mut self,
                        state: StateIndex,
                        conflict: ConflictIndex,
-                       item: Item<'grammar, L>) {
+                       item: LR0Item<'grammar>) {
         let mut visited_set = Set::default();
 
         // if the conflict item is a "shift" item, then the context
@@ -64,9 +64,9 @@ impl<'trace, 'grammar, L: Lookahead> LaneTracer<'trace, 'grammar, L> {
     fn continue_trace(&mut self,
                       state: StateIndex,
                       conflict: ConflictIndex,
-                      item: Item<'grammar, L>,
-                      visited: &mut Set<(StateIndex, Item<'grammar, L>)>) {
-        if !visited.insert((state, item.clone())) {
+                      item: LR0Item<'grammar>,
+                      visited: &mut Set<(StateIndex, LR0Item<'grammar>)>) {
+        if !visited.insert((state, item)) {
             return;
         }
 
@@ -89,7 +89,7 @@ impl<'trace, 'grammar, L: Lookahead> LaneTracer<'trace, 'grammar, L> {
             let predecessors = self.state_graph.predecessors(state, shifted_symbol);
             for predecessor in predecessors {
                 self.table.add_successor(predecessor, state);
-                self.continue_trace(predecessor, conflict, unshifted_item.clone(), visited);
+                self.continue_trace(predecessor, conflict, unshifted_item, visited);
             }
             return;
         }
@@ -121,7 +121,7 @@ impl<'trace, 'grammar, L: Lookahead> LaneTracer<'trace, 'grammar, L> {
             let derives_epsilon = first.take_eof();
             self.table.add_lookahead(state, conflict, &first);
             if derives_epsilon {
-                self.continue_trace(state, conflict, pred_item.clone(), visited);
+                self.continue_trace(state, conflict, pred_item.to_lr0(), visited);
             }
         }
     }
