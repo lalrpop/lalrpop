@@ -130,7 +130,7 @@ pub struct State<'grammar, L: Lookahead> {
 pub type LR0State<'grammar> = State<'grammar, Nil>;
 pub type LR1State<'grammar> = State<'grammar, TokenSet>;
 
-#[derive(Copy, Clone, Debug, PartialEq, Eq)]
+#[derive(Copy, Clone, Debug, PartialEq, Eq, PartialOrd, Ord)]
 pub enum Action<'grammar> {
     Shift(TerminalString, StateIndex),
     Reduce(&'grammar Production),

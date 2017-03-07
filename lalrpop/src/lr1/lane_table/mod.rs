@@ -25,13 +25,13 @@ pub fn build_lane_table_states<'grammar>(grammar: &'grammar Grammar,
     // and avoid dead-code warnings
     for conflict in lr0_conflicts {
         let inconsistent_state = &lr0_states[conflict.state.0];
-        let conflicting_items = conflicting_items(inconsistent_state);
-        println!("conflicting_items={:#?}", conflicting_items);
-        let mut tracer = LaneTracer::new(&grammar, &lr0_states, conflicting_items.len());
-        for (i, &conflicting_item) in conflicting_items.iter().enumerate() {
+        let conflicting_actions = conflicting_actions(inconsistent_state);
+        println!("conflicting_actions={:#?}", conflicting_actions);
+        let mut tracer = LaneTracer::new(&grammar, &lr0_states, conflicting_actions.len());
+        for (i, &conflicting_action) in conflicting_actions.iter().enumerate() {
             tracer.start_trace(inconsistent_state.index,
                                ConflictIndex::new(i),
-                               conflicting_item);
+                               conflicting_action);
         }
         let _ = tracer.into_table();
     }
@@ -39,34 +39,9 @@ pub fn build_lane_table_states<'grammar>(grammar: &'grammar Grammar,
     unimplemented!()
 }
 
-fn conflicting_items<'grammar>(state: &LR0State<'grammar>) -> Set<LR0Item<'grammar>> {
+fn conflicting_actions<'grammar>(state: &LR0State<'grammar>) -> Set<Action<'grammar>> {
     let conflicts = Nil::conflicts(state);
-
-    let reductions1 = conflicts.iter()
-                               .map(|c| Item::lr0(c.production, c.production.symbols.len()));
-
-    let reductions2 = conflicts.iter()
-                               .filter_map(|c| {
-                                   match c.action {
-                                       Action::Reduce(p) => Some(Item::lr0(p, p.symbols.len())),
-                                       Action::Shift(..) => None,
-                                   }
-                               });
-
-    let shifts = conflicts.iter()
-                          .filter_map(|c| {
-                              match c.action {
-                                  Action::Shift(term, _) => Some(term),
-                                  Action::Reduce(..) => None,
-                              }
-                          })
-                          .flat_map(|term| {
-                              state.items
-                                   .vec
-                                   .iter()
-                                   .filter(move |item| item.can_shift_terminal(term))
-                                   .cloned()
-                          });
-
-    reductions1.chain(reductions2).chain(shifts).collect()
+    let reductions = conflicts.iter().map(|c| Action::Reduce(c.production));
+    let actions = conflicts.iter().map(|c| c.action);
+    reductions.chain(actions).collect()
 }

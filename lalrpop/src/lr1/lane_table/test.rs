@@ -100,7 +100,7 @@ fn build_table<'grammar>(grammar: &'grammar Grammar,
     println!("inconsistent_state={:#?}", inconsistent_state.items);
 
     // Extract conflicting items and trace the lanes, constructing a table
-    let conflicting_items = super::conflicting_items(inconsistent_state);
+    let conflicting_items = super::conflicting_actions(inconsistent_state);
     println!("conflicting_items={:#?}", conflicting_items);
     let mut tracer = LaneTracer::new(&grammar, &lr0_err.states, conflicting_items.len());
     for (i, &conflicting_item) in conflicting_items.iter().enumerate() {
@@ -119,19 +119,16 @@ fn g0_conflict_1() {
     let _lr1_tls = Lr1Tls::install(grammar.terminals.clone());
     let table = build_table(&grammar, "G", &["e"]);
     println!("{:#?}", table);
-    // conflicting_items={
-    //     X = (*) "e",        // C0 -- shift, trivial
-    //     X = "e" (*),        // C1 -- steps back to state S0, finds lookahead "c"
-    //     X = (*) "e" X,      // C2 -- shift, trivial
-    //     Y = (*) "e",        // C3 -- shift, trivial
-    //     Y = "e" (*),        // C4 -- steps back to state S0, finds lookahead "d"
-    //     Y = (*) "e" Y       // C5 -- shift, trivial
+    // conflicting_actions={
+    //     Shift("e") // C0
+    //     Reduce(X = "e" => ActionFn(4)) // C1
+    //     Reduce(Y = "e" => ActionFn(6)) // C2
     // }
     expect_debug(&table,
                  r#"
-| State | C0    | C1    | C2    | C3    | C4    | C5    | Successors |
-| S0    |       | ["c"] |       |       | ["d"] |       | {S3}       |
-| S3    | ["e"] | []    | ["e"] | ["e"] | []    | ["e"] | {S3}       |
+| State | C0    | C1    | C2    | Successors |
+| S0    |       | ["c"] | ["d"] | {S3}       |
+| S3    | ["e"] | []    | []    | {S3}       |
 "#
                      .trim_left());
 }
@@ -143,20 +140,17 @@ fn paper_example_g1_conflict_1() {
     let _lr1_tls = Lr1Tls::install(grammar.terminals.clone());
     let table = build_table(&grammar, "G", &["a", "e"]);
     println!("{:#?}", table);
-    // conflicting_items={
-    //     X = (*) "e",    // C0 -- shift
-    //     X = "e" (*),    // C1 -- trace back to S1 and S2
-    //     X = (*) "e" X,  // C2 -- shift
-    //     Y = (*) "e",    // C3 -- shift
-    //     Y = "e" (*),    // C4 -- trace back to S1 and S2
-    //     Y = (*) "e" Y   // C5 -- shift
+    // conflicting_actions={
+    //     Shift("e") // C0
+    //     Reduce(X = "e" => ActionFn(6)) // C1
+    //     Reduce(Y = "e" => ActionFn(8)) // C2
     // }
     expect_debug(&table,
                  r#"
-| State | C0    | C1    | C2    | C3    | C4    | C5    | Successors |
-| S1    |       | ["d"] |       |       | ["c"] |       | {S5}       |
-| S2    |       | ["c"] |       |       | ["d"] |       | {S5}       |
-| S5    | ["e"] | []    | ["e"] | ["e"] | []    | ["e"] | {S5}       |
+| State | C0    | C1    | C2    | Successors |
+| S1    |       | ["d"] | ["c"] | {S5}       |
+| S2    |       | ["c"] | ["d"] | {S5}       |
+| S5    | ["e"] | []    | []    | {S5}       |
 "#
                      .trim_left());
 }
@@ -224,17 +218,25 @@ fn large_conflict_1() {
     let _lr1_tls = Lr1Tls::install(grammar.terminals.clone());
     let table = build_table(&grammar, "G", &["x", "s", "k", "t"]);
     println!("{:#?}", table);
+
+    // conflicting_actions={
+    //     Shift("s") // C0
+    //     Reduce(U = U "k" "t") // C1
+    //     Reduce(X = "k" "t") // C2
+    //     Reduce(Y = "k" "t") // C3
+    // }
+
     expect_debug(&table,
                  r#"
 | State | C0    | C1    | C2         | C3    | Successors |
-| S1    | ["k"] |       |            |       | {S5}       |
-| S2    | ["k"] |       |            |       | {S7}       |
-| S3    | ["k"] |       |            |       | {S7}       |
-| S4    | ["k"] |       |            |       | {S7}       |
+| S1    |       | ["k"] |            |       | {S5}       |
+| S2    |       | ["k"] |            |       | {S7}       |
+| S3    |       | ["k"] |            |       | {S7}       |
+| S4    |       | ["k"] |            |       | {S7}       |
 | S5    |       |       | ["a"]      | ["r"] | {S16}      |
 | S7    |       |       | ["c", "w"] | ["d"] | {S16}      |
 | S16   |       |       |            |       | {S27}      |
-| S27   | ["k"] | ["s"] |            |       | {S32}      |
+| S27   | ["s"] | ["k"] |            |       | {S32}      |
 | S32   |       |       | ["z"]      | ["u"] | {S16}      |
 "#
                  .trim_left());
@@ -242,8 +244,9 @@ fn large_conflict_1() {
     // ^^ This differs in some particulars from what appears in the
     // paper, but I believe it to be correct, and the paper to be wrong.
     //
-    // Here is the table using the state names from the paper. I've marked
-    // the differences with `(*)`.
+    // Here is the table using the state names from the paper. I've
+    // marked the differences with `(*)`. Note that the paper does not
+    // include the C0 column (the shift).
     //
     // | State | pi1   | pi2   | pi3        | Successors |
     // | B     | ["k"] |       | *1         | {G}        |

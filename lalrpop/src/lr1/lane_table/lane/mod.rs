@@ -37,25 +37,21 @@ impl<'trace, 'grammar, L: Lookahead> LaneTracer<'trace, 'grammar, L> {
     pub fn start_trace(&mut self,
                        state: StateIndex,
                        conflict: ConflictIndex,
-                       item: LR0Item<'grammar>) {
+                       action: Action<'grammar>) {
         let mut visited_set = Set::default();
 
         // if the conflict item is a "shift" item, then the context
         // is always the terminal to shift (and conflicts only arise
         // around shifting terminal, so it must be a terminal)
-        match item.shift_symbol() {
-            Some((Symbol::Terminal(term), _)) => {
+        match action {
+            Action::Shift(term, _) => {
                 let mut token_set = TokenSet::new();
                 token_set.insert(Token::Terminal(term));
                 self.table.add_lookahead(state, conflict, &token_set);
             }
 
-            Some((Symbol::Nonterminal(_), _)) => {
-                panic!("invalid conflict item `{:?}`: shifts nonterminal",
-                       item);
-            }
-
-            None => {
+            Action::Reduce(prod) => {
+                let item = Item::lr0(prod, prod.symbols.len());
                 self.continue_trace(state, conflict, item, &mut visited_set);
             }
         }
