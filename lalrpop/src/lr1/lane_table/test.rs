@@ -7,11 +7,21 @@ use lr1::interpret;
 use lr1::tls::Lr1Tls;
 use tls::Tls;
 
+use super::construct::*;
 use super::lane::*;
 use super::table::*;
 
+macro_rules! tokens {
+    ($($x:expr),*) => {
+        vec![$(TerminalString::quoted(intern($x))),*].into_iter()
+    }
+}
+
 fn sym(t: &str) -> Symbol {
-    if t.chars().next().unwrap().is_uppercase() {
+    if t.chars()
+           .next()
+           .unwrap()
+           .is_uppercase() {
         Symbol::Nonterminal(nt(t))
     } else {
         Symbol::Terminal(term(t))
@@ -130,7 +140,7 @@ fn g0_conflict_1() {
 | S0    |       | ["c"] | ["d"] | {S3}       |
 | S3    | ["e"] | []    | []    | {S3}       |
 "#
-                     .trim_left());
+                         .trim_left());
 }
 
 #[test]
@@ -152,7 +162,31 @@ fn paper_example_g1_conflict_1() {
 | S2    |       | ["c"] | ["d"] | {S5}       |
 | S5    | ["e"] | []    | []    | {S5}       |
 "#
-                     .trim_left());
+                         .trim_left());
+}
+
+#[test]
+fn paper_example_g0_build() {
+    let _tls = Tls::test();
+    let grammar = paper_example_g0();
+    let _lr1_tls = Lr1Tls::install(grammar.terminals.clone());
+    let lr0_err = build::build_lr0_states(&grammar, nt("G")).unwrap_err();
+    let states = LaneTableConstruct::new(&grammar, nt("G")).construct()
+        .expect("failed to build lane table states");
+
+    // we do not require more *states* than LR(0), just different lookahead
+    assert_eq!(states.len(), lr0_err.states.len());
+
+    let tree = interpret::interpret(&states, tokens!["e", "c"]).unwrap();
+    expect_debug(&tree, r#"[G: [X: "e"], "c"]"#);
+
+    let tree = interpret::interpret(&states, tokens!["e", "e", "c"]).unwrap();
+    expect_debug(&tree, r#"[G: [X: "e", [X: "e"]], "c"]"#);
+
+    let tree = interpret::interpret(&states, tokens!["e", "e", "d"]).unwrap();
+    expect_debug(&tree, r#"[G: [Y: "e", [Y: "e"]], "d"]"#);
+
+    interpret::interpret(&states, tokens!["e", "e", "e"]).unwrap_err();
 }
 
 pub fn paper_example_large() -> Grammar {
@@ -239,7 +273,7 @@ fn large_conflict_1() {
 | S27   | ["s"] | ["k"] |            |       | {S32}      |
 | S32   |       |       | ["z"]      | ["u"] | {S16}      |
 "#
-                 .trim_left());
+                         .trim_left());
 
     // ^^ This differs in some particulars from what appears in the
     // paper, but I believe it to be correct, and the paper to be wrong.

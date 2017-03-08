@@ -62,6 +62,19 @@ impl<'grammar> LaneTable<'grammar> {
     pub fn add_successor(&mut self, state: StateIndex, succ: StateIndex) {
         self.successors.push(state, succ);
     }
+
+    /// Unions together the lookaheads for each column and returns a
+    /// vector of all of them. For an LALR(1) grammar, these token
+    /// sets will be mutually disjoint, as discussed in the [README].
+    ///
+    /// [README]: ../README.md
+    pub fn columns(&self) -> Vec<TokenSet> {
+        let mut result: Vec<_> = (0..self.conflicts).map(|_| TokenSet::new()).collect();
+        for (&(_, conflict_index), set) in &self.lookaheads {
+            result[conflict_index.index].union_with(set);
+        }
+        result
+    }
 }
 
 impl<'grammar> Debug for LaneTable<'grammar> {

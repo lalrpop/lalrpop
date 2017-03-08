@@ -83,7 +83,8 @@ actions.
 The term LR(0-1), but basically the idea is that the lookahead in a
 LR(0-1) state can be either a set of terminals (as in LR(1)) or *none*
 (as in LR(0)). You can also think of it alternatively as adding a
-special "wildcard" symbol `_` to the grammar. We will thus denote the
+special "wildcard" symbol `_` to the grammar; in our actual code, we
+represent this with `TokenSet::all()`. We will thus denote the
 inconsistent state after transformation as follows, where each line
 has the "wildcard" lookahead:
 
