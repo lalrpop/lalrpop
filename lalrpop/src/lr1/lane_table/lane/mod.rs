@@ -12,20 +12,22 @@ use super::table::{ConflictIndex, LaneTable};
 
 pub struct LaneTracer<'trace, 'grammar: 'trace, L: Lookahead + 'trace> {
     states: &'trace [State<'grammar, L>],
-    first_sets: FirstSets,
-    state_graph: StateGraph,
+    first_sets: &'trace FirstSets,
+    state_graph: &'trace StateGraph,
     table: LaneTable<'grammar>,
 }
 
 impl<'trace, 'grammar, L: Lookahead> LaneTracer<'trace, 'grammar, L> {
     pub fn new(grammar: &'grammar Grammar,
                states: &'trace [State<'grammar, L>],
+               first_sets: &'trace FirstSets,
+               state_graph: &'trace StateGraph,
                conflicts: usize)
                -> Self {
         LaneTracer {
             states: states,
-            first_sets: FirstSets::new(grammar),
-            state_graph: StateGraph::new(states),
+            first_sets,
+            state_graph,
             table: LaneTable::new(grammar, conflicts),
         }
     }

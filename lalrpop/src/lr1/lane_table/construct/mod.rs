@@ -4,19 +4,27 @@ use collections::{Map, Set};
 use grammar::repr::*;
 use lr1::build;
 use lr1::core::*;
+use lr1::first::FirstSets;
 use lr1::lookahead::TokenSet;
 use lr1::lane_table::lane::LaneTracer;
 use lr1::lane_table::table::{ConflictIndex, LaneTable};
+use lr1::state_graph::StateGraph;
 use std::rc::Rc;
 
 pub struct LaneTableConstruct<'grammar> {
     grammar: &'grammar Grammar,
+    first_sets: FirstSets,
     start: NonterminalString,
 }
 
 impl<'grammar> LaneTableConstruct<'grammar> {
     pub fn new(grammar: &'grammar Grammar, start: NonterminalString) -> Self {
-        Self { grammar, start }
+        let first_sets = FirstSets::new(grammar);
+        Self {
+            grammar,
+            start,
+            first_sets,
+        }
     }
 
     pub fn construct(self) -> Result<Vec<LR1State<'grammar>>, LR1TableConstructionError<'grammar>> {
@@ -130,7 +138,12 @@ impl<'grammar> LaneTableConstruct<'grammar> {
                         inconsistent_state: StateIndex,
                         actions: &Set<Action<'grammar>>)
                         -> LaneTable<'grammar> {
-        let mut tracer = LaneTracer::new(self.grammar, states, actions.len());
+        let state_graph = StateGraph::new(states);
+        let mut tracer = LaneTracer::new(self.grammar,
+                                         states,
+                                         &self.first_sets,
+                                         &state_graph,
+                                         actions.len());
         for (i, &action) in actions.iter().enumerate() {
             tracer.start_trace(inconsistent_state, ConflictIndex::new(i), action);
         }

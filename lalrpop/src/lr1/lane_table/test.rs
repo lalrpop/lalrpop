@@ -3,7 +3,9 @@ use grammar::repr::*;
 use test_util::{expect_debug, normalized_grammar};
 use lr1::build;
 use lr1::core::*;
+use lr1::first::FirstSets;
 use lr1::interpret;
+use lr1::state_graph::StateGraph;
 use lr1::tls::Lr1Tls;
 use tls::Tls;
 
@@ -112,7 +114,13 @@ fn build_table<'grammar>(grammar: &'grammar Grammar,
     // Extract conflicting items and trace the lanes, constructing a table
     let conflicting_items = super::conflicting_actions(inconsistent_state);
     println!("conflicting_items={:#?}", conflicting_items);
-    let mut tracer = LaneTracer::new(&grammar, &lr0_err.states, conflicting_items.len());
+    let first_sets = FirstSets::new(&grammar);
+    let state_graph = StateGraph::new(&lr0_err.states);
+    let mut tracer = LaneTracer::new(&grammar,
+                                     &lr0_err.states,
+                                     &first_sets,
+                                     &state_graph,
+                                     conflicting_items.len());
     for (i, &conflicting_item) in conflicting_items.iter().enumerate() {
         tracer.start_trace(inconsistent_state.index,
                            ConflictIndex::new(i),
