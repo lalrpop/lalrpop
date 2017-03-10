@@ -238,6 +238,10 @@ This is of course also what the LALR(1) state would look like (though
 it would include context for the other items, though that doesn't play
 into the final machine execution).
 
+At this point we've covered enough to handle the grammar G0.  Let's
+turn to a more complex grammar, grammar G1, and then we'll come back
+to cover the remaining steps.
+
 ### Second example: the grammar G1
 
 G1 is a (typo corrected) version of the grammar from the paper. This
@@ -257,12 +261,157 @@ Y  = "e" Y
    | "e"
 ```
 
-### Defining a lane
+The key point of this grammar is that when we see `... "e" "c"` and we
+wish to know whether to reduce to `X` or `Y`, we don't have enough
+information. We need to know what is in the `...`, because `"a" "e"
+"c"` means we reduce `"e"` to `Y` and `"b" "e" "c"` means we reduce to
+`X`. In terms of our *state machine*, this corresponds to *splitting*
+the states responsible for X and Y based on earlier context.
 
-The first thing to understand is the concept of a *lane*. This is
-really a very simple idea: it is basically a particular trace through
-the LR state machine. So it consists of a series of *LR0 items* that
-are linked by an action, each action being either a *shift* of some
-symbol or an *epsilon shift* (note that reduces are not considered
-here; in practice, a lane is basically the path that leads up to a
-reduce).
+Let's look at a subset of the LR(0) states for G1:
+
+```
+S0 = G0 = (*) "a" X "d"
+   | G0 = (*) "a" Y "c"
+   | G0 = (*) "b" X "c"
+   | G0 = (*) "b" X "d"
+   
+S1 = G0 = "a" (*) X "d"
+   | G0 = "a" (*) Y "c"
+   | X = (*) "e" X
+   | X = (*) "e"
+   | Y = (*) "e" Y
+   | Y = (*) "e"
+
+S2 = G0 = "b" (*) X "c"
+   | G0 = "b" (*) Y "d"
+   | X = (*) "e" X
+   | X = (*) "e"
+   | Y = (*) "e" Y
+   | Y = (*) "e"
+
+S3 = X = "e" (*) X
+   | X = "e" (*)      // C1 -- can reduce
+   | X = (*) "e"      // C0 -- can shift "e"
+   | X = (*) "e" "X"  // C0 -- can shift "e"
+   | Y = "e" (*) Y
+   | Y = "e" (*)      // C2 -- can reduce
+   | Y = (*) "e"      // C0 -- can shift "e"
+   | Y = (*) "e" Y    // C0 -- can shift "e"
+```
+
+Here we can see the problem. The state S3 is inconsistent. But it is
+reachable from both S1 and S2. If we come from S1, then we can have (e.g.)
+`X "d"`, but if we come from S2, we expect `X "c"`.
+
+Let's walk through our algorithm again. I'll start with step 3a.
+
+### Step 3a: Build the lane table.
+
+The lane table for state S3 will look like this:
+
+```
+| State | C0    | C1    | C2    | Successors |
+| S1    |       | ["d"] | ["c"] | {S3}       |
+| S2    |       | ["c"] | ["d"] | {S3}       |
+| S3    | ["e"] | []    | []    | {S3}       |
+```
+
+Now if we union each column, we see that both C1 and C2 wind up with
+lookahead `{"c", "d"}`. This is our problem. We have to isolate things
+better. Therefore, step 3b ("update lookahead") does not apply. Instead
+we attempt step 3c.
+
+### Step 3c: Isolate lanes
+
+This part of the algorithm is only loosely described in the paper, but
+I think it works as follows. We will employ a union-find data
+structure. With each set, we will record a "context set", which
+records for each conflict the set of lookahead tokens (e.g.,
+`{C1:{"d"}}`).
+
+A context set tells us how to map the lookahead to an action;
+therefire, to be self-consistent, the lookaheads for each conflict
+must be mutually disjoint. In other words, `{C1:{"d"}, C2:{"c"}}` is
+valid, and says to do C1 if we see a "d" and C2 if we see a "c". But
+`{C1:{"d"}, C2:{"d"}}` is not, because there are two actions.
+
+Initially, each state in the lane table is mapped to itself, and the
+conflict set is derived from its column in the lane table:
+
+```
+S1 = {C1:d, C2:c}
+S2 = {C1:c, C2:d}
+S3 = {C0:e}
+```
+
+We designate "beachhead" states as those states in the table that are
+not reachable from another state in the table (i.e., using the
+successors). In this case, those are the states S1 and S2. We will be
+doing a DFS through the table and we want to use those as the starting
+points.
+
+(Question: is there always at least one beachhead state? Seems like
+there must be.)
+
+So we begin by iterating over the beachhead states.
+
+```rust
+for beachhead in beachheads { ... }
+```
+
+When we visit a state X, we will examine each of its successors Y. We
+consider whether the context set for Y can be merged with the context
+set for X. So, in our case, X will be S1 to start and Y will be S3.
+In this case, the context set can be merged, and hence we union S1, S3
+and wind up with the following union-find state:
+
+```
+S1,S3 = {C0:e, C1:d, C2:c}
+S2    = {C1:c, C2:d}
+```
+
+(Note that this union is just for the purpose of tracking context; it
+doesn't imply that S1 and S3 are the 'same states' or anything like
+that.)
+
+Next we examine the edge S3 -> S3. Here the contexts are already
+merged and everything is happy, so we stop. (We already visited S3,
+after all.)
+
+This finishes our first beachhead, so we proceed to the next edge, S2
+-> S3. Here we find that we **cannot** union the context: it would
+produce an inconsistent state. So what we do is we **clone** S3 to
+make a new state, S3', with the initial setup corresponding to the row
+for S3 from the lane table:
+
+```
+S1,S3 = {C0:e, C1:d, C2:c}
+S2    = {C1:c, C2:d}
+S3'   = {C0:e}
+```
+
+This also involves updating our LR(0-1) state set to have a new state
+S3'. All edges from S2 that led to S3 now lead to S3'; the outgoing
+edges from S3' remain unchanged. (At least to start.)
+
+Therefore, the edge `S2 -> S3` is now `S2 -> S3'`. We can now merge
+the conflicts:
+
+```
+S1,S3  = {C0:e, C1:d, C2:c}
+S2,S3' = {C0:e, C1:c, C2:d}
+```
+
+Now we examine the outgoing edge S3' -> S3. We cannot merge these
+conflicts, so we search (greedily, I guess) for a clone of S3 where we
+can merge the conflicts. We find one in S3', and hence we redirect the
+S3 edge to S3' and we are done. (I think the actual search we want is
+to make first look for a clone of S3 that is using literally the same
+context as us (i.e., same root node), as in this case. If that is not
+found, *then* we search for one with a mergable context. If *that*
+fails, then we clone a new state.)
+
+The final state thus has two copies of S3, one for the path from S1,
+and one for the path from S2, which gives us enough context to
+proceed.
