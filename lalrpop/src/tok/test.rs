@@ -46,6 +46,110 @@ fn code1() {
 }
 
 #[test]
+fn rule_id_then_equalsgreaterthancode_functioncall() {
+    test("id => a(b, c),", vec![
+        ("~~            ", Id("id")),
+        ("   ~~~~~~~~~~ ", EqualsGreaterThanCode(" a(b, c)")),
+        ("             ~", Comma),
+    ]);
+}
+
+#[test]
+fn rule_stringliteral_slash_dot_then_equalsgreaterthancode_functioncall() {
+    test(r#" "\." => a(b, c),"#, vec![
+        (r#" ~~~~            "#, StringLiteral(r#"\."#)),
+        (r#"      ~~~~~~~~~~ "#, EqualsGreaterThanCode(" a(b, c)")),
+        (r#"                ~"#, Comma),
+    ]);
+}
+
+#[test]
+fn rule_stringliteral_slash_dot_then_equalsgreaterthancode_many_characters_in_stringliteral() {
+    test(r#" "\." => "Planet Earth" ,"#, vec![
+        (r#" ~~~~                    "#, StringLiteral(r#"\."#)),
+        (r#"      ~~~~~~~~~~~~~~~~~~ "#, EqualsGreaterThanCode(r#" "Planet Earth" "#)),
+        (r#"                        ~"#, Comma),
+    ]);
+}
+
+#[test]
+fn rule_stringliteral_slash_dot_then_equalsgreaterthancode_one_character_dot_in_stringliteral() {
+    test(r#" "\." => "." ,"#, vec![
+        (r#" ~~~~         "#, StringLiteral(r#"\."#)),
+        (r#"      ~~~~~~~ "#, EqualsGreaterThanCode(r#" "." "#)),
+        (r#"             ~"#, Comma),
+    ]);
+}
+
+#[test]
+fn rule_stringliteral_slash_openningbracket_then_equalsgreaterthancode_one_character_openningbracket_in_stringliteral() {
+    test(r#" "\(" => "(" ,"#, vec![
+        (r#" ~~~~         "#, StringLiteral(r#"\("#)),
+        (r#"      ~~~~~~~ "#, EqualsGreaterThanCode(r#" "(" "#)),
+        (r#"             ~"#, Comma),
+    ]);
+}
+
+#[test]
+fn rule_stringliteral_slash_openningbracket_then_equalsgreaterthancode_empty_stringliteral() {
+    test(r#" "\(" => "" ,"#, vec![
+        (r#" ~~~~        "#, StringLiteral(r#"\("#)),
+        (r#"      ~~~~~~ "#, EqualsGreaterThanCode(r#" "" "#)),
+        (r#"            ~"#, Comma),
+    ]);
+}
+
+#[test]
+fn rule_stringliteral_slash_dot_then_equalsgreaterthancode_one_character_dot() {
+    test(r#" "\." => '.' ,"#, vec![
+        (r#" ~~~~         "#, StringLiteral(r#"\."#)),
+        (r#"      ~~~~~~~ "#, EqualsGreaterThanCode(r#" '.' "#)),
+        (r#"             ~"#, Comma),
+    ]);
+}
+
+#[test]
+fn rule_stringliteral_slash_openningbracket_then_equalsgreaterthancode_one_character_openningbracket() {
+    test(r#" "\(" => '(' ,"#, vec![
+        (r#" ~~~~         "#, StringLiteral(r#"\("#)),
+        (r#"      ~~~~~~~ "#, EqualsGreaterThanCode(r#" '(' "#)),
+        (r#"             ~"#, Comma),
+    ]);
+}
+
+#[test]
+fn equalsgreaterthancode_one_character_openningbracket() {
+    test(r#"=> '(' ,"#, vec![
+        (r#"~~~~~~~ "#, EqualsGreaterThanCode(r#" '(' "#)),
+        (r#"       ~"#, Comma),
+    ]);
+}
+
+#[test]
+fn equalsgreaterthancode_one_character_openningcurlybracket() {
+    test(r#"=> '{' ,"#, vec![
+        (r#"~~~~~~~ "#, EqualsGreaterThanCode(r#" '{' "#)),
+        (r#"       ~"#, Comma),
+    ]);
+}
+
+#[test]
+fn equalsgreaterthancode_one_character_openningsquarebracket() {
+    test(r#"=> '[' ,"#, vec![
+        (r#"~~~~~~~ "#, EqualsGreaterThanCode(r#" '[' "#)),
+        (r#"       ~"#, Comma),
+    ]);
+}
+
+#[test]
+fn equalsgreaterthancode_one_character_openningbracket_wrapped_by_brackets() {
+    test(r#"=> ('(') ,"#, vec![
+        (r#"~~~~~~~~~ "#, EqualsGreaterThanCode(r#" ('(') "#)),
+        (r#"         ~"#, Comma),
+    ]);
+}
+
+#[test]
 fn code_paren() { // Issue #25
     test(r#"=> a("(", c),"#, vec![
         (r#"~~~~~~~~~~~~ "#, EqualsGreaterThanCode(r#" a("(", c)"#)),
