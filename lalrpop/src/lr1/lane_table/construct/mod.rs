@@ -28,7 +28,7 @@ impl<'grammar> LaneTableConstruct<'grammar> {
     }
 
     pub fn construct(self) -> Result<Vec<LR1State<'grammar>>, LR1TableConstructionError<'grammar>> {
-        let TableConstructionError { states, conflicts } = {
+        let TableConstructionError { states, conflicts: _ } = {
             match build::build_lr0_states(self.grammar, self.start) {
                 // This is the easy (and very rare...) case.
                 Ok(lr0) => return Ok(self.promote_lr0_states(lr0)),
@@ -41,9 +41,12 @@ impl<'grammar> LaneTableConstruct<'grammar> {
 
         // For each inconsistent state, apply the lane-table algorithm to
         // resolve it.
-        let conflicting_states: Set<StateIndex> = conflicts.iter().map(|c| c.state).collect();
-        for state_index in conflicting_states {
-            self.resolve_inconsistencies(&mut states, state_index)?;
+        for i in 0.. {
+            if i >= states.len() {
+                break;
+            }
+
+            self.resolve_inconsistencies(&mut states, StateIndex(i))?;
         }
 
         Ok(states)
@@ -87,6 +90,10 @@ impl<'grammar> LaneTableConstruct<'grammar> {
                                inconsistent_state: StateIndex)
                                -> Result<(), LR1TableConstructionError<'grammar>> {
         let actions = super::conflicting_actions(&states[inconsistent_state.0]);
+        if actions.is_empty() {
+            return Ok(());
+        }
+
         let table = self.build_lane_table(states, inconsistent_state, &actions);
 
         // Consider first the "LALR" case, where the lookaheads for each

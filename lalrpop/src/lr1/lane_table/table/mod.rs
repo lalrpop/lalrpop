@@ -21,6 +21,9 @@ use std::default::Default;
 use std::fmt::{Debug, Error, Formatter};
 use std::iter;
 
+pub mod context_set;
+use self::context_set::{ContextSet, OverlappingLookahead};
+
 #[derive(Copy, Clone, Debug, PartialOrd, Ord, PartialEq, Eq)]
 pub struct ConflictIndex {
     index: usize,
@@ -74,6 +77,26 @@ impl<'grammar> LaneTable<'grammar> {
             result[conflict_index.index].union_with(set);
         }
         result
+    }
+
+    pub fn successors(&self, state: StateIndex) -> Option<&Set<StateIndex>> {
+        self.successors.get(&state)
+    }
+
+    pub fn rows(&self, state: StateIndex) -> Result<Map<StateIndex, ContextSet>,
+                                                    StateIndex> {
+        let mut map = Map::new();
+        for (&(state_index, conflict_index), token_set) in &self.lookaheads {
+            match {
+                map.entry(state_index)
+                   .or_insert_with(|| ContextSet::new(self.conflicts))
+                   .insert(conflict_index, token_set)
+            } {
+                Ok(_changed) => { }
+                Err(OverlappingLookahead) => return Err(state_index)
+            }
+        }
+        Ok(map)
     }
 }
 
