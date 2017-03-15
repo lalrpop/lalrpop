@@ -12,6 +12,7 @@ extern crate ascii_canvas;
 extern crate atty;
 extern crate bit_set;
 extern crate diff;
+extern crate ena;
 extern crate itertools;
 extern crate lalrpop_intern as intern;
 extern crate lalrpop_util;

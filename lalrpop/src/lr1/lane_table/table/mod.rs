@@ -83,8 +83,24 @@ impl<'grammar> LaneTable<'grammar> {
         self.successors.get(&state)
     }
 
-    pub fn rows(&self, state: StateIndex) -> Result<Map<StateIndex, ContextSet>,
-                                                    StateIndex> {
+    /// Returns the state of states in the table that are **not**
+    /// reachable from another state in the table. These are called
+    /// "beachhead states".
+    pub fn beachhead_states(&self) -> Set<StateIndex> {
+        // set of all states that are reachable from another state
+        let mut reachable: Set<StateIndex> =
+            self.successors.iter()
+                           .flat_map(|(_pred, succ)| succ)
+                           .cloned()
+                           .collect();
+
+        self.lookaheads.keys()
+                       .map(|&(state_index, _)| state_index)
+                       .filter(|s| !reachable.contains(s))
+                       .collect()
+    }
+
+    pub fn rows(&self) -> Result<Map<StateIndex, ContextSet>, StateIndex> {
         let mut map = Map::new();
         for (&(state_index, conflict_index), token_set) in &self.lookaheads {
             match {

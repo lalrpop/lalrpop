@@ -1,15 +1,22 @@
 //!
 
 use collections::{Map, Set};
+use ena::unify::UnificationTable;
 use grammar::repr::*;
 use lr1::build;
 use lr1::core::*;
 use lr1::first::FirstSets;
-use lr1::lookahead::TokenSet;
+use lr1::lookahead::{Lookahead, TokenSet};
 use lr1::lane_table::lane::LaneTracer;
 use lr1::lane_table::table::{ConflictIndex, LaneTable};
 use lr1::state_graph::StateGraph;
 use std::rc::Rc;
+
+mod merge;
+use self::merge::Merge;
+
+mod state_set;
+use self::state_set::StateSet;
 
 pub struct LaneTableConstruct<'grammar> {
     grammar: &'grammar Grammar,
@@ -46,7 +53,19 @@ impl<'grammar> LaneTableConstruct<'grammar> {
                 break;
             }
 
-            self.resolve_inconsistencies(&mut states, StateIndex(i))?;
+            match self.resolve_inconsistencies(&mut states, StateIndex(i)) {
+                Ok(()) => { }
+                Err(_) => {
+                    // We failed because of irreconcilable conflicts
+                    // somewhere. Just compute the conflicts from the final set of
+                    // states.
+                    let conflicts: Vec<Conflict<'grammar, TokenSet>> =
+                        states.iter()
+                              .flat_map(|s| Lookahead::conflicts(&s))
+                              .collect();
+                    return Err(TableConstructionError { states, conflicts });
+                }
+            }
         }
 
         Ok(states)
@@ -88,7 +107,7 @@ impl<'grammar> LaneTableConstruct<'grammar> {
     fn resolve_inconsistencies(&self,
                                states: &mut Vec<LR1State<'grammar>>,
                                inconsistent_state: StateIndex)
-                               -> Result<(), LR1TableConstructionError<'grammar>> {
+                               -> Result<(), StateIndex> {
         let actions = super::conflicting_actions(&states[inconsistent_state.0]);
         if actions.is_empty() {
             return Ok(());
@@ -102,7 +121,28 @@ impl<'grammar> LaneTableConstruct<'grammar> {
             return Ok(());
         }
 
-        panic!("lane table selected where not LALR not yet implemented")
+        // Construct the initial states; each state will map to a
+        // context-set derived from its row in the lane-table. This is
+        // fallible, because a state may be internally inconstent.
+        //
+        // (To handle unification, we also map each state to a
+        // `StateSet` that is its entry in the `ena` table.)
+        let rows = table.rows()?;
+        let mut unify = UnificationTable::<StateSet>::new();
+        let mut state_sets = Map::new();
+        for (&state_index, context_set) in &rows {
+            let state_set = unify.new_key(context_set.clone());
+            state_sets.insert(state_index, state_set);
+        }
+
+        // Now merge state-sets, cloning states where needed.
+        let mut merge = Merge::new(&table, &mut unify, states);
+        let beachhead_states = table.beachhead_states();
+        for beachhead_state in beachhead_states {
+            merge.start(beachhead_state)?;
+        }
+
+        Ok(())
     }
 
     fn attempt_lalr(&self,
