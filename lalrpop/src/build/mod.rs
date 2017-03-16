@@ -221,6 +221,9 @@ fn parse_and_normalize_grammar(session: &Session, file_text: &FileText) -> io::R
                 tok::ErrorCode::UnterminatedStringLiteral => {
                     "unterminated string literal; missing `\"`?"
                 }
+                tok::ErrorCode::UnterminatedCharacterLiteral => {
+                    "unterminated character literal; missing `'`?"
+                }
                 tok::ErrorCode::ExpectedStringLiteral => "expected string literal; missing `\"`?",
                 tok::ErrorCode::UnterminatedCode => {
                     "unterminated code block; perhaps a missing `;`, `)`, `]` or `}`?"

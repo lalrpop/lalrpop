@@ -126,6 +126,30 @@ fn equalsgreaterthancode_one_character_openningbracket() {
 }
 
 #[test]
+fn equalsgreaterthancode_one_character_escaped_n() {
+    test(r#"=> '\n' ,"#, vec![
+        (r#"~~~~~~~~ "#, EqualsGreaterThanCode(r#" '\n' "#)),
+        (r#"        ~"#, Comma),
+    ]);
+}
+
+#[test]
+fn equalsgreaterthancode_one_character_escaped_w() {
+    test(r#"=> '\w' ,"#, vec![
+        (r#"~~~~~~~~ "#, EqualsGreaterThanCode(r#" '\w' "#)),
+        (r#"        ~"#, Comma),
+    ]);
+}
+
+#[test]
+fn equalsgreaterthancode_one_character_escaped_planet123() {
+    test(r#"=> '\planet123' ,"#, vec![
+        (r#"~~~~~~~~~~~~~~~~ "#, EqualsGreaterThanCode(r#" '\planet123' "#)),
+        (r#"                ~"#, Comma),
+    ]);
+}
+
+#[test]
 fn equalsgreaterthancode_one_character_openningcurlybracket() {
     test(r#"=> '{' ,"#, vec![
         (r#"~~~~~~~ "#, EqualsGreaterThanCode(r#" '{' "#)),
@@ -146,6 +170,54 @@ fn equalsgreaterthancode_one_character_openningbracket_wrapped_by_brackets() {
     test(r#"=> ('(') ,"#, vec![
         (r#"~~~~~~~~~ "#, EqualsGreaterThanCode(r#" ('(') "#)),
         (r#"         ~"#, Comma),
+    ]);
+}
+
+#[test]
+fn equalsgreaterthancode_one_character_closingbracket_wrapped_by_brackets() {
+    test(r#"=> (')') ,"#, vec![
+        (r#"~~~~~~~~~ "#, EqualsGreaterThanCode(r#" (')') "#)),
+        (r#"         ~"#, Comma),
+    ]);
+}
+
+#[test]
+fn equalsgreaterthancode_tuple() {
+    test(r#"=> (1,2,3) ,"#, vec![
+        (r#"~~~~~~~~~~~ "#, EqualsGreaterThanCode(r#" (1,2,3) "#)),
+        (r#"           ~"#, Comma),
+    ]);
+}
+
+#[test]
+fn equalsgreaterthancode_statement_with_lifetime() {
+    test(r#"=> HuffmanTable::<Code<'a>>::new() ,"#, vec![
+        (r#"~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ "#, EqualsGreaterThanCode(r#" HuffmanTable::<Code<'a>>::new() "#)),
+        (r#"                                   ~"#, Comma),
+    ]);
+}
+
+#[test]
+fn equalsgreaterthancode_statement_with_many_lifetimes() {
+    test(r#"=> (HuffmanTable::<Code<'a, 'b>>::new()),"#, vec![
+        (r#"~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ "#, EqualsGreaterThanCode(r#" (HuffmanTable::<Code<'a, 'b>>::new())"#)),
+        (r#"                                        ~"#, Comma),
+    ]);
+}
+
+#[test]
+fn equalsgreaterthancode_nested_function_with_lifetimes() {
+    test(r#"=> fn foo<'a>(x: &'a i32, y: &'a i32) -> &'a i32 {} ,"#, vec![
+        (r#"~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ "#, EqualsGreaterThanCode(r#" fn foo<'a>(x: &'a i32, y: &'a i32) -> &'a i32 {} "#)),
+        (r#"                                                    ~"#, Comma),
+    ]);
+}
+
+#[test]
+fn where_with_lifetimes() {
+    test(r#"where <'a,bar<'b,'c>>,baz;"#, vec![
+        (r#"~~~~~~~~~~~~~~~~~~~~~~~~~ "#, Where(vec![" <'a,bar<'b,'c>>", "baz"])),
+        (r#"                         ~"#, Semi),
     ]);
 }
 

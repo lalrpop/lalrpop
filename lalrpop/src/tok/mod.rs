@@ -20,6 +20,7 @@ pub enum ErrorCode {
     UnrecognizedToken,
     UnterminatedEscape,
     UnterminatedStringLiteral,
+    UnterminatedCharacterLiteral,
     UnterminatedCode,
     ExpectedStringLiteral,
 }
@@ -376,7 +377,7 @@ impl<'input> Tokenizer<'input> {
         // we have to scan ahead, matching (), [], and {}, and looking
         // for a suitable terminator: `,`, `;`, `]`, `}`, or `)`.
         // Additionaly we had to take into account that we can encounter an character literal
-        // equal to some delimeter.
+        // equal to one of delimeters.
         let mut balance = 0; // number of unclosed `(` etc
         loop {
             if let Some((idx, c)) = self.lookahead {
@@ -386,7 +387,9 @@ impl<'input> Tokenizer<'input> {
                     continue;
                 } else if c == '\'' {
                     self.bump();
-                    self.take_lifetime_or_character_literal(); // discard the produced token
+                    if self.take_lifetime_or_character_literal().is_none() {
+                        return error(UnterminatedCharacterLiteral, idx);
+                    }
                     continue;
                 } else if c == 'r' {
                     self.bump();
@@ -451,7 +454,7 @@ impl<'input> Tokenizer<'input> {
 
         self.lookahead.and_then( |(_, c)| {
             if c == '\\' {
-                // escape after `'` => it had tobe character literal token, consume
+                // escape after `'` => it had to be character literal token, consume
                 self.take_until_and_consume_terminating_character(|c:char| { c == '\'' })
             } else {
                 // no escape, then we require to see next `'` or we assume it was lifetime
@@ -632,7 +635,7 @@ impl<'input> Tokenizer<'input> {
         }
     }
 
-    fn take_until_and_consume_terminating_character<F>(&mut self, mut terminate : F) -> Option<usize>
+    fn take_until_and_consume_terminating_character<F>(&mut self, terminate : F) -> Option<usize>
         where F: FnMut(char) -> bool
     {
         self.take_until(terminate).and_then(|_| {
