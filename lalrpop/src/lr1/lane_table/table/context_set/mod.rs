@@ -42,6 +42,7 @@ pub struct ContextSet {
     values: Vec<TokenSet>
 }
 
+#[derive(Debug)]
 pub struct OverlappingLookahead;
 
 impl ContextSet {

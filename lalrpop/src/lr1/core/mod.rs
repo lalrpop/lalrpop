@@ -118,7 +118,7 @@ pub type LR0Items<'grammar> = Items<'grammar, Nil>;
 #[allow(dead_code)]
 pub type LR1Items<'grammar> = Items<'grammar, TokenSet>;
 
-#[derive(Debug)]
+#[derive(Clone, Debug)]
 pub struct State<'grammar, L: Lookahead> {
     pub index: StateIndex,
     pub items: Items<'grammar, L>,

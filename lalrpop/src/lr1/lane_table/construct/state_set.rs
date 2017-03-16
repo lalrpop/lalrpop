@@ -1,5 +1,5 @@
 use ena::unify::{UnifyKey, UnifyValue};
-use lr1::lane_table::table::context_set::ContextSet;
+use lr1::lane_table::table::context_set::{ContextSet, OverlappingLookahead};
 
 /// The unification key for a set of states in the lane table
 /// algorithm.  Each set of states is associated with a

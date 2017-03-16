@@ -88,7 +88,7 @@ impl<'grammar> LaneTable<'grammar> {
     /// "beachhead states".
     pub fn beachhead_states(&self) -> Set<StateIndex> {
         // set of all states that are reachable from another state
-        let mut reachable: Set<StateIndex> =
+        let reachable: Set<StateIndex> =
             self.successors.iter()
                            .flat_map(|(_pred, succ)| succ)
                            .cloned()
@@ -98,6 +98,16 @@ impl<'grammar> LaneTable<'grammar> {
                        .map(|&(state_index, _)| state_index)
                        .filter(|s| !reachable.contains(s))
                        .collect()
+    }
+
+    pub fn context_set(&self, state: StateIndex) -> Result<ContextSet, OverlappingLookahead> {
+        let mut set = ContextSet::new(self.conflicts);
+        for (&(state_index, conflict_index), token_set) in &self.lookaheads {
+            if state_index == state {
+                set.insert(conflict_index, token_set)?;
+            }
+        }
+        Ok(set)
     }
 
     pub fn rows(&self) -> Result<Map<StateIndex, ContextSet>, StateIndex> {

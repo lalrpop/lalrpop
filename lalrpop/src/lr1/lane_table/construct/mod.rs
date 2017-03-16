@@ -136,10 +136,13 @@ impl<'grammar> LaneTableConstruct<'grammar> {
         }
 
         // Now merge state-sets, cloning states where needed.
-        let mut merge = Merge::new(&table, &mut unify, states);
+        let mut merge = Merge::new(&table, &mut unify, states, &mut state_sets);
         let beachhead_states = table.beachhead_states();
         for beachhead_state in beachhead_states {
-            merge.start(beachhead_state)?;
+            match merge.start(beachhead_state) {
+                Ok(()) => { }
+                Err((source, _)) => return Err(source),
+            }
         }
 
         Ok(())
