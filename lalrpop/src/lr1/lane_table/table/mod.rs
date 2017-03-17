@@ -111,6 +111,10 @@ impl<'grammar> LaneTable<'grammar> {
         Ok(set)
     }
 
+    /// Returns a map containing all states that appear in the table,
+    /// along with the context set for each state (i.e., each row in
+    /// the table, basically). Returns Err if any state has a conflict
+    /// between the context sets even within its own row.
     pub fn rows(&self) -> Result<Map<StateIndex, ContextSet>, StateIndex> {
         let mut map = Map::new();
         for (&(state_index, conflict_index), token_set) in &self.lookaheads {
@@ -123,6 +127,15 @@ impl<'grammar> LaneTable<'grammar> {
                 Err(OverlappingLookahead) => return Err(state_index)
             }
         }
+
+        // In some cases, there are states that have no context at
+        // all, only successors. In that case, make sure to add an
+        // empty row for them.
+        for (&state_index, _) in &self.successors {
+            map.entry(state_index)
+                .or_insert_with(|| ContextSet::new(self.conflicts));
+        }
+
         Ok(map)
     }
 }

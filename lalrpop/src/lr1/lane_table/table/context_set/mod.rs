@@ -70,9 +70,11 @@ impl ContextSet {
     /// Assuming no errors, returns `Ok(true)` if this resulted in any
     /// modifications, and `Ok(false)` otherwise.
     pub fn insert(&mut self, conflict: ConflictIndex, set: &TokenSet) -> Result<bool, OverlappingLookahead> {
-        for value in &self.values {
-            if value.is_intersecting(&set) {
-                return Err(OverlappingLookahead);
+        for (value, index) in self.values.iter().zip((0..).map(ConflictIndex::new)) {
+            if index != conflict {
+                if value.is_intersecting(&set) {
+                    return Err(OverlappingLookahead);
+                }
             }
         }
 
