@@ -1,8 +1,14 @@
-use super::{Tok, Tokenizer};
+use super::{Tok, ErrorCode, Error, Tokenizer};
 use super::Tok::*;
 
-fn test(input: &str,
-        expected: Vec<(&str, Tok)>)
+enum Expectation<'a> {
+    ExpectTok(Tok<'a>),
+    ExpectErr(ErrorCode)
+}
+
+use self::Expectation::*;
+
+fn gen_test(input: &str, expected: Vec<(&str, Expectation)>)
 {
     // use $ to signal EOL because it can be replaced with a single space
     // for spans, and because it applies also to r#XXX# style strings:
@@ -10,15 +16,34 @@ fn test(input: &str,
 
     let tokenizer = Tokenizer::new(&input, 0);
     let len = expected.len();
-    for (token, (expected_span, expected_tok)) in tokenizer.zip(expected.into_iter()) {
-        println!("token: {:?}", token);
+    for (token, (expected_span, expectation)) in tokenizer.zip(expected.into_iter()) {
         let expected_start = expected_span.find("~").unwrap();
         let expected_end = expected_span.rfind("~").unwrap() + 1;
-        assert_eq!(Ok((expected_start, expected_tok, expected_end)), token);
+        println!("token: {:?}", token);
+        match expectation {
+            ExpectTok(expected_tok) => {
+                assert_eq!(Ok((expected_start, expected_tok, expected_end)), token);
+            }
+            ExpectErr(expected_ec) => {
+                assert_eq!(Err(Error{ location: expected_start, code: expected_ec }), token)
+            }
+        }
     }
 
     let tokenizer = Tokenizer::new(&input, 0);
     assert_eq!(None, tokenizer.skip(len).next());
+}
+
+fn test(input: &str, expected: Vec<(&str, Tok)>)
+{
+    let generic_expected = expected.into_iter().map( | (span, tok) | (span, ExpectTok(tok)) ).collect();
+    gen_test(input, generic_expected);
+}
+
+fn test_err(input: &str, expected: (&str, ErrorCode))
+{
+    let (span, ec) = expected;
+    gen_test(input, vec![(span, ExpectErr(ec))])
 }
 
 #[test]
@@ -219,6 +244,41 @@ fn where_with_lifetimes() {
         (r#"~~~~~~~~~~~~~~~~~~~~~~~~~ "#, Where(vec![" <'a,bar<'b,'c>>", "baz"])),
         (r#"                         ~"#, Semi),
     ]);
+}
+
+#[test]
+fn equalsgreaterthancode_error_unbalanced() {
+    test_err(r#"=> (,"#,
+            (r#"~    "#, ErrorCode::UnterminatedCode)
+    )
+}
+
+#[test]
+fn equalsgreaterthancode_error_unbalanced_closingbracket_character() {
+    test_err(r#"=> (,')',"#,
+            (r#"~        "#, ErrorCode::UnterminatedCode)
+    )
+}
+
+#[test]
+fn equalsgreaterthancode_error_unterminated_string_literal() {
+    test_err(r#"=>  "Jan III Sobieski"#,
+            (r#"    ~                "#, ErrorCode::UnterminatedStringLiteral)
+    )
+}
+
+#[test]
+fn equalsgreaterthancode_error_unterminated_character_literal() {
+    test_err(r#"=>  '\x233  "#,
+            (r#"    ~       "#, ErrorCode::UnterminatedCharacterLiteral)
+    )
+}
+
+#[test]
+fn equalsgreaterthancode_error_end_of_input_instead_of_closing_normal_character_literal() {
+    test_err(r#"=>  'x"#,
+            (r#"    ~ "#, ErrorCode::UnterminatedCharacterLiteral)
+    )
 }
 
 #[test]
