@@ -67,16 +67,17 @@ impl<'grammar> LaneTable<'grammar> {
     }
 
     /// Unions together the lookaheads for each column and returns a
-    /// vector of all of them. For an LALR(1) grammar, these token
-    /// sets will be mutually disjoint, as discussed in the [README].
+    /// context set containing all of them. For an LALR(1) grammar,
+    /// these token sets will be mutually disjoint, as discussed in
+    /// the [README]; otherwise `Err` will be returned.
     ///
     /// [README]: ../README.md
-    pub fn columns(&self) -> Vec<TokenSet> {
-        let mut result: Vec<_> = (0..self.conflicts).map(|_| TokenSet::new()).collect();
+    pub fn columns(&self) -> Result<ContextSet, OverlappingLookahead> {
+        let mut columns = ContextSet::new(self.conflicts);
         for (&(_, conflict_index), set) in &self.lookaheads {
-            result[conflict_index.index].union_with(set);
+            columns.insert(conflict_index, set)?;
         }
-        result
+        Ok(columns)
     }
 
     pub fn successors(&self, state: StateIndex) -> Option<&Set<StateIndex>> {

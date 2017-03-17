@@ -9,6 +9,7 @@ use lr1::first::FirstSets;
 use lr1::lookahead::{Lookahead, TokenSet};
 use lr1::lane_table::lane::LaneTracer;
 use lr1::lane_table::table::{ConflictIndex, LaneTable};
+use lr1::lane_table::table::context_set::OverlappingLookahead;
 use lr1::state_graph::StateGraph;
 use std::rc::Rc;
 
@@ -133,10 +134,12 @@ impl<'grammar> LaneTableConstruct<'grammar> {
         for (&state_index, context_set) in &rows {
             let state_set = unify.new_key(context_set.clone());
             state_sets.insert(state_index, state_set);
+            debug!("resolve_inconsistencies: state_index={:?}, state_set={:?}",
+                   state_index, state_set);
         }
 
         // Now merge state-sets, cloning states where needed.
-        let mut merge = Merge::new(&table, &mut unify, states, &mut state_sets);
+        let mut merge = Merge::new(&table, &mut unify, states, &mut state_sets, inconsistent_state);
         let beachhead_states = table.beachhead_states();
         for beachhead_state in beachhead_states {
             match merge.start(beachhead_state) {
@@ -144,6 +147,7 @@ impl<'grammar> LaneTableConstruct<'grammar> {
                 Err((source, _)) => return Err(source),
             }
         }
+        merge.patch_target_starts(&actions);
 
         Ok(())
     }
@@ -153,34 +157,17 @@ impl<'grammar> LaneTableConstruct<'grammar> {
                     table: &LaneTable<'grammar>,
                     actions: &Set<Action<'grammar>>)
                     -> bool {
-        let columns = table.columns();
-
-        debug!("attempt_lalr, columns={:#?}", columns);
-
-        // check whether the lookaheads for all columns are mutually disjoint
-        for i in 0..columns.len() {
-            for j in 0..columns.len() {
-                if i != j {
-                    if !columns[i].is_disjoint(&columns[j]) {
-                        debug!("column {} not disjoint from {}", i, j);
-                        return false;
-                    }
-                }
+        match table.columns() {
+            Ok(columns) => {
+                debug!("attempt_lalr, columns={:#?}", columns);
+                columns.apply(state, actions);
+                true
+            }
+            Err(OverlappingLookahead) => {
+                debug!("attempt_lalr, OverlappingLookahead");
+                false
             }
         }
-
-        // create a map from each action to its lookahead
-        let lookaheads: Map<Action<'grammar>, &TokenSet> = actions.iter()
-            .enumerate()
-            .map(|(index, &action)| (action, &columns[index]))
-            .collect();
-
-        for &mut (ref mut lookahead, production) in &mut state.reductions {
-            let action = Action::Reduce(production);
-            *lookahead = lookaheads[&action].clone();
-        }
-
-        true
     }
 
     fn build_lane_table(&self,

@@ -197,6 +197,27 @@ fn paper_example_g0_build() {
     interpret::interpret(&states, tokens!["e", "e", "e"]).unwrap_err();
 }
 
+#[test]
+fn paper_example_g1_build() {
+    let _tls = Tls::test();
+    let grammar = paper_example_g1();
+    let _lr1_tls = Lr1Tls::install(grammar.terminals.clone());
+    let lr0_err = build::build_lr0_states(&grammar, nt("G")).unwrap_err();
+    let states = LaneTableConstruct::new(&grammar, nt("G")).construct()
+        .expect("failed to build lane table states");
+
+    // we require more *states* than LR(0), not just different lookahead
+    assert_eq!(states.len() - lr0_err.states.len(), 1);
+
+    let tree = interpret::interpret(&states, tokens!["a", "e", "e", "d"]).unwrap();
+    expect_debug(&tree, r#"[G: "a", [X: "e", [X: "e"]], "d"]"#);
+
+    let tree = interpret::interpret(&states, tokens!["b", "e", "e", "d"]).unwrap();
+    expect_debug(&tree, r#"[G: "b", [Y: "e", [Y: "e"]], "d"]"#);
+
+    interpret::interpret(&states, tokens!["e", "e", "e"]).unwrap_err();
+}
+
 pub fn paper_example_large() -> Grammar {
     normalized_grammar(r#"
 grammar;

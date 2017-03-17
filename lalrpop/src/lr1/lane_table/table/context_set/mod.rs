@@ -32,6 +32,8 @@
 //! because item 0 occurs only with lookahead `x` and item 1 with
 //! lookahead `y`.
 
+use collections::{Set, Map};
+use lr1::core::*;
 use lr1::lookahead::*;
 mod test;
 
@@ -75,5 +77,20 @@ impl ContextSet {
         }
 
         Ok(self.values[conflict.index].union_with(&set))
+    }
+
+    pub fn apply<'grammar>(&self,
+                           state: &mut LR1State<'grammar>,
+                           actions: &Set<Action<'grammar>>) {
+        // create a map from each action to its lookahead
+        let lookaheads: Map<Action<'grammar>, &TokenSet> = actions.iter()
+            .cloned()
+            .zip(&self.values)
+            .collect();
+
+        for &mut (ref mut lookahead, production) in &mut state.reductions {
+            let action = Action::Reduce(production);
+            *lookahead = lookaheads[&action].clone();
+        }
     }
 }
