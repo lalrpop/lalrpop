@@ -107,6 +107,7 @@ impl<'m, 'grammar> Merge<'m, 'grammar> {
                     self.patch_links(state, successor, successor1);
                     self.walk(successor1)?;
                 } else {
+                    // if we don't find one, we have to make a new clone
                     debug!("Merge::walk: creating new clone of {:?}", successor);
                     let successor1 = self.clone(successor);
                     if self.context_sets.union(state, successor1) {
