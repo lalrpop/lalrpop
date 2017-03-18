@@ -20,6 +20,7 @@ pub enum ErrorCode {
     UnrecognizedToken,
     UnterminatedEscape,
     UnterminatedStringLiteral,
+    UnterminatedCharacterLiteral,
     UnterminatedCode,
     ExpectedStringLiteral,
 }
@@ -110,6 +111,7 @@ const KEYWORDS: &'static [(&'static str, Tok<'static>)] = &[
     ("pub", Pub),
     ("type", Type),
     ];
+
 
 impl<'input> Tokenizer<'input> {
     pub fn new(text: &'input str, shift: usize) -> Tokenizer<'input> {
@@ -374,12 +376,20 @@ impl<'input> Tokenizer<'input> {
         // This is the interesting case. To find the end of the code,
         // we have to scan ahead, matching (), [], and {}, and looking
         // for a suitable terminator: `,`, `;`, `]`, `}`, or `)`.
+        // Additionaly we had to take into account that we can encounter an character literal
+        // equal to one of delimeters.
         let mut balance = 0; // number of unclosed `(` etc
         loop {
             if let Some((idx, c)) = self.lookahead {
                 if c == '"' {
                     self.bump();
                     try!(self.string_literal(idx)); // discard the produced token
+                    continue;
+                } else if c == '\'' {
+                    self.bump();
+                    if self.take_lifetime_or_character_literal().is_none() {
+                        return error(UnterminatedCharacterLiteral, idx);
+                    }
                     continue;
                 } else if c == 'r' {
                     self.bump();
@@ -419,6 +429,7 @@ impl<'input> Tokenizer<'input> {
                 return Ok(self.text.len());
             }
 
+
             self.bump();
         }
     }
@@ -434,6 +445,28 @@ impl<'input> Tokenizer<'input> {
                 error(UnterminatedEscape, idx0)
             }
         }
+    }
+
+    fn take_lifetime_or_character_literal(&mut self) -> Option<usize> {
+        // try to decide if `'` is for lifetime or it oppens a character literal
+
+        let forget_character = |p : (usize, char)| { p.0 };
+
+        self.lookahead.and_then( |(_, c)| {
+            if c == '\\' {
+                // escape after `'` => it had to be character literal token, consume
+                self.take_until_and_consume_terminating_character(|c:char| { c == '\'' })
+            } else {
+                // no escape, then we require to see next `'` or we assume it was lifetime
+                self.bump().and_then( |(idx, c)| {
+                    if c == '\'' {
+                        self.bump().map(forget_character)
+                    } else {
+                        Some(idx)
+                    }
+                })
+            }
+        })
     }
 
     fn string_literal(&mut self, idx0: usize) -> Result<Spanned<Tok<'input>>, Error> {
@@ -600,6 +633,14 @@ impl<'input> Tokenizer<'input> {
                 }
             }
         }
+    }
+
+    fn take_until_and_consume_terminating_character<F>(&mut self, terminate : F) -> Option<usize>
+        where F: FnMut(char) -> bool
+    {
+        self.take_until(terminate).and_then(|_| {
+            self.bump().map(|p| {p.0})
+        })
     }
 }
 
