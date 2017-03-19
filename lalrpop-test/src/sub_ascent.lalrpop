@@ -11,7 +11,7 @@ extern {
         ")" => Tok::RParen,
         "-" => Tok::Minus,
         Num => Tok::Num(<i32>),
-        Fraction => Tok::Fraction(<i32>, <i32>),
+        Fraction => Tok::Fraction(<i32>, <i32>), // Regression test for #179
     }
 }
 

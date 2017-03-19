@@ -13,7 +13,7 @@ pub enum Tok {
     Times,
     Div,
     Comma,
-    Fraction(i32, i32),
+    Fraction(i32, i32), // Not produced by tokenizer, used only in regression tests for #179
 }
 
 // simplest and stupidest possible tokenizer
