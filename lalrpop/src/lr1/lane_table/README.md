@@ -149,8 +149,8 @@ constructing for these conflicting actions is as follows:
 
 ```
 | State | C0    | C1    | C2    | Successors |
-| S0    |       | ["c"] | ["d"] | {S3}       |
-| S1    | ["e"] | []    | []    | {S3}       |
+| S0    |       | ["c"] | ["d"] | {S1}       |
+| S1    | ["e"] | []    | []    | {S1}       |
 ```
 
 Here the idea is that the lane table summarizes the lookahead
