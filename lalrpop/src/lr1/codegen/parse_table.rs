@@ -734,7 +734,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
 
             let variant_name = self.variant_name_for_symbol(Symbol::Terminal(terminal));
             rust!(self.out,
-                  "{} => {}Symbol::{}({}),",
+                  "{} => {}Symbol::{}(({})),",
                   pattern,
                   self.prefix,
                   variant_name,

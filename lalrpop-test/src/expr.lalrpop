@@ -11,6 +11,7 @@ extern {
         "*" => Tok::Times,
         "/" => Tok::Div,
         Num => Tok::Num(<i32>),
+        Fraction => Tok::Fraction(<i32>, <i32>), // Regression test for #179
     }
 }
 
