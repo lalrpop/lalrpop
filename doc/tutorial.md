@@ -158,7 +158,7 @@ lalrpop = "0.12.5"
 
 [dependencies]
 lalrpop-util = "0.12.5"
-regex = "0.2"
+regex = "0.2.1"
 ```
 
 Adding a `build` directive to the `[package]` section tells Cargo to
