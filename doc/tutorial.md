@@ -463,15 +463,15 @@ next highest precedence level (`*`, `/`), and finish with the bare
 version of your top-level as an atomic expression, which lets people
 reset.
 
-To see why this works, consider the two parse possible parse trees
-for something like `2+3*4`:
+To see why this works, consider the two possible parse trees for
+something like `2+3*4`:
 
 ```
-2 + 3   *    4      2   +  3   *    4
-| | |   |    |      |   |  |   |    |
-| | +-Factor-+  OR  +-Expr-+   |    |
-| |     |               |      |    |
-+-Expr -+               +----Factor-+
+2 + 3   *    4          2   +  3   *    4
+| | |   |    |          |   |  |   |    |
+| | +-Factor-+    OR    +-Expr-+   |    |
+| |     |                   |      |    |
++-Expr -+                   +----Factor-+
 ```
 
 In the first one, we give multiplication higher precedence, and in the
