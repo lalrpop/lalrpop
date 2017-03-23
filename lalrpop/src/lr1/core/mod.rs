@@ -118,7 +118,7 @@ pub type LR0Items<'grammar> = Items<'grammar, Nil>;
 #[allow(dead_code)]
 pub type LR1Items<'grammar> = Items<'grammar, TokenSet>;
 
-#[derive(Debug)]
+#[derive(Clone, Debug)]
 pub struct State<'grammar, L: Lookahead> {
     pub index: StateIndex,
     pub items: Items<'grammar, L>,
@@ -130,7 +130,7 @@ pub struct State<'grammar, L: Lookahead> {
 pub type LR0State<'grammar> = State<'grammar, Nil>;
 pub type LR1State<'grammar> = State<'grammar, TokenSet>;
 
-#[derive(Copy, Clone, Debug, PartialEq, Eq)]
+#[derive(Copy, Clone, Debug, PartialEq, Eq, PartialOrd, Ord)]
 pub enum Action<'grammar> {
     Shift(TerminalString, StateIndex),
     Reduce(&'grammar Production),

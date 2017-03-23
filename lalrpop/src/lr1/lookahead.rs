@@ -152,9 +152,21 @@ impl TokenSet {
     pub fn new() -> Self {
         with(|terminals| {
             TokenSet {
-                bit_set: BitSet::with_capacity(terminals.all.len() + 1)
+                bit_set: BitSet::with_capacity(terminals.all.len() + 2)
             }
         })
+    }
+
+    /// A TokenSet containing all possible terminals + EOF.
+    pub fn all() -> Self {
+        let mut s = TokenSet::new();
+        with(|terminals| {
+            for i in 0 .. terminals.all.len() {
+                s.bit_set.insert(i);
+            }
+            s.insert_eof();
+        });
+        s
     }
 
     pub fn eof() -> Self {

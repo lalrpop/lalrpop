@@ -10,22 +10,24 @@ use lr1::state_graph::StateGraph;
 
 use super::table::{ConflictIndex, LaneTable};
 
-pub struct LaneTracer<'trace, 'grammar: 'trace> {
-    states: &'trace [LR0State<'grammar>],
-    first_sets: FirstSets,
-    state_graph: StateGraph,
+pub struct LaneTracer<'trace, 'grammar: 'trace, L: Lookahead + 'trace> {
+    states: &'trace [State<'grammar, L>],
+    first_sets: &'trace FirstSets,
+    state_graph: &'trace StateGraph,
     table: LaneTable<'grammar>,
 }
 
-impl<'trace, 'grammar> LaneTracer<'trace, 'grammar> {
+impl<'trace, 'grammar, L: Lookahead> LaneTracer<'trace, 'grammar, L> {
     pub fn new(grammar: &'grammar Grammar,
-               states: &'trace [LR0State<'grammar>],
+               states: &'trace [State<'grammar, L>],
+               first_sets: &'trace FirstSets,
+               state_graph: &'trace StateGraph,
                conflicts: usize)
                -> Self {
         LaneTracer {
             states: states,
-            first_sets: FirstSets::new(grammar),
-            state_graph: StateGraph::new(states),
+            first_sets: first_sets,
+            state_graph: state_graph,
             table: LaneTable::new(grammar, conflicts),
         }
     }
@@ -37,25 +39,21 @@ impl<'trace, 'grammar> LaneTracer<'trace, 'grammar> {
     pub fn start_trace(&mut self,
                        state: StateIndex,
                        conflict: ConflictIndex,
-                       item: LR0Item<'grammar>) {
+                       action: Action<'grammar>) {
         let mut visited_set = Set::default();
 
         // if the conflict item is a "shift" item, then the context
         // is always the terminal to shift (and conflicts only arise
         // around shifting terminal, so it must be a terminal)
-        match item.shift_symbol() {
-            Some((Symbol::Terminal(term), _)) => {
+        match action {
+            Action::Shift(term, _) => {
                 let mut token_set = TokenSet::new();
                 token_set.insert(Token::Terminal(term));
                 self.table.add_lookahead(state, conflict, &token_set);
             }
 
-            Some((Symbol::Nonterminal(_), _)) => {
-                panic!("invalid conflict item `{:?}`: shifts nonterminal",
-                       item);
-            }
-
-            None => {
+            Action::Reduce(prod) => {
+                let item = Item::lr0(prod, prod.symbols.len());
                 self.continue_trace(state, conflict, item, &mut visited_set);
             }
         }
@@ -114,14 +112,14 @@ impl<'trace, 'grammar> LaneTracer<'trace, 'grammar> {
 
         let state_items = &self.states[state.0].items.vec;
         let nonterminal = item.production.nonterminal;
-        for &pred_item in state_items.iter()
-                                     .filter(|i| i.can_shift_nonterminal(nonterminal)) {
+        for pred_item in state_items.iter()
+                                    .filter(|i| i.can_shift_nonterminal(nonterminal)) {
             let symbol_sets = pred_item.symbol_sets();
             let mut first = self.first_sets.first0(symbol_sets.suffix);
             let derives_epsilon = first.take_eof();
             self.table.add_lookahead(state, conflict, &first);
             if derives_epsilon {
-                self.continue_trace(state, conflict, pred_item, visited);
+                self.continue_trace(state, conflict, pred_item.to_lr0(), visited);
             }
         }
     }

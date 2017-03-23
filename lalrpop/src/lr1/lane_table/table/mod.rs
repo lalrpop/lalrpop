@@ -21,6 +21,9 @@ use std::default::Default;
 use std::fmt::{Debug, Error, Formatter};
 use std::iter;
 
+pub mod context_set;
+use self::context_set::{ContextSet, OverlappingLookahead};
+
 #[derive(Copy, Clone, Debug, PartialOrd, Ord, PartialEq, Eq)]
 pub struct ConflictIndex {
     index: usize,
@@ -61,6 +64,79 @@ impl<'grammar> LaneTable<'grammar> {
 
     pub fn add_successor(&mut self, state: StateIndex, succ: StateIndex) {
         self.successors.push(state, succ);
+    }
+
+    /// Unions together the lookaheads for each column and returns a
+    /// context set containing all of them. For an LALR(1) grammar,
+    /// these token sets will be mutually disjoint, as discussed in
+    /// the [README]; otherwise `Err` will be returned.
+    ///
+    /// [README]: ../README.md
+    pub fn columns(&self) -> Result<ContextSet, OverlappingLookahead> {
+        let mut columns = ContextSet::new(self.conflicts);
+        for (&(_, conflict_index), set) in &self.lookaheads {
+            columns.insert(conflict_index, set)?;
+        }
+        Ok(columns)
+    }
+
+    pub fn successors(&self, state: StateIndex) -> Option<&Set<StateIndex>> {
+        self.successors.get(&state)
+    }
+
+    /// Returns the state of states in the table that are **not**
+    /// reachable from another state in the table. These are called
+    /// "beachhead states".
+    pub fn beachhead_states(&self) -> Set<StateIndex> {
+        // set of all states that are reachable from another state
+        let reachable: Set<StateIndex> =
+            self.successors.iter()
+                           .flat_map(|(_pred, succ)| succ)
+                           .cloned()
+                           .collect();
+
+        self.lookaheads.keys()
+                       .map(|&(state_index, _)| state_index)
+                       .filter(|s| !reachable.contains(s))
+                       .collect()
+    }
+
+    pub fn context_set(&self, state: StateIndex) -> Result<ContextSet, OverlappingLookahead> {
+        let mut set = ContextSet::new(self.conflicts);
+        for (&(state_index, conflict_index), token_set) in &self.lookaheads {
+            if state_index == state {
+                set.insert(conflict_index, token_set)?;
+            }
+        }
+        Ok(set)
+    }
+
+    /// Returns a map containing all states that appear in the table,
+    /// along with the context set for each state (i.e., each row in
+    /// the table, basically). Returns Err if any state has a conflict
+    /// between the context sets even within its own row.
+    pub fn rows(&self) -> Result<Map<StateIndex, ContextSet>, StateIndex> {
+        let mut map = Map::new();
+        for (&(state_index, conflict_index), token_set) in &self.lookaheads {
+            match {
+                map.entry(state_index)
+                   .or_insert_with(|| ContextSet::new(self.conflicts))
+                   .insert(conflict_index, token_set)
+            } {
+                Ok(_changed) => { }
+                Err(OverlappingLookahead) => return Err(state_index)
+            }
+        }
+
+        // In some cases, there are states that have no context at
+        // all, only successors. In that case, make sure to add an
+        // empty row for them.
+        for (&state_index, _) in &self.successors {
+            map.entry(state_index)
+                .or_insert_with(|| ContextSet::new(self.conflicts));
+        }
+
+        Ok(map)
     }
 }
 

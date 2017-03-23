@@ -3,15 +3,27 @@ use grammar::repr::*;
 use test_util::{expect_debug, normalized_grammar};
 use lr1::build;
 use lr1::core::*;
+use lr1::first::FirstSets;
 use lr1::interpret;
+use lr1::state_graph::StateGraph;
 use lr1::tls::Lr1Tls;
 use tls::Tls;
 
+use super::construct::*;
 use super::lane::*;
 use super::table::*;
 
+macro_rules! tokens {
+    ($($x:expr),*) => {
+        vec![$(TerminalString::quoted(intern($x))),*].into_iter()
+    }
+}
+
 fn sym(t: &str) -> Symbol {
-    if t.chars().next().unwrap().is_uppercase() {
+    if t.chars()
+           .next()
+           .unwrap()
+           .is_uppercase() {
         Symbol::Nonterminal(nt(t))
     } else {
         Symbol::Terminal(term(t))
@@ -33,13 +45,46 @@ fn traverse(states: &[LR0State], tokens: &[&str]) -> StateIndex {
 /// A simplified version of the paper's initial grammar; this version
 /// only has one inconsistent state (the same state they talk about in
 /// the paper).
-pub fn paper_example_small() -> Grammar {
+pub fn paper_example_g0() -> Grammar {
     normalized_grammar(r#"
 grammar;
 
 pub G: () = {
     X "c",
     Y "d",
+};
+
+X: () = {
+    "e" X,
+    "e",}
+;
+
+Y: () = {
+    "e" Y,
+    "e"
+};
+"#)
+}
+
+/// A (corrected) version of the sample grammar G1 from the paper. The
+/// grammar as written in the text omits some items, but the diagrams
+/// seem to contain the full set. I believe this is one of the
+/// smallest examples that still requires splitting states from the
+/// LR0 states.
+pub fn paper_example_g1() -> Grammar {
+    normalized_grammar(r#"
+grammar;
+
+pub G: () = {
+    // if "a" is input, then lookahead "d" means "reduce X"
+    // and lookahead "c" means "reduce "Y"
+    "a" X "d",
+    "a" Y "c",
+
+    // if "b" is input, then lookahead "d" means "reduce Y"
+    // and lookahead "c" means "reduce X.
+    "b" X "c",
+    "b" Y "d",
 };
 
 X: () = {
@@ -67,9 +112,15 @@ fn build_table<'grammar>(grammar: &'grammar Grammar,
     println!("inconsistent_state={:#?}", inconsistent_state.items);
 
     // Extract conflicting items and trace the lanes, constructing a table
-    let conflicting_items = super::conflicting_items(inconsistent_state);
+    let conflicting_items = super::conflicting_actions(inconsistent_state);
     println!("conflicting_items={:#?}", conflicting_items);
-    let mut tracer = LaneTracer::new(&grammar, &lr0_err.states, conflicting_items.len());
+    let first_sets = FirstSets::new(&grammar);
+    let state_graph = StateGraph::new(&lr0_err.states);
+    let mut tracer = LaneTracer::new(&grammar,
+                                     &lr0_err.states,
+                                     &first_sets,
+                                     &state_graph,
+                                     conflicting_items.len());
     for (i, &conflicting_item) in conflicting_items.iter().enumerate() {
         tracer.start_trace(inconsistent_state.index,
                            ConflictIndex::new(i),
@@ -80,19 +131,91 @@ fn build_table<'grammar>(grammar: &'grammar Grammar,
 }
 
 #[test]
-fn small_conflict_1() {
+fn g0_conflict_1() {
     let _tls = Tls::test();
-    let grammar = paper_example_small();
+    let grammar = paper_example_g0();
     let _lr1_tls = Lr1Tls::install(grammar.terminals.clone());
     let table = build_table(&grammar, "G", &["e"]);
     println!("{:#?}", table);
+    // conflicting_actions={
+    //     Shift("e") // C0
+    //     Reduce(X = "e" => ActionFn(4)) // C1
+    //     Reduce(Y = "e" => ActionFn(6)) // C2
+    // }
     expect_debug(&table,
                  r#"
-| State | C0    | C1    | C2    | C3    | C4    | C5    | Successors |
-| S0    |       | ["c"] |       |       | ["d"] |       | {S3}       |
-| S3    | ["e"] | []    | ["e"] | ["e"] | []    | ["e"] | {S3}       |
+| State | C0    | C1    | C2    | Successors |
+| S0    |       | ["c"] | ["d"] | {S3}       |
+| S3    | ["e"] | []    | []    | {S3}       |
 "#
-                     .trim_left());
+                         .trim_left());
+}
+
+#[test]
+fn paper_example_g1_conflict_1() {
+    let _tls = Tls::test();
+    let grammar = paper_example_g1();
+    let _lr1_tls = Lr1Tls::install(grammar.terminals.clone());
+    let table = build_table(&grammar, "G", &["a", "e"]);
+    println!("{:#?}", table);
+    // conflicting_actions={
+    //     Shift("e") // C0
+    //     Reduce(X = "e" => ActionFn(6)) // C1
+    //     Reduce(Y = "e" => ActionFn(8)) // C2
+    // }
+    expect_debug(&table,
+                 r#"
+| State | C0    | C1    | C2    | Successors |
+| S1    |       | ["d"] | ["c"] | {S5}       |
+| S2    |       | ["c"] | ["d"] | {S5}       |
+| S5    | ["e"] | []    | []    | {S5}       |
+"#
+                         .trim_left());
+}
+
+#[test]
+fn paper_example_g0_build() {
+    let _tls = Tls::test();
+    let grammar = paper_example_g0();
+    let _lr1_tls = Lr1Tls::install(grammar.terminals.clone());
+    let lr0_err = build::build_lr0_states(&grammar, nt("G")).unwrap_err();
+    let states = LaneTableConstruct::new(&grammar, nt("G")).construct()
+        .expect("failed to build lane table states");
+
+    // we do not require more *states* than LR(0), just different lookahead
+    assert_eq!(states.len(), lr0_err.states.len());
+
+    let tree = interpret::interpret(&states, tokens!["e", "c"]).unwrap();
+    expect_debug(&tree, r#"[G: [X: "e"], "c"]"#);
+
+    let tree = interpret::interpret(&states, tokens!["e", "e", "c"]).unwrap();
+    expect_debug(&tree, r#"[G: [X: "e", [X: "e"]], "c"]"#);
+
+    let tree = interpret::interpret(&states, tokens!["e", "e", "d"]).unwrap();
+    expect_debug(&tree, r#"[G: [Y: "e", [Y: "e"]], "d"]"#);
+
+    interpret::interpret(&states, tokens!["e", "e", "e"]).unwrap_err();
+}
+
+#[test]
+fn paper_example_g1_build() {
+    let _tls = Tls::test();
+    let grammar = paper_example_g1();
+    let _lr1_tls = Lr1Tls::install(grammar.terminals.clone());
+    let lr0_err = build::build_lr0_states(&grammar, nt("G")).unwrap_err();
+    let states = LaneTableConstruct::new(&grammar, nt("G")).construct()
+        .expect("failed to build lane table states");
+
+    // we require more *states* than LR(0), not just different lookahead
+    assert_eq!(states.len() - lr0_err.states.len(), 1);
+
+    let tree = interpret::interpret(&states, tokens!["a", "e", "e", "d"]).unwrap();
+    expect_debug(&tree, r#"[G: "a", [X: "e", [X: "e"]], "d"]"#);
+
+    let tree = interpret::interpret(&states, tokens!["b", "e", "e", "d"]).unwrap();
+    expect_debug(&tree, r#"[G: "b", [Y: "e", [Y: "e"]], "d"]"#);
+
+    interpret::interpret(&states, tokens!["e", "e", "e"]).unwrap_err();
 }
 
 pub fn paper_example_large() -> Grammar {
@@ -158,26 +281,35 @@ fn large_conflict_1() {
     let _lr1_tls = Lr1Tls::install(grammar.terminals.clone());
     let table = build_table(&grammar, "G", &["x", "s", "k", "t"]);
     println!("{:#?}", table);
+
+    // conflicting_actions={
+    //     Shift("s") // C0
+    //     Reduce(U = U "k" "t") // C1
+    //     Reduce(X = "k" "t") // C2
+    //     Reduce(Y = "k" "t") // C3
+    // }
+
     expect_debug(&table,
                  r#"
 | State | C0    | C1    | C2         | C3    | Successors |
-| S1    | ["k"] |       |            |       | {S5}       |
-| S2    | ["k"] |       |            |       | {S7}       |
-| S3    | ["k"] |       |            |       | {S7}       |
-| S4    | ["k"] |       |            |       | {S7}       |
+| S1    |       | ["k"] |            |       | {S5}       |
+| S2    |       | ["k"] |            |       | {S7}       |
+| S3    |       | ["k"] |            |       | {S7}       |
+| S4    |       | ["k"] |            |       | {S7}       |
 | S5    |       |       | ["a"]      | ["r"] | {S16}      |
 | S7    |       |       | ["c", "w"] | ["d"] | {S16}      |
 | S16   |       |       |            |       | {S27}      |
-| S27   | ["k"] | ["s"] |            |       | {S32}      |
+| S27   | ["s"] | ["k"] |            |       | {S32}      |
 | S32   |       |       | ["z"]      | ["u"] | {S16}      |
 "#
-                 .trim_left());
+                         .trim_left());
 
     // ^^ This differs in some particulars from what appears in the
     // paper, but I believe it to be correct, and the paper to be wrong.
     //
-    // Here is the table using the state names from the paper. I've marked
-    // the differences with `(*)`.
+    // Here is the table using the state names from the paper. I've
+    // marked the differences with `(*)`. Note that the paper does not
+    // include the C0 column (the shift).
     //
     // | State | pi1   | pi2   | pi3        | Successors |
     // | B     | ["k"] |       | *1         | {G}        |
@@ -204,3 +336,16 @@ fn large_conflict_1() {
     // X P", and the lookahead from the "X" here is FIRST(P) which is
     // "z".
 }
+
+#[test]
+fn paper_example_large_build() {
+    let _tls = Tls::test();
+    let grammar = paper_example_large();
+    let _lr1_tls = Lr1Tls::install(grammar.terminals.clone());
+    let states = LaneTableConstruct::new(&grammar, nt("G")).construct()
+        .expect("failed to build lane table states");
+
+    let tree = interpret::interpret(&states, tokens!["y", "s", "k", "t", "c", "b"]).unwrap();
+    expect_debug(&tree, r#"[G: "y", [W: [U: "s"], [X: "k", "t"], [C: "c"]], "b"]"#);
+}
+
