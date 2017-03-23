@@ -10,7 +10,7 @@
 
 extern crate atty;
 extern crate bit_set;
-#[macro_use] extern crate bitflags;
+extern crate bitflags;
 extern crate diff;
 extern crate itertools;
 extern crate lalrpop_intern as intern;

@@ -342,7 +342,6 @@ fn paper_example_large_build() {
     let _tls = Tls::test();
     let grammar = paper_example_large();
     let _lr1_tls = Lr1Tls::install(grammar.terminals.clone());
-    let lr0_err = build::build_lr0_states(&grammar, nt("G")).unwrap_err();
     let states = LaneTableConstruct::new(&grammar, nt("G")).construct()
         .expect("failed to build lane table states");
 

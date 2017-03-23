@@ -29,9 +29,9 @@ impl<'grammar> LaneTableConstruct<'grammar> {
     pub fn new(grammar: &'grammar Grammar, start: NonterminalString) -> Self {
         let first_sets = FirstSets::new(grammar);
         Self {
-            grammar,
-            start,
-            first_sets,
+            grammar: grammar,
+            start: start,
+            first_sets: first_sets,
         }
     }
 
@@ -64,7 +64,8 @@ impl<'grammar> LaneTableConstruct<'grammar> {
                         states.iter()
                               .flat_map(|s| Lookahead::conflicts(&s))
                               .collect();
-                    return Err(TableConstructionError { states, conflicts });
+                    return Err(TableConstructionError { states: states,
+                                                        conflicts: conflicts });
                 }
             }
         }

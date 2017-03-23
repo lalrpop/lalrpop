@@ -26,8 +26,8 @@ impl<'trace, 'grammar, L: Lookahead> LaneTracer<'trace, 'grammar, L> {
                -> Self {
         LaneTracer {
             states: states,
-            first_sets,
-            state_graph,
+            first_sets: first_sets,
+            state_graph: state_graph,
             table: LaneTable::new(grammar, conflicts),
         }
     }
