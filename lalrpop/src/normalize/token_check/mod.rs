@@ -20,7 +20,40 @@ use collections::{map, Map};
 mod test;
 
 pub fn validate(mut grammar: Grammar) -> NormResult<Grammar> {
-    let (has_enum_token, all_literals) = {
+    let (has_enum_token, all_literals, match_to_user_name_map) = {
+        let opt_match_token = grammar.match_token();
+
+        let (match_to_user_name_map, user_name_to_match_map, match_catch_all) = if let Some(mt) = opt_match_token {
+            let mut match_to_user = map();
+            let mut user_to_match = map();
+            let mut catch_all = false;
+
+            // FIXME: This should probably move _inside_ the Validator
+            for (idx, mc) in mt.contents.iter().enumerate() {
+                let precedence = &mt.contents.len() - idx;
+                for item in &mc.items {
+                    // TODO: Maybe move this into MatchItem methods
+                    match *item {
+                        MatchItem::Unmapped(sym, _) => {
+                            let precedence_sym = sym.with_match_precedence(precedence);
+                            match_to_user.insert(precedence_sym, sym);
+                            user_to_match.insert(sym, precedence_sym);
+                        },
+                        MatchItem::Mapped(sym, mapping, _) => {
+                            let precedence_sym = sym.with_match_precedence(precedence);
+                            match_to_user.insert(precedence_sym, mapping);
+                            user_to_match.insert(mapping, precedence_sym);
+                        },
+                        MatchItem::CatchAll(_) => { catch_all = true; }
+                    };
+                }
+            }
+
+            (Some(match_to_user), Some(user_to_match), Some(catch_all))
+        } else {
+            (None, None, None)
+        };
+
         let opt_enum_token = grammar.enum_token();
         let conversions = opt_enum_token.map(|et| {
             et.conversions.iter()
@@ -32,15 +65,20 @@ pub fn validate(mut grammar: Grammar) -> NormResult<Grammar> {
             grammar: &grammar,
             all_literals: map(),
             conversions: conversions,
+            user_name_to_match_map: user_name_to_match_map,
+            match_catch_all: match_catch_all
         };
+
+        assert!(!opt_match_token.is_some() || !opt_enum_token.is_some(),
+                    "expected to not have both match and extern");
 
         try!(validator.validate());
 
-        (opt_enum_token.is_some(), validator.all_literals)
+        (opt_enum_token.is_some(), validator.all_literals, match_to_user_name_map)
     };
 
     if !has_enum_token {
-        try!(construct(&mut grammar, all_literals));
+        try!(construct(&mut grammar, all_literals, match_to_user_name_map));
     }
 
     Ok(grammar)
@@ -56,6 +94,8 @@ struct Validator<'grammar> {
     grammar: &'grammar Grammar,
     all_literals: Map<TerminalLiteral, Span>,
     conversions: Option<Set<TerminalString>>,
+    user_name_to_match_map: Option<Map<TerminalString, TerminalString>>,
+    match_catch_all: Option<bool>,
 }
 
 impl<'grammar> Validator<'grammar> {
@@ -63,6 +103,7 @@ impl<'grammar> Validator<'grammar> {
         for item in &self.grammar.items {
             match *item {
                 GrammarItem::Use(..) => { }
+                GrammarItem::MatchToken(..) => { }
                 GrammarItem::ExternToken(_) => { }
                 GrammarItem::InternToken(_) => { }
                 GrammarItem::Nonterminal(ref data) => {
@@ -131,17 +172,49 @@ impl<'grammar> Validator<'grammar> {
             // If there is no extern token definition, then collect
             // the terminal literals ("class", r"[a-z]+") into a set.
             None => match term {
-                TerminalString::Bare(c) => {
-                    // Bare identifiers like `x` can never be resolved
-                    // as terminals unless there is a conversion
-                    // defined for them that indicates they are a
-                    // terminal; otherwise it's just an unresolved
-                    // identifier.
-                    panic!("bare literal `{}` without extern token definition", c);
-                }
-                TerminalString::Literal(l) => {
-                    self.all_literals.entry(l).or_insert(span);
-                }
+                // FIMXE: Should not allow undefined literals if no CatchAll
+                TerminalString::Bare(c) => match self.user_name_to_match_map {
+                    Some(ref m) => {
+                        if let Some(v) = m.get(&term) {
+                            // FIXME: I don't think this span here is correct
+                            let vl = v.as_literal().expect("must map to a literal");
+                            self.all_literals.entry(vl).or_insert(span);
+                        } else {
+                            return_err!(span, "terminal `{}` does not have a match mapping defined for it",
+                                        term);
+                        }
+                    }
+
+                    None => {
+                        // Bare identifiers like `x` can never be resolved
+                        // as terminals unless there is a conversion or mapping
+                        // defined for them that indicates they are a
+                        // terminal; otherwise it's just an unresolved
+                        // identifier.
+                        panic!("bare literal `{}` without extern token definition", c);
+                    }
+                },
+
+                TerminalString::Literal(l) => match self.user_name_to_match_map {
+                    Some(ref m) => {
+                        if let Some(v) = m.get(&term) {
+                            // FIXME: I don't think this span here is correct
+                            let vl = v.as_literal().expect("must map to a literal");
+                            self.all_literals.entry(vl).or_insert(span);
+                        } else {
+                            // Unwrap should be safe as we shouldn't have match_catch_all without user_name_to_match_map
+                            if self.match_catch_all.unwrap() {
+                                // FIXME: I don't think this span here is correct
+                                self.all_literals.entry(l).or_insert(span);
+                            } else {
+                                return_err!(span, "terminal `{}` does not have a match mapping defined for it",
+                                            term);
+                            }
+
+                        }
+                    }
+                    None => { self.all_literals.entry(l).or_insert(span); }
+                },
 
                 // Error is a builtin terminal that always exists
                 TerminalString::Error => (),
@@ -156,7 +229,7 @@ impl<'grammar> Validator<'grammar> {
 // Construction phase -- if we are constructing a tokenizer, this
 // phase builds up an internal token DFA.
 
-pub fn construct(grammar: &mut Grammar, literals_map: Map<TerminalLiteral, Span>) -> NormResult<()> {
+pub fn construct(grammar: &mut Grammar, literals_map: Map<TerminalLiteral, Span>, match_to_user_name_map: Option<Map<TerminalString, TerminalString>>) -> NormResult<()> {
     let mut literals: Vec<TerminalLiteral> =
         literals_map.keys()
                     .cloned()
@@ -173,10 +246,10 @@ pub fn construct(grammar: &mut Grammar, literals_map: Map<TerminalLiteral, Span>
         for &literal in &literals {
             precedences.push(Precedence(literal.precedence()));
             match literal {
-                TerminalLiteral::Quoted(s) => {
+                TerminalLiteral::Quoted(s, _) => {
                     regexs.push(re::parse_literal(interner.data(s)));
                 }
-                TerminalLiteral::Regex(s) => {
+                TerminalLiteral::Regex(s, _) => {
                     match re::parse_regex(interner.data(s)) {
                         Ok(regex) => regexs.push(regex),
                         Err(error) => {
@@ -228,6 +301,7 @@ pub fn construct(grammar: &mut Grammar, literals_map: Map<TerminalLiteral, Span>
 
     grammar.items.push(GrammarItem::InternToken(InternToken {
         literals: literals,
+        match_to_user_name_map: match_to_user_name_map,
         dfa: dfa
     }));
 

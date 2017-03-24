@@ -15,6 +15,7 @@ use message::builder::InlineBuilder;
 use std::fmt::{Debug, Display, Formatter, Error};
 use tls::Tls;
 use util::Sep;
+use collections::Map;
 
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct Grammar {
@@ -44,11 +45,71 @@ impl Into<Box<Content>> for Span {
 
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub enum GrammarItem {
+    MatchToken(MatchToken),
     ExternToken(ExternToken),
     InternToken(InternToken),
     Nonterminal(NonterminalData),
     Use(String),
 }
+
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub struct MatchToken {
+    pub contents: Vec<MatchContents>,
+    pub span: Span,
+}
+
+impl MatchToken {
+    pub fn new(contents: MatchContents, span: Span) -> MatchToken {
+        MatchToken {
+            contents: vec![contents],
+            span: span
+        }
+    }
+
+    // Not really sure if this is the best way to do it
+    pub fn add(self, contents: MatchContents) -> MatchToken {
+        let mut new_contents = self.contents.clone();
+        new_contents.push(contents);
+        MatchToken {
+            contents: new_contents,
+            span: self.span
+        }
+    }
+}
+
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub struct MatchContents {
+    pub items: Vec<MatchItem>
+}
+
+// FIXME: Validate that MatchSymbol is actually a TerminalString::Literal
+//          and that MatchMapping is an Id or String
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub enum MatchItem {
+    CatchAll(Span),
+    Unmapped(MatchSymbol, Span),
+    Mapped(MatchSymbol, MatchMapping, Span)
+}
+
+impl MatchItem {
+    pub fn is_catch_all(&self) -> bool {
+        match *self {
+            MatchItem::CatchAll(_) => true,
+            _ => false
+        }
+    }
+
+    pub fn span(&self) -> Span {
+        match *self {
+            MatchItem::CatchAll(span)     => span,
+            MatchItem::Unmapped(_, span)  => span,
+            MatchItem::Mapped(_, _, span) => span
+        }
+    }
+}
+
+pub type MatchSymbol = TerminalString;
+pub type MatchMapping = TerminalString;
 
 /// Intern tokens are not typed by the user: they are synthesized in
 /// the absence of an "extern" declaration with information about the
@@ -58,6 +119,7 @@ pub struct InternToken {
     /// Set of `r"foo"` and `"foo"` literals extracted from the
     /// grammar. Sorted by order of increasing precedence.
     pub literals: Vec<TerminalLiteral>,
+    pub match_to_user_name_map: Option<Map<TerminalString, TerminalString>>,
     pub dfa: DFA
 }
 
@@ -253,10 +315,19 @@ pub enum TerminalString {
     Error,
 }
 
+impl TerminalString {
+    pub fn as_literal(&self) -> Option<TerminalLiteral> {
+        match *self {
+            TerminalString::Literal(l) => Some(l),
+            _ => None
+        }
+    }
+}
+
 #[derive(Copy, Clone, Hash, PartialEq, Eq, PartialOrd, Ord)]
 pub enum TerminalLiteral {
-    Quoted(InternedString),
-    Regex(InternedString),
+    Quoted(InternedString, usize),
+    Regex(InternedString, usize),
 }
 
 impl TerminalLiteral {
@@ -265,8 +336,8 @@ impl TerminalLiteral {
     /// applies when we are creating the tokenizer anyhow.
     pub fn precedence(&self) -> usize {
         match *self {
-            TerminalLiteral::Quoted(_) => 1,
-            TerminalLiteral::Regex(_) => 0,
+            TerminalLiteral::Quoted(_, p) => p,
+            TerminalLiteral::Regex(_, p) => p,
         }
     }
 }
@@ -306,11 +377,22 @@ pub struct MacroSymbol {
 
 impl TerminalString {
     pub fn quoted(i: InternedString) -> TerminalString {
-        TerminalString::Literal(TerminalLiteral::Quoted(i))
+        TerminalString::Literal(TerminalLiteral::Quoted(i, 1))
     }
 
     pub fn regex(i: InternedString) -> TerminalString {
-        TerminalString::Literal(TerminalLiteral::Regex(i))
+        TerminalString::Literal(TerminalLiteral::Regex(i, 0))
+    }
+
+    pub fn with_match_precedence(self, p: usize) -> TerminalString {
+        let base_precedence = p * 2;  // Multiply times two since we still want to distinguish between quoted and regex precedence
+        match self {
+            TerminalString::Literal(TerminalLiteral::Quoted(i, _)) =>
+                TerminalString::Literal(TerminalLiteral::Quoted(i, base_precedence+1)),
+            TerminalString::Literal(TerminalLiteral::Regex(i, _)) =>
+                TerminalString::Literal(TerminalLiteral::Regex(i, base_precedence+0)),
+            _ => panic!("cannot set match precedence for {:?}", self)
+        }
     }
 }
 
@@ -343,6 +425,12 @@ impl Grammar {
                   .flat_map(|i| i.as_intern_token())
                   .next()
     }
+
+    pub fn match_token(&self) -> Option<&MatchToken> {
+        self.items.iter()
+                  .flat_map(|i| i.as_match_token())
+                  .next()
+    }
 }
 
 impl GrammarItem {
@@ -357,6 +445,17 @@ impl GrammarItem {
         match *self {
             GrammarItem::Nonterminal(ref d) => Some(d),
             GrammarItem::Use(..) => None,
+            GrammarItem::MatchToken(..) => None,
+            GrammarItem::ExternToken(..) => None,
+            GrammarItem::InternToken(..) => None,
+        }
+    }
+
+    pub fn as_match_token(&self) -> Option<&MatchToken> {
+        match *self {
+            GrammarItem::Nonterminal(..) => None,
+            GrammarItem::Use(..) => None,
+            GrammarItem::MatchToken(ref d) => Some(d),
             GrammarItem::ExternToken(..) => None,
             GrammarItem::InternToken(..) => None,
         }
@@ -366,6 +465,7 @@ impl GrammarItem {
         match *self {
             GrammarItem::Nonterminal(..) => None,
             GrammarItem::Use(..) => None,
+            GrammarItem::MatchToken(..) => None,
             GrammarItem::ExternToken(ref d) => Some(d),
             GrammarItem::InternToken(..) => None,
         }
@@ -375,6 +475,7 @@ impl GrammarItem {
         match *self {
             GrammarItem::Nonterminal(..) => None,
             GrammarItem::Use(..) => None,
+            GrammarItem::MatchToken(..) => None,
             GrammarItem::ExternToken(..) => None,
             GrammarItem::InternToken(ref d) => Some(d),
         }
@@ -419,9 +520,9 @@ impl Debug for TerminalString {
 impl Display for TerminalLiteral {
     fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
         match *self {
-            TerminalLiteral::Quoted(s) =>
+            TerminalLiteral::Quoted(s, _) =>
                 write!(fmt, "{:?}", s), // the Debug impl adds the `"` and escaping
-            TerminalLiteral::Regex(s) =>
+            TerminalLiteral::Regex(s, _) =>
                 write!(fmt, "r#{:?}#", s), // FIXME -- need to determine proper number of #
         }
     }
@@ -429,7 +530,10 @@ impl Display for TerminalLiteral {
 
 impl Debug for TerminalLiteral {
     fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
-        Display::fmt(self, fmt)
+        match *self {
+            TerminalLiteral::Quoted(_, p) | TerminalLiteral::Regex(_, p) =>
+                write!(fmt, "{}+{}", self, p)
+        }
     }
 }
 

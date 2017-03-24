@@ -70,3 +70,43 @@ fn pub_inline_annotation() {
         r#"grammar; #[inline] pub Term = ();"#,
         r#"           ~~~~~~            "#);
 }
+
+#[test]
+fn multiple_match_token() {
+    check_err(
+        r#"multiple match definitions are not permitted"#,
+        r#"grammar; match { _ } match { _ }"#,
+        r#"                     ~~~~~      "#);
+}
+
+#[test]
+fn match_after_extern_token() {
+    check_err(
+        r#"match and extern definitions are mutually exclusive"#,
+        r#"grammar; extern { enum Tok { } } match { _ }"#,
+        r#"                                 ~~~~~      "#);
+}
+
+#[test]
+fn extern_after_match_token() {
+    check_err(
+        r#"extern and match definitions are mutually exclusive"#,
+        r#"grammar; match { _ } extern { enum Tok { } }"#,
+        r#"                     ~~~~~~                 "#);
+}
+
+#[test]
+fn match_catch_all_first_of_last() {
+    check_err(
+        r#"Catch all must be final item"#,
+        r#"grammar; match { _, "abc" }"#,
+        r#"                 ~         "#);
+}
+
+#[test]
+fn match_catch_all_last_of_first() {
+    check_err(
+        r#"Catch all must be final item"#,
+        r#"grammar; match { "abc", _ } else { "foo" }"#,
+        r#"                        ~                 "#);
+}

@@ -308,3 +308,26 @@ ty: () = {
     let _lr1_tls = Lr1Tls::install(grammar.terminals.clone());
     build_lr1_states(&grammar, nt("ForeignItem")).unwrap();
 }
+
+// Not sure if this is the right spot
+#[test]
+fn match_grammar() {
+    let _tls = Tls::test();
+
+    let grammar = normalized_grammar(r#"
+grammar;
+
+match {
+    r"(?i)select" => SELECT
+} else {
+    _
+}
+
+pub Query = SELECT r"[a-z]+";
+"#);
+
+    let _lr1_tls = Lr1Tls::install(grammar.terminals.clone());
+
+    let states = build_lr0_states(&grammar, nt("Query")).expect("build states");
+    println!("states: {:?}", states);
+}

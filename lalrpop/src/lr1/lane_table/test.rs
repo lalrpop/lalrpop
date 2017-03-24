@@ -31,7 +31,7 @@ fn sym(t: &str) -> Symbol {
 }
 
 fn term(t: &str) -> TerminalString {
-    TerminalString::Literal(TerminalLiteral::Quoted(intern(t)))
+    TerminalString::quoted(intern(t))
 }
 
 fn nt(t: &str) -> NonterminalString {

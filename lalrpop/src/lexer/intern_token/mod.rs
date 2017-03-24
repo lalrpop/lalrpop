@@ -62,8 +62,8 @@ pub fn compile<W: Write>(
         intern_token.literals
                     .iter()
                     .map(|&literal| match literal {
-                        TerminalLiteral::Quoted(s) => re::parse_literal(interner.data(s)),
-                        TerminalLiteral::Regex(s) => re::parse_regex(interner.data(s)).unwrap(),
+                        TerminalLiteral::Quoted(s, _) => re::parse_literal(interner.data(s)),
+                        TerminalLiteral::Regex(s, _) => re::parse_regex(interner.data(s)).unwrap(),
                     })
                     .map(|regex| {
                         // make sure all regex are anchored at the beginning of the input

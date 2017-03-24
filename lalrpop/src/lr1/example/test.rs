@@ -10,7 +10,7 @@ fn nt(t: &str) -> NonterminalString {
 }
 
 fn term(t: &str) -> TerminalString {
-    TerminalString::Literal(TerminalLiteral::Quoted(intern(t)))
+    TerminalString::quoted(intern(t))
 }
 
 macro_rules! sym {

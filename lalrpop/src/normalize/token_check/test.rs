@@ -1,24 +1,29 @@
 use parser;
 use normalize::resolve::resolve;
+use normalize::NormResult;
 use lexer::dfa::interpret;
+use grammar::parse_tree::Grammar;
 use test_util;
+
+fn validate_grammar(grammar: &str) -> NormResult<Grammar> {
+    let parsed_grammar = parser::parse_grammar(&grammar).expect("parse grammar");
+    let parsed_grammar = resolve(parsed_grammar).expect("resolve");
+    super::validate(parsed_grammar)
+}
 
 fn check_err(expected_err: &str,
              grammar: &str,
              span: &str) {
-    let parsed_grammar = parser::parse_grammar(&grammar).unwrap();
-    let parsed_grammar = resolve(parsed_grammar).unwrap();
-    let err = super::validate(parsed_grammar).unwrap_err();
+    let err = validate_grammar(&grammar).unwrap_err();
     test_util::check_norm_err(expected_err, span, err);
 }
 
 fn check_intern_token(grammar: &str,
                       expected_tokens: Vec<(&'static str, &'static str)>)
 {
-    let parsed_grammar = parser::parse_grammar(&grammar).unwrap();
-    let parsed_grammar = resolve(parsed_grammar).unwrap();
-    let parsed_grammar = super::validate(parsed_grammar).unwrap();
-    let intern_token = parsed_grammar.intern_token().unwrap();
+    let parsed_grammar = validate_grammar(&grammar).expect("validate");
+    let intern_token = parsed_grammar.intern_token().expect("intern_token");
+    println!("intern_token: {:?}", intern_token);
     for (input, expected_literal) in expected_tokens {
         let actual_literal =
             interpret::interpret(&intern_token.dfa, input)
@@ -80,11 +85,11 @@ fn invalid_regular_expression_unterminated_group() {
 fn quoted_literals() {
     check_intern_token(
         r#"grammar; X = X "+" "-" "foo" "(" ")";"#,
-        vec![("+", r#"Some(("+", "+"))"#),
-             ("-", r#"Some(("-", "-"))"#),
-             ("(", r#"Some(("(", "("))"#),
-             (")", r#"Some((")", ")"))"#),
-             ("foo", r#"Some(("foo", "foo"))"#),
+        vec![("+", r#"Some(("+"+1, "+"))"#),
+             ("-", r#"Some(("-"+1, "-"))"#),
+             ("(", r#"Some(("("+1, "("))"#),
+             (")", r#"Some((")"+1, ")"))"#),
+             ("foo", r#"Some(("foo"+1, "foo"))"#),
              ("<", r#"None"#)]);
 }
 
@@ -93,9 +98,50 @@ fn regex_literals() {
     check_intern_token(
         r#"grammar; X = X r"[a-z]+" r"[0-9]+";"#,
         vec![
-            ("a", r##"Some((r#"[a-z]+"#, "a"))"##),
-            ("def", r##"Some((r#"[a-z]+"#, "def"))"##),
-            ("1", r##"Some((r#"[0-9]+"#, "1"))"##),
-            ("9123456", r##"Some((r#"[0-9]+"#, "9123456"))"##),
+            ("a", r##"Some((r#"[a-z]+"#+0, "a"))"##),
+            ("def", r##"Some((r#"[a-z]+"#+0, "def"))"##),
+            ("1", r##"Some((r#"[0-9]+"#+0, "1"))"##),
+            ("9123456", r##"Some((r#"[0-9]+"#+0, "9123456"))"##),
                 ]);
+}
+
+#[test]
+fn match_mappings() {
+    check_intern_token(
+        r#"grammar; match { r"(?i)begin" => "BEGIN" } else { "abc" => ALPHA } X = "BEGIN" ALPHA;"#,
+        vec![
+            ("BEGIN", r##"Some((r#"(?i)begin"#+4, "BEGIN"))"##),
+            ("begin", r##"Some((r#"(?i)begin"#+4, "begin"))"##),
+            ("abc", r#"Some(("abc"+3, "abc"))"#), // ALPHA
+                ]);
+}
+
+#[test]
+fn invalid_match_literal() {
+    check_err(
+        r#"terminal `"foo"` does not have a match mapping defined for it"#,
+        r#"grammar; match { r"(?i)begin" => "BEGIN" } X = "foo";"#,
+        r#"                                               ~~~~~ "#);
+}
+
+#[test]
+fn match_catch_all() {
+    let grammar = r#"grammar; match { r"(?i)begin" => "BEGIN", _ } X = "foo";"#;
+    assert!(validate_grammar(&grammar).is_ok())
+}
+
+#[test]
+fn complex_match() {
+    let grammar = r##"
+        grammar;
+        match {
+            "abc"        => "ABC",
+            r"(?i)begin" => BEGIN
+        }
+
+        pub Query: String = {
+            "ABC" BEGIN => String::from("Success")
+        };
+"##;
+    assert!(validate_grammar(&grammar).is_ok())
 }
