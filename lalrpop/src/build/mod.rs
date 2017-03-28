@@ -39,10 +39,19 @@ pub fn process_dir<P: AsRef<Path>>(session: Rc<Session>, root_dir: P) -> io::Res
 pub fn process_file<P: AsRef<Path>>(session: Rc<Session>, lalrpop_file: P) -> io::Result<()> {
     let lalrpop_file = lalrpop_file.as_ref();
     let rs_file = try!(resolve_rs_file(&session, lalrpop_file));
-    process_file_into(session, lalrpop_file, &rs_file)
+    let report_file = try!(resolve_report_file(&session, lalrpop_file));
+    process_file_into(session, lalrpop_file, &rs_file, &report_file)
 }
 
 fn resolve_rs_file(session: &Session, lalrpop_file: &Path) -> io::Result<PathBuf> {
+    gen_resolve_file(session, lalrpop_file, "rs")
+}
+
+fn resolve_report_file(session: &Session, lalrpop_file: &Path) -> io::Result<PathBuf> {
+    gen_resolve_file(session, lalrpop_file, "report")
+}
+
+fn gen_resolve_file(session: &Session, lalrpop_file: &Path, ext: &str) -> io::Result<PathBuf> {
     let in_dir = if let Some(ref d) = session.in_dir {
         d.as_path()
     } else {
@@ -58,10 +67,10 @@ fn resolve_rs_file(session: &Session, lalrpop_file: &Path) -> io::Result<PathBuf
     // .rs file is created in the same directory as the lalrpop file
     // for compatibility reasons
     Ok(out_dir.join(lalrpop_file.strip_prefix(&in_dir).unwrap_or(lalrpop_file))
-              .with_extension("rs"))
+              .with_extension(ext))
 }
 
-fn process_file_into(session: Rc<Session>, lalrpop_file: &Path, rs_file: &Path) -> io::Result<()> {
+fn process_file_into(session: Rc<Session>, lalrpop_file: &Path, rs_file: &Path, report_file: &Path) -> io::Result<()> {
     if session.force_build || try!(needs_rebuild(&lalrpop_file, &rs_file)) {
         log!(session,
              Informative,
@@ -89,7 +98,7 @@ fn process_file_into(session: Rc<Session>, lalrpop_file: &Path, rs_file: &Path) 
         // file behind.
         {
             let grammar = try!(parse_and_normalize_grammar(&session, &file_text));
-            let buffer = try!(emit_recursive_ascent(&session, &grammar));
+            let buffer = try!(emit_recursive_ascent(&session, &grammar, &report_file));
             let mut output_file = try!(fs::File::create(&rs_file));
             try!(output_file.write_all(&buffer));
         }
@@ -284,7 +293,8 @@ fn emit_uses<W: Write>(grammar: &r::Grammar, rust: &mut RustWrite<W>) -> io::Res
     rust.write_uses("", grammar)
 }
 
-fn emit_recursive_ascent(session: &Session, grammar: &r::Grammar) -> io::Result<Vec<u8>> {
+
+fn emit_recursive_ascent(session: &Session, grammar: &r::Grammar, report_file : &Path) -> io::Result<Vec<u8>> {
     let mut rust = RustWrite::new(vec![]);
 
     // We generate a module structure like this:
@@ -326,7 +336,13 @@ fn emit_recursive_ascent(session: &Session, grammar: &r::Grammar) -> io::Result<
 
         let _lr1_tls = lr1::Lr1Tls::install(grammar.terminals.clone());
 
-        let states = match lr1::build_states(&grammar, start_nt) {
+        let lr1result = lr1::build_states(&grammar, start_nt);
+        if session.emit_report {
+            let mut output_report_file = try!(fs::File::create(&report_file));
+            try!(lr1::generate_report(&mut output_report_file, &lr1result));
+        }
+
+        let states = match lr1result {
             Ok(states) => states,
             Err(error) => {
                 let messages = lr1::report_error(&grammar, &error);
