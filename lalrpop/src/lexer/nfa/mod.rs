@@ -360,7 +360,15 @@ impl NFA {
                     self.push_edge(s0, Noop, target);
                 }
                 Ok(s0)
-            }
+            },
+
+            // FIXME: Figure out what these should do
+            Expr::AnyByte => panic!("Unsupported"),
+            Expr::AnyByteNoNL => panic!("Unsupported"),
+            Expr::WordBoundaryAscii => panic!("Unsupported"),
+            Expr::NotWordBoundaryAscii => panic!("Unsupported"),
+            Expr::ClassBytes(_) => panic!("Unsupported"),
+            Expr::LiteralBytes { .. } => panic!("Unsupported")
         }
     }
 
