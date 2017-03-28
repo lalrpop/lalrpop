@@ -93,6 +93,7 @@ pub enum NFAConstructionError {
     WordBoundary,
     LineBoundary,
     TextBoundary,
+    ByteRegex,
 }
 
 impl NFA {
@@ -269,13 +270,16 @@ impl NFA {
                 Err(NFAConstructionError::TextBoundary)
             }
 
-            Expr::WordBoundary | Expr::NotWordBoundary => {
+            Expr::WordBoundaryAscii |
+            Expr::NotWordBoundaryAscii |
+            Expr::WordBoundary |
+            Expr::NotWordBoundary => {
                 Err(NFAConstructionError::WordBoundary)
             }
 
             // currently we treat all groups the same, whether they
             // capture or not; but we don't permit named groups,
-            // in case we want to give them significance in the future 
+            // in case we want to give them significance in the future
             Expr::Group { ref e, i: _, name: None } => {
                 self.expr(e, accept, reject)
             }
@@ -362,13 +366,14 @@ impl NFA {
                 Ok(s0)
             },
 
-            // FIXME: Figure out what these should do
-            Expr::AnyByte => panic!("Unsupported"),
-            Expr::AnyByteNoNL => panic!("Unsupported"),
-            Expr::WordBoundaryAscii => panic!("Unsupported"),
-            Expr::NotWordBoundaryAscii => panic!("Unsupported"),
-            Expr::ClassBytes(_) => panic!("Unsupported"),
-            Expr::LiteralBytes { .. } => panic!("Unsupported")
+            // If we ever support byte regexs, these
+            // can be merged in with the cases above.
+            Expr::AnyByte |
+            Expr::AnyByteNoNL |
+            Expr::ClassBytes(_) |
+            Expr::LiteralBytes { .. } => {
+                Err(NFAConstructionError::ByteRegex)
+            }
         }
     }
 
