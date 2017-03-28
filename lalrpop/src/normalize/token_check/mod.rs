@@ -205,6 +205,7 @@ pub fn construct(grammar: &mut Grammar, literals_map: Map<TerminalLiteral, Span>
                 WordBoundary => r#"word boundaries (`\b` or `\B`)"#,
                 LineBoundary => r#"line boundaries (`^` or `$`)"#,
                 TextBoundary => r#"text boundaries (`^` or `$`)"#,
+                ByteRegex => r#"byte-based matches"#,
             };
             let literal = literals[index.index()];
             let span = literals_map[&literal];

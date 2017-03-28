@@ -10,7 +10,7 @@ pub type RegexError = Error;
 
 /// Convert a string literal into a parsed regular expression.
 pub fn parse_literal(s: &str) -> Regex {
-    match parse_regex(&regex_syntax::quote(s)) {
+    match parse_regex(&regex_syntax::escape(s)) {
         Ok(v) => v,
         Err(_) => panic!("failed to parse literal regular expression")
     }
