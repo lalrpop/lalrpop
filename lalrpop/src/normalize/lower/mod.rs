@@ -90,10 +90,8 @@ impl<'s> LowerState<'s> {
                                                     };
 
                                                     // FIXME: This should be cleaner
-                                                    if let Some(ref mm) = data.match_to_user_name_map {
-                                                        if let Some(m) = mm.get(&literal) {
-                                                            return (m.clone(), pattern);
-                                                        }
+                                                    if let Some(&m) = data.match_to_user_name_map.get(&literal) {
+                                                        return (m, pattern);
                                                     }
 
                                                     (TerminalString::Literal(literal), pattern)

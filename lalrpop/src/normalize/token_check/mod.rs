@@ -23,11 +23,11 @@ pub fn validate(mut grammar: Grammar) -> NormResult<Grammar> {
     let (has_enum_token, all_literals, match_to_user_name_map) = {
         let opt_match_token = grammar.match_token();
 
-        let (match_to_user_name_map, user_name_to_match_map, match_catch_all) = if let Some(mt) = opt_match_token {
-            let mut match_to_user = map();
-            let mut user_to_match = map();
-            let mut catch_all = false;
+        let mut match_to_user_name_map = map();
+        let mut user_name_to_match_map = map();
+        let mut match_catch_all = false;
 
+        if let Some(mt) = opt_match_token {
             // FIXME: This should probably move _inside_ the Validator
             for (idx, mc) in mt.contents.iter().enumerate() {
                 let precedence = &mt.contents.len() - idx;
@@ -36,23 +36,22 @@ pub fn validate(mut grammar: Grammar) -> NormResult<Grammar> {
                     match *item {
                         MatchItem::Unmapped(sym, _) => {
                             let precedence_sym = sym.with_match_precedence(precedence);
-                            match_to_user.insert(precedence_sym, TerminalString::Literal(sym));
-                            user_to_match.insert(TerminalString::Literal(sym), precedence_sym);
+                            match_to_user_name_map.insert(precedence_sym, TerminalString::Literal(sym));
+                            user_name_to_match_map.insert(TerminalString::Literal(sym), precedence_sym);
                         },
                         MatchItem::Mapped(sym, mapping, _) => {
                             let precedence_sym = sym.with_match_precedence(precedence);
-                            match_to_user.insert(precedence_sym, mapping);
-                            user_to_match.insert(mapping, precedence_sym);
+                            match_to_user_name_map.insert(precedence_sym, mapping);
+                            user_name_to_match_map.insert(mapping, precedence_sym);
                         },
-                        MatchItem::CatchAll(_) => { catch_all = true; }
+                        MatchItem::CatchAll(_) => { match_catch_all = true; }
                     };
                 }
             }
-
-            (Some(match_to_user), Some(user_to_match), Some(catch_all))
         } else {
-            (None, None, None)
-        };
+            // no match block is equivalent to `match { _ }`
+            match_catch_all = true;
+        }
 
         let opt_enum_token = grammar.enum_token();
         let conversions = opt_enum_token.map(|et| {
@@ -94,8 +93,8 @@ struct Validator<'grammar> {
     grammar: &'grammar Grammar,
     all_literals: Map<TerminalLiteral, Span>,
     conversions: Option<Set<TerminalString>>,
-    user_name_to_match_map: Option<Map<TerminalString, TerminalLiteral>>,
-    match_catch_all: Option<bool>,
+    user_name_to_match_map: Map<TerminalString, TerminalLiteral>,
+    match_catch_all: bool,
 }
 
 impl<'grammar> Validator<'grammar> {
@@ -173,15 +172,10 @@ impl<'grammar> Validator<'grammar> {
             // the terminal literals ("class", r"[a-z]+") into a set.
             None => match term {
                 // FIMXE: Should not allow undefined literals if no CatchAll
-                TerminalString::Bare(c) => match self.user_name_to_match_map {
-                    Some(ref m) => {
-                        if let Some(&vl) = m.get(&term) {
-                            // FIXME: I don't think this span here is correct
-                            self.all_literals.entry(vl).or_insert(span);
-                        } else {
-                            return_err!(span, "terminal `{}` does not have a match mapping defined for it",
-                                        term);
-                        }
+                TerminalString::Bare(c) => match self.user_name_to_match_map.get(&term) {
+                    Some(&vl) => {
+                        // FIXME: I don't think this span here is correct
+                        self.all_literals.entry(vl).or_insert(span);
                     }
 
                     None => {
@@ -194,24 +188,20 @@ impl<'grammar> Validator<'grammar> {
                     }
                 },
 
-                TerminalString::Literal(l) => match self.user_name_to_match_map {
-                    Some(ref m) => {
-                        if let Some(&vl) = m.get(&term) {
-                            // FIXME: I don't think this span here is correct
-                            self.all_literals.entry(vl).or_insert(span);
-                        } else {
-                            // Unwrap should be safe as we shouldn't have match_catch_all without user_name_to_match_map
-                            if self.match_catch_all.unwrap() {
-                                // FIXME: I don't think this span here is correct
-                                self.all_literals.entry(l).or_insert(span);
-                            } else {
-                                return_err!(span, "terminal `{}` does not have a match mapping defined for it",
-                                            term);
-                            }
+                TerminalString::Literal(l) => match self.user_name_to_match_map.get(&term) {
+                    Some(&vl) => {
+                        // FIXME: I don't think this span here is correct
+                        self.all_literals.entry(vl).or_insert(span);
+                    }
 
+                    None => {
+                        if self.match_catch_all {
+                            self.all_literals.entry(l).or_insert(span);
+                        } else {
+                            return_err!(span, "terminal `{}` does not have a match mapping defined for it",
+                                        term);
                         }
                     }
-                    None => { self.all_literals.entry(l).or_insert(span); }
                 },
 
                 // Error is a builtin terminal that always exists
@@ -227,7 +217,7 @@ impl<'grammar> Validator<'grammar> {
 // Construction phase -- if we are constructing a tokenizer, this
 // phase builds up an internal token DFA.
 
-pub fn construct(grammar: &mut Grammar, literals_map: Map<TerminalLiteral, Span>, match_to_user_name_map: Option<Map<TerminalLiteral, TerminalString>>) -> NormResult<()> {
+pub fn construct(grammar: &mut Grammar, literals_map: Map<TerminalLiteral, Span>, match_to_user_name_map: Map<TerminalLiteral, TerminalString>) -> NormResult<()> {
     let mut literals: Vec<TerminalLiteral> =
         literals_map.keys()
                     .cloned()

@@ -119,7 +119,11 @@ pub struct InternToken {
     /// Set of `r"foo"` and `"foo"` literals extracted from the
     /// grammar. Sorted by order of increasing precedence.
     pub literals: Vec<TerminalLiteral>,
-    pub match_to_user_name_map: Option<Map<TerminalLiteral, TerminalString>>,
+
+    /// For each item remapped in a `match` block, map from the
+    /// regex we match to the name the user wants to use.
+    pub match_to_user_name_map: Map<TerminalLiteral, TerminalString>,
+
     pub dfa: DFA
 }
 

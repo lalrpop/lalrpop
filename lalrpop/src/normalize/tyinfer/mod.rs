@@ -81,8 +81,7 @@ impl<'grammar> TypeInferencer<'grammar> {
 
             for &literal in &intern_token.literals {
                 let user_name = intern_token.match_to_user_name_map
-                                            .as_ref()
-                                            .and_then(|it| it.get(&literal))
+                                            .get(&literal)
                                             .cloned()
                                             .unwrap_or(TerminalString::Literal(literal));
                 types.add_term_type(user_name, input_str.clone());
