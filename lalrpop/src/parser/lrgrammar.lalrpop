@@ -251,7 +251,7 @@ MatchItem: MatchItem = {
     }
 };
 
-MatchSymbol = QuotedTerminal;
+MatchSymbol = QuotedLiteral;
 
 pub MatchMapping = Terminal;
 
@@ -340,8 +340,12 @@ Terminal: TerminalString = {
 };
 
 QuotedTerminal: TerminalString = {
-    <s:StringLiteral> => TerminalString::quoted(s),
-    <s:RegexLiteral> => TerminalString::regex(s),
+    QuotedLiteral => TerminalString::Literal(<>),
+};
+
+QuotedLiteral: TerminalLiteral = {
+    <s:StringLiteral> => TerminalLiteral::Quoted(s, 1),
+    <s:RegexLiteral> => TerminalLiteral::Regex(s, 0),
 };
 
 StringLiteral: InternedString =

@@ -91,7 +91,7 @@ impl<'s> LowerState<'s> {
 
                                                     // FIXME: This should be cleaner
                                                     if let Some(ref mm) = data.match_to_user_name_map {
-                                                        if let Some(m) = mm.get(&TerminalString::Literal(literal)) {
+                                                        if let Some(m) = mm.get(&literal) {
                                                             return (m.clone(), pattern);
                                                         }
                                                     }

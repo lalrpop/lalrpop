@@ -36,8 +36,8 @@ pub fn validate(mut grammar: Grammar) -> NormResult<Grammar> {
                     match *item {
                         MatchItem::Unmapped(sym, _) => {
                             let precedence_sym = sym.with_match_precedence(precedence);
-                            match_to_user.insert(precedence_sym, sym);
-                            user_to_match.insert(sym, precedence_sym);
+                            match_to_user.insert(precedence_sym, TerminalString::Literal(sym));
+                            user_to_match.insert(TerminalString::Literal(sym), precedence_sym);
                         },
                         MatchItem::Mapped(sym, mapping, _) => {
                             let precedence_sym = sym.with_match_precedence(precedence);
@@ -94,7 +94,7 @@ struct Validator<'grammar> {
     grammar: &'grammar Grammar,
     all_literals: Map<TerminalLiteral, Span>,
     conversions: Option<Set<TerminalString>>,
-    user_name_to_match_map: Option<Map<TerminalString, TerminalString>>,
+    user_name_to_match_map: Option<Map<TerminalString, TerminalLiteral>>,
     match_catch_all: Option<bool>,
 }
 
@@ -175,9 +175,8 @@ impl<'grammar> Validator<'grammar> {
                 // FIMXE: Should not allow undefined literals if no CatchAll
                 TerminalString::Bare(c) => match self.user_name_to_match_map {
                     Some(ref m) => {
-                        if let Some(v) = m.get(&term) {
+                        if let Some(&vl) = m.get(&term) {
                             // FIXME: I don't think this span here is correct
-                            let vl = v.as_literal().expect("must map to a literal");
                             self.all_literals.entry(vl).or_insert(span);
                         } else {
                             return_err!(span, "terminal `{}` does not have a match mapping defined for it",
@@ -197,9 +196,8 @@ impl<'grammar> Validator<'grammar> {
 
                 TerminalString::Literal(l) => match self.user_name_to_match_map {
                     Some(ref m) => {
-                        if let Some(v) = m.get(&term) {
+                        if let Some(&vl) = m.get(&term) {
                             // FIXME: I don't think this span here is correct
-                            let vl = v.as_literal().expect("must map to a literal");
                             self.all_literals.entry(vl).or_insert(span);
                         } else {
                             // Unwrap should be safe as we shouldn't have match_catch_all without user_name_to_match_map
@@ -229,7 +227,7 @@ impl<'grammar> Validator<'grammar> {
 // Construction phase -- if we are constructing a tokenizer, this
 // phase builds up an internal token DFA.
 
-pub fn construct(grammar: &mut Grammar, literals_map: Map<TerminalLiteral, Span>, match_to_user_name_map: Option<Map<TerminalString, TerminalString>>) -> NormResult<()> {
+pub fn construct(grammar: &mut Grammar, literals_map: Map<TerminalLiteral, Span>, match_to_user_name_map: Option<Map<TerminalLiteral, TerminalString>>) -> NormResult<()> {
     let mut literals: Vec<TerminalLiteral> =
         literals_map.keys()
                     .cloned()

@@ -80,12 +80,11 @@ impl<'grammar> TypeInferencer<'grammar> {
             let mut types = Types::new(&grammar.prefix, Some(loc_type), error_type, enum_type);
 
             for &literal in &intern_token.literals {
-                let terminal_string = TerminalString::Literal(literal);
                 let user_name = intern_token.match_to_user_name_map
                                             .as_ref()
-                                            .and_then(|it| it.get(&terminal_string))
+                                            .and_then(|it| it.get(&literal))
                                             .cloned()
-                                            .unwrap_or(terminal_string);
+                                            .unwrap_or(TerminalString::Literal(literal));
                 types.add_term_type(user_name, input_str.clone());
             }
 

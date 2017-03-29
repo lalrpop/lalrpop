@@ -108,7 +108,7 @@ impl MatchItem {
     }
 }
 
-pub type MatchSymbol = TerminalString;
+pub type MatchSymbol = TerminalLiteral;
 pub type MatchMapping = TerminalString;
 
 /// Intern tokens are not typed by the user: they are synthesized in
@@ -119,7 +119,7 @@ pub struct InternToken {
     /// Set of `r"foo"` and `"foo"` literals extracted from the
     /// grammar. Sorted by order of increasing precedence.
     pub literals: Vec<TerminalLiteral>,
-    pub match_to_user_name_map: Option<Map<TerminalString, TerminalString>>,
+    pub match_to_user_name_map: Option<Map<TerminalLiteral, TerminalString>>,
     pub dfa: DFA
 }
 
@@ -340,6 +340,16 @@ impl TerminalLiteral {
             TerminalLiteral::Regex(_, p) => p,
         }
     }
+
+    pub fn with_match_precedence(self, p: usize) -> TerminalLiteral {
+        // Multiply times two since we still want to distinguish
+        // between quoted and regex precedence
+        let base_precedence = p * 2;
+        match self {
+            TerminalLiteral::Quoted(i, _) => TerminalLiteral::Quoted(i, base_precedence+1),
+            TerminalLiteral::Regex(i, _) => TerminalLiteral::Regex(i, base_precedence+0),
+        }
+    }
 }
 
 #[derive(Copy, Clone, Hash, PartialEq, Eq, PartialOrd, Ord)]
@@ -382,17 +392,6 @@ impl TerminalString {
 
     pub fn regex(i: InternedString) -> TerminalString {
         TerminalString::Literal(TerminalLiteral::Regex(i, 0))
-    }
-
-    pub fn with_match_precedence(self, p: usize) -> TerminalString {
-        let base_precedence = p * 2;  // Multiply times two since we still want to distinguish between quoted and regex precedence
-        match self {
-            TerminalString::Literal(TerminalLiteral::Quoted(i, _)) =>
-                TerminalString::Literal(TerminalLiteral::Quoted(i, base_precedence+1)),
-            TerminalString::Literal(TerminalLiteral::Regex(i, _)) =>
-                TerminalString::Literal(TerminalLiteral::Regex(i, base_precedence+0)),
-            _ => panic!("cannot set match precedence for {:?}", self)
-        }
     }
 }
 
