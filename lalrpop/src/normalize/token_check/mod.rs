@@ -19,62 +19,41 @@ use collections::{Map, Set};
 mod test;
 
 pub fn validate(mut grammar: Grammar) -> NormResult<Grammar> {
-    let (has_enum_token, match_block) = {
-        let opt_match_token = grammar.match_token();
+    let mode = {
+        let mode = if let Some(enum_token) = grammar.enum_token() {
+            assert!(grammar.match_token().is_none(),
+                    "validator permitted both an extern/match section");
 
-        let mut match_block = MatchBlock::default();
-
-        if let Some(mt) = opt_match_token {
-            // FIXME: This should probably move _inside_ the Validator
-            for (idx, mc) in mt.contents.iter().enumerate() {
-                let precedence = &mt.contents.len() - idx;
-                for item in &mc.items {
-                    // TODO: Maybe move this into MatchItem methods
-                    match *item {
-                        MatchItem::Unmapped(sym, span) => {
-                            match_block.add_match_entry(precedence,
-                                                 sym,
-                                                 TerminalString::Literal(sym),
-                                                 span)?;
-                        }
-                        MatchItem::Mapped(sym, user, span) => {
-                            match_block.add_match_entry(precedence, sym, user, span)?;
-                        }
-                        MatchItem::CatchAll(_) => {
-                            match_block.catch_all = true;
-                        }
-                    }
-                }
+            TokenMode::Extern {
+                conversions: enum_token.conversions
+                                       .iter()
+                                       .map(|conversion| conversion.from)
+                                       .collect()
             }
         } else {
-            // no match block is equivalent to `match { _ }`
-            match_block.catch_all = true;
-        }
-
-        let opt_enum_token = grammar.enum_token();
-        let conversions = opt_enum_token.map(|et| {
-                                                 et.conversions
-                                                     .iter()
-                                                     .map(|conversion| conversion.from)
-                                                     .collect()
-                                             });
+            TokenMode::Internal {
+                match_block: MatchBlock::new(grammar.match_token())?
+            }
+        };
 
         let mut validator = Validator {
             grammar: &grammar,
-            conversions: conversions,
-            match_block: match_block,
+            mode: mode,
         };
 
-        assert!(!opt_match_token.is_some() || !opt_enum_token.is_some(),
-                "expected to not have both match and extern");
+        validator.validate()?;
 
-        try!(validator.validate());
-
-        (opt_enum_token.is_some(), validator.match_block)
+        validator.mode
     };
 
-    if !has_enum_token {
-        try!(construct(&mut grammar, match_block));
+    match mode {
+        TokenMode::Extern { .. } => {
+            // If using an external tokenizer, we're all done at this point.
+        }
+        TokenMode::Internal { match_block } => {
+            // Otherwise, construct the `InternToken` item.
+            construct(&mut grammar, match_block)?;
+        }
     }
 
     Ok(grammar)
@@ -88,13 +67,22 @@ pub fn validate(mut grammar: Grammar) -> NormResult<Grammar> {
 
 struct Validator<'grammar> {
     grammar: &'grammar Grammar,
+    mode: TokenMode,
+}
 
-    /// If an external tokenizer is in use, then this will be
-    /// `Some(_)` and will point to all the defined conversions. In
-    /// that case, the other fields below are irrelevant.
-    conversions: Option<Set<TerminalString>>,
+enum TokenMode {
+    /// If there is an `extern { ... }` section that defines
+    /// conversions of the form `TERMINAL => PATTERN`, then this is a
+    /// set of those terminals. These are the only terminals that the
+    /// user should be using.
+    Extern { conversions: Set<TerminalString> },
 
-    match_block: MatchBlock,
+    /// Otherwise, we are synthesizing the tokenizer. In that case,
+    /// `match_block` summarizes the data from the `match { ... }`
+    /// section, if any. If there was no `match` section, or the
+    /// section contains a wildcard, the user can also use additional
+    /// terminals in the grammar.
+    Internal { match_block: MatchBlock },
 }
 
 /// Data summarizing the `match { }` block, along with any literals we
@@ -123,6 +111,37 @@ struct MatchBlock {
 }
 
 impl MatchBlock {
+    /// Creates a `MatchBlock` by reading the data out of the `match {
+    /// ... }` block that the user provided (if any).
+    fn new(opt_match_token: Option<&MatchToken>) -> NormResult<Self> {
+        let mut match_block = Self::default();
+        if let Some(match_token) = opt_match_token {
+            for (idx, mc) in match_token.contents.iter().enumerate() {
+                let precedence = &match_token.contents.len() - idx;
+                for item in &mc.items {
+                    match *item {
+                        MatchItem::Unmapped(sym, span) => {
+                            match_block.add_match_entry(precedence,
+                                                        sym,
+                                                        TerminalString::Literal(sym),
+                                                        span)?;
+                        }
+                        MatchItem::Mapped(sym, user, span) => {
+                            match_block.add_match_entry(precedence, sym, user, span)?;
+                        }
+                        MatchItem::CatchAll(_) => {
+                            match_block.catch_all = true;
+                        }
+                    }
+                }
+            }
+        } else {
+            // no match block is equivalent to `match { _ }`
+            match_block.catch_all = true;
+        }
+        Ok(match_block)
+    }
+
     fn add_match_entry(&mut self,
                        match_group_precedence: usize,
                        sym: TerminalLiteral,
@@ -234,11 +253,11 @@ impl<'grammar> Validator<'grammar> {
     }
 
     fn validate_terminal(&mut self, span: Span, term: TerminalString) -> NormResult<()> {
-        match self.conversions {
+        match self.mode {
             // If there is an extern token definition, validate that
             // this terminal has a defined conversion.
-            Some(ref c) => {
-                if !c.contains(&term) {
+            TokenMode::Extern { ref conversions } => {
+                if !conversions.contains(&term) {
                     return_err!(span,
                                 "terminal `{}` does not have a pattern defined for it",
                                 term);
@@ -247,16 +266,16 @@ impl<'grammar> Validator<'grammar> {
 
             // If there is no extern token definition, then collect
             // the terminal literals ("class", r"[a-z]+") into a set.
-            None => {
+            TokenMode::Internal { ref mut match_block } => {
                 match term {
                     TerminalString::Bare(_) => {
-                        assert!(self.match_block.match_user_names.contains(&term),
+                        assert!(match_block.match_user_names.contains(&term),
                                 "bare terminal without match entry: {}",
                                 term)
                     }
 
                     TerminalString::Literal(l) => {
-                        self.match_block.add_literal_from_grammar(l, span)?
+                        match_block.add_literal_from_grammar(l, span)?
                     }
 
                     // Error is a builtin terminal that always exists
