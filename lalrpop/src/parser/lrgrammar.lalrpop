@@ -49,6 +49,7 @@ GrammarParameter: Parameter =
 
 GrammarItem: GrammarItem = {
     Use,
+    MatchToken,
     ExternToken,
     Nonterminal
 };
@@ -230,6 +231,30 @@ ExternToken: GrammarItem = {
     },
 };
 
+MatchToken: GrammarItem =
+    <t:MatchTokenInt> => GrammarItem::MatchToken(t);
+
+MatchTokenInt: MatchToken = {
+    <t:MatchTokenInt> "else" "{" <c:MatchContents> "}" => t.add(c),
+    <lo:@L> "match" <hi:@R> "{" <c:MatchContents> "}"  => MatchToken::new(c, Span(lo, hi)),
+};
+
+MatchContents: MatchContents =
+    <items:Comma<MatchItem>> => MatchContents { items: items };
+
+MatchItem: MatchItem = {
+    <lo:@L> "_" <hi:@R>             => MatchItem::CatchAll(Span(lo, hi)),
+    <lo:@L> <s:MatchSymbol> <hi:@R> => MatchItem::Unmapped(s, Span(lo, hi)),
+    <lo:@L> <from:MatchSymbol> <start:@L> <p:"=>"> <hi:@R> =>? {
+        let to = try!(super::parse_match_mapping(p, start + 2));
+        Ok(MatchItem::Mapped(from, to, Span(lo, hi)))
+    }
+};
+
+MatchSymbol = QuotedLiteral;
+
+pub MatchMapping = Terminal;
+
 EnumToken: EnumToken =
     "enum" <lo:@L> <t:TypeRef> <hi:@R> "{"
       <c:Comma<Conversion>>
@@ -315,8 +340,12 @@ Terminal: TerminalString = {
 };
 
 QuotedTerminal: TerminalString = {
-    <s:StringLiteral> => TerminalString::quoted(s),
-    <s:RegexLiteral> => TerminalString::regex(s),
+    QuotedLiteral => TerminalString::Literal(<>),
+};
+
+QuotedLiteral: TerminalLiteral = {
+    <s:StringLiteral> => TerminalLiteral::Quoted(s),
+    <s:RegexLiteral> => TerminalLiteral::Regex(s),
 };
 
 StringLiteral: InternedString =
@@ -336,6 +365,8 @@ extern {
         "enum" => Tok::Enum,
         "extern" => Tok::Extern,
         "grammar" => Tok::Grammar,
+        "match" => Tok::Match,
+        "else" => Tok::Else,
         "if" => Tok::If,
         "mut" => Tok::Mut,
         "pub" => Tok::Pub,

@@ -44,11 +44,71 @@ impl Into<Box<Content>> for Span {
 
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub enum GrammarItem {
+    MatchToken(MatchToken),
     ExternToken(ExternToken),
     InternToken(InternToken),
     Nonterminal(NonterminalData),
     Use(String),
 }
+
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub struct MatchToken {
+    pub contents: Vec<MatchContents>,
+    pub span: Span,
+}
+
+impl MatchToken {
+    pub fn new(contents: MatchContents, span: Span) -> MatchToken {
+        MatchToken {
+            contents: vec![contents],
+            span: span
+        }
+    }
+
+    // Not really sure if this is the best way to do it
+    pub fn add(self, contents: MatchContents) -> MatchToken {
+        let mut new_contents = self.contents.clone();
+        new_contents.push(contents);
+        MatchToken {
+            contents: new_contents,
+            span: self.span
+        }
+    }
+}
+
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub struct MatchContents {
+    pub items: Vec<MatchItem>
+}
+
+// FIXME: Validate that MatchSymbol is actually a TerminalString::Literal
+//          and that MatchMapping is an Id or String
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub enum MatchItem {
+    CatchAll(Span),
+    Unmapped(MatchSymbol, Span),
+    Mapped(MatchSymbol, MatchMapping, Span)
+}
+
+impl MatchItem {
+    pub fn is_catch_all(&self) -> bool {
+        match *self {
+            MatchItem::CatchAll(_) => true,
+            _ => false
+        }
+    }
+
+    pub fn span(&self) -> Span {
+        match *self {
+            MatchItem::CatchAll(span)     => span,
+            MatchItem::Unmapped(_, span)  => span,
+            MatchItem::Mapped(_, _, span) => span
+        }
+    }
+}
+
+pub type MatchSymbol = TerminalLiteral;
+pub type MatchMapping = TerminalString;
 
 /// Intern tokens are not typed by the user: they are synthesized in
 /// the absence of an "extern" declaration with information about the
@@ -57,8 +117,47 @@ pub enum GrammarItem {
 pub struct InternToken {
     /// Set of `r"foo"` and `"foo"` literals extracted from the
     /// grammar. Sorted by order of increasing precedence.
-    pub literals: Vec<TerminalLiteral>,
+    pub match_entries: Vec<MatchEntry>,
     pub dfa: DFA
+}
+
+/// In `token_check`, as we prepare to generate a tokenizer, we
+/// combine any `match` declaration the user may have given with the
+/// set of literals (e.g. `"foo"` or `r"[a-z]"`) that appear elsewhere
+/// in their in the grammar to produce a series of `MatchEntry`. Each
+/// `MatchEntry` roughly corresponds to one line in a `match` declaration.
+///
+/// So e.g. if you had
+///
+/// ```
+/// match {
+///    r"(?i)BEGIN" => "BEGIN",
+///    "+" => "+",
+/// } else {
+///    _
+/// }
+///
+/// ID = r"[a-zA-Z]+"
+/// ```
+///
+/// This would correspond to three match entries:
+/// - `MatchEntry { match_literal: r"(?i)BEGIN", user_name: "BEGIN", precedence: 2 }`
+/// - `MatchEntry { match_literal: "+", user_name: "+", precedence: 3 }`
+/// - `MatchEntry { match_literal: "r[a-zA-Z]+"", user_name: r"[a-zA-Z]+", precedence: 0 }`
+///
+/// A couple of things to note:
+///
+/// - Literals appearing in the grammar are converting into an "identity" mapping
+/// - Each match group G is combined with the implicit priority IP of 1 for literals and 0 for
+///   regex to yield the final precedence; the formula is `G*2 + IP`.
+#[derive(Clone, Debug, PartialEq, Eq, PartialOrd, Ord)]
+pub struct MatchEntry {
+    /// The precedence of this match entry.
+    ///
+    /// NB: This field must go first, so that `PartialOrd` sorts by precedence first!
+    pub precedence: usize,
+    pub match_literal: TerminalLiteral,
+    pub user_name: TerminalString,
 }
 
 #[derive(Clone, Debug, PartialEq, Eq)]
@@ -253,6 +352,15 @@ pub enum TerminalString {
     Error,
 }
 
+impl TerminalString {
+    pub fn as_literal(&self) -> Option<TerminalLiteral> {
+        match *self {
+            TerminalString::Literal(l) => Some(l),
+            _ => None
+        }
+    }
+}
+
 #[derive(Copy, Clone, Hash, PartialEq, Eq, PartialOrd, Ord)]
 pub enum TerminalLiteral {
     Quoted(InternedString),
@@ -260,10 +368,10 @@ pub enum TerminalLiteral {
 }
 
 impl TerminalLiteral {
-    /// Currently, at least, quoted literals ("foo") always have
-    /// higher precedence than regex literals (r"foo"). This only
-    /// applies when we are creating the tokenizer anyhow.
-    pub fn precedence(&self) -> usize {
+    /// The *base precedence* is the precedence within a `match { }`
+    /// block level. It indicates that quoted things like `"foo"` get
+    /// precedence over regex matches.
+    pub fn base_precedence(&self) -> usize {
         match *self {
             TerminalLiteral::Quoted(_) => 1,
             TerminalLiteral::Regex(_) => 0,
@@ -343,6 +451,12 @@ impl Grammar {
                   .flat_map(|i| i.as_intern_token())
                   .next()
     }
+
+    pub fn match_token(&self) -> Option<&MatchToken> {
+        self.items.iter()
+                  .flat_map(|i| i.as_match_token())
+                  .next()
+    }
 }
 
 impl GrammarItem {
@@ -357,6 +471,17 @@ impl GrammarItem {
         match *self {
             GrammarItem::Nonterminal(ref d) => Some(d),
             GrammarItem::Use(..) => None,
+            GrammarItem::MatchToken(..) => None,
+            GrammarItem::ExternToken(..) => None,
+            GrammarItem::InternToken(..) => None,
+        }
+    }
+
+    pub fn as_match_token(&self) -> Option<&MatchToken> {
+        match *self {
+            GrammarItem::Nonterminal(..) => None,
+            GrammarItem::Use(..) => None,
+            GrammarItem::MatchToken(ref d) => Some(d),
             GrammarItem::ExternToken(..) => None,
             GrammarItem::InternToken(..) => None,
         }
@@ -366,6 +491,7 @@ impl GrammarItem {
         match *self {
             GrammarItem::Nonterminal(..) => None,
             GrammarItem::Use(..) => None,
+            GrammarItem::MatchToken(..) => None,
             GrammarItem::ExternToken(ref d) => Some(d),
             GrammarItem::InternToken(..) => None,
         }
@@ -375,6 +501,7 @@ impl GrammarItem {
         match *self {
             GrammarItem::Nonterminal(..) => None,
             GrammarItem::Use(..) => None,
+            GrammarItem::MatchToken(..) => None,
             GrammarItem::ExternToken(..) => None,
             GrammarItem::InternToken(ref d) => Some(d),
         }
@@ -429,7 +556,7 @@ impl Display for TerminalLiteral {
 
 impl Debug for TerminalLiteral {
     fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
-        Display::fmt(self, fmt)
+        write!(fmt, "{}", self)
     }
 }
 

@@ -72,6 +72,9 @@ mod issue_55;
 /// test for unit action code
 mod unit;
 
+/// test for match section
+mod match_section;
+
 // Check that error recovery (which requires cloneable tokens) is not created if it is not used
 #[allow(unused)]
 mod no_clone_tok;
@@ -407,4 +410,13 @@ fn generics_issue_104_test1() {
     // *compiles*, even though the type parameter `T` does not appear
     // in any of the arguments.
     assert!(generics_issue_104::parse_Schema::<()>("grammar { foo }").is_ok());
+}
+
+#[test]
+fn match_section() {
+    assert!(match_section::parse_Query("SELECT foo").is_ok());
+    assert!(match_section::parse_Query("select foo").is_ok());
+    assert!(match_section::parse_Query("INSERT foo").is_ok());
+    assert!(match_section::parse_Query("UPDATE foo").is_ok());
+    assert!(match_section::parse_Query("UPDATE update").is_err());
 }

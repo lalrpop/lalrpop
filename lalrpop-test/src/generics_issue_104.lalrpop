@@ -1,4 +1,3 @@
-use lalrpop_util::ParseError;
 use generics_issue_104_lib::Generator;
 
 grammar<T> where T: Generator;

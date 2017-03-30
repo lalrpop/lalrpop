@@ -54,6 +54,12 @@ impl<'s> LowerState<'s> {
                     uses.push(data);
                 }
 
+                pt::GrammarItem::MatchToken(_) => {
+                    // The declarations in the match token are handled
+                    // fully by the `token_check` when it constructs the
+                    //  `InternToken` -- there is nothing left to do here.
+                }
+
                 pt::GrammarItem::InternToken(data) => {
                     token_span = Some(grammar.span);
                     let span = grammar.span;
@@ -65,13 +71,14 @@ impl<'s> LowerState<'s> {
                             types: vec![],
                         })),
                     };
-                    self.conversions.extend(data.literals
-                                                .iter()
-                                                .enumerate()
-                                                .map(|(index, &literal)| {
-                                                    let pattern = Pattern {
-                                                        span: span,
-                                                        kind: PatternKind::Tuple(vec![
+                    self.conversions.extend(
+                        data.match_entries
+                            .iter()
+                            .enumerate()
+                            .map(|(index, match_entry)| {
+                                let pattern = Pattern {
+                                    span: span,
+                                    kind: PatternKind::Tuple(vec![
                                         Pattern {
                                             span: span,
                                             kind: PatternKind::Usize(index),
@@ -80,10 +87,11 @@ impl<'s> LowerState<'s> {
                                             span: span,
                                             kind: PatternKind::Choose(input_str.clone())
                                         }
-                                        ]),
-                                                    };
-                                                    (TerminalString::Literal(literal), pattern)
-                                                }));
+                                    ]),
+                                };
+
+                                (match_entry.user_name, pattern)
+                            }));
                     self.intern_token = Some(data);
                 }
 
