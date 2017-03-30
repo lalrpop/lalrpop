@@ -15,7 +15,6 @@ use message::builder::InlineBuilder;
 use std::fmt::{Debug, Display, Formatter, Error};
 use tls::Tls;
 use util::Sep;
-use collections::Map;
 
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct Grammar {
@@ -118,13 +117,47 @@ pub type MatchMapping = TerminalString;
 pub struct InternToken {
     /// Set of `r"foo"` and `"foo"` literals extracted from the
     /// grammar. Sorted by order of increasing precedence.
-    pub literals: Vec<TerminalLiteral>,
-
-    /// For each item remapped in a `match` block, map from the
-    /// regex we match to the name the user wants to use.
-    pub match_to_user_name_map: Map<TerminalLiteral, TerminalString>,
-
+    pub match_entries: Vec<MatchEntry>,
     pub dfa: DFA
+}
+
+/// In `token_check`, as we prepare to generate a tokenizer, we
+/// combine any `match` declaration the user may have given with the
+/// set of literals (e.g. `"foo"` or `r"[a-z]"`) that appear elsewhere
+/// in their in the grammar to produce a series of `MatchEntry`. Each
+/// `MatchEntry` roughly corresponds to one line in a `match` declaration.
+///
+/// So e.g. if you had
+///
+/// ```
+/// match {
+///    r"(?i)BEGIN" => "BEGIN",
+///    "+" => "+",
+/// } else {
+///    _
+/// }
+///
+/// ID = r"[a-zA-Z]+"
+/// ```
+///
+/// This would correspond to three match entries:
+/// - `MatchEntry { match_literal: r"(?i)BEGIN", user_name: "BEGIN", precedence: 2 }`
+/// - `MatchEntry { match_literal: "+", user_name: "+", precedence: 3 }`
+/// - `MatchEntry { match_literal: "r[a-zA-Z]+"", user_name: r"[a-zA-Z]+", precedence: 0 }`
+///
+/// A couple of things to note:
+///
+/// - Literals appearing in the grammar are converting into an "identity" mapping
+/// - Each match group G is combined with the implicit priority IP of 1 for literals and 0 for
+///   regex to yield the final precedence; the formula is `G*2 + IP`.
+#[derive(Clone, Debug, PartialEq, Eq, PartialOrd, Ord)]
+pub struct MatchEntry {
+    /// The precedence of this match entry.
+    ///
+    /// NB: This field must go first, so that `PartialOrd` sorts by precedence first!
+    pub precedence: usize,
+    pub match_literal: TerminalLiteral,
+    pub user_name: TerminalString,
 }
 
 #[derive(Clone, Debug, PartialEq, Eq)]
@@ -330,28 +363,18 @@ impl TerminalString {
 
 #[derive(Copy, Clone, Hash, PartialEq, Eq, PartialOrd, Ord)]
 pub enum TerminalLiteral {
-    Quoted(InternedString, usize),
-    Regex(InternedString, usize),
+    Quoted(InternedString),
+    Regex(InternedString),
 }
 
 impl TerminalLiteral {
-    /// Currently, at least, quoted literals ("foo") always have
-    /// higher precedence than regex literals (r"foo"). This only
-    /// applies when we are creating the tokenizer anyhow.
-    pub fn precedence(&self) -> usize {
+    /// The *base precedence* is the precedence within a `match { }`
+    /// block level. It indicates that quoted things like `"foo"` get
+    /// precedence over regex matches.
+    pub fn base_precedence(&self) -> usize {
         match *self {
-            TerminalLiteral::Quoted(_, p) => p,
-            TerminalLiteral::Regex(_, p) => p,
-        }
-    }
-
-    pub fn with_match_precedence(self, p: usize) -> TerminalLiteral {
-        // Multiply times two since we still want to distinguish
-        // between quoted and regex precedence
-        let base_precedence = p * 2;
-        match self {
-            TerminalLiteral::Quoted(i, _) => TerminalLiteral::Quoted(i, base_precedence+1),
-            TerminalLiteral::Regex(i, _) => TerminalLiteral::Regex(i, base_precedence+0),
+            TerminalLiteral::Quoted(_) => 1,
+            TerminalLiteral::Regex(_) => 0,
         }
     }
 }
@@ -391,11 +414,11 @@ pub struct MacroSymbol {
 
 impl TerminalString {
     pub fn quoted(i: InternedString) -> TerminalString {
-        TerminalString::Literal(TerminalLiteral::Quoted(i, 1))
+        TerminalString::Literal(TerminalLiteral::Quoted(i))
     }
 
     pub fn regex(i: InternedString) -> TerminalString {
-        TerminalString::Literal(TerminalLiteral::Regex(i, 0))
+        TerminalString::Literal(TerminalLiteral::Regex(i))
     }
 }
 
@@ -523,9 +546,9 @@ impl Debug for TerminalString {
 impl Display for TerminalLiteral {
     fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
         match *self {
-            TerminalLiteral::Quoted(s, _) =>
+            TerminalLiteral::Quoted(s) =>
                 write!(fmt, "{:?}", s), // the Debug impl adds the `"` and escaping
-            TerminalLiteral::Regex(s, _) =>
+            TerminalLiteral::Regex(s) =>
                 write!(fmt, "r#{:?}#", s), // FIXME -- need to determine proper number of #
         }
     }
@@ -533,10 +556,7 @@ impl Display for TerminalLiteral {
 
 impl Debug for TerminalLiteral {
     fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
-        match *self {
-            TerminalLiteral::Quoted(_, p) | TerminalLiteral::Regex(_, p) =>
-                write!(fmt, "{}+{}", self, p)
-        }
+        write!(fmt, "{}", self)
     }
 }
 

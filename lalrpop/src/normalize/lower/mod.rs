@@ -71,31 +71,27 @@ impl<'s> LowerState<'s> {
                             types: vec![],
                         })),
                     };
-                    self.conversions.extend(data.literals
-                                                .iter()
-                                                .enumerate()
-                                                .map(|(index, &literal)| {
-                                                    let pattern = Pattern {
-                                                        span: span,
-                                                        kind: PatternKind::Tuple(vec![
-                                                                    Pattern {
-                                                                        span: span,
-                                                                        kind: PatternKind::Usize(index),
-                                                                    },
-                                                                    Pattern {
-                                                                        span: span,
-                                                                        kind: PatternKind::Choose(input_str.clone())
-                                                                    }
-                                                                    ]),
-                                                    };
+                    self.conversions.extend(
+                        data.match_entries
+                            .iter()
+                            .enumerate()
+                            .map(|(index, match_entry)| {
+                                let pattern = Pattern {
+                                    span: span,
+                                    kind: PatternKind::Tuple(vec![
+                                        Pattern {
+                                            span: span,
+                                            kind: PatternKind::Usize(index),
+                                        },
+                                        Pattern {
+                                            span: span,
+                                            kind: PatternKind::Choose(input_str.clone())
+                                        }
+                                    ]),
+                                };
 
-                                                    // FIXME: This should be cleaner
-                                                    if let Some(&m) = data.match_to_user_name_map.get(&literal) {
-                                                        return (m, pattern);
-                                                    }
-
-                                                    (TerminalString::Literal(literal), pattern)
-                                                }));
+                                (match_entry.user_name, pattern)
+                            }));
                     self.intern_token = Some(data);
                 }
 

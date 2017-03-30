@@ -49,7 +49,7 @@ fn match_complex() {
             let item00 = contents0.items.get(0).unwrap();
             match *item00 {
                 MatchItem::Mapped(ref sym, ref mapping, _) => {
-                    assert_eq!(format!("{:?}", sym), "r#\"(?i)begin\"#+0");
+                    assert_eq!(format!("{:?}", sym), "r#\"(?i)begin\"#");
                     assert_eq!(format!("{}", mapping), "\"BEGIN\"");
                 },
                 _ => panic!("expected MatchItem::Mapped, but was: {:?}", item00)
@@ -58,7 +58,7 @@ fn match_complex() {
             let item01 = contents0.items.get(1).unwrap();
             match *item01 {
                 MatchItem::Mapped(ref sym, ref mapping, _) => {
-                    assert_eq!(format!("{:?}", sym), "r#\"(?i)end\"#+0");
+                    assert_eq!(format!("{:?}", sym), "r#\"(?i)end\"#");
                     assert_eq!(format!("{}", mapping), "\"END\"");
                 },
                 _ => panic!("expected MatchItem::Mapped, but was: {:?}", item00)
@@ -69,7 +69,7 @@ fn match_complex() {
             let item10 = contents1.items.get(0).unwrap();
             match *item10 {
                 MatchItem::Mapped(ref sym, ref mapping, _) => {
-                    assert_eq!(format!("{:?}", sym), "r#\"[a-zA-Z_][a-zA-Z0-9_]*\"#+0");
+                    assert_eq!(format!("{:?}", sym), "r#\"[a-zA-Z_][a-zA-Z0-9_]*\"#");
                     assert_eq!(format!("{}", mapping), "IDENTIFIER");
                 },
                 _ => panic!("expected MatchItem::Mapped, but was: {:?}", item10)
@@ -80,7 +80,7 @@ fn match_complex() {
             let item20 = contents2.items.get(0).unwrap();
             match *item20 {
                 MatchItem::Unmapped(ref sym, _) => {
-                    assert_eq!(format!("{:?}", sym), "\"other\"+1");
+                    assert_eq!(format!("{:?}", sym), "\"other\"");
                 },
                 _ => panic!("expected MatchItem::Unmapped, but was: {:?}", item20)
             };

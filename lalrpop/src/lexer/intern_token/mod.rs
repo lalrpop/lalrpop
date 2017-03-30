@@ -59,11 +59,11 @@ pub fn compile<W: Write>(
     // create a vector of rust string literals with the text of each
     // regular expression
     let regex_strings: Vec<String> = intern::read(|interner| {
-        intern_token.literals
+        intern_token.match_entries
                     .iter()
-                    .map(|&literal| match literal {
-                        TerminalLiteral::Quoted(s, _) => re::parse_literal(interner.data(s)),
-                        TerminalLiteral::Regex(s, _) => re::parse_regex(interner.data(s)).unwrap(),
+                    .map(|match_entry| match match_entry.match_literal {
+                        TerminalLiteral::Quoted(s) => re::parse_literal(interner.data(s)),
+                        TerminalLiteral::Regex(s) => re::parse_regex(interner.data(s)).unwrap(),
                     })
                     .map(|regex| {
                         // make sure all regex are anchored at the beginning of the input
@@ -134,7 +134,7 @@ pub fn compile<W: Write>(
     // checking if each one matches, and remembering the longest one.
     rust!(out, "let mut {}longest_match = 0;", prefix); // length of longest match
     rust!(out, "let mut {}index = 0;", prefix); // index of longest match
-    rust!(out, "for {}i in 0 .. {} {{", prefix, intern_token.literals.len());
+    rust!(out, "for {}i in 0 .. {} {{", prefix, intern_token.match_entries.len());
     rust!(out, "if {}matches.matched({}i) {{", prefix, prefix);
 
     // re-run the regex to find out how long this particular match

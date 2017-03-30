@@ -344,8 +344,8 @@ QuotedTerminal: TerminalString = {
 };
 
 QuotedLiteral: TerminalLiteral = {
-    <s:StringLiteral> => TerminalLiteral::Quoted(s, 1),
-    <s:RegexLiteral> => TerminalLiteral::Regex(s, 0),
+    <s:StringLiteral> => TerminalLiteral::Quoted(s),
+    <s:RegexLiteral> => TerminalLiteral::Regex(s),
 };
 
 StringLiteral: InternedString =

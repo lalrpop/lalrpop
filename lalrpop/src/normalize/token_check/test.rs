@@ -24,19 +24,19 @@ fn check_intern_token(grammar: &str,
     let parsed_grammar = validate_grammar(&grammar).expect("validate");
     let intern_token = parsed_grammar.intern_token().expect("intern_token");
     println!("intern_token: {:?}", intern_token);
-    for (input, expected_literal) in expected_tokens {
-        let actual_literal =
+    for (input, expected_user_name) in expected_tokens {
+        let actual_user_name =
             interpret::interpret(&intern_token.dfa, input)
             .map(|(index, text)| {
-                let literal = intern_token.literals[index.index()];
-                (literal, text)
+                let user_name = intern_token.match_entries[index.index()].user_name;
+                (user_name, text)
             });
-        let actual_literal = format!("{:?}", actual_literal);
-        if expected_literal != actual_literal {
+        let actual_user_name = format!("{:?}", actual_user_name);
+        if expected_user_name != actual_user_name {
             panic!("input `{}` matched `{}` but we expected `{}`",
                    input,
-                   actual_literal,
-                   expected_literal);
+                   actual_user_name,
+                   expected_user_name);
         }
     }
 }
@@ -85,11 +85,11 @@ fn invalid_regular_expression_unterminated_group() {
 fn quoted_literals() {
     check_intern_token(
         r#"grammar; X = X "+" "-" "foo" "(" ")";"#,
-        vec![("+", r#"Some(("+"+1, "+"))"#),
-             ("-", r#"Some(("-"+1, "-"))"#),
-             ("(", r#"Some(("("+1, "("))"#),
-             (")", r#"Some((")"+1, ")"))"#),
-             ("foo", r#"Some(("foo"+1, "foo"))"#),
+        vec![("+", r#"Some(("+", "+"))"#),
+             ("-", r#"Some(("-", "-"))"#),
+             ("(", r#"Some(("(", "("))"#),
+             (")", r#"Some((")", ")"))"#),
+             ("foo", r#"Some(("foo", "foo"))"#),
              ("<", r#"None"#)]);
 }
 
@@ -98,10 +98,10 @@ fn regex_literals() {
     check_intern_token(
         r#"grammar; X = X r"[a-z]+" r"[0-9]+";"#,
         vec![
-            ("a", r##"Some((r#"[a-z]+"#+0, "a"))"##),
-            ("def", r##"Some((r#"[a-z]+"#+0, "def"))"##),
-            ("1", r##"Some((r#"[0-9]+"#+0, "1"))"##),
-            ("9123456", r##"Some((r#"[0-9]+"#+0, "9123456"))"##),
+            ("a", r##"Some((r#"[a-z]+"#, "a"))"##),
+            ("def", r##"Some((r#"[a-z]+"#, "def"))"##),
+            ("1", r##"Some((r#"[0-9]+"#, "1"))"##),
+            ("9123456", r##"Some((r#"[0-9]+"#, "9123456"))"##),
                 ]);
 }
 
@@ -110,9 +110,9 @@ fn match_mappings() {
     check_intern_token(
         r#"grammar; match { r"(?i)begin" => "BEGIN" } else { "abc" => ALPHA } X = "BEGIN" ALPHA;"#,
         vec![
-            ("BEGIN", r##"Some((r#"(?i)begin"#+4, "BEGIN"))"##),
-            ("begin", r##"Some((r#"(?i)begin"#+4, "begin"))"##),
-            ("abc", r#"Some(("abc"+3, "abc"))"#), // ALPHA
+            ("BEGIN", r##"Some(("BEGIN", "BEGIN"))"##),
+            ("begin", r##"Some(("BEGIN", "begin"))"##),
+            ("abc", r#"Some((ALPHA, "abc"))"#),
                 ]);
 }
 
