@@ -105,6 +105,7 @@ fn regex_literals() {
                 ]);
 }
 
+/// Basic test for match mappings.
 #[test]
 fn match_mappings() {
     check_intern_token(
@@ -116,6 +117,20 @@ fn match_mappings() {
                 ]);
 }
 
+/// Match mappings, exercising precedence. Here the ID regex *would*
+/// be ambiguous with the begin regex.
+#[test]
+fn match_precedence() {
+    check_intern_token(
+        r#"grammar; match { r"(?i)begin" => "BEGIN" } else { r"\w+" => ID } X = ();"#,
+        vec![
+            ("BEGIN", r##"Some(("BEGIN", "BEGIN"))"##),
+            ("begin", r##"Some(("BEGIN", "begin"))"##),
+            ("abc", r#"Some((ID, "abc"))"#),
+                ]);
+}
+
+/// Test that, without a `catch-all`, using unrecognized literals is an error.
 #[test]
 fn invalid_match_literal() {
     check_err(
@@ -124,9 +139,19 @@ fn invalid_match_literal() {
         r#"                                               ~~~~~ "#);
 }
 
+/// Test that, without a `catch-all`, using unrecognized literals is an error.
+#[test]
+fn invalid_match_regex_literal() {
+    check_err(
+        r##"terminal `r#"foo"#` does not have a match mapping defined for it"##,
+        r#"grammar; match { r"(?i)begin" => "BEGIN" } X = r"foo";"#,
+        r#"                                               ~~~~~~ "#);
+}
+
+/// Test that, with a catch-all, the previous two examples work.
 #[test]
 fn match_catch_all() {
-    let grammar = r#"grammar; match { r"(?i)begin" => "BEGIN", _ } X = "foo";"#;
+    let grammar = r#"grammar; match { r"(?i)begin" => "BEGIN", _ } X = { "foo", r"foo" };"#;
     assert!(validate_grammar(&grammar).is_ok())
 }
 
@@ -144,4 +169,25 @@ fn complex_match() {
         };
 "##;
     assert!(validate_grammar(&grammar).is_ok())
+}
+
+/// Test that overlapping regular expressions are still forbidden within one level
+/// of a match declaration.
+#[test]
+fn ambiguity_within_match() {
+    check_err(
+        r##"ambiguity detected between the terminal `r#"b"#` and the terminal `r#"\(\?i\)b"#`"##,
+        r#"grammar; match { r"(?i)b" => "B", r"b" => "b" }"#,
+        r#"                                  ~~~~~~~~~~~~ "#);
+}
+
+/// Test that using the **exact same regular expression** twice is
+/// forbidden, even across multiple levels of the match expression.
+/// No good reason to do that.
+#[test]
+fn same_literal_twice() {
+    check_err(
+        r##"multiple match entries for `r#"\(\?i\)b"#`"##,
+        r#"grammar; match { r"(?i)b" => "B" } else { r"(?i)b" => "b" }"#,
+        r#"                                          ~~~~~~~~~~~~~~~~ "#);
 }
