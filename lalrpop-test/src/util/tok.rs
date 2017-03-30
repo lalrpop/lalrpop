@@ -13,6 +13,7 @@ pub enum Tok {
     Times,
     Div,
     Comma,
+    #[allow(dead_code)]
     Fraction(i32, i32), // Not produced by tokenizer, used only in regression tests for #179
 }
 
