@@ -15,7 +15,7 @@ use super::table::*;
 
 macro_rules! tokens {
     ($($x:expr),*) => {
-        vec![$(TerminalString::quoted(intern($x))),*].into_iter()
+        vec![$(TerminalString::quoted(intern($x))),*]
     }
 }
 
@@ -117,6 +117,7 @@ fn build_table<'grammar>(grammar: &'grammar Grammar,
     let first_sets = FirstSets::new(&grammar);
     let state_graph = StateGraph::new(&lr0_err.states);
     let mut tracer = LaneTracer::new(&grammar,
+                                     nt("G"),
                                      &lr0_err.states,
                                      &first_sets,
                                      &state_graph,

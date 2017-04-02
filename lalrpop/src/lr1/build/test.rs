@@ -35,7 +35,7 @@ fn random_test<'g>(grammar: &Grammar,
 
 macro_rules! tokens {
     ($($x:expr),*) => {
-        vec![$(TerminalString::quoted(intern($x))),*].into_iter()
+        vec![$(TerminalString::quoted(intern($x))),*]
     }
 }
 
