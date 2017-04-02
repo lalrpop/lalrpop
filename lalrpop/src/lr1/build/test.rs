@@ -10,7 +10,7 @@ use lr1::lookahead::TokenSet;
 use lr1::tls::Lr1Tls;
 use tls::Tls;
 
-use super::{LR, build_lr0_states, build_lr1_states};
+use super::{LR, use_lane_table, build_lr0_states, build_lr1_states};
 
 fn nt(t: &str) -> NonterminalString {
     NonterminalString(intern(t))
@@ -128,7 +128,8 @@ grammar;
     // for now, just test that process does not result in an error
     // and yields expected number of states.
     let states = build_lr1_states(&grammar, nt("S")).unwrap();
-    assert_eq!(states.len(), 16);
+    println!("{:#?}", states);
+    assert_eq!(states.len(), if use_lane_table() { 9 } else { 16 });
 
     // execute it on some sample inputs.
     let tree = interpret(&states, tokens!["N", "-", "(", "N", "-", "N", ")"]).unwrap();
