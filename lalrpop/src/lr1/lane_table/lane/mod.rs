@@ -15,10 +15,12 @@ pub struct LaneTracer<'trace, 'grammar: 'trace, L: Lookahead + 'trace> {
     first_sets: &'trace FirstSets,
     state_graph: &'trace StateGraph,
     table: LaneTable<'grammar>,
+    start_nt: NonterminalString,
 }
 
 impl<'trace, 'grammar, L: Lookahead> LaneTracer<'trace, 'grammar, L> {
     pub fn new(grammar: &'grammar Grammar,
+               start_nt: NonterminalString,
                states: &'trace [State<'grammar, L>],
                first_sets: &'trace FirstSets,
                state_graph: &'trace StateGraph,
@@ -28,6 +30,7 @@ impl<'trace, 'grammar, L: Lookahead> LaneTracer<'trace, 'grammar, L> {
             states: states,
             first_sets: first_sets,
             state_graph: state_graph,
+            start_nt: start_nt,
             table: LaneTable::new(grammar, conflicts),
         }
     }
@@ -112,8 +115,19 @@ impl<'trace, 'grammar, L: Lookahead> LaneTracer<'trace, 'grammar, L> {
 
         let state_items = &self.states[state.0].items.vec;
         let nonterminal = item.production.nonterminal;
+        if nonterminal == self.start_nt {
+            // as a special case, if the `X` above is the special, synthetic
+            // start-terminal, then the only thing that comes afterwards is EOF.
+            self.table.add_lookahead(state, conflict, &TokenSet::eof());
+        }
+
+        // NB: Under the normal LR terms, the start nonterminal will
+        // only have one production like `X' = X`, in which case this
+        // loop is useless, but sometimes in tests we don't observe
+        // that restriction, so do it anyway.
         for pred_item in state_items.iter()
-                                    .filter(|i| i.can_shift_nonterminal(nonterminal)) {
+                                    .filter(|i| i.can_shift_nonterminal(nonterminal))
+        {
             let symbol_sets = pred_item.symbol_sets();
             let mut first = self.first_sets.first0(symbol_sets.suffix);
             let derives_epsilon = first.take_eof();
