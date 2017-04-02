@@ -501,7 +501,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
         // Error.
         rust!(self.out, "}} else {{");
 
-        if self.uses_error_recovery() {
+        if self.grammar.uses_error_recovery {
             let prefix = self.prefix;
             try!(self.unrecognized_token_error(&format!("Some({}lookahead.clone())", prefix)));
             rust!(self.out, "let mut {}dropped_tokens = Vec::new();", self.prefix);
@@ -621,7 +621,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
         // EOF error recovery
         try!(self.unrecognized_token_error("None"));
 
-        if self.uses_error_recovery() {
+        if self.grammar.uses_error_recovery {
             let extra_test = format!("&& {}EOF_ACTION[({}error_state as usize - 1)] != 0 ",
                 self.prefix,
                 self.prefix);
@@ -1096,15 +1096,6 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
         format!("({},{},{})", loc_type, self.symbol_type(), loc_type)
     }
 
-    fn uses_error_recovery(&self) -> bool {
-        self.states.iter().any(|state| {
-            state.shifts.contains_key(&TerminalString::Error) ||
-                state.reductions
-                    .iter()
-                    .any(|&(ref t, _)| t.contains(Token::Terminal(TerminalString::Error)))
-        })
-    }
-
     fn unrecognized_token_error(&mut self, token: &str) -> io::Result<()> {
         rust!(self.out, "let {}state = *{}states.last().unwrap() as usize;",
             self.prefix,
@@ -1127,9 +1118,15 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
             self.prefix);
 
         rust!(self.out, "const {}TERMINAL: &'static [&'static str] = &[", self.prefix);
-        // Subtract one to exlude the error terminal
-        for &terminal in &self.grammar.terminals.all[..self.grammar.terminals.all.len() - 1] {
-            // Three # should hopefully be enough to prevent any reasonable terminal from escaping the literal
+        let all_terminals = if self.grammar.uses_error_recovery {
+            // Subtract one to exlude the error terminal
+            &self.grammar.terminals.all[..self.grammar.terminals.all.len() - 1]
+        } else {
+            &self.grammar.terminals.all
+        };
+        for &terminal in all_terminals {
+            // Three # should hopefully be enough to prevent any
+            // reasonable terminal from escaping the literal
             rust!(self.out, "r###\"{}\"###,", terminal);
         }
         rust!(self.out, "];");
