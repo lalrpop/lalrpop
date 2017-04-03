@@ -34,3 +34,4 @@ lalrpop-test/src/sub_table.rs
 lalrpop-test/src/unit.rs
 lalrpop-test/src/use_super.rs
 lalrpop-test/src/no_clone_tok.rs
+lalrpop-test/src/match_section.rs
