@@ -164,7 +164,11 @@ impl<'s> LowerState<'s> {
         let mut all_terminals: Vec<_> = self.conversions
                                             .iter()
                                             .map(|c| c.0)
-                                            .chain(Some(TerminalString::Error))
+                                            .chain(if self.uses_error_recovery {
+                                                Some(TerminalString::Error)
+                                            } else {
+                                                None
+                                            })
                                             .collect();
         all_terminals.sort();
 
@@ -174,6 +178,7 @@ impl<'s> LowerState<'s> {
                                                     .collect();
 
         Ok(r::Grammar {
+            uses_error_recovery: self.uses_error_recovery,
             prefix: self.prefix,
             start_nonterminals: start_symbols,
             uses: uses,

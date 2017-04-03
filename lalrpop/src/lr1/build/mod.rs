@@ -24,18 +24,21 @@ fn build_lr1_states_legacy<'grammar>(grammar: &'grammar Grammar, start: Nontermi
 
 type ConstructionFunction<'grammar> = fn(&'grammar Grammar, NonterminalString) -> LR1Result<'grammar> ;
 
+fn use_lane_table() -> bool {
+    match env::var("LALRPOP_LANE_TABLE") {
+        Ok(ref s) => s == "enabled",
+        _ => false
+    }
+}
+
 pub fn build_lr1_states<'grammar>(grammar: &'grammar Grammar,
                                   start: NonterminalString)
                                   -> LR1Result<'grammar>
 {
-
-    let (method_name, method_fn) = match env::var("LALRPOP_LANE_TABLE") {
-        Ok(ref s) if s == "enabled" => {
-            ("lane", build_lane_table_states as ConstructionFunction)
-        }
-        _  => {
-            ("legacy", build_lr1_states_legacy as ConstructionFunction)
-        }
+    let (method_name, method_fn) = if use_lane_table() {
+        ("lane", build_lane_table_states as ConstructionFunction)
+    } else {
+        ("legacy", build_lr1_states_legacy as ConstructionFunction)
     };
 
     profile! {

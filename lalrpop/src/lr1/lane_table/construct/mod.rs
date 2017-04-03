@@ -22,22 +22,22 @@ use self::state_set::StateSet;
 pub struct LaneTableConstruct<'grammar> {
     grammar: &'grammar Grammar,
     first_sets: FirstSets,
-    start: NonterminalString,
+    start_nt: NonterminalString,
 }
 
 impl<'grammar> LaneTableConstruct<'grammar> {
-    pub fn new(grammar: &'grammar Grammar, start: NonterminalString) -> Self {
+    pub fn new(grammar: &'grammar Grammar, start_nt: NonterminalString) -> Self {
         let first_sets = FirstSets::new(grammar);
         Self {
             grammar: grammar,
-            start: start,
+            start_nt: start_nt,
             first_sets: first_sets,
         }
     }
 
     pub fn construct(self) -> Result<Vec<LR1State<'grammar>>, LR1TableConstructionError<'grammar>> {
         let TableConstructionError { states, conflicts: _ } = {
-            match build::build_lr0_states(self.grammar, self.start) {
+            match build::build_lr0_states(self.grammar, self.start_nt) {
                 // This is the easy (and very rare...) case.
                 Ok(lr0) => return Ok(self.promote_lr0_states(lr0)),
                 Err(err) => err,
@@ -78,6 +78,7 @@ impl<'grammar> LaneTableConstruct<'grammar> {
     /// states in the README.
     fn promote_lr0_states(&self, lr0: Vec<LR0State<'grammar>>) -> Vec<LR1State<'grammar>> {
         let all = TokenSet::all();
+        debug!("promote_lr0_states: all={:?}", all);
         lr0.into_iter()
             .map(|s| {
                 let items = s.items
@@ -110,10 +111,15 @@ impl<'grammar> LaneTableConstruct<'grammar> {
                                states: &mut Vec<LR1State<'grammar>>,
                                inconsistent_state: StateIndex)
                                -> Result<(), StateIndex> {
+        debug!("resolve_inconsistencies(inconsistent_state={:?}/{:#?}",
+               inconsistent_state, states[inconsistent_state.0]);
+
         let actions = super::conflicting_actions(&states[inconsistent_state.0]);
         if actions.is_empty() {
             return Ok(());
         }
+
+        debug!("resolve_inconsistencies: conflicting_actions={:?}", actions);
 
         let table = self.build_lane_table(states, inconsistent_state, &actions);
 
@@ -178,6 +184,7 @@ impl<'grammar> LaneTableConstruct<'grammar> {
                         -> LaneTable<'grammar> {
         let state_graph = StateGraph::new(states);
         let mut tracer = LaneTracer::new(self.grammar,
+                                         self.start_nt,
                                          states,
                                          &self.first_sets,
                                          &state_graph,
