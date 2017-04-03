@@ -4,4 +4,5 @@ rust:
   - beta
   - nightly
 script:
-  - sh ./test.sh
+  - cargo test --all
+  - LALRPOP_LANE_TABLE=enabled cargo test --all
