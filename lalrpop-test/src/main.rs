@@ -401,6 +401,10 @@ fn issue_55_test1() {
 #[test]
 fn unit_test1() {
     assert!(unit::parse_Expr("3 + 4 * 5").is_ok());
+}
+
+#[test]
+fn unit_test2() {
     assert!(unit::parse_Expr("3 + +").is_err());
 }
 
