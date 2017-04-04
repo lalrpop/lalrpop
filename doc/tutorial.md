@@ -596,10 +596,12 @@ error: ambiguity detected between the terminal `r#"\w+"#` and the terminal `r#"[
 
 There are various ways to fix this. We might try adjusting our regular
 expression so that the first character cannot be a number, so perhaps
-something like `r"[[:alpha:]]\w*"`. This will work, but it's not
-always convenient to make your regular expressions completely disjoint
-like that. Another option is to use a `match` declaration, which lets
-you control the precedence between regular expressions.
+something like `r"[[:alpha:]]\w*"`. This will work, but it actually
+matches something different than what we had before (e.g., `123foo`
+will not be considered to match, for better or worse). And anyway it's
+not always convenient to make your regular expressions completely
+disjoint like that. Another option is to use a `match` declaration,
+which lets you control the precedence between regular expressions.
 
 #### Simple `match` declarations
 
