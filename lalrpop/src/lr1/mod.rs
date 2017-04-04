@@ -14,6 +14,8 @@ mod lookahead;
 mod state_graph;
 mod tls;
 mod trace;
+mod report;
+use std::io::{self, Write};
 
 #[cfg(test)] mod interpret;
 
@@ -31,3 +33,10 @@ pub fn build_states<'grammar>(grammar: &'grammar Grammar,
     }
 }
 
+pub fn generate_report<'grammar, W : Write + 'grammar>
+    ( out:          &'grammar mut W
+    , lr1result:    &LR1Result<'grammar>
+    ) -> io::Result<()>
+{
+    report::generate_report(out, lr1result)
+}

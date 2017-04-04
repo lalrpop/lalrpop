@@ -167,8 +167,8 @@ pub struct TableConstructionError<'grammar, L: Lookahead> {
 
 pub type LR0TableConstructionError<'grammar> = TableConstructionError<'grammar, Nil>;
 pub type LR1TableConstructionError<'grammar> = TableConstructionError<'grammar, TokenSet>;
-pub type LR1Result<'grammar> = Result<Vec<LR1State<'grammar>>,
-                                      LR1TableConstructionError<'grammar>>;
+pub type LRResult<'grammar, L> = Result<Vec<State<'grammar, L>>, TableConstructionError<'grammar, L>>;
+pub type LR1Result<'grammar> = LRResult<'grammar, TokenSet>;
 
 impl<'grammar, L: Lookahead> Debug for Item<'grammar, L> {
     fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
@@ -200,6 +200,12 @@ impl Debug for Token {
 impl Debug for StateIndex {
     fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
         write!(fmt, "S{}", self.0)
+    }
+}
+
+impl Display for StateIndex {
+    fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
+        write!(fmt, "{}", self.0)
     }
 }
 

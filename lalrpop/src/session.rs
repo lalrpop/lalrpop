@@ -40,6 +40,9 @@ pub struct Session {
     /// forth.
     pub emit_comments: bool,
 
+    /// Emit report file about generated code
+    pub emit_report: bool,
+
     pub color_config: ColorConfig,
 
     /// Stop after you find `max_errors` errors. If this value is 0,
@@ -86,6 +89,7 @@ impl Session {
             out_dir: None,
             force_build: false,
             emit_comments: false,
+            emit_report: false,
             color_config: ColorConfig::default(),
             max_errors: 1,
             heading: style::FG_WHITE.with(style::BOLD),
@@ -109,6 +113,7 @@ impl Session {
             out_dir: None,
             force_build: false,
             emit_comments: false,
+            emit_report: false,
             color_config: ColorConfig::IfTty,
             max_errors: 1,
             heading: Style::new(),

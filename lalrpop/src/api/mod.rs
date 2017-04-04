@@ -83,6 +83,12 @@ impl Configuration {
         self
     }
 
+    /// If true, emit report file about generated code.
+    pub fn emit_report(&mut self, val: bool) -> &mut Configuration {
+        self.session.emit_report = val;
+        self
+    }
+
     /// Minimal logs: only for errors that halt progress.
     pub fn log_quiet(&mut self) -> &mut Configuration {
         self.session.log.set_level(Level::Taciturn);

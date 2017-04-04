@@ -359,6 +359,14 @@ impl TerminalString {
             _ => None
         }
     }
+
+    pub fn display_len(&self) -> usize {
+        match *self {
+            TerminalString::Literal(x) => x.display_len(),
+            TerminalString::Bare(x) => x.len(),
+            TerminalString::Error => "error".len()
+        }
+    }
 }
 
 #[derive(Copy, Clone, Hash, PartialEq, Eq, PartialOrd, Ord)]
@@ -377,10 +385,24 @@ impl TerminalLiteral {
             TerminalLiteral::Regex(_) => 0,
         }
     }
+
+    pub fn display_len(&self) -> usize {
+        match *self {
+            TerminalLiteral::Quoted(x) => x.len(),
+            TerminalLiteral::Regex(x) => x.len() + "####r".len(),
+        }
+    }
 }
 
 #[derive(Copy, Clone, Hash, PartialEq, Eq, PartialOrd, Ord)]
 pub struct NonterminalString(pub InternedString);
+
+impl NonterminalString
+{
+    pub fn len(&self) -> usize {
+        self.0.len()
+    }
+}
 
 impl Into<Box<Content>> for NonterminalString {
     fn into(self) -> Box<Content> {
