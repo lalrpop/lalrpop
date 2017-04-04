@@ -1,0 +1,18 @@
+grammar;
+
+pub Term = {
+    Num,
+    "(" <Term> ")",
+    "22" => format!("Twenty-two!"),
+    ID => format!("Id({})", <>),
+};
+
+Num: String = r"[0-9]+" => <>.to_string();
+
+match {
+    r"[0-9]+",
+    "22"
+} else {
+    r"\w+" => ID,
+    _
+}

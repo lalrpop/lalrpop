@@ -20,6 +20,16 @@ fn calculator2() {
     assert!(calculator2::parse_Term("((22)").is_err());
 }
 
+pub mod calculator2b;
+
+#[test]
+fn calculator2b() {
+    assert_eq!(calculator2b::parse_Term("33").unwrap(), "33");
+    assert_eq!(calculator2b::parse_Term("foo33").unwrap(), "Id(foo33)");
+    assert_eq!(calculator2b::parse_Term("(22)").unwrap(), "Twenty-two!");
+    assert_eq!(calculator2b::parse_Term("(222)").unwrap(), "222");
+}
+
 pub mod calculator3;
 
 macro_rules! test3 {
@@ -74,7 +84,7 @@ fn calculator6() {
                "[((22 * 44) + 66), (error * 3)]");
     assert_eq!(&format!("{:?}", calculator6::parse_Exprs(&mut errors, "*").unwrap()),
                "[(error * error)]");
-    
+
     assert_eq!(errors.len(), 4);
 }
 

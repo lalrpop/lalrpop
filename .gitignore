@@ -6,6 +6,7 @@ lalrpop/src/parser/lrgrammar.rs
 
 doc/calculator/src/calculator1.rs
 doc/calculator/src/calculator2.rs
+doc/calculator/src/calculator2b.rs
 doc/calculator/src/calculator3.rs
 doc/calculator/src/calculator4.rs
 doc/calculator/src/calculator5.rs
