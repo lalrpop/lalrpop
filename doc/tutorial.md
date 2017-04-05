@@ -37,8 +37,6 @@ want to skip ahead, or just look at the LALRPOP sources:
   ([source][calculator5], [read](#calculator5))
 - calculator6: Error recovery
   ([source][calculator6], [read](#calculator6))
-- calculator7: `match` declarations and controlling the lexer/tokenizer
-  ([source][calculator7], [read](#calculator7))
 
 This tutorial is still incomplete. Here are some topics that I aim to
 cover when I get time to write about them:
@@ -175,7 +173,7 @@ needs at runtime. All LALRPOP parsers require at least the
 `lalrpop-util` crate. In addition, if you don't want to write the
 lexer by hand, you need to add a dependency on the regex crate. (If
 you don't know what a lexer is, don't worry, it's not important just
-now, though we will cover it in [section 7][calculator7]; if you *do*
+now, though we will cover it in [section 2b](#calculator2b); if you *do*
 know what a lexer is, and you want to know how to write a lexer by
 hand and use it with LALRPOP, then check out the [lexer tutorial].)
 
@@ -1099,5 +1097,4 @@ fn calculator6() {
 [calculator4]: ./calculator/src/calculator4.lalrpop
 [calculator5]: ./calculator/src/calculator5.lalrpop
 [calculator6]: ./calculator/src/calculator6.lalrpop
-[calculator7]: ./calculator/src/calculator7.lalrpop
 [astrs]: ./calculator/src/ast.rs
