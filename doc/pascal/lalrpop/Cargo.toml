@@ -13,5 +13,5 @@ rustc-serialize = "0.3"
 regex = "0.2.1"
 
 [dependencies.lalrpop-util]
-version = "0.12.5"
+version = "0.13.0"
 path = "../../../lalrpop-util"
