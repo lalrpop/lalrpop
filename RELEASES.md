@@ -1,4 +1,41 @@
-# master (not yet released)
+# Version 0.13
+
+This is a bug release for LALRPOP. First, we have two major improvements to the
+generated lexer:
+
+- The lexer now generates code that uses the `regex` crate. This
+  results in **far** less code than the older style, and seems to
+  preserve performance.
+- The lexer now supports custom priorities for regular expression tokens,
+  making it possible to support case-insensitive keywords.
+  - See the [calculator2b example] for details.
+  
+Second, we have a **beta release** of the new lane-table based
+LR-table generation.  Lane tables handle the full set of LR(1)
+grammars but typically reduce **much** smaller state tables. This
+feature eliminates the need to manually mark grammars as `#[LALR]`.
+Lane tables are **not** on by default; you can enable them by setting
+`LALRPOP_LANE_TABLE=enabled` in your environment (use
+`std::env::set_var` in your `build.rs`).
+
+[calculator2b example]: https://github.com/nikomatsakis/lalrpop/blob/master/doc/tutorial.md#calculator2b
+
+Finally, the `lalrpop` executable now has the ability to generate
+standalone reports (`--report`).
+
+Fixed bugs:
+
+- Fix #157: We now recognize single quote (`'`) properly in our tokenizer.
+- Fix #179: Fix bug in recursive ascent code generation.
+
+Thanks to the following contributors to this release:
+
+- @ahmedcharles
+- @king6cong
+- @nikomatsakis
+- @nixpulvis
+- @wagenet
+- @wieczyk
 
 # Version 0.12.5
 
