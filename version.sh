@@ -8,5 +8,23 @@ if [ "$1" == "" ]; then
     exit 1
 fi
 
+VERSION=$(
+    ls lalrpop*/Cargo.toml | \
+        xargs grep "# LALRPOP$" | \
+        perl -p -e 's/.*version = "([0-9.]+)" # LALRPOP$/$1/' |
+        sort |
+        uniq)
+
+if [ $(echo $VERSION | wc -w) != 1 ]; then
+    echo "Error: inconsistent versions detected across Cargo.toml files!"
+    echo "$VERSION"
+    exit 1
+fi
+
+echo "Found consistent version $VERSION"
+
 perl -p -i -e 's/version *= *"[0-9.]+" # LALRPOP$/version = "'$1'" # LALRPOP/' \
      $(ls lalrpop*/Cargo.toml)
+
+perl -p -i -e 's/version *= *"'$VERSION'"$/version = "'$1'"/' \
+     $(find doc -name Cargo.toml)
