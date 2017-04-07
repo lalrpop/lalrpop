@@ -6,7 +6,7 @@
 VERSION=$(
     ls lalrpop*/Cargo.toml | \
         xargs grep "# LALRPOP$" | \
-        perl -p -i -e 's/.*version = "([0-9.]+)" # LALRPOP$/$1/' |
+        perl -p -e 's/.*version = "([0-9.]+)" # LALRPOP$/$1/' |
         sort |
         uniq)
 

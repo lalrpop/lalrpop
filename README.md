@@ -69,10 +69,10 @@ version = "0.2.1"
 
 # Add a dependency on the LALRPOP runtime library:
 [dependencies.lalrpop-util]
-version = "0.12.5"
+version = "0.13.0"
 
 [build-dependencies.lalrpop]
-version = "0.12.5"
+version = "0.13.0"
 ```
 
 And create a `build.rs` file that looks like:
