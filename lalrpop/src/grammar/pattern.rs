@@ -33,7 +33,8 @@ pub enum PatternKind<T> {
     Usize(usize),
     Underscore,
     DotDot,
-    Choose(T)
+    Choose(T),
+    CharLiteral(InternedString),
 }
 
 impl<T> Pattern<T> {
@@ -75,6 +76,8 @@ impl<T> PatternKind<T> {
                 PatternKind::Usize(n),
             PatternKind::Choose(ref ty) =>
                 PatternKind::Choose(map_fn(ty)),
+            PatternKind::CharLiteral(c) =>
+                PatternKind::CharLiteral(c),
         }
     }
 }
@@ -118,6 +121,8 @@ impl<T:Display> Display for PatternKind<T> {
                 write!(fmt, "{}", n),
             PatternKind::Choose(ref ty) =>
                 write!(fmt, "{}", ty),
+            PatternKind::CharLiteral(c) =>
+                write!(fmt, "'{}'", c),
         }
     }
 }
