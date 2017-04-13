@@ -468,20 +468,20 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent,
 
         let (fn_args, starts_with_terminal) = self.fn_args(optional_prefix, fixed_prefix);
 
-        try!(self.out.write_pub_fn_header(self.grammar,
-                                          format!("{}{}{}", self.prefix, fn_kind, fn_index),
-                                          vec![format!("{}TOKENS: Iterator<Item=Result<{},{}>>",
-                                                       self.prefix,
-                                                       triple_type,
-                                                       iter_error_type)],
-                                          fn_args,
-                                          format!("Result<(Option<{}>, {}Nonterminal<{}>), {}>",
-                                                  triple_type,
-                                                  self.prefix,
-                                                  Sep(", ",
-                                                      &self.custom.nonterminal_type_params),
-                                                  parse_error_type),
-                                          vec![]));
+        try!(self.out.write_fn_header(self.grammar,
+                                      format!("{}{}{}", self.prefix, fn_kind, fn_index),
+                                      vec![format!("{}TOKENS: Iterator<Item=Result<{},{}>>",
+                                                   self.prefix,
+                                                   triple_type,
+                                                   iter_error_type)],
+                                      fn_args,
+                                      format!("Result<(Option<{}>, {}Nonterminal<{}>), {}>",
+                                              triple_type,
+                                              self.prefix,
+                                              Sep(", ",
+                                                  &self.custom.nonterminal_type_params),
+                                              parse_error_type),
+                                      vec![]));
 
         rust!(self.out, "{{");
 
