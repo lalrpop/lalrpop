@@ -28,7 +28,7 @@ pub struct LaneTableConstruct<'grammar> {
 impl<'grammar> LaneTableConstruct<'grammar> {
     pub fn new(grammar: &'grammar Grammar, start_nt: NonterminalString) -> Self {
         let first_sets = FirstSets::new(grammar);
-        Self {
+        LaneTableConstruct {
             grammar: grammar,
             start_nt: start_nt,
             first_sets: first_sets,

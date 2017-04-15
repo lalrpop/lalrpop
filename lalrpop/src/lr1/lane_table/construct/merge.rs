@@ -1,6 +1,8 @@
-use super::*;
-
-use collections::Multimap;
+use collections::{Map, Multimap, Set};
+use ena::unify::UnificationTable;
+use lr1::core::{Action, LR1State, StateIndex};
+use lr1::lane_table::construct::state_set::StateSet;
+use lr1::lane_table::table::LaneTable;
 use lr1::lane_table::table::context_set::ContextSet;
 
 /// The "merge" phase of the algorithm is described in "Step 3c" of
