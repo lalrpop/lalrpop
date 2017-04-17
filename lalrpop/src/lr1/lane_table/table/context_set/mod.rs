@@ -56,10 +56,15 @@ impl ContextSet {
 
     pub fn union(set1: &ContextSet, set2: &ContextSet) -> Result<Self, OverlappingLookahead> {
         let mut result = set1.clone();
-        for (i, t) in set2.values.iter().enumerate() {
-            result.insert(ConflictIndex::new(i), t)?;
-        }
+        result.inplace_union(set2)?;
         Ok(result)
+    }
+
+    pub fn inplace_union(&mut self, set2: &ContextSet) -> Result<(), OverlappingLookahead> {
+        for (i, t) in set2.values.iter().enumerate() {
+            self.insert(ConflictIndex::new(i), t)?;
+        }
+        Ok(())
     }
 
     /// Attempts to merge the values `conflict: set` into this

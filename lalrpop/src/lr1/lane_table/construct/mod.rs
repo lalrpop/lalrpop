@@ -17,6 +17,7 @@ mod merge;
 use self::merge::Merge;
 
 mod state_set;
+mod group;
 use self::state_set::StateSet;
 
 pub struct LaneTableConstruct<'grammar> {
