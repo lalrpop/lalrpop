@@ -417,7 +417,7 @@ fn generics_issue_104_test1() {
 }
 
 #[test]
-fn match_section() {
+fn test_match_section() {
     assert!(match_section::parse_Query("SELECT foo").is_ok());
     assert!(match_section::parse_Query("select foo").is_ok());
     assert!(match_section::parse_Query("INSERT foo").is_ok());
