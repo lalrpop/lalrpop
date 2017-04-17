@@ -1,0 +1,20 @@
+use util::tok::Tok;
+use lalrpop_util::ParseError;
+use super::MyCustomError;
+
+grammar;
+
+extern {
+    type Error = MyCustomError;
+
+    enum Tok {
+        "-" => Tok::Minus,
+        "+" => Tok::Plus
+    }
+}
+
+pub Items: Vec<(usize, usize)> = {
+    => vec![],
+    Items "+" =>? Err(ParseError::User { error: MyCustomError('+') }),
+    <v:Items> "-" =>? Ok(v),
+};

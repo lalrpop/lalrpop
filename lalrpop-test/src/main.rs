@@ -59,8 +59,13 @@ mod loc_issue_90_lib;
 /// test that uses `super` in paths in various places
 mod use_super;
 
-/// test that exercises locations and spans
+/// Custom error type (issue #113)
+#[derive(Debug, PartialEq)]
+pub struct MyCustomError(char);
+
+/// test that exercises locations, spans, and custom errors
 mod error;
+mod error_issue_113;
 
 /// Test error recovery
 mod error_recovery;
