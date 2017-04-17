@@ -44,6 +44,7 @@ pub fn compile<W: Write>(
     let prefix = &grammar.prefix;
 
     rust!(out, "mod {}intern_token {{", prefix);
+    rust!(out, "#![allow(unused_imports)]");
     try!(out.write_uses("", &grammar));
     rust!(out, "extern crate regex as {}regex;", prefix);
     rust!(out, "pub struct {}Matcher<'input> {{", prefix);
