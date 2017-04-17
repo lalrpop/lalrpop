@@ -37,7 +37,7 @@ impl UnifyValue for Group {
 }
 
 pub struct Groups<'m> {
-    // groups maps state index into group
+    ///! groups maps state index into group
     groups:             Vec<Option<Group>>,
     ///! maps group into unification key
     context_sets:       Vec<ContextSet>,
@@ -91,8 +91,10 @@ impl<'m> Groups<'m> {
         self.unification_table.unify_var_var(key1, key2).is_ok();
 
         let context_set = {
-            let context_set1 = &self.context_sets[group1.index];
-            let context_set2 = &self.context_sets[group2.index];
+            // Inefficient since it creates new context-set 
+            // instead of merging in-place. It will be handled later.
+            let context_set1 = &self.context_set(group1);
+            let context_set2 = &self.context_set(group2);
             ContextSet::union(context_set1, context_set2)?
         };
 
