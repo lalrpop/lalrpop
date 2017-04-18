@@ -103,18 +103,22 @@ impl<'m, 'grammar> Merge<'m, 'grammar> {
                 if (successor_group != group) {
                     if (self.groups.merge_groups(group, successor_group)) {
                         debug!("Merge::walk: successful union, context-set = {:?}",
-                            self.context_sets.context_set(state));
+                            self.groups.context_set_ref(group));
                     } else {
                         successor = self.split(state, successor, group)?
                     }
+                } else {
+
                 }
-                self.walk(successor, group)?
+                self.walk(successor, group)?;
             } else {
+                debug!("Merge::walk: same_group, context-set = {:?}",
+                    self.groups.context_set_ref(group));
                 // Successor does not belong to any group, so we just try
                 // to merge it into current group
                 // TODO: inefficiency: we can move context_set
                 self.groups.merge_state(group, successor, self.rows.get(&successor).unwrap())?;
-                self.walk(successor, group)?
+                self.walk(successor, group)?;
             }
         }
         Ok(())

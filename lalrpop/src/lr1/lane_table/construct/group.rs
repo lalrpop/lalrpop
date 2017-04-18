@@ -1,12 +1,19 @@
 use lr1::lane_table::table::context_set::{ContextSet, OverlappingLookahead};
 use lr1::core::*;
 use std::cmp::max;
+use std::fmt;
 use std::mem::replace;
 use ena::unify::{UnifyKey, UnifyValue, UnificationTable};
 
-#[derive(Copy, Clone, Debug, PartialEq, Eq, PartialOrd, Ord)]
+#[derive(Copy, Clone, PartialEq, Eq, PartialOrd, Ord)]
 pub struct Group {
     index: usize
+}
+
+impl fmt::Debug for Group {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        write!(f, "G{}", self.index)
+    }
 }
 
 #[derive(Copy, Clone, Debug, PartialEq, Eq, PartialOrd, Ord)]
@@ -80,8 +87,14 @@ impl Groups {
         self.groups[state.0] = Some(group);
         match self.context_set_mutref(group).inplace_union(context_set) {
             // TODO: error reporting
-            Err(_) => Err((StateIndex(0), StateIndex(0))),
-            Ok(u) => Ok(u)
+            Err(_) => {
+                debug!("failed to merge group {:?} with state {:?}", group, state);
+                Err((StateIndex(0), StateIndex(0)))
+            } 
+            Ok(u) => {
+                debug!("successfull merge group {:?} with state {:?}", group, state);
+                Ok(u)
+            } 
         }
     }
 
@@ -100,6 +113,11 @@ impl Groups {
         &mut self.context_sets[self.unification_table.probe_value(key).index]
     }
 
+    pub fn context_set_ref(&mut self, group: Group) -> &ContextSet {
+        let key = self.unify_key(group);
+        &self.context_sets[self.unification_table.probe_value(key).index]
+    }
+
     pub fn merge_groups(&mut self, group1: Group, group2: Group) -> bool {
         let key1 = self.unify_key(group1);
         let key2 = self.unify_key(group2);
@@ -112,10 +130,13 @@ impl Groups {
             let context_set2 = self.context_set(group2);
             match ContextSet::union(&context_set1, &context_set2) {
                 Ok(context_set) => context_set,
-                Err(_) => return false
+                Err(_) => {
+                    debug!("merging groups {:?} and {:?} failed", group1, group2);
+                    return false
+                }
             }
         };
-
+        debug!("successfull merge of groups {:?} and {:?}", group1, group2);
         self.context_sets[max(group1, group2).index] = context_set;
         true
     }
