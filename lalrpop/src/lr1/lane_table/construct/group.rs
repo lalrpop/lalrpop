@@ -91,12 +91,11 @@ impl Groups {
         self.groups.push(None)
     }
 
-    // TODO: inefficient
-    pub fn can_merge_state(&mut self, group: Group, state : StateIndex, context_set_opt: Option<&ContextSet>)
+    // TODO: extremely inefficient
+    fn can_merge_state(&mut self, group: Group, state : StateIndex, context_set_opt: Option<&ContextSet>)
         -> bool
     {
         if let Some(context_set) = context_set_opt {
-            self.groups[state.0] = Some(group);
             match ContextSet::union(self.context_set_ref(group), context_set) {
                 Err(_) => {
                     false
@@ -113,6 +112,9 @@ impl Groups {
     pub fn merge_state(&mut self, group: Group, state : StateIndex, context_set_opt : Option<&ContextSet>)
         -> bool
     {
+        if !self.can_merge_state(group, state, context_set_opt) {
+            return false
+        }
         self.groups[state.0] = Some(group);
         if let Some(context_set) = context_set_opt {
             match self.context_set_mutref(group).inplace_union(context_set) {
@@ -150,16 +152,33 @@ impl Groups {
         &self.context_sets[self.unification_table.probe_value(key).index]
     }
 
+    pub fn context_set_ref_for_state(&mut self, state: StateIndex) -> &ContextSet {
+        let group = self.groups[state.0].unwrap().clone();
+        self.context_set_ref(group)
+    }
+
     pub fn unify_groups(&mut self, group1: Group, group2: Group) {
         let key1 = self.unify_key(group1);
         let key2 = self.unify_key(group2);
         assert!(self.unification_table.unify_var_var(key1, key2).is_ok())
     }
 
+    // TODO: extremely inefficient
+    fn can_merge_groups(&mut self, group1: Group, group2: Group) -> bool {
+        let context_set1 = self.context_set_ref(group1).clone();
+        let context_set2 = self.context_set_ref(group2).clone();
+        match ContextSet::union(&context_set1, &context_set2) {
+            Ok(_) => true,
+            _ => false,
+        }
+    }
+
     pub fn merge_groups(&mut self, group1: Group, group2: Group) -> bool {
+        if !self.can_merge_groups(group1, group2) {
+            return false
+        }
         let context_set = {
-            // Inefficient since it creates new context-set 
-            // instead of merging in-place. It will be handled later.
+            // TODO: extremely inefficient
             let context_set1 = self.context_set(group1);
             let context_set2 = self.context_set(group2);
             debug!("Groups::merge_groups: group={:?} context_set{:?}", group1, context_set1);
