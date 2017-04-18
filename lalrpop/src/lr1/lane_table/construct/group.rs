@@ -65,10 +65,14 @@ impl Groups {
         }
     }
 
-    pub fn allocate(&mut self, state: StateIndex, context_set : ContextSet) -> Group {
+    pub fn allocate(&mut self, state: StateIndex, context_set_opt : Option<&ContextSet>) -> Group {
         let group = Group { index : self.context_sets.len() };
-        debug!("Groups::allocate: allocated group={:?} for state={:?} context_set={:?}", group, state, context_set);
-        self.context_sets.push(context_set);
+        debug!("Groups::allocate: allocated group={:?} for state={:?} context_set_opt={:?}", group, state, context_set_opt);
+        if let Some(context_set) = context_set_opt {
+            self.context_sets.push(context_set.clone())
+        } else {
+            self.context_sets.push(ContextSet::new(0))
+        }
         self.groups[state.0] = Some(group);
         self.unification_keys.push(self.unification_table.new_key(group));
         group
@@ -82,20 +86,47 @@ impl Groups {
         self.groups[state.0]
     }
 
-    pub fn merge_state(&mut self, group: Group, state : StateIndex, context_set : &ContextSet)
-        -> Result<(), (StateIndex, StateIndex)>
+    pub fn add_state(&mut self, state : StateIndex) {
+        assert!(state.0 == self.groups.len());
+        self.groups.push(None)
+    }
+
+    // TODO: inefficient
+    pub fn can_merge_state(&mut self, group: Group, state : StateIndex, context_set_opt: Option<&ContextSet>)
+        -> bool
+    {
+        if let Some(context_set) = context_set_opt {
+            self.groups[state.0] = Some(group);
+            match ContextSet::union(self.context_set_ref(group), context_set) {
+                Err(_) => {
+                    false
+                } 
+                Ok(_) => {
+                    true
+                } 
+            }
+        } else {
+            true
+        }
+    }
+
+    pub fn merge_state(&mut self, group: Group, state : StateIndex, context_set_opt : Option<&ContextSet>)
+        -> bool
     {
         self.groups[state.0] = Some(group);
-        match self.context_set_mutref(group).inplace_union(context_set) {
-            // TODO: error reporting
-            Err(_) => {
-                debug!("Group::merge_state: failed to merge group={:?} with state={:?}", group, state);
-                Err((StateIndex(0), StateIndex(0)))
-            } 
-            Ok(u) => {
-                debug!("Group::merge_state: successfull merge group={:?} with state={:?} context_set={:?}", group, state, self.context_set_ref(group));
-                Ok(u)
-            } 
+        if let Some(context_set) = context_set_opt {
+            match self.context_set_mutref(group).inplace_union(context_set) {
+                Err(_) => {
+                    debug!("Group::merge_state: failed to merge group={:?} with state={:?}", group, state);
+                    false
+                } 
+                Ok(_) => {
+                    debug!("Group::merge_state: successfull merge group={:?} with state={:?} context_set={:?}", group, state, self.context_set_ref(group));
+                    true
+                } 
+            }
+        } else {
+            true
         }
     }
 

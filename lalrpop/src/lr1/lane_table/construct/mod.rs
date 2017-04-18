@@ -139,7 +139,7 @@ impl<'grammar> LaneTableConstruct<'grammar> {
         // `StateSet` that is its entry in the `ena` table.)
         let rows = table.rows()?;
         let mut unify = UnificationTable::<StateSet>::new();
-        let mut groups = Groups::new(states.len());
+        let groups = Groups::new(states.len());
         let mut state_sets = Map::new();
         for (&state_index, context_set) in &rows {
             let state_set = unify.new_key(context_set.clone());
