@@ -112,7 +112,7 @@ impl<'m, 'grammar> Merge<'m, 'grammar> {
                 }
                 self.walk(successor, group)?;
             } else {
-                debug!("Merge::walk: same_group, context-set = {:?}",
+                debug!("Merge::walk: state without group, context-set = {:?}",
                     self.groups.context_set_ref(group));
                 // Successor does not belong to any group, so we just try
                 // to merge it into current group
@@ -120,7 +120,9 @@ impl<'m, 'grammar> Merge<'m, 'grammar> {
                 self.groups.merge_state(group, successor, self.rows.get(&successor).unwrap())?;
                 self.walk(successor, group)?;
             }
+            debug!("Merge::walk: OK succ group {:?} state {:?} {:?}", group, state, self.groups.context_set_ref(group));
         }
+        debug!("Merge::walk: OK group {:?} state {:?} {:?}", group, state, self.groups.context_set_ref(group));
         Ok(())
     }
 

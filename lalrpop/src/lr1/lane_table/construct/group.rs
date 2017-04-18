@@ -67,6 +67,7 @@ impl Groups {
 
     pub fn allocate(&mut self, state: StateIndex, context_set : ContextSet) -> Group {
         let group = Group { index : self.context_sets.len() };
+        debug!("Allocated group={:?} for state={:?} context_set={:?}", group, state, context_set);
         self.context_sets.push(context_set);
         self.groups[state.0] = Some(group);
         self.unification_keys.push(self.unification_table.new_key(group));
@@ -88,11 +89,11 @@ impl Groups {
         match self.context_set_mutref(group).inplace_union(context_set) {
             // TODO: error reporting
             Err(_) => {
-                debug!("failed to merge group {:?} with state {:?}", group, state);
+                debug!("Group::merge_state: failed to merge group={:?} with state={:?}", group, state);
                 Err((StateIndex(0), StateIndex(0)))
             } 
             Ok(u) => {
-                debug!("successfull merge group {:?} with state {:?}", group, state);
+                debug!("Group::merge_state: successfull merge group={:?} with state={:?} context_set={:?}", group, state, self.context_set_ref(group));
                 Ok(u)
             } 
         }
@@ -119,24 +120,28 @@ impl Groups {
     }
 
     pub fn merge_groups(&mut self, group1: Group, group2: Group) -> bool {
-        let key1 = self.unify_key(group1);
-        let key2 = self.unify_key(group2);
-        assert!(self.unification_table.unify_var_var(key1, key2).is_ok()); 
+        {
+            let key1 = self.unify_key(group1);
+            let key2 = self.unify_key(group2);
+            assert!(self.unification_table.unify_var_var(key1, key2).is_ok()); 
+        }
 
         let context_set = {
             // Inefficient since it creates new context-set 
             // instead of merging in-place. It will be handled later.
             let context_set1 = self.context_set(group1);
             let context_set2 = self.context_set(group2);
+            debug!("Groups::merge_groups: group={:?} context_set{:?}", group1, context_set1);
+            debug!("Groups::merge_groups: group={:?} context_set{:?}", group2, context_set2);
             match ContextSet::union(&context_set1, &context_set2) {
                 Ok(context_set) => context_set,
                 Err(_) => {
-                    debug!("merging groups {:?} and {:?} failed", group1, group2);
+                    debug!("Groups::merge_grops: merging groups {:?} and {:?} failed", group1, group2);
                     return false
                 }
             }
         };
-        debug!("successfull merge of groups {:?} and {:?}", group1, group2);
+        debug!("Groups::merge_groups: successfull merge of groups {:?} and {:?} context_set={:?}", group1, group2, context_set);
         self.context_sets[max(group1, group2).index] = context_set;
         true
     }
