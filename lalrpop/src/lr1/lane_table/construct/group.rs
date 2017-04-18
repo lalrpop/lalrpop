@@ -67,7 +67,7 @@ impl Groups {
 
     pub fn allocate(&mut self, state: StateIndex, context_set : ContextSet) -> Group {
         let group = Group { index : self.context_sets.len() };
-        debug!("Allocated group={:?} for state={:?} context_set={:?}", group, state, context_set);
+        debug!("Groups::allocate: allocated group={:?} for state={:?} context_set={:?}", group, state, context_set);
         self.context_sets.push(context_set);
         self.groups[state.0] = Some(group);
         self.unification_keys.push(self.unification_table.new_key(group));
@@ -119,13 +119,13 @@ impl Groups {
         &self.context_sets[self.unification_table.probe_value(key).index]
     }
 
-    pub fn merge_groups(&mut self, group1: Group, group2: Group) -> bool {
-        {
-            let key1 = self.unify_key(group1);
-            let key2 = self.unify_key(group2);
-            assert!(self.unification_table.unify_var_var(key1, key2).is_ok()); 
-        }
+    pub fn unify_groups(&mut self, group1: Group, group2: Group) {
+        let key1 = self.unify_key(group1);
+        let key2 = self.unify_key(group2);
+        assert!(self.unification_table.unify_var_var(key1, key2).is_ok())
+    }
 
+    pub fn merge_groups(&mut self, group1: Group, group2: Group) -> bool {
         let context_set = {
             // Inefficient since it creates new context-set 
             // instead of merging in-place. It will be handled later.
@@ -141,6 +141,8 @@ impl Groups {
                 }
             }
         };
+
+        self.unify_groups(group1, group2);
         debug!("Groups::merge_groups: successfull merge of groups {:?} and {:?} context_set={:?}", group1, group2, context_set);
         self.context_sets[max(group1, group2).index] = context_set;
         true
