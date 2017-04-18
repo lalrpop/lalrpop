@@ -103,7 +103,7 @@ impl Groups {
     pub fn merge_groups(&mut self, group1: Group, group2: Group) -> bool {
         let key1 = self.unify_key(group1);
         let key2 = self.unify_key(group2);
-        self.unification_table.unify_var_var(key1, key2).is_ok();
+        assert!(self.unification_table.unify_var_var(key1, key2).is_ok()); 
 
         let context_set = {
             // Inefficient since it creates new context-set 
