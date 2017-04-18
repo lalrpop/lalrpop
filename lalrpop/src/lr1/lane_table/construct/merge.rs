@@ -22,6 +22,8 @@ pub struct Merge<'m, 'grammar: 'm> {
     clones: Multimap<StateIndex, Vec<StateIndex>>,
     target_states: Vec<StateIndex>,
     context_sets: ContextSets<'m>,
+    groups: Groups,
+    rows: Map<StateIndex, ContextSet>
 }
 
 impl<'m, 'grammar> Merge<'m, 'grammar> {
@@ -29,7 +31,9 @@ impl<'m, 'grammar> Merge<'m, 'grammar> {
                unify: &'m mut UnificationTable<StateSet>,
                states: &'m mut Vec<LR1State<'grammar>>,
                state_sets: &'m mut Map<StateIndex, StateSet>,
-               inconsistent_state: StateIndex)
+               inconsistent_state: StateIndex,
+               groups: Groups,
+               rows: Map<StateIndex, ContextSet>)
                -> Self {
         Merge {
             table: table,
@@ -41,17 +45,22 @@ impl<'m, 'grammar> Merge<'m, 'grammar> {
             context_sets: ContextSets {
                 unify: unify,
                 state_sets: state_sets,
-            }
+            },
+            groups: groups,
+            rows: rows
         }
     }
 
     pub fn start(&mut self, beachhead_state: StateIndex) -> Result<(), (StateIndex, StateIndex)> {
         debug!("Merge::start(beachhead_state={:?})", beachhead_state);
 
+        //TODO: inefficiency: we can move context set instead of cloning it
+        let group = self.groups.allocate(beachhead_state, self.rows.get(&beachhead_state).unwrap().clone());
+
         // Since we always start walks from beachhead states, and they
         // are not reachable from anyone else, this state should not
         // have been unioned with anything else yet.
-        self.walk(beachhead_state)
+        self.walk(beachhead_state, group)
     }
 
     pub fn patch_target_starts(mut self, actions: &Set<Action<'grammar>>) {
@@ -75,8 +84,8 @@ impl<'m, 'grammar> Merge<'m, 'grammar> {
         self.table.successors(self.original_index(state))
     }
 
-    fn walk(&mut self, state: StateIndex) -> Result<(), (StateIndex, StateIndex)> {
-        debug!("Merge::walk(state={:?})", state);
+    fn walk(&mut self, state: StateIndex, group: Group) -> Result<(), (StateIndex, StateIndex)> {
+        debug!("Merge::walk(state={:?}, group={:?})", state, group);
 
         if !self.visited.insert(state) {
             debug!("Merge::walk: visited already");
@@ -84,13 +93,38 @@ impl<'m, 'grammar> Merge<'m, 'grammar> {
         }
 
         for &successor in self.successors(state).iter().flat_map(|&s| s) {
-            debug!("Merge::walk: state={:?} successor={:?}",
-                   state, successor);
+            
+            let successor_group_opt = self.groups.group(successor);
+
+            debug!("Merge::walk: state={:?} successor={:?} successor_group_opt={:?}",
+                   state, successor, successor_group_opt);
+
+            if let Some(successor_group) = successor_group_opt {
+                if (successor_group != group) {
+                    if (self.groups.merge_groups(group, successor_group)) {
+                        debug!("Merge::walk: successful union, context-set = {:?}",
+                            self.context_sets.context_set(state));
+                    } else {
+                        debug!("Merge::walk: union failed, seek existing clone");
+                    }
+                }
+                self.walk(successor, group)?
+            } else {
+                // Successor does not belong to any group, so we just try
+                // to merge it into current group
+                // TODO: inefficiency: we can move context_set
+                self.groups.merge_state(group, successor, self.rows.get(&successor).unwrap())?;
+                self.walk(successor, group)?
+            }
+
+            // ---------------------------------------
+            // OLD CODE            
+            // ---------------------------------------
 
             if self.context_sets.union(state, successor) {
                 debug!("Merge::walk: successful union, context-set = {:?}",
                        self.context_sets.context_set(state));
-                self.walk(successor)?;
+                self.walk(successor, group)?;
             } else {
                 // search for an existing clone with which we can merge
                 debug!("Merge::walk: union failed, seek existing clone");
@@ -107,14 +141,14 @@ impl<'m, 'grammar> Merge<'m, 'grammar> {
                 if let Some(successor1) = existing_clone {
                     debug!("Merge::walk: found existing clone {:?}", successor1);
                     self.patch_links(state, successor, successor1);
-                    self.walk(successor1)?;
+                    self.walk(successor1, group)?;
                 } else {
                     // if we don't find one, we have to make a new clone
                     debug!("Merge::walk: creating new clone of {:?}", successor);
                     let successor1 = self.clone(successor);
                     if self.context_sets.union(state, successor1) {
                         self.patch_links(state, successor, successor1);
-                        self.walk(successor1)?;
+                        self.walk(successor1, group)?;
                     } else {
                         debug!("Merge::walk: failed to union {:?} with {:?}",
                                state, successor1);
