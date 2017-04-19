@@ -1,0 +1,14 @@
+use lalrpop_util::ParseError;
+use super::MyCustomError;
+
+grammar;
+
+extern {
+    type Error = MyCustomError;
+}
+
+pub Items: Vec<(usize, usize)> = {
+    => vec![],
+    Items "+" =>? Err(ParseError::User { error: MyCustomError('+') }),
+    <v:Items> "-" =>? Ok(v),
+};
