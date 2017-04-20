@@ -60,9 +60,19 @@ impl ContextSet {
         Ok(result)
     }
 
+
+    fn can_union_with(&self, set2: &ContextSet) -> Result<(), OverlappingLookahead>
+    {
+        for (i,t) in set2.values.iter().enumerate() {
+            self.can_insert(i, t)?
+        }
+        Ok(())
+    }
+
     pub fn inplace_union(&mut self, set2: &ContextSet) -> Result<(), OverlappingLookahead> {
+        self.can_union_with(set2)?;
         for (i, t) in set2.values.iter().enumerate() {
-            self.insert(ConflictIndex::new(i), t)?;
+            self.values[i].union_with(t);
         }
         Ok(())
     }
@@ -84,6 +94,17 @@ impl ContextSet {
         }
 
         Ok(self.values[conflict.index].union_with(&set))
+    }
+
+    fn can_insert(&self, conflict: usize, set: &TokenSet) -> Result<(), OverlappingLookahead> {
+        for (value, index) in self.values.iter().zip((0..)) {
+            if index != conflict {
+                if value.is_intersecting(&set) {
+                    return Err(OverlappingLookahead)
+                }
+            }
+        }
+        Ok(())
     }
 
     pub fn apply<'grammar>(&self,

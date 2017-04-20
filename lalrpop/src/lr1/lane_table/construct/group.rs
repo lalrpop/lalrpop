@@ -1,4 +1,4 @@
-use lr1::lane_table::table::context_set::{ContextSet, OverlappingLookahead};
+use lr1::lane_table::table::context_set::{ContextSet};
 use lr1::core::*;
 use std::cmp::max;
 use std::fmt;
@@ -78,10 +78,6 @@ impl Groups {
         group
     }
 
-    pub fn has_group(&self, state : StateIndex) -> bool {
-        self.groups[state.0].is_some()
-    }
-
     pub fn group(&self, state : StateIndex) -> Option<Group> {
         self.groups[state.0]
     }
@@ -91,30 +87,9 @@ impl Groups {
         self.groups.push(None)
     }
 
-    // TODO: extremely inefficient
-    fn can_merge_state(&mut self, group: Group, state : StateIndex, context_set_opt: Option<&ContextSet>)
-        -> bool
-    {
-        if let Some(context_set) = context_set_opt {
-            match ContextSet::union(self.context_set_ref(group), context_set) {
-                Err(_) => {
-                    false
-                } 
-                Ok(_) => {
-                    true
-                } 
-            }
-        } else {
-            true
-        }
-    }
-
     pub fn merge_state(&mut self, group: Group, state : StateIndex, context_set_opt : Option<&ContextSet>)
         -> bool
     {
-        if !self.can_merge_state(group, state, context_set_opt) {
-            return false
-        }
         self.groups[state.0] = Some(group);
         if let Some(context_set) = context_set_opt {
             match self.context_set_mutref(group).inplace_union(context_set) {
@@ -163,29 +138,18 @@ impl Groups {
         assert!(self.unification_table.unify_var_var(key1, key2).is_ok())
     }
 
-    // TODO: extremely inefficient
-    fn can_merge_groups(&mut self, group1: Group, group2: Group) -> bool {
-        let context_set1 = self.context_set_ref(group1).clone();
-        let context_set2 = self.context_set_ref(group2).clone();
-        match ContextSet::union(&context_set1, &context_set2) {
-            Ok(_) => true,
-            _ => false,
-        }
-    }
-
     pub fn merge_groups(&mut self, group1: Group, group2: Group) -> bool {
-        if !self.can_merge_groups(group1, group2) {
-            return false
-        }
         let context_set = {
-            // TODO: extremely inefficient
-            let context_set1 = self.context_set(group1);
+            let mut context_set1 = self.context_set(group1);
             let context_set2 = self.context_set(group2);
             debug!("Groups::merge_groups: group={:?} context_set{:?}", group1, context_set1);
             debug!("Groups::merge_groups: group={:?} context_set{:?}", group2, context_set2);
-            match ContextSet::union(&context_set1, &context_set2) {
-                Ok(context_set) => context_set,
+            match context_set1.inplace_union(&context_set2) {
+                Ok(_) => context_set1,
                 Err(_) => {
+                    // rollback
+                    self.context_sets[group1.index] = context_set1;
+                    self.context_sets[group2.index] = context_set2;
                     debug!("Groups::merge_grops: merging groups {:?} and {:?} failed", group1, group2);
                     return false
                 }
