@@ -27,13 +27,11 @@ pub struct Merge<'m, 'grammar: 'm> {
 
 impl<'m, 'grammar> Merge<'m, 'grammar> {
     pub fn new(table: &'m LaneTable<'grammar>,
-               unify: &'m mut UnificationTable<StateSet>,
                states: &'m mut Vec<LR1State<'grammar>>,
-               state_sets: &'m mut Map<StateIndex, StateSet>,
                inconsistent_state: StateIndex,
-               groups: Groups,
                rows: Map<StateIndex, ContextSet>)
                -> Self {
+        let count_of_states = states.len();
         Merge {
             table: table,
             states: states,
@@ -41,7 +39,7 @@ impl<'m, 'grammar> Merge<'m, 'grammar> {
             original_indices: Map::new(),
             clones: Multimap::new(),
             target_states: vec![inconsistent_state],
-            groups: groups,
+            groups: Groups::new(count_of_states),
             rows: rows
         }
     }
@@ -100,7 +98,7 @@ impl<'m, 'grammar> Merge<'m, 'grammar> {
                         debug!("Merge::walk: successful union, context-set = {:?}",
                             self.groups.context_set_ref(group));
                     } else {
-                        successor = self.split(state, group, successor, successor_group)?
+                        successor = self.split(state, group, successor)?
                     }
                 } else {
 
@@ -122,7 +120,7 @@ impl<'m, 'grammar> Merge<'m, 'grammar> {
         Ok(())
     }
 
-    fn split(&mut self, state: StateIndex, group: Group, successor: StateIndex, successor_group: Group) -> Result<StateIndex, (StateIndex, StateIndex)> {
+    fn split(&mut self, state: StateIndex, group: Group, successor: StateIndex) -> Result<StateIndex, (StateIndex, StateIndex)> {
         // search for an existing clone with which we can merge
         debug!("Merge::walk: union failed, seek existing clone");
         let existing_clone = {
@@ -172,7 +170,6 @@ impl<'m, 'grammar> Merge<'m, 'grammar> {
         self.clones.push(original_index, new_index);
 
         // create a new unify key for this new state
-        let context_set = self.table.context_set(original_index).unwrap();
         self.groups.add_state(new_index);
 
         // keep track of the clones of the target state
