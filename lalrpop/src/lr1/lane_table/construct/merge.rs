@@ -1,9 +1,8 @@
-use collections::{Map, Multimap, Set};
-use ena::unify::UnificationTable;
-use lr1::core::{Action, LR1State, StateIndex};
-use lr1::lane_table::construct::state_set::StateSet;
-use lr1::lane_table::table::LaneTable;
+use super::*;
+
+use collections::Multimap;
 use lr1::lane_table::table::context_set::ContextSet;
+use self::group::*;
 
 /// The "merge" phase of the algorithm is described in "Step 3c" of
 /// [the README][r].  It consists of walking through the various
@@ -47,7 +46,6 @@ impl<'m, 'grammar> Merge<'m, 'grammar> {
     pub fn start(&mut self, beachhead_state: StateIndex) -> Result<(), (StateIndex, StateIndex)> {
         debug!("Merge::start(beachhead_state={:?})", beachhead_state);
 
-        //TODO: inefficiency: we can move context set instead of cloning it
         let group = self.groups.allocate(beachhead_state, self.rows.get(&beachhead_state));
 
         // Since we always start walks from beachhead states, and they
