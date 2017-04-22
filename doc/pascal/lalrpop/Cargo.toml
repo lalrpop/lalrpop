@@ -9,7 +9,6 @@ path = "../../../lalrpop"
 
 [dependencies]
 docopt = "0.7"
-rustc-serialize = "0.3"
 regex = "0.2.1"
 
 [dependencies.lalrpop-util]
