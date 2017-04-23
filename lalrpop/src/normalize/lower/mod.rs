@@ -318,6 +318,30 @@ impl<'s> LowerState<'s> {
                 let arg_patterns = patterns(names.iter().map(|&(index, name, _)| (index, name)),
                                             symbols.len());
 
+
+                let action = {
+                    match norm_util::check_funky_expression(&action) {
+                        norm_util::FunkyExpressionPresence::None => {
+                            action
+                        } 
+                        norm_util::FunkyExpressionPresence::Normal => {
+                            let name_str : String = intern::read(|interner| {
+                                let name_strs: Vec<_> = names.iter().map(|&(_,name,_)| interner.data(name)).collect();
+                                name_strs.join(", ")
+                            });
+                            action.replace("<>", &name_str)
+                        }
+                        norm_util::FunkyExpressionPresence::InCurlyBrackets => {
+                            let name_str = intern::read(|interner| {
+                                let name_strs: Vec<_> = names.iter().map(|&(_,name,_)| format!("{0}:{0}", interner.data(name))).collect();
+                                name_strs.join(", ")
+                            });
+                            action.replace("<>", &name_str)
+                        }
+                    }
+                };
+
+
                 r::ActionFnDefn {
                     fallible: fallible,
                     ret_type: nt_type,
