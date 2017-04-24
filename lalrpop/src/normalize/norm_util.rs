@@ -55,13 +55,18 @@ pub fn analyze_expr<'a>(expr: &'a ExprSymbol) -> Symbols<'a> {
     Symbols::Anon(expr.symbols.iter().enumerate().collect())
 }
 
-// @TODO: When 'struct field shorthands' become stable then curly-brackets detection mechanism will be not-needed
 #[derive(Copy, Clone, PartialEq, Eq, Debug)]
 pub enum FunkyExpressionPresence
 {
     None,
     InCurlyBrackets,
     Normal
+}
+
+impl FunkyExpressionPresence {
+    pub fn is_in_curly_brackets(&self) -> bool {
+        *self == FunkyExpressionPresence::InCurlyBrackets
+    }
 }
 
 pub fn check_funky_expression(action: &str) -> FunkyExpressionPresence

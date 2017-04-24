@@ -167,7 +167,26 @@ impl<'grammar> Validator<'grammar> {
                         sym);
                 }
             }
-            Symbols::Anon(_) => { }
+            Symbols::Anon(syms) => { 
+                let empty_string = "".to_string();
+                let action = {
+                    match alternative.action {
+                        Some(ActionKind::User(ref action)) => action,
+                        Some(ActionKind::Fallible(ref action)) => action,
+                        _ => &empty_string
+                    }
+                };
+                if norm_util::check_funky_expression(action).is_in_curly_brackets() {
+                    let sym =
+                        syms.iter()
+                            .map(|&(_, sym)| sym)
+                            .next()
+                            .unwrap();
+                    return_err!(
+                        sym.span,
+                        "the `<>` expression requires to explicitly assign fields' names to values");
+                }
+            }
         }
 
         Ok(())
