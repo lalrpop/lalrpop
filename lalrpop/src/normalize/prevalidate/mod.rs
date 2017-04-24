@@ -177,13 +177,8 @@ impl<'grammar> Validator<'grammar> {
                     }
                 };
                 if norm_util::check_funky_expression(action).is_in_curly_brackets() {
-                    let sym =
-                        syms.iter()
-                            .map(|&(_, sym)| sym)
-                            .next()
-                            .unwrap();
                     return_err!(
-                        sym.span,
+                        alternative.span,
                         "the `<>` expression requires to explicitly assign fields' names to values");
                 }
             }
