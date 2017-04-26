@@ -392,3 +392,17 @@ fn regex2() {
     ]);
 }
 
+#[test]
+fn char_literals() {
+    test(r#"'foo' 'a 'b '!' '!!' '\'' 'c"#, vec![
+        (r#"~~~~~                       "#, CharLiteral("foo")),
+        (r#"      ~~                    "#, Lifetime("'a")),
+        (r#"         ~~                 "#, Lifetime("'b")),
+        (r#"            ~~~             "#, CharLiteral("!")),
+        (r#"                ~~~~        "#, CharLiteral("!!")),
+        (r#"                     ~~~~   "#, CharLiteral("\\'")),
+        (r#"                          ~~"#, Lifetime("'c")),
+    ]);
+}
+
+

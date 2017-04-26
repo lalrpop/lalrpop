@@ -306,6 +306,9 @@ PatternKind: PatternKind<TypeRef> = {
     "(" <Comma<Pattern>> ")" =>
         PatternKind::Tuple(<>),
 
+    <c:"CharLiteral"> =>
+        PatternKind::CharLiteral(intern(c)),
+
     <Path> =>
         PatternKind::Path(<>),
 };
@@ -380,6 +383,7 @@ extern {
         "MacroId" => Tok::MacroId(<&'input str>),
         "Lifetime" => Tok::Lifetime(<&'input str>),
         "StringLiteral" => Tok::StringLiteral(<&'input str>),
+        "CharLiteral" => Tok::CharLiteral(<&'input str>),
         "RegexLiteral" => Tok::RegexLiteral(<&'input str>),
 
         "&" => Tok::Ampersand,
