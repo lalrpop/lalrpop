@@ -167,7 +167,7 @@ impl<'grammar> Validator<'grammar> {
                         sym);
                 }
             }
-            Symbols::Anon(syms) => { 
+            Symbols::Anon(_) => { 
                 let empty_string = "".to_string();
                 let action = {
                     match alternative.action {
@@ -176,10 +176,10 @@ impl<'grammar> Validator<'grammar> {
                         _ => &empty_string
                     }
                 };
-                if norm_util::check_funky_expression(action).is_in_curly_brackets() {
+                if norm_util::check_between_braces(action).is_in_curly_brackets() {
                     return_err!(
                         alternative.span,
-                        "the `<>` expression requires to explicitly assign fields' names to values");
+                        "Using `<>` between curly braces (e.g., `{{<>}}`) only works when your parsed values have been given names (e.g., `<x:Foo>`, not just `<Foo>`)");
                 }
             }
         }

@@ -320,18 +320,18 @@ impl<'s> LowerState<'s> {
 
 
                 let action = {
-                    match norm_util::check_funky_expression(&action) {
-                        norm_util::FunkyExpressionPresence::None => {
+                    match norm_util::check_between_braces(&action) {
+                        norm_util::Presence::None => {
                             action
                         } 
-                        norm_util::FunkyExpressionPresence::Normal => {
+                        norm_util::Presence::Normal => {
                             let name_str : String = intern::read(|interner| {
                                 let name_strs: Vec<_> = names.iter().map(|&(_,name,_)| interner.data(name)).collect();
                                 name_strs.join(", ")
                             });
                             action.replace("<>", &name_str)
                         }
-                        norm_util::FunkyExpressionPresence::InCurlyBrackets => {
+                        norm_util::Presence::InCurlyBrackets => {
                             let name_str = intern::read(|interner| {
                                 let name_strs: Vec<_> = names.iter().map(|&(_,name,_)| format!("{0}:{0}", interner.data(name))).collect();
                                 name_strs.join(", ")
