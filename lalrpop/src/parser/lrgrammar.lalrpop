@@ -401,6 +401,7 @@ extern {
         "=>@R" => Tok::EqualsGreaterThanLookbehind,
         ">" => Tok::GreaterThan,
         "#" => Tok::Hash,
+        "#![...]" => Tok::ShebangAttribute(<&'input str>),
         "{" => Tok::LeftBrace,
         "[" => Tok::LeftBracket,
         "(" => Tok::LeftParen,
