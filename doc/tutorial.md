@@ -414,13 +414,9 @@ give you the idea:
 | `<p:A> B => Foo {<>}` | `<p:A> B => Foo {p:p}` |
 | `<p:A> <q:B> => Foo {<>} | `<p:A> <q:B> => Foo {p:p, q:q}` |
 
-The funky expression also works with struct constructors 
-(like `Foo {...}` in examples above). This works out well if the
-names of your parsed values match the names of your struct fields.
-
-In such case user had to explicitly
-assign names of structure's field to parsed values.
-
+The `<>` expressions also works with struct constructors (like `Foo
+{...}` in examples above). This works out well if the names of your
+parsed values match the names of your struct fields.
 
 <a id="calculator2b"></a>
 ### calculator2b: Controlling the lexer with `match` declarations
