@@ -19,9 +19,13 @@ extern {
 }
 
 pub Expr: &'ast Node<'ast> = {
-    <l:Expr> "-" <r:Factor> => arena.alloc(Node::Binary(Op::Sub, l, r)),
-    <l:Expr> "+" <r:Factor> => arena.alloc(Node::Binary(Op::Add, l, r)),
+    <l:Expr> <op:OpExpr> <r:Factor> => arena.alloc(Node::Binary { <> }),
     Factor,
+};
+
+OpExpr: Op = {
+    "-" => Op::Sub,
+    "+" => Op::Add,
 };
 
 Comma<T>: Vec<T> = {
@@ -30,10 +34,14 @@ Comma<T>: Vec<T> = {
 };
 
 Factor = {
-    <l:Factor> "*" <r:Term> => arena.alloc(Node::Binary(Op::Mul, l, r)),
-    <l:Factor> "/" <r:Term> => arena.alloc(Node::Binary(Op::Div, l, r)),
+    <l:Factor> <op:OpFactor> <r:Term> => arena.alloc(Node::Binary { <> }),
     "*" "(" <Comma<Expr>> ")" => arena.alloc(Node::Reduce(Op::Mul, <>)),
     Term,
+};
+
+OpFactor: Op = {
+    "*" => Op::Mul,
+    "/" => Op::Div,
 };
 
 Term: &'ast Node<'ast> = {

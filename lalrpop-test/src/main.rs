@@ -206,11 +206,11 @@ fn expr_arena_test1() {
     use expr_arena_ast::*;
     let arena = Arena::new();
     let expected =
-        arena.alloc(Node::Binary(Op::Sub,
-                                 arena.alloc(Node::Binary(Op::Mul,
-                                                          arena.alloc(Node::Value(22)),
-                                                          arena.alloc(Node::Value(3)))),
-                                 arena.alloc(Node::Value(6))));
+        arena.alloc(Node::Binary { op: Op::Sub,
+                                   l: arena.alloc(Node::Binary { op: Op::Mul,
+                                                                 l: arena.alloc(Node::Value(22)),
+                                                                 r: arena.alloc(Node::Value(3)) }),
+                                   r: arena.alloc(Node::Value(6)) });
     util::test_loc(|v| expr_arena::parse_Expr(&arena, v), "22 * 3 - 6", expected);
 }
 
@@ -233,13 +233,13 @@ fn expr_arena_test3() {
     let arena = Arena::new();
     let expected =
         arena.alloc(
-            Node::Binary(Op::Mul,
-                         arena.alloc(Node::Value(22)),
-                         arena.alloc(Node::Paren(
-                             arena.alloc(
-                                 Node::Binary(Op::Sub,
-                                              arena.alloc(Node::Value(3)),
-                                              arena.alloc(Node::Value(6))))))));
+            Node::Binary { op: Op::Mul,
+                           l: arena.alloc(Node::Value(22)),
+                           r: arena.alloc(Node::Paren(
+                               arena.alloc(
+                                   Node::Binary { op: Op::Sub,
+                                                  l: arena.alloc(Node::Value(3)),
+                                                  r: arena.alloc(Node::Value(6)) }))) });
     util::test_loc(|v| expr_arena::parse_Expr(&arena, v), "22 * (3 - 6)", expected);
 }
 
@@ -428,4 +428,9 @@ fn test_match_section() {
     assert!(match_section::parse_Query("INSERT foo").is_ok());
     assert!(match_section::parse_Query("UPDATE foo").is_ok());
     assert!(match_section::parse_Query("UPDATE update").is_err());
+}
+
+#[test]
+fn issue_113() {
+    assert!(error_issue_113::parse_Items("+").is_err());
 }

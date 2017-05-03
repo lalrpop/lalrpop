@@ -408,7 +408,15 @@ give you the idea:
 | `A => bar(<>)`       | `<a:A> => bar(a)`          |
 | `A B => bar(<>)`     | `<a:A> <b:B> => bar(a, b)` |
 | `<A> B => bar(<>)`   | `<a:A> B => bar(a)`        |
+| `<p:A> B => bar(<>)` | `<p:A> B => bar(p)`        |
 | `<A> <B> => bar(<>)` | `<a:A> <b:B> => bar(a, b)` |
+| `<p:A> <q:B> => bar(<>)` | `<p:A> <q:B> => bar(p, q)` |
+| `<p:A> B => Foo {<>}` | `<p:A> B => Foo {p:p}` |
+| `<p:A> <q:B> => Foo {<>} | `<p:A> <q:B> => Foo {p:p, q:q}` |
+
+The `<>` expressions also works with struct constructors (like `Foo
+{...}` in examples above). This works out well if the names of your
+parsed values match the names of your struct fields.
 
 <a id="calculator2b"></a>
 ### calculator2b: Controlling the lexer with `match` declarations
