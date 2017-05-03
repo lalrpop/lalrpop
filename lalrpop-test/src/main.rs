@@ -429,3 +429,8 @@ fn test_match_section() {
     assert!(match_section::parse_Query("UPDATE foo").is_ok());
     assert!(match_section::parse_Query("UPDATE update").is_err());
 }
+
+#[test]
+fn issue_113() {
+    assert!(error_issue_113::parse_Items("+").is_err());
+}
