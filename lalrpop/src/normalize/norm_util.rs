@@ -56,8 +56,7 @@ pub fn analyze_expr<'a>(expr: &'a ExprSymbol) -> Symbols<'a> {
 }
 
 #[derive(Copy, Clone, PartialEq, Eq, Debug)]
-pub enum Presence
-{
+pub enum Presence {
     None,
     InCurlyBrackets,
     Normal
@@ -69,8 +68,7 @@ impl Presence {
     }
 }
 
-pub fn check_between_braces(action: &str) -> Presence
-{
+pub fn check_between_braces(action: &str) -> Presence {
     if let Some(funky_index) = action.find("<>") {
         let (before, after) = {
             let (before, after) = action.split_at(funky_index);
