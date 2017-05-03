@@ -8,7 +8,7 @@ pub enum Op {
 #[derive(Debug, PartialEq, Eq)]
 pub enum Node<'ast> {
     Value(i32),
-    Binary(Op, &'ast Node<'ast>, &'ast Node<'ast>),
+    Binary { op: Op, l: &'ast Node<'ast>, r: &'ast Node<'ast>},
     Reduce(Op, Vec<&'ast Node<'ast>>),
     Paren(&'ast Node<'ast>),
 }
