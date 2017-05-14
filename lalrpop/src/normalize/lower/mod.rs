@@ -196,6 +196,7 @@ impl<'s> LowerState<'s> {
                 all: all_terminals,
                 bits: terminal_bits,
             },
+            module_annotations: grammar.module_annotations,
         })
     }
 
