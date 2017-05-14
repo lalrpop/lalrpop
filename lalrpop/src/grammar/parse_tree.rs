@@ -26,6 +26,7 @@ pub struct Grammar {
     pub where_clauses: Vec<String>,
     pub items: Vec<GrammarItem>,
     pub annotations: Vec<Annotation>,
+    pub module_annotations: Vec<String>,
 }
 
 #[derive(Copy, Clone, Debug, Hash, PartialEq, Eq, PartialOrd, Ord)]
