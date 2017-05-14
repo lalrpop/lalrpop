@@ -9,7 +9,7 @@ use util::strip;
 grammar<'input>(text: &'input str);
 
 pub Grammar: Grammar =
-    <module_annotations:ShebangAttribute*>
+    <module_attributes:ShebangAttribute*>
     <uses:Use*>
     <annotations:Annotation*>
     <lo:@L> "grammar" <hi:@R>
@@ -32,7 +32,7 @@ pub Grammar: Grammar =
                   where_clauses: where_clauses,
                   items: uses.into_iter().chain(items).collect(),
                   annotations: annotations,
-                  module_annotations: module_annotations }
+                  module_attributes: module_attributes}
     };
 
 GrammarTypeParameters: Vec<TypeParameter> =

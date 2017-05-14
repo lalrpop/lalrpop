@@ -771,7 +771,7 @@ impl<'input> Tokenizer<'input> {
                 self.bump();
                 Some(Ok((idx0)))
             }
-            Some((idx0, cc)) => {
+            Some((idx0, _)) => {
                 self.bump();
                 Some(error(UnrecognizedToken, idx0))
             }

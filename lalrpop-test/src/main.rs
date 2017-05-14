@@ -24,6 +24,9 @@ mod expr_lalr;
 /// more interesting demonstration of parsing full expressions, using intern tok
 mod expr_intern_tok;
 
+/// tests #![attributes] for generated module
+mod expr_module_attributes;
+
 /// test that passes in lifetime/type/formal parameters and threads
 /// them through, building an AST from the result
 mod expr_arena;

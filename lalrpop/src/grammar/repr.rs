@@ -61,7 +61,7 @@ pub struct Grammar {
     pub token_span: Span,
     pub conversions: Map<TerminalString, Pattern<TypeRepr>>,
     pub types: Types,
-    pub module_annotations: Vec<String>,
+    pub module_attributes: Vec<String>,
 }
 
 /// For each terminal, we map it to a small integer from 0 to N.
