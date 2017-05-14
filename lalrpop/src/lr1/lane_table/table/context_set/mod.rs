@@ -60,7 +60,6 @@ impl ContextSet {
         Ok(result)
     }
 
-
     fn can_union_with(&self, set2: &ContextSet) -> Result<(), OverlappingLookahead>
     {
         for (i,t) in set2.values.iter().enumerate() {

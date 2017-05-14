@@ -45,12 +45,12 @@ impl UnifyValue for Group {
 }
 
 pub struct Groups {
-    ///! groups maps state index into group
+    /// groups maps state index into group
     groups:             Vec<Option<Group>>,
-    ///! maps group into unification key
+    /// maps group into unification key
     context_sets:       Vec<ContextSet>,
     unification_table:  UnificationTable<GroupUnifyKey>,
-    ///! maps group into unification key
+    /// maps group into unification key
     unification_keys:   Vec<GroupUnifyKey>,
 }
 
@@ -111,7 +111,7 @@ impl Groups {
         self.unification_keys[group.index]
     }
 
-    fn context_set(&mut self, group: Group) -> ContextSet {
+    fn take_context_set(&mut self, group: Group) -> ContextSet {
         let key = self.unify_key(group);
         let empty = ContextSet::new(0);
         replace(&mut self.context_sets[self.unification_table.probe_value(key).index], empty)
@@ -132,16 +132,17 @@ impl Groups {
         self.context_set_ref(group)
     }
 
-    pub fn unify_groups(&mut self, group1: Group, group2: Group) {
+    fn unify_groups(&mut self, group1: Group, group2: Group) -> Group {
         let key1 = self.unify_key(group1);
         let key2 = self.unify_key(group2);
-        assert!(self.unification_table.unify_var_var(key1, key2).is_ok())
+        assert!(self.unification_table.unify_var_var(key1, key2).is_ok());
+        self.unification_table.probe_value(key1)
     }
 
-    pub fn merge_groups(&mut self, group1: Group, group2: Group) -> bool {
+    pub fn try_merge_groups(&mut self, group1: Group, group2: Group) -> bool {
         let context_set = {
-            let mut context_set1 = self.context_set(group1);
-            let context_set2 = self.context_set(group2);
+            let mut context_set1 = self.take_context_set(group1);
+            let context_set2 = self.take_context_set(group2);
             debug!("Groups::merge_groups: group={:?} context_set{:?}", group1, context_set1);
             debug!("Groups::merge_groups: group={:?} context_set{:?}", group2, context_set2);
             match context_set1.inplace_union(&context_set2) {
@@ -156,9 +157,9 @@ impl Groups {
             }
         };
 
-        self.unify_groups(group1, group2);
+        let new_key = self.unify_groups(group1, group2);
         debug!("Groups::merge_groups: successfull merge of groups {:?} and {:?} context_set={:?}", group1, group2, context_set);
-        self.context_sets[max(group1, group2).index] = context_set;
+        self.context_sets[new_key.index] = context_set;
         true
     }
 

@@ -92,7 +92,7 @@ impl<'m, 'grammar> Merge<'m, 'grammar> {
             if let Some(successor_group) = successor_group_opt {
                 let mut successor = successor;
                 if successor_group != group {
-                    if (self.groups.merge_groups(group, successor_group)) {
+                    if (self.groups.try_merge_groups(group, successor_group)) {
                         debug!("Merge::walk: successful union, context-set = {:?}",
                             self.groups.context_set_ref(group));
                     } else {
