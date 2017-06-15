@@ -26,8 +26,8 @@ type ConstructionFunction<'grammar> = fn(&'grammar Grammar, NonterminalString) -
 
 fn use_lane_table() -> bool {
     match env::var("LALRPOP_LANE_TABLE") {
-        Ok(ref s) => s == "enabled",
-        _ => false
+        Ok(ref s) => s != "disabled",
+        _ => true
     }
 }
 
