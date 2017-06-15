@@ -24,7 +24,7 @@ fn build_lr1_states_legacy<'grammar>(grammar: &'grammar Grammar, start: Nontermi
 
 type ConstructionFunction<'grammar> = fn(&'grammar Grammar, NonterminalString) -> LR1Result<'grammar> ;
 
-fn use_lane_table() -> bool {
+pub fn use_lane_table() -> bool {
     match env::var("LALRPOP_LANE_TABLE") {
         Ok(ref s) => s != "disabled",
         _ => true
