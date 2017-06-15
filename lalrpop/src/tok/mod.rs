@@ -97,12 +97,6 @@ pub struct Tokenizer<'input> {
     shift: usize,
 }
 
-macro_rules! eof {
-    ($x:expr) => {
-        match $x { Some(v) => v, None => { return None; } }
-    }
-}
-
 pub type Spanned<T> = (usize, T, usize);
 
 const KEYWORDS: &'static [(&'static str, Tok<'static>)] = &[
