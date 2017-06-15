@@ -30,6 +30,14 @@ pub fn build_lalr_states<'grammar>(grammar: &'grammar Grammar,
     // First build the LR(1) states
     let lr_states = try!(build::build_lr1_states(grammar, start));
 
+    // With lane table, there is no reason to do state collapse
+    // for LALR. In fact, LALR is pointless!
+    if build::use_lane_table() {
+        println!("Warning: Now that the new lane-table algorithm is the default,");
+        println!("         #[lalr] mode has no effect and can be removed.");
+        return Ok(lr_states);
+    }
+
     profile! {
         &Tls::session(),
         "LALR(1) state collapse",

@@ -90,6 +90,7 @@ fn add_range(range: Test,
     }
 }
 
+#[cfg(test)]
 macro_rules! test {
     ($($range:expr,)*) => {
         {
