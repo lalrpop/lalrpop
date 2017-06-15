@@ -54,3 +54,71 @@ pub fn analyze_expr<'a>(expr: &'a ExprSymbol) -> Symbols<'a> {
     // If they didn't choose anything with `<>`, make a tuple of everything.
     Symbols::Anon(expr.symbols.iter().enumerate().collect())
 }
+
+#[derive(Copy, Clone, PartialEq, Eq, Debug)]
+pub enum Presence {
+    None,
+    InCurlyBrackets,
+    Normal
+}
+
+impl Presence {
+    pub fn is_in_curly_brackets(&self) -> bool {
+        *self == Presence::InCurlyBrackets
+    }
+}
+
+pub fn check_between_braces(action: &str) -> Presence {
+    if let Some(funky_index) = action.find("<>") {
+        let (before, after) = {
+            let (before, after) = action.split_at(funky_index);
+            (before.trim(), after[2..].trim())
+        };
+
+        let last_before = before.chars().last();
+        let next_after = after.chars().next();
+        if let (Some('{'), Some('}')) = (last_before, next_after) {
+            Presence::InCurlyBrackets
+        } else {
+            Presence::Normal
+        }
+    } else {
+        Presence::None
+    }
+}
+
+#[cfg(test)]
+mod test {
+    use super::*;
+
+    #[test]
+    fn detecting_normal_funky_expression() {
+        assert_eq!(Presence::Normal, check_between_braces("<>"));
+        assert_eq!(Presence::Normal, check_between_braces("ble <> blaa"));
+        assert_eq!(Presence::Normal, check_between_braces("ble <> } b"));
+        assert_eq!(Presence::Normal, check_between_braces("bl{ e <> } b"));
+        assert_eq!(Presence::Normal, check_between_braces("bl{ e <>} b"));
+        assert_eq!(Presence::Normal, check_between_braces("bl{ e <> e } b"));
+        assert_eq!(Presence::Normal, check_between_braces("bl{ <> e } b"));
+        assert_eq!(Presence::Normal, check_between_braces("bl{<> e } b"));
+        assert_eq!(Presence::Normal, check_between_braces("bl{<>"));
+        assert_eq!(Presence::Normal, check_between_braces("<>}"));
+    }
+
+    #[test]
+    fn detecting_nopresence_of_funky_expression() {
+        assert_eq!(Presence::None, check_between_braces("< >"));
+        assert_eq!(Presence::None, check_between_braces("ble <b> blaa"));
+    }
+
+    #[test]
+    fn detecting_incurlybrackets_funky_expression() {
+        assert_eq!(Presence::InCurlyBrackets, check_between_braces("{<>}"));
+        assert_eq!(Presence::InCurlyBrackets, check_between_braces("ble{<> }blaa"));
+        assert_eq!(Presence::InCurlyBrackets, check_between_braces("ble{ <> } b"));
+        assert_eq!(Presence::InCurlyBrackets, check_between_braces("bl{         <>} b"));
+        assert_eq!(Presence::InCurlyBrackets, check_between_braces("bl{<>} b"));
+        assert_eq!(Presence::InCurlyBrackets, check_between_braces("bl{<>         } b"));
+    }
+
+}

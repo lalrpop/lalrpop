@@ -4,8 +4,9 @@ use lr1::first::*;
 use lr1::lookahead::*;
 use lr1::example::*;
 use grammar::repr::*;
-use petgraph::{EdgeDirection, Graph};
-use petgraph::graph::{Edges, NodeIndex};
+use petgraph::{Directed, EdgeDirection, Graph};
+use petgraph::graph::{Edges, EdgeReference, NodeIndex};
+use petgraph::prelude::*;
 use std::fmt::{Debug, Formatter, Error};
 
 #[cfg(test)] mod test;
@@ -85,7 +86,7 @@ impl<'grammar> TraceGraph<'grammar> {
         let from = self.add_node(from.into());
         let to = self.add_node(to.into());
         if !self.graph.edges_directed(from, EdgeDirection::Outgoing)
-                      .any(|(t, &l)| t == to && l == labels)
+                      .any(|edge| edge.target() == to && *edge.weight() == labels)
         {
             self.graph.add_edge(from, to, labels);
         }
@@ -145,11 +146,11 @@ impl<'grammar> Debug for TraceGraph<'grammar> {
     fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
         let mut s = fmt.debug_list();
         for (&node, &index) in &self.indices {
-            for (target, label) in
-                self.graph.edges_directed(index, EdgeDirection::Outgoing)
+            for edge in self.graph.edges_directed(index, EdgeDirection::Outgoing)
             {
+                let label = edge.weight();
                 s.entry(&TraceGraphEdge { from: node,
-                                          to: self.graph[target],
+                                          to: self.graph[edge.target()],
                                           label: (label.prefix,
                                                   label.cursor,
                                                   label.suffix) });
@@ -175,7 +176,7 @@ pub struct PathEnumerator<'graph, 'grammar: 'graph> {
 struct EnumeratorState<'graph, 'grammar: 'graph> {
     index: NodeIndex,
     symbol_sets: SymbolSets<'grammar>,
-    edges: Edges<'graph, SymbolSets<'grammar>>,
+    edges: Edges<'graph, SymbolSets<'grammar>, Directed>,
 }
 
 impl<'graph, 'grammar> PathEnumerator<'graph, 'grammar> {
@@ -218,7 +219,7 @@ impl<'graph, 'grammar> PathEnumerator<'graph, 'grammar> {
         }
     }
 
-    fn incoming_edges(&self, index: NodeIndex) -> Edges<'graph, SymbolSets<'grammar>> {
+    fn incoming_edges(&self, index: NodeIndex) -> Edges<'graph, SymbolSets<'grammar>, Directed> {
         self.graph.graph.edges_directed(index, EdgeDirection::Incoming)
     }
 
@@ -249,9 +250,11 @@ impl<'graph, 'grammar> PathEnumerator<'graph, 'grammar> {
     /// we call `find_next_trace` again to start with the next child
     /// of the new top of the stack.
     fn push_next_child_if_any(&mut self,
-                              next: Option<(NodeIndex, &'graph SymbolSets<'grammar>)>)
+                              next: Option<EdgeReference<'graph, SymbolSets<'grammar>>>)
                               -> bool {
-        if let Some((index, &symbol_sets)) = next {
+        if let Some(edge) = next {
+            let index = edge.source();
+            let symbol_sets = *edge.weight();
             self.push_next_child(index, symbol_sets)
         } else {
             self.stack.pop();

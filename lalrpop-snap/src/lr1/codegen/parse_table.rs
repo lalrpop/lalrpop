@@ -166,7 +166,7 @@ pub fn compile<'grammar, W: Write>(grammar: &'grammar Grammar,
 //         match states.last().cloned() {
 //             Some(state) => {
 //                 error_state = ACTION[(state as usize + 1) * NUM_STATES - 1];
-//                 if error_state != 0  {
+//                 if error_state > 0 {
 //                     break;
 //                 }
 //                 states.pop();
@@ -383,6 +383,8 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
         }
         rust!(self.out, "];");
 
+        try!(self.emit_expected_tokens_fn());
+
         Ok(())
     }
 
@@ -499,80 +501,81 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
         // Error.
         rust!(self.out, "}} else {{");
 
-        rust!(self.out,
-            "let {}error = {}lalrpop_util::ParseError::UnrecognizedToken {{",
-            self.prefix,
-            self.prefix);
-        rust!(self.out, "token: Some({}lookahead.clone()),", self.prefix);
-        rust!(self.out, "expected: vec![],");
-        rust!(self.out, "}};");
-        rust!(self.out, "let mut {}dropped_tokens = Vec::new();", self.prefix);
-        let lookahead_start = format!("Some(&{}lookahead.0)", self.prefix);
-        try!(self.error_recovery(&lookahead_start, ""));
-        rust!(self.out, "let {}start = {}lookahead.0.clone();", self.prefix, self.prefix);
-        rust!(self.out, "let {}end = {}lookahead.2.clone();", self.prefix, self.prefix);
+        if self.grammar.uses_error_recovery {
+            let prefix = self.prefix;
+            try!(self.unrecognized_token_error(&format!("Some({}lookahead.clone())", prefix)));
+            rust!(self.out, "let mut {}dropped_tokens = Vec::new();", self.prefix);
+            let lookahead_start = format!("Some(&{}lookahead.0)", self.prefix);
+            try!(self.error_recovery(&lookahead_start, ""));
+            rust!(self.out, "let {}start = {}lookahead.0.clone();", self.prefix, self.prefix);
+            rust!(self.out, "let {}end = {}lookahead.2.clone();", self.prefix, self.prefix);
 
-        if DEBUG_PRINT {
-            rust!(self.out, "println!(\"Attempting to recover on state: {{}}, error_state: {{}}, symbols: {{}}\", {}state, {}error_state - 1, {}symbols.len());",
+            if DEBUG_PRINT {
+                rust!(self.out, "println!(\"Attempting to recover on state: {{}}, error_state: {{}}, symbols: {{}}\", {}state, {}error_state - 1, {}symbols.len());",
+                    self.prefix,
+                    self.prefix,
+                    self.prefix);
+            }
+
+            // Loop which drops tokens until parsing can resume again
+            rust!(self.out, "loop {{");
+            rust!(self.out, "if {}ACTION[({}error_state as usize - 1) * {} + {}integer] != 0 {{",
+                self.prefix,
+                self.prefix,
+                self.grammar.terminals.all.len(),
+                self.prefix);
+            rust!(self.out, "let {}new_len = {}symbols.len() - ({}original_state_len - {}states.len());",
+                self.prefix,
                 self.prefix,
                 self.prefix,
                 self.prefix);
-        }
-
-        // Loop which drops tokens until parsing can resume again
-        rust!(self.out, "loop {{");
-        rust!(self.out, "if {}ACTION[({}error_state as usize - 1) * {} + {}integer] != 0 {{",
-            self.prefix,
-            self.prefix,
-            self.grammar.terminals.all.len(),
-            self.prefix);
-        rust!(self.out, "let {}new_len = {}symbols.len() - ({}original_state_len - {}states.len());",
-            self.prefix,
-            self.prefix,
-            self.prefix,
-            self.prefix);
-        rust!(self.out, "{}symbols.truncate({}new_len);",
-            self.prefix,
-            self.prefix);
-        rust!(self.out, "{}states.push({}error_state - 1);",
-            self.prefix,
-            self.prefix);
-        rust!(self.out, "let {}recovery = {}lalrpop_util::ErrorRecovery {{",
-              self.prefix,
-              self.prefix);
-        rust!(self.out, "error: {}error,", self.prefix);
-        rust!(self.out, "dropped_tokens: {}dropped_tokens,", self.prefix);
-        rust!(self.out, "}};");
-        rust!(self.out,
-            "{}symbols.push(({}start, {}Symbol::Termerror({}recovery), {}end));",
-            self.prefix,
-            self.prefix,
-            self.prefix,
-            self.prefix,
-            self.prefix);
-
-        if DEBUG_PRINT {
-            rust!(self.out, "println!(\"Recovering on state: {{}}, lookahead: {{}}, symbols: {{}}\", {}error_state - 1, {}integer, {}symbols.len());",
+            rust!(self.out, "{}symbols.truncate({}new_len);",
+                self.prefix,
+                self.prefix);
+            rust!(self.out, "{}states.push({}error_state - 1);",
+                self.prefix,
+                self.prefix);
+            rust!(self.out, "let {}recovery = {}lalrpop_util::ErrorRecovery {{",
+                self.prefix,
+                self.prefix);
+            rust!(self.out, "error: {}error,", self.prefix);
+            rust!(self.out, "dropped_tokens: {}dropped_tokens,", self.prefix);
+            rust!(self.out, "}};");
+            rust!(self.out,
+                "{}symbols.push(({}start, {}Symbol::Termerror({}recovery), {}end));",
+                self.prefix,
+                self.prefix,
                 self.prefix,
                 self.prefix,
                 self.prefix);
-        }
 
-        rust!(self.out, "continue '{}inner;", self.prefix);
-        rust!(self.out, "}}");// if ACTION
+            if DEBUG_PRINT {
+                rust!(self.out, "println!(\"Recovering on state: {{}}, lookahead: {{}}, symbols: {{}}\", {}error_state - 1, {}integer, {}symbols.len());",
+                    self.prefix,
+                    self.prefix,
+                    self.prefix);
+            }
 
-        rust!(self.out, "{}dropped_tokens.push({}lookahead);",
-              self.prefix,
-              self.prefix);
-        try!(self.next_token());
-        try!(self.token_to_integer());
+            rust!(self.out, "continue '{}inner;", self.prefix);
+            rust!(self.out, "}}");// if ACTION
 
-        if DEBUG_PRINT {
-            rust!(self.out, "println!(\"Skipping token: {{}}\", {}integer);",
+            rust!(self.out, "{}dropped_tokens.push({}lookahead);",
+                self.prefix,
                 self.prefix);
-        }
+            try!(self.next_token());
+            try!(self.token_to_integer());
 
-        rust!(self.out, "}}"); // loop
+            if DEBUG_PRINT {
+                rust!(self.out, "println!(\"Skipping token: {{}}\", {}integer);",
+                    self.prefix);
+            }
+
+            rust!(self.out, "}}"); // loop
+        } else {
+            let prefix = self.prefix;
+            try!(self.unrecognized_token_error(&format!("Some({}lookahead)", prefix)));
+            rust!(self.out, "return Err({}error)", self.prefix);
+        }
 
         rust!(self.out, "}}"); // if-else-if-else
 
@@ -616,45 +619,44 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
         rust!(self.out, "}} else {{");
 
         // EOF error recovery
-        rust!(self.out,
-              "let {}error = {}lalrpop_util::ParseError::UnrecognizedToken {{",
-              self.prefix,
-              self.prefix);
-        rust!(self.out, "token: None,");
-        rust!(self.out, "expected: vec![],");
-        rust!(self.out, "}};");
+        try!(self.unrecognized_token_error("None"));
 
-        let extra_test = format!("&& {}EOF_ACTION[({}error_state as usize - 1)] != 0 ",
-            self.prefix,
-            self.prefix);
-        try!(self.error_recovery("None", &extra_test));
-        rust!(self.out, "let {}new_len = {}symbols.len() - ({}original_state_len - {}states.len());",
-            self.prefix,
-            self.prefix,
-            self.prefix,
-            self.prefix);
-        rust!(self.out, "{}symbols.truncate({}new_len);",
-            self.prefix,
-            self.prefix);
-        rust!(self.out, "{}states.push({}error_state - 1);",
-            self.prefix,
-            self.prefix);
-        rust!(self.out, "let {}recovery = {}lalrpop_util::ErrorRecovery {{",
-              self.prefix,
-              self.prefix);
-        rust!(self.out, "error: {}error,", self.prefix);
-        rust!(self.out, "dropped_tokens: Vec::new(),");
-        rust!(self.out, "}};");
-        rust!(self.out,
-            "{}symbols.push(({}last_location.clone(), {}Symbol::Termerror({}recovery), {}last_location.clone()));",
-            self.prefix,
-            self.prefix,
-            self.prefix,
-            self.prefix,
-            self.prefix);
+        if self.grammar.uses_error_recovery {
+            let extra_test = format!("&& {}EOF_ACTION[({}error_state as usize - 1)] != 0 ",
+                self.prefix,
+                self.prefix);
+            try!(self.error_recovery("None", &extra_test));
+            rust!(self.out, "let {}new_len = {}symbols.len() - ({}original_state_len - {}states.len());",
+                self.prefix,
+                self.prefix,
+                self.prefix,
+                self.prefix);
+            rust!(self.out, "{}symbols.truncate({}new_len);",
+                self.prefix,
+                self.prefix);
+            rust!(self.out, "{}states.push({}error_state - 1);",
+                self.prefix,
+                self.prefix);
+            rust!(self.out, "let {}recovery = {}lalrpop_util::ErrorRecovery {{",
+                self.prefix,
+                self.prefix);
+            rust!(self.out, "error: {}error,", self.prefix);
+            rust!(self.out, "dropped_tokens: Vec::new(),");
+            rust!(self.out, "}};");
+            rust!(self.out,
+                "{}symbols.push(({}last_location.clone(), {}Symbol::Termerror({}recovery), {}last_location.clone()));",
+                self.prefix,
+                self.prefix,
+                self.prefix,
+                self.prefix,
+                self.prefix);
+
+        } else {
+            rust!(self.out, "return Err({}error);", self.prefix)
+        }
 
         rust!(self.out, "}}"); // else
-
+        
         rust!(self.out, "}}"); // while let
 
         self.end_parser_fn()
@@ -697,12 +699,9 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
         }
 
         rust!(self.out, "_ => {{");
-        rust!(self.out,
-              "return Err({}lalrpop_util::ParseError::UnrecognizedToken {{",
-              self.prefix);
-        rust!(self.out, "token: Some({}lookahead),", self.prefix);
-        rust!(self.out, "expected: vec![],");
-        rust!(self.out, "}});");
+        let prefix = self.prefix;
+        try!(self.unrecognized_token_error(&format!("Some({}lookahead)", prefix)));
+        rust!(self.out, "return Err({}error);", self.prefix);
         rust!(self.out, "}}");
 
         rust!(self.out, "}};");
@@ -735,7 +734,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
 
             let variant_name = self.variant_name_for_symbol(Symbol::Terminal(terminal));
             rust!(self.out,
-                  "{} => {}Symbol::{}({}),",
+                  "{} => {}Symbol::{}(({})),",
                   pattern,
                   self.prefix,
                   variant_name,
@@ -1066,7 +1065,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
             self.prefix,
             self.grammar.terminals.all.len());
 
-        rust!(self.out, "if {}error_state != 0 {} {{", self.prefix, extra_test);
+        rust!(self.out, "if {}error_state > 0 {} {{", self.prefix, extra_test);
         rust!(self.out, "break;");
         rust!(self.out, "}}");
         rust!(self.out, "{}states.pop();", self.prefix);
@@ -1095,5 +1094,56 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
     fn spanned_symbol_type(&self) -> String {
         let loc_type = self.types.terminal_loc_type();
         format!("({},{},{})", loc_type, self.symbol_type(), loc_type)
+    }
+
+    fn unrecognized_token_error(&mut self, token: &str) -> io::Result<()> {
+        rust!(self.out, "let {}state = *{}states.last().unwrap() as usize;",
+            self.prefix,
+            self.prefix);
+        rust!(self.out,
+            "let {}error = {}lalrpop_util::ParseError::UnrecognizedToken {{",
+            self.prefix,
+            self.prefix);
+        rust!(self.out, "token: {},", token);
+        rust!(self.out, "expected: {}expected_tokens({}state),",
+            self.prefix,
+            self.prefix);
+        rust!(self.out, "}};");
+        Ok(())
+    }
+
+    fn emit_expected_tokens_fn(&mut self) -> io::Result<()> {
+        rust!(self.out, "fn {}expected_tokens({}state: usize) -> Vec<::std::string::String> {{",
+            self.prefix,
+            self.prefix);
+
+        rust!(self.out, "const {}TERMINAL: &'static [&'static str] = &[", self.prefix);
+        let all_terminals = if self.grammar.uses_error_recovery {
+            // Subtract one to exlude the error terminal
+            &self.grammar.terminals.all[..self.grammar.terminals.all.len() - 1]
+        } else {
+            &self.grammar.terminals.all
+        };
+        for &terminal in all_terminals {
+            // Three # should hopefully be enough to prevent any
+            // reasonable terminal from escaping the literal
+            rust!(self.out, "r###\"{}\"###,", terminal);
+        }
+        rust!(self.out, "];");
+
+        // Grab any terminals in the current state which would have resulted in a successful parse
+        rust!(self.out, "{}ACTION[({}state * {})..].iter().zip({}TERMINAL).filter_map(|(&state, terminal)| {{",
+            self.prefix,
+            self.prefix,
+            self.grammar.terminals.all.len(),
+            self.prefix);
+        rust!(self.out, "if state == 0 {{");
+        rust!(self.out, "None");
+        rust!(self.out, "}} else {{");
+        rust!(self.out, "Some(terminal.to_string())");
+        rust!(self.out, "}}");
+        rust!(self.out, "}}).collect()");
+        rust!(self.out, "}}");
+        Ok(())
     }
 }

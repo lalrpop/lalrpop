@@ -6,6 +6,9 @@ use tok;
 #[allow(dead_code)]
 mod lrgrammar;
 
+#[cfg(test)]
+mod test;
+
 pub type ParseError<'input> = lalrpop_util::ParseError<usize, tok::Tok<'input>, tok::Error>;
 
 pub fn parse_grammar<'input>(input: &'input str)
@@ -27,6 +30,13 @@ fn parse_pattern<'input>(input: &'input str, offset: usize)
 {
     let tokenizer = tok::Tokenizer::new(input, offset);
     lrgrammar::parse_Pattern(input, tokenizer)
+}
+
+fn parse_match_mapping<'input>(input: &'input str, offset: usize)
+                         -> Result<MatchMapping, ParseError<'input>>
+{
+    let tokenizer = tok::Tokenizer::new(input, offset);
+    lrgrammar::parse_MatchMapping(input, tokenizer)
 }
 
 #[cfg(test)]

@@ -5,7 +5,7 @@
 //! (which takes Y and Z as input), they have this form:
 //!
 //! ```
-//! pub fn __action17<
+//! fn __action17<
 //!     'input,                       // user-declared type parameters (*)
 //! >(
 //!     input: &'input str,           // user-declared parameters
@@ -18,7 +18,7 @@
 //! Otherwise, they have this form:
 //!
 //! ```
-//! pub fn __action17<
+//! fn __action17<
 //!     'input,                       // user-declared type parameters (*)
 //! >(
 //!     input: &'input str,           // user-declared parameters
@@ -108,12 +108,12 @@ fn emit_user_action_code<W: Write>(grammar: &r::Grammar,
                                       grammar.types.terminal_loc_type())]);
     }
 
-    try!(rust.write_pub_fn_header(grammar,
-                                  format!("{}action{}", grammar.prefix, index),
-                                  vec![],
-                                  arguments,
-                                  ret_type,
-                                  vec![]));
+    try!(rust.write_fn_header(grammar,
+                              format!("{}action{}", grammar.prefix, index),
+                              vec![],
+                              arguments,
+                              ret_type,
+                              vec![]));
     rust!(rust, "{{");
     rust!(rust, "{}", data.code);
     rust!(rust, "}}");
@@ -126,17 +126,17 @@ fn emit_lookaround_action_code<W: Write>(grammar: &r::Grammar,
                                          _defn: &r::ActionFnDefn,
                                          data: &r::LookaroundActionFnDefn)
                                          -> io::Result<()> {
-    try!(rust.write_pub_fn_header(grammar,
-                                  format!("{}action{}", grammar.prefix, index),
-                                  vec![],
-                                  vec![format!("{}lookbehind: &{}",
-                                               grammar.prefix,
-                                               grammar.types.terminal_loc_type()),
-                                       format!("{}lookahead: &{}",
-                                               grammar.prefix,
-                                               grammar.types.terminal_loc_type())],
-                                  format!("{}", grammar.types.terminal_loc_type()),
-                                  vec![]));
+    try!(rust.write_fn_header(grammar,
+                              format!("{}action{}", grammar.prefix, index),
+                              vec![],
+                              vec![format!("{}lookbehind: &{}",
+                                           grammar.prefix,
+                                           grammar.types.terminal_loc_type()),
+                                   format!("{}lookahead: &{}",
+                                           grammar.prefix,
+                                           grammar.types.terminal_loc_type())],
+                              format!("{}", grammar.types.terminal_loc_type()),
+                              vec![]));
 
     rust!(rust, "{{");
     match *data {
@@ -197,12 +197,12 @@ fn emit_inline_action_code<W: Write>(grammar: &r::Grammar,
                                       grammar.types.terminal_loc_type())]);
     }
 
-    try!(rust.write_pub_fn_header(grammar,
-                                  format!("{}action{}", grammar.prefix, index),
-                                  vec![],
-                                  arguments,
-                                  ret_type,
-                                  vec![]));
+    try!(rust.write_fn_header(grammar,
+                              format!("{}action{}", grammar.prefix, index),
+                              vec![],
+                              arguments,
+                              ret_type,
+                              vec![]));
     rust!(rust, "{{");
 
     // For each inlined thing, compute the start/end locations.

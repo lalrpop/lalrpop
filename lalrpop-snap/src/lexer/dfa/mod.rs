@@ -14,8 +14,6 @@ mod test;
 #[cfg(test)]
 pub mod interpret;
 
-pub mod codegen;
-
 mod overlap;
 
 #[derive(Clone, Debug, PartialEq, Eq)]

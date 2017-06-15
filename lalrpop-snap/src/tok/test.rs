@@ -1,8 +1,14 @@
-use super::{Tok, Tokenizer};
+use super::{Tok, ErrorCode, Error, Tokenizer};
 use super::Tok::*;
 
-fn test(input: &str,
-        expected: Vec<(&str, Tok)>)
+enum Expectation<'a> {
+    ExpectTok(Tok<'a>),
+    ExpectErr(ErrorCode)
+}
+
+use self::Expectation::*;
+
+fn gen_test(input: &str, expected: Vec<(&str, Expectation)>)
 {
     // use $ to signal EOL because it can be replaced with a single space
     // for spans, and because it applies also to r#XXX# style strings:
@@ -10,15 +16,34 @@ fn test(input: &str,
 
     let tokenizer = Tokenizer::new(&input, 0);
     let len = expected.len();
-    for (token, (expected_span, expected_tok)) in tokenizer.zip(expected.into_iter()) {
-        println!("token: {:?}", token);
+    for (token, (expected_span, expectation)) in tokenizer.zip(expected.into_iter()) {
         let expected_start = expected_span.find("~").unwrap();
         let expected_end = expected_span.rfind("~").unwrap() + 1;
-        assert_eq!(Ok((expected_start, expected_tok, expected_end)), token);
+        println!("token: {:?}", token);
+        match expectation {
+            ExpectTok(expected_tok) => {
+                assert_eq!(Ok((expected_start, expected_tok, expected_end)), token);
+            }
+            ExpectErr(expected_ec) => {
+                assert_eq!(Err(Error{ location: expected_start, code: expected_ec }), token)
+            }
+        }
     }
 
     let tokenizer = Tokenizer::new(&input, 0);
     assert_eq!(None, tokenizer.skip(len).next());
+}
+
+fn test(input: &str, expected: Vec<(&str, Tok)>)
+{
+    let generic_expected = expected.into_iter().map( | (span, tok) | (span, ExpectTok(tok)) ).collect();
+    gen_test(input, generic_expected);
+}
+
+fn test_err(input: &str, expected: (&str, ErrorCode))
+{
+    let (span, ec) = expected;
+    gen_test(input, vec![(span, ExpectErr(ec))])
 }
 
 #[test]
@@ -43,6 +68,217 @@ fn code1() {
         ("~~~~~~~~~~ ", EqualsGreaterThanCode(" a(b, c)")),
         ("          ~", Comma),
     ]);
+}
+
+#[test]
+fn rule_id_then_equalsgreaterthancode_functioncall() {
+    test("id => a(b, c),", vec![
+        ("~~            ", Id("id")),
+        ("   ~~~~~~~~~~ ", EqualsGreaterThanCode(" a(b, c)")),
+        ("             ~", Comma),
+    ]);
+}
+
+#[test]
+fn rule_stringliteral_slash_dot_then_equalsgreaterthancode_functioncall() {
+    test(r#" "\." => a(b, c),"#, vec![
+        (r#" ~~~~            "#, StringLiteral(r#"\."#)),
+        (r#"      ~~~~~~~~~~ "#, EqualsGreaterThanCode(" a(b, c)")),
+        (r#"                ~"#, Comma),
+    ]);
+}
+
+#[test]
+fn rule_stringliteral_slash_dot_then_equalsgreaterthancode_many_characters_in_stringliteral() {
+    test(r#" "\." => "Planet Earth" ,"#, vec![
+        (r#" ~~~~                    "#, StringLiteral(r#"\."#)),
+        (r#"      ~~~~~~~~~~~~~~~~~~ "#, EqualsGreaterThanCode(r#" "Planet Earth" "#)),
+        (r#"                        ~"#, Comma),
+    ]);
+}
+
+#[test]
+fn rule_stringliteral_slash_dot_then_equalsgreaterthancode_one_character_dot_in_stringliteral() {
+    test(r#" "\." => "." ,"#, vec![
+        (r#" ~~~~         "#, StringLiteral(r#"\."#)),
+        (r#"      ~~~~~~~ "#, EqualsGreaterThanCode(r#" "." "#)),
+        (r#"             ~"#, Comma),
+    ]);
+}
+
+#[test]
+fn rule_stringliteral_slash_openningbracket_then_equalsgreaterthancode_one_character_openningbracket_in_stringliteral() {
+    test(r#" "\(" => "(" ,"#, vec![
+        (r#" ~~~~         "#, StringLiteral(r#"\("#)),
+        (r#"      ~~~~~~~ "#, EqualsGreaterThanCode(r#" "(" "#)),
+        (r#"             ~"#, Comma),
+    ]);
+}
+
+#[test]
+fn rule_stringliteral_slash_openningbracket_then_equalsgreaterthancode_empty_stringliteral() {
+    test(r#" "\(" => "" ,"#, vec![
+        (r#" ~~~~        "#, StringLiteral(r#"\("#)),
+        (r#"      ~~~~~~ "#, EqualsGreaterThanCode(r#" "" "#)),
+        (r#"            ~"#, Comma),
+    ]);
+}
+
+#[test]
+fn rule_stringliteral_slash_dot_then_equalsgreaterthancode_one_character_dot() {
+    test(r#" "\." => '.' ,"#, vec![
+        (r#" ~~~~         "#, StringLiteral(r#"\."#)),
+        (r#"      ~~~~~~~ "#, EqualsGreaterThanCode(r#" '.' "#)),
+        (r#"             ~"#, Comma),
+    ]);
+}
+
+#[test]
+fn rule_stringliteral_slash_openningbracket_then_equalsgreaterthancode_one_character_openningbracket() {
+    test(r#" "\(" => '(' ,"#, vec![
+        (r#" ~~~~         "#, StringLiteral(r#"\("#)),
+        (r#"      ~~~~~~~ "#, EqualsGreaterThanCode(r#" '(' "#)),
+        (r#"             ~"#, Comma),
+    ]);
+}
+
+#[test]
+fn equalsgreaterthancode_one_character_openningbracket() {
+    test(r#"=> '(' ,"#, vec![
+        (r#"~~~~~~~ "#, EqualsGreaterThanCode(r#" '(' "#)),
+        (r#"       ~"#, Comma),
+    ]);
+}
+
+#[test]
+fn equalsgreaterthancode_one_character_escaped_n() {
+    test(r#"=> '\n' ,"#, vec![
+        (r#"~~~~~~~~ "#, EqualsGreaterThanCode(r#" '\n' "#)),
+        (r#"        ~"#, Comma),
+    ]);
+}
+
+#[test]
+fn equalsgreaterthancode_one_character_escaped_w() {
+    test(r#"=> '\w' ,"#, vec![
+        (r#"~~~~~~~~ "#, EqualsGreaterThanCode(r#" '\w' "#)),
+        (r#"        ~"#, Comma),
+    ]);
+}
+
+#[test]
+fn equalsgreaterthancode_one_character_escaped_planet123() {
+    test(r#"=> '\planet123' ,"#, vec![
+        (r#"~~~~~~~~~~~~~~~~ "#, EqualsGreaterThanCode(r#" '\planet123' "#)),
+        (r#"                ~"#, Comma),
+    ]);
+}
+
+#[test]
+fn equalsgreaterthancode_one_character_openningcurlybracket() {
+    test(r#"=> '{' ,"#, vec![
+        (r#"~~~~~~~ "#, EqualsGreaterThanCode(r#" '{' "#)),
+        (r#"       ~"#, Comma),
+    ]);
+}
+
+#[test]
+fn equalsgreaterthancode_one_character_openningsquarebracket() {
+    test(r#"=> '[' ,"#, vec![
+        (r#"~~~~~~~ "#, EqualsGreaterThanCode(r#" '[' "#)),
+        (r#"       ~"#, Comma),
+    ]);
+}
+
+#[test]
+fn equalsgreaterthancode_one_character_openningbracket_wrapped_by_brackets() {
+    test(r#"=> ('(') ,"#, vec![
+        (r#"~~~~~~~~~ "#, EqualsGreaterThanCode(r#" ('(') "#)),
+        (r#"         ~"#, Comma),
+    ]);
+}
+
+#[test]
+fn equalsgreaterthancode_one_character_closingbracket_wrapped_by_brackets() {
+    test(r#"=> (')') ,"#, vec![
+        (r#"~~~~~~~~~ "#, EqualsGreaterThanCode(r#" (')') "#)),
+        (r#"         ~"#, Comma),
+    ]);
+}
+
+#[test]
+fn equalsgreaterthancode_tuple() {
+    test(r#"=> (1,2,3) ,"#, vec![
+        (r#"~~~~~~~~~~~ "#, EqualsGreaterThanCode(r#" (1,2,3) "#)),
+        (r#"           ~"#, Comma),
+    ]);
+}
+
+#[test]
+fn equalsgreaterthancode_statement_with_lifetime() {
+    test(r#"=> HuffmanTable::<Code<'a>>::new() ,"#, vec![
+        (r#"~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ "#, EqualsGreaterThanCode(r#" HuffmanTable::<Code<'a>>::new() "#)),
+        (r#"                                   ~"#, Comma),
+    ]);
+}
+
+#[test]
+fn equalsgreaterthancode_statement_with_many_lifetimes() {
+    test(r#"=> (HuffmanTable::<Code<'a, 'b>>::new()),"#, vec![
+        (r#"~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ "#, EqualsGreaterThanCode(r#" (HuffmanTable::<Code<'a, 'b>>::new())"#)),
+        (r#"                                        ~"#, Comma),
+    ]);
+}
+
+#[test]
+fn equalsgreaterthancode_nested_function_with_lifetimes() {
+    test(r#"=> fn foo<'a>(x: &'a i32, y: &'a i32) -> &'a i32 {} ,"#, vec![
+        (r#"~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ "#, EqualsGreaterThanCode(r#" fn foo<'a>(x: &'a i32, y: &'a i32) -> &'a i32 {} "#)),
+        (r#"                                                    ~"#, Comma),
+    ]);
+}
+
+#[test]
+fn where_with_lifetimes() {
+    test(r#"where <'a,bar<'b,'c>>,baz;"#, vec![
+        (r#"~~~~~~~~~~~~~~~~~~~~~~~~~ "#, Where(vec![" <'a,bar<'b,'c>>", "baz"])),
+        (r#"                         ~"#, Semi),
+    ]);
+}
+
+#[test]
+fn equalsgreaterthancode_error_unbalanced() {
+    test_err(r#"=> (,"#,
+            (r#"~    "#, ErrorCode::UnterminatedCode)
+    )
+}
+
+#[test]
+fn equalsgreaterthancode_error_unbalanced_closingbracket_character() {
+    test_err(r#"=> (,')',"#,
+            (r#"~        "#, ErrorCode::UnterminatedCode)
+    )
+}
+
+#[test]
+fn equalsgreaterthancode_error_unterminated_string_literal() {
+    test_err(r#"=>  "Jan III Sobieski"#,
+            (r#"    ~                "#, ErrorCode::UnterminatedStringLiteral)
+    )
+}
+
+#[test]
+fn equalsgreaterthancode_error_unterminated_character_literal() {
+    test_err(r#"=>  '\x233  "#,
+            (r#"    ~       "#, ErrorCode::UnterminatedCharacterLiteral)
+    )
+}
+
+#[test]
+fn equalsgreaterthancode_error_end_of_input_instead_of_closing_normal_character_literal() {
+    test_err(r#"=>  'x"#,
+            (r#"    ~ "#, ErrorCode::UnterminatedCharacterLiteral)
+    )
 }
 
 #[test]
@@ -155,4 +391,18 @@ fn regex2() {
         (r#"~~~~~~~"#, RegexLiteral(r"(123")),
     ]);
 }
+
+#[test]
+fn char_literals() {
+    test(r#"'foo' 'a 'b '!' '!!' '\'' 'c"#, vec![
+        (r#"~~~~~                       "#, CharLiteral("foo")),
+        (r#"      ~~                    "#, Lifetime("'a")),
+        (r#"         ~~                 "#, Lifetime("'b")),
+        (r#"            ~~~             "#, CharLiteral("!")),
+        (r#"                ~~~~        "#, CharLiteral("!!")),
+        (r#"                     ~~~~   "#, CharLiteral("\\'")),
+        (r#"                          ~~"#, Lifetime("'c")),
+    ]);
+}
+
 

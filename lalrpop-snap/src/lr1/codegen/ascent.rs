@@ -341,9 +341,20 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent,
 
         // if we hit this, the next token is not recognized, so generate an error
         rust!(self.out, "_ => {{");
+        // The terminals which would have resulted in a successful parse in this state
+        let successful_terminals = self.grammar.terminals.all.iter().filter(|&terminal| {
+                this_state.shifts.contains_key(terminal) ||
+                    this_state.reductions
+                        .iter()
+                        .any(|&(ref t, _)| t.contains(Token::Terminal(*terminal)))
+            });
         rust!(self.out, "return Err({}lalrpop_util::ParseError::UnrecognizedToken {{", self.prefix);
         rust!(self.out, "token: {}lookahead,", self.prefix);
-        rust!(self.out, "expected: vec![],");
+        rust!(self.out, "expected: vec![");
+        for terminal in successful_terminals {
+            rust!(self.out, "r###\"{}\"###.to_string(),", terminal);
+        }
+        rust!(self.out, "]");
         rust!(self.out, "}});");
         rust!(self.out, "}}");
 
@@ -457,20 +468,20 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent,
 
         let (fn_args, starts_with_terminal) = self.fn_args(optional_prefix, fixed_prefix);
 
-        try!(self.out.write_pub_fn_header(self.grammar,
-                                          format!("{}{}{}", self.prefix, fn_kind, fn_index),
-                                          vec![format!("{}TOKENS: Iterator<Item=Result<{},{}>>",
-                                                       self.prefix,
-                                                       triple_type,
-                                                       iter_error_type)],
-                                          fn_args,
-                                          format!("Result<(Option<{}>, {}Nonterminal<{}>), {}>",
-                                                  triple_type,
-                                                  self.prefix,
-                                                  Sep(", ",
-                                                      &self.custom.nonterminal_type_params),
-                                                  parse_error_type),
-                                          vec![]));
+        try!(self.out.write_fn_header(self.grammar,
+                                      format!("{}{}{}", self.prefix, fn_kind, fn_index),
+                                      vec![format!("{}TOKENS: Iterator<Item=Result<{},{}>>",
+                                                   self.prefix,
+                                                   triple_type,
+                                                   iter_error_type)],
+                                      fn_args,
+                                      format!("Result<(Option<{}>, {}Nonterminal<{}>), {}>",
+                                              triple_type,
+                                              self.prefix,
+                                              Sep(", ",
+                                                  &self.custom.nonterminal_type_params),
+                                              parse_error_type),
+                                      vec![]));
 
         rust!(self.out, "{{");
 

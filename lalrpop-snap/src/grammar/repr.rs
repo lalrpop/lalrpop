@@ -28,6 +28,9 @@ pub struct Grammar {
     // algorithm user requested for this parser
     pub algorithm: Algorithm,
 
+    // true if the grammar mentions the `!` terminal anywhere
+    pub uses_error_recovery: bool,
+
     // these are the nonterminals that were declared to be public; the
     // key is the user's name for the symbol, the value is the
     // artificial symbol we introduce, which will always have a single

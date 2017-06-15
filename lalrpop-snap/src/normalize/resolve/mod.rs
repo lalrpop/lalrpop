@@ -34,8 +34,27 @@ fn resolve_in_place(grammar: &mut Grammar) -> NormResult<()> {
                        TerminalString::Bare(id) => Some((conversion.span, id, Def::Terminal)),
                    });
 
+        // Extract all the bare identifiers that appear in the RHS of a `match` declaration.
+        // Example:
+        //     match {
+        //         r"(?)begin" => "BEGIN",
+        //     } else {
+        //         r"[a-zA-Z_][a-zA-Z0-9_]*" => ID,
+        //     }
+        // This would result in `vec![ID]`.
+        let match_identifiers =
+            grammar.items
+                   .iter()
+                   .filter_map(|item| item.as_match_token())
+                   .flat_map(|match_token| &match_token.contents)
+                   .flat_map(|match_contents| &match_contents.items)
+                   .filter_map(|item| match *item {
+                       MatchItem::Mapped(_, TerminalString::Bare(id), _) => Some((item.span(), id, Def::Terminal)),
+                       _ => None
+                   });
+
         let all_identifiers =
-            nonterminal_identifiers.chain(terminal_identifiers);
+            nonterminal_identifiers.chain(terminal_identifiers).chain(match_identifiers);
 
         let mut identifiers = map();
         for (span, id, def) in all_identifiers {
@@ -99,6 +118,7 @@ impl Validator {
         for item in &mut grammar.items {
             match *item {
                 GrammarItem::Use(..) => { }
+                GrammarItem::MatchToken(..) => {}
                 GrammarItem::InternToken(..) => {}
                 GrammarItem::ExternToken(..) => {}
                 GrammarItem::Nonterminal(ref mut data) => {

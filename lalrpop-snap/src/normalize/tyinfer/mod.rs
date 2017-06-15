@@ -9,7 +9,7 @@ use grammar::parse_tree::{ActionKind, Alternative,
                           Path,
                           Span,
                           SymbolKind,
-                          TerminalString, TypeRef};
+                          TypeRef};
 use grammar::repr::{NominalTypeRepr, Types, TypeRepr};
 use intern::intern;
 
@@ -79,8 +79,8 @@ impl<'grammar> TypeInferencer<'grammar> {
 
             let mut types = Types::new(&grammar.prefix, Some(loc_type), error_type, enum_type);
 
-            for &literal in &intern_token.literals {
-                types.add_term_type(TerminalString::Literal(literal), input_str.clone());
+            for match_entry in &intern_token.match_entries {
+                types.add_term_type(match_entry.user_name, input_str.clone());
             }
 
             types
