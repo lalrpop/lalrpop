@@ -5,7 +5,6 @@ use std::iter::once;
 use tok::{self, Tok};
 use util::strip;
 
-#[LALR]
 grammar<'input>(text: &'input str);
 
 pub Grammar: Grammar =

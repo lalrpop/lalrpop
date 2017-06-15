@@ -20,6 +20,7 @@ pub enum ErrorCode {
     UnrecognizedToken,
     UnterminatedEscape,
     UnterminatedStringLiteral,
+    UnterminatedCharacterLiteral,
     UnterminatedCode,
     ExpectedStringLiteral,
 }
@@ -34,6 +35,8 @@ pub enum Tok<'input> {
     Enum,
     Extern,
     Grammar,
+    Match,
+    Else,
     If,
     Mut,
     Pub,
@@ -50,6 +53,7 @@ pub enum Tok<'input> {
     MacroId(&'input str), // identifier followed immediately by `<`
     Lifetime(&'input str), // includes the `'`
     StringLiteral(&'input str), // excludes the `"`
+    CharLiteral(&'input str), // excludes the `'`
     RegexLiteral(&'input str), // excludes the `r"` and `"`
 
     // Symbols:
@@ -93,23 +97,20 @@ pub struct Tokenizer<'input> {
     shift: usize,
 }
 
-macro_rules! eof {
-    ($x:expr) => {
-        match $x { Some(v) => v, None => { return None; } }
-    }
-}
-
 pub type Spanned<T> = (usize, T, usize);
 
 const KEYWORDS: &'static [(&'static str, Tok<'static>)] = &[
     ("enum", Enum),
     ("extern", Extern),
     ("grammar", Grammar),
+    ("match", Match),
+    ("else", Else),
     ("if", If),
     ("mut", Mut),
     ("pub", Pub),
     ("type", Type),
     ];
+
 
 impl<'input> Tokenizer<'input> {
     pub fn new(text: &'input str, shift: usize) -> Tokenizer<'input> {
@@ -270,7 +271,7 @@ impl<'input> Tokenizer<'input> {
                 }
                 Some((idx0, '\'')) => {
                     self.bump();
-                    Some(Ok(self.lifetime(idx0)))
+                    Some(self.lifetimeish(idx0))
                 }
                 Some((idx0, '"')) => {
                     self.bump();
@@ -374,12 +375,20 @@ impl<'input> Tokenizer<'input> {
         // This is the interesting case. To find the end of the code,
         // we have to scan ahead, matching (), [], and {}, and looking
         // for a suitable terminator: `,`, `;`, `]`, `}`, or `)`.
+        // Additionaly we had to take into account that we can encounter an character literal
+        // equal to one of delimeters.
         let mut balance = 0; // number of unclosed `(` etc
         loop {
             if let Some((idx, c)) = self.lookahead {
                 if c == '"' {
                     self.bump();
                     try!(self.string_literal(idx)); // discard the produced token
+                    continue;
+                } else if c == '\'' {
+                    self.bump();
+                    if self.take_lifetime_or_character_literal().is_none() {
+                        return error(UnterminatedCharacterLiteral, idx);
+                    }
                     continue;
                 } else if c == 'r' {
                     self.bump();
@@ -419,6 +428,7 @@ impl<'input> Tokenizer<'input> {
                 return Ok(self.text.len());
             }
 
+
             self.bump();
         }
     }
@@ -436,7 +446,33 @@ impl<'input> Tokenizer<'input> {
         }
     }
 
-    fn string_literal(&mut self, idx0: usize) -> Result<Spanned<Tok<'input>>, Error> {
+    fn take_lifetime_or_character_literal(&mut self) -> Option<usize> {
+        // try to decide if `'` is for lifetime or it oppens a character literal
+
+        let forget_character = |p : (usize, char)| { p.0 };
+
+        self.lookahead.and_then( |(_, c)| {
+            if c == '\\' {
+                // escape after `'` => it had to be character literal token, consume
+                self.take_until_and_consume_terminating_character(|c:char| { c == '\'' })
+            } else {
+                // no escape, then we require to see next `'` or we assume it was lifetime
+                self.bump().and_then( |(idx, c)| {
+                    if c == '\'' {
+                        self.bump().map(forget_character)
+                    } else {
+                        Some(idx)
+                    }
+                })
+            }
+        })
+    }
+
+    fn string_or_char_literal(&mut self,
+                              idx0: usize,
+                              quote: char,
+                              variant: fn(&'input str) -> Tok<'input>)
+                              -> Option<Spanned<Tok<'input>>> {
         let mut escape = false;
         let terminate = |c: char| {
             if escape {
@@ -445,18 +481,28 @@ impl<'input> Tokenizer<'input> {
             } else if c == '\\' {
                 escape = true;
                 false
-            } else if c == '"' {
+            } else if c == quote {
                 true
             } else {
                 false
             }
         };
+
         match self.take_until(terminate) {
             Some(idx1) => {
-                self.bump(); // consume the '"'
-                let text = &self.text[idx0+1..idx1]; // do not include the "" in the str
-                Ok((idx0, StringLiteral(text), idx1+1))
+                self.bump(); // consume the closing quote
+                let text = &self.text[idx0+1..idx1]; // do not include quotes in the str
+                Some((idx0, variant(text), idx1+1))
             }
+            None => {
+                None
+            }
+        }
+    }
+
+    fn string_literal(&mut self, idx0: usize) -> Result<Spanned<Tok<'input>>, Error> {
+        match self.string_or_char_literal(idx0, '"', StringLiteral) {
+            Some(x) => Ok(x),
             None => {
                 error(UnterminatedStringLiteral, idx0)
             }
@@ -509,9 +555,34 @@ impl<'input> Tokenizer<'input> {
         }
     }
 
-    fn lifetime(&mut self, idx0: usize) -> Spanned<Tok<'input>> {
-        let (start, word, end) = self.word(idx0);
-        (start, Lifetime(word), end)
+    // Saw a `'`, could either be: `'a` or `'a'`.
+    fn lifetimeish(&mut self, idx0: usize) -> Result<Spanned<Tok<'input>>, Error> {
+        match self.lookahead {
+            None => {
+                error(UnterminatedCharacterLiteral, idx0)
+            },
+
+            Some((_, c)) => {
+                if is_identifier_start(c) {
+                    let (start, word, end) = self.word(idx0);
+                    match self.lookahead {
+                        Some((idx2, '\'')) => {
+                            self.bump();
+                            let text = &self.text[idx0+1..idx2];
+                            Ok((idx0, CharLiteral(text), idx2 + 1))
+                        }
+                        _ => {
+                            Ok((start, Lifetime(word), end))
+                        }
+                    }
+                } else {
+                    match self.string_or_char_literal(idx0, '\'', CharLiteral) {
+                        Some(x) => Ok(x),
+                        None => error(UnterminatedCharacterLiteral, idx0),
+                    }
+                }
+            }
+        }
     }
 
     fn identifierish(&mut self, idx0: usize) -> Result<Spanned<Tok<'input>>, Error> {
@@ -601,6 +672,14 @@ impl<'input> Tokenizer<'input> {
             }
         }
     }
+
+    fn take_until_and_consume_terminating_character<F>(&mut self, terminate : F) -> Option<usize>
+        where F: FnMut(char) -> bool
+    {
+        self.take_until(terminate).and_then(|_| {
+            self.bump().map(|p| {p.0})
+        })
+    }
 }
 
 impl<'input> Iterator for Tokenizer<'input> {
@@ -625,3 +704,4 @@ fn is_identifier_start(c: char) -> bool {
 fn is_identifier_continue(c: char) -> bool {
     UnicodeXID::is_xid_continue(c) || c == '_'
 }
+

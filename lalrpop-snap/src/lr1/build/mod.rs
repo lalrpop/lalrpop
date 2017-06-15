@@ -8,29 +8,44 @@ use lr1::first;
 use lr1::lane_table::*;
 use lr1::lookahead::*;
 use std::rc::Rc;
+use std::env;
 use tls::Tls;
 
 #[cfg(test)]
 mod test;
 
+fn build_lr1_states_legacy<'grammar>(grammar: &'grammar Grammar, start: NonterminalString) -> LR1Result<'grammar>
+{
+    let eof = TokenSet::eof();
+    let mut lr1: LR<'grammar, TokenSet> = LR::new(grammar, start, eof);
+    lr1.set_permit_early_stop(true);
+    lr1.build_states()
+}
+
+type ConstructionFunction<'grammar> = fn(&'grammar Grammar, NonterminalString) -> LR1Result<'grammar> ;
+
+pub fn use_lane_table() -> bool {
+    match env::var("LALRPOP_LANE_TABLE") {
+        Ok(ref s) => s != "disabled",
+        _ => true
+    }
+}
+
 pub fn build_lr1_states<'grammar>(grammar: &'grammar Grammar,
                                   start: NonterminalString)
                                   -> LR1Result<'grammar>
 {
-    // this is just here to squash dead code warnings while work on
-    // lane-table proceeds
-    if false {
-        let _ = build_lane_table_states(grammar, start);
-    }
+    let (method_name, method_fn) = if use_lane_table() {
+        ("lane", build_lane_table_states as ConstructionFunction)
+    } else {
+        ("legacy", build_lr1_states_legacy as ConstructionFunction)
+    };
 
     profile! {
         &Tls::session(),
-        "LR(1) state construction",
+        format!("LR(1) state construction ({})", method_name),
         {
-            let eof = TokenSet::eof();
-            let mut lr1: LR<'grammar, TokenSet> = LR::new(grammar, start, eof);
-            lr1.set_permit_early_stop(true);
-            lr1.build_states()
+            method_fn(grammar, start)
         }
     }
 }

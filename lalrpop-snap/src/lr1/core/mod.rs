@@ -113,10 +113,12 @@ pub struct Items<'grammar, L: Lookahead> {
     pub vec: Rc<Vec<Item<'grammar, L>>>
 }
 
+#[allow(dead_code)]
 pub type LR0Items<'grammar> = Items<'grammar, Nil>;
+#[allow(dead_code)]
 pub type LR1Items<'grammar> = Items<'grammar, TokenSet>;
 
-#[derive(Debug)]
+#[derive(Clone, Debug)]
 pub struct State<'grammar, L: Lookahead> {
     pub index: StateIndex,
     pub items: Items<'grammar, L>,
@@ -128,7 +130,7 @@ pub struct State<'grammar, L: Lookahead> {
 pub type LR0State<'grammar> = State<'grammar, Nil>;
 pub type LR1State<'grammar> = State<'grammar, TokenSet>;
 
-#[derive(Copy, Clone, Debug, PartialEq, Eq)]
+#[derive(Copy, Clone, Debug, PartialEq, Eq, PartialOrd, Ord)]
 pub enum Action<'grammar> {
     Shift(TerminalString, StateIndex),
     Reduce(&'grammar Production),
@@ -149,6 +151,7 @@ pub struct Conflict<'grammar, L> {
     pub action: Action<'grammar>,
 }
 
+#[allow(dead_code)]
 pub type LR0Conflict<'grammar> = Conflict<'grammar, Nil>;
 pub type LR1Conflict<'grammar> = Conflict<'grammar, TokenSet>;
 
@@ -164,8 +167,8 @@ pub struct TableConstructionError<'grammar, L: Lookahead> {
 
 pub type LR0TableConstructionError<'grammar> = TableConstructionError<'grammar, Nil>;
 pub type LR1TableConstructionError<'grammar> = TableConstructionError<'grammar, TokenSet>;
-pub type LR1Result<'grammar> = Result<Vec<LR1State<'grammar>>,
-                                      LR1TableConstructionError<'grammar>>;
+pub type LRResult<'grammar, L> = Result<Vec<State<'grammar, L>>, TableConstructionError<'grammar, L>>;
+pub type LR1Result<'grammar> = LRResult<'grammar, TokenSet>;
 
 impl<'grammar, L: Lookahead> Debug for Item<'grammar, L> {
     fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
@@ -197,6 +200,12 @@ impl Debug for Token {
 impl Debug for StateIndex {
     fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
         write!(fmt, "S{}", self.0)
+    }
+}
+
+impl Display for StateIndex {
+    fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
+        write!(fmt, "{}", self.0)
     }
 }
 

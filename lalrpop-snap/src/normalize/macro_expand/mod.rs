@@ -96,6 +96,7 @@ impl MacroExpander {
 
     fn replace_item(&mut self, item: &mut GrammarItem) {
         match *item {
+            GrammarItem::MatchToken(..) => { }
             GrammarItem::ExternToken(..) => { }
             GrammarItem::InternToken(..) => { }
             GrammarItem::Use(..) => { }

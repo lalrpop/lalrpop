@@ -11,12 +11,12 @@ use util::Sep;
 pub type InterpretError<'grammar, L> = (&'grammar State<'grammar, L>, Token);
 
 /// Feed in the given tokens and then EOF, returning the final parse tree that is reduced.
-pub fn interpret<'grammar, TOKENS, L>(states: &'grammar [State<'grammar, L>],
-                                      tokens: TOKENS)
-                                      -> Result<ParseTree, InterpretError<'grammar, L>>
-    where TOKENS: IntoIterator<Item = TerminalString>,
-          L: LookaheadInterpret
+pub fn interpret<'grammar, L>(states: &'grammar [State<'grammar, L>],
+                              tokens: Vec<TerminalString>)
+                              -> Result<ParseTree, InterpretError<'grammar, L>>
+    where L: LookaheadInterpret
 {
+    println!("interpret(tokens={:?})", tokens);
     let mut m = Machine::new(states);
     m.execute(tokens.into_iter())
 }

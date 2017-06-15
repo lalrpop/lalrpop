@@ -3,6 +3,7 @@ use lr1::core::*;
 use lr1::lookahead::Lookahead;
 use petgraph::{EdgeDirection, Graph};
 use petgraph::graph::NodeIndex;
+use petgraph::prelude::*;
 
 // Each state `s` corresponds to the node in the graph with index
 // `s`. The edges are the shift transitions.
@@ -60,8 +61,8 @@ impl StateGraph {
                 stack.extend(
                     self.graph.edges_directed(NodeIndex::new(state_index.0),
                                               EdgeDirection::Incoming)
-                              .filter(|&(_, symbol)| symbol == head)
-                              .map(|(pred, _)| (StateIndex(pred.index()), tail)));
+                              .filter(|edge| edge.weight() == head)
+                              .map(|edge| (StateIndex(edge.source().index()), tail)));
             } else {
                 result.push(state_index);
             }
@@ -76,7 +77,7 @@ impl StateGraph {
                       -> Vec<StateIndex> {
         self.graph.edges_directed(NodeIndex::new(state_index.0),
                                   EdgeDirection::Outgoing)
-                  .map(|(succ, _)| StateIndex(succ.index()))
+                  .map(|edge| StateIndex(edge.target().index()))
                   .collect()
     }
 
@@ -86,8 +87,8 @@ impl StateGraph {
                         -> Vec<StateIndex> {
         self.graph.edges_directed(NodeIndex::new(state_index.0),
                                   EdgeDirection::Incoming)
-                  .filter(|&(_, s)| *s == symbol)
-                  .map(|(pred, _)| StateIndex(pred.index()))
+                  .filter(|edge| *edge.weight() == symbol)
+                  .map(|edge| StateIndex(edge.source().index()))
                   .collect()
     }
 }

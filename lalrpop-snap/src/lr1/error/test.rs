@@ -106,7 +106,7 @@ fn suggest_question_conflict() {
             symbol,
         } => {
             assert_eq!(nonterminal, nt("OPT_L"));
-            assert_eq!(symbol, Symbol::Terminal(TerminalString::Literal(TerminalLiteral::Quoted(intern("L")))));
+            assert_eq!(symbol, Symbol::Terminal(TerminalString::quoted(intern("L"))));
         }
         r => panic!("wrong classification {:#?}", r)
     }

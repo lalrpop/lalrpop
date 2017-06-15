@@ -54,6 +54,12 @@ impl<'s> LowerState<'s> {
                     uses.push(data);
                 }
 
+                pt::GrammarItem::MatchToken(_) => {
+                    // The declarations in the match token are handled
+                    // fully by the `token_check` when it constructs the
+                    //  `InternToken` -- there is nothing left to do here.
+                }
+
                 pt::GrammarItem::InternToken(data) => {
                     token_span = Some(grammar.span);
                     let span = grammar.span;
@@ -65,13 +71,14 @@ impl<'s> LowerState<'s> {
                             types: vec![],
                         })),
                     };
-                    self.conversions.extend(data.literals
-                                                .iter()
-                                                .enumerate()
-                                                .map(|(index, &literal)| {
-                                                    let pattern = Pattern {
-                                                        span: span,
-                                                        kind: PatternKind::Tuple(vec![
+                    self.conversions.extend(
+                        data.match_entries
+                            .iter()
+                            .enumerate()
+                            .map(|(index, match_entry)| {
+                                let pattern = Pattern {
+                                    span: span,
+                                    kind: PatternKind::Tuple(vec![
                                         Pattern {
                                             span: span,
                                             kind: PatternKind::Usize(index),
@@ -80,10 +87,11 @@ impl<'s> LowerState<'s> {
                                             span: span,
                                             kind: PatternKind::Choose(input_str.clone())
                                         }
-                                        ]),
-                                                    };
-                                                    (TerminalString::Literal(literal), pattern)
-                                                }));
+                                    ]),
+                                };
+
+                                (match_entry.user_name, pattern)
+                            }));
                     self.intern_token = Some(data);
                 }
 
@@ -156,7 +164,11 @@ impl<'s> LowerState<'s> {
         let mut all_terminals: Vec<_> = self.conversions
                                             .iter()
                                             .map(|c| c.0)
-                                            .chain(Some(TerminalString::Error))
+                                            .chain(if self.uses_error_recovery {
+                                                Some(TerminalString::Error)
+                                            } else {
+                                                None
+                                            })
                                             .collect();
         all_terminals.sort();
 
@@ -166,6 +178,7 @@ impl<'s> LowerState<'s> {
                                                     .collect();
 
         Ok(r::Grammar {
+            uses_error_recovery: self.uses_error_recovery,
             prefix: self.prefix,
             start_nonterminals: start_symbols,
             uses: uses,
@@ -304,6 +317,30 @@ impl<'s> LowerState<'s> {
                 // arguments the names that the user gave them:
                 let arg_patterns = patterns(names.iter().map(|&(index, name, _)| (index, name)),
                                             symbols.len());
+
+
+                let action = {
+                    match norm_util::check_between_braces(&action) {
+                        norm_util::Presence::None => {
+                            action
+                        } 
+                        norm_util::Presence::Normal => {
+                            let name_str : String = intern::read(|interner| {
+                                let name_strs: Vec<_> = names.iter().map(|&(_,name,_)| interner.data(name)).collect();
+                                name_strs.join(", ")
+                            });
+                            action.replace("<>", &name_str)
+                        }
+                        norm_util::Presence::InCurlyBrackets => {
+                            let name_str = intern::read(|interner| {
+                                let name_strs: Vec<_> = names.iter().map(|&(_,name,_)| format!("{0}:{0}", interner.data(name))).collect();
+                                name_strs.join(", ")
+                            });
+                            action.replace("<>", &name_str)
+                        }
+                    }
+                };
+
 
                 r::ActionFnDefn {
                     fallible: fallible,

@@ -14,6 +14,12 @@ use util::Sep;
 mod test;
 
 pub fn validate(grammar: &Grammar) -> NormResult<()> {
+    let match_token: Option<&MatchToken> =
+        grammar.items
+               .iter()
+               .filter_map(|item| item.as_match_token())
+               .next();
+
     let extern_token: Option<&ExternToken> =
         grammar.items
                .iter()
@@ -22,6 +28,7 @@ pub fn validate(grammar: &Grammar) -> NormResult<()> {
 
     let validator = Validator {
         grammar: grammar,
+        match_token: match_token,
         extern_token: extern_token,
     };
 
@@ -30,6 +37,7 @@ pub fn validate(grammar: &Grammar) -> NormResult<()> {
 
 struct Validator<'grammar> {
     grammar: &'grammar Grammar,
+    match_token: Option<&'grammar MatchToken>,
     extern_token: Option<&'grammar ExternToken>,
 }
 
@@ -50,11 +58,47 @@ impl<'grammar> Validator<'grammar> {
         for item in &self.grammar.items {
             match *item {
                 GrammarItem::Use(..) => { }
+
+                GrammarItem::MatchToken(ref data) => {
+                    if data.span != self.match_token.unwrap().span {
+                        return_err!(
+                            data.span,
+                            "multiple match definitions are not permitted");
+                    }
+
+                    // We may want to allow a limited extern to coexist with match in the future
+                    if let Some(d) = self.extern_token {
+                        return_err!(
+                            d.span,
+                            "extern and match definitions are mutually exclusive");
+                    }
+
+                    // Ensure that the catch all is final item of final block
+                    for (contents_idx, match_contents) in data.contents.iter().enumerate() {
+                        for (item_idx, item) in match_contents.items.iter().enumerate() {
+                            if item.is_catch_all() && (contents_idx != &data.contents.len()-1 || item_idx != &match_contents.items.len()-1) {
+                                return_err!(
+                                    item.span(),
+                                    "Catch all must be final item");
+                            } else {
+                                println!("ok");
+                            }
+                        }
+                    }
+                }
+
                 GrammarItem::ExternToken(ref data) => {
                     if data.span != self.extern_token.unwrap().span {
                         return_err!(
                             data.span,
                             "multiple extern definitions are not permitted");
+                    }
+
+                    // We may want to allow a limited extern to coexist with match in the future
+                    if let Some(d) = self.match_token {
+                        return_err!(
+                            d.span,
+                            "match and extern definitions are mutually exclusive");
                     }
 
                     let allowed_names = vec![intern(LOCATION), intern(ERROR)];
@@ -123,7 +167,21 @@ impl<'grammar> Validator<'grammar> {
                         sym);
                 }
             }
-            Symbols::Anon(_) => { }
+            Symbols::Anon(_) => { 
+                let empty_string = "".to_string();
+                let action = {
+                    match alternative.action {
+                        Some(ActionKind::User(ref action)) => action,
+                        Some(ActionKind::Fallible(ref action)) => action,
+                        _ => &empty_string
+                    }
+                };
+                if norm_util::check_between_braces(action).is_in_curly_brackets() {
+                    return_err!(
+                        alternative.span,
+                        "Using `<>` between curly braces (e.g., `{{<>}}`) only works when your parsed values have been given names (e.g., `<x:Foo>`, not just `<Foo>`)");
+                }
+            }
         }
 
         Ok(())
