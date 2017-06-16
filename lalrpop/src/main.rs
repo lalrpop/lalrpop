@@ -8,17 +8,25 @@ use std::env;
 use std::io::{self, Write};
 use std::process;
 
+static VERSION: &'static str = env!("CARGO_PKG_VERSION");
+
 fn main() {
     main1().unwrap();
 }
 
 fn main1() -> io::Result<()> {
     let mut stderr = std::io::stderr();
+    let mut stdout = std::io::stdout();
 
     let args: Args =
         Docopt::new(USAGE)
         .and_then(|d| d.argv(env::args()).decode())
         .unwrap_or_else(|e| e.exit());
+
+    if args.flag_version {
+        try!(writeln!(stdout, "{}", VERSION));
+        process::exit(0);
+    }
 
     let mut config = Configuration::new();
 
@@ -67,8 +75,10 @@ fn main1() -> io::Result<()> {
 const USAGE: &'static str = "
 Usage: lalrpop [options] <inputs>...
        lalrpop --help
+       lalrpop (-V | --version)
 
 Options:
+    -V, --version        Print version.
     -l, --level LEVEL    Set the debug level. (Default: info)
                          Valid values: quiet, info, verbose, debug.
     -f, --force          Force execution, even if the .lalrpop file is older than the .rs file.
@@ -84,7 +94,8 @@ struct Args {
     flag_force: bool,
     flag_color: bool,
     flag_comments: bool,
-    flag_report: bool
+    flag_report: bool,
+    flag_version: bool,
 }
 
 #[derive(Debug, RustcDecodable)]
@@ -106,6 +117,14 @@ mod test {
             .unwrap();
     }
 
+    #[test]
+    fn test_usage_version() {
+        let argv = || vec!["lalrpop", "--version"];
+        let _: Args = Docopt::new(USAGE)
+            .and_then(|d| d.argv(argv().into_iter()).decode())
+            .unwrap();
+    }
+   
     #[test]
     fn test_usage_single_input() {
         let argv = || vec!["lalrpop", "file.lalrpop"];
