@@ -233,6 +233,9 @@ fn parse_and_normalize_grammar(session: &Session, file_text: &FileText) -> io::R
                 tok::ErrorCode::UnterminatedCharacterLiteral => {
                     "unterminated character literal; missing `'`?"
                 }
+                tok::ErrorCode::UnterminatedAttribute => {
+                    "unterminated #! attribute; missing `]`?"
+                }
                 tok::ErrorCode::ExpectedStringLiteral => "expected string literal; missing `\"`?",
                 tok::ErrorCode::UnterminatedCode => {
                     "unterminated code block; perhaps a missing `;`, `)`, `]` or `}`?"
@@ -289,6 +292,10 @@ fn report_content(content: &Content) -> term::Result<()> {
     canvas.write_to(&mut stdout)
 }
 
+fn emit_module_attributes<W: Write>(grammar: &r::Grammar, rust: &mut RustWrite<W>) -> io::Result<()> {
+    rust.write_module_attributes(grammar)
+}
+
 fn emit_uses<W: Write>(grammar: &r::Grammar, rust: &mut RustWrite<W>) -> io::Result<()> {
     rust.write_uses("", grammar)
 }
@@ -316,6 +323,7 @@ fn emit_recursive_ascent(session: &Session, grammar: &r::Grammar, report_file : 
     // includes things like `super::` it will resolve in the natural
     // way.
 
+    try!(emit_module_attributes(grammar, &mut rust));
     try!(emit_uses(grammar, &mut rust));
 
     if grammar.start_nonterminals.is_empty() {

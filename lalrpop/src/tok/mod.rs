@@ -21,6 +21,7 @@ pub enum ErrorCode {
     UnterminatedEscape,
     UnterminatedStringLiteral,
     UnterminatedCharacterLiteral,
+    UnterminatedAttribute,
     UnterminatedCode,
     ExpectedStringLiteral,
 }
@@ -87,7 +88,8 @@ pub enum Tok<'input> {
     Star,
     TildeTilde,
     Underscore,
-    Bang
+    Bang,
+    ShebangAttribute(&'input str), // #![...]
 }
 
 pub struct Tokenizer<'input> {
@@ -111,6 +113,40 @@ const KEYWORDS: &'static [(&'static str, Tok<'static>)] = &[
     ("type", Type),
     ];
 
+/*
+ * Helper for backtracking. 
+ */
+macro_rules! first {
+    ($this:expr, $action:expr, $fallback:expr) => {
+        {
+            let fallback_state = ($this.chars.clone(), $this.lookahead);
+            let result = $action;
+            match result {
+                Ok(_) => {
+                    Some(result)
+                }
+                _ => {
+                    $this.chars = fallback_state.0;
+                    $this.lookahead = fallback_state.1;
+                    Some($fallback)
+                }
+            }
+        }
+    }
+}
+
+macro_rules! try_opt {
+    ($e:expr, $err:expr) => {
+        {
+            let r = $e;
+            match r {
+                Some(Ok(val)) => val,
+                Some(Err(err)) => return Err(err),
+                None => return $err,
+            }
+        }
+    }
+}
 
 impl<'input> Tokenizer<'input> {
     pub fn new(text: &'input str, shift: usize) -> Tokenizer<'input> {
@@ -122,6 +158,47 @@ impl<'input> Tokenizer<'input> {
         };
         t.bump();
         t
+    }
+
+    fn shebang_attribute(&mut self, idx0: usize) -> Result<Spanned<Tok<'input>>, Error> {
+        try_opt!(self.expect_char('!'), error(ErrorCode::UnrecognizedToken, idx0));
+        try_opt!(self.expect_char('['), error(ErrorCode::UnterminatedAttribute, idx0));
+        let mut sq_bracket_counter = 1;
+        while let Some((idx1, c)) = self.lookahead {
+            match c {
+                '[' => {
+                    self.bump();
+                    sq_bracket_counter += 1
+                }
+                ']' => {
+                    self.bump();
+                    sq_bracket_counter -= 1;
+                    match sq_bracket_counter {
+                        0 => {
+                            let idx2 = idx1 + 1;
+                            let data = &self.text[idx0..idx2];
+                            self.bump();
+                            return Ok((idx0, ShebangAttribute(data), idx2))
+                        },
+                        n if n < 0 => {
+                            return error(UnrecognizedToken, idx0)
+                        }
+                        _ => ()
+                    }
+                }
+                '"' => {
+                    self.bump();
+                    let _ = try!(self.string_literal(idx1));
+                }
+                '\n' => {
+                    return error(UnrecognizedToken, idx0)
+                }
+                _ => {
+                    self.bump();
+                }
+            }
+        }
+        error(UnrecognizedToken, idx0)
     }
 
     fn next_unshifted(&mut self) -> Option<Result<Spanned<Tok<'input>>, Error>> {
@@ -189,7 +266,9 @@ impl<'input> Tokenizer<'input> {
                 }
                 Some((idx0, '#')) => {
                     self.bump();
-                    Some(Ok((idx0, Hash, idx0+1)))
+                    first!(self, 
+                          { self.shebang_attribute(idx0) },
+                          { Ok((idx0, Hash, idx0+1)) })
                 }
                 Some((idx0, '>')) => {
                     self.bump();
@@ -487,7 +566,6 @@ impl<'input> Tokenizer<'input> {
                 false
             }
         };
-
         match self.take_until(terminate) {
             Some(idx1) => {
                 self.bump(); // consume the closing quote
@@ -680,6 +758,23 @@ impl<'input> Tokenizer<'input> {
             self.bump().map(|p| {p.0})
         })
     }
+
+    fn expect_char(&mut self, c : char) -> Option<Result<usize, Error>> {
+        match self.lookahead {
+            Some((idx0, cc)) if c == cc => {
+                self.bump();
+                Some(Ok((idx0)))
+            }
+            Some((idx0, _)) => {
+                self.bump();
+                Some(error(UnrecognizedToken, idx0))
+            }
+            None => {
+                None
+            }
+        }
+    }
+
 }
 
 impl<'input> Iterator for Tokenizer<'input> {

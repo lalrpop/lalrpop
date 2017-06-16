@@ -386,6 +386,55 @@ fn regex1() {
 }
 
 #[test]
+fn hash_token() {
+    test(r#" # "#, vec![
+        (r#" ~ "#, Hash)
+    ]);
+}
+
+#[test]
+fn shebang_attribute_normal_text() {
+    test(r#" #![Attribute] "#, vec![
+        (r#" ~~~~~~~~~~~~~ "#, ShebangAttribute("#![Attribute]"))
+    ]);
+}
+
+#[test]
+fn shebang_attribute_special_characters_without_quotes() {
+    test(r#" #![set width = 80] "#, vec![
+        (r#" ~~~~~~~~~~~~~~~~~~ "#, ShebangAttribute("#![set width = 80]"))
+    ]);
+}
+
+#[test]
+fn shebang_attribute_special_characters_with_quotes() {
+    test(r#" #![set width = "80"] "#, vec![
+        (r#" ~~~~~~~~~~~~~~~~~~~~ "#, ShebangAttribute(r#"#![set width = "80"]"#))
+    ]);
+}
+
+#[test]
+fn shebang_attribute_special_characters_closing_sqbracket_in_string_literal() {
+    test(r#" #![set width = "80]"] "#, vec![
+        (r#" ~~~~~~~~~~~~~~~~~~~~~ "#, ShebangAttribute(r#"#![set width = "80]"]"#))
+    ]);
+}
+
+#[test]
+fn shebang_attribute_special_characters_opening_sqbracket_in_string_literal() {
+    test(r#" #![set width = "[80"] "#, vec![
+        (r#" ~~~~~~~~~~~~~~~~~~~~~ "#, ShebangAttribute(r#"#![set width = "[80"]"#))
+    ]);
+}
+
+#[test]
+fn shebang_attribute_special_characters_nested_sqbrackets() {
+    test(r#" #![set width = [80]] "#, vec![
+        (r#" ~~~~~~~~~~~~~~~~~~~~ "#, ShebangAttribute(r#"#![set width = [80]]"#))
+    ]);
+}
+
+#[test]
 fn regex2() {
     test(r#"r"(123""#, vec![
         (r#"~~~~~~~"#, RegexLiteral(r"(123")),

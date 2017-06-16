@@ -8,6 +8,7 @@ use util::strip;
 grammar<'input>(text: &'input str);
 
 pub Grammar: Grammar =
+    <module_attributes:ShebangAttribute*>
     <uses:Use*>
     <annotations:Annotation*>
     <lo:@L> "grammar" <hi:@R>
@@ -29,7 +30,8 @@ pub Grammar: Grammar =
                   parameters: parameters.unwrap_or(vec![]),
                   where_clauses: where_clauses,
                   items: uses.into_iter().chain(items).collect(),
-                  annotations: annotations }
+                  annotations: annotations,
+                  module_attributes: module_attributes}
     };
 
 GrammarTypeParameters: Vec<TypeParameter> =
@@ -360,6 +362,9 @@ Comma<E>: Vec<E> =
     <v0:(<E> ",")*> <e1:E?> =>
         v0.into_iter().chain(e1).collect();
 
+ShebangAttribute: String =
+    <s:"#![...]"> => s.to_string();
+
 extern {
     type Location = usize;
     type Error = tok::Error;
@@ -400,6 +405,7 @@ extern {
         "=>@R" => Tok::EqualsGreaterThanLookbehind,
         ">" => Tok::GreaterThan,
         "#" => Tok::Hash,
+        "#![...]" => Tok::ShebangAttribute(<&'input str>),
         "{" => Tok::LeftBrace,
         "[" => Tok::LeftBracket,
         "(" => Tok::LeftParen,

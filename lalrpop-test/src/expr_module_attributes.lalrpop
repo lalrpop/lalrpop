@@ -1,0 +1,35 @@
+#![allow(clippy)]
+#![cfg_attr(feature = "cargo-clippy", allow(clippy))]
+grammar(scale: i32);
+
+use util::tok::Tok;
+
+extern {
+    enum Tok {
+        "(" => Tok::LParen,
+        ")" => Tok::RParen,
+        "-" => Tok::Minus,
+        "+" => Tok::Plus,
+        "*" => Tok::Times,
+        "/" => Tok::Div,
+        Num => Tok::Num(<i32>),
+        Fraction => Tok::Fraction(<i32>, <i32>), // Regression test for #179
+    }
+}
+
+pub Expr = {
+    <l:Expr> "-" <r:Factor> => l - r,
+    <l:Expr> "+" <r:Factor> => l + r,
+    Factor,
+};
+
+Factor = {
+    <l:Factor> "*" <r:Term> => l * r,
+    <l:Factor> "/" <r:Term> => l / r,
+    Term,
+};
+
+Term: i32 = {
+    <n:Num> => n * scale,
+    "(" <Expr> ")",
+};
