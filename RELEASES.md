@@ -1,3 +1,34 @@
+# Version 0.13.1
+
+- We now support `#![..]` attributes in `.lalrpop` files.
+- We now use lane table by default: since the lane table algorithm
+  automatically generates compressed tables where possible, the
+  `#[lalr]` attribute is still accepted, but has no effect.
+  - If you encounter problems, please report bugs! In the meantime,
+    though, you can use the `LALRPOP_LANE_TABLE=disabled` environment
+    variable to change back.
+- When the `<>` string is found within `{}` inside of an action, it
+  now generates a series of `x: x` pairs for each named value `x`.
+  This is useful for struct constants, since you can do something
+  like: `<a:Foo> <b:Bar> => MyStruct { <> }`, if `MyStruct` had two
+  fields named `a` and `b`.
+- We now support character literal patterns in the external tokenizer pattern syntax.  
+- The lalrpop executable now supports `--version`.
+- We are (for now, at least) testing for compatibility with Rust 1.13.
+  This minimal supported rustc version may change in the future,
+  however.
+- Misc bug fixes.
+
+Thanks to the following contributors for this release:
+
+- @jchlapinski
+- @minijackson
+- @nikomatsakis
+- @ravenexp
+- @ruuda
+- @wieczyk
+- @withoutboats
+
 # Version 0.13
 
 This is a bug release for LALRPOP. First, we have two major improvements to the
