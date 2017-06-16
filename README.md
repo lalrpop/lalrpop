@@ -65,14 +65,14 @@ build = "build.rs" # LALRPOP preprocessing
 # needed if you are writing your own tokenizer by
 # hand (or if you are already using the regex crate)
 [dependencies.regex]
-version = "0.2.1"
+version = "0.13.1"
 
 # Add a dependency on the LALRPOP runtime library:
 [dependencies.lalrpop-util]
-version = "0.13.0"
+version = "0.13.1"
 
 [build-dependencies.lalrpop]
-version = "0.13.0"
+version = "0.13.1"
 ```
 
 And create a `build.rs` file that looks like:
