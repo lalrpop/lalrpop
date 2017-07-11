@@ -209,7 +209,7 @@ fn parse_and_normalize_grammar(session: &Session, file_text: &FileText) -> io::R
         }
 
         Err(ParseError::UnrecognizedToken { token: Some((lo, _, hi)), expected }) => {
-            assert!(expected.is_empty()); // didn't implement this yet :)
+            let _ = expected; // didn't implement this yet :)
             let text = &file_text.text()[lo..hi];
             report_error(&file_text,
                          pt::Span(lo, hi),
