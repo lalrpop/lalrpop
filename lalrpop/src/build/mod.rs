@@ -18,7 +18,7 @@ use tls::Tls;
 use tok;
 
 use std::fs;
-use std::io::{self, Write};
+use std::io::{self, Write, BufRead};
 use std::path::{Path, PathBuf};
 use std::process::exit;
 use std::rc::Rc;
@@ -27,6 +27,9 @@ mod action;
 mod fake_term;
 
 use self::fake_term::FakeTerminal;
+
+const LALRPOP_VERSION_HEADER: &'static str =
+    concat!("// auto-generated: \"", env!("CARGO_PKG_NAME"), " ", env!("CARGO_PKG_VERSION"), "\"");
 
 pub fn process_dir<P: AsRef<Path>>(session: Rc<Session>, root_dir: P) -> io::Result<()> {
     let lalrpop_files = try!(lalrpop_files(root_dir));
@@ -100,6 +103,7 @@ fn process_file_into(session: Rc<Session>, lalrpop_file: &Path, rs_file: &Path, 
             let grammar = try!(parse_and_normalize_grammar(&session, &file_text));
             let buffer = try!(emit_recursive_ascent(&session, &grammar, &report_file));
             let mut output_file = try!(fs::File::create(&rs_file));
+            try!(writeln!(output_file, "{}", LALRPOP_VERSION_HEADER));
             try!(output_file.write_all(&buffer));
         }
 
@@ -125,7 +129,11 @@ fn needs_rebuild(lalrpop_file: &Path, rs_file: &Path) -> io::Result<bool> {
     return match fs::metadata(&rs_file) {
         Ok(rs_metadata) => {
             let lalrpop_metadata = try!(fs::metadata(&lalrpop_file));
-            Ok(compare_modification_times(&lalrpop_metadata, &rs_metadata))
+            if compare_modification_times(&lalrpop_metadata, &rs_metadata) {
+                return Ok(true);
+            }
+
+            compare_lalrpop_version(rs_file)
         }
         Err(e) => {
             match e.kind() {
@@ -156,6 +164,14 @@ fn needs_rebuild(lalrpop_file: &Path, rs_file: &Path) -> io::Result<bool> {
                                   rs_metadata: &fs::Metadata)
                                   -> bool {
         true
+    }
+
+    fn compare_lalrpop_version(rs_file: &Path) -> io::Result<bool> {
+        let mut input_str = String::new();
+        let mut f = io::BufReader::new(try!(fs::File::open(&rs_file)));
+        try!(f.read_line(&mut input_str));
+
+        Ok(input_str.trim() != LALRPOP_VERSION_HEADER)
     }
 }
 
