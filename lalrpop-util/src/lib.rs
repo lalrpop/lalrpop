@@ -36,6 +36,34 @@ pub enum ParseError<L,T,E> {
     },
 }
 
+impl<L, T, E> ParseError<L, T, E> {
+    fn map_intern<FL,LL,FT,TT,FE,EE>(self, loc_op: FL, tok_op: FT, err_op: FE) -> ParseError<LL,TT,EE>
+    where FL: Fn(L) -> LL,
+          FT: Fn(T) -> TT,
+          FE: Fn(E) -> EE
+    {
+        let maptok = |(s,t,e) : (L,T,L)| (loc_op(s), tok_op(t), loc_op(e));
+        match self {
+            ParseError::InvalidToken { location } => ParseError::InvalidToken { location: loc_op(location) },
+            ParseError::UnrecognizedToken { token, expected } => ParseError::UnrecognizedToken { token: token.map(maptok), expected: expected },
+            ParseError::ExtraToken { token } => ParseError::ExtraToken { token: maptok(token) },
+            ParseError::User { error } => ParseError::User { error: err_op(error) }
+        }
+    }
+
+    pub fn map_loc<F,LL>(self, op: F) -> ParseError<LL, T, E> where F: Fn(L) -> LL {
+        self.map_intern(op, |x|x, |x|x)
+    }
+
+    pub fn map_tok<F,TT>(self, op: F) -> ParseError<L, TT, E> where F: Fn(T) -> TT {
+        self.map_intern(|x|x, op, |x|x)
+    }
+
+    pub fn map_err<F,EE>(self, op: F) -> ParseError<L, T, EE> where F: Fn(E) -> EE {
+        self.map_intern(|x|x, |x|x, op)
+    }
+}
+
 impl<L, T, E> fmt::Display for ParseError<L, T, E>
 where L: fmt::Display,
       T: fmt::Display,

@@ -155,6 +155,26 @@ fn expr_intern_tok_test_err() {
 }
 
 #[test]
+fn expr_intern_tok_display_err() {
+    let expr = "(1+\n(2++3))";
+    let result = expr_intern_tok::parse_Expr(1, expr);
+    let err : lalrpop_util::ParseError<usize, (usize, &str),()>
+            = result.expect_err("expected a syntax error");
+
+    // The problem is that (usize,&str) and () do not implement fmt::Display,
+    // so neither does the ParseError.
+    // We can fix that by rewriting them to something else, such as a string.
+    let disp = err.map_tok(|(_,t)|t).map_err(|_| "error");
+    assert!(disp.to_string().contains("Unrecognized token +"));
+
+    // We can even convert the locations to a line number
+    let line_based = disp.map_loc(|offset| {
+        format!("line {}", expr[0..offset].lines().count())
+    });
+    assert!(line_based.to_string().contains("line 2"));
+}
+
+#[test]
 fn expr_lifetime_tok1() {
     // the problem here was that we were improperly pruning the 'input from the
     let tokens = lifetime_tok_lib::lt_tokenize("x");
