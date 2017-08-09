@@ -159,7 +159,7 @@ fn expr_intern_tok_display_err() {
     let expr = "(1+\n(2++3))";
     let result = expr_intern_tok::parse_Expr(1, expr);
     let err : lalrpop_util::ParseError<usize, (usize, &str),()>
-            = result.expect_err("expected a syntax error");
+            = result.unwrap_err();
 
     // The problem is that (usize,&str) and () do not implement fmt::Display,
     // so neither does the ParseError.
