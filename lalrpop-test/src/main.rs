@@ -163,7 +163,7 @@ fn expr_intern_tok_display_err() {
 
     // The problem is that (usize,&str) and () do not implement fmt::Display,
     // so neither does the ParseError.
-    // We can fix that by rewriting them to something else, such as a string.
+    // We can fix that by rewriting them to something that has fmt::Display
     let disp = err.map_tok(|(_,t)|t).map_err(|_| "error");
     assert!(disp.to_string().contains("Unrecognized token +"));
 
