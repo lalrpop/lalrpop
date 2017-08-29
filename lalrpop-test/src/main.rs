@@ -25,6 +25,7 @@ mod expr_lalr;
 mod expr_intern_tok;
 
 /// tests #![attributes] for generated module
+#[allow(dead_code, unknown_lints)]
 mod expr_module_attributes;
 
 /// test that passes in lifetime/type/formal parameters and threads
@@ -82,6 +83,9 @@ mod unit;
 
 /// test for match section
 mod match_section;
+
+/// regression test for issue #253.
+mod partial_parse;
 
 // Check that error recovery (which requires cloneable tokens) is not created if it is not used
 #[allow(unused)]
@@ -436,4 +440,9 @@ fn test_match_section() {
 #[test]
 fn issue_113() {
     assert!(error_issue_113::parse_Items("+").is_err());
+}
+
+#[test]
+fn issue_253() {
+    assert!(partial_parse::parse_Term("(22))").is_err());
 }

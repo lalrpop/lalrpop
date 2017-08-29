@@ -1,0 +1,14 @@
+// From issue #253 -- this grammar is not that important, the key
+// thing is that when we parse we expect to get an error because the
+// entire input is not consumed.
+
+use std::str::FromStr;
+
+grammar;
+
+pub Term: i32 = {
+    <n:Num> => n,
+    "(" <t:Term> ")" => t,
+};
+
+Num: i32 = <s:r"[0-9]+"> => i32::from_str(s).unwrap();

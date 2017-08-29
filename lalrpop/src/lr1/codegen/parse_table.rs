@@ -103,7 +103,9 @@ pub fn compile<'grammar, W: Write>(grammar: &'grammar Grammar,
 //                symbols.push(symbol);
 //                continue 'shift;
 //            } else if action < 0 { // reduce
-//                try!(reduce(action, Some(&lookahead.0), &mut states, &mut symbols));
+//                if let Some(_) = reduce(action, Some(&lookahead.0), &mut states, &mut symbols) {
+//                    return Err(lalrpop_util::ParseError::ExtraToken { token: lookahead });
+//                }
 //            } else {
 //                try_error_recovery(...)?;
 //            }
@@ -486,7 +488,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
             rust!(self.out, "println!(\"--> reduce\");");
         }
         rust!(self.out,
-              "if let Some(r) = {}reduce({}{}action, Some(&{}lookahead.0), &mut {}states, &mut \
+              "if let Some(_) = {}reduce({}{}action, Some(&{}lookahead.0), &mut {}states, &mut \
                {}symbols, {}) {{",
               self.prefix,
               self.grammar.user_parameter_refs(),
@@ -495,7 +497,10 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
               self.prefix,
               self.prefix,
               phantom_data_expr);
-        rust!(self.out, "return r;");
+        rust!(self.out,
+              "return Err({}lalrpop_util::ParseError::ExtraToken {{ token: {}lookahead }});",
+              self.prefix,
+              self.prefix);
         rust!(self.out, "}}");
 
         // Error.
@@ -1069,16 +1074,15 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
         rust!(self.out, "break;");
         rust!(self.out, "}}");
         rust!(self.out, "{}states.pop();", self.prefix);
+        if DEBUG_PRINT {
+            rust!(self.out, "println!(\"Dropping state: {{}}\", {}state);",
+                self.prefix);
+        }
         rust!(self.out, "}}"); // Some
         rust!(self.out, "None => {{");
         rust!(self.out, "return Err({}error);", self.prefix);
         rust!(self.out, "}}");
         rust!(self.out, "}}"); // match
-
-        if DEBUG_PRINT {
-            rust!(self.out, "println!(\"Dropping state: {{}}\", {}state);",
-                self.prefix);
-        }
 
         rust!(self.out, "}}"); // loop
 
