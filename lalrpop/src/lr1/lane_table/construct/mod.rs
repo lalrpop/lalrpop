@@ -114,9 +114,25 @@ impl<'grammar> LaneTableConstruct<'grammar> {
         debug!("resolve_inconsistencies(inconsistent_state={:?}/{:#?}",
                inconsistent_state, states[inconsistent_state.0]);
 
-        let actions = super::conflicting_actions(&states[inconsistent_state.0]);
+        let mut actions = super::conflicting_actions(&states[inconsistent_state.0]);
         if actions.is_empty() {
-            return Ok(());
+            // This can mean one of two things: only shifts, or a
+            // single reduction. We have to be careful about states
+            // with a single reduction: even though such a state is
+            // not inconsistent (there is only one possible course of
+            // action), we still want to run the lane table algorithm,
+            // because otherwise we get states with "complete"
+            // lookahead, which messes with error recovery.
+            //
+            // In particular, if there is too much lookahead, we will
+            // reduce even when it is inappropriate to do so.
+            actions = states[inconsistent_state.0].reductions
+                                                  .iter()
+                                                  .map(|&(_, prod)| Action::Reduce(prod))
+                                                  .collect();
+            if actions.is_empty() {
+                return Ok(());
+            }
         }
 
         debug!("resolve_inconsistencies: conflicting_actions={:?}", actions);
@@ -168,6 +184,7 @@ impl<'grammar> LaneTableConstruct<'grammar> {
             Ok(columns) => {
                 debug!("attempt_lalr, columns={:#?}", columns);
                 columns.apply(state, actions);
+                debug!("attempt_lalr, state={:#?}", state);
                 true
             }
             Err(OverlappingLookahead) => {
