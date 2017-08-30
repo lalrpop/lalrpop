@@ -60,6 +60,8 @@ impl<'grammar> LaneTableConstruct<'grammar> {
                     // We failed because of irreconcilable conflicts
                     // somewhere. Just compute the conflicts from the final set of
                     // states.
+                    debug!("construct: failed to resolve inconsistencies in state {:#?}",
+                           states[i]);
                     let conflicts: Vec<Conflict<'grammar, TokenSet>> =
                         states.iter()
                               .flat_map(|s| Lookahead::conflicts(&s))
@@ -167,7 +169,10 @@ impl<'grammar> LaneTableConstruct<'grammar> {
         for beachhead_state in beachhead_states {
             match merge.start(beachhead_state) {
                 Ok(()) => { }
-                Err((source, _)) => return Err(source),
+                Err((source, _)) => {
+                    debug!("resolve_inconsistencies: failed to merge, source={:?}", source);
+                    return Err(source);
+                }
             }
         }
         merge.patch_target_starts(&actions);
