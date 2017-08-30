@@ -148,3 +148,25 @@ Ident = r#"[a-zA-Z][a-zA-Z0-9]*"#;
         r => panic!("wrong classification {:#?}", r)
     }
 }
+
+/// This example used to cause an out-of-bounds error.
+#[test]
+fn issue_249() {
+    let _tls = Tls::test();
+    let grammar = normalized_grammar(r##"
+grammar;
+
+pub Func = StructDecl* VarDecl*;
+StructDecl = "<" StructParameter* ">";
+StructParameter = "may_dangle"?;
+VarDecl = "let";
+"##);
+    let _lr1_tls = Lr1Tls::install(grammar.terminals.clone());
+    let err = build_states(&grammar, nt("Func")).unwrap_err();
+    let mut cx = ErrorReportingCx::new(&grammar, &err.states, &err.conflicts);
+    let conflicts = super::token_conflicts(&err.conflicts);
+    for conflict in &conflicts {
+        println!("conflict={:?}", conflict);
+        cx.classify(conflict);
+    }
+}

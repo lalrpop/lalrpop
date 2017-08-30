@@ -444,6 +444,12 @@ impl<'cx, 'grammar> ErrorReportingCx<'cx, 'grammar> {
         action_examples.sort_by(|e, f| e.symbols.len().cmp(&f.symbols.len()));
         reduce_examples.sort_by(|e, f| e.symbols.len().cmp(&f.symbols.len()));
 
+        // This really shouldn't happen, but if we've failed to come
+        // up with examples, then report a "naive" error.
+        if action_examples.is_empty() || reduce_examples.is_empty() {
+            return ConflictClassification::Naive;
+        }
+
         if let Some(classification) = self.try_classify_ambiguity(conflict,
                                                                   &action_examples,
                                                                   &reduce_examples) {
@@ -531,6 +537,9 @@ impl<'cx, 'grammar> ErrorReportingCx<'cx, 'grammar> {
         if let Action::Reduce(_) = conflict.action {
             return None;
         }
+
+        debug!("try_classify_question: action_examples={:?}", action_examples);
+        debug!("try_classify_question: reduce_examples={:?}", reduce_examples);
 
         let nt = conflict.production.nonterminal;
         let nt_productions = self.grammar.productions_for(nt);
