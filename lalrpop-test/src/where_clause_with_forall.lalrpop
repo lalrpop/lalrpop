@@ -1,0 +1,21 @@
+use std::str::FromStr;
+
+grammar<F>(logger: &mut F) where F: for<'a> FnMut(&'a str);
+
+pub Term: i32 = {
+    <n:Num> => {
+        let msg = format!("just parsed {}", n);
+        logger(&msg);
+        n
+    },
+    "(" <t:Term> ")" => {
+        logger("propagating...");
+        {
+            let msg = format!("... {}", t);
+            logger(&msg);
+        }
+        t
+    },
+};
+
+Num: i32 = <s:r"[0-9]+"> => i32::from_str(s).unwrap();

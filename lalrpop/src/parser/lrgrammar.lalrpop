@@ -14,21 +14,14 @@ pub Grammar: Grammar =
     <lo:@L> "grammar" <hi:@R>
     <tps:GrammarTypeParameters?>
     <parameters:GrammarParameters?>
-    <where_clauses:"where"?>
+    <where_clauses:GrammarWhereClauses?>
     ";"
     <items:GrammarItem*> => {
-        let where_clauses =
-            where_clauses.iter()
-                         .flat_map(|wc| wc.iter())
-                         .map(|s| strip(s))
-                         .filter(|s| !s.is_empty())
-                         .map(|s| s.to_string())
-                         .collect();
         Grammar { prefix: format!("__"), // adjusted by `parse_grammar`
                   span: Span(lo, hi),
                   type_parameters: tps.unwrap_or(vec![]),
                   parameters: parameters.unwrap_or(vec![]),
-                  where_clauses: where_clauses,
+                  where_clauses: where_clauses.unwrap_or(vec![]),
                   items: uses.into_iter().chain(items).collect(),
                   annotations: annotations,
                   module_attributes: module_attributes}
@@ -40,6 +33,48 @@ GrammarTypeParameters: Vec<TypeParameter> =
 TypeParameter: TypeParameter = {
     <l:Lifetime> => TypeParameter::Lifetime(l),
     <l:Id> => TypeParameter::Id(l)
+};
+
+pub GrammarWhereClauses: Vec<WhereClause<TypeRef>> =
+    "where" <Comma<GrammarWhereClause>>;
+
+GrammarWhereClause: WhereClause<TypeRef> = {
+    <l:Lifetime> ":" <bounds:Plus<Lifetime>> =>
+        WhereClause::Lifetime { lifetime: l, bounds: bounds },
+    <f:ForAll?> <ty:TypeRef> ":" <bounds:TypeBounds> =>
+        WhereClause::Type { forall: f, ty: ty, bounds: bounds }
+};
+
+ForAll: Vec<InternedString> =
+    "for" "<" <Comma<Lifetime>> ">";
+
+TypeBounds: Vec<TypeBound<TypeRef>> =
+    <Plus<TypeBound>>;
+
+TypeBound: TypeBound<TypeRef> = {
+    <l:Lifetime> =>
+        TypeBound::Lifetime(l),
+    <f:ForAll?> <p:Path> "(" <params:Comma<TypeRef>> ")" <ret:("->" <TypeRef>)?> =>
+        TypeBound::Fn { forall: f, path: p, parameters: params, ret: ret },
+    <f:ForAll?> <p:Path> <params:("<" <Comma<TypeBoundParameter>> ">")?> =>
+        TypeBound::Trait { forall: f, path: p, parameters: params.unwrap_or(vec![]) }
+};
+
+TypeBoundParameter: TypeBoundParameter<TypeRef> = {
+    <l:Lifetime> => TypeBoundParameter::Lifetime(l),
+    <ty:TypeRef> => TypeBoundParameter::TypeParameter(ty),
+    <id:Id> "=" <ty:TypeRef> => TypeBoundParameter::Associated(id, ty),
+};
+
+Plus<T>: Vec<T> = {
+    <v:(<T> "+")*> <e:T?> => match e {
+        None => v,
+        Some(e) => {
+            let mut v = v;
+            v.push(e);
+            v
+        }
+    }
 };
 
 GrammarParameters: Vec<Parameter> =
@@ -176,7 +211,7 @@ SymbolKind1: SymbolKind = {
 
     "@R" =>
         SymbolKind::Lookbehind,
-    
+
     "!" =>
         SymbolKind::Error,
 };
@@ -378,9 +413,10 @@ extern {
         "mut" => Tok::Mut,
         "pub" => Tok::Pub,
         "type" => Tok::Type,
+        "where" => Tok::Where,
+        "for" => Tok::For,
         "!" => Tok::Bang,
         "use" => Tok::Use(<&'input str>),
-        "where" => Tok::Where(<Vec<&'input str>>),
 
         "Escape" => Tok::Escape(<&'input str>),
         "Id" => Tok::Id(<&'input str>),
@@ -412,6 +448,7 @@ extern {
         "<" => Tok::LessThan,
         "@L" => Tok::Lookahead,
         "@R" => Tok::Lookbehind,
+        "->" => Tok::MinusGreaterThan,
         "+" => Tok::Plus,
         "?" => Tok::Question,
         "}" => Tok::RightBrace,

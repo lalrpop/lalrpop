@@ -42,11 +42,12 @@ pub enum Tok<'input> {
     Mut,
     Pub,
     Type,
+    Where,
+    For,
 
     // Special keywords: these are accompanied by a series of
     // uninterpreted strings representing imports and stuff.
     Use(&'input str),
-    Where(Vec<&'input str>),
 
     // Identifiers of various kinds:
     Escape(&'input str),
@@ -79,6 +80,7 @@ pub enum Tok<'input> {
     LessThan,
     Lookahead, // @L
     Lookbehind, // @R
+    MinusGreaterThan,
     Plus,
     Question,
     RightBrace,
@@ -111,10 +113,12 @@ const KEYWORDS: &'static [(&'static str, Tok<'static>)] = &[
     ("mut", Mut),
     ("pub", Pub),
     ("type", Type),
+    ("where", Where),
+    ("for", For),
     ];
 
 /*
- * Helper for backtracking. 
+ * Helper for backtracking.
  */
 macro_rules! first {
     ($this:expr, $action:expr, $fallback:expr) => {
@@ -266,7 +270,7 @@ impl<'input> Tokenizer<'input> {
                 }
                 Some((idx0, '#')) => {
                     self.bump();
-                    first!(self, 
+                    first!(self,
                           { self.shebang_attribute(idx0) },
                           { Ok((idx0, Hash, idx0+1)) })
                 }
@@ -361,6 +365,17 @@ impl<'input> Tokenizer<'input> {
                         Some((_, '/')) => {
                             self.take_until(|c| c == '\n');
                             continue;
+                        }
+                        _ => {
+                            Some(error(UnrecognizedToken, idx0))
+                        }
+                    }
+                }
+                Some((idx0, '-')) => {
+                    match self.bump() {
+                        Some((idx1, '>')) => {
+                            self.bump();
+                            Some(Ok((idx0, MinusGreaterThan, idx1 + 1)))
                         }
                         _ => {
                             Some(error(UnrecognizedToken, idx0))
@@ -676,31 +691,6 @@ impl<'input> Tokenizer<'input> {
             return Ok((start, Tok::Use(code), code_end));
         }
 
-        if word == "where" {
-            let mut wcs = vec![];
-            let mut wc_start = end;
-            let mut wc_end;
-            loop {
-                // Note: do not include `{` as a delimeter here, as
-                // that is not legal in the trait/where-clause syntax,
-                // and in fact signals start of the fn body. But do
-                // include `<`.
-                wc_end = try!(self.code(wc_start, "([<", ">])"));
-                let wc = &self.text[wc_start..wc_end];
-                wcs.push(wc);
-
-                // if this ended in a comma, maybe expect another where-clause
-                if let Some((_, ',')) = self.lookahead {
-                    self.bump();
-                    wc_start = wc_end + 1;
-                } else {
-                    break;
-                }
-            }
-
-            return Ok((start, Tok::Where(wcs), wc_end));
-        }
-
         let tok =
             // search for a keyword first; if none are found, this is
             // either a MacroId or an Id, depending on whether there
@@ -799,4 +789,3 @@ fn is_identifier_start(c: char) -> bool {
 fn is_identifier_continue(c: char) -> bool {
     UnicodeXID::is_xid_continue(c) || c == '_'
 }
-

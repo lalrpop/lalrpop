@@ -241,8 +241,57 @@ fn equalsgreaterthancode_nested_function_with_lifetimes() {
 #[test]
 fn where_with_lifetimes() {
     test(r#"where <'a,bar<'b,'c>>,baz;"#, vec![
-        (r#"~~~~~~~~~~~~~~~~~~~~~~~~~ "#, Where(vec![" <'a,bar<'b,'c>>", "baz"])),
+        (r#"~~~~~                     "#, Where),
+        (r#"      ~                   "#, LessThan),
+        (r#"       ~~                 "#, Lifetime("'a")),
+        (r#"         ~                "#, Comma),
+        (r#"          ~~~             "#, MacroId("bar")),
+        (r#"             ~            "#, LessThan),
+        (r#"              ~~          "#, Lifetime("'b")),
+        (r#"                ~         "#, Comma),
+        (r#"                 ~~       "#, Lifetime("'c")),
+        (r#"                   ~      "#, GreaterThan),
+        (r#"                    ~     "#, GreaterThan),
+        (r#"                     ~    "#, Comma),
+        (r#"                      ~~~ "#, Id("baz")),
         (r#"                         ~"#, Semi),
+    ]);
+}
+
+#[test]
+fn forall() {
+    test(r#"for<'a, 'b, 'c> FnMut"#, vec![
+        (r#"~~~                  "#, For),
+        (r#"   ~                 "#, LessThan),
+        (r#"    ~~               "#, Lifetime("'a")),
+        (r#"      ~              "#, Comma),
+        (r#"        ~~           "#, Lifetime("'b")),
+        (r#"          ~          "#, Comma),
+        (r#"            ~~       "#, Lifetime("'c")),
+        (r#"              ~      "#, GreaterThan),
+        (r#"                ~~~~~"#, Id("FnMut")),
+    ]);
+}
+
+#[test]
+fn where_forall_fnmut_with_return_type() {
+    test(r#"where F: for<'a> FnMut(&'a T) -> U;"#, vec![
+        (r#"~~~~~                              "#, Where),
+        (r#"      ~                            "#, Id("F")),
+        (r#"       ~                           "#, Colon),
+        (r#"         ~~~                       "#, For),
+        (r#"            ~                      "#, LessThan),
+        (r#"             ~~                    "#, Lifetime("'a")),
+        (r#"               ~                   "#, GreaterThan),
+        (r#"                 ~~~~~             "#, Id("FnMut")),
+        (r#"                      ~            "#, LeftParen),
+        (r#"                       ~           "#, Ampersand),
+        (r#"                        ~~         "#, Lifetime("'a")),
+        (r#"                           ~       "#, Id("T")),
+        (r#"                            ~      "#, RightParen),
+        (r#"                              ~~   "#, MinusGreaterThan),
+        (r#"                                 ~ "#, Id("U")),
+        (r#"                                  ~"#, Semi),
     ]);
 }
 
@@ -371,7 +420,14 @@ fn use2() {
 #[test]
 fn where1() {
     test(r#"where <foo,bar>,baz;"#, vec![
-        (r#"~~~~~~~~~~~~~~~~~~~ "#, Where(vec![" <foo,bar>", "baz"])),
+        (r#"~~~~~               "#, Where),
+        (r#"      ~             "#, LessThan),
+        (r#"       ~~~          "#, Id("foo")),
+        (r#"          ~         "#, Comma),
+        (r#"           ~~~      "#, Id("bar")),
+        (r#"              ~     "#, GreaterThan),
+        (r#"               ~    "#, Comma),
+        (r#"                ~~~ "#, Id("baz")),
         (r#"                   ~"#, Semi),
     ]);
 }
@@ -453,5 +509,3 @@ fn char_literals() {
         (r#"                          ~~"#, Lifetime("'c")),
     ]);
 }
-
-
