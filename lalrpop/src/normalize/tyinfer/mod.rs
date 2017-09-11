@@ -1,7 +1,7 @@
 use super::{NormResult, NormError};
 use super::norm_util::{self, AlternativeAction, Symbols};
 
-use std::collections::{HashMap};
+use std::collections::{HashMap, HashSet};
 use grammar::consts::{ERROR, INPUT_LIFETIME, LOCATION};
 use grammar::parse_tree::{ActionKind, Alternative,
                           Grammar,
@@ -9,9 +9,10 @@ use grammar::parse_tree::{ActionKind, Alternative,
                           Path,
                           Span,
                           SymbolKind,
+                          TypeParameter,
                           TypeRef};
 use grammar::repr::{NominalTypeRepr, Types, TypeRepr};
-use intern::intern;
+use intern::{intern, InternedString};
 
 #[cfg(test)]
 mod test;
@@ -25,6 +26,7 @@ struct TypeInferencer<'grammar> {
     stack: Vec<NonterminalString>,
     nonterminals: HashMap<NonterminalString, NT<'grammar>>,
     types: Types,
+    type_parameters: HashSet<InternedString>,
 }
 
 #[derive(Copy, Clone)]
@@ -48,9 +50,18 @@ impl<'grammar> TypeInferencer<'grammar> {
                    })
                    .collect();
 
+        let type_parameters = grammar.type_parameters
+            .iter()
+            .filter_map(|p| match *p {
+                TypeParameter::Lifetime(_) => None,
+                TypeParameter::Id(ty) => Some(ty),
+            })
+            .collect();
+
         Ok(TypeInferencer { stack: vec![],
                             nonterminals: nonterminals,
-                            types: types })
+                            types: types,
+                            type_parameters: type_parameters })
     }
 
     fn make_types(grammar: &Grammar) -> Types {
@@ -212,6 +223,13 @@ impl<'grammar> TypeInferencer<'grammar> {
                 Ok(TypeRepr::Tuple(types))
             }
             TypeRef::Nominal { ref path, ref types } => {
+                if path.ids.len() == 2 && self.type_parameters.contains(&path.ids[0]) {
+                    return Ok(TypeRepr::Associated {
+                        type_parameter: path.ids[0],
+                        id: path.ids[1],
+                    });
+                }
+
                 let types = try! {
                     types.iter().map(|t| self.type_ref(t)).collect()
                 };

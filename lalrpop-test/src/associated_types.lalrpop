@@ -1,0 +1,11 @@
+use std::str::FromStr;
+use associated_types_lib::ParseCallbacks;
+
+grammar<P>(callbacks: &mut P) where P: ParseCallbacks;
+
+pub Term: P::Term = {
+    <n:Num> => n.into(),
+    "(" <t:Term> ")" => t,
+};
+
+Num: P::Num = <s:r"[0-9]+"> => callbacks.number(i32::from_str(s).unwrap());

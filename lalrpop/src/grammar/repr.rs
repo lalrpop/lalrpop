@@ -167,10 +167,14 @@ pub enum InlinedSymbol {
     Inlined(ActionFn, Vec<Symbol>),
 }
 
-#[derive(Clone, PartialEq, Eq)]
+#[derive(Clone, PartialEq, Eq, PartialOrd, Ord)]
 pub enum TypeRepr {
     Tuple(Vec<TypeRepr>),
     Nominal(NominalTypeRepr),
+    Associated {
+        type_parameter: InternedString,
+        id: InternedString,
+    },
     Lifetime(InternedString),
     Ref {
         lifetime: Option<InternedString>,
@@ -218,6 +222,8 @@ impl TypeRepr {
                               None => vec![],
                           })
                           .collect(),
+            TypeRepr::Associated { type_parameter, .. } =>
+                vec![TypeParameter::Id(type_parameter)],
             TypeRepr::Lifetime(l) =>
                 vec![TypeParameter::Lifetime(l)],
             TypeRepr::Ref { ref lifetime, mutable: _, ref referent } =>
@@ -229,7 +235,7 @@ impl TypeRepr {
     }
 }
 
-#[derive(Clone, PartialEq, Eq)]
+#[derive(Clone, PartialEq, Eq, PartialOrd, Ord)]
 pub struct NominalTypeRepr {
     pub path: Path,
     pub types: Vec<TypeRepr>
@@ -368,6 +374,8 @@ impl Display for TypeRepr {
                 write!(fmt, "({})", Sep(", ", types)),
             TypeRepr::Nominal(ref data) =>
                 write!(fmt, "{}", data),
+            TypeRepr::Associated { type_parameter, id } =>
+                write!(fmt, "{}::{}", type_parameter, id),
             TypeRepr::Lifetime(id) =>
                 write!(fmt, "{}", id),
             TypeRepr::Ref { lifetime: None, mutable: false, ref referent } =>

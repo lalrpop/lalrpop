@@ -7,6 +7,11 @@ use lalrpop_util::{ErrorRecovery, ParseError};
 
 use util::tok::Tok;
 
+/// Tests that actions can return the grammar's type parameters' associated
+/// types.
+mod associated_types;
+mod associated_types_lib;
+
 /// demonstration from the Greene text; one of the simplest grammars
 /// that still ensures we get parse tree correct
 mod sub;
@@ -457,4 +462,13 @@ fn issue_113() {
 #[test]
 fn issue_253() {
     assert!(partial_parse::parse_Term("(22))").is_err());
+}
+
+#[test]
+fn test_action_return_associated_types() {
+    let mut callbacks = associated_types_lib::TestParseCallbacks;
+    assert_eq!(
+        associated_types::parse_Term(&mut callbacks, "(((((42)))))"),
+        Ok(associated_types_lib::TestTerm(associated_types_lib::TestNum(42)))
+    );
 }

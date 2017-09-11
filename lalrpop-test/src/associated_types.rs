@@ -1,27 +1,29 @@
 // auto-generated: "lalrpop 0.13.1"
 use std::str::FromStr;
+use associated_types_lib::ParseCallbacks;
 extern crate lalrpop_util as __lalrpop_util;
 
 mod __parse__Term {
     #![allow(non_snake_case, non_camel_case_types, unused_mut, unused_variables, unused_imports)]
 
     use std::str::FromStr;
+    use associated_types_lib::ParseCallbacks;
     extern crate lalrpop_util as __lalrpop_util;
     pub fn parse_Term<
         'input,
-        F,
+        P,
     >(
-        logger: &mut F,
+        callbacks: &mut P,
         input: &'input str,
-    ) -> Result<i32, __lalrpop_util::ParseError<usize, (usize, &'input str), ()>> where
-      F:  for<'a> FnMut(&'a str),
+    ) -> Result<P::Term, __lalrpop_util::ParseError<usize, (usize, &'input str), ()>> where
+      P:  ParseCallbacks,
     {
-        let __ascent = __ascent::parse_Term::<F>(
-            logger,
+        let __ascent = __ascent::parse_Term::<P>(
+            callbacks,
             input,
         );
-        let __parse_table = __parse_table::parse_Term::<F>(
-            logger,
+        let __parse_table = __parse_table::parse_Term::<P>(
+            callbacks,
             input,
         );
         assert_eq!(__ascent, __parse_table);
@@ -33,15 +35,16 @@ mod __parse__Term {
             #![allow(non_snake_case, non_camel_case_types, unused_mut, unused_variables, unused_imports)]
 
             use std::str::FromStr;
+            use associated_types_lib::ParseCallbacks;
             extern crate lalrpop_util as __lalrpop_util;
             pub fn parse_Term<
                 'input,
-                F,
+                P,
             >(
-                logger: &mut F,
+                callbacks: &mut P,
                 input: &'input str,
-            ) -> Result<i32, __lalrpop_util::ParseError<usize, (usize, &'input str), ()>> where
-              F:  for<'a> FnMut(&'a str),
+            ) -> Result<P::Term, __lalrpop_util::ParseError<usize, (usize, &'input str), ()>> where
+              P:  ParseCallbacks,
             {
                 let mut __tokens = super::super::super::__intern_token::__Matcher::new(input);
                 let __lookahead = match __tokens.next() {
@@ -49,7 +52,7 @@ mod __parse__Term {
                     None => None,
                     Some(Err(e)) => return Err(e),
                 };
-                match try!(__state0(logger, input, &mut __tokens, __lookahead, ::std::marker::PhantomData::<(F)>)) {
+                match try!(__state0(callbacks, input, &mut __tokens, __lookahead, ::std::marker::PhantomData::<(P)>)) {
                     (Some(__lookahead), _) => {
                         Err(__lalrpop_util::ParseError::ExtraToken { token: __lookahead })
                     }
@@ -61,11 +64,12 @@ mod __parse__Term {
             }
 
             #[allow(dead_code)]
-            pub enum __Nonterminal<>
+            pub enum __Nonterminal<P>
+             where P:  ParseCallbacks
              {
-                Num((usize, i32, usize)),
-                Term((usize, i32, usize)),
-                ____Term((usize, i32, usize)),
+                Num((usize, P::Num, usize)),
+                Term((usize, P::Term, usize)),
+                ____Term((usize, P::Term, usize)),
             }
 
             // State 0
@@ -88,26 +92,26 @@ mod __parse__Term {
             //     Term -> S2
             fn __state0<
                 'input,
-                F,
+                P,
                 __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__lalrpop_util::ParseError<usize, (usize, &'input str), ()>>>,
             >(
-                logger: &mut F,
+                callbacks: &mut P,
                 input: &'input str,
                 __tokens: &mut __TOKENS,
                 __lookahead: Option<(usize, (usize, &'input str), usize)>,
-                _: ::std::marker::PhantomData<(F)>,
-            ) -> Result<(Option<(usize, (usize, &'input str), usize)>, __Nonterminal<>), __lalrpop_util::ParseError<usize, (usize, &'input str), ()>> where
-              F:  for<'a> FnMut(&'a str),
+                _: ::std::marker::PhantomData<(P)>,
+            ) -> Result<(Option<(usize, (usize, &'input str), usize)>, __Nonterminal<P>), __lalrpop_util::ParseError<usize, (usize, &'input str), ()>> where
+              P:  ParseCallbacks,
             {
-                let mut __result: (Option<(usize, (usize, &'input str), usize)>, __Nonterminal<>);
+                let mut __result: (Option<(usize, (usize, &'input str), usize)>, __Nonterminal<P>);
                 match __lookahead {
                     Some((__loc1, (1, __tok0), __loc2)) => {
                         let __sym0 = (__loc1, (__tok0), __loc2);
-                        __result = try!(__state3(logger, input, __tokens, __sym0, ::std::marker::PhantomData::<(F)>));
+                        __result = try!(__state3(callbacks, input, __tokens, __sym0, ::std::marker::PhantomData::<(P)>));
                     }
                     Some((__loc1, (0, __tok0), __loc2)) => {
                         let __sym0 = (__loc1, (__tok0), __loc2);
-                        __result = try!(__state4(logger, input, __tokens, __sym0, ::std::marker::PhantomData::<(F)>));
+                        __result = try!(__state4(callbacks, input, __tokens, __sym0, ::std::marker::PhantomData::<(P)>));
                     }
                     _ => {
                         return Err(__lalrpop_util::ParseError::UnrecognizedToken {
@@ -123,10 +127,10 @@ mod __parse__Term {
                     let (__lookahead, __nt) = __result;
                     match __nt {
                         __Nonterminal::Num(__sym0) => {
-                            __result = try!(__state1(logger, input, __tokens, __lookahead, __sym0, ::std::marker::PhantomData::<(F)>));
+                            __result = try!(__state1(callbacks, input, __tokens, __lookahead, __sym0, ::std::marker::PhantomData::<(P)>));
                         }
                         __Nonterminal::Term(__sym0) => {
-                            __result = try!(__state2(logger, input, __tokens, __lookahead, __sym0, ::std::marker::PhantomData::<(F)>));
+                            __result = try!(__state2(callbacks, input, __tokens, __lookahead, __sym0, ::std::marker::PhantomData::<(P)>));
                         }
                         _ => {
                             return Ok((__lookahead, __nt));
@@ -149,19 +153,19 @@ mod __parse__Term {
             //
             fn __state1<
                 'input,
-                F,
+                P,
                 __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__lalrpop_util::ParseError<usize, (usize, &'input str), ()>>>,
             >(
-                logger: &mut F,
+                callbacks: &mut P,
                 input: &'input str,
                 __tokens: &mut __TOKENS,
                 __lookahead: Option<(usize, (usize, &'input str), usize)>,
-                __sym0: (usize, i32, usize),
-                _: ::std::marker::PhantomData<(F)>,
-            ) -> Result<(Option<(usize, (usize, &'input str), usize)>, __Nonterminal<>), __lalrpop_util::ParseError<usize, (usize, &'input str), ()>> where
-              F:  for<'a> FnMut(&'a str),
+                __sym0: (usize, P::Num, usize),
+                _: ::std::marker::PhantomData<(P)>,
+            ) -> Result<(Option<(usize, (usize, &'input str), usize)>, __Nonterminal<P>), __lalrpop_util::ParseError<usize, (usize, &'input str), ()>> where
+              P:  ParseCallbacks,
             {
-                let mut __result: (Option<(usize, (usize, &'input str), usize)>, __Nonterminal<>);
+                let mut __result: (Option<(usize, (usize, &'input str), usize)>, __Nonterminal<P>);
                 match __lookahead {
                     Some((_, (1, _), _)) |
                     Some((_, (2, _), _)) |
@@ -169,7 +173,7 @@ mod __parse__Term {
                     None => {
                         let __start = __sym0.0.clone();
                         let __end = __sym0.2.clone();
-                        let __nt = super::super::super::__action1::<F>(logger, input, __sym0);
+                        let __nt = super::super::super::__action1::<P>(callbacks, input, __sym0);
                         let __nt = __Nonterminal::Term((
                             __start,
                             __nt,
@@ -205,19 +209,19 @@ mod __parse__Term {
             //
             fn __state2<
                 'input,
-                F,
+                P,
                 __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__lalrpop_util::ParseError<usize, (usize, &'input str), ()>>>,
             >(
-                logger: &mut F,
+                callbacks: &mut P,
                 input: &'input str,
                 __tokens: &mut __TOKENS,
                 __lookahead: Option<(usize, (usize, &'input str), usize)>,
-                __sym0: (usize, i32, usize),
-                _: ::std::marker::PhantomData<(F)>,
-            ) -> Result<(Option<(usize, (usize, &'input str), usize)>, __Nonterminal<>), __lalrpop_util::ParseError<usize, (usize, &'input str), ()>> where
-              F:  for<'a> FnMut(&'a str),
+                __sym0: (usize, P::Term, usize),
+                _: ::std::marker::PhantomData<(P)>,
+            ) -> Result<(Option<(usize, (usize, &'input str), usize)>, __Nonterminal<P>), __lalrpop_util::ParseError<usize, (usize, &'input str), ()>> where
+              P:  ParseCallbacks,
             {
-                let mut __result: (Option<(usize, (usize, &'input str), usize)>, __Nonterminal<>);
+                let mut __result: (Option<(usize, (usize, &'input str), usize)>, __Nonterminal<P>);
                 match __lookahead {
                     Some((_, (1, _), _)) |
                     Some((_, (2, _), _)) |
@@ -225,7 +229,7 @@ mod __parse__Term {
                     None => {
                         let __start = __sym0.0.clone();
                         let __end = __sym0.2.clone();
-                        let __nt = super::super::super::__action0::<F>(logger, input, __sym0);
+                        let __nt = super::super::super::__action0::<P>(callbacks, input, __sym0);
                         let __nt = __Nonterminal::____Term((
                             __start,
                             __nt,
@@ -267,18 +271,18 @@ mod __parse__Term {
             //     Term -> S5
             fn __state3<
                 'input,
-                F,
+                P,
                 __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__lalrpop_util::ParseError<usize, (usize, &'input str), ()>>>,
             >(
-                logger: &mut F,
+                callbacks: &mut P,
                 input: &'input str,
                 __tokens: &mut __TOKENS,
                 __sym0: (usize, &'input str, usize),
-                _: ::std::marker::PhantomData<(F)>,
-            ) -> Result<(Option<(usize, (usize, &'input str), usize)>, __Nonterminal<>), __lalrpop_util::ParseError<usize, (usize, &'input str), ()>> where
-              F:  for<'a> FnMut(&'a str),
+                _: ::std::marker::PhantomData<(P)>,
+            ) -> Result<(Option<(usize, (usize, &'input str), usize)>, __Nonterminal<P>), __lalrpop_util::ParseError<usize, (usize, &'input str), ()>> where
+              P:  ParseCallbacks,
             {
-                let mut __result: (Option<(usize, (usize, &'input str), usize)>, __Nonterminal<>);
+                let mut __result: (Option<(usize, (usize, &'input str), usize)>, __Nonterminal<P>);
                 let __lookahead = match __tokens.next() {
                     Some(Ok(v)) => Some(v),
                     None => None,
@@ -287,11 +291,11 @@ mod __parse__Term {
                 match __lookahead {
                     Some((__loc1, (1, __tok0), __loc2)) => {
                         let __sym1 = (__loc1, (__tok0), __loc2);
-                        __result = try!(__state3(logger, input, __tokens, __sym1, ::std::marker::PhantomData::<(F)>));
+                        __result = try!(__state3(callbacks, input, __tokens, __sym1, ::std::marker::PhantomData::<(P)>));
                     }
                     Some((__loc1, (0, __tok0), __loc2)) => {
                         let __sym1 = (__loc1, (__tok0), __loc2);
-                        __result = try!(__state4(logger, input, __tokens, __sym1, ::std::marker::PhantomData::<(F)>));
+                        __result = try!(__state4(callbacks, input, __tokens, __sym1, ::std::marker::PhantomData::<(P)>));
                     }
                     _ => {
                         return Err(__lalrpop_util::ParseError::UnrecognizedToken {
@@ -307,10 +311,10 @@ mod __parse__Term {
                     let (__lookahead, __nt) = __result;
                     match __nt {
                         __Nonterminal::Num(__sym1) => {
-                            __result = try!(__state1(logger, input, __tokens, __lookahead, __sym1, ::std::marker::PhantomData::<(F)>));
+                            __result = try!(__state1(callbacks, input, __tokens, __lookahead, __sym1, ::std::marker::PhantomData::<(P)>));
                         }
                         __Nonterminal::Term(__sym1) => {
-                            __result = try!(__state5(logger, input, __tokens, __lookahead, __sym0, __sym1, ::std::marker::PhantomData::<(F)>));
+                            __result = try!(__state5(callbacks, input, __tokens, __lookahead, __sym0, __sym1, ::std::marker::PhantomData::<(P)>));
                             return Ok(__result);
                         }
                         _ => {
@@ -334,18 +338,18 @@ mod __parse__Term {
             //
             fn __state4<
                 'input,
-                F,
+                P,
                 __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__lalrpop_util::ParseError<usize, (usize, &'input str), ()>>>,
             >(
-                logger: &mut F,
+                callbacks: &mut P,
                 input: &'input str,
                 __tokens: &mut __TOKENS,
                 __sym0: (usize, &'input str, usize),
-                _: ::std::marker::PhantomData<(F)>,
-            ) -> Result<(Option<(usize, (usize, &'input str), usize)>, __Nonterminal<>), __lalrpop_util::ParseError<usize, (usize, &'input str), ()>> where
-              F:  for<'a> FnMut(&'a str),
+                _: ::std::marker::PhantomData<(P)>,
+            ) -> Result<(Option<(usize, (usize, &'input str), usize)>, __Nonterminal<P>), __lalrpop_util::ParseError<usize, (usize, &'input str), ()>> where
+              P:  ParseCallbacks,
             {
-                let mut __result: (Option<(usize, (usize, &'input str), usize)>, __Nonterminal<>);
+                let mut __result: (Option<(usize, (usize, &'input str), usize)>, __Nonterminal<P>);
                 let __lookahead = match __tokens.next() {
                     Some(Ok(v)) => Some(v),
                     None => None,
@@ -358,7 +362,7 @@ mod __parse__Term {
                     None => {
                         let __start = __sym0.0.clone();
                         let __end = __sym0.2.clone();
-                        let __nt = super::super::super::__action3::<F>(logger, input, __sym0);
+                        let __nt = super::super::super::__action3::<P>(callbacks, input, __sym0);
                         let __nt = __Nonterminal::Num((
                             __start,
                             __nt,
@@ -394,24 +398,24 @@ mod __parse__Term {
             //
             fn __state5<
                 'input,
-                F,
+                P,
                 __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__lalrpop_util::ParseError<usize, (usize, &'input str), ()>>>,
             >(
-                logger: &mut F,
+                callbacks: &mut P,
                 input: &'input str,
                 __tokens: &mut __TOKENS,
                 __lookahead: Option<(usize, (usize, &'input str), usize)>,
                 __sym0: (usize, &'input str, usize),
-                __sym1: (usize, i32, usize),
-                _: ::std::marker::PhantomData<(F)>,
-            ) -> Result<(Option<(usize, (usize, &'input str), usize)>, __Nonterminal<>), __lalrpop_util::ParseError<usize, (usize, &'input str), ()>> where
-              F:  for<'a> FnMut(&'a str),
+                __sym1: (usize, P::Term, usize),
+                _: ::std::marker::PhantomData<(P)>,
+            ) -> Result<(Option<(usize, (usize, &'input str), usize)>, __Nonterminal<P>), __lalrpop_util::ParseError<usize, (usize, &'input str), ()>> where
+              P:  ParseCallbacks,
             {
-                let mut __result: (Option<(usize, (usize, &'input str), usize)>, __Nonterminal<>);
+                let mut __result: (Option<(usize, (usize, &'input str), usize)>, __Nonterminal<P>);
                 match __lookahead {
                     Some((__loc1, (2, __tok0), __loc2)) => {
                         let __sym2 = (__loc1, (__tok0), __loc2);
-                        __result = try!(__state6(logger, input, __tokens, __sym0, __sym1, __sym2, ::std::marker::PhantomData::<(F)>));
+                        __result = try!(__state6(callbacks, input, __tokens, __sym0, __sym1, __sym2, ::std::marker::PhantomData::<(P)>));
                         return Ok(__result);
                     }
                     _ => {
@@ -439,20 +443,20 @@ mod __parse__Term {
             //
             fn __state6<
                 'input,
-                F,
+                P,
                 __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__lalrpop_util::ParseError<usize, (usize, &'input str), ()>>>,
             >(
-                logger: &mut F,
+                callbacks: &mut P,
                 input: &'input str,
                 __tokens: &mut __TOKENS,
                 __sym0: (usize, &'input str, usize),
-                __sym1: (usize, i32, usize),
+                __sym1: (usize, P::Term, usize),
                 __sym2: (usize, &'input str, usize),
-                _: ::std::marker::PhantomData<(F)>,
-            ) -> Result<(Option<(usize, (usize, &'input str), usize)>, __Nonterminal<>), __lalrpop_util::ParseError<usize, (usize, &'input str), ()>> where
-              F:  for<'a> FnMut(&'a str),
+                _: ::std::marker::PhantomData<(P)>,
+            ) -> Result<(Option<(usize, (usize, &'input str), usize)>, __Nonterminal<P>), __lalrpop_util::ParseError<usize, (usize, &'input str), ()>> where
+              P:  ParseCallbacks,
             {
-                let mut __result: (Option<(usize, (usize, &'input str), usize)>, __Nonterminal<>);
+                let mut __result: (Option<(usize, (usize, &'input str), usize)>, __Nonterminal<P>);
                 let __lookahead = match __tokens.next() {
                     Some(Ok(v)) => Some(v),
                     None => None,
@@ -465,7 +469,7 @@ mod __parse__Term {
                     None => {
                         let __start = __sym0.0.clone();
                         let __end = __sym2.2.clone();
-                        let __nt = super::super::super::__action2::<F>(logger, input, __sym0, __sym1, __sym2);
+                        let __nt = super::super::super::__action2::<P>(callbacks, input, __sym0, __sym1, __sym2);
                         let __nt = __Nonterminal::Term((
                             __start,
                             __nt,
@@ -495,16 +499,18 @@ mod __parse__Term {
             #![allow(non_snake_case, non_camel_case_types, unused_mut, unused_variables, unused_imports)]
 
             use std::str::FromStr;
+            use associated_types_lib::ParseCallbacks;
             extern crate lalrpop_util as __lalrpop_util;
             #[allow(dead_code)]
-            pub enum __Symbol<'input>
+            pub enum __Symbol<'input, P>
+             where P:  ParseCallbacks
              {
                 Term_22_28_22(&'input str),
                 Term_22_29_22(&'input str),
                 Termr_23_22_5b0_2d9_5d_2b_22_23(&'input str),
-                NtNum(i32),
-                NtTerm(i32),
-                Nt____Term(i32),
+                NtNum(P::Num),
+                NtTerm(P::Term),
+                Nt____Term(P::Term),
             }
             const __ACTION: &'static [i32] = &[
                 // State 0
@@ -625,12 +631,12 @@ mod __parse__Term {
             }
             pub fn parse_Term<
                 'input,
-                F,
+                P,
             >(
-                logger: &mut F,
+                callbacks: &mut P,
                 input: &'input str,
-            ) -> Result<i32, __lalrpop_util::ParseError<usize, (usize, &'input str), ()>> where
-              F:  for<'a> FnMut(&'a str),
+            ) -> Result<P::Term, __lalrpop_util::ParseError<usize, (usize, &'input str), ()>> where
+              P:  ParseCallbacks,
             {
                 let mut __tokens = super::super::super::__intern_token::__Matcher::new(input);
                 let mut __states = vec![0_i32];
@@ -681,7 +687,7 @@ mod __parse__Term {
                             __symbols.push((__lookahead.0, __symbol, __lookahead.2));
                             continue '__shift;
                         } else if __action < 0 {
-                            if let Some(_) = __reduce(logger, input, __action, Some(&__lookahead.0), &mut __states, &mut __symbols, ::std::marker::PhantomData::<(F)>) {
+                            if let Some(_) = __reduce(callbacks, input, __action, Some(&__lookahead.0), &mut __states, &mut __symbols, ::std::marker::PhantomData::<(P)>) {
                                 return Err(__lalrpop_util::ParseError::ExtraToken { token: __lookahead });
                             }
                         } else {
@@ -698,7 +704,7 @@ mod __parse__Term {
                     let __state = *__states.last().unwrap() as usize;
                     let __action = __EOF_ACTION[__state];
                     if __action < 0 {
-                        if let Some(r) = __reduce(logger, input, __action, None, &mut __states, &mut __symbols, ::std::marker::PhantomData::<(F)>) {
+                        if let Some(r) = __reduce(callbacks, input, __action, None, &mut __states, &mut __symbols, ::std::marker::PhantomData::<(P)>) {
                             return r;
                         }
                     } else {
@@ -713,17 +719,17 @@ mod __parse__Term {
             }
             pub fn __reduce<
                 'input,
-                F,
+                P,
             >(
-                logger: &mut F,
+                callbacks: &mut P,
                 input: &'input str,
                 __action: i32,
                 __lookahead_start: Option<&usize>,
                 __states: &mut ::std::vec::Vec<i32>,
-                __symbols: &mut ::std::vec::Vec<(usize,__Symbol<'input>,usize)>,
-                _: ::std::marker::PhantomData<(F)>,
-            ) -> Option<Result<i32,__lalrpop_util::ParseError<usize, (usize, &'input str), ()>>> where
-              F:  for<'a> FnMut(&'a str),
+                __symbols: &mut ::std::vec::Vec<(usize,__Symbol<'input, P>,usize)>,
+                _: ::std::marker::PhantomData<(P)>,
+            ) -> Option<Result<P::Term,__lalrpop_util::ParseError<usize, (usize, &'input str), ()>>> where
+              P:  ParseCallbacks,
             {
                 let __nonterminal = match -__action {
                     1 => {
@@ -731,7 +737,7 @@ mod __parse__Term {
                         let __sym0 = __pop_Termr_23_22_5b0_2d9_5d_2b_22_23(__symbols);
                         let __start = __sym0.0.clone();
                         let __end = __sym0.2.clone();
-                        let __nt = super::super::super::__action3::<F>(logger, input, __sym0);
+                        let __nt = super::super::super::__action3::<P>(callbacks, input, __sym0);
                         let __states_len = __states.len();
                         __states.truncate(__states_len - 1);
                         __symbols.push((__start, __Symbol::NtNum(__nt), __end));
@@ -742,7 +748,7 @@ mod __parse__Term {
                         let __sym0 = __pop_NtNum(__symbols);
                         let __start = __sym0.0.clone();
                         let __end = __sym0.2.clone();
-                        let __nt = super::super::super::__action1::<F>(logger, input, __sym0);
+                        let __nt = super::super::super::__action1::<P>(callbacks, input, __sym0);
                         let __states_len = __states.len();
                         __states.truncate(__states_len - 1);
                         __symbols.push((__start, __Symbol::NtTerm(__nt), __end));
@@ -755,7 +761,7 @@ mod __parse__Term {
                         let __sym0 = __pop_Term_22_28_22(__symbols);
                         let __start = __sym0.0.clone();
                         let __end = __sym2.2.clone();
-                        let __nt = super::super::super::__action2::<F>(logger, input, __sym0, __sym1, __sym2);
+                        let __nt = super::super::super::__action2::<P>(callbacks, input, __sym0, __sym1, __sym2);
                         let __states_len = __states.len();
                         __states.truncate(__states_len - 3);
                         __symbols.push((__start, __Symbol::NtTerm(__nt), __end));
@@ -766,7 +772,7 @@ mod __parse__Term {
                         let __sym0 = __pop_NtTerm(__symbols);
                         let __start = __sym0.0.clone();
                         let __end = __sym0.2.clone();
-                        let __nt = super::super::super::__action0::<F>(logger, input, __sym0);
+                        let __nt = super::super::super::__action0::<P>(callbacks, input, __sym0);
                         return Some(Ok(__nt));
                     }
                     _ => panic!("invalid action code {}", __action)
@@ -778,9 +784,11 @@ mod __parse__Term {
             }
             fn __pop_Term_22_28_22<
               'input,
+              P,
             >(
-                __symbols: &mut ::std::vec::Vec<(usize,__Symbol<'input>,usize)>
+                __symbols: &mut ::std::vec::Vec<(usize,__Symbol<'input, P>,usize)>
             ) -> (usize, &'input str, usize)
+             where P:  ParseCallbacks
              {
                 match __symbols.pop().unwrap() {
                     (__l, __Symbol::Term_22_28_22(__v), __r) => (__l, __v, __r),
@@ -789,9 +797,11 @@ mod __parse__Term {
             }
             fn __pop_Term_22_29_22<
               'input,
+              P,
             >(
-                __symbols: &mut ::std::vec::Vec<(usize,__Symbol<'input>,usize)>
+                __symbols: &mut ::std::vec::Vec<(usize,__Symbol<'input, P>,usize)>
             ) -> (usize, &'input str, usize)
+             where P:  ParseCallbacks
              {
                 match __symbols.pop().unwrap() {
                     (__l, __Symbol::Term_22_29_22(__v), __r) => (__l, __v, __r),
@@ -800,9 +810,11 @@ mod __parse__Term {
             }
             fn __pop_Termr_23_22_5b0_2d9_5d_2b_22_23<
               'input,
+              P,
             >(
-                __symbols: &mut ::std::vec::Vec<(usize,__Symbol<'input>,usize)>
+                __symbols: &mut ::std::vec::Vec<(usize,__Symbol<'input, P>,usize)>
             ) -> (usize, &'input str, usize)
+             where P:  ParseCallbacks
              {
                 match __symbols.pop().unwrap() {
                     (__l, __Symbol::Termr_23_22_5b0_2d9_5d_2b_22_23(__v), __r) => (__l, __v, __r),
@@ -811,9 +823,11 @@ mod __parse__Term {
             }
             fn __pop_NtNum<
               'input,
+              P,
             >(
-                __symbols: &mut ::std::vec::Vec<(usize,__Symbol<'input>,usize)>
-            ) -> (usize, i32, usize)
+                __symbols: &mut ::std::vec::Vec<(usize,__Symbol<'input, P>,usize)>
+            ) -> (usize, P::Num, usize)
+             where P:  ParseCallbacks
              {
                 match __symbols.pop().unwrap() {
                     (__l, __Symbol::NtNum(__v), __r) => (__l, __v, __r),
@@ -822,9 +836,11 @@ mod __parse__Term {
             }
             fn __pop_NtTerm<
               'input,
+              P,
             >(
-                __symbols: &mut ::std::vec::Vec<(usize,__Symbol<'input>,usize)>
-            ) -> (usize, i32, usize)
+                __symbols: &mut ::std::vec::Vec<(usize,__Symbol<'input, P>,usize)>
+            ) -> (usize, P::Term, usize)
+             where P:  ParseCallbacks
              {
                 match __symbols.pop().unwrap() {
                     (__l, __Symbol::NtTerm(__v), __r) => (__l, __v, __r),
@@ -833,9 +849,11 @@ mod __parse__Term {
             }
             fn __pop_Nt____Term<
               'input,
+              P,
             >(
-                __symbols: &mut ::std::vec::Vec<(usize,__Symbol<'input>,usize)>
-            ) -> (usize, i32, usize)
+                __symbols: &mut ::std::vec::Vec<(usize,__Symbol<'input, P>,usize)>
+            ) -> (usize, P::Term, usize)
+             where P:  ParseCallbacks
              {
                 match __symbols.pop().unwrap() {
                     (__l, __Symbol::Nt____Term(__v), __r) => (__l, __v, __r),
@@ -850,6 +868,7 @@ pub use self::__parse__Term::parse_Term;
 mod __intern_token {
     #![allow(unused_imports)]
     use std::str::FromStr;
+    use associated_types_lib::ParseCallbacks;
     extern crate lalrpop_util as __lalrpop_util;
     extern crate regex as __regex;
     pub struct __Matcher<'input> {
@@ -926,13 +945,13 @@ mod __intern_token {
 #[allow(unused_variables)]
 fn __action0<
     'input,
-    F,
+    P,
 >(
-    logger: &mut F,
+    callbacks: &mut P,
     input: &'input str,
-    (_, __0, _): (usize, i32, usize),
-) -> i32 where
-  F:  for<'a> FnMut(&'a str),
+    (_, __0, _): (usize, P::Term, usize),
+) -> P::Term where
+  P:  ParseCallbacks,
 {
     (__0)
 }
@@ -940,70 +959,59 @@ fn __action0<
 #[allow(unused_variables)]
 fn __action1<
     'input,
-    F,
+    P,
 >(
-    logger: &mut F,
+    callbacks: &mut P,
     input: &'input str,
-    (_, n, _): (usize, i32, usize),
-) -> i32 where
-  F:  for<'a> FnMut(&'a str),
+    (_, n, _): (usize, P::Num, usize),
+) -> P::Term where
+  P:  ParseCallbacks,
 {
-    {
-        let msg = format!("just parsed {}", n);
-        logger(&msg);
-        n
-    }
+    n.into()
 }
 
 #[allow(unused_variables)]
 fn __action2<
     'input,
-    F,
+    P,
 >(
-    logger: &mut F,
+    callbacks: &mut P,
     input: &'input str,
     (_, _, _): (usize, &'input str, usize),
-    (_, t, _): (usize, i32, usize),
+    (_, t, _): (usize, P::Term, usize),
     (_, _, _): (usize, &'input str, usize),
-) -> i32 where
-  F:  for<'a> FnMut(&'a str),
+) -> P::Term where
+  P:  ParseCallbacks,
 {
-    {
-        logger("propagating...");
-        {
-            let msg = format!("... {}", t);
-            logger(&msg);
-        }
-        t
-    }
+    t
 }
 
 #[allow(unused_variables)]
 fn __action3<
     'input,
-    F,
+    P,
 >(
-    logger: &mut F,
+    callbacks: &mut P,
     input: &'input str,
     (_, s, _): (usize, &'input str, usize),
-) -> i32 where
-  F:  for<'a> FnMut(&'a str),
+) -> P::Num where
+  P:  ParseCallbacks,
 {
-    i32::from_str(s).unwrap()
+    callbacks.number(i32::from_str(s).unwrap())
 }
 
-pub trait __ToTriple<'input, F, > {
+pub trait __ToTriple<'input, P, > {
     type Error;
     fn to_triple(value: Self) -> Result<(usize,(usize, &'input str),usize),Self::Error>;
 }
 
-impl<'input, F, > __ToTriple<'input, F, > for (usize, (usize, &'input str), usize) {
+impl<'input, P, > __ToTriple<'input, P, > for (usize, (usize, &'input str), usize) {
     type Error = ();
     fn to_triple(value: Self) -> Result<(usize,(usize, &'input str),usize),()> {
         Ok(value)
     }
 }
-impl<'input, F, > __ToTriple<'input, F, > for Result<(usize, (usize, &'input str), usize),()> {
+impl<'input, P, > __ToTriple<'input, P, > for Result<(usize, (usize, &'input str), usize),()> {
     type Error = ();
     fn to_triple(value: Self) -> Result<(usize,(usize, &'input str),usize),()> {
         value
