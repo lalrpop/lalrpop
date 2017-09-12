@@ -55,7 +55,7 @@ impl<L, T, E> ParseError<L, T, E> {
         self.map_intern(op, |x|x, |x|x)
     }
 
-    pub fn map_tok<F,TT>(self, op: F) -> ParseError<L, TT, E> where F: Fn(T) -> TT {
+    pub fn map_token<F,TT>(self, op: F) -> ParseError<L, TT, E> where F: Fn(T) -> TT {
         self.map_intern(|x|x, op, |x|x)
     }
 
@@ -77,7 +77,7 @@ where L: fmt::Display,
             UnrecognizedToken { ref token, ref expected } => {
                 match *token {
                     Some((ref start, ref token, ref end)) =>
-                        try!(write!(f, "Unrecognized token {} found at {}:{}", token, start, end)),
+                        try!(write!(f, "Unrecognized token `{}` found at {}:{}", token, start, end)),
                     None =>
                         try!(write!(f, "Unrecognized EOF")),
                 }
@@ -133,7 +133,7 @@ mod tests {
                 .map(|s| s.to_string())
                 .collect()
         };
-        assert_eq!(format!("{}", err), "Unrecognized token t0 found at 1:2\n\
+        assert_eq!(format!("{}", err), "Unrecognized token `t0` found at 1:2\n\
                                         Expected one of t1, t2 or t3");
     }
 }

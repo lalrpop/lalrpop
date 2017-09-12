@@ -164,8 +164,9 @@ fn expr_intern_tok_display_err() {
     // The problem is that (usize,&str) and () do not implement fmt::Display,
     // so neither does the ParseError.
     // We can fix that by rewriting them to something that has fmt::Display
-    let disp = err.map_tok(|(_,t)|t).map_err(|_| "error");
-    assert!(disp.to_string().contains("Unrecognized token +"));
+    let disp = err.map_token(|(_,t)|t).map_err(|_| "error");
+    let message = disp.to_string();
+    assert!(message.contains("Unrecognized token `+`"));
 
     // We can even convert the locations to a line number
     let line_based = disp.map_loc(|offset| {
