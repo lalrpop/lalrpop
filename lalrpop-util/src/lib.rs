@@ -51,7 +51,7 @@ impl<L, T, E> ParseError<L, T, E> {
         }
     }
 
-    pub fn map_loc<F,LL>(self, op: F) -> ParseError<LL, T, E> where F: Fn(L) -> LL {
+    pub fn map_location<F,LL>(self, op: F) -> ParseError<LL, T, E> where F: Fn(L) -> LL {
         self.map_intern(op, |x|x, |x|x)
     }
 
@@ -59,7 +59,7 @@ impl<L, T, E> ParseError<L, T, E> {
         self.map_intern(|x|x, op, |x|x)
     }
 
-    pub fn map_err<F,EE>(self, op: F) -> ParseError<L, T, EE> where F: Fn(E) -> EE {
+    pub fn map_error<F,EE>(self, op: F) -> ParseError<L, T, EE> where F: Fn(E) -> EE {
         self.map_intern(|x|x, |x|x, op)
     }
 }
