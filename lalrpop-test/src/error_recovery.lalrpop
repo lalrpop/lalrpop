@@ -3,7 +3,7 @@ use std::cell::RefCell;
 use util::tok::Tok;
 use lalrpop_util::ErrorRecovery;
 
-grammar<'e>(errors: &'e RefCell<Vec<ErrorRecovery<(), Tok, ()>>>);
+grammar<'e>(errors: &'e RefCell<Vec<ErrorRecovery<(), Tok, &'static str>>>);
 
 extern {
     enum Tok {

@@ -155,24 +155,30 @@ fn expr_intern_tok_test_err() {
 }
 
 #[test]
-fn expr_intern_tok_display_err() {
+fn parse_error_map() {
     let expr = "(1+\n(2++3))";
     let result = expr_intern_tok::parse_Expr(1, expr);
-    let err : lalrpop_util::ParseError<usize, (usize, &str),()>
+    let err : lalrpop_util::ParseError<usize, (usize, &str),&'static str>
             = result.unwrap_err();
 
-    // The problem is that (usize,&str) and () do not implement fmt::Display,
-    // so neither does the ParseError.
-    // We can fix that by rewriting them to something that has fmt::Display
-    let disp = err.map_token(|(_,t)|t).map_error(|_| "error");
-    let message = disp.to_string();
-    assert!(message.contains("Unrecognized token `+`"));
+    let message = err
+            .map_token(|(_,t)| format!("TOKEN {}", t))
+            .map_location(|offset| format!("line {}", expr[0..offset].lines().count()))
+            .to_string();
+    assert!(message.contains("Unrecognized token `TOKEN +`"));
+    assert!(message.contains("at line 2"));
+}
 
-    // We can even convert the locations to a line number
-    let line_based = disp.map_location(|offset| {
-        format!("line {}", expr[0..offset].lines().count())
-    });
-    assert!(line_based.to_string().contains("line 2"));
+#[test]
+fn parse_error_map_err() {
+    let err : lalrpop_util::ParseError<usize, util::tok::Tok, char>
+             = util::test_err_gen(error::parse_Items, "---+").unwrap_err();
+    let modified_err = err.map_error(|c| c.to_string());
+    if let ParseError::User { error: user_error_value } = modified_err {
+        assert_eq!(user_error_value, "+");
+    } else {
+        panic!("Expected a User error")
+    }
 }
 
 #[test]

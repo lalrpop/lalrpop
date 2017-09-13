@@ -220,6 +220,6 @@ fn error() {
 grammar;
     Z = !;
 "#, vec![
-    ("Z", "__lalrpop_util::ParseError<usize, (usize, &'input str), ()>")
+    ("Z", "__lalrpop_util::ParseError<usize, (usize, &'input str), &'static str>")
         ])
 }

@@ -263,6 +263,7 @@ impl Types {
                 terminal_token_type: terminal_token_type,
                 terminal_types: map(),
                 nonterminal_types: map(),
+                // the following two will be overwritten later
                 parse_error_type: TypeRepr::Tuple(vec![]),
                 error_recovery_type: TypeRepr::Tuple(vec![]) };
 
@@ -314,7 +315,11 @@ impl Types {
 
     pub fn error_type(&self) -> TypeRepr {
         self.error_type.clone()
-                       .unwrap_or_else(|| TypeRepr::Tuple(vec![]))
+                       .unwrap_or_else(|| TypeRepr::Ref {
+                               lifetime: Some(intern("'static")),
+                               mutable: false,
+                               referent: Box::new(TypeRepr::str()),
+                       })
     }
 
     pub fn terminal_type(&self, id: TerminalString) -> &TypeRepr {
