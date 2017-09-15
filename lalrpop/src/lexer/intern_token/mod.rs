@@ -102,9 +102,10 @@ pub fn compile<W: Write>(
     rust!(out, "}}"); // impl Matcher<'input>
     rust!(out, "");
     rust!(out, "impl<'input> Iterator for {}Matcher<'input> {{", prefix);
-    rust!(out, "type Item = Result<(usize, (usize, &'input str), usize), \
-                {}lalrpop_util::ParseError<usize,(usize, &'input str),{}>>;",
-          prefix, grammar.types.error_type());
+    rust!(out, "type Item = Result<(usize, {}lalrpop_util::InternalToken<'input>, usize), \
+                {}lalrpop_util::ParseError<usize,{}lalrpop_util::InternalToken<'input>,{}>>;",
+          prefix, prefix, prefix,
+          grammar.types.error_type());
     rust!(out, "");
     rust!(out, "fn next(&mut self) -> Option<Self::Item> {{");
 
@@ -161,8 +162,8 @@ pub fn compile<W: Write>(
     rust!(out, "let {}end_offset = {}start_offset + {}longest_match;", prefix, prefix, prefix);
     rust!(out, "self.text = {}remaining;", prefix);
     rust!(out, "self.consumed = {}end_offset;", prefix);
-    rust!(out, "Some(Ok(({}start_offset, ({}index, {}result), {}end_offset)))",
-          prefix, prefix, prefix, prefix);
+    rust!(out, "Some(Ok(({}start_offset, {}lalrpop_util::InternalToken({}index, {}result), {}end_offset)))",
+          prefix, prefix, prefix, prefix, prefix);
 
     rust!(out, "}}"); // else
     rust!(out, "}}"); // else

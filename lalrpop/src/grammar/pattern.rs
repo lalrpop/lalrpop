@@ -30,6 +30,7 @@ pub enum PatternKind<T> {
     Struct(Path, Vec<FieldPattern<T>>, /* trailing ..? */ bool),
     Path(Path),
     Tuple(Vec<Pattern<T>>),
+    TupleStruct(Path, Vec<Pattern<T>>),
     Usize(usize),
     Underscore,
     DotDot,
@@ -68,6 +69,8 @@ impl<T> PatternKind<T> {
                     dotdot),
             PatternKind::Tuple(ref pats) =>
                 PatternKind::Tuple(pats.iter().map(|p| p.map(map_fn)).collect()),
+            PatternKind::TupleStruct(ref path, ref pats) =>
+                PatternKind::TupleStruct(path.clone(), pats.iter().map(|p| p.map(map_fn)).collect()),
             PatternKind::Underscore =>
                 PatternKind::Underscore,
             PatternKind::DotDot =>
@@ -113,6 +116,8 @@ impl<T:Display> Display for PatternKind<T> {
                 write!(fmt, "{} {{ {}, .. }}", path, Sep(", ", fields)),
             PatternKind::Tuple(ref paths) =>
                 write!(fmt, "({})", Sep(", ", paths)),
+            PatternKind::TupleStruct(ref path, ref paths) =>
+                write!(fmt, "{}({})", path, Sep(", ", paths)),
             PatternKind::Underscore =>
                 write!(fmt, "_"),
             PatternKind::DotDot =>

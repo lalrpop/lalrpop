@@ -155,14 +155,14 @@ fn expr_intern_tok_test_err() {
 }
 
 #[test]
-fn parse_error_map() {
+fn parse_error_map_token_and_location() {
     let expr = "(1+\n(2++3))";
     let result = expr_intern_tok::parse_Expr(1, expr);
-    let err : lalrpop_util::ParseError<usize, (usize, &str),&'static str>
+    let err : lalrpop_util::ParseError<usize, lalrpop_util::InternalToken,&'static str>
             = result.unwrap_err();
 
     let message = err
-            .map_token(|(_,t)| format!("TOKEN {}", t))
+            .map_token(|lalrpop_util::InternalToken(_,t)| format!("TOKEN {}", t))
             .map_location(|offset| format!("line {}", expr[0..offset].lines().count()))
             .to_string();
     assert!(message.contains("Unrecognized token `TOKEN +`"));
@@ -179,6 +179,14 @@ fn parse_error_map_err() {
     } else {
         panic!("Expected a User error")
     }
+}
+
+#[test]
+fn display_parse_error() {
+    let expr = "(1+\n(2++3))";
+    let err = expr_intern_tok::parse_Expr(1, expr).unwrap_err();
+    let message = err.to_string();
+    assert!(message.contains("Unrecognized token `+`"));
 }
 
 #[test]
