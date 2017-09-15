@@ -202,7 +202,9 @@ impl<W:Write> RustWrite<W> {
     }
 
     pub fn write_standard_uses(&mut self, prefix: &str) -> io::Result<()> {
-        // stuff that we plan to use
+        // Stuff that we plan to use.
+        // Occasionally we happen to not use it after all, hence the allow.
+        rust!(self, "#[allow(unused_extern_crates)]");
         rust!(self, "extern crate lalrpop_util as {}lalrpop_util;",
               prefix);
 
