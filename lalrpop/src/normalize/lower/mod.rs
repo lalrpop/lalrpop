@@ -151,6 +151,11 @@ impl<'s> LowerState<'s> {
                                 })
                                 .collect();
 
+        let where_clauses = grammar.where_clauses
+                                   .iter()
+                                   .map(|wc| wc.map(pt::TypeRef::type_repr))
+                                   .collect();
+
         let mut algorithm = r::Algorithm::default();
 
         // FIXME Error recovery only works for parse tables so temporarily only generate parse tables for
@@ -189,7 +194,7 @@ impl<'s> LowerState<'s> {
             token_span: token_span.unwrap(),
             type_parameters: grammar.type_parameters,
             parameters: parameters,
-            where_clauses: grammar.where_clauses,
+            where_clauses: where_clauses,
             algorithm: algorithm,
             intern_token: self.intern_token,
             terminals: r::TerminalSet {
@@ -324,7 +329,7 @@ impl<'s> LowerState<'s> {
                     match norm_util::check_between_braces(&action) {
                         norm_util::Presence::None => {
                             action
-                        } 
+                        }
                         norm_util::Presence::Normal => {
                             let name_str : String = intern::read(|interner| {
                                 let name_strs: Vec<_> = names.iter().map(|&(_,name,_)| interner.data(name)).collect();

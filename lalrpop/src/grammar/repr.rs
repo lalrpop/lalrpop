@@ -17,7 +17,7 @@ pub use grammar::parse_tree::{Annotation,
                               NonterminalString,
                               Path,
                               Span,
-                              TerminalLiteral, TerminalString, TypeParameter};
+                              TerminalLiteral, TerminalString, TypeParameter, WhereClause};
 
 #[derive(Clone, Debug)]
 pub struct Grammar {
@@ -47,7 +47,7 @@ pub struct Grammar {
     pub parameters: Vec<Parameter>,
 
     // where clauses declared on the grammar, like `grammar<T> where T: Sized`
-    pub where_clauses: Vec<String>,
+    pub where_clauses: Vec<WhereClause<TypeRepr>>,
 
     // optional tokenizer DFA; this is only needed if the user did not supply
     // an extern token declaration

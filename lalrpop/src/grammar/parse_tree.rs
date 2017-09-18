@@ -23,7 +23,7 @@ pub struct Grammar {
     pub span: Span,
     pub type_parameters: Vec<TypeParameter>,
     pub parameters: Vec<Parameter>,
-    pub where_clauses: Vec<String>,
+    pub where_clauses: Vec<WhereClause<TypeRef>>,
     pub items: Vec<GrammarItem>,
     pub annotations: Vec<Annotation>,
     pub module_attributes: Vec<String>,
@@ -222,6 +222,105 @@ pub enum TypeRef {
     OfSymbol(SymbolKind),
 }
 
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub enum WhereClause<T> {
+    // 'a: 'b + 'c
+    Lifetime {
+        lifetime: InternedString,
+        bounds: Vec<InternedString>,
+    },
+    // where for<'a> &'a T: Debug + Into<usize>
+    Type {
+        forall: Option<Vec<InternedString>>,
+        ty: T,
+        bounds: Vec<TypeBound<T>>,
+    }
+}
+
+impl<T> WhereClause<T> {
+    pub fn map<F, U>(&self, mut f: F) -> WhereClause<U>
+        where F: FnMut(&T) -> U
+    {
+        match *self {
+            WhereClause::Lifetime { lifetime, ref bounds } => WhereClause::Lifetime {
+                lifetime: lifetime,
+                bounds: bounds.clone(),
+            },
+            WhereClause::Type { ref forall, ref ty, ref bounds } => WhereClause::Type {
+                forall: forall.clone(),
+                ty: f(ty),
+                bounds: bounds.iter().map(|b| b.map(&mut f)).collect(),
+            },
+        }
+    }
+}
+
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub enum TypeBound<T> {
+    // The `'a` in `T: 'a`.
+    Lifetime(InternedString),
+    // `for<'a> FnMut(&'a usize)`
+    Fn {
+        forall: Option<Vec<InternedString>>,
+        path: Path,
+        parameters: Vec<T>,
+        ret: Option<T>,
+    },
+    // `some::Trait` or `some::Trait<Param, ...>` or `some::Trait<Item = Assoc>`
+    // or `for<'a> Trait<'a, T>`
+    Trait {
+        forall: Option<Vec<InternedString>>,
+        path: Path,
+        parameters: Vec<TypeBoundParameter<T>>,
+    }
+}
+
+impl<T> TypeBound<T> {
+    pub fn map<F, U>(&self, mut f: F) -> TypeBound<U>
+        where F: FnMut(&T) -> U
+    {
+        match *self {
+            TypeBound::Lifetime(l) => TypeBound::Lifetime(l),
+            TypeBound::Fn { ref forall, ref path, ref parameters, ref ret } => TypeBound::Fn {
+                forall: forall.clone(),
+                path: path.clone(),
+                parameters: parameters.iter().map(&mut f).collect(),
+                ret: ret.as_ref().map(f),
+            },
+            TypeBound::Trait { ref forall, ref path, ref parameters } => TypeBound::Trait {
+                forall: forall.clone(),
+                path: path.clone(),
+                parameters: parameters.iter().map(|p| p.map(&mut f)).collect(),
+            }
+        }
+    }
+}
+
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub enum TypeBoundParameter<T> {
+    // 'a
+    Lifetime(InternedString),
+    // `T` or `'a`
+    TypeParameter(T),
+    // `Item = T`
+    Associated(InternedString, T),
+}
+
+impl<T> TypeBoundParameter<T> {
+    pub fn map<F, U>(&self, mut f: F) -> TypeBoundParameter<U>
+        where F: FnMut(&T) -> U
+    {
+        match *self {
+            TypeBoundParameter::Lifetime(l) =>
+                TypeBoundParameter::Lifetime(l),
+            TypeBoundParameter::TypeParameter(ref t) =>
+                TypeBoundParameter::TypeParameter(f(t)),
+            TypeBoundParameter::Associated(id, ref t) =>
+                TypeBoundParameter::Associated(id, f(t)),
+        }
+    }
+}
+
 #[derive(Clone, Debug, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub enum TypeParameter {
     Lifetime(InternedString),
@@ -342,7 +441,7 @@ pub enum SymbolKind {
 
     // @R
     Lookbehind,
-    
+
     Error
 }
 
@@ -547,6 +646,123 @@ impl Symbol {
     }
 }
 
+impl<T: Display> Display for WhereClause<T> {
+    fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
+        match *self {
+            WhereClause::Lifetime { lifetime, ref bounds } => {
+                write!(fmt, "{}:", lifetime)?;
+                for (i, b) in bounds.iter().enumerate() {
+                    if i != 0 {
+                        write!(fmt, " +")?;
+                    }
+                    write!(fmt, " {}", b)?;
+                }
+                Ok(())
+            }
+            WhereClause::Type { ref forall, ref ty, ref bounds } => {
+                if let Some(ref forall) = *forall {
+                    write!(fmt, "for<")?;
+                    for (i, l) in forall.iter().enumerate() {
+                        if i != 0 {
+                            write!(fmt, ", ")?;
+                        }
+                        write!(fmt, "{}", l)?;
+                    }
+                    write!(fmt, "> ")?;
+                }
+
+                write!(fmt, "{}: ", ty)?;
+                for (i, b) in bounds.iter().enumerate() {
+                    if i != 0 {
+                        write!(fmt, " +")?;
+                    }
+                    write!(fmt, " {}", b)?;
+                }
+                Ok(())
+            }
+        }
+    }
+}
+
+impl<T: Display> Display for TypeBound<T> {
+    fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
+        match *self {
+            TypeBound::Lifetime(l) => {
+                write!(fmt, "{}", l)
+            }
+            TypeBound::Fn { ref forall, ref path, ref parameters, ref ret } => {
+                if let Some(ref forall) = *forall {
+                    write!(fmt, "for<")?;
+                    for (i, l) in forall.iter().enumerate() {
+                        if i != 0 {
+                            write!(fmt, ", ")?;
+                        }
+                        write!(fmt, "{}", l)?;
+                    }
+                    write!(fmt, "> ")?;
+                }
+
+                write!(fmt, "{}(", path)?;
+                for (i, p) in parameters.iter().enumerate() {
+                    if i != 0 {
+                        write!(fmt, ", ")?;
+                    }
+                    write!(fmt, "{}", p)?;
+                }
+                write!(fmt, ")")?;
+
+                if let Some(ref ret) = *ret {
+                    write!(fmt, " -> {}", ret)?;
+                }
+
+                Ok(())
+            }
+            TypeBound::Trait { ref forall, ref path, ref parameters } => {
+                if let Some(ref forall) = *forall {
+                    write!(fmt, "for<")?;
+                    for (i, l) in forall.iter().enumerate() {
+                        if i != 0 {
+                            write!(fmt, ", ")?;
+                        }
+                        write!(fmt, "{}", l)?;
+                    }
+                    write!(fmt, "> ")?;
+                }
+
+                write!(fmt, "{}", path)?;
+                if parameters.is_empty() {
+                    return Ok(());
+                }
+
+                write!(fmt, "<")?;
+                for (i, p) in parameters.iter().enumerate() {
+                    if i != 0 {
+                        write!(fmt, ", ")?;
+                    }
+                    write!(fmt, "{}", p)?;
+                }
+                write!(fmt, ">")
+            }
+        }
+    }
+}
+
+impl<T: Display> Display for TypeBoundParameter<T> {
+    fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
+        match *self {
+            TypeBoundParameter::Lifetime(l) => {
+                write!(fmt, "{}", l)
+            }
+            TypeBoundParameter::TypeParameter(ref t) => {
+                write!(fmt, "{}", t)
+            }
+            TypeBoundParameter::Associated(id, ref t) => {
+                write!(fmt, "{} = {}", id, t)
+            }
+        }
+    }
+}
+
 impl Display for TerminalString {
     fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
         match *self {
@@ -554,7 +770,7 @@ impl Display for TerminalString {
                 write!(fmt, "{}", s),
             TerminalString::Bare(s) =>
                 write!(fmt, "{}", s),
-            TerminalString::Error => 
+            TerminalString::Error =>
                 write!(fmt, "error"),
         }
     }
