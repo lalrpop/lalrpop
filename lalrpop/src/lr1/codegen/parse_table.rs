@@ -1,6 +1,7 @@
 //! A compiler from an LR(1) table to a traditional table driven parser.
 
 use collections::{Map, Set};
+use grammar::parse_tree::WhereClause;
 use grammar::repr::*;
 use lr1::core::*;
 use lr1::lookahead::Token;
@@ -221,7 +222,7 @@ enum Comment<'a, T> {
 impl<'a, T: fmt::Display> fmt::Display for Comment<'a, T> {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         match *self {
-            Comment::Goto(ref token, new_state) => 
+            Comment::Goto(ref token, new_state) =>
                 write!(f, " // on {}, goto {}", token, new_state),
             Comment::Error(ref token) =>
                 write!(f, " // on {}, error", token),
@@ -234,6 +235,8 @@ impl<'a, T: fmt::Display> fmt::Display for Comment<'a, T> {
 struct TableDriven<'grammar> {
     /// type parameters for the `Nonterminal` type
     symbol_type_params: Vec<TypeParameter>,
+
+    symbol_where_clauses: Vec<WhereClause<TypeRepr>>,
 
     /// a list of each nonterminal in some specific order
     all_nonterminals: Vec<NonterminalString>,
@@ -268,6 +271,21 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
                                                 .cloned()
                                                 .collect();
 
+        let mut referenced_where_clauses = Set::new();
+        for wc in &grammar.where_clauses {
+            wc.map(|ty| {
+                if ty.referenced().iter().any(|p| symbol_type_params.contains(p)) {
+                    referenced_where_clauses.insert(wc.clone());
+                }
+            });
+        }
+
+        let symbol_where_clauses: Vec<_> = grammar.where_clauses
+                                                  .iter()
+                                                  .filter(|wc| referenced_where_clauses.contains(wc))
+                                                  .cloned()
+                                                  .collect();
+
         // Assign each production a unique index to use as the values for reduce
         // actions in the ACTION and EOF_ACTION tables.
         let reduce_indices: Map<&'grammar Production, usize> = grammar.nonterminals
@@ -287,6 +305,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
                            action_module,
                            TableDriven {
                                symbol_type_params: symbol_type_params,
+                               symbol_where_clauses: symbol_where_clauses,
                                all_nonterminals: grammar.nonterminals
                                                         .keys()
                                                         .cloned()
@@ -311,9 +330,15 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
         // if we are generating multiple parsers from the same file:
         rust!(self.out, "#[allow(dead_code)]");
         rust!(self.out,
-              "pub enum {}Symbol<{}> {{",
+              "pub enum {}Symbol<{}>",
               self.prefix,
               Sep(", ", &self.custom.symbol_type_params));
+
+        if !self.custom.symbol_where_clauses.is_empty() {
+            rust!(self.out, " where {}", Sep(", ", &self.custom.symbol_where_clauses));
+        }
+
+        rust!(self.out, " {{");
 
         // make one variant per terminal
         for &term in &self.grammar.terminals.all {
@@ -661,7 +686,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
         }
 
         rust!(self.out, "}}"); // else
-        
+
         rust!(self.out, "}}"); // while let
 
         self.end_parser_fn()
@@ -987,7 +1012,13 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
               "{}symbols: &mut ::std::vec::Vec<{}>",
               self.prefix,
               spanned_symbol_type);
-        rust!(self.out, ") -> {} {{", self.types.spanned_type(variant_ty));
+        rust!(self.out, ") -> {}", self.types.spanned_type(variant_ty));
+
+        if !self.custom.symbol_where_clauses.is_empty() {
+            rust!(self.out, " where {}", Sep(", ", &self.custom.symbol_where_clauses));
+        }
+
+        rust!(self.out, " {{");
 
         if DEBUG_PRINT {
             rust!(self.out, "println!(\"pop_{}\");", variant_name);

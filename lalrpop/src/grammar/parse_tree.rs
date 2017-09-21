@@ -189,7 +189,7 @@ pub struct Conversion {
     pub to: Pattern<TypeRef>,
 }
 
-#[derive(Clone, Debug, PartialEq, Eq)]
+#[derive(Clone, Debug, PartialEq, Eq, PartialOrd, Ord)]
 pub struct Path {
     pub absolute: bool,
     pub ids: Vec<InternedString>,
@@ -222,7 +222,7 @@ pub enum TypeRef {
     OfSymbol(SymbolKind),
 }
 
-#[derive(Clone, Debug, PartialEq, Eq)]
+#[derive(Clone, Debug, PartialEq, Eq, PartialOrd, Ord)]
 pub enum WhereClause<T> {
     // 'a: 'b + 'c
     Lifetime {
@@ -255,7 +255,7 @@ impl<T> WhereClause<T> {
     }
 }
 
-#[derive(Clone, Debug, PartialEq, Eq)]
+#[derive(Clone, Debug, PartialEq, Eq, PartialOrd, Ord)]
 pub enum TypeBound<T> {
     // The `'a` in `T: 'a`.
     Lifetime(InternedString),
@@ -296,7 +296,7 @@ impl<T> TypeBound<T> {
     }
 }
 
-#[derive(Clone, Debug, PartialEq, Eq)]
+#[derive(Clone, Debug, PartialEq, Eq, PartialOrd, Ord)]
 pub enum TypeBoundParameter<T> {
     // 'a
     Lifetime(InternedString),

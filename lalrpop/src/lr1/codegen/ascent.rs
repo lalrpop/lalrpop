@@ -3,6 +3,7 @@
 //! [recursive ascent]: https://en.wikipedia.org/wiki/Recursive_ascent_parser
 
 use collections::{Multimap, Set};
+use grammar::parse_tree::WhereClause;
 use grammar::repr::{Grammar, NonterminalString, Production, Symbol, TerminalString, TypeParameter,
                     TypeRepr};
 use lr1::core::*;
@@ -42,6 +43,8 @@ struct RecursiveAscent<'ascent, 'grammar> {
 
     /// type parameters for the `Nonterminal` type
     nonterminal_type_params: Vec<TypeParameter>,
+
+    nonterminal_where_clauses: Vec<WhereClause<TypeRepr>>
 }
 
 /// Tracks the suffix of the stack (that is, top-most elements) that any
@@ -134,6 +137,21 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent,
                                                      .cloned()
                                                      .collect();
 
+        let mut referenced_where_clauses = Set::new();
+        for wc in &grammar.where_clauses {
+            wc.map(|ty| {
+                if ty.referenced().iter().any(|p| nonterminal_type_params.contains(p)) {
+                    referenced_where_clauses.insert(wc.clone());
+                }
+            });
+        }
+
+        let nonterminal_where_clauses: Vec<_> = grammar.where_clauses
+                                                       .iter()
+                                                       .filter(|wc| referenced_where_clauses.contains(wc))
+                                                       .cloned()
+                                                       .collect();
+
         let state_inputs = states.iter()
                                  .map(|state| Self::state_input_for(state))
                                  .collect();
@@ -149,6 +167,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent,
                                graph: graph,
                                state_inputs: state_inputs,
                                nonterminal_type_params: nonterminal_type_params,
+                               nonterminal_where_clauses: nonterminal_where_clauses,
                            })
     }
 
@@ -179,9 +198,15 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent,
         // if we are generating multiple parsers from the same file:
         rust!(self.out, "#[allow(dead_code)]");
         rust!(self.out,
-              "pub enum {}Nonterminal<{}> {{",
+              "pub enum {}Nonterminal<{}>",
               self.prefix,
               Sep(", ", &self.custom.nonterminal_type_params));
+
+        if !self.custom.nonterminal_where_clauses.is_empty() {
+            rust!(self.out, " where {}", Sep(", ", &self.custom.nonterminal_where_clauses));
+        }
+
+        rust!(self.out, " {{");
 
         // make an enum with one variant per nonterminal; I considered
         // making different enums per state, but this would mean we
