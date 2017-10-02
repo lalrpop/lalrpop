@@ -970,7 +970,7 @@ the type will be replaced with "whatever the type of `T` is".
 Next, on (2), we parse `<v:(<T> ",")*> <e:T?>`.  That's a lot of
 symbols, so let's first remove all the angle brackets, which just
 serve to tell LALRPOP what values you want to propagate and which you
-want to discard. In that case, we have: `(T ",")* e?`. Hopefully you
+want to discard. In that case, we have: `(T ",")* T?`. Hopefully you
 can see that this matches a comma-separated list with an optional
 trailing comma. Now let's add those angle-brackets back in. In the
 parentheses, we get `(<T> ",")*` -- this just means that we keep the
