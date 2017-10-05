@@ -49,8 +49,7 @@ impl<'s> LowerState<'s> {
         let mut token_span = None;
         let internal_token_path = Path {
             absolute: false,
-            ids: vec![intern(&format!("{}lalrpop_util", grammar.prefix.clone())),
-                intern("InternalToken")],
+            ids: vec![intern("Token")],
         };
 
         for item in grammar.items {

@@ -158,11 +158,11 @@ fn expr_intern_tok_test_err() {
 fn parse_error_map_token_and_location() {
     let expr = "(1+\n(2++3))";
     let result = expr_intern_tok::parse_Expr(1, expr);
-    let err : lalrpop_util::ParseError<usize, lalrpop_util::InternalToken,&'static str>
+    let err : lalrpop_util::ParseError<usize, expr_intern_tok::Token,&'static str>
             = result.unwrap_err();
 
     let message = err
-            .map_token(|lalrpop_util::InternalToken(_,t)| format!("TOKEN {}", t))
+            .map_token(|expr_intern_tok::Token(_,t)| format!("TOKEN {}", t))
             .map_location(|offset| format!("line {}", expr[0..offset].lines().count()))
             .to_string();
     assert!(message.contains("Unrecognized token `TOKEN +`"));

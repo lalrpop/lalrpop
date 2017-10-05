@@ -120,16 +120,6 @@ pub struct ErrorRecovery<L, T, E> {
     pub dropped_tokens: Vec<(L, T, L)>,
 }
 
-// Only used by the internal tokenizer
-#[derive(Clone, Debug, PartialEq, Eq, PartialOrd, Ord)]
-pub struct InternalToken<'a>(pub usize, pub &'a str);
-
-impl<'a> fmt::Display for InternalToken<'a> {
-    fn fmt(&self, formatter: &mut fmt::Formatter) -> Result<(), fmt::Error> {
-        self.1.fmt(formatter)
-    }
-}
-
 #[cfg(test)]
 mod tests {
     use super::*;

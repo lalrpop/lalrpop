@@ -85,12 +85,11 @@ impl<'grammar> TypeInferencer<'grammar> {
                     mutable: false,
                     referent: Box::new(TypeRepr::str())
                 };
-            let enum_type = // lalrpop_util::InternalToken<'input>
+            let enum_type = // Token<'input>
                 TypeRepr::Nominal(NominalTypeRepr {
                     path: Path {
                         absolute: false,
-                        ids: vec![intern(&format!("{}lalrpop_util", grammar.prefix)),
-                            intern("InternalToken")],
+                        ids: vec![intern("Token")],
                     },
                     types: vec![TypeRepr::Lifetime(intern(INPUT_LIFETIME))]
                 });

@@ -877,7 +877,6 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent,
             pattern_names.last().cloned().unwrap()
         });
 
-        /* banana */
         let mut pattern = format!("{}", pattern);
         if pattern_names.is_empty() {
             pattern_names.push(format!("{}tok", self.prefix));

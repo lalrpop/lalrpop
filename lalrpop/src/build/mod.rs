@@ -404,6 +404,7 @@ fn emit_recursive_ascent(session: &Session, grammar: &r::Grammar, report_file : 
 
     if let Some(ref intern_token) = grammar.intern_token {
         try!(intern_token::compile(&grammar, intern_token, &mut rust));
+        rust!(rust, "pub use self::{}intern_token::Token;", grammar.prefix);
     }
 
     try!(action::emit_action_code(grammar, &mut rust));
