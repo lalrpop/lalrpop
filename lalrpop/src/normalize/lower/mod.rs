@@ -7,7 +7,7 @@ use normalize::norm_util::{self, Symbols};
 use grammar::consts::*;
 use grammar::pattern::{Pattern, PatternKind};
 use grammar::parse_tree as pt;
-use grammar::parse_tree::{InternToken, NonterminalString, TerminalString, read_algorithm};
+use grammar::parse_tree::{InternToken, NonterminalString, TerminalString, Path, read_algorithm};
 use grammar::repr as r;
 use session::Session;
 use collections::{map, Map};
@@ -47,6 +47,10 @@ impl<'s> LowerState<'s> {
 
         let mut uses = vec![];
         let mut token_span = None;
+        let internal_token_path = Path {
+            absolute: false,
+            ids: vec![intern("Token")],
+        };
 
         for item in grammar.items {
             match item {
@@ -78,7 +82,7 @@ impl<'s> LowerState<'s> {
                             .map(|(index, match_entry)| {
                                 let pattern = Pattern {
                                     span: span,
-                                    kind: PatternKind::Tuple(vec![
+                                    kind: PatternKind::TupleStruct(internal_token_path.clone(), vec![
                                         Pattern {
                                             span: span,
                                             kind: PatternKind::Usize(index),

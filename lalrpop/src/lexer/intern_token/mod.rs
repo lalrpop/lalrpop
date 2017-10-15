@@ -6,6 +6,15 @@ Generates an iterator type `__Matcher` that looks roughly like
 mod __intern_token {
     extern crate regex as __regex;
 
+    #[derive(Clone, Debug, PartialEq, Eq, PartialOrd, Ord)]
+    pub struct Token<'input>(pub usize, pub &'input str);
+    //                           ~~~~~~     ~~~~~~~~~~~
+    //                           token      token
+    //                           index      text
+    //                           (type)
+
+    impl<'a> fmt::Display for Token<'a> { ... }
+
     pub struct __Matcher<'input> {
         text: &'input str,
         consumed: usize,
@@ -18,10 +27,9 @@ mod __intern_token {
     }
 
     impl<'input> Iterator for __Matcher<'input> {
-        type Item = Result<(usize, (usize, &'input str), usize), ParseError>;
-        //                  ~~~~~   ~~~~~  ~~~~~~~~~~~   ~~~~~
-        //                  start   token  token         end
-        //                          index  text
+        type Item = Result<(usize, Token<'input>, usize), ParseError>;
+        //                  ~~~~~  ~~~~~~~~~~~~~  ~~~~~
+        //                  start  token          end
     }
 }
 ```
@@ -47,6 +55,16 @@ pub fn compile<W: Write>(
     rust!(out, "#![allow(unused_imports)]");
     try!(out.write_uses("", &grammar));
     rust!(out, "extern crate regex as {}regex;", prefix);
+    rust!(out, "use std::fmt as {}fmt;", prefix);
+    rust!(out, "");
+    rust!(out, "#[derive(Clone, Debug, PartialEq, Eq, PartialOrd, Ord)]");
+    rust!(out, "pub struct Token<'input>(pub usize, pub &'input str);");
+    rust!(out, "impl<'a> {}fmt::Display for Token<'a> {{", prefix);
+    rust!(out, "fn fmt(&self, formatter: &mut {}fmt::Formatter) -> Result<(), {}fmt::Error> {{", prefix, prefix);
+    rust!(out, "{}fmt::Display::fmt(self.1, formatter)", prefix);
+    rust!(out, "}}");
+    rust!(out, "}}");
+    rust!(out, "");
     rust!(out, "pub struct {}Matcher<'input> {{", prefix);
     rust!(out, "text: &'input str,"); // remaining input
     rust!(out, "consumed: usize,"); // number of chars consumed thus far
@@ -102,9 +120,10 @@ pub fn compile<W: Write>(
     rust!(out, "}}"); // impl Matcher<'input>
     rust!(out, "");
     rust!(out, "impl<'input> Iterator for {}Matcher<'input> {{", prefix);
-    rust!(out, "type Item = Result<(usize, (usize, &'input str), usize), \
-                {}lalrpop_util::ParseError<usize,(usize, &'input str),{}>>;",
-          prefix, grammar.types.error_type());
+    rust!(out, "type Item = Result<(usize, Token<'input>, usize), \
+                {}lalrpop_util::ParseError<usize,Token<'input>,{}>>;",
+          prefix,
+          grammar.types.error_type());
     rust!(out, "");
     rust!(out, "fn next(&mut self) -> Option<Self::Item> {{");
 
@@ -161,7 +180,7 @@ pub fn compile<W: Write>(
     rust!(out, "let {}end_offset = {}start_offset + {}longest_match;", prefix, prefix, prefix);
     rust!(out, "self.text = {}remaining;", prefix);
     rust!(out, "self.consumed = {}end_offset;", prefix);
-    rust!(out, "Some(Ok(({}start_offset, ({}index, {}result), {}end_offset)))",
+    rust!(out, "Some(Ok(({}start_offset, Token({}index, {}result), {}end_offset)))",
           prefix, prefix, prefix, prefix);
 
     rust!(out, "}}"); // else

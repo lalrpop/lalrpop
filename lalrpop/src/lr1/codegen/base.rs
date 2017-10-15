@@ -89,7 +89,9 @@ impl<'codegen, 'grammar, W: Write, C> CodeGenerator<'codegen, 'grammar, W, C> {
     pub fn write_uses(&mut self) -> io::Result<()> {
         try!(self.out.write_uses(&format!("{}::", self.action_module), &self.grammar));
 
-        if self.grammar.intern_token.is_none() {
+        if self.grammar.intern_token.is_some() {
+            rust!(self.out, "use {}::{}intern_token::Token;", self.action_module, self.prefix);
+        } else {
             rust!(self.out, "use {}::{}ToTriple;", self.action_module, self.prefix);
         }
 
@@ -131,6 +133,7 @@ impl<'codegen, 'grammar, W: Write, C> CodeGenerator<'codegen, 'grammar, W, C> {
             }
         }
 
+        rust!(self.out, "#[allow(dead_code)]");
         try!(self.out.write_pub_fn_header(self.grammar,
                                           format!("parse_{}", self.user_start_symbol),
                                           type_parameters,

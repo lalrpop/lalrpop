@@ -155,6 +155,41 @@ fn expr_intern_tok_test_err() {
 }
 
 #[test]
+fn parse_error_map_token_and_location() {
+    let expr = "(1+\n(2++3))";
+    let result = expr_intern_tok::parse_Expr(1, expr);
+    let err : lalrpop_util::ParseError<usize, expr_intern_tok::Token,&'static str>
+            = result.unwrap_err();
+
+    let message = err
+            .map_token(|expr_intern_tok::Token(_,t)| format!("TOKEN {}", t))
+            .map_location(|offset| format!("line {}", expr[0..offset].lines().count()))
+            .to_string();
+    assert!(message.contains("Unrecognized token `TOKEN +`"));
+    assert!(message.contains("at line 2"));
+}
+
+#[test]
+fn parse_error_map_err() {
+    let err : lalrpop_util::ParseError<usize, util::tok::Tok, char>
+             = util::test_err_gen(error::parse_Items, "---+").unwrap_err();
+    let modified_err = err.map_error(|c| c.to_string());
+    if let ParseError::User { error: user_error_value } = modified_err {
+        assert_eq!(user_error_value, "+");
+    } else {
+        panic!("Expected a User error")
+    }
+}
+
+#[test]
+fn display_parse_error() {
+    let expr = "(1+\n(2++3))";
+    let err = expr_intern_tok::parse_Expr(1, expr).unwrap_err();
+    let message = err.to_string();
+    assert!(message.contains("Unrecognized token `+`"));
+}
+
+#[test]
 fn expr_lifetime_tok1() {
     // the problem here was that we were improperly pruning the 'input from the
     let tokens = lifetime_tok_lib::lt_tokenize("x");

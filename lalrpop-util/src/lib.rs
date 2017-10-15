@@ -36,6 +36,34 @@ pub enum ParseError<L,T,E> {
     },
 }
 
+impl<L, T, E> ParseError<L, T, E> {
+    fn map_intern<FL,LL,FT,TT,FE,EE>(self, loc_op: FL, tok_op: FT, err_op: FE) -> ParseError<LL,TT,EE>
+    where FL: Fn(L) -> LL,
+          FT: Fn(T) -> TT,
+          FE: Fn(E) -> EE
+    {
+        let maptok = |(s,t,e) : (L,T,L)| (loc_op(s), tok_op(t), loc_op(e));
+        match self {
+            ParseError::InvalidToken { location } => ParseError::InvalidToken { location: loc_op(location) },
+            ParseError::UnrecognizedToken { token, expected } => ParseError::UnrecognizedToken { token: token.map(maptok), expected: expected },
+            ParseError::ExtraToken { token } => ParseError::ExtraToken { token: maptok(token) },
+            ParseError::User { error } => ParseError::User { error: err_op(error) }
+        }
+    }
+
+    pub fn map_location<F,LL>(self, op: F) -> ParseError<LL, T, E> where F: Fn(L) -> LL {
+        self.map_intern(op, |x|x, |x|x)
+    }
+
+    pub fn map_token<F,TT>(self, op: F) -> ParseError<L, TT, E> where F: Fn(T) -> TT {
+        self.map_intern(|x|x, op, |x|x)
+    }
+
+    pub fn map_error<F,EE>(self, op: F) -> ParseError<L, T, EE> where F: Fn(E) -> EE {
+        self.map_intern(|x|x, |x|x, op)
+    }
+}
+
 impl<L, T, E> fmt::Display for ParseError<L, T, E>
 where L: fmt::Display,
       T: fmt::Display,
@@ -49,7 +77,7 @@ where L: fmt::Display,
             UnrecognizedToken { ref token, ref expected } => {
                 match *token {
                     Some((ref start, ref token, ref end)) =>
-                        try!(write!(f, "Unrecognized token {} found at {}:{}", token, start, end)),
+                        try!(write!(f, "Unrecognized token `{}` found at {}:{}", token, start, end)),
                     None =>
                         try!(write!(f, "Unrecognized EOF")),
                 }
@@ -105,7 +133,7 @@ mod tests {
                 .map(|s| s.to_string())
                 .collect()
         };
-        assert_eq!(format!("{}", err), "Unrecognized token t0 found at 1:2\n\
+        assert_eq!(format!("{}", err), "Unrecognized token `t0` found at 1:2\n\
                                         Expected one of t1, t2 or t3");
     }
 }

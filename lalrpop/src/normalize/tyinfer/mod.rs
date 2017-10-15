@@ -85,8 +85,14 @@ impl<'grammar> TypeInferencer<'grammar> {
                     mutable: false,
                     referent: Box::new(TypeRepr::str())
                 };
-            let enum_type = // (usize, &'input str)
-                TypeRepr::Tuple(vec![TypeRepr::usize(), input_str.clone()]);
+            let enum_type = // Token<'input>
+                TypeRepr::Nominal(NominalTypeRepr {
+                    path: Path {
+                        absolute: false,
+                        ids: vec![intern("Token")],
+                    },
+                    types: vec![TypeRepr::Lifetime(intern(INPUT_LIFETIME))]
+                });
 
             let mut types = Types::new(&grammar.prefix, Some(loc_type), error_type, enum_type);
 
