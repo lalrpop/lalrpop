@@ -389,7 +389,8 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
         rust!(self.out,
               "const {}EOF_ACTION: &'static [i32] = &[",
               self.prefix);
-        for state in self.states {
+        for (index, state) in self.states.iter().enumerate() {
+            rust!(self.out, "// State {}", index);
             let reduction = Self::write_reduction(&self.custom, state, Token::EOF);
             try!(self.out.write_table_row(Some(reduction)));
         }
@@ -1100,7 +1101,11 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
             self.prefix,
             self.prefix,
             self.grammar.terminals.all.len());
-
+        if DEBUG_PRINT {
+            rust!(self.out, "println!(\"EOF Loop: top state = {{}} (error state+1) = {{}}\", \
+                             {}state, {}error_state);",
+                  self.prefix, self.prefix);
+        }
         rust!(self.out, "if {}error_state > 0 {} {{", self.prefix, extra_test);
         rust!(self.out, "break;");
         rust!(self.out, "}}");
