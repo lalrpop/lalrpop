@@ -36,11 +36,30 @@ impl<'grammar> LaneTableConstruct<'grammar> {
     }
 
     pub fn construct(self) -> Result<Vec<LR1State<'grammar>>, LR1TableConstructionError<'grammar>> {
-        let TableConstructionError { states, conflicts: _ } = {
+        let states = {
             match build::build_lr0_states(self.grammar, self.start_nt) {
-                // This is the easy (and very rare...) case.
-                Ok(lr0) => return Ok(self.promote_lr0_states(lr0)),
-                Err(err) => err,
+                Ok(states) => {
+                    // In this case, the grammar is actually
+                    // LR(0). This is very rare -- it means that the
+                    // grammar does not need lookahead to execute. In
+                    // principle, we could stop here, except that if
+                    // we do so, then the lookahead values that we get
+                    // are very broad.
+                    //
+                    // Broad lookahead values will cause "eager"
+                    // reduce at runtime -- i.e., if there is some
+                    // scenario where the lookahead tells you we are
+                    // in error, but we would have to reduce a few
+                    // states before we see it. This, in turn, can
+                    // cause infinite loops around error recovery
+                    // (#240).
+                    //
+                    // Since we want to behave as a LR(1) parser
+                    // would, we'll just go ahead and run the
+                    // algorithm.
+                    states
+                }
+                Err(TableConstructionError { states, conflicts: _ }) => states,
             }
         };
 
