@@ -458,7 +458,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
         }
 
         // Read next token from input; defines `integer` and `symbol`.
-        try!(self.next_token());
+        try!(self.next_token("shift"));
         try!(self.token_to_integer());
 
         // Loop.
@@ -535,7 +535,6 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
         if self.grammar.uses_error_recovery {
             let prefix = self.prefix;
             try!(self.unrecognized_token_error(&format!("Some({}lookahead.clone())", prefix)));
-            rust!(self.out, "let mut {}dropped_tokens = Vec::new();", self.prefix);
             let lookahead_start = format!("Some(&{}lookahead.0)", self.prefix);
             try!(self.error_recovery(&lookahead_start, ""));
             rust!(self.out, "let {}start = {}lookahead.0.clone();", self.prefix, self.prefix);
@@ -548,21 +547,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
                     self.prefix);
             }
 
-            // Loop which drops tokens until parsing can resume again
-            rust!(self.out, "loop {{");
-            rust!(self.out, "if {}ACTION[({}error_state as usize - 1) * {} + {}integer] != 0 {{",
-                self.prefix,
-                self.prefix,
-                self.grammar.terminals.all.len(),
-                self.prefix);
-            rust!(self.out, "let {}new_len = {}symbols.len() - ({}original_state_len - {}states.len());",
-                self.prefix,
-                self.prefix,
-                self.prefix,
-                self.prefix);
-            rust!(self.out, "{}symbols.truncate({}new_len);",
-                self.prefix,
-                self.prefix);
+            // Push the error state onto the stack.
             rust!(self.out, "{}states.push({}error_state - 1);",
                 self.prefix,
                 self.prefix);
@@ -570,7 +555,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
                 self.prefix,
                 self.prefix);
             rust!(self.out, "error: {}error,", self.prefix);
-            rust!(self.out, "dropped_tokens: {}dropped_tokens,", self.prefix);
+            rust!(self.out, "dropped_tokens: vec![],");
             rust!(self.out, "}};");
             rust!(self.out,
                 "{}symbols.push(({}start, {}Symbol::Termerror({}recovery), {}end));",
@@ -580,8 +565,21 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
                 self.prefix,
                 self.prefix);
 
+            // Loop which drops tokens until parsing can resume again
+            rust!(self.out, "'{}drop: loop {{", self.prefix);
+            rust!(self.out, "if {}ACTION[({}error_state as usize - 1) * {} + {}integer] != 0 {{",
+                self.prefix,
+                self.prefix,
+                self.grammar.terminals.all.len(),
+                self.prefix);
+
             if DEBUG_PRINT {
-                rust!(self.out, "println!(\"Recovering on state: {{}}, lookahead: {{}}, symbols: {{}}\", {}error_state - 1, {}integer, {}symbols.len());",
+                rust!(self.out, "println!(\"Recovering on state: {{}}, \
+                                 lookahead: {{}}, \
+                                 symbols: {{}}\", \
+                                 {}error_state - 1, \
+                                 {}integer, \
+                                 {}symbols.len());",
                     self.prefix,
                     self.prefix,
                     self.prefix);
@@ -590,18 +588,79 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
             rust!(self.out, "continue '{}inner;", self.prefix);
             rust!(self.out, "}}");// if ACTION
 
-            rust!(self.out, "{}dropped_tokens.push({}lookahead);",
-                self.prefix,
-                self.prefix);
-            try!(self.next_token());
+            if DEBUG_PRINT {
+                rust!(self.out, "println!(\"Skipping token: {{}}\", {}integer);",
+                      self.prefix);
+            }
+
+            // Push this token onto the set of dropped tokens in the
+            // error state, which must be on the top of the stack.
+            rust!(self.out, "match {}symbols.last_mut() {{", self.prefix);
+            rust!(self.out, "Some(&mut (_, {}Symbol::Termerror(ref mut {}recovery), _)) => {{",
+                  self.prefix,
+                  self.prefix);
+            rust!(self.out, "{}recovery.dropped_tokens.push({}lookahead);",
+                  self.prefix,
+                  self.prefix);
+            rust!(self.out, "}}");
+            rust!(self.out, "_ => panic!(\"error should be on top of symbol stack\")");
+            rust!(self.out, "}}");
+
+            try!(self.next_token("drop"));
             try!(self.token_to_integer());
 
             if DEBUG_PRINT {
-                rust!(self.out, "println!(\"Skipping token: {{}}\", {}integer);",
-                    self.prefix);
+                rust!(self.out, "println!(\"New lookahead: {{}}\", {}integer);",
+                      self.prefix);
             }
 
-            rust!(self.out, "}}"); // loop
+            rust!(self.out, "}}"); // 'drop loop
+
+            if DEBUG_PRINT {
+                rust!(self.out, "println!(\"Reached EOF during error recovery\");");
+            }
+
+            // If execution gets here, it means we dropped all the
+            // remaining tokens, but the ERROR state would not accept
+            // any of them.  So now let's check if it accepts EOF --
+            // if not, we have to abort error recovery altogether.
+            rust!(self.out,
+                  "let {}action = {}EOF_ACTION[{}state];",
+                  self.prefix,
+                  self.prefix,
+                  self.prefix);
+            rust!(self.out, "if {}action > 0 {{", self.prefix);
+            if DEBUG_PRINT {
+                rust!(self.out, "println!(\"Error state accepts EOF\");");
+            }
+            rust!(self.out, "break '{}shift;", self.prefix);
+            rust!(self.out, "}} else {{");
+
+            // Recover the vector of dropped tokens.
+            if DEBUG_PRINT {
+                rust!(self.out, "println!(\"Error state does not accept EOF; abort recovery\");");
+            }
+            rust!(self.out, "let (_, {}error, _) = {}symbols.pop().unwrap();",
+                  self.prefix, self.prefix);
+            rust!(self.out, "let mut {}dropped_tokens = match {}error {{",
+                  self.prefix, self.prefix);
+            rust!(self.out, "{}Symbol::Termerror({}recovery) => {{", self.prefix, self.prefix);
+            rust!(self.out, "{}recovery.dropped_tokens", self.prefix);
+            rust!(self.out, "}}");
+            rust!(self.out, "_ => panic!(\"error should be on top of stack\")");
+            rust!(self.out, "}};");
+
+            // The first element in vector must be the original token
+            // that triggered our error.  It cannot be empty, because
+            // to get here we must have pushed something.
+            rust!(self.out, "let {}dropped_token = {}dropped_tokens.remove(0);",
+                  self.prefix,
+                  self.prefix);
+            let prefix = self.prefix;
+            try!(self.unrecognized_token_error(&format!("Some({}dropped_token)", prefix)));
+            rust!(self.out, "return Err({}error)", self.prefix);
+
+            rust!(self.out, "}}");
         } else {
             let prefix = self.prefix;
             try!(self.unrecognized_token_error(&format!("Some({}lookahead)", prefix)));
@@ -657,14 +716,6 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
                 self.prefix,
                 self.prefix);
             try!(self.error_recovery("None", &extra_test));
-            rust!(self.out, "let {}new_len = {}symbols.len() - ({}original_state_len - {}states.len());",
-                self.prefix,
-                self.prefix,
-                self.prefix,
-                self.prefix);
-            rust!(self.out, "{}symbols.truncate({}new_len);",
-                self.prefix,
-                self.prefix);
             rust!(self.out, "{}states.push({}error_state - 1);",
                 self.prefix,
                 self.prefix);
@@ -693,13 +744,13 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
         self.end_parser_fn()
     }
 
-    fn next_token(&mut self) -> io::Result<()> {
+    fn next_token(&mut self, break_on_eof: &str) -> io::Result<()> {
         rust!(self.out,
               "{}lookahead = match {}tokens.next() {{",
               self.prefix,
               self.prefix);
         rust!(self.out, "Some(Ok(v)) => v,");
-        rust!(self.out, "None => break '{}shift,", self.prefix); // EOF: break out
+        rust!(self.out, "None => break '{}{},", self.prefix, break_on_eof); // EOF: break out
         if self.grammar.intern_token.is_some() {
             // when we generate the tokenizer, the generated errors are `ParseError` values
             rust!(self.out, "Some(Err(e)) => return Err(e),");
@@ -1043,7 +1094,10 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
         Ok(())
     }
 
-    fn error_recovery(&mut self, lookahead_start: &str, extra_test: &str) -> io::Result<()> {
+    fn error_recovery(&mut self,
+                      lookahead_start: &str,
+                      extra_test: &str)
+                      -> io::Result<()> {
         let phantom_data_expr = self.phantom_data_expr();
 
         // First perform all reductions from the current state
@@ -1086,10 +1140,6 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
         rust!(self.out, "}}");
         rust!(self.out, "}}");
 
-        rust!(self.out, "let {}original_state_len = {}states.len();",
-            self.prefix,
-            self.prefix);
-
         // Used after breaking out of the loop
         rust!(self.out, "let mut {}error_state;", self.prefix);
         // Loop which pops states until a state that can be recovered from is found
@@ -1110,9 +1160,15 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
         rust!(self.out, "break;");
         rust!(self.out, "}}");
         rust!(self.out, "{}states.pop();", self.prefix);
+        rust!(self.out, "{}symbols.pop();", self.prefix);
         if DEBUG_PRINT {
-            rust!(self.out, "println!(\"Dropping state: {{}}\", {}state);",
-                self.prefix);
+            rust!(self.out, "println!(\"Dropping state: {{}} \
+                             states.len()={{}} \
+                             symbols.len={{}}\", \
+                             {}state, \
+                             {}states.len(), \
+                             {}symbols.len());",
+                self.prefix, self.prefix, self.prefix);
         }
         rust!(self.out, "}}"); // Some
         rust!(self.out, "None => {{");

@@ -441,9 +441,17 @@ fn error_recovery_dont_panic_on_reduce_at_eof() {
 #[test]
 fn error_recovery_issue_240() {
     let mut errors = vec![];
-    util::test(|v| error_recovery_issue_240::parse_Expr(&mut errors, v), "(+1/", ());
 
-    assert_eq!(errors.len(), 1, "{:?}", errors);
+    match util::test_err_gen(|v| error_recovery_issue_240::parse_Expr(&mut errors, v), "(+1/") {
+        Err(ParseError::UnrecognizedToken { expected, token: _ }) => {
+            assert_eq!(expected, vec![format!(r#"")""#)]);
+        }
+        r => {
+            panic!("unexpected response from parser: {:?}", r);
+        }
+    }
+
+    assert_eq!(errors, vec![]);
 }
 
 #[test]
