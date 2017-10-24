@@ -84,6 +84,7 @@ mod error_issue_113;
 mod error_recovery;
 mod error_recovery_pull_182;
 mod error_recovery_issue_240;
+mod error_recovery_lalr_loop;
 mod error_recovery_lock_in;
 
 /// test for inlining expansion issue #55
@@ -444,6 +445,27 @@ fn error_recovery_issue_240() {
     let mut errors = vec![];
 
     match util::test_err_gen(|v| error_recovery_issue_240::parse_Expr(&mut errors, v), "(+1/") {
+        Err(ParseError::UnrecognizedToken { expected, token: _ }) => {
+            assert_eq!(expected, vec![format!(r#"")""#)]);
+        }
+        r => {
+            panic!("unexpected response from parser: {:?}", r);
+        }
+    }
+
+    assert_eq!(errors, vec![]);
+}
+
+#[test]
+fn error_recovery_lalr_loop() {
+    let mut errors = vec![];
+
+    // In LALR (or Lane Table) mode, this was causing infinite loops
+    // during recovery.  We would drop tokens until EOF, but then get
+    // ourselves in an error state where EOF was (ultimately) not
+    // legal, triggering repeated error recovery. This is a variant of
+    // the 'lock-in' phenomena discussed below.
+    match util::test_err_gen(|v| error_recovery_lalr_loop::parse_Expr(&mut errors, v), "(+1/") {
         Err(ParseError::UnrecognizedToken { expected, token: _ }) => {
             assert_eq!(expected, vec![format!(r#"")""#)]);
         }
