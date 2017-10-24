@@ -457,9 +457,9 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
             rust!(self.out, "println!(\"outer loop\");");
         }
 
-        // Read next token from input; defines `integer` and `symbol`.
-        try!(self.next_token("shift"));
-        try!(self.token_to_integer());
+        // Read next token from input.
+        try!(self.next_token("lookahead", "tokens", "last_location", "shift"));
+        try!(self.token_to_integer("integer", "lookahead"));
 
         // Loop.
         rust!(self.out, "'{}inner: loop {{", self.prefix);
@@ -607,8 +607,8 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
             rust!(self.out, "_ => panic!(\"error should be on top of symbol stack\")");
             rust!(self.out, "}}");
 
-            try!(self.next_token("drop"));
-            try!(self.token_to_integer());
+            try!(self.next_token("lookahead", "tokens", "last_location", "drop"));
+            try!(self.token_to_integer("integer", "lookahead"));
 
             if DEBUG_PRINT {
                 rust!(self.out, "println!(\"New lookahead: {{}}\", {}integer);",
@@ -746,11 +746,16 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
         self.end_parser_fn()
     }
 
-    fn next_token(&mut self, break_on_eof: &str) -> io::Result<()> {
+    fn next_token(&mut self,
+                  lookahead: &str,
+                  tokens: &str,
+                  last_location: &str,
+                  break_on_eof: &str) -> io::Result<()> {
         rust!(self.out,
-              "{}lookahead = match {}tokens.next() {{",
-              self.prefix,
-              self.prefix);
+              "{p}{} = match {p}{}.next() {{",
+              lookahead,
+              tokens,
+              p = self.prefix);
         rust!(self.out, "Some(Ok(v)) => v,");
         rust!(self.out, "None => break '{}{},", self.prefix, break_on_eof); // EOF: break out
         if self.grammar.intern_token.is_some() {
@@ -759,33 +764,39 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
         } else {
             // otherwise, they are user errors
             rust!(self.out,
-                  "Some(Err(e)) => return Err({}lalrpop_util::ParseError::User {{ error: e }}),",
-                  self.prefix);
+                  "Some(Err(e)) => return Err({p}lalrpop_util::ParseError::User {{ error: e }}),",
+                  p = self.prefix);
         }
         rust!(self.out, "}};");
-        rust!(self.out, "{}last_location = {}lookahead.2.clone();",
-              self.prefix,
-              self.prefix);
+        rust!(self.out, "{p}{} = {p}{}.2.clone();",
+              last_location,
+              lookahead,
+              p = self.prefix);
         Ok(())
     }
 
-    fn token_to_integer(&mut self) -> io::Result<()> {
+    fn token_to_integer(&mut self, integer: &str, lookahead: &str) -> io::Result<()> {
         rust!(self.out,
-              "{}integer = match {}lookahead.1 {{",
-              self.prefix,
-              self.prefix);
+              "{p}{integer} = match {p}{lookahead}.1 {{",
+              integer = integer,
+              lookahead = lookahead,
+              p = self.prefix);
         for (&terminal, index) in self.grammar.terminals.all.iter().zip(0..) {
             if terminal == TerminalString::Error {
                 continue;
             }
             let pattern = self.grammar.pattern(terminal).map(&mut |_| "_");
-            rust!(self.out, "{} if true => {},", pattern, index);
+            rust!(self.out, "{pattern} if true => {index},",
+                  pattern = pattern,
+                  index = index);
         }
 
         rust!(self.out, "_ => {{");
         let prefix = self.prefix;
-        try!(self.let_unrecognized_token_error("error", &format!("Some({}lookahead)", prefix)));
-        rust!(self.out, "return Err({}error);", self.prefix);
+        try!(self.let_unrecognized_token_error("error", &format!("Some({p}{lookahead})",
+                                                                 lookahead = lookahead,
+                                                                 p = prefix)));
+        rust!(self.out, "return Err({p}error);", p = self.prefix);
         rust!(self.out, "}}");
 
         rust!(self.out, "}};");
