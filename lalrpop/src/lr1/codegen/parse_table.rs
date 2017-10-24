@@ -534,7 +534,8 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
 
         if self.grammar.uses_error_recovery {
             let prefix = self.prefix;
-            try!(self.unrecognized_token_error(&format!("Some({}lookahead.clone())", prefix)));
+            try!(self.let_unrecognized_token_error("error",
+                                                   &format!("Some({}lookahead.clone())", prefix)));
             let lookahead_start = format!("Some(&{}lookahead.0)", self.prefix);
             try!(self.error_recovery(&lookahead_start, ""));
             rust!(self.out, "let {}start = {}lookahead.0.clone();", self.prefix, self.prefix);
@@ -657,13 +658,14 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
                   self.prefix,
                   self.prefix);
             let prefix = self.prefix;
-            try!(self.unrecognized_token_error(&format!("Some({}dropped_token)", prefix)));
+            try!(self.let_unrecognized_token_error("error",
+                                                   &format!("Some({}dropped_token)", prefix)));
             rust!(self.out, "return Err({}error)", self.prefix);
 
             rust!(self.out, "}}");
         } else {
             let prefix = self.prefix;
-            try!(self.unrecognized_token_error(&format!("Some({}lookahead)", prefix)));
+            try!(self.let_unrecognized_token_error("error", &format!("Some({}lookahead)", prefix)));
             rust!(self.out, "return Err({}error)", self.prefix);
         }
 
@@ -709,7 +711,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
         rust!(self.out, "}} else {{");
 
         // EOF error recovery
-        try!(self.unrecognized_token_error("None"));
+        try!(self.let_unrecognized_token_error("error", "None"));
 
         if self.grammar.uses_error_recovery {
             let extra_test = format!("&& {}EOF_ACTION[({}error_state as usize - 1)] != 0 ",
@@ -782,7 +784,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
 
         rust!(self.out, "_ => {{");
         let prefix = self.prefix;
-        try!(self.unrecognized_token_error(&format!("Some({}lookahead)", prefix)));
+        try!(self.let_unrecognized_token_error("error", &format!("Some({}lookahead)", prefix)));
         rust!(self.out, "return Err({}error);", self.prefix);
         rust!(self.out, "}}");
 
@@ -1192,14 +1194,15 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
         format!("({},{},{})", loc_type, self.symbol_type(), loc_type)
     }
 
-    fn unrecognized_token_error(&mut self, token: &str) -> io::Result<()> {
+    fn let_unrecognized_token_error(&mut self, error_var: &str, token: &str) -> io::Result<()> {
         rust!(self.out, "let {}state = *{}states.last().unwrap() as usize;",
             self.prefix,
             self.prefix);
         rust!(self.out,
-            "let {}error = {}lalrpop_util::ParseError::UnrecognizedToken {{",
-            self.prefix,
-            self.prefix);
+              "let {}{} = {}lalrpop_util::ParseError::UnrecognizedToken {{",
+              self.prefix,
+              error_var,
+              self.prefix);
         rust!(self.out, "token: {},", token);
         rust!(self.out, "expected: {}expected_tokens({}state),",
             self.prefix,
