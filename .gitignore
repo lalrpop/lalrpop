@@ -19,6 +19,7 @@ lalrpop-test/src/error_issue_113.rs
 lalrpop-test/src/error_recovery.rs
 lalrpop-test/src/error_recovery_pull_182.rs
 lalrpop-test/src/error_recovery_issue_240.rs
+lalrpop-test/src/error_recovery_lock_in.rs
 lalrpop-test/src/expr.rs
 lalrpop-test/src/expr_arena.rs
 lalrpop-test/src/expr_generic.rs

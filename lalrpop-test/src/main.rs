@@ -84,6 +84,7 @@ mod error_issue_113;
 mod error_recovery;
 mod error_recovery_pull_182;
 mod error_recovery_issue_240;
+mod error_recovery_lock_in;
 
 /// test for inlining expansion issue #55
 mod issue_55;
@@ -443,6 +444,26 @@ fn error_recovery_issue_240() {
     let mut errors = vec![];
 
     match util::test_err_gen(|v| error_recovery_issue_240::parse_Expr(&mut errors, v), "(+1/") {
+        Err(ParseError::UnrecognizedToken { expected, token: _ }) => {
+            assert_eq!(expected, vec![format!(r#"")""#)]);
+        }
+        r => {
+            panic!("unexpected response from parser: {:?}", r);
+        }
+    }
+
+    assert_eq!(errors, vec![]);
+}
+
+#[test]
+fn error_recovery_lock_in() {
+    let mut errors = vec![];
+
+    // In the older strategy, in which we pop states to innermost
+    // state, we recover after the `/` to a B (built from error). This
+    // forces us to drop `/22` because `(B` can only be followed by
+    // `)`.
+    match util::test_err_gen(|v| error_recovery_lock_in::parse_A(&mut errors, v), "(1/22") {
         Err(ParseError::UnrecognizedToken { expected, token: _ }) => {
             assert_eq!(expected, vec![format!(r#"")""#)]);
         }
