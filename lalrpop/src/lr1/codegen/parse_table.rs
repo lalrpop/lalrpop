@@ -446,7 +446,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
         rust!(self.out, "let mut {}lookahead;", self.prefix);
         // The location of the last token is necessary for for error recovery at EOF (or they would not have
         // a location)
-        rust!(self.out, "let mut {}last_location = Default::default();", self.prefix);
+        rust!(self.out, "let {}last_location = &mut Default::default();", self.prefix);
 
         // Outer loop: each time we continue around this loop, we
         // shift a new token from the input. We break from the loop
@@ -768,7 +768,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
                   p = self.prefix);
         }
         rust!(self.out, "}};");
-        rust!(self.out, "{p}{} = {p}{}.2.clone();",
+        rust!(self.out, "*{p}{} = {p}{}.2.clone();",
               last_location,
               lookahead,
               p = self.prefix);
