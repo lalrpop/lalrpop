@@ -407,6 +407,7 @@ give you the idea:
 | -----------          | -------------              |
 | `A => bar(<>)`       | `<a:A> => bar(a)`          |
 | `A B => bar(<>)`     | `<a:A> <b:B> => bar(a, b)` |
+| `A B => (<>)`        | `<a:A> <b:B> => (a, b)`    |
 | `<A> B => bar(<>)`   | `<a:A> B => bar(a)`        |
 | `<p:A> B => bar(<>)` | `<p:A> B => bar(p)`        |
 | `<A> <B> => bar(<>)` | `<a:A> <b:B> => bar(a, b)` |
