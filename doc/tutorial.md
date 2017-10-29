@@ -839,7 +839,7 @@ use ast::{Expr, Opcode}; // (0)
 grammar;
 
 pub Expr: Box<Expr> = { // (1)
-    Expr ExprOp Factor => Box::new(Expr::Op(<>)) // (2)
+    Expr ExprOp Factor => Box::new(Expr::Op(<>)), // (2)
     Factor,
 };
 
