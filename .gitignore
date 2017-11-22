@@ -16,6 +16,7 @@ doc/whitespace/src/parser.rs
 
 lalrpop-test/src/error.rs
 lalrpop-test/src/error_issue_113.rs
+lalrpop-test/src/error_issue_278.rs
 lalrpop-test/src/error_recovery.rs
 lalrpop-test/src/error_recovery_pull_182.rs
 lalrpop-test/src/expr.rs
