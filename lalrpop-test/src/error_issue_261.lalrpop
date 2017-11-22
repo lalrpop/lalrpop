@@ -1,0 +1,25 @@
+use std::str::FromStr;
+use lalrpop_util::ParseError;
+
+grammar;
+
+extern {
+	type Error = &'static str;
+}
+
+pub Value: f64 = {
+	<n:Float> => n,
+	<n:Int> => n as f64,
+};
+
+
+Int: u64 = r"\d+"
+	=>? u64::from_str(<>).map_err(|_| ParseError::User{ error: "invalid int" });
+Float: f64 = r"\d+(\.\d+)?(e-?\d+)?"
+	=>? f64::from_str(<>).map_err(|_| ParseError::User{ error: "invalid float" });
+
+match {
+	r"\d+(\.\d+)?(e-?\d+)?"
+} else {
+	_
+}
