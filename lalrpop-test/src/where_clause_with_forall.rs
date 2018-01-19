@@ -1,19 +1,23 @@
 // auto-generated: "lalrpop 0.13.1"
 use std::str::FromStr;
+#[allow(unused_extern_crates)]
 extern crate lalrpop_util as __lalrpop_util;
 
 mod __parse__Term {
-    #![allow(non_snake_case, non_camel_case_types, unused_mut, unused_variables, unused_imports)]
+    #![allow(non_snake_case, non_camel_case_types, unused_mut, unused_variables, unused_imports, unused_parens)]
 
     use std::str::FromStr;
+    #[allow(unused_extern_crates)]
     extern crate lalrpop_util as __lalrpop_util;
+    use super::__intern_token::Token;
+    #[allow(dead_code)]
     pub fn parse_Term<
         'input,
         F,
     >(
         logger: &mut F,
         input: &'input str,
-    ) -> Result<i32, __lalrpop_util::ParseError<usize, (usize, &'input str), ()>> where
+    ) -> Result<i32, __lalrpop_util::ParseError<usize, Token<'input>, &'static str>> where
       F:  for<'a> FnMut(&'a str),
     {
         let __ascent = __ascent::parse_Term::<F>(
@@ -30,17 +34,20 @@ mod __parse__Term {
     mod __ascent {
 
         mod __parse__Term {
-            #![allow(non_snake_case, non_camel_case_types, unused_mut, unused_variables, unused_imports)]
+            #![allow(non_snake_case, non_camel_case_types, unused_mut, unused_variables, unused_imports, unused_parens)]
 
             use std::str::FromStr;
+            #[allow(unused_extern_crates)]
             extern crate lalrpop_util as __lalrpop_util;
+            use super::super::super::__intern_token::Token;
+            #[allow(dead_code)]
             pub fn parse_Term<
                 'input,
                 F,
             >(
                 logger: &mut F,
                 input: &'input str,
-            ) -> Result<i32, __lalrpop_util::ParseError<usize, (usize, &'input str), ()>> where
+            ) -> Result<i32, __lalrpop_util::ParseError<usize, Token<'input>, &'static str>> where
               F:  for<'a> FnMut(&'a str),
             {
                 let mut __tokens = super::super::super::__intern_token::__Matcher::new(input);
@@ -89,23 +96,23 @@ mod __parse__Term {
             fn __state0<
                 'input,
                 F,
-                __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__lalrpop_util::ParseError<usize, (usize, &'input str), ()>>>,
+                __TOKENS: Iterator<Item=Result<(usize, Token<'input>, usize),__lalrpop_util::ParseError<usize, Token<'input>, &'static str>>>,
             >(
                 logger: &mut F,
                 input: &'input str,
                 __tokens: &mut __TOKENS,
-                __lookahead: Option<(usize, (usize, &'input str), usize)>,
+                __lookahead: Option<(usize, Token<'input>, usize)>,
                 _: ::std::marker::PhantomData<(F)>,
-            ) -> Result<(Option<(usize, (usize, &'input str), usize)>, __Nonterminal<>), __lalrpop_util::ParseError<usize, (usize, &'input str), ()>> where
+            ) -> Result<(Option<(usize, Token<'input>, usize)>, __Nonterminal<>), __lalrpop_util::ParseError<usize, Token<'input>, &'static str>> where
               F:  for<'a> FnMut(&'a str),
             {
-                let mut __result: (Option<(usize, (usize, &'input str), usize)>, __Nonterminal<>);
+                let mut __result: (Option<(usize, Token<'input>, usize)>, __Nonterminal<>);
                 match __lookahead {
-                    Some((__loc1, (1, __tok0), __loc2)) => {
+                    Some((__loc1, Token(1, __tok0), __loc2)) => {
                         let __sym0 = (__loc1, (__tok0), __loc2);
                         __result = try!(__state3(logger, input, __tokens, __sym0, ::std::marker::PhantomData::<(F)>));
                     }
-                    Some((__loc1, (0, __tok0), __loc2)) => {
+                    Some((__loc1, Token(0, __tok0), __loc2)) => {
                         let __sym0 = (__loc1, (__tok0), __loc2);
                         __result = try!(__state4(logger, input, __tokens, __sym0, ::std::marker::PhantomData::<(F)>));
                     }
@@ -145,27 +152,25 @@ mod __parse__Term {
             //
             //     Term = Num (*) ["(", ")", r#"[0-9]+"#, EOF]
             //
-            //   ["(", ")", r#"[0-9]+"#, EOF] -> Term = Num => ActionFn(1);
+            //   [")", EOF] -> Term = Num => ActionFn(1);
             //
             fn __state1<
                 'input,
                 F,
-                __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__lalrpop_util::ParseError<usize, (usize, &'input str), ()>>>,
+                __TOKENS: Iterator<Item=Result<(usize, Token<'input>, usize),__lalrpop_util::ParseError<usize, Token<'input>, &'static str>>>,
             >(
                 logger: &mut F,
                 input: &'input str,
                 __tokens: &mut __TOKENS,
-                __lookahead: Option<(usize, (usize, &'input str), usize)>,
+                __lookahead: Option<(usize, Token<'input>, usize)>,
                 __sym0: (usize, i32, usize),
                 _: ::std::marker::PhantomData<(F)>,
-            ) -> Result<(Option<(usize, (usize, &'input str), usize)>, __Nonterminal<>), __lalrpop_util::ParseError<usize, (usize, &'input str), ()>> where
+            ) -> Result<(Option<(usize, Token<'input>, usize)>, __Nonterminal<>), __lalrpop_util::ParseError<usize, Token<'input>, &'static str>> where
               F:  for<'a> FnMut(&'a str),
             {
-                let mut __result: (Option<(usize, (usize, &'input str), usize)>, __Nonterminal<>);
+                let mut __result: (Option<(usize, Token<'input>, usize)>, __Nonterminal<>);
                 match __lookahead {
-                    Some((_, (1, _), _)) |
-                    Some((_, (2, _), _)) |
-                    Some((_, (0, _), _)) |
+                    Some((_, Token(2, _), _)) |
                     None => {
                         let __start = __sym0.0.clone();
                         let __end = __sym0.2.clone();
@@ -182,9 +187,7 @@ mod __parse__Term {
                         return Err(__lalrpop_util::ParseError::UnrecognizedToken {
                             token: __lookahead,
                             expected: vec![
-                                r###""(""###.to_string(),
                                 r###"")""###.to_string(),
-                                r###"r#"[0-9]+"#"###.to_string(),
                             ]
                         });
                     }
@@ -201,27 +204,24 @@ mod __parse__Term {
             //
             //     __Term = Term (*) ["(", ")", r#"[0-9]+"#, EOF]
             //
-            //   ["(", ")", r#"[0-9]+"#, EOF] -> __Term = Term => ActionFn(0);
+            //   [EOF] -> __Term = Term => ActionFn(0);
             //
             fn __state2<
                 'input,
                 F,
-                __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__lalrpop_util::ParseError<usize, (usize, &'input str), ()>>>,
+                __TOKENS: Iterator<Item=Result<(usize, Token<'input>, usize),__lalrpop_util::ParseError<usize, Token<'input>, &'static str>>>,
             >(
                 logger: &mut F,
                 input: &'input str,
                 __tokens: &mut __TOKENS,
-                __lookahead: Option<(usize, (usize, &'input str), usize)>,
+                __lookahead: Option<(usize, Token<'input>, usize)>,
                 __sym0: (usize, i32, usize),
                 _: ::std::marker::PhantomData<(F)>,
-            ) -> Result<(Option<(usize, (usize, &'input str), usize)>, __Nonterminal<>), __lalrpop_util::ParseError<usize, (usize, &'input str), ()>> where
+            ) -> Result<(Option<(usize, Token<'input>, usize)>, __Nonterminal<>), __lalrpop_util::ParseError<usize, Token<'input>, &'static str>> where
               F:  for<'a> FnMut(&'a str),
             {
-                let mut __result: (Option<(usize, (usize, &'input str), usize)>, __Nonterminal<>);
+                let mut __result: (Option<(usize, Token<'input>, usize)>, __Nonterminal<>);
                 match __lookahead {
-                    Some((_, (1, _), _)) |
-                    Some((_, (2, _), _)) |
-                    Some((_, (0, _), _)) |
                     None => {
                         let __start = __sym0.0.clone();
                         let __end = __sym0.2.clone();
@@ -238,9 +238,6 @@ mod __parse__Term {
                         return Err(__lalrpop_util::ParseError::UnrecognizedToken {
                             token: __lookahead,
                             expected: vec![
-                                r###""(""###.to_string(),
-                                r###"")""###.to_string(),
-                                r###"r#"[0-9]+"#"###.to_string(),
                             ]
                         });
                     }
@@ -268,28 +265,28 @@ mod __parse__Term {
             fn __state3<
                 'input,
                 F,
-                __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__lalrpop_util::ParseError<usize, (usize, &'input str), ()>>>,
+                __TOKENS: Iterator<Item=Result<(usize, Token<'input>, usize),__lalrpop_util::ParseError<usize, Token<'input>, &'static str>>>,
             >(
                 logger: &mut F,
                 input: &'input str,
                 __tokens: &mut __TOKENS,
                 __sym0: (usize, &'input str, usize),
                 _: ::std::marker::PhantomData<(F)>,
-            ) -> Result<(Option<(usize, (usize, &'input str), usize)>, __Nonterminal<>), __lalrpop_util::ParseError<usize, (usize, &'input str), ()>> where
+            ) -> Result<(Option<(usize, Token<'input>, usize)>, __Nonterminal<>), __lalrpop_util::ParseError<usize, Token<'input>, &'static str>> where
               F:  for<'a> FnMut(&'a str),
             {
-                let mut __result: (Option<(usize, (usize, &'input str), usize)>, __Nonterminal<>);
+                let mut __result: (Option<(usize, Token<'input>, usize)>, __Nonterminal<>);
                 let __lookahead = match __tokens.next() {
                     Some(Ok(v)) => Some(v),
                     None => None,
                     Some(Err(e)) => return Err(e),
                 };
                 match __lookahead {
-                    Some((__loc1, (1, __tok0), __loc2)) => {
+                    Some((__loc1, Token(1, __tok0), __loc2)) => {
                         let __sym1 = (__loc1, (__tok0), __loc2);
                         __result = try!(__state3(logger, input, __tokens, __sym1, ::std::marker::PhantomData::<(F)>));
                     }
-                    Some((__loc1, (0, __tok0), __loc2)) => {
+                    Some((__loc1, Token(0, __tok0), __loc2)) => {
                         let __sym1 = (__loc1, (__tok0), __loc2);
                         __result = try!(__state4(logger, input, __tokens, __sym1, ::std::marker::PhantomData::<(F)>));
                     }
@@ -330,31 +327,29 @@ mod __parse__Term {
             //
             //     Num = r#"[0-9]+"# (*) ["(", ")", r#"[0-9]+"#, EOF]
             //
-            //   ["(", ")", r#"[0-9]+"#, EOF] -> Num = r#"[0-9]+"# => ActionFn(3);
+            //   [")", EOF] -> Num = r#"[0-9]+"# => ActionFn(3);
             //
             fn __state4<
                 'input,
                 F,
-                __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__lalrpop_util::ParseError<usize, (usize, &'input str), ()>>>,
+                __TOKENS: Iterator<Item=Result<(usize, Token<'input>, usize),__lalrpop_util::ParseError<usize, Token<'input>, &'static str>>>,
             >(
                 logger: &mut F,
                 input: &'input str,
                 __tokens: &mut __TOKENS,
                 __sym0: (usize, &'input str, usize),
                 _: ::std::marker::PhantomData<(F)>,
-            ) -> Result<(Option<(usize, (usize, &'input str), usize)>, __Nonterminal<>), __lalrpop_util::ParseError<usize, (usize, &'input str), ()>> where
+            ) -> Result<(Option<(usize, Token<'input>, usize)>, __Nonterminal<>), __lalrpop_util::ParseError<usize, Token<'input>, &'static str>> where
               F:  for<'a> FnMut(&'a str),
             {
-                let mut __result: (Option<(usize, (usize, &'input str), usize)>, __Nonterminal<>);
+                let mut __result: (Option<(usize, Token<'input>, usize)>, __Nonterminal<>);
                 let __lookahead = match __tokens.next() {
                     Some(Ok(v)) => Some(v),
                     None => None,
                     Some(Err(e)) => return Err(e),
                 };
                 match __lookahead {
-                    Some((_, (1, _), _)) |
-                    Some((_, (2, _), _)) |
-                    Some((_, (0, _), _)) |
+                    Some((_, Token(2, _), _)) |
                     None => {
                         let __start = __sym0.0.clone();
                         let __end = __sym0.2.clone();
@@ -371,9 +366,7 @@ mod __parse__Term {
                         return Err(__lalrpop_util::ParseError::UnrecognizedToken {
                             token: __lookahead,
                             expected: vec![
-                                r###""(""###.to_string(),
                                 r###"")""###.to_string(),
-                                r###"r#"[0-9]+"#"###.to_string(),
                             ]
                         });
                     }
@@ -395,21 +388,21 @@ mod __parse__Term {
             fn __state5<
                 'input,
                 F,
-                __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__lalrpop_util::ParseError<usize, (usize, &'input str), ()>>>,
+                __TOKENS: Iterator<Item=Result<(usize, Token<'input>, usize),__lalrpop_util::ParseError<usize, Token<'input>, &'static str>>>,
             >(
                 logger: &mut F,
                 input: &'input str,
                 __tokens: &mut __TOKENS,
-                __lookahead: Option<(usize, (usize, &'input str), usize)>,
+                __lookahead: Option<(usize, Token<'input>, usize)>,
                 __sym0: (usize, &'input str, usize),
                 __sym1: (usize, i32, usize),
                 _: ::std::marker::PhantomData<(F)>,
-            ) -> Result<(Option<(usize, (usize, &'input str), usize)>, __Nonterminal<>), __lalrpop_util::ParseError<usize, (usize, &'input str), ()>> where
+            ) -> Result<(Option<(usize, Token<'input>, usize)>, __Nonterminal<>), __lalrpop_util::ParseError<usize, Token<'input>, &'static str>> where
               F:  for<'a> FnMut(&'a str),
             {
-                let mut __result: (Option<(usize, (usize, &'input str), usize)>, __Nonterminal<>);
+                let mut __result: (Option<(usize, Token<'input>, usize)>, __Nonterminal<>);
                 match __lookahead {
-                    Some((__loc1, (2, __tok0), __loc2)) => {
+                    Some((__loc1, Token(2, __tok0), __loc2)) => {
                         let __sym2 = (__loc1, (__tok0), __loc2);
                         __result = try!(__state6(logger, input, __tokens, __sym0, __sym1, __sym2, ::std::marker::PhantomData::<(F)>));
                         return Ok(__result);
@@ -435,12 +428,12 @@ mod __parse__Term {
             //
             //     Term = "(" Term ")" (*) ["(", ")", r#"[0-9]+"#, EOF]
             //
-            //   ["(", ")", r#"[0-9]+"#, EOF] -> Term = "(", Term, ")" => ActionFn(2);
+            //   [")", EOF] -> Term = "(", Term, ")" => ActionFn(2);
             //
             fn __state6<
                 'input,
                 F,
-                __TOKENS: Iterator<Item=Result<(usize, (usize, &'input str), usize),__lalrpop_util::ParseError<usize, (usize, &'input str), ()>>>,
+                __TOKENS: Iterator<Item=Result<(usize, Token<'input>, usize),__lalrpop_util::ParseError<usize, Token<'input>, &'static str>>>,
             >(
                 logger: &mut F,
                 input: &'input str,
@@ -449,19 +442,17 @@ mod __parse__Term {
                 __sym1: (usize, i32, usize),
                 __sym2: (usize, &'input str, usize),
                 _: ::std::marker::PhantomData<(F)>,
-            ) -> Result<(Option<(usize, (usize, &'input str), usize)>, __Nonterminal<>), __lalrpop_util::ParseError<usize, (usize, &'input str), ()>> where
+            ) -> Result<(Option<(usize, Token<'input>, usize)>, __Nonterminal<>), __lalrpop_util::ParseError<usize, Token<'input>, &'static str>> where
               F:  for<'a> FnMut(&'a str),
             {
-                let mut __result: (Option<(usize, (usize, &'input str), usize)>, __Nonterminal<>);
+                let mut __result: (Option<(usize, Token<'input>, usize)>, __Nonterminal<>);
                 let __lookahead = match __tokens.next() {
                     Some(Ok(v)) => Some(v),
                     None => None,
                     Some(Err(e)) => return Err(e),
                 };
                 match __lookahead {
-                    Some((_, (1, _), _)) |
-                    Some((_, (2, _), _)) |
-                    Some((_, (0, _), _)) |
+                    Some((_, Token(2, _), _)) |
                     None => {
                         let __start = __sym0.0.clone();
                         let __end = __sym2.2.clone();
@@ -478,9 +469,7 @@ mod __parse__Term {
                         return Err(__lalrpop_util::ParseError::UnrecognizedToken {
                             token: __lookahead,
                             expected: vec![
-                                r###""(""###.to_string(),
                                 r###"")""###.to_string(),
-                                r###"r#"[0-9]+"#"###.to_string(),
                             ]
                         });
                     }
@@ -492,10 +481,12 @@ mod __parse__Term {
     mod __parse_table {
 
         mod __parse__Term {
-            #![allow(non_snake_case, non_camel_case_types, unused_mut, unused_variables, unused_imports)]
+            #![allow(non_snake_case, non_camel_case_types, unused_mut, unused_variables, unused_imports, unused_parens)]
 
             use std::str::FromStr;
+            #[allow(unused_extern_crates)]
             extern crate lalrpop_util as __lalrpop_util;
+            use super::super::super::__intern_token::Token;
             #[allow(dead_code)]
             pub enum __Symbol<'input>
              {
@@ -518,15 +509,15 @@ mod __parse__Term {
 
                 // State 1
                 //     Term = Num (*) ["(", ")", r#"[0-9]+"#, EOF]
-                -2,  // on "(", reduce `Term = Num => ActionFn(1);`
+                0,  // on "(", error
                 -2,  // on ")", reduce `Term = Num => ActionFn(1);`
-                -2,  // on r#"[0-9]+"#, reduce `Term = Num => ActionFn(1);`
+                0,  // on r#"[0-9]+"#, error
 
                 // State 2
                 //     __Term = Term (*) ["(", ")", r#"[0-9]+"#, EOF]
-                -4,  // on "(", reduce `__Term = Term => ActionFn(0);`
-                -4,  // on ")", reduce `__Term = Term => ActionFn(0);`
-                -4,  // on r#"[0-9]+"#, reduce `__Term = Term => ActionFn(0);`
+                0,  // on "(", error
+                0,  // on ")", error
+                0,  // on r#"[0-9]+"#, error
 
                 // State 3
                 //     Num = (*) r#"[0-9]+"# ["(", ")", r#"[0-9]+"#, EOF]
@@ -539,9 +530,9 @@ mod __parse__Term {
 
                 // State 4
                 //     Num = r#"[0-9]+"# (*) ["(", ")", r#"[0-9]+"#, EOF]
-                -1,  // on "(", reduce `Num = r#"[0-9]+"# => ActionFn(3);`
+                0,  // on "(", error
                 -1,  // on ")", reduce `Num = r#"[0-9]+"# => ActionFn(3);`
-                -1,  // on r#"[0-9]+"#, reduce `Num = r#"[0-9]+"# => ActionFn(3);`
+                0,  // on r#"[0-9]+"#, error
 
                 // State 5
                 //     Term = "(" Term (*) ")" ["(", ")", r#"[0-9]+"#, EOF]
@@ -551,24 +542,31 @@ mod __parse__Term {
 
                 // State 6
                 //     Term = "(" Term ")" (*) ["(", ")", r#"[0-9]+"#, EOF]
-                -3,  // on "(", reduce `Term = "(", Term, ")" => ActionFn(2);`
+                0,  // on "(", error
                 -3,  // on ")", reduce `Term = "(", Term, ")" => ActionFn(2);`
-                -3,  // on r#"[0-9]+"#, reduce `Term = "(", Term, ")" => ActionFn(2);`
+                0,  // on r#"[0-9]+"#, error
 
             ];
             const __EOF_ACTION: &'static [i32] = &[
+                // State 0
                 0,  // on EOF, error
 
+                // State 1
                 -2,  // on EOF, reduce `Term = Num => ActionFn(1);`
 
+                // State 2
                 -4,  // on EOF, reduce `__Term = Term => ActionFn(0);`
 
+                // State 3
                 0,  // on EOF, error
 
+                // State 4
                 -1,  // on EOF, reduce `Num = r#"[0-9]+"# => ActionFn(3);`
 
+                // State 5
                 0,  // on EOF, error
 
+                // State 6
                 -3,  // on EOF, reduce `Term = "(", Term, ")" => ActionFn(2);`
 
             ];
@@ -623,13 +621,14 @@ mod __parse__Term {
                     }
                 }).collect()
             }
+            #[allow(dead_code)]
             pub fn parse_Term<
                 'input,
                 F,
             >(
                 logger: &mut F,
                 input: &'input str,
-            ) -> Result<i32, __lalrpop_util::ParseError<usize, (usize, &'input str), ()>> where
+            ) -> Result<i32, __lalrpop_util::ParseError<usize, Token<'input>, &'static str>> where
               F:  for<'a> FnMut(&'a str),
             {
                 let mut __tokens = super::super::super::__intern_token::__Matcher::new(input);
@@ -637,18 +636,18 @@ mod __parse__Term {
                 let mut __symbols = vec![];
                 let mut __integer;
                 let mut __lookahead;
-                let mut __last_location = Default::default();
+                let __last_location = &mut Default::default();
                 '__shift: loop {
                     __lookahead = match __tokens.next() {
                         Some(Ok(v)) => v,
                         None => break '__shift,
                         Some(Err(e)) => return Err(e),
                     };
-                    __last_location = __lookahead.2.clone();
+                    *__last_location = __lookahead.2.clone();
                     __integer = match __lookahead.1 {
-                        (1, _) if true => 0,
-                        (2, _) if true => 1,
-                        (0, _) if true => 2,
+                        Token(1, _) if true => 0,
+                        Token(2, _) if true => 1,
+                        Token(0, _) if true => 2,
                         _ => {
                             let __state = *__states.last().unwrap() as usize;
                             let __error = __lalrpop_util::ParseError::UnrecognizedToken {
@@ -664,15 +663,15 @@ mod __parse__Term {
                         if __action > 0 {
                             let __symbol = match __integer {
                                 0 => match __lookahead.1 {
-                                    (1, __tok0) => __Symbol::Term_22_28_22((__tok0)),
+                                    Token(1, __tok0) => __Symbol::Term_22_28_22((__tok0)),
                                     _ => unreachable!(),
                                 },
                                 1 => match __lookahead.1 {
-                                    (2, __tok0) => __Symbol::Term_22_29_22((__tok0)),
+                                    Token(2, __tok0) => __Symbol::Term_22_29_22((__tok0)),
                                     _ => unreachable!(),
                                 },
                                 2 => match __lookahead.1 {
-                                    (0, __tok0) => __Symbol::Termr_23_22_5b0_2d9_5d_2b_22_23((__tok0)),
+                                    Token(0, __tok0) => __Symbol::Termr_23_22_5b0_2d9_5d_2b_22_23((__tok0)),
                                     _ => unreachable!(),
                                 },
                                 _ => unreachable!(),
@@ -685,9 +684,11 @@ mod __parse__Term {
                                 return Err(__lalrpop_util::ParseError::ExtraToken { token: __lookahead });
                             }
                         } else {
+                            let mut __err_lookahead = Some(__lookahead);
+                            let mut __err_integer: Option<usize> = Some(__integer);
                             let __state = *__states.last().unwrap() as usize;
                             let __error = __lalrpop_util::ParseError::UnrecognizedToken {
-                                token: Some(__lookahead),
+                                token: __err_lookahead,
                                 expected: __expected_tokens(__state),
                             };
                             return Err(__error)
@@ -702,12 +703,14 @@ mod __parse__Term {
                             return r;
                         }
                     } else {
+                        let mut __err_lookahead = None;
+                        let mut __err_integer: Option<usize> = None;
                         let __state = *__states.last().unwrap() as usize;
                         let __error = __lalrpop_util::ParseError::UnrecognizedToken {
-                            token: None,
+                            token: __err_lookahead,
                             expected: __expected_tokens(__state),
                         };
-                        return Err(__error);
+                        return Err(__error)
                     }
                 }
             }
@@ -722,7 +725,7 @@ mod __parse__Term {
                 __states: &mut ::std::vec::Vec<i32>,
                 __symbols: &mut ::std::vec::Vec<(usize,__Symbol<'input>,usize)>,
                 _: ::std::marker::PhantomData<(F)>,
-            ) -> Option<Result<i32,__lalrpop_util::ParseError<usize, (usize, &'input str), ()>>> where
+            ) -> Option<Result<i32,__lalrpop_util::ParseError<usize, Token<'input>, &'static str>>> where
               F:  for<'a> FnMut(&'a str),
             {
                 let __nonterminal = match -__action {
@@ -850,8 +853,19 @@ pub use self::__parse__Term::parse_Term;
 mod __intern_token {
     #![allow(unused_imports)]
     use std::str::FromStr;
+    #[allow(unused_extern_crates)]
     extern crate lalrpop_util as __lalrpop_util;
     extern crate regex as __regex;
+    use std::fmt as __fmt;
+
+    #[derive(Clone, Debug, PartialEq, Eq, PartialOrd, Ord)]
+    pub struct Token<'input>(pub usize, pub &'input str);
+    impl<'a> __fmt::Display for Token<'a> {
+        fn fmt(&self, formatter: &mut __fmt::Formatter) -> Result<(), __fmt::Error> {
+            __fmt::Display::fmt(self.1, formatter)
+        }
+    }
+
     pub struct __Matcher<'input> {
         text: &'input str,
         consumed: usize,
@@ -882,7 +896,7 @@ mod __intern_token {
     }
 
     impl<'input> Iterator for __Matcher<'input> {
-        type Item = Result<(usize, (usize, &'input str), usize), __lalrpop_util::ParseError<usize,(usize, &'input str),()>>;
+        type Item = Result<(usize, Token<'input>, usize), __lalrpop_util::ParseError<usize,Token<'input>,&'static str>>;
 
         fn next(&mut self) -> Option<Self::Item> {
             let __text = self.text.trim_left();
@@ -916,12 +930,13 @@ mod __intern_token {
                     let __end_offset = __start_offset + __longest_match;
                     self.text = __remaining;
                     self.consumed = __end_offset;
-                    Some(Ok((__start_offset, (__index, __result), __end_offset)))
+                    Some(Ok((__start_offset, Token(__index, __result), __end_offset)))
                 }
             }
         }
     }
 }
+pub use self::__intern_token::Token;
 
 #[allow(unused_variables)]
 fn __action0<
@@ -994,18 +1009,18 @@ fn __action3<
 
 pub trait __ToTriple<'input, F, > {
     type Error;
-    fn to_triple(value: Self) -> Result<(usize,(usize, &'input str),usize),Self::Error>;
+    fn to_triple(value: Self) -> Result<(usize,Token<'input>,usize),Self::Error>;
 }
 
-impl<'input, F, > __ToTriple<'input, F, > for (usize, (usize, &'input str), usize) {
-    type Error = ();
-    fn to_triple(value: Self) -> Result<(usize,(usize, &'input str),usize),()> {
+impl<'input, F, > __ToTriple<'input, F, > for (usize, Token<'input>, usize) {
+    type Error = &'static str;
+    fn to_triple(value: Self) -> Result<(usize,Token<'input>,usize),&'static str> {
         Ok(value)
     }
 }
-impl<'input, F, > __ToTriple<'input, F, > for Result<(usize, (usize, &'input str), usize),()> {
-    type Error = ();
-    fn to_triple(value: Self) -> Result<(usize,(usize, &'input str),usize),()> {
+impl<'input, F, > __ToTriple<'input, F, > for Result<(usize, Token<'input>, usize),&'static str> {
+    type Error = &'static str;
+    fn to_triple(value: Self) -> Result<(usize,Token<'input>,usize),&'static str> {
         value
     }
 }

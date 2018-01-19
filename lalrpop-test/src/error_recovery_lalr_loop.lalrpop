@@ -2,7 +2,7 @@ use util::tok::Tok;
 use lalrpop_util::ErrorRecovery;
 
 #[LALR]
-grammar<'input, 'e>(errors: &'e mut Vec<ErrorRecovery<usize, Tok, ()>>);
+grammar<'input, 'e>(errors: &'e mut Vec<(usize, ErrorRecovery<usize, Tok, &'static str>, usize)>);
 
 extern {
     type Location = usize;
@@ -18,7 +18,7 @@ extern {
 
 SkipExtraTokens: () = {
     => (),
-    <!> => errors.push(<>),
+    @L ! @R => errors.push((<>)),
 };
 
 pub Expr: ()  = {
@@ -28,8 +28,8 @@ pub Expr: ()  = {
     Expr "+" Expr1 => (),
     Expr "-" Expr1 => (),
     Paren,
-    ! => {
-        errors.push(<>);
+    @L ! @R => {
+        errors.push((<>));
     }
 };
 

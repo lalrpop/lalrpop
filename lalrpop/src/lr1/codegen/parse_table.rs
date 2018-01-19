@@ -319,6 +319,8 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
             try!(this.write_value_type_defn());
             try!(this.write_parse_table());
             try!(this.write_parser_fn());
+            try!(this.write_error_recovery_fn());
+            try!(this.write_accepts_fn());
             try!(this.emit_reduce_actions());
             try!(this.emit_downcast_fns());
             Ok(())
@@ -453,19 +455,22 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
         // when the end of the input is reached (we return early if an
         // error occurs).
         rust!(self.out, "'{}shift: loop {{", self.prefix);
-        if DEBUG_PRINT {
-            rust!(self.out, "println!(\"outer loop\");");
-        }
 
         // Read next token from input.
         try!(self.next_token("lookahead", "tokens", "last_location", "shift"));
         try!(self.token_to_integer("integer", "lookahead"));
 
+        if DEBUG_PRINT {
+            rust!(self.out, "println!(\"pulled next token from input: {{:?}}\", \
+                             {p}lookahead);",
+                  p = self.prefix);
+            rust!(self.out, "println!(\"  - integer: {{}}\", \
+                             {p}integer);",
+                  p = self.prefix);
+        }
+
         // Loop.
         rust!(self.out, "'{}inner: loop {{", self.prefix);
-        if DEBUG_PRINT {
-            rust!(self.out, "println!(\"inner loop\");");
-        }
         rust!(self.out,
               "let {}state = *{}states.last().unwrap() as usize;",
               self.prefix,
@@ -482,18 +487,15 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
 
         if DEBUG_PRINT {
             rust!(self.out,
-                  "println!(\"state: {{}} lookahead: {{}} action: {{}} stack-depth: {{}}\", \
-                   {}state, {}integer, {}action, {}symbols.len());",
-                  self.prefix,
-                  self.prefix,
-                  self.prefix,
-                  self.prefix);
+                  "println!(\"state: {{}} lookahead: {{:?}}/{{}} action: {{}} stack-depth: {{}}\", \
+                   {p}state, {p}lookahead, {p}integer, {p}action, {p}symbols.len());",
+                  p = self.prefix);
         }
 
         // Shift.
         rust!(self.out, "if {}action > 0 {{", self.prefix);
         if DEBUG_PRINT {
-            rust!(self.out, "println!(\"--> shift\");");
+            rust!(self.out, "println!(\"--> shift `{{:?}}`\", {p}lookahead);", p = self.prefix);
         }
         try!(self.token_to_symbol());
         rust!(self.out,
@@ -532,142 +534,13 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
         // Error.
         rust!(self.out, "}} else {{");
 
-        if self.grammar.uses_error_recovery {
-            let prefix = self.prefix;
-            try!(self.let_unrecognized_token_error("error",
-                                                   &format!("Some({}lookahead.clone())", prefix)));
-            let lookahead_start = format!("Some(&{}lookahead.0)", self.prefix);
-            try!(self.error_recovery(&lookahead_start, ""));
-            rust!(self.out, "let {}start = {}lookahead.0.clone();", self.prefix, self.prefix);
-            rust!(self.out, "let {}end = {}lookahead.2.clone();", self.prefix, self.prefix);
-
-            if DEBUG_PRINT {
-                rust!(self.out, "println!(\"Attempting to recover on state: {{}}, error_state: {{}}, symbols: {{}}\", {}state, {}error_state - 1, {}symbols.len());",
-                    self.prefix,
-                    self.prefix,
-                    self.prefix);
-            }
-
-            // Push the error state onto the stack.
-            rust!(self.out, "{}states.push({}error_state - 1);",
-                self.prefix,
-                self.prefix);
-            rust!(self.out, "let {}recovery = {}lalrpop_util::ErrorRecovery {{",
-                self.prefix,
-                self.prefix);
-            rust!(self.out, "error: {}error,", self.prefix);
-            rust!(self.out, "dropped_tokens: vec![],");
-            rust!(self.out, "}};");
-            rust!(self.out,
-                "{}symbols.push(({}start, {}Symbol::Termerror({}recovery), {}end));",
-                self.prefix,
-                self.prefix,
-                self.prefix,
-                self.prefix,
-                self.prefix);
-
-            // Loop which drops tokens until parsing can resume again
-            rust!(self.out, "'{}drop: loop {{", self.prefix);
-            rust!(self.out, "if {}ACTION[({}error_state as usize - 1) * {} + {}integer] != 0 {{",
-                self.prefix,
-                self.prefix,
-                self.grammar.terminals.all.len(),
-                self.prefix);
-
-            if DEBUG_PRINT {
-                rust!(self.out, "println!(\"Recovering on state: {{}}, \
-                                 lookahead: {{}}, \
-                                 symbols: {{}}\", \
-                                 {}error_state - 1, \
-                                 {}integer, \
-                                 {}symbols.len());",
-                    self.prefix,
-                    self.prefix,
-                    self.prefix);
-            }
-
-            rust!(self.out, "continue '{}inner;", self.prefix);
-            rust!(self.out, "}}");// if ACTION
-
-            if DEBUG_PRINT {
-                rust!(self.out, "println!(\"Skipping token: {{}}\", {}integer);",
-                      self.prefix);
-            }
-
-            // Push this token onto the set of dropped tokens in the
-            // error state, which must be on the top of the stack.
-            rust!(self.out, "match {}symbols.last_mut() {{", self.prefix);
-            rust!(self.out, "Some(&mut (_, {}Symbol::Termerror(ref mut {}recovery), _)) => {{",
-                  self.prefix,
-                  self.prefix);
-            rust!(self.out, "{}recovery.dropped_tokens.push({}lookahead);",
-                  self.prefix,
-                  self.prefix);
-            rust!(self.out, "}}");
-            rust!(self.out, "_ => panic!(\"error should be on top of symbol stack\")");
-            rust!(self.out, "}}");
-
-            try!(self.next_token("lookahead", "tokens", "last_location", "drop"));
-            try!(self.token_to_integer("integer", "lookahead"));
-
-            if DEBUG_PRINT {
-                rust!(self.out, "println!(\"New lookahead: {{}}\", {}integer);",
-                      self.prefix);
-            }
-
-            rust!(self.out, "}}"); // 'drop loop
-
-            if DEBUG_PRINT {
-                rust!(self.out, "println!(\"Reached EOF during error recovery\");");
-            }
-
-            // If execution gets here, it means we dropped all the
-            // remaining tokens, but the ERROR state would not accept
-            // any of them.  So now let's check if it accepts EOF --
-            // if not, we have to abort error recovery altogether.
-            rust!(self.out,
-                  "let {}action = {}EOF_ACTION[{}state];",
-                  self.prefix,
-                  self.prefix,
-                  self.prefix);
-            rust!(self.out, "if {}action > 0 {{", self.prefix);
-            if DEBUG_PRINT {
-                rust!(self.out, "println!(\"Error state accepts EOF\");");
-            }
-            rust!(self.out, "break '{}shift;", self.prefix);
-            rust!(self.out, "}} else {{");
-
-            // Recover the vector of dropped tokens.
-            if DEBUG_PRINT {
-                rust!(self.out, "println!(\"Error state does not accept EOF; abort recovery\");");
-            }
-            rust!(self.out, "let (_, {}error, _) = {}symbols.pop().unwrap();",
-                  self.prefix, self.prefix);
-            rust!(self.out, "let mut {}dropped_tokens = match {}error {{",
-                  self.prefix, self.prefix);
-            rust!(self.out, "{}Symbol::Termerror({}recovery) => {{", self.prefix, self.prefix);
-            rust!(self.out, "{}recovery.dropped_tokens", self.prefix);
-            rust!(self.out, "}}");
-            rust!(self.out, "_ => panic!(\"error should be on top of stack\")");
-            rust!(self.out, "}};");
-
-            // The first element in vector must be the original token
-            // that triggered our error.  It cannot be empty, because
-            // to get here we must have pushed something.
-            rust!(self.out, "let {}dropped_token = {}dropped_tokens.remove(0);",
-                  self.prefix,
-                  self.prefix);
-            let prefix = self.prefix;
-            try!(self.let_unrecognized_token_error("error",
-                                                   &format!("Some({}dropped_token)", prefix)));
-            rust!(self.out, "return Err({}error)", self.prefix);
-
-            rust!(self.out, "}}");
-        } else {
-            let prefix = self.prefix;
-            try!(self.let_unrecognized_token_error("error", &format!("Some({}lookahead)", prefix)));
-            rust!(self.out, "return Err({}error)", self.prefix);
-        }
+        self.try_error_recovery(
+            "tokens",
+            "states",
+            "symbols",
+            "last_location",
+            Some(("lookahead", "integer", "inner", "shift")),
+        )?;
 
         rust!(self.out, "}}"); // if-else-if-else
 
@@ -710,34 +583,13 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
         rust!(self.out, "}}");
         rust!(self.out, "}} else {{");
 
-        // EOF error recovery
-        try!(self.let_unrecognized_token_error("error", "None"));
-
-        if self.grammar.uses_error_recovery {
-            let extra_test = format!("&& {}EOF_ACTION[({}error_state as usize - 1)] != 0 ",
-                self.prefix,
-                self.prefix);
-            try!(self.error_recovery("None", &extra_test));
-            rust!(self.out, "{}states.push({}error_state - 1);",
-                self.prefix,
-                self.prefix);
-            rust!(self.out, "let {}recovery = {}lalrpop_util::ErrorRecovery {{",
-                self.prefix,
-                self.prefix);
-            rust!(self.out, "error: {}error,", self.prefix);
-            rust!(self.out, "dropped_tokens: Vec::new(),");
-            rust!(self.out, "}};");
-            rust!(self.out,
-                "{}symbols.push(({}last_location.clone(), {}Symbol::Termerror({}recovery), {}last_location.clone()));",
-                self.prefix,
-                self.prefix,
-                self.prefix,
-                self.prefix,
-                self.prefix);
-
-        } else {
-            rust!(self.out, "return Err({}error);", self.prefix)
-        }
+        self.try_error_recovery(
+            "tokens",
+            "states",
+            "symbols",
+            "last_location",
+            None,
+        )?;
 
         rust!(self.out, "}}"); // else
 
@@ -752,9 +604,9 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
                   last_location: &str,
                   break_on_eof: &str) -> io::Result<()> {
         rust!(self.out,
-              "{p}{} = match {p}{}.next() {{",
-              lookahead,
-              tokens,
+              "{p}{lookahead} = match {p}{tokens}.next() {{",
+              lookahead = lookahead,
+              tokens = tokens,
               p = self.prefix);
         rust!(self.out, "Some(Ok(v)) => v,");
         rust!(self.out, "None => break '{}{},", self.prefix, break_on_eof); // EOF: break out
@@ -768,9 +620,9 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
                   p = self.prefix);
         }
         rust!(self.out, "}};");
-        rust!(self.out, "*{p}{} = {p}{}.2.clone();",
-              last_location,
-              lookahead,
+        rust!(self.out, "*{p}{last_location} = {p}{lookahead}.2.clone();",
+              last_location = last_location,
+              lookahead = lookahead,
               p = self.prefix);
         Ok(())
     }
@@ -1010,14 +862,12 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
 
         // pop the consumed states from the stack
         rust!(self.out,
-              "let {}states_len = {}states.len();",
-              self.prefix,
-              self.prefix);
+              "let {p}states_len = {p}states.len();",
+              p = self.prefix);
         rust!(self.out,
-              "{}states.truncate({}states_len - {});",
-              self.prefix,
-              self.prefix,
-              production.symbols.len());
+              "{p}states.truncate({p}states_len - {len});",
+              p = self.prefix,
+              len = production.symbols.len());
 
         // push the produced value on the stack
         let name = self.variant_name_for_symbol(Symbol::Nonterminal(production.nonterminal));
@@ -1107,31 +957,205 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
         Ok(())
     }
 
-    fn error_recovery(&mut self,
-                      lookahead_start: &str,
-                      extra_test: &str)
-                      -> io::Result<()> {
+    /// Tries to invoke the error recovery function. Takes a bunch of
+    /// arguments from the surrounding state:
+    ///
+    /// - `tokens` -- name of a mut variable of type `I` where `I` is an iterator over tokens
+    /// - `symbols` -- name of symbols vector
+    /// - `last_location` -- name of `last_location` variable
+    /// - `opt_lookahead` -- see below
+    ///
+    /// The `opt_lookahead` tuple contains the lookahead -- if any --
+    /// or None for EOF. It is a 4-tuple: (lookahead, integer,
+    /// tok_target, and eof_target). The idea is like this: on entry,
+    /// lookahead/integer have values. On exit, if the next token is
+    /// EOF, because we have dropped all remaining tokens, we will
+    /// `break` to `eof_target`.  Otherwise, we will `continue` to
+    /// `tok_target` after storing next token into the variable
+    /// `lookahead` and its integer index into `integer`.
+    fn try_error_recovery(
+        &mut self,
+        tokens: &str,
+        states: &str,
+        symbols: &str,
+        last_location: &str,
+        opt_lookahead: Option<(&str, &str, &str, &str)>,
+    ) -> io::Result<()> {
+        if let Some((out_lookahead, out_integer, _, _)) = opt_lookahead {
+            rust!(
+                self.out,
+                "let mut {p}err_lookahead = Some({p}{});",
+                out_lookahead,
+                p = self.prefix,
+            );
+
+            rust!(
+                self.out,
+                "let mut {p}err_integer: Option<usize> = Some({p}{});",
+                out_integer,
+                p = self.prefix,
+            );
+        } else {
+            rust!(
+                self.out,
+                "let mut {p}err_lookahead = None;",
+                p = self.prefix,
+            );
+
+            rust!(
+                self.out,
+                "let mut {p}err_integer: Option<usize> = None;",
+                p = self.prefix,
+            );
+        }
+
+        // Easy case: error recovery is disabled. Just error out.
+        if !self.grammar.uses_error_recovery {
+            let prefix = self.prefix;
+            self.let_unrecognized_token_error(
+                "error",
+                &format!("{p}err_lookahead", p = prefix),
+            )?;
+            rust!(self.out, "return Err({p}error)", p = prefix);
+            return Ok(());
+        }
+
         let phantom_data_expr = self.phantom_data_expr();
 
-        // First perform all reductions from the current state
-        rust!(self.out, "loop {{");
-        rust!(self.out, "let {}state = *{}states.last().unwrap() as usize;",
-              self.prefix,
-              self.prefix);
+        rust!(self.out,
+              "match {p}error_recovery(\
+               {upr} \
+               &mut {p}{tokens}, \
+               &mut {p}{states}, \
+               &mut {p}{symbols}, \
+               {p}{last_location}, \
+               &mut {p}err_lookahead, \
+               &mut {p}err_integer, \
+               {phantom_data_expr}) {{",
+              upr = self.grammar.user_parameter_refs(),
+              tokens = tokens,
+              states = states,
+              symbols = symbols,
+              last_location = last_location,
+              phantom_data_expr = phantom_data_expr,
+              p = self.prefix);
+        rust!(self.out, "Err({p}e) => return Err({p}e),", p = self.prefix);
+        rust!(self.out, "Ok(Some({p}v)) => return Ok({p}v),", p = self.prefix);
+        rust!(self.out, "Ok(None) => (),");
+        rust!(self.out, "}}");
+
+        if let Some((out_lookahead, out_integer, tok_target, eof_target)) = opt_lookahead {
+            rust!(self.out, "match ({p}err_lookahead, {p}err_integer) {{", p = self.prefix);
+            rust!(self.out, "(Some({p}l), Some({p}i)) => {{", p = self.prefix);
+            rust!(self.out, "{p}{} = {p}l;", out_lookahead, p = self.prefix);
+            rust!(self.out, "{p}{} = {p}i;", out_integer, p = self.prefix);
+            rust!(self.out, "continue '{p}{};", tok_target, p = self.prefix);
+            rust!(self.out, "}}"); // end arm
+            rust!(self.out, "_ => break '{p}{},", eof_target, p = self.prefix);
+            rust!(self.out, "}}"); // end match
+        }
+
+        Ok(())
+    }
+
+    fn write_error_recovery_fn(&mut self) -> io::Result<()> {
+        // Easy case: error recovery is disabled. Just error out.
+        if !self.grammar.uses_error_recovery {
+            return Ok(());
+        }
+
+        let parse_error_type = self.types.parse_error_type();
+        let error_type = self.types.error_type();
+        let spanned_symbol_type = self.spanned_symbol_type();
+        let triple_type = self.types.triple_type();
+        let loc_type = self.types.terminal_loc_type();
+        let prefix = self.prefix;
+        let actions_per_state = self.grammar.terminals.all.len();
+        let start_type = self.types.nonterminal_type(self.start_symbol);
+
+        // The tokenizr, when we supply it, returns parse
+        // errors. Otherwise, it returns custom user errors.
+        let tok_error_type = if self.grammar.intern_token.is_some() {
+            parse_error_type
+        } else {
+            &error_type
+        };
+
+        let parameters = vec![format!("{p}tokens: &mut {p}I",
+                                      p = self.prefix),
+                              format!("{p}states: &mut ::std::vec::Vec<i32>",
+                                      p = self.prefix),
+                              format!("{p}symbols: &mut ::std::vec::Vec<{spanned_symbol_type}>",
+                                      spanned_symbol_type = spanned_symbol_type,
+                                      p = self.prefix),
+                              format!("{p}last_location: &mut {loc_type}",
+                                      loc_type = loc_type,
+                                      p = self.prefix),
+                              format!("{p}opt_lookahead: &mut Option<{triple_type}>",
+                                      triple_type = triple_type,
+                                      p = self.prefix),
+                              format!("{p}opt_integer: &mut Option<usize>",
+                                      p = self.prefix),
+                              format!("_: {}",
+                                      self.phantom_data_type())];
+
+        try!(self.out.write_fn_header(self.grammar,
+                                      format!("{p}error_recovery", p = self.prefix),
+                                      vec![format!("{p}I", p = self.prefix)],
+                                      parameters,
+                                      format!("Result<Option<{start_type}>, {parse_error_type}>",
+                                              start_type = start_type,
+                                              parse_error_type = parse_error_type),
+                                      vec![format!("{p}I: Iterator<Item = \
+                                                    Result<{triple_type}, {tok_error_type}>\
+                                                    >",
+                                                   triple_type = triple_type,
+                                                   tok_error_type = tok_error_type,
+                                                   p = self.prefix)]));
+
+        rust!(self.out, "{{");
+
+        self.let_unrecognized_token_error(
+            "error",
+            &format!("{p}opt_lookahead.clone()", p = prefix)
+        )?;
+
+        rust!(self.out, "let mut {}dropped_tokens = vec![];", prefix);
+
+        let phantom_data_expr = self.phantom_data_expr();
 
         if DEBUG_PRINT {
-            rust!(self.out, r#"println!("Error recovery in state: {{}}", {}state);"#,
-                  self.prefix);
+            rust!(self.out, "println!(\"Initiating error recovery in state: {{}}\", \
+                             {p}states.last().unwrap());",
+                  p = self.prefix);
+            rust!(self.out, "println!(\"  - state stack size: {{}}\", \
+                             {p}states.len());",
+                  p = self.prefix);
+            rust!(self.out, "println!(\"  - symbol stack size: {{}}\", \
+                             {p}symbols.len());",
+                  p = self.prefix);
+            rust!(self.out, "println!(\"  - opt lookahead: {{:?}}\", \
+                             {p}opt_lookahead);",
+                  p = self.prefix);
+            rust!(self.out, "println!(\"  - opt integer: {{:?}}\", \
+                             {p}opt_integer);",
+                  p = self.prefix);
         }
+
+        // We are going to insert ERROR into the lookahead. So, first,
+        // perform all reductions from current state triggered by having
+        // ERROR in the lookahead.
+        rust!(self.out, "loop {{");
+        rust!(self.out, "let {p}state = *{p}states.last().unwrap() as usize;",
+              p = self.prefix);
 
         // Access the action with `error` as the lookahead; it is always final
         // column in the row for this state
-        rust!(self.out, "let {}action = {}ACTION[({}state + 1) * {} - 1];",
-              self.prefix,
-              self.prefix,
-              self.prefix,
-              self.grammar.terminals.all.len());
-        rust!(self.out, "if {}action >= 0 {{", self.prefix);
+        rust!(self.out, "let {p}action = {p}ACTION[{p}state * {} + {}];",
+              actions_per_state,
+              actions_per_state - 1,
+              p = self.prefix);
+        rust!(self.out, "if {p}action >= 0 {{", p = self.prefix);
         rust!(self.out, "break;");
         rust!(self.out, "}}");
 
@@ -1141,55 +1165,486 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
         }
 
         rust!(self.out,
-              "if let Some(r) = {}reduce({}{}action, {}, &mut {}states, &mut {}symbols, {}) {{",
-              self.prefix,
-              self.grammar.user_parameter_refs(),
-              self.prefix,
-              lookahead_start,
-              self.prefix,
-              self.prefix,
-              phantom_data_expr);
-        rust!(self.out, "return r;");
+              "let {p}lookahead_start = {p}opt_lookahead.as_ref().map(|l| &l.0);",
+              p = self.prefix);
+        rust!(self.out,
+              "if let Some(r) = {p}reduce( \
+               {upr} \
+               {p}action, \
+               {p}lookahead_start, \
+               {p}states, \
+               {p}symbols, \
+               {phantoms} \
+               ) {{",
+              upr = self.grammar.user_parameter_refs(),
+              phantoms = phantom_data_expr,
+              p = self.prefix);
+        rust!(self.out, "return Ok(Some(r?));");
         rust!(self.out, "}}");
-        rust!(self.out, "}}");
+        rust!(self.out, "}}"); // end reduce loop
 
-        // Used after breaking out of the loop
-        rust!(self.out, "let mut {}error_state;", self.prefix);
-        // Loop which pops states until a state that can be recovered from is found
-        rust!(self.out, "loop {{");
-        rust!(self.out, "match {}states.last().cloned() {{", self.prefix);
-        rust!(self.out, "Some({}state) => {{", self.prefix);
-        rust!(self.out, "{}error_state = {}ACTION[({}state as usize + 1) * {} - 1];",
-            self.prefix,
-            self.prefix,
-            self.prefix,
-            self.grammar.terminals.all.len());
+        // Now try to find the recovery state.
+
+        rust!(
+            self.out,
+            "let {p}states_len = {p}states.len();",
+            p = self.prefix
+        );
+
+        // I'd rather generate `let top = loop {{...}}` but I do not
+        // to retain compatibility with Rust 1.16.0.
+        rust!(self.out, "let {p}top0;", p = self.prefix);
+
+        rust!(self.out, "'{p}find_state: loop {{", p = self.prefix);
+
+        // Go backwards through the states...
+        rust!(self.out,
+              "for {p}top in (0..{p}states_len).rev() {{",
+              p = self.prefix);
+        rust!(self.out,
+              "let {p}state = {p}states[{p}top];",
+              p = self.prefix);
         if DEBUG_PRINT {
-            rust!(self.out, "println!(\"EOF Loop: top state = {{}} (error state+1) = {{}}\", \
-                             {}state, {}error_state);",
-                  self.prefix, self.prefix);
+            rust!(
+                self.out,
+                "println!(\"Probing recovery from state {{}} (top = {{}}).\", {p}state, {p}top);",
+                p = self.prefix,
+            );
         }
-        rust!(self.out, "if {}error_state > 0 {} {{", self.prefix, extra_test);
-        rust!(self.out, "break;");
-        rust!(self.out, "}}");
-        rust!(self.out, "{}states.pop();", self.prefix);
-        rust!(self.out, "{}symbols.pop();", self.prefix);
-        if DEBUG_PRINT {
-            rust!(self.out, "println!(\"Dropping state: {{}} \
-                             states.len()={{}} \
-                             symbols.len={{}}\", \
-                             {}state, \
-                             {}states.len(), \
-                             {}symbols.len());",
-                self.prefix, self.prefix, self.prefix);
-        }
-        rust!(self.out, "}}"); // Some
+        // ...fetch action for error token...
+        rust!(self.out, "let {p}action = {p}ACTION[({p}state * {} + {}) as usize];",
+              actions_per_state,
+              actions_per_state - 1,
+              p = self.prefix);
+        // ...if action is error or reduce, go to next state...
+        rust!(self.out, "if {p}action <= 0 {{ continue; }}", p = self.prefix);
+        // ...otherwise, action *must* be shift. That would take us into `error_state`.
+        rust!(self.out, "let {p}error_state = {p}action - 1;", p = self.prefix);
+        // If `error_state` can accept this lookahead, we are done.
+        rust!(self.out,
+              "if {p}accepts(\
+               {upr} \
+               {p}error_state, \
+               &{p}states[..{p}top + 1], \
+               *{p}opt_integer, \
+               {phantoms},\
+               ) {{",
+              upr = self.grammar.user_parameter_refs(),
+              phantoms = phantom_data_expr,
+              p = self.prefix);
+        rust!(self.out,
+              "{p}top0 = {p}top;",
+              p = self.prefix);
+        rust!(self.out,
+              "break '{p}find_state;",
+              p = self.prefix);
+        rust!(self.out, "}}"); // end if
+        rust!(self.out, "}}"); // end for
+
+        // Otherwise, if we did not find any enclosing state that can
+        // error and then accept this lookahead, we need to drop the current token.
+
+        // Introduce an artificial loop here so we can break to
+        // it. This is a hack to re-use the `next_token` function.
+        rust!(self.out, "'{p}eof: loop {{", p = self.prefix);
+        rust!(self.out, "match {p}opt_lookahead.take() {{", p = self.prefix);
+
+        // If the lookahead is EOF, and there is no suitable state to
+        // recover to, we just have to abort EOF recovery. Find the
+        // first token that we dropped (if any) and use that as the
+        // point of error.
         rust!(self.out, "None => {{");
-        rust!(self.out, "return Err({}error);", self.prefix);
-        rust!(self.out, "}}");
-        rust!(self.out, "}}"); // match
+        if DEBUG_PRINT {
+            rust!(self.out, r#"println!("Error recovery: cannot drop EOF; aborting");"#);
+        }
+        rust!(self.out, "return Err({}error)", prefix);
+        rust!(self.out, "}}"); // end None arm
 
-        rust!(self.out, "}}"); // loop
+        // Else, drop the current token and shift to the next. If there is a next
+        // token, we will `continue` to the start of the `'find_state` loop.
+        rust!(self.out, "Some(mut {p}lookahead) => {{", p = self.prefix);
+        if DEBUG_PRINT {
+            rust!(
+                self.out,
+                r#"println!("Error recovery: dropping token `{{:?}}`", {p}lookahead);"#,
+                p = self.prefix,
+            );
+        }
+        rust!(self.out, "{p}dropped_tokens.push({p}lookahead);", p = self.prefix);
+        self.next_token("lookahead", "tokens", "last_location", "eof")?;
+        rust!(self.out, "let {p}integer;", p = self.prefix);
+        try!(self.token_to_integer("integer", "lookahead"));
+        rust!(self.out, "*{p}opt_lookahead = Some({p}lookahead);", p = self.prefix);
+        rust!(self.out, "*{p}opt_integer = Some({p}integer);", p = self.prefix);
+        rust!(self.out, "continue '{p}find_state;", p = self.prefix);
+        rust!(self.out, "}}"); // end Some(_) arm
+        rust!(self.out, "}}"); // end match
+        rust!(self.out, "}}"); // end 'eof loop
+
+        // The `next_token` function will break here (out of the
+        // `'eof` loop) when we encounter EOF (i.e., there is no
+        // `next_token`). Just set `opt_lookahead` to `None` in that
+        // case.
+        if DEBUG_PRINT {
+            rust!(self.out, "println!(\"Encountered EOF during error recovery\");");
+        }
+        rust!(self.out, "*{p}opt_lookahead = None;", p = self.prefix);
+        rust!(self.out, "*{p}opt_integer = None;", p = self.prefix);
+        rust!(self.out, "}};"); // end 'find_state loop
+
+        // If we get here, we are ready to push the error recovery state.
+
+        // We have to compute the span for the error recovery
+        // token. We do this first, before we pop any symbols off the
+        // stack. There are several possibilities, in order of
+        // preference.
+        //
+        // For the **start** of the message, we prefer to use the start of any
+        // popped states. This represents parts of the input we had consumed but
+        // had to roll back and ignore.
+        //
+        // Example:
+        //
+        //       a + (b + /)
+        //              ^ start point is here, since this `+` will be popped off
+        //
+        // If there are no popped states, but there *are* dropped tokens, we can use
+        // the start of those.
+        //
+        // Example:
+        //
+        //       a + (b + c e)
+        //                  ^ start point would be here
+        //
+        // Finally, if there are no popped states *nor* dropped tokens, we can use
+        // the end of the top-most state.
+
+        rust!(self.out, "let {p}top = {p}top0;", p = self.prefix);
+        rust!(self.out, "let {p}start = if let Some({p}popped_sym) = {p}symbols.get({p}top) {{",
+              p = self.prefix);
+        if DEBUG_PRINT {
+            rust!(
+                self.out,
+                "println!(\"Span starts from popped symbol {{:?}}\", \
+                 (&{p}popped_sym.0 .. &{p}popped_sym.2));",
+                p = self.prefix,
+            );
+        }
+        rust!(self.out, "{p}popped_sym.0.clone()",
+              p = self.prefix);
+        rust!(self.out, "}} else if let Some({p}dropped_token) = {p}dropped_tokens.first() {{",
+              p = self.prefix);
+        if DEBUG_PRINT {
+            rust!(
+                self.out,
+                "println!(\"Span starts from dropped token {{:?}}\", \
+                 (&{p}dropped_token.0 .. &{p}dropped_token.2));",
+                p = self.prefix,
+            );
+        }
+        rust!(self.out, "{p}dropped_token.0.clone()",
+              p = self.prefix);
+        rust!(self.out, "}} else if {p}top > 0 {{", p = self.prefix);
+        if DEBUG_PRINT {
+            rust!(self.out, "println!(\"Span starts from end of last retained symbol\");");
+        }
+        rust!(self.out, "{p}symbols[{p}top - 1].2.clone()", p = self.prefix);
+        rust!(self.out, "}} else {{");
+        if DEBUG_PRINT {
+            rust!(self.out, "println!(\"Span starts from default\");");
+        }
+        rust!(self.out, "Default::default()");
+        rust!(self.out, "}};"); // end if
+
+        // For the end span, here are the possibilities:
+        //
+        // We prefer to use the end of the last dropped token.
+        //
+        // Examples:
+        //
+        //       a + (b + /)
+        //              ---
+        //       a + (b c)
+        //              -
+        //
+        // But, if there are no dropped tokens, we will use the end of the popped states,
+        // if any:
+        //
+        //       a + /
+        //         -
+        //
+        // If there are neither dropped tokens *or* popped states,
+        // then the user is simulating insertion of an operator. In
+        // this case, we prefer the start of the lookahead, but
+        // fallback to the start if we are at EOF.
+        //
+        // Examples:
+        //
+        //       a + (b c)
+        //             -
+        rust!(self.out, "let {p}end = if let Some({p}dropped_token) = {p}dropped_tokens.last() {{",
+              p = self.prefix);
+        if DEBUG_PRINT {
+            rust!(
+                self.out,
+                "println!(\"Span ends at end of last dropped token {{:?}}\", \
+                 (&{p}dropped_token.0 .. &{p}dropped_token.2));",
+                p = self.prefix,
+            );
+        }
+        rust!(self.out, "{p}dropped_token.2.clone()",
+              p = self.prefix);
+        rust!(self.out, "}} else if {p}states_len - 1 > {p}top {{",
+              p = self.prefix);
+        if DEBUG_PRINT {
+            rust!(
+                self.out,
+                "println!(\"Span ends at end of last popped symbol {{:?}}\", \
+                 {p}symbols.last().unwrap().2);",
+                p = self.prefix,
+            );
+        }
+        rust!(self.out, "{p}symbols.last().unwrap().2.clone()",
+              p = self.prefix);
+        rust!(self.out, "}} else if let Some({p}lookahead) = {p}opt_lookahead.as_ref() {{", p =
+              self.prefix);
+        if DEBUG_PRINT {
+            rust!(self.out, "println!(\"Span ends at start of lookahead\");");
+        }
+        rust!(self.out, "{p}lookahead.0.clone()",
+              p = self.prefix);
+        rust!(self.out, "}} else {{");
+        if DEBUG_PRINT {
+            rust!(self.out, "println!(\"Span ends at start\");");
+        }
+        rust!(self.out, "{p}start.clone()",
+              p = self.prefix);
+        rust!(self.out, "}};"); // end if
+
+        // First we have to pop off the states we are skipping. Note
+        // that the bottom-most state doesn't have a symbol, so the
+        // symbols vector is always 1 shorter, hence we truncate its
+        // length to `{p}top` not `{p}top + 1`.
+        rust!(self.out,
+              "{p}states.truncate({p}top + 1);",
+              p = self.prefix);
+        rust!(self.out,
+              "{p}symbols.truncate({p}top);",
+              p = self.prefix);
+
+        // Now load the new top state.
+        rust!(self.out,
+              "let {p}recover_state = {p}states[{p}top];",
+              p = self.prefix);
+
+        // Load the error action, which must be a shift.
+        rust!(self.out, "let {p}error_action = {p}ACTION[({p}recover_state * {} + {}) as usize];",
+              actions_per_state,
+              actions_per_state - 1,
+              p = self.prefix);
+        rust!(self.out, "let {p}error_state = {p}error_action - 1;", p = self.prefix);
+
+        if DEBUG_PRINT {
+            rust!(self.out,
+                  "println!(\"Recovering from error:\");");
+            rust!(self.out,
+                  "println!(\"  - recovery base state: {{}}\", {p}top);",
+                  p = self.prefix);
+            rust!(self.out,
+                  "println!(\"  - new top state {{}}\", {p}recover_state);",
+                  p = self.prefix);
+            rust!(self.out,
+                  "println!(\"  - error state {{}}\", {p}error_state);",
+                  p = self.prefix);
+            rust!(self.out,
+                  "println!(\"  - new stack length: {{}}\", {p}states.len());",
+                  p = self.prefix);
+            rust!(self.out,
+                  "println!(\"  - new symbol length: {{}}\", {p}symbols.len());",
+                  p = self.prefix);
+            rust!(self.out,
+                  "println!(\"  - span {{:?}}..{{:?}}\", {p}start, {p}end);",
+                  p = self.prefix);
+        }
+
+        // Push the error state onto the stack.
+        rust!(self.out, "{p}states.push({p}error_state);",
+              p = self.prefix);
+        rust!(self.out, "let {p}recovery = {}lalrpop_util::ErrorRecovery {{",
+              p = self.prefix);
+        rust!(self.out, "error: {p}error,", p = self.prefix);
+        rust!(self.out, "dropped_tokens: {p}dropped_tokens,", p = self.prefix);
+        rust!(self.out, "}};");
+        rust!(
+            self.out,
+            "{p}symbols.push(({p}start, {p}Symbol::Termerror({p}recovery), {p}end));",
+            p = self.prefix,
+        );
+
+        rust!(self.out, "Ok(None)");
+        rust!(self.out, "}}"); // end fn
+        Ok(())
+    }
+
+    /// The `accepts` function
+    ///
+    /// ```ignore
+    /// fn __accepts() {
+    ///     error_state: i32,
+    ///     states: &Vec<i32>,
+    ///     opt_integer: Option<usize>,
+    /// ) -> bool {
+    ///     ...
+    /// }
+    /// ```
+    ///
+    /// has the job of figuring out whether the given error state would
+    /// "accept" the given lookahead. We basically trace through the LR
+    /// automaton looking for one of two outcomes:
+    ///
+    /// - the lookahead is eventually shifted
+    /// - we reduce to the end state successfully (in the case of EOF).
+    ///
+    /// If we used the pure LR(1) algorithm, we wouldn't need this
+    /// function, because we would be guaranteed to error immediately
+    /// (and not after some number of reductions). But with an LALR
+    /// (or Lane Table) generated automaton, it is possible to reduce
+    /// some number of times before encountering an error. Failing to
+    /// take this into account can lead error recovery into an
+    /// infinite loop (see the `error_recovery_lalr_loop` test) or
+    /// produce crappy results (see `error_recovery_lock_in`).
+    fn write_accepts_fn(&mut self) -> io::Result<()> {
+        if !self.grammar.uses_error_recovery {
+            return Ok(());
+        }
+
+        let actions_per_state = self.grammar.terminals.all.len();
+        let parameters = vec![format!("{p}error_state: i32",
+                                      p = self.prefix),
+                              format!("{p}states: & [i32]",
+                                      p = self.prefix),
+                              format!("{p}opt_integer: Option<usize>",
+                                      p = self.prefix),
+                              format!("_: {}", self.phantom_data_type())];
+
+        try!(self.out.write_fn_header(self.grammar,
+                                      format!("{}accepts", self.prefix),
+                                      vec![],
+                                      parameters,
+                                      format!("bool"),
+                                      vec![]));
+        rust!(self.out, "{{");
+
+        if DEBUG_PRINT {
+            rust!(self.out,
+                  "println!(\"Testing whether state {{}} accepts token {{:?}}\", \
+                   {p}error_state, {p}opt_integer);",
+                  p = self.prefix);
+        }
+
+        // Create our own copy of the state stack to play with.
+        rust!(self.out, "let mut {p}states = {p}states.to_vec();", p = self.prefix);
+        rust!(self.out, "{p}states.push({p}error_state);", p = self.prefix);
+
+        rust!(self.out, "loop {{",);
+
+        rust!(self.out,
+              "let mut {}states_len = {}states.len();",
+              self.prefix,
+              self.prefix);
+
+        rust!(self.out, "let {p}top = {p}states[{p}states_len - 1];", p = self.prefix);
+
+        if DEBUG_PRINT {
+            rust!(self.out,
+                  "println!(\"accepts: top-state={{}} num-states={{}}\", {p}top, {p}states_len);",
+                  p = self.prefix);
+        }
+
+        rust!(self.out, "let {p}action = match {p}opt_integer {{", p = self.prefix);
+        rust!(self.out, "None => {p}EOF_ACTION[{p}top as usize],", p = self.prefix);
+        rust!(
+            self.out,
+            "Some({p}integer) => {p}ACTION[({p}top * {actions_per_state}) as usize + {p}integer],",
+            p = self.prefix,
+            actions_per_state = actions_per_state,
+        );
+        rust!(self.out, "}};"); // end `match`
+
+        // If we encounter an error action, we do **not** accept.
+        rust!(self.out, "if {p}action == 0 {{ return false; }}", p = self.prefix);
+
+        // If we encounter a shift action, we DO accept.
+        rust!(self.out, "if {p}action > 0 {{ return true; }}", p = self.prefix);
+
+        // If we encounter a reduce action, we need to simulate its
+        // effect on the state stack.
+        rust!(self.out, "let ({p}to_pop, {p}nt) = match -{p}action {{", p = self.prefix);
+        for (production, index) in self.grammar
+                                       .nonterminals
+                                       .values()
+                                       .flat_map(|nt| &nt.productions)
+                                       .zip(1..)
+        {
+            if Tls::session().emit_comments {
+                rust!(self.out, "// simulate {:?}", production);
+            }
+
+            // if we just reduced the start symbol, that is also an accept criteria
+            if production.nonterminal == self.start_symbol {
+                rust!(self.out, "{} => return true,", index);
+            } else {
+                let num_symbols = production.symbols.len();
+                let nt = self.custom
+                             .all_nonterminals
+                             .iter()
+                             .position(|&x| x == production.nonterminal)
+                             .unwrap();
+                rust!(self.out, "{} => {{", index);
+                if DEBUG_PRINT {
+                    rust!(self.out,
+                          "println!(r##\"accepts: simulating {:?}\"##);",
+                          production);
+                }
+                rust!(
+                    self.out,
+                    "({num_symbols}, {nt})",
+                    num_symbols = num_symbols,
+                    nt = nt
+                );
+                rust!(self.out, "}}");
+            }
+        };
+        rust!(self.out,
+              "_ => panic!(\"invalid action code {{}}\", {}action)",
+              self.prefix);
+        rust!(self.out, "}};"); // end match
+
+        rust!(self.out, "{p}states_len -= {p}to_pop;", p = self.prefix);
+        rust!(self.out, "{p}states.truncate({p}states_len);", p = self.prefix);
+        rust!(self.out, "let {p}top = {p}states[{p}states_len - 1];", p = self.prefix);
+
+        if DEBUG_PRINT {
+            rust!(self.out,
+                  "println!(\"accepts: popped {{}} symbols, new top is {{}}, nt is {{}}\", \
+                   {p}to_pop, \
+                   {p}top, \
+                   {p}nt, \
+                   );",
+                  p = self.prefix);
+        }
+
+        rust!(
+            self.out,
+            "let {p}next_state = {p}GOTO[({p}top * {num_non_terminals} + {p}nt) as usize] - 1;",
+            p = self.prefix,
+            num_non_terminals = self.grammar.nonterminals.len(),
+        );
+
+        rust!(self.out, "{p}states.push({p}next_state);", p = self.prefix);
+
+        rust!(self.out, "}}"); // end loop
+        rust!(self.out, "}}"); // end fn
 
         Ok(())
     }

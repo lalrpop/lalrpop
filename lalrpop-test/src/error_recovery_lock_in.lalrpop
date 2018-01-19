@@ -1,7 +1,7 @@
 use util::tok::Tok;
 use lalrpop_util::ErrorRecovery;
 
-grammar<'input, 'e>(errors: &'e mut Vec<ErrorRecovery<usize, Tok, ()>>);
+grammar<'input, 'e>(errors: &'e mut Vec<(usize, ErrorRecovery<usize, Tok, &'static str>, usize)>);
 
 extern {
     type Location = usize;
@@ -15,22 +15,18 @@ extern {
     }
 }
 
-SkipExtraTokens: () = {
-    => (),
-    <!> => errors.push(<>),
-};
-
 pub A: () = {
     "(" B ")",
     A "/" Num,
-    ! => {
-        errors.push(<>);
+    @L ! @R => {
+        errors.push((<>));
     }
 };
 
 B: ()  = {
     Num => (),
-    ! => {
-        errors.push(<>);
+    @L ! @R => {
+        // the test input should not lead us to recover from here
+        panic!("should not get here!");
     }
 };

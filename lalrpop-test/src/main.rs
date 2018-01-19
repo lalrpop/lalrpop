@@ -86,6 +86,7 @@ mod error_recovery_pull_182;
 mod error_recovery_issue_240;
 mod error_recovery_lalr_loop;
 mod error_recovery_lock_in;
+mod error_recovery_span;
 
 /// test for inlining expansion issue #55
 mod issue_55;
@@ -444,16 +445,22 @@ fn error_recovery_dont_panic_on_reduce_at_eof() {
 fn error_recovery_issue_240() {
     let mut errors = vec![];
 
+    // Test here is that error recovery should not go into an infinite loop. =)
     match util::test_err_gen(|v| error_recovery_issue_240::parse_Expr(&mut errors, v), "(+1/") {
-        Err(ParseError::UnrecognizedToken { expected, token: _ }) => {
-            assert_eq!(expected, vec![format!(r#"")""#)]);
+        Ok(()) => {
         }
         r => {
             panic!("unexpected response from parser: {:?}", r);
         }
     }
 
-    assert_eq!(errors, vec![]);
+    assert_eq!(errors, vec![ErrorRecovery {
+        error: ParseError::UnrecognizedToken {
+            token: Some((6, Tok::Div, 7)),
+            expected: vec!["\")\"".to_string()],
+        },
+        dropped_tokens: vec![(6, Tok::Div, 7)],
+    }]);
 }
 
 #[test]
@@ -461,13 +468,18 @@ fn error_recovery_lalr_loop() {
     let mut errors = vec![];
 
     // In LALR (or Lane Table) mode, this was causing infinite loops
-    // during recovery.  We would drop tokens until EOF, but then get
+    // during recovery. We would drop tokens until EOF, but then get
     // ourselves in an error state where EOF was (ultimately) not
     // legal, triggering repeated error recovery. This is a variant of
     // the 'lock-in' phenomena discussed below.
+    //
+    // The newer algorithm is not so silly, however; when we get to EOF, we roll
+    // back far enough that EOF becomes legal.
     match util::test_err_gen(|v| error_recovery_lalr_loop::parse_Expr(&mut errors, v), "(+1/") {
-        Err(ParseError::UnrecognizedToken { expected, token: _ }) => {
-            assert_eq!(expected, vec![format!(r#"")""#)]);
+        Ok(()) => {
+            assert_eq!(errors.len(), 1);
+            let (l, _error, r) = errors.pop().unwrap();
+            assert_eq!((l .. r), (0 .. 7)); // we popped everything, so this is the full string
         }
         r => {
             panic!("unexpected response from parser: {:?}", r);
@@ -481,13 +493,23 @@ fn error_recovery_lalr_loop() {
 fn error_recovery_lock_in() {
     let mut errors = vec![];
 
+    // In this case, the `/` is in error, but we wind up dropping the
+    // `(1` and calling that an error, so we effectively parse
+    // `<error> / 22`.
+    //
     // In the older strategy, in which we pop states to innermost
-    // state, we recover after the `/` to a B (built from error). This
+    // state, we used to recover after the `/` to a B (built from error). This
     // forces us to drop `/22` because `(B` can only be followed by
     // `)`.
+    //
+    // This is a good example of why it would be nice to give access
+    // to the popped state.
     match util::test_err_gen(|v| error_recovery_lock_in::parse_A(&mut errors, v), "(1/22") {
-        Err(ParseError::UnrecognizedToken { expected, token: _ }) => {
-            assert_eq!(expected, vec![format!(r#"")""#)]);
+        Ok(()) => {
+            assert_eq!(errors.len(), 1); // should not drop any tokens
+            let (l, ErrorRecovery { error: _, dropped_tokens }, r) = errors.pop().unwrap();
+            assert_eq!((l .. r), (0 .. 3)); // span should cover the `(1` but not the `/`
+            assert_eq!(dropped_tokens, vec![]);
         }
         r => {
             panic!("unexpected response from parser: {:?}", r);
@@ -495,6 +517,125 @@ fn error_recovery_lock_in() {
     }
 
     assert_eq!(errors, vec![]);
+}
+
+fn test_error_recovery_spans(
+    input: &str,
+    error_span: &str,
+    output: &str,
+) {
+    let mut errors = vec![];
+
+    let result = util::test_err_gen(
+        |v| error_recovery_span::parse_Expr(&mut errors, v),
+        input,
+    ).unwrap();
+
+    assert_eq!(result, output);
+
+    // The "span locations" in our tests are a bit weird. We just
+    // enumerate the tokens. So out input is broken into words
+    // to help us simulate that.
+
+    // Yields up pairs (start, end) for each non `.` token.  The
+    // "start" half of the first one is considered the start of the
+    // span, the "end" half of the second is the end of the span.
+    let dash_tokens = || {
+        error_span
+            .split(char::is_whitespace)
+            .enumerate()
+            .filter_map(|(l, s)| {
+                match s {
+                    "." => None,
+
+                    // Used to indicate that a span starts (or ends,
+                    // if this is the last `-`) on this character.
+                    "-" => Some((l * 2, l * 2 + 1)),
+
+                    // Used to signal that a span starts just after
+                    // this character.
+                    ">" => Some((l * 2 + 1, l * 2 + 1)),
+
+                    // Used to signal that a span ends just
+                    // *before* this character.
+                    "<" => Some((l * 2, l * 2)),
+
+                    _ => panic!("invalid character in span"),
+                }
+            })
+    };
+
+    let lo = dash_tokens().next().unwrap().0;
+    let hi = dash_tokens().last().unwrap().1;
+    assert_eq!(vec![(lo, hi)], errors);
+}
+
+#[test]
+fn error_recovery_span_starts_from_dropped_state() {
+    // Span starts from dropped state `+`
+    // Span ends after dropped token `/`
+    test_error_recovery_spans(
+        "1 + ( 2 + / )",
+        ". . . . - - .",
+        "1 + (2)",
+    );
+}
+
+#[test]
+fn error_recovery_span_starts_from_initial() {
+    // Span starts (and ends) before the `+`.
+    test_error_recovery_spans(
+        "+ 3",
+        "< .",
+        "! + 3",
+    );
+}
+
+#[test]
+fn error_recovery_span_starts_just_dropped_tokens() {
+    // We retain the `3`, but drop the `4`; our span
+    // covers just the dropped token (`4`).
+    test_error_recovery_spans(
+        "1 + ( 2 + 3 4 )",
+        ". . . . . . - .",
+        "1 + (2 + 3)",
+    );
+}
+
+#[test]
+fn error_recovery_span_starts_inserted_tokens() {
+    // We neither drop states *nor* drop tokens, but *insert* a `!`
+    // into the stream so that `( ! )` can reduce.
+    //
+    // That is, we use the end of the top-most state
+    // as our start and the start of the lookahead as our
+    // end.
+    test_error_recovery_spans(
+        "1 + ( )",
+        ". . > <",
+        "1 + (!)",
+    );
+}
+
+#[test]
+fn error_recovery_span_starts_inserted_token_eof() {
+    // We insert a ! before EOF, neither dropped states nor tokens.
+    test_error_recovery_spans(
+        "1 -",
+        ". >",
+        "1 -!",
+    );
+}
+
+#[test]
+fn error_recovery_span_starts_just_dropped_states() {
+    // Here, we drop the `+` in favor of the `-`.
+    // Therefore, the span we give is the `+`.
+    test_error_recovery_spans(
+        "1 + - 4",
+        ". - . .",
+        "1 - 4",
+    );
 }
 
 #[test]
