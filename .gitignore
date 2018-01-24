@@ -18,11 +18,16 @@ lalrpop-test/src/error.rs
 lalrpop-test/src/error_issue_113.rs
 lalrpop-test/src/error_recovery.rs
 lalrpop-test/src/error_recovery_pull_182.rs
+lalrpop-test/src/error_recovery_issue_240.rs
+lalrpop-test/src/error_recovery_lock_in.rs
+lalrpop-test/src/error_recovery_lalr_loop.rs
+lalrpop-test/src/error_recovery_span.rs
 lalrpop-test/src/expr.rs
 lalrpop-test/src/expr_arena.rs
 lalrpop-test/src/expr_generic.rs
 lalrpop-test/src/expr_intern_tok.rs
 lalrpop-test/src/expr_lalr.rs
+lalrpop-test/src/expr_module_attributes.rs
 lalrpop-test/src/generics_issue_104.rs
 lalrpop-test/src/inline.rs
 lalrpop-test/src/intern_tok.rs

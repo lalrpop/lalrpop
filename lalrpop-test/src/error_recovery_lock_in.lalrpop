@@ -1,0 +1,32 @@
+use util::tok::Tok;
+use lalrpop_util::ErrorRecovery;
+
+grammar<'input, 'e>(errors: &'e mut Vec<(usize, ErrorRecovery<usize, Tok, &'static str>, usize)>);
+
+extern {
+    type Location = usize;
+    enum Tok {
+        "(" => Tok::LParen,
+        ")" => Tok::RParen,
+        "+" => Tok::Plus,
+        "-" => Tok::Minus,
+        "/" => Tok::Div,
+        Num => Tok::Num(<i32>)
+    }
+}
+
+pub A: () = {
+    "(" B ")",
+    A "/" Num,
+    @L ! @R => {
+        errors.push((<>));
+    }
+};
+
+B: ()  = {
+    Num => (),
+    @L ! @R => {
+        // the test input should not lead us to recover from here
+        panic!("should not get here!");
+    }
+};

@@ -1,0 +1,48 @@
+use util::tok::Tok;
+
+grammar<'e>(errors: &'e mut Vec<(usize, usize)>);
+
+extern {
+    type Location = usize;
+    enum Tok {
+        "-" => Tok::Minus,
+        "+" => Tok::Plus,
+        "/" => Tok::Div,
+        "(" => Tok::LParen,
+        ")" => Tok::RParen,
+        Num => Tok::Num(<i32>)
+    }
+}
+
+pub Expr: String = {
+    Expr1,
+    <Expr> "+" <Expr1> => format!("{} + {}", <>),
+    <Expr> "-" <Expr1> => format!("{} - {}", <>),
+
+    // NB we intentionally cannot recover from a `"+"` here,
+    // just a `"-"`. This allows us to test when we must drop
+    // the `"+"` to recover.
+    <n:Expr> "-" <l:@L> ! <r:@R> => {
+        errors.push((l, r));
+        format!("{} -!", n)
+    },
+
+    <n:Expr> <l:@L> ! <r:@R> => {
+        errors.push((l, r));
+        n
+    },
+
+    <@L> ! <@R> => {
+        errors.push((<>));
+        format!("!")
+    },
+};
+
+Expr1: String = {
+    Expr2,
+};
+
+Expr2: String = {
+    Num => format!("{:?}", <>),
+    "(" <Expr> ")" => format!("({})", <>),
+};

@@ -1,0 +1,35 @@
+use util::tok::Tok;
+use lalrpop_util::ErrorRecovery;
+
+#[LALR]
+grammar<'input, 'e>(errors: &'e mut Vec<ErrorRecovery<usize, Tok, &'static str>>);
+
+extern {
+    type Location = usize;
+    enum Tok {
+        "(" => Tok::LParen,
+        ")" => Tok::RParen,
+        "+" => Tok::Plus,
+        "-" => Tok::Minus,
+        "/" => Tok::Div,
+        Num => Tok::Num(<i32>)
+    }
+}
+
+SkipExtraTokens: () = {
+    => (),
+    <!> => errors.push(<>),
+};
+
+pub Expr: ()  = {
+    Num => (),
+    "+" Expr => (),
+    Paren,
+    ! => {
+        errors.push(<>);
+    }
+};
+
+Paren: ()  = {
+    "(" Expr ")" => (),
+};
