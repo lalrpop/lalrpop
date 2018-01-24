@@ -66,11 +66,13 @@ impl<'grammar> Validator<'grammar> {
                             "multiple match definitions are not permitted");
                     }
 
-                    // We may want to allow a limited extern to coexist with match in the future
+                    // Only error if a custom lexer is specified, having a custom types is ok
                     if let Some(d) = self.extern_token {
-                        return_err!(
-                            d.span,
-                            "extern and match definitions are mutually exclusive");
+                        if d.enum_token.is_some() {
+                            return_err!(
+                                d.span,
+                                "extern (with custom tokens) and match definitions are mutually exclusive");
+                        }
                     }
 
                     // Ensure that the catch all is final item of final block
@@ -94,11 +96,13 @@ impl<'grammar> Validator<'grammar> {
                             "multiple extern definitions are not permitted");
                     }
 
-                    // We may want to allow a limited extern to coexist with match in the future
+                    // Only error if a custom lexer is specified, having a custom types is ok
                     if let Some(d) = self.match_token {
-                        return_err!(
-                            d.span,
-                            "match and extern definitions are mutually exclusive");
+                        if data.enum_token.is_some() {
+                            return_err!(
+                                d.span,
+                                "match and extern (with custom tokens) definitions are mutually exclusive");
+                        }
                     }
 
                     let allowed_names = vec![intern(LOCATION), intern(ERROR)];
