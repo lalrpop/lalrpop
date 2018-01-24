@@ -5,6 +5,7 @@ description = "convenient LR(1) parser generator"
 repository = "https://github.com/nikomatsakis/lalrpop"
 readme = "../README.md"
 keywords = ["parser", "generator", "LR", "yacc", "grammar"]
+categories = ["parsing"]
 license = "Apache-2.0/MIT"
 authors = ["Niko Matsakis <niko@alum.mit.edu>"]
 # build = "build.rs"
