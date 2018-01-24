@@ -1,0 +1,11 @@
+use lalrpop_util::ParseError;
+
+grammar;
+
+extern {
+	type Error = &'static str;
+}
+
+pub Value = <Int> "abc";
+
+Int: u64 = r"\d+" =>? Err(ParseError::User{ error: "Pretend there was an error" });

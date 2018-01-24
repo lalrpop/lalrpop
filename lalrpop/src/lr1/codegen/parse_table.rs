@@ -104,7 +104,11 @@ pub fn compile<'grammar, W: Write>(grammar: &'grammar Grammar,
 //                symbols.push(symbol);
 //                continue 'shift;
 //            } else if action < 0 { // reduce
-//                if let Some(_) = reduce(action, Some(&lookahead.0), &mut states, &mut symbols) {
+//                if let Some(r) = reduce(action, Some(&lookahead.0), &mut states, &mut symbols) {
+//                    // Give errors from within grammar a higher priority
+//                    if r.is_err() {
+//                        return r;
+//                    }
 //                    return Err(lalrpop_util::ParseError::ExtraToken { token: lookahead });
 //                }
 //            } else {
@@ -516,7 +520,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
             rust!(self.out, "println!(\"--> reduce\");");
         }
         rust!(self.out,
-              "if let Some(_) = {}reduce({}{}action, Some(&{}lookahead.0), &mut {}states, &mut \
+              "if let Some(r) = {}reduce({}{}action, Some(&{}lookahead.0), &mut {}states, &mut \
                {}symbols, {}) {{",
               self.prefix,
               self.grammar.user_parameter_refs(),
@@ -525,6 +529,9 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
               self.prefix,
               self.prefix,
               phantom_data_expr);
+        rust!(self.out, "if r.is_err() {{");
+        rust!(self.out, "return r;");
+        rust!(self.out, "}}");
         rust!(self.out,
               "return Err({}lalrpop_util::ParseError::ExtraToken {{ token: {}lookahead }});",
               self.prefix,

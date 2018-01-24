@@ -100,6 +100,9 @@ mod match_section;
 /// regression test for issue #253.
 mod partial_parse;
 
+/// regression test for issue #278.
+mod error_issue_278;
+
 // Check that error recovery (which requires cloneable tokens) is not created if it is not used
 #[allow(unused)]
 mod no_clone_tok;
@@ -707,4 +710,14 @@ fn test_action_return_associated_types() {
         associated_types::parse_Term(&mut callbacks, "(((((42)))))"),
         Ok(associated_types_lib::TestTerm(associated_types_lib::TestNum(42)))
     );
+}
+
+#[test]
+fn error_issue_278() {
+    match error_issue_278::parse_Value("123 abc") {
+        Err(ParseError::User { error: "Pretend there was an error" }) => { /* OK! */ }
+        r => {
+            panic!("unexpected response from parser: {:?}", r);
+        }
+    }
 }
