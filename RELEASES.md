@@ -1,3 +1,31 @@
+# Version 0.14
+
+Bugs fixed:
+
+- Infinite loop in error recovery fixed (#240).
+- Bad error messages if a `;` was forgotten fixed (#276).
+- Grammar errors were sometimes incorrectly reported as "extra tokens" (#278)
+- `extern` blocks now allowed even when not using a custom tokenizer (#261)
+- `ParseError` now implements `Display`
+- actions can now return a grammar's type parameter's associated type (#247)
+- generated files are now rebuilt when there is a new LALRPOP version (#243)
+
+Compatibility notes:
+
+- As part of making `ParseError` implement `Display`, the default
+  error type changed from `()` to `&'static str`, so parse errors type
+  may change from `lalrpop_util::ParseError<..., ()>` to
+  `lalrpop_util::ParseError<..., &'static str>`.
+
+Thanks to the following contributors for this release:
+
+- @fitzgen
+- @joerivanruth
+- @pyfisch
+- @nick70
+- @notriddle
+- @vmx
+
 # Version 0.13.1
 
 - We now support `#![..]` attributes in `.lalrpop` files.
