@@ -151,15 +151,15 @@ look something like:
 ```
 [package]
 name = "calculator"
-version = "0.13.1"
+version = "0.14.0"
 authors = ["Niko Matsakis <niko@alum.mit.edu>"]
 build = "build.rs" # <-- We added this and everything after!
 
 [build-dependencies]
-lalrpop = "0.13.1"
+lalrpop = "0.14.0"
 
 [dependencies]
-lalrpop-util = "0.13.1"
+lalrpop-util = "0.14.0"
 regex = "0.2.1"
 ```
 
