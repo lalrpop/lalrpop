@@ -1,3 +1,5 @@
+#![cfg_attr(not(test), allow(dead_code, unused_imports))]
+
 extern crate diff;
 extern crate lalrpop_util;
 
