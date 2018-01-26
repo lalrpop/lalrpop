@@ -46,5 +46,5 @@ lalrpop-test/src/no_clone_tok.rs
 lalrpop-test/src/partial_parse.rs
 lalrpop-test/src/match_section.rs
 lalrpop-test/src/expr_module_attributes.rs
-
-
+lalrpop-test/src/associated_types.rs
+lalrpop-test/src/where_clause_with_forall.rs
