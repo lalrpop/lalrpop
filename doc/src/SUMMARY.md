@@ -12,3 +12,5 @@
   - [Macros](tutorial/007_macros.md)
   - [Error recovery](tutorial/008_error_recovery.md)
 - [Writing a custom lexer](lexer_tutorial/index.md)
+-----------
+[Contributors](misc/contributors.md)
