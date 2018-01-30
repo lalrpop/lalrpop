@@ -126,3 +126,11 @@ fn mixing_names_and_anonymous_values() {
         r#"grammar; Term = { <A> <b:B> => Alien: Eighth passanger of Nostromo};"#,
         r#"                  ~~~                                               "#);
 }
+
+#[test]
+fn public_macros() {
+    check_err(
+        r#"macros cannot be marked public"#,
+        r#"grammar; pub Comma<T> = (T ",")* T?;"#,
+        r#"             ~~~~~~~~               "#);
+}

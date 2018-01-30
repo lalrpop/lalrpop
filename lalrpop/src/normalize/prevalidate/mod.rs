@@ -124,6 +124,9 @@ impl<'grammar> Validator<'grammar> {
                     }
                 }
                 GrammarItem::Nonterminal(ref data) => {
+                    if data.public && !data.args.is_empty() {
+                        return_err!(data.span, "macros cannot be marked public");
+                    }
                     let inline_annotation = intern(INLINE);
                     let known_annotations = vec![inline_annotation];
                     let mut found_annotations = set();
