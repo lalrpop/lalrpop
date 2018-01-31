@@ -309,5 +309,5 @@ And now any reference in your grammar to `"BEGIN"` will actually match
 any capitalization.
 
 [lexer tutorial]: lexer_tutorial/index.html
-[calculator2b]: ../calculator/src/calculator2b.lalrpop
-[calculator3]: ../calculator/src/calculator3.lalrpop
+[calculator2b]: calculator/src/calculator2b.lalrpop
+[calculator3]: calculator/src/calculator3.lalrpop

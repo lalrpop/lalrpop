@@ -120,6 +120,6 @@ fn calculator5() {
 }
 ```
 
-[main]: ../calculator/src/main.rs
-[calculator4]: ../calculator/src/calculator4.lalrpop
-[calculator5]: ../calculator/src/calculator5.lalrpop
+[main]: calculator/src/main.rs
+[calculator4]: calculator/src/calculator4.lalrpop
+[calculator5]: calculator/src/calculator5.lalrpop

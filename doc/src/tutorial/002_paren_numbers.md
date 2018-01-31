@@ -127,4 +127,4 @@ fn parse_Term<'input>(input: &'input str)
 }
 ```
 
-[calculator1]: ../calculator/src/calculator1.lalrpop
+[calculator1]: calculator/src/calculator1.lalrpop

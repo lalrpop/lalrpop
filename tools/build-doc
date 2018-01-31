@@ -1,0 +1,9 @@
+#!/bin/bash
+
+ROOT=$(dirname $(dirname $0))
+
+set -e
+
+cd $ROOT/doc
+mdbook build
+cp --verbose -rf calculator pascal whitespace book
