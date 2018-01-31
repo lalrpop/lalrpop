@@ -212,7 +212,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent,
         // making different enums per state, but this would mean we
         // have to unwrap and rewrap as we pass up the stack, which
         // seems silly
-        for &nt in self.grammar.nonterminals.keys() {
+        for ref nt in self.grammar.nonterminals.keys() {
             let ty = self.types.spanned_type(self.types.nonterminal_type(nt).clone());
             rust!(self.out, "{}({}),", Escape(nt), ty);
         }
@@ -248,7 +248,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent,
         rust!(self.out,
               "(None, {}Nonterminal::{}((_, {}nt, _))) => {{",
               self.prefix,
-              Escape(self.start_symbol),
+              Escape(&self.start_symbol),
               self.prefix);
         rust!(self.out, "Ok({}nt)", self.prefix);
         rust!(self.out, "}}");
@@ -316,7 +316,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent,
         rust!(self.out, "match {}lookahead {{", self.prefix);
 
         // first emit shifts:
-        for (&terminal, &next_index) in &this_state.shifts {
+        for (terminal, &next_index) in &this_state.shifts {
             let sym_name = format!("{}sym{}", self.prefix, inputs.len());
             try!(self.consume_terminal(terminal, sym_name));
 
@@ -339,9 +339,9 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent,
                                                         })
                                                         .collect();
         for (production, tokens) in reductions {
-            for (index, &token) in tokens.iter().enumerate() {
-                let pattern = match token {
-                    Token::Terminal(s) => format!("Some({})", self.match_terminal_pattern(s)),
+            for (index, token) in tokens.iter().enumerate() {
+                let pattern = match *token {
+                    Token::Terminal(ref s) => format!("Some({})", self.match_terminal_pattern(s)),
                     Token::Error => panic!("Error recovery is not implemented for recursive ascent parsers"),
                     Token::EOF => format!("None"),
                 };
@@ -371,7 +371,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent,
                 this_state.shifts.contains_key(terminal) ||
                     this_state.reductions
                         .iter()
-                        .any(|&(ref t, _)| t.contains(Token::Terminal(*terminal)))
+                        .any(|&(ref t, _)| t.contains(&Token::Terminal(terminal.clone())))
             });
         rust!(self.out, "return Err({}lalrpop_util::ParseError::UnrecognizedToken {{", self.prefix);
         rust!(self.out, "token: {}lookahead,", self.prefix);
@@ -432,7 +432,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent,
                   self.prefix);
 
             rust!(self.out, "match {}nt {{", self.prefix);
-            for (&nt, &next_index) in &this_state.gotos {
+            for (ref nt, &next_index) in &this_state.gotos {
                 // The nonterminal we are shifting becomes symN, where
                 // N is the number of inputs to this state (which are
                 // numbered sym0..sym(N-1)). It is never optional
@@ -841,7 +841,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent,
               "let {}nt = {}Nonterminal::{}((",
               self.prefix,
               self.prefix,
-              Escape(production.nonterminal));
+              Escape(&production.nonterminal));
         rust!(self.out, "{}start,", self.prefix);
         rust!(self.out, "{}nt,", self.prefix);
         rust!(self.out, "{}end,", self.prefix);
@@ -859,7 +859,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent,
     }
 
     /// Emit a pattern that matches `id` but doesn't extract any data.
-    fn match_terminal_pattern(&mut self, id: TerminalString) -> String {
+    fn match_terminal_pattern(&mut self, id: &TerminalString) -> String {
         let pattern = self.grammar
                           .pattern(id)
                           .map(&mut |_| "_");
@@ -869,7 +869,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent,
 
     /// Emit a pattern that matches `id` and extracts its value, storing
     /// that value as `let_name`.
-    fn consume_terminal(&mut self, id: TerminalString, let_name: String) -> io::Result<()> {
+    fn consume_terminal(&mut self, id: &TerminalString, let_name: String) -> io::Result<()> {
         let mut pattern_names = vec![];
         let pattern = self.grammar.pattern(id).map(&mut |_| {
             let index = pattern_names.len();

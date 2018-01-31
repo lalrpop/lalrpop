@@ -6,7 +6,7 @@ use super::norm_util::{self, Symbols};
 use grammar::consts::*;
 use grammar::parse_tree::*;
 use grammar::repr as r;
-use intern::{intern, InternedString};
+use string_cache::DefaultAtom as Atom;
 use collections::{Multimap, set};
 use util::Sep;
 
@@ -43,10 +43,10 @@ struct Validator<'grammar> {
 
 impl<'grammar> Validator<'grammar> {
     fn validate(&self) -> NormResult<()> {
-        let allowed_names = vec![intern(LALR),
-                                 intern(TABLE_DRIVEN),
-                                 intern(RECURSIVE_ASCENT),
-                                 intern(TEST_ALL)];
+        let allowed_names = vec![Atom::from(LALR),
+                                 Atom::from(TABLE_DRIVEN),
+                                 Atom::from(RECURSIVE_ASCENT),
+                                 Atom::from(TEST_ALL)];
         for annotation in &self.grammar.annotations {
             if !allowed_names.contains(&annotation.id) {
                 return_err!(annotation.id_span,
@@ -105,7 +105,7 @@ impl<'grammar> Validator<'grammar> {
                         }
                     }
 
-                    let allowed_names = vec![intern(LOCATION), intern(ERROR)];
+                    let allowed_names = vec![Atom::from(LOCATION), Atom::from(ERROR)];
                     let mut new_names = set();
                     for associated_type in &data.associated_types {
                         if !allowed_names.contains(&associated_type.type_name) {
@@ -115,7 +115,7 @@ impl<'grammar> Validator<'grammar> {
                                  try one of the following: {}",
                                 associated_type.type_name,
                                 Sep(", ", &allowed_names));
-                        } else if !new_names.insert(associated_type.type_name) {
+                        } else if !new_names.insert(associated_type.type_name.clone()) {
                             return_err!(
                                 associated_type.type_span,
                                 "associated type `{}` already specified",
@@ -127,15 +127,15 @@ impl<'grammar> Validator<'grammar> {
                     if data.visibility.is_pub() && !data.args.is_empty() {
                         return_err!(data.span, "macros cannot be marked public");
                     }
-                    let inline_annotation = intern(INLINE);
-                    let known_annotations = vec![inline_annotation];
+                    let inline_annotation = Atom::from(INLINE);
+                    let known_annotations = vec![inline_annotation.clone()];
                     let mut found_annotations = set();
                     for annotation in &data.annotations {
                         if !known_annotations.contains(&annotation.id) {
                             return_err!(annotation.id_span,
                                         "unrecognized annotation `{}`",
                                         annotation.id);
-                        } else if !found_annotations.insert(annotation.id) {
+                        } else if !found_annotations.insert(annotation.id.clone()) {
                             return_err!(annotation.id_span,
                                         "duplicate annotation `{}`",
                                         annotation.id);
@@ -209,10 +209,10 @@ impl<'grammar> Validator<'grammar> {
                         })
                         .collect();
 
-        let named: Multimap<InternedString, Vec<&Symbol>> =
+        let named: Multimap<Atom, Vec<&Symbol>> =
             expr.symbols.iter()
                         .filter_map(|sym| match sym.kind {
-                            SymbolKind::Name(nt, _) => Some((nt, sym)),
+                            SymbolKind::Name(ref nt, _) => Some((nt.clone(), sym)),
                             _ => None,
                         })
                         .collect();
@@ -275,7 +275,7 @@ impl<'grammar> Validator<'grammar> {
                 if let Some(extern_token) = self.extern_token {
                     if extern_token.enum_token.is_some() {
                         // otherwise, the Location type must be specified.
-                        let loc = intern(LOCATION);
+                        let loc = Atom::from(LOCATION);
                         if self.extern_token.unwrap().associated_type(loc).is_none() {
                             return_err!(
                                 symbol.span,

@@ -1,4 +1,4 @@
-use intern::intern;
+use string_cache::DefaultAtom as Atom;
 use generate;
 use grammar::repr::*;
 use test_util::{compare, expect_debug, normalized_grammar};
@@ -13,7 +13,7 @@ use tls::Tls;
 use super::{LR, use_lane_table, build_lr0_states, build_lr1_states};
 
 fn nt(t: &str) -> NonterminalString {
-    NonterminalString(intern(t))
+    NonterminalString(Atom::from(t))
 }
 
 const ITERATIONS: usize = 22;
@@ -22,7 +22,7 @@ fn random_test<'g>(grammar: &Grammar,
                    states: &'g [LR1State<'g>],
                    start_symbol: NonterminalString) {
     for i in 0..ITERATIONS {
-        let input_tree = generate::random_parse_tree(grammar, start_symbol);
+        let input_tree = generate::random_parse_tree(grammar, start_symbol.clone());
         let output_tree = interpret(&states, input_tree.terminals()).unwrap();
 
         println!("test {}", i);
@@ -35,7 +35,7 @@ fn random_test<'g>(grammar: &Grammar,
 
 macro_rules! tokens {
     ($($x:expr),*) => {
-        vec![$(TerminalString::quoted(intern($x))),*]
+        vec![$(TerminalString::quoted(Atom::from($x))),*]
     }
 }
 
@@ -46,7 +46,7 @@ fn items<'g>(grammar: &'g Grammar, nonterminal: &str, index: usize, la: Token)
     let lr1: LR<TokenSet> = LR::new(&grammar, nt(nonterminal), set.clone());
     let items =
         lr1.transitive_closure(
-            lr1.items(nt(nonterminal), index, &set));
+            lr1.items(&nt(nonterminal), index, &set));
     items
 }
 
@@ -134,7 +134,7 @@ grammar;
     // execute it on some sample inputs.
     let tree = interpret(&states, tokens!["N", "-", "(", "N", "-", "N", ")"]).unwrap();
     assert_eq!(
-        &format!("{:?}", tree)[..],
+        &format!("{}", tree)[..],
         r#"[S: [E: [E: [T: "N"]], "-", [T: "(", [E: [E: [T: "N"]], "-", [T: "N"]], ")"]]]"#);
 
     // incomplete:

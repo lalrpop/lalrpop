@@ -146,7 +146,7 @@ impl<'report, W> ReportGenerator<'report, W>
     {
         try!(writeln!(self.out, ""));
         match conflict.action {
-            Action::Shift(terminal, state) => {
+            Action::Shift(ref terminal, state) => {
                 let max_width = max(terminal.display_len(),
                                     conflict.production.nonterminal.len());
                 try!(writeln!(self.out, "{}shift/reduce conflict", INDENT_STRING));

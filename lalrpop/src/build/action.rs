@@ -168,7 +168,7 @@ fn emit_inline_action_code<W: Write>(grammar: &r::Grammar,
                                 .iter()
                                 .flat_map(|sym| {
                                     match *sym {
-                                        r::InlinedSymbol::Original(s) => vec![s],
+                                        r::InlinedSymbol::Original(ref s) => vec![s.clone()],
                                         r::InlinedSymbol::Inlined(_, ref syms) => syms.clone(),
                                     }
                                 })

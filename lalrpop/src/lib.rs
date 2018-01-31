@@ -14,11 +14,11 @@ extern crate bit_set;
 extern crate diff;
 extern crate ena;
 extern crate itertools;
-extern crate lalrpop_intern as intern;
 extern crate lalrpop_util;
 extern crate petgraph;
 extern crate regex;
 extern crate regex_syntax;
+extern crate string_cache;
 extern crate term;
 extern crate unicode_xid;
 

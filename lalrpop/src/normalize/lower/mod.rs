@@ -1,7 +1,7 @@
 //! Lower
 //!
 
-use intern::{self, intern, InternedString};
+use string_cache::DefaultAtom as Atom;
 use normalize::NormResult;
 use normalize::norm_util::{self, Symbols};
 use grammar::consts::*;
@@ -49,7 +49,7 @@ impl<'s> LowerState<'s> {
         let mut token_span = None;
         let internal_token_path = Path {
             absolute: false,
-            ids: vec![intern("Token")],
+            ids: vec![Atom::from("Token")],
         };
 
         for item in grammar.items {
@@ -68,7 +68,7 @@ impl<'s> LowerState<'s> {
                     token_span = Some(grammar.span);
                     let span = grammar.span;
                     let input_str = r::TypeRepr::Ref {
-                        lifetime: Some(intern(INPUT_LIFETIME)),
+                        lifetime: Some(Atom::from(INPUT_LIFETIME)),
                         mutable: false,
                         referent: Box::new(r::TypeRepr::Nominal(r::NominalTypeRepr {
                             path: r::Path::str(),
@@ -94,7 +94,7 @@ impl<'s> LowerState<'s> {
                                     ]),
                                 };
 
-                                (match_entry.user_name, pattern)
+                                (match_entry.user_name.clone(), pattern)
                             }));
                     self.intern_token = Some(data);
                 }
@@ -105,7 +105,7 @@ impl<'s> LowerState<'s> {
                         self.conversions.extend(enum_token.conversions
                                                           .iter()
                                                           .map(|conversion| {
-                                                              (conversion.from,
+                                                              (conversion.from.clone(),
                                                                conversion.to.map(&mut |t| {
                                                                   t.type_repr()
                                                               }))
@@ -114,7 +114,7 @@ impl<'s> LowerState<'s> {
                 }
 
                 pt::GrammarItem::Nonterminal(nt) => {
-                    let nt_name = nt.name;
+                    let nt_name = &nt.name;
                     let productions: Vec<_> = nt.alternatives
                                                 .into_iter()
                                                 .map(|alt| {
@@ -127,16 +127,16 @@ impl<'s> LowerState<'s> {
                                                                                   &symbols,
                                                                                   alt.action);
                                                     r::Production {
-                                                        nonterminal: nt_name,
+                                                        nonterminal: nt_name.clone(),
                                                         span: alt.span,
                                                         symbols: symbols,
                                                         action: action,
                                                     }
                                                 })
                                                 .collect();
-                    self.nonterminals.insert(nt_name,
+                    self.nonterminals.insert(nt_name.clone(),
                                              r::NonterminalData {
-                                                 name: nt_name,
+                                                 name: nt_name.clone(),
                                                  visibility: nt.visibility.clone(),
                                                  annotations: nt.annotations,
                                                  span: nt.span,
@@ -150,7 +150,7 @@ impl<'s> LowerState<'s> {
                                 .iter()
                                 .map(|p| {
                                     r::Parameter {
-                                        name: p.name,
+                                        name: p.name.clone(),
                                         ty: p.ty.type_repr(),
                                     }
                                 })
@@ -173,7 +173,7 @@ impl<'s> LowerState<'s> {
 
         let mut all_terminals: Vec<_> = self.conversions
                                             .iter()
-                                            .map(|c| c.0)
+                                            .map(|c| c.0.clone())
                                             .chain(if self.uses_error_recovery {
                                                 Some(TerminalString::Error)
                                             } else {
@@ -222,32 +222,32 @@ impl<'s> LowerState<'s> {
                    // with a rule like:
                    //
                    //     __Foo = Foo;
-                   let fake_name = pt::NonterminalString(intern(&format!("{}{}",
-                                                                         self.prefix,
-                                                                         nt.name)));
-                   let nt_type = self.types.nonterminal_type(nt.name).clone();
-                   self.types.add_type(fake_name, nt_type.clone());
+                   let fake_name = pt::NonterminalString(Atom::from(format!("{}{}",
+                                                                            self.prefix,
+                                                                            nt.name)));
+                   let nt_type = self.types.nonterminal_type(&nt.name).clone();
+                   self.types.add_type(fake_name.clone(), nt_type.clone());
                    let expr = pt::ExprSymbol {
                        symbols: vec![pt::Symbol::new(nt.span,
-                                                     pt::SymbolKind::Nonterminal(fake_name))],
+                                                     pt::SymbolKind::Nonterminal(fake_name.clone()))],
                    };
-                   let symbols = vec![r::Symbol::Nonterminal(nt.name)];
+                   let symbols = vec![r::Symbol::Nonterminal(nt.name.clone())];
                    let action_fn = self.action_fn(nt_type, false, &expr, &symbols, None);
                    let production = r::Production {
-                       nonterminal: fake_name,
+                       nonterminal: fake_name.clone(),
                        symbols: symbols,
                        action: action_fn,
                        span: nt.span,
                    };
-                   self.nonterminals.insert(fake_name,
+                   self.nonterminals.insert(fake_name.clone(),
                                             r::NonterminalData {
-                                                name: fake_name,
+                                                name: fake_name.clone(),
                                                 visibility: nt.visibility.clone(),
                                                 annotations: vec![],
                                                 span: nt.span,
                                                 productions: vec![production],
                                             });
-                   (nt.name, fake_name)
+                   (nt.name.clone(), fake_name)
                })
                .collect()
     }
@@ -327,7 +327,7 @@ impl<'s> LowerState<'s> {
             Symbols::Named(names) => {
                 // if there are named symbols, we want to give the
                 // arguments the names that the user gave them:
-                let arg_patterns = patterns(names.iter().map(|&(index, name, _)| (index, name)),
+                let arg_patterns = patterns(names.iter().map(|&(index, ref name, _)| (index, name.clone())),
                                             symbols.len());
 
 
@@ -337,17 +337,17 @@ impl<'s> LowerState<'s> {
                             action
                         }
                         norm_util::Presence::Normal => {
-                            let name_str : String = intern::read(|interner| {
-                                let name_strs: Vec<_> = names.iter().map(|&(_,name,_)| interner.data(name)).collect();
+                            let name_str : String = {
+                                let name_strs: Vec<_> = names.iter().map(|&(_,ref name,_)| name.as_ref()).collect();
                                 name_strs.join(", ")
-                            });
+                            };
                             action.replace("<>", &name_str)
                         }
                         norm_util::Presence::InCurlyBrackets => {
-                            let name_str = intern::read(|interner| {
-                                let name_strs: Vec<_> = names.iter().map(|&(_,name,_)| format!("{0}:{0}", interner.data(name))).collect();
+                            let name_str = {
+                                let name_strs: Vec<_> = names.iter().map(|&(_,ref name,_)| format!("{0}:{0}", &*name)).collect();
                                 name_strs.join(", ")
-                            });
+                            };
                             action.replace("<>", &name_str)
                         }
                     }
@@ -370,10 +370,10 @@ impl<'s> LowerState<'s> {
                                                    .map(|&(index, _)| index)
                                                    .zip(names.iter().cloned()),
                                             symbols.len());
-                let name_str = intern::read(|interner| {
-                    let name_strs: Vec<_> = names.iter().map(|&n| interner.data(n)).collect();
+                let name_str = {
+                    let name_strs: Vec<_> = names.iter().map(|n| n.as_ref()).collect();
                     name_strs.join(", ")
-                });
+                };
                 let action = action.replace("<>", &name_str);
                 r::ActionFnDefn {
                     fallible: fallible,
@@ -402,8 +402,8 @@ impl<'s> LowerState<'s> {
 
     fn symbol(&mut self, symbol: &pt::Symbol) -> r::Symbol {
         match symbol.kind {
-            pt::SymbolKind::Terminal(id) => r::Symbol::Terminal(id),
-            pt::SymbolKind::Nonterminal(id) => r::Symbol::Nonterminal(id),
+            pt::SymbolKind::Terminal(ref id) => r::Symbol::Terminal(id.clone()),
+            pt::SymbolKind::Nonterminal(ref id) => r::Symbol::Nonterminal(id.clone()),
             pt::SymbolKind::Choose(ref s) | pt::SymbolKind::Name(_, ref s) => self.symbol(s),
             pt::SymbolKind::Error => {
                 self.uses_error_recovery = true;
@@ -422,26 +422,26 @@ impl<'s> LowerState<'s> {
         }
     }
 
-    fn fresh_name(&self, i: usize) -> InternedString {
-        intern(&format!("{}{}", self.prefix, i))
+    fn fresh_name(&self, i: usize) -> Atom {
+        Atom::from(format!("{}{}", self.prefix, i))
     }
 }
 
-fn patterns<I>(mut chosen: I, num_args: usize) -> Vec<InternedString>
-    where I: Iterator<Item = (usize, InternedString)>
+fn patterns<I>(mut chosen: I, num_args: usize) -> Vec<Atom>
+    where I: Iterator<Item = (usize, Atom)>
 {
-    let blank = intern("_");
+    let blank = Atom::from("_");
 
     let mut next_chosen = chosen.next();
 
     let result = (0..num_args)
                      .map(|index| {
-                         match next_chosen {
-                             Some((chosen_index, chosen_name)) if chosen_index == index => {
+                         match next_chosen.clone() {
+                             Some((chosen_index, ref chosen_name)) if chosen_index == index => {
                                  next_chosen = chosen.next();
-                                 chosen_name
+                                 chosen_name.clone()
                              }
-                             _ => blank,
+                             _ => blank.clone(),
                          }
                      })
                      .collect();

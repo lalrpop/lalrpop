@@ -6,7 +6,7 @@ representations.
 
 */
 
-use intern::{InternedString};
+use string_cache::DefaultAtom as Atom;
 use grammar::parse_tree::{Path, Span};
 use std::fmt::{Display, Formatter, Error};
 use util::Sep;
@@ -20,7 +20,7 @@ pub struct Pattern<T> {
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct FieldPattern<T> {
     pub field_span: Span,
-    pub field_name: InternedString,
+    pub field_name: Atom,
     pub pattern: Pattern<T>,
 }
 
@@ -35,7 +35,7 @@ pub enum PatternKind<T> {
     Underscore,
     DotDot,
     Choose(T),
-    CharLiteral(InternedString),
+    CharLiteral(Atom),
 }
 
 impl<T> Pattern<T> {
@@ -79,8 +79,8 @@ impl<T> PatternKind<T> {
                 PatternKind::Usize(n),
             PatternKind::Choose(ref ty) =>
                 PatternKind::Choose(map_fn(ty)),
-            PatternKind::CharLiteral(c) =>
-                PatternKind::CharLiteral(c),
+            PatternKind::CharLiteral(ref c) =>
+                PatternKind::CharLiteral(c.clone()),
         }
     }
 }
@@ -88,7 +88,7 @@ impl<T> PatternKind<T> {
 impl<T> FieldPattern<T> {
     pub fn map<U>(&self, map_fn: &mut FnMut(&T) -> U) -> FieldPattern<U> {
         FieldPattern {
-            field_name: self.field_name,
+            field_name: self.field_name.clone(),
             field_span: self.field_span,
             pattern: self.pattern.map(map_fn)
         }
@@ -126,7 +126,7 @@ impl<T:Display> Display for PatternKind<T> {
                 write!(fmt, "{}", n),
             PatternKind::Choose(ref ty) =>
                 write!(fmt, "{}", ty),
-            PatternKind::CharLiteral(c) =>
+            PatternKind::CharLiteral(ref c) =>
                 write!(fmt, "'{}'", c),
         }
     }

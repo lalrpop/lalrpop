@@ -140,7 +140,7 @@ impl<'codegen, 'grammar, W: Write, C> CodeGenerator<'codegen, 'grammar, W, C> {
                                           type_parameters,
                                           parameters,
                                           format!("Result<{}, {}>",
-                                                  self.types.nonterminal_type(self.start_symbol),
+                                                  self.types.nonterminal_type(&self.start_symbol),
                                                   parse_error_type),
                                           where_clauses));
         rust!(self.out, "{{");

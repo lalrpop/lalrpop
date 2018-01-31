@@ -347,7 +347,7 @@ fn emit_recursive_ascent(session: &Session, grammar: &r::Grammar, report_file : 
         exit(1);
     }
 
-    for (&user_nt, &start_nt) in &grammar.start_nonterminals {
+    for (user_nt, start_nt) in &grammar.start_nonterminals {
         // We generate these, so there should always be exactly 1
         // production. Otherwise the LR(1) algorithm doesn't know
         // where to stop!
@@ -360,7 +360,7 @@ fn emit_recursive_ascent(session: &Session, grammar: &r::Grammar, report_file : 
 
         let _lr1_tls = lr1::Lr1Tls::install(grammar.terminals.clone());
 
-        let lr1result = lr1::build_states(&grammar, start_nt);
+        let lr1result = lr1::build_states(&grammar, start_nt.clone());
         if session.emit_report {
             let mut output_report_file = try!(fs::File::create(&report_file));
             try!(lr1::generate_report(&mut output_report_file, &lr1result));
@@ -378,21 +378,25 @@ fn emit_recursive_ascent(session: &Session, grammar: &r::Grammar, report_file : 
         match grammar.algorithm.codegen {
             r::LrCodeGeneration::RecursiveAscent =>
                 try!(lr1::codegen::ascent::compile(&grammar,
-                                                   user_nt,
-                                                   start_nt,
+                                                   user_nt.clone(),
+                                                   start_nt.clone(),
                                                    &states,
                                                    "super",
                                                    &mut rust)),
             r::LrCodeGeneration::TableDriven =>
                 try!(lr1::codegen::parse_table::compile(&grammar,
-                                                        user_nt,
-                                                        start_nt,
+                                                        user_nt.clone(),
+                                                        start_nt.clone(),
                                                         &states,
                                                         "super",
                                                         &mut rust)),
 
             r::LrCodeGeneration::TestAll =>
-                try!(lr1::codegen::test_all::compile(&grammar, user_nt, start_nt, &states, &mut rust)),
+                try!(lr1::codegen::test_all::compile(&grammar,
+                                                     user_nt.clone(),
+                                                     start_nt.clone(),
+                                                     &states,
+                                                     &mut rust)),
         }
 
         rust!(rust,
