@@ -54,11 +54,12 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TestAll> {
                                         this.states,
                                         "super::super::super",
                                         this.out));
-            rust!(this.out,
-                  "pub use self::{}parse{}::parse_{};",
-                  this.prefix,
-                  this.start_symbol,
-                  this.user_start_symbol);
+            let pub_use = format!("{}use self::{}parse{}::parse_{};",
+                                  this.grammar.nonterminals[&this.user_start_symbol].visibility,
+                                  this.prefix,
+                                  this.start_symbol,
+                                  this.user_start_symbol);
+            rust!(this.out, "{}", pub_use);
             rust!(this.out, "}}");
 
             rust!(this.out, "mod {}parse_table {{", this.prefix);
@@ -68,11 +69,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TestAll> {
                                              this.states,
                                              "super::super::super",
                                              this.out));
-            rust!(this.out,
-                  "pub use self::{}parse{}::parse_{};",
-                  this.prefix,
-                  this.start_symbol,
-                  this.user_start_symbol);
+            rust!(this.out, "{}", pub_use);
             rust!(this.out, "}}");
 
             Ok(())

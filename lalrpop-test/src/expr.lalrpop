@@ -15,7 +15,7 @@ extern {
     }
 }
 
-pub Expr = {
+pub(crate) Expr = {
     <l:Expr> "-" <r:Factor> => l - r,
     <l:Expr> "+" <r:Factor> => l + r,
     Factor,

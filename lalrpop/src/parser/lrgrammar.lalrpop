@@ -93,11 +93,17 @@ GrammarItem: GrammarItem = {
 Use: GrammarItem =
     <u:"use"> ";" => GrammarItem::Use(strip(u).to_string());
 
+Visibility: Visibility = {
+    "pub" "(" <p:Path> ")" => Visibility::Pub(Some(p)),
+    "pub" => Visibility::Pub(None),
+    () => Visibility::Priv,
+};
+
 Nonterminal: GrammarItem =
     <annotations:Annotation*>
-    <p:"pub"?> <lo:@L> <n:NonterminalName> <hi:@R>
+    <v:Visibility> <lo:@L> <n:NonterminalName> <hi:@R>
     <t:(":" <TypeRef>)?> "=" <a:Alternatives> => {
-        GrammarItem::Nonterminal(NonterminalData { public: p.is_some(),
+        GrammarItem::Nonterminal(NonterminalData { visibility: v,
                                                    span: Span(lo, hi),
                                                    name: n.0,
                                                    annotations: annotations,

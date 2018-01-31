@@ -3,6 +3,7 @@
 use collections::{Map, Set};
 use grammar::parse_tree::WhereClause;
 use grammar::repr::*;
+use intern::intern;
 use lr1::core::*;
 use lr1::lookahead::Token;
 use rust::RustWrite;
@@ -749,6 +750,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
                               format!("_: {}", self.phantom_data_type())];
 
         try!(self.out.write_pub_fn_header(self.grammar,
+                                          &Visibility::Pub(Some(Path::from_id(intern("crate")))),
                                           format!("{}reduce", self.prefix),
                                           vec![],
                                           parameters,

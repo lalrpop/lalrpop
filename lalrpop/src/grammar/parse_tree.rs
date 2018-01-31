@@ -343,9 +343,23 @@ pub struct Parameter {
 }
 
 #[derive(Clone, Debug, PartialEq, Eq)]
+pub enum Visibility {
+    Pub(Option<Path>),
+    Priv,
+}
+
+impl Visibility {
+    pub fn is_pub(&self) -> bool {
+        match *self {
+            Visibility::Pub(_) => true,
+            Visibility::Priv => false,
+        }
+    }
+}
+
+#[derive(Clone, Debug, PartialEq, Eq)]
 pub struct NonterminalData {
-    // a "public" nonterminal is one that we will use as a start symbol
-    pub public: bool,
+    pub visibility: Visibility,
     pub name: NonterminalString,
     pub annotations: Vec<Annotation>,
     pub span: Span,
@@ -643,6 +657,16 @@ impl Symbol {
 
     pub fn canonical_form(&self) -> String {
         format!("{}", self)
+    }
+}
+
+impl Display for Visibility {
+    fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
+        match *self {
+            Visibility::Pub(Some(ref path)) => write!(fmt, "pub({}) ", path),
+            Visibility::Pub(None) => write!(fmt, "pub "),
+            Visibility::Priv => Ok(()),
+        }
     }
 }
 

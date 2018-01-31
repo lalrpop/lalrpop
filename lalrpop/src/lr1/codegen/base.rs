@@ -135,6 +135,7 @@ impl<'codegen, 'grammar, W: Write, C> CodeGenerator<'codegen, 'grammar, W, C> {
 
         rust!(self.out, "#[allow(dead_code)]");
         try!(self.out.write_pub_fn_header(self.grammar,
+                                          &self.grammar.nonterminals[&self.start_symbol].visibility,
                                           format!("parse_{}", self.user_start_symbol),
                                           type_parameters,
                                           parameters,
