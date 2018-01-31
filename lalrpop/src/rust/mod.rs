@@ -2,6 +2,7 @@
 //! which then gets serialized.
 
 use grammar::repr::Grammar;
+use grammar::parse_tree::Visibility;
 use tls::Tls;
 use std::fmt;
 use std::io::{self, Write};
@@ -106,6 +107,7 @@ impl<W:Write> RustWrite<W> {
 
     pub fn write_pub_fn_header(&mut self,
                                grammar: &Grammar,
+                               visibility: &Visibility,
                                name: String,
                                type_parameters: Vec<String>,
                                parameters: Vec<String>,
@@ -113,7 +115,7 @@ impl<W:Write> RustWrite<W> {
                                where_clauses: Vec<String>)
                                -> io::Result<()>
     {
-        self.write_fn_header_helper(grammar, "pub ", name, type_parameters,
+        self.write_fn_header_helper(grammar, visibility, name, type_parameters,
                                     parameters, return_type, where_clauses)
     }
 
@@ -126,13 +128,13 @@ impl<W:Write> RustWrite<W> {
                                where_clauses: Vec<String>)
                                -> io::Result<()>
     {
-        self.write_fn_header_helper(grammar, "", name, type_parameters,
+        self.write_fn_header_helper(grammar, &Visibility::Priv, name, type_parameters,
                                     parameters, return_type, where_clauses)
     }
 
     fn write_fn_header_helper(&mut self,
                               grammar: &Grammar,
-                              qualifiers: &str,
+                              visibility: &Visibility,
                               name: String,
                               type_parameters: Vec<String>,
                               parameters: Vec<String>,
@@ -140,7 +142,7 @@ impl<W:Write> RustWrite<W> {
                               where_clauses: Vec<String>)
                               -> io::Result<()>
     {
-        rust!(self, "{}fn {}<", qualifiers, name);
+        rust!(self, "{}fn {}<", visibility, name);
 
         for type_parameter in &grammar.type_parameters {
             rust!(self, "{0:1$}{2},", "", TAB, type_parameter);

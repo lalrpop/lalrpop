@@ -137,6 +137,7 @@ impl<'s> LowerState<'s> {
                     self.nonterminals.insert(nt_name,
                                              r::NonterminalData {
                                                  name: nt_name,
+                                                 visibility: nt.visibility.clone(),
                                                  annotations: nt.annotations,
                                                  span: nt.span,
                                                  productions: productions,
@@ -215,7 +216,7 @@ impl<'s> LowerState<'s> {
         grammar.items
                .iter()
                .filter_map(|item| item.as_nonterminal())
-               .filter(|nt| nt.public)
+               .filter(|nt| nt.visibility.is_pub())
                .map(|nt| {
                    // create a synthetic symbol `__Foo` for each public symbol `Foo`
                    // with a rule like:
@@ -241,6 +242,7 @@ impl<'s> LowerState<'s> {
                    self.nonterminals.insert(fake_name,
                                             r::NonterminalData {
                                                 name: fake_name,
+                                                visibility: nt.visibility.clone(),
                                                 annotations: vec![],
                                                 span: nt.span,
                                                 productions: vec![production],

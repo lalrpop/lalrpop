@@ -124,7 +124,7 @@ impl<'grammar> Validator<'grammar> {
                     }
                 }
                 GrammarItem::Nonterminal(ref data) => {
-                    if data.public && !data.args.is_empty() {
+                    if data.visibility.is_pub() && !data.args.is_empty() {
                         return_err!(data.span, "macros cannot be marked public");
                     }
                     let inline_annotation = intern(INLINE);
@@ -139,7 +139,7 @@ impl<'grammar> Validator<'grammar> {
                             return_err!(annotation.id_span,
                                         "duplicate annotation `{}`",
                                         annotation.id);
-                        } else if annotation.id == inline_annotation && data.public {
+                        } else if annotation.id == inline_annotation && data.visibility.is_pub() {
                             return_err!(annotation.id_span,
                                         "public items cannot be marked #[inline]");
                         }
