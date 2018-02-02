@@ -53,4 +53,4 @@ mod util;
 pub use api::Configuration;
 pub use api::process_root;
 pub use api::process_root_unconditionally;
-pub use ascii_canvas::style;
+use ascii_canvas::style;
