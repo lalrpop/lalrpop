@@ -35,7 +35,7 @@ impl Lookahead for Nil {
 
         let mut conflicts = vec![];
 
-        for (&terminal, &next_state) in &this_state.shifts {
+        for (terminal, &next_state) in &this_state.shifts {
             conflicts.extend(
                 this_state.reductions
                           .iter()
@@ -43,7 +43,7 @@ impl Lookahead for Nil {
                               state: index,
                               lookahead: Nil,
                               production: production,
-                              action: Action::Shift(terminal, next_state),
+                              action: Action::Shift(terminal.clone(), next_state),
                           }));
         }
 
@@ -66,7 +66,7 @@ impl Lookahead for Nil {
 /// I have semi-arbitrarily decided to use the term "token" to mean
 /// either one of the terminals of our language, or else the
 /// pseudo-symbol EOF that represents "end of input".
-#[derive(Copy, Clone, Hash, PartialEq, Eq, PartialOrd, Ord)]
+#[derive(Clone, Hash, PartialEq, Eq, PartialOrd, Ord)]
 pub enum Token {
     EOF,
     Error,
@@ -82,25 +82,25 @@ impl Lookahead for TokenSet {
                            -> Vec<Conflict<'grammar, Self>> {
         let mut conflicts = vec![];
 
-        for (&terminal, &next_state) in &this_state.shifts {
-            let token = Token::Terminal(terminal);
+        for (terminal, &next_state) in &this_state.shifts {
+            let token = Token::Terminal(terminal.clone());
             let inconsistent =
                 this_state.reductions
                           .iter()
                           .filter_map(|&(ref reduce_tokens, production)| {
-                              if reduce_tokens.contains(token) {
+                              if reduce_tokens.contains(&token) {
                                   Some(production)
                               } else {
                                   None
                               }
                           });
-            let set = TokenSet::from(token);
+            let set = TokenSet::from(token.clone());
             for production in inconsistent {
                 conflicts.push(Conflict {
                     state: this_state.index,
                     lookahead: set.clone(),
                     production: production,
-                    action: Action::Shift(terminal, next_state),
+                    action: Action::Shift(terminal.clone(), next_state),
                 });
             }
         }
@@ -129,9 +129,9 @@ impl Lookahead for TokenSet {
 }
 
 impl Token {
-    pub fn unwrap_terminal(self) -> TerminalString {
-        match self {
-            Token::Terminal(t) => t,
+    pub fn unwrap_terminal(&self) -> &TerminalString {
+        match *self {
+            Token::Terminal(ref t) => t,
             Token::EOF | Token::Error => panic!("`unwrap_terminal()` invoked but with EOF or Error"),
         }
     }
@@ -181,11 +181,11 @@ impl TokenSet {
         })
     }
 
-    fn bit(&self, lookahead: Token) -> usize {
-        match lookahead {
+    fn bit(&self, lookahead: &Token) -> usize {
+        match *lookahead {
             Token::EOF => self.eof_bit(),
             Token::Error => self.eof_bit() + 1,
-            Token::Terminal(t) => with(|terminals| terminals.bits[&t])
+            Token::Terminal(ref t) => with(|terminals| terminals.bits[t])
         }
     }
 
@@ -194,7 +194,7 @@ impl TokenSet {
     }
 
     pub fn insert(&mut self, lookahead: Token) -> bool {
-        let bit = self.bit(lookahead);
+        let bit = self.bit(&lookahead);
         self.bit_set.insert(bit)
     }
 
@@ -215,7 +215,7 @@ impl TokenSet {
         TokenSet { bit_set: bit_set }
     }
 
-    pub fn contains(&self, token: Token) -> bool {
+    pub fn contains(&self, token: &Token) -> bool {
         self.bit_set.contains(self.bit(token))
     }
 
@@ -263,7 +263,7 @@ impl<'iter> Iterator for TokenSetIter<'iter> {
                             } else if bit == terminals.all.len() {
                                 Token::EOF
                             } else {
-                                Token::Terminal(terminals.all[bit])
+                                Token::Terminal(terminals.all[bit].clone())
                             }
                         })
                     })

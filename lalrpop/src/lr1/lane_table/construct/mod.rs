@@ -37,7 +37,7 @@ impl<'grammar> LaneTableConstruct<'grammar> {
 
     pub fn construct(self) -> Result<Vec<LR1State<'grammar>>, LR1TableConstructionError<'grammar>> {
         let states = {
-            match build::build_lr0_states(self.grammar, self.start_nt) {
+            match build::build_lr0_states(self.grammar, self.start_nt.clone()) {
                 Ok(states) => {
                     // In this case, the grammar is actually
                     // LR(0). This is very rare -- it means that the
@@ -225,13 +225,13 @@ impl<'grammar> LaneTableConstruct<'grammar> {
                         -> LaneTable<'grammar> {
         let state_graph = StateGraph::new(states);
         let mut tracer = LaneTracer::new(self.grammar,
-                                         self.start_nt,
+                                         self.start_nt.clone(),
                                          states,
                                          &self.first_sets,
                                          &state_graph,
                                          actions.len());
-        for (i, &action) in actions.iter().enumerate() {
-            tracer.start_trace(inconsistent_state, ConflictIndex::new(i), action);
+        for (i, action) in actions.iter().enumerate() {
+            tracer.start_trace(inconsistent_state, ConflictIndex::new(i), action.clone());
         }
         tracer.into_table()
     }

@@ -4,7 +4,7 @@
  * representation incrementally.
  */
 
-use intern::{intern, InternedString};
+use string_cache::DefaultAtom as Atom;
 use grammar::pattern::{Pattern};
 use message::Content;
 use std::fmt::{Debug, Display, Formatter, Error};
@@ -100,7 +100,7 @@ pub enum LrCodeGeneration {
 
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct Parameter {
-    pub name: InternedString,
+    pub name: Atom,
     pub ty: TypeRepr,
 }
 
@@ -114,7 +114,7 @@ pub struct Production {
     pub span: Span,
 }
 
-#[derive(Copy, Clone, Hash, PartialEq, Eq, PartialOrd, Ord)]
+#[derive(Clone, Hash, PartialEq, Eq, PartialOrd, Ord)]
 pub enum Symbol {
     Nonterminal(NonterminalString),
     Terminal(TerminalString),
@@ -137,7 +137,7 @@ pub enum ActionFnDefnKind {
 /// An action fn written by a user.
 #[derive(Clone, PartialEq, Eq)]
 pub struct UserActionFnDefn {
-    pub arg_patterns: Vec<InternedString>,
+    pub arg_patterns: Vec<Atom>,
     pub arg_types: Vec<TypeRepr>,
     pub code: String,
 }
@@ -177,12 +177,12 @@ pub enum TypeRepr {
     Tuple(Vec<TypeRepr>),
     Nominal(NominalTypeRepr),
     Associated {
-        type_parameter: InternedString,
-        id: InternedString,
+        type_parameter: Atom,
+        id: Atom,
     },
-    Lifetime(InternedString),
+    Lifetime(Atom),
     Ref {
-        lifetime: Option<InternedString>,
+        lifetime: Option<Atom>,
         mutable: bool,
         referent: Box<TypeRepr>,
     },
@@ -227,13 +227,13 @@ impl TypeRepr {
                               None => vec![],
                           })
                           .collect(),
-            TypeRepr::Associated { type_parameter, .. } =>
-                vec![TypeParameter::Id(type_parameter)],
-            TypeRepr::Lifetime(l) =>
-                vec![TypeParameter::Lifetime(l)],
+            TypeRepr::Associated { ref type_parameter, .. } =>
+                vec![TypeParameter::Id(type_parameter.clone())],
+            TypeRepr::Lifetime(ref l) =>
+                vec![TypeParameter::Lifetime(l.clone())],
             TypeRepr::Ref { ref lifetime, mutable: _, ref referent } =>
                 lifetime.iter()
-                        .map(|&id| TypeParameter::Lifetime(id))
+                        .map(|id| TypeParameter::Lifetime(id.clone()))
                         .chain(referent.referenced())
                         .collect(),
         }
@@ -280,16 +280,16 @@ impl Types {
         types.parse_error_type = TypeRepr::Nominal(NominalTypeRepr {
             path: Path {
                 absolute: false,
-                ids: vec![intern(&format!("{}lalrpop_util", prefix)),
-                          intern("ParseError")],
+                ids: vec![Atom::from(format!("{}lalrpop_util", prefix)),
+                          Atom::from("ParseError")],
             },
             types: args.clone(),
         });
         types.error_recovery_type = TypeRepr::Nominal(NominalTypeRepr {
             path: Path {
                 absolute: false,
-                ids: vec![intern(&format!("{}lalrpop_util", prefix)),
-                          intern("ErrorRecovery")],
+                ids: vec![Atom::from(format!("{}lalrpop_util", prefix)),
+                          Atom::from("ErrorRecovery")],
             },
             types: args,
         });
@@ -321,13 +321,13 @@ impl Types {
     pub fn error_type(&self) -> TypeRepr {
         self.error_type.clone()
                        .unwrap_or_else(|| TypeRepr::Ref {
-                               lifetime: Some(intern("'static")),
+                               lifetime: Some(Atom::from("'static")),
                                mutable: false,
                                referent: Box::new(TypeRepr::str()),
                        })
     }
 
-    pub fn terminal_type(&self, id: TerminalString) -> &TypeRepr {
+    pub fn terminal_type(&self, id: &TerminalString) -> &TypeRepr {
         self.terminal_types.get(&id).unwrap_or(&self.terminal_token_type)
     }
 
@@ -337,11 +337,11 @@ impl Types {
                            .collect()
     }
 
-    pub fn lookup_nonterminal_type(&self, id: NonterminalString) -> Option<&TypeRepr> {
+    pub fn lookup_nonterminal_type(&self, id: &NonterminalString) -> Option<&TypeRepr> {
         self.nonterminal_types.get(&id)
     }
 
-    pub fn nonterminal_type(&self, id: NonterminalString) -> &TypeRepr {
+    pub fn nonterminal_type(&self, id: &NonterminalString) -> &TypeRepr {
         &self.nonterminal_types[&id]
     }
 
@@ -384,17 +384,17 @@ impl Display for TypeRepr {
                 write!(fmt, "({})", Sep(", ", types)),
             TypeRepr::Nominal(ref data) =>
                 write!(fmt, "{}", data),
-            TypeRepr::Associated { type_parameter, id } =>
+            TypeRepr::Associated { ref type_parameter, ref id } =>
                 write!(fmt, "{}::{}", type_parameter, id),
-            TypeRepr::Lifetime(id) =>
+            TypeRepr::Lifetime(ref id) =>
                 write!(fmt, "{}", id),
             TypeRepr::Ref { lifetime: None, mutable: false, ref referent } =>
                 write!(fmt, "&{}", referent),
-            TypeRepr::Ref { lifetime: Some(l), mutable: false, ref referent } =>
+            TypeRepr::Ref { lifetime: Some(ref l), mutable: false, ref referent } =>
                 write!(fmt, "&{} {}", l, referent),
             TypeRepr::Ref { lifetime: None, mutable: true, ref referent } =>
                 write!(fmt, "&mut {}", referent),
-            TypeRepr::Ref { lifetime: Some(l), mutable: true, ref referent } =>
+            TypeRepr::Ref { lifetime: Some(ref l), mutable: true, ref referent } =>
                 write!(fmt, "&{} mut {}", l, referent),
         }
     }
@@ -445,8 +445,8 @@ impl Symbol {
 
     pub fn ty<'ty>(&self, t: &'ty Types) -> &'ty TypeRepr {
         match *self {
-            Symbol::Terminal(id) => t.terminal_type(id),
-            Symbol::Nonterminal(id) => t.nonterminal_type(id),
+            Symbol::Terminal(ref id) => t.terminal_type(id),
+            Symbol::Nonterminal(ref id) => t.nonterminal_type(id),
         }
     }
 }
@@ -454,8 +454,8 @@ impl Symbol {
 impl Display for Symbol {
     fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
         match *self {
-            Symbol::Nonterminal(id) => write!(fmt, "{}", id),
-            Symbol::Terminal(id) => write!(fmt, "{}", id),
+            Symbol::Nonterminal(ref id) => write!(fmt, "{}", id.clone()),
+            Symbol::Terminal(ref id) => write!(fmt, "{}", id.clone()),
         }
     }
 }
@@ -519,7 +519,7 @@ impl InlineActionFnDefn {
                self.symbols
                    .iter()
                    .map(|inline_sym| match *inline_sym {
-                       InlinedSymbol::Original(s) =>
+                       InlinedSymbol::Original(ref s) =>
                            format!("{}", s),
                        InlinedSymbol::Inlined(a, ref s) =>
                            format!("{:?}({})", a, Sep(", ", s)),
@@ -531,12 +531,12 @@ impl InlineActionFnDefn {
 }
 
 impl Grammar {
-    pub fn pattern(&self, t: TerminalString) -> &Pattern<TypeRepr> {
-        &self.conversions[&t]
+    pub fn pattern(&self, t: &TerminalString) -> &Pattern<TypeRepr> {
+        &self.conversions[t]
     }
 
-    pub fn productions_for(&self, nonterminal: NonterminalString) -> &[Production] {
-        match self.nonterminals.get(&nonterminal) {
+    pub fn productions_for(&self, nonterminal: &NonterminalString) -> &[Production] {
+        match self.nonterminals.get(nonterminal) {
             Some(v) => &v.productions[..],
             None => &[], // this...probably shouldn't happen actually?
         }

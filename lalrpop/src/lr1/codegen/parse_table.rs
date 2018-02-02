@@ -3,7 +3,7 @@
 use collections::{Map, Set};
 use grammar::parse_tree::WhereClause;
 use grammar::repr::*;
-use intern::intern;
+use string_cache::DefaultAtom as Atom;
 use lr1::core::*;
 use lr1::lookahead::Token;
 use rust::RustWrite;
@@ -379,15 +379,15 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
         rust!(self.out, " {{");
 
         // make one variant per terminal
-        for &term in &self.grammar.terminals.all {
-            let name = self.variant_name_for_symbol(Symbol::Terminal(term));
+        for term in &self.grammar.terminals.all {
+            let name = self.variant_name_for_symbol(&Symbol::Terminal(term.clone()));
             let ty = self.types.terminal_type(term).clone();
             rust!(self.out, "{}({}),", name, ty);
         }
 
         // make one variant per nonterminal
-        for &nt in self.grammar.nonterminals.keys() {
-            let name = self.variant_name_for_symbol(Symbol::Nonterminal(nt));
+        for nt in self.grammar.nonterminals.keys() {
+            let name = self.variant_name_for_symbol(&Symbol::Nonterminal(nt.clone()));
             let ty = self.types.nonterminal_type(nt).clone();
             rust!(self.out, "{}({}),", name, ty);
         }
@@ -413,9 +413,9 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
             let custom = &self.custom;
             let iterator = self.grammar.terminals.all.iter().map(|terminal| {
                 if let Some(new_state) = state.shifts.get(&terminal) {
-                    (new_state.0 as i32 + 1, Comment::Goto(Token::Terminal(*terminal), new_state.0))
+                    (new_state.0 as i32 + 1, Comment::Goto(Token::Terminal(terminal.clone()), new_state.0))
                 } else {
-                    Self::write_reduction(custom, state, Token::Terminal(*terminal))
+                    Self::write_reduction(custom, state, &Token::Terminal(terminal.clone()))
                 }
             });
             try!(self.out.write_table_row(iterator))
@@ -429,7 +429,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
               self.prefix);
         for (index, state) in self.states.iter().enumerate() {
             rust!(self.out, "// State {}", index);
-            let reduction = Self::write_reduction(&self.custom, state, Token::EOF);
+            let reduction = Self::write_reduction(&self.custom, state, &Token::EOF);
             try!(self.out.write_table_row(Some(reduction)));
         }
         rust!(self.out, "];");
@@ -439,10 +439,10 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
         for (index, state) in self.states.iter().enumerate() {
             rust!(self.out, "// State {}", index);
             let iterator = self.grammar.nonterminals.keys().map(|nonterminal| {
-                if let Some(&new_state) = state.gotos.get(nonterminal) {
-                    (new_state.0 as i32 + 1, Comment::Goto(*nonterminal, new_state.0))
+                if let Some(&new_state) = state.gotos.get(&nonterminal) {
+                    (new_state.0 as i32 + 1, Comment::Goto(nonterminal, new_state.0))
                 } else {
-                    (0, Comment::Error(*nonterminal))
+                    (0, Comment::Error(nonterminal))
                 }
             });
             try!(self.out.write_table_row(iterator));
@@ -454,7 +454,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
         Ok(())
     }
 
-    fn write_reduction<'s>(custom: &TableDriven<'grammar>, state: &'s LR1State, token: Token) -> (i32, Comment<'s, Token>) {
+    fn write_reduction<'s>(custom: &TableDriven<'grammar>, state: &'s LR1State, token: &Token) -> (i32, Comment<'s, Token>) {
         let reduction = state.reductions
                              .iter()
                              .filter(|&&(ref t, _)| t.contains(token))
@@ -462,10 +462,10 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
                              .next();
         if let Some(production) = reduction {
             let action = custom.reduce_indices[production];
-            (-(action as i32 + 1), Comment::Reduce(token, production))
+            (-(action as i32 + 1), Comment::Reduce(token.clone(), production))
         } else {
             // Otherwise, this is an error. Store 0.
-            (0, Comment::Error(token))
+            (0, Comment::Error(token.clone()))
         }
     }
 
@@ -672,8 +672,8 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
               integer = integer,
               lookahead = lookahead,
               p = self.prefix);
-        for (&terminal, index) in self.grammar.terminals.all.iter().zip(0..) {
-            if terminal == TerminalString::Error {
+        for (terminal, index) in self.grammar.terminals.all.iter().zip(0..) {
+            if *terminal == TerminalString::Error {
                 continue;
             }
             let pattern = self.grammar.pattern(terminal).map(&mut |_| "_");
@@ -699,8 +699,8 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
               "let {}symbol = match {}integer {{",
               self.prefix,
               self.prefix);
-        for (&terminal, index) in self.grammar.terminals.all.iter().zip(0..) {
-            if terminal == TerminalString::Error {
+        for (terminal, index) in self.grammar.terminals.all.iter().zip(0..) {
+            if *terminal == TerminalString::Error {
                 continue;
             }
             rust!(self.out, "{} => match {}lookahead.1 {{", index, self.prefix);
@@ -718,7 +718,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
                 pattern = format!("{}tok @ {}", self.prefix, pattern);
             }
 
-            let variant_name = self.variant_name_for_symbol(Symbol::Terminal(terminal));
+            let variant_name = self.variant_name_for_symbol(&Symbol::Terminal(terminal.clone()));
             rust!(self.out,
                   "{} => {}Symbol::{}(({})),",
                   pattern,
@@ -736,7 +736,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
     }
 
     fn emit_reduce_actions(&mut self) -> io::Result<()> {
-        let success_type = self.types.nonterminal_type(self.start_symbol);
+        let success_type = self.types.nonterminal_type(&self.start_symbol);
         let parse_error_type = self.types.parse_error_type();
         let loc_type = self.types.terminal_loc_type();
         let spanned_symbol_type = self.spanned_symbol_type();
@@ -750,7 +750,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
                               format!("_: {}", self.phantom_data_type())];
 
         try!(self.out.write_pub_fn_header(self.grammar,
-                                          &Visibility::Pub(Some(Path::from_id(intern("crate")))),
+                                          &Visibility::Pub(Some(Path::from_id(Atom::from("crate")))),
                                           format!("{}reduce", self.prefix),
                                           vec![],
                                           parameters,
@@ -810,7 +810,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
         rust!(self.out, "// {:?}", production);
 
         // Pop each of the symbols and their associated states.
-        for (index, &symbol) in production.symbols.iter().enumerate().rev() {
+        for (index, symbol) in production.symbols.iter().enumerate().rev() {
             let name = self.variant_name_for_symbol(symbol);
             rust!(self.out,
                 "let {}sym{} = {}pop_{}({}symbols);",
@@ -910,7 +910,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
               len = production.symbols.len());
 
         // push the produced value on the stack
-        let name = self.variant_name_for_symbol(Symbol::Nonterminal(production.nonterminal));
+        let name = self.variant_name_for_symbol(&Symbol::Nonterminal(production.nonterminal.clone()));
         rust!(self.out,
               "{}symbols.push(({}start, {}Symbol::{}({}nt), {}end));",
               self.prefix,
@@ -925,29 +925,29 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
         let index = self.custom
                         .all_nonterminals
                         .iter()
-                        .position(|&x| x == production.nonterminal)
+                        .position(|x| *x == production.nonterminal)
                         .unwrap();
         rust!(self.out, "{}", index);
 
         Ok(())
     }
 
-    fn variant_name_for_symbol(&mut self, s: Symbol) -> String {
-        match s {
-            Symbol::Nonterminal(nt) => format!("Nt{}", Escape(nt)),
-            Symbol::Terminal(t) => format!("Term{}", Escape(t)),
+    fn variant_name_for_symbol(&mut self, s: &Symbol) -> String {
+        match *s {
+            Symbol::Nonterminal(ref nt) => format!("Nt{}", Escape(nt)),
+            Symbol::Terminal(ref t) => format!("Term{}", Escape(t)),
         }
     }
 
     fn emit_downcast_fns(&mut self) -> io::Result<()> {
-        for &term in &self.grammar.terminals.all {
-            let name = self.variant_name_for_symbol(Symbol::Terminal(term));
+        for term in &self.grammar.terminals.all {
+            let name = self.variant_name_for_symbol(&Symbol::Terminal(term.clone()));
             let ty = self.types.terminal_type(term).clone();
             try!(self.emit_downcast_fn(&name, ty));
         }
 
-        for &nt in self.grammar.nonterminals.keys() {
-            let name = self.variant_name_for_symbol(Symbol::Nonterminal(nt));
+        for nt in self.grammar.nonterminals.keys() {
+            let name = self.variant_name_for_symbol(&Symbol::Nonterminal(nt.clone()));
             let ty = self.types.nonterminal_type(nt).clone();
             try!(self.emit_downcast_fn(&name, ty));
         }
@@ -1111,7 +1111,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
         let loc_type = self.types.terminal_loc_type();
         let prefix = self.prefix;
         let actions_per_state = self.grammar.terminals.all.len();
-        let start_type = self.types.nonterminal_type(self.start_symbol);
+        let start_type = self.types.nonterminal_type(&self.start_symbol);
 
         // The tokenizr, when we supply it, returns parse
         // errors. Otherwise, it returns custom user errors.
@@ -1638,7 +1638,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
                 let nt = self.custom
                              .all_nonterminals
                              .iter()
-                             .position(|&x| x == production.nonterminal)
+                             .position(|x| *x == production.nonterminal)
                              .unwrap();
                 rust!(self.out, "{} => {{", index);
                 if DEBUG_PRINT {
@@ -1729,7 +1729,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
         } else {
             &self.grammar.terminals.all
         };
-        for &terminal in all_terminals {
+        for terminal in all_terminals {
             // Three # should hopefully be enough to prevent any
             // reasonable terminal from escaping the literal
             rust!(self.out, "r###\"{}\"###,", terminal);

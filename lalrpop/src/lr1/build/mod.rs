@@ -95,7 +95,7 @@ impl<'grammar, L: LookaheadBuild> LR<'grammar, L> {
         let mut conflicts = vec![];
 
         // create the starting state
-        kernel_set.add_state(Kernel::start(self.items(self.start_nt,
+        kernel_set.add_state(Kernel::start(self.items(&self.start_nt,
                                                       0,
                                                       &self.start_lookahead)));
 
@@ -178,7 +178,7 @@ impl<'grammar, L: LookaheadBuild> LR<'grammar, L> {
     }
 
     fn items(&self,
-             id: NonterminalString,
+             id: &NonterminalString,
              index: usize,
              lookahead: &L)
              -> Vec<Item<'grammar, L>>
@@ -237,7 +237,7 @@ impl<'grammar, L: LookaheadBuild> LR<'grammar, L> {
             //
             //   (a) FIRST(remainder)
             //   (b) if remainder may match epsilon, also our lookahead.
-            for new_item in L::epsilon_moves(self, nt, remainder, &lookahead) {
+            for new_item in L::epsilon_moves(self, &nt, remainder, &lookahead) {
                 let new_item0 = new_item.to_lr0();
                 if map.push(new_item0, new_item.lookahead) {
                     stack.push(new_item0);
@@ -317,7 +317,7 @@ pub trait LookaheadBuild: Lookahead {
     // items, we have to add multiple items where we consider the
     // lookahead from `FIRST(...s, L)`.
     fn epsilon_moves<'grammar>(lr: &LR<'grammar, Self>,
-                               nt: NonterminalString,
+                               nt: &NonterminalString,
                                remainder: &[Symbol],
                                lookahead: &Self)
                                -> Vec<Item<'grammar, Self>>;
@@ -325,7 +325,7 @@ pub trait LookaheadBuild: Lookahead {
 
 impl LookaheadBuild for Nil {
     fn epsilon_moves<'grammar>(lr: &LR<'grammar, Self>,
-                               nt: NonterminalString,
+                               nt: &NonterminalString,
                                _remainder: &[Symbol],
                                lookahead: &Nil)
                                -> Vec<LR0Item<'grammar>>
@@ -336,7 +336,7 @@ impl LookaheadBuild for Nil {
 
 impl LookaheadBuild for TokenSet {
     fn epsilon_moves<'grammar>(lr: &LR<'grammar, Self>,
-                               nt: NonterminalString,
+                               nt: &NonterminalString,
                                remainder: &[Symbol],
                                lookahead: &Self)
                                -> Vec<LR1Item<'grammar>>

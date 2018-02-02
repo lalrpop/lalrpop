@@ -12,7 +12,7 @@ use grammar::parse_tree::{ActionKind, Alternative,
                           TypeParameter,
                           TypeRef};
 use grammar::repr::{NominalTypeRepr, Types, TypeRepr};
-use intern::{intern, InternedString};
+use string_cache::DefaultAtom as Atom;
 
 #[cfg(test)]
 mod test;
@@ -26,7 +26,7 @@ struct TypeInferencer<'grammar> {
     stack: Vec<NonterminalString>,
     nonterminals: HashMap<NonterminalString, NT<'grammar>>,
     types: Types,
-    type_parameters: HashSet<InternedString>,
+    type_parameters: HashSet<Atom>,
 }
 
 #[derive(Copy, Clone)]
@@ -46,7 +46,7 @@ impl<'grammar> TypeInferencer<'grammar> {
                    .filter_map(|item| item.as_nonterminal())
                    .map(|data| {
                        assert!(!data.is_macro_def()); // normalized away by now
-                       (data.name, NT::new(data))
+                       (data.name.clone(), NT::new(data))
                    })
                    .collect();
 
@@ -54,7 +54,7 @@ impl<'grammar> TypeInferencer<'grammar> {
             .iter()
             .filter_map(|p| match *p {
                 TypeParameter::Lifetime(_) => None,
-                TypeParameter::Id(ty) => Some(ty),
+                TypeParameter::Id(ref ty) => Some(ty.clone()),
             })
             .collect();
 
@@ -70,7 +70,7 @@ impl<'grammar> TypeInferencer<'grammar> {
         // Determine error type (if any).
         let error_type =
             opt_extern_token.and_then(|extern_token| {
-                extern_token.associated_type(intern(ERROR))
+                extern_token.associated_type(Atom::from(ERROR))
                             .map(|tr| tr.type_ref.type_repr())
             });
 
@@ -81,7 +81,7 @@ impl<'grammar> TypeInferencer<'grammar> {
                 TypeRepr::usize();
             let input_str = // &'input str
                 TypeRepr::Ref {
-                    lifetime: Some(intern(INPUT_LIFETIME)),
+                    lifetime: Some(Atom::from(INPUT_LIFETIME)),
                     mutable: false,
                     referent: Box::new(TypeRepr::str())
                 };
@@ -89,21 +89,21 @@ impl<'grammar> TypeInferencer<'grammar> {
                 TypeRepr::Nominal(NominalTypeRepr {
                     path: Path {
                         absolute: false,
-                        ids: vec![intern("Token")],
+                        ids: vec![Atom::from("Token")],
                     },
-                    types: vec![TypeRepr::Lifetime(intern(INPUT_LIFETIME))]
+                    types: vec![TypeRepr::Lifetime(Atom::from(INPUT_LIFETIME))]
                 });
 
             let mut types = Types::new(&grammar.prefix, Some(loc_type), error_type, enum_type);
 
             for match_entry in &intern_token.match_entries {
-                types.add_term_type(match_entry.user_name, input_str.clone());
+                types.add_term_type(match_entry.user_name.clone(), input_str.clone());
             }
 
             types
         } else {
             let extern_token = opt_extern_token.unwrap();
-            let loc_type = extern_token.associated_type(intern(LOCATION))
+            let loc_type = extern_token.associated_type(Atom::from(LOCATION))
                                        .map(|tr| tr.type_ref.type_repr());
             let enum_type = extern_token.enum_token
                                         .as_ref()
@@ -128,7 +128,7 @@ impl<'grammar> TypeInferencer<'grammar> {
                 conversion.to.for_each_binding(&mut |ty| tys.push(ty.type_repr()));
                 if tys.is_empty() { continue; }
                 let ty = maybe_tuple(tys);
-                types.add_term_type(conversion.from, ty);
+                types.add_term_type(conversion.from.clone(), ty);
             }
 
             types
@@ -138,18 +138,18 @@ impl<'grammar> TypeInferencer<'grammar> {
     fn infer_types(mut self) -> NormResult<Types> {
         let ids: Vec<NonterminalString> =
             self.nonterminals.iter()
-                             .map(|(&id, _)| id)
+                             .map(|(id, _)| id.clone())
                              .collect();
 
         for id in ids {
-            try!(self.nonterminal_type(id));
-            debug_assert!(self.types.lookup_nonterminal_type(id).is_some());
+            try!(self.nonterminal_type(&id));
+            debug_assert!(self.types.lookup_nonterminal_type(&id).is_some());
         }
 
         Ok(self.types)
     }
 
-    fn nonterminal_type(&mut self, id: NonterminalString) -> NormResult<TypeRepr> {
+    fn nonterminal_type(&mut self, id: &NonterminalString) -> NormResult<TypeRepr> {
         if let Some(repr) = self.types.lookup_nonterminal_type(id) {
             return Ok(repr.clone());
         }
@@ -207,16 +207,16 @@ impl<'grammar> TypeInferencer<'grammar> {
             Ok(alternative_types.pop().unwrap())
         }));
 
-        self.types.add_type(id, ty.clone());
+        self.types.add_type(id.clone(), ty.clone());
         Ok(ty)
     }
 
-    fn push<F,R>(&mut self, id: NonterminalString, f: F) -> NormResult<R>
+    fn push<F,R>(&mut self, id: &NonterminalString, f: F) -> NormResult<R>
         where F: FnOnce(&mut TypeInferencer) -> NormResult<R>
     {
-        self.stack.push(id);
+        self.stack.push(id.clone());
         let r = f(self);
-        assert_eq!(self.stack.pop().unwrap(), id);
+        assert_eq!(self.stack.pop().unwrap(), *id);
         r
     }
 
@@ -231,8 +231,8 @@ impl<'grammar> TypeInferencer<'grammar> {
             TypeRef::Nominal { ref path, ref types } => {
                 if path.ids.len() == 2 && self.type_parameters.contains(&path.ids[0]) {
                     return Ok(TypeRepr::Associated {
-                        type_parameter: path.ids[0],
-                        id: path.ids[1],
+                        type_parameter: path.ids[0].clone(),
+                        id: path.ids[1].clone(),
                     });
                 }
 
@@ -242,15 +242,15 @@ impl<'grammar> TypeInferencer<'grammar> {
                 Ok(TypeRepr::Nominal(NominalTypeRepr { path: path.clone(),
                                                        types: types }))
             }
-            TypeRef::Lifetime(id) => {
-                Ok(TypeRepr::Lifetime(id))
+            TypeRef::Lifetime(ref id) => {
+                Ok(TypeRepr::Lifetime(id.clone()))
             }
-            TypeRef::Id(id) => {
-                Ok(TypeRepr::Nominal(NominalTypeRepr { path: Path::from_id(id),
+            TypeRef::Id(ref id) => {
+                Ok(TypeRepr::Nominal(NominalTypeRepr { path: Path::from_id(id.clone()),
                                                        types: vec![] }))
             }
-            TypeRef::Ref { lifetime, mutable, ref referent } => {
-                Ok(TypeRepr::Ref { lifetime: lifetime,
+            TypeRef::Ref { ref lifetime, mutable, ref referent } => {
+                Ok(TypeRepr::Ref { lifetime: lifetime.clone(),
                                    mutable: mutable,
                                    referent: Box::new(try!(self.type_ref(referent))) })
             }
@@ -291,8 +291,8 @@ impl<'grammar> TypeInferencer<'grammar> {
 
     fn symbol_type(&mut self, symbol: &SymbolKind) -> NormResult<TypeRepr> {
         match *symbol {
-            SymbolKind::Terminal(id) => Ok(self.types.terminal_type(id).clone()),
-            SymbolKind::Nonterminal(id) => self.nonterminal_type(id),
+            SymbolKind::Terminal(ref id) => Ok(self.types.terminal_type(id).clone()),
+            SymbolKind::Nonterminal(ref id) => self.nonterminal_type(id),
             SymbolKind::Choose(ref s) => self.symbol_type(&s.kind),
             SymbolKind::Name(_, ref s) => self.symbol_type(&s.kind),
             SymbolKind::Error => Ok(self.types.parse_error_type().clone()),

@@ -1,4 +1,4 @@
-use intern::intern;
+use string_cache::DefaultAtom as Atom;
 use grammar::repr::*;
 use lr1::build_states;
 use lr1::tls::Lr1Tls;
@@ -8,7 +8,7 @@ use tls::Tls;
 use super::{ConflictClassification, ErrorReportingCx};
 
 fn nt(t: &str) -> NonterminalString {
-    NonterminalString(intern(t))
+    NonterminalString(Atom::from(t))
 }
 
 #[test]
@@ -106,7 +106,7 @@ fn suggest_question_conflict() {
             symbol,
         } => {
             assert_eq!(nonterminal, nt("OPT_L"));
-            assert_eq!(symbol, Symbol::Terminal(TerminalString::quoted(intern("L"))));
+            assert_eq!(symbol, Symbol::Terminal(TerminalString::quoted(Atom::from("L"))));
         }
         r => panic!("wrong classification {:#?}", r)
     }

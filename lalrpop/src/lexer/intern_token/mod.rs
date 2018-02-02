@@ -36,7 +36,6 @@ mod __intern_token {
 
  */
 
-use intern;
 use lexer::re;
 use grammar::parse_tree::InternToken;
 use grammar::repr::{Grammar, TerminalLiteral};
@@ -77,12 +76,12 @@ pub fn compile<W: Write>(
 
     // create a vector of rust string literals with the text of each
     // regular expression
-    let regex_strings: Vec<String> = intern::read(|interner| {
+    let regex_strings: Vec<String> = {
         intern_token.match_entries
                     .iter()
                     .map(|match_entry| match match_entry.match_literal {
-                        TerminalLiteral::Quoted(s) => re::parse_literal(interner.data(s)),
-                        TerminalLiteral::Regex(s) => re::parse_regex(interner.data(s)).unwrap(),
+                        TerminalLiteral::Quoted(ref s) => re::parse_literal(&s),
+                        TerminalLiteral::Regex(ref s) => re::parse_regex(&s).unwrap(),
                     })
                     .map(|regex| {
                         // make sure all regex are anchored at the beginning of the input
@@ -94,7 +93,7 @@ pub fn compile<W: Write>(
                         format!("{:?}", regex_str)
                     })
                     .collect()
-    });
+    };
 
     rust!(out, "let {}strs: &[&str] = &[", prefix);
     for literal in &regex_strings {

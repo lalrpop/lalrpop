@@ -1,4 +1,4 @@
-use intern::{intern, InternedString};
+use string_cache::DefaultAtom as Atom;
 use grammar::parse_tree::*;
 use grammar::pattern::*;
 use std::iter::once;
@@ -45,7 +45,7 @@ GrammarWhereClause: WhereClause<TypeRef> = {
         WhereClause::Type { forall: f, ty: ty, bounds: bounds }
 };
 
-ForAll: Vec<InternedString> =
+ForAll: Vec<Atom> =
     "for" "<" <Comma<Lifetime>> ">";
 
 TypeBounds: Vec<TypeBound<TypeRef>> =
@@ -120,7 +120,7 @@ Annotation: Annotation =
 NonterminalName: (NonterminalString, Vec<NonterminalString>) = {
     <MacroId> "<" <Comma<NotMacroId>> ">",
     <n:NotMacroId> => (n, vec![]),
-    <"Escape"> => (NonterminalString(intern(<>)), vec![]),
+    <"Escape"> => (NonterminalString(Atom::from(<>)), vec![]),
 };
 
 Alternatives: Vec<Alternative> = {
@@ -204,7 +204,7 @@ SymbolKind1: SymbolKind = {
         SymbolKind::Terminal(<>),
 
     "Id" =>
-        SymbolKind::AmbiguousId(intern(<>)),
+        SymbolKind::AmbiguousId(Atom::from(<>)),
 
     Escape =>
         SymbolKind::Nonterminal(NonterminalString(<>)),
@@ -349,7 +349,7 @@ PatternKind: PatternKind<TypeRef> = {
         PatternKind::Tuple(<>),
 
     <c:"CharLiteral"> =>
-        PatternKind::CharLiteral(intern(c)),
+        PatternKind::CharLiteral(Atom::from(c)),
 
     <Path> =>
         PatternKind::Path(<>),
@@ -363,25 +363,25 @@ FieldPattern: FieldPattern<TypeRef> =
     };
 
 MacroId: NonterminalString =
-    <i:"MacroId"> => NonterminalString(intern(i));
+    <i:"MacroId"> => NonterminalString(Atom::from(i));
 
 NotMacroId: NonterminalString =
-    <i:"Id"> => NonterminalString(intern(i));
+    <i:"Id"> => NonterminalString(Atom::from(i));
 
-Id: InternedString = {
-    <i:"Id"> => intern(i),
-    <i:"MacroId"> => intern(i),
+Id: Atom = {
+    <i:"Id"> => Atom::from(i),
+    <i:"MacroId"> => Atom::from(i),
 };
 
-Escape: InternedString =
-    <i:"Escape"> => intern(i);
+Escape: Atom =
+    <i:"Escape"> => Atom::from(i);
 
-Lifetime: InternedString =
-    <i:"Lifetime"> => intern(i);
+Lifetime: Atom =
+    <i:"Lifetime"> => Atom::from(i);
 
 Terminal: TerminalString = {
     QuotedTerminal,
-    <i:"Id"> => TerminalString::Bare(intern(i)),
+    <i:"Id"> => TerminalString::Bare(Atom::from(i)),
 };
 
 QuotedTerminal: TerminalString = {
@@ -393,11 +393,11 @@ QuotedLiteral: TerminalLiteral = {
     <s:RegexLiteral> => TerminalLiteral::Regex(s),
 };
 
-StringLiteral: InternedString =
-    <s:"StringLiteral"> => intern(s);
+StringLiteral: Atom =
+    <s:"StringLiteral"> => Atom::from(s);
 
-RegexLiteral: InternedString =
-    <s:"RegexLiteral"> => intern(s);
+RegexLiteral: Atom =
+    <s:"RegexLiteral"> => Atom::from(s);
 
 Comma<E>: Vec<E> =
     <v0:(<E> ",")*> <e1:E?> =>
