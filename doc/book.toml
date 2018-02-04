@@ -1,0 +1,10 @@
+[lalrpop]
+title = "LALRPOP Documentation"
+description = "LALRPOP Documentation"
+authors = ["LALRPOP Developers"]
+
+[output.html]
+mathjax-support = true
+
+[output.html.playpen]
+editable = true

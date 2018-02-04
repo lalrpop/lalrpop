@@ -2,7 +2,7 @@
 
 Let's say we want to parse the Whitespace language, so we've put together a grammar like the following:
 
-```rust
+```lalrpop
 pub Program = <Statement*>;
 
 Statement: ast::Stmt = {
@@ -37,7 +37,7 @@ At the moment, LALRPOP doesn't allow you to configure the default tokenizer. In 
 
 Let's start by defining the stream format. The parser will accept an iterator where each item in the stream has the following structure:
 
-```rust
+```lalrpop
 pub type Spanned<Tok, Loc, Error> = Result<(Loc, Tok, Loc), Error>;
 ```
 
@@ -47,7 +47,7 @@ pub type Spanned<Tok, Loc, Error> = Result<(Loc, Tok, Loc), Error>;
 
 Whitespace is a simple language from a lexical standpoint, with only three valid tokens:
 
-```rust
+```lalrpop
 pub enum Tok {
     Space,
     Tab,
@@ -57,7 +57,7 @@ pub enum Tok {
 
 Everything else is a comment. There are no invalid lexes, so we'll define our own error type, a void enum:
 
-```rust
+```lalrpop
 pub enum LexicalError {
     // Not possible
 }
@@ -65,7 +65,7 @@ pub enum LexicalError {
 
 Now for the lexer itself. We'll take a string slice as its input. For each token we process, we'll want to know the character value, and the byte offset in the string where it begins. We can do that by wrapping the `CharIndices` iterator, which yields tuples of `(usize, char)` representing exactly that information.
 
-```rust
+```lalrpop
 use std::str::CharIndices;
 
 pub struct Lexer<'input> {
@@ -91,7 +91,7 @@ Let's review our rules:
 
 Writing a lexer for a language with multi-character tokens can get very complicated, but this is so straightforward, we can translate it directly into code without thinking very hard. Here's our `Iterator` implementation:
 
-```rust
+```lalrpop
 impl<'input> Iterator for Lexer<'input> {
     type Item = Spanned<Tok, usize, LexicalError>;
 
@@ -116,7 +116,7 @@ That's it. That's all we need.
 
 To use this with LALRPOP, we need to expose its API to the parser. It's pretty easy to do, but also somewhat magical, so pay close attention. Pick a convenient place in the grammar file (I chose the bottom) and insert an `extern` block:
 
-```rust
+```lalrpop
 extern {
     // ...
 }
@@ -124,7 +124,7 @@ extern {
 
 Now we tell LALRPOP about the `Location` and `Error` types, as if we're writing a trait:
 
-```rust
+```lalrpop
 extern {
     type Location = usize;
     type Error = lexer::LexicalError;
@@ -135,7 +135,7 @@ extern {
 
 We expose the `Tok` type by kinda sorta redeclaring it:
 
-```rust
+```lalrpop
 extern {
     type Location = usize;
     type Error = lexer::LexicalError;
@@ -150,7 +150,7 @@ Now we have to declare each of our terminals. For each variant of `Tok`, we pick
 
 Here's the whole thing:
 
-```rust
+```lalrpop
 extern {
     type Location = usize;
     type Error = lexer::LexicalError;
@@ -174,7 +174,7 @@ From now on, the parser will take a `Lexer` as its input instead of a string sli
 
 And any time we write a string literal in the grammar, it'll substitute a variant of our `Tok` enum. This means **we don't have to change any of the rules we already wrote!** This will work as-is:
 
-```rust
+```lalrpop
 FlowCtrl: ast::Stmt = {
     " " " " <Label> => ast::Stmt::Mark(<>),
     " " "\t" <Label> => ast::Stmt::Call(<>),
