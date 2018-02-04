@@ -3,6 +3,9 @@ rust:
 - 1.20.0
 - beta
 - nightly
+install:
+- source ~/.cargo/env || true
+- bash tools/ci-install.sh
 script:
 - CARGO_INCREMENTAL=0 cargo test --all
 - bash tools/build-doc
