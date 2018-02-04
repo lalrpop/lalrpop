@@ -278,6 +278,8 @@ struct TableDriven<'grammar> {
     all_nonterminals: Vec<NonterminalString>,
 
     reduce_indices: Map<&'grammar Production, usize>,
+
+    state_type: &'static str,
 }
 
 impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDriven<'grammar>> {
@@ -332,6 +334,16 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
                                                                       .zip(0..)
                                                                       .collect();
 
+        let state_type = {
+            if states.len() <= ::std::i8::MAX as usize && reduce_indices.len() <= (::std::i8::MAX as usize + 1) {
+                "i8"
+            } else if states.len() <= ::std::i16::MAX as usize && reduce_indices.len() <= (::std::i16::MAX as usize + 1) {
+                "i16"
+            } else {
+                "i32"
+            }
+        };
+
         CodeGenerator::new(grammar,
                            user_start_symbol,
                            start_symbol,
@@ -347,6 +359,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
                                                         .cloned()
                                                         .collect(),
                                reduce_indices: reduce_indices,
+                               state_type: state_type,
                            })
     }
 
@@ -398,7 +411,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
     fn write_parse_table(&mut self) -> io::Result<()> {
         // The table is a two-dimensional matrix indexed first by state
         // and then by the terminal index. The value is described above.
-        rust!(self.out, "const {}ACTION: &'static [i32] = &[", self.prefix);
+        rust!(self.out, "const {}ACTION: &'static [{}] = &[", self.prefix, self.custom.state_type);
 
         for (index, state) in self.states.iter().enumerate() {
             rust!(self.out, "// State {}", index);
@@ -425,8 +438,9 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
 
         // Actions on EOF. Indexed just by state.
         rust!(self.out,
-              "const {}EOF_ACTION: &'static [i32] = &[",
-              self.prefix);
+              "const {}EOF_ACTION: &'static [{}] = &[",
+              self.prefix,
+              self.custom.state_type);
         for (index, state) in self.states.iter().enumerate() {
             rust!(self.out, "// State {}", index);
             let reduction = Self::write_reduction(&self.custom, state, &Token::EOF);
@@ -435,7 +449,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
         rust!(self.out, "];");
 
         // The goto table is indexed by state and *nonterminal*.
-        rust!(self.out, "const {}GOTO: &'static [i32] = &[", self.prefix);
+        rust!(self.out, "const {}GOTO: &'static [{}] = &[", self.prefix, self.custom.state_type);
         for (index, state) in self.states.iter().enumerate() {
             rust!(self.out, "// State {}", index);
             let iterator = self.grammar.nonterminals.keys().map(|nonterminal| {
@@ -477,7 +491,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
         try!(self.define_tokens());
 
         // State and data stack.
-        rust!(self.out, "let mut {}states = vec![0_i32];", self.prefix);
+        rust!(self.out, "let mut {}states = vec![0_{}];", self.prefix, self.custom.state_type);
         rust!(self.out, "let mut {}symbols = vec![];", self.prefix);
 
         rust!(self.out, "let mut {}integer;", self.prefix);
@@ -741,9 +755,9 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
         let loc_type = self.types.terminal_loc_type();
         let spanned_symbol_type = self.spanned_symbol_type();
 
-        let parameters = vec![format!("{}action: i32", self.prefix),
+        let parameters = vec![format!("{}action: {}", self.prefix, self.custom.state_type),
                               format!("{}lookahead_start: Option<&{}>", self.prefix, loc_type),
-                              format!("{}states: &mut ::std::vec::Vec<i32>", self.prefix),
+                              format!("{}states: &mut ::std::vec::Vec<{}>", self.prefix, self.custom.state_type),
                               format!("{}symbols: &mut ::std::vec::Vec<{}>",
                                       self.prefix,
                                       spanned_symbol_type),
@@ -1130,8 +1144,9 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
 
         let parameters = vec![format!("{p}tokens: &mut {p}I",
                                       p = self.prefix),
-                              format!("{p}states: &mut ::std::vec::Vec<i32>",
-                                      p = self.prefix),
+                              format!("{p}states: &mut ::std::vec::Vec<{typ}>",
+                                      p = self.prefix,
+                                      typ = self.custom.state_type),
                               format!("{p}symbols: &mut ::std::vec::Vec<{spanned_symbol_type}>",
                                       spanned_symbol_type = spanned_symbol_type,
                                       p = self.prefix),
@@ -1566,10 +1581,12 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
         }
 
         let actions_per_state = self.grammar.terminals.all.len();
-        let parameters = vec![format!("{p}error_state: i32",
-                                      p = self.prefix),
-                              format!("{p}states: & [i32]",
-                                      p = self.prefix),
+        let parameters = vec![format!("{p}error_state: {typ}",
+                                      p = self.prefix,
+                                      typ = self.custom.state_type),
+                              format!("{p}states: & [{typ}]",
+                                      p = self.prefix,
+                                      typ = self.custom.state_type),
                               format!("{p}opt_integer: Option<usize>",
                                       p = self.prefix),
                               format!("_: {}", self.phantom_data_type())];
