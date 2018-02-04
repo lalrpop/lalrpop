@@ -761,9 +761,8 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
         rust!(self.out, "{{");
 
         rust!(self.out,
-              "let {}nonterminal = match -{}action {{",
-              self.prefix,
-              self.prefix);
+              "let ({p}pop_states, {p}symbol, {p}nonterminal) = match -{}action {{",
+              p = self.prefix);
         for (production, index) in self.grammar
                                        .nonterminals
                                        .values()
@@ -778,6 +777,20 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
               "_ => panic!(\"invalid action code {{}}\", {}action)",
               self.prefix);
         rust!(self.out, "}};");
+
+
+        // pop the consumed states from the stack
+        rust!(self.out,
+              "let {p}states_len = {p}states.len();",
+              p = self.prefix);
+        rust!(self.out,
+              "{p}states.truncate({p}states_len - {p}pop_states);",
+              p = self.prefix);
+
+        rust!(self.out,
+              "{p}symbols.push({p}symbol);",
+              p = self.prefix);
+
         rust!(self.out,
               "let {}state = *{}states.last().unwrap() as usize;",
               self.prefix,
@@ -900,19 +913,10 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
             return Ok(());
         }
 
-        // pop the consumed states from the stack
-        rust!(self.out,
-              "let {p}states_len = {p}states.len();",
-              p = self.prefix);
-        rust!(self.out,
-              "{p}states.truncate({p}states_len - {len});",
-              p = self.prefix,
-              len = production.symbols.len());
-
         // push the produced value on the stack
         let name = self.variant_name_for_symbol(&Symbol::Nonterminal(production.nonterminal.clone()));
         rust!(self.out,
-              "{}symbols.push(({}start, {}Symbol::{}({}nt), {}end));",
+              "let {}symbol = ({}start, {}Symbol::{}({}nt), {}end);",
               self.prefix,
               self.prefix,
               self.prefix,
@@ -927,7 +931,10 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
                         .iter()
                         .position(|x| *x == production.nonterminal)
                         .unwrap();
-        rust!(self.out, "{}", index);
+        rust!(self.out, "({len}, {p}symbol, {index})",
+              p = self.prefix,
+              index = index,
+              len = production.symbols.len());
 
         Ok(())
     }
