@@ -7,7 +7,7 @@ install:
 - source ~/.cargo/env || true
 - bash tools/ci-install.sh
 script:
-- CARGO_INCREMENTAL=0 cargo test --all
+- RUST_BACKTRACE=1 CARGO_INCREMENTAL=0 cargo test --all
 - bash tools/build-doc
 deploy:
   provider: pages
