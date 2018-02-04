@@ -1,7 +1,7 @@
 [lalrpop]
 title = "LALRPOP Documentation"
 description = "LALRPOP Documentation"
-authors = ["Niko Matsakis"]
+authors = ["LALRPOP Developers"]
 
 [output.html]
 mathjax-support = true

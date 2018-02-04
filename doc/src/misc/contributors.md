@@ -1,8 +1,9 @@
 # Contributors
 
-Here is a list of the contributors who have helped improving LALRPOP!
-
-If you have contributed but you are not in this list, please add yourself!
+**Here is a list of the contributors who have helped improving
+LALRPOP.** This list may be incomplete. The "canonical list" can be
+found in the git history; if you have contributed but you are not in
+this list, please add yourself!
 
 - [nikomatsakis](https://github.com/nikomatsakis)
 - [Marwes](https://github.com/Marwes)

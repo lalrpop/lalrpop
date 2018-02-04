@@ -6,4 +6,6 @@ set -e
 
 cd $ROOT/doc
 mdbook build
-cp --verbose -rf calculator pascal whitespace book
+cp -rf calculator pascal whitespace book
+echo "Book has been built into $PWD/book"
+echo "To view, open $PWD/book/index.html"
