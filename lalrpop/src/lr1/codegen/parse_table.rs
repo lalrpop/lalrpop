@@ -1264,7 +1264,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
               "for {p}top in (0..{p}states_len).rev() {{",
               p = self.prefix);
         rust!(self.out,
-              "let {p}state = {p}states[{p}top];",
+              "let {p}state = {p}states[{p}top] as usize;",
               p = self.prefix);
         if DEBUG_PRINT {
             rust!(
@@ -1274,7 +1274,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
             );
         }
         // ...fetch action for error token...
-        rust!(self.out, "let {p}action = {p}ACTION[({p}state * {} + {}) as usize];",
+        rust!(self.out, "let {p}action = {p}ACTION[{p}state * {} + {}];",
               actions_per_state,
               actions_per_state - 1,
               p = self.prefix);
@@ -1496,11 +1496,11 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
 
         // Now load the new top state.
         rust!(self.out,
-              "let {p}recover_state = {p}states[{p}top];",
+              "let {p}recover_state = {p}states[{p}top] as usize;",
               p = self.prefix);
 
         // Load the error action, which must be a shift.
-        rust!(self.out, "let {p}error_action = {p}ACTION[({p}recover_state * {} + {}) as usize];",
+        rust!(self.out, "let {p}error_action = {p}ACTION[{p}recover_state * {} + {}];",
               actions_per_state,
               actions_per_state - 1,
               p = self.prefix);
@@ -1617,7 +1617,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
               self.prefix,
               self.prefix);
 
-        rust!(self.out, "let {p}top = {p}states[{p}states_len - 1];", p = self.prefix);
+        rust!(self.out, "let {p}top = {p}states[{p}states_len - 1] as usize;", p = self.prefix);
 
         if DEBUG_PRINT {
             rust!(self.out,
@@ -1629,7 +1629,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
         rust!(self.out, "None => {p}EOF_ACTION[{p}top as usize],", p = self.prefix);
         rust!(
             self.out,
-            "Some({p}integer) => {p}ACTION[({p}top * {actions_per_state}) as usize + {p}integer],",
+            "Some({p}integer) => {p}ACTION[{p}top * {actions_per_state} + {p}integer],",
             p = self.prefix,
             actions_per_state = actions_per_state,
         );
@@ -1686,7 +1686,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
 
         rust!(self.out, "{p}states_len -= {p}to_pop;", p = self.prefix);
         rust!(self.out, "{p}states.truncate({p}states_len);", p = self.prefix);
-        rust!(self.out, "let {p}top = {p}states[{p}states_len - 1];", p = self.prefix);
+        rust!(self.out, "let {p}top = {p}states[{p}states_len - 1] as usize;", p = self.prefix);
 
         if DEBUG_PRINT {
             rust!(self.out,
@@ -1700,7 +1700,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
 
         rust!(
             self.out,
-            "let {p}next_state = {p}GOTO[({p}top * {num_non_terminals} + {p}nt) as usize] - 1;",
+            "let {p}next_state = {p}GOTO[{p}top * {num_non_terminals} + {p}nt] - 1;",
             p = self.prefix,
             num_non_terminals = self.grammar.nonterminals.len(),
         );
