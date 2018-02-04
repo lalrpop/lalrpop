@@ -1,4 +1,9 @@
 #!/bin/bash
+#
+# This script builds the LALRPOP tutorial (using `mdbook build`) and
+# then copies the additional sources files that are needed into the
+# right places so that e.g. the links to the calculator and so forth
+# work correctly.
 
 ROOT=$(dirname $(dirname $0))
 
