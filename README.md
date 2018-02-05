@@ -28,11 +28,12 @@ etc).
 
 ### Documentation
 
-There is a [tutorial available here](doc/tutorial.md) that covers a
-fair bit of the features of LALRPOP. For the more advanced things are
-not yet covered, it also points you to tests that may help give you
-the idea. I plan eventually to build up a reference manual in the
-Wiki, but that's not even started.
+There is [documentation available here] that covers a fair bit of the
+features of LALRPOP. For the more advanced things are not yet covered,
+it also points to tests that may help give the idea. This will eventually
+become a reference manual.
+
+[documentation available here]: https://lalrpop.github.io/lalrpop/README.html
 
 ### Obligatory disclaimer
 
