@@ -15,7 +15,7 @@ your `src` directory), and it will only do so if the `.lalrpop` file
 has actually changed. But you can also use the
 [`Configuration`][config] struct to get more detailed control.
 
-[config]: https://github.com/lalrpop/lalrpop/blob/master/lalrpop/src/api/mod.rs
+[config]: https://docs.rs/lalrpop/*/lalrpop/struct.Configuration.html
 
 For example, to **force** the use of colors in the output (ignoring
 the TTY settings), you might make your `build.rs` file look like so:
