@@ -17,7 +17,7 @@ To start, let's use `cargo new` to make a new project. We'll call it
 > cargo new --bin calculator
 ```
 
-We now have to edit the generated [`calculator/Cargo.toml`][cargotoml]
+We now have to edit the generated [`calculator/Cargo.toml`](calculator/Cargo.toml)
 file to invoke the LALRPOP preprocessor. The resulting file should
 look something like:
 
