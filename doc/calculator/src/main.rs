@@ -32,6 +32,7 @@ fn calculator2b() {
 
 pub mod calculator3;
 
+#[cfg_attr(not(test), allow(unused_macros))]
 macro_rules! test3 {
     ($expr:expr) => {
         println!("parsing {}", stringify!($expr));
