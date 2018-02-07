@@ -184,7 +184,8 @@ impl<'grammar> Validator<'grammar> {
         match norm_util::analyze_expr(&alternative.expr) {
             Symbols::Named(syms) => {
                 if alternative.action.is_none() {
-                    let sym = syms.iter().map(|&(_, _, sym)| sym).next().unwrap();
+//NEXTCOMMITFIXME
+                    let sym = syms.iter().map(|&(_, _, _, sym)| sym).next().unwrap();
                     return_err!(
                         sym.span,
                         "named symbols (like `{}`) require a custom action",
@@ -226,11 +227,12 @@ impl<'grammar> Validator<'grammar> {
             })
             .collect();
 
+//NEXTCOMMITFIXME
         let named: Multimap<Atom, Vec<&Symbol>> = expr
             .symbols
             .iter()
             .filter_map(|sym| match sym.kind {
-                SymbolKind::Name(ref nt, _) => Some((nt.clone(), sym)),
+                SymbolKind::Name(_, ref nt, _) => Some((nt.clone(), sym)),
                 _ => None,
             })
             .collect();
@@ -284,7 +286,8 @@ impl<'grammar> Validator<'grammar> {
             SymbolKind::Repeat(ref repeat) => {
                 self.validate_symbol(&repeat.symbol)?;
             }
-            SymbolKind::Choose(ref sym) | SymbolKind::Name(_, ref sym) => {
+//NEXTCOMMITFIXME
+            SymbolKind::Choose(ref sym) | SymbolKind::Name(_, _, ref sym) => {
                 self.validate_symbol(sym)?;
             }
             SymbolKind::Lookahead | SymbolKind::Lookbehind => {

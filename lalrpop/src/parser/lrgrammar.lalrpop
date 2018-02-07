@@ -7,7 +7,7 @@ use util::strip;
 use lalrpop_util::ParseError;
 
 use super::Top;
-
+//do
 grammar<'input>(text: &'input str);
 
 pub Top: Top = {
@@ -187,8 +187,8 @@ ExprSymbol: ExprSymbol =
     Symbol* => ExprSymbol { symbols: <> };
 
 Symbol: Symbol = {
-    <lo:@L> "<" @L <l:Id> ":" <s:Symbol0> ">" <hi:@R> =>
-        Symbol::new(Span(lo, hi), SymbolKind::Name(l, Box::new(s))),
+    <lo:@L> "<" <m:"mut"?> @L <l:Id> ":" <s:Symbol0> ">" <hi:@R> =>
+        Symbol::new(Span(lo, hi), SymbolKind::Name(m.is_some(), l, Box::new(s))),
 
     <lo:@L> "<" <s:Symbol0> ">" <hi:@R> =>
         Symbol::new(Span(lo, hi), SymbolKind::Choose(Box::new(s))),

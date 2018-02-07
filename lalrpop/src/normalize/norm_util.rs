@@ -9,7 +9,7 @@ pub enum AlternativeAction<'a> {
 
 #[derive(Debug)]
 pub enum Symbols<'a> {
-    Named(Vec<(usize, Atom, &'a Symbol)>),
+    Named(Vec<(usize, bool, Atom, &'a Symbol)>),
     Anon(Vec<(usize, &'a Symbol)>),
 }
 
@@ -24,12 +24,13 @@ pub fn analyze_action(alt: &Alternative) -> AlternativeAction<'_> {
 
 pub fn analyze_expr(expr: &ExprSymbol) -> Symbols<'_> {
     // First look for named symbols.
+//NEXTCOMMITFIXME
     let named_symbols: Vec<_> = expr
         .symbols
         .iter()
         .enumerate()
         .filter_map(|(idx, sym)| match sym.kind {
-            SymbolKind::Name(ref id, ref sub) => Some((idx, id.clone(), &**sub)),
+            SymbolKind::Name(mutable, ref id, ref sub) => Some((idx, mutable, id.clone(), &**sub)),
             _ => None,
         })
         .collect();

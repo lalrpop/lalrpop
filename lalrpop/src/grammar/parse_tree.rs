@@ -446,8 +446,8 @@ pub enum SymbolKind {
     // <X>
     Choose(Box<Symbol>),
 
-    // x:X
-    Name(Atom, Box<Symbol>),
+    // <x:X> or <mut x:X>
+    Name(bool, Atom, Box<Symbol>),
 
     // @L
     Lookahead,
@@ -902,6 +902,7 @@ impl Display for Symbol {
 impl Display for SymbolKind {
     fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
         match *self {
+            // NEXTCOMMITFIXME
             SymbolKind::Expr(ref expr) => write!(fmt, "{}", expr),
             SymbolKind::Terminal(ref s) => write!(fmt, "{}", s),
             SymbolKind::Nonterminal(ref s) => write!(fmt, "{}", s),
@@ -909,7 +910,8 @@ impl Display for SymbolKind {
             SymbolKind::Macro(ref m) => write!(fmt, "{}", m),
             SymbolKind::Repeat(ref r) => write!(fmt, "{}", r),
             SymbolKind::Choose(ref s) => write!(fmt, "<{}>", s),
-            SymbolKind::Name(ref n, ref s) => write!(fmt, "{}:{}", n, s),
+            SymbolKind::Name(m, ref n, ref s) => 
+                write!(fmt, "{} {}:{}", if m { "mut" } else { "" }, n, s),
             SymbolKind::Lookahead => write!(fmt, "@L"),
             SymbolKind::Lookbehind => write!(fmt, "@R"),
             SymbolKind::Error => write!(fmt, "error"),
