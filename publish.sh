@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 #
 # A script to bump the version number on all Cargo.toml files etc in
 # an atomic fashion.
@@ -19,6 +19,7 @@ fi
 echo "Found consistent version $VERSION"
 
 BASE_DIR="$PWD"
+TMPDIR=${TMPDIR:-"/tmp"}
 
 function publish_fail {
     printf "ERROR\n"
@@ -38,6 +39,9 @@ publish lalrpop-intern
 publish lalrpop-util
 publish lalrpop-snap
 publish lalrpop
+
+git tag $VERSION
+git push origin tag $VERSION
 
 printf "Updated version in docs etc..."
 perl -p -i -e 's/^version = "[0-9.]+"$/version = "'$VERSION'"/' \
