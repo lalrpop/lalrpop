@@ -327,7 +327,8 @@ impl<'s> LowerState<'s> {
             Symbols::Named(names) => {
                 // if there are named symbols, we want to give the
                 // arguments the names that the user gave them:
-                let arg_patterns = patterns(names.iter().map(|&(index, ref name, _)| (index, name.clone())),
+                let arg_patterns = patterns(names.iter()
+                                            .map(|&(index, mutable, ref name, _)| (index, (mutable, name.clone()))),
                                             symbols.len());
 
 
@@ -338,14 +339,14 @@ impl<'s> LowerState<'s> {
                         }
                         norm_util::Presence::Normal => {
                             let name_str : String = {
-                                let name_strs: Vec<_> = names.iter().map(|&(_,ref name,_)| name.as_ref()).collect();
+                                let name_strs: Vec<_> = names.iter().map(|&(_, _,ref name,_)| name.as_ref()).collect();
                                 name_strs.join(", ")
                             };
                             action.replace("<>", &name_str)
                         }
                         norm_util::Presence::InCurlyBrackets => {
                             let name_str = {
-                                let name_strs: Vec<_> = names.iter().map(|&(_,ref name,_)| format!("{0}:{0}", &*name)).collect();
+                                let name_strs: Vec<_> = names.iter().map(|&(_, _,ref name,_)| format!("{0}:{0}", &*name)).collect();
                                 name_strs.join(", ")
                             };
                             action.replace("<>", &name_str)
@@ -368,7 +369,7 @@ impl<'s> LowerState<'s> {
                 let names: Vec<_> = (0..indices.len()).map(|i| self.fresh_name(i)).collect();
                 let arg_patterns = patterns(indices.iter()
                                                    .map(|&(index, _)| index)
-                                                   .zip(names.iter().cloned()),
+                                                   .zip(names.iter().cloned().map(|n| (false, n))),
                                             symbols.len());
                 let name_str = {
                     let name_strs: Vec<_> = names.iter().map(|n| n.as_ref()).collect();
@@ -404,7 +405,7 @@ impl<'s> LowerState<'s> {
         match symbol.kind {
             pt::SymbolKind::Terminal(ref id) => r::Symbol::Terminal(id.clone()),
             pt::SymbolKind::Nonterminal(ref id) => r::Symbol::Nonterminal(id.clone()),
-            pt::SymbolKind::Choose(ref s) | pt::SymbolKind::Name(_, ref s) => self.symbol(s),
+            pt::SymbolKind::Choose(ref s) | pt::SymbolKind::Name(_, _, ref s) => self.symbol(s),
             pt::SymbolKind::Error => {
                 self.uses_error_recovery = true;
                 r::Symbol::Terminal(TerminalString::Error)
@@ -427,8 +428,8 @@ impl<'s> LowerState<'s> {
     }
 }
 
-fn patterns<I>(mut chosen: I, num_args: usize) -> Vec<Atom>
-    where I: Iterator<Item = (usize, Atom)>
+fn patterns<I>(mut chosen: I, num_args: usize) -> Vec<(bool, Atom)>
+    where I: Iterator<Item = (usize, (bool, Atom))>
 {
     let blank = Atom::from("_");
 
@@ -437,11 +438,11 @@ fn patterns<I>(mut chosen: I, num_args: usize) -> Vec<Atom>
     let result = (0..num_args)
                      .map(|index| {
                          match next_chosen.clone() {
-                             Some((chosen_index, ref chosen_name)) if chosen_index == index => {
+                             Some((chosen_index, (mutable, ref chosen_name))) if chosen_index == index => {
                                  next_chosen = chosen.next();
-                                 chosen_name.clone()
+                                 (mutable, chosen_name.clone())
                              }
-                             _ => blank.clone(),
+                             _ => (false, blank.clone()),
                          }
                      })
                      .collect();

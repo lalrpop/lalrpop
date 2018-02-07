@@ -92,7 +92,10 @@ fn emit_user_action_code<W: Write>(grammar: &r::Grammar,
                                                   .iter()
                                                   .cloned()
                                                   .map(|t| grammar.types.spanned_type(t)))
-                                         .map(|(p, t)| format!("(_, {}, _): {}", p, t))
+                                         .map(|(p, t)| format!("(_, {}{}, _): {}",
+                                                               if p.0 { "mut " } else { "" },
+                                                               p.1,
+                                                               t))
                                          .collect();
 
     // If this is a reduce of an empty production, we will

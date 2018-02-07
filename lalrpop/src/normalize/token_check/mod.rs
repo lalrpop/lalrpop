@@ -237,7 +237,7 @@ impl<'grammar> Validator<'grammar> {
                 try!(self.validate_symbol(&repeat.symbol));
             }
             SymbolKind::Choose(ref sym) |
-            SymbolKind::Name(_, ref sym) => {
+            SymbolKind::Name(_, _, ref sym) => {
                 try!(self.validate_symbol(sym));
             }
             SymbolKind::Lookahead | SymbolKind::Lookbehind | SymbolKind::Error => {}

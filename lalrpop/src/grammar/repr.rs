@@ -137,7 +137,7 @@ pub enum ActionFnDefnKind {
 /// An action fn written by a user.
 #[derive(Clone, PartialEq, Eq)]
 pub struct UserActionFnDefn {
-    pub arg_patterns: Vec<Atom>,
+    pub arg_patterns: Vec<(bool, Atom)>,
     pub arg_types: Vec<TypeRepr>,
     pub code: String,
 }
@@ -505,7 +505,7 @@ impl UserActionFnDefn {
                self.arg_patterns
                    .iter()
                    .zip(self.arg_types.iter())
-                   .map(|(p, t)| format!("{}: {}", p, t))
+                   .map(|(p, t)| format!("{}{}: {}", if p.0 { "mut " } else { "" }, p.1, t))
                    .collect();
 
         format!("fn {}({}) -> {} {{ {} }}",

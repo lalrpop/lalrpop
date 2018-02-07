@@ -141,7 +141,7 @@ impl MacroExpander {
                 return;
             }
             SymbolKind::Choose(ref mut sym) |
-            SymbolKind::Name(_, ref mut sym) => {
+            SymbolKind::Name(_, _, ref mut sym) => {
                 self.replace_symbol(sym);
                 return;
             }
@@ -324,8 +324,8 @@ impl MacroExpander {
                 })),
             SymbolKind::Choose(ref sym) =>
                 SymbolKind::Choose(Box::new(self.macro_expand_symbol(args, sym))),
-            SymbolKind::Name(ref id, ref sym) =>
-                SymbolKind::Name(id.clone(), Box::new(self.macro_expand_symbol(args, sym))),
+            SymbolKind::Name(mutable, ref id, ref sym) =>
+                SymbolKind::Name(mutable, id.clone(), Box::new(self.macro_expand_symbol(args, sym))),
             SymbolKind::Lookahead =>
                 SymbolKind::Lookahead,
             SymbolKind::Lookbehind =>
@@ -347,7 +347,7 @@ impl MacroExpander {
 
         let ty_ref = match norm_util::analyze_expr(&expr) {
             Symbols::Named(names) => {
-                let (_, ref ex_id, ex_sym) = names[0];
+                let (_, _, ref ex_id, ex_sym) = names[0];
                 return_err!(
                     span,
                     "named symbols like `{}:{}` are only allowed at the top-level of a nonterminal",
@@ -419,6 +419,7 @@ impl MacroExpander {
                                     Symbol::new(
                                         span,
                                         SymbolKind::Name(
+                                            false,
                                             v,
                                             Box::new(
                                                 Symbol::new(span,
@@ -458,13 +459,13 @@ impl MacroExpander {
                             expr: ExprSymbol {
                                 symbols: vec![
                                     Symbol::new(span, SymbolKind::Name(
-                                        v, Box::new(
+                                        true, v, Box::new(
                                             Symbol::new(span, SymbolKind::Nonterminal(name))))),
                                     Symbol::new(span, SymbolKind::Name(
-                                        e, Box::new(repeat.symbol.clone())))]
+                                        false, e, Box::new(repeat.symbol.clone())))]
                             },
                             condition: None,
-                            action: action("{ let mut v = v; v.push(e); v }"),
+                            action: action("{ v.push(e); v }"),
                         }],
                 }))
             }

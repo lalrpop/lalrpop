@@ -165,7 +165,7 @@ impl<'grammar> Validator<'grammar> {
                 if alternative.action.is_none() {
                     let sym =
                         syms.iter()
-                            .map(|&(_, _, sym)| sym)
+                            .map(|&(_, _, _, sym)| sym)
                             .next()
                             .unwrap();
                     return_err!(
@@ -212,7 +212,7 @@ impl<'grammar> Validator<'grammar> {
         let named: Multimap<Atom, Vec<&Symbol>> =
             expr.symbols.iter()
                         .filter_map(|sym| match sym.kind {
-                            SymbolKind::Name(ref nt, _) => Some((nt.clone(), sym)),
+                            SymbolKind::Name(_, ref nt, _) => Some((nt.clone(), sym)),
                             _ => None,
                         })
                         .collect();
@@ -267,7 +267,7 @@ impl<'grammar> Validator<'grammar> {
             SymbolKind::Repeat(ref repeat) => {
                 try!(self.validate_symbol(&repeat.symbol));
             }
-            SymbolKind::Choose(ref sym) | SymbolKind::Name(_, ref sym) => {
+            SymbolKind::Choose(ref sym) | SymbolKind::Name(_, _, ref sym) => {
                 try!(self.validate_symbol(sym));
             }
             SymbolKind::Lookahead | SymbolKind::Lookbehind => {

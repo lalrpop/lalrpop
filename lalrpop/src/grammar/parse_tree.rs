@@ -447,8 +447,8 @@ pub enum SymbolKind {
     // <X>
     Choose(Box<Symbol>),
 
-    // x:X
-    Name(Atom, Box<Symbol>),
+    // <x:X> or <mut x:X>
+    Name(bool, Atom, Box<Symbol>),
 
     // @L
     Lookahead,
@@ -866,8 +866,8 @@ impl Display for SymbolKind {
                 write!(fmt, "{}", r),
             SymbolKind::Choose(ref s) =>
                 write!(fmt, "<{}>", s),
-            SymbolKind::Name(ref n, ref s) =>
-                write!(fmt, "{}:{}", n, s),
+            SymbolKind::Name(m, ref n, ref s) =>
+                write!(fmt, "{}{}:{}", if m { "mut " } else { "" }, n, s),
             SymbolKind::Lookahead =>
                 write!(fmt, "@L"),
             SymbolKind::Lookbehind =>
