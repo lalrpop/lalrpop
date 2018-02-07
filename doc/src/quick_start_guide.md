@@ -6,7 +6,7 @@ But if you've done this before, or you're just the impatient sort,
 here is a quick 'cheat sheet' for setting up your project.  First, add
 the following lines to your `Cargo.toml`:
 
-```
+```toml
 [package]
 ...
 build = "build.rs" # LALRPOP preprocessing
