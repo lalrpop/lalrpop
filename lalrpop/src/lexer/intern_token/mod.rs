@@ -1,10 +1,10 @@
 /*!
 
-Generates an iterator type `__Matcher` that looks roughly like
+Generates an iterator type `Matcher` that looks roughly like
 
 ```ignore
-mod __intern_token {
-    extern crate regex as __regex;
+mod intern_token {
+    extern crate regex as regex;
 
     #[derive(Clone, Debug, PartialEq, Eq, PartialOrd, Ord)]
     pub struct Token<'input>(pub usize, pub &'input str);
@@ -15,18 +15,28 @@ mod __intern_token {
 
     impl<'a> fmt::Display for Token<'a> { ... }
 
-    pub struct __Matcher<'input> {
+    pub struct MatcherBuilder {
+        regex_set: regex::RegexSet,
+        regex_vec: Vec<regex::Regex>,
+    }
+
+    impl MatcherBuilder {
+        fn new() -> MatchBuilder { ... }
+        fn matcher<'input, 'builder>(&'builder self, s: &'input str) -> Matcher<'input, 'builder> { ... }
+    }
+
+    pub struct Matcher<'input, 'builder> {
         text: &'input str,
         consumed: usize,
-        regex_set: __regex::RegexSet,
-        regex_vec: Vec<__regex::Regex>,
+        regex_set: &'builder regex::RegexSet,
+        regex_vec: &'builder Vec<regex::Regex>,
     }
 
-    impl __Matcher<'input> {
-        fn __tokenize(&self, text: &str) -> Option<(usize, usize)> { ... }
+    impl Matcher<'input> {
+        fn tokenize(&self, text: &str) -> Option<(usize, usize)> { ... }
     }
 
-    impl<'input> Iterator for __Matcher<'input> {
+    impl<'input> Iterator for Matcher<'input> {
         type Item = Result<(usize, Token<'input>, usize), ParseError>;
         //                  ~~~~~  ~~~~~~~~~~~~~  ~~~~~
         //                  start  token          end
@@ -64,15 +74,13 @@ pub fn compile<W: Write>(
     rust!(out, "}}");
     rust!(out, "}}");
     rust!(out, "");
-    rust!(out, "pub struct {}Matcher<'input> {{", prefix);
-    rust!(out, "text: &'input str,"); // remaining input
-    rust!(out, "consumed: usize,"); // number of chars consumed thus far
+    rust!(out, "pub struct {}MatcherBuilder {{", prefix);
     rust!(out, "regex_set: {}regex::RegexSet,", prefix);
     rust!(out, "regex_vec: Vec<{}regex::Regex>,", prefix);
     rust!(out, "}}");
     rust!(out, "");
-    rust!(out, "impl<'input> {}Matcher<'input> {{", prefix);
-    rust!(out, "pub fn new(s: &'input str) -> {}Matcher<'input> {{", prefix);
+    rust!(out, "impl {}MatcherBuilder {{", prefix);
+    rust!(out, "pub fn new() -> {}MatcherBuilder {{", prefix);
 
     // create a vector of rust string literals with the text of each
     // regular expression
@@ -109,16 +117,27 @@ pub fn compile<W: Write>(
     }
     rust!(out, "];");
 
+    rust!(out, "{0}MatcherBuilder {{ regex_set: {0}regex_set, regex_vec: {0}regex_vec }}", prefix);
+    rust!(out, "}}"); // fn new()
+    rust!(out, "pub fn matcher<'input, 'builder>(&'builder self, s: &'input str) \
+                -> {}Matcher<'input, 'builder> {{", prefix);
     rust!(out, "{}Matcher {{", prefix);
     rust!(out, "text: s,");
     rust!(out, "consumed: 0,");
-    rust!(out, "regex_set: {}regex_set,", prefix);
-    rust!(out, "regex_vec: {}regex_vec,", prefix);
+    rust!(out, "regex_set: &self.regex_set,");
+    rust!(out, "regex_vec: &self.regex_vec,");
     rust!(out, "}}"); // struct literal
-    rust!(out, "}}"); // fn new()
-    rust!(out, "}}"); // impl Matcher<'input>
+    rust!(out, "}}"); // fn matcher()
+    rust!(out, "}}"); // impl MatcherBuilder
     rust!(out, "");
-    rust!(out, "impl<'input> Iterator for {}Matcher<'input> {{", prefix);
+    rust!(out, "pub struct {}Matcher<'input, 'builder> {{", prefix);
+    rust!(out, "text: &'input str,"); // remaining input
+    rust!(out, "consumed: usize,"); // number of chars consumed thus far
+    rust!(out, "regex_set: &'builder {}regex::RegexSet,", prefix);
+    rust!(out, "regex_vec: &'builder Vec<{}regex::Regex>,", prefix);
+    rust!(out, "}}");
+    rust!(out, "");
+    rust!(out, "impl<'input, 'builder> Iterator for {}Matcher<'input, 'builder> {{", prefix);
     rust!(out, "type Item = Result<(usize, Token<'input>, usize), \
                 {}lalrpop_util::ParseError<usize,Token<'input>,{}>>;",
           prefix,
