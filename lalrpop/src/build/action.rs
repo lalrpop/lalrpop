@@ -109,8 +109,10 @@ fn emit_user_action_code<W: Write>(grammar: &r::Grammar,
     }
 
     try!(rust.write_fn_header(grammar,
+                              &r::Visibility::Priv,
                               format!("{}action{}", grammar.prefix, index),
                               vec![],
+                              None,
                               arguments,
                               ret_type,
                               vec![]));
@@ -127,8 +129,10 @@ fn emit_lookaround_action_code<W: Write>(grammar: &r::Grammar,
                                          data: &r::LookaroundActionFnDefn)
                                          -> io::Result<()> {
     try!(rust.write_fn_header(grammar,
+                              &r::Visibility::Priv,
                               format!("{}action{}", grammar.prefix, index),
                               vec![],
+                              None,
                               vec![format!("{}lookbehind: &{}",
                                            grammar.prefix,
                                            grammar.types.terminal_loc_type()),
@@ -198,8 +202,10 @@ fn emit_inline_action_code<W: Write>(grammar: &r::Grammar,
     }
 
     try!(rust.write_fn_header(grammar,
+                              &r::Visibility::Priv,
                               format!("{}action{}", grammar.prefix, index),
                               vec![],
+                              None,
                               arguments,
                               ret_type,
                               vec![]));

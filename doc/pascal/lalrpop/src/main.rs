@@ -23,7 +23,7 @@ fn main() {
         }
 
         let time_stamp = Instant::now();
-        let result = pascal::parse_file(&s);
+        let result = pascal::fileParser::new().parse(&s);
         let elapsed = time_stamp.elapsed();
         let elapsed = elapsed.as_secs() as f64 + elapsed.subsec_nanos() as f64 / 1000_000_000.0;
 

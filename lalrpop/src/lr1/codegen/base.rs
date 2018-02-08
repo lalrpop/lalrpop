@@ -133,16 +133,32 @@ impl<'codegen, 'grammar, W: Write, C> CodeGenerator<'codegen, 'grammar, W, C> {
             }
         }
 
+        rust!(self.out, "{}struct {}Parser {{",
+              self.grammar.nonterminals[&self.start_symbol].visibility,
+              self.user_start_symbol);
+        rust!(self.out, "_priv: (),");
+        rust!(self.out, "}}");
+        rust!(self.out, "");
+
+        rust!(self.out, "impl {}Parser {{", self.user_start_symbol);
+        rust!(self.out, "{}fn new() -> {}Parser {{",
+              self.grammar.nonterminals[&self.start_symbol].visibility,
+              self.user_start_symbol);
+        rust!(self.out, "{}Parser {{ _priv: () }}", self.user_start_symbol);
+        rust!(self.out, "}}");
+        rust!(self.out, "");
+
         rust!(self.out, "#[allow(dead_code)]");
-        try!(self.out.write_pub_fn_header(self.grammar,
-                                          &self.grammar.nonterminals[&self.start_symbol].visibility,
-                                          format!("parse_{}", self.user_start_symbol),
-                                          type_parameters,
-                                          parameters,
-                                          format!("Result<{}, {}>",
-                                                  self.types.nonterminal_type(&self.start_symbol),
-                                                  parse_error_type),
-                                          where_clauses));
+        try!(self.out.write_fn_header(self.grammar,
+                                      &self.grammar.nonterminals[&self.start_symbol].visibility,
+                                      "parse".to_owned(),
+                                      type_parameters,
+                                      Some("&self".to_owned()),
+                                      parameters,
+                                      format!("Result<{}, {}>",
+                                              self.types.nonterminal_type(&self.start_symbol),
+                                              parse_error_type),
+                                      where_clauses));
         rust!(self.out, "{{");
 
         Ok(())
@@ -178,7 +194,8 @@ impl<'codegen, 'grammar, W: Write, C> CodeGenerator<'codegen, 'grammar, W, C> {
     }
 
     pub fn end_parser_fn(&mut self) -> io::Result<()> {
-        rust!(self.out, "}}");
+        rust!(self.out, "}}"); // fn
+        rust!(self.out, "}}"); // impl
         Ok(())
     }
 
