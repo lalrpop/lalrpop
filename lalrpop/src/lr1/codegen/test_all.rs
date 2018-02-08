@@ -79,6 +79,9 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TestAll> {
     fn write_parser_fn(&mut self) -> io::Result<()> {
         try!(self.start_parser_fn());
 
+        if self.grammar.intern_token.is_some() {
+            rust!(self.out, "let _ = self.builder;");
+        }
         // parse input using both methods:
         try!(self.call_delegate("ascent"));
         try!(self.call_delegate("parse_table"));
