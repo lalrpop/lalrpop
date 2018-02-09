@@ -548,6 +548,9 @@ impl<'input> Tokenizer<'input> {
         self.lookahead.and_then( |(_, c)| {
             if c == '\\' {
                 // escape after `'` => it had to be character literal token, consume
+                // the backslash and escaped character, then consume until `'`
+                self.bump();
+                self.bump();
                 self.take_until_and_consume_terminating_character(|c:char| { c == '\'' })
             } else {
                 // no escape, then we require to see next `'` or we assume it was lifetime
