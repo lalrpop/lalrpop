@@ -36,7 +36,7 @@ so the result is that we take the value of the `Term` we parsed. If we
 selected more than one, the result would be a tuple of all the
 selected items.  If we did not select any (i.e., `"(" Term ")"`), the
 result would be a tuple of all the items, and hence the result would
-be of type `(&'static str, i32, &'static str)`.
+be of type `(&'input str, i32, &'input str)`.
 
 Speaking of types, you may have noticed that `Term` has no type
 annotation. Since we didn't write out own action code, we can omit the
