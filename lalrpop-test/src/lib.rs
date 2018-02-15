@@ -29,6 +29,12 @@ lalrpop_mod!(sub);
 lalrpop_mod!(sub_ascent);
 lalrpop_mod!(sub_table);
 
+/// test matching empty string
+lalrpop_mod!(empty);
+
+/// test matching empty string
+lalrpop_mod!(empty_tok);
+
 /// more interesting demonstration of parsing full expressions
 lalrpop_mod!(expr);
 
@@ -1127,4 +1133,19 @@ fn test_nested_pattern_string_error() {
             panic!("Unexpected error: {:?}", err);
         }
     }
+}
+
+#[test]
+fn test_empty() {
+    empty::parse_Empty("").unwrap();
+}
+
+mod empty_tok_lib {
+    #[derive(Clone, Debug, PartialEq, Eq)]
+    pub struct Tok;
+}
+
+#[test]
+fn test_empty_tok() {
+    empty_tok::parse_Empty(Vec::<empty_tok_lib::Tok>::new()).unwrap();
 }
