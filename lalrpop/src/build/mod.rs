@@ -400,7 +400,7 @@ fn emit_recursive_ascent(session: &Session, grammar: &r::Grammar, report_file : 
         }
 
         rust!(rust,
-              "{}use self::{}parse{}::parse_{};",
+              "{}use self::{}parse{}::{}Parser;",
               grammar.nonterminals[&user_nt].visibility,
               grammar.prefix,
               start_nt,

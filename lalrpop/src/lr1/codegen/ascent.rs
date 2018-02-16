@@ -5,7 +5,7 @@
 use collections::{Multimap, Set};
 use grammar::parse_tree::WhereClause;
 use grammar::repr::{Grammar, NonterminalString, Production, Symbol, TerminalString, TypeParameter,
-                    TypeRepr};
+                    TypeRepr, Visibility};
 use lr1::core::*;
 use lr1::lookahead::Token;
 use lr1::state_graph::StateGraph;
@@ -494,11 +494,13 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent,
         let (fn_args, starts_with_terminal) = self.fn_args(optional_prefix, fixed_prefix);
 
         try!(self.out.write_fn_header(self.grammar,
+                                      &Visibility::Priv,
                                       format!("{}{}{}", self.prefix, fn_kind, fn_index),
                                       vec![format!("{}TOKENS: Iterator<Item=Result<{},{}>>",
                                                    self.prefix,
                                                    triple_type,
                                                    iter_error_type)],
+                                      None,
                                       fn_args,
                                       format!("Result<(Option<{}>, {}Nonterminal<{}>), {}>",
                                               triple_type,

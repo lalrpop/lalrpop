@@ -1,4 +1,4 @@
-use loc_issue_90::parse_Expression2;
+use loc_issue_90::Expression2Parser;
 use util::expect_debug;
 
 #[derive(Debug, PartialEq, Eq)]
@@ -17,7 +17,7 @@ pub enum Expr<'input> {
 #[test]
 fn loc_issue_90_wonky() {
     //                              0123456789abc
-    let result = parse_Expression2("wonky * wonky");
+    let result = Expression2Parser::new().parse("wonky * wonky");
     println!("{:#?}", result);
     expect_debug(result, r#"
 Ok(
@@ -47,7 +47,7 @@ Ok(
 
 #[test]
 fn loc_issue_90_wacky() {
-    let result = parse_Expression2("wacky");
+    let result = Expression2Parser::new().parse("wacky");
     println!("{:#?}", result);
     expect_debug(result, r#"
 Ok(
@@ -66,7 +66,7 @@ Ok(
 #[test]
 fn loc_issue_90_wacky_3() {
     //                              0123456789abc
-    let result = parse_Expression2("wacky * wacky");
+    let result = Expression2Parser::new().parse("wacky * wacky");
     println!("{:#?}", result);
     expect_debug(result, r#"
 Ok(
@@ -96,7 +96,7 @@ Ok(
 
 #[test]
 fn loc_issue_90_maybe() {
-    let result = parse_Expression2("& x");
+    let result = Expression2Parser::new().parse("& x");
     println!("{:#?}", result);
     expect_debug(result, r#"
 Ok(
@@ -123,7 +123,7 @@ Ok(
 
 #[test]
 fn loc_issue_90_test1() {
-    let result = parse_Expression2("x * y");
+    let result = Expression2Parser::new().parse("x * y");
     println!("{:#?}", result);
     expect_debug(result, r#"
 Ok(
@@ -156,7 +156,7 @@ Ok(
 
 #[test]
 fn loc_issue_90_test2() {
-    let result = parse_Expression2("(x*z) * y");
+    let result = Expression2Parser::new().parse("(x*z) * y");
     println!("{:#?}", result);
     expect_debug(result, r#"
 Ok(

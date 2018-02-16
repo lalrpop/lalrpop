@@ -54,7 +54,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TestAll> {
                                         this.states,
                                         "super::super::super",
                                         this.out));
-            let pub_use = format!("{}use self::{}parse{}::parse_{};",
+            let pub_use = format!("{}use self::{}parse{}::{}Parser;",
                                   this.grammar.nonterminals[&this.user_start_symbol].visibility,
                                   this.prefix,
                                   this.start_symbol,
@@ -112,7 +112,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TestAll> {
             format!("::<{}>", Sep(", ", &non_lifetimes))
         };
         rust!(self.out,
-              "let {}{} = {}{}::parse_{}{}(",
+              "let {}{} = {}{}::{}Parser::new().parse{}(",
               self.prefix,
               delegate,
               self.prefix,

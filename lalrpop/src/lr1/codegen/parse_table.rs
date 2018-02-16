@@ -766,15 +766,16 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
                                       spanned_symbol_type),
                               format!("_: {}", self.phantom_data_type())];
 
-        try!(self.out.write_pub_fn_header(self.grammar,
-                                          &Visibility::Pub(Some(Path::from_id(Atom::from("crate")))),
-                                          format!("{}reduce", self.prefix),
-                                          vec![],
-                                          parameters,
-                                          format!("Option<Result<{},{}>>",
-                                                  success_type,
-                                                  parse_error_type),
-                                          vec![]));
+        try!(self.out.write_fn_header(self.grammar,
+                                      &Visibility::Pub(Some(Path::from_id(Atom::from("crate")))),
+                                      format!("{}reduce", self.prefix),
+                                      vec![],
+                                      None,
+                                      parameters,
+                                      format!("Option<Result<{},{}>>",
+                                              success_type,
+                                              parse_error_type),
+                                      vec![]));
         rust!(self.out, "{{");
 
         rust!(self.out,
@@ -1165,8 +1166,10 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
                                       self.phantom_data_type())];
 
         try!(self.out.write_fn_header(self.grammar,
+                                      &Visibility::Priv,
                                       format!("{p}error_recovery", p = self.prefix),
                                       vec![format!("{p}I", p = self.prefix)],
+                                      None,
                                       parameters,
                                       format!("Result<Option<{start_type}>, {parse_error_type}>",
                                               start_type = start_type,
@@ -1595,8 +1598,10 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
                               format!("_: {}", self.phantom_data_type())];
 
         try!(self.out.write_fn_header(self.grammar,
+                                      &Visibility::Priv,
                                       format!("{}accepts", self.prefix),
                                       vec![],
+                                      None,
                                       parameters,
                                       format!("bool"),
                                       vec![]));

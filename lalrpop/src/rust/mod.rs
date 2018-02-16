@@ -105,42 +105,16 @@ impl<W:Write> RustWrite<W> {
         Ok(())
     }
 
-    pub fn write_pub_fn_header(&mut self,
-                               grammar: &Grammar,
-                               visibility: &Visibility,
-                               name: String,
-                               type_parameters: Vec<String>,
-                               parameters: Vec<String>,
-                               return_type: String,
-                               where_clauses: Vec<String>)
-                               -> io::Result<()>
-    {
-        self.write_fn_header_helper(grammar, visibility, name, type_parameters,
-                                    parameters, return_type, where_clauses)
-    }
-
     pub fn write_fn_header(&mut self,
-                               grammar: &Grammar,
-                               name: String,
-                               type_parameters: Vec<String>,
-                               parameters: Vec<String>,
-                               return_type: String,
-                               where_clauses: Vec<String>)
-                               -> io::Result<()>
-    {
-        self.write_fn_header_helper(grammar, &Visibility::Priv, name, type_parameters,
-                                    parameters, return_type, where_clauses)
-    }
-
-    fn write_fn_header_helper(&mut self,
-                              grammar: &Grammar,
-                              visibility: &Visibility,
-                              name: String,
-                              type_parameters: Vec<String>,
-                              parameters: Vec<String>,
-                              return_type: String,
-                              where_clauses: Vec<String>)
-                              -> io::Result<()>
+                           grammar: &Grammar,
+                           visibility: &Visibility,
+                           name: String,
+                           type_parameters: Vec<String>,
+                           first_parameter: Option<String>,
+                           parameters: Vec<String>,
+                           return_type: String,
+                           where_clauses: Vec<String>)
+                           -> io::Result<()>
     {
         rust!(self, "{}fn {}<", visibility, name);
 
@@ -154,6 +128,9 @@ impl<W:Write> RustWrite<W> {
 
         rust!(self, ">(");
 
+        if let Some(param) = first_parameter {
+            rust!(self, "{},", param);
+        }
         for parameter in &grammar.parameters {
             rust!(self, "{}: {},", parameter.name, parameter.ty);
         }

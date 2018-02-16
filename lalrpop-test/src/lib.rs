@@ -117,42 +117,42 @@ const ZERO: i32 = 0;
 
 #[test]
 fn expr_test1() {
-    util::test(|v| expr::parse_Expr(1, v), "22 - 3", 22 - 3);
+    util::test(|v| expr::ExprParser::new().parse(1, v), "22 - 3", 22 - 3);
 }
 
 #[test]
 fn expr_test2() {
-    util::test(|v| expr::parse_Expr(1, v), "22 - (3 + 5)", 22 - (3 + 5));
+    util::test(|v| expr::ExprParser::new().parse(1, v), "22 - (3 + 5)", 22 - (3 + 5));
 }
 
 #[test]
 fn expr_test3() {
-    util::test(|v| expr::parse_Expr(1, v), "22 - (3 - 5) - 13", 22 - (3 - 5) - 13);
+    util::test(|v| expr::ExprParser::new().parse(1, v), "22 - (3 - 5) - 13", 22 - (3 - 5) - 13);
 }
 
 #[test]
 fn expr_test4() {
-    util::test(|v| expr::parse_Expr(1, v), "22 * 3 - 6", 22 * 3 - 6);
+    util::test(|v| expr::ExprParser::new().parse(1, v), "22 * 3 - 6", 22 * 3 - 6);
 }
 
 #[test]
 fn expr_test5() {
-    util::test(|v| expr::parse_Expr(11, v), "22 * 3 - 6", 22*11 * 3*11 - 6*11);
+    util::test(|v| expr::ExprParser::new().parse(11, v), "22 * 3 - 6", 22*11 * 3*11 - 6*11);
 }
 
 #[test]
 fn expr_intern_tok_test1() {
-    assert_eq!(expr_intern_tok::parse_Expr(1, "22 - 3").unwrap(), 22 - 3);
+    assert_eq!(expr_intern_tok::ExprParser::new().parse(1, "22 - 3").unwrap(), 22 - 3);
 }
 
 #[test]
 fn expr_intern_tok_test2() {
-    assert_eq!(expr_intern_tok::parse_Expr(1, "22 - (3 - 5) - 13").unwrap(), 22 - (3 - 5) - 13);
+    assert_eq!(expr_intern_tok::ExprParser::new().parse(1, "22 - (3 - 5) - 13").unwrap(), 22 - (3 - 5) - 13);
 }
 
 #[test]
 fn expr_intern_tok_test_err() {
-    match expr_intern_tok::parse_Expr(1, "22 - (3 - 5) - X") {
+    match expr_intern_tok::ExprParser::new().parse(1, "22 - (3 - 5) - X") {
         //                                0123456789012345
         Err(ParseError::InvalidToken { location }) => {
             assert_eq!(location, 15);
@@ -166,7 +166,7 @@ fn expr_intern_tok_test_err() {
 #[test]
 fn parse_error_map_token_and_location() {
     let expr = "(1+\n(2++3))";
-    let result = expr_intern_tok::parse_Expr(1, expr);
+    let result = expr_intern_tok::ExprParser::new().parse(1, expr);
     let err : lalrpop_util::ParseError<usize, expr_intern_tok::Token,&'static str>
             = result.unwrap_err();
 
@@ -181,7 +181,7 @@ fn parse_error_map_token_and_location() {
 #[test]
 fn parse_error_map_err() {
     let err : lalrpop_util::ParseError<usize, util::tok::Tok, char>
-             = util::test_err_gen(error::parse_Items, "---+").unwrap_err();
+             = util::test_err_gen(|t| error::ItemsParser::new().parse(t), "---+").unwrap_err();
     let modified_err = err.map_error(|c| c.to_string());
     if let ParseError::User { error: user_error_value } = modified_err {
         assert_eq!(user_error_value, "+");
@@ -193,7 +193,7 @@ fn parse_error_map_err() {
 #[test]
 fn display_parse_error() {
     let expr = "(1+\n(2++3))";
-    let err = expr_intern_tok::parse_Expr(1, expr).unwrap_err();
+    let err = expr_intern_tok::ExprParser::new().parse(1, expr).unwrap_err();
     let message = err.to_string();
     assert!(message.contains("Unrecognized token `+`"));
 }
@@ -202,63 +202,63 @@ fn display_parse_error() {
 fn expr_lifetime_tok1() {
     // the problem here was that we were improperly pruning the 'input from the
     let tokens = lifetime_tok_lib::lt_tokenize("x");
-    let tree = lifetime_tok::parse_Expr(tokens).unwrap();
+    let tree = lifetime_tok::ExprParser::new().parse(tokens).unwrap();
     assert_eq!(tree, vec!["x"]);
 }
 
 #[test]
 fn expr_lalr_test1() {
-    util::test(|v| expr_lalr::parse_Expr(1, v), "22 - 3", 22 - 3);
+    util::test(|v| expr_lalr::ExprParser::new().parse(1, v), "22 - 3", 22 - 3);
 }
 
 #[test]
 fn expr_lalr_test2() {
-    util::test(|v| expr_lalr::parse_Expr(1, v), "22 - (3 + 5)", 22 - (3 + 5));
+    util::test(|v| expr_lalr::ExprParser::new().parse(1, v), "22 - (3 + 5)", 22 - (3 + 5));
 }
 
 #[test]
 fn expr_lalr_test3() {
-    util::test(|v| expr_lalr::parse_Expr(1, v), "22 - (3 - 5) - 13", 22 - (3 - 5) - 13);
+    util::test(|v| expr_lalr::ExprParser::new().parse(1, v), "22 - (3 - 5) - 13", 22 - (3 - 5) - 13);
 }
 
 #[test]
 fn expr_lalr_test4() {
-    util::test(|v| expr_lalr::parse_Expr(1, v), "22 * 3 - 6", 22 * 3 - 6);
+    util::test(|v| expr_lalr::ExprParser::new().parse(1, v), "22 * 3 - 6", 22 * 3 - 6);
 }
 
 #[test]
 fn expr_lalr_test5() {
-    util::test(|v| expr_lalr::parse_Expr(11, v), "22 * 3 - 6", 22*11 * 3*11 - 6*11);
+    util::test(|v| expr_lalr::ExprParser::new().parse(11, v), "22 * 3 - 6", 22*11 * 3*11 - 6*11);
 }
 
 #[test]
 fn inline_test1() {
-    assert_eq!(inline::parse_E("& L L").unwrap(), "& L L");
+    assert_eq!(inline::EParser::new().parse("& L L").unwrap(), "& L L");
 }
 
 #[test]
 fn sub_test1() {
-    util::test(sub::parse_S, "22 - 3", 22 - 3);
+    util::test(|t| sub::SParser::new().parse(t), "22 - 3", 22 - 3);
 }
 
 #[test]
 fn sub_test2() {
-    util::test(sub::parse_S, "22 - (3 - 5)", 22 - (3 - 5));
+    util::test(|t| sub::SParser::new().parse(t), "22 - (3 - 5)", 22 - (3 - 5));
 }
 
 #[test]
 fn sub_test3() {
-    util::test(sub::parse_S, "22 - (3 - 5) - 13", 22 - (3 - 5) - 13);
+    util::test(|t| sub::SParser::new().parse(t), "22 - (3 - 5) - 13", 22 - (3 - 5) - 13);
 }
 
 #[test]
 fn sub_ascent_test1() {
-    util::test(sub_ascent::parse_S, "22 - 3", 22 - 3);
+    util::test(|t| sub_ascent::SParser::new().parse(t), "22 - 3", 22 - 3);
 }
 
 #[test]
 fn sub_table_test1() {
-    util::test(sub_table::parse_S, "22 - 3", 22 - 3);
+    util::test(|t| sub_table::SParser::new().parse(t), "22 - 3", 22 - 3);
 }
 
 #[test]
@@ -271,7 +271,7 @@ fn expr_arena_test1() {
                                                                  l: arena.alloc(Node::Value(22)),
                                                                  r: arena.alloc(Node::Value(3)) }),
                                    r: arena.alloc(Node::Value(6)) });
-    util::test_loc(|v| expr_arena::parse_Expr(&arena, v), "22 * 3 - 6", expected);
+    util::test_loc(|v| expr_arena::ExprParser::new().parse(&arena, v), "22 * 3 - 6", expected);
 }
 
 #[test]
@@ -283,8 +283,8 @@ fn expr_arena_test2() {
                                  vec![arena.alloc(Node::Value(22)),
                                       arena.alloc(Node::Value(3)),
                                       arena.alloc(Node::Value(6))]));;
-    util::test_loc(|v| expr_arena::parse_Expr(&arena, v), "*(22, 3, 6)", expected);
-    util::test_loc(|v| expr_arena::parse_Expr(&arena, v), "*(22, 3, 6,)", expected);
+    util::test_loc(|v| expr_arena::ExprParser::new().parse(&arena, v), "*(22, 3, 6)", expected);
+    util::test_loc(|v| expr_arena::ExprParser::new().parse(&arena, v), "*(22, 3, 6,)", expected);
 }
 
 #[test]
@@ -300,13 +300,13 @@ fn expr_arena_test3() {
                                    Node::Binary { op: Op::Sub,
                                                   l: arena.alloc(Node::Value(3)),
                                                   r: arena.alloc(Node::Value(6)) }))) });
-    util::test_loc(|v| expr_arena::parse_Expr(&arena, v), "22 * (3 - 6)", expected);
+    util::test_loc(|v| expr_arena::ExprParser::new().parse(&arena, v), "22 * (3 - 6)", expected);
 }
 
 #[test]
 fn expr_generic_test1() {
     let expected: i32 = 22 * 3 - 6;
-    let actual = expr_generic::parse_Expr::<i32>("22 * 3 - 6").unwrap();
+    let actual = expr_generic::ExprParser::new().parse::<i32>("22 * 3 - 6").unwrap();
     assert_eq!(expected, actual);
 }
 
@@ -316,7 +316,7 @@ fn intern_tok_test1() {
                         (2, 3),
                         (4, 5),
                         (8, 9)];
-    let actual = intern_tok::parse_Items("--+-+---+").unwrap();
+    let actual = intern_tok::ItemsParser::new().parse("--+-+---+").unwrap();
     //                                    012345678
     assert_eq!(actual, expected);
 }
@@ -327,31 +327,31 @@ fn loc_test1() {
                         (4, 5),
                         (8, 9),
                         (16, 17)];
-    util::test_loc(|v| loc::parse_Items(v), "--+-+---+", expected);
+    util::test_loc(|v| loc::ItemsParser::new().parse(v), "--+-+---+", expected);
     //                                       000001111
     //                                       024680246
 }
 
 #[test]
 fn loc_test2() {
-    util::test_loc(|v| loc::parse_Items(v), "+", vec![(0, 0),
+    util::test_loc(|v| loc::ItemsParser::new().parse(v), "+", vec![(0, 0),
                                                       (0, 1)]);
 }
 
 #[test]
 fn loc_empty() {
     // test what happens when `@L` and `@R` are invoked on an empty input
-    util::test_loc(|v| loc::parse_Items(v), "", vec![(0, 0)]);
+    util::test_loc(|v| loc::ItemsParser::new().parse(v), "", vec![(0, 0)]);
 }
 
 #[test]
 fn use_super_test1() {
-    util::test(|v| use_super::parse_S(v), "()", 0);
+    util::test(|v| use_super::SParser::new().parse(v), "()", 0);
 }
 
 #[test]
 fn error_test1() {
-    match util::test_err_gen(error::parse_Items, "---+") {
+    match util::test_err_gen(|t| error::ItemsParser::new().parse(t), "---+") {
         Err(ParseError::User { error: '+' }) => { /* OK! */ }
         r => {
             panic!("unexpected response from parser: {:?}", r);
@@ -362,7 +362,7 @@ fn error_test1() {
 #[test]
 fn error_recovery_eof() {
     let errors = RefCell::new(vec![]);
-    util::test(|v| error_recovery::parse_Item(&errors, v), "--", '!'.to_string());
+    util::test(|v| error_recovery::ItemParser::new().parse(&errors, v), "--", '!'.to_string());
 
     assert_eq!(errors.borrow().len(), 1);
     assert_eq!(errors.borrow()[0], ErrorRecovery {
@@ -378,7 +378,7 @@ fn error_recovery_eof() {
 fn error_recovery_eof_without_recovery() {
     let errors = RefCell::new(vec![]);
     let tokens = util::tok::tokenize("-").into_iter().map(|t| t.1);
-    let result = error_recovery::parse_Item(&errors, tokens);
+    let result = error_recovery::ItemParser::new().parse(&errors, tokens);
     assert_eq!(result, Err(ParseError::UnrecognizedToken {
         token: None,
         expected: vec!["\"-\"".to_string()],
@@ -388,7 +388,7 @@ fn error_recovery_eof_without_recovery() {
 #[test]
 fn error_recovery_extra_token() {
     let errors = RefCell::new(vec![]);
-    util::test(|v| error_recovery::parse_Item(&errors, v), "(++)", "()".to_string());
+    util::test(|v| error_recovery::ItemParser::new().parse(&errors, v), "(++)", "()".to_string());
 
     assert_eq!(errors.borrow().len(), 1);
     assert_eq!(errors.borrow()[0], ErrorRecovery {
@@ -403,7 +403,7 @@ fn error_recovery_extra_token() {
 #[test]
 fn error_recovery_dont_drop_unrecognized_token() {
     let errors = RefCell::new(vec![]);
-    util::test(|v| error_recovery::parse_Item(&errors, v), "(--)", "(!)".to_string());
+    util::test(|v| error_recovery::ItemParser::new().parse(&errors, v), "(--)", "(!)".to_string());
 
     assert_eq!(errors.borrow().len(), 1);
     assert_eq!(errors.borrow()[0], ErrorRecovery {
@@ -418,7 +418,7 @@ fn error_recovery_dont_drop_unrecognized_token() {
 #[test]
 fn error_recovery_multiple_extra_tokens() {
     let errors = RefCell::new(vec![]);
-    util::test(|v| error_recovery::parse_Item(&errors, v), "(+++)", "()".to_string());
+    util::test(|v| error_recovery::ItemParser::new().parse(&errors, v), "(+++)", "()".to_string());
 
     assert_eq!(errors.borrow().len(), 1);
     assert_eq!(errors.borrow()[0], ErrorRecovery {
@@ -433,7 +433,7 @@ fn error_recovery_multiple_extra_tokens() {
 #[test]
 fn error_recovery_dont_panic_on_reduce_normal() {
     let mut errors = vec![];
-    util::test(|v| error_recovery_pull_182::parse_Item(&mut errors, v), "1+/", ());
+    util::test(|v| error_recovery_pull_182::ItemParser::new().parse(&mut errors, v), "1+/", ());
 
     assert_eq!(errors.len(), 1);
 }
@@ -441,7 +441,7 @@ fn error_recovery_dont_panic_on_reduce_normal() {
 #[test]
 fn error_recovery_dont_panic_on_reduce_at_eof() {
     let mut errors = vec![];
-    util::test(|v| error_recovery_pull_182::parse_Item(&mut errors, v), "1+", ());
+    util::test(|v| error_recovery_pull_182::ItemParser::new().parse(&mut errors, v), "1+", ());
 
     assert_eq!(errors.len(), 1);
 }
@@ -451,7 +451,7 @@ fn error_recovery_issue_240() {
     let mut errors = vec![];
 
     // Test here is that error recovery should not go into an infinite loop. =)
-    match util::test_err_gen(|v| error_recovery_issue_240::parse_Expr(&mut errors, v), "(+1/") {
+    match util::test_err_gen(|v| error_recovery_issue_240::ExprParser::new().parse(&mut errors, v), "(+1/") {
         Ok(()) => {
         }
         r => {
@@ -480,7 +480,7 @@ fn error_recovery_lalr_loop() {
     //
     // The newer algorithm is not so silly, however; when we get to EOF, we roll
     // back far enough that EOF becomes legal.
-    match util::test_err_gen(|v| error_recovery_lalr_loop::parse_Expr(&mut errors, v), "(+1/") {
+    match util::test_err_gen(|v| error_recovery_lalr_loop::ExprParser::new().parse(&mut errors, v), "(+1/") {
         Ok(()) => {
             assert_eq!(errors.len(), 1);
             let (l, _error, r) = errors.pop().unwrap();
@@ -509,7 +509,7 @@ fn error_recovery_lock_in() {
     //
     // This is a good example of why it would be nice to give access
     // to the popped state.
-    match util::test_err_gen(|v| error_recovery_lock_in::parse_A(&mut errors, v), "(1/22") {
+    match util::test_err_gen(|v| error_recovery_lock_in::AParser::new().parse(&mut errors, v), "(1/22") {
         Ok(()) => {
             assert_eq!(errors.len(), 1); // should not drop any tokens
             let (l, ErrorRecovery { error: _, dropped_tokens }, r) = errors.pop().unwrap();
@@ -532,7 +532,7 @@ fn test_error_recovery_spans(
     let mut errors = vec![];
 
     let result = util::test_err_gen(
-        |v| error_recovery_span::parse_Expr(&mut errors, v),
+        |v| error_recovery_span::ExprParser::new().parse(&mut errors, v),
         input,
     ).unwrap();
 
@@ -649,12 +649,12 @@ fn issue_55_test1() {
     // types both before and after, so check that we can parse with
     // assoc types on either side.
 
-    let (a, b, c) = issue_55::parse_E("{ type X; type Y; enum Z { } }").unwrap();
+    let (a, b, c) = issue_55::EParser::new().parse("{ type X; type Y; enum Z { } }").unwrap();
     assert_eq!(a, vec!["X", "Y"]);
     assert_eq!(b, "Z");
     assert!(c.is_empty());
 
-    let (a, b, c) = issue_55::parse_E("{ enum Z { } type X; type Y; }").unwrap();
+    let (a, b, c) = issue_55::EParser::new().parse("{ enum Z { } type X; type Y; }").unwrap();
     assert!(a.is_empty());
     assert_eq!(b, "Z");
     assert_eq!(c, vec!["X", "Y"]);
@@ -662,12 +662,12 @@ fn issue_55_test1() {
 
 #[test]
 fn unit_test1() {
-    assert!(unit::parse_Expr("3 + 4 * 5").is_ok());
+    assert!(unit::ExprParser::new().parse("3 + 4 * 5").is_ok());
 }
 
 #[test]
 fn unit_test2() {
-    assert!(unit::parse_Expr("3 + +").is_err());
+    assert!(unit::ExprParser::new().parse("3 + +").is_err());
 }
 
 #[test]
@@ -675,12 +675,12 @@ fn generics_issue_104_test1() {
     // The real thing `generics_issue_104` is testing is that the code
     // *compiles*, even though the type parameter `T` does not appear
     // in any of the arguments.
-    assert!(generics_issue_104::parse_Schema::<()>("grammar { foo }").is_ok());
+    assert!(generics_issue_104::SchemaParser::new().parse::<()>("grammar { foo }").is_ok());
 }
 
 #[test]
 fn where_clause_with_forall_test1() {
-    assert!(where_clause_with_forall::parse_Term(
+    assert!(where_clause_with_forall::TermParser::new().parse(
         &mut |s: &str| println!("log: {}", s),
         "(((((42)))))"
     ).is_ok());
@@ -688,35 +688,35 @@ fn where_clause_with_forall_test1() {
 
 #[test]
 fn test_match_section() {
-    assert!(match_section::parse_Query("SELECT foo").is_ok());
-    assert!(match_section::parse_Query("select foo").is_ok());
-    assert!(match_section::parse_Query("INSERT foo").is_ok());
-    assert!(match_section::parse_Query("UPDATE foo").is_ok());
-    assert!(match_section::parse_Query("UPDATE update").is_err());
+    assert!(match_section::QueryParser::new().parse("SELECT foo").is_ok());
+    assert!(match_section::QueryParser::new().parse("select foo").is_ok());
+    assert!(match_section::QueryParser::new().parse("INSERT foo").is_ok());
+    assert!(match_section::QueryParser::new().parse("UPDATE foo").is_ok());
+    assert!(match_section::QueryParser::new().parse("UPDATE update").is_err());
 }
 
 #[test]
 fn issue_113() {
-    assert!(error_issue_113::parse_Items("+").is_err());
+    assert!(error_issue_113::ItemsParser::new().parse("+").is_err());
 }
 
 #[test]
 fn issue_253() {
-    assert!(partial_parse::parse_Term("(22))").is_err());
+    assert!(partial_parse::TermParser::new().parse("(22))").is_err());
 }
 
 #[test]
 fn test_action_return_associated_types() {
     let mut callbacks = associated_types_lib::TestParseCallbacks;
     assert_eq!(
-        associated_types::parse_Term(&mut callbacks, "(((((42)))))"),
+        associated_types::TermParser::new().parse(&mut callbacks, "(((((42)))))"),
         Ok(associated_types_lib::TestTerm(associated_types_lib::TestNum(42)))
     );
 }
 
 #[test]
 fn error_issue_278() {
-    match error_issue_278::parse_Value("123 abc") {
+    match error_issue_278::ValueParser::new().parse("123 abc") {
         Err(ParseError::User { error: "Pretend there was an error" }) => { /* OK! */ }
         r => {
             panic!("unexpected response from parser: {:?}", r);
