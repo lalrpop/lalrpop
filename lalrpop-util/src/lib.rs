@@ -143,6 +143,13 @@ pub struct ErrorRecovery<L, T, E> {
     pub dropped_tokens: Vec<(L, T, L)>,
 }
 
+#[macro_export]
+macro_rules! lalrpop_mod {
+    ($modname:ident) => { lalrpop_mod!($modname, concat!("/", stringify!($modname), ".rs")); };
+
+    ($modname:ident, $source:expr) => { mod $modname { include!(concat!(env!("OUT_DIR"), $source)); } };
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;

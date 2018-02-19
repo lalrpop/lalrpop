@@ -149,7 +149,22 @@ impl Configuration {
 
     /// Process all `.lalrpop` files in `path`.
     pub fn process_dir<P: AsRef<Path>>(&self, path: P) -> Result<(), Box<Error>> {
-        let session = Rc::new(self.session.clone());
+        let mut session = self.session.clone();
+
+        // If in/out dir are empty, use cargo conventions by default.
+        // See https://github.com/lalrpop/lalrpop/issues/280
+        if session.in_dir.is_none() {
+            let mut in_dir = try!(env::current_dir());
+            in_dir.push("src");
+            session.in_dir = Some(in_dir);
+        }
+
+        if session.out_dir.is_none() {
+            let out_dir = env::var_os("OUT_DIR").expect("missing OUT_DIR variable");
+            session.out_dir = Some(PathBuf::from(out_dir));
+        }
+
+        let session = Rc::new(session);
         try!(build::process_dir(session, path));
         Ok(())
     }

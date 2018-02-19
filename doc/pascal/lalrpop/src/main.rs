@@ -2,6 +2,7 @@ extern crate docopt;
 #[macro_use]
 extern crate serde_derive;
 extern crate serde;
+#[macro_use] extern crate lalrpop_util;
 
 use docopt::Docopt;
 use std::env;
@@ -9,7 +10,7 @@ use std::io::Read;
 use std::fs::File;
 use std::time::Instant;
 
-mod pascal;
+lalrpop_mod!(pascal);
 
 fn main() {
     let args: Args = Docopt::new(USAGE)
