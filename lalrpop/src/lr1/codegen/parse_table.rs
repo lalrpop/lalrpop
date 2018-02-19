@@ -1,6 +1,6 @@
 //! A compiler from an LR(1) table to a traditional table driven parser.
 
-use collections::{Map, Set};
+use collections::{Map, Set, Entry};
 use grammar::parse_tree::WhereClause;
 use grammar::repr::*;
 use string_cache::DefaultAtom as Atom;
@@ -10,7 +10,7 @@ use rust::RustWrite;
 use std::fmt;
 use std::io::{self, Write};
 use tls::Tls;
-use util::{Escape, Sep};
+use util::Sep;
 
 use super::base::CodeGenerator;
 
@@ -280,6 +280,9 @@ struct TableDriven<'grammar> {
     reduce_indices: Map<&'grammar Production, usize>,
 
     state_type: &'static str,
+
+    variant_names: Map<Symbol, String>,
+    variants: Map<TypeRepr, String>,
 }
 
 impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDriven<'grammar>> {
@@ -363,6 +366,8 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
                                                         .collect(),
                                reduce_indices: reduce_indices,
                                state_type: state_type,
+                               variant_names: Map::new(),
+                               variants: Map::new(),
                            })
     }
 
@@ -396,16 +401,36 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
 
         // make one variant per terminal
         for term in &self.grammar.terminals.all {
-            let name = self.variant_name_for_symbol(&Symbol::Terminal(term.clone()));
             let ty = self.types.terminal_type(term).clone();
-            rust!(self.out, "{}({}),", name, ty);
+            let len = self.custom.variants.len();
+            let name = match self.custom.variants.entry(ty.clone()) {
+                Entry::Occupied(entry) => entry.into_mut(),
+                Entry::Vacant(entry) => {
+                    let name = format!("Variant{}", len);
+
+                    rust!(self.out, "{}({}),", name, ty);
+                    entry.insert(name)
+                }
+            };
+
+            self.custom.variant_names.insert(Symbol::Terminal(term.clone()), name.clone()); 
         }
 
         // make one variant per nonterminal
         for nt in self.grammar.nonterminals.keys() {
-            let name = self.variant_name_for_symbol(&Symbol::Nonterminal(nt.clone()));
             let ty = self.types.nonterminal_type(nt).clone();
-            rust!(self.out, "{}({}),", name, ty);
+            let len = self.custom.variants.len();
+            let name = match self.custom.variants.entry(ty.clone()) {
+                Entry::Occupied(entry) => entry.into_mut(),
+                Entry::Vacant(entry) => {
+                    let name = format!("Variant{}", len);
+
+                    rust!(self.out, "{}({}),", name, ty);
+                    entry.insert(name)
+                }
+            };
+
+            self.custom.variant_names.insert(Symbol::Nonterminal(nt.clone()), name.clone()); 
         }
         rust!(self.out, "}}");
         Ok(())
@@ -957,22 +982,11 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
     }
 
     fn variant_name_for_symbol(&mut self, s: &Symbol) -> String {
-        match *s {
-            Symbol::Nonterminal(ref nt) => format!("Nt{}", Escape(nt)),
-            Symbol::Terminal(ref t) => format!("Term{}", Escape(t)),
-        }
+        self.custom.variant_names[s].clone()
     }
 
     fn emit_downcast_fns(&mut self) -> io::Result<()> {
-        for term in &self.grammar.terminals.all {
-            let name = self.variant_name_for_symbol(&Symbol::Terminal(term.clone()));
-            let ty = self.types.terminal_type(term).clone();
-            try!(self.emit_downcast_fn(&name, ty));
-        }
-
-        for nt in self.grammar.nonterminals.keys() {
-            let name = self.variant_name_for_symbol(&Symbol::Nonterminal(nt.clone()));
-            let ty = self.types.nonterminal_type(nt).clone();
+        for (ty, name) in self.custom.variants.clone() {
             try!(self.emit_downcast_fn(&name, ty));
         }
 
@@ -1540,10 +1554,13 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
         rust!(self.out, "error: {p}error,", p = self.prefix);
         rust!(self.out, "dropped_tokens: {p}dropped_tokens,", p = self.prefix);
         rust!(self.out, "}};");
+
+        let error_variant = self.variant_name_for_symbol(&Symbol::Terminal(TerminalString::Error));
         rust!(
             self.out,
-            "{p}symbols.push(({p}start, {p}Symbol::Termerror({p}recovery), {p}end));",
+            "{p}symbols.push(({p}start, {p}Symbol::{e}({p}recovery), {p}end));",
             p = self.prefix,
+            e = error_variant
         );
 
         rust!(self.out, "Ok(None)");
