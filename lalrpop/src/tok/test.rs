@@ -331,6 +331,14 @@ fn equalsgreaterthancode_error_end_of_input_instead_of_closing_normal_character_
 }
 
 #[test]
+fn equalsgreaterthancode_single_quote_literal() {
+    test(r#"=> { println!('\''); },"#, vec![
+        (r#"~~~~~~~~~~~~~~~~~~~~~~ "#, EqualsGreaterThanCode(r#" { println!('\''); }"#)),
+        (r#"                      ~"#, Comma),
+    ]);
+}
+
+#[test]
 fn code_paren() { // Issue #25
     test(r#"=> a("(", c),"#, vec![
         (r#"~~~~~~~~~~~~ "#, EqualsGreaterThanCode(r#" a("(", c)"#)),
