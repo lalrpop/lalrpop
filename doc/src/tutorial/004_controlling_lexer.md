@@ -166,7 +166,7 @@ Num: String = r"[0-9]+" => <>.to_string();
 
 Here I've written the regular expression `r\w+`. However, if you check
 out the [docs for regex](https://docs.rs/regex), you'll see that `\w`
-is defined to match alphabetic characteres but also digits. So there
+is defined to match alphabetic characters but also digits. So there
 is actually an ambiguity here: if we have something like `123`, it
 could be considered to match either `r"[0-9]+"` **or** `r"\w+"`. If
 you try this grammar, you'll find that LALRPOP helpfully reports an
