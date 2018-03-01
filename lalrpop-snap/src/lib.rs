@@ -1,9 +1,7 @@
 // Need this for rusty_peg
-#![recursion_limit="256"]
-
+#![recursion_limit = "256"]
 // I hate this lint.
 #![allow(unused_parens)]
-
 // The builtin tests don't cover the CLI and so forth, and it's just
 // too darn annoying to try and make them do so.
 #![cfg_attr(test, allow(dead_code))]
@@ -47,8 +45,10 @@ mod tls;
 mod tok;
 mod util;
 
-#[cfg(test)] mod generate;
-#[cfg(test)] mod test_util;
+#[cfg(test)]
+mod generate;
+#[cfg(test)]
+mod test_util;
 
 pub use api::Configuration;
 pub use api::process_root;

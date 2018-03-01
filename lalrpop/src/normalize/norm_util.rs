@@ -24,29 +24,27 @@ pub fn analyze_action<'a>(alt: &'a Alternative) -> AlternativeAction<'a> {
 
 pub fn analyze_expr<'a>(expr: &'a ExprSymbol) -> Symbols<'a> {
     // First look for named symbols.
-    let named_symbols: Vec<_> =
-        expr.symbols
-            .iter()
-            .enumerate()
-            .filter_map(|(idx, sym)| match sym.kind {
-                SymbolKind::Name(ref id, ref sub) => Some((idx, id.clone(), &**sub)),
-                _ => None,
-            })
-            .collect();
+    let named_symbols: Vec<_> = expr.symbols
+        .iter()
+        .enumerate()
+        .filter_map(|(idx, sym)| match sym.kind {
+            SymbolKind::Name(ref id, ref sub) => Some((idx, id.clone(), &**sub)),
+            _ => None,
+        })
+        .collect();
     if !named_symbols.is_empty() {
         return Symbols::Named(named_symbols);
     }
 
     // Otherwise, make a tuple of the items they chose with `<>`.
-    let chosen_symbol_types: Vec<_> =
-        expr.symbols
-            .iter()
-            .enumerate()
-            .filter_map(|(idx, sym)| match sym.kind {
-                SymbolKind::Choose(ref sub) => Some((idx, &**sub)),
-                _ => None,
-            })
-            .collect();
+    let chosen_symbol_types: Vec<_> = expr.symbols
+        .iter()
+        .enumerate()
+        .filter_map(|(idx, sym)| match sym.kind {
+            SymbolKind::Choose(ref sub) => Some((idx, &**sub)),
+            _ => None,
+        })
+        .collect();
     if !chosen_symbol_types.is_empty() {
         return Symbols::Anon(chosen_symbol_types);
     }
@@ -59,7 +57,7 @@ pub fn analyze_expr<'a>(expr: &'a ExprSymbol) -> Symbols<'a> {
 pub enum Presence {
     None,
     InCurlyBrackets,
-    Normal
+    Normal,
 }
 
 impl Presence {
@@ -114,11 +112,23 @@ mod test {
     #[test]
     fn detecting_incurlybrackets_funky_expression() {
         assert_eq!(Presence::InCurlyBrackets, check_between_braces("{<>}"));
-        assert_eq!(Presence::InCurlyBrackets, check_between_braces("ble{<> }blaa"));
-        assert_eq!(Presence::InCurlyBrackets, check_between_braces("ble{ <> } b"));
-        assert_eq!(Presence::InCurlyBrackets, check_between_braces("bl{         <>} b"));
+        assert_eq!(
+            Presence::InCurlyBrackets,
+            check_between_braces("ble{<> }blaa")
+        );
+        assert_eq!(
+            Presence::InCurlyBrackets,
+            check_between_braces("ble{ <> } b")
+        );
+        assert_eq!(
+            Presence::InCurlyBrackets,
+            check_between_braces("bl{         <>} b")
+        );
         assert_eq!(Presence::InCurlyBrackets, check_between_braces("bl{<>} b"));
-        assert_eq!(Presence::InCurlyBrackets, check_between_braces("bl{<>         } b"));
+        assert_eq!(
+            Presence::InCurlyBrackets,
+            check_between_braces("bl{<>         } b")
+        );
     }
 
 }

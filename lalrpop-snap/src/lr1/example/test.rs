@@ -32,11 +32,20 @@ macro_rules! syms {
 //  +-Label-------------+
 fn long_label_1_example() -> Example {
     Example {
-        symbols: syms!(A1,B2,C3,D4,E5,F6),
+        symbols: syms!(A1, B2, C3, D4, E5, F6),
         cursor: 5,
         reductions: vec![
-            Reduction { start: 0, end: 4, nonterminal: nt("LongLabel22") },
-            Reduction { start: 0, end: 6, nonterminal: nt("Label") }],
+            Reduction {
+                start: 0,
+                end: 4,
+                nonterminal: nt("LongLabel22"),
+            },
+            Reduction {
+                start: 0,
+                end: 6,
+                nonterminal: nt("Label"),
+            },
+        ],
     }
 }
 
@@ -53,13 +62,16 @@ fn long_label_1_positions() {
 fn long_label_1_strings() {
     let _tls = Tls::test();
     let strings = long_label_1_example().paint_unstyled();
-    expect_debug(strings, r#"
+    expect_debug(
+        strings,
+        r#"
 [
     "  A1   B2  C3  D4 E5 F6",
     "  ├─LongLabel22─┘     │",
     "  └─Label─────────────┘"
 ]
-"#.trim());
+"#.trim(),
+    );
 }
 
 // Example with some empty sequences and
@@ -78,13 +90,30 @@ fn long_label_1_strings() {
 fn empty_labels_example() -> Example {
     Example {
         //             0 1  2  3  4  5  6 7
-        symbols: syms!(ε,A1,B2,C3,D4,E5,ε,F6),
+        symbols: syms!(ε, A1, B2, C3, D4, E5, ε, F6),
         cursor: 5,
         reductions: vec![
-            Reduction { start: 0, end: 1, nonterminal: nt("X") },
-            Reduction { start: 0, end: 4, nonterminal: nt("MegaLongLabel") },
-            Reduction { start: 6, end: 7, nonterminal: nt("Y") },
-            Reduction { start: 7, end: 8, nonterminal: nt("Z") }],
+            Reduction {
+                start: 0,
+                end: 1,
+                nonterminal: nt("X"),
+            },
+            Reduction {
+                start: 0,
+                end: 4,
+                nonterminal: nt("MegaLongLabel"),
+            },
+            Reduction {
+                start: 6,
+                end: 7,
+                nonterminal: nt("Y"),
+            },
+            Reduction {
+                start: 7,
+                end: 8,
+                nonterminal: nt("Z"),
+            },
+        ],
     }
 }
 
@@ -102,7 +131,9 @@ fn empty_labels_positions() {
 fn empty_labels_strings() {
     let _tls = Tls::test();
     let strings = empty_labels_example().paint_unstyled();
-    expect_debug(strings, r#"
+    expect_debug(
+        strings,
+        r#"
 [
     "  ╷    ╷ A1  B2  C3 D4 E5 ╷   ╷ F6  ╷",
     "  ├─X──┘          │       │   │ │   │",
@@ -110,7 +141,8 @@ fn empty_labels_strings() {
     "                          └─Y─┘ │   │",
     "                                └─Z─┘"
 ]
-"#.trim());
+"#.trim(),
+    );
 }
 
 // _return_      _A_ Expression _B_
@@ -123,13 +155,25 @@ fn empty_labels_strings() {
 fn single_token_example() -> Example {
     Example {
         //             0 1  2  3  4  5  6 7
-        symbols: syms!(_return_,_A_,Expression,_B_),
+        symbols: syms!(_return_, _A_, Expression, _B_),
         cursor: 5,
         reductions: vec![
-            Reduction { start: 0, end: 1, nonterminal: nt("ExprAtom") },
-            Reduction { start: 0, end: 1, nonterminal: nt("ExprSuffix") },
-            Reduction { start: 0, end: 4, nonterminal: nt("ExprSuffix") },
-        ]
+            Reduction {
+                start: 0,
+                end: 1,
+                nonterminal: nt("ExprAtom"),
+            },
+            Reduction {
+                start: 0,
+                end: 1,
+                nonterminal: nt("ExprSuffix"),
+            },
+            Reduction {
+                start: 0,
+                end: 4,
+                nonterminal: nt("ExprSuffix"),
+            },
+        ],
     }
 }
 
@@ -137,12 +181,15 @@ fn single_token_example() -> Example {
 fn single_token_strings() {
     let _tls = Tls::test();
     let strings = single_token_example().paint_unstyled();
-    expect_debug(strings, r#"
+    expect_debug(
+        strings,
+        r#"
 [
     "  _return_     ╷ _A_ Expression _B_",
     "  ├─ExprAtom───┤                  │",
     "  ├─ExprSuffix─┘                  │",
     "  └─ExprSuffix────────────────────┘"
 ]
-"#.trim());
+"#.trim(),
+    );
 }

@@ -49,15 +49,17 @@ pub fn tokenize(s: &str) -> Vec<(usize, Tok, usize)> {
         lookahead = chars.next();
     }
 
-    tokens.into_iter()
+    tokens
+        .into_iter()
         .enumerate()
         .map(|(i, tok)| (i * 2, tok, i * 2 + 1))
         .collect()
 }
 
 fn take_while<C, F>(c0: char, chars: &mut C, f: F) -> (String, Option<char>)
-    where C: Iterator<Item = char>,
-          F: Fn(char) -> bool
+where
+    C: Iterator<Item = char>,
+    F: Fn(char) -> bool,
 {
     let mut buf = String::new();
 

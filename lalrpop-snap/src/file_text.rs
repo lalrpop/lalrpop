@@ -1,5 +1,5 @@
 use grammar::parse_tree as pt;
-use std::fmt::{Display, Formatter, Error};
+use std::fmt::{Display, Error, Formatter};
 use std::fs::File;
 use std::path::PathBuf;
 use std::io::{self, Read, Write};
@@ -20,17 +20,20 @@ impl FileText {
 
     pub fn new(path: PathBuf, input_str: String) -> FileText {
         let newline_indices: Vec<usize> = {
-            let input_indices =
-                input_str.as_bytes().iter()
-                                    .enumerate()
-                                    .filter(|&(_, &b)| b == ('\n' as u8))
-                                    .map(|(i, _)| i + 1); // index of first char in the line
-            Some(0).into_iter()
-                   .chain(input_indices)
-                   .collect()
+            let input_indices = input_str
+                .as_bytes()
+                .iter()
+                .enumerate()
+                .filter(|&(_, &b)| b == ('\n' as u8))
+                .map(|(i, _)| i + 1); // index of first char in the line
+            Some(0).into_iter().chain(input_indices).collect()
         };
 
-        FileText { path: path, input_str: input_str, newlines: newline_indices }
+        FileText {
+            path: path,
+            input_str: input_str,
+            newlines: newline_indices,
+        }
     }
 
     #[cfg(test)]
@@ -45,17 +48,21 @@ impl FileText {
     pub fn span_str(&self, span: pt::Span) -> String {
         let (start_line, start_col) = self.line_col(span.0);
         let (end_line, end_col) = self.line_col(span.1);
-        format!("{}:{}:{}: {}:{}",
-                self.path.display(),
-                start_line+1, start_col+1, end_line+1, end_col)
+        format!(
+            "{}:{}:{}: {}:{}",
+            self.path.display(),
+            start_line + 1,
+            start_col + 1,
+            end_line + 1,
+            end_col
+        )
     }
 
     fn line_col(&self, pos: usize) -> (usize, usize) {
         let num_lines = self.newlines.len();
-        let line =
-            (0..num_lines)
+        let line = (0..num_lines)
             .filter(|&i| self.newlines[i] > pos)
-            .map(|i| i-1)
+            .map(|i| i - 1)
             .next()
             .unwrap_or(num_lines - 1);
 
@@ -75,7 +82,7 @@ impl FileText {
             &self.input_str[start_offset..]
         } else {
             let end_offset = self.newlines[line_num + 1];
-            &self.input_str[start_offset..end_offset-1]
+            &self.input_str[start_offset..end_offset - 1]
         }
     }
 
@@ -95,21 +102,29 @@ impl FileText {
                 try!(writeln!(out, "  {}^", Repeat(' ', start_col)));
             } else {
                 let width = end_col - start_col;
-                try!(writeln!(out, "  {}~{}~",
-                              Repeat(' ', start_col),
-                              Repeat('~', width.saturating_sub(2))));
+                try!(writeln!(
+                    out,
+                    "  {}~{}~",
+                    Repeat(' ', start_col),
+                    Repeat('~', width.saturating_sub(2))
+                ));
             }
         } else {
             // span is across many lines, find the maximal width of any of those
-            let line_strs: Vec<_> = (start_line..end_line+1).map(|i| self.line_text(i)).collect();
+            let line_strs: Vec<_> = (start_line..end_line + 1)
+                .map(|i| self.line_text(i))
+                .collect();
             let max_len = line_strs.iter().map(|l| l.len()).max().unwrap();
-            try!(writeln!(out, "  {}{}~+",
-                          Repeat(' ', start_col),
-                          Repeat('~', max_len - start_col)));
-            for line in &line_strs[..line_strs.len()-1] {
+            try!(writeln!(
+                out,
+                "  {}{}~+",
+                Repeat(' ', start_col),
+                Repeat('~', max_len - start_col)
+            ));
+            for line in &line_strs[..line_strs.len() - 1] {
                 try!(writeln!(out, "| {0:<1$} |", line, max_len));
             }
-            try!(writeln!(out, "| {}", line_strs[line_strs.len()-1]));
+            try!(writeln!(out, "| {}", line_strs[line_strs.len() - 1]));
             try!(writeln!(out, "+~{}", Repeat('~', end_col)));
         }
 

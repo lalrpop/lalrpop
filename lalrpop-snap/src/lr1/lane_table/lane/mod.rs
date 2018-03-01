@@ -19,13 +19,14 @@ pub struct LaneTracer<'trace, 'grammar: 'trace, L: Lookahead + 'trace> {
 }
 
 impl<'trace, 'grammar, L: Lookahead> LaneTracer<'trace, 'grammar, L> {
-    pub fn new(grammar: &'grammar Grammar,
-               start_nt: NonterminalString,
-               states: &'trace [State<'grammar, L>],
-               first_sets: &'trace FirstSets,
-               state_graph: &'trace StateGraph,
-               conflicts: usize)
-               -> Self {
+    pub fn new(
+        grammar: &'grammar Grammar,
+        start_nt: NonterminalString,
+        states: &'trace [State<'grammar, L>],
+        first_sets: &'trace FirstSets,
+        state_graph: &'trace StateGraph,
+        conflicts: usize,
+    ) -> Self {
         LaneTracer {
             states: states,
             first_sets: first_sets,
@@ -39,10 +40,12 @@ impl<'trace, 'grammar, L: Lookahead> LaneTracer<'trace, 'grammar, L> {
         self.table
     }
 
-    pub fn start_trace(&mut self,
-                       state: StateIndex,
-                       conflict: ConflictIndex,
-                       action: Action<'grammar>) {
+    pub fn start_trace(
+        &mut self,
+        state: StateIndex,
+        conflict: ConflictIndex,
+        action: Action<'grammar>,
+    ) {
         let mut visited_set = Set::default();
 
         // if the conflict item is a "shift" item, then the context
@@ -62,11 +65,13 @@ impl<'trace, 'grammar, L: Lookahead> LaneTracer<'trace, 'grammar, L> {
         }
     }
 
-    fn continue_trace(&mut self,
-                      state: StateIndex,
-                      conflict: ConflictIndex,
-                      item: LR0Item<'grammar>,
-                      visited: &mut Set<(StateIndex, LR0Item<'grammar>)>) {
+    fn continue_trace(
+        &mut self,
+        state: StateIndex,
+        conflict: ConflictIndex,
+        item: LR0Item<'grammar>,
+        visited: &mut Set<(StateIndex, LR0Item<'grammar>)>,
+    ) {
         if !visited.insert((state, item)) {
             return;
         }
@@ -86,7 +91,10 @@ impl<'trace, 'grammar, L: Lookahead> LaneTracer<'trace, 'grammar, L> {
             // an item like `X = ...p (*) T ...s`, which we will then
             // process in turn.
             let shifted_symbol = item.production.symbols[item.index - 1];
-            let unshifted_item = Item { index: item.index - 1, ..item };
+            let unshifted_item = Item {
+                index: item.index - 1,
+                ..item
+            };
             let predecessors = self.state_graph.predecessors(state, shifted_symbol);
             for predecessor in predecessors {
                 self.table.add_successor(predecessor, state);
@@ -125,8 +133,9 @@ impl<'trace, 'grammar, L: Lookahead> LaneTracer<'trace, 'grammar, L> {
         // only have one production like `X' = X`, in which case this
         // loop is useless, but sometimes in tests we don't observe
         // that restriction, so do it anyway.
-        for pred_item in state_items.iter()
-                                    .filter(|i| i.can_shift_nonterminal(nonterminal))
+        for pred_item in state_items
+            .iter()
+            .filter(|i| i.can_shift_nonterminal(nonterminal))
         {
             let symbol_sets = pred_item.symbol_sets();
             let mut first = self.first_sets.first0(symbol_sets.suffix);

@@ -25,7 +25,10 @@ fn inline_nt(grammar: &mut Grammar, inline_nt: NonterminalString) {
         let mut new_action_fn_defns = vec![];
 
         for into_production in &data.productions {
-            if !into_production.symbols.contains(&Symbol::Nonterminal(inline_nt)) {
+            if !into_production
+                .symbols
+                .contains(&Symbol::Nonterminal(inline_nt))
+            {
                 new_productions.push(into_production.clone());
                 continue;
             }
@@ -94,20 +97,20 @@ impl<'a> Inliner<'a> {
             let action_fn = ActionFn::new(index);
             let inline_defn = InlineActionFnDefn {
                 action: into_action,
-                symbols: self.new_symbols.clone()
+                symbols: self.new_symbols.clone(),
             };
             self.new_action_fn_defns.push(ActionFnDefn {
                 fallible: into_fallible || inline_fallible,
                 ret_type: into_ret_type,
                 kind: ActionFnDefnKind::Inline(inline_defn),
             });
-            let prod_symbols: Vec<Symbol> =
-                self.new_symbols.iter()
-                                .flat_map(|sym| match *sym {
-                                    InlinedSymbol::Original(s) => vec![s],
-                                    InlinedSymbol::Inlined(_, ref s) => s.clone(),
-                                })
-                                .collect();
+            let prod_symbols: Vec<Symbol> = self.new_symbols
+                .iter()
+                .flat_map(|sym| match *sym {
+                    InlinedSymbol::Original(s) => vec![s],
+                    InlinedSymbol::Inlined(_, ref s) => s.clone(),
+                })
+                .collect();
             self.new_productions.push(Production {
                 nonterminal: self.into_production.nonterminal,
                 span: self.into_production.span,
@@ -128,10 +131,10 @@ impl<'a> Inliner<'a> {
                         self.inline_fallible += fallible as u32;
 
                         // Push the symbols of the production inline.
-                        self.new_symbols.push(
-                            InlinedSymbol::Inlined(
-                                inline_production.action,
-                                inline_production.symbols.clone()));
+                        self.new_symbols.push(InlinedSymbol::Inlined(
+                            inline_production.action,
+                            inline_production.symbols.clone(),
+                        ));
 
                         // Inline remaining symbols:
                         self.inline(&into_symbols[1..]);

@@ -11,7 +11,11 @@ pub enum ParseTree {
 }
 
 pub fn random_parse_tree(grammar: &Grammar, symbol: NonterminalString) -> ParseTree {
-    let mut gen = Generator { grammar: grammar, rng: rand::thread_rng(), depth: 0 };
+    let mut gen = Generator {
+        grammar: grammar,
+        rng: rand::thread_rng(),
+        depth: 0,
+    };
     loop {
         // sometimes, the random walk overflows the stack, so we have a max, and if
         // it is exceeded, we just try again
@@ -40,9 +44,11 @@ impl<'grammar> Generator<'grammar> {
         let productions = self.grammar.productions_for(&nt);
         let index: usize = self.rng.gen_range(0, productions.len());
         let production = &productions[index];
-        let trees: Option<Vec<_>> = production.symbols.iter()
-                                                      .map(|sym| self.symbol(sym.clone()))
-                                                      .collect();
+        let trees: Option<Vec<_>> = production
+            .symbols
+            .iter()
+            .map(|sym| self.symbol(sym.clone()))
+            .collect();
         trees.map(|trees| ParseTree::Nonterminal(nt, trees))
     }
 
@@ -64,11 +70,9 @@ impl ParseTree {
     fn push_terminals(&self, vec: &mut Vec<TerminalString>) {
         match *self {
             ParseTree::Terminal(ref s) => vec.push(s.clone()),
-            ParseTree::Nonterminal(_, ref trees) => {
-                for tree in trees {
-                    tree.push_terminals(vec);
-                }
-            }
+            ParseTree::Nonterminal(_, ref trees) => for tree in trees {
+                tree.push_terminals(vec);
+            },
         }
     }
 }

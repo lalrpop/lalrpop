@@ -19,10 +19,11 @@ impl Horiz {
 
 impl Content for Horiz {
     fn min_width(&self) -> usize {
-        self.items.iter()
-                  .map(|c| c.min_width())
-                  .intersperse(self.separate)
-                  .fold(0, |a,b| a+b)
+        self.items
+            .iter()
+            .map(|c| c.min_width())
+            .intersperse(self.separate)
+            .fold(0, |a, b| a + b)
     }
 
     fn emit(&self, view: &mut AsciiView) {
@@ -34,10 +35,7 @@ impl Content for Horiz {
     }
 }
 
-pub fn emit_horiz(view: &mut AsciiView,
-                  items: &[Box<Content>],
-                  separate: usize)
-{
+pub fn emit_horiz(view: &mut AsciiView, items: &[Box<Content>], separate: usize) {
     let mut column = 0;
     for item in items {
         let (_, end_column) = item.emit_at(view, 0, column);

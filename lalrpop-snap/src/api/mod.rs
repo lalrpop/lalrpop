@@ -13,7 +13,7 @@ use std::rc::Rc;
 /// To get the default configuration, use `Configuration::new`.
 #[derive(Clone, Default)]
 pub struct Configuration {
-    session: Session
+    session: Session,
 }
 
 impl Configuration {
@@ -48,7 +48,10 @@ impl Configuration {
     /// to the input path before being resolved relative to the output
     /// path.  By default, the input directory is the current working
     /// directory.
-    pub fn set_in_dir<P>(&mut self, dir: P) -> &mut Self where P: Into<PathBuf> {
+    pub fn set_in_dir<P>(&mut self, dir: P) -> &mut Self
+    where
+        P: Into<PathBuf>,
+    {
         self.session.in_dir = Some(dir.into());
         self
     }
@@ -56,7 +59,10 @@ impl Configuration {
     /// Specify a custom directory to use when writing output files.
     /// By default, the output directory is the same as the input
     /// directory.
-    pub fn set_out_dir<P>(&mut self, dir: P) -> &mut Self where P: Into<PathBuf> {
+    pub fn set_out_dir<P>(&mut self, dir: P) -> &mut Self
+    where
+        P: Into<PathBuf>,
+    {
         self.session.out_dir = Some(dir.into());
         self
     }
@@ -65,7 +71,8 @@ impl Configuration {
     /// input directory to `src` and the output directory to
     /// `$OUT_DIR`.
     pub fn use_cargo_dir_conventions(&mut self) -> &mut Self {
-        self.set_in_dir("src").set_out_dir(env::var("OUT_DIR").unwrap());
+        self.set_in_dir("src")
+            .set_out_dir(env::var("OUT_DIR").unwrap());
         self
     }
 
@@ -141,14 +148,14 @@ impl Configuration {
     }
 
     /// Process all `.lalrpop` files in `path`.
-    pub fn process_dir<P:AsRef<Path>>(&self, path: P) -> Result<(), Box<Error>> {
+    pub fn process_dir<P: AsRef<Path>>(&self, path: P) -> Result<(), Box<Error>> {
         let session = Rc::new(self.session.clone());
         try!(build::process_dir(session, path));
         Ok(())
     }
 
     /// Process the given `.lalrpop` file.
-    pub fn process_file<P:AsRef<Path>>(&self, path: P) -> Result<(), Box<Error>> {
+    pub fn process_file<P: AsRef<Path>>(&self, path: P) -> Result<(), Box<Error>> {
         let session = Rc::new(self.session.clone());
         try!(build::process_file(session, path));
         Ok(())

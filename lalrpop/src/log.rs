@@ -28,7 +28,8 @@ impl Log {
     }
 
     pub fn log<M>(&self, level: Level, message: M)
-        where M: FnOnce() -> String
+    where
+        M: FnOnce() -> String,
     {
         if self.level >= level {
             println!("{}", message());
@@ -61,4 +62,3 @@ macro_rules! profile {
         }
     }
 }
-

@@ -1,16 +1,11 @@
-use super::{NormResult, NormError};
+use super::{NormError, NormResult};
 use super::norm_util::{self, AlternativeAction, Symbols};
 
-use std::collections::{HashMap};
+use std::collections::HashMap;
 use grammar::consts::{ERROR, INPUT_LIFETIME, LOCATION};
-use grammar::parse_tree::{ActionKind, Alternative,
-                          Grammar,
-                          NonterminalData, NonterminalString,
-                          Path,
-                          Span,
-                          SymbolKind,
-                          TypeRef};
-use grammar::repr::{NominalTypeRepr, Types, TypeRepr};
+use grammar::parse_tree::{ActionKind, Alternative, Grammar, NonterminalData, NonterminalString,
+                          Path, Span, SymbolKind, TypeRef};
+use grammar::repr::{NominalTypeRepr, TypeRepr, Types};
 use intern::intern;
 
 #[cfg(test)]
@@ -38,30 +33,32 @@ impl<'grammar> TypeInferencer<'grammar> {
     fn new(grammar: &'grammar Grammar) -> NormResult<TypeInferencer<'grammar>> {
         let types = TypeInferencer::make_types(grammar);
 
-        let nonterminals =
-            grammar.items
-                   .iter()
-                   .filter_map(|item| item.as_nonterminal())
-                   .map(|data| {
-                       assert!(!data.is_macro_def()); // normalized away by now
-                       (data.name, NT::new(data))
-                   })
-                   .collect();
+        let nonterminals = grammar
+            .items
+            .iter()
+            .filter_map(|item| item.as_nonterminal())
+            .map(|data| {
+                assert!(!data.is_macro_def()); // normalized away by now
+                (data.name, NT::new(data))
+            })
+            .collect();
 
-        Ok(TypeInferencer { stack: vec![],
-                            nonterminals: nonterminals,
-                            types: types })
+        Ok(TypeInferencer {
+            stack: vec![],
+            nonterminals: nonterminals,
+            types: types,
+        })
     }
 
     fn make_types(grammar: &Grammar) -> Types {
         let opt_extern_token = grammar.extern_token();
 
         // Determine error type (if any).
-        let error_type =
-            opt_extern_token.and_then(|extern_token| {
-                extern_token.associated_type(intern(ERROR))
-                            .map(|tr| tr.type_ref.type_repr())
-            });
+        let error_type = opt_extern_token.and_then(|extern_token| {
+            extern_token
+                .associated_type(intern(ERROR))
+                .map(|tr| tr.type_ref.type_repr())
+        });
 
         // Determine location type and enum type. If using an internal
         // token, that's specified by us, not user.
@@ -86,13 +83,15 @@ impl<'grammar> TypeInferencer<'grammar> {
             types
         } else {
             let extern_token = opt_extern_token.unwrap();
-            let loc_type = extern_token.associated_type(intern(LOCATION))
-                                       .map(|tr| tr.type_ref.type_repr());
-            let enum_type = extern_token.enum_token
-                                        .as_ref()
-                                        .unwrap()
-                                        .type_name
-                                        .type_repr();
+            let loc_type = extern_token
+                .associated_type(intern(LOCATION))
+                .map(|tr| tr.type_ref.type_repr());
+            let enum_type = extern_token
+                .enum_token
+                .as_ref()
+                .unwrap()
+                .type_name
+                .type_repr();
             let mut types = Types::new(&grammar.prefix, loc_type, error_type, enum_type);
 
             // For each defined conversion, figure out the type of the
@@ -104,12 +103,18 @@ impl<'grammar> TypeInferencer<'grammar> {
             // e.g. "(" => Lparen(..) ==> no custom type
             //      "Num" => Num(<u32>) ==> custom type is u32
             //      "Fraction" => Real(<u32>,<u32>) ==> custom type is (u32, u32)
-            for conversion in grammar.enum_token().into_iter()
-                                                  .flat_map(|et| &et.conversions)
+            for conversion in grammar
+                .enum_token()
+                .into_iter()
+                .flat_map(|et| &et.conversions)
             {
                 let mut tys = Vec::new();
-                conversion.to.for_each_binding(&mut |ty| tys.push(ty.type_repr()));
-                if tys.is_empty() { continue; }
+                conversion
+                    .to
+                    .for_each_binding(&mut |ty| tys.push(ty.type_repr()));
+                if tys.is_empty() {
+                    continue;
+                }
                 let ty = maybe_tuple(tys);
                 types.add_term_type(conversion.from, ty);
             }
@@ -119,10 +124,7 @@ impl<'grammar> TypeInferencer<'grammar> {
     }
 
     fn infer_types(mut self) -> NormResult<Types> {
-        let ids: Vec<NonterminalString> =
-            self.nonterminals.iter()
-                             .map(|(&id, _)| id)
-                             .collect();
+        let ids: Vec<NonterminalString> = self.nonterminals.iter().map(|(&id, _)| id).collect();
 
         for id in ids {
             try!(self.nonterminal_type(id));
@@ -139,7 +141,11 @@ impl<'grammar> TypeInferencer<'grammar> {
 
         let nt = self.nonterminals[&id];
         if self.stack.contains(&id) {
-            return_err!(nt.span, "cannot infer type of `{}` because it references itself", id);
+            return_err!(
+                nt.span,
+                "cannot infer type of `{}` because it references itself",
+                id
+            );
         }
 
         let ty = try!(self.push(id, |this| {
@@ -162,27 +168,36 @@ impl<'grammar> TypeInferencer<'grammar> {
             // if it never succeeded, report first error
             if alternative_types.is_empty() {
                 match alternative_errors.into_iter().next() {
-                    Some(err) => { return Err(err); }
+                    Some(err) => {
+                        return Err(err);
+                    }
                     None => {
                         // if nothing succeeded, and nothing errored,
                         // must have been nothing to start with
                         return_err!(
                             nt.span,
                             "nonterminal `{}` has no alternatives and hence parse cannot succeed",
-                            id);
+                            id
+                        );
                     }
                 }
             }
 
             // otherwise, check that all the cases where we had success agree
-            for ((ty, alt), i) in
-                alternative_types[1..].iter().zip(&nt.alternatives[1..]).zip(1..)
+            for ((ty, alt), i) in alternative_types[1..]
+                .iter()
+                .zip(&nt.alternatives[1..])
+                .zip(1..)
             {
                 if &alternative_types[0] != ty {
-                    return_err!(alt.span,
-                                "type of alternative #{} is `{}`, \
-                                 but type of first alternative is `{}`",
-                                i+1, ty, alternative_types[0]);
+                    return_err!(
+                        alt.span,
+                        "type of alternative #{} is `{}`, \
+                         but type of first alternative is `{}`",
+                        i + 1,
+                        ty,
+                        alternative_types[0]
+                    );
                 }
             }
 
@@ -194,8 +209,9 @@ impl<'grammar> TypeInferencer<'grammar> {
         Ok(ty)
     }
 
-    fn push<F,R>(&mut self, id: NonterminalString, f: F) -> NormResult<R>
-        where F: FnOnce(&mut TypeInferencer) -> NormResult<R>
+    fn push<F, R>(&mut self, id: NonterminalString, f: F) -> NormResult<R>
+    where
+        F: FnOnce(&mut TypeInferencer) -> NormResult<R>,
     {
         self.stack.push(id);
         let r = f(self);
@@ -211,47 +227,58 @@ impl<'grammar> TypeInferencer<'grammar> {
                 };
                 Ok(TypeRepr::Tuple(types))
             }
-            TypeRef::Nominal { ref path, ref types } => {
+            TypeRef::Nominal {
+                ref path,
+                ref types,
+            } => {
                 let types = try! {
                     types.iter().map(|t| self.type_ref(t)).collect()
                 };
-                Ok(TypeRepr::Nominal(NominalTypeRepr { path: path.clone(),
-                                                       types: types }))
+                Ok(TypeRepr::Nominal(NominalTypeRepr {
+                    path: path.clone(),
+                    types: types,
+                }))
             }
-            TypeRef::Lifetime(id) => {
-                Ok(TypeRepr::Lifetime(id))
-            }
-            TypeRef::Id(id) => {
-                Ok(TypeRepr::Nominal(NominalTypeRepr { path: Path::from_id(id),
-                                                       types: vec![] }))
-            }
-            TypeRef::Ref { lifetime, mutable, ref referent } => {
-                Ok(TypeRepr::Ref { lifetime: lifetime,
-                                   mutable: mutable,
-                                   referent: Box::new(try!(self.type_ref(referent))) })
-            }
-            TypeRef::OfSymbol(ref symbol) => {
-                self.symbol_type(symbol)
-            }
+            TypeRef::Lifetime(id) => Ok(TypeRepr::Lifetime(id)),
+            TypeRef::Id(id) => Ok(TypeRepr::Nominal(NominalTypeRepr {
+                path: Path::from_id(id),
+                types: vec![],
+            })),
+            TypeRef::Ref {
+                lifetime,
+                mutable,
+                ref referent,
+            } => Ok(TypeRepr::Ref {
+                lifetime: lifetime,
+                mutable: mutable,
+                referent: Box::new(try!(self.type_ref(referent))),
+            }),
+            TypeRef::OfSymbol(ref symbol) => self.symbol_type(symbol),
         }
     }
 
     fn alternative_type(&mut self, alt: &Alternative) -> NormResult<TypeRepr> {
         match norm_util::analyze_action(alt) {
-            AlternativeAction::User(&ActionKind::User(_)) |
-            AlternativeAction::User(&ActionKind::Fallible(_)) => {
-                return_err!(alt.span, "cannot infer types if there is custom action code");
+            AlternativeAction::User(&ActionKind::User(_))
+            | AlternativeAction::User(&ActionKind::Fallible(_)) => {
+                return_err!(
+                    alt.span,
+                    "cannot infer types if there is custom action code"
+                );
             }
 
-            AlternativeAction::User(&ActionKind::Lookahead) |
-            AlternativeAction::User(&ActionKind::Lookbehind) => {
+            AlternativeAction::User(&ActionKind::Lookahead)
+            | AlternativeAction::User(&ActionKind::Lookbehind) => {
                 Ok(self.types.opt_terminal_loc_type().unwrap().clone())
             }
 
             AlternativeAction::Default(Symbols::Named(ref syms)) => {
-                return_err!(alt.span,
-                            "cannot infer types in the presence of named symbols like `{}:{}`",
-                            syms[0].1, syms[0].2);
+                return_err!(
+                    alt.span,
+                    "cannot infer types in the presence of named symbols like `{}:{}`",
+                    syms[0].1,
+                    syms[0].2
+                );
             }
 
             AlternativeAction::Default(Symbols::Anon(syms)) => {
@@ -273,8 +300,12 @@ impl<'grammar> TypeInferencer<'grammar> {
             SymbolKind::Name(_, ref s) => self.symbol_type(&s.kind),
             SymbolKind::Error => Ok(self.types.parse_error_type().clone()),
 
-            SymbolKind::Repeat(..) | SymbolKind::Expr(..) | SymbolKind::Macro(..) |
-            SymbolKind::AmbiguousId(..) | SymbolKind::Lookahead | SymbolKind::Lookbehind => {
+            SymbolKind::Repeat(..)
+            | SymbolKind::Expr(..)
+            | SymbolKind::Macro(..)
+            | SymbolKind::AmbiguousId(..)
+            | SymbolKind::Lookahead
+            | SymbolKind::Lookbehind => {
                 unreachable!("symbol `{:?}` should have been expanded away", symbol)
             }
         }
@@ -283,7 +314,11 @@ impl<'grammar> TypeInferencer<'grammar> {
 
 impl<'grammar> NT<'grammar> {
     fn new(data: &'grammar NonterminalData) -> NT<'grammar> {
-        NT { span: data.span, type_decl: &data.type_decl, alternatives: &data.alternatives }
+        NT {
+            span: data.span,
+            type_decl: &data.type_decl,
+            alternatives: &data.alternatives,
+        }
     }
 }
 

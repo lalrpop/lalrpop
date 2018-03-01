@@ -1,14 +1,15 @@
 //! Code to compute example inputs given a backtrace.
 
-use ascii_canvas::{AsciiView};
+use ascii_canvas::AsciiView;
 use message::Content;
 use message::builder::InlineBuilder;
 use grammar::repr::*;
-use std::fmt::{Debug, Formatter, Error};
+use std::fmt::{Debug, Error, Formatter};
 use style::Style;
 use tls::Tls;
 
-#[cfg(test)] mod test;
+#[cfg(test)]
+mod test;
 
 /// An "example" input and the way it was derived. This can be
 /// serialized into useful text. For example, it might represent
@@ -74,13 +75,14 @@ impl Example {
     /// mono-spaced font. Also add a final `0` marker which will serve
     /// as the end position.
     fn lengths(&self) -> Vec<usize> {
-        self.symbols.iter()
-                    .map(|s| match *s {
-                        ExampleSymbol::Symbol(s) => format!("{}", s).chars().count(),
-                        ExampleSymbol::Epsilon => 1, // display as " "
-                    })
-                    .chain(Some(0))
-                    .collect()
+        self.symbols
+            .iter()
+            .map(|s| match *s {
+                ExampleSymbol::Symbol(s) => format!("{}", s).chars().count(),
+                ExampleSymbol::Epsilon => 1, // display as " "
+            })
+            .chain(Some(0))
+            .collect()
     }
 
     /// Extract a prefix of the list of symbols from this `Example`
@@ -127,17 +129,18 @@ impl Example {
     }
 
     fn starting_positions(&self, lengths: &[usize]) -> Vec<usize> {
-        lengths.iter()
-               .scan(0, |counter, &len| {
-                   let start = *counter;
+        lengths
+            .iter()
+            .scan(0, |counter, &len| {
+                let start = *counter;
 
-                   // Leave space for "NT " (if "NT" is the name
-                   // of the nonterminal).
-                   *counter = start + len + 1;
+                // Leave space for "NT " (if "NT" is the name
+                // of the nonterminal).
+                *counter = start + len + 1;
 
-                   Some(start)
-               })
-               .collect()
+                Some(start)
+            })
+            .collect()
     }
 
     /// Start index where each symbol in the example should appear,
@@ -165,7 +168,12 @@ impl Example {
         //    A1   B2  C3  D4 E5 F6
         //    |             |
         //    +-LongLabel22-+
-        for &Reduction { start, end, nonterminal } in &self.reductions {
+        for &Reduction {
+            start,
+            end,
+            nonterminal,
+        } in &self.reductions
+        {
             let nt_len = format!("{}", nonterminal).chars().count();
 
             // Number of symbols we are reducing. This should always
@@ -247,11 +255,11 @@ impl Example {
 
                 // For the first `extra` symbols, give them amount + 1
                 // extra space. After that, just amount. (O(n^2). Sue me.)
-                for i in 0 .. extra {
-                    shift(&mut positions[start + 1 + i .. end], amount + 1);
+                for i in 0..extra {
+                    shift(&mut positions[start + 1 + i..end], amount + 1);
                 }
-                for i in extra .. num_gaps {
-                    shift(&mut positions[start + 1 + i .. end], amount);
+                for i in extra..num_gaps {
+                    shift(&mut positions[start + 1 + i..end], amount);
                 }
             }
         }
@@ -269,18 +277,15 @@ impl Example {
         canvas.to_strings()
     }
 
-    fn paint_on(&self,
-                styles: &ExampleStyles,
-                positions: &[usize],
-                view: &mut AsciiView) {
+    fn paint_on(&self, styles: &ExampleStyles, positions: &[usize], view: &mut AsciiView) {
         // Draw the brackets for each reduction:
         for (index, reduction) in self.reductions.iter().enumerate() {
             let start_column = positions[reduction.start];
             let end_column = positions[reduction.end] - 1;
             let row = 1 + index;
-            view.draw_vertical_line(0 .. row + 1, start_column);
-            view.draw_vertical_line(0 .. row + 1, end_column - 1);
-            view.draw_horizontal_line(row, start_column .. end_column);
+            view.draw_vertical_line(0..row + 1, start_column);
+            view.draw_vertical_line(0..row + 1, end_column - 1);
+            view.draw_horizontal_line(row, start_column..end_column);
         }
 
         // Write the labels for each reduction. Do this after the
@@ -290,10 +295,12 @@ impl Example {
         for (index, reduction) in self.reductions.iter().enumerate() {
             let column = positions[reduction.start] + 2;
             let row = 1 + index;
-            view.write_chars(row,
-                             column,
-                             reduction.nonterminal.to_string().chars(),
-                             session.nonterminal_symbol);
+            view.write_chars(
+                row,
+                column,
+                reduction.nonterminal.to_string().chars(),
+                session.nonterminal_symbol,
+            );
         }
 
         // Write the labels on top:
@@ -301,11 +308,13 @@ impl Example {
         self.paint_symbols_on(&self.symbols, &positions, styles, view);
     }
 
-    fn paint_symbols_on(&self,
-                        symbols: &[ExampleSymbol],
-                        positions: &[usize],
-                        styles: &ExampleStyles,
-                        view: &mut AsciiView) {
+    fn paint_symbols_on(
+        &self,
+        symbols: &[ExampleSymbol],
+        positions: &[usize],
+        styles: &ExampleStyles,
+        view: &mut AsciiView,
+    ) {
         let session = Tls::session();
         for (index, ex_symbol) in symbols.iter().enumerate() {
             let style = if index < self.cursor {
@@ -326,19 +335,22 @@ impl Example {
             let column = positions[index];
             match *ex_symbol {
                 ExampleSymbol::Symbol(Symbol::Terminal(term)) => {
-                    view.write_chars(0,
-                                     column,
-                                     term.to_string().chars(),
-                                     style.with(session.terminal_symbol));
+                    view.write_chars(
+                        0,
+                        column,
+                        term.to_string().chars(),
+                        style.with(session.terminal_symbol),
+                    );
                 }
                 ExampleSymbol::Symbol(Symbol::Nonterminal(nt)) => {
-                    view.write_chars(0,
-                                     column,
-                                     nt.to_string().chars(),
-                                     style.with(session.nonterminal_symbol));
+                    view.write_chars(
+                        0,
+                        column,
+                        nt.to_string().chars(),
+                        style.with(session.nonterminal_symbol),
+                    );
                 }
-                ExampleSymbol::Epsilon => {
-                }
+                ExampleSymbol::Epsilon => {}
             }
         }
     }
@@ -395,4 +407,3 @@ impl ExampleStyles {
         }
     }
 }
-

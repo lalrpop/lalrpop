@@ -2,14 +2,15 @@
 
 use diff;
 use lalrpop_util::ParseError;
-use std::fmt::{Debug, Formatter, Error};
+use std::fmt::{Debug, Error, Formatter};
 use util::tok::Tok;
 
 // a simple tokenizer
 pub mod tok;
 
 pub fn test<R: Debug + Eq, F>(parse_fn: F, input: &str, expected: R)
-    where F: FnOnce(Vec<Tok>) -> Result<R, ParseError<(), Tok, &'static str>>
+where
+    F: FnOnce(Vec<Tok>) -> Result<R, ParseError<(), Tok, &'static str>>,
 {
     // create tokens
     let tokens = tok::tokenize(input);
@@ -21,15 +22,18 @@ pub fn test<R: Debug + Eq, F>(parse_fn: F, input: &str, expected: R)
     let r = parse_fn(tokens).unwrap();
 
     // expect output to be correct
-    assert!(r == expected,
-            "parsing {:?}, got {:#?}, expected {:#?}",
-            input,
-            r,
-            expected);
+    assert!(
+        r == expected,
+        "parsing {:?}, got {:#?}, expected {:#?}",
+        input,
+        r,
+        expected
+    );
 }
 
 pub fn test_loc<R: Debug + Eq, F>(parse_fn: F, input: &str, expected: R)
-    where F: FnOnce(Vec<(usize, Tok, usize)>) -> Result<R, ParseError<usize, Tok, &'static str>>
+where
+    F: FnOnce(Vec<(usize, Tok, usize)>) -> Result<R, ParseError<usize, Tok, &'static str>>,
 {
     // create tokens
     let tokens = tok::tokenize(input);
@@ -38,15 +42,18 @@ pub fn test_loc<R: Debug + Eq, F>(parse_fn: F, input: &str, expected: R)
     let r = parse_fn(tokens).unwrap();
 
     // expect output to be correct
-    assert!(r == expected,
-            "parsing {:?}, got {:#?}, expected {:#?}",
-            input,
-            r,
-            expected);
+    assert!(
+        r == expected,
+        "parsing {:?}, got {:#?}, expected {:#?}",
+        input,
+        r,
+        expected
+    );
 }
 
 pub fn test_err_gen<R, F>(parse_fn: F, input: &str) -> R
-    where F: FnOnce(Vec<(usize, Tok, usize)>) -> R
+where
+    F: FnOnce(Vec<(usize, Tok, usize)>) -> R,
 {
     // create tokens
     let tokens = tok::tokenize(input);
@@ -64,8 +71,10 @@ impl<'a> Debug for ExpectedDebug<'a> {
 }
 
 pub fn expect_debug<D: Debug>(actual: D, expected: &str) {
-    compare(ExpectedDebug(&format!("{:#?}", actual)),
-            ExpectedDebug(expected))
+    compare(
+        ExpectedDebug(&format!("{:#?}", actual)),
+        ExpectedDebug(expected),
+    )
 }
 
 pub fn compare<D: Debug, E: Debug>(actual: D, expected: E) {

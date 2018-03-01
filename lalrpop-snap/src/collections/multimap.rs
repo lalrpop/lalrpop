@@ -71,7 +71,8 @@ impl<'iter, K: Ord, C: Collection> IntoIterator for &'iter Multimap<K, C> {
 
 impl<K: Ord, C: Collection> FromIterator<(K, C::Item)> for Multimap<K, C> {
     fn from_iter<T>(iterator: T) -> Self
-        where T: IntoIterator<Item = (K, C::Item)>
+    where
+        T: IntoIterator<Item = (K, C::Item)>,
     {
         let mut map = Multimap::new();
         for (key, value) in iterator {
@@ -137,4 +138,3 @@ fn push_nil() {
     assert!(m.push(1, ()));
     assert!(!m.push(0, ()));
 }
-

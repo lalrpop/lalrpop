@@ -58,10 +58,7 @@ fn enumerator() {
     let mut graph = TraceGraph::new();
 
     let item0 = Item::lr0(&productions[0], 1); // X = X0 (*) X1
-    graph.add_edge(
-        nt!(X),
-        item0,
-        item0.symbol_sets());
+    graph.add_edge(nt!(X), item0, item0.symbol_sets());
 
     let item1 = Item::lr0(&productions[1], 1); // Y = Y0 (*) X Y1
     graph.add_edge(item1, nt!(X), item1.symbol_sets());
@@ -70,10 +67,10 @@ fn enumerator() {
     graph.add_edge(item2, nt!(X), item2.symbol_sets());
 
     let enumerator = graph.lr0_examples(Item::lr0(&productions[0], 1));
-    let list: Vec<_> =
-        enumerator.map(|example| example.paint_unstyled())
-                  .collect();
-    expect_debug(&list, r#"
+    let list: Vec<_> = enumerator.map(|example| example.paint_unstyled()).collect();
+    expect_debug(
+        &list,
+        r#"
 [
     [
         "  Z0 X0 X1 Z1",
@@ -86,7 +83,8 @@ fn enumerator() {
         "  └─Y───────┘"
     ]
 ]
-"#.trim());
+"#.trim(),
+    );
 }
 
 #[test]
@@ -124,11 +122,15 @@ fn enumerator1() {
     let item0 = Item::lr0(&productions[0], 2); // W = W0 W1 (*)
     graph.add_edge(nt!(W), item0, item0.symbol_sets());
 
-    graph.add_edge(nt!(X), nt!(W), SymbolSets {
-        prefix: &productions[1].symbols[..1],
-        cursor: Some(&productions[1].symbols[1]),
-        suffix: &productions[1].symbols[2..]
-    });
+    graph.add_edge(
+        nt!(X),
+        nt!(W),
+        SymbolSets {
+            prefix: &productions[1].symbols[..1],
+            cursor: Some(&productions[1].symbols[1]),
+            suffix: &productions[1].symbols[2..],
+        },
+    );
 
     let item1 = Item::lr0(&productions[2], 1);
     graph.add_edge(item1, nt!(X), item1.symbol_sets());
@@ -137,10 +139,10 @@ fn enumerator1() {
     graph.add_edge(item2, nt!(X), item2.symbol_sets());
 
     let enumerator = graph.lr0_examples(Item::lr0(&productions[0], 2));
-    let list: Vec<_> =
-        enumerator.map(|example| example.paint_unstyled())
-                  .collect();
-    expect_debug(&list, r#"
+    let list: Vec<_> = enumerator.map(|example| example.paint_unstyled()).collect();
+    expect_debug(
+        &list,
+        r#"
 [
     [
         "  Z0 X0 W0 W1 X1 Z1",
@@ -155,5 +157,6 @@ fn enumerator1() {
         "  └─Y─────────────┘"
     ]
 ]
-"#.trim());
+"#.trim(),
+    );
 }

@@ -52,10 +52,7 @@ impl<'grammar> LaneTable<'grammar> {
         }
     }
 
-    pub fn add_lookahead(&mut self,
-                         state: StateIndex,
-                         conflict: ConflictIndex,
-                         tokens: &TokenSet) {
+    pub fn add_lookahead(&mut self, state: StateIndex, conflict: ConflictIndex, tokens: &TokenSet) {
         self.lookaheads
             .entry((state, conflict))
             .or_insert_with(|| TokenSet::new())
@@ -89,16 +86,17 @@ impl<'grammar> LaneTable<'grammar> {
     /// "beachhead states".
     pub fn beachhead_states(&self) -> Set<StateIndex> {
         // set of all states that are reachable from another state
-        let reachable: Set<StateIndex> =
-            self.successors.iter()
-                           .flat_map(|(_pred, succ)| succ)
-                           .cloned()
-                           .collect();
+        let reachable: Set<StateIndex> = self.successors
+            .iter()
+            .flat_map(|(_pred, succ)| succ)
+            .cloned()
+            .collect();
 
-        self.lookaheads.keys()
-                       .map(|&(state_index, _)| state_index)
-                       .filter(|s| !reachable.contains(s))
-                       .collect()
+        self.lookaheads
+            .keys()
+            .map(|&(state_index, _)| state_index)
+            .filter(|s| !reachable.contains(s))
+            .collect()
     }
 
     pub fn context_set(&self, state: StateIndex) -> Result<ContextSet, OverlappingLookahead> {
@@ -118,14 +116,16 @@ impl<'grammar> LaneTable<'grammar> {
     pub fn rows(&self) -> Result<Map<StateIndex, ContextSet>, StateIndex> {
         let mut map = Map::new();
         for (&(state_index, conflict_index), token_set) in &self.lookaheads {
-            debug!("rows: inserting state_index={:?} conflict_index={:?} token_set={:?}",
-                   state_index, conflict_index, token_set);
+            debug!(
+                "rows: inserting state_index={:?} conflict_index={:?} token_set={:?}",
+                state_index, conflict_index, token_set
+            );
             match {
                 map.entry(state_index)
-                   .or_insert_with(|| ContextSet::new(self.conflicts))
-                   .insert(conflict_index, token_set)
+                    .or_insert_with(|| ContextSet::new(self.conflicts))
+                    .insert(conflict_index, token_set)
             } {
-                Ok(_changed) => { }
+                Ok(_changed) => {}
                 Err(OverlappingLookahead) => {
                     debug!("rows: intra-row conflict inserting state_index={:?} conflict_index={:?} token_set={:?}",
                            state_index, conflict_index, token_set);
@@ -149,17 +149,15 @@ impl<'grammar> LaneTable<'grammar> {
 impl<'grammar> Debug for LaneTable<'grammar> {
     fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
         let indices: Set<StateIndex> = self.lookaheads
-                                           .keys()
-                                           .map(|&(state, _)| state)
-                                           .chain(self.successors
-                                                      .iter()
-                                                      .map(|(key, _)| key.clone()))
-                                           .collect();
+            .keys()
+            .map(|&(state, _)| state)
+            .chain(self.successors.iter().map(|(key, _)| key.clone()))
+            .collect();
 
         let header = iter::once(format!("State"))
-                         .chain((0..self.conflicts).map(|i| format!("C{}", i)))
-                         .chain(Some(format!("Successors")))
-                         .collect();
+            .chain((0..self.conflicts).map(|i| format!("C{}", i)))
+            .chain(Some(format!("Successors")))
+            .collect();
 
         let rows = indices.iter().map(|&index| {
             iter::once(format!("{:?}", index))
@@ -169,10 +167,12 @@ impl<'grammar> Debug for LaneTable<'grammar> {
                         .map(|token_set| format!("{:?}", token_set))
                         .unwrap_or(String::new())
                 }))
-                .chain(Some(self.successors
-                                .get(&index)
-                                .map(|c| format!("{:?}", c))
-                                .unwrap_or(String::new())))
+                .chain(Some(
+                    self.successors
+                        .get(&index)
+                        .map(|c| format!("{:?}", c))
+                        .unwrap_or(String::new()),
+                ))
                 .collect()
         });
 
@@ -181,14 +181,11 @@ impl<'grammar> Debug for LaneTable<'grammar> {
         let columns = 2 + self.conflicts;
 
         let widths: Vec<_> = (0..columns)
-                                 .map(|c| {
-                                     // find the max width of any row at this column
-                                     table.iter()
-                                          .map(|r| r[c].len())
-                                          .max()
-                                          .unwrap()
-                                 })
-                                 .collect();
+            .map(|c| {
+                // find the max width of any row at this column
+                table.iter().map(|r| r[c].len()).max().unwrap()
+            })
+            .collect();
 
         for row in &table {
             try!(write!(fmt, "| "));

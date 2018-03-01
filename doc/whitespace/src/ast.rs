@@ -17,8 +17,8 @@ pub enum Stmt {
     Mark(String),
     Call(String),
     Jump(String), // Unconditional jump
-    Jz(String), // Jump if zero
-    Js(String), // Jump if negative
+    Jz(String),   // Jump if zero
+    Js(String),   // Jump if negative
 
     Return,
     Exit,
@@ -30,11 +30,14 @@ pub enum Stmt {
 }
 
 pub fn label(digits: Vec<u8>) -> String {
-    digits.into_iter().map(|c| match c {
-        0 => 's',
-        1 => 't',
-        _ => unreachable!(),
-    }).collect()
+    digits
+        .into_iter()
+        .map(|c| match c {
+            0 => 's',
+            1 => 't',
+            _ => unreachable!(),
+        })
+        .collect()
 }
 
 pub fn number(digits: Vec<u8>) -> Int {
@@ -97,13 +100,11 @@ impl<'program> Interpreter<'program> {
                     let top = try!(self.pop());
                     let c = try!(num_to_char(top));
                     print!("{}", c);
-                },
+                }
 
                 &Stmt::Exit => return Ok(()),
 
-                other => return Err({
-                    format!("Unimplemented instruction: {:?}", other)
-                })
+                other => return Err({ format!("Unimplemented instruction: {:?}", other) }),
             }
 
             pc += 1;
@@ -130,7 +131,7 @@ fn num_to_char(n: Int) -> Result<char, String> {
     } else {
         match from_u32(n as u32) {
             Some(c) => Ok(c),
-            None => Err(format!("Invalid char: {}", n))
+            None => Err(format!("Invalid char: {}", n)),
         }
     }
 }

@@ -19,14 +19,16 @@ fn shift_backtrace_1() {
     // or `int -> (int -> int)`?
 
     let _tls = Tls::test();
-    let grammar = normalized_grammar(r#"
+    let grammar = normalized_grammar(
+        r#"
 grammar;
 pub Ty: () = {
     "int" => (),
     "bool" => (),
     <t1:Ty> "->" <t2:Ty> => (),
 };
-"#);
+"#,
+    );
     let _lr1_tls = Lr1Tls::install(grammar.terminals.clone());
     let first_sets = FirstSets::new(&grammar);
     let err = build_states(&grammar, nt("Ty")).unwrap_err();
@@ -46,19 +48,24 @@ pub Ty: () = {
     println!("item={:?}", item);
     let tracer = Tracer::new(&first_sets, &err.states);
     let graph = tracer.backtrace_shift(conflict.state, item);
-    expect_debug(&graph, r#"
+    expect_debug(
+        &graph,
+        r#"
 [
     (Nonterminal(Ty) -([], Some(Ty), ["->", Ty])-> Nonterminal(Ty)),
     (Nonterminal(Ty) -([Ty], Some("->"), [Ty])-> Item(Ty = Ty (*) "->" Ty)),
     (Item(Ty = Ty "->" (*) Ty) -([Ty, "->"], Some(Ty), [])-> Nonterminal(Ty))
 ]
-"#.trim());
+"#.trim(),
+    );
 
-    let list: Vec<_> =
-        graph.lr0_examples(item)
-             .map(|example| example.paint_unstyled())
-             .collect();
-    expect_debug(&list, r#"
+    let list: Vec<_> = graph
+        .lr0_examples(item)
+        .map(|example| example.paint_unstyled())
+        .collect();
+    expect_debug(
+        &list,
+        r#"
 [
     [
         "  Ty "->" Ty "->" Ty",
@@ -66,5 +73,6 @@ pub Ty: () = {
         "  └─Ty─────────────┘"
     ]
 ]
-"#.trim());
+"#.trim(),
+    );
 }

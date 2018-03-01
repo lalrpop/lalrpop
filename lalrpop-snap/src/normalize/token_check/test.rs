@@ -11,32 +11,27 @@ fn validate_grammar(grammar: &str) -> NormResult<Grammar> {
     super::validate(parsed_grammar)
 }
 
-fn check_err(expected_err: &str,
-             grammar: &str,
-             span: &str) {
+fn check_err(expected_err: &str, grammar: &str, span: &str) {
     let err = validate_grammar(&grammar).unwrap_err();
     test_util::check_norm_err(expected_err, span, err);
 }
 
-fn check_intern_token(grammar: &str,
-                      expected_tokens: Vec<(&'static str, &'static str)>)
-{
+fn check_intern_token(grammar: &str, expected_tokens: Vec<(&'static str, &'static str)>) {
     let parsed_grammar = validate_grammar(&grammar).expect("validate");
     let intern_token = parsed_grammar.intern_token().expect("intern_token");
     println!("intern_token: {:?}", intern_token);
     for (input, expected_user_name) in expected_tokens {
         let actual_user_name =
-            interpret::interpret(&intern_token.dfa, input)
-            .map(|(index, text)| {
+            interpret::interpret(&intern_token.dfa, input).map(|(index, text)| {
                 let user_name = intern_token.match_entries[index.index()].user_name;
                 (user_name, text)
             });
         let actual_user_name = format!("{:?}", actual_user_name);
         if expected_user_name != actual_user_name {
-            panic!("input `{}` matched `{}` but we expected `{}`",
-                   input,
-                   actual_user_name,
-                   expected_user_name);
+            panic!(
+                "input `{}` matched `{}` but we expected `{}`",
+                input, actual_user_name, expected_user_name
+            );
         }
     }
 }
@@ -46,7 +41,8 @@ fn unknown_terminal() {
     check_err(
         r#"terminal `"\+"` does not have a pattern defined for it"#,
         r#"grammar; extern { enum Term { } } X = X "+";"#,
-        r#"                                        ~~~ "#);
+        r#"                                        ~~~ "#,
+    );
 }
 
 #[test]
@@ -54,7 +50,8 @@ fn unknown_id_terminal() {
     check_err(
         r#"terminal `"foo"` does not have a pattern defined for it"#,
         r#"grammar; extern { enum Term { } } X = X "foo";"#,
-        r#"                                        ~~~~~ "#);
+        r#"                                        ~~~~~ "#,
+    );
 }
 
 #[test]
@@ -62,7 +59,8 @@ fn tick_input_lifetime_already_declared() {
     check_err(
         r#".*the `'input` lifetime is implicit and cannot be declared"#,
         r#"grammar<'input>; X = X "foo";"#,
-        r#"~~~~~~~                      "#);
+        r#"~~~~~~~                      "#,
+    );
 }
 
 #[test]
@@ -70,7 +68,8 @@ fn input_parameter_already_declared() {
     check_err(
         r#".*the `input` parameter is implicit and cannot be declared"#,
         r#"grammar(input:u32); X = X "foo";"#,
-        r#"~~~~~~~                         "#);
+        r#"~~~~~~~                         "#,
+    );
 }
 
 #[test]
@@ -78,19 +77,23 @@ fn invalid_regular_expression_unterminated_group() {
     check_err(
         r#"Unclosed parenthesis"#,
         r#"grammar; X = X r"(123";"#,
-        r#"               ~~~~~~~ "#);
+        r#"               ~~~~~~~ "#,
+    );
 }
 
 #[test]
 fn quoted_literals() {
     check_intern_token(
         r#"grammar; X = X "+" "-" "foo" "(" ")";"#,
-        vec![("+", r#"Some(("+", "+"))"#),
-             ("-", r#"Some(("-", "-"))"#),
-             ("(", r#"Some(("(", "("))"#),
-             (")", r#"Some((")", ")"))"#),
-             ("foo", r#"Some(("foo", "foo"))"#),
-             ("<", r#"None"#)]);
+        vec![
+            ("+", r#"Some(("+", "+"))"#),
+            ("-", r#"Some(("-", "-"))"#),
+            ("(", r#"Some(("(", "("))"#),
+            (")", r#"Some((")", ")"))"#),
+            ("foo", r#"Some(("foo", "foo"))"#),
+            ("<", r#"None"#),
+        ],
+    );
 }
 
 #[test]
@@ -102,7 +105,8 @@ fn regex_literals() {
             ("def", r##"Some((r#"[a-z]+"#, "def"))"##),
             ("1", r##"Some((r#"[0-9]+"#, "1"))"##),
             ("9123456", r##"Some((r#"[0-9]+"#, "9123456"))"##),
-                ]);
+        ],
+    );
 }
 
 /// Basic test for match mappings.
@@ -114,7 +118,8 @@ fn match_mappings() {
             ("BEGIN", r##"Some(("BEGIN", "BEGIN"))"##),
             ("begin", r##"Some(("BEGIN", "begin"))"##),
             ("abc", r#"Some((ALPHA, "abc"))"#),
-                ]);
+        ],
+    );
 }
 
 /// Match mappings, exercising precedence. Here the ID regex *would*
@@ -127,7 +132,8 @@ fn match_precedence() {
             ("BEGIN", r##"Some(("BEGIN", "BEGIN"))"##),
             ("begin", r##"Some(("BEGIN", "begin"))"##),
             ("abc", r#"Some((ID, "abc"))"#),
-                ]);
+        ],
+    );
 }
 
 /// Test that, without a `catch-all`, using unrecognized literals is an error.
@@ -136,7 +142,8 @@ fn invalid_match_literal() {
     check_err(
         r#"terminal `"foo"` does not have a match mapping defined for it"#,
         r#"grammar; match { r"(?i)begin" => "BEGIN" } X = "foo";"#,
-        r#"                                               ~~~~~ "#);
+        r#"                                               ~~~~~ "#,
+    );
 }
 
 /// Test that, without a `catch-all`, using unrecognized literals is an error.
@@ -145,7 +152,8 @@ fn invalid_match_regex_literal() {
     check_err(
         r##"terminal `r#"foo"#` does not have a match mapping defined for it"##,
         r#"grammar; match { r"(?i)begin" => "BEGIN" } X = r"foo";"#,
-        r#"                                               ~~~~~~ "#);
+        r#"                                               ~~~~~~ "#,
+    );
 }
 
 /// Test that, with a catch-all, the previous two examples work.
@@ -178,7 +186,8 @@ fn ambiguity_within_match() {
     check_err(
         r##"ambiguity detected between the terminal `r#"b"#` and the terminal `r#"\(\?i\)b"#`"##,
         r#"grammar; match { r"(?i)b" => "B", r"b" => "b" }"#,
-        r#"                                  ~~~~~~~~~~~~ "#);
+        r#"                                  ~~~~~~~~~~~~ "#,
+    );
 }
 
 /// Test that using the **exact same regular expression** twice is
@@ -189,5 +198,6 @@ fn same_literal_twice() {
     check_err(
         r##"multiple match entries for `r#"\(\?i\)b"#`"##,
         r#"grammar; match { r"(?i)b" => "B" } else { r"(?i)b" => "b" }"#,
-        r#"                                          ~~~~~~~~~~~~~~~~ "#);
+        r#"                                          ~~~~~~~~~~~~~~~~ "#,
+    );
 }

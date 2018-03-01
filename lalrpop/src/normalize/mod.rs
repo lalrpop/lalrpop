@@ -35,22 +35,41 @@ pub fn normalize_without_validating(grammar: pt::Grammar) -> NormResult<r::Gramm
     normalize_helper(&Session::new(), grammar, false)
 }
 
-fn normalize_helper(session: &Session,
-                    grammar: pt::Grammar,
-                    validate: bool)
-                    -> NormResult<r::Grammar> {
+fn normalize_helper(
+    session: &Session,
+    grammar: pt::Grammar,
+    validate: bool,
+) -> NormResult<r::Grammar> {
     let grammar = try!(lower_helper(session, grammar, validate));
     let grammar = profile!(session, "Inlining", try!(inline::inline(grammar)));
     Ok(grammar)
 }
 
 fn lower_helper(session: &Session, grammar: pt::Grammar, validate: bool) -> NormResult<r::Grammar> {
-    profile!(session, "Grammar validation", if validate { try!(prevalidate::validate(&grammar)); });
-    let grammar = profile!(session, "Grammar resolution", try!(resolve::resolve(grammar)));
-    let grammar = profile!(session, "Macro expansion", try!(macro_expand::expand_macros(grammar)));
+    profile!(
+        session,
+        "Grammar validation",
+        if validate {
+            try!(prevalidate::validate(&grammar));
+        }
+    );
+    let grammar = profile!(
+        session,
+        "Grammar resolution",
+        try!(resolve::resolve(grammar))
+    );
+    let grammar = profile!(
+        session,
+        "Macro expansion",
+        try!(macro_expand::expand_macros(grammar))
+    );
     let grammar = profile!(session, "Token check", try!(token_check::validate(grammar)));
     let types = profile!(session, "Infer types", try!(tyinfer::infer_types(&grammar)));
-    let grammar = profile!(session, "Lowering", try!(lower::lower(session, grammar, types)));
+    let grammar = profile!(
+        session,
+        "Lowering",
+        try!(lower::lower(session, grammar, types))
+    );
     Ok(grammar)
 }
 
@@ -98,4 +117,3 @@ mod inline;
 // Shared routines
 
 mod norm_util;
-

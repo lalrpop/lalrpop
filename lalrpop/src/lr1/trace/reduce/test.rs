@@ -26,7 +26,8 @@ macro_rules! terms {
 }
 
 fn test_grammar1() -> Grammar {
-    normalized_grammar(r#"
+    normalized_grammar(
+        r#"
     grammar;
 
     pub Start: () = Stmt;
@@ -45,7 +46,8 @@ fn test_grammar1() -> Grammar {
         "Int",
         Expr "+" "Int",
     };
-"#)
+"#,
+    )
 }
 
 #[test]
@@ -68,21 +70,25 @@ fn backtrace1() {
     //
     // Select the ";" one.
     let semi = Token::Terminal(term(";"));
-    let semi_item = states[top_state.0].items
-                                       .vec
-                                       .iter()
-                                       .filter(|item| item.lookahead.contains(&semi))
-                                       .next()
-                                       .unwrap();
+    let semi_item = states[top_state.0]
+        .items
+        .vec
+        .iter()
+        .filter(|item| item.lookahead.contains(&semi))
+        .next()
+        .unwrap();
 
     let backtrace = tracer.backtrace_reduce(top_state, semi_item.to_lr0());
 
     println!("{:#?}", backtrace);
 
-    let pictures: Vec<_> = backtrace.lr0_examples(semi_item.to_lr0())
-                                    .map(|e| e.paint_unstyled())
-                                    .collect();
-    expect_debug(&pictures, r#"
+    let pictures: Vec<_> = backtrace
+        .lr0_examples(semi_item.to_lr0())
+        .map(|e| e.paint_unstyled())
+        .collect();
+    expect_debug(
+        &pictures,
+        r#"
 [
     [
         "  Exprs "," "Int"  ╷ ";"",
@@ -114,7 +120,8 @@ fn backtrace1() {
         "  └─Expr───────────┘"
     ]
 ]
-"#.trim());
+"#.trim(),
+    );
 }
 
 #[test]
@@ -122,41 +129,51 @@ fn backtrace2() {
     let _tls = Tls::test();
     // This grammar yields a S/R conflict. Is it (int -> int) -> int
     // or int -> (int -> int)?
-    let grammar = normalized_grammar(r#"
+    let grammar = normalized_grammar(
+        r#"
 grammar;
 pub Ty: () = {
     "int" => (),
     "bool" => (),
     <t1:Ty> "->" <t2:Ty> => (),
 };
-"#);
+"#,
+    );
     let _lr1_tls = Lr1Tls::install(grammar.terminals.clone());
     let first_sets = FirstSets::new(&grammar);
     let err = build_states(&grammar, nt("Ty")).unwrap_err();
     let tracer = Tracer::new(&first_sets, &err.states);
     let conflict = err.conflicts[0].clone();
     println!("conflict={:?}", conflict);
-    let item = Item { production: conflict.production,
-                      index: conflict.production.symbols.len(),
-                      lookahead: conflict.lookahead.clone() };
+    let item = Item {
+        production: conflict.production,
+        index: conflict.production.symbols.len(),
+        lookahead: conflict.lookahead.clone(),
+    };
     println!("item={:?}", item);
     let backtrace = tracer.backtrace_reduce(conflict.state, item.to_lr0());
     println!("{:#?}", backtrace);
-    expect_debug(&backtrace, r#"
+    expect_debug(
+        &backtrace,
+        r#"
 [
     (Nonterminal(Ty) -([Ty, "->"], Some(Ty), [])-> Item(Ty = Ty "->" (*) Ty)),
     (Nonterminal(Ty) -([Ty, "->"], Some(Ty), [])-> Nonterminal(Ty)),
     (Nonterminal(Ty) -([Ty, "->", Ty], None, [])-> Item(Ty = Ty "->" Ty (*))),
     (Item(Ty = (*) Ty "->" Ty) -([], Some(Ty), ["->", Ty])-> Nonterminal(Ty))
 ]
-"#.trim());
+"#.trim(),
+    );
 
     // Check that we can successfully enumerate and paint the examples
     // here.
-    let pictures: Vec<_> = backtrace.lr1_examples(&first_sets, &item)
-                                    .map(|e| e.paint_unstyled())
-                                    .collect();
-    expect_debug(&pictures, r#"
+    let pictures: Vec<_> = backtrace
+        .lr1_examples(&first_sets, &item)
+        .map(|e| e.paint_unstyled())
+        .collect();
+    expect_debug(
+        &pictures,
+        r#"
 [
     [
         "  Ty "->" Ty "->" Ty",
@@ -164,7 +181,8 @@ pub Ty: () = {
         "  └─Ty─────────────┘"
     ]
 ]
-"#.trim());
+"#.trim(),
+    );
 }
 
 #[test]
@@ -172,39 +190,48 @@ fn reduce_backtrace_3_graph() {
     // This grammar yields a S/R conflict. Is it `(int -> int) -> int`
     // or `int -> (int -> int)`?
     let _tls = Tls::test();
-    let grammar = normalized_grammar(r#"
+    let grammar = normalized_grammar(
+        r#"
 grammar;
 pub Ty: () = {
     "int" => (),
     "bool" => (),
     <t1:Ty> "->" <t2:Ty> => (),
 };
-"#);
+"#,
+    );
     let _lr1_tls = Lr1Tls::install(grammar.terminals.clone());
     let first_sets = FirstSets::new(&grammar);
     let err = build_states(&grammar, nt("Ty")).unwrap_err();
     let conflict = err.conflicts[0].clone();
     println!("conflict={:?}", conflict);
-    let item = Item { production: conflict.production,
-                      index: conflict.production.symbols.len(),
-                      lookahead: conflict.lookahead.clone() };
+    let item = Item {
+        production: conflict.production,
+        index: conflict.production.symbols.len(),
+        lookahead: conflict.lookahead.clone(),
+    };
     println!("item={:?}", item);
     let tracer = Tracer::new(&first_sets, &err.states);
     let graph = tracer.backtrace_reduce(conflict.state, item.to_lr0());
-    expect_debug(&graph, r#"
+    expect_debug(
+        &graph,
+        r#"
 [
     (Nonterminal(Ty) -([Ty, "->"], Some(Ty), [])-> Item(Ty = Ty "->" (*) Ty)),
     (Nonterminal(Ty) -([Ty, "->"], Some(Ty), [])-> Nonterminal(Ty)),
     (Nonterminal(Ty) -([Ty, "->", Ty], None, [])-> Item(Ty = Ty "->" Ty (*))),
     (Item(Ty = (*) Ty "->" Ty) -([], Some(Ty), ["->", Ty])-> Nonterminal(Ty))
 ]
-"#.trim());
+"#.trim(),
+    );
 
-    let list: Vec<_> =
-        graph.lr1_examples(&first_sets, &item)
-             .map(|example| example.paint_unstyled())
-             .collect();
-    expect_debug(&list, r#"
+    let list: Vec<_> = graph
+        .lr1_examples(&first_sets, &item)
+        .map(|example| example.paint_unstyled())
+        .collect();
+    expect_debug(
+        &list,
+        r#"
 [
     [
         "  Ty "->" Ty "->" Ty",
@@ -212,13 +239,15 @@ pub Ty: () = {
         "  └─Ty─────────────┘"
     ]
 ]
-"#.trim());
+"#.trim(),
+    );
 }
 
 #[test]
 fn backtrace_filter() {
     let _tls = Tls::test();
-    let grammar = normalized_grammar(r#"
+    let grammar = normalized_grammar(
+        r#"
     grammar;
 
     pub Start: () = Stmt;
@@ -244,7 +273,8 @@ fn backtrace_filter() {
     ExprAtom: () = {
         "Int",
     };
-"#);
+"#,
+    );
     let _lr1_tls = Lr1Tls::install(grammar.terminals.clone());
     let states = build_states(&grammar, nt("Start")).unwrap();
     let first_sets = FirstSets::new(&grammar);
@@ -256,12 +286,13 @@ fn backtrace_filter() {
     //
     // Expr = "Int" (*) [",", ";"],
     let semi = Token::Terminal(term(";"));
-    let lr1_item = states[top_state.0].items
-                                      .vec
-                                      .iter()
-                                      .filter(|item| item.lookahead.contains(&semi))
-                                      .next()
-                                      .unwrap();
+    let lr1_item = states[top_state.0]
+        .items
+        .vec
+        .iter()
+        .filter(|item| item.lookahead.contains(&semi))
+        .next()
+        .unwrap();
 
     let backtrace = tracer.backtrace_reduce(top_state, lr1_item.to_lr0());
 
@@ -269,9 +300,10 @@ fn backtrace_filter() {
 
     // With no filtering, we get examples with both `;` and `,` as
     // lookahead (though `ExprSuffix` is in the way).
-    let pictures: Vec<_> = backtrace.lr0_examples(lr1_item.to_lr0())
-                                    .map(|e| e.paint_unstyled())
-                                    .collect();
+    let pictures: Vec<_> = backtrace
+        .lr0_examples(lr1_item.to_lr0())
+        .map(|e| e.paint_unstyled())
+        .collect();
     expect_debug(&pictures, r#"
 [
     [
@@ -307,10 +339,10 @@ fn backtrace_filter() {
 
     // Select those with `;` as lookahead
     let semi_item = lr1_item.with_lookahead(TokenSet::from(semi));
-    let pictures: Vec<_> =
-        backtrace.lr1_examples(&first_sets, &semi_item)
-                 .map(|e| e.paint_unstyled())
-                 .collect();
+    let pictures: Vec<_> = backtrace
+        .lr1_examples(&first_sets, &semi_item)
+        .map(|e| e.paint_unstyled())
+        .collect();
     expect_debug(&pictures, r#"
 [
     [
@@ -330,4 +362,3 @@ fn backtrace_filter() {
 ]
 "#.trim());
 }
-

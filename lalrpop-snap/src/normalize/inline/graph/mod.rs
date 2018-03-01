@@ -56,7 +56,11 @@ impl<'grammar> NonterminalGraph<'grammar> {
     }
 
     fn add_edges(&mut self) {
-        for production in self.grammar.nonterminals.values().flat_map(|d| &d.productions) {
+        for production in self.grammar
+            .nonterminals
+            .values()
+            .flat_map(|d| &d.productions)
+        {
             let from_index = match self.nonterminal_map.get(&production.nonterminal) {
                 Some(&index) => index,
                 None => continue, // this is not an inlined nonterminal
@@ -69,7 +73,7 @@ impl<'grammar> NonterminalGraph<'grammar> {
                             self.graph.add_edge(from_index, to_index, ());
                         }
                     }
-                    Symbol::Terminal(_) => { }
+                    Symbol::Terminal(_) => {}
                 }
             }
         }
@@ -84,12 +88,12 @@ impl<'grammar> NonterminalGraph<'grammar> {
         Ok(result)
     }
 
-    fn walk(&self,
-            states: &mut Vec<WalkState>,
-            result: &mut Vec<NonterminalString>,
-            source: NodeIndex)
-            -> NormResult<()>
-    {
+    fn walk(
+        &self,
+        states: &mut Vec<WalkState>,
+        result: &mut Vec<NonterminalString>,
+        source: NodeIndex,
+    ) -> NormResult<()> {
         let nt = *self.graph.node_weight(source).unwrap();
 
         match states[source.index()] {
@@ -102,15 +106,14 @@ impl<'grammar> NonterminalGraph<'grammar> {
                 result.push(nt);
                 Ok(())
             }
-            WalkState::Visited => {
-                Ok(())
-            }
+            WalkState::Visited => Ok(()),
             WalkState::Visiting => {
                 return_err!(
                     self.grammar.nonterminals[&nt].span,
-                    "cyclic inline directive: `{}` would have to be inlined into itself", nt);
+                    "cyclic inline directive: `{}` would have to be inlined into itself",
+                    nt
+                );
             }
         }
     }
 }
-

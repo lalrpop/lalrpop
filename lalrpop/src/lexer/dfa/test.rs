@@ -1,15 +1,12 @@
-use lexer::dfa::{self, DFA, DFAConstructionError, NFAIndex, Precedence};
+use lexer::dfa::{self, DFAConstructionError, NFAIndex, Precedence, DFA};
 use lexer::dfa::interpret::interpret;
 use lexer::re;
 
 pub fn dfa(inputs: &[(&str, Precedence)]) -> Result<DFA, DFAConstructionError> {
-    let regexs: Result<Vec<_>, _> =
-        inputs.iter()
-              .map(|&(s, _)| re::parse_regex(s))
-              .collect();
+    let regexs: Result<Vec<_>, _> = inputs.iter().map(|&(s, _)| re::parse_regex(s)).collect();
     let regexs = match regexs {
         Ok(rs) => rs,
-        Err(_) => panic!("unexpected parse error")
+        Err(_) => panic!("unexpected parse error"),
     };
     let precedences: Vec<_> = inputs.iter().map(|&(_, p)| p).collect();
     dfa::build_dfa(&regexs, &precedences)
@@ -27,7 +24,7 @@ fn tokenizer() {
         /* 3 */ (r#" +"#, P0),
         /* 4 */ (r#">>"#, P0),
         /* 5 */ (r#">"#, P0),
-        ]).unwrap();
+    ]).unwrap();
 
     assert_eq!(interpret(&dfa, "class Foo"), Some((NFAIndex(0), "class")));
     assert_eq!(interpret(&dfa, "classz Foo"), Some((NFAIndex(1), "classz")));
@@ -41,8 +38,7 @@ fn tokenizer() {
 fn ambiguous_regex() {
     // here the keyword and the regex have same precedence, so we have
     // an ambiguity
-    assert!(dfa(&[(r#"class"#, P0),
-                  (r#"[a-zA-Z_][a-zA-Z0-9_]*"#, P0)]).is_err());
+    assert!(dfa(&[(r#"class"#, P0), (r#"[a-zA-Z_][a-zA-Z0-9_]*"#, P0)]).is_err());
 }
 
 #[test]
@@ -52,8 +48,7 @@ fn issue_32() {
 
 #[test]
 fn issue_35() {
-    assert!(dfa(&[(r#".*"#, P0),
-                  (r"[-+]?[0-9]*\.?[0-9]+", P0)]).is_err());
+    assert!(dfa(&[(r#".*"#, P0), (r"[-+]?[0-9]*\.?[0-9]+", P0)]).is_err());
 }
 
 #[test]

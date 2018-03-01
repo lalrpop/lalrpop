@@ -25,12 +25,13 @@ pub struct Merge<'m, 'grammar: 'm> {
 }
 
 impl<'m, 'grammar> Merge<'m, 'grammar> {
-    pub fn new(table: &'m LaneTable<'grammar>,
-               unify: &'m mut UnificationTable<StateSet>,
-               states: &'m mut Vec<LR1State<'grammar>>,
-               state_sets: &'m mut Map<StateIndex, StateSet>,
-               inconsistent_state: StateIndex)
-               -> Self {
+    pub fn new(
+        table: &'m LaneTable<'grammar>,
+        unify: &'m mut UnificationTable<StateSet>,
+        states: &'m mut Vec<LR1State<'grammar>>,
+        state_sets: &'m mut Map<StateIndex, StateSet>,
+        inconsistent_state: StateIndex,
+    ) -> Self {
         Merge {
             table: table,
             states: states,
@@ -41,7 +42,7 @@ impl<'m, 'grammar> Merge<'m, 'grammar> {
             context_sets: ContextSets {
                 unify: unify,
                 state_sets: state_sets,
-            }
+            },
         }
     }
 
@@ -58,7 +59,10 @@ impl<'m, 'grammar> Merge<'m, 'grammar> {
         debug!("Merge::patch_target_starts(actions={:?})", actions);
 
         for &target_state in &self.target_states {
-            debug!("Merge::patch_target_starts: target_state={:?}", target_state);
+            debug!(
+                "Merge::patch_target_starts: target_state={:?}",
+                target_state
+            );
             let context_set = self.context_sets.context_set(target_state);
             debug!("Merge::patch_target_starts: context_set={:?}", context_set);
             context_set.apply(&mut self.states[target_state.0], actions);
@@ -84,12 +88,13 @@ impl<'m, 'grammar> Merge<'m, 'grammar> {
         }
 
         for &successor in self.successors(state).iter().flat_map(|&s| s) {
-            debug!("Merge::walk: state={:?} successor={:?}",
-                   state, successor);
+            debug!("Merge::walk: state={:?} successor={:?}", state, successor);
 
             if self.context_sets.union(state, successor) {
-                debug!("Merge::walk: successful union, context-set = {:?}",
-                       self.context_sets.context_set(state));
+                debug!(
+                    "Merge::walk: successful union, context-set = {:?}",
+                    self.context_sets.context_set(state)
+                );
                 self.walk(successor)?;
             } else {
                 // search for an existing clone with which we can merge
@@ -116,15 +121,20 @@ impl<'m, 'grammar> Merge<'m, 'grammar> {
                         self.patch_links(state, successor, successor1);
                         self.walk(successor1)?;
                     } else {
-                        debug!("Merge::walk: failed to union {:?} with {:?}",
-                               state, successor1);
-                        debug!("Merge::walk: state context = {:?}",
-                               self.context_sets.context_set(state));
-                        debug!("Merge::walk: successor context = {:?}",
-                               self.context_sets.context_set(successor1));
+                        debug!(
+                            "Merge::walk: failed to union {:?} with {:?}",
+                            state, successor1
+                        );
+                        debug!(
+                            "Merge::walk: state context = {:?}",
+                            self.context_sets.context_set(state)
+                        );
+                        debug!(
+                            "Merge::walk: successor context = {:?}",
+                            self.context_sets.context_set(successor1)
+                        );
 
-                        return Err((self.original_index(state),
-                                    self.original_index(successor1)));
+                        return Err((self.original_index(state), self.original_index(successor1)));
                     }
                 }
             }
@@ -157,11 +167,12 @@ impl<'m, 'grammar> Merge<'m, 'grammar> {
         new_index
     }
 
-    fn patch_links(&mut self,
-                   predecessor: StateIndex,
-                   original_successor: StateIndex,
-                   cloned_successor: StateIndex)
-    {
+    fn patch_links(
+        &mut self,
+        predecessor: StateIndex,
+        original_successor: StateIndex,
+        cloned_successor: StateIndex,
+    ) {
         let replace = |target_state: &mut StateIndex| {
             if *target_state == original_successor {
                 *target_state = cloned_successor;
@@ -193,8 +204,10 @@ impl<'m> ContextSets<'m> {
         let set1 = self.state_sets[&source];
         let set2 = self.state_sets[&target];
         let result = self.unify.unify_var_var(set1, set2).is_ok();
-        debug!("ContextSets::union: source={:?} target={:?} result={:?}",
-               source, target, result);
+        debug!(
+            "ContextSets::union: source={:?} target={:?} result={:?}",
+            source, target, result
+        );
         result
     }
 

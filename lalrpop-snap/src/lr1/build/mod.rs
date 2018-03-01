@@ -14,27 +14,30 @@ use tls::Tls;
 #[cfg(test)]
 mod test;
 
-fn build_lr1_states_legacy<'grammar>(grammar: &'grammar Grammar, start: NonterminalString) -> LR1Result<'grammar>
-{
+fn build_lr1_states_legacy<'grammar>(
+    grammar: &'grammar Grammar,
+    start: NonterminalString,
+) -> LR1Result<'grammar> {
     let eof = TokenSet::eof();
     let mut lr1: LR<'grammar, TokenSet> = LR::new(grammar, start, eof);
     lr1.set_permit_early_stop(true);
     lr1.build_states()
 }
 
-type ConstructionFunction<'grammar> = fn(&'grammar Grammar, NonterminalString) -> LR1Result<'grammar> ;
+type ConstructionFunction<'grammar> =
+    fn(&'grammar Grammar, NonterminalString) -> LR1Result<'grammar>;
 
 pub fn use_lane_table() -> bool {
     match env::var("LALRPOP_LANE_TABLE") {
         Ok(ref s) => s != "disabled",
-        _ => true
+        _ => true,
     }
 }
 
-pub fn build_lr1_states<'grammar>(grammar: &'grammar Grammar,
-                                  start: NonterminalString)
-                                  -> LR1Result<'grammar>
-{
+pub fn build_lr1_states<'grammar>(
+    grammar: &'grammar Grammar,
+    start: NonterminalString,
+) -> LR1Result<'grammar> {
     let (method_name, method_fn) = if use_lane_table() {
         ("lane", build_lane_table_states as ConstructionFunction)
     } else {
@@ -50,11 +53,10 @@ pub fn build_lr1_states<'grammar>(grammar: &'grammar Grammar,
     }
 }
 
-pub fn build_lr0_states<'grammar>(grammar: &'grammar Grammar,
-                                  start: NonterminalString)
-                                  -> Result<Vec<LR0State<'grammar>>,
-                                            LR0TableConstructionError<'grammar>>
-{
+pub fn build_lr0_states<'grammar>(
+    grammar: &'grammar Grammar,
+    start: NonterminalString,
+) -> Result<Vec<LR0State<'grammar>>, LR0TableConstructionError<'grammar>> {
     let lr1 = LR::new(grammar, start, Nil);
     lr1.build_states()
 }
@@ -68,10 +70,7 @@ pub struct LR<'grammar, L: LookaheadBuild> {
 }
 
 impl<'grammar, L: LookaheadBuild> LR<'grammar, L> {
-    fn new(grammar: &'grammar Grammar,
-           start_nt: NonterminalString,
-           start_lookahead: L)
-           -> Self {
+    fn new(grammar: &'grammar Grammar, start_nt: NonterminalString, start_lookahead: L) -> Self {
         LR {
             grammar: grammar,
             first_sets: first::FirstSets::new(grammar),
@@ -85,19 +84,18 @@ impl<'grammar, L: LookaheadBuild> LR<'grammar, L> {
         self.permit_early_stop = v;
     }
 
-    fn build_states(&self)
-                    -> Result<Vec<State<'grammar, L>>,
-                              TableConstructionError<'grammar, L>>
-    {
+    fn build_states(&self) -> Result<Vec<State<'grammar, L>>, TableConstructionError<'grammar, L>> {
         let session = Tls::session();
         let mut kernel_set = kernel_set::KernelSet::new();
         let mut states = vec![];
         let mut conflicts = vec![];
 
         // create the starting state
-        kernel_set.add_state(Kernel::start(self.items(self.start_nt,
-                                                      0,
-                                                      &self.start_lookahead)));
+        kernel_set.add_state(Kernel::start(self.items(
+            self.start_nt,
+            0,
+            &self.start_lookahead,
+        )));
 
         while let Some(Kernel { items: seed_items }) = kernel_set.next() {
             let items = self.transitive_closure(seed_items);
@@ -107,30 +105,37 @@ impl<'grammar, L: LookaheadBuild> LR<'grammar, L> {
                 log!(session, Verbose, "{} states created so far.", index.0);
             }
 
-            let mut this_state = State { index: index,
-                                         items: items.clone(),
-                                         shifts: map(),
-                                         reductions: vec!(),
-                                         gotos: map() };
+            let mut this_state = State {
+                index: index,
+                items: items.clone(),
+                shifts: map(),
+                reductions: vec![],
+                gotos: map(),
+            };
 
             // group the items that we can transition into by shifting
             // over a term or nonterm
-            let transitions: Multimap<Symbol, Multimap<LR0Item<'grammar>, L>> =
-                items.vec
-                     .iter()
-                     .filter_map(|item| item.shifted_item())
-                     .map(|(symbol, Item { production, index, lookahead })| {
-                         (symbol, (Item::lr0(production, index), lookahead))
-                     })
-                     .collect();
+            let transitions: Multimap<Symbol, Multimap<LR0Item<'grammar>, L>> = items
+                .vec
+                .iter()
+                .filter_map(|item| item.shifted_item())
+                .map(
+                    |(
+                        symbol,
+                        Item {
+                            production,
+                            index,
+                            lookahead,
+                        },
+                    )| { (symbol, (Item::lr0(production, index), lookahead)) },
+                )
+                .collect();
 
             for (symbol, shifted_items) in transitions.into_iter() {
-                let shifted_items: Vec<Item<'grammar, L>> =
-                    shifted_items.into_iter()
-                                 .map(|(lr0_item, lookahead)| {
-                                     lr0_item.with_lookahead(lookahead)
-                                 })
-                                 .collect();
+                let shifted_items: Vec<Item<'grammar, L>> = shifted_items
+                    .into_iter()
+                    .map(|(lr0_item, lookahead)| lr0_item.with_lookahead(lookahead))
+                    .collect();
 
                 // Not entirely obvious: if the original set of items
                 // is sorted to begin with (and it is), then this new
@@ -154,7 +159,9 @@ impl<'grammar, L: LookaheadBuild> LR<'grammar, L> {
 
             // finally, consider the reductions
             for item in items.vec.iter().filter(|i| i.can_reduce()) {
-                this_state.reductions.push((item.lookahead.clone(), item.production));
+                this_state
+                    .reductions
+                    .push((item.lookahead.clone(), item.production));
             }
 
             // check for shift-reduce conflicts (reduce-reduce detected above)
@@ -164,46 +171,48 @@ impl<'grammar, L: LookaheadBuild> LR<'grammar, L> {
             states.push(this_state);
 
             if self.permit_early_stop && session.stop_after(conflicts.len()) {
-                log!(session, Verbose,
-                     "{} conflicts encountered, stopping.", conflicts.len());
+                log!(
+                    session,
+                    Verbose,
+                    "{} conflicts encountered, stopping.",
+                    conflicts.len()
+                );
                 break;
             }
         }
 
         if !conflicts.is_empty() {
-            Err(TableConstructionError { states: states, conflicts: conflicts })
+            Err(TableConstructionError {
+                states: states,
+                conflicts: conflicts,
+            })
         } else {
             Ok(states)
         }
     }
 
-    fn items(&self,
-             id: NonterminalString,
-             index: usize,
-             lookahead: &L)
-             -> Vec<Item<'grammar, L>>
-    {
-        self.grammar.productions_for(id)
-                    .iter()
-                    .map(|production| {
-                        debug_assert!(index <= production.symbols.len());
-                        Item { production: production,
-                               index: index,
-                               lookahead: lookahead.clone() }
-                    })
-                    .collect()
+    fn items(&self, id: NonterminalString, index: usize, lookahead: &L) -> Vec<Item<'grammar, L>> {
+        self.grammar
+            .productions_for(id)
+            .iter()
+            .map(|production| {
+                debug_assert!(index <= production.symbols.len());
+                Item {
+                    production: production,
+                    index: index,
+                    lookahead: lookahead.clone(),
+                }
+            })
+            .collect()
     }
 
     // expands `state` with epsilon moves
-    fn transitive_closure(&self, items: Vec<Item<'grammar, L>>)
-                          -> Items<'grammar, L>
-    {
-        let mut stack: Vec<LR0Item<'grammar>> =
-            items.iter().map(|item| item.to_lr0()).collect();
-        let mut map: Multimap<LR0Item<'grammar>, L> =
-            items.into_iter()
-                 .map(|item| (item.to_lr0(), item.lookahead))
-                 .collect();
+    fn transitive_closure(&self, items: Vec<Item<'grammar, L>>) -> Items<'grammar, L> {
+        let mut stack: Vec<LR0Item<'grammar>> = items.iter().map(|item| item.to_lr0()).collect();
+        let mut map: Multimap<LR0Item<'grammar>, L> = items
+            .into_iter()
+            .map(|item| (item.to_lr0(), item.lookahead))
+            .collect();
 
         while let Some(item) = stack.pop() {
             let lookahead = map.get(&item).unwrap().clone();
@@ -221,9 +230,7 @@ impl<'grammar, L: LookaheadBuild> LR<'grammar, L> {
                 Some((Symbol::Terminal(_), _)) => {
                     continue; // requires a shift
                 }
-                Some((Symbol::Nonterminal(nt), remainder)) => {
-                    (nt, remainder)
-                }
+                Some((Symbol::Nonterminal(nt), remainder)) => (nt, remainder),
             };
 
             // In that case, for each production of `X`, we are also
@@ -246,10 +253,12 @@ impl<'grammar, L: LookaheadBuild> LR<'grammar, L> {
         }
 
         let final_items = map.into_iter()
-                             .map(|(lr0_item, lookahead)| lr0_item.with_lookahead(lookahead))
-                             .collect();
+            .map(|(lr0_item, lookahead)| lr0_item.with_lookahead(lookahead))
+            .collect();
 
-        Items { vec: Rc::new(final_items) }
+        Items {
+            vec: Rc::new(final_items),
+        }
     }
 }
 
@@ -275,7 +284,7 @@ impl<'grammar, L: LookaheadBuild> LR<'grammar, L> {
 /// item found in a kernel set.
 #[derive(Clone, Debug, Hash, PartialEq, Eq, PartialOrd, Ord)]
 struct Kernel<'grammar, L: LookaheadBuild> {
-    items: Vec<Item<'grammar, L>>
+    items: Vec<Item<'grammar, L>>,
 }
 
 impl<'grammar, L: LookaheadBuild> Kernel<'grammar, L> {
@@ -316,31 +325,32 @@ pub trait LookaheadBuild: Lookahead {
     // production, we just add an `Y = (*) ...` item. But for LR1
     // items, we have to add multiple items where we consider the
     // lookahead from `FIRST(...s, L)`.
-    fn epsilon_moves<'grammar>(lr: &LR<'grammar, Self>,
-                               nt: NonterminalString,
-                               remainder: &[Symbol],
-                               lookahead: &Self)
-                               -> Vec<Item<'grammar, Self>>;
+    fn epsilon_moves<'grammar>(
+        lr: &LR<'grammar, Self>,
+        nt: NonterminalString,
+        remainder: &[Symbol],
+        lookahead: &Self,
+    ) -> Vec<Item<'grammar, Self>>;
 }
 
 impl LookaheadBuild for Nil {
-    fn epsilon_moves<'grammar>(lr: &LR<'grammar, Self>,
-                               nt: NonterminalString,
-                               _remainder: &[Symbol],
-                               lookahead: &Nil)
-                               -> Vec<LR0Item<'grammar>>
-    {
+    fn epsilon_moves<'grammar>(
+        lr: &LR<'grammar, Self>,
+        nt: NonterminalString,
+        _remainder: &[Symbol],
+        lookahead: &Nil,
+    ) -> Vec<LR0Item<'grammar>> {
         lr.items(nt, 0, &lookahead)
     }
 }
 
 impl LookaheadBuild for TokenSet {
-    fn epsilon_moves<'grammar>(lr: &LR<'grammar, Self>,
-                               nt: NonterminalString,
-                               remainder: &[Symbol],
-                               lookahead: &Self)
-                               -> Vec<LR1Item<'grammar>>
-    {
+    fn epsilon_moves<'grammar>(
+        lr: &LR<'grammar, Self>,
+        nt: NonterminalString,
+        remainder: &[Symbol],
+        lookahead: &Self,
+    ) -> Vec<LR1Item<'grammar>> {
         let first_set = lr.first_sets.first1(remainder, lookahead);
         lr.items(nt, 0, &first_set)
     }

@@ -40,9 +40,12 @@ pub struct RustWrite<W: Write> {
 
 const TAB: usize = 4;
 
-impl<W:Write> RustWrite<W> {
+impl<W: Write> RustWrite<W> {
     pub fn new(w: W) -> RustWrite<W> {
-        RustWrite { write: w, indent: 0 }
+        RustWrite {
+            write: w,
+            indent: 0,
+        }
     }
 
     pub fn into_inner(self) -> W {
@@ -58,8 +61,9 @@ impl<W:Write> RustWrite<W> {
     }
 
     pub fn write_table_row<I, C>(&mut self, iterable: I) -> io::Result<()>
-    where I: IntoIterator<Item=(i32, C)>,
-          C: fmt::Display,
+    where
+        I: IntoIterator<Item = (i32, C)>,
+        C: fmt::Display,
     {
         if Tls::session().emit_comments {
             for (i, comment) in iterable {
@@ -105,17 +109,17 @@ impl<W:Write> RustWrite<W> {
         Ok(())
     }
 
-    pub fn write_fn_header(&mut self,
-                           grammar: &Grammar,
-                           visibility: &Visibility,
-                           name: String,
-                           type_parameters: Vec<String>,
-                           first_parameter: Option<String>,
-                           parameters: Vec<String>,
-                           return_type: String,
-                           where_clauses: Vec<String>)
-                           -> io::Result<()>
-    {
+    pub fn write_fn_header(
+        &mut self,
+        grammar: &Grammar,
+        visibility: &Visibility,
+        name: String,
+        type_parameters: Vec<String>,
+        first_parameter: Option<String>,
+        parameters: Vec<String>,
+        return_type: String,
+        where_clauses: Vec<String>,
+    ) -> io::Result<()> {
         rust!(self, "{}fn {}<", visibility, name);
 
         for type_parameter in &grammar.type_parameters {
@@ -150,7 +154,7 @@ impl<W:Write> RustWrite<W> {
                 rust!(self, "  {},", where_clause);
             }
         } else {
-            rust!(self,") -> {}", return_type);
+            rust!(self, ") -> {}", return_type);
         }
 
         Ok(())
@@ -164,11 +168,7 @@ impl<W:Write> RustWrite<W> {
         Ok(())
     }
 
-    pub fn write_uses(&mut self,
-                      super_prefix: &str,
-                      grammar: &Grammar)
-                      -> io::Result<()>
-    {
+    pub fn write_uses(&mut self, super_prefix: &str, grammar: &Grammar) -> io::Result<()> {
         // things the user wrote
         for u in &grammar.uses {
             if u.starts_with("super::") {
@@ -185,8 +185,7 @@ impl<W:Write> RustWrite<W> {
         // Stuff that we plan to use.
         // Occasionally we happen to not use it after all, hence the allow.
         rust!(self, "#[allow(unused_extern_crates)]");
-        rust!(self, "extern crate lalrpop_util as {}lalrpop_util;",
-              prefix);
+        rust!(self, "extern crate lalrpop_util as {}lalrpop_util;", prefix);
 
         Ok(())
     }

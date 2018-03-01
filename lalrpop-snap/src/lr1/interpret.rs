@@ -5,16 +5,18 @@ use lr1::lookahead::*;
 use generate::ParseTree;
 use grammar::repr::*;
 use std::iter::IntoIterator;
-use std::fmt::{Debug, Display, Formatter, Error};
+use std::fmt::{Debug, Display, Error, Formatter};
 use util::Sep;
 
 pub type InterpretError<'grammar, L> = (&'grammar State<'grammar, L>, Token);
 
 /// Feed in the given tokens and then EOF, returning the final parse tree that is reduced.
-pub fn interpret<'grammar, L>(states: &'grammar [State<'grammar, L>],
-                              tokens: Vec<TerminalString>)
-                              -> Result<ParseTree, InterpretError<'grammar, L>>
-    where L: LookaheadInterpret
+pub fn interpret<'grammar, L>(
+    states: &'grammar [State<'grammar, L>],
+    tokens: Vec<TerminalString>,
+) -> Result<ParseTree, InterpretError<'grammar, L>>
+where
+    L: LookaheadInterpret,
 {
     println!("interpret(tokens={:?})", tokens);
     let mut m = Machine::new(states);
@@ -22,12 +24,13 @@ pub fn interpret<'grammar, L>(states: &'grammar [State<'grammar, L>],
 }
 
 /// Feed in the given tokens and returns the states on the stack.
-pub fn interpret_partial<'grammar, TOKENS, L>
-    (states: &'grammar [State<'grammar, L>],
-     tokens: TOKENS)
-     -> Result<Vec<StateIndex>, InterpretError<'grammar, L>>
-    where TOKENS: IntoIterator<Item = TerminalString>,
-          L: LookaheadInterpret
+pub fn interpret_partial<'grammar, TOKENS, L>(
+    states: &'grammar [State<'grammar, L>],
+    tokens: TOKENS,
+) -> Result<Vec<StateIndex>, InterpretError<'grammar, L>>
+where
+    TOKENS: IntoIterator<Item = TerminalString>,
+    L: LookaheadInterpret,
 {
     let mut m = Machine::new(states);
     try!(m.execute_partial(tokens.into_iter()));
@@ -41,10 +44,10 @@ struct Machine<'grammar, L: LookaheadInterpret + 'grammar> {
 }
 
 impl<'grammar, L> Machine<'grammar, L>
-    where L: LookaheadInterpret
+where
+    L: LookaheadInterpret,
 {
-    fn new(states: &'grammar [State<'grammar, L>])
-           -> Machine<'grammar, L> {
+    fn new(states: &'grammar [State<'grammar, L>]) -> Machine<'grammar, L> {
         Machine {
             states: states,
             state_stack: vec![],
@@ -57,10 +60,12 @@ impl<'grammar, L> Machine<'grammar, L>
         &self.states[index.0]
     }
 
-    fn execute_partial<TOKENS>(&mut self,
-                               mut tokens: TOKENS)
-                               -> Result<(), InterpretError<'grammar, L>>
-        where TOKENS: Iterator<Item = TerminalString>
+    fn execute_partial<TOKENS>(
+        &mut self,
+        mut tokens: TOKENS,
+    ) -> Result<(), InterpretError<'grammar, L>>
+    where
+        TOKENS: Iterator<Item = TerminalString>,
     {
         assert!(self.state_stack.is_empty());
         assert!(self.data_stack.is_empty());
@@ -91,7 +96,8 @@ impl<'grammar, L> Machine<'grammar, L>
     }
 
     fn execute<TOKENS>(&mut self, tokens: TOKENS) -> Result<ParseTree, InterpretError<'grammar, L>>
-        where TOKENS: Iterator<Item = TerminalString>
+    where
+        TOKENS: Iterator<Item = TerminalString>,
     {
         try!(self.execute_partial(tokens));
 
@@ -163,30 +169,35 @@ impl Display for ParseTree {
 }
 
 pub trait LookaheadInterpret: Lookahead {
-    fn reduction<'grammar>(state: &State<'grammar, Self>,
-                           token: Token)
-                           -> Option<&'grammar Production>;
+    fn reduction<'grammar>(
+        state: &State<'grammar, Self>,
+        token: Token,
+    ) -> Option<&'grammar Production>;
 }
 
 impl LookaheadInterpret for Nil {
-    fn reduction<'grammar>(state: &State<'grammar, Self>,
-                           _token: Token)
-                           -> Option<&'grammar Production>
-    {
-        state.reductions.iter()
-                        .map(|&(_, production)| production)
-                        .next()
+    fn reduction<'grammar>(
+        state: &State<'grammar, Self>,
+        _token: Token,
+    ) -> Option<&'grammar Production> {
+        state
+            .reductions
+            .iter()
+            .map(|&(_, production)| production)
+            .next()
     }
 }
 
 impl LookaheadInterpret for TokenSet {
-    fn reduction<'grammar>(state: &State<'grammar, Self>,
-                           token: Token)
-                           -> Option<&'grammar Production>
-    {
-        state.reductions.iter()
-                        .filter(|&&(ref tokens, _)| tokens.contains(token))
-                        .map(|&(_, production)| production)
-                        .next()
+    fn reduction<'grammar>(
+        state: &State<'grammar, Self>,
+        token: Token,
+    ) -> Option<&'grammar Production> {
+        state
+            .reductions
+            .iter()
+            .filter(|&&(ref tokens, _)| tokens.contains(token))
+            .map(|&(_, production)| production)
+            .next()
     }
 }

@@ -1,30 +1,30 @@
 //! Validate checks some basic safety conditions.
 
-use super::{NormResult, NormError};
+use super::{NormError, NormResult};
 use super::norm_util::{self, Symbols};
 
 use grammar::consts::*;
 use grammar::parse_tree::*;
 use grammar::repr as r;
 use intern::{intern, InternedString};
-use collections::{Multimap, set};
+use collections::{set, Multimap};
 use util::Sep;
 
 #[cfg(test)]
 mod test;
 
 pub fn validate(grammar: &Grammar) -> NormResult<()> {
-    let match_token: Option<&MatchToken> =
-        grammar.items
-               .iter()
-               .filter_map(|item| item.as_match_token())
-               .next();
+    let match_token: Option<&MatchToken> = grammar
+        .items
+        .iter()
+        .filter_map(|item| item.as_match_token())
+        .next();
 
-    let extern_token: Option<&ExternToken> =
-        grammar.items
-               .iter()
-               .filter_map(|item| item.as_extern_token())
-               .next();
+    let extern_token: Option<&ExternToken> = grammar
+        .items
+        .iter()
+        .filter_map(|item| item.as_extern_token())
+        .next();
 
     let validator = Validator {
         grammar: grammar,
@@ -43,43 +43,47 @@ struct Validator<'grammar> {
 
 impl<'grammar> Validator<'grammar> {
     fn validate(&self) -> NormResult<()> {
-        let allowed_names = vec![intern(LALR),
-                                 intern(TABLE_DRIVEN),
-                                 intern(RECURSIVE_ASCENT),
-                                 intern(TEST_ALL)];
+        let allowed_names = vec![
+            intern(LALR),
+            intern(TABLE_DRIVEN),
+            intern(RECURSIVE_ASCENT),
+            intern(TEST_ALL),
+        ];
         for annotation in &self.grammar.annotations {
             if !allowed_names.contains(&annotation.id) {
-                return_err!(annotation.id_span,
-                            "unrecognized annotation `{}`",
-                            annotation.id);
+                return_err!(
+                    annotation.id_span,
+                    "unrecognized annotation `{}`",
+                    annotation.id
+                );
             }
         }
 
         for item in &self.grammar.items {
             match *item {
-                GrammarItem::Use(..) => { }
+                GrammarItem::Use(..) => {}
 
                 GrammarItem::MatchToken(ref data) => {
                     if data.span != self.match_token.unwrap().span {
-                        return_err!(
-                            data.span,
-                            "multiple match definitions are not permitted");
+                        return_err!(data.span, "multiple match definitions are not permitted");
                     }
 
                     // We may want to allow a limited extern to coexist with match in the future
                     if let Some(d) = self.extern_token {
                         return_err!(
                             d.span,
-                            "extern and match definitions are mutually exclusive");
+                            "extern and match definitions are mutually exclusive"
+                        );
                     }
 
                     // Ensure that the catch all is final item of final block
                     for (contents_idx, match_contents) in data.contents.iter().enumerate() {
                         for (item_idx, item) in match_contents.items.iter().enumerate() {
-                            if item.is_catch_all() && (contents_idx != &data.contents.len()-1 || item_idx != &match_contents.items.len()-1) {
-                                return_err!(
-                                    item.span(),
-                                    "Catch all must be final item");
+                            if item.is_catch_all()
+                                && (contents_idx != &data.contents.len() - 1
+                                    || item_idx != &match_contents.items.len() - 1)
+                            {
+                                return_err!(item.span(), "Catch all must be final item");
                             } else {
                                 println!("ok");
                             }
@@ -89,16 +93,15 @@ impl<'grammar> Validator<'grammar> {
 
                 GrammarItem::ExternToken(ref data) => {
                     if data.span != self.extern_token.unwrap().span {
-                        return_err!(
-                            data.span,
-                            "multiple extern definitions are not permitted");
+                        return_err!(data.span, "multiple extern definitions are not permitted");
                     }
 
                     // We may want to allow a limited extern to coexist with match in the future
                     if let Some(d) = self.match_token {
                         return_err!(
                             d.span,
-                            "match and extern definitions are mutually exclusive");
+                            "match and extern definitions are mutually exclusive"
+                        );
                     }
 
                     let allowed_names = vec![intern(LOCATION), intern(ERROR)];
@@ -110,12 +113,14 @@ impl<'grammar> Validator<'grammar> {
                                 "associated type `{}` not recognized, \
                                  try one of the following: {}",
                                 associated_type.type_name,
-                                Sep(", ", &allowed_names));
+                                Sep(", ", &allowed_names)
+                            );
                         } else if !new_names.insert(associated_type.type_name) {
                             return_err!(
                                 associated_type.type_span,
                                 "associated type `{}` already specified",
-                                associated_type.type_name);
+                                associated_type.type_name
+                            );
                         }
                     }
                 }
@@ -125,16 +130,22 @@ impl<'grammar> Validator<'grammar> {
                     let mut found_annotations = set();
                     for annotation in &data.annotations {
                         if !known_annotations.contains(&annotation.id) {
-                            return_err!(annotation.id_span,
-                                        "unrecognized annotation `{}`",
-                                        annotation.id);
+                            return_err!(
+                                annotation.id_span,
+                                "unrecognized annotation `{}`",
+                                annotation.id
+                            );
                         } else if !found_annotations.insert(annotation.id) {
-                            return_err!(annotation.id_span,
-                                        "duplicate annotation `{}`",
-                                        annotation.id);
+                            return_err!(
+                                annotation.id_span,
+                                "duplicate annotation `{}`",
+                                annotation.id
+                            );
                         } else if annotation.id == inline_annotation && data.public {
-                            return_err!(annotation.id_span,
-                                        "public items cannot be marked #[inline]");
+                            return_err!(
+                                annotation.id_span,
+                                "public items cannot be marked #[inline]"
+                            );
                         }
                     }
 
@@ -142,38 +153,33 @@ impl<'grammar> Validator<'grammar> {
                         try!(self.validate_alternative(alternative));
                     }
                 }
-                GrammarItem::InternToken(..) => { }
+                GrammarItem::InternToken(..) => {}
             }
         }
         Ok(())
     }
 
-    fn validate_alternative(&self,
-                            alternative: &Alternative)
-                            -> NormResult<()> {
+    fn validate_alternative(&self, alternative: &Alternative) -> NormResult<()> {
         try!(self.validate_expr(&alternative.expr));
 
         match norm_util::analyze_expr(&alternative.expr) {
             Symbols::Named(syms) => {
                 if alternative.action.is_none() {
-                    let sym =
-                        syms.iter()
-                            .map(|&(_, _, sym)| sym)
-                            .next()
-                            .unwrap();
+                    let sym = syms.iter().map(|&(_, _, sym)| sym).next().unwrap();
                     return_err!(
                         sym.span,
                         "named symbols (like `{}`) require a custom action",
-                        sym);
+                        sym
+                    );
                 }
             }
-            Symbols::Anon(_) => { 
+            Symbols::Anon(_) => {
                 let empty_string = "".to_string();
                 let action = {
                     match alternative.action {
                         Some(ActionKind::User(ref action)) => action,
                         Some(ActionKind::Fallible(ref action)) => action,
-                        _ => &empty_string
+                        _ => &empty_string,
                     }
                 };
                 if norm_util::check_between_braces(action).is_in_curly_brackets() {
@@ -187,68 +193,65 @@ impl<'grammar> Validator<'grammar> {
         Ok(())
     }
 
-    fn validate_expr(&self,
-                     expr: &ExprSymbol)
-                     -> NormResult<()> {
+    fn validate_expr(&self, expr: &ExprSymbol) -> NormResult<()> {
         for symbol in &expr.symbols {
             try!(self.validate_symbol(symbol));
         }
 
-        let chosen: Vec<&Symbol> =
-            expr.symbols.iter()
-                        .filter(|sym| match sym.kind {
-                            SymbolKind::Choose(_) => true,
-                            _ => false,
-                        })
-                        .collect();
+        let chosen: Vec<&Symbol> = expr.symbols
+            .iter()
+            .filter(|sym| match sym.kind {
+                SymbolKind::Choose(_) => true,
+                _ => false,
+            })
+            .collect();
 
-        let named: Multimap<InternedString, Vec<&Symbol>> =
-            expr.symbols.iter()
-                        .filter_map(|sym| match sym.kind {
-                            SymbolKind::Name(nt, _) => Some((nt, sym)),
-                            _ => None,
-                        })
-                        .collect();
+        let named: Multimap<InternedString, Vec<&Symbol>> = expr.symbols
+            .iter()
+            .filter_map(|sym| match sym.kind {
+                SymbolKind::Name(nt, _) => Some((nt, sym)),
+                _ => None,
+            })
+            .collect();
 
         if !chosen.is_empty() && !named.is_empty() {
-            return_err!(chosen[0].span,
-                        "anonymous symbols like this one cannot be combined with \
-                         named symbols like `{}`",
-                        named.into_iter().next().unwrap().1[0]);
+            return_err!(
+                chosen[0].span,
+                "anonymous symbols like this one cannot be combined with \
+                 named symbols like `{}`",
+                named.into_iter().next().unwrap().1[0]
+            );
         }
 
         for (name, syms) in named.into_iter() {
-            if syms.len() > 1{
-                return_err!(syms[1].span,
-                            "multiple symbols named `{}` are not permitted",
-                            name);
+            if syms.len() > 1 {
+                return_err!(
+                    syms[1].span,
+                    "multiple symbols named `{}` are not permitted",
+                    name
+                );
             }
         }
 
         Ok(())
     }
 
-    fn validate_symbol(&self,
-                       symbol: &Symbol)
-                       -> NormResult<()> {
+    fn validate_symbol(&self, symbol: &Symbol) -> NormResult<()> {
         match symbol.kind {
             SymbolKind::Expr(ref expr) => {
                 try!(self.validate_expr(expr));
             }
-            SymbolKind::AmbiguousId(_) => {
-                /* see resolve */
-            }
-            SymbolKind::Terminal(_) => {
-                /* see postvalidate! */
-            }
-            SymbolKind::Nonterminal(_) => {
-                /* see resolve */
-            }
+            SymbolKind::AmbiguousId(_) => { /* see resolve */ }
+            SymbolKind::Terminal(_) => { /* see postvalidate! */ }
+            SymbolKind::Nonterminal(_) => { /* see resolve */ }
             SymbolKind::Error => {
                 let mut algorithm = r::Algorithm::default();
                 read_algorithm(&self.grammar.annotations, &mut algorithm);
                 if algorithm.codegen == r::LrCodeGeneration::RecursiveAscent {
-                    return_err!(symbol.span, "error recovery is not yet supported by recursive ascent parsers");
+                    return_err!(
+                        symbol.span,
+                        "error recovery is not yet supported by recursive ascent parsers"
+                    );
                 }
             }
             SymbolKind::Macro(ref msym) => {
@@ -275,7 +278,8 @@ impl<'grammar> Validator<'grammar> {
                                 "lookahead/lookbehind require you to declare the type of \
                                  a location; add a `type {} = ..` statement to the extern token \
                                  block",
-                                LOCATION);
+                                LOCATION
+                            );
                         }
                     }
                 }

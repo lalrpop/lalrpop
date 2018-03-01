@@ -1,9 +1,5 @@
-/*!
-
-The "parse-tree" is what is produced by the parser. We use it do
-some pre-expansion and so forth before creating the proper AST.
-
-*/
+//! The "parse-tree" is what is produced by the parser. We use it do
+//! some pre-expansion and so forth before creating the proper AST.
 
 use string_cache::DefaultAtom as Atom;
 use lexer::dfa::DFA;
@@ -12,7 +8,7 @@ use grammar::repr::{self as r, NominalTypeRepr, TypeRepr};
 use grammar::pattern::Pattern;
 use message::Content;
 use message::builder::InlineBuilder;
-use std::fmt::{Debug, Display, Formatter, Error};
+use std::fmt::{Debug, Display, Error, Formatter};
 use tls::Tls;
 use util::Sep;
 
@@ -39,7 +35,11 @@ impl Into<Box<Content>> for Span {
 
         // Insert an Adjacent block to prevent wrapping inside this
         // string:
-        InlineBuilder::new().begin_adjacent().text(string).end().end()
+        InlineBuilder::new()
+            .begin_adjacent()
+            .text(string)
+            .end()
+            .end()
     }
 }
 
@@ -62,7 +62,7 @@ impl MatchToken {
     pub fn new(contents: MatchContents, span: Span) -> MatchToken {
         MatchToken {
             contents: vec![contents],
-            span: span
+            span: span,
         }
     }
 
@@ -72,14 +72,14 @@ impl MatchToken {
         new_contents.push(contents);
         MatchToken {
             contents: new_contents,
-            span: self.span
+            span: self.span,
         }
     }
 }
 
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct MatchContents {
-    pub items: Vec<MatchItem>
+    pub items: Vec<MatchItem>,
 }
 
 // FIXME: Validate that MatchSymbol is actually a TerminalString::Literal
@@ -88,22 +88,22 @@ pub struct MatchContents {
 pub enum MatchItem {
     CatchAll(Span),
     Unmapped(MatchSymbol, Span),
-    Mapped(MatchSymbol, MatchMapping, Span)
+    Mapped(MatchSymbol, MatchMapping, Span),
 }
 
 impl MatchItem {
     pub fn is_catch_all(&self) -> bool {
         match *self {
             MatchItem::CatchAll(_) => true,
-            _ => false
+            _ => false,
         }
     }
 
     pub fn span(&self) -> Span {
         match *self {
-            MatchItem::CatchAll(span)     => span,
-            MatchItem::Unmapped(_, span)  => span,
-            MatchItem::Mapped(_, _, span) => span
+            MatchItem::CatchAll(span) => span,
+            MatchItem::Unmapped(_, span) => span,
+            MatchItem::Mapped(_, _, span) => span,
         }
     }
 }
@@ -119,7 +119,7 @@ pub struct InternToken {
     /// Set of `r"foo"` and `"foo"` literals extracted from the
     /// grammar. Sorted by order of increasing precedence.
     pub match_entries: Vec<MatchEntry>,
-    pub dfa: DFA
+    pub dfa: DFA,
 }
 
 /// In `token_check`, as we prepare to generate a tokenizer, we
@@ -203,7 +203,7 @@ pub enum TypeRef {
     // Foo<'a, 'b, T1, T2>, Foo::Bar, etc
     Nominal {
         path: Path,
-        types: Vec<TypeRef>
+        types: Vec<TypeRef>,
     },
 
     Ref {
@@ -234,19 +234,27 @@ pub enum WhereClause<T> {
         forall: Option<Vec<Atom>>,
         ty: T,
         bounds: Vec<TypeBound<T>>,
-    }
+    },
 }
 
 impl<T> WhereClause<T> {
     pub fn map<F, U>(&self, mut f: F) -> WhereClause<U>
-        where F: FnMut(&T) -> U
+    where
+        F: FnMut(&T) -> U,
     {
         match *self {
-            WhereClause::Lifetime { ref lifetime, ref bounds } => WhereClause::Lifetime {
+            WhereClause::Lifetime {
+                ref lifetime,
+                ref bounds,
+            } => WhereClause::Lifetime {
                 lifetime: lifetime.clone(),
                 bounds: bounds.clone(),
             },
-            WhereClause::Type { ref forall, ref ty, ref bounds } => WhereClause::Type {
+            WhereClause::Type {
+                ref forall,
+                ref ty,
+                ref bounds,
+            } => WhereClause::Type {
                 forall: forall.clone(),
                 ty: f(ty),
                 bounds: bounds.iter().map(|b| b.map(&mut f)).collect(),
@@ -272,26 +280,36 @@ pub enum TypeBound<T> {
         forall: Option<Vec<Atom>>,
         path: Path,
         parameters: Vec<TypeBoundParameter<T>>,
-    }
+    },
 }
 
 impl<T> TypeBound<T> {
     pub fn map<F, U>(&self, mut f: F) -> TypeBound<U>
-        where F: FnMut(&T) -> U
+    where
+        F: FnMut(&T) -> U,
     {
         match *self {
             TypeBound::Lifetime(ref l) => TypeBound::Lifetime(l.clone()),
-            TypeBound::Fn { ref forall, ref path, ref parameters, ref ret } => TypeBound::Fn {
+            TypeBound::Fn {
+                ref forall,
+                ref path,
+                ref parameters,
+                ref ret,
+            } => TypeBound::Fn {
                 forall: forall.clone(),
                 path: path.clone(),
                 parameters: parameters.iter().map(&mut f).collect(),
                 ret: ret.as_ref().map(f),
             },
-            TypeBound::Trait { ref forall, ref path, ref parameters } => TypeBound::Trait {
+            TypeBound::Trait {
+                ref forall,
+                ref path,
+                ref parameters,
+            } => TypeBound::Trait {
                 forall: forall.clone(),
                 path: path.clone(),
                 parameters: parameters.iter().map(|p| p.map(&mut f)).collect(),
-            }
+            },
         }
     }
 }
@@ -308,15 +326,15 @@ pub enum TypeBoundParameter<T> {
 
 impl<T> TypeBoundParameter<T> {
     pub fn map<F, U>(&self, mut f: F) -> TypeBoundParameter<U>
-        where F: FnMut(&T) -> U
+    where
+        F: FnMut(&T) -> U,
     {
         match *self {
-            TypeBoundParameter::Lifetime(ref l) =>
-                TypeBoundParameter::Lifetime(l.clone()),
-            TypeBoundParameter::TypeParameter(ref t) =>
-                TypeBoundParameter::TypeParameter(f(t)),
-            TypeBoundParameter::Associated(ref id, ref t) =>
-                TypeBoundParameter::Associated(id.clone(), f(t)),
+            TypeBoundParameter::Lifetime(ref l) => TypeBoundParameter::Lifetime(l.clone()),
+            TypeBoundParameter::TypeParameter(ref t) => TypeBoundParameter::TypeParameter(f(t)),
+            TypeBoundParameter::Associated(ref id, ref t) => {
+                TypeBoundParameter::Associated(id.clone(), f(t))
+            }
         }
     }
 }
@@ -331,7 +349,7 @@ impl TypeParameter {
     pub fn is_lifetime(&self) -> bool {
         match *self {
             TypeParameter::Lifetime(_) => true,
-            _ => false
+            _ => false,
         }
     }
 }
@@ -365,7 +383,7 @@ pub struct NonterminalData {
     pub span: Span,
     pub args: Vec<NonterminalString>, // macro arguments
     pub type_decl: Option<TypeRef>,
-    pub alternatives: Vec<Alternative>
+    pub alternatives: Vec<Alternative>,
 }
 
 #[derive(Clone, Debug, PartialEq, Eq)]
@@ -399,7 +417,7 @@ pub enum ActionKind {
 pub struct Condition {
     pub span: Span,
     pub lhs: NonterminalString, // X
-    pub rhs: Atom, // "Foo"
+    pub rhs: Atom,              // "Foo"
     pub op: ConditionOp,
 }
 
@@ -456,7 +474,7 @@ pub enum SymbolKind {
     // @R
     Lookbehind,
 
-    Error
+    Error,
 }
 
 #[derive(Clone, Hash, PartialEq, Eq, PartialOrd, Ord)]
@@ -470,7 +488,7 @@ impl TerminalString {
     pub fn as_literal(&self) -> Option<TerminalLiteral> {
         match *self {
             TerminalString::Literal(ref l) => Some(l.clone()),
-            _ => None
+            _ => None,
         }
     }
 
@@ -478,7 +496,7 @@ impl TerminalString {
         match *self {
             TerminalString::Literal(ref x) => x.display_len(),
             TerminalString::Bare(ref x) => x.len(),
-            TerminalString::Error => "error".len()
+            TerminalString::Error => "error".len(),
         }
     }
 }
@@ -511,8 +529,7 @@ impl TerminalLiteral {
 #[derive(Clone, Hash, PartialEq, Eq, PartialOrd, Ord)]
 pub struct NonterminalString(pub Atom);
 
-impl NonterminalString
-{
+impl NonterminalString {
     pub fn len(&self) -> usize {
         self.0.len()
     }
@@ -522,24 +539,29 @@ impl Into<Box<Content>> for NonterminalString {
     fn into(self) -> Box<Content> {
         let session = Tls::session();
 
-        InlineBuilder::new().text(self).styled(session.nonterminal_symbol).end()
+        InlineBuilder::new()
+            .text(self)
+            .styled(session.nonterminal_symbol)
+            .end()
     }
 }
 
 #[derive(Copy, Clone, Debug, PartialEq, Eq)]
 pub enum RepeatOp {
-    Star, Plus, Question
+    Star,
+    Plus,
+    Question,
 }
 
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct RepeatSymbol {
     pub op: RepeatOp,
-    pub symbol: Symbol
+    pub symbol: Symbol,
 }
 
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct ExprSymbol {
-    pub symbols: Vec<Symbol>
+    pub symbols: Vec<Symbol>,
 }
 
 #[derive(Clone, Debug, PartialEq, Eq)]
@@ -570,28 +592,23 @@ impl Into<Box<Content>> for TerminalString {
 
 impl Grammar {
     pub fn extern_token(&self) -> Option<&ExternToken> {
-        self.items.iter()
-                  .flat_map(|i| i.as_extern_token())
-                  .next()
+        self.items.iter().flat_map(|i| i.as_extern_token()).next()
     }
 
     pub fn enum_token(&self) -> Option<&EnumToken> {
-        self.items.iter()
-                  .flat_map(|i| i.as_extern_token())
-                  .flat_map(|et| et.enum_token.as_ref())
-                  .next()
+        self.items
+            .iter()
+            .flat_map(|i| i.as_extern_token())
+            .flat_map(|et| et.enum_token.as_ref())
+            .next()
     }
 
     pub fn intern_token(&self) -> Option<&InternToken> {
-        self.items.iter()
-                  .flat_map(|i| i.as_intern_token())
-                  .next()
+        self.items.iter().flat_map(|i| i.as_intern_token()).next()
     }
 
     pub fn match_token(&self) -> Option<&MatchToken> {
-        self.items.iter()
-                  .flat_map(|i| i.as_match_token())
-                  .next()
+        self.items.iter().flat_map(|i| i.as_match_token()).next()
     }
 }
 
@@ -652,7 +669,10 @@ impl NonterminalData {
 
 impl Symbol {
     pub fn new(span: Span, kind: SymbolKind) -> Symbol {
-        Symbol { span: span, kind: kind }
+        Symbol {
+            span: span,
+            kind: kind,
+        }
     }
 
     pub fn canonical_form(&self) -> String {
@@ -673,7 +693,10 @@ impl Display for Visibility {
 impl<T: Display> Display for WhereClause<T> {
     fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
         match *self {
-            WhereClause::Lifetime { ref lifetime, ref bounds } => {
+            WhereClause::Lifetime {
+                ref lifetime,
+                ref bounds,
+            } => {
                 write!(fmt, "{}:", lifetime)?;
                 for (i, b) in bounds.iter().enumerate() {
                     if i != 0 {
@@ -683,7 +706,11 @@ impl<T: Display> Display for WhereClause<T> {
                 }
                 Ok(())
             }
-            WhereClause::Type { ref forall, ref ty, ref bounds } => {
+            WhereClause::Type {
+                ref forall,
+                ref ty,
+                ref bounds,
+            } => {
                 if let Some(ref forall) = *forall {
                     write!(fmt, "for<")?;
                     for (i, l) in forall.iter().enumerate() {
@@ -711,10 +738,13 @@ impl<T: Display> Display for WhereClause<T> {
 impl<T: Display> Display for TypeBound<T> {
     fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
         match *self {
-            TypeBound::Lifetime(ref l) => {
-                write!(fmt, "{}", l)
-            }
-            TypeBound::Fn { ref forall, ref path, ref parameters, ref ret } => {
+            TypeBound::Lifetime(ref l) => write!(fmt, "{}", l),
+            TypeBound::Fn {
+                ref forall,
+                ref path,
+                ref parameters,
+                ref ret,
+            } => {
                 if let Some(ref forall) = *forall {
                     write!(fmt, "for<")?;
                     for (i, l) in forall.iter().enumerate() {
@@ -741,7 +771,11 @@ impl<T: Display> Display for TypeBound<T> {
 
                 Ok(())
             }
-            TypeBound::Trait { ref forall, ref path, ref parameters } => {
+            TypeBound::Trait {
+                ref forall,
+                ref path,
+                ref parameters,
+            } => {
                 if let Some(ref forall) = *forall {
                     write!(fmt, "for<")?;
                     for (i, l) in forall.iter().enumerate() {
@@ -774,15 +808,9 @@ impl<T: Display> Display for TypeBound<T> {
 impl<T: Display> Display for TypeBoundParameter<T> {
     fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
         match *self {
-            TypeBoundParameter::Lifetime(ref l) => {
-                write!(fmt, "{}", l)
-            }
-            TypeBoundParameter::TypeParameter(ref t) => {
-                write!(fmt, "{}", t)
-            }
-            TypeBoundParameter::Associated(ref id, ref t) => {
-                write!(fmt, "{} = {}", id, t)
-            }
+            TypeBoundParameter::Lifetime(ref l) => write!(fmt, "{}", l),
+            TypeBoundParameter::TypeParameter(ref t) => write!(fmt, "{}", t),
+            TypeBoundParameter::Associated(ref id, ref t) => write!(fmt, "{} = {}", id, t),
         }
     }
 }
@@ -790,12 +818,9 @@ impl<T: Display> Display for TypeBoundParameter<T> {
 impl Display for TerminalString {
     fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
         match *self {
-            TerminalString::Literal(ref s) =>
-                write!(fmt, "{}", s),
-            TerminalString::Bare(ref s) =>
-                write!(fmt, "{}", s),
-            TerminalString::Error =>
-                write!(fmt, "error"),
+            TerminalString::Literal(ref s) => write!(fmt, "{}", s),
+            TerminalString::Bare(ref s) => write!(fmt, "{}", s),
+            TerminalString::Error => write!(fmt, "error"),
         }
     }
 }
@@ -809,10 +834,8 @@ impl Debug for TerminalString {
 impl Display for TerminalLiteral {
     fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
         match *self {
-            TerminalLiteral::Quoted(ref s) =>
-                write!(fmt, "{:?}", s.as_ref()), // the Debug impl adds the `"` and escaping
-            TerminalLiteral::Regex(ref s) =>
-                write!(fmt, "r#{:?}#", s.as_ref()), // FIXME -- need to determine proper number of #
+            TerminalLiteral::Quoted(ref s) => write!(fmt, "{:?}", s.as_ref()), // the Debug impl adds the `"` and escaping
+            TerminalLiteral::Regex(ref s) => write!(fmt, "r#{:?}#", s.as_ref()), // FIXME -- need to determine proper number of #
         }
     }
 }
@@ -825,9 +848,12 @@ impl Debug for TerminalLiteral {
 
 impl Display for Path {
     fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
-        write!(fmt, "{}{}",
-               if self.absolute {"::"} else {""},
-               Sep("::", &self.ids))
+        write!(
+            fmt,
+            "{}{}",
+            if self.absolute { "::" } else { "" },
+            Sep("::", &self.ids),
+        )
     }
 }
 
@@ -852,28 +878,17 @@ impl Display for Symbol {
 impl Display for SymbolKind {
     fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
         match *self {
-            SymbolKind::Expr(ref expr) =>
-                write!(fmt, "{}", expr),
-            SymbolKind::Terminal(ref s) =>
-                write!(fmt, "{}", s),
-            SymbolKind::Nonterminal(ref s) =>
-                write!(fmt, "{}", s),
-            SymbolKind::AmbiguousId(ref s) =>
-                write!(fmt, "{}", s),
-            SymbolKind::Macro(ref m) =>
-                write!(fmt, "{}", m),
-            SymbolKind::Repeat(ref r) =>
-                write!(fmt, "{}", r),
-            SymbolKind::Choose(ref s) =>
-                write!(fmt, "<{}>", s),
-            SymbolKind::Name(ref n, ref s) =>
-                write!(fmt, "{}:{}", n, s),
-            SymbolKind::Lookahead =>
-                write!(fmt, "@L"),
-            SymbolKind::Lookbehind =>
-                write!(fmt, "@R"),
-            SymbolKind::Error =>
-                write!(fmt, "error"),
+            SymbolKind::Expr(ref expr) => write!(fmt, "{}", expr),
+            SymbolKind::Terminal(ref s) => write!(fmt, "{}", s),
+            SymbolKind::Nonterminal(ref s) => write!(fmt, "{}", s),
+            SymbolKind::AmbiguousId(ref s) => write!(fmt, "{}", s),
+            SymbolKind::Macro(ref m) => write!(fmt, "{}", m),
+            SymbolKind::Repeat(ref r) => write!(fmt, "{}", r),
+            SymbolKind::Choose(ref s) => write!(fmt, "<{}>", s),
+            SymbolKind::Name(ref n, ref s) => write!(fmt, "{}:{}", n, s),
+            SymbolKind::Lookahead => write!(fmt, "@L"),
+            SymbolKind::Lookbehind => write!(fmt, "@R"),
+            SymbolKind::Error => write!(fmt, "error"),
         }
     }
 }
@@ -902,9 +917,10 @@ impl Display for ExprSymbol {
 
 impl ExternToken {
     pub fn associated_type(&self, name: Atom) -> Option<&AssociatedType> {
-        self.associated_types.iter()
-                             .filter(|a| a.type_name == name)
-                             .next()
+        self.associated_types
+            .iter()
+            .filter(|a| a.type_name == name)
+            .next()
     }
 }
 
@@ -944,26 +960,41 @@ impl Display for TypeParameter {
 impl Display for TypeRef {
     fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
         match *self {
-            TypeRef::Tuple(ref types) =>
-                write!(fmt, "({})", Sep(", ", types)),
-            TypeRef::Nominal { ref path, ref types } if types.len() == 0 =>
-                write!(fmt, "{}", path),
-            TypeRef::Nominal { ref path, ref types } =>
-                write!(fmt, "{}<{}>", path, Sep(", ", types)),
-            TypeRef::Lifetime(ref s) =>
-                write!(fmt, "{}", s),
-            TypeRef::Id(ref s) =>
-                write!(fmt, "{}", s),
-            TypeRef::OfSymbol(ref s) =>
-                write!(fmt, "`{}`", s),
-            TypeRef::Ref { lifetime: None, mutable: false, ref referent } =>
-                write!(fmt, "&{}", referent),
-            TypeRef::Ref { lifetime: Some(ref l), mutable: false, ref referent } =>
-                write!(fmt, "&{} {}", l, referent),
-            TypeRef::Ref { lifetime: None, mutable: true, ref referent } =>
-                write!(fmt, "&mut {}", referent),
-            TypeRef::Ref { lifetime: Some(ref l), mutable: true, ref referent } =>
-                write!(fmt, "&{} mut {}", l, referent),
+            TypeRef::Tuple(ref types) => write!(fmt, "({})", Sep(", ", types)),
+            TypeRef::Nominal {
+                ref path,
+                ref types,
+            } if types.len() == 0 =>
+            {
+                write!(fmt, "{}", path)
+            }
+            TypeRef::Nominal {
+                ref path,
+                ref types,
+            } => write!(fmt, "{}<{}>", path, Sep(", ", types)),
+            TypeRef::Lifetime(ref s) => write!(fmt, "{}", s),
+            TypeRef::Id(ref s) => write!(fmt, "{}", s),
+            TypeRef::OfSymbol(ref s) => write!(fmt, "`{}`", s),
+            TypeRef::Ref {
+                lifetime: None,
+                mutable: false,
+                ref referent,
+            } => write!(fmt, "&{}", referent),
+            TypeRef::Ref {
+                lifetime: Some(ref l),
+                mutable: false,
+                ref referent,
+            } => write!(fmt, "&{} {}", l, referent),
+            TypeRef::Ref {
+                lifetime: None,
+                mutable: true,
+                ref referent,
+            } => write!(fmt, "&mut {}", referent),
+            TypeRef::Ref {
+                lifetime: Some(ref l),
+                mutable: true,
+                ref referent,
+            } => write!(fmt, "&{} mut {}", l, referent),
         }
     }
 }
@@ -974,26 +1005,31 @@ impl TypeRef {
     // type, but not safe for the result of expanding macros.
     pub fn type_repr(&self) -> TypeRepr {
         match *self {
-            TypeRef::Tuple(ref types) =>
-                TypeRepr::Tuple(types.iter().map(TypeRef::type_repr).collect()),
-            TypeRef::Nominal { ref path, ref types } =>
-                TypeRepr::Nominal(NominalTypeRepr {
-                    path: path.clone(),
-                    types: types.iter().map(TypeRef::type_repr).collect()
-                }),
-            TypeRef::Lifetime(ref id) =>
-                TypeRepr::Lifetime(id.clone()),
-            TypeRef::Id(ref id) =>
-                TypeRepr::Nominal(NominalTypeRepr {
-                    path: Path::from_id(id.clone()),
-                    types: vec![]
-                }),
-            TypeRef::OfSymbol(_) =>
-                unreachable!("OfSymbol produced by parser"),
-            TypeRef::Ref { ref lifetime, mutable, ref referent } =>
-                TypeRepr::Ref { lifetime: lifetime.clone(),
-                                mutable: mutable,
-                                referent: Box::new(referent.type_repr()) },
+            TypeRef::Tuple(ref types) => {
+                TypeRepr::Tuple(types.iter().map(TypeRef::type_repr).collect())
+            }
+            TypeRef::Nominal {
+                ref path,
+                ref types,
+            } => TypeRepr::Nominal(NominalTypeRepr {
+                path: path.clone(),
+                types: types.iter().map(TypeRef::type_repr).collect(),
+            }),
+            TypeRef::Lifetime(ref id) => TypeRepr::Lifetime(id.clone()),
+            TypeRef::Id(ref id) => TypeRepr::Nominal(NominalTypeRepr {
+                path: Path::from_id(id.clone()),
+                types: vec![],
+            }),
+            TypeRef::OfSymbol(_) => unreachable!("OfSymbol produced by parser"),
+            TypeRef::Ref {
+                ref lifetime,
+                mutable,
+                ref referent,
+            } => TypeRepr::Ref {
+                lifetime: lifetime.clone(),
+                mutable: mutable,
+                referent: Box::new(referent.type_repr()),
+            },
         }
     }
 }
@@ -1002,35 +1038,39 @@ impl Path {
     pub fn from_id(id: Atom) -> Path {
         Path {
             absolute: false,
-            ids: vec![id]
+            ids: vec![id],
         }
     }
 
     pub fn usize() -> Path {
         Path {
             absolute: false,
-            ids: vec![Atom::from("usize")]
+            ids: vec![Atom::from("usize")],
         }
     }
 
     pub fn str() -> Path {
         Path {
             absolute: false,
-            ids: vec![Atom::from("str")]
+            ids: vec![Atom::from("str")],
         }
     }
 
     pub fn vec() -> Path {
         Path {
             absolute: true,
-            ids: vec![Atom::from("std"), Atom::from("vec"), Atom::from("Vec")]
+            ids: vec![Atom::from("std"), Atom::from("vec"), Atom::from("Vec")],
         }
     }
 
     pub fn option() -> Path {
         Path {
             absolute: true,
-            ids: vec![Atom::from("std"), Atom::from("option"), Atom::from("Option")]
+            ids: vec![
+                Atom::from("std"),
+                Atom::from("option"),
+                Atom::from("Option"),
+            ],
         }
     }
 
@@ -1054,8 +1094,10 @@ pub fn read_algorithm(annotations: &[Annotation], algorithm: &mut r::Algorithm) 
         } else if annotation.id == Atom::from(TEST_ALL) {
             algorithm.codegen = r::LrCodeGeneration::TestAll;
         } else {
-            panic!("validation permitted unknown annotation: {:?}",
-                    annotation.id);
+            panic!(
+                "validation permitted unknown annotation: {:?}",
+                annotation.id,
+            );
         }
     }
 }

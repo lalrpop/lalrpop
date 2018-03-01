@@ -39,7 +39,8 @@ fn sri() {
     // rules would address it, but it's an interesting one for
     // producing a useful error message.
 
-    let grammar = inlined_grammar(r#"
+    let grammar = inlined_grammar(
+        r#"
         grammar;
 
         E: () = {
@@ -51,7 +52,8 @@ fn sri() {
             (),
             "L"
         };
-    "#).unwrap();
+    "#,
+    ).unwrap();
 
     let nt = NonterminalString(intern("E"));
 
@@ -66,12 +68,16 @@ fn sri() {
     assert_eq!(e_productions.len(), 3);
     assert_eq!(format!("{:?}", e_productions[0].symbols), r#"["L"]"#);
     assert_eq!(format!("{:?}", e_productions[1].symbols), r#"["&", E]"#);
-    assert_eq!(format!("{:?}", e_productions[2].symbols), r#"["&", "L", E]"#);
+    assert_eq!(
+        format!("{:?}", e_productions[2].symbols),
+        r#"["&", "L", E]"#
+    );
 }
 
 #[test]
 fn issue_55() {
-    let grammar = inlined_grammar(r#"
+    let grammar = inlined_grammar(
+        r#"
 grammar;
 
 pub E: () = {
@@ -85,7 +91,8 @@ AT: () = {
 ET: () = {
     "enum" "{" "}" => ()
 };
-    "#).unwrap();
+    "#,
+    ).unwrap();
     let nt = NonterminalString(intern("E"));
 
     // The problem in issue #55 was that we would inline both `AT*`

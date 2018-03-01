@@ -10,7 +10,7 @@ thread_local! {
 }
 
 pub struct Lr1Tls {
-    old_value: Option<Arc<TerminalSet>>
+    old_value: Option<Arc<TerminalSet>>,
 }
 
 impl Lr1Tls {
@@ -20,15 +20,16 @@ impl Lr1Tls {
             mem::replace(&mut *s, Some(Arc::new(terminals)))
         });
 
-        Lr1Tls { old_value: old_value }
+        Lr1Tls {
+            old_value: old_value,
+        }
     }
 
-    pub fn with<OP,RET>(op: OP) -> RET
-        where OP: FnOnce(&TerminalSet) -> RET
+    pub fn with<OP, RET>(op: OP) -> RET
+    where
+        OP: FnOnce(&TerminalSet) -> RET,
     {
-        TERMINALS.with(|s| {
-            op(s.borrow().as_ref().expect("LR1 TLS not installed"))
-        })
+        TERMINALS.with(|s| op(s.borrow().as_ref().expect("LR1 TLS not installed")))
     }
 }
 
@@ -37,4 +38,3 @@ impl Drop for Lr1Tls {
         TERMINALS.with(|s| *s.borrow_mut() = self.old_value.take());
     }
 }
-

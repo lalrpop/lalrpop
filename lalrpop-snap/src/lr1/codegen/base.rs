@@ -42,15 +42,16 @@ pub struct CodeGenerator<'codegen, 'grammar: 'codegen, W: Write + 'codegen, C> {
 }
 
 impl<'codegen, 'grammar, W: Write, C> CodeGenerator<'codegen, 'grammar, W, C> {
-    pub fn new(grammar: &'grammar Grammar,
-               user_start_symbol: NonterminalString,
-               start_symbol: NonterminalString,
-               states: &'codegen [LR1State<'grammar>],
-               out: &'codegen mut RustWrite<W>,
-               repeatable: bool,
-               action_module: &str,
-               custom: C)
-               -> Self {
+    pub fn new(
+        grammar: &'grammar Grammar,
+        user_start_symbol: NonterminalString,
+        start_symbol: NonterminalString,
+        states: &'codegen [LR1State<'grammar>],
+        out: &'codegen mut RustWrite<W>,
+        repeatable: bool,
+        action_module: &str,
+        custom: C,
+    ) -> Self {
         CodeGenerator {
             grammar: grammar,
             prefix: &grammar.prefix,
@@ -66,16 +67,19 @@ impl<'codegen, 'grammar, W: Write, C> CodeGenerator<'codegen, 'grammar, W, C> {
     }
 
     pub fn write_parse_mod<F>(&mut self, body: F) -> io::Result<()>
-        where F: FnOnce(&mut Self) -> io::Result<()>
+    where
+        F: FnOnce(&mut Self) -> io::Result<()>,
     {
         rust!(self.out, "");
         rust!(self.out, "mod {}parse{} {{", self.prefix, self.start_symbol);
 
         // these stylistic lints are annoying for the generated code,
         // which doesn't follow conventions:
-        rust!(self.out,
-              "#![allow(non_snake_case, non_camel_case_types, unused_mut, unused_variables, \
-               unused_imports)]");
+        rust!(
+            self.out,
+            "#![allow(non_snake_case, non_camel_case_types, unused_mut, unused_variables, \
+             unused_imports)]"
+        );
         rust!(self.out, "");
 
         try!(self.write_uses());
@@ -87,10 +91,18 @@ impl<'codegen, 'grammar, W: Write, C> CodeGenerator<'codegen, 'grammar, W, C> {
     }
 
     pub fn write_uses(&mut self) -> io::Result<()> {
-        try!(self.out.write_uses(&format!("{}::", self.action_module), &self.grammar));
+        try!(
+            self.out
+                .write_uses(&format!("{}::", self.action_module), &self.grammar)
+        );
 
         if self.grammar.intern_token.is_none() {
-            rust!(self.out, "use {}::{}ToTriple;", self.action_module, self.prefix);
+            rust!(
+                self.out,
+                "use {}::{}ToTriple;",
+                self.action_module,
+                self.prefix
+            );
         }
 
         Ok(())
@@ -115,14 +127,16 @@ impl<'codegen, 'grammar, W: Write, C> CodeGenerator<'codegen, 'grammar, W, C> {
             for type_parameter in &self.grammar.type_parameters {
                 user_type_parameters.push_str(&format!("{}, ", type_parameter));
             }
-            type_parameters = vec![format!("{}TOKEN: {}ToTriple<{}Error={}>",
-                                           self.prefix,
-                                           self.prefix,
-                                           user_type_parameters,
-                                           error_type),
-                                   format!("{}TOKENS: IntoIterator<Item={}TOKEN>",
-                                           self.prefix,
-                                           self.prefix)];
+            type_parameters = vec![
+                format!(
+                    "{}TOKEN: {}ToTriple<{}Error={}>",
+                    self.prefix, self.prefix, user_type_parameters, error_type
+                ),
+                format!(
+                    "{}TOKENS: IntoIterator<Item={}TOKEN>",
+                    self.prefix, self.prefix
+                ),
+            ];
             parameters = vec![format!("{}tokens0: {}TOKENS", self.prefix, self.prefix)];
             where_clauses = vec![];
 
@@ -131,14 +145,18 @@ impl<'codegen, 'grammar, W: Write, C> CodeGenerator<'codegen, 'grammar, W, C> {
             }
         }
 
-        try!(self.out.write_pub_fn_header(self.grammar,
-                                          format!("parse_{}", self.user_start_symbol),
-                                          type_parameters,
-                                          parameters,
-                                          format!("Result<{}, {}>",
-                                                  self.types.nonterminal_type(self.start_symbol),
-                                                  parse_error_type),
-                                          where_clauses));
+        try!(self.out.write_pub_fn_header(
+            self.grammar,
+            format!("parse_{}", self.user_start_symbol),
+            type_parameters,
+            parameters,
+            format!(
+                "Result<{}, {}>",
+                self.types.nonterminal_type(self.start_symbol),
+                parse_error_type
+            ),
+            where_clauses
+        ));
         rust!(self.out, "{{");
 
         Ok(())
@@ -147,28 +165,34 @@ impl<'codegen, 'grammar, W: Write, C> CodeGenerator<'codegen, 'grammar, W, C> {
     pub fn define_tokens(&mut self) -> io::Result<()> {
         if self.grammar.intern_token.is_some() {
             // if we are generating the tokenizer, create a matcher as our input iterator
-            rust!(self.out,
-                  "let mut {}tokens = {}::{}intern_token::{}Matcher::new(input);",
-                  self.prefix,
-                  self.action_module,
-                  self.prefix,
-                  self.prefix);
+            rust!(
+                self.out,
+                "let mut {}tokens = {}::{}intern_token::{}Matcher::new(input);",
+                self.prefix,
+                self.action_module,
+                self.prefix,
+                self.prefix
+            );
         } else {
             // otherwise, convert one from the `IntoIterator`
             // supplied, using the `ToTriple` trait which inserts
             // errors/locations etc if none are given
             let clone_call = if self.repeatable { ".clone()" } else { "" };
-            rust!(self.out,
-                  "let {}tokens = {}tokens0{}.into_iter();",
-                  self.prefix,
-                  self.prefix,
-                  clone_call);
+            rust!(
+                self.out,
+                "let {}tokens = {}tokens0{}.into_iter();",
+                self.prefix,
+                self.prefix,
+                clone_call
+            );
 
-            rust!(self.out,
-                  "let mut {}tokens = {}tokens.map(|t| {}ToTriple::to_triple(t));",
-                  self.prefix,
-                  self.prefix,
-                  self.prefix);
+            rust!(
+                self.out,
+                "let mut {}tokens = {}tokens.map(|t| {}ToTriple::to_triple(t));",
+                self.prefix,
+                self.prefix,
+                self.prefix
+            );
         }
 
         Ok(())
@@ -184,8 +208,10 @@ impl<'codegen, 'grammar, W: Write, C> CodeGenerator<'codegen, 'grammar, W, C> {
     /// all type parameters are constrained, even if they are not
     /// used.
     pub fn phantom_data_type(&self) -> String {
-        format!("::std::marker::PhantomData<({})>",
-                Sep(", ", &self.grammar.non_lifetime_type_parameters()))
+        format!(
+            "::std::marker::PhantomData<({})>",
+            Sep(", ", &self.grammar.non_lifetime_type_parameters())
+        )
     }
 
     /// Returns expression that captures the user-declared type
@@ -193,7 +219,9 @@ impl<'codegen, 'grammar, W: Write, C> CodeGenerator<'codegen, 'grammar, W, C> {
     /// all type parameters are constrained, even if they are not
     /// used.
     pub fn phantom_data_expr(&self) -> String {
-        format!("::std::marker::PhantomData::<({})>",
-                Sep(", ", &self.grammar.non_lifetime_type_parameters()))
+        format!(
+            "::std::marker::PhantomData::<({})>",
+            Sep(", ", &self.grammar.non_lifetime_type_parameters())
+        )
     }
 }

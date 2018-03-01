@@ -18,7 +18,7 @@ use tls::Tls;
 use tok;
 
 use std::fs;
-use std::io::{self, Write, BufRead};
+use std::io::{self, BufRead, Write};
 use std::path::{Path, PathBuf};
 use std::process::exit;
 use std::rc::Rc;
@@ -28,8 +28,13 @@ mod fake_term;
 
 use self::fake_term::FakeTerminal;
 
-const LALRPOP_VERSION_HEADER: &'static str =
-    concat!("// auto-generated: \"", env!("CARGO_PKG_NAME"), " ", env!("CARGO_PKG_VERSION"), "\"");
+const LALRPOP_VERSION_HEADER: &'static str = concat!(
+    "// auto-generated: \"",
+    env!("CARGO_PKG_NAME"),
+    " ",
+    env!("CARGO_PKG_VERSION"),
+    "\""
+);
 
 pub fn process_dir<P: AsRef<Path>>(session: Rc<Session>, root_dir: P) -> io::Result<()> {
     let lalrpop_files = try!(lalrpop_files(root_dir));
@@ -69,16 +74,24 @@ fn gen_resolve_file(session: &Session, lalrpop_file: &Path, ext: &str) -> io::Re
     // If the lalrpop file is not in in_dir, the result is that the
     // .rs file is created in the same directory as the lalrpop file
     // for compatibility reasons
-    Ok(out_dir.join(lalrpop_file.strip_prefix(&in_dir).unwrap_or(lalrpop_file))
-              .with_extension(ext))
+    Ok(out_dir
+        .join(lalrpop_file.strip_prefix(&in_dir).unwrap_or(lalrpop_file))
+        .with_extension(ext))
 }
 
-fn process_file_into(session: Rc<Session>, lalrpop_file: &Path, rs_file: &Path, report_file: &Path) -> io::Result<()> {
+fn process_file_into(
+    session: Rc<Session>,
+    lalrpop_file: &Path,
+    rs_file: &Path,
+    report_file: &Path,
+) -> io::Result<()> {
     if session.force_build || try!(needs_rebuild(&lalrpop_file, &rs_file)) {
-        log!(session,
-             Informative,
-             "processing file `{}`",
-             lalrpop_file.to_string_lossy());
+        log!(
+            session,
+            Informative,
+            "processing file `{}`",
+            lalrpop_file.to_string_lossy()
+        );
         if let Some(parent) = rs_file.parent() {
             try!(fs::create_dir_all(parent));
         }
@@ -135,34 +148,35 @@ fn needs_rebuild(lalrpop_file: &Path, rs_file: &Path) -> io::Result<bool> {
 
             compare_lalrpop_version(rs_file)
         }
-        Err(e) => {
-            match e.kind() {
-                io::ErrorKind::NotFound => Ok(true),
-                _ => Err(e),
-            }
-        }
+        Err(e) => match e.kind() {
+            io::ErrorKind::NotFound => Ok(true),
+            _ => Err(e),
+        },
     };
 
     #[cfg(unix)]
-    fn compare_modification_times(lalrpop_metadata: &fs::Metadata,
-                                  rs_metadata: &fs::Metadata)
-                                  -> bool {
+    fn compare_modification_times(
+        lalrpop_metadata: &fs::Metadata,
+        rs_metadata: &fs::Metadata,
+    ) -> bool {
         use std::os::unix::fs::MetadataExt;
         lalrpop_metadata.mtime() >= rs_metadata.mtime()
     }
 
     #[cfg(windows)]
-    fn compare_modification_times(lalrpop_metadata: &fs::Metadata,
-                                  rs_metadata: &fs::Metadata)
-                                  -> bool {
+    fn compare_modification_times(
+        lalrpop_metadata: &fs::Metadata,
+        rs_metadata: &fs::Metadata,
+    ) -> bool {
         use std::os::windows::fs::MetadataExt;
         lalrpop_metadata.last_write_time() >= rs_metadata.last_write_time()
     }
 
-    #[cfg(not(any(unix,windows)))]
-    fn compare_modification_times(lalrpop_metadata: &fs::Metadata,
-                                  rs_metadata: &fs::Metadata)
-                                  -> bool {
+    #[cfg(not(any(unix, windows)))]
+    fn compare_modification_times(
+        lalrpop_metadata: &fs::Metadata,
+        rs_metadata: &fs::Metadata,
+    ) -> bool {
         true
     }
 
@@ -198,8 +212,9 @@ fn lalrpop_files<P: AsRef<Path>>(root_dir: P) -> io::Result<Vec<PathBuf>> {
             result.extend(try!(lalrpop_files(&path)));
         }
 
-        if file_type.is_file() && path.extension().is_some() &&
-           path.extension().unwrap() == "lalrpop" {
+        if file_type.is_file() && path.extension().is_some()
+            && path.extension().unwrap() == "lalrpop"
+        {
             result.push(path);
         }
     }
@@ -212,31 +227,45 @@ fn parse_and_normalize_grammar(session: &Session, file_text: &FileText) -> io::R
 
         Err(ParseError::InvalidToken { location }) => {
             let ch = file_text.text()[location..].chars().next().unwrap();
-            report_error(&file_text,
-                         pt::Span(location, location),
-                         &format!("invalid character `{}`", ch));
+            report_error(
+                &file_text,
+                pt::Span(location, location),
+                &format!("invalid character `{}`", ch),
+            );
         }
 
-        Err(ParseError::UnrecognizedToken { token: None, expected: _ }) => {
+        Err(ParseError::UnrecognizedToken {
+            token: None,
+            expected: _,
+        }) => {
             let len = file_text.text().len();
-            report_error(&file_text,
-                         pt::Span(len, len),
-                         &format!("unexpected end of file"));
+            report_error(
+                &file_text,
+                pt::Span(len, len),
+                &format!("unexpected end of file"),
+            );
         }
 
-        Err(ParseError::UnrecognizedToken { token: Some((lo, _, hi)), expected }) => {
+        Err(ParseError::UnrecognizedToken {
+            token: Some((lo, _, hi)),
+            expected,
+        }) => {
             let _ = expected; // didn't implement this yet :)
             let text = &file_text.text()[lo..hi];
-            report_error(&file_text,
-                         pt::Span(lo, hi),
-                         &format!("unexpected token: `{}`", text));
+            report_error(
+                &file_text,
+                pt::Span(lo, hi),
+                &format!("unexpected token: `{}`", text),
+            );
         }
 
         Err(ParseError::ExtraToken { token: (lo, _, hi) }) => {
             let text = &file_text.text()[lo..hi];
-            report_error(&file_text,
-                         pt::Span(lo, hi),
-                         &format!("extra token at end of input: `{}`", text));
+            report_error(
+                &file_text,
+                pt::Span(lo, hi),
+                &format!("extra token at end of input: `{}`", text),
+            );
         }
 
         Err(ParseError::User { error }) => {
@@ -249,18 +278,18 @@ fn parse_and_normalize_grammar(session: &Session, file_text: &FileText) -> io::R
                 tok::ErrorCode::UnterminatedCharacterLiteral => {
                     "unterminated character literal; missing `'`?"
                 }
-                tok::ErrorCode::UnterminatedAttribute => {
-                    "unterminated #! attribute; missing `]`?"
-                }
+                tok::ErrorCode::UnterminatedAttribute => "unterminated #! attribute; missing `]`?",
                 tok::ErrorCode::ExpectedStringLiteral => "expected string literal; missing `\"`?",
                 tok::ErrorCode::UnterminatedCode => {
                     "unterminated code block; perhaps a missing `;`, `)`, `]` or `}`?"
                 }
             };
 
-            report_error(&file_text,
-                         pt::Span(error.location, error.location + 1),
-                         string)
+            report_error(
+                &file_text,
+                pt::Span(error.location, error.location + 1),
+                string,
+            )
         }
     };
 
@@ -282,7 +311,9 @@ fn report_error(file_text: &FileText, span: pt::Span, message: &str) -> ! {
 
 fn report_messages(messages: Vec<Message>) -> term::Result<()> {
     let builder = InlineBuilder::new().begin_paragraphs();
-    let builder = messages.into_iter().fold(builder, |b, m| b.push(Box::new(m)));
+    let builder = messages
+        .into_iter()
+        .fold(builder, |b, m| b.push(Box::new(m)));
     let content = builder.end().end();
     report_content(&*content)
 }
@@ -308,7 +339,10 @@ fn report_content(content: &Content) -> term::Result<()> {
     canvas.write_to(&mut stdout)
 }
 
-fn emit_module_attributes<W: Write>(grammar: &r::Grammar, rust: &mut RustWrite<W>) -> io::Result<()> {
+fn emit_module_attributes<W: Write>(
+    grammar: &r::Grammar,
+    rust: &mut RustWrite<W>,
+) -> io::Result<()> {
     rust.write_module_attributes(grammar)
 }
 
@@ -316,8 +350,11 @@ fn emit_uses<W: Write>(grammar: &r::Grammar, rust: &mut RustWrite<W>) -> io::Res
     rust.write_uses("", grammar)
 }
 
-
-fn emit_recursive_ascent(session: &Session, grammar: &r::Grammar, report_file : &Path) -> io::Result<Vec<u8>> {
+fn emit_recursive_ascent(
+    session: &Session,
+    grammar: &r::Grammar,
+    report_file: &Path,
+) -> io::Result<Vec<u8>> {
     let mut rust = RustWrite::new(vec![]);
 
     // We generate a module structure like this:
@@ -353,10 +390,12 @@ fn emit_recursive_ascent(session: &Session, grammar: &r::Grammar, report_file : 
         // where to stop!
         assert_eq!(grammar.productions_for(start_nt).len(), 1);
 
-        log!(session,
-             Verbose,
-             "Building states for public nonterminal `{}`",
-             user_nt);
+        log!(
+            session,
+            Verbose,
+            "Building states for public nonterminal `{}`",
+            user_nt
+        );
 
         let _lr1_tls = lr1::Lr1Tls::install(grammar.terminals.clone());
 
@@ -376,35 +415,40 @@ fn emit_recursive_ascent(session: &Session, grammar: &r::Grammar, report_file : 
         };
 
         match grammar.algorithm.codegen {
-            r::LrCodeGeneration::RecursiveAscent =>
-                try!(lr1::codegen::ascent::compile(&grammar,
-                                                   user_nt.clone(),
-                                                   start_nt.clone(),
-                                                   &states,
-                                                   "super",
-                                                   &mut rust)),
-            r::LrCodeGeneration::TableDriven =>
-                try!(lr1::codegen::parse_table::compile(&grammar,
-                                                        user_nt.clone(),
-                                                        start_nt.clone(),
-                                                        &states,
-                                                        "super",
-                                                        &mut rust)),
+            r::LrCodeGeneration::RecursiveAscent => try!(lr1::codegen::ascent::compile(
+                &grammar,
+                user_nt.clone(),
+                start_nt.clone(),
+                &states,
+                "super",
+                &mut rust,
+            )),
+            r::LrCodeGeneration::TableDriven => try!(lr1::codegen::parse_table::compile(
+                &grammar,
+                user_nt.clone(),
+                start_nt.clone(),
+                &states,
+                "super",
+                &mut rust,
+            )),
 
-            r::LrCodeGeneration::TestAll =>
-                try!(lr1::codegen::test_all::compile(&grammar,
-                                                     user_nt.clone(),
-                                                     start_nt.clone(),
-                                                     &states,
-                                                     &mut rust)),
+            r::LrCodeGeneration::TestAll => try!(lr1::codegen::test_all::compile(
+                &grammar,
+                user_nt.clone(),
+                start_nt.clone(),
+                &states,
+                &mut rust,
+            )),
         }
 
-        rust!(rust,
-              "{}use self::{}parse{}::{}Parser;",
-              grammar.nonterminals[&user_nt].visibility,
-              grammar.prefix,
-              start_nt,
-              user_nt);
+        rust!(
+            rust,
+            "{}use self::{}parse{}::{}Parser;",
+            grammar.nonterminals[&user_nt].visibility,
+            grammar.prefix,
+            start_nt,
+            user_nt
+        );
     }
 
     if let Some(ref intern_token) = grammar.intern_token {
@@ -432,86 +476,106 @@ fn emit_to_triple_trait<W: Write>(grammar: &r::Grammar, rust: &mut RustWrite<W>)
     }
 
     rust!(rust, "");
-    rust!(rust,
-          "pub trait {}ToTriple<{}> {{",
-          grammar.prefix,
-          user_type_parameters);
+    rust!(
+        rust,
+        "pub trait {}ToTriple<{}> {{",
+        grammar.prefix,
+        user_type_parameters,
+    );
     rust!(rust, "type Error;");
-    rust!(rust,
-          "fn to_triple(value: Self) -> Result<({},{},{}),Self::Error>;",
-          L,
-          T,
-          L);
+    rust!(
+        rust,
+        "fn to_triple(value: Self) -> Result<({},{},{}),Self::Error>;",
+        L,
+        T,
+        L,
+    );
     rust!(rust, "}}");
 
     rust!(rust, "");
     if grammar.types.opt_terminal_loc_type().is_some() {
-        rust!(rust,
-              "impl<{}> {}ToTriple<{}> for ({}, {}, {}) {{",
-              user_type_parameters,
-              grammar.prefix,
-              user_type_parameters,
-              L,
-              T,
-              L);
+        rust!(
+            rust,
+            "impl<{}> {}ToTriple<{}> for ({}, {}, {}) {{",
+            user_type_parameters,
+            grammar.prefix,
+            user_type_parameters,
+            L,
+            T,
+            L,
+        );
         rust!(rust, "type Error = {};", E);
-        rust!(rust,
-              "fn to_triple(value: Self) -> Result<({},{},{}),{}> {{",
-              L,
-              T,
-              L,
-              E);
+        rust!(
+            rust,
+            "fn to_triple(value: Self) -> Result<({},{},{}),{}> {{",
+            L,
+            T,
+            L,
+            E,
+        );
         rust!(rust, "Ok(value)");
         rust!(rust, "}}");
         rust!(rust, "}}");
 
-        rust!(rust,
-              "impl<{}> {}ToTriple<{}> for Result<({}, {}, {}),{}> {{",
-              user_type_parameters,
-              grammar.prefix,
-              user_type_parameters,
-              L,
-              T,
-              L,
-              E);
+        rust!(
+            rust,
+            "impl<{}> {}ToTriple<{}> for Result<({}, {}, {}),{}> {{",
+            user_type_parameters,
+            grammar.prefix,
+            user_type_parameters,
+            L,
+            T,
+            L,
+            E,
+        );
         rust!(rust, "type Error = {};", E);
-        rust!(rust,
-              "fn to_triple(value: Self) -> Result<({},{},{}),{}> {{",
-              L,
-              T,
-              L,
-              E);
+        rust!(
+            rust,
+            "fn to_triple(value: Self) -> Result<({},{},{}),{}> {{",
+            L,
+            T,
+            L,
+            E,
+        );
         rust!(rust, "value");
         rust!(rust, "}}");
         rust!(rust, "}}");
     } else {
-        rust!(rust,
-              "impl<{}> {}ToTriple<{}> for {} {{",
-              user_type_parameters,
-              grammar.prefix,
-              user_type_parameters,
-              T);
+        rust!(
+            rust,
+            "impl<{}> {}ToTriple<{}> for {} {{",
+            user_type_parameters,
+            grammar.prefix,
+            user_type_parameters,
+            T,
+        );
         rust!(rust, "type Error = {};", E);
-        rust!(rust,
-              "fn to_triple(value: Self) -> Result<((),{},()),{}> {{",
-              T,
-              E);
+        rust!(
+            rust,
+            "fn to_triple(value: Self) -> Result<((),{},()),{}> {{",
+            T,
+            E,
+        );
         rust!(rust, "Ok(((), value, ()))");
         rust!(rust, "}}");
         rust!(rust, "}}");
 
-        rust!(rust,
-              "impl<{}> {}ToTriple<{}> for Result<({}),{}> {{",
-              user_type_parameters,
-              grammar.prefix,
-              user_type_parameters,
-              T,
-              E);
+        rust!(
+            rust,
+            "impl<{}> {}ToTriple<{}> for Result<({}),{}> {{",
+            user_type_parameters,
+            grammar.prefix,
+            user_type_parameters,
+            T,
+            E,
+        );
         rust!(rust, "type Error = {};", E);
-        rust!(rust,
-              "fn to_triple(value: Self) -> Result<((),{},()),{}> {{",
-              T,
-              E);
+        rust!(
+            rust,
+            "fn to_triple(value: Self) -> Result<((),{},()),{}> {{",
+            T,
+            E,
+        );
         rust!(rust, "value.map(|v| ((), v, ()))");
         rust!(rust, "}}");
         rust!(rust, "}}");

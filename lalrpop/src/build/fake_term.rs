@@ -5,7 +5,7 @@ use term::color::Color;
 /// A `Terminal` that just ignores all attempts at formatting. Used
 /// to report errors when no ANSI terminfo is available.
 pub struct FakeTerminal<W: Write> {
-    write: W
+    write: W,
 }
 
 impl<W: Write> FakeTerminal<W> {
@@ -75,7 +75,10 @@ impl<W: Write> Terminal for FakeTerminal<W> {
         &mut self.write
     }
 
-    fn into_inner(self) -> Self::Output where Self: Sized {
+    fn into_inner(self) -> Self::Output
+    where
+        Self: Sized,
+    {
         self.write
     }
 }

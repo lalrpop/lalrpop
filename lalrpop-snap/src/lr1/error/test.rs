@@ -14,14 +14,16 @@ fn nt(t: &str) -> NonterminalString {
 #[test]
 fn priority_conflict() {
     let _tls = Tls::test();
-    let grammar = normalized_grammar(r#"
+    let grammar = normalized_grammar(
+        r#"
 grammar;
 pub Ty: () = {
     "int" => (),
     "bool" => (),
     <t1:Ty> "->" <t2:Ty> => (),
 };
-"#);
+"#,
+    );
     let _lr1_tls = Lr1Tls::install(grammar.terminals.clone());
     let err = build_states(&grammar, nt("Ty")).unwrap_err();
     let mut cx = ErrorReportingCx::new(&grammar, &err.states, &err.conflicts);
@@ -36,22 +38,25 @@ pub Ty: () = {
             reduce,
             nonterminal,
         } => {
-            println!("shift={:#?}, reduce={:#?}, nonterminal={:?}",
-                     shift, reduce, nonterminal);
+            println!(
+                "shift={:#?}, reduce={:#?}, nonterminal={:?}",
+                shift, reduce, nonterminal
+            );
             assert_eq!(shift.symbols.len(), 5); // Ty -> Ty -> Ty
             assert_eq!(shift.cursor, 3); // Ty -> Ty -> Ty
             assert_eq!(shift.symbols, reduce.symbols);
             assert_eq!(shift.cursor, reduce.cursor);
             assert_eq!(nonterminal, nt("Ty"));
         }
-        r => panic!("wrong classification {:#?}", r)
+        r => panic!("wrong classification {:#?}", r),
     }
 }
 
 #[test]
 fn expr_braced_conflict() {
     let _tls = Tls::test();
-    let grammar = normalized_grammar(r#"
+    let grammar = normalized_grammar(
+        r#"
 grammar;
 pub Expr: () = {
     "Id" => (),
@@ -59,7 +64,8 @@ pub Expr: () = {
     "Expr" "+" "Id" => (),
     "if" Expr "{" "}" => (),
 };
-"#);
+"#,
+    );
     let _lr1_tls = Lr1Tls::install(grammar.terminals.clone());
     let err = build_states(&grammar, nt("Expr")).unwrap_err();
     let mut cx = ErrorReportingCx::new(&grammar, &err.states, &err.conflicts);
@@ -69,15 +75,16 @@ pub Expr: () = {
     println!("conflict={:?}", conflict);
 
     match cx.classify(conflict) {
-        ConflictClassification::InsufficientLookahead { .. } => { }
-        r => panic!("wrong classification {:#?}", r)
+        ConflictClassification::InsufficientLookahead { .. } => {}
+        r => panic!("wrong classification {:#?}", r),
     }
 }
 
 #[test]
 fn suggest_question_conflict() {
     let _tls = Tls::test();
-    let grammar = normalized_grammar(r#"
+    let grammar = normalized_grammar(
+        r#"
         grammar;
 
         pub E: () = {
@@ -89,7 +96,8 @@ fn suggest_question_conflict() {
             (),
             "L"
         };
-"#);
+"#,
+    );
     let _lr1_tls = Lr1Tls::install(grammar.terminals.clone());
     let err = build_states(&grammar, nt("E")).unwrap_err();
     let mut cx = ErrorReportingCx::new(&grammar, &err.states, &err.conflicts);
@@ -106,16 +114,20 @@ fn suggest_question_conflict() {
             symbol,
         } => {
             assert_eq!(nonterminal, nt("OPT_L"));
-            assert_eq!(symbol, Symbol::Terminal(TerminalString::quoted(intern("L"))));
+            assert_eq!(
+                symbol,
+                Symbol::Terminal(TerminalString::quoted(intern("L")))
+            );
         }
-        r => panic!("wrong classification {:#?}", r)
+        r => panic!("wrong classification {:#?}", r),
     }
 }
 
 #[test]
 fn suggest_inline_conflict() {
     let _tls = Tls::test();
-    let grammar = normalized_grammar(r##"
+    let grammar = normalized_grammar(
+        r##"
 grammar;
 
 pub ImportDecl: () = {
@@ -128,7 +140,8 @@ Path: () = {
 };
 
 Ident = r#"[a-zA-Z][a-zA-Z0-9]*"#;
-"##);
+"##,
+    );
     let _lr1_tls = Lr1Tls::install(grammar.terminals.clone());
     let err = build_states(&grammar, nt("ImportDecl")).unwrap_err();
     let mut cx = ErrorReportingCx::new(&grammar, &err.states, &err.conflicts);
@@ -145,6 +158,6 @@ Ident = r#"[a-zA-Z][a-zA-Z0-9]*"#;
         } => {
             assert_eq!(nonterminal, nt("Path"));
         }
-        r => panic!("wrong classification {:#?}", r)
+        r => panic!("wrong classification {:#?}", r),
     }
 }

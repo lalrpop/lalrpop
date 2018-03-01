@@ -3,7 +3,7 @@
 use collections::Map;
 use grammar::repr::*;
 use itertools::Itertools;
-use std::fmt::{Debug, Display, Formatter, Error};
+use std::fmt::{Debug, Display, Error, Formatter};
 use std::rc::Rc;
 use util::Prefix;
 
@@ -22,10 +22,12 @@ pub type LR0Item<'grammar> = Item<'grammar, Nil>;
 pub type LR1Item<'grammar> = Item<'grammar, TokenSet>;
 
 impl<'grammar> Item<'grammar, Nil> {
-    pub fn lr0(production: &'grammar Production,
-               index: usize)
-               -> Self {
-        Item { production: production, index: index, lookahead: Nil }
+    pub fn lr0(production: &'grammar Production, index: usize) -> Self {
+        Item {
+            production: production,
+            index: index,
+            lookahead: Nil,
+        }
     }
 }
 
@@ -34,7 +36,7 @@ impl<'grammar, L: Lookahead> Item<'grammar, L> {
         Item {
             production: self.production,
             index: self.index,
-            lookahead: l
+            lookahead: l,
         }
     }
 
@@ -48,7 +50,7 @@ impl<'grammar, L: Lookahead> Item<'grammar, L> {
             SymbolSets {
                 prefix: &symbols[..self.index],
                 cursor: Some(&symbols[self.index]),
-                suffix: &symbols[self.index+1..],
+                suffix: &symbols[self.index + 1..],
             }
         } else {
             SymbolSets {
@@ -60,7 +62,11 @@ impl<'grammar, L: Lookahead> Item<'grammar, L> {
     }
 
     pub fn to_lr0(&self) -> LR0Item<'grammar> {
-        Item { production: self.production, index: self.index, lookahead: Nil }
+        Item {
+            production: self.production,
+            index: self.index,
+            lookahead: Nil,
+        }
     }
 
     pub fn can_shift(&self) -> bool {
@@ -87,10 +93,14 @@ impl<'grammar, L: Lookahead> Item<'grammar, L> {
 
     pub fn shifted_item(&self) -> Option<(Symbol, Item<'grammar, L>)> {
         if self.can_shift() {
-            Some((self.production.symbols[self.index],
-                  Item { production: self.production,
-                         index: self.index + 1,
-                         lookahead: self.lookahead.clone() }))
+            Some((
+                self.production.symbols[self.index],
+                Item {
+                    production: self.production,
+                    index: self.index + 1,
+                    lookahead: self.lookahead.clone(),
+                },
+            ))
         } else {
             None
         }
@@ -98,7 +108,10 @@ impl<'grammar, L: Lookahead> Item<'grammar, L> {
 
     pub fn shift_symbol(&self) -> Option<(Symbol, &[Symbol])> {
         if self.can_shift() {
-            Some((self.production.symbols[self.index], &self.production.symbols[self.index+1..]))
+            Some((
+                self.production.symbols[self.index],
+                &self.production.symbols[self.index + 1..],
+            ))
         } else {
             None
         }
@@ -110,7 +123,7 @@ pub struct StateIndex(pub usize);
 
 #[derive(Clone, Debug, Hash, PartialEq, Eq, PartialOrd, Ord)]
 pub struct Items<'grammar, L: Lookahead> {
-    pub vec: Rc<Vec<Item<'grammar, L>>>
+    pub vec: Rc<Vec<Item<'grammar, L>>>,
 }
 
 #[allow(dead_code)]
@@ -167,15 +180,19 @@ pub struct TableConstructionError<'grammar, L: Lookahead> {
 
 pub type LR0TableConstructionError<'grammar> = TableConstructionError<'grammar, Nil>;
 pub type LR1TableConstructionError<'grammar> = TableConstructionError<'grammar, TokenSet>;
-pub type LRResult<'grammar, L> = Result<Vec<State<'grammar, L>>, TableConstructionError<'grammar, L>>;
+pub type LRResult<'grammar, L> =
+    Result<Vec<State<'grammar, L>>, TableConstructionError<'grammar, L>>;
 pub type LR1Result<'grammar> = LRResult<'grammar, TokenSet>;
 
 impl<'grammar, L: Lookahead> Debug for Item<'grammar, L> {
     fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
-        try!(write!(fmt, "{} ={} (*){}",
-                    self.production.nonterminal,
-                    Prefix(" ", &self.production.symbols[..self.index]),
-                    Prefix(" ", &self.production.symbols[self.index..])));
+        try!(write!(
+            fmt,
+            "{} ={} (*){}",
+            self.production.nonterminal,
+            Prefix(" ", &self.production.symbols[..self.index]),
+            Prefix(" ", &self.production.symbols[self.index..])
+        ));
 
         self.lookahead.fmt_as_item_suffix(fmt)
     }
@@ -216,17 +233,19 @@ impl<'grammar, L: Lookahead> State<'grammar, L> {
     pub fn max_prefix(&self) -> &'grammar [Symbol] {
         // Each state fn takes as argument the longest prefix of any
         // item. Note that all items must have compatible prefixes.
-        let prefix =
-            self.items.vec
-                      .iter()
-                      .map(|item| item.prefix())
-                      .max_by_key(|symbols| symbols.len())
-                      .unwrap();
+        let prefix = self.items
+            .vec
+            .iter()
+            .map(|item| item.prefix())
+            .max_by_key(|symbols| symbols.len())
+            .unwrap();
 
         debug_assert!(
-            self.items.vec
-                      .iter()
-                      .all(|item| prefix.ends_with(&item.production.symbols[..item.index])));
+            self.items
+                .vec
+                .iter()
+                .all(|item| prefix.ends_with(&item.production.symbols[..item.index]))
+        );
 
         prefix
     }
@@ -244,28 +263,33 @@ impl<'grammar, L: Lookahead> State<'grammar, L> {
     /// start state, this will return a list of length at least 1.
     /// For the start state, returns `[]`.
     pub fn will_pop(&self) -> &'grammar [Symbol] {
-        let prefix =
-            self.items.vec.iter()
-                          .filter(|item| item.index > 0)
-                          .map(|item| item.prefix())
-                          .min_by_key(|symbols| symbols.len())
-                          .unwrap_or(&[]);
+        let prefix = self.items
+            .vec
+            .iter()
+            .filter(|item| item.index > 0)
+            .map(|item| item.prefix())
+            .min_by_key(|symbols| symbols.len())
+            .unwrap_or(&[]);
 
         debug_assert!(
-            self.items.vec
-                      .iter()
-                      .filter(|item| item.index > 0)
-                      .all(|item| item.prefix().ends_with(prefix)));
+            self.items
+                .vec
+                .iter()
+                .filter(|item| item.index > 0)
+                .all(|item| item.prefix().ends_with(prefix))
+        );
 
         prefix
     }
 
     pub fn will_push(&self) -> &[Symbol] {
-        self.items.vec.iter()
-                      .filter(|item| item.index > 0)
-                      .map(|item| &item.production.symbols[item.index..])
-                      .min_by_key(|symbols| symbols.len())
-                      .unwrap_or(&[])
+        self.items
+            .vec
+            .iter()
+            .filter(|item| item.index > 0)
+            .map(|item| &item.production.symbols[item.index..])
+            .min_by_key(|symbols| symbols.len())
+            .unwrap_or(&[])
     }
 
     /// Returns the type of nonterminal that this state will produce;
@@ -275,27 +299,27 @@ impl<'grammar, L: Lookahead> State<'grammar, L> {
     /// FIXME -- currently, the start state returns `None` instead of
     /// the goal symbol.
     pub fn will_produce(&self) -> Option<NonterminalString> {
-        let mut returnable_nonterminals: Vec<_> =
-            self.items.vec.iter()
-                          .filter(|item| item.index > 0)
-                          .map(|item| item.production.nonterminal)
-                          .dedup()
-                          .collect();
+        let mut returnable_nonterminals: Vec<_> = self.items
+            .vec
+            .iter()
+            .filter(|item| item.index > 0)
+            .map(|item| item.production.nonterminal)
+            .dedup()
+            .collect();
         if returnable_nonterminals.len() == 1 {
             returnable_nonterminals.pop()
         } else {
             None
         }
     }
-
 }
 
 /// `A = B C (*) D E F` or `A = B C (*)`
 #[derive(Copy, Clone, Debug, PartialEq, Eq)]
 pub struct SymbolSets<'grammar> {
-    pub prefix: &'grammar [Symbol], // both cases, [B, C]
+    pub prefix: &'grammar [Symbol],       // both cases, [B, C]
     pub cursor: Option<&'grammar Symbol>, // first [D], second []
-    pub suffix: &'grammar [Symbol], // first [E, F], second []
+    pub suffix: &'grammar [Symbol],       // first [E, F], second []
 }
 
 impl<'grammar> SymbolSets<'grammar> {

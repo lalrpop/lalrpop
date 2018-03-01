@@ -4,7 +4,7 @@ use super::*;
 
 #[derive(Debug)]
 pub struct Wrap {
-    items: Vec<Box<Content>>
+    items: Vec<Box<Content>>,
 }
 
 impl Wrap {
@@ -19,15 +19,12 @@ impl Wrap {
 
 impl Content for Wrap {
     fn min_width(&self) -> usize {
-        self.items.iter()
-                  .map(|c| c.min_width())
-                  .max()
-                  .unwrap()
+        self.items.iter().map(|c| c.min_width()).max().unwrap()
     }
 
     fn emit(&self, view: &mut AsciiView) {
         let columns = view.columns();
-        let mut row = 0;    // current row
+        let mut row = 0; // current row
         let mut height = 1; // max height of anything in this row
         let mut column = 0; // current column in this row
 

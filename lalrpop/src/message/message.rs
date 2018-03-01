@@ -2,7 +2,7 @@ use ascii_canvas::AsciiView;
 use grammar::parse_tree::Span;
 use message::Content;
 use std::cmp;
-use std::fmt::{Debug, Formatter, Error};
+use std::fmt::{Debug, Error, Formatter};
 use style::Style;
 use tls::Tls;
 
@@ -35,9 +35,7 @@ pub struct Message {
 }
 
 impl Message {
-    pub fn new(span: Span,
-               heading: Box<Content>,
-               body: Box<Content>) -> Self {
+    pub fn new(span: Span, heading: Box<Content>, body: Box<Content>) -> Self {
         Message {
             span: span,
             heading: heading,
@@ -64,9 +62,8 @@ impl Content for Message {
         let count = span.chars().count();
         view.write_chars(0, count, ":".chars(), Style::new());
 
-        let (row, _) = self.heading.emit_at(&mut view.styled(session.heading),
-                                            0,
-                                            count + 2);
+        let (row, _) = self.heading
+            .emit_at(&mut view.styled(session.heading), 0, count + 2);
 
         self.body.emit_at(view, row + 2, 2);
     }
@@ -79,9 +76,9 @@ impl Content for Message {
 impl Debug for Message {
     fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
         fmt.debug_struct("Message")
-           .field("span", &self.span)
-           .field("heading", &self.heading)
-           .field("body", &self.body)
-           .finish()
+            .field("span", &self.span)
+            .field("heading", &self.heading)
+            .field("body", &self.body)
+            .finish()
     }
 }

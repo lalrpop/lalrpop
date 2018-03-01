@@ -5,7 +5,7 @@
 //! are only used in `if` conditions; we use string literals for
 //! those, but they do not have to have a defined conversion.
 
-use super::{NormResult, NormError};
+use super::{NormError, NormResult};
 
 use intern::{self, intern};
 use lexer::re;
@@ -21,18 +21,21 @@ mod test;
 pub fn validate(mut grammar: Grammar) -> NormResult<Grammar> {
     let mode = {
         let mode = if let Some(enum_token) = grammar.enum_token() {
-            assert!(grammar.match_token().is_none(),
-                    "validator permitted both an extern/match section");
+            assert!(
+                grammar.match_token().is_none(),
+                "validator permitted both an extern/match section"
+            );
 
             TokenMode::Extern {
-                conversions: enum_token.conversions
-                                       .iter()
-                                       .map(|conversion| conversion.from)
-                                       .collect()
+                conversions: enum_token
+                    .conversions
+                    .iter()
+                    .map(|conversion| conversion.from)
+                    .collect(),
             }
         } else {
             TokenMode::Internal {
-                match_block: MatchBlock::new(grammar.match_token())?
+                match_block: MatchBlock::new(grammar.match_token())?,
             }
         };
 
@@ -121,10 +124,12 @@ impl MatchBlock {
                 for item in &mc.items {
                     match *item {
                         MatchItem::Unmapped(sym, span) => {
-                            match_block.add_match_entry(precedence,
-                                                        sym,
-                                                        TerminalString::Literal(sym),
-                                                        span)?;
+                            match_block.add_match_entry(
+                                precedence,
+                                sym,
+                                TerminalString::Literal(sym),
+                                span,
+                            )?;
                         }
                         MatchItem::Mapped(sym, user, span) => {
                             match_block.add_match_entry(precedence, sym, user, span)?;
@@ -142,12 +147,13 @@ impl MatchBlock {
         Ok(match_block)
     }
 
-    fn add_match_entry(&mut self,
-                       match_group_precedence: usize,
-                       sym: TerminalLiteral,
-                       user_name: TerminalString,
-                       span: Span)
-                       -> NormResult<()> {
+    fn add_match_entry(
+        &mut self,
+        match_group_precedence: usize,
+        sym: TerminalLiteral,
+        user_name: TerminalString,
+        span: Span,
+    ) -> NormResult<()> {
         if let Some(_old_span) = self.spans.insert(sym, span) {
             return_err!(span, "multiple match entries for `{}`", sym);
         }
@@ -155,37 +161,37 @@ impl MatchBlock {
         // NB: It's legal for multiple regex to produce same terminal.
         self.match_user_names.insert(user_name);
 
-        self.match_entries
-            .push(MatchEntry {
-                      precedence: match_group_precedence * 2 + sym.base_precedence(),
-                      match_literal: sym,
-                      user_name: user_name,
-                  });
+        self.match_entries.push(MatchEntry {
+            precedence: match_group_precedence * 2 + sym.base_precedence(),
+            match_literal: sym,
+            user_name: user_name,
+        });
         Ok(())
     }
 
     fn add_literal_from_grammar(&mut self, sym: TerminalLiteral, span: Span) -> NormResult<()> {
         // Already saw this literal, maybe in a match entry, maybe in the grammar.
         if self.match_user_names
-               .contains(&TerminalString::Literal(sym)) {
+            .contains(&TerminalString::Literal(sym))
+        {
             return Ok(());
         }
 
         if !self.catch_all {
-            return_err!(span,
-                        "terminal `{}` does not have a match mapping defined for it",
-                        sym);
+            return_err!(
+                span,
+                "terminal `{}` does not have a match mapping defined for it",
+                sym
+            );
         }
 
-        self.match_user_names
-            .insert(TerminalString::Literal(sym));
+        self.match_user_names.insert(TerminalString::Literal(sym));
 
-        self.match_entries
-            .push(MatchEntry {
-                      precedence: sym.base_precedence(),
-                      match_literal: sym,
-                      user_name: TerminalString::Literal(sym),
-                  });
+        self.match_entries.push(MatchEntry {
+            precedence: sym.base_precedence(),
+            match_literal: sym,
+            user_name: TerminalString::Literal(sym),
+        });
 
         self.spans.insert(sym, span);
 
@@ -201,11 +207,9 @@ impl<'grammar> Validator<'grammar> {
                 GrammarItem::MatchToken(..) => {}
                 GrammarItem::ExternToken(_) => {}
                 GrammarItem::InternToken(_) => {}
-                GrammarItem::Nonterminal(ref data) => {
-                    for alternative in &data.alternatives {
-                        try!(self.validate_alternative(alternative));
-                    }
-                }
+                GrammarItem::Nonterminal(ref data) => for alternative in &data.alternatives {
+                    try!(self.validate_alternative(alternative));
+                },
             }
         }
         Ok(())
@@ -236,8 +240,7 @@ impl<'grammar> Validator<'grammar> {
             SymbolKind::Repeat(ref repeat) => {
                 try!(self.validate_symbol(&repeat.symbol));
             }
-            SymbolKind::Choose(ref sym) |
-            SymbolKind::Name(_, ref sym) => {
+            SymbolKind::Choose(ref sym) | SymbolKind::Name(_, ref sym) => {
                 try!(self.validate_symbol(sym));
             }
             SymbolKind::Lookahead | SymbolKind::Lookbehind | SymbolKind::Error => {}
@@ -258,25 +261,27 @@ impl<'grammar> Validator<'grammar> {
             // this terminal has a defined conversion.
             TokenMode::Extern { ref conversions } => {
                 if !conversions.contains(&term) {
-                    return_err!(span,
-                                "terminal `{}` does not have a pattern defined for it",
-                                term);
+                    return_err!(
+                        span,
+                        "terminal `{}` does not have a pattern defined for it",
+                        term
+                    );
                 }
             }
 
             // If there is no extern token definition, then collect
             // the terminal literals ("class", r"[a-z]+") into a set.
-            TokenMode::Internal { ref mut match_block } => {
+            TokenMode::Internal {
+                ref mut match_block,
+            } => {
                 match term {
-                    TerminalString::Bare(_) => {
-                        assert!(match_block.match_user_names.contains(&term),
-                                "bare terminal without match entry: {}",
-                                term)
-                    }
+                    TerminalString::Bare(_) => assert!(
+                        match_block.match_user_names.contains(&term),
+                        "bare terminal without match entry: {}",
+                        term
+                    ),
 
-                    TerminalString::Literal(l) => {
-                        match_block.add_literal_from_grammar(l, span)?
-                    }
+                    TerminalString::Literal(l) => match_block.add_literal_from_grammar(l, span)?,
 
                     // Error is a builtin terminal that always exists
                     TerminalString::Error => (),
@@ -342,27 +347,29 @@ fn construct(grammar: &mut Grammar, match_block: MatchBlock) -> NormResult<()> {
                 ByteRegex => r#"byte-based matches"#,
             };
             let literal = match_entries[index.index()].match_literal;
-            return_err!(spans[&literal],
-                        "{} are not supported in regular expressions",
-                        feature)
+            return_err!(
+                spans[&literal],
+                "{} are not supported in regular expressions",
+                feature
+            )
         }
         Err(DFAConstructionError::Ambiguity { match0, match1 }) => {
             let literal0 = match_entries[match0.index()].match_literal;
             let literal1 = match_entries[match1.index()].match_literal;
             // FIXME(#88) -- it'd be nice to give an example here
-            return_err!(spans[&literal0],
-                        "ambiguity detected between the terminal `{}` and the terminal `{}`",
-                        literal0,
-                        literal1)
+            return_err!(
+                spans[&literal0],
+                "ambiguity detected between the terminal `{}` and the terminal `{}`",
+                literal0,
+                literal1
+            )
         }
     };
 
-    grammar
-        .items
-        .push(GrammarItem::InternToken(InternToken {
-                                           match_entries: match_entries,
-                                           dfa: dfa,
-                                       }));
+    grammar.items.push(GrammarItem::InternToken(InternToken {
+        match_entries: match_entries,
+        dfa: dfa,
+    }));
 
     // we need to inject a `'input` lifetime and `input: &'input str` parameter as well:
 
@@ -370,9 +377,11 @@ fn construct(grammar: &mut Grammar, match_block: MatchBlock) -> NormResult<()> {
     for parameter in &grammar.type_parameters {
         match *parameter {
             TypeParameter::Lifetime(i) if i == input_lifetime => {
-                return_err!(grammar.span,
-                            "since there is no external token enum specified, \
-                     the `'input` lifetime is implicit and cannot be declared");
+                return_err!(
+                    grammar.span,
+                    "since there is no external token enum specified, \
+                     the `'input` lifetime is implicit and cannot be declared"
+                );
             }
             _ => {}
         }
@@ -381,9 +390,11 @@ fn construct(grammar: &mut Grammar, match_block: MatchBlock) -> NormResult<()> {
     let input_parameter = intern(INPUT_PARAMETER);
     for parameter in &grammar.parameters {
         if parameter.name == input_parameter {
-            return_err!(grammar.span,
-                        "since there is no external token enum specified, \
-                 the `input` parameter is implicit and cannot be declared");
+            return_err!(
+                grammar.span,
+                "since there is no external token enum specified, \
+                 the `input` parameter is implicit and cannot be declared"
+            );
         }
     }
 
