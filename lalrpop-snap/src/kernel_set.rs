@@ -15,9 +15,13 @@ pub trait Kernel: Clone + Debug + Hash + Eq + PartialOrd + Ord {
     fn index(c: usize) -> Self::Index;
 }
 
-impl<K:Kernel> KernelSet<K> {
+impl<K: Kernel> KernelSet<K> {
     pub fn new() -> KernelSet<K> {
-        KernelSet { kernels: VecDeque::new(), map: map(), counter: 0 }
+        KernelSet {
+            kernels: VecDeque::new(),
+            map: map(),
+            counter: 0,
+        }
     }
 
     pub fn add_state(&mut self, kernel: K) -> K::Index {

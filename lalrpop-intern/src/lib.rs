@@ -1,7 +1,7 @@
 use std::collections::HashMap;
 use std::cell::RefCell;
 use std::fmt::{Debug, Display, Error, Formatter};
-use std::cmp::{PartialOrd, Ord, Ordering};
+use std::cmp::{Ord, Ordering, PartialOrd};
 
 #[cfg(test)]
 mod test;
@@ -18,14 +18,16 @@ pub struct Interner {
 
 #[derive(Copy, Clone, Hash, Eq, PartialEq)]
 pub struct InternedString {
-    index: u32
+    index: u32,
 }
 
 pub fn intern(s: &str) -> InternedString {
     write(|interner| {
         match interner.map.get(s) {
-            Some(&v) => { return v; }
-            None => { }
+            Some(&v) => {
+                return v;
+            }
+            None => {}
         }
 
         let index = interner.strings.len() as u32;
@@ -36,21 +38,26 @@ pub fn intern(s: &str) -> InternedString {
     })
 }
 
-pub fn read<F,R>(f: F) -> R
-    where F: FnOnce(&Interner) -> R
+pub fn read<F, R>(f: F) -> R
+where
+    F: FnOnce(&Interner) -> R,
 {
     INTERNER_TLS.with(|interner| f(&*interner.borrow()))
 }
 
-fn write<F,R>(f: F) -> R
-    where F: FnOnce(&mut Interner) -> R
+fn write<F, R>(f: F) -> R
+where
+    F: FnOnce(&mut Interner) -> R,
 {
     INTERNER_TLS.with(|interner| f(&mut *interner.borrow_mut()))
 }
 
 impl Interner {
     fn new() -> Interner {
-        Interner { map: HashMap::new(), strings: vec![] }
+        Interner {
+            map: HashMap::new(),
+            strings: vec![],
+        }
     }
 
     pub fn data(&self, i: InternedString) -> &str {
@@ -91,4 +98,3 @@ impl Ord for InternedString {
         read(|interner| Ord::cmp(interner.data(*self), interner.data(*other)))
     }
 }
-

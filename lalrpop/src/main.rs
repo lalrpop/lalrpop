@@ -18,8 +18,7 @@ fn main1() -> io::Result<()> {
     let mut stderr = std::io::stderr();
     let mut stdout = std::io::stdout();
 
-    let args: Args =
-        Docopt::new(USAGE)
+    let args: Args = Docopt::new(USAGE)
         .and_then(|d| d.argv(env::args()).decode())
         .unwrap_or_else(|e| e.exit());
 
@@ -54,16 +53,22 @@ fn main1() -> io::Result<()> {
     }
 
     if args.arg_inputs.len() == 0 {
-        try!(writeln!(stderr, "Error: no input files specified! Try --help for help."));
+        try!(writeln!(
+            stderr,
+            "Error: no input files specified! Try --help for help."
+        ));
         process::exit(1);
     }
 
     for arg in args.arg_inputs {
         match config.process_file(&arg) {
-            Ok(()) => { }
+            Ok(()) => {}
             Err(err) => {
-                try!(writeln!(stderr, "Error encountered processing `{}`: {}",
-                              arg, err));
+                try!(writeln!(
+                    stderr,
+                    "Error encountered processing `{}`: {}",
+                    arg, err
+                ));
                 process::exit(1);
             }
         }
@@ -100,7 +105,10 @@ struct Args {
 
 #[derive(Debug, RustcDecodable)]
 enum LevelFlag {
-    Quiet, Info, Verbose, Debug
+    Quiet,
+    Info,
+    Verbose,
+    Debug,
 }
 
 #[cfg(test)]
@@ -124,7 +132,7 @@ mod test {
             .and_then(|d| d.argv(argv().into_iter()).decode())
             .unwrap();
     }
-   
+
     #[test]
     fn test_usage_single_input() {
         let argv = || vec!["lalrpop", "file.lalrpop"];

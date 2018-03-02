@@ -122,32 +122,58 @@ fn expr_test1() {
 
 #[test]
 fn expr_test2() {
-    util::test(|v| expr::ExprParser::new().parse(1, v), "22 - (3 + 5)", 22 - (3 + 5));
+    util::test(
+        |v| expr::ExprParser::new().parse(1, v),
+        "22 - (3 + 5)",
+        22 - (3 + 5),
+    );
 }
 
 #[test]
 fn expr_test3() {
-    util::test(|v| expr::ExprParser::new().parse(1, v), "22 - (3 - 5) - 13", 22 - (3 - 5) - 13);
+    util::test(
+        |v| expr::ExprParser::new().parse(1, v),
+        "22 - (3 - 5) - 13",
+        22 - (3 - 5) - 13,
+    );
 }
 
 #[test]
 fn expr_test4() {
-    util::test(|v| expr::ExprParser::new().parse(1, v), "22 * 3 - 6", 22 * 3 - 6);
+    util::test(
+        |v| expr::ExprParser::new().parse(1, v),
+        "22 * 3 - 6",
+        22 * 3 - 6,
+    );
 }
 
 #[test]
 fn expr_test5() {
-    util::test(|v| expr::ExprParser::new().parse(11, v), "22 * 3 - 6", 22*11 * 3*11 - 6*11);
+    util::test(
+        |v| expr::ExprParser::new().parse(11, v),
+        "22 * 3 - 6",
+        22 * 11 * 3 * 11 - 6 * 11,
+    );
 }
 
 #[test]
 fn expr_intern_tok_test1() {
-    assert_eq!(expr_intern_tok::ExprParser::new().parse(1, "22 - 3").unwrap(), 22 - 3);
+    assert_eq!(
+        expr_intern_tok::ExprParser::new()
+            .parse(1, "22 - 3")
+            .unwrap(),
+        22 - 3
+    );
 }
 
 #[test]
 fn expr_intern_tok_test2() {
-    assert_eq!(expr_intern_tok::ExprParser::new().parse(1, "22 - (3 - 5) - 13").unwrap(), 22 - (3 - 5) - 13);
+    assert_eq!(
+        expr_intern_tok::ExprParser::new()
+            .parse(1, "22 - (3 - 5) - 13")
+            .unwrap(),
+        22 - (3 - 5) - 13
+    );
 }
 
 #[test]
@@ -167,23 +193,25 @@ fn expr_intern_tok_test_err() {
 fn parse_error_map_token_and_location() {
     let expr = "(1+\n(2++3))";
     let result = expr_intern_tok::ExprParser::new().parse(1, expr);
-    let err : lalrpop_util::ParseError<usize, expr_intern_tok::Token,&'static str>
-            = result.unwrap_err();
+    let err: lalrpop_util::ParseError<usize, expr_intern_tok::Token, &'static str> =
+        result.unwrap_err();
 
-    let message = err
-            .map_token(|expr_intern_tok::Token(_,t)| format!("TOKEN {}", t))
-            .map_location(|offset| format!("line {}", expr[0..offset].lines().count()))
-            .to_string();
+    let message = err.map_token(|expr_intern_tok::Token(_, t)| format!("TOKEN {}", t))
+        .map_location(|offset| format!("line {}", expr[0..offset].lines().count()))
+        .to_string();
     assert!(message.contains("Unrecognized token `TOKEN +`"));
     assert!(message.contains("at line 2"));
 }
 
 #[test]
 fn parse_error_map_err() {
-    let err : lalrpop_util::ParseError<usize, util::tok::Tok, char>
-             = util::test_err_gen(|t| error::ItemsParser::new().parse(t), "---+").unwrap_err();
+    let err: lalrpop_util::ParseError<usize, util::tok::Tok, char> =
+        util::test_err_gen(|t| error::ItemsParser::new().parse(t), "---+").unwrap_err();
     let modified_err = err.map_error(|c| c.to_string());
-    if let ParseError::User { error: user_error_value } = modified_err {
+    if let ParseError::User {
+        error: user_error_value,
+    } = modified_err
+    {
         assert_eq!(user_error_value, "+");
     } else {
         panic!("Expected a User error")
@@ -193,7 +221,9 @@ fn parse_error_map_err() {
 #[test]
 fn display_parse_error() {
     let expr = "(1+\n(2++3))";
-    let err = expr_intern_tok::ExprParser::new().parse(1, expr).unwrap_err();
+    let err = expr_intern_tok::ExprParser::new()
+        .parse(1, expr)
+        .unwrap_err();
     let message = err.to_string();
     assert!(message.contains("Unrecognized token `+`"));
 }
@@ -208,27 +238,47 @@ fn expr_lifetime_tok1() {
 
 #[test]
 fn expr_lalr_test1() {
-    util::test(|v| expr_lalr::ExprParser::new().parse(1, v), "22 - 3", 22 - 3);
+    util::test(
+        |v| expr_lalr::ExprParser::new().parse(1, v),
+        "22 - 3",
+        22 - 3,
+    );
 }
 
 #[test]
 fn expr_lalr_test2() {
-    util::test(|v| expr_lalr::ExprParser::new().parse(1, v), "22 - (3 + 5)", 22 - (3 + 5));
+    util::test(
+        |v| expr_lalr::ExprParser::new().parse(1, v),
+        "22 - (3 + 5)",
+        22 - (3 + 5),
+    );
 }
 
 #[test]
 fn expr_lalr_test3() {
-    util::test(|v| expr_lalr::ExprParser::new().parse(1, v), "22 - (3 - 5) - 13", 22 - (3 - 5) - 13);
+    util::test(
+        |v| expr_lalr::ExprParser::new().parse(1, v),
+        "22 - (3 - 5) - 13",
+        22 - (3 - 5) - 13,
+    );
 }
 
 #[test]
 fn expr_lalr_test4() {
-    util::test(|v| expr_lalr::ExprParser::new().parse(1, v), "22 * 3 - 6", 22 * 3 - 6);
+    util::test(
+        |v| expr_lalr::ExprParser::new().parse(1, v),
+        "22 * 3 - 6",
+        22 * 3 - 6,
+    );
 }
 
 #[test]
 fn expr_lalr_test5() {
-    util::test(|v| expr_lalr::ExprParser::new().parse(11, v), "22 * 3 - 6", 22*11 * 3*11 - 6*11);
+    util::test(
+        |v| expr_lalr::ExprParser::new().parse(11, v),
+        "22 * 3 - 6",
+        22 * 11 * 3 * 11 - 6 * 11,
+    );
 }
 
 #[test]
@@ -243,12 +293,20 @@ fn sub_test1() {
 
 #[test]
 fn sub_test2() {
-    util::test(|t| sub::SParser::new().parse(t), "22 - (3 - 5)", 22 - (3 - 5));
+    util::test(
+        |t| sub::SParser::new().parse(t),
+        "22 - (3 - 5)",
+        22 - (3 - 5),
+    );
 }
 
 #[test]
 fn sub_test3() {
-    util::test(|t| sub::SParser::new().parse(t), "22 - (3 - 5) - 13", 22 - (3 - 5) - 13);
+    util::test(
+        |t| sub::SParser::new().parse(t),
+        "22 - (3 - 5) - 13",
+        22 - (3 - 5) - 13,
+    );
 }
 
 #[test]
@@ -265,57 +323,83 @@ fn sub_table_test1() {
 fn expr_arena_test1() {
     use expr_arena_ast::*;
     let arena = Arena::new();
-    let expected =
-        arena.alloc(Node::Binary { op: Op::Sub,
-                                   l: arena.alloc(Node::Binary { op: Op::Mul,
-                                                                 l: arena.alloc(Node::Value(22)),
-                                                                 r: arena.alloc(Node::Value(3)) }),
-                                   r: arena.alloc(Node::Value(6)) });
-    util::test_loc(|v| expr_arena::ExprParser::new().parse(&arena, v), "22 * 3 - 6", expected);
+    let expected = arena.alloc(Node::Binary {
+        op: Op::Sub,
+        l: arena.alloc(Node::Binary {
+            op: Op::Mul,
+            l: arena.alloc(Node::Value(22)),
+            r: arena.alloc(Node::Value(3)),
+        }),
+        r: arena.alloc(Node::Value(6)),
+    });
+    util::test_loc(
+        |v| expr_arena::ExprParser::new().parse(&arena, v),
+        "22 * 3 - 6",
+        expected,
+    );
 }
 
 #[test]
 fn expr_arena_test2() {
     use expr_arena_ast::*;
     let arena = Arena::new();
-    let expected =
-        arena.alloc(Node::Reduce(Op::Mul,
-                                 vec![arena.alloc(Node::Value(22)),
-                                      arena.alloc(Node::Value(3)),
-                                      arena.alloc(Node::Value(6))]));;
-    util::test_loc(|v| expr_arena::ExprParser::new().parse(&arena, v), "*(22, 3, 6)", expected);
-    util::test_loc(|v| expr_arena::ExprParser::new().parse(&arena, v), "*(22, 3, 6,)", expected);
+    let expected = arena.alloc(Node::Reduce(
+        Op::Mul,
+        vec![
+            arena.alloc(Node::Value(22)),
+            arena.alloc(Node::Value(3)),
+            arena.alloc(Node::Value(6)),
+        ],
+    ));
+    util::test_loc(
+        |v| expr_arena::ExprParser::new().parse(&arena, v),
+        "*(22, 3, 6)",
+        expected,
+    );
+    util::test_loc(
+        |v| expr_arena::ExprParser::new().parse(&arena, v),
+        "*(22, 3, 6,)",
+        expected,
+    );
 }
 
 #[test]
 fn expr_arena_test3() {
     use expr_arena_ast::*;
     let arena = Arena::new();
-    let expected =
-        arena.alloc(
-            Node::Binary { op: Op::Mul,
-                           l: arena.alloc(Node::Value(22)),
-                           r: arena.alloc(Node::Paren(
-                               arena.alloc(
-                                   Node::Binary { op: Op::Sub,
-                                                  l: arena.alloc(Node::Value(3)),
-                                                  r: arena.alloc(Node::Value(6)) }))) });
-    util::test_loc(|v| expr_arena::ExprParser::new().parse(&arena, v), "22 * (3 - 6)", expected);
+    let expected = arena.alloc(Node::Binary {
+        op: Op::Mul,
+        l: arena.alloc(Node::Value(22)),
+        r: arena.alloc(Node::Paren(arena.alloc(Node::Binary {
+            op: Op::Sub,
+            l: arena.alloc(Node::Value(3)),
+            r: arena.alloc(Node::Value(6)),
+        }))),
+    });
+    util::test_loc(
+        |v| expr_arena::ExprParser::new().parse(&arena, v),
+        "22 * (3 - 6)",
+        expected,
+    );
 }
 
 #[test]
 fn expr_generic_test1() {
     let expected: i32 = 22 * 3 - 6;
-    let actual = expr_generic::ExprParser::new().parse::<i32>("22 * 3 - 6").unwrap();
+    let actual = expr_generic::ExprParser::new()
+        .parse::<i32>("22 * 3 - 6")
+        .unwrap();
     assert_eq!(expected, actual);
 }
 
 #[test]
 fn intern_tok_test1() {
-    let expected = vec![(0, 0), // spans of `+` characters, measured in bytes
-                        (2, 3),
-                        (4, 5),
-                        (8, 9)];
+    let expected = vec![
+        (0, 0), // spans of `+` characters, measured in bytes
+        (2, 3),
+        (4, 5),
+        (8, 9),
+    ];
     let actual = intern_tok::ItemsParser::new().parse("--+-+---+").unwrap();
     //                                    012345678
     assert_eq!(actual, expected);
@@ -323,10 +407,12 @@ fn intern_tok_test1() {
 
 #[test]
 fn loc_test1() {
-    let expected = vec![(0, 0), // note that tok.rs generates odd spans, measured in 2*chars
-                        (4, 5),
-                        (8, 9),
-                        (16, 17)];
+    let expected = vec![
+        (0, 0), // note that tok.rs generates odd spans, measured in 2*chars
+        (4, 5),
+        (8, 9),
+        (16, 17),
+    ];
     util::test_loc(|v| loc::ItemsParser::new().parse(v), "--+-+---+", expected);
     //                                       000001111
     //                                       024680246
@@ -334,8 +420,11 @@ fn loc_test1() {
 
 #[test]
 fn loc_test2() {
-    util::test_loc(|v| loc::ItemsParser::new().parse(v), "+", vec![(0, 0),
-                                                      (0, 1)]);
+    util::test_loc(
+        |v| loc::ItemsParser::new().parse(v),
+        "+",
+        vec![(0, 0), (0, 1)],
+    );
 }
 
 #[test]
@@ -362,16 +451,23 @@ fn error_test1() {
 #[test]
 fn error_recovery_eof() {
     let errors = RefCell::new(vec![]);
-    util::test(|v| error_recovery::ItemParser::new().parse(&errors, v), "--", '!'.to_string());
+    util::test(
+        |v| error_recovery::ItemParser::new().parse(&errors, v),
+        "--",
+        '!'.to_string(),
+    );
 
     assert_eq!(errors.borrow().len(), 1);
-    assert_eq!(errors.borrow()[0], ErrorRecovery {
-        error: ParseError::UnrecognizedToken {
-            token: None,
-            expected: vec!["\"-\"".to_string()],
-        },
-        dropped_tokens: vec![],
-    });
+    assert_eq!(
+        errors.borrow()[0],
+        ErrorRecovery {
+            error: ParseError::UnrecognizedToken {
+                token: None,
+                expected: vec!["\"-\"".to_string()],
+            },
+            dropped_tokens: vec![],
+        }
+    );
 }
 
 #[test]
@@ -379,61 +475,89 @@ fn error_recovery_eof_without_recovery() {
     let errors = RefCell::new(vec![]);
     let tokens = util::tok::tokenize("-").into_iter().map(|t| t.1);
     let result = error_recovery::ItemParser::new().parse(&errors, tokens);
-    assert_eq!(result, Err(ParseError::UnrecognizedToken {
-        token: None,
-        expected: vec!["\"-\"".to_string()],
-    }));
+    assert_eq!(
+        result,
+        Err(ParseError::UnrecognizedToken {
+            token: None,
+            expected: vec!["\"-\"".to_string()],
+        })
+    );
 }
 
 #[test]
 fn error_recovery_extra_token() {
     let errors = RefCell::new(vec![]);
-    util::test(|v| error_recovery::ItemParser::new().parse(&errors, v), "(++)", "()".to_string());
+    util::test(
+        |v| error_recovery::ItemParser::new().parse(&errors, v),
+        "(++)",
+        "()".to_string(),
+    );
 
     assert_eq!(errors.borrow().len(), 1);
-    assert_eq!(errors.borrow()[0], ErrorRecovery {
-        error: ParseError::UnrecognizedToken {
-            token: Some(((), Tok::Plus,())),
-            expected: vec!["\")\"".to_string()],
-        },
-        dropped_tokens: vec![((), Tok::Plus, ())],
-    });
+    assert_eq!(
+        errors.borrow()[0],
+        ErrorRecovery {
+            error: ParseError::UnrecognizedToken {
+                token: Some(((), Tok::Plus, ())),
+                expected: vec!["\")\"".to_string()],
+            },
+            dropped_tokens: vec![((), Tok::Plus, ())],
+        }
+    );
 }
 
 #[test]
 fn error_recovery_dont_drop_unrecognized_token() {
     let errors = RefCell::new(vec![]);
-    util::test(|v| error_recovery::ItemParser::new().parse(&errors, v), "(--)", "(!)".to_string());
+    util::test(
+        |v| error_recovery::ItemParser::new().parse(&errors, v),
+        "(--)",
+        "(!)".to_string(),
+    );
 
     assert_eq!(errors.borrow().len(), 1);
-    assert_eq!(errors.borrow()[0], ErrorRecovery {
-        error: ParseError::UnrecognizedToken {
-            token: Some(((), Tok::RParen,())),
-            expected: vec!["\"-\"".to_string()],
-        },
-        dropped_tokens: vec![],
-    });
+    assert_eq!(
+        errors.borrow()[0],
+        ErrorRecovery {
+            error: ParseError::UnrecognizedToken {
+                token: Some(((), Tok::RParen, ())),
+                expected: vec!["\"-\"".to_string()],
+            },
+            dropped_tokens: vec![],
+        }
+    );
 }
 
 #[test]
 fn error_recovery_multiple_extra_tokens() {
     let errors = RefCell::new(vec![]);
-    util::test(|v| error_recovery::ItemParser::new().parse(&errors, v), "(+++)", "()".to_string());
+    util::test(
+        |v| error_recovery::ItemParser::new().parse(&errors, v),
+        "(+++)",
+        "()".to_string(),
+    );
 
     assert_eq!(errors.borrow().len(), 1);
-    assert_eq!(errors.borrow()[0], ErrorRecovery {
-        error: ParseError::UnrecognizedToken {
-            token: Some(((), Tok::Plus,())),
-            expected: vec!["\")\"".to_string()],
-        },
-        dropped_tokens: vec![((), Tok::Plus, ()), ((), Tok::Plus, ())],
-    });
+    assert_eq!(
+        errors.borrow()[0],
+        ErrorRecovery {
+            error: ParseError::UnrecognizedToken {
+                token: Some(((), Tok::Plus, ())),
+                expected: vec!["\")\"".to_string()],
+            },
+            dropped_tokens: vec![((), Tok::Plus, ()), ((), Tok::Plus, ())],
+        }
+    );
 }
 
 #[test]
 fn error_recovery_dont_panic_on_reduce_normal() {
     let mut errors = vec![];
-    util::test(|v| error_recovery_pull_182::ItemParser::new().parse(&mut errors, v), "1+/", ());
+    util::test(
+        |v| error_recovery_pull_182::ItemParser::new().parse(&mut errors, v),
+        "1+/",
+        (),
+    );
 
     assert_eq!(errors.len(), 1);
 }
@@ -441,7 +565,11 @@ fn error_recovery_dont_panic_on_reduce_normal() {
 #[test]
 fn error_recovery_dont_panic_on_reduce_at_eof() {
     let mut errors = vec![];
-    util::test(|v| error_recovery_pull_182::ItemParser::new().parse(&mut errors, v), "1+", ());
+    util::test(
+        |v| error_recovery_pull_182::ItemParser::new().parse(&mut errors, v),
+        "1+",
+        (),
+    );
 
     assert_eq!(errors.len(), 1);
 }
@@ -451,21 +579,28 @@ fn error_recovery_issue_240() {
     let mut errors = vec![];
 
     // Test here is that error recovery should not go into an infinite loop. =)
-    match util::test_err_gen(|v| error_recovery_issue_240::ExprParser::new().parse(&mut errors, v), "(+1/") {
-        Ok(()) => {
-        }
+    match util::test_err_gen(
+        |v| error_recovery_issue_240::ExprParser::new().parse(&mut errors, v),
+        "(+1/",
+    ) {
+        Ok(()) => {}
         r => {
             panic!("unexpected response from parser: {:?}", r);
         }
     }
 
-    assert_eq!(errors, vec![ErrorRecovery {
-        error: ParseError::UnrecognizedToken {
-            token: Some((6, Tok::Div, 7)),
-            expected: vec!["\")\"".to_string()],
-        },
-        dropped_tokens: vec![(6, Tok::Div, 7)],
-    }]);
+    assert_eq!(
+        errors,
+        vec![
+            ErrorRecovery {
+                error: ParseError::UnrecognizedToken {
+                    token: Some((6, Tok::Div, 7)),
+                    expected: vec!["\")\"".to_string()],
+                },
+                dropped_tokens: vec![(6, Tok::Div, 7)],
+            },
+        ]
+    );
 }
 
 #[test]
@@ -480,11 +615,14 @@ fn error_recovery_lalr_loop() {
     //
     // The newer algorithm is not so silly, however; when we get to EOF, we roll
     // back far enough that EOF becomes legal.
-    match util::test_err_gen(|v| error_recovery_lalr_loop::ExprParser::new().parse(&mut errors, v), "(+1/") {
+    match util::test_err_gen(
+        |v| error_recovery_lalr_loop::ExprParser::new().parse(&mut errors, v),
+        "(+1/",
+    ) {
         Ok(()) => {
             assert_eq!(errors.len(), 1);
             let (l, _error, r) = errors.pop().unwrap();
-            assert_eq!((l .. r), (0 .. 7)); // we popped everything, so this is the full string
+            assert_eq!((l..r), (0..7)); // we popped everything, so this is the full string
         }
         r => {
             panic!("unexpected response from parser: {:?}", r);
@@ -509,11 +647,21 @@ fn error_recovery_lock_in() {
     //
     // This is a good example of why it would be nice to give access
     // to the popped state.
-    match util::test_err_gen(|v| error_recovery_lock_in::AParser::new().parse(&mut errors, v), "(1/22") {
+    match util::test_err_gen(
+        |v| error_recovery_lock_in::AParser::new().parse(&mut errors, v),
+        "(1/22",
+    ) {
         Ok(()) => {
             assert_eq!(errors.len(), 1); // should not drop any tokens
-            let (l, ErrorRecovery { error: _, dropped_tokens }, r) = errors.pop().unwrap();
-            assert_eq!((l .. r), (0 .. 3)); // span should cover the `(1` but not the `/`
+            let (
+                l,
+                ErrorRecovery {
+                    error: _,
+                    dropped_tokens,
+                },
+                r,
+            ) = errors.pop().unwrap();
+            assert_eq!((l..r), (0..3)); // span should cover the `(1` but not the `/`
             assert_eq!(dropped_tokens, vec![]);
         }
         r => {
@@ -524,11 +672,7 @@ fn error_recovery_lock_in() {
     assert_eq!(errors, vec![]);
 }
 
-fn test_error_recovery_spans(
-    input: &str,
-    error_span: &str,
-    output: &str,
-) {
+fn test_error_recovery_spans(input: &str, error_span: &str, output: &str) {
     let mut errors = vec![];
 
     let result = util::test_err_gen(
@@ -579,32 +723,20 @@ fn test_error_recovery_spans(
 fn error_recovery_span_starts_from_dropped_state() {
     // Span starts from dropped state `+`
     // Span ends after dropped token `/`
-    test_error_recovery_spans(
-        "1 + ( 2 + / )",
-        ". . . . - - .",
-        "1 + (2)",
-    );
+    test_error_recovery_spans("1 + ( 2 + / )", ". . . . - - .", "1 + (2)");
 }
 
 #[test]
 fn error_recovery_span_starts_from_initial() {
     // Span starts (and ends) before the `+`.
-    test_error_recovery_spans(
-        "+ 3",
-        "< .",
-        "! + 3",
-    );
+    test_error_recovery_spans("+ 3", "< .", "! + 3");
 }
 
 #[test]
 fn error_recovery_span_starts_just_dropped_tokens() {
     // We retain the `3`, but drop the `4`; our span
     // covers just the dropped token (`4`).
-    test_error_recovery_spans(
-        "1 + ( 2 + 3 4 )",
-        ". . . . . . - .",
-        "1 + (2 + 3)",
-    );
+    test_error_recovery_spans("1 + ( 2 + 3 4 )", ". . . . . . - .", "1 + (2 + 3)");
 }
 
 #[test]
@@ -615,32 +747,20 @@ fn error_recovery_span_starts_inserted_tokens() {
     // That is, we use the end of the top-most state
     // as our start and the start of the lookahead as our
     // end.
-    test_error_recovery_spans(
-        "1 + ( )",
-        ". . > <",
-        "1 + (!)",
-    );
+    test_error_recovery_spans("1 + ( )", ". . > <", "1 + (!)");
 }
 
 #[test]
 fn error_recovery_span_starts_inserted_token_eof() {
     // We insert a ! before EOF, neither dropped states nor tokens.
-    test_error_recovery_spans(
-        "1 -",
-        ". >",
-        "1 -!",
-    );
+    test_error_recovery_spans("1 -", ". >", "1 -!");
 }
 
 #[test]
 fn error_recovery_span_starts_just_dropped_states() {
     // Here, we drop the `+` in favor of the `-`.
     // Therefore, the span we give is the `+`.
-    test_error_recovery_spans(
-        "1 + - 4",
-        ". - . .",
-        "1 - 4",
-    );
+    test_error_recovery_spans("1 + - 4", ". - . .", "1 - 4");
 }
 
 #[test]
@@ -649,12 +769,16 @@ fn issue_55_test1() {
     // types both before and after, so check that we can parse with
     // assoc types on either side.
 
-    let (a, b, c) = issue_55::EParser::new().parse("{ type X; type Y; enum Z { } }").unwrap();
+    let (a, b, c) = issue_55::EParser::new()
+        .parse("{ type X; type Y; enum Z { } }")
+        .unwrap();
     assert_eq!(a, vec!["X", "Y"]);
     assert_eq!(b, "Z");
     assert!(c.is_empty());
 
-    let (a, b, c) = issue_55::EParser::new().parse("{ enum Z { } type X; type Y; }").unwrap();
+    let (a, b, c) = issue_55::EParser::new()
+        .parse("{ enum Z { } type X; type Y; }")
+        .unwrap();
     assert!(a.is_empty());
     assert_eq!(b, "Z");
     assert_eq!(c, vec!["X", "Y"]);
@@ -675,24 +799,49 @@ fn generics_issue_104_test1() {
     // The real thing `generics_issue_104` is testing is that the code
     // *compiles*, even though the type parameter `T` does not appear
     // in any of the arguments.
-    assert!(generics_issue_104::SchemaParser::new().parse::<()>("grammar { foo }").is_ok());
+    assert!(
+        generics_issue_104::SchemaParser::new()
+            .parse::<()>("grammar { foo }")
+            .is_ok()
+    );
 }
 
 #[test]
 fn where_clause_with_forall_test1() {
-    assert!(where_clause_with_forall::TermParser::new().parse(
-        &mut |s: &str| println!("log: {}", s),
-        "(((((42)))))"
-    ).is_ok());
+    assert!(
+        where_clause_with_forall::TermParser::new()
+            .parse(&mut |s: &str| println!("log: {}", s), "(((((42)))))")
+            .is_ok()
+    );
 }
 
 #[test]
 fn test_match_section() {
-    assert!(match_section::QueryParser::new().parse("SELECT foo").is_ok());
-    assert!(match_section::QueryParser::new().parse("select foo").is_ok());
-    assert!(match_section::QueryParser::new().parse("INSERT foo").is_ok());
-    assert!(match_section::QueryParser::new().parse("UPDATE foo").is_ok());
-    assert!(match_section::QueryParser::new().parse("UPDATE update").is_err());
+    assert!(
+        match_section::QueryParser::new()
+            .parse("SELECT foo")
+            .is_ok()
+    );
+    assert!(
+        match_section::QueryParser::new()
+            .parse("select foo")
+            .is_ok()
+    );
+    assert!(
+        match_section::QueryParser::new()
+            .parse("INSERT foo")
+            .is_ok()
+    );
+    assert!(
+        match_section::QueryParser::new()
+            .parse("UPDATE foo")
+            .is_ok()
+    );
+    assert!(
+        match_section::QueryParser::new()
+            .parse("UPDATE update")
+            .is_err()
+    );
 }
 
 #[test]
@@ -710,14 +859,18 @@ fn test_action_return_associated_types() {
     let mut callbacks = associated_types_lib::TestParseCallbacks;
     assert_eq!(
         associated_types::TermParser::new().parse(&mut callbacks, "(((((42)))))"),
-        Ok(associated_types_lib::TestTerm(associated_types_lib::TestNum(42)))
+        Ok(associated_types_lib::TestTerm(
+            associated_types_lib::TestNum(42)
+        ))
     );
 }
 
 #[test]
 fn error_issue_278() {
     match error_issue_278::ValueParser::new().parse("123 abc") {
-        Err(ParseError::User { error: "Pretend there was an error" }) => { /* OK! */ }
+        Err(ParseError::User {
+            error: "Pretend there was an error",
+        }) => { /* OK! */ }
         r => {
             panic!("unexpected response from parser: {:?}", r);
         }

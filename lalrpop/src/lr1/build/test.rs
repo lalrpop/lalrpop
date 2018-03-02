@@ -10,7 +10,7 @@ use lr1::lookahead::TokenSet;
 use lr1::tls::Lr1Tls;
 use tls::Tls;
 
-use super::{LR, use_lane_table, build_lr0_states, build_lr1_states};
+use super::{use_lane_table, build_lr0_states, build_lr1_states, LR};
 
 fn nt(t: &str) -> NonterminalString {
     NonterminalString(Atom::from(t))
@@ -18,9 +18,7 @@ fn nt(t: &str) -> NonterminalString {
 
 const ITERATIONS: usize = 22;
 
-fn random_test<'g>(grammar: &Grammar,
-                   states: &'g [LR1State<'g>],
-                   start_symbol: NonterminalString) {
+fn random_test<'g>(grammar: &Grammar, states: &'g [LR1State<'g>], start_symbol: NonterminalString) {
     for i in 0..ITERATIONS {
         let input_tree = generate::random_parse_tree(grammar, start_symbol.clone());
         let output_tree = interpret(&states, input_tree.terminals()).unwrap();
@@ -39,20 +37,17 @@ macro_rules! tokens {
     }
 }
 
-fn items<'g>(grammar: &'g Grammar, nonterminal: &str, index: usize, la: Token)
-             -> LR1Items<'g>
-{
+fn items<'g>(grammar: &'g Grammar, nonterminal: &str, index: usize, la: Token) -> LR1Items<'g> {
     let set = TokenSet::from(la);
     let lr1: LR<TokenSet> = LR::new(&grammar, nt(nonterminal), set.clone());
-    let items =
-        lr1.transitive_closure(
-            lr1.items(&nt(nonterminal), index, &set));
+    let items = lr1.transitive_closure(lr1.items(&nt(nonterminal), index, &set));
     items
 }
 
 #[test]
 fn start_state() {
-    let grammar = normalized_grammar(r#"
+    let grammar = normalized_grammar(
+        r#"
 grammar;
     extern { enum Tok { "C" => .., "D" => .. } }
     A = B "C";
@@ -60,19 +55,24 @@ grammar;
         "D" => Some(1),
         () => None
     };
-"#);
+"#,
+    );
     let _lr1_tls = Lr1Tls::install(grammar.terminals.clone());
     let items = items(&grammar, "A", 0, EOF);
-    expect_debug(items.vec, r#"[
+    expect_debug(
+        items.vec,
+        r#"[
     A = (*) B "C" [EOF],
     B = (*) ["C"],
     B = (*) "D" ["C"]
-]"#);
+]"#,
+    );
 }
 
 #[test]
 fn start_state_1() {
-    let grammar = normalized_grammar(r#"
+    let grammar = normalized_grammar(
+        r#"
 grammar;
 extern { enum Tok { "B1" => .., "C1" => .. } }
 A = B C;
@@ -84,28 +84,36 @@ C: Option<u32> = {
     "C1" => Some(1),
     () => None
 };
-"#);
+"#,
+    );
 
     let _lr1_tls = Lr1Tls::install(grammar.terminals.clone());
 
-    expect_debug(items(&grammar, "A", 0, EOF).vec, r#"[
+    expect_debug(
+        items(&grammar, "A", 0, EOF).vec,
+        r#"[
     A = (*) B C [EOF],
     B = (*) ["C1", EOF],
     B = (*) "B1" ["C1", EOF]
-]"#);
+]"#,
+    );
 
-    expect_debug(items(&grammar, "A", 1, EOF).vec, r#"[
+    expect_debug(
+        items(&grammar, "A", 1, EOF).vec,
+        r#"[
     A = B (*) C [EOF],
     C = (*) [EOF],
     C = (*) "C1" [EOF]
-]"#);
+]"#,
+    );
 }
 
 #[test]
 fn expr_grammar1() {
     let _tls = Tls::test();
 
-    let grammar = normalized_grammar(r#"
+    let grammar = normalized_grammar(
+        r#"
 grammar;
     extern { enum Tok { "-" => .., "N" => .., "(" => .., ")" => .. } }
 
@@ -121,7 +129,8 @@ grammar;
         "N" => (),
         "(" E ")" => ()
     };
-"#);
+"#,
+    );
 
     let _lr1_tls = Lr1Tls::install(grammar.terminals.clone());
 
@@ -135,7 +144,8 @@ grammar;
     let tree = interpret(&states, tokens!["N", "-", "(", "N", "-", "N", ")"]).unwrap();
     assert_eq!(
         &format!("{}", tree)[..],
-        r#"[S: [E: [E: [T: "N"]], "-", [T: "(", [E: [E: [T: "N"]], "-", [T: "N"]], ")"]]]"#);
+        r#"[S: [E: [E: [T: "N"]], "-", [T: "(", [E: [E: [T: "N"]], "-", [T: "N"]], ")"]]]"#
+    );
 
     // incomplete:
     assert!(interpret(&states, tokens!["N", "-", "(", "N", "-", "N"]).is_err());
@@ -151,7 +161,8 @@ grammar;
     println!("{}", tree);
     assert_eq!(
         &format!("{}", tree)[..],
-        r#"[S: [E: [E: [T: "(", [E: [E: [T: "N"]], "-", [T: "N"]], ")"]], "-", [T: "N"]]]"#);
+        r#"[S: [E: [E: [T: "(", [E: [E: [T: "N"]], "-", [T: "N"]], ")"]], "-", [T: "N"]]]"#
+    );
 
     // run some random tests
     random_test(&grammar, &states, nt("S"));
@@ -185,7 +196,8 @@ fn shift_reduce_conflict1() {
     // rules would address it, but it's an interesting one for
     // producing a useful error message.
 
-    let grammar = normalized_grammar(r#"
+    let grammar = normalized_grammar(
+        r#"
         grammar;
         extern { enum Tok { "L" => .., "&" => .., } }
         E: () = {
@@ -196,7 +208,8 @@ fn shift_reduce_conflict1() {
             (),
             "L"
         };
-    "#);
+    "#,
+    );
 
     let _lr1_tls = Lr1Tls::install(grammar.terminals.clone());
 
@@ -208,7 +221,8 @@ fn shift_reduce_conflict1() {
 fn lr0_expr_grammar_with_explicit_eof() {
     let _tls = Tls::test();
 
-    let grammar = normalized_grammar(r#"
+    let grammar = normalized_grammar(
+        r#"
 grammar;
 
 S: () = E "$";
@@ -222,7 +236,8 @@ T: () = {
     "N",
     "(" E ")",
 };
-"#);
+"#,
+    );
 
     let _lr1_tls = Lr1Tls::install(grammar.terminals.clone());
 
@@ -232,13 +247,13 @@ T: () = {
     assert_eq!(states.len(), 10);
 }
 
-
 /// Without the artifical '$', grammar is not LR(0).
 #[test]
 fn lr0_expr_grammar_with_implicit_eof() {
     let _tls = Tls::test();
 
-    let grammar = normalized_grammar(r#"
+    let grammar = normalized_grammar(
+        r#"
 grammar;
 
 S: () = E;
@@ -252,7 +267,8 @@ T: () = {
     "N",
     "(" E ")",
 };
-"#);
+"#,
+    );
 
     let _lr1_tls = Lr1Tls::install(grammar.terminals.clone());
 
@@ -266,7 +282,8 @@ T: () = {
 fn issue_144() {
     let _tls = Tls::test();
 
-    let grammar = normalized_grammar(r##"
+    let grammar = normalized_grammar(
+        r##"
 grammar;
 
 pub ForeignItem: () = {
@@ -304,7 +321,8 @@ Ident: () = {
 ty: () = {
     "ty"
 };
-"##);
+"##,
+    );
 
     let _lr1_tls = Lr1Tls::install(grammar.terminals.clone());
     build_lr1_states(&grammar, nt("ForeignItem")).unwrap();
@@ -315,7 +333,8 @@ ty: () = {
 fn match_grammar() {
     let _tls = Tls::test();
 
-    let grammar = normalized_grammar(r#"
+    let grammar = normalized_grammar(
+        r#"
 grammar;
 
 match {
@@ -325,7 +344,8 @@ match {
 }
 
 pub Query = SELECT r"[a-z]+";
-"#);
+"#,
+    );
 
     let _lr1_tls = Lr1Tls::install(grammar.terminals.clone());
 

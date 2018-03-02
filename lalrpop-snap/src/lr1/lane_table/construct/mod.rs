@@ -36,7 +36,10 @@ impl<'grammar> LaneTableConstruct<'grammar> {
     }
 
     pub fn construct(self) -> Result<Vec<LR1State<'grammar>>, LR1TableConstructionError<'grammar>> {
-        let TableConstructionError { states, conflicts: _ } = {
+        let TableConstructionError {
+            states,
+            conflicts: _,
+        } = {
             match build::build_lr0_states(self.grammar, self.start_nt) {
                 // This is the easy (and very rare...) case.
                 Ok(lr0) => return Ok(self.promote_lr0_states(lr0)),
@@ -55,17 +58,19 @@ impl<'grammar> LaneTableConstruct<'grammar> {
             }
 
             match self.resolve_inconsistencies(&mut states, StateIndex(i)) {
-                Ok(()) => { }
+                Ok(()) => {}
                 Err(_) => {
                     // We failed because of irreconcilable conflicts
                     // somewhere. Just compute the conflicts from the final set of
                     // states.
-                    let conflicts: Vec<Conflict<'grammar, TokenSet>> =
-                        states.iter()
-                              .flat_map(|s| Lookahead::conflicts(&s))
-                              .collect();
-                    return Err(TableConstructionError { states: states,
-                                                        conflicts: conflicts });
+                    let conflicts: Vec<Conflict<'grammar, TokenSet>> = states
+                        .iter()
+                        .flat_map(|s| Lookahead::conflicts(&s))
+                        .collect();
+                    return Err(TableConstructionError {
+                        states: states,
+                        conflicts: conflicts,
+                    });
                 }
             }
         }
@@ -84,12 +89,10 @@ impl<'grammar> LaneTableConstruct<'grammar> {
                 let items = s.items
                     .vec
                     .iter()
-                    .map(|item| {
-                        Item {
-                            production: item.production,
-                            index: item.index,
-                            lookahead: all.clone(),
-                        }
+                    .map(|item| Item {
+                        production: item.production,
+                        index: item.index,
+                        lookahead: all.clone(),
                     })
                     .collect();
                 let reductions = s.reductions
@@ -98,7 +101,9 @@ impl<'grammar> LaneTableConstruct<'grammar> {
                     .collect();
                 State {
                     index: s.index,
-                    items: Items { vec: Rc::new(items) },
+                    items: Items {
+                        vec: Rc::new(items),
+                    },
                     shifts: s.shifts,
                     reductions: reductions,
                     gotos: s.gotos,
@@ -107,12 +112,15 @@ impl<'grammar> LaneTableConstruct<'grammar> {
             .collect()
     }
 
-    fn resolve_inconsistencies(&self,
-                               states: &mut Vec<LR1State<'grammar>>,
-                               inconsistent_state: StateIndex)
-                               -> Result<(), StateIndex> {
-        debug!("resolve_inconsistencies(inconsistent_state={:?}/{:#?}",
-               inconsistent_state, states[inconsistent_state.0]);
+    fn resolve_inconsistencies(
+        &self,
+        states: &mut Vec<LR1State<'grammar>>,
+        inconsistent_state: StateIndex,
+    ) -> Result<(), StateIndex> {
+        debug!(
+            "resolve_inconsistencies(inconsistent_state={:?}/{:#?}",
+            inconsistent_state, states[inconsistent_state.0]
+        );
 
         let actions = super::conflicting_actions(&states[inconsistent_state.0]);
         if actions.is_empty() {
@@ -141,16 +149,24 @@ impl<'grammar> LaneTableConstruct<'grammar> {
         for (&state_index, context_set) in &rows {
             let state_set = unify.new_key(context_set.clone());
             state_sets.insert(state_index, state_set);
-            debug!("resolve_inconsistencies: state_index={:?}, state_set={:?}",
-                   state_index, state_set);
+            debug!(
+                "resolve_inconsistencies: state_index={:?}, state_set={:?}",
+                state_index, state_set
+            );
         }
 
         // Now merge state-sets, cloning states where needed.
-        let mut merge = Merge::new(&table, &mut unify, states, &mut state_sets, inconsistent_state);
+        let mut merge = Merge::new(
+            &table,
+            &mut unify,
+            states,
+            &mut state_sets,
+            inconsistent_state,
+        );
         let beachhead_states = table.beachhead_states();
         for beachhead_state in beachhead_states {
             match merge.start(beachhead_state) {
-                Ok(()) => { }
+                Ok(()) => {}
                 Err((source, _)) => return Err(source),
             }
         }
@@ -159,11 +175,12 @@ impl<'grammar> LaneTableConstruct<'grammar> {
         Ok(())
     }
 
-    fn attempt_lalr(&self,
-                    state: &mut LR1State<'grammar>,
-                    table: &LaneTable<'grammar>,
-                    actions: &Set<Action<'grammar>>)
-                    -> bool {
+    fn attempt_lalr(
+        &self,
+        state: &mut LR1State<'grammar>,
+        table: &LaneTable<'grammar>,
+        actions: &Set<Action<'grammar>>,
+    ) -> bool {
         match table.columns() {
             Ok(columns) => {
                 debug!("attempt_lalr, columns={:#?}", columns);
@@ -177,18 +194,21 @@ impl<'grammar> LaneTableConstruct<'grammar> {
         }
     }
 
-    fn build_lane_table(&self,
-                        states: &[LR1State<'grammar>],
-                        inconsistent_state: StateIndex,
-                        actions: &Set<Action<'grammar>>)
-                        -> LaneTable<'grammar> {
+    fn build_lane_table(
+        &self,
+        states: &[LR1State<'grammar>],
+        inconsistent_state: StateIndex,
+        actions: &Set<Action<'grammar>>,
+    ) -> LaneTable<'grammar> {
         let state_graph = StateGraph::new(states);
-        let mut tracer = LaneTracer::new(self.grammar,
-                                         self.start_nt,
-                                         states,
-                                         &self.first_sets,
-                                         &state_graph,
-                                         actions.len());
+        let mut tracer = LaneTracer::new(
+            self.grammar,
+            self.start_nt,
+            states,
+            &self.first_sets,
+            &state_graph,
+            actions.len(),
+        );
         for (i, &action) in actions.iter().enumerate() {
             tracer.start_trace(inconsistent_state, ConflictIndex::new(i), action);
         }

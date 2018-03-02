@@ -8,7 +8,7 @@ use lr1::lane_table::table::context_set::{ContextSet, OverlappingLookahead};
 /// overlapping conflict set.
 #[derive(Copy, Clone, Debug, PartialEq, Eq)]
 pub struct StateSet {
-    index: u32
+    index: u32,
 }
 
 impl UnifyKey for StateSet {

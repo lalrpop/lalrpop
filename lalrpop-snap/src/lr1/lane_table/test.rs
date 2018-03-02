@@ -20,10 +20,7 @@ macro_rules! tokens {
 }
 
 fn sym(t: &str) -> Symbol {
-    if t.chars()
-           .next()
-           .unwrap()
-           .is_uppercase() {
+    if t.chars().next().unwrap().is_uppercase() {
         Symbol::Nonterminal(nt(t))
     } else {
         Symbol::Terminal(term(t))
@@ -39,14 +36,18 @@ fn nt(t: &str) -> NonterminalString {
 }
 
 fn traverse(states: &[LR0State], tokens: &[&str]) -> StateIndex {
-    interpret::interpret_partial(states, tokens.iter().map(|&s| term(s))).unwrap().pop().unwrap()
+    interpret::interpret_partial(states, tokens.iter().map(|&s| term(s)))
+        .unwrap()
+        .pop()
+        .unwrap()
 }
 
 /// A simplified version of the paper's initial grammar; this version
 /// only has one inconsistent state (the same state they talk about in
 /// the paper).
 pub fn paper_example_g0() -> Grammar {
-    normalized_grammar(r#"
+    normalized_grammar(
+        r#"
 grammar;
 
 pub G: () = {
@@ -63,7 +64,8 @@ Y: () = {
     "e" Y,
     "e"
 };
-"#)
+"#,
+    )
 }
 
 /// A (corrected) version of the sample grammar G1 from the paper. The
@@ -72,7 +74,8 @@ Y: () = {
 /// smallest examples that still requires splitting states from the
 /// LR0 states.
 pub fn paper_example_g1() -> Grammar {
-    normalized_grammar(r#"
+    normalized_grammar(
+        r#"
 grammar;
 
 pub G: () = {
@@ -96,18 +99,25 @@ Y: () = {
     "e" Y,
     "e"
 };
-"#)
+"#,
+    )
 }
 
-fn build_table<'grammar>(grammar: &'grammar Grammar,
-                         goal: &str,
-                         tokens: &[&str])
-                         -> LaneTable<'grammar> {
+fn build_table<'grammar>(
+    grammar: &'grammar Grammar,
+    goal: &str,
+    tokens: &[&str],
+) -> LaneTable<'grammar> {
     let lr0_err = build::build_lr0_states(&grammar, nt(goal)).unwrap_err();
 
     // Push the `tokens` to find the index of the inconsistent state
     let inconsistent_state_index = traverse(&lr0_err.states, tokens);
-    assert!(lr0_err.conflicts.iter().any(|c| c.state == inconsistent_state_index));
+    assert!(
+        lr0_err
+            .conflicts
+            .iter()
+            .any(|c| c.state == inconsistent_state_index)
+    );
     let inconsistent_state = &lr0_err.states[inconsistent_state_index.0];
     println!("inconsistent_state={:#?}", inconsistent_state.items);
 
@@ -116,16 +126,20 @@ fn build_table<'grammar>(grammar: &'grammar Grammar,
     println!("conflicting_items={:#?}", conflicting_items);
     let first_sets = FirstSets::new(&grammar);
     let state_graph = StateGraph::new(&lr0_err.states);
-    let mut tracer = LaneTracer::new(&grammar,
-                                     nt("G"),
-                                     &lr0_err.states,
-                                     &first_sets,
-                                     &state_graph,
-                                     conflicting_items.len());
+    let mut tracer = LaneTracer::new(
+        &grammar,
+        nt("G"),
+        &lr0_err.states,
+        &first_sets,
+        &state_graph,
+        conflicting_items.len(),
+    );
     for (i, &conflicting_item) in conflicting_items.iter().enumerate() {
-        tracer.start_trace(inconsistent_state.index,
-                           ConflictIndex::new(i),
-                           conflicting_item);
+        tracer.start_trace(
+            inconsistent_state.index,
+            ConflictIndex::new(i),
+            conflicting_item,
+        );
     }
 
     tracer.into_table()
@@ -143,13 +157,14 @@ fn g0_conflict_1() {
     //     Reduce(X = "e" => ActionFn(4)) // C1
     //     Reduce(Y = "e" => ActionFn(6)) // C2
     // }
-    expect_debug(&table,
-                 r#"
+    expect_debug(
+        &table,
+        r#"
 | State | C0    | C1    | C2    | Successors |
 | S0    |       | ["c"] | ["d"] | {S3}       |
 | S3    | ["e"] | []    | []    | {S3}       |
-"#
-                         .trim_left());
+"#.trim_left(),
+    );
 }
 
 #[test]
@@ -164,14 +179,15 @@ fn paper_example_g1_conflict_1() {
     //     Reduce(X = "e" => ActionFn(6)) // C1
     //     Reduce(Y = "e" => ActionFn(8)) // C2
     // }
-    expect_debug(&table,
-                 r#"
+    expect_debug(
+        &table,
+        r#"
 | State | C0    | C1    | C2    | Successors |
 | S1    |       | ["d"] | ["c"] | {S5}       |
 | S2    |       | ["c"] | ["d"] | {S5}       |
 | S5    | ["e"] | []    | []    | {S5}       |
-"#
-                         .trim_left());
+"#.trim_left(),
+    );
 }
 
 #[test]
@@ -180,7 +196,8 @@ fn paper_example_g0_build() {
     let grammar = paper_example_g0();
     let _lr1_tls = Lr1Tls::install(grammar.terminals.clone());
     let lr0_err = build::build_lr0_states(&grammar, nt("G")).unwrap_err();
-    let states = LaneTableConstruct::new(&grammar, nt("G")).construct()
+    let states = LaneTableConstruct::new(&grammar, nt("G"))
+        .construct()
         .expect("failed to build lane table states");
 
     // we do not require more *states* than LR(0), just different lookahead
@@ -204,7 +221,8 @@ fn paper_example_g1_build() {
     let grammar = paper_example_g1();
     let _lr1_tls = Lr1Tls::install(grammar.terminals.clone());
     let lr0_err = build::build_lr0_states(&grammar, nt("G")).unwrap_err();
-    let states = LaneTableConstruct::new(&grammar, nt("G")).construct()
+    let states = LaneTableConstruct::new(&grammar, nt("G"))
+        .construct()
         .expect("failed to build lane table states");
 
     // we require more *states* than LR(0), not just different lookahead
@@ -220,7 +238,8 @@ fn paper_example_g1_build() {
 }
 
 pub fn paper_example_large() -> Grammar {
-    normalized_grammar(r#"
+    normalized_grammar(
+        r#"
 grammar;
 
 pub G: () = {
@@ -272,7 +291,8 @@ C: () = {
 P: () = {
     "z"
 };
-"#)
+"#,
+    )
 }
 
 #[test]
@@ -290,8 +310,9 @@ fn large_conflict_1() {
     //     Reduce(Y = "k" "t") // C3
     // }
 
-    expect_debug(&table,
-                 r#"
+    expect_debug(
+        &table,
+        r#"
 | State | C0    | C1    | C2         | C3    | Successors |
 | S1    |       | ["k"] |            |       | {S5}       |
 | S2    |       | ["k"] |            |       | {S7}       |
@@ -302,8 +323,8 @@ fn large_conflict_1() {
 | S16   |       |       |            |       | {S27}      |
 | S27   | ["s"] | ["k"] |            |       | {S32}      |
 | S32   |       |       | ["z"]      | ["u"] | {S16}      |
-"#
-                         .trim_left());
+"#.trim_left(),
+    );
 
     // ^^ This differs in some particulars from what appears in the
     // paper, but I believe it to be correct, and the paper to be wrong.
@@ -343,10 +364,13 @@ fn paper_example_large_build() {
     let _tls = Tls::test();
     let grammar = paper_example_large();
     let _lr1_tls = Lr1Tls::install(grammar.terminals.clone());
-    let states = LaneTableConstruct::new(&grammar, nt("G")).construct()
+    let states = LaneTableConstruct::new(&grammar, nt("G"))
+        .construct()
         .expect("failed to build lane table states");
 
     let tree = interpret::interpret(&states, tokens!["y", "s", "k", "t", "c", "b"]).unwrap();
-    expect_debug(&tree, r#"[G: "y", [W: [U: "s"], [X: "k", "t"], [C: "c"]], "b"]"#);
+    expect_debug(
+        &tree,
+        r#"[G: "y", [W: [U: "s"], [X: "k", "t"], [C: "c"]], "b"]"#,
+    );
 }
-

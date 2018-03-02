@@ -4,22 +4,20 @@ use grammar::repr::*;
 use super::Tracer;
 use super::trace_graph::*;
 
-#[cfg(test)] mod test;
+#[cfg(test)]
+mod test;
 
 impl<'trace, 'grammar> Tracer<'trace, 'grammar> {
-    pub fn backtrace_reduce(mut self,
-                            item_state: StateIndex,
-                            item: LR0Item<'grammar>)
-                            -> TraceGraph<'grammar>
-    {
+    pub fn backtrace_reduce(
+        mut self,
+        item_state: StateIndex,
+        item: LR0Item<'grammar>,
+    ) -> TraceGraph<'grammar> {
         self.trace_reduce_item(item_state, item);
         self.trace_graph
     }
 
-    fn trace_reduce_item(&mut self,
-                         item_state: StateIndex,
-                         item: LR0Item<'grammar>)
-    {
+    fn trace_reduce_item(&mut self, item_state: StateIndex, item: LR0Item<'grammar>) {
         // We start out with an item
         //
         //     X = ...p (*) ...s
@@ -36,7 +34,8 @@ impl<'trace, 'grammar> Tracer<'trace, 'grammar> {
         //
         // because to reach that item we pushed `...p` from the start
         // of `X` and afterwards we expect to see `...s`.
-        self.trace_graph.add_edge(nonterminal, item, item.symbol_sets());
+        self.trace_graph
+            .add_edge(nonterminal, item, item.symbol_sets());
 
         // Walk back to the set of states S where we had:
         //
@@ -59,18 +58,17 @@ impl<'trace, 'grammar> Tracer<'trace, 'grammar> {
     // If we find that `...s` is potentially empty, then we haven't
     // actually found any context, and so we may have to keep
     // searching.
-    fn trace_reduce_from_state(&mut self,
-                               item_state: StateIndex,
-                               nonterminal: NonterminalString) // "Y"
+    fn trace_reduce_from_state(&mut self, item_state: StateIndex, nonterminal: NonterminalString) // "Y"
     {
         if !self.visited_set.insert((item_state, nonterminal)) {
             return;
         }
         for pred_item in self.states[item_state.0]
-                             .items
-                             .vec
-                             .iter()
-                             .filter(|i| i.can_shift_nonterminal(nonterminal)) {
+            .items
+            .vec
+            .iter()
+            .filter(|i| i.can_shift_nonterminal(nonterminal))
+        {
             // Found a state:
             //
             //     Z = ...p (*) Y ...s
@@ -90,7 +88,8 @@ impl<'trace, 'grammar> Tracer<'trace, 'grammar> {
                 //    [Z = ...p (*) Y ...s] -(...p,Y,...s)-> [Y]
                 //
                 // and stop.
-                self.trace_graph.add_edge(pred_item.to_lr0(), nonterminal, symbol_sets);
+                self.trace_graph
+                    .add_edge(pred_item.to_lr0(), nonterminal, symbol_sets);
             } else {
                 // Add an edge
                 //
@@ -98,13 +97,14 @@ impl<'trace, 'grammar> Tracer<'trace, 'grammar> {
                 //
                 // because we can reduce by consuming `...p`
                 // tokens, and continue tracing.
-                self.trace_graph.add_edge(pred_item.production.nonterminal,
-                                          nonterminal,
-                                          symbol_sets);
+                self.trace_graph.add_edge(
+                    pred_item.production.nonterminal,
+                    nonterminal,
+                    symbol_sets,
+                );
 
                 self.trace_reduce_item(item_state, pred_item.to_lr0());
             }
         }
     }
 }
-

@@ -1,15 +1,16 @@
-use collections::{Map, map};
+use collections::{map, Map};
 use lr1::core::*;
 use lr1::first::*;
 use lr1::lookahead::*;
 use lr1::example::*;
 use grammar::repr::*;
 use petgraph::{Directed, EdgeDirection, Graph};
-use petgraph::graph::{Edges, EdgeReference, NodeIndex};
+use petgraph::graph::{EdgeReference, Edges, NodeIndex};
 use petgraph::prelude::*;
-use std::fmt::{Debug, Formatter, Error};
+use std::fmt::{Debug, Error, Formatter};
 
-#[cfg(test)] mod test;
+#[cfg(test)]
+mod test;
 
 /// Trace graphs are used to summarize how it is that we came to be in
 /// a state where we can take some particular shift/reduce action; put
@@ -48,7 +49,6 @@ pub struct TraceGraph<'grammar> {
     // If this trace graph represents a shift backtrace, then the
     // labels are symbols that are pushed. Otherwise they are labels
     // that are popped.
-
     graph: Graph<TraceGraphNode<'grammar>, SymbolSets<'grammar>>,
     indices: Map<TraceGraphNode<'grammar>, NodeIndex>,
 }
@@ -68,46 +68,44 @@ impl<'grammar> TraceGraph<'grammar> {
     }
 
     pub fn add_node<T>(&mut self, node: T) -> NodeIndex
-        where T: Into<TraceGraphNode<'grammar>>
+    where
+        T: Into<TraceGraphNode<'grammar>>,
     {
         let node = node.into();
         let graph = &mut self.graph;
-        *self.indices.entry(node)
-                     .or_insert_with(|| graph.add_node(node))
+        *self.indices
+            .entry(node)
+            .or_insert_with(|| graph.add_node(node))
     }
 
-    pub fn add_edge<F,T>(&mut self,
-                         from: F,
-                         to: T,
-                         labels: SymbolSets<'grammar>)
-        where F: Into<TraceGraphNode<'grammar>>,
-              T: Into<TraceGraphNode<'grammar>>,
+    pub fn add_edge<F, T>(&mut self, from: F, to: T, labels: SymbolSets<'grammar>)
+    where
+        F: Into<TraceGraphNode<'grammar>>,
+        T: Into<TraceGraphNode<'grammar>>,
     {
         let from = self.add_node(from.into());
         let to = self.add_node(to.into());
-        if !self.graph.edges_directed(from, EdgeDirection::Outgoing)
-                      .any(|edge| edge.target() == to && *edge.weight() == labels)
+        if !self.graph
+            .edges_directed(from, EdgeDirection::Outgoing)
+            .any(|edge| edge.target() == to && *edge.weight() == labels)
         {
             self.graph.add_edge(from, to, labels);
         }
     }
 
-    pub fn lr0_examples<'graph>(&'graph self,
-                                lr0_item: LR0Item<'grammar>)
-                                -> PathEnumerator<'graph, 'grammar>
-    {
+    pub fn lr0_examples<'graph>(
+        &'graph self,
+        lr0_item: LR0Item<'grammar>,
+    ) -> PathEnumerator<'graph, 'grammar> {
         PathEnumerator::new(self, lr0_item)
     }
 
-    pub fn lr1_examples<'trace>(&'trace self,
-                                first_sets: &'trace FirstSets,
-                                item: &LR1Item<'grammar>)
-                                -> FilteredPathEnumerator<'trace, 'grammar>
-    {
-        FilteredPathEnumerator::new(first_sets,
-                                    self,
-                                    item.to_lr0(),
-                                    item.lookahead.clone())
+    pub fn lr1_examples<'trace>(
+        &'trace self,
+        first_sets: &'trace FirstSets,
+        item: &LR1Item<'grammar>,
+    ) -> FilteredPathEnumerator<'trace, 'grammar> {
+        FilteredPathEnumerator::new(first_sets, self, item.to_lr0(), item.lookahead.clone())
     }
 }
 
@@ -133,7 +131,11 @@ impl<'a, 'grammar, L: Lookahead> Into<TraceGraphNode<'grammar>> for &'a Item<'gr
 struct TraceGraphEdge<'grammar> {
     from: TraceGraphNode<'grammar>,
     to: TraceGraphNode<'grammar>,
-    label: (&'grammar [Symbol], Option<&'grammar Symbol>, &'grammar [Symbol]),
+    label: (
+        &'grammar [Symbol],
+        Option<&'grammar Symbol>,
+        &'grammar [Symbol],
+    ),
 }
 
 impl<'grammar> Debug for TraceGraphEdge<'grammar> {
@@ -146,14 +148,13 @@ impl<'grammar> Debug for TraceGraph<'grammar> {
     fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
         let mut s = fmt.debug_list();
         for (&node, &index) in &self.indices {
-            for edge in self.graph.edges_directed(index, EdgeDirection::Outgoing)
-            {
+            for edge in self.graph.edges_directed(index, EdgeDirection::Outgoing) {
                 let label = edge.weight();
-                s.entry(&TraceGraphEdge { from: node,
-                                          to: self.graph[edge.target()],
-                                          label: (label.prefix,
-                                                  label.cursor,
-                                                  label.suffix) });
+                s.entry(&TraceGraphEdge {
+                    from: node,
+                    to: self.graph[edge.target()],
+                    label: (label.prefix, label.cursor, label.suffix),
+                });
             }
         }
         s.finish()
@@ -180,9 +181,7 @@ struct EnumeratorState<'graph, 'grammar: 'graph> {
 }
 
 impl<'graph, 'grammar> PathEnumerator<'graph, 'grammar> {
-    fn new(graph: &'graph TraceGraph<'grammar>,
-           lr0_item: LR0Item<'grammar>)
-           -> Self {
+    fn new(graph: &'graph TraceGraph<'grammar>, lr0_item: LR0Item<'grammar>) -> Self {
         let start_state = graph.indices[&TraceGraphNode::Item(lr0_item)];
         let mut enumerator = PathEnumerator {
             graph: graph,
@@ -213,14 +212,14 @@ impl<'graph, 'grammar> PathEnumerator<'graph, 'grammar> {
 
                 self.find_next_trace()
             }
-            None => {
-                false
-            }
+            None => false,
         }
     }
 
     fn incoming_edges(&self, index: NodeIndex) -> Edges<'graph, SymbolSets<'grammar>, Directed> {
-        self.graph.graph.edges_directed(index, EdgeDirection::Incoming)
+        self.graph
+            .graph
+            .edges_directed(index, EdgeDirection::Incoming)
     }
 
     /// This is the main operation, written in CPS style and hence it
@@ -249,9 +248,10 @@ impl<'graph, 'grammar> PathEnumerator<'graph, 'grammar> {
     /// the stack *has* no next child, and so it is popped, and then
     /// we call `find_next_trace` again to start with the next child
     /// of the new top of the stack.
-    fn push_next_child_if_any(&mut self,
-                              next: Option<EdgeReference<'graph, SymbolSets<'grammar>>>)
-                              -> bool {
+    fn push_next_child_if_any(
+        &mut self,
+        next: Option<EdgeReference<'graph, SymbolSets<'grammar>>>,
+    ) -> bool {
         if let Some(edge) = next {
             let index = edge.source();
             let symbol_sets = *edge.weight();
@@ -277,10 +277,7 @@ impl<'graph, 'grammar> PathEnumerator<'graph, 'grammar> {
     /// Finally, if the new node would NOT cause a cycle, then we can
     /// push it onto the stack so that it becomes the new top, and
     /// call `find_next_trace` to start searching its children.
-    fn push_next_child(&mut self,
-                       index: NodeIndex,
-                       symbol_sets: SymbolSets<'grammar>)
-                       -> bool {
+    fn push_next_child(&mut self, index: NodeIndex, symbol_sets: SymbolSets<'grammar>) -> bool {
         match self.graph.graph[index] {
             TraceGraphNode::Item(_) => {
                 // If we reached an item like
@@ -326,12 +323,12 @@ impl<'graph, 'grammar> PathEnumerator<'graph, 'grammar> {
     pub fn first0(&self, first_sets: &FirstSets) -> TokenSet {
         assert!(self.found_trace());
         first_sets.first0(
-            self.stack[1].symbol_sets
-                         .cursor
-                         .into_iter()
-                         .chain(
-                             self.stack.iter()
-                                       .flat_map(|s| s.symbol_sets.suffix)))
+            self.stack[1]
+                .symbol_sets
+                .cursor
+                .into_iter()
+                .chain(self.stack.iter().flat_map(|s| s.symbol_sets.suffix)),
+        )
     }
 
     pub fn example(&self) -> Example {
@@ -340,11 +337,13 @@ impl<'graph, 'grammar> PathEnumerator<'graph, 'grammar> {
         let mut symbols = vec![];
 
         symbols.extend(
-            self.stack.iter()
-                      .rev()
-                      .flat_map(|s| s.symbol_sets.prefix)
-                      .cloned()
-                      .map(ExampleSymbol::Symbol));
+            self.stack
+                .iter()
+                .rev()
+                .flat_map(|s| s.symbol_sets.prefix)
+                .cloned()
+                .map(ExampleSymbol::Symbol),
+        );
 
         let cursor = symbols.len();
 
@@ -357,38 +356,39 @@ impl<'graph, 'grammar> PathEnumerator<'graph, 'grammar> {
         }
 
         symbols.extend(
-            self.stack.iter()
-                      .flat_map(|s| s.symbol_sets.suffix)
-                      .cloned()
-                      .map(ExampleSymbol::Symbol));
+            self.stack
+                .iter()
+                .flat_map(|s| s.symbol_sets.suffix)
+                .cloned()
+                .map(ExampleSymbol::Symbol),
+        );
 
         let mut cursors = (0, symbols.len());
 
-        let mut reductions: Vec<_> =
-            self.stack[1..]
-                .iter()
-                .rev()
-                .map(|state| {
-                    let nonterminal = match self.graph.graph[state.index] {
-                        TraceGraphNode::Nonterminal(nonterminal) => nonterminal,
-                        TraceGraphNode::Item(item) => item.production.nonterminal,
-                    };
-                    let reduction = Reduction {
-                        start: cursors.0,
-                        end: cursors.1,
-                        nonterminal: nonterminal
-                    };
-                    cursors.0 += state.symbol_sets.prefix.len();
-                    cursors.1 -= state.symbol_sets.suffix.len();
-                    reduction
-                })
-                .collect();
+        let mut reductions: Vec<_> = self.stack[1..]
+            .iter()
+            .rev()
+            .map(|state| {
+                let nonterminal = match self.graph.graph[state.index] {
+                    TraceGraphNode::Nonterminal(nonterminal) => nonterminal,
+                    TraceGraphNode::Item(item) => item.production.nonterminal,
+                };
+                let reduction = Reduction {
+                    start: cursors.0,
+                    end: cursors.1,
+                    nonterminal: nonterminal,
+                };
+                cursors.0 += state.symbol_sets.prefix.len();
+                cursors.1 -= state.symbol_sets.suffix.len();
+                reduction
+            })
+            .collect();
         reductions.reverse();
 
         Example {
             symbols: symbols,
             cursor: cursor,
-            reductions: reductions
+            reductions: reductions,
         }
     }
 }
@@ -420,11 +420,12 @@ pub struct FilteredPathEnumerator<'graph, 'grammar: 'graph> {
 }
 
 impl<'graph, 'grammar> FilteredPathEnumerator<'graph, 'grammar> {
-    fn new(first_sets: &'graph FirstSets,
-           graph: &'graph TraceGraph<'grammar>,
-           lr0_item: LR0Item<'grammar>,
-           lookahead: TokenSet)
-           -> Self {
+    fn new(
+        first_sets: &'graph FirstSets,
+        graph: &'graph TraceGraph<'grammar>,
+        lr0_item: LR0Item<'grammar>,
+        lookahead: TokenSet,
+    ) -> Self {
         FilteredPathEnumerator {
             base: PathEnumerator::new(graph, lr0_item),
             first_sets: first_sets,
@@ -449,4 +450,3 @@ impl<'graph, 'grammar> Iterator for FilteredPathEnumerator<'graph, 'grammar> {
         None
     }
 }
-

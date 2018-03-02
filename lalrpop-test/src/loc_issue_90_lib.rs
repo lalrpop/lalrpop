@@ -5,7 +5,13 @@ use util::expect_debug;
 pub enum Expr<'input> {
     Paren(usize, Box<Expr<'input>>, usize),
     Mul(usize, usize),
-    Adjacent(usize, Box<Expr<'input>>, Box<Expr<'input>>, Box<Expr<'input>>, usize),
+    Adjacent(
+        usize,
+        Box<Expr<'input>>,
+        Box<Expr<'input>>,
+        Box<Expr<'input>>,
+        usize,
+    ),
     Upgrade(usize, Box<Expr<'input>>, usize),
     Ident(usize, &'input str, usize),
     Maybe(usize, usize),
@@ -19,7 +25,9 @@ fn loc_issue_90_wonky() {
     //                              0123456789abc
     let result = Expression2Parser::new().parse("wonky * wonky");
     println!("{:#?}", result);
-    expect_debug(result, r#"
+    expect_debug(
+        result,
+        r#"
 Ok(
     Adjacent(
         0,
@@ -42,14 +50,17 @@ Ok(
         13
     )
 )
-"#.trim());
+"#.trim(),
+    );
 }
 
 #[test]
 fn loc_issue_90_wacky() {
     let result = Expression2Parser::new().parse("wacky");
     println!("{:#?}", result);
-    expect_debug(result, r#"
+    expect_debug(
+        result,
+        r#"
 Ok(
     Upgrade(
         0,
@@ -60,7 +71,8 @@ Ok(
         5
     )
 )
-"#.trim());
+"#.trim(),
+    );
 }
 
 #[test]
@@ -68,7 +80,9 @@ fn loc_issue_90_wacky_3() {
     //                              0123456789abc
     let result = Expression2Parser::new().parse("wacky * wacky");
     println!("{:#?}", result);
-    expect_debug(result, r#"
+    expect_debug(
+        result,
+        r#"
 Ok(
     Adjacent(
         0,
@@ -91,14 +105,17 @@ Ok(
         13
     )
 )
-"#.trim());
+"#.trim(),
+    );
 }
 
 #[test]
 fn loc_issue_90_maybe() {
     let result = Expression2Parser::new().parse("& x");
     println!("{:#?}", result);
-    expect_debug(result, r#"
+    expect_debug(
+        result,
+        r#"
 Ok(
     Upgrade(
         0,
@@ -118,14 +135,17 @@ Ok(
         3
     )
 )
-"#.trim());
+"#.trim(),
+    );
 }
 
 #[test]
 fn loc_issue_90_test1() {
     let result = Expression2Parser::new().parse("x * y");
     println!("{:#?}", result);
-    expect_debug(result, r#"
+    expect_debug(
+        result,
+        r#"
 Ok(
     Adjacent(
         0,
@@ -150,15 +170,17 @@ Ok(
         5
     )
 )
-"#.trim());
+"#.trim(),
+    );
 }
-
 
 #[test]
 fn loc_issue_90_test2() {
     let result = Expression2Parser::new().parse("(x*z) * y");
     println!("{:#?}", result);
-    expect_debug(result, r#"
+    expect_debug(
+        result,
+        r#"
 Ok(
     Adjacent(
         0,
@@ -204,6 +226,6 @@ Ok(
         9
     )
 )
-"#.trim());
+"#.trim(),
+    );
 }
-

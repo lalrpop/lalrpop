@@ -5,7 +5,7 @@
 use std::default::Default;
 use std::path;
 use style::{self, Style};
-use log::{Log, Level};
+use log::{Level, Log};
 
 // These two, ubiquitous types are defined here so that their fields can be private
 // across crate, but visible within the crate:
@@ -51,7 +51,6 @@ pub struct Session {
     pub max_errors: usize,
 
     // Styles to use when formatting error reports
-
     /// Applied to the heading in a message.
     pub heading: Style,
 
@@ -135,7 +134,8 @@ impl Session {
     }
 
     pub fn log<M>(&self, level: Level, message: M)
-        where M: FnOnce() -> String
+    where
+        M: FnOnce() -> String,
     {
         self.log.log(level, message)
     }

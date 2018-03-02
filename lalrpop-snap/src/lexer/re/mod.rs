@@ -12,7 +12,7 @@ pub type RegexError = Error;
 pub fn parse_literal(s: &str) -> Regex {
     match parse_regex(&regex_syntax::escape(s)) {
         Ok(v) => v,
-        Err(_) => panic!("failed to parse literal regular expression")
+        Err(_) => panic!("failed to parse literal regular expression"),
     }
 }
 
@@ -21,4 +21,3 @@ pub fn parse_regex(s: &str) -> Result<Regex, RegexError> {
     let expr = try!(Expr::parse(s));
     Ok(expr)
 }
-

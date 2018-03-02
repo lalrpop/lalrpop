@@ -8,7 +8,8 @@ pub mod horiz;
 pub mod message;
 pub mod indent;
 pub mod styled;
-#[cfg(test)] mod test;
+#[cfg(test)]
+mod test;
 pub mod text;
 pub mod vert;
 pub mod wrap;
@@ -26,8 +27,10 @@ pub trait Content: Debug {
     fn emit_to_canvas(&self, min_width: usize) -> AsciiCanvas {
         let computed_min = self.min_width();
         let min_width = cmp::max(min_width, computed_min);
-        debug!("emit_to_canvas: min_width={} computed_min={} self={:#?}",
-               min_width, computed_min, self);
+        debug!(
+            "emit_to_canvas: min_width={} computed_min={} self={:#?}",
+            min_width, computed_min, self
+        );
         let mut canvas = AsciiCanvas::new(0, min_width);
         self.emit(&mut canvas);
         canvas
@@ -35,13 +38,14 @@ pub trait Content: Debug {
 
     /// Emit at a particular upper-left corner, returning the
     /// lower-right corner that was emitted.
-    fn emit_at(&self,
-               view: &mut AsciiView,
-               row: usize,
-               column: usize)
-               -> (usize, usize) {
-        debug!("emit_at({},{}) self={:?} min_width={:?}",
-               row, column, self, self.min_width());
+    fn emit_at(&self, view: &mut AsciiView, row: usize, column: usize) -> (usize, usize) {
+        debug!(
+            "emit_at({},{}) self={:?} min_width={:?}",
+            row,
+            column,
+            self,
+            self.min_width()
+        );
         let mut shifted_view = view.shift(row, column);
         self.emit(&mut shifted_view);
         let (r, c) = shifted_view.close();
@@ -57,18 +61,19 @@ pub trait Content: Debug {
 /// those with `op`, appending the final result into `wrap_items`.
 /// Useful for "modifier" content items like `Styled` that do not
 /// affect wrapping.
-fn into_wrap_items_map<OP,C>(content: Box<Content>,
-                             wrap_items: &mut Vec<Box<Content>>,
-                             op: OP)
-    where OP: FnMut(Box<Content>) -> C,
-          C: Content + 'static,
+fn into_wrap_items_map<OP, C>(content: Box<Content>, wrap_items: &mut Vec<Box<Content>>, op: OP)
+where
+    OP: FnMut(Box<Content>) -> C,
+    C: Content + 'static,
 {
     let mut subvector = vec![];
     content.into_wrap_items(&mut subvector);
     wrap_items.extend(
-        subvector.into_iter()
-                 .map(op)
-                 .map(|item| Box::new(item) as Box<Content>));
+        subvector
+            .into_iter()
+            .map(op)
+            .map(|item| Box::new(item) as Box<Content>),
+    );
 }
 
 pub use self::message::Message;

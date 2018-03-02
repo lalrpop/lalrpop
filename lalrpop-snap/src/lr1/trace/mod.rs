@@ -1,4 +1,4 @@
-use collections::{Set, set};
+use collections::{set, Set};
 use lr1::core::*;
 use lr1::first::FirstSets;
 use lr1::state_graph::StateGraph;
@@ -17,9 +17,7 @@ pub struct Tracer<'trace, 'grammar: 'trace> {
 }
 
 impl<'trace, 'grammar> Tracer<'trace, 'grammar> {
-    pub fn new(first_sets: &'trace FirstSets,
-               states: &'trace [LR1State<'grammar>])
-               -> Self {
+    pub fn new(first_sets: &'trace FirstSets, states: &'trace [LR1State<'grammar>]) -> Self {
         Tracer {
             states: states,
             first_sets: first_sets,

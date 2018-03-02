@@ -24,10 +24,17 @@ pub mod calculator2b;
 
 #[test]
 fn calculator2b() {
-    assert_eq!(calculator2b::TermParser::new().parse("33").unwrap(), "33");
-    assert_eq!(calculator2b::TermParser::new().parse("foo33").unwrap(), "Id(foo33)");
-    assert_eq!(calculator2b::TermParser::new().parse("(22)").unwrap(), "Twenty-two!");
-    assert_eq!(calculator2b::TermParser::new().parse("(222)").unwrap(), "222");
+    let result = calculator2b::TermParser::new().parse("33").unwrap();
+    assert_eq!(result, "33");
+
+    let result = calculator2b::TermParser::new().parse("foo33").unwrap();
+    assert_eq!(result, "Id(foo33)");
+
+    let result = calculator2b::TermParser::new().parse("(22)").unwrap();
+    assert_eq!(result, "Twenty-two!");
+
+    let result = calculator2b::TermParser::new().parse("(222)").unwrap();
+    assert_eq!(result, "222");
 }
 
 pub mod calculator3;
@@ -54,24 +61,38 @@ pub mod ast;
 
 #[test]
 fn calculator4() {
-    assert_eq!(&format!("{:?}", calculator4::ExprParser::new().parse("22 * 44 + 66").unwrap()),
-               "((22 * 44) + 66)");
+    let expr = calculator4::ExprParser::new()
+        .parse("22 * 44 + 66")
+        .unwrap();
+    assert_eq!(&format!("{:?}", expr), "((22 * 44) + 66)");
 }
 
 pub mod calculator5;
 
 #[test]
 fn calculator5() {
-    assert_eq!(&format!("{:?}", calculator5::ExprsParser::new().parse("").unwrap()),
-               "[]");
-    assert_eq!(&format!("{:?}", calculator5::ExprsParser::new().parse("22 * 44 + 66").unwrap()),
-               "[((22 * 44) + 66)]");
-    assert_eq!(&format!("{:?}", calculator5::ExprsParser::new().parse("22 * 44 + 66,").unwrap()),
-               "[((22 * 44) + 66)]");
-    assert_eq!(&format!("{:?}", calculator5::ExprsParser::new().parse("22 * 44 + 66, 13*3").unwrap()),
-               "[((22 * 44) + 66), (13 * 3)]");
-    assert_eq!(&format!("{:?}", calculator5::ExprsParser::new().parse("22 * 44 + 66, 13*3,").unwrap()),
-               "[((22 * 44) + 66), (13 * 3)]");
+    let expr = calculator5::ExprsParser::new().parse("").unwrap();
+    assert_eq!(&format!("{:?}", expr), "[]");
+
+    let expr = calculator5::ExprsParser::new()
+        .parse("22 * 44 + 66")
+        .unwrap();
+    assert_eq!(&format!("{:?}", expr), "[((22 * 44) + 66)]");
+
+    let expr = calculator5::ExprsParser::new()
+        .parse("22 * 44 + 66,")
+        .unwrap();
+    assert_eq!(&format!("{:?}", expr), "[((22 * 44) + 66)]");
+
+    let expr = calculator5::ExprsParser::new()
+        .parse("22 * 44 + 66, 13*3")
+        .unwrap();
+    assert_eq!(&format!("{:?}", expr), "[((22 * 44) + 66), (13 * 3)]");
+
+    let expr = calculator5::ExprsParser::new()
+        .parse("22 * 44 + 66, 13*3,")
+        .unwrap();
+    assert_eq!(&format!("{:?}", expr), "[((22 * 44) + 66), (13 * 3)]");
 }
 
 pub mod calculator6;
@@ -79,12 +100,21 @@ pub mod calculator6;
 #[test]
 fn calculator6() {
     let mut errors = Vec::new();
-    assert_eq!(&format!("{:?}", calculator6::ExprsParser::new().parse(&mut errors, "22 * + 3").unwrap()),
-               "[((22 * error) + 3)]");
-    assert_eq!(&format!("{:?}", calculator6::ExprsParser::new().parse(&mut errors, "22 * 44 + 66, *3").unwrap()),
-               "[((22 * 44) + 66), (error * 3)]");
-    assert_eq!(&format!("{:?}", calculator6::ExprsParser::new().parse(&mut errors, "*").unwrap()),
-               "[(error * error)]");
+
+    let expr = calculator6::ExprsParser::new()
+        .parse(&mut errors, "22 * + 3")
+        .unwrap();
+    assert_eq!(&format!("{:?}", expr), "[((22 * error) + 3)]");
+
+    let expr = calculator6::ExprsParser::new()
+        .parse(&mut errors, "22 * 44 + 66, *3")
+        .unwrap();
+    assert_eq!(&format!("{:?}", expr), "[((22 * 44) + 66), (error * 3)]");
+
+    let expr = calculator6::ExprsParser::new()
+        .parse(&mut errors, "*")
+        .unwrap();
+    assert_eq!(&format!("{:?}", expr), "[(error * error)]");
 
     assert_eq!(errors.len(), 4);
 }

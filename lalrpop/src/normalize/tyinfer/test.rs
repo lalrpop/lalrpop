@@ -29,22 +29,22 @@ fn compare(g1: &str, expected: Vec<(&'static str, &'static str)>) {
 
 #[test]
 fn test_pairs_and_tokens() {
-    compare(r#"
+    compare(
+        r#"
 grammar;
     extern { enum Tok { "Hi" => Hi(..), "Ho" => Ho(..) } }
     X = Y Z;
     Y: Foo = "Hi";
     Z = "Ho";
-"#, vec![
-    ("X", "(Foo, Tok)"),
-    ("Y", "Foo"),
-    ("Z", "Tok")
-        ])
+"#,
+        vec![("X", "(Foo, Tok)"), ("Y", "Foo"), ("Z", "Tok")],
+    )
 }
 
 #[test]
 fn test_cycle_direct() {
-    let grammar = parser::parse_grammar(r#"
+    let grammar = parser::parse_grammar(
+        r#"
 grammar;
     extern { enum Tok { "Hi" => Hi(..), "Ho" => Ho(..) } }
     X = {
@@ -52,7 +52,8 @@ grammar;
         <Y> => vec![<>]
     };
     Y = "Hi";
-"#).unwrap();
+"#,
+    ).unwrap();
 
     let actual = expand_macros(grammar).unwrap();
     assert!(infer_types(&actual).is_err());
@@ -60,14 +61,16 @@ grammar;
 
 #[test]
 fn test_cycle_indirect() {
-    let grammar = parser::parse_grammar(r#"
+    let grammar = parser::parse_grammar(
+        r#"
 grammar;
     extern { enum Tok { } }
     A = B;
     B = C;
     C = D;
     D = A;
-"#).unwrap();
+"#,
+    ).unwrap();
 
     let actual = expand_macros(grammar).unwrap();
     assert!(infer_types(&actual).is_err());
@@ -75,88 +78,94 @@ grammar;
 
 #[test]
 fn test_macro_expansion() {
-    compare(r#"
+    compare(
+        r#"
 grammar;
     extern { enum Tok { "Id" => Id(..) } }
     Two<X>: (X, X) = X X;
     Ids = Two<"Id">;
-"#, vec![
-    ("Ids", "(Tok, Tok)"),
-    (r#"Two<"Id">"#, "(Tok, Tok)"),
-        ])
+"#,
+        vec![("Ids", "(Tok, Tok)"), (r#"Two<"Id">"#, "(Tok, Tok)")],
+    )
 }
 
 #[test]
 fn test_macro_expansion_infer() {
-    compare(r#"
+    compare(
+        r#"
 grammar;
     extern { enum Tok { "Id" => Id(..) } }
     Two<X> = X X;
     Ids = Two<"Id">;
-"#, vec![
-    ("Ids", "(Tok, Tok)"),
-    (r#"Two<"Id">"#, "(Tok, Tok)"),
-        ])
+"#,
+        vec![("Ids", "(Tok, Tok)"), (r#"Two<"Id">"#, "(Tok, Tok)")],
+    )
 }
 
 #[test]
 fn test_type_question() {
-    compare(r#"
+    compare(
+        r#"
 grammar;
     extern { enum Tok { "Hi" => Hi(..) } }
     X = Y?;
     Y = "Hi";
-"#,vec![
-    ("X", "::std::option::Option<Tok>"),
-    ("Y", "Tok")
-        ])
+"#,
+        vec![("X", "::std::option::Option<Tok>"), ("Y", "Tok")],
+    )
 }
 
 #[test]
 fn test_star_plus_question() {
-    compare(r#"
+    compare(
+        r#"
 grammar;
     extern { enum Tok { "Hi" => Hi(..) } }
     A = Z*;
     X = "Hi"*;
     Y = "Hi"+;
     Z = "Hi"?;
-"#, vec![
-    ("A", "::std::vec::Vec<::std::option::Option<Tok>>"),
-    ("X", "::std::vec::Vec<Tok>"),
-    ("Y", "::std::vec::Vec<Tok>"),
-    ("Z", "::std::option::Option<Tok>")
-        ])
+"#,
+        vec![
+            ("A", "::std::vec::Vec<::std::option::Option<Tok>>"),
+            ("X", "::std::vec::Vec<Tok>"),
+            ("Y", "::std::vec::Vec<Tok>"),
+            ("Z", "::std::option::Option<Tok>"),
+        ],
+    )
 }
 
 #[test]
 fn test_lookahead() {
-    compare(r#"
+    compare(
+        r#"
 grammar;
     extern { type Location = usize; enum Tok { } }
     A = @L;
-"#, vec![
-    ("A", "usize"),
-        ])
+"#,
+        vec![("A", "usize")],
+    )
 }
 
 #[test]
 fn test_spanned_macro() {
-    compare(r#"
+    compare(
+        r#"
         grammar;
         extern { type Location = usize; enum Tok { "Foo" => Foo(..) } }
         A = Spanned<"Foo">;
         Spanned<T> = {
             @L T @R
         };
-"#, vec![
-    ("A", "(usize, Tok, usize)"),
-        ])
+"#,
+        vec![("A", "(usize, Tok, usize)")],
+    )
 }
 
 #[test]
 fn test_action() {
-    compare(r#"
+    compare(
+        r#"
 grammar;
     extern { enum Tok { "+" => .., "foo" => .. } }
 
@@ -166,15 +175,15 @@ grammar;
     };
 
     Y: i32 = "foo" => 22;
-"#,vec![
-    ("X", "i32"),
-    ("Y", "i32"),
-        ])
+"#,
+        vec![("X", "i32"), ("Y", "i32")],
+    )
 }
 
 #[test]
 fn test_inconsistent_action() {
-    let grammar = parser::parse_grammar(r#"
+    let grammar = parser::parse_grammar(
+        r#"
 grammar;
     extern { enum Tok { "+" => .., "foo" => .., "bar" => .. } }
 
@@ -187,7 +196,8 @@ grammar;
     Y: i32 = "foo" => 22;
 
     Z: u32 = "bar" => 22;
-"#).unwrap();
+"#,
+    ).unwrap();
 
     let actual = expand_macros(grammar).unwrap();
     assert!(infer_types(&actual).is_err());
@@ -195,31 +205,39 @@ grammar;
 
 #[test]
 fn custom_token() {
-    compare(r#"
+    compare(
+        r#"
 grammar;
 extern { enum Tok { N => N(<u32>) } }
 A = N;
-"#, vec![
-    ("A", "u32")
-        ])
+"#,
+        vec![("A", "u32")],
+    )
 }
 
 #[test]
 fn intern_token() {
-    compare(r#"
+    compare(
+        r#"
 grammar;
     Z = @L "Ho" @R;
-"#, vec![
-    ("Z", "(usize, &'input str, usize)")
-        ])
+"#,
+        vec![("Z", "(usize, &'input str, usize)")],
+    )
 }
 
 #[test]
 fn error() {
-    compare(r#"
+    compare(
+        r#"
 grammar;
     Z = !;
-"#, vec![
-    ("Z", "__lalrpop_util::ParseError<usize, Token<'input>, &'static str>")
-        ])
+"#,
+        vec![
+            (
+                "Z",
+                "__lalrpop_util::ParseError<usize, Token<'input>, &'static str>",
+            ),
+        ],
+    )
 }

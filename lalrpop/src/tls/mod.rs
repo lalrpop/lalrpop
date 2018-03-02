@@ -7,7 +7,7 @@ use std::cell::RefCell;
 use std::rc::Rc;
 
 pub struct Tls {
-    _dummy: ()
+    _dummy: (),
 }
 
 #[derive(Clone)]
@@ -30,22 +30,20 @@ impl Tls {
     #[cfg(test)]
     pub fn test_string(text: &str) -> Tls {
         use std::path::PathBuf;
-        Self::install(Rc::new(Session::test()),
-                      Rc::new(FileText::new(PathBuf::from("tmp.txt"),
-                                            String::from(text))))
+        Self::install(
+            Rc::new(Session::test()),
+            Rc::new(FileText::new(PathBuf::from("tmp.txt"), String::from(text))),
+        )
     }
 
     /// Installs `Tls` and returns a placeholder value.  When this
     /// value is dropped, the `Tls` entries will be removed. To access
     /// the values from `Tls`, call `Tls::session()` or
     /// `Tls::file_text()`.
-    pub fn install(session: Rc<Session>,
-                   file_text: Rc<FileText>)
-                   -> Tls
-    {
+    pub fn install(session: Rc<Session>, file_text: Rc<FileText>) -> Tls {
         let fields = TlsFields {
             session: session,
-            file_text: file_text
+            file_text: file_text,
         };
 
         THE_TLS_FIELDS.with(|s| {
@@ -77,4 +75,3 @@ impl Drop for Tls {
         })
     }
 }
-

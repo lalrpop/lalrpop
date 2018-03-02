@@ -11,14 +11,13 @@ mod pascal;
 
 fn main() {
     let args: Args = Docopt::new(USAGE)
-                         .and_then(|d| d.argv(env::args()).decode())
-                         .unwrap_or_else(|e| e.exit());
+        .and_then(|d| d.argv(env::args()).decode())
+        .unwrap_or_else(|e| e.exit());
 
     for input in &args.arg_inputs {
         let mut s = String::new();
         if let Err(err) = File::open(input).and_then(|mut f| f.read_to_string(&mut s)) {
-            println!("Input `{}`: I/O Error {}",
-                     input, err);
+            println!("Input `{}`: I/O Error {}", input, err);
             continue;
         }
 

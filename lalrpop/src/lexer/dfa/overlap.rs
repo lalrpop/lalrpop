@@ -41,16 +41,16 @@ pub fn remove_overlap(ranges: &Set<Test>) -> Vec<Test> {
     disjoint_ranges
 }
 
-fn add_range(range: Test,
-             start_index: usize,
-             disjoint_ranges: &mut Vec<Test>)
-{
+fn add_range(range: Test, start_index: usize, disjoint_ranges: &mut Vec<Test>) {
     if range.is_empty() {
         return;
     }
 
     // Find first overlapping range in `disjoint_ranges`, if any.
-    match disjoint_ranges[start_index..].iter().position(|r| r.intersects(range)) {
+    match disjoint_ranges[start_index..]
+        .iter()
+        .position(|r| r.intersects(range))
+    {
         Some(index) => {
             let index = index + start_index;
             let overlapping_range = disjoint_ranges[index];
@@ -67,9 +67,18 @@ fn add_range(range: Test,
             let mid_min = cmp::max(range.start, overlapping_range.start);
             let mid_max = cmp::min(range.end, overlapping_range.end);
             let max_max = cmp::max(range.end, overlapping_range.end);
-            let low_range = Test { start: min_min, end: mid_min };
-            let mid_range = Test { start: mid_min, end: mid_max };
-            let max_range = Test { start: mid_max, end: max_max };
+            let low_range = Test {
+                start: min_min,
+                end: mid_min,
+            };
+            let mid_range = Test {
+                start: mid_min,
+                end: mid_max,
+            };
+            let max_range = Test {
+                start: mid_max,
+                end: max_max,
+            };
 
             assert!(low_range.is_disjoint(mid_range));
             assert!(low_range.is_disjoint(max_range));

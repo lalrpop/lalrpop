@@ -4,7 +4,8 @@ use grammar::repr::*;
 use super::Tracer;
 use super::trace_graph::*;
 
-#[cfg(test)] mod test;
+#[cfg(test)]
+mod test;
 
 /// A backtrace explaining how a particular shift:
 ///
@@ -36,17 +37,19 @@ use super::trace_graph::*;
 /// optional.
 
 impl<'trace, 'grammar> Tracer<'trace, 'grammar> {
-    pub fn backtrace_shift(mut self,
-                           item_state: StateIndex,
-                           item: LR0Item<'grammar>)
-                           -> TraceGraph<'grammar> {
+    pub fn backtrace_shift(
+        mut self,
+        item_state: StateIndex,
+        item: LR0Item<'grammar>,
+    ) -> TraceGraph<'grammar> {
         let symbol_sets = item.symbol_sets();
 
         // The states `S`
         let pred_states = self.state_graph.trace_back(item_state, symbol_sets.prefix);
 
         // Add the edge `[X] -{...p,Token,...s}-> [X = ...p (*) Token ...s]`
-        self.trace_graph.add_edge(item.production.nonterminal.clone(), item, symbol_sets);
+        self.trace_graph
+            .add_edge(item.production.nonterminal.clone(), item, symbol_sets);
 
         for pred_state in pred_states {
             self.trace_epsilon_edges(pred_state, &item.production.nonterminal);
@@ -67,9 +70,7 @@ impl<'trace, 'grammar> Tracer<'trace, 'grammar> {
     //     Z = ...p (*) Y ...
     //
     // So search for items like Z.
-    fn trace_epsilon_edges(&mut self,
-                           item_state: StateIndex,
-                           nonterminal: &NonterminalString) // "Y"
+    fn trace_epsilon_edges(&mut self, item_state: StateIndex, nonterminal: &NonterminalString) // "Y"
     {
         if self.visited_set.insert((item_state, nonterminal.clone())) {
             for pred_item in self.states[item_state.0].items.vec.iter() {
@@ -78,15 +79,19 @@ impl<'trace, 'grammar> Tracer<'trace, 'grammar> {
                         // Add an edge:
                         //
                         //     [Z = ...p (*) Y ...s] -(...p,Y,...s)-> [Y]
-                        self.trace_graph.add_edge(pred_item,
-                                                  nonterminal.clone(),
-                                                  pred_item.symbol_sets());
+                        self.trace_graph.add_edge(
+                            pred_item,
+                            nonterminal.clone(),
+                            pred_item.symbol_sets(),
+                        );
                     } else {
                         // Trace back any incoming edges to [Z = ...p (*) Y ...].
                         let pred_nonterminal = &pred_item.production.nonterminal;
-                        self.trace_graph.add_edge(pred_nonterminal.clone(),
-                                                  nonterminal.clone(),
-                                                  pred_item.symbol_sets());
+                        self.trace_graph.add_edge(
+                            pred_nonterminal.clone(),
+                            nonterminal.clone(),
+                            pred_item.symbol_sets(),
+                        );
                         self.trace_epsilon_edges(item_state, pred_nonterminal);
                     }
                 }

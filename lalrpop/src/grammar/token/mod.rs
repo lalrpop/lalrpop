@@ -1,4 +1,4 @@
-use std::collections::{HashMap};
+use std::collections::HashMap;
 
 use grammar::parse_tree::TypeRef;
 use string_cache::DefaultAtom as Atom;
@@ -15,10 +15,7 @@ pub struct TokenDefinition {
 }
 
 impl TokenDefinition {
-    pub fn new(enum_type: TypeRef,
-               token_map: Vec<(Atom, Atom)>)
-               -> TokenDefinition
-    {
+    pub fn new(enum_type: TypeRef, token_map: Vec<(Atom, Atom)>) -> TokenDefinition {
         TokenDefinition {
             enum_type: enum_type,
             token_map: token_map.into_iter().collect(),

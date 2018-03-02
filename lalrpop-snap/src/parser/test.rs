@@ -15,18 +15,20 @@ fn match_block() {
     ];
 
     for block in blocks {
-        let parsed = parser::parse_grammar(&block).expect(format!("Invalid grammar; grammar={}", block).as_str());
+        let parsed = parser::parse_grammar(&block)
+            .expect(format!("Invalid grammar; grammar={}", block).as_str());
         let first_item = parsed.items.first().expect("has item");
         match *first_item {
             GrammarItem::MatchToken(_) => (), // OK
-            _ => panic!("expected MatchToken, but was {:?}", first_item)
+            _ => panic!("expected MatchToken, but was {:?}", first_item),
         }
     }
 }
 
 #[test]
 fn match_complex() {
-    let parsed = parser::parse_grammar(r#"
+    let parsed = parser::parse_grammar(
+        r#"
         grammar;
         match {
             r"(?i)begin" => "BEGIN",
@@ -37,7 +39,8 @@ fn match_complex() {
             "other",
             _
         }
-"#).unwrap();
+"#,
+    ).unwrap();
 
     // We could probably make some nice system for testing this
     let first_item = parsed.items.first().expect("has item");
@@ -51,8 +54,8 @@ fn match_complex() {
                 MatchItem::Mapped(ref sym, ref mapping, _) => {
                     assert_eq!(format!("{:?}", sym), "r#\"(?i)begin\"#");
                     assert_eq!(format!("{}", mapping), "\"BEGIN\"");
-                },
-                _ => panic!("expected MatchItem::Mapped, but was: {:?}", item00)
+                }
+                _ => panic!("expected MatchItem::Mapped, but was: {:?}", item00),
             };
             // r"(?i)end" => "END",
             let item01 = contents0.items.get(1).unwrap();
@@ -60,8 +63,8 @@ fn match_complex() {
                 MatchItem::Mapped(ref sym, ref mapping, _) => {
                     assert_eq!(format!("{:?}", sym), "r#\"(?i)end\"#");
                     assert_eq!(format!("{}", mapping), "\"END\"");
-                },
-                _ => panic!("expected MatchItem::Mapped, but was: {:?}", item00)
+                }
+                _ => panic!("expected MatchItem::Mapped, but was: {:?}", item00),
             };
             // else { ... }
             let contents1 = data.contents.get(1).unwrap();
@@ -71,8 +74,8 @@ fn match_complex() {
                 MatchItem::Mapped(ref sym, ref mapping, _) => {
                     assert_eq!(format!("{:?}", sym), "r#\"[a-zA-Z_][a-zA-Z0-9_]*\"#");
                     assert_eq!(format!("{}", mapping), "IDENTIFIER");
-                },
-                _ => panic!("expected MatchItem::Mapped, but was: {:?}", item10)
+                }
+                _ => panic!("expected MatchItem::Mapped, but was: {:?}", item10),
             };
             // else { ... }
             let contents2 = data.contents.get(2).unwrap();
@@ -81,16 +84,16 @@ fn match_complex() {
             match *item20 {
                 MatchItem::Unmapped(ref sym, _) => {
                     assert_eq!(format!("{:?}", sym), "\"other\"");
-                },
-                _ => panic!("expected MatchItem::Unmapped, but was: {:?}", item20)
+                }
+                _ => panic!("expected MatchItem::Unmapped, but was: {:?}", item20),
             };
             // _
             let item21 = contents2.items.get(1).unwrap();
             match *item21 {
                 MatchItem::CatchAll(_) => (),
-                _ => panic!("expected MatchItem::CatchAll, but was: {:?}", item20)
+                _ => panic!("expected MatchItem::CatchAll, but was: {:?}", item20),
             };
         }
-        _ => panic!("expected MatchToken, but was: {:?}", first_item)
+        _ => panic!("expected MatchToken, but was: {:?}", first_item),
     }
 }

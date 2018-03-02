@@ -4,12 +4,15 @@ use super::*;
 #[derive(Debug)]
 pub struct Indent {
     amount: usize,
-    content: Box<Content>
+    content: Box<Content>,
 }
 
 impl Indent {
     pub fn new(amount: usize, content: Box<Content>) -> Self {
-        Indent { amount: amount, content: content }
+        Indent {
+            amount: amount,
+            content: content,
+        }
     }
 }
 

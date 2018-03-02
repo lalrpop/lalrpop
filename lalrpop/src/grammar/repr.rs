@@ -5,22 +5,15 @@
  */
 
 use string_cache::DefaultAtom as Atom;
-use grammar::pattern::{Pattern};
+use grammar::pattern::Pattern;
 use message::Content;
-use std::fmt::{Debug, Display, Formatter, Error};
+use std::fmt::{Debug, Display, Error, Formatter};
 use collections::{map, Map};
 use util::Sep;
 
 // These concepts we re-use wholesale
-pub use grammar::parse_tree::{Annotation,
-                              InternToken,
-                              NonterminalString,
-                              Path,
-                              Span,
-                              TerminalLiteral,
-                              TerminalString,
-                              TypeParameter,
-                              Visibility,
+pub use grammar::parse_tree::{Annotation, InternToken, NonterminalString, Path, Span,
+                              TerminalLiteral, TerminalString, TypeParameter, Visibility,
                               WhereClause};
 
 #[derive(Clone, Debug)]
@@ -58,7 +51,6 @@ pub struct Grammar {
     pub intern_token: Option<InternToken>,
 
     // the grammar proper:
-
     pub action_fn_defns: Vec<ActionFnDefn>,
     pub terminals: TerminalSet,
     pub nonterminals: Map<NonterminalString, NonterminalData>,
@@ -157,7 +149,7 @@ pub struct InlineActionFnDefn {
     pub action: ActionFn,
 
     /// in the example above, this would be `Y, {action44: B, C, D}, Z`
-    pub symbols: Vec<InlinedSymbol>
+    pub symbols: Vec<InlinedSymbol>,
 }
 
 #[derive(Clone, Debug, PartialEq, Eq)]
@@ -199,14 +191,14 @@ impl TypeRepr {
     pub fn usize() -> TypeRepr {
         TypeRepr::Nominal(NominalTypeRepr {
             path: Path::usize(),
-            types: vec![]
+            types: vec![],
         })
     }
 
     pub fn str() -> TypeRepr {
         TypeRepr::Nominal(NominalTypeRepr {
             path: Path::str(),
-            types: vec![]
+            types: vec![],
         })
     }
 
@@ -217,25 +209,28 @@ impl TypeRepr {
     /// only those that are actually used are included.
     pub fn referenced(&self) -> Vec<TypeParameter> {
         match *self {
-            TypeRepr::Tuple(ref tys) =>
-                tys.iter().flat_map(|t| t.referenced()).collect(),
-            TypeRepr::Nominal(ref data) =>
-                data.types.iter()
-                          .flat_map(|t| t.referenced())
-                          .chain(match data.path.as_id() {
-                              Some(id) => vec![TypeParameter::Id(id)],
-                              None => vec![],
-                          })
-                          .collect(),
-            TypeRepr::Associated { ref type_parameter, .. } =>
-                vec![TypeParameter::Id(type_parameter.clone())],
-            TypeRepr::Lifetime(ref l) =>
-                vec![TypeParameter::Lifetime(l.clone())],
-            TypeRepr::Ref { ref lifetime, mutable: _, ref referent } =>
-                lifetime.iter()
-                        .map(|id| TypeParameter::Lifetime(id.clone()))
-                        .chain(referent.referenced())
-                        .collect(),
+            TypeRepr::Tuple(ref tys) => tys.iter().flat_map(|t| t.referenced()).collect(),
+            TypeRepr::Nominal(ref data) => data.types
+                .iter()
+                .flat_map(|t| t.referenced())
+                .chain(match data.path.as_id() {
+                    Some(id) => vec![TypeParameter::Id(id)],
+                    None => vec![],
+                })
+                .collect(),
+            TypeRepr::Associated {
+                ref type_parameter, ..
+            } => vec![TypeParameter::Id(type_parameter.clone())],
+            TypeRepr::Lifetime(ref l) => vec![TypeParameter::Lifetime(l.clone())],
+            TypeRepr::Ref {
+                ref lifetime,
+                mutable: _,
+                ref referent,
+            } => lifetime
+                .iter()
+                .map(|id| TypeParameter::Lifetime(id.clone()))
+                .chain(referent.referenced())
+                .collect(),
         }
     }
 }
@@ -243,7 +238,7 @@ impl TypeRepr {
 #[derive(Clone, PartialEq, Eq, PartialOrd, Ord)]
 pub struct NominalTypeRepr {
     pub path: Path,
-    pub types: Vec<TypeRepr>
+    pub types: Vec<TypeRepr>,
 }
 
 #[derive(Clone, Debug)]
@@ -258,42 +253,51 @@ pub struct Types {
 }
 
 impl Types {
-    pub fn new(prefix: &str,
-               terminal_loc_type: Option<TypeRepr>,
-               error_type: Option<TypeRepr>,
-               terminal_token_type: TypeRepr)
-               -> Types {
-        let mut types = Types { terminal_loc_type: terminal_loc_type,
-                error_type: error_type,
-                terminal_token_type: terminal_token_type,
-                terminal_types: map(),
-                nonterminal_types: map(),
-                // the following two will be overwritten later
-                parse_error_type: TypeRepr::Tuple(vec![]),
-                error_recovery_type: TypeRepr::Tuple(vec![]) };
+    pub fn new(
+        prefix: &str,
+        terminal_loc_type: Option<TypeRepr>,
+        error_type: Option<TypeRepr>,
+        terminal_token_type: TypeRepr,
+    ) -> Types {
+        let mut types = Types {
+            terminal_loc_type: terminal_loc_type,
+            error_type: error_type,
+            terminal_token_type: terminal_token_type,
+            terminal_types: map(),
+            nonterminal_types: map(),
+            // the following two will be overwritten later
+            parse_error_type: TypeRepr::Tuple(vec![]),
+            error_recovery_type: TypeRepr::Tuple(vec![]),
+        };
 
         let args = vec![
             types.terminal_loc_type().clone(),
             types.terminal_token_type().clone(),
-            types.error_type()
+            types.error_type(),
         ];
         types.parse_error_type = TypeRepr::Nominal(NominalTypeRepr {
             path: Path {
                 absolute: false,
-                ids: vec![Atom::from(format!("{}lalrpop_util", prefix)),
-                          Atom::from("ParseError")],
+                ids: vec![
+                    Atom::from(format!("{}lalrpop_util", prefix)),
+                    Atom::from("ParseError"),
+                ],
             },
             types: args.clone(),
         });
         types.error_recovery_type = TypeRepr::Nominal(NominalTypeRepr {
             path: Path {
                 absolute: false,
-                ids: vec![Atom::from(format!("{}lalrpop_util", prefix)),
-                          Atom::from("ErrorRecovery")],
+                ids: vec![
+                    Atom::from(format!("{}lalrpop_util", prefix)),
+                    Atom::from("ErrorRecovery"),
+                ],
             },
             types: args,
         });
-        types.terminal_types.insert(TerminalString::Error, types.error_recovery_type.clone());
+        types
+            .terminal_types
+            .insert(TerminalString::Error, types.error_recovery_type.clone());
         types
     }
 
@@ -314,27 +318,27 @@ impl Types {
     }
 
     pub fn terminal_loc_type(&self) -> TypeRepr {
-        self.terminal_loc_type.clone()
-                              .unwrap_or_else(|| TypeRepr::Tuple(vec![]))
+        self.terminal_loc_type
+            .clone()
+            .unwrap_or_else(|| TypeRepr::Tuple(vec![]))
     }
 
     pub fn error_type(&self) -> TypeRepr {
-        self.error_type.clone()
-                       .unwrap_or_else(|| TypeRepr::Ref {
-                               lifetime: Some(Atom::from("'static")),
-                               mutable: false,
-                               referent: Box::new(TypeRepr::str()),
-                       })
+        self.error_type.clone().unwrap_or_else(|| TypeRepr::Ref {
+            lifetime: Some(Atom::from("'static")),
+            mutable: false,
+            referent: Box::new(TypeRepr::str()),
+        })
     }
 
     pub fn terminal_type(&self, id: &TerminalString) -> &TypeRepr {
-        self.terminal_types.get(&id).unwrap_or(&self.terminal_token_type)
+        self.terminal_types
+            .get(&id)
+            .unwrap_or(&self.terminal_token_type)
     }
 
     pub fn terminal_types(&self) -> Vec<TypeRepr> {
-        self.terminal_types.values()
-                           .cloned()
-                           .collect()
+        self.terminal_types.values().cloned().collect()
     }
 
     pub fn lookup_nonterminal_type(&self, id: &NonterminalString) -> Option<&TypeRepr> {
@@ -346,9 +350,7 @@ impl Types {
     }
 
     pub fn nonterminal_types(&self) -> Vec<TypeRepr> {
-        self.nonterminal_types.values()
-                              .cloned()
-                              .collect()
+        self.nonterminal_types.values().cloned().collect()
     }
 
     pub fn parse_error_type(&self) -> &TypeRepr {
@@ -365,9 +367,7 @@ impl Types {
     /// is the argument.
     pub fn spanned_type(&self, ty: TypeRepr) -> TypeRepr {
         let location_type = self.terminal_loc_type();
-        TypeRepr::Tuple(vec![location_type.clone(),
-                             ty,
-                             location_type])
+        TypeRepr::Tuple(vec![location_type.clone(), ty, location_type])
     }
 }
 
@@ -380,22 +380,33 @@ impl Display for Parameter {
 impl Display for TypeRepr {
     fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
         match *self {
-            TypeRepr::Tuple(ref types) =>
-                write!(fmt, "({})", Sep(", ", types)),
-            TypeRepr::Nominal(ref data) =>
-                write!(fmt, "{}", data),
-            TypeRepr::Associated { ref type_parameter, ref id } =>
-                write!(fmt, "{}::{}", type_parameter, id),
-            TypeRepr::Lifetime(ref id) =>
-                write!(fmt, "{}", id),
-            TypeRepr::Ref { lifetime: None, mutable: false, ref referent } =>
-                write!(fmt, "&{}", referent),
-            TypeRepr::Ref { lifetime: Some(ref l), mutable: false, ref referent } =>
-                write!(fmt, "&{} {}", l, referent),
-            TypeRepr::Ref { lifetime: None, mutable: true, ref referent } =>
-                write!(fmt, "&mut {}", referent),
-            TypeRepr::Ref { lifetime: Some(ref l), mutable: true, ref referent } =>
-                write!(fmt, "&{} mut {}", l, referent),
+            TypeRepr::Tuple(ref types) => write!(fmt, "({})", Sep(", ", types)),
+            TypeRepr::Nominal(ref data) => write!(fmt, "{}", data),
+            TypeRepr::Associated {
+                ref type_parameter,
+                ref id,
+            } => write!(fmt, "{}::{}", type_parameter, id),
+            TypeRepr::Lifetime(ref id) => write!(fmt, "{}", id),
+            TypeRepr::Ref {
+                lifetime: None,
+                mutable: false,
+                ref referent,
+            } => write!(fmt, "&{}", referent),
+            TypeRepr::Ref {
+                lifetime: Some(ref l),
+                mutable: false,
+                ref referent,
+            } => write!(fmt, "&{} {}", l, referent),
+            TypeRepr::Ref {
+                lifetime: None,
+                mutable: true,
+                ref referent,
+            } => write!(fmt, "&mut {}", referent),
+            TypeRepr::Ref {
+                lifetime: Some(ref l),
+                mutable: true,
+                ref referent,
+            } => write!(fmt, "&{} mut {}", l, referent),
         }
     }
 }
@@ -477,9 +488,13 @@ impl Into<Box<Content>> for Symbol {
 
 impl Debug for Production {
     fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
-        write!(fmt,
-               "{} = {} => {:?};",
-               self.nonterminal, Sep(", ", &self.symbols), self.action)
+        write!(
+            fmt,
+            "{} = {} => {:?};",
+            self.nonterminal,
+            Sep(", ", &self.symbols),
+            self.action,
+        )
     }
 }
 
@@ -501,32 +516,38 @@ impl ActionFnDefn {
 
 impl UserActionFnDefn {
     fn to_fn_string(&self, defn: &ActionFnDefn, name: &str) -> String {
-        let arg_strings: Vec<String> =
-               self.arg_patterns
-                   .iter()
-                   .zip(self.arg_types.iter())
-                   .map(|(p, t)| format!("{}: {}", p, t))
-                   .collect();
+        let arg_strings: Vec<String> = self.arg_patterns
+            .iter()
+            .zip(self.arg_types.iter())
+            .map(|(p, t)| format!("{}: {}", p, t))
+            .collect();
 
-        format!("fn {}({}) -> {} {{ {} }}",
-                name, Sep(", ", &arg_strings), defn.ret_type, self.code)
+        format!(
+            "fn {}({}) -> {} {{ {} }}",
+            name,
+            Sep(", ", &arg_strings),
+            defn.ret_type,
+            self.code,
+        )
     }
 }
 
 impl InlineActionFnDefn {
     fn to_fn_string(&self, name: &str) -> String {
-        let arg_strings: Vec<String> =
-               self.symbols
-                   .iter()
-                   .map(|inline_sym| match *inline_sym {
-                       InlinedSymbol::Original(ref s) =>
-                           format!("{}", s),
-                       InlinedSymbol::Inlined(a, ref s) =>
-                           format!("{:?}({})", a, Sep(", ", s)),
-                   })
-                   .collect();
+        let arg_strings: Vec<String> = self.symbols
+            .iter()
+            .map(|inline_sym| match *inline_sym {
+                InlinedSymbol::Original(ref s) => format!("{}", s),
+                InlinedSymbol::Inlined(a, ref s) => format!("{:?}({})", a, Sep(", ", s)),
+            })
+            .collect();
 
-        format!("fn {}(..) {{ {:?}({}) }}", name, self.action, Sep(", ", &arg_strings))
+        format!(
+            "fn {}(..) {{ {:?}({}) }}",
+            name,
+            self.action,
+            Sep(", ", &arg_strings),
+        )
     }
 }
 

@@ -7,24 +7,28 @@ use super::inline_order;
 
 #[test]
 fn test_inline_self_cycle() {
-    let grammar = parser::parse_grammar(r#"
+    let grammar = parser::parse_grammar(
+        r#"
     grammar;
     extern { }
     #[inline] A: () = A;
-"#).unwrap();
+"#,
+    ).unwrap();
     let grammar = lower_helper(&Session::test(), grammar, true).unwrap();
     assert!(inline_order(&grammar).is_err());
 }
 
 #[test]
 fn test_inline_cycle_3() {
-    let grammar = parser::parse_grammar(r#"
+    let grammar = parser::parse_grammar(
+        r#"
     grammar;
     extern { }
     #[inline] A: () = B;
     #[inline] B: () = C;
     #[inline] C: () = A;
-"#).unwrap();
+"#,
+    ).unwrap();
     let grammar = lower_helper(&Session::test(), grammar, true).unwrap();
     assert!(inline_order(&grammar).is_err());
 }
@@ -32,13 +36,15 @@ fn test_inline_cycle_3() {
 #[test]
 fn test_inline_order() {
     // because C references A, we inline A first.
-    let grammar = parser::parse_grammar(r#"
+    let grammar = parser::parse_grammar(
+        r#"
     grammar;
     extern { }
     #[inline] A: () = B;
     B: () = C;
     #[inline] C: () = A;
-"#).unwrap();
+"#,
+    ).unwrap();
     let grammar = lower_helper(&Session::test(), grammar, true).unwrap();
     let a = NonterminalString(intern("A"));
     let c = NonterminalString(intern("C"));

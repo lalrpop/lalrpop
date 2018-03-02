@@ -1,6 +1,6 @@
-use lexer::nfa::{NFA, NFAConstructionError, Noop, Other, StateKind, Test};
+use lexer::nfa::{NFAConstructionError, Noop, Other, StateKind, Test, NFA};
 use lexer::nfa::interpret::interpret;
-use lexer::re::{self};
+use lexer::re;
 
 #[test]
 fn edge_iter() {
@@ -101,34 +101,55 @@ fn captures() {
     NFA::from_re(&num).unwrap(); // non-captures are ok
 
     let num = re::parse_regex(r#"(?P<foo>aBCdeF)"#).unwrap(); // named captures are not
-    assert_eq!(NFA::from_re(&num).unwrap_err(), NFAConstructionError::NamedCaptures);
+    assert_eq!(
+        NFA::from_re(&num).unwrap_err(),
+        NFAConstructionError::NamedCaptures
+    );
 }
 
 #[test]
 fn line_boundaries() {
     let num = re::parse_regex(r#"^aBCdeF"#).unwrap();
-    assert_eq!(NFA::from_re(&num).unwrap_err(), NFAConstructionError::TextBoundary);
+    assert_eq!(
+        NFA::from_re(&num).unwrap_err(),
+        NFAConstructionError::TextBoundary
+    );
 
     let num = re::parse_regex(r#"aBCdeF$"#).unwrap();
-    assert_eq!(NFA::from_re(&num).unwrap_err(), NFAConstructionError::TextBoundary);
+    assert_eq!(
+        NFA::from_re(&num).unwrap_err(),
+        NFAConstructionError::TextBoundary
+    );
 }
 
 #[test]
 fn text_boundaries() {
     let num = re::parse_regex(r#"(?m)^aBCdeF"#).unwrap();
-    assert_eq!(NFA::from_re(&num).unwrap_err(), NFAConstructionError::LineBoundary);
+    assert_eq!(
+        NFA::from_re(&num).unwrap_err(),
+        NFAConstructionError::LineBoundary
+    );
 
     let num = re::parse_regex(r#"(?m)aBCdeF$"#).unwrap();
-    assert_eq!(NFA::from_re(&num).unwrap_err(), NFAConstructionError::LineBoundary);
+    assert_eq!(
+        NFA::from_re(&num).unwrap_err(),
+        NFAConstructionError::LineBoundary
+    );
 }
 
 #[test]
 fn word_boundaries() {
     let num = re::parse_regex(r#"\baBCdeF"#).unwrap();
-    assert_eq!(NFA::from_re(&num).unwrap_err(), NFAConstructionError::WordBoundary);
+    assert_eq!(
+        NFA::from_re(&num).unwrap_err(),
+        NFAConstructionError::WordBoundary
+    );
 
     let num = re::parse_regex(r#"aBCdeF\B"#).unwrap();
-    assert_eq!(NFA::from_re(&num).unwrap_err(), NFAConstructionError::WordBoundary);
+    assert_eq!(
+        NFA::from_re(&num).unwrap_err(),
+        NFAConstructionError::WordBoundary
+    );
 }
 
 #[test]

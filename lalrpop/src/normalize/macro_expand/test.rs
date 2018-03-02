@@ -5,18 +5,21 @@ use super::expand_macros;
 
 #[test]
 fn test_comma() {
-    let grammar = parser::parse_grammar(r#"
+    let grammar = parser::parse_grammar(
+        r#"
 grammar;
     Comma<E>: Vec<E> =
        <v:(<E> ",")*> <e:E?> =>
            v.into_iter().chain(e.into_iter()).collect();
 
     Ids = Comma<"Id">;
-"#).unwrap();
+"#,
+    ).unwrap();
 
     let actual = expand_macros(grammar).unwrap();
 
-    let expected = parser::parse_grammar(r##"
+    let expected = parser::parse_grammar(
+        r##"
 grammar;
     Ids = `Comma<"Id">`;
 
@@ -44,14 +47,16 @@ grammar;
         `(<"Id"> ",")` => vec![<>],
         <v:`(<"Id"> ",")+`> <e:`(<"Id"> ",")`> => { let mut v = v; v.push(e); v },
     };
-"##).unwrap();
+"##,
+    ).unwrap();
 
     compare(actual, expected);
 }
 
 #[test]
 fn test_if_match() {
-    let grammar = parser::parse_grammar(r#"
+    let grammar = parser::parse_grammar(
+        r#"
 grammar;
     Expr<E> = {
        "A" if E == "A*C",
@@ -63,11 +68,13 @@ grammar;
     Expr1 = Expr<"A*C">;
     Expr2 = Expr<"AAC">;
     Expr3 = Expr<"ABC">;
-"#).unwrap();
+"#,
+    ).unwrap();
 
     let actual = expand_macros(grammar).unwrap();
 
-    let expected = parser::parse_grammar(r#"
+    let expected = parser::parse_grammar(
+        r#"
 grammar;
     Expr1 = `Expr<"A*C">`;
     Expr2 = `Expr<"AAC">`;
@@ -76,25 +83,30 @@ grammar;
     `Expr<"ABC">` = { "C", "D" };
     `Expr<"AAC">` = { "B", "C" };
     `Expr<"A*C">` = { "A", "D" };
-"#).unwrap();
+"#,
+    ).unwrap();
 
     compare(actual, expected);
 }
 
 #[test]
 fn test_lookahead() {
-    let grammar = parser::parse_grammar(r#"
+    let grammar = parser::parse_grammar(
+        r#"
         grammar;
         Expr = @L;
-"#).unwrap();
+"#,
+    ).unwrap();
 
     let actual = expand_macros(grammar).unwrap();
 
-    let expected = parser::parse_grammar(r#"
+    let expected = parser::parse_grammar(
+        r#"
         grammar;
         Expr = `@L`;
         #[inline] `@L` = =>@L;
-"#).unwrap();
+"#,
+    ).unwrap();
 
     compare(actual, expected);
 }

@@ -1,11 +1,11 @@
 use ascii_canvas::AsciiView;
-use std::fmt::{Debug, Formatter, Error};
+use std::fmt::{Debug, Error, Formatter};
 use style::Style;
 use super::*;
 
 pub struct Styled {
     style: Style,
-    content: Box<Content>
+    content: Box<Content>,
 }
 
 impl Styled {
@@ -28,16 +28,14 @@ impl Content for Styled {
 
     fn into_wrap_items(self: Box<Self>, wrap_items: &mut Vec<Box<Content>>) {
         let style = self.style;
-        super::into_wrap_items_map(self.content,
-                                   wrap_items,
-                                   |item| Styled::new(style, item))
+        super::into_wrap_items_map(self.content, wrap_items, |item| Styled::new(style, item))
     }
 }
 
 impl Debug for Styled {
     fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
         fmt.debug_struct("Styled")
-           .field("content", &self.content)
-           .finish()
+            .field("content", &self.content)
+            .finish()
     }
 }

@@ -1,6 +1,6 @@
 //! First set construction and computation.
 
-use collections::{Map, map};
+use collections::{map, Map};
 use grammar::repr::*;
 use lr1::lookahead::{Token, TokenSet};
 
@@ -9,7 +9,7 @@ mod test;
 
 #[derive(Clone)]
 pub struct FirstSets {
-    map: Map<NonterminalString, TokenSet>
+    map: Map<NonterminalString, TokenSet>,
 }
 
 impl FirstSets {
@@ -18,12 +18,12 @@ impl FirstSets {
         let mut changed = true;
         while changed {
             changed = false;
-            for production in grammar.nonterminals.values()
-                                                  .flat_map(|p| &p.productions) {
+            for production in grammar.nonterminals.values().flat_map(|p| &p.productions) {
                 let nt = &production.nonterminal;
                 let lookahead = this.first0(&production.symbols);
-                let first_set =
-                    this.map.entry(nt.clone()).or_insert_with(|| TokenSet::new());
+                let first_set = this.map
+                    .entry(nt.clone())
+                    .or_insert_with(|| TokenSet::new());
                 changed |= first_set.union_with(&lookahead);
             }
         }
@@ -33,8 +33,9 @@ impl FirstSets {
     /// Returns `FIRST(...symbols)`. If `...symbols` may derive
     /// epsilon, then this returned set will include EOF. (This is
     /// kind of repurposing EOF to serve as a binary flag of sorts.)
-    pub fn first0<'s,I>(&self, symbols: I) -> TokenSet
-        where I: IntoIterator<Item=&'s Symbol>
+    pub fn first0<'s, I>(&self, symbols: I) -> TokenSet
+    where
+        I: IntoIterator<Item = &'s Symbol>,
     {
         let mut result = TokenSet::new();
 
@@ -57,18 +58,16 @@ impl FirstSets {
                             // way, the resulting first set should be
                             // empty.
                         }
-                        Some(set) => {
-                            for lookahead in set.iter() {
-                                match lookahead {
-                                    Token::EOF => {
-                                        empty_prod = true;
-                                    }
-                                    Token::Error | Token::Terminal(_) => {
-                                        result.insert(lookahead);
-                                    }
+                        Some(set) => for lookahead in set.iter() {
+                            match lookahead {
+                                Token::EOF => {
+                                    empty_prod = true;
+                                }
+                                Token::Error | Token::Terminal(_) => {
+                                    result.insert(lookahead);
                                 }
                             }
-                        }
+                        },
                     }
                     if !empty_prod {
                         return result;
@@ -83,9 +82,7 @@ impl FirstSets {
         result
     }
 
-    pub fn first1(&self, symbols: &[Symbol], lookahead: &TokenSet)
-                  -> TokenSet
-    {
+    pub fn first1(&self, symbols: &[Symbol], lookahead: &TokenSet) -> TokenSet {
         let mut set = self.first0(symbols);
 
         // we use EOF as the signal that `symbols` derives epsilon:
@@ -98,4 +95,3 @@ impl FirstSets {
         set
     }
 }
-

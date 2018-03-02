@@ -32,7 +32,7 @@
 //! because item 0 occurs only with lookahead `x` and item 1 with
 //! lookahead `y`.
 
-use collections::{Set, Map};
+use collections::{Map, Set};
 use lr1::core::*;
 use lr1::lookahead::*;
 mod test;
@@ -41,7 +41,7 @@ use super::ConflictIndex;
 
 #[derive(Clone, Debug)]
 pub struct ContextSet {
-    values: Vec<TokenSet>
+    values: Vec<TokenSet>,
 }
 
 #[derive(Debug)]
@@ -50,7 +50,7 @@ pub struct OverlappingLookahead;
 impl ContextSet {
     pub fn new(num_conflicts: usize) -> Self {
         ContextSet {
-            values: (0..num_conflicts).map(|_| TokenSet::new()).collect()
+            values: (0..num_conflicts).map(|_| TokenSet::new()).collect(),
         }
     }
 
@@ -69,7 +69,11 @@ impl ContextSet {
     ///
     /// Assuming no errors, returns `Ok(true)` if this resulted in any
     /// modifications, and `Ok(false)` otherwise.
-    pub fn insert(&mut self, conflict: ConflictIndex, set: &TokenSet) -> Result<bool, OverlappingLookahead> {
+    pub fn insert(
+        &mut self,
+        conflict: ConflictIndex,
+        set: &TokenSet,
+    ) -> Result<bool, OverlappingLookahead> {
         for (value, index) in self.values.iter().zip((0..).map(ConflictIndex::new)) {
             if index != conflict {
                 if value.is_intersecting(&set) {
@@ -81,14 +85,10 @@ impl ContextSet {
         Ok(self.values[conflict.index].union_with(&set))
     }
 
-    pub fn apply<'grammar>(&self,
-                           state: &mut LR1State<'grammar>,
-                           actions: &Set<Action<'grammar>>) {
+    pub fn apply<'grammar>(&self, state: &mut LR1State<'grammar>, actions: &Set<Action<'grammar>>) {
         // create a map from each action to its lookahead
-        let lookaheads: Map<Action<'grammar>, &TokenSet> = actions.iter()
-            .cloned()
-            .zip(&self.values)
-            .collect();
+        let lookaheads: Map<Action<'grammar>, &TokenSet> =
+            actions.iter().cloned().zip(&self.values).collect();
 
         for &mut (ref mut lookahead, production) in &mut state.reductions {
             let action = Action::Reduce(production);

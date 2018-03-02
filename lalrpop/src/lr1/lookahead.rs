@@ -2,15 +2,14 @@ use bit_set::{self, BitSet};
 use collections::Collection;
 use lr1::core::*;
 use lr1::tls::Lr1Tls;
-use std::fmt::{Debug, Formatter, Error};
+use std::fmt::{Debug, Error, Formatter};
 use std::hash::Hash;
 use grammar::repr::*;
 
-pub trait Lookahead: Clone + Debug + Eq + Ord + Hash + Collection<Item=Self> {
+pub trait Lookahead: Clone + Debug + Eq + Ord + Hash + Collection<Item = Self> {
     fn fmt_as_item_suffix(&self, fmt: &mut Formatter) -> Result<(), Error>;
 
-    fn conflicts<'grammar>(this_state: &State<'grammar, Self>)
-                           -> Vec<Conflict<'grammar, Self>>;
+    fn conflicts<'grammar>(this_state: &State<'grammar, Self>) -> Vec<Conflict<'grammar, Self>>;
 }
 
 #[derive(Copy, Clone, Debug, Default, Hash, PartialEq, Eq, PartialOrd, Ord)]
@@ -29,22 +28,23 @@ impl Lookahead for Nil {
         Ok(())
     }
 
-    fn conflicts<'grammar>(this_state: &State<'grammar, Self>)
-                           -> Vec<Conflict<'grammar, Self>> {
+    fn conflicts<'grammar>(this_state: &State<'grammar, Self>) -> Vec<Conflict<'grammar, Self>> {
         let index = this_state.index;
 
         let mut conflicts = vec![];
 
         for (terminal, &next_state) in &this_state.shifts {
             conflicts.extend(
-                this_state.reductions
-                          .iter()
-                          .map(|&(_, production)| Conflict {
-                              state: index,
-                              lookahead: Nil,
-                              production: production,
-                              action: Action::Shift(terminal.clone(), next_state),
-                          }));
+                this_state
+                    .reductions
+                    .iter()
+                    .map(|&(_, production)| Conflict {
+                        state: index,
+                        lookahead: Nil,
+                        production: production,
+                        action: Action::Shift(terminal.clone(), next_state),
+                    }),
+            );
         }
 
         if this_state.reductions.len() > 1 {
@@ -78,22 +78,20 @@ impl Lookahead for TokenSet {
         write!(fmt, " {:?}", self)
     }
 
-    fn conflicts<'grammar>(this_state: &State<'grammar, Self>)
-                           -> Vec<Conflict<'grammar, Self>> {
+    fn conflicts<'grammar>(this_state: &State<'grammar, Self>) -> Vec<Conflict<'grammar, Self>> {
         let mut conflicts = vec![];
 
         for (terminal, &next_state) in &this_state.shifts {
             let token = Token::Terminal(terminal.clone());
-            let inconsistent =
-                this_state.reductions
-                          .iter()
-                          .filter_map(|&(ref reduce_tokens, production)| {
-                              if reduce_tokens.contains(&token) {
-                                  Some(production)
-                              } else {
-                                  None
-                              }
-                          });
+            let inconsistent = this_state.reductions.iter().filter_map(
+                |&(ref reduce_tokens, production)| {
+                    if reduce_tokens.contains(&token) {
+                        Some(production)
+                    } else {
+                        None
+                    }
+                },
+            );
             let set = TokenSet::from(token.clone());
             for production in inconsistent {
                 conflicts.push(Conflict {
@@ -107,7 +105,7 @@ impl Lookahead for TokenSet {
 
         let len = this_state.reductions.len();
         for i in 0..len {
-            for j in i+1..len {
+            for j in i + 1..len {
                 let &(ref i_tokens, i_production) = &this_state.reductions[i];
                 let &(ref j_tokens, j_production) = &this_state.reductions[j];
 
@@ -132,28 +130,29 @@ impl Token {
     pub fn unwrap_terminal(&self) -> &TerminalString {
         match *self {
             Token::Terminal(ref t) => t,
-            Token::EOF | Token::Error => panic!("`unwrap_terminal()` invoked but with EOF or Error"),
+            Token::EOF | Token::Error => {
+                panic!("`unwrap_terminal()` invoked but with EOF or Error")
+            }
         }
     }
 }
 
 #[derive(Clone, Default, Hash, PartialEq, Eq, PartialOrd, Ord)]
 pub struct TokenSet {
-    bit_set: BitSet<u32>
+    bit_set: BitSet<u32>,
 }
 
-fn with<OP,RET>(op: OP) -> RET
-    where OP: FnOnce(&TerminalSet) -> RET
+fn with<OP, RET>(op: OP) -> RET
+where
+    OP: FnOnce(&TerminalSet) -> RET,
 {
     Lr1Tls::with(op)
 }
 
 impl TokenSet {
     pub fn new() -> Self {
-        with(|terminals| {
-            TokenSet {
-                bit_set: BitSet::with_capacity(terminals.all.len() + 2)
-            }
+        with(|terminals| TokenSet {
+            bit_set: BitSet::with_capacity(terminals.all.len() + 2),
         })
     }
 
@@ -161,7 +160,7 @@ impl TokenSet {
     pub fn all() -> Self {
         let mut s = TokenSet::new();
         with(|terminals| {
-            for i in 0 .. terminals.all.len() {
+            for i in 0..terminals.all.len() {
                 s.bit_set.insert(i);
             }
             s.insert_eof();
@@ -176,16 +175,14 @@ impl TokenSet {
     }
 
     fn eof_bit(&self) -> usize {
-        with(|terminals| {
-            terminals.all.len()
-        })
+        with(|terminals| terminals.all.len())
     }
 
     fn bit(&self, lookahead: &Token) -> usize {
         match *lookahead {
             Token::EOF => self.eof_bit(),
             Token::Error => self.eof_bit() + 1,
-            Token::Terminal(ref t) => with(|terminals| terminals.bits[t])
+            Token::Terminal(ref t) => with(|terminals| terminals.bits[t]),
         }
     }
 
@@ -255,18 +252,17 @@ impl<'iter> Iterator for TokenSetIter<'iter> {
     type Item = Token;
 
     fn next(&mut self) -> Option<Token> {
-        self.bit_set.next()
-                    .map(|bit| {
-                        with(|terminals| {
-                            if bit == terminals.all.len() + 1 {
-                                Token::Error
-                            } else if bit == terminals.all.len() {
-                                Token::EOF
-                            } else {
-                                Token::Terminal(terminals.all[bit].clone())
-                            }
-                        })
-                    })
+        self.bit_set.next().map(|bit| {
+            with(|terminals| {
+                if bit == terminals.all.len() + 1 {
+                    Token::Error
+                } else if bit == terminals.all.len() {
+                    Token::EOF
+                } else {
+                    Token::Terminal(terminals.all[bit].clone())
+                }
+            })
+        })
     }
 }
 

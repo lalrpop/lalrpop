@@ -24,8 +24,11 @@ pub struct BodyCharacter {
 
 impl MessageBuilder {
     pub fn new(span: Span) -> Self {
-        MessageBuilder { span: span,
-                         heading: None, body: None }
+        MessageBuilder {
+            span: span,
+            heading: None,
+            body: None,
+        }
     }
 
     pub fn heading(self) -> Builder<HeadingCharacter> {
@@ -37,9 +40,11 @@ impl MessageBuilder {
     }
 
     pub fn end(self) -> Message {
-        Message::new(self.span,
-                     self.heading.expect("never defined a heading"),
-                     self.body.expect("never defined a body"))
+        Message::new(
+            self.span,
+            self.heading.expect("never defined a heading"),
+            self.body.expect("never defined a body"),
+        )
     }
 }
 
@@ -47,8 +52,10 @@ impl Character for HeadingCharacter {
     type End = MessageBuilder;
 
     fn end(mut self, items: Vec<Box<Content>>) -> MessageBuilder {
-        assert!(self.message.heading.is_none(),
-                "already defined a heading for this message");
+        assert!(
+            self.message.heading.is_none(),
+            "already defined a heading for this message"
+        );
         self.message.heading = Some(Box::new(Vert::new(items, 1)));
         self.message
     }
@@ -58,8 +65,10 @@ impl Character for BodyCharacter {
     type End = MessageBuilder;
 
     fn end(mut self, items: Vec<Box<Content>>) -> MessageBuilder {
-        assert!(self.message.body.is_none(),
-                "already defined a body for this message");
+        assert!(
+            self.message.body.is_none(),
+            "already defined a body for this message"
+        );
         self.message.body = Some(Box::new(Vert::new(items, 2)));
         self.message
     }
@@ -136,7 +145,8 @@ impl<C: Character> Builder<C> {
     }
 
     pub fn push<I>(mut self, item: I) -> Self
-        where I: Into<Box<Content>>
+    where
+        I: Into<Box<Content>>,
     {
         self.items.push(item.into());
         self
@@ -179,9 +189,7 @@ impl<C: Character> Builder<C> {
     }
 
     pub fn begin_wrap(self) -> Builder<WrapCharacter<C>> {
-        Builder::new(WrapCharacter {
-            base: self,
-        })
+        Builder::new(WrapCharacter { base: self })
     }
 
     pub fn styled(mut self, style: Style) -> Self {
@@ -198,7 +206,7 @@ impl<C: Character> Builder<C> {
         self.indented_by(2)
     }
 
-    pub fn text<T:ToString>(self, text: T) -> Self {
+    pub fn text<T: ToString>(self, text: T) -> Self {
         self.push(Box::new(Text::new(text.to_string())))
     }
 
@@ -206,7 +214,7 @@ impl<C: Character> Builder<C> {
     /// E.g. `builder.wrap().text("foo").adjacent_text(".").end()`
     /// result in `"foo."` being printed without any wrapping in
     /// between.
-    pub fn adjacent_text<T:ToString,U:ToString>(mut self, prefix: T, suffix: U) -> Self {
+    pub fn adjacent_text<T: ToString, U: ToString>(mut self, prefix: T, suffix: U) -> Self {
         let item = self.pop().expect("adjacent text must be added to an item");
         let prefix = prefix.to_string();
         let suffix = suffix.to_string();
@@ -217,15 +225,9 @@ impl<C: Character> Builder<C> {
                 .text(suffix)
                 .end()
         } else if !suffix.is_empty() {
-            self.begin_adjacent()
-                .push(item)
-                .text(suffix)
-                .end()
+            self.begin_adjacent().push(item).text(suffix).end()
         } else if !prefix.is_empty() {
-            self.begin_adjacent()
-                .text(prefix)
-                .push(item)
-                .end()
+            self.begin_adjacent().text(prefix).push(item).end()
         } else {
             self.push(item)
         }
@@ -235,14 +237,12 @@ impl<C: Character> Builder<C> {
         self.adjacent_text("`", "`")
     }
 
-    pub fn punctuated<T:ToString>(self, text: T) -> Self {
+    pub fn punctuated<T: ToString>(self, text: T) -> Self {
         self.adjacent_text("", text)
     }
 
-    pub fn wrap_text<T:ToString>(self, text: T) -> Self {
-        self.begin_wrap()
-            .text(text)
-            .end()
+    pub fn wrap_text<T: ToString>(self, text: T) -> Self {
+        self.begin_wrap().text(text).end()
     }
 
     pub fn end(self) -> C::End {
@@ -300,7 +300,8 @@ impl<C: Character> Character for WrapCharacter<C> {
 }
 
 impl<T> From<Box<T>> for Box<Content>
-    where T: Content + 'static
+where
+    T: Content + 'static,
 {
     fn from(b: Box<T>) -> Box<Content> {
         b

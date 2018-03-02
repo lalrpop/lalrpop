@@ -1,6 +1,6 @@
 //! A depth-first interpreter for NFAs.
 
-use lexer::nfa::{NFA, NFAStateIndex, START, StateKind, Noop, Other, Test};
+use lexer::nfa::{NFAStateIndex, Noop, Other, StateKind, Test, NFA, START};
 use std::cmp::max;
 
 /// Interpret `nfa` applied to `test`, returning the longest matching
@@ -11,17 +11,15 @@ pub fn interpret<'text>(nfa: &NFA, text: &'text str) -> Option<&'text str> {
 
     while let Some((state, offset)) = stack.pop() {
         match nfa.kind(state) {
-            StateKind::Accept => {
-                match longest {
-                    None => longest = Some(offset),
-                    Some(o) => longest = Some(max(o, offset)),
-                }
-            }
+            StateKind::Accept => match longest {
+                None => longest = Some(offset),
+                Some(o) => longest = Some(max(o, offset)),
+            },
             StateKind::Reject => {
                 // the rejection state is a dead-end
                 continue;
             }
-            StateKind::Neither => { }
+            StateKind::Neither => {}
         }
 
         // transition the no-op edges, to start
@@ -32,7 +30,9 @@ pub fn interpret<'text>(nfa: &NFA, text: &'text str) -> Option<&'text str> {
         // check whether there is another character
         let ch = match text[offset..].chars().next() {
             Some(ch) => ch, // yep
-            None => { continue; } // nope
+            None => {
+                continue;
+            } // nope
         };
 
         let offset1 = offset + ch.len_utf8();
@@ -65,7 +65,7 @@ pub fn interpret<'text>(nfa: &NFA, text: &'text str) -> Option<&'text str> {
     longest.map(|offset| &text[..offset])
 }
 
-fn push<T:Eq>(v: &mut Vec<T>, t: T) {
+fn push<T: Eq>(v: &mut Vec<T>, t: T) {
     if !v.contains(&t) {
         v.push(t);
     }

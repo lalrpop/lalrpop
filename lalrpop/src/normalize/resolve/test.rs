@@ -1,5 +1,5 @@
 use parser;
-use grammar::parse_tree::{Span};
+use grammar::parse_tree::Span;
 use regex::Regex;
 
 fn check_err(expected_err: &str, grammar: &str) {
@@ -21,57 +21,62 @@ fn check_err(expected_err: &str, grammar: &str) {
         }
         Err(err) => {
             assert_eq!(err.span, Span(start_index, end_index));
-            assert!(expected_err.is_match(&err.message),
-                    "unexpected error text `{}`, did not match `{}`", err.message, expected_err);
+            assert!(
+                expected_err.is_match(&err.message),
+                "unexpected error text `{}`, did not match `{}`",
+                err.message,
+                expected_err
+            );
         }
     }
 }
 
 #[test]
 fn unknown_nonterminal() {
-    check_err(
-        "no definition found for `Y`",
-        r#"grammar; X = X >>>Y<<<;"#);
+    check_err("no definition found for `Y`", r#"grammar; X = X >>>Y<<<;"#);
 }
 
 #[test]
 fn unknown_nonterminal_in_macro_arg() {
     check_err(
         "no definition found for `Y`",
-        r#"grammar; X = X Id<>>>Y<<<>; Id<T> = T;"#);
+        r#"grammar; X = X Id<>>>Y<<<>; Id<T> = T;"#,
+    );
 }
 
 #[test]
 fn unknown_nonterminal_in_repeat_question() {
-    check_err(
-        "no definition found for `Y`",
-        r#"grammar; X = >>>Y<<<?;"#);
+    check_err("no definition found for `Y`", r#"grammar; X = >>>Y<<<?;"#);
 }
 
 #[test]
 fn unknown_nonterminal_two() {
     check_err(
         "no definition found for `Expr`",
-        r#"grammar; Term = { <n:"Num"> => n.as_num(), "A" <>>>Expr<<<> "B" };"#);
+        r#"grammar; Term = { <n:"Num"> => n.as_num(), "A" <>>>Expr<<<> "B" };"#,
+    );
 }
 
 #[test]
 fn double_nonterminal() {
     check_err(
         "two nonterminals declared with the name `A`",
-        r#"grammar; A = "Foo"; >>>A<<< = "Bar";"#);
+        r#"grammar; A = "Foo"; >>>A<<< = "Bar";"#,
+    );
 }
 
 #[test]
 fn repeated_macro_arg() {
     check_err(
         "multiple macro arguments declared with the name `Y`",
-        r#"grammar; >>>X<Y,Y><<< = "foo";"#);
+        r#"grammar; >>>X<Y,Y><<< = "foo";"#,
+    );
 }
 
 #[test]
 fn overlapping_terminal_and_nonterminal() {
     check_err(
         "terminal and nonterminal both declared with the name `A`",
-        r#"grammar; A = "Foo"; extern { enum Foo { >>>A => Foo::A(..) <<<} }"#);
+        r#"grammar; A = "Foo"; extern { enum Foo { >>>A => Foo::A(..) <<<} }"#,
+    );
 }

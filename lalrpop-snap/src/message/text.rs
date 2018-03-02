@@ -31,6 +31,7 @@ impl Content for Text {
             self.text
                 .split_whitespace()
                 .map(|word| Text::new(word.to_string()))
-                .map(|item| Box::new(item) as Box<Content>));
+                .map(|item| Box::new(item) as Box<Content>),
+        );
     }
 }
