@@ -2,7 +2,7 @@
 name = "lalrpop"
 version = "0.14.0" # LALRPOP
 description = "convenient LR(1) parser generator"
-repository = "https://github.com/nikomatsakis/lalrpop"
+repository = "https://github.com/lalrpop/lalrpop"
 readme = "../README.md"
 keywords = ["parser", "generator", "LR", "yacc", "grammar"]
 categories = ["parsing"]
