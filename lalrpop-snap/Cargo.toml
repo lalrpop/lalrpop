@@ -30,7 +30,7 @@ term = "0.4.5"
 unicode-xid = "0.0.4"
 
 [dev-dependencies]
-rand = "0.3"
+rand = "0.4"
 
 [dependencies.lalrpop-util]
 path = "../lalrpop-util"
