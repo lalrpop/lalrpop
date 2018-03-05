@@ -27,7 +27,7 @@ regex-syntax = "0.4.0"
 petgraph = "0.4.4"
 rustc-serialize = "0.3"
 term = "0.4.5"
-unicode-xid = "0.0.4"
+unicode-xid = "0.1"
 
 [dev-dependencies]
 rand = "0.4"
