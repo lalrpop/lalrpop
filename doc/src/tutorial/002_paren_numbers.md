@@ -5,7 +5,7 @@ tackle full expressions, let's start with something simple -- really
 simple. Let's just start with parenthesized integers, like `123` or
 `(123)` or even (hold on to your hats) `(((123)))`. Wow.
 
-To handle this, we'll need a to add a
+To handle this, we'll need to add a
 [`calculator1.lalrpop`][calculator1] as shown below. Note: to make
 explaining things easier, this version is maximally explicit; the next
 section will make it shorter by employing some shorthands that LALRPOP
