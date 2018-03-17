@@ -54,7 +54,7 @@ fn match_complex() {
                 MatchItem::Mapped(ref sym, ref mapping, _) => {
                     assert_eq!(format!("{:?}", sym), "r#\"(?i)begin\"#");
                     assert_eq!(format!("{}", mapping), "\"BEGIN\"");
-                }
+                },
                 _ => panic!("expected MatchItem::Mapped, but was: {:?}", item00),
             };
             // r"(?i)end" => "END",
@@ -63,7 +63,7 @@ fn match_complex() {
                 MatchItem::Mapped(ref sym, ref mapping, _) => {
                     assert_eq!(format!("{:?}", sym), "r#\"(?i)end\"#");
                     assert_eq!(format!("{}", mapping), "\"END\"");
-                }
+                },
                 _ => panic!("expected MatchItem::Mapped, but was: {:?}", item00),
             };
             // else { ... }
@@ -74,7 +74,7 @@ fn match_complex() {
                 MatchItem::Mapped(ref sym, ref mapping, _) => {
                     assert_eq!(format!("{:?}", sym), "r#\"[a-zA-Z_][a-zA-Z0-9_]*\"#");
                     assert_eq!(format!("{}", mapping), "IDENTIFIER");
-                }
+                },
                 _ => panic!("expected MatchItem::Mapped, but was: {:?}", item10),
             };
             // else { ... }
@@ -84,7 +84,7 @@ fn match_complex() {
             match *item20 {
                 MatchItem::Unmapped(ref sym, _) => {
                     assert_eq!(format!("{:?}", sym), "\"other\"");
-                }
+                },
                 _ => panic!("expected MatchItem::Unmapped, but was: {:?}", item20),
             };
             // _
@@ -93,7 +93,59 @@ fn match_complex() {
                 MatchItem::CatchAll(_) => (),
                 _ => panic!("expected MatchItem::CatchAll, but was: {:?}", item20),
             };
-        }
+        },
         _ => panic!("expected MatchToken, but was: {:?}", first_item),
+    }
+}
+
+#[test]
+fn where_clauses() {
+    let clauses = vec![
+        "where T: Debug",
+        "where T: Debug + Display",
+        "where T: std::ops::Add<usize>",
+        "where T: IntoIterator<Item = usize>",
+        "where T: 'a",
+        "where 'a: 'b",
+        "where for<'a> &'a T: Debug",
+        "where T: for<'a> Flobbles<'a>",
+        "where T: FnMut(usize)",
+        "where T: FnMut(usize, bool)",
+        "where T: FnMut() -> bool",
+        "where T: for<'a> FnMut(&'a usize)",
+        "where T: Debug, U: Display",
+    ];
+
+    for santa in clauses {
+        assert!(
+            parser::parse_where_clauses(santa).is_ok(),
+            "should parse where clauses: {}",
+            santa
+        );
+    }
+}
+
+#[test]
+fn grammars_with_where_clauses() {
+    let grammars = vec![
+        r###"
+grammar<T> where T: StaticMethods;
+"###,
+        r###"
+grammar<T>(methods: &mut T) where T: MutMethods;
+"###,
+        r###"
+grammar<'input, T>(methods: &mut T) where T: 'input + Debug + MutMethods;
+"###,
+        r###"
+grammar<F>(methods: &mut F) where F: for<'a> FnMut(&'a usize) -> bool;
+"###,
+        r###"
+grammar<F>(logger: &mut F) where F: for<'a> FnMut(&'a str);
+"###,
+    ];
+
+    for g in grammars {
+        assert!(parser::parse_grammar(g).is_ok());
     }
 }

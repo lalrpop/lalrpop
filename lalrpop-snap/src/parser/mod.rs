@@ -44,3 +44,11 @@ pub fn parse_type_ref<'input>(input: &'input str) -> Result<TypeRef, ParseError<
     let tokenizer = tok::Tokenizer::new(input, 0);
     lrgrammar::parse_TypeRef(input, tokenizer)
 }
+
+#[cfg(test)]
+pub fn parse_where_clauses<'input>(
+    input: &'input str,
+) -> Result<Vec<WhereClause<TypeRef>>, ParseError<'input>> {
+    let tokenizer = tok::Tokenizer::new(input, 0);
+    lrgrammar::parse_GrammarWhereClauses(input, tokenizer)
+}
