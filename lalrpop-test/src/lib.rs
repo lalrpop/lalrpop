@@ -89,6 +89,7 @@ mod error_recovery_issue_240;
 mod error_recovery_lalr_loop;
 mod error_recovery_lock_in;
 mod error_recovery_span;
+mod error_recovery_type_in_macro;
 
 /// test for inlining expansion issue #55
 mod issue_55;
