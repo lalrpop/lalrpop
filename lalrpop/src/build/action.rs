@@ -126,6 +126,7 @@ fn emit_user_action_code<W: Write>(
         format!("{}action{}", grammar.prefix, index),
         vec![],
         None,
+        true, // include grammar parameters
         arguments,
         ret_type,
         vec![]
@@ -149,6 +150,7 @@ fn emit_lookaround_action_code<W: Write>(
         format!("{}action{}", grammar.prefix, index),
         vec![],
         None,
+        true, // include grammar parameters
         vec![
             format!(
                 "{}lookbehind: &{}",
@@ -237,6 +239,7 @@ fn emit_inline_action_code<W: Write>(
         format!("{}action{}", grammar.prefix, index),
         vec![],
         None,
+        true, // include grammar parameters
         arguments,
         ret_type,
         vec![]

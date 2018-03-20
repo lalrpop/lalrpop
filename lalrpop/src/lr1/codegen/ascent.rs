@@ -549,6 +549,7 @@ impl<'ascent, 'grammar, W: Write>
                 self.prefix, triple_type, iter_error_type
             ),],
             None,
+            true, // include grammar parameters
             fn_args,
             format!(
                 "Result<(Option<{}>, {}Nonterminal<{}>), {}>",
