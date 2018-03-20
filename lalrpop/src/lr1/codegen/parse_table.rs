@@ -901,6 +901,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
             format!("{}reduce", self.prefix),
             vec![],
             None,
+            true, // include grammar parameters
             parameters,
             format!("Option<Result<{},{}>>", success_type, parse_error_type),
             vec![]
@@ -1043,6 +1044,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
             format!("{}reduce{}", self.prefix, index),
             vec![],
             None,
+            true,
             parameters,
             format!("(usize, {}, usize)", spanned_symbol_type,),
             vec![]
@@ -1414,6 +1416,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
             format!("{p}error_recovery", p = self.prefix),
             vec![format!("{p}I", p = self.prefix)],
             None,
+            true, // include grammar parameters
             parameters,
             format!(
                 "Result<Option<{start_type}>, {parse_error_type}>",
@@ -1967,6 +1970,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
             format!("{}accepts", self.prefix),
             vec![],
             None,
+            true, // include grammar parameters
             parameters,
             format!("bool"),
             vec![]

@@ -203,6 +203,7 @@ impl<'codegen, 'grammar, W: Write, C> CodeGenerator<'codegen, 'grammar, W, C> {
             "parse".to_owned(),
             type_parameters,
             Some("&self".to_owned()),
+            true, // include grammar parameters
             parameters,
             format!(
                 "Result<{}, {}>",

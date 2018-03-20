@@ -116,6 +116,7 @@ impl<W: Write> RustWrite<W> {
         name: String,
         type_parameters: Vec<String>,
         first_parameter: Option<String>,
+        include_grammar_parameters: bool,
         parameters: Vec<String>,
         return_type: String,
         where_clauses: Vec<String>,
@@ -135,26 +136,29 @@ impl<W: Write> RustWrite<W> {
         if let Some(param) = first_parameter {
             rust!(self, "{},", param);
         }
-        for parameter in &grammar.parameters {
-            rust!(self, "{}: {},", parameter.name, parameter.ty);
+
+        if include_grammar_parameters {
+            for parameter in &grammar.parameters {
+                rust!(self, "{}: {},", parameter.name, parameter.ty);
+            }
         }
 
         for parameter in &parameters {
             rust!(self, "{},", parameter);
         }
 
+        rust!(self, ") -> {}", return_type);
+
         if !grammar.where_clauses.is_empty() || !where_clauses.is_empty() {
-            rust!(self, ") -> {} where", return_type);
+            rust!(self, "where");
 
             for where_clause in &grammar.where_clauses {
-                rust!(self, "  {},", where_clause);
+                rust!(self, "    {},", where_clause);
             }
 
             for where_clause in &where_clauses {
-                rust!(self, "  {},", where_clause);
+                rust!(self, "    {},", where_clause);
             }
-        } else {
-            rust!(self, ") -> {}", return_type);
         }
 
         Ok(())
@@ -184,7 +188,17 @@ impl<W: Write> RustWrite<W> {
         // Stuff that we plan to use.
         // Occasionally we happen to not use it after all, hence the allow.
         rust!(self, "#[allow(unused_extern_crates)]");
-        rust!(self, "extern crate lalrpop_util as {}lalrpop_util;", prefix);
+        rust!(
+            self,
+            "extern crate lalrpop_util as {p}lalrpop_util;",
+            p = prefix,
+        );
+        rust!(self, "#[allow(unused_imports)]");
+        rust!(
+            self,
+            "use self::{p}lalrpop_util::state_machine as {p}state_machine;",
+            p = prefix,
+        );
 
         Ok(())
     }
