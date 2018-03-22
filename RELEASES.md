@@ -20,13 +20,13 @@ Compatibility notes:
 
 Thanks to the following contributors for this release:
 
-@Phlosioneer
-@waywardmonkeys
-@brendanzab
-@dtkerr
-@Marwes
-@ahmedcharles
-@udoprog
+- @Phlosioneer
+- @waywardmonkeys
+- @brendanzab
+- @dtkerr
+- @Marwes
+- @ahmedcharles
+- @udoprog
 
 # Version 0.14
 
