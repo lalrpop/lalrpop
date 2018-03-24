@@ -24,7 +24,7 @@ look something like:
 ```
 [package]
 name = "calculator"
-version = "0.14.0"
+version = "0.1.0"
 authors = ["Niko Matsakis <niko@alum.mit.edu>"]
 build = "build.rs" # <-- We added this and everything after!
 
