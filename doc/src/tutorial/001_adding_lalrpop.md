@@ -29,10 +29,10 @@ authors = ["Niko Matsakis <niko@alum.mit.edu>"]
 build = "build.rs" # <-- We added this and everything after!
 
 [build-dependencies]
-lalrpop = "0.14.0"
+lalrpop = "0.15.0"
 
 [dependencies]
-lalrpop-util = "0.14.0"
+lalrpop-util = "0.15.0"
 regex = "0.2.1"
 ```
 
