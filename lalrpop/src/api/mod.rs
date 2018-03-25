@@ -76,6 +76,20 @@ impl Configuration {
         self
     }
 
+    /// Write output files in the same directory of the input files.
+    ///
+    /// If this option is enabled, you have to load the parser as a module:
+    ///
+    /// ```no_run
+    /// mod parser; // synthesized from parser.lalrpop
+    /// ```
+    ///
+    /// This was the default behaviour up to version 0.15.
+    pub fn generate_in_source_tree(&mut self) -> &mut Self {
+        self.set_in_dir(Path::new("."))
+            .set_out_dir(Path::new("."))
+    }
+
     /// If true, always convert `.lalrpop` files into `.rs` files, even if the
     /// `.rs` file is newer. Default is false.
     pub fn force_build(&mut self, val: bool) -> &mut Configuration {
