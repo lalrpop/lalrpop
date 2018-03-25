@@ -101,7 +101,9 @@ our [`main.rs`][main] file which uses this struct to test our `Term`
 nonterminal:
 
 ```rust
-pub mod calculator1; // synthesized by LALRPOP
+#[macro_use] extern crate lalrpop_util;
+
+lalrpop_mod!(calculator1); // synthesized by LALRPOP
 
 #[test]
 fn calculator1() {
