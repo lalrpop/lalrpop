@@ -150,7 +150,7 @@ pub struct ErrorRecovery<L, T, E> {
 /// omit it.
 ///
 /// # Example
-/// ```no_run
+/// ```ignore
 /// // load parser in src/parser.lalrpop
 /// lalrpop_mod!(parser);
 ///
