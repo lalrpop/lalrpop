@@ -156,13 +156,20 @@ pub struct ErrorRecovery<L, T, E> {
 ///
 /// // load parser in src/lex/parser.lalrpop
 /// lalrpop_mod!(parser, "/lex/parser.rs");
+///
+/// // define a public module
+/// lalrpop_mod!(pub parser);
 /// ```
 
 #[macro_export]
 macro_rules! lalrpop_mod {
     ($modname:ident) => { lalrpop_mod!($modname, concat!("/", stringify!($modname), ".rs")); };
 
+    (pub $modname:ident) => { lalrpop_mod!(pub $modname, concat!("/", stringify!($modname), ".rs")); };
+
     ($modname:ident, $source:expr) => { mod $modname { include!(concat!(env!("OUT_DIR"), $source)); } };
+
+    (pub $modname:ident, $source:expr) => { pub mod $modname { include!(concat!(env!("OUT_DIR"), $source)); } };
 }
 
 #[cfg(test)]

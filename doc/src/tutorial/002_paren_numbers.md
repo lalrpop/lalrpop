@@ -103,7 +103,7 @@ nonterminal:
 ```rust
 #[macro_use] extern crate lalrpop_util;
 
-lalrpop_mod!(calculator1); // synthesized by LALRPOP
+lalrpop_mod!(pub calculator1); // synthesized by LALRPOP
 
 #[test]
 fn calculator1() {

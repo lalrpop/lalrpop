@@ -10,7 +10,7 @@ fn calculator1() {
     assert!(calculator1::TermParser::new().parse("((22)").is_err());
 }
 
-lalrpop_mod!(calculator2);
+lalrpop_mod!(pub calculator2);
 
 #[test]
 fn calculator2() {
@@ -20,7 +20,7 @@ fn calculator2() {
     assert!(calculator2::TermParser::new().parse("((22)").is_err());
 }
 
-lalrpop_mod!(calculator2b);
+lalrpop_mod!(pub calculator2b);
 
 #[test]
 fn calculator2b() {
@@ -37,7 +37,7 @@ fn calculator2b() {
     assert_eq!(result, "222");
 }
 
-lalrpop_mod!(calculator3);
+lalrpop_mod!(pub calculator3);
 
 #[cfg_attr(not(test), allow(unused_macros))]
 macro_rules! test3 {
@@ -56,7 +56,7 @@ fn calculator3() {
     test3!(22 * (44 + 66) / 3);
 }
 
-lalrpop_mod!(calculator4);
+lalrpop_mod!(pub calculator4);
 pub mod ast;
 
 #[test]
@@ -67,7 +67,7 @@ fn calculator4() {
     assert_eq!(&format!("{:?}", expr), "((22 * 44) + 66)");
 }
 
-lalrpop_mod!(calculator5);
+lalrpop_mod!(pub calculator5);
 
 #[test]
 fn calculator5() {
@@ -95,7 +95,7 @@ fn calculator5() {
     assert_eq!(&format!("{:?}", expr), "[((22 * 44) + 66), (13 * 3)]");
 }
 
-lalrpop_mod!(calculator6);
+lalrpop_mod!(pub calculator6);
 
 #[test]
 fn calculator6() {

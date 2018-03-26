@@ -105,7 +105,7 @@ And, of course, we have to add some tests to [main.rs file][main]:
 ```rust
 #[macro_use] extern crate lalrpop_util;
 
-lalrpop_mod!(calculator5);
+lalrpop_mod!(pub calculator5);
 
 #[test]
 fn calculator5() {

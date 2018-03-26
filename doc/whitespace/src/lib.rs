@@ -4,7 +4,7 @@ pub mod lexer;
 pub mod ast;
 pub mod eval;
 
-lalrpop_mod!(parser);
+lalrpop_mod!(pub parser);
 
 pub fn compile(input: &str) -> Result<ast::Program, String> {
     match parser::ProgramParser::new().parse(lexer::Lexer::new(input)) {
