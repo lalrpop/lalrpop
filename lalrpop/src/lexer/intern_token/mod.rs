@@ -102,7 +102,7 @@ pub fn compile<W: Write>(
             })
             .map(|regex| {
                 // make sure all regex are anchored at the beginning of the input
-                format!("^{}", regex)
+                format!("^({})", regex)
             })
             .map(|regex_str| {
                 // create a rust string with text of the regex; the Debug impl
