@@ -99,6 +99,7 @@ mod unit;
 
 /// test for match section
 mod match_section;
+mod match_alternatives;
 
 /// regression test for issue #253.
 mod partial_parse;
@@ -842,6 +843,20 @@ fn test_match_section() {
         match_section::QueryParser::new()
             .parse("UPDATE update")
             .is_err()
+    );
+}
+
+#[test]
+fn test_match_alternatives() {
+    assert_eq!(
+        match_alternatives::FileParser::new()
+            .parse("foo true"),
+        Ok("foo true".to_string())
+    );
+    assert_eq!(
+        match_alternatives::FileParser::new()
+            .parse("bar false"),
+        Ok("bar false".to_string())
     );
 }
 
