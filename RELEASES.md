@@ -1,3 +1,20 @@
+# Version 0.15.1
+
+Fixes:
+- Don't overflow the stack in parse table debug builds (#337) 
+- Use the correct type for `!` in macro expanded productions (#335)
+- Allow lalrpop parsers to be used with include! (#338)
+- Remove dependency on docopt, rustc-serialize, update itertools  (#344, #345)
+- Correctly anchor regex at the beginning (#358)
+
+Thanks to the following contributors for this release:
+- @Marwes
+- @mbrubek
+- @waywardmonkeys
+- @sanxiyn
+- @17cupsofcoffee
+- @matklad
+
 # Version 0.15
 
 Features:
