@@ -33,7 +33,7 @@ Compatibility notes:
 
 - To let regex compilation be cached, each parser are now generated as a struct
   with a `parse` method instead of just a function.
-  To upgrade, change each parse call from `parse_X(..)` to `X::new().parse(..)`.
+  To upgrade, change each parse call from `parse_X(..)` to `XParser::new().parse(..)`.
 
 Thanks to the following contributors for this release:
 
