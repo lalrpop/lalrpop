@@ -667,15 +667,11 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
         }
         rust!(
             self.out,
-            "if let Some(r) = {}reduce({}{}action, Some(&{}lookahead.0), &mut {}states, &mut \
-             {}symbols, {}) {{",
-            self.prefix,
+            "if let Some(r) = {p}reduce({}{p}action, Some(&{p}lookahead.0), &mut {p}states, &mut \
+             {p}symbols, {}) {{",
             self.grammar.user_parameter_refs(),
-            self.prefix,
-            self.prefix,
-            self.prefix,
-            self.prefix,
-            phantom_data_expr
+            phantom_data_expr,
+            p = self.prefix
         );
         rust!(self.out, "if r.is_err() {{");
         rust!(self.out, "return r;");
@@ -922,7 +918,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
             rust!(self.out, "{} => {{", index);
             // In debug builds LLVM is not very good at reusing stack space which makes this
             // reduce function take up O(number of states) space. By wrapping each reduce action in
-            // an immediately called closure each reduction takes place in their own function
+            // an immediately called function each reduction takes place in their own function
             // context which ends up reducing the stack space used.
 
             // Fallible actions and the start symbol may do early returns so we avoid wrapping
@@ -931,13 +927,21 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
             let reduce_stack_space = !is_fallible && production.nonterminal != self.start_symbol;
 
             if reduce_stack_space {
-                rust!(self.out, "(|| {{");
+                self.emit_reduce_alternative_fn_header()?;
             }
 
             try!(self.emit_reduce_action(production));
 
             if reduce_stack_space {
-                rust!(self.out, "}})()");
+                let phantom_data_expr = self.phantom_data_expr();
+                rust!(self.out, "}}");
+                rust!(
+                    self.out,
+                    "{p}reduce({}{p}action, {p}lookahead_start, {p}states, {p}symbols, {})",
+                    self.grammar.user_parameter_refs(),
+                    phantom_data_expr,
+                    p = self.prefix
+                );
             }
 
             rust!(self.out, "}}");
@@ -996,6 +1000,38 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
         );
         rust!(self.out, "None");
         rust!(self.out, "}}");
+        Ok(())
+    }
+
+    fn emit_reduce_alternative_fn_header(&mut self) -> io::Result<()> {
+        let loc_type = self.types.terminal_loc_type();
+        let spanned_symbol_type = self.spanned_symbol_type();
+
+        let parameters = vec![
+            format!("{}action: {}", self.prefix, self.custom.state_type),
+            format!("{}lookahead_start: Option<&{}>", self.prefix, loc_type),
+            format!(
+                "{}states: &mut ::std::vec::Vec<{}>",
+                self.prefix, self.custom.state_type
+            ),
+            format!(
+                "{}symbols: &mut ::std::vec::Vec<{}>",
+                self.prefix, spanned_symbol_type
+            ),
+            format!("_: {}", self.phantom_data_type()),
+        ];
+
+        try!(self.out.write_fn_header(
+            self.grammar,
+            &Visibility::Pub(Some(Path::from_id(Atom::from("crate")))),
+            format!("{}reduce", self.prefix),
+            vec![],
+            None,
+            parameters,
+            format!("(usize, {}, usize)", spanned_symbol_type,),
+            vec![]
+        ));
+        rust!(self.out, "{{");
         Ok(())
     }
 
