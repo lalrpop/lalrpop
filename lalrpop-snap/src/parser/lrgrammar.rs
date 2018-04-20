@@ -1,4 +1,4 @@
-// auto-generated: "lalrpop-snap 0.14.0"
+// auto-generated: "lalrpop-snap 0.15.1"
 #![cfg_attr(rustfmt, rustfmt_skip)]
 use string_cache::DefaultAtom as Atom;
 use grammar::parse_tree::*;
