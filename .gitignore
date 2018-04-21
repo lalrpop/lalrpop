@@ -1,7 +1,6 @@
 target
 *~
 TAGS
-Cargo.lock
 lalrpop/src/parser/lrgrammar.rs
 
 doc/calculator/src/calculator1.rs
