@@ -30,6 +30,8 @@ serde_derive = "1.0"
 string_cache = "0.7.1"
 term = "0.4.5"
 unicode-xid = "0.1"
+sha2 = "0.7.0"
+digest = { version = "0.7", features = ["std"]}
 
 [dev-dependencies]
 rand = "0.4"
