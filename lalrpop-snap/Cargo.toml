@@ -35,6 +35,3 @@ rand = "0.4"
 path = "../lalrpop-util"
 version = "0.15.1" # LALRPOP
 
-[dependencies.lalrpop-intern]
-path = "../lalrpop-intern"
-version = "0.15.1" # LALRPOP
