@@ -1,3 +1,20 @@
+# Version 0.15.1
+
+Fixes:
+- Don't overflow the stack in parse table debug builds (#337) 
+- Use the correct type for `!` in macro expanded productions (#335)
+- Allow lalrpop parsers to be used with include! (#338)
+- Remove dependency on docopt, rustc-serialize, update itertools  (#344, #345)
+- Correctly anchor regex at the beginning (#358)
+
+Thanks to the following contributors for this release:
+- @Marwes
+- @mbrubek
+- @waywardmonkeys
+- @sanxiyn
+- @17cupsofcoffee
+- @matklad
+
 # Version 0.15
 
 Features:
@@ -16,7 +33,7 @@ Compatibility notes:
 
 - To let regex compilation be cached, each parser are now generated as a struct
   with a `parse` method instead of just a function.
-  To upgrade, change each parse call from `parse_X(..)` to `X::new().parse(..)`.
+  To upgrade, change each parse call from `parse_X(..)` to `XParser::new().parse(..)`.
 
 Thanks to the following contributors for this release:
 

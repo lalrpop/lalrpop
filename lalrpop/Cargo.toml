@@ -1,6 +1,6 @@
 [package]
 name = "lalrpop"
-version = "0.15.0" # LALRPOP
+version = "0.15.1" # LALRPOP
 description = "convenient LR(1) parser generator"
 repository = "https://github.com/lalrpop/lalrpop"
 readme = "../README.md"
@@ -30,14 +30,16 @@ serde_derive = "1.0"
 string_cache = "0.7.1"
 term = "0.4.5"
 unicode-xid = "0.1"
+sha2 = "0.7.0"
+digest = { version = "0.7", features = ["std"]}
 
 [dev-dependencies]
 rand = "0.4"
 
 [dependencies.lalrpop-util]
 path = "../lalrpop-util"
-version = "0.15.0" # LALRPOP
+version = "0.15.1" # LALRPOP
 
 [build-dependencies.lalrpop-snap]
 path = "../lalrpop-snap"
-version = "0.15.0" # LALRPOP
+version = "0.15.1" # LALRPOP
