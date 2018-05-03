@@ -3,7 +3,6 @@ members = [
         "lalrpop",
         "lalrpop-test",
         "lalrpop-snap",
-        "lalrpop-intern",
         "lalrpop-util",
         "doc/calculator",
         "doc/pascal/lalrpop",

@@ -1,3 +1,17 @@
+# Version 0.15.2
+
+Features:
+- Make semicolon after `}` in rules optional (#355)
+
+Fixes:
+- Use hash to decide whether to recompile (#369)
+- Reduce the compile times of generated parse table parsers (#366)
+
+Thanks to the following contributors for this release:
+- @matklad
+- @psl8
+- @Marwes
+
 # Version 0.15.1
 
 Fixes:
