@@ -1,5 +1,13 @@
+#[cfg(feature = "lexer")]
+extern crate regex;
+
 use std::error::Error;
 use std::fmt;
+
+#[cfg(feature = "lexer")]
+mod lexer;
+#[cfg(feature = "lexer")]
+pub use lexer::Lexer;
 
 #[derive(Clone, Debug, PartialEq, Eq, PartialOrd, Ord)]
 pub enum ParseError<L, T, E> {
