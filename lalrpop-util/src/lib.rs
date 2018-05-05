@@ -1,3 +1,16 @@
+//! Extra `lalrpop` utilities.
+//!
+//! # Crate Feature Flags
+//!
+//! The following crate feature flags are available for enabling extra
+//! functionality. They are configured in your Cargo.toml.
+//!
+//! - `lexer`
+//!   - Enable a custom lexer which uses a provided list of regex
+//!     patterns during tokenization
+//!   - Useful when you need tighter control over the lexing process (i.e.
+//!     adding the ability to skip whitespace **and** comments)
+
 #[cfg(feature = "lexer")]
 extern crate regex;
 
