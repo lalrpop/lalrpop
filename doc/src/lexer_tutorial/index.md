@@ -188,6 +188,32 @@ FlowCtrl: ast::Stmt = {
 
 The complete grammar is available in `whitespace/src/parser.lalrpop`.
 
+## Helpful Utilities
+
+For convenience a custom lexer is provided in the `lalrpop-util` crate (hidden 
+behind the `lexer` feature flag) which lets you use simple regular expressions
+to tokenize the source code. It also lets you skip custom patterns (e.g. 
+whitespace **and** comments).
+
+The following example will tokenize to the sequence 
+`Word("Hello"), Integer(5), Word("world")` and ignore everything from the `#`
+to the end of the line.
+
+```rust
+#[derive(Debug, PartialEq)]
+pub enum Token<'input> {
+  Integer(i64),
+  Word(&'input str),
+}
+
+let src = "Hello 5 world # this is a comment\n";
+
+let mut lexer = Lexer::new(src).skipping(r"^(?m)\s+|#.*$");
+
+lexer.register_pattern(r"^\d+", |s| Ok(Token::Integer(s.parse().unwrap())));
+lexer.register_pattern(r"^\w+", |s| Ok(Token::Word(s)));
+```
+
 ## Where to go from here
 
 Things to try that apply to lexers in general:

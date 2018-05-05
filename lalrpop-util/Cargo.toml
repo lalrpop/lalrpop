@@ -7,8 +7,12 @@ version = "0.15.2" # LALRPOP
 authors = ["Niko Matsakis <niko@alum.mit.edu>"]
 workspace = ".."
 
+[package.metadata.docs.rs]
+features = ["lexer"]
+
 [dependencies]
 regex = { version = "1", optional = true }
 
 [features]
+default = []
 lexer = ["regex"]
