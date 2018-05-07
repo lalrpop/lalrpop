@@ -1,6 +1,6 @@
+use regex::Regex;
 use std::error::Error as StdError;
 use std::fmt::{self, Display, Formatter};
-use regex::Regex;
 
 /// A generic table-based lexer.
 ///
@@ -200,13 +200,13 @@ impl<'input, Token: 'input> Iterator for Lexer<'input, Token> {
             }
         }
 
-        Some(Err(LexError{ location: self.ix }))
+        Some(Err(LexError { location: self.ix }))
     }
 }
 
 #[derive(Debug)]
 pub struct LexError {
-     location: usize,
+    location: usize,
 }
 
 impl StdError for LexError {

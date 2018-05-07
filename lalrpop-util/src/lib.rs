@@ -20,7 +20,7 @@ use std::fmt;
 #[cfg(feature = "lexer")]
 mod lexer;
 #[cfg(feature = "lexer")]
-pub use lexer::{Lexer, LexError};
+pub use lexer::{LexError, Lexer};
 
 #[derive(Clone, Debug, PartialEq, Eq, PartialOrd, Ord)]
 pub enum ParseError<L, T, E> {
