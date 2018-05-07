@@ -16,7 +16,7 @@ doctest = false
 
 [dependencies]
 ascii-canvas = "1.0"
-atty = "0.1.2"
+atty = "0.2"
 bit-set = "0.4.0"
 diff = "0.1.9"
 ena = "0.5"
