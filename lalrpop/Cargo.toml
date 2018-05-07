@@ -16,11 +16,11 @@ doctest = false
 
 [dependencies]
 ascii-canvas = "1.0"
-atty = "0.1.2"
-bit-set = "0.4.0"
+atty = "0.2"
+bit-set = "0.5"
 diff = "0.1.9"
 docopt = "0.8"
-ena = "0.5"
+ena = "0.9"
 itertools = "0.7"
 regex = "0.2.1"
 regex-syntax = "0.4.0"
