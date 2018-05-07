@@ -1,5 +1,6 @@
+use std::error::Error as StdError;
+use std::fmt::{self, Display, Formatter};
 use regex::Regex;
-use ParseError;
 
 /// A generic table-based lexer.
 ///
@@ -22,15 +23,15 @@ use ParseError;
 ///   Word(String),
 /// }
 ///
-/// # fn run() -> Result<(), lalrpop_util::ParseError<usize, Token, ()>> {
+/// # fn run() -> Result<(), lalrpop_util::LexError> {
 /// let src = "Hello 5 world";
 ///
 /// // create the lexer
 /// let mut lexer = Lexer::new(src);
 ///
 /// // register a bunch of patterns so it knows how to create tokens
-/// lexer.register_pattern(r"^\d+", |s| Ok(Token::Integer(s.parse().unwrap())));
-/// lexer.register_pattern(r"^\w+", |s| Ok(Token::Word(s.to_string())));
+/// lexer.register_pattern(r"^\d+", |s| Token::Integer(s.parse().unwrap()));
+/// lexer.register_pattern(r"^\w+", |s| Token::Word(s.to_string()));
 ///
 /// // then run the lexer to completion, bailing on the first error
 /// let got = lexer.collect::<Result<Vec<_>, _>>()?;
@@ -55,7 +56,6 @@ use ParseError;
 /// references to the original source code.
 ///
 /// ```rust
-
 /// # extern crate lalrpop_util;
 /// # use lalrpop_util::Lexer;
 /// #[derive(Debug, PartialEq)]
@@ -64,13 +64,13 @@ use ParseError;
 ///   Word(&'input str), // <-- borrowing part of the original string
 /// }
 ///
-/// # fn run() -> Result<(), lalrpop_util::ParseError<usize, Token<'static>, ()>> {
+/// # fn run() -> Result<(), lalrpop_util::LexError> {
 /// let src = "Hello 5 world";
 ///
 /// let mut lexer = Lexer::new(src);
 ///
-/// lexer.register_pattern(r"^\d+", |s| Ok(Token::Integer(s.parse().unwrap())));
-/// lexer.register_pattern(r"^\w+", |s| Ok(Token::Word(s)));  // <-- no "to_string()"!
+/// lexer.register_pattern(r"^\d+", |s| Token::Integer(s.parse().unwrap()));
+/// lexer.register_pattern(r"^\w+", |s| Token::Word(s));  // <-- no "to_string()"!
 ///
 /// let got = lexer.collect::<Result<Vec<_>, _>>()?;
 /// # Ok(())
@@ -80,17 +80,17 @@ use ParseError;
 ///
 /// This is completely safe because the `Token: 'input` lifetime on `Lexer` will
 /// ensure tokens can never outlive their source code.
-pub struct Lexer<'input, Token: 'input, Error> {
+pub struct Lexer<'input, Token: 'input> {
     src: &'input str,
-    patterns: Vec<(Regex, Box<Fn(&'input str) -> Result<Token, Error>>)>,
+    patterns: Vec<(Regex, Box<Fn(&'input str) -> Token>)>,
     skips: Regex,
     ix: usize,
 }
 
-impl<'input, Token: 'input, Error> Lexer<'input, Token, Error> {
+impl<'input, Token: 'input> Lexer<'input, Token> {
     /// Create a new `Lexer` with an empty pattern table and which ignores all
     /// whitespace by default.
-    pub fn new(src: &'input str) -> Lexer<'input, Token, Error> {
+    pub fn new(src: &'input str) -> Lexer<'input, Token> {
         Lexer {
             src: src,
             patterns: Vec::new(),
@@ -116,7 +116,7 @@ impl<'input, Token: 'input, Error> Lexer<'input, Token, Error> {
     /// in.
     pub fn register_pattern<F>(&mut self, pattern: &str, constructor: F)
     where
-        F: Fn(&'input str) -> Result<Token, Error> + 'static,
+        F: Fn(&'input str) -> Token + 'static,
     {
         assert!(
             pattern.starts_with("^"),
@@ -139,7 +139,7 @@ impl<'input, Token: 'input, Error> Lexer<'input, Token, Error> {
     ///
     /// ```rust
     /// # use lalrpop_util::Lexer;
-    /// # fn make_lexer() -> Lexer<'static, &'static str, ()> {
+    /// # fn make_lexer() -> Lexer<'static, &'static str> {
     /// # let some_source_text = "# this is a comment\ntext";
     /// let lexer = Lexer::new(some_source_text).skipping(r"^\s+|(?m)#.*$");
     /// # lexer
@@ -147,14 +147,14 @@ impl<'input, Token: 'input, Error> Lexer<'input, Token, Error> {
     /// # // make sure our pattern actually does what it says it does
     /// # fn main() {
     /// #  let mut l = make_lexer();
-    /// #  l.register_pattern(r"^\w+", |s| Ok(s));
+    /// #  l.register_pattern(r"^\w+", |s| s);
     /// #  assert_eq!(l.next().unwrap().unwrap().1, "text");
     /// # }
     /// ```
     ///
     /// Note that you need to enable multiline regex patterns (`(?m)`) when
     /// skipping to the end of a line.
-    pub fn skipping(self, pattern: &str) -> Lexer<'input, Token, Error> {
+    pub fn skipping(self, pattern: &str) -> Lexer<'input, Token> {
         assert!(
             pattern.starts_with("^"),
             "All patterns must match the beginning of the text"
@@ -179,8 +179,8 @@ impl<'input, Token: 'input, Error> Lexer<'input, Token, Error> {
     }
 }
 
-impl<'input, Token: 'input, Error> Iterator for Lexer<'input, Token, Error> {
-    type Item = Result<(usize, Token, usize), ParseError<usize, Token, Error>>;
+impl<'input, Token: 'input> Iterator for Lexer<'input, Token> {
+    type Item = Result<(usize, Token, usize), LexError>;
 
     fn next(&mut self) -> Option<Self::Item> {
         self.skip();
@@ -195,13 +195,30 @@ impl<'input, Token: 'input, Error> Iterator for Lexer<'input, Token, Error> {
             if let Some(found) = pattern.find(self.remaining()) {
                 self.ix += found.end();
 
-                let ret = constructor(found.as_str())
-                    .map(|t| (start, t, self.ix))
-                    .map_err(|error| ParseError::User { error });
-                return Some(ret);
+                let tok = constructor(found.as_str());
+                return Some(Ok((start, tok, self.ix)));
             }
         }
 
-        Some(Err(ParseError::InvalidToken { location: self.ix }))
+        Some(Err(LexError{ location: self.ix }))
+    }
+}
+
+#[derive(Debug)]
+pub struct LexError {
+     location: usize,
+}
+
+impl StdError for LexError {
+    fn description(&self) -> &'static str {
+        "Unknown token"
+    }
+}
+
+impl Display for LexError {
+    fn fmt(&self, f: &mut Formatter) -> fmt::Result {
+        f.debug_struct("LexError")
+            .field("location", &self.location)
+            .finish()
     }
 }

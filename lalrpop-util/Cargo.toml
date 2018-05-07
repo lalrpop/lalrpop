@@ -16,3 +16,4 @@ regex = { version = "1", optional = true }
 [features]
 default = []
 lexer = ["regex"]
+
