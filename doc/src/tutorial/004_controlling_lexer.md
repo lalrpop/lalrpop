@@ -44,14 +44,14 @@ without having any idea about your grammar or where you are in your
 grammar. Next, the parser proper is a bit of code that looks at this
 stream of tokens and figures out which nonterminals apply:
 
-              +-------------------+    +----------------------+
-      Text -> | Lexer             | -> | Parser               |
-              |                   |    |                      |
-              | Applies regex to  |    | Consumers terminals, |
-              | produce terminals |    | executes your code   |
-              +-------------------+    | as it recognizes     |
-                                       | nonterminals         |
-                                       +----------------------+
+              +-------------------+    +---------------------+
+      Text -> | Lexer             | -> | Parser              |
+              |                   |    |                     |
+              | Applies regex to  |    | Consumes terminals, |
+              | produce terminals |    | executes your code  |
+              +-------------------+    | as it recognizes    |
+                                       | nonterminals        |
+                                       +---------------------+
 
 LALRPOP's default lexer is based on regular expressions. By default,
 it works by extracting all the terminals (e.g., `"("` or `r"\d+"`)
