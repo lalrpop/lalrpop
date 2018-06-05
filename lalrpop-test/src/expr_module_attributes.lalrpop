@@ -1,4 +1,3 @@
-#![cfg_attr(feature = "cargo-clippy", allow(clippy))]
 grammar(scale: i32);
 
 use util::tok::Tok;

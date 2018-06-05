@@ -103,7 +103,9 @@ FactorOp: Opcode = {
 And, of course, we have to add some tests to [main.rs file][main]:
 
 ```rust
-pub mod calculator5;
+#[macro_use] extern crate lalrpop_util;
+
+lalrpop_mod!(pub calculator5);
 
 #[test]
 fn calculator5() {

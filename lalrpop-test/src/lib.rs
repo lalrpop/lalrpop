@@ -1,7 +1,7 @@
 #![cfg_attr(not(test), allow(dead_code, unused_imports))]
 
 extern crate diff;
-extern crate lalrpop_util;
+#[macro_use] extern crate lalrpop_util;
 
 use std::cell::RefCell;
 
@@ -11,105 +11,105 @@ use util::tok::Tok;
 
 /// Tests that actions can return the grammar's type parameters' associated
 /// types.
-mod associated_types;
+lalrpop_mod!(associated_types);
 mod associated_types_lib;
 
 /// demonstration from the Greene text; one of the simplest grammars
 /// that still ensures we get parse tree correct
-mod sub;
+lalrpop_mod!(sub);
 
 /// test something other than test-all
-mod sub_ascent;
-mod sub_table;
+lalrpop_mod!(sub_ascent);
+lalrpop_mod!(sub_table);
 
 /// more interesting demonstration of parsing full expressions
-mod expr;
+lalrpop_mod!(expr);
 
 /// more interesting demonstration of parsing full expressions, using LALR not LR
-mod expr_lalr;
+lalrpop_mod!(expr_lalr);
 
 /// more interesting demonstration of parsing full expressions, using intern tok
-mod expr_intern_tok;
+lalrpop_mod!(expr_intern_tok);
 
 /// tests #![attributes] for generated module
 #[allow(dead_code, unknown_lints)]
-mod expr_module_attributes;
+lalrpop_mod!(expr_module_attributes);
 
 /// test that passes in lifetime/type/formal parameters and threads
 /// them through, building an AST from the result
-mod expr_arena;
+lalrpop_mod!(expr_arena);
 
 /// definitions of the AST
 mod expr_arena_ast;
 
 /// expr defined with a generic type `F`
-mod expr_generic;
+lalrpop_mod!(expr_generic);
 
-mod generics_issue_104;
+lalrpop_mod!(generics_issue_104);
 mod generics_issue_104_lib;
 
 /// Grammar parameterized by `F` with where clause `where F: for<'a> FnMut(&'a
 /// str)`.
-mod where_clause_with_forall;
+lalrpop_mod!(where_clause_with_forall);
 
 /// test of inlining
-mod inline;
+lalrpop_mod!(inline);
 
 /// test that exercises internal token generation, as well as locations and spans
-mod intern_tok;
+lalrpop_mod!(intern_tok);
 
 /// test that exercises using a lifetime parameter in the token type
-mod lifetime_tok;
+lalrpop_mod!(lifetime_tok);
 
 /// library for lifetime_tok test
 mod lifetime_tok_lib;
 
 /// test that exercises locations and spans
-mod loc;
+lalrpop_mod!(loc);
 
 /// regression test for location issue #90
-mod loc_issue_90;
+lalrpop_mod!(loc_issue_90);
 mod loc_issue_90_lib;
 
 /// test that uses `super` in paths in various places
-mod use_super;
+lalrpop_mod!(use_super);
 
 /// Custom error type (issue #113)
 #[derive(Debug, PartialEq)]
 pub struct MyCustomError(char);
 
 /// test that exercises locations, spans, and custom errors
-mod error;
-mod error_issue_113;
+lalrpop_mod!(error);
+lalrpop_mod!(error_issue_113);
 
 /// Test error recovery
-mod error_recovery;
-mod error_recovery_pull_182;
-mod error_recovery_issue_240;
-mod error_recovery_lalr_loop;
-mod error_recovery_lock_in;
-mod error_recovery_span;
-mod error_recovery_type_in_macro;
+lalrpop_mod!(error_recovery);
+lalrpop_mod!(error_recovery_pull_182);
+lalrpop_mod!(error_recovery_issue_240);
+lalrpop_mod!(error_recovery_lalr_loop);
+lalrpop_mod!(error_recovery_lock_in);
+lalrpop_mod!(error_recovery_span);
+lalrpop_mod!(error_recovery_type_in_macro);
 
 /// test for inlining expansion issue #55
-mod issue_55;
+lalrpop_mod!(issue_55);
 
 /// test for unit action code
-mod unit;
+lalrpop_mod!(unit);
 
 /// test for match section
-mod match_section;
-mod match_alternatives;
+lalrpop_mod!(match_section);
+lalrpop_mod!(match_alternatives);
 
 /// regression test for issue #253.
-mod partial_parse;
+lalrpop_mod!(partial_parse);
 
 /// regression test for issue #278.
-mod error_issue_278;
+lalrpop_mod!(error_issue_278);
 
 // Check that error recovery (which requires cloneable tokens) is not created if it is not used
 #[allow(unused)]
-mod no_clone_tok;
+lalrpop_mod!(no_clone_tok);
 
 mod util;
 

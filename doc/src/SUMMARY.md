@@ -14,6 +14,6 @@
   - [Error recovery](tutorial/008_error_recovery.md)
 - [Writing a custom lexer](lexer_tutorial/index.md)
 - [Advanced setup](advanced_setup.md)
-  - [Using the Cargo `OUT_DIR`](out_dir.md)
+  - [Generate in source tree](generate_in_source.md)
 -----------
 [Contributors](misc/contributors.md)
