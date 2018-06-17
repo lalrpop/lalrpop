@@ -322,11 +322,17 @@ fn report_content(content: &Content) -> term::Result<()> {
     canvas.write_to(&mut stdout)
 }
 
-fn emit_module_attributes<W: Write>(
+pub fn emit_module_attributes<W: Write>(
     grammar: &r::Grammar,
     rust: &mut RustWrite<W>,
 ) -> io::Result<()> {
-    rust.write_module_attributes(grammar)
+    rust!(rust, "#[cfg_attr(rustfmt, rustfmt_skip)]");
+
+    for attribute in grammar.module_attributes.iter() {
+        rust!(rust, "#{}", &attribute[2..]);
+    }
+
+    Ok(())
 }
 
 fn emit_uses<W: Write>(grammar: &r::Grammar, rust: &mut RustWrite<W>) -> io::Result<()> {
@@ -359,7 +365,6 @@ fn emit_recursive_ascent(
     // includes things like `super::` it will resolve in the natural
     // way.
 
-    try!(emit_module_attributes(grammar, &mut rust));
     try!(emit_uses(grammar, &mut rust));
 
     if grammar.start_nonterminals.is_empty() {

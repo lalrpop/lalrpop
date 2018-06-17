@@ -1,5 +1,6 @@
 //! Base helper routines for a code generator.
 
+use build::emit_module_attributes;
 use grammar::repr::*;
 use lr1::core::*;
 use rust::RustWrite;
@@ -71,7 +72,7 @@ impl<'codegen, 'grammar, W: Write, C> CodeGenerator<'codegen, 'grammar, W, C> {
         F: FnOnce(&mut Self) -> io::Result<()>,
     {
         rust!(self.out, "");
-        rust!(self.out, "#[cfg_attr(rustfmt, rustfmt_skip)]");
+        self.emit_module_attributes()?;
         rust!(self.out, "mod {}parse{} {{", self.prefix, self.start_symbol);
 
         // these stylistic lints are annoying for the generated code,
@@ -89,6 +90,10 @@ impl<'codegen, 'grammar, W: Write, C> CodeGenerator<'codegen, 'grammar, W, C> {
 
         rust!(self.out, "}}");
         Ok(())
+    }
+
+    pub fn emit_module_attributes(&mut self) -> io::Result<()> {
+        emit_module_attributes(self.grammar, self.out)
     }
 
     pub fn write_uses(&mut self) -> io::Result<()> {
