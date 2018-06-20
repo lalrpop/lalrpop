@@ -238,6 +238,7 @@ impl NFA {
                             self.push_edge(s0, Other, reject);
                             Ok(s0)
                         },
+                    //Bytes are not supported
                     Class::Bytes(_) => Err(NFAConstructionError::ByteRegex),
 
                 }
@@ -338,8 +339,7 @@ impl NFA {
                     self.push_edge(s0, Noop, target);
                 }
                 Ok(s0)
-            } // If we ever support byte regexs, these
-              // can be merged in with the cases above.
+            }
         }
     }
 
