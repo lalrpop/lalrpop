@@ -3,8 +3,8 @@
 //! edges.
 
 use lexer::re::Regex;
-use regex_syntax::{hir::Anchor, hir::Class, hir::ClassUnicodeRange, hir::GroupKind, hir::Hir,
-                   hir::HirKind, hir::Literal, hir::RepetitionKind, hir::RepetitionRange};
+use regex_syntax::hir::{Anchor, Class, ClassUnicodeRange, GroupKind, Hir, HirKind, Literal,
+                        RepetitionKind, RepetitionRange};
 use std::char;
 use std::fmt::{Debug, Error as FmtError, Formatter};
 use std::usize;
@@ -206,11 +206,11 @@ impl NFA {
             HirKind::Empty => Ok(accept),
 
             HirKind::Literal(ref l) => {
-                match l {
+                match *l {
                     // [s0] -otherwise-> [accept]
-                    Literal::Unicode(ref c) => {
+                    Literal::Unicode(c) => {
                         let s0 = self.new_state(StateKind::Neither);
-                        self.push_edge(s0, Test::char(*c), accept);
+                        self.push_edge(s0, Test::char(c), accept);
                         self.push_edge(s0, Other, reject);
                         Ok(s0)
                     }
@@ -220,7 +220,7 @@ impl NFA {
             }
 
             HirKind::Class(ref class) => {
-                match class {
+                match *class {
                     Class::Unicode(ref uc) =>
                     // [s0] --c0--> [accept]
                     //  | |            ^
@@ -247,8 +247,8 @@ impl NFA {
             // I was too lazy to code them up or think about them
             HirKind::WordBoundary(_) => Err(NFAConstructionError::WordBoundary),
             HirKind::Anchor(ref a) => match a {
-                Anchor::StartLine | Anchor::EndLine => Err(NFAConstructionError::LineBoundary),
-                Anchor::StartText | Anchor::EndText => Err(NFAConstructionError::TextBoundary),
+                &Anchor::StartLine | &Anchor::EndLine => Err(NFAConstructionError::LineBoundary),
+                &Anchor::StartText | &Anchor::EndText => Err(NFAConstructionError::TextBoundary),
             },
 
             // currently we treat all groups the same, whether they
@@ -271,10 +271,10 @@ impl NFA {
                         RepetitionKind::ZeroOrMore => self.star_expr(&r.hir, accept, reject),
                         RepetitionKind::OneOrMore => self.plus_expr(&r.hir, accept, reject),
                         RepetitionKind::Range(ref range) => {
-                            match range {
+                            match *range {
                                 RepetitionRange::Exactly(c) => {
                                     let mut s = accept;
-                                    for _ in 0..*c {
+                                    for _ in 0..c {
                                         s = self.expr(&r.hir, s, reject)?;
                                     }
                                     Ok(s)
@@ -288,17 +288,17 @@ impl NFA {
                                     //          |      v
                                     //          +-> [reject]
                                     let mut s = self.star_expr(&r.hir, accept, reject)?;
-                                    for _ in 0..*min {
+                                    for _ in 0..min {
                                         s = self.expr(&r.hir, s, reject)?;
                                     }
                                     Ok(s)
                                 }
                                 RepetitionRange::Bounded(min, max) => {
                                     let mut s = accept;
-                                    for _ in *min..*max {
+                                    for _ in min..max {
                                         s = self.optional_expr(&r.hir, s, reject)?;
                                     }
-                                    for _ in 0..*min {
+                                    for _ in 0..min {
                                         s = self.expr(&r.hir, s, reject)?;
                                     }
                                     Ok(s)
@@ -327,12 +327,10 @@ impl NFA {
                 //   +----exprs[n-1]-----+
 
                 let s0 = self.new_state(StateKind::Neither);
-                let targets: Vec<_> =
-                    exprs
-                        .iter()
-                        .map(|expr| self.expr(expr, accept, reject))
-                        .collect::<Result<Vec<_>,_>>()?
-                ;
+                let targets: Vec<_> = exprs
+                    .iter()
+                    .map(|expr| self.expr(expr, accept, reject))
+                    .collect::<Result<Vec<_>, _>>()?;
 
                 // push edges from s0 all together so they are
                 // adjacant in the edge array

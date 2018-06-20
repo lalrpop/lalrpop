@@ -1,6 +1,7 @@
 //! A parser and representation of regular expressions.
 
-use regex_syntax::{self, Error, hir::Hir, Parser};
+use regex_syntax::{self, Error, Parser};
+use regex_syntax::hir::Hir;
 
 #[cfg(test)]
 mod test;
