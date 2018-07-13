@@ -10,6 +10,8 @@ use lalrpop_util::ParseError;
 use super::Top;
 #[allow(unused_extern_crates)]
 extern crate lalrpop_util as ___lalrpop_util;
+#[allow(unused_imports)]
+use self::___lalrpop_util::state_machine as ___state_machine;
 
 #[cfg_attr(rustfmt, rustfmt_skip)]
 mod ___parse___Top {
@@ -25,6 +27,8 @@ use lalrpop_util::ParseError;
 use super::super::Top;
 #[allow(unused_extern_crates)]
 extern crate lalrpop_util as ___lalrpop_util;
+#[allow(unused_imports)]
+use self::___lalrpop_util::state_machine as ___state_machine;
 use super::___ToTriple;
 #[allow(dead_code)]
 pub enum ___Symbol<'input>

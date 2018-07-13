@@ -114,12 +114,6 @@ lalrpop_mod!(error_issue_278);
 /// test for generic macros issue #417.
 lalrpop_mod!(generics_issue_417);
 
-// Check that error recovery (which requires cloneable tokens) is not created if it is not used
-lalrpop_mod!(
-    #[allow(unused)]
-    no_clone_tok
-);
-
 lalrpop_mod!(
     #[deny(overflowing_literals)]
     #[allow(unused)]
