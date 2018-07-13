@@ -145,17 +145,16 @@ impl<'ascent, 'grammar, W: Write>
             .cloned()
             .collect();
 
-        let mut referenced_where_clauses = Set::new();
-        for wc in &grammar.where_clauses {
-            wc.map(|ty| {
-                if ty.free_variables()
+        let referenced_where_clauses: Set<_> = grammar
+            .where_clauses
+            .iter()
+            .filter(|wc| {
+                wc.free_variables()
                     .iter()
                     .any(|p| nonterminal_type_params.contains(p))
-                {
-                    referenced_where_clauses.insert(wc.clone());
-                }
-            });
-        }
+            })
+            .cloned()
+            .collect();
 
         let nonterminal_where_clauses: Vec<_> = grammar
             .where_clauses
@@ -547,7 +546,7 @@ impl<'ascent, 'grammar, W: Write>
             vec![format!(
                 "{}TOKENS: Iterator<Item=Result<{},{}>>",
                 self.prefix, triple_type, iter_error_type
-            ),],
+            )],
             None,
             true, // include grammar parameters
             fn_args,

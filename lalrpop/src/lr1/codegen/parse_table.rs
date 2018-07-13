@@ -319,17 +319,16 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
             .cloned()
             .collect();
 
-        let mut referenced_where_clauses = Set::new();
-        for wc in &grammar.where_clauses {
-            wc.map(|ty| {
-                if ty.free_variables()
+        let referenced_where_clauses: Set<_> = grammar
+            .where_clauses
+            .iter()
+            .filter(|wc| {
+                wc.free_variables()
                     .iter()
                     .any(|p| symbol_type_params.contains(p))
-                {
-                    referenced_where_clauses.insert(wc.clone());
-                }
-            });
-        }
+            })
+            .cloned()
+            .collect();
 
         let symbol_where_clauses: Vec<_> = grammar
             .where_clauses
