@@ -231,7 +231,7 @@ pub enum WhereClause<T> {
     },
     // where for<'a> &'a T: Debug + Into<usize>
     Type {
-        forall: Option<Vec<Atom>>,
+        forall: Vec<TypeParameter>,
         ty: T,
         bounds: Vec<TypeBound<T>>,
     },
@@ -269,7 +269,7 @@ pub enum TypeBound<T> {
     Lifetime(Atom),
     // `for<'a> FnMut(&'a usize)`
     Fn {
-        forall: Option<Vec<Atom>>,
+        forall: Vec<TypeParameter>,
         path: Path,
         parameters: Vec<T>,
         ret: Option<T>,
@@ -277,7 +277,7 @@ pub enum TypeBound<T> {
     // `some::Trait` or `some::Trait<Param, ...>` or `some::Trait<Item = Assoc>`
     // or `for<'a> Trait<'a, T>`
     Trait {
-        forall: Option<Vec<Atom>>,
+        forall: Vec<TypeParameter>,
         path: Path,
         parameters: Vec<TypeBoundParameter<T>>,
     },
@@ -712,7 +712,7 @@ impl<T: Display> Display for WhereClause<T> {
                 ref ty,
                 ref bounds,
             } => {
-                if let Some(ref forall) = *forall {
+                if !forall.is_empty() {
                     write!(fmt, "for<")?;
                     for (i, l) in forall.iter().enumerate() {
                         if i != 0 {
@@ -746,7 +746,7 @@ impl<T: Display> Display for TypeBound<T> {
                 ref parameters,
                 ref ret,
             } => {
-                if let Some(ref forall) = *forall {
+                if !forall.is_empty() {
                     write!(fmt, "for<")?;
                     for (i, l) in forall.iter().enumerate() {
                         if i != 0 {
@@ -777,7 +777,7 @@ impl<T: Display> Display for TypeBound<T> {
                 ref path,
                 ref parameters,
             } => {
-                if let Some(ref forall) = *forall {
+                if !forall.is_empty() {
                     write!(fmt, "for<")?;
                     for (i, l) in forall.iter().enumerate() {
                         if i != 0 {

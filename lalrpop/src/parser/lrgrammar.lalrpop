@@ -52,12 +52,14 @@ GrammarWhereClauses: Vec<WhereClause<TypeRef>> =
 GrammarWhereClause: WhereClause<TypeRef> = {
     <l:Lifetime> ":" <bounds:Plus<Lifetime>> =>
         WhereClause::Lifetime { lifetime: l, bounds: bounds },
-    <f:ForAll?> <ty:TypeRef> ":" <bounds:TypeBounds> =>
+    <f:ForAll> <ty:TypeRef> ":" <bounds:TypeBounds> =>
         WhereClause::Type { forall: f, ty: ty, bounds: bounds }
 };
 
-ForAll: Vec<Atom> =
-    "for" "<" <Comma<Lifetime>> ">";
+ForAll: Vec<TypeParameter> = {
+    "for" "<" <Comma<TypeParameter>> ">",
+    () => vec![],
+};
 
 TypeBounds: Vec<TypeBound<TypeRef>> =
     <Plus<TypeBound>>;
@@ -65,9 +67,9 @@ TypeBounds: Vec<TypeBound<TypeRef>> =
 TypeBound: TypeBound<TypeRef> = {
     <l:Lifetime> =>
         TypeBound::Lifetime(l),
-    <f:ForAll?> <p:Path> "(" <params:Comma<TypeRef>> ")" <ret:("->" <TypeRef>)?> =>
+    <f:ForAll> <p:Path> "(" <params:Comma<TypeRef>> ")" <ret:("->" <TypeRef>)?> =>
         TypeBound::Fn { forall: f, path: p, parameters: params, ret: ret },
-    <f:ForAll?> <p:Path> <params:("<" <Comma<TypeBoundParameter>> ">")?> =>
+    <f:ForAll> <p:Path> <params:("<" <Comma<TypeBoundParameter>> ">")?> =>
         TypeBound::Trait { forall: f, path: p, parameters: params.unwrap_or(vec![]) }
 };
 
