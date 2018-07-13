@@ -1,6 +1,7 @@
 //! A compiler from an LR(1) table to a traditional table driven parser.
 
 use collections::{Entry, Map, Set};
+use grammar::free_variables::FreeVariables;
 use grammar::parse_tree::WhereClause;
 use grammar::repr::*;
 use string_cache::DefaultAtom as Atom;
@@ -308,7 +309,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
             .nonterminal_types()
             .into_iter()
             .chain(grammar.types.terminal_types())
-            .flat_map(|t| t.referenced())
+            .flat_map(|t| t.free_variables())
             .collect();
 
         let symbol_type_params: Vec<_> = grammar
@@ -321,7 +322,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
         let mut referenced_where_clauses = Set::new();
         for wc in &grammar.where_clauses {
             wc.map(|ty| {
-                if ty.referenced()
+                if ty.free_variables()
                     .iter()
                     .any(|p| symbol_type_params.contains(p))
                 {

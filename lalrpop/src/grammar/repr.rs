@@ -201,38 +201,6 @@ impl TypeRepr {
             types: vec![],
         })
     }
-
-    /// Returns the type parameters (or potential type parameters)
-    /// referenced by this type. e.g., for the type `&'x X`, would
-    /// return `[TypeParameter::Lifetime('x), TypeParameter::Id(X)]`.
-    /// This is later used to prune the type parameters list so that
-    /// only those that are actually used are included.
-    pub fn referenced(&self) -> Vec<TypeParameter> {
-        match *self {
-            TypeRepr::Tuple(ref tys) => tys.iter().flat_map(|t| t.referenced()).collect(),
-            TypeRepr::Nominal(ref data) => data.types
-                .iter()
-                .flat_map(|t| t.referenced())
-                .chain(match data.path.as_id() {
-                    Some(id) => vec![TypeParameter::Id(id)],
-                    None => vec![],
-                })
-                .collect(),
-            TypeRepr::Associated {
-                ref type_parameter, ..
-            } => vec![TypeParameter::Id(type_parameter.clone())],
-            TypeRepr::Lifetime(ref l) => vec![TypeParameter::Lifetime(l.clone())],
-            TypeRepr::Ref {
-                ref lifetime,
-                mutable: _,
-                ref referent,
-            } => lifetime
-                .iter()
-                .map(|id| TypeParameter::Lifetime(id.clone()))
-                .chain(referent.referenced())
-                .collect(),
-        }
-    }
 }
 
 #[derive(Clone, PartialEq, Eq, PartialOrd, Ord)]
