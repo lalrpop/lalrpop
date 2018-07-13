@@ -3,6 +3,7 @@
 //! [recursive ascent]: https://en.wikipedia.org/wiki/Recursive_ascent_parser
 
 use collections::{Multimap, Set};
+use grammar::free_variables::FreeVariables;
 use grammar::parse_tree::WhereClause;
 use grammar::repr::{
     Grammar, NonterminalString, Production, Symbol, TerminalString, TypeParameter, TypeRepr,
@@ -134,7 +135,7 @@ impl<'ascent, 'grammar, W: Write>
             .types
             .nonterminal_types()
             .into_iter()
-            .flat_map(|t| t.referenced())
+            .flat_map(|t| t.free_variables())
             .collect();
 
         let nonterminal_type_params: Vec<_> = grammar
@@ -147,8 +148,7 @@ impl<'ascent, 'grammar, W: Write>
         let mut referenced_where_clauses = Set::new();
         for wc in &grammar.where_clauses {
             wc.map(|ty| {
-                if ty
-                    .referenced()
+                if ty.free_variables()
                     .iter()
                     .any(|p| nonterminal_type_params.contains(p))
                 {
