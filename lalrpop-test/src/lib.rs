@@ -107,10 +107,6 @@ lalrpop_mod!(partial_parse);
 /// regression test for issue #278.
 lalrpop_mod!(error_issue_278);
 
-// Check that error recovery (which requires cloneable tokens) is not created if it is not used
-#[allow(unused)]
-lalrpop_mod!(no_clone_tok);
-
 mod util;
 
 /// This constant is here so that some of the generator parsers can
