@@ -1,7 +1,7 @@
 //! The "parse-tree" is what is produced by the parser. We use it do
 //! some pre-expansion and so forth before creating the proper AST.
 
-use grammar::consts::{LALR, RECURSIVE_ASCENT, TABLE_DRIVEN, TEST_ALL};
+use grammar::consts::{INPUT_LIFETIME, LALR, RECURSIVE_ASCENT, TABLE_DRIVEN, TEST_ALL};
 use grammar::pattern::Pattern;
 use grammar::repr::{self as r, NominalTypeRepr, TypeRepr};
 use lexer::dfa::DFA;
@@ -207,13 +207,13 @@ pub enum TypeRef {
     },
 
     Ref {
-        lifetime: Option<Atom>,
+        lifetime: Option<Lifetime>,
         mutable: bool,
         referent: Box<TypeRef>,
     },
 
     // 'x ==> only should appear within nominal types, but what do we care
-    Lifetime(Atom),
+    Lifetime(Lifetime),
 
     // Foo or Bar ==> treated specially since macros may care
     Id(Atom),
@@ -226,8 +226,8 @@ pub enum TypeRef {
 pub enum WhereClause<T> {
     // 'a: 'b + 'c
     Lifetime {
-        lifetime: Atom,
-        bounds: Vec<Atom>,
+        lifetime: Lifetime,
+        bounds: Vec<Lifetime>,
     },
     // where for<'a> &'a T: Debug + Into<usize>
     Type {
@@ -266,7 +266,7 @@ impl<T> WhereClause<T> {
 #[derive(Clone, Debug, PartialEq, Eq, PartialOrd, Ord)]
 pub enum TypeBound<T> {
     // The `'a` in `T: 'a`.
-    Lifetime(Atom),
+    Lifetime(Lifetime),
     // `for<'a> FnMut(&'a usize)`
     Fn {
         forall: Vec<TypeParameter>,
@@ -317,7 +317,7 @@ impl<T> TypeBound<T> {
 #[derive(Clone, Debug, PartialEq, Eq, PartialOrd, Ord)]
 pub enum TypeBoundParameter<T> {
     // 'a
-    Lifetime(Atom),
+    Lifetime(Lifetime),
     // `T` or `'a`
     TypeParameter(T),
     // `Item = T`
@@ -341,7 +341,7 @@ impl<T> TypeBoundParameter<T> {
 
 #[derive(Clone, Debug, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub enum TypeParameter {
-    Lifetime(Atom),
+    Lifetime(Lifetime),
     Id(Atom),
 }
 
@@ -535,6 +535,23 @@ impl Into<Box<Content>> for NonterminalString {
             .text(self)
             .styled(session.nonterminal_symbol)
             .end()
+    }
+}
+
+#[derive(Clone, Hash, PartialEq, Eq, PartialOrd, Ord)]
+pub struct Lifetime(pub Atom);
+
+impl Lifetime {
+    pub fn statik() -> Self {
+        Lifetime(Atom::from("'static"))
+    }
+
+    pub fn input() -> Self {
+        Lifetime(Atom::from(INPUT_LIFETIME))
+    }
+
+    pub fn len(&self) -> usize {
+        self.0.len()
     }
 }
 
@@ -818,6 +835,18 @@ impl Display for TerminalString {
 }
 
 impl Debug for TerminalString {
+    fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
+        Display::fmt(self, fmt)
+    }
+}
+
+impl Display for Lifetime {
+    fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
+        Display::fmt(&self.0, fmt)
+    }
+}
+
+impl Debug for Lifetime {
     fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
         Display::fmt(self, fmt)
     }

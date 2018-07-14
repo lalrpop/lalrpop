@@ -13,8 +13,8 @@ use util::Sep;
 
 // These concepts we re-use wholesale
 pub use grammar::parse_tree::{
-    Annotation, InternToken, NonterminalString, Path, Span, TerminalLiteral, TerminalString,
-    TypeParameter, Visibility, WhereClause,
+    Annotation, InternToken, Lifetime, NonterminalString, Path, Span, TerminalLiteral,
+    TerminalString, TypeParameter, Visibility, WhereClause,
 };
 
 #[derive(Clone, Debug)]
@@ -173,9 +173,9 @@ pub enum TypeRepr {
         type_parameter: Atom,
         id: Atom,
     },
-    Lifetime(Atom),
+    Lifetime(Lifetime),
     Ref {
-        lifetime: Option<Atom>,
+        lifetime: Option<Lifetime>,
         mutable: bool,
         referent: Box<TypeRepr>,
     },
@@ -294,7 +294,7 @@ impl Types {
 
     pub fn error_type(&self) -> TypeRepr {
         self.error_type.clone().unwrap_or_else(|| TypeRepr::Ref {
-            lifetime: Some(Atom::from("'static")),
+            lifetime: Some(Lifetime::statik()),
             mutable: false,
             referent: Box::new(TypeRepr::str()),
         })

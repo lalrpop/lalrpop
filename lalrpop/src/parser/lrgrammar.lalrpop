@@ -392,8 +392,8 @@ Id: Atom = {
 Escape: Atom =
     <i:"Escape"> => Atom::from(i);
 
-Lifetime: Atom =
-    <i:"Lifetime"> => Atom::from(i);
+Lifetime: Lifetime =
+    <i:"Lifetime"> => Lifetime(Atom::from(i));
 
 Terminal: TerminalString = {
     QuotedTerminal,

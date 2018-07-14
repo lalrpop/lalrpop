@@ -2,9 +2,11 @@
 //!
 
 use collections::{map, Map};
-use grammar::consts::*;
+use grammar::consts::CFG;
 use grammar::parse_tree as pt;
-use grammar::parse_tree::{read_algorithm, InternToken, NonterminalString, Path, TerminalString};
+use grammar::parse_tree::{
+    read_algorithm, InternToken, Lifetime, NonterminalString, Path, TerminalString,
+};
 use grammar::pattern::{Pattern, PatternKind};
 use grammar::repr as r;
 use normalize::norm_util::{self, Symbols};
@@ -68,7 +70,7 @@ impl<'s> LowerState<'s> {
                     token_span = Some(grammar.span);
                     let span = grammar.span;
                     let input_str = r::TypeRepr::Ref {
-                        lifetime: Some(Atom::from(INPUT_LIFETIME)),
+                        lifetime: Some(Lifetime::input()),
                         mutable: false,
                         referent: Box::new(r::TypeRepr::Nominal(r::NominalTypeRepr {
                             path: r::Path::str(),
