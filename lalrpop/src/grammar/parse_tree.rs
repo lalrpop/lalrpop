@@ -237,36 +237,11 @@ pub enum WhereClause<T> {
     },
 }
 
-impl<T> WhereClause<T> {
-    pub fn map<F, U>(&self, mut f: F) -> WhereClause<U>
-    where
-        F: FnMut(&T) -> U,
-    {
-        match *self {
-            WhereClause::Lifetime {
-                ref lifetime,
-                ref bounds,
-            } => WhereClause::Lifetime {
-                lifetime: lifetime.clone(),
-                bounds: bounds.clone(),
-            },
-            WhereClause::Type {
-                ref forall,
-                ref ty,
-                ref bounds,
-            } => WhereClause::Type {
-                forall: forall.clone(),
-                ty: f(ty),
-                bounds: bounds.iter().map(|b| b.map(&mut f)).collect(),
-            },
-        }
-    }
-}
-
 #[derive(Clone, Debug, PartialEq, Eq, PartialOrd, Ord)]
 pub enum TypeBound<T> {
     // The `'a` in `T: 'a`.
     Lifetime(Lifetime),
+
     // `for<'a> FnMut(&'a usize)`
     Fn {
         forall: Vec<TypeParameter>,
@@ -274,6 +249,7 @@ pub enum TypeBound<T> {
         parameters: Vec<T>,
         ret: Option<T>,
     },
+
     // `some::Trait` or `some::Trait<Param, ...>` or `some::Trait<Item = Assoc>`
     // or `for<'a> Trait<'a, T>`
     Trait {

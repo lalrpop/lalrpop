@@ -158,7 +158,7 @@ impl<'s> LowerState<'s> {
         let where_clauses = grammar
             .where_clauses
             .iter()
-            .map(|wc| wc.map(pt::TypeRef::type_repr))
+            .flat_map(|wc| self.lower_where_clause(wc))
             .collect();
 
         let mut algorithm = r::Algorithm::default();
@@ -253,6 +253,39 @@ impl<'s> LowerState<'s> {
                 (nt.name.clone(), fake_name)
             })
             .collect()
+    }
+
+    /// When we lower where clauses into `repr::WhereClause`, they get
+    /// flattened; so we may go from `T: Foo + Bar` into `[T: Foo, T:
+    /// Bar]`. We also convert to `TypeRepr` and so forth.
+    fn lower_where_clause(&mut self, wc: &pt::WhereClause<pt::TypeRef>) -> Vec<r::WhereClause> {
+        match wc {
+            pt::WhereClause::Lifetime { lifetime, bounds } => bounds
+                .iter()
+                .map(|bound| r::WhereClause::Bound {
+                    subject: r::TypeRepr::Lifetime(lifetime.clone()),
+                    bound: pt::TypeBound::Lifetime(bound.clone()),
+                })
+                .collect(),
+
+            pt::WhereClause::Type { forall, ty, bounds } => bounds
+                .iter()
+                .map(|bound| r::WhereClause::Bound {
+                    subject: ty.type_repr(),
+                    bound: bound.map(pt::TypeRef::type_repr),
+                })
+                .map(|bound| {
+                    if forall.is_empty() {
+                        bound
+                    } else {
+                        r::WhereClause::Forall {
+                            binder: forall.clone(),
+                            clause: Box::new(bound),
+                        }
+                    }
+                })
+                .collect(),
+        }
     }
 
     fn action_kind(

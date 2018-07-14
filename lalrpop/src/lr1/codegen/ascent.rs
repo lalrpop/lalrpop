@@ -4,10 +4,9 @@
 
 use collections::{Multimap, Set};
 use grammar::free_variables::FreeVariables;
-use grammar::parse_tree::WhereClause;
 use grammar::repr::{
     Grammar, NonterminalString, Production, Symbol, TerminalString, TypeParameter, TypeRepr,
-    Visibility,
+    WhereClause, Visibility,
 };
 use lr1::core::*;
 use lr1::lookahead::Token;
@@ -50,7 +49,7 @@ struct RecursiveAscent<'ascent, 'grammar> {
     /// type parameters for the `Nonterminal` type
     nonterminal_type_params: Vec<TypeParameter>,
 
-    nonterminal_where_clauses: Vec<WhereClause<TypeRepr>>,
+    nonterminal_where_clauses: Vec<WhereClause>,
 }
 
 /// Tracks the suffix of the stack (that is, top-most elements) that any
