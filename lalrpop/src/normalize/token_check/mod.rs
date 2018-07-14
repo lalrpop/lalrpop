@@ -381,10 +381,10 @@ fn construct(grammar: &mut Grammar, match_block: MatchBlock) -> NormResult<()> {
 
     // we need to inject a `'input` lifetime and `input: &'input str` parameter as well:
 
-    let input_lifetime = Atom::from(INPUT_LIFETIME);
+    let input_lifetime = Lifetime::input();
     for parameter in &grammar.type_parameters {
-        match *parameter {
-            TypeParameter::Lifetime(ref i) if *i == input_lifetime => {
+        match parameter {
+            TypeParameter::Lifetime(i) if *i == input_lifetime => {
                 return_err!(
                     grammar.span,
                     "since there is no external token enum specified, \

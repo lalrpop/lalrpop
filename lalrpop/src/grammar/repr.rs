@@ -4,17 +4,18 @@
  * representation incrementally.
  */
 
-use string_cache::DefaultAtom as Atom;
+use collections::{map, Map};
 use grammar::pattern::Pattern;
 use message::Content;
 use std::fmt::{Debug, Display, Error, Formatter};
-use collections::{map, Map};
+use string_cache::DefaultAtom as Atom;
 use util::Sep;
 
 // These concepts we re-use wholesale
-pub use grammar::parse_tree::{Annotation, InternToken, NonterminalString, Path, Span,
-                              TerminalLiteral, TerminalString, TypeParameter, Visibility,
-                              WhereClause};
+pub use grammar::parse_tree::{
+    Annotation, InternToken, Lifetime, NonterminalString, Path, Span, TerminalLiteral,
+    TerminalString, TypeParameter, Visibility, WhereClause,
+};
 
 #[derive(Clone, Debug)]
 pub struct Grammar {
@@ -172,9 +173,9 @@ pub enum TypeRepr {
         type_parameter: Atom,
         id: Atom,
     },
-    Lifetime(Atom),
+    Lifetime(Lifetime),
     Ref {
-        lifetime: Option<Atom>,
+        lifetime: Option<Lifetime>,
         mutable: bool,
         referent: Box<TypeRepr>,
     },
@@ -293,7 +294,7 @@ impl Types {
 
     pub fn error_type(&self) -> TypeRepr {
         self.error_type.clone().unwrap_or_else(|| TypeRepr::Ref {
-            lifetime: Some(Atom::from("'static")),
+            lifetime: Some(Lifetime::statik()),
             mutable: false,
             referent: Box::new(TypeRepr::str()),
         })
@@ -488,7 +489,8 @@ impl ActionFnDefn {
 
 impl UserActionFnDefn {
     fn to_fn_string(&self, defn: &ActionFnDefn, name: &str) -> String {
-        let arg_strings: Vec<String> = self.arg_patterns
+        let arg_strings: Vec<String> = self
+            .arg_patterns
             .iter()
             .zip(self.arg_types.iter())
             .map(|(p, t)| format!("{}: {}", p, t))
@@ -506,7 +508,8 @@ impl UserActionFnDefn {
 
 impl InlineActionFnDefn {
     fn to_fn_string(&self, name: &str) -> String {
-        let arg_strings: Vec<String> = self.symbols
+        let arg_strings: Vec<String> = self
+            .symbols
             .iter()
             .map(|inline_sym| match *inline_sym {
                 InlinedSymbol::Original(ref s) => format!("{}", s),

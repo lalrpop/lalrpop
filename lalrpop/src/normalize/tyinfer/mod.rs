@@ -1,11 +1,13 @@
-use super::{NormError, NormResult};
 use super::norm_util::{self, AlternativeAction, Symbols};
+use super::{NormError, NormResult};
 
-use std::collections::{HashMap, HashSet};
-use grammar::consts::{ERROR, INPUT_LIFETIME, LOCATION};
-use grammar::parse_tree::{ActionKind, Alternative, Grammar, NonterminalData, NonterminalString,
-                          Path, Span, SymbolKind, TypeParameter, TypeRef};
+use grammar::consts::{ERROR, LOCATION};
+use grammar::parse_tree::{
+    ActionKind, Alternative, Grammar, Lifetime, NonterminalData, NonterminalString, Path, Span,
+    SymbolKind, TypeParameter, TypeRef,
+};
 use grammar::repr::{NominalTypeRepr, TypeRepr, Types};
+use std::collections::{HashMap, HashSet};
 use string_cache::DefaultAtom as Atom;
 
 #[cfg(test)]
@@ -78,7 +80,7 @@ impl<'grammar> TypeInferencer<'grammar> {
                 TypeRepr::usize();
             let input_str = // &'input str
                 TypeRepr::Ref {
-                    lifetime: Some(Atom::from(INPUT_LIFETIME)),
+                    lifetime: Some(Lifetime::input()),
                     mutable: false,
                     referent: Box::new(TypeRepr::str())
                 };
@@ -88,7 +90,7 @@ impl<'grammar> TypeInferencer<'grammar> {
                         absolute: false,
                         ids: vec![Atom::from("Token")],
                     },
-                    types: vec![TypeRepr::Lifetime(Atom::from(INPUT_LIFETIME))]
+                    types: vec![TypeRepr::Lifetime(Lifetime::input())]
                 });
 
             let mut types = Types::new(&grammar.prefix, Some(loc_type), error_type, enum_type);
