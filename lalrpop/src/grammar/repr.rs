@@ -14,7 +14,7 @@ use util::Sep;
 // These concepts we re-use wholesale
 pub use grammar::parse_tree::{
     Annotation, InternToken, Lifetime, NonterminalString, Path, Span, TerminalLiteral,
-    TerminalString, TypeParameter, Visibility, WhereClause,
+    TerminalString, TypeBound, TypeBoundParameter, TypeParameter, Visibility,
 };
 
 #[derive(Clone, Debug)]
@@ -45,7 +45,7 @@ pub struct Grammar {
     pub parameters: Vec<Parameter>,
 
     // where clauses declared on the grammar, like `grammar<T> where T: Sized`
-    pub where_clauses: Vec<WhereClause<TypeRepr>>,
+    pub where_clauses: Vec<WhereClause>,
 
     // optional tokenizer DFA; this is only needed if the user did not supply
     // an extern token declaration
@@ -59,6 +59,21 @@ pub struct Grammar {
     pub conversions: Map<TerminalString, Pattern<TypeRepr>>,
     pub types: Types,
     pub module_attributes: Vec<String>,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, PartialOrd, Ord)]
+pub enum WhereClause {
+    // forall<'a> WC
+    Forall {
+        binder: Vec<TypeParameter>,
+        clause: Box<WhereClause>,
+    },
+
+    // `T: Foo`
+    Bound {
+        subject: TypeRepr,
+        bound: TypeBound<TypeRepr>,
+    },
 }
 
 /// For each terminal, we map it to a small integer from 0 to N.
@@ -341,6 +356,20 @@ impl Types {
     pub fn spanned_type(&self, ty: TypeRepr) -> TypeRepr {
         let location_type = self.terminal_loc_type();
         TypeRepr::Tuple(vec![location_type.clone(), ty, location_type])
+    }
+}
+
+impl Display for WhereClause {
+    fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
+        match self {
+            WhereClause::Forall { binder, clause } => {
+                write!(fmt, "for<{}> {}", Sep(", ", binder), clause)
+            }
+
+            WhereClause::Bound { subject, bound } => {
+                write!(fmt, "{}: {}", subject, bound)
+            }
+        }
     }
 }
 

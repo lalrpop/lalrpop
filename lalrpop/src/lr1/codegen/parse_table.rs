@@ -2,7 +2,6 @@
 
 use collections::{Entry, Map, Set};
 use grammar::free_variables::FreeVariables;
-use grammar::parse_tree::WhereClause;
 use grammar::repr::*;
 use lr1::core::*;
 use lr1::lookahead::Token;
@@ -276,7 +275,7 @@ struct TableDriven<'grammar> {
     /// type parameters for the `Nonterminal` type
     symbol_type_params: Vec<TypeParameter>,
 
-    symbol_where_clauses: Vec<WhereClause<TypeRepr>>,
+    symbol_where_clauses: Vec<WhereClause>,
 
     /// a list of each nonterminal in some specific order
     all_nonterminals: Vec<NonterminalString>,

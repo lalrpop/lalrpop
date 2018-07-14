@@ -47,6 +47,24 @@ impl FreeVariables for repr::TypeRepr {
     }
 }
 
+impl FreeVariables for repr::WhereClause {
+    fn free_variables(&self) -> Vec<TypeParameter> {
+        match self {
+            repr::WhereClause::Forall { binder, clause } => clause
+                .free_variables()
+                .into_iter()
+                .filter(|tp| !binder.contains(tp))
+                .collect(),
+
+            repr::WhereClause::Bound { subject, bound } => subject
+                .free_variables()
+                .into_iter()
+                .chain(bound.free_variables())
+                .collect(),
+        }
+    }
+}
+
 impl FreeVariables for parse_tree::Path {
     fn free_variables(&self) -> Vec<TypeParameter> {
         // A path like `foo::Bar` is considered no free variables; a
@@ -73,10 +91,11 @@ impl FreeVariables for repr::NominalTypeRepr {
 impl<T: FreeVariables> FreeVariables for parse_tree::WhereClause<T> {
     fn free_variables(&self) -> Vec<TypeParameter> {
         match self {
-            parse_tree::WhereClause::Lifetime { lifetime, bounds } =>
+            parse_tree::WhereClause::Lifetime { lifetime, bounds } => {
                 iter::once(TypeParameter::Lifetime(lifetime.clone()))
                     .chain(bounds.iter().map(|l| TypeParameter::Lifetime(l.clone())))
-                    .collect(),
+                    .collect()
+            }
 
             parse_tree::WhereClause::Type { forall, ty, bounds } => ty
                 .free_variables()
