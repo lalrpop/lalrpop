@@ -1,5 +1,7 @@
 //! Base helper routines for a code generator.
 
+use collections::Set;
+use grammar::free_variables::FreeVariables;
 use grammar::repr::*;
 use lr1::core::*;
 use rust::RustWrite;
@@ -64,6 +66,55 @@ impl<'codegen, 'grammar, W: Write, C> CodeGenerator<'codegen, 'grammar, W, C> {
             repeatable: repeatable,
             action_module: action_module.to_string(),
         }
+    }
+
+    /// The nonterminal type needs to be parameterized by all the type
+    /// parameters that actually appear in the types of nonterminals.
+    /// We can't just use *all* type parameters because that would
+    /// leave unused lifetime/type parameters in some cases.
+    pub fn filter_type_parameters_and_where_clauses(
+        grammar: &Grammar,
+        referenced_ty_params: impl IntoIterator<Item = TypeRepr>,
+    ) -> (Vec<TypeParameter>, Vec<WhereClause>) {
+        let referenced_ty_params: Set<_> = referenced_ty_params
+            .into_iter()
+            .flat_map(|t| t.free_variables())
+            .collect();
+
+        let filtered_type_params: Vec<_> = grammar
+            .type_parameters
+            .iter()
+            .filter(|t| referenced_ty_params.contains(t))
+            .cloned()
+            .collect();
+
+        // FIXME: this is wrong. We are currently including something
+        // like `P: Foo<'a>` only if both `P` and `'a` are referenced;
+        // but if we have `P::Bar` that may come from the `Foo<'a>`
+        // bound. The problem is that we don't want `P: 'a` to force
+        // `'a` to be included.
+        debug!("filtered_type_params = {:?}", filtered_type_params);
+        let referenced_where_clauses: Set<_> = grammar
+            .where_clauses
+            .iter()
+            .filter(|wc| {
+                debug!("wc = {:?} free_variables = {:?}", wc, wc.free_variables());
+                wc.free_variables()
+                    .iter()
+                    .any(|p| filtered_type_params.contains(p))
+            })
+            .cloned()
+            .collect();
+        debug!("referenced_where_clauses = {:?}", referenced_where_clauses);
+
+        let filtered_where_clauses: Vec<_> = grammar
+            .where_clauses
+            .iter()
+            .filter(|wc| referenced_where_clauses.contains(wc))
+            .cloned()
+            .collect();
+
+        (filtered_type_params, filtered_where_clauses)
     }
 
     pub fn write_parse_mod<F>(&mut self, body: F) -> io::Result<()>
