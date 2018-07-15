@@ -2,8 +2,7 @@
 //!
 //! [recursive ascent]: https://en.wikipedia.org/wiki/Recursive_ascent_parser
 
-use collections::{Multimap, Set};
-use grammar::free_variables::FreeVariables;
+use collections::Multimap;
 use grammar::repr::{
     Grammar, NonterminalString, Production, Symbol, TerminalString, TypeParameter, TypeRepr,
     WhereClause, Visibility,
@@ -125,42 +124,13 @@ impl<'ascent, 'grammar, W: Write>
         action_module: &str,
         out: &'ascent mut RustWrite<W>,
     ) -> Self {
-        // The nonterminal type needs to be parameterized by all the
-        // type parameters that actually appear in the types of
-        // nonterminals.  We can't just use *all* type parameters
-        // because that would leave unused lifetime/type parameters in
-        // some cases.
-        let referenced_ty_params: Set<TypeParameter> = grammar
-            .types
-            .nonterminal_types()
-            .into_iter()
-            .flat_map(|t| t.free_variables())
-            .collect();
-
-        let nonterminal_type_params: Vec<_> = grammar
-            .type_parameters
-            .iter()
-            .filter(|t| referenced_ty_params.contains(t))
-            .cloned()
-            .collect();
-
-        let referenced_where_clauses: Set<_> = grammar
-            .where_clauses
-            .iter()
-            .filter(|wc| {
-                wc.free_variables()
-                    .iter()
-                    .any(|p| nonterminal_type_params.contains(p))
-            })
-            .cloned()
-            .collect();
-
-        let nonterminal_where_clauses: Vec<_> = grammar
-            .where_clauses
-            .iter()
-            .filter(|wc| referenced_where_clauses.contains(wc))
-            .cloned()
-            .collect();
+        let (nonterminal_type_params, nonterminal_where_clauses) =
+            Self::filter_type_parameters_and_where_clauses(
+                grammar,
+                grammar
+                    .types
+                    .nonterminal_types()
+            );
 
         let state_inputs = states
             .iter()

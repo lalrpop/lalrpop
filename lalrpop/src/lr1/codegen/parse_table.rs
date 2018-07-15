@@ -1,7 +1,6 @@
 //! A compiler from an LR(1) table to a traditional table driven parser.
 
 use collections::{Entry, Map, Set};
-use grammar::free_variables::FreeVariables;
 use grammar::repr::*;
 use string_cache::DefaultAtom as Atom;
 use lr1::core::*;
@@ -298,43 +297,15 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
         action_module: &str,
         out: &'ascent mut RustWrite<W>,
     ) -> Self {
-        // The nonterminal type needs to be parameterized by all the
-        // type parameters that actually appear in the types of
-        // nonterminals.  We can't just use *all* type parameters
-        // because that would leave unused lifetime/type parameters in
-        // some cases.
-        let referenced_ty_params: Set<TypeParameter> = grammar
-            .types
-            .nonterminal_types()
-            .into_iter()
-            .chain(grammar.types.terminal_types())
-            .flat_map(|t| t.free_variables())
-            .collect();
-
-        let symbol_type_params: Vec<_> = grammar
-            .type_parameters
-            .iter()
-            .filter(|t| referenced_ty_params.contains(t))
-            .cloned()
-            .collect();
-
-        let referenced_where_clauses: Set<_> = grammar
-            .where_clauses
-            .iter()
-            .filter(|wc| {
-                wc.free_variables()
-                    .iter()
-                    .any(|p| symbol_type_params.contains(p))
-            })
-            .cloned()
-            .collect();
-
-        let symbol_where_clauses: Vec<_> = grammar
-            .where_clauses
-            .iter()
-            .filter(|wc| referenced_where_clauses.contains(wc))
-            .cloned()
-            .collect();
+        let (symbol_type_params, symbol_where_clauses) =
+            Self::filter_type_parameters_and_where_clauses(
+                grammar,
+                grammar
+                    .types
+                    .nonterminal_types()
+                    .into_iter()
+                    .chain(grammar.types.terminal_types())
+            );
 
         // Assign each production a unique index to use as the values for reduce
         // actions in the ACTION and EOF_ACTION tables.
