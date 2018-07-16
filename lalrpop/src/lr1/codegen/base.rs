@@ -68,17 +68,50 @@ impl<'codegen, 'grammar, W: Write, C> CodeGenerator<'codegen, 'grammar, W, C> {
         }
     }
 
-    /// The nonterminal type needs to be parameterized by all the type
-    /// parameters that actually appear in the types of nonterminals.
-    /// We can't just use *all* type parameters because that would
-    /// leave unused lifetime/type parameters in some cases.
+    /// We often create meta types that pull together a bunch of
+    /// user-given types -- basically describing (e.g.) the full set
+    /// of return values from any nonterminal (and, in some cases,
+    /// terminals). These types need to carry generic parameters from
+    /// the grammar, since the nonterminals may include generic
+    /// parameters -- but we don't want them to carry *all* the
+    /// generic parameters, since that can be unnecessarily
+    /// restrictive.
+    ///
+    /// In particular, consider something like this:
+    ///
+    /// ```notrust
+    /// grammar<'a>(buffer: &'a mut Vec<u32>);
+    /// ```
+    ///
+    /// Here, we likely do not want the `'a` in the type of `buffer` to appear
+    /// in the nonterminal result. That's because, if it did, then the
+    /// action functions will have a signature like:
+    ///
+    /// ```ignore
+    /// fn foo<'a, T>(x: &'a mut Vec<T>) -> Result<'a> { ... }
+    /// ```
+    ///
+    /// In that case, we would only be able to call one action fn and
+    /// will in fact get borrowck errors, because Rust would think we
+    /// were potentially returning this `&'a mut Vec<T>`.
+    ///
+    /// Therefore, we take the full list of type parameters and we
+    /// filter them down to those that appear in the types that we
+    /// need to include (those that appear in the `tys` parameter).
+    ///
+    /// In some cases, we need to include a few more than just that
+    /// obviously appear textually: for example, if we have `T::Foo`,
+    /// and we see a where-clause `T: Bar<'a>`, then we need to
+    /// include both `T` and `'a`, since that bound may be important
+    /// for resolving `T::Foo` (in other words, `T::Foo` may expand to
+    /// `<T as Bar<'a>>::Foo`).
     pub fn filter_type_parameters_and_where_clauses(
         grammar: &Grammar,
-        referenced_ty_params: impl IntoIterator<Item = TypeRepr>,
+        tys: impl IntoIterator<Item = TypeRepr>,
     ) -> (Vec<TypeParameter>, Vec<WhereClause>) {
-        let referenced_ty_params: Set<_> = referenced_ty_params
+        let referenced_ty_params: Set<_> = tys
             .into_iter()
-            .flat_map(|t| t.free_variables())
+            .flat_map(|t| t.free_variables(&grammar.type_parameters))
             .collect();
 
         let filtered_type_params: Vec<_> = grammar
@@ -88,31 +121,33 @@ impl<'codegen, 'grammar, W: Write, C> CodeGenerator<'codegen, 'grammar, W, C> {
             .cloned()
             .collect();
 
-        // FIXME: this is wrong. We are currently including something
-        // like `P: Foo<'a>` only if both `P` and `'a` are referenced;
-        // but if we have `P::Bar` that may come from the `Foo<'a>`
-        // bound. The problem is that we don't want `P: 'a` to force
-        // `'a` to be included.
+        // If `T` is referenced in the types we need to keep, then
+        // include any bounds like `T: Foo`. This may be needed for
+        // the well-formedness conditions on `T` (e.g., maybe we have
+        // `T: Hash` and a `HashSet<T>` or something) but it may also
+        // be needed because of `T::Foo`-like types.
+        //
+        // Do not however include a bound like `T: 'a` unless both `T`
+        // **and** `'a` are referenced -- same with bounds like `T:
+        // Foo<U>`. If those were needed, then `'a` or `U` would also
+        // have to appear in the types.
         debug!("filtered_type_params = {:?}", filtered_type_params);
-        let referenced_where_clauses: Set<_> = grammar
-            .where_clauses
-            .iter()
-            .filter(|wc| {
-                debug!("wc = {:?} free_variables = {:?}", wc, wc.free_variables());
-                wc.free_variables()
-                    .iter()
-                    .any(|p| filtered_type_params.contains(p))
-            })
-            .cloned()
-            .collect();
-        debug!("referenced_where_clauses = {:?}", referenced_where_clauses);
-
         let filtered_where_clauses: Vec<_> = grammar
             .where_clauses
             .iter()
-            .filter(|wc| referenced_where_clauses.contains(wc))
+            .filter(|wc| {
+                debug!(
+                    "wc = {:?} free_variables = {:?}",
+                    wc,
+                    wc.free_variables(&grammar.type_parameters)
+                );
+                wc.free_variables(&grammar.type_parameters)
+                    .iter()
+                    .all(|p| referenced_ty_params.contains(p))
+            })
             .cloned()
             .collect();
+        debug!("filtered_where_clauses = {:?}", filtered_where_clauses);
 
         (filtered_type_params, filtered_where_clauses)
     }
