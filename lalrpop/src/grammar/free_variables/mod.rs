@@ -3,6 +3,8 @@ use grammar::repr;
 use std::iter;
 use string_cache::DefaultAtom as Atom;
 
+mod test;
+
 /// Finds the set of "free variables" in something -- that is, the
 /// type/lifetime parameters that appear and are not bound. For
 /// example, `T: Foo<U>` would return `[T, U]`.
