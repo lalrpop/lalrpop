@@ -1,6 +1,7 @@
 use std::str::FromStr;
 
-grammar<F>(logger: &mut F) where F: for<'a> FnMut(&'a str);
+// FIXME: 'logger shouldn't be needed
+grammar<'logger, F>(logger: &'logger mut F) where F: for<'a> FnMut(&'a str) + 'logger;
 
 pub Term: i32 = {
     <n:Num> => {

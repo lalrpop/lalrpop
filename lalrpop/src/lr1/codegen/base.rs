@@ -347,10 +347,17 @@ impl<'codegen, 'grammar, W: Write, C> CodeGenerator<'codegen, 'grammar, W, C> {
     /// all type parameters are constrained, even if they are not
     /// used.
     pub fn phantom_data_type(&self) -> String {
-        format!(
-            "::std::marker::PhantomData<({})>",
-            Sep(", ", &self.grammar.non_lifetime_type_parameters())
-        )
+        let phantom_bits: Vec<_> = self
+            .grammar
+            .type_parameters
+            .iter()
+            .map(|tp| match *tp {
+                TypeParameter::Lifetime(ref l) => format!("&{} ()", l),
+
+                TypeParameter::Id(ref id) => id.to_string(),
+            })
+            .collect();
+        format!("::std::marker::PhantomData<({})>", Sep(", ", &phantom_bits),)
     }
 
     /// Returns expression that captures the user-declared type
@@ -358,9 +365,19 @@ impl<'codegen, 'grammar, W: Write, C> CodeGenerator<'codegen, 'grammar, W, C> {
     /// all type parameters are constrained, even if they are not
     /// used.
     pub fn phantom_data_expr(&self) -> String {
+        let phantom_bits: Vec<_> = self
+            .grammar
+            .type_parameters
+            .iter()
+            .map(|tp| match *tp {
+                TypeParameter::Lifetime(_) => format!("&()"),
+
+                TypeParameter::Id(ref id) => id.to_string(),
+            })
+            .collect();
         format!(
             "::std::marker::PhantomData::<({})>",
-            Sep(", ", &self.grammar.non_lifetime_type_parameters())
+            Sep(", ", &phantom_bits),
         )
     }
 }
