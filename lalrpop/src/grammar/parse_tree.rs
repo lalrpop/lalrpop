@@ -518,6 +518,14 @@ impl Into<Box<Content>> for NonterminalString {
 pub struct Lifetime(pub Atom);
 
 impl Lifetime {
+    pub fn anonymous() -> Self {
+        Lifetime(Atom::from("'_"))
+    }
+
+    pub fn is_anonymous(&self) -> bool {
+        *self == Self::anonymous()
+    }
+
     pub fn statik() -> Self {
         Lifetime(Atom::from("'static"))
     }

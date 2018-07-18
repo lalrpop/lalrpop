@@ -7,6 +7,7 @@ use lr1::lookahead::Token;
 use rust::RustWrite;
 use std::fmt;
 use std::io::{self, Write};
+use std::rc::Rc;
 use string_cache::DefaultAtom as Atom;
 use tls::Tls;
 use util::Sep;
@@ -60,6 +61,8 @@ struct TableDriven<'grammar> {
 
     symbol_where_clauses: Vec<WhereClause>,
 
+    machine: Rc<MachineParameters>,
+
     /// a list of each nonterminal in some specific order
     all_nonterminals: Vec<NonterminalString>,
 
@@ -90,6 +93,8 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
                     .into_iter()
                     .chain(grammar.types.terminal_types()),
             );
+
+        let machine = Rc::new(MachineParameters::new(grammar));
 
         // Assign each production a unique index to use as the values for reduce
         // actions in the ACTION and EOF_ACTION tables.
@@ -124,6 +129,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
             TableDriven {
                 symbol_type_params: symbol_type_params,
                 symbol_where_clauses: symbol_where_clauses,
+                machine,
                 all_nonterminals: grammar.nonterminals.keys().cloned().collect(),
                 reduce_indices: reduce_indices,
                 state_type: state_type,
@@ -153,30 +159,27 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
     }
 
     fn write_machine_definition(&mut self) -> io::Result<()> {
-        let grammar_type_params = Sep(", ", &self.grammar.type_parameters);
-        let grammar_where_clauses = Sep(", ", &self.grammar.where_clauses);
-        // let parse_error_type = self.types.parse_error_type();
         let error_type = self.types.error_type();
         let token_type = self.types.terminal_token_type();
-        // let spanned_symbol_type = self.spanned_symbol_type();
-        // let triple_type = self.types.triple_type();
         let loc_type = self.types.terminal_loc_type();
-        // let actions_per_state = self.grammar.terminals.all.len();
         let start_type = self.types.nonterminal_type(&self.start_symbol);
         let state_type = self.custom.state_type;
         let symbol_type = self.symbol_type();
         let phantom_data_type = self.phantom_data_type();
         let phantom_data_expr = self.phantom_data_expr();
+        let machine = self.custom.machine.clone();
+        let machine_type_parameters = Sep(", ", &machine.type_parameters);
+        let machine_where_clauses = Sep(", ", &machine.where_clauses);
 
         rust!(
             self.out,
-            "pub struct {p}StateMachine<{gtp}>",
+            "pub struct {p}StateMachine<{mtp}>",
             p = self.prefix,
-            gtp = grammar_type_params
+            mtp = machine_type_parameters,
         );
-        rust!(self.out, "where {gwc}", gwc = grammar_where_clauses);
+        rust!(self.out, "where {mwc}", mwc = machine_where_clauses);
         rust!(self.out, "{{");
-        for param in &self.grammar.parameters {
+        for param in &machine.fields {
             rust!(self.out, "{name}: {ty},", name = param.name, ty = param.ty,);
         }
         rust!(
@@ -189,11 +192,11 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
 
         rust!(
             self.out,
-            "impl<{gtp}> {p}state_machine::ParserDefinition for {p}StateMachine<{gtp}>",
+            "impl<{mtp}> {p}state_machine::ParserDefinition for {p}StateMachine<{mtp}>",
             p = self.prefix,
-            gtp = grammar_type_params,
+            mtp = machine_type_parameters,
         );
-        rust!(self.out, "where {gwc}", gwc = grammar_where_clauses);
+        rust!(self.out, "where {mwc}", mwc = machine_where_clauses);
         rust!(self.out, "{{");
         rust!(self.out, "type Location = {t};", t = loc_type);
         rust!(self.out, "type Error = {t};", t = error_type);
@@ -2000,13 +2003,13 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
                 .fn_header(
                     &Visibility::Priv,
                     format!("{p}simulate_reduce", p = self.prefix),
-                ).with_type_parameters(&self.grammar.type_parameters)
-                .with_where_clauses(&self.grammar.where_clauses)
+                ).with_type_parameters(&self.custom.machine.type_parameters)
+                .with_where_clauses(&self.custom.machine.where_clauses)
                 .with_parameters(parameters)
                 .with_return_type(format!(
-                    "{p}state_machine::SimulatedReduce<{p}StateMachine<{gtp}>>",
+                    "{p}state_machine::SimulatedReduce<{p}StateMachine<{mtp}>>",
                     p = self.prefix,
-                    gtp = Sep(", ", &self.grammar.type_parameters),
+                    mtp = Sep(", ", &self.custom.machine.type_parameters),
                 )).emit()
         );
         rust!(self.out, "{{");
@@ -2346,5 +2349,47 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
         rust!(self.out, "}}).collect()");
         rust!(self.out, "}}");
         Ok(())
+    }
+}
+
+struct MachineParameters {
+    type_parameters: Vec<TypeParameter>,
+    fields: Vec<Parameter>,
+    where_clauses: Vec<WhereClause>,
+}
+
+impl MachineParameters {
+    fn new(grammar: &Grammar) -> Self {
+        let mut type_parameters = grammar.type_parameters.clone();
+        let mut where_clauses = grammar.where_clauses.clone();
+
+        let fields: Vec<_> = grammar
+            .parameters
+            .iter()
+            .map(|Parameter { name, ty }| {
+                let named_ty = ty.name_anonymous_lifetimes_and_compute_implied_outlives(
+                    &grammar.prefix,
+                    &mut type_parameters,
+                    &mut where_clauses,
+                );
+                Parameter {
+                    name: name.clone(),
+                    ty: named_ty,
+                }
+            })
+            .collect();
+
+        // Put lifetimes first (this is stable, mind, so order remains
+        // largely unperturbed):
+        type_parameters.sort_by_key(|tp| match tp {
+            TypeParameter::Lifetime(_) => 0,
+            TypeParameter::Id(_) => 1,
+        });
+
+        Self {
+            type_parameters,
+            fields,
+            where_clauses,
+        }
     }
 }
