@@ -1,8 +1,7 @@
 use std::str::FromStr;
 use associated_types_lib::ParseCallbacks;
 
-// FIXME: the 'a shouldn't be needed
-grammar<'a, P>(callbacks: &'a mut P) where P: ParseCallbacks, P: 'a;
+grammar<P>(callbacks: &mut P) where P: ParseCallbacks;
 
 pub Term: P::Term = {
     <n:Num> => n.into(),
