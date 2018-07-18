@@ -147,9 +147,14 @@ pub trait ParserAction<D: ParserDefinition>: Copy + Clone + Debug {
     fn is_error(self) -> bool;
 }
 
-pub struct SimulatedReduce<D: ParserDefinition> {
-    states_to_pop: usize,
-    nonterminal_produced: D::NonterminalIndex,
+pub enum SimulatedReduce<D: ParserDefinition> {
+    Reduce {
+        states_to_pop: usize,
+        nonterminal_produced: D::NonterminalIndex,
+    },
+
+    // This reduce is the "start" fn, so the parse is done.
+    Accept,
 }
 
 // These aliases are an elaborate hack to get around
@@ -492,15 +497,22 @@ where
             // If we encounter a reduce action, we need to simulate its
             // effect on the state stack.
             if let Some(reduce_action) = action.as_reduce() {
-                let SimulatedReduce {
-                    states_to_pop,
-                    nonterminal_produced,
-                } = self.definition.simulate_reduce(reduce_action);
-                states_len -= states_to_pop;
-                states.truncate(states_len);
-                let top = states[states_len - 1];
-                let next_state = self.definition.goto(top, nonterminal_produced);
-                states.push(next_state);
+                match self.definition.simulate_reduce(reduce_action) {
+                    SimulatedReduce::Reduce {
+                        states_to_pop,
+                        nonterminal_produced,
+                    } => {
+                        states_len -= states_to_pop;
+                        states.truncate(states_len);
+                        let top = states[states_len - 1];
+                        let next_state = self.definition.goto(top, nonterminal_produced);
+                        states.push(next_state);
+                    }
+
+                    SimulatedReduce::Accept => {
+                        return true;
+                    }
+                }
             } else {
                 // If we encounter a shift action, we DO accept.
                 assert!(action.is_shift());

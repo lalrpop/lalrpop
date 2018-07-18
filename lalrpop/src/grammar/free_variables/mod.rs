@@ -152,24 +152,20 @@ impl<T: FreeVariables> FreeVariables for parse_tree::TypeBound<T> {
             parse_tree::TypeBound::Lifetime(l) => free_lifetime(type_parameters, l),
             parse_tree::TypeBound::Fn {
                 forall,
-                path,
+                path: _,
                 parameters,
                 ret,
-            } => path
-                .free_variables(type_parameters)
+            } => parameters.free_variables(type_parameters)
                 .into_iter()
-                .chain(parameters.free_variables(type_parameters))
                 .chain(ret.free_variables(type_parameters))
                 .filter(|tp| !forall.contains(tp))
                 .collect(),
             parse_tree::TypeBound::Trait {
                 forall,
-                path,
+                path: _,
                 parameters,
-            } => path
-                .free_variables(type_parameters)
+            } => parameters.free_variables(type_parameters)
                 .into_iter()
-                .chain(parameters.free_variables(type_parameters))
                 .filter(|tp| !forall.contains(tp))
                 .collect(),
         }
