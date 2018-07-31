@@ -144,8 +144,7 @@ impl<'codegen, 'grammar, W: Write, C> CodeGenerator<'codegen, 'grammar, W, C> {
                 wc.free_variables(&grammar.type_parameters)
                     .iter()
                     .all(|p| referenced_ty_params.contains(p))
-            })
-            .cloned()
+            }).cloned()
             .collect();
         debug!("filtered_where_clauses = {:?}", filtered_where_clauses);
 
@@ -283,21 +282,22 @@ impl<'codegen, 'grammar, W: Write, C> CodeGenerator<'codegen, 'grammar, W, C> {
         rust!(self.out, "");
 
         rust!(self.out, "#[allow(dead_code)]");
-        try!(self.out.write_fn_header(
-            self.grammar,
-            &self.grammar.nonterminals[&self.start_symbol].visibility,
-            "parse".to_owned(),
-            type_parameters,
-            Some("&self".to_owned()),
-            true, // include grammar parameters
-            parameters,
-            format!(
-                "Result<{}, {}>",
-                self.types.nonterminal_type(&self.start_symbol),
-                parse_error_type
-            ),
-            where_clauses
-        ));
+        try!(
+            self.out
+                .fn_header(
+                    &self.grammar.nonterminals[&self.start_symbol].visibility,
+                    "parse".to_owned(),
+                ).with_parameters(Some("&self".to_owned()))
+                .with_grammar(self.grammar)
+                .with_type_parameters(type_parameters)
+                .with_parameters(parameters)
+                .with_return_type(format!(
+                    "Result<{}, {}>",
+                    self.types.nonterminal_type(&self.start_symbol),
+                    parse_error_type
+                )).with_where_clauses(where_clauses)
+                .emit()
+        );
         rust!(self.out, "{{");
 
         Ok(())
