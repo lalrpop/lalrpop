@@ -1,10 +1,10 @@
 //! Simple Rust AST. This is what the various code generators create,
 //! which then gets serialized.
 
-use grammar::repr::Grammar;
+use grammar::repr::{self, Grammar};
 use grammar::parse_tree::Visibility;
 use tls::Tls;
-use std::fmt;
+use std::fmt::{self, Display};
 use std::io::{self, Write};
 
 macro_rules! rust {
@@ -109,59 +109,14 @@ impl<W: Write> RustWrite<W> {
         Ok(())
     }
 
-    pub fn write_fn_header(
-        &mut self,
-        grammar: &Grammar,
-        visibility: &Visibility,
+    /// Create and return fn-header builder. Don't forget to invoke
+    /// `emit` at the end. =)
+    pub fn fn_header(
+        &'me mut self,
+        visibility: &'me Visibility,
         name: String,
-        type_parameters: Vec<String>,
-        first_parameter: Option<String>,
-        include_grammar_parameters: bool,
-        parameters: Vec<String>,
-        return_type: String,
-        where_clauses: Vec<String>,
-    ) -> io::Result<()> {
-        rust!(self, "{}fn {}<", visibility, name);
-
-        for type_parameter in &grammar.type_parameters {
-            rust!(self, "{0:1$}{2},", "", TAB, type_parameter);
-        }
-
-        for type_parameter in type_parameters {
-            rust!(self, "{0:1$}{2},", "", TAB, type_parameter);
-        }
-
-        rust!(self, ">(");
-
-        if let Some(param) = first_parameter {
-            rust!(self, "{},", param);
-        }
-
-        if include_grammar_parameters {
-            for parameter in &grammar.parameters {
-                rust!(self, "{}: {},", parameter.name, parameter.ty);
-            }
-        }
-
-        for parameter in &parameters {
-            rust!(self, "{},", parameter);
-        }
-
-        rust!(self, ") -> {}", return_type);
-
-        if !grammar.where_clauses.is_empty() || !where_clauses.is_empty() {
-            rust!(self, "where");
-
-            for where_clause in &grammar.where_clauses {
-                rust!(self, "    {},", where_clause);
-            }
-
-            for where_clause in &where_clauses {
-                rust!(self, "    {},", where_clause);
-            }
-        }
-
-        Ok(())
+    ) -> FnHeader<'me, W> {
+        FnHeader::new(self, visibility, name)
     }
 
     pub fn write_module_attributes(&mut self, grammar: &Grammar) -> io::Result<()> {
@@ -203,3 +158,129 @@ impl<W: Write> RustWrite<W> {
         Ok(())
     }
 }
+
+pub struct FnHeader<'me, W: Write + 'me> {
+    write: &'me mut RustWrite<W>,
+    visibility: &'me Visibility,
+    name: String,
+    type_parameters: Vec<String>,
+    parameters: Vec<String>,
+    return_type: String,
+    where_clauses: Vec<String>,
+}
+
+impl<'me, W: Write> FnHeader<'me, W> {
+    pub fn new(
+        write: &'me mut RustWrite<W>,
+        visibility: &'me Visibility,
+        name: String,
+    ) -> Self {
+        FnHeader {
+            write,
+            visibility,
+            name,
+            type_parameters: vec![],
+            parameters: vec![],
+            return_type: format!("()"),
+            where_clauses: vec![],
+        }
+    }
+
+    /// Adds the type-parameters, where-clauses, and parameters from
+    /// the grammar.
+    pub fn with_grammar(
+        self,
+        grammar: &Grammar,
+    ) -> Self {
+        self.with_type_parameters(&grammar.type_parameters)
+            .with_where_clauses(&grammar.where_clauses)
+            .with_parameters(&grammar.parameters)
+    }
+
+    /// Declare a series of type parameters. Note that lifetime
+    /// parameters must come first.
+    pub fn with_type_parameters(
+        mut self,
+        tps: impl IntoIterator<Item = impl Display>,
+    ) -> Self {
+        self.type_parameters.extend(tps.into_iter().map(|t| t.to_string()));
+        self
+    }
+
+    /// Add where clauses to the list.
+    pub fn with_where_clauses(
+        mut self,
+        tps: impl IntoIterator<Item = impl Display>,
+    ) -> Self {
+        self.where_clauses.extend(tps.into_iter().map(|t| t.to_string()));
+        self
+    }
+
+    /// Declare a series of parameters. You can supply strings of the
+    /// form `"foo: Bar"` or else `repr::Parameter` references.
+    pub fn with_parameters(
+        mut self,
+        parameters: impl IntoIterator<Item = impl ParameterDisplay>,
+    ) -> Self {
+        self.parameters.extend(
+            parameters
+                .into_iter()
+                .map(ParameterDisplay::to_parameter_string)
+        );
+        self
+    }
+
+    /// Add where clauses to the list.
+    pub fn with_return_type(
+        mut self,
+        rt: impl Display,
+    ) -> Self {
+        self.return_type = format!("{}", rt);
+        self
+    }
+
+    /// Emit fn header -- everything up to the opening `{` for the
+    /// body.
+    pub fn emit(self) -> io::Result<()> {
+        rust!(self.write, "{}fn {}<", self.visibility, self.name);
+
+        for type_parameter in &self.type_parameters {
+            rust!(self.write, "{0:1$}{2},", "", TAB, type_parameter);
+        }
+
+        rust!(self.write, ">(");
+
+        for parameter in &self.parameters {
+            rust!(self.write, "{},", parameter);
+        }
+
+        rust!(self.write, ") -> {}", self.return_type);
+
+        if !self.where_clauses.is_empty() {
+            rust!(self.write, "where");
+
+            for where_clause in &self.where_clauses {
+                rust!(self.write, "    {},", where_clause);
+            }
+        }
+
+        Ok(())
+    }
+}
+
+pub trait ParameterDisplay {
+    fn to_parameter_string(self) -> String;
+}
+
+impl ParameterDisplay for String  {
+    fn to_parameter_string(self) -> String {
+        self
+    }
+}
+
+impl ParameterDisplay for &repr::Parameter  {
+    fn to_parameter_string(self) -> String {
+        format!("{}: {}", self.name, self.ty)
+    }
+}
+

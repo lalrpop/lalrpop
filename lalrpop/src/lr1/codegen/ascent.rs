@@ -5,7 +5,7 @@
 use collections::Multimap;
 use grammar::repr::{
     Grammar, NonterminalString, Production, Symbol, TerminalString, TypeParameter, TypeRepr,
-    WhereClause, Visibility,
+    Visibility, WhereClause,
 };
 use lr1::core::*;
 use lr1::lookahead::Token;
@@ -127,9 +127,7 @@ impl<'ascent, 'grammar, W: Write>
         let (nonterminal_type_params, nonterminal_where_clauses) =
             Self::filter_type_parameters_and_where_clauses(
                 grammar,
-                grammar
-                    .types
-                    .nonterminal_types()
+                grammar.types.nonterminal_types(),
             );
 
         let state_inputs = states
@@ -371,11 +369,10 @@ impl<'ascent, 'grammar, W: Write>
         rust!(self.out, "_ => {{");
         // The terminals which would have resulted in a successful parse in this state
         let successful_terminals = self.grammar.terminals.all.iter().filter(|&terminal| {
-            this_state.shifts.contains_key(terminal)
-                || this_state
-                    .reductions
-                    .iter()
-                    .any(|&(ref t, _)| t.contains(&Token::Terminal(terminal.clone())))
+            this_state.shifts.contains_key(terminal) || this_state
+                .reductions
+                .iter()
+                .any(|&(ref t, _)| t.contains(&Token::Terminal(terminal.clone())))
         });
         rust!(
             self.out,
@@ -509,26 +506,24 @@ impl<'ascent, 'grammar, W: Write>
 
         let (fn_args, starts_with_terminal) = self.fn_args(optional_prefix, fixed_prefix);
 
-        try!(self.out.write_fn_header(
-            self.grammar,
-            &Visibility::Priv,
-            format!("{}{}{}", self.prefix, fn_kind, fn_index),
-            vec![format!(
-                "{}TOKENS: Iterator<Item=Result<{},{}>>",
-                self.prefix, triple_type, iter_error_type
-            )],
-            None,
-            true, // include grammar parameters
-            fn_args,
-            format!(
-                "Result<(Option<{}>, {}Nonterminal<{}>), {}>",
-                triple_type,
-                self.prefix,
-                Sep(", ", &self.custom.nonterminal_type_params),
-                parse_error_type
-            ),
-            vec![]
-        ));
+        try!(
+            self.out
+                .fn_header(
+                    &Visibility::Priv,
+                    format!("{}{}{}", self.prefix, fn_kind, fn_index),
+                ).with_grammar(self.grammar)
+                .with_type_parameters(Some(format!(
+                    "{}TOKENS: Iterator<Item=Result<{},{}>>",
+                    self.prefix, triple_type, iter_error_type
+                ))).with_parameters(fn_args)
+                .with_return_type(format!(
+                    "Result<(Option<{}>, {}Nonterminal<{}>), {}>",
+                    triple_type,
+                    self.prefix,
+                    Sep(", ", &self.custom.nonterminal_type_params),
+                    parse_error_type
+                )).emit()
+        );
 
         rust!(self.out, "{{");
 

@@ -2,12 +2,12 @@
 
 use collections::{Entry, Map, Set};
 use grammar::repr::*;
-use string_cache::DefaultAtom as Atom;
 use lr1::core::*;
 use lr1::lookahead::Token;
 use rust::RustWrite;
 use std::fmt;
 use std::io::{self, Write};
+use string_cache::DefaultAtom as Atom;
 use tls::Tls;
 use util::Sep;
 
@@ -304,7 +304,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
                     .types
                     .nonterminal_types()
                     .into_iter()
-                    .chain(grammar.types.terminal_types())
+                    .chain(grammar.types.terminal_types()),
             );
 
         // Assign each production a unique index to use as the values for reduce
@@ -865,17 +865,18 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
             format!("_: {}", self.phantom_data_type()),
         ];
 
-        try!(self.out.write_fn_header(
-            self.grammar,
-            &Visibility::Pub(Some(Path::from_id(Atom::from("crate")))),
-            format!("{}reduce", self.prefix),
-            vec![],
-            None,
-            true, // include grammar parameters
-            parameters,
-            format!("Option<Result<{},{}>>", success_type, parse_error_type),
-            vec![]
-        ));
+        try!(
+            self.out
+                .fn_header(
+                    &Visibility::Pub(Some(Path::from_id(Atom::from("crate")))),
+                    format!("{}reduce", self.prefix),
+                ).with_grammar(self.grammar)
+                .with_parameters(parameters)
+                .with_return_type(format!(
+                    "Option<Result<{},{}>>",
+                    success_type, parse_error_type
+                )).emit()
+        );
         rust!(self.out, "{{");
 
         rust!(
@@ -883,7 +884,8 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
             "let ({p}pop_states, {p}symbol, {p}nonterminal) = match -{}action {{",
             p = self.prefix
         );
-        for (production, index) in self.grammar
+        for (production, index) in self
+            .grammar
             .nonterminals
             .values()
             .flat_map(|nt| &nt.productions)
@@ -975,7 +977,8 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
     }
 
     fn emit_reduce_action_functions(&mut self) -> io::Result<()> {
-        for (production, index) in self.grammar
+        for (production, index) in self
+            .grammar
             .nonterminals
             .values()
             .flat_map(|nt| &nt.productions)
@@ -1008,17 +1011,16 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
             format!("_: {}", self.phantom_data_type()),
         ];
 
-        try!(self.out.write_fn_header(
-            self.grammar,
-            &Visibility::Pub(Some(Path::from_id(Atom::from("crate")))),
-            format!("{}reduce{}", self.prefix, index),
-            vec![],
-            None,
-            true,
-            parameters,
-            format!("(usize, {}, usize)", spanned_symbol_type,),
-            vec![]
-        ));
+        try!(
+            self.out
+                .fn_header(
+                    &Visibility::Pub(Some(Path::from_id(Atom::from("crate")))),
+                    format!("{}reduce{}", self.prefix, index),
+                ).with_grammar(self.grammar)
+                .with_parameters(parameters)
+                .with_return_type(format!("(usize, {}, usize)", spanned_symbol_type))
+                .emit()
+        );
         rust!(self.out, "{{");
         Ok(())
     }
@@ -1145,7 +1147,8 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
 
         // produce the index that we will use to extract the next state
         // from GOTO array
-        let index = self.custom
+        let index = self
+            .custom
             .all_nonterminals
             .iter()
             .position(|x| *x == production.nonterminal)
@@ -1380,30 +1383,27 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
             format!("_: {}", self.phantom_data_type()),
         ];
 
-        try!(self.out.write_fn_header(
-            self.grammar,
-            &Visibility::Priv,
-            format!("{p}error_recovery", p = self.prefix),
-            vec![format!("{p}I", p = self.prefix)],
-            None,
-            true, // include grammar parameters
-            parameters,
-            format!(
-                "Result<Option<{start_type}>, {parse_error_type}>",
-                start_type = start_type,
-                parse_error_type = parse_error_type
-            ),
-            vec![
-                format!(
+        try!(
+            self.out
+                .fn_header(
+                    &Visibility::Priv,
+                    format!("{p}error_recovery", p = self.prefix),
+                ).with_grammar(self.grammar)
+                .with_type_parameters(vec![format!("{p}I", p = self.prefix)])
+                .with_parameters(parameters)
+                .with_return_type(format!(
+                    "Result<Option<{start_type}>, {parse_error_type}>",
+                    start_type = start_type,
+                    parse_error_type = parse_error_type
+                )).with_where_clauses(vec![format!(
                     "{p}I: Iterator<Item = \
                      Result<{triple_type}, {tok_error_type}>\
                      >",
                     triple_type = triple_type,
                     tok_error_type = tok_error_type,
                     p = self.prefix
-                ),
-            ]
-        ));
+                ),]).emit()
+        );
 
         rust!(self.out, "{{");
 
@@ -1934,17 +1934,14 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
             format!("_: {}", self.phantom_data_type()),
         ];
 
-        try!(self.out.write_fn_header(
-            self.grammar,
-            &Visibility::Priv,
-            format!("{}accepts", self.prefix),
-            vec![],
-            None,
-            true, // include grammar parameters
-            parameters,
-            format!("bool"),
-            vec![]
-        ));
+        try!(
+            self.out
+                .fn_header(&Visibility::Priv, format!("{}accepts", self.prefix),)
+                .with_grammar(self.grammar)
+                .with_parameters(parameters)
+                .with_return_type(format!("bool"))
+                .emit()
+        );
         rust!(self.out, "{{");
 
         if DEBUG_PRINT {
@@ -2026,7 +2023,8 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
             "let ({p}to_pop, {p}nt) = match -{p}action {{",
             p = self.prefix
         );
-        for (production, index) in self.grammar
+        for (production, index) in self
+            .grammar
             .nonterminals
             .values()
             .flat_map(|nt| &nt.productions)
@@ -2041,7 +2039,8 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
                 rust!(self.out, "{} => return true,", index);
             } else {
                 let num_symbols = production.symbols.len();
-                let nt = self.custom
+                let nt = self
+                    .custom
                     .all_nonterminals
                     .iter()
                     .position(|x| *x == production.nonterminal)

@@ -89,15 +89,15 @@ fn emit_user_action_code<W: Write>(
     // a (L, T, L) triple where the Ls are locations and
     // the T is the data. Ignore the locations and bind
     // the data to the name the user gave.
-    let mut arguments: Vec<String> = data.arg_patterns
+    let mut arguments: Vec<String> = data
+        .arg_patterns
         .iter()
         .zip(
             data.arg_types
                 .iter()
                 .cloned()
                 .map(|t| grammar.types.spanned_type(t)),
-        )
-        .map(|(p, t)| format!("(_, {}, _): {}", p, t))
+        ).map(|(p, t)| format!("(_, {}, _): {}", p, t))
         .collect();
 
     // If this is a reduce of an empty production, we will
@@ -119,17 +119,15 @@ fn emit_user_action_code<W: Write>(
         ]);
     }
 
-    try!(rust.write_fn_header(
-        grammar,
-        &r::Visibility::Priv,
-        format!("{}action{}", grammar.prefix, index),
-        vec![],
-        None,
-        true, // include grammar parameters
-        arguments,
-        ret_type,
-        vec![]
-    ));
+    try!(
+        rust.fn_header(
+            &r::Visibility::Priv,
+            format!("{}action{}", grammar.prefix, index),
+        ).with_grammar(grammar)
+        .with_parameters(arguments)
+        .with_return_type(ret_type)
+        .emit()
+    );
     rust!(rust, "{{");
     rust!(rust, "{}", data.code);
     rust!(rust, "}}");
@@ -143,14 +141,12 @@ fn emit_lookaround_action_code<W: Write>(
     _defn: &r::ActionFnDefn,
     data: &r::LookaroundActionFnDefn,
 ) -> io::Result<()> {
-    try!(rust.write_fn_header(
-        grammar,
-        &r::Visibility::Priv,
-        format!("{}action{}", grammar.prefix, index),
-        vec![],
-        None,
-        true, // include grammar parameters
-        vec![
+    try!(
+        rust.fn_header(
+            &r::Visibility::Priv,
+            format!("{}action{}", grammar.prefix, index),
+        ).with_grammar(grammar)
+        .with_parameters(vec![
             format!(
                 "{}lookbehind: &{}",
                 grammar.prefix,
@@ -161,10 +157,9 @@ fn emit_lookaround_action_code<W: Write>(
                 grammar.prefix,
                 grammar.types.terminal_loc_type()
             ),
-        ],
-        format!("{}", grammar.types.terminal_loc_type()),
-        vec![]
-    ));
+        ]).with_return_type(format!("{}", grammar.types.terminal_loc_type()))
+        .emit()
+    );
 
     rust!(rust, "{{");
     match *data {
@@ -193,13 +188,13 @@ fn emit_inline_action_code<W: Write>(
 ) -> io::Result<()> {
     let ret_type = ret_type_string(grammar, defn);
 
-    let arg_types: Vec<_> = data.symbols
+    let arg_types: Vec<_> = data
+        .symbols
         .iter()
         .flat_map(|sym| match *sym {
             r::InlinedSymbol::Original(ref s) => vec![s.clone()],
             r::InlinedSymbol::Inlined(_, ref syms) => syms.clone(),
-        })
-        .map(|s| s.ty(&grammar.types))
+        }).map(|s| s.ty(&grammar.types))
         .collect();
 
     // this is the number of symbols we expect to be passed in; it is
@@ -231,17 +226,15 @@ fn emit_inline_action_code<W: Write>(
         ]);
     }
 
-    try!(rust.write_fn_header(
-        grammar,
-        &r::Visibility::Priv,
-        format!("{}action{}", grammar.prefix, index),
-        vec![],
-        None,
-        true, // include grammar parameters
-        arguments,
-        ret_type,
-        vec![]
-    ));
+    try!(
+        rust.fn_header(
+            &r::Visibility::Priv,
+            format!("{}action{}", grammar.prefix, index),
+        ).with_grammar(grammar)
+        .with_parameters(arguments)
+        .with_return_type(ret_type)
+        .emit()
+    );
     rust!(rust, "{{");
 
     // For each inlined thing, compute the start/end locations.
