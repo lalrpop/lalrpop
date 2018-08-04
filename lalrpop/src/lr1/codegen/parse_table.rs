@@ -349,7 +349,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
 
         rust!(self.out, "");
         rust!(self.out, "fn reduce(");
-        rust!(self.out, "&self,");
+        rust!(self.out, "&mut self,");
         rust!(self.out, "action: {state_type},", state_type = state_type);
         rust!(self.out, "start_location: Option<&Self::Location>,");
         rust!(
@@ -367,7 +367,16 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
             ") -> Option<{p}state_machine::ParseResult<Self>> {{",
             p = self.prefix,
         );
-        rust!(self.out, "panic!()");
+        rust!(self.out, "{p}reduce(", p = self.prefix);
+        for Parameter { name, ty: _ } in self.grammar.parameters.iter() {
+            rust!(self.out, "self.{},", name);
+        }
+        rust!(self.out, "action,");
+        rust!(self.out, "start_location,");
+        rust!(self.out, "states,");
+        rust!(self.out, "symbols,");
+        rust!(self.out, "{},", phantom_data_expr);
+        rust!(self.out, ")");
         rust!(self.out, "}}");
 
         rust!(self.out, "");
