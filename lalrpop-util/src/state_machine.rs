@@ -126,7 +126,7 @@ pub trait ParserDefinition: Sized {
     /// right? This would also allow us -- I think -- to extend error
     /// recovery to cover user-produced errors.
     fn reduce(
-        &self,
+        &mut self,
         reduce_index: Self::ReduceIndex,
         start_location: Option<&Self::Location>,
         states: &mut Vec<Self::StateIndex>,
