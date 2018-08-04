@@ -667,7 +667,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
         }
         rust!(
             self.out,
-            "if let Some(r) = {p}reduce({}{p}action, Some(&{p}lookahead.0), &mut {p}states, &mut \
+            "if let Some(r) = {p}reduce({}-{p}action - 1, Some(&{p}lookahead.0), &mut {p}states, &mut \
              {p}symbols, {}) {{",
             self.grammar.user_parameter_refs(),
             phantom_data_expr,
@@ -734,7 +734,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
         rust!(self.out, "if {}action < 0 {{", self.prefix);
         rust!(
             self.out,
-            "if let Some(r) = {}reduce({}{}action, None, &mut {}states, &mut {}symbols, {}) {{",
+            "if let Some(r) = {}reduce({}-{}action - 1, None, &mut {}states, &mut {}symbols, {}) {{",
             self.prefix,
             self.grammar.user_parameter_refs(),
             self.prefix,
@@ -981,7 +981,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
 
         rust!(
             self.out,
-            "let ({p}pop_states, {p}symbol, {p}nonterminal) = match -{}action {{",
+            "let ({p}pop_states, {p}symbol, {p}nonterminal) = match {}action {{",
             p = self.prefix
         );
         for (production, index) in self
@@ -989,7 +989,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
             .nonterminals
             .values()
             .flat_map(|nt| &nt.productions)
-            .zip(1..)
+            .zip(0..)
         {
             rust!(self.out, "{} => {{", index);
             // In debug builds LLVM is not very good at reusing stack space which makes this
@@ -1082,7 +1082,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
             .nonterminals
             .values()
             .flat_map(|nt| &nt.productions)
-            .zip(1..)
+            .zip(0..)
         {
             if self.custom.reduce_functions.contains(&index) {
                 self.emit_reduce_alternative_fn_header(index)?;
@@ -1589,7 +1589,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
             self.out,
             "if let Some(r) = {p}reduce( \
              {upr} \
-             {p}action, \
+             -{p}action - 1, \
              {p}lookahead_start, \
              {p}states, \
              {p}symbols, \
