@@ -199,6 +199,17 @@ where
     D: ParserDefinition,
     I: Iterator<Item = Result<TokenTriple<D>, ParseError<D>>>,
 {
+    pub fn drive(definition: D, tokens: I) -> ParseResult<D> {
+        let last_location = definition.start_location();
+        Parser {
+            definition,
+            tokens,
+            states: vec![],
+            symbols: vec![],
+            last_location,
+        }.parse()
+    }
+
     fn top_state(&self) -> D::StateIndex {
         *self.states.last().unwrap()
     }
@@ -244,10 +255,7 @@ where
                     }
                 } else {
                     if !self.definition.uses_error_recovery() {
-                        return Err(self.unrecognized_token_error(
-                            Some(lookahead),
-                            self.top_state(),
-                        ));
+                        return Err(self.unrecognized_token_error(Some(lookahead), self.top_state()));
                     } else {
                         match self.error_recovery(Some(lookahead), Some(token_index)) {
                             NextToken::FoundToken(l, i) => {
@@ -556,10 +564,9 @@ where
         let token_index = match self.definition.token_to_index(&token.1) {
             Some(i) => i,
             None => {
-                return NextToken::Done(Err(self.unrecognized_token_error(
-                    Some(token),
-                    self.top_state(),
-                )))
+                return NextToken::Done(Err(
+                    self.unrecognized_token_error(Some(token), self.top_state())
+                ))
             }
         };
 
@@ -601,7 +608,7 @@ macro_rules! integral_indices {
                 self == 0
             }
         }
-    }
+    };
 }
 
 integral_indices!(i32);
