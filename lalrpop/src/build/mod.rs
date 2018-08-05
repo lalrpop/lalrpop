@@ -458,6 +458,14 @@ fn emit_to_triple_trait<W: Write>(grammar: &r::Grammar, rust: &mut RustWrite<W>)
     let T = grammar.types.terminal_token_type();
     let E = grammar.types.error_type();
 
+    let parse_error = format!(
+        "{p}lalrpop_util::ParseError<{L}, {T}, {E}>",
+        p = grammar.prefix,
+        L = L,
+        T = T,
+        E = E,
+    );
+
     let mut user_type_parameters = String::new();
     for type_parameter in &grammar.type_parameters {
         user_type_parameters.push_str(&format!("{}, ", type_parameter));
@@ -470,13 +478,12 @@ fn emit_to_triple_trait<W: Write>(grammar: &r::Grammar, rust: &mut RustWrite<W>)
         grammar.prefix,
         user_type_parameters,
     );
-    rust!(rust, "type Error;");
     rust!(
         rust,
-        "fn to_triple(value: Self) -> Result<({},{},{}),Self::Error>;",
-        L,
-        T,
-        L,
+        "fn to_triple(value: Self) -> Result<({L},{T},{L}), {parse_error}>;",
+        L = L,
+        T = T,
+        parse_error = parse_error,
     );
     rust!(rust, "}}");
 
@@ -484,22 +491,18 @@ fn emit_to_triple_trait<W: Write>(grammar: &r::Grammar, rust: &mut RustWrite<W>)
     if grammar.types.opt_terminal_loc_type().is_some() {
         rust!(
             rust,
-            "impl<{}> {}ToTriple<{}> for ({}, {}, {}) {{",
-            user_type_parameters,
-            grammar.prefix,
-            user_type_parameters,
-            L,
-            T,
-            L,
+            "impl<{utp}> {p}ToTriple<{utp}> for ({L}, {T}, {L}) {{",
+            p = grammar.prefix,
+            utp = user_type_parameters,
+            L = L,
+            T = T,
         );
-        rust!(rust, "type Error = {};", E);
         rust!(
             rust,
-            "fn to_triple(value: Self) -> Result<({},{},{}),{}> {{",
-            L,
-            T,
-            L,
-            E,
+            "fn to_triple(value: Self) -> Result<({L},{T},{L}), {parse_error}> {{",
+            L = L,
+            T = T,
+            parse_error = parse_error,
         );
         rust!(rust, "Ok(value)");
         rust!(rust, "}}");
@@ -507,42 +510,40 @@ fn emit_to_triple_trait<W: Write>(grammar: &r::Grammar, rust: &mut RustWrite<W>)
 
         rust!(
             rust,
-            "impl<{}> {}ToTriple<{}> for Result<({}, {}, {}),{}> {{",
-            user_type_parameters,
-            grammar.prefix,
-            user_type_parameters,
-            L,
-            T,
-            L,
-            E,
+            "impl<{utp}> {p}ToTriple<{utp}> for Result<({L}, {T}, {L}), {E}> {{",
+            utp = user_type_parameters,
+            p = grammar.prefix,
+            L = L,
+            T = T,
+            E = E,
         );
-        rust!(rust, "type Error = {};", E);
         rust!(
             rust,
-            "fn to_triple(value: Self) -> Result<({},{},{}),{}> {{",
-            L,
-            T,
-            L,
-            E,
+            "fn to_triple(value: Self) -> Result<({L},{T},{L}), {parse_error}> {{",
+            L = L,
+            T = T,
+            parse_error = parse_error,
         );
-        rust!(rust, "value");
+        rust!(rust, "match value {{");
+        rust!(rust, "Ok(v) => Ok(v),");
+        rust!(rust, "Err(error) => Err({p}lalrpop_util::ParseError::User {{ error }}),",
+              p = grammar.prefix);
+        rust!(rust, "}}"); // match
         rust!(rust, "}}");
         rust!(rust, "}}");
     } else {
         rust!(
             rust,
-            "impl<{}> {}ToTriple<{}> for {} {{",
-            user_type_parameters,
-            grammar.prefix,
-            user_type_parameters,
-            T,
+            "impl<{utp}> {p}ToTriple<{utp}> for {T} {{",
+            utp = user_type_parameters,
+            p = grammar.prefix,
+            T = T,
         );
-        rust!(rust, "type Error = {};", E);
         rust!(
             rust,
-            "fn to_triple(value: Self) -> Result<((),{},()),{}> {{",
-            T,
-            E,
+            "fn to_triple(value: Self) -> Result<((),{T},()), {parse_error}> {{",
+            T = T,
+            parse_error = parse_error,
         );
         rust!(rust, "Ok(((), value, ()))");
         rust!(rust, "}}");
@@ -550,23 +551,25 @@ fn emit_to_triple_trait<W: Write>(grammar: &r::Grammar, rust: &mut RustWrite<W>)
 
         rust!(
             rust,
-            "impl<{}> {}ToTriple<{}> for Result<({}),{}> {{",
-            user_type_parameters,
-            grammar.prefix,
-            user_type_parameters,
-            T,
-            E,
+            "impl<{utp}> {p}ToTriple<{utp}> for Result<({T}),{E}> {{",
+            utp = user_type_parameters,
+            p = grammar.prefix,
+            T = T,
+            E = E,
         );
-        rust!(rust, "type Error = {};", E);
         rust!(
             rust,
-            "fn to_triple(value: Self) -> Result<((),{},()),{}> {{",
-            T,
-            E,
+            "fn to_triple(value: Self) -> Result<((),{T},()), {parse_error}> {{",
+            T = T,
+            parse_error = parse_error,
         );
-        rust!(rust, "value.map(|v| ((), v, ()))");
-        rust!(rust, "}}");
-        rust!(rust, "}}");
+        rust!(rust, "match value {{");
+        rust!(rust, "Ok(v) => Ok(((), v, ())),");
+        rust!(rust, "Err(error) => Err({p}lalrpop_util::ParseError::User {{ error }}),",
+              p = grammar.prefix);
+        rust!(rust, "}}"); // match
+        rust!(rust, "}}"); // fn
+        rust!(rust, "}}"); // impl
     }
 
     Ok(())

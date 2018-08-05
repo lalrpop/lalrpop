@@ -1,6 +1,7 @@
 //! Simple Rust AST. This is what the various code generators create,
 //! which then gets serialized.
 
+use grammar::parse_tree::Visibility;
 use grammar::repr::{self, Grammar};
 use std::fmt::{self, Display};
 use std::io::{self, Write};
@@ -115,11 +116,7 @@ impl<W: Write> RustWrite<W> {
 
     /// Create and return fn-header builder. Don't forget to invoke
     /// `emit` at the end. =)
-    pub fn fn_header(
-        &'me mut self,
-        visibility: &'me Visibility,
-        name: String,
-    ) -> FnHeader<'me, W> {
+    pub fn fn_header(&'me mut self, visibility: &'me Visibility, name: String) -> FnHeader<'me, W> {
         FnHeader::new(self, visibility, name)
     }
 
@@ -174,11 +171,7 @@ pub struct FnHeader<'me, W: Write + 'me> {
 }
 
 impl<'me, W: Write> FnHeader<'me, W> {
-    pub fn new(
-        write: &'me mut RustWrite<W>,
-        visibility: &'me Visibility,
-        name: String,
-    ) -> Self {
+    pub fn new(write: &'me mut RustWrite<W>, visibility: &'me Visibility, name: String) -> Self {
         FnHeader {
             write,
             visibility,
@@ -192,10 +185,7 @@ impl<'me, W: Write> FnHeader<'me, W> {
 
     /// Adds the type-parameters, where-clauses, and parameters from
     /// the grammar.
-    pub fn with_grammar(
-        self,
-        grammar: &Grammar,
-    ) -> Self {
+    pub fn with_grammar(self, grammar: &Grammar) -> Self {
         self.with_type_parameters(&grammar.type_parameters)
             .with_where_clauses(&grammar.where_clauses)
             .with_parameters(&grammar.parameters)
@@ -203,20 +193,16 @@ impl<'me, W: Write> FnHeader<'me, W> {
 
     /// Declare a series of type parameters. Note that lifetime
     /// parameters must come first.
-    pub fn with_type_parameters(
-        mut self,
-        tps: impl IntoIterator<Item = impl Display>,
-    ) -> Self {
-        self.type_parameters.extend(tps.into_iter().map(|t| t.to_string()));
+    pub fn with_type_parameters(mut self, tps: impl IntoIterator<Item = impl Display>) -> Self {
+        self.type_parameters
+            .extend(tps.into_iter().map(|t| t.to_string()));
         self
     }
 
     /// Add where clauses to the list.
-    pub fn with_where_clauses(
-        mut self,
-        tps: impl IntoIterator<Item = impl Display>,
-    ) -> Self {
-        self.where_clauses.extend(tps.into_iter().map(|t| t.to_string()));
+    pub fn with_where_clauses(mut self, tps: impl IntoIterator<Item = impl Display>) -> Self {
+        self.where_clauses
+            .extend(tps.into_iter().map(|t| t.to_string()));
         self
     }
 
@@ -229,16 +215,13 @@ impl<'me, W: Write> FnHeader<'me, W> {
         self.parameters.extend(
             parameters
                 .into_iter()
-                .map(ParameterDisplay::to_parameter_string)
+                .map(ParameterDisplay::to_parameter_string),
         );
         self
     }
 
     /// Add where clauses to the list.
-    pub fn with_return_type(
-        mut self,
-        rt: impl Display,
-    ) -> Self {
+    pub fn with_return_type(mut self, rt: impl Display) -> Self {
         self.return_type = format!("{}", rt);
         self
     }
@@ -276,15 +259,14 @@ pub trait ParameterDisplay {
     fn to_parameter_string(self) -> String;
 }
 
-impl ParameterDisplay for String  {
+impl ParameterDisplay for String {
     fn to_parameter_string(self) -> String {
         self
     }
 }
 
-impl ParameterDisplay for &repr::Parameter  {
+impl ParameterDisplay for &repr::Parameter {
     fn to_parameter_string(self) -> String {
         format!("{}: {}", self.name, self.ty)
     }
 }
-

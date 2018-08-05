@@ -5,7 +5,7 @@ use std::fmt::Debug;
 const DEBUG_ENABLED: bool = false;
 
 macro_rules! debug {
-    ($($args:expr),*) => {
+    ($($args:expr),* $(,)*) => {
         if DEBUG_ENABLED {
             eprintln!($($args),*);
         }
@@ -55,6 +55,9 @@ pub trait ParserDefinition: Sized {
 
     /// Returns a location representing the "start of the input".
     fn start_location(&self) -> Self::Location;
+
+    /// Returns the initial state.
+    fn start_state(&self) -> Self::StateIndex;
 
     /// Converts the user's tokens into an internal index; this index
     /// is then used to index into actions and the like. When using an
@@ -201,10 +204,11 @@ where
 {
     pub fn drive(definition: D, tokens: I) -> ParseResult<D> {
         let last_location = definition.start_location();
+        let start_state = definition.start_state();
         Parser {
             definition,
             tokens,
-            states: vec![],
+            states: vec![start_state],
             symbols: vec![],
             last_location,
         }.parse()
@@ -226,21 +230,26 @@ where
                 NextToken::Done(e) => return e,
             };
 
-            debug!("SHIFT: {:?}", lookahead);
+            debug!("+ SHIFT: {:?}", lookahead);
 
-            debug!("token_index: {:?}", token_index);
+            debug!("\\ token_index: {:?}", token_index);
 
             'inner: loop {
                 let top_state = self.top_state();
                 let action = self.definition.action(top_state, token_index);
+                debug!("\\ action: {:?}", action);
 
                 if let Some(target_state) = action.as_shift() {
+                    debug!("\\ shift to: {:?}", target_state);
+
                     // Shift and transition to state `action - 1`
                     let symbol = self.definition.token_to_symbol(token_index, lookahead.1);
                     self.states.push(target_state);
                     self.symbols.push((lookahead.0, symbol, lookahead.2));
                     continue 'shift;
                 } else if let Some(reduce_index) = action.as_reduce() {
+                    debug!("\\ reduce to: {:?}", reduce_index);
+
                     if let Some(r) = self.definition.reduce(
                         reduce_index,
                         Some(&lookahead.0),
@@ -254,18 +263,16 @@ where
                         };
                     }
                 } else {
-                    if !self.definition.uses_error_recovery() {
-                        return Err(self.unrecognized_token_error(Some(lookahead), self.top_state()));
-                    } else {
-                        match self.error_recovery(Some(lookahead), Some(token_index)) {
-                            NextToken::FoundToken(l, i) => {
-                                lookahead = l;
-                                token_index = i;
-                                continue 'inner;
-                            }
-                            NextToken::EOF => return self.parse_eof(),
-                            NextToken::Done(e) => return e,
+                    debug!("\\ error -- initiating error recovery!");
+
+                    match self.error_recovery(Some(lookahead), Some(token_index)) {
+                        NextToken::FoundToken(l, i) => {
+                            lookahead = l;
+                            token_index = i;
+                            continue 'inner;
                         }
+                        NextToken::EOF => return self.parse_eof(),
+                        NextToken::Done(e) => return e,
                     }
                 }
             }
@@ -299,6 +306,21 @@ where
         mut opt_lookahead: Option<TokenTriple<D>>,
         mut opt_token_index: Option<D::TokenIndex>,
     ) -> NextToken<D> {
+        debug!(
+            "\\+ error_recovery(opt_lookahead={:?}, opt_token_index={:?})",
+            opt_lookahead,
+            opt_token_index,
+        );
+
+        if !self.definition.uses_error_recovery() {
+            debug!("\\ error -- no error recovery!");
+
+            return NextToken::Done(Err(self.unrecognized_token_error(
+                opt_lookahead,
+                self.top_state(),
+            )));
+        }
+
         let error = self.unrecognized_token_error(opt_lookahead.clone(), self.top_state());
 
         let mut dropped_tokens = vec![];
@@ -310,9 +332,13 @@ where
             let state = self.top_state();
             let action = self.definition.error_action(state);
             if let Some(reduce_index) = action.as_reduce() {
+                debug!("\\\\ reducing: {:?}", reduce_index);
+
                 if let Some(result) =
                     self.reduce(reduce_index, opt_lookahead.as_ref().map(|l| &l.0))
                 {
+                    debug!("\\\\ reduced to a result");
+
                     return NextToken::Done(result);
                 }
             } else {
@@ -324,14 +350,24 @@ where
         let states_len = self.states.len();
         let top = 'find_state: loop {
             // Go backwards through the states...
+            debug!(
+                "\\\\+ error_recovery: find_state loop, {:?} states = {:?}",
+                self.states.len(),
+                self.states,
+            );
+
             for top in (0..states_len).rev() {
                 let state = self.states[top];
+                debug!("\\\\\\ top = {:?}, state = {:?}", top, state);
+
                 // ...fetch action for error token...
                 let action = self.definition.error_action(state);
+                debug!("\\\\\\ action = {:?}", action);
                 if let Some(error_state) = action.as_shift() {
                     // If action is a shift that takes us into `error_state`,
                     // and `error_state` can accept this lookahead, we are done.
                     if self.accepts(error_state, &self.states[..top + 1], opt_token_index) {
+                        debug!("\\\\\\ accepted!");
                         break 'find_state top;
                     }
                 } else {
@@ -349,12 +385,17 @@ where
                 // tokens, abort error recovery and just report the
                 // original error (it might be nice if we would
                 // propagate back the dropped tokens, though).
-                None => return NextToken::Done(Err(error)),
+                None => {
+                    debug!("\\\\\\ no more lookahead, report error");
+                    return NextToken::Done(Err(error));
+                }
 
                 // Else, drop the current token and shift to the
                 // next. If there is a next token, we will `continue`
                 // to the start of the `'find_state` loop.
                 Some(lookahead) => {
+                    debug!("\\\\\\ dropping lookahead token");
+
                     dropped_tokens.push(lookahead);
                     match self.next_token() {
                         NextToken::FoundToken(next_lookahead, next_token_index) => {
@@ -362,10 +403,14 @@ where
                             opt_token_index = Some(next_token_index);
                         }
                         NextToken::EOF => {
+                            debug!("\\\\\\ reached EOF");
                             opt_lookahead = None;
                             opt_token_index = None;
                         }
-                        NextToken::Done(e) => return NextToken::Done(e),
+                        NextToken::Done(e) => {
+                            debug!("\\\\\\ no more tokens");
+                            return NextToken::Done(e);
+                        }
                     }
                 }
             }
@@ -487,6 +532,13 @@ where
         states: &[D::StateIndex],
         opt_token_index: Option<D::TokenIndex>,
     ) -> bool {
+        debug!(
+            "\\\\\\+ accepts(error_state={:?}, states={:?}, opt_token_index={:?})",
+            error_state,
+            states,
+            opt_token_index,
+        );
+
         let mut states = states.to_vec();
         states.push(error_state);
         loop {
@@ -499,6 +551,7 @@ where
 
             // If we encounter an error action, we do **not** accept.
             if action.is_error() {
+                debug!("\\\\\\\\ accepts: error");
                 return false;
             }
 
@@ -518,11 +571,13 @@ where
                     }
 
                     SimulatedReduce::Accept => {
+                        debug!("\\\\\\\\ accepts: reduce accepts!");
                         return true;
                     }
                 }
             } else {
                 // If we encounter a shift action, we DO accept.
+                debug!("\\\\\\\\ accepts: shift accepts!");
                 assert!(action.is_shift());
                 return true;
             }

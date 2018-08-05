@@ -494,15 +494,6 @@ impl<'ascent, 'grammar, W: Write>
 
         let triple_type = self.triple_type();
         let parse_error_type = self.types.parse_error_type();
-        let error_type = self.types.error_type();
-
-        // If we are generated the tokenizer, it generates ParseError
-        // errors, otherwise they are user errors.
-        let iter_error_type = if self.grammar.intern_token.is_some() {
-            parse_error_type
-        } else {
-            &error_type
-        };
 
         let (fn_args, starts_with_terminal) = self.fn_args(optional_prefix, fixed_prefix);
 
@@ -514,7 +505,7 @@ impl<'ascent, 'grammar, W: Write>
                 ).with_grammar(self.grammar)
                 .with_type_parameters(Some(format!(
                     "{}TOKENS: Iterator<Item=Result<{},{}>>",
-                    self.prefix, triple_type, iter_error_type
+                    self.prefix, triple_type, parse_error_type
                 ))).with_parameters(fn_args)
                 .with_return_type(format!(
                     "Result<(Option<{}>, {}Nonterminal<{}>), {}>",
@@ -974,11 +965,7 @@ impl<'ascent, 'grammar, W: Write>
             rust!(self.out, "Some(Err(e)) => return Err(e),");
         } else {
             // otherwise, they are user errors
-            rust!(
-                self.out,
-                "Some(Err(e)) => return Err({}lalrpop_util::ParseError::User {{ error: e }}),",
-                self.prefix
-            );
+            rust!(self.out, "Some(Err(e)) => return Err(e),");
         }
         rust!(self.out, "}};");
         Ok(())

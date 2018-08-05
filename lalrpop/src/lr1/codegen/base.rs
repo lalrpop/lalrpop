@@ -202,7 +202,6 @@ impl<'codegen, 'grammar, W: Write, C> CodeGenerator<'codegen, 'grammar, W, C> {
     }
 
     pub fn start_parser_fn(&mut self) -> io::Result<()> {
-        let error_type = self.types.error_type();
         let parse_error_type = self.types.parse_error_type();
 
         let (type_parameters, parameters, mut where_clauses);
@@ -223,8 +222,8 @@ impl<'codegen, 'grammar, W: Write, C> CodeGenerator<'codegen, 'grammar, W, C> {
             }
             type_parameters = vec![
                 format!(
-                    "{}TOKEN: {}ToTriple<{}Error={}>",
-                    self.prefix, self.prefix, user_type_parameters, error_type
+                    "{}TOKEN: {}ToTriple<{}>",
+                    self.prefix, self.prefix, user_type_parameters,
                 ),
                 format!(
                     "{}TOKENS: IntoIterator<Item={}TOKEN>",
