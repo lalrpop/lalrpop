@@ -1,7 +1,8 @@
 #![cfg_attr(not(test), allow(dead_code, unused_imports))]
 
 extern crate diff;
-#[macro_use] extern crate lalrpop_util;
+#[macro_use]
+extern crate lalrpop_util;
 
 use std::cell::RefCell;
 
@@ -108,8 +109,15 @@ lalrpop_mod!(partial_parse);
 lalrpop_mod!(error_issue_278);
 
 // Check that error recovery (which requires cloneable tokens) is not created if it is not used
-#[allow(unused)]
-lalrpop_mod!(no_clone_tok);
+lalrpop_mod!(
+    #[allow(unused)]
+    no_clone_tok
+);
+
+lalrpop_mod!(
+    #[deny(overflowing_literals)]
+    issue_394
+);
 
 mod util;
 
@@ -198,7 +206,8 @@ fn parse_error_map_token_and_location() {
     let err: lalrpop_util::ParseError<usize, expr_intern_tok::Token, &'static str> =
         result.unwrap_err();
 
-    let message = err.map_token(|expr_intern_tok::Token(_, t)| format!("TOKEN {}", t))
+    let message = err
+        .map_token(|expr_intern_tok::Token(_, t)| format!("TOKEN {}", t))
         .map_location(|offset| format!("line {}", expr[0..offset].lines().count()))
         .to_string();
     assert!(message.contains("Unrecognized token `TOKEN +`"));
@@ -593,15 +602,13 @@ fn error_recovery_issue_240() {
 
     assert_eq!(
         errors,
-        vec![
-            ErrorRecovery {
-                error: ParseError::UnrecognizedToken {
-                    token: Some((6, Tok::Div, 7)),
-                    expected: vec!["\")\"".to_string()],
-                },
-                dropped_tokens: vec![(6, Tok::Div, 7)],
+        vec![ErrorRecovery {
+            error: ParseError::UnrecognizedToken {
+                token: Some((6, Tok::Div, 7)),
+                expected: vec!["\")\"".to_string()],
             },
-        ]
+            dropped_tokens: vec![(6, Tok::Div, 7)],
+        },]
     );
 }
 
@@ -849,13 +856,11 @@ fn test_match_section() {
 #[test]
 fn test_match_alternatives() {
     assert_eq!(
-        match_alternatives::FileParser::new()
-            .parse("foo true"),
+        match_alternatives::FileParser::new().parse("foo true"),
         Ok("foo true".to_string())
     );
     assert_eq!(
-        match_alternatives::FileParser::new()
-            .parse("bar false"),
+        match_alternatives::FileParser::new().parse("bar false"),
         Ok("bar false".to_string())
     );
 }

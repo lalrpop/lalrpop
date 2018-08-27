@@ -349,7 +349,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
         let state_type = {
             // `reduce_indices` are allowed to be +1 since the negative maximum of any integer type
             // is one larger than the positive maximum
-            let max_value = ::std::cmp::max(states.len(), reduce_indices.len() - 1);
+            let max_value = ::std::cmp::max(states.len(), reduce_indices.len());
             if max_value <= ::std::i8::MAX as usize {
                 "i8"
             } else if max_value <= ::std::i16::MAX as usize {
