@@ -6,9 +6,6 @@
 // too darn annoying to try and make them do so.
 #![cfg_attr(test, allow(dead_code))]
 
-#![feature(in_band_lifetimes)]
-#![feature(infer_struct_outlives)]
-
 extern crate ascii_canvas;
 extern crate atty;
 extern crate bit_set;

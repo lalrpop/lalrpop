@@ -40,7 +40,7 @@ pub struct RustWrite<W: Write> {
 
 const TAB: usize = 4;
 
-impl<W: Write> RustWrite<W> {
+impl<'me, W: Write> RustWrite<W> {
     pub fn new(w: W) -> RustWrite<W> {
         RustWrite {
             write: w,
@@ -265,7 +265,7 @@ impl ParameterDisplay for String {
     }
 }
 
-impl ParameterDisplay for &repr::Parameter {
+impl<'me> ParameterDisplay for &'me repr::Parameter  {
     fn to_parameter_string(self) -> String {
         format!("{}: {}", self.name, self.ty)
     }
