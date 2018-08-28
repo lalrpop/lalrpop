@@ -41,7 +41,8 @@ pub trait ParserDefinition: Sized {
     /// Type produced by reducing the start symbol.
     type Success;
 
-    /// Identifies a state. Typically an i32.
+    /// Identifies a state. Typically an i8, i16, or i32 (depending on
+    /// how many states you have).
     type StateIndex: Copy + Clone + Debug;
 
     /// Identifies an action.
