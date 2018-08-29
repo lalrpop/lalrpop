@@ -1,0 +1,132 @@
+
+grammar;
+
+Sep<E,S>: Vec<E> =
+    <v0:(<E> S)*> <e1:E?> =>
+        v0.into_iter().chain(e1).collect();
+
+Comma<E>: Vec<E> = Sep<E, ",">;
+Semi<E>: Vec<E> = Sep<E, ";">;
+
+pub Program: () = {
+    <FunctionDefinition*> => (),
+};
+
+pub FunctionDefinition: () = {
+    "fun" <name:Name> "[" <params:Comma<FunctionParam>> "]" ":" <ret_ty:Type> "=" <body:Expr> =>
+        ()
+};
+
+FunctionParam: (String, ()) = {
+    <n:Name> ":" <t:Type> => (n, t),
+};
+
+pub Type: () = {
+    // TODO: this is dirty -- fix
+    <ty:Sep<SimpleType, "->">> => (),
+};
+
+SimpleType: () = {
+    <TypeName> => (),
+    "(" <Type> ")" => (),
+};
+
+TypeName: String = {
+    r"[A-Z][_a-zA-Z0-9]*" => <>.into()
+};
+
+pub Statement: () = {
+    // TODO: fix "warning: literal out of range for i8"
+    "let" <n:Name> <ty:(":" <Type>)?> "=" <e:Expr> ";" => (),
+    "var" <n:Name> "=" <e:Expr> ";" => (),
+    "if" <cond:Term> "then" <if_true:Term> "else" <if_false:Term> "end" =>
+        (),
+    "if" <cond:Term> "then" <if_true:Term> "end" =>
+        (),
+    "while" <cond:Term> <body:Term> =>
+        (),
+    <Expr> ";" => (),
+};
+
+pub Expr: () = {
+    // Function application
+    <f:Add> "(" <es:Comma<Add>> ")" => (),
+    Query,
+};
+
+pub Query: () = {
+    <rel:GroupLiteral> "?" <fs:FilterList> => (),
+    Add,
+};
+
+FilterList: Vec<()> = {
+    <("#" <Filter>)+> => <>
+};
+
+Filter: () = {
+    <field:Name> "=" <e:Term> => (),
+    <field:Name> "!=" <e:Term> => (),
+};
+
+Add: () = {
+    <l:Expr> "+" <r:Factor> => (),
+    <l:Expr> "-" <r:Factor> => (),
+    Factor,
+};
+
+Factor: () = {
+    <l:Factor> "*" <r:GroupLiteral> => (),
+    <l:Factor> "/" <r:GroupLiteral> => (),
+    GroupLiteral,
+};
+
+GroupLiteral: () = {
+    <c:ColumnLiteral> => (),
+    <r:RowLiteral> => (),
+    <r:RangeLiteral> => (),
+    Term,
+};
+
+pub Term: () = {
+    "(" ")" => (),
+    <n:NumLiteral> => (),
+    <s:StringLiteral> => (),
+    <n:Name> => (),
+    <BlockExpr> => <>,
+    "(" <Expr> ")" => <>,
+};
+
+BlockExpr: () = {
+    "(" <ss:Statement+> <eo:Expr?> ")" => (),
+    "do" <ss:Statement*> <eo:Expr?> "end" => (),
+};
+
+pub ColumnLiteral: () = {
+    "[" <name:Name> ":" <ty:Name> ";" <es:Term+> "]" => (),
+    "[" ":" <ty:Name> ";" <es:Term+> "]" => (),
+    "[" <es:Term+> "]" => (),
+};
+
+pub RangeLiteral: () = {
+    "(" <start:Term> ".." <end:Term> ")" => (),
+};
+
+pub RowLiteral: () = {
+    "{" <row:Comma<RowAssignment>> "}" => (),
+};
+
+RowAssignment: (String, ()) = {
+    <n:Name> "=" <e:Expr> => (n, e),
+};
+
+Name: String = {
+    r"[a-z][_a-zA-Z0-9]*" => <>.into()
+};
+
+NumLiteral: () = {
+    <digits:r"[0-9]+"> => (),
+};
+
+StringLiteral: () = {
+    <s:r#""[^"]*""#> => (),
+};
