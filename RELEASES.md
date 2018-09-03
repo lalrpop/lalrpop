@@ -1,3 +1,24 @@
+# Version 0.16.0
+Features: 
+- Allow attributes to be specified in larlpop_mod! (#398)
+
+Fixes:
+- Don't generate reduce actions which do not fit in 
+the integer size (#399)
+- Generate files in OUT_DIR (#353)
+
+Dependencies: 
+- Update atty (0.2), bit-set (0.5), ena(0.9) (#374)
+- Regex to 1.0 (#375)
+
+Thanks to the following contributors:
+- @Marwes
+- @KRITZCREEK
+- @asyosec
+- snsmac
+- Eijebong
+- @sanxiyn
+
 # Version 0.15.2
 
 Features:
