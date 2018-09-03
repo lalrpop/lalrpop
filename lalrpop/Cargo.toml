@@ -38,8 +38,8 @@ rand = "0.4"
 
 [dependencies.lalrpop-util]
 path = "../lalrpop-util"
-version = "0.15.2" # LALRPOP
+version = "0.16.0" # LALRPOP
 
 [build-dependencies.lalrpop-snap]
 path = "../lalrpop-snap"
-version = "0.15.2" # LALRPOP
+version = "0.16.0" # LALRPOP

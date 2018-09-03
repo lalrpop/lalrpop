@@ -63,10 +63,10 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 
 [[package]]
 name = "calculator"
-version = "0.15.2"
+version = "0.16.0"
 dependencies = [
- "lalrpop 0.15.2",
- "lalrpop-util 0.15.2",
+ "lalrpop 0.16.0",
+ "lalrpop-util 0.16.0",
  "regex 0.2.11 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
 
@@ -172,7 +172,7 @@ dependencies = [
 
 [[package]]
 name = "lalrpop"
-version = "0.15.2"
+version = "0.16.0"
 dependencies = [
  "ascii-canvas 1.0.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "atty 0.2.11 (registry+https://github.com/rust-lang/crates.io-index)",
@@ -182,8 +182,8 @@ dependencies = [
  "docopt 0.8.3 (registry+https://github.com/rust-lang/crates.io-index)",
  "ena 0.9.3 (registry+https://github.com/rust-lang/crates.io-index)",
  "itertools 0.7.8 (registry+https://github.com/rust-lang/crates.io-index)",
- "lalrpop-snap 0.15.2",
- "lalrpop-util 0.15.2",
+ "lalrpop-snap 0.16.0",
+ "lalrpop-util 0.16.0",
  "petgraph 0.4.13 (registry+https://github.com/rust-lang/crates.io-index)",
  "rand 0.4.3 (registry+https://github.com/rust-lang/crates.io-index)",
  "regex 1.0.4 (registry+https://github.com/rust-lang/crates.io-index)",
@@ -198,7 +198,7 @@ dependencies = [
 
 [[package]]
 name = "lalrpop-snap"
-version = "0.15.2"
+version = "0.16.0"
 dependencies = [
  "ascii-canvas 1.0.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "atty 0.2.11 (registry+https://github.com/rust-lang/crates.io-index)",
@@ -206,7 +206,7 @@ dependencies = [
  "diff 0.1.11 (registry+https://github.com/rust-lang/crates.io-index)",
  "ena 0.9.3 (registry+https://github.com/rust-lang/crates.io-index)",
  "itertools 0.7.8 (registry+https://github.com/rust-lang/crates.io-index)",
- "lalrpop-util 0.15.2",
+ "lalrpop-util 0.16.0",
  "petgraph 0.4.13 (registry+https://github.com/rust-lang/crates.io-index)",
  "rand 0.4.3 (registry+https://github.com/rust-lang/crates.io-index)",
  "regex 1.0.4 (registry+https://github.com/rust-lang/crates.io-index)",
@@ -218,17 +218,17 @@ dependencies = [
 
 [[package]]
 name = "lalrpop-test"
-version = "0.15.2"
+version = "0.16.0"
 dependencies = [
  "diff 0.1.11 (registry+https://github.com/rust-lang/crates.io-index)",
- "lalrpop 0.15.2",
- "lalrpop-util 0.15.2",
+ "lalrpop 0.16.0",
+ "lalrpop-util 0.16.0",
  "regex 0.2.11 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
 
 [[package]]
 name = "lalrpop-util"
-version = "0.15.2"
+version = "0.16.0"
 
 [[package]]
 name = "lazy_static"
@@ -277,8 +277,8 @@ name = "pascal"
 version = "0.11.0"
 dependencies = [
  "docopt 0.8.3 (registry+https://github.com/rust-lang/crates.io-index)",
- "lalrpop 0.15.2",
- "lalrpop-util 0.15.2",
+ "lalrpop 0.16.0",
+ "lalrpop-util 0.16.0",
  "regex 0.2.11 (registry+https://github.com/rust-lang/crates.io-index)",
  "serde 1.0.75 (registry+https://github.com/rust-lang/crates.io-index)",
  "serde_derive 1.0.75 (registry+https://github.com/rust-lang/crates.io-index)",
@@ -576,10 +576,10 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 
 [[package]]
 name = "whitespace"
-version = "0.15.2"
+version = "0.16.0"
 dependencies = [
- "lalrpop 0.15.2",
- "lalrpop-util 0.15.2",
+ "lalrpop 0.16.0",
+ "lalrpop-util 0.16.0",
 ]
 
 [[package]]
