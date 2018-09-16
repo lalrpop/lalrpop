@@ -160,13 +160,6 @@ impl<W: Write> RustWrite<W> {
         Ok(())
     }
 
-    pub fn write_module_attributes(&mut self, grammar: &Grammar) -> io::Result<()> {
-        for attribute in grammar.module_attributes.iter() {
-            rust!(self, "{}", attribute);
-        }
-        Ok(())
-    }
-
     pub fn write_uses(&mut self, super_prefix: &str, grammar: &Grammar) -> io::Result<()> {
         // things the user wrote
         for u in &grammar.uses {

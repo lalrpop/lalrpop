@@ -119,6 +119,8 @@ lalrpop_mod!(
     issue_394
 );
 
+lalrpop_mod!(module_attributes);
+
 mod util;
 
 /// This constant is here so that some of the generator parsers can
@@ -896,4 +898,14 @@ fn error_issue_278() {
             panic!("unexpected response from parser: {:?}", r);
         }
     }
+}
+
+#[test]
+fn test_module_attributes() {
+    assert!(
+        module_attributes::TokParser::new()
+            .parse("hello")
+            .is_ok()
+    );
+
 }

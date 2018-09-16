@@ -1,0 +1,6 @@
+#![cfg(debug_assertions)]
+#![allow(unreachable_patterns)]
+
+grammar;
+
+pub Tok = "hello";

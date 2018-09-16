@@ -46,6 +46,7 @@ mod intern_token {
 
  */
 
+use build::emit_module_attributes;
 use lexer::re;
 use grammar::parse_tree::InternToken;
 use grammar::repr::{Grammar, TerminalLiteral};
@@ -59,7 +60,7 @@ pub fn compile<W: Write>(
 ) -> io::Result<()> {
     let prefix = &grammar.prefix;
 
-    rust!(out, "#[cfg_attr(rustfmt, rustfmt_skip)]");
+    emit_module_attributes(grammar, out)?;
     rust!(out, "mod {}intern_token {{", prefix);
     rust!(out, "#![allow(unused_imports)]");
     try!(out.write_uses("", &grammar));
