@@ -430,7 +430,7 @@ impl<'input> Tokenizer<'input> {
         // we have to scan ahead, matching (), [], and {}, and looking
         // for a suitable terminator: `,`, `;`, `]`, `}`, or `)`.
         // Additionaly we had to take into account that we can encounter an character literal
-        // equal to one of delimeters.
+        // equal to one of delimiters.
         let mut balance = 0; // number of unclosed `(` etc
         loop {
             if let Some((idx, c)) = self.lookahead {
@@ -498,7 +498,7 @@ impl<'input> Tokenizer<'input> {
     }
 
     fn take_lifetime_or_character_literal(&mut self) -> Option<usize> {
-        // try to decide if `'` is for lifetime or it oppens a character literal
+        // Try to decide whether `'` is the start of a lifetime or a character literal.
 
         let forget_character = |p: (usize, char)| p.0;
 
