@@ -1,5 +1,6 @@
 //! A tokenizer for use in LALRPOP itself.
 
+use std::borrow::Cow;
 use std::str::CharIndices;
 use unicode_xid::UnicodeXID;
 
@@ -19,6 +20,7 @@ pub struct Error {
 pub enum ErrorCode {
     UnrecognizedToken,
     UnterminatedEscape,
+    UnrecognizedEscape,
     UnterminatedStringLiteral,
     UnterminatedCharacterLiteral,
     UnterminatedAttribute,
@@ -735,4 +737,32 @@ fn is_identifier_start(c: char) -> bool {
 
 fn is_identifier_continue(c: char) -> bool {
     UnicodeXID::is_xid_continue(c) || c == '_'
+}
+
+/// Expand escape characters in a string literal, converting the source code
+/// representation to the text it represents. The `idx0` argument should be the
+/// position in the input stream of the first character of `text`, the position
+/// after the opening double-quote.
+pub fn apply_string_escapes(code: &str, idx0: usize) -> Result<Cow<str>, Error> {
+    if !code.contains('\\') {
+        Ok(code.into())
+    } else {
+        let mut iter = code.char_indices();
+        let mut text = String::new();
+        while let Some((_, mut ch)) = iter.next() {
+            if ch == '\\' {
+                // The parser should never have accepted an ill-formed string
+                // literal, so we know it can't end in a backslash.
+                let (offset, next_ch) = iter.next().unwrap();
+                ch = match next_ch {
+                    '\\' | '\"' => next_ch,
+                    'n' => '\n',
+                    't' => '\t',
+                    _ => { return error(UnrecognizedEscape, idx0 + offset); }
+                }
+            }
+            text.push(ch);
+        }
+        Ok(text.into())
+    }
 }
