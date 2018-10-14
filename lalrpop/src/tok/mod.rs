@@ -757,6 +757,7 @@ pub fn apply_string_escapes(code: &str, idx0: usize) -> Result<Cow<str>, Error> 
                 ch = match next_ch {
                     '\\' | '\"' => next_ch,
                     'n' => '\n',
+                    'r' => '\r',
                     't' => '\t',
                     _ => { return error(UnrecognizedEscape, idx0 + offset); }
                 }
