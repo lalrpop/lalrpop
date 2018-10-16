@@ -1,13 +1,13 @@
 //! Validate checks some basic safety conditions.
 
-use super::{NormError, NormResult};
 use super::norm_util::{self, Symbols};
+use super::{NormError, NormResult};
 
+use collections::{set, Multimap};
 use grammar::consts::*;
 use grammar::parse_tree::*;
 use grammar::repr as r;
 use string_cache::DefaultAtom as Atom;
-use collections::{set, Multimap};
 use util::Sep;
 
 #[cfg(test)]
@@ -203,7 +203,8 @@ impl<'grammar> Validator<'grammar> {
             try!(self.validate_symbol(symbol));
         }
 
-        let chosen: Vec<&Symbol> = expr.symbols
+        let chosen: Vec<&Symbol> = expr
+            .symbols
             .iter()
             .filter(|sym| match sym.kind {
                 SymbolKind::Choose(_) => true,
@@ -211,7 +212,8 @@ impl<'grammar> Validator<'grammar> {
             })
             .collect();
 
-        let named: Multimap<Atom, Vec<&Symbol>> = expr.symbols
+        let named: Multimap<Atom, Vec<&Symbol>> = expr
+            .symbols
             .iter()
             .filter_map(|sym| match sym.kind {
                 SymbolKind::Name(ref nt, _) => Some((nt.clone(), sym)),
