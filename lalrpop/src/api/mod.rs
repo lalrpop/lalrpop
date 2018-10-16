@@ -86,8 +86,7 @@ impl Configuration {
     ///
     /// This was the default behaviour up to version 0.15.
     pub fn generate_in_source_tree(&mut self) -> &mut Self {
-        self.set_in_dir(Path::new("."))
-            .set_out_dir(Path::new("."))
+        self.set_in_dir(Path::new(".")).set_out_dir(Path::new("."))
     }
 
     /// If true, always convert `.lalrpop` files into `.rs` files, even if the

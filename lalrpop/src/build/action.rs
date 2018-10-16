@@ -89,7 +89,8 @@ fn emit_user_action_code<W: Write>(
     // a (L, T, L) triple where the Ls are locations and
     // the T is the data. Ignore the locations and bind
     // the data to the name the user gave.
-    let mut arguments: Vec<String> = data.arg_patterns
+    let mut arguments: Vec<String> = data
+        .arg_patterns
         .iter()
         .zip(
             data.arg_types
@@ -191,7 +192,8 @@ fn emit_inline_action_code<W: Write>(
 ) -> io::Result<()> {
     let ret_type = ret_type_string(grammar, defn);
 
-    let arg_types: Vec<_> = data.symbols
+    let arg_types: Vec<_> = data
+        .symbols
         .iter()
         .flat_map(|sym| match *sym {
             r::InlinedSymbol::Original(ref s) => vec![s.clone()],

@@ -2,12 +2,13 @@ extern crate docopt;
 #[macro_use]
 extern crate serde_derive;
 extern crate serde;
-#[macro_use] extern crate lalrpop_util;
+#[macro_use]
+extern crate lalrpop_util;
 
 use docopt::Docopt;
 use std::env;
-use std::io::Read;
 use std::fs::File;
+use std::io::Read;
 use std::time::Instant;
 
 lalrpop_mod!(pascal);

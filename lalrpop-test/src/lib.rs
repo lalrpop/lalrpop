@@ -687,7 +687,8 @@ fn test_error_recovery_spans(input: &str, error_span: &str, output: &str) {
     let result = util::test_err_gen(
         |v| error_recovery_span::ExprParser::new().parse(&mut errors, v),
         input,
-    ).unwrap();
+    )
+    .unwrap();
 
     assert_eq!(result, output);
 
