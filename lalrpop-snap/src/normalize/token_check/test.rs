@@ -1,8 +1,8 @@
-use parser;
+use grammar::parse_tree::Grammar;
+use lexer::dfa::interpret;
 use normalize::resolve::resolve;
 use normalize::NormResult;
-use lexer::dfa::interpret;
-use grammar::parse_tree::Grammar;
+use parser;
 use test_util;
 
 fn validate_grammar(grammar: &str) -> NormResult<Grammar> {
@@ -75,7 +75,7 @@ fn input_parameter_already_declared() {
 #[test]
 fn invalid_regular_expression_unterminated_group() {
     check_err(
-        r#"Unclosed parenthesis"#,
+        r#"unclosed group"#,
         r#"grammar; X = X r"(123";"#,
         r#"               ~~~~~~~ "#,
     );

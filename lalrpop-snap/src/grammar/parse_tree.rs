@@ -1,14 +1,14 @@
 //! The "parse-tree" is what is produced by the parser. We use it do
 //! some pre-expansion and so forth before creating the proper AST.
 
-use string_cache::DefaultAtom as Atom;
-use lexer::dfa::DFA;
 use grammar::consts::{LALR, RECURSIVE_ASCENT, TABLE_DRIVEN, TEST_ALL};
-use grammar::repr::{self as r, NominalTypeRepr, TypeRepr};
 use grammar::pattern::Pattern;
-use message::Content;
+use grammar::repr::{self as r, NominalTypeRepr, TypeRepr};
+use lexer::dfa::DFA;
 use message::builder::InlineBuilder;
+use message::Content;
 use std::fmt::{Debug, Display, Error, Formatter};
+use string_cache::DefaultAtom as Atom;
 use tls::Tls;
 use util::Sep;
 
@@ -964,7 +964,8 @@ impl Display for TypeRef {
             TypeRef::Nominal {
                 ref path,
                 ref types,
-            } if types.len() == 0 =>
+            }
+                if types.len() == 0 =>
             {
                 write!(fmt, "{}", path)
             }
