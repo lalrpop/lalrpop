@@ -390,6 +390,7 @@ pub struct NonterminalData {
 pub struct Annotation {
     pub id_span: Span,
     pub id: Atom,
+    pub arg: Option<(Atom, String)>,
 }
 
 #[derive(Clone, Debug, PartialEq, Eq)]

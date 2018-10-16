@@ -43,3 +43,6 @@ version = "0.16.0" # LALRPOP
 [build-dependencies.lalrpop-snap]
 path = "../lalrpop-snap"
 version = "0.16.0" # LALRPOP
+
+[features]
+test = []

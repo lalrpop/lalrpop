@@ -113,9 +113,12 @@ Nonterminal: GrammarItem =
                                                    alternatives: a })
     };
 
+AnnotationArg: (Atom, String) =
+    "(" <name:Id> "=" <value:"StringLiteral"> ")" => (name, value.into());
+
 Annotation: Annotation =
-    "#" "[" <lo:@L> <id:Id> <hi:@R> "]" => {
-        Annotation { id_span: Span(lo, hi), id: id }
+    "#" "[" <lo:@L> <id:Id> <arg: AnnotationArg?> <hi:@R> "]" => {
+        Annotation { id_span: Span(lo, hi), id, arg }
     };
 
 NonterminalName: (NonterminalString, Vec<NonterminalString>) = {
