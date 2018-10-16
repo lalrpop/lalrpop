@@ -115,9 +115,9 @@ enum LevelFlag {
 
 #[cfg(test)]
 mod test {
-    use docopt::Docopt;
-    use super::USAGE;
     use super::Args;
+    use super::USAGE;
+    use docopt::Docopt;
 
     #[test]
     fn test_usage_help() {

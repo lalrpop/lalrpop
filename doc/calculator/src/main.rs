@@ -1,4 +1,5 @@
-#[macro_use] extern crate lalrpop_util;
+#[macro_use]
+extern crate lalrpop_util;
 
 lalrpop_mod!(pub calculator1); // syntesized by LALRPOP
 
@@ -43,8 +44,13 @@ lalrpop_mod!(pub calculator3);
 macro_rules! test3 {
     ($expr:expr) => {
         println!("parsing {}", stringify!($expr));
-        assert_eq!(calculator3::ExprParser::new().parse(stringify!($expr)).unwrap(), $expr);
-    }
+        assert_eq!(
+            calculator3::ExprParser::new()
+                .parse(stringify!($expr))
+                .unwrap(),
+            $expr
+        );
+    };
 }
 
 #[test]
