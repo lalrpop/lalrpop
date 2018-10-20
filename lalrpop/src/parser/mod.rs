@@ -3,8 +3,19 @@ use grammar::pattern::*;
 use lalrpop_util;
 use tok;
 
+#[cfg(not(test))]
 #[allow(dead_code)]
 mod lrgrammar;
+
+#[cfg(test)]
+lalrpop_mod!(
+    // ---------------------------------------------------------------------------------------
+    // NOTE: Run `cargo build -p lalrpop` once before running `cargo test` to create this file
+    // ---------------------------------------------------------------------------------------
+    #[allow(dead_code)]
+    lrgrammar,
+    "/src/parser/lrgrammar.rs"
+);
 
 #[cfg(test)]
 mod test;
