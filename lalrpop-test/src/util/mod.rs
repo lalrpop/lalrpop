@@ -90,17 +90,17 @@ pub fn compare<D: Debug, E: Debug>(actual: D, expected: E) {
 
 pub fn compare_str(actual: &str, expected: &str, msg: &str) {
     if actual != expected {
-        let mut lines = 0;
-        for diff in diff::lines(actual, expected).into_iter().take(100) {
-            lines += 1;
+        let lines = diff::lines(actual, expected);
+        for diff in lines.iter().take(100) {
             match diff {
                 diff::Result::Right(r) => println!("- {}", r),
                 diff::Result::Left(l) => println!("+ {}", l),
-                diff::Result::Both(l, _) => println!("  {}", l),
+                diff::Result::Both(l, _) if lines.len() < 100 => println!("  {}", l),
+                _ => (),
             }
         }
 
-        if lines >= 100 {
+        if lines.len() >= 100 {
             println!("... more");
         }
         assert!(false, "{}", msg);
