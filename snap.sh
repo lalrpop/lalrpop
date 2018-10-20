@@ -1,4 +1,3 @@
 #!/bin/bash
 
-cargo build -p lalrpop --bins
-cargo build -p lalrpop --bins --feature snapshot
+cargo run -p lalrpop -- --force --out-dir lalrpop/src/parser lalrpop/src/parser/lrgrammar.lalrpop
