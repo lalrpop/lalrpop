@@ -1,6 +1,4 @@
 #!/bin/bash
 
-rm -rf lalrpop-snap/src
-cp -r lalrpop/src lalrpop-snap/
-rm -f lalrpop-snap/src/parser/lrgrammar.lalrpop
-rm -f lalrpop-snap/src/main.rs
+cargo build -p lalrpop --bins
+cargo build -p lalrpop --bins --feature snapshot
