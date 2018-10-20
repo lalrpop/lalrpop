@@ -908,3 +908,15 @@ fn error_issue_278() {
         }
     }
 }
+
+use std::process::Command;
+
+#[test]
+fn verify_lalrpop_generates_itself() {
+    assert!(
+        Command::new("target/debug/lalrpop")
+            .status()
+            .unwrap()
+            .success()
+    );
+}
