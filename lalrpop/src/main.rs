@@ -8,6 +8,7 @@ use docopt::Docopt;
 use lalrpop::Configuration;
 use std::env;
 use std::io::{self, Write};
+use std::path::PathBuf;
 use std::process;
 
 static VERSION: &'static str = env!("CARGO_PKG_VERSION");
@@ -62,6 +63,10 @@ fn main1() -> io::Result<()> {
         process::exit(1);
     }
 
+    if let Some(out_dir) = args.arg_out_dir {
+        config.set_out_dir(out_dir);
+    }
+
     for arg in args.arg_inputs {
         match config.process_file(&arg) {
             Ok(()) => {}
@@ -88,6 +93,7 @@ Options:
     -V, --version        Print version.
     -l, --level LEVEL    Set the debug level. (Default: info)
                          Valid values: quiet, info, verbose, debug.
+    -o, --out-dir DIR    Sets the directory in which to output the .rs file(s).
     -f, --force          Force execution, even if the .lalrpop file is older than the .rs file.
     -c, --color          Force colorful output, even if this is not a TTY.
     --comments           Enable comments in the generated code.
@@ -97,6 +103,7 @@ Options:
 #[derive(Debug, Deserialize)]
 struct Args {
     arg_inputs: Vec<String>,
+    arg_out_dir: Option<PathBuf>,
     flag_level: Option<LevelFlag>,
     flag_force: bool,
     flag_color: bool,
