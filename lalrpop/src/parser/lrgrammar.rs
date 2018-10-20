@@ -1,5 +1,5 @@
 // auto-generated: "lalrpop 0.16.0"
-// sha256: 4f1bb2ea2c54a25fe74349deddb6453bb077e6ae579d95d55ad96a7b86d1
+// sha256: 297fc277ab8f81cc954aecc1646c241fd4d7914841726f9122396daf4c486dee
 use string_cache::DefaultAtom as Atom;
 use grammar::parse_tree::*;
 use grammar::pattern::*;
