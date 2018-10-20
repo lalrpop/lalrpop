@@ -9,6 +9,7 @@ install:
 - source ~/.cargo/env || true
 - bash tools/ci-install.sh
 script:
+- RUST_BACKTRACE=1 CARGO_INCREMENTAL=0 cargo build -p lalrpop
 - RUST_BACKTRACE=1 CARGO_INCREMENTAL=0 cargo test --all
 - bash tools/build-doc
 deploy:
