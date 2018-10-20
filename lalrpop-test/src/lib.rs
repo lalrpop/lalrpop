@@ -927,6 +927,7 @@ fn verify_lalrpop_generates_itself() {
         Command::new("../target/debug/lalrpop")
             .args(&[
                 "--force",
+                "--no-whitespace",
                 "--out-dir",
                 out_dir,
                 copied_grammar_file

@@ -1,13 +1,13 @@
 // auto-generated: "lalrpop 0.16.0"
 // sha256: ff8e66bf9bffcc39fd4d5baa2fca2d43c14f758db82e5c6ea620a3edf8dccc74
-use super::Top;
+use string_cache::DefaultAtom as Atom;
 use grammar::parse_tree::*;
 use grammar::pattern::*;
-use lalrpop_util::ParseError;
 use std::iter::once;
-use string_cache::DefaultAtom as Atom;
 use tok::{self, Tok};
 use util::strip;
+use lalrpop_util::ParseError;
+use super::Top;
 #[allow(unused_extern_crates)]
 extern crate lalrpop_util as ___lalrpop_util;
 
@@ -16897,765 +16897,1013 @@ let ___symbol = (___start, ___Symbol::Variant93(___nt), ___end);
 pub use self::___parse___Top::TopParser;
 
 #[allow(unused_variables)]
-fn ___action0<'input>(text: &'input str, (_, ___0, _): (usize, Top, usize)) -> Top {
-    (___0)
+fn ___action0<
+    'input,
+>(
+text: &'input str,
+(_, ___0, _): (usize, Top, usize),
+) -> Top
+{
+(___0)
 }
 
 #[allow(unused_variables)]
-fn ___action1<'input>(
-    text: &'input str,
-    (_, _, _): (usize, Tok<'input>, usize),
-    (_, ___0, _): (usize, Grammar, usize),
-) -> Top {
-    Top::Grammar(___0)
+fn ___action1<
+    'input,
+>(
+text: &'input str,
+(_, _, _): (usize, Tok<'input>, usize),
+(_, ___0, _): (usize, Grammar, usize),
+) -> Top
+{
+Top::Grammar(___0)
 }
 
 #[allow(unused_variables)]
-fn ___action2<'input>(
-    text: &'input str,
-    (_, _, _): (usize, Tok<'input>, usize),
-    (_, ___0, _): (usize, Pattern<TypeRef>, usize),
-) -> Top {
-    Top::Pattern(___0)
+fn ___action2<
+    'input,
+>(
+text: &'input str,
+(_, _, _): (usize, Tok<'input>, usize),
+(_, ___0, _): (usize, Pattern<TypeRef>, usize),
+) -> Top
+{
+Top::Pattern(___0)
 }
 
 #[allow(unused_variables)]
-fn ___action3<'input>(
-    text: &'input str,
-    (_, _, _): (usize, Tok<'input>, usize),
-    (_, ___0, _): (usize, TerminalString, usize),
-) -> Top {
-    Top::MatchMapping(___0)
+fn ___action3<
+    'input,
+>(
+text: &'input str,
+(_, _, _): (usize, Tok<'input>, usize),
+(_, ___0, _): (usize, TerminalString, usize),
+) -> Top
+{
+Top::MatchMapping(___0)
 }
 
 #[allow(unused_variables)]
-fn ___action4<'input>(
-    text: &'input str,
-    (_, _, _): (usize, Tok<'input>, usize),
-    (_, ___0, _): (usize, TypeRef, usize),
-) -> Top {
-    Top::TypeRef(___0)
+fn ___action4<
+    'input,
+>(
+text: &'input str,
+(_, _, _): (usize, Tok<'input>, usize),
+(_, ___0, _): (usize, TypeRef, usize),
+) -> Top
+{
+Top::TypeRef(___0)
 }
 
 #[allow(unused_variables)]
-fn ___action5<'input>(
-    text: &'input str,
-    (_, _, _): (usize, Tok<'input>, usize),
-    (_, ___0, _): (usize, Vec<WhereClause<TypeRef>>, usize),
-) -> Top {
-    Top::GrammarWhereClauses(___0)
+fn ___action5<
+    'input,
+>(
+text: &'input str,
+(_, _, _): (usize, Tok<'input>, usize),
+(_, ___0, _): (usize, Vec<WhereClause<TypeRef>>, usize),
+) -> Top
+{
+Top::GrammarWhereClauses(___0)
 }
 
 #[allow(unused_variables)]
-fn ___action6<'input>(
-    text: &'input str,
-    (_, module_attributes, _): (usize, ::std::vec::Vec<String>, usize),
-    (_, uses, _): (usize, ::std::vec::Vec<GrammarItem>, usize),
-    (_, annotations, _): (usize, ::std::vec::Vec<Annotation>, usize),
-    (_, lo, _): (usize, usize, usize),
-    (_, _, _): (usize, Tok<'input>, usize),
-    (_, hi, _): (usize, usize, usize),
-    (_, tps, _): (usize, ::std::option::Option<Vec<TypeParameter>>, usize),
-    (_, parameters, _): (usize, ::std::option::Option<Vec<Parameter>>, usize),
-    (_, where_clauses, _): (
-        usize,
-        ::std::option::Option<Vec<WhereClause<TypeRef>>>,
-        usize,
-    ),
-    (_, _, _): (usize, Tok<'input>, usize),
-    (_, items, _): (usize, ::std::vec::Vec<GrammarItem>, usize),
-) -> Grammar {
-    {
-        Grammar {
-            prefix: format!("__"), // adjusted by `parse_grammar`
-            span: Span(lo, hi),
-            type_parameters: tps.unwrap_or(vec![]),
-            parameters: parameters.unwrap_or(vec![]),
-            where_clauses: where_clauses.unwrap_or(vec![]),
-            items: uses.into_iter().chain(items).collect(),
-            annotations: annotations,
-            module_attributes: module_attributes,
-        }
+fn ___action6<
+    'input,
+>(
+text: &'input str,
+(_, module_attributes, _): (usize, ::std::vec::Vec<String>, usize),
+(_, uses, _): (usize, ::std::vec::Vec<GrammarItem>, usize),
+(_, annotations, _): (usize, ::std::vec::Vec<Annotation>, usize),
+(_, lo, _): (usize, usize, usize),
+(_, _, _): (usize, Tok<'input>, usize),
+(_, hi, _): (usize, usize, usize),
+(_, tps, _): (usize, ::std::option::Option<Vec<TypeParameter>>, usize),
+(_, parameters, _): (usize, ::std::option::Option<Vec<Parameter>>, usize),
+(_, where_clauses, _): (usize, ::std::option::Option<Vec<WhereClause<TypeRef>>>, usize),
+(_, _, _): (usize, Tok<'input>, usize),
+(_, items, _): (usize, ::std::vec::Vec<GrammarItem>, usize),
+) -> Grammar
+{
+{
+        Grammar { prefix: format!("__"), // adjusted by `parse_grammar`
+                  span: Span(lo, hi),
+                  type_parameters: tps.unwrap_or(vec![]),
+                  parameters: parameters.unwrap_or(vec![]),
+                  where_clauses: where_clauses.unwrap_or(vec![]),
+                  items: uses.into_iter().chain(items).collect(),
+                  annotations: annotations,
+                  module_attributes: module_attributes}
     }
 }
 
 #[allow(unused_variables)]
-fn ___action7<'input>(
-    text: &'input str,
-    (_, _, _): (usize, Tok<'input>, usize),
-    (_, ___0, _): (usize, Vec<TypeParameter>, usize),
-    (_, _, _): (usize, Tok<'input>, usize),
-) -> Vec<TypeParameter> {
-    (___0)
+fn ___action7<
+    'input,
+>(
+text: &'input str,
+(_, _, _): (usize, Tok<'input>, usize),
+(_, ___0, _): (usize, Vec<TypeParameter>, usize),
+(_, _, _): (usize, Tok<'input>, usize),
+) -> Vec<TypeParameter>
+{
+(___0)
 }
 
 #[allow(unused_variables)]
-fn ___action8<'input>(text: &'input str, (_, l, _): (usize, Atom, usize)) -> TypeParameter {
-    TypeParameter::Lifetime(l)
+fn ___action8<
+    'input,
+>(
+text: &'input str,
+(_, l, _): (usize, Atom, usize),
+) -> TypeParameter
+{
+TypeParameter::Lifetime(l)
 }
 
 #[allow(unused_variables)]
-fn ___action9<'input>(text: &'input str, (_, l, _): (usize, Atom, usize)) -> TypeParameter {
-    TypeParameter::Id(l)
+fn ___action9<
+    'input,
+>(
+text: &'input str,
+(_, l, _): (usize, Atom, usize),
+) -> TypeParameter
+{
+TypeParameter::Id(l)
 }
 
 #[allow(unused_variables)]
-fn ___action10<'input>(
-    text: &'input str,
-    (_, _, _): (usize, Tok<'input>, usize),
-    (_, ___0, _): (usize, Vec<WhereClause<TypeRef>>, usize),
-) -> Vec<WhereClause<TypeRef>> {
-    (___0)
+fn ___action10<
+    'input,
+>(
+text: &'input str,
+(_, _, _): (usize, Tok<'input>, usize),
+(_, ___0, _): (usize, Vec<WhereClause<TypeRef>>, usize),
+) -> Vec<WhereClause<TypeRef>>
+{
+(___0)
 }
 
 #[allow(unused_variables)]
-fn ___action11<'input>(
-    text: &'input str,
-    (_, l, _): (usize, Atom, usize),
-    (_, _, _): (usize, Tok<'input>, usize),
-    (_, bounds, _): (usize, Vec<Atom>, usize),
-) -> WhereClause<TypeRef> {
-    WhereClause::Lifetime {
-        lifetime: l,
-        bounds: bounds,
+fn ___action11<
+    'input,
+>(
+text: &'input str,
+(_, l, _): (usize, Atom, usize),
+(_, _, _): (usize, Tok<'input>, usize),
+(_, bounds, _): (usize, Vec<Atom>, usize),
+) -> WhereClause<TypeRef>
+{
+WhereClause::Lifetime { lifetime: l, bounds: bounds }
+}
+
+#[allow(unused_variables)]
+fn ___action12<
+    'input,
+>(
+text: &'input str,
+(_, f, _): (usize, ::std::option::Option<Vec<Atom>>, usize),
+(_, ty, _): (usize, TypeRef, usize),
+(_, _, _): (usize, Tok<'input>, usize),
+(_, bounds, _): (usize, Vec<TypeBound<TypeRef>>, usize),
+) -> WhereClause<TypeRef>
+{
+WhereClause::Type { forall: f, ty: ty, bounds: bounds }
+}
+
+#[allow(unused_variables)]
+fn ___action13<
+    'input,
+>(
+text: &'input str,
+(_, _, _): (usize, Tok<'input>, usize),
+(_, _, _): (usize, Tok<'input>, usize),
+(_, ___0, _): (usize, Vec<Atom>, usize),
+(_, _, _): (usize, Tok<'input>, usize),
+) -> Vec<Atom>
+{
+(___0)
+}
+
+#[allow(unused_variables)]
+fn ___action14<
+    'input,
+>(
+text: &'input str,
+(_, ___0, _): (usize, Vec<TypeBound<TypeRef>>, usize),
+) -> Vec<TypeBound<TypeRef>>
+{
+(___0)
+}
+
+#[allow(unused_variables)]
+fn ___action15<
+    'input,
+>(
+text: &'input str,
+(_, l, _): (usize, Atom, usize),
+) -> TypeBound<TypeRef>
+{
+TypeBound::Lifetime(l)
+}
+
+#[allow(unused_variables)]
+fn ___action16<
+    'input,
+>(
+text: &'input str,
+(_, f, _): (usize, ::std::option::Option<Vec<Atom>>, usize),
+(_, p, _): (usize, Path, usize),
+(_, _, _): (usize, Tok<'input>, usize),
+(_, params, _): (usize, Vec<TypeRef>, usize),
+(_, _, _): (usize, Tok<'input>, usize),
+(_, ret, _): (usize, ::std::option::Option<TypeRef>, usize),
+) -> TypeBound<TypeRef>
+{
+TypeBound::Fn { forall: f, path: p, parameters: params, ret: ret }
+}
+
+#[allow(unused_variables)]
+fn ___action17<
+    'input,
+>(
+text: &'input str,
+(_, f, _): (usize, ::std::option::Option<Vec<Atom>>, usize),
+(_, p, _): (usize, Path, usize),
+(_, params, _): (usize, ::std::option::Option<Vec<TypeBoundParameter<TypeRef>>>, usize),
+) -> TypeBound<TypeRef>
+{
+TypeBound::Trait { forall: f, path: p, parameters: params.unwrap_or(vec![]) }
+}
+
+#[allow(unused_variables)]
+fn ___action18<
+    'input,
+>(
+text: &'input str,
+(_, l, _): (usize, Atom, usize),
+) -> TypeBoundParameter<TypeRef>
+{
+TypeBoundParameter::Lifetime(l)
+}
+
+#[allow(unused_variables)]
+fn ___action19<
+    'input,
+>(
+text: &'input str,
+(_, ty, _): (usize, TypeRef, usize),
+) -> TypeBoundParameter<TypeRef>
+{
+TypeBoundParameter::TypeParameter(ty)
+}
+
+#[allow(unused_variables)]
+fn ___action20<
+    'input,
+>(
+text: &'input str,
+(_, id, _): (usize, Atom, usize),
+(_, _, _): (usize, Tok<'input>, usize),
+(_, ty, _): (usize, TypeRef, usize),
+) -> TypeBoundParameter<TypeRef>
+{
+TypeBoundParameter::Associated(id, ty)
+}
+
+#[allow(unused_variables)]
+fn ___action21<
+    'input,
+>(
+text: &'input str,
+(_, _, _): (usize, Tok<'input>, usize),
+(_, ___0, _): (usize, Vec<Parameter>, usize),
+(_, _, _): (usize, Tok<'input>, usize),
+) -> Vec<Parameter>
+{
+(___0)
+}
+
+#[allow(unused_variables)]
+fn ___action22<
+    'input,
+>(
+text: &'input str,
+(_, id, _): (usize, Atom, usize),
+(_, _, _): (usize, Tok<'input>, usize),
+(_, ty, _): (usize, TypeRef, usize),
+) -> Parameter
+{
+Parameter { name: id, ty: ty }
+}
+
+#[allow(unused_variables)]
+fn ___action23<
+    'input,
+>(
+text: &'input str,
+(_, ___0, _): (usize, GrammarItem, usize),
+) -> GrammarItem
+{
+(___0)
+}
+
+#[allow(unused_variables)]
+fn ___action24<
+    'input,
+>(
+text: &'input str,
+(_, ___0, _): (usize, GrammarItem, usize),
+) -> GrammarItem
+{
+(___0)
+}
+
+#[allow(unused_variables)]
+fn ___action25<
+    'input,
+>(
+text: &'input str,
+(_, ___0, _): (usize, GrammarItem, usize),
+) -> GrammarItem
+{
+(___0)
+}
+
+#[allow(unused_variables)]
+fn ___action26<
+    'input,
+>(
+text: &'input str,
+(_, ___0, _): (usize, GrammarItem, usize),
+) -> GrammarItem
+{
+(___0)
+}
+
+#[allow(unused_variables)]
+fn ___action27<
+    'input,
+>(
+text: &'input str,
+(_, u, _): (usize, &'input str, usize),
+(_, _, _): (usize, Tok<'input>, usize),
+) -> GrammarItem
+{
+GrammarItem::Use(strip(u).to_string())
+}
+
+#[allow(unused_variables)]
+fn ___action28<
+    'input,
+>(
+text: &'input str,
+(_, _, _): (usize, Tok<'input>, usize),
+(_, _, _): (usize, Tok<'input>, usize),
+(_, p, _): (usize, Path, usize),
+(_, _, _): (usize, Tok<'input>, usize),
+) -> Visibility
+{
+Visibility::Pub(Some(p))
+}
+
+#[allow(unused_variables)]
+fn ___action29<
+    'input,
+>(
+text: &'input str,
+(_, ___0, _): (usize, Tok<'input>, usize),
+) -> Visibility
+{
+Visibility::Pub(None)
+}
+
+#[allow(unused_variables)]
+fn ___action30<
+    'input,
+>(
+text: &'input str,
+(_, ___0, _): (usize, (), usize),
+) -> Visibility
+{
+Visibility::Priv
+}
+
+#[allow(unused_variables)]
+fn ___action31<
+    'input,
+>(
+text: &'input str,
+(_, annotations, _): (usize, ::std::vec::Vec<Annotation>, usize),
+(_, v, _): (usize, Visibility, usize),
+(_, lo, _): (usize, usize, usize),
+(_, n, _): (usize, (NonterminalString, Vec<NonterminalString>), usize),
+(_, hi, _): (usize, usize, usize),
+(_, t, _): (usize, ::std::option::Option<TypeRef>, usize),
+(_, _, _): (usize, Tok<'input>, usize),
+(_, a, _): (usize, Vec<Alternative>, usize),
+) -> GrammarItem
+{
+{
+        GrammarItem::Nonterminal(NonterminalData { visibility: v,
+                                                   span: Span(lo, hi),
+                                                   name: n.0,
+                                                   annotations: annotations,
+                                                   args: n.1,
+                                                   type_decl: t,
+                                                   alternatives: a })
     }
 }
 
 #[allow(unused_variables)]
-fn ___action12<'input>(
-    text: &'input str,
-    (_, f, _): (usize, ::std::option::Option<Vec<Atom>>, usize),
-    (_, ty, _): (usize, TypeRef, usize),
-    (_, _, _): (usize, Tok<'input>, usize),
-    (_, bounds, _): (usize, Vec<TypeBound<TypeRef>>, usize),
-) -> WhereClause<TypeRef> {
-    WhereClause::Type {
-        forall: f,
-        ty: ty,
-        bounds: bounds,
+fn ___action32<
+    'input,
+>(
+text: &'input str,
+(_, _, _): (usize, Tok<'input>, usize),
+(_, name, _): (usize, Atom, usize),
+(_, _, _): (usize, Tok<'input>, usize),
+(_, value, _): (usize, &'input str, usize),
+(_, _, _): (usize, Tok<'input>, usize),
+) -> (Atom, String)
+{
+(name, value.into())
+}
+
+#[allow(unused_variables)]
+fn ___action33<
+    'input,
+>(
+text: &'input str,
+(_, _, _): (usize, Tok<'input>, usize),
+(_, _, _): (usize, Tok<'input>, usize),
+(_, lo, _): (usize, usize, usize),
+(_, id, _): (usize, Atom, usize),
+(_, arg, _): (usize, ::std::option::Option<(Atom, String)>, usize),
+(_, hi, _): (usize, usize, usize),
+(_, _, _): (usize, Tok<'input>, usize),
+) -> Annotation
+{
+{
+        Annotation { id_span: Span(lo, hi), id, arg }
     }
 }
 
 #[allow(unused_variables)]
-fn ___action13<'input>(
-    text: &'input str,
-    (_, _, _): (usize, Tok<'input>, usize),
-    (_, _, _): (usize, Tok<'input>, usize),
-    (_, ___0, _): (usize, Vec<Atom>, usize),
-    (_, _, _): (usize, Tok<'input>, usize),
-) -> Vec<Atom> {
-    (___0)
+fn ___action34<
+    'input,
+>(
+text: &'input str,
+(_, ___0, _): (usize, NonterminalString, usize),
+(_, _, _): (usize, Tok<'input>, usize),
+(_, ___1, _): (usize, Vec<NonterminalString>, usize),
+(_, _, _): (usize, Tok<'input>, usize),
+) -> (NonterminalString, Vec<NonterminalString>)
+{
+(___0, ___1)
 }
 
 #[allow(unused_variables)]
-fn ___action14<'input>(
-    text: &'input str,
-    (_, ___0, _): (usize, Vec<TypeBound<TypeRef>>, usize),
-) -> Vec<TypeBound<TypeRef>> {
-    (___0)
+fn ___action35<
+    'input,
+>(
+text: &'input str,
+(_, n, _): (usize, NonterminalString, usize),
+) -> (NonterminalString, Vec<NonterminalString>)
+{
+(n, vec![])
 }
 
 #[allow(unused_variables)]
-fn ___action15<'input>(text: &'input str, (_, l, _): (usize, Atom, usize)) -> TypeBound<TypeRef> {
-    TypeBound::Lifetime(l)
+fn ___action36<
+    'input,
+>(
+text: &'input str,
+(_, ___0, _): (usize, &'input str, usize),
+) -> (NonterminalString, Vec<NonterminalString>)
+{
+(NonterminalString(Atom::from(___0)), vec![])
 }
 
 #[allow(unused_variables)]
-fn ___action16<'input>(
-    text: &'input str,
-    (_, f, _): (usize, ::std::option::Option<Vec<Atom>>, usize),
-    (_, p, _): (usize, Path, usize),
-    (_, _, _): (usize, Tok<'input>, usize),
-    (_, params, _): (usize, Vec<TypeRef>, usize),
-    (_, _, _): (usize, Tok<'input>, usize),
-    (_, ret, _): (usize, ::std::option::Option<TypeRef>, usize),
-) -> TypeBound<TypeRef> {
-    TypeBound::Fn {
-        forall: f,
-        path: p,
-        parameters: params,
-        ret: ret,
-    }
+fn ___action37<
+    'input,
+>(
+text: &'input str,
+(_, a, _): (usize, Alternative, usize),
+(_, _, _): (usize, Tok<'input>, usize),
+) -> Vec<Alternative>
+{
+vec![a]
 }
 
 #[allow(unused_variables)]
-fn ___action17<'input>(
-    text: &'input str,
-    (_, f, _): (usize, ::std::option::Option<Vec<Atom>>, usize),
-    (_, p, _): (usize, Path, usize),
-    (_, params, _): (
-        usize,
-        ::std::option::Option<Vec<TypeBoundParameter<TypeRef>>>,
-        usize,
-    ),
-) -> TypeBound<TypeRef> {
-    TypeBound::Trait {
-        forall: f,
-        path: p,
-        parameters: params.unwrap_or(vec![]),
-    }
+fn ___action38<
+    'input,
+>(
+text: &'input str,
+(_, _, _): (usize, Tok<'input>, usize),
+(_, ___0, _): (usize, Vec<Alternative>, usize),
+(_, _, _): (usize, Tok<'input>, usize),
+(_, _, _): (usize, ::std::option::Option<Tok<'input>>, usize),
+) -> Vec<Alternative>
+{
+(___0)
 }
 
 #[allow(unused_variables)]
-fn ___action18<'input>(
-    text: &'input str,
-    (_, l, _): (usize, Atom, usize),
-) -> TypeBoundParameter<TypeRef> {
-    TypeBoundParameter::Lifetime(l)
-}
-
-#[allow(unused_variables)]
-fn ___action19<'input>(
-    text: &'input str,
-    (_, ty, _): (usize, TypeRef, usize),
-) -> TypeBoundParameter<TypeRef> {
-    TypeBoundParameter::TypeParameter(ty)
-}
-
-#[allow(unused_variables)]
-fn ___action20<'input>(
-    text: &'input str,
-    (_, id, _): (usize, Atom, usize),
-    (_, _, _): (usize, Tok<'input>, usize),
-    (_, ty, _): (usize, TypeRef, usize),
-) -> TypeBoundParameter<TypeRef> {
-    TypeBoundParameter::Associated(id, ty)
-}
-
-#[allow(unused_variables)]
-fn ___action21<'input>(
-    text: &'input str,
-    (_, _, _): (usize, Tok<'input>, usize),
-    (_, ___0, _): (usize, Vec<Parameter>, usize),
-    (_, _, _): (usize, Tok<'input>, usize),
-) -> Vec<Parameter> {
-    (___0)
-}
-
-#[allow(unused_variables)]
-fn ___action22<'input>(
-    text: &'input str,
-    (_, id, _): (usize, Atom, usize),
-    (_, _, _): (usize, Tok<'input>, usize),
-    (_, ty, _): (usize, TypeRef, usize),
-) -> Parameter {
-    Parameter { name: id, ty: ty }
-}
-
-#[allow(unused_variables)]
-fn ___action23<'input>(
-    text: &'input str,
-    (_, ___0, _): (usize, GrammarItem, usize),
-) -> GrammarItem {
-    (___0)
-}
-
-#[allow(unused_variables)]
-fn ___action24<'input>(
-    text: &'input str,
-    (_, ___0, _): (usize, GrammarItem, usize),
-) -> GrammarItem {
-    (___0)
-}
-
-#[allow(unused_variables)]
-fn ___action25<'input>(
-    text: &'input str,
-    (_, ___0, _): (usize, GrammarItem, usize),
-) -> GrammarItem {
-    (___0)
-}
-
-#[allow(unused_variables)]
-fn ___action26<'input>(
-    text: &'input str,
-    (_, ___0, _): (usize, GrammarItem, usize),
-) -> GrammarItem {
-    (___0)
-}
-
-#[allow(unused_variables)]
-fn ___action27<'input>(
-    text: &'input str,
-    (_, u, _): (usize, &'input str, usize),
-    (_, _, _): (usize, Tok<'input>, usize),
-) -> GrammarItem {
-    GrammarItem::Use(strip(u).to_string())
-}
-
-#[allow(unused_variables)]
-fn ___action28<'input>(
-    text: &'input str,
-    (_, _, _): (usize, Tok<'input>, usize),
-    (_, _, _): (usize, Tok<'input>, usize),
-    (_, p, _): (usize, Path, usize),
-    (_, _, _): (usize, Tok<'input>, usize),
-) -> Visibility {
-    Visibility::Pub(Some(p))
-}
-
-#[allow(unused_variables)]
-fn ___action29<'input>(text: &'input str, (_, ___0, _): (usize, Tok<'input>, usize)) -> Visibility {
-    Visibility::Pub(None)
-}
-
-#[allow(unused_variables)]
-fn ___action30<'input>(text: &'input str, (_, ___0, _): (usize, (), usize)) -> Visibility {
-    Visibility::Priv
-}
-
-#[allow(unused_variables)]
-fn ___action31<'input>(
-    text: &'input str,
-    (_, annotations, _): (usize, ::std::vec::Vec<Annotation>, usize),
-    (_, v, _): (usize, Visibility, usize),
-    (_, lo, _): (usize, usize, usize),
-    (_, n, _): (usize, (NonterminalString, Vec<NonterminalString>), usize),
-    (_, hi, _): (usize, usize, usize),
-    (_, t, _): (usize, ::std::option::Option<TypeRef>, usize),
-    (_, _, _): (usize, Tok<'input>, usize),
-    (_, a, _): (usize, Vec<Alternative>, usize),
-) -> GrammarItem {
-    {
-        GrammarItem::Nonterminal(NonterminalData {
-            visibility: v,
-            span: Span(lo, hi),
-            name: n.0,
-            annotations: annotations,
-            args: n.1,
-            type_decl: t,
-            alternatives: a,
-        })
-    }
-}
-
-#[allow(unused_variables)]
-fn ___action32<'input>(
-    text: &'input str,
-    (_, _, _): (usize, Tok<'input>, usize),
-    (_, name, _): (usize, Atom, usize),
-    (_, _, _): (usize, Tok<'input>, usize),
-    (_, value, _): (usize, &'input str, usize),
-    (_, _, _): (usize, Tok<'input>, usize),
-) -> (Atom, String) {
-    (name, value.into())
-}
-
-#[allow(unused_variables)]
-fn ___action33<'input>(
-    text: &'input str,
-    (_, _, _): (usize, Tok<'input>, usize),
-    (_, _, _): (usize, Tok<'input>, usize),
-    (_, lo, _): (usize, usize, usize),
-    (_, id, _): (usize, Atom, usize),
-    (_, arg, _): (usize, ::std::option::Option<(Atom, String)>, usize),
-    (_, hi, _): (usize, usize, usize),
-    (_, _, _): (usize, Tok<'input>, usize),
-) -> Annotation {
-    {
-        Annotation {
-            id_span: Span(lo, hi),
-            id,
-            arg,
-        }
-    }
-}
-
-#[allow(unused_variables)]
-fn ___action34<'input>(
-    text: &'input str,
-    (_, ___0, _): (usize, NonterminalString, usize),
-    (_, _, _): (usize, Tok<'input>, usize),
-    (_, ___1, _): (usize, Vec<NonterminalString>, usize),
-    (_, _, _): (usize, Tok<'input>, usize),
-) -> (NonterminalString, Vec<NonterminalString>) {
-    (___0, ___1)
-}
-
-#[allow(unused_variables)]
-fn ___action35<'input>(
-    text: &'input str,
-    (_, n, _): (usize, NonterminalString, usize),
-) -> (NonterminalString, Vec<NonterminalString>) {
-    (n, vec![])
-}
-
-#[allow(unused_variables)]
-fn ___action36<'input>(
-    text: &'input str,
-    (_, ___0, _): (usize, &'input str, usize),
-) -> (NonterminalString, Vec<NonterminalString>) {
-    (NonterminalString(Atom::from(___0)), vec![])
-}
-
-#[allow(unused_variables)]
-fn ___action37<'input>(
-    text: &'input str,
-    (_, a, _): (usize, Alternative, usize),
-    (_, _, _): (usize, Tok<'input>, usize),
-) -> Vec<Alternative> {
-    vec![a]
-}
-
-#[allow(unused_variables)]
-fn ___action38<'input>(
-    text: &'input str,
-    (_, _, _): (usize, Tok<'input>, usize),
-    (_, ___0, _): (usize, Vec<Alternative>, usize),
-    (_, _, _): (usize, Tok<'input>, usize),
-    (_, _, _): (usize, ::std::option::Option<Tok<'input>>, usize),
-) -> Vec<Alternative> {
-    (___0)
-}
-
-#[allow(unused_variables)]
-fn ___action39<'input>(
-    text: &'input str,
-    (_, lo, _): (usize, usize, usize),
-    (_, s, _): (usize, ::std::vec::Vec<Symbol>, usize),
-    (_, c, _): (usize, ::std::option::Option<Condition>, usize),
-    (_, a, _): (usize, ::std::option::Option<ActionKind>, usize),
-    (_, hi, _): (usize, usize, usize),
-) -> Alternative {
-    {
+fn ___action39<
+    'input,
+>(
+text: &'input str,
+(_, lo, _): (usize, usize, usize),
+(_, s, _): (usize, ::std::vec::Vec<Symbol>, usize),
+(_, c, _): (usize, ::std::option::Option<Condition>, usize),
+(_, a, _): (usize, ::std::option::Option<ActionKind>, usize),
+(_, hi, _): (usize, usize, usize),
+) -> Alternative
+{
+{
         Alternative {
             span: Span(lo, hi),
             expr: ExprSymbol { symbols: s },
             condition: c,
-            action: a,
+            action: a
         }
     }
 }
 
 #[allow(unused_variables)]
-fn ___action40<'input>(
-    text: &'input str,
-    (_, lo, _): (usize, usize, usize),
-    (_, c, _): (usize, ::std::option::Option<Condition>, usize),
-    (_, a, _): (usize, ActionKind, usize),
-    (_, hi, _): (usize, usize, usize),
-) -> Alternative {
-    {
+fn ___action40<
+    'input,
+>(
+text: &'input str,
+(_, lo, _): (usize, usize, usize),
+(_, c, _): (usize, ::std::option::Option<Condition>, usize),
+(_, a, _): (usize, ActionKind, usize),
+(_, hi, _): (usize, usize, usize),
+) -> Alternative
+{
+{
         Alternative {
             span: Span(lo, hi),
             expr: ExprSymbol { symbols: vec![] },
             condition: c,
-            action: Some(a),
+            action: Some(a)
         }
     }
 }
 
 #[allow(unused_variables)]
-fn ___action41<'input>(text: &'input str, (_, ___0, _): (usize, Tok<'input>, usize)) -> ActionKind {
-    ActionKind::Lookahead
+fn ___action41<
+    'input,
+>(
+text: &'input str,
+(_, ___0, _): (usize, Tok<'input>, usize),
+) -> ActionKind
+{
+ActionKind::Lookahead
 }
 
 #[allow(unused_variables)]
-fn ___action42<'input>(text: &'input str, (_, ___0, _): (usize, Tok<'input>, usize)) -> ActionKind {
-    ActionKind::Lookbehind
+fn ___action42<
+    'input,
+>(
+text: &'input str,
+(_, ___0, _): (usize, Tok<'input>, usize),
+) -> ActionKind
+{
+ActionKind::Lookbehind
 }
 
 #[allow(unused_variables)]
-fn ___action43<'input>(text: &'input str, (_, c, _): (usize, &'input str, usize)) -> ActionKind {
-    ActionKind::User(strip(c).to_string())
+fn ___action43<
+    'input,
+>(
+text: &'input str,
+(_, c, _): (usize, &'input str, usize),
+) -> ActionKind
+{
+ActionKind::User(strip(c).to_string())
 }
 
 #[allow(unused_variables)]
-fn ___action44<'input>(text: &'input str, (_, c, _): (usize, &'input str, usize)) -> ActionKind {
-    ActionKind::Fallible(strip(c).to_string())
+fn ___action44<
+    'input,
+>(
+text: &'input str,
+(_, c, _): (usize, &'input str, usize),
+) -> ActionKind
+{
+ActionKind::Fallible(strip(c).to_string())
 }
 
 #[allow(unused_variables)]
-fn ___action45<'input>(
-    text: &'input str,
-    (_, lo, _): (usize, usize, usize),
-    (_, a, _): (usize, NonterminalString, usize),
-    (_, op, _): (usize, ConditionOp, usize),
-    (_, b, _): (usize, Atom, usize),
-    (_, hi, _): (usize, usize, usize),
-) -> Condition {
-    {
-        Condition {
-            span: Span(lo, hi),
-            lhs: a,
-            rhs: b,
-            op: op,
-        }
+fn ___action45<
+    'input,
+>(
+text: &'input str,
+(_, lo, _): (usize, usize, usize),
+(_, a, _): (usize, NonterminalString, usize),
+(_, op, _): (usize, ConditionOp, usize),
+(_, b, _): (usize, Atom, usize),
+(_, hi, _): (usize, usize, usize),
+) -> Condition
+{
+{
+        Condition { span:Span(lo, hi), lhs:a, rhs:b, op:op }
     }
 }
 
 #[allow(unused_variables)]
-fn ___action46<'input>(
-    text: &'input str,
-    (_, ___0, _): (usize, Tok<'input>, usize),
-) -> ConditionOp {
-    ConditionOp::Equals
+fn ___action46<
+    'input,
+>(
+text: &'input str,
+(_, ___0, _): (usize, Tok<'input>, usize),
+) -> ConditionOp
+{
+ConditionOp::Equals
 }
 
 #[allow(unused_variables)]
-fn ___action47<'input>(
-    text: &'input str,
-    (_, ___0, _): (usize, Tok<'input>, usize),
-) -> ConditionOp {
-    ConditionOp::NotEquals
+fn ___action47<
+    'input,
+>(
+text: &'input str,
+(_, ___0, _): (usize, Tok<'input>, usize),
+) -> ConditionOp
+{
+ConditionOp::NotEquals
 }
 
 #[allow(unused_variables)]
-fn ___action48<'input>(
-    text: &'input str,
-    (_, ___0, _): (usize, Tok<'input>, usize),
-) -> ConditionOp {
-    ConditionOp::Match
+fn ___action48<
+    'input,
+>(
+text: &'input str,
+(_, ___0, _): (usize, Tok<'input>, usize),
+) -> ConditionOp
+{
+ConditionOp::Match
 }
 
 #[allow(unused_variables)]
-fn ___action49<'input>(
-    text: &'input str,
-    (_, ___0, _): (usize, Tok<'input>, usize),
-) -> ConditionOp {
-    ConditionOp::NotMatch
+fn ___action49<
+    'input,
+>(
+text: &'input str,
+(_, ___0, _): (usize, Tok<'input>, usize),
+) -> ConditionOp
+{
+ConditionOp::NotMatch
 }
 
 #[allow(unused_variables)]
-fn ___action50<'input>(
-    text: &'input str,
-    (_, ___0, _): (usize, ::std::vec::Vec<Symbol>, usize),
-) -> ExprSymbol {
-    ExprSymbol { symbols: ___0 }
+fn ___action50<
+    'input,
+>(
+text: &'input str,
+(_, ___0, _): (usize, ::std::vec::Vec<Symbol>, usize),
+) -> ExprSymbol
+{
+ExprSymbol { symbols: ___0 }
 }
 
 #[allow(unused_variables)]
-fn ___action51<'input>(
-    text: &'input str,
-    (_, lo, _): (usize, usize, usize),
-    (_, _, _): (usize, Tok<'input>, usize),
-    (_, _, _): (usize, usize, usize),
-    (_, l, _): (usize, Atom, usize),
-    (_, _, _): (usize, Tok<'input>, usize),
-    (_, s, _): (usize, Symbol, usize),
-    (_, _, _): (usize, Tok<'input>, usize),
-    (_, hi, _): (usize, usize, usize),
-) -> Symbol {
-    Symbol::new(Span(lo, hi), SymbolKind::Name(l, Box::new(s)))
+fn ___action51<
+    'input,
+>(
+text: &'input str,
+(_, lo, _): (usize, usize, usize),
+(_, _, _): (usize, Tok<'input>, usize),
+(_, _, _): (usize, usize, usize),
+(_, l, _): (usize, Atom, usize),
+(_, _, _): (usize, Tok<'input>, usize),
+(_, s, _): (usize, Symbol, usize),
+(_, _, _): (usize, Tok<'input>, usize),
+(_, hi, _): (usize, usize, usize),
+) -> Symbol
+{
+Symbol::new(Span(lo, hi), SymbolKind::Name(l, Box::new(s)))
 }
 
 #[allow(unused_variables)]
-fn ___action52<'input>(
-    text: &'input str,
-    (_, lo, _): (usize, usize, usize),
-    (_, _, _): (usize, Tok<'input>, usize),
-    (_, s, _): (usize, Symbol, usize),
-    (_, _, _): (usize, Tok<'input>, usize),
-    (_, hi, _): (usize, usize, usize),
-) -> Symbol {
-    Symbol::new(Span(lo, hi), SymbolKind::Choose(Box::new(s)))
+fn ___action52<
+    'input,
+>(
+text: &'input str,
+(_, lo, _): (usize, usize, usize),
+(_, _, _): (usize, Tok<'input>, usize),
+(_, s, _): (usize, Symbol, usize),
+(_, _, _): (usize, Tok<'input>, usize),
+(_, hi, _): (usize, usize, usize),
+) -> Symbol
+{
+Symbol::new(Span(lo, hi), SymbolKind::Choose(Box::new(s)))
 }
 
 #[allow(unused_variables)]
-fn ___action53<'input>(text: &'input str, (_, ___0, _): (usize, Symbol, usize)) -> Symbol {
-    (___0)
+fn ___action53<
+    'input,
+>(
+text: &'input str,
+(_, ___0, _): (usize, Symbol, usize),
+) -> Symbol
+{
+(___0)
 }
 
 #[allow(unused_variables)]
-fn ___action54<'input>(text: &'input str, (_, ___0, _): (usize, Symbol, usize)) -> Symbol {
-    (___0)
+fn ___action54<
+    'input,
+>(
+text: &'input str,
+(_, ___0, _): (usize, Symbol, usize),
+) -> Symbol
+{
+(___0)
 }
 
 #[allow(unused_variables)]
-fn ___action55<'input>(
-    text: &'input str,
-    (_, lhs, _): (usize, Symbol, usize),
-    (_, op, _): (usize, RepeatOp, usize),
-    (_, hi, _): (usize, usize, usize),
-) -> Symbol {
-    Symbol::new(
-        Span(lhs.span.0, hi),
-        SymbolKind::Repeat(Box::new(RepeatSymbol {
-            symbol: lhs,
-            op: op,
-        })),
-    )
+fn ___action55<
+    'input,
+>(
+text: &'input str,
+(_, lhs, _): (usize, Symbol, usize),
+(_, op, _): (usize, RepeatOp, usize),
+(_, hi, _): (usize, usize, usize),
+) -> Symbol
+{
+Symbol::new(Span(lhs.span.0, hi),
+                    SymbolKind::Repeat(Box::new(RepeatSymbol { symbol: lhs, op: op })))
 }
 
 #[allow(unused_variables)]
-fn ___action56<'input>(text: &'input str, (_, ___0, _): (usize, Tok<'input>, usize)) -> RepeatOp {
-    RepeatOp::Plus
+fn ___action56<
+    'input,
+>(
+text: &'input str,
+(_, ___0, _): (usize, Tok<'input>, usize),
+) -> RepeatOp
+{
+RepeatOp::Plus
 }
 
 #[allow(unused_variables)]
-fn ___action57<'input>(text: &'input str, (_, ___0, _): (usize, Tok<'input>, usize)) -> RepeatOp {
-    RepeatOp::Star
+fn ___action57<
+    'input,
+>(
+text: &'input str,
+(_, ___0, _): (usize, Tok<'input>, usize),
+) -> RepeatOp
+{
+RepeatOp::Star
 }
 
 #[allow(unused_variables)]
-fn ___action58<'input>(text: &'input str, (_, ___0, _): (usize, Tok<'input>, usize)) -> RepeatOp {
-    RepeatOp::Question
+fn ___action58<
+    'input,
+>(
+text: &'input str,
+(_, ___0, _): (usize, Tok<'input>, usize),
+) -> RepeatOp
+{
+RepeatOp::Question
 }
 
 #[allow(unused_variables)]
-fn ___action59<'input>(
-    text: &'input str,
-    (_, lo, _): (usize, usize, usize),
-    (_, sk, _): (usize, SymbolKind, usize),
-    (_, hi, _): (usize, usize, usize),
-) -> Symbol {
-    Symbol::new(Span(lo, hi), sk)
+fn ___action59<
+    'input,
+>(
+text: &'input str,
+(_, lo, _): (usize, usize, usize),
+(_, sk, _): (usize, SymbolKind, usize),
+(_, hi, _): (usize, usize, usize),
+) -> Symbol
+{
+Symbol::new(Span(lo, hi), sk)
 }
 
 #[allow(unused_variables)]
-fn ___action60<'input>(
-    text: &'input str,
-    (_, name, _): (usize, NonterminalString, usize),
-    (_, _, _): (usize, Tok<'input>, usize),
-    (_, args, _): (usize, Vec<Symbol>, usize),
-    (_, _, _): (usize, Tok<'input>, usize),
-) -> SymbolKind {
-    SymbolKind::Macro(MacroSymbol {
-        name: name,
-        args: args,
-    })
+fn ___action60<
+    'input,
+>(
+text: &'input str,
+(_, name, _): (usize, NonterminalString, usize),
+(_, _, _): (usize, Tok<'input>, usize),
+(_, args, _): (usize, Vec<Symbol>, usize),
+(_, _, _): (usize, Tok<'input>, usize),
+) -> SymbolKind
+{
+SymbolKind::Macro(MacroSymbol { name: name, args: args })
 }
 
 #[allow(unused_variables)]
-fn ___action61<'input>(
-    text: &'input str,
-    (_, ___0, _): (usize, TerminalString, usize),
-) -> SymbolKind {
-    SymbolKind::Terminal(___0)
+fn ___action61<
+    'input,
+>(
+text: &'input str,
+(_, ___0, _): (usize, TerminalString, usize),
+) -> SymbolKind
+{
+SymbolKind::Terminal(___0)
 }
 
 #[allow(unused_variables)]
-fn ___action62<'input>(text: &'input str, (_, ___0, _): (usize, &'input str, usize)) -> SymbolKind {
-    SymbolKind::AmbiguousId(Atom::from(___0))
+fn ___action62<
+    'input,
+>(
+text: &'input str,
+(_, ___0, _): (usize, &'input str, usize),
+) -> SymbolKind
+{
+SymbolKind::AmbiguousId(Atom::from(___0))
 }
 
 #[allow(unused_variables)]
-fn ___action63<'input>(text: &'input str, (_, ___0, _): (usize, Atom, usize)) -> SymbolKind {
-    SymbolKind::Nonterminal(NonterminalString(___0))
+fn ___action63<
+    'input,
+>(
+text: &'input str,
+(_, ___0, _): (usize, Atom, usize),
+) -> SymbolKind
+{
+SymbolKind::Nonterminal(NonterminalString(___0))
 }
 
 #[allow(unused_variables)]
-fn ___action64<'input>(
-    text: &'input str,
-    (_, _, _): (usize, Tok<'input>, usize),
-    (_, ___0, _): (usize, ExprSymbol, usize),
-    (_, _, _): (usize, Tok<'input>, usize),
-) -> SymbolKind {
-    SymbolKind::Expr(___0)
+fn ___action64<
+    'input,
+>(
+text: &'input str,
+(_, _, _): (usize, Tok<'input>, usize),
+(_, ___0, _): (usize, ExprSymbol, usize),
+(_, _, _): (usize, Tok<'input>, usize),
+) -> SymbolKind
+{
+SymbolKind::Expr(___0)
 }
 
 #[allow(unused_variables)]
-fn ___action65<'input>(text: &'input str, (_, ___0, _): (usize, Tok<'input>, usize)) -> SymbolKind {
-    SymbolKind::Lookahead
+fn ___action65<
+    'input,
+>(
+text: &'input str,
+(_, ___0, _): (usize, Tok<'input>, usize),
+) -> SymbolKind
+{
+SymbolKind::Lookahead
 }
 
 #[allow(unused_variables)]
-fn ___action66<'input>(text: &'input str, (_, ___0, _): (usize, Tok<'input>, usize)) -> SymbolKind {
-    SymbolKind::Lookbehind
+fn ___action66<
+    'input,
+>(
+text: &'input str,
+(_, ___0, _): (usize, Tok<'input>, usize),
+) -> SymbolKind
+{
+SymbolKind::Lookbehind
 }
 
 #[allow(unused_variables)]
-fn ___action67<'input>(text: &'input str, (_, ___0, _): (usize, Tok<'input>, usize)) -> SymbolKind {
-    SymbolKind::Error
+fn ___action67<
+    'input,
+>(
+text: &'input str,
+(_, ___0, _): (usize, Tok<'input>, usize),
+) -> SymbolKind
+{
+SymbolKind::Error
 }
 
 #[allow(unused_variables)]
-fn ___action68<'input>(
-    text: &'input str,
-    (_, _, _): (usize, Tok<'input>, usize),
-    (_, ___0, _): (usize, Vec<TypeRef>, usize),
-    (_, _, _): (usize, Tok<'input>, usize),
-) -> TypeRef {
-    TypeRef::Tuple(___0)
+fn ___action68<
+    'input,
+>(
+text: &'input str,
+(_, _, _): (usize, Tok<'input>, usize),
+(_, ___0, _): (usize, Vec<TypeRef>, usize),
+(_, _, _): (usize, Tok<'input>, usize),
+) -> TypeRef
+{
+TypeRef::Tuple(___0)
 }
 
 #[allow(unused_variables)]
-fn ___action69<'input>(
-    text: &'input str,
-    (_, _, _): (usize, Tok<'input>, usize),
-    (_, ___0, _): (usize, Symbol, usize),
-    (_, _, _): (usize, Tok<'input>, usize),
-) -> TypeRef {
-    {
+fn ___action69<
+    'input,
+>(
+text: &'input str,
+(_, _, _): (usize, Tok<'input>, usize),
+(_, ___0, _): (usize, Symbol, usize),
+(_, _, _): (usize, Tok<'input>, usize),
+) -> TypeRef
+{
+{
         TypeRef::OfSymbol(___0.kind)
     }
 }
 
 #[allow(unused_variables)]
-fn ___action70<'input>(
-    text: &'input str,
-    (_, _, _): (usize, Tok<'input>, usize),
-    (_, l, _): (usize, ::std::option::Option<Atom>, usize),
-    (_, m, _): (usize, ::std::option::Option<Tok<'input>>, usize),
-    (_, t, _): (usize, TypeRef, usize),
-) -> TypeRef {
-    TypeRef::Ref {
-        lifetime: l,
-        mutable: m.is_some(),
-        referent: Box::new(t),
-    }
+fn ___action70<
+    'input,
+>(
+text: &'input str,
+(_, _, _): (usize, Tok<'input>, usize),
+(_, l, _): (usize, ::std::option::Option<Atom>, usize),
+(_, m, _): (usize, ::std::option::Option<Tok<'input>>, usize),
+(_, t, _): (usize, TypeRef, usize),
+) -> TypeRef
+{
+TypeRef::Ref { lifetime: l,
+                       mutable: m.is_some(),
+                       referent: Box::new(t) }
 }
 
 #[allow(unused_variables)]
-fn ___action71<'input>(
-    text: &'input str,
-    (_, p, _): (usize, Path, usize),
-    (_, _, _): (usize, Tok<'input>, usize),
-    (_, a, _): (usize, Vec<TypeRef>, usize),
-    (_, _, _): (usize, Tok<'input>, usize),
-) -> TypeRef {
-    TypeRef::Nominal { path: p, types: a }
+fn ___action71<
+    'input,
+>(
+text: &'input str,
+(_, p, _): (usize, Path, usize),
+(_, _, _): (usize, Tok<'input>, usize),
+(_, a, _): (usize, Vec<TypeRef>, usize),
+(_, _, _): (usize, Tok<'input>, usize),
+) -> TypeRef
+{
+TypeRef::Nominal { path: p, types: a }
 }
 
 #[allow(unused_variables)]
-fn ___action72<'input>(text: &'input str, (_, p, _): (usize, Path, usize)) -> TypeRef {
-    match p.as_id() {
-        Some(id) => TypeRef::Id(id),
-        None => TypeRef::Nominal {
-            path: p,
-            types: vec![],
-        },
-    }
-}
-
-#[allow(unused_variables)]
-fn ___action73<'input>(text: &'input str, (_, ___0, _): (usize, TypeRef, usize)) -> TypeRef {
-    (___0)
-}
-
-#[allow(unused_variables)]
-fn ___action74<'input>(text: &'input str, (_, ___0, _): (usize, Atom, usize)) -> TypeRef {
-    TypeRef::Lifetime(___0)
-}
-
-#[allow(unused_variables)]
-fn ___action75<'input>(
-    text: &'input str,
-    (_, a, _): (usize, ::std::option::Option<Tok<'input>>, usize),
-    (_, h, _): (usize, ::std::vec::Vec<Atom>, usize),
-    (_, t, _): (usize, Atom, usize),
-) -> Path {
-    {
-        Path {
-            absolute: a.is_some(),
-            ids: h.into_iter().chain(once(t)).collect(),
+fn ___action72<
+    'input,
+>(
+text: &'input str,
+(_, p, _): (usize, Path, usize),
+) -> TypeRef
+{
+match p.as_id() {
+            Some(id) => TypeRef::Id(id),
+            None => TypeRef::Nominal { path: p, types: vec![] }
         }
+}
+
+#[allow(unused_variables)]
+fn ___action73<
+    'input,
+>(
+text: &'input str,
+(_, ___0, _): (usize, TypeRef, usize),
+) -> TypeRef
+{
+(___0)
+}
+
+#[allow(unused_variables)]
+fn ___action74<
+    'input,
+>(
+text: &'input str,
+(_, ___0, _): (usize, Atom, usize),
+) -> TypeRef
+{
+TypeRef::Lifetime(___0)
+}
+
+#[allow(unused_variables)]
+fn ___action75<
+    'input,
+>(
+text: &'input str,
+(_, a, _): (usize, ::std::option::Option<Tok<'input>>, usize),
+(_, h, _): (usize, ::std::vec::Vec<Atom>, usize),
+(_, t, _): (usize, Atom, usize),
+) -> Path
+{
+{
+        Path { absolute: a.is_some(),
+               ids: h.into_iter().chain(once(t)).collect() }
     }
 }
 
 #[allow(unused_variables)]
-fn ___action76<'input>(
-    text: &'input str,
-    (_, lo, _): (usize, usize, usize),
-    (_, _, _): (usize, Tok<'input>, usize),
-    (_, hi, _): (usize, usize, usize),
-    (_, _, _): (usize, Tok<'input>, usize),
-    (_, a0, _): (usize, ::std::vec::Vec<AssociatedType>, usize),
-    (_, et, _): (usize, EnumToken, usize),
-    (_, a1, _): (usize, ::std::vec::Vec<AssociatedType>, usize),
-    (_, _, _): (usize, Tok<'input>, usize),
-) -> GrammarItem {
-    {
+fn ___action76<
+    'input,
+>(
+text: &'input str,
+(_, lo, _): (usize, usize, usize),
+(_, _, _): (usize, Tok<'input>, usize),
+(_, hi, _): (usize, usize, usize),
+(_, _, _): (usize, Tok<'input>, usize),
+(_, a0, _): (usize, ::std::vec::Vec<AssociatedType>, usize),
+(_, et, _): (usize, EnumToken, usize),
+(_, a1, _): (usize, ::std::vec::Vec<AssociatedType>, usize),
+(_, _, _): (usize, Tok<'input>, usize),
+) -> GrammarItem
+{
+{
         GrammarItem::ExternToken(ExternToken {
             span: Span(lo, hi),
             associated_types: a0.into_iter().chain(a1).collect(),
@@ -17665,16 +17913,19 @@ fn ___action76<'input>(
 }
 
 #[allow(unused_variables)]
-fn ___action77<'input>(
-    text: &'input str,
-    (_, lo, _): (usize, usize, usize),
-    (_, _, _): (usize, Tok<'input>, usize),
-    (_, hi, _): (usize, usize, usize),
-    (_, _, _): (usize, Tok<'input>, usize),
-    (_, a0, _): (usize, ::std::vec::Vec<AssociatedType>, usize),
-    (_, _, _): (usize, Tok<'input>, usize),
-) -> GrammarItem {
-    {
+fn ___action77<
+    'input,
+>(
+text: &'input str,
+(_, lo, _): (usize, usize, usize),
+(_, _, _): (usize, Tok<'input>, usize),
+(_, hi, _): (usize, usize, usize),
+(_, _, _): (usize, Tok<'input>, usize),
+(_, a0, _): (usize, ::std::vec::Vec<AssociatedType>, usize),
+(_, _, _): (usize, Tok<'input>, usize),
+) -> GrammarItem
+{
+{
         GrammarItem::ExternToken(ExternToken {
             span: Span(lo, hi),
             associated_types: a0,
@@ -17684,106 +17935,139 @@ fn ___action77<'input>(
 }
 
 #[allow(unused_variables)]
-fn ___action78<'input>(text: &'input str, (_, t, _): (usize, MatchToken, usize)) -> GrammarItem {
-    GrammarItem::MatchToken(t)
+fn ___action78<
+    'input,
+>(
+text: &'input str,
+(_, t, _): (usize, MatchToken, usize),
+) -> GrammarItem
+{
+GrammarItem::MatchToken(t)
 }
 
 #[allow(unused_variables)]
-fn ___action79<'input>(
-    text: &'input str,
-    (_, t, _): (usize, MatchToken, usize),
-    (_, _, _): (usize, Tok<'input>, usize),
-    (_, _, _): (usize, Tok<'input>, usize),
-    (_, c, _): (usize, MatchContents, usize),
-    (_, _, _): (usize, Tok<'input>, usize),
-) -> MatchToken {
-    t.add(c)
+fn ___action79<
+    'input,
+>(
+text: &'input str,
+(_, t, _): (usize, MatchToken, usize),
+(_, _, _): (usize, Tok<'input>, usize),
+(_, _, _): (usize, Tok<'input>, usize),
+(_, c, _): (usize, MatchContents, usize),
+(_, _, _): (usize, Tok<'input>, usize),
+) -> MatchToken
+{
+t.add(c)
 }
 
 #[allow(unused_variables)]
-fn ___action80<'input>(
-    text: &'input str,
-    (_, lo, _): (usize, usize, usize),
-    (_, _, _): (usize, Tok<'input>, usize),
-    (_, hi, _): (usize, usize, usize),
-    (_, _, _): (usize, Tok<'input>, usize),
-    (_, c, _): (usize, MatchContents, usize),
-    (_, _, _): (usize, Tok<'input>, usize),
-) -> MatchToken {
-    MatchToken::new(c, Span(lo, hi))
+fn ___action80<
+    'input,
+>(
+text: &'input str,
+(_, lo, _): (usize, usize, usize),
+(_, _, _): (usize, Tok<'input>, usize),
+(_, hi, _): (usize, usize, usize),
+(_, _, _): (usize, Tok<'input>, usize),
+(_, c, _): (usize, MatchContents, usize),
+(_, _, _): (usize, Tok<'input>, usize),
+) -> MatchToken
+{
+MatchToken::new(c, Span(lo, hi))
 }
 
 #[allow(unused_variables)]
-fn ___action81<'input>(
-    text: &'input str,
-    (_, items, _): (usize, Vec<MatchItem>, usize),
-) -> MatchContents {
-    MatchContents { items: items }
+fn ___action81<
+    'input,
+>(
+text: &'input str,
+(_, items, _): (usize, Vec<MatchItem>, usize),
+) -> MatchContents
+{
+MatchContents { items: items }
 }
 
 #[allow(unused_variables)]
-fn ___action82<'input>(
-    text: &'input str,
-    (_, lo, _): (usize, usize, usize),
-    (_, _, _): (usize, Tok<'input>, usize),
-    (_, hi, _): (usize, usize, usize),
-) -> MatchItem {
-    MatchItem::CatchAll(Span(lo, hi))
+fn ___action82<
+    'input,
+>(
+text: &'input str,
+(_, lo, _): (usize, usize, usize),
+(_, _, _): (usize, Tok<'input>, usize),
+(_, hi, _): (usize, usize, usize),
+) -> MatchItem
+{
+MatchItem::CatchAll(Span(lo, hi))
 }
 
 #[allow(unused_variables)]
-fn ___action83<'input>(
-    text: &'input str,
-    (_, lo, _): (usize, usize, usize),
-    (_, s, _): (usize, TerminalLiteral, usize),
-    (_, hi, _): (usize, usize, usize),
-) -> MatchItem {
-    MatchItem::Unmapped(s, Span(lo, hi))
+fn ___action83<
+    'input,
+>(
+text: &'input str,
+(_, lo, _): (usize, usize, usize),
+(_, s, _): (usize, TerminalLiteral, usize),
+(_, hi, _): (usize, usize, usize),
+) -> MatchItem
+{
+MatchItem::Unmapped(s, Span(lo, hi))
 }
 
 #[allow(unused_variables)]
-fn ___action84<'input>(
-    text: &'input str,
-    (_, lo, _): (usize, usize, usize),
-    (_, from, _): (usize, TerminalLiteral, usize),
-    (_, start, _): (usize, usize, usize),
-    (_, p, _): (usize, &'input str, usize),
-    (_, hi, _): (usize, usize, usize),
-) -> Result<MatchItem, ___lalrpop_util::ParseError<usize, Tok<'input>, tok::Error>> {
-    {
+fn ___action84<
+    'input,
+>(
+text: &'input str,
+(_, lo, _): (usize, usize, usize),
+(_, from, _): (usize, TerminalLiteral, usize),
+(_, start, _): (usize, usize, usize),
+(_, p, _): (usize, &'input str, usize),
+(_, hi, _): (usize, usize, usize),
+) -> Result<MatchItem,___lalrpop_util::ParseError<usize,Tok<'input>,tok::Error>>
+{
+{
         let to = try!(super::parse_match_mapping(p, start + 2));
         Ok(MatchItem::Mapped(from, to, Span(lo, hi)))
     }
 }
 
 #[allow(unused_variables)]
-fn ___action85<'input>(
-    text: &'input str,
-    (_, ___0, _): (usize, TerminalLiteral, usize),
-) -> TerminalLiteral {
-    (___0)
+fn ___action85<
+    'input,
+>(
+text: &'input str,
+(_, ___0, _): (usize, TerminalLiteral, usize),
+) -> TerminalLiteral
+{
+(___0)
 }
 
 #[allow(unused_variables)]
-fn ___action86<'input>(
-    text: &'input str,
-    (_, ___0, _): (usize, TerminalString, usize),
-) -> TerminalString {
-    (___0)
+fn ___action86<
+    'input,
+>(
+text: &'input str,
+(_, ___0, _): (usize, TerminalString, usize),
+) -> TerminalString
+{
+(___0)
 }
 
 #[allow(unused_variables)]
-fn ___action87<'input>(
-    text: &'input str,
-    (_, _, _): (usize, Tok<'input>, usize),
-    (_, lo, _): (usize, usize, usize),
-    (_, t, _): (usize, TypeRef, usize),
-    (_, hi, _): (usize, usize, usize),
-    (_, _, _): (usize, Tok<'input>, usize),
-    (_, c, _): (usize, Vec<Conversion>, usize),
-    (_, _, _): (usize, Tok<'input>, usize),
-) -> EnumToken {
-    {
+fn ___action87<
+    'input,
+>(
+text: &'input str,
+(_, _, _): (usize, Tok<'input>, usize),
+(_, lo, _): (usize, usize, usize),
+(_, t, _): (usize, TypeRef, usize),
+(_, hi, _): (usize, usize, usize),
+(_, _, _): (usize, Tok<'input>, usize),
+(_, c, _): (usize, Vec<Conversion>, usize),
+(_, _, _): (usize, Tok<'input>, usize),
+) -> EnumToken
+{
+{
         EnumToken {
             type_name: t,
             type_span: Span(lo, hi),
@@ -17793,692 +18077,934 @@ fn ___action87<'input>(
 }
 
 #[allow(unused_variables)]
-fn ___action88<'input>(
-    text: &'input str,
-    (_, _, _): (usize, Tok<'input>, usize),
-    (_, lo, _): (usize, usize, usize),
-    (_, n, _): (usize, Atom, usize),
-    (_, hi, _): (usize, usize, usize),
-    (_, _, _): (usize, Tok<'input>, usize),
-    (_, t, _): (usize, TypeRef, usize),
-    (_, _, _): (usize, Tok<'input>, usize),
-) -> AssociatedType {
-    {
-        AssociatedType {
-            type_span: Span(lo, hi),
-            type_name: n,
-            type_ref: t,
-        }
+fn ___action88<
+    'input,
+>(
+text: &'input str,
+(_, _, _): (usize, Tok<'input>, usize),
+(_, lo, _): (usize, usize, usize),
+(_, n, _): (usize, Atom, usize),
+(_, hi, _): (usize, usize, usize),
+(_, _, _): (usize, Tok<'input>, usize),
+(_, t, _): (usize, TypeRef, usize),
+(_, _, _): (usize, Tok<'input>, usize),
+) -> AssociatedType
+{
+{
+        AssociatedType { type_span: Span(lo, hi),
+                         type_name: n,
+                         type_ref: t }
     }
 }
 
 #[allow(unused_variables)]
-fn ___action89<'input>(
-    text: &'input str,
-    (_, lo, _): (usize, usize, usize),
-    (_, from, _): (usize, TerminalString, usize),
-    (_, start, _): (usize, usize, usize),
-    (_, p, _): (usize, &'input str, usize),
-    (_, hi, _): (usize, usize, usize),
-) -> Result<Conversion, ___lalrpop_util::ParseError<usize, Tok<'input>, tok::Error>> {
-    {
+fn ___action89<
+    'input,
+>(
+text: &'input str,
+(_, lo, _): (usize, usize, usize),
+(_, from, _): (usize, TerminalString, usize),
+(_, start, _): (usize, usize, usize),
+(_, p, _): (usize, &'input str, usize),
+(_, hi, _): (usize, usize, usize),
+) -> Result<Conversion,___lalrpop_util::ParseError<usize,Tok<'input>,tok::Error>>
+{
+{
         let pattern = try!(super::parse_pattern(p, start + 2));
-        Ok(Conversion {
-            span: Span(lo, hi),
-            from: from,
-            to: pattern,
-        })
+        Ok(Conversion { span: Span(lo, hi),
+                        from: from,
+                        to: pattern })
     }
 }
 
 #[allow(unused_variables)]
-fn ___action90<'input>(
-    text: &'input str,
-    (_, lo, _): (usize, usize, usize),
-    (_, k, _): (usize, PatternKind<TypeRef>, usize),
-    (_, hi, _): (usize, usize, usize),
-) -> Pattern<TypeRef> {
-    Pattern {
-        span: Span(lo, hi),
-        kind: k,
+fn ___action90<
+    'input,
+>(
+text: &'input str,
+(_, lo, _): (usize, usize, usize),
+(_, k, _): (usize, PatternKind<TypeRef>, usize),
+(_, hi, _): (usize, usize, usize),
+) -> Pattern<TypeRef>
+{
+Pattern { span: Span(lo, hi), kind: k }
+}
+
+#[allow(unused_variables)]
+fn ___action91<
+    'input,
+>(
+text: &'input str,
+(_, ___0, _): (usize, Path, usize),
+(_, _, _): (usize, Tok<'input>, usize),
+(_, ___1, _): (usize, Vec<Pattern<TypeRef>>, usize),
+(_, _, _): (usize, Tok<'input>, usize),
+) -> PatternKind<TypeRef>
+{
+PatternKind::Enum(___0, ___1)
+}
+
+#[allow(unused_variables)]
+fn ___action92<
+    'input,
+>(
+text: &'input str,
+(_, p, _): (usize, Path, usize),
+(_, _, _): (usize, Tok<'input>, usize),
+(_, a0, _): (usize, ::std::vec::Vec<FieldPattern<TypeRef>>, usize),
+(_, a1, _): (usize, ::std::option::Option<FieldPattern<TypeRef>>, usize),
+(_, _, _): (usize, Tok<'input>, usize),
+) -> PatternKind<TypeRef>
+{
+PatternKind::Struct(p, a0.into_iter().chain(a1).collect(), false)
+}
+
+#[allow(unused_variables)]
+fn ___action93<
+    'input,
+>(
+text: &'input str,
+(_, p, _): (usize, Path, usize),
+(_, _, _): (usize, Tok<'input>, usize),
+(_, a0, _): (usize, ::std::vec::Vec<FieldPattern<TypeRef>>, usize),
+(_, _, _): (usize, Tok<'input>, usize),
+(_, _, _): (usize, Tok<'input>, usize),
+) -> PatternKind<TypeRef>
+{
+PatternKind::Struct(p, a0, true)
+}
+
+#[allow(unused_variables)]
+fn ___action94<
+    'input,
+>(
+text: &'input str,
+(_, ___0, _): (usize, Tok<'input>, usize),
+) -> PatternKind<TypeRef>
+{
+PatternKind::Underscore
+}
+
+#[allow(unused_variables)]
+fn ___action95<
+    'input,
+>(
+text: &'input str,
+(_, ___0, _): (usize, Tok<'input>, usize),
+) -> PatternKind<TypeRef>
+{
+PatternKind::DotDot
+}
+
+#[allow(unused_variables)]
+fn ___action96<
+    'input,
+>(
+text: &'input str,
+(_, _, _): (usize, Tok<'input>, usize),
+(_, ___0, _): (usize, TypeRef, usize),
+(_, _, _): (usize, Tok<'input>, usize),
+) -> PatternKind<TypeRef>
+{
+PatternKind::Choose(___0)
+}
+
+#[allow(unused_variables)]
+fn ___action97<
+    'input,
+>(
+text: &'input str,
+(_, _, _): (usize, Tok<'input>, usize),
+(_, ___0, _): (usize, Vec<Pattern<TypeRef>>, usize),
+(_, _, _): (usize, Tok<'input>, usize),
+) -> PatternKind<TypeRef>
+{
+PatternKind::Tuple(___0)
+}
+
+#[allow(unused_variables)]
+fn ___action98<
+    'input,
+>(
+text: &'input str,
+(_, c, _): (usize, &'input str, usize),
+) -> PatternKind<TypeRef>
+{
+PatternKind::CharLiteral(Atom::from(c))
+}
+
+#[allow(unused_variables)]
+fn ___action99<
+    'input,
+>(
+text: &'input str,
+(_, ___0, _): (usize, Path, usize),
+) -> PatternKind<TypeRef>
+{
+PatternKind::Path(___0)
+}
+
+#[allow(unused_variables)]
+fn ___action100<
+    'input,
+>(
+text: &'input str,
+(_, lo, _): (usize, usize, usize),
+(_, id, _): (usize, Atom, usize),
+(_, hi, _): (usize, usize, usize),
+(_, _, _): (usize, Tok<'input>, usize),
+(_, pat, _): (usize, Pattern<TypeRef>, usize),
+) -> FieldPattern<TypeRef>
+{
+{
+        FieldPattern { field_span: Span(lo, hi),
+                       field_name: id,
+                       pattern: pat }
     }
 }
 
 #[allow(unused_variables)]
-fn ___action91<'input>(
-    text: &'input str,
-    (_, ___0, _): (usize, Path, usize),
-    (_, _, _): (usize, Tok<'input>, usize),
-    (_, ___1, _): (usize, Vec<Pattern<TypeRef>>, usize),
-    (_, _, _): (usize, Tok<'input>, usize),
-) -> PatternKind<TypeRef> {
-    PatternKind::Enum(___0, ___1)
+fn ___action101<
+    'input,
+>(
+text: &'input str,
+(_, i, _): (usize, &'input str, usize),
+) -> NonterminalString
+{
+NonterminalString(Atom::from(i))
 }
 
 #[allow(unused_variables)]
-fn ___action92<'input>(
-    text: &'input str,
-    (_, p, _): (usize, Path, usize),
-    (_, _, _): (usize, Tok<'input>, usize),
-    (_, a0, _): (usize, ::std::vec::Vec<FieldPattern<TypeRef>>, usize),
-    (_, a1, _): (usize, ::std::option::Option<FieldPattern<TypeRef>>, usize),
-    (_, _, _): (usize, Tok<'input>, usize),
-) -> PatternKind<TypeRef> {
-    PatternKind::Struct(p, a0.into_iter().chain(a1).collect(), false)
+fn ___action102<
+    'input,
+>(
+text: &'input str,
+(_, i, _): (usize, &'input str, usize),
+) -> NonterminalString
+{
+NonterminalString(Atom::from(i))
 }
 
 #[allow(unused_variables)]
-fn ___action93<'input>(
-    text: &'input str,
-    (_, p, _): (usize, Path, usize),
-    (_, _, _): (usize, Tok<'input>, usize),
-    (_, a0, _): (usize, ::std::vec::Vec<FieldPattern<TypeRef>>, usize),
-    (_, _, _): (usize, Tok<'input>, usize),
-    (_, _, _): (usize, Tok<'input>, usize),
-) -> PatternKind<TypeRef> {
-    PatternKind::Struct(p, a0, true)
+fn ___action103<
+    'input,
+>(
+text: &'input str,
+(_, i, _): (usize, &'input str, usize),
+) -> Atom
+{
+Atom::from(i)
 }
 
 #[allow(unused_variables)]
-fn ___action94<'input>(
-    text: &'input str,
-    (_, ___0, _): (usize, Tok<'input>, usize),
-) -> PatternKind<TypeRef> {
-    PatternKind::Underscore
+fn ___action104<
+    'input,
+>(
+text: &'input str,
+(_, i, _): (usize, &'input str, usize),
+) -> Atom
+{
+Atom::from(i)
 }
 
 #[allow(unused_variables)]
-fn ___action95<'input>(
-    text: &'input str,
-    (_, ___0, _): (usize, Tok<'input>, usize),
-) -> PatternKind<TypeRef> {
-    PatternKind::DotDot
+fn ___action105<
+    'input,
+>(
+text: &'input str,
+(_, i, _): (usize, &'input str, usize),
+) -> Atom
+{
+Atom::from(i)
 }
 
 #[allow(unused_variables)]
-fn ___action96<'input>(
-    text: &'input str,
-    (_, _, _): (usize, Tok<'input>, usize),
-    (_, ___0, _): (usize, TypeRef, usize),
-    (_, _, _): (usize, Tok<'input>, usize),
-) -> PatternKind<TypeRef> {
-    PatternKind::Choose(___0)
+fn ___action106<
+    'input,
+>(
+text: &'input str,
+(_, i, _): (usize, &'input str, usize),
+) -> Atom
+{
+Atom::from(i)
 }
 
 #[allow(unused_variables)]
-fn ___action97<'input>(
-    text: &'input str,
-    (_, _, _): (usize, Tok<'input>, usize),
-    (_, ___0, _): (usize, Vec<Pattern<TypeRef>>, usize),
-    (_, _, _): (usize, Tok<'input>, usize),
-) -> PatternKind<TypeRef> {
-    PatternKind::Tuple(___0)
+fn ___action107<
+    'input,
+>(
+text: &'input str,
+(_, ___0, _): (usize, TerminalString, usize),
+) -> TerminalString
+{
+(___0)
 }
 
 #[allow(unused_variables)]
-fn ___action98<'input>(
-    text: &'input str,
-    (_, c, _): (usize, &'input str, usize),
-) -> PatternKind<TypeRef> {
-    PatternKind::CharLiteral(Atom::from(c))
+fn ___action108<
+    'input,
+>(
+text: &'input str,
+(_, i, _): (usize, &'input str, usize),
+) -> TerminalString
+{
+TerminalString::Bare(Atom::from(i))
 }
 
 #[allow(unused_variables)]
-fn ___action99<'input>(
-    text: &'input str,
-    (_, ___0, _): (usize, Path, usize),
-) -> PatternKind<TypeRef> {
-    PatternKind::Path(___0)
+fn ___action109<
+    'input,
+>(
+text: &'input str,
+(_, ___0, _): (usize, TerminalLiteral, usize),
+) -> TerminalString
+{
+TerminalString::Literal(___0)
 }
 
 #[allow(unused_variables)]
-fn ___action100<'input>(
-    text: &'input str,
-    (_, lo, _): (usize, usize, usize),
-    (_, id, _): (usize, Atom, usize),
-    (_, hi, _): (usize, usize, usize),
-    (_, _, _): (usize, Tok<'input>, usize),
-    (_, pat, _): (usize, Pattern<TypeRef>, usize),
-) -> FieldPattern<TypeRef> {
-    {
-        FieldPattern {
-            field_span: Span(lo, hi),
-            field_name: id,
-            pattern: pat,
-        }
-    }
+fn ___action110<
+    'input,
+>(
+text: &'input str,
+(_, s, _): (usize, Atom, usize),
+) -> TerminalLiteral
+{
+TerminalLiteral::Quoted(s)
 }
 
 #[allow(unused_variables)]
-fn ___action101<'input>(
-    text: &'input str,
-    (_, i, _): (usize, &'input str, usize),
-) -> NonterminalString {
-    NonterminalString(Atom::from(i))
+fn ___action111<
+    'input,
+>(
+text: &'input str,
+(_, s, _): (usize, Atom, usize),
+) -> TerminalLiteral
+{
+TerminalLiteral::Regex(s)
 }
 
 #[allow(unused_variables)]
-fn ___action102<'input>(
-    text: &'input str,
-    (_, i, _): (usize, &'input str, usize),
-) -> NonterminalString {
-    NonterminalString(Atom::from(i))
-}
-
-#[allow(unused_variables)]
-fn ___action103<'input>(text: &'input str, (_, i, _): (usize, &'input str, usize)) -> Atom {
-    Atom::from(i)
-}
-
-#[allow(unused_variables)]
-fn ___action104<'input>(text: &'input str, (_, i, _): (usize, &'input str, usize)) -> Atom {
-    Atom::from(i)
-}
-
-#[allow(unused_variables)]
-fn ___action105<'input>(text: &'input str, (_, i, _): (usize, &'input str, usize)) -> Atom {
-    Atom::from(i)
-}
-
-#[allow(unused_variables)]
-fn ___action106<'input>(text: &'input str, (_, i, _): (usize, &'input str, usize)) -> Atom {
-    Atom::from(i)
-}
-
-#[allow(unused_variables)]
-fn ___action107<'input>(
-    text: &'input str,
-    (_, ___0, _): (usize, TerminalString, usize),
-) -> TerminalString {
-    (___0)
-}
-
-#[allow(unused_variables)]
-fn ___action108<'input>(
-    text: &'input str,
-    (_, i, _): (usize, &'input str, usize),
-) -> TerminalString {
-    TerminalString::Bare(Atom::from(i))
-}
-
-#[allow(unused_variables)]
-fn ___action109<'input>(
-    text: &'input str,
-    (_, ___0, _): (usize, TerminalLiteral, usize),
-) -> TerminalString {
-    TerminalString::Literal(___0)
-}
-
-#[allow(unused_variables)]
-fn ___action110<'input>(text: &'input str, (_, s, _): (usize, Atom, usize)) -> TerminalLiteral {
-    TerminalLiteral::Quoted(s)
-}
-
-#[allow(unused_variables)]
-fn ___action111<'input>(text: &'input str, (_, s, _): (usize, Atom, usize)) -> TerminalLiteral {
-    TerminalLiteral::Regex(s)
-}
-
-#[allow(unused_variables)]
-fn ___action112<'input>(
-    text: &'input str,
-    (_, lo, _): (usize, usize, usize),
-    (_, s, _): (usize, &'input str, usize),
-) -> Result<Atom, ___lalrpop_util::ParseError<usize, Tok<'input>, tok::Error>> {
-    {
-        let text =
-            tok::apply_string_escapes(s, lo + 1).map_err(|e| ParseError::User { error: e })?;
+fn ___action112<
+    'input,
+>(
+text: &'input str,
+(_, lo, _): (usize, usize, usize),
+(_, s, _): (usize, &'input str, usize),
+) -> Result<Atom,___lalrpop_util::ParseError<usize,Tok<'input>,tok::Error>>
+{
+{
+        let text = tok::apply_string_escapes(s, lo + 1)
+            .map_err(|e| ParseError::User { error: e })?;
         Ok(Atom::from(text))
     }
 }
 
 #[allow(unused_variables)]
-fn ___action113<'input>(text: &'input str, (_, s, _): (usize, &'input str, usize)) -> Atom {
-    Atom::from(s)
+fn ___action113<
+    'input,
+>(
+text: &'input str,
+(_, s, _): (usize, &'input str, usize),
+) -> Atom
+{
+Atom::from(s)
 }
 
 #[allow(unused_variables)]
-fn ___action114<'input>(text: &'input str, (_, s, _): (usize, &'input str, usize)) -> String {
-    s.to_string()
+fn ___action114<
+    'input,
+>(
+text: &'input str,
+(_, s, _): (usize, &'input str, usize),
+) -> String
+{
+s.to_string()
 }
 
 #[allow(unused_variables)]
-fn ___action115<'input>(
-    text: &'input str,
-    (_, ___0, _): (usize, FieldPattern<TypeRef>, usize),
-) -> ::std::option::Option<FieldPattern<TypeRef>> {
-    Some(___0)
+fn ___action115<
+    'input,
+>(
+text: &'input str,
+(_, ___0, _): (usize, FieldPattern<TypeRef>, usize),
+) -> ::std::option::Option<FieldPattern<TypeRef>>
+{
+Some(___0)
 }
 
 #[allow(unused_variables)]
-fn ___action116<'input>(
-    text: &'input str,
-    ___lookbehind: &usize,
-    ___lookahead: &usize,
-) -> ::std::option::Option<FieldPattern<TypeRef>> {
-    None
+fn ___action116<
+    'input,
+>(
+text: &'input str,
+___lookbehind: &usize,
+___lookahead: &usize,
+) -> ::std::option::Option<FieldPattern<TypeRef>>
+{
+None
 }
 
 #[allow(unused_variables)]
-fn ___action117<'input>(
-    text: &'input str,
-    ___lookbehind: &usize,
-    ___lookahead: &usize,
-) -> ::std::vec::Vec<FieldPattern<TypeRef>> {
-    vec![]
+fn ___action117<
+    'input,
+>(
+text: &'input str,
+___lookbehind: &usize,
+___lookahead: &usize,
+) -> ::std::vec::Vec<FieldPattern<TypeRef>>
+{
+vec![]
 }
 
 #[allow(unused_variables)]
-fn ___action118<'input>(
-    text: &'input str,
-    (_, v, _): (usize, ::std::vec::Vec<FieldPattern<TypeRef>>, usize),
-) -> ::std::vec::Vec<FieldPattern<TypeRef>> {
-    v
+fn ___action118<
+    'input,
+>(
+text: &'input str,
+(_, v, _): (usize, ::std::vec::Vec<FieldPattern<TypeRef>>, usize),
+) -> ::std::vec::Vec<FieldPattern<TypeRef>>
+{
+v
 }
 
 #[allow(unused_variables)]
-fn ___action119<'input>(
-    text: &'input str,
-    (_, ___0, _): (usize, FieldPattern<TypeRef>, usize),
-    (_, _, _): (usize, Tok<'input>, usize),
-) -> FieldPattern<TypeRef> {
-    (___0)
+fn ___action119<
+    'input,
+>(
+text: &'input str,
+(_, ___0, _): (usize, FieldPattern<TypeRef>, usize),
+(_, _, _): (usize, Tok<'input>, usize),
+) -> FieldPattern<TypeRef>
+{
+(___0)
 }
 
 #[allow(unused_variables)]
-fn ___action120<'input>(
-    text: &'input str,
-    (_, v0, _): (usize, ::std::vec::Vec<Pattern<TypeRef>>, usize),
-    (_, e1, _): (usize, ::std::option::Option<Pattern<TypeRef>>, usize),
-) -> Vec<Pattern<TypeRef>> {
-    v0.into_iter().chain(e1).collect()
+fn ___action120<
+    'input,
+>(
+text: &'input str,
+(_, v0, _): (usize, ::std::vec::Vec<Pattern<TypeRef>>, usize),
+(_, e1, _): (usize, ::std::option::Option<Pattern<TypeRef>>, usize),
+) -> Vec<Pattern<TypeRef>>
+{
+v0.into_iter().chain(e1).collect()
 }
 
 #[allow(unused_variables)]
-fn ___action121<'input>(
-    text: &'input str,
-    (_, v0, _): (usize, ::std::vec::Vec<Conversion>, usize),
-    (_, e1, _): (usize, ::std::option::Option<Conversion>, usize),
-) -> Vec<Conversion> {
-    v0.into_iter().chain(e1).collect()
+fn ___action121<
+    'input,
+>(
+text: &'input str,
+(_, v0, _): (usize, ::std::vec::Vec<Conversion>, usize),
+(_, e1, _): (usize, ::std::option::Option<Conversion>, usize),
+) -> Vec<Conversion>
+{
+v0.into_iter().chain(e1).collect()
 }
 
 #[allow(unused_variables)]
-fn ___action122<'input>(
-    text: &'input str,
-    (_, v0, _): (usize, ::std::vec::Vec<MatchItem>, usize),
-    (_, e1, _): (usize, ::std::option::Option<MatchItem>, usize),
-) -> Vec<MatchItem> {
-    v0.into_iter().chain(e1).collect()
+fn ___action122<
+    'input,
+>(
+text: &'input str,
+(_, v0, _): (usize, ::std::vec::Vec<MatchItem>, usize),
+(_, e1, _): (usize, ::std::option::Option<MatchItem>, usize),
+) -> Vec<MatchItem>
+{
+v0.into_iter().chain(e1).collect()
 }
 
 #[allow(unused_variables)]
-fn ___action123<'input>(
-    text: &'input str,
-    ___lookbehind: &usize,
-    ___lookahead: &usize,
-) -> ::std::vec::Vec<AssociatedType> {
-    vec![]
+fn ___action123<
+    'input,
+>(
+text: &'input str,
+___lookbehind: &usize,
+___lookahead: &usize,
+) -> ::std::vec::Vec<AssociatedType>
+{
+vec![]
 }
 
 #[allow(unused_variables)]
-fn ___action124<'input>(
-    text: &'input str,
-    (_, v, _): (usize, ::std::vec::Vec<AssociatedType>, usize),
-) -> ::std::vec::Vec<AssociatedType> {
-    v
+fn ___action124<
+    'input,
+>(
+text: &'input str,
+(_, v, _): (usize, ::std::vec::Vec<AssociatedType>, usize),
+) -> ::std::vec::Vec<AssociatedType>
+{
+v
 }
 
 #[allow(unused_variables)]
-fn ___action125<'input>(
-    text: &'input str,
-    ___lookbehind: &usize,
-    ___lookahead: &usize,
-) -> ::std::vec::Vec<Atom> {
-    vec![]
+fn ___action125<
+    'input,
+>(
+text: &'input str,
+___lookbehind: &usize,
+___lookahead: &usize,
+) -> ::std::vec::Vec<Atom>
+{
+vec![]
 }
 
 #[allow(unused_variables)]
-fn ___action126<'input>(
-    text: &'input str,
-    (_, v, _): (usize, ::std::vec::Vec<Atom>, usize),
-) -> ::std::vec::Vec<Atom> {
-    v
+fn ___action126<
+    'input,
+>(
+text: &'input str,
+(_, v, _): (usize, ::std::vec::Vec<Atom>, usize),
+) -> ::std::vec::Vec<Atom>
+{
+v
 }
 
 #[allow(unused_variables)]
-fn ___action127<'input>(
-    text: &'input str,
-    (_, ___0, _): (usize, Atom, usize),
-    (_, _, _): (usize, Tok<'input>, usize),
-) -> Atom {
-    (___0)
+fn ___action127<
+    'input,
+>(
+text: &'input str,
+(_, ___0, _): (usize, Atom, usize),
+(_, _, _): (usize, Tok<'input>, usize),
+) -> Atom
+{
+(___0)
 }
 
 #[allow(unused_variables)]
-fn ___action128<'input>(
-    text: &'input str,
-    (_, ___0, _): (usize, Tok<'input>, usize),
-) -> ::std::option::Option<Tok<'input>> {
-    Some(___0)
+fn ___action128<
+    'input,
+>(
+text: &'input str,
+(_, ___0, _): (usize, Tok<'input>, usize),
+) -> ::std::option::Option<Tok<'input>>
+{
+Some(___0)
 }
 
 #[allow(unused_variables)]
-fn ___action129<'input>(
-    text: &'input str,
-    ___lookbehind: &usize,
-    ___lookahead: &usize,
-) -> ::std::option::Option<Tok<'input>> {
-    None
+fn ___action129<
+    'input,
+>(
+text: &'input str,
+___lookbehind: &usize,
+___lookahead: &usize,
+) -> ::std::option::Option<Tok<'input>>
+{
+None
 }
 
 #[allow(unused_variables)]
-fn ___action130<'input>(
-    text: &'input str,
-    (_, v0, _): (usize, ::std::vec::Vec<TypeRef>, usize),
-    (_, e1, _): (usize, ::std::option::Option<TypeRef>, usize),
-) -> Vec<TypeRef> {
-    v0.into_iter().chain(e1).collect()
+fn ___action130<
+    'input,
+>(
+text: &'input str,
+(_, v0, _): (usize, ::std::vec::Vec<TypeRef>, usize),
+(_, e1, _): (usize, ::std::option::Option<TypeRef>, usize),
+) -> Vec<TypeRef>
+{
+v0.into_iter().chain(e1).collect()
 }
 
 #[allow(unused_variables)]
-fn ___action131<'input>(
-    text: &'input str,
-    (_, ___0, _): (usize, Tok<'input>, usize),
-) -> ::std::option::Option<Tok<'input>> {
-    Some(___0)
+fn ___action131<
+    'input,
+>(
+text: &'input str,
+(_, ___0, _): (usize, Tok<'input>, usize),
+) -> ::std::option::Option<Tok<'input>>
+{
+Some(___0)
 }
 
 #[allow(unused_variables)]
-fn ___action132<'input>(
-    text: &'input str,
-    ___lookbehind: &usize,
-    ___lookahead: &usize,
-) -> ::std::option::Option<Tok<'input>> {
-    None
+fn ___action132<
+    'input,
+>(
+text: &'input str,
+___lookbehind: &usize,
+___lookahead: &usize,
+) -> ::std::option::Option<Tok<'input>>
+{
+None
 }
 
 #[allow(unused_variables)]
-fn ___action133<'input>(
-    text: &'input str,
-    (_, ___0, _): (usize, Atom, usize),
-) -> ::std::option::Option<Atom> {
-    Some(___0)
+fn ___action133<
+    'input,
+>(
+text: &'input str,
+(_, ___0, _): (usize, Atom, usize),
+) -> ::std::option::Option<Atom>
+{
+Some(___0)
 }
 
 #[allow(unused_variables)]
-fn ___action134<'input>(
-    text: &'input str,
-    ___lookbehind: &usize,
-    ___lookahead: &usize,
-) -> ::std::option::Option<Atom> {
-    None
+fn ___action134<
+    'input,
+>(
+text: &'input str,
+___lookbehind: &usize,
+___lookahead: &usize,
+) -> ::std::option::Option<Atom>
+{
+None
 }
 
 #[allow(unused_variables)]
-fn ___action135<'input>(
-    text: &'input str,
-    (_, v0, _): (usize, ::std::vec::Vec<Symbol>, usize),
-    (_, e1, _): (usize, ::std::option::Option<Symbol>, usize),
-) -> Vec<Symbol> {
-    v0.into_iter().chain(e1).collect()
+fn ___action135<
+    'input,
+>(
+text: &'input str,
+(_, v0, _): (usize, ::std::vec::Vec<Symbol>, usize),
+(_, e1, _): (usize, ::std::option::Option<Symbol>, usize),
+) -> Vec<Symbol>
+{
+v0.into_iter().chain(e1).collect()
 }
 
 #[allow(unused_variables)]
-fn ___action136<'input>(
-    text: &'input str,
-    ___lookbehind: &usize,
-    ___lookahead: &usize,
-) -> ::std::vec::Vec<Symbol> {
-    vec![]
+fn ___action136<
+    'input,
+>(
+text: &'input str,
+___lookbehind: &usize,
+___lookahead: &usize,
+) -> ::std::vec::Vec<Symbol>
+{
+vec![]
 }
 
 #[allow(unused_variables)]
-fn ___action137<'input>(
-    text: &'input str,
-    (_, v, _): (usize, ::std::vec::Vec<Symbol>, usize),
-) -> ::std::vec::Vec<Symbol> {
-    v
+fn ___action137<
+    'input,
+>(
+text: &'input str,
+(_, v, _): (usize, ::std::vec::Vec<Symbol>, usize),
+) -> ::std::vec::Vec<Symbol>
+{
+v
 }
 
 #[allow(unused_variables)]
-fn ___action138<'input>(
-    text: &'input str,
-    (_, ___0, _): (usize, ActionKind, usize),
-) -> ::std::option::Option<ActionKind> {
-    Some(___0)
+fn ___action138<
+    'input,
+>(
+text: &'input str,
+(_, ___0, _): (usize, ActionKind, usize),
+) -> ::std::option::Option<ActionKind>
+{
+Some(___0)
 }
 
 #[allow(unused_variables)]
-fn ___action139<'input>(
-    text: &'input str,
-    ___lookbehind: &usize,
-    ___lookahead: &usize,
-) -> ::std::option::Option<ActionKind> {
-    None
+fn ___action139<
+    'input,
+>(
+text: &'input str,
+___lookbehind: &usize,
+___lookahead: &usize,
+) -> ::std::option::Option<ActionKind>
+{
+None
 }
 
 #[allow(unused_variables)]
-fn ___action140<'input>(
-    text: &'input str,
-    (_, ___0, _): (usize, Condition, usize),
-) -> ::std::option::Option<Condition> {
-    Some(___0)
+fn ___action140<
+    'input,
+>(
+text: &'input str,
+(_, ___0, _): (usize, Condition, usize),
+) -> ::std::option::Option<Condition>
+{
+Some(___0)
 }
 
 #[allow(unused_variables)]
-fn ___action141<'input>(
-    text: &'input str,
-    ___lookbehind: &usize,
-    ___lookahead: &usize,
-) -> ::std::option::Option<Condition> {
-    None
+fn ___action141<
+    'input,
+>(
+text: &'input str,
+___lookbehind: &usize,
+___lookahead: &usize,
+) -> ::std::option::Option<Condition>
+{
+None
 }
 
 #[allow(unused_variables)]
-fn ___action142<'input>(
-    text: &'input str,
-    (_, _, _): (usize, Tok<'input>, usize),
-    (_, ___0, _): (usize, Condition, usize),
-) -> Condition {
-    (___0)
+fn ___action142<
+    'input,
+>(
+text: &'input str,
+(_, _, _): (usize, Tok<'input>, usize),
+(_, ___0, _): (usize, Condition, usize),
+) -> Condition
+{
+(___0)
 }
 
 #[allow(unused_variables)]
-fn ___action143<'input>(
-    text: &'input str,
-    (_, ___0, _): (usize, Symbol, usize),
-) -> ::std::vec::Vec<Symbol> {
-    vec![___0]
+fn ___action143<
+    'input,
+>(
+text: &'input str,
+(_, ___0, _): (usize, Symbol, usize),
+) -> ::std::vec::Vec<Symbol>
+{
+vec![___0]
 }
 
 #[allow(unused_variables)]
-fn ___action144<'input>(
-    text: &'input str,
-    (_, v, _): (usize, ::std::vec::Vec<Symbol>, usize),
-    (_, e, _): (usize, Symbol, usize),
-) -> ::std::vec::Vec<Symbol> {
-    {
-        let mut v = v;
-        v.push(e);
-        v
-    }
+fn ___action144<
+    'input,
+>(
+text: &'input str,
+(_, v, _): (usize, ::std::vec::Vec<Symbol>, usize),
+(_, e, _): (usize, Symbol, usize),
+) -> ::std::vec::Vec<Symbol>
+{
+{ let mut v = v; v.push(e); v }
 }
 
 #[allow(unused_variables)]
-fn ___action145<'input>(
-    text: &'input str,
-    (_, ___0, _): (usize, Tok<'input>, usize),
-) -> ::std::option::Option<Tok<'input>> {
-    Some(___0)
+fn ___action145<
+    'input,
+>(
+text: &'input str,
+(_, ___0, _): (usize, Tok<'input>, usize),
+) -> ::std::option::Option<Tok<'input>>
+{
+Some(___0)
 }
 
 #[allow(unused_variables)]
-fn ___action146<'input>(
-    text: &'input str,
-    ___lookbehind: &usize,
-    ___lookahead: &usize,
-) -> ::std::option::Option<Tok<'input>> {
-    None
+fn ___action146<
+    'input,
+>(
+text: &'input str,
+___lookbehind: &usize,
+___lookahead: &usize,
+) -> ::std::option::Option<Tok<'input>>
+{
+None
 }
 
 #[allow(unused_variables)]
-fn ___action147<'input>(
-    text: &'input str,
-    (_, v0, _): (usize, ::std::vec::Vec<Alternative>, usize),
-    (_, e1, _): (usize, ::std::option::Option<Alternative>, usize),
-) -> Vec<Alternative> {
-    v0.into_iter().chain(e1).collect()
+fn ___action147<
+    'input,
+>(
+text: &'input str,
+(_, v0, _): (usize, ::std::vec::Vec<Alternative>, usize),
+(_, e1, _): (usize, ::std::option::Option<Alternative>, usize),
+) -> Vec<Alternative>
+{
+v0.into_iter().chain(e1).collect()
 }
 
 #[allow(unused_variables)]
-fn ___action148<'input>(
-    text: &'input str,
-    (_, v0, _): (usize, ::std::vec::Vec<NonterminalString>, usize),
-    (_, e1, _): (usize, ::std::option::Option<NonterminalString>, usize),
-) -> Vec<NonterminalString> {
-    v0.into_iter().chain(e1).collect()
+fn ___action148<
+    'input,
+>(
+text: &'input str,
+(_, v0, _): (usize, ::std::vec::Vec<NonterminalString>, usize),
+(_, e1, _): (usize, ::std::option::Option<NonterminalString>, usize),
+) -> Vec<NonterminalString>
+{
+v0.into_iter().chain(e1).collect()
 }
 
 #[allow(unused_variables)]
-fn ___action149<'input>(
-    text: &'input str,
-    (_, ___0, _): (usize, (Atom, String), usize),
-) -> ::std::option::Option<(Atom, String)> {
-    Some(___0)
+fn ___action149<
+    'input,
+>(
+text: &'input str,
+(_, ___0, _): (usize, (Atom, String), usize),
+) -> ::std::option::Option<(Atom, String)>
+{
+Some(___0)
 }
 
 #[allow(unused_variables)]
-fn ___action150<'input>(
-    text: &'input str,
-    ___lookbehind: &usize,
-    ___lookahead: &usize,
-) -> ::std::option::Option<(Atom, String)> {
-    None
+fn ___action150<
+    'input,
+>(
+text: &'input str,
+___lookbehind: &usize,
+___lookahead: &usize,
+) -> ::std::option::Option<(Atom, String)>
+{
+None
 }
 
 #[allow(unused_variables)]
-fn ___action151<'input>(
-    text: &'input str,
-    (_, ___0, _): (usize, TypeRef, usize),
-) -> ::std::option::Option<TypeRef> {
-    Some(___0)
+fn ___action151<
+    'input,
+>(
+text: &'input str,
+(_, ___0, _): (usize, TypeRef, usize),
+) -> ::std::option::Option<TypeRef>
+{
+Some(___0)
 }
 
 #[allow(unused_variables)]
-fn ___action152<'input>(
-    text: &'input str,
-    ___lookbehind: &usize,
-    ___lookahead: &usize,
-) -> ::std::option::Option<TypeRef> {
-    None
+fn ___action152<
+    'input,
+>(
+text: &'input str,
+___lookbehind: &usize,
+___lookahead: &usize,
+) -> ::std::option::Option<TypeRef>
+{
+None
 }
 
 #[allow(unused_variables)]
-fn ___action153<'input>(
-    text: &'input str,
-    (_, _, _): (usize, Tok<'input>, usize),
-    (_, ___0, _): (usize, TypeRef, usize),
-) -> TypeRef {
-    (___0)
+fn ___action153<
+    'input,
+>(
+text: &'input str,
+(_, _, _): (usize, Tok<'input>, usize),
+(_, ___0, _): (usize, TypeRef, usize),
+) -> TypeRef
+{
+(___0)
 }
 
 #[allow(unused_variables)]
-fn ___action154<'input>(text: &'input str, ___lookbehind: &usize, ___lookahead: &usize) -> () {
-    ()
+fn ___action154<
+    'input,
+>(
+text: &'input str,
+___lookbehind: &usize,
+___lookahead: &usize,
+) -> ()
+{
+()
 }
 
 #[allow(unused_variables)]
-fn ___action155<'input>(
-    text: &'input str,
-    (_, v0, _): (usize, ::std::vec::Vec<Parameter>, usize),
-    (_, e1, _): (usize, ::std::option::Option<Parameter>, usize),
-) -> Vec<Parameter> {
-    v0.into_iter().chain(e1).collect()
+fn ___action155<
+    'input,
+>(
+text: &'input str,
+(_, v0, _): (usize, ::std::vec::Vec<Parameter>, usize),
+(_, e1, _): (usize, ::std::option::Option<Parameter>, usize),
+) -> Vec<Parameter>
+{
+v0.into_iter().chain(e1).collect()
 }
 
 #[allow(unused_variables)]
-fn ___action156<'input>(
-    text: &'input str,
-    (_, ___0, _): (usize, Vec<TypeBoundParameter<TypeRef>>, usize),
-) -> ::std::option::Option<Vec<TypeBoundParameter<TypeRef>>> {
-    Some(___0)
+fn ___action156<
+    'input,
+>(
+text: &'input str,
+(_, ___0, _): (usize, Vec<TypeBoundParameter<TypeRef>>, usize),
+) -> ::std::option::Option<Vec<TypeBoundParameter<TypeRef>>>
+{
+Some(___0)
 }
 
 #[allow(unused_variables)]
-fn ___action157<'input>(
-    text: &'input str,
-    ___lookbehind: &usize,
-    ___lookahead: &usize,
-) -> ::std::option::Option<Vec<TypeBoundParameter<TypeRef>>> {
-    None
+fn ___action157<
+    'input,
+>(
+text: &'input str,
+___lookbehind: &usize,
+___lookahead: &usize,
+) -> ::std::option::Option<Vec<TypeBoundParameter<TypeRef>>>
+{
+None
 }
 
 #[allow(unused_variables)]
-fn ___action158<'input>(
-    text: &'input str,
-    (_, _, _): (usize, Tok<'input>, usize),
-    (_, ___0, _): (usize, Vec<TypeBoundParameter<TypeRef>>, usize),
-    (_, _, _): (usize, Tok<'input>, usize),
-) -> Vec<TypeBoundParameter<TypeRef>> {
-    (___0)
+fn ___action158<
+    'input,
+>(
+text: &'input str,
+(_, _, _): (usize, Tok<'input>, usize),
+(_, ___0, _): (usize, Vec<TypeBoundParameter<TypeRef>>, usize),
+(_, _, _): (usize, Tok<'input>, usize),
+) -> Vec<TypeBoundParameter<TypeRef>>
+{
+(___0)
 }
 
 #[allow(unused_variables)]
-fn ___action159<'input>(
-    text: &'input str,
-    (_, v0, _): (usize, ::std::vec::Vec<TypeBoundParameter<TypeRef>>, usize),
-    (_, e1, _): (
-        usize,
-        ::std::option::Option<TypeBoundParameter<TypeRef>>,
-        usize,
-    ),
-) -> Vec<TypeBoundParameter<TypeRef>> {
-    v0.into_iter().chain(e1).collect()
+fn ___action159<
+    'input,
+>(
+text: &'input str,
+(_, v0, _): (usize, ::std::vec::Vec<TypeBoundParameter<TypeRef>>, usize),
+(_, e1, _): (usize, ::std::option::Option<TypeBoundParameter<TypeRef>>, usize),
+) -> Vec<TypeBoundParameter<TypeRef>>
+{
+v0.into_iter().chain(e1).collect()
 }
 
 #[allow(unused_variables)]
-fn ___action160<'input>(
-    text: &'input str,
-    (_, ___0, _): (usize, TypeRef, usize),
-) -> ::std::option::Option<TypeRef> {
-    Some(___0)
+fn ___action160<
+    'input,
+>(
+text: &'input str,
+(_, ___0, _): (usize, TypeRef, usize),
+) -> ::std::option::Option<TypeRef>
+{
+Some(___0)
 }
 
 #[allow(unused_variables)]
-fn ___action161<'input>(
-    text: &'input str,
-    ___lookbehind: &usize,
-    ___lookahead: &usize,
-) -> ::std::option::Option<TypeRef> {
-    None
+fn ___action161<
+    'input,
+>(
+text: &'input str,
+___lookbehind: &usize,
+___lookahead: &usize,
+) -> ::std::option::Option<TypeRef>
+{
+None
 }
 
 #[allow(unused_variables)]
-fn ___action162<'input>(
-    text: &'input str,
-    (_, _, _): (usize, Tok<'input>, usize),
-    (_, ___0, _): (usize, TypeRef, usize),
-) -> TypeRef {
-    (___0)
+fn ___action162<
+    'input,
+>(
+text: &'input str,
+(_, _, _): (usize, Tok<'input>, usize),
+(_, ___0, _): (usize, TypeRef, usize),
+) -> TypeRef
+{
+(___0)
 }
 
 #[allow(unused_variables)]
-fn ___action163<'input>(
-    text: &'input str,
-    (_, v0, _): (usize, ::std::vec::Vec<TypeRef>, usize),
-    (_, e1, _): (usize, ::std::option::Option<TypeRef>, usize),
-) -> Vec<TypeRef> {
-    v0.into_iter().chain(e1).collect()
+fn ___action163<
+    'input,
+>(
+text: &'input str,
+(_, v0, _): (usize, ::std::vec::Vec<TypeRef>, usize),
+(_, e1, _): (usize, ::std::option::Option<TypeRef>, usize),
+) -> Vec<TypeRef>
+{
+v0.into_iter().chain(e1).collect()
 }
 
 #[allow(unused_variables)]
-fn ___action164<'input>(
-    text: &'input str,
-    (_, v, _): (usize, ::std::vec::Vec<TypeBound<TypeRef>>, usize),
-    (_, e, _): (usize, ::std::option::Option<TypeBound<TypeRef>>, usize),
-) -> Vec<TypeBound<TypeRef>> {
-    match e {
+fn ___action164<
+    'input,
+>(
+text: &'input str,
+(_, v, _): (usize, ::std::vec::Vec<TypeBound<TypeRef>>, usize),
+(_, e, _): (usize, ::std::option::Option<TypeBound<TypeRef>>, usize),
+) -> Vec<TypeBound<TypeRef>>
+{
+match e {
         None => v,
         Some(e) => {
             let mut v = v;
@@ -18489,38 +19015,50 @@ fn ___action164<'input>(
 }
 
 #[allow(unused_variables)]
-fn ___action165<'input>(
-    text: &'input str,
-    (_, v0, _): (usize, ::std::vec::Vec<Atom>, usize),
-    (_, e1, _): (usize, ::std::option::Option<Atom>, usize),
-) -> Vec<Atom> {
-    v0.into_iter().chain(e1).collect()
+fn ___action165<
+    'input,
+>(
+text: &'input str,
+(_, v0, _): (usize, ::std::vec::Vec<Atom>, usize),
+(_, e1, _): (usize, ::std::option::Option<Atom>, usize),
+) -> Vec<Atom>
+{
+v0.into_iter().chain(e1).collect()
 }
 
 #[allow(unused_variables)]
-fn ___action166<'input>(
-    text: &'input str,
-    (_, ___0, _): (usize, Vec<Atom>, usize),
-) -> ::std::option::Option<Vec<Atom>> {
-    Some(___0)
+fn ___action166<
+    'input,
+>(
+text: &'input str,
+(_, ___0, _): (usize, Vec<Atom>, usize),
+) -> ::std::option::Option<Vec<Atom>>
+{
+Some(___0)
 }
 
 #[allow(unused_variables)]
-fn ___action167<'input>(
-    text: &'input str,
-    ___lookbehind: &usize,
-    ___lookahead: &usize,
-) -> ::std::option::Option<Vec<Atom>> {
-    None
+fn ___action167<
+    'input,
+>(
+text: &'input str,
+___lookbehind: &usize,
+___lookahead: &usize,
+) -> ::std::option::Option<Vec<Atom>>
+{
+None
 }
 
 #[allow(unused_variables)]
-fn ___action168<'input>(
-    text: &'input str,
-    (_, v, _): (usize, ::std::vec::Vec<Atom>, usize),
-    (_, e, _): (usize, ::std::option::Option<Atom>, usize),
-) -> Vec<Atom> {
-    match e {
+fn ___action168<
+    'input,
+>(
+text: &'input str,
+(_, v, _): (usize, ::std::vec::Vec<Atom>, usize),
+(_, e, _): (usize, ::std::option::Option<Atom>, usize),
+) -> Vec<Atom>
+{
+match e {
         None => v,
         Some(e) => {
             let mut v = v;
@@ -18531,8969 +19069,15766 @@ fn ___action168<'input>(
 }
 
 #[allow(unused_variables)]
-fn ___action169<'input>(
-    text: &'input str,
-    (_, v0, _): (usize, ::std::vec::Vec<WhereClause<TypeRef>>, usize),
-    (_, e1, _): (usize, ::std::option::Option<WhereClause<TypeRef>>, usize),
-) -> Vec<WhereClause<TypeRef>> {
-    v0.into_iter().chain(e1).collect()
+fn ___action169<
+    'input,
+>(
+text: &'input str,
+(_, v0, _): (usize, ::std::vec::Vec<WhereClause<TypeRef>>, usize),
+(_, e1, _): (usize, ::std::option::Option<WhereClause<TypeRef>>, usize),
+) -> Vec<WhereClause<TypeRef>>
+{
+v0.into_iter().chain(e1).collect()
+}
+
+#[allow(unused_variables)]
+fn ___action170<
+    'input,
+>(
+text: &'input str,
+(_, v0, _): (usize, ::std::vec::Vec<TypeParameter>, usize),
+(_, e1, _): (usize, ::std::option::Option<TypeParameter>, usize),
+) -> Vec<TypeParameter>
+{
+v0.into_iter().chain(e1).collect()
+}
+
+#[allow(unused_variables)]
+fn ___action171<
+    'input,
+>(
+text: &'input str,
+___lookbehind: &usize,
+___lookahead: &usize,
+) -> ::std::vec::Vec<GrammarItem>
+{
+vec![]
+}
+
+#[allow(unused_variables)]
+fn ___action172<
+    'input,
+>(
+text: &'input str,
+(_, v, _): (usize, ::std::vec::Vec<GrammarItem>, usize),
+) -> ::std::vec::Vec<GrammarItem>
+{
+v
 }
-
-#[allow(unused_variables)]
-fn ___action170<'input>(
-    text: &'input str,
-    (_, v0, _): (usize, ::std::vec::Vec<TypeParameter>, usize),
-    (_, e1, _): (usize, ::std::option::Option<TypeParameter>, usize),
-) -> Vec<TypeParameter> {
-    v0.into_iter().chain(e1).collect()
-}
-
-#[allow(unused_variables)]
-fn ___action171<'input>(
-    text: &'input str,
-    ___lookbehind: &usize,
-    ___lookahead: &usize,
-) -> ::std::vec::Vec<GrammarItem> {
-    vec![]
-}
-
-#[allow(unused_variables)]
-fn ___action172<'input>(
-    text: &'input str,
-    (_, v, _): (usize, ::std::vec::Vec<GrammarItem>, usize),
-) -> ::std::vec::Vec<GrammarItem> {
-    v
-}
-
-#[allow(unused_variables)]
-fn ___action173<'input>(
-    text: &'input str,
-    (_, ___0, _): (usize, Vec<WhereClause<TypeRef>>, usize),
-) -> ::std::option::Option<Vec<WhereClause<TypeRef>>> {
-    Some(___0)
-}
-
-#[allow(unused_variables)]
-fn ___action174<'input>(
-    text: &'input str,
-    ___lookbehind: &usize,
-    ___lookahead: &usize,
-) -> ::std::option::Option<Vec<WhereClause<TypeRef>>> {
-    None
-}
-
-#[allow(unused_variables)]
-fn ___action175<'input>(
-    text: &'input str,
-    (_, ___0, _): (usize, Vec<Parameter>, usize),
-) -> ::std::option::Option<Vec<Parameter>> {
-    Some(___0)
-}
-
-#[allow(unused_variables)]
-fn ___action176<'input>(
-    text: &'input str,
-    ___lookbehind: &usize,
-    ___lookahead: &usize,
-) -> ::std::option::Option<Vec<Parameter>> {
-    None
-}
-
-#[allow(unused_variables)]
-fn ___action177<'input>(
-    text: &'input str,
-    (_, ___0, _): (usize, Vec<TypeParameter>, usize),
-) -> ::std::option::Option<Vec<TypeParameter>> {
-    Some(___0)
-}
-
-#[allow(unused_variables)]
-fn ___action178<'input>(
-    text: &'input str,
-    ___lookbehind: &usize,
-    ___lookahead: &usize,
-) -> ::std::option::Option<Vec<TypeParameter>> {
-    None
-}
-
-#[allow(unused_variables)]
-fn ___action179<'input>(text: &'input str, ___lookbehind: &usize, ___lookahead: &usize) -> usize {
-    ___lookbehind.clone()
-}
-
-#[allow(unused_variables)]
-fn ___action180<'input>(text: &'input str, ___lookbehind: &usize, ___lookahead: &usize) -> usize {
-    ___lookahead.clone()
-}
-
-#[allow(unused_variables)]
-fn ___action181<'input>(
-    text: &'input str,
-    ___lookbehind: &usize,
-    ___lookahead: &usize,
-) -> ::std::vec::Vec<Annotation> {
-    vec![]
-}
-
-#[allow(unused_variables)]
-fn ___action182<'input>(
-    text: &'input str,
-    (_, v, _): (usize, ::std::vec::Vec<Annotation>, usize),
-) -> ::std::vec::Vec<Annotation> {
-    v
-}
-
-#[allow(unused_variables)]
-fn ___action183<'input>(
-    text: &'input str,
-    ___lookbehind: &usize,
-    ___lookahead: &usize,
-) -> ::std::vec::Vec<GrammarItem> {
-    vec![]
-}
-
-#[allow(unused_variables)]
-fn ___action184<'input>(
-    text: &'input str,
-    (_, v, _): (usize, ::std::vec::Vec<GrammarItem>, usize),
-) -> ::std::vec::Vec<GrammarItem> {
-    v
-}
-
-#[allow(unused_variables)]
-fn ___action185<'input>(
-    text: &'input str,
-    ___lookbehind: &usize,
-    ___lookahead: &usize,
-) -> ::std::vec::Vec<String> {
-    vec![]
-}
-
-#[allow(unused_variables)]
-fn ___action186<'input>(
-    text: &'input str,
-    (_, v, _): (usize, ::std::vec::Vec<String>, usize),
-) -> ::std::vec::Vec<String> {
-    v
-}
-
-#[allow(unused_variables)]
-fn ___action187<'input>(
-    text: &'input str,
-    (_, ___0, _): (usize, String, usize),
-) -> ::std::vec::Vec<String> {
-    vec![___0]
-}
-
-#[allow(unused_variables)]
-fn ___action188<'input>(
-    text: &'input str,
-    (_, v, _): (usize, ::std::vec::Vec<String>, usize),
-    (_, e, _): (usize, String, usize),
-) -> ::std::vec::Vec<String> {
-    {
-        let mut v = v;
-        v.push(e);
-        v
-    }
-}
-
-#[allow(unused_variables)]
-fn ___action189<'input>(
-    text: &'input str,
-    (_, ___0, _): (usize, GrammarItem, usize),
-) -> ::std::vec::Vec<GrammarItem> {
-    vec![___0]
-}
-
-#[allow(unused_variables)]
-fn ___action190<'input>(
-    text: &'input str,
-    (_, v, _): (usize, ::std::vec::Vec<GrammarItem>, usize),
-    (_, e, _): (usize, GrammarItem, usize),
-) -> ::std::vec::Vec<GrammarItem> {
-    {
-        let mut v = v;
-        v.push(e);
-        v
-    }
-}
-
-#[allow(unused_variables)]
-fn ___action191<'input>(
-    text: &'input str,
-    (_, ___0, _): (usize, Annotation, usize),
-) -> ::std::vec::Vec<Annotation> {
-    vec![___0]
-}
-
-#[allow(unused_variables)]
-fn ___action192<'input>(
-    text: &'input str,
-    (_, v, _): (usize, ::std::vec::Vec<Annotation>, usize),
-    (_, e, _): (usize, Annotation, usize),
-) -> ::std::vec::Vec<Annotation> {
-    {
-        let mut v = v;
-        v.push(e);
-        v
-    }
-}
-
-#[allow(unused_variables)]
-fn ___action193<'input>(
-    text: &'input str,
-    (_, ___0, _): (usize, GrammarItem, usize),
-) -> ::std::vec::Vec<GrammarItem> {
-    vec![___0]
-}
-
-#[allow(unused_variables)]
-fn ___action194<'input>(
-    text: &'input str,
-    (_, v, _): (usize, ::std::vec::Vec<GrammarItem>, usize),
-    (_, e, _): (usize, GrammarItem, usize),
-) -> ::std::vec::Vec<GrammarItem> {
-    {
-        let mut v = v;
-        v.push(e);
-        v
-    }
-}
-
-#[allow(unused_variables)]
-fn ___action195<'input>(
-    text: &'input str,
-    (_, ___0, _): (usize, TypeParameter, usize),
-) -> ::std::option::Option<TypeParameter> {
-    Some(___0)
-}
-
-#[allow(unused_variables)]
-fn ___action196<'input>(
-    text: &'input str,
-    ___lookbehind: &usize,
-    ___lookahead: &usize,
-) -> ::std::option::Option<TypeParameter> {
-    None
-}
-
-#[allow(unused_variables)]
-fn ___action197<'input>(
-    text: &'input str,
-    ___lookbehind: &usize,
-    ___lookahead: &usize,
-) -> ::std::vec::Vec<TypeParameter> {
-    vec![]
-}
-
-#[allow(unused_variables)]
-fn ___action198<'input>(
-    text: &'input str,
-    (_, v, _): (usize, ::std::vec::Vec<TypeParameter>, usize),
-) -> ::std::vec::Vec<TypeParameter> {
-    v
-}
-
-#[allow(unused_variables)]
-fn ___action199<'input>(
-    text: &'input str,
-    (_, ___0, _): (usize, TypeParameter, usize),
-    (_, _, _): (usize, Tok<'input>, usize),
-) -> TypeParameter {
-    (___0)
-}
-
-#[allow(unused_variables)]
-fn ___action200<'input>(
-    text: &'input str,
-    (_, ___0, _): (usize, WhereClause<TypeRef>, usize),
-) -> ::std::option::Option<WhereClause<TypeRef>> {
-    Some(___0)
-}
-
-#[allow(unused_variables)]
-fn ___action201<'input>(
-    text: &'input str,
-    ___lookbehind: &usize,
-    ___lookahead: &usize,
-) -> ::std::option::Option<WhereClause<TypeRef>> {
-    None
-}
-
-#[allow(unused_variables)]
-fn ___action202<'input>(
-    text: &'input str,
-    ___lookbehind: &usize,
-    ___lookahead: &usize,
-) -> ::std::vec::Vec<WhereClause<TypeRef>> {
-    vec![]
-}
-
-#[allow(unused_variables)]
-fn ___action203<'input>(
-    text: &'input str,
-    (_, v, _): (usize, ::std::vec::Vec<WhereClause<TypeRef>>, usize),
-) -> ::std::vec::Vec<WhereClause<TypeRef>> {
-    v
-}
-
-#[allow(unused_variables)]
-fn ___action204<'input>(
-    text: &'input str,
-    (_, ___0, _): (usize, WhereClause<TypeRef>, usize),
-    (_, _, _): (usize, Tok<'input>, usize),
-) -> WhereClause<TypeRef> {
-    (___0)
-}
-
-#[allow(unused_variables)]
-fn ___action205<'input>(
-    text: &'input str,
-    ___lookbehind: &usize,
-    ___lookahead: &usize,
-) -> ::std::vec::Vec<Atom> {
-    vec![]
-}
-
-#[allow(unused_variables)]
-fn ___action206<'input>(
-    text: &'input str,
-    (_, v, _): (usize, ::std::vec::Vec<Atom>, usize),
-) -> ::std::vec::Vec<Atom> {
-    v
-}
-
-#[allow(unused_variables)]
-fn ___action207<'input>(
-    text: &'input str,
-    (_, ___0, _): (usize, Atom, usize),
-    (_, _, _): (usize, Tok<'input>, usize),
-) -> Atom {
-    (___0)
-}
-
-#[allow(unused_variables)]
-fn ___action208<'input>(
-    text: &'input str,
-    ___lookbehind: &usize,
-    ___lookahead: &usize,
-) -> ::std::vec::Vec<Atom> {
-    vec![]
-}
-
-#[allow(unused_variables)]
-fn ___action209<'input>(
-    text: &'input str,
-    (_, v, _): (usize, ::std::vec::Vec<Atom>, usize),
-) -> ::std::vec::Vec<Atom> {
-    v
-}
-
-#[allow(unused_variables)]
-fn ___action210<'input>(
-    text: &'input str,
-    (_, ___0, _): (usize, Atom, usize),
-    (_, _, _): (usize, Tok<'input>, usize),
-) -> Atom {
-    (___0)
-}
-
-#[allow(unused_variables)]
-fn ___action211<'input>(
-    text: &'input str,
-    (_, ___0, _): (usize, TypeBound<TypeRef>, usize),
-) -> ::std::option::Option<TypeBound<TypeRef>> {
-    Some(___0)
-}
-
-#[allow(unused_variables)]
-fn ___action212<'input>(
-    text: &'input str,
-    ___lookbehind: &usize,
-    ___lookahead: &usize,
-) -> ::std::option::Option<TypeBound<TypeRef>> {
-    None
-}
-
-#[allow(unused_variables)]
-fn ___action213<'input>(
-    text: &'input str,
-    ___lookbehind: &usize,
-    ___lookahead: &usize,
-) -> ::std::vec::Vec<TypeBound<TypeRef>> {
-    vec![]
-}
-
-#[allow(unused_variables)]
-fn ___action214<'input>(
-    text: &'input str,
-    (_, v, _): (usize, ::std::vec::Vec<TypeBound<TypeRef>>, usize),
-) -> ::std::vec::Vec<TypeBound<TypeRef>> {
-    v
-}
-
-#[allow(unused_variables)]
-fn ___action215<'input>(
-    text: &'input str,
-    (_, ___0, _): (usize, TypeBound<TypeRef>, usize),
-    (_, _, _): (usize, Tok<'input>, usize),
-) -> TypeBound<TypeRef> {
-    (___0)
-}
-
-#[allow(unused_variables)]
-fn ___action216<'input>(
-    text: &'input str,
-    (_, ___0, _): (usize, TypeRef, usize),
-) -> ::std::option::Option<TypeRef> {
-    Some(___0)
-}
-
-#[allow(unused_variables)]
-fn ___action217<'input>(
-    text: &'input str,
-    ___lookbehind: &usize,
-    ___lookahead: &usize,
-) -> ::std::option::Option<TypeRef> {
-    None
-}
-
-#[allow(unused_variables)]
-fn ___action218<'input>(
-    text: &'input str,
-    ___lookbehind: &usize,
-    ___lookahead: &usize,
-) -> ::std::vec::Vec<TypeRef> {
-    vec![]
-}
-
-#[allow(unused_variables)]
-fn ___action219<'input>(
-    text: &'input str,
-    (_, v, _): (usize, ::std::vec::Vec<TypeRef>, usize),
-) -> ::std::vec::Vec<TypeRef> {
-    v
-}
-
-#[allow(unused_variables)]
-fn ___action220<'input>(
-    text: &'input str,
-    (_, ___0, _): (usize, TypeRef, usize),
-    (_, _, _): (usize, Tok<'input>, usize),
-) -> TypeRef {
-    (___0)
-}
-
-#[allow(unused_variables)]
-fn ___action221<'input>(
-    text: &'input str,
-    (_, ___0, _): (usize, TypeBoundParameter<TypeRef>, usize),
-) -> ::std::option::Option<TypeBoundParameter<TypeRef>> {
-    Some(___0)
-}
-
-#[allow(unused_variables)]
-fn ___action222<'input>(
-    text: &'input str,
-    ___lookbehind: &usize,
-    ___lookahead: &usize,
-) -> ::std::option::Option<TypeBoundParameter<TypeRef>> {
-    None
-}
-
-#[allow(unused_variables)]
-fn ___action223<'input>(
-    text: &'input str,
-    ___lookbehind: &usize,
-    ___lookahead: &usize,
-) -> ::std::vec::Vec<TypeBoundParameter<TypeRef>> {
-    vec![]
-}
-
-#[allow(unused_variables)]
-fn ___action224<'input>(
-    text: &'input str,
-    (_, v, _): (usize, ::std::vec::Vec<TypeBoundParameter<TypeRef>>, usize),
-) -> ::std::vec::Vec<TypeBoundParameter<TypeRef>> {
-    v
-}
-
-#[allow(unused_variables)]
-fn ___action225<'input>(
-    text: &'input str,
-    (_, ___0, _): (usize, TypeBoundParameter<TypeRef>, usize),
-    (_, _, _): (usize, Tok<'input>, usize),
-) -> TypeBoundParameter<TypeRef> {
-    (___0)
-}
-
-#[allow(unused_variables)]
-fn ___action226<'input>(
-    text: &'input str,
-    (_, ___0, _): (usize, Parameter, usize),
-) -> ::std::option::Option<Parameter> {
-    Some(___0)
-}
-
-#[allow(unused_variables)]
-fn ___action227<'input>(
-    text: &'input str,
-    ___lookbehind: &usize,
-    ___lookahead: &usize,
-) -> ::std::option::Option<Parameter> {
-    None
-}
-
-#[allow(unused_variables)]
-fn ___action228<'input>(
-    text: &'input str,
-    ___lookbehind: &usize,
-    ___lookahead: &usize,
-) -> ::std::vec::Vec<Parameter> {
-    vec![]
-}
-
-#[allow(unused_variables)]
-fn ___action229<'input>(
-    text: &'input str,
-    (_, v, _): (usize, ::std::vec::Vec<Parameter>, usize),
-) -> ::std::vec::Vec<Parameter> {
-    v
-}
-
-#[allow(unused_variables)]
-fn ___action230<'input>(
-    text: &'input str,
-    (_, ___0, _): (usize, Parameter, usize),
-    (_, _, _): (usize, Tok<'input>, usize),
-) -> Parameter {
-    (___0)
-}
-
-#[allow(unused_variables)]
-fn ___action231<'input>(
-    text: &'input str,
-    (_, ___0, _): (usize, NonterminalString, usize),
-) -> ::std::option::Option<NonterminalString> {
-    Some(___0)
-}
-
-#[allow(unused_variables)]
-fn ___action232<'input>(
-    text: &'input str,
-    ___lookbehind: &usize,
-    ___lookahead: &usize,
-) -> ::std::option::Option<NonterminalString> {
-    None
-}
-
-#[allow(unused_variables)]
-fn ___action233<'input>(
-    text: &'input str,
-    ___lookbehind: &usize,
-    ___lookahead: &usize,
-) -> ::std::vec::Vec<NonterminalString> {
-    vec![]
-}
-
-#[allow(unused_variables)]
-fn ___action234<'input>(
-    text: &'input str,
-    (_, v, _): (usize, ::std::vec::Vec<NonterminalString>, usize),
-) -> ::std::vec::Vec<NonterminalString> {
-    v
-}
-
-#[allow(unused_variables)]
-fn ___action235<'input>(
-    text: &'input str,
-    (_, ___0, _): (usize, NonterminalString, usize),
-    (_, _, _): (usize, Tok<'input>, usize),
-) -> NonterminalString {
-    (___0)
-}
-
-#[allow(unused_variables)]
-fn ___action236<'input>(
-    text: &'input str,
-    (_, ___0, _): (usize, Alternative, usize),
-) -> ::std::option::Option<Alternative> {
-    Some(___0)
-}
-
-#[allow(unused_variables)]
-fn ___action237<'input>(
-    text: &'input str,
-    ___lookbehind: &usize,
-    ___lookahead: &usize,
-) -> ::std::option::Option<Alternative> {
-    None
-}
-
-#[allow(unused_variables)]
-fn ___action238<'input>(
-    text: &'input str,
-    ___lookbehind: &usize,
-    ___lookahead: &usize,
-) -> ::std::vec::Vec<Alternative> {
-    vec![]
-}
-
-#[allow(unused_variables)]
-fn ___action239<'input>(
-    text: &'input str,
-    (_, v, _): (usize, ::std::vec::Vec<Alternative>, usize),
-) -> ::std::vec::Vec<Alternative> {
-    v
-}
-
-#[allow(unused_variables)]
-fn ___action240<'input>(
-    text: &'input str,
-    (_, ___0, _): (usize, Alternative, usize),
-    (_, _, _): (usize, Tok<'input>, usize),
-) -> Alternative {
-    (___0)
-}
-
-#[allow(unused_variables)]
-fn ___action241<'input>(
-    text: &'input str,
-    (_, ___0, _): (usize, Symbol, usize),
-) -> ::std::option::Option<Symbol> {
-    Some(___0)
-}
-
-#[allow(unused_variables)]
-fn ___action242<'input>(
-    text: &'input str,
-    ___lookbehind: &usize,
-    ___lookahead: &usize,
-) -> ::std::option::Option<Symbol> {
-    None
-}
-
-#[allow(unused_variables)]
-fn ___action243<'input>(
-    text: &'input str,
-    ___lookbehind: &usize,
-    ___lookahead: &usize,
-) -> ::std::vec::Vec<Symbol> {
-    vec![]
+
+#[allow(unused_variables)]
+fn ___action173<
+    'input,
+>(
+text: &'input str,
+(_, ___0, _): (usize, Vec<WhereClause<TypeRef>>, usize),
+) -> ::std::option::Option<Vec<WhereClause<TypeRef>>>
+{
+Some(___0)
 }
 
-#[allow(unused_variables)]
-fn ___action244<'input>(
-    text: &'input str,
-    (_, v, _): (usize, ::std::vec::Vec<Symbol>, usize),
-) -> ::std::vec::Vec<Symbol> {
-    v
-}
-
-#[allow(unused_variables)]
-fn ___action245<'input>(
-    text: &'input str,
-    (_, ___0, _): (usize, Symbol, usize),
-    (_, _, _): (usize, Tok<'input>, usize),
-) -> Symbol {
-    (___0)
-}
-
-#[allow(unused_variables)]
-fn ___action246<'input>(
-    text: &'input str,
-    (_, ___0, _): (usize, TypeRef, usize),
-) -> ::std::option::Option<TypeRef> {
-    Some(___0)
-}
-
-#[allow(unused_variables)]
-fn ___action247<'input>(
-    text: &'input str,
-    ___lookbehind: &usize,
-    ___lookahead: &usize,
-) -> ::std::option::Option<TypeRef> {
-    None
-}
-
-#[allow(unused_variables)]
-fn ___action248<'input>(
-    text: &'input str,
-    ___lookbehind: &usize,
-    ___lookahead: &usize,
-) -> ::std::vec::Vec<TypeRef> {
-    vec![]
-}
-
-#[allow(unused_variables)]
-fn ___action249<'input>(
-    text: &'input str,
-    (_, v, _): (usize, ::std::vec::Vec<TypeRef>, usize),
-) -> ::std::vec::Vec<TypeRef> {
-    v
-}
-
-#[allow(unused_variables)]
-fn ___action250<'input>(
-    text: &'input str,
-    (_, ___0, _): (usize, TypeRef, usize),
-    (_, _, _): (usize, Tok<'input>, usize),
-) -> TypeRef {
-    (___0)
-}
-
-#[allow(unused_variables)]
-fn ___action251<'input>(
-    text: &'input str,
-    (_, ___0, _): (usize, Atom, usize),
-) -> ::std::vec::Vec<Atom> {
-    vec![___0]
-}
-
-#[allow(unused_variables)]
-fn ___action252<'input>(
-    text: &'input str,
-    (_, v, _): (usize, ::std::vec::Vec<Atom>, usize),
-    (_, e, _): (usize, Atom, usize),
-) -> ::std::vec::Vec<Atom> {
-    {
-        let mut v = v;
-        v.push(e);
-        v
-    }
-}
-
-#[allow(unused_variables)]
-fn ___action253<'input>(
-    text: &'input str,
-    (_, ___0, _): (usize, AssociatedType, usize),
-) -> ::std::vec::Vec<AssociatedType> {
-    vec![___0]
-}
-
-#[allow(unused_variables)]
-fn ___action254<'input>(
-    text: &'input str,
-    (_, v, _): (usize, ::std::vec::Vec<AssociatedType>, usize),
-    (_, e, _): (usize, AssociatedType, usize),
-) -> ::std::vec::Vec<AssociatedType> {
-    {
-        let mut v = v;
-        v.push(e);
-        v
-    }
-}
-
-#[allow(unused_variables)]
-fn ___action255<'input>(
-    text: &'input str,
-    (_, ___0, _): (usize, MatchItem, usize),
-) -> ::std::option::Option<MatchItem> {
-    Some(___0)
-}
-
-#[allow(unused_variables)]
-fn ___action256<'input>(
-    text: &'input str,
-    ___lookbehind: &usize,
-    ___lookahead: &usize,
-) -> ::std::option::Option<MatchItem> {
-    None
-}
-
-#[allow(unused_variables)]
-fn ___action257<'input>(
-    text: &'input str,
-    ___lookbehind: &usize,
-    ___lookahead: &usize,
-) -> ::std::vec::Vec<MatchItem> {
-    vec![]
-}
-
-#[allow(unused_variables)]
-fn ___action258<'input>(
-    text: &'input str,
-    (_, v, _): (usize, ::std::vec::Vec<MatchItem>, usize),
-) -> ::std::vec::Vec<MatchItem> {
-    v
-}
-
-#[allow(unused_variables)]
-fn ___action259<'input>(
-    text: &'input str,
-    (_, ___0, _): (usize, MatchItem, usize),
-    (_, _, _): (usize, Tok<'input>, usize),
-) -> MatchItem {
-    (___0)
-}
-
-#[allow(unused_variables)]
-fn ___action260<'input>(
-    text: &'input str,
-    (_, ___0, _): (usize, Conversion, usize),
-) -> ::std::option::Option<Conversion> {
-    Some(___0)
-}
-
-#[allow(unused_variables)]
-fn ___action261<'input>(
-    text: &'input str,
-    ___lookbehind: &usize,
-    ___lookahead: &usize,
-) -> ::std::option::Option<Conversion> {
-    None
-}
-
-#[allow(unused_variables)]
-fn ___action262<'input>(
-    text: &'input str,
-    ___lookbehind: &usize,
-    ___lookahead: &usize,
-) -> ::std::vec::Vec<Conversion> {
-    vec![]
-}
-
-#[allow(unused_variables)]
-fn ___action263<'input>(
-    text: &'input str,
-    (_, v, _): (usize, ::std::vec::Vec<Conversion>, usize),
-) -> ::std::vec::Vec<Conversion> {
-    v
-}
-
-#[allow(unused_variables)]
-fn ___action264<'input>(
-    text: &'input str,
-    (_, ___0, _): (usize, Conversion, usize),
-    (_, _, _): (usize, Tok<'input>, usize),
-) -> Conversion {
-    (___0)
-}
-
-#[allow(unused_variables)]
-fn ___action265<'input>(
-    text: &'input str,
-    (_, ___0, _): (usize, Pattern<TypeRef>, usize),
-) -> ::std::option::Option<Pattern<TypeRef>> {
-    Some(___0)
-}
-
-#[allow(unused_variables)]
-fn ___action266<'input>(
-    text: &'input str,
-    ___lookbehind: &usize,
-    ___lookahead: &usize,
-) -> ::std::option::Option<Pattern<TypeRef>> {
-    None
-}
-
-#[allow(unused_variables)]
-fn ___action267<'input>(
-    text: &'input str,
-    ___lookbehind: &usize,
-    ___lookahead: &usize,
-) -> ::std::vec::Vec<Pattern<TypeRef>> {
-    vec![]
-}
-
-#[allow(unused_variables)]
-fn ___action268<'input>(
-    text: &'input str,
-    (_, v, _): (usize, ::std::vec::Vec<Pattern<TypeRef>>, usize),
-) -> ::std::vec::Vec<Pattern<TypeRef>> {
-    v
-}
-
-#[allow(unused_variables)]
-fn ___action269<'input>(
-    text: &'input str,
-    (_, ___0, _): (usize, Pattern<TypeRef>, usize),
-    (_, _, _): (usize, Tok<'input>, usize),
-) -> Pattern<TypeRef> {
-    (___0)
-}
-
-#[allow(unused_variables)]
-fn ___action270<'input>(
-    text: &'input str,
-    (_, ___0, _): (usize, FieldPattern<TypeRef>, usize),
-) -> ::std::vec::Vec<FieldPattern<TypeRef>> {
-    vec![___0]
-}
-
-#[allow(unused_variables)]
-fn ___action271<'input>(
-    text: &'input str,
-    (_, v, _): (usize, ::std::vec::Vec<FieldPattern<TypeRef>>, usize),
-    (_, e, _): (usize, FieldPattern<TypeRef>, usize),
-) -> ::std::vec::Vec<FieldPattern<TypeRef>> {
-    {
-        let mut v = v;
-        v.push(e);
-        v
-    }
-}
-
-#[allow(unused_variables)]
-fn ___action272<'input>(
-    text: &'input str,
-    (_, ___0, _): (usize, Pattern<TypeRef>, usize),
-) -> ::std::vec::Vec<Pattern<TypeRef>> {
-    vec![___0]
-}
-
-#[allow(unused_variables)]
-fn ___action273<'input>(
-    text: &'input str,
-    (_, v, _): (usize, ::std::vec::Vec<Pattern<TypeRef>>, usize),
-    (_, e, _): (usize, Pattern<TypeRef>, usize),
-) -> ::std::vec::Vec<Pattern<TypeRef>> {
-    {
-        let mut v = v;
-        v.push(e);
-        v
-    }
-}
-
-#[allow(unused_variables)]
-fn ___action274<'input>(
-    text: &'input str,
-    (_, ___0, _): (usize, Conversion, usize),
-) -> ::std::vec::Vec<Conversion> {
-    vec![___0]
-}
-
-#[allow(unused_variables)]
-fn ___action275<'input>(
-    text: &'input str,
-    (_, v, _): (usize, ::std::vec::Vec<Conversion>, usize),
-    (_, e, _): (usize, Conversion, usize),
-) -> ::std::vec::Vec<Conversion> {
-    {
-        let mut v = v;
-        v.push(e);
-        v
-    }
-}
-
-#[allow(unused_variables)]
-fn ___action276<'input>(
-    text: &'input str,
-    (_, ___0, _): (usize, MatchItem, usize),
-) -> ::std::vec::Vec<MatchItem> {
-    vec![___0]
-}
-
-#[allow(unused_variables)]
-fn ___action277<'input>(
-    text: &'input str,
-    (_, v, _): (usize, ::std::vec::Vec<MatchItem>, usize),
-    (_, e, _): (usize, MatchItem, usize),
-) -> ::std::vec::Vec<MatchItem> {
-    {
-        let mut v = v;
-        v.push(e);
-        v
-    }
-}
-
-#[allow(unused_variables)]
-fn ___action278<'input>(
-    text: &'input str,
-    (_, ___0, _): (usize, TypeRef, usize),
-) -> ::std::vec::Vec<TypeRef> {
-    vec![___0]
-}
-
-#[allow(unused_variables)]
-fn ___action279<'input>(
-    text: &'input str,
-    (_, v, _): (usize, ::std::vec::Vec<TypeRef>, usize),
-    (_, e, _): (usize, TypeRef, usize),
-) -> ::std::vec::Vec<TypeRef> {
-    {
-        let mut v = v;
-        v.push(e);
-        v
-    }
-}
-
-#[allow(unused_variables)]
-fn ___action280<'input>(
-    text: &'input str,
-    (_, ___0, _): (usize, Symbol, usize),
-) -> ::std::vec::Vec<Symbol> {
-    vec![___0]
-}
-
-#[allow(unused_variables)]
-fn ___action281<'input>(
-    text: &'input str,
-    (_, v, _): (usize, ::std::vec::Vec<Symbol>, usize),
-    (_, e, _): (usize, Symbol, usize),
-) -> ::std::vec::Vec<Symbol> {
-    {
-        let mut v = v;
-        v.push(e);
-        v
-    }
-}
-
-#[allow(unused_variables)]
-fn ___action282<'input>(
-    text: &'input str,
-    (_, ___0, _): (usize, Alternative, usize),
-) -> ::std::vec::Vec<Alternative> {
-    vec![___0]
-}
-
-#[allow(unused_variables)]
-fn ___action283<'input>(
-    text: &'input str,
-    (_, v, _): (usize, ::std::vec::Vec<Alternative>, usize),
-    (_, e, _): (usize, Alternative, usize),
-) -> ::std::vec::Vec<Alternative> {
-    {
-        let mut v = v;
-        v.push(e);
-        v
-    }
-}
-
-#[allow(unused_variables)]
-fn ___action284<'input>(
-    text: &'input str,
-    (_, ___0, _): (usize, NonterminalString, usize),
-) -> ::std::vec::Vec<NonterminalString> {
-    vec![___0]
-}
-
-#[allow(unused_variables)]
-fn ___action285<'input>(
-    text: &'input str,
-    (_, v, _): (usize, ::std::vec::Vec<NonterminalString>, usize),
-    (_, e, _): (usize, NonterminalString, usize),
-) -> ::std::vec::Vec<NonterminalString> {
-    {
-        let mut v = v;
-        v.push(e);
-        v
-    }
-}
-
-#[allow(unused_variables)]
-fn ___action286<'input>(
-    text: &'input str,
-    (_, ___0, _): (usize, Parameter, usize),
-) -> ::std::vec::Vec<Parameter> {
-    vec![___0]
-}
-
-#[allow(unused_variables)]
-fn ___action287<'input>(
-    text: &'input str,
-    (_, v, _): (usize, ::std::vec::Vec<Parameter>, usize),
-    (_, e, _): (usize, Parameter, usize),
-) -> ::std::vec::Vec<Parameter> {
-    {
-        let mut v = v;
-        v.push(e);
-        v
-    }
-}
-
-#[allow(unused_variables)]
-fn ___action288<'input>(
-    text: &'input str,
-    (_, ___0, _): (usize, TypeBoundParameter<TypeRef>, usize),
-) -> ::std::vec::Vec<TypeBoundParameter<TypeRef>> {
-    vec![___0]
-}
-
-#[allow(unused_variables)]
-fn ___action289<'input>(
-    text: &'input str,
-    (_, v, _): (usize, ::std::vec::Vec<TypeBoundParameter<TypeRef>>, usize),
-    (_, e, _): (usize, TypeBoundParameter<TypeRef>, usize),
-) -> ::std::vec::Vec<TypeBoundParameter<TypeRef>> {
-    {
-        let mut v = v;
-        v.push(e);
-        v
-    }
-}
-
-#[allow(unused_variables)]
-fn ___action290<'input>(
-    text: &'input str,
-    (_, ___0, _): (usize, TypeRef, usize),
-) -> ::std::vec::Vec<TypeRef> {
-    vec![___0]
-}
-
-#[allow(unused_variables)]
-fn ___action291<'input>(
-    text: &'input str,
-    (_, v, _): (usize, ::std::vec::Vec<TypeRef>, usize),
-    (_, e, _): (usize, TypeRef, usize),
-) -> ::std::vec::Vec<TypeRef> {
-    {
-        let mut v = v;
-        v.push(e);
-        v
-    }
-}
-
-#[allow(unused_variables)]
-fn ___action292<'input>(
-    text: &'input str,
-    (_, ___0, _): (usize, TypeBound<TypeRef>, usize),
-) -> ::std::vec::Vec<TypeBound<TypeRef>> {
-    vec![___0]
-}
-
-#[allow(unused_variables)]
-fn ___action293<'input>(
-    text: &'input str,
-    (_, v, _): (usize, ::std::vec::Vec<TypeBound<TypeRef>>, usize),
-    (_, e, _): (usize, TypeBound<TypeRef>, usize),
-) -> ::std::vec::Vec<TypeBound<TypeRef>> {
-    {
-        let mut v = v;
-        v.push(e);
-        v
-    }
-}
-
-#[allow(unused_variables)]
-fn ___action294<'input>(
-    text: &'input str,
-    (_, ___0, _): (usize, Atom, usize),
-) -> ::std::vec::Vec<Atom> {
-    vec![___0]
-}
-
-#[allow(unused_variables)]
-fn ___action295<'input>(
-    text: &'input str,
-    (_, v, _): (usize, ::std::vec::Vec<Atom>, usize),
-    (_, e, _): (usize, Atom, usize),
-) -> ::std::vec::Vec<Atom> {
-    {
-        let mut v = v;
-        v.push(e);
-        v
-    }
-}
-
-#[allow(unused_variables)]
-fn ___action296<'input>(
-    text: &'input str,
-    (_, ___0, _): (usize, Atom, usize),
-) -> ::std::vec::Vec<Atom> {
-    vec![___0]
-}
-
-#[allow(unused_variables)]
-fn ___action297<'input>(
-    text: &'input str,
-    (_, v, _): (usize, ::std::vec::Vec<Atom>, usize),
-    (_, e, _): (usize, Atom, usize),
-) -> ::std::vec::Vec<Atom> {
-    {
-        let mut v = v;
-        v.push(e);
-        v
-    }
-}
-
-#[allow(unused_variables)]
-fn ___action298<'input>(
-    text: &'input str,
-    (_, ___0, _): (usize, WhereClause<TypeRef>, usize),
-) -> ::std::vec::Vec<WhereClause<TypeRef>> {
-    vec![___0]
-}
-
-#[allow(unused_variables)]
-fn ___action299<'input>(
-    text: &'input str,
-    (_, v, _): (usize, ::std::vec::Vec<WhereClause<TypeRef>>, usize),
-    (_, e, _): (usize, WhereClause<TypeRef>, usize),
-) -> ::std::vec::Vec<WhereClause<TypeRef>> {
-    {
-        let mut v = v;
-        v.push(e);
-        v
-    }
+#[allow(unused_variables)]
+fn ___action174<
+    'input,
+>(
+text: &'input str,
+___lookbehind: &usize,
+___lookahead: &usize,
+) -> ::std::option::Option<Vec<WhereClause<TypeRef>>>
+{
+None
 }
 
-#[allow(unused_variables)]
-fn ___action300<'input>(
-    text: &'input str,
-    (_, ___0, _): (usize, TypeParameter, usize),
-) -> ::std::vec::Vec<TypeParameter> {
-    vec![___0]
-}
-
-#[allow(unused_variables)]
-fn ___action301<'input>(
-    text: &'input str,
-    (_, v, _): (usize, ::std::vec::Vec<TypeParameter>, usize),
-    (_, e, _): (usize, TypeParameter, usize),
-) -> ::std::vec::Vec<TypeParameter> {
-    {
-        let mut v = v;
-        v.push(e);
-        v
-    }
-}
-
-#[allow(unused_variables)]
-fn ___action302<'input>(
-    text: &'input str,
-    ___0: (usize, Tok<'input>, usize),
-    ___1: (usize, ::std::vec::Vec<Atom>, usize),
-    ___2: (usize, Atom, usize),
-) -> Path {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.2.clone();
-    let ___temp0 = ___action128(text, ___0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action75(text, ___temp0, ___1, ___2)
-}
-
-#[allow(unused_variables)]
-fn ___action303<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<Atom>, usize),
-    ___1: (usize, Atom, usize),
-) -> Path {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.0.clone();
-    let ___temp0 = ___action129(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action75(text, ___temp0, ___0, ___1)
-}
-
-#[allow(unused_variables)]
-fn ___action304<'input>(
-    text: &'input str,
-    ___0: (usize, Tok<'input>, usize),
-    ___1: (usize, Vec<Alternative>, usize),
-    ___2: (usize, Tok<'input>, usize),
-    ___3: (usize, Tok<'input>, usize),
-) -> Vec<Alternative> {
-    let ___start0 = ___3.0.clone();
-    let ___end0 = ___3.2.clone();
-    let ___temp0 = ___action145(text, ___3);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action38(text, ___0, ___1, ___2, ___temp0)
-}
-
-#[allow(unused_variables)]
-fn ___action305<'input>(
-    text: &'input str,
-    ___0: (usize, Tok<'input>, usize),
-    ___1: (usize, Vec<Alternative>, usize),
-    ___2: (usize, Tok<'input>, usize),
-) -> Vec<Alternative> {
-    let ___start0 = ___2.2.clone();
-    let ___end0 = ___2.2.clone();
-    let ___temp0 = ___action146(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action38(text, ___0, ___1, ___2, ___temp0)
-}
-
-#[allow(unused_variables)]
-fn ___action306<'input>(
-    text: &'input str,
-    ___0: (usize, Tok<'input>, usize),
-    ___1: (usize, ::std::option::Option<Atom>, usize),
-    ___2: (usize, Tok<'input>, usize),
-    ___3: (usize, TypeRef, usize),
-) -> TypeRef {
-    let ___start0 = ___2.0.clone();
-    let ___end0 = ___2.2.clone();
-    let ___temp0 = ___action131(text, ___2);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action70(text, ___0, ___1, ___temp0, ___3)
-}
-
-#[allow(unused_variables)]
-fn ___action307<'input>(
-    text: &'input str,
-    ___0: (usize, Tok<'input>, usize),
-    ___1: (usize, ::std::option::Option<Atom>, usize),
-    ___2: (usize, TypeRef, usize),
-) -> TypeRef {
-    let ___start0 = ___1.2.clone();
-    let ___end0 = ___2.0.clone();
-    let ___temp0 = ___action132(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action70(text, ___0, ___1, ___temp0, ___2)
-}
-
-#[allow(unused_variables)]
-fn ___action308<'input>(
-    text: &'input str,
-    ___0: (usize, Tok<'input>, usize),
-    ___1: (usize, TypeRef, usize),
-) -> ::std::option::Option<TypeRef> {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___1.2.clone();
-    let ___temp0 = ___action162(text, ___0, ___1);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action160(text, ___temp0)
-}
-
-#[allow(unused_variables)]
-fn ___action309<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::option::Option<Vec<Atom>>, usize),
-    ___1: (usize, Path, usize),
-    ___2: (usize, Tok<'input>, usize),
-    ___3: (usize, Vec<TypeRef>, usize),
-    ___4: (usize, Tok<'input>, usize),
-    ___5: (usize, Tok<'input>, usize),
-    ___6: (usize, TypeRef, usize),
-) -> TypeBound<TypeRef> {
-    let ___start0 = ___5.0.clone();
-    let ___end0 = ___6.2.clone();
-    let ___temp0 = ___action308(text, ___5, ___6);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action16(text, ___0, ___1, ___2, ___3, ___4, ___temp0)
+#[allow(unused_variables)]
+fn ___action175<
+    'input,
+>(
+text: &'input str,
+(_, ___0, _): (usize, Vec<Parameter>, usize),
+) -> ::std::option::Option<Vec<Parameter>>
+{
+Some(___0)
 }
 
 #[allow(unused_variables)]
-fn ___action310<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::option::Option<Vec<Atom>>, usize),
-    ___1: (usize, Path, usize),
-    ___2: (usize, Tok<'input>, usize),
-    ___3: (usize, Vec<TypeRef>, usize),
-    ___4: (usize, Tok<'input>, usize),
-) -> TypeBound<TypeRef> {
-    let ___start0 = ___4.2.clone();
-    let ___end0 = ___4.2.clone();
-    let ___temp0 = ___action161(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action16(text, ___0, ___1, ___2, ___3, ___4, ___temp0)
+fn ___action176<
+    'input,
+>(
+text: &'input str,
+___lookbehind: &usize,
+___lookahead: &usize,
+) -> ::std::option::Option<Vec<Parameter>>
+{
+None
 }
 
 #[allow(unused_variables)]
-fn ___action311<'input>(
-    text: &'input str,
-    ___0: (usize, Tok<'input>, usize),
-    ___1: (usize, TypeRef, usize),
-) -> ::std::option::Option<TypeRef> {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___1.2.clone();
-    let ___temp0 = ___action153(text, ___0, ___1);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action151(text, ___temp0)
+fn ___action177<
+    'input,
+>(
+text: &'input str,
+(_, ___0, _): (usize, Vec<TypeParameter>, usize),
+) -> ::std::option::Option<Vec<TypeParameter>>
+{
+Some(___0)
 }
 
 #[allow(unused_variables)]
-fn ___action312<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<Annotation>, usize),
-    ___1: (usize, Visibility, usize),
-    ___2: (usize, usize, usize),
-    ___3: (usize, (NonterminalString, Vec<NonterminalString>), usize),
-    ___4: (usize, usize, usize),
-    ___5: (usize, Tok<'input>, usize),
-    ___6: (usize, TypeRef, usize),
-    ___7: (usize, Tok<'input>, usize),
-    ___8: (usize, Vec<Alternative>, usize),
-) -> GrammarItem {
-    let ___start0 = ___5.0.clone();
-    let ___end0 = ___6.2.clone();
-    let ___temp0 = ___action311(text, ___5, ___6);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action31(text, ___0, ___1, ___2, ___3, ___4, ___temp0, ___7, ___8)
+fn ___action178<
+    'input,
+>(
+text: &'input str,
+___lookbehind: &usize,
+___lookahead: &usize,
+) -> ::std::option::Option<Vec<TypeParameter>>
+{
+None
 }
 
 #[allow(unused_variables)]
-fn ___action313<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<Annotation>, usize),
-    ___1: (usize, Visibility, usize),
-    ___2: (usize, usize, usize),
-    ___3: (usize, (NonterminalString, Vec<NonterminalString>), usize),
-    ___4: (usize, usize, usize),
-    ___5: (usize, Tok<'input>, usize),
-    ___6: (usize, Vec<Alternative>, usize),
-) -> GrammarItem {
-    let ___start0 = ___4.2.clone();
-    let ___end0 = ___5.0.clone();
-    let ___temp0 = ___action152(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action31(text, ___0, ___1, ___2, ___3, ___4, ___temp0, ___5, ___6)
+fn ___action179<
+    'input,
+>(
+text: &'input str,
+___lookbehind: &usize,
+___lookahead: &usize,
+) -> usize
+{
+___lookbehind.clone()
 }
 
 #[allow(unused_variables)]
-fn ___action314<'input>(
-    text: &'input str,
-    ___0: (usize, Tok<'input>, usize),
-    ___1: (usize, Vec<TypeBoundParameter<TypeRef>>, usize),
-    ___2: (usize, Tok<'input>, usize),
-) -> ::std::option::Option<Vec<TypeBoundParameter<TypeRef>>> {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___2.2.clone();
-    let ___temp0 = ___action158(text, ___0, ___1, ___2);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action156(text, ___temp0)
+fn ___action180<
+    'input,
+>(
+text: &'input str,
+___lookbehind: &usize,
+___lookahead: &usize,
+) -> usize
+{
+___lookahead.clone()
 }
 
 #[allow(unused_variables)]
-fn ___action315<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::option::Option<Vec<Atom>>, usize),
-    ___1: (usize, Path, usize),
-    ___2: (usize, Tok<'input>, usize),
-    ___3: (usize, Vec<TypeBoundParameter<TypeRef>>, usize),
-    ___4: (usize, Tok<'input>, usize),
-) -> TypeBound<TypeRef> {
-    let ___start0 = ___2.0.clone();
-    let ___end0 = ___4.2.clone();
-    let ___temp0 = ___action314(text, ___2, ___3, ___4);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action17(text, ___0, ___1, ___temp0)
+fn ___action181<
+    'input,
+>(
+text: &'input str,
+___lookbehind: &usize,
+___lookahead: &usize,
+) -> ::std::vec::Vec<Annotation>
+{
+vec![]
 }
 
 #[allow(unused_variables)]
-fn ___action316<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::option::Option<Vec<Atom>>, usize),
-    ___1: (usize, Path, usize),
-) -> TypeBound<TypeRef> {
-    let ___start0 = ___1.2.clone();
-    let ___end0 = ___1.2.clone();
-    let ___temp0 = ___action157(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action17(text, ___0, ___1, ___temp0)
+fn ___action182<
+    'input,
+>(
+text: &'input str,
+(_, v, _): (usize, ::std::vec::Vec<Annotation>, usize),
+) -> ::std::vec::Vec<Annotation>
+{
+v
 }
 
 #[allow(unused_variables)]
-fn ___action317<'input>(
-    text: &'input str,
-    ___0: (usize, Tok<'input>, usize),
-    ___1: (usize, Condition, usize),
-) -> ::std::option::Option<Condition> {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___1.2.clone();
-    let ___temp0 = ___action142(text, ___0, ___1);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action140(text, ___temp0)
+fn ___action183<
+    'input,
+>(
+text: &'input str,
+___lookbehind: &usize,
+___lookahead: &usize,
+) -> ::std::vec::Vec<GrammarItem>
+{
+vec![]
 }
 
 #[allow(unused_variables)]
-fn ___action318<'input>(
-    text: &'input str,
-    ___0: (usize, usize, usize),
-    ___1: (usize, ::std::vec::Vec<Symbol>, usize),
-    ___2: (usize, Tok<'input>, usize),
-    ___3: (usize, Condition, usize),
-    ___4: (usize, ::std::option::Option<ActionKind>, usize),
-    ___5: (usize, usize, usize),
-) -> Alternative {
-    let ___start0 = ___2.0.clone();
-    let ___end0 = ___3.2.clone();
-    let ___temp0 = ___action317(text, ___2, ___3);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action39(text, ___0, ___1, ___temp0, ___4, ___5)
+fn ___action184<
+    'input,
+>(
+text: &'input str,
+(_, v, _): (usize, ::std::vec::Vec<GrammarItem>, usize),
+) -> ::std::vec::Vec<GrammarItem>
+{
+v
 }
 
 #[allow(unused_variables)]
-fn ___action319<'input>(
-    text: &'input str,
-    ___0: (usize, usize, usize),
-    ___1: (usize, ::std::vec::Vec<Symbol>, usize),
-    ___2: (usize, ::std::option::Option<ActionKind>, usize),
-    ___3: (usize, usize, usize),
-) -> Alternative {
-    let ___start0 = ___1.2.clone();
-    let ___end0 = ___2.0.clone();
-    let ___temp0 = ___action141(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action39(text, ___0, ___1, ___temp0, ___2, ___3)
+fn ___action185<
+    'input,
+>(
+text: &'input str,
+___lookbehind: &usize,
+___lookahead: &usize,
+) -> ::std::vec::Vec<String>
+{
+vec![]
 }
 
 #[allow(unused_variables)]
-fn ___action320<'input>(
-    text: &'input str,
-    ___0: (usize, usize, usize),
-    ___1: (usize, Tok<'input>, usize),
-    ___2: (usize, Condition, usize),
-    ___3: (usize, ActionKind, usize),
-    ___4: (usize, usize, usize),
-) -> Alternative {
-    let ___start0 = ___1.0.clone();
-    let ___end0 = ___2.2.clone();
-    let ___temp0 = ___action317(text, ___1, ___2);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action40(text, ___0, ___temp0, ___3, ___4)
+fn ___action186<
+    'input,
+>(
+text: &'input str,
+(_, v, _): (usize, ::std::vec::Vec<String>, usize),
+) -> ::std::vec::Vec<String>
+{
+v
 }
 
 #[allow(unused_variables)]
-fn ___action321<'input>(
-    text: &'input str,
-    ___0: (usize, usize, usize),
-    ___1: (usize, ActionKind, usize),
-    ___2: (usize, usize, usize),
-) -> Alternative {
-    let ___start0 = ___0.2.clone();
-    let ___end0 = ___1.0.clone();
-    let ___temp0 = ___action141(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action40(text, ___0, ___temp0, ___1, ___2)
+fn ___action187<
+    'input,
+>(
+text: &'input str,
+(_, ___0, _): (usize, String, usize),
+) -> ::std::vec::Vec<String>
+{
+vec![___0]
 }
 
 #[allow(unused_variables)]
-fn ___action322<'input>(
-    text: &'input str,
-    ___lookbehind: &usize,
-    ___lookahead: &usize,
-) -> Visibility {
-    let ___start0 = ___lookbehind.clone();
-    let ___end0 = ___lookahead.clone();
-    let ___temp0 = ___action154(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action30(text, ___temp0)
+fn ___action188<
+    'input,
+>(
+text: &'input str,
+(_, v, _): (usize, ::std::vec::Vec<String>, usize),
+(_, e, _): (usize, String, usize),
+) -> ::std::vec::Vec<String>
+{
+{ let mut v = v; v.push(e); v }
 }
 
 #[allow(unused_variables)]
-fn ___action323<'input>(
-    text: &'input str,
-    ___0: (usize, Alternative, usize),
-    ___1: (usize, Tok<'input>, usize),
-) -> ::std::vec::Vec<Alternative> {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___1.2.clone();
-    let ___temp0 = ___action240(text, ___0, ___1);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action282(text, ___temp0)
+fn ___action189<
+    'input,
+>(
+text: &'input str,
+(_, ___0, _): (usize, GrammarItem, usize),
+) -> ::std::vec::Vec<GrammarItem>
+{
+vec![___0]
 }
 
 #[allow(unused_variables)]
-fn ___action324<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<Alternative>, usize),
-    ___1: (usize, Alternative, usize),
-    ___2: (usize, Tok<'input>, usize),
-) -> ::std::vec::Vec<Alternative> {
-    let ___start0 = ___1.0.clone();
-    let ___end0 = ___2.2.clone();
-    let ___temp0 = ___action240(text, ___1, ___2);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action283(text, ___0, ___temp0)
+fn ___action190<
+    'input,
+>(
+text: &'input str,
+(_, v, _): (usize, ::std::vec::Vec<GrammarItem>, usize),
+(_, e, _): (usize, GrammarItem, usize),
+) -> ::std::vec::Vec<GrammarItem>
+{
+{ let mut v = v; v.push(e); v }
 }
 
 #[allow(unused_variables)]
-fn ___action325<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::option::Option<Alternative>, usize),
-) -> Vec<Alternative> {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.0.clone();
-    let ___temp0 = ___action238(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action147(text, ___temp0, ___0)
+fn ___action191<
+    'input,
+>(
+text: &'input str,
+(_, ___0, _): (usize, Annotation, usize),
+) -> ::std::vec::Vec<Annotation>
+{
+vec![___0]
 }
 
 #[allow(unused_variables)]
-fn ___action326<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<Alternative>, usize),
-    ___1: (usize, ::std::option::Option<Alternative>, usize),
-) -> Vec<Alternative> {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.2.clone();
-    let ___temp0 = ___action239(text, ___0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action147(text, ___temp0, ___1)
+fn ___action192<
+    'input,
+>(
+text: &'input str,
+(_, v, _): (usize, ::std::vec::Vec<Annotation>, usize),
+(_, e, _): (usize, Annotation, usize),
+) -> ::std::vec::Vec<Annotation>
+{
+{ let mut v = v; v.push(e); v }
 }
 
 #[allow(unused_variables)]
-fn ___action327<'input>(
-    text: &'input str,
-    ___0: (usize, Conversion, usize),
-    ___1: (usize, Tok<'input>, usize),
-) -> ::std::vec::Vec<Conversion> {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___1.2.clone();
-    let ___temp0 = ___action264(text, ___0, ___1);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action274(text, ___temp0)
+fn ___action193<
+    'input,
+>(
+text: &'input str,
+(_, ___0, _): (usize, GrammarItem, usize),
+) -> ::std::vec::Vec<GrammarItem>
+{
+vec![___0]
 }
 
 #[allow(unused_variables)]
-fn ___action328<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<Conversion>, usize),
-    ___1: (usize, Conversion, usize),
-    ___2: (usize, Tok<'input>, usize),
-) -> ::std::vec::Vec<Conversion> {
-    let ___start0 = ___1.0.clone();
-    let ___end0 = ___2.2.clone();
-    let ___temp0 = ___action264(text, ___1, ___2);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action275(text, ___0, ___temp0)
+fn ___action194<
+    'input,
+>(
+text: &'input str,
+(_, v, _): (usize, ::std::vec::Vec<GrammarItem>, usize),
+(_, e, _): (usize, GrammarItem, usize),
+) -> ::std::vec::Vec<GrammarItem>
+{
+{ let mut v = v; v.push(e); v }
 }
 
 #[allow(unused_variables)]
-fn ___action329<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::option::Option<Conversion>, usize),
-) -> Vec<Conversion> {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.0.clone();
-    let ___temp0 = ___action262(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action121(text, ___temp0, ___0)
+fn ___action195<
+    'input,
+>(
+text: &'input str,
+(_, ___0, _): (usize, TypeParameter, usize),
+) -> ::std::option::Option<TypeParameter>
+{
+Some(___0)
 }
 
 #[allow(unused_variables)]
-fn ___action330<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<Conversion>, usize),
-    ___1: (usize, ::std::option::Option<Conversion>, usize),
-) -> Vec<Conversion> {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.2.clone();
-    let ___temp0 = ___action263(text, ___0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action121(text, ___temp0, ___1)
+fn ___action196<
+    'input,
+>(
+text: &'input str,
+___lookbehind: &usize,
+___lookahead: &usize,
+) -> ::std::option::Option<TypeParameter>
+{
+None
 }
 
 #[allow(unused_variables)]
-fn ___action331<'input>(
-    text: &'input str,
-    ___0: (usize, FieldPattern<TypeRef>, usize),
-    ___1: (usize, Tok<'input>, usize),
-) -> ::std::vec::Vec<FieldPattern<TypeRef>> {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___1.2.clone();
-    let ___temp0 = ___action119(text, ___0, ___1);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action270(text, ___temp0)
+fn ___action197<
+    'input,
+>(
+text: &'input str,
+___lookbehind: &usize,
+___lookahead: &usize,
+) -> ::std::vec::Vec<TypeParameter>
+{
+vec![]
 }
 
 #[allow(unused_variables)]
-fn ___action332<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<FieldPattern<TypeRef>>, usize),
-    ___1: (usize, FieldPattern<TypeRef>, usize),
-    ___2: (usize, Tok<'input>, usize),
-) -> ::std::vec::Vec<FieldPattern<TypeRef>> {
-    let ___start0 = ___1.0.clone();
-    let ___end0 = ___2.2.clone();
-    let ___temp0 = ___action119(text, ___1, ___2);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action271(text, ___0, ___temp0)
+fn ___action198<
+    'input,
+>(
+text: &'input str,
+(_, v, _): (usize, ::std::vec::Vec<TypeParameter>, usize),
+) -> ::std::vec::Vec<TypeParameter>
+{
+v
 }
 
 #[allow(unused_variables)]
-fn ___action333<'input>(
-    text: &'input str,
-    ___0: (usize, Path, usize),
-    ___1: (usize, Tok<'input>, usize),
-    ___2: (usize, ::std::option::Option<FieldPattern<TypeRef>>, usize),
-    ___3: (usize, Tok<'input>, usize),
-) -> PatternKind<TypeRef> {
-    let ___start0 = ___1.2.clone();
-    let ___end0 = ___2.0.clone();
-    let ___temp0 = ___action117(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action92(text, ___0, ___1, ___temp0, ___2, ___3)
+fn ___action199<
+    'input,
+>(
+text: &'input str,
+(_, ___0, _): (usize, TypeParameter, usize),
+(_, _, _): (usize, Tok<'input>, usize),
+) -> TypeParameter
+{
+(___0)
 }
 
 #[allow(unused_variables)]
-fn ___action334<'input>(
-    text: &'input str,
-    ___0: (usize, Path, usize),
-    ___1: (usize, Tok<'input>, usize),
-    ___2: (usize, ::std::vec::Vec<FieldPattern<TypeRef>>, usize),
-    ___3: (usize, ::std::option::Option<FieldPattern<TypeRef>>, usize),
-    ___4: (usize, Tok<'input>, usize),
-) -> PatternKind<TypeRef> {
-    let ___start0 = ___2.0.clone();
-    let ___end0 = ___2.2.clone();
-    let ___temp0 = ___action118(text, ___2);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action92(text, ___0, ___1, ___temp0, ___3, ___4)
+fn ___action200<
+    'input,
+>(
+text: &'input str,
+(_, ___0, _): (usize, WhereClause<TypeRef>, usize),
+) -> ::std::option::Option<WhereClause<TypeRef>>
+{
+Some(___0)
 }
 
 #[allow(unused_variables)]
-fn ___action335<'input>(
-    text: &'input str,
-    ___0: (usize, Path, usize),
-    ___1: (usize, Tok<'input>, usize),
-    ___2: (usize, Tok<'input>, usize),
-    ___3: (usize, Tok<'input>, usize),
-) -> PatternKind<TypeRef> {
-    let ___start0 = ___1.2.clone();
-    let ___end0 = ___2.0.clone();
-    let ___temp0 = ___action117(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action93(text, ___0, ___1, ___temp0, ___2, ___3)
+fn ___action201<
+    'input,
+>(
+text: &'input str,
+___lookbehind: &usize,
+___lookahead: &usize,
+) -> ::std::option::Option<WhereClause<TypeRef>>
+{
+None
 }
 
 #[allow(unused_variables)]
-fn ___action336<'input>(
-    text: &'input str,
-    ___0: (usize, Path, usize),
-    ___1: (usize, Tok<'input>, usize),
-    ___2: (usize, ::std::vec::Vec<FieldPattern<TypeRef>>, usize),
-    ___3: (usize, Tok<'input>, usize),
-    ___4: (usize, Tok<'input>, usize),
-) -> PatternKind<TypeRef> {
-    let ___start0 = ___2.0.clone();
-    let ___end0 = ___2.2.clone();
-    let ___temp0 = ___action118(text, ___2);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action93(text, ___0, ___1, ___temp0, ___3, ___4)
+fn ___action202<
+    'input,
+>(
+text: &'input str,
+___lookbehind: &usize,
+___lookahead: &usize,
+) -> ::std::vec::Vec<WhereClause<TypeRef>>
+{
+vec![]
 }
 
 #[allow(unused_variables)]
-fn ___action337<'input>(
-    text: &'input str,
-    ___0: (usize, Parameter, usize),
-    ___1: (usize, Tok<'input>, usize),
-) -> ::std::vec::Vec<Parameter> {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___1.2.clone();
-    let ___temp0 = ___action230(text, ___0, ___1);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action286(text, ___temp0)
+fn ___action203<
+    'input,
+>(
+text: &'input str,
+(_, v, _): (usize, ::std::vec::Vec<WhereClause<TypeRef>>, usize),
+) -> ::std::vec::Vec<WhereClause<TypeRef>>
+{
+v
 }
 
 #[allow(unused_variables)]
-fn ___action338<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<Parameter>, usize),
-    ___1: (usize, Parameter, usize),
-    ___2: (usize, Tok<'input>, usize),
-) -> ::std::vec::Vec<Parameter> {
-    let ___start0 = ___1.0.clone();
-    let ___end0 = ___2.2.clone();
-    let ___temp0 = ___action230(text, ___1, ___2);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action287(text, ___0, ___temp0)
+fn ___action204<
+    'input,
+>(
+text: &'input str,
+(_, ___0, _): (usize, WhereClause<TypeRef>, usize),
+(_, _, _): (usize, Tok<'input>, usize),
+) -> WhereClause<TypeRef>
+{
+(___0)
 }
 
 #[allow(unused_variables)]
-fn ___action339<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::option::Option<Parameter>, usize),
-) -> Vec<Parameter> {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.0.clone();
-    let ___temp0 = ___action228(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action155(text, ___temp0, ___0)
+fn ___action205<
+    'input,
+>(
+text: &'input str,
+___lookbehind: &usize,
+___lookahead: &usize,
+) -> ::std::vec::Vec<Atom>
+{
+vec![]
 }
 
 #[allow(unused_variables)]
-fn ___action340<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<Parameter>, usize),
-    ___1: (usize, ::std::option::Option<Parameter>, usize),
-) -> Vec<Parameter> {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.2.clone();
-    let ___temp0 = ___action229(text, ___0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action155(text, ___temp0, ___1)
+fn ___action206<
+    'input,
+>(
+text: &'input str,
+(_, v, _): (usize, ::std::vec::Vec<Atom>, usize),
+) -> ::std::vec::Vec<Atom>
+{
+v
 }
 
 #[allow(unused_variables)]
-fn ___action341<'input>(
-    text: &'input str,
-    ___0: (usize, WhereClause<TypeRef>, usize),
-    ___1: (usize, Tok<'input>, usize),
-) -> ::std::vec::Vec<WhereClause<TypeRef>> {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___1.2.clone();
-    let ___temp0 = ___action204(text, ___0, ___1);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action298(text, ___temp0)
+fn ___action207<
+    'input,
+>(
+text: &'input str,
+(_, ___0, _): (usize, Atom, usize),
+(_, _, _): (usize, Tok<'input>, usize),
+) -> Atom
+{
+(___0)
 }
 
 #[allow(unused_variables)]
-fn ___action342<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<WhereClause<TypeRef>>, usize),
-    ___1: (usize, WhereClause<TypeRef>, usize),
-    ___2: (usize, Tok<'input>, usize),
-) -> ::std::vec::Vec<WhereClause<TypeRef>> {
-    let ___start0 = ___1.0.clone();
-    let ___end0 = ___2.2.clone();
-    let ___temp0 = ___action204(text, ___1, ___2);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action299(text, ___0, ___temp0)
+fn ___action208<
+    'input,
+>(
+text: &'input str,
+___lookbehind: &usize,
+___lookahead: &usize,
+) -> ::std::vec::Vec<Atom>
+{
+vec![]
 }
 
 #[allow(unused_variables)]
-fn ___action343<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::option::Option<WhereClause<TypeRef>>, usize),
-) -> Vec<WhereClause<TypeRef>> {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.0.clone();
-    let ___temp0 = ___action202(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action169(text, ___temp0, ___0)
+fn ___action209<
+    'input,
+>(
+text: &'input str,
+(_, v, _): (usize, ::std::vec::Vec<Atom>, usize),
+) -> ::std::vec::Vec<Atom>
+{
+v
 }
 
 #[allow(unused_variables)]
-fn ___action344<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<WhereClause<TypeRef>>, usize),
-    ___1: (usize, ::std::option::Option<WhereClause<TypeRef>>, usize),
-) -> Vec<WhereClause<TypeRef>> {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.2.clone();
-    let ___temp0 = ___action203(text, ___0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action169(text, ___temp0, ___1)
+fn ___action210<
+    'input,
+>(
+text: &'input str,
+(_, ___0, _): (usize, Atom, usize),
+(_, _, _): (usize, Tok<'input>, usize),
+) -> Atom
+{
+(___0)
 }
 
 #[allow(unused_variables)]
-fn ___action345<'input>(
-    text: &'input str,
-    ___0: (usize, Atom, usize),
-    ___1: (usize, Tok<'input>, usize),
-) -> ::std::vec::Vec<Atom> {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___1.2.clone();
-    let ___temp0 = ___action127(text, ___0, ___1);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action251(text, ___temp0)
+fn ___action211<
+    'input,
+>(
+text: &'input str,
+(_, ___0, _): (usize, TypeBound<TypeRef>, usize),
+) -> ::std::option::Option<TypeBound<TypeRef>>
+{
+Some(___0)
 }
 
 #[allow(unused_variables)]
-fn ___action346<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<Atom>, usize),
-    ___1: (usize, Atom, usize),
-    ___2: (usize, Tok<'input>, usize),
-) -> ::std::vec::Vec<Atom> {
-    let ___start0 = ___1.0.clone();
-    let ___end0 = ___2.2.clone();
-    let ___temp0 = ___action127(text, ___1, ___2);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action252(text, ___0, ___temp0)
+fn ___action212<
+    'input,
+>(
+text: &'input str,
+___lookbehind: &usize,
+___lookahead: &usize,
+) -> ::std::option::Option<TypeBound<TypeRef>>
+{
+None
 }
 
 #[allow(unused_variables)]
-fn ___action347<'input>(
-    text: &'input str,
-    ___0: (usize, Tok<'input>, usize),
-    ___1: (usize, Atom, usize),
-) -> Path {
-    let ___start0 = ___0.2.clone();
-    let ___end0 = ___1.0.clone();
-    let ___temp0 = ___action125(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action302(text, ___0, ___temp0, ___1)
+fn ___action213<
+    'input,
+>(
+text: &'input str,
+___lookbehind: &usize,
+___lookahead: &usize,
+) -> ::std::vec::Vec<TypeBound<TypeRef>>
+{
+vec![]
 }
 
 #[allow(unused_variables)]
-fn ___action348<'input>(
-    text: &'input str,
-    ___0: (usize, Tok<'input>, usize),
-    ___1: (usize, ::std::vec::Vec<Atom>, usize),
-    ___2: (usize, Atom, usize),
-) -> Path {
-    let ___start0 = ___1.0.clone();
-    let ___end0 = ___1.2.clone();
-    let ___temp0 = ___action126(text, ___1);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action302(text, ___0, ___temp0, ___2)
+fn ___action214<
+    'input,
+>(
+text: &'input str,
+(_, v, _): (usize, ::std::vec::Vec<TypeBound<TypeRef>>, usize),
+) -> ::std::vec::Vec<TypeBound<TypeRef>>
+{
+v
 }
 
 #[allow(unused_variables)]
-fn ___action349<'input>(text: &'input str, ___0: (usize, Atom, usize)) -> Path {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.0.clone();
-    let ___temp0 = ___action125(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action303(text, ___temp0, ___0)
+fn ___action215<
+    'input,
+>(
+text: &'input str,
+(_, ___0, _): (usize, TypeBound<TypeRef>, usize),
+(_, _, _): (usize, Tok<'input>, usize),
+) -> TypeBound<TypeRef>
+{
+(___0)
 }
 
 #[allow(unused_variables)]
-fn ___action350<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<Atom>, usize),
-    ___1: (usize, Atom, usize),
-) -> Path {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.2.clone();
-    let ___temp0 = ___action126(text, ___0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action303(text, ___temp0, ___1)
+fn ___action216<
+    'input,
+>(
+text: &'input str,
+(_, ___0, _): (usize, TypeRef, usize),
+) -> ::std::option::Option<TypeRef>
+{
+Some(___0)
 }
 
 #[allow(unused_variables)]
-fn ___action351<'input>(
-    text: &'input str,
-    ___0: (usize, Atom, usize),
-    ___1: (usize, Tok<'input>, usize),
-) -> ::std::vec::Vec<Atom> {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___1.2.clone();
-    let ___temp0 = ___action207(text, ___0, ___1);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action296(text, ___temp0)
+fn ___action217<
+    'input,
+>(
+text: &'input str,
+___lookbehind: &usize,
+___lookahead: &usize,
+) -> ::std::option::Option<TypeRef>
+{
+None
 }
 
 #[allow(unused_variables)]
-fn ___action352<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<Atom>, usize),
-    ___1: (usize, Atom, usize),
-    ___2: (usize, Tok<'input>, usize),
-) -> ::std::vec::Vec<Atom> {
-    let ___start0 = ___1.0.clone();
-    let ___end0 = ___2.2.clone();
-    let ___temp0 = ___action207(text, ___1, ___2);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action297(text, ___0, ___temp0)
+fn ___action218<
+    'input,
+>(
+text: &'input str,
+___lookbehind: &usize,
+___lookahead: &usize,
+) -> ::std::vec::Vec<TypeRef>
+{
+vec![]
 }
 
 #[allow(unused_variables)]
-fn ___action353<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::option::Option<Atom>, usize),
-) -> Vec<Atom> {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.0.clone();
-    let ___temp0 = ___action205(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action168(text, ___temp0, ___0)
+fn ___action219<
+    'input,
+>(
+text: &'input str,
+(_, v, _): (usize, ::std::vec::Vec<TypeRef>, usize),
+) -> ::std::vec::Vec<TypeRef>
+{
+v
 }
 
 #[allow(unused_variables)]
-fn ___action354<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<Atom>, usize),
-    ___1: (usize, ::std::option::Option<Atom>, usize),
-) -> Vec<Atom> {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.2.clone();
-    let ___temp0 = ___action206(text, ___0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action168(text, ___temp0, ___1)
+fn ___action220<
+    'input,
+>(
+text: &'input str,
+(_, ___0, _): (usize, TypeRef, usize),
+(_, _, _): (usize, Tok<'input>, usize),
+) -> TypeRef
+{
+(___0)
 }
 
 #[allow(unused_variables)]
-fn ___action355<'input>(
-    text: &'input str,
-    ___0: (usize, Atom, usize),
-    ___1: (usize, Tok<'input>, usize),
-) -> ::std::vec::Vec<Atom> {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___1.2.clone();
-    let ___temp0 = ___action210(text, ___0, ___1);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action294(text, ___temp0)
+fn ___action221<
+    'input,
+>(
+text: &'input str,
+(_, ___0, _): (usize, TypeBoundParameter<TypeRef>, usize),
+) -> ::std::option::Option<TypeBoundParameter<TypeRef>>
+{
+Some(___0)
 }
 
 #[allow(unused_variables)]
-fn ___action356<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<Atom>, usize),
-    ___1: (usize, Atom, usize),
-    ___2: (usize, Tok<'input>, usize),
-) -> ::std::vec::Vec<Atom> {
-    let ___start0 = ___1.0.clone();
-    let ___end0 = ___2.2.clone();
-    let ___temp0 = ___action210(text, ___1, ___2);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action295(text, ___0, ___temp0)
+fn ___action222<
+    'input,
+>(
+text: &'input str,
+___lookbehind: &usize,
+___lookahead: &usize,
+) -> ::std::option::Option<TypeBoundParameter<TypeRef>>
+{
+None
 }
 
 #[allow(unused_variables)]
-fn ___action357<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::option::Option<Atom>, usize),
-) -> Vec<Atom> {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.0.clone();
-    let ___temp0 = ___action208(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action165(text, ___temp0, ___0)
+fn ___action223<
+    'input,
+>(
+text: &'input str,
+___lookbehind: &usize,
+___lookahead: &usize,
+) -> ::std::vec::Vec<TypeBoundParameter<TypeRef>>
+{
+vec![]
 }
 
 #[allow(unused_variables)]
-fn ___action358<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<Atom>, usize),
-    ___1: (usize, ::std::option::Option<Atom>, usize),
-) -> Vec<Atom> {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.2.clone();
-    let ___temp0 = ___action209(text, ___0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action165(text, ___temp0, ___1)
+fn ___action224<
+    'input,
+>(
+text: &'input str,
+(_, v, _): (usize, ::std::vec::Vec<TypeBoundParameter<TypeRef>>, usize),
+) -> ::std::vec::Vec<TypeBoundParameter<TypeRef>>
+{
+v
 }
 
 #[allow(unused_variables)]
-fn ___action359<'input>(
-    text: &'input str,
-    ___0: (usize, MatchItem, usize),
-    ___1: (usize, Tok<'input>, usize),
-) -> ::std::vec::Vec<MatchItem> {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___1.2.clone();
-    let ___temp0 = ___action259(text, ___0, ___1);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action276(text, ___temp0)
+fn ___action225<
+    'input,
+>(
+text: &'input str,
+(_, ___0, _): (usize, TypeBoundParameter<TypeRef>, usize),
+(_, _, _): (usize, Tok<'input>, usize),
+) -> TypeBoundParameter<TypeRef>
+{
+(___0)
 }
 
 #[allow(unused_variables)]
-fn ___action360<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<MatchItem>, usize),
-    ___1: (usize, MatchItem, usize),
-    ___2: (usize, Tok<'input>, usize),
-) -> ::std::vec::Vec<MatchItem> {
-    let ___start0 = ___1.0.clone();
-    let ___end0 = ___2.2.clone();
-    let ___temp0 = ___action259(text, ___1, ___2);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action277(text, ___0, ___temp0)
+fn ___action226<
+    'input,
+>(
+text: &'input str,
+(_, ___0, _): (usize, Parameter, usize),
+) -> ::std::option::Option<Parameter>
+{
+Some(___0)
 }
 
 #[allow(unused_variables)]
-fn ___action361<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::option::Option<MatchItem>, usize),
-) -> Vec<MatchItem> {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.0.clone();
-    let ___temp0 = ___action257(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action122(text, ___temp0, ___0)
+fn ___action227<
+    'input,
+>(
+text: &'input str,
+___lookbehind: &usize,
+___lookahead: &usize,
+) -> ::std::option::Option<Parameter>
+{
+None
 }
 
 #[allow(unused_variables)]
-fn ___action362<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<MatchItem>, usize),
-    ___1: (usize, ::std::option::Option<MatchItem>, usize),
-) -> Vec<MatchItem> {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.2.clone();
-    let ___temp0 = ___action258(text, ___0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action122(text, ___temp0, ___1)
+fn ___action228<
+    'input,
+>(
+text: &'input str,
+___lookbehind: &usize,
+___lookahead: &usize,
+) -> ::std::vec::Vec<Parameter>
+{
+vec![]
 }
 
 #[allow(unused_variables)]
-fn ___action363<'input>(
-    text: &'input str,
-    ___0: (usize, NonterminalString, usize),
-    ___1: (usize, Tok<'input>, usize),
-) -> ::std::vec::Vec<NonterminalString> {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___1.2.clone();
-    let ___temp0 = ___action235(text, ___0, ___1);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action284(text, ___temp0)
+fn ___action229<
+    'input,
+>(
+text: &'input str,
+(_, v, _): (usize, ::std::vec::Vec<Parameter>, usize),
+) -> ::std::vec::Vec<Parameter>
+{
+v
 }
 
 #[allow(unused_variables)]
-fn ___action364<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<NonterminalString>, usize),
-    ___1: (usize, NonterminalString, usize),
-    ___2: (usize, Tok<'input>, usize),
-) -> ::std::vec::Vec<NonterminalString> {
-    let ___start0 = ___1.0.clone();
-    let ___end0 = ___2.2.clone();
-    let ___temp0 = ___action235(text, ___1, ___2);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action285(text, ___0, ___temp0)
+fn ___action230<
+    'input,
+>(
+text: &'input str,
+(_, ___0, _): (usize, Parameter, usize),
+(_, _, _): (usize, Tok<'input>, usize),
+) -> Parameter
+{
+(___0)
 }
 
 #[allow(unused_variables)]
-fn ___action365<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::option::Option<NonterminalString>, usize),
-) -> Vec<NonterminalString> {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.0.clone();
-    let ___temp0 = ___action233(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action148(text, ___temp0, ___0)
+fn ___action231<
+    'input,
+>(
+text: &'input str,
+(_, ___0, _): (usize, NonterminalString, usize),
+) -> ::std::option::Option<NonterminalString>
+{
+Some(___0)
 }
 
 #[allow(unused_variables)]
-fn ___action366<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<NonterminalString>, usize),
-    ___1: (usize, ::std::option::Option<NonterminalString>, usize),
-) -> Vec<NonterminalString> {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.2.clone();
-    let ___temp0 = ___action234(text, ___0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action148(text, ___temp0, ___1)
+fn ___action232<
+    'input,
+>(
+text: &'input str,
+___lookbehind: &usize,
+___lookahead: &usize,
+) -> ::std::option::Option<NonterminalString>
+{
+None
 }
 
 #[allow(unused_variables)]
-fn ___action367<'input>(
-    text: &'input str,
-    ___0: (usize, Pattern<TypeRef>, usize),
-    ___1: (usize, Tok<'input>, usize),
-) -> ::std::vec::Vec<Pattern<TypeRef>> {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___1.2.clone();
-    let ___temp0 = ___action269(text, ___0, ___1);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action272(text, ___temp0)
+fn ___action233<
+    'input,
+>(
+text: &'input str,
+___lookbehind: &usize,
+___lookahead: &usize,
+) -> ::std::vec::Vec<NonterminalString>
+{
+vec![]
 }
 
 #[allow(unused_variables)]
-fn ___action368<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<Pattern<TypeRef>>, usize),
-    ___1: (usize, Pattern<TypeRef>, usize),
-    ___2: (usize, Tok<'input>, usize),
-) -> ::std::vec::Vec<Pattern<TypeRef>> {
-    let ___start0 = ___1.0.clone();
-    let ___end0 = ___2.2.clone();
-    let ___temp0 = ___action269(text, ___1, ___2);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action273(text, ___0, ___temp0)
+fn ___action234<
+    'input,
+>(
+text: &'input str,
+(_, v, _): (usize, ::std::vec::Vec<NonterminalString>, usize),
+) -> ::std::vec::Vec<NonterminalString>
+{
+v
 }
 
 #[allow(unused_variables)]
-fn ___action369<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::option::Option<Pattern<TypeRef>>, usize),
-) -> Vec<Pattern<TypeRef>> {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.0.clone();
-    let ___temp0 = ___action267(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action120(text, ___temp0, ___0)
+fn ___action235<
+    'input,
+>(
+text: &'input str,
+(_, ___0, _): (usize, NonterminalString, usize),
+(_, _, _): (usize, Tok<'input>, usize),
+) -> NonterminalString
+{
+(___0)
 }
 
 #[allow(unused_variables)]
-fn ___action370<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<Pattern<TypeRef>>, usize),
-    ___1: (usize, ::std::option::Option<Pattern<TypeRef>>, usize),
-) -> Vec<Pattern<TypeRef>> {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.2.clone();
-    let ___temp0 = ___action268(text, ___0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action120(text, ___temp0, ___1)
+fn ___action236<
+    'input,
+>(
+text: &'input str,
+(_, ___0, _): (usize, Alternative, usize),
+) -> ::std::option::Option<Alternative>
+{
+Some(___0)
 }
 
 #[allow(unused_variables)]
-fn ___action371<'input>(
-    text: &'input str,
-    ___0: (usize, Symbol, usize),
-    ___1: (usize, Tok<'input>, usize),
-) -> ::std::vec::Vec<Symbol> {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___1.2.clone();
-    let ___temp0 = ___action245(text, ___0, ___1);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action280(text, ___temp0)
+fn ___action237<
+    'input,
+>(
+text: &'input str,
+___lookbehind: &usize,
+___lookahead: &usize,
+) -> ::std::option::Option<Alternative>
+{
+None
 }
 
 #[allow(unused_variables)]
-fn ___action372<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<Symbol>, usize),
-    ___1: (usize, Symbol, usize),
-    ___2: (usize, Tok<'input>, usize),
-) -> ::std::vec::Vec<Symbol> {
-    let ___start0 = ___1.0.clone();
-    let ___end0 = ___2.2.clone();
-    let ___temp0 = ___action245(text, ___1, ___2);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action281(text, ___0, ___temp0)
+fn ___action238<
+    'input,
+>(
+text: &'input str,
+___lookbehind: &usize,
+___lookahead: &usize,
+) -> ::std::vec::Vec<Alternative>
+{
+vec![]
 }
 
 #[allow(unused_variables)]
-fn ___action373<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::option::Option<Symbol>, usize),
-) -> Vec<Symbol> {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.0.clone();
-    let ___temp0 = ___action243(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action135(text, ___temp0, ___0)
+fn ___action239<
+    'input,
+>(
+text: &'input str,
+(_, v, _): (usize, ::std::vec::Vec<Alternative>, usize),
+) -> ::std::vec::Vec<Alternative>
+{
+v
 }
 
 #[allow(unused_variables)]
-fn ___action374<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<Symbol>, usize),
-    ___1: (usize, ::std::option::Option<Symbol>, usize),
-) -> Vec<Symbol> {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.2.clone();
-    let ___temp0 = ___action244(text, ___0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action135(text, ___temp0, ___1)
+fn ___action240<
+    'input,
+>(
+text: &'input str,
+(_, ___0, _): (usize, Alternative, usize),
+(_, _, _): (usize, Tok<'input>, usize),
+) -> Alternative
+{
+(___0)
 }
 
 #[allow(unused_variables)]
-fn ___action375<'input>(
-    text: &'input str,
-    ___0: (usize, TypeBound<TypeRef>, usize),
-    ___1: (usize, Tok<'input>, usize),
-) -> ::std::vec::Vec<TypeBound<TypeRef>> {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___1.2.clone();
-    let ___temp0 = ___action215(text, ___0, ___1);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action292(text, ___temp0)
+fn ___action241<
+    'input,
+>(
+text: &'input str,
+(_, ___0, _): (usize, Symbol, usize),
+) -> ::std::option::Option<Symbol>
+{
+Some(___0)
 }
 
 #[allow(unused_variables)]
-fn ___action376<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<TypeBound<TypeRef>>, usize),
-    ___1: (usize, TypeBound<TypeRef>, usize),
-    ___2: (usize, Tok<'input>, usize),
-) -> ::std::vec::Vec<TypeBound<TypeRef>> {
-    let ___start0 = ___1.0.clone();
-    let ___end0 = ___2.2.clone();
-    let ___temp0 = ___action215(text, ___1, ___2);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action293(text, ___0, ___temp0)
+fn ___action242<
+    'input,
+>(
+text: &'input str,
+___lookbehind: &usize,
+___lookahead: &usize,
+) -> ::std::option::Option<Symbol>
+{
+None
 }
 
 #[allow(unused_variables)]
-fn ___action377<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::option::Option<TypeBound<TypeRef>>, usize),
-) -> Vec<TypeBound<TypeRef>> {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.0.clone();
-    let ___temp0 = ___action213(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action164(text, ___temp0, ___0)
+fn ___action243<
+    'input,
+>(
+text: &'input str,
+___lookbehind: &usize,
+___lookahead: &usize,
+) -> ::std::vec::Vec<Symbol>
+{
+vec![]
 }
 
 #[allow(unused_variables)]
-fn ___action378<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<TypeBound<TypeRef>>, usize),
-    ___1: (usize, ::std::option::Option<TypeBound<TypeRef>>, usize),
-) -> Vec<TypeBound<TypeRef>> {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.2.clone();
-    let ___temp0 = ___action214(text, ___0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action164(text, ___temp0, ___1)
+fn ___action244<
+    'input,
+>(
+text: &'input str,
+(_, v, _): (usize, ::std::vec::Vec<Symbol>, usize),
+) -> ::std::vec::Vec<Symbol>
+{
+v
 }
 
 #[allow(unused_variables)]
-fn ___action379<'input>(
-    text: &'input str,
-    ___0: (usize, TypeBoundParameter<TypeRef>, usize),
-    ___1: (usize, Tok<'input>, usize),
-) -> ::std::vec::Vec<TypeBoundParameter<TypeRef>> {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___1.2.clone();
-    let ___temp0 = ___action225(text, ___0, ___1);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action288(text, ___temp0)
+fn ___action245<
+    'input,
+>(
+text: &'input str,
+(_, ___0, _): (usize, Symbol, usize),
+(_, _, _): (usize, Tok<'input>, usize),
+) -> Symbol
+{
+(___0)
 }
 
 #[allow(unused_variables)]
-fn ___action380<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<TypeBoundParameter<TypeRef>>, usize),
-    ___1: (usize, TypeBoundParameter<TypeRef>, usize),
-    ___2: (usize, Tok<'input>, usize),
-) -> ::std::vec::Vec<TypeBoundParameter<TypeRef>> {
-    let ___start0 = ___1.0.clone();
-    let ___end0 = ___2.2.clone();
-    let ___temp0 = ___action225(text, ___1, ___2);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action289(text, ___0, ___temp0)
+fn ___action246<
+    'input,
+>(
+text: &'input str,
+(_, ___0, _): (usize, TypeRef, usize),
+) -> ::std::option::Option<TypeRef>
+{
+Some(___0)
 }
 
 #[allow(unused_variables)]
-fn ___action381<'input>(
-    text: &'input str,
-    ___0: (
-        usize,
-        ::std::option::Option<TypeBoundParameter<TypeRef>>,
-        usize,
-    ),
-) -> Vec<TypeBoundParameter<TypeRef>> {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.0.clone();
-    let ___temp0 = ___action223(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action159(text, ___temp0, ___0)
+fn ___action247<
+    'input,
+>(
+text: &'input str,
+___lookbehind: &usize,
+___lookahead: &usize,
+) -> ::std::option::Option<TypeRef>
+{
+None
 }
 
 #[allow(unused_variables)]
-fn ___action382<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<TypeBoundParameter<TypeRef>>, usize),
-    ___1: (
-        usize,
-        ::std::option::Option<TypeBoundParameter<TypeRef>>,
-        usize,
-    ),
-) -> Vec<TypeBoundParameter<TypeRef>> {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.2.clone();
-    let ___temp0 = ___action224(text, ___0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action159(text, ___temp0, ___1)
+fn ___action248<
+    'input,
+>(
+text: &'input str,
+___lookbehind: &usize,
+___lookahead: &usize,
+) -> ::std::vec::Vec<TypeRef>
+{
+vec![]
 }
 
 #[allow(unused_variables)]
-fn ___action383<'input>(
-    text: &'input str,
-    ___0: (usize, TypeParameter, usize),
-    ___1: (usize, Tok<'input>, usize),
-) -> ::std::vec::Vec<TypeParameter> {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___1.2.clone();
-    let ___temp0 = ___action199(text, ___0, ___1);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action300(text, ___temp0)
+fn ___action249<
+    'input,
+>(
+text: &'input str,
+(_, v, _): (usize, ::std::vec::Vec<TypeRef>, usize),
+) -> ::std::vec::Vec<TypeRef>
+{
+v
 }
 
 #[allow(unused_variables)]
-fn ___action384<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<TypeParameter>, usize),
-    ___1: (usize, TypeParameter, usize),
-    ___2: (usize, Tok<'input>, usize),
-) -> ::std::vec::Vec<TypeParameter> {
-    let ___start0 = ___1.0.clone();
-    let ___end0 = ___2.2.clone();
-    let ___temp0 = ___action199(text, ___1, ___2);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action301(text, ___0, ___temp0)
+fn ___action250<
+    'input,
+>(
+text: &'input str,
+(_, ___0, _): (usize, TypeRef, usize),
+(_, _, _): (usize, Tok<'input>, usize),
+) -> TypeRef
+{
+(___0)
 }
 
 #[allow(unused_variables)]
-fn ___action385<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::option::Option<TypeParameter>, usize),
-) -> Vec<TypeParameter> {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.0.clone();
-    let ___temp0 = ___action197(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action170(text, ___temp0, ___0)
+fn ___action251<
+    'input,
+>(
+text: &'input str,
+(_, ___0, _): (usize, Atom, usize),
+) -> ::std::vec::Vec<Atom>
+{
+vec![___0]
 }
 
 #[allow(unused_variables)]
-fn ___action386<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<TypeParameter>, usize),
-    ___1: (usize, ::std::option::Option<TypeParameter>, usize),
-) -> Vec<TypeParameter> {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.2.clone();
-    let ___temp0 = ___action198(text, ___0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action170(text, ___temp0, ___1)
+fn ___action252<
+    'input,
+>(
+text: &'input str,
+(_, v, _): (usize, ::std::vec::Vec<Atom>, usize),
+(_, e, _): (usize, Atom, usize),
+) -> ::std::vec::Vec<Atom>
+{
+{ let mut v = v; v.push(e); v }
 }
 
 #[allow(unused_variables)]
-fn ___action387<'input>(
-    text: &'input str,
-    ___0: (usize, TypeRef, usize),
-    ___1: (usize, Tok<'input>, usize),
-) -> ::std::vec::Vec<TypeRef> {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___1.2.clone();
-    let ___temp0 = ___action220(text, ___0, ___1);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action290(text, ___temp0)
+fn ___action253<
+    'input,
+>(
+text: &'input str,
+(_, ___0, _): (usize, AssociatedType, usize),
+) -> ::std::vec::Vec<AssociatedType>
+{
+vec![___0]
 }
 
 #[allow(unused_variables)]
-fn ___action388<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<TypeRef>, usize),
-    ___1: (usize, TypeRef, usize),
-    ___2: (usize, Tok<'input>, usize),
-) -> ::std::vec::Vec<TypeRef> {
-    let ___start0 = ___1.0.clone();
-    let ___end0 = ___2.2.clone();
-    let ___temp0 = ___action220(text, ___1, ___2);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action291(text, ___0, ___temp0)
+fn ___action254<
+    'input,
+>(
+text: &'input str,
+(_, v, _): (usize, ::std::vec::Vec<AssociatedType>, usize),
+(_, e, _): (usize, AssociatedType, usize),
+) -> ::std::vec::Vec<AssociatedType>
+{
+{ let mut v = v; v.push(e); v }
 }
 
 #[allow(unused_variables)]
-fn ___action389<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::option::Option<TypeRef>, usize),
-) -> Vec<TypeRef> {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.0.clone();
-    let ___temp0 = ___action218(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action163(text, ___temp0, ___0)
+fn ___action255<
+    'input,
+>(
+text: &'input str,
+(_, ___0, _): (usize, MatchItem, usize),
+) -> ::std::option::Option<MatchItem>
+{
+Some(___0)
 }
 
 #[allow(unused_variables)]
-fn ___action390<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<TypeRef>, usize),
-    ___1: (usize, ::std::option::Option<TypeRef>, usize),
-) -> Vec<TypeRef> {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.2.clone();
-    let ___temp0 = ___action219(text, ___0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action163(text, ___temp0, ___1)
+fn ___action256<
+    'input,
+>(
+text: &'input str,
+___lookbehind: &usize,
+___lookahead: &usize,
+) -> ::std::option::Option<MatchItem>
+{
+None
 }
 
 #[allow(unused_variables)]
-fn ___action391<'input>(
-    text: &'input str,
-    ___0: (usize, TypeRef, usize),
-    ___1: (usize, Tok<'input>, usize),
-) -> ::std::vec::Vec<TypeRef> {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___1.2.clone();
-    let ___temp0 = ___action250(text, ___0, ___1);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action278(text, ___temp0)
+fn ___action257<
+    'input,
+>(
+text: &'input str,
+___lookbehind: &usize,
+___lookahead: &usize,
+) -> ::std::vec::Vec<MatchItem>
+{
+vec![]
 }
 
 #[allow(unused_variables)]
-fn ___action392<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<TypeRef>, usize),
-    ___1: (usize, TypeRef, usize),
-    ___2: (usize, Tok<'input>, usize),
-) -> ::std::vec::Vec<TypeRef> {
-    let ___start0 = ___1.0.clone();
-    let ___end0 = ___2.2.clone();
-    let ___temp0 = ___action250(text, ___1, ___2);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action279(text, ___0, ___temp0)
+fn ___action258<
+    'input,
+>(
+text: &'input str,
+(_, v, _): (usize, ::std::vec::Vec<MatchItem>, usize),
+) -> ::std::vec::Vec<MatchItem>
+{
+v
 }
 
 #[allow(unused_variables)]
-fn ___action393<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::option::Option<TypeRef>, usize),
-) -> Vec<TypeRef> {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.0.clone();
-    let ___temp0 = ___action248(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action130(text, ___temp0, ___0)
+fn ___action259<
+    'input,
+>(
+text: &'input str,
+(_, ___0, _): (usize, MatchItem, usize),
+(_, _, _): (usize, Tok<'input>, usize),
+) -> MatchItem
+{
+(___0)
 }
 
 #[allow(unused_variables)]
-fn ___action394<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<TypeRef>, usize),
-    ___1: (usize, ::std::option::Option<TypeRef>, usize),
-) -> Vec<TypeRef> {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.2.clone();
-    let ___temp0 = ___action249(text, ___0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action130(text, ___temp0, ___1)
+fn ___action260<
+    'input,
+>(
+text: &'input str,
+(_, ___0, _): (usize, Conversion, usize),
+) -> ::std::option::Option<Conversion>
+{
+Some(___0)
 }
 
 #[allow(unused_variables)]
-fn ___action395<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<Symbol>, usize),
-    ___1: (usize, Tok<'input>, usize),
-    ___2: (usize, Condition, usize),
-    ___3: (usize, ::std::option::Option<ActionKind>, usize),
-    ___4: (usize, usize, usize),
-) -> Alternative {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.0.clone();
-    let ___temp0 = ___action180(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action318(text, ___temp0, ___0, ___1, ___2, ___3, ___4)
+fn ___action261<
+    'input,
+>(
+text: &'input str,
+___lookbehind: &usize,
+___lookahead: &usize,
+) -> ::std::option::Option<Conversion>
+{
+None
 }
 
 #[allow(unused_variables)]
-fn ___action396<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<Symbol>, usize),
-    ___1: (usize, ::std::option::Option<ActionKind>, usize),
-    ___2: (usize, usize, usize),
-) -> Alternative {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.0.clone();
-    let ___temp0 = ___action180(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action319(text, ___temp0, ___0, ___1, ___2)
+fn ___action262<
+    'input,
+>(
+text: &'input str,
+___lookbehind: &usize,
+___lookahead: &usize,
+) -> ::std::vec::Vec<Conversion>
+{
+vec![]
 }
 
 #[allow(unused_variables)]
-fn ___action397<'input>(
-    text: &'input str,
-    ___0: (usize, Tok<'input>, usize),
-    ___1: (usize, Condition, usize),
-    ___2: (usize, ActionKind, usize),
-    ___3: (usize, usize, usize),
-) -> Alternative {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.0.clone();
-    let ___temp0 = ___action180(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action320(text, ___temp0, ___0, ___1, ___2, ___3)
+fn ___action263<
+    'input,
+>(
+text: &'input str,
+(_, v, _): (usize, ::std::vec::Vec<Conversion>, usize),
+) -> ::std::vec::Vec<Conversion>
+{
+v
 }
 
 #[allow(unused_variables)]
-fn ___action398<'input>(
-    text: &'input str,
-    ___0: (usize, ActionKind, usize),
-    ___1: (usize, usize, usize),
-) -> Alternative {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.0.clone();
-    let ___temp0 = ___action180(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action321(text, ___temp0, ___0, ___1)
+fn ___action264<
+    'input,
+>(
+text: &'input str,
+(_, ___0, _): (usize, Conversion, usize),
+(_, _, _): (usize, Tok<'input>, usize),
+) -> Conversion
+{
+(___0)
 }
 
 #[allow(unused_variables)]
-fn ___action399<'input>(
-    text: &'input str,
-    ___0: (usize, Tok<'input>, usize),
-    ___1: (usize, Tok<'input>, usize),
-    ___2: (usize, Atom, usize),
-    ___3: (usize, ::std::option::Option<(Atom, String)>, usize),
-    ___4: (usize, usize, usize),
-    ___5: (usize, Tok<'input>, usize),
-) -> Annotation {
-    let ___start0 = ___1.2.clone();
-    let ___end0 = ___2.0.clone();
-    let ___temp0 = ___action180(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action33(text, ___0, ___1, ___temp0, ___2, ___3, ___4, ___5)
+fn ___action265<
+    'input,
+>(
+text: &'input str,
+(_, ___0, _): (usize, Pattern<TypeRef>, usize),
+) -> ::std::option::Option<Pattern<TypeRef>>
+{
+Some(___0)
 }
 
 #[allow(unused_variables)]
-fn ___action400<'input>(
-    text: &'input str,
-    ___0: (usize, Tok<'input>, usize),
-    ___1: (usize, Atom, usize),
-    ___2: (usize, usize, usize),
-    ___3: (usize, Tok<'input>, usize),
-    ___4: (usize, TypeRef, usize),
-    ___5: (usize, Tok<'input>, usize),
-) -> AssociatedType {
-    let ___start0 = ___0.2.clone();
-    let ___end0 = ___1.0.clone();
-    let ___temp0 = ___action180(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action88(text, ___0, ___temp0, ___1, ___2, ___3, ___4, ___5)
+fn ___action266<
+    'input,
+>(
+text: &'input str,
+___lookbehind: &usize,
+___lookahead: &usize,
+) -> ::std::option::Option<Pattern<TypeRef>>
+{
+None
 }
 
 #[allow(unused_variables)]
-fn ___action401<'input>(
-    text: &'input str,
-    ___0: (usize, NonterminalString, usize),
-    ___1: (usize, ConditionOp, usize),
-    ___2: (usize, Atom, usize),
-    ___3: (usize, usize, usize),
-) -> Condition {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.0.clone();
-    let ___temp0 = ___action180(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action45(text, ___temp0, ___0, ___1, ___2, ___3)
+fn ___action267<
+    'input,
+>(
+text: &'input str,
+___lookbehind: &usize,
+___lookahead: &usize,
+) -> ::std::vec::Vec<Pattern<TypeRef>>
+{
+vec![]
 }
 
 #[allow(unused_variables)]
-fn ___action402<'input>(
-    text: &'input str,
-    ___0: (usize, TerminalString, usize),
-    ___1: (usize, &'input str, usize),
-    ___2: (usize, usize, usize),
-) -> Result<Conversion, ___lalrpop_util::ParseError<usize, Tok<'input>, tok::Error>> {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.0.clone();
-    let ___start1 = ___0.2.clone();
-    let ___end1 = ___1.0.clone();
-    let ___temp0 = ___action180(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    let ___temp1 = ___action180(text, &___start1, &___end1);
-    let ___temp1 = (___start1, ___temp1, ___end1);
-    ___action89(text, ___temp0, ___0, ___temp1, ___1, ___2)
+fn ___action268<
+    'input,
+>(
+text: &'input str,
+(_, v, _): (usize, ::std::vec::Vec<Pattern<TypeRef>>, usize),
+) -> ::std::vec::Vec<Pattern<TypeRef>>
+{
+v
 }
 
 #[allow(unused_variables)]
-fn ___action403<'input>(
-    text: &'input str,
-    ___0: (usize, Tok<'input>, usize),
-    ___1: (usize, TypeRef, usize),
-    ___2: (usize, usize, usize),
-    ___3: (usize, Tok<'input>, usize),
-    ___4: (usize, Vec<Conversion>, usize),
-    ___5: (usize, Tok<'input>, usize),
-) -> EnumToken {
-    let ___start0 = ___0.2.clone();
-    let ___end0 = ___1.0.clone();
-    let ___temp0 = ___action180(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action87(text, ___0, ___temp0, ___1, ___2, ___3, ___4, ___5)
+fn ___action269<
+    'input,
+>(
+text: &'input str,
+(_, ___0, _): (usize, Pattern<TypeRef>, usize),
+(_, _, _): (usize, Tok<'input>, usize),
+) -> Pattern<TypeRef>
+{
+(___0)
 }
 
 #[allow(unused_variables)]
-fn ___action404<'input>(
-    text: &'input str,
-    ___0: (usize, Tok<'input>, usize),
-    ___1: (usize, usize, usize),
-    ___2: (usize, Tok<'input>, usize),
-    ___3: (usize, ::std::vec::Vec<AssociatedType>, usize),
-    ___4: (usize, EnumToken, usize),
-    ___5: (usize, ::std::vec::Vec<AssociatedType>, usize),
-    ___6: (usize, Tok<'input>, usize),
-) -> GrammarItem {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.0.clone();
-    let ___temp0 = ___action180(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action76(text, ___temp0, ___0, ___1, ___2, ___3, ___4, ___5, ___6)
+fn ___action270<
+    'input,
+>(
+text: &'input str,
+(_, ___0, _): (usize, FieldPattern<TypeRef>, usize),
+) -> ::std::vec::Vec<FieldPattern<TypeRef>>
+{
+vec![___0]
 }
 
 #[allow(unused_variables)]
-fn ___action405<'input>(
-    text: &'input str,
-    ___0: (usize, Tok<'input>, usize),
-    ___1: (usize, usize, usize),
-    ___2: (usize, Tok<'input>, usize),
-    ___3: (usize, ::std::vec::Vec<AssociatedType>, usize),
-    ___4: (usize, Tok<'input>, usize),
-) -> GrammarItem {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.0.clone();
-    let ___temp0 = ___action180(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action77(text, ___temp0, ___0, ___1, ___2, ___3, ___4)
+fn ___action271<
+    'input,
+>(
+text: &'input str,
+(_, v, _): (usize, ::std::vec::Vec<FieldPattern<TypeRef>>, usize),
+(_, e, _): (usize, FieldPattern<TypeRef>, usize),
+) -> ::std::vec::Vec<FieldPattern<TypeRef>>
+{
+{ let mut v = v; v.push(e); v }
 }
 
 #[allow(unused_variables)]
-fn ___action406<'input>(
-    text: &'input str,
-    ___0: (usize, Atom, usize),
-    ___1: (usize, usize, usize),
-    ___2: (usize, Tok<'input>, usize),
-    ___3: (usize, Pattern<TypeRef>, usize),
-) -> FieldPattern<TypeRef> {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.0.clone();
-    let ___temp0 = ___action180(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action100(text, ___temp0, ___0, ___1, ___2, ___3)
+fn ___action272<
+    'input,
+>(
+text: &'input str,
+(_, ___0, _): (usize, Pattern<TypeRef>, usize),
+) -> ::std::vec::Vec<Pattern<TypeRef>>
+{
+vec![___0]
 }
 
 #[allow(unused_variables)]
-fn ___action407<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<String>, usize),
-    ___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-    ___2: (usize, ::std::vec::Vec<Annotation>, usize),
-    ___3: (usize, Tok<'input>, usize),
-    ___4: (usize, usize, usize),
-    ___5: (usize, ::std::option::Option<Vec<TypeParameter>>, usize),
-    ___6: (usize, ::std::option::Option<Vec<Parameter>>, usize),
-    ___7: (
-        usize,
-        ::std::option::Option<Vec<WhereClause<TypeRef>>>,
-        usize,
-    ),
-    ___8: (usize, Tok<'input>, usize),
-    ___9: (usize, ::std::vec::Vec<GrammarItem>, usize),
-) -> Grammar {
-    let ___start0 = ___2.2.clone();
-    let ___end0 = ___3.0.clone();
-    let ___temp0 = ___action180(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action6(
-        text, ___0, ___1, ___2, ___temp0, ___3, ___4, ___5, ___6, ___7, ___8, ___9,
-    )
+fn ___action273<
+    'input,
+>(
+text: &'input str,
+(_, v, _): (usize, ::std::vec::Vec<Pattern<TypeRef>>, usize),
+(_, e, _): (usize, Pattern<TypeRef>, usize),
+) -> ::std::vec::Vec<Pattern<TypeRef>>
+{
+{ let mut v = v; v.push(e); v }
 }
 
 #[allow(unused_variables)]
-fn ___action408<'input>(
-    text: &'input str,
-    ___0: (usize, Tok<'input>, usize),
-    ___1: (usize, usize, usize),
-) -> MatchItem {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.0.clone();
-    let ___temp0 = ___action180(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action82(text, ___temp0, ___0, ___1)
+fn ___action274<
+    'input,
+>(
+text: &'input str,
+(_, ___0, _): (usize, Conversion, usize),
+) -> ::std::vec::Vec<Conversion>
+{
+vec![___0]
 }
 
 #[allow(unused_variables)]
-fn ___action409<'input>(
-    text: &'input str,
-    ___0: (usize, TerminalLiteral, usize),
-    ___1: (usize, usize, usize),
-) -> MatchItem {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.0.clone();
-    let ___temp0 = ___action180(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action83(text, ___temp0, ___0, ___1)
+fn ___action275<
+    'input,
+>(
+text: &'input str,
+(_, v, _): (usize, ::std::vec::Vec<Conversion>, usize),
+(_, e, _): (usize, Conversion, usize),
+) -> ::std::vec::Vec<Conversion>
+{
+{ let mut v = v; v.push(e); v }
 }
 
 #[allow(unused_variables)]
-fn ___action410<'input>(
-    text: &'input str,
-    ___0: (usize, TerminalLiteral, usize),
-    ___1: (usize, &'input str, usize),
-    ___2: (usize, usize, usize),
-) -> Result<MatchItem, ___lalrpop_util::ParseError<usize, Tok<'input>, tok::Error>> {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.0.clone();
-    let ___start1 = ___0.2.clone();
-    let ___end1 = ___1.0.clone();
-    let ___temp0 = ___action180(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    let ___temp1 = ___action180(text, &___start1, &___end1);
-    let ___temp1 = (___start1, ___temp1, ___end1);
-    ___action84(text, ___temp0, ___0, ___temp1, ___1, ___2)
+fn ___action276<
+    'input,
+>(
+text: &'input str,
+(_, ___0, _): (usize, MatchItem, usize),
+) -> ::std::vec::Vec<MatchItem>
+{
+vec![___0]
 }
 
 #[allow(unused_variables)]
-fn ___action411<'input>(
-    text: &'input str,
-    ___0: (usize, Tok<'input>, usize),
-    ___1: (usize, usize, usize),
-    ___2: (usize, Tok<'input>, usize),
-    ___3: (usize, MatchContents, usize),
-    ___4: (usize, Tok<'input>, usize),
-) -> MatchToken {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.0.clone();
-    let ___temp0 = ___action180(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action80(text, ___temp0, ___0, ___1, ___2, ___3, ___4)
+fn ___action277<
+    'input,
+>(
+text: &'input str,
+(_, v, _): (usize, ::std::vec::Vec<MatchItem>, usize),
+(_, e, _): (usize, MatchItem, usize),
+) -> ::std::vec::Vec<MatchItem>
+{
+{ let mut v = v; v.push(e); v }
 }
 
 #[allow(unused_variables)]
-fn ___action412<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<Annotation>, usize),
-    ___1: (usize, Visibility, usize),
-    ___2: (usize, (NonterminalString, Vec<NonterminalString>), usize),
-    ___3: (usize, usize, usize),
-    ___4: (usize, Tok<'input>, usize),
-    ___5: (usize, TypeRef, usize),
-    ___6: (usize, Tok<'input>, usize),
-    ___7: (usize, Vec<Alternative>, usize),
-) -> GrammarItem {
-    let ___start0 = ___1.2.clone();
-    let ___end0 = ___2.0.clone();
-    let ___temp0 = ___action180(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action312(
-        text, ___0, ___1, ___temp0, ___2, ___3, ___4, ___5, ___6, ___7,
-    )
+fn ___action278<
+    'input,
+>(
+text: &'input str,
+(_, ___0, _): (usize, TypeRef, usize),
+) -> ::std::vec::Vec<TypeRef>
+{
+vec![___0]
 }
 
 #[allow(unused_variables)]
-fn ___action413<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<Annotation>, usize),
-    ___1: (usize, Visibility, usize),
-    ___2: (usize, (NonterminalString, Vec<NonterminalString>), usize),
-    ___3: (usize, usize, usize),
-    ___4: (usize, Tok<'input>, usize),
-    ___5: (usize, Vec<Alternative>, usize),
-) -> GrammarItem {
-    let ___start0 = ___1.2.clone();
-    let ___end0 = ___2.0.clone();
-    let ___temp0 = ___action180(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action313(text, ___0, ___1, ___temp0, ___2, ___3, ___4, ___5)
+fn ___action279<
+    'input,
+>(
+text: &'input str,
+(_, v, _): (usize, ::std::vec::Vec<TypeRef>, usize),
+(_, e, _): (usize, TypeRef, usize),
+) -> ::std::vec::Vec<TypeRef>
+{
+{ let mut v = v; v.push(e); v }
 }
 
 #[allow(unused_variables)]
-fn ___action414<'input>(
-    text: &'input str,
-    ___0: (usize, PatternKind<TypeRef>, usize),
-    ___1: (usize, usize, usize),
-) -> Pattern<TypeRef> {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.0.clone();
-    let ___temp0 = ___action180(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action90(text, ___temp0, ___0, ___1)
+fn ___action280<
+    'input,
+>(
+text: &'input str,
+(_, ___0, _): (usize, Symbol, usize),
+) -> ::std::vec::Vec<Symbol>
+{
+vec![___0]
 }
 
 #[allow(unused_variables)]
-fn ___action415<'input>(
-    text: &'input str,
-    ___0: (usize, &'input str, usize),
-) -> Result<Atom, ___lalrpop_util::ParseError<usize, Tok<'input>, tok::Error>> {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.0.clone();
-    let ___temp0 = ___action180(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action112(text, ___temp0, ___0)
+fn ___action281<
+    'input,
+>(
+text: &'input str,
+(_, v, _): (usize, ::std::vec::Vec<Symbol>, usize),
+(_, e, _): (usize, Symbol, usize),
+) -> ::std::vec::Vec<Symbol>
+{
+{ let mut v = v; v.push(e); v }
 }
 
 #[allow(unused_variables)]
-fn ___action416<'input>(
-    text: &'input str,
-    ___0: (usize, Tok<'input>, usize),
-    ___1: (usize, Atom, usize),
-    ___2: (usize, Tok<'input>, usize),
-    ___3: (usize, Symbol, usize),
-    ___4: (usize, Tok<'input>, usize),
-    ___5: (usize, usize, usize),
-) -> Symbol {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.0.clone();
-    let ___start1 = ___0.2.clone();
-    let ___end1 = ___1.0.clone();
-    let ___temp0 = ___action180(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    let ___temp1 = ___action180(text, &___start1, &___end1);
-    let ___temp1 = (___start1, ___temp1, ___end1);
-    ___action51(text, ___temp0, ___0, ___temp1, ___1, ___2, ___3, ___4, ___5)
+fn ___action282<
+    'input,
+>(
+text: &'input str,
+(_, ___0, _): (usize, Alternative, usize),
+) -> ::std::vec::Vec<Alternative>
+{
+vec![___0]
 }
 
 #[allow(unused_variables)]
-fn ___action417<'input>(
-    text: &'input str,
-    ___0: (usize, Tok<'input>, usize),
-    ___1: (usize, Symbol, usize),
-    ___2: (usize, Tok<'input>, usize),
-    ___3: (usize, usize, usize),
-) -> Symbol {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.0.clone();
-    let ___temp0 = ___action180(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action52(text, ___temp0, ___0, ___1, ___2, ___3)
+fn ___action283<
+    'input,
+>(
+text: &'input str,
+(_, v, _): (usize, ::std::vec::Vec<Alternative>, usize),
+(_, e, _): (usize, Alternative, usize),
+) -> ::std::vec::Vec<Alternative>
+{
+{ let mut v = v; v.push(e); v }
 }
 
 #[allow(unused_variables)]
-fn ___action418<'input>(
-    text: &'input str,
-    ___0: (usize, SymbolKind, usize),
-    ___1: (usize, usize, usize),
-) -> Symbol {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.0.clone();
-    let ___temp0 = ___action180(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action59(text, ___temp0, ___0, ___1)
+fn ___action284<
+    'input,
+>(
+text: &'input str,
+(_, ___0, _): (usize, NonterminalString, usize),
+) -> ::std::vec::Vec<NonterminalString>
+{
+vec![___0]
 }
 
 #[allow(unused_variables)]
-fn ___action419<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<Symbol>, usize),
-    ___1: (usize, Tok<'input>, usize),
-    ___2: (usize, Condition, usize),
-    ___3: (usize, ::std::option::Option<ActionKind>, usize),
-) -> Alternative {
-    let ___start0 = ___3.2.clone();
-    let ___end0 = ___3.2.clone();
-    let ___temp0 = ___action179(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action395(text, ___0, ___1, ___2, ___3, ___temp0)
+fn ___action285<
+    'input,
+>(
+text: &'input str,
+(_, v, _): (usize, ::std::vec::Vec<NonterminalString>, usize),
+(_, e, _): (usize, NonterminalString, usize),
+) -> ::std::vec::Vec<NonterminalString>
+{
+{ let mut v = v; v.push(e); v }
 }
 
 #[allow(unused_variables)]
-fn ___action420<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<Symbol>, usize),
-    ___1: (usize, ::std::option::Option<ActionKind>, usize),
-) -> Alternative {
-    let ___start0 = ___1.2.clone();
-    let ___end0 = ___1.2.clone();
-    let ___temp0 = ___action179(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action396(text, ___0, ___1, ___temp0)
+fn ___action286<
+    'input,
+>(
+text: &'input str,
+(_, ___0, _): (usize, Parameter, usize),
+) -> ::std::vec::Vec<Parameter>
+{
+vec![___0]
 }
 
 #[allow(unused_variables)]
-fn ___action421<'input>(
-    text: &'input str,
-    ___0: (usize, Tok<'input>, usize),
-    ___1: (usize, Condition, usize),
-    ___2: (usize, ActionKind, usize),
-) -> Alternative {
-    let ___start0 = ___2.2.clone();
-    let ___end0 = ___2.2.clone();
-    let ___temp0 = ___action179(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action397(text, ___0, ___1, ___2, ___temp0)
+fn ___action287<
+    'input,
+>(
+text: &'input str,
+(_, v, _): (usize, ::std::vec::Vec<Parameter>, usize),
+(_, e, _): (usize, Parameter, usize),
+) -> ::std::vec::Vec<Parameter>
+{
+{ let mut v = v; v.push(e); v }
 }
 
 #[allow(unused_variables)]
-fn ___action422<'input>(text: &'input str, ___0: (usize, ActionKind, usize)) -> Alternative {
-    let ___start0 = ___0.2.clone();
-    let ___end0 = ___0.2.clone();
-    let ___temp0 = ___action179(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action398(text, ___0, ___temp0)
+fn ___action288<
+    'input,
+>(
+text: &'input str,
+(_, ___0, _): (usize, TypeBoundParameter<TypeRef>, usize),
+) -> ::std::vec::Vec<TypeBoundParameter<TypeRef>>
+{
+vec![___0]
 }
 
 #[allow(unused_variables)]
-fn ___action423<'input>(
-    text: &'input str,
-    ___0: (usize, Tok<'input>, usize),
-    ___1: (usize, Tok<'input>, usize),
-    ___2: (usize, Atom, usize),
-    ___3: (usize, ::std::option::Option<(Atom, String)>, usize),
-    ___4: (usize, Tok<'input>, usize),
-) -> Annotation {
-    let ___start0 = ___3.2.clone();
-    let ___end0 = ___4.0.clone();
-    let ___temp0 = ___action179(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action399(text, ___0, ___1, ___2, ___3, ___temp0, ___4)
+fn ___action289<
+    'input,
+>(
+text: &'input str,
+(_, v, _): (usize, ::std::vec::Vec<TypeBoundParameter<TypeRef>>, usize),
+(_, e, _): (usize, TypeBoundParameter<TypeRef>, usize),
+) -> ::std::vec::Vec<TypeBoundParameter<TypeRef>>
+{
+{ let mut v = v; v.push(e); v }
 }
 
 #[allow(unused_variables)]
-fn ___action424<'input>(
-    text: &'input str,
-    ___0: (usize, Tok<'input>, usize),
-    ___1: (usize, Atom, usize),
-    ___2: (usize, Tok<'input>, usize),
-    ___3: (usize, TypeRef, usize),
-    ___4: (usize, Tok<'input>, usize),
-) -> AssociatedType {
-    let ___start0 = ___1.2.clone();
-    let ___end0 = ___2.0.clone();
-    let ___temp0 = ___action179(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action400(text, ___0, ___1, ___temp0, ___2, ___3, ___4)
+fn ___action290<
+    'input,
+>(
+text: &'input str,
+(_, ___0, _): (usize, TypeRef, usize),
+) -> ::std::vec::Vec<TypeRef>
+{
+vec![___0]
 }
 
 #[allow(unused_variables)]
-fn ___action425<'input>(
-    text: &'input str,
-    ___0: (usize, NonterminalString, usize),
-    ___1: (usize, ConditionOp, usize),
-    ___2: (usize, Atom, usize),
-) -> Condition {
-    let ___start0 = ___2.2.clone();
-    let ___end0 = ___2.2.clone();
-    let ___temp0 = ___action179(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action401(text, ___0, ___1, ___2, ___temp0)
+fn ___action291<
+    'input,
+>(
+text: &'input str,
+(_, v, _): (usize, ::std::vec::Vec<TypeRef>, usize),
+(_, e, _): (usize, TypeRef, usize),
+) -> ::std::vec::Vec<TypeRef>
+{
+{ let mut v = v; v.push(e); v }
 }
 
 #[allow(unused_variables)]
-fn ___action426<'input>(
-    text: &'input str,
-    ___0: (usize, TerminalString, usize),
-    ___1: (usize, &'input str, usize),
-) -> Result<Conversion, ___lalrpop_util::ParseError<usize, Tok<'input>, tok::Error>> {
-    let ___start0 = ___1.2.clone();
-    let ___end0 = ___1.2.clone();
-    let ___temp0 = ___action179(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action402(text, ___0, ___1, ___temp0)
+fn ___action292<
+    'input,
+>(
+text: &'input str,
+(_, ___0, _): (usize, TypeBound<TypeRef>, usize),
+) -> ::std::vec::Vec<TypeBound<TypeRef>>
+{
+vec![___0]
 }
 
 #[allow(unused_variables)]
-fn ___action427<'input>(
-    text: &'input str,
-    ___0: (usize, Tok<'input>, usize),
-    ___1: (usize, TypeRef, usize),
-    ___2: (usize, Tok<'input>, usize),
-    ___3: (usize, Vec<Conversion>, usize),
-    ___4: (usize, Tok<'input>, usize),
-) -> EnumToken {
-    let ___start0 = ___1.2.clone();
-    let ___end0 = ___2.0.clone();
-    let ___temp0 = ___action179(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action403(text, ___0, ___1, ___temp0, ___2, ___3, ___4)
+fn ___action293<
+    'input,
+>(
+text: &'input str,
+(_, v, _): (usize, ::std::vec::Vec<TypeBound<TypeRef>>, usize),
+(_, e, _): (usize, TypeBound<TypeRef>, usize),
+) -> ::std::vec::Vec<TypeBound<TypeRef>>
+{
+{ let mut v = v; v.push(e); v }
 }
 
 #[allow(unused_variables)]
-fn ___action428<'input>(
-    text: &'input str,
-    ___0: (usize, Tok<'input>, usize),
-    ___1: (usize, Tok<'input>, usize),
-    ___2: (usize, ::std::vec::Vec<AssociatedType>, usize),
-    ___3: (usize, EnumToken, usize),
-    ___4: (usize, ::std::vec::Vec<AssociatedType>, usize),
-    ___5: (usize, Tok<'input>, usize),
-) -> GrammarItem {
-    let ___start0 = ___0.2.clone();
-    let ___end0 = ___1.0.clone();
-    let ___temp0 = ___action179(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action404(text, ___0, ___temp0, ___1, ___2, ___3, ___4, ___5)
+fn ___action294<
+    'input,
+>(
+text: &'input str,
+(_, ___0, _): (usize, Atom, usize),
+) -> ::std::vec::Vec<Atom>
+{
+vec![___0]
 }
 
 #[allow(unused_variables)]
-fn ___action429<'input>(
-    text: &'input str,
-    ___0: (usize, Tok<'input>, usize),
-    ___1: (usize, Tok<'input>, usize),
-    ___2: (usize, ::std::vec::Vec<AssociatedType>, usize),
-    ___3: (usize, Tok<'input>, usize),
-) -> GrammarItem {
-    let ___start0 = ___0.2.clone();
-    let ___end0 = ___1.0.clone();
-    let ___temp0 = ___action179(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action405(text, ___0, ___temp0, ___1, ___2, ___3)
+fn ___action295<
+    'input,
+>(
+text: &'input str,
+(_, v, _): (usize, ::std::vec::Vec<Atom>, usize),
+(_, e, _): (usize, Atom, usize),
+) -> ::std::vec::Vec<Atom>
+{
+{ let mut v = v; v.push(e); v }
 }
 
 #[allow(unused_variables)]
-fn ___action430<'input>(
-    text: &'input str,
-    ___0: (usize, Atom, usize),
-    ___1: (usize, Tok<'input>, usize),
-    ___2: (usize, Pattern<TypeRef>, usize),
-) -> FieldPattern<TypeRef> {
-    let ___start0 = ___0.2.clone();
-    let ___end0 = ___1.0.clone();
-    let ___temp0 = ___action179(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action406(text, ___0, ___temp0, ___1, ___2)
+fn ___action296<
+    'input,
+>(
+text: &'input str,
+(_, ___0, _): (usize, Atom, usize),
+) -> ::std::vec::Vec<Atom>
+{
+vec![___0]
 }
 
 #[allow(unused_variables)]
-fn ___action431<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<String>, usize),
-    ___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-    ___2: (usize, ::std::vec::Vec<Annotation>, usize),
-    ___3: (usize, Tok<'input>, usize),
-    ___4: (usize, ::std::option::Option<Vec<TypeParameter>>, usize),
-    ___5: (usize, ::std::option::Option<Vec<Parameter>>, usize),
-    ___6: (
-        usize,
-        ::std::option::Option<Vec<WhereClause<TypeRef>>>,
-        usize,
-    ),
-    ___7: (usize, Tok<'input>, usize),
-    ___8: (usize, ::std::vec::Vec<GrammarItem>, usize),
-) -> Grammar {
-    let ___start0 = ___3.2.clone();
-    let ___end0 = ___4.0.clone();
-    let ___temp0 = ___action179(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action407(
-        text, ___0, ___1, ___2, ___3, ___temp0, ___4, ___5, ___6, ___7, ___8,
-    )
+fn ___action297<
+    'input,
+>(
+text: &'input str,
+(_, v, _): (usize, ::std::vec::Vec<Atom>, usize),
+(_, e, _): (usize, Atom, usize),
+) -> ::std::vec::Vec<Atom>
+{
+{ let mut v = v; v.push(e); v }
 }
 
 #[allow(unused_variables)]
-fn ___action432<'input>(text: &'input str, ___0: (usize, Tok<'input>, usize)) -> MatchItem {
-    let ___start0 = ___0.2.clone();
-    let ___end0 = ___0.2.clone();
-    let ___temp0 = ___action179(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action408(text, ___0, ___temp0)
+fn ___action298<
+    'input,
+>(
+text: &'input str,
+(_, ___0, _): (usize, WhereClause<TypeRef>, usize),
+) -> ::std::vec::Vec<WhereClause<TypeRef>>
+{
+vec![___0]
 }
 
 #[allow(unused_variables)]
-fn ___action433<'input>(text: &'input str, ___0: (usize, TerminalLiteral, usize)) -> MatchItem {
-    let ___start0 = ___0.2.clone();
-    let ___end0 = ___0.2.clone();
-    let ___temp0 = ___action179(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action409(text, ___0, ___temp0)
+fn ___action299<
+    'input,
+>(
+text: &'input str,
+(_, v, _): (usize, ::std::vec::Vec<WhereClause<TypeRef>>, usize),
+(_, e, _): (usize, WhereClause<TypeRef>, usize),
+) -> ::std::vec::Vec<WhereClause<TypeRef>>
+{
+{ let mut v = v; v.push(e); v }
 }
 
 #[allow(unused_variables)]
-fn ___action434<'input>(
-    text: &'input str,
-    ___0: (usize, TerminalLiteral, usize),
-    ___1: (usize, &'input str, usize),
-) -> Result<MatchItem, ___lalrpop_util::ParseError<usize, Tok<'input>, tok::Error>> {
-    let ___start0 = ___1.2.clone();
-    let ___end0 = ___1.2.clone();
-    let ___temp0 = ___action179(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action410(text, ___0, ___1, ___temp0)
+fn ___action300<
+    'input,
+>(
+text: &'input str,
+(_, ___0, _): (usize, TypeParameter, usize),
+) -> ::std::vec::Vec<TypeParameter>
+{
+vec![___0]
 }
 
 #[allow(unused_variables)]
-fn ___action435<'input>(
-    text: &'input str,
-    ___0: (usize, Tok<'input>, usize),
-    ___1: (usize, Tok<'input>, usize),
-    ___2: (usize, MatchContents, usize),
-    ___3: (usize, Tok<'input>, usize),
-) -> MatchToken {
-    let ___start0 = ___0.2.clone();
-    let ___end0 = ___1.0.clone();
-    let ___temp0 = ___action179(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action411(text, ___0, ___temp0, ___1, ___2, ___3)
+fn ___action301<
+    'input,
+>(
+text: &'input str,
+(_, v, _): (usize, ::std::vec::Vec<TypeParameter>, usize),
+(_, e, _): (usize, TypeParameter, usize),
+) -> ::std::vec::Vec<TypeParameter>
+{
+{ let mut v = v; v.push(e); v }
 }
-
-#[allow(unused_variables)]
-fn ___action436<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<Annotation>, usize),
-    ___1: (usize, Visibility, usize),
-    ___2: (usize, (NonterminalString, Vec<NonterminalString>), usize),
-    ___3: (usize, Tok<'input>, usize),
-    ___4: (usize, TypeRef, usize),
-    ___5: (usize, Tok<'input>, usize),
-    ___6: (usize, Vec<Alternative>, usize),
-) -> GrammarItem {
-    let ___start0 = ___2.2.clone();
-    let ___end0 = ___3.0.clone();
-    let ___temp0 = ___action179(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action412(text, ___0, ___1, ___2, ___temp0, ___3, ___4, ___5, ___6)
-}
-
-#[allow(unused_variables)]
-fn ___action437<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<Annotation>, usize),
-    ___1: (usize, Visibility, usize),
-    ___2: (usize, (NonterminalString, Vec<NonterminalString>), usize),
-    ___3: (usize, Tok<'input>, usize),
-    ___4: (usize, Vec<Alternative>, usize),
-) -> GrammarItem {
-    let ___start0 = ___2.2.clone();
-    let ___end0 = ___3.0.clone();
-    let ___temp0 = ___action179(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action413(text, ___0, ___1, ___2, ___temp0, ___3, ___4)
-}
-
-#[allow(unused_variables)]
-fn ___action438<'input>(
-    text: &'input str,
-    ___0: (usize, PatternKind<TypeRef>, usize),
-) -> Pattern<TypeRef> {
-    let ___start0 = ___0.2.clone();
-    let ___end0 = ___0.2.clone();
-    let ___temp0 = ___action179(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action414(text, ___0, ___temp0)
-}
-
-#[allow(unused_variables)]
-fn ___action439<'input>(
-    text: &'input str,
-    ___0: (usize, Tok<'input>, usize),
-    ___1: (usize, Atom, usize),
-    ___2: (usize, Tok<'input>, usize),
-    ___3: (usize, Symbol, usize),
-    ___4: (usize, Tok<'input>, usize),
-) -> Symbol {
-    let ___start0 = ___4.2.clone();
-    let ___end0 = ___4.2.clone();
-    let ___temp0 = ___action179(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action416(text, ___0, ___1, ___2, ___3, ___4, ___temp0)
-}
-
-#[allow(unused_variables)]
-fn ___action440<'input>(
-    text: &'input str,
-    ___0: (usize, Tok<'input>, usize),
-    ___1: (usize, Symbol, usize),
-    ___2: (usize, Tok<'input>, usize),
-) -> Symbol {
-    let ___start0 = ___2.2.clone();
-    let ___end0 = ___2.2.clone();
-    let ___temp0 = ___action179(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action417(text, ___0, ___1, ___2, ___temp0)
+
+#[allow(unused_variables)]
+fn ___action302<
+    'input,
+>(
+text: &'input str,
+___0: (usize, Tok<'input>, usize),
+___1: (usize, ::std::vec::Vec<Atom>, usize),
+___2: (usize, Atom, usize),
+) -> Path
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
+let ___temp0 = ___action128(
+text,
+___0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action75(
+text,
+___temp0,
+___1,
+___2,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action303<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<Atom>, usize),
+___1: (usize, Atom, usize),
+) -> Path
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
+let ___temp0 = ___action129(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action75(
+text,
+___temp0,
+___0,
+___1,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action304<
+    'input,
+>(
+text: &'input str,
+___0: (usize, Tok<'input>, usize),
+___1: (usize, Vec<Alternative>, usize),
+___2: (usize, Tok<'input>, usize),
+___3: (usize, Tok<'input>, usize),
+) -> Vec<Alternative>
+{
+let ___start0 = ___3.0.clone();
+let ___end0 = ___3.2.clone();
+let ___temp0 = ___action145(
+text,
+___3,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action38(
+text,
+___0,
+___1,
+___2,
+___temp0,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action305<
+    'input,
+>(
+text: &'input str,
+___0: (usize, Tok<'input>, usize),
+___1: (usize, Vec<Alternative>, usize),
+___2: (usize, Tok<'input>, usize),
+) -> Vec<Alternative>
+{
+let ___start0 = ___2.2.clone();
+let ___end0 = ___2.2.clone();
+let ___temp0 = ___action146(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action38(
+text,
+___0,
+___1,
+___2,
+___temp0,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action306<
+    'input,
+>(
+text: &'input str,
+___0: (usize, Tok<'input>, usize),
+___1: (usize, ::std::option::Option<Atom>, usize),
+___2: (usize, Tok<'input>, usize),
+___3: (usize, TypeRef, usize),
+) -> TypeRef
+{
+let ___start0 = ___2.0.clone();
+let ___end0 = ___2.2.clone();
+let ___temp0 = ___action131(
+text,
+___2,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action70(
+text,
+___0,
+___1,
+___temp0,
+___3,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action307<
+    'input,
+>(
+text: &'input str,
+___0: (usize, Tok<'input>, usize),
+___1: (usize, ::std::option::Option<Atom>, usize),
+___2: (usize, TypeRef, usize),
+) -> TypeRef
+{
+let ___start0 = ___1.2.clone();
+let ___end0 = ___2.0.clone();
+let ___temp0 = ___action132(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action70(
+text,
+___0,
+___1,
+___temp0,
+___2,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action308<
+    'input,
+>(
+text: &'input str,
+___0: (usize, Tok<'input>, usize),
+___1: (usize, TypeRef, usize),
+) -> ::std::option::Option<TypeRef>
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___1.2.clone();
+let ___temp0 = ___action162(
+text,
+___0,
+___1,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action160(
+text,
+___temp0,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action309<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::option::Option<Vec<Atom>>, usize),
+___1: (usize, Path, usize),
+___2: (usize, Tok<'input>, usize),
+___3: (usize, Vec<TypeRef>, usize),
+___4: (usize, Tok<'input>, usize),
+___5: (usize, Tok<'input>, usize),
+___6: (usize, TypeRef, usize),
+) -> TypeBound<TypeRef>
+{
+let ___start0 = ___5.0.clone();
+let ___end0 = ___6.2.clone();
+let ___temp0 = ___action308(
+text,
+___5,
+___6,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action16(
+text,
+___0,
+___1,
+___2,
+___3,
+___4,
+___temp0,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action310<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::option::Option<Vec<Atom>>, usize),
+___1: (usize, Path, usize),
+___2: (usize, Tok<'input>, usize),
+___3: (usize, Vec<TypeRef>, usize),
+___4: (usize, Tok<'input>, usize),
+) -> TypeBound<TypeRef>
+{
+let ___start0 = ___4.2.clone();
+let ___end0 = ___4.2.clone();
+let ___temp0 = ___action161(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action16(
+text,
+___0,
+___1,
+___2,
+___3,
+___4,
+___temp0,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action311<
+    'input,
+>(
+text: &'input str,
+___0: (usize, Tok<'input>, usize),
+___1: (usize, TypeRef, usize),
+) -> ::std::option::Option<TypeRef>
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___1.2.clone();
+let ___temp0 = ___action153(
+text,
+___0,
+___1,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action151(
+text,
+___temp0,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action312<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<Annotation>, usize),
+___1: (usize, Visibility, usize),
+___2: (usize, usize, usize),
+___3: (usize, (NonterminalString, Vec<NonterminalString>), usize),
+___4: (usize, usize, usize),
+___5: (usize, Tok<'input>, usize),
+___6: (usize, TypeRef, usize),
+___7: (usize, Tok<'input>, usize),
+___8: (usize, Vec<Alternative>, usize),
+) -> GrammarItem
+{
+let ___start0 = ___5.0.clone();
+let ___end0 = ___6.2.clone();
+let ___temp0 = ___action311(
+text,
+___5,
+___6,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action31(
+text,
+___0,
+___1,
+___2,
+___3,
+___4,
+___temp0,
+___7,
+___8,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action313<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<Annotation>, usize),
+___1: (usize, Visibility, usize),
+___2: (usize, usize, usize),
+___3: (usize, (NonterminalString, Vec<NonterminalString>), usize),
+___4: (usize, usize, usize),
+___5: (usize, Tok<'input>, usize),
+___6: (usize, Vec<Alternative>, usize),
+) -> GrammarItem
+{
+let ___start0 = ___4.2.clone();
+let ___end0 = ___5.0.clone();
+let ___temp0 = ___action152(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action31(
+text,
+___0,
+___1,
+___2,
+___3,
+___4,
+___temp0,
+___5,
+___6,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action314<
+    'input,
+>(
+text: &'input str,
+___0: (usize, Tok<'input>, usize),
+___1: (usize, Vec<TypeBoundParameter<TypeRef>>, usize),
+___2: (usize, Tok<'input>, usize),
+) -> ::std::option::Option<Vec<TypeBoundParameter<TypeRef>>>
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___2.2.clone();
+let ___temp0 = ___action158(
+text,
+___0,
+___1,
+___2,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action156(
+text,
+___temp0,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action315<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::option::Option<Vec<Atom>>, usize),
+___1: (usize, Path, usize),
+___2: (usize, Tok<'input>, usize),
+___3: (usize, Vec<TypeBoundParameter<TypeRef>>, usize),
+___4: (usize, Tok<'input>, usize),
+) -> TypeBound<TypeRef>
+{
+let ___start0 = ___2.0.clone();
+let ___end0 = ___4.2.clone();
+let ___temp0 = ___action314(
+text,
+___2,
+___3,
+___4,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action17(
+text,
+___0,
+___1,
+___temp0,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action316<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::option::Option<Vec<Atom>>, usize),
+___1: (usize, Path, usize),
+) -> TypeBound<TypeRef>
+{
+let ___start0 = ___1.2.clone();
+let ___end0 = ___1.2.clone();
+let ___temp0 = ___action157(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action17(
+text,
+___0,
+___1,
+___temp0,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action317<
+    'input,
+>(
+text: &'input str,
+___0: (usize, Tok<'input>, usize),
+___1: (usize, Condition, usize),
+) -> ::std::option::Option<Condition>
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___1.2.clone();
+let ___temp0 = ___action142(
+text,
+___0,
+___1,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action140(
+text,
+___temp0,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action318<
+    'input,
+>(
+text: &'input str,
+___0: (usize, usize, usize),
+___1: (usize, ::std::vec::Vec<Symbol>, usize),
+___2: (usize, Tok<'input>, usize),
+___3: (usize, Condition, usize),
+___4: (usize, ::std::option::Option<ActionKind>, usize),
+___5: (usize, usize, usize),
+) -> Alternative
+{
+let ___start0 = ___2.0.clone();
+let ___end0 = ___3.2.clone();
+let ___temp0 = ___action317(
+text,
+___2,
+___3,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action39(
+text,
+___0,
+___1,
+___temp0,
+___4,
+___5,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action319<
+    'input,
+>(
+text: &'input str,
+___0: (usize, usize, usize),
+___1: (usize, ::std::vec::Vec<Symbol>, usize),
+___2: (usize, ::std::option::Option<ActionKind>, usize),
+___3: (usize, usize, usize),
+) -> Alternative
+{
+let ___start0 = ___1.2.clone();
+let ___end0 = ___2.0.clone();
+let ___temp0 = ___action141(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action39(
+text,
+___0,
+___1,
+___temp0,
+___2,
+___3,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action320<
+    'input,
+>(
+text: &'input str,
+___0: (usize, usize, usize),
+___1: (usize, Tok<'input>, usize),
+___2: (usize, Condition, usize),
+___3: (usize, ActionKind, usize),
+___4: (usize, usize, usize),
+) -> Alternative
+{
+let ___start0 = ___1.0.clone();
+let ___end0 = ___2.2.clone();
+let ___temp0 = ___action317(
+text,
+___1,
+___2,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action40(
+text,
+___0,
+___temp0,
+___3,
+___4,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action321<
+    'input,
+>(
+text: &'input str,
+___0: (usize, usize, usize),
+___1: (usize, ActionKind, usize),
+___2: (usize, usize, usize),
+) -> Alternative
+{
+let ___start0 = ___0.2.clone();
+let ___end0 = ___1.0.clone();
+let ___temp0 = ___action141(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action40(
+text,
+___0,
+___temp0,
+___1,
+___2,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action322<
+    'input,
+>(
+text: &'input str,
+___lookbehind: &usize,
+___lookahead: &usize,
+) -> Visibility
+{
+let ___start0 = ___lookbehind.clone();
+let ___end0 = ___lookahead.clone();
+let ___temp0 = ___action154(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action30(
+text,
+___temp0,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action323<
+    'input,
+>(
+text: &'input str,
+___0: (usize, Alternative, usize),
+___1: (usize, Tok<'input>, usize),
+) -> ::std::vec::Vec<Alternative>
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___1.2.clone();
+let ___temp0 = ___action240(
+text,
+___0,
+___1,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action282(
+text,
+___temp0,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action324<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<Alternative>, usize),
+___1: (usize, Alternative, usize),
+___2: (usize, Tok<'input>, usize),
+) -> ::std::vec::Vec<Alternative>
+{
+let ___start0 = ___1.0.clone();
+let ___end0 = ___2.2.clone();
+let ___temp0 = ___action240(
+text,
+___1,
+___2,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action283(
+text,
+___0,
+___temp0,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action325<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::option::Option<Alternative>, usize),
+) -> Vec<Alternative>
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
+let ___temp0 = ___action238(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action147(
+text,
+___temp0,
+___0,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action326<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<Alternative>, usize),
+___1: (usize, ::std::option::Option<Alternative>, usize),
+) -> Vec<Alternative>
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
+let ___temp0 = ___action239(
+text,
+___0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action147(
+text,
+___temp0,
+___1,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action327<
+    'input,
+>(
+text: &'input str,
+___0: (usize, Conversion, usize),
+___1: (usize, Tok<'input>, usize),
+) -> ::std::vec::Vec<Conversion>
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___1.2.clone();
+let ___temp0 = ___action264(
+text,
+___0,
+___1,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action274(
+text,
+___temp0,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action328<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<Conversion>, usize),
+___1: (usize, Conversion, usize),
+___2: (usize, Tok<'input>, usize),
+) -> ::std::vec::Vec<Conversion>
+{
+let ___start0 = ___1.0.clone();
+let ___end0 = ___2.2.clone();
+let ___temp0 = ___action264(
+text,
+___1,
+___2,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action275(
+text,
+___0,
+___temp0,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action329<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::option::Option<Conversion>, usize),
+) -> Vec<Conversion>
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
+let ___temp0 = ___action262(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action121(
+text,
+___temp0,
+___0,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action330<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<Conversion>, usize),
+___1: (usize, ::std::option::Option<Conversion>, usize),
+) -> Vec<Conversion>
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
+let ___temp0 = ___action263(
+text,
+___0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action121(
+text,
+___temp0,
+___1,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action331<
+    'input,
+>(
+text: &'input str,
+___0: (usize, FieldPattern<TypeRef>, usize),
+___1: (usize, Tok<'input>, usize),
+) -> ::std::vec::Vec<FieldPattern<TypeRef>>
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___1.2.clone();
+let ___temp0 = ___action119(
+text,
+___0,
+___1,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action270(
+text,
+___temp0,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action332<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<FieldPattern<TypeRef>>, usize),
+___1: (usize, FieldPattern<TypeRef>, usize),
+___2: (usize, Tok<'input>, usize),
+) -> ::std::vec::Vec<FieldPattern<TypeRef>>
+{
+let ___start0 = ___1.0.clone();
+let ___end0 = ___2.2.clone();
+let ___temp0 = ___action119(
+text,
+___1,
+___2,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action271(
+text,
+___0,
+___temp0,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action333<
+    'input,
+>(
+text: &'input str,
+___0: (usize, Path, usize),
+___1: (usize, Tok<'input>, usize),
+___2: (usize, ::std::option::Option<FieldPattern<TypeRef>>, usize),
+___3: (usize, Tok<'input>, usize),
+) -> PatternKind<TypeRef>
+{
+let ___start0 = ___1.2.clone();
+let ___end0 = ___2.0.clone();
+let ___temp0 = ___action117(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action92(
+text,
+___0,
+___1,
+___temp0,
+___2,
+___3,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action334<
+    'input,
+>(
+text: &'input str,
+___0: (usize, Path, usize),
+___1: (usize, Tok<'input>, usize),
+___2: (usize, ::std::vec::Vec<FieldPattern<TypeRef>>, usize),
+___3: (usize, ::std::option::Option<FieldPattern<TypeRef>>, usize),
+___4: (usize, Tok<'input>, usize),
+) -> PatternKind<TypeRef>
+{
+let ___start0 = ___2.0.clone();
+let ___end0 = ___2.2.clone();
+let ___temp0 = ___action118(
+text,
+___2,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action92(
+text,
+___0,
+___1,
+___temp0,
+___3,
+___4,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action335<
+    'input,
+>(
+text: &'input str,
+___0: (usize, Path, usize),
+___1: (usize, Tok<'input>, usize),
+___2: (usize, Tok<'input>, usize),
+___3: (usize, Tok<'input>, usize),
+) -> PatternKind<TypeRef>
+{
+let ___start0 = ___1.2.clone();
+let ___end0 = ___2.0.clone();
+let ___temp0 = ___action117(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action93(
+text,
+___0,
+___1,
+___temp0,
+___2,
+___3,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action336<
+    'input,
+>(
+text: &'input str,
+___0: (usize, Path, usize),
+___1: (usize, Tok<'input>, usize),
+___2: (usize, ::std::vec::Vec<FieldPattern<TypeRef>>, usize),
+___3: (usize, Tok<'input>, usize),
+___4: (usize, Tok<'input>, usize),
+) -> PatternKind<TypeRef>
+{
+let ___start0 = ___2.0.clone();
+let ___end0 = ___2.2.clone();
+let ___temp0 = ___action118(
+text,
+___2,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action93(
+text,
+___0,
+___1,
+___temp0,
+___3,
+___4,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action337<
+    'input,
+>(
+text: &'input str,
+___0: (usize, Parameter, usize),
+___1: (usize, Tok<'input>, usize),
+) -> ::std::vec::Vec<Parameter>
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___1.2.clone();
+let ___temp0 = ___action230(
+text,
+___0,
+___1,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action286(
+text,
+___temp0,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action338<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<Parameter>, usize),
+___1: (usize, Parameter, usize),
+___2: (usize, Tok<'input>, usize),
+) -> ::std::vec::Vec<Parameter>
+{
+let ___start0 = ___1.0.clone();
+let ___end0 = ___2.2.clone();
+let ___temp0 = ___action230(
+text,
+___1,
+___2,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action287(
+text,
+___0,
+___temp0,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action339<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::option::Option<Parameter>, usize),
+) -> Vec<Parameter>
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
+let ___temp0 = ___action228(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action155(
+text,
+___temp0,
+___0,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action340<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<Parameter>, usize),
+___1: (usize, ::std::option::Option<Parameter>, usize),
+) -> Vec<Parameter>
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
+let ___temp0 = ___action229(
+text,
+___0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action155(
+text,
+___temp0,
+___1,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action341<
+    'input,
+>(
+text: &'input str,
+___0: (usize, WhereClause<TypeRef>, usize),
+___1: (usize, Tok<'input>, usize),
+) -> ::std::vec::Vec<WhereClause<TypeRef>>
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___1.2.clone();
+let ___temp0 = ___action204(
+text,
+___0,
+___1,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action298(
+text,
+___temp0,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action342<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<WhereClause<TypeRef>>, usize),
+___1: (usize, WhereClause<TypeRef>, usize),
+___2: (usize, Tok<'input>, usize),
+) -> ::std::vec::Vec<WhereClause<TypeRef>>
+{
+let ___start0 = ___1.0.clone();
+let ___end0 = ___2.2.clone();
+let ___temp0 = ___action204(
+text,
+___1,
+___2,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action299(
+text,
+___0,
+___temp0,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action343<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::option::Option<WhereClause<TypeRef>>, usize),
+) -> Vec<WhereClause<TypeRef>>
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
+let ___temp0 = ___action202(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action169(
+text,
+___temp0,
+___0,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action344<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<WhereClause<TypeRef>>, usize),
+___1: (usize, ::std::option::Option<WhereClause<TypeRef>>, usize),
+) -> Vec<WhereClause<TypeRef>>
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
+let ___temp0 = ___action203(
+text,
+___0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action169(
+text,
+___temp0,
+___1,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action345<
+    'input,
+>(
+text: &'input str,
+___0: (usize, Atom, usize),
+___1: (usize, Tok<'input>, usize),
+) -> ::std::vec::Vec<Atom>
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___1.2.clone();
+let ___temp0 = ___action127(
+text,
+___0,
+___1,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action251(
+text,
+___temp0,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action346<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<Atom>, usize),
+___1: (usize, Atom, usize),
+___2: (usize, Tok<'input>, usize),
+) -> ::std::vec::Vec<Atom>
+{
+let ___start0 = ___1.0.clone();
+let ___end0 = ___2.2.clone();
+let ___temp0 = ___action127(
+text,
+___1,
+___2,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action252(
+text,
+___0,
+___temp0,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action347<
+    'input,
+>(
+text: &'input str,
+___0: (usize, Tok<'input>, usize),
+___1: (usize, Atom, usize),
+) -> Path
+{
+let ___start0 = ___0.2.clone();
+let ___end0 = ___1.0.clone();
+let ___temp0 = ___action125(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action302(
+text,
+___0,
+___temp0,
+___1,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action348<
+    'input,
+>(
+text: &'input str,
+___0: (usize, Tok<'input>, usize),
+___1: (usize, ::std::vec::Vec<Atom>, usize),
+___2: (usize, Atom, usize),
+) -> Path
+{
+let ___start0 = ___1.0.clone();
+let ___end0 = ___1.2.clone();
+let ___temp0 = ___action126(
+text,
+___1,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action302(
+text,
+___0,
+___temp0,
+___2,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action349<
+    'input,
+>(
+text: &'input str,
+___0: (usize, Atom, usize),
+) -> Path
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
+let ___temp0 = ___action125(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action303(
+text,
+___temp0,
+___0,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action350<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<Atom>, usize),
+___1: (usize, Atom, usize),
+) -> Path
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
+let ___temp0 = ___action126(
+text,
+___0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action303(
+text,
+___temp0,
+___1,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action351<
+    'input,
+>(
+text: &'input str,
+___0: (usize, Atom, usize),
+___1: (usize, Tok<'input>, usize),
+) -> ::std::vec::Vec<Atom>
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___1.2.clone();
+let ___temp0 = ___action207(
+text,
+___0,
+___1,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action296(
+text,
+___temp0,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action352<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<Atom>, usize),
+___1: (usize, Atom, usize),
+___2: (usize, Tok<'input>, usize),
+) -> ::std::vec::Vec<Atom>
+{
+let ___start0 = ___1.0.clone();
+let ___end0 = ___2.2.clone();
+let ___temp0 = ___action207(
+text,
+___1,
+___2,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action297(
+text,
+___0,
+___temp0,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action353<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::option::Option<Atom>, usize),
+) -> Vec<Atom>
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
+let ___temp0 = ___action205(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action168(
+text,
+___temp0,
+___0,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action354<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<Atom>, usize),
+___1: (usize, ::std::option::Option<Atom>, usize),
+) -> Vec<Atom>
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
+let ___temp0 = ___action206(
+text,
+___0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action168(
+text,
+___temp0,
+___1,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action355<
+    'input,
+>(
+text: &'input str,
+___0: (usize, Atom, usize),
+___1: (usize, Tok<'input>, usize),
+) -> ::std::vec::Vec<Atom>
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___1.2.clone();
+let ___temp0 = ___action210(
+text,
+___0,
+___1,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action294(
+text,
+___temp0,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action356<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<Atom>, usize),
+___1: (usize, Atom, usize),
+___2: (usize, Tok<'input>, usize),
+) -> ::std::vec::Vec<Atom>
+{
+let ___start0 = ___1.0.clone();
+let ___end0 = ___2.2.clone();
+let ___temp0 = ___action210(
+text,
+___1,
+___2,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action295(
+text,
+___0,
+___temp0,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action357<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::option::Option<Atom>, usize),
+) -> Vec<Atom>
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
+let ___temp0 = ___action208(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action165(
+text,
+___temp0,
+___0,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action358<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<Atom>, usize),
+___1: (usize, ::std::option::Option<Atom>, usize),
+) -> Vec<Atom>
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
+let ___temp0 = ___action209(
+text,
+___0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action165(
+text,
+___temp0,
+___1,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action359<
+    'input,
+>(
+text: &'input str,
+___0: (usize, MatchItem, usize),
+___1: (usize, Tok<'input>, usize),
+) -> ::std::vec::Vec<MatchItem>
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___1.2.clone();
+let ___temp0 = ___action259(
+text,
+___0,
+___1,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action276(
+text,
+___temp0,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action360<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<MatchItem>, usize),
+___1: (usize, MatchItem, usize),
+___2: (usize, Tok<'input>, usize),
+) -> ::std::vec::Vec<MatchItem>
+{
+let ___start0 = ___1.0.clone();
+let ___end0 = ___2.2.clone();
+let ___temp0 = ___action259(
+text,
+___1,
+___2,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action277(
+text,
+___0,
+___temp0,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action361<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::option::Option<MatchItem>, usize),
+) -> Vec<MatchItem>
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
+let ___temp0 = ___action257(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action122(
+text,
+___temp0,
+___0,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action362<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<MatchItem>, usize),
+___1: (usize, ::std::option::Option<MatchItem>, usize),
+) -> Vec<MatchItem>
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
+let ___temp0 = ___action258(
+text,
+___0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action122(
+text,
+___temp0,
+___1,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action363<
+    'input,
+>(
+text: &'input str,
+___0: (usize, NonterminalString, usize),
+___1: (usize, Tok<'input>, usize),
+) -> ::std::vec::Vec<NonterminalString>
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___1.2.clone();
+let ___temp0 = ___action235(
+text,
+___0,
+___1,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action284(
+text,
+___temp0,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action364<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<NonterminalString>, usize),
+___1: (usize, NonterminalString, usize),
+___2: (usize, Tok<'input>, usize),
+) -> ::std::vec::Vec<NonterminalString>
+{
+let ___start0 = ___1.0.clone();
+let ___end0 = ___2.2.clone();
+let ___temp0 = ___action235(
+text,
+___1,
+___2,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action285(
+text,
+___0,
+___temp0,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action365<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::option::Option<NonterminalString>, usize),
+) -> Vec<NonterminalString>
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
+let ___temp0 = ___action233(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action148(
+text,
+___temp0,
+___0,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action366<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<NonterminalString>, usize),
+___1: (usize, ::std::option::Option<NonterminalString>, usize),
+) -> Vec<NonterminalString>
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
+let ___temp0 = ___action234(
+text,
+___0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action148(
+text,
+___temp0,
+___1,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action367<
+    'input,
+>(
+text: &'input str,
+___0: (usize, Pattern<TypeRef>, usize),
+___1: (usize, Tok<'input>, usize),
+) -> ::std::vec::Vec<Pattern<TypeRef>>
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___1.2.clone();
+let ___temp0 = ___action269(
+text,
+___0,
+___1,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action272(
+text,
+___temp0,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action368<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<Pattern<TypeRef>>, usize),
+___1: (usize, Pattern<TypeRef>, usize),
+___2: (usize, Tok<'input>, usize),
+) -> ::std::vec::Vec<Pattern<TypeRef>>
+{
+let ___start0 = ___1.0.clone();
+let ___end0 = ___2.2.clone();
+let ___temp0 = ___action269(
+text,
+___1,
+___2,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action273(
+text,
+___0,
+___temp0,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action369<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::option::Option<Pattern<TypeRef>>, usize),
+) -> Vec<Pattern<TypeRef>>
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
+let ___temp0 = ___action267(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action120(
+text,
+___temp0,
+___0,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action370<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<Pattern<TypeRef>>, usize),
+___1: (usize, ::std::option::Option<Pattern<TypeRef>>, usize),
+) -> Vec<Pattern<TypeRef>>
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
+let ___temp0 = ___action268(
+text,
+___0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action120(
+text,
+___temp0,
+___1,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action371<
+    'input,
+>(
+text: &'input str,
+___0: (usize, Symbol, usize),
+___1: (usize, Tok<'input>, usize),
+) -> ::std::vec::Vec<Symbol>
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___1.2.clone();
+let ___temp0 = ___action245(
+text,
+___0,
+___1,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action280(
+text,
+___temp0,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action372<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<Symbol>, usize),
+___1: (usize, Symbol, usize),
+___2: (usize, Tok<'input>, usize),
+) -> ::std::vec::Vec<Symbol>
+{
+let ___start0 = ___1.0.clone();
+let ___end0 = ___2.2.clone();
+let ___temp0 = ___action245(
+text,
+___1,
+___2,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action281(
+text,
+___0,
+___temp0,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action373<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::option::Option<Symbol>, usize),
+) -> Vec<Symbol>
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
+let ___temp0 = ___action243(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action135(
+text,
+___temp0,
+___0,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action374<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<Symbol>, usize),
+___1: (usize, ::std::option::Option<Symbol>, usize),
+) -> Vec<Symbol>
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
+let ___temp0 = ___action244(
+text,
+___0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action135(
+text,
+___temp0,
+___1,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action375<
+    'input,
+>(
+text: &'input str,
+___0: (usize, TypeBound<TypeRef>, usize),
+___1: (usize, Tok<'input>, usize),
+) -> ::std::vec::Vec<TypeBound<TypeRef>>
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___1.2.clone();
+let ___temp0 = ___action215(
+text,
+___0,
+___1,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action292(
+text,
+___temp0,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action376<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<TypeBound<TypeRef>>, usize),
+___1: (usize, TypeBound<TypeRef>, usize),
+___2: (usize, Tok<'input>, usize),
+) -> ::std::vec::Vec<TypeBound<TypeRef>>
+{
+let ___start0 = ___1.0.clone();
+let ___end0 = ___2.2.clone();
+let ___temp0 = ___action215(
+text,
+___1,
+___2,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action293(
+text,
+___0,
+___temp0,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action377<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::option::Option<TypeBound<TypeRef>>, usize),
+) -> Vec<TypeBound<TypeRef>>
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
+let ___temp0 = ___action213(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action164(
+text,
+___temp0,
+___0,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action378<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<TypeBound<TypeRef>>, usize),
+___1: (usize, ::std::option::Option<TypeBound<TypeRef>>, usize),
+) -> Vec<TypeBound<TypeRef>>
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
+let ___temp0 = ___action214(
+text,
+___0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action164(
+text,
+___temp0,
+___1,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action379<
+    'input,
+>(
+text: &'input str,
+___0: (usize, TypeBoundParameter<TypeRef>, usize),
+___1: (usize, Tok<'input>, usize),
+) -> ::std::vec::Vec<TypeBoundParameter<TypeRef>>
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___1.2.clone();
+let ___temp0 = ___action225(
+text,
+___0,
+___1,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action288(
+text,
+___temp0,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action380<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<TypeBoundParameter<TypeRef>>, usize),
+___1: (usize, TypeBoundParameter<TypeRef>, usize),
+___2: (usize, Tok<'input>, usize),
+) -> ::std::vec::Vec<TypeBoundParameter<TypeRef>>
+{
+let ___start0 = ___1.0.clone();
+let ___end0 = ___2.2.clone();
+let ___temp0 = ___action225(
+text,
+___1,
+___2,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action289(
+text,
+___0,
+___temp0,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action381<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::option::Option<TypeBoundParameter<TypeRef>>, usize),
+) -> Vec<TypeBoundParameter<TypeRef>>
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
+let ___temp0 = ___action223(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action159(
+text,
+___temp0,
+___0,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action382<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<TypeBoundParameter<TypeRef>>, usize),
+___1: (usize, ::std::option::Option<TypeBoundParameter<TypeRef>>, usize),
+) -> Vec<TypeBoundParameter<TypeRef>>
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
+let ___temp0 = ___action224(
+text,
+___0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action159(
+text,
+___temp0,
+___1,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action383<
+    'input,
+>(
+text: &'input str,
+___0: (usize, TypeParameter, usize),
+___1: (usize, Tok<'input>, usize),
+) -> ::std::vec::Vec<TypeParameter>
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___1.2.clone();
+let ___temp0 = ___action199(
+text,
+___0,
+___1,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action300(
+text,
+___temp0,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action384<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<TypeParameter>, usize),
+___1: (usize, TypeParameter, usize),
+___2: (usize, Tok<'input>, usize),
+) -> ::std::vec::Vec<TypeParameter>
+{
+let ___start0 = ___1.0.clone();
+let ___end0 = ___2.2.clone();
+let ___temp0 = ___action199(
+text,
+___1,
+___2,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action301(
+text,
+___0,
+___temp0,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action385<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::option::Option<TypeParameter>, usize),
+) -> Vec<TypeParameter>
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
+let ___temp0 = ___action197(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action170(
+text,
+___temp0,
+___0,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action386<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<TypeParameter>, usize),
+___1: (usize, ::std::option::Option<TypeParameter>, usize),
+) -> Vec<TypeParameter>
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
+let ___temp0 = ___action198(
+text,
+___0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action170(
+text,
+___temp0,
+___1,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action387<
+    'input,
+>(
+text: &'input str,
+___0: (usize, TypeRef, usize),
+___1: (usize, Tok<'input>, usize),
+) -> ::std::vec::Vec<TypeRef>
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___1.2.clone();
+let ___temp0 = ___action220(
+text,
+___0,
+___1,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action290(
+text,
+___temp0,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action388<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<TypeRef>, usize),
+___1: (usize, TypeRef, usize),
+___2: (usize, Tok<'input>, usize),
+) -> ::std::vec::Vec<TypeRef>
+{
+let ___start0 = ___1.0.clone();
+let ___end0 = ___2.2.clone();
+let ___temp0 = ___action220(
+text,
+___1,
+___2,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action291(
+text,
+___0,
+___temp0,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action389<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::option::Option<TypeRef>, usize),
+) -> Vec<TypeRef>
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
+let ___temp0 = ___action218(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action163(
+text,
+___temp0,
+___0,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action390<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<TypeRef>, usize),
+___1: (usize, ::std::option::Option<TypeRef>, usize),
+) -> Vec<TypeRef>
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
+let ___temp0 = ___action219(
+text,
+___0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action163(
+text,
+___temp0,
+___1,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action391<
+    'input,
+>(
+text: &'input str,
+___0: (usize, TypeRef, usize),
+___1: (usize, Tok<'input>, usize),
+) -> ::std::vec::Vec<TypeRef>
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___1.2.clone();
+let ___temp0 = ___action250(
+text,
+___0,
+___1,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action278(
+text,
+___temp0,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action392<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<TypeRef>, usize),
+___1: (usize, TypeRef, usize),
+___2: (usize, Tok<'input>, usize),
+) -> ::std::vec::Vec<TypeRef>
+{
+let ___start0 = ___1.0.clone();
+let ___end0 = ___2.2.clone();
+let ___temp0 = ___action250(
+text,
+___1,
+___2,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action279(
+text,
+___0,
+___temp0,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action393<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::option::Option<TypeRef>, usize),
+) -> Vec<TypeRef>
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
+let ___temp0 = ___action248(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action130(
+text,
+___temp0,
+___0,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action394<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<TypeRef>, usize),
+___1: (usize, ::std::option::Option<TypeRef>, usize),
+) -> Vec<TypeRef>
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
+let ___temp0 = ___action249(
+text,
+___0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action130(
+text,
+___temp0,
+___1,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action395<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<Symbol>, usize),
+___1: (usize, Tok<'input>, usize),
+___2: (usize, Condition, usize),
+___3: (usize, ::std::option::Option<ActionKind>, usize),
+___4: (usize, usize, usize),
+) -> Alternative
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
+let ___temp0 = ___action180(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action318(
+text,
+___temp0,
+___0,
+___1,
+___2,
+___3,
+___4,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action396<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<Symbol>, usize),
+___1: (usize, ::std::option::Option<ActionKind>, usize),
+___2: (usize, usize, usize),
+) -> Alternative
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
+let ___temp0 = ___action180(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action319(
+text,
+___temp0,
+___0,
+___1,
+___2,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action397<
+    'input,
+>(
+text: &'input str,
+___0: (usize, Tok<'input>, usize),
+___1: (usize, Condition, usize),
+___2: (usize, ActionKind, usize),
+___3: (usize, usize, usize),
+) -> Alternative
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
+let ___temp0 = ___action180(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action320(
+text,
+___temp0,
+___0,
+___1,
+___2,
+___3,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action398<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ActionKind, usize),
+___1: (usize, usize, usize),
+) -> Alternative
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
+let ___temp0 = ___action180(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action321(
+text,
+___temp0,
+___0,
+___1,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action399<
+    'input,
+>(
+text: &'input str,
+___0: (usize, Tok<'input>, usize),
+___1: (usize, Tok<'input>, usize),
+___2: (usize, Atom, usize),
+___3: (usize, ::std::option::Option<(Atom, String)>, usize),
+___4: (usize, usize, usize),
+___5: (usize, Tok<'input>, usize),
+) -> Annotation
+{
+let ___start0 = ___1.2.clone();
+let ___end0 = ___2.0.clone();
+let ___temp0 = ___action180(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action33(
+text,
+___0,
+___1,
+___temp0,
+___2,
+___3,
+___4,
+___5,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action400<
+    'input,
+>(
+text: &'input str,
+___0: (usize, Tok<'input>, usize),
+___1: (usize, Atom, usize),
+___2: (usize, usize, usize),
+___3: (usize, Tok<'input>, usize),
+___4: (usize, TypeRef, usize),
+___5: (usize, Tok<'input>, usize),
+) -> AssociatedType
+{
+let ___start0 = ___0.2.clone();
+let ___end0 = ___1.0.clone();
+let ___temp0 = ___action180(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action88(
+text,
+___0,
+___temp0,
+___1,
+___2,
+___3,
+___4,
+___5,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action401<
+    'input,
+>(
+text: &'input str,
+___0: (usize, NonterminalString, usize),
+___1: (usize, ConditionOp, usize),
+___2: (usize, Atom, usize),
+___3: (usize, usize, usize),
+) -> Condition
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
+let ___temp0 = ___action180(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action45(
+text,
+___temp0,
+___0,
+___1,
+___2,
+___3,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action402<
+    'input,
+>(
+text: &'input str,
+___0: (usize, TerminalString, usize),
+___1: (usize, &'input str, usize),
+___2: (usize, usize, usize),
+) -> Result<Conversion,___lalrpop_util::ParseError<usize,Tok<'input>,tok::Error>>
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
+let ___start1 = ___0.2.clone();
+let ___end1 = ___1.0.clone();
+let ___temp0 = ___action180(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+let ___temp1 = ___action180(
+text,
+&___start1,
+&___end1,
+);
+let ___temp1 = (___start1, ___temp1, ___end1);
+___action89(
+text,
+___temp0,
+___0,
+___temp1,
+___1,
+___2,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action403<
+    'input,
+>(
+text: &'input str,
+___0: (usize, Tok<'input>, usize),
+___1: (usize, TypeRef, usize),
+___2: (usize, usize, usize),
+___3: (usize, Tok<'input>, usize),
+___4: (usize, Vec<Conversion>, usize),
+___5: (usize, Tok<'input>, usize),
+) -> EnumToken
+{
+let ___start0 = ___0.2.clone();
+let ___end0 = ___1.0.clone();
+let ___temp0 = ___action180(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action87(
+text,
+___0,
+___temp0,
+___1,
+___2,
+___3,
+___4,
+___5,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action404<
+    'input,
+>(
+text: &'input str,
+___0: (usize, Tok<'input>, usize),
+___1: (usize, usize, usize),
+___2: (usize, Tok<'input>, usize),
+___3: (usize, ::std::vec::Vec<AssociatedType>, usize),
+___4: (usize, EnumToken, usize),
+___5: (usize, ::std::vec::Vec<AssociatedType>, usize),
+___6: (usize, Tok<'input>, usize),
+) -> GrammarItem
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
+let ___temp0 = ___action180(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action76(
+text,
+___temp0,
+___0,
+___1,
+___2,
+___3,
+___4,
+___5,
+___6,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action405<
+    'input,
+>(
+text: &'input str,
+___0: (usize, Tok<'input>, usize),
+___1: (usize, usize, usize),
+___2: (usize, Tok<'input>, usize),
+___3: (usize, ::std::vec::Vec<AssociatedType>, usize),
+___4: (usize, Tok<'input>, usize),
+) -> GrammarItem
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
+let ___temp0 = ___action180(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action77(
+text,
+___temp0,
+___0,
+___1,
+___2,
+___3,
+___4,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action406<
+    'input,
+>(
+text: &'input str,
+___0: (usize, Atom, usize),
+___1: (usize, usize, usize),
+___2: (usize, Tok<'input>, usize),
+___3: (usize, Pattern<TypeRef>, usize),
+) -> FieldPattern<TypeRef>
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
+let ___temp0 = ___action180(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action100(
+text,
+___temp0,
+___0,
+___1,
+___2,
+___3,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action407<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<String>, usize),
+___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___2: (usize, ::std::vec::Vec<Annotation>, usize),
+___3: (usize, Tok<'input>, usize),
+___4: (usize, usize, usize),
+___5: (usize, ::std::option::Option<Vec<TypeParameter>>, usize),
+___6: (usize, ::std::option::Option<Vec<Parameter>>, usize),
+___7: (usize, ::std::option::Option<Vec<WhereClause<TypeRef>>>, usize),
+___8: (usize, Tok<'input>, usize),
+___9: (usize, ::std::vec::Vec<GrammarItem>, usize),
+) -> Grammar
+{
+let ___start0 = ___2.2.clone();
+let ___end0 = ___3.0.clone();
+let ___temp0 = ___action180(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action6(
+text,
+___0,
+___1,
+___2,
+___temp0,
+___3,
+___4,
+___5,
+___6,
+___7,
+___8,
+___9,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action408<
+    'input,
+>(
+text: &'input str,
+___0: (usize, Tok<'input>, usize),
+___1: (usize, usize, usize),
+) -> MatchItem
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
+let ___temp0 = ___action180(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action82(
+text,
+___temp0,
+___0,
+___1,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action409<
+    'input,
+>(
+text: &'input str,
+___0: (usize, TerminalLiteral, usize),
+___1: (usize, usize, usize),
+) -> MatchItem
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
+let ___temp0 = ___action180(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action83(
+text,
+___temp0,
+___0,
+___1,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action410<
+    'input,
+>(
+text: &'input str,
+___0: (usize, TerminalLiteral, usize),
+___1: (usize, &'input str, usize),
+___2: (usize, usize, usize),
+) -> Result<MatchItem,___lalrpop_util::ParseError<usize,Tok<'input>,tok::Error>>
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
+let ___start1 = ___0.2.clone();
+let ___end1 = ___1.0.clone();
+let ___temp0 = ___action180(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+let ___temp1 = ___action180(
+text,
+&___start1,
+&___end1,
+);
+let ___temp1 = (___start1, ___temp1, ___end1);
+___action84(
+text,
+___temp0,
+___0,
+___temp1,
+___1,
+___2,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action411<
+    'input,
+>(
+text: &'input str,
+___0: (usize, Tok<'input>, usize),
+___1: (usize, usize, usize),
+___2: (usize, Tok<'input>, usize),
+___3: (usize, MatchContents, usize),
+___4: (usize, Tok<'input>, usize),
+) -> MatchToken
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
+let ___temp0 = ___action180(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action80(
+text,
+___temp0,
+___0,
+___1,
+___2,
+___3,
+___4,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action412<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<Annotation>, usize),
+___1: (usize, Visibility, usize),
+___2: (usize, (NonterminalString, Vec<NonterminalString>), usize),
+___3: (usize, usize, usize),
+___4: (usize, Tok<'input>, usize),
+___5: (usize, TypeRef, usize),
+___6: (usize, Tok<'input>, usize),
+___7: (usize, Vec<Alternative>, usize),
+) -> GrammarItem
+{
+let ___start0 = ___1.2.clone();
+let ___end0 = ___2.0.clone();
+let ___temp0 = ___action180(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action312(
+text,
+___0,
+___1,
+___temp0,
+___2,
+___3,
+___4,
+___5,
+___6,
+___7,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action413<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<Annotation>, usize),
+___1: (usize, Visibility, usize),
+___2: (usize, (NonterminalString, Vec<NonterminalString>), usize),
+___3: (usize, usize, usize),
+___4: (usize, Tok<'input>, usize),
+___5: (usize, Vec<Alternative>, usize),
+) -> GrammarItem
+{
+let ___start0 = ___1.2.clone();
+let ___end0 = ___2.0.clone();
+let ___temp0 = ___action180(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action313(
+text,
+___0,
+___1,
+___temp0,
+___2,
+___3,
+___4,
+___5,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action414<
+    'input,
+>(
+text: &'input str,
+___0: (usize, PatternKind<TypeRef>, usize),
+___1: (usize, usize, usize),
+) -> Pattern<TypeRef>
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
+let ___temp0 = ___action180(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action90(
+text,
+___temp0,
+___0,
+___1,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action415<
+    'input,
+>(
+text: &'input str,
+___0: (usize, &'input str, usize),
+) -> Result<Atom,___lalrpop_util::ParseError<usize,Tok<'input>,tok::Error>>
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
+let ___temp0 = ___action180(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action112(
+text,
+___temp0,
+___0,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action416<
+    'input,
+>(
+text: &'input str,
+___0: (usize, Tok<'input>, usize),
+___1: (usize, Atom, usize),
+___2: (usize, Tok<'input>, usize),
+___3: (usize, Symbol, usize),
+___4: (usize, Tok<'input>, usize),
+___5: (usize, usize, usize),
+) -> Symbol
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
+let ___start1 = ___0.2.clone();
+let ___end1 = ___1.0.clone();
+let ___temp0 = ___action180(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+let ___temp1 = ___action180(
+text,
+&___start1,
+&___end1,
+);
+let ___temp1 = (___start1, ___temp1, ___end1);
+___action51(
+text,
+___temp0,
+___0,
+___temp1,
+___1,
+___2,
+___3,
+___4,
+___5,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action417<
+    'input,
+>(
+text: &'input str,
+___0: (usize, Tok<'input>, usize),
+___1: (usize, Symbol, usize),
+___2: (usize, Tok<'input>, usize),
+___3: (usize, usize, usize),
+) -> Symbol
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
+let ___temp0 = ___action180(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action52(
+text,
+___temp0,
+___0,
+___1,
+___2,
+___3,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action418<
+    'input,
+>(
+text: &'input str,
+___0: (usize, SymbolKind, usize),
+___1: (usize, usize, usize),
+) -> Symbol
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
+let ___temp0 = ___action180(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action59(
+text,
+___temp0,
+___0,
+___1,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action419<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<Symbol>, usize),
+___1: (usize, Tok<'input>, usize),
+___2: (usize, Condition, usize),
+___3: (usize, ::std::option::Option<ActionKind>, usize),
+) -> Alternative
+{
+let ___start0 = ___3.2.clone();
+let ___end0 = ___3.2.clone();
+let ___temp0 = ___action179(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action395(
+text,
+___0,
+___1,
+___2,
+___3,
+___temp0,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action420<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<Symbol>, usize),
+___1: (usize, ::std::option::Option<ActionKind>, usize),
+) -> Alternative
+{
+let ___start0 = ___1.2.clone();
+let ___end0 = ___1.2.clone();
+let ___temp0 = ___action179(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action396(
+text,
+___0,
+___1,
+___temp0,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action421<
+    'input,
+>(
+text: &'input str,
+___0: (usize, Tok<'input>, usize),
+___1: (usize, Condition, usize),
+___2: (usize, ActionKind, usize),
+) -> Alternative
+{
+let ___start0 = ___2.2.clone();
+let ___end0 = ___2.2.clone();
+let ___temp0 = ___action179(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action397(
+text,
+___0,
+___1,
+___2,
+___temp0,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action422<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ActionKind, usize),
+) -> Alternative
+{
+let ___start0 = ___0.2.clone();
+let ___end0 = ___0.2.clone();
+let ___temp0 = ___action179(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action398(
+text,
+___0,
+___temp0,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action423<
+    'input,
+>(
+text: &'input str,
+___0: (usize, Tok<'input>, usize),
+___1: (usize, Tok<'input>, usize),
+___2: (usize, Atom, usize),
+___3: (usize, ::std::option::Option<(Atom, String)>, usize),
+___4: (usize, Tok<'input>, usize),
+) -> Annotation
+{
+let ___start0 = ___3.2.clone();
+let ___end0 = ___4.0.clone();
+let ___temp0 = ___action179(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action399(
+text,
+___0,
+___1,
+___2,
+___3,
+___temp0,
+___4,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action424<
+    'input,
+>(
+text: &'input str,
+___0: (usize, Tok<'input>, usize),
+___1: (usize, Atom, usize),
+___2: (usize, Tok<'input>, usize),
+___3: (usize, TypeRef, usize),
+___4: (usize, Tok<'input>, usize),
+) -> AssociatedType
+{
+let ___start0 = ___1.2.clone();
+let ___end0 = ___2.0.clone();
+let ___temp0 = ___action179(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action400(
+text,
+___0,
+___1,
+___temp0,
+___2,
+___3,
+___4,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action425<
+    'input,
+>(
+text: &'input str,
+___0: (usize, NonterminalString, usize),
+___1: (usize, ConditionOp, usize),
+___2: (usize, Atom, usize),
+) -> Condition
+{
+let ___start0 = ___2.2.clone();
+let ___end0 = ___2.2.clone();
+let ___temp0 = ___action179(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action401(
+text,
+___0,
+___1,
+___2,
+___temp0,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action426<
+    'input,
+>(
+text: &'input str,
+___0: (usize, TerminalString, usize),
+___1: (usize, &'input str, usize),
+) -> Result<Conversion,___lalrpop_util::ParseError<usize,Tok<'input>,tok::Error>>
+{
+let ___start0 = ___1.2.clone();
+let ___end0 = ___1.2.clone();
+let ___temp0 = ___action179(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action402(
+text,
+___0,
+___1,
+___temp0,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action427<
+    'input,
+>(
+text: &'input str,
+___0: (usize, Tok<'input>, usize),
+___1: (usize, TypeRef, usize),
+___2: (usize, Tok<'input>, usize),
+___3: (usize, Vec<Conversion>, usize),
+___4: (usize, Tok<'input>, usize),
+) -> EnumToken
+{
+let ___start0 = ___1.2.clone();
+let ___end0 = ___2.0.clone();
+let ___temp0 = ___action179(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action403(
+text,
+___0,
+___1,
+___temp0,
+___2,
+___3,
+___4,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action428<
+    'input,
+>(
+text: &'input str,
+___0: (usize, Tok<'input>, usize),
+___1: (usize, Tok<'input>, usize),
+___2: (usize, ::std::vec::Vec<AssociatedType>, usize),
+___3: (usize, EnumToken, usize),
+___4: (usize, ::std::vec::Vec<AssociatedType>, usize),
+___5: (usize, Tok<'input>, usize),
+) -> GrammarItem
+{
+let ___start0 = ___0.2.clone();
+let ___end0 = ___1.0.clone();
+let ___temp0 = ___action179(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action404(
+text,
+___0,
+___temp0,
+___1,
+___2,
+___3,
+___4,
+___5,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action429<
+    'input,
+>(
+text: &'input str,
+___0: (usize, Tok<'input>, usize),
+___1: (usize, Tok<'input>, usize),
+___2: (usize, ::std::vec::Vec<AssociatedType>, usize),
+___3: (usize, Tok<'input>, usize),
+) -> GrammarItem
+{
+let ___start0 = ___0.2.clone();
+let ___end0 = ___1.0.clone();
+let ___temp0 = ___action179(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action405(
+text,
+___0,
+___temp0,
+___1,
+___2,
+___3,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action430<
+    'input,
+>(
+text: &'input str,
+___0: (usize, Atom, usize),
+___1: (usize, Tok<'input>, usize),
+___2: (usize, Pattern<TypeRef>, usize),
+) -> FieldPattern<TypeRef>
+{
+let ___start0 = ___0.2.clone();
+let ___end0 = ___1.0.clone();
+let ___temp0 = ___action179(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action406(
+text,
+___0,
+___temp0,
+___1,
+___2,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action431<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<String>, usize),
+___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___2: (usize, ::std::vec::Vec<Annotation>, usize),
+___3: (usize, Tok<'input>, usize),
+___4: (usize, ::std::option::Option<Vec<TypeParameter>>, usize),
+___5: (usize, ::std::option::Option<Vec<Parameter>>, usize),
+___6: (usize, ::std::option::Option<Vec<WhereClause<TypeRef>>>, usize),
+___7: (usize, Tok<'input>, usize),
+___8: (usize, ::std::vec::Vec<GrammarItem>, usize),
+) -> Grammar
+{
+let ___start0 = ___3.2.clone();
+let ___end0 = ___4.0.clone();
+let ___temp0 = ___action179(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action407(
+text,
+___0,
+___1,
+___2,
+___3,
+___temp0,
+___4,
+___5,
+___6,
+___7,
+___8,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action432<
+    'input,
+>(
+text: &'input str,
+___0: (usize, Tok<'input>, usize),
+) -> MatchItem
+{
+let ___start0 = ___0.2.clone();
+let ___end0 = ___0.2.clone();
+let ___temp0 = ___action179(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action408(
+text,
+___0,
+___temp0,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action433<
+    'input,
+>(
+text: &'input str,
+___0: (usize, TerminalLiteral, usize),
+) -> MatchItem
+{
+let ___start0 = ___0.2.clone();
+let ___end0 = ___0.2.clone();
+let ___temp0 = ___action179(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action409(
+text,
+___0,
+___temp0,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action434<
+    'input,
+>(
+text: &'input str,
+___0: (usize, TerminalLiteral, usize),
+___1: (usize, &'input str, usize),
+) -> Result<MatchItem,___lalrpop_util::ParseError<usize,Tok<'input>,tok::Error>>
+{
+let ___start0 = ___1.2.clone();
+let ___end0 = ___1.2.clone();
+let ___temp0 = ___action179(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action410(
+text,
+___0,
+___1,
+___temp0,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action435<
+    'input,
+>(
+text: &'input str,
+___0: (usize, Tok<'input>, usize),
+___1: (usize, Tok<'input>, usize),
+___2: (usize, MatchContents, usize),
+___3: (usize, Tok<'input>, usize),
+) -> MatchToken
+{
+let ___start0 = ___0.2.clone();
+let ___end0 = ___1.0.clone();
+let ___temp0 = ___action179(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action411(
+text,
+___0,
+___temp0,
+___1,
+___2,
+___3,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action436<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<Annotation>, usize),
+___1: (usize, Visibility, usize),
+___2: (usize, (NonterminalString, Vec<NonterminalString>), usize),
+___3: (usize, Tok<'input>, usize),
+___4: (usize, TypeRef, usize),
+___5: (usize, Tok<'input>, usize),
+___6: (usize, Vec<Alternative>, usize),
+) -> GrammarItem
+{
+let ___start0 = ___2.2.clone();
+let ___end0 = ___3.0.clone();
+let ___temp0 = ___action179(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action412(
+text,
+___0,
+___1,
+___2,
+___temp0,
+___3,
+___4,
+___5,
+___6,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action437<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<Annotation>, usize),
+___1: (usize, Visibility, usize),
+___2: (usize, (NonterminalString, Vec<NonterminalString>), usize),
+___3: (usize, Tok<'input>, usize),
+___4: (usize, Vec<Alternative>, usize),
+) -> GrammarItem
+{
+let ___start0 = ___2.2.clone();
+let ___end0 = ___3.0.clone();
+let ___temp0 = ___action179(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action413(
+text,
+___0,
+___1,
+___2,
+___temp0,
+___3,
+___4,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action438<
+    'input,
+>(
+text: &'input str,
+___0: (usize, PatternKind<TypeRef>, usize),
+) -> Pattern<TypeRef>
+{
+let ___start0 = ___0.2.clone();
+let ___end0 = ___0.2.clone();
+let ___temp0 = ___action179(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action414(
+text,
+___0,
+___temp0,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action439<
+    'input,
+>(
+text: &'input str,
+___0: (usize, Tok<'input>, usize),
+___1: (usize, Atom, usize),
+___2: (usize, Tok<'input>, usize),
+___3: (usize, Symbol, usize),
+___4: (usize, Tok<'input>, usize),
+) -> Symbol
+{
+let ___start0 = ___4.2.clone();
+let ___end0 = ___4.2.clone();
+let ___temp0 = ___action179(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action416(
+text,
+___0,
+___1,
+___2,
+___3,
+___4,
+___temp0,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action440<
+    'input,
+>(
+text: &'input str,
+___0: (usize, Tok<'input>, usize),
+___1: (usize, Symbol, usize),
+___2: (usize, Tok<'input>, usize),
+) -> Symbol
+{
+let ___start0 = ___2.2.clone();
+let ___end0 = ___2.2.clone();
+let ___temp0 = ___action179(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action417(
+text,
+___0,
+___1,
+___2,
+___temp0,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action441<
+    'input,
+>(
+text: &'input str,
+___0: (usize, Symbol, usize),
+___1: (usize, RepeatOp, usize),
+) -> Symbol
+{
+let ___start0 = ___1.2.clone();
+let ___end0 = ___1.2.clone();
+let ___temp0 = ___action179(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action55(
+text,
+___0,
+___1,
+___temp0,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action442<
+    'input,
+>(
+text: &'input str,
+___0: (usize, SymbolKind, usize),
+) -> Symbol
+{
+let ___start0 = ___0.2.clone();
+let ___end0 = ___0.2.clone();
+let ___temp0 = ___action179(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action418(
+text,
+___0,
+___temp0,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action443<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<Symbol>, usize),
+___1: (usize, Tok<'input>, usize),
+___2: (usize, Condition, usize),
+___3: (usize, ActionKind, usize),
+) -> Alternative
+{
+let ___start0 = ___3.0.clone();
+let ___end0 = ___3.2.clone();
+let ___temp0 = ___action138(
+text,
+___3,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action419(
+text,
+___0,
+___1,
+___2,
+___temp0,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action444<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<Symbol>, usize),
+___1: (usize, Tok<'input>, usize),
+___2: (usize, Condition, usize),
+) -> Alternative
+{
+let ___start0 = ___2.2.clone();
+let ___end0 = ___2.2.clone();
+let ___temp0 = ___action139(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action419(
+text,
+___0,
+___1,
+___2,
+___temp0,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action445<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<Symbol>, usize),
+___1: (usize, ActionKind, usize),
+) -> Alternative
+{
+let ___start0 = ___1.0.clone();
+let ___end0 = ___1.2.clone();
+let ___temp0 = ___action138(
+text,
+___1,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action420(
+text,
+___0,
+___temp0,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action446<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<Symbol>, usize),
+) -> Alternative
+{
+let ___start0 = ___0.2.clone();
+let ___end0 = ___0.2.clone();
+let ___temp0 = ___action139(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action420(
+text,
+___0,
+___temp0,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action447<
+    'input,
+>(
+text: &'input str,
+___0: (usize, Alternative, usize),
+) -> Vec<Alternative>
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
+let ___temp0 = ___action236(
+text,
+___0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action325(
+text,
+___temp0,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action448<
+    'input,
+>(
+text: &'input str,
+___lookbehind: &usize,
+___lookahead: &usize,
+) -> Vec<Alternative>
+{
+let ___start0 = ___lookbehind.clone();
+let ___end0 = ___lookahead.clone();
+let ___temp0 = ___action237(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action325(
+text,
+___temp0,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action449<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<Alternative>, usize),
+___1: (usize, Alternative, usize),
+) -> Vec<Alternative>
+{
+let ___start0 = ___1.0.clone();
+let ___end0 = ___1.2.clone();
+let ___temp0 = ___action236(
+text,
+___1,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action326(
+text,
+___0,
+___temp0,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action450<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<Alternative>, usize),
+) -> Vec<Alternative>
+{
+let ___start0 = ___0.2.clone();
+let ___end0 = ___0.2.clone();
+let ___temp0 = ___action237(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action326(
+text,
+___0,
+___temp0,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action451<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<String>, usize),
+___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___2: (usize, Tok<'input>, usize),
+___3: (usize, ::std::option::Option<Vec<TypeParameter>>, usize),
+___4: (usize, ::std::option::Option<Vec<Parameter>>, usize),
+___5: (usize, ::std::option::Option<Vec<WhereClause<TypeRef>>>, usize),
+___6: (usize, Tok<'input>, usize),
+___7: (usize, ::std::vec::Vec<GrammarItem>, usize),
+) -> Grammar
+{
+let ___start0 = ___1.2.clone();
+let ___end0 = ___2.0.clone();
+let ___temp0 = ___action181(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action431(
+text,
+___0,
+___1,
+___temp0,
+___2,
+___3,
+___4,
+___5,
+___6,
+___7,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action452<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<String>, usize),
+___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___2: (usize, ::std::vec::Vec<Annotation>, usize),
+___3: (usize, Tok<'input>, usize),
+___4: (usize, ::std::option::Option<Vec<TypeParameter>>, usize),
+___5: (usize, ::std::option::Option<Vec<Parameter>>, usize),
+___6: (usize, ::std::option::Option<Vec<WhereClause<TypeRef>>>, usize),
+___7: (usize, Tok<'input>, usize),
+___8: (usize, ::std::vec::Vec<GrammarItem>, usize),
+) -> Grammar
+{
+let ___start0 = ___2.0.clone();
+let ___end0 = ___2.2.clone();
+let ___temp0 = ___action182(
+text,
+___2,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action431(
+text,
+___0,
+___1,
+___temp0,
+___3,
+___4,
+___5,
+___6,
+___7,
+___8,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action453<
+    'input,
+>(
+text: &'input str,
+___0: (usize, Visibility, usize),
+___1: (usize, (NonterminalString, Vec<NonterminalString>), usize),
+___2: (usize, Tok<'input>, usize),
+___3: (usize, TypeRef, usize),
+___4: (usize, Tok<'input>, usize),
+___5: (usize, Vec<Alternative>, usize),
+) -> GrammarItem
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
+let ___temp0 = ___action181(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action436(
+text,
+___temp0,
+___0,
+___1,
+___2,
+___3,
+___4,
+___5,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action454<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<Annotation>, usize),
+___1: (usize, Visibility, usize),
+___2: (usize, (NonterminalString, Vec<NonterminalString>), usize),
+___3: (usize, Tok<'input>, usize),
+___4: (usize, TypeRef, usize),
+___5: (usize, Tok<'input>, usize),
+___6: (usize, Vec<Alternative>, usize),
+) -> GrammarItem
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
+let ___temp0 = ___action182(
+text,
+___0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action436(
+text,
+___temp0,
+___1,
+___2,
+___3,
+___4,
+___5,
+___6,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action455<
+    'input,
+>(
+text: &'input str,
+___0: (usize, Visibility, usize),
+___1: (usize, (NonterminalString, Vec<NonterminalString>), usize),
+___2: (usize, Tok<'input>, usize),
+___3: (usize, Vec<Alternative>, usize),
+) -> GrammarItem
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
+let ___temp0 = ___action181(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action437(
+text,
+___temp0,
+___0,
+___1,
+___2,
+___3,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action456<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<Annotation>, usize),
+___1: (usize, Visibility, usize),
+___2: (usize, (NonterminalString, Vec<NonterminalString>), usize),
+___3: (usize, Tok<'input>, usize),
+___4: (usize, Vec<Alternative>, usize),
+) -> GrammarItem
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
+let ___temp0 = ___action182(
+text,
+___0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action437(
+text,
+___temp0,
+___1,
+___2,
+___3,
+___4,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action457<
+    'input,
+>(
+text: &'input str,
+___0: (usize, Tok<'input>, usize),
+___1: (usize, Tok<'input>, usize),
+___2: (usize, Atom, usize),
+___3: (usize, (Atom, String), usize),
+___4: (usize, Tok<'input>, usize),
+) -> Annotation
+{
+let ___start0 = ___3.0.clone();
+let ___end0 = ___3.2.clone();
+let ___temp0 = ___action149(
+text,
+___3,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action423(
+text,
+___0,
+___1,
+___2,
+___temp0,
+___4,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action458<
+    'input,
+>(
+text: &'input str,
+___0: (usize, Tok<'input>, usize),
+___1: (usize, Tok<'input>, usize),
+___2: (usize, Atom, usize),
+___3: (usize, Tok<'input>, usize),
+) -> Annotation
+{
+let ___start0 = ___2.2.clone();
+let ___end0 = ___3.0.clone();
+let ___temp0 = ___action150(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action423(
+text,
+___0,
+___1,
+___2,
+___temp0,
+___3,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action459<
+    'input,
+>(
+text: &'input str,
+___0: (usize, Tok<'input>, usize),
+___1: (usize, Tok<'input>, usize),
+___2: (usize, EnumToken, usize),
+___3: (usize, Tok<'input>, usize),
+) -> GrammarItem
+{
+let ___start0 = ___1.2.clone();
+let ___end0 = ___2.0.clone();
+let ___start1 = ___2.2.clone();
+let ___end1 = ___3.0.clone();
+let ___temp0 = ___action123(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+let ___temp1 = ___action123(
+text,
+&___start1,
+&___end1,
+);
+let ___temp1 = (___start1, ___temp1, ___end1);
+___action428(
+text,
+___0,
+___1,
+___temp0,
+___2,
+___temp1,
+___3,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action460<
+    'input,
+>(
+text: &'input str,
+___0: (usize, Tok<'input>, usize),
+___1: (usize, Tok<'input>, usize),
+___2: (usize, EnumToken, usize),
+___3: (usize, ::std::vec::Vec<AssociatedType>, usize),
+___4: (usize, Tok<'input>, usize),
+) -> GrammarItem
+{
+let ___start0 = ___1.2.clone();
+let ___end0 = ___2.0.clone();
+let ___start1 = ___3.0.clone();
+let ___end1 = ___3.2.clone();
+let ___temp0 = ___action123(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+let ___temp1 = ___action124(
+text,
+___3,
+);
+let ___temp1 = (___start1, ___temp1, ___end1);
+___action428(
+text,
+___0,
+___1,
+___temp0,
+___2,
+___temp1,
+___4,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action461<
+    'input,
+>(
+text: &'input str,
+___0: (usize, Tok<'input>, usize),
+___1: (usize, Tok<'input>, usize),
+___2: (usize, ::std::vec::Vec<AssociatedType>, usize),
+___3: (usize, EnumToken, usize),
+___4: (usize, Tok<'input>, usize),
+) -> GrammarItem
+{
+let ___start0 = ___2.0.clone();
+let ___end0 = ___2.2.clone();
+let ___start1 = ___3.2.clone();
+let ___end1 = ___4.0.clone();
+let ___temp0 = ___action124(
+text,
+___2,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+let ___temp1 = ___action123(
+text,
+&___start1,
+&___end1,
+);
+let ___temp1 = (___start1, ___temp1, ___end1);
+___action428(
+text,
+___0,
+___1,
+___temp0,
+___3,
+___temp1,
+___4,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action462<
+    'input,
+>(
+text: &'input str,
+___0: (usize, Tok<'input>, usize),
+___1: (usize, Tok<'input>, usize),
+___2: (usize, ::std::vec::Vec<AssociatedType>, usize),
+___3: (usize, EnumToken, usize),
+___4: (usize, ::std::vec::Vec<AssociatedType>, usize),
+___5: (usize, Tok<'input>, usize),
+) -> GrammarItem
+{
+let ___start0 = ___2.0.clone();
+let ___end0 = ___2.2.clone();
+let ___start1 = ___4.0.clone();
+let ___end1 = ___4.2.clone();
+let ___temp0 = ___action124(
+text,
+___2,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+let ___temp1 = ___action124(
+text,
+___4,
+);
+let ___temp1 = (___start1, ___temp1, ___end1);
+___action428(
+text,
+___0,
+___1,
+___temp0,
+___3,
+___temp1,
+___5,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action463<
+    'input,
+>(
+text: &'input str,
+___0: (usize, Tok<'input>, usize),
+___1: (usize, Tok<'input>, usize),
+___2: (usize, Tok<'input>, usize),
+) -> GrammarItem
+{
+let ___start0 = ___1.2.clone();
+let ___end0 = ___2.0.clone();
+let ___temp0 = ___action123(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action429(
+text,
+___0,
+___1,
+___temp0,
+___2,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action464<
+    'input,
+>(
+text: &'input str,
+___0: (usize, Tok<'input>, usize),
+___1: (usize, Tok<'input>, usize),
+___2: (usize, ::std::vec::Vec<AssociatedType>, usize),
+___3: (usize, Tok<'input>, usize),
+) -> GrammarItem
+{
+let ___start0 = ___2.0.clone();
+let ___end0 = ___2.2.clone();
+let ___temp0 = ___action124(
+text,
+___2,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action429(
+text,
+___0,
+___1,
+___temp0,
+___3,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action465<
+    'input,
+>(
+text: &'input str,
+___0: (usize, Conversion, usize),
+) -> Vec<Conversion>
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
+let ___temp0 = ___action260(
+text,
+___0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action329(
+text,
+___temp0,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action466<
+    'input,
+>(
+text: &'input str,
+___lookbehind: &usize,
+___lookahead: &usize,
+) -> Vec<Conversion>
+{
+let ___start0 = ___lookbehind.clone();
+let ___end0 = ___lookahead.clone();
+let ___temp0 = ___action261(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action329(
+text,
+___temp0,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action467<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<Conversion>, usize),
+___1: (usize, Conversion, usize),
+) -> Vec<Conversion>
+{
+let ___start0 = ___1.0.clone();
+let ___end0 = ___1.2.clone();
+let ___temp0 = ___action260(
+text,
+___1,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action330(
+text,
+___0,
+___temp0,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action468<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<Conversion>, usize),
+) -> Vec<Conversion>
+{
+let ___start0 = ___0.2.clone();
+let ___end0 = ___0.2.clone();
+let ___temp0 = ___action261(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action330(
+text,
+___0,
+___temp0,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action469<
+    'input,
+>(
+text: &'input str,
+___0: (usize, Path, usize),
+___1: (usize, Tok<'input>, usize),
+___2: (usize, FieldPattern<TypeRef>, usize),
+___3: (usize, Tok<'input>, usize),
+) -> PatternKind<TypeRef>
+{
+let ___start0 = ___2.0.clone();
+let ___end0 = ___2.2.clone();
+let ___temp0 = ___action115(
+text,
+___2,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action333(
+text,
+___0,
+___1,
+___temp0,
+___3,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action470<
+    'input,
+>(
+text: &'input str,
+___0: (usize, Path, usize),
+___1: (usize, Tok<'input>, usize),
+___2: (usize, Tok<'input>, usize),
+) -> PatternKind<TypeRef>
+{
+let ___start0 = ___1.2.clone();
+let ___end0 = ___2.0.clone();
+let ___temp0 = ___action116(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action333(
+text,
+___0,
+___1,
+___temp0,
+___2,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action471<
+    'input,
+>(
+text: &'input str,
+___0: (usize, Path, usize),
+___1: (usize, Tok<'input>, usize),
+___2: (usize, ::std::vec::Vec<FieldPattern<TypeRef>>, usize),
+___3: (usize, FieldPattern<TypeRef>, usize),
+___4: (usize, Tok<'input>, usize),
+) -> PatternKind<TypeRef>
+{
+let ___start0 = ___3.0.clone();
+let ___end0 = ___3.2.clone();
+let ___temp0 = ___action115(
+text,
+___3,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action334(
+text,
+___0,
+___1,
+___2,
+___temp0,
+___4,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action472<
+    'input,
+>(
+text: &'input str,
+___0: (usize, Path, usize),
+___1: (usize, Tok<'input>, usize),
+___2: (usize, ::std::vec::Vec<FieldPattern<TypeRef>>, usize),
+___3: (usize, Tok<'input>, usize),
+) -> PatternKind<TypeRef>
+{
+let ___start0 = ___2.2.clone();
+let ___end0 = ___3.0.clone();
+let ___temp0 = ___action116(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action334(
+text,
+___0,
+___1,
+___2,
+___temp0,
+___3,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action473<
+    'input,
+>(
+text: &'input str,
+___0: (usize, Vec<Atom>, usize),
+___1: (usize, TypeRef, usize),
+___2: (usize, Tok<'input>, usize),
+___3: (usize, Vec<TypeBound<TypeRef>>, usize),
+) -> WhereClause<TypeRef>
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
+let ___temp0 = ___action166(
+text,
+___0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action12(
+text,
+___temp0,
+___1,
+___2,
+___3,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action474<
+    'input,
+>(
+text: &'input str,
+___0: (usize, TypeRef, usize),
+___1: (usize, Tok<'input>, usize),
+___2: (usize, Vec<TypeBound<TypeRef>>, usize),
+) -> WhereClause<TypeRef>
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
+let ___temp0 = ___action167(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action12(
+text,
+___temp0,
+___0,
+___1,
+___2,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action475<
+    'input,
+>(
+text: &'input str,
+___0: (usize, Vec<Atom>, usize),
+___1: (usize, Path, usize),
+___2: (usize, Tok<'input>, usize),
+___3: (usize, Vec<TypeRef>, usize),
+___4: (usize, Tok<'input>, usize),
+___5: (usize, Tok<'input>, usize),
+___6: (usize, TypeRef, usize),
+) -> TypeBound<TypeRef>
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
+let ___temp0 = ___action166(
+text,
+___0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action309(
+text,
+___temp0,
+___1,
+___2,
+___3,
+___4,
+___5,
+___6,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action476<
+    'input,
+>(
+text: &'input str,
+___0: (usize, Path, usize),
+___1: (usize, Tok<'input>, usize),
+___2: (usize, Vec<TypeRef>, usize),
+___3: (usize, Tok<'input>, usize),
+___4: (usize, Tok<'input>, usize),
+___5: (usize, TypeRef, usize),
+) -> TypeBound<TypeRef>
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
+let ___temp0 = ___action167(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action309(
+text,
+___temp0,
+___0,
+___1,
+___2,
+___3,
+___4,
+___5,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action477<
+    'input,
+>(
+text: &'input str,
+___0: (usize, Vec<Atom>, usize),
+___1: (usize, Path, usize),
+___2: (usize, Tok<'input>, usize),
+___3: (usize, Vec<TypeRef>, usize),
+___4: (usize, Tok<'input>, usize),
+) -> TypeBound<TypeRef>
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
+let ___temp0 = ___action166(
+text,
+___0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action310(
+text,
+___temp0,
+___1,
+___2,
+___3,
+___4,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action478<
+    'input,
+>(
+text: &'input str,
+___0: (usize, Path, usize),
+___1: (usize, Tok<'input>, usize),
+___2: (usize, Vec<TypeRef>, usize),
+___3: (usize, Tok<'input>, usize),
+) -> TypeBound<TypeRef>
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
+let ___temp0 = ___action167(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action310(
+text,
+___temp0,
+___0,
+___1,
+___2,
+___3,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action479<
+    'input,
+>(
+text: &'input str,
+___0: (usize, Vec<Atom>, usize),
+___1: (usize, Path, usize),
+___2: (usize, Tok<'input>, usize),
+___3: (usize, Vec<TypeBoundParameter<TypeRef>>, usize),
+___4: (usize, Tok<'input>, usize),
+) -> TypeBound<TypeRef>
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
+let ___temp0 = ___action166(
+text,
+___0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action315(
+text,
+___temp0,
+___1,
+___2,
+___3,
+___4,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action480<
+    'input,
+>(
+text: &'input str,
+___0: (usize, Path, usize),
+___1: (usize, Tok<'input>, usize),
+___2: (usize, Vec<TypeBoundParameter<TypeRef>>, usize),
+___3: (usize, Tok<'input>, usize),
+) -> TypeBound<TypeRef>
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
+let ___temp0 = ___action167(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action315(
+text,
+___temp0,
+___0,
+___1,
+___2,
+___3,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action481<
+    'input,
+>(
+text: &'input str,
+___0: (usize, Vec<Atom>, usize),
+___1: (usize, Path, usize),
+) -> TypeBound<TypeRef>
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
+let ___temp0 = ___action166(
+text,
+___0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action316(
+text,
+___temp0,
+___1,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action482<
+    'input,
+>(
+text: &'input str,
+___0: (usize, Path, usize),
+) -> TypeBound<TypeRef>
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
+let ___temp0 = ___action167(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action316(
+text,
+___temp0,
+___0,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action483<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<String>, usize),
+___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___2: (usize, Tok<'input>, usize),
+___3: (usize, ::std::option::Option<Vec<TypeParameter>>, usize),
+___4: (usize, ::std::option::Option<Vec<Parameter>>, usize),
+___5: (usize, ::std::option::Option<Vec<WhereClause<TypeRef>>>, usize),
+___6: (usize, Tok<'input>, usize),
+) -> Grammar
+{
+let ___start0 = ___6.2.clone();
+let ___end0 = ___6.2.clone();
+let ___temp0 = ___action171(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action451(
+text,
+___0,
+___1,
+___2,
+___3,
+___4,
+___5,
+___6,
+___temp0,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action484<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<String>, usize),
+___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___2: (usize, Tok<'input>, usize),
+___3: (usize, ::std::option::Option<Vec<TypeParameter>>, usize),
+___4: (usize, ::std::option::Option<Vec<Parameter>>, usize),
+___5: (usize, ::std::option::Option<Vec<WhereClause<TypeRef>>>, usize),
+___6: (usize, Tok<'input>, usize),
+___7: (usize, ::std::vec::Vec<GrammarItem>, usize),
+) -> Grammar
+{
+let ___start0 = ___7.0.clone();
+let ___end0 = ___7.2.clone();
+let ___temp0 = ___action172(
+text,
+___7,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action451(
+text,
+___0,
+___1,
+___2,
+___3,
+___4,
+___5,
+___6,
+___temp0,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action485<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<String>, usize),
+___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___2: (usize, ::std::vec::Vec<Annotation>, usize),
+___3: (usize, Tok<'input>, usize),
+___4: (usize, ::std::option::Option<Vec<TypeParameter>>, usize),
+___5: (usize, ::std::option::Option<Vec<Parameter>>, usize),
+___6: (usize, ::std::option::Option<Vec<WhereClause<TypeRef>>>, usize),
+___7: (usize, Tok<'input>, usize),
+) -> Grammar
+{
+let ___start0 = ___7.2.clone();
+let ___end0 = ___7.2.clone();
+let ___temp0 = ___action171(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action452(
+text,
+___0,
+___1,
+___2,
+___3,
+___4,
+___5,
+___6,
+___7,
+___temp0,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action486<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<String>, usize),
+___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___2: (usize, ::std::vec::Vec<Annotation>, usize),
+___3: (usize, Tok<'input>, usize),
+___4: (usize, ::std::option::Option<Vec<TypeParameter>>, usize),
+___5: (usize, ::std::option::Option<Vec<Parameter>>, usize),
+___6: (usize, ::std::option::Option<Vec<WhereClause<TypeRef>>>, usize),
+___7: (usize, Tok<'input>, usize),
+___8: (usize, ::std::vec::Vec<GrammarItem>, usize),
+) -> Grammar
+{
+let ___start0 = ___8.0.clone();
+let ___end0 = ___8.2.clone();
+let ___temp0 = ___action172(
+text,
+___8,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action452(
+text,
+___0,
+___1,
+___2,
+___3,
+___4,
+___5,
+___6,
+___7,
+___temp0,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action487<
+    'input,
+>(
+text: &'input str,
+___0: (usize, Parameter, usize),
+) -> Vec<Parameter>
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
+let ___temp0 = ___action226(
+text,
+___0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action339(
+text,
+___temp0,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action488<
+    'input,
+>(
+text: &'input str,
+___lookbehind: &usize,
+___lookahead: &usize,
+) -> Vec<Parameter>
+{
+let ___start0 = ___lookbehind.clone();
+let ___end0 = ___lookahead.clone();
+let ___temp0 = ___action227(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action339(
+text,
+___temp0,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action489<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<Parameter>, usize),
+___1: (usize, Parameter, usize),
+) -> Vec<Parameter>
+{
+let ___start0 = ___1.0.clone();
+let ___end0 = ___1.2.clone();
+let ___temp0 = ___action226(
+text,
+___1,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action340(
+text,
+___0,
+___temp0,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action490<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<Parameter>, usize),
+) -> Vec<Parameter>
+{
+let ___start0 = ___0.2.clone();
+let ___end0 = ___0.2.clone();
+let ___temp0 = ___action227(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action340(
+text,
+___0,
+___temp0,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action491<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<String>, usize),
+___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___2: (usize, Tok<'input>, usize),
+___3: (usize, ::std::option::Option<Vec<TypeParameter>>, usize),
+___4: (usize, Vec<Parameter>, usize),
+___5: (usize, ::std::option::Option<Vec<WhereClause<TypeRef>>>, usize),
+___6: (usize, Tok<'input>, usize),
+) -> Grammar
+{
+let ___start0 = ___4.0.clone();
+let ___end0 = ___4.2.clone();
+let ___temp0 = ___action175(
+text,
+___4,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action483(
+text,
+___0,
+___1,
+___2,
+___3,
+___temp0,
+___5,
+___6,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action492<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<String>, usize),
+___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___2: (usize, Tok<'input>, usize),
+___3: (usize, ::std::option::Option<Vec<TypeParameter>>, usize),
+___4: (usize, ::std::option::Option<Vec<WhereClause<TypeRef>>>, usize),
+___5: (usize, Tok<'input>, usize),
+) -> Grammar
+{
+let ___start0 = ___3.2.clone();
+let ___end0 = ___4.0.clone();
+let ___temp0 = ___action176(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action483(
+text,
+___0,
+___1,
+___2,
+___3,
+___temp0,
+___4,
+___5,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action493<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<String>, usize),
+___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___2: (usize, Tok<'input>, usize),
+___3: (usize, ::std::option::Option<Vec<TypeParameter>>, usize),
+___4: (usize, Vec<Parameter>, usize),
+___5: (usize, ::std::option::Option<Vec<WhereClause<TypeRef>>>, usize),
+___6: (usize, Tok<'input>, usize),
+___7: (usize, ::std::vec::Vec<GrammarItem>, usize),
+) -> Grammar
+{
+let ___start0 = ___4.0.clone();
+let ___end0 = ___4.2.clone();
+let ___temp0 = ___action175(
+text,
+___4,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action484(
+text,
+___0,
+___1,
+___2,
+___3,
+___temp0,
+___5,
+___6,
+___7,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action494<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<String>, usize),
+___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___2: (usize, Tok<'input>, usize),
+___3: (usize, ::std::option::Option<Vec<TypeParameter>>, usize),
+___4: (usize, ::std::option::Option<Vec<WhereClause<TypeRef>>>, usize),
+___5: (usize, Tok<'input>, usize),
+___6: (usize, ::std::vec::Vec<GrammarItem>, usize),
+) -> Grammar
+{
+let ___start0 = ___3.2.clone();
+let ___end0 = ___4.0.clone();
+let ___temp0 = ___action176(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action484(
+text,
+___0,
+___1,
+___2,
+___3,
+___temp0,
+___4,
+___5,
+___6,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action495<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<String>, usize),
+___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___2: (usize, ::std::vec::Vec<Annotation>, usize),
+___3: (usize, Tok<'input>, usize),
+___4: (usize, ::std::option::Option<Vec<TypeParameter>>, usize),
+___5: (usize, Vec<Parameter>, usize),
+___6: (usize, ::std::option::Option<Vec<WhereClause<TypeRef>>>, usize),
+___7: (usize, Tok<'input>, usize),
+) -> Grammar
+{
+let ___start0 = ___5.0.clone();
+let ___end0 = ___5.2.clone();
+let ___temp0 = ___action175(
+text,
+___5,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action485(
+text,
+___0,
+___1,
+___2,
+___3,
+___4,
+___temp0,
+___6,
+___7,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action496<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<String>, usize),
+___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___2: (usize, ::std::vec::Vec<Annotation>, usize),
+___3: (usize, Tok<'input>, usize),
+___4: (usize, ::std::option::Option<Vec<TypeParameter>>, usize),
+___5: (usize, ::std::option::Option<Vec<WhereClause<TypeRef>>>, usize),
+___6: (usize, Tok<'input>, usize),
+) -> Grammar
+{
+let ___start0 = ___4.2.clone();
+let ___end0 = ___5.0.clone();
+let ___temp0 = ___action176(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action485(
+text,
+___0,
+___1,
+___2,
+___3,
+___4,
+___temp0,
+___5,
+___6,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action497<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<String>, usize),
+___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___2: (usize, ::std::vec::Vec<Annotation>, usize),
+___3: (usize, Tok<'input>, usize),
+___4: (usize, ::std::option::Option<Vec<TypeParameter>>, usize),
+___5: (usize, Vec<Parameter>, usize),
+___6: (usize, ::std::option::Option<Vec<WhereClause<TypeRef>>>, usize),
+___7: (usize, Tok<'input>, usize),
+___8: (usize, ::std::vec::Vec<GrammarItem>, usize),
+) -> Grammar
+{
+let ___start0 = ___5.0.clone();
+let ___end0 = ___5.2.clone();
+let ___temp0 = ___action175(
+text,
+___5,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action486(
+text,
+___0,
+___1,
+___2,
+___3,
+___4,
+___temp0,
+___6,
+___7,
+___8,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action498<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<String>, usize),
+___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___2: (usize, ::std::vec::Vec<Annotation>, usize),
+___3: (usize, Tok<'input>, usize),
+___4: (usize, ::std::option::Option<Vec<TypeParameter>>, usize),
+___5: (usize, ::std::option::Option<Vec<WhereClause<TypeRef>>>, usize),
+___6: (usize, Tok<'input>, usize),
+___7: (usize, ::std::vec::Vec<GrammarItem>, usize),
+) -> Grammar
+{
+let ___start0 = ___4.2.clone();
+let ___end0 = ___5.0.clone();
+let ___temp0 = ___action176(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action486(
+text,
+___0,
+___1,
+___2,
+___3,
+___4,
+___temp0,
+___5,
+___6,
+___7,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action499<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<String>, usize),
+___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___2: (usize, Tok<'input>, usize),
+___3: (usize, Vec<TypeParameter>, usize),
+___4: (usize, Vec<Parameter>, usize),
+___5: (usize, ::std::option::Option<Vec<WhereClause<TypeRef>>>, usize),
+___6: (usize, Tok<'input>, usize),
+) -> Grammar
+{
+let ___start0 = ___3.0.clone();
+let ___end0 = ___3.2.clone();
+let ___temp0 = ___action177(
+text,
+___3,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action491(
+text,
+___0,
+___1,
+___2,
+___temp0,
+___4,
+___5,
+___6,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action500<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<String>, usize),
+___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___2: (usize, Tok<'input>, usize),
+___3: (usize, Vec<Parameter>, usize),
+___4: (usize, ::std::option::Option<Vec<WhereClause<TypeRef>>>, usize),
+___5: (usize, Tok<'input>, usize),
+) -> Grammar
+{
+let ___start0 = ___2.2.clone();
+let ___end0 = ___3.0.clone();
+let ___temp0 = ___action178(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action491(
+text,
+___0,
+___1,
+___2,
+___temp0,
+___3,
+___4,
+___5,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action501<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<String>, usize),
+___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___2: (usize, Tok<'input>, usize),
+___3: (usize, Vec<TypeParameter>, usize),
+___4: (usize, ::std::option::Option<Vec<WhereClause<TypeRef>>>, usize),
+___5: (usize, Tok<'input>, usize),
+) -> Grammar
+{
+let ___start0 = ___3.0.clone();
+let ___end0 = ___3.2.clone();
+let ___temp0 = ___action177(
+text,
+___3,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action492(
+text,
+___0,
+___1,
+___2,
+___temp0,
+___4,
+___5,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action502<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<String>, usize),
+___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___2: (usize, Tok<'input>, usize),
+___3: (usize, ::std::option::Option<Vec<WhereClause<TypeRef>>>, usize),
+___4: (usize, Tok<'input>, usize),
+) -> Grammar
+{
+let ___start0 = ___2.2.clone();
+let ___end0 = ___3.0.clone();
+let ___temp0 = ___action178(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action492(
+text,
+___0,
+___1,
+___2,
+___temp0,
+___3,
+___4,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action503<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<String>, usize),
+___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___2: (usize, Tok<'input>, usize),
+___3: (usize, Vec<TypeParameter>, usize),
+___4: (usize, Vec<Parameter>, usize),
+___5: (usize, ::std::option::Option<Vec<WhereClause<TypeRef>>>, usize),
+___6: (usize, Tok<'input>, usize),
+___7: (usize, ::std::vec::Vec<GrammarItem>, usize),
+) -> Grammar
+{
+let ___start0 = ___3.0.clone();
+let ___end0 = ___3.2.clone();
+let ___temp0 = ___action177(
+text,
+___3,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action493(
+text,
+___0,
+___1,
+___2,
+___temp0,
+___4,
+___5,
+___6,
+___7,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action504<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<String>, usize),
+___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___2: (usize, Tok<'input>, usize),
+___3: (usize, Vec<Parameter>, usize),
+___4: (usize, ::std::option::Option<Vec<WhereClause<TypeRef>>>, usize),
+___5: (usize, Tok<'input>, usize),
+___6: (usize, ::std::vec::Vec<GrammarItem>, usize),
+) -> Grammar
+{
+let ___start0 = ___2.2.clone();
+let ___end0 = ___3.0.clone();
+let ___temp0 = ___action178(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action493(
+text,
+___0,
+___1,
+___2,
+___temp0,
+___3,
+___4,
+___5,
+___6,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action505<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<String>, usize),
+___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___2: (usize, Tok<'input>, usize),
+___3: (usize, Vec<TypeParameter>, usize),
+___4: (usize, ::std::option::Option<Vec<WhereClause<TypeRef>>>, usize),
+___5: (usize, Tok<'input>, usize),
+___6: (usize, ::std::vec::Vec<GrammarItem>, usize),
+) -> Grammar
+{
+let ___start0 = ___3.0.clone();
+let ___end0 = ___3.2.clone();
+let ___temp0 = ___action177(
+text,
+___3,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action494(
+text,
+___0,
+___1,
+___2,
+___temp0,
+___4,
+___5,
+___6,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action506<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<String>, usize),
+___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___2: (usize, Tok<'input>, usize),
+___3: (usize, ::std::option::Option<Vec<WhereClause<TypeRef>>>, usize),
+___4: (usize, Tok<'input>, usize),
+___5: (usize, ::std::vec::Vec<GrammarItem>, usize),
+) -> Grammar
+{
+let ___start0 = ___2.2.clone();
+let ___end0 = ___3.0.clone();
+let ___temp0 = ___action178(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action494(
+text,
+___0,
+___1,
+___2,
+___temp0,
+___3,
+___4,
+___5,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action507<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<String>, usize),
+___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___2: (usize, ::std::vec::Vec<Annotation>, usize),
+___3: (usize, Tok<'input>, usize),
+___4: (usize, Vec<TypeParameter>, usize),
+___5: (usize, Vec<Parameter>, usize),
+___6: (usize, ::std::option::Option<Vec<WhereClause<TypeRef>>>, usize),
+___7: (usize, Tok<'input>, usize),
+) -> Grammar
+{
+let ___start0 = ___4.0.clone();
+let ___end0 = ___4.2.clone();
+let ___temp0 = ___action177(
+text,
+___4,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action495(
+text,
+___0,
+___1,
+___2,
+___3,
+___temp0,
+___5,
+___6,
+___7,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action508<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<String>, usize),
+___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___2: (usize, ::std::vec::Vec<Annotation>, usize),
+___3: (usize, Tok<'input>, usize),
+___4: (usize, Vec<Parameter>, usize),
+___5: (usize, ::std::option::Option<Vec<WhereClause<TypeRef>>>, usize),
+___6: (usize, Tok<'input>, usize),
+) -> Grammar
+{
+let ___start0 = ___3.2.clone();
+let ___end0 = ___4.0.clone();
+let ___temp0 = ___action178(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action495(
+text,
+___0,
+___1,
+___2,
+___3,
+___temp0,
+___4,
+___5,
+___6,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action509<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<String>, usize),
+___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___2: (usize, ::std::vec::Vec<Annotation>, usize),
+___3: (usize, Tok<'input>, usize),
+___4: (usize, Vec<TypeParameter>, usize),
+___5: (usize, ::std::option::Option<Vec<WhereClause<TypeRef>>>, usize),
+___6: (usize, Tok<'input>, usize),
+) -> Grammar
+{
+let ___start0 = ___4.0.clone();
+let ___end0 = ___4.2.clone();
+let ___temp0 = ___action177(
+text,
+___4,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action496(
+text,
+___0,
+___1,
+___2,
+___3,
+___temp0,
+___5,
+___6,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action510<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<String>, usize),
+___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___2: (usize, ::std::vec::Vec<Annotation>, usize),
+___3: (usize, Tok<'input>, usize),
+___4: (usize, ::std::option::Option<Vec<WhereClause<TypeRef>>>, usize),
+___5: (usize, Tok<'input>, usize),
+) -> Grammar
+{
+let ___start0 = ___3.2.clone();
+let ___end0 = ___4.0.clone();
+let ___temp0 = ___action178(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action496(
+text,
+___0,
+___1,
+___2,
+___3,
+___temp0,
+___4,
+___5,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action511<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<String>, usize),
+___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___2: (usize, ::std::vec::Vec<Annotation>, usize),
+___3: (usize, Tok<'input>, usize),
+___4: (usize, Vec<TypeParameter>, usize),
+___5: (usize, Vec<Parameter>, usize),
+___6: (usize, ::std::option::Option<Vec<WhereClause<TypeRef>>>, usize),
+___7: (usize, Tok<'input>, usize),
+___8: (usize, ::std::vec::Vec<GrammarItem>, usize),
+) -> Grammar
+{
+let ___start0 = ___4.0.clone();
+let ___end0 = ___4.2.clone();
+let ___temp0 = ___action177(
+text,
+___4,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action497(
+text,
+___0,
+___1,
+___2,
+___3,
+___temp0,
+___5,
+___6,
+___7,
+___8,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action512<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<String>, usize),
+___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___2: (usize, ::std::vec::Vec<Annotation>, usize),
+___3: (usize, Tok<'input>, usize),
+___4: (usize, Vec<Parameter>, usize),
+___5: (usize, ::std::option::Option<Vec<WhereClause<TypeRef>>>, usize),
+___6: (usize, Tok<'input>, usize),
+___7: (usize, ::std::vec::Vec<GrammarItem>, usize),
+) -> Grammar
+{
+let ___start0 = ___3.2.clone();
+let ___end0 = ___4.0.clone();
+let ___temp0 = ___action178(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action497(
+text,
+___0,
+___1,
+___2,
+___3,
+___temp0,
+___4,
+___5,
+___6,
+___7,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action513<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<String>, usize),
+___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___2: (usize, ::std::vec::Vec<Annotation>, usize),
+___3: (usize, Tok<'input>, usize),
+___4: (usize, Vec<TypeParameter>, usize),
+___5: (usize, ::std::option::Option<Vec<WhereClause<TypeRef>>>, usize),
+___6: (usize, Tok<'input>, usize),
+___7: (usize, ::std::vec::Vec<GrammarItem>, usize),
+) -> Grammar
+{
+let ___start0 = ___4.0.clone();
+let ___end0 = ___4.2.clone();
+let ___temp0 = ___action177(
+text,
+___4,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action498(
+text,
+___0,
+___1,
+___2,
+___3,
+___temp0,
+___5,
+___6,
+___7,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action514<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<String>, usize),
+___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___2: (usize, ::std::vec::Vec<Annotation>, usize),
+___3: (usize, Tok<'input>, usize),
+___4: (usize, ::std::option::Option<Vec<WhereClause<TypeRef>>>, usize),
+___5: (usize, Tok<'input>, usize),
+___6: (usize, ::std::vec::Vec<GrammarItem>, usize),
+) -> Grammar
+{
+let ___start0 = ___3.2.clone();
+let ___end0 = ___4.0.clone();
+let ___temp0 = ___action178(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action498(
+text,
+___0,
+___1,
+___2,
+___3,
+___temp0,
+___4,
+___5,
+___6,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action515<
+    'input,
+>(
+text: &'input str,
+___0: (usize, WhereClause<TypeRef>, usize),
+) -> Vec<WhereClause<TypeRef>>
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
+let ___temp0 = ___action200(
+text,
+___0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action343(
+text,
+___temp0,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action516<
+    'input,
+>(
+text: &'input str,
+___lookbehind: &usize,
+___lookahead: &usize,
+) -> Vec<WhereClause<TypeRef>>
+{
+let ___start0 = ___lookbehind.clone();
+let ___end0 = ___lookahead.clone();
+let ___temp0 = ___action201(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action343(
+text,
+___temp0,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action517<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<WhereClause<TypeRef>>, usize),
+___1: (usize, WhereClause<TypeRef>, usize),
+) -> Vec<WhereClause<TypeRef>>
+{
+let ___start0 = ___1.0.clone();
+let ___end0 = ___1.2.clone();
+let ___temp0 = ___action200(
+text,
+___1,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action344(
+text,
+___0,
+___temp0,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action518<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<WhereClause<TypeRef>>, usize),
+) -> Vec<WhereClause<TypeRef>>
+{
+let ___start0 = ___0.2.clone();
+let ___end0 = ___0.2.clone();
+let ___temp0 = ___action201(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action344(
+text,
+___0,
+___temp0,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action519<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<String>, usize),
+___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___2: (usize, Tok<'input>, usize),
+___3: (usize, Vec<TypeParameter>, usize),
+___4: (usize, Vec<Parameter>, usize),
+___5: (usize, Vec<WhereClause<TypeRef>>, usize),
+___6: (usize, Tok<'input>, usize),
+) -> Grammar
+{
+let ___start0 = ___5.0.clone();
+let ___end0 = ___5.2.clone();
+let ___temp0 = ___action173(
+text,
+___5,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action499(
+text,
+___0,
+___1,
+___2,
+___3,
+___4,
+___temp0,
+___6,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action520<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<String>, usize),
+___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___2: (usize, Tok<'input>, usize),
+___3: (usize, Vec<TypeParameter>, usize),
+___4: (usize, Vec<Parameter>, usize),
+___5: (usize, Tok<'input>, usize),
+) -> Grammar
+{
+let ___start0 = ___4.2.clone();
+let ___end0 = ___5.0.clone();
+let ___temp0 = ___action174(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action499(
+text,
+___0,
+___1,
+___2,
+___3,
+___4,
+___temp0,
+___5,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action521<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<String>, usize),
+___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___2: (usize, Tok<'input>, usize),
+___3: (usize, Vec<Parameter>, usize),
+___4: (usize, Vec<WhereClause<TypeRef>>, usize),
+___5: (usize, Tok<'input>, usize),
+) -> Grammar
+{
+let ___start0 = ___4.0.clone();
+let ___end0 = ___4.2.clone();
+let ___temp0 = ___action173(
+text,
+___4,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action500(
+text,
+___0,
+___1,
+___2,
+___3,
+___temp0,
+___5,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action522<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<String>, usize),
+___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___2: (usize, Tok<'input>, usize),
+___3: (usize, Vec<Parameter>, usize),
+___4: (usize, Tok<'input>, usize),
+) -> Grammar
+{
+let ___start0 = ___3.2.clone();
+let ___end0 = ___4.0.clone();
+let ___temp0 = ___action174(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action500(
+text,
+___0,
+___1,
+___2,
+___3,
+___temp0,
+___4,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action523<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<String>, usize),
+___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___2: (usize, Tok<'input>, usize),
+___3: (usize, Vec<TypeParameter>, usize),
+___4: (usize, Vec<WhereClause<TypeRef>>, usize),
+___5: (usize, Tok<'input>, usize),
+) -> Grammar
+{
+let ___start0 = ___4.0.clone();
+let ___end0 = ___4.2.clone();
+let ___temp0 = ___action173(
+text,
+___4,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action501(
+text,
+___0,
+___1,
+___2,
+___3,
+___temp0,
+___5,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action524<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<String>, usize),
+___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___2: (usize, Tok<'input>, usize),
+___3: (usize, Vec<TypeParameter>, usize),
+___4: (usize, Tok<'input>, usize),
+) -> Grammar
+{
+let ___start0 = ___3.2.clone();
+let ___end0 = ___4.0.clone();
+let ___temp0 = ___action174(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action501(
+text,
+___0,
+___1,
+___2,
+___3,
+___temp0,
+___4,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action525<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<String>, usize),
+___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___2: (usize, Tok<'input>, usize),
+___3: (usize, Vec<WhereClause<TypeRef>>, usize),
+___4: (usize, Tok<'input>, usize),
+) -> Grammar
+{
+let ___start0 = ___3.0.clone();
+let ___end0 = ___3.2.clone();
+let ___temp0 = ___action173(
+text,
+___3,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action502(
+text,
+___0,
+___1,
+___2,
+___temp0,
+___4,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action526<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<String>, usize),
+___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___2: (usize, Tok<'input>, usize),
+___3: (usize, Tok<'input>, usize),
+) -> Grammar
+{
+let ___start0 = ___2.2.clone();
+let ___end0 = ___3.0.clone();
+let ___temp0 = ___action174(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action502(
+text,
+___0,
+___1,
+___2,
+___temp0,
+___3,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action527<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<String>, usize),
+___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___2: (usize, Tok<'input>, usize),
+___3: (usize, Vec<TypeParameter>, usize),
+___4: (usize, Vec<Parameter>, usize),
+___5: (usize, Vec<WhereClause<TypeRef>>, usize),
+___6: (usize, Tok<'input>, usize),
+___7: (usize, ::std::vec::Vec<GrammarItem>, usize),
+) -> Grammar
+{
+let ___start0 = ___5.0.clone();
+let ___end0 = ___5.2.clone();
+let ___temp0 = ___action173(
+text,
+___5,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action503(
+text,
+___0,
+___1,
+___2,
+___3,
+___4,
+___temp0,
+___6,
+___7,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action528<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<String>, usize),
+___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___2: (usize, Tok<'input>, usize),
+___3: (usize, Vec<TypeParameter>, usize),
+___4: (usize, Vec<Parameter>, usize),
+___5: (usize, Tok<'input>, usize),
+___6: (usize, ::std::vec::Vec<GrammarItem>, usize),
+) -> Grammar
+{
+let ___start0 = ___4.2.clone();
+let ___end0 = ___5.0.clone();
+let ___temp0 = ___action174(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action503(
+text,
+___0,
+___1,
+___2,
+___3,
+___4,
+___temp0,
+___5,
+___6,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action529<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<String>, usize),
+___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___2: (usize, Tok<'input>, usize),
+___3: (usize, Vec<Parameter>, usize),
+___4: (usize, Vec<WhereClause<TypeRef>>, usize),
+___5: (usize, Tok<'input>, usize),
+___6: (usize, ::std::vec::Vec<GrammarItem>, usize),
+) -> Grammar
+{
+let ___start0 = ___4.0.clone();
+let ___end0 = ___4.2.clone();
+let ___temp0 = ___action173(
+text,
+___4,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action504(
+text,
+___0,
+___1,
+___2,
+___3,
+___temp0,
+___5,
+___6,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action530<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<String>, usize),
+___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___2: (usize, Tok<'input>, usize),
+___3: (usize, Vec<Parameter>, usize),
+___4: (usize, Tok<'input>, usize),
+___5: (usize, ::std::vec::Vec<GrammarItem>, usize),
+) -> Grammar
+{
+let ___start0 = ___3.2.clone();
+let ___end0 = ___4.0.clone();
+let ___temp0 = ___action174(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action504(
+text,
+___0,
+___1,
+___2,
+___3,
+___temp0,
+___4,
+___5,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action531<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<String>, usize),
+___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___2: (usize, Tok<'input>, usize),
+___3: (usize, Vec<TypeParameter>, usize),
+___4: (usize, Vec<WhereClause<TypeRef>>, usize),
+___5: (usize, Tok<'input>, usize),
+___6: (usize, ::std::vec::Vec<GrammarItem>, usize),
+) -> Grammar
+{
+let ___start0 = ___4.0.clone();
+let ___end0 = ___4.2.clone();
+let ___temp0 = ___action173(
+text,
+___4,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action505(
+text,
+___0,
+___1,
+___2,
+___3,
+___temp0,
+___5,
+___6,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action532<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<String>, usize),
+___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___2: (usize, Tok<'input>, usize),
+___3: (usize, Vec<TypeParameter>, usize),
+___4: (usize, Tok<'input>, usize),
+___5: (usize, ::std::vec::Vec<GrammarItem>, usize),
+) -> Grammar
+{
+let ___start0 = ___3.2.clone();
+let ___end0 = ___4.0.clone();
+let ___temp0 = ___action174(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action505(
+text,
+___0,
+___1,
+___2,
+___3,
+___temp0,
+___4,
+___5,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action533<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<String>, usize),
+___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___2: (usize, Tok<'input>, usize),
+___3: (usize, Vec<WhereClause<TypeRef>>, usize),
+___4: (usize, Tok<'input>, usize),
+___5: (usize, ::std::vec::Vec<GrammarItem>, usize),
+) -> Grammar
+{
+let ___start0 = ___3.0.clone();
+let ___end0 = ___3.2.clone();
+let ___temp0 = ___action173(
+text,
+___3,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action506(
+text,
+___0,
+___1,
+___2,
+___temp0,
+___4,
+___5,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action534<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<String>, usize),
+___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___2: (usize, Tok<'input>, usize),
+___3: (usize, Tok<'input>, usize),
+___4: (usize, ::std::vec::Vec<GrammarItem>, usize),
+) -> Grammar
+{
+let ___start0 = ___2.2.clone();
+let ___end0 = ___3.0.clone();
+let ___temp0 = ___action174(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action506(
+text,
+___0,
+___1,
+___2,
+___temp0,
+___3,
+___4,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action535<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<String>, usize),
+___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___2: (usize, ::std::vec::Vec<Annotation>, usize),
+___3: (usize, Tok<'input>, usize),
+___4: (usize, Vec<TypeParameter>, usize),
+___5: (usize, Vec<Parameter>, usize),
+___6: (usize, Vec<WhereClause<TypeRef>>, usize),
+___7: (usize, Tok<'input>, usize),
+) -> Grammar
+{
+let ___start0 = ___6.0.clone();
+let ___end0 = ___6.2.clone();
+let ___temp0 = ___action173(
+text,
+___6,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action507(
+text,
+___0,
+___1,
+___2,
+___3,
+___4,
+___5,
+___temp0,
+___7,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action536<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<String>, usize),
+___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___2: (usize, ::std::vec::Vec<Annotation>, usize),
+___3: (usize, Tok<'input>, usize),
+___4: (usize, Vec<TypeParameter>, usize),
+___5: (usize, Vec<Parameter>, usize),
+___6: (usize, Tok<'input>, usize),
+) -> Grammar
+{
+let ___start0 = ___5.2.clone();
+let ___end0 = ___6.0.clone();
+let ___temp0 = ___action174(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action507(
+text,
+___0,
+___1,
+___2,
+___3,
+___4,
+___5,
+___temp0,
+___6,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action537<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<String>, usize),
+___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___2: (usize, ::std::vec::Vec<Annotation>, usize),
+___3: (usize, Tok<'input>, usize),
+___4: (usize, Vec<Parameter>, usize),
+___5: (usize, Vec<WhereClause<TypeRef>>, usize),
+___6: (usize, Tok<'input>, usize),
+) -> Grammar
+{
+let ___start0 = ___5.0.clone();
+let ___end0 = ___5.2.clone();
+let ___temp0 = ___action173(
+text,
+___5,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action508(
+text,
+___0,
+___1,
+___2,
+___3,
+___4,
+___temp0,
+___6,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action538<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<String>, usize),
+___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___2: (usize, ::std::vec::Vec<Annotation>, usize),
+___3: (usize, Tok<'input>, usize),
+___4: (usize, Vec<Parameter>, usize),
+___5: (usize, Tok<'input>, usize),
+) -> Grammar
+{
+let ___start0 = ___4.2.clone();
+let ___end0 = ___5.0.clone();
+let ___temp0 = ___action174(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action508(
+text,
+___0,
+___1,
+___2,
+___3,
+___4,
+___temp0,
+___5,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action539<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<String>, usize),
+___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___2: (usize, ::std::vec::Vec<Annotation>, usize),
+___3: (usize, Tok<'input>, usize),
+___4: (usize, Vec<TypeParameter>, usize),
+___5: (usize, Vec<WhereClause<TypeRef>>, usize),
+___6: (usize, Tok<'input>, usize),
+) -> Grammar
+{
+let ___start0 = ___5.0.clone();
+let ___end0 = ___5.2.clone();
+let ___temp0 = ___action173(
+text,
+___5,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action509(
+text,
+___0,
+___1,
+___2,
+___3,
+___4,
+___temp0,
+___6,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action540<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<String>, usize),
+___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___2: (usize, ::std::vec::Vec<Annotation>, usize),
+___3: (usize, Tok<'input>, usize),
+___4: (usize, Vec<TypeParameter>, usize),
+___5: (usize, Tok<'input>, usize),
+) -> Grammar
+{
+let ___start0 = ___4.2.clone();
+let ___end0 = ___5.0.clone();
+let ___temp0 = ___action174(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action509(
+text,
+___0,
+___1,
+___2,
+___3,
+___4,
+___temp0,
+___5,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action541<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<String>, usize),
+___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___2: (usize, ::std::vec::Vec<Annotation>, usize),
+___3: (usize, Tok<'input>, usize),
+___4: (usize, Vec<WhereClause<TypeRef>>, usize),
+___5: (usize, Tok<'input>, usize),
+) -> Grammar
+{
+let ___start0 = ___4.0.clone();
+let ___end0 = ___4.2.clone();
+let ___temp0 = ___action173(
+text,
+___4,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action510(
+text,
+___0,
+___1,
+___2,
+___3,
+___temp0,
+___5,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action542<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<String>, usize),
+___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___2: (usize, ::std::vec::Vec<Annotation>, usize),
+___3: (usize, Tok<'input>, usize),
+___4: (usize, Tok<'input>, usize),
+) -> Grammar
+{
+let ___start0 = ___3.2.clone();
+let ___end0 = ___4.0.clone();
+let ___temp0 = ___action174(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action510(
+text,
+___0,
+___1,
+___2,
+___3,
+___temp0,
+___4,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action543<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<String>, usize),
+___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___2: (usize, ::std::vec::Vec<Annotation>, usize),
+___3: (usize, Tok<'input>, usize),
+___4: (usize, Vec<TypeParameter>, usize),
+___5: (usize, Vec<Parameter>, usize),
+___6: (usize, Vec<WhereClause<TypeRef>>, usize),
+___7: (usize, Tok<'input>, usize),
+___8: (usize, ::std::vec::Vec<GrammarItem>, usize),
+) -> Grammar
+{
+let ___start0 = ___6.0.clone();
+let ___end0 = ___6.2.clone();
+let ___temp0 = ___action173(
+text,
+___6,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action511(
+text,
+___0,
+___1,
+___2,
+___3,
+___4,
+___5,
+___temp0,
+___7,
+___8,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action544<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<String>, usize),
+___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___2: (usize, ::std::vec::Vec<Annotation>, usize),
+___3: (usize, Tok<'input>, usize),
+___4: (usize, Vec<TypeParameter>, usize),
+___5: (usize, Vec<Parameter>, usize),
+___6: (usize, Tok<'input>, usize),
+___7: (usize, ::std::vec::Vec<GrammarItem>, usize),
+) -> Grammar
+{
+let ___start0 = ___5.2.clone();
+let ___end0 = ___6.0.clone();
+let ___temp0 = ___action174(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action511(
+text,
+___0,
+___1,
+___2,
+___3,
+___4,
+___5,
+___temp0,
+___6,
+___7,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action545<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<String>, usize),
+___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___2: (usize, ::std::vec::Vec<Annotation>, usize),
+___3: (usize, Tok<'input>, usize),
+___4: (usize, Vec<Parameter>, usize),
+___5: (usize, Vec<WhereClause<TypeRef>>, usize),
+___6: (usize, Tok<'input>, usize),
+___7: (usize, ::std::vec::Vec<GrammarItem>, usize),
+) -> Grammar
+{
+let ___start0 = ___5.0.clone();
+let ___end0 = ___5.2.clone();
+let ___temp0 = ___action173(
+text,
+___5,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action512(
+text,
+___0,
+___1,
+___2,
+___3,
+___4,
+___temp0,
+___6,
+___7,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action546<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<String>, usize),
+___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___2: (usize, ::std::vec::Vec<Annotation>, usize),
+___3: (usize, Tok<'input>, usize),
+___4: (usize, Vec<Parameter>, usize),
+___5: (usize, Tok<'input>, usize),
+___6: (usize, ::std::vec::Vec<GrammarItem>, usize),
+) -> Grammar
+{
+let ___start0 = ___4.2.clone();
+let ___end0 = ___5.0.clone();
+let ___temp0 = ___action174(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action512(
+text,
+___0,
+___1,
+___2,
+___3,
+___4,
+___temp0,
+___5,
+___6,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action547<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<String>, usize),
+___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___2: (usize, ::std::vec::Vec<Annotation>, usize),
+___3: (usize, Tok<'input>, usize),
+___4: (usize, Vec<TypeParameter>, usize),
+___5: (usize, Vec<WhereClause<TypeRef>>, usize),
+___6: (usize, Tok<'input>, usize),
+___7: (usize, ::std::vec::Vec<GrammarItem>, usize),
+) -> Grammar
+{
+let ___start0 = ___5.0.clone();
+let ___end0 = ___5.2.clone();
+let ___temp0 = ___action173(
+text,
+___5,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action513(
+text,
+___0,
+___1,
+___2,
+___3,
+___4,
+___temp0,
+___6,
+___7,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action548<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<String>, usize),
+___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___2: (usize, ::std::vec::Vec<Annotation>, usize),
+___3: (usize, Tok<'input>, usize),
+___4: (usize, Vec<TypeParameter>, usize),
+___5: (usize, Tok<'input>, usize),
+___6: (usize, ::std::vec::Vec<GrammarItem>, usize),
+) -> Grammar
+{
+let ___start0 = ___4.2.clone();
+let ___end0 = ___5.0.clone();
+let ___temp0 = ___action174(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action513(
+text,
+___0,
+___1,
+___2,
+___3,
+___4,
+___temp0,
+___5,
+___6,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action549<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<String>, usize),
+___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___2: (usize, ::std::vec::Vec<Annotation>, usize),
+___3: (usize, Tok<'input>, usize),
+___4: (usize, Vec<WhereClause<TypeRef>>, usize),
+___5: (usize, Tok<'input>, usize),
+___6: (usize, ::std::vec::Vec<GrammarItem>, usize),
+) -> Grammar
+{
+let ___start0 = ___4.0.clone();
+let ___end0 = ___4.2.clone();
+let ___temp0 = ___action173(
+text,
+___4,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action514(
+text,
+___0,
+___1,
+___2,
+___3,
+___temp0,
+___5,
+___6,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action550<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<String>, usize),
+___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___2: (usize, ::std::vec::Vec<Annotation>, usize),
+___3: (usize, Tok<'input>, usize),
+___4: (usize, Tok<'input>, usize),
+___5: (usize, ::std::vec::Vec<GrammarItem>, usize),
+) -> Grammar
+{
+let ___start0 = ___3.2.clone();
+let ___end0 = ___4.0.clone();
+let ___temp0 = ___action174(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action514(
+text,
+___0,
+___1,
+___2,
+___3,
+___temp0,
+___4,
+___5,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action551<
+    'input,
+>(
+text: &'input str,
+___0: (usize, Atom, usize),
+) -> Vec<Atom>
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
+let ___temp0 = ___action133(
+text,
+___0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action357(
+text,
+___temp0,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action552<
+    'input,
+>(
+text: &'input str,
+___lookbehind: &usize,
+___lookahead: &usize,
+) -> Vec<Atom>
+{
+let ___start0 = ___lookbehind.clone();
+let ___end0 = ___lookahead.clone();
+let ___temp0 = ___action134(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action357(
+text,
+___temp0,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action553<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<Atom>, usize),
+___1: (usize, Atom, usize),
+) -> Vec<Atom>
+{
+let ___start0 = ___1.0.clone();
+let ___end0 = ___1.2.clone();
+let ___temp0 = ___action133(
+text,
+___1,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action358(
+text,
+___0,
+___temp0,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action554<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<Atom>, usize),
+) -> Vec<Atom>
+{
+let ___start0 = ___0.2.clone();
+let ___end0 = ___0.2.clone();
+let ___temp0 = ___action134(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action358(
+text,
+___0,
+___temp0,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action555<
+    'input,
+>(
+text: &'input str,
+___0: (usize, Atom, usize),
+) -> Vec<Atom>
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
+let ___temp0 = ___action133(
+text,
+___0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action353(
+text,
+___temp0,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action556<
+    'input,
+>(
+text: &'input str,
+___lookbehind: &usize,
+___lookahead: &usize,
+) -> Vec<Atom>
+{
+let ___start0 = ___lookbehind.clone();
+let ___end0 = ___lookahead.clone();
+let ___temp0 = ___action134(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action353(
+text,
+___temp0,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action557<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<Atom>, usize),
+___1: (usize, Atom, usize),
+) -> Vec<Atom>
+{
+let ___start0 = ___1.0.clone();
+let ___end0 = ___1.2.clone();
+let ___temp0 = ___action133(
+text,
+___1,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action354(
+text,
+___0,
+___temp0,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action558<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<Atom>, usize),
+) -> Vec<Atom>
+{
+let ___start0 = ___0.2.clone();
+let ___end0 = ___0.2.clone();
+let ___temp0 = ___action134(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action354(
+text,
+___0,
+___temp0,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action559<
+    'input,
+>(
+text: &'input str,
+___0: (usize, Tok<'input>, usize),
+___1: (usize, Atom, usize),
+___2: (usize, Tok<'input>, usize),
+___3: (usize, TypeRef, usize),
+) -> TypeRef
+{
+let ___start0 = ___1.0.clone();
+let ___end0 = ___1.2.clone();
+let ___temp0 = ___action133(
+text,
+___1,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action306(
+text,
+___0,
+___temp0,
+___2,
+___3,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action560<
+    'input,
+>(
+text: &'input str,
+___0: (usize, Tok<'input>, usize),
+___1: (usize, Tok<'input>, usize),
+___2: (usize, TypeRef, usize),
+) -> TypeRef
+{
+let ___start0 = ___0.2.clone();
+let ___end0 = ___1.0.clone();
+let ___temp0 = ___action134(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action306(
+text,
+___0,
+___temp0,
+___1,
+___2,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action561<
+    'input,
+>(
+text: &'input str,
+___0: (usize, Tok<'input>, usize),
+___1: (usize, Atom, usize),
+___2: (usize, TypeRef, usize),
+) -> TypeRef
+{
+let ___start0 = ___1.0.clone();
+let ___end0 = ___1.2.clone();
+let ___temp0 = ___action133(
+text,
+___1,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action307(
+text,
+___0,
+___temp0,
+___2,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action562<
+    'input,
+>(
+text: &'input str,
+___0: (usize, Tok<'input>, usize),
+___1: (usize, TypeRef, usize),
+) -> TypeRef
+{
+let ___start0 = ___0.2.clone();
+let ___end0 = ___1.0.clone();
+let ___temp0 = ___action134(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action307(
+text,
+___0,
+___temp0,
+___1,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action563<
+    'input,
+>(
+text: &'input str,
+___0: (usize, MatchItem, usize),
+) -> Vec<MatchItem>
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
+let ___temp0 = ___action255(
+text,
+___0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action361(
+text,
+___temp0,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action564<
+    'input,
+>(
+text: &'input str,
+___lookbehind: &usize,
+___lookahead: &usize,
+) -> Vec<MatchItem>
+{
+let ___start0 = ___lookbehind.clone();
+let ___end0 = ___lookahead.clone();
+let ___temp0 = ___action256(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action361(
+text,
+___temp0,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action565<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<MatchItem>, usize),
+___1: (usize, MatchItem, usize),
+) -> Vec<MatchItem>
+{
+let ___start0 = ___1.0.clone();
+let ___end0 = ___1.2.clone();
+let ___temp0 = ___action255(
+text,
+___1,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action362(
+text,
+___0,
+___temp0,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action566<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<MatchItem>, usize),
+) -> Vec<MatchItem>
+{
+let ___start0 = ___0.2.clone();
+let ___end0 = ___0.2.clone();
+let ___temp0 = ___action256(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action362(
+text,
+___0,
+___temp0,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action567<
+    'input,
+>(
+text: &'input str,
+___0: (usize, NonterminalString, usize),
+) -> Vec<NonterminalString>
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
+let ___temp0 = ___action231(
+text,
+___0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action365(
+text,
+___temp0,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action568<
+    'input,
+>(
+text: &'input str,
+___lookbehind: &usize,
+___lookahead: &usize,
+) -> Vec<NonterminalString>
+{
+let ___start0 = ___lookbehind.clone();
+let ___end0 = ___lookahead.clone();
+let ___temp0 = ___action232(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action365(
+text,
+___temp0,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action569<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<NonterminalString>, usize),
+___1: (usize, NonterminalString, usize),
+) -> Vec<NonterminalString>
+{
+let ___start0 = ___1.0.clone();
+let ___end0 = ___1.2.clone();
+let ___temp0 = ___action231(
+text,
+___1,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action366(
+text,
+___0,
+___temp0,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action570<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<NonterminalString>, usize),
+) -> Vec<NonterminalString>
+{
+let ___start0 = ___0.2.clone();
+let ___end0 = ___0.2.clone();
+let ___temp0 = ___action232(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action366(
+text,
+___0,
+___temp0,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action571<
+    'input,
+>(
+text: &'input str,
+___0: (usize, Pattern<TypeRef>, usize),
+) -> Vec<Pattern<TypeRef>>
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
+let ___temp0 = ___action265(
+text,
+___0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action369(
+text,
+___temp0,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action572<
+    'input,
+>(
+text: &'input str,
+___lookbehind: &usize,
+___lookahead: &usize,
+) -> Vec<Pattern<TypeRef>>
+{
+let ___start0 = ___lookbehind.clone();
+let ___end0 = ___lookahead.clone();
+let ___temp0 = ___action266(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action369(
+text,
+___temp0,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action573<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<Pattern<TypeRef>>, usize),
+___1: (usize, Pattern<TypeRef>, usize),
+) -> Vec<Pattern<TypeRef>>
+{
+let ___start0 = ___1.0.clone();
+let ___end0 = ___1.2.clone();
+let ___temp0 = ___action265(
+text,
+___1,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action370(
+text,
+___0,
+___temp0,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action574<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<Pattern<TypeRef>>, usize),
+) -> Vec<Pattern<TypeRef>>
+{
+let ___start0 = ___0.2.clone();
+let ___end0 = ___0.2.clone();
+let ___temp0 = ___action266(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action370(
+text,
+___0,
+___temp0,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action575<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___1: (usize, Tok<'input>, usize),
+___2: (usize, Vec<TypeParameter>, usize),
+___3: (usize, Vec<Parameter>, usize),
+___4: (usize, Vec<WhereClause<TypeRef>>, usize),
+___5: (usize, Tok<'input>, usize),
+) -> Grammar
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
+let ___temp0 = ___action185(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action519(
+text,
+___temp0,
+___0,
+___1,
+___2,
+___3,
+___4,
+___5,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action576<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<String>, usize),
+___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___2: (usize, Tok<'input>, usize),
+___3: (usize, Vec<TypeParameter>, usize),
+___4: (usize, Vec<Parameter>, usize),
+___5: (usize, Vec<WhereClause<TypeRef>>, usize),
+___6: (usize, Tok<'input>, usize),
+) -> Grammar
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
+let ___temp0 = ___action186(
+text,
+___0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action519(
+text,
+___temp0,
+___1,
+___2,
+___3,
+___4,
+___5,
+___6,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action577<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___1: (usize, Tok<'input>, usize),
+___2: (usize, Vec<TypeParameter>, usize),
+___3: (usize, Vec<Parameter>, usize),
+___4: (usize, Tok<'input>, usize),
+) -> Grammar
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
+let ___temp0 = ___action185(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action520(
+text,
+___temp0,
+___0,
+___1,
+___2,
+___3,
+___4,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action578<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<String>, usize),
+___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___2: (usize, Tok<'input>, usize),
+___3: (usize, Vec<TypeParameter>, usize),
+___4: (usize, Vec<Parameter>, usize),
+___5: (usize, Tok<'input>, usize),
+) -> Grammar
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
+let ___temp0 = ___action186(
+text,
+___0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action520(
+text,
+___temp0,
+___1,
+___2,
+___3,
+___4,
+___5,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action579<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___1: (usize, Tok<'input>, usize),
+___2: (usize, Vec<Parameter>, usize),
+___3: (usize, Vec<WhereClause<TypeRef>>, usize),
+___4: (usize, Tok<'input>, usize),
+) -> Grammar
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
+let ___temp0 = ___action185(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action521(
+text,
+___temp0,
+___0,
+___1,
+___2,
+___3,
+___4,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action580<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<String>, usize),
+___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___2: (usize, Tok<'input>, usize),
+___3: (usize, Vec<Parameter>, usize),
+___4: (usize, Vec<WhereClause<TypeRef>>, usize),
+___5: (usize, Tok<'input>, usize),
+) -> Grammar
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
+let ___temp0 = ___action186(
+text,
+___0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action521(
+text,
+___temp0,
+___1,
+___2,
+___3,
+___4,
+___5,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action581<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___1: (usize, Tok<'input>, usize),
+___2: (usize, Vec<Parameter>, usize),
+___3: (usize, Tok<'input>, usize),
+) -> Grammar
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
+let ___temp0 = ___action185(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action522(
+text,
+___temp0,
+___0,
+___1,
+___2,
+___3,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action582<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<String>, usize),
+___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___2: (usize, Tok<'input>, usize),
+___3: (usize, Vec<Parameter>, usize),
+___4: (usize, Tok<'input>, usize),
+) -> Grammar
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
+let ___temp0 = ___action186(
+text,
+___0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action522(
+text,
+___temp0,
+___1,
+___2,
+___3,
+___4,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action583<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___1: (usize, Tok<'input>, usize),
+___2: (usize, Vec<TypeParameter>, usize),
+___3: (usize, Vec<WhereClause<TypeRef>>, usize),
+___4: (usize, Tok<'input>, usize),
+) -> Grammar
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
+let ___temp0 = ___action185(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action523(
+text,
+___temp0,
+___0,
+___1,
+___2,
+___3,
+___4,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action584<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<String>, usize),
+___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___2: (usize, Tok<'input>, usize),
+___3: (usize, Vec<TypeParameter>, usize),
+___4: (usize, Vec<WhereClause<TypeRef>>, usize),
+___5: (usize, Tok<'input>, usize),
+) -> Grammar
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
+let ___temp0 = ___action186(
+text,
+___0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action523(
+text,
+___temp0,
+___1,
+___2,
+___3,
+___4,
+___5,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action585<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___1: (usize, Tok<'input>, usize),
+___2: (usize, Vec<TypeParameter>, usize),
+___3: (usize, Tok<'input>, usize),
+) -> Grammar
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
+let ___temp0 = ___action185(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action524(
+text,
+___temp0,
+___0,
+___1,
+___2,
+___3,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action586<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<String>, usize),
+___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___2: (usize, Tok<'input>, usize),
+___3: (usize, Vec<TypeParameter>, usize),
+___4: (usize, Tok<'input>, usize),
+) -> Grammar
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
+let ___temp0 = ___action186(
+text,
+___0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action524(
+text,
+___temp0,
+___1,
+___2,
+___3,
+___4,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action587<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___1: (usize, Tok<'input>, usize),
+___2: (usize, Vec<WhereClause<TypeRef>>, usize),
+___3: (usize, Tok<'input>, usize),
+) -> Grammar
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
+let ___temp0 = ___action185(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action525(
+text,
+___temp0,
+___0,
+___1,
+___2,
+___3,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action588<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<String>, usize),
+___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___2: (usize, Tok<'input>, usize),
+___3: (usize, Vec<WhereClause<TypeRef>>, usize),
+___4: (usize, Tok<'input>, usize),
+) -> Grammar
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
+let ___temp0 = ___action186(
+text,
+___0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action525(
+text,
+___temp0,
+___1,
+___2,
+___3,
+___4,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action589<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___1: (usize, Tok<'input>, usize),
+___2: (usize, Tok<'input>, usize),
+) -> Grammar
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
+let ___temp0 = ___action185(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action526(
+text,
+___temp0,
+___0,
+___1,
+___2,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action590<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<String>, usize),
+___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___2: (usize, Tok<'input>, usize),
+___3: (usize, Tok<'input>, usize),
+) -> Grammar
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
+let ___temp0 = ___action186(
+text,
+___0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action526(
+text,
+___temp0,
+___1,
+___2,
+___3,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action591<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___1: (usize, Tok<'input>, usize),
+___2: (usize, Vec<TypeParameter>, usize),
+___3: (usize, Vec<Parameter>, usize),
+___4: (usize, Vec<WhereClause<TypeRef>>, usize),
+___5: (usize, Tok<'input>, usize),
+___6: (usize, ::std::vec::Vec<GrammarItem>, usize),
+) -> Grammar
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
+let ___temp0 = ___action185(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action527(
+text,
+___temp0,
+___0,
+___1,
+___2,
+___3,
+___4,
+___5,
+___6,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action592<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<String>, usize),
+___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___2: (usize, Tok<'input>, usize),
+___3: (usize, Vec<TypeParameter>, usize),
+___4: (usize, Vec<Parameter>, usize),
+___5: (usize, Vec<WhereClause<TypeRef>>, usize),
+___6: (usize, Tok<'input>, usize),
+___7: (usize, ::std::vec::Vec<GrammarItem>, usize),
+) -> Grammar
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
+let ___temp0 = ___action186(
+text,
+___0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action527(
+text,
+___temp0,
+___1,
+___2,
+___3,
+___4,
+___5,
+___6,
+___7,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action593<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___1: (usize, Tok<'input>, usize),
+___2: (usize, Vec<TypeParameter>, usize),
+___3: (usize, Vec<Parameter>, usize),
+___4: (usize, Tok<'input>, usize),
+___5: (usize, ::std::vec::Vec<GrammarItem>, usize),
+) -> Grammar
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
+let ___temp0 = ___action185(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action528(
+text,
+___temp0,
+___0,
+___1,
+___2,
+___3,
+___4,
+___5,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action594<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<String>, usize),
+___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___2: (usize, Tok<'input>, usize),
+___3: (usize, Vec<TypeParameter>, usize),
+___4: (usize, Vec<Parameter>, usize),
+___5: (usize, Tok<'input>, usize),
+___6: (usize, ::std::vec::Vec<GrammarItem>, usize),
+) -> Grammar
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
+let ___temp0 = ___action186(
+text,
+___0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action528(
+text,
+___temp0,
+___1,
+___2,
+___3,
+___4,
+___5,
+___6,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action595<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___1: (usize, Tok<'input>, usize),
+___2: (usize, Vec<Parameter>, usize),
+___3: (usize, Vec<WhereClause<TypeRef>>, usize),
+___4: (usize, Tok<'input>, usize),
+___5: (usize, ::std::vec::Vec<GrammarItem>, usize),
+) -> Grammar
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
+let ___temp0 = ___action185(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action529(
+text,
+___temp0,
+___0,
+___1,
+___2,
+___3,
+___4,
+___5,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action596<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<String>, usize),
+___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___2: (usize, Tok<'input>, usize),
+___3: (usize, Vec<Parameter>, usize),
+___4: (usize, Vec<WhereClause<TypeRef>>, usize),
+___5: (usize, Tok<'input>, usize),
+___6: (usize, ::std::vec::Vec<GrammarItem>, usize),
+) -> Grammar
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
+let ___temp0 = ___action186(
+text,
+___0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action529(
+text,
+___temp0,
+___1,
+___2,
+___3,
+___4,
+___5,
+___6,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action597<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___1: (usize, Tok<'input>, usize),
+___2: (usize, Vec<Parameter>, usize),
+___3: (usize, Tok<'input>, usize),
+___4: (usize, ::std::vec::Vec<GrammarItem>, usize),
+) -> Grammar
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
+let ___temp0 = ___action185(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action530(
+text,
+___temp0,
+___0,
+___1,
+___2,
+___3,
+___4,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action598<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<String>, usize),
+___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___2: (usize, Tok<'input>, usize),
+___3: (usize, Vec<Parameter>, usize),
+___4: (usize, Tok<'input>, usize),
+___5: (usize, ::std::vec::Vec<GrammarItem>, usize),
+) -> Grammar
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
+let ___temp0 = ___action186(
+text,
+___0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action530(
+text,
+___temp0,
+___1,
+___2,
+___3,
+___4,
+___5,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action599<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___1: (usize, Tok<'input>, usize),
+___2: (usize, Vec<TypeParameter>, usize),
+___3: (usize, Vec<WhereClause<TypeRef>>, usize),
+___4: (usize, Tok<'input>, usize),
+___5: (usize, ::std::vec::Vec<GrammarItem>, usize),
+) -> Grammar
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
+let ___temp0 = ___action185(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action531(
+text,
+___temp0,
+___0,
+___1,
+___2,
+___3,
+___4,
+___5,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action600<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<String>, usize),
+___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___2: (usize, Tok<'input>, usize),
+___3: (usize, Vec<TypeParameter>, usize),
+___4: (usize, Vec<WhereClause<TypeRef>>, usize),
+___5: (usize, Tok<'input>, usize),
+___6: (usize, ::std::vec::Vec<GrammarItem>, usize),
+) -> Grammar
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
+let ___temp0 = ___action186(
+text,
+___0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action531(
+text,
+___temp0,
+___1,
+___2,
+___3,
+___4,
+___5,
+___6,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action601<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___1: (usize, Tok<'input>, usize),
+___2: (usize, Vec<TypeParameter>, usize),
+___3: (usize, Tok<'input>, usize),
+___4: (usize, ::std::vec::Vec<GrammarItem>, usize),
+) -> Grammar
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
+let ___temp0 = ___action185(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action532(
+text,
+___temp0,
+___0,
+___1,
+___2,
+___3,
+___4,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action602<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<String>, usize),
+___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___2: (usize, Tok<'input>, usize),
+___3: (usize, Vec<TypeParameter>, usize),
+___4: (usize, Tok<'input>, usize),
+___5: (usize, ::std::vec::Vec<GrammarItem>, usize),
+) -> Grammar
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
+let ___temp0 = ___action186(
+text,
+___0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action532(
+text,
+___temp0,
+___1,
+___2,
+___3,
+___4,
+___5,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action603<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___1: (usize, Tok<'input>, usize),
+___2: (usize, Vec<WhereClause<TypeRef>>, usize),
+___3: (usize, Tok<'input>, usize),
+___4: (usize, ::std::vec::Vec<GrammarItem>, usize),
+) -> Grammar
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
+let ___temp0 = ___action185(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action533(
+text,
+___temp0,
+___0,
+___1,
+___2,
+___3,
+___4,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action604<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<String>, usize),
+___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___2: (usize, Tok<'input>, usize),
+___3: (usize, Vec<WhereClause<TypeRef>>, usize),
+___4: (usize, Tok<'input>, usize),
+___5: (usize, ::std::vec::Vec<GrammarItem>, usize),
+) -> Grammar
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
+let ___temp0 = ___action186(
+text,
+___0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action533(
+text,
+___temp0,
+___1,
+___2,
+___3,
+___4,
+___5,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action605<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___1: (usize, Tok<'input>, usize),
+___2: (usize, Tok<'input>, usize),
+___3: (usize, ::std::vec::Vec<GrammarItem>, usize),
+) -> Grammar
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
+let ___temp0 = ___action185(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action534(
+text,
+___temp0,
+___0,
+___1,
+___2,
+___3,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action606<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<String>, usize),
+___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___2: (usize, Tok<'input>, usize),
+___3: (usize, Tok<'input>, usize),
+___4: (usize, ::std::vec::Vec<GrammarItem>, usize),
+) -> Grammar
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
+let ___temp0 = ___action186(
+text,
+___0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action534(
+text,
+___temp0,
+___1,
+___2,
+___3,
+___4,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action607<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___1: (usize, ::std::vec::Vec<Annotation>, usize),
+___2: (usize, Tok<'input>, usize),
+___3: (usize, Vec<TypeParameter>, usize),
+___4: (usize, Vec<Parameter>, usize),
+___5: (usize, Vec<WhereClause<TypeRef>>, usize),
+___6: (usize, Tok<'input>, usize),
+) -> Grammar
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
+let ___temp0 = ___action185(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action535(
+text,
+___temp0,
+___0,
+___1,
+___2,
+___3,
+___4,
+___5,
+___6,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action608<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<String>, usize),
+___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___2: (usize, ::std::vec::Vec<Annotation>, usize),
+___3: (usize, Tok<'input>, usize),
+___4: (usize, Vec<TypeParameter>, usize),
+___5: (usize, Vec<Parameter>, usize),
+___6: (usize, Vec<WhereClause<TypeRef>>, usize),
+___7: (usize, Tok<'input>, usize),
+) -> Grammar
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
+let ___temp0 = ___action186(
+text,
+___0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action535(
+text,
+___temp0,
+___1,
+___2,
+___3,
+___4,
+___5,
+___6,
+___7,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action609<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___1: (usize, ::std::vec::Vec<Annotation>, usize),
+___2: (usize, Tok<'input>, usize),
+___3: (usize, Vec<TypeParameter>, usize),
+___4: (usize, Vec<Parameter>, usize),
+___5: (usize, Tok<'input>, usize),
+) -> Grammar
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
+let ___temp0 = ___action185(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action536(
+text,
+___temp0,
+___0,
+___1,
+___2,
+___3,
+___4,
+___5,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action610<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<String>, usize),
+___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___2: (usize, ::std::vec::Vec<Annotation>, usize),
+___3: (usize, Tok<'input>, usize),
+___4: (usize, Vec<TypeParameter>, usize),
+___5: (usize, Vec<Parameter>, usize),
+___6: (usize, Tok<'input>, usize),
+) -> Grammar
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
+let ___temp0 = ___action186(
+text,
+___0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action536(
+text,
+___temp0,
+___1,
+___2,
+___3,
+___4,
+___5,
+___6,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action611<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___1: (usize, ::std::vec::Vec<Annotation>, usize),
+___2: (usize, Tok<'input>, usize),
+___3: (usize, Vec<Parameter>, usize),
+___4: (usize, Vec<WhereClause<TypeRef>>, usize),
+___5: (usize, Tok<'input>, usize),
+) -> Grammar
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
+let ___temp0 = ___action185(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action537(
+text,
+___temp0,
+___0,
+___1,
+___2,
+___3,
+___4,
+___5,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action612<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<String>, usize),
+___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___2: (usize, ::std::vec::Vec<Annotation>, usize),
+___3: (usize, Tok<'input>, usize),
+___4: (usize, Vec<Parameter>, usize),
+___5: (usize, Vec<WhereClause<TypeRef>>, usize),
+___6: (usize, Tok<'input>, usize),
+) -> Grammar
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
+let ___temp0 = ___action186(
+text,
+___0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action537(
+text,
+___temp0,
+___1,
+___2,
+___3,
+___4,
+___5,
+___6,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action613<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___1: (usize, ::std::vec::Vec<Annotation>, usize),
+___2: (usize, Tok<'input>, usize),
+___3: (usize, Vec<Parameter>, usize),
+___4: (usize, Tok<'input>, usize),
+) -> Grammar
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
+let ___temp0 = ___action185(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action538(
+text,
+___temp0,
+___0,
+___1,
+___2,
+___3,
+___4,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action614<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<String>, usize),
+___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___2: (usize, ::std::vec::Vec<Annotation>, usize),
+___3: (usize, Tok<'input>, usize),
+___4: (usize, Vec<Parameter>, usize),
+___5: (usize, Tok<'input>, usize),
+) -> Grammar
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
+let ___temp0 = ___action186(
+text,
+___0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action538(
+text,
+___temp0,
+___1,
+___2,
+___3,
+___4,
+___5,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action615<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___1: (usize, ::std::vec::Vec<Annotation>, usize),
+___2: (usize, Tok<'input>, usize),
+___3: (usize, Vec<TypeParameter>, usize),
+___4: (usize, Vec<WhereClause<TypeRef>>, usize),
+___5: (usize, Tok<'input>, usize),
+) -> Grammar
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
+let ___temp0 = ___action185(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action539(
+text,
+___temp0,
+___0,
+___1,
+___2,
+___3,
+___4,
+___5,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action616<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<String>, usize),
+___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___2: (usize, ::std::vec::Vec<Annotation>, usize),
+___3: (usize, Tok<'input>, usize),
+___4: (usize, Vec<TypeParameter>, usize),
+___5: (usize, Vec<WhereClause<TypeRef>>, usize),
+___6: (usize, Tok<'input>, usize),
+) -> Grammar
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
+let ___temp0 = ___action186(
+text,
+___0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action539(
+text,
+___temp0,
+___1,
+___2,
+___3,
+___4,
+___5,
+___6,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action617<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___1: (usize, ::std::vec::Vec<Annotation>, usize),
+___2: (usize, Tok<'input>, usize),
+___3: (usize, Vec<TypeParameter>, usize),
+___4: (usize, Tok<'input>, usize),
+) -> Grammar
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
+let ___temp0 = ___action185(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action540(
+text,
+___temp0,
+___0,
+___1,
+___2,
+___3,
+___4,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action618<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<String>, usize),
+___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___2: (usize, ::std::vec::Vec<Annotation>, usize),
+___3: (usize, Tok<'input>, usize),
+___4: (usize, Vec<TypeParameter>, usize),
+___5: (usize, Tok<'input>, usize),
+) -> Grammar
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
+let ___temp0 = ___action186(
+text,
+___0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action540(
+text,
+___temp0,
+___1,
+___2,
+___3,
+___4,
+___5,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action619<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___1: (usize, ::std::vec::Vec<Annotation>, usize),
+___2: (usize, Tok<'input>, usize),
+___3: (usize, Vec<WhereClause<TypeRef>>, usize),
+___4: (usize, Tok<'input>, usize),
+) -> Grammar
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
+let ___temp0 = ___action185(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action541(
+text,
+___temp0,
+___0,
+___1,
+___2,
+___3,
+___4,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action620<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<String>, usize),
+___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___2: (usize, ::std::vec::Vec<Annotation>, usize),
+___3: (usize, Tok<'input>, usize),
+___4: (usize, Vec<WhereClause<TypeRef>>, usize),
+___5: (usize, Tok<'input>, usize),
+) -> Grammar
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
+let ___temp0 = ___action186(
+text,
+___0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action541(
+text,
+___temp0,
+___1,
+___2,
+___3,
+___4,
+___5,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action621<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___1: (usize, ::std::vec::Vec<Annotation>, usize),
+___2: (usize, Tok<'input>, usize),
+___3: (usize, Tok<'input>, usize),
+) -> Grammar
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
+let ___temp0 = ___action185(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action542(
+text,
+___temp0,
+___0,
+___1,
+___2,
+___3,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action622<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<String>, usize),
+___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___2: (usize, ::std::vec::Vec<Annotation>, usize),
+___3: (usize, Tok<'input>, usize),
+___4: (usize, Tok<'input>, usize),
+) -> Grammar
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
+let ___temp0 = ___action186(
+text,
+___0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action542(
+text,
+___temp0,
+___1,
+___2,
+___3,
+___4,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action623<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___1: (usize, ::std::vec::Vec<Annotation>, usize),
+___2: (usize, Tok<'input>, usize),
+___3: (usize, Vec<TypeParameter>, usize),
+___4: (usize, Vec<Parameter>, usize),
+___5: (usize, Vec<WhereClause<TypeRef>>, usize),
+___6: (usize, Tok<'input>, usize),
+___7: (usize, ::std::vec::Vec<GrammarItem>, usize),
+) -> Grammar
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
+let ___temp0 = ___action185(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action543(
+text,
+___temp0,
+___0,
+___1,
+___2,
+___3,
+___4,
+___5,
+___6,
+___7,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action624<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<String>, usize),
+___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___2: (usize, ::std::vec::Vec<Annotation>, usize),
+___3: (usize, Tok<'input>, usize),
+___4: (usize, Vec<TypeParameter>, usize),
+___5: (usize, Vec<Parameter>, usize),
+___6: (usize, Vec<WhereClause<TypeRef>>, usize),
+___7: (usize, Tok<'input>, usize),
+___8: (usize, ::std::vec::Vec<GrammarItem>, usize),
+) -> Grammar
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
+let ___temp0 = ___action186(
+text,
+___0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action543(
+text,
+___temp0,
+___1,
+___2,
+___3,
+___4,
+___5,
+___6,
+___7,
+___8,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action625<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___1: (usize, ::std::vec::Vec<Annotation>, usize),
+___2: (usize, Tok<'input>, usize),
+___3: (usize, Vec<TypeParameter>, usize),
+___4: (usize, Vec<Parameter>, usize),
+___5: (usize, Tok<'input>, usize),
+___6: (usize, ::std::vec::Vec<GrammarItem>, usize),
+) -> Grammar
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
+let ___temp0 = ___action185(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action544(
+text,
+___temp0,
+___0,
+___1,
+___2,
+___3,
+___4,
+___5,
+___6,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action626<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<String>, usize),
+___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___2: (usize, ::std::vec::Vec<Annotation>, usize),
+___3: (usize, Tok<'input>, usize),
+___4: (usize, Vec<TypeParameter>, usize),
+___5: (usize, Vec<Parameter>, usize),
+___6: (usize, Tok<'input>, usize),
+___7: (usize, ::std::vec::Vec<GrammarItem>, usize),
+) -> Grammar
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
+let ___temp0 = ___action186(
+text,
+___0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action544(
+text,
+___temp0,
+___1,
+___2,
+___3,
+___4,
+___5,
+___6,
+___7,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action627<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___1: (usize, ::std::vec::Vec<Annotation>, usize),
+___2: (usize, Tok<'input>, usize),
+___3: (usize, Vec<Parameter>, usize),
+___4: (usize, Vec<WhereClause<TypeRef>>, usize),
+___5: (usize, Tok<'input>, usize),
+___6: (usize, ::std::vec::Vec<GrammarItem>, usize),
+) -> Grammar
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
+let ___temp0 = ___action185(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action545(
+text,
+___temp0,
+___0,
+___1,
+___2,
+___3,
+___4,
+___5,
+___6,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action628<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<String>, usize),
+___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___2: (usize, ::std::vec::Vec<Annotation>, usize),
+___3: (usize, Tok<'input>, usize),
+___4: (usize, Vec<Parameter>, usize),
+___5: (usize, Vec<WhereClause<TypeRef>>, usize),
+___6: (usize, Tok<'input>, usize),
+___7: (usize, ::std::vec::Vec<GrammarItem>, usize),
+) -> Grammar
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
+let ___temp0 = ___action186(
+text,
+___0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action545(
+text,
+___temp0,
+___1,
+___2,
+___3,
+___4,
+___5,
+___6,
+___7,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action629<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___1: (usize, ::std::vec::Vec<Annotation>, usize),
+___2: (usize, Tok<'input>, usize),
+___3: (usize, Vec<Parameter>, usize),
+___4: (usize, Tok<'input>, usize),
+___5: (usize, ::std::vec::Vec<GrammarItem>, usize),
+) -> Grammar
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
+let ___temp0 = ___action185(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action546(
+text,
+___temp0,
+___0,
+___1,
+___2,
+___3,
+___4,
+___5,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action630<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<String>, usize),
+___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___2: (usize, ::std::vec::Vec<Annotation>, usize),
+___3: (usize, Tok<'input>, usize),
+___4: (usize, Vec<Parameter>, usize),
+___5: (usize, Tok<'input>, usize),
+___6: (usize, ::std::vec::Vec<GrammarItem>, usize),
+) -> Grammar
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
+let ___temp0 = ___action186(
+text,
+___0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action546(
+text,
+___temp0,
+___1,
+___2,
+___3,
+___4,
+___5,
+___6,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action631<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___1: (usize, ::std::vec::Vec<Annotation>, usize),
+___2: (usize, Tok<'input>, usize),
+___3: (usize, Vec<TypeParameter>, usize),
+___4: (usize, Vec<WhereClause<TypeRef>>, usize),
+___5: (usize, Tok<'input>, usize),
+___6: (usize, ::std::vec::Vec<GrammarItem>, usize),
+) -> Grammar
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
+let ___temp0 = ___action185(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action547(
+text,
+___temp0,
+___0,
+___1,
+___2,
+___3,
+___4,
+___5,
+___6,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action632<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<String>, usize),
+___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___2: (usize, ::std::vec::Vec<Annotation>, usize),
+___3: (usize, Tok<'input>, usize),
+___4: (usize, Vec<TypeParameter>, usize),
+___5: (usize, Vec<WhereClause<TypeRef>>, usize),
+___6: (usize, Tok<'input>, usize),
+___7: (usize, ::std::vec::Vec<GrammarItem>, usize),
+) -> Grammar
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
+let ___temp0 = ___action186(
+text,
+___0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action547(
+text,
+___temp0,
+___1,
+___2,
+___3,
+___4,
+___5,
+___6,
+___7,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action633<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___1: (usize, ::std::vec::Vec<Annotation>, usize),
+___2: (usize, Tok<'input>, usize),
+___3: (usize, Vec<TypeParameter>, usize),
+___4: (usize, Tok<'input>, usize),
+___5: (usize, ::std::vec::Vec<GrammarItem>, usize),
+) -> Grammar
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
+let ___temp0 = ___action185(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action548(
+text,
+___temp0,
+___0,
+___1,
+___2,
+___3,
+___4,
+___5,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action634<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<String>, usize),
+___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___2: (usize, ::std::vec::Vec<Annotation>, usize),
+___3: (usize, Tok<'input>, usize),
+___4: (usize, Vec<TypeParameter>, usize),
+___5: (usize, Tok<'input>, usize),
+___6: (usize, ::std::vec::Vec<GrammarItem>, usize),
+) -> Grammar
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
+let ___temp0 = ___action186(
+text,
+___0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action548(
+text,
+___temp0,
+___1,
+___2,
+___3,
+___4,
+___5,
+___6,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action635<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___1: (usize, ::std::vec::Vec<Annotation>, usize),
+___2: (usize, Tok<'input>, usize),
+___3: (usize, Vec<WhereClause<TypeRef>>, usize),
+___4: (usize, Tok<'input>, usize),
+___5: (usize, ::std::vec::Vec<GrammarItem>, usize),
+) -> Grammar
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
+let ___temp0 = ___action185(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action549(
+text,
+___temp0,
+___0,
+___1,
+___2,
+___3,
+___4,
+___5,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action636<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<String>, usize),
+___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___2: (usize, ::std::vec::Vec<Annotation>, usize),
+___3: (usize, Tok<'input>, usize),
+___4: (usize, Vec<WhereClause<TypeRef>>, usize),
+___5: (usize, Tok<'input>, usize),
+___6: (usize, ::std::vec::Vec<GrammarItem>, usize),
+) -> Grammar
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
+let ___temp0 = ___action186(
+text,
+___0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action549(
+text,
+___temp0,
+___1,
+___2,
+___3,
+___4,
+___5,
+___6,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action637<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___1: (usize, ::std::vec::Vec<Annotation>, usize),
+___2: (usize, Tok<'input>, usize),
+___3: (usize, Tok<'input>, usize),
+___4: (usize, ::std::vec::Vec<GrammarItem>, usize),
+) -> Grammar
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
+let ___temp0 = ___action185(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action550(
+text,
+___temp0,
+___0,
+___1,
+___2,
+___3,
+___4,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action638<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<String>, usize),
+___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___2: (usize, ::std::vec::Vec<Annotation>, usize),
+___3: (usize, Tok<'input>, usize),
+___4: (usize, Tok<'input>, usize),
+___5: (usize, ::std::vec::Vec<GrammarItem>, usize),
+) -> Grammar
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
+let ___temp0 = ___action186(
+text,
+___0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action550(
+text,
+___temp0,
+___1,
+___2,
+___3,
+___4,
+___5,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action639<
+    'input,
+>(
+text: &'input str,
+___lookbehind: &usize,
+___lookahead: &usize,
+) -> ExprSymbol
+{
+let ___start0 = ___lookbehind.clone();
+let ___end0 = ___lookahead.clone();
+let ___temp0 = ___action136(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action50(
+text,
+___temp0,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action640<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<Symbol>, usize),
+) -> ExprSymbol
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
+let ___temp0 = ___action137(
+text,
+___0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action50(
+text,
+___temp0,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action641<
+    'input,
+>(
+text: &'input str,
+___0: (usize, Symbol, usize),
+) -> Vec<Symbol>
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
+let ___temp0 = ___action241(
+text,
+___0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action373(
+text,
+___temp0,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action642<
+    'input,
+>(
+text: &'input str,
+___lookbehind: &usize,
+___lookahead: &usize,
+) -> Vec<Symbol>
+{
+let ___start0 = ___lookbehind.clone();
+let ___end0 = ___lookahead.clone();
+let ___temp0 = ___action242(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action373(
+text,
+___temp0,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action643<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<Symbol>, usize),
+___1: (usize, Symbol, usize),
+) -> Vec<Symbol>
+{
+let ___start0 = ___1.0.clone();
+let ___end0 = ___1.2.clone();
+let ___temp0 = ___action241(
+text,
+___1,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action374(
+text,
+___0,
+___temp0,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action644<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<Symbol>, usize),
+) -> Vec<Symbol>
+{
+let ___start0 = ___0.2.clone();
+let ___end0 = ___0.2.clone();
+let ___temp0 = ___action242(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action374(
+text,
+___0,
+___temp0,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action645<
+    'input,
+>(
+text: &'input str,
+___0: (usize, TypeBound<TypeRef>, usize),
+) -> Vec<TypeBound<TypeRef>>
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
+let ___temp0 = ___action211(
+text,
+___0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action377(
+text,
+___temp0,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action646<
+    'input,
+>(
+text: &'input str,
+___lookbehind: &usize,
+___lookahead: &usize,
+) -> Vec<TypeBound<TypeRef>>
+{
+let ___start0 = ___lookbehind.clone();
+let ___end0 = ___lookahead.clone();
+let ___temp0 = ___action212(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action377(
+text,
+___temp0,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action647<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<TypeBound<TypeRef>>, usize),
+___1: (usize, TypeBound<TypeRef>, usize),
+) -> Vec<TypeBound<TypeRef>>
+{
+let ___start0 = ___1.0.clone();
+let ___end0 = ___1.2.clone();
+let ___temp0 = ___action211(
+text,
+___1,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action378(
+text,
+___0,
+___temp0,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action648<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<TypeBound<TypeRef>>, usize),
+) -> Vec<TypeBound<TypeRef>>
+{
+let ___start0 = ___0.2.clone();
+let ___end0 = ___0.2.clone();
+let ___temp0 = ___action212(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action378(
+text,
+___0,
+___temp0,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action649<
+    'input,
+>(
+text: &'input str,
+___0: (usize, TypeBoundParameter<TypeRef>, usize),
+) -> Vec<TypeBoundParameter<TypeRef>>
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
+let ___temp0 = ___action221(
+text,
+___0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action381(
+text,
+___temp0,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action650<
+    'input,
+>(
+text: &'input str,
+___lookbehind: &usize,
+___lookahead: &usize,
+) -> Vec<TypeBoundParameter<TypeRef>>
+{
+let ___start0 = ___lookbehind.clone();
+let ___end0 = ___lookahead.clone();
+let ___temp0 = ___action222(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action381(
+text,
+___temp0,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action651<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<TypeBoundParameter<TypeRef>>, usize),
+___1: (usize, TypeBoundParameter<TypeRef>, usize),
+) -> Vec<TypeBoundParameter<TypeRef>>
+{
+let ___start0 = ___1.0.clone();
+let ___end0 = ___1.2.clone();
+let ___temp0 = ___action221(
+text,
+___1,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action382(
+text,
+___0,
+___temp0,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action652<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<TypeBoundParameter<TypeRef>>, usize),
+) -> Vec<TypeBoundParameter<TypeRef>>
+{
+let ___start0 = ___0.2.clone();
+let ___end0 = ___0.2.clone();
+let ___temp0 = ___action222(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action382(
+text,
+___0,
+___temp0,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action653<
+    'input,
+>(
+text: &'input str,
+___0: (usize, TypeParameter, usize),
+) -> Vec<TypeParameter>
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
+let ___temp0 = ___action195(
+text,
+___0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action385(
+text,
+___temp0,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action654<
+    'input,
+>(
+text: &'input str,
+___lookbehind: &usize,
+___lookahead: &usize,
+) -> Vec<TypeParameter>
+{
+let ___start0 = ___lookbehind.clone();
+let ___end0 = ___lookahead.clone();
+let ___temp0 = ___action196(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action385(
+text,
+___temp0,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action655<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<TypeParameter>, usize),
+___1: (usize, TypeParameter, usize),
+) -> Vec<TypeParameter>
+{
+let ___start0 = ___1.0.clone();
+let ___end0 = ___1.2.clone();
+let ___temp0 = ___action195(
+text,
+___1,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action386(
+text,
+___0,
+___temp0,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action656<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<TypeParameter>, usize),
+) -> Vec<TypeParameter>
+{
+let ___start0 = ___0.2.clone();
+let ___end0 = ___0.2.clone();
+let ___temp0 = ___action196(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action386(
+text,
+___0,
+___temp0,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action657<
+    'input,
+>(
+text: &'input str,
+___0: (usize, TypeRef, usize),
+) -> Vec<TypeRef>
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
+let ___temp0 = ___action216(
+text,
+___0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action389(
+text,
+___temp0,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action658<
+    'input,
+>(
+text: &'input str,
+___lookbehind: &usize,
+___lookahead: &usize,
+) -> Vec<TypeRef>
+{
+let ___start0 = ___lookbehind.clone();
+let ___end0 = ___lookahead.clone();
+let ___temp0 = ___action217(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action389(
+text,
+___temp0,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action659<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<TypeRef>, usize),
+___1: (usize, TypeRef, usize),
+) -> Vec<TypeRef>
+{
+let ___start0 = ___1.0.clone();
+let ___end0 = ___1.2.clone();
+let ___temp0 = ___action216(
+text,
+___1,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action390(
+text,
+___0,
+___temp0,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action660<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<TypeRef>, usize),
+) -> Vec<TypeRef>
+{
+let ___start0 = ___0.2.clone();
+let ___end0 = ___0.2.clone();
+let ___temp0 = ___action217(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action390(
+text,
+___0,
+___temp0,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action661<
+    'input,
+>(
+text: &'input str,
+___0: (usize, TypeRef, usize),
+) -> Vec<TypeRef>
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
+let ___temp0 = ___action246(
+text,
+___0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action393(
+text,
+___temp0,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action662<
+    'input,
+>(
+text: &'input str,
+___lookbehind: &usize,
+___lookahead: &usize,
+) -> Vec<TypeRef>
+{
+let ___start0 = ___lookbehind.clone();
+let ___end0 = ___lookahead.clone();
+let ___temp0 = ___action247(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action393(
+text,
+___temp0,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action663<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<TypeRef>, usize),
+___1: (usize, TypeRef, usize),
+) -> Vec<TypeRef>
+{
+let ___start0 = ___1.0.clone();
+let ___end0 = ___1.2.clone();
+let ___temp0 = ___action246(
+text,
+___1,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action394(
+text,
+___0,
+___temp0,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action664<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<TypeRef>, usize),
+) -> Vec<TypeRef>
+{
+let ___start0 = ___0.2.clone();
+let ___end0 = ___0.2.clone();
+let ___temp0 = ___action247(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action394(
+text,
+___0,
+___temp0,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action665<
+    'input,
+>(
+text: &'input str,
+___0: (usize, Tok<'input>, usize),
+___1: (usize, Vec<TypeParameter>, usize),
+___2: (usize, Vec<Parameter>, usize),
+___3: (usize, Vec<WhereClause<TypeRef>>, usize),
+___4: (usize, Tok<'input>, usize),
+) -> Grammar
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
+let ___temp0 = ___action183(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action575(
+text,
+___temp0,
+___0,
+___1,
+___2,
+___3,
+___4,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action666<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___1: (usize, Tok<'input>, usize),
+___2: (usize, Vec<TypeParameter>, usize),
+___3: (usize, Vec<Parameter>, usize),
+___4: (usize, Vec<WhereClause<TypeRef>>, usize),
+___5: (usize, Tok<'input>, usize),
+) -> Grammar
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
+let ___temp0 = ___action184(
+text,
+___0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action575(
+text,
+___temp0,
+___1,
+___2,
+___3,
+___4,
+___5,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action667<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<String>, usize),
+___1: (usize, Tok<'input>, usize),
+___2: (usize, Vec<TypeParameter>, usize),
+___3: (usize, Vec<Parameter>, usize),
+___4: (usize, Vec<WhereClause<TypeRef>>, usize),
+___5: (usize, Tok<'input>, usize),
+) -> Grammar
+{
+let ___start0 = ___0.2.clone();
+let ___end0 = ___1.0.clone();
+let ___temp0 = ___action183(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action576(
+text,
+___0,
+___temp0,
+___1,
+___2,
+___3,
+___4,
+___5,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action668<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<String>, usize),
+___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___2: (usize, Tok<'input>, usize),
+___3: (usize, Vec<TypeParameter>, usize),
+___4: (usize, Vec<Parameter>, usize),
+___5: (usize, Vec<WhereClause<TypeRef>>, usize),
+___6: (usize, Tok<'input>, usize),
+) -> Grammar
+{
+let ___start0 = ___1.0.clone();
+let ___end0 = ___1.2.clone();
+let ___temp0 = ___action184(
+text,
+___1,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action576(
+text,
+___0,
+___temp0,
+___2,
+___3,
+___4,
+___5,
+___6,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action669<
+    'input,
+>(
+text: &'input str,
+___0: (usize, Tok<'input>, usize),
+___1: (usize, Vec<TypeParameter>, usize),
+___2: (usize, Vec<Parameter>, usize),
+___3: (usize, Tok<'input>, usize),
+) -> Grammar
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
+let ___temp0 = ___action183(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action577(
+text,
+___temp0,
+___0,
+___1,
+___2,
+___3,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action670<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___1: (usize, Tok<'input>, usize),
+___2: (usize, Vec<TypeParameter>, usize),
+___3: (usize, Vec<Parameter>, usize),
+___4: (usize, Tok<'input>, usize),
+) -> Grammar
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
+let ___temp0 = ___action184(
+text,
+___0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action577(
+text,
+___temp0,
+___1,
+___2,
+___3,
+___4,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action671<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<String>, usize),
+___1: (usize, Tok<'input>, usize),
+___2: (usize, Vec<TypeParameter>, usize),
+___3: (usize, Vec<Parameter>, usize),
+___4: (usize, Tok<'input>, usize),
+) -> Grammar
+{
+let ___start0 = ___0.2.clone();
+let ___end0 = ___1.0.clone();
+let ___temp0 = ___action183(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action578(
+text,
+___0,
+___temp0,
+___1,
+___2,
+___3,
+___4,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action672<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<String>, usize),
+___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___2: (usize, Tok<'input>, usize),
+___3: (usize, Vec<TypeParameter>, usize),
+___4: (usize, Vec<Parameter>, usize),
+___5: (usize, Tok<'input>, usize),
+) -> Grammar
+{
+let ___start0 = ___1.0.clone();
+let ___end0 = ___1.2.clone();
+let ___temp0 = ___action184(
+text,
+___1,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action578(
+text,
+___0,
+___temp0,
+___2,
+___3,
+___4,
+___5,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action673<
+    'input,
+>(
+text: &'input str,
+___0: (usize, Tok<'input>, usize),
+___1: (usize, Vec<Parameter>, usize),
+___2: (usize, Vec<WhereClause<TypeRef>>, usize),
+___3: (usize, Tok<'input>, usize),
+) -> Grammar
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
+let ___temp0 = ___action183(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action579(
+text,
+___temp0,
+___0,
+___1,
+___2,
+___3,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action674<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___1: (usize, Tok<'input>, usize),
+___2: (usize, Vec<Parameter>, usize),
+___3: (usize, Vec<WhereClause<TypeRef>>, usize),
+___4: (usize, Tok<'input>, usize),
+) -> Grammar
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
+let ___temp0 = ___action184(
+text,
+___0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action579(
+text,
+___temp0,
+___1,
+___2,
+___3,
+___4,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action675<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<String>, usize),
+___1: (usize, Tok<'input>, usize),
+___2: (usize, Vec<Parameter>, usize),
+___3: (usize, Vec<WhereClause<TypeRef>>, usize),
+___4: (usize, Tok<'input>, usize),
+) -> Grammar
+{
+let ___start0 = ___0.2.clone();
+let ___end0 = ___1.0.clone();
+let ___temp0 = ___action183(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action580(
+text,
+___0,
+___temp0,
+___1,
+___2,
+___3,
+___4,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action676<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<String>, usize),
+___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___2: (usize, Tok<'input>, usize),
+___3: (usize, Vec<Parameter>, usize),
+___4: (usize, Vec<WhereClause<TypeRef>>, usize),
+___5: (usize, Tok<'input>, usize),
+) -> Grammar
+{
+let ___start0 = ___1.0.clone();
+let ___end0 = ___1.2.clone();
+let ___temp0 = ___action184(
+text,
+___1,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action580(
+text,
+___0,
+___temp0,
+___2,
+___3,
+___4,
+___5,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action677<
+    'input,
+>(
+text: &'input str,
+___0: (usize, Tok<'input>, usize),
+___1: (usize, Vec<Parameter>, usize),
+___2: (usize, Tok<'input>, usize),
+) -> Grammar
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
+let ___temp0 = ___action183(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action581(
+text,
+___temp0,
+___0,
+___1,
+___2,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action678<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___1: (usize, Tok<'input>, usize),
+___2: (usize, Vec<Parameter>, usize),
+___3: (usize, Tok<'input>, usize),
+) -> Grammar
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
+let ___temp0 = ___action184(
+text,
+___0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action581(
+text,
+___temp0,
+___1,
+___2,
+___3,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action679<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<String>, usize),
+___1: (usize, Tok<'input>, usize),
+___2: (usize, Vec<Parameter>, usize),
+___3: (usize, Tok<'input>, usize),
+) -> Grammar
+{
+let ___start0 = ___0.2.clone();
+let ___end0 = ___1.0.clone();
+let ___temp0 = ___action183(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action582(
+text,
+___0,
+___temp0,
+___1,
+___2,
+___3,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action680<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<String>, usize),
+___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___2: (usize, Tok<'input>, usize),
+___3: (usize, Vec<Parameter>, usize),
+___4: (usize, Tok<'input>, usize),
+) -> Grammar
+{
+let ___start0 = ___1.0.clone();
+let ___end0 = ___1.2.clone();
+let ___temp0 = ___action184(
+text,
+___1,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action582(
+text,
+___0,
+___temp0,
+___2,
+___3,
+___4,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action681<
+    'input,
+>(
+text: &'input str,
+___0: (usize, Tok<'input>, usize),
+___1: (usize, Vec<TypeParameter>, usize),
+___2: (usize, Vec<WhereClause<TypeRef>>, usize),
+___3: (usize, Tok<'input>, usize),
+) -> Grammar
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
+let ___temp0 = ___action183(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action583(
+text,
+___temp0,
+___0,
+___1,
+___2,
+___3,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action682<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___1: (usize, Tok<'input>, usize),
+___2: (usize, Vec<TypeParameter>, usize),
+___3: (usize, Vec<WhereClause<TypeRef>>, usize),
+___4: (usize, Tok<'input>, usize),
+) -> Grammar
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
+let ___temp0 = ___action184(
+text,
+___0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action583(
+text,
+___temp0,
+___1,
+___2,
+___3,
+___4,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action683<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<String>, usize),
+___1: (usize, Tok<'input>, usize),
+___2: (usize, Vec<TypeParameter>, usize),
+___3: (usize, Vec<WhereClause<TypeRef>>, usize),
+___4: (usize, Tok<'input>, usize),
+) -> Grammar
+{
+let ___start0 = ___0.2.clone();
+let ___end0 = ___1.0.clone();
+let ___temp0 = ___action183(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action584(
+text,
+___0,
+___temp0,
+___1,
+___2,
+___3,
+___4,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action684<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<String>, usize),
+___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___2: (usize, Tok<'input>, usize),
+___3: (usize, Vec<TypeParameter>, usize),
+___4: (usize, Vec<WhereClause<TypeRef>>, usize),
+___5: (usize, Tok<'input>, usize),
+) -> Grammar
+{
+let ___start0 = ___1.0.clone();
+let ___end0 = ___1.2.clone();
+let ___temp0 = ___action184(
+text,
+___1,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action584(
+text,
+___0,
+___temp0,
+___2,
+___3,
+___4,
+___5,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action685<
+    'input,
+>(
+text: &'input str,
+___0: (usize, Tok<'input>, usize),
+___1: (usize, Vec<TypeParameter>, usize),
+___2: (usize, Tok<'input>, usize),
+) -> Grammar
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
+let ___temp0 = ___action183(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action585(
+text,
+___temp0,
+___0,
+___1,
+___2,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action686<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___1: (usize, Tok<'input>, usize),
+___2: (usize, Vec<TypeParameter>, usize),
+___3: (usize, Tok<'input>, usize),
+) -> Grammar
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
+let ___temp0 = ___action184(
+text,
+___0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action585(
+text,
+___temp0,
+___1,
+___2,
+___3,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action687<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<String>, usize),
+___1: (usize, Tok<'input>, usize),
+___2: (usize, Vec<TypeParameter>, usize),
+___3: (usize, Tok<'input>, usize),
+) -> Grammar
+{
+let ___start0 = ___0.2.clone();
+let ___end0 = ___1.0.clone();
+let ___temp0 = ___action183(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action586(
+text,
+___0,
+___temp0,
+___1,
+___2,
+___3,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action688<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<String>, usize),
+___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___2: (usize, Tok<'input>, usize),
+___3: (usize, Vec<TypeParameter>, usize),
+___4: (usize, Tok<'input>, usize),
+) -> Grammar
+{
+let ___start0 = ___1.0.clone();
+let ___end0 = ___1.2.clone();
+let ___temp0 = ___action184(
+text,
+___1,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action586(
+text,
+___0,
+___temp0,
+___2,
+___3,
+___4,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action689<
+    'input,
+>(
+text: &'input str,
+___0: (usize, Tok<'input>, usize),
+___1: (usize, Vec<WhereClause<TypeRef>>, usize),
+___2: (usize, Tok<'input>, usize),
+) -> Grammar
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
+let ___temp0 = ___action183(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action587(
+text,
+___temp0,
+___0,
+___1,
+___2,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action690<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___1: (usize, Tok<'input>, usize),
+___2: (usize, Vec<WhereClause<TypeRef>>, usize),
+___3: (usize, Tok<'input>, usize),
+) -> Grammar
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
+let ___temp0 = ___action184(
+text,
+___0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action587(
+text,
+___temp0,
+___1,
+___2,
+___3,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action691<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<String>, usize),
+___1: (usize, Tok<'input>, usize),
+___2: (usize, Vec<WhereClause<TypeRef>>, usize),
+___3: (usize, Tok<'input>, usize),
+) -> Grammar
+{
+let ___start0 = ___0.2.clone();
+let ___end0 = ___1.0.clone();
+let ___temp0 = ___action183(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action588(
+text,
+___0,
+___temp0,
+___1,
+___2,
+___3,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action692<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<String>, usize),
+___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___2: (usize, Tok<'input>, usize),
+___3: (usize, Vec<WhereClause<TypeRef>>, usize),
+___4: (usize, Tok<'input>, usize),
+) -> Grammar
+{
+let ___start0 = ___1.0.clone();
+let ___end0 = ___1.2.clone();
+let ___temp0 = ___action184(
+text,
+___1,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action588(
+text,
+___0,
+___temp0,
+___2,
+___3,
+___4,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action693<
+    'input,
+>(
+text: &'input str,
+___0: (usize, Tok<'input>, usize),
+___1: (usize, Tok<'input>, usize),
+) -> Grammar
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
+let ___temp0 = ___action183(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action589(
+text,
+___temp0,
+___0,
+___1,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action694<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___1: (usize, Tok<'input>, usize),
+___2: (usize, Tok<'input>, usize),
+) -> Grammar
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
+let ___temp0 = ___action184(
+text,
+___0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action589(
+text,
+___temp0,
+___1,
+___2,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action695<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<String>, usize),
+___1: (usize, Tok<'input>, usize),
+___2: (usize, Tok<'input>, usize),
+) -> Grammar
+{
+let ___start0 = ___0.2.clone();
+let ___end0 = ___1.0.clone();
+let ___temp0 = ___action183(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action590(
+text,
+___0,
+___temp0,
+___1,
+___2,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action696<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<String>, usize),
+___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___2: (usize, Tok<'input>, usize),
+___3: (usize, Tok<'input>, usize),
+) -> Grammar
+{
+let ___start0 = ___1.0.clone();
+let ___end0 = ___1.2.clone();
+let ___temp0 = ___action184(
+text,
+___1,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action590(
+text,
+___0,
+___temp0,
+___2,
+___3,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action697<
+    'input,
+>(
+text: &'input str,
+___0: (usize, Tok<'input>, usize),
+___1: (usize, Vec<TypeParameter>, usize),
+___2: (usize, Vec<Parameter>, usize),
+___3: (usize, Vec<WhereClause<TypeRef>>, usize),
+___4: (usize, Tok<'input>, usize),
+___5: (usize, ::std::vec::Vec<GrammarItem>, usize),
+) -> Grammar
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
+let ___temp0 = ___action183(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action591(
+text,
+___temp0,
+___0,
+___1,
+___2,
+___3,
+___4,
+___5,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action698<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___1: (usize, Tok<'input>, usize),
+___2: (usize, Vec<TypeParameter>, usize),
+___3: (usize, Vec<Parameter>, usize),
+___4: (usize, Vec<WhereClause<TypeRef>>, usize),
+___5: (usize, Tok<'input>, usize),
+___6: (usize, ::std::vec::Vec<GrammarItem>, usize),
+) -> Grammar
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
+let ___temp0 = ___action184(
+text,
+___0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action591(
+text,
+___temp0,
+___1,
+___2,
+___3,
+___4,
+___5,
+___6,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action699<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<String>, usize),
+___1: (usize, Tok<'input>, usize),
+___2: (usize, Vec<TypeParameter>, usize),
+___3: (usize, Vec<Parameter>, usize),
+___4: (usize, Vec<WhereClause<TypeRef>>, usize),
+___5: (usize, Tok<'input>, usize),
+___6: (usize, ::std::vec::Vec<GrammarItem>, usize),
+) -> Grammar
+{
+let ___start0 = ___0.2.clone();
+let ___end0 = ___1.0.clone();
+let ___temp0 = ___action183(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action592(
+text,
+___0,
+___temp0,
+___1,
+___2,
+___3,
+___4,
+___5,
+___6,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action700<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<String>, usize),
+___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___2: (usize, Tok<'input>, usize),
+___3: (usize, Vec<TypeParameter>, usize),
+___4: (usize, Vec<Parameter>, usize),
+___5: (usize, Vec<WhereClause<TypeRef>>, usize),
+___6: (usize, Tok<'input>, usize),
+___7: (usize, ::std::vec::Vec<GrammarItem>, usize),
+) -> Grammar
+{
+let ___start0 = ___1.0.clone();
+let ___end0 = ___1.2.clone();
+let ___temp0 = ___action184(
+text,
+___1,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action592(
+text,
+___0,
+___temp0,
+___2,
+___3,
+___4,
+___5,
+___6,
+___7,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action701<
+    'input,
+>(
+text: &'input str,
+___0: (usize, Tok<'input>, usize),
+___1: (usize, Vec<TypeParameter>, usize),
+___2: (usize, Vec<Parameter>, usize),
+___3: (usize, Tok<'input>, usize),
+___4: (usize, ::std::vec::Vec<GrammarItem>, usize),
+) -> Grammar
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
+let ___temp0 = ___action183(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action593(
+text,
+___temp0,
+___0,
+___1,
+___2,
+___3,
+___4,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action702<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___1: (usize, Tok<'input>, usize),
+___2: (usize, Vec<TypeParameter>, usize),
+___3: (usize, Vec<Parameter>, usize),
+___4: (usize, Tok<'input>, usize),
+___5: (usize, ::std::vec::Vec<GrammarItem>, usize),
+) -> Grammar
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
+let ___temp0 = ___action184(
+text,
+___0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action593(
+text,
+___temp0,
+___1,
+___2,
+___3,
+___4,
+___5,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action703<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<String>, usize),
+___1: (usize, Tok<'input>, usize),
+___2: (usize, Vec<TypeParameter>, usize),
+___3: (usize, Vec<Parameter>, usize),
+___4: (usize, Tok<'input>, usize),
+___5: (usize, ::std::vec::Vec<GrammarItem>, usize),
+) -> Grammar
+{
+let ___start0 = ___0.2.clone();
+let ___end0 = ___1.0.clone();
+let ___temp0 = ___action183(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action594(
+text,
+___0,
+___temp0,
+___1,
+___2,
+___3,
+___4,
+___5,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action704<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<String>, usize),
+___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___2: (usize, Tok<'input>, usize),
+___3: (usize, Vec<TypeParameter>, usize),
+___4: (usize, Vec<Parameter>, usize),
+___5: (usize, Tok<'input>, usize),
+___6: (usize, ::std::vec::Vec<GrammarItem>, usize),
+) -> Grammar
+{
+let ___start0 = ___1.0.clone();
+let ___end0 = ___1.2.clone();
+let ___temp0 = ___action184(
+text,
+___1,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action594(
+text,
+___0,
+___temp0,
+___2,
+___3,
+___4,
+___5,
+___6,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action705<
+    'input,
+>(
+text: &'input str,
+___0: (usize, Tok<'input>, usize),
+___1: (usize, Vec<Parameter>, usize),
+___2: (usize, Vec<WhereClause<TypeRef>>, usize),
+___3: (usize, Tok<'input>, usize),
+___4: (usize, ::std::vec::Vec<GrammarItem>, usize),
+) -> Grammar
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
+let ___temp0 = ___action183(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action595(
+text,
+___temp0,
+___0,
+___1,
+___2,
+___3,
+___4,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action706<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___1: (usize, Tok<'input>, usize),
+___2: (usize, Vec<Parameter>, usize),
+___3: (usize, Vec<WhereClause<TypeRef>>, usize),
+___4: (usize, Tok<'input>, usize),
+___5: (usize, ::std::vec::Vec<GrammarItem>, usize),
+) -> Grammar
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
+let ___temp0 = ___action184(
+text,
+___0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action595(
+text,
+___temp0,
+___1,
+___2,
+___3,
+___4,
+___5,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action707<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<String>, usize),
+___1: (usize, Tok<'input>, usize),
+___2: (usize, Vec<Parameter>, usize),
+___3: (usize, Vec<WhereClause<TypeRef>>, usize),
+___4: (usize, Tok<'input>, usize),
+___5: (usize, ::std::vec::Vec<GrammarItem>, usize),
+) -> Grammar
+{
+let ___start0 = ___0.2.clone();
+let ___end0 = ___1.0.clone();
+let ___temp0 = ___action183(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action596(
+text,
+___0,
+___temp0,
+___1,
+___2,
+___3,
+___4,
+___5,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action708<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<String>, usize),
+___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___2: (usize, Tok<'input>, usize),
+___3: (usize, Vec<Parameter>, usize),
+___4: (usize, Vec<WhereClause<TypeRef>>, usize),
+___5: (usize, Tok<'input>, usize),
+___6: (usize, ::std::vec::Vec<GrammarItem>, usize),
+) -> Grammar
+{
+let ___start0 = ___1.0.clone();
+let ___end0 = ___1.2.clone();
+let ___temp0 = ___action184(
+text,
+___1,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action596(
+text,
+___0,
+___temp0,
+___2,
+___3,
+___4,
+___5,
+___6,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action709<
+    'input,
+>(
+text: &'input str,
+___0: (usize, Tok<'input>, usize),
+___1: (usize, Vec<Parameter>, usize),
+___2: (usize, Tok<'input>, usize),
+___3: (usize, ::std::vec::Vec<GrammarItem>, usize),
+) -> Grammar
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
+let ___temp0 = ___action183(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action597(
+text,
+___temp0,
+___0,
+___1,
+___2,
+___3,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action710<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___1: (usize, Tok<'input>, usize),
+___2: (usize, Vec<Parameter>, usize),
+___3: (usize, Tok<'input>, usize),
+___4: (usize, ::std::vec::Vec<GrammarItem>, usize),
+) -> Grammar
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
+let ___temp0 = ___action184(
+text,
+___0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action597(
+text,
+___temp0,
+___1,
+___2,
+___3,
+___4,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action711<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<String>, usize),
+___1: (usize, Tok<'input>, usize),
+___2: (usize, Vec<Parameter>, usize),
+___3: (usize, Tok<'input>, usize),
+___4: (usize, ::std::vec::Vec<GrammarItem>, usize),
+) -> Grammar
+{
+let ___start0 = ___0.2.clone();
+let ___end0 = ___1.0.clone();
+let ___temp0 = ___action183(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action598(
+text,
+___0,
+___temp0,
+___1,
+___2,
+___3,
+___4,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action712<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<String>, usize),
+___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___2: (usize, Tok<'input>, usize),
+___3: (usize, Vec<Parameter>, usize),
+___4: (usize, Tok<'input>, usize),
+___5: (usize, ::std::vec::Vec<GrammarItem>, usize),
+) -> Grammar
+{
+let ___start0 = ___1.0.clone();
+let ___end0 = ___1.2.clone();
+let ___temp0 = ___action184(
+text,
+___1,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action598(
+text,
+___0,
+___temp0,
+___2,
+___3,
+___4,
+___5,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action713<
+    'input,
+>(
+text: &'input str,
+___0: (usize, Tok<'input>, usize),
+___1: (usize, Vec<TypeParameter>, usize),
+___2: (usize, Vec<WhereClause<TypeRef>>, usize),
+___3: (usize, Tok<'input>, usize),
+___4: (usize, ::std::vec::Vec<GrammarItem>, usize),
+) -> Grammar
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
+let ___temp0 = ___action183(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action599(
+text,
+___temp0,
+___0,
+___1,
+___2,
+___3,
+___4,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action714<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___1: (usize, Tok<'input>, usize),
+___2: (usize, Vec<TypeParameter>, usize),
+___3: (usize, Vec<WhereClause<TypeRef>>, usize),
+___4: (usize, Tok<'input>, usize),
+___5: (usize, ::std::vec::Vec<GrammarItem>, usize),
+) -> Grammar
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
+let ___temp0 = ___action184(
+text,
+___0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action599(
+text,
+___temp0,
+___1,
+___2,
+___3,
+___4,
+___5,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action715<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<String>, usize),
+___1: (usize, Tok<'input>, usize),
+___2: (usize, Vec<TypeParameter>, usize),
+___3: (usize, Vec<WhereClause<TypeRef>>, usize),
+___4: (usize, Tok<'input>, usize),
+___5: (usize, ::std::vec::Vec<GrammarItem>, usize),
+) -> Grammar
+{
+let ___start0 = ___0.2.clone();
+let ___end0 = ___1.0.clone();
+let ___temp0 = ___action183(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action600(
+text,
+___0,
+___temp0,
+___1,
+___2,
+___3,
+___4,
+___5,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action716<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<String>, usize),
+___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___2: (usize, Tok<'input>, usize),
+___3: (usize, Vec<TypeParameter>, usize),
+___4: (usize, Vec<WhereClause<TypeRef>>, usize),
+___5: (usize, Tok<'input>, usize),
+___6: (usize, ::std::vec::Vec<GrammarItem>, usize),
+) -> Grammar
+{
+let ___start0 = ___1.0.clone();
+let ___end0 = ___1.2.clone();
+let ___temp0 = ___action184(
+text,
+___1,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action600(
+text,
+___0,
+___temp0,
+___2,
+___3,
+___4,
+___5,
+___6,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action717<
+    'input,
+>(
+text: &'input str,
+___0: (usize, Tok<'input>, usize),
+___1: (usize, Vec<TypeParameter>, usize),
+___2: (usize, Tok<'input>, usize),
+___3: (usize, ::std::vec::Vec<GrammarItem>, usize),
+) -> Grammar
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
+let ___temp0 = ___action183(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action601(
+text,
+___temp0,
+___0,
+___1,
+___2,
+___3,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action718<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___1: (usize, Tok<'input>, usize),
+___2: (usize, Vec<TypeParameter>, usize),
+___3: (usize, Tok<'input>, usize),
+___4: (usize, ::std::vec::Vec<GrammarItem>, usize),
+) -> Grammar
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
+let ___temp0 = ___action184(
+text,
+___0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action601(
+text,
+___temp0,
+___1,
+___2,
+___3,
+___4,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action719<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<String>, usize),
+___1: (usize, Tok<'input>, usize),
+___2: (usize, Vec<TypeParameter>, usize),
+___3: (usize, Tok<'input>, usize),
+___4: (usize, ::std::vec::Vec<GrammarItem>, usize),
+) -> Grammar
+{
+let ___start0 = ___0.2.clone();
+let ___end0 = ___1.0.clone();
+let ___temp0 = ___action183(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action602(
+text,
+___0,
+___temp0,
+___1,
+___2,
+___3,
+___4,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action720<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<String>, usize),
+___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___2: (usize, Tok<'input>, usize),
+___3: (usize, Vec<TypeParameter>, usize),
+___4: (usize, Tok<'input>, usize),
+___5: (usize, ::std::vec::Vec<GrammarItem>, usize),
+) -> Grammar
+{
+let ___start0 = ___1.0.clone();
+let ___end0 = ___1.2.clone();
+let ___temp0 = ___action184(
+text,
+___1,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action602(
+text,
+___0,
+___temp0,
+___2,
+___3,
+___4,
+___5,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action721<
+    'input,
+>(
+text: &'input str,
+___0: (usize, Tok<'input>, usize),
+___1: (usize, Vec<WhereClause<TypeRef>>, usize),
+___2: (usize, Tok<'input>, usize),
+___3: (usize, ::std::vec::Vec<GrammarItem>, usize),
+) -> Grammar
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
+let ___temp0 = ___action183(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action603(
+text,
+___temp0,
+___0,
+___1,
+___2,
+___3,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action722<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___1: (usize, Tok<'input>, usize),
+___2: (usize, Vec<WhereClause<TypeRef>>, usize),
+___3: (usize, Tok<'input>, usize),
+___4: (usize, ::std::vec::Vec<GrammarItem>, usize),
+) -> Grammar
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
+let ___temp0 = ___action184(
+text,
+___0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action603(
+text,
+___temp0,
+___1,
+___2,
+___3,
+___4,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action723<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<String>, usize),
+___1: (usize, Tok<'input>, usize),
+___2: (usize, Vec<WhereClause<TypeRef>>, usize),
+___3: (usize, Tok<'input>, usize),
+___4: (usize, ::std::vec::Vec<GrammarItem>, usize),
+) -> Grammar
+{
+let ___start0 = ___0.2.clone();
+let ___end0 = ___1.0.clone();
+let ___temp0 = ___action183(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action604(
+text,
+___0,
+___temp0,
+___1,
+___2,
+___3,
+___4,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action724<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<String>, usize),
+___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___2: (usize, Tok<'input>, usize),
+___3: (usize, Vec<WhereClause<TypeRef>>, usize),
+___4: (usize, Tok<'input>, usize),
+___5: (usize, ::std::vec::Vec<GrammarItem>, usize),
+) -> Grammar
+{
+let ___start0 = ___1.0.clone();
+let ___end0 = ___1.2.clone();
+let ___temp0 = ___action184(
+text,
+___1,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action604(
+text,
+___0,
+___temp0,
+___2,
+___3,
+___4,
+___5,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action725<
+    'input,
+>(
+text: &'input str,
+___0: (usize, Tok<'input>, usize),
+___1: (usize, Tok<'input>, usize),
+___2: (usize, ::std::vec::Vec<GrammarItem>, usize),
+) -> Grammar
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
+let ___temp0 = ___action183(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action605(
+text,
+___temp0,
+___0,
+___1,
+___2,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action726<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___1: (usize, Tok<'input>, usize),
+___2: (usize, Tok<'input>, usize),
+___3: (usize, ::std::vec::Vec<GrammarItem>, usize),
+) -> Grammar
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
+let ___temp0 = ___action184(
+text,
+___0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action605(
+text,
+___temp0,
+___1,
+___2,
+___3,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action727<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<String>, usize),
+___1: (usize, Tok<'input>, usize),
+___2: (usize, Tok<'input>, usize),
+___3: (usize, ::std::vec::Vec<GrammarItem>, usize),
+) -> Grammar
+{
+let ___start0 = ___0.2.clone();
+let ___end0 = ___1.0.clone();
+let ___temp0 = ___action183(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action606(
+text,
+___0,
+___temp0,
+___1,
+___2,
+___3,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action728<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<String>, usize),
+___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___2: (usize, Tok<'input>, usize),
+___3: (usize, Tok<'input>, usize),
+___4: (usize, ::std::vec::Vec<GrammarItem>, usize),
+) -> Grammar
+{
+let ___start0 = ___1.0.clone();
+let ___end0 = ___1.2.clone();
+let ___temp0 = ___action184(
+text,
+___1,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action606(
+text,
+___0,
+___temp0,
+___2,
+___3,
+___4,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action729<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<Annotation>, usize),
+___1: (usize, Tok<'input>, usize),
+___2: (usize, Vec<TypeParameter>, usize),
+___3: (usize, Vec<Parameter>, usize),
+___4: (usize, Vec<WhereClause<TypeRef>>, usize),
+___5: (usize, Tok<'input>, usize),
+) -> Grammar
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
+let ___temp0 = ___action183(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action607(
+text,
+___temp0,
+___0,
+___1,
+___2,
+___3,
+___4,
+___5,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action730<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___1: (usize, ::std::vec::Vec<Annotation>, usize),
+___2: (usize, Tok<'input>, usize),
+___3: (usize, Vec<TypeParameter>, usize),
+___4: (usize, Vec<Parameter>, usize),
+___5: (usize, Vec<WhereClause<TypeRef>>, usize),
+___6: (usize, Tok<'input>, usize),
+) -> Grammar
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
+let ___temp0 = ___action184(
+text,
+___0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action607(
+text,
+___temp0,
+___1,
+___2,
+___3,
+___4,
+___5,
+___6,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action731<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<String>, usize),
+___1: (usize, ::std::vec::Vec<Annotation>, usize),
+___2: (usize, Tok<'input>, usize),
+___3: (usize, Vec<TypeParameter>, usize),
+___4: (usize, Vec<Parameter>, usize),
+___5: (usize, Vec<WhereClause<TypeRef>>, usize),
+___6: (usize, Tok<'input>, usize),
+) -> Grammar
+{
+let ___start0 = ___0.2.clone();
+let ___end0 = ___1.0.clone();
+let ___temp0 = ___action183(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action608(
+text,
+___0,
+___temp0,
+___1,
+___2,
+___3,
+___4,
+___5,
+___6,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action732<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<String>, usize),
+___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___2: (usize, ::std::vec::Vec<Annotation>, usize),
+___3: (usize, Tok<'input>, usize),
+___4: (usize, Vec<TypeParameter>, usize),
+___5: (usize, Vec<Parameter>, usize),
+___6: (usize, Vec<WhereClause<TypeRef>>, usize),
+___7: (usize, Tok<'input>, usize),
+) -> Grammar
+{
+let ___start0 = ___1.0.clone();
+let ___end0 = ___1.2.clone();
+let ___temp0 = ___action184(
+text,
+___1,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action608(
+text,
+___0,
+___temp0,
+___2,
+___3,
+___4,
+___5,
+___6,
+___7,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action733<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<Annotation>, usize),
+___1: (usize, Tok<'input>, usize),
+___2: (usize, Vec<TypeParameter>, usize),
+___3: (usize, Vec<Parameter>, usize),
+___4: (usize, Tok<'input>, usize),
+) -> Grammar
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
+let ___temp0 = ___action183(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action609(
+text,
+___temp0,
+___0,
+___1,
+___2,
+___3,
+___4,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action734<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___1: (usize, ::std::vec::Vec<Annotation>, usize),
+___2: (usize, Tok<'input>, usize),
+___3: (usize, Vec<TypeParameter>, usize),
+___4: (usize, Vec<Parameter>, usize),
+___5: (usize, Tok<'input>, usize),
+) -> Grammar
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
+let ___temp0 = ___action184(
+text,
+___0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action609(
+text,
+___temp0,
+___1,
+___2,
+___3,
+___4,
+___5,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action735<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<String>, usize),
+___1: (usize, ::std::vec::Vec<Annotation>, usize),
+___2: (usize, Tok<'input>, usize),
+___3: (usize, Vec<TypeParameter>, usize),
+___4: (usize, Vec<Parameter>, usize),
+___5: (usize, Tok<'input>, usize),
+) -> Grammar
+{
+let ___start0 = ___0.2.clone();
+let ___end0 = ___1.0.clone();
+let ___temp0 = ___action183(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action610(
+text,
+___0,
+___temp0,
+___1,
+___2,
+___3,
+___4,
+___5,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action736<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<String>, usize),
+___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___2: (usize, ::std::vec::Vec<Annotation>, usize),
+___3: (usize, Tok<'input>, usize),
+___4: (usize, Vec<TypeParameter>, usize),
+___5: (usize, Vec<Parameter>, usize),
+___6: (usize, Tok<'input>, usize),
+) -> Grammar
+{
+let ___start0 = ___1.0.clone();
+let ___end0 = ___1.2.clone();
+let ___temp0 = ___action184(
+text,
+___1,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action610(
+text,
+___0,
+___temp0,
+___2,
+___3,
+___4,
+___5,
+___6,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action737<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<Annotation>, usize),
+___1: (usize, Tok<'input>, usize),
+___2: (usize, Vec<Parameter>, usize),
+___3: (usize, Vec<WhereClause<TypeRef>>, usize),
+___4: (usize, Tok<'input>, usize),
+) -> Grammar
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
+let ___temp0 = ___action183(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action611(
+text,
+___temp0,
+___0,
+___1,
+___2,
+___3,
+___4,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action738<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___1: (usize, ::std::vec::Vec<Annotation>, usize),
+___2: (usize, Tok<'input>, usize),
+___3: (usize, Vec<Parameter>, usize),
+___4: (usize, Vec<WhereClause<TypeRef>>, usize),
+___5: (usize, Tok<'input>, usize),
+) -> Grammar
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
+let ___temp0 = ___action184(
+text,
+___0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action611(
+text,
+___temp0,
+___1,
+___2,
+___3,
+___4,
+___5,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action739<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<String>, usize),
+___1: (usize, ::std::vec::Vec<Annotation>, usize),
+___2: (usize, Tok<'input>, usize),
+___3: (usize, Vec<Parameter>, usize),
+___4: (usize, Vec<WhereClause<TypeRef>>, usize),
+___5: (usize, Tok<'input>, usize),
+) -> Grammar
+{
+let ___start0 = ___0.2.clone();
+let ___end0 = ___1.0.clone();
+let ___temp0 = ___action183(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action612(
+text,
+___0,
+___temp0,
+___1,
+___2,
+___3,
+___4,
+___5,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action740<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<String>, usize),
+___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___2: (usize, ::std::vec::Vec<Annotation>, usize),
+___3: (usize, Tok<'input>, usize),
+___4: (usize, Vec<Parameter>, usize),
+___5: (usize, Vec<WhereClause<TypeRef>>, usize),
+___6: (usize, Tok<'input>, usize),
+) -> Grammar
+{
+let ___start0 = ___1.0.clone();
+let ___end0 = ___1.2.clone();
+let ___temp0 = ___action184(
+text,
+___1,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action612(
+text,
+___0,
+___temp0,
+___2,
+___3,
+___4,
+___5,
+___6,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action741<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<Annotation>, usize),
+___1: (usize, Tok<'input>, usize),
+___2: (usize, Vec<Parameter>, usize),
+___3: (usize, Tok<'input>, usize),
+) -> Grammar
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
+let ___temp0 = ___action183(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action613(
+text,
+___temp0,
+___0,
+___1,
+___2,
+___3,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action742<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___1: (usize, ::std::vec::Vec<Annotation>, usize),
+___2: (usize, Tok<'input>, usize),
+___3: (usize, Vec<Parameter>, usize),
+___4: (usize, Tok<'input>, usize),
+) -> Grammar
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
+let ___temp0 = ___action184(
+text,
+___0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action613(
+text,
+___temp0,
+___1,
+___2,
+___3,
+___4,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action743<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<String>, usize),
+___1: (usize, ::std::vec::Vec<Annotation>, usize),
+___2: (usize, Tok<'input>, usize),
+___3: (usize, Vec<Parameter>, usize),
+___4: (usize, Tok<'input>, usize),
+) -> Grammar
+{
+let ___start0 = ___0.2.clone();
+let ___end0 = ___1.0.clone();
+let ___temp0 = ___action183(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action614(
+text,
+___0,
+___temp0,
+___1,
+___2,
+___3,
+___4,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action744<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<String>, usize),
+___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___2: (usize, ::std::vec::Vec<Annotation>, usize),
+___3: (usize, Tok<'input>, usize),
+___4: (usize, Vec<Parameter>, usize),
+___5: (usize, Tok<'input>, usize),
+) -> Grammar
+{
+let ___start0 = ___1.0.clone();
+let ___end0 = ___1.2.clone();
+let ___temp0 = ___action184(
+text,
+___1,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action614(
+text,
+___0,
+___temp0,
+___2,
+___3,
+___4,
+___5,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action745<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<Annotation>, usize),
+___1: (usize, Tok<'input>, usize),
+___2: (usize, Vec<TypeParameter>, usize),
+___3: (usize, Vec<WhereClause<TypeRef>>, usize),
+___4: (usize, Tok<'input>, usize),
+) -> Grammar
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
+let ___temp0 = ___action183(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action615(
+text,
+___temp0,
+___0,
+___1,
+___2,
+___3,
+___4,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action746<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___1: (usize, ::std::vec::Vec<Annotation>, usize),
+___2: (usize, Tok<'input>, usize),
+___3: (usize, Vec<TypeParameter>, usize),
+___4: (usize, Vec<WhereClause<TypeRef>>, usize),
+___5: (usize, Tok<'input>, usize),
+) -> Grammar
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
+let ___temp0 = ___action184(
+text,
+___0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action615(
+text,
+___temp0,
+___1,
+___2,
+___3,
+___4,
+___5,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action747<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<String>, usize),
+___1: (usize, ::std::vec::Vec<Annotation>, usize),
+___2: (usize, Tok<'input>, usize),
+___3: (usize, Vec<TypeParameter>, usize),
+___4: (usize, Vec<WhereClause<TypeRef>>, usize),
+___5: (usize, Tok<'input>, usize),
+) -> Grammar
+{
+let ___start0 = ___0.2.clone();
+let ___end0 = ___1.0.clone();
+let ___temp0 = ___action183(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action616(
+text,
+___0,
+___temp0,
+___1,
+___2,
+___3,
+___4,
+___5,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action748<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<String>, usize),
+___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___2: (usize, ::std::vec::Vec<Annotation>, usize),
+___3: (usize, Tok<'input>, usize),
+___4: (usize, Vec<TypeParameter>, usize),
+___5: (usize, Vec<WhereClause<TypeRef>>, usize),
+___6: (usize, Tok<'input>, usize),
+) -> Grammar
+{
+let ___start0 = ___1.0.clone();
+let ___end0 = ___1.2.clone();
+let ___temp0 = ___action184(
+text,
+___1,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action616(
+text,
+___0,
+___temp0,
+___2,
+___3,
+___4,
+___5,
+___6,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action749<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<Annotation>, usize),
+___1: (usize, Tok<'input>, usize),
+___2: (usize, Vec<TypeParameter>, usize),
+___3: (usize, Tok<'input>, usize),
+) -> Grammar
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
+let ___temp0 = ___action183(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action617(
+text,
+___temp0,
+___0,
+___1,
+___2,
+___3,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action750<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___1: (usize, ::std::vec::Vec<Annotation>, usize),
+___2: (usize, Tok<'input>, usize),
+___3: (usize, Vec<TypeParameter>, usize),
+___4: (usize, Tok<'input>, usize),
+) -> Grammar
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
+let ___temp0 = ___action184(
+text,
+___0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action617(
+text,
+___temp0,
+___1,
+___2,
+___3,
+___4,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action751<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<String>, usize),
+___1: (usize, ::std::vec::Vec<Annotation>, usize),
+___2: (usize, Tok<'input>, usize),
+___3: (usize, Vec<TypeParameter>, usize),
+___4: (usize, Tok<'input>, usize),
+) -> Grammar
+{
+let ___start0 = ___0.2.clone();
+let ___end0 = ___1.0.clone();
+let ___temp0 = ___action183(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action618(
+text,
+___0,
+___temp0,
+___1,
+___2,
+___3,
+___4,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action752<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<String>, usize),
+___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___2: (usize, ::std::vec::Vec<Annotation>, usize),
+___3: (usize, Tok<'input>, usize),
+___4: (usize, Vec<TypeParameter>, usize),
+___5: (usize, Tok<'input>, usize),
+) -> Grammar
+{
+let ___start0 = ___1.0.clone();
+let ___end0 = ___1.2.clone();
+let ___temp0 = ___action184(
+text,
+___1,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action618(
+text,
+___0,
+___temp0,
+___2,
+___3,
+___4,
+___5,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action753<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<Annotation>, usize),
+___1: (usize, Tok<'input>, usize),
+___2: (usize, Vec<WhereClause<TypeRef>>, usize),
+___3: (usize, Tok<'input>, usize),
+) -> Grammar
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
+let ___temp0 = ___action183(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action619(
+text,
+___temp0,
+___0,
+___1,
+___2,
+___3,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action754<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___1: (usize, ::std::vec::Vec<Annotation>, usize),
+___2: (usize, Tok<'input>, usize),
+___3: (usize, Vec<WhereClause<TypeRef>>, usize),
+___4: (usize, Tok<'input>, usize),
+) -> Grammar
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
+let ___temp0 = ___action184(
+text,
+___0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action619(
+text,
+___temp0,
+___1,
+___2,
+___3,
+___4,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action755<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<String>, usize),
+___1: (usize, ::std::vec::Vec<Annotation>, usize),
+___2: (usize, Tok<'input>, usize),
+___3: (usize, Vec<WhereClause<TypeRef>>, usize),
+___4: (usize, Tok<'input>, usize),
+) -> Grammar
+{
+let ___start0 = ___0.2.clone();
+let ___end0 = ___1.0.clone();
+let ___temp0 = ___action183(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action620(
+text,
+___0,
+___temp0,
+___1,
+___2,
+___3,
+___4,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action756<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<String>, usize),
+___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___2: (usize, ::std::vec::Vec<Annotation>, usize),
+___3: (usize, Tok<'input>, usize),
+___4: (usize, Vec<WhereClause<TypeRef>>, usize),
+___5: (usize, Tok<'input>, usize),
+) -> Grammar
+{
+let ___start0 = ___1.0.clone();
+let ___end0 = ___1.2.clone();
+let ___temp0 = ___action184(
+text,
+___1,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action620(
+text,
+___0,
+___temp0,
+___2,
+___3,
+___4,
+___5,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action757<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<Annotation>, usize),
+___1: (usize, Tok<'input>, usize),
+___2: (usize, Tok<'input>, usize),
+) -> Grammar
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
+let ___temp0 = ___action183(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action621(
+text,
+___temp0,
+___0,
+___1,
+___2,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action758<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___1: (usize, ::std::vec::Vec<Annotation>, usize),
+___2: (usize, Tok<'input>, usize),
+___3: (usize, Tok<'input>, usize),
+) -> Grammar
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
+let ___temp0 = ___action184(
+text,
+___0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action621(
+text,
+___temp0,
+___1,
+___2,
+___3,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action759<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<String>, usize),
+___1: (usize, ::std::vec::Vec<Annotation>, usize),
+___2: (usize, Tok<'input>, usize),
+___3: (usize, Tok<'input>, usize),
+) -> Grammar
+{
+let ___start0 = ___0.2.clone();
+let ___end0 = ___1.0.clone();
+let ___temp0 = ___action183(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action622(
+text,
+___0,
+___temp0,
+___1,
+___2,
+___3,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action760<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<String>, usize),
+___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___2: (usize, ::std::vec::Vec<Annotation>, usize),
+___3: (usize, Tok<'input>, usize),
+___4: (usize, Tok<'input>, usize),
+) -> Grammar
+{
+let ___start0 = ___1.0.clone();
+let ___end0 = ___1.2.clone();
+let ___temp0 = ___action184(
+text,
+___1,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action622(
+text,
+___0,
+___temp0,
+___2,
+___3,
+___4,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action761<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<Annotation>, usize),
+___1: (usize, Tok<'input>, usize),
+___2: (usize, Vec<TypeParameter>, usize),
+___3: (usize, Vec<Parameter>, usize),
+___4: (usize, Vec<WhereClause<TypeRef>>, usize),
+___5: (usize, Tok<'input>, usize),
+___6: (usize, ::std::vec::Vec<GrammarItem>, usize),
+) -> Grammar
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
+let ___temp0 = ___action183(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action623(
+text,
+___temp0,
+___0,
+___1,
+___2,
+___3,
+___4,
+___5,
+___6,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action762<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___1: (usize, ::std::vec::Vec<Annotation>, usize),
+___2: (usize, Tok<'input>, usize),
+___3: (usize, Vec<TypeParameter>, usize),
+___4: (usize, Vec<Parameter>, usize),
+___5: (usize, Vec<WhereClause<TypeRef>>, usize),
+___6: (usize, Tok<'input>, usize),
+___7: (usize, ::std::vec::Vec<GrammarItem>, usize),
+) -> Grammar
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
+let ___temp0 = ___action184(
+text,
+___0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action623(
+text,
+___temp0,
+___1,
+___2,
+___3,
+___4,
+___5,
+___6,
+___7,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action763<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<String>, usize),
+___1: (usize, ::std::vec::Vec<Annotation>, usize),
+___2: (usize, Tok<'input>, usize),
+___3: (usize, Vec<TypeParameter>, usize),
+___4: (usize, Vec<Parameter>, usize),
+___5: (usize, Vec<WhereClause<TypeRef>>, usize),
+___6: (usize, Tok<'input>, usize),
+___7: (usize, ::std::vec::Vec<GrammarItem>, usize),
+) -> Grammar
+{
+let ___start0 = ___0.2.clone();
+let ___end0 = ___1.0.clone();
+let ___temp0 = ___action183(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action624(
+text,
+___0,
+___temp0,
+___1,
+___2,
+___3,
+___4,
+___5,
+___6,
+___7,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action764<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<String>, usize),
+___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___2: (usize, ::std::vec::Vec<Annotation>, usize),
+___3: (usize, Tok<'input>, usize),
+___4: (usize, Vec<TypeParameter>, usize),
+___5: (usize, Vec<Parameter>, usize),
+___6: (usize, Vec<WhereClause<TypeRef>>, usize),
+___7: (usize, Tok<'input>, usize),
+___8: (usize, ::std::vec::Vec<GrammarItem>, usize),
+) -> Grammar
+{
+let ___start0 = ___1.0.clone();
+let ___end0 = ___1.2.clone();
+let ___temp0 = ___action184(
+text,
+___1,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action624(
+text,
+___0,
+___temp0,
+___2,
+___3,
+___4,
+___5,
+___6,
+___7,
+___8,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action765<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<Annotation>, usize),
+___1: (usize, Tok<'input>, usize),
+___2: (usize, Vec<TypeParameter>, usize),
+___3: (usize, Vec<Parameter>, usize),
+___4: (usize, Tok<'input>, usize),
+___5: (usize, ::std::vec::Vec<GrammarItem>, usize),
+) -> Grammar
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
+let ___temp0 = ___action183(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action625(
+text,
+___temp0,
+___0,
+___1,
+___2,
+___3,
+___4,
+___5,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action766<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___1: (usize, ::std::vec::Vec<Annotation>, usize),
+___2: (usize, Tok<'input>, usize),
+___3: (usize, Vec<TypeParameter>, usize),
+___4: (usize, Vec<Parameter>, usize),
+___5: (usize, Tok<'input>, usize),
+___6: (usize, ::std::vec::Vec<GrammarItem>, usize),
+) -> Grammar
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
+let ___temp0 = ___action184(
+text,
+___0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action625(
+text,
+___temp0,
+___1,
+___2,
+___3,
+___4,
+___5,
+___6,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action767<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<String>, usize),
+___1: (usize, ::std::vec::Vec<Annotation>, usize),
+___2: (usize, Tok<'input>, usize),
+___3: (usize, Vec<TypeParameter>, usize),
+___4: (usize, Vec<Parameter>, usize),
+___5: (usize, Tok<'input>, usize),
+___6: (usize, ::std::vec::Vec<GrammarItem>, usize),
+) -> Grammar
+{
+let ___start0 = ___0.2.clone();
+let ___end0 = ___1.0.clone();
+let ___temp0 = ___action183(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action626(
+text,
+___0,
+___temp0,
+___1,
+___2,
+___3,
+___4,
+___5,
+___6,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action768<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<String>, usize),
+___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___2: (usize, ::std::vec::Vec<Annotation>, usize),
+___3: (usize, Tok<'input>, usize),
+___4: (usize, Vec<TypeParameter>, usize),
+___5: (usize, Vec<Parameter>, usize),
+___6: (usize, Tok<'input>, usize),
+___7: (usize, ::std::vec::Vec<GrammarItem>, usize),
+) -> Grammar
+{
+let ___start0 = ___1.0.clone();
+let ___end0 = ___1.2.clone();
+let ___temp0 = ___action184(
+text,
+___1,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action626(
+text,
+___0,
+___temp0,
+___2,
+___3,
+___4,
+___5,
+___6,
+___7,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action769<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<Annotation>, usize),
+___1: (usize, Tok<'input>, usize),
+___2: (usize, Vec<Parameter>, usize),
+___3: (usize, Vec<WhereClause<TypeRef>>, usize),
+___4: (usize, Tok<'input>, usize),
+___5: (usize, ::std::vec::Vec<GrammarItem>, usize),
+) -> Grammar
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
+let ___temp0 = ___action183(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action627(
+text,
+___temp0,
+___0,
+___1,
+___2,
+___3,
+___4,
+___5,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action770<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___1: (usize, ::std::vec::Vec<Annotation>, usize),
+___2: (usize, Tok<'input>, usize),
+___3: (usize, Vec<Parameter>, usize),
+___4: (usize, Vec<WhereClause<TypeRef>>, usize),
+___5: (usize, Tok<'input>, usize),
+___6: (usize, ::std::vec::Vec<GrammarItem>, usize),
+) -> Grammar
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
+let ___temp0 = ___action184(
+text,
+___0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action627(
+text,
+___temp0,
+___1,
+___2,
+___3,
+___4,
+___5,
+___6,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action771<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<String>, usize),
+___1: (usize, ::std::vec::Vec<Annotation>, usize),
+___2: (usize, Tok<'input>, usize),
+___3: (usize, Vec<Parameter>, usize),
+___4: (usize, Vec<WhereClause<TypeRef>>, usize),
+___5: (usize, Tok<'input>, usize),
+___6: (usize, ::std::vec::Vec<GrammarItem>, usize),
+) -> Grammar
+{
+let ___start0 = ___0.2.clone();
+let ___end0 = ___1.0.clone();
+let ___temp0 = ___action183(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action628(
+text,
+___0,
+___temp0,
+___1,
+___2,
+___3,
+___4,
+___5,
+___6,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action772<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<String>, usize),
+___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___2: (usize, ::std::vec::Vec<Annotation>, usize),
+___3: (usize, Tok<'input>, usize),
+___4: (usize, Vec<Parameter>, usize),
+___5: (usize, Vec<WhereClause<TypeRef>>, usize),
+___6: (usize, Tok<'input>, usize),
+___7: (usize, ::std::vec::Vec<GrammarItem>, usize),
+) -> Grammar
+{
+let ___start0 = ___1.0.clone();
+let ___end0 = ___1.2.clone();
+let ___temp0 = ___action184(
+text,
+___1,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action628(
+text,
+___0,
+___temp0,
+___2,
+___3,
+___4,
+___5,
+___6,
+___7,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action773<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<Annotation>, usize),
+___1: (usize, Tok<'input>, usize),
+___2: (usize, Vec<Parameter>, usize),
+___3: (usize, Tok<'input>, usize),
+___4: (usize, ::std::vec::Vec<GrammarItem>, usize),
+) -> Grammar
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
+let ___temp0 = ___action183(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action629(
+text,
+___temp0,
+___0,
+___1,
+___2,
+___3,
+___4,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action774<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___1: (usize, ::std::vec::Vec<Annotation>, usize),
+___2: (usize, Tok<'input>, usize),
+___3: (usize, Vec<Parameter>, usize),
+___4: (usize, Tok<'input>, usize),
+___5: (usize, ::std::vec::Vec<GrammarItem>, usize),
+) -> Grammar
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
+let ___temp0 = ___action184(
+text,
+___0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action629(
+text,
+___temp0,
+___1,
+___2,
+___3,
+___4,
+___5,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action775<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<String>, usize),
+___1: (usize, ::std::vec::Vec<Annotation>, usize),
+___2: (usize, Tok<'input>, usize),
+___3: (usize, Vec<Parameter>, usize),
+___4: (usize, Tok<'input>, usize),
+___5: (usize, ::std::vec::Vec<GrammarItem>, usize),
+) -> Grammar
+{
+let ___start0 = ___0.2.clone();
+let ___end0 = ___1.0.clone();
+let ___temp0 = ___action183(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action630(
+text,
+___0,
+___temp0,
+___1,
+___2,
+___3,
+___4,
+___5,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action776<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<String>, usize),
+___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___2: (usize, ::std::vec::Vec<Annotation>, usize),
+___3: (usize, Tok<'input>, usize),
+___4: (usize, Vec<Parameter>, usize),
+___5: (usize, Tok<'input>, usize),
+___6: (usize, ::std::vec::Vec<GrammarItem>, usize),
+) -> Grammar
+{
+let ___start0 = ___1.0.clone();
+let ___end0 = ___1.2.clone();
+let ___temp0 = ___action184(
+text,
+___1,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action630(
+text,
+___0,
+___temp0,
+___2,
+___3,
+___4,
+___5,
+___6,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action777<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<Annotation>, usize),
+___1: (usize, Tok<'input>, usize),
+___2: (usize, Vec<TypeParameter>, usize),
+___3: (usize, Vec<WhereClause<TypeRef>>, usize),
+___4: (usize, Tok<'input>, usize),
+___5: (usize, ::std::vec::Vec<GrammarItem>, usize),
+) -> Grammar
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
+let ___temp0 = ___action183(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action631(
+text,
+___temp0,
+___0,
+___1,
+___2,
+___3,
+___4,
+___5,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action778<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___1: (usize, ::std::vec::Vec<Annotation>, usize),
+___2: (usize, Tok<'input>, usize),
+___3: (usize, Vec<TypeParameter>, usize),
+___4: (usize, Vec<WhereClause<TypeRef>>, usize),
+___5: (usize, Tok<'input>, usize),
+___6: (usize, ::std::vec::Vec<GrammarItem>, usize),
+) -> Grammar
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
+let ___temp0 = ___action184(
+text,
+___0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action631(
+text,
+___temp0,
+___1,
+___2,
+___3,
+___4,
+___5,
+___6,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action779<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<String>, usize),
+___1: (usize, ::std::vec::Vec<Annotation>, usize),
+___2: (usize, Tok<'input>, usize),
+___3: (usize, Vec<TypeParameter>, usize),
+___4: (usize, Vec<WhereClause<TypeRef>>, usize),
+___5: (usize, Tok<'input>, usize),
+___6: (usize, ::std::vec::Vec<GrammarItem>, usize),
+) -> Grammar
+{
+let ___start0 = ___0.2.clone();
+let ___end0 = ___1.0.clone();
+let ___temp0 = ___action183(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action632(
+text,
+___0,
+___temp0,
+___1,
+___2,
+___3,
+___4,
+___5,
+___6,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action780<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<String>, usize),
+___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___2: (usize, ::std::vec::Vec<Annotation>, usize),
+___3: (usize, Tok<'input>, usize),
+___4: (usize, Vec<TypeParameter>, usize),
+___5: (usize, Vec<WhereClause<TypeRef>>, usize),
+___6: (usize, Tok<'input>, usize),
+___7: (usize, ::std::vec::Vec<GrammarItem>, usize),
+) -> Grammar
+{
+let ___start0 = ___1.0.clone();
+let ___end0 = ___1.2.clone();
+let ___temp0 = ___action184(
+text,
+___1,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action632(
+text,
+___0,
+___temp0,
+___2,
+___3,
+___4,
+___5,
+___6,
+___7,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action781<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<Annotation>, usize),
+___1: (usize, Tok<'input>, usize),
+___2: (usize, Vec<TypeParameter>, usize),
+___3: (usize, Tok<'input>, usize),
+___4: (usize, ::std::vec::Vec<GrammarItem>, usize),
+) -> Grammar
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
+let ___temp0 = ___action183(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action633(
+text,
+___temp0,
+___0,
+___1,
+___2,
+___3,
+___4,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action782<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___1: (usize, ::std::vec::Vec<Annotation>, usize),
+___2: (usize, Tok<'input>, usize),
+___3: (usize, Vec<TypeParameter>, usize),
+___4: (usize, Tok<'input>, usize),
+___5: (usize, ::std::vec::Vec<GrammarItem>, usize),
+) -> Grammar
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
+let ___temp0 = ___action184(
+text,
+___0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action633(
+text,
+___temp0,
+___1,
+___2,
+___3,
+___4,
+___5,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action783<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<String>, usize),
+___1: (usize, ::std::vec::Vec<Annotation>, usize),
+___2: (usize, Tok<'input>, usize),
+___3: (usize, Vec<TypeParameter>, usize),
+___4: (usize, Tok<'input>, usize),
+___5: (usize, ::std::vec::Vec<GrammarItem>, usize),
+) -> Grammar
+{
+let ___start0 = ___0.2.clone();
+let ___end0 = ___1.0.clone();
+let ___temp0 = ___action183(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action634(
+text,
+___0,
+___temp0,
+___1,
+___2,
+___3,
+___4,
+___5,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action784<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<String>, usize),
+___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___2: (usize, ::std::vec::Vec<Annotation>, usize),
+___3: (usize, Tok<'input>, usize),
+___4: (usize, Vec<TypeParameter>, usize),
+___5: (usize, Tok<'input>, usize),
+___6: (usize, ::std::vec::Vec<GrammarItem>, usize),
+) -> Grammar
+{
+let ___start0 = ___1.0.clone();
+let ___end0 = ___1.2.clone();
+let ___temp0 = ___action184(
+text,
+___1,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action634(
+text,
+___0,
+___temp0,
+___2,
+___3,
+___4,
+___5,
+___6,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action785<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<Annotation>, usize),
+___1: (usize, Tok<'input>, usize),
+___2: (usize, Vec<WhereClause<TypeRef>>, usize),
+___3: (usize, Tok<'input>, usize),
+___4: (usize, ::std::vec::Vec<GrammarItem>, usize),
+) -> Grammar
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
+let ___temp0 = ___action183(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action635(
+text,
+___temp0,
+___0,
+___1,
+___2,
+___3,
+___4,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action786<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___1: (usize, ::std::vec::Vec<Annotation>, usize),
+___2: (usize, Tok<'input>, usize),
+___3: (usize, Vec<WhereClause<TypeRef>>, usize),
+___4: (usize, Tok<'input>, usize),
+___5: (usize, ::std::vec::Vec<GrammarItem>, usize),
+) -> Grammar
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
+let ___temp0 = ___action184(
+text,
+___0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action635(
+text,
+___temp0,
+___1,
+___2,
+___3,
+___4,
+___5,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action787<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<String>, usize),
+___1: (usize, ::std::vec::Vec<Annotation>, usize),
+___2: (usize, Tok<'input>, usize),
+___3: (usize, Vec<WhereClause<TypeRef>>, usize),
+___4: (usize, Tok<'input>, usize),
+___5: (usize, ::std::vec::Vec<GrammarItem>, usize),
+) -> Grammar
+{
+let ___start0 = ___0.2.clone();
+let ___end0 = ___1.0.clone();
+let ___temp0 = ___action183(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action636(
+text,
+___0,
+___temp0,
+___1,
+___2,
+___3,
+___4,
+___5,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action788<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<String>, usize),
+___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___2: (usize, ::std::vec::Vec<Annotation>, usize),
+___3: (usize, Tok<'input>, usize),
+___4: (usize, Vec<WhereClause<TypeRef>>, usize),
+___5: (usize, Tok<'input>, usize),
+___6: (usize, ::std::vec::Vec<GrammarItem>, usize),
+) -> Grammar
+{
+let ___start0 = ___1.0.clone();
+let ___end0 = ___1.2.clone();
+let ___temp0 = ___action184(
+text,
+___1,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action636(
+text,
+___0,
+___temp0,
+___2,
+___3,
+___4,
+___5,
+___6,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action789<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<Annotation>, usize),
+___1: (usize, Tok<'input>, usize),
+___2: (usize, Tok<'input>, usize),
+___3: (usize, ::std::vec::Vec<GrammarItem>, usize),
+) -> Grammar
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
+let ___temp0 = ___action183(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action637(
+text,
+___temp0,
+___0,
+___1,
+___2,
+___3,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action790<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___1: (usize, ::std::vec::Vec<Annotation>, usize),
+___2: (usize, Tok<'input>, usize),
+___3: (usize, Tok<'input>, usize),
+___4: (usize, ::std::vec::Vec<GrammarItem>, usize),
+) -> Grammar
+{
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
+let ___temp0 = ___action184(
+text,
+___0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action637(
+text,
+___temp0,
+___1,
+___2,
+___3,
+___4,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action791<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<String>, usize),
+___1: (usize, ::std::vec::Vec<Annotation>, usize),
+___2: (usize, Tok<'input>, usize),
+___3: (usize, Tok<'input>, usize),
+___4: (usize, ::std::vec::Vec<GrammarItem>, usize),
+) -> Grammar
+{
+let ___start0 = ___0.2.clone();
+let ___end0 = ___1.0.clone();
+let ___temp0 = ___action183(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action638(
+text,
+___0,
+___temp0,
+___1,
+___2,
+___3,
+___4,
+)
+}
+
+#[allow(unused_variables)]
+fn ___action792<
+    'input,
+>(
+text: &'input str,
+___0: (usize, ::std::vec::Vec<String>, usize),
+___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___2: (usize, ::std::vec::Vec<Annotation>, usize),
+___3: (usize, Tok<'input>, usize),
+___4: (usize, Tok<'input>, usize),
+___5: (usize, ::std::vec::Vec<GrammarItem>, usize),
+) -> Grammar
+{
+let ___start0 = ___1.0.clone();
+let ___end0 = ___1.2.clone();
+let ___temp0 = ___action184(
+text,
+___1,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action638(
+text,
+___0,
+___temp0,
+___2,
+___3,
+___4,
+___5,
+)
+}
+
+pub trait ___ToTriple<'input, > {
+type Error;
+fn to_triple(value: Self) -> Result<(usize,Tok<'input>,usize),Self::Error>;
+}
+
+impl<'input, > ___ToTriple<'input, > for (usize, Tok<'input>, usize) {
+type Error = tok::Error;
+fn to_triple(value: Self) -> Result<(usize,Tok<'input>,usize),tok::Error> {
+Ok(value)
+}
+}
+impl<'input, > ___ToTriple<'input, > for Result<(usize, Tok<'input>, usize),tok::Error> {
+type Error = tok::Error;
+fn to_triple(value: Self) -> Result<(usize,Tok<'input>,usize),tok::Error> {
+value
 }
-
-#[allow(unused_variables)]
-fn ___action441<'input>(
-    text: &'input str,
-    ___0: (usize, Symbol, usize),
-    ___1: (usize, RepeatOp, usize),
-) -> Symbol {
-    let ___start0 = ___1.2.clone();
-    let ___end0 = ___1.2.clone();
-    let ___temp0 = ___action179(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action55(text, ___0, ___1, ___temp0)
-}
-
-#[allow(unused_variables)]
-fn ___action442<'input>(text: &'input str, ___0: (usize, SymbolKind, usize)) -> Symbol {
-    let ___start0 = ___0.2.clone();
-    let ___end0 = ___0.2.clone();
-    let ___temp0 = ___action179(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action418(text, ___0, ___temp0)
-}
-
-#[allow(unused_variables)]
-fn ___action443<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<Symbol>, usize),
-    ___1: (usize, Tok<'input>, usize),
-    ___2: (usize, Condition, usize),
-    ___3: (usize, ActionKind, usize),
-) -> Alternative {
-    let ___start0 = ___3.0.clone();
-    let ___end0 = ___3.2.clone();
-    let ___temp0 = ___action138(text, ___3);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action419(text, ___0, ___1, ___2, ___temp0)
-}
-
-#[allow(unused_variables)]
-fn ___action444<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<Symbol>, usize),
-    ___1: (usize, Tok<'input>, usize),
-    ___2: (usize, Condition, usize),
-) -> Alternative {
-    let ___start0 = ___2.2.clone();
-    let ___end0 = ___2.2.clone();
-    let ___temp0 = ___action139(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action419(text, ___0, ___1, ___2, ___temp0)
-}
-
-#[allow(unused_variables)]
-fn ___action445<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<Symbol>, usize),
-    ___1: (usize, ActionKind, usize),
-) -> Alternative {
-    let ___start0 = ___1.0.clone();
-    let ___end0 = ___1.2.clone();
-    let ___temp0 = ___action138(text, ___1);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action420(text, ___0, ___temp0)
-}
-
-#[allow(unused_variables)]
-fn ___action446<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<Symbol>, usize),
-) -> Alternative {
-    let ___start0 = ___0.2.clone();
-    let ___end0 = ___0.2.clone();
-    let ___temp0 = ___action139(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action420(text, ___0, ___temp0)
-}
-
-#[allow(unused_variables)]
-fn ___action447<'input>(text: &'input str, ___0: (usize, Alternative, usize)) -> Vec<Alternative> {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.2.clone();
-    let ___temp0 = ___action236(text, ___0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action325(text, ___temp0)
-}
-
-#[allow(unused_variables)]
-fn ___action448<'input>(
-    text: &'input str,
-    ___lookbehind: &usize,
-    ___lookahead: &usize,
-) -> Vec<Alternative> {
-    let ___start0 = ___lookbehind.clone();
-    let ___end0 = ___lookahead.clone();
-    let ___temp0 = ___action237(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action325(text, ___temp0)
-}
-
-#[allow(unused_variables)]
-fn ___action449<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<Alternative>, usize),
-    ___1: (usize, Alternative, usize),
-) -> Vec<Alternative> {
-    let ___start0 = ___1.0.clone();
-    let ___end0 = ___1.2.clone();
-    let ___temp0 = ___action236(text, ___1);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action326(text, ___0, ___temp0)
-}
-
-#[allow(unused_variables)]
-fn ___action450<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<Alternative>, usize),
-) -> Vec<Alternative> {
-    let ___start0 = ___0.2.clone();
-    let ___end0 = ___0.2.clone();
-    let ___temp0 = ___action237(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action326(text, ___0, ___temp0)
-}
-
-#[allow(unused_variables)]
-fn ___action451<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<String>, usize),
-    ___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-    ___2: (usize, Tok<'input>, usize),
-    ___3: (usize, ::std::option::Option<Vec<TypeParameter>>, usize),
-    ___4: (usize, ::std::option::Option<Vec<Parameter>>, usize),
-    ___5: (
-        usize,
-        ::std::option::Option<Vec<WhereClause<TypeRef>>>,
-        usize,
-    ),
-    ___6: (usize, Tok<'input>, usize),
-    ___7: (usize, ::std::vec::Vec<GrammarItem>, usize),
-) -> Grammar {
-    let ___start0 = ___1.2.clone();
-    let ___end0 = ___2.0.clone();
-    let ___temp0 = ___action181(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action431(
-        text, ___0, ___1, ___temp0, ___2, ___3, ___4, ___5, ___6, ___7,
-    )
-}
-
-#[allow(unused_variables)]
-fn ___action452<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<String>, usize),
-    ___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-    ___2: (usize, ::std::vec::Vec<Annotation>, usize),
-    ___3: (usize, Tok<'input>, usize),
-    ___4: (usize, ::std::option::Option<Vec<TypeParameter>>, usize),
-    ___5: (usize, ::std::option::Option<Vec<Parameter>>, usize),
-    ___6: (
-        usize,
-        ::std::option::Option<Vec<WhereClause<TypeRef>>>,
-        usize,
-    ),
-    ___7: (usize, Tok<'input>, usize),
-    ___8: (usize, ::std::vec::Vec<GrammarItem>, usize),
-) -> Grammar {
-    let ___start0 = ___2.0.clone();
-    let ___end0 = ___2.2.clone();
-    let ___temp0 = ___action182(text, ___2);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action431(
-        text, ___0, ___1, ___temp0, ___3, ___4, ___5, ___6, ___7, ___8,
-    )
-}
-
-#[allow(unused_variables)]
-fn ___action453<'input>(
-    text: &'input str,
-    ___0: (usize, Visibility, usize),
-    ___1: (usize, (NonterminalString, Vec<NonterminalString>), usize),
-    ___2: (usize, Tok<'input>, usize),
-    ___3: (usize, TypeRef, usize),
-    ___4: (usize, Tok<'input>, usize),
-    ___5: (usize, Vec<Alternative>, usize),
-) -> GrammarItem {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.0.clone();
-    let ___temp0 = ___action181(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action436(text, ___temp0, ___0, ___1, ___2, ___3, ___4, ___5)
-}
-
-#[allow(unused_variables)]
-fn ___action454<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<Annotation>, usize),
-    ___1: (usize, Visibility, usize),
-    ___2: (usize, (NonterminalString, Vec<NonterminalString>), usize),
-    ___3: (usize, Tok<'input>, usize),
-    ___4: (usize, TypeRef, usize),
-    ___5: (usize, Tok<'input>, usize),
-    ___6: (usize, Vec<Alternative>, usize),
-) -> GrammarItem {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.2.clone();
-    let ___temp0 = ___action182(text, ___0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action436(text, ___temp0, ___1, ___2, ___3, ___4, ___5, ___6)
-}
-
-#[allow(unused_variables)]
-fn ___action455<'input>(
-    text: &'input str,
-    ___0: (usize, Visibility, usize),
-    ___1: (usize, (NonterminalString, Vec<NonterminalString>), usize),
-    ___2: (usize, Tok<'input>, usize),
-    ___3: (usize, Vec<Alternative>, usize),
-) -> GrammarItem {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.0.clone();
-    let ___temp0 = ___action181(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action437(text, ___temp0, ___0, ___1, ___2, ___3)
-}
-
-#[allow(unused_variables)]
-fn ___action456<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<Annotation>, usize),
-    ___1: (usize, Visibility, usize),
-    ___2: (usize, (NonterminalString, Vec<NonterminalString>), usize),
-    ___3: (usize, Tok<'input>, usize),
-    ___4: (usize, Vec<Alternative>, usize),
-) -> GrammarItem {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.2.clone();
-    let ___temp0 = ___action182(text, ___0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action437(text, ___temp0, ___1, ___2, ___3, ___4)
-}
-
-#[allow(unused_variables)]
-fn ___action457<'input>(
-    text: &'input str,
-    ___0: (usize, Tok<'input>, usize),
-    ___1: (usize, Tok<'input>, usize),
-    ___2: (usize, Atom, usize),
-    ___3: (usize, (Atom, String), usize),
-    ___4: (usize, Tok<'input>, usize),
-) -> Annotation {
-    let ___start0 = ___3.0.clone();
-    let ___end0 = ___3.2.clone();
-    let ___temp0 = ___action149(text, ___3);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action423(text, ___0, ___1, ___2, ___temp0, ___4)
-}
-
-#[allow(unused_variables)]
-fn ___action458<'input>(
-    text: &'input str,
-    ___0: (usize, Tok<'input>, usize),
-    ___1: (usize, Tok<'input>, usize),
-    ___2: (usize, Atom, usize),
-    ___3: (usize, Tok<'input>, usize),
-) -> Annotation {
-    let ___start0 = ___2.2.clone();
-    let ___end0 = ___3.0.clone();
-    let ___temp0 = ___action150(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action423(text, ___0, ___1, ___2, ___temp0, ___3)
-}
-
-#[allow(unused_variables)]
-fn ___action459<'input>(
-    text: &'input str,
-    ___0: (usize, Tok<'input>, usize),
-    ___1: (usize, Tok<'input>, usize),
-    ___2: (usize, EnumToken, usize),
-    ___3: (usize, Tok<'input>, usize),
-) -> GrammarItem {
-    let ___start0 = ___1.2.clone();
-    let ___end0 = ___2.0.clone();
-    let ___start1 = ___2.2.clone();
-    let ___end1 = ___3.0.clone();
-    let ___temp0 = ___action123(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    let ___temp1 = ___action123(text, &___start1, &___end1);
-    let ___temp1 = (___start1, ___temp1, ___end1);
-    ___action428(text, ___0, ___1, ___temp0, ___2, ___temp1, ___3)
-}
-
-#[allow(unused_variables)]
-fn ___action460<'input>(
-    text: &'input str,
-    ___0: (usize, Tok<'input>, usize),
-    ___1: (usize, Tok<'input>, usize),
-    ___2: (usize, EnumToken, usize),
-    ___3: (usize, ::std::vec::Vec<AssociatedType>, usize),
-    ___4: (usize, Tok<'input>, usize),
-) -> GrammarItem {
-    let ___start0 = ___1.2.clone();
-    let ___end0 = ___2.0.clone();
-    let ___start1 = ___3.0.clone();
-    let ___end1 = ___3.2.clone();
-    let ___temp0 = ___action123(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    let ___temp1 = ___action124(text, ___3);
-    let ___temp1 = (___start1, ___temp1, ___end1);
-    ___action428(text, ___0, ___1, ___temp0, ___2, ___temp1, ___4)
-}
-
-#[allow(unused_variables)]
-fn ___action461<'input>(
-    text: &'input str,
-    ___0: (usize, Tok<'input>, usize),
-    ___1: (usize, Tok<'input>, usize),
-    ___2: (usize, ::std::vec::Vec<AssociatedType>, usize),
-    ___3: (usize, EnumToken, usize),
-    ___4: (usize, Tok<'input>, usize),
-) -> GrammarItem {
-    let ___start0 = ___2.0.clone();
-    let ___end0 = ___2.2.clone();
-    let ___start1 = ___3.2.clone();
-    let ___end1 = ___4.0.clone();
-    let ___temp0 = ___action124(text, ___2);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    let ___temp1 = ___action123(text, &___start1, &___end1);
-    let ___temp1 = (___start1, ___temp1, ___end1);
-    ___action428(text, ___0, ___1, ___temp0, ___3, ___temp1, ___4)
-}
-
-#[allow(unused_variables)]
-fn ___action462<'input>(
-    text: &'input str,
-    ___0: (usize, Tok<'input>, usize),
-    ___1: (usize, Tok<'input>, usize),
-    ___2: (usize, ::std::vec::Vec<AssociatedType>, usize),
-    ___3: (usize, EnumToken, usize),
-    ___4: (usize, ::std::vec::Vec<AssociatedType>, usize),
-    ___5: (usize, Tok<'input>, usize),
-) -> GrammarItem {
-    let ___start0 = ___2.0.clone();
-    let ___end0 = ___2.2.clone();
-    let ___start1 = ___4.0.clone();
-    let ___end1 = ___4.2.clone();
-    let ___temp0 = ___action124(text, ___2);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    let ___temp1 = ___action124(text, ___4);
-    let ___temp1 = (___start1, ___temp1, ___end1);
-    ___action428(text, ___0, ___1, ___temp0, ___3, ___temp1, ___5)
-}
-
-#[allow(unused_variables)]
-fn ___action463<'input>(
-    text: &'input str,
-    ___0: (usize, Tok<'input>, usize),
-    ___1: (usize, Tok<'input>, usize),
-    ___2: (usize, Tok<'input>, usize),
-) -> GrammarItem {
-    let ___start0 = ___1.2.clone();
-    let ___end0 = ___2.0.clone();
-    let ___temp0 = ___action123(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action429(text, ___0, ___1, ___temp0, ___2)
-}
-
-#[allow(unused_variables)]
-fn ___action464<'input>(
-    text: &'input str,
-    ___0: (usize, Tok<'input>, usize),
-    ___1: (usize, Tok<'input>, usize),
-    ___2: (usize, ::std::vec::Vec<AssociatedType>, usize),
-    ___3: (usize, Tok<'input>, usize),
-) -> GrammarItem {
-    let ___start0 = ___2.0.clone();
-    let ___end0 = ___2.2.clone();
-    let ___temp0 = ___action124(text, ___2);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action429(text, ___0, ___1, ___temp0, ___3)
-}
-
-#[allow(unused_variables)]
-fn ___action465<'input>(text: &'input str, ___0: (usize, Conversion, usize)) -> Vec<Conversion> {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.2.clone();
-    let ___temp0 = ___action260(text, ___0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action329(text, ___temp0)
-}
-
-#[allow(unused_variables)]
-fn ___action466<'input>(
-    text: &'input str,
-    ___lookbehind: &usize,
-    ___lookahead: &usize,
-) -> Vec<Conversion> {
-    let ___start0 = ___lookbehind.clone();
-    let ___end0 = ___lookahead.clone();
-    let ___temp0 = ___action261(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action329(text, ___temp0)
-}
-
-#[allow(unused_variables)]
-fn ___action467<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<Conversion>, usize),
-    ___1: (usize, Conversion, usize),
-) -> Vec<Conversion> {
-    let ___start0 = ___1.0.clone();
-    let ___end0 = ___1.2.clone();
-    let ___temp0 = ___action260(text, ___1);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action330(text, ___0, ___temp0)
-}
-
-#[allow(unused_variables)]
-fn ___action468<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<Conversion>, usize),
-) -> Vec<Conversion> {
-    let ___start0 = ___0.2.clone();
-    let ___end0 = ___0.2.clone();
-    let ___temp0 = ___action261(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action330(text, ___0, ___temp0)
-}
-
-#[allow(unused_variables)]
-fn ___action469<'input>(
-    text: &'input str,
-    ___0: (usize, Path, usize),
-    ___1: (usize, Tok<'input>, usize),
-    ___2: (usize, FieldPattern<TypeRef>, usize),
-    ___3: (usize, Tok<'input>, usize),
-) -> PatternKind<TypeRef> {
-    let ___start0 = ___2.0.clone();
-    let ___end0 = ___2.2.clone();
-    let ___temp0 = ___action115(text, ___2);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action333(text, ___0, ___1, ___temp0, ___3)
-}
-
-#[allow(unused_variables)]
-fn ___action470<'input>(
-    text: &'input str,
-    ___0: (usize, Path, usize),
-    ___1: (usize, Tok<'input>, usize),
-    ___2: (usize, Tok<'input>, usize),
-) -> PatternKind<TypeRef> {
-    let ___start0 = ___1.2.clone();
-    let ___end0 = ___2.0.clone();
-    let ___temp0 = ___action116(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action333(text, ___0, ___1, ___temp0, ___2)
-}
-
-#[allow(unused_variables)]
-fn ___action471<'input>(
-    text: &'input str,
-    ___0: (usize, Path, usize),
-    ___1: (usize, Tok<'input>, usize),
-    ___2: (usize, ::std::vec::Vec<FieldPattern<TypeRef>>, usize),
-    ___3: (usize, FieldPattern<TypeRef>, usize),
-    ___4: (usize, Tok<'input>, usize),
-) -> PatternKind<TypeRef> {
-    let ___start0 = ___3.0.clone();
-    let ___end0 = ___3.2.clone();
-    let ___temp0 = ___action115(text, ___3);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action334(text, ___0, ___1, ___2, ___temp0, ___4)
-}
-
-#[allow(unused_variables)]
-fn ___action472<'input>(
-    text: &'input str,
-    ___0: (usize, Path, usize),
-    ___1: (usize, Tok<'input>, usize),
-    ___2: (usize, ::std::vec::Vec<FieldPattern<TypeRef>>, usize),
-    ___3: (usize, Tok<'input>, usize),
-) -> PatternKind<TypeRef> {
-    let ___start0 = ___2.2.clone();
-    let ___end0 = ___3.0.clone();
-    let ___temp0 = ___action116(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action334(text, ___0, ___1, ___2, ___temp0, ___3)
-}
-
-#[allow(unused_variables)]
-fn ___action473<'input>(
-    text: &'input str,
-    ___0: (usize, Vec<Atom>, usize),
-    ___1: (usize, TypeRef, usize),
-    ___2: (usize, Tok<'input>, usize),
-    ___3: (usize, Vec<TypeBound<TypeRef>>, usize),
-) -> WhereClause<TypeRef> {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.2.clone();
-    let ___temp0 = ___action166(text, ___0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action12(text, ___temp0, ___1, ___2, ___3)
-}
-
-#[allow(unused_variables)]
-fn ___action474<'input>(
-    text: &'input str,
-    ___0: (usize, TypeRef, usize),
-    ___1: (usize, Tok<'input>, usize),
-    ___2: (usize, Vec<TypeBound<TypeRef>>, usize),
-) -> WhereClause<TypeRef> {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.0.clone();
-    let ___temp0 = ___action167(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action12(text, ___temp0, ___0, ___1, ___2)
-}
-
-#[allow(unused_variables)]
-fn ___action475<'input>(
-    text: &'input str,
-    ___0: (usize, Vec<Atom>, usize),
-    ___1: (usize, Path, usize),
-    ___2: (usize, Tok<'input>, usize),
-    ___3: (usize, Vec<TypeRef>, usize),
-    ___4: (usize, Tok<'input>, usize),
-    ___5: (usize, Tok<'input>, usize),
-    ___6: (usize, TypeRef, usize),
-) -> TypeBound<TypeRef> {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.2.clone();
-    let ___temp0 = ___action166(text, ___0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action309(text, ___temp0, ___1, ___2, ___3, ___4, ___5, ___6)
-}
-
-#[allow(unused_variables)]
-fn ___action476<'input>(
-    text: &'input str,
-    ___0: (usize, Path, usize),
-    ___1: (usize, Tok<'input>, usize),
-    ___2: (usize, Vec<TypeRef>, usize),
-    ___3: (usize, Tok<'input>, usize),
-    ___4: (usize, Tok<'input>, usize),
-    ___5: (usize, TypeRef, usize),
-) -> TypeBound<TypeRef> {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.0.clone();
-    let ___temp0 = ___action167(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action309(text, ___temp0, ___0, ___1, ___2, ___3, ___4, ___5)
-}
-
-#[allow(unused_variables)]
-fn ___action477<'input>(
-    text: &'input str,
-    ___0: (usize, Vec<Atom>, usize),
-    ___1: (usize, Path, usize),
-    ___2: (usize, Tok<'input>, usize),
-    ___3: (usize, Vec<TypeRef>, usize),
-    ___4: (usize, Tok<'input>, usize),
-) -> TypeBound<TypeRef> {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.2.clone();
-    let ___temp0 = ___action166(text, ___0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action310(text, ___temp0, ___1, ___2, ___3, ___4)
-}
-
-#[allow(unused_variables)]
-fn ___action478<'input>(
-    text: &'input str,
-    ___0: (usize, Path, usize),
-    ___1: (usize, Tok<'input>, usize),
-    ___2: (usize, Vec<TypeRef>, usize),
-    ___3: (usize, Tok<'input>, usize),
-) -> TypeBound<TypeRef> {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.0.clone();
-    let ___temp0 = ___action167(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action310(text, ___temp0, ___0, ___1, ___2, ___3)
-}
-
-#[allow(unused_variables)]
-fn ___action479<'input>(
-    text: &'input str,
-    ___0: (usize, Vec<Atom>, usize),
-    ___1: (usize, Path, usize),
-    ___2: (usize, Tok<'input>, usize),
-    ___3: (usize, Vec<TypeBoundParameter<TypeRef>>, usize),
-    ___4: (usize, Tok<'input>, usize),
-) -> TypeBound<TypeRef> {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.2.clone();
-    let ___temp0 = ___action166(text, ___0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action315(text, ___temp0, ___1, ___2, ___3, ___4)
-}
-
-#[allow(unused_variables)]
-fn ___action480<'input>(
-    text: &'input str,
-    ___0: (usize, Path, usize),
-    ___1: (usize, Tok<'input>, usize),
-    ___2: (usize, Vec<TypeBoundParameter<TypeRef>>, usize),
-    ___3: (usize, Tok<'input>, usize),
-) -> TypeBound<TypeRef> {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.0.clone();
-    let ___temp0 = ___action167(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action315(text, ___temp0, ___0, ___1, ___2, ___3)
-}
-
-#[allow(unused_variables)]
-fn ___action481<'input>(
-    text: &'input str,
-    ___0: (usize, Vec<Atom>, usize),
-    ___1: (usize, Path, usize),
-) -> TypeBound<TypeRef> {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.2.clone();
-    let ___temp0 = ___action166(text, ___0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action316(text, ___temp0, ___1)
-}
-
-#[allow(unused_variables)]
-fn ___action482<'input>(text: &'input str, ___0: (usize, Path, usize)) -> TypeBound<TypeRef> {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.0.clone();
-    let ___temp0 = ___action167(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action316(text, ___temp0, ___0)
-}
-
-#[allow(unused_variables)]
-fn ___action483<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<String>, usize),
-    ___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-    ___2: (usize, Tok<'input>, usize),
-    ___3: (usize, ::std::option::Option<Vec<TypeParameter>>, usize),
-    ___4: (usize, ::std::option::Option<Vec<Parameter>>, usize),
-    ___5: (
-        usize,
-        ::std::option::Option<Vec<WhereClause<TypeRef>>>,
-        usize,
-    ),
-    ___6: (usize, Tok<'input>, usize),
-) -> Grammar {
-    let ___start0 = ___6.2.clone();
-    let ___end0 = ___6.2.clone();
-    let ___temp0 = ___action171(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action451(text, ___0, ___1, ___2, ___3, ___4, ___5, ___6, ___temp0)
-}
-
-#[allow(unused_variables)]
-fn ___action484<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<String>, usize),
-    ___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-    ___2: (usize, Tok<'input>, usize),
-    ___3: (usize, ::std::option::Option<Vec<TypeParameter>>, usize),
-    ___4: (usize, ::std::option::Option<Vec<Parameter>>, usize),
-    ___5: (
-        usize,
-        ::std::option::Option<Vec<WhereClause<TypeRef>>>,
-        usize,
-    ),
-    ___6: (usize, Tok<'input>, usize),
-    ___7: (usize, ::std::vec::Vec<GrammarItem>, usize),
-) -> Grammar {
-    let ___start0 = ___7.0.clone();
-    let ___end0 = ___7.2.clone();
-    let ___temp0 = ___action172(text, ___7);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action451(text, ___0, ___1, ___2, ___3, ___4, ___5, ___6, ___temp0)
-}
-
-#[allow(unused_variables)]
-fn ___action485<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<String>, usize),
-    ___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-    ___2: (usize, ::std::vec::Vec<Annotation>, usize),
-    ___3: (usize, Tok<'input>, usize),
-    ___4: (usize, ::std::option::Option<Vec<TypeParameter>>, usize),
-    ___5: (usize, ::std::option::Option<Vec<Parameter>>, usize),
-    ___6: (
-        usize,
-        ::std::option::Option<Vec<WhereClause<TypeRef>>>,
-        usize,
-    ),
-    ___7: (usize, Tok<'input>, usize),
-) -> Grammar {
-    let ___start0 = ___7.2.clone();
-    let ___end0 = ___7.2.clone();
-    let ___temp0 = ___action171(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action452(
-        text, ___0, ___1, ___2, ___3, ___4, ___5, ___6, ___7, ___temp0,
-    )
-}
-
-#[allow(unused_variables)]
-fn ___action486<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<String>, usize),
-    ___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-    ___2: (usize, ::std::vec::Vec<Annotation>, usize),
-    ___3: (usize, Tok<'input>, usize),
-    ___4: (usize, ::std::option::Option<Vec<TypeParameter>>, usize),
-    ___5: (usize, ::std::option::Option<Vec<Parameter>>, usize),
-    ___6: (
-        usize,
-        ::std::option::Option<Vec<WhereClause<TypeRef>>>,
-        usize,
-    ),
-    ___7: (usize, Tok<'input>, usize),
-    ___8: (usize, ::std::vec::Vec<GrammarItem>, usize),
-) -> Grammar {
-    let ___start0 = ___8.0.clone();
-    let ___end0 = ___8.2.clone();
-    let ___temp0 = ___action172(text, ___8);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action452(
-        text, ___0, ___1, ___2, ___3, ___4, ___5, ___6, ___7, ___temp0,
-    )
-}
-
-#[allow(unused_variables)]
-fn ___action487<'input>(text: &'input str, ___0: (usize, Parameter, usize)) -> Vec<Parameter> {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.2.clone();
-    let ___temp0 = ___action226(text, ___0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action339(text, ___temp0)
-}
-
-#[allow(unused_variables)]
-fn ___action488<'input>(
-    text: &'input str,
-    ___lookbehind: &usize,
-    ___lookahead: &usize,
-) -> Vec<Parameter> {
-    let ___start0 = ___lookbehind.clone();
-    let ___end0 = ___lookahead.clone();
-    let ___temp0 = ___action227(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action339(text, ___temp0)
-}
-
-#[allow(unused_variables)]
-fn ___action489<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<Parameter>, usize),
-    ___1: (usize, Parameter, usize),
-) -> Vec<Parameter> {
-    let ___start0 = ___1.0.clone();
-    let ___end0 = ___1.2.clone();
-    let ___temp0 = ___action226(text, ___1);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action340(text, ___0, ___temp0)
-}
-
-#[allow(unused_variables)]
-fn ___action490<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<Parameter>, usize),
-) -> Vec<Parameter> {
-    let ___start0 = ___0.2.clone();
-    let ___end0 = ___0.2.clone();
-    let ___temp0 = ___action227(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action340(text, ___0, ___temp0)
-}
-
-#[allow(unused_variables)]
-fn ___action491<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<String>, usize),
-    ___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-    ___2: (usize, Tok<'input>, usize),
-    ___3: (usize, ::std::option::Option<Vec<TypeParameter>>, usize),
-    ___4: (usize, Vec<Parameter>, usize),
-    ___5: (
-        usize,
-        ::std::option::Option<Vec<WhereClause<TypeRef>>>,
-        usize,
-    ),
-    ___6: (usize, Tok<'input>, usize),
-) -> Grammar {
-    let ___start0 = ___4.0.clone();
-    let ___end0 = ___4.2.clone();
-    let ___temp0 = ___action175(text, ___4);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action483(text, ___0, ___1, ___2, ___3, ___temp0, ___5, ___6)
-}
-
-#[allow(unused_variables)]
-fn ___action492<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<String>, usize),
-    ___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-    ___2: (usize, Tok<'input>, usize),
-    ___3: (usize, ::std::option::Option<Vec<TypeParameter>>, usize),
-    ___4: (
-        usize,
-        ::std::option::Option<Vec<WhereClause<TypeRef>>>,
-        usize,
-    ),
-    ___5: (usize, Tok<'input>, usize),
-) -> Grammar {
-    let ___start0 = ___3.2.clone();
-    let ___end0 = ___4.0.clone();
-    let ___temp0 = ___action176(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action483(text, ___0, ___1, ___2, ___3, ___temp0, ___4, ___5)
-}
-
-#[allow(unused_variables)]
-fn ___action493<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<String>, usize),
-    ___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-    ___2: (usize, Tok<'input>, usize),
-    ___3: (usize, ::std::option::Option<Vec<TypeParameter>>, usize),
-    ___4: (usize, Vec<Parameter>, usize),
-    ___5: (
-        usize,
-        ::std::option::Option<Vec<WhereClause<TypeRef>>>,
-        usize,
-    ),
-    ___6: (usize, Tok<'input>, usize),
-    ___7: (usize, ::std::vec::Vec<GrammarItem>, usize),
-) -> Grammar {
-    let ___start0 = ___4.0.clone();
-    let ___end0 = ___4.2.clone();
-    let ___temp0 = ___action175(text, ___4);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action484(text, ___0, ___1, ___2, ___3, ___temp0, ___5, ___6, ___7)
-}
-
-#[allow(unused_variables)]
-fn ___action494<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<String>, usize),
-    ___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-    ___2: (usize, Tok<'input>, usize),
-    ___3: (usize, ::std::option::Option<Vec<TypeParameter>>, usize),
-    ___4: (
-        usize,
-        ::std::option::Option<Vec<WhereClause<TypeRef>>>,
-        usize,
-    ),
-    ___5: (usize, Tok<'input>, usize),
-    ___6: (usize, ::std::vec::Vec<GrammarItem>, usize),
-) -> Grammar {
-    let ___start0 = ___3.2.clone();
-    let ___end0 = ___4.0.clone();
-    let ___temp0 = ___action176(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action484(text, ___0, ___1, ___2, ___3, ___temp0, ___4, ___5, ___6)
-}
-
-#[allow(unused_variables)]
-fn ___action495<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<String>, usize),
-    ___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-    ___2: (usize, ::std::vec::Vec<Annotation>, usize),
-    ___3: (usize, Tok<'input>, usize),
-    ___4: (usize, ::std::option::Option<Vec<TypeParameter>>, usize),
-    ___5: (usize, Vec<Parameter>, usize),
-    ___6: (
-        usize,
-        ::std::option::Option<Vec<WhereClause<TypeRef>>>,
-        usize,
-    ),
-    ___7: (usize, Tok<'input>, usize),
-) -> Grammar {
-    let ___start0 = ___5.0.clone();
-    let ___end0 = ___5.2.clone();
-    let ___temp0 = ___action175(text, ___5);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action485(text, ___0, ___1, ___2, ___3, ___4, ___temp0, ___6, ___7)
-}
-
-#[allow(unused_variables)]
-fn ___action496<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<String>, usize),
-    ___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-    ___2: (usize, ::std::vec::Vec<Annotation>, usize),
-    ___3: (usize, Tok<'input>, usize),
-    ___4: (usize, ::std::option::Option<Vec<TypeParameter>>, usize),
-    ___5: (
-        usize,
-        ::std::option::Option<Vec<WhereClause<TypeRef>>>,
-        usize,
-    ),
-    ___6: (usize, Tok<'input>, usize),
-) -> Grammar {
-    let ___start0 = ___4.2.clone();
-    let ___end0 = ___5.0.clone();
-    let ___temp0 = ___action176(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action485(text, ___0, ___1, ___2, ___3, ___4, ___temp0, ___5, ___6)
-}
-
-#[allow(unused_variables)]
-fn ___action497<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<String>, usize),
-    ___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-    ___2: (usize, ::std::vec::Vec<Annotation>, usize),
-    ___3: (usize, Tok<'input>, usize),
-    ___4: (usize, ::std::option::Option<Vec<TypeParameter>>, usize),
-    ___5: (usize, Vec<Parameter>, usize),
-    ___6: (
-        usize,
-        ::std::option::Option<Vec<WhereClause<TypeRef>>>,
-        usize,
-    ),
-    ___7: (usize, Tok<'input>, usize),
-    ___8: (usize, ::std::vec::Vec<GrammarItem>, usize),
-) -> Grammar {
-    let ___start0 = ___5.0.clone();
-    let ___end0 = ___5.2.clone();
-    let ___temp0 = ___action175(text, ___5);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action486(
-        text, ___0, ___1, ___2, ___3, ___4, ___temp0, ___6, ___7, ___8,
-    )
-}
-
-#[allow(unused_variables)]
-fn ___action498<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<String>, usize),
-    ___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-    ___2: (usize, ::std::vec::Vec<Annotation>, usize),
-    ___3: (usize, Tok<'input>, usize),
-    ___4: (usize, ::std::option::Option<Vec<TypeParameter>>, usize),
-    ___5: (
-        usize,
-        ::std::option::Option<Vec<WhereClause<TypeRef>>>,
-        usize,
-    ),
-    ___6: (usize, Tok<'input>, usize),
-    ___7: (usize, ::std::vec::Vec<GrammarItem>, usize),
-) -> Grammar {
-    let ___start0 = ___4.2.clone();
-    let ___end0 = ___5.0.clone();
-    let ___temp0 = ___action176(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action486(
-        text, ___0, ___1, ___2, ___3, ___4, ___temp0, ___5, ___6, ___7,
-    )
-}
-
-#[allow(unused_variables)]
-fn ___action499<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<String>, usize),
-    ___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-    ___2: (usize, Tok<'input>, usize),
-    ___3: (usize, Vec<TypeParameter>, usize),
-    ___4: (usize, Vec<Parameter>, usize),
-    ___5: (
-        usize,
-        ::std::option::Option<Vec<WhereClause<TypeRef>>>,
-        usize,
-    ),
-    ___6: (usize, Tok<'input>, usize),
-) -> Grammar {
-    let ___start0 = ___3.0.clone();
-    let ___end0 = ___3.2.clone();
-    let ___temp0 = ___action177(text, ___3);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action491(text, ___0, ___1, ___2, ___temp0, ___4, ___5, ___6)
-}
-
-#[allow(unused_variables)]
-fn ___action500<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<String>, usize),
-    ___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-    ___2: (usize, Tok<'input>, usize),
-    ___3: (usize, Vec<Parameter>, usize),
-    ___4: (
-        usize,
-        ::std::option::Option<Vec<WhereClause<TypeRef>>>,
-        usize,
-    ),
-    ___5: (usize, Tok<'input>, usize),
-) -> Grammar {
-    let ___start0 = ___2.2.clone();
-    let ___end0 = ___3.0.clone();
-    let ___temp0 = ___action178(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action491(text, ___0, ___1, ___2, ___temp0, ___3, ___4, ___5)
-}
-
-#[allow(unused_variables)]
-fn ___action501<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<String>, usize),
-    ___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-    ___2: (usize, Tok<'input>, usize),
-    ___3: (usize, Vec<TypeParameter>, usize),
-    ___4: (
-        usize,
-        ::std::option::Option<Vec<WhereClause<TypeRef>>>,
-        usize,
-    ),
-    ___5: (usize, Tok<'input>, usize),
-) -> Grammar {
-    let ___start0 = ___3.0.clone();
-    let ___end0 = ___3.2.clone();
-    let ___temp0 = ___action177(text, ___3);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action492(text, ___0, ___1, ___2, ___temp0, ___4, ___5)
-}
-
-#[allow(unused_variables)]
-fn ___action502<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<String>, usize),
-    ___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-    ___2: (usize, Tok<'input>, usize),
-    ___3: (
-        usize,
-        ::std::option::Option<Vec<WhereClause<TypeRef>>>,
-        usize,
-    ),
-    ___4: (usize, Tok<'input>, usize),
-) -> Grammar {
-    let ___start0 = ___2.2.clone();
-    let ___end0 = ___3.0.clone();
-    let ___temp0 = ___action178(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action492(text, ___0, ___1, ___2, ___temp0, ___3, ___4)
-}
-
-#[allow(unused_variables)]
-fn ___action503<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<String>, usize),
-    ___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-    ___2: (usize, Tok<'input>, usize),
-    ___3: (usize, Vec<TypeParameter>, usize),
-    ___4: (usize, Vec<Parameter>, usize),
-    ___5: (
-        usize,
-        ::std::option::Option<Vec<WhereClause<TypeRef>>>,
-        usize,
-    ),
-    ___6: (usize, Tok<'input>, usize),
-    ___7: (usize, ::std::vec::Vec<GrammarItem>, usize),
-) -> Grammar {
-    let ___start0 = ___3.0.clone();
-    let ___end0 = ___3.2.clone();
-    let ___temp0 = ___action177(text, ___3);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action493(text, ___0, ___1, ___2, ___temp0, ___4, ___5, ___6, ___7)
-}
-
-#[allow(unused_variables)]
-fn ___action504<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<String>, usize),
-    ___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-    ___2: (usize, Tok<'input>, usize),
-    ___3: (usize, Vec<Parameter>, usize),
-    ___4: (
-        usize,
-        ::std::option::Option<Vec<WhereClause<TypeRef>>>,
-        usize,
-    ),
-    ___5: (usize, Tok<'input>, usize),
-    ___6: (usize, ::std::vec::Vec<GrammarItem>, usize),
-) -> Grammar {
-    let ___start0 = ___2.2.clone();
-    let ___end0 = ___3.0.clone();
-    let ___temp0 = ___action178(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action493(text, ___0, ___1, ___2, ___temp0, ___3, ___4, ___5, ___6)
-}
-
-#[allow(unused_variables)]
-fn ___action505<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<String>, usize),
-    ___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-    ___2: (usize, Tok<'input>, usize),
-    ___3: (usize, Vec<TypeParameter>, usize),
-    ___4: (
-        usize,
-        ::std::option::Option<Vec<WhereClause<TypeRef>>>,
-        usize,
-    ),
-    ___5: (usize, Tok<'input>, usize),
-    ___6: (usize, ::std::vec::Vec<GrammarItem>, usize),
-) -> Grammar {
-    let ___start0 = ___3.0.clone();
-    let ___end0 = ___3.2.clone();
-    let ___temp0 = ___action177(text, ___3);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action494(text, ___0, ___1, ___2, ___temp0, ___4, ___5, ___6)
-}
-
-#[allow(unused_variables)]
-fn ___action506<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<String>, usize),
-    ___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-    ___2: (usize, Tok<'input>, usize),
-    ___3: (
-        usize,
-        ::std::option::Option<Vec<WhereClause<TypeRef>>>,
-        usize,
-    ),
-    ___4: (usize, Tok<'input>, usize),
-    ___5: (usize, ::std::vec::Vec<GrammarItem>, usize),
-) -> Grammar {
-    let ___start0 = ___2.2.clone();
-    let ___end0 = ___3.0.clone();
-    let ___temp0 = ___action178(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action494(text, ___0, ___1, ___2, ___temp0, ___3, ___4, ___5)
-}
-
-#[allow(unused_variables)]
-fn ___action507<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<String>, usize),
-    ___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-    ___2: (usize, ::std::vec::Vec<Annotation>, usize),
-    ___3: (usize, Tok<'input>, usize),
-    ___4: (usize, Vec<TypeParameter>, usize),
-    ___5: (usize, Vec<Parameter>, usize),
-    ___6: (
-        usize,
-        ::std::option::Option<Vec<WhereClause<TypeRef>>>,
-        usize,
-    ),
-    ___7: (usize, Tok<'input>, usize),
-) -> Grammar {
-    let ___start0 = ___4.0.clone();
-    let ___end0 = ___4.2.clone();
-    let ___temp0 = ___action177(text, ___4);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action495(text, ___0, ___1, ___2, ___3, ___temp0, ___5, ___6, ___7)
-}
-
-#[allow(unused_variables)]
-fn ___action508<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<String>, usize),
-    ___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-    ___2: (usize, ::std::vec::Vec<Annotation>, usize),
-    ___3: (usize, Tok<'input>, usize),
-    ___4: (usize, Vec<Parameter>, usize),
-    ___5: (
-        usize,
-        ::std::option::Option<Vec<WhereClause<TypeRef>>>,
-        usize,
-    ),
-    ___6: (usize, Tok<'input>, usize),
-) -> Grammar {
-    let ___start0 = ___3.2.clone();
-    let ___end0 = ___4.0.clone();
-    let ___temp0 = ___action178(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action495(text, ___0, ___1, ___2, ___3, ___temp0, ___4, ___5, ___6)
-}
-
-#[allow(unused_variables)]
-fn ___action509<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<String>, usize),
-    ___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-    ___2: (usize, ::std::vec::Vec<Annotation>, usize),
-    ___3: (usize, Tok<'input>, usize),
-    ___4: (usize, Vec<TypeParameter>, usize),
-    ___5: (
-        usize,
-        ::std::option::Option<Vec<WhereClause<TypeRef>>>,
-        usize,
-    ),
-    ___6: (usize, Tok<'input>, usize),
-) -> Grammar {
-    let ___start0 = ___4.0.clone();
-    let ___end0 = ___4.2.clone();
-    let ___temp0 = ___action177(text, ___4);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action496(text, ___0, ___1, ___2, ___3, ___temp0, ___5, ___6)
-}
-
-#[allow(unused_variables)]
-fn ___action510<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<String>, usize),
-    ___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-    ___2: (usize, ::std::vec::Vec<Annotation>, usize),
-    ___3: (usize, Tok<'input>, usize),
-    ___4: (
-        usize,
-        ::std::option::Option<Vec<WhereClause<TypeRef>>>,
-        usize,
-    ),
-    ___5: (usize, Tok<'input>, usize),
-) -> Grammar {
-    let ___start0 = ___3.2.clone();
-    let ___end0 = ___4.0.clone();
-    let ___temp0 = ___action178(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action496(text, ___0, ___1, ___2, ___3, ___temp0, ___4, ___5)
-}
-
-#[allow(unused_variables)]
-fn ___action511<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<String>, usize),
-    ___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-    ___2: (usize, ::std::vec::Vec<Annotation>, usize),
-    ___3: (usize, Tok<'input>, usize),
-    ___4: (usize, Vec<TypeParameter>, usize),
-    ___5: (usize, Vec<Parameter>, usize),
-    ___6: (
-        usize,
-        ::std::option::Option<Vec<WhereClause<TypeRef>>>,
-        usize,
-    ),
-    ___7: (usize, Tok<'input>, usize),
-    ___8: (usize, ::std::vec::Vec<GrammarItem>, usize),
-) -> Grammar {
-    let ___start0 = ___4.0.clone();
-    let ___end0 = ___4.2.clone();
-    let ___temp0 = ___action177(text, ___4);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action497(
-        text, ___0, ___1, ___2, ___3, ___temp0, ___5, ___6, ___7, ___8,
-    )
-}
-
-#[allow(unused_variables)]
-fn ___action512<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<String>, usize),
-    ___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-    ___2: (usize, ::std::vec::Vec<Annotation>, usize),
-    ___3: (usize, Tok<'input>, usize),
-    ___4: (usize, Vec<Parameter>, usize),
-    ___5: (
-        usize,
-        ::std::option::Option<Vec<WhereClause<TypeRef>>>,
-        usize,
-    ),
-    ___6: (usize, Tok<'input>, usize),
-    ___7: (usize, ::std::vec::Vec<GrammarItem>, usize),
-) -> Grammar {
-    let ___start0 = ___3.2.clone();
-    let ___end0 = ___4.0.clone();
-    let ___temp0 = ___action178(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action497(
-        text, ___0, ___1, ___2, ___3, ___temp0, ___4, ___5, ___6, ___7,
-    )
-}
-
-#[allow(unused_variables)]
-fn ___action513<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<String>, usize),
-    ___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-    ___2: (usize, ::std::vec::Vec<Annotation>, usize),
-    ___3: (usize, Tok<'input>, usize),
-    ___4: (usize, Vec<TypeParameter>, usize),
-    ___5: (
-        usize,
-        ::std::option::Option<Vec<WhereClause<TypeRef>>>,
-        usize,
-    ),
-    ___6: (usize, Tok<'input>, usize),
-    ___7: (usize, ::std::vec::Vec<GrammarItem>, usize),
-) -> Grammar {
-    let ___start0 = ___4.0.clone();
-    let ___end0 = ___4.2.clone();
-    let ___temp0 = ___action177(text, ___4);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action498(text, ___0, ___1, ___2, ___3, ___temp0, ___5, ___6, ___7)
-}
-
-#[allow(unused_variables)]
-fn ___action514<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<String>, usize),
-    ___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-    ___2: (usize, ::std::vec::Vec<Annotation>, usize),
-    ___3: (usize, Tok<'input>, usize),
-    ___4: (
-        usize,
-        ::std::option::Option<Vec<WhereClause<TypeRef>>>,
-        usize,
-    ),
-    ___5: (usize, Tok<'input>, usize),
-    ___6: (usize, ::std::vec::Vec<GrammarItem>, usize),
-) -> Grammar {
-    let ___start0 = ___3.2.clone();
-    let ___end0 = ___4.0.clone();
-    let ___temp0 = ___action178(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action498(text, ___0, ___1, ___2, ___3, ___temp0, ___4, ___5, ___6)
-}
-
-#[allow(unused_variables)]
-fn ___action515<'input>(
-    text: &'input str,
-    ___0: (usize, WhereClause<TypeRef>, usize),
-) -> Vec<WhereClause<TypeRef>> {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.2.clone();
-    let ___temp0 = ___action200(text, ___0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action343(text, ___temp0)
-}
-
-#[allow(unused_variables)]
-fn ___action516<'input>(
-    text: &'input str,
-    ___lookbehind: &usize,
-    ___lookahead: &usize,
-) -> Vec<WhereClause<TypeRef>> {
-    let ___start0 = ___lookbehind.clone();
-    let ___end0 = ___lookahead.clone();
-    let ___temp0 = ___action201(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action343(text, ___temp0)
-}
-
-#[allow(unused_variables)]
-fn ___action517<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<WhereClause<TypeRef>>, usize),
-    ___1: (usize, WhereClause<TypeRef>, usize),
-) -> Vec<WhereClause<TypeRef>> {
-    let ___start0 = ___1.0.clone();
-    let ___end0 = ___1.2.clone();
-    let ___temp0 = ___action200(text, ___1);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action344(text, ___0, ___temp0)
-}
-
-#[allow(unused_variables)]
-fn ___action518<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<WhereClause<TypeRef>>, usize),
-) -> Vec<WhereClause<TypeRef>> {
-    let ___start0 = ___0.2.clone();
-    let ___end0 = ___0.2.clone();
-    let ___temp0 = ___action201(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action344(text, ___0, ___temp0)
-}
-
-#[allow(unused_variables)]
-fn ___action519<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<String>, usize),
-    ___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-    ___2: (usize, Tok<'input>, usize),
-    ___3: (usize, Vec<TypeParameter>, usize),
-    ___4: (usize, Vec<Parameter>, usize),
-    ___5: (usize, Vec<WhereClause<TypeRef>>, usize),
-    ___6: (usize, Tok<'input>, usize),
-) -> Grammar {
-    let ___start0 = ___5.0.clone();
-    let ___end0 = ___5.2.clone();
-    let ___temp0 = ___action173(text, ___5);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action499(text, ___0, ___1, ___2, ___3, ___4, ___temp0, ___6)
-}
-
-#[allow(unused_variables)]
-fn ___action520<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<String>, usize),
-    ___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-    ___2: (usize, Tok<'input>, usize),
-    ___3: (usize, Vec<TypeParameter>, usize),
-    ___4: (usize, Vec<Parameter>, usize),
-    ___5: (usize, Tok<'input>, usize),
-) -> Grammar {
-    let ___start0 = ___4.2.clone();
-    let ___end0 = ___5.0.clone();
-    let ___temp0 = ___action174(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action499(text, ___0, ___1, ___2, ___3, ___4, ___temp0, ___5)
-}
-
-#[allow(unused_variables)]
-fn ___action521<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<String>, usize),
-    ___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-    ___2: (usize, Tok<'input>, usize),
-    ___3: (usize, Vec<Parameter>, usize),
-    ___4: (usize, Vec<WhereClause<TypeRef>>, usize),
-    ___5: (usize, Tok<'input>, usize),
-) -> Grammar {
-    let ___start0 = ___4.0.clone();
-    let ___end0 = ___4.2.clone();
-    let ___temp0 = ___action173(text, ___4);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action500(text, ___0, ___1, ___2, ___3, ___temp0, ___5)
-}
-
-#[allow(unused_variables)]
-fn ___action522<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<String>, usize),
-    ___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-    ___2: (usize, Tok<'input>, usize),
-    ___3: (usize, Vec<Parameter>, usize),
-    ___4: (usize, Tok<'input>, usize),
-) -> Grammar {
-    let ___start0 = ___3.2.clone();
-    let ___end0 = ___4.0.clone();
-    let ___temp0 = ___action174(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action500(text, ___0, ___1, ___2, ___3, ___temp0, ___4)
-}
-
-#[allow(unused_variables)]
-fn ___action523<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<String>, usize),
-    ___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-    ___2: (usize, Tok<'input>, usize),
-    ___3: (usize, Vec<TypeParameter>, usize),
-    ___4: (usize, Vec<WhereClause<TypeRef>>, usize),
-    ___5: (usize, Tok<'input>, usize),
-) -> Grammar {
-    let ___start0 = ___4.0.clone();
-    let ___end0 = ___4.2.clone();
-    let ___temp0 = ___action173(text, ___4);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action501(text, ___0, ___1, ___2, ___3, ___temp0, ___5)
-}
-
-#[allow(unused_variables)]
-fn ___action524<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<String>, usize),
-    ___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-    ___2: (usize, Tok<'input>, usize),
-    ___3: (usize, Vec<TypeParameter>, usize),
-    ___4: (usize, Tok<'input>, usize),
-) -> Grammar {
-    let ___start0 = ___3.2.clone();
-    let ___end0 = ___4.0.clone();
-    let ___temp0 = ___action174(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action501(text, ___0, ___1, ___2, ___3, ___temp0, ___4)
-}
-
-#[allow(unused_variables)]
-fn ___action525<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<String>, usize),
-    ___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-    ___2: (usize, Tok<'input>, usize),
-    ___3: (usize, Vec<WhereClause<TypeRef>>, usize),
-    ___4: (usize, Tok<'input>, usize),
-) -> Grammar {
-    let ___start0 = ___3.0.clone();
-    let ___end0 = ___3.2.clone();
-    let ___temp0 = ___action173(text, ___3);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action502(text, ___0, ___1, ___2, ___temp0, ___4)
-}
-
-#[allow(unused_variables)]
-fn ___action526<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<String>, usize),
-    ___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-    ___2: (usize, Tok<'input>, usize),
-    ___3: (usize, Tok<'input>, usize),
-) -> Grammar {
-    let ___start0 = ___2.2.clone();
-    let ___end0 = ___3.0.clone();
-    let ___temp0 = ___action174(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action502(text, ___0, ___1, ___2, ___temp0, ___3)
-}
-
-#[allow(unused_variables)]
-fn ___action527<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<String>, usize),
-    ___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-    ___2: (usize, Tok<'input>, usize),
-    ___3: (usize, Vec<TypeParameter>, usize),
-    ___4: (usize, Vec<Parameter>, usize),
-    ___5: (usize, Vec<WhereClause<TypeRef>>, usize),
-    ___6: (usize, Tok<'input>, usize),
-    ___7: (usize, ::std::vec::Vec<GrammarItem>, usize),
-) -> Grammar {
-    let ___start0 = ___5.0.clone();
-    let ___end0 = ___5.2.clone();
-    let ___temp0 = ___action173(text, ___5);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action503(text, ___0, ___1, ___2, ___3, ___4, ___temp0, ___6, ___7)
-}
-
-#[allow(unused_variables)]
-fn ___action528<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<String>, usize),
-    ___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-    ___2: (usize, Tok<'input>, usize),
-    ___3: (usize, Vec<TypeParameter>, usize),
-    ___4: (usize, Vec<Parameter>, usize),
-    ___5: (usize, Tok<'input>, usize),
-    ___6: (usize, ::std::vec::Vec<GrammarItem>, usize),
-) -> Grammar {
-    let ___start0 = ___4.2.clone();
-    let ___end0 = ___5.0.clone();
-    let ___temp0 = ___action174(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action503(text, ___0, ___1, ___2, ___3, ___4, ___temp0, ___5, ___6)
-}
-
-#[allow(unused_variables)]
-fn ___action529<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<String>, usize),
-    ___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-    ___2: (usize, Tok<'input>, usize),
-    ___3: (usize, Vec<Parameter>, usize),
-    ___4: (usize, Vec<WhereClause<TypeRef>>, usize),
-    ___5: (usize, Tok<'input>, usize),
-    ___6: (usize, ::std::vec::Vec<GrammarItem>, usize),
-) -> Grammar {
-    let ___start0 = ___4.0.clone();
-    let ___end0 = ___4.2.clone();
-    let ___temp0 = ___action173(text, ___4);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action504(text, ___0, ___1, ___2, ___3, ___temp0, ___5, ___6)
-}
-
-#[allow(unused_variables)]
-fn ___action530<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<String>, usize),
-    ___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-    ___2: (usize, Tok<'input>, usize),
-    ___3: (usize, Vec<Parameter>, usize),
-    ___4: (usize, Tok<'input>, usize),
-    ___5: (usize, ::std::vec::Vec<GrammarItem>, usize),
-) -> Grammar {
-    let ___start0 = ___3.2.clone();
-    let ___end0 = ___4.0.clone();
-    let ___temp0 = ___action174(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action504(text, ___0, ___1, ___2, ___3, ___temp0, ___4, ___5)
-}
-
-#[allow(unused_variables)]
-fn ___action531<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<String>, usize),
-    ___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-    ___2: (usize, Tok<'input>, usize),
-    ___3: (usize, Vec<TypeParameter>, usize),
-    ___4: (usize, Vec<WhereClause<TypeRef>>, usize),
-    ___5: (usize, Tok<'input>, usize),
-    ___6: (usize, ::std::vec::Vec<GrammarItem>, usize),
-) -> Grammar {
-    let ___start0 = ___4.0.clone();
-    let ___end0 = ___4.2.clone();
-    let ___temp0 = ___action173(text, ___4);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action505(text, ___0, ___1, ___2, ___3, ___temp0, ___5, ___6)
-}
-
-#[allow(unused_variables)]
-fn ___action532<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<String>, usize),
-    ___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-    ___2: (usize, Tok<'input>, usize),
-    ___3: (usize, Vec<TypeParameter>, usize),
-    ___4: (usize, Tok<'input>, usize),
-    ___5: (usize, ::std::vec::Vec<GrammarItem>, usize),
-) -> Grammar {
-    let ___start0 = ___3.2.clone();
-    let ___end0 = ___4.0.clone();
-    let ___temp0 = ___action174(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action505(text, ___0, ___1, ___2, ___3, ___temp0, ___4, ___5)
-}
-
-#[allow(unused_variables)]
-fn ___action533<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<String>, usize),
-    ___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-    ___2: (usize, Tok<'input>, usize),
-    ___3: (usize, Vec<WhereClause<TypeRef>>, usize),
-    ___4: (usize, Tok<'input>, usize),
-    ___5: (usize, ::std::vec::Vec<GrammarItem>, usize),
-) -> Grammar {
-    let ___start0 = ___3.0.clone();
-    let ___end0 = ___3.2.clone();
-    let ___temp0 = ___action173(text, ___3);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action506(text, ___0, ___1, ___2, ___temp0, ___4, ___5)
-}
-
-#[allow(unused_variables)]
-fn ___action534<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<String>, usize),
-    ___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-    ___2: (usize, Tok<'input>, usize),
-    ___3: (usize, Tok<'input>, usize),
-    ___4: (usize, ::std::vec::Vec<GrammarItem>, usize),
-) -> Grammar {
-    let ___start0 = ___2.2.clone();
-    let ___end0 = ___3.0.clone();
-    let ___temp0 = ___action174(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action506(text, ___0, ___1, ___2, ___temp0, ___3, ___4)
-}
-
-#[allow(unused_variables)]
-fn ___action535<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<String>, usize),
-    ___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-    ___2: (usize, ::std::vec::Vec<Annotation>, usize),
-    ___3: (usize, Tok<'input>, usize),
-    ___4: (usize, Vec<TypeParameter>, usize),
-    ___5: (usize, Vec<Parameter>, usize),
-    ___6: (usize, Vec<WhereClause<TypeRef>>, usize),
-    ___7: (usize, Tok<'input>, usize),
-) -> Grammar {
-    let ___start0 = ___6.0.clone();
-    let ___end0 = ___6.2.clone();
-    let ___temp0 = ___action173(text, ___6);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action507(text, ___0, ___1, ___2, ___3, ___4, ___5, ___temp0, ___7)
-}
-
-#[allow(unused_variables)]
-fn ___action536<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<String>, usize),
-    ___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-    ___2: (usize, ::std::vec::Vec<Annotation>, usize),
-    ___3: (usize, Tok<'input>, usize),
-    ___4: (usize, Vec<TypeParameter>, usize),
-    ___5: (usize, Vec<Parameter>, usize),
-    ___6: (usize, Tok<'input>, usize),
-) -> Grammar {
-    let ___start0 = ___5.2.clone();
-    let ___end0 = ___6.0.clone();
-    let ___temp0 = ___action174(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action507(text, ___0, ___1, ___2, ___3, ___4, ___5, ___temp0, ___6)
-}
-
-#[allow(unused_variables)]
-fn ___action537<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<String>, usize),
-    ___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-    ___2: (usize, ::std::vec::Vec<Annotation>, usize),
-    ___3: (usize, Tok<'input>, usize),
-    ___4: (usize, Vec<Parameter>, usize),
-    ___5: (usize, Vec<WhereClause<TypeRef>>, usize),
-    ___6: (usize, Tok<'input>, usize),
-) -> Grammar {
-    let ___start0 = ___5.0.clone();
-    let ___end0 = ___5.2.clone();
-    let ___temp0 = ___action173(text, ___5);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action508(text, ___0, ___1, ___2, ___3, ___4, ___temp0, ___6)
-}
-
-#[allow(unused_variables)]
-fn ___action538<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<String>, usize),
-    ___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-    ___2: (usize, ::std::vec::Vec<Annotation>, usize),
-    ___3: (usize, Tok<'input>, usize),
-    ___4: (usize, Vec<Parameter>, usize),
-    ___5: (usize, Tok<'input>, usize),
-) -> Grammar {
-    let ___start0 = ___4.2.clone();
-    let ___end0 = ___5.0.clone();
-    let ___temp0 = ___action174(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action508(text, ___0, ___1, ___2, ___3, ___4, ___temp0, ___5)
-}
-
-#[allow(unused_variables)]
-fn ___action539<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<String>, usize),
-    ___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-    ___2: (usize, ::std::vec::Vec<Annotation>, usize),
-    ___3: (usize, Tok<'input>, usize),
-    ___4: (usize, Vec<TypeParameter>, usize),
-    ___5: (usize, Vec<WhereClause<TypeRef>>, usize),
-    ___6: (usize, Tok<'input>, usize),
-) -> Grammar {
-    let ___start0 = ___5.0.clone();
-    let ___end0 = ___5.2.clone();
-    let ___temp0 = ___action173(text, ___5);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action509(text, ___0, ___1, ___2, ___3, ___4, ___temp0, ___6)
-}
-
-#[allow(unused_variables)]
-fn ___action540<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<String>, usize),
-    ___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-    ___2: (usize, ::std::vec::Vec<Annotation>, usize),
-    ___3: (usize, Tok<'input>, usize),
-    ___4: (usize, Vec<TypeParameter>, usize),
-    ___5: (usize, Tok<'input>, usize),
-) -> Grammar {
-    let ___start0 = ___4.2.clone();
-    let ___end0 = ___5.0.clone();
-    let ___temp0 = ___action174(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action509(text, ___0, ___1, ___2, ___3, ___4, ___temp0, ___5)
-}
-
-#[allow(unused_variables)]
-fn ___action541<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<String>, usize),
-    ___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-    ___2: (usize, ::std::vec::Vec<Annotation>, usize),
-    ___3: (usize, Tok<'input>, usize),
-    ___4: (usize, Vec<WhereClause<TypeRef>>, usize),
-    ___5: (usize, Tok<'input>, usize),
-) -> Grammar {
-    let ___start0 = ___4.0.clone();
-    let ___end0 = ___4.2.clone();
-    let ___temp0 = ___action173(text, ___4);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action510(text, ___0, ___1, ___2, ___3, ___temp0, ___5)
-}
-
-#[allow(unused_variables)]
-fn ___action542<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<String>, usize),
-    ___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-    ___2: (usize, ::std::vec::Vec<Annotation>, usize),
-    ___3: (usize, Tok<'input>, usize),
-    ___4: (usize, Tok<'input>, usize),
-) -> Grammar {
-    let ___start0 = ___3.2.clone();
-    let ___end0 = ___4.0.clone();
-    let ___temp0 = ___action174(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action510(text, ___0, ___1, ___2, ___3, ___temp0, ___4)
-}
-
-#[allow(unused_variables)]
-fn ___action543<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<String>, usize),
-    ___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-    ___2: (usize, ::std::vec::Vec<Annotation>, usize),
-    ___3: (usize, Tok<'input>, usize),
-    ___4: (usize, Vec<TypeParameter>, usize),
-    ___5: (usize, Vec<Parameter>, usize),
-    ___6: (usize, Vec<WhereClause<TypeRef>>, usize),
-    ___7: (usize, Tok<'input>, usize),
-    ___8: (usize, ::std::vec::Vec<GrammarItem>, usize),
-) -> Grammar {
-    let ___start0 = ___6.0.clone();
-    let ___end0 = ___6.2.clone();
-    let ___temp0 = ___action173(text, ___6);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action511(
-        text, ___0, ___1, ___2, ___3, ___4, ___5, ___temp0, ___7, ___8,
-    )
-}
-
-#[allow(unused_variables)]
-fn ___action544<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<String>, usize),
-    ___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-    ___2: (usize, ::std::vec::Vec<Annotation>, usize),
-    ___3: (usize, Tok<'input>, usize),
-    ___4: (usize, Vec<TypeParameter>, usize),
-    ___5: (usize, Vec<Parameter>, usize),
-    ___6: (usize, Tok<'input>, usize),
-    ___7: (usize, ::std::vec::Vec<GrammarItem>, usize),
-) -> Grammar {
-    let ___start0 = ___5.2.clone();
-    let ___end0 = ___6.0.clone();
-    let ___temp0 = ___action174(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action511(
-        text, ___0, ___1, ___2, ___3, ___4, ___5, ___temp0, ___6, ___7,
-    )
-}
-
-#[allow(unused_variables)]
-fn ___action545<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<String>, usize),
-    ___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-    ___2: (usize, ::std::vec::Vec<Annotation>, usize),
-    ___3: (usize, Tok<'input>, usize),
-    ___4: (usize, Vec<Parameter>, usize),
-    ___5: (usize, Vec<WhereClause<TypeRef>>, usize),
-    ___6: (usize, Tok<'input>, usize),
-    ___7: (usize, ::std::vec::Vec<GrammarItem>, usize),
-) -> Grammar {
-    let ___start0 = ___5.0.clone();
-    let ___end0 = ___5.2.clone();
-    let ___temp0 = ___action173(text, ___5);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action512(text, ___0, ___1, ___2, ___3, ___4, ___temp0, ___6, ___7)
-}
-
-#[allow(unused_variables)]
-fn ___action546<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<String>, usize),
-    ___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-    ___2: (usize, ::std::vec::Vec<Annotation>, usize),
-    ___3: (usize, Tok<'input>, usize),
-    ___4: (usize, Vec<Parameter>, usize),
-    ___5: (usize, Tok<'input>, usize),
-    ___6: (usize, ::std::vec::Vec<GrammarItem>, usize),
-) -> Grammar {
-    let ___start0 = ___4.2.clone();
-    let ___end0 = ___5.0.clone();
-    let ___temp0 = ___action174(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action512(text, ___0, ___1, ___2, ___3, ___4, ___temp0, ___5, ___6)
-}
-
-#[allow(unused_variables)]
-fn ___action547<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<String>, usize),
-    ___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-    ___2: (usize, ::std::vec::Vec<Annotation>, usize),
-    ___3: (usize, Tok<'input>, usize),
-    ___4: (usize, Vec<TypeParameter>, usize),
-    ___5: (usize, Vec<WhereClause<TypeRef>>, usize),
-    ___6: (usize, Tok<'input>, usize),
-    ___7: (usize, ::std::vec::Vec<GrammarItem>, usize),
-) -> Grammar {
-    let ___start0 = ___5.0.clone();
-    let ___end0 = ___5.2.clone();
-    let ___temp0 = ___action173(text, ___5);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action513(text, ___0, ___1, ___2, ___3, ___4, ___temp0, ___6, ___7)
-}
-
-#[allow(unused_variables)]
-fn ___action548<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<String>, usize),
-    ___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-    ___2: (usize, ::std::vec::Vec<Annotation>, usize),
-    ___3: (usize, Tok<'input>, usize),
-    ___4: (usize, Vec<TypeParameter>, usize),
-    ___5: (usize, Tok<'input>, usize),
-    ___6: (usize, ::std::vec::Vec<GrammarItem>, usize),
-) -> Grammar {
-    let ___start0 = ___4.2.clone();
-    let ___end0 = ___5.0.clone();
-    let ___temp0 = ___action174(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action513(text, ___0, ___1, ___2, ___3, ___4, ___temp0, ___5, ___6)
-}
-
-#[allow(unused_variables)]
-fn ___action549<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<String>, usize),
-    ___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-    ___2: (usize, ::std::vec::Vec<Annotation>, usize),
-    ___3: (usize, Tok<'input>, usize),
-    ___4: (usize, Vec<WhereClause<TypeRef>>, usize),
-    ___5: (usize, Tok<'input>, usize),
-    ___6: (usize, ::std::vec::Vec<GrammarItem>, usize),
-) -> Grammar {
-    let ___start0 = ___4.0.clone();
-    let ___end0 = ___4.2.clone();
-    let ___temp0 = ___action173(text, ___4);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action514(text, ___0, ___1, ___2, ___3, ___temp0, ___5, ___6)
-}
-
-#[allow(unused_variables)]
-fn ___action550<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<String>, usize),
-    ___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-    ___2: (usize, ::std::vec::Vec<Annotation>, usize),
-    ___3: (usize, Tok<'input>, usize),
-    ___4: (usize, Tok<'input>, usize),
-    ___5: (usize, ::std::vec::Vec<GrammarItem>, usize),
-) -> Grammar {
-    let ___start0 = ___3.2.clone();
-    let ___end0 = ___4.0.clone();
-    let ___temp0 = ___action174(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action514(text, ___0, ___1, ___2, ___3, ___temp0, ___4, ___5)
-}
-
-#[allow(unused_variables)]
-fn ___action551<'input>(text: &'input str, ___0: (usize, Atom, usize)) -> Vec<Atom> {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.2.clone();
-    let ___temp0 = ___action133(text, ___0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action357(text, ___temp0)
-}
-
-#[allow(unused_variables)]
-fn ___action552<'input>(
-    text: &'input str,
-    ___lookbehind: &usize,
-    ___lookahead: &usize,
-) -> Vec<Atom> {
-    let ___start0 = ___lookbehind.clone();
-    let ___end0 = ___lookahead.clone();
-    let ___temp0 = ___action134(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action357(text, ___temp0)
-}
-
-#[allow(unused_variables)]
-fn ___action553<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<Atom>, usize),
-    ___1: (usize, Atom, usize),
-) -> Vec<Atom> {
-    let ___start0 = ___1.0.clone();
-    let ___end0 = ___1.2.clone();
-    let ___temp0 = ___action133(text, ___1);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action358(text, ___0, ___temp0)
-}
-
-#[allow(unused_variables)]
-fn ___action554<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<Atom>, usize),
-) -> Vec<Atom> {
-    let ___start0 = ___0.2.clone();
-    let ___end0 = ___0.2.clone();
-    let ___temp0 = ___action134(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action358(text, ___0, ___temp0)
-}
-
-#[allow(unused_variables)]
-fn ___action555<'input>(text: &'input str, ___0: (usize, Atom, usize)) -> Vec<Atom> {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.2.clone();
-    let ___temp0 = ___action133(text, ___0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action353(text, ___temp0)
-}
-
-#[allow(unused_variables)]
-fn ___action556<'input>(
-    text: &'input str,
-    ___lookbehind: &usize,
-    ___lookahead: &usize,
-) -> Vec<Atom> {
-    let ___start0 = ___lookbehind.clone();
-    let ___end0 = ___lookahead.clone();
-    let ___temp0 = ___action134(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action353(text, ___temp0)
-}
-
-#[allow(unused_variables)]
-fn ___action557<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<Atom>, usize),
-    ___1: (usize, Atom, usize),
-) -> Vec<Atom> {
-    let ___start0 = ___1.0.clone();
-    let ___end0 = ___1.2.clone();
-    let ___temp0 = ___action133(text, ___1);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action354(text, ___0, ___temp0)
-}
-
-#[allow(unused_variables)]
-fn ___action558<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<Atom>, usize),
-) -> Vec<Atom> {
-    let ___start0 = ___0.2.clone();
-    let ___end0 = ___0.2.clone();
-    let ___temp0 = ___action134(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action354(text, ___0, ___temp0)
-}
-
-#[allow(unused_variables)]
-fn ___action559<'input>(
-    text: &'input str,
-    ___0: (usize, Tok<'input>, usize),
-    ___1: (usize, Atom, usize),
-    ___2: (usize, Tok<'input>, usize),
-    ___3: (usize, TypeRef, usize),
-) -> TypeRef {
-    let ___start0 = ___1.0.clone();
-    let ___end0 = ___1.2.clone();
-    let ___temp0 = ___action133(text, ___1);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action306(text, ___0, ___temp0, ___2, ___3)
-}
-
-#[allow(unused_variables)]
-fn ___action560<'input>(
-    text: &'input str,
-    ___0: (usize, Tok<'input>, usize),
-    ___1: (usize, Tok<'input>, usize),
-    ___2: (usize, TypeRef, usize),
-) -> TypeRef {
-    let ___start0 = ___0.2.clone();
-    let ___end0 = ___1.0.clone();
-    let ___temp0 = ___action134(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action306(text, ___0, ___temp0, ___1, ___2)
-}
-
-#[allow(unused_variables)]
-fn ___action561<'input>(
-    text: &'input str,
-    ___0: (usize, Tok<'input>, usize),
-    ___1: (usize, Atom, usize),
-    ___2: (usize, TypeRef, usize),
-) -> TypeRef {
-    let ___start0 = ___1.0.clone();
-    let ___end0 = ___1.2.clone();
-    let ___temp0 = ___action133(text, ___1);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action307(text, ___0, ___temp0, ___2)
-}
-
-#[allow(unused_variables)]
-fn ___action562<'input>(
-    text: &'input str,
-    ___0: (usize, Tok<'input>, usize),
-    ___1: (usize, TypeRef, usize),
-) -> TypeRef {
-    let ___start0 = ___0.2.clone();
-    let ___end0 = ___1.0.clone();
-    let ___temp0 = ___action134(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action307(text, ___0, ___temp0, ___1)
-}
-
-#[allow(unused_variables)]
-fn ___action563<'input>(text: &'input str, ___0: (usize, MatchItem, usize)) -> Vec<MatchItem> {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.2.clone();
-    let ___temp0 = ___action255(text, ___0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action361(text, ___temp0)
-}
-
-#[allow(unused_variables)]
-fn ___action564<'input>(
-    text: &'input str,
-    ___lookbehind: &usize,
-    ___lookahead: &usize,
-) -> Vec<MatchItem> {
-    let ___start0 = ___lookbehind.clone();
-    let ___end0 = ___lookahead.clone();
-    let ___temp0 = ___action256(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action361(text, ___temp0)
-}
-
-#[allow(unused_variables)]
-fn ___action565<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<MatchItem>, usize),
-    ___1: (usize, MatchItem, usize),
-) -> Vec<MatchItem> {
-    let ___start0 = ___1.0.clone();
-    let ___end0 = ___1.2.clone();
-    let ___temp0 = ___action255(text, ___1);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action362(text, ___0, ___temp0)
-}
-
-#[allow(unused_variables)]
-fn ___action566<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<MatchItem>, usize),
-) -> Vec<MatchItem> {
-    let ___start0 = ___0.2.clone();
-    let ___end0 = ___0.2.clone();
-    let ___temp0 = ___action256(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action362(text, ___0, ___temp0)
-}
-
-#[allow(unused_variables)]
-fn ___action567<'input>(
-    text: &'input str,
-    ___0: (usize, NonterminalString, usize),
-) -> Vec<NonterminalString> {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.2.clone();
-    let ___temp0 = ___action231(text, ___0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action365(text, ___temp0)
-}
-
-#[allow(unused_variables)]
-fn ___action568<'input>(
-    text: &'input str,
-    ___lookbehind: &usize,
-    ___lookahead: &usize,
-) -> Vec<NonterminalString> {
-    let ___start0 = ___lookbehind.clone();
-    let ___end0 = ___lookahead.clone();
-    let ___temp0 = ___action232(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action365(text, ___temp0)
-}
-
-#[allow(unused_variables)]
-fn ___action569<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<NonterminalString>, usize),
-    ___1: (usize, NonterminalString, usize),
-) -> Vec<NonterminalString> {
-    let ___start0 = ___1.0.clone();
-    let ___end0 = ___1.2.clone();
-    let ___temp0 = ___action231(text, ___1);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action366(text, ___0, ___temp0)
-}
-
-#[allow(unused_variables)]
-fn ___action570<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<NonterminalString>, usize),
-) -> Vec<NonterminalString> {
-    let ___start0 = ___0.2.clone();
-    let ___end0 = ___0.2.clone();
-    let ___temp0 = ___action232(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action366(text, ___0, ___temp0)
-}
-
-#[allow(unused_variables)]
-fn ___action571<'input>(
-    text: &'input str,
-    ___0: (usize, Pattern<TypeRef>, usize),
-) -> Vec<Pattern<TypeRef>> {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.2.clone();
-    let ___temp0 = ___action265(text, ___0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action369(text, ___temp0)
-}
-
-#[allow(unused_variables)]
-fn ___action572<'input>(
-    text: &'input str,
-    ___lookbehind: &usize,
-    ___lookahead: &usize,
-) -> Vec<Pattern<TypeRef>> {
-    let ___start0 = ___lookbehind.clone();
-    let ___end0 = ___lookahead.clone();
-    let ___temp0 = ___action266(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action369(text, ___temp0)
-}
-
-#[allow(unused_variables)]
-fn ___action573<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<Pattern<TypeRef>>, usize),
-    ___1: (usize, Pattern<TypeRef>, usize),
-) -> Vec<Pattern<TypeRef>> {
-    let ___start0 = ___1.0.clone();
-    let ___end0 = ___1.2.clone();
-    let ___temp0 = ___action265(text, ___1);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action370(text, ___0, ___temp0)
-}
-
-#[allow(unused_variables)]
-fn ___action574<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<Pattern<TypeRef>>, usize),
-) -> Vec<Pattern<TypeRef>> {
-    let ___start0 = ___0.2.clone();
-    let ___end0 = ___0.2.clone();
-    let ___temp0 = ___action266(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action370(text, ___0, ___temp0)
-}
-
-#[allow(unused_variables)]
-fn ___action575<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<GrammarItem>, usize),
-    ___1: (usize, Tok<'input>, usize),
-    ___2: (usize, Vec<TypeParameter>, usize),
-    ___3: (usize, Vec<Parameter>, usize),
-    ___4: (usize, Vec<WhereClause<TypeRef>>, usize),
-    ___5: (usize, Tok<'input>, usize),
-) -> Grammar {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.0.clone();
-    let ___temp0 = ___action185(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action519(text, ___temp0, ___0, ___1, ___2, ___3, ___4, ___5)
-}
-
-#[allow(unused_variables)]
-fn ___action576<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<String>, usize),
-    ___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-    ___2: (usize, Tok<'input>, usize),
-    ___3: (usize, Vec<TypeParameter>, usize),
-    ___4: (usize, Vec<Parameter>, usize),
-    ___5: (usize, Vec<WhereClause<TypeRef>>, usize),
-    ___6: (usize, Tok<'input>, usize),
-) -> Grammar {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.2.clone();
-    let ___temp0 = ___action186(text, ___0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action519(text, ___temp0, ___1, ___2, ___3, ___4, ___5, ___6)
-}
-
-#[allow(unused_variables)]
-fn ___action577<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<GrammarItem>, usize),
-    ___1: (usize, Tok<'input>, usize),
-    ___2: (usize, Vec<TypeParameter>, usize),
-    ___3: (usize, Vec<Parameter>, usize),
-    ___4: (usize, Tok<'input>, usize),
-) -> Grammar {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.0.clone();
-    let ___temp0 = ___action185(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action520(text, ___temp0, ___0, ___1, ___2, ___3, ___4)
-}
-
-#[allow(unused_variables)]
-fn ___action578<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<String>, usize),
-    ___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-    ___2: (usize, Tok<'input>, usize),
-    ___3: (usize, Vec<TypeParameter>, usize),
-    ___4: (usize, Vec<Parameter>, usize),
-    ___5: (usize, Tok<'input>, usize),
-) -> Grammar {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.2.clone();
-    let ___temp0 = ___action186(text, ___0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action520(text, ___temp0, ___1, ___2, ___3, ___4, ___5)
-}
-
-#[allow(unused_variables)]
-fn ___action579<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<GrammarItem>, usize),
-    ___1: (usize, Tok<'input>, usize),
-    ___2: (usize, Vec<Parameter>, usize),
-    ___3: (usize, Vec<WhereClause<TypeRef>>, usize),
-    ___4: (usize, Tok<'input>, usize),
-) -> Grammar {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.0.clone();
-    let ___temp0 = ___action185(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action521(text, ___temp0, ___0, ___1, ___2, ___3, ___4)
-}
-
-#[allow(unused_variables)]
-fn ___action580<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<String>, usize),
-    ___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-    ___2: (usize, Tok<'input>, usize),
-    ___3: (usize, Vec<Parameter>, usize),
-    ___4: (usize, Vec<WhereClause<TypeRef>>, usize),
-    ___5: (usize, Tok<'input>, usize),
-) -> Grammar {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.2.clone();
-    let ___temp0 = ___action186(text, ___0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action521(text, ___temp0, ___1, ___2, ___3, ___4, ___5)
-}
-
-#[allow(unused_variables)]
-fn ___action581<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<GrammarItem>, usize),
-    ___1: (usize, Tok<'input>, usize),
-    ___2: (usize, Vec<Parameter>, usize),
-    ___3: (usize, Tok<'input>, usize),
-) -> Grammar {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.0.clone();
-    let ___temp0 = ___action185(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action522(text, ___temp0, ___0, ___1, ___2, ___3)
-}
-
-#[allow(unused_variables)]
-fn ___action582<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<String>, usize),
-    ___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-    ___2: (usize, Tok<'input>, usize),
-    ___3: (usize, Vec<Parameter>, usize),
-    ___4: (usize, Tok<'input>, usize),
-) -> Grammar {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.2.clone();
-    let ___temp0 = ___action186(text, ___0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action522(text, ___temp0, ___1, ___2, ___3, ___4)
-}
-
-#[allow(unused_variables)]
-fn ___action583<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<GrammarItem>, usize),
-    ___1: (usize, Tok<'input>, usize),
-    ___2: (usize, Vec<TypeParameter>, usize),
-    ___3: (usize, Vec<WhereClause<TypeRef>>, usize),
-    ___4: (usize, Tok<'input>, usize),
-) -> Grammar {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.0.clone();
-    let ___temp0 = ___action185(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action523(text, ___temp0, ___0, ___1, ___2, ___3, ___4)
-}
-
-#[allow(unused_variables)]
-fn ___action584<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<String>, usize),
-    ___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-    ___2: (usize, Tok<'input>, usize),
-    ___3: (usize, Vec<TypeParameter>, usize),
-    ___4: (usize, Vec<WhereClause<TypeRef>>, usize),
-    ___5: (usize, Tok<'input>, usize),
-) -> Grammar {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.2.clone();
-    let ___temp0 = ___action186(text, ___0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action523(text, ___temp0, ___1, ___2, ___3, ___4, ___5)
-}
-
-#[allow(unused_variables)]
-fn ___action585<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<GrammarItem>, usize),
-    ___1: (usize, Tok<'input>, usize),
-    ___2: (usize, Vec<TypeParameter>, usize),
-    ___3: (usize, Tok<'input>, usize),
-) -> Grammar {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.0.clone();
-    let ___temp0 = ___action185(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action524(text, ___temp0, ___0, ___1, ___2, ___3)
-}
-
-#[allow(unused_variables)]
-fn ___action586<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<String>, usize),
-    ___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-    ___2: (usize, Tok<'input>, usize),
-    ___3: (usize, Vec<TypeParameter>, usize),
-    ___4: (usize, Tok<'input>, usize),
-) -> Grammar {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.2.clone();
-    let ___temp0 = ___action186(text, ___0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action524(text, ___temp0, ___1, ___2, ___3, ___4)
-}
-
-#[allow(unused_variables)]
-fn ___action587<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<GrammarItem>, usize),
-    ___1: (usize, Tok<'input>, usize),
-    ___2: (usize, Vec<WhereClause<TypeRef>>, usize),
-    ___3: (usize, Tok<'input>, usize),
-) -> Grammar {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.0.clone();
-    let ___temp0 = ___action185(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action525(text, ___temp0, ___0, ___1, ___2, ___3)
-}
-
-#[allow(unused_variables)]
-fn ___action588<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<String>, usize),
-    ___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-    ___2: (usize, Tok<'input>, usize),
-    ___3: (usize, Vec<WhereClause<TypeRef>>, usize),
-    ___4: (usize, Tok<'input>, usize),
-) -> Grammar {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.2.clone();
-    let ___temp0 = ___action186(text, ___0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action525(text, ___temp0, ___1, ___2, ___3, ___4)
-}
-
-#[allow(unused_variables)]
-fn ___action589<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<GrammarItem>, usize),
-    ___1: (usize, Tok<'input>, usize),
-    ___2: (usize, Tok<'input>, usize),
-) -> Grammar {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.0.clone();
-    let ___temp0 = ___action185(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action526(text, ___temp0, ___0, ___1, ___2)
-}
-
-#[allow(unused_variables)]
-fn ___action590<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<String>, usize),
-    ___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-    ___2: (usize, Tok<'input>, usize),
-    ___3: (usize, Tok<'input>, usize),
-) -> Grammar {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.2.clone();
-    let ___temp0 = ___action186(text, ___0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action526(text, ___temp0, ___1, ___2, ___3)
-}
-
-#[allow(unused_variables)]
-fn ___action591<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<GrammarItem>, usize),
-    ___1: (usize, Tok<'input>, usize),
-    ___2: (usize, Vec<TypeParameter>, usize),
-    ___3: (usize, Vec<Parameter>, usize),
-    ___4: (usize, Vec<WhereClause<TypeRef>>, usize),
-    ___5: (usize, Tok<'input>, usize),
-    ___6: (usize, ::std::vec::Vec<GrammarItem>, usize),
-) -> Grammar {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.0.clone();
-    let ___temp0 = ___action185(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action527(text, ___temp0, ___0, ___1, ___2, ___3, ___4, ___5, ___6)
-}
-
-#[allow(unused_variables)]
-fn ___action592<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<String>, usize),
-    ___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-    ___2: (usize, Tok<'input>, usize),
-    ___3: (usize, Vec<TypeParameter>, usize),
-    ___4: (usize, Vec<Parameter>, usize),
-    ___5: (usize, Vec<WhereClause<TypeRef>>, usize),
-    ___6: (usize, Tok<'input>, usize),
-    ___7: (usize, ::std::vec::Vec<GrammarItem>, usize),
-) -> Grammar {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.2.clone();
-    let ___temp0 = ___action186(text, ___0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action527(text, ___temp0, ___1, ___2, ___3, ___4, ___5, ___6, ___7)
-}
-
-#[allow(unused_variables)]
-fn ___action593<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<GrammarItem>, usize),
-    ___1: (usize, Tok<'input>, usize),
-    ___2: (usize, Vec<TypeParameter>, usize),
-    ___3: (usize, Vec<Parameter>, usize),
-    ___4: (usize, Tok<'input>, usize),
-    ___5: (usize, ::std::vec::Vec<GrammarItem>, usize),
-) -> Grammar {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.0.clone();
-    let ___temp0 = ___action185(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action528(text, ___temp0, ___0, ___1, ___2, ___3, ___4, ___5)
-}
-
-#[allow(unused_variables)]
-fn ___action594<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<String>, usize),
-    ___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-    ___2: (usize, Tok<'input>, usize),
-    ___3: (usize, Vec<TypeParameter>, usize),
-    ___4: (usize, Vec<Parameter>, usize),
-    ___5: (usize, Tok<'input>, usize),
-    ___6: (usize, ::std::vec::Vec<GrammarItem>, usize),
-) -> Grammar {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.2.clone();
-    let ___temp0 = ___action186(text, ___0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action528(text, ___temp0, ___1, ___2, ___3, ___4, ___5, ___6)
-}
-
-#[allow(unused_variables)]
-fn ___action595<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<GrammarItem>, usize),
-    ___1: (usize, Tok<'input>, usize),
-    ___2: (usize, Vec<Parameter>, usize),
-    ___3: (usize, Vec<WhereClause<TypeRef>>, usize),
-    ___4: (usize, Tok<'input>, usize),
-    ___5: (usize, ::std::vec::Vec<GrammarItem>, usize),
-) -> Grammar {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.0.clone();
-    let ___temp0 = ___action185(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action529(text, ___temp0, ___0, ___1, ___2, ___3, ___4, ___5)
-}
-
-#[allow(unused_variables)]
-fn ___action596<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<String>, usize),
-    ___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-    ___2: (usize, Tok<'input>, usize),
-    ___3: (usize, Vec<Parameter>, usize),
-    ___4: (usize, Vec<WhereClause<TypeRef>>, usize),
-    ___5: (usize, Tok<'input>, usize),
-    ___6: (usize, ::std::vec::Vec<GrammarItem>, usize),
-) -> Grammar {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.2.clone();
-    let ___temp0 = ___action186(text, ___0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action529(text, ___temp0, ___1, ___2, ___3, ___4, ___5, ___6)
-}
-
-#[allow(unused_variables)]
-fn ___action597<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<GrammarItem>, usize),
-    ___1: (usize, Tok<'input>, usize),
-    ___2: (usize, Vec<Parameter>, usize),
-    ___3: (usize, Tok<'input>, usize),
-    ___4: (usize, ::std::vec::Vec<GrammarItem>, usize),
-) -> Grammar {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.0.clone();
-    let ___temp0 = ___action185(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action530(text, ___temp0, ___0, ___1, ___2, ___3, ___4)
-}
-
-#[allow(unused_variables)]
-fn ___action598<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<String>, usize),
-    ___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-    ___2: (usize, Tok<'input>, usize),
-    ___3: (usize, Vec<Parameter>, usize),
-    ___4: (usize, Tok<'input>, usize),
-    ___5: (usize, ::std::vec::Vec<GrammarItem>, usize),
-) -> Grammar {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.2.clone();
-    let ___temp0 = ___action186(text, ___0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action530(text, ___temp0, ___1, ___2, ___3, ___4, ___5)
-}
-
-#[allow(unused_variables)]
-fn ___action599<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<GrammarItem>, usize),
-    ___1: (usize, Tok<'input>, usize),
-    ___2: (usize, Vec<TypeParameter>, usize),
-    ___3: (usize, Vec<WhereClause<TypeRef>>, usize),
-    ___4: (usize, Tok<'input>, usize),
-    ___5: (usize, ::std::vec::Vec<GrammarItem>, usize),
-) -> Grammar {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.0.clone();
-    let ___temp0 = ___action185(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action531(text, ___temp0, ___0, ___1, ___2, ___3, ___4, ___5)
-}
-
-#[allow(unused_variables)]
-fn ___action600<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<String>, usize),
-    ___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-    ___2: (usize, Tok<'input>, usize),
-    ___3: (usize, Vec<TypeParameter>, usize),
-    ___4: (usize, Vec<WhereClause<TypeRef>>, usize),
-    ___5: (usize, Tok<'input>, usize),
-    ___6: (usize, ::std::vec::Vec<GrammarItem>, usize),
-) -> Grammar {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.2.clone();
-    let ___temp0 = ___action186(text, ___0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action531(text, ___temp0, ___1, ___2, ___3, ___4, ___5, ___6)
-}
-
-#[allow(unused_variables)]
-fn ___action601<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<GrammarItem>, usize),
-    ___1: (usize, Tok<'input>, usize),
-    ___2: (usize, Vec<TypeParameter>, usize),
-    ___3: (usize, Tok<'input>, usize),
-    ___4: (usize, ::std::vec::Vec<GrammarItem>, usize),
-) -> Grammar {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.0.clone();
-    let ___temp0 = ___action185(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action532(text, ___temp0, ___0, ___1, ___2, ___3, ___4)
-}
-
-#[allow(unused_variables)]
-fn ___action602<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<String>, usize),
-    ___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-    ___2: (usize, Tok<'input>, usize),
-    ___3: (usize, Vec<TypeParameter>, usize),
-    ___4: (usize, Tok<'input>, usize),
-    ___5: (usize, ::std::vec::Vec<GrammarItem>, usize),
-) -> Grammar {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.2.clone();
-    let ___temp0 = ___action186(text, ___0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action532(text, ___temp0, ___1, ___2, ___3, ___4, ___5)
-}
-
-#[allow(unused_variables)]
-fn ___action603<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<GrammarItem>, usize),
-    ___1: (usize, Tok<'input>, usize),
-    ___2: (usize, Vec<WhereClause<TypeRef>>, usize),
-    ___3: (usize, Tok<'input>, usize),
-    ___4: (usize, ::std::vec::Vec<GrammarItem>, usize),
-) -> Grammar {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.0.clone();
-    let ___temp0 = ___action185(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action533(text, ___temp0, ___0, ___1, ___2, ___3, ___4)
-}
-
-#[allow(unused_variables)]
-fn ___action604<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<String>, usize),
-    ___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-    ___2: (usize, Tok<'input>, usize),
-    ___3: (usize, Vec<WhereClause<TypeRef>>, usize),
-    ___4: (usize, Tok<'input>, usize),
-    ___5: (usize, ::std::vec::Vec<GrammarItem>, usize),
-) -> Grammar {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.2.clone();
-    let ___temp0 = ___action186(text, ___0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action533(text, ___temp0, ___1, ___2, ___3, ___4, ___5)
-}
-
-#[allow(unused_variables)]
-fn ___action605<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<GrammarItem>, usize),
-    ___1: (usize, Tok<'input>, usize),
-    ___2: (usize, Tok<'input>, usize),
-    ___3: (usize, ::std::vec::Vec<GrammarItem>, usize),
-) -> Grammar {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.0.clone();
-    let ___temp0 = ___action185(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action534(text, ___temp0, ___0, ___1, ___2, ___3)
-}
-
-#[allow(unused_variables)]
-fn ___action606<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<String>, usize),
-    ___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-    ___2: (usize, Tok<'input>, usize),
-    ___3: (usize, Tok<'input>, usize),
-    ___4: (usize, ::std::vec::Vec<GrammarItem>, usize),
-) -> Grammar {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.2.clone();
-    let ___temp0 = ___action186(text, ___0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action534(text, ___temp0, ___1, ___2, ___3, ___4)
-}
-
-#[allow(unused_variables)]
-fn ___action607<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<GrammarItem>, usize),
-    ___1: (usize, ::std::vec::Vec<Annotation>, usize),
-    ___2: (usize, Tok<'input>, usize),
-    ___3: (usize, Vec<TypeParameter>, usize),
-    ___4: (usize, Vec<Parameter>, usize),
-    ___5: (usize, Vec<WhereClause<TypeRef>>, usize),
-    ___6: (usize, Tok<'input>, usize),
-) -> Grammar {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.0.clone();
-    let ___temp0 = ___action185(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action535(text, ___temp0, ___0, ___1, ___2, ___3, ___4, ___5, ___6)
-}
-
-#[allow(unused_variables)]
-fn ___action608<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<String>, usize),
-    ___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-    ___2: (usize, ::std::vec::Vec<Annotation>, usize),
-    ___3: (usize, Tok<'input>, usize),
-    ___4: (usize, Vec<TypeParameter>, usize),
-    ___5: (usize, Vec<Parameter>, usize),
-    ___6: (usize, Vec<WhereClause<TypeRef>>, usize),
-    ___7: (usize, Tok<'input>, usize),
-) -> Grammar {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.2.clone();
-    let ___temp0 = ___action186(text, ___0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action535(text, ___temp0, ___1, ___2, ___3, ___4, ___5, ___6, ___7)
-}
-
-#[allow(unused_variables)]
-fn ___action609<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<GrammarItem>, usize),
-    ___1: (usize, ::std::vec::Vec<Annotation>, usize),
-    ___2: (usize, Tok<'input>, usize),
-    ___3: (usize, Vec<TypeParameter>, usize),
-    ___4: (usize, Vec<Parameter>, usize),
-    ___5: (usize, Tok<'input>, usize),
-) -> Grammar {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.0.clone();
-    let ___temp0 = ___action185(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action536(text, ___temp0, ___0, ___1, ___2, ___3, ___4, ___5)
-}
-
-#[allow(unused_variables)]
-fn ___action610<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<String>, usize),
-    ___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-    ___2: (usize, ::std::vec::Vec<Annotation>, usize),
-    ___3: (usize, Tok<'input>, usize),
-    ___4: (usize, Vec<TypeParameter>, usize),
-    ___5: (usize, Vec<Parameter>, usize),
-    ___6: (usize, Tok<'input>, usize),
-) -> Grammar {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.2.clone();
-    let ___temp0 = ___action186(text, ___0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action536(text, ___temp0, ___1, ___2, ___3, ___4, ___5, ___6)
-}
-
-#[allow(unused_variables)]
-fn ___action611<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<GrammarItem>, usize),
-    ___1: (usize, ::std::vec::Vec<Annotation>, usize),
-    ___2: (usize, Tok<'input>, usize),
-    ___3: (usize, Vec<Parameter>, usize),
-    ___4: (usize, Vec<WhereClause<TypeRef>>, usize),
-    ___5: (usize, Tok<'input>, usize),
-) -> Grammar {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.0.clone();
-    let ___temp0 = ___action185(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action537(text, ___temp0, ___0, ___1, ___2, ___3, ___4, ___5)
-}
-
-#[allow(unused_variables)]
-fn ___action612<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<String>, usize),
-    ___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-    ___2: (usize, ::std::vec::Vec<Annotation>, usize),
-    ___3: (usize, Tok<'input>, usize),
-    ___4: (usize, Vec<Parameter>, usize),
-    ___5: (usize, Vec<WhereClause<TypeRef>>, usize),
-    ___6: (usize, Tok<'input>, usize),
-) -> Grammar {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.2.clone();
-    let ___temp0 = ___action186(text, ___0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action537(text, ___temp0, ___1, ___2, ___3, ___4, ___5, ___6)
-}
-
-#[allow(unused_variables)]
-fn ___action613<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<GrammarItem>, usize),
-    ___1: (usize, ::std::vec::Vec<Annotation>, usize),
-    ___2: (usize, Tok<'input>, usize),
-    ___3: (usize, Vec<Parameter>, usize),
-    ___4: (usize, Tok<'input>, usize),
-) -> Grammar {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.0.clone();
-    let ___temp0 = ___action185(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action538(text, ___temp0, ___0, ___1, ___2, ___3, ___4)
-}
-
-#[allow(unused_variables)]
-fn ___action614<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<String>, usize),
-    ___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-    ___2: (usize, ::std::vec::Vec<Annotation>, usize),
-    ___3: (usize, Tok<'input>, usize),
-    ___4: (usize, Vec<Parameter>, usize),
-    ___5: (usize, Tok<'input>, usize),
-) -> Grammar {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.2.clone();
-    let ___temp0 = ___action186(text, ___0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action538(text, ___temp0, ___1, ___2, ___3, ___4, ___5)
-}
-
-#[allow(unused_variables)]
-fn ___action615<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<GrammarItem>, usize),
-    ___1: (usize, ::std::vec::Vec<Annotation>, usize),
-    ___2: (usize, Tok<'input>, usize),
-    ___3: (usize, Vec<TypeParameter>, usize),
-    ___4: (usize, Vec<WhereClause<TypeRef>>, usize),
-    ___5: (usize, Tok<'input>, usize),
-) -> Grammar {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.0.clone();
-    let ___temp0 = ___action185(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action539(text, ___temp0, ___0, ___1, ___2, ___3, ___4, ___5)
-}
-
-#[allow(unused_variables)]
-fn ___action616<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<String>, usize),
-    ___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-    ___2: (usize, ::std::vec::Vec<Annotation>, usize),
-    ___3: (usize, Tok<'input>, usize),
-    ___4: (usize, Vec<TypeParameter>, usize),
-    ___5: (usize, Vec<WhereClause<TypeRef>>, usize),
-    ___6: (usize, Tok<'input>, usize),
-) -> Grammar {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.2.clone();
-    let ___temp0 = ___action186(text, ___0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action539(text, ___temp0, ___1, ___2, ___3, ___4, ___5, ___6)
-}
-
-#[allow(unused_variables)]
-fn ___action617<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<GrammarItem>, usize),
-    ___1: (usize, ::std::vec::Vec<Annotation>, usize),
-    ___2: (usize, Tok<'input>, usize),
-    ___3: (usize, Vec<TypeParameter>, usize),
-    ___4: (usize, Tok<'input>, usize),
-) -> Grammar {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.0.clone();
-    let ___temp0 = ___action185(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action540(text, ___temp0, ___0, ___1, ___2, ___3, ___4)
-}
-
-#[allow(unused_variables)]
-fn ___action618<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<String>, usize),
-    ___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-    ___2: (usize, ::std::vec::Vec<Annotation>, usize),
-    ___3: (usize, Tok<'input>, usize),
-    ___4: (usize, Vec<TypeParameter>, usize),
-    ___5: (usize, Tok<'input>, usize),
-) -> Grammar {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.2.clone();
-    let ___temp0 = ___action186(text, ___0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action540(text, ___temp0, ___1, ___2, ___3, ___4, ___5)
-}
-
-#[allow(unused_variables)]
-fn ___action619<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<GrammarItem>, usize),
-    ___1: (usize, ::std::vec::Vec<Annotation>, usize),
-    ___2: (usize, Tok<'input>, usize),
-    ___3: (usize, Vec<WhereClause<TypeRef>>, usize),
-    ___4: (usize, Tok<'input>, usize),
-) -> Grammar {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.0.clone();
-    let ___temp0 = ___action185(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action541(text, ___temp0, ___0, ___1, ___2, ___3, ___4)
-}
-
-#[allow(unused_variables)]
-fn ___action620<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<String>, usize),
-    ___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-    ___2: (usize, ::std::vec::Vec<Annotation>, usize),
-    ___3: (usize, Tok<'input>, usize),
-    ___4: (usize, Vec<WhereClause<TypeRef>>, usize),
-    ___5: (usize, Tok<'input>, usize),
-) -> Grammar {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.2.clone();
-    let ___temp0 = ___action186(text, ___0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action541(text, ___temp0, ___1, ___2, ___3, ___4, ___5)
-}
-
-#[allow(unused_variables)]
-fn ___action621<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<GrammarItem>, usize),
-    ___1: (usize, ::std::vec::Vec<Annotation>, usize),
-    ___2: (usize, Tok<'input>, usize),
-    ___3: (usize, Tok<'input>, usize),
-) -> Grammar {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.0.clone();
-    let ___temp0 = ___action185(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action542(text, ___temp0, ___0, ___1, ___2, ___3)
-}
-
-#[allow(unused_variables)]
-fn ___action622<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<String>, usize),
-    ___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-    ___2: (usize, ::std::vec::Vec<Annotation>, usize),
-    ___3: (usize, Tok<'input>, usize),
-    ___4: (usize, Tok<'input>, usize),
-) -> Grammar {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.2.clone();
-    let ___temp0 = ___action186(text, ___0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action542(text, ___temp0, ___1, ___2, ___3, ___4)
-}
-
-#[allow(unused_variables)]
-fn ___action623<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<GrammarItem>, usize),
-    ___1: (usize, ::std::vec::Vec<Annotation>, usize),
-    ___2: (usize, Tok<'input>, usize),
-    ___3: (usize, Vec<TypeParameter>, usize),
-    ___4: (usize, Vec<Parameter>, usize),
-    ___5: (usize, Vec<WhereClause<TypeRef>>, usize),
-    ___6: (usize, Tok<'input>, usize),
-    ___7: (usize, ::std::vec::Vec<GrammarItem>, usize),
-) -> Grammar {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.0.clone();
-    let ___temp0 = ___action185(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action543(
-        text, ___temp0, ___0, ___1, ___2, ___3, ___4, ___5, ___6, ___7,
-    )
-}
-
-#[allow(unused_variables)]
-fn ___action624<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<String>, usize),
-    ___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-    ___2: (usize, ::std::vec::Vec<Annotation>, usize),
-    ___3: (usize, Tok<'input>, usize),
-    ___4: (usize, Vec<TypeParameter>, usize),
-    ___5: (usize, Vec<Parameter>, usize),
-    ___6: (usize, Vec<WhereClause<TypeRef>>, usize),
-    ___7: (usize, Tok<'input>, usize),
-    ___8: (usize, ::std::vec::Vec<GrammarItem>, usize),
-) -> Grammar {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.2.clone();
-    let ___temp0 = ___action186(text, ___0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action543(
-        text, ___temp0, ___1, ___2, ___3, ___4, ___5, ___6, ___7, ___8,
-    )
-}
-
-#[allow(unused_variables)]
-fn ___action625<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<GrammarItem>, usize),
-    ___1: (usize, ::std::vec::Vec<Annotation>, usize),
-    ___2: (usize, Tok<'input>, usize),
-    ___3: (usize, Vec<TypeParameter>, usize),
-    ___4: (usize, Vec<Parameter>, usize),
-    ___5: (usize, Tok<'input>, usize),
-    ___6: (usize, ::std::vec::Vec<GrammarItem>, usize),
-) -> Grammar {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.0.clone();
-    let ___temp0 = ___action185(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action544(text, ___temp0, ___0, ___1, ___2, ___3, ___4, ___5, ___6)
-}
-
-#[allow(unused_variables)]
-fn ___action626<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<String>, usize),
-    ___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-    ___2: (usize, ::std::vec::Vec<Annotation>, usize),
-    ___3: (usize, Tok<'input>, usize),
-    ___4: (usize, Vec<TypeParameter>, usize),
-    ___5: (usize, Vec<Parameter>, usize),
-    ___6: (usize, Tok<'input>, usize),
-    ___7: (usize, ::std::vec::Vec<GrammarItem>, usize),
-) -> Grammar {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.2.clone();
-    let ___temp0 = ___action186(text, ___0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action544(text, ___temp0, ___1, ___2, ___3, ___4, ___5, ___6, ___7)
-}
-
-#[allow(unused_variables)]
-fn ___action627<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<GrammarItem>, usize),
-    ___1: (usize, ::std::vec::Vec<Annotation>, usize),
-    ___2: (usize, Tok<'input>, usize),
-    ___3: (usize, Vec<Parameter>, usize),
-    ___4: (usize, Vec<WhereClause<TypeRef>>, usize),
-    ___5: (usize, Tok<'input>, usize),
-    ___6: (usize, ::std::vec::Vec<GrammarItem>, usize),
-) -> Grammar {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.0.clone();
-    let ___temp0 = ___action185(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action545(text, ___temp0, ___0, ___1, ___2, ___3, ___4, ___5, ___6)
-}
-
-#[allow(unused_variables)]
-fn ___action628<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<String>, usize),
-    ___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-    ___2: (usize, ::std::vec::Vec<Annotation>, usize),
-    ___3: (usize, Tok<'input>, usize),
-    ___4: (usize, Vec<Parameter>, usize),
-    ___5: (usize, Vec<WhereClause<TypeRef>>, usize),
-    ___6: (usize, Tok<'input>, usize),
-    ___7: (usize, ::std::vec::Vec<GrammarItem>, usize),
-) -> Grammar {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.2.clone();
-    let ___temp0 = ___action186(text, ___0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action545(text, ___temp0, ___1, ___2, ___3, ___4, ___5, ___6, ___7)
-}
-
-#[allow(unused_variables)]
-fn ___action629<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<GrammarItem>, usize),
-    ___1: (usize, ::std::vec::Vec<Annotation>, usize),
-    ___2: (usize, Tok<'input>, usize),
-    ___3: (usize, Vec<Parameter>, usize),
-    ___4: (usize, Tok<'input>, usize),
-    ___5: (usize, ::std::vec::Vec<GrammarItem>, usize),
-) -> Grammar {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.0.clone();
-    let ___temp0 = ___action185(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action546(text, ___temp0, ___0, ___1, ___2, ___3, ___4, ___5)
-}
-
-#[allow(unused_variables)]
-fn ___action630<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<String>, usize),
-    ___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-    ___2: (usize, ::std::vec::Vec<Annotation>, usize),
-    ___3: (usize, Tok<'input>, usize),
-    ___4: (usize, Vec<Parameter>, usize),
-    ___5: (usize, Tok<'input>, usize),
-    ___6: (usize, ::std::vec::Vec<GrammarItem>, usize),
-) -> Grammar {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.2.clone();
-    let ___temp0 = ___action186(text, ___0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action546(text, ___temp0, ___1, ___2, ___3, ___4, ___5, ___6)
-}
-
-#[allow(unused_variables)]
-fn ___action631<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<GrammarItem>, usize),
-    ___1: (usize, ::std::vec::Vec<Annotation>, usize),
-    ___2: (usize, Tok<'input>, usize),
-    ___3: (usize, Vec<TypeParameter>, usize),
-    ___4: (usize, Vec<WhereClause<TypeRef>>, usize),
-    ___5: (usize, Tok<'input>, usize),
-    ___6: (usize, ::std::vec::Vec<GrammarItem>, usize),
-) -> Grammar {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.0.clone();
-    let ___temp0 = ___action185(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action547(text, ___temp0, ___0, ___1, ___2, ___3, ___4, ___5, ___6)
-}
-
-#[allow(unused_variables)]
-fn ___action632<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<String>, usize),
-    ___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-    ___2: (usize, ::std::vec::Vec<Annotation>, usize),
-    ___3: (usize, Tok<'input>, usize),
-    ___4: (usize, Vec<TypeParameter>, usize),
-    ___5: (usize, Vec<WhereClause<TypeRef>>, usize),
-    ___6: (usize, Tok<'input>, usize),
-    ___7: (usize, ::std::vec::Vec<GrammarItem>, usize),
-) -> Grammar {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.2.clone();
-    let ___temp0 = ___action186(text, ___0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action547(text, ___temp0, ___1, ___2, ___3, ___4, ___5, ___6, ___7)
-}
-
-#[allow(unused_variables)]
-fn ___action633<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<GrammarItem>, usize),
-    ___1: (usize, ::std::vec::Vec<Annotation>, usize),
-    ___2: (usize, Tok<'input>, usize),
-    ___3: (usize, Vec<TypeParameter>, usize),
-    ___4: (usize, Tok<'input>, usize),
-    ___5: (usize, ::std::vec::Vec<GrammarItem>, usize),
-) -> Grammar {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.0.clone();
-    let ___temp0 = ___action185(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action548(text, ___temp0, ___0, ___1, ___2, ___3, ___4, ___5)
-}
-
-#[allow(unused_variables)]
-fn ___action634<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<String>, usize),
-    ___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-    ___2: (usize, ::std::vec::Vec<Annotation>, usize),
-    ___3: (usize, Tok<'input>, usize),
-    ___4: (usize, Vec<TypeParameter>, usize),
-    ___5: (usize, Tok<'input>, usize),
-    ___6: (usize, ::std::vec::Vec<GrammarItem>, usize),
-) -> Grammar {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.2.clone();
-    let ___temp0 = ___action186(text, ___0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action548(text, ___temp0, ___1, ___2, ___3, ___4, ___5, ___6)
-}
-
-#[allow(unused_variables)]
-fn ___action635<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<GrammarItem>, usize),
-    ___1: (usize, ::std::vec::Vec<Annotation>, usize),
-    ___2: (usize, Tok<'input>, usize),
-    ___3: (usize, Vec<WhereClause<TypeRef>>, usize),
-    ___4: (usize, Tok<'input>, usize),
-    ___5: (usize, ::std::vec::Vec<GrammarItem>, usize),
-) -> Grammar {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.0.clone();
-    let ___temp0 = ___action185(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action549(text, ___temp0, ___0, ___1, ___2, ___3, ___4, ___5)
-}
-
-#[allow(unused_variables)]
-fn ___action636<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<String>, usize),
-    ___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-    ___2: (usize, ::std::vec::Vec<Annotation>, usize),
-    ___3: (usize, Tok<'input>, usize),
-    ___4: (usize, Vec<WhereClause<TypeRef>>, usize),
-    ___5: (usize, Tok<'input>, usize),
-    ___6: (usize, ::std::vec::Vec<GrammarItem>, usize),
-) -> Grammar {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.2.clone();
-    let ___temp0 = ___action186(text, ___0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action549(text, ___temp0, ___1, ___2, ___3, ___4, ___5, ___6)
-}
-
-#[allow(unused_variables)]
-fn ___action637<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<GrammarItem>, usize),
-    ___1: (usize, ::std::vec::Vec<Annotation>, usize),
-    ___2: (usize, Tok<'input>, usize),
-    ___3: (usize, Tok<'input>, usize),
-    ___4: (usize, ::std::vec::Vec<GrammarItem>, usize),
-) -> Grammar {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.0.clone();
-    let ___temp0 = ___action185(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action550(text, ___temp0, ___0, ___1, ___2, ___3, ___4)
-}
-
-#[allow(unused_variables)]
-fn ___action638<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<String>, usize),
-    ___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-    ___2: (usize, ::std::vec::Vec<Annotation>, usize),
-    ___3: (usize, Tok<'input>, usize),
-    ___4: (usize, Tok<'input>, usize),
-    ___5: (usize, ::std::vec::Vec<GrammarItem>, usize),
-) -> Grammar {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.2.clone();
-    let ___temp0 = ___action186(text, ___0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action550(text, ___temp0, ___1, ___2, ___3, ___4, ___5)
-}
-
-#[allow(unused_variables)]
-fn ___action639<'input>(
-    text: &'input str,
-    ___lookbehind: &usize,
-    ___lookahead: &usize,
-) -> ExprSymbol {
-    let ___start0 = ___lookbehind.clone();
-    let ___end0 = ___lookahead.clone();
-    let ___temp0 = ___action136(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action50(text, ___temp0)
-}
-
-#[allow(unused_variables)]
-fn ___action640<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<Symbol>, usize),
-) -> ExprSymbol {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.2.clone();
-    let ___temp0 = ___action137(text, ___0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action50(text, ___temp0)
-}
-
-#[allow(unused_variables)]
-fn ___action641<'input>(text: &'input str, ___0: (usize, Symbol, usize)) -> Vec<Symbol> {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.2.clone();
-    let ___temp0 = ___action241(text, ___0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action373(text, ___temp0)
-}
-
-#[allow(unused_variables)]
-fn ___action642<'input>(
-    text: &'input str,
-    ___lookbehind: &usize,
-    ___lookahead: &usize,
-) -> Vec<Symbol> {
-    let ___start0 = ___lookbehind.clone();
-    let ___end0 = ___lookahead.clone();
-    let ___temp0 = ___action242(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action373(text, ___temp0)
-}
-
-#[allow(unused_variables)]
-fn ___action643<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<Symbol>, usize),
-    ___1: (usize, Symbol, usize),
-) -> Vec<Symbol> {
-    let ___start0 = ___1.0.clone();
-    let ___end0 = ___1.2.clone();
-    let ___temp0 = ___action241(text, ___1);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action374(text, ___0, ___temp0)
-}
-
-#[allow(unused_variables)]
-fn ___action644<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<Symbol>, usize),
-) -> Vec<Symbol> {
-    let ___start0 = ___0.2.clone();
-    let ___end0 = ___0.2.clone();
-    let ___temp0 = ___action242(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action374(text, ___0, ___temp0)
-}
-
-#[allow(unused_variables)]
-fn ___action645<'input>(
-    text: &'input str,
-    ___0: (usize, TypeBound<TypeRef>, usize),
-) -> Vec<TypeBound<TypeRef>> {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.2.clone();
-    let ___temp0 = ___action211(text, ___0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action377(text, ___temp0)
-}
-
-#[allow(unused_variables)]
-fn ___action646<'input>(
-    text: &'input str,
-    ___lookbehind: &usize,
-    ___lookahead: &usize,
-) -> Vec<TypeBound<TypeRef>> {
-    let ___start0 = ___lookbehind.clone();
-    let ___end0 = ___lookahead.clone();
-    let ___temp0 = ___action212(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action377(text, ___temp0)
-}
-
-#[allow(unused_variables)]
-fn ___action647<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<TypeBound<TypeRef>>, usize),
-    ___1: (usize, TypeBound<TypeRef>, usize),
-) -> Vec<TypeBound<TypeRef>> {
-    let ___start0 = ___1.0.clone();
-    let ___end0 = ___1.2.clone();
-    let ___temp0 = ___action211(text, ___1);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action378(text, ___0, ___temp0)
-}
-
-#[allow(unused_variables)]
-fn ___action648<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<TypeBound<TypeRef>>, usize),
-) -> Vec<TypeBound<TypeRef>> {
-    let ___start0 = ___0.2.clone();
-    let ___end0 = ___0.2.clone();
-    let ___temp0 = ___action212(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action378(text, ___0, ___temp0)
-}
-
-#[allow(unused_variables)]
-fn ___action649<'input>(
-    text: &'input str,
-    ___0: (usize, TypeBoundParameter<TypeRef>, usize),
-) -> Vec<TypeBoundParameter<TypeRef>> {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.2.clone();
-    let ___temp0 = ___action221(text, ___0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action381(text, ___temp0)
-}
-
-#[allow(unused_variables)]
-fn ___action650<'input>(
-    text: &'input str,
-    ___lookbehind: &usize,
-    ___lookahead: &usize,
-) -> Vec<TypeBoundParameter<TypeRef>> {
-    let ___start0 = ___lookbehind.clone();
-    let ___end0 = ___lookahead.clone();
-    let ___temp0 = ___action222(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action381(text, ___temp0)
-}
-
-#[allow(unused_variables)]
-fn ___action651<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<TypeBoundParameter<TypeRef>>, usize),
-    ___1: (usize, TypeBoundParameter<TypeRef>, usize),
-) -> Vec<TypeBoundParameter<TypeRef>> {
-    let ___start0 = ___1.0.clone();
-    let ___end0 = ___1.2.clone();
-    let ___temp0 = ___action221(text, ___1);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action382(text, ___0, ___temp0)
-}
-
-#[allow(unused_variables)]
-fn ___action652<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<TypeBoundParameter<TypeRef>>, usize),
-) -> Vec<TypeBoundParameter<TypeRef>> {
-    let ___start0 = ___0.2.clone();
-    let ___end0 = ___0.2.clone();
-    let ___temp0 = ___action222(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action382(text, ___0, ___temp0)
-}
-
-#[allow(unused_variables)]
-fn ___action653<'input>(
-    text: &'input str,
-    ___0: (usize, TypeParameter, usize),
-) -> Vec<TypeParameter> {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.2.clone();
-    let ___temp0 = ___action195(text, ___0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action385(text, ___temp0)
-}
-
-#[allow(unused_variables)]
-fn ___action654<'input>(
-    text: &'input str,
-    ___lookbehind: &usize,
-    ___lookahead: &usize,
-) -> Vec<TypeParameter> {
-    let ___start0 = ___lookbehind.clone();
-    let ___end0 = ___lookahead.clone();
-    let ___temp0 = ___action196(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action385(text, ___temp0)
-}
-
-#[allow(unused_variables)]
-fn ___action655<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<TypeParameter>, usize),
-    ___1: (usize, TypeParameter, usize),
-) -> Vec<TypeParameter> {
-    let ___start0 = ___1.0.clone();
-    let ___end0 = ___1.2.clone();
-    let ___temp0 = ___action195(text, ___1);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action386(text, ___0, ___temp0)
-}
-
-#[allow(unused_variables)]
-fn ___action656<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<TypeParameter>, usize),
-) -> Vec<TypeParameter> {
-    let ___start0 = ___0.2.clone();
-    let ___end0 = ___0.2.clone();
-    let ___temp0 = ___action196(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action386(text, ___0, ___temp0)
-}
-
-#[allow(unused_variables)]
-fn ___action657<'input>(text: &'input str, ___0: (usize, TypeRef, usize)) -> Vec<TypeRef> {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.2.clone();
-    let ___temp0 = ___action216(text, ___0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action389(text, ___temp0)
-}
-
-#[allow(unused_variables)]
-fn ___action658<'input>(
-    text: &'input str,
-    ___lookbehind: &usize,
-    ___lookahead: &usize,
-) -> Vec<TypeRef> {
-    let ___start0 = ___lookbehind.clone();
-    let ___end0 = ___lookahead.clone();
-    let ___temp0 = ___action217(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action389(text, ___temp0)
-}
-
-#[allow(unused_variables)]
-fn ___action659<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<TypeRef>, usize),
-    ___1: (usize, TypeRef, usize),
-) -> Vec<TypeRef> {
-    let ___start0 = ___1.0.clone();
-    let ___end0 = ___1.2.clone();
-    let ___temp0 = ___action216(text, ___1);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action390(text, ___0, ___temp0)
-}
-
-#[allow(unused_variables)]
-fn ___action660<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<TypeRef>, usize),
-) -> Vec<TypeRef> {
-    let ___start0 = ___0.2.clone();
-    let ___end0 = ___0.2.clone();
-    let ___temp0 = ___action217(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action390(text, ___0, ___temp0)
-}
-
-#[allow(unused_variables)]
-fn ___action661<'input>(text: &'input str, ___0: (usize, TypeRef, usize)) -> Vec<TypeRef> {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.2.clone();
-    let ___temp0 = ___action246(text, ___0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action393(text, ___temp0)
-}
-
-#[allow(unused_variables)]
-fn ___action662<'input>(
-    text: &'input str,
-    ___lookbehind: &usize,
-    ___lookahead: &usize,
-) -> Vec<TypeRef> {
-    let ___start0 = ___lookbehind.clone();
-    let ___end0 = ___lookahead.clone();
-    let ___temp0 = ___action247(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action393(text, ___temp0)
-}
-
-#[allow(unused_variables)]
-fn ___action663<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<TypeRef>, usize),
-    ___1: (usize, TypeRef, usize),
-) -> Vec<TypeRef> {
-    let ___start0 = ___1.0.clone();
-    let ___end0 = ___1.2.clone();
-    let ___temp0 = ___action246(text, ___1);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action394(text, ___0, ___temp0)
-}
-
-#[allow(unused_variables)]
-fn ___action664<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<TypeRef>, usize),
-) -> Vec<TypeRef> {
-    let ___start0 = ___0.2.clone();
-    let ___end0 = ___0.2.clone();
-    let ___temp0 = ___action247(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action394(text, ___0, ___temp0)
-}
-
-#[allow(unused_variables)]
-fn ___action665<'input>(
-    text: &'input str,
-    ___0: (usize, Tok<'input>, usize),
-    ___1: (usize, Vec<TypeParameter>, usize),
-    ___2: (usize, Vec<Parameter>, usize),
-    ___3: (usize, Vec<WhereClause<TypeRef>>, usize),
-    ___4: (usize, Tok<'input>, usize),
-) -> Grammar {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.0.clone();
-    let ___temp0 = ___action183(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action575(text, ___temp0, ___0, ___1, ___2, ___3, ___4)
-}
-
-#[allow(unused_variables)]
-fn ___action666<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<GrammarItem>, usize),
-    ___1: (usize, Tok<'input>, usize),
-    ___2: (usize, Vec<TypeParameter>, usize),
-    ___3: (usize, Vec<Parameter>, usize),
-    ___4: (usize, Vec<WhereClause<TypeRef>>, usize),
-    ___5: (usize, Tok<'input>, usize),
-) -> Grammar {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.2.clone();
-    let ___temp0 = ___action184(text, ___0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action575(text, ___temp0, ___1, ___2, ___3, ___4, ___5)
-}
-
-#[allow(unused_variables)]
-fn ___action667<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<String>, usize),
-    ___1: (usize, Tok<'input>, usize),
-    ___2: (usize, Vec<TypeParameter>, usize),
-    ___3: (usize, Vec<Parameter>, usize),
-    ___4: (usize, Vec<WhereClause<TypeRef>>, usize),
-    ___5: (usize, Tok<'input>, usize),
-) -> Grammar {
-    let ___start0 = ___0.2.clone();
-    let ___end0 = ___1.0.clone();
-    let ___temp0 = ___action183(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action576(text, ___0, ___temp0, ___1, ___2, ___3, ___4, ___5)
-}
-
-#[allow(unused_variables)]
-fn ___action668<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<String>, usize),
-    ___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-    ___2: (usize, Tok<'input>, usize),
-    ___3: (usize, Vec<TypeParameter>, usize),
-    ___4: (usize, Vec<Parameter>, usize),
-    ___5: (usize, Vec<WhereClause<TypeRef>>, usize),
-    ___6: (usize, Tok<'input>, usize),
-) -> Grammar {
-    let ___start0 = ___1.0.clone();
-    let ___end0 = ___1.2.clone();
-    let ___temp0 = ___action184(text, ___1);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action576(text, ___0, ___temp0, ___2, ___3, ___4, ___5, ___6)
-}
-
-#[allow(unused_variables)]
-fn ___action669<'input>(
-    text: &'input str,
-    ___0: (usize, Tok<'input>, usize),
-    ___1: (usize, Vec<TypeParameter>, usize),
-    ___2: (usize, Vec<Parameter>, usize),
-    ___3: (usize, Tok<'input>, usize),
-) -> Grammar {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.0.clone();
-    let ___temp0 = ___action183(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action577(text, ___temp0, ___0, ___1, ___2, ___3)
-}
-
-#[allow(unused_variables)]
-fn ___action670<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<GrammarItem>, usize),
-    ___1: (usize, Tok<'input>, usize),
-    ___2: (usize, Vec<TypeParameter>, usize),
-    ___3: (usize, Vec<Parameter>, usize),
-    ___4: (usize, Tok<'input>, usize),
-) -> Grammar {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.2.clone();
-    let ___temp0 = ___action184(text, ___0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action577(text, ___temp0, ___1, ___2, ___3, ___4)
-}
-
-#[allow(unused_variables)]
-fn ___action671<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<String>, usize),
-    ___1: (usize, Tok<'input>, usize),
-    ___2: (usize, Vec<TypeParameter>, usize),
-    ___3: (usize, Vec<Parameter>, usize),
-    ___4: (usize, Tok<'input>, usize),
-) -> Grammar {
-    let ___start0 = ___0.2.clone();
-    let ___end0 = ___1.0.clone();
-    let ___temp0 = ___action183(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action578(text, ___0, ___temp0, ___1, ___2, ___3, ___4)
-}
-
-#[allow(unused_variables)]
-fn ___action672<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<String>, usize),
-    ___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-    ___2: (usize, Tok<'input>, usize),
-    ___3: (usize, Vec<TypeParameter>, usize),
-    ___4: (usize, Vec<Parameter>, usize),
-    ___5: (usize, Tok<'input>, usize),
-) -> Grammar {
-    let ___start0 = ___1.0.clone();
-    let ___end0 = ___1.2.clone();
-    let ___temp0 = ___action184(text, ___1);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action578(text, ___0, ___temp0, ___2, ___3, ___4, ___5)
-}
-
-#[allow(unused_variables)]
-fn ___action673<'input>(
-    text: &'input str,
-    ___0: (usize, Tok<'input>, usize),
-    ___1: (usize, Vec<Parameter>, usize),
-    ___2: (usize, Vec<WhereClause<TypeRef>>, usize),
-    ___3: (usize, Tok<'input>, usize),
-) -> Grammar {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.0.clone();
-    let ___temp0 = ___action183(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action579(text, ___temp0, ___0, ___1, ___2, ___3)
-}
-
-#[allow(unused_variables)]
-fn ___action674<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<GrammarItem>, usize),
-    ___1: (usize, Tok<'input>, usize),
-    ___2: (usize, Vec<Parameter>, usize),
-    ___3: (usize, Vec<WhereClause<TypeRef>>, usize),
-    ___4: (usize, Tok<'input>, usize),
-) -> Grammar {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.2.clone();
-    let ___temp0 = ___action184(text, ___0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action579(text, ___temp0, ___1, ___2, ___3, ___4)
-}
-
-#[allow(unused_variables)]
-fn ___action675<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<String>, usize),
-    ___1: (usize, Tok<'input>, usize),
-    ___2: (usize, Vec<Parameter>, usize),
-    ___3: (usize, Vec<WhereClause<TypeRef>>, usize),
-    ___4: (usize, Tok<'input>, usize),
-) -> Grammar {
-    let ___start0 = ___0.2.clone();
-    let ___end0 = ___1.0.clone();
-    let ___temp0 = ___action183(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action580(text, ___0, ___temp0, ___1, ___2, ___3, ___4)
-}
-
-#[allow(unused_variables)]
-fn ___action676<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<String>, usize),
-    ___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-    ___2: (usize, Tok<'input>, usize),
-    ___3: (usize, Vec<Parameter>, usize),
-    ___4: (usize, Vec<WhereClause<TypeRef>>, usize),
-    ___5: (usize, Tok<'input>, usize),
-) -> Grammar {
-    let ___start0 = ___1.0.clone();
-    let ___end0 = ___1.2.clone();
-    let ___temp0 = ___action184(text, ___1);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action580(text, ___0, ___temp0, ___2, ___3, ___4, ___5)
-}
-
-#[allow(unused_variables)]
-fn ___action677<'input>(
-    text: &'input str,
-    ___0: (usize, Tok<'input>, usize),
-    ___1: (usize, Vec<Parameter>, usize),
-    ___2: (usize, Tok<'input>, usize),
-) -> Grammar {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.0.clone();
-    let ___temp0 = ___action183(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action581(text, ___temp0, ___0, ___1, ___2)
-}
-
-#[allow(unused_variables)]
-fn ___action678<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<GrammarItem>, usize),
-    ___1: (usize, Tok<'input>, usize),
-    ___2: (usize, Vec<Parameter>, usize),
-    ___3: (usize, Tok<'input>, usize),
-) -> Grammar {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.2.clone();
-    let ___temp0 = ___action184(text, ___0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action581(text, ___temp0, ___1, ___2, ___3)
-}
-
-#[allow(unused_variables)]
-fn ___action679<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<String>, usize),
-    ___1: (usize, Tok<'input>, usize),
-    ___2: (usize, Vec<Parameter>, usize),
-    ___3: (usize, Tok<'input>, usize),
-) -> Grammar {
-    let ___start0 = ___0.2.clone();
-    let ___end0 = ___1.0.clone();
-    let ___temp0 = ___action183(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action582(text, ___0, ___temp0, ___1, ___2, ___3)
-}
-
-#[allow(unused_variables)]
-fn ___action680<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<String>, usize),
-    ___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-    ___2: (usize, Tok<'input>, usize),
-    ___3: (usize, Vec<Parameter>, usize),
-    ___4: (usize, Tok<'input>, usize),
-) -> Grammar {
-    let ___start0 = ___1.0.clone();
-    let ___end0 = ___1.2.clone();
-    let ___temp0 = ___action184(text, ___1);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action582(text, ___0, ___temp0, ___2, ___3, ___4)
-}
-
-#[allow(unused_variables)]
-fn ___action681<'input>(
-    text: &'input str,
-    ___0: (usize, Tok<'input>, usize),
-    ___1: (usize, Vec<TypeParameter>, usize),
-    ___2: (usize, Vec<WhereClause<TypeRef>>, usize),
-    ___3: (usize, Tok<'input>, usize),
-) -> Grammar {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.0.clone();
-    let ___temp0 = ___action183(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action583(text, ___temp0, ___0, ___1, ___2, ___3)
-}
-
-#[allow(unused_variables)]
-fn ___action682<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<GrammarItem>, usize),
-    ___1: (usize, Tok<'input>, usize),
-    ___2: (usize, Vec<TypeParameter>, usize),
-    ___3: (usize, Vec<WhereClause<TypeRef>>, usize),
-    ___4: (usize, Tok<'input>, usize),
-) -> Grammar {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.2.clone();
-    let ___temp0 = ___action184(text, ___0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action583(text, ___temp0, ___1, ___2, ___3, ___4)
-}
-
-#[allow(unused_variables)]
-fn ___action683<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<String>, usize),
-    ___1: (usize, Tok<'input>, usize),
-    ___2: (usize, Vec<TypeParameter>, usize),
-    ___3: (usize, Vec<WhereClause<TypeRef>>, usize),
-    ___4: (usize, Tok<'input>, usize),
-) -> Grammar {
-    let ___start0 = ___0.2.clone();
-    let ___end0 = ___1.0.clone();
-    let ___temp0 = ___action183(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action584(text, ___0, ___temp0, ___1, ___2, ___3, ___4)
-}
-
-#[allow(unused_variables)]
-fn ___action684<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<String>, usize),
-    ___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-    ___2: (usize, Tok<'input>, usize),
-    ___3: (usize, Vec<TypeParameter>, usize),
-    ___4: (usize, Vec<WhereClause<TypeRef>>, usize),
-    ___5: (usize, Tok<'input>, usize),
-) -> Grammar {
-    let ___start0 = ___1.0.clone();
-    let ___end0 = ___1.2.clone();
-    let ___temp0 = ___action184(text, ___1);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action584(text, ___0, ___temp0, ___2, ___3, ___4, ___5)
-}
-
-#[allow(unused_variables)]
-fn ___action685<'input>(
-    text: &'input str,
-    ___0: (usize, Tok<'input>, usize),
-    ___1: (usize, Vec<TypeParameter>, usize),
-    ___2: (usize, Tok<'input>, usize),
-) -> Grammar {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.0.clone();
-    let ___temp0 = ___action183(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action585(text, ___temp0, ___0, ___1, ___2)
-}
-
-#[allow(unused_variables)]
-fn ___action686<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<GrammarItem>, usize),
-    ___1: (usize, Tok<'input>, usize),
-    ___2: (usize, Vec<TypeParameter>, usize),
-    ___3: (usize, Tok<'input>, usize),
-) -> Grammar {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.2.clone();
-    let ___temp0 = ___action184(text, ___0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action585(text, ___temp0, ___1, ___2, ___3)
-}
-
-#[allow(unused_variables)]
-fn ___action687<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<String>, usize),
-    ___1: (usize, Tok<'input>, usize),
-    ___2: (usize, Vec<TypeParameter>, usize),
-    ___3: (usize, Tok<'input>, usize),
-) -> Grammar {
-    let ___start0 = ___0.2.clone();
-    let ___end0 = ___1.0.clone();
-    let ___temp0 = ___action183(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action586(text, ___0, ___temp0, ___1, ___2, ___3)
-}
-
-#[allow(unused_variables)]
-fn ___action688<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<String>, usize),
-    ___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-    ___2: (usize, Tok<'input>, usize),
-    ___3: (usize, Vec<TypeParameter>, usize),
-    ___4: (usize, Tok<'input>, usize),
-) -> Grammar {
-    let ___start0 = ___1.0.clone();
-    let ___end0 = ___1.2.clone();
-    let ___temp0 = ___action184(text, ___1);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action586(text, ___0, ___temp0, ___2, ___3, ___4)
-}
-
-#[allow(unused_variables)]
-fn ___action689<'input>(
-    text: &'input str,
-    ___0: (usize, Tok<'input>, usize),
-    ___1: (usize, Vec<WhereClause<TypeRef>>, usize),
-    ___2: (usize, Tok<'input>, usize),
-) -> Grammar {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.0.clone();
-    let ___temp0 = ___action183(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action587(text, ___temp0, ___0, ___1, ___2)
-}
-
-#[allow(unused_variables)]
-fn ___action690<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<GrammarItem>, usize),
-    ___1: (usize, Tok<'input>, usize),
-    ___2: (usize, Vec<WhereClause<TypeRef>>, usize),
-    ___3: (usize, Tok<'input>, usize),
-) -> Grammar {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.2.clone();
-    let ___temp0 = ___action184(text, ___0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action587(text, ___temp0, ___1, ___2, ___3)
-}
-
-#[allow(unused_variables)]
-fn ___action691<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<String>, usize),
-    ___1: (usize, Tok<'input>, usize),
-    ___2: (usize, Vec<WhereClause<TypeRef>>, usize),
-    ___3: (usize, Tok<'input>, usize),
-) -> Grammar {
-    let ___start0 = ___0.2.clone();
-    let ___end0 = ___1.0.clone();
-    let ___temp0 = ___action183(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action588(text, ___0, ___temp0, ___1, ___2, ___3)
-}
-
-#[allow(unused_variables)]
-fn ___action692<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<String>, usize),
-    ___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-    ___2: (usize, Tok<'input>, usize),
-    ___3: (usize, Vec<WhereClause<TypeRef>>, usize),
-    ___4: (usize, Tok<'input>, usize),
-) -> Grammar {
-    let ___start0 = ___1.0.clone();
-    let ___end0 = ___1.2.clone();
-    let ___temp0 = ___action184(text, ___1);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action588(text, ___0, ___temp0, ___2, ___3, ___4)
-}
-
-#[allow(unused_variables)]
-fn ___action693<'input>(
-    text: &'input str,
-    ___0: (usize, Tok<'input>, usize),
-    ___1: (usize, Tok<'input>, usize),
-) -> Grammar {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.0.clone();
-    let ___temp0 = ___action183(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action589(text, ___temp0, ___0, ___1)
-}
-
-#[allow(unused_variables)]
-fn ___action694<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<GrammarItem>, usize),
-    ___1: (usize, Tok<'input>, usize),
-    ___2: (usize, Tok<'input>, usize),
-) -> Grammar {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.2.clone();
-    let ___temp0 = ___action184(text, ___0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action589(text, ___temp0, ___1, ___2)
-}
-
-#[allow(unused_variables)]
-fn ___action695<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<String>, usize),
-    ___1: (usize, Tok<'input>, usize),
-    ___2: (usize, Tok<'input>, usize),
-) -> Grammar {
-    let ___start0 = ___0.2.clone();
-    let ___end0 = ___1.0.clone();
-    let ___temp0 = ___action183(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action590(text, ___0, ___temp0, ___1, ___2)
-}
-
-#[allow(unused_variables)]
-fn ___action696<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<String>, usize),
-    ___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-    ___2: (usize, Tok<'input>, usize),
-    ___3: (usize, Tok<'input>, usize),
-) -> Grammar {
-    let ___start0 = ___1.0.clone();
-    let ___end0 = ___1.2.clone();
-    let ___temp0 = ___action184(text, ___1);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action590(text, ___0, ___temp0, ___2, ___3)
-}
-
-#[allow(unused_variables)]
-fn ___action697<'input>(
-    text: &'input str,
-    ___0: (usize, Tok<'input>, usize),
-    ___1: (usize, Vec<TypeParameter>, usize),
-    ___2: (usize, Vec<Parameter>, usize),
-    ___3: (usize, Vec<WhereClause<TypeRef>>, usize),
-    ___4: (usize, Tok<'input>, usize),
-    ___5: (usize, ::std::vec::Vec<GrammarItem>, usize),
-) -> Grammar {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.0.clone();
-    let ___temp0 = ___action183(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action591(text, ___temp0, ___0, ___1, ___2, ___3, ___4, ___5)
-}
-
-#[allow(unused_variables)]
-fn ___action698<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<GrammarItem>, usize),
-    ___1: (usize, Tok<'input>, usize),
-    ___2: (usize, Vec<TypeParameter>, usize),
-    ___3: (usize, Vec<Parameter>, usize),
-    ___4: (usize, Vec<WhereClause<TypeRef>>, usize),
-    ___5: (usize, Tok<'input>, usize),
-    ___6: (usize, ::std::vec::Vec<GrammarItem>, usize),
-) -> Grammar {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.2.clone();
-    let ___temp0 = ___action184(text, ___0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action591(text, ___temp0, ___1, ___2, ___3, ___4, ___5, ___6)
-}
-
-#[allow(unused_variables)]
-fn ___action699<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<String>, usize),
-    ___1: (usize, Tok<'input>, usize),
-    ___2: (usize, Vec<TypeParameter>, usize),
-    ___3: (usize, Vec<Parameter>, usize),
-    ___4: (usize, Vec<WhereClause<TypeRef>>, usize),
-    ___5: (usize, Tok<'input>, usize),
-    ___6: (usize, ::std::vec::Vec<GrammarItem>, usize),
-) -> Grammar {
-    let ___start0 = ___0.2.clone();
-    let ___end0 = ___1.0.clone();
-    let ___temp0 = ___action183(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action592(text, ___0, ___temp0, ___1, ___2, ___3, ___4, ___5, ___6)
-}
-
-#[allow(unused_variables)]
-fn ___action700<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<String>, usize),
-    ___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-    ___2: (usize, Tok<'input>, usize),
-    ___3: (usize, Vec<TypeParameter>, usize),
-    ___4: (usize, Vec<Parameter>, usize),
-    ___5: (usize, Vec<WhereClause<TypeRef>>, usize),
-    ___6: (usize, Tok<'input>, usize),
-    ___7: (usize, ::std::vec::Vec<GrammarItem>, usize),
-) -> Grammar {
-    let ___start0 = ___1.0.clone();
-    let ___end0 = ___1.2.clone();
-    let ___temp0 = ___action184(text, ___1);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action592(text, ___0, ___temp0, ___2, ___3, ___4, ___5, ___6, ___7)
-}
-
-#[allow(unused_variables)]
-fn ___action701<'input>(
-    text: &'input str,
-    ___0: (usize, Tok<'input>, usize),
-    ___1: (usize, Vec<TypeParameter>, usize),
-    ___2: (usize, Vec<Parameter>, usize),
-    ___3: (usize, Tok<'input>, usize),
-    ___4: (usize, ::std::vec::Vec<GrammarItem>, usize),
-) -> Grammar {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.0.clone();
-    let ___temp0 = ___action183(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action593(text, ___temp0, ___0, ___1, ___2, ___3, ___4)
-}
-
-#[allow(unused_variables)]
-fn ___action702<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<GrammarItem>, usize),
-    ___1: (usize, Tok<'input>, usize),
-    ___2: (usize, Vec<TypeParameter>, usize),
-    ___3: (usize, Vec<Parameter>, usize),
-    ___4: (usize, Tok<'input>, usize),
-    ___5: (usize, ::std::vec::Vec<GrammarItem>, usize),
-) -> Grammar {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.2.clone();
-    let ___temp0 = ___action184(text, ___0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action593(text, ___temp0, ___1, ___2, ___3, ___4, ___5)
-}
-
-#[allow(unused_variables)]
-fn ___action703<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<String>, usize),
-    ___1: (usize, Tok<'input>, usize),
-    ___2: (usize, Vec<TypeParameter>, usize),
-    ___3: (usize, Vec<Parameter>, usize),
-    ___4: (usize, Tok<'input>, usize),
-    ___5: (usize, ::std::vec::Vec<GrammarItem>, usize),
-) -> Grammar {
-    let ___start0 = ___0.2.clone();
-    let ___end0 = ___1.0.clone();
-    let ___temp0 = ___action183(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action594(text, ___0, ___temp0, ___1, ___2, ___3, ___4, ___5)
-}
-
-#[allow(unused_variables)]
-fn ___action704<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<String>, usize),
-    ___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-    ___2: (usize, Tok<'input>, usize),
-    ___3: (usize, Vec<TypeParameter>, usize),
-    ___4: (usize, Vec<Parameter>, usize),
-    ___5: (usize, Tok<'input>, usize),
-    ___6: (usize, ::std::vec::Vec<GrammarItem>, usize),
-) -> Grammar {
-    let ___start0 = ___1.0.clone();
-    let ___end0 = ___1.2.clone();
-    let ___temp0 = ___action184(text, ___1);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action594(text, ___0, ___temp0, ___2, ___3, ___4, ___5, ___6)
-}
-
-#[allow(unused_variables)]
-fn ___action705<'input>(
-    text: &'input str,
-    ___0: (usize, Tok<'input>, usize),
-    ___1: (usize, Vec<Parameter>, usize),
-    ___2: (usize, Vec<WhereClause<TypeRef>>, usize),
-    ___3: (usize, Tok<'input>, usize),
-    ___4: (usize, ::std::vec::Vec<GrammarItem>, usize),
-) -> Grammar {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.0.clone();
-    let ___temp0 = ___action183(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action595(text, ___temp0, ___0, ___1, ___2, ___3, ___4)
-}
-
-#[allow(unused_variables)]
-fn ___action706<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<GrammarItem>, usize),
-    ___1: (usize, Tok<'input>, usize),
-    ___2: (usize, Vec<Parameter>, usize),
-    ___3: (usize, Vec<WhereClause<TypeRef>>, usize),
-    ___4: (usize, Tok<'input>, usize),
-    ___5: (usize, ::std::vec::Vec<GrammarItem>, usize),
-) -> Grammar {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.2.clone();
-    let ___temp0 = ___action184(text, ___0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action595(text, ___temp0, ___1, ___2, ___3, ___4, ___5)
-}
-
-#[allow(unused_variables)]
-fn ___action707<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<String>, usize),
-    ___1: (usize, Tok<'input>, usize),
-    ___2: (usize, Vec<Parameter>, usize),
-    ___3: (usize, Vec<WhereClause<TypeRef>>, usize),
-    ___4: (usize, Tok<'input>, usize),
-    ___5: (usize, ::std::vec::Vec<GrammarItem>, usize),
-) -> Grammar {
-    let ___start0 = ___0.2.clone();
-    let ___end0 = ___1.0.clone();
-    let ___temp0 = ___action183(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action596(text, ___0, ___temp0, ___1, ___2, ___3, ___4, ___5)
-}
-
-#[allow(unused_variables)]
-fn ___action708<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<String>, usize),
-    ___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-    ___2: (usize, Tok<'input>, usize),
-    ___3: (usize, Vec<Parameter>, usize),
-    ___4: (usize, Vec<WhereClause<TypeRef>>, usize),
-    ___5: (usize, Tok<'input>, usize),
-    ___6: (usize, ::std::vec::Vec<GrammarItem>, usize),
-) -> Grammar {
-    let ___start0 = ___1.0.clone();
-    let ___end0 = ___1.2.clone();
-    let ___temp0 = ___action184(text, ___1);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action596(text, ___0, ___temp0, ___2, ___3, ___4, ___5, ___6)
-}
-
-#[allow(unused_variables)]
-fn ___action709<'input>(
-    text: &'input str,
-    ___0: (usize, Tok<'input>, usize),
-    ___1: (usize, Vec<Parameter>, usize),
-    ___2: (usize, Tok<'input>, usize),
-    ___3: (usize, ::std::vec::Vec<GrammarItem>, usize),
-) -> Grammar {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.0.clone();
-    let ___temp0 = ___action183(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action597(text, ___temp0, ___0, ___1, ___2, ___3)
-}
-
-#[allow(unused_variables)]
-fn ___action710<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<GrammarItem>, usize),
-    ___1: (usize, Tok<'input>, usize),
-    ___2: (usize, Vec<Parameter>, usize),
-    ___3: (usize, Tok<'input>, usize),
-    ___4: (usize, ::std::vec::Vec<GrammarItem>, usize),
-) -> Grammar {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.2.clone();
-    let ___temp0 = ___action184(text, ___0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action597(text, ___temp0, ___1, ___2, ___3, ___4)
-}
-
-#[allow(unused_variables)]
-fn ___action711<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<String>, usize),
-    ___1: (usize, Tok<'input>, usize),
-    ___2: (usize, Vec<Parameter>, usize),
-    ___3: (usize, Tok<'input>, usize),
-    ___4: (usize, ::std::vec::Vec<GrammarItem>, usize),
-) -> Grammar {
-    let ___start0 = ___0.2.clone();
-    let ___end0 = ___1.0.clone();
-    let ___temp0 = ___action183(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action598(text, ___0, ___temp0, ___1, ___2, ___3, ___4)
-}
-
-#[allow(unused_variables)]
-fn ___action712<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<String>, usize),
-    ___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-    ___2: (usize, Tok<'input>, usize),
-    ___3: (usize, Vec<Parameter>, usize),
-    ___4: (usize, Tok<'input>, usize),
-    ___5: (usize, ::std::vec::Vec<GrammarItem>, usize),
-) -> Grammar {
-    let ___start0 = ___1.0.clone();
-    let ___end0 = ___1.2.clone();
-    let ___temp0 = ___action184(text, ___1);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action598(text, ___0, ___temp0, ___2, ___3, ___4, ___5)
-}
-
-#[allow(unused_variables)]
-fn ___action713<'input>(
-    text: &'input str,
-    ___0: (usize, Tok<'input>, usize),
-    ___1: (usize, Vec<TypeParameter>, usize),
-    ___2: (usize, Vec<WhereClause<TypeRef>>, usize),
-    ___3: (usize, Tok<'input>, usize),
-    ___4: (usize, ::std::vec::Vec<GrammarItem>, usize),
-) -> Grammar {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.0.clone();
-    let ___temp0 = ___action183(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action599(text, ___temp0, ___0, ___1, ___2, ___3, ___4)
-}
-
-#[allow(unused_variables)]
-fn ___action714<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<GrammarItem>, usize),
-    ___1: (usize, Tok<'input>, usize),
-    ___2: (usize, Vec<TypeParameter>, usize),
-    ___3: (usize, Vec<WhereClause<TypeRef>>, usize),
-    ___4: (usize, Tok<'input>, usize),
-    ___5: (usize, ::std::vec::Vec<GrammarItem>, usize),
-) -> Grammar {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.2.clone();
-    let ___temp0 = ___action184(text, ___0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action599(text, ___temp0, ___1, ___2, ___3, ___4, ___5)
-}
-
-#[allow(unused_variables)]
-fn ___action715<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<String>, usize),
-    ___1: (usize, Tok<'input>, usize),
-    ___2: (usize, Vec<TypeParameter>, usize),
-    ___3: (usize, Vec<WhereClause<TypeRef>>, usize),
-    ___4: (usize, Tok<'input>, usize),
-    ___5: (usize, ::std::vec::Vec<GrammarItem>, usize),
-) -> Grammar {
-    let ___start0 = ___0.2.clone();
-    let ___end0 = ___1.0.clone();
-    let ___temp0 = ___action183(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action600(text, ___0, ___temp0, ___1, ___2, ___3, ___4, ___5)
-}
-
-#[allow(unused_variables)]
-fn ___action716<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<String>, usize),
-    ___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-    ___2: (usize, Tok<'input>, usize),
-    ___3: (usize, Vec<TypeParameter>, usize),
-    ___4: (usize, Vec<WhereClause<TypeRef>>, usize),
-    ___5: (usize, Tok<'input>, usize),
-    ___6: (usize, ::std::vec::Vec<GrammarItem>, usize),
-) -> Grammar {
-    let ___start0 = ___1.0.clone();
-    let ___end0 = ___1.2.clone();
-    let ___temp0 = ___action184(text, ___1);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action600(text, ___0, ___temp0, ___2, ___3, ___4, ___5, ___6)
-}
-
-#[allow(unused_variables)]
-fn ___action717<'input>(
-    text: &'input str,
-    ___0: (usize, Tok<'input>, usize),
-    ___1: (usize, Vec<TypeParameter>, usize),
-    ___2: (usize, Tok<'input>, usize),
-    ___3: (usize, ::std::vec::Vec<GrammarItem>, usize),
-) -> Grammar {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.0.clone();
-    let ___temp0 = ___action183(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action601(text, ___temp0, ___0, ___1, ___2, ___3)
-}
-
-#[allow(unused_variables)]
-fn ___action718<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<GrammarItem>, usize),
-    ___1: (usize, Tok<'input>, usize),
-    ___2: (usize, Vec<TypeParameter>, usize),
-    ___3: (usize, Tok<'input>, usize),
-    ___4: (usize, ::std::vec::Vec<GrammarItem>, usize),
-) -> Grammar {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.2.clone();
-    let ___temp0 = ___action184(text, ___0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action601(text, ___temp0, ___1, ___2, ___3, ___4)
-}
-
-#[allow(unused_variables)]
-fn ___action719<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<String>, usize),
-    ___1: (usize, Tok<'input>, usize),
-    ___2: (usize, Vec<TypeParameter>, usize),
-    ___3: (usize, Tok<'input>, usize),
-    ___4: (usize, ::std::vec::Vec<GrammarItem>, usize),
-) -> Grammar {
-    let ___start0 = ___0.2.clone();
-    let ___end0 = ___1.0.clone();
-    let ___temp0 = ___action183(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action602(text, ___0, ___temp0, ___1, ___2, ___3, ___4)
-}
-
-#[allow(unused_variables)]
-fn ___action720<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<String>, usize),
-    ___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-    ___2: (usize, Tok<'input>, usize),
-    ___3: (usize, Vec<TypeParameter>, usize),
-    ___4: (usize, Tok<'input>, usize),
-    ___5: (usize, ::std::vec::Vec<GrammarItem>, usize),
-) -> Grammar {
-    let ___start0 = ___1.0.clone();
-    let ___end0 = ___1.2.clone();
-    let ___temp0 = ___action184(text, ___1);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action602(text, ___0, ___temp0, ___2, ___3, ___4, ___5)
-}
-
-#[allow(unused_variables)]
-fn ___action721<'input>(
-    text: &'input str,
-    ___0: (usize, Tok<'input>, usize),
-    ___1: (usize, Vec<WhereClause<TypeRef>>, usize),
-    ___2: (usize, Tok<'input>, usize),
-    ___3: (usize, ::std::vec::Vec<GrammarItem>, usize),
-) -> Grammar {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.0.clone();
-    let ___temp0 = ___action183(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action603(text, ___temp0, ___0, ___1, ___2, ___3)
-}
-
-#[allow(unused_variables)]
-fn ___action722<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<GrammarItem>, usize),
-    ___1: (usize, Tok<'input>, usize),
-    ___2: (usize, Vec<WhereClause<TypeRef>>, usize),
-    ___3: (usize, Tok<'input>, usize),
-    ___4: (usize, ::std::vec::Vec<GrammarItem>, usize),
-) -> Grammar {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.2.clone();
-    let ___temp0 = ___action184(text, ___0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action603(text, ___temp0, ___1, ___2, ___3, ___4)
-}
-
-#[allow(unused_variables)]
-fn ___action723<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<String>, usize),
-    ___1: (usize, Tok<'input>, usize),
-    ___2: (usize, Vec<WhereClause<TypeRef>>, usize),
-    ___3: (usize, Tok<'input>, usize),
-    ___4: (usize, ::std::vec::Vec<GrammarItem>, usize),
-) -> Grammar {
-    let ___start0 = ___0.2.clone();
-    let ___end0 = ___1.0.clone();
-    let ___temp0 = ___action183(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action604(text, ___0, ___temp0, ___1, ___2, ___3, ___4)
-}
-
-#[allow(unused_variables)]
-fn ___action724<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<String>, usize),
-    ___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-    ___2: (usize, Tok<'input>, usize),
-    ___3: (usize, Vec<WhereClause<TypeRef>>, usize),
-    ___4: (usize, Tok<'input>, usize),
-    ___5: (usize, ::std::vec::Vec<GrammarItem>, usize),
-) -> Grammar {
-    let ___start0 = ___1.0.clone();
-    let ___end0 = ___1.2.clone();
-    let ___temp0 = ___action184(text, ___1);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action604(text, ___0, ___temp0, ___2, ___3, ___4, ___5)
-}
-
-#[allow(unused_variables)]
-fn ___action725<'input>(
-    text: &'input str,
-    ___0: (usize, Tok<'input>, usize),
-    ___1: (usize, Tok<'input>, usize),
-    ___2: (usize, ::std::vec::Vec<GrammarItem>, usize),
-) -> Grammar {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.0.clone();
-    let ___temp0 = ___action183(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action605(text, ___temp0, ___0, ___1, ___2)
-}
-
-#[allow(unused_variables)]
-fn ___action726<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<GrammarItem>, usize),
-    ___1: (usize, Tok<'input>, usize),
-    ___2: (usize, Tok<'input>, usize),
-    ___3: (usize, ::std::vec::Vec<GrammarItem>, usize),
-) -> Grammar {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.2.clone();
-    let ___temp0 = ___action184(text, ___0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action605(text, ___temp0, ___1, ___2, ___3)
-}
-
-#[allow(unused_variables)]
-fn ___action727<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<String>, usize),
-    ___1: (usize, Tok<'input>, usize),
-    ___2: (usize, Tok<'input>, usize),
-    ___3: (usize, ::std::vec::Vec<GrammarItem>, usize),
-) -> Grammar {
-    let ___start0 = ___0.2.clone();
-    let ___end0 = ___1.0.clone();
-    let ___temp0 = ___action183(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action606(text, ___0, ___temp0, ___1, ___2, ___3)
-}
-
-#[allow(unused_variables)]
-fn ___action728<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<String>, usize),
-    ___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-    ___2: (usize, Tok<'input>, usize),
-    ___3: (usize, Tok<'input>, usize),
-    ___4: (usize, ::std::vec::Vec<GrammarItem>, usize),
-) -> Grammar {
-    let ___start0 = ___1.0.clone();
-    let ___end0 = ___1.2.clone();
-    let ___temp0 = ___action184(text, ___1);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action606(text, ___0, ___temp0, ___2, ___3, ___4)
-}
-
-#[allow(unused_variables)]
-fn ___action729<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<Annotation>, usize),
-    ___1: (usize, Tok<'input>, usize),
-    ___2: (usize, Vec<TypeParameter>, usize),
-    ___3: (usize, Vec<Parameter>, usize),
-    ___4: (usize, Vec<WhereClause<TypeRef>>, usize),
-    ___5: (usize, Tok<'input>, usize),
-) -> Grammar {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.0.clone();
-    let ___temp0 = ___action183(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action607(text, ___temp0, ___0, ___1, ___2, ___3, ___4, ___5)
-}
-
-#[allow(unused_variables)]
-fn ___action730<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<GrammarItem>, usize),
-    ___1: (usize, ::std::vec::Vec<Annotation>, usize),
-    ___2: (usize, Tok<'input>, usize),
-    ___3: (usize, Vec<TypeParameter>, usize),
-    ___4: (usize, Vec<Parameter>, usize),
-    ___5: (usize, Vec<WhereClause<TypeRef>>, usize),
-    ___6: (usize, Tok<'input>, usize),
-) -> Grammar {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.2.clone();
-    let ___temp0 = ___action184(text, ___0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action607(text, ___temp0, ___1, ___2, ___3, ___4, ___5, ___6)
-}
-
-#[allow(unused_variables)]
-fn ___action731<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<String>, usize),
-    ___1: (usize, ::std::vec::Vec<Annotation>, usize),
-    ___2: (usize, Tok<'input>, usize),
-    ___3: (usize, Vec<TypeParameter>, usize),
-    ___4: (usize, Vec<Parameter>, usize),
-    ___5: (usize, Vec<WhereClause<TypeRef>>, usize),
-    ___6: (usize, Tok<'input>, usize),
-) -> Grammar {
-    let ___start0 = ___0.2.clone();
-    let ___end0 = ___1.0.clone();
-    let ___temp0 = ___action183(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action608(text, ___0, ___temp0, ___1, ___2, ___3, ___4, ___5, ___6)
-}
-
-#[allow(unused_variables)]
-fn ___action732<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<String>, usize),
-    ___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-    ___2: (usize, ::std::vec::Vec<Annotation>, usize),
-    ___3: (usize, Tok<'input>, usize),
-    ___4: (usize, Vec<TypeParameter>, usize),
-    ___5: (usize, Vec<Parameter>, usize),
-    ___6: (usize, Vec<WhereClause<TypeRef>>, usize),
-    ___7: (usize, Tok<'input>, usize),
-) -> Grammar {
-    let ___start0 = ___1.0.clone();
-    let ___end0 = ___1.2.clone();
-    let ___temp0 = ___action184(text, ___1);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action608(text, ___0, ___temp0, ___2, ___3, ___4, ___5, ___6, ___7)
-}
-
-#[allow(unused_variables)]
-fn ___action733<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<Annotation>, usize),
-    ___1: (usize, Tok<'input>, usize),
-    ___2: (usize, Vec<TypeParameter>, usize),
-    ___3: (usize, Vec<Parameter>, usize),
-    ___4: (usize, Tok<'input>, usize),
-) -> Grammar {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.0.clone();
-    let ___temp0 = ___action183(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action609(text, ___temp0, ___0, ___1, ___2, ___3, ___4)
-}
-
-#[allow(unused_variables)]
-fn ___action734<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<GrammarItem>, usize),
-    ___1: (usize, ::std::vec::Vec<Annotation>, usize),
-    ___2: (usize, Tok<'input>, usize),
-    ___3: (usize, Vec<TypeParameter>, usize),
-    ___4: (usize, Vec<Parameter>, usize),
-    ___5: (usize, Tok<'input>, usize),
-) -> Grammar {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.2.clone();
-    let ___temp0 = ___action184(text, ___0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action609(text, ___temp0, ___1, ___2, ___3, ___4, ___5)
-}
-
-#[allow(unused_variables)]
-fn ___action735<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<String>, usize),
-    ___1: (usize, ::std::vec::Vec<Annotation>, usize),
-    ___2: (usize, Tok<'input>, usize),
-    ___3: (usize, Vec<TypeParameter>, usize),
-    ___4: (usize, Vec<Parameter>, usize),
-    ___5: (usize, Tok<'input>, usize),
-) -> Grammar {
-    let ___start0 = ___0.2.clone();
-    let ___end0 = ___1.0.clone();
-    let ___temp0 = ___action183(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action610(text, ___0, ___temp0, ___1, ___2, ___3, ___4, ___5)
-}
-
-#[allow(unused_variables)]
-fn ___action736<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<String>, usize),
-    ___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-    ___2: (usize, ::std::vec::Vec<Annotation>, usize),
-    ___3: (usize, Tok<'input>, usize),
-    ___4: (usize, Vec<TypeParameter>, usize),
-    ___5: (usize, Vec<Parameter>, usize),
-    ___6: (usize, Tok<'input>, usize),
-) -> Grammar {
-    let ___start0 = ___1.0.clone();
-    let ___end0 = ___1.2.clone();
-    let ___temp0 = ___action184(text, ___1);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action610(text, ___0, ___temp0, ___2, ___3, ___4, ___5, ___6)
-}
-
-#[allow(unused_variables)]
-fn ___action737<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<Annotation>, usize),
-    ___1: (usize, Tok<'input>, usize),
-    ___2: (usize, Vec<Parameter>, usize),
-    ___3: (usize, Vec<WhereClause<TypeRef>>, usize),
-    ___4: (usize, Tok<'input>, usize),
-) -> Grammar {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.0.clone();
-    let ___temp0 = ___action183(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action611(text, ___temp0, ___0, ___1, ___2, ___3, ___4)
-}
-
-#[allow(unused_variables)]
-fn ___action738<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<GrammarItem>, usize),
-    ___1: (usize, ::std::vec::Vec<Annotation>, usize),
-    ___2: (usize, Tok<'input>, usize),
-    ___3: (usize, Vec<Parameter>, usize),
-    ___4: (usize, Vec<WhereClause<TypeRef>>, usize),
-    ___5: (usize, Tok<'input>, usize),
-) -> Grammar {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.2.clone();
-    let ___temp0 = ___action184(text, ___0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action611(text, ___temp0, ___1, ___2, ___3, ___4, ___5)
-}
-
-#[allow(unused_variables)]
-fn ___action739<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<String>, usize),
-    ___1: (usize, ::std::vec::Vec<Annotation>, usize),
-    ___2: (usize, Tok<'input>, usize),
-    ___3: (usize, Vec<Parameter>, usize),
-    ___4: (usize, Vec<WhereClause<TypeRef>>, usize),
-    ___5: (usize, Tok<'input>, usize),
-) -> Grammar {
-    let ___start0 = ___0.2.clone();
-    let ___end0 = ___1.0.clone();
-    let ___temp0 = ___action183(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action612(text, ___0, ___temp0, ___1, ___2, ___3, ___4, ___5)
-}
-
-#[allow(unused_variables)]
-fn ___action740<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<String>, usize),
-    ___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-    ___2: (usize, ::std::vec::Vec<Annotation>, usize),
-    ___3: (usize, Tok<'input>, usize),
-    ___4: (usize, Vec<Parameter>, usize),
-    ___5: (usize, Vec<WhereClause<TypeRef>>, usize),
-    ___6: (usize, Tok<'input>, usize),
-) -> Grammar {
-    let ___start0 = ___1.0.clone();
-    let ___end0 = ___1.2.clone();
-    let ___temp0 = ___action184(text, ___1);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action612(text, ___0, ___temp0, ___2, ___3, ___4, ___5, ___6)
-}
-
-#[allow(unused_variables)]
-fn ___action741<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<Annotation>, usize),
-    ___1: (usize, Tok<'input>, usize),
-    ___2: (usize, Vec<Parameter>, usize),
-    ___3: (usize, Tok<'input>, usize),
-) -> Grammar {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.0.clone();
-    let ___temp0 = ___action183(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action613(text, ___temp0, ___0, ___1, ___2, ___3)
-}
-
-#[allow(unused_variables)]
-fn ___action742<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<GrammarItem>, usize),
-    ___1: (usize, ::std::vec::Vec<Annotation>, usize),
-    ___2: (usize, Tok<'input>, usize),
-    ___3: (usize, Vec<Parameter>, usize),
-    ___4: (usize, Tok<'input>, usize),
-) -> Grammar {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.2.clone();
-    let ___temp0 = ___action184(text, ___0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action613(text, ___temp0, ___1, ___2, ___3, ___4)
-}
-
-#[allow(unused_variables)]
-fn ___action743<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<String>, usize),
-    ___1: (usize, ::std::vec::Vec<Annotation>, usize),
-    ___2: (usize, Tok<'input>, usize),
-    ___3: (usize, Vec<Parameter>, usize),
-    ___4: (usize, Tok<'input>, usize),
-) -> Grammar {
-    let ___start0 = ___0.2.clone();
-    let ___end0 = ___1.0.clone();
-    let ___temp0 = ___action183(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action614(text, ___0, ___temp0, ___1, ___2, ___3, ___4)
-}
-
-#[allow(unused_variables)]
-fn ___action744<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<String>, usize),
-    ___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-    ___2: (usize, ::std::vec::Vec<Annotation>, usize),
-    ___3: (usize, Tok<'input>, usize),
-    ___4: (usize, Vec<Parameter>, usize),
-    ___5: (usize, Tok<'input>, usize),
-) -> Grammar {
-    let ___start0 = ___1.0.clone();
-    let ___end0 = ___1.2.clone();
-    let ___temp0 = ___action184(text, ___1);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action614(text, ___0, ___temp0, ___2, ___3, ___4, ___5)
-}
-
-#[allow(unused_variables)]
-fn ___action745<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<Annotation>, usize),
-    ___1: (usize, Tok<'input>, usize),
-    ___2: (usize, Vec<TypeParameter>, usize),
-    ___3: (usize, Vec<WhereClause<TypeRef>>, usize),
-    ___4: (usize, Tok<'input>, usize),
-) -> Grammar {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.0.clone();
-    let ___temp0 = ___action183(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action615(text, ___temp0, ___0, ___1, ___2, ___3, ___4)
-}
-
-#[allow(unused_variables)]
-fn ___action746<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<GrammarItem>, usize),
-    ___1: (usize, ::std::vec::Vec<Annotation>, usize),
-    ___2: (usize, Tok<'input>, usize),
-    ___3: (usize, Vec<TypeParameter>, usize),
-    ___4: (usize, Vec<WhereClause<TypeRef>>, usize),
-    ___5: (usize, Tok<'input>, usize),
-) -> Grammar {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.2.clone();
-    let ___temp0 = ___action184(text, ___0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action615(text, ___temp0, ___1, ___2, ___3, ___4, ___5)
-}
-
-#[allow(unused_variables)]
-fn ___action747<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<String>, usize),
-    ___1: (usize, ::std::vec::Vec<Annotation>, usize),
-    ___2: (usize, Tok<'input>, usize),
-    ___3: (usize, Vec<TypeParameter>, usize),
-    ___4: (usize, Vec<WhereClause<TypeRef>>, usize),
-    ___5: (usize, Tok<'input>, usize),
-) -> Grammar {
-    let ___start0 = ___0.2.clone();
-    let ___end0 = ___1.0.clone();
-    let ___temp0 = ___action183(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action616(text, ___0, ___temp0, ___1, ___2, ___3, ___4, ___5)
-}
-
-#[allow(unused_variables)]
-fn ___action748<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<String>, usize),
-    ___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-    ___2: (usize, ::std::vec::Vec<Annotation>, usize),
-    ___3: (usize, Tok<'input>, usize),
-    ___4: (usize, Vec<TypeParameter>, usize),
-    ___5: (usize, Vec<WhereClause<TypeRef>>, usize),
-    ___6: (usize, Tok<'input>, usize),
-) -> Grammar {
-    let ___start0 = ___1.0.clone();
-    let ___end0 = ___1.2.clone();
-    let ___temp0 = ___action184(text, ___1);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action616(text, ___0, ___temp0, ___2, ___3, ___4, ___5, ___6)
-}
-
-#[allow(unused_variables)]
-fn ___action749<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<Annotation>, usize),
-    ___1: (usize, Tok<'input>, usize),
-    ___2: (usize, Vec<TypeParameter>, usize),
-    ___3: (usize, Tok<'input>, usize),
-) -> Grammar {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.0.clone();
-    let ___temp0 = ___action183(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action617(text, ___temp0, ___0, ___1, ___2, ___3)
-}
-
-#[allow(unused_variables)]
-fn ___action750<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<GrammarItem>, usize),
-    ___1: (usize, ::std::vec::Vec<Annotation>, usize),
-    ___2: (usize, Tok<'input>, usize),
-    ___3: (usize, Vec<TypeParameter>, usize),
-    ___4: (usize, Tok<'input>, usize),
-) -> Grammar {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.2.clone();
-    let ___temp0 = ___action184(text, ___0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action617(text, ___temp0, ___1, ___2, ___3, ___4)
-}
-
-#[allow(unused_variables)]
-fn ___action751<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<String>, usize),
-    ___1: (usize, ::std::vec::Vec<Annotation>, usize),
-    ___2: (usize, Tok<'input>, usize),
-    ___3: (usize, Vec<TypeParameter>, usize),
-    ___4: (usize, Tok<'input>, usize),
-) -> Grammar {
-    let ___start0 = ___0.2.clone();
-    let ___end0 = ___1.0.clone();
-    let ___temp0 = ___action183(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action618(text, ___0, ___temp0, ___1, ___2, ___3, ___4)
-}
-
-#[allow(unused_variables)]
-fn ___action752<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<String>, usize),
-    ___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-    ___2: (usize, ::std::vec::Vec<Annotation>, usize),
-    ___3: (usize, Tok<'input>, usize),
-    ___4: (usize, Vec<TypeParameter>, usize),
-    ___5: (usize, Tok<'input>, usize),
-) -> Grammar {
-    let ___start0 = ___1.0.clone();
-    let ___end0 = ___1.2.clone();
-    let ___temp0 = ___action184(text, ___1);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action618(text, ___0, ___temp0, ___2, ___3, ___4, ___5)
-}
-
-#[allow(unused_variables)]
-fn ___action753<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<Annotation>, usize),
-    ___1: (usize, Tok<'input>, usize),
-    ___2: (usize, Vec<WhereClause<TypeRef>>, usize),
-    ___3: (usize, Tok<'input>, usize),
-) -> Grammar {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.0.clone();
-    let ___temp0 = ___action183(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action619(text, ___temp0, ___0, ___1, ___2, ___3)
-}
-
-#[allow(unused_variables)]
-fn ___action754<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<GrammarItem>, usize),
-    ___1: (usize, ::std::vec::Vec<Annotation>, usize),
-    ___2: (usize, Tok<'input>, usize),
-    ___3: (usize, Vec<WhereClause<TypeRef>>, usize),
-    ___4: (usize, Tok<'input>, usize),
-) -> Grammar {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.2.clone();
-    let ___temp0 = ___action184(text, ___0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action619(text, ___temp0, ___1, ___2, ___3, ___4)
-}
-
-#[allow(unused_variables)]
-fn ___action755<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<String>, usize),
-    ___1: (usize, ::std::vec::Vec<Annotation>, usize),
-    ___2: (usize, Tok<'input>, usize),
-    ___3: (usize, Vec<WhereClause<TypeRef>>, usize),
-    ___4: (usize, Tok<'input>, usize),
-) -> Grammar {
-    let ___start0 = ___0.2.clone();
-    let ___end0 = ___1.0.clone();
-    let ___temp0 = ___action183(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action620(text, ___0, ___temp0, ___1, ___2, ___3, ___4)
-}
-
-#[allow(unused_variables)]
-fn ___action756<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<String>, usize),
-    ___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-    ___2: (usize, ::std::vec::Vec<Annotation>, usize),
-    ___3: (usize, Tok<'input>, usize),
-    ___4: (usize, Vec<WhereClause<TypeRef>>, usize),
-    ___5: (usize, Tok<'input>, usize),
-) -> Grammar {
-    let ___start0 = ___1.0.clone();
-    let ___end0 = ___1.2.clone();
-    let ___temp0 = ___action184(text, ___1);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action620(text, ___0, ___temp0, ___2, ___3, ___4, ___5)
-}
-
-#[allow(unused_variables)]
-fn ___action757<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<Annotation>, usize),
-    ___1: (usize, Tok<'input>, usize),
-    ___2: (usize, Tok<'input>, usize),
-) -> Grammar {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.0.clone();
-    let ___temp0 = ___action183(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action621(text, ___temp0, ___0, ___1, ___2)
-}
-
-#[allow(unused_variables)]
-fn ___action758<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<GrammarItem>, usize),
-    ___1: (usize, ::std::vec::Vec<Annotation>, usize),
-    ___2: (usize, Tok<'input>, usize),
-    ___3: (usize, Tok<'input>, usize),
-) -> Grammar {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.2.clone();
-    let ___temp0 = ___action184(text, ___0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action621(text, ___temp0, ___1, ___2, ___3)
-}
-
-#[allow(unused_variables)]
-fn ___action759<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<String>, usize),
-    ___1: (usize, ::std::vec::Vec<Annotation>, usize),
-    ___2: (usize, Tok<'input>, usize),
-    ___3: (usize, Tok<'input>, usize),
-) -> Grammar {
-    let ___start0 = ___0.2.clone();
-    let ___end0 = ___1.0.clone();
-    let ___temp0 = ___action183(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action622(text, ___0, ___temp0, ___1, ___2, ___3)
-}
-
-#[allow(unused_variables)]
-fn ___action760<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<String>, usize),
-    ___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-    ___2: (usize, ::std::vec::Vec<Annotation>, usize),
-    ___3: (usize, Tok<'input>, usize),
-    ___4: (usize, Tok<'input>, usize),
-) -> Grammar {
-    let ___start0 = ___1.0.clone();
-    let ___end0 = ___1.2.clone();
-    let ___temp0 = ___action184(text, ___1);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action622(text, ___0, ___temp0, ___2, ___3, ___4)
-}
-
-#[allow(unused_variables)]
-fn ___action761<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<Annotation>, usize),
-    ___1: (usize, Tok<'input>, usize),
-    ___2: (usize, Vec<TypeParameter>, usize),
-    ___3: (usize, Vec<Parameter>, usize),
-    ___4: (usize, Vec<WhereClause<TypeRef>>, usize),
-    ___5: (usize, Tok<'input>, usize),
-    ___6: (usize, ::std::vec::Vec<GrammarItem>, usize),
-) -> Grammar {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.0.clone();
-    let ___temp0 = ___action183(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action623(text, ___temp0, ___0, ___1, ___2, ___3, ___4, ___5, ___6)
-}
-
-#[allow(unused_variables)]
-fn ___action762<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<GrammarItem>, usize),
-    ___1: (usize, ::std::vec::Vec<Annotation>, usize),
-    ___2: (usize, Tok<'input>, usize),
-    ___3: (usize, Vec<TypeParameter>, usize),
-    ___4: (usize, Vec<Parameter>, usize),
-    ___5: (usize, Vec<WhereClause<TypeRef>>, usize),
-    ___6: (usize, Tok<'input>, usize),
-    ___7: (usize, ::std::vec::Vec<GrammarItem>, usize),
-) -> Grammar {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.2.clone();
-    let ___temp0 = ___action184(text, ___0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action623(text, ___temp0, ___1, ___2, ___3, ___4, ___5, ___6, ___7)
-}
-
-#[allow(unused_variables)]
-fn ___action763<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<String>, usize),
-    ___1: (usize, ::std::vec::Vec<Annotation>, usize),
-    ___2: (usize, Tok<'input>, usize),
-    ___3: (usize, Vec<TypeParameter>, usize),
-    ___4: (usize, Vec<Parameter>, usize),
-    ___5: (usize, Vec<WhereClause<TypeRef>>, usize),
-    ___6: (usize, Tok<'input>, usize),
-    ___7: (usize, ::std::vec::Vec<GrammarItem>, usize),
-) -> Grammar {
-    let ___start0 = ___0.2.clone();
-    let ___end0 = ___1.0.clone();
-    let ___temp0 = ___action183(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action624(
-        text, ___0, ___temp0, ___1, ___2, ___3, ___4, ___5, ___6, ___7,
-    )
-}
-
-#[allow(unused_variables)]
-fn ___action764<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<String>, usize),
-    ___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-    ___2: (usize, ::std::vec::Vec<Annotation>, usize),
-    ___3: (usize, Tok<'input>, usize),
-    ___4: (usize, Vec<TypeParameter>, usize),
-    ___5: (usize, Vec<Parameter>, usize),
-    ___6: (usize, Vec<WhereClause<TypeRef>>, usize),
-    ___7: (usize, Tok<'input>, usize),
-    ___8: (usize, ::std::vec::Vec<GrammarItem>, usize),
-) -> Grammar {
-    let ___start0 = ___1.0.clone();
-    let ___end0 = ___1.2.clone();
-    let ___temp0 = ___action184(text, ___1);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action624(
-        text, ___0, ___temp0, ___2, ___3, ___4, ___5, ___6, ___7, ___8,
-    )
-}
-
-#[allow(unused_variables)]
-fn ___action765<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<Annotation>, usize),
-    ___1: (usize, Tok<'input>, usize),
-    ___2: (usize, Vec<TypeParameter>, usize),
-    ___3: (usize, Vec<Parameter>, usize),
-    ___4: (usize, Tok<'input>, usize),
-    ___5: (usize, ::std::vec::Vec<GrammarItem>, usize),
-) -> Grammar {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.0.clone();
-    let ___temp0 = ___action183(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action625(text, ___temp0, ___0, ___1, ___2, ___3, ___4, ___5)
-}
-
-#[allow(unused_variables)]
-fn ___action766<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<GrammarItem>, usize),
-    ___1: (usize, ::std::vec::Vec<Annotation>, usize),
-    ___2: (usize, Tok<'input>, usize),
-    ___3: (usize, Vec<TypeParameter>, usize),
-    ___4: (usize, Vec<Parameter>, usize),
-    ___5: (usize, Tok<'input>, usize),
-    ___6: (usize, ::std::vec::Vec<GrammarItem>, usize),
-) -> Grammar {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.2.clone();
-    let ___temp0 = ___action184(text, ___0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action625(text, ___temp0, ___1, ___2, ___3, ___4, ___5, ___6)
-}
-
-#[allow(unused_variables)]
-fn ___action767<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<String>, usize),
-    ___1: (usize, ::std::vec::Vec<Annotation>, usize),
-    ___2: (usize, Tok<'input>, usize),
-    ___3: (usize, Vec<TypeParameter>, usize),
-    ___4: (usize, Vec<Parameter>, usize),
-    ___5: (usize, Tok<'input>, usize),
-    ___6: (usize, ::std::vec::Vec<GrammarItem>, usize),
-) -> Grammar {
-    let ___start0 = ___0.2.clone();
-    let ___end0 = ___1.0.clone();
-    let ___temp0 = ___action183(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action626(text, ___0, ___temp0, ___1, ___2, ___3, ___4, ___5, ___6)
-}
-
-#[allow(unused_variables)]
-fn ___action768<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<String>, usize),
-    ___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-    ___2: (usize, ::std::vec::Vec<Annotation>, usize),
-    ___3: (usize, Tok<'input>, usize),
-    ___4: (usize, Vec<TypeParameter>, usize),
-    ___5: (usize, Vec<Parameter>, usize),
-    ___6: (usize, Tok<'input>, usize),
-    ___7: (usize, ::std::vec::Vec<GrammarItem>, usize),
-) -> Grammar {
-    let ___start0 = ___1.0.clone();
-    let ___end0 = ___1.2.clone();
-    let ___temp0 = ___action184(text, ___1);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action626(text, ___0, ___temp0, ___2, ___3, ___4, ___5, ___6, ___7)
-}
-
-#[allow(unused_variables)]
-fn ___action769<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<Annotation>, usize),
-    ___1: (usize, Tok<'input>, usize),
-    ___2: (usize, Vec<Parameter>, usize),
-    ___3: (usize, Vec<WhereClause<TypeRef>>, usize),
-    ___4: (usize, Tok<'input>, usize),
-    ___5: (usize, ::std::vec::Vec<GrammarItem>, usize),
-) -> Grammar {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.0.clone();
-    let ___temp0 = ___action183(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action627(text, ___temp0, ___0, ___1, ___2, ___3, ___4, ___5)
-}
-
-#[allow(unused_variables)]
-fn ___action770<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<GrammarItem>, usize),
-    ___1: (usize, ::std::vec::Vec<Annotation>, usize),
-    ___2: (usize, Tok<'input>, usize),
-    ___3: (usize, Vec<Parameter>, usize),
-    ___4: (usize, Vec<WhereClause<TypeRef>>, usize),
-    ___5: (usize, Tok<'input>, usize),
-    ___6: (usize, ::std::vec::Vec<GrammarItem>, usize),
-) -> Grammar {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.2.clone();
-    let ___temp0 = ___action184(text, ___0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action627(text, ___temp0, ___1, ___2, ___3, ___4, ___5, ___6)
-}
-
-#[allow(unused_variables)]
-fn ___action771<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<String>, usize),
-    ___1: (usize, ::std::vec::Vec<Annotation>, usize),
-    ___2: (usize, Tok<'input>, usize),
-    ___3: (usize, Vec<Parameter>, usize),
-    ___4: (usize, Vec<WhereClause<TypeRef>>, usize),
-    ___5: (usize, Tok<'input>, usize),
-    ___6: (usize, ::std::vec::Vec<GrammarItem>, usize),
-) -> Grammar {
-    let ___start0 = ___0.2.clone();
-    let ___end0 = ___1.0.clone();
-    let ___temp0 = ___action183(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action628(text, ___0, ___temp0, ___1, ___2, ___3, ___4, ___5, ___6)
-}
-
-#[allow(unused_variables)]
-fn ___action772<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<String>, usize),
-    ___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-    ___2: (usize, ::std::vec::Vec<Annotation>, usize),
-    ___3: (usize, Tok<'input>, usize),
-    ___4: (usize, Vec<Parameter>, usize),
-    ___5: (usize, Vec<WhereClause<TypeRef>>, usize),
-    ___6: (usize, Tok<'input>, usize),
-    ___7: (usize, ::std::vec::Vec<GrammarItem>, usize),
-) -> Grammar {
-    let ___start0 = ___1.0.clone();
-    let ___end0 = ___1.2.clone();
-    let ___temp0 = ___action184(text, ___1);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action628(text, ___0, ___temp0, ___2, ___3, ___4, ___5, ___6, ___7)
-}
-
-#[allow(unused_variables)]
-fn ___action773<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<Annotation>, usize),
-    ___1: (usize, Tok<'input>, usize),
-    ___2: (usize, Vec<Parameter>, usize),
-    ___3: (usize, Tok<'input>, usize),
-    ___4: (usize, ::std::vec::Vec<GrammarItem>, usize),
-) -> Grammar {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.0.clone();
-    let ___temp0 = ___action183(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action629(text, ___temp0, ___0, ___1, ___2, ___3, ___4)
-}
-
-#[allow(unused_variables)]
-fn ___action774<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<GrammarItem>, usize),
-    ___1: (usize, ::std::vec::Vec<Annotation>, usize),
-    ___2: (usize, Tok<'input>, usize),
-    ___3: (usize, Vec<Parameter>, usize),
-    ___4: (usize, Tok<'input>, usize),
-    ___5: (usize, ::std::vec::Vec<GrammarItem>, usize),
-) -> Grammar {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.2.clone();
-    let ___temp0 = ___action184(text, ___0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action629(text, ___temp0, ___1, ___2, ___3, ___4, ___5)
-}
-
-#[allow(unused_variables)]
-fn ___action775<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<String>, usize),
-    ___1: (usize, ::std::vec::Vec<Annotation>, usize),
-    ___2: (usize, Tok<'input>, usize),
-    ___3: (usize, Vec<Parameter>, usize),
-    ___4: (usize, Tok<'input>, usize),
-    ___5: (usize, ::std::vec::Vec<GrammarItem>, usize),
-) -> Grammar {
-    let ___start0 = ___0.2.clone();
-    let ___end0 = ___1.0.clone();
-    let ___temp0 = ___action183(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action630(text, ___0, ___temp0, ___1, ___2, ___3, ___4, ___5)
-}
-
-#[allow(unused_variables)]
-fn ___action776<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<String>, usize),
-    ___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-    ___2: (usize, ::std::vec::Vec<Annotation>, usize),
-    ___3: (usize, Tok<'input>, usize),
-    ___4: (usize, Vec<Parameter>, usize),
-    ___5: (usize, Tok<'input>, usize),
-    ___6: (usize, ::std::vec::Vec<GrammarItem>, usize),
-) -> Grammar {
-    let ___start0 = ___1.0.clone();
-    let ___end0 = ___1.2.clone();
-    let ___temp0 = ___action184(text, ___1);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action630(text, ___0, ___temp0, ___2, ___3, ___4, ___5, ___6)
-}
-
-#[allow(unused_variables)]
-fn ___action777<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<Annotation>, usize),
-    ___1: (usize, Tok<'input>, usize),
-    ___2: (usize, Vec<TypeParameter>, usize),
-    ___3: (usize, Vec<WhereClause<TypeRef>>, usize),
-    ___4: (usize, Tok<'input>, usize),
-    ___5: (usize, ::std::vec::Vec<GrammarItem>, usize),
-) -> Grammar {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.0.clone();
-    let ___temp0 = ___action183(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action631(text, ___temp0, ___0, ___1, ___2, ___3, ___4, ___5)
-}
-
-#[allow(unused_variables)]
-fn ___action778<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<GrammarItem>, usize),
-    ___1: (usize, ::std::vec::Vec<Annotation>, usize),
-    ___2: (usize, Tok<'input>, usize),
-    ___3: (usize, Vec<TypeParameter>, usize),
-    ___4: (usize, Vec<WhereClause<TypeRef>>, usize),
-    ___5: (usize, Tok<'input>, usize),
-    ___6: (usize, ::std::vec::Vec<GrammarItem>, usize),
-) -> Grammar {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.2.clone();
-    let ___temp0 = ___action184(text, ___0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action631(text, ___temp0, ___1, ___2, ___3, ___4, ___5, ___6)
-}
-
-#[allow(unused_variables)]
-fn ___action779<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<String>, usize),
-    ___1: (usize, ::std::vec::Vec<Annotation>, usize),
-    ___2: (usize, Tok<'input>, usize),
-    ___3: (usize, Vec<TypeParameter>, usize),
-    ___4: (usize, Vec<WhereClause<TypeRef>>, usize),
-    ___5: (usize, Tok<'input>, usize),
-    ___6: (usize, ::std::vec::Vec<GrammarItem>, usize),
-) -> Grammar {
-    let ___start0 = ___0.2.clone();
-    let ___end0 = ___1.0.clone();
-    let ___temp0 = ___action183(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action632(text, ___0, ___temp0, ___1, ___2, ___3, ___4, ___5, ___6)
-}
-
-#[allow(unused_variables)]
-fn ___action780<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<String>, usize),
-    ___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-    ___2: (usize, ::std::vec::Vec<Annotation>, usize),
-    ___3: (usize, Tok<'input>, usize),
-    ___4: (usize, Vec<TypeParameter>, usize),
-    ___5: (usize, Vec<WhereClause<TypeRef>>, usize),
-    ___6: (usize, Tok<'input>, usize),
-    ___7: (usize, ::std::vec::Vec<GrammarItem>, usize),
-) -> Grammar {
-    let ___start0 = ___1.0.clone();
-    let ___end0 = ___1.2.clone();
-    let ___temp0 = ___action184(text, ___1);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action632(text, ___0, ___temp0, ___2, ___3, ___4, ___5, ___6, ___7)
-}
-
-#[allow(unused_variables)]
-fn ___action781<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<Annotation>, usize),
-    ___1: (usize, Tok<'input>, usize),
-    ___2: (usize, Vec<TypeParameter>, usize),
-    ___3: (usize, Tok<'input>, usize),
-    ___4: (usize, ::std::vec::Vec<GrammarItem>, usize),
-) -> Grammar {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.0.clone();
-    let ___temp0 = ___action183(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action633(text, ___temp0, ___0, ___1, ___2, ___3, ___4)
-}
-
-#[allow(unused_variables)]
-fn ___action782<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<GrammarItem>, usize),
-    ___1: (usize, ::std::vec::Vec<Annotation>, usize),
-    ___2: (usize, Tok<'input>, usize),
-    ___3: (usize, Vec<TypeParameter>, usize),
-    ___4: (usize, Tok<'input>, usize),
-    ___5: (usize, ::std::vec::Vec<GrammarItem>, usize),
-) -> Grammar {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.2.clone();
-    let ___temp0 = ___action184(text, ___0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action633(text, ___temp0, ___1, ___2, ___3, ___4, ___5)
-}
-
-#[allow(unused_variables)]
-fn ___action783<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<String>, usize),
-    ___1: (usize, ::std::vec::Vec<Annotation>, usize),
-    ___2: (usize, Tok<'input>, usize),
-    ___3: (usize, Vec<TypeParameter>, usize),
-    ___4: (usize, Tok<'input>, usize),
-    ___5: (usize, ::std::vec::Vec<GrammarItem>, usize),
-) -> Grammar {
-    let ___start0 = ___0.2.clone();
-    let ___end0 = ___1.0.clone();
-    let ___temp0 = ___action183(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action634(text, ___0, ___temp0, ___1, ___2, ___3, ___4, ___5)
-}
-
-#[allow(unused_variables)]
-fn ___action784<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<String>, usize),
-    ___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-    ___2: (usize, ::std::vec::Vec<Annotation>, usize),
-    ___3: (usize, Tok<'input>, usize),
-    ___4: (usize, Vec<TypeParameter>, usize),
-    ___5: (usize, Tok<'input>, usize),
-    ___6: (usize, ::std::vec::Vec<GrammarItem>, usize),
-) -> Grammar {
-    let ___start0 = ___1.0.clone();
-    let ___end0 = ___1.2.clone();
-    let ___temp0 = ___action184(text, ___1);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action634(text, ___0, ___temp0, ___2, ___3, ___4, ___5, ___6)
-}
-
-#[allow(unused_variables)]
-fn ___action785<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<Annotation>, usize),
-    ___1: (usize, Tok<'input>, usize),
-    ___2: (usize, Vec<WhereClause<TypeRef>>, usize),
-    ___3: (usize, Tok<'input>, usize),
-    ___4: (usize, ::std::vec::Vec<GrammarItem>, usize),
-) -> Grammar {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.0.clone();
-    let ___temp0 = ___action183(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action635(text, ___temp0, ___0, ___1, ___2, ___3, ___4)
-}
-
-#[allow(unused_variables)]
-fn ___action786<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<GrammarItem>, usize),
-    ___1: (usize, ::std::vec::Vec<Annotation>, usize),
-    ___2: (usize, Tok<'input>, usize),
-    ___3: (usize, Vec<WhereClause<TypeRef>>, usize),
-    ___4: (usize, Tok<'input>, usize),
-    ___5: (usize, ::std::vec::Vec<GrammarItem>, usize),
-) -> Grammar {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.2.clone();
-    let ___temp0 = ___action184(text, ___0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action635(text, ___temp0, ___1, ___2, ___3, ___4, ___5)
-}
-
-#[allow(unused_variables)]
-fn ___action787<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<String>, usize),
-    ___1: (usize, ::std::vec::Vec<Annotation>, usize),
-    ___2: (usize, Tok<'input>, usize),
-    ___3: (usize, Vec<WhereClause<TypeRef>>, usize),
-    ___4: (usize, Tok<'input>, usize),
-    ___5: (usize, ::std::vec::Vec<GrammarItem>, usize),
-) -> Grammar {
-    let ___start0 = ___0.2.clone();
-    let ___end0 = ___1.0.clone();
-    let ___temp0 = ___action183(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action636(text, ___0, ___temp0, ___1, ___2, ___3, ___4, ___5)
-}
-
-#[allow(unused_variables)]
-fn ___action788<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<String>, usize),
-    ___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-    ___2: (usize, ::std::vec::Vec<Annotation>, usize),
-    ___3: (usize, Tok<'input>, usize),
-    ___4: (usize, Vec<WhereClause<TypeRef>>, usize),
-    ___5: (usize, Tok<'input>, usize),
-    ___6: (usize, ::std::vec::Vec<GrammarItem>, usize),
-) -> Grammar {
-    let ___start0 = ___1.0.clone();
-    let ___end0 = ___1.2.clone();
-    let ___temp0 = ___action184(text, ___1);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action636(text, ___0, ___temp0, ___2, ___3, ___4, ___5, ___6)
-}
-
-#[allow(unused_variables)]
-fn ___action789<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<Annotation>, usize),
-    ___1: (usize, Tok<'input>, usize),
-    ___2: (usize, Tok<'input>, usize),
-    ___3: (usize, ::std::vec::Vec<GrammarItem>, usize),
-) -> Grammar {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.0.clone();
-    let ___temp0 = ___action183(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action637(text, ___temp0, ___0, ___1, ___2, ___3)
-}
-
-#[allow(unused_variables)]
-fn ___action790<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<GrammarItem>, usize),
-    ___1: (usize, ::std::vec::Vec<Annotation>, usize),
-    ___2: (usize, Tok<'input>, usize),
-    ___3: (usize, Tok<'input>, usize),
-    ___4: (usize, ::std::vec::Vec<GrammarItem>, usize),
-) -> Grammar {
-    let ___start0 = ___0.0.clone();
-    let ___end0 = ___0.2.clone();
-    let ___temp0 = ___action184(text, ___0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action637(text, ___temp0, ___1, ___2, ___3, ___4)
-}
-
-#[allow(unused_variables)]
-fn ___action791<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<String>, usize),
-    ___1: (usize, ::std::vec::Vec<Annotation>, usize),
-    ___2: (usize, Tok<'input>, usize),
-    ___3: (usize, Tok<'input>, usize),
-    ___4: (usize, ::std::vec::Vec<GrammarItem>, usize),
-) -> Grammar {
-    let ___start0 = ___0.2.clone();
-    let ___end0 = ___1.0.clone();
-    let ___temp0 = ___action183(text, &___start0, &___end0);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action638(text, ___0, ___temp0, ___1, ___2, ___3, ___4)
-}
-
-#[allow(unused_variables)]
-fn ___action792<'input>(
-    text: &'input str,
-    ___0: (usize, ::std::vec::Vec<String>, usize),
-    ___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-    ___2: (usize, ::std::vec::Vec<Annotation>, usize),
-    ___3: (usize, Tok<'input>, usize),
-    ___4: (usize, Tok<'input>, usize),
-    ___5: (usize, ::std::vec::Vec<GrammarItem>, usize),
-) -> Grammar {
-    let ___start0 = ___1.0.clone();
-    let ___end0 = ___1.2.clone();
-    let ___temp0 = ___action184(text, ___1);
-    let ___temp0 = (___start0, ___temp0, ___end0);
-    ___action638(text, ___0, ___temp0, ___2, ___3, ___4, ___5)
-}
-
-pub trait ___ToTriple<'input> {
-    type Error;
-    fn to_triple(value: Self) -> Result<(usize, Tok<'input>, usize), Self::Error>;
-}
-
-impl<'input> ___ToTriple<'input> for (usize, Tok<'input>, usize) {
-    type Error = tok::Error;
-    fn to_triple(value: Self) -> Result<(usize, Tok<'input>, usize), tok::Error> {
-        Ok(value)
-    }
-}
-impl<'input> ___ToTriple<'input> for Result<(usize, Tok<'input>, usize), tok::Error> {
-    type Error = tok::Error;
-    fn to_triple(value: Self) -> Result<(usize, Tok<'input>, usize), tok::Error> {
-        value
-    }
 }

@@ -103,6 +103,13 @@ impl Configuration {
         self
     }
 
+    /// If false, shrinks the generated code by removing redundant white space.
+    /// Default is true.
+    pub fn emit_whitespace(&mut self, val: bool) -> &mut Configuration {
+        self.session.emit_whitespace = val;
+        self
+    }
+
     /// If true, emit report file about generated code.
     pub fn emit_report(&mut self, val: bool) -> &mut Configuration {
         self.session.emit_report = val;
