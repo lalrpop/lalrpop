@@ -227,6 +227,7 @@ SymbolKind1: SymbolKind = {
         SymbolKind::Error,
 };
 
+#[cfg(feature = "test")]
 pub TypeRef: TypeRef = {
     "(" <Comma<TypeRef>> ")" =>
         TypeRef::Tuple(<>),
