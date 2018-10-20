@@ -41,6 +41,9 @@ pub struct Session {
     /// forth.
     pub emit_comments: bool,
 
+    /// Emit whitespace in the generated code to improve readability.
+    pub emit_whitespace: bool,
+
     /// Emit report file about generated code
     pub emit_report: bool,
 
@@ -92,6 +95,7 @@ impl Session {
             out_dir: None,
             force_build: false,
             emit_comments: false,
+            emit_whitespace: true,
             emit_report: false,
             color_config: ColorConfig::default(),
             max_errors: 1,
@@ -117,6 +121,7 @@ impl Session {
             out_dir: None,
             force_build: false,
             emit_comments: false,
+            emit_whitespace: true,
             emit_report: false,
             color_config: ColorConfig::IfTty,
             max_errors: 1,
