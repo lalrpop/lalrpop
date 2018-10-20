@@ -43,3 +43,4 @@ version = "0.16.0" # LALRPOP
 
 [features]
 test = []
+snapshot = []

@@ -36,6 +36,7 @@ TypeParameter: TypeParameter = {
     <l:Id> => TypeParameter::Id(l)
 };
 
+#[cfg(feature = "test")]
 pub GrammarWhereClauses: Vec<WhereClause<TypeRef>> =
     "where" <Comma<GrammarWhereClause>>;
 
