@@ -10,7 +10,7 @@ version = "0.16.0"
 path = "../../lalrpop"
 
 [dependencies]
-regex = "0.2.1"
+regex = "1"
 
 [dependencies.lalrpop-util]
 version = "0.16.0"

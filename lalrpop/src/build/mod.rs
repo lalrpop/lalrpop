@@ -39,10 +39,11 @@ const LALRPOP_VERSION_HEADER: &'static str = concat!(
 
 fn hash_file(file: &Path) -> io::Result<String> {
     let mut file = try!(fs::File::open(&file));
-    let hash = try!(Sha256::digest_reader(&mut file));
+    let mut sha_256 = Sha256::new();
+    try!(io::copy(&mut file, &mut sha_256));
 
     let mut hash_str = "// sha256: ".to_owned();
-    for byte in hash {
+    for byte in sha_256.result() {
         hash_str.push_str(&format!("{:x}", byte));
     }
     Ok(hash_str)
