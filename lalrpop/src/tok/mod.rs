@@ -126,35 +126,29 @@ const KEYWORDS: &'static [(&'static str, Tok<'static>)] = &[
  * Helper for backtracking.
  */
 macro_rules! first {
-    ($this:expr, $action:expr, $fallback:expr) => {
-        {
-            let fallback_state = ($this.chars.clone(), $this.lookahead);
-            let result = $action;
-            match result {
-                Ok(_) => {
-                    Some(result)
-                }
-                _ => {
-                    $this.chars = fallback_state.0;
-                    $this.lookahead = fallback_state.1;
-                    Some($fallback)
-                }
+    ($this:expr, $action:expr, $fallback:expr) => {{
+        let fallback_state = ($this.chars.clone(), $this.lookahead);
+        let result = $action;
+        match result {
+            Ok(_) => Some(result),
+            _ => {
+                $this.chars = fallback_state.0;
+                $this.lookahead = fallback_state.1;
+                Some($fallback)
             }
         }
-    }
+    }};
 }
 
 macro_rules! try_opt {
-    ($e:expr, $err:expr) => {
-        {
-            let r = $e;
-            match r {
-                Some(Ok(val)) => val,
-                Some(Err(err)) => return Err(err),
-                None => return $err,
-            }
+    ($e:expr, $err:expr) => {{
+        let r = $e;
+        match r {
+            Some(Ok(val)) => val,
+            Some(Err(err)) => return Err(err),
+            None => return $err,
         }
-    }
+    }};
 }
 
 impl<'input> Tokenizer<'input> {
@@ -184,7 +178,7 @@ impl<'input> Tokenizer<'input> {
                 '[' => {
                     self.bump();
                     sq_bracket_counter += 1
-                },
+                }
                 ']' => {
                     self.bump();
                     sq_bracket_counter -= 1;
@@ -194,19 +188,19 @@ impl<'input> Tokenizer<'input> {
                             let data = &self.text[idx0..idx2];
                             self.bump();
                             return Ok((idx0, ShebangAttribute(data), idx2));
-                        },
+                        }
                         n if n < 0 => return error(UnrecognizedToken, idx0),
                         _ => (),
                     }
-                },
+                }
                 '"' => {
                     self.bump();
                     let _ = try!(self.string_literal(idx1));
-                },
+                }
                 '\n' => return error(UnrecognizedToken, idx0),
                 _ => {
                     self.bump();
-                },
+                }
             }
         }
         error(UnrecognizedToken, idx0)
@@ -218,45 +212,45 @@ impl<'input> Tokenizer<'input> {
                 Some((idx0, '&')) => {
                     self.bump();
                     Some(Ok((idx0, Ampersand, idx0 + 1)))
-                },
+                }
                 Some((idx0, '!')) => match self.bump() {
                     Some((idx1, '=')) => {
                         self.bump();
                         Some(Ok((idx0, BangEquals, idx1 + 1)))
-                    },
+                    }
                     Some((idx1, '~')) => {
                         self.bump();
                         Some(Ok((idx0, BangTilde, idx1 + 1)))
-                    },
+                    }
                     _ => Some(Ok((idx0, Bang, idx0 + 1))),
                 },
                 Some((idx0, ':')) => match self.bump() {
                     Some((idx1, ':')) => {
                         self.bump();
                         Some(Ok((idx0, ColonColon, idx1 + 1)))
-                    },
+                    }
                     _ => Some(Ok((idx0, Colon, idx0 + 1))),
                 },
                 Some((idx0, ',')) => {
                     self.bump();
                     Some(Ok((idx0, Comma, idx0 + 1)))
-                },
+                }
                 Some((idx0, '.')) => match self.bump() {
                     Some((idx1, '.')) => {
                         self.bump();
                         Some(Ok((idx0, DotDot, idx1 + 1)))
-                    },
+                    }
                     _ => Some(error(UnrecognizedToken, idx0)),
                 },
                 Some((idx0, '=')) => match self.bump() {
                     Some((idx1, '=')) => {
                         self.bump();
                         Some(Ok((idx0, EqualsEquals, idx1 + 1)))
-                    },
+                    }
                     Some((_, '>')) => {
                         self.bump();
                         Some(self.right_arrow(idx0))
-                    },
+                    }
                     _ => Some(Ok((idx0, Equals, idx0 + 1))),
                 },
                 Some((idx0, '#')) => {
@@ -264,97 +258,97 @@ impl<'input> Tokenizer<'input> {
                     first!(self, { self.shebang_attribute(idx0) }, {
                         Ok((idx0, Hash, idx0 + 1))
                     })
-                },
+                }
                 Some((idx0, '>')) => {
                     self.bump();
                     Some(Ok((idx0, GreaterThan, idx0 + 1)))
-                },
+                }
                 Some((idx0, '{')) => {
                     self.bump();
                     Some(Ok((idx0, LeftBrace, idx0 + 1)))
-                },
+                }
                 Some((idx0, '[')) => {
                     self.bump();
                     Some(Ok((idx0, LeftBracket, idx0 + 1)))
-                },
+                }
                 Some((idx0, '(')) => {
                     self.bump();
                     Some(Ok((idx0, LeftParen, idx0 + 1)))
-                },
+                }
                 Some((idx0, '<')) => {
                     self.bump();
                     Some(Ok((idx0, LessThan, idx0 + 1)))
-                },
+                }
                 Some((idx0, '@')) => match self.bump() {
                     Some((idx1, 'L')) => {
                         self.bump();
                         Some(Ok((idx0, Lookahead, idx1 + 1)))
-                    },
+                    }
                     Some((idx1, 'R')) => {
                         self.bump();
                         Some(Ok((idx0, Lookbehind, idx1 + 1)))
-                    },
+                    }
                     _ => Some(error(UnrecognizedToken, idx0)),
                 },
                 Some((idx0, '+')) => {
                     self.bump();
                     Some(Ok((idx0, Plus, idx0 + 1)))
-                },
+                }
                 Some((idx0, '?')) => {
                     self.bump();
                     Some(Ok((idx0, Question, idx0 + 1)))
-                },
+                }
                 Some((idx0, '}')) => {
                     self.bump();
                     Some(Ok((idx0, RightBrace, idx0 + 1)))
-                },
+                }
                 Some((idx0, ']')) => {
                     self.bump();
                     Some(Ok((idx0, RightBracket, idx0 + 1)))
-                },
+                }
                 Some((idx0, ')')) => {
                     self.bump();
                     Some(Ok((idx0, RightParen, idx0 + 1)))
-                },
+                }
                 Some((idx0, ';')) => {
                     self.bump();
                     Some(Ok((idx0, Semi, idx0 + 1)))
-                },
+                }
                 Some((idx0, '*')) => {
                     self.bump();
                     Some(Ok((idx0, Star, idx0 + 1)))
-                },
+                }
                 Some((idx0, '~')) => match self.bump() {
                     Some((idx1, '~')) => {
                         self.bump();
                         Some(Ok((idx0, TildeTilde, idx1 + 1)))
-                    },
+                    }
                     _ => Some(error(UnrecognizedToken, idx0)),
                 },
                 Some((idx0, '`')) => {
                     self.bump();
                     Some(self.escape(idx0))
-                },
+                }
                 Some((idx0, '\'')) => {
                     self.bump();
                     Some(self.lifetimeish(idx0))
-                },
+                }
                 Some((idx0, '"')) => {
                     self.bump();
                     Some(self.string_literal(idx0))
-                },
+                }
                 Some((idx0, '/')) => match self.bump() {
                     Some((_, '/')) => {
                         self.take_until(|c| c == '\n');
                         continue;
-                    },
+                    }
                     _ => Some(error(UnrecognizedToken, idx0)),
                 },
                 Some((idx0, '-')) => match self.bump() {
                     Some((idx1, '>')) => {
                         self.bump();
                         Some(Ok((idx0, MinusGreaterThan, idx1 + 1)))
-                    },
+                    }
                     _ => Some(error(UnrecognizedToken, idx0)),
                 },
                 Some((idx0, c)) if is_identifier_start(c) => {
@@ -368,16 +362,16 @@ impl<'input> Tokenizer<'input> {
                                 // it's ok that we already consumed the 'r', because the
                                 // identifier will run from idx0 (the 'r') to the end
                                 Some(self.identifierish(idx0))
-                            },
+                            }
                         }
                     } else {
                         Some(self.identifierish(idx0))
                     }
-                },
+                }
                 Some((_, c)) if c.is_whitespace() => {
                     self.bump();
                     continue;
-                },
+                }
                 Some((idx, _)) => Some(error(UnrecognizedToken, idx)),
                 None => None,
             };
@@ -402,11 +396,11 @@ impl<'input> Tokenizer<'input> {
                 Some((idx2, 'L')) => {
                     self.bump();
                     Ok((idx0, EqualsGreaterThanLookahead, idx2 + 1))
-                },
+                }
                 Some((idx2, 'R')) => {
                     self.bump();
                     Ok((idx0, EqualsGreaterThanLookbehind, idx2 + 1))
-                },
+                }
                 _ => error(UnrecognizedToken, idx0),
             },
 
@@ -415,13 +409,13 @@ impl<'input> Tokenizer<'input> {
                 let idx2 = try!(self.code(idx0, "([{", "}])"));
                 let code = &self.text[idx1 + 1..idx2];
                 Ok((idx0, EqualsGreaterThanQuestionCode(code), idx2))
-            },
+            }
 
             Some((idx1, _)) => {
                 let idx2 = try!(self.code(idx0, "([{", "}])"));
                 let code = &self.text[idx1..idx2];
                 Ok((idx0, EqualsGreaterThanCode(code), idx2))
-            },
+            }
 
             None => error(UnterminatedCode, idx0),
         }
@@ -494,7 +488,7 @@ impl<'input> Tokenizer<'input> {
                 self.bump(); // consume the '`'
                 let text: &'input str = &self.text[idx0 + 1..idx1]; // do not include the `` in the str
                 Ok((idx0, Escape(text), idx1 + 1))
-            },
+            }
             None => error(UnterminatedEscape, idx0),
         }
     }
@@ -549,7 +543,7 @@ impl<'input> Tokenizer<'input> {
                 self.bump(); // consume the closing quote
                 let text = &self.text[idx0 + 1..idx1]; // do not include quotes in the str
                 Some((idx0, variant(text), idx1 + 1))
-            },
+            }
             None => None,
         }
     }
@@ -593,10 +587,10 @@ impl<'input> Tokenizer<'input> {
                         let start = idx0 + 2 + hashes; // skip the `r###"`
                         let end = idx1 - hashes; // skip the `###`.
                         Ok((idx0, RegexLiteral(&self.text[start..end]), idx1 + 1))
-                    },
+                    }
                     None => error(UnterminatedStringLiteral, idx0),
                 }
-            },
+            }
             Some(idx1) => error(ExpectedStringLiteral, idx1),
             None => error(UnterminatedStringLiteral, idx0),
         }
@@ -615,7 +609,7 @@ impl<'input> Tokenizer<'input> {
                             self.bump();
                             let text = &self.text[idx0 + 1..idx2];
                             Ok((idx0, CharLiteral(text), idx2 + 1))
-                        },
+                        }
                         _ => Ok((start, Lifetime(word), end)),
                     }
                 } else {
@@ -624,7 +618,7 @@ impl<'input> Tokenizer<'input> {
                         None => error(UnterminatedCharacterLiteral, idx0),
                     }
                 }
-            },
+            }
         }
     }
 
@@ -681,14 +675,14 @@ impl<'input> Tokenizer<'input> {
             match self.lookahead {
                 None => {
                     return None;
-                },
+                }
                 Some((idx1, c)) => {
                     if terminate(c) {
                         return Some(idx1);
                     } else {
                         self.bump();
                     }
-                },
+                }
             }
         }
     }
@@ -706,11 +700,11 @@ impl<'input> Tokenizer<'input> {
             Some((idx0, cc)) if c == cc => {
                 self.bump();
                 Some(Ok((idx0)))
-            },
+            }
             Some((idx0, _)) => {
                 self.bump();
                 Some(error(UnrecognizedToken, idx0))
-            },
+            }
             None => None,
         }
     }
@@ -759,7 +753,9 @@ pub fn apply_string_escapes(code: &str, idx0: usize) -> Result<Cow<str>, Error> 
                     'n' => '\n',
                     'r' => '\r',
                     't' => '\t',
-                    _ => { return error(UnrecognizedEscape, idx0 + offset); }
+                    _ => {
+                        return error(UnrecognizedEscape, idx0 + offset);
+                    }
                 }
             }
             text.push(ch);

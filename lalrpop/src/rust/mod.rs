@@ -1,11 +1,11 @@
 //! Simple Rust AST. This is what the various code generators create,
 //! which then gets serialized.
 
-use grammar::repr::Grammar;
 use grammar::parse_tree::Visibility;
-use tls::Tls;
+use grammar::repr::Grammar;
 use std::fmt;
 use std::io::{self, Write};
+use tls::Tls;
 
 macro_rules! rust {
     ($w:expr, $($args:tt)*) => {
