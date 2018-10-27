@@ -41,6 +41,7 @@ publish lalrpop
 
 git tag $VERSION
 git push origin tag $VERSION
+git push upstream tag $VERSION || true
 
 printf "Updated version in docs etc..."
 perl -p -i -e 's/^version = "[0-9.]+"$/version = "'$VERSION'"/' \
