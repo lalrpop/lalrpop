@@ -5,6 +5,9 @@ extern crate diff;
 extern crate lalrpop_util;
 
 use std::cell::RefCell;
+use std::fs;
+use std::path::Path;
+use std::process::Command;
 
 use lalrpop_util::{ErrorRecovery, ParseError};
 
@@ -116,6 +119,7 @@ lalrpop_mod!(
 
 lalrpop_mod!(
     #[deny(overflowing_literals)]
+    #[allow(unused)]
     issue_394
 );
 
@@ -907,4 +911,39 @@ fn error_issue_278() {
             panic!("unexpected response from parser: {:?}", r);
         }
     }
+}
+
+#[test]
+fn verify_lalrpop_generates_itself() {
+    let out_dir = "../target";
+    let lrgrammar = "lrgrammar.lalrpop";
+    let grammar_file = Path::new("../lalrpop/src/parser/").join(lrgrammar);
+    let copied_grammar_file = Path::new(out_dir).join(lrgrammar);
+
+    // Don't remove the .rs file that already exist
+    fs::copy(&grammar_file, &copied_grammar_file).unwrap();
+
+    assert!(
+        Command::new("../target/debug/lalrpop")
+            .args(&[
+                "--force",
+                "--out-dir",
+                out_dir,
+                copied_grammar_file
+                    .to_str()
+                    .expect("grammar path is not UTF-8")
+            ])
+            .status()
+            .unwrap()
+            .success()
+    );
+
+    let actual = fs::read_to_string(grammar_file.with_extension("rs")).unwrap();
+    let expected = fs::read_to_string(copied_grammar_file.with_extension("rs")).unwrap();
+    util::compare_str(
+        &actual,
+        &expected,
+        "The snapshot does not match what lalrpop generates now.\n\
+         Use ./snap.sh to generate a new snapshot of the lrgrammar",
+    );
 }

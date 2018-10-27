@@ -1,4 +1,3 @@
 target
 *~
 TAGS
-lalrpop/src/parser/lrgrammar.rs

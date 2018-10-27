@@ -1,6 +1,3 @@
 #!/bin/bash
 
-rm -rf lalrpop-snap/src
-cp -r lalrpop/src lalrpop-snap/
-rm -f lalrpop-snap/src/parser/lrgrammar.lalrpop
-rm -f lalrpop-snap/src/main.rs
+cargo run -p lalrpop -- --force --out-dir . lalrpop/src/parser/lrgrammar.lalrpop

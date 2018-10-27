@@ -84,14 +84,25 @@ pub fn compare<D: Debug, E: Debug>(actual: D, expected: E) {
         let actual_s = format!("{:#?}", actual);
         let expected_s = format!("{:#?}", expected);
 
-        for diff in diff::lines(&actual_s, &expected_s) {
+        compare_str(&actual_s, &expected_s, "");
+    }
+}
+
+pub fn compare_str(actual: &str, expected: &str, msg: &str) {
+    if actual != expected {
+        let lines = diff::lines(actual, expected);
+        for diff in lines.iter().take(100) {
             match diff {
                 diff::Result::Right(r) => println!("- {}", r),
                 diff::Result::Left(l) => println!("+ {}", l),
-                diff::Result::Both(l, _) => println!("  {}", l),
+                diff::Result::Both(l, _) if lines.len() < 100 => println!("  {}", l),
+                _ => (),
             }
         }
 
-        assert!(false);
+        if lines.len() >= 100 {
+            println!("... more");
+        }
+        assert!(false, "{}", msg);
     }
 }
