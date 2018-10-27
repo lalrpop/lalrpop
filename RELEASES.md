@@ -1,3 +1,22 @@
+<a name="0.16.1"></a>
+# Version 0.16.1 (2018-10-27)
+
+
+## Features
+
+*   Add a setting to strip indentation from the generated grammar ([9f3a978f](https://github.com/lalrpop/lalrpop/commit/9f3a978fde1a6a86c907cfbd27654032fdcb1d5c))
+*   Allow setting features from the commandline ([c8df4987](https://github.com/lalrpop/lalrpop/commit/c8df49872d50019feb6b742aa22fde8c7c94552d))
+*   Don't depend on lalrpop-snap to compile lalrpop ([3ff1b4c4](https://github.com/lalrpop/lalrpop/commit/3ff1b4c45fb853eb2dd337d7189644e515d87521))
+*   Allow setting out_dir on the command line ([9c26e517](https://github.com/lalrpop/lalrpop/commit/9c26e5177e6c910b8d51062795a245840a946d93))
+*   Let parse rules be conditionally compiled ([e6b6a07f](https://github.com/lalrpop/lalrpop/commit/e6b6a07fd694fa795c6999fcb879a331d6f04256))
+
+## Fixes
+*   Process escape sequences in string literals appearing as terminals ([0b7e1e1d](https://github.com/lalrpop/lalrpop/commit/e915302bbf75674ef22423dc5a925e5d0b7e1e1d))
+
+Thanks to the following contributors:
+- @Marwes
+- @jimblandy
+
 # Version 0.16.0
 Features: 
 - Allow attributes to be specified in larlpop_mod! (#398)
