@@ -97,6 +97,15 @@ pub enum Tok<'input> {
     Underscore,
     Bang,
     ShebangAttribute(&'input str), // #![...]
+
+    // Dummy tokens for parser sharing
+    StartGrammar,
+    StartPattern,
+    StartMatchMapping,
+    #[allow(dead_code)]
+    StartGrammarWhereClauses,
+    #[allow(dead_code)]
+    StartTypeRef,
 }
 
 pub struct Tokenizer<'input> {
