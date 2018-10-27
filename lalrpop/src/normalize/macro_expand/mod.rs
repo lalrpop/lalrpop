@@ -596,5 +596,6 @@ fn inline(span: Span) -> Vec<Annotation> {
     vec![Annotation {
         id_span: span,
         id: Atom::from(INLINE),
+        arg: None,
     }]
 }

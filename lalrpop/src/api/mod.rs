@@ -135,6 +135,16 @@ impl Configuration {
         self
     }
 
+    /// Sets the features used during compilation, disables the use of cargo features.
+    /// (Default: Loaded from `CARGO_FEATURE_{}` environment variables).
+    pub fn set_features<I>(&mut self, iterable: I) -> &mut Configuration
+    where
+        I: IntoIterator<Item = String>,
+    {
+        self.session.features = Some(iterable.into_iter().collect());
+        self
+    }
+
     /// Enables "unit-testing" configuration. This is only for
     /// lalrpop-test.
     #[doc(hidden)]
@@ -178,6 +188,26 @@ impl Configuration {
                 None => return Err("missing OUT_DIR variable")?,
             };
             session.out_dir = Some(PathBuf::from(out_dir));
+        }
+
+        if self.session.features.is_none() {
+            // Pick up the features cargo sets for build scripts
+            session.features = Some(
+                env::vars()
+                    .filter_map(|(feature_var, _)| {
+                        let prefix = "CARGO_FEATURE_";
+                        if feature_var.starts_with(prefix) {
+                            Some(
+                                feature_var[prefix.len()..]
+                                    .replace("_", "-")
+                                    .to_ascii_lowercase(),
+                            )
+                        } else {
+                            None
+                        }
+                    })
+                    .collect(),
+            );
         }
 
         let session = Rc::new(session);

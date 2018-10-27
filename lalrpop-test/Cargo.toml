@@ -16,3 +16,7 @@ path = "../lalrpop-util"
 [build-dependencies.lalrpop]
 path = "../lalrpop"
 
+
+[features]
+default = ["test-set"]
+test-set = []

@@ -705,3 +705,26 @@ fn char_literals() {
         ],
     );
 }
+
+#[test]
+fn string_escapes() {
+    use std::borrow::Cow;
+    use super::apply_string_escapes;
+
+    assert_eq!(apply_string_escapes(r#"foo"#, 5), Ok(Cow::Borrowed("foo")));
+    assert_eq!(apply_string_escapes(r#"\\"#, 10), Ok(Cow::Owned::<str>(r#"\"#.into())));
+    assert_eq!(apply_string_escapes(r#"\""#, 15), Ok(Cow::Owned::<str>(r#"""#.into())));
+    assert_eq!(apply_string_escapes(r#"up\ndown"#, 25),
+               Ok(Cow::Owned::<str>("up\ndown".into())));
+    assert_eq!(apply_string_escapes(r#"forth\rback"#, 25),
+               Ok(Cow::Owned::<str>("forth\rback".into())));
+    assert_eq!(apply_string_escapes(r#"left\tright"#, 40),
+               Ok(Cow::Owned::<str>("left\tright".into())));
+
+    // Errors.
+    assert_eq!(apply_string_escapes("\u{192}\\oo", 65), // "ƒ\oo"
+               Err(Error { location: 68, code: ErrorCode::UnrecognizedEscape }));
+    // LALRPOP doesn't support the other Rust escape sequences.
+    assert_eq!(apply_string_escapes(r#"star: \u{2a}"#, 105),
+               Err(Error { location: 112, code: ErrorCode::UnrecognizedEscape }));
+}

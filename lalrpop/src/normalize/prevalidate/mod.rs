@@ -131,7 +131,8 @@ impl<'grammar> Validator<'grammar> {
                         return_err!(data.span, "macros cannot be marked public");
                     }
                     let inline_annotation = Atom::from(INLINE);
-                    let known_annotations = vec![inline_annotation.clone()];
+                    let cfg_annotation = Atom::from(CFG);
+                    let known_annotations = [inline_annotation.clone(), cfg_annotation.clone()];
                     let mut found_annotations = set();
                     for annotation in &data.annotations {
                         if !known_annotations.contains(&annotation.id) {
@@ -151,6 +152,21 @@ impl<'grammar> Validator<'grammar> {
                                 annotation.id_span,
                                 "public items cannot be marked #[inline]"
                             );
+                        } else if annotation.id == cfg_annotation {
+                            if data.visibility.is_pub() {
+                                match annotation.arg {
+                                Some((ref name, _)) if name == "feature" => (),
+                                _ => return_err!(
+                                    annotation.id_span,
+                                    r#"`cfg` annotations must have a `feature = "my_feature" argument"#
+                                ),
+                            }
+                            } else {
+                                return_err!(
+                                    annotation.id_span,
+                                    "private items cannot be marked #[cfg]"
+                                );
+                            }
                         }
                     }
 

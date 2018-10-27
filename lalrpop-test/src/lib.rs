@@ -119,6 +119,16 @@ lalrpop_mod!(
     issue_394
 );
 
+lalrpop_mod!(
+    // No parser should have been generated so nothing should be unused
+    #[deny(dead_code)]
+    cfg
+);
+
+pub fn use_cfg_created_parser() {
+    cfg::CreatedParser::new();
+}
+
 mod util;
 
 /// This constant is here so that some of the generator parsers can

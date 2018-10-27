@@ -211,11 +211,13 @@ impl<'s> LowerState<'s> {
         &mut self,
         grammar: &pt::Grammar,
     ) -> Map<NonterminalString, NonterminalString> {
+        let session = self.session;
         grammar
             .items
             .iter()
             .filter_map(|item| item.as_nonterminal())
             .filter(|nt| nt.visibility.is_pub())
+            .filter(|nt| cfg_active(session, nt))
             .map(|nt| {
                 // create a synthetic symbol `__Foo` for each public symbol `Foo`
                 // with a rule like:
@@ -459,4 +461,19 @@ where
     debug_assert!(next_chosen.is_none());
 
     result
+}
+
+fn cfg_active(session: &Session, nt: &pt::NonterminalData) -> bool {
+    let cfg_atom = Atom::from(CFG);
+    nt.annotations
+        .iter()
+        .filter(|ann| ann.id == cfg_atom)
+        .all(|ann| {
+            ann.arg.as_ref().map_or(false, |&(_, ref feature)| {
+                session
+                    .features
+                    .as_ref()
+                    .map_or(false, |features| features.contains(feature))
+            })
+        })
 }

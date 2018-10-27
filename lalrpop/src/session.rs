@@ -2,10 +2,11 @@
 //! to `configuration::Configuration`, but it is not exported outside the
 //! crate. Note that all fields are public and so forth for convenience.
 
+use log::{Level, Log};
+use std::collections::BTreeSet;
 use std::default::Default;
 use std::path;
 use style::{self, Style};
-use log::{Level, Log};
 
 // These two, ubiquitous types are defined here so that their fields can be private
 // across crate, but visible within the crate:
@@ -78,6 +79,9 @@ pub struct Session {
 
     /// Unit testing (lalrpop-test) configuration
     pub unit_test: bool,
+
+    /// Features used for conditional compilation
+    pub features: Option<BTreeSet<String>>,
 }
 
 impl Session {
@@ -100,6 +104,7 @@ impl Session {
             nonterminal_symbol: style::DEFAULT,
             hint_text: style::FG_BRIGHT_MAGENTA.with(style::BOLD),
             unit_test: false,
+            features: Default::default(),
         }
     }
 
@@ -124,6 +129,7 @@ impl Session {
             nonterminal_symbol: Style::new(),
             hint_text: Style::new(),
             unit_test: true,
+            features: Default::default(),
         }
     }
 
