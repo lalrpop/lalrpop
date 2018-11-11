@@ -922,7 +922,7 @@ fn generics_issue_417(){
     // The real thing `generics_issue_417` is testing is that the code
     // *compiles*, even though the type parameter `T` does not appear
     // in any of the arguments.
-    assert!(generics_issue_417::PlusParser::new().parse::<()>("plus: hello, world,").is_ok());
+    assert!(generics_issue_417::TupleParser::new().parse::<()>("(hello, world)").is_ok());
 }
 
 #[test]

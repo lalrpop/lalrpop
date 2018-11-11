@@ -8,10 +8,4 @@ extern {
 
 Id : String = <id:r"[a-zA-Z0-9]*"> => T::schema(id);
 
-Tuple : String = <(<Id> ",")>;
-
-Option : Option<String> = "opt:" <Tuple?>;
-
-Star : Vec<String> = "star:" <Tuple*>;
-
-pub Plus : Vec<String> = "plus:" <Tuple+>;
+pub Tuple : (String, String) = "(" <(<Id> "," <Id>)> ")";
