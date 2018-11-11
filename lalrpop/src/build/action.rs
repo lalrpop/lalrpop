@@ -359,12 +359,16 @@ fn emit_inline_action_code<W: Write>(
                 // execute the inlined reduce action
                 rust!(
                     rust,
-                    "let {}temp{} = {}action{}(",
+                    "let {}temp{} = {}action{}::<",
                     grammar.prefix,
                     temp_counter,
                     grammar.prefix,
                     inlined_action.index()
                 );
+                for t in grammar.non_lifetime_type_parameters() {
+                    rust!(rust, "{},", t);
+                }
+                rust!(rust, ">(");
                 for parameter in &grammar.parameters {
                     rust!(rust, "{},", parameter.name);
                 }
@@ -396,8 +400,11 @@ fn emit_inline_action_code<W: Write>(
             }
         }
     }
-
-    rust!(rust, "{}action{}(", grammar.prefix, data.action.index());
+    rust!(rust, "{}action{}::<", grammar.prefix, data.action.index());
+    for t in grammar.non_lifetime_type_parameters() {
+        rust!(rust, "{},", t);
+    }
+    rust!(rust, ">(");
     for parameter in &grammar.parameters {
         rust!(rust, "{},", parameter.name);
     }
