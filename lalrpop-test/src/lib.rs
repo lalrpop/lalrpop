@@ -111,6 +111,9 @@ lalrpop_mod!(partial_parse);
 /// regression test for issue #278.
 lalrpop_mod!(error_issue_278);
 
+/// test for generic macros issue #417.
+lalrpop_mod!(generics_issue_417);
+
 // Check that error recovery (which requires cloneable tokens) is not created if it is not used
 lalrpop_mod!(
     #[allow(unused)]
@@ -911,6 +914,15 @@ fn error_issue_278() {
             panic!("unexpected response from parser: {:?}", r);
         }
     }
+}
+
+#[test]
+fn generics_issue_417(){
+    // Similar to `generics_issue_104`
+    // The real thing `generics_issue_417` is testing is that the code
+    // *compiles*, even though the type parameter `T` does not appear
+    // in any of the arguments.
+    assert!(generics_issue_417::TupleParser::new().parse::<()>("(hello, world)").is_ok());
 }
 
 #[test]

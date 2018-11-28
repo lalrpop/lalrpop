@@ -350,6 +350,11 @@ fn emit_inline_action_code<W: Write>(
     // Now create temporaries for the inlined things
     let mut arg_counter = 0;
     let mut temp_counter = 0;
+
+    // if there are type parameters then type annotation is required
+    let annotate = !grammar.non_lifetime_type_parameters().is_empty();
+    let lparen = if annotate {"::<"} else {"("};
+
     for symbol in &data.symbols {
         match *symbol {
             r::InlinedSymbol::Original(_) => {
@@ -359,12 +364,17 @@ fn emit_inline_action_code<W: Write>(
                 // execute the inlined reduce action
                 rust!(
                     rust,
-                    "let {}temp{} = {}action{}(",
+                    "let {}temp{} = {}action{}{}",
                     grammar.prefix,
                     temp_counter,
                     grammar.prefix,
-                    inlined_action.index()
+                    inlined_action.index(),
+                    lparen
                 );
+                for t in grammar.non_lifetime_type_parameters() {
+                    rust!(rust, "{},", t);
+                }
+                if annotate {rust!(rust, ">(")};
                 for parameter in &grammar.parameters {
                     rust!(rust, "{},", parameter.name);
                 }
@@ -396,8 +406,11 @@ fn emit_inline_action_code<W: Write>(
             }
         }
     }
-
-    rust!(rust, "{}action{}(", grammar.prefix, data.action.index());
+    rust!(rust, "{}action{}{}", grammar.prefix, data.action.index(), lparen);
+    for t in grammar.non_lifetime_type_parameters() {
+        rust!(rust, "{},", t);
+    }
+    if annotate {rust!(rust, ">(")};
     for parameter in &grammar.parameters {
         rust!(rust, "{},", parameter.name);
     }

@@ -1,0 +1,11 @@
+use generics_issue_104_lib::Generator;
+
+grammar<T> where T: Generator;
+
+extern {
+    type Error = String;
+}
+
+Id : String = <id:r"[a-zA-Z0-9]*"> => T::schema(id);
+
+pub Tuple : (String, String) = "(" <(<Id> "," <Id>)> ")";
