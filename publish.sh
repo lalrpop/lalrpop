@@ -36,7 +36,6 @@ function publish {
 }
 
 publish lalrpop-util
-publish lalrpop-snap
 publish lalrpop
 
 git tag $VERSION
