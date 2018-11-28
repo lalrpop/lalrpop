@@ -1,3 +1,12 @@
+<a name="0.16.2"></a>
+# Version 0.16.2 (2018-11-22)
+
+## Fixes
+*   Fix type annotation for inline actions
+
+Thanks to the following contributors:
+- @tjade273
+
 <a name="0.16.1"></a>
 # Version 0.16.1 (2018-10-27)
 
