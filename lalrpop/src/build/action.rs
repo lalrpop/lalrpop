@@ -353,6 +353,7 @@ fn emit_inline_action_code<W: Write>(
 
     // if there are type parameters then type annotation is required
     let annotate = !grammar.non_lifetime_type_parameters().is_empty();
+    let lparen = if annotate {"::<"} else {"("};
 
     for symbol in &data.symbols {
         match *symbol {
@@ -363,20 +364,17 @@ fn emit_inline_action_code<W: Write>(
                 // execute the inlined reduce action
                 rust!(
                     rust,
-                    "let {}temp{} = {}action{}",
+                    "let {}temp{} = {}action{}{}",
                     grammar.prefix,
                     temp_counter,
                     grammar.prefix,
                     inlined_action.index(),
+                    lparen
                 );
-                if annotate {
-                    rust!(rust, "::<");
-                    for t in grammar.non_lifetime_type_parameters() {
-                        rust!(rust, "{},", t);
-                    }
-                    rust!(rust, ">");
+                for t in grammar.non_lifetime_type_parameters() {
+                    rust!(rust, "{},", t);
                 }
-                rust!(rust, "(");
+                if annotate {rust!(rust, ">(")};
                 for parameter in &grammar.parameters {
                     rust!(rust, "{},", parameter.name);
                 }
@@ -408,15 +406,11 @@ fn emit_inline_action_code<W: Write>(
             }
         }
     }
-    rust!(rust, "{}action{}", grammar.prefix, data.action.index());
-    if annotate {
-        rust!(rust, "::<");
-        for t in grammar.non_lifetime_type_parameters() {
-            rust!(rust, "{},", t);
-        }
-        rust!(rust, ">");
+    rust!(rust, "{}action{}{}", grammar.prefix, data.action.index(), lparen);
+    for t in grammar.non_lifetime_type_parameters() {
+        rust!(rust, "{},", t);
     }
-    rust!(rust, "(");
+    if annotate {rust!(rust, ">(")};
     for parameter in &grammar.parameters {
         rust!(rust, "{},", parameter.name);
     }
