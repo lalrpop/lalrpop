@@ -44,7 +44,7 @@ you have some existing data structures you would like to parse into --
 so if you built up a parse tree, you'd then have to convert from the
 parse tree into those data structures, and that might be annoying.
 
-Therefore, what a parser generator usually does, is instead let you
+Therefore, what a parser generator usually does, is instead to let you
 choose how to represent each node in the parse tree, and how to do the
 conversions. You give each nonterminal a type, which can be any Rust
 type, and you write code that will execute each time a new node in the
