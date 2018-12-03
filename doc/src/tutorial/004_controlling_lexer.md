@@ -155,7 +155,7 @@ fn calculator2b() {
 In the previous section, we saw that fixed strings have precedence
 over regular expressions. But what if we have two regular expressions
 that can match the same input? Which one wins? For example, consider
-this various of the grammar above, where we also try to support
+this variation of the grammar above, where we also try to support
 parenthesized **identifiers** like `((foo22))`:
 
 ```
