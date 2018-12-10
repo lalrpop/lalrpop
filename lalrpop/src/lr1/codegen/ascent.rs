@@ -2,11 +2,10 @@
 //!
 //! [recursive ascent]: https://en.wikipedia.org/wiki/Recursive_ascent_parser
 
-use collections::{Multimap, Set};
-use grammar::parse_tree::WhereClause;
+use collections::Multimap;
 use grammar::repr::{
     Grammar, NonterminalString, Production, Symbol, TerminalString, TypeParameter, TypeRepr,
-    Visibility,
+    Visibility, WhereClause,
 };
 use lr1::core::*;
 use lr1::lookahead::Token;
@@ -49,7 +48,7 @@ struct RecursiveAscent<'ascent, 'grammar> {
     /// type parameters for the `Nonterminal` type
     nonterminal_type_params: Vec<TypeParameter>,
 
-    nonterminal_where_clauses: Vec<WhereClause<TypeRepr>>,
+    nonterminal_where_clauses: Vec<WhereClause>,
 }
 
 /// Tracks the suffix of the stack (that is, top-most elements) that any
@@ -125,44 +124,11 @@ impl<'ascent, 'grammar, W: Write>
         action_module: &str,
         out: &'ascent mut RustWrite<W>,
     ) -> Self {
-        // The nonterminal type needs to be parameterized by all the
-        // type parameters that actually appear in the types of
-        // nonterminals.  We can't just use *all* type parameters
-        // because that would leave unused lifetime/type parameters in
-        // some cases.
-        let referenced_ty_params: Set<TypeParameter> = grammar
-            .types
-            .nonterminal_types()
-            .into_iter()
-            .flat_map(|t| t.referenced())
-            .collect();
-
-        let nonterminal_type_params: Vec<_> = grammar
-            .type_parameters
-            .iter()
-            .filter(|t| referenced_ty_params.contains(t))
-            .cloned()
-            .collect();
-
-        let mut referenced_where_clauses = Set::new();
-        for wc in &grammar.where_clauses {
-            wc.map(|ty| {
-                if ty
-                    .referenced()
-                    .iter()
-                    .any(|p| nonterminal_type_params.contains(p))
-                {
-                    referenced_where_clauses.insert(wc.clone());
-                }
-            });
-        }
-
-        let nonterminal_where_clauses: Vec<_> = grammar
-            .where_clauses
-            .iter()
-            .filter(|wc| referenced_where_clauses.contains(wc))
-            .cloned()
-            .collect();
+        let (nonterminal_type_params, nonterminal_where_clauses) =
+            Self::filter_type_parameters_and_where_clauses(
+                grammar,
+                grammar.types.nonterminal_types(),
+            );
 
         let state_inputs = states
             .iter()
@@ -528,37 +494,27 @@ impl<'ascent, 'grammar, W: Write>
 
         let triple_type = self.triple_type();
         let parse_error_type = self.types.parse_error_type();
-        let error_type = self.types.error_type();
-
-        // If we are generated the tokenizer, it generates ParseError
-        // errors, otherwise they are user errors.
-        let iter_error_type = if self.grammar.intern_token.is_some() {
-            parse_error_type
-        } else {
-            &error_type
-        };
 
         let (fn_args, starts_with_terminal) = self.fn_args(optional_prefix, fixed_prefix);
 
-        try!(self.out.write_fn_header(
-            self.grammar,
-            &Visibility::Priv,
-            format!("{}{}{}", self.prefix, fn_kind, fn_index),
-            vec![format!(
-                "{}TOKENS: Iterator<Item=Result<{},{}>>",
-                self.prefix, triple_type, iter_error_type
-            ),],
-            None,
-            fn_args,
-            format!(
-                "Result<(Option<{}>, {}Nonterminal<{}>), {}>",
-                triple_type,
-                self.prefix,
-                Sep(", ", &self.custom.nonterminal_type_params),
-                parse_error_type
-            ),
-            vec![]
-        ));
+        try!(
+            self.out
+                .fn_header(
+                    &Visibility::Priv,
+                    format!("{}{}{}", self.prefix, fn_kind, fn_index),
+                ).with_grammar(self.grammar)
+                .with_type_parameters(Some(format!(
+                    "{}TOKENS: Iterator<Item=Result<{},{}>>",
+                    self.prefix, triple_type, parse_error_type
+                ))).with_parameters(fn_args)
+                .with_return_type(format!(
+                    "Result<(Option<{}>, {}Nonterminal<{}>), {}>",
+                    triple_type,
+                    self.prefix,
+                    Sep(", ", &self.custom.nonterminal_type_params),
+                    parse_error_type
+                )).emit()
+        );
 
         rust!(self.out, "{{");
 
@@ -1009,11 +965,7 @@ impl<'ascent, 'grammar, W: Write>
             rust!(self.out, "Some(Err(e)) => return Err(e),");
         } else {
             // otherwise, they are user errors
-            rust!(
-                self.out,
-                "Some(Err(e)) => return Err({}lalrpop_util::ParseError::User {{ error: e }}),",
-                self.prefix
-            );
+            rust!(self.out, "Some(Err(e)) => return Err(e),");
         }
         rust!(self.out, "}};");
         Ok(())

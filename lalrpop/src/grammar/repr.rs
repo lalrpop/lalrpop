@@ -5,6 +5,7 @@
  */
 
 use collections::{map, Map};
+use grammar::free_variables::FreeVariables;
 use grammar::pattern::Pattern;
 use message::Content;
 use std::fmt::{Debug, Display, Error, Formatter};
@@ -13,8 +14,8 @@ use util::Sep;
 
 // These concepts we re-use wholesale
 pub use grammar::parse_tree::{
-    Annotation, InternToken, NonterminalString, Path, Span, TerminalLiteral, TerminalString,
-    TypeParameter, Visibility, WhereClause,
+    Annotation, InternToken, Lifetime, NonterminalString, Path, Span, TerminalLiteral,
+    TerminalString, TypeBound, TypeParameter, Visibility,
 };
 
 #[derive(Clone, Debug)]
@@ -45,7 +46,7 @@ pub struct Grammar {
     pub parameters: Vec<Parameter>,
 
     // where clauses declared on the grammar, like `grammar<T> where T: Sized`
-    pub where_clauses: Vec<WhereClause<TypeRepr>>,
+    pub where_clauses: Vec<WhereClause>,
 
     // optional tokenizer DFA; this is only needed if the user did not supply
     // an extern token declaration
@@ -59,6 +60,21 @@ pub struct Grammar {
     pub conversions: Map<TerminalString, Pattern<TypeRepr>>,
     pub types: Types,
     pub module_attributes: Vec<String>,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, PartialOrd, Ord)]
+pub enum WhereClause {
+    // forall<'a> WC
+    Forall {
+        binder: Vec<TypeParameter>,
+        clause: Box<WhereClause>,
+    },
+
+    // `T: Foo`
+    Bound {
+        subject: TypeRepr,
+        bound: TypeBound<TypeRepr>,
+    },
 }
 
 /// For each terminal, we map it to a small integer from 0 to N.
@@ -173,15 +189,25 @@ pub enum TypeRepr {
         type_parameter: Atom,
         id: Atom,
     },
-    Lifetime(Atom),
+    Lifetime(Lifetime),
     Ref {
-        lifetime: Option<Atom>,
+        lifetime: Option<Lifetime>,
         mutable: bool,
         referent: Box<TypeRepr>,
     },
 }
 
 impl TypeRepr {
+    pub fn from_parameter(tp: &TypeParameter) -> Self {
+        match tp {
+            TypeParameter::Lifetime(l) => TypeRepr::Lifetime(l.clone()),
+            TypeParameter::Id(name) => TypeRepr::Nominal(NominalTypeRepr {
+                path: Path::from_id(name.clone()),
+                types: vec![],
+            }),
+        }
+    }
+
     pub fn is_unit(&self) -> bool {
         match *self {
             TypeRepr::Tuple(ref v) => v.is_empty(),
@@ -203,37 +229,97 @@ impl TypeRepr {
         })
     }
 
-    /// Returns the type parameters (or potential type parameters)
-    /// referenced by this type. e.g., for the type `&'x X`, would
-    /// return `[TypeParameter::Lifetime('x), TypeParameter::Id(X)]`.
-    /// This is later used to prune the type parameters list so that
-    /// only those that are actually used are included.
-    pub fn referenced(&self) -> Vec<TypeParameter> {
-        match *self {
-            TypeRepr::Tuple(ref tys) => tys.iter().flat_map(|t| t.referenced()).collect(),
-            TypeRepr::Nominal(ref data) => data
-                .types
-                .iter()
-                .flat_map(|t| t.referenced())
-                .chain(match data.path.as_id() {
-                    Some(id) => vec![TypeParameter::Id(id)],
-                    None => vec![],
+    pub fn bottom_up(&self, op: &mut impl FnMut(TypeRepr) -> TypeRepr) -> Self {
+        let result = match self {
+            TypeRepr::Tuple(types) => {
+                TypeRepr::Tuple(types.iter().map(|t| t.bottom_up(op)).collect())
+            }
+            TypeRepr::Nominal(NominalTypeRepr { path, types }) => {
+                TypeRepr::Nominal(NominalTypeRepr {
+                    path: path.clone(),
+                    types: types.iter().map(|t| t.bottom_up(op)).collect(),
                 })
-                .collect(),
-            TypeRepr::Associated {
-                ref type_parameter, ..
-            } => vec![TypeParameter::Id(type_parameter.clone())],
-            TypeRepr::Lifetime(ref l) => vec![TypeParameter::Lifetime(l.clone())],
+            }
+            TypeRepr::Associated { type_parameter, id } => TypeRepr::Associated {
+                type_parameter: type_parameter.clone(),
+                id: id.clone(),
+            },
+            TypeRepr::Lifetime(l) => TypeRepr::Lifetime(l.clone()),
             TypeRepr::Ref {
-                ref lifetime,
-                mutable: _,
-                ref referent,
-            } => lifetime
-                .iter()
-                .map(|id| TypeParameter::Lifetime(id.clone()))
-                .chain(referent.referenced())
-                .collect(),
-        }
+                lifetime,
+                mutable,
+                referent,
+            } => TypeRepr::Ref {
+                lifetime: lifetime.clone(),
+                mutable: *mutable,
+                referent: Box::new(referent.bottom_up(op)),
+            },
+        };
+        op(result)
+    }
+
+    /// Finds anonymous lifetimes (e.g., `&u32` or `Foo<'_>`) and
+    /// instantiates them with a name like `__1`. Also computes
+    /// obvious outlives relationships that are needed (e.g., `&'a T`
+    /// requires `T: 'a`). The parameters `type_parameters` and
+    /// `where_clauses` should contain -- on entry -- the
+    /// type-parameters and where-clauses that currently exist on the
+    /// grammar. On exit, they will have been modified to include the
+    /// new type parameters and any implied where clauses.
+    pub fn name_anonymous_lifetimes_and_compute_implied_outlives(
+        &self,
+        prefix: &str,
+        type_parameters: &mut Vec<TypeParameter>,
+        where_clauses: &mut Vec<WhereClause>,
+    ) -> Self {
+        let fresh_lifetime_name = |type_parameters: &mut Vec<TypeParameter>| {
+            // Make a name like `__1`:
+            let len = type_parameters.len();
+            let name = Lifetime(Atom::from(format!("'{}{}", prefix, len)));
+            type_parameters.push(TypeParameter::Lifetime(name.clone()));
+            name
+        };
+
+        self.bottom_up(&mut |t| match t {
+            TypeRepr::Tuple { .. } | TypeRepr::Nominal { .. } | TypeRepr::Associated { .. } => t,
+
+            TypeRepr::Lifetime(l) => {
+                if l.is_anonymous() {
+                    TypeRepr::Lifetime(fresh_lifetime_name(type_parameters))
+                } else {
+                    TypeRepr::Lifetime(l)
+                }
+            }
+
+            TypeRepr::Ref {
+                mut lifetime,
+                mutable,
+                referent,
+            } => {
+                if lifetime.is_none() {
+                    lifetime = Some(fresh_lifetime_name(type_parameters));
+                }
+
+                // If we have `&'a T`, then we have to compute each
+                // free variable `X` in `T` and ensure that `X: 'a`:
+                let l = lifetime.clone().unwrap();
+                for tp in referent.free_variables(type_parameters) {
+                    let wc = WhereClause::Bound {
+                        subject: TypeRepr::from_parameter(&tp),
+                        bound: TypeBound::Lifetime(l.clone()),
+                    };
+                    if !where_clauses.contains(&wc) {
+                        where_clauses.push(wc);
+                    }
+                }
+
+                TypeRepr::Ref {
+                    lifetime,
+                    mutable,
+                    referent,
+                }
+            }
+        })
     }
 }
 
@@ -327,7 +413,7 @@ impl Types {
 
     pub fn error_type(&self) -> TypeRepr {
         self.error_type.clone().unwrap_or_else(|| TypeRepr::Ref {
-            lifetime: Some(Atom::from("'static")),
+            lifetime: Some(Lifetime::statik()),
             mutable: false,
             referent: Box::new(TypeRepr::str()),
         })
@@ -374,6 +460,18 @@ impl Types {
     pub fn spanned_type(&self, ty: TypeRepr) -> TypeRepr {
         let location_type = self.terminal_loc_type();
         TypeRepr::Tuple(vec![location_type.clone(), ty, location_type])
+    }
+}
+
+impl Display for WhereClause {
+    fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
+        match self {
+            WhereClause::Forall { binder, clause } => {
+                write!(fmt, "for<{}> {}", Sep(", ", binder), clause)
+            }
+
+            WhereClause::Bound { subject, bound } => write!(fmt, "{}: {}", subject, bound),
+        }
     }
 }
 

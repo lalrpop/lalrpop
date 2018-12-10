@@ -1,7 +1,7 @@
 //! The "parse-tree" is what is produced by the parser. We use it do
 //! some pre-expansion and so forth before creating the proper AST.
 
-use grammar::consts::{LALR, RECURSIVE_ASCENT, TABLE_DRIVEN, TEST_ALL};
+use grammar::consts::{INPUT_LIFETIME, LALR, RECURSIVE_ASCENT, TABLE_DRIVEN, TEST_ALL};
 use grammar::pattern::Pattern;
 use grammar::repr::{self as r, NominalTypeRepr, TypeRepr};
 use lexer::dfa::DFA;
@@ -207,13 +207,13 @@ pub enum TypeRef {
     },
 
     Ref {
-        lifetime: Option<Atom>,
+        lifetime: Option<Lifetime>,
         mutable: bool,
         referent: Box<TypeRef>,
     },
 
     // 'x ==> only should appear within nominal types, but what do we care
-    Lifetime(Atom),
+    Lifetime(Lifetime),
 
     // Foo or Bar ==> treated specially since macros may care
     Id(Atom),
@@ -226,58 +226,34 @@ pub enum TypeRef {
 pub enum WhereClause<T> {
     // 'a: 'b + 'c
     Lifetime {
-        lifetime: Atom,
-        bounds: Vec<Atom>,
+        lifetime: Lifetime,
+        bounds: Vec<Lifetime>,
     },
     // where for<'a> &'a T: Debug + Into<usize>
     Type {
-        forall: Option<Vec<Atom>>,
+        forall: Vec<TypeParameter>,
         ty: T,
         bounds: Vec<TypeBound<T>>,
     },
 }
 
-impl<T> WhereClause<T> {
-    pub fn map<F, U>(&self, mut f: F) -> WhereClause<U>
-    where
-        F: FnMut(&T) -> U,
-    {
-        match *self {
-            WhereClause::Lifetime {
-                ref lifetime,
-                ref bounds,
-            } => WhereClause::Lifetime {
-                lifetime: lifetime.clone(),
-                bounds: bounds.clone(),
-            },
-            WhereClause::Type {
-                ref forall,
-                ref ty,
-                ref bounds,
-            } => WhereClause::Type {
-                forall: forall.clone(),
-                ty: f(ty),
-                bounds: bounds.iter().map(|b| b.map(&mut f)).collect(),
-            },
-        }
-    }
-}
-
 #[derive(Clone, Debug, PartialEq, Eq, PartialOrd, Ord)]
 pub enum TypeBound<T> {
     // The `'a` in `T: 'a`.
-    Lifetime(Atom),
+    Lifetime(Lifetime),
+
     // `for<'a> FnMut(&'a usize)`
     Fn {
-        forall: Option<Vec<Atom>>,
+        forall: Vec<TypeParameter>,
         path: Path,
         parameters: Vec<T>,
         ret: Option<T>,
     },
+
     // `some::Trait` or `some::Trait<Param, ...>` or `some::Trait<Item = Assoc>`
     // or `for<'a> Trait<'a, T>`
     Trait {
-        forall: Option<Vec<Atom>>,
+        forall: Vec<TypeParameter>,
         path: Path,
         parameters: Vec<TypeBoundParameter<T>>,
     },
@@ -317,7 +293,7 @@ impl<T> TypeBound<T> {
 #[derive(Clone, Debug, PartialEq, Eq, PartialOrd, Ord)]
 pub enum TypeBoundParameter<T> {
     // 'a
-    Lifetime(Atom),
+    Lifetime(Lifetime),
     // `T` or `'a`
     TypeParameter(T),
     // `Item = T`
@@ -341,17 +317,8 @@ impl<T> TypeBoundParameter<T> {
 
 #[derive(Clone, Debug, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub enum TypeParameter {
-    Lifetime(Atom),
+    Lifetime(Lifetime),
     Id(Atom),
-}
-
-impl TypeParameter {
-    pub fn is_lifetime(&self) -> bool {
-        match *self {
-            TypeParameter::Lifetime(_) => true,
-            _ => false,
-        }
-    }
 }
 
 #[derive(Clone, Debug, PartialEq, Eq)]
@@ -547,6 +514,31 @@ impl Into<Box<Content>> for NonterminalString {
     }
 }
 
+#[derive(Clone, Hash, PartialEq, Eq, PartialOrd, Ord)]
+pub struct Lifetime(pub Atom);
+
+impl Lifetime {
+    pub fn anonymous() -> Self {
+        Lifetime(Atom::from("'_"))
+    }
+
+    pub fn is_anonymous(&self) -> bool {
+        *self == Self::anonymous()
+    }
+
+    pub fn statik() -> Self {
+        Lifetime(Atom::from("'static"))
+    }
+
+    pub fn input() -> Self {
+        Lifetime(Atom::from(INPUT_LIFETIME))
+    }
+
+    pub fn len(&self) -> usize {
+        self.0.len()
+    }
+}
+
 #[derive(Copy, Clone, Debug, PartialEq, Eq)]
 pub enum RepeatOp {
     Star,
@@ -712,7 +704,7 @@ impl<T: Display> Display for WhereClause<T> {
                 ref ty,
                 ref bounds,
             } => {
-                if let Some(ref forall) = *forall {
+                if !forall.is_empty() {
                     write!(fmt, "for<")?;
                     for (i, l) in forall.iter().enumerate() {
                         if i != 0 {
@@ -746,7 +738,7 @@ impl<T: Display> Display for TypeBound<T> {
                 ref parameters,
                 ref ret,
             } => {
-                if let Some(ref forall) = *forall {
+                if !forall.is_empty() {
                     write!(fmt, "for<")?;
                     for (i, l) in forall.iter().enumerate() {
                         if i != 0 {
@@ -777,7 +769,7 @@ impl<T: Display> Display for TypeBound<T> {
                 ref path,
                 ref parameters,
             } => {
-                if let Some(ref forall) = *forall {
+                if !forall.is_empty() {
                     write!(fmt, "for<")?;
                     for (i, l) in forall.iter().enumerate() {
                         if i != 0 {
@@ -827,6 +819,18 @@ impl Display for TerminalString {
 }
 
 impl Debug for TerminalString {
+    fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
+        Display::fmt(self, fmt)
+    }
+}
+
+impl Display for Lifetime {
+    fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
+        Display::fmt(&self.0, fmt)
+    }
+}
+
+impl Debug for Lifetime {
     fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
         Display::fmt(self, fmt)
     }

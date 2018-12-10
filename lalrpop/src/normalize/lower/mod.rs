@@ -2,9 +2,11 @@
 //!
 
 use collections::{map, Map};
-use grammar::consts::*;
+use grammar::consts::CFG;
 use grammar::parse_tree as pt;
-use grammar::parse_tree::{read_algorithm, InternToken, NonterminalString, Path, TerminalString};
+use grammar::parse_tree::{
+    read_algorithm, InternToken, Lifetime, NonterminalString, Path, TerminalString,
+};
 use grammar::pattern::{Pattern, PatternKind};
 use grammar::repr as r;
 use normalize::norm_util::{self, Symbols};
@@ -68,7 +70,7 @@ impl<'s> LowerState<'s> {
                     token_span = Some(grammar.span);
                     let span = grammar.span;
                     let input_str = r::TypeRepr::Ref {
-                        lifetime: Some(Atom::from(INPUT_LIFETIME)),
+                        lifetime: Some(Lifetime::input()),
                         mutable: false,
                         referent: Box::new(r::TypeRepr::Nominal(r::NominalTypeRepr {
                             path: r::Path::str(),
@@ -157,7 +159,7 @@ impl<'s> LowerState<'s> {
         let where_clauses = grammar
             .where_clauses
             .iter()
-            .map(|wc| wc.map(pt::TypeRef::type_repr))
+            .flat_map(|wc| self.lower_where_clause(wc))
             .collect();
 
         let mut algorithm = r::Algorithm::default();
@@ -254,6 +256,39 @@ impl<'s> LowerState<'s> {
                 (nt.name.clone(), fake_name)
             })
             .collect()
+    }
+
+    /// When we lower where clauses into `repr::WhereClause`, they get
+    /// flattened; so we may go from `T: Foo + Bar` into `[T: Foo, T:
+    /// Bar]`. We also convert to `TypeRepr` and so forth.
+    fn lower_where_clause(&mut self, wc: &pt::WhereClause<pt::TypeRef>) -> Vec<r::WhereClause> {
+        match wc {
+            pt::WhereClause::Lifetime { lifetime, bounds } => bounds
+                .iter()
+                .map(|bound| r::WhereClause::Bound {
+                    subject: r::TypeRepr::Lifetime(lifetime.clone()),
+                    bound: pt::TypeBound::Lifetime(bound.clone()),
+                })
+                .collect(),
+
+            pt::WhereClause::Type { forall, ty, bounds } => bounds
+                .iter()
+                .map(|bound| r::WhereClause::Bound {
+                    subject: ty.type_repr(),
+                    bound: bound.map(pt::TypeRef::type_repr),
+                })
+                .map(|bound| {
+                    if forall.is_empty() {
+                        bound
+                    } else {
+                        r::WhereClause::Forall {
+                            binder: forall.clone(),
+                            clause: Box::new(bound),
+                        }
+                    }
+                })
+                .collect(),
+        }
     }
 
     fn action_kind(

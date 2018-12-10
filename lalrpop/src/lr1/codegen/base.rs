@@ -1,5 +1,7 @@
 //! Base helper routines for a code generator.
 
+use collections::Set;
+use grammar::free_variables::FreeVariables;
 use grammar::repr::*;
 use lr1::core::*;
 use rust::RustWrite;
@@ -66,6 +68,89 @@ impl<'codegen, 'grammar, W: Write, C> CodeGenerator<'codegen, 'grammar, W, C> {
         }
     }
 
+    /// We often create meta types that pull together a bunch of
+    /// user-given types -- basically describing (e.g.) the full set
+    /// of return values from any nonterminal (and, in some cases,
+    /// terminals). These types need to carry generic parameters from
+    /// the grammar, since the nonterminals may include generic
+    /// parameters -- but we don't want them to carry *all* the
+    /// generic parameters, since that can be unnecessarily
+    /// restrictive.
+    ///
+    /// In particular, consider something like this:
+    ///
+    /// ```notrust
+    /// grammar<'a>(buffer: &'a mut Vec<u32>);
+    /// ```
+    ///
+    /// Here, we likely do not want the `'a` in the type of `buffer` to appear
+    /// in the nonterminal result. That's because, if it did, then the
+    /// action functions will have a signature like:
+    ///
+    /// ```ignore
+    /// fn foo<'a, T>(x: &'a mut Vec<T>) -> Result<'a> { ... }
+    /// ```
+    ///
+    /// In that case, we would only be able to call one action fn and
+    /// will in fact get borrowck errors, because Rust would think we
+    /// were potentially returning this `&'a mut Vec<T>`.
+    ///
+    /// Therefore, we take the full list of type parameters and we
+    /// filter them down to those that appear in the types that we
+    /// need to include (those that appear in the `tys` parameter).
+    ///
+    /// In some cases, we need to include a few more than just that
+    /// obviously appear textually: for example, if we have `T::Foo`,
+    /// and we see a where-clause `T: Bar<'a>`, then we need to
+    /// include both `T` and `'a`, since that bound may be important
+    /// for resolving `T::Foo` (in other words, `T::Foo` may expand to
+    /// `<T as Bar<'a>>::Foo`).
+    pub fn filter_type_parameters_and_where_clauses(
+        grammar: &Grammar,
+        tys: impl IntoIterator<Item = TypeRepr>,
+    ) -> (Vec<TypeParameter>, Vec<WhereClause>) {
+        let referenced_ty_params: Set<_> = tys
+            .into_iter()
+            .flat_map(|t| t.free_variables(&grammar.type_parameters))
+            .collect();
+
+        let filtered_type_params: Vec<_> = grammar
+            .type_parameters
+            .iter()
+            .filter(|t| referenced_ty_params.contains(t))
+            .cloned()
+            .collect();
+
+        // If `T` is referenced in the types we need to keep, then
+        // include any bounds like `T: Foo`. This may be needed for
+        // the well-formedness conditions on `T` (e.g., maybe we have
+        // `T: Hash` and a `HashSet<T>` or something) but it may also
+        // be needed because of `T::Foo`-like types.
+        //
+        // Do not however include a bound like `T: 'a` unless both `T`
+        // **and** `'a` are referenced -- same with bounds like `T:
+        // Foo<U>`. If those were needed, then `'a` or `U` would also
+        // have to appear in the types.
+        debug!("filtered_type_params = {:?}", filtered_type_params);
+        let filtered_where_clauses: Vec<_> = grammar
+            .where_clauses
+            .iter()
+            .filter(|wc| {
+                debug!(
+                    "wc = {:?} free_variables = {:?}",
+                    wc,
+                    wc.free_variables(&grammar.type_parameters)
+                );
+                wc.free_variables(&grammar.type_parameters)
+                    .iter()
+                    .all(|p| referenced_ty_params.contains(p))
+            }).cloned()
+            .collect();
+        debug!("filtered_where_clauses = {:?}", filtered_where_clauses);
+
+        (filtered_type_params, filtered_where_clauses)
+    }
+
     pub fn write_parse_mod<F>(&mut self, body: F) -> io::Result<()>
     where
         F: FnOnce(&mut Self) -> io::Result<()>,
@@ -117,7 +202,6 @@ impl<'codegen, 'grammar, W: Write, C> CodeGenerator<'codegen, 'grammar, W, C> {
     }
 
     pub fn start_parser_fn(&mut self) -> io::Result<()> {
-        let error_type = self.types.error_type();
         let parse_error_type = self.types.parse_error_type();
 
         let (type_parameters, parameters, mut where_clauses);
@@ -138,8 +222,8 @@ impl<'codegen, 'grammar, W: Write, C> CodeGenerator<'codegen, 'grammar, W, C> {
             }
             type_parameters = vec![
                 format!(
-                    "{}TOKEN: {}ToTriple<{}Error={}>",
-                    self.prefix, self.prefix, user_type_parameters, error_type
+                    "{}TOKEN: {}ToTriple<{}>",
+                    self.prefix, self.prefix, user_type_parameters,
                 ),
                 format!(
                     "{}TOKENS: IntoIterator<Item={}TOKEN>",
@@ -197,20 +281,22 @@ impl<'codegen, 'grammar, W: Write, C> CodeGenerator<'codegen, 'grammar, W, C> {
         rust!(self.out, "");
 
         rust!(self.out, "#[allow(dead_code)]");
-        try!(self.out.write_fn_header(
-            self.grammar,
-            &self.grammar.nonterminals[&self.start_symbol].visibility,
-            "parse".to_owned(),
-            type_parameters,
-            Some("&self".to_owned()),
-            parameters,
-            format!(
-                "Result<{}, {}>",
-                self.types.nonterminal_type(&self.start_symbol),
-                parse_error_type
-            ),
-            where_clauses
-        ));
+        try!(
+            self.out
+                .fn_header(
+                    &self.grammar.nonterminals[&self.start_symbol].visibility,
+                    "parse".to_owned(),
+                ).with_parameters(Some("&self".to_owned()))
+                .with_grammar(self.grammar)
+                .with_type_parameters(type_parameters)
+                .with_parameters(parameters)
+                .with_return_type(format!(
+                    "Result<{}, {}>",
+                    self.types.nonterminal_type(&self.start_symbol),
+                    parse_error_type
+                )).with_where_clauses(where_clauses)
+                .emit()
+        );
         rust!(self.out, "{{");
 
         Ok(())
@@ -260,10 +346,17 @@ impl<'codegen, 'grammar, W: Write, C> CodeGenerator<'codegen, 'grammar, W, C> {
     /// all type parameters are constrained, even if they are not
     /// used.
     pub fn phantom_data_type(&self) -> String {
-        format!(
-            "::std::marker::PhantomData<({})>",
-            Sep(", ", &self.grammar.non_lifetime_type_parameters())
-        )
+        let phantom_bits: Vec<_> = self
+            .grammar
+            .type_parameters
+            .iter()
+            .map(|tp| match *tp {
+                TypeParameter::Lifetime(ref l) => format!("&{} ()", l),
+
+                TypeParameter::Id(ref id) => id.to_string(),
+            })
+            .collect();
+        format!("::std::marker::PhantomData<({})>", Sep(", ", &phantom_bits),)
     }
 
     /// Returns expression that captures the user-declared type
@@ -271,9 +364,19 @@ impl<'codegen, 'grammar, W: Write, C> CodeGenerator<'codegen, 'grammar, W, C> {
     /// all type parameters are constrained, even if they are not
     /// used.
     pub fn phantom_data_expr(&self) -> String {
+        let phantom_bits: Vec<_> = self
+            .grammar
+            .type_parameters
+            .iter()
+            .map(|tp| match *tp {
+                TypeParameter::Lifetime(_) => format!("&()"),
+
+                TypeParameter::Id(ref id) => id.to_string(),
+            })
+            .collect();
         format!(
             "::std::marker::PhantomData::<({})>",
-            Sep(", ", &self.grammar.non_lifetime_type_parameters())
+            Sep(", ", &phantom_bits),
         )
     }
 }
