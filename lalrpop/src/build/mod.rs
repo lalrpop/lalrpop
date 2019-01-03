@@ -108,7 +108,6 @@ fn process_file_into(
         if let Some(parent) = rs_file.parent() {
             try!(fs::create_dir_all(parent));
         }
-        try!(make_read_only(&rs_file, false));
         try!(remove_old_file(&rs_file));
 
         // Load the LALRPOP source text for this file:
@@ -133,8 +132,6 @@ fn process_file_into(
             try!(writeln!(output_file, "{}", try!(hash_file(&lalrpop_file))));
             try!(output_file.write_all(&buffer));
         }
-
-        try!(make_read_only(&rs_file, true));
     }
     Ok(())
 }
@@ -170,17 +167,6 @@ fn needs_rebuild(lalrpop_file: &Path, rs_file: &Path) -> io::Result<bool> {
             io::ErrorKind::NotFound => Ok(true),
             _ => Err(e),
         },
-    }
-}
-
-fn make_read_only(rs_file: &Path, ro: bool) -> io::Result<()> {
-    if rs_file.is_file() {
-        let rs_metadata = try!(fs::metadata(&rs_file));
-        let mut rs_permissions = rs_metadata.permissions();
-        rs_permissions.set_readonly(ro);
-        fs::set_permissions(&rs_file, rs_permissions)
-    } else {
-        Ok(())
     }
 }
 
