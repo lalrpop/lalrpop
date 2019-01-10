@@ -175,6 +175,7 @@ pub fn compile<W: Write>(
     rust!(out, "fn next(&mut self) -> Option<Self::Item> {{");
 
     // start by trimming whitespace from left
+    rust!(out, "#[allow(deprecated)]");
     rust!(out, "let {}text = self.text.trim_left();", prefix);
     rust!(
         out,
