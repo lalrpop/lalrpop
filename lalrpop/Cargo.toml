@@ -41,4 +41,6 @@ path = "../lalrpop-util"
 version = "0.16.2" # LALRPOP
 
 [features]
+# Feature used when developing LALRPOP. Tells the build script to use an existing lalrpop binary to
+# generate LALRPOPs own parser instead of using the saved parser.
 test = []

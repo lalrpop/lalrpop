@@ -12,7 +12,7 @@ extern crate bit_set;
 extern crate diff;
 extern crate ena;
 extern crate itertools;
-#[cfg_attr(any(feature = "test", test), macro_use)]
+#[cfg_attr(feature = "test", macro_use)]
 extern crate lalrpop_util;
 extern crate petgraph;
 extern crate regex;
