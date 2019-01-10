@@ -36,6 +36,10 @@ sha2 = "0.8.0"
 [dev-dependencies]
 rand = "0.5"
 
+[build-dependencies.workspace-build]
+git = "https://github.com/alercah/lalrpop.git"
+branch = "workspace-build-no"
+
 [dependencies.lalrpop-util]
 path = "../lalrpop-util"
 version = "0.16.2" # LALRPOP

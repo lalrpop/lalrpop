@@ -3,6 +3,7 @@ use std::error::Error;
 use std::fs;
 use std::path::{Path, PathBuf};
 use std::process::{exit, Command};
+extern crate workspace_build;
 
 fn main() {
     if let Err(err) = main_() {
@@ -28,11 +29,12 @@ fn main_() -> Result<(), Box<Error>> {
     let lalrpop_path = target_dir
         .join("debug/lalrpop")
         .with_extension(env::consts::EXE_EXTENSION);
-    println!(r#"cargo:rerun-if-changed={}"#, lalrpop_path.display());
+    if workspace_build::WORKSPACE_BUILD {
+        println!(r#"cargo:rerun-if-changed={}"#, lalrpop_path.display());
+    }
 
     if lalrpop_path.exists() {
-        // If compiling lalrpop itself, enable test parsers
-        if target_dir.exists() {
+        if workspace_build::WORKSPACE_BUILD {
             env::set_var("CARGO_FEATURE_TEST", "1");
             println!(r#"cargo:rustc-cfg=feature="test""#);
         }
