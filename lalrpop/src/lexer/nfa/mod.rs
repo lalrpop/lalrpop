@@ -114,7 +114,6 @@ pub const START: NfaStateIndex = NfaStateIndex(2);
 #[derive(Debug, PartialEq, Eq)]
 pub enum NfaConstructionError {
     NamedCaptures,
-    NonGreedy,
     LookAround,
     ByteRegex,
 }
@@ -281,34 +280,29 @@ impl Nfa {
                 greedy,
                 sub,
             }) => {
-                if !greedy {
-                    // currently we always report the longest match possible
-                    Err(NfaConstructionError::NonGreedy)
-                } else {
-                    match (min, max) {
-                        (0, Some(1)) => self.optional_expr(sub, accept, reject),
-                        (0, None) => self.star_expr(sub, accept, reject),
-                        (1, None) => self.plus_expr(sub, accept, reject),
-                        (_, Some(max)) if min == max => {
-                            (0..*max).try_fold(accept, |s, _| self.expr(sub, s, reject))
-                        }
-                        (_, Some(max)) => {
-                            let s = (*min..*max)
-                                .try_fold(accept, |s, _| self.optional_expr(sub, s, reject))?;
+                match (min, max) {
+                    (0, Some(1)) => self.optional_expr(sub, accept, reject),
+                    (0, None) => self.star_expr(sub, accept, reject),
+                    (1, None) => self.plus_expr(sub, accept, reject),
+                    (_, Some(max)) if min == max => {
+                        (0..*max).try_fold(accept, |s, _| self.expr(sub, s, reject))
+                    }
+                    (_, Some(max)) => {
+                        let s = (*min..*max)
+                            .try_fold(accept, |s, _| self.optional_expr(sub, s, reject))?;
+                        (0..*min).try_fold(s, |s, _| self.expr(sub, s, reject))
+                    }
+                    (_, None) => {
+                        // +---min times----+
+                        // |                |
+                        //
+                        // [s0] --..e..-- [s1] --..e*..--> [accept]
+                        //          |      |
+                        //          |      v
+                        //          +-> [reject]
+                        self.star_expr(sub, accept, reject).and_then(|s| {
                             (0..*min).try_fold(s, |s, _| self.expr(sub, s, reject))
-                        }
-                        (_, None) => {
-                            // +---min times----+
-                            // |                |
-                            //
-                            // [s0] --..e..-- [s1] --..e*..--> [accept]
-                            //          |      |
-                            //          |      v
-                            //          +-> [reject]
-                            self.star_expr(sub, accept, reject).and_then(|s| {
-                                (0..*min).try_fold(s, |s, _| self.expr(sub, s, reject))
-                            })
-                        }
+                        })
                     }
                 }
             }
