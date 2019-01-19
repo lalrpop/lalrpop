@@ -11,6 +11,19 @@ fn main() {
     }
 }
 
+fn find_lalrpop_binary(prefix: &str) -> Option<PathBuf> {
+    let lalrpop_path = Path::new(prefix)
+        .join("target")
+        .join(env::var("PROFILE").unwrap())
+        .join("lalrpop")
+        .with_extension(env::consts::EXE_EXTENSION);
+    if lalrpop_path.exists() {
+        Some(lalrpop_path)
+    } else {
+        None
+    }
+}
+
 fn main_() -> Result<(), Box<Error>> {
     let grammar_file = "src/parser/lrgrammar.lalrpop";
     println!(r#"cargo:rerun-if-changed={}"#, grammar_file);
@@ -19,23 +32,14 @@ fn main_() -> Result<(), Box<Error>> {
 
     fs::create_dir_all(out_dir.join("src/parser"))?;
 
-    let target_dir = if Path::new("target").exists() {
-        Path::new("target")
-    } else {
-        Path::new("../target")
-    };
-
-    let lalrpop_path = target_dir
-        .join("debug/lalrpop")
-        .with_extension(env::consts::EXE_EXTENSION);
-    println!(r#"cargo:rerun-if-changed={}"#, lalrpop_path.display());
-
-    if lalrpop_path.exists() {
-        // If compiling lalrpop itself, enable test parsers
-        if target_dir.exists() {
-            env::set_var("CARGO_FEATURE_TEST", "1");
-            println!(r#"cargo:rustc-cfg=feature="test""#);
-        }
+    if env::var("CARGO_FEATURE_TEST").is_ok() {
+        let lalrpop_path = find_lalrpop_binary("..").or_else(|| find_lalrpop_binary("."))
+            .unwrap_or_else(|| {
+                panic!(
+                    "Can't find a lalrpop binary to use for the snapshot. Make sure it is built and exists at target/{}/lalrpop!", 
+                    env::var("PROFILE").unwrap()
+                )
+            });
 
         let copied_grammar = out_dir.join("src/parser/lrgrammar.lalrpop");
         fs::copy(grammar_file, &copied_grammar)

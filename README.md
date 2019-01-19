@@ -36,7 +36,7 @@ to! Here are some tips:
   how to add LALRPOP to your `Cargo.toml`.
 - The [advanced setup] chapter shows how to configure other aspects of LALRPOP's
   preprocessing.
-  
+
 ### Example Uses
 
 - [LALRPOP] is itself implemented in LALRPOP.
@@ -49,3 +49,7 @@ to! Here are some tips:
 [LALRPOP]: https://github.com/lalrpop/lalrpop/blob/8034f3dacc4b20581bd10c5cb0b4f9faae778bb5/lalrpop/src/parser/lrgrammar.lalrpop
 [Gluon]: https://github.com/gluon-lang/gluon/blob/d7ce3e81c1fcfdf25cdd6d1abde2b6e376b4bf50/parser/src/grammar.lalrpop
 
+
+### Contributing
+
+`cargo test` does not test that lalrpop generates a correct grammar for itself by default. So if you have made a change that would modify LALRPOP's own parser (`lalrpop/src/parser/lrgrammar.rs`) you need to run `cargo test --all-features` after making sure that a built lalrpop binary exists with `cargo build -p lalrpop` (see `.travis.yml` for the exact procedure).

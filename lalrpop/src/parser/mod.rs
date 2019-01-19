@@ -5,15 +5,12 @@ use grammar::pattern::*;
 use lalrpop_util;
 use tok;
 
-#[cfg(not(any(feature = "test", test)))]
+#[cfg(not(feature = "test"))]
 #[allow(dead_code)]
 mod lrgrammar;
 
-#[cfg(any(feature = "test", test))]
+#[cfg(feature = "test")]
 lalrpop_mod!(
-    // ---------------------------------------------------------------------------------------
-    // NOTE: Run `cargo build -p lalrpop` once before running `cargo test` to create this file
-    // ---------------------------------------------------------------------------------------
     #[allow(dead_code)]
     lrgrammar,
     "/src/parser/lrgrammar.rs"
