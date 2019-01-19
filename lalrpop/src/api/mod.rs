@@ -96,6 +96,22 @@ impl Configuration {
         self
     }
 
+    /// If true, print `rerun-if-changed` directives to standard output, so that
+    /// Cargo will only rerun the build script if any of the processed
+    /// `.lalrpop` files are changed. This option is independent of
+    /// [`force_build`], although it would be usual to set [`force_build`] and
+    /// [`emit_rerun_directives`] at the same time.
+    ///
+    /// While many build scripts will want to set this to `true`, the default is
+    /// false, because emitting any rerun directives to Cargo will cause the
+    /// script to only be rerun when Cargo thinks it is needed. This could lead
+    /// to hard-to-find bugs if other parts of the build script do not emit
+    /// directives correctly, or need to be rerun unconditionally.
+    pub fn emit_rerun_directives(&mut self, val: bool) -> &mut Configuration {
+        self.session.emit_rerun_directives = val;
+        self
+    }
+
     /// If true, emit comments into the generated code. This makes the
     /// generated code significantly larger. Default is false.
     pub fn emit_comments(&mut self, val: bool) -> &mut Configuration {

@@ -98,6 +98,7 @@ fn process_file_into(
     rs_file: &Path,
     report_file: &Path,
 ) -> io::Result<()> {
+    session.emit_rerun_directive(lalrpop_file);
     if session.force_build || try!(needs_rebuild(&lalrpop_file, &rs_file)) {
         log!(
             session,
