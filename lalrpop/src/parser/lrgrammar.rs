@@ -6887,7 +6887,7 @@ ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> Option<Result<Top,___lalrpop_util::ParseError<usize, Tok<'input>, tok::Error>>>
 {
-let (___pop_states, ___symbol, ___nonterminal) = match ___action {
+let (___pop_states, ___nonterminal) = match ___action {
 0 => {
 ___reduce0(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
@@ -7453,8 +7453,8 @@ let ___nt = match super::___action416::<>(text, ___sym0, ___sym1) {
 Ok(v) => v,
 Err(e) => return Some(Err(e)),
 };
-let ___symbol = (___start, ___Symbol::Variant12(___nt), ___end);
-(2, ___symbol, 89)
+___symbols.push((___start, ___Symbol::Variant12(___nt), ___end));
+(2, 89)
 }
 186 => {
 ___reduce186(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
@@ -8000,8 +8000,8 @@ let ___nt = match super::___action424::<>(text, ___sym0, ___sym1) {
 Ok(v) => v,
 Err(e) => return Some(Err(e)),
 };
-let ___symbol = (___start, ___Symbol::Variant24(___nt), ___end);
-(2, ___symbol, 117)
+___symbols.push((___start, ___Symbol::Variant24(___nt), ___end));
+(2, 117)
 }
 365 => {
 ___reduce365(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
@@ -8183,8 +8183,8 @@ let ___nt = match super::___action405::<>(text, ___sym0) {
 Ok(v) => v,
 Err(e) => return Some(Err(e)),
 };
-let ___symbol = (___start, ___Symbol::Variant20(___nt), ___end);
-(1, ___symbol, 140)
+___symbols.push((___start, ___Symbol::Variant20(___nt), ___end));
+(1, 140)
 }
 423 => {
 ___reduce423(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
@@ -8396,7 +8396,6 @@ _ => panic!("invalid action code {}", ___action)
 };
 let ___states_len = ___states.len();
 ___states.truncate(___states_len - ___pop_states);
-___symbols.push(___symbol);
 let ___state = *___states.last().unwrap() as usize;
 let ___next_state = ___GOTO[___state * 166 + ___nonterminal] - 1;
 ___states.push(___next_state);
@@ -9456,15 +9455,15 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // "::"? = "::" => ActionFn(129);
 let ___sym0 = ___pop_Variant0(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym0.2.clone();
 let ___nt = super::___action129::<>(text, ___sym0);
-let ___symbol = (___start, ___Symbol::Variant2(___nt), ___end);
-(1, ___symbol, 0)
+___symbols.push((___start, ___Symbol::Variant2(___nt), ___end));
+(1, 0)
 }
 pub(crate) fn ___reduce1<
     'input,
@@ -9475,14 +9474,14 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // "::"? =  => ActionFn(130);
 let ___start = ___symbols.last().map(|s| s.2.clone()).unwrap_or_default();
 let ___end = ___lookahead_start.cloned().unwrap_or_else(|| ___start.clone());
 let ___nt = super::___action130::<>(text, &___start, &___end);
-let ___symbol = (___start, ___Symbol::Variant2(___nt), ___end);
-(0, ___symbol, 0)
+___symbols.push((___start, ___Symbol::Variant2(___nt), ___end));
+(0, 0)
 }
 pub(crate) fn ___reduce2<
     'input,
@@ -9493,15 +9492,15 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // ";"? = ";" => ActionFn(146);
 let ___sym0 = ___pop_Variant0(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym0.2.clone();
 let ___nt = super::___action146::<>(text, ___sym0);
-let ___symbol = (___start, ___Symbol::Variant2(___nt), ___end);
-(1, ___symbol, 1)
+___symbols.push((___start, ___Symbol::Variant2(___nt), ___end));
+(1, 1)
 }
 pub(crate) fn ___reduce3<
     'input,
@@ -9512,14 +9511,14 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // ";"? =  => ActionFn(147);
 let ___start = ___symbols.last().map(|s| s.2.clone()).unwrap_or_default();
 let ___end = ___lookahead_start.cloned().unwrap_or_else(|| ___start.clone());
 let ___nt = super::___action147::<>(text, &___start, &___end);
-let ___symbol = (___start, ___Symbol::Variant2(___nt), ___end);
-(0, ___symbol, 1)
+___symbols.push((___start, ___Symbol::Variant2(___nt), ___end));
+(0, 1)
 }
 pub(crate) fn ___reduce4<
     'input,
@@ -9530,15 +9529,15 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // "mut"? = "mut" => ActionFn(132);
 let ___sym0 = ___pop_Variant0(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym0.2.clone();
 let ___nt = super::___action132::<>(text, ___sym0);
-let ___symbol = (___start, ___Symbol::Variant2(___nt), ___end);
-(1, ___symbol, 2)
+___symbols.push((___start, ___Symbol::Variant2(___nt), ___end));
+(1, 2)
 }
 pub(crate) fn ___reduce5<
     'input,
@@ -9549,14 +9548,14 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // "mut"? =  => ActionFn(133);
 let ___start = ___symbols.last().map(|s| s.2.clone()).unwrap_or_default();
 let ___end = ___lookahead_start.cloned().unwrap_or_else(|| ___start.clone());
 let ___nt = super::___action133::<>(text, &___start, &___end);
-let ___symbol = (___start, ___Symbol::Variant2(___nt), ___end);
-(0, ___symbol, 2)
+___symbols.push((___start, ___Symbol::Variant2(___nt), ___end));
+(0, 2)
 }
 pub(crate) fn ___reduce6<
     'input,
@@ -9567,7 +9566,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // ("->" <TypeRef>) = "->", TypeRef => ActionFn(162);
 let ___sym1 = ___pop_Variant3(___symbols);
@@ -9575,8 +9574,8 @@ let ___sym0 = ___pop_Variant0(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym1.2.clone();
 let ___nt = super::___action162::<>(text, ___sym0, ___sym1);
-let ___symbol = (___start, ___Symbol::Variant3(___nt), ___end);
-(2, ___symbol, 3)
+___symbols.push((___start, ___Symbol::Variant3(___nt), ___end));
+(2, 3)
 }
 pub(crate) fn ___reduce7<
     'input,
@@ -9587,7 +9586,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // ("->" <TypeRef>)? = "->", TypeRef => ActionFn(301);
 let ___sym1 = ___pop_Variant3(___symbols);
@@ -9595,8 +9594,8 @@ let ___sym0 = ___pop_Variant0(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym1.2.clone();
 let ___nt = super::___action301::<>(text, ___sym0, ___sym1);
-let ___symbol = (___start, ___Symbol::Variant4(___nt), ___end);
-(2, ___symbol, 4)
+___symbols.push((___start, ___Symbol::Variant4(___nt), ___end));
+(2, 4)
 }
 pub(crate) fn ___reduce8<
     'input,
@@ -9607,14 +9606,14 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // ("->" <TypeRef>)? =  => ActionFn(161);
 let ___start = ___symbols.last().map(|s| s.2.clone()).unwrap_or_default();
 let ___end = ___lookahead_start.cloned().unwrap_or_else(|| ___start.clone());
 let ___nt = super::___action161::<>(text, &___start, &___end);
-let ___symbol = (___start, ___Symbol::Variant4(___nt), ___end);
-(0, ___symbol, 4)
+___symbols.push((___start, ___Symbol::Variant4(___nt), ___end));
+(0, 4)
 }
 pub(crate) fn ___reduce9<
     'input,
@@ -9625,7 +9624,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // (":" <TypeRef>) = ":", TypeRef => ActionFn(154);
 let ___sym1 = ___pop_Variant3(___symbols);
@@ -9633,8 +9632,8 @@ let ___sym0 = ___pop_Variant0(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym1.2.clone();
 let ___nt = super::___action154::<>(text, ___sym0, ___sym1);
-let ___symbol = (___start, ___Symbol::Variant3(___nt), ___end);
-(2, ___symbol, 5)
+___symbols.push((___start, ___Symbol::Variant3(___nt), ___end));
+(2, 5)
 }
 pub(crate) fn ___reduce10<
     'input,
@@ -9645,7 +9644,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // (":" <TypeRef>)? = ":", TypeRef => ActionFn(304);
 let ___sym1 = ___pop_Variant3(___symbols);
@@ -9653,8 +9652,8 @@ let ___sym0 = ___pop_Variant0(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym1.2.clone();
 let ___nt = super::___action304::<>(text, ___sym0, ___sym1);
-let ___symbol = (___start, ___Symbol::Variant4(___nt), ___end);
-(2, ___symbol, 6)
+___symbols.push((___start, ___Symbol::Variant4(___nt), ___end));
+(2, 6)
 }
 pub(crate) fn ___reduce11<
     'input,
@@ -9665,14 +9664,14 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // (":" <TypeRef>)? =  => ActionFn(153);
 let ___start = ___symbols.last().map(|s| s.2.clone()).unwrap_or_default();
 let ___end = ___lookahead_start.cloned().unwrap_or_else(|| ___start.clone());
 let ___nt = super::___action153::<>(text, &___start, &___end);
-let ___symbol = (___start, ___Symbol::Variant4(___nt), ___end);
-(0, ___symbol, 6)
+___symbols.push((___start, ___Symbol::Variant4(___nt), ___end));
+(0, 6)
 }
 pub(crate) fn ___reduce12<
     'input,
@@ -9683,7 +9682,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // ("<" <Comma<TypeBoundParameter>> ">") = "<", Comma<TypeBoundParameter>, ">" => ActionFn(158);
 let ___sym2 = ___pop_Variant0(___symbols);
@@ -9692,8 +9691,8 @@ let ___sym0 = ___pop_Variant0(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym2.2.clone();
 let ___nt = super::___action158::<>(text, ___sym0, ___sym1, ___sym2);
-let ___symbol = (___start, ___Symbol::Variant5(___nt), ___end);
-(3, ___symbol, 7)
+___symbols.push((___start, ___Symbol::Variant5(___nt), ___end));
+(3, 7)
 }
 pub(crate) fn ___reduce13<
     'input,
@@ -9704,7 +9703,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // ("<" <Comma<TypeBoundParameter>> ">")? = "<", Comma<TypeBoundParameter>, ">" => ActionFn(307);
 let ___sym2 = ___pop_Variant0(___symbols);
@@ -9713,8 +9712,8 @@ let ___sym0 = ___pop_Variant0(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym2.2.clone();
 let ___nt = super::___action307::<>(text, ___sym0, ___sym1, ___sym2);
-let ___symbol = (___start, ___Symbol::Variant6(___nt), ___end);
-(3, ___symbol, 8)
+___symbols.push((___start, ___Symbol::Variant6(___nt), ___end));
+(3, 8)
 }
 pub(crate) fn ___reduce14<
     'input,
@@ -9725,14 +9724,14 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // ("<" <Comma<TypeBoundParameter>> ">")? =  => ActionFn(157);
 let ___start = ___symbols.last().map(|s| s.2.clone()).unwrap_or_default();
 let ___end = ___lookahead_start.cloned().unwrap_or_else(|| ___start.clone());
 let ___nt = super::___action157::<>(text, &___start, &___end);
-let ___symbol = (___start, ___Symbol::Variant6(___nt), ___end);
-(0, ___symbol, 8)
+___symbols.push((___start, ___Symbol::Variant6(___nt), ___end));
+(0, 8)
 }
 pub(crate) fn ___reduce15<
     'input,
@@ -9743,7 +9742,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // ("if" <Cond>) = "if", Cond => ActionFn(143);
 let ___sym1 = ___pop_Variant7(___symbols);
@@ -9751,8 +9750,8 @@ let ___sym0 = ___pop_Variant0(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym1.2.clone();
 let ___nt = super::___action143::<>(text, ___sym0, ___sym1);
-let ___symbol = (___start, ___Symbol::Variant7(___nt), ___end);
-(2, ___symbol, 9)
+___symbols.push((___start, ___Symbol::Variant7(___nt), ___end));
+(2, 9)
 }
 pub(crate) fn ___reduce16<
     'input,
@@ -9763,7 +9762,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // ("if" <Cond>)? = "if", Cond => ActionFn(310);
 let ___sym1 = ___pop_Variant7(___symbols);
@@ -9771,8 +9770,8 @@ let ___sym0 = ___pop_Variant0(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym1.2.clone();
 let ___nt = super::___action310::<>(text, ___sym0, ___sym1);
-let ___symbol = (___start, ___Symbol::Variant8(___nt), ___end);
-(2, ___symbol, 10)
+___symbols.push((___start, ___Symbol::Variant8(___nt), ___end));
+(2, 10)
 }
 pub(crate) fn ___reduce17<
     'input,
@@ -9783,14 +9782,14 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // ("if" <Cond>)? =  => ActionFn(142);
 let ___start = ___symbols.last().map(|s| s.2.clone()).unwrap_or_default();
 let ___end = ___lookahead_start.cloned().unwrap_or_else(|| ___start.clone());
 let ___nt = super::___action142::<>(text, &___start, &___end);
-let ___symbol = (___start, ___Symbol::Variant8(___nt), ___end);
-(0, ___symbol, 10)
+___symbols.push((___start, ___Symbol::Variant8(___nt), ___end));
+(0, 10)
 }
 pub(crate) fn ___reduce18<
     'input,
@@ -9801,14 +9800,14 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // () =  => ActionFn(165);
 let ___start = ___symbols.last().map(|s| s.2.clone()).unwrap_or_default();
 let ___end = ___lookahead_start.cloned().unwrap_or_else(|| ___start.clone());
 let ___nt = super::___action165::<>(text, &___start, &___end);
-let ___symbol = (___start, ___Symbol::Variant9(___nt), ___end);
-(0, ___symbol, 11)
+___symbols.push((___start, ___Symbol::Variant9(___nt), ___end));
+(0, 11)
 }
 pub(crate) fn ___reduce19<
     'input,
@@ -9819,7 +9818,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // (<Alternative> ",") = Alternative, "," => ActionFn(235);
 let ___sym1 = ___pop_Variant0(___symbols);
@@ -9827,8 +9826,8 @@ let ___sym0 = ___pop_Variant10(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym1.2.clone();
 let ___nt = super::___action235::<>(text, ___sym0, ___sym1);
-let ___symbol = (___start, ___Symbol::Variant10(___nt), ___end);
-(2, ___symbol, 12)
+___symbols.push((___start, ___Symbol::Variant10(___nt), ___end));
+(2, 12)
 }
 pub(crate) fn ___reduce20<
     'input,
@@ -9839,14 +9838,14 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // (<Alternative> ",")* =  => ActionFn(233);
 let ___start = ___symbols.last().map(|s| s.2.clone()).unwrap_or_default();
 let ___end = ___lookahead_start.cloned().unwrap_or_else(|| ___start.clone());
 let ___nt = super::___action233::<>(text, &___start, &___end);
-let ___symbol = (___start, ___Symbol::Variant11(___nt), ___end);
-(0, ___symbol, 13)
+___symbols.push((___start, ___Symbol::Variant11(___nt), ___end));
+(0, 13)
 }
 pub(crate) fn ___reduce21<
     'input,
@@ -9857,15 +9856,15 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // (<Alternative> ",")* = (<Alternative> ",")+ => ActionFn(234);
 let ___sym0 = ___pop_Variant11(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym0.2.clone();
 let ___nt = super::___action234::<>(text, ___sym0);
-let ___symbol = (___start, ___Symbol::Variant11(___nt), ___end);
-(1, ___symbol, 13)
+___symbols.push((___start, ___Symbol::Variant11(___nt), ___end));
+(1, 13)
 }
 pub(crate) fn ___reduce22<
     'input,
@@ -9876,7 +9875,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // (<Alternative> ",")+ = Alternative, "," => ActionFn(317);
 let ___sym1 = ___pop_Variant0(___symbols);
@@ -9884,8 +9883,8 @@ let ___sym0 = ___pop_Variant10(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym1.2.clone();
 let ___nt = super::___action317::<>(text, ___sym0, ___sym1);
-let ___symbol = (___start, ___Symbol::Variant11(___nt), ___end);
-(2, ___symbol, 14)
+___symbols.push((___start, ___Symbol::Variant11(___nt), ___end));
+(2, 14)
 }
 pub(crate) fn ___reduce23<
     'input,
@@ -9896,7 +9895,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // (<Alternative> ",")+ = (<Alternative> ",")+, Alternative, "," => ActionFn(318);
 let ___sym2 = ___pop_Variant0(___symbols);
@@ -9905,8 +9904,8 @@ let ___sym0 = ___pop_Variant11(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym2.2.clone();
 let ___nt = super::___action318::<>(text, ___sym0, ___sym1, ___sym2);
-let ___symbol = (___start, ___Symbol::Variant11(___nt), ___end);
-(3, ___symbol, 14)
+___symbols.push((___start, ___Symbol::Variant11(___nt), ___end));
+(3, 14)
 }
 pub(crate) fn ___reduce24<
     'input,
@@ -9917,7 +9916,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // (<Conversion> ",") = Conversion, "," => ActionFn(259);
 let ___sym1 = ___pop_Variant0(___symbols);
@@ -9925,8 +9924,8 @@ let ___sym0 = ___pop_Variant12(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym1.2.clone();
 let ___nt = super::___action259::<>(text, ___sym0, ___sym1);
-let ___symbol = (___start, ___Symbol::Variant12(___nt), ___end);
-(2, ___symbol, 15)
+___symbols.push((___start, ___Symbol::Variant12(___nt), ___end));
+(2, 15)
 }
 pub(crate) fn ___reduce25<
     'input,
@@ -9937,14 +9936,14 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // (<Conversion> ",")* =  => ActionFn(257);
 let ___start = ___symbols.last().map(|s| s.2.clone()).unwrap_or_default();
 let ___end = ___lookahead_start.cloned().unwrap_or_else(|| ___start.clone());
 let ___nt = super::___action257::<>(text, &___start, &___end);
-let ___symbol = (___start, ___Symbol::Variant13(___nt), ___end);
-(0, ___symbol, 16)
+___symbols.push((___start, ___Symbol::Variant13(___nt), ___end));
+(0, 16)
 }
 pub(crate) fn ___reduce26<
     'input,
@@ -9955,15 +9954,15 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // (<Conversion> ",")* = (<Conversion> ",")+ => ActionFn(258);
 let ___sym0 = ___pop_Variant13(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym0.2.clone();
 let ___nt = super::___action258::<>(text, ___sym0);
-let ___symbol = (___start, ___Symbol::Variant13(___nt), ___end);
-(1, ___symbol, 16)
+___symbols.push((___start, ___Symbol::Variant13(___nt), ___end));
+(1, 16)
 }
 pub(crate) fn ___reduce27<
     'input,
@@ -9974,7 +9973,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // (<Conversion> ",")+ = Conversion, "," => ActionFn(321);
 let ___sym1 = ___pop_Variant0(___symbols);
@@ -9982,8 +9981,8 @@ let ___sym0 = ___pop_Variant12(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym1.2.clone();
 let ___nt = super::___action321::<>(text, ___sym0, ___sym1);
-let ___symbol = (___start, ___Symbol::Variant13(___nt), ___end);
-(2, ___symbol, 17)
+___symbols.push((___start, ___Symbol::Variant13(___nt), ___end));
+(2, 17)
 }
 pub(crate) fn ___reduce28<
     'input,
@@ -9994,7 +9993,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // (<Conversion> ",")+ = (<Conversion> ",")+, Conversion, "," => ActionFn(322);
 let ___sym2 = ___pop_Variant0(___symbols);
@@ -10003,8 +10002,8 @@ let ___sym0 = ___pop_Variant13(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym2.2.clone();
 let ___nt = super::___action322::<>(text, ___sym0, ___sym1, ___sym2);
-let ___symbol = (___start, ___Symbol::Variant13(___nt), ___end);
-(3, ___symbol, 17)
+___symbols.push((___start, ___Symbol::Variant13(___nt), ___end));
+(3, 17)
 }
 pub(crate) fn ___reduce29<
     'input,
@@ -10015,7 +10014,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // (<FieldPattern> ",") = FieldPattern, "," => ActionFn(120);
 let ___sym1 = ___pop_Variant0(___symbols);
@@ -10023,8 +10022,8 @@ let ___sym0 = ___pop_Variant14(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym1.2.clone();
 let ___nt = super::___action120::<>(text, ___sym0, ___sym1);
-let ___symbol = (___start, ___Symbol::Variant14(___nt), ___end);
-(2, ___symbol, 18)
+___symbols.push((___start, ___Symbol::Variant14(___nt), ___end));
+(2, 18)
 }
 pub(crate) fn ___reduce30<
     'input,
@@ -10035,14 +10034,14 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // (<FieldPattern> ",")* =  => ActionFn(118);
 let ___start = ___symbols.last().map(|s| s.2.clone()).unwrap_or_default();
 let ___end = ___lookahead_start.cloned().unwrap_or_else(|| ___start.clone());
 let ___nt = super::___action118::<>(text, &___start, &___end);
-let ___symbol = (___start, ___Symbol::Variant15(___nt), ___end);
-(0, ___symbol, 19)
+___symbols.push((___start, ___Symbol::Variant15(___nt), ___end));
+(0, 19)
 }
 pub(crate) fn ___reduce31<
     'input,
@@ -10053,15 +10052,15 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // (<FieldPattern> ",")* = (<FieldPattern> ",")+ => ActionFn(119);
 let ___sym0 = ___pop_Variant15(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym0.2.clone();
 let ___nt = super::___action119::<>(text, ___sym0);
-let ___symbol = (___start, ___Symbol::Variant15(___nt), ___end);
-(1, ___symbol, 19)
+___symbols.push((___start, ___Symbol::Variant15(___nt), ___end));
+(1, 19)
 }
 pub(crate) fn ___reduce32<
     'input,
@@ -10072,7 +10071,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // (<FieldPattern> ",")+ = FieldPattern, "," => ActionFn(325);
 let ___sym1 = ___pop_Variant0(___symbols);
@@ -10080,8 +10079,8 @@ let ___sym0 = ___pop_Variant14(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym1.2.clone();
 let ___nt = super::___action325::<>(text, ___sym0, ___sym1);
-let ___symbol = (___start, ___Symbol::Variant15(___nt), ___end);
-(2, ___symbol, 20)
+___symbols.push((___start, ___Symbol::Variant15(___nt), ___end));
+(2, 20)
 }
 pub(crate) fn ___reduce33<
     'input,
@@ -10092,7 +10091,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // (<FieldPattern> ",")+ = (<FieldPattern> ",")+, FieldPattern, "," => ActionFn(326);
 let ___sym2 = ___pop_Variant0(___symbols);
@@ -10101,8 +10100,8 @@ let ___sym0 = ___pop_Variant15(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym2.2.clone();
 let ___nt = super::___action326::<>(text, ___sym0, ___sym1, ___sym2);
-let ___symbol = (___start, ___Symbol::Variant15(___nt), ___end);
-(3, ___symbol, 20)
+___symbols.push((___start, ___Symbol::Variant15(___nt), ___end));
+(3, 20)
 }
 pub(crate) fn ___reduce34<
     'input,
@@ -10113,7 +10112,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // (<GrammarParameter> ",") = GrammarParameter, "," => ActionFn(225);
 let ___sym1 = ___pop_Variant0(___symbols);
@@ -10121,8 +10120,8 @@ let ___sym0 = ___pop_Variant16(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym1.2.clone();
 let ___nt = super::___action225::<>(text, ___sym0, ___sym1);
-let ___symbol = (___start, ___Symbol::Variant16(___nt), ___end);
-(2, ___symbol, 21)
+___symbols.push((___start, ___Symbol::Variant16(___nt), ___end));
+(2, 21)
 }
 pub(crate) fn ___reduce35<
     'input,
@@ -10133,14 +10132,14 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // (<GrammarParameter> ",")* =  => ActionFn(223);
 let ___start = ___symbols.last().map(|s| s.2.clone()).unwrap_or_default();
 let ___end = ___lookahead_start.cloned().unwrap_or_else(|| ___start.clone());
 let ___nt = super::___action223::<>(text, &___start, &___end);
-let ___symbol = (___start, ___Symbol::Variant17(___nt), ___end);
-(0, ___symbol, 22)
+___symbols.push((___start, ___Symbol::Variant17(___nt), ___end));
+(0, 22)
 }
 pub(crate) fn ___reduce36<
     'input,
@@ -10151,15 +10150,15 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // (<GrammarParameter> ",")* = (<GrammarParameter> ",")+ => ActionFn(224);
 let ___sym0 = ___pop_Variant17(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym0.2.clone();
 let ___nt = super::___action224::<>(text, ___sym0);
-let ___symbol = (___start, ___Symbol::Variant17(___nt), ___end);
-(1, ___symbol, 22)
+___symbols.push((___start, ___Symbol::Variant17(___nt), ___end));
+(1, 22)
 }
 pub(crate) fn ___reduce37<
     'input,
@@ -10170,7 +10169,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // (<GrammarParameter> ",")+ = GrammarParameter, "," => ActionFn(331);
 let ___sym1 = ___pop_Variant0(___symbols);
@@ -10178,8 +10177,8 @@ let ___sym0 = ___pop_Variant16(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym1.2.clone();
 let ___nt = super::___action331::<>(text, ___sym0, ___sym1);
-let ___symbol = (___start, ___Symbol::Variant17(___nt), ___end);
-(2, ___symbol, 23)
+___symbols.push((___start, ___Symbol::Variant17(___nt), ___end));
+(2, 23)
 }
 pub(crate) fn ___reduce38<
     'input,
@@ -10190,7 +10189,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // (<GrammarParameter> ",")+ = (<GrammarParameter> ",")+, GrammarParameter, "," => ActionFn(332);
 let ___sym2 = ___pop_Variant0(___symbols);
@@ -10199,8 +10198,8 @@ let ___sym0 = ___pop_Variant17(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym2.2.clone();
 let ___nt = super::___action332::<>(text, ___sym0, ___sym1, ___sym2);
-let ___symbol = (___start, ___Symbol::Variant17(___nt), ___end);
-(3, ___symbol, 23)
+___symbols.push((___start, ___Symbol::Variant17(___nt), ___end));
+(3, 23)
 }
 pub(crate) fn ___reduce39<
     'input,
@@ -10211,7 +10210,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // (<GrammarWhereClause> ",") = GrammarWhereClause, "," => ActionFn(202);
 let ___sym1 = ___pop_Variant0(___symbols);
@@ -10219,8 +10218,8 @@ let ___sym0 = ___pop_Variant18(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym1.2.clone();
 let ___nt = super::___action202::<>(text, ___sym0, ___sym1);
-let ___symbol = (___start, ___Symbol::Variant18(___nt), ___end);
-(2, ___symbol, 24)
+___symbols.push((___start, ___Symbol::Variant18(___nt), ___end));
+(2, 24)
 }
 pub(crate) fn ___reduce40<
     'input,
@@ -10231,14 +10230,14 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // (<GrammarWhereClause> ",")* =  => ActionFn(200);
 let ___start = ___symbols.last().map(|s| s.2.clone()).unwrap_or_default();
 let ___end = ___lookahead_start.cloned().unwrap_or_else(|| ___start.clone());
 let ___nt = super::___action200::<>(text, &___start, &___end);
-let ___symbol = (___start, ___Symbol::Variant19(___nt), ___end);
-(0, ___symbol, 25)
+___symbols.push((___start, ___Symbol::Variant19(___nt), ___end));
+(0, 25)
 }
 pub(crate) fn ___reduce41<
     'input,
@@ -10249,15 +10248,15 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // (<GrammarWhereClause> ",")* = (<GrammarWhereClause> ",")+ => ActionFn(201);
 let ___sym0 = ___pop_Variant19(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym0.2.clone();
 let ___nt = super::___action201::<>(text, ___sym0);
-let ___symbol = (___start, ___Symbol::Variant19(___nt), ___end);
-(1, ___symbol, 25)
+___symbols.push((___start, ___Symbol::Variant19(___nt), ___end));
+(1, 25)
 }
 pub(crate) fn ___reduce42<
     'input,
@@ -10268,7 +10267,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // (<GrammarWhereClause> ",")+ = GrammarWhereClause, "," => ActionFn(335);
 let ___sym1 = ___pop_Variant0(___symbols);
@@ -10276,8 +10275,8 @@ let ___sym0 = ___pop_Variant18(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym1.2.clone();
 let ___nt = super::___action335::<>(text, ___sym0, ___sym1);
-let ___symbol = (___start, ___Symbol::Variant19(___nt), ___end);
-(2, ___symbol, 26)
+___symbols.push((___start, ___Symbol::Variant19(___nt), ___end));
+(2, 26)
 }
 pub(crate) fn ___reduce43<
     'input,
@@ -10288,7 +10287,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // (<GrammarWhereClause> ",")+ = (<GrammarWhereClause> ",")+, GrammarWhereClause, "," => ActionFn(336);
 let ___sym2 = ___pop_Variant0(___symbols);
@@ -10297,8 +10296,8 @@ let ___sym0 = ___pop_Variant19(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym2.2.clone();
 let ___nt = super::___action336::<>(text, ___sym0, ___sym1, ___sym2);
-let ___symbol = (___start, ___Symbol::Variant19(___nt), ___end);
-(3, ___symbol, 26)
+___symbols.push((___start, ___Symbol::Variant19(___nt), ___end));
+(3, 26)
 }
 pub(crate) fn ___reduce44<
     'input,
@@ -10309,7 +10308,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // (<Id> "::") = Id, "::" => ActionFn(128);
 let ___sym1 = ___pop_Variant0(___symbols);
@@ -10317,8 +10316,8 @@ let ___sym0 = ___pop_Variant20(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym1.2.clone();
 let ___nt = super::___action128::<>(text, ___sym0, ___sym1);
-let ___symbol = (___start, ___Symbol::Variant20(___nt), ___end);
-(2, ___symbol, 27)
+___symbols.push((___start, ___Symbol::Variant20(___nt), ___end));
+(2, 27)
 }
 pub(crate) fn ___reduce45<
     'input,
@@ -10329,14 +10328,14 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // (<Id> "::")* =  => ActionFn(126);
 let ___start = ___symbols.last().map(|s| s.2.clone()).unwrap_or_default();
 let ___end = ___lookahead_start.cloned().unwrap_or_else(|| ___start.clone());
 let ___nt = super::___action126::<>(text, &___start, &___end);
-let ___symbol = (___start, ___Symbol::Variant21(___nt), ___end);
-(0, ___symbol, 28)
+___symbols.push((___start, ___Symbol::Variant21(___nt), ___end));
+(0, 28)
 }
 pub(crate) fn ___reduce46<
     'input,
@@ -10347,15 +10346,15 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // (<Id> "::")* = (<Id> "::")+ => ActionFn(127);
 let ___sym0 = ___pop_Variant21(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym0.2.clone();
 let ___nt = super::___action127::<>(text, ___sym0);
-let ___symbol = (___start, ___Symbol::Variant21(___nt), ___end);
-(1, ___symbol, 28)
+___symbols.push((___start, ___Symbol::Variant21(___nt), ___end));
+(1, 28)
 }
 pub(crate) fn ___reduce47<
     'input,
@@ -10366,7 +10365,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // (<Id> "::")+ = Id, "::" => ActionFn(339);
 let ___sym1 = ___pop_Variant0(___symbols);
@@ -10374,8 +10373,8 @@ let ___sym0 = ___pop_Variant20(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym1.2.clone();
 let ___nt = super::___action339::<>(text, ___sym0, ___sym1);
-let ___symbol = (___start, ___Symbol::Variant21(___nt), ___end);
-(2, ___symbol, 29)
+___symbols.push((___start, ___Symbol::Variant21(___nt), ___end));
+(2, 29)
 }
 pub(crate) fn ___reduce48<
     'input,
@@ -10386,7 +10385,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // (<Id> "::")+ = (<Id> "::")+, Id, "::" => ActionFn(340);
 let ___sym2 = ___pop_Variant0(___symbols);
@@ -10395,8 +10394,8 @@ let ___sym0 = ___pop_Variant21(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym2.2.clone();
 let ___nt = super::___action340::<>(text, ___sym0, ___sym1, ___sym2);
-let ___symbol = (___start, ___Symbol::Variant21(___nt), ___end);
-(3, ___symbol, 29)
+___symbols.push((___start, ___Symbol::Variant21(___nt), ___end));
+(3, 29)
 }
 pub(crate) fn ___reduce49<
     'input,
@@ -10407,7 +10406,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // (<Lifetime> "+") = Lifetime, "+" => ActionFn(205);
 let ___sym1 = ___pop_Variant0(___symbols);
@@ -10415,8 +10414,8 @@ let ___sym0 = ___pop_Variant22(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym1.2.clone();
 let ___nt = super::___action205::<>(text, ___sym0, ___sym1);
-let ___symbol = (___start, ___Symbol::Variant22(___nt), ___end);
-(2, ___symbol, 30)
+___symbols.push((___start, ___Symbol::Variant22(___nt), ___end));
+(2, 30)
 }
 pub(crate) fn ___reduce50<
     'input,
@@ -10427,14 +10426,14 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // (<Lifetime> "+")* =  => ActionFn(203);
 let ___start = ___symbols.last().map(|s| s.2.clone()).unwrap_or_default();
 let ___end = ___lookahead_start.cloned().unwrap_or_else(|| ___start.clone());
 let ___nt = super::___action203::<>(text, &___start, &___end);
-let ___symbol = (___start, ___Symbol::Variant23(___nt), ___end);
-(0, ___symbol, 31)
+___symbols.push((___start, ___Symbol::Variant23(___nt), ___end));
+(0, 31)
 }
 pub(crate) fn ___reduce51<
     'input,
@@ -10445,15 +10444,15 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // (<Lifetime> "+")* = (<Lifetime> "+")+ => ActionFn(204);
 let ___sym0 = ___pop_Variant23(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym0.2.clone();
 let ___nt = super::___action204::<>(text, ___sym0);
-let ___symbol = (___start, ___Symbol::Variant23(___nt), ___end);
-(1, ___symbol, 31)
+___symbols.push((___start, ___Symbol::Variant23(___nt), ___end));
+(1, 31)
 }
 pub(crate) fn ___reduce52<
     'input,
@@ -10464,7 +10463,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // (<Lifetime> "+")+ = Lifetime, "+" => ActionFn(345);
 let ___sym1 = ___pop_Variant0(___symbols);
@@ -10472,8 +10471,8 @@ let ___sym0 = ___pop_Variant22(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym1.2.clone();
 let ___nt = super::___action345::<>(text, ___sym0, ___sym1);
-let ___symbol = (___start, ___Symbol::Variant23(___nt), ___end);
-(2, ___symbol, 32)
+___symbols.push((___start, ___Symbol::Variant23(___nt), ___end));
+(2, 32)
 }
 pub(crate) fn ___reduce53<
     'input,
@@ -10484,7 +10483,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // (<Lifetime> "+")+ = (<Lifetime> "+")+, Lifetime, "+" => ActionFn(346);
 let ___sym2 = ___pop_Variant0(___symbols);
@@ -10493,8 +10492,8 @@ let ___sym0 = ___pop_Variant23(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym2.2.clone();
 let ___nt = super::___action346::<>(text, ___sym0, ___sym1, ___sym2);
-let ___symbol = (___start, ___Symbol::Variant23(___nt), ___end);
-(3, ___symbol, 32)
+___symbols.push((___start, ___Symbol::Variant23(___nt), ___end));
+(3, 32)
 }
 pub(crate) fn ___reduce54<
     'input,
@@ -10505,7 +10504,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // (<MatchItem> ",") = MatchItem, "," => ActionFn(254);
 let ___sym1 = ___pop_Variant0(___symbols);
@@ -10513,8 +10512,8 @@ let ___sym0 = ___pop_Variant24(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym1.2.clone();
 let ___nt = super::___action254::<>(text, ___sym0, ___sym1);
-let ___symbol = (___start, ___Symbol::Variant24(___nt), ___end);
-(2, ___symbol, 33)
+___symbols.push((___start, ___Symbol::Variant24(___nt), ___end));
+(2, 33)
 }
 pub(crate) fn ___reduce55<
     'input,
@@ -10525,14 +10524,14 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // (<MatchItem> ",")* =  => ActionFn(252);
 let ___start = ___symbols.last().map(|s| s.2.clone()).unwrap_or_default();
 let ___end = ___lookahead_start.cloned().unwrap_or_else(|| ___start.clone());
 let ___nt = super::___action252::<>(text, &___start, &___end);
-let ___symbol = (___start, ___Symbol::Variant25(___nt), ___end);
-(0, ___symbol, 34)
+___symbols.push((___start, ___Symbol::Variant25(___nt), ___end));
+(0, 34)
 }
 pub(crate) fn ___reduce56<
     'input,
@@ -10543,15 +10542,15 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // (<MatchItem> ",")* = (<MatchItem> ",")+ => ActionFn(253);
 let ___sym0 = ___pop_Variant25(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym0.2.clone();
 let ___nt = super::___action253::<>(text, ___sym0);
-let ___symbol = (___start, ___Symbol::Variant25(___nt), ___end);
-(1, ___symbol, 34)
+___symbols.push((___start, ___Symbol::Variant25(___nt), ___end));
+(1, 34)
 }
 pub(crate) fn ___reduce57<
     'input,
@@ -10562,7 +10561,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // (<MatchItem> ",")+ = MatchItem, "," => ActionFn(349);
 let ___sym1 = ___pop_Variant0(___symbols);
@@ -10570,8 +10569,8 @@ let ___sym0 = ___pop_Variant24(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym1.2.clone();
 let ___nt = super::___action349::<>(text, ___sym0, ___sym1);
-let ___symbol = (___start, ___Symbol::Variant25(___nt), ___end);
-(2, ___symbol, 35)
+___symbols.push((___start, ___Symbol::Variant25(___nt), ___end));
+(2, 35)
 }
 pub(crate) fn ___reduce58<
     'input,
@@ -10582,7 +10581,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // (<MatchItem> ",")+ = (<MatchItem> ",")+, MatchItem, "," => ActionFn(350);
 let ___sym2 = ___pop_Variant0(___symbols);
@@ -10591,8 +10590,8 @@ let ___sym0 = ___pop_Variant25(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym2.2.clone();
 let ___nt = super::___action350::<>(text, ___sym0, ___sym1, ___sym2);
-let ___symbol = (___start, ___Symbol::Variant25(___nt), ___end);
-(3, ___symbol, 35)
+___symbols.push((___start, ___Symbol::Variant25(___nt), ___end));
+(3, 35)
 }
 pub(crate) fn ___reduce59<
     'input,
@@ -10603,7 +10602,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // (<NotMacroId> ",") = NotMacroId, "," => ActionFn(230);
 let ___sym1 = ___pop_Variant0(___symbols);
@@ -10611,8 +10610,8 @@ let ___sym0 = ___pop_Variant26(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym1.2.clone();
 let ___nt = super::___action230::<>(text, ___sym0, ___sym1);
-let ___symbol = (___start, ___Symbol::Variant26(___nt), ___end);
-(2, ___symbol, 36)
+___symbols.push((___start, ___Symbol::Variant26(___nt), ___end));
+(2, 36)
 }
 pub(crate) fn ___reduce60<
     'input,
@@ -10623,14 +10622,14 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // (<NotMacroId> ",")* =  => ActionFn(228);
 let ___start = ___symbols.last().map(|s| s.2.clone()).unwrap_or_default();
 let ___end = ___lookahead_start.cloned().unwrap_or_else(|| ___start.clone());
 let ___nt = super::___action228::<>(text, &___start, &___end);
-let ___symbol = (___start, ___Symbol::Variant27(___nt), ___end);
-(0, ___symbol, 37)
+___symbols.push((___start, ___Symbol::Variant27(___nt), ___end));
+(0, 37)
 }
 pub(crate) fn ___reduce61<
     'input,
@@ -10641,15 +10640,15 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // (<NotMacroId> ",")* = (<NotMacroId> ",")+ => ActionFn(229);
 let ___sym0 = ___pop_Variant27(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym0.2.clone();
 let ___nt = super::___action229::<>(text, ___sym0);
-let ___symbol = (___start, ___Symbol::Variant27(___nt), ___end);
-(1, ___symbol, 37)
+___symbols.push((___start, ___Symbol::Variant27(___nt), ___end));
+(1, 37)
 }
 pub(crate) fn ___reduce62<
     'input,
@@ -10660,7 +10659,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // (<NotMacroId> ",")+ = NotMacroId, "," => ActionFn(353);
 let ___sym1 = ___pop_Variant0(___symbols);
@@ -10668,8 +10667,8 @@ let ___sym0 = ___pop_Variant26(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym1.2.clone();
 let ___nt = super::___action353::<>(text, ___sym0, ___sym1);
-let ___symbol = (___start, ___Symbol::Variant27(___nt), ___end);
-(2, ___symbol, 38)
+___symbols.push((___start, ___Symbol::Variant27(___nt), ___end));
+(2, 38)
 }
 pub(crate) fn ___reduce63<
     'input,
@@ -10680,7 +10679,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // (<NotMacroId> ",")+ = (<NotMacroId> ",")+, NotMacroId, "," => ActionFn(354);
 let ___sym2 = ___pop_Variant0(___symbols);
@@ -10689,8 +10688,8 @@ let ___sym0 = ___pop_Variant27(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym2.2.clone();
 let ___nt = super::___action354::<>(text, ___sym0, ___sym1, ___sym2);
-let ___symbol = (___start, ___Symbol::Variant27(___nt), ___end);
-(3, ___symbol, 38)
+___symbols.push((___start, ___Symbol::Variant27(___nt), ___end));
+(3, 38)
 }
 pub(crate) fn ___reduce64<
     'input,
@@ -10701,7 +10700,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // (<Pattern> ",") = Pattern, "," => ActionFn(264);
 let ___sym1 = ___pop_Variant0(___symbols);
@@ -10709,8 +10708,8 @@ let ___sym0 = ___pop_Variant28(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym1.2.clone();
 let ___nt = super::___action264::<>(text, ___sym0, ___sym1);
-let ___symbol = (___start, ___Symbol::Variant28(___nt), ___end);
-(2, ___symbol, 39)
+___symbols.push((___start, ___Symbol::Variant28(___nt), ___end));
+(2, 39)
 }
 pub(crate) fn ___reduce65<
     'input,
@@ -10721,14 +10720,14 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // (<Pattern> ",")* =  => ActionFn(262);
 let ___start = ___symbols.last().map(|s| s.2.clone()).unwrap_or_default();
 let ___end = ___lookahead_start.cloned().unwrap_or_else(|| ___start.clone());
 let ___nt = super::___action262::<>(text, &___start, &___end);
-let ___symbol = (___start, ___Symbol::Variant29(___nt), ___end);
-(0, ___symbol, 40)
+___symbols.push((___start, ___Symbol::Variant29(___nt), ___end));
+(0, 40)
 }
 pub(crate) fn ___reduce66<
     'input,
@@ -10739,15 +10738,15 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // (<Pattern> ",")* = (<Pattern> ",")+ => ActionFn(263);
 let ___sym0 = ___pop_Variant29(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym0.2.clone();
 let ___nt = super::___action263::<>(text, ___sym0);
-let ___symbol = (___start, ___Symbol::Variant29(___nt), ___end);
-(1, ___symbol, 40)
+___symbols.push((___start, ___Symbol::Variant29(___nt), ___end));
+(1, 40)
 }
 pub(crate) fn ___reduce67<
     'input,
@@ -10758,7 +10757,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // (<Pattern> ",")+ = Pattern, "," => ActionFn(357);
 let ___sym1 = ___pop_Variant0(___symbols);
@@ -10766,8 +10765,8 @@ let ___sym0 = ___pop_Variant28(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym1.2.clone();
 let ___nt = super::___action357::<>(text, ___sym0, ___sym1);
-let ___symbol = (___start, ___Symbol::Variant29(___nt), ___end);
-(2, ___symbol, 41)
+___symbols.push((___start, ___Symbol::Variant29(___nt), ___end));
+(2, 41)
 }
 pub(crate) fn ___reduce68<
     'input,
@@ -10778,7 +10777,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // (<Pattern> ",")+ = (<Pattern> ",")+, Pattern, "," => ActionFn(358);
 let ___sym2 = ___pop_Variant0(___symbols);
@@ -10787,8 +10786,8 @@ let ___sym0 = ___pop_Variant29(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym2.2.clone();
 let ___nt = super::___action358::<>(text, ___sym0, ___sym1, ___sym2);
-let ___symbol = (___start, ___Symbol::Variant29(___nt), ___end);
-(3, ___symbol, 41)
+___symbols.push((___start, ___Symbol::Variant29(___nt), ___end));
+(3, 41)
 }
 pub(crate) fn ___reduce69<
     'input,
@@ -10799,7 +10798,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // (<Symbol> ",") = Symbol, "," => ActionFn(240);
 let ___sym1 = ___pop_Variant0(___symbols);
@@ -10807,8 +10806,8 @@ let ___sym0 = ___pop_Variant30(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym1.2.clone();
 let ___nt = super::___action240::<>(text, ___sym0, ___sym1);
-let ___symbol = (___start, ___Symbol::Variant30(___nt), ___end);
-(2, ___symbol, 42)
+___symbols.push((___start, ___Symbol::Variant30(___nt), ___end));
+(2, 42)
 }
 pub(crate) fn ___reduce70<
     'input,
@@ -10819,14 +10818,14 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // (<Symbol> ",")* =  => ActionFn(238);
 let ___start = ___symbols.last().map(|s| s.2.clone()).unwrap_or_default();
 let ___end = ___lookahead_start.cloned().unwrap_or_else(|| ___start.clone());
 let ___nt = super::___action238::<>(text, &___start, &___end);
-let ___symbol = (___start, ___Symbol::Variant31(___nt), ___end);
-(0, ___symbol, 43)
+___symbols.push((___start, ___Symbol::Variant31(___nt), ___end));
+(0, 43)
 }
 pub(crate) fn ___reduce71<
     'input,
@@ -10837,15 +10836,15 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // (<Symbol> ",")* = (<Symbol> ",")+ => ActionFn(239);
 let ___sym0 = ___pop_Variant31(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym0.2.clone();
 let ___nt = super::___action239::<>(text, ___sym0);
-let ___symbol = (___start, ___Symbol::Variant31(___nt), ___end);
-(1, ___symbol, 43)
+___symbols.push((___start, ___Symbol::Variant31(___nt), ___end));
+(1, 43)
 }
 pub(crate) fn ___reduce72<
     'input,
@@ -10856,7 +10855,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // (<Symbol> ",")+ = Symbol, "," => ActionFn(361);
 let ___sym1 = ___pop_Variant0(___symbols);
@@ -10864,8 +10863,8 @@ let ___sym0 = ___pop_Variant30(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym1.2.clone();
 let ___nt = super::___action361::<>(text, ___sym0, ___sym1);
-let ___symbol = (___start, ___Symbol::Variant31(___nt), ___end);
-(2, ___symbol, 44)
+___symbols.push((___start, ___Symbol::Variant31(___nt), ___end));
+(2, 44)
 }
 pub(crate) fn ___reduce73<
     'input,
@@ -10876,7 +10875,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // (<Symbol> ",")+ = (<Symbol> ",")+, Symbol, "," => ActionFn(362);
 let ___sym2 = ___pop_Variant0(___symbols);
@@ -10885,8 +10884,8 @@ let ___sym0 = ___pop_Variant31(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym2.2.clone();
 let ___nt = super::___action362::<>(text, ___sym0, ___sym1, ___sym2);
-let ___symbol = (___start, ___Symbol::Variant31(___nt), ___end);
-(3, ___symbol, 44)
+___symbols.push((___start, ___Symbol::Variant31(___nt), ___end));
+(3, 44)
 }
 pub(crate) fn ___reduce74<
     'input,
@@ -10897,7 +10896,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // (<TypeBound> "+") = TypeBound, "+" => ActionFn(210);
 let ___sym1 = ___pop_Variant0(___symbols);
@@ -10905,8 +10904,8 @@ let ___sym0 = ___pop_Variant32(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym1.2.clone();
 let ___nt = super::___action210::<>(text, ___sym0, ___sym1);
-let ___symbol = (___start, ___Symbol::Variant32(___nt), ___end);
-(2, ___symbol, 45)
+___symbols.push((___start, ___Symbol::Variant32(___nt), ___end));
+(2, 45)
 }
 pub(crate) fn ___reduce75<
     'input,
@@ -10917,14 +10916,14 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // (<TypeBound> "+")* =  => ActionFn(208);
 let ___start = ___symbols.last().map(|s| s.2.clone()).unwrap_or_default();
 let ___end = ___lookahead_start.cloned().unwrap_or_else(|| ___start.clone());
 let ___nt = super::___action208::<>(text, &___start, &___end);
-let ___symbol = (___start, ___Symbol::Variant33(___nt), ___end);
-(0, ___symbol, 46)
+___symbols.push((___start, ___Symbol::Variant33(___nt), ___end));
+(0, 46)
 }
 pub(crate) fn ___reduce76<
     'input,
@@ -10935,15 +10934,15 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // (<TypeBound> "+")* = (<TypeBound> "+")+ => ActionFn(209);
 let ___sym0 = ___pop_Variant33(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym0.2.clone();
 let ___nt = super::___action209::<>(text, ___sym0);
-let ___symbol = (___start, ___Symbol::Variant33(___nt), ___end);
-(1, ___symbol, 46)
+___symbols.push((___start, ___Symbol::Variant33(___nt), ___end));
+(1, 46)
 }
 pub(crate) fn ___reduce77<
     'input,
@@ -10954,7 +10953,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // (<TypeBound> "+")+ = TypeBound, "+" => ActionFn(365);
 let ___sym1 = ___pop_Variant0(___symbols);
@@ -10962,8 +10961,8 @@ let ___sym0 = ___pop_Variant32(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym1.2.clone();
 let ___nt = super::___action365::<>(text, ___sym0, ___sym1);
-let ___symbol = (___start, ___Symbol::Variant33(___nt), ___end);
-(2, ___symbol, 47)
+___symbols.push((___start, ___Symbol::Variant33(___nt), ___end));
+(2, 47)
 }
 pub(crate) fn ___reduce78<
     'input,
@@ -10974,7 +10973,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // (<TypeBound> "+")+ = (<TypeBound> "+")+, TypeBound, "+" => ActionFn(366);
 let ___sym2 = ___pop_Variant0(___symbols);
@@ -10983,8 +10982,8 @@ let ___sym0 = ___pop_Variant33(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym2.2.clone();
 let ___nt = super::___action366::<>(text, ___sym0, ___sym1, ___sym2);
-let ___symbol = (___start, ___Symbol::Variant33(___nt), ___end);
-(3, ___symbol, 47)
+___symbols.push((___start, ___Symbol::Variant33(___nt), ___end));
+(3, 47)
 }
 pub(crate) fn ___reduce79<
     'input,
@@ -10995,7 +10994,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // (<TypeBoundParameter> ",") = TypeBoundParameter, "," => ActionFn(220);
 let ___sym1 = ___pop_Variant0(___symbols);
@@ -11003,8 +11002,8 @@ let ___sym0 = ___pop_Variant34(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym1.2.clone();
 let ___nt = super::___action220::<>(text, ___sym0, ___sym1);
-let ___symbol = (___start, ___Symbol::Variant34(___nt), ___end);
-(2, ___symbol, 48)
+___symbols.push((___start, ___Symbol::Variant34(___nt), ___end));
+(2, 48)
 }
 pub(crate) fn ___reduce80<
     'input,
@@ -11015,14 +11014,14 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // (<TypeBoundParameter> ",")* =  => ActionFn(218);
 let ___start = ___symbols.last().map(|s| s.2.clone()).unwrap_or_default();
 let ___end = ___lookahead_start.cloned().unwrap_or_else(|| ___start.clone());
 let ___nt = super::___action218::<>(text, &___start, &___end);
-let ___symbol = (___start, ___Symbol::Variant35(___nt), ___end);
-(0, ___symbol, 49)
+___symbols.push((___start, ___Symbol::Variant35(___nt), ___end));
+(0, 49)
 }
 pub(crate) fn ___reduce81<
     'input,
@@ -11033,15 +11032,15 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // (<TypeBoundParameter> ",")* = (<TypeBoundParameter> ",")+ => ActionFn(219);
 let ___sym0 = ___pop_Variant35(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym0.2.clone();
 let ___nt = super::___action219::<>(text, ___sym0);
-let ___symbol = (___start, ___Symbol::Variant35(___nt), ___end);
-(1, ___symbol, 49)
+___symbols.push((___start, ___Symbol::Variant35(___nt), ___end));
+(1, 49)
 }
 pub(crate) fn ___reduce82<
     'input,
@@ -11052,7 +11051,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // (<TypeBoundParameter> ",")+ = TypeBoundParameter, "," => ActionFn(369);
 let ___sym1 = ___pop_Variant0(___symbols);
@@ -11060,8 +11059,8 @@ let ___sym0 = ___pop_Variant34(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym1.2.clone();
 let ___nt = super::___action369::<>(text, ___sym0, ___sym1);
-let ___symbol = (___start, ___Symbol::Variant35(___nt), ___end);
-(2, ___symbol, 50)
+___symbols.push((___start, ___Symbol::Variant35(___nt), ___end));
+(2, 50)
 }
 pub(crate) fn ___reduce83<
     'input,
@@ -11072,7 +11071,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // (<TypeBoundParameter> ",")+ = (<TypeBoundParameter> ",")+, TypeBoundParameter, "," => ActionFn(370);
 let ___sym2 = ___pop_Variant0(___symbols);
@@ -11081,8 +11080,8 @@ let ___sym0 = ___pop_Variant35(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym2.2.clone();
 let ___nt = super::___action370::<>(text, ___sym0, ___sym1, ___sym2);
-let ___symbol = (___start, ___Symbol::Variant35(___nt), ___end);
-(3, ___symbol, 50)
+___symbols.push((___start, ___Symbol::Variant35(___nt), ___end));
+(3, 50)
 }
 pub(crate) fn ___reduce84<
     'input,
@@ -11093,7 +11092,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // (<TypeParameter> ",") = TypeParameter, "," => ActionFn(197);
 let ___sym1 = ___pop_Variant0(___symbols);
@@ -11101,8 +11100,8 @@ let ___sym0 = ___pop_Variant36(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym1.2.clone();
 let ___nt = super::___action197::<>(text, ___sym0, ___sym1);
-let ___symbol = (___start, ___Symbol::Variant36(___nt), ___end);
-(2, ___symbol, 51)
+___symbols.push((___start, ___Symbol::Variant36(___nt), ___end));
+(2, 51)
 }
 pub(crate) fn ___reduce85<
     'input,
@@ -11113,14 +11112,14 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // (<TypeParameter> ",")* =  => ActionFn(195);
 let ___start = ___symbols.last().map(|s| s.2.clone()).unwrap_or_default();
 let ___end = ___lookahead_start.cloned().unwrap_or_else(|| ___start.clone());
 let ___nt = super::___action195::<>(text, &___start, &___end);
-let ___symbol = (___start, ___Symbol::Variant37(___nt), ___end);
-(0, ___symbol, 52)
+___symbols.push((___start, ___Symbol::Variant37(___nt), ___end));
+(0, 52)
 }
 pub(crate) fn ___reduce86<
     'input,
@@ -11131,15 +11130,15 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // (<TypeParameter> ",")* = (<TypeParameter> ",")+ => ActionFn(196);
 let ___sym0 = ___pop_Variant37(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym0.2.clone();
 let ___nt = super::___action196::<>(text, ___sym0);
-let ___symbol = (___start, ___Symbol::Variant37(___nt), ___end);
-(1, ___symbol, 52)
+___symbols.push((___start, ___Symbol::Variant37(___nt), ___end));
+(1, 52)
 }
 pub(crate) fn ___reduce87<
     'input,
@@ -11150,7 +11149,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // (<TypeParameter> ",")+ = TypeParameter, "," => ActionFn(373);
 let ___sym1 = ___pop_Variant0(___symbols);
@@ -11158,8 +11157,8 @@ let ___sym0 = ___pop_Variant36(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym1.2.clone();
 let ___nt = super::___action373::<>(text, ___sym0, ___sym1);
-let ___symbol = (___start, ___Symbol::Variant37(___nt), ___end);
-(2, ___symbol, 53)
+___symbols.push((___start, ___Symbol::Variant37(___nt), ___end));
+(2, 53)
 }
 pub(crate) fn ___reduce88<
     'input,
@@ -11170,7 +11169,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // (<TypeParameter> ",")+ = (<TypeParameter> ",")+, TypeParameter, "," => ActionFn(374);
 let ___sym2 = ___pop_Variant0(___symbols);
@@ -11179,8 +11178,8 @@ let ___sym0 = ___pop_Variant37(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym2.2.clone();
 let ___nt = super::___action374::<>(text, ___sym0, ___sym1, ___sym2);
-let ___symbol = (___start, ___Symbol::Variant37(___nt), ___end);
-(3, ___symbol, 53)
+___symbols.push((___start, ___Symbol::Variant37(___nt), ___end));
+(3, 53)
 }
 pub(crate) fn ___reduce89<
     'input,
@@ -11191,7 +11190,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // (<TypeRef> ",") = TypeRef, "," => ActionFn(215);
 let ___sym1 = ___pop_Variant0(___symbols);
@@ -11199,8 +11198,8 @@ let ___sym0 = ___pop_Variant3(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym1.2.clone();
 let ___nt = super::___action215::<>(text, ___sym0, ___sym1);
-let ___symbol = (___start, ___Symbol::Variant3(___nt), ___end);
-(2, ___symbol, 54)
+___symbols.push((___start, ___Symbol::Variant3(___nt), ___end));
+(2, 54)
 }
 pub(crate) fn ___reduce90<
     'input,
@@ -11211,14 +11210,14 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // (<TypeRef> ",")* =  => ActionFn(213);
 let ___start = ___symbols.last().map(|s| s.2.clone()).unwrap_or_default();
 let ___end = ___lookahead_start.cloned().unwrap_or_else(|| ___start.clone());
 let ___nt = super::___action213::<>(text, &___start, &___end);
-let ___symbol = (___start, ___Symbol::Variant38(___nt), ___end);
-(0, ___symbol, 55)
+___symbols.push((___start, ___Symbol::Variant38(___nt), ___end));
+(0, 55)
 }
 pub(crate) fn ___reduce91<
     'input,
@@ -11229,15 +11228,15 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // (<TypeRef> ",")* = (<TypeRef> ",")+ => ActionFn(214);
 let ___sym0 = ___pop_Variant38(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym0.2.clone();
 let ___nt = super::___action214::<>(text, ___sym0);
-let ___symbol = (___start, ___Symbol::Variant38(___nt), ___end);
-(1, ___symbol, 55)
+___symbols.push((___start, ___Symbol::Variant38(___nt), ___end));
+(1, 55)
 }
 pub(crate) fn ___reduce92<
     'input,
@@ -11248,7 +11247,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // (<TypeRef> ",")+ = TypeRef, "," => ActionFn(377);
 let ___sym1 = ___pop_Variant0(___symbols);
@@ -11256,8 +11255,8 @@ let ___sym0 = ___pop_Variant3(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym1.2.clone();
 let ___nt = super::___action377::<>(text, ___sym0, ___sym1);
-let ___symbol = (___start, ___Symbol::Variant38(___nt), ___end);
-(2, ___symbol, 56)
+___symbols.push((___start, ___Symbol::Variant38(___nt), ___end));
+(2, 56)
 }
 pub(crate) fn ___reduce93<
     'input,
@@ -11268,7 +11267,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // (<TypeRef> ",")+ = (<TypeRef> ",")+, TypeRef, "," => ActionFn(378);
 let ___sym2 = ___pop_Variant0(___symbols);
@@ -11277,8 +11276,8 @@ let ___sym0 = ___pop_Variant38(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym2.2.clone();
 let ___nt = super::___action378::<>(text, ___sym0, ___sym1, ___sym2);
-let ___symbol = (___start, ___Symbol::Variant38(___nt), ___end);
-(3, ___symbol, 56)
+___symbols.push((___start, ___Symbol::Variant38(___nt), ___end));
+(3, 56)
 }
 pub(crate) fn ___reduce94<
     'input,
@@ -11289,7 +11288,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // (<TypeRefOrLifetime> ",") = TypeRefOrLifetime, "," => ActionFn(245);
 let ___sym1 = ___pop_Variant0(___symbols);
@@ -11297,8 +11296,8 @@ let ___sym0 = ___pop_Variant3(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym1.2.clone();
 let ___nt = super::___action245::<>(text, ___sym0, ___sym1);
-let ___symbol = (___start, ___Symbol::Variant3(___nt), ___end);
-(2, ___symbol, 57)
+___symbols.push((___start, ___Symbol::Variant3(___nt), ___end));
+(2, 57)
 }
 pub(crate) fn ___reduce95<
     'input,
@@ -11309,14 +11308,14 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // (<TypeRefOrLifetime> ",")* =  => ActionFn(243);
 let ___start = ___symbols.last().map(|s| s.2.clone()).unwrap_or_default();
 let ___end = ___lookahead_start.cloned().unwrap_or_else(|| ___start.clone());
 let ___nt = super::___action243::<>(text, &___start, &___end);
-let ___symbol = (___start, ___Symbol::Variant38(___nt), ___end);
-(0, ___symbol, 58)
+___symbols.push((___start, ___Symbol::Variant38(___nt), ___end));
+(0, 58)
 }
 pub(crate) fn ___reduce96<
     'input,
@@ -11327,15 +11326,15 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // (<TypeRefOrLifetime> ",")* = (<TypeRefOrLifetime> ",")+ => ActionFn(244);
 let ___sym0 = ___pop_Variant38(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym0.2.clone();
 let ___nt = super::___action244::<>(text, ___sym0);
-let ___symbol = (___start, ___Symbol::Variant38(___nt), ___end);
-(1, ___symbol, 58)
+___symbols.push((___start, ___Symbol::Variant38(___nt), ___end));
+(1, 58)
 }
 pub(crate) fn ___reduce97<
     'input,
@@ -11346,7 +11345,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // (<TypeRefOrLifetime> ",")+ = TypeRefOrLifetime, "," => ActionFn(381);
 let ___sym1 = ___pop_Variant0(___symbols);
@@ -11354,8 +11353,8 @@ let ___sym0 = ___pop_Variant3(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym1.2.clone();
 let ___nt = super::___action381::<>(text, ___sym0, ___sym1);
-let ___symbol = (___start, ___Symbol::Variant38(___nt), ___end);
-(2, ___symbol, 59)
+___symbols.push((___start, ___Symbol::Variant38(___nt), ___end));
+(2, 59)
 }
 pub(crate) fn ___reduce98<
     'input,
@@ -11366,7 +11365,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // (<TypeRefOrLifetime> ",")+ = (<TypeRefOrLifetime> ",")+, TypeRefOrLifetime, "," => ActionFn(382);
 let ___sym2 = ___pop_Variant0(___symbols);
@@ -11375,8 +11374,8 @@ let ___sym0 = ___pop_Variant38(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym2.2.clone();
 let ___nt = super::___action382::<>(text, ___sym0, ___sym1, ___sym2);
-let ___symbol = (___start, ___Symbol::Variant38(___nt), ___end);
-(3, ___symbol, 59)
+___symbols.push((___start, ___Symbol::Variant38(___nt), ___end));
+(3, 59)
 }
 pub(crate) fn ___reduce99<
     'input,
@@ -11387,14 +11386,14 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // @L =  => ActionFn(178);
 let ___start = ___symbols.last().map(|s| s.2.clone()).unwrap_or_default();
 let ___end = ___lookahead_start.cloned().unwrap_or_else(|| ___start.clone());
 let ___nt = super::___action178::<>(text, &___start, &___end);
-let ___symbol = (___start, ___Symbol::Variant39(___nt), ___end);
-(0, ___symbol, 60)
+___symbols.push((___start, ___Symbol::Variant39(___nt), ___end));
+(0, 60)
 }
 pub(crate) fn ___reduce100<
     'input,
@@ -11405,14 +11404,14 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // @R =  => ActionFn(177);
 let ___start = ___symbols.last().map(|s| s.2.clone()).unwrap_or_default();
 let ___end = ___lookahead_start.cloned().unwrap_or_else(|| ___start.clone());
 let ___nt = super::___action177::<>(text, &___start, &___end);
-let ___symbol = (___start, ___Symbol::Variant39(___nt), ___end);
-(0, ___symbol, 61)
+___symbols.push((___start, ___Symbol::Variant39(___nt), ___end));
+(0, 61)
 }
 pub(crate) fn ___reduce101<
     'input,
@@ -11423,15 +11422,15 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Action = "=>@L" => ActionFn(42);
 let ___sym0 = ___pop_Variant0(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym0.2.clone();
 let ___nt = super::___action42::<>(text, ___sym0);
-let ___symbol = (___start, ___Symbol::Variant40(___nt), ___end);
-(1, ___symbol, 62)
+___symbols.push((___start, ___Symbol::Variant40(___nt), ___end));
+(1, 62)
 }
 pub(crate) fn ___reduce102<
     'input,
@@ -11442,15 +11441,15 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Action = "=>@R" => ActionFn(43);
 let ___sym0 = ___pop_Variant0(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym0.2.clone();
 let ___nt = super::___action43::<>(text, ___sym0);
-let ___symbol = (___start, ___Symbol::Variant40(___nt), ___end);
-(1, ___symbol, 62)
+___symbols.push((___start, ___Symbol::Variant40(___nt), ___end));
+(1, 62)
 }
 pub(crate) fn ___reduce103<
     'input,
@@ -11461,15 +11460,15 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Action = "=>" => ActionFn(44);
 let ___sym0 = ___pop_Variant1(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym0.2.clone();
 let ___nt = super::___action44::<>(text, ___sym0);
-let ___symbol = (___start, ___Symbol::Variant40(___nt), ___end);
-(1, ___symbol, 62)
+___symbols.push((___start, ___Symbol::Variant40(___nt), ___end));
+(1, 62)
 }
 pub(crate) fn ___reduce104<
     'input,
@@ -11480,15 +11479,15 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Action = "=>?" => ActionFn(45);
 let ___sym0 = ___pop_Variant1(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym0.2.clone();
 let ___nt = super::___action45::<>(text, ___sym0);
-let ___symbol = (___start, ___Symbol::Variant40(___nt), ___end);
-(1, ___symbol, 62)
+___symbols.push((___start, ___Symbol::Variant40(___nt), ___end));
+(1, 62)
 }
 pub(crate) fn ___reduce105<
     'input,
@@ -11499,15 +11498,15 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Action? = Action => ActionFn(139);
 let ___sym0 = ___pop_Variant40(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym0.2.clone();
 let ___nt = super::___action139::<>(text, ___sym0);
-let ___symbol = (___start, ___Symbol::Variant41(___nt), ___end);
-(1, ___symbol, 63)
+___symbols.push((___start, ___Symbol::Variant41(___nt), ___end));
+(1, 63)
 }
 pub(crate) fn ___reduce106<
     'input,
@@ -11518,14 +11517,14 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Action? =  => ActionFn(140);
 let ___start = ___symbols.last().map(|s| s.2.clone()).unwrap_or_default();
 let ___end = ___lookahead_start.cloned().unwrap_or_else(|| ___start.clone());
 let ___nt = super::___action140::<>(text, &___start, &___end);
-let ___symbol = (___start, ___Symbol::Variant41(___nt), ___end);
-(0, ___symbol, 63)
+___symbols.push((___start, ___Symbol::Variant41(___nt), ___end));
+(0, 63)
 }
 pub(crate) fn ___reduce107<
     'input,
@@ -11536,7 +11535,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Alternative = Symbol+, "if", Cond, Action => ActionFn(433);
 let ___sym3 = ___pop_Variant40(___symbols);
@@ -11546,8 +11545,8 @@ let ___sym0 = ___pop_Variant31(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym3.2.clone();
 let ___nt = super::___action433::<>(text, ___sym0, ___sym1, ___sym2, ___sym3);
-let ___symbol = (___start, ___Symbol::Variant10(___nt), ___end);
-(4, ___symbol, 64)
+___symbols.push((___start, ___Symbol::Variant10(___nt), ___end));
+(4, 64)
 }
 pub(crate) fn ___reduce108<
     'input,
@@ -11558,7 +11557,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Alternative = Symbol+, "if", Cond => ActionFn(434);
 let ___sym2 = ___pop_Variant7(___symbols);
@@ -11567,8 +11566,8 @@ let ___sym0 = ___pop_Variant31(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym2.2.clone();
 let ___nt = super::___action434::<>(text, ___sym0, ___sym1, ___sym2);
-let ___symbol = (___start, ___Symbol::Variant10(___nt), ___end);
-(3, ___symbol, 64)
+___symbols.push((___start, ___Symbol::Variant10(___nt), ___end));
+(3, 64)
 }
 pub(crate) fn ___reduce109<
     'input,
@@ -11579,7 +11578,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Alternative = Symbol+, Action => ActionFn(435);
 let ___sym1 = ___pop_Variant40(___symbols);
@@ -11587,8 +11586,8 @@ let ___sym0 = ___pop_Variant31(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym1.2.clone();
 let ___nt = super::___action435::<>(text, ___sym0, ___sym1);
-let ___symbol = (___start, ___Symbol::Variant10(___nt), ___end);
-(2, ___symbol, 64)
+___symbols.push((___start, ___Symbol::Variant10(___nt), ___end));
+(2, 64)
 }
 pub(crate) fn ___reduce110<
     'input,
@@ -11599,15 +11598,15 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Alternative = Symbol+ => ActionFn(436);
 let ___sym0 = ___pop_Variant31(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym0.2.clone();
 let ___nt = super::___action436::<>(text, ___sym0);
-let ___symbol = (___start, ___Symbol::Variant10(___nt), ___end);
-(1, ___symbol, 64)
+___symbols.push((___start, ___Symbol::Variant10(___nt), ___end));
+(1, 64)
 }
 pub(crate) fn ___reduce111<
     'input,
@@ -11618,7 +11617,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Alternative = "if", Cond, Action => ActionFn(411);
 let ___sym2 = ___pop_Variant40(___symbols);
@@ -11627,8 +11626,8 @@ let ___sym0 = ___pop_Variant0(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym2.2.clone();
 let ___nt = super::___action411::<>(text, ___sym0, ___sym1, ___sym2);
-let ___symbol = (___start, ___Symbol::Variant10(___nt), ___end);
-(3, ___symbol, 64)
+___symbols.push((___start, ___Symbol::Variant10(___nt), ___end));
+(3, 64)
 }
 pub(crate) fn ___reduce112<
     'input,
@@ -11639,15 +11638,15 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Alternative = Action => ActionFn(412);
 let ___sym0 = ___pop_Variant40(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym0.2.clone();
 let ___nt = super::___action412::<>(text, ___sym0);
-let ___symbol = (___start, ___Symbol::Variant10(___nt), ___end);
-(1, ___symbol, 64)
+___symbols.push((___start, ___Symbol::Variant10(___nt), ___end));
+(1, 64)
 }
 pub(crate) fn ___reduce113<
     'input,
@@ -11658,15 +11657,15 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Alternative? = Alternative => ActionFn(231);
 let ___sym0 = ___pop_Variant10(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym0.2.clone();
 let ___nt = super::___action231::<>(text, ___sym0);
-let ___symbol = (___start, ___Symbol::Variant42(___nt), ___end);
-(1, ___symbol, 65)
+___symbols.push((___start, ___Symbol::Variant42(___nt), ___end));
+(1, 65)
 }
 pub(crate) fn ___reduce114<
     'input,
@@ -11677,14 +11676,14 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Alternative? =  => ActionFn(232);
 let ___start = ___symbols.last().map(|s| s.2.clone()).unwrap_or_default();
 let ___end = ___lookahead_start.cloned().unwrap_or_else(|| ___start.clone());
 let ___nt = super::___action232::<>(text, &___start, &___end);
-let ___symbol = (___start, ___Symbol::Variant42(___nt), ___end);
-(0, ___symbol, 65)
+___symbols.push((___start, ___Symbol::Variant42(___nt), ___end));
+(0, 65)
 }
 pub(crate) fn ___reduce115<
     'input,
@@ -11695,7 +11694,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Alternatives = Alternative, ";" => ActionFn(38);
 let ___sym1 = ___pop_Variant0(___symbols);
@@ -11703,8 +11702,8 @@ let ___sym0 = ___pop_Variant10(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym1.2.clone();
 let ___nt = super::___action38::<>(text, ___sym0, ___sym1);
-let ___symbol = (___start, ___Symbol::Variant43(___nt), ___end);
-(2, ___symbol, 66)
+___symbols.push((___start, ___Symbol::Variant43(___nt), ___end));
+(2, 66)
 }
 pub(crate) fn ___reduce116<
     'input,
@@ -11715,7 +11714,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Alternatives = "{", Comma<Alternative>, "}", ";" => ActionFn(297);
 let ___sym3 = ___pop_Variant0(___symbols);
@@ -11725,8 +11724,8 @@ let ___sym0 = ___pop_Variant0(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym3.2.clone();
 let ___nt = super::___action297::<>(text, ___sym0, ___sym1, ___sym2, ___sym3);
-let ___symbol = (___start, ___Symbol::Variant43(___nt), ___end);
-(4, ___symbol, 66)
+___symbols.push((___start, ___Symbol::Variant43(___nt), ___end));
+(4, 66)
 }
 pub(crate) fn ___reduce117<
     'input,
@@ -11737,7 +11736,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Alternatives = "{", Comma<Alternative>, "}" => ActionFn(298);
 let ___sym2 = ___pop_Variant0(___symbols);
@@ -11746,8 +11745,8 @@ let ___sym0 = ___pop_Variant0(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym2.2.clone();
 let ___nt = super::___action298::<>(text, ___sym0, ___sym1, ___sym2);
-let ___symbol = (___start, ___Symbol::Variant43(___nt), ___end);
-(3, ___symbol, 66)
+___symbols.push((___start, ___Symbol::Variant43(___nt), ___end));
+(3, 66)
 }
 pub(crate) fn ___reduce118<
     'input,
@@ -11758,7 +11757,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Annotation = "#", "[", Id, AnnotationArg, "]" => ActionFn(447);
 let ___sym4 = ___pop_Variant0(___symbols);
@@ -11769,8 +11768,8 @@ let ___sym0 = ___pop_Variant0(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym4.2.clone();
 let ___nt = super::___action447::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4);
-let ___symbol = (___start, ___Symbol::Variant44(___nt), ___end);
-(5, ___symbol, 67)
+___symbols.push((___start, ___Symbol::Variant44(___nt), ___end));
+(5, 67)
 }
 pub(crate) fn ___reduce119<
     'input,
@@ -11781,7 +11780,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Annotation = "#", "[", Id, "]" => ActionFn(448);
 let ___sym3 = ___pop_Variant0(___symbols);
@@ -11791,8 +11790,8 @@ let ___sym0 = ___pop_Variant0(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym3.2.clone();
 let ___nt = super::___action448::<>(text, ___sym0, ___sym1, ___sym2, ___sym3);
-let ___symbol = (___start, ___Symbol::Variant44(___nt), ___end);
-(4, ___symbol, 67)
+___symbols.push((___start, ___Symbol::Variant44(___nt), ___end));
+(4, 67)
 }
 pub(crate) fn ___reduce120<
     'input,
@@ -11803,14 +11802,14 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Annotation* =  => ActionFn(179);
 let ___start = ___symbols.last().map(|s| s.2.clone()).unwrap_or_default();
 let ___end = ___lookahead_start.cloned().unwrap_or_else(|| ___start.clone());
 let ___nt = super::___action179::<>(text, &___start, &___end);
-let ___symbol = (___start, ___Symbol::Variant45(___nt), ___end);
-(0, ___symbol, 68)
+___symbols.push((___start, ___Symbol::Variant45(___nt), ___end));
+(0, 68)
 }
 pub(crate) fn ___reduce121<
     'input,
@@ -11821,15 +11820,15 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Annotation* = Annotation+ => ActionFn(180);
 let ___sym0 = ___pop_Variant45(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym0.2.clone();
 let ___nt = super::___action180::<>(text, ___sym0);
-let ___symbol = (___start, ___Symbol::Variant45(___nt), ___end);
-(1, ___symbol, 68)
+___symbols.push((___start, ___Symbol::Variant45(___nt), ___end));
+(1, 68)
 }
 pub(crate) fn ___reduce122<
     'input,
@@ -11840,15 +11839,15 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Annotation+ = Annotation => ActionFn(189);
 let ___sym0 = ___pop_Variant44(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym0.2.clone();
 let ___nt = super::___action189::<>(text, ___sym0);
-let ___symbol = (___start, ___Symbol::Variant45(___nt), ___end);
-(1, ___symbol, 69)
+___symbols.push((___start, ___Symbol::Variant45(___nt), ___end));
+(1, 69)
 }
 pub(crate) fn ___reduce123<
     'input,
@@ -11859,7 +11858,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Annotation+ = Annotation+, Annotation => ActionFn(190);
 let ___sym1 = ___pop_Variant44(___symbols);
@@ -11867,8 +11866,8 @@ let ___sym0 = ___pop_Variant45(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym1.2.clone();
 let ___nt = super::___action190::<>(text, ___sym0, ___sym1);
-let ___symbol = (___start, ___Symbol::Variant45(___nt), ___end);
-(2, ___symbol, 69)
+___symbols.push((___start, ___Symbol::Variant45(___nt), ___end));
+(2, 69)
 }
 pub(crate) fn ___reduce124<
     'input,
@@ -11879,7 +11878,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // AnnotationArg = "(", Id, "=", "StringLiteral", ")" => ActionFn(33);
 let ___sym4 = ___pop_Variant0(___symbols);
@@ -11890,8 +11889,8 @@ let ___sym0 = ___pop_Variant0(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym4.2.clone();
 let ___nt = super::___action33::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4);
-let ___symbol = (___start, ___Symbol::Variant46(___nt), ___end);
-(5, ___symbol, 70)
+___symbols.push((___start, ___Symbol::Variant46(___nt), ___end));
+(5, 70)
 }
 pub(crate) fn ___reduce125<
     'input,
@@ -11902,15 +11901,15 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // AnnotationArg? = AnnotationArg => ActionFn(150);
 let ___sym0 = ___pop_Variant46(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym0.2.clone();
 let ___nt = super::___action150::<>(text, ___sym0);
-let ___symbol = (___start, ___Symbol::Variant47(___nt), ___end);
-(1, ___symbol, 71)
+___symbols.push((___start, ___Symbol::Variant47(___nt), ___end));
+(1, 71)
 }
 pub(crate) fn ___reduce126<
     'input,
@@ -11921,14 +11920,14 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // AnnotationArg? =  => ActionFn(151);
 let ___start = ___symbols.last().map(|s| s.2.clone()).unwrap_or_default();
 let ___end = ___lookahead_start.cloned().unwrap_or_else(|| ___start.clone());
 let ___nt = super::___action151::<>(text, &___start, &___end);
-let ___symbol = (___start, ___Symbol::Variant47(___nt), ___end);
-(0, ___symbol, 71)
+___symbols.push((___start, ___Symbol::Variant47(___nt), ___end));
+(0, 71)
 }
 pub(crate) fn ___reduce127<
     'input,
@@ -11939,7 +11938,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // AssociatedType = "type", Id, "=", TypeRef, ";" => ActionFn(414);
 let ___sym4 = ___pop_Variant0(___symbols);
@@ -11950,8 +11949,8 @@ let ___sym0 = ___pop_Variant0(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym4.2.clone();
 let ___nt = super::___action414::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4);
-let ___symbol = (___start, ___Symbol::Variant48(___nt), ___end);
-(5, ___symbol, 72)
+___symbols.push((___start, ___Symbol::Variant48(___nt), ___end));
+(5, 72)
 }
 pub(crate) fn ___reduce128<
     'input,
@@ -11962,14 +11961,14 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // AssociatedType* =  => ActionFn(124);
 let ___start = ___symbols.last().map(|s| s.2.clone()).unwrap_or_default();
 let ___end = ___lookahead_start.cloned().unwrap_or_else(|| ___start.clone());
 let ___nt = super::___action124::<>(text, &___start, &___end);
-let ___symbol = (___start, ___Symbol::Variant49(___nt), ___end);
-(0, ___symbol, 73)
+___symbols.push((___start, ___Symbol::Variant49(___nt), ___end));
+(0, 73)
 }
 pub(crate) fn ___reduce129<
     'input,
@@ -11980,15 +11979,15 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // AssociatedType* = AssociatedType+ => ActionFn(125);
 let ___sym0 = ___pop_Variant49(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym0.2.clone();
 let ___nt = super::___action125::<>(text, ___sym0);
-let ___symbol = (___start, ___Symbol::Variant49(___nt), ___end);
-(1, ___symbol, 73)
+___symbols.push((___start, ___Symbol::Variant49(___nt), ___end));
+(1, 73)
 }
 pub(crate) fn ___reduce130<
     'input,
@@ -11999,15 +11998,15 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // AssociatedType+ = AssociatedType => ActionFn(248);
 let ___sym0 = ___pop_Variant48(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym0.2.clone();
 let ___nt = super::___action248::<>(text, ___sym0);
-let ___symbol = (___start, ___Symbol::Variant49(___nt), ___end);
-(1, ___symbol, 74)
+___symbols.push((___start, ___Symbol::Variant49(___nt), ___end));
+(1, 74)
 }
 pub(crate) fn ___reduce131<
     'input,
@@ -12018,7 +12017,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // AssociatedType+ = AssociatedType+, AssociatedType => ActionFn(249);
 let ___sym1 = ___pop_Variant48(___symbols);
@@ -12026,8 +12025,8 @@ let ___sym0 = ___pop_Variant49(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym1.2.clone();
 let ___nt = super::___action249::<>(text, ___sym0, ___sym1);
-let ___symbol = (___start, ___Symbol::Variant49(___nt), ___end);
-(2, ___symbol, 74)
+___symbols.push((___start, ___Symbol::Variant49(___nt), ___end));
+(2, 74)
 }
 pub(crate) fn ___reduce132<
     'input,
@@ -12038,15 +12037,15 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Comma<Alternative> = Alternative => ActionFn(437);
 let ___sym0 = ___pop_Variant10(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym0.2.clone();
 let ___nt = super::___action437::<>(text, ___sym0);
-let ___symbol = (___start, ___Symbol::Variant43(___nt), ___end);
-(1, ___symbol, 75)
+___symbols.push((___start, ___Symbol::Variant43(___nt), ___end));
+(1, 75)
 }
 pub(crate) fn ___reduce133<
     'input,
@@ -12057,14 +12056,14 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Comma<Alternative> =  => ActionFn(438);
 let ___start = ___symbols.last().map(|s| s.2.clone()).unwrap_or_default();
 let ___end = ___lookahead_start.cloned().unwrap_or_else(|| ___start.clone());
 let ___nt = super::___action438::<>(text, &___start, &___end);
-let ___symbol = (___start, ___Symbol::Variant43(___nt), ___end);
-(0, ___symbol, 75)
+___symbols.push((___start, ___Symbol::Variant43(___nt), ___end));
+(0, 75)
 }
 pub(crate) fn ___reduce134<
     'input,
@@ -12075,7 +12074,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Comma<Alternative> = (<Alternative> ",")+, Alternative => ActionFn(439);
 let ___sym1 = ___pop_Variant10(___symbols);
@@ -12083,8 +12082,8 @@ let ___sym0 = ___pop_Variant11(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym1.2.clone();
 let ___nt = super::___action439::<>(text, ___sym0, ___sym1);
-let ___symbol = (___start, ___Symbol::Variant43(___nt), ___end);
-(2, ___symbol, 75)
+___symbols.push((___start, ___Symbol::Variant43(___nt), ___end));
+(2, 75)
 }
 pub(crate) fn ___reduce135<
     'input,
@@ -12095,15 +12094,15 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Comma<Alternative> = (<Alternative> ",")+ => ActionFn(440);
 let ___sym0 = ___pop_Variant11(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym0.2.clone();
 let ___nt = super::___action440::<>(text, ___sym0);
-let ___symbol = (___start, ___Symbol::Variant43(___nt), ___end);
-(1, ___symbol, 75)
+___symbols.push((___start, ___Symbol::Variant43(___nt), ___end));
+(1, 75)
 }
 pub(crate) fn ___reduce136<
     'input,
@@ -12114,15 +12113,15 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Comma<Conversion> = Conversion => ActionFn(455);
 let ___sym0 = ___pop_Variant12(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym0.2.clone();
 let ___nt = super::___action455::<>(text, ___sym0);
-let ___symbol = (___start, ___Symbol::Variant50(___nt), ___end);
-(1, ___symbol, 76)
+___symbols.push((___start, ___Symbol::Variant50(___nt), ___end));
+(1, 76)
 }
 pub(crate) fn ___reduce137<
     'input,
@@ -12133,14 +12132,14 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Comma<Conversion> =  => ActionFn(456);
 let ___start = ___symbols.last().map(|s| s.2.clone()).unwrap_or_default();
 let ___end = ___lookahead_start.cloned().unwrap_or_else(|| ___start.clone());
 let ___nt = super::___action456::<>(text, &___start, &___end);
-let ___symbol = (___start, ___Symbol::Variant50(___nt), ___end);
-(0, ___symbol, 76)
+___symbols.push((___start, ___Symbol::Variant50(___nt), ___end));
+(0, 76)
 }
 pub(crate) fn ___reduce138<
     'input,
@@ -12151,7 +12150,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Comma<Conversion> = (<Conversion> ",")+, Conversion => ActionFn(457);
 let ___sym1 = ___pop_Variant12(___symbols);
@@ -12159,8 +12158,8 @@ let ___sym0 = ___pop_Variant13(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym1.2.clone();
 let ___nt = super::___action457::<>(text, ___sym0, ___sym1);
-let ___symbol = (___start, ___Symbol::Variant50(___nt), ___end);
-(2, ___symbol, 76)
+___symbols.push((___start, ___Symbol::Variant50(___nt), ___end));
+(2, 76)
 }
 pub(crate) fn ___reduce139<
     'input,
@@ -12171,15 +12170,15 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Comma<Conversion> = (<Conversion> ",")+ => ActionFn(458);
 let ___sym0 = ___pop_Variant13(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym0.2.clone();
 let ___nt = super::___action458::<>(text, ___sym0);
-let ___symbol = (___start, ___Symbol::Variant50(___nt), ___end);
-(1, ___symbol, 76)
+___symbols.push((___start, ___Symbol::Variant50(___nt), ___end));
+(1, 76)
 }
 pub(crate) fn ___reduce140<
     'input,
@@ -12190,15 +12189,15 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Comma<GrammarParameter> = GrammarParameter => ActionFn(467);
 let ___sym0 = ___pop_Variant16(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym0.2.clone();
 let ___nt = super::___action467::<>(text, ___sym0);
-let ___symbol = (___start, ___Symbol::Variant51(___nt), ___end);
-(1, ___symbol, 77)
+___symbols.push((___start, ___Symbol::Variant51(___nt), ___end));
+(1, 77)
 }
 pub(crate) fn ___reduce141<
     'input,
@@ -12209,14 +12208,14 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Comma<GrammarParameter> =  => ActionFn(468);
 let ___start = ___symbols.last().map(|s| s.2.clone()).unwrap_or_default();
 let ___end = ___lookahead_start.cloned().unwrap_or_else(|| ___start.clone());
 let ___nt = super::___action468::<>(text, &___start, &___end);
-let ___symbol = (___start, ___Symbol::Variant51(___nt), ___end);
-(0, ___symbol, 77)
+___symbols.push((___start, ___Symbol::Variant51(___nt), ___end));
+(0, 77)
 }
 pub(crate) fn ___reduce142<
     'input,
@@ -12227,7 +12226,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Comma<GrammarParameter> = (<GrammarParameter> ",")+, GrammarParameter => ActionFn(469);
 let ___sym1 = ___pop_Variant16(___symbols);
@@ -12235,8 +12234,8 @@ let ___sym0 = ___pop_Variant17(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym1.2.clone();
 let ___nt = super::___action469::<>(text, ___sym0, ___sym1);
-let ___symbol = (___start, ___Symbol::Variant51(___nt), ___end);
-(2, ___symbol, 77)
+___symbols.push((___start, ___Symbol::Variant51(___nt), ___end));
+(2, 77)
 }
 pub(crate) fn ___reduce143<
     'input,
@@ -12247,15 +12246,15 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Comma<GrammarParameter> = (<GrammarParameter> ",")+ => ActionFn(470);
 let ___sym0 = ___pop_Variant17(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym0.2.clone();
 let ___nt = super::___action470::<>(text, ___sym0);
-let ___symbol = (___start, ___Symbol::Variant51(___nt), ___end);
-(1, ___symbol, 77)
+___symbols.push((___start, ___Symbol::Variant51(___nt), ___end));
+(1, 77)
 }
 pub(crate) fn ___reduce144<
     'input,
@@ -12266,15 +12265,15 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Comma<GrammarWhereClause> = GrammarWhereClause => ActionFn(495);
 let ___sym0 = ___pop_Variant18(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym0.2.clone();
 let ___nt = super::___action495::<>(text, ___sym0);
-let ___symbol = (___start, ___Symbol::Variant52(___nt), ___end);
-(1, ___symbol, 78)
+___symbols.push((___start, ___Symbol::Variant52(___nt), ___end));
+(1, 78)
 }
 pub(crate) fn ___reduce145<
     'input,
@@ -12285,14 +12284,14 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Comma<GrammarWhereClause> =  => ActionFn(496);
 let ___start = ___symbols.last().map(|s| s.2.clone()).unwrap_or_default();
 let ___end = ___lookahead_start.cloned().unwrap_or_else(|| ___start.clone());
 let ___nt = super::___action496::<>(text, &___start, &___end);
-let ___symbol = (___start, ___Symbol::Variant52(___nt), ___end);
-(0, ___symbol, 78)
+___symbols.push((___start, ___Symbol::Variant52(___nt), ___end));
+(0, 78)
 }
 pub(crate) fn ___reduce146<
     'input,
@@ -12303,7 +12302,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Comma<GrammarWhereClause> = (<GrammarWhereClause> ",")+, GrammarWhereClause => ActionFn(497);
 let ___sym1 = ___pop_Variant18(___symbols);
@@ -12311,8 +12310,8 @@ let ___sym0 = ___pop_Variant19(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym1.2.clone();
 let ___nt = super::___action497::<>(text, ___sym0, ___sym1);
-let ___symbol = (___start, ___Symbol::Variant52(___nt), ___end);
-(2, ___symbol, 78)
+___symbols.push((___start, ___Symbol::Variant52(___nt), ___end));
+(2, 78)
 }
 pub(crate) fn ___reduce147<
     'input,
@@ -12323,15 +12322,15 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Comma<GrammarWhereClause> = (<GrammarWhereClause> ",")+ => ActionFn(498);
 let ___sym0 = ___pop_Variant19(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym0.2.clone();
 let ___nt = super::___action498::<>(text, ___sym0);
-let ___symbol = (___start, ___Symbol::Variant52(___nt), ___end);
-(1, ___symbol, 78)
+___symbols.push((___start, ___Symbol::Variant52(___nt), ___end));
+(1, 78)
 }
 pub(crate) fn ___reduce148<
     'input,
@@ -12342,15 +12341,15 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Comma<MatchItem> = MatchItem => ActionFn(539);
 let ___sym0 = ___pop_Variant24(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym0.2.clone();
 let ___nt = super::___action539::<>(text, ___sym0);
-let ___symbol = (___start, ___Symbol::Variant53(___nt), ___end);
-(1, ___symbol, 79)
+___symbols.push((___start, ___Symbol::Variant53(___nt), ___end));
+(1, 79)
 }
 pub(crate) fn ___reduce149<
     'input,
@@ -12361,14 +12360,14 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Comma<MatchItem> =  => ActionFn(540);
 let ___start = ___symbols.last().map(|s| s.2.clone()).unwrap_or_default();
 let ___end = ___lookahead_start.cloned().unwrap_or_else(|| ___start.clone());
 let ___nt = super::___action540::<>(text, &___start, &___end);
-let ___symbol = (___start, ___Symbol::Variant53(___nt), ___end);
-(0, ___symbol, 79)
+___symbols.push((___start, ___Symbol::Variant53(___nt), ___end));
+(0, 79)
 }
 pub(crate) fn ___reduce150<
     'input,
@@ -12379,7 +12378,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Comma<MatchItem> = (<MatchItem> ",")+, MatchItem => ActionFn(541);
 let ___sym1 = ___pop_Variant24(___symbols);
@@ -12387,8 +12386,8 @@ let ___sym0 = ___pop_Variant25(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym1.2.clone();
 let ___nt = super::___action541::<>(text, ___sym0, ___sym1);
-let ___symbol = (___start, ___Symbol::Variant53(___nt), ___end);
-(2, ___symbol, 79)
+___symbols.push((___start, ___Symbol::Variant53(___nt), ___end));
+(2, 79)
 }
 pub(crate) fn ___reduce151<
     'input,
@@ -12399,15 +12398,15 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Comma<MatchItem> = (<MatchItem> ",")+ => ActionFn(542);
 let ___sym0 = ___pop_Variant25(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym0.2.clone();
 let ___nt = super::___action542::<>(text, ___sym0);
-let ___symbol = (___start, ___Symbol::Variant53(___nt), ___end);
-(1, ___symbol, 79)
+___symbols.push((___start, ___Symbol::Variant53(___nt), ___end));
+(1, 79)
 }
 pub(crate) fn ___reduce152<
     'input,
@@ -12418,15 +12417,15 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Comma<NotMacroId> = NotMacroId => ActionFn(543);
 let ___sym0 = ___pop_Variant26(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym0.2.clone();
 let ___nt = super::___action543::<>(text, ___sym0);
-let ___symbol = (___start, ___Symbol::Variant54(___nt), ___end);
-(1, ___symbol, 80)
+___symbols.push((___start, ___Symbol::Variant54(___nt), ___end));
+(1, 80)
 }
 pub(crate) fn ___reduce153<
     'input,
@@ -12437,14 +12436,14 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Comma<NotMacroId> =  => ActionFn(544);
 let ___start = ___symbols.last().map(|s| s.2.clone()).unwrap_or_default();
 let ___end = ___lookahead_start.cloned().unwrap_or_else(|| ___start.clone());
 let ___nt = super::___action544::<>(text, &___start, &___end);
-let ___symbol = (___start, ___Symbol::Variant54(___nt), ___end);
-(0, ___symbol, 80)
+___symbols.push((___start, ___Symbol::Variant54(___nt), ___end));
+(0, 80)
 }
 pub(crate) fn ___reduce154<
     'input,
@@ -12455,7 +12454,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Comma<NotMacroId> = (<NotMacroId> ",")+, NotMacroId => ActionFn(545);
 let ___sym1 = ___pop_Variant26(___symbols);
@@ -12463,8 +12462,8 @@ let ___sym0 = ___pop_Variant27(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym1.2.clone();
 let ___nt = super::___action545::<>(text, ___sym0, ___sym1);
-let ___symbol = (___start, ___Symbol::Variant54(___nt), ___end);
-(2, ___symbol, 80)
+___symbols.push((___start, ___Symbol::Variant54(___nt), ___end));
+(2, 80)
 }
 pub(crate) fn ___reduce155<
     'input,
@@ -12475,15 +12474,15 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Comma<NotMacroId> = (<NotMacroId> ",")+ => ActionFn(546);
 let ___sym0 = ___pop_Variant27(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym0.2.clone();
 let ___nt = super::___action546::<>(text, ___sym0);
-let ___symbol = (___start, ___Symbol::Variant54(___nt), ___end);
-(1, ___symbol, 80)
+___symbols.push((___start, ___Symbol::Variant54(___nt), ___end));
+(1, 80)
 }
 pub(crate) fn ___reduce156<
     'input,
@@ -12494,15 +12493,15 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Comma<Pattern> = Pattern => ActionFn(547);
 let ___sym0 = ___pop_Variant28(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym0.2.clone();
 let ___nt = super::___action547::<>(text, ___sym0);
-let ___symbol = (___start, ___Symbol::Variant55(___nt), ___end);
-(1, ___symbol, 81)
+___symbols.push((___start, ___Symbol::Variant55(___nt), ___end));
+(1, 81)
 }
 pub(crate) fn ___reduce157<
     'input,
@@ -12513,14 +12512,14 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Comma<Pattern> =  => ActionFn(548);
 let ___start = ___symbols.last().map(|s| s.2.clone()).unwrap_or_default();
 let ___end = ___lookahead_start.cloned().unwrap_or_else(|| ___start.clone());
 let ___nt = super::___action548::<>(text, &___start, &___end);
-let ___symbol = (___start, ___Symbol::Variant55(___nt), ___end);
-(0, ___symbol, 81)
+___symbols.push((___start, ___Symbol::Variant55(___nt), ___end));
+(0, 81)
 }
 pub(crate) fn ___reduce158<
     'input,
@@ -12531,7 +12530,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Comma<Pattern> = (<Pattern> ",")+, Pattern => ActionFn(549);
 let ___sym1 = ___pop_Variant28(___symbols);
@@ -12539,8 +12538,8 @@ let ___sym0 = ___pop_Variant29(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym1.2.clone();
 let ___nt = super::___action549::<>(text, ___sym0, ___sym1);
-let ___symbol = (___start, ___Symbol::Variant55(___nt), ___end);
-(2, ___symbol, 81)
+___symbols.push((___start, ___Symbol::Variant55(___nt), ___end));
+(2, 81)
 }
 pub(crate) fn ___reduce159<
     'input,
@@ -12551,15 +12550,15 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Comma<Pattern> = (<Pattern> ",")+ => ActionFn(550);
 let ___sym0 = ___pop_Variant29(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym0.2.clone();
 let ___nt = super::___action550::<>(text, ___sym0);
-let ___symbol = (___start, ___Symbol::Variant55(___nt), ___end);
-(1, ___symbol, 81)
+___symbols.push((___start, ___Symbol::Variant55(___nt), ___end));
+(1, 81)
 }
 pub(crate) fn ___reduce160<
     'input,
@@ -12570,15 +12569,15 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Comma<Symbol> = Symbol => ActionFn(617);
 let ___sym0 = ___pop_Variant30(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym0.2.clone();
 let ___nt = super::___action617::<>(text, ___sym0);
-let ___symbol = (___start, ___Symbol::Variant56(___nt), ___end);
-(1, ___symbol, 82)
+___symbols.push((___start, ___Symbol::Variant56(___nt), ___end));
+(1, 82)
 }
 pub(crate) fn ___reduce161<
     'input,
@@ -12589,14 +12588,14 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Comma<Symbol> =  => ActionFn(618);
 let ___start = ___symbols.last().map(|s| s.2.clone()).unwrap_or_default();
 let ___end = ___lookahead_start.cloned().unwrap_or_else(|| ___start.clone());
 let ___nt = super::___action618::<>(text, &___start, &___end);
-let ___symbol = (___start, ___Symbol::Variant56(___nt), ___end);
-(0, ___symbol, 82)
+___symbols.push((___start, ___Symbol::Variant56(___nt), ___end));
+(0, 82)
 }
 pub(crate) fn ___reduce162<
     'input,
@@ -12607,7 +12606,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Comma<Symbol> = (<Symbol> ",")+, Symbol => ActionFn(619);
 let ___sym1 = ___pop_Variant30(___symbols);
@@ -12615,8 +12614,8 @@ let ___sym0 = ___pop_Variant31(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym1.2.clone();
 let ___nt = super::___action619::<>(text, ___sym0, ___sym1);
-let ___symbol = (___start, ___Symbol::Variant56(___nt), ___end);
-(2, ___symbol, 82)
+___symbols.push((___start, ___Symbol::Variant56(___nt), ___end));
+(2, 82)
 }
 pub(crate) fn ___reduce163<
     'input,
@@ -12627,15 +12626,15 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Comma<Symbol> = (<Symbol> ",")+ => ActionFn(620);
 let ___sym0 = ___pop_Variant31(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym0.2.clone();
 let ___nt = super::___action620::<>(text, ___sym0);
-let ___symbol = (___start, ___Symbol::Variant56(___nt), ___end);
-(1, ___symbol, 82)
+___symbols.push((___start, ___Symbol::Variant56(___nt), ___end));
+(1, 82)
 }
 pub(crate) fn ___reduce164<
     'input,
@@ -12646,15 +12645,15 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Comma<TypeBoundParameter> = TypeBoundParameter => ActionFn(625);
 let ___sym0 = ___pop_Variant34(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym0.2.clone();
 let ___nt = super::___action625::<>(text, ___sym0);
-let ___symbol = (___start, ___Symbol::Variant5(___nt), ___end);
-(1, ___symbol, 83)
+___symbols.push((___start, ___Symbol::Variant5(___nt), ___end));
+(1, 83)
 }
 pub(crate) fn ___reduce165<
     'input,
@@ -12665,14 +12664,14 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Comma<TypeBoundParameter> =  => ActionFn(626);
 let ___start = ___symbols.last().map(|s| s.2.clone()).unwrap_or_default();
 let ___end = ___lookahead_start.cloned().unwrap_or_else(|| ___start.clone());
 let ___nt = super::___action626::<>(text, &___start, &___end);
-let ___symbol = (___start, ___Symbol::Variant5(___nt), ___end);
-(0, ___symbol, 83)
+___symbols.push((___start, ___Symbol::Variant5(___nt), ___end));
+(0, 83)
 }
 pub(crate) fn ___reduce166<
     'input,
@@ -12683,7 +12682,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Comma<TypeBoundParameter> = (<TypeBoundParameter> ",")+, TypeBoundParameter => ActionFn(627);
 let ___sym1 = ___pop_Variant34(___symbols);
@@ -12691,8 +12690,8 @@ let ___sym0 = ___pop_Variant35(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym1.2.clone();
 let ___nt = super::___action627::<>(text, ___sym0, ___sym1);
-let ___symbol = (___start, ___Symbol::Variant5(___nt), ___end);
-(2, ___symbol, 83)
+___symbols.push((___start, ___Symbol::Variant5(___nt), ___end));
+(2, 83)
 }
 pub(crate) fn ___reduce167<
     'input,
@@ -12703,15 +12702,15 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Comma<TypeBoundParameter> = (<TypeBoundParameter> ",")+ => ActionFn(628);
 let ___sym0 = ___pop_Variant35(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym0.2.clone();
 let ___nt = super::___action628::<>(text, ___sym0);
-let ___symbol = (___start, ___Symbol::Variant5(___nt), ___end);
-(1, ___symbol, 83)
+___symbols.push((___start, ___Symbol::Variant5(___nt), ___end));
+(1, 83)
 }
 pub(crate) fn ___reduce168<
     'input,
@@ -12722,15 +12721,15 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Comma<TypeParameter> = TypeParameter => ActionFn(629);
 let ___sym0 = ___pop_Variant36(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym0.2.clone();
 let ___nt = super::___action629::<>(text, ___sym0);
-let ___symbol = (___start, ___Symbol::Variant57(___nt), ___end);
-(1, ___symbol, 84)
+___symbols.push((___start, ___Symbol::Variant57(___nt), ___end));
+(1, 84)
 }
 pub(crate) fn ___reduce169<
     'input,
@@ -12741,14 +12740,14 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Comma<TypeParameter> =  => ActionFn(630);
 let ___start = ___symbols.last().map(|s| s.2.clone()).unwrap_or_default();
 let ___end = ___lookahead_start.cloned().unwrap_or_else(|| ___start.clone());
 let ___nt = super::___action630::<>(text, &___start, &___end);
-let ___symbol = (___start, ___Symbol::Variant57(___nt), ___end);
-(0, ___symbol, 84)
+___symbols.push((___start, ___Symbol::Variant57(___nt), ___end));
+(0, 84)
 }
 pub(crate) fn ___reduce170<
     'input,
@@ -12759,7 +12758,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Comma<TypeParameter> = (<TypeParameter> ",")+, TypeParameter => ActionFn(631);
 let ___sym1 = ___pop_Variant36(___symbols);
@@ -12767,8 +12766,8 @@ let ___sym0 = ___pop_Variant37(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym1.2.clone();
 let ___nt = super::___action631::<>(text, ___sym0, ___sym1);
-let ___symbol = (___start, ___Symbol::Variant57(___nt), ___end);
-(2, ___symbol, 84)
+___symbols.push((___start, ___Symbol::Variant57(___nt), ___end));
+(2, 84)
 }
 pub(crate) fn ___reduce171<
     'input,
@@ -12779,15 +12778,15 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Comma<TypeParameter> = (<TypeParameter> ",")+ => ActionFn(632);
 let ___sym0 = ___pop_Variant37(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym0.2.clone();
 let ___nt = super::___action632::<>(text, ___sym0);
-let ___symbol = (___start, ___Symbol::Variant57(___nt), ___end);
-(1, ___symbol, 84)
+___symbols.push((___start, ___Symbol::Variant57(___nt), ___end));
+(1, 84)
 }
 pub(crate) fn ___reduce172<
     'input,
@@ -12798,15 +12797,15 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Comma<TypeRef> = TypeRef => ActionFn(633);
 let ___sym0 = ___pop_Variant3(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym0.2.clone();
 let ___nt = super::___action633::<>(text, ___sym0);
-let ___symbol = (___start, ___Symbol::Variant58(___nt), ___end);
-(1, ___symbol, 85)
+___symbols.push((___start, ___Symbol::Variant58(___nt), ___end));
+(1, 85)
 }
 pub(crate) fn ___reduce173<
     'input,
@@ -12817,14 +12816,14 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Comma<TypeRef> =  => ActionFn(634);
 let ___start = ___symbols.last().map(|s| s.2.clone()).unwrap_or_default();
 let ___end = ___lookahead_start.cloned().unwrap_or_else(|| ___start.clone());
 let ___nt = super::___action634::<>(text, &___start, &___end);
-let ___symbol = (___start, ___Symbol::Variant58(___nt), ___end);
-(0, ___symbol, 85)
+___symbols.push((___start, ___Symbol::Variant58(___nt), ___end));
+(0, 85)
 }
 pub(crate) fn ___reduce174<
     'input,
@@ -12835,7 +12834,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Comma<TypeRef> = (<TypeRef> ",")+, TypeRef => ActionFn(635);
 let ___sym1 = ___pop_Variant3(___symbols);
@@ -12843,8 +12842,8 @@ let ___sym0 = ___pop_Variant38(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym1.2.clone();
 let ___nt = super::___action635::<>(text, ___sym0, ___sym1);
-let ___symbol = (___start, ___Symbol::Variant58(___nt), ___end);
-(2, ___symbol, 85)
+___symbols.push((___start, ___Symbol::Variant58(___nt), ___end));
+(2, 85)
 }
 pub(crate) fn ___reduce175<
     'input,
@@ -12855,15 +12854,15 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Comma<TypeRef> = (<TypeRef> ",")+ => ActionFn(636);
 let ___sym0 = ___pop_Variant38(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym0.2.clone();
 let ___nt = super::___action636::<>(text, ___sym0);
-let ___symbol = (___start, ___Symbol::Variant58(___nt), ___end);
-(1, ___symbol, 85)
+___symbols.push((___start, ___Symbol::Variant58(___nt), ___end));
+(1, 85)
 }
 pub(crate) fn ___reduce176<
     'input,
@@ -12874,15 +12873,15 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Comma<TypeRefOrLifetime> = TypeRefOrLifetime => ActionFn(637);
 let ___sym0 = ___pop_Variant3(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym0.2.clone();
 let ___nt = super::___action637::<>(text, ___sym0);
-let ___symbol = (___start, ___Symbol::Variant58(___nt), ___end);
-(1, ___symbol, 86)
+___symbols.push((___start, ___Symbol::Variant58(___nt), ___end));
+(1, 86)
 }
 pub(crate) fn ___reduce177<
     'input,
@@ -12893,14 +12892,14 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Comma<TypeRefOrLifetime> =  => ActionFn(638);
 let ___start = ___symbols.last().map(|s| s.2.clone()).unwrap_or_default();
 let ___end = ___lookahead_start.cloned().unwrap_or_else(|| ___start.clone());
 let ___nt = super::___action638::<>(text, &___start, &___end);
-let ___symbol = (___start, ___Symbol::Variant58(___nt), ___end);
-(0, ___symbol, 86)
+___symbols.push((___start, ___Symbol::Variant58(___nt), ___end));
+(0, 86)
 }
 pub(crate) fn ___reduce178<
     'input,
@@ -12911,7 +12910,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Comma<TypeRefOrLifetime> = (<TypeRefOrLifetime> ",")+, TypeRefOrLifetime => ActionFn(639);
 let ___sym1 = ___pop_Variant3(___symbols);
@@ -12919,8 +12918,8 @@ let ___sym0 = ___pop_Variant38(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym1.2.clone();
 let ___nt = super::___action639::<>(text, ___sym0, ___sym1);
-let ___symbol = (___start, ___Symbol::Variant58(___nt), ___end);
-(2, ___symbol, 86)
+___symbols.push((___start, ___Symbol::Variant58(___nt), ___end));
+(2, 86)
 }
 pub(crate) fn ___reduce179<
     'input,
@@ -12931,15 +12930,15 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Comma<TypeRefOrLifetime> = (<TypeRefOrLifetime> ",")+ => ActionFn(640);
 let ___sym0 = ___pop_Variant38(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym0.2.clone();
 let ___nt = super::___action640::<>(text, ___sym0);
-let ___symbol = (___start, ___Symbol::Variant58(___nt), ___end);
-(1, ___symbol, 86)
+___symbols.push((___start, ___Symbol::Variant58(___nt), ___end));
+(1, 86)
 }
 pub(crate) fn ___reduce180<
     'input,
@@ -12950,7 +12949,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Cond = NotMacroId, CondOp, StringLiteral => ActionFn(415);
 let ___sym2 = ___pop_Variant20(___symbols);
@@ -12959,8 +12958,8 @@ let ___sym0 = ___pop_Variant26(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym2.2.clone();
 let ___nt = super::___action415::<>(text, ___sym0, ___sym1, ___sym2);
-let ___symbol = (___start, ___Symbol::Variant7(___nt), ___end);
-(3, ___symbol, 87)
+___symbols.push((___start, ___Symbol::Variant7(___nt), ___end));
+(3, 87)
 }
 pub(crate) fn ___reduce181<
     'input,
@@ -12971,15 +12970,15 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // CondOp = "==" => ActionFn(47);
 let ___sym0 = ___pop_Variant0(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym0.2.clone();
 let ___nt = super::___action47::<>(text, ___sym0);
-let ___symbol = (___start, ___Symbol::Variant59(___nt), ___end);
-(1, ___symbol, 88)
+___symbols.push((___start, ___Symbol::Variant59(___nt), ___end));
+(1, 88)
 }
 pub(crate) fn ___reduce182<
     'input,
@@ -12990,15 +12989,15 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // CondOp = "!=" => ActionFn(48);
 let ___sym0 = ___pop_Variant0(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym0.2.clone();
 let ___nt = super::___action48::<>(text, ___sym0);
-let ___symbol = (___start, ___Symbol::Variant59(___nt), ___end);
-(1, ___symbol, 88)
+___symbols.push((___start, ___Symbol::Variant59(___nt), ___end));
+(1, 88)
 }
 pub(crate) fn ___reduce183<
     'input,
@@ -13009,15 +13008,15 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // CondOp = "~~" => ActionFn(49);
 let ___sym0 = ___pop_Variant0(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym0.2.clone();
 let ___nt = super::___action49::<>(text, ___sym0);
-let ___symbol = (___start, ___Symbol::Variant59(___nt), ___end);
-(1, ___symbol, 88)
+___symbols.push((___start, ___Symbol::Variant59(___nt), ___end));
+(1, 88)
 }
 pub(crate) fn ___reduce184<
     'input,
@@ -13028,15 +13027,15 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // CondOp = "!~" => ActionFn(50);
 let ___sym0 = ___pop_Variant0(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym0.2.clone();
 let ___nt = super::___action50::<>(text, ___sym0);
-let ___symbol = (___start, ___Symbol::Variant59(___nt), ___end);
-(1, ___symbol, 88)
+___symbols.push((___start, ___Symbol::Variant59(___nt), ___end));
+(1, 88)
 }
 pub(crate) fn ___reduce186<
     'input,
@@ -13047,15 +13046,15 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Conversion? = Conversion => ActionFn(255);
 let ___sym0 = ___pop_Variant12(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym0.2.clone();
 let ___nt = super::___action255::<>(text, ___sym0);
-let ___symbol = (___start, ___Symbol::Variant60(___nt), ___end);
-(1, ___symbol, 90)
+___symbols.push((___start, ___Symbol::Variant60(___nt), ___end));
+(1, 90)
 }
 pub(crate) fn ___reduce187<
     'input,
@@ -13066,14 +13065,14 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Conversion? =  => ActionFn(256);
 let ___start = ___symbols.last().map(|s| s.2.clone()).unwrap_or_default();
 let ___end = ___lookahead_start.cloned().unwrap_or_else(|| ___start.clone());
 let ___nt = super::___action256::<>(text, &___start, &___end);
-let ___symbol = (___start, ___Symbol::Variant60(___nt), ___end);
-(0, ___symbol, 90)
+___symbols.push((___start, ___Symbol::Variant60(___nt), ___end));
+(0, 90)
 }
 pub(crate) fn ___reduce188<
     'input,
@@ -13084,7 +13083,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // EnumToken = "enum", TypeRef, "{", Comma<Conversion>, "}" => ActionFn(417);
 let ___sym4 = ___pop_Variant0(___symbols);
@@ -13095,8 +13094,8 @@ let ___sym0 = ___pop_Variant0(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym4.2.clone();
 let ___nt = super::___action417::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4);
-let ___symbol = (___start, ___Symbol::Variant61(___nt), ___end);
-(5, ___symbol, 91)
+___symbols.push((___start, ___Symbol::Variant61(___nt), ___end));
+(5, 91)
 }
 pub(crate) fn ___reduce189<
     'input,
@@ -13107,15 +13106,15 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Escape = "Escape" => ActionFn(106);
 let ___sym0 = ___pop_Variant1(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym0.2.clone();
 let ___nt = super::___action106::<>(text, ___sym0);
-let ___symbol = (___start, ___Symbol::Variant20(___nt), ___end);
-(1, ___symbol, 92)
+___symbols.push((___start, ___Symbol::Variant20(___nt), ___end));
+(1, 92)
 }
 pub(crate) fn ___reduce190<
     'input,
@@ -13126,14 +13125,14 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // ExprSymbol =  => ActionFn(615);
 let ___start = ___symbols.last().map(|s| s.2.clone()).unwrap_or_default();
 let ___end = ___lookahead_start.cloned().unwrap_or_else(|| ___start.clone());
 let ___nt = super::___action615::<>(text, &___start, &___end);
-let ___symbol = (___start, ___Symbol::Variant62(___nt), ___end);
-(0, ___symbol, 93)
+___symbols.push((___start, ___Symbol::Variant62(___nt), ___end));
+(0, 93)
 }
 pub(crate) fn ___reduce191<
     'input,
@@ -13144,15 +13143,15 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // ExprSymbol = Symbol+ => ActionFn(616);
 let ___sym0 = ___pop_Variant31(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym0.2.clone();
 let ___nt = super::___action616::<>(text, ___sym0);
-let ___symbol = (___start, ___Symbol::Variant62(___nt), ___end);
-(1, ___symbol, 93)
+___symbols.push((___start, ___Symbol::Variant62(___nt), ___end));
+(1, 93)
 }
 pub(crate) fn ___reduce192<
     'input,
@@ -13163,7 +13162,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // ExternToken = "extern", "{", EnumToken, "}" => ActionFn(449);
 let ___sym3 = ___pop_Variant0(___symbols);
@@ -13173,8 +13172,8 @@ let ___sym0 = ___pop_Variant0(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym3.2.clone();
 let ___nt = super::___action449::<>(text, ___sym0, ___sym1, ___sym2, ___sym3);
-let ___symbol = (___start, ___Symbol::Variant63(___nt), ___end);
-(4, ___symbol, 94)
+___symbols.push((___start, ___Symbol::Variant63(___nt), ___end));
+(4, 94)
 }
 pub(crate) fn ___reduce193<
     'input,
@@ -13185,7 +13184,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // ExternToken = "extern", "{", EnumToken, AssociatedType+, "}" => ActionFn(450);
 let ___sym4 = ___pop_Variant0(___symbols);
@@ -13196,8 +13195,8 @@ let ___sym0 = ___pop_Variant0(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym4.2.clone();
 let ___nt = super::___action450::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4);
-let ___symbol = (___start, ___Symbol::Variant63(___nt), ___end);
-(5, ___symbol, 94)
+___symbols.push((___start, ___Symbol::Variant63(___nt), ___end));
+(5, 94)
 }
 pub(crate) fn ___reduce194<
     'input,
@@ -13208,7 +13207,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // ExternToken = "extern", "{", AssociatedType+, EnumToken, "}" => ActionFn(451);
 let ___sym4 = ___pop_Variant0(___symbols);
@@ -13219,8 +13218,8 @@ let ___sym0 = ___pop_Variant0(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym4.2.clone();
 let ___nt = super::___action451::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4);
-let ___symbol = (___start, ___Symbol::Variant63(___nt), ___end);
-(5, ___symbol, 94)
+___symbols.push((___start, ___Symbol::Variant63(___nt), ___end));
+(5, 94)
 }
 pub(crate) fn ___reduce195<
     'input,
@@ -13231,7 +13230,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // ExternToken = "extern", "{", AssociatedType+, EnumToken, AssociatedType+, "}" => ActionFn(452);
 let ___sym5 = ___pop_Variant0(___symbols);
@@ -13243,8 +13242,8 @@ let ___sym0 = ___pop_Variant0(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym5.2.clone();
 let ___nt = super::___action452::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4, ___sym5);
-let ___symbol = (___start, ___Symbol::Variant63(___nt), ___end);
-(6, ___symbol, 94)
+___symbols.push((___start, ___Symbol::Variant63(___nt), ___end));
+(6, 94)
 }
 pub(crate) fn ___reduce196<
     'input,
@@ -13255,7 +13254,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // ExternToken = "extern", "{", "}" => ActionFn(453);
 let ___sym2 = ___pop_Variant0(___symbols);
@@ -13264,8 +13263,8 @@ let ___sym0 = ___pop_Variant0(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym2.2.clone();
 let ___nt = super::___action453::<>(text, ___sym0, ___sym1, ___sym2);
-let ___symbol = (___start, ___Symbol::Variant63(___nt), ___end);
-(3, ___symbol, 94)
+___symbols.push((___start, ___Symbol::Variant63(___nt), ___end));
+(3, 94)
 }
 pub(crate) fn ___reduce197<
     'input,
@@ -13276,7 +13275,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // ExternToken = "extern", "{", AssociatedType+, "}" => ActionFn(454);
 let ___sym3 = ___pop_Variant0(___symbols);
@@ -13286,8 +13285,8 @@ let ___sym0 = ___pop_Variant0(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym3.2.clone();
 let ___nt = super::___action454::<>(text, ___sym0, ___sym1, ___sym2, ___sym3);
-let ___symbol = (___start, ___Symbol::Variant63(___nt), ___end);
-(4, ___symbol, 94)
+___symbols.push((___start, ___Symbol::Variant63(___nt), ___end));
+(4, 94)
 }
 pub(crate) fn ___reduce198<
     'input,
@@ -13298,7 +13297,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // FieldPattern = Id, ":", Pattern => ActionFn(420);
 let ___sym2 = ___pop_Variant28(___symbols);
@@ -13307,8 +13306,8 @@ let ___sym0 = ___pop_Variant20(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym2.2.clone();
 let ___nt = super::___action420::<>(text, ___sym0, ___sym1, ___sym2);
-let ___symbol = (___start, ___Symbol::Variant14(___nt), ___end);
-(3, ___symbol, 95)
+___symbols.push((___start, ___Symbol::Variant14(___nt), ___end));
+(3, 95)
 }
 pub(crate) fn ___reduce199<
     'input,
@@ -13319,15 +13318,15 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // FieldPattern? = FieldPattern => ActionFn(116);
 let ___sym0 = ___pop_Variant14(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym0.2.clone();
 let ___nt = super::___action116::<>(text, ___sym0);
-let ___symbol = (___start, ___Symbol::Variant64(___nt), ___end);
-(1, ___symbol, 96)
+___symbols.push((___start, ___Symbol::Variant64(___nt), ___end));
+(1, 96)
 }
 pub(crate) fn ___reduce200<
     'input,
@@ -13338,14 +13337,14 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // FieldPattern? =  => ActionFn(117);
 let ___start = ___symbols.last().map(|s| s.2.clone()).unwrap_or_default();
 let ___end = ___lookahead_start.cloned().unwrap_or_else(|| ___start.clone());
 let ___nt = super::___action117::<>(text, &___start, &___end);
-let ___symbol = (___start, ___Symbol::Variant64(___nt), ___end);
-(0, ___symbol, 96)
+___symbols.push((___start, ___Symbol::Variant64(___nt), ___end));
+(0, 96)
 }
 pub(crate) fn ___reduce201<
     'input,
@@ -13356,7 +13355,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // ForAll = "for", "<", Comma<TypeParameter>, ">" => ActionFn(13);
 let ___sym3 = ___pop_Variant0(___symbols);
@@ -13366,8 +13365,8 @@ let ___sym0 = ___pop_Variant0(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym3.2.clone();
 let ___nt = super::___action13::<>(text, ___sym0, ___sym1, ___sym2, ___sym3);
-let ___symbol = (___start, ___Symbol::Variant57(___nt), ___end);
-(4, ___symbol, 97)
+___symbols.push((___start, ___Symbol::Variant57(___nt), ___end));
+(4, 97)
 }
 pub(crate) fn ___reduce202<
     'input,
@@ -13378,14 +13377,14 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // ForAll =  => ActionFn(315);
 let ___start = ___symbols.last().map(|s| s.2.clone()).unwrap_or_default();
 let ___end = ___lookahead_start.cloned().unwrap_or_else(|| ___start.clone());
 let ___nt = super::___action315::<>(text, &___start, &___end);
-let ___symbol = (___start, ___Symbol::Variant57(___nt), ___end);
-(0, ___symbol, 97)
+___symbols.push((___start, ___Symbol::Variant57(___nt), ___end));
+(0, 97)
 }
 pub(crate) fn ___reduce203<
     'input,
@@ -13396,7 +13395,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Grammar = "grammar", GrammarTypeParameters, GrammarParameters, GrammarWhereClauses, ";" => ActionFn(641);
 let ___sym4 = ___pop_Variant0(___symbols);
@@ -13407,8 +13406,8 @@ let ___sym0 = ___pop_Variant0(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym4.2.clone();
 let ___nt = super::___action641::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4);
-let ___symbol = (___start, ___Symbol::Variant65(___nt), ___end);
-(5, ___symbol, 98)
+___symbols.push((___start, ___Symbol::Variant65(___nt), ___end));
+(5, 98)
 }
 pub(crate) fn ___reduce204<
     'input,
@@ -13419,7 +13418,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Grammar = Use+, "grammar", GrammarTypeParameters, GrammarParameters, GrammarWhereClauses, ";" => ActionFn(642);
 let ___sym5 = ___pop_Variant0(___symbols);
@@ -13431,8 +13430,8 @@ let ___sym0 = ___pop_Variant66(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym5.2.clone();
 let ___nt = super::___action642::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4, ___sym5);
-let ___symbol = (___start, ___Symbol::Variant65(___nt), ___end);
-(6, ___symbol, 98)
+___symbols.push((___start, ___Symbol::Variant65(___nt), ___end));
+(6, 98)
 }
 pub(crate) fn ___reduce205<
     'input,
@@ -13443,7 +13442,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, "grammar", GrammarTypeParameters, GrammarParameters, GrammarWhereClauses, ";" => ActionFn(643);
 let ___sym5 = ___pop_Variant0(___symbols);
@@ -13455,8 +13454,8 @@ let ___sym0 = ___pop_Variant87(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym5.2.clone();
 let ___nt = super::___action643::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4, ___sym5);
-let ___symbol = (___start, ___Symbol::Variant65(___nt), ___end);
-(6, ___symbol, 98)
+___symbols.push((___start, ___Symbol::Variant65(___nt), ___end));
+(6, 98)
 }
 pub(crate) fn ___reduce206<
     'input,
@@ -13467,7 +13466,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, Use+, "grammar", GrammarTypeParameters, GrammarParameters, GrammarWhereClauses, ";" => ActionFn(644);
 let ___sym6 = ___pop_Variant0(___symbols);
@@ -13480,8 +13479,8 @@ let ___sym0 = ___pop_Variant87(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym6.2.clone();
 let ___nt = super::___action644::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4, ___sym5, ___sym6);
-let ___symbol = (___start, ___Symbol::Variant65(___nt), ___end);
-(7, ___symbol, 98)
+___symbols.push((___start, ___Symbol::Variant65(___nt), ___end));
+(7, 98)
 }
 pub(crate) fn ___reduce207<
     'input,
@@ -13492,7 +13491,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Grammar = "grammar", GrammarTypeParameters, GrammarParameters, ";" => ActionFn(645);
 let ___sym3 = ___pop_Variant0(___symbols);
@@ -13502,8 +13501,8 @@ let ___sym0 = ___pop_Variant0(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym3.2.clone();
 let ___nt = super::___action645::<>(text, ___sym0, ___sym1, ___sym2, ___sym3);
-let ___symbol = (___start, ___Symbol::Variant65(___nt), ___end);
-(4, ___symbol, 98)
+___symbols.push((___start, ___Symbol::Variant65(___nt), ___end));
+(4, 98)
 }
 pub(crate) fn ___reduce208<
     'input,
@@ -13514,7 +13513,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Grammar = Use+, "grammar", GrammarTypeParameters, GrammarParameters, ";" => ActionFn(646);
 let ___sym4 = ___pop_Variant0(___symbols);
@@ -13525,8 +13524,8 @@ let ___sym0 = ___pop_Variant66(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym4.2.clone();
 let ___nt = super::___action646::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4);
-let ___symbol = (___start, ___Symbol::Variant65(___nt), ___end);
-(5, ___symbol, 98)
+___symbols.push((___start, ___Symbol::Variant65(___nt), ___end));
+(5, 98)
 }
 pub(crate) fn ___reduce209<
     'input,
@@ -13537,7 +13536,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, "grammar", GrammarTypeParameters, GrammarParameters, ";" => ActionFn(647);
 let ___sym4 = ___pop_Variant0(___symbols);
@@ -13548,8 +13547,8 @@ let ___sym0 = ___pop_Variant87(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym4.2.clone();
 let ___nt = super::___action647::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4);
-let ___symbol = (___start, ___Symbol::Variant65(___nt), ___end);
-(5, ___symbol, 98)
+___symbols.push((___start, ___Symbol::Variant65(___nt), ___end));
+(5, 98)
 }
 pub(crate) fn ___reduce210<
     'input,
@@ -13560,7 +13559,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, Use+, "grammar", GrammarTypeParameters, GrammarParameters, ";" => ActionFn(648);
 let ___sym5 = ___pop_Variant0(___symbols);
@@ -13572,8 +13571,8 @@ let ___sym0 = ___pop_Variant87(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym5.2.clone();
 let ___nt = super::___action648::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4, ___sym5);
-let ___symbol = (___start, ___Symbol::Variant65(___nt), ___end);
-(6, ___symbol, 98)
+___symbols.push((___start, ___Symbol::Variant65(___nt), ___end));
+(6, 98)
 }
 pub(crate) fn ___reduce211<
     'input,
@@ -13584,7 +13583,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Grammar = "grammar", GrammarParameters, GrammarWhereClauses, ";" => ActionFn(649);
 let ___sym3 = ___pop_Variant0(___symbols);
@@ -13594,8 +13593,8 @@ let ___sym0 = ___pop_Variant0(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym3.2.clone();
 let ___nt = super::___action649::<>(text, ___sym0, ___sym1, ___sym2, ___sym3);
-let ___symbol = (___start, ___Symbol::Variant65(___nt), ___end);
-(4, ___symbol, 98)
+___symbols.push((___start, ___Symbol::Variant65(___nt), ___end));
+(4, 98)
 }
 pub(crate) fn ___reduce212<
     'input,
@@ -13606,7 +13605,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Grammar = Use+, "grammar", GrammarParameters, GrammarWhereClauses, ";" => ActionFn(650);
 let ___sym4 = ___pop_Variant0(___symbols);
@@ -13617,8 +13616,8 @@ let ___sym0 = ___pop_Variant66(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym4.2.clone();
 let ___nt = super::___action650::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4);
-let ___symbol = (___start, ___Symbol::Variant65(___nt), ___end);
-(5, ___symbol, 98)
+___symbols.push((___start, ___Symbol::Variant65(___nt), ___end));
+(5, 98)
 }
 pub(crate) fn ___reduce213<
     'input,
@@ -13629,7 +13628,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, "grammar", GrammarParameters, GrammarWhereClauses, ";" => ActionFn(651);
 let ___sym4 = ___pop_Variant0(___symbols);
@@ -13640,8 +13639,8 @@ let ___sym0 = ___pop_Variant87(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym4.2.clone();
 let ___nt = super::___action651::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4);
-let ___symbol = (___start, ___Symbol::Variant65(___nt), ___end);
-(5, ___symbol, 98)
+___symbols.push((___start, ___Symbol::Variant65(___nt), ___end));
+(5, 98)
 }
 pub(crate) fn ___reduce214<
     'input,
@@ -13652,7 +13651,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, Use+, "grammar", GrammarParameters, GrammarWhereClauses, ";" => ActionFn(652);
 let ___sym5 = ___pop_Variant0(___symbols);
@@ -13664,8 +13663,8 @@ let ___sym0 = ___pop_Variant87(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym5.2.clone();
 let ___nt = super::___action652::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4, ___sym5);
-let ___symbol = (___start, ___Symbol::Variant65(___nt), ___end);
-(6, ___symbol, 98)
+___symbols.push((___start, ___Symbol::Variant65(___nt), ___end));
+(6, 98)
 }
 pub(crate) fn ___reduce215<
     'input,
@@ -13676,7 +13675,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Grammar = "grammar", GrammarParameters, ";" => ActionFn(653);
 let ___sym2 = ___pop_Variant0(___symbols);
@@ -13685,8 +13684,8 @@ let ___sym0 = ___pop_Variant0(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym2.2.clone();
 let ___nt = super::___action653::<>(text, ___sym0, ___sym1, ___sym2);
-let ___symbol = (___start, ___Symbol::Variant65(___nt), ___end);
-(3, ___symbol, 98)
+___symbols.push((___start, ___Symbol::Variant65(___nt), ___end));
+(3, 98)
 }
 pub(crate) fn ___reduce216<
     'input,
@@ -13697,7 +13696,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Grammar = Use+, "grammar", GrammarParameters, ";" => ActionFn(654);
 let ___sym3 = ___pop_Variant0(___symbols);
@@ -13707,8 +13706,8 @@ let ___sym0 = ___pop_Variant66(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym3.2.clone();
 let ___nt = super::___action654::<>(text, ___sym0, ___sym1, ___sym2, ___sym3);
-let ___symbol = (___start, ___Symbol::Variant65(___nt), ___end);
-(4, ___symbol, 98)
+___symbols.push((___start, ___Symbol::Variant65(___nt), ___end));
+(4, 98)
 }
 pub(crate) fn ___reduce217<
     'input,
@@ -13719,7 +13718,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, "grammar", GrammarParameters, ";" => ActionFn(655);
 let ___sym3 = ___pop_Variant0(___symbols);
@@ -13729,8 +13728,8 @@ let ___sym0 = ___pop_Variant87(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym3.2.clone();
 let ___nt = super::___action655::<>(text, ___sym0, ___sym1, ___sym2, ___sym3);
-let ___symbol = (___start, ___Symbol::Variant65(___nt), ___end);
-(4, ___symbol, 98)
+___symbols.push((___start, ___Symbol::Variant65(___nt), ___end));
+(4, 98)
 }
 pub(crate) fn ___reduce218<
     'input,
@@ -13741,7 +13740,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, Use+, "grammar", GrammarParameters, ";" => ActionFn(656);
 let ___sym4 = ___pop_Variant0(___symbols);
@@ -13752,8 +13751,8 @@ let ___sym0 = ___pop_Variant87(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym4.2.clone();
 let ___nt = super::___action656::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4);
-let ___symbol = (___start, ___Symbol::Variant65(___nt), ___end);
-(5, ___symbol, 98)
+___symbols.push((___start, ___Symbol::Variant65(___nt), ___end));
+(5, 98)
 }
 pub(crate) fn ___reduce219<
     'input,
@@ -13764,7 +13763,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Grammar = "grammar", GrammarTypeParameters, GrammarWhereClauses, ";" => ActionFn(657);
 let ___sym3 = ___pop_Variant0(___symbols);
@@ -13774,8 +13773,8 @@ let ___sym0 = ___pop_Variant0(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym3.2.clone();
 let ___nt = super::___action657::<>(text, ___sym0, ___sym1, ___sym2, ___sym3);
-let ___symbol = (___start, ___Symbol::Variant65(___nt), ___end);
-(4, ___symbol, 98)
+___symbols.push((___start, ___Symbol::Variant65(___nt), ___end));
+(4, 98)
 }
 pub(crate) fn ___reduce220<
     'input,
@@ -13786,7 +13785,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Grammar = Use+, "grammar", GrammarTypeParameters, GrammarWhereClauses, ";" => ActionFn(658);
 let ___sym4 = ___pop_Variant0(___symbols);
@@ -13797,8 +13796,8 @@ let ___sym0 = ___pop_Variant66(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym4.2.clone();
 let ___nt = super::___action658::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4);
-let ___symbol = (___start, ___Symbol::Variant65(___nt), ___end);
-(5, ___symbol, 98)
+___symbols.push((___start, ___Symbol::Variant65(___nt), ___end));
+(5, 98)
 }
 pub(crate) fn ___reduce221<
     'input,
@@ -13809,7 +13808,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, "grammar", GrammarTypeParameters, GrammarWhereClauses, ";" => ActionFn(659);
 let ___sym4 = ___pop_Variant0(___symbols);
@@ -13820,8 +13819,8 @@ let ___sym0 = ___pop_Variant87(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym4.2.clone();
 let ___nt = super::___action659::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4);
-let ___symbol = (___start, ___Symbol::Variant65(___nt), ___end);
-(5, ___symbol, 98)
+___symbols.push((___start, ___Symbol::Variant65(___nt), ___end));
+(5, 98)
 }
 pub(crate) fn ___reduce222<
     'input,
@@ -13832,7 +13831,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, Use+, "grammar", GrammarTypeParameters, GrammarWhereClauses, ";" => ActionFn(660);
 let ___sym5 = ___pop_Variant0(___symbols);
@@ -13844,8 +13843,8 @@ let ___sym0 = ___pop_Variant87(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym5.2.clone();
 let ___nt = super::___action660::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4, ___sym5);
-let ___symbol = (___start, ___Symbol::Variant65(___nt), ___end);
-(6, ___symbol, 98)
+___symbols.push((___start, ___Symbol::Variant65(___nt), ___end));
+(6, 98)
 }
 pub(crate) fn ___reduce223<
     'input,
@@ -13856,7 +13855,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Grammar = "grammar", GrammarTypeParameters, ";" => ActionFn(661);
 let ___sym2 = ___pop_Variant0(___symbols);
@@ -13865,8 +13864,8 @@ let ___sym0 = ___pop_Variant0(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym2.2.clone();
 let ___nt = super::___action661::<>(text, ___sym0, ___sym1, ___sym2);
-let ___symbol = (___start, ___Symbol::Variant65(___nt), ___end);
-(3, ___symbol, 98)
+___symbols.push((___start, ___Symbol::Variant65(___nt), ___end));
+(3, 98)
 }
 pub(crate) fn ___reduce224<
     'input,
@@ -13877,7 +13876,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Grammar = Use+, "grammar", GrammarTypeParameters, ";" => ActionFn(662);
 let ___sym3 = ___pop_Variant0(___symbols);
@@ -13887,8 +13886,8 @@ let ___sym0 = ___pop_Variant66(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym3.2.clone();
 let ___nt = super::___action662::<>(text, ___sym0, ___sym1, ___sym2, ___sym3);
-let ___symbol = (___start, ___Symbol::Variant65(___nt), ___end);
-(4, ___symbol, 98)
+___symbols.push((___start, ___Symbol::Variant65(___nt), ___end));
+(4, 98)
 }
 pub(crate) fn ___reduce225<
     'input,
@@ -13899,7 +13898,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, "grammar", GrammarTypeParameters, ";" => ActionFn(663);
 let ___sym3 = ___pop_Variant0(___symbols);
@@ -13909,8 +13908,8 @@ let ___sym0 = ___pop_Variant87(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym3.2.clone();
 let ___nt = super::___action663::<>(text, ___sym0, ___sym1, ___sym2, ___sym3);
-let ___symbol = (___start, ___Symbol::Variant65(___nt), ___end);
-(4, ___symbol, 98)
+___symbols.push((___start, ___Symbol::Variant65(___nt), ___end));
+(4, 98)
 }
 pub(crate) fn ___reduce226<
     'input,
@@ -13921,7 +13920,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, Use+, "grammar", GrammarTypeParameters, ";" => ActionFn(664);
 let ___sym4 = ___pop_Variant0(___symbols);
@@ -13932,8 +13931,8 @@ let ___sym0 = ___pop_Variant87(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym4.2.clone();
 let ___nt = super::___action664::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4);
-let ___symbol = (___start, ___Symbol::Variant65(___nt), ___end);
-(5, ___symbol, 98)
+___symbols.push((___start, ___Symbol::Variant65(___nt), ___end));
+(5, 98)
 }
 pub(crate) fn ___reduce227<
     'input,
@@ -13944,7 +13943,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Grammar = "grammar", GrammarWhereClauses, ";" => ActionFn(665);
 let ___sym2 = ___pop_Variant0(___symbols);
@@ -13953,8 +13952,8 @@ let ___sym0 = ___pop_Variant0(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym2.2.clone();
 let ___nt = super::___action665::<>(text, ___sym0, ___sym1, ___sym2);
-let ___symbol = (___start, ___Symbol::Variant65(___nt), ___end);
-(3, ___symbol, 98)
+___symbols.push((___start, ___Symbol::Variant65(___nt), ___end));
+(3, 98)
 }
 pub(crate) fn ___reduce228<
     'input,
@@ -13965,7 +13964,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Grammar = Use+, "grammar", GrammarWhereClauses, ";" => ActionFn(666);
 let ___sym3 = ___pop_Variant0(___symbols);
@@ -13975,8 +13974,8 @@ let ___sym0 = ___pop_Variant66(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym3.2.clone();
 let ___nt = super::___action666::<>(text, ___sym0, ___sym1, ___sym2, ___sym3);
-let ___symbol = (___start, ___Symbol::Variant65(___nt), ___end);
-(4, ___symbol, 98)
+___symbols.push((___start, ___Symbol::Variant65(___nt), ___end));
+(4, 98)
 }
 pub(crate) fn ___reduce229<
     'input,
@@ -13987,7 +13986,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, "grammar", GrammarWhereClauses, ";" => ActionFn(667);
 let ___sym3 = ___pop_Variant0(___symbols);
@@ -13997,8 +13996,8 @@ let ___sym0 = ___pop_Variant87(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym3.2.clone();
 let ___nt = super::___action667::<>(text, ___sym0, ___sym1, ___sym2, ___sym3);
-let ___symbol = (___start, ___Symbol::Variant65(___nt), ___end);
-(4, ___symbol, 98)
+___symbols.push((___start, ___Symbol::Variant65(___nt), ___end));
+(4, 98)
 }
 pub(crate) fn ___reduce230<
     'input,
@@ -14009,7 +14008,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, Use+, "grammar", GrammarWhereClauses, ";" => ActionFn(668);
 let ___sym4 = ___pop_Variant0(___symbols);
@@ -14020,8 +14019,8 @@ let ___sym0 = ___pop_Variant87(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym4.2.clone();
 let ___nt = super::___action668::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4);
-let ___symbol = (___start, ___Symbol::Variant65(___nt), ___end);
-(5, ___symbol, 98)
+___symbols.push((___start, ___Symbol::Variant65(___nt), ___end));
+(5, 98)
 }
 pub(crate) fn ___reduce231<
     'input,
@@ -14032,7 +14031,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Grammar = "grammar", ";" => ActionFn(669);
 let ___sym1 = ___pop_Variant0(___symbols);
@@ -14040,8 +14039,8 @@ let ___sym0 = ___pop_Variant0(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym1.2.clone();
 let ___nt = super::___action669::<>(text, ___sym0, ___sym1);
-let ___symbol = (___start, ___Symbol::Variant65(___nt), ___end);
-(2, ___symbol, 98)
+___symbols.push((___start, ___Symbol::Variant65(___nt), ___end));
+(2, 98)
 }
 pub(crate) fn ___reduce232<
     'input,
@@ -14052,7 +14051,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Grammar = Use+, "grammar", ";" => ActionFn(670);
 let ___sym2 = ___pop_Variant0(___symbols);
@@ -14061,8 +14060,8 @@ let ___sym0 = ___pop_Variant66(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym2.2.clone();
 let ___nt = super::___action670::<>(text, ___sym0, ___sym1, ___sym2);
-let ___symbol = (___start, ___Symbol::Variant65(___nt), ___end);
-(3, ___symbol, 98)
+___symbols.push((___start, ___Symbol::Variant65(___nt), ___end));
+(3, 98)
 }
 pub(crate) fn ___reduce233<
     'input,
@@ -14073,7 +14072,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, "grammar", ";" => ActionFn(671);
 let ___sym2 = ___pop_Variant0(___symbols);
@@ -14082,8 +14081,8 @@ let ___sym0 = ___pop_Variant87(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym2.2.clone();
 let ___nt = super::___action671::<>(text, ___sym0, ___sym1, ___sym2);
-let ___symbol = (___start, ___Symbol::Variant65(___nt), ___end);
-(3, ___symbol, 98)
+___symbols.push((___start, ___Symbol::Variant65(___nt), ___end));
+(3, 98)
 }
 pub(crate) fn ___reduce234<
     'input,
@@ -14094,7 +14093,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, Use+, "grammar", ";" => ActionFn(672);
 let ___sym3 = ___pop_Variant0(___symbols);
@@ -14104,8 +14103,8 @@ let ___sym0 = ___pop_Variant87(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym3.2.clone();
 let ___nt = super::___action672::<>(text, ___sym0, ___sym1, ___sym2, ___sym3);
-let ___symbol = (___start, ___Symbol::Variant65(___nt), ___end);
-(4, ___symbol, 98)
+___symbols.push((___start, ___Symbol::Variant65(___nt), ___end));
+(4, 98)
 }
 pub(crate) fn ___reduce235<
     'input,
@@ -14116,7 +14115,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Grammar = "grammar", GrammarTypeParameters, GrammarParameters, GrammarWhereClauses, ";", GrammarItem+ => ActionFn(673);
 let ___sym5 = ___pop_Variant66(___symbols);
@@ -14128,8 +14127,8 @@ let ___sym0 = ___pop_Variant0(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym5.2.clone();
 let ___nt = super::___action673::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4, ___sym5);
-let ___symbol = (___start, ___Symbol::Variant65(___nt), ___end);
-(6, ___symbol, 98)
+___symbols.push((___start, ___Symbol::Variant65(___nt), ___end));
+(6, 98)
 }
 pub(crate) fn ___reduce236<
     'input,
@@ -14140,7 +14139,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Grammar = Use+, "grammar", GrammarTypeParameters, GrammarParameters, GrammarWhereClauses, ";", GrammarItem+ => ActionFn(674);
 let ___sym6 = ___pop_Variant66(___symbols);
@@ -14153,8 +14152,8 @@ let ___sym0 = ___pop_Variant66(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym6.2.clone();
 let ___nt = super::___action674::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4, ___sym5, ___sym6);
-let ___symbol = (___start, ___Symbol::Variant65(___nt), ___end);
-(7, ___symbol, 98)
+___symbols.push((___start, ___Symbol::Variant65(___nt), ___end));
+(7, 98)
 }
 pub(crate) fn ___reduce237<
     'input,
@@ -14165,7 +14164,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, "grammar", GrammarTypeParameters, GrammarParameters, GrammarWhereClauses, ";", GrammarItem+ => ActionFn(675);
 let ___sym6 = ___pop_Variant66(___symbols);
@@ -14178,8 +14177,8 @@ let ___sym0 = ___pop_Variant87(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym6.2.clone();
 let ___nt = super::___action675::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4, ___sym5, ___sym6);
-let ___symbol = (___start, ___Symbol::Variant65(___nt), ___end);
-(7, ___symbol, 98)
+___symbols.push((___start, ___Symbol::Variant65(___nt), ___end));
+(7, 98)
 }
 pub(crate) fn ___reduce238<
     'input,
@@ -14190,7 +14189,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, Use+, "grammar", GrammarTypeParameters, GrammarParameters, GrammarWhereClauses, ";", GrammarItem+ => ActionFn(676);
 let ___sym7 = ___pop_Variant66(___symbols);
@@ -14204,8 +14203,8 @@ let ___sym0 = ___pop_Variant87(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym7.2.clone();
 let ___nt = super::___action676::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4, ___sym5, ___sym6, ___sym7);
-let ___symbol = (___start, ___Symbol::Variant65(___nt), ___end);
-(8, ___symbol, 98)
+___symbols.push((___start, ___Symbol::Variant65(___nt), ___end));
+(8, 98)
 }
 pub(crate) fn ___reduce239<
     'input,
@@ -14216,7 +14215,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Grammar = "grammar", GrammarTypeParameters, GrammarParameters, ";", GrammarItem+ => ActionFn(677);
 let ___sym4 = ___pop_Variant66(___symbols);
@@ -14227,8 +14226,8 @@ let ___sym0 = ___pop_Variant0(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym4.2.clone();
 let ___nt = super::___action677::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4);
-let ___symbol = (___start, ___Symbol::Variant65(___nt), ___end);
-(5, ___symbol, 98)
+___symbols.push((___start, ___Symbol::Variant65(___nt), ___end));
+(5, 98)
 }
 pub(crate) fn ___reduce240<
     'input,
@@ -14239,7 +14238,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Grammar = Use+, "grammar", GrammarTypeParameters, GrammarParameters, ";", GrammarItem+ => ActionFn(678);
 let ___sym5 = ___pop_Variant66(___symbols);
@@ -14251,8 +14250,8 @@ let ___sym0 = ___pop_Variant66(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym5.2.clone();
 let ___nt = super::___action678::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4, ___sym5);
-let ___symbol = (___start, ___Symbol::Variant65(___nt), ___end);
-(6, ___symbol, 98)
+___symbols.push((___start, ___Symbol::Variant65(___nt), ___end));
+(6, 98)
 }
 pub(crate) fn ___reduce241<
     'input,
@@ -14263,7 +14262,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, "grammar", GrammarTypeParameters, GrammarParameters, ";", GrammarItem+ => ActionFn(679);
 let ___sym5 = ___pop_Variant66(___symbols);
@@ -14275,8 +14274,8 @@ let ___sym0 = ___pop_Variant87(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym5.2.clone();
 let ___nt = super::___action679::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4, ___sym5);
-let ___symbol = (___start, ___Symbol::Variant65(___nt), ___end);
-(6, ___symbol, 98)
+___symbols.push((___start, ___Symbol::Variant65(___nt), ___end));
+(6, 98)
 }
 pub(crate) fn ___reduce242<
     'input,
@@ -14287,7 +14286,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, Use+, "grammar", GrammarTypeParameters, GrammarParameters, ";", GrammarItem+ => ActionFn(680);
 let ___sym6 = ___pop_Variant66(___symbols);
@@ -14300,8 +14299,8 @@ let ___sym0 = ___pop_Variant87(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym6.2.clone();
 let ___nt = super::___action680::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4, ___sym5, ___sym6);
-let ___symbol = (___start, ___Symbol::Variant65(___nt), ___end);
-(7, ___symbol, 98)
+___symbols.push((___start, ___Symbol::Variant65(___nt), ___end));
+(7, 98)
 }
 pub(crate) fn ___reduce243<
     'input,
@@ -14312,7 +14311,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Grammar = "grammar", GrammarParameters, GrammarWhereClauses, ";", GrammarItem+ => ActionFn(681);
 let ___sym4 = ___pop_Variant66(___symbols);
@@ -14323,8 +14322,8 @@ let ___sym0 = ___pop_Variant0(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym4.2.clone();
 let ___nt = super::___action681::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4);
-let ___symbol = (___start, ___Symbol::Variant65(___nt), ___end);
-(5, ___symbol, 98)
+___symbols.push((___start, ___Symbol::Variant65(___nt), ___end));
+(5, 98)
 }
 pub(crate) fn ___reduce244<
     'input,
@@ -14335,7 +14334,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Grammar = Use+, "grammar", GrammarParameters, GrammarWhereClauses, ";", GrammarItem+ => ActionFn(682);
 let ___sym5 = ___pop_Variant66(___symbols);
@@ -14347,8 +14346,8 @@ let ___sym0 = ___pop_Variant66(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym5.2.clone();
 let ___nt = super::___action682::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4, ___sym5);
-let ___symbol = (___start, ___Symbol::Variant65(___nt), ___end);
-(6, ___symbol, 98)
+___symbols.push((___start, ___Symbol::Variant65(___nt), ___end));
+(6, 98)
 }
 pub(crate) fn ___reduce245<
     'input,
@@ -14359,7 +14358,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, "grammar", GrammarParameters, GrammarWhereClauses, ";", GrammarItem+ => ActionFn(683);
 let ___sym5 = ___pop_Variant66(___symbols);
@@ -14371,8 +14370,8 @@ let ___sym0 = ___pop_Variant87(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym5.2.clone();
 let ___nt = super::___action683::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4, ___sym5);
-let ___symbol = (___start, ___Symbol::Variant65(___nt), ___end);
-(6, ___symbol, 98)
+___symbols.push((___start, ___Symbol::Variant65(___nt), ___end));
+(6, 98)
 }
 pub(crate) fn ___reduce246<
     'input,
@@ -14383,7 +14382,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, Use+, "grammar", GrammarParameters, GrammarWhereClauses, ";", GrammarItem+ => ActionFn(684);
 let ___sym6 = ___pop_Variant66(___symbols);
@@ -14396,8 +14395,8 @@ let ___sym0 = ___pop_Variant87(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym6.2.clone();
 let ___nt = super::___action684::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4, ___sym5, ___sym6);
-let ___symbol = (___start, ___Symbol::Variant65(___nt), ___end);
-(7, ___symbol, 98)
+___symbols.push((___start, ___Symbol::Variant65(___nt), ___end));
+(7, 98)
 }
 pub(crate) fn ___reduce247<
     'input,
@@ -14408,7 +14407,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Grammar = "grammar", GrammarParameters, ";", GrammarItem+ => ActionFn(685);
 let ___sym3 = ___pop_Variant66(___symbols);
@@ -14418,8 +14417,8 @@ let ___sym0 = ___pop_Variant0(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym3.2.clone();
 let ___nt = super::___action685::<>(text, ___sym0, ___sym1, ___sym2, ___sym3);
-let ___symbol = (___start, ___Symbol::Variant65(___nt), ___end);
-(4, ___symbol, 98)
+___symbols.push((___start, ___Symbol::Variant65(___nt), ___end));
+(4, 98)
 }
 pub(crate) fn ___reduce248<
     'input,
@@ -14430,7 +14429,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Grammar = Use+, "grammar", GrammarParameters, ";", GrammarItem+ => ActionFn(686);
 let ___sym4 = ___pop_Variant66(___symbols);
@@ -14441,8 +14440,8 @@ let ___sym0 = ___pop_Variant66(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym4.2.clone();
 let ___nt = super::___action686::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4);
-let ___symbol = (___start, ___Symbol::Variant65(___nt), ___end);
-(5, ___symbol, 98)
+___symbols.push((___start, ___Symbol::Variant65(___nt), ___end));
+(5, 98)
 }
 pub(crate) fn ___reduce249<
     'input,
@@ -14453,7 +14452,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, "grammar", GrammarParameters, ";", GrammarItem+ => ActionFn(687);
 let ___sym4 = ___pop_Variant66(___symbols);
@@ -14464,8 +14463,8 @@ let ___sym0 = ___pop_Variant87(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym4.2.clone();
 let ___nt = super::___action687::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4);
-let ___symbol = (___start, ___Symbol::Variant65(___nt), ___end);
-(5, ___symbol, 98)
+___symbols.push((___start, ___Symbol::Variant65(___nt), ___end));
+(5, 98)
 }
 pub(crate) fn ___reduce250<
     'input,
@@ -14476,7 +14475,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, Use+, "grammar", GrammarParameters, ";", GrammarItem+ => ActionFn(688);
 let ___sym5 = ___pop_Variant66(___symbols);
@@ -14488,8 +14487,8 @@ let ___sym0 = ___pop_Variant87(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym5.2.clone();
 let ___nt = super::___action688::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4, ___sym5);
-let ___symbol = (___start, ___Symbol::Variant65(___nt), ___end);
-(6, ___symbol, 98)
+___symbols.push((___start, ___Symbol::Variant65(___nt), ___end));
+(6, 98)
 }
 pub(crate) fn ___reduce251<
     'input,
@@ -14500,7 +14499,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Grammar = "grammar", GrammarTypeParameters, GrammarWhereClauses, ";", GrammarItem+ => ActionFn(689);
 let ___sym4 = ___pop_Variant66(___symbols);
@@ -14511,8 +14510,8 @@ let ___sym0 = ___pop_Variant0(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym4.2.clone();
 let ___nt = super::___action689::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4);
-let ___symbol = (___start, ___Symbol::Variant65(___nt), ___end);
-(5, ___symbol, 98)
+___symbols.push((___start, ___Symbol::Variant65(___nt), ___end));
+(5, 98)
 }
 pub(crate) fn ___reduce252<
     'input,
@@ -14523,7 +14522,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Grammar = Use+, "grammar", GrammarTypeParameters, GrammarWhereClauses, ";", GrammarItem+ => ActionFn(690);
 let ___sym5 = ___pop_Variant66(___symbols);
@@ -14535,8 +14534,8 @@ let ___sym0 = ___pop_Variant66(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym5.2.clone();
 let ___nt = super::___action690::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4, ___sym5);
-let ___symbol = (___start, ___Symbol::Variant65(___nt), ___end);
-(6, ___symbol, 98)
+___symbols.push((___start, ___Symbol::Variant65(___nt), ___end));
+(6, 98)
 }
 pub(crate) fn ___reduce253<
     'input,
@@ -14547,7 +14546,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, "grammar", GrammarTypeParameters, GrammarWhereClauses, ";", GrammarItem+ => ActionFn(691);
 let ___sym5 = ___pop_Variant66(___symbols);
@@ -14559,8 +14558,8 @@ let ___sym0 = ___pop_Variant87(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym5.2.clone();
 let ___nt = super::___action691::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4, ___sym5);
-let ___symbol = (___start, ___Symbol::Variant65(___nt), ___end);
-(6, ___symbol, 98)
+___symbols.push((___start, ___Symbol::Variant65(___nt), ___end));
+(6, 98)
 }
 pub(crate) fn ___reduce254<
     'input,
@@ -14571,7 +14570,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, Use+, "grammar", GrammarTypeParameters, GrammarWhereClauses, ";", GrammarItem+ => ActionFn(692);
 let ___sym6 = ___pop_Variant66(___symbols);
@@ -14584,8 +14583,8 @@ let ___sym0 = ___pop_Variant87(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym6.2.clone();
 let ___nt = super::___action692::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4, ___sym5, ___sym6);
-let ___symbol = (___start, ___Symbol::Variant65(___nt), ___end);
-(7, ___symbol, 98)
+___symbols.push((___start, ___Symbol::Variant65(___nt), ___end));
+(7, 98)
 }
 pub(crate) fn ___reduce255<
     'input,
@@ -14596,7 +14595,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Grammar = "grammar", GrammarTypeParameters, ";", GrammarItem+ => ActionFn(693);
 let ___sym3 = ___pop_Variant66(___symbols);
@@ -14606,8 +14605,8 @@ let ___sym0 = ___pop_Variant0(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym3.2.clone();
 let ___nt = super::___action693::<>(text, ___sym0, ___sym1, ___sym2, ___sym3);
-let ___symbol = (___start, ___Symbol::Variant65(___nt), ___end);
-(4, ___symbol, 98)
+___symbols.push((___start, ___Symbol::Variant65(___nt), ___end));
+(4, 98)
 }
 pub(crate) fn ___reduce256<
     'input,
@@ -14618,7 +14617,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Grammar = Use+, "grammar", GrammarTypeParameters, ";", GrammarItem+ => ActionFn(694);
 let ___sym4 = ___pop_Variant66(___symbols);
@@ -14629,8 +14628,8 @@ let ___sym0 = ___pop_Variant66(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym4.2.clone();
 let ___nt = super::___action694::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4);
-let ___symbol = (___start, ___Symbol::Variant65(___nt), ___end);
-(5, ___symbol, 98)
+___symbols.push((___start, ___Symbol::Variant65(___nt), ___end));
+(5, 98)
 }
 pub(crate) fn ___reduce257<
     'input,
@@ -14641,7 +14640,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, "grammar", GrammarTypeParameters, ";", GrammarItem+ => ActionFn(695);
 let ___sym4 = ___pop_Variant66(___symbols);
@@ -14652,8 +14651,8 @@ let ___sym0 = ___pop_Variant87(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym4.2.clone();
 let ___nt = super::___action695::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4);
-let ___symbol = (___start, ___Symbol::Variant65(___nt), ___end);
-(5, ___symbol, 98)
+___symbols.push((___start, ___Symbol::Variant65(___nt), ___end));
+(5, 98)
 }
 pub(crate) fn ___reduce258<
     'input,
@@ -14664,7 +14663,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, Use+, "grammar", GrammarTypeParameters, ";", GrammarItem+ => ActionFn(696);
 let ___sym5 = ___pop_Variant66(___symbols);
@@ -14676,8 +14675,8 @@ let ___sym0 = ___pop_Variant87(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym5.2.clone();
 let ___nt = super::___action696::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4, ___sym5);
-let ___symbol = (___start, ___Symbol::Variant65(___nt), ___end);
-(6, ___symbol, 98)
+___symbols.push((___start, ___Symbol::Variant65(___nt), ___end));
+(6, 98)
 }
 pub(crate) fn ___reduce259<
     'input,
@@ -14688,7 +14687,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Grammar = "grammar", GrammarWhereClauses, ";", GrammarItem+ => ActionFn(697);
 let ___sym3 = ___pop_Variant66(___symbols);
@@ -14698,8 +14697,8 @@ let ___sym0 = ___pop_Variant0(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym3.2.clone();
 let ___nt = super::___action697::<>(text, ___sym0, ___sym1, ___sym2, ___sym3);
-let ___symbol = (___start, ___Symbol::Variant65(___nt), ___end);
-(4, ___symbol, 98)
+___symbols.push((___start, ___Symbol::Variant65(___nt), ___end));
+(4, 98)
 }
 pub(crate) fn ___reduce260<
     'input,
@@ -14710,7 +14709,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Grammar = Use+, "grammar", GrammarWhereClauses, ";", GrammarItem+ => ActionFn(698);
 let ___sym4 = ___pop_Variant66(___symbols);
@@ -14721,8 +14720,8 @@ let ___sym0 = ___pop_Variant66(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym4.2.clone();
 let ___nt = super::___action698::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4);
-let ___symbol = (___start, ___Symbol::Variant65(___nt), ___end);
-(5, ___symbol, 98)
+___symbols.push((___start, ___Symbol::Variant65(___nt), ___end));
+(5, 98)
 }
 pub(crate) fn ___reduce261<
     'input,
@@ -14733,7 +14732,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, "grammar", GrammarWhereClauses, ";", GrammarItem+ => ActionFn(699);
 let ___sym4 = ___pop_Variant66(___symbols);
@@ -14744,8 +14743,8 @@ let ___sym0 = ___pop_Variant87(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym4.2.clone();
 let ___nt = super::___action699::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4);
-let ___symbol = (___start, ___Symbol::Variant65(___nt), ___end);
-(5, ___symbol, 98)
+___symbols.push((___start, ___Symbol::Variant65(___nt), ___end));
+(5, 98)
 }
 pub(crate) fn ___reduce262<
     'input,
@@ -14756,7 +14755,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, Use+, "grammar", GrammarWhereClauses, ";", GrammarItem+ => ActionFn(700);
 let ___sym5 = ___pop_Variant66(___symbols);
@@ -14768,8 +14767,8 @@ let ___sym0 = ___pop_Variant87(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym5.2.clone();
 let ___nt = super::___action700::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4, ___sym5);
-let ___symbol = (___start, ___Symbol::Variant65(___nt), ___end);
-(6, ___symbol, 98)
+___symbols.push((___start, ___Symbol::Variant65(___nt), ___end));
+(6, 98)
 }
 pub(crate) fn ___reduce263<
     'input,
@@ -14780,7 +14779,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Grammar = "grammar", ";", GrammarItem+ => ActionFn(701);
 let ___sym2 = ___pop_Variant66(___symbols);
@@ -14789,8 +14788,8 @@ let ___sym0 = ___pop_Variant0(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym2.2.clone();
 let ___nt = super::___action701::<>(text, ___sym0, ___sym1, ___sym2);
-let ___symbol = (___start, ___Symbol::Variant65(___nt), ___end);
-(3, ___symbol, 98)
+___symbols.push((___start, ___Symbol::Variant65(___nt), ___end));
+(3, 98)
 }
 pub(crate) fn ___reduce264<
     'input,
@@ -14801,7 +14800,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Grammar = Use+, "grammar", ";", GrammarItem+ => ActionFn(702);
 let ___sym3 = ___pop_Variant66(___symbols);
@@ -14811,8 +14810,8 @@ let ___sym0 = ___pop_Variant66(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym3.2.clone();
 let ___nt = super::___action702::<>(text, ___sym0, ___sym1, ___sym2, ___sym3);
-let ___symbol = (___start, ___Symbol::Variant65(___nt), ___end);
-(4, ___symbol, 98)
+___symbols.push((___start, ___Symbol::Variant65(___nt), ___end));
+(4, 98)
 }
 pub(crate) fn ___reduce265<
     'input,
@@ -14823,7 +14822,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, "grammar", ";", GrammarItem+ => ActionFn(703);
 let ___sym3 = ___pop_Variant66(___symbols);
@@ -14833,8 +14832,8 @@ let ___sym0 = ___pop_Variant87(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym3.2.clone();
 let ___nt = super::___action703::<>(text, ___sym0, ___sym1, ___sym2, ___sym3);
-let ___symbol = (___start, ___Symbol::Variant65(___nt), ___end);
-(4, ___symbol, 98)
+___symbols.push((___start, ___Symbol::Variant65(___nt), ___end));
+(4, 98)
 }
 pub(crate) fn ___reduce266<
     'input,
@@ -14845,7 +14844,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, Use+, "grammar", ";", GrammarItem+ => ActionFn(704);
 let ___sym4 = ___pop_Variant66(___symbols);
@@ -14856,8 +14855,8 @@ let ___sym0 = ___pop_Variant87(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym4.2.clone();
 let ___nt = super::___action704::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4);
-let ___symbol = (___start, ___Symbol::Variant65(___nt), ___end);
-(5, ___symbol, 98)
+___symbols.push((___start, ___Symbol::Variant65(___nt), ___end));
+(5, 98)
 }
 pub(crate) fn ___reduce267<
     'input,
@@ -14868,7 +14867,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Grammar = Annotation+, "grammar", GrammarTypeParameters, GrammarParameters, GrammarWhereClauses, ";" => ActionFn(705);
 let ___sym5 = ___pop_Variant0(___symbols);
@@ -14880,8 +14879,8 @@ let ___sym0 = ___pop_Variant45(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym5.2.clone();
 let ___nt = super::___action705::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4, ___sym5);
-let ___symbol = (___start, ___Symbol::Variant65(___nt), ___end);
-(6, ___symbol, 98)
+___symbols.push((___start, ___Symbol::Variant65(___nt), ___end));
+(6, 98)
 }
 pub(crate) fn ___reduce268<
     'input,
@@ -14892,7 +14891,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Grammar = Use+, Annotation+, "grammar", GrammarTypeParameters, GrammarParameters, GrammarWhereClauses, ";" => ActionFn(706);
 let ___sym6 = ___pop_Variant0(___symbols);
@@ -14905,8 +14904,8 @@ let ___sym0 = ___pop_Variant66(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym6.2.clone();
 let ___nt = super::___action706::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4, ___sym5, ___sym6);
-let ___symbol = (___start, ___Symbol::Variant65(___nt), ___end);
-(7, ___symbol, 98)
+___symbols.push((___start, ___Symbol::Variant65(___nt), ___end));
+(7, 98)
 }
 pub(crate) fn ___reduce269<
     'input,
@@ -14917,7 +14916,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, Annotation+, "grammar", GrammarTypeParameters, GrammarParameters, GrammarWhereClauses, ";" => ActionFn(707);
 let ___sym6 = ___pop_Variant0(___symbols);
@@ -14930,8 +14929,8 @@ let ___sym0 = ___pop_Variant87(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym6.2.clone();
 let ___nt = super::___action707::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4, ___sym5, ___sym6);
-let ___symbol = (___start, ___Symbol::Variant65(___nt), ___end);
-(7, ___symbol, 98)
+___symbols.push((___start, ___Symbol::Variant65(___nt), ___end));
+(7, 98)
 }
 pub(crate) fn ___reduce270<
     'input,
@@ -14942,7 +14941,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, Use+, Annotation+, "grammar", GrammarTypeParameters, GrammarParameters, GrammarWhereClauses, ";" => ActionFn(708);
 let ___sym7 = ___pop_Variant0(___symbols);
@@ -14956,8 +14955,8 @@ let ___sym0 = ___pop_Variant87(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym7.2.clone();
 let ___nt = super::___action708::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4, ___sym5, ___sym6, ___sym7);
-let ___symbol = (___start, ___Symbol::Variant65(___nt), ___end);
-(8, ___symbol, 98)
+___symbols.push((___start, ___Symbol::Variant65(___nt), ___end));
+(8, 98)
 }
 pub(crate) fn ___reduce271<
     'input,
@@ -14968,7 +14967,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Grammar = Annotation+, "grammar", GrammarTypeParameters, GrammarParameters, ";" => ActionFn(709);
 let ___sym4 = ___pop_Variant0(___symbols);
@@ -14979,8 +14978,8 @@ let ___sym0 = ___pop_Variant45(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym4.2.clone();
 let ___nt = super::___action709::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4);
-let ___symbol = (___start, ___Symbol::Variant65(___nt), ___end);
-(5, ___symbol, 98)
+___symbols.push((___start, ___Symbol::Variant65(___nt), ___end));
+(5, 98)
 }
 pub(crate) fn ___reduce272<
     'input,
@@ -14991,7 +14990,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Grammar = Use+, Annotation+, "grammar", GrammarTypeParameters, GrammarParameters, ";" => ActionFn(710);
 let ___sym5 = ___pop_Variant0(___symbols);
@@ -15003,8 +15002,8 @@ let ___sym0 = ___pop_Variant66(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym5.2.clone();
 let ___nt = super::___action710::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4, ___sym5);
-let ___symbol = (___start, ___Symbol::Variant65(___nt), ___end);
-(6, ___symbol, 98)
+___symbols.push((___start, ___Symbol::Variant65(___nt), ___end));
+(6, 98)
 }
 pub(crate) fn ___reduce273<
     'input,
@@ -15015,7 +15014,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, Annotation+, "grammar", GrammarTypeParameters, GrammarParameters, ";" => ActionFn(711);
 let ___sym5 = ___pop_Variant0(___symbols);
@@ -15027,8 +15026,8 @@ let ___sym0 = ___pop_Variant87(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym5.2.clone();
 let ___nt = super::___action711::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4, ___sym5);
-let ___symbol = (___start, ___Symbol::Variant65(___nt), ___end);
-(6, ___symbol, 98)
+___symbols.push((___start, ___Symbol::Variant65(___nt), ___end));
+(6, 98)
 }
 pub(crate) fn ___reduce274<
     'input,
@@ -15039,7 +15038,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, Use+, Annotation+, "grammar", GrammarTypeParameters, GrammarParameters, ";" => ActionFn(712);
 let ___sym6 = ___pop_Variant0(___symbols);
@@ -15052,8 +15051,8 @@ let ___sym0 = ___pop_Variant87(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym6.2.clone();
 let ___nt = super::___action712::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4, ___sym5, ___sym6);
-let ___symbol = (___start, ___Symbol::Variant65(___nt), ___end);
-(7, ___symbol, 98)
+___symbols.push((___start, ___Symbol::Variant65(___nt), ___end));
+(7, 98)
 }
 pub(crate) fn ___reduce275<
     'input,
@@ -15064,7 +15063,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Grammar = Annotation+, "grammar", GrammarParameters, GrammarWhereClauses, ";" => ActionFn(713);
 let ___sym4 = ___pop_Variant0(___symbols);
@@ -15075,8 +15074,8 @@ let ___sym0 = ___pop_Variant45(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym4.2.clone();
 let ___nt = super::___action713::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4);
-let ___symbol = (___start, ___Symbol::Variant65(___nt), ___end);
-(5, ___symbol, 98)
+___symbols.push((___start, ___Symbol::Variant65(___nt), ___end));
+(5, 98)
 }
 pub(crate) fn ___reduce276<
     'input,
@@ -15087,7 +15086,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Grammar = Use+, Annotation+, "grammar", GrammarParameters, GrammarWhereClauses, ";" => ActionFn(714);
 let ___sym5 = ___pop_Variant0(___symbols);
@@ -15099,8 +15098,8 @@ let ___sym0 = ___pop_Variant66(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym5.2.clone();
 let ___nt = super::___action714::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4, ___sym5);
-let ___symbol = (___start, ___Symbol::Variant65(___nt), ___end);
-(6, ___symbol, 98)
+___symbols.push((___start, ___Symbol::Variant65(___nt), ___end));
+(6, 98)
 }
 pub(crate) fn ___reduce277<
     'input,
@@ -15111,7 +15110,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, Annotation+, "grammar", GrammarParameters, GrammarWhereClauses, ";" => ActionFn(715);
 let ___sym5 = ___pop_Variant0(___symbols);
@@ -15123,8 +15122,8 @@ let ___sym0 = ___pop_Variant87(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym5.2.clone();
 let ___nt = super::___action715::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4, ___sym5);
-let ___symbol = (___start, ___Symbol::Variant65(___nt), ___end);
-(6, ___symbol, 98)
+___symbols.push((___start, ___Symbol::Variant65(___nt), ___end));
+(6, 98)
 }
 pub(crate) fn ___reduce278<
     'input,
@@ -15135,7 +15134,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, Use+, Annotation+, "grammar", GrammarParameters, GrammarWhereClauses, ";" => ActionFn(716);
 let ___sym6 = ___pop_Variant0(___symbols);
@@ -15148,8 +15147,8 @@ let ___sym0 = ___pop_Variant87(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym6.2.clone();
 let ___nt = super::___action716::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4, ___sym5, ___sym6);
-let ___symbol = (___start, ___Symbol::Variant65(___nt), ___end);
-(7, ___symbol, 98)
+___symbols.push((___start, ___Symbol::Variant65(___nt), ___end));
+(7, 98)
 }
 pub(crate) fn ___reduce279<
     'input,
@@ -15160,7 +15159,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Grammar = Annotation+, "grammar", GrammarParameters, ";" => ActionFn(717);
 let ___sym3 = ___pop_Variant0(___symbols);
@@ -15170,8 +15169,8 @@ let ___sym0 = ___pop_Variant45(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym3.2.clone();
 let ___nt = super::___action717::<>(text, ___sym0, ___sym1, ___sym2, ___sym3);
-let ___symbol = (___start, ___Symbol::Variant65(___nt), ___end);
-(4, ___symbol, 98)
+___symbols.push((___start, ___Symbol::Variant65(___nt), ___end));
+(4, 98)
 }
 pub(crate) fn ___reduce280<
     'input,
@@ -15182,7 +15181,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Grammar = Use+, Annotation+, "grammar", GrammarParameters, ";" => ActionFn(718);
 let ___sym4 = ___pop_Variant0(___symbols);
@@ -15193,8 +15192,8 @@ let ___sym0 = ___pop_Variant66(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym4.2.clone();
 let ___nt = super::___action718::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4);
-let ___symbol = (___start, ___Symbol::Variant65(___nt), ___end);
-(5, ___symbol, 98)
+___symbols.push((___start, ___Symbol::Variant65(___nt), ___end));
+(5, 98)
 }
 pub(crate) fn ___reduce281<
     'input,
@@ -15205,7 +15204,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, Annotation+, "grammar", GrammarParameters, ";" => ActionFn(719);
 let ___sym4 = ___pop_Variant0(___symbols);
@@ -15216,8 +15215,8 @@ let ___sym0 = ___pop_Variant87(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym4.2.clone();
 let ___nt = super::___action719::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4);
-let ___symbol = (___start, ___Symbol::Variant65(___nt), ___end);
-(5, ___symbol, 98)
+___symbols.push((___start, ___Symbol::Variant65(___nt), ___end));
+(5, 98)
 }
 pub(crate) fn ___reduce282<
     'input,
@@ -15228,7 +15227,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, Use+, Annotation+, "grammar", GrammarParameters, ";" => ActionFn(720);
 let ___sym5 = ___pop_Variant0(___symbols);
@@ -15240,8 +15239,8 @@ let ___sym0 = ___pop_Variant87(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym5.2.clone();
 let ___nt = super::___action720::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4, ___sym5);
-let ___symbol = (___start, ___Symbol::Variant65(___nt), ___end);
-(6, ___symbol, 98)
+___symbols.push((___start, ___Symbol::Variant65(___nt), ___end));
+(6, 98)
 }
 pub(crate) fn ___reduce283<
     'input,
@@ -15252,7 +15251,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Grammar = Annotation+, "grammar", GrammarTypeParameters, GrammarWhereClauses, ";" => ActionFn(721);
 let ___sym4 = ___pop_Variant0(___symbols);
@@ -15263,8 +15262,8 @@ let ___sym0 = ___pop_Variant45(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym4.2.clone();
 let ___nt = super::___action721::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4);
-let ___symbol = (___start, ___Symbol::Variant65(___nt), ___end);
-(5, ___symbol, 98)
+___symbols.push((___start, ___Symbol::Variant65(___nt), ___end));
+(5, 98)
 }
 pub(crate) fn ___reduce284<
     'input,
@@ -15275,7 +15274,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Grammar = Use+, Annotation+, "grammar", GrammarTypeParameters, GrammarWhereClauses, ";" => ActionFn(722);
 let ___sym5 = ___pop_Variant0(___symbols);
@@ -15287,8 +15286,8 @@ let ___sym0 = ___pop_Variant66(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym5.2.clone();
 let ___nt = super::___action722::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4, ___sym5);
-let ___symbol = (___start, ___Symbol::Variant65(___nt), ___end);
-(6, ___symbol, 98)
+___symbols.push((___start, ___Symbol::Variant65(___nt), ___end));
+(6, 98)
 }
 pub(crate) fn ___reduce285<
     'input,
@@ -15299,7 +15298,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, Annotation+, "grammar", GrammarTypeParameters, GrammarWhereClauses, ";" => ActionFn(723);
 let ___sym5 = ___pop_Variant0(___symbols);
@@ -15311,8 +15310,8 @@ let ___sym0 = ___pop_Variant87(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym5.2.clone();
 let ___nt = super::___action723::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4, ___sym5);
-let ___symbol = (___start, ___Symbol::Variant65(___nt), ___end);
-(6, ___symbol, 98)
+___symbols.push((___start, ___Symbol::Variant65(___nt), ___end));
+(6, 98)
 }
 pub(crate) fn ___reduce286<
     'input,
@@ -15323,7 +15322,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, Use+, Annotation+, "grammar", GrammarTypeParameters, GrammarWhereClauses, ";" => ActionFn(724);
 let ___sym6 = ___pop_Variant0(___symbols);
@@ -15336,8 +15335,8 @@ let ___sym0 = ___pop_Variant87(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym6.2.clone();
 let ___nt = super::___action724::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4, ___sym5, ___sym6);
-let ___symbol = (___start, ___Symbol::Variant65(___nt), ___end);
-(7, ___symbol, 98)
+___symbols.push((___start, ___Symbol::Variant65(___nt), ___end));
+(7, 98)
 }
 pub(crate) fn ___reduce287<
     'input,
@@ -15348,7 +15347,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Grammar = Annotation+, "grammar", GrammarTypeParameters, ";" => ActionFn(725);
 let ___sym3 = ___pop_Variant0(___symbols);
@@ -15358,8 +15357,8 @@ let ___sym0 = ___pop_Variant45(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym3.2.clone();
 let ___nt = super::___action725::<>(text, ___sym0, ___sym1, ___sym2, ___sym3);
-let ___symbol = (___start, ___Symbol::Variant65(___nt), ___end);
-(4, ___symbol, 98)
+___symbols.push((___start, ___Symbol::Variant65(___nt), ___end));
+(4, 98)
 }
 pub(crate) fn ___reduce288<
     'input,
@@ -15370,7 +15369,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Grammar = Use+, Annotation+, "grammar", GrammarTypeParameters, ";" => ActionFn(726);
 let ___sym4 = ___pop_Variant0(___symbols);
@@ -15381,8 +15380,8 @@ let ___sym0 = ___pop_Variant66(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym4.2.clone();
 let ___nt = super::___action726::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4);
-let ___symbol = (___start, ___Symbol::Variant65(___nt), ___end);
-(5, ___symbol, 98)
+___symbols.push((___start, ___Symbol::Variant65(___nt), ___end));
+(5, 98)
 }
 pub(crate) fn ___reduce289<
     'input,
@@ -15393,7 +15392,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, Annotation+, "grammar", GrammarTypeParameters, ";" => ActionFn(727);
 let ___sym4 = ___pop_Variant0(___symbols);
@@ -15404,8 +15403,8 @@ let ___sym0 = ___pop_Variant87(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym4.2.clone();
 let ___nt = super::___action727::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4);
-let ___symbol = (___start, ___Symbol::Variant65(___nt), ___end);
-(5, ___symbol, 98)
+___symbols.push((___start, ___Symbol::Variant65(___nt), ___end));
+(5, 98)
 }
 pub(crate) fn ___reduce290<
     'input,
@@ -15416,7 +15415,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, Use+, Annotation+, "grammar", GrammarTypeParameters, ";" => ActionFn(728);
 let ___sym5 = ___pop_Variant0(___symbols);
@@ -15428,8 +15427,8 @@ let ___sym0 = ___pop_Variant87(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym5.2.clone();
 let ___nt = super::___action728::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4, ___sym5);
-let ___symbol = (___start, ___Symbol::Variant65(___nt), ___end);
-(6, ___symbol, 98)
+___symbols.push((___start, ___Symbol::Variant65(___nt), ___end));
+(6, 98)
 }
 pub(crate) fn ___reduce291<
     'input,
@@ -15440,7 +15439,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Grammar = Annotation+, "grammar", GrammarWhereClauses, ";" => ActionFn(729);
 let ___sym3 = ___pop_Variant0(___symbols);
@@ -15450,8 +15449,8 @@ let ___sym0 = ___pop_Variant45(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym3.2.clone();
 let ___nt = super::___action729::<>(text, ___sym0, ___sym1, ___sym2, ___sym3);
-let ___symbol = (___start, ___Symbol::Variant65(___nt), ___end);
-(4, ___symbol, 98)
+___symbols.push((___start, ___Symbol::Variant65(___nt), ___end));
+(4, 98)
 }
 pub(crate) fn ___reduce292<
     'input,
@@ -15462,7 +15461,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Grammar = Use+, Annotation+, "grammar", GrammarWhereClauses, ";" => ActionFn(730);
 let ___sym4 = ___pop_Variant0(___symbols);
@@ -15473,8 +15472,8 @@ let ___sym0 = ___pop_Variant66(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym4.2.clone();
 let ___nt = super::___action730::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4);
-let ___symbol = (___start, ___Symbol::Variant65(___nt), ___end);
-(5, ___symbol, 98)
+___symbols.push((___start, ___Symbol::Variant65(___nt), ___end));
+(5, 98)
 }
 pub(crate) fn ___reduce293<
     'input,
@@ -15485,7 +15484,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, Annotation+, "grammar", GrammarWhereClauses, ";" => ActionFn(731);
 let ___sym4 = ___pop_Variant0(___symbols);
@@ -15496,8 +15495,8 @@ let ___sym0 = ___pop_Variant87(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym4.2.clone();
 let ___nt = super::___action731::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4);
-let ___symbol = (___start, ___Symbol::Variant65(___nt), ___end);
-(5, ___symbol, 98)
+___symbols.push((___start, ___Symbol::Variant65(___nt), ___end));
+(5, 98)
 }
 pub(crate) fn ___reduce294<
     'input,
@@ -15508,7 +15507,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, Use+, Annotation+, "grammar", GrammarWhereClauses, ";" => ActionFn(732);
 let ___sym5 = ___pop_Variant0(___symbols);
@@ -15520,8 +15519,8 @@ let ___sym0 = ___pop_Variant87(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym5.2.clone();
 let ___nt = super::___action732::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4, ___sym5);
-let ___symbol = (___start, ___Symbol::Variant65(___nt), ___end);
-(6, ___symbol, 98)
+___symbols.push((___start, ___Symbol::Variant65(___nt), ___end));
+(6, 98)
 }
 pub(crate) fn ___reduce295<
     'input,
@@ -15532,7 +15531,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Grammar = Annotation+, "grammar", ";" => ActionFn(733);
 let ___sym2 = ___pop_Variant0(___symbols);
@@ -15541,8 +15540,8 @@ let ___sym0 = ___pop_Variant45(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym2.2.clone();
 let ___nt = super::___action733::<>(text, ___sym0, ___sym1, ___sym2);
-let ___symbol = (___start, ___Symbol::Variant65(___nt), ___end);
-(3, ___symbol, 98)
+___symbols.push((___start, ___Symbol::Variant65(___nt), ___end));
+(3, 98)
 }
 pub(crate) fn ___reduce296<
     'input,
@@ -15553,7 +15552,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Grammar = Use+, Annotation+, "grammar", ";" => ActionFn(734);
 let ___sym3 = ___pop_Variant0(___symbols);
@@ -15563,8 +15562,8 @@ let ___sym0 = ___pop_Variant66(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym3.2.clone();
 let ___nt = super::___action734::<>(text, ___sym0, ___sym1, ___sym2, ___sym3);
-let ___symbol = (___start, ___Symbol::Variant65(___nt), ___end);
-(4, ___symbol, 98)
+___symbols.push((___start, ___Symbol::Variant65(___nt), ___end));
+(4, 98)
 }
 pub(crate) fn ___reduce297<
     'input,
@@ -15575,7 +15574,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, Annotation+, "grammar", ";" => ActionFn(735);
 let ___sym3 = ___pop_Variant0(___symbols);
@@ -15585,8 +15584,8 @@ let ___sym0 = ___pop_Variant87(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym3.2.clone();
 let ___nt = super::___action735::<>(text, ___sym0, ___sym1, ___sym2, ___sym3);
-let ___symbol = (___start, ___Symbol::Variant65(___nt), ___end);
-(4, ___symbol, 98)
+___symbols.push((___start, ___Symbol::Variant65(___nt), ___end));
+(4, 98)
 }
 pub(crate) fn ___reduce298<
     'input,
@@ -15597,7 +15596,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, Use+, Annotation+, "grammar", ";" => ActionFn(736);
 let ___sym4 = ___pop_Variant0(___symbols);
@@ -15608,8 +15607,8 @@ let ___sym0 = ___pop_Variant87(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym4.2.clone();
 let ___nt = super::___action736::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4);
-let ___symbol = (___start, ___Symbol::Variant65(___nt), ___end);
-(5, ___symbol, 98)
+___symbols.push((___start, ___Symbol::Variant65(___nt), ___end));
+(5, 98)
 }
 pub(crate) fn ___reduce299<
     'input,
@@ -15620,7 +15619,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Grammar = Annotation+, "grammar", GrammarTypeParameters, GrammarParameters, GrammarWhereClauses, ";", GrammarItem+ => ActionFn(737);
 let ___sym6 = ___pop_Variant66(___symbols);
@@ -15633,8 +15632,8 @@ let ___sym0 = ___pop_Variant45(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym6.2.clone();
 let ___nt = super::___action737::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4, ___sym5, ___sym6);
-let ___symbol = (___start, ___Symbol::Variant65(___nt), ___end);
-(7, ___symbol, 98)
+___symbols.push((___start, ___Symbol::Variant65(___nt), ___end));
+(7, 98)
 }
 pub(crate) fn ___reduce300<
     'input,
@@ -15645,7 +15644,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Grammar = Use+, Annotation+, "grammar", GrammarTypeParameters, GrammarParameters, GrammarWhereClauses, ";", GrammarItem+ => ActionFn(738);
 let ___sym7 = ___pop_Variant66(___symbols);
@@ -15659,8 +15658,8 @@ let ___sym0 = ___pop_Variant66(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym7.2.clone();
 let ___nt = super::___action738::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4, ___sym5, ___sym6, ___sym7);
-let ___symbol = (___start, ___Symbol::Variant65(___nt), ___end);
-(8, ___symbol, 98)
+___symbols.push((___start, ___Symbol::Variant65(___nt), ___end));
+(8, 98)
 }
 pub(crate) fn ___reduce301<
     'input,
@@ -15671,7 +15670,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, Annotation+, "grammar", GrammarTypeParameters, GrammarParameters, GrammarWhereClauses, ";", GrammarItem+ => ActionFn(739);
 let ___sym7 = ___pop_Variant66(___symbols);
@@ -15685,8 +15684,8 @@ let ___sym0 = ___pop_Variant87(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym7.2.clone();
 let ___nt = super::___action739::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4, ___sym5, ___sym6, ___sym7);
-let ___symbol = (___start, ___Symbol::Variant65(___nt), ___end);
-(8, ___symbol, 98)
+___symbols.push((___start, ___Symbol::Variant65(___nt), ___end));
+(8, 98)
 }
 pub(crate) fn ___reduce302<
     'input,
@@ -15697,7 +15696,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, Use+, Annotation+, "grammar", GrammarTypeParameters, GrammarParameters, GrammarWhereClauses, ";", GrammarItem+ => ActionFn(740);
 let ___sym8 = ___pop_Variant66(___symbols);
@@ -15712,8 +15711,8 @@ let ___sym0 = ___pop_Variant87(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym8.2.clone();
 let ___nt = super::___action740::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4, ___sym5, ___sym6, ___sym7, ___sym8);
-let ___symbol = (___start, ___Symbol::Variant65(___nt), ___end);
-(9, ___symbol, 98)
+___symbols.push((___start, ___Symbol::Variant65(___nt), ___end));
+(9, 98)
 }
 pub(crate) fn ___reduce303<
     'input,
@@ -15724,7 +15723,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Grammar = Annotation+, "grammar", GrammarTypeParameters, GrammarParameters, ";", GrammarItem+ => ActionFn(741);
 let ___sym5 = ___pop_Variant66(___symbols);
@@ -15736,8 +15735,8 @@ let ___sym0 = ___pop_Variant45(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym5.2.clone();
 let ___nt = super::___action741::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4, ___sym5);
-let ___symbol = (___start, ___Symbol::Variant65(___nt), ___end);
-(6, ___symbol, 98)
+___symbols.push((___start, ___Symbol::Variant65(___nt), ___end));
+(6, 98)
 }
 pub(crate) fn ___reduce304<
     'input,
@@ -15748,7 +15747,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Grammar = Use+, Annotation+, "grammar", GrammarTypeParameters, GrammarParameters, ";", GrammarItem+ => ActionFn(742);
 let ___sym6 = ___pop_Variant66(___symbols);
@@ -15761,8 +15760,8 @@ let ___sym0 = ___pop_Variant66(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym6.2.clone();
 let ___nt = super::___action742::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4, ___sym5, ___sym6);
-let ___symbol = (___start, ___Symbol::Variant65(___nt), ___end);
-(7, ___symbol, 98)
+___symbols.push((___start, ___Symbol::Variant65(___nt), ___end));
+(7, 98)
 }
 pub(crate) fn ___reduce305<
     'input,
@@ -15773,7 +15772,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, Annotation+, "grammar", GrammarTypeParameters, GrammarParameters, ";", GrammarItem+ => ActionFn(743);
 let ___sym6 = ___pop_Variant66(___symbols);
@@ -15786,8 +15785,8 @@ let ___sym0 = ___pop_Variant87(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym6.2.clone();
 let ___nt = super::___action743::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4, ___sym5, ___sym6);
-let ___symbol = (___start, ___Symbol::Variant65(___nt), ___end);
-(7, ___symbol, 98)
+___symbols.push((___start, ___Symbol::Variant65(___nt), ___end));
+(7, 98)
 }
 pub(crate) fn ___reduce306<
     'input,
@@ -15798,7 +15797,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, Use+, Annotation+, "grammar", GrammarTypeParameters, GrammarParameters, ";", GrammarItem+ => ActionFn(744);
 let ___sym7 = ___pop_Variant66(___symbols);
@@ -15812,8 +15811,8 @@ let ___sym0 = ___pop_Variant87(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym7.2.clone();
 let ___nt = super::___action744::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4, ___sym5, ___sym6, ___sym7);
-let ___symbol = (___start, ___Symbol::Variant65(___nt), ___end);
-(8, ___symbol, 98)
+___symbols.push((___start, ___Symbol::Variant65(___nt), ___end));
+(8, 98)
 }
 pub(crate) fn ___reduce307<
     'input,
@@ -15824,7 +15823,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Grammar = Annotation+, "grammar", GrammarParameters, GrammarWhereClauses, ";", GrammarItem+ => ActionFn(745);
 let ___sym5 = ___pop_Variant66(___symbols);
@@ -15836,8 +15835,8 @@ let ___sym0 = ___pop_Variant45(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym5.2.clone();
 let ___nt = super::___action745::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4, ___sym5);
-let ___symbol = (___start, ___Symbol::Variant65(___nt), ___end);
-(6, ___symbol, 98)
+___symbols.push((___start, ___Symbol::Variant65(___nt), ___end));
+(6, 98)
 }
 pub(crate) fn ___reduce308<
     'input,
@@ -15848,7 +15847,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Grammar = Use+, Annotation+, "grammar", GrammarParameters, GrammarWhereClauses, ";", GrammarItem+ => ActionFn(746);
 let ___sym6 = ___pop_Variant66(___symbols);
@@ -15861,8 +15860,8 @@ let ___sym0 = ___pop_Variant66(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym6.2.clone();
 let ___nt = super::___action746::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4, ___sym5, ___sym6);
-let ___symbol = (___start, ___Symbol::Variant65(___nt), ___end);
-(7, ___symbol, 98)
+___symbols.push((___start, ___Symbol::Variant65(___nt), ___end));
+(7, 98)
 }
 pub(crate) fn ___reduce309<
     'input,
@@ -15873,7 +15872,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, Annotation+, "grammar", GrammarParameters, GrammarWhereClauses, ";", GrammarItem+ => ActionFn(747);
 let ___sym6 = ___pop_Variant66(___symbols);
@@ -15886,8 +15885,8 @@ let ___sym0 = ___pop_Variant87(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym6.2.clone();
 let ___nt = super::___action747::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4, ___sym5, ___sym6);
-let ___symbol = (___start, ___Symbol::Variant65(___nt), ___end);
-(7, ___symbol, 98)
+___symbols.push((___start, ___Symbol::Variant65(___nt), ___end));
+(7, 98)
 }
 pub(crate) fn ___reduce310<
     'input,
@@ -15898,7 +15897,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, Use+, Annotation+, "grammar", GrammarParameters, GrammarWhereClauses, ";", GrammarItem+ => ActionFn(748);
 let ___sym7 = ___pop_Variant66(___symbols);
@@ -15912,8 +15911,8 @@ let ___sym0 = ___pop_Variant87(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym7.2.clone();
 let ___nt = super::___action748::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4, ___sym5, ___sym6, ___sym7);
-let ___symbol = (___start, ___Symbol::Variant65(___nt), ___end);
-(8, ___symbol, 98)
+___symbols.push((___start, ___Symbol::Variant65(___nt), ___end));
+(8, 98)
 }
 pub(crate) fn ___reduce311<
     'input,
@@ -15924,7 +15923,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Grammar = Annotation+, "grammar", GrammarParameters, ";", GrammarItem+ => ActionFn(749);
 let ___sym4 = ___pop_Variant66(___symbols);
@@ -15935,8 +15934,8 @@ let ___sym0 = ___pop_Variant45(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym4.2.clone();
 let ___nt = super::___action749::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4);
-let ___symbol = (___start, ___Symbol::Variant65(___nt), ___end);
-(5, ___symbol, 98)
+___symbols.push((___start, ___Symbol::Variant65(___nt), ___end));
+(5, 98)
 }
 pub(crate) fn ___reduce312<
     'input,
@@ -15947,7 +15946,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Grammar = Use+, Annotation+, "grammar", GrammarParameters, ";", GrammarItem+ => ActionFn(750);
 let ___sym5 = ___pop_Variant66(___symbols);
@@ -15959,8 +15958,8 @@ let ___sym0 = ___pop_Variant66(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym5.2.clone();
 let ___nt = super::___action750::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4, ___sym5);
-let ___symbol = (___start, ___Symbol::Variant65(___nt), ___end);
-(6, ___symbol, 98)
+___symbols.push((___start, ___Symbol::Variant65(___nt), ___end));
+(6, 98)
 }
 pub(crate) fn ___reduce313<
     'input,
@@ -15971,7 +15970,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, Annotation+, "grammar", GrammarParameters, ";", GrammarItem+ => ActionFn(751);
 let ___sym5 = ___pop_Variant66(___symbols);
@@ -15983,8 +15982,8 @@ let ___sym0 = ___pop_Variant87(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym5.2.clone();
 let ___nt = super::___action751::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4, ___sym5);
-let ___symbol = (___start, ___Symbol::Variant65(___nt), ___end);
-(6, ___symbol, 98)
+___symbols.push((___start, ___Symbol::Variant65(___nt), ___end));
+(6, 98)
 }
 pub(crate) fn ___reduce314<
     'input,
@@ -15995,7 +15994,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, Use+, Annotation+, "grammar", GrammarParameters, ";", GrammarItem+ => ActionFn(752);
 let ___sym6 = ___pop_Variant66(___symbols);
@@ -16008,8 +16007,8 @@ let ___sym0 = ___pop_Variant87(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym6.2.clone();
 let ___nt = super::___action752::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4, ___sym5, ___sym6);
-let ___symbol = (___start, ___Symbol::Variant65(___nt), ___end);
-(7, ___symbol, 98)
+___symbols.push((___start, ___Symbol::Variant65(___nt), ___end));
+(7, 98)
 }
 pub(crate) fn ___reduce315<
     'input,
@@ -16020,7 +16019,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Grammar = Annotation+, "grammar", GrammarTypeParameters, GrammarWhereClauses, ";", GrammarItem+ => ActionFn(753);
 let ___sym5 = ___pop_Variant66(___symbols);
@@ -16032,8 +16031,8 @@ let ___sym0 = ___pop_Variant45(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym5.2.clone();
 let ___nt = super::___action753::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4, ___sym5);
-let ___symbol = (___start, ___Symbol::Variant65(___nt), ___end);
-(6, ___symbol, 98)
+___symbols.push((___start, ___Symbol::Variant65(___nt), ___end));
+(6, 98)
 }
 pub(crate) fn ___reduce316<
     'input,
@@ -16044,7 +16043,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Grammar = Use+, Annotation+, "grammar", GrammarTypeParameters, GrammarWhereClauses, ";", GrammarItem+ => ActionFn(754);
 let ___sym6 = ___pop_Variant66(___symbols);
@@ -16057,8 +16056,8 @@ let ___sym0 = ___pop_Variant66(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym6.2.clone();
 let ___nt = super::___action754::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4, ___sym5, ___sym6);
-let ___symbol = (___start, ___Symbol::Variant65(___nt), ___end);
-(7, ___symbol, 98)
+___symbols.push((___start, ___Symbol::Variant65(___nt), ___end));
+(7, 98)
 }
 pub(crate) fn ___reduce317<
     'input,
@@ -16069,7 +16068,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, Annotation+, "grammar", GrammarTypeParameters, GrammarWhereClauses, ";", GrammarItem+ => ActionFn(755);
 let ___sym6 = ___pop_Variant66(___symbols);
@@ -16082,8 +16081,8 @@ let ___sym0 = ___pop_Variant87(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym6.2.clone();
 let ___nt = super::___action755::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4, ___sym5, ___sym6);
-let ___symbol = (___start, ___Symbol::Variant65(___nt), ___end);
-(7, ___symbol, 98)
+___symbols.push((___start, ___Symbol::Variant65(___nt), ___end));
+(7, 98)
 }
 pub(crate) fn ___reduce318<
     'input,
@@ -16094,7 +16093,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, Use+, Annotation+, "grammar", GrammarTypeParameters, GrammarWhereClauses, ";", GrammarItem+ => ActionFn(756);
 let ___sym7 = ___pop_Variant66(___symbols);
@@ -16108,8 +16107,8 @@ let ___sym0 = ___pop_Variant87(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym7.2.clone();
 let ___nt = super::___action756::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4, ___sym5, ___sym6, ___sym7);
-let ___symbol = (___start, ___Symbol::Variant65(___nt), ___end);
-(8, ___symbol, 98)
+___symbols.push((___start, ___Symbol::Variant65(___nt), ___end));
+(8, 98)
 }
 pub(crate) fn ___reduce319<
     'input,
@@ -16120,7 +16119,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Grammar = Annotation+, "grammar", GrammarTypeParameters, ";", GrammarItem+ => ActionFn(757);
 let ___sym4 = ___pop_Variant66(___symbols);
@@ -16131,8 +16130,8 @@ let ___sym0 = ___pop_Variant45(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym4.2.clone();
 let ___nt = super::___action757::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4);
-let ___symbol = (___start, ___Symbol::Variant65(___nt), ___end);
-(5, ___symbol, 98)
+___symbols.push((___start, ___Symbol::Variant65(___nt), ___end));
+(5, 98)
 }
 pub(crate) fn ___reduce320<
     'input,
@@ -16143,7 +16142,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Grammar = Use+, Annotation+, "grammar", GrammarTypeParameters, ";", GrammarItem+ => ActionFn(758);
 let ___sym5 = ___pop_Variant66(___symbols);
@@ -16155,8 +16154,8 @@ let ___sym0 = ___pop_Variant66(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym5.2.clone();
 let ___nt = super::___action758::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4, ___sym5);
-let ___symbol = (___start, ___Symbol::Variant65(___nt), ___end);
-(6, ___symbol, 98)
+___symbols.push((___start, ___Symbol::Variant65(___nt), ___end));
+(6, 98)
 }
 pub(crate) fn ___reduce321<
     'input,
@@ -16167,7 +16166,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, Annotation+, "grammar", GrammarTypeParameters, ";", GrammarItem+ => ActionFn(759);
 let ___sym5 = ___pop_Variant66(___symbols);
@@ -16179,8 +16178,8 @@ let ___sym0 = ___pop_Variant87(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym5.2.clone();
 let ___nt = super::___action759::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4, ___sym5);
-let ___symbol = (___start, ___Symbol::Variant65(___nt), ___end);
-(6, ___symbol, 98)
+___symbols.push((___start, ___Symbol::Variant65(___nt), ___end));
+(6, 98)
 }
 pub(crate) fn ___reduce322<
     'input,
@@ -16191,7 +16190,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, Use+, Annotation+, "grammar", GrammarTypeParameters, ";", GrammarItem+ => ActionFn(760);
 let ___sym6 = ___pop_Variant66(___symbols);
@@ -16204,8 +16203,8 @@ let ___sym0 = ___pop_Variant87(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym6.2.clone();
 let ___nt = super::___action760::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4, ___sym5, ___sym6);
-let ___symbol = (___start, ___Symbol::Variant65(___nt), ___end);
-(7, ___symbol, 98)
+___symbols.push((___start, ___Symbol::Variant65(___nt), ___end));
+(7, 98)
 }
 pub(crate) fn ___reduce323<
     'input,
@@ -16216,7 +16215,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Grammar = Annotation+, "grammar", GrammarWhereClauses, ";", GrammarItem+ => ActionFn(761);
 let ___sym4 = ___pop_Variant66(___symbols);
@@ -16227,8 +16226,8 @@ let ___sym0 = ___pop_Variant45(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym4.2.clone();
 let ___nt = super::___action761::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4);
-let ___symbol = (___start, ___Symbol::Variant65(___nt), ___end);
-(5, ___symbol, 98)
+___symbols.push((___start, ___Symbol::Variant65(___nt), ___end));
+(5, 98)
 }
 pub(crate) fn ___reduce324<
     'input,
@@ -16239,7 +16238,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Grammar = Use+, Annotation+, "grammar", GrammarWhereClauses, ";", GrammarItem+ => ActionFn(762);
 let ___sym5 = ___pop_Variant66(___symbols);
@@ -16251,8 +16250,8 @@ let ___sym0 = ___pop_Variant66(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym5.2.clone();
 let ___nt = super::___action762::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4, ___sym5);
-let ___symbol = (___start, ___Symbol::Variant65(___nt), ___end);
-(6, ___symbol, 98)
+___symbols.push((___start, ___Symbol::Variant65(___nt), ___end));
+(6, 98)
 }
 pub(crate) fn ___reduce325<
     'input,
@@ -16263,7 +16262,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, Annotation+, "grammar", GrammarWhereClauses, ";", GrammarItem+ => ActionFn(763);
 let ___sym5 = ___pop_Variant66(___symbols);
@@ -16275,8 +16274,8 @@ let ___sym0 = ___pop_Variant87(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym5.2.clone();
 let ___nt = super::___action763::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4, ___sym5);
-let ___symbol = (___start, ___Symbol::Variant65(___nt), ___end);
-(6, ___symbol, 98)
+___symbols.push((___start, ___Symbol::Variant65(___nt), ___end));
+(6, 98)
 }
 pub(crate) fn ___reduce326<
     'input,
@@ -16287,7 +16286,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, Use+, Annotation+, "grammar", GrammarWhereClauses, ";", GrammarItem+ => ActionFn(764);
 let ___sym6 = ___pop_Variant66(___symbols);
@@ -16300,8 +16299,8 @@ let ___sym0 = ___pop_Variant87(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym6.2.clone();
 let ___nt = super::___action764::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4, ___sym5, ___sym6);
-let ___symbol = (___start, ___Symbol::Variant65(___nt), ___end);
-(7, ___symbol, 98)
+___symbols.push((___start, ___Symbol::Variant65(___nt), ___end));
+(7, 98)
 }
 pub(crate) fn ___reduce327<
     'input,
@@ -16312,7 +16311,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Grammar = Annotation+, "grammar", ";", GrammarItem+ => ActionFn(765);
 let ___sym3 = ___pop_Variant66(___symbols);
@@ -16322,8 +16321,8 @@ let ___sym0 = ___pop_Variant45(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym3.2.clone();
 let ___nt = super::___action765::<>(text, ___sym0, ___sym1, ___sym2, ___sym3);
-let ___symbol = (___start, ___Symbol::Variant65(___nt), ___end);
-(4, ___symbol, 98)
+___symbols.push((___start, ___Symbol::Variant65(___nt), ___end));
+(4, 98)
 }
 pub(crate) fn ___reduce328<
     'input,
@@ -16334,7 +16333,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Grammar = Use+, Annotation+, "grammar", ";", GrammarItem+ => ActionFn(766);
 let ___sym4 = ___pop_Variant66(___symbols);
@@ -16345,8 +16344,8 @@ let ___sym0 = ___pop_Variant66(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym4.2.clone();
 let ___nt = super::___action766::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4);
-let ___symbol = (___start, ___Symbol::Variant65(___nt), ___end);
-(5, ___symbol, 98)
+___symbols.push((___start, ___Symbol::Variant65(___nt), ___end));
+(5, 98)
 }
 pub(crate) fn ___reduce329<
     'input,
@@ -16357,7 +16356,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, Annotation+, "grammar", ";", GrammarItem+ => ActionFn(767);
 let ___sym4 = ___pop_Variant66(___symbols);
@@ -16368,8 +16367,8 @@ let ___sym0 = ___pop_Variant87(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym4.2.clone();
 let ___nt = super::___action767::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4);
-let ___symbol = (___start, ___Symbol::Variant65(___nt), ___end);
-(5, ___symbol, 98)
+___symbols.push((___start, ___Symbol::Variant65(___nt), ___end));
+(5, 98)
 }
 pub(crate) fn ___reduce330<
     'input,
@@ -16380,7 +16379,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, Use+, Annotation+, "grammar", ";", GrammarItem+ => ActionFn(768);
 let ___sym5 = ___pop_Variant66(___symbols);
@@ -16392,8 +16391,8 @@ let ___sym0 = ___pop_Variant87(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym5.2.clone();
 let ___nt = super::___action768::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4, ___sym5);
-let ___symbol = (___start, ___Symbol::Variant65(___nt), ___end);
-(6, ___symbol, 98)
+___symbols.push((___start, ___Symbol::Variant65(___nt), ___end));
+(6, 98)
 }
 pub(crate) fn ___reduce331<
     'input,
@@ -16404,15 +16403,15 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // GrammarItem = Use => ActionFn(24);
 let ___sym0 = ___pop_Variant63(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym0.2.clone();
 let ___nt = super::___action24::<>(text, ___sym0);
-let ___symbol = (___start, ___Symbol::Variant63(___nt), ___end);
-(1, ___symbol, 99)
+___symbols.push((___start, ___Symbol::Variant63(___nt), ___end));
+(1, 99)
 }
 pub(crate) fn ___reduce332<
     'input,
@@ -16423,15 +16422,15 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // GrammarItem = MatchToken => ActionFn(25);
 let ___sym0 = ___pop_Variant63(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym0.2.clone();
 let ___nt = super::___action25::<>(text, ___sym0);
-let ___symbol = (___start, ___Symbol::Variant63(___nt), ___end);
-(1, ___symbol, 99)
+___symbols.push((___start, ___Symbol::Variant63(___nt), ___end));
+(1, 99)
 }
 pub(crate) fn ___reduce333<
     'input,
@@ -16442,15 +16441,15 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // GrammarItem = ExternToken => ActionFn(26);
 let ___sym0 = ___pop_Variant63(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym0.2.clone();
 let ___nt = super::___action26::<>(text, ___sym0);
-let ___symbol = (___start, ___Symbol::Variant63(___nt), ___end);
-(1, ___symbol, 99)
+___symbols.push((___start, ___Symbol::Variant63(___nt), ___end));
+(1, 99)
 }
 pub(crate) fn ___reduce334<
     'input,
@@ -16461,15 +16460,15 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // GrammarItem = Nonterminal => ActionFn(27);
 let ___sym0 = ___pop_Variant63(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym0.2.clone();
 let ___nt = super::___action27::<>(text, ___sym0);
-let ___symbol = (___start, ___Symbol::Variant63(___nt), ___end);
-(1, ___symbol, 99)
+___symbols.push((___start, ___Symbol::Variant63(___nt), ___end));
+(1, 99)
 }
 pub(crate) fn ___reduce335<
     'input,
@@ -16480,14 +16479,14 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // GrammarItem* =  => ActionFn(169);
 let ___start = ___symbols.last().map(|s| s.2.clone()).unwrap_or_default();
 let ___end = ___lookahead_start.cloned().unwrap_or_else(|| ___start.clone());
 let ___nt = super::___action169::<>(text, &___start, &___end);
-let ___symbol = (___start, ___Symbol::Variant66(___nt), ___end);
-(0, ___symbol, 100)
+___symbols.push((___start, ___Symbol::Variant66(___nt), ___end));
+(0, 100)
 }
 pub(crate) fn ___reduce336<
     'input,
@@ -16498,15 +16497,15 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // GrammarItem* = GrammarItem+ => ActionFn(170);
 let ___sym0 = ___pop_Variant66(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym0.2.clone();
 let ___nt = super::___action170::<>(text, ___sym0);
-let ___symbol = (___start, ___Symbol::Variant66(___nt), ___end);
-(1, ___symbol, 100)
+___symbols.push((___start, ___Symbol::Variant66(___nt), ___end));
+(1, 100)
 }
 pub(crate) fn ___reduce337<
     'input,
@@ -16517,15 +16516,15 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // GrammarItem+ = GrammarItem => ActionFn(191);
 let ___sym0 = ___pop_Variant63(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym0.2.clone();
 let ___nt = super::___action191::<>(text, ___sym0);
-let ___symbol = (___start, ___Symbol::Variant66(___nt), ___end);
-(1, ___symbol, 101)
+___symbols.push((___start, ___Symbol::Variant66(___nt), ___end));
+(1, 101)
 }
 pub(crate) fn ___reduce338<
     'input,
@@ -16536,7 +16535,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // GrammarItem+ = GrammarItem+, GrammarItem => ActionFn(192);
 let ___sym1 = ___pop_Variant63(___symbols);
@@ -16544,8 +16543,8 @@ let ___sym0 = ___pop_Variant66(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym1.2.clone();
 let ___nt = super::___action192::<>(text, ___sym0, ___sym1);
-let ___symbol = (___start, ___Symbol::Variant66(___nt), ___end);
-(2, ___symbol, 101)
+___symbols.push((___start, ___Symbol::Variant66(___nt), ___end));
+(2, 101)
 }
 pub(crate) fn ___reduce339<
     'input,
@@ -16556,7 +16555,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // GrammarParameter = Id, ":", TypeRef => ActionFn(23);
 let ___sym2 = ___pop_Variant3(___symbols);
@@ -16565,8 +16564,8 @@ let ___sym0 = ___pop_Variant20(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym2.2.clone();
 let ___nt = super::___action23::<>(text, ___sym0, ___sym1, ___sym2);
-let ___symbol = (___start, ___Symbol::Variant16(___nt), ___end);
-(3, ___symbol, 102)
+___symbols.push((___start, ___Symbol::Variant16(___nt), ___end));
+(3, 102)
 }
 pub(crate) fn ___reduce340<
     'input,
@@ -16577,15 +16576,15 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // GrammarParameter? = GrammarParameter => ActionFn(221);
 let ___sym0 = ___pop_Variant16(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym0.2.clone();
 let ___nt = super::___action221::<>(text, ___sym0);
-let ___symbol = (___start, ___Symbol::Variant67(___nt), ___end);
-(1, ___symbol, 103)
+___symbols.push((___start, ___Symbol::Variant67(___nt), ___end));
+(1, 103)
 }
 pub(crate) fn ___reduce341<
     'input,
@@ -16596,14 +16595,14 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // GrammarParameter? =  => ActionFn(222);
 let ___start = ___symbols.last().map(|s| s.2.clone()).unwrap_or_default();
 let ___end = ___lookahead_start.cloned().unwrap_or_else(|| ___start.clone());
 let ___nt = super::___action222::<>(text, &___start, &___end);
-let ___symbol = (___start, ___Symbol::Variant67(___nt), ___end);
-(0, ___symbol, 103)
+___symbols.push((___start, ___Symbol::Variant67(___nt), ___end));
+(0, 103)
 }
 pub(crate) fn ___reduce342<
     'input,
@@ -16614,7 +16613,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // GrammarParameters = "(", Comma<GrammarParameter>, ")" => ActionFn(22);
 let ___sym2 = ___pop_Variant0(___symbols);
@@ -16623,8 +16622,8 @@ let ___sym0 = ___pop_Variant0(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym2.2.clone();
 let ___nt = super::___action22::<>(text, ___sym0, ___sym1, ___sym2);
-let ___symbol = (___start, ___Symbol::Variant51(___nt), ___end);
-(3, ___symbol, 104)
+___symbols.push((___start, ___Symbol::Variant51(___nt), ___end));
+(3, 104)
 }
 pub(crate) fn ___reduce343<
     'input,
@@ -16635,15 +16634,15 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // GrammarParameters? = GrammarParameters => ActionFn(173);
 let ___sym0 = ___pop_Variant51(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym0.2.clone();
 let ___nt = super::___action173::<>(text, ___sym0);
-let ___symbol = (___start, ___Symbol::Variant68(___nt), ___end);
-(1, ___symbol, 105)
+___symbols.push((___start, ___Symbol::Variant68(___nt), ___end));
+(1, 105)
 }
 pub(crate) fn ___reduce344<
     'input,
@@ -16654,14 +16653,14 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // GrammarParameters? =  => ActionFn(174);
 let ___start = ___symbols.last().map(|s| s.2.clone()).unwrap_or_default();
 let ___end = ___lookahead_start.cloned().unwrap_or_else(|| ___start.clone());
 let ___nt = super::___action174::<>(text, &___start, &___end);
-let ___symbol = (___start, ___Symbol::Variant68(___nt), ___end);
-(0, ___symbol, 105)
+___symbols.push((___start, ___Symbol::Variant68(___nt), ___end));
+(0, 105)
 }
 pub(crate) fn ___reduce345<
     'input,
@@ -16672,7 +16671,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // GrammarTypeParameters = "<", Comma<TypeParameter>, ">" => ActionFn(7);
 let ___sym2 = ___pop_Variant0(___symbols);
@@ -16681,8 +16680,8 @@ let ___sym0 = ___pop_Variant0(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym2.2.clone();
 let ___nt = super::___action7::<>(text, ___sym0, ___sym1, ___sym2);
-let ___symbol = (___start, ___Symbol::Variant57(___nt), ___end);
-(3, ___symbol, 106)
+___symbols.push((___start, ___Symbol::Variant57(___nt), ___end));
+(3, 106)
 }
 pub(crate) fn ___reduce346<
     'input,
@@ -16693,15 +16692,15 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // GrammarTypeParameters? = GrammarTypeParameters => ActionFn(175);
 let ___sym0 = ___pop_Variant57(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym0.2.clone();
 let ___nt = super::___action175::<>(text, ___sym0);
-let ___symbol = (___start, ___Symbol::Variant69(___nt), ___end);
-(1, ___symbol, 107)
+___symbols.push((___start, ___Symbol::Variant69(___nt), ___end));
+(1, 107)
 }
 pub(crate) fn ___reduce347<
     'input,
@@ -16712,14 +16711,14 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // GrammarTypeParameters? =  => ActionFn(176);
 let ___start = ___symbols.last().map(|s| s.2.clone()).unwrap_or_default();
 let ___end = ___lookahead_start.cloned().unwrap_or_else(|| ___start.clone());
 let ___nt = super::___action176::<>(text, &___start, &___end);
-let ___symbol = (___start, ___Symbol::Variant69(___nt), ___end);
-(0, ___symbol, 107)
+___symbols.push((___start, ___Symbol::Variant69(___nt), ___end));
+(0, 107)
 }
 pub(crate) fn ___reduce348<
     'input,
@@ -16730,7 +16729,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // GrammarWhereClause = Lifetime, ":", Plus<Lifetime> => ActionFn(11);
 let ___sym2 = ___pop_Variant83(___symbols);
@@ -16739,8 +16738,8 @@ let ___sym0 = ___pop_Variant22(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym2.2.clone();
 let ___nt = super::___action11::<>(text, ___sym0, ___sym1, ___sym2);
-let ___symbol = (___start, ___Symbol::Variant18(___nt), ___end);
-(3, ___symbol, 108)
+___symbols.push((___start, ___Symbol::Variant18(___nt), ___end));
+(3, 108)
 }
 pub(crate) fn ___reduce349<
     'input,
@@ -16751,7 +16750,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // GrammarWhereClause = ForAll, TypeRef, ":", TypeBounds => ActionFn(12);
 let ___sym3 = ___pop_Variant84(___symbols);
@@ -16761,8 +16760,8 @@ let ___sym0 = ___pop_Variant57(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym3.2.clone();
 let ___nt = super::___action12::<>(text, ___sym0, ___sym1, ___sym2, ___sym3);
-let ___symbol = (___start, ___Symbol::Variant18(___nt), ___end);
-(4, ___symbol, 108)
+___symbols.push((___start, ___Symbol::Variant18(___nt), ___end));
+(4, 108)
 }
 pub(crate) fn ___reduce350<
     'input,
@@ -16773,15 +16772,15 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // GrammarWhereClause? = GrammarWhereClause => ActionFn(198);
 let ___sym0 = ___pop_Variant18(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym0.2.clone();
 let ___nt = super::___action198::<>(text, ___sym0);
-let ___symbol = (___start, ___Symbol::Variant70(___nt), ___end);
-(1, ___symbol, 109)
+___symbols.push((___start, ___Symbol::Variant70(___nt), ___end));
+(1, 109)
 }
 pub(crate) fn ___reduce351<
     'input,
@@ -16792,14 +16791,14 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // GrammarWhereClause? =  => ActionFn(199);
 let ___start = ___symbols.last().map(|s| s.2.clone()).unwrap_or_default();
 let ___end = ___lookahead_start.cloned().unwrap_or_else(|| ___start.clone());
 let ___nt = super::___action199::<>(text, &___start, &___end);
-let ___symbol = (___start, ___Symbol::Variant70(___nt), ___end);
-(0, ___symbol, 109)
+___symbols.push((___start, ___Symbol::Variant70(___nt), ___end));
+(0, 109)
 }
 pub(crate) fn ___reduce352<
     'input,
@@ -16810,7 +16809,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // GrammarWhereClauses = "where", Comma<GrammarWhereClause> => ActionFn(10);
 let ___sym1 = ___pop_Variant52(___symbols);
@@ -16818,8 +16817,8 @@ let ___sym0 = ___pop_Variant0(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym1.2.clone();
 let ___nt = super::___action10::<>(text, ___sym0, ___sym1);
-let ___symbol = (___start, ___Symbol::Variant52(___nt), ___end);
-(2, ___symbol, 110)
+___symbols.push((___start, ___Symbol::Variant52(___nt), ___end));
+(2, 110)
 }
 pub(crate) fn ___reduce353<
     'input,
@@ -16830,15 +16829,15 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // GrammarWhereClauses? = GrammarWhereClauses => ActionFn(171);
 let ___sym0 = ___pop_Variant52(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym0.2.clone();
 let ___nt = super::___action171::<>(text, ___sym0);
-let ___symbol = (___start, ___Symbol::Variant71(___nt), ___end);
-(1, ___symbol, 111)
+___symbols.push((___start, ___Symbol::Variant71(___nt), ___end));
+(1, 111)
 }
 pub(crate) fn ___reduce354<
     'input,
@@ -16849,14 +16848,14 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // GrammarWhereClauses? =  => ActionFn(172);
 let ___start = ___symbols.last().map(|s| s.2.clone()).unwrap_or_default();
 let ___end = ___lookahead_start.cloned().unwrap_or_else(|| ___start.clone());
 let ___nt = super::___action172::<>(text, &___start, &___end);
-let ___symbol = (___start, ___Symbol::Variant71(___nt), ___end);
-(0, ___symbol, 111)
+___symbols.push((___start, ___Symbol::Variant71(___nt), ___end));
+(0, 111)
 }
 pub(crate) fn ___reduce355<
     'input,
@@ -16867,15 +16866,15 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Id = "Id" => ActionFn(104);
 let ___sym0 = ___pop_Variant1(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym0.2.clone();
 let ___nt = super::___action104::<>(text, ___sym0);
-let ___symbol = (___start, ___Symbol::Variant20(___nt), ___end);
-(1, ___symbol, 112)
+___symbols.push((___start, ___Symbol::Variant20(___nt), ___end));
+(1, 112)
 }
 pub(crate) fn ___reduce356<
     'input,
@@ -16886,15 +16885,15 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Id = "MacroId" => ActionFn(105);
 let ___sym0 = ___pop_Variant1(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym0.2.clone();
 let ___nt = super::___action105::<>(text, ___sym0);
-let ___symbol = (___start, ___Symbol::Variant20(___nt), ___end);
-(1, ___symbol, 112)
+___symbols.push((___start, ___Symbol::Variant20(___nt), ___end));
+(1, 112)
 }
 pub(crate) fn ___reduce357<
     'input,
@@ -16905,15 +16904,15 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Lifetime = "Lifetime" => ActionFn(107);
 let ___sym0 = ___pop_Variant1(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym0.2.clone();
 let ___nt = super::___action107::<>(text, ___sym0);
-let ___symbol = (___start, ___Symbol::Variant22(___nt), ___end);
-(1, ___symbol, 113)
+___symbols.push((___start, ___Symbol::Variant22(___nt), ___end));
+(1, 113)
 }
 pub(crate) fn ___reduce358<
     'input,
@@ -16924,15 +16923,15 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Lifetime? = Lifetime => ActionFn(134);
 let ___sym0 = ___pop_Variant22(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym0.2.clone();
 let ___nt = super::___action134::<>(text, ___sym0);
-let ___symbol = (___start, ___Symbol::Variant72(___nt), ___end);
-(1, ___symbol, 114)
+___symbols.push((___start, ___Symbol::Variant72(___nt), ___end));
+(1, 114)
 }
 pub(crate) fn ___reduce359<
     'input,
@@ -16943,14 +16942,14 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Lifetime? =  => ActionFn(135);
 let ___start = ___symbols.last().map(|s| s.2.clone()).unwrap_or_default();
 let ___end = ___lookahead_start.cloned().unwrap_or_else(|| ___start.clone());
 let ___nt = super::___action135::<>(text, &___start, &___end);
-let ___symbol = (___start, ___Symbol::Variant72(___nt), ___end);
-(0, ___symbol, 114)
+___symbols.push((___start, ___Symbol::Variant72(___nt), ___end));
+(0, 114)
 }
 pub(crate) fn ___reduce360<
     'input,
@@ -16961,15 +16960,15 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // MacroId = "MacroId" => ActionFn(102);
 let ___sym0 = ___pop_Variant1(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym0.2.clone();
 let ___nt = super::___action102::<>(text, ___sym0);
-let ___symbol = (___start, ___Symbol::Variant26(___nt), ___end);
-(1, ___symbol, 115)
+___symbols.push((___start, ___Symbol::Variant26(___nt), ___end));
+(1, 115)
 }
 pub(crate) fn ___reduce361<
     'input,
@@ -16980,15 +16979,15 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // MatchContents = Comma<MatchItem> => ActionFn(82);
 let ___sym0 = ___pop_Variant53(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym0.2.clone();
 let ___nt = super::___action82::<>(text, ___sym0);
-let ___symbol = (___start, ___Symbol::Variant73(___nt), ___end);
-(1, ___symbol, 116)
+___symbols.push((___start, ___Symbol::Variant73(___nt), ___end));
+(1, 116)
 }
 pub(crate) fn ___reduce362<
     'input,
@@ -16999,15 +16998,15 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // MatchItem = "_" => ActionFn(422);
 let ___sym0 = ___pop_Variant0(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym0.2.clone();
 let ___nt = super::___action422::<>(text, ___sym0);
-let ___symbol = (___start, ___Symbol::Variant24(___nt), ___end);
-(1, ___symbol, 117)
+___symbols.push((___start, ___Symbol::Variant24(___nt), ___end));
+(1, 117)
 }
 pub(crate) fn ___reduce363<
     'input,
@@ -17018,15 +17017,15 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // MatchItem = MatchSymbol => ActionFn(423);
 let ___sym0 = ___pop_Variant76(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym0.2.clone();
 let ___nt = super::___action423::<>(text, ___sym0);
-let ___symbol = (___start, ___Symbol::Variant24(___nt), ___end);
-(1, ___symbol, 117)
+___symbols.push((___start, ___Symbol::Variant24(___nt), ___end));
+(1, 117)
 }
 pub(crate) fn ___reduce365<
     'input,
@@ -17037,15 +17036,15 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // MatchItem? = MatchItem => ActionFn(250);
 let ___sym0 = ___pop_Variant24(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym0.2.clone();
 let ___nt = super::___action250::<>(text, ___sym0);
-let ___symbol = (___start, ___Symbol::Variant74(___nt), ___end);
-(1, ___symbol, 118)
+___symbols.push((___start, ___Symbol::Variant74(___nt), ___end));
+(1, 118)
 }
 pub(crate) fn ___reduce366<
     'input,
@@ -17056,14 +17055,14 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // MatchItem? =  => ActionFn(251);
 let ___start = ___symbols.last().map(|s| s.2.clone()).unwrap_or_default();
 let ___end = ___lookahead_start.cloned().unwrap_or_else(|| ___start.clone());
 let ___nt = super::___action251::<>(text, &___start, &___end);
-let ___symbol = (___start, ___Symbol::Variant74(___nt), ___end);
-(0, ___symbol, 118)
+___symbols.push((___start, ___Symbol::Variant74(___nt), ___end));
+(0, 118)
 }
 pub(crate) fn ___reduce367<
     'input,
@@ -17074,15 +17073,15 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // MatchMapping = Terminal => ActionFn(87);
 let ___sym0 = ___pop_Variant75(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym0.2.clone();
 let ___nt = super::___action87::<>(text, ___sym0);
-let ___symbol = (___start, ___Symbol::Variant75(___nt), ___end);
-(1, ___symbol, 119)
+___symbols.push((___start, ___Symbol::Variant75(___nt), ___end));
+(1, 119)
 }
 pub(crate) fn ___reduce368<
     'input,
@@ -17093,15 +17092,15 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // MatchSymbol = QuotedLiteral => ActionFn(86);
 let ___sym0 = ___pop_Variant76(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym0.2.clone();
 let ___nt = super::___action86::<>(text, ___sym0);
-let ___symbol = (___start, ___Symbol::Variant76(___nt), ___end);
-(1, ___symbol, 120)
+___symbols.push((___start, ___Symbol::Variant76(___nt), ___end));
+(1, 120)
 }
 pub(crate) fn ___reduce369<
     'input,
@@ -17112,15 +17111,15 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // MatchToken = MatchTokenInt => ActionFn(79);
 let ___sym0 = ___pop_Variant77(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym0.2.clone();
 let ___nt = super::___action79::<>(text, ___sym0);
-let ___symbol = (___start, ___Symbol::Variant63(___nt), ___end);
-(1, ___symbol, 121)
+___symbols.push((___start, ___Symbol::Variant63(___nt), ___end));
+(1, 121)
 }
 pub(crate) fn ___reduce370<
     'input,
@@ -17131,7 +17130,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // MatchTokenInt = MatchTokenInt, "else", "{", MatchContents, "}" => ActionFn(80);
 let ___sym4 = ___pop_Variant0(___symbols);
@@ -17142,8 +17141,8 @@ let ___sym0 = ___pop_Variant77(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym4.2.clone();
 let ___nt = super::___action80::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4);
-let ___symbol = (___start, ___Symbol::Variant77(___nt), ___end);
-(5, ___symbol, 122)
+___symbols.push((___start, ___Symbol::Variant77(___nt), ___end));
+(5, 122)
 }
 pub(crate) fn ___reduce371<
     'input,
@@ -17154,7 +17153,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // MatchTokenInt = "match", "{", MatchContents, "}" => ActionFn(425);
 let ___sym3 = ___pop_Variant0(___symbols);
@@ -17164,8 +17163,8 @@ let ___sym0 = ___pop_Variant0(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym3.2.clone();
 let ___nt = super::___action425::<>(text, ___sym0, ___sym1, ___sym2, ___sym3);
-let ___symbol = (___start, ___Symbol::Variant77(___nt), ___end);
-(4, ___symbol, 122)
+___symbols.push((___start, ___Symbol::Variant77(___nt), ___end));
+(4, 122)
 }
 pub(crate) fn ___reduce372<
     'input,
@@ -17176,7 +17175,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Nonterminal = Visibility, NonterminalName, ":", TypeRef, "=", Alternatives => ActionFn(443);
 let ___sym5 = ___pop_Variant43(___symbols);
@@ -17188,8 +17187,8 @@ let ___sym0 = ___pop_Variant94(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym5.2.clone();
 let ___nt = super::___action443::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4, ___sym5);
-let ___symbol = (___start, ___Symbol::Variant63(___nt), ___end);
-(6, ___symbol, 123)
+___symbols.push((___start, ___Symbol::Variant63(___nt), ___end));
+(6, 123)
 }
 pub(crate) fn ___reduce373<
     'input,
@@ -17200,7 +17199,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Nonterminal = Annotation+, Visibility, NonterminalName, ":", TypeRef, "=", Alternatives => ActionFn(444);
 let ___sym6 = ___pop_Variant43(___symbols);
@@ -17213,8 +17212,8 @@ let ___sym0 = ___pop_Variant45(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym6.2.clone();
 let ___nt = super::___action444::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4, ___sym5, ___sym6);
-let ___symbol = (___start, ___Symbol::Variant63(___nt), ___end);
-(7, ___symbol, 123)
+___symbols.push((___start, ___Symbol::Variant63(___nt), ___end));
+(7, 123)
 }
 pub(crate) fn ___reduce374<
     'input,
@@ -17225,7 +17224,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Nonterminal = Visibility, NonterminalName, "=", Alternatives => ActionFn(445);
 let ___sym3 = ___pop_Variant43(___symbols);
@@ -17235,8 +17234,8 @@ let ___sym0 = ___pop_Variant94(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym3.2.clone();
 let ___nt = super::___action445::<>(text, ___sym0, ___sym1, ___sym2, ___sym3);
-let ___symbol = (___start, ___Symbol::Variant63(___nt), ___end);
-(4, ___symbol, 123)
+___symbols.push((___start, ___Symbol::Variant63(___nt), ___end));
+(4, 123)
 }
 pub(crate) fn ___reduce375<
     'input,
@@ -17247,7 +17246,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Nonterminal = Annotation+, Visibility, NonterminalName, "=", Alternatives => ActionFn(446);
 let ___sym4 = ___pop_Variant43(___symbols);
@@ -17258,8 +17257,8 @@ let ___sym0 = ___pop_Variant45(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym4.2.clone();
 let ___nt = super::___action446::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4);
-let ___symbol = (___start, ___Symbol::Variant63(___nt), ___end);
-(5, ___symbol, 123)
+___symbols.push((___start, ___Symbol::Variant63(___nt), ___end));
+(5, 123)
 }
 pub(crate) fn ___reduce376<
     'input,
@@ -17270,7 +17269,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // NonterminalName = MacroId, "<", Comma<NotMacroId>, ">" => ActionFn(35);
 let ___sym3 = ___pop_Variant0(___symbols);
@@ -17280,8 +17279,8 @@ let ___sym0 = ___pop_Variant26(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym3.2.clone();
 let ___nt = super::___action35::<>(text, ___sym0, ___sym1, ___sym2, ___sym3);
-let ___symbol = (___start, ___Symbol::Variant78(___nt), ___end);
-(4, ___symbol, 124)
+___symbols.push((___start, ___Symbol::Variant78(___nt), ___end));
+(4, 124)
 }
 pub(crate) fn ___reduce377<
     'input,
@@ -17292,15 +17291,15 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // NonterminalName = NotMacroId => ActionFn(36);
 let ___sym0 = ___pop_Variant26(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym0.2.clone();
 let ___nt = super::___action36::<>(text, ___sym0);
-let ___symbol = (___start, ___Symbol::Variant78(___nt), ___end);
-(1, ___symbol, 124)
+___symbols.push((___start, ___Symbol::Variant78(___nt), ___end));
+(1, 124)
 }
 pub(crate) fn ___reduce378<
     'input,
@@ -17311,15 +17310,15 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // NonterminalName = "Escape" => ActionFn(37);
 let ___sym0 = ___pop_Variant1(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym0.2.clone();
 let ___nt = super::___action37::<>(text, ___sym0);
-let ___symbol = (___start, ___Symbol::Variant78(___nt), ___end);
-(1, ___symbol, 124)
+___symbols.push((___start, ___Symbol::Variant78(___nt), ___end));
+(1, 124)
 }
 pub(crate) fn ___reduce379<
     'input,
@@ -17330,15 +17329,15 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // NotMacroId = "Id" => ActionFn(103);
 let ___sym0 = ___pop_Variant1(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym0.2.clone();
 let ___nt = super::___action103::<>(text, ___sym0);
-let ___symbol = (___start, ___Symbol::Variant26(___nt), ___end);
-(1, ___symbol, 125)
+___symbols.push((___start, ___Symbol::Variant26(___nt), ___end));
+(1, 125)
 }
 pub(crate) fn ___reduce380<
     'input,
@@ -17349,15 +17348,15 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // NotMacroId? = NotMacroId => ActionFn(226);
 let ___sym0 = ___pop_Variant26(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym0.2.clone();
 let ___nt = super::___action226::<>(text, ___sym0);
-let ___symbol = (___start, ___Symbol::Variant79(___nt), ___end);
-(1, ___symbol, 126)
+___symbols.push((___start, ___Symbol::Variant79(___nt), ___end));
+(1, 126)
 }
 pub(crate) fn ___reduce381<
     'input,
@@ -17368,14 +17367,14 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // NotMacroId? =  => ActionFn(227);
 let ___start = ___symbols.last().map(|s| s.2.clone()).unwrap_or_default();
 let ___end = ___lookahead_start.cloned().unwrap_or_else(|| ___start.clone());
 let ___nt = super::___action227::<>(text, &___start, &___end);
-let ___symbol = (___start, ___Symbol::Variant79(___nt), ___end);
-(0, ___symbol, 126)
+___symbols.push((___start, ___Symbol::Variant79(___nt), ___end));
+(0, 126)
 }
 pub(crate) fn ___reduce382<
     'input,
@@ -17386,7 +17385,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Path = "::", Id => ActionFn(341);
 let ___sym1 = ___pop_Variant20(___symbols);
@@ -17394,8 +17393,8 @@ let ___sym0 = ___pop_Variant0(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym1.2.clone();
 let ___nt = super::___action341::<>(text, ___sym0, ___sym1);
-let ___symbol = (___start, ___Symbol::Variant80(___nt), ___end);
-(2, ___symbol, 127)
+___symbols.push((___start, ___Symbol::Variant80(___nt), ___end));
+(2, 127)
 }
 pub(crate) fn ___reduce383<
     'input,
@@ -17406,7 +17405,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Path = "::", (<Id> "::")+, Id => ActionFn(342);
 let ___sym2 = ___pop_Variant20(___symbols);
@@ -17415,8 +17414,8 @@ let ___sym0 = ___pop_Variant0(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym2.2.clone();
 let ___nt = super::___action342::<>(text, ___sym0, ___sym1, ___sym2);
-let ___symbol = (___start, ___Symbol::Variant80(___nt), ___end);
-(3, ___symbol, 127)
+___symbols.push((___start, ___Symbol::Variant80(___nt), ___end));
+(3, 127)
 }
 pub(crate) fn ___reduce384<
     'input,
@@ -17427,15 +17426,15 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Path = Id => ActionFn(343);
 let ___sym0 = ___pop_Variant20(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym0.2.clone();
 let ___nt = super::___action343::<>(text, ___sym0);
-let ___symbol = (___start, ___Symbol::Variant80(___nt), ___end);
-(1, ___symbol, 127)
+___symbols.push((___start, ___Symbol::Variant80(___nt), ___end));
+(1, 127)
 }
 pub(crate) fn ___reduce385<
     'input,
@@ -17446,7 +17445,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Path = (<Id> "::")+, Id => ActionFn(344);
 let ___sym1 = ___pop_Variant20(___symbols);
@@ -17454,8 +17453,8 @@ let ___sym0 = ___pop_Variant21(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym1.2.clone();
 let ___nt = super::___action344::<>(text, ___sym0, ___sym1);
-let ___symbol = (___start, ___Symbol::Variant80(___nt), ___end);
-(2, ___symbol, 127)
+___symbols.push((___start, ___Symbol::Variant80(___nt), ___end));
+(2, 127)
 }
 pub(crate) fn ___reduce386<
     'input,
@@ -17466,15 +17465,15 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Pattern = PatternKind => ActionFn(428);
 let ___sym0 = ___pop_Variant82(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym0.2.clone();
 let ___nt = super::___action428::<>(text, ___sym0);
-let ___symbol = (___start, ___Symbol::Variant28(___nt), ___end);
-(1, ___symbol, 128)
+___symbols.push((___start, ___Symbol::Variant28(___nt), ___end));
+(1, 128)
 }
 pub(crate) fn ___reduce387<
     'input,
@@ -17485,15 +17484,15 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Pattern? = Pattern => ActionFn(260);
 let ___sym0 = ___pop_Variant28(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym0.2.clone();
 let ___nt = super::___action260::<>(text, ___sym0);
-let ___symbol = (___start, ___Symbol::Variant81(___nt), ___end);
-(1, ___symbol, 129)
+___symbols.push((___start, ___Symbol::Variant81(___nt), ___end));
+(1, 129)
 }
 pub(crate) fn ___reduce388<
     'input,
@@ -17504,14 +17503,14 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Pattern? =  => ActionFn(261);
 let ___start = ___symbols.last().map(|s| s.2.clone()).unwrap_or_default();
 let ___end = ___lookahead_start.cloned().unwrap_or_else(|| ___start.clone());
 let ___nt = super::___action261::<>(text, &___start, &___end);
-let ___symbol = (___start, ___Symbol::Variant81(___nt), ___end);
-(0, ___symbol, 129)
+___symbols.push((___start, ___Symbol::Variant81(___nt), ___end));
+(0, 129)
 }
 pub(crate) fn ___reduce389<
     'input,
@@ -17522,7 +17521,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // PatternKind = Path, "(", Comma<Pattern>, ")" => ActionFn(92);
 let ___sym3 = ___pop_Variant0(___symbols);
@@ -17532,8 +17531,8 @@ let ___sym0 = ___pop_Variant80(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym3.2.clone();
 let ___nt = super::___action92::<>(text, ___sym0, ___sym1, ___sym2, ___sym3);
-let ___symbol = (___start, ___Symbol::Variant82(___nt), ___end);
-(4, ___symbol, 130)
+___symbols.push((___start, ___Symbol::Variant82(___nt), ___end));
+(4, 130)
 }
 pub(crate) fn ___reduce390<
     'input,
@@ -17544,7 +17543,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // PatternKind = Path, "{", FieldPattern, "}" => ActionFn(459);
 let ___sym3 = ___pop_Variant0(___symbols);
@@ -17554,8 +17553,8 @@ let ___sym0 = ___pop_Variant80(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym3.2.clone();
 let ___nt = super::___action459::<>(text, ___sym0, ___sym1, ___sym2, ___sym3);
-let ___symbol = (___start, ___Symbol::Variant82(___nt), ___end);
-(4, ___symbol, 130)
+___symbols.push((___start, ___Symbol::Variant82(___nt), ___end));
+(4, 130)
 }
 pub(crate) fn ___reduce391<
     'input,
@@ -17566,7 +17565,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // PatternKind = Path, "{", "}" => ActionFn(460);
 let ___sym2 = ___pop_Variant0(___symbols);
@@ -17575,8 +17574,8 @@ let ___sym0 = ___pop_Variant80(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym2.2.clone();
 let ___nt = super::___action460::<>(text, ___sym0, ___sym1, ___sym2);
-let ___symbol = (___start, ___Symbol::Variant82(___nt), ___end);
-(3, ___symbol, 130)
+___symbols.push((___start, ___Symbol::Variant82(___nt), ___end));
+(3, 130)
 }
 pub(crate) fn ___reduce392<
     'input,
@@ -17587,7 +17586,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // PatternKind = Path, "{", (<FieldPattern> ",")+, FieldPattern, "}" => ActionFn(461);
 let ___sym4 = ___pop_Variant0(___symbols);
@@ -17598,8 +17597,8 @@ let ___sym0 = ___pop_Variant80(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym4.2.clone();
 let ___nt = super::___action461::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4);
-let ___symbol = (___start, ___Symbol::Variant82(___nt), ___end);
-(5, ___symbol, 130)
+___symbols.push((___start, ___Symbol::Variant82(___nt), ___end));
+(5, 130)
 }
 pub(crate) fn ___reduce393<
     'input,
@@ -17610,7 +17609,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // PatternKind = Path, "{", (<FieldPattern> ",")+, "}" => ActionFn(462);
 let ___sym3 = ___pop_Variant0(___symbols);
@@ -17620,8 +17619,8 @@ let ___sym0 = ___pop_Variant80(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym3.2.clone();
 let ___nt = super::___action462::<>(text, ___sym0, ___sym1, ___sym2, ___sym3);
-let ___symbol = (___start, ___Symbol::Variant82(___nt), ___end);
-(4, ___symbol, 130)
+___symbols.push((___start, ___Symbol::Variant82(___nt), ___end));
+(4, 130)
 }
 pub(crate) fn ___reduce394<
     'input,
@@ -17632,7 +17631,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // PatternKind = Path, "{", "..", "}" => ActionFn(329);
 let ___sym3 = ___pop_Variant0(___symbols);
@@ -17642,8 +17641,8 @@ let ___sym0 = ___pop_Variant80(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym3.2.clone();
 let ___nt = super::___action329::<>(text, ___sym0, ___sym1, ___sym2, ___sym3);
-let ___symbol = (___start, ___Symbol::Variant82(___nt), ___end);
-(4, ___symbol, 130)
+___symbols.push((___start, ___Symbol::Variant82(___nt), ___end));
+(4, 130)
 }
 pub(crate) fn ___reduce395<
     'input,
@@ -17654,7 +17653,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // PatternKind = Path, "{", (<FieldPattern> ",")+, "..", "}" => ActionFn(330);
 let ___sym4 = ___pop_Variant0(___symbols);
@@ -17665,8 +17664,8 @@ let ___sym0 = ___pop_Variant80(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym4.2.clone();
 let ___nt = super::___action330::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4);
-let ___symbol = (___start, ___Symbol::Variant82(___nt), ___end);
-(5, ___symbol, 130)
+___symbols.push((___start, ___Symbol::Variant82(___nt), ___end));
+(5, 130)
 }
 pub(crate) fn ___reduce396<
     'input,
@@ -17677,15 +17676,15 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // PatternKind = "_" => ActionFn(95);
 let ___sym0 = ___pop_Variant0(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym0.2.clone();
 let ___nt = super::___action95::<>(text, ___sym0);
-let ___symbol = (___start, ___Symbol::Variant82(___nt), ___end);
-(1, ___symbol, 130)
+___symbols.push((___start, ___Symbol::Variant82(___nt), ___end));
+(1, 130)
 }
 pub(crate) fn ___reduce397<
     'input,
@@ -17696,15 +17695,15 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // PatternKind = ".." => ActionFn(96);
 let ___sym0 = ___pop_Variant0(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym0.2.clone();
 let ___nt = super::___action96::<>(text, ___sym0);
-let ___symbol = (___start, ___Symbol::Variant82(___nt), ___end);
-(1, ___symbol, 130)
+___symbols.push((___start, ___Symbol::Variant82(___nt), ___end));
+(1, 130)
 }
 pub(crate) fn ___reduce398<
     'input,
@@ -17715,7 +17714,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // PatternKind = "<", TypeRef, ">" => ActionFn(97);
 let ___sym2 = ___pop_Variant0(___symbols);
@@ -17724,8 +17723,8 @@ let ___sym0 = ___pop_Variant0(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym2.2.clone();
 let ___nt = super::___action97::<>(text, ___sym0, ___sym1, ___sym2);
-let ___symbol = (___start, ___Symbol::Variant82(___nt), ___end);
-(3, ___symbol, 130)
+___symbols.push((___start, ___Symbol::Variant82(___nt), ___end));
+(3, 130)
 }
 pub(crate) fn ___reduce399<
     'input,
@@ -17736,7 +17735,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // PatternKind = "(", Comma<Pattern>, ")" => ActionFn(98);
 let ___sym2 = ___pop_Variant0(___symbols);
@@ -17745,8 +17744,8 @@ let ___sym0 = ___pop_Variant0(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym2.2.clone();
 let ___nt = super::___action98::<>(text, ___sym0, ___sym1, ___sym2);
-let ___symbol = (___start, ___Symbol::Variant82(___nt), ___end);
-(3, ___symbol, 130)
+___symbols.push((___start, ___Symbol::Variant82(___nt), ___end));
+(3, 130)
 }
 pub(crate) fn ___reduce400<
     'input,
@@ -17757,15 +17756,15 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // PatternKind = "CharLiteral" => ActionFn(99);
 let ___sym0 = ___pop_Variant1(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym0.2.clone();
 let ___nt = super::___action99::<>(text, ___sym0);
-let ___symbol = (___start, ___Symbol::Variant82(___nt), ___end);
-(1, ___symbol, 130)
+___symbols.push((___start, ___Symbol::Variant82(___nt), ___end));
+(1, 130)
 }
 pub(crate) fn ___reduce401<
     'input,
@@ -17776,15 +17775,15 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // PatternKind = Path => ActionFn(100);
 let ___sym0 = ___pop_Variant80(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym0.2.clone();
 let ___nt = super::___action100::<>(text, ___sym0);
-let ___symbol = (___start, ___Symbol::Variant82(___nt), ___end);
-(1, ___symbol, 130)
+___symbols.push((___start, ___Symbol::Variant82(___nt), ___end));
+(1, 130)
 }
 pub(crate) fn ___reduce402<
     'input,
@@ -17795,15 +17794,15 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Plus<Lifetime> = Lifetime => ActionFn(531);
 let ___sym0 = ___pop_Variant22(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym0.2.clone();
 let ___nt = super::___action531::<>(text, ___sym0);
-let ___symbol = (___start, ___Symbol::Variant83(___nt), ___end);
-(1, ___symbol, 131)
+___symbols.push((___start, ___Symbol::Variant83(___nt), ___end));
+(1, 131)
 }
 pub(crate) fn ___reduce403<
     'input,
@@ -17814,14 +17813,14 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Plus<Lifetime> =  => ActionFn(532);
 let ___start = ___symbols.last().map(|s| s.2.clone()).unwrap_or_default();
 let ___end = ___lookahead_start.cloned().unwrap_or_else(|| ___start.clone());
 let ___nt = super::___action532::<>(text, &___start, &___end);
-let ___symbol = (___start, ___Symbol::Variant83(___nt), ___end);
-(0, ___symbol, 131)
+___symbols.push((___start, ___Symbol::Variant83(___nt), ___end));
+(0, 131)
 }
 pub(crate) fn ___reduce404<
     'input,
@@ -17832,7 +17831,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Plus<Lifetime> = (<Lifetime> "+")+, Lifetime => ActionFn(533);
 let ___sym1 = ___pop_Variant22(___symbols);
@@ -17840,8 +17839,8 @@ let ___sym0 = ___pop_Variant23(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym1.2.clone();
 let ___nt = super::___action533::<>(text, ___sym0, ___sym1);
-let ___symbol = (___start, ___Symbol::Variant83(___nt), ___end);
-(2, ___symbol, 131)
+___symbols.push((___start, ___Symbol::Variant83(___nt), ___end));
+(2, 131)
 }
 pub(crate) fn ___reduce405<
     'input,
@@ -17852,15 +17851,15 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Plus<Lifetime> = (<Lifetime> "+")+ => ActionFn(534);
 let ___sym0 = ___pop_Variant23(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym0.2.clone();
 let ___nt = super::___action534::<>(text, ___sym0);
-let ___symbol = (___start, ___Symbol::Variant83(___nt), ___end);
-(1, ___symbol, 131)
+___symbols.push((___start, ___Symbol::Variant83(___nt), ___end));
+(1, 131)
 }
 pub(crate) fn ___reduce406<
     'input,
@@ -17871,15 +17870,15 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Plus<TypeBound> = TypeBound => ActionFn(621);
 let ___sym0 = ___pop_Variant32(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym0.2.clone();
 let ___nt = super::___action621::<>(text, ___sym0);
-let ___symbol = (___start, ___Symbol::Variant84(___nt), ___end);
-(1, ___symbol, 132)
+___symbols.push((___start, ___Symbol::Variant84(___nt), ___end));
+(1, 132)
 }
 pub(crate) fn ___reduce407<
     'input,
@@ -17890,14 +17889,14 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Plus<TypeBound> =  => ActionFn(622);
 let ___start = ___symbols.last().map(|s| s.2.clone()).unwrap_or_default();
 let ___end = ___lookahead_start.cloned().unwrap_or_else(|| ___start.clone());
 let ___nt = super::___action622::<>(text, &___start, &___end);
-let ___symbol = (___start, ___Symbol::Variant84(___nt), ___end);
-(0, ___symbol, 132)
+___symbols.push((___start, ___Symbol::Variant84(___nt), ___end));
+(0, 132)
 }
 pub(crate) fn ___reduce408<
     'input,
@@ -17908,7 +17907,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Plus<TypeBound> = (<TypeBound> "+")+, TypeBound => ActionFn(623);
 let ___sym1 = ___pop_Variant32(___symbols);
@@ -17916,8 +17915,8 @@ let ___sym0 = ___pop_Variant33(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym1.2.clone();
 let ___nt = super::___action623::<>(text, ___sym0, ___sym1);
-let ___symbol = (___start, ___Symbol::Variant84(___nt), ___end);
-(2, ___symbol, 132)
+___symbols.push((___start, ___Symbol::Variant84(___nt), ___end));
+(2, 132)
 }
 pub(crate) fn ___reduce409<
     'input,
@@ -17928,15 +17927,15 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Plus<TypeBound> = (<TypeBound> "+")+ => ActionFn(624);
 let ___sym0 = ___pop_Variant33(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym0.2.clone();
 let ___nt = super::___action624::<>(text, ___sym0);
-let ___symbol = (___start, ___Symbol::Variant84(___nt), ___end);
-(1, ___symbol, 132)
+___symbols.push((___start, ___Symbol::Variant84(___nt), ___end));
+(1, 132)
 }
 pub(crate) fn ___reduce410<
     'input,
@@ -17947,15 +17946,15 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // QuotedLiteral = StringLiteral => ActionFn(111);
 let ___sym0 = ___pop_Variant20(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym0.2.clone();
 let ___nt = super::___action111::<>(text, ___sym0);
-let ___symbol = (___start, ___Symbol::Variant76(___nt), ___end);
-(1, ___symbol, 133)
+___symbols.push((___start, ___Symbol::Variant76(___nt), ___end));
+(1, 133)
 }
 pub(crate) fn ___reduce411<
     'input,
@@ -17966,15 +17965,15 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // QuotedLiteral = RegexLiteral => ActionFn(112);
 let ___sym0 = ___pop_Variant20(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym0.2.clone();
 let ___nt = super::___action112::<>(text, ___sym0);
-let ___symbol = (___start, ___Symbol::Variant76(___nt), ___end);
-(1, ___symbol, 133)
+___symbols.push((___start, ___Symbol::Variant76(___nt), ___end));
+(1, 133)
 }
 pub(crate) fn ___reduce412<
     'input,
@@ -17985,15 +17984,15 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // QuotedTerminal = QuotedLiteral => ActionFn(110);
 let ___sym0 = ___pop_Variant76(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym0.2.clone();
 let ___nt = super::___action110::<>(text, ___sym0);
-let ___symbol = (___start, ___Symbol::Variant75(___nt), ___end);
-(1, ___symbol, 134)
+___symbols.push((___start, ___Symbol::Variant75(___nt), ___end));
+(1, 134)
 }
 pub(crate) fn ___reduce413<
     'input,
@@ -18004,15 +18003,15 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // RegexLiteral = "RegexLiteral" => ActionFn(114);
 let ___sym0 = ___pop_Variant1(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym0.2.clone();
 let ___nt = super::___action114::<>(text, ___sym0);
-let ___symbol = (___start, ___Symbol::Variant20(___nt), ___end);
-(1, ___symbol, 135)
+___symbols.push((___start, ___Symbol::Variant20(___nt), ___end));
+(1, 135)
 }
 pub(crate) fn ___reduce414<
     'input,
@@ -18023,15 +18022,15 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // RepeatOp = "+" => ActionFn(57);
 let ___sym0 = ___pop_Variant0(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym0.2.clone();
 let ___nt = super::___action57::<>(text, ___sym0);
-let ___symbol = (___start, ___Symbol::Variant85(___nt), ___end);
-(1, ___symbol, 136)
+___symbols.push((___start, ___Symbol::Variant85(___nt), ___end));
+(1, 136)
 }
 pub(crate) fn ___reduce415<
     'input,
@@ -18042,15 +18041,15 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // RepeatOp = "*" => ActionFn(58);
 let ___sym0 = ___pop_Variant0(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym0.2.clone();
 let ___nt = super::___action58::<>(text, ___sym0);
-let ___symbol = (___start, ___Symbol::Variant85(___nt), ___end);
-(1, ___symbol, 136)
+___symbols.push((___start, ___Symbol::Variant85(___nt), ___end));
+(1, 136)
 }
 pub(crate) fn ___reduce416<
     'input,
@@ -18061,15 +18060,15 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // RepeatOp = "?" => ActionFn(59);
 let ___sym0 = ___pop_Variant0(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym0.2.clone();
 let ___nt = super::___action59::<>(text, ___sym0);
-let ___symbol = (___start, ___Symbol::Variant85(___nt), ___end);
-(1, ___symbol, 136)
+___symbols.push((___start, ___Symbol::Variant85(___nt), ___end));
+(1, 136)
 }
 pub(crate) fn ___reduce417<
     'input,
@@ -18080,15 +18079,15 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // ShebangAttribute = "#![...]" => ActionFn(115);
 let ___sym0 = ___pop_Variant1(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym0.2.clone();
 let ___nt = super::___action115::<>(text, ___sym0);
-let ___symbol = (___start, ___Symbol::Variant86(___nt), ___end);
-(1, ___symbol, 137)
+___symbols.push((___start, ___Symbol::Variant86(___nt), ___end));
+(1, 137)
 }
 pub(crate) fn ___reduce418<
     'input,
@@ -18099,14 +18098,14 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // ShebangAttribute* =  => ActionFn(183);
 let ___start = ___symbols.last().map(|s| s.2.clone()).unwrap_or_default();
 let ___end = ___lookahead_start.cloned().unwrap_or_else(|| ___start.clone());
 let ___nt = super::___action183::<>(text, &___start, &___end);
-let ___symbol = (___start, ___Symbol::Variant87(___nt), ___end);
-(0, ___symbol, 138)
+___symbols.push((___start, ___Symbol::Variant87(___nt), ___end));
+(0, 138)
 }
 pub(crate) fn ___reduce419<
     'input,
@@ -18117,15 +18116,15 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // ShebangAttribute* = ShebangAttribute+ => ActionFn(184);
 let ___sym0 = ___pop_Variant87(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym0.2.clone();
 let ___nt = super::___action184::<>(text, ___sym0);
-let ___symbol = (___start, ___Symbol::Variant87(___nt), ___end);
-(1, ___symbol, 138)
+___symbols.push((___start, ___Symbol::Variant87(___nt), ___end));
+(1, 138)
 }
 pub(crate) fn ___reduce420<
     'input,
@@ -18136,15 +18135,15 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // ShebangAttribute+ = ShebangAttribute => ActionFn(185);
 let ___sym0 = ___pop_Variant86(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym0.2.clone();
 let ___nt = super::___action185::<>(text, ___sym0);
-let ___symbol = (___start, ___Symbol::Variant87(___nt), ___end);
-(1, ___symbol, 139)
+___symbols.push((___start, ___Symbol::Variant87(___nt), ___end));
+(1, 139)
 }
 pub(crate) fn ___reduce421<
     'input,
@@ -18155,7 +18154,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // ShebangAttribute+ = ShebangAttribute+, ShebangAttribute => ActionFn(186);
 let ___sym1 = ___pop_Variant86(___symbols);
@@ -18163,8 +18162,8 @@ let ___sym0 = ___pop_Variant87(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym1.2.clone();
 let ___nt = super::___action186::<>(text, ___sym0, ___sym1);
-let ___symbol = (___start, ___Symbol::Variant87(___nt), ___end);
-(2, ___symbol, 139)
+___symbols.push((___start, ___Symbol::Variant87(___nt), ___end));
+(2, 139)
 }
 pub(crate) fn ___reduce423<
     'input,
@@ -18175,7 +18174,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Symbol = "<", Id, ":", Symbol0, ">" => ActionFn(429);
 let ___sym4 = ___pop_Variant0(___symbols);
@@ -18186,8 +18185,8 @@ let ___sym0 = ___pop_Variant0(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym4.2.clone();
 let ___nt = super::___action429::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4);
-let ___symbol = (___start, ___Symbol::Variant30(___nt), ___end);
-(5, ___symbol, 141)
+___symbols.push((___start, ___Symbol::Variant30(___nt), ___end));
+(5, 141)
 }
 pub(crate) fn ___reduce424<
     'input,
@@ -18198,7 +18197,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Symbol = "<", Symbol0, ">" => ActionFn(430);
 let ___sym2 = ___pop_Variant0(___symbols);
@@ -18207,8 +18206,8 @@ let ___sym0 = ___pop_Variant0(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym2.2.clone();
 let ___nt = super::___action430::<>(text, ___sym0, ___sym1, ___sym2);
-let ___symbol = (___start, ___Symbol::Variant30(___nt), ___end);
-(3, ___symbol, 141)
+___symbols.push((___start, ___Symbol::Variant30(___nt), ___end));
+(3, 141)
 }
 pub(crate) fn ___reduce425<
     'input,
@@ -18219,15 +18218,15 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Symbol = Symbol0 => ActionFn(54);
 let ___sym0 = ___pop_Variant30(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym0.2.clone();
 let ___nt = super::___action54::<>(text, ___sym0);
-let ___symbol = (___start, ___Symbol::Variant30(___nt), ___end);
-(1, ___symbol, 141)
+___symbols.push((___start, ___Symbol::Variant30(___nt), ___end));
+(1, 141)
 }
 pub(crate) fn ___reduce426<
     'input,
@@ -18238,14 +18237,14 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Symbol* =  => ActionFn(137);
 let ___start = ___symbols.last().map(|s| s.2.clone()).unwrap_or_default();
 let ___end = ___lookahead_start.cloned().unwrap_or_else(|| ___start.clone());
 let ___nt = super::___action137::<>(text, &___start, &___end);
-let ___symbol = (___start, ___Symbol::Variant31(___nt), ___end);
-(0, ___symbol, 142)
+___symbols.push((___start, ___Symbol::Variant31(___nt), ___end));
+(0, 142)
 }
 pub(crate) fn ___reduce427<
     'input,
@@ -18256,15 +18255,15 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Symbol* = Symbol+ => ActionFn(138);
 let ___sym0 = ___pop_Variant31(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym0.2.clone();
 let ___nt = super::___action138::<>(text, ___sym0);
-let ___symbol = (___start, ___Symbol::Variant31(___nt), ___end);
-(1, ___symbol, 142)
+___symbols.push((___start, ___Symbol::Variant31(___nt), ___end));
+(1, 142)
 }
 pub(crate) fn ___reduce428<
     'input,
@@ -18275,15 +18274,15 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Symbol+ = Symbol => ActionFn(144);
 let ___sym0 = ___pop_Variant30(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym0.2.clone();
 let ___nt = super::___action144::<>(text, ___sym0);
-let ___symbol = (___start, ___Symbol::Variant31(___nt), ___end);
-(1, ___symbol, 143)
+___symbols.push((___start, ___Symbol::Variant31(___nt), ___end));
+(1, 143)
 }
 pub(crate) fn ___reduce429<
     'input,
@@ -18294,7 +18293,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Symbol+ = Symbol+, Symbol => ActionFn(145);
 let ___sym1 = ___pop_Variant30(___symbols);
@@ -18302,8 +18301,8 @@ let ___sym0 = ___pop_Variant31(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym1.2.clone();
 let ___nt = super::___action145::<>(text, ___sym0, ___sym1);
-let ___symbol = (___start, ___Symbol::Variant31(___nt), ___end);
-(2, ___symbol, 143)
+___symbols.push((___start, ___Symbol::Variant31(___nt), ___end));
+(2, 143)
 }
 pub(crate) fn ___reduce430<
     'input,
@@ -18314,15 +18313,15 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Symbol0 = Symbol1 => ActionFn(55);
 let ___sym0 = ___pop_Variant30(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym0.2.clone();
 let ___nt = super::___action55::<>(text, ___sym0);
-let ___symbol = (___start, ___Symbol::Variant30(___nt), ___end);
-(1, ___symbol, 144)
+___symbols.push((___start, ___Symbol::Variant30(___nt), ___end));
+(1, 144)
 }
 pub(crate) fn ___reduce431<
     'input,
@@ -18333,7 +18332,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Symbol0 = Symbol0, RepeatOp => ActionFn(431);
 let ___sym1 = ___pop_Variant85(___symbols);
@@ -18341,8 +18340,8 @@ let ___sym0 = ___pop_Variant30(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym1.2.clone();
 let ___nt = super::___action431::<>(text, ___sym0, ___sym1);
-let ___symbol = (___start, ___Symbol::Variant30(___nt), ___end);
-(2, ___symbol, 144)
+___symbols.push((___start, ___Symbol::Variant30(___nt), ___end));
+(2, 144)
 }
 pub(crate) fn ___reduce432<
     'input,
@@ -18353,15 +18352,15 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Symbol1 = SymbolKind1 => ActionFn(432);
 let ___sym0 = ___pop_Variant89(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym0.2.clone();
 let ___nt = super::___action432::<>(text, ___sym0);
-let ___symbol = (___start, ___Symbol::Variant30(___nt), ___end);
-(1, ___symbol, 145)
+___symbols.push((___start, ___Symbol::Variant30(___nt), ___end));
+(1, 145)
 }
 pub(crate) fn ___reduce433<
     'input,
@@ -18372,15 +18371,15 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Symbol? = Symbol => ActionFn(236);
 let ___sym0 = ___pop_Variant30(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym0.2.clone();
 let ___nt = super::___action236::<>(text, ___sym0);
-let ___symbol = (___start, ___Symbol::Variant88(___nt), ___end);
-(1, ___symbol, 146)
+___symbols.push((___start, ___Symbol::Variant88(___nt), ___end));
+(1, 146)
 }
 pub(crate) fn ___reduce434<
     'input,
@@ -18391,14 +18390,14 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Symbol? =  => ActionFn(237);
 let ___start = ___symbols.last().map(|s| s.2.clone()).unwrap_or_default();
 let ___end = ___lookahead_start.cloned().unwrap_or_else(|| ___start.clone());
 let ___nt = super::___action237::<>(text, &___start, &___end);
-let ___symbol = (___start, ___Symbol::Variant88(___nt), ___end);
-(0, ___symbol, 146)
+___symbols.push((___start, ___Symbol::Variant88(___nt), ___end));
+(0, 146)
 }
 pub(crate) fn ___reduce435<
     'input,
@@ -18409,7 +18408,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // SymbolKind1 = MacroId, "<", Comma<Symbol>, ">" => ActionFn(61);
 let ___sym3 = ___pop_Variant0(___symbols);
@@ -18419,8 +18418,8 @@ let ___sym0 = ___pop_Variant26(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym3.2.clone();
 let ___nt = super::___action61::<>(text, ___sym0, ___sym1, ___sym2, ___sym3);
-let ___symbol = (___start, ___Symbol::Variant89(___nt), ___end);
-(4, ___symbol, 147)
+___symbols.push((___start, ___Symbol::Variant89(___nt), ___end));
+(4, 147)
 }
 pub(crate) fn ___reduce436<
     'input,
@@ -18431,15 +18430,15 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // SymbolKind1 = QuotedTerminal => ActionFn(62);
 let ___sym0 = ___pop_Variant75(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym0.2.clone();
 let ___nt = super::___action62::<>(text, ___sym0);
-let ___symbol = (___start, ___Symbol::Variant89(___nt), ___end);
-(1, ___symbol, 147)
+___symbols.push((___start, ___Symbol::Variant89(___nt), ___end));
+(1, 147)
 }
 pub(crate) fn ___reduce437<
     'input,
@@ -18450,15 +18449,15 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // SymbolKind1 = "Id" => ActionFn(63);
 let ___sym0 = ___pop_Variant1(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym0.2.clone();
 let ___nt = super::___action63::<>(text, ___sym0);
-let ___symbol = (___start, ___Symbol::Variant89(___nt), ___end);
-(1, ___symbol, 147)
+___symbols.push((___start, ___Symbol::Variant89(___nt), ___end));
+(1, 147)
 }
 pub(crate) fn ___reduce438<
     'input,
@@ -18469,15 +18468,15 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // SymbolKind1 = Escape => ActionFn(64);
 let ___sym0 = ___pop_Variant20(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym0.2.clone();
 let ___nt = super::___action64::<>(text, ___sym0);
-let ___symbol = (___start, ___Symbol::Variant89(___nt), ___end);
-(1, ___symbol, 147)
+___symbols.push((___start, ___Symbol::Variant89(___nt), ___end));
+(1, 147)
 }
 pub(crate) fn ___reduce439<
     'input,
@@ -18488,7 +18487,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // SymbolKind1 = "(", ExprSymbol, ")" => ActionFn(65);
 let ___sym2 = ___pop_Variant0(___symbols);
@@ -18497,8 +18496,8 @@ let ___sym0 = ___pop_Variant0(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym2.2.clone();
 let ___nt = super::___action65::<>(text, ___sym0, ___sym1, ___sym2);
-let ___symbol = (___start, ___Symbol::Variant89(___nt), ___end);
-(3, ___symbol, 147)
+___symbols.push((___start, ___Symbol::Variant89(___nt), ___end));
+(3, 147)
 }
 pub(crate) fn ___reduce440<
     'input,
@@ -18509,15 +18508,15 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // SymbolKind1 = "@L" => ActionFn(66);
 let ___sym0 = ___pop_Variant0(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym0.2.clone();
 let ___nt = super::___action66::<>(text, ___sym0);
-let ___symbol = (___start, ___Symbol::Variant89(___nt), ___end);
-(1, ___symbol, 147)
+___symbols.push((___start, ___Symbol::Variant89(___nt), ___end));
+(1, 147)
 }
 pub(crate) fn ___reduce441<
     'input,
@@ -18528,15 +18527,15 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // SymbolKind1 = "@R" => ActionFn(67);
 let ___sym0 = ___pop_Variant0(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym0.2.clone();
 let ___nt = super::___action67::<>(text, ___sym0);
-let ___symbol = (___start, ___Symbol::Variant89(___nt), ___end);
-(1, ___symbol, 147)
+___symbols.push((___start, ___Symbol::Variant89(___nt), ___end));
+(1, 147)
 }
 pub(crate) fn ___reduce442<
     'input,
@@ -18547,15 +18546,15 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // SymbolKind1 = "!" => ActionFn(68);
 let ___sym0 = ___pop_Variant0(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym0.2.clone();
 let ___nt = super::___action68::<>(text, ___sym0);
-let ___symbol = (___start, ___Symbol::Variant89(___nt), ___end);
-(1, ___symbol, 147)
+___symbols.push((___start, ___Symbol::Variant89(___nt), ___end));
+(1, 147)
 }
 pub(crate) fn ___reduce443<
     'input,
@@ -18566,15 +18565,15 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Terminal = QuotedTerminal => ActionFn(108);
 let ___sym0 = ___pop_Variant75(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym0.2.clone();
 let ___nt = super::___action108::<>(text, ___sym0);
-let ___symbol = (___start, ___Symbol::Variant75(___nt), ___end);
-(1, ___symbol, 148)
+___symbols.push((___start, ___Symbol::Variant75(___nt), ___end));
+(1, 148)
 }
 pub(crate) fn ___reduce444<
     'input,
@@ -18585,15 +18584,15 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Terminal = "Id" => ActionFn(109);
 let ___sym0 = ___pop_Variant1(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym0.2.clone();
 let ___nt = super::___action109::<>(text, ___sym0);
-let ___symbol = (___start, ___Symbol::Variant75(___nt), ___end);
-(1, ___symbol, 148)
+___symbols.push((___start, ___Symbol::Variant75(___nt), ___end));
+(1, 148)
 }
 pub(crate) fn ___reduce445<
     'input,
@@ -18604,7 +18603,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Top = "StartGrammar", Grammar => ActionFn(1);
 let ___sym1 = ___pop_Variant65(___symbols);
@@ -18612,8 +18611,8 @@ let ___sym0 = ___pop_Variant0(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym1.2.clone();
 let ___nt = super::___action1::<>(text, ___sym0, ___sym1);
-let ___symbol = (___start, ___Symbol::Variant90(___nt), ___end);
-(2, ___symbol, 149)
+___symbols.push((___start, ___Symbol::Variant90(___nt), ___end));
+(2, 149)
 }
 pub(crate) fn ___reduce446<
     'input,
@@ -18624,7 +18623,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Top = "StartPattern", Pattern => ActionFn(2);
 let ___sym1 = ___pop_Variant28(___symbols);
@@ -18632,8 +18631,8 @@ let ___sym0 = ___pop_Variant0(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym1.2.clone();
 let ___nt = super::___action2::<>(text, ___sym0, ___sym1);
-let ___symbol = (___start, ___Symbol::Variant90(___nt), ___end);
-(2, ___symbol, 149)
+___symbols.push((___start, ___Symbol::Variant90(___nt), ___end));
+(2, 149)
 }
 pub(crate) fn ___reduce447<
     'input,
@@ -18644,7 +18643,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Top = "StartMatchMapping", MatchMapping => ActionFn(3);
 let ___sym1 = ___pop_Variant75(___symbols);
@@ -18652,8 +18651,8 @@ let ___sym0 = ___pop_Variant0(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym1.2.clone();
 let ___nt = super::___action3::<>(text, ___sym0, ___sym1);
-let ___symbol = (___start, ___Symbol::Variant90(___nt), ___end);
-(2, ___symbol, 149)
+___symbols.push((___start, ___Symbol::Variant90(___nt), ___end));
+(2, 149)
 }
 pub(crate) fn ___reduce448<
     'input,
@@ -18664,7 +18663,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Top = "StartTypeRef", TypeRef => ActionFn(4);
 let ___sym1 = ___pop_Variant3(___symbols);
@@ -18672,8 +18671,8 @@ let ___sym0 = ___pop_Variant0(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym1.2.clone();
 let ___nt = super::___action4::<>(text, ___sym0, ___sym1);
-let ___symbol = (___start, ___Symbol::Variant90(___nt), ___end);
-(2, ___symbol, 149)
+___symbols.push((___start, ___Symbol::Variant90(___nt), ___end));
+(2, 149)
 }
 pub(crate) fn ___reduce449<
     'input,
@@ -18684,7 +18683,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Top = "StartGrammarWhereClauses", GrammarWhereClauses => ActionFn(5);
 let ___sym1 = ___pop_Variant52(___symbols);
@@ -18692,8 +18691,8 @@ let ___sym0 = ___pop_Variant0(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym1.2.clone();
 let ___nt = super::___action5::<>(text, ___sym0, ___sym1);
-let ___symbol = (___start, ___Symbol::Variant90(___nt), ___end);
-(2, ___symbol, 149)
+___symbols.push((___start, ___Symbol::Variant90(___nt), ___end));
+(2, 149)
 }
 pub(crate) fn ___reduce450<
     'input,
@@ -18704,15 +18703,15 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // TypeBound = Lifetime => ActionFn(16);
 let ___sym0 = ___pop_Variant22(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym0.2.clone();
 let ___nt = super::___action16::<>(text, ___sym0);
-let ___symbol = (___start, ___Symbol::Variant32(___nt), ___end);
-(1, ___symbol, 150)
+___symbols.push((___start, ___Symbol::Variant32(___nt), ___end));
+(1, 150)
 }
 pub(crate) fn ___reduce451<
     'input,
@@ -18723,7 +18722,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // TypeBound = ForAll, Path, "(", Comma<TypeRef>, ")", "->", TypeRef => ActionFn(302);
 let ___sym6 = ___pop_Variant3(___symbols);
@@ -18736,8 +18735,8 @@ let ___sym0 = ___pop_Variant57(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym6.2.clone();
 let ___nt = super::___action302::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4, ___sym5, ___sym6);
-let ___symbol = (___start, ___Symbol::Variant32(___nt), ___end);
-(7, ___symbol, 150)
+___symbols.push((___start, ___Symbol::Variant32(___nt), ___end));
+(7, 150)
 }
 pub(crate) fn ___reduce452<
     'input,
@@ -18748,7 +18747,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // TypeBound = ForAll, Path, "(", Comma<TypeRef>, ")" => ActionFn(303);
 let ___sym4 = ___pop_Variant0(___symbols);
@@ -18759,8 +18758,8 @@ let ___sym0 = ___pop_Variant57(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym4.2.clone();
 let ___nt = super::___action303::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4);
-let ___symbol = (___start, ___Symbol::Variant32(___nt), ___end);
-(5, ___symbol, 150)
+___symbols.push((___start, ___Symbol::Variant32(___nt), ___end));
+(5, 150)
 }
 pub(crate) fn ___reduce453<
     'input,
@@ -18771,7 +18770,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // TypeBound = ForAll, Path, "<", Comma<TypeBoundParameter>, ">" => ActionFn(308);
 let ___sym4 = ___pop_Variant0(___symbols);
@@ -18782,8 +18781,8 @@ let ___sym0 = ___pop_Variant57(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym4.2.clone();
 let ___nt = super::___action308::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4);
-let ___symbol = (___start, ___Symbol::Variant32(___nt), ___end);
-(5, ___symbol, 150)
+___symbols.push((___start, ___Symbol::Variant32(___nt), ___end));
+(5, 150)
 }
 pub(crate) fn ___reduce454<
     'input,
@@ -18794,7 +18793,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // TypeBound = ForAll, Path => ActionFn(309);
 let ___sym1 = ___pop_Variant80(___symbols);
@@ -18802,8 +18801,8 @@ let ___sym0 = ___pop_Variant57(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym1.2.clone();
 let ___nt = super::___action309::<>(text, ___sym0, ___sym1);
-let ___symbol = (___start, ___Symbol::Variant32(___nt), ___end);
-(2, ___symbol, 150)
+___symbols.push((___start, ___Symbol::Variant32(___nt), ___end));
+(2, 150)
 }
 pub(crate) fn ___reduce455<
     'input,
@@ -18814,15 +18813,15 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // TypeBound? = TypeBound => ActionFn(206);
 let ___sym0 = ___pop_Variant32(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym0.2.clone();
 let ___nt = super::___action206::<>(text, ___sym0);
-let ___symbol = (___start, ___Symbol::Variant91(___nt), ___end);
-(1, ___symbol, 151)
+___symbols.push((___start, ___Symbol::Variant91(___nt), ___end));
+(1, 151)
 }
 pub(crate) fn ___reduce456<
     'input,
@@ -18833,14 +18832,14 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // TypeBound? =  => ActionFn(207);
 let ___start = ___symbols.last().map(|s| s.2.clone()).unwrap_or_default();
 let ___end = ___lookahead_start.cloned().unwrap_or_else(|| ___start.clone());
 let ___nt = super::___action207::<>(text, &___start, &___end);
-let ___symbol = (___start, ___Symbol::Variant91(___nt), ___end);
-(0, ___symbol, 151)
+___symbols.push((___start, ___Symbol::Variant91(___nt), ___end));
+(0, 151)
 }
 pub(crate) fn ___reduce457<
     'input,
@@ -18851,15 +18850,15 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // TypeBoundParameter = Lifetime => ActionFn(19);
 let ___sym0 = ___pop_Variant22(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym0.2.clone();
 let ___nt = super::___action19::<>(text, ___sym0);
-let ___symbol = (___start, ___Symbol::Variant34(___nt), ___end);
-(1, ___symbol, 152)
+___symbols.push((___start, ___Symbol::Variant34(___nt), ___end));
+(1, 152)
 }
 pub(crate) fn ___reduce458<
     'input,
@@ -18870,15 +18869,15 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // TypeBoundParameter = TypeRef => ActionFn(20);
 let ___sym0 = ___pop_Variant3(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym0.2.clone();
 let ___nt = super::___action20::<>(text, ___sym0);
-let ___symbol = (___start, ___Symbol::Variant34(___nt), ___end);
-(1, ___symbol, 152)
+___symbols.push((___start, ___Symbol::Variant34(___nt), ___end));
+(1, 152)
 }
 pub(crate) fn ___reduce459<
     'input,
@@ -18889,7 +18888,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // TypeBoundParameter = Id, "=", TypeRef => ActionFn(21);
 let ___sym2 = ___pop_Variant3(___symbols);
@@ -18898,8 +18897,8 @@ let ___sym0 = ___pop_Variant20(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym2.2.clone();
 let ___nt = super::___action21::<>(text, ___sym0, ___sym1, ___sym2);
-let ___symbol = (___start, ___Symbol::Variant34(___nt), ___end);
-(3, ___symbol, 152)
+___symbols.push((___start, ___Symbol::Variant34(___nt), ___end));
+(3, 152)
 }
 pub(crate) fn ___reduce460<
     'input,
@@ -18910,15 +18909,15 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // TypeBoundParameter? = TypeBoundParameter => ActionFn(216);
 let ___sym0 = ___pop_Variant34(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym0.2.clone();
 let ___nt = super::___action216::<>(text, ___sym0);
-let ___symbol = (___start, ___Symbol::Variant92(___nt), ___end);
-(1, ___symbol, 153)
+___symbols.push((___start, ___Symbol::Variant92(___nt), ___end));
+(1, 153)
 }
 pub(crate) fn ___reduce461<
     'input,
@@ -18929,14 +18928,14 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // TypeBoundParameter? =  => ActionFn(217);
 let ___start = ___symbols.last().map(|s| s.2.clone()).unwrap_or_default();
 let ___end = ___lookahead_start.cloned().unwrap_or_else(|| ___start.clone());
 let ___nt = super::___action217::<>(text, &___start, &___end);
-let ___symbol = (___start, ___Symbol::Variant92(___nt), ___end);
-(0, ___symbol, 153)
+___symbols.push((___start, ___Symbol::Variant92(___nt), ___end));
+(0, 153)
 }
 pub(crate) fn ___reduce462<
     'input,
@@ -18947,15 +18946,15 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // TypeBounds = Plus<TypeBound> => ActionFn(15);
 let ___sym0 = ___pop_Variant84(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym0.2.clone();
 let ___nt = super::___action15::<>(text, ___sym0);
-let ___symbol = (___start, ___Symbol::Variant84(___nt), ___end);
-(1, ___symbol, 154)
+___symbols.push((___start, ___Symbol::Variant84(___nt), ___end));
+(1, 154)
 }
 pub(crate) fn ___reduce463<
     'input,
@@ -18966,15 +18965,15 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // TypeParameter = Lifetime => ActionFn(8);
 let ___sym0 = ___pop_Variant22(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym0.2.clone();
 let ___nt = super::___action8::<>(text, ___sym0);
-let ___symbol = (___start, ___Symbol::Variant36(___nt), ___end);
-(1, ___symbol, 155)
+___symbols.push((___start, ___Symbol::Variant36(___nt), ___end));
+(1, 155)
 }
 pub(crate) fn ___reduce464<
     'input,
@@ -18985,15 +18984,15 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // TypeParameter = Id => ActionFn(9);
 let ___sym0 = ___pop_Variant20(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym0.2.clone();
 let ___nt = super::___action9::<>(text, ___sym0);
-let ___symbol = (___start, ___Symbol::Variant36(___nt), ___end);
-(1, ___symbol, 155)
+___symbols.push((___start, ___Symbol::Variant36(___nt), ___end));
+(1, 155)
 }
 pub(crate) fn ___reduce465<
     'input,
@@ -19004,15 +19003,15 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // TypeParameter? = TypeParameter => ActionFn(193);
 let ___sym0 = ___pop_Variant36(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym0.2.clone();
 let ___nt = super::___action193::<>(text, ___sym0);
-let ___symbol = (___start, ___Symbol::Variant93(___nt), ___end);
-(1, ___symbol, 156)
+___symbols.push((___start, ___Symbol::Variant93(___nt), ___end));
+(1, 156)
 }
 pub(crate) fn ___reduce466<
     'input,
@@ -19023,14 +19022,14 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // TypeParameter? =  => ActionFn(194);
 let ___start = ___symbols.last().map(|s| s.2.clone()).unwrap_or_default();
 let ___end = ___lookahead_start.cloned().unwrap_or_else(|| ___start.clone());
 let ___nt = super::___action194::<>(text, &___start, &___end);
-let ___symbol = (___start, ___Symbol::Variant93(___nt), ___end);
-(0, ___symbol, 156)
+___symbols.push((___start, ___Symbol::Variant93(___nt), ___end));
+(0, 156)
 }
 pub(crate) fn ___reduce467<
     'input,
@@ -19041,7 +19040,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // TypeRef = "(", Comma<TypeRef>, ")" => ActionFn(69);
 let ___sym2 = ___pop_Variant0(___symbols);
@@ -19050,8 +19049,8 @@ let ___sym0 = ___pop_Variant0(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym2.2.clone();
 let ___nt = super::___action69::<>(text, ___sym0, ___sym1, ___sym2);
-let ___symbol = (___start, ___Symbol::Variant3(___nt), ___end);
-(3, ___symbol, 157)
+___symbols.push((___start, ___Symbol::Variant3(___nt), ___end));
+(3, 157)
 }
 pub(crate) fn ___reduce468<
     'input,
@@ -19062,7 +19061,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // TypeRef = "#", Symbol, "#" => ActionFn(70);
 let ___sym2 = ___pop_Variant0(___symbols);
@@ -19071,8 +19070,8 @@ let ___sym0 = ___pop_Variant0(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym2.2.clone();
 let ___nt = super::___action70::<>(text, ___sym0, ___sym1, ___sym2);
-let ___symbol = (___start, ___Symbol::Variant3(___nt), ___end);
-(3, ___symbol, 157)
+___symbols.push((___start, ___Symbol::Variant3(___nt), ___end));
+(3, 157)
 }
 pub(crate) fn ___reduce469<
     'input,
@@ -19083,7 +19082,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // TypeRef = "&", Lifetime, "mut", TypeRef => ActionFn(535);
 let ___sym3 = ___pop_Variant3(___symbols);
@@ -19093,8 +19092,8 @@ let ___sym0 = ___pop_Variant0(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym3.2.clone();
 let ___nt = super::___action535::<>(text, ___sym0, ___sym1, ___sym2, ___sym3);
-let ___symbol = (___start, ___Symbol::Variant3(___nt), ___end);
-(4, ___symbol, 157)
+___symbols.push((___start, ___Symbol::Variant3(___nt), ___end));
+(4, 157)
 }
 pub(crate) fn ___reduce470<
     'input,
@@ -19105,7 +19104,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // TypeRef = "&", "mut", TypeRef => ActionFn(536);
 let ___sym2 = ___pop_Variant3(___symbols);
@@ -19114,8 +19113,8 @@ let ___sym0 = ___pop_Variant0(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym2.2.clone();
 let ___nt = super::___action536::<>(text, ___sym0, ___sym1, ___sym2);
-let ___symbol = (___start, ___Symbol::Variant3(___nt), ___end);
-(3, ___symbol, 157)
+___symbols.push((___start, ___Symbol::Variant3(___nt), ___end));
+(3, 157)
 }
 pub(crate) fn ___reduce471<
     'input,
@@ -19126,7 +19125,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // TypeRef = "&", Lifetime, TypeRef => ActionFn(537);
 let ___sym2 = ___pop_Variant3(___symbols);
@@ -19135,8 +19134,8 @@ let ___sym0 = ___pop_Variant0(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym2.2.clone();
 let ___nt = super::___action537::<>(text, ___sym0, ___sym1, ___sym2);
-let ___symbol = (___start, ___Symbol::Variant3(___nt), ___end);
-(3, ___symbol, 157)
+___symbols.push((___start, ___Symbol::Variant3(___nt), ___end));
+(3, 157)
 }
 pub(crate) fn ___reduce472<
     'input,
@@ -19147,7 +19146,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // TypeRef = "&", TypeRef => ActionFn(538);
 let ___sym1 = ___pop_Variant3(___symbols);
@@ -19155,8 +19154,8 @@ let ___sym0 = ___pop_Variant0(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym1.2.clone();
 let ___nt = super::___action538::<>(text, ___sym0, ___sym1);
-let ___symbol = (___start, ___Symbol::Variant3(___nt), ___end);
-(2, ___symbol, 157)
+___symbols.push((___start, ___Symbol::Variant3(___nt), ___end));
+(2, 157)
 }
 pub(crate) fn ___reduce473<
     'input,
@@ -19167,7 +19166,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // TypeRef = Path, "<", Comma<TypeRefOrLifetime>, ">" => ActionFn(72);
 let ___sym3 = ___pop_Variant0(___symbols);
@@ -19177,8 +19176,8 @@ let ___sym0 = ___pop_Variant80(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym3.2.clone();
 let ___nt = super::___action72::<>(text, ___sym0, ___sym1, ___sym2, ___sym3);
-let ___symbol = (___start, ___Symbol::Variant3(___nt), ___end);
-(4, ___symbol, 157)
+___symbols.push((___start, ___Symbol::Variant3(___nt), ___end));
+(4, 157)
 }
 pub(crate) fn ___reduce474<
     'input,
@@ -19189,15 +19188,15 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // TypeRef = Path => ActionFn(73);
 let ___sym0 = ___pop_Variant80(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym0.2.clone();
 let ___nt = super::___action73::<>(text, ___sym0);
-let ___symbol = (___start, ___Symbol::Variant3(___nt), ___end);
-(1, ___symbol, 157)
+___symbols.push((___start, ___Symbol::Variant3(___nt), ___end));
+(1, 157)
 }
 pub(crate) fn ___reduce475<
     'input,
@@ -19208,15 +19207,15 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // TypeRef? = TypeRef => ActionFn(211);
 let ___sym0 = ___pop_Variant3(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym0.2.clone();
 let ___nt = super::___action211::<>(text, ___sym0);
-let ___symbol = (___start, ___Symbol::Variant4(___nt), ___end);
-(1, ___symbol, 158)
+___symbols.push((___start, ___Symbol::Variant4(___nt), ___end));
+(1, 158)
 }
 pub(crate) fn ___reduce476<
     'input,
@@ -19227,14 +19226,14 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // TypeRef? =  => ActionFn(212);
 let ___start = ___symbols.last().map(|s| s.2.clone()).unwrap_or_default();
 let ___end = ___lookahead_start.cloned().unwrap_or_else(|| ___start.clone());
 let ___nt = super::___action212::<>(text, &___start, &___end);
-let ___symbol = (___start, ___Symbol::Variant4(___nt), ___end);
-(0, ___symbol, 158)
+___symbols.push((___start, ___Symbol::Variant4(___nt), ___end));
+(0, 158)
 }
 pub(crate) fn ___reduce477<
     'input,
@@ -19245,15 +19244,15 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // TypeRefOrLifetime = TypeRef => ActionFn(74);
 let ___sym0 = ___pop_Variant3(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym0.2.clone();
 let ___nt = super::___action74::<>(text, ___sym0);
-let ___symbol = (___start, ___Symbol::Variant3(___nt), ___end);
-(1, ___symbol, 159)
+___symbols.push((___start, ___Symbol::Variant3(___nt), ___end));
+(1, 159)
 }
 pub(crate) fn ___reduce478<
     'input,
@@ -19264,15 +19263,15 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // TypeRefOrLifetime = Lifetime => ActionFn(75);
 let ___sym0 = ___pop_Variant22(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym0.2.clone();
 let ___nt = super::___action75::<>(text, ___sym0);
-let ___symbol = (___start, ___Symbol::Variant3(___nt), ___end);
-(1, ___symbol, 159)
+___symbols.push((___start, ___Symbol::Variant3(___nt), ___end));
+(1, 159)
 }
 pub(crate) fn ___reduce479<
     'input,
@@ -19283,15 +19282,15 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // TypeRefOrLifetime? = TypeRefOrLifetime => ActionFn(241);
 let ___sym0 = ___pop_Variant3(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym0.2.clone();
 let ___nt = super::___action241::<>(text, ___sym0);
-let ___symbol = (___start, ___Symbol::Variant4(___nt), ___end);
-(1, ___symbol, 160)
+___symbols.push((___start, ___Symbol::Variant4(___nt), ___end));
+(1, 160)
 }
 pub(crate) fn ___reduce480<
     'input,
@@ -19302,14 +19301,14 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // TypeRefOrLifetime? =  => ActionFn(242);
 let ___start = ___symbols.last().map(|s| s.2.clone()).unwrap_or_default();
 let ___end = ___lookahead_start.cloned().unwrap_or_else(|| ___start.clone());
 let ___nt = super::___action242::<>(text, &___start, &___end);
-let ___symbol = (___start, ___Symbol::Variant4(___nt), ___end);
-(0, ___symbol, 160)
+___symbols.push((___start, ___Symbol::Variant4(___nt), ___end));
+(0, 160)
 }
 pub(crate) fn ___reduce481<
     'input,
@@ -19320,7 +19319,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Use = "use", ";" => ActionFn(28);
 let ___sym1 = ___pop_Variant0(___symbols);
@@ -19328,8 +19327,8 @@ let ___sym0 = ___pop_Variant1(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym1.2.clone();
 let ___nt = super::___action28::<>(text, ___sym0, ___sym1);
-let ___symbol = (___start, ___Symbol::Variant63(___nt), ___end);
-(2, ___symbol, 161)
+___symbols.push((___start, ___Symbol::Variant63(___nt), ___end));
+(2, 161)
 }
 pub(crate) fn ___reduce482<
     'input,
@@ -19340,14 +19339,14 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Use* =  => ActionFn(181);
 let ___start = ___symbols.last().map(|s| s.2.clone()).unwrap_or_default();
 let ___end = ___lookahead_start.cloned().unwrap_or_else(|| ___start.clone());
 let ___nt = super::___action181::<>(text, &___start, &___end);
-let ___symbol = (___start, ___Symbol::Variant66(___nt), ___end);
-(0, ___symbol, 162)
+___symbols.push((___start, ___Symbol::Variant66(___nt), ___end));
+(0, 162)
 }
 pub(crate) fn ___reduce483<
     'input,
@@ -19358,15 +19357,15 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Use* = Use+ => ActionFn(182);
 let ___sym0 = ___pop_Variant66(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym0.2.clone();
 let ___nt = super::___action182::<>(text, ___sym0);
-let ___symbol = (___start, ___Symbol::Variant66(___nt), ___end);
-(1, ___symbol, 162)
+___symbols.push((___start, ___Symbol::Variant66(___nt), ___end));
+(1, 162)
 }
 pub(crate) fn ___reduce484<
     'input,
@@ -19377,15 +19376,15 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Use+ = Use => ActionFn(187);
 let ___sym0 = ___pop_Variant63(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym0.2.clone();
 let ___nt = super::___action187::<>(text, ___sym0);
-let ___symbol = (___start, ___Symbol::Variant66(___nt), ___end);
-(1, ___symbol, 163)
+___symbols.push((___start, ___Symbol::Variant66(___nt), ___end));
+(1, 163)
 }
 pub(crate) fn ___reduce485<
     'input,
@@ -19396,7 +19395,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Use+ = Use+, Use => ActionFn(188);
 let ___sym1 = ___pop_Variant63(___symbols);
@@ -19404,8 +19403,8 @@ let ___sym0 = ___pop_Variant66(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym1.2.clone();
 let ___nt = super::___action188::<>(text, ___sym0, ___sym1);
-let ___symbol = (___start, ___Symbol::Variant66(___nt), ___end);
-(2, ___symbol, 163)
+___symbols.push((___start, ___Symbol::Variant66(___nt), ___end));
+(2, 163)
 }
 pub(crate) fn ___reduce486<
     'input,
@@ -19416,7 +19415,7 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Visibility = "pub", "(", Path, ")" => ActionFn(29);
 let ___sym3 = ___pop_Variant0(___symbols);
@@ -19426,8 +19425,8 @@ let ___sym0 = ___pop_Variant0(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym3.2.clone();
 let ___nt = super::___action29::<>(text, ___sym0, ___sym1, ___sym2, ___sym3);
-let ___symbol = (___start, ___Symbol::Variant94(___nt), ___end);
-(4, ___symbol, 164)
+___symbols.push((___start, ___Symbol::Variant94(___nt), ___end));
+(4, 164)
 }
 pub(crate) fn ___reduce487<
     'input,
@@ -19438,15 +19437,15 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Visibility = "pub" => ActionFn(30);
 let ___sym0 = ___pop_Variant0(___symbols);
 let ___start = ___sym0.0.clone();
 let ___end = ___sym0.2.clone();
 let ___nt = super::___action30::<>(text, ___sym0);
-let ___symbol = (___start, ___Symbol::Variant94(___nt), ___end);
-(1, ___symbol, 164)
+___symbols.push((___start, ___Symbol::Variant94(___nt), ___end));
+(1, 164)
 }
 pub(crate) fn ___reduce488<
     'input,
@@ -19457,14 +19456,14 @@ ___lookahead_start: Option<&usize>,
 ___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
-) -> (usize, (usize,___Symbol<'input>,usize), usize)
+) -> (usize, usize)
 {
 // Visibility =  => ActionFn(316);
 let ___start = ___symbols.last().map(|s| s.2.clone()).unwrap_or_default();
 let ___end = ___lookahead_start.cloned().unwrap_or_else(|| ___start.clone());
 let ___nt = super::___action316::<>(text, &___start, &___end);
-let ___symbol = (___start, ___Symbol::Variant94(___nt), ___end);
-(0, ___symbol, 164)
+___symbols.push((___start, ___Symbol::Variant94(___nt), ___end));
+(0, 164)
 }
 }
 pub use self::___parse___Top::TopParser;
