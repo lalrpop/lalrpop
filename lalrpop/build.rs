@@ -13,7 +13,9 @@ fn main() {
 
 fn find_lalrpop_binary(prefix: &str) -> Option<PathBuf> {
     let lalrpop_path = Path::new(prefix)
-        .join("target/debug/lalrpop")
+        .join("target")
+        .join(env::var("PROFILE").unwrap())
+        .join("lalrpop")
         .with_extension(env::consts::EXE_EXTENSION);
     if lalrpop_path.exists() {
         Some(lalrpop_path)
@@ -31,7 +33,13 @@ fn main_() -> Result<(), Box<Error>> {
     fs::create_dir_all(out_dir.join("src/parser"))?;
 
     if env::var("CARGO_FEATURE_TEST").is_ok() {
-        let lalrpop_path = find_lalrpop_binary("..").or_else(|| find_lalrpop_binary(".")).expect("Can't find a lalrpop binary to use for the snapshot. Make sure it is built and exists at target/debug/lalrpop!");
+        let lalrpop_path = find_lalrpop_binary("..").or_else(|| find_lalrpop_binary("."))
+            .unwrap_or_else(|| {
+                panic!(
+                    "Can't find a lalrpop binary to use for the snapshot. Make sure it is built and exists at target/{}/lalrpop!", 
+                    env::var("PROFILE").unwrap()
+                )
+            });
 
         let copied_grammar = out_dir.join("src/parser/lrgrammar.lalrpop");
         fs::copy(grammar_file, &copied_grammar)
