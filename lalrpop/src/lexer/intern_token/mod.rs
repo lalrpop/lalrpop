@@ -176,7 +176,7 @@ pub fn compile<W: Write>(
 
     // start by trimming whitespace from left
     rust!(out, "#[allow(deprecated)]");
-    rust!(out, "let {}text = self.text.trim_left();", prefix);
+    rust!(out, "let {}text = self.text.trim_start();", prefix);
     rust!(
         out,
         "let {}whitespace = self.text.len() - {}text.len();",
