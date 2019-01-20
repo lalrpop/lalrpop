@@ -1,3 +1,18 @@
+<a name="0.16.3"></a>
+## 0.16.3 (2019-01-20)
+
+
+#### Performance
+
+*   Avoid some memcpying in reductions ([4968e5a6](https://github.com/lalrpop/lalrpop/commit/4968e5a60822a14a190974668bcf194129358acf))
+
+#### Bug Fixes
+
+*   Allow the deprecated use of trim_left ([bdd65184](https://github.com/lalrpop/lalrpop/commit/bdd65184e539bdeca47f8bae031160f5e51b3375), closes [#428](https://github.com/lalrpop/lalrpop/issues/428))
+*   Don't make generated files read-only ([0c67bbed](https://github.com/lalrpop/lalrpop/commit/0c67bbed06cdd86da0264d21a9aa0a86ab88adad))
+
+
+
 <a name="0.16.2"></a>
 # Version 0.16.2 (2018-11-22)
 
