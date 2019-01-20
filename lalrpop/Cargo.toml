@@ -21,8 +21,8 @@ atty = "0.2"
 bit-set = "0.5"
 diff = "0.1.9"
 docopt = "1"
-ena = "0.10"
-itertools = "0.7"
+ena = "0.11"
+itertools = "0.8"
 regex = "1"
 regex-syntax = "0.6.0"
 petgraph = "0.4.13"
@@ -34,7 +34,7 @@ unicode-xid = "0.1"
 sha2 = "0.8.0"
 
 [dev-dependencies]
-rand = "0.5"
+rand = "0.6"
 
 [dependencies.lalrpop-util]
 path = "../lalrpop-util"

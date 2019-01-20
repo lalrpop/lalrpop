@@ -28,7 +28,7 @@ pub fn random_parse_tree(grammar: &Grammar, symbol: NonterminalString) -> ParseT
 
 struct Generator<'grammar> {
     grammar: &'grammar Grammar,
-    rng: rand::ThreadRng,
+    rng: rand::rngs::ThreadRng,
     depth: u32,
 }
 

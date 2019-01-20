@@ -31,3 +31,5 @@ perl -p -i -e 's/version *= *"'$VERSION'"/version = "'$1'"/' \
 
 perl -p -i -e 's/^lalrpop([\-a-z]*) *= *"[0-9.]+"/lalrpop\1 = "'$1'"/' \
     doc/src/quick_start_guide.md doc/src/tutorial/001_adding_lalrpop.md
+
+./snap.sh
