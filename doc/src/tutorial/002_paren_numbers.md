@@ -130,3 +130,4 @@ fn parse<'input>(&self, input: &'input str)
 ```
 
 [calculator1]: calculator/src/calculator1.lalrpop
+[main]: calculator/src/main.rs
