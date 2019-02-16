@@ -94,6 +94,23 @@ impl<L, T, E> ParseError<L, T, E> {
     }
 }
 
+/// Format a list of expected tokens.
+fn fmt_expected(f: &mut fmt::Formatter, expected: &[String]) -> fmt::Result {
+    if !expected.is_empty() {
+        try!(writeln!(f, ""));
+        for (i, e) in expected.iter().enumerate() {
+            let sep = match i {
+                0 => "Expected one of",
+                _ if i < expected.len() - 1 => ",",
+                // Last expected message to be written
+                _ => " or",
+            };
+            try!(write!(f, "{} {}", sep, e));
+        }
+    }
+    Ok(())
+}
+
 impl<L, T, E> fmt::Display for ParseError<L, T, E>
 where
     L: fmt::Display,
@@ -103,50 +120,19 @@ where
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         use self::ParseError::*;
         match *self {
+            User { ref error } => write!(f, "{}", error),
             InvalidToken { ref location } => write!(f, "Invalid token at {}", location),
             UnrecognizedEOF { ref location, ref expected } => {
                 try!(write!(f, "Unrecognized EOF found at {}", location));
-                if !expected.is_empty() {
-                    try!(writeln!(f, ""));
-                    for (i, e) in expected.iter().enumerate() {
-                        let sep = match i {
-                            0 => "Expected one of",
-                            _ if i < expected.len() - 1 => ",",
-                            // Last expected message to be written
-                            _ => " or",
-                        };
-                        try!(write!(f, "{} {}", sep, e));
-                    }
-                }
-                Ok(())
+                fmt_expected(f, expected)
             }
-            UnrecognizedToken {
-                ref token,
-                ref expected,
-            } => {
-                try!(write!(
-                    f,
-                    "Unrecognized token `{}` found at {}:{}",
-                    token.1, token.0, token.2,
-                ));
-                if !expected.is_empty() {
-                    try!(writeln!(f, ""));
-                    for (i, e) in expected.iter().enumerate() {
-                        let sep = match i {
-                            0 => "Expected one of",
-                            _ if i < expected.len() - 1 => ",",
-                            // Last expected message to be written
-                            _ => " or",
-                        };
-                        try!(write!(f, "{} {}", sep, e));
-                    }
-                }
-                Ok(())
+            UnrecognizedToken { token: (ref start, ref token, ref end), ref expected } => {
+                try!(write!(f, "Unrecognized token `{}` found at {}:{}", token, start, end));
+                fmt_expected(f, expected)
             }
-            ExtraToken {
-                token: (ref start, ref token, ref end),
-            } => write!(f, "Extra token {} found at {}:{}", token, start, end),
-            User { ref error } => write!(f, "{}", error),
+            ExtraToken { token: (ref start, ref token, ref end), } => {
+                write!(f, "Extra token {} found at {}:{}", token, start, end)
+            }
         }
     }
 }
