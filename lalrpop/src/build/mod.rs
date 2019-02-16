@@ -206,20 +206,19 @@ fn parse_and_normalize_grammar(session: &Session, file_text: &FileText) -> io::R
             );
         }
 
-        Err(ParseError::UnrecognizedToken {
-            token: None,
+        Err(ParseError::UnrecognizedEOF {
+            location,
             expected: _,
         }) => {
-            let len = file_text.text().len();
             report_error(
                 &file_text,
-                pt::Span(len, len),
+                pt::Span(location, location),
                 &format!("unexpected end of file"),
             );
         }
 
         Err(ParseError::UnrecognizedToken {
-            token: Some((lo, _, hi)),
+            token: (lo, _, hi),
             expected,
         }) => {
             let _ = expected; // didn't implement this yet :)
