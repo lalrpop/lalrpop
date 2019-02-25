@@ -85,8 +85,6 @@ impl<'grammar> Validator<'grammar> {
                                     || item_idx != &match_contents.items.len() - 1)
                             {
                                 return_err!(item.span(), "Catch all must be final item");
-                            } else {
-                                println!("ok");
                             }
                         }
                     }
