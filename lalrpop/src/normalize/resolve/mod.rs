@@ -234,8 +234,8 @@ impl Validator {
                     Def::Nonterminal(0) | Def::Terminal | Def::MacroArg => return_err!(
                         symbol.span,
                         "`{}` is a {}, not a macro",
-                        def.description(),
-                        msym.name
+                        msym.name,
+                        def.description()
                     ),
                     Def::Nonterminal(arity) => {
                         if arity != msym.args.len() {
