@@ -41,6 +41,7 @@ to! Here are some tips:
 
 - [LALRPOP] is itself implemented in LALRPOP.
 - [Gluon] is a statically typed functional programming language.
+- [Gleam](https://github.com/lpil/gleam/blob/master/gleam/src/grammar.lalrpop) is a statically typed functional programming language for the Erlang VM.
 
 [The LALRPOP book]: http://lalrpop.github.io/lalrpop/
 [quick start guide]: http://lalrpop.github.io/lalrpop/quick_start_guide.html
