@@ -307,7 +307,7 @@ pub Term = {
 In fact, the match declaration can map a regular expression to any
 kind of symbol you want (i.e., you can also map to a string literal or
 even a regular expression). Whatever symbol appears after the `=>` is
-what you should use in your grammar. As an example, in some languages
+what you should use in your grammar. As an example, some languages
 have case-insensitive keywords; if you wanted to write `"BEGIN"` in the
 grammar itself, but have that map to a regular expression in the lexer, you might write:
 
