@@ -74,7 +74,7 @@ pub fn compile<W: Write>(
     rust!(out, "impl<'a> {}fmt::Display for Token<'a> {{", prefix);
     rust!(
         out,
-        "fn fmt(&self, formatter: &mut {}fmt::Formatter) -> Result<(), {}fmt::Error> {{",
+        "fn fmt<'f>(&self, formatter: &mut {}fmt::Formatter<'f>) -> Result<(), {}fmt::Error> {{",
         prefix,
         prefix
     );
