@@ -32,7 +32,7 @@ an "optionally parse an `Expr` followed by a comma". Note the angle
 brackets around `Expr`: these ensures that the value of the `(<Expr>
 ",")` is the value of the expression, and not a tuple of the
 expression and the comma. This means that `(<Expr> ",")?` would have
-the type type `Option<Box<Expr>>` (and not `Option<(Box<Expr>, &'input
+the type `Option<Box<Expr>>` (and not `Option<(Box<Expr>, &'input
 str)>`).
 
 Using these operations we can define `Exprs` in terms of a macro
