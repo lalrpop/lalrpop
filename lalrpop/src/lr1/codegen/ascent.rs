@@ -374,20 +374,38 @@ impl<'ascent, 'grammar, W: Write>
                 .iter()
                 .any(|&(ref t, _)| t.contains(&Token::Terminal(terminal.clone())))
         });
-        rust!(
-            self.out,
-            "return Err({}lalrpop_util::ParseError::UnrecognizedToken {{",
-            self.prefix
-        );
-        rust!(self.out, "token: {}lookahead,", self.prefix);
-        rust!(self.out, "expected: vec![");
+
+        rust!(self.out, "let {}expected = vec![", self.prefix);
         for terminal in successful_terminals {
             rust!(self.out, "r###\"{}\"###.to_string(),", terminal);
         }
-        rust!(self.out, "]");
-        rust!(self.out, "}});");
-        rust!(self.out, "}}");
+        rust!(self.out, "];");
 
+        // Check if we've reached EOF
+        rust!(self.out, "return Err(match {}lookahead {{", self.prefix);
+
+        rust!(self.out, "Some({}token) => {{", self.prefix);
+        rust!(self.out, "{}lalrpop_util::ParseError::UnrecognizedToken {{", self.prefix);
+        rust!(self.out, "token: {}token,", self.prefix);
+        rust!(self.out, "expected: {}expected,", self.prefix);
+        rust!(self.out, "}}");
+        rust!(self.out, "}}"); // Some case
+
+        rust!(self.out, "None => {{");
+        if inputs.fixed().len() > 0 {
+            rust!(self.out, "let {}location = {}sym{}.2.clone();", self.prefix, self.prefix, inputs.len() - 1);
+        } else {
+            rust!(self.out, "let {}location = Default::default();", self.prefix);
+        }
+        rust!(self.out, "{}lalrpop_util::ParseError::UnrecognizedEOF {{", self.prefix);
+        rust!(self.out, "location: {}location,", self.prefix);
+        rust!(self.out, "expected: {}expected,", self.prefix);
+        rust!(self.out, "}}");
+        rust!(self.out, "}}"); // None case
+
+        rust!(self.out, "}})"); // Error match
+
+        rust!(self.out, "}}"); // Wildcard match case
         rust!(self.out, "}}"); // match
 
         // finally, emit gotos (if relevant)
