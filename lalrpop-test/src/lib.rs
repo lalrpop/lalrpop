@@ -483,8 +483,8 @@ fn error_recovery_eof() {
     assert_eq!(
         errors.borrow()[0],
         ErrorRecovery {
-            error: ParseError::UnrecognizedToken {
-                token: None,
+            error: ParseError::UnrecognizedEOF {
+                location: (),
                 expected: vec!["\"-\"".to_string()],
             },
             dropped_tokens: vec![],
@@ -499,8 +499,8 @@ fn error_recovery_eof_without_recovery() {
     let result = error_recovery::ItemParser::new().parse(&errors, tokens);
     assert_eq!(
         result,
-        Err(ParseError::UnrecognizedToken {
-            token: None,
+        Err(ParseError::UnrecognizedEOF {
+            location: (),
             expected: vec!["\"-\"".to_string()],
         })
     );
