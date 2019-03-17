@@ -520,7 +520,7 @@ fn error_recovery_extra_token() {
         errors.borrow()[0],
         ErrorRecovery {
             error: ParseError::UnrecognizedToken {
-                token: Some(((), Tok::Plus, ())),
+                token: ((), Tok::Plus, ()),
                 expected: vec!["\")\"".to_string()],
             },
             dropped_tokens: vec![((), Tok::Plus, ())],
@@ -542,7 +542,7 @@ fn error_recovery_dont_drop_unrecognized_token() {
         errors.borrow()[0],
         ErrorRecovery {
             error: ParseError::UnrecognizedToken {
-                token: Some(((), Tok::RParen, ())),
+                token: ((), Tok::RParen, ()),
                 expected: vec!["\"-\"".to_string()],
             },
             dropped_tokens: vec![],
@@ -564,7 +564,7 @@ fn error_recovery_multiple_extra_tokens() {
         errors.borrow()[0],
         ErrorRecovery {
             error: ParseError::UnrecognizedToken {
-                token: Some(((), Tok::Plus, ())),
+                token: ((), Tok::Plus, ()),
                 expected: vec!["\")\"".to_string()],
             },
             dropped_tokens: vec![((), Tok::Plus, ()), ((), Tok::Plus, ())],
@@ -615,7 +615,7 @@ fn error_recovery_issue_240() {
         errors,
         vec![ErrorRecovery {
             error: ParseError::UnrecognizedToken {
-                token: Some((6, Tok::Div, 7)),
+                token: (6, Tok::Div, 7),
                 expected: vec!["\")\"".to_string()],
             },
             dropped_tokens: vec![(6, Tok::Div, 7)],
