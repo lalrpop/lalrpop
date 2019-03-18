@@ -384,13 +384,12 @@ impl<'ascent, 'grammar, W: Write>
         // Check if we've reached EOF
         rust!(self.out, "return Err(match {}lookahead {{", self.prefix);
 
-        rust!(self.out, "(Some({}token)) => {{", self.prefix);
+        rust!(self.out, "Some({}token) => {{", self.prefix);
         rust!(self.out, "{}lalrpop_util::ParseError::UnrecognizedToken {{", self.prefix);
         rust!(self.out, "token: {}token,", self.prefix);
-        rust!(self.out, "expected: {}expected }}", self.prefix);
-        rust!(self.out, "}}"); // Some case
+        rust!(self.out, "expected: {}expected }} }}", self.prefix);
 
-        rust!(self.out, "(None) => {{");
+        rust!(self.out, "None => {{");
 
         let (optional, fixed) = stack_suffix.optional_fixed_lens();
 
@@ -413,8 +412,7 @@ impl<'ascent, 'grammar, W: Write>
 
         rust!(self.out, "{}lalrpop_util::ParseError::UnrecognizedEOF {{", self.prefix);
         rust!(self.out, "location: {}location,", self.prefix);
-        rust!(self.out, "expected: {}expected }}", self.prefix);
-        rust!(self.out, "}}"); // None case
+        rust!(self.out, "expected: {}expected }} }}", self.prefix);
 
         rust!(self.out, "}})"); // Error match
 
