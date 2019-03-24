@@ -6,6 +6,7 @@
 // too darn annoying to try and make them do so.
 #![cfg_attr(test, allow(dead_code))]
 
+
 extern crate ascii_canvas;
 extern crate atty;
 extern crate bit_set;
