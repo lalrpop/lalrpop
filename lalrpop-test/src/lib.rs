@@ -241,6 +241,18 @@ fn parse_error_map_err() {
 }
 
 #[test]
+fn parse_error_eof_location() {
+    match expr_intern_tok::ExprParser::new().parse(1, "1 - ") {
+        Err(ParseError::UnrecognizedEOF { location, .. }) => {
+            assert_eq!(location, 3);
+        }
+        _ => {
+            panic!("Expected an UnrecognizedEOF error");
+        }
+    }
+}
+
+#[test]
 fn display_parse_error() {
     let expr = "(1+\n(2++3))";
     let err = expr_intern_tok::ExprParser::new()
