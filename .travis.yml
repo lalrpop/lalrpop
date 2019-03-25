@@ -10,7 +10,7 @@ install:
 - bash tools/ci-install.sh
 script:
 - RUST_BACKTRACE=1 CARGO_INCREMENTAL=0 cargo build -p lalrpop
-- RUST_BACKTRACE=1 CARGO_INCREMENTAL=0 cargo test --all --all-features
+- RUST_BACKTRACE=1 CARGO_INCREMENTAL=0 travis_wait cargo test --all --all-features
 - bash tools/build-doc
 deploy:
   provider: pages

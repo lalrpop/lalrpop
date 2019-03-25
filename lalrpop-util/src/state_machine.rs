@@ -599,9 +599,19 @@ where
         token: Option<TokenTriple<D>>,
         top_state: D::StateIndex,
     ) -> ParseError<D> {
-        ::ParseError::UnrecognizedToken {
-            token: token,
-            expected: self.definition.expected_tokens(top_state),
+        match token {
+            Some(token) => {
+                ::ParseError::UnrecognizedToken {
+                    token: token,
+                    expected: self.definition.expected_tokens(top_state),
+                }
+            }
+            None => {
+                ::ParseError::UnrecognizedEOF {
+                    location: self.last_location.clone(),
+                    expected: self.definition.expected_tokens(top_state),
+                }
+            }
         }
     }
 

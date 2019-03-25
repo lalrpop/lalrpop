@@ -241,6 +241,18 @@ fn parse_error_map_err() {
 }
 
 #[test]
+fn parse_error_eof_location() {
+    match expr_intern_tok::ExprParser::new().parse(1, "1 - ") {
+        Err(ParseError::UnrecognizedEOF { location, .. }) => {
+            assert_eq!(location, 3);
+        }
+        _ => {
+            panic!("Expected an UnrecognizedEOF error");
+        }
+    }
+}
+
+#[test]
 fn display_parse_error() {
     let expr = "(1+\n(2++3))";
     let err = expr_intern_tok::ExprParser::new()
@@ -483,8 +495,8 @@ fn error_recovery_eof() {
     assert_eq!(
         errors.borrow()[0],
         ErrorRecovery {
-            error: ParseError::UnrecognizedToken {
-                token: None,
+            error: ParseError::UnrecognizedEOF {
+                location: (),
                 expected: vec!["\"-\"".to_string()],
             },
             dropped_tokens: vec![],
@@ -499,8 +511,8 @@ fn error_recovery_eof_without_recovery() {
     let result = error_recovery::ItemParser::new().parse(&errors, tokens);
     assert_eq!(
         result,
-        Err(ParseError::UnrecognizedToken {
-            token: None,
+        Err(ParseError::UnrecognizedEOF {
+            location: (),
             expected: vec!["\"-\"".to_string()],
         })
     );
@@ -520,7 +532,7 @@ fn error_recovery_extra_token() {
         errors.borrow()[0],
         ErrorRecovery {
             error: ParseError::UnrecognizedToken {
-                token: Some(((), Tok::Plus, ())),
+                token: ((), Tok::Plus, ()),
                 expected: vec!["\")\"".to_string()],
             },
             dropped_tokens: vec![((), Tok::Plus, ())],
@@ -542,7 +554,7 @@ fn error_recovery_dont_drop_unrecognized_token() {
         errors.borrow()[0],
         ErrorRecovery {
             error: ParseError::UnrecognizedToken {
-                token: Some(((), Tok::RParen, ())),
+                token: ((), Tok::RParen, ()),
                 expected: vec!["\"-\"".to_string()],
             },
             dropped_tokens: vec![],
@@ -564,7 +576,7 @@ fn error_recovery_multiple_extra_tokens() {
         errors.borrow()[0],
         ErrorRecovery {
             error: ParseError::UnrecognizedToken {
-                token: Some(((), Tok::Plus, ())),
+                token: ((), Tok::Plus, ()),
                 expected: vec!["\")\"".to_string()],
             },
             dropped_tokens: vec![((), Tok::Plus, ()), ((), Tok::Plus, ())],
@@ -615,7 +627,7 @@ fn error_recovery_issue_240() {
         errors,
         vec![ErrorRecovery {
             error: ParseError::UnrecognizedToken {
-                token: Some((6, Tok::Div, 7)),
+                token: (6, Tok::Div, 7),
                 expected: vec!["\")\"".to_string()],
             },
             dropped_tokens: vec![(6, Tok::Div, 7)],

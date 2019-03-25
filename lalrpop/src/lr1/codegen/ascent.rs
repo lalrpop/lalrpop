@@ -374,20 +374,54 @@ impl<'ascent, 'grammar, W: Write>
                 .iter()
                 .any(|&(ref t, _)| t.contains(&Token::Terminal(terminal.clone())))
         });
-        rust!(
-            self.out,
-            "return Err({}lalrpop_util::ParseError::UnrecognizedToken {{",
-            self.prefix
-        );
-        rust!(self.out, "token: {}lookahead,", self.prefix);
-        rust!(self.out, "expected: vec![");
+
+        rust!(self.out, "let {}expected = vec![", self.prefix);
         for terminal in successful_terminals {
             rust!(self.out, "r###\"{}\"###.to_string(),", terminal);
         }
-        rust!(self.out, "]");
-        rust!(self.out, "}});");
+        rust!(self.out, "];");
+
+        // check if we've found an unrecognized token or EOF
+        rust!(self.out, "return Err(");
+        rust!(self.out, "match {}lookahead {{", self.prefix);
+
+        rust!(self.out, "Some({}token) => {{", self.prefix);
+        rust!(self.out, "{}lalrpop_util::ParseError::UnrecognizedToken {{", self.prefix);
+        rust!(self.out, "token: {}token,", self.prefix);
+        rust!(self.out, "expected: {}expected,", self.prefix);
+        rust!(self.out, "}}");
         rust!(self.out, "}}");
 
+        rust!(self.out, "None => {{");
+
+        // find the location of the last symbol on stack
+        let (optional, fixed) = stack_suffix.optional_fixed_lens();
+        if fixed > 0 {
+            rust!(self.out, "let {}location = {}sym{}.2.clone();", self.prefix, self.prefix, stack_suffix.len() - 1);
+        } else if optional > 0 {
+            rust!(self.out, "let {}location = ", self.prefix);
+            for index in (0..optional).rev() {
+                rust!(self.out, "{}sym{}.as_ref().map(|sym| sym.2.clone()).unwrap_or_else(|| {{", self.prefix, index);
+            }
+            rust!(self.out, "Default::default()");
+            for _ in 0..optional {
+                rust!(self.out, "}})");
+            }
+            rust!(self.out, ";");
+        } else {
+            rust!(self.out, "let {}location = Default::default();", self.prefix);
+        }
+
+        rust!(self.out, "{}lalrpop_util::ParseError::UnrecognizedEOF {{", self.prefix);
+        rust!(self.out, "location: {}location,", self.prefix);
+        rust!(self.out, "expected: {}expected,", self.prefix);
+        rust!(self.out, "}}");
+        rust!(self.out, "}}");
+
+        rust!(self.out, "}}"); // Error match
+        rust!(self.out, ")");
+
+        rust!(self.out, "}}"); // Wildcard match case
         rust!(self.out, "}}"); // match
 
         // finally, emit gotos (if relevant)
