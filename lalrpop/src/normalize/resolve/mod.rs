@@ -11,7 +11,7 @@ use string_cache::DefaultAtom as Atom;
 mod test;
 
 pub fn resolve(mut grammar: Grammar) -> NormResult<Grammar> {
-    try!(resolve_in_place(&mut grammar));
+    resolve_in_place(&mut grammar)?;
     Ok(grammar)
 }
 
@@ -132,13 +132,13 @@ impl Validator {
                 GrammarItem::InternToken(..) => {}
                 GrammarItem::ExternToken(..) => {}
                 GrammarItem::Nonterminal(ref mut data) => {
-                    let identifiers = try!(self.validate_macro_args(data.span, &data.args));
+                    let identifiers = self.validate_macro_args(data.span, &data.args)?;
                     let locals = ScopeChain {
                         previous: Some(&self.globals),
                         identifiers: identifiers,
                     };
                     for alternative in &mut data.alternatives {
-                        try!(self.validate_alternative(&locals, alternative));
+                        self.validate_alternative(&locals, alternative)?;
                     }
                 }
             }
@@ -172,7 +172,7 @@ impl Validator {
         alternative: &mut Alternative,
     ) -> NormResult<()> {
         if let Some(ref condition) = alternative.condition {
-            let def = try!(self.validate_id(scope, condition.span.clone(), &condition.lhs.0));
+            let def = self.validate_id(scope, condition.span.clone(), &condition.lhs.0)?;
             match def {
                 Def::MacroArg => { /* OK */ }
                 _ => {
@@ -187,14 +187,14 @@ impl Validator {
             }
         }
 
-        try!(self.validate_expr(scope, &mut alternative.expr));
+        self.validate_expr(scope, &mut alternative.expr)?;
 
         Ok(())
     }
 
     fn validate_expr(&self, scope: &ScopeChain, expr: &mut ExprSymbol) -> NormResult<()> {
         for symbol in &mut expr.symbols {
-            try!(self.validate_symbol(scope, symbol));
+            self.validate_symbol(scope, symbol)?;
         }
 
         Ok(())
@@ -203,16 +203,16 @@ impl Validator {
     fn validate_symbol(&self, scope: &ScopeChain, symbol: &mut Symbol) -> NormResult<()> {
         match symbol.kind {
             SymbolKind::Expr(ref mut expr) => {
-                try!(self.validate_expr(scope, expr));
+                self.validate_expr(scope, expr)?;
             }
             SymbolKind::AmbiguousId(_) => {
-                try!(self.rewrite_ambiguous_id(scope, symbol));
+                self.rewrite_ambiguous_id(scope, symbol)?;
             }
             SymbolKind::Terminal(_) => { /* see postvalidate! */ }
             SymbolKind::Nonterminal(ref id) => {
                 // in normal operation, the parser never produces Nonterminal(_) entries,
                 // but during testing we do produce nonterminal entries
-                let def = try!(self.validate_id(scope, symbol.span, &id.0));
+                let def = self.validate_id(scope, symbol.span, &id.0)?;
                 match def {
                     Def::Nonterminal(0) | Def::MacroArg => {
                         // OK
@@ -229,7 +229,7 @@ impl Validator {
             }
             SymbolKind::Macro(ref mut msym) => {
                 debug_assert!(msym.args.len() > 0);
-                let def = try!(self.validate_id(scope, symbol.span, &msym.name.0));
+                let def = self.validate_id(scope, symbol.span, &msym.name.0)?;
                 match def {
                     Def::Nonterminal(0) | Def::Terminal | Def::MacroArg => return_err!(
                         symbol.span,
@@ -252,14 +252,14 @@ impl Validator {
                 }
 
                 for arg in &mut msym.args {
-                    try!(self.validate_symbol(scope, arg));
+                    self.validate_symbol(scope, arg)?;
                 }
             }
             SymbolKind::Repeat(ref mut repeat) => {
-                try!(self.validate_symbol(scope, &mut repeat.symbol));
+                self.validate_symbol(scope, &mut repeat.symbol)?;
             }
             SymbolKind::Choose(ref mut sym) | SymbolKind::Name(_, ref mut sym) => {
-                try!(self.validate_symbol(scope, sym));
+                self.validate_symbol(scope, sym)?;
             }
             SymbolKind::Lookahead | SymbolKind::Lookbehind | SymbolKind::Error => {}
         }
@@ -273,7 +273,7 @@ impl Validator {
         } else {
             panic!("Should never happen.");
         };
-        symbol.kind = match try!(self.validate_id(scope, symbol.span, &id)) {
+        symbol.kind = match self.validate_id(scope, symbol.span, &id)? {
             Def::MacroArg | Def::Nonterminal(0) => SymbolKind::Nonterminal(NonterminalString(id)),
             Def::Terminal => SymbolKind::Terminal(TerminalString::Bare(id)),
             Def::Nonterminal(_) => return_err!(symbol.span, "`{}` is a macro", id),

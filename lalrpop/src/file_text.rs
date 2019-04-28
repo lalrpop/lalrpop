@@ -13,8 +13,8 @@ pub struct FileText {
 impl FileText {
     pub fn from_path(path: PathBuf) -> io::Result<FileText> {
         let mut input_str = String::new();
-        let mut f = try!(File::open(&path));
-        try!(f.read_to_string(&mut input_str));
+        let mut f = File::open(&path)?;
+        f.read_to_string(&mut input_str)?;
         Ok(FileText::new(path, input_str))
     }
 
@@ -96,18 +96,18 @@ impl FileText {
         // span is within one line:
         if start_line == end_line {
             let text = self.line_text(start_line);
-            try!(writeln!(out, "  {}", text));
+            writeln!(out, "  {}", text)?;
 
             if end_col - start_col <= 1 {
-                try!(writeln!(out, "  {}^", Repeat(' ', start_col)));
+                writeln!(out, "  {}^", Repeat(' ', start_col))?;
             } else {
                 let width = end_col - start_col;
-                try!(writeln!(
+                writeln!(
                     out,
                     "  {}~{}~",
                     Repeat(' ', start_col),
                     Repeat('~', width.saturating_sub(2))
-                ));
+                )?;
             }
         } else {
             // span is across many lines, find the maximal width of any of those
@@ -115,17 +115,17 @@ impl FileText {
                 .map(|i| self.line_text(i))
                 .collect();
             let max_len = line_strs.iter().map(|l| l.len()).max().unwrap();
-            try!(writeln!(
+            writeln!(
                 out,
                 "  {}{}~+",
                 Repeat(' ', start_col),
                 Repeat('~', max_len - start_col)
-            ));
+            )?;
             for line in &line_strs[..line_strs.len() - 1] {
-                try!(writeln!(out, "| {0:<1$} |", line, max_len));
+                writeln!(out, "| {0:<1$} |", line, max_len)?;
             }
-            try!(writeln!(out, "| {}", line_strs[line_strs.len() - 1]));
-            try!(writeln!(out, "+~{}", Repeat('~', end_col)));
+            writeln!(out, "| {}", line_strs[line_strs.len() - 1])?;
+            writeln!(out, "+~{}", Repeat('~', end_col))?;
         }
 
         Ok(())
@@ -137,7 +137,7 @@ struct Repeat(char, usize);
 impl Display for Repeat {
     fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
         for _ in 0..self.1 {
-            try!(write!(fmt, "{}", self.0));
+            write!(fmt, "{}", self.0)?;
         }
         Ok(())
     }

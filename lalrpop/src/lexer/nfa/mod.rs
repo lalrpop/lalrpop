@@ -357,7 +357,7 @@ impl NFA {
         //         v
         //      [reject]
 
-        let s1 = try!(self.expr(expr, accept, reject));
+        let s1 = self.expr(expr, accept, reject)?;
 
         let s0 = self.new_state(StateKind::Neither);
         self.push_edge(s0, Noop, accept); // they might supply nothing
@@ -384,7 +384,7 @@ impl NFA {
 
         let s0 = self.new_state(StateKind::Neither);
 
-        let s1 = try!(self.expr(expr, s0, reject));
+        let s1 = self.expr(expr, s0, reject)?;
 
         self.push_edge(s0, Noop, accept);
         self.push_edge(s0, Noop, s1);
@@ -410,7 +410,7 @@ impl NFA {
 
         let s1 = self.new_state(StateKind::Neither);
 
-        let s0 = try!(self.expr(expr, s1, reject));
+        let s0 = self.expr(expr, s1, reject)?;
 
         self.push_edge(s1, Noop, accept);
         self.push_edge(s1, Noop, s0);

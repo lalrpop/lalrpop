@@ -216,7 +216,7 @@ impl<'grammar> Validator<'grammar> {
                 GrammarItem::InternToken(_) => {}
                 GrammarItem::Nonterminal(ref data) => {
                     for alternative in &data.alternatives {
-                        try!(self.validate_alternative(alternative));
+                        self.validate_alternative(alternative)?;
                     }
                 }
             }
@@ -226,13 +226,13 @@ impl<'grammar> Validator<'grammar> {
 
     fn validate_alternative(&mut self, alternative: &Alternative) -> NormResult<()> {
         assert!(alternative.condition.is_none()); // macro expansion should have removed these
-        try!(self.validate_expr(&alternative.expr));
+        self.validate_expr(&alternative.expr)?;
         Ok(())
     }
 
     fn validate_expr(&mut self, expr: &ExprSymbol) -> NormResult<()> {
         for symbol in &expr.symbols {
-            try!(self.validate_symbol(symbol));
+            self.validate_symbol(symbol)?;
         }
         Ok(())
     }
@@ -240,17 +240,17 @@ impl<'grammar> Validator<'grammar> {
     fn validate_symbol(&mut self, symbol: &Symbol) -> NormResult<()> {
         match symbol.kind {
             SymbolKind::Expr(ref expr) => {
-                try!(self.validate_expr(expr));
+                self.validate_expr(expr)?;
             }
             SymbolKind::Terminal(ref term) => {
-                try!(self.validate_terminal(symbol.span, term));
+                self.validate_terminal(symbol.span, term)?;
             }
             SymbolKind::Nonterminal(_) => {}
             SymbolKind::Repeat(ref repeat) => {
-                try!(self.validate_symbol(&repeat.symbol));
+                self.validate_symbol(&repeat.symbol)?;
             }
             SymbolKind::Choose(ref sym) | SymbolKind::Name(_, ref sym) => {
-                try!(self.validate_symbol(sym));
+                self.validate_symbol(sym)?;
             }
             SymbolKind::Lookahead | SymbolKind::Lookbehind | SymbolKind::Error => {}
             SymbolKind::AmbiguousId(ref id) => {
@@ -322,7 +322,7 @@ fn construct(grammar: &mut Grammar, match_block: MatchBlock) -> NormResult<()> {
     // one of precedences, that are parallel with `literals`.
     let mut regexs = Vec::with_capacity(match_entries.len());
     let mut precedences = Vec::with_capacity(match_entries.len());
-    try!({
+    {
         for match_entry in &match_entries {
             precedences.push(Precedence(match_entry.precedence));
             match match_entry.match_literal {
@@ -344,7 +344,7 @@ fn construct(grammar: &mut Grammar, match_block: MatchBlock) -> NormResult<()> {
             }
         }
         Ok(())
-    });
+    }?;
 
     let dfa = match dfa::build_dfa(&regexs, &precedences) {
         Ok(dfa) => dfa,

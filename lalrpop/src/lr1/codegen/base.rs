@@ -168,19 +168,16 @@ impl<'codegen, 'grammar, W: Write, C> CodeGenerator<'codegen, 'grammar, W, C> {
         );
         rust!(self.out, "");
 
-        try!(self.write_uses());
+        self.write_uses()?;
 
-        try!(body(self));
+        body(self)?;
 
         rust!(self.out, "}}");
         Ok(())
     }
 
     pub fn write_uses(&mut self) -> io::Result<()> {
-        try!(
-            self.out
-                .write_uses(&format!("{}::", self.action_module), &self.grammar)
-        );
+        self.out.write_uses(&format!("{}::", self.action_module), &self.grammar)?;
 
         if self.grammar.intern_token.is_some() {
             rust!(
@@ -281,22 +278,20 @@ impl<'codegen, 'grammar, W: Write, C> CodeGenerator<'codegen, 'grammar, W, C> {
         rust!(self.out, "");
 
         rust!(self.out, "#[allow(dead_code)]");
-        try!(
-            self.out
-                .fn_header(
-                    &self.grammar.nonterminals[&self.start_symbol].visibility,
-                    "parse".to_owned(),
-                ).with_parameters(Some("&self".to_owned()))
-                .with_grammar(self.grammar)
-                .with_type_parameters(type_parameters)
-                .with_parameters(parameters)
-                .with_return_type(format!(
-                    "Result<{}, {}>",
-                    self.types.nonterminal_type(&self.start_symbol),
-                    parse_error_type
-                )).with_where_clauses(where_clauses)
-                .emit()
-        );
+        self.out
+            .fn_header(
+                &self.grammar.nonterminals[&self.start_symbol].visibility,
+                "parse".to_owned(),
+            ).with_parameters(Some("&self".to_owned()))
+            .with_grammar(self.grammar)
+            .with_type_parameters(type_parameters)
+            .with_parameters(parameters)
+            .with_return_type(format!(
+                "Result<{}, {}>",
+                self.types.nonterminal_type(&self.start_symbol),
+                parse_error_type
+            )).with_where_clauses(where_clauses)
+            .emit()?;
         rust!(self.out, "{{");
 
         Ok(())

@@ -40,8 +40,8 @@ fn normalize_helper(
     grammar: pt::Grammar,
     validate: bool,
 ) -> NormResult<r::Grammar> {
-    let grammar = try!(lower_helper(session, grammar, validate));
-    let grammar = profile!(session, "Inlining", try!(inline::inline(grammar)));
+    let grammar = lower_helper(session, grammar, validate)?;
+    let grammar = profile!(session, "Inlining", inline::inline(grammar)?);
     Ok(grammar)
 }
 
@@ -50,25 +50,25 @@ fn lower_helper(session: &Session, grammar: pt::Grammar, validate: bool) -> Norm
         session,
         "Grammar validation",
         if validate {
-            try!(prevalidate::validate(&grammar));
+            prevalidate::validate(&grammar)?;
         }
     );
     let grammar = profile!(
         session,
         "Grammar resolution",
-        try!(resolve::resolve(grammar))
+        resolve::resolve(grammar)?
     );
     let grammar = profile!(
         session,
         "Macro expansion",
-        try!(macro_expand::expand_macros(grammar))
+        macro_expand::expand_macros(grammar)?
     );
-    let grammar = profile!(session, "Token check", try!(token_check::validate(grammar)));
-    let types = profile!(session, "Infer types", try!(tyinfer::infer_types(&grammar)));
+    let grammar = profile!(session, "Token check", token_check::validate(grammar)?);
+    let types = profile!(session, "Infer types", tyinfer::infer_types(&grammar)?);
     let grammar = profile!(
         session,
         "Lowering",
-        try!(lower::lower(session, grammar, types))
+        lower::lower(session, grammar, types)?
     );
     Ok(grammar)
 }

@@ -16,7 +16,7 @@ use string_cache::DefaultAtom as Atom;
 mod test;
 
 pub fn expand_macros(input: Grammar) -> NormResult<Grammar> {
-    let input = try!(resolve::resolve(input));
+    let input = resolve::resolve(input)?;
 
     let items = input.items;
 
@@ -32,7 +32,7 @@ pub fn expand_macros(input: Grammar) -> NormResult<Grammar> {
         .collect();
 
     let mut expander = MacroExpander::new(macro_defs);
-    try!(expander.expand(&mut items));
+    expander.expand(&mut items)?;
 
     Ok(Grammar {
         items: items,
@@ -74,24 +74,24 @@ impl MacroExpander {
             while let Some(sym) = self.expansion_stack.pop() {
                 match sym.kind {
                     SymbolKind::Macro(msym) => {
-                        items.push(try!(self.expand_macro_symbol(sym.span, msym)))
+                        items.push(self.expand_macro_symbol(sym.span, msym)?)
                     }
                     SymbolKind::Expr(expr) => {
-                        items.push(try!(self.expand_expr_symbol(sym.span, expr)))
+                        items.push(self.expand_expr_symbol(sym.span, expr)?)
                     }
                     SymbolKind::Repeat(repeat) => {
-                        items.push(try!(self.expand_repeat_symbol(sym.span, *repeat)))
+                        items.push(self.expand_repeat_symbol(sym.span, *repeat)?)
                     }
-                    SymbolKind::Lookahead => items.push(try!(self.expand_lookaround_symbol(
+                    SymbolKind::Lookahead => items.push(self.expand_lookaround_symbol(
                         sym.span,
                         "@L",
                         ActionKind::Lookahead
-                    ))),
-                    SymbolKind::Lookbehind => items.push(try!(self.expand_lookaround_symbol(
+                    )?),
+                    SymbolKind::Lookbehind => items.push(self.expand_lookaround_symbol(
                         sym.span,
                         "@R",
                         ActionKind::Lookbehind
-                    ))),
+                    )?),
                     _ => assert!(false, "don't know how to expand `{:?}`", sym),
                 }
             }
@@ -194,11 +194,11 @@ impl MacroExpander {
             .as_ref()
             .map(|tr| self.macro_expand_type_ref(&args, tr));
 
-        // due to the use of `try!`, it's a bit awkward to write this with an iterator
+        // due to the use of `?`, it's a bit awkward to write this with an iterator
         let mut alternatives: Vec<Alternative> = vec![];
 
         for alternative in &mdef.alternatives {
-            if !try!(self.evaluate_cond(&args, &alternative.condition)) {
+            if !self.evaluate_cond(&args, &alternative.condition)? {
                 continue;
             }
             alternatives.push(Alternative {
@@ -278,7 +278,7 @@ impl MacroExpander {
                         ConditionOp::Equals => Ok(lhs == &c.rhs),
                         ConditionOp::NotEquals => Ok(lhs != &c.rhs),
                         ConditionOp::Match => self.re_match(c.span, lhs, &c.rhs),
-                        ConditionOp::NotMatch => Ok(!try!(self.re_match(c.span, lhs, &c.rhs))),
+                        ConditionOp::NotMatch => Ok(!self.re_match(c.span, lhs, &c.rhs)?),
                     }
                 }
                 ref lhs => {

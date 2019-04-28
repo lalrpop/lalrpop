@@ -8,9 +8,9 @@ impl<'a, S: Display> Display for Sep<&'a Vec<S>> {
         let &Sep(sep, vec) = self;
         let mut elems = vec.iter();
         if let Some(elem) = elems.next() {
-            try!(write!(fmt, "{}", elem));
+            write!(fmt, "{}", elem)?;
             while let Some(elem) = elems.next() {
-                try!(write!(fmt, "{}{}", sep, elem));
+                write!(fmt, "{}{}", sep, elem)?;
             }
         }
         Ok(())
@@ -24,9 +24,9 @@ impl<S: Display> Display for Escape<S> {
         let tmp = format!("{}", self.0);
         for c in tmp.chars() {
             match c {
-                'a'...'z' | '0'...'9' | 'A'...'Z' => try!(write!(fmt, "{}", c)),
-                '_' => try!(write!(fmt, "__")),
-                _ => try!(write!(fmt, "_{:x}", c as usize)),
+                'a'...'z' | '0'...'9' | 'A'...'Z' => write!(fmt, "{}", c)?,
+                '_' => write!(fmt, "__")?,
+                _ => write!(fmt, "_{:x}", c as usize)?,
             }
         }
         Ok(())
@@ -40,7 +40,7 @@ impl<'a, S: Display> Display for Prefix<&'a [S]> {
         let &Prefix(prefix, vec) = self;
         let mut elems = vec.iter();
         while let Some(elem) = elems.next() {
-            try!(write!(fmt, "{}{}", prefix, elem));
+            write!(fmt, "{}{}", prefix, elem)?;
         }
         Ok(())
     }

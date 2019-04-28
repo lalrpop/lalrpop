@@ -9,7 +9,7 @@ use tls::Tls;
 
 macro_rules! rust {
     ($w:expr, $($args:tt)*) => {
-        try!(($w).writeln(&::std::fmt::format(format_args!($($args)*))))
+        ($w).writeln(&::std::fmt::format(format_args!($($args)*)))?
     }
 }
 
@@ -72,17 +72,17 @@ impl<'me, W: Write> RustWrite<W> {
         let session = Tls::session();
         if session.emit_comments {
             for (i, comment) in iterable {
-                try!(self.write_indentation());
-                try!(writeln!(self.write, "{}, {}", i, comment));
+                self.write_indentation()?;
+                writeln!(self.write, "{}, {}", i, comment)?;
             }
         } else {
-            try!(self.write_indentation());
+            self.write_indentation()?;
             let mut first = true;
             for (i, _comment) in iterable {
                 if !first && session.emit_whitespace {
-                    try!(write!(self.write, " "));
+                    write!(self.write, " ")?;
                 }
-                try!(write!(self.write, "{},", i));
+                write!(self.write, "{},", i)?;
                 first = false;
             }
         }
@@ -104,7 +104,7 @@ impl<'me, W: Write> RustWrite<W> {
             self.indent -= TAB;
         }
 
-        try!(self.write_indented(out));
+        self.write_indented(out)?;
 
         // Detect a line that ends in a `{` or `(` and increase indentation for future lines.
         if buf[n] == ('{' as u8) || buf[n] == ('[' as u8) || buf[n] == ('(' as u8) {

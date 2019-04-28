@@ -186,13 +186,13 @@ pub type LR1Result<'grammar> = LRResult<'grammar, TokenSet>;
 
 impl<'grammar, L: Lookahead> Debug for Item<'grammar, L> {
     fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
-        try!(write!(
+        write!(
             fmt,
             "{} ={} (*){}",
             self.production.nonterminal,
             Prefix(" ", &self.production.symbols[..self.index]),
             Prefix(" ", &self.production.symbols[self.index..])
-        ));
+        )?;
 
         self.lookahead.fmt_as_item_suffix(fmt)
     }

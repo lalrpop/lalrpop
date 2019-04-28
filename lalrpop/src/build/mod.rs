@@ -38,9 +38,9 @@ const LALRPOP_VERSION_HEADER: &'static str = concat!(
 );
 
 fn hash_file(file: &Path) -> io::Result<String> {
-    let mut file = try!(fs::File::open(&file));
+    let mut file = fs::File::open(&file)?;
     let mut sha_256 = Sha256::new();
-    try!(io::copy(&mut file, &mut sha_256));
+    io::copy(&mut file, &mut sha_256)?;
 
     let mut hash_str = "// sha256: ".to_owned();
     for byte in sha_256.result() {
@@ -50,17 +50,17 @@ fn hash_file(file: &Path) -> io::Result<String> {
 }
 
 pub fn process_dir<P: AsRef<Path>>(session: Rc<Session>, root_dir: P) -> io::Result<()> {
-    let lalrpop_files = try!(lalrpop_files(root_dir));
+    let lalrpop_files = lalrpop_files(root_dir)?;
     for lalrpop_file in lalrpop_files {
-        try!(process_file(session.clone(), lalrpop_file));
+        process_file(session.clone(), lalrpop_file)?;
     }
     Ok(())
 }
 
 pub fn process_file<P: AsRef<Path>>(session: Rc<Session>, lalrpop_file: P) -> io::Result<()> {
     let lalrpop_file = lalrpop_file.as_ref();
-    let rs_file = try!(resolve_rs_file(&session, lalrpop_file));
-    let report_file = try!(resolve_report_file(&session, lalrpop_file));
+    let rs_file = resolve_rs_file(&session, lalrpop_file)?;
+    let report_file = resolve_report_file(&session, lalrpop_file)?;
     process_file_into(session, lalrpop_file, &rs_file, &report_file)
 }
 
@@ -99,7 +99,7 @@ fn process_file_into(
     report_file: &Path,
 ) -> io::Result<()> {
     session.emit_rerun_directive(lalrpop_file);
-    if session.force_build || try!(needs_rebuild(&lalrpop_file, &rs_file)) {
+    if session.force_build || needs_rebuild(&lalrpop_file, &rs_file)? {
         log!(
             session,
             Informative,
@@ -107,12 +107,12 @@ fn process_file_into(
             lalrpop_file.to_string_lossy()
         );
         if let Some(parent) = rs_file.parent() {
-            try!(fs::create_dir_all(parent));
+            fs::create_dir_all(parent)?;
         }
-        try!(remove_old_file(&rs_file));
+        remove_old_file(&rs_file)?;
 
         // Load the LALRPOP source text for this file:
-        let file_text = Rc::new(try!(FileText::from_path(lalrpop_file.to_path_buf())));
+        let file_text = Rc::new(FileText::from_path(lalrpop_file.to_path_buf())?);
 
         // Store the session and file-text in TLS -- this is not
         // intended to be used in this high-level code, but it gives
@@ -126,12 +126,12 @@ fn process_file_into(
         // generation fails at some point, we don't leave a partial
         // file behind.
         {
-            let grammar = try!(parse_and_normalize_grammar(&session, &file_text));
-            let buffer = try!(emit_recursive_ascent(&session, &grammar, &report_file));
-            let mut output_file = try!(fs::File::create(&rs_file));
-            try!(writeln!(output_file, "{}", LALRPOP_VERSION_HEADER));
-            try!(writeln!(output_file, "{}", try!(hash_file(&lalrpop_file))));
-            try!(output_file.write_all(&buffer));
+            let grammar = parse_and_normalize_grammar(&session, &file_text)?;
+            let buffer = emit_recursive_ascent(&session, &grammar, &report_file)?;
+            let mut output_file = fs::File::create(&rs_file)?;
+            writeln!(output_file, "{}", LALRPOP_VERSION_HEADER)?;
+            writeln!(output_file, "{}", hash_file(&lalrpop_file)?)?;
+            output_file.write_all(&buffer)?;
         }
     }
     Ok(())
@@ -158,10 +158,10 @@ fn needs_rebuild(lalrpop_file: &Path, rs_file: &Path) -> io::Result<bool> {
 
             let mut f = io::BufReader::new(rs_file);
 
-            try!(f.read_line(&mut version_str));
-            try!(f.read_line(&mut hash_str));
+            f.read_line(&mut version_str)?;
+            f.read_line(&mut hash_str)?;
 
-            Ok(hash_str.trim() != try!(hash_file(&lalrpop_file))
+            Ok(hash_str.trim() != hash_file(&lalrpop_file)?
                 || version_str.trim() != LALRPOP_VERSION_HEADER)
         }
         Err(e) => match e.kind() {
@@ -173,14 +173,14 @@ fn needs_rebuild(lalrpop_file: &Path, rs_file: &Path) -> io::Result<bool> {
 
 fn lalrpop_files<P: AsRef<Path>>(root_dir: P) -> io::Result<Vec<PathBuf>> {
     let mut result = vec![];
-    for entry in try!(fs::read_dir(root_dir)) {
-        let entry = try!(entry);
-        let file_type = try!(entry.file_type());
+    for entry in fs::read_dir(root_dir)? {
+        let entry = entry?;
+        let file_type = entry.file_type()?;
 
         let path = entry.path();
 
         if file_type.is_dir() {
-            result.extend(try!(lalrpop_files(&path)));
+            result.extend(lalrpop_files(&path)?);
         }
 
         if file_type.is_file()
@@ -350,8 +350,8 @@ fn emit_recursive_ascent(
     // includes things like `super::` it will resolve in the natural
     // way.
 
-    try!(emit_module_attributes(grammar, &mut rust));
-    try!(emit_uses(grammar, &mut rust));
+    emit_module_attributes(grammar, &mut rust)?;
+    emit_uses(grammar, &mut rust)?;
 
     if grammar.start_nonterminals.is_empty() {
         println!("Error: no public symbols declared in grammar");
@@ -375,8 +375,8 @@ fn emit_recursive_ascent(
 
         let lr1result = lr1::build_states(&grammar, start_nt.clone());
         if session.emit_report {
-            let mut output_report_file = try!(fs::File::create(&report_file));
-            try!(lr1::generate_report(&mut output_report_file, &lr1result));
+            let mut output_report_file = fs::File::create(&report_file)?;
+            lr1::generate_report(&mut output_report_file, &lr1result)?;
         }
 
         let states = match lr1result {
@@ -389,30 +389,30 @@ fn emit_recursive_ascent(
         };
 
         match grammar.algorithm.codegen {
-            r::LrCodeGeneration::RecursiveAscent => try!(lr1::codegen::ascent::compile(
+            r::LrCodeGeneration::RecursiveAscent => lr1::codegen::ascent::compile(
                 &grammar,
                 user_nt.clone(),
                 start_nt.clone(),
                 &states,
                 "super",
                 &mut rust,
-            )),
-            r::LrCodeGeneration::TableDriven => try!(lr1::codegen::parse_table::compile(
+            )?,
+            r::LrCodeGeneration::TableDriven => lr1::codegen::parse_table::compile(
                 &grammar,
                 user_nt.clone(),
                 start_nt.clone(),
                 &states,
                 "super",
                 &mut rust,
-            )),
+            )?,
 
-            r::LrCodeGeneration::TestAll => try!(lr1::codegen::test_all::compile(
+            r::LrCodeGeneration::TestAll => lr1::codegen::test_all::compile(
                 &grammar,
                 user_nt.clone(),
                 start_nt.clone(),
                 &states,
                 &mut rust,
-            )),
+            )?,
         }
 
         rust!(
@@ -426,13 +426,13 @@ fn emit_recursive_ascent(
     }
 
     if let Some(ref intern_token) = grammar.intern_token {
-        try!(intern_token::compile(&grammar, intern_token, &mut rust));
+        intern_token::compile(&grammar, intern_token, &mut rust)?;
         rust!(rust, "pub use self::{}intern_token::Token;", grammar.prefix);
     }
 
-    try!(action::emit_action_code(grammar, &mut rust));
+    action::emit_action_code(grammar, &mut rust)?;
 
-    try!(emit_to_triple_trait(grammar, &mut rust));
+    emit_to_triple_trait(grammar, &mut rust)?;
 
     Ok(rust.into_inner())
 }

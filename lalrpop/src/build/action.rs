@@ -47,13 +47,13 @@ pub fn emit_action_code<W: Write>(grammar: &r::Grammar, rust: &mut RustWrite<W>)
 
         match defn.kind {
             r::ActionFnDefnKind::User(ref data) => {
-                try!(emit_user_action_code(grammar, rust, i, defn, data))
+                emit_user_action_code(grammar, rust, i, defn, data)?
             }
             r::ActionFnDefnKind::Lookaround(ref variant) => {
-                try!(emit_lookaround_action_code(grammar, rust, i, defn, variant))
+                emit_lookaround_action_code(grammar, rust, i, defn, variant)?
             }
             r::ActionFnDefnKind::Inline(ref data) => {
-                try!(emit_inline_action_code(grammar, rust, i, defn, data))
+                emit_inline_action_code(grammar, rust, i, defn, data)?
             }
         }
     }
@@ -119,15 +119,14 @@ fn emit_user_action_code<W: Write>(
         ]);
     }
 
-    try!(
-        rust.fn_header(
-            &r::Visibility::Priv,
-            format!("{}action{}", grammar.prefix, index),
-        ).with_grammar(grammar)
-        .with_parameters(arguments)
-        .with_return_type(ret_type)
-        .emit()
-    );
+    rust.fn_header(
+        &r::Visibility::Priv,
+        format!("{}action{}", grammar.prefix, index),
+    ).with_grammar(grammar)
+    .with_parameters(arguments)
+    .with_return_type(ret_type)
+    .emit()?;
+
     rust!(rust, "{{");
     rust!(rust, "{}", data.code);
     rust!(rust, "}}");
@@ -141,25 +140,23 @@ fn emit_lookaround_action_code<W: Write>(
     _defn: &r::ActionFnDefn,
     data: &r::LookaroundActionFnDefn,
 ) -> io::Result<()> {
-    try!(
-        rust.fn_header(
-            &r::Visibility::Priv,
-            format!("{}action{}", grammar.prefix, index),
-        ).with_grammar(grammar)
-        .with_parameters(vec![
-            format!(
-                "{}lookbehind: &{}",
-                grammar.prefix,
-                grammar.types.terminal_loc_type()
-            ),
-            format!(
-                "{}lookahead: &{}",
-                grammar.prefix,
-                grammar.types.terminal_loc_type()
-            ),
-        ]).with_return_type(format!("{}", grammar.types.terminal_loc_type()))
-        .emit()
-    );
+    rust.fn_header(
+        &r::Visibility::Priv,
+        format!("{}action{}", grammar.prefix, index),
+    ).with_grammar(grammar)
+    .with_parameters(vec![
+        format!(
+            "{}lookbehind: &{}",
+            grammar.prefix,
+            grammar.types.terminal_loc_type()
+        ),
+        format!(
+            "{}lookahead: &{}",
+            grammar.prefix,
+            grammar.types.terminal_loc_type()
+        ),
+    ]).with_return_type(format!("{}", grammar.types.terminal_loc_type()))
+    .emit()?;
 
     rust!(rust, "{{");
     match *data {
@@ -226,15 +223,13 @@ fn emit_inline_action_code<W: Write>(
         ]);
     }
 
-    try!(
-        rust.fn_header(
-            &r::Visibility::Priv,
-            format!("{}action{}", grammar.prefix, index),
-        ).with_grammar(grammar)
-        .with_parameters(arguments)
-        .with_return_type(ret_type)
-        .emit()
-    );
+    rust.fn_header(
+        &r::Visibility::Priv,
+        format!("{}action{}", grammar.prefix, index),
+    ).with_grammar(grammar)
+    .with_parameters(arguments)
+    .with_return_type(ret_type)
+    .emit()?;
     rust!(rust, "{{");
 
     // For each inlined thing, compute the start/end locations.

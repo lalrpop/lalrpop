@@ -204,7 +204,7 @@ impl<'input> Tokenizer<'input> {
                 }
                 '"' => {
                     self.bump();
-                    let _ = try!(self.string_literal(idx1));
+                    let _ = self.string_literal(idx1)?;
                 }
                 '\n' => return error(UnrecognizedToken, idx0),
                 _ => {
@@ -415,13 +415,13 @@ impl<'input> Tokenizer<'input> {
 
             Some((idx1, '?')) => {
                 self.bump();
-                let idx2 = try!(self.code(idx0, "([{", "}])"));
+                let idx2 = self.code(idx0, "([{", "}])")?;
                 let code = &self.text[idx1 + 1..idx2];
                 Ok((idx0, EqualsGreaterThanQuestionCode(code), idx2))
             }
 
             Some((idx1, _)) => {
-                let idx2 = try!(self.code(idx0, "([{", "}])"));
+                let idx2 = self.code(idx0, "([{", "}])")?;
                 let code = &self.text[idx1..idx2];
                 Ok((idx0, EqualsGreaterThanCode(code), idx2))
             }
@@ -441,7 +441,7 @@ impl<'input> Tokenizer<'input> {
             if let Some((idx, c)) = self.lookahead {
                 if c == '"' {
                     self.bump();
-                    try!(self.string_literal(idx)); // discard the produced token
+                    self.string_literal(idx)?; // discard the produced token
                     continue;
                 } else if c == '\'' {
                     self.bump();
@@ -452,7 +452,7 @@ impl<'input> Tokenizer<'input> {
                 } else if c == 'r' {
                     self.bump();
                     if let Some((idx, '#')) = self.lookahead {
-                        try!(self.regex_literal(idx));
+                        self.regex_literal(idx)?;
                     }
                     continue;
                 } else if c == '/' {
@@ -639,7 +639,7 @@ impl<'input> Tokenizer<'input> {
         }
 
         if word == "use" {
-            let code_end = try!(self.code(idx0, "([{", "}])"));
+            let code_end = self.code(idx0, "([{", "}])")?;
             let code = &self.text[end..code_end];
             return Ok((start, Tok::Use(code), code_end));
         }

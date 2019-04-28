@@ -14,7 +14,7 @@ use string_cache::DefaultAtom as Atom;
 mod test;
 
 pub fn infer_types(grammar: &Grammar) -> NormResult<Types> {
-    let inferencer = try!(TypeInferencer::new(&grammar));
+    let inferencer = TypeInferencer::new(&grammar)?;
     inferencer.infer_types()
 }
 
@@ -147,7 +147,7 @@ impl<'grammar> TypeInferencer<'grammar> {
             self.nonterminals.iter().map(|(id, _)| id.clone()).collect();
 
         for id in ids {
-            try!(self.nonterminal_type(&id));
+            self.nonterminal_type(&id)?;
             debug_assert!(self.types.lookup_nonterminal_type(&id).is_some());
         }
 
@@ -168,7 +168,7 @@ impl<'grammar> TypeInferencer<'grammar> {
             );
         }
 
-        let ty = try!(self.push(id, |this| {
+        let ty = self.push(id, |this| {
             if let &Some(ref type_decl) = nt.type_decl {
                 return this.type_ref(type_decl);
             }
@@ -223,7 +223,7 @@ impl<'grammar> TypeInferencer<'grammar> {
 
             // and use that type
             Ok(alternative_types.pop().unwrap())
-        }));
+        })?;
 
         self.types.add_type(id.clone(), ty.clone());
         Ok(ty)
@@ -242,9 +242,10 @@ impl<'grammar> TypeInferencer<'grammar> {
     fn type_ref(&mut self, type_ref: &TypeRef) -> NormResult<TypeRepr> {
         match *type_ref {
             TypeRef::Tuple(ref types) => {
-                let types = try! {
-                    types.iter().map(|t| self.type_ref(t)).collect()
-                };
+                let types = types
+                    .iter()
+                    .map(|t| self.type_ref(t))
+                    .collect::<Result<_, _>>()?;
                 Ok(TypeRepr::Tuple(types))
             }
             TypeRef::Nominal {
@@ -258,9 +259,10 @@ impl<'grammar> TypeInferencer<'grammar> {
                     });
                 }
 
-                let types = try! {
-                    types.iter().map(|t| self.type_ref(t)).collect()
-                };
+                let types = types
+                    .iter()
+                    .map(|t| self.type_ref(t))
+                    .collect::<Result<_, _>>()?;
                 Ok(TypeRepr::Nominal(NominalTypeRepr {
                     path: path.clone(),
                     types: types,
@@ -278,7 +280,7 @@ impl<'grammar> TypeInferencer<'grammar> {
             } => Ok(TypeRepr::Ref {
                 lifetime: lifetime.clone(),
                 mutable: mutable,
-                referent: Box::new(try!(self.type_ref(referent))),
+                referent: Box::new(self.type_ref(referent)?),
             }),
             TypeRef::OfSymbol(ref symbol) => self.symbol_type(symbol),
         }
@@ -309,11 +311,10 @@ impl<'grammar> TypeInferencer<'grammar> {
             }
 
             AlternativeAction::Default(Symbols::Anon(syms)) => {
-                let symbol_types: Vec<TypeRepr> = try! {
-                    syms.iter()
-                        .map(|&(_, sym)| self.symbol_type(&sym.kind))
-                        .collect()
-                };
+                let symbol_types: Vec<TypeRepr> = syms
+                    .iter()
+                    .map(|&(_, sym)| self.symbol_type(&sym.kind))
+                    .collect::<Result<_, _>>()?;
                 Ok(maybe_tuple(symbol_types))
             }
         }

@@ -11,7 +11,7 @@ mod graph;
 mod test;
 
 pub fn inline(mut grammar: Grammar) -> NormResult<Grammar> {
-    let order = try!(graph::inline_order(&grammar));
+    let order = graph::inline_order(&grammar)?;
     for nt in order {
         inline_nt(&mut grammar, &nt);
     }

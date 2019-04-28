@@ -190,7 +190,7 @@ impl Configuration {
     /// Process all files in the current directory, which -- unless you
     /// have changed it -- is typically the root of the crate being compiled.
     pub fn process_current_dir(&self) -> Result<(), Box<Error>> {
-        self.process_dir(try!(current_dir()))
+        self.process_dir(current_dir()?)
     }
 
     /// Process all `.lalrpop` files in `path`.
@@ -200,7 +200,7 @@ impl Configuration {
         // If in/out dir are empty, use cargo conventions by default.
         // See https://github.com/lalrpop/lalrpop/issues/280
         if session.in_dir.is_none() {
-            let mut in_dir = try!(env::current_dir());
+            let mut in_dir = env::current_dir()?;
             in_dir.push("src");
             session.in_dir = Some(in_dir);
         }
@@ -234,14 +234,14 @@ impl Configuration {
         }
 
         let session = Rc::new(session);
-        try!(build::process_dir(session, path));
+        build::process_dir(session, path)?;
         Ok(())
     }
 
     /// Process the given `.lalrpop` file.
     pub fn process_file<P: AsRef<Path>>(&self, path: P) -> Result<(), Box<Error>> {
         let session = Rc::new(self.session.clone());
-        try!(build::process_file(session, path));
+        build::process_file(session, path)?;
         Ok(())
     }
 }

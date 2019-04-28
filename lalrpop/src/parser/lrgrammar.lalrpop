@@ -304,7 +304,7 @@ MatchItem: MatchItem = {
     <lo:@L> "_" <hi:@R>             => MatchItem::CatchAll(Span(lo, hi)),
     <lo:@L> <s:MatchSymbol> <hi:@R> => MatchItem::Unmapped(s, Span(lo, hi)),
     <lo:@L> <from:MatchSymbol> <start:@L> <p:"=>"> <hi:@R> =>? {
-        let to = try!(super::parse_match_mapping(p, start + 2));
+        let to = super::parse_match_mapping(p, start + 2)?;
         Ok(MatchItem::Mapped(from, to, Span(lo, hi)))
     }
 };
@@ -333,7 +333,7 @@ AssociatedType: AssociatedType =
 
 Conversion: Conversion =
     <lo:@L> <from:Terminal> <start:@L> <p:"=>"> <hi:@R> =>? {
-        let pattern = try!(super::parse_pattern(p, start + 2));
+        let pattern = super::parse_pattern(p, start + 2)?;
         Ok(Conversion { span: Span(lo, hi),
                         from: from,
                         to: pattern })

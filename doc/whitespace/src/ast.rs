@@ -97,8 +97,8 @@ impl<'program> Interpreter<'program> {
                 &Stmt::Push(n) => self.stack.push(n),
 
                 &Stmt::PrintChar => {
-                    let top = try!(self.pop());
-                    let c = try!(num_to_char(top));
+                    let top = self.pop()?;
+                    let c = num_to_char(top)?;
                     print!("{}", c);
                 }
 

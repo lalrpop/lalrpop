@@ -33,7 +33,7 @@ where
     L: LookaheadInterpret,
 {
     let mut m = Machine::new(states);
-    try!(m.execute_partial(tokens.into_iter()));
+    m.execute_partial(tokens.into_iter())?;
     Ok(m.state_stack)
 }
 
@@ -100,7 +100,7 @@ where
     where
         TOKENS: Iterator<Item = TerminalString>,
     {
-        try!(self.execute_partial(tokens));
+        self.execute_partial(tokens)?;
 
         // drain now for EOF
         loop {
