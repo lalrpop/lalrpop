@@ -66,7 +66,10 @@ struct ExpectedDebug<'a>(&'a str);
 
 impl<'a> Debug for ExpectedDebug<'a> {
     fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
-        write!(fmt, "{}", self.0)
+        // Ignore trailing commas in multiline Debug representation.
+        // Needed to work around rust-lang/rust#59076.
+        let s = self.0.replace(",\n", "\n");
+        write!(fmt, "{}", s)
     }
 }
 
