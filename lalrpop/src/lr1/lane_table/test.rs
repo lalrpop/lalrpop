@@ -164,7 +164,7 @@ fn g0_conflict_1() {
 | S0    |       | ["c"] | ["d"] | {S3}       |
 | S3    | ["e"] | []    | []    | {S3}       |
 "#
-        .trim_left(),
+        .trim_start(),
     );
 }
 
@@ -188,7 +188,7 @@ fn paper_example_g1_conflict_1() {
 | S2    |       | ["c"] | ["d"] | {S5}       |
 | S5    | ["e"] | []    | []    | {S5}       |
 "#
-        .trim_left(),
+        .trim_start(),
     );
 }
 
@@ -326,7 +326,7 @@ fn large_conflict_1() {
 | S27   | ["s"] | ["k"] |            |       | {S32}      |
 | S32   |       |       | ["z"]      | ["u"] | {S16}      |
 "#
-        .trim_left(),
+        .trim_start(),
     );
 
     // ^^ This differs in some particulars from what appears in the
