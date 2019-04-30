@@ -44,7 +44,7 @@ macro_rules! parser {
 }
 
 pub fn parse_grammar<'input>(input: &'input str) -> Result<Grammar, ParseError<'input>> {
-    let mut grammar = try!(parser!(input, 0, Grammar, StartGrammar));
+    let mut grammar = parser!(input, 0, Grammar, StartGrammar)?;
 
     // find a unique prefix that does not appear anywhere in the input
     while input.contains(&grammar.prefix) {

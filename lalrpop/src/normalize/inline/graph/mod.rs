@@ -84,7 +84,7 @@ impl<'grammar> NonterminalGraph<'grammar> {
         let mut states = vec![WalkState::NotVisited; self.graph.node_count()];
         let mut result = vec![];
         for node in self.nonterminal_map.values().cloned() {
-            try!(self.walk(&mut states, &mut result, node));
+            self.walk(&mut states, &mut result, node)?;
         }
         Ok(result)
     }
@@ -101,7 +101,7 @@ impl<'grammar> NonterminalGraph<'grammar> {
             WalkState::NotVisited => {
                 states[source.index()] = WalkState::Visiting;
                 for target in self.graph.neighbors(source) {
-                    try!(self.walk(states, result, target));
+                    self.walk(states, result, target)?;
                 }
                 states[source.index()] = WalkState::Visited;
                 result.push(nt.clone());

@@ -164,11 +164,11 @@ impl<'ascent, 'grammar, W: Write>
 
     fn write(&mut self) -> io::Result<()> {
         self.write_parse_mod(|this| {
-            try!(this.write_start_fn());
+            this.write_start_fn()?;
             rust!(this.out, "");
-            try!(this.write_return_type_defn());
+            this.write_return_type_defn()?;
             for i in 0..this.states.len() {
-                try!(this.write_state_fn(StateIndex(i)));
+                this.write_state_fn(StateIndex(i))?;
             }
             Ok(())
         })
@@ -215,13 +215,13 @@ impl<'ascent, 'grammar, W: Write>
     // consumed.
     fn write_start_fn(&mut self) -> io::Result<()> {
         let phantom_data = self.phantom_data_expr();
-        try!(self.start_parser_fn());
-        try!(self.define_tokens());
+        self.start_parser_fn()?;
+        self.define_tokens()?;
 
-        try!(self.next_token("lookahead", "tokens"));
+        self.next_token("lookahead", "tokens")?;
         rust!(
             self.out,
-            "match try!({}state0({}&mut {}tokens, {}lookahead, {})) {{",
+            "match {}state0({}&mut {}tokens, {}lookahead, {})? {{",
             self.prefix,
             self.grammar.user_parameter_refs(),
             self.prefix,
@@ -306,10 +306,10 @@ impl<'ascent, 'grammar, W: Write>
             }
         }
 
-        try!(self.emit_state_fn_header("state", this_index.0, inputs));
+        self.emit_state_fn_header("state", this_index.0, inputs)?;
 
         // possibly move some fixed inputs into optional stack slots
-        let stack_suffix = try!(self.adjust_inputs(this_index, inputs));
+        let stack_suffix = self.adjust_inputs(this_index, inputs)?;
 
         // set to true if goto actions are worth generating
         let mut fallthrough = false;
@@ -319,10 +319,10 @@ impl<'ascent, 'grammar, W: Write>
         // first emit shifts:
         for (terminal, &next_index) in &this_state.shifts {
             let sym_name = format!("{}sym{}", self.prefix, inputs.len());
-            try!(self.consume_terminal(terminal, sym_name));
+            self.consume_terminal(terminal, sym_name)?;
 
             // transition to the new state
-            if try!(self.transition("result", stack_suffix, next_index, &["tokens"])) {
+            if self.transition("result", stack_suffix, next_index, &["tokens"])? {
                 fallthrough = true;
             }
 
@@ -353,7 +353,7 @@ impl<'ascent, 'grammar, W: Write>
                 }
             }
 
-            try!(self.emit_reduce_action("result", stack_suffix, production));
+            self.emit_reduce_action("result", stack_suffix, production)?;
 
             if production.symbols.len() > 0 {
                 // if we popped anything off of the stack, then this frame is done
@@ -488,7 +488,7 @@ impl<'ascent, 'grammar, W: Write>
                     self.prefix,
                     stack_suffix.len()
                 );
-                try!(self.transition("result", stack_suffix, next_index, &["tokens", "lookahead"]));
+                self.transition("result", stack_suffix, next_index, &["tokens", "lookahead"])?;
                 rust!(self.out, "}}");
             }
 
@@ -531,24 +531,22 @@ impl<'ascent, 'grammar, W: Write>
 
         let (fn_args, starts_with_terminal) = self.fn_args(optional_prefix, fixed_prefix);
 
-        try!(
-            self.out
-                .fn_header(
-                    &Visibility::Priv,
-                    format!("{}{}{}", self.prefix, fn_kind, fn_index),
-                ).with_grammar(self.grammar)
-                .with_type_parameters(Some(format!(
-                    "{}TOKENS: Iterator<Item=Result<{},{}>>",
-                    self.prefix, triple_type, parse_error_type
-                ))).with_parameters(fn_args)
-                .with_return_type(format!(
-                    "Result<(Option<{}>, {}Nonterminal<{}>), {}>",
-                    triple_type,
-                    self.prefix,
-                    Sep(", ", &self.custom.nonterminal_type_params),
-                    parse_error_type
-                )).emit()
-        );
+        self.out
+            .fn_header(
+                &Visibility::Priv,
+                format!("{}{}{}", self.prefix, fn_kind, fn_index),
+            ).with_grammar(self.grammar)
+            .with_type_parameters(Some(format!(
+                "{}TOKENS: Iterator<Item=Result<{},{}>>",
+                self.prefix, triple_type, parse_error_type
+            ))).with_parameters(fn_args)
+            .with_return_type(format!(
+                "Result<(Option<{}>, {}Nonterminal<{}>), {}>",
+                triple_type,
+                self.prefix,
+                Sep(", ", &self.custom.nonterminal_type_params),
+                parse_error_type
+            )).emit()?;
 
         rust!(self.out, "{{");
 
@@ -563,7 +561,7 @@ impl<'ascent, 'grammar, W: Write>
 
         // shift lookahead is necessary; see `starts_with_terminal` above
         if starts_with_terminal {
-            try!(self.next_token("lookahead", "tokens"));
+            self.next_token("lookahead", "tokens")?;
         }
 
         Ok(())
@@ -766,7 +764,7 @@ impl<'ascent, 'grammar, W: Write>
         assert!(next_inputs.fixed().len() >= 1);
         assert!(next_inputs.len() <= total);
 
-        let transfer_syms = try!(self.pop_syms(optional, fixed, next_inputs));
+        let transfer_syms = self.pop_syms(optional, fixed, next_inputs)?;
 
         let other_args = other_args
             .iter()
@@ -779,7 +777,7 @@ impl<'ascent, 'grammar, W: Write>
         let phantom_data_expr = self.phantom_data_expr();
         rust!(
             self.out,
-            "{}{} = try!({}({}{}, {}, {}));",
+            "{}{} = {}({}{}, {}, {})?;",
             self.prefix,
             into_result,
             fn_name,
@@ -816,7 +814,7 @@ impl<'ascent, 'grammar, W: Write>
             all: &production.symbols,
             len_optional: 0,
         };
-        let transfer_syms = try!(self.pop_syms(optional, fixed, production_inputs));
+        let transfer_syms = self.pop_syms(optional, fixed, production_inputs)?;
 
         // identify the "start" location for this production; this
         // is typically the start of the first symbol we are
@@ -891,7 +889,7 @@ impl<'ascent, 'grammar, W: Write>
         if is_fallible {
             rust!(
                 self.out,
-                "let {}nt = try!({}::{}action{}::<{}>({}{}));",
+                "let {}nt = {}::{}action{}::<{}>({}{})?;",
                 self.prefix,
                 self.action_module,
                 self.prefix,

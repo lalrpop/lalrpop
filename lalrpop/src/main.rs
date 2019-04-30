@@ -26,7 +26,7 @@ fn main1() -> io::Result<()> {
         .unwrap_or_else(|e| e.exit());
 
     if args.flag_version {
-        try!(writeln!(stdout, "{}", VERSION));
+        writeln!(stdout, "{}", VERSION)?;
         process::exit(0);
     }
 
@@ -60,10 +60,10 @@ fn main1() -> io::Result<()> {
     }
 
     if args.arg_inputs.len() == 0 {
-        try!(writeln!(
+        writeln!(
             stderr,
             "Error: no input files specified! Try --help for help."
-        ));
+        )?;
         process::exit(1);
     }
 
@@ -79,11 +79,11 @@ fn main1() -> io::Result<()> {
         match config.process_file(&arg) {
             Ok(()) => {}
             Err(err) => {
-                try!(writeln!(
+                writeln!(
                     stderr,
                     "Error encountered processing `{}`: {}",
                     arg, err
-                ));
+                )?;
                 process::exit(1);
             }
         }

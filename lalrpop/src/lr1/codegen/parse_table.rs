@@ -142,17 +142,17 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
 
     fn write(&mut self) -> io::Result<()> {
         self.write_parse_mod(|this| {
-            try!(this.write_value_type_defn());
-            try!(this.write_parse_table());
-            try!(this.write_machine_definition());
-            try!(this.write_token_to_integer_fn());
-            try!(this.write_token_to_symbol_fn());
-            try!(this.write_simulate_reduce_fn());
-            try!(this.write_parser_fn());
-            try!(this.write_accepts_fn());
-            try!(this.emit_reduce_actions());
-            try!(this.emit_downcast_fns());
-            try!(this.emit_reduce_action_functions());
+            this.write_value_type_defn()?;
+            this.write_parse_table()?;
+            this.write_machine_definition()?;
+            this.write_token_to_integer_fn()?;
+            this.write_token_to_symbol_fn()?;
+            this.write_simulate_reduce_fn()?;
+            this.write_parser_fn()?;
+            this.write_accepts_fn()?;
+            this.emit_reduce_actions()?;
+            this.emit_downcast_fns()?;
+            this.emit_reduce_action_functions()?;
             Ok(())
         })
     }
@@ -498,7 +498,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
                     Self::write_reduction(custom, state, &Token::Terminal(terminal.clone()))
                 }
             });
-            try!(self.out.write_table_row(iterator))
+            self.out.write_table_row(iterator)?
         }
 
         rust!(self.out, "];");
@@ -513,7 +513,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
         for (index, state) in self.states.iter().enumerate() {
             rust!(self.out, "// State {}", index);
             let reduction = Self::write_reduction(&self.custom, state, &Token::EOF);
-            try!(self.out.write_table_row(Some(reduction)));
+            self.out.write_table_row(Some(reduction))?;
         }
         rust!(self.out, "];");
 
@@ -536,11 +536,11 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
                     (0, Comment::Error(nonterminal))
                 }
             });
-            try!(self.out.write_table_row(iterator));
+            self.out.write_table_row(iterator)?;
         }
         rust!(self.out, "];");
 
-        try!(self.emit_expected_tokens_fn());
+        self.emit_expected_tokens_fn()?;
 
         Ok(())
     }
@@ -571,9 +571,9 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
     fn write_parser_fn(&mut self) -> io::Result<()> {
         let phantom_data_expr = self.phantom_data_expr();
 
-        try!(self.start_parser_fn());
+        self.start_parser_fn()?;
 
-        try!(self.define_tokens());
+        self.define_tokens()?;
 
         rust!(
             self.out,
@@ -610,8 +610,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
             format!("_: {}", self.phantom_data_type()),
         ];
 
-        try!(self
-            .out
+        self.out
             .fn_header(
                 &Visibility::Priv,
                 format!("{p}token_to_integer", p = self.prefix)
@@ -620,7 +619,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
             .with_where_clauses(&self.grammar.where_clauses)
             .with_parameters(parameters)
             .with_return_type(format!("Option<usize>"))
-            .emit());
+            .emit()?;
         rust!(self.out, "{{");
 
         rust!(self.out, "match *{p}token {{", p = self.prefix);
@@ -660,8 +659,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
             format!("_: {}", self.phantom_data_type()),
         ];
 
-        try!(self
-            .out
+        self.out
             .fn_header(
                 &Visibility::Priv,
                 format!("{p}token_to_symbol", p = self.prefix),
@@ -670,7 +668,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
             .with_where_clauses(&self.grammar.where_clauses)
             .with_parameters(parameters)
             .with_return_type(symbol_type)
-            .emit());
+            .emit()?;
         rust!(self.out, "{{");
 
         rust!(self.out, "match {p}token_index {{", p = self.prefix,);
@@ -733,8 +731,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
             format!("_: {}", self.phantom_data_type()),
         ];
 
-        try!(self
-            .out
+        self.out
             .fn_header(
                 &Visibility::Pub(Some(Path::from_id(Atom::from("crate")))),
                 format!("{}reduce", self.prefix),
@@ -745,7 +742,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
                 "Option<Result<{},{}>>",
                 success_type, parse_error_type
             ))
-            .emit());
+            .emit()?;
         rust!(self.out, "{{");
 
         rust!(
@@ -783,7 +780,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
                     p = self.prefix
                 );
             } else {
-                try!(self.emit_reduce_action(production));
+                self.emit_reduce_action(production)?;
             }
 
             rust!(self.out, "}}");
@@ -878,8 +875,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
             format!("_: {}", self.phantom_data_type()),
         ];
 
-        try!(self
-            .out
+        self.out
             .fn_header(
                 &Visibility::Pub(Some(Path::from_id(Atom::from("crate")))),
                 format!("{}reduce{}", self.prefix, index),
@@ -887,7 +883,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
             .with_grammar(self.grammar)
             .with_parameters(parameters)
             .with_return_type(format!("(usize, usize)"))
-            .emit());
+            .emit()?;
         rust!(self.out, "{{");
         Ok(())
     }
@@ -1036,7 +1032,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
 
     fn emit_downcast_fns(&mut self) -> io::Result<()> {
         for (ty, name) in self.custom.variants.clone() {
-            try!(self.emit_downcast_fn(&name, ty));
+            self.emit_downcast_fn(&name, ty)?;
         }
 
         Ok(())
@@ -1104,8 +1100,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
             format!("_: {}", self.phantom_data_type()),
         ];
 
-        try!(self
-            .out
+        self.out
             .fn_header(
                 &Visibility::Priv,
                 format!("{p}simulate_reduce", p = self.prefix),
@@ -1118,7 +1113,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
                 p = self.prefix,
                 mtp = Sep(", ", &self.custom.machine.type_parameters),
             ))
-            .emit());
+            .emit()?;
         rust!(self.out, "{{");
 
         rust!(self.out, "match {p}reduce_index {{", p = self.prefix,);
@@ -1232,13 +1227,12 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
             format!("_: {}", self.phantom_data_type()),
         ];
 
-        try!(self
-            .out
+        self.out
             .fn_header(&Visibility::Priv, format!("{}accepts", self.prefix),)
             .with_grammar(self.grammar)
             .with_parameters(parameters)
             .with_return_type(format!("bool"))
-            .emit());
+            .emit()?;
         rust!(self.out, "{{");
 
         if DEBUG_PRINT {

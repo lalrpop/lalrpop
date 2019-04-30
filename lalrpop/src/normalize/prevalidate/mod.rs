@@ -169,7 +169,7 @@ impl<'grammar> Validator<'grammar> {
                     }
 
                     for alternative in &data.alternatives {
-                        try!(self.validate_alternative(alternative));
+                        self.validate_alternative(alternative)?;
                     }
                 }
                 GrammarItem::InternToken(..) => {}
@@ -179,7 +179,7 @@ impl<'grammar> Validator<'grammar> {
     }
 
     fn validate_alternative(&self, alternative: &Alternative) -> NormResult<()> {
-        try!(self.validate_expr(&alternative.expr));
+        self.validate_expr(&alternative.expr)?;
 
         match norm_util::analyze_expr(&alternative.expr) {
             Symbols::Named(syms) => {
@@ -214,7 +214,7 @@ impl<'grammar> Validator<'grammar> {
 
     fn validate_expr(&self, expr: &ExprSymbol) -> NormResult<()> {
         for symbol in &expr.symbols {
-            try!(self.validate_symbol(symbol));
+            self.validate_symbol(symbol)?;
         }
 
         let chosen: Vec<&Symbol> = expr
@@ -260,7 +260,7 @@ impl<'grammar> Validator<'grammar> {
     fn validate_symbol(&self, symbol: &Symbol) -> NormResult<()> {
         match symbol.kind {
             SymbolKind::Expr(ref expr) => {
-                try!(self.validate_expr(expr));
+                self.validate_expr(expr)?;
             }
             SymbolKind::AmbiguousId(_) => { /* see resolve */ }
             SymbolKind::Terminal(_) => { /* see postvalidate! */ }
@@ -278,14 +278,14 @@ impl<'grammar> Validator<'grammar> {
             SymbolKind::Macro(ref msym) => {
                 debug_assert!(msym.args.len() > 0);
                 for arg in &msym.args {
-                    try!(self.validate_symbol(arg));
+                    self.validate_symbol(arg)?;
                 }
             }
             SymbolKind::Repeat(ref repeat) => {
-                try!(self.validate_symbol(&repeat.symbol));
+                self.validate_symbol(&repeat.symbol)?;
             }
             SymbolKind::Choose(ref sym) | SymbolKind::Name(_, ref sym) => {
-                try!(self.validate_symbol(sym));
+                self.validate_symbol(sym)?;
             }
             SymbolKind::Lookahead | SymbolKind::Lookbehind => {
                 // if using an internal tokenizer, lookahead/lookbehind are ok.

@@ -190,14 +190,14 @@ impl<'grammar> Debug for LaneTable<'grammar> {
             .collect();
 
         for row in &table {
-            try!(write!(fmt, "| "));
+            write!(fmt, "| ")?;
             for (i, column) in row.iter().enumerate() {
                 if i > 0 {
-                    try!(write!(fmt, " | "));
+                    write!(fmt, " | ")?;
                 }
-                try!(write!(fmt, "{0:1$}", column, widths[i]));
+                write!(fmt, "{0:1$}", column, widths[i])?;
             }
-            try!(write!(fmt, " |\n"));
+            write!(fmt, " |\n")?;
         }
 
         Ok(())

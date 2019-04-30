@@ -29,7 +29,7 @@ pub fn build_lalr_states<'grammar>(
     start: NonterminalString,
 ) -> LR1Result<'grammar> {
     // First build the LR(1) states
-    let lr_states = try!(build::build_lr1_states(grammar, start));
+    let lr_states = build::build_lr1_states(grammar, start)?;
 
     // With lane table, there is no reason to do state collapse
     // for LALR. In fact, LALR is pointless!

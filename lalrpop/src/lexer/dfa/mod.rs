@@ -41,23 +41,23 @@ pub fn build_dfa(
     precedences: &[Precedence],
 ) -> Result<DFA, DFAConstructionError> {
     assert_eq!(regexs.len(), precedences.len());
-    let nfas: Vec<_> = try! {
-        regexs.iter()
-              .enumerate()
-              .map(|(i, r)| match NFA::from_re(r) {
-                  Ok(nfa) => Ok(nfa),
-                  Err(e) => Err(DFAConstructionError::NFAConstructionError {
-                      index: NFAIndex(i),
-                      error: e
-                  }),
-              })
-              .collect()
-    };
+    let nfas = regexs
+        .iter()
+        .enumerate()
+        .map(|(i, r)| match NFA::from_re(r) {
+            Ok(nfa) => Ok(nfa),
+            Err(e) => Err(DFAConstructionError::NFAConstructionError {
+                index: NFAIndex(i),
+                error: e,
+            }),
+        })
+        .collect::<Result<Vec<_>, _>>()?;
+
     let builder = DFABuilder {
         nfas: &nfas,
         precedences: precedences.to_vec(),
     };
-    let dfa = try!(builder.build());
+    let dfa = builder.build()?;
     Ok(dfa)
 }
 

@@ -40,40 +40,40 @@ where
     where
         L: Lookahead + LookaheadPrinter<W>,
     {
-        try!(self.write_header());
-        try!(self.write_section_header("Summary"));
-        try!(writeln!(self.out, ""));
+        self.write_header()?;
+        self.write_section_header("Summary")?;
+        writeln!(self.out, "")?;
         match lr1result {
             &Ok(ref states) => {
-                try!(writeln!(self.out, "Constructed {} states", states.len()));
-                try!(self.report_states(&states, &Map::new()));
+                writeln!(self.out, "Constructed {} states", states.len())?;
+                self.report_states(&states, &Map::new())?;
             }
             &Err(ref table_construction_error) => {
-                try!(writeln!(self.out, "Failure"));
-                try!(writeln!(
+                writeln!(self.out, "Failure")?;
+                writeln!(
                     self.out,
                     "Constructed {} states",
                     table_construction_error.states.len()
-                ));
-                try!(writeln!(
+                )?;
+                writeln!(
                     self.out,
                     "Has {} conflicts",
                     table_construction_error.conflicts.len()
-                ));
+                )?;
                 let (sr, rr, conflict_map) =
                     self.process_conflicts(&table_construction_error.conflicts);
                 if (sr > 0) {
-                    try!(writeln!(self.out, "{}shift/reduce:  {}", INDENT_STRING, sr));
+                    writeln!(self.out, "{}shift/reduce:  {}", INDENT_STRING, sr)?;
                 }
                 if (rr > 0) {
-                    try!(writeln!(self.out, "{}reduce/reduce: {}", INDENT_STRING, rr));
+                    writeln!(self.out, "{}reduce/reduce: {}", INDENT_STRING, rr)?;
                 }
-                try!(write!(self.out, "States with conflicts: "));
+                write!(self.out, "States with conflicts: ")?;
                 for state in conflict_map.keys() {
-                    try!(write!(self.out, " {}", state));
+                    write!(self.out, " {}", state)?;
                 }
-                try!(writeln!(self.out, ""));
-                try!(self.report_states(&table_construction_error.states, &conflict_map));
+                writeln!(self.out, "")?;
+                self.report_states(&table_construction_error.states, &conflict_map)?;
             }
         };
         Ok(())
@@ -110,10 +110,10 @@ where
     where
         L: Lookahead + LookaheadPrinter<W>,
     {
-        try!(self.write_section_header("State Table"));
+        self.write_section_header("State Table")?;
         for ref state in states {
-            try!(writeln!(self.out, ""));
-            try!(self.report_state(&state, conflict_map.get(&state.index)));
+            writeln!(self.out, "")?;
+            self.report_state(&state, conflict_map.get(&state.index))?;
         }
         Ok(())
     }
@@ -126,32 +126,32 @@ where
     where
         L: Lookahead + LookaheadPrinter<W>,
     {
-        try!(writeln!(self.out, "State {} {{", state.index));
-        try!(self.write_items(&state.items));
+        writeln!(self.out, "State {} {{", state.index)?;
+        self.write_items(&state.items)?;
         if (state.reductions.len() > 0) {
-            try!(writeln!(self.out, ""));
-            try!(self.write_reductions(&state.reductions));
+            writeln!(self.out, "")?;
+            self.write_reductions(&state.reductions)?;
         }
 
         let max_width = get_width_for_gotos(state);
 
         if (!state.shifts.len() > 0) {
-            try!(writeln!(self.out, ""));
-            try!(self.write_shifts(&state.shifts, max_width));
+            writeln!(self.out, "")?;
+            self.write_shifts(&state.shifts, max_width)?;
         }
 
         if (!state.gotos.len() > 0) {
-            try!(writeln!(self.out, ""));
-            try!(self.write_gotos(&state.gotos, max_width));
+            writeln!(self.out, "")?;
+            self.write_gotos(&state.gotos, max_width)?;
         }
 
         if let Some(conflicts) = conflicts_opt {
             for conflict in conflicts.iter() {
-                try!(self.write_conflict(conflict));
+                self.write_conflict(conflict)?;
             }
         }
 
-        try!(writeln!(self.out, "}}"));
+        writeln!(self.out, "}}")?;
         Ok(())
     }
 
@@ -159,22 +159,22 @@ where
     where
         L: Lookahead + LookaheadPrinter<W>,
     {
-        try!(writeln!(self.out, ""));
+        writeln!(self.out, "")?;
         match conflict.action {
             Action::Shift(ref terminal, state) => {
                 let max_width = max(
                     terminal.display_len(),
                     conflict.production.nonterminal.len(),
                 );
-                try!(writeln!(self.out, "{}shift/reduce conflict", INDENT_STRING));
-                try!(write!(
+                writeln!(self.out, "{}shift/reduce conflict", INDENT_STRING)?;
+                write!(
                     self.out,
                     "{}{}reduction ",
                     INDENT_STRING, INDENT_STRING
-                ));
-                try!(self.write_production(conflict.production, max_width));
+                )?;
+                self.write_production(conflict.production, max_width)?;
                 let sterminal = format!("{}", terminal);
-                try!(writeln!(
+                writeln!(
                     self.out,
                     "{}{}shift     {:width$}    shift and goto {}",
                     INDENT_STRING,
@@ -182,33 +182,33 @@ where
                     sterminal,
                     state,
                     width = max_width
-                ));
+                )?;
             }
             Action::Reduce(other_production) => {
                 let max_width = max(
                     other_production.nonterminal.len(),
                     conflict.production.nonterminal.len(),
                 );
-                try!(writeln!(
+                writeln!(
                     self.out,
                     "{}reduce/reduce conflict",
                     INDENT_STRING
-                ));
-                try!(write!(
+                )?;
+                write!(
                     self.out,
                     "{}{}reduction ",
                     INDENT_STRING, INDENT_STRING
-                ));
-                try!(self.write_production(conflict.production, max_width));
-                try!(write!(
+                )?;
+                self.write_production(conflict.production, max_width)?;
+                write!(
                     self.out,
                     "{}{}reduction ",
                     INDENT_STRING, INDENT_STRING
-                ));
-                try!(self.write_production(other_production, max_width));
+                )?;
+                self.write_production(other_production, max_width)?;
             }
         }
-        try!(self.write_lookahead(&conflict.lookahead));
+        self.write_lookahead(&conflict.lookahead)?;
         Ok(())
     }
 
@@ -219,8 +219,8 @@ where
         let max_width = get_max_length(items.vec.iter().map(|item| &item.production.nonterminal));
 
         for item in items.vec.iter() {
-            try!(writeln!(self.out, ""));
-            try!(self.write_item(item, max_width));
+            writeln!(self.out, "")?;
+            self.write_item(item, max_width)?;
         }
         Ok(())
     }
@@ -233,19 +233,19 @@ where
     where
         L: Lookahead + LookaheadPrinter<W>,
     {
-        try!(write!(self.out, "{}", INDENT_STRING));
+        write!(self.out, "{}", INDENT_STRING)?;
         // stringize it first to allow handle :width by Display for string
         let s = format!("{}", item.production.nonterminal);
-        try!(write!(self.out, "{:width$} ->", s, width = max_width));
+        write!(self.out, "{:width$} ->", s, width = max_width)?;
         for i in 0..item.index {
-            try!(write!(self.out, " {}", item.production.symbols[i]));
+            write!(self.out, " {}", item.production.symbols[i])?;
         }
-        try!(write!(self.out, " ."));
+        write!(self.out, " .")?;
         for i in item.index..item.production.symbols.len() {
-            try!(write!(self.out, " {}", item.production.symbols[i]));
+            write!(self.out, " {}", item.production.symbols[i])?;
         }
-        try!(writeln!(self.out, ""));
-        try!(self.write_lookahead(&item.lookahead));
+        writeln!(self.out, "")?;
+        self.write_lookahead(&item.lookahead)?;
         Ok(())
     }
 
@@ -255,16 +255,16 @@ where
         max_width: usize,
     ) -> io::Result<()> {
         for entry in shifts {
-            try!(write!(self.out, "{}", INDENT_STRING));
+            write!(self.out, "{}", INDENT_STRING)?;
             // stringize it first to allow handle :width by Display for string
             let s = format!("{}", entry.0);
-            try!(writeln!(
+            writeln!(
                 self.out,
                 "{:width$} shift and goto {}",
                 s,
                 entry.1,
                 width = max_width
-            ));
+            )?;
         }
         Ok(())
     }
@@ -278,8 +278,8 @@ where
     {
         let max_width = get_max_length(reductions.into_iter().map(|p| &p.1.nonterminal));
         for reduction in reductions.iter() {
-            try!(writeln!(self.out, ""));
-            try!(self.write_reduction(reduction, max_width));
+            writeln!(self.out, "")?;
+            self.write_reduction(reduction, max_width)?;
         }
         Ok(())
     }
@@ -289,16 +289,16 @@ where
         production: &'grammar Production,
         max_width: usize,
     ) -> io::Result<()> {
-        try!(write!(
+        write!(
             self.out,
             "{:width$} ->",
             production.nonterminal,
             width = max_width
-        ));
+        )?;
         for symbol in production.symbols.iter() {
-            try!(write!(self.out, " {}", symbol));
+            write!(self.out, " {}", symbol)?;
         }
-        try!(writeln!(self.out, ""));
+        writeln!(self.out, "")?;
         Ok(())
     }
 
@@ -311,9 +311,9 @@ where
         L: Lookahead + LookaheadPrinter<W>,
     {
         let ref production = reduction.1;
-        try!(write!(self.out, "{}reduction ", INDENT_STRING));
-        try!(self.write_production(production, max_width));
-        try!(self.write_lookahead(&reduction.0));
+        write!(self.out, "{}reduction ", INDENT_STRING)?;
+        self.write_production(production, max_width)?;
+        self.write_lookahead(&reduction.0)?;
         Ok(())
     }
 
@@ -322,13 +322,13 @@ where
         L: Lookahead + LookaheadPrinter<W>,
     {
         if (lookahead.has_anything_to_print()) {
-            try!(write!(
+            write!(
                 self.out,
                 "{}{}lookahead",
                 INDENT_STRING, INDENT_STRING
-            ));
-            try!(lookahead.print(self.out));
-            try!(writeln!(self.out, ""));
+            )?;
+            lookahead.print(self.out)?;
+            writeln!(self.out, "")?;
         }
         Ok(())
     }
@@ -339,35 +339,35 @@ where
         max_width: usize,
     ) -> io::Result<()> {
         for entry in gotos {
-            try!(write!(self.out, "{}", INDENT_STRING));
+            write!(self.out, "{}", INDENT_STRING)?;
             // stringize it first to allow handle :width by Display for string
             let s = format!("{}", entry.0);
-            try!(writeln!(
+            writeln!(
                 self.out,
                 "{:width$} goto {}",
                 s,
                 entry.1,
                 width = max_width
-            ));
+            )?;
         }
         Ok(())
     }
 
     fn write_section_header(&mut self, title: &str) -> io::Result<()> {
-        try!(writeln!(self.out, "\n{}", title));
-        try!(writeln!(
+        writeln!(self.out, "\n{}", title)?;
+        writeln!(
             self.out,
             "----------------------------------------"
-        ));
+        )?;
         Ok(())
     }
 
     fn write_header(&mut self) -> io::Result<()> {
-        try!(writeln!(self.out, "Lalrpop Report File"));
-        try!(writeln!(
+        writeln!(self.out, "Lalrpop Report File")?;
+        writeln!(
             self.out,
             "========================================"
-        ));
+        )?;
         Ok(())
     }
 }
@@ -402,7 +402,7 @@ where
 {
     fn print<'report, 'grammar>(self: &Self, out: &'report mut W) -> io::Result<()> {
         for i in self.iter() {
-            try!(write!(out, " {}", i))
+            write!(out, " {}", i)?
         }
         Ok(())
     }

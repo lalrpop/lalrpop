@@ -1,5 +1,5 @@
 // auto-generated: "lalrpop 0.16.3"
-// sha256: d181ef6d5f346eae4de31122598bf5282a38e6325323c525c3928fce87a77
+// sha256: 15347ed421d52ddfdd1bff0e3465696cebfbe4df0dbb1298081a6ebacb3318e
 use string_cache::DefaultAtom as Atom;
 use grammar::parse_tree::*;
 use grammar::pattern::*;
@@ -20609,7 +20609,7 @@ text: &'input str,
 ) -> Result<MatchItem,___lalrpop_util::ParseError<usize,Tok<'input>,tok::Error>>
 {
 {
-        let to = try!(super::parse_match_mapping(p, start + 2));
+        let to = super::parse_match_mapping(p, start + 2)?;
         Ok(MatchItem::Mapped(from, to, Span(lo, hi)))
     }
 }
@@ -20693,7 +20693,7 @@ text: &'input str,
 ) -> Result<Conversion,___lalrpop_util::ParseError<usize,Tok<'input>,tok::Error>>
 {
 {
-        let pattern = try!(super::parse_pattern(p, start + 2));
+        let pattern = super::parse_pattern(p, start + 2)?;
         Ok(Conversion { span: Span(lo, hi),
                         from: from,
                         to: pattern })

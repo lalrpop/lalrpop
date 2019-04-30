@@ -97,7 +97,7 @@ impl<L, T, E> ParseError<L, T, E> {
 /// Format a list of expected tokens.
 fn fmt_expected(f: &mut fmt::Formatter, expected: &[String]) -> fmt::Result {
     if !expected.is_empty() {
-        try!(writeln!(f, ""));
+        writeln!(f, "")?;
         for (i, e) in expected.iter().enumerate() {
             let sep = match i {
                 0 => "Expected one of",
@@ -105,7 +105,7 @@ fn fmt_expected(f: &mut fmt::Formatter, expected: &[String]) -> fmt::Result {
                 // Last expected message to be written
                 _ => " or",
             };
-            try!(write!(f, "{} {}", sep, e));
+            write!(f, "{} {}", sep, e)?;
         }
     }
     Ok(())
@@ -123,11 +123,11 @@ where
             User { ref error } => write!(f, "{}", error),
             InvalidToken { ref location } => write!(f, "Invalid token at {}", location),
             UnrecognizedEOF { ref location, ref expected } => {
-                try!(write!(f, "Unrecognized EOF found at {}", location));
+                write!(f, "Unrecognized EOF found at {}", location)?;
                 fmt_expected(f, expected)
             }
             UnrecognizedToken { token: (ref start, ref token, ref end), ref expected } => {
-                try!(write!(f, "Unrecognized token `{}` found at {}:{}", token, start, end));
+                write!(f, "Unrecognized token `{}` found at {}:{}", token, start, end)?;
                 fmt_expected(f, expected)
             }
             ExtraToken { token: (ref start, ref token, ref end), } => {
