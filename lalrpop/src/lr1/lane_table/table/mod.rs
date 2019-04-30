@@ -153,7 +153,7 @@ impl<'grammar> Debug for LaneTable<'grammar> {
             .lookaheads
             .keys()
             .map(|&(state, _)| state)
-            .chain(self.successors.iter().map(|(key, _)| key.clone()))
+            .chain(self.successors.iter().map(|(&key, _)| key))
             .collect();
 
         let header = iter::once(format!("State"))

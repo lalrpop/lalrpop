@@ -23,7 +23,7 @@ fn resolve_in_place(grammar: &mut Grammar) -> NormResult<()> {
             .filter_map(|item| item.as_nonterminal())
             .map(|nt| {
                 (
-                    nt.span.clone(),
+                    nt.span,
                     nt.name.0.clone(),
                     Def::Nonterminal(nt.args.len()),
                 )
@@ -172,7 +172,7 @@ impl Validator {
         alternative: &mut Alternative,
     ) -> NormResult<()> {
         if let Some(ref condition) = alternative.condition {
-            let def = self.validate_id(scope, condition.span.clone(), &condition.lhs.0)?;
+            let def = self.validate_id(scope, condition.span, &condition.lhs.0)?;
             match def {
                 Def::MacroArg => { /* OK */ }
                 _ => {
