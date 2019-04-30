@@ -16,7 +16,7 @@ exclude = ["build.rs"]
 doctest = false
 
 [dependencies]
-ascii-canvas = "1.0"
+ascii-canvas = "2.0"
 atty = "0.2"
 bit-set = "0.5"
 diff = "0.1.9"
@@ -29,7 +29,7 @@ petgraph = "0.4.13"
 serde = "1.0"
 serde_derive = "1.0"
 string_cache = "0.7.1"
-term = "0.4.5"
+term = "0.5"
 unicode-xid = "0.1"
 sha2 = "0.8.0"
 
