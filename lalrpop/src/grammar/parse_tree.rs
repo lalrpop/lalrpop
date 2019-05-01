@@ -924,8 +924,7 @@ impl ExternToken {
     pub fn associated_type(&self, name: Atom) -> Option<&AssociatedType> {
         self.associated_types
             .iter()
-            .filter(|a| a.type_name == name)
-            .next()
+            .find(|a| a.type_name == name)
     }
 }
 

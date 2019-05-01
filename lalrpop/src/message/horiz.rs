@@ -23,7 +23,7 @@ impl Content for Horiz {
             .iter()
             .map(|c| c.min_width())
             .intersperse(self.separate)
-            .fold(0, |a, b| a + b)
+            .sum()
     }
 
     fn emit(&self, view: &mut AsciiView) {

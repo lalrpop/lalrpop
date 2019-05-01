@@ -276,7 +276,7 @@ where
     where
         L: Lookahead + LookaheadPrinter<W>,
     {
-        let max_width = get_max_length(reductions.into_iter().map(|p| &p.1.nonterminal));
+        let max_width = get_max_length(reductions.iter().map(|p| &p.1.nonterminal));
         for reduction in reductions.iter() {
             writeln!(self.out)?;
             self.write_reduction(reduction, max_width)?;

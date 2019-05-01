@@ -47,7 +47,7 @@ impl<T: FreeVariables> FreeVariables for Option<T> {
 
 impl<T: FreeVariables> FreeVariables for Vec<T> {
     fn free_variables(&self, type_parameters: &[TypeParameter]) -> Vec<TypeParameter> {
-        self.into_iter()
+        self.iter()
             .flat_map(|e| e.free_variables(type_parameters))
             .collect()
     }
