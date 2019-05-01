@@ -61,7 +61,7 @@ impl<'grammar> LaneTableConstruct<'grammar> {
                 }
                 Err(TableConstructionError {
                     states,
-                    conflicts: _,
+                    ..
                 }) => states,
             }
         };

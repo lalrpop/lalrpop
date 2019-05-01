@@ -373,7 +373,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
             p = self.prefix,
         );
         rust!(self.out, "{p}reduce(", p = self.prefix);
-        for Parameter { name, ty: _ } in self.grammar.parameters.iter() {
+        for Parameter { name, .. } in self.grammar.parameters.iter() {
             rust!(self.out, "self.{},", name);
         }
         rust!(self.out, "action,");
@@ -581,7 +581,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
             p = self.prefix,
         );
         rust!(self.out, "{p}StateMachine {{", p = self.prefix);
-        for Parameter { name, ty: _ } in &self.grammar.parameters {
+        for Parameter { name, .. } in &self.grammar.parameters {
             rust!(self.out, "{},", name);
         }
         rust!(
