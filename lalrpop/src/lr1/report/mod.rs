@@ -42,7 +42,7 @@ where
     {
         self.write_header()?;
         self.write_section_header("Summary")?;
-        writeln!(self.out, "")?;
+        writeln!(self.out)?;
         match lr1result {
             &Ok(ref states) => {
                 writeln!(self.out, "Constructed {} states", states.len())?;
@@ -72,7 +72,7 @@ where
                 for state in conflict_map.keys() {
                     write!(self.out, " {}", state)?;
                 }
-                writeln!(self.out, "")?;
+                writeln!(self.out)?;
                 self.report_states(&table_construction_error.states, &conflict_map)?;
             }
         };
@@ -112,7 +112,7 @@ where
     {
         self.write_section_header("State Table")?;
         for ref state in states {
-            writeln!(self.out, "")?;
+            writeln!(self.out)?;
             self.report_state(&state, conflict_map.get(&state.index))?;
         }
         Ok(())
@@ -129,19 +129,19 @@ where
         writeln!(self.out, "State {} {{", state.index)?;
         self.write_items(&state.items)?;
         if (state.reductions.len() > 0) {
-            writeln!(self.out, "")?;
+            writeln!(self.out)?;
             self.write_reductions(&state.reductions)?;
         }
 
         let max_width = get_width_for_gotos(state);
 
         if (!state.shifts.len() > 0) {
-            writeln!(self.out, "")?;
+            writeln!(self.out)?;
             self.write_shifts(&state.shifts, max_width)?;
         }
 
         if (!state.gotos.len() > 0) {
-            writeln!(self.out, "")?;
+            writeln!(self.out)?;
             self.write_gotos(&state.gotos, max_width)?;
         }
 
@@ -159,7 +159,7 @@ where
     where
         L: Lookahead + LookaheadPrinter<W>,
     {
-        writeln!(self.out, "")?;
+        writeln!(self.out)?;
         match conflict.action {
             Action::Shift(ref terminal, state) => {
                 let max_width = max(
@@ -219,7 +219,7 @@ where
         let max_width = get_max_length(items.vec.iter().map(|item| &item.production.nonterminal));
 
         for item in items.vec.iter() {
-            writeln!(self.out, "")?;
+            writeln!(self.out)?;
             self.write_item(item, max_width)?;
         }
         Ok(())
@@ -244,7 +244,7 @@ where
         for i in item.index..item.production.symbols.len() {
             write!(self.out, " {}", item.production.symbols[i])?;
         }
-        writeln!(self.out, "")?;
+        writeln!(self.out)?;
         self.write_lookahead(&item.lookahead)?;
         Ok(())
     }
@@ -278,7 +278,7 @@ where
     {
         let max_width = get_max_length(reductions.into_iter().map(|p| &p.1.nonterminal));
         for reduction in reductions.iter() {
-            writeln!(self.out, "")?;
+            writeln!(self.out)?;
             self.write_reduction(reduction, max_width)?;
         }
         Ok(())
@@ -298,7 +298,7 @@ where
         for symbol in production.symbols.iter() {
             write!(self.out, " {}", symbol)?;
         }
-        writeln!(self.out, "")?;
+        writeln!(self.out)?;
         Ok(())
     }
 
@@ -328,7 +328,7 @@ where
                 INDENT_STRING, INDENT_STRING
             )?;
             lookahead.print(self.out)?;
-            writeln!(self.out, "")?;
+            writeln!(self.out)?;
         }
         Ok(())
     }

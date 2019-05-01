@@ -86,7 +86,7 @@ impl<'me, W: Write> RustWrite<W> {
                 first = false;
             }
         }
-        writeln!(self.write, "")
+        writeln!(self.write)
     }
 
     pub fn writeln(&mut self, out: &str) -> io::Result<()> {
