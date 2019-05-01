@@ -545,7 +545,7 @@ impl ActionFn {
         ActionFn(x as u32)
     }
 
-    pub fn index(&self) -> usize {
+    pub fn index(self) -> usize {
         self.0 as usize
     }
 }

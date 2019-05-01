@@ -120,7 +120,7 @@ impl MatchBlock {
         let mut match_block = Self::default();
         if let Some(match_token) = opt_match_token {
             for (idx, mc) in match_token.contents.iter().enumerate() {
-                let precedence = &match_token.contents.len() - idx;
+                let precedence = match_token.contents.len() - idx;
                 for item in &mc.items {
                     match *item {
                         MatchItem::Unmapped(ref sym, span) => {

@@ -311,13 +311,13 @@ impl Display for DFAStateIndex {
 }
 
 impl NFAIndex {
-    pub fn index(&self) -> usize {
+    pub fn index(self) -> usize {
         self.0
     }
 }
 
 impl DFAStateIndex {
-    pub fn index(&self) -> usize {
+    pub fn index(self) -> usize {
         self.0
     }
 }

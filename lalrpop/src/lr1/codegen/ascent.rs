@@ -199,7 +199,7 @@ impl<'ascent, 'grammar, W: Write>
         // making different enums per state, but this would mean we
         // have to unwrap and rewrap as we pass up the stack, which
         // seems silly
-        for ref nt in self.grammar.nonterminals.keys() {
+        for nt in self.grammar.nonterminals.keys() {
             let ty = self
                 .types
                 .spanned_type(self.types.nonterminal_type(nt).clone());

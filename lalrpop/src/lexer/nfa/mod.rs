@@ -248,8 +248,8 @@ impl NFA {
             // I was too lazy to code them up or think about them
             HirKind::WordBoundary(_) => Err(NFAConstructionError::WordBoundary),
             HirKind::Anchor(ref a) => match a {
-                &Anchor::StartLine | &Anchor::EndLine => Err(NFAConstructionError::LineBoundary),
-                &Anchor::StartText | &Anchor::EndText => Err(NFAConstructionError::TextBoundary),
+                Anchor::StartLine | Anchor::EndLine => Err(NFAConstructionError::LineBoundary),
+                Anchor::StartText | Anchor::EndText => Err(NFAConstructionError::TextBoundary),
             },
 
             // currently we treat all groups the same, whether they

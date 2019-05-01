@@ -44,11 +44,11 @@ where
         self.write_section_header("Summary")?;
         writeln!(self.out)?;
         match lr1result {
-            &Ok(ref states) => {
+            Ok(ref states) => {
                 writeln!(self.out, "Constructed {} states", states.len())?;
                 self.report_states(&states, &Map::new())?;
             }
-            &Err(ref table_construction_error) => {
+            Err(ref table_construction_error) => {
                 writeln!(self.out, "Failure")?;
                 writeln!(
                     self.out,
@@ -81,7 +81,7 @@ where
 
     fn process_conflicts<'grammar, L>(
         &mut self,
-        conflicts: &'report Vec<Conflict<'grammar, L>>,
+        conflicts: &'report [Conflict<'grammar, L>],
     ) -> (usize, usize, ConflictStateMap<'report, 'grammar, L>)
     where
         L: Lookahead,
@@ -104,14 +104,14 @@ where
 
     fn report_states<'grammar, L>(
         &mut self,
-        states: &Vec<State<'grammar, L>>,
+        states: &[State<'grammar, L>],
         conflict_map: &ConflictStateMap<'report, 'grammar, L>,
     ) -> io::Result<()>
     where
         L: Lookahead + LookaheadPrinter<W>,
     {
         self.write_section_header("State Table")?;
-        for ref state in states {
+        for state in states {
             writeln!(self.out)?;
             self.report_state(&state, conflict_map.get(&state.index))?;
         }
@@ -271,7 +271,7 @@ where
 
     fn write_reductions<'grammar, L>(
         &mut self,
-        reductions: &Vec<(L, &'grammar Production)>,
+        reductions: &[(L, &'grammar Production)],
     ) -> io::Result<()>
     where
         L: Lookahead + LookaheadPrinter<W>,
@@ -310,7 +310,7 @@ where
     where
         L: Lookahead + LookaheadPrinter<W>,
     {
-        let ref production = reduction.1;
+        let production = reduction.1;
         write!(self.out, "{}reduction ", INDENT_STRING)?;
         self.write_production(production, max_width)?;
         self.write_lookahead(&reduction.0)?;

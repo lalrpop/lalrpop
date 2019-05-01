@@ -63,8 +63,8 @@ pub enum Presence {
 }
 
 impl Presence {
-    pub fn is_in_curly_brackets(&self) -> bool {
-        *self == Presence::InCurlyBrackets
+    pub fn is_in_curly_brackets(self) -> bool {
+        self == Presence::InCurlyBrackets
     }
 }
 

@@ -169,7 +169,7 @@ impl<'grammar> TypeInferencer<'grammar> {
         }
 
         let ty = self.push(id, |this| {
-            if let &Some(ref type_decl) = nt.type_decl {
+            if let Some(ref type_decl) = nt.type_decl {
                 return this.type_ref(type_decl);
             }
 
