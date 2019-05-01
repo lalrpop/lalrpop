@@ -106,6 +106,6 @@ pub fn compare_str(actual: &str, expected: &str, msg: &str) {
         if lines.len() >= 100 {
             println!("... more");
         }
-        assert!(false, "{}", msg);
+        panic!("{}", msg);
     }
 }

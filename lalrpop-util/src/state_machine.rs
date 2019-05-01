@@ -367,7 +367,7 @@ where
                 if let Some(error_state) = action.as_shift() {
                     // If action is a shift that takes us into `error_state`,
                     // and `error_state` can accept this lookahead, we are done.
-                    if self.accepts(error_state, &self.states[..top + 1], opt_token_index) {
+                    if self.accepts(error_state, &self.states[..=top], opt_token_index) {
                         debug!("\\\\\\ accepted!");
                         break 'find_state top;
                     }

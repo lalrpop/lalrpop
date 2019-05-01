@@ -674,7 +674,7 @@ impl<'cx, 'grammar> ErrorReportingCx<'cx, 'grammar> {
         // Make sure that all the things we are suggesting inlining
         // are distinct so that we are not introducing a cycle.
         let mut duplicates = set();
-        if reduce.reductions[0..i + 1]
+        if reduce.reductions[0..=i]
             .iter()
             .any(|r| !duplicates.insert(r.nonterminal.clone()))
         {

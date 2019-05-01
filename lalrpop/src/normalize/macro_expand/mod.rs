@@ -92,7 +92,7 @@ impl MacroExpander {
                         "@R",
                         ActionKind::Lookbehind
                     )?),
-                    _ => assert!(false, "don't know how to expand `{:?}`", sym),
+                    _ => panic!("don't know how to expand `{:?}`", sym),
                 }
             }
         }

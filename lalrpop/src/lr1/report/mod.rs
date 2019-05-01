@@ -91,12 +91,12 @@ where
         let mut conflict_map = Map::new();
         for conflict in conflicts.iter() {
             match conflict.action {
-                Action::Shift(_, _) => sr = sr + 1,
-                Action::Reduce(_) => rr = rr + 1,
+                Action::Shift(_, _) => sr += 1,
+                Action::Reduce(_) => rr += 1,
             }
             conflict_map
                 .entry(conflict.state)
-                .or_insert(vec![])
+                .or_insert_with(Vec::new)
                 .push(conflict);
         }
         (sr, rr, conflict_map)

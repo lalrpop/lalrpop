@@ -60,7 +60,7 @@ macro_rules! profile {
             Verbose,
             "Phase `{}` completed in {} seconds",
             $phase_name,
-            elapsed.as_secs() as f64 + elapsed.subsec_nanos() as f64 / 1000_000_000.0
+            elapsed.as_secs() as f64 + elapsed.subsec_nanos() as f64 / 1_000_000_000.0
         );
         result
     }};

@@ -167,13 +167,13 @@ impl<'grammar> Debug for LaneTable<'grammar> {
                     self.lookaheads
                         .get(&(index, ConflictIndex::new(i)))
                         .map(|token_set| format!("{:?}", token_set))
-                        .unwrap_or(String::new())
+                        .unwrap_or_else(String::new)
                 }))
                 .chain(Some(
                     self.successors
                         .get(&index)
                         .map(|c| format!("{:?}", c))
-                        .unwrap_or(String::new()),
+                        .unwrap_or_else(String::new),
                 ))
                 .collect()
         });
@@ -197,7 +197,7 @@ impl<'grammar> Debug for LaneTable<'grammar> {
                 }
                 write!(fmt, "{0:1$}", column, widths[i])?;
             }
-            write!(fmt, " |\n")?;
+            writeln!(fmt, " |")?;
         }
 
         Ok(())

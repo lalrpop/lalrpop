@@ -111,7 +111,7 @@ impl FileText {
             }
         } else {
             // span is across many lines, find the maximal width of any of those
-            let line_strs: Vec<_> = (start_line..end_line + 1)
+            let line_strs: Vec<_> = (start_line..=end_line)
                 .map(|i| self.line_text(i))
                 .collect();
             let max_len = line_strs.iter().map(|l| l.len()).max().unwrap();
