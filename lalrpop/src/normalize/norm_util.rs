@@ -13,7 +13,7 @@ pub enum Symbols<'a> {
     Anon(Vec<(usize, &'a Symbol)>),
 }
 
-pub fn analyze_action<'a>(alt: &'a Alternative) -> AlternativeAction<'a> {
+pub fn analyze_action(alt: &Alternative) -> AlternativeAction<'_> {
     // We can't infer types for alternatives with actions
     if let Some(ref code) = alt.action {
         return AlternativeAction::User(code);
@@ -22,7 +22,7 @@ pub fn analyze_action<'a>(alt: &'a Alternative) -> AlternativeAction<'a> {
     AlternativeAction::Default(analyze_expr(&alt.expr))
 }
 
-pub fn analyze_expr<'a>(expr: &'a ExprSymbol) -> Symbols<'a> {
+pub fn analyze_expr(expr: &ExprSymbol) -> Symbols<'_> {
     // First look for named symbols.
     let named_symbols: Vec<_> = expr
         .symbols

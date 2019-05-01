@@ -239,7 +239,7 @@ impl TokenSet {
         !self.is_disjoint(other)
     }
 
-    pub fn iter<'iter>(&'iter self) -> TokenSetIter<'iter> {
+    pub fn iter(&self) -> TokenSetIter<'_> {
         TokenSetIter {
             bit_set: self.bit_set.iter(),
         }

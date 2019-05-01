@@ -378,20 +378,20 @@ trait LookaheadPrinter<W>
 where
     W: Write,
 {
-    fn print<'report, 'grammar>(self: &Self, out: &'report mut W) -> io::Result<()>;
+    fn print<'report>(self: &Self, out: &'report mut W) -> io::Result<()>;
 
-    fn has_anything_to_print<'report>(self: &Self) -> bool;
+    fn has_anything_to_print(self: &Self) -> bool;
 }
 
 impl<W> LookaheadPrinter<W> for Nil
 where
     W: Write,
 {
-    fn print<'report, 'grammar>(self: &Self, _: &'report mut W) -> io::Result<()> {
+    fn print<'report>(self: &Self, _: &'report mut W) -> io::Result<()> {
         Ok(())
     }
 
-    fn has_anything_to_print<'report>(self: &Self) -> bool {
+    fn has_anything_to_print(self: &Self) -> bool {
         false
     }
 }
@@ -400,14 +400,14 @@ impl<W> LookaheadPrinter<W> for TokenSet
 where
     W: Write,
 {
-    fn print<'report, 'grammar>(self: &Self, out: &'report mut W) -> io::Result<()> {
+    fn print<'report>(self: &Self, out: &'report mut W) -> io::Result<()> {
         for i in self.iter() {
             write!(out, " {}", i)?
         }
         Ok(())
     }
 
-    fn has_anything_to_print<'report>(self: &Self) -> bool {
+    fn has_anything_to_print(self: &Self) -> bool {
         self.len() > 0
     }
 }

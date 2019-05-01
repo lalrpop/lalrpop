@@ -613,7 +613,7 @@ impl<'cx, 'grammar> ErrorReportingCx<'cx, 'grammar> {
             .next()
     }
 
-    fn try_classify_inline_example<'ex>(&self, shift: &Example, reduce: &Example) -> bool {
+    fn try_classify_inline_example(&self, shift: &Example, reduce: &Example) -> bool {
         debug!("try_classify_inline_example({:?}, {:?})", shift, reduce);
 
         // In the case of shift, the example will look like
