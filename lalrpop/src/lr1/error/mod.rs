@@ -764,7 +764,7 @@ impl<'cx, 'grammar> ErrorReportingCx<'cx, 'grammar> {
             .iter()
             .filter(|i| i.can_shift())
             .filter(|i| i.production.symbols[i.index] == lookahead)
-            .map(|i| i.to_lr0())
+            .map(Item::to_lr0)
             .collect()
     }
 }

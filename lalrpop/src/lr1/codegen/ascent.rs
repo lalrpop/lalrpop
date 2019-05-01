@@ -595,7 +595,7 @@ impl<'ascent, 'grammar, W: Write>
         // there are more edges than there are states in the graph.
         let starts_with_terminal = fixed_prefix
             .last()
-            .map(|l| l.is_terminal())
+            .map(Symbol::is_terminal)
             .unwrap_or(false);
 
         let mut base_args = vec![format!("{}tokens: &mut {}TOKENS", self.prefix, self.prefix)];

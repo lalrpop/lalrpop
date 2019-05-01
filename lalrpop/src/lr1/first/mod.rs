@@ -24,7 +24,7 @@ impl FirstSets {
                 let first_set = this
                     .map
                     .entry(nt.clone())
-                    .or_insert_with(|| TokenSet::new());
+                    .or_insert_with(TokenSet::new);
                 changed |= first_set.union_with(&lookahead);
             }
         }

@@ -237,7 +237,7 @@ impl<'grammar, L: Lookahead> State<'grammar, L> {
             .items
             .vec
             .iter()
-            .map(|item| item.prefix())
+            .map(Item::prefix)
             .max_by_key(|symbols| symbols.len())
             .unwrap();
 
@@ -269,7 +269,7 @@ impl<'grammar, L: Lookahead> State<'grammar, L> {
             .vec
             .iter()
             .filter(|item| item.index > 0)
-            .map(|item| item.prefix())
+            .map(Item::prefix)
             .min_by_key(|symbols| symbols.len())
             .unwrap_or(&[]);
 

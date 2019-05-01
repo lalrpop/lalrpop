@@ -17,13 +17,13 @@ pub fn validate(grammar: &Grammar) -> NormResult<()> {
     let match_token: Option<&MatchToken> = grammar
         .items
         .iter()
-        .filter_map(|item| item.as_match_token())
+        .filter_map(GrammarItem::as_match_token)
         .next();
 
     let extern_token: Option<&ExternToken> = grammar
         .items
         .iter()
-        .filter_map(|item| item.as_extern_token())
+        .filter_map(GrammarItem::as_extern_token)
         .next();
 
     let validator = Validator {

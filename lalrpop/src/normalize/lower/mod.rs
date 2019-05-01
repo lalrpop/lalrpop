@@ -5,7 +5,8 @@ use collections::{map, Map};
 use grammar::consts::CFG;
 use grammar::parse_tree as pt;
 use grammar::parse_tree::{
-    read_algorithm, InternToken, Lifetime, NonterminalString, Path, TerminalString,
+    read_algorithm, GrammarItem, InternToken, Lifetime, NonterminalString,
+    Path, TerminalString,
 };
 use grammar::pattern::{Pattern, PatternKind};
 use grammar::repr as r;
@@ -217,7 +218,7 @@ impl<'s> LowerState<'s> {
         grammar
             .items
             .iter()
-            .filter_map(|item| item.as_nonterminal())
+            .filter_map(GrammarItem::as_nonterminal)
             .filter(|nt| nt.visibility.is_pub())
             .filter(|nt| cfg_active(session, nt))
             .map(|nt| {
@@ -419,7 +420,7 @@ impl<'s> LowerState<'s> {
                     symbols.len(),
                 );
                 let name_str = {
-                    let name_strs: Vec<_> = names.iter().map(|n| n.as_ref()).collect();
+                    let name_strs: Vec<_> = names.iter().map(AsRef::as_ref).collect();
                     name_strs.join(", ")
                 };
                 let action = action.replace("<>", &name_str);

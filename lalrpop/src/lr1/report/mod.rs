@@ -433,7 +433,7 @@ where
     I: Iterator,
     I::Item: HasDisplayLen,
 {
-    m.map(|k| k.display_len()).fold(0, |acc, x| max(acc, x))
+    m.map(|k| k.display_len()).fold(0, max)
 }
 
 fn get_width_for_gotos<'grammar, L>(state: &State<'grammar, L>) -> usize

@@ -58,7 +58,7 @@ pub fn collapse_to_lalr_states<'grammar>(lr_states: &[LR1State<'grammar>]) -> LR
             .items
             .vec
             .iter()
-            .map(|item| item.to_lr0())
+            .map(Item::to_lr0)
             .dedup()
             .collect();
 

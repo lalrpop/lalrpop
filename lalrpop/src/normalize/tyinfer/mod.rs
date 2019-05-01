@@ -3,8 +3,8 @@ use super::{NormError, NormResult};
 
 use grammar::consts::{ERROR, LOCATION};
 use grammar::parse_tree::{
-    ActionKind, Alternative, Grammar, Lifetime, NonterminalData, NonterminalString, Path, Span,
-    SymbolKind, TypeParameter, TypeRef,
+    ActionKind, Alternative, Grammar, GrammarItem, Lifetime, NonterminalData,
+    NonterminalString, Path, Span, SymbolKind, TypeParameter, TypeRef,
 };
 use grammar::repr::{NominalTypeRepr, TypeRepr, Types};
 use std::collections::{HashMap, HashSet};
@@ -39,7 +39,7 @@ impl<'grammar> TypeInferencer<'grammar> {
         let nonterminals = grammar
             .items
             .iter()
-            .filter_map(|item| item.as_nonterminal())
+            .filter_map(GrammarItem::as_nonterminal)
             .map(|data| {
                 assert!(!data.is_macro_def()); // normalized away by now
                 (data.name.clone(), NT::new(data))

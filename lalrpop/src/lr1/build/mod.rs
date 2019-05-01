@@ -118,7 +118,7 @@ impl<'grammar, L: LookaheadBuild> LR<'grammar, L> {
             let transitions: Multimap<Symbol, Multimap<LR0Item<'grammar>, L>> = items
                 .vec
                 .iter()
-                .filter_map(|item| item.shifted_item())
+                .filter_map(Item::shifted_item)
                 .map(
                     |(
                         symbol,
@@ -208,7 +208,7 @@ impl<'grammar, L: LookaheadBuild> LR<'grammar, L> {
 
     // expands `state` with epsilon moves
     fn transitive_closure(&self, items: Vec<Item<'grammar, L>>) -> Items<'grammar, L> {
-        let mut stack: Vec<LR0Item<'grammar>> = items.iter().map(|item| item.to_lr0()).collect();
+        let mut stack: Vec<LR0Item<'grammar>> = items.iter().map(Item::to_lr0).collect();
         let mut map: Multimap<LR0Item<'grammar>, L> = items
             .into_iter()
             .map(|item| (item.to_lr0(), item.lookahead))

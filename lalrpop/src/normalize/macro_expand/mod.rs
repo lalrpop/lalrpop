@@ -21,7 +21,7 @@ pub fn expand_macros(input: Grammar) -> NormResult<Grammar> {
     let items = input.items;
 
     let (macro_defs, mut items): (Vec<_>, Vec<_>) =
-        items.into_iter().partition(|mi| mi.is_macro_def());
+        items.into_iter().partition(GrammarItem::is_macro_def);
 
     let macro_defs: HashMap<_, _> = macro_defs
         .into_iter()

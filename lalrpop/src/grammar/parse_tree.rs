@@ -585,23 +585,23 @@ impl Into<Box<Content>> for TerminalString {
 
 impl Grammar {
     pub fn extern_token(&self) -> Option<&ExternToken> {
-        self.items.iter().flat_map(|i| i.as_extern_token()).next()
+        self.items.iter().flat_map(GrammarItem::as_extern_token).next()
     }
 
     pub fn enum_token(&self) -> Option<&EnumToken> {
         self.items
             .iter()
-            .flat_map(|i| i.as_extern_token())
+            .flat_map(GrammarItem::as_extern_token)
             .flat_map(|et| et.enum_token.as_ref())
             .next()
     }
 
     pub fn intern_token(&self) -> Option<&InternToken> {
-        self.items.iter().flat_map(|i| i.as_intern_token()).next()
+        self.items.iter().flat_map(GrammarItem::as_intern_token).next()
     }
 
     pub fn match_token(&self) -> Option<&MatchToken> {
-        self.items.iter().flat_map(|i| i.as_match_token()).next()
+        self.items.iter().flat_map(GrammarItem::as_match_token).next()
     }
 }
 
