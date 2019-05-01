@@ -708,7 +708,7 @@ impl<'input> Tokenizer<'input> {
         match self.lookahead {
             Some((idx0, cc)) if c == cc => {
                 self.bump();
-                Some(Ok((idx0)))
+                Some(Ok(idx0))
             }
             Some((idx0, _)) => {
                 self.bump();
