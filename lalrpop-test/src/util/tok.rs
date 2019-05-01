@@ -73,5 +73,5 @@ where
         buf.push(c);
     }
 
-    return (buf, None);
+    (buf, None)
 }

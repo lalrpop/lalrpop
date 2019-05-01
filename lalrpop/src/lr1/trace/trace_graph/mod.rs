@@ -294,7 +294,7 @@ impl<'graph, 'grammar> PathEnumerator<'graph, 'grammar> {
                     symbol_sets,
                     edges,
                 });
-                return true;
+                true
             }
             TraceGraphNode::Nonterminal(_) => {
                 // If this node already appears on the stack, do not
