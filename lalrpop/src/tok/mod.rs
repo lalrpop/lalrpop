@@ -541,10 +541,8 @@ impl<'input> Tokenizer<'input> {
             } else if c == '\\' {
                 escape = true;
                 false
-            } else if c == quote {
-                true
             } else {
-                false
+                c == quote
             }
         };
         match self.take_until(terminate) {
