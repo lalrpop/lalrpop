@@ -24,7 +24,7 @@ impl FileText {
                 .as_bytes()
                 .iter()
                 .enumerate()
-                .filter(|&(_, &b)| b == ('\n' as u8))
+                .filter(|&(_, &b)| b == b'\n')
                 .map(|(i, _)| i + 1); // index of first char in the line
             Some(0).into_iter().chain(input_indices).collect()
         };
