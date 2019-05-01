@@ -29,7 +29,7 @@ mod fake_term;
 
 use self::fake_term::FakeTerminal;
 
-const LALRPOP_VERSION_HEADER: &'static str = concat!(
+const LALRPOP_VERSION_HEADER: &str = concat!(
     "// auto-generated: \"",
     env!("CARGO_PKG_NAME"),
     " ",

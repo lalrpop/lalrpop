@@ -92,7 +92,7 @@ fn main1() -> io::Result<()> {
     Ok(())
 }
 
-const USAGE: &'static str = "
+const USAGE: &str = "
 Usage: lalrpop [options] <inputs>...
        lalrpop --help
        lalrpop (-V | --version)

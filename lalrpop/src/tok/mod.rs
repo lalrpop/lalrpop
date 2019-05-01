@@ -117,7 +117,7 @@ pub struct Tokenizer<'input> {
 
 pub type Spanned<T> = (usize, T, usize);
 
-const KEYWORDS: &'static [(&'static str, Tok<'static>)] = &[
+const KEYWORDS: &[(&str, Tok<'static>)] = &[
     ("enum", Enum),
     ("extern", Extern),
     ("grammar", Grammar),
