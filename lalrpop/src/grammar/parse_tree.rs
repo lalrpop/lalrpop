@@ -970,7 +970,7 @@ impl Display for TypeRef {
                 ref path,
                 ref types,
             }
-                if types.len() == 0 =>
+                if types.is_empty() =>
             {
                 write!(fmt, "{}", path)
             }

@@ -228,7 +228,7 @@ impl Validator {
                 }
             }
             SymbolKind::Macro(ref mut msym) => {
-                debug_assert!(msym.args.len() > 0);
+                debug_assert!(!msym.args.is_empty());
                 let def = self.validate_id(scope, symbol.span, &msym.name.0)?;
                 match def {
                     Def::Nonterminal(0) | Def::Terminal | Def::MacroArg => return_err!(

@@ -523,7 +523,7 @@ impl Debug for TypeRepr {
 
 impl Display for NominalTypeRepr {
     fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
-        if self.types.len() == 0 {
+        if self.types.is_empty() {
             write!(fmt, "{}", self.path)
         } else {
             write!(fmt, "{}<{}>", self.path, Sep(", ", &self.types))

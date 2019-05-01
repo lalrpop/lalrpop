@@ -276,7 +276,7 @@ impl<'grammar> Validator<'grammar> {
                 }
             }
             SymbolKind::Macro(ref msym) => {
-                debug_assert!(msym.args.len() > 0);
+                debug_assert!(!msym.args.is_empty());
                 for arg in &msym.args {
                     self.validate_symbol(arg)?;
                 }

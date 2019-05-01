@@ -128,7 +128,7 @@ where
     {
         writeln!(self.out, "State {} {{", state.index)?;
         self.write_items(&state.items)?;
-        if (state.reductions.len() > 0) {
+        if (!state.reductions.is_empty()) {
             writeln!(self.out)?;
             self.write_reductions(&state.reductions)?;
         }

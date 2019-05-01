@@ -146,7 +146,7 @@ impl<'nfa> DFABuilder<'nfa> {
 
             let kind = if all_rejects || item_set.items.is_empty() {
                 Kind::Reject
-            } else if all_accepts.len() == 0 {
+            } else if all_accepts.is_empty() {
                 Kind::Neither
             } else if all_accepts.len() == 1 {
                 // accepts just one NFA, easy case

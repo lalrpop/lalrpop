@@ -355,7 +355,7 @@ impl<'ascent, 'grammar, W: Write>
 
             self.emit_reduce_action("result", stack_suffix, production)?;
 
-            if production.symbols.len() > 0 {
+            if !production.symbols.is_empty() {
                 // if we popped anything off of the stack, then this frame is done
                 rust!(self.out, "return Ok({}result);", self.prefix);
             } else {
@@ -670,8 +670,8 @@ impl<'ascent, 'grammar, W: Write>
                 // So basically we are looking for states
                 // that, when they return, may *optionally* have consumed
                 // the top of our stack.
-                assert!(succ_inputs.fixed().len() >= 1);
-                succ_inputs.fixed().len() == 1 && succ_inputs.optional().len() > 0
+                assert!(!succ_inputs.fixed().is_empty());
+                succ_inputs.fixed().len() == 1 && !succ_inputs.optional().is_empty()
             });
 
         // If we find a successor that may optionally consume the top
@@ -761,7 +761,7 @@ impl<'ascent, 'grammar, W: Write>
         // symbols that the next state expects; will always be include
         // at least one fixed input
         let next_inputs = self.custom.state_inputs[next_index.0];
-        assert!(next_inputs.fixed().len() >= 1);
+        assert!(!next_inputs.fixed().is_empty());
         assert!(next_inputs.len() <= total);
 
         let transfer_syms = self.pop_syms(optional, fixed, next_inputs)?;

@@ -208,7 +208,7 @@ fn emit_inline_action_code<W: Write>(
 
     // If no symbols are being reduced, add in the
     // lookbehind/lookahead.
-    if arguments.len() == 0 {
+    if arguments.is_empty() {
         arguments.extend(vec![
             format!(
                 "{}lookbehind: &{}",
@@ -243,7 +243,7 @@ fn emit_inline_action_code<W: Write>(
                 arg_counter += 1;
             }
             r::InlinedSymbol::Inlined(_, ref syms) => {
-                if syms.len() > 0 {
+                if !syms.is_empty() {
                     // If we are reducing symbols, then start and end
                     // can be the start/end location of the first/last
                     // symbol respectively. Easy peezy.
@@ -370,7 +370,7 @@ fn emit_inline_action_code<W: Write>(
                 for i in 0..syms.len() {
                     rust!(rust, "{}{},", grammar.prefix, arg_counter + i);
                 }
-                if syms.len() == 0 {
+                if syms.is_empty() {
                     rust!(rust, "&{}start{},", grammar.prefix, temp_counter);
                     rust!(rust, "&{}end{},", grammar.prefix, temp_counter);
                 }
@@ -418,7 +418,7 @@ fn emit_inline_action_code<W: Write>(
             }
         }
     }
-    assert!(data.symbols.len() > 0);
+    assert!(!data.symbols.is_empty());
     rust!(rust, ")");
 
     rust!(rust, "}}");
