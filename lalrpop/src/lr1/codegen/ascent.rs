@@ -344,7 +344,7 @@ impl<'ascent, 'grammar, W: Write>
                     Token::Error => {
                         panic!("Error recovery is not implemented for recursive ascent parsers")
                     }
-                    Token::EOF => format!("None"),
+                    Token::EOF => "None".to_string(),
                 };
                 if index < tokens.len() - 1 {
                     rust!(self.out, "{} |", pattern);

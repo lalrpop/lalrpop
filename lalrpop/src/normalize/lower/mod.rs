@@ -348,9 +348,9 @@ impl<'s> LowerState<'s> {
                 // will type-check (`()`), so supply that. Otherwise,
                 // default is to include all selected items.
                 if nt_type.is_unit() {
-                    format!("()")
+                    "()".to_string()
                 } else {
-                    format!("(<>)")
+                    "(<>)".to_string()
                 }
             }
         };

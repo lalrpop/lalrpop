@@ -364,8 +364,7 @@ impl<'codegen, 'grammar, W: Write, C> CodeGenerator<'codegen, 'grammar, W, C> {
             .type_parameters
             .iter()
             .map(|tp| match *tp {
-                TypeParameter::Lifetime(_) => format!("&()"),
-
+                TypeParameter::Lifetime(_) => "&()".to_string(),
                 TypeParameter::Id(ref id) => id.to_string(),
             })
             .collect();

@@ -178,7 +178,7 @@ impl<'me, W: Write> FnHeader<'me, W> {
             name,
             type_parameters: vec![],
             parameters: vec![],
-            return_type: format!("()"),
+            return_type: "()".to_string(),
             where_clauses: vec![],
         }
     }

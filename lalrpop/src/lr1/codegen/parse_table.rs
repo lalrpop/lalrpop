@@ -618,7 +618,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
             .with_type_parameters(&self.grammar.type_parameters)
             .with_where_clauses(&self.grammar.where_clauses)
             .with_parameters(parameters)
-            .with_return_type(format!("Option<usize>"))
+            .with_return_type("Option<usize>")
             .emit()?;
         rust!(self.out, "{{");
 
@@ -882,7 +882,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
             )
             .with_grammar(self.grammar)
             .with_parameters(parameters)
-            .with_return_type(format!("(usize, usize)"))
+            .with_return_type("(usize, usize)")
             .emit()?;
         rust!(self.out, "{{");
         Ok(())
@@ -1231,7 +1231,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
             .fn_header(&Visibility::Priv, format!("{}accepts", self.prefix),)
             .with_grammar(self.grammar)
             .with_parameters(parameters)
-            .with_return_type(format!("bool"))
+            .with_return_type("bool")
             .emit()?;
         rust!(self.out, "{{");
 

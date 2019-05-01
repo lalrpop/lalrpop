@@ -156,9 +156,9 @@ impl<'grammar> Debug for LaneTable<'grammar> {
             .chain(self.successors.iter().map(|(&key, _)| key))
             .collect();
 
-        let header = iter::once(format!("State"))
+        let header = iter::once("State".to_string())
             .chain((0..self.conflicts).map(|i| format!("C{}", i)))
-            .chain(Some(format!("Successors")))
+            .chain(Some("Successors".to_string()))
             .collect();
 
         let rows = indices.iter().map(|&index| {
