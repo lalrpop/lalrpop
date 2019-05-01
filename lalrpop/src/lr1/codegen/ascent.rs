@@ -991,14 +991,8 @@ impl<'ascent, 'grammar, W: Write>
             tokens
         );
         rust!(self.out, "Some(Ok(v)) => Some(v),");
+        rust!(self.out, "Some(Err(e)) => return Err(e),");
         rust!(self.out, "None => None,");
-        if self.grammar.intern_token.is_some() {
-            // when we generate the tokenizer, the generated errors are `ParseError` values
-            rust!(self.out, "Some(Err(e)) => return Err(e),");
-        } else {
-            // otherwise, they are user errors
-            rust!(self.out, "Some(Err(e)) => return Err(e),");
-        }
         rust!(self.out, "}};");
         Ok(())
     }
