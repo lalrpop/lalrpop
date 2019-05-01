@@ -72,10 +72,10 @@ pub struct LR<'grammar, L: LookaheadBuild> {
 impl<'grammar, L: LookaheadBuild> LR<'grammar, L> {
     fn new(grammar: &'grammar Grammar, start_nt: NonterminalString, start_lookahead: L) -> Self {
         LR {
-            grammar: grammar,
+            grammar,
             first_sets: first::FirstSets::new(grammar),
-            start_nt: start_nt,
-            start_lookahead: start_lookahead,
+            start_nt,
+            start_lookahead,
             permit_early_stop: false,
         }
     }
@@ -106,7 +106,7 @@ impl<'grammar, L: LookaheadBuild> LR<'grammar, L> {
             }
 
             let mut this_state = State {
-                index: index,
+                index,
                 items: items.clone(),
                 shifts: map(),
                 reductions: vec![],
@@ -183,8 +183,8 @@ impl<'grammar, L: LookaheadBuild> LR<'grammar, L> {
 
         if !conflicts.is_empty() {
             Err(TableConstructionError {
-                states: states,
-                conflicts: conflicts,
+                states,
+                conflicts,
             })
         } else {
             Ok(states)
@@ -198,8 +198,8 @@ impl<'grammar, L: LookaheadBuild> LR<'grammar, L> {
             .map(|production| {
                 debug_assert!(index <= production.symbols.len());
                 Item {
-                    production: production,
-                    index: index,
+                    production,
+                    index,
                     lookahead: lookahead.clone(),
                 }
             })
@@ -292,7 +292,7 @@ impl<'grammar, L: LookaheadBuild> Kernel<'grammar, L> {
     pub fn start(items: Vec<Item<'grammar, L>>) -> Kernel<'grammar, L> {
         // In start state, kernel should have only items with `index == 0`.
         debug_assert!(items.iter().all(|item| item.index == 0));
-        Kernel { items: items }
+        Kernel { items }
     }
 
     pub fn shifted(items: Vec<Item<'grammar, L>>) -> Kernel<'grammar, L> {
@@ -300,7 +300,7 @@ impl<'grammar, L: LookaheadBuild> Kernel<'grammar, L> {
         // where `index > 0`. This assertion could cost real time to
         // check so only do it in debug mode.
         debug_assert!(items.iter().all(|item| item.index > 0));
-        Kernel { items: items }
+        Kernel { items }
     }
 }
 

@@ -11,8 +11,8 @@ pub struct Horiz {
 impl Horiz {
     pub fn new(items: Vec<Box<Content>>, separate: usize) -> Self {
         Horiz {
-            items: items,
-            separate: separate,
+            items,
+            separate,
         }
     }
 }

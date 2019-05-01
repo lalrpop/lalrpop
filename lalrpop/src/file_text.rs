@@ -30,8 +30,8 @@ impl FileText {
         };
 
         FileText {
-            path: path,
-            input_str: input_str,
+            path,
+            input_str,
             newlines: newline_indices,
         }
     }

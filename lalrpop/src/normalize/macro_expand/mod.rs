@@ -35,7 +35,7 @@ pub fn expand_macros(input: Grammar) -> NormResult<Grammar> {
     expander.expand(&mut items)?;
 
     Ok(Grammar {
-        items: items,
+        items,
         ..input
     })
 }
@@ -49,7 +49,7 @@ struct MacroExpander {
 impl MacroExpander {
     fn new(macro_defs: HashMap<NonterminalString, NonterminalData>) -> MacroExpander {
         MacroExpander {
-            macro_defs: macro_defs,
+            macro_defs,
             expansion_stack: Vec::new(),
             expansion_set: HashSet::new(),
         }
@@ -202,7 +202,7 @@ impl MacroExpander {
                 continue;
             }
             alternatives.push(Alternative {
-                span: span,
+                span,
                 expr: self.macro_expand_expr_symbol(&args, &alternative.expr),
                 condition: None,
                 action: alternative.action.clone(),
@@ -211,12 +211,12 @@ impl MacroExpander {
 
         Ok(GrammarItem::Nonterminal(NonterminalData {
             visibility: mdef.visibility.clone(),
-            span: span,
+            span,
             name: msym_name,
             annotations: mdef.annotations.clone(),
             args: vec![],
-            type_decl: type_decl,
-            alternatives: alternatives,
+            type_decl,
+            alternatives,
         }))
     }
 
@@ -253,7 +253,7 @@ impl MacroExpander {
                 ref referent,
             } => TypeRef::Ref {
                 lifetime: lifetime.clone(),
-                mutable: mutable,
+                mutable,
                 referent: Box::new(self.macro_expand_type_ref(args, referent)),
             },
             TypeRef::Id(ref id) => match args.get(&NonterminalString(id.clone())) {
@@ -361,7 +361,7 @@ impl MacroExpander {
 
         Symbol {
             span: symbol.span,
-            kind: kind,
+            kind,
         }
     }
 
@@ -389,14 +389,14 @@ impl MacroExpander {
 
         Ok(GrammarItem::Nonterminal(NonterminalData {
             visibility: Visibility::Priv,
-            span: span,
-            name: name,
+            span,
+            name,
             annotations: inline(span),
             args: vec![],
             type_decl: Some(ty_ref),
             alternatives: vec![Alternative {
-                span: span,
-                expr: expr,
+                span,
+                expr,
                 condition: None,
                 action: action("(<>)"),
             }],
@@ -421,7 +421,7 @@ impl MacroExpander {
             RepeatOp::Star => {
                 let path = Path::vec();
                 let ty_ref = TypeRef::Nominal {
-                    path: path,
+                    path,
                     types: vec![base_symbol_ty],
                 };
 
@@ -432,22 +432,22 @@ impl MacroExpander {
 
                 Ok(GrammarItem::Nonterminal(NonterminalData {
                     visibility: Visibility::Priv,
-                    span: span,
-                    name: name,
+                    span,
+                    name,
                     annotations: inline(span),
                     args: vec![],
                     type_decl: Some(ty_ref),
                     alternatives: vec![
                         // X* =
                         Alternative {
-                            span: span,
+                            span,
                             expr: ExprSymbol { symbols: vec![] },
                             condition: None,
                             action: action("vec![]"),
                         },
                         // X* = <v:X+>
                         Alternative {
-                            span: span,
+                            span,
                             expr: ExprSymbol {
                                 symbols: vec![Symbol::new(
                                     span,
@@ -470,13 +470,13 @@ impl MacroExpander {
             RepeatOp::Plus => {
                 let path = Path::vec();
                 let ty_ref = TypeRef::Nominal {
-                    path: path,
+                    path,
                     types: vec![base_symbol_ty],
                 };
 
                 Ok(GrammarItem::Nonterminal(NonterminalData {
                     visibility: Visibility::Priv,
-                    span: span,
+                    span,
                     name: name.clone(),
                     annotations: vec![],
                     args: vec![],
@@ -484,7 +484,7 @@ impl MacroExpander {
                     alternatives: vec![
                         // X+ = X
                         Alternative {
-                            span: span,
+                            span,
                             expr: ExprSymbol {
                                 symbols: vec![repeat.symbol.clone()],
                             },
@@ -493,7 +493,7 @@ impl MacroExpander {
                         },
                         // X+ = <v:X+> <e:X>
                         Alternative {
-                            span: span,
+                            span,
                             expr: ExprSymbol {
                                 symbols: vec![
                                     Symbol::new(
@@ -522,21 +522,21 @@ impl MacroExpander {
             RepeatOp::Question => {
                 let path = Path::option();
                 let ty_ref = TypeRef::Nominal {
-                    path: path,
+                    path,
                     types: vec![base_symbol_ty],
                 };
 
                 Ok(GrammarItem::Nonterminal(NonterminalData {
                     visibility: Visibility::Priv,
-                    span: span,
-                    name: name,
+                    span,
+                    name,
                     annotations: inline(span),
                     args: vec![],
                     type_decl: Some(ty_ref),
                     alternatives: vec![
                         // X? = X => Some(<>)
                         Alternative {
-                            span: span,
+                            span,
                             expr: ExprSymbol {
                                 symbols: vec![repeat.symbol.clone()],
                             },
@@ -545,7 +545,7 @@ impl MacroExpander {
                         },
                         // X? = { => None; }
                         Alternative {
-                            span: span,
+                            span,
                             expr: ExprSymbol { symbols: vec![] },
                             condition: None,
                             action: action("None"),
@@ -565,13 +565,13 @@ impl MacroExpander {
         let name = NonterminalString(Atom::from(name));
         Ok(GrammarItem::Nonterminal(NonterminalData {
             visibility: Visibility::Priv,
-            span: span,
-            name: name,
+            span,
+            name,
             annotations: inline(span),
             args: vec![],
             type_decl: None,
             alternatives: vec![Alternative {
-                span: span,
+                span,
                 expr: ExprSymbol { symbols: vec![] },
                 condition: None,
                 action: Some(action),

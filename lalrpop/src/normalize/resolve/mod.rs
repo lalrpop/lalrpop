@@ -86,11 +86,11 @@ fn resolve_in_place(grammar: &mut Grammar) -> NormResult<()> {
 
         ScopeChain {
             previous: None,
-            identifiers: identifiers,
+            identifiers,
         }
     };
 
-    let validator = Validator { globals: globals };
+    let validator = Validator { globals };
 
     validator.validate(grammar)
 }
@@ -135,7 +135,7 @@ impl Validator {
                     let identifiers = self.validate_macro_args(data.span, &data.args)?;
                     let locals = ScopeChain {
                         previous: Some(&self.globals),
-                        identifiers: identifiers,
+                        identifiers,
                     };
                     for alternative in &mut data.alternatives {
                         self.validate_alternative(&locals, alternative)?;

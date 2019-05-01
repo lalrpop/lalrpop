@@ -31,7 +31,7 @@ pub struct ConflictIndex {
 
 impl ConflictIndex {
     pub fn new(index: usize) -> ConflictIndex {
-        ConflictIndex { index: index }
+        ConflictIndex { index }
     }
 }
 
@@ -46,7 +46,7 @@ impl<'grammar> LaneTable<'grammar> {
     pub fn new(grammar: &'grammar Grammar, conflicts: usize) -> LaneTable {
         LaneTable {
             _grammar: grammar,
-            conflicts: conflicts,
+            conflicts,
             lookaheads: Map::default(),
             successors: Multimap::default(),
         }

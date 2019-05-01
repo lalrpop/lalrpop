@@ -37,9 +37,9 @@ pub struct Message {
 impl Message {
     pub fn new(span: Span, heading: Box<Content>, body: Box<Content>) -> Self {
         Message {
-            span: span,
-            heading: heading,
-            body: body,
+            span,
+            heading,
+            body,
         }
     }
 }

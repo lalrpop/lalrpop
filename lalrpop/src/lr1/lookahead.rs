@@ -41,7 +41,7 @@ impl Lookahead for Nil {
                     .map(|&(_, production)| Conflict {
                         state: index,
                         lookahead: Nil,
-                        production: production,
+                        production,
                         action: Action::Shift(terminal.clone(), next_state),
                     }),
             );
@@ -53,7 +53,7 @@ impl Lookahead for Nil {
                 conflicts.push(Conflict {
                     state: index,
                     lookahead: Nil,
-                    production: production,
+                    production,
                     action: Action::Reduce(other_production),
                 });
             }
@@ -99,7 +99,7 @@ impl Lookahead for TokenSet {
                 conflicts.push(Conflict {
                     state: this_state.index,
                     lookahead: set.clone(),
-                    production: production,
+                    production,
                     action: Action::Shift(terminal.clone(), next_state),
                 });
             }
@@ -211,7 +211,7 @@ impl TokenSet {
     pub fn intersection(&self, set: &TokenSet) -> TokenSet {
         let mut bit_set = self.bit_set.clone();
         bit_set.intersect_with(&set.bit_set);
-        TokenSet { bit_set: bit_set }
+        TokenSet { bit_set }
     }
 
     pub fn contains(&self, token: &Token) -> bool {

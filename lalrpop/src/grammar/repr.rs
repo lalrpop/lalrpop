@@ -348,9 +348,9 @@ impl Types {
         terminal_token_type: TypeRepr,
     ) -> Types {
         let mut types = Types {
-            terminal_loc_type: terminal_loc_type,
-            error_type: error_type,
-            terminal_token_type: terminal_token_type,
+            terminal_loc_type,
+            error_type,
+            terminal_token_type,
             terminal_types: map(),
             nonterminal_types: map(),
             // the following two will be overwritten later

@@ -79,10 +79,10 @@ impl<'cx, 'grammar> ErrorReportingCx<'cx, 'grammar> {
         conflicts: &'cx [LR1Conflict<'grammar>],
     ) -> Self {
         ErrorReportingCx {
-            grammar: grammar,
+            grammar,
             first_sets: FirstSets::new(grammar),
-            states: states,
-            conflicts: conflicts,
+            states,
+            conflicts,
         }
     }
 
@@ -483,8 +483,8 @@ impl<'cx, 'grammar> ErrorReportingCx<'cx, 'grammar> {
             .next()
             .map(
                 |(action, reduce)| ConflictClassification::InsufficientLookahead {
-                    action: action,
-                    reduce: reduce,
+                    action,
+                    reduce,
                 },
             )
             .unwrap_or(ConflictClassification::Naive)
@@ -741,7 +741,7 @@ impl<'cx, 'grammar> ErrorReportingCx<'cx, 'grammar> {
     ) -> Vec<Example> {
         log!(Tls::session(), Verbose, "Gathering reduce examples");
         let item = Item {
-            production: production,
+            production,
             index: production.symbols.len(),
             lookahead: TokenSet::from(lookahead),
         };

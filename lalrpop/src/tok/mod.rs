@@ -163,10 +163,10 @@ macro_rules! try_opt {
 impl<'input> Tokenizer<'input> {
     pub fn new(text: &'input str, shift: usize) -> Tokenizer<'input> {
         let mut t = Tokenizer {
-            text: text,
+            text,
             chars: text.char_indices(),
             lookahead: None,
-            shift: shift,
+            shift,
         };
         t.bump();
         t
@@ -728,7 +728,7 @@ impl<'input> Iterator for Tokenizer<'input> {
             Some(Ok((l, t, r))) => Some(Ok((l + self.shift, t, r + self.shift))),
             Some(Err(Error { location, code })) => Some(Err(Error {
                 location: location + self.shift,
-                code: code,
+                code,
             })),
         }
     }

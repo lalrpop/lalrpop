@@ -25,7 +25,7 @@ pub struct BodyCharacter {
 impl MessageBuilder {
     pub fn new(span: Span) -> Self {
         MessageBuilder {
-            span: span,
+            span,
             heading: None,
             body: None,
         }
@@ -140,7 +140,7 @@ impl<C: Character> Builder<C> {
     fn new(character: C) -> Self {
         Builder {
             items: vec![],
-            character: character,
+            character,
         }
     }
 
@@ -159,7 +159,7 @@ impl<C: Character> Builder<C> {
     pub fn begin_vert(self, separate: usize) -> Builder<VertCharacter<C>> {
         Builder::new(VertCharacter {
             base: self,
-            separate: separate,
+            separate,
         })
     }
 
@@ -174,7 +174,7 @@ impl<C: Character> Builder<C> {
     pub fn begin_horiz(self, separate: usize) -> Builder<HorizCharacter<C>> {
         Builder::new(HorizCharacter {
             base: self,
-            separate: separate,
+            separate,
         })
     }
 

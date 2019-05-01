@@ -499,8 +499,8 @@ where
         let error_state = error_action.as_shift().unwrap();
         self.states.push(error_state);
         let recovery = self.definition.error_recovery_symbol(::ErrorRecovery {
-            error: error,
-            dropped_tokens: dropped_tokens,
+            error,
+            dropped_tokens,
         });
         self.symbols.push((start, recovery, end));
 
@@ -602,7 +602,7 @@ where
         match token {
             Some(token) => {
                 ::ParseError::UnrecognizedToken {
-                    token: token,
+                    token,
                     expected: self.definition.expected_tokens(top_state),
                 }
             }

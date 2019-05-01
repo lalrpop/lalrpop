@@ -36,7 +36,7 @@ fn inline_nt(grammar: &mut Grammar, inline_nt: &NonterminalString) {
             let mut inliner = Inliner {
                 action_fn_defns: &grammar.action_fn_defns,
                 inline_nonterminal: inline_nt.clone(),
-                into_production: into_production,
+                into_production,
                 inline_fallible: 0,
                 inline_productions: &inline_productions,
                 new_symbols: vec![],

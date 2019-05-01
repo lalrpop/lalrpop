@@ -62,7 +62,7 @@ impl MatchToken {
     pub fn new(contents: MatchContents, span: Span) -> MatchToken {
         MatchToken {
             contents: vec![contents],
-            span: span,
+            span,
         }
     }
 
@@ -663,8 +663,8 @@ impl NonterminalData {
 impl Symbol {
     pub fn new(span: Span, kind: SymbolKind) -> Symbol {
         Symbol {
-            span: span,
-            kind: kind,
+            span,
+            kind,
         }
     }
 
@@ -1033,7 +1033,7 @@ impl TypeRef {
                 ref referent,
             } => TypeRepr::Ref {
                 lifetime: lifetime.clone(),
-                mutable: mutable,
+                mutable,
                 referent: Box::new(referent.type_repr()),
             },
         }

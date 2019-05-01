@@ -1,5 +1,5 @@
 // auto-generated: "lalrpop 0.16.3"
-// sha256: 15347ed421d52ddfdd1bff0e3465696cebfbe4df0dbb1298081a6ebacb3318e
+// sha256: 38bc142cbb15cd927878fc8dcb4c3563e3c23cecc7782db33fcb263181772
 use string_cache::DefaultAtom as Atom;
 use grammar::parse_tree::*;
 use grammar::pattern::*;
@@ -19564,8 +19564,8 @@ text: &'input str,
                   parameters: parameters.unwrap_or(vec![]),
                   where_clauses: where_clauses.unwrap_or(vec![]),
                   items: uses.into_iter().chain(items).collect(),
-                  annotations: annotations,
-                  module_attributes: module_attributes}
+                  annotations,
+                  module_attributes }
     }
 }
 
@@ -19626,7 +19626,7 @@ text: &'input str,
 (_, bounds, _): (usize, Vec<Lifetime>, usize),
 ) -> WhereClause<TypeRef>
 {
-WhereClause::Lifetime { lifetime: l, bounds: bounds }
+WhereClause::Lifetime { lifetime: l, bounds }
 }
 
 #[allow(unused_variables)]
@@ -19640,7 +19640,7 @@ text: &'input str,
 (_, bounds, _): (usize, Vec<TypeBound<TypeRef>>, usize),
 ) -> WhereClause<TypeRef>
 {
-WhereClause::Type { forall: f, ty: ty, bounds: bounds }
+WhereClause::Type { forall: f, ty, bounds }
 }
 
 #[allow(unused_variables)]
@@ -19703,7 +19703,7 @@ text: &'input str,
 (_, ret, _): (usize, ::std::option::Option<TypeRef>, usize),
 ) -> TypeBound<TypeRef>
 {
-TypeBound::Fn { forall: f, path: p, parameters: params, ret: ret }
+TypeBound::Fn { forall: f, path: p, parameters: params, ret }
 }
 
 #[allow(unused_variables)]
@@ -19777,7 +19777,7 @@ text: &'input str,
 (_, ty, _): (usize, TypeRef, usize),
 ) -> Parameter
 {
-Parameter { name: id, ty: ty }
+Parameter { name: id, ty }
 }
 
 #[allow(unused_variables)]
@@ -19891,7 +19891,7 @@ text: &'input str,
         GrammarItem::Nonterminal(NonterminalData { visibility: v,
                                                    span: Span(lo, hi),
                                                    name: n.0,
-                                                   annotations: annotations,
+                                                   annotations,
                                                    args: n.1,
                                                    type_decl: t,
                                                    alternatives: a })
@@ -20094,7 +20094,7 @@ text: &'input str,
 ) -> Condition
 {
 {
-        Condition { span:Span(lo, hi), lhs:a, rhs:b, op:op }
+        Condition { span:Span(lo, hi), lhs:a, rhs:b, op }
     }
 }
 
@@ -20219,7 +20219,7 @@ text: &'input str,
 ) -> Symbol
 {
 Symbol::new(Span(lhs.span.0, hi),
-                    SymbolKind::Repeat(Box::new(RepeatSymbol { symbol: lhs, op: op })))
+                    SymbolKind::Repeat(Box::new(RepeatSymbol { symbol: lhs, op })))
 }
 
 #[allow(unused_variables)]
@@ -20279,7 +20279,7 @@ text: &'input str,
 (_, _, _): (usize, Tok<'input>, usize),
 ) -> SymbolKind
 {
-SymbolKind::Macro(MacroSymbol { name: name, args: args })
+SymbolKind::Macro(MacroSymbol { name, args })
 }
 
 #[allow(unused_variables)]
@@ -20567,7 +20567,7 @@ text: &'input str,
 (_, items, _): (usize, Vec<MatchItem>, usize),
 ) -> MatchContents
 {
-MatchContents { items: items }
+MatchContents { items }
 }
 
 #[allow(unused_variables)]
@@ -20695,7 +20695,7 @@ text: &'input str,
 {
         let pattern = super::parse_pattern(p, start + 2)?;
         Ok(Conversion { span: Span(lo, hi),
-                        from: from,
+                        from,
                         to: pattern })
     }
 }

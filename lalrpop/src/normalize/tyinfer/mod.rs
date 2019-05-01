@@ -57,9 +57,9 @@ impl<'grammar> TypeInferencer<'grammar> {
 
         Ok(TypeInferencer {
             stack: vec![],
-            nonterminals: nonterminals,
-            types: types,
-            type_parameters: type_parameters,
+            nonterminals,
+            types,
+            type_parameters,
         })
     }
 
@@ -265,7 +265,7 @@ impl<'grammar> TypeInferencer<'grammar> {
                     .collect::<Result<_, _>>()?;
                 Ok(TypeRepr::Nominal(NominalTypeRepr {
                     path: path.clone(),
-                    types: types,
+                    types,
                 }))
             }
             TypeRef::Lifetime(ref id) => Ok(TypeRepr::Lifetime(id.clone())),
@@ -279,7 +279,7 @@ impl<'grammar> TypeInferencer<'grammar> {
                 ref referent,
             } => Ok(TypeRepr::Ref {
                 lifetime: lifetime.clone(),
-                mutable: mutable,
+                mutable,
                 referent: Box::new(self.type_ref(referent)?),
             }),
             TypeRef::OfSymbol(ref symbol) => self.symbol_type(symbol),

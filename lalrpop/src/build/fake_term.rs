@@ -10,7 +10,7 @@ pub struct FakeTerminal<W: Write> {
 
 impl<W: Write> FakeTerminal<W> {
     pub fn new(write: W) -> FakeTerminal<W> {
-        FakeTerminal { write: write }
+        FakeTerminal { write }
     }
 }
 

@@ -144,10 +144,10 @@ impl<'ascent, 'grammar, W: Write>
             false,
             action_module,
             RecursiveAscent {
-                graph: graph,
-                state_inputs: state_inputs,
-                nonterminal_type_params: nonterminal_type_params,
-                nonterminal_where_clauses: nonterminal_where_clauses,
+                graph,
+                state_inputs,
+                nonterminal_type_params,
+                nonterminal_where_clauses,
             },
         )
     }

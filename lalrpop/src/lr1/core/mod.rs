@@ -24,8 +24,8 @@ pub type LR1Item<'grammar> = Item<'grammar, TokenSet>;
 impl<'grammar> Item<'grammar, Nil> {
     pub fn lr0(production: &'grammar Production, index: usize) -> Self {
         Item {
-            production: production,
-            index: index,
+            production,
+            index,
             lookahead: Nil,
         }
     }

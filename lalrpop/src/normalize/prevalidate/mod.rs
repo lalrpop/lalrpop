@@ -27,9 +27,9 @@ pub fn validate(grammar: &Grammar) -> NormResult<()> {
         .next();
 
     let validator = Validator {
-        grammar: grammar,
-        match_token: match_token,
-        extern_token: extern_token,
+        grammar,
+        match_token,
+        extern_token,
     };
 
     validator.validate()

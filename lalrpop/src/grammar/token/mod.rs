@@ -17,7 +17,7 @@ pub struct TokenDefinition {
 impl TokenDefinition {
     pub fn new(enum_type: TypeRef, token_map: Vec<(Atom, Atom)>) -> TokenDefinition {
         TokenDefinition {
-            enum_type: enum_type,
+            enum_type,
             token_map: token_map.into_iter().collect(),
         }
     }

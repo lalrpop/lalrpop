@@ -21,7 +21,7 @@ impl Lr1Tls {
         });
 
         Lr1Tls {
-            old_value: old_value,
+            old_value,
         }
     }
 

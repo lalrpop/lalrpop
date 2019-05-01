@@ -10,8 +10,8 @@ pub struct Vert {
 impl Vert {
     pub fn new(items: Vec<Box<Content>>, separate: usize) -> Self {
         Vert {
-            items: items,
-            separate: separate,
+            items,
+            separate,
         }
     }
 }

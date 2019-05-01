@@ -57,11 +57,11 @@ impl<L, T, E> ParseError<L, T, E> {
             },
             ParseError::UnrecognizedEOF { location, expected } => ParseError::UnrecognizedEOF {
                 location: loc_op(location),
-                expected: expected,
+                expected,
             },
             ParseError::UnrecognizedToken { token, expected } => ParseError::UnrecognizedToken {
                 token: maptok(token),
-                expected: expected,
+                expected,
             },
             ParseError::ExtraToken { token } => ParseError::ExtraToken {
                 token: maptok(token),

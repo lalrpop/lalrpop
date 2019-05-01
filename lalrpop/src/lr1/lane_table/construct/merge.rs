@@ -33,15 +33,15 @@ impl<'m, 'grammar> Merge<'m, 'grammar> {
         inconsistent_state: StateIndex,
     ) -> Self {
         Merge {
-            table: table,
-            states: states,
+            table,
+            states,
             visited: Set::new(),
             original_indices: Map::new(),
             clones: Multimap::new(),
             target_states: vec![inconsistent_state],
             context_sets: ContextSets {
-                unify: unify,
-                state_sets: state_sets,
+                unify,
+                state_sets,
             },
         }
     }

@@ -20,7 +20,7 @@ pub enum Level {
 
 impl Log {
     pub fn new(level: Level) -> Log {
-        Log { level: level }
+        Log { level }
     }
 
     pub fn set_level(&mut self, level: Level) {

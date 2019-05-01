@@ -30,7 +30,7 @@ where
     W: Write + 'report,
 {
     pub fn new(out: &'report mut W) -> Self {
-        ReportGenerator { out: out }
+        ReportGenerator { out }
     }
 
     pub fn report_lr_table_construction<'grammar: 'report, L>(

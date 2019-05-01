@@ -121,8 +121,8 @@ impl Example {
         InlineBuilder::new()
             .push(Box::new(ExamplePicture {
                 example: self,
-                positions: positions,
-                styles: styles,
+                positions,
+                styles,
             }))
             .indented()
             .end()

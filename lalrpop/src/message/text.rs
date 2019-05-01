@@ -13,7 +13,7 @@ pub struct Text {
 
 impl Text {
     pub fn new(text: String) -> Self {
-        Text { text: text }
+        Text { text }
     }
 }
 

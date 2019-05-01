@@ -201,16 +201,16 @@ impl<'nfa> DFABuilder<'nfa> {
             let other_edge = kernel_set.add_state(self.transitive_closure(other_transitions));
 
             let state = State {
-                item_set: item_set,
-                kind: kind,
-                test_edges: test_edges,
-                other_edge: other_edge,
+                item_set,
+                kind,
+                test_edges,
+                other_edge,
             };
 
             states.push(state);
         }
 
-        Ok(DFA { states: states })
+        Ok(DFA { states })
     }
 
     fn start_state(&self, kernel_set: &mut DFAKernelSet) -> DFAStateIndex {
