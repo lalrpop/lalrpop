@@ -39,7 +39,7 @@ enum WalkState {
 impl<'grammar> NonterminalGraph<'grammar> {
     fn new(grammar: &'grammar Grammar) -> NonterminalGraph<'grammar> {
         NonterminalGraph {
-            grammar: grammar,
+            grammar,
             graph: Graph::new(),
             nonterminal_map: map(),
         }

@@ -33,15 +33,15 @@ impl<'m, 'grammar> Merge<'m, 'grammar> {
         inconsistent_state: StateIndex,
     ) -> Self {
         Merge {
-            table: table,
-            states: states,
+            table,
+            states,
             visited: Set::new(),
             original_indices: Map::new(),
             clones: Multimap::new(),
             target_states: vec![inconsistent_state],
             context_sets: ContextSets {
-                unify: unify,
-                state_sets: state_sets,
+                unify,
+                state_sets,
             },
         }
     }
@@ -106,8 +106,7 @@ impl<'m, 'grammar> Merge<'m, 'grammar> {
                         .into_iter()
                         .flat_map(|clones| clones) // get() returns an Option<Set>
                         .cloned()
-                        .filter(|&successor1| context_sets.union(state, successor1))
-                        .next()
+                        .find(|&successor1| context_sets.union(state, successor1))
                 };
 
                 if let Some(successor1) = existing_clone {
@@ -181,10 +180,10 @@ impl<'m, 'grammar> Merge<'m, 'grammar> {
         };
 
         let state = &mut self.states[predecessor.0];
-        for (_, target_state) in &mut state.shifts {
+        for target_state in state.shifts.values_mut() {
             replace(target_state);
         }
-        for (_, target_state) in &mut state.gotos {
+        for target_state in state.gotos.values_mut() {
             replace(target_state);
         }
     }

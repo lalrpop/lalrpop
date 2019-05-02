@@ -58,14 +58,14 @@ pub fn collapse_to_lalr_states<'grammar>(lr_states: &[LR1State<'grammar>]) -> LR
             .items
             .vec
             .iter()
-            .map(|item| item.to_lr0())
+            .map(Item::to_lr0)
             .dedup()
             .collect();
 
         let lalr1_index = *lalr1_map.entry(lr0_kernel).or_insert_with(|| {
             let index = StateIndex(lalr1_states.len());
             lalr1_states.push(LALR1State {
-                index: index,
+                index,
                 items: vec![],
                 shifts: map(),
                 reductions: Multimap::new(),
@@ -155,7 +155,7 @@ pub fn collapse_to_lalr_states<'grammar>(lr_states: &[LR1State<'grammar>]) -> LR
     if !conflicts.is_empty() {
         Err(TableConstructionError {
             states: lr1_states,
-            conflicts: conflicts,
+            conflicts,
         })
     } else {
         Ok(lr1_states)

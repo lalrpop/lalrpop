@@ -46,7 +46,7 @@ impl StateGraph {
             );
         }
 
-        StateGraph { graph: graph }
+        StateGraph { graph }
     }
 
     /// Given a list of symbols `[X, Y, Z]`, traces back from

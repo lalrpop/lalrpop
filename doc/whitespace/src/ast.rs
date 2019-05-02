@@ -60,7 +60,7 @@ pub struct Program {
 impl Program {
     pub fn new(statements: Vec<Stmt>) -> Self {
         Program {
-            statements: statements,
+            statements,
         }
     }
 

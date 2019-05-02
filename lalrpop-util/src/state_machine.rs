@@ -367,7 +367,7 @@ where
                 if let Some(error_state) = action.as_shift() {
                     // If action is a shift that takes us into `error_state`,
                     // and `error_state` can accept this lookahead, we are done.
-                    if self.accepts(error_state, &self.states[..top + 1], opt_token_index) {
+                    if self.accepts(error_state, &self.states[..=top], opt_token_index) {
                         debug!("\\\\\\ accepted!");
                         break 'find_state top;
                     }
@@ -499,8 +499,8 @@ where
         let error_state = error_action.as_shift().unwrap();
         self.states.push(error_state);
         let recovery = self.definition.error_recovery_symbol(::ErrorRecovery {
-            error: error,
-            dropped_tokens: dropped_tokens,
+            error,
+            dropped_tokens,
         });
         self.symbols.push((start, recovery, end));
 
@@ -602,7 +602,7 @@ where
         match token {
             Some(token) => {
                 ::ParseError::UnrecognizedToken {
-                    token: token,
+                    token,
                     expected: self.definition.expected_tokens(top_state),
                 }
             }

@@ -20,10 +20,10 @@ fn resolve_in_place(grammar: &mut Grammar) -> NormResult<()> {
         let nonterminal_identifiers = grammar
             .items
             .iter()
-            .filter_map(|item| item.as_nonterminal())
+            .filter_map(GrammarItem::as_nonterminal)
             .map(|nt| {
                 (
-                    nt.span.clone(),
+                    nt.span,
                     nt.name.0.clone(),
                     Def::Nonterminal(nt.args.len()),
                 )
@@ -32,7 +32,7 @@ fn resolve_in_place(grammar: &mut Grammar) -> NormResult<()> {
         let terminal_identifiers = grammar
             .items
             .iter()
-            .filter_map(|item| item.as_extern_token())
+            .filter_map(GrammarItem::as_extern_token)
             .flat_map(|extern_token| extern_token.enum_token.as_ref())
             .flat_map(|enum_token| &enum_token.conversions)
             .filter_map(|conversion| match conversion.from {
@@ -51,7 +51,7 @@ fn resolve_in_place(grammar: &mut Grammar) -> NormResult<()> {
         let match_identifiers = grammar
             .items
             .iter()
-            .filter_map(|item| item.as_match_token())
+            .filter_map(GrammarItem::as_match_token)
             .flat_map(|match_token| &match_token.contents)
             .flat_map(|match_contents| &match_contents.items)
             .filter_map(|item| match *item {
@@ -86,11 +86,11 @@ fn resolve_in_place(grammar: &mut Grammar) -> NormResult<()> {
 
         ScopeChain {
             previous: None,
-            identifiers: identifiers,
+            identifiers,
         }
     };
 
-    let validator = Validator { globals: globals };
+    let validator = Validator { globals };
 
     validator.validate(grammar)
 }
@@ -135,7 +135,7 @@ impl Validator {
                     let identifiers = self.validate_macro_args(data.span, &data.args)?;
                     let locals = ScopeChain {
                         previous: Some(&self.globals),
-                        identifiers: identifiers,
+                        identifiers,
                     };
                     for alternative in &mut data.alternatives {
                         self.validate_alternative(&locals, alternative)?;
@@ -172,7 +172,7 @@ impl Validator {
         alternative: &mut Alternative,
     ) -> NormResult<()> {
         if let Some(ref condition) = alternative.condition {
-            let def = self.validate_id(scope, condition.span.clone(), &condition.lhs.0)?;
+            let def = self.validate_id(scope, condition.span, &condition.lhs.0)?;
             match def {
                 Def::MacroArg => { /* OK */ }
                 _ => {
@@ -228,7 +228,7 @@ impl Validator {
                 }
             }
             SymbolKind::Macro(ref mut msym) => {
-                debug_assert!(msym.args.len() > 0);
+                debug_assert!(!msym.args.is_empty());
                 let def = self.validate_id(scope, symbol.span, &msym.name.0)?;
                 match def {
                     Def::Nonterminal(0) | Def::Terminal | Def::MacroArg => return_err!(

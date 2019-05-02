@@ -57,11 +57,11 @@ impl<L, T, E> ParseError<L, T, E> {
             },
             ParseError::UnrecognizedEOF { location, expected } => ParseError::UnrecognizedEOF {
                 location: loc_op(location),
-                expected: expected,
+                expected,
             },
             ParseError::UnrecognizedToken { token, expected } => ParseError::UnrecognizedToken {
                 token: maptok(token),
-                expected: expected,
+                expected,
             },
             ParseError::ExtraToken { token } => ParseError::ExtraToken {
                 token: maptok(token),
@@ -97,7 +97,7 @@ impl<L, T, E> ParseError<L, T, E> {
 /// Format a list of expected tokens.
 fn fmt_expected(f: &mut fmt::Formatter, expected: &[String]) -> fmt::Result {
     if !expected.is_empty() {
-        writeln!(f, "")?;
+        writeln!(f)?;
         for (i, e) in expected.iter().enumerate() {
             let sep = match i {
                 0 => "Expected one of",

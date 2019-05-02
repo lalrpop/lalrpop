@@ -348,9 +348,9 @@ impl Types {
         terminal_token_type: TypeRepr,
     ) -> Types {
         let mut types = Types {
-            terminal_loc_type: terminal_loc_type,
-            error_type: error_type,
-            terminal_token_type: terminal_token_type,
+            terminal_loc_type,
+            error_type,
+            terminal_token_type,
             terminal_types: map(),
             nonterminal_types: map(),
             // the following two will be overwritten later
@@ -523,7 +523,7 @@ impl Debug for TypeRepr {
 
 impl Display for NominalTypeRepr {
     fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
-        if self.types.len() == 0 {
+        if self.types.is_empty() {
             write!(fmt, "{}", self.path)
         } else {
             write!(fmt, "{}<{}>", self.path, Sep(", ", &self.types))
@@ -545,7 +545,7 @@ impl ActionFn {
         ActionFn(x as u32)
     }
 
-    pub fn index(&self) -> usize {
+    pub fn index(self) -> usize {
         self.0 as usize
     }
 }

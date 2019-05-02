@@ -117,7 +117,7 @@ pub struct Tokenizer<'input> {
 
 pub type Spanned<T> = (usize, T, usize);
 
-const KEYWORDS: &'static [(&'static str, Tok<'static>)] = &[
+const KEYWORDS: &[(&str, Tok<'static>)] = &[
     ("enum", Enum),
     ("extern", Extern),
     ("grammar", Grammar),
@@ -163,10 +163,10 @@ macro_rules! try_opt {
 impl<'input> Tokenizer<'input> {
     pub fn new(text: &'input str, shift: usize) -> Tokenizer<'input> {
         let mut t = Tokenizer {
-            text: text,
+            text,
             chars: text.char_indices(),
             lookahead: None,
-            shift: shift,
+            shift,
         };
         t.bump();
         t
@@ -541,10 +541,8 @@ impl<'input> Tokenizer<'input> {
             } else if c == '\\' {
                 escape = true;
                 false
-            } else if c == quote {
-                true
             } else {
-                false
+                c == quote
             }
         };
         match self.take_until(terminate) {
@@ -708,7 +706,7 @@ impl<'input> Tokenizer<'input> {
         match self.lookahead {
             Some((idx0, cc)) if c == cc => {
                 self.bump();
-                Some(Ok((idx0)))
+                Some(Ok(idx0))
             }
             Some((idx0, _)) => {
                 self.bump();
@@ -728,7 +726,7 @@ impl<'input> Iterator for Tokenizer<'input> {
             Some(Ok((l, t, r))) => Some(Ok((l + self.shift, t, r + self.shift))),
             Some(Err(Error { location, code })) => Some(Err(Error {
                 location: location + self.shift,
-                code: code,
+                code,
             })),
         }
     }

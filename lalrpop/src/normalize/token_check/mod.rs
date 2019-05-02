@@ -41,7 +41,7 @@ pub fn validate(mut grammar: Grammar) -> NormResult<Grammar> {
 
         let mut validator = Validator {
             grammar: &grammar,
-            mode: mode,
+            mode,
         };
 
         validator.validate()?;
@@ -120,7 +120,7 @@ impl MatchBlock {
         let mut match_block = Self::default();
         if let Some(match_token) = opt_match_token {
             for (idx, mc) in match_token.contents.iter().enumerate() {
-                let precedence = &match_token.contents.len() - idx;
+                let precedence = match_token.contents.len() - idx;
                 for item in &mc.items {
                     match *item {
                         MatchItem::Unmapped(ref sym, span) => {
@@ -169,7 +169,7 @@ impl MatchBlock {
         self.match_entries.push(MatchEntry {
             precedence: match_group_precedence * 2 + sym.base_precedence(),
             match_literal: sym,
-            user_name: user_name,
+            user_name,
         });
         Ok(())
     }
@@ -378,8 +378,8 @@ fn construct(grammar: &mut Grammar, match_block: MatchBlock) -> NormResult<()> {
     };
 
     grammar.items.push(GrammarItem::InternToken(InternToken {
-        match_entries: match_entries,
-        dfa: dfa,
+        match_entries,
+        dfa,
     }));
 
     // we need to inject a `'input` lifetime and `input: &'input str` parameter as well:

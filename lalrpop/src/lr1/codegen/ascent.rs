@@ -144,10 +144,10 @@ impl<'ascent, 'grammar, W: Write>
             false,
             action_module,
             RecursiveAscent {
-                graph: graph,
-                state_inputs: state_inputs,
-                nonterminal_type_params: nonterminal_type_params,
-                nonterminal_where_clauses: nonterminal_where_clauses,
+                graph,
+                state_inputs,
+                nonterminal_type_params,
+                nonterminal_where_clauses,
             },
         )
     }
@@ -199,7 +199,7 @@ impl<'ascent, 'grammar, W: Write>
         // making different enums per state, but this would mean we
         // have to unwrap and rewrap as we pass up the stack, which
         // seems silly
-        for ref nt in self.grammar.nonterminals.keys() {
+        for nt in self.grammar.nonterminals.keys() {
             let ty = self
                 .types
                 .spanned_type(self.types.nonterminal_type(nt).clone());
@@ -344,7 +344,7 @@ impl<'ascent, 'grammar, W: Write>
                     Token::Error => {
                         panic!("Error recovery is not implemented for recursive ascent parsers")
                     }
-                    Token::EOF => format!("None"),
+                    Token::EOF => "None".to_string(),
                 };
                 if index < tokens.len() - 1 {
                     rust!(self.out, "{} |", pattern);
@@ -355,7 +355,7 @@ impl<'ascent, 'grammar, W: Write>
 
             self.emit_reduce_action("result", stack_suffix, production)?;
 
-            if production.symbols.len() > 0 {
+            if !production.symbols.is_empty() {
                 // if we popped anything off of the stack, then this frame is done
                 rust!(self.out, "return Ok({}result);", self.prefix);
             } else {
@@ -595,7 +595,7 @@ impl<'ascent, 'grammar, W: Write>
         // there are more edges than there are states in the graph.
         let starts_with_terminal = fixed_prefix
             .last()
-            .map(|l| l.is_terminal())
+            .map(Symbol::is_terminal)
             .unwrap_or(false);
 
         let mut base_args = vec![format!("{}tokens: &mut {}TOKENS", self.prefix, self.prefix)];
@@ -670,8 +670,8 @@ impl<'ascent, 'grammar, W: Write>
                 // So basically we are looking for states
                 // that, when they return, may *optionally* have consumed
                 // the top of our stack.
-                assert!(succ_inputs.fixed().len() >= 1);
-                succ_inputs.fixed().len() == 1 && succ_inputs.optional().len() > 0
+                assert!(!succ_inputs.fixed().is_empty());
+                succ_inputs.fixed().len() == 1 && !succ_inputs.optional().is_empty()
             });
 
         // If we find a successor that may optionally consume the top
@@ -761,7 +761,7 @@ impl<'ascent, 'grammar, W: Write>
         // symbols that the next state expects; will always be include
         // at least one fixed input
         let next_inputs = self.custom.state_inputs[next_index.0];
-        assert!(next_inputs.fixed().len() >= 1);
+        assert!(!next_inputs.fixed().is_empty());
         assert!(next_inputs.len() <= total);
 
         let transfer_syms = self.pop_syms(optional, fixed, next_inputs)?;
@@ -991,14 +991,8 @@ impl<'ascent, 'grammar, W: Write>
             tokens
         );
         rust!(self.out, "Some(Ok(v)) => Some(v),");
+        rust!(self.out, "Some(Err(e)) => return Err(e),");
         rust!(self.out, "None => None,");
-        if self.grammar.intern_token.is_some() {
-            // when we generate the tokenizer, the generated errors are `ParseError` values
-            rust!(self.out, "Some(Err(e)) => return Err(e),");
-        } else {
-            // otherwise, they are user errors
-            rust!(self.out, "Some(Err(e)) => return Err(e),");
-        }
         rust!(self.out, "}};");
         Ok(())
     }

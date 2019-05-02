@@ -19,8 +19,8 @@ pub struct Tracer<'trace, 'grammar: 'trace> {
 impl<'trace, 'grammar> Tracer<'trace, 'grammar> {
     pub fn new(first_sets: &'trace FirstSets, states: &'trace [LR1State<'grammar>]) -> Self {
         Tracer {
-            states: states,
-            first_sets: first_sets,
+            states,
+            first_sets,
             state_graph: StateGraph::new(states),
             trace_graph: TraceGraph::new(),
             visited_set: set(),

@@ -17,19 +17,19 @@ pub fn validate(grammar: &Grammar) -> NormResult<()> {
     let match_token: Option<&MatchToken> = grammar
         .items
         .iter()
-        .filter_map(|item| item.as_match_token())
+        .filter_map(GrammarItem::as_match_token)
         .next();
 
     let extern_token: Option<&ExternToken> = grammar
         .items
         .iter()
-        .filter_map(|item| item.as_extern_token())
+        .filter_map(GrammarItem::as_extern_token)
         .next();
 
     let validator = Validator {
-        grammar: grammar,
-        match_token: match_token,
-        extern_token: extern_token,
+        grammar,
+        match_token,
+        extern_token,
     };
 
     validator.validate()
@@ -276,7 +276,7 @@ impl<'grammar> Validator<'grammar> {
                 }
             }
             SymbolKind::Macro(ref msym) => {
-                debug_assert!(msym.args.len() > 0);
+                debug_assert!(!msym.args.is_empty());
                 for arg in &msym.args {
                     self.validate_symbol(arg)?;
                 }

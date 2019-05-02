@@ -11,8 +11,8 @@ pub struct Horiz {
 impl Horiz {
     pub fn new(items: Vec<Box<Content>>, separate: usize) -> Self {
         Horiz {
-            items: items,
-            separate: separate,
+            items,
+            separate,
         }
     }
 }
@@ -23,7 +23,7 @@ impl Content for Horiz {
             .iter()
             .map(|c| c.min_width())
             .intersperse(self.separate)
-            .fold(0, |a, b| a + b)
+            .sum()
     }
 
     fn emit(&self, view: &mut AsciiView) {

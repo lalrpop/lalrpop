@@ -59,7 +59,7 @@ fn main1() -> io::Result<()> {
         config.emit_report(true);
     }
 
-    if args.arg_inputs.len() == 0 {
+    if args.arg_inputs.is_empty() {
         writeln!(
             stderr,
             "Error: no input files specified! Try --help for help."
@@ -92,7 +92,7 @@ fn main1() -> io::Result<()> {
     Ok(())
 }
 
-const USAGE: &'static str = "
+const USAGE: &str = "
 Usage: lalrpop [options] <inputs>...
        lalrpop --help
        lalrpop (-V | --version)

@@ -29,7 +29,7 @@ mod fake_term;
 
 use self::fake_term::FakeTerminal;
 
-const LALRPOP_VERSION_HEADER: &'static str = concat!(
+const LALRPOP_VERSION_HEADER: &str = concat!(
     "// auto-generated: \"",
     env!("CARGO_PKG_NAME"),
     " ",
@@ -208,12 +208,12 @@ fn parse_and_normalize_grammar(session: &Session, file_text: &FileText) -> io::R
 
         Err(ParseError::UnrecognizedEOF {
             location,
-            expected: _,
+            ..
         }) => {
             report_error(
                 &file_text,
                 pt::Span(location, location),
-                &format!("unexpected end of file"),
+                "unexpected end of file",
             );
         }
 

@@ -5,7 +5,8 @@ use collections::{map, Map};
 use grammar::consts::CFG;
 use grammar::parse_tree as pt;
 use grammar::parse_tree::{
-    read_algorithm, InternToken, Lifetime, NonterminalString, Path, TerminalString,
+    read_algorithm, GrammarItem, InternToken, Lifetime, NonterminalString,
+    Path, TerminalString,
 };
 use grammar::pattern::{Pattern, PatternKind};
 use grammar::repr as r;
@@ -33,12 +34,12 @@ struct LowerState<'s> {
 impl<'s> LowerState<'s> {
     fn new(session: &'s Session, types: r::Types, grammar: &pt::Grammar) -> Self {
         LowerState {
-            session: session,
+            session,
             prefix: grammar.prefix.clone(),
             action_fn_defns: vec![],
             nonterminals: map(),
             conversions: vec![],
-            types: types,
+            types,
             intern_token: None,
             uses_error_recovery: false,
         }
@@ -81,16 +82,16 @@ impl<'s> LowerState<'s> {
                         .extend(data.match_entries.iter().enumerate().map(
                             |(index, match_entry)| {
                                 let pattern = Pattern {
-                                    span: span,
+                                    span,
                                     kind: PatternKind::TupleStruct(
                                         internal_token_path.clone(),
                                         vec![
                                             Pattern {
-                                                span: span,
+                                                span,
                                                 kind: PatternKind::Usize(index),
                                             },
                                             Pattern {
-                                                span: span,
+                                                span,
                                                 kind: PatternKind::Choose(input_str.clone()),
                                             },
                                         ],
@@ -128,8 +129,8 @@ impl<'s> LowerState<'s> {
                             r::Production {
                                 nonterminal: nt_name.clone(),
                                 span: alt.span,
-                                symbols: symbols,
-                                action: action,
+                                symbols,
+                                action,
                             }
                         })
                         .collect();
@@ -140,7 +141,7 @@ impl<'s> LowerState<'s> {
                             visibility: nt.visibility.clone(),
                             annotations: nt.annotations,
                             span: nt.span,
-                            productions: productions,
+                            productions,
                         },
                     );
                 }
@@ -190,16 +191,16 @@ impl<'s> LowerState<'s> {
             uses_error_recovery: self.uses_error_recovery,
             prefix: self.prefix,
             start_nonterminals: start_symbols,
-            uses: uses,
+            uses,
             action_fn_defns: self.action_fn_defns,
             nonterminals: self.nonterminals,
             conversions: self.conversions.into_iter().collect(),
             types: self.types,
             token_span: token_span.unwrap(),
             type_parameters: grammar.type_parameters,
-            parameters: parameters,
-            where_clauses: where_clauses,
-            algorithm: algorithm,
+            parameters,
+            where_clauses,
+            algorithm,
             intern_token: self.intern_token,
             terminals: r::TerminalSet {
                 all: all_terminals,
@@ -217,7 +218,7 @@ impl<'s> LowerState<'s> {
         grammar
             .items
             .iter()
-            .filter_map(|item| item.as_nonterminal())
+            .filter_map(GrammarItem::as_nonterminal)
             .filter(|nt| nt.visibility.is_pub())
             .filter(|nt| cfg_active(session, nt))
             .map(|nt| {
@@ -239,7 +240,7 @@ impl<'s> LowerState<'s> {
                 let action_fn = self.action_fn(nt_type, false, &expr, &symbols, None);
                 let production = r::Production {
                     nonterminal: fake_name.clone(),
-                    symbols: symbols,
+                    symbols,
                     action: action_fn,
                     span: nt.span,
                 };
@@ -347,9 +348,9 @@ impl<'s> LowerState<'s> {
                 // will type-check (`()`), so supply that. Otherwise,
                 // default is to include all selected items.
                 if nt_type.is_unit() {
-                    format!("()")
+                    "()".to_string()
                 } else {
-                    format!("(<>)")
+                    "(<>)".to_string()
                 }
             }
         };
@@ -400,11 +401,11 @@ impl<'s> LowerState<'s> {
                 };
 
                 r::ActionFnDefn {
-                    fallible: fallible,
+                    fallible,
                     ret_type: nt_type,
                     kind: r::ActionFnDefnKind::User(r::UserActionFnDefn {
-                        arg_patterns: arg_patterns,
-                        arg_types: arg_types,
+                        arg_patterns,
+                        arg_types,
                         code: action,
                     }),
                 }
@@ -419,16 +420,16 @@ impl<'s> LowerState<'s> {
                     symbols.len(),
                 );
                 let name_str = {
-                    let name_strs: Vec<_> = names.iter().map(|n| n.as_ref()).collect();
+                    let name_strs: Vec<_> = names.iter().map(AsRef::as_ref).collect();
                     name_strs.join(", ")
                 };
                 let action = action.replace("<>", &name_str);
                 r::ActionFnDefn {
-                    fallible: fallible,
+                    fallible,
                     ret_type: nt_type,
                     kind: r::ActionFnDefnKind::User(r::UserActionFnDefn {
-                        arg_patterns: arg_patterns,
-                        arg_types: arg_types,
+                        arg_patterns,
+                        arg_types,
                         code: action,
                     }),
                 }

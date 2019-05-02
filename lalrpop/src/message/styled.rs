@@ -11,8 +11,8 @@ pub struct Styled {
 impl Styled {
     pub fn new(style: Style, content: Box<Content>) -> Self {
         Styled {
-            style: style,
-            content: content,
+            style,
+            content,
         }
     }
 }

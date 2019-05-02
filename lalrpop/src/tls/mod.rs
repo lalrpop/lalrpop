@@ -42,8 +42,8 @@ impl Tls {
     /// `Tls::file_text()`.
     pub fn install(session: Rc<Session>, file_text: Rc<FileText>) -> Tls {
         let fields = TlsFields {
-            session: session,
-            file_text: file_text,
+            session,
+            file_text,
         };
 
         THE_TLS_FIELDS.with(|s| {

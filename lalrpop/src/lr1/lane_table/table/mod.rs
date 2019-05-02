@@ -31,7 +31,7 @@ pub struct ConflictIndex {
 
 impl ConflictIndex {
     pub fn new(index: usize) -> ConflictIndex {
-        ConflictIndex { index: index }
+        ConflictIndex { index }
     }
 }
 
@@ -46,7 +46,7 @@ impl<'grammar> LaneTable<'grammar> {
     pub fn new(grammar: &'grammar Grammar, conflicts: usize) -> LaneTable {
         LaneTable {
             _grammar: grammar,
-            conflicts: conflicts,
+            conflicts,
             lookaheads: Map::default(),
             successors: Multimap::default(),
         }
@@ -55,7 +55,7 @@ impl<'grammar> LaneTable<'grammar> {
     pub fn add_lookahead(&mut self, state: StateIndex, conflict: ConflictIndex, tokens: &TokenSet) {
         self.lookaheads
             .entry((state, conflict))
-            .or_insert_with(|| TokenSet::new())
+            .or_insert_with(TokenSet::new)
             .union_with(&tokens);
     }
 
@@ -153,12 +153,12 @@ impl<'grammar> Debug for LaneTable<'grammar> {
             .lookaheads
             .keys()
             .map(|&(state, _)| state)
-            .chain(self.successors.iter().map(|(key, _)| key.clone()))
+            .chain(self.successors.iter().map(|(&key, _)| key))
             .collect();
 
-        let header = iter::once(format!("State"))
+        let header = iter::once("State".to_string())
             .chain((0..self.conflicts).map(|i| format!("C{}", i)))
-            .chain(Some(format!("Successors")))
+            .chain(Some("Successors".to_string()))
             .collect();
 
         let rows = indices.iter().map(|&index| {
@@ -167,13 +167,13 @@ impl<'grammar> Debug for LaneTable<'grammar> {
                     self.lookaheads
                         .get(&(index, ConflictIndex::new(i)))
                         .map(|token_set| format!("{:?}", token_set))
-                        .unwrap_or(String::new())
+                        .unwrap_or_else(String::new)
                 }))
                 .chain(Some(
                     self.successors
                         .get(&index)
                         .map(|c| format!("{:?}", c))
-                        .unwrap_or(String::new()),
+                        .unwrap_or_else(String::new),
                 ))
                 .collect()
         });
@@ -197,7 +197,7 @@ impl<'grammar> Debug for LaneTable<'grammar> {
                 }
                 write!(fmt, "{0:1$}", column, widths[i])?;
             }
-            write!(fmt, " |\n")?;
+            writeln!(fmt, " |")?;
         }
 
         Ok(())

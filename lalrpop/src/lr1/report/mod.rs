@@ -30,7 +30,7 @@ where
     W: Write + 'report,
 {
     pub fn new(out: &'report mut W) -> Self {
-        ReportGenerator { out: out }
+        ReportGenerator { out }
     }
 
     pub fn report_lr_table_construction<'grammar: 'report, L>(
@@ -42,13 +42,13 @@ where
     {
         self.write_header()?;
         self.write_section_header("Summary")?;
-        writeln!(self.out, "")?;
+        writeln!(self.out)?;
         match lr1result {
-            &Ok(ref states) => {
+            Ok(ref states) => {
                 writeln!(self.out, "Constructed {} states", states.len())?;
                 self.report_states(&states, &Map::new())?;
             }
-            &Err(ref table_construction_error) => {
+            Err(ref table_construction_error) => {
                 writeln!(self.out, "Failure")?;
                 writeln!(
                     self.out,
@@ -72,7 +72,7 @@ where
                 for state in conflict_map.keys() {
                     write!(self.out, " {}", state)?;
                 }
-                writeln!(self.out, "")?;
+                writeln!(self.out)?;
                 self.report_states(&table_construction_error.states, &conflict_map)?;
             }
         };
@@ -81,7 +81,7 @@ where
 
     fn process_conflicts<'grammar, L>(
         &mut self,
-        conflicts: &'report Vec<Conflict<'grammar, L>>,
+        conflicts: &'report [Conflict<'grammar, L>],
     ) -> (usize, usize, ConflictStateMap<'report, 'grammar, L>)
     where
         L: Lookahead,
@@ -91,12 +91,12 @@ where
         let mut conflict_map = Map::new();
         for conflict in conflicts.iter() {
             match conflict.action {
-                Action::Shift(_, _) => sr = sr + 1,
-                Action::Reduce(_) => rr = rr + 1,
+                Action::Shift(_, _) => sr += 1,
+                Action::Reduce(_) => rr += 1,
             }
             conflict_map
                 .entry(conflict.state)
-                .or_insert(vec![])
+                .or_insert_with(Vec::new)
                 .push(conflict);
         }
         (sr, rr, conflict_map)
@@ -104,15 +104,15 @@ where
 
     fn report_states<'grammar, L>(
         &mut self,
-        states: &Vec<State<'grammar, L>>,
+        states: &[State<'grammar, L>],
         conflict_map: &ConflictStateMap<'report, 'grammar, L>,
     ) -> io::Result<()>
     where
         L: Lookahead + LookaheadPrinter<W>,
     {
         self.write_section_header("State Table")?;
-        for ref state in states {
-            writeln!(self.out, "")?;
+        for state in states {
+            writeln!(self.out)?;
             self.report_state(&state, conflict_map.get(&state.index))?;
         }
         Ok(())
@@ -128,20 +128,20 @@ where
     {
         writeln!(self.out, "State {} {{", state.index)?;
         self.write_items(&state.items)?;
-        if (state.reductions.len() > 0) {
-            writeln!(self.out, "")?;
+        if (!state.reductions.is_empty()) {
+            writeln!(self.out)?;
             self.write_reductions(&state.reductions)?;
         }
 
         let max_width = get_width_for_gotos(state);
 
         if (!state.shifts.len() > 0) {
-            writeln!(self.out, "")?;
+            writeln!(self.out)?;
             self.write_shifts(&state.shifts, max_width)?;
         }
 
         if (!state.gotos.len() > 0) {
-            writeln!(self.out, "")?;
+            writeln!(self.out)?;
             self.write_gotos(&state.gotos, max_width)?;
         }
 
@@ -159,7 +159,7 @@ where
     where
         L: Lookahead + LookaheadPrinter<W>,
     {
-        writeln!(self.out, "")?;
+        writeln!(self.out)?;
         match conflict.action {
             Action::Shift(ref terminal, state) => {
                 let max_width = max(
@@ -219,7 +219,7 @@ where
         let max_width = get_max_length(items.vec.iter().map(|item| &item.production.nonterminal));
 
         for item in items.vec.iter() {
-            writeln!(self.out, "")?;
+            writeln!(self.out)?;
             self.write_item(item, max_width)?;
         }
         Ok(())
@@ -244,7 +244,7 @@ where
         for i in item.index..item.production.symbols.len() {
             write!(self.out, " {}", item.production.symbols[i])?;
         }
-        writeln!(self.out, "")?;
+        writeln!(self.out)?;
         self.write_lookahead(&item.lookahead)?;
         Ok(())
     }
@@ -271,14 +271,14 @@ where
 
     fn write_reductions<'grammar, L>(
         &mut self,
-        reductions: &Vec<(L, &'grammar Production)>,
+        reductions: &[(L, &'grammar Production)],
     ) -> io::Result<()>
     where
         L: Lookahead + LookaheadPrinter<W>,
     {
-        let max_width = get_max_length(reductions.into_iter().map(|p| &p.1.nonterminal));
+        let max_width = get_max_length(reductions.iter().map(|p| &p.1.nonterminal));
         for reduction in reductions.iter() {
-            writeln!(self.out, "")?;
+            writeln!(self.out)?;
             self.write_reduction(reduction, max_width)?;
         }
         Ok(())
@@ -298,7 +298,7 @@ where
         for symbol in production.symbols.iter() {
             write!(self.out, " {}", symbol)?;
         }
-        writeln!(self.out, "")?;
+        writeln!(self.out)?;
         Ok(())
     }
 
@@ -310,7 +310,7 @@ where
     where
         L: Lookahead + LookaheadPrinter<W>,
     {
-        let ref production = reduction.1;
+        let production = reduction.1;
         write!(self.out, "{}reduction ", INDENT_STRING)?;
         self.write_production(production, max_width)?;
         self.write_lookahead(&reduction.0)?;
@@ -328,7 +328,7 @@ where
                 INDENT_STRING, INDENT_STRING
             )?;
             lookahead.print(self.out)?;
-            writeln!(self.out, "")?;
+            writeln!(self.out)?;
         }
         Ok(())
     }
@@ -378,20 +378,20 @@ trait LookaheadPrinter<W>
 where
     W: Write,
 {
-    fn print<'report, 'grammar>(self: &Self, out: &'report mut W) -> io::Result<()>;
+    fn print<'report>(self: &Self, out: &'report mut W) -> io::Result<()>;
 
-    fn has_anything_to_print<'report>(self: &Self) -> bool;
+    fn has_anything_to_print(self: &Self) -> bool;
 }
 
 impl<W> LookaheadPrinter<W> for Nil
 where
     W: Write,
 {
-    fn print<'report, 'grammar>(self: &Self, _: &'report mut W) -> io::Result<()> {
+    fn print<'report>(self: &Self, _: &'report mut W) -> io::Result<()> {
         Ok(())
     }
 
-    fn has_anything_to_print<'report>(self: &Self) -> bool {
+    fn has_anything_to_print(self: &Self) -> bool {
         false
     }
 }
@@ -400,14 +400,14 @@ impl<W> LookaheadPrinter<W> for TokenSet
 where
     W: Write,
 {
-    fn print<'report, 'grammar>(self: &Self, out: &'report mut W) -> io::Result<()> {
+    fn print<'report>(self: &Self, out: &'report mut W) -> io::Result<()> {
         for i in self.iter() {
             write!(out, " {}", i)?
         }
         Ok(())
     }
 
-    fn has_anything_to_print<'report>(self: &Self) -> bool {
+    fn has_anything_to_print(self: &Self) -> bool {
         self.len() > 0
     }
 }
@@ -433,7 +433,7 @@ where
     I: Iterator,
     I::Item: HasDisplayLen,
 {
-    m.map(|k| k.display_len()).fold(0, |acc, x| max(acc, x))
+    m.map(|k| k.display_len()).fold(0, max)
 }
 
 fn get_width_for_gotos<'grammar, L>(state: &State<'grammar, L>) -> usize

@@ -186,14 +186,14 @@ impl<'graph, 'grammar> PathEnumerator<'graph, 'grammar> {
     fn new(graph: &'graph TraceGraph<'grammar>, lr0_item: LR0Item<'grammar>) -> Self {
         let start_state = graph.indices[&TraceGraphNode::Item(lr0_item)];
         let mut enumerator = PathEnumerator {
-            graph: graph,
+            graph,
             stack: vec![],
         };
         let edges = enumerator.incoming_edges(start_state);
         enumerator.stack.push(EnumeratorState {
             index: start_state,
             symbol_sets: SymbolSets::new(),
-            edges: edges,
+            edges,
         });
         enumerator.find_next_trace();
         enumerator
@@ -290,11 +290,11 @@ impl<'graph, 'grammar> PathEnumerator<'graph, 'grammar> {
                 // symbols `...p`.
                 let edges = self.incoming_edges(index);
                 self.stack.push(EnumeratorState {
-                    index: index,
-                    symbol_sets: symbol_sets,
-                    edges: edges,
+                    index,
+                    symbol_sets,
+                    edges,
                 });
-                return true;
+                true
             }
             TraceGraphNode::Nonterminal(_) => {
                 // If this node already appears on the stack, do not
@@ -302,9 +302,9 @@ impl<'graph, 'grammar> PathEnumerator<'graph, 'grammar> {
                 if !self.stack.iter().any(|state| state.index == index) {
                     let edges = self.incoming_edges(index);
                     self.stack.push(EnumeratorState {
-                        index: index,
-                        symbol_sets: symbol_sets,
-                        edges: edges,
+                        index,
+                        symbol_sets,
+                        edges,
                     });
                 }
                 self.find_next_trace()
@@ -380,7 +380,7 @@ impl<'graph, 'grammar> PathEnumerator<'graph, 'grammar> {
                 let reduction = Reduction {
                     start: cursors.0,
                     end: cursors.1,
-                    nonterminal: nonterminal,
+                    nonterminal,
                 };
                 cursors.0 += state.symbol_sets.prefix.len();
                 cursors.1 -= state.symbol_sets.suffix.len();
@@ -390,9 +390,9 @@ impl<'graph, 'grammar> PathEnumerator<'graph, 'grammar> {
         reductions.reverse();
 
         Example {
-            symbols: symbols,
-            cursor: cursor,
-            reductions: reductions,
+            symbols,
+            cursor,
+            reductions,
         }
     }
 }
@@ -432,8 +432,8 @@ impl<'graph, 'grammar> FilteredPathEnumerator<'graph, 'grammar> {
     ) -> Self {
         FilteredPathEnumerator {
             base: PathEnumerator::new(graph, lr0_item),
-            first_sets: first_sets,
-            lookahead: lookahead,
+            first_sets,
+            lookahead,
         }
     }
 }

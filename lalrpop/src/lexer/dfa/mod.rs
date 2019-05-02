@@ -146,7 +146,7 @@ impl<'nfa> DFABuilder<'nfa> {
 
             let kind = if all_rejects || item_set.items.is_empty() {
                 Kind::Reject
-            } else if all_accepts.len() == 0 {
+            } else if all_accepts.is_empty() {
                 Kind::Neither
             } else if all_accepts.len() == 1 {
                 // accepts just one NFA, easy case
@@ -201,16 +201,16 @@ impl<'nfa> DFABuilder<'nfa> {
             let other_edge = kernel_set.add_state(self.transitive_closure(other_transitions));
 
             let state = State {
-                item_set: item_set,
-                kind: kind,
-                test_edges: test_edges,
-                other_edge: other_edge,
+                item_set,
+                kind,
+                test_edges,
+                other_edge,
             };
 
             states.push(state);
         }
 
-        Ok(DFA { states: states })
+        Ok(DFA { states })
     }
 
     fn start_state(&self, kernel_set: &mut DFAKernelSet) -> DFAStateIndex {
@@ -311,13 +311,13 @@ impl Display for DFAStateIndex {
 }
 
 impl NFAIndex {
-    pub fn index(&self) -> usize {
+    pub fn index(self) -> usize {
         self.0
     }
 }
 
 impl DFAStateIndex {
-    pub fn index(&self) -> usize {
+    pub fn index(self) -> usize {
         self.0
     }
 }

@@ -79,10 +79,10 @@ impl<'cx, 'grammar> ErrorReportingCx<'cx, 'grammar> {
         conflicts: &'cx [LR1Conflict<'grammar>],
     ) -> Self {
         ErrorReportingCx {
-            grammar: grammar,
+            grammar,
             first_sets: FirstSets::new(grammar),
-            states: states,
-            conflicts: conflicts,
+            states,
+            conflicts,
         }
     }
 
@@ -483,8 +483,8 @@ impl<'cx, 'grammar> ErrorReportingCx<'cx, 'grammar> {
             .next()
             .map(
                 |(action, reduce)| ConflictClassification::InsufficientLookahead {
-                    action: action,
-                    reduce: reduce,
+                    action,
+                    reduce,
                 },
             )
             .unwrap_or(ConflictClassification::Naive)
@@ -613,7 +613,7 @@ impl<'cx, 'grammar> ErrorReportingCx<'cx, 'grammar> {
             .next()
     }
 
-    fn try_classify_inline_example<'ex>(&self, shift: &Example, reduce: &Example) -> bool {
+    fn try_classify_inline_example(&self, shift: &Example, reduce: &Example) -> bool {
         debug!("try_classify_inline_example({:?}, {:?})", shift, reduce);
 
         // In the case of shift, the example will look like
@@ -674,7 +674,7 @@ impl<'cx, 'grammar> ErrorReportingCx<'cx, 'grammar> {
         // Make sure that all the things we are suggesting inlining
         // are distinct so that we are not introducing a cycle.
         let mut duplicates = set();
-        if reduce.reductions[0..i + 1]
+        if reduce.reductions[0..=i]
             .iter()
             .any(|r| !duplicates.insert(r.nonterminal.clone()))
         {
@@ -741,7 +741,7 @@ impl<'cx, 'grammar> ErrorReportingCx<'cx, 'grammar> {
     ) -> Vec<Example> {
         log!(Tls::session(), Verbose, "Gathering reduce examples");
         let item = Item {
-            production: production,
+            production,
             index: production.symbols.len(),
             lookahead: TokenSet::from(lookahead),
         };
@@ -764,7 +764,7 @@ impl<'cx, 'grammar> ErrorReportingCx<'cx, 'grammar> {
             .iter()
             .filter(|i| i.can_shift())
             .filter(|i| i.production.symbols[i.index] == lookahead)
-            .map(|i| i.to_lr0())
+            .map(Item::to_lr0)
             .collect()
     }
 }

@@ -65,7 +65,7 @@ where
 
     buf.push(c0);
 
-    while let Some(c) = chars.next() {
+    for c in chars {
         if !f(c) {
             return (buf, Some(c));
         }
@@ -73,5 +73,5 @@ where
         buf.push(c);
     }
 
-    return (buf, None);
+    (buf, None)
 }

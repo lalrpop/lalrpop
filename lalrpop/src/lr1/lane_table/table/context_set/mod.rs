@@ -75,10 +75,8 @@ impl ContextSet {
         set: &TokenSet,
     ) -> Result<bool, OverlappingLookahead> {
         for (value, index) in self.values.iter().zip((0..).map(ConflictIndex::new)) {
-            if index != conflict {
-                if value.is_intersecting(&set) {
-                    return Err(OverlappingLookahead);
-                }
+            if index != conflict && value.is_intersecting(&set) {
+                return Err(OverlappingLookahead);
             }
         }
 

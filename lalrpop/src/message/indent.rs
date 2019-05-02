@@ -10,8 +10,8 @@ pub struct Indent {
 impl Indent {
     pub fn new(amount: usize, content: Box<Content>) -> Self {
         Indent {
-            amount: amount,
-            content: content,
+            amount,
+            content,
         }
     }
 }

@@ -3,8 +3,8 @@ use super::{NormError, NormResult};
 
 use grammar::consts::{ERROR, LOCATION};
 use grammar::parse_tree::{
-    ActionKind, Alternative, Grammar, Lifetime, NonterminalData, NonterminalString, Path, Span,
-    SymbolKind, TypeParameter, TypeRef,
+    ActionKind, Alternative, Grammar, GrammarItem, Lifetime, NonterminalData,
+    NonterminalString, Path, Span, SymbolKind, TypeParameter, TypeRef,
 };
 use grammar::repr::{NominalTypeRepr, TypeRepr, Types};
 use std::collections::{HashMap, HashSet};
@@ -39,7 +39,7 @@ impl<'grammar> TypeInferencer<'grammar> {
         let nonterminals = grammar
             .items
             .iter()
-            .filter_map(|item| item.as_nonterminal())
+            .filter_map(GrammarItem::as_nonterminal)
             .map(|data| {
                 assert!(!data.is_macro_def()); // normalized away by now
                 (data.name.clone(), NT::new(data))
@@ -57,9 +57,9 @@ impl<'grammar> TypeInferencer<'grammar> {
 
         Ok(TypeInferencer {
             stack: vec![],
-            nonterminals: nonterminals,
-            types: types,
-            type_parameters: type_parameters,
+            nonterminals,
+            types,
+            type_parameters,
         })
     }
 
@@ -169,7 +169,7 @@ impl<'grammar> TypeInferencer<'grammar> {
         }
 
         let ty = self.push(id, |this| {
-            if let &Some(ref type_decl) = nt.type_decl {
+            if let Some(ref type_decl) = nt.type_decl {
                 return this.type_ref(type_decl);
             }
 
@@ -265,7 +265,7 @@ impl<'grammar> TypeInferencer<'grammar> {
                     .collect::<Result<_, _>>()?;
                 Ok(TypeRepr::Nominal(NominalTypeRepr {
                     path: path.clone(),
-                    types: types,
+                    types,
                 }))
             }
             TypeRef::Lifetime(ref id) => Ok(TypeRepr::Lifetime(id.clone())),
@@ -279,7 +279,7 @@ impl<'grammar> TypeInferencer<'grammar> {
                 ref referent,
             } => Ok(TypeRepr::Ref {
                 lifetime: lifetime.clone(),
-                mutable: mutable,
+                mutable,
                 referent: Box::new(self.type_ref(referent)?),
             }),
             TypeRef::OfSymbol(ref symbol) => self.symbol_type(symbol),

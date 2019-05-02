@@ -103,7 +103,7 @@ impl<T: Display> Display for PatternKind<T> {
             PatternKind::Struct(ref path, ref fields, false) => {
                 write!(fmt, "{} {{ {} }}", path, Sep(", ", fields))
             }
-            PatternKind::Struct(ref path, ref fields, true) if fields.len() == 0 => {
+            PatternKind::Struct(ref path, ref fields, true) if fields.is_empty() => {
                 write!(fmt, "{} {{ .. }}", path)
             }
             PatternKind::Struct(ref path, ref fields, true) => {

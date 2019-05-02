@@ -24,14 +24,14 @@ impl FileText {
                 .as_bytes()
                 .iter()
                 .enumerate()
-                .filter(|&(_, &b)| b == ('\n' as u8))
+                .filter(|&(_, &b)| b == b'\n')
                 .map(|(i, _)| i + 1); // index of first char in the line
             Some(0).into_iter().chain(input_indices).collect()
         };
 
         FileText {
-            path: path,
-            input_str: input_str,
+            path,
+            input_str,
             newlines: newline_indices,
         }
     }
@@ -111,7 +111,7 @@ impl FileText {
             }
         } else {
             // span is across many lines, find the maximal width of any of those
-            let line_strs: Vec<_> = (start_line..end_line + 1)
+            let line_strs: Vec<_> = (start_line..=end_line)
                 .map(|i| self.line_text(i))
                 .collect();
             let max_len = line_strs.iter().map(|l| l.len()).max().unwrap();

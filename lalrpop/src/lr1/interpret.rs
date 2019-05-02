@@ -49,7 +49,7 @@ where
 {
     fn new(states: &'grammar [State<'grammar, L>]) -> Machine<'grammar, L> {
         Machine {
-            states: states,
+            states,
             state_stack: vec![],
             data_stack: vec![],
         }

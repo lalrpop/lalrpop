@@ -55,15 +55,15 @@ impl<'codegen, 'grammar, W: Write, C> CodeGenerator<'codegen, 'grammar, W, C> {
         custom: C,
     ) -> Self {
         CodeGenerator {
-            grammar: grammar,
+            grammar,
             prefix: &grammar.prefix,
             types: &grammar.types,
-            states: states,
-            user_start_symbol: user_start_symbol,
-            start_symbol: start_symbol,
-            out: out,
-            custom: custom,
-            repeatable: repeatable,
+            states,
+            user_start_symbol,
+            start_symbol,
+            out,
+            custom,
+            repeatable,
             action_module: action_module.to_string(),
         }
     }
@@ -364,8 +364,7 @@ impl<'codegen, 'grammar, W: Write, C> CodeGenerator<'codegen, 'grammar, W, C> {
             .type_parameters
             .iter()
             .map(|tp| match *tp {
-                TypeParameter::Lifetime(_) => format!("&()"),
-
+                TypeParameter::Lifetime(_) => "&()".to_string(),
                 TypeParameter::Id(ref id) => id.to_string(),
             })
             .collect();

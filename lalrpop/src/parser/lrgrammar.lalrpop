@@ -34,8 +34,8 @@ Grammar: Grammar =
                   parameters: parameters.unwrap_or(vec![]),
                   where_clauses: where_clauses.unwrap_or(vec![]),
                   items: uses.into_iter().chain(items).collect(),
-                  annotations: annotations,
-                  module_attributes: module_attributes}
+                  annotations,
+                  module_attributes }
     };
 
 GrammarTypeParameters: Vec<TypeParameter> =
@@ -51,9 +51,9 @@ GrammarWhereClauses: Vec<WhereClause<TypeRef>> =
 
 GrammarWhereClause: WhereClause<TypeRef> = {
     <l:Lifetime> ":" <bounds:Plus<Lifetime>> =>
-        WhereClause::Lifetime { lifetime: l, bounds: bounds },
+        WhereClause::Lifetime { lifetime: l, bounds },
     <f:ForAll> <ty:TypeRef> ":" <bounds:TypeBounds> =>
-        WhereClause::Type { forall: f, ty: ty, bounds: bounds }
+        WhereClause::Type { forall: f, ty, bounds }
 };
 
 ForAll: Vec<TypeParameter> = {
@@ -68,7 +68,7 @@ TypeBound: TypeBound<TypeRef> = {
     <l:Lifetime> =>
         TypeBound::Lifetime(l),
     <f:ForAll> <p:Path> "(" <params:Comma<TypeRef>> ")" <ret:("->" <TypeRef>)?> =>
-        TypeBound::Fn { forall: f, path: p, parameters: params, ret: ret },
+        TypeBound::Fn { forall: f, path: p, parameters: params, ret },
     <f:ForAll> <p:Path> <params:("<" <Comma<TypeBoundParameter>> ">")?> =>
         TypeBound::Trait { forall: f, path: p, parameters: params.unwrap_or(vec![]) }
 };
@@ -94,7 +94,7 @@ GrammarParameters: Vec<Parameter> =
     "(" <Comma<GrammarParameter>> ")";
 
 GrammarParameter: Parameter =
-    <id:Id> ":" <ty:TypeRef> => Parameter { name: id, ty: ty };
+    <id:Id> ":" <ty:TypeRef> => Parameter { name: id, ty };
 
 GrammarItem: GrammarItem = {
     Use,
@@ -119,7 +119,7 @@ Nonterminal: GrammarItem =
         GrammarItem::Nonterminal(NonterminalData { visibility: v,
                                                    span: Span(lo, hi),
                                                    name: n.0,
-                                                   annotations: annotations,
+                                                   annotations,
                                                    args: n.1,
                                                    type_decl: t,
                                                    alternatives: a })
@@ -172,7 +172,7 @@ Action: ActionKind = {
 
 Cond: Condition =
     <lo:@L> <a:NotMacroId> <op:CondOp> <b:StringLiteral> <hi:@R> => {
-        Condition { span:Span(lo, hi), lhs:a, rhs:b, op:op }
+        Condition { span:Span(lo, hi), lhs:a, rhs:b, op }
     };
 
 CondOp: ConditionOp = {
@@ -200,7 +200,7 @@ Symbol0: Symbol = {
 
     <lhs:Symbol0> <op:RepeatOp> <hi:@R> =>
         Symbol::new(Span(lhs.span.0, hi),
-                    SymbolKind::Repeat(Box::new(RepeatSymbol { symbol: lhs, op: op }))),
+                    SymbolKind::Repeat(Box::new(RepeatSymbol { symbol: lhs, op }))),
 };
 
 RepeatOp: RepeatOp = {
@@ -214,7 +214,7 @@ Symbol1: Symbol =
 
 SymbolKind1: SymbolKind = {
     <name:MacroId> "<" <args:Comma<Symbol>> ">" =>
-        SymbolKind::Macro(MacroSymbol { name: name, args: args }),
+        SymbolKind::Macro(MacroSymbol { name, args }),
 
     QuotedTerminal =>
         SymbolKind::Terminal(<>),
@@ -298,7 +298,7 @@ MatchTokenInt: MatchToken = {
 };
 
 MatchContents: MatchContents =
-    <items:Comma<MatchItem>> => MatchContents { items: items };
+    <items:Comma<MatchItem>> => MatchContents { items };
 
 MatchItem: MatchItem = {
     <lo:@L> "_" <hi:@R>             => MatchItem::CatchAll(Span(lo, hi)),
@@ -335,7 +335,7 @@ Conversion: Conversion =
     <lo:@L> <from:Terminal> <start:@L> <p:"=>"> <hi:@R> =>? {
         let pattern = super::parse_pattern(p, start + 2)?;
         Ok(Conversion { span: Span(lo, hi),
-                        from: from,
+                        from,
                         to: pattern })
     };
 

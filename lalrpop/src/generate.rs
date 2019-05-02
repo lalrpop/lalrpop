@@ -12,7 +12,7 @@ pub enum ParseTree {
 
 pub fn random_parse_tree(grammar: &Grammar, symbol: NonterminalString) -> ParseTree {
     let mut gen = Generator {
-        grammar: grammar,
+        grammar,
         rng: rand::thread_rng(),
         depth: 0,
     };

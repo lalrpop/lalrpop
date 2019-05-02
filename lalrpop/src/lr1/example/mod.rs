@@ -105,7 +105,7 @@ impl Example {
                 }
             };
 
-            if let &ExampleSymbol::Symbol(ref s) = symbol {
+            if let ExampleSymbol::Symbol(ref s) = symbol {
                 builder = builder.push(s.clone()).styled(style);
             }
         }
@@ -121,8 +121,8 @@ impl Example {
         InlineBuilder::new()
             .push(Box::new(ExamplePicture {
                 example: self,
-                positions: positions,
-                styles: styles,
+                positions,
+                styles,
             }))
             .indented()
             .end()

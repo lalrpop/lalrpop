@@ -19,8 +19,8 @@ pub fn inline(mut grammar: Grammar) -> NormResult<Grammar> {
 }
 
 fn inline_nt(grammar: &mut Grammar, inline_nt: &NonterminalString) {
-    let inline_productions: Vec<_> = grammar.productions_for(inline_nt).iter().cloned().collect();
-    for (_, data) in &mut grammar.nonterminals {
+    let inline_productions = grammar.productions_for(inline_nt).to_vec();
+    for data in grammar.nonterminals.values_mut() {
         let mut new_productions = vec![];
         let mut new_action_fn_defns = vec![];
 
@@ -36,7 +36,7 @@ fn inline_nt(grammar: &mut Grammar, inline_nt: &NonterminalString) {
             let mut inliner = Inliner {
                 action_fn_defns: &grammar.action_fn_defns,
                 inline_nonterminal: inline_nt.clone(),
-                into_production: into_production,
+                into_production,
                 inline_fallible: 0,
                 inline_productions: &inline_productions,
                 new_symbols: vec![],
