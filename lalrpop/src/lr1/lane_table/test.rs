@@ -112,12 +112,10 @@ fn build_table<'grammar>(
 
     // Push the `tokens` to find the index of the inconsistent state
     let inconsistent_state_index = traverse(&lr0_err.states, tokens);
-    assert!(
-        lr0_err
-            .conflicts
-            .iter()
-            .any(|c| c.state == inconsistent_state_index)
-    );
+    assert!(lr0_err
+        .conflicts
+        .iter()
+        .any(|c| c.state == inconsistent_state_index));
     let inconsistent_state = &lr0_err.states[inconsistent_state_index.0];
     println!("inconsistent_state={:#?}", inconsistent_state.items);
 

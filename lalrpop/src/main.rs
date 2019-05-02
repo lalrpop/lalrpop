@@ -79,11 +79,7 @@ fn main1() -> io::Result<()> {
         match config.process_file(&arg) {
             Ok(()) => {}
             Err(err) => {
-                writeln!(
-                    stderr,
-                    "Error encountered processing `{}`: {}",
-                    arg, err
-                )?;
+                writeln!(stderr, "Error encountered processing `{}`: {}", arg, err)?;
                 process::exit(1);
             }
         }

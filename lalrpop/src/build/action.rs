@@ -97,7 +97,8 @@ fn emit_user_action_code<W: Write>(
                 .iter()
                 .cloned()
                 .map(|t| grammar.types.spanned_type(t)),
-        ).map(|(p, t)| format!("(_, {}, _): {}", p, t))
+        )
+        .map(|(p, t)| format!("(_, {}, _): {}", p, t))
         .collect();
 
     // If this is a reduce of an empty production, we will
@@ -122,7 +123,8 @@ fn emit_user_action_code<W: Write>(
     rust.fn_header(
         &r::Visibility::Priv,
         format!("{}action{}", grammar.prefix, index),
-    ).with_grammar(grammar)
+    )
+    .with_grammar(grammar)
     .with_parameters(arguments)
     .with_return_type(ret_type)
     .emit()?;
@@ -143,7 +145,8 @@ fn emit_lookaround_action_code<W: Write>(
     rust.fn_header(
         &r::Visibility::Priv,
         format!("{}action{}", grammar.prefix, index),
-    ).with_grammar(grammar)
+    )
+    .with_grammar(grammar)
     .with_parameters(vec![
         format!(
             "{}lookbehind: &{}",
@@ -155,7 +158,8 @@ fn emit_lookaround_action_code<W: Write>(
             grammar.prefix,
             grammar.types.terminal_loc_type()
         ),
-    ]).with_return_type(format!("{}", grammar.types.terminal_loc_type()))
+    ])
+    .with_return_type(format!("{}", grammar.types.terminal_loc_type()))
     .emit()?;
 
     rust!(rust, "{{");
@@ -191,7 +195,8 @@ fn emit_inline_action_code<W: Write>(
         .flat_map(|sym| match *sym {
             r::InlinedSymbol::Original(ref s) => vec![s.clone()],
             r::InlinedSymbol::Inlined(_, ref syms) => syms.clone(),
-        }).map(|s| s.ty(&grammar.types))
+        })
+        .map(|s| s.ty(&grammar.types))
         .collect();
 
     // this is the number of symbols we expect to be passed in; it is
@@ -226,7 +231,8 @@ fn emit_inline_action_code<W: Write>(
     rust.fn_header(
         &r::Visibility::Priv,
         format!("{}action{}", grammar.prefix, index),
-    ).with_grammar(grammar)
+    )
+    .with_grammar(grammar)
     .with_parameters(arguments)
     .with_return_type(ret_type)
     .emit()?;
@@ -342,7 +348,7 @@ fn emit_inline_action_code<W: Write>(
 
     // if there are type parameters then type annotation is required
     let annotate = !grammar.non_lifetime_type_parameters().is_empty();
-    let lparen = if annotate {"::<"} else {"("};
+    let lparen = if annotate { "::<" } else { "(" };
 
     for symbol in &data.symbols {
         match *symbol {
@@ -363,7 +369,9 @@ fn emit_inline_action_code<W: Write>(
                 for t in grammar.non_lifetime_type_parameters() {
                     rust!(rust, "{},", t);
                 }
-                if annotate {rust!(rust, ">(")};
+                if annotate {
+                    rust!(rust, ">(")
+                };
                 for parameter in &grammar.parameters {
                     rust!(rust, "{},", parameter.name);
                 }
@@ -395,11 +403,19 @@ fn emit_inline_action_code<W: Write>(
             }
         }
     }
-    rust!(rust, "{}action{}{}", grammar.prefix, data.action.index(), lparen);
+    rust!(
+        rust,
+        "{}action{}{}",
+        grammar.prefix,
+        data.action.index(),
+        lparen
+    );
     for t in grammar.non_lifetime_type_parameters() {
         rust!(rust, "{},", t);
     }
-    if annotate {rust!(rust, ">(")};
+    if annotate {
+        rust!(rust, ">(")
+    };
     for parameter in &grammar.parameters {
         rust!(rust, "{},", parameter.name);
     }

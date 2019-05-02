@@ -181,11 +181,7 @@ impl NFA {
     fn push_edge<L: EdgeLabel>(&mut self, from: NFAStateIndex, label: L, to: NFAStateIndex) {
         let edge_vec = L::vec_mut(&mut self.edges);
         let edge_index = edge_vec.len();
-        edge_vec.push(Edge {
-            from,
-            label,
-            to,
-        });
+        edge_vec.push(Edge { from, label, to });
 
         // if this is the first edge from the `from` state, set the
         // index

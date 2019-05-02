@@ -122,17 +122,27 @@ where
         match *self {
             User { ref error } => write!(f, "{}", error),
             InvalidToken { ref location } => write!(f, "Invalid token at {}", location),
-            UnrecognizedEOF { ref location, ref expected } => {
+            UnrecognizedEOF {
+                ref location,
+                ref expected,
+            } => {
                 write!(f, "Unrecognized EOF found at {}", location)?;
                 fmt_expected(f, expected)
             }
-            UnrecognizedToken { token: (ref start, ref token, ref end), ref expected } => {
-                write!(f, "Unrecognized token `{}` found at {}:{}", token, start, end)?;
+            UnrecognizedToken {
+                token: (ref start, ref token, ref end),
+                ref expected,
+            } => {
+                write!(
+                    f,
+                    "Unrecognized token `{}` found at {}:{}",
+                    token, start, end
+                )?;
                 fmt_expected(f, expected)
             }
-            ExtraToken { token: (ref start, ref token, ref end), } => {
-                write!(f, "Extra token {} found at {}:{}", token, start, end)
-            }
+            ExtraToken {
+                token: (ref start, ref token, ref end),
+            } => write!(f, "Extra token {} found at {}:{}", token, start, end),
         }
     }
 }

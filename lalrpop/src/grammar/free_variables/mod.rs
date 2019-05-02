@@ -58,15 +58,12 @@ impl FreeVariables for repr::TypeRepr {
         match self {
             repr::TypeRepr::Tuple(tys) => tys.free_variables(type_parameters),
             repr::TypeRepr::Nominal(data) => data.free_variables(type_parameters),
-            repr::TypeRepr::Associated {
-                type_parameter,
-                ..
-            } => free_type(type_parameters, type_parameter),
+            repr::TypeRepr::Associated { type_parameter, .. } => {
+                free_type(type_parameters, type_parameter)
+            }
             repr::TypeRepr::Lifetime(l) => free_lifetime(type_parameters, l),
             repr::TypeRepr::Ref {
-                lifetime,
-                referent,
-                ..
+                lifetime, referent, ..
             } => lifetime
                 .iter()
                 .map(|id| TypeParameter::Lifetime(id.clone()))
@@ -155,16 +152,16 @@ impl<T: FreeVariables> FreeVariables for parse_tree::TypeBound<T> {
                 parameters,
                 ret,
                 ..
-            } => parameters.free_variables(type_parameters)
+            } => parameters
+                .free_variables(type_parameters)
                 .into_iter()
                 .chain(ret.free_variables(type_parameters))
                 .filter(|tp| !forall.contains(tp))
                 .collect(),
             parse_tree::TypeBound::Trait {
-                forall,
-                parameters,
-                ..
-            } => parameters.free_variables(type_parameters)
+                forall, parameters, ..
+            } => parameters
+                .free_variables(type_parameters)
                 .into_iter()
                 .filter(|tp| !forall.contains(tp))
                 .collect(),

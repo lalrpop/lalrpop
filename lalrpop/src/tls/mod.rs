@@ -41,10 +41,7 @@ impl Tls {
     /// the values from `Tls`, call `Tls::session()` or
     /// `Tls::file_text()`.
     pub fn install(session: Rc<Session>, file_text: Rc<FileText>) -> Tls {
-        let fields = TlsFields {
-            session,
-            file_text,
-        };
+        let fields = TlsFields { session, file_text };
 
         THE_TLS_FIELDS.with(|s| {
             let mut s = s.borrow_mut();

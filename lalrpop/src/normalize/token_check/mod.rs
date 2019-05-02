@@ -377,10 +377,9 @@ fn construct(grammar: &mut Grammar, match_block: MatchBlock) -> NormResult<()> {
         }
     };
 
-    grammar.items.push(GrammarItem::InternToken(InternToken {
-        match_entries,
-        dfa,
-    }));
+    grammar
+        .items
+        .push(GrammarItem::InternToken(InternToken { match_entries, dfa }));
 
     // we need to inject a `'input` lifetime and `input: &'input str` parameter as well:
 

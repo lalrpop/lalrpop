@@ -21,13 +21,7 @@ fn resolve_in_place(grammar: &mut Grammar) -> NormResult<()> {
             .items
             .iter()
             .filter_map(GrammarItem::as_nonterminal)
-            .map(|nt| {
-                (
-                    nt.span,
-                    nt.name.0.clone(),
-                    Def::Nonterminal(nt.args.len()),
-                )
-            });
+            .map(|nt| (nt.span, nt.name.0.clone(), Def::Nonterminal(nt.args.len())));
 
         let terminal_identifiers = grammar
             .items

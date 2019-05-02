@@ -832,49 +832,35 @@ fn generics_issue_104_test1() {
     // The real thing `generics_issue_104` is testing is that the code
     // *compiles*, even though the type parameter `T` does not appear
     // in any of the arguments.
-    assert!(
-        generics_issue_104::SchemaParser::new()
-            .parse::<()>("grammar { foo }")
-            .is_ok()
-    );
+    assert!(generics_issue_104::SchemaParser::new()
+        .parse::<()>("grammar { foo }")
+        .is_ok());
 }
 
 #[test]
 fn where_clause_with_forall_test1() {
-    assert!(
-        where_clause_with_forall::TermParser::new()
-            .parse(&mut |s: &str| println!("log: {}", s), "(((((42)))))")
-            .is_ok()
-    );
+    assert!(where_clause_with_forall::TermParser::new()
+        .parse(&mut |s: &str| println!("log: {}", s), "(((((42)))))")
+        .is_ok());
 }
 
 #[test]
 fn test_match_section() {
-    assert!(
-        match_section::QueryParser::new()
-            .parse("SELECT foo")
-            .is_ok()
-    );
-    assert!(
-        match_section::QueryParser::new()
-            .parse("select foo")
-            .is_ok()
-    );
-    assert!(
-        match_section::QueryParser::new()
-            .parse("INSERT foo")
-            .is_ok()
-    );
-    assert!(
-        match_section::QueryParser::new()
-            .parse("UPDATE foo")
-            .is_ok()
-    );
-    assert!(
-        match_section::QueryParser::new()
-            .parse("UPDATE update")
-            .is_err()
-    );
+    assert!(match_section::QueryParser::new()
+        .parse("SELECT foo")
+        .is_ok());
+    assert!(match_section::QueryParser::new()
+        .parse("select foo")
+        .is_ok());
+    assert!(match_section::QueryParser::new()
+        .parse("INSERT foo")
+        .is_ok());
+    assert!(match_section::QueryParser::new()
+        .parse("UPDATE foo")
+        .is_ok());
+    assert!(match_section::QueryParser::new()
+        .parse("UPDATE update")
+        .is_err());
 }
 
 #[test]
@@ -923,12 +909,14 @@ fn error_issue_278() {
 }
 
 #[test]
-fn generics_issue_417(){
+fn generics_issue_417() {
     // Similar to `generics_issue_104`
     // The real thing `generics_issue_417` is testing is that the code
     // *compiles*, even though the type parameter `T` does not appear
     // in any of the arguments.
-    assert!(generics_issue_417::TupleParser::new().parse::<()>("(hello, world)").is_ok());
+    assert!(generics_issue_417::TupleParser::new()
+        .parse::<()>("(hello, world)")
+        .is_ok());
 }
 
 #[test]
@@ -941,21 +929,19 @@ fn verify_lalrpop_generates_itself() {
     // Don't remove the .rs file that already exist
     fs::copy(&grammar_file, &copied_grammar_file).unwrap();
 
-    assert!(
-        Command::new("../target/debug/lalrpop")
-            .args(&[
-                "--force",
-                "--no-whitespace",
-                "--out-dir",
-                out_dir,
-                copied_grammar_file
-                    .to_str()
-                    .expect("grammar path is not UTF-8")
-            ])
-            .status()
-            .unwrap()
-            .success()
-    );
+    assert!(Command::new("../target/debug/lalrpop")
+        .args(&[
+            "--force",
+            "--no-whitespace",
+            "--out-dir",
+            out_dir,
+            copied_grammar_file
+                .to_str()
+                .expect("grammar path is not UTF-8")
+        ])
+        .status()
+        .unwrap()
+        .success());
 
     let actual = fs::read_to_string(grammar_file.with_extension("rs")).unwrap();
     let expected = fs::read_to_string(copied_grammar_file.with_extension("rs")).unwrap();

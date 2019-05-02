@@ -206,10 +206,7 @@ fn parse_and_normalize_grammar(session: &Session, file_text: &FileText) -> io::R
             );
         }
 
-        Err(ParseError::UnrecognizedEOF {
-            location,
-            ..
-        }) => {
+        Err(ParseError::UnrecognizedEOF { location, .. }) => {
             report_error(
                 &file_text,
                 pt::Span(location, location),
@@ -512,8 +509,11 @@ fn emit_to_triple_trait<W: Write>(grammar: &r::Grammar, rust: &mut RustWrite<W>)
         );
         rust!(rust, "match value {{");
         rust!(rust, "Ok(v) => Ok(v),");
-        rust!(rust, "Err(error) => Err({p}lalrpop_util::ParseError::User {{ error }}),",
-              p = grammar.prefix);
+        rust!(
+            rust,
+            "Err(error) => Err({p}lalrpop_util::ParseError::User {{ error }}),",
+            p = grammar.prefix
+        );
         rust!(rust, "}}"); // match
         rust!(rust, "}}");
         rust!(rust, "}}");
@@ -551,8 +551,11 @@ fn emit_to_triple_trait<W: Write>(grammar: &r::Grammar, rust: &mut RustWrite<W>)
         );
         rust!(rust, "match value {{");
         rust!(rust, "Ok(v) => Ok(((), v, ())),");
-        rust!(rust, "Err(error) => Err({p}lalrpop_util::ParseError::User {{ error }}),",
-              p = grammar.prefix);
+        rust!(
+            rust,
+            "Err(error) => Err({p}lalrpop_util::ParseError::User {{ error }}),",
+            p = grammar.prefix
+        );
         rust!(rust, "}}"); // match
         rust!(rust, "}}"); // fn
         rust!(rust, "}}"); // impl

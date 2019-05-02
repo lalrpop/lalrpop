@@ -482,10 +482,7 @@ impl<'cx, 'grammar> ErrorReportingCx<'cx, 'grammar> {
             .zip(reduce_examples)
             .next()
             .map(
-                |(action, reduce)| ConflictClassification::InsufficientLookahead {
-                    action,
-                    reduce,
-                },
+                |(action, reduce)| ConflictClassification::InsufficientLookahead { action, reduce },
             )
             .unwrap_or(ConflictClassification::Naive)
     }
