@@ -370,8 +370,8 @@ fn emit_inline_action_code<W: Write>(
                     rust!(rust, "{},", t);
                 }
                 if annotate {
-                    rust!(rust, ">(")
-                };
+                    rust!(rust, ">(");
+                }
                 for parameter in &grammar.parameters {
                     rust!(rust, "{},", parameter.name);
                 }
@@ -414,8 +414,8 @@ fn emit_inline_action_code<W: Write>(
         rust!(rust, "{},", t);
     }
     if annotate {
-        rust!(rust, ">(")
-    };
+        rust!(rust, ">(");
+    }
     for parameter in &grammar.parameters {
         rust!(rust, "{},", parameter.name);
     }
