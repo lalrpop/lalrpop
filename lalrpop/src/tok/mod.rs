@@ -131,9 +131,7 @@ const KEYWORDS: &[(&str, Tok<'static>)] = &[
     ("for", For),
 ];
 
-/*
- * Helper for backtracking.
- */
+// Helper for backtracking.
 macro_rules! first {
     ($this:expr, $action:expr, $fallback:expr) => {{
         let fallback_state = ($this.chars.clone(), $this.lookahead);

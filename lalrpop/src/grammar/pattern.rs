@@ -1,10 +1,6 @@
-/*!
-
-The definition of patterns is shared between the parse-tree and the
-repr, but customized by a type T that represents the different type
-representations.
-
-*/
+//! The definition of patterns is shared between the parse-tree and the
+//! repr, but customized by a type T that represents the different type
+//! representations.
 
 use grammar::parse_tree::{Path, Span};
 use std::fmt::{Display, Error, Formatter};

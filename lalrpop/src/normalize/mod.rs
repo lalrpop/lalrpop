@@ -1,8 +1,6 @@
-/*!
- * Normalization processes a parse tree until it is in suitable form to
- * be converted to the more canonical form. This is done as a series of
- * passes, each contained in their own module below.
- */
+//! Normalization processes a parse tree until it is in suitable form to
+//! be converted to the more canonical form. This is done as a series of
+//! passes, each contained in their own module below.
 
 use grammar::parse_tree as pt;
 use grammar::repr as r;

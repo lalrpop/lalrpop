@@ -1,8 +1,6 @@
-/*!
- * Compiled representation of a grammar. Simplified, normalized
- * version of `parse_tree`. The normalization passes produce this
- * representation incrementally.
- */
+//! Compiled representation of a grammar. Simplified, normalized
+//! version of `parse_tree`. The normalization passes produce this
+//! representation incrementally.
 
 use collections::{map, Map};
 use grammar::free_variables::FreeVariables;
