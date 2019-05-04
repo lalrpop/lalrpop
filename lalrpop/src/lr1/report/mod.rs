@@ -91,7 +91,7 @@ where
         let mut conflict_map = Map::new();
         for conflict in conflicts.iter() {
             match conflict.action {
-                Action::Shift(_, _) => sr += 1,
+                Action::Shift(..) => sr += 1,
                 Action::Reduce(_) => rr += 1,
             }
             conflict_map
