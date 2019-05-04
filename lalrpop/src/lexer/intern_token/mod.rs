@@ -1,50 +1,46 @@
-/*!
-
-Generates an iterator type `Matcher` that looks roughly like
-
-```ignore
-mod intern_token {
-    extern crate regex as regex;
-
-    #[derive(Clone, Debug, PartialEq, Eq, PartialOrd, Ord)]
-    pub struct Token<'input>(pub usize, pub &'input str);
-    //                           ~~~~~~     ~~~~~~~~~~~
-    //                           token      token
-    //                           index      text
-    //                           (type)
-
-    impl<'a> fmt::Display for Token<'a> { ... }
-
-    pub struct MatcherBuilder {
-        regex_set: regex::RegexSet,
-        regex_vec: Vec<regex::Regex>,
-    }
-
-    impl MatcherBuilder {
-        fn new() -> MatchBuilder { ... }
-        fn matcher<'input, 'builder>(&'builder self, s: &'input str) -> Matcher<'input, 'builder> { ... }
-    }
-
-    pub struct Matcher<'input, 'builder> {
-        text: &'input str,
-        consumed: usize,
-        regex_set: &'builder regex::RegexSet,
-        regex_vec: &'builder Vec<regex::Regex>,
-    }
-
-    impl Matcher<'input> {
-        fn tokenize(&self, text: &str) -> Option<(usize, usize)> { ... }
-    }
-
-    impl<'input> Iterator for Matcher<'input> {
-        type Item = Result<(usize, Token<'input>, usize), ParseError>;
-        //                  ~~~~~  ~~~~~~~~~~~~~  ~~~~~
-        //                  start  token          end
-    }
-}
-```
-
- */
+//! Generates an iterator type `Matcher` that looks roughly like
+//!
+//! ```ignore
+//! mod intern_token {
+//!     extern crate regex as regex;
+//!
+//!     #[derive(Clone, Debug, PartialEq, Eq, PartialOrd, Ord)]
+//!     pub struct Token<'input>(pub usize, pub &'input str);
+//!     //                           ~~~~~~     ~~~~~~~~~~~
+//!     //                           token      token
+//!     //                           index      text
+//!     //                           (type)
+//!
+//!     impl<'a> fmt::Display for Token<'a> { ... }
+//!
+//!     pub struct MatcherBuilder {
+//!         regex_set: regex::RegexSet,
+//!         regex_vec: Vec<regex::Regex>,
+//!     }
+//!
+//!     impl MatcherBuilder {
+//!         fn new() -> MatchBuilder { ... }
+//!         fn matcher<'input, 'builder>(&'builder self, s: &'input str) -> Matcher<'input, 'builder> { ... }
+//!     }
+//!
+//!     pub struct Matcher<'input, 'builder> {
+//!         text: &'input str,
+//!         consumed: usize,
+//!         regex_set: &'builder regex::RegexSet,
+//!         regex_vec: &'builder Vec<regex::Regex>,
+//! }
+//!
+//!     impl Matcher<'input> {
+//!         fn tokenize(&self, text: &str) -> Option<(usize, usize)> { ... }
+//!     }
+//!
+//!     impl<'input> Iterator for Matcher<'input> {
+//!         type Item = Result<(usize, Token<'input>, usize), ParseError>;
+//!         //                  ~~~~~  ~~~~~~~~~~~~~  ~~~~~
+//!         //                  start  token          end
+//!     }
+//! }
+//! ```
 
 use grammar::parse_tree::InternToken;
 use grammar::repr::{Grammar, TerminalLiteral};

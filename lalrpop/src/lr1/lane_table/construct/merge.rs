@@ -39,10 +39,7 @@ impl<'m, 'grammar> Merge<'m, 'grammar> {
             original_indices: Map::new(),
             clones: Multimap::new(),
             target_states: vec![inconsistent_state],
-            context_sets: ContextSets {
-                unify,
-                state_sets,
-            },
+            context_sets: ContextSets { unify, state_sets },
         }
     }
 

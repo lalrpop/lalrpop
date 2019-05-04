@@ -121,15 +121,14 @@ impl Character for InlineBuilder {
 /// Example:
 ///
 /// ```
-/// let node =
-///    InlineBuilder::new()
-///        .begin_lines() // starts a child builder for adjacent lines
-///        .text("foo")   // add a text node "foo" to the child builder
-///        .text("bar")   // add a text node "bar" to the child builder
-///        .end()         // finish the lines builder, return to the parent
-///        .end();        // finish the parent `InlineBuilder`, yielding up the
-///                       // `lines` child that was pushed (see `InlineBuilder`
-///                       // for more details)
+/// let node = InlineBuilder::new()
+///     .begin_lines() // starts a child builder for adjacent lines
+///     .text("foo")   // add a text node "foo" to the child builder
+///     .text("bar")   // add a text node "bar" to the child builder
+///     .end()         // finish the lines builder, return to the parent
+///     .end();        // finish the parent `InlineBuilder`, yielding up the
+///                    // `lines` child that was pushed (see `InlineBuilder`
+///                    // for more details)
 /// ```
 pub struct Builder<C: Character> {
     items: Vec<Box<Content>>,

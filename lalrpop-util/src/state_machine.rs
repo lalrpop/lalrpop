@@ -212,7 +212,8 @@ where
             states: vec![start_state],
             symbols: vec![],
             last_location,
-        }.parse()
+        }
+        .parse()
     }
 
     fn top_state(&self) -> D::StateIndex {
@@ -309,17 +310,15 @@ where
     ) -> NextToken<D> {
         debug!(
             "\\+ error_recovery(opt_lookahead={:?}, opt_token_index={:?})",
-            opt_lookahead,
-            opt_token_index,
+            opt_lookahead, opt_token_index,
         );
 
         if !self.definition.uses_error_recovery() {
             debug!("\\ error -- no error recovery!");
 
-            return NextToken::Done(Err(self.unrecognized_token_error(
-                opt_lookahead,
-                self.top_state(),
-            )));
+            return NextToken::Done(Err(
+                self.unrecognized_token_error(opt_lookahead, self.top_state())
+            ));
         }
 
         let error = self.unrecognized_token_error(opt_lookahead.clone(), self.top_state());
@@ -535,9 +534,7 @@ where
     ) -> bool {
         debug!(
             "\\\\\\+ accepts(error_state={:?}, states={:?}, opt_token_index={:?})",
-            error_state,
-            states,
-            opt_token_index,
+            error_state, states, opt_token_index,
         );
 
         let mut states = states.to_vec();
@@ -600,18 +597,14 @@ where
         top_state: D::StateIndex,
     ) -> ParseError<D> {
         match token {
-            Some(token) => {
-                ::ParseError::UnrecognizedToken {
-                    token,
-                    expected: self.definition.expected_tokens(top_state),
-                }
-            }
-            None => {
-                ::ParseError::UnrecognizedEOF {
-                    location: self.last_location.clone(),
-                    expected: self.definition.expected_tokens(top_state),
-                }
-            }
+            Some(token) => ::ParseError::UnrecognizedToken {
+                token,
+                expected: self.definition.expected_tokens(top_state),
+            },
+            None => ::ParseError::UnrecognizedEOF {
+                location: self.last_location.clone(),
+                expected: self.definition.expected_tokens(top_state),
+            },
         }
     }
 

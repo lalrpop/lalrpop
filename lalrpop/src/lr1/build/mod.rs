@@ -182,10 +182,7 @@ impl<'grammar, L: LookaheadBuild> LR<'grammar, L> {
         }
 
         if !conflicts.is_empty() {
-            Err(TableConstructionError {
-                states,
-                conflicts,
-            })
+            Err(TableConstructionError { states, conflicts })
         } else {
             Ok(states)
         }

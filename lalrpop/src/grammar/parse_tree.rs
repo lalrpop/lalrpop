@@ -585,7 +585,10 @@ impl Into<Box<Content>> for TerminalString {
 
 impl Grammar {
     pub fn extern_token(&self) -> Option<&ExternToken> {
-        self.items.iter().flat_map(GrammarItem::as_extern_token).next()
+        self.items
+            .iter()
+            .flat_map(GrammarItem::as_extern_token)
+            .next()
     }
 
     pub fn enum_token(&self) -> Option<&EnumToken> {
@@ -597,11 +600,17 @@ impl Grammar {
     }
 
     pub fn intern_token(&self) -> Option<&InternToken> {
-        self.items.iter().flat_map(GrammarItem::as_intern_token).next()
+        self.items
+            .iter()
+            .flat_map(GrammarItem::as_intern_token)
+            .next()
     }
 
     pub fn match_token(&self) -> Option<&MatchToken> {
-        self.items.iter().flat_map(GrammarItem::as_match_token).next()
+        self.items
+            .iter()
+            .flat_map(GrammarItem::as_match_token)
+            .next()
     }
 }
 
@@ -662,10 +671,7 @@ impl NonterminalData {
 
 impl Symbol {
     pub fn new(span: Span, kind: SymbolKind) -> Symbol {
-        Symbol {
-            span,
-            kind,
-        }
+        Symbol { span, kind }
     }
 
     pub fn canonical_form(&self) -> String {
@@ -922,9 +928,7 @@ impl Display for ExprSymbol {
 
 impl ExternToken {
     pub fn associated_type(&self, name: Atom) -> Option<&AssociatedType> {
-        self.associated_types
-            .iter()
-            .find(|a| a.type_name == name)
+        self.associated_types.iter().find(|a| a.type_name == name)
     }
 }
 
@@ -968,11 +972,7 @@ impl Display for TypeRef {
             TypeRef::Nominal {
                 ref path,
                 ref types,
-            }
-                if types.is_empty() =>
-            {
-                write!(fmt, "{}", path)
-            }
+            } if types.is_empty() => write!(fmt, "{}", path),
             TypeRef::Nominal {
                 ref path,
                 ref types,

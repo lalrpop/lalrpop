@@ -613,7 +613,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
         self.out
             .fn_header(
                 &Visibility::Priv,
-                format!("{p}token_to_integer", p = self.prefix)
+                format!("{p}token_to_integer", p = self.prefix),
             )
             .with_type_parameters(&self.grammar.type_parameters)
             .with_where_clauses(&self.grammar.where_clauses)
@@ -1228,7 +1228,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
         ];
 
         self.out
-            .fn_header(&Visibility::Priv, format!("{}accepts", self.prefix),)
+            .fn_header(&Visibility::Priv, format!("{}accepts", self.prefix))
             .with_grammar(self.grammar)
             .with_parameters(parameters)
             .with_return_type("bool")

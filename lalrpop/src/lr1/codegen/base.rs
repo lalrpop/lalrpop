@@ -144,7 +144,8 @@ impl<'codegen, 'grammar, W: Write, C> CodeGenerator<'codegen, 'grammar, W, C> {
                 wc.free_variables(&grammar.type_parameters)
                     .iter()
                     .all(|p| referenced_ty_params.contains(p))
-            }).cloned()
+            })
+            .cloned()
             .collect();
         debug!("filtered_where_clauses = {:?}", filtered_where_clauses);
 
@@ -177,7 +178,8 @@ impl<'codegen, 'grammar, W: Write, C> CodeGenerator<'codegen, 'grammar, W, C> {
     }
 
     pub fn write_uses(&mut self) -> io::Result<()> {
-        self.out.write_uses(&format!("{}::", self.action_module), &self.grammar)?;
+        self.out
+            .write_uses(&format!("{}::", self.action_module), &self.grammar)?;
 
         if self.grammar.intern_token.is_some() {
             rust!(
@@ -282,7 +284,8 @@ impl<'codegen, 'grammar, W: Write, C> CodeGenerator<'codegen, 'grammar, W, C> {
             .fn_header(
                 &self.grammar.nonterminals[&self.start_symbol].visibility,
                 "parse".to_owned(),
-            ).with_parameters(Some("&self".to_owned()))
+            )
+            .with_parameters(Some("&self".to_owned()))
             .with_grammar(self.grammar)
             .with_type_parameters(type_parameters)
             .with_parameters(parameters)
@@ -290,7 +293,8 @@ impl<'codegen, 'grammar, W: Write, C> CodeGenerator<'codegen, 'grammar, W, C> {
                 "Result<{}, {}>",
                 self.types.nonterminal_type(&self.start_symbol),
                 parse_error_type
-            )).with_where_clauses(where_clauses)
+            ))
+            .with_where_clauses(where_clauses)
             .emit()?;
         rust!(self.out, "{{");
 

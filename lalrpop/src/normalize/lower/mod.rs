@@ -5,8 +5,7 @@ use collections::{map, Map};
 use grammar::consts::CFG;
 use grammar::parse_tree as pt;
 use grammar::parse_tree::{
-    read_algorithm, GrammarItem, InternToken, Lifetime, NonterminalString,
-    Path, TerminalString,
+    read_algorithm, GrammarItem, InternToken, Lifetime, NonterminalString, Path, TerminalString,
 };
 use grammar::pattern::{Pattern, PatternKind};
 use grammar::repr as r;

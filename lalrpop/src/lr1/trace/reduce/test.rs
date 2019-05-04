@@ -309,7 +309,9 @@ fn backtrace_filter() {
         .lr0_examples(lr1_item.to_lr0())
         .map(|e| e.paint_unstyled())
         .collect();
-    expect_debug(&pictures, r#"
+    expect_debug(
+        &pictures,
+        r#"
 [
     [
         "  Exprs "," "Int"      ╷ ExprSuffix ";"",
@@ -340,7 +342,9 @@ fn backtrace_filter() {
         "  └─Exprs────────────────────────┘"
     ]
 ]
-"#.trim());
+"#
+        .trim(),
+    );
 
     // Select those with `;` as lookahead
     let semi_item = lr1_item.with_lookahead(TokenSet::from(semi));
@@ -348,7 +352,9 @@ fn backtrace_filter() {
         .lr1_examples(&first_sets, &semi_item)
         .map(|e| e.paint_unstyled())
         .collect();
-    expect_debug(&pictures, r#"
+    expect_debug(
+        &pictures,
+        r#"
 [
     [
         "  Exprs "," "Int"      ╷ ExprSuffix ";"",
@@ -365,5 +371,7 @@ fn backtrace_filter() {
         "  └─Stmt────────────────────┘"
     ]
 ]
-"#.trim());
+"#
+        .trim(),
+    );
 }

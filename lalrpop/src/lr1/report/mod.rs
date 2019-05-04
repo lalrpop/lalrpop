@@ -91,7 +91,7 @@ where
         let mut conflict_map = Map::new();
         for conflict in conflicts.iter() {
             match conflict.action {
-                Action::Shift(_, _) => sr += 1,
+                Action::Shift(..) => sr += 1,
                 Action::Reduce(_) => rr += 1,
             }
             conflict_map
@@ -167,11 +167,7 @@ where
                     conflict.production.nonterminal.len(),
                 );
                 writeln!(self.out, "{}shift/reduce conflict", INDENT_STRING)?;
-                write!(
-                    self.out,
-                    "{}{}reduction ",
-                    INDENT_STRING, INDENT_STRING
-                )?;
+                write!(self.out, "{}{}reduction ", INDENT_STRING, INDENT_STRING)?;
                 self.write_production(conflict.production, max_width)?;
                 let sterminal = format!("{}", terminal);
                 writeln!(
@@ -189,22 +185,10 @@ where
                     other_production.nonterminal.len(),
                     conflict.production.nonterminal.len(),
                 );
-                writeln!(
-                    self.out,
-                    "{}reduce/reduce conflict",
-                    INDENT_STRING
-                )?;
-                write!(
-                    self.out,
-                    "{}{}reduction ",
-                    INDENT_STRING, INDENT_STRING
-                )?;
+                writeln!(self.out, "{}reduce/reduce conflict", INDENT_STRING)?;
+                write!(self.out, "{}{}reduction ", INDENT_STRING, INDENT_STRING)?;
                 self.write_production(conflict.production, max_width)?;
-                write!(
-                    self.out,
-                    "{}{}reduction ",
-                    INDENT_STRING, INDENT_STRING
-                )?;
+                write!(self.out, "{}{}reduction ", INDENT_STRING, INDENT_STRING)?;
                 self.write_production(other_production, max_width)?;
             }
         }
@@ -322,11 +306,7 @@ where
         L: Lookahead + LookaheadPrinter<W>,
     {
         if (lookahead.has_anything_to_print()) {
-            write!(
-                self.out,
-                "{}{}lookahead",
-                INDENT_STRING, INDENT_STRING
-            )?;
+            write!(self.out, "{}{}lookahead", INDENT_STRING, INDENT_STRING)?;
             lookahead.print(self.out)?;
             writeln!(self.out)?;
         }
@@ -342,32 +322,20 @@ where
             write!(self.out, "{}", INDENT_STRING)?;
             // stringize it first to allow handle :width by Display for string
             let s = format!("{}", entry.0);
-            writeln!(
-                self.out,
-                "{:width$} goto {}",
-                s,
-                entry.1,
-                width = max_width
-            )?;
+            writeln!(self.out, "{:width$} goto {}", s, entry.1, width = max_width)?;
         }
         Ok(())
     }
 
     fn write_section_header(&mut self, title: &str) -> io::Result<()> {
         writeln!(self.out, "\n{}", title)?;
-        writeln!(
-            self.out,
-            "----------------------------------------"
-        )?;
+        writeln!(self.out, "----------------------------------------")?;
         Ok(())
     }
 
     fn write_header(&mut self) -> io::Result<()> {
         writeln!(self.out, "Lalrpop Report File")?;
-        writeln!(
-            self.out,
-            "========================================"
-        )?;
+        writeln!(self.out, "========================================")?;
         Ok(())
     }
 }

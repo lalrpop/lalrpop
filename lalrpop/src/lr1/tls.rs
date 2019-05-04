@@ -20,9 +20,7 @@ impl Lr1Tls {
             mem::replace(&mut *s, Some(Arc::new(terminals)))
         });
 
-        Lr1Tls {
-            old_value,
-        }
+        Lr1Tls { old_value }
     }
 
     pub fn with<OP, RET>(op: OP) -> RET

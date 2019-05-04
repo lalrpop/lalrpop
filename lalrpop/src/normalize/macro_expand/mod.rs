@@ -34,10 +34,7 @@ pub fn expand_macros(input: Grammar) -> NormResult<Grammar> {
     let mut expander = MacroExpander::new(macro_defs);
     expander.expand(&mut items)?;
 
-    Ok(Grammar {
-        items,
-        ..input
-    })
+    Ok(Grammar { items, ..input })
 }
 
 struct MacroExpander {
@@ -76,21 +73,19 @@ impl MacroExpander {
                     SymbolKind::Macro(msym) => {
                         items.push(self.expand_macro_symbol(sym.span, msym)?)
                     }
-                    SymbolKind::Expr(expr) => {
-                        items.push(self.expand_expr_symbol(sym.span, expr)?)
-                    }
+                    SymbolKind::Expr(expr) => items.push(self.expand_expr_symbol(sym.span, expr)?),
                     SymbolKind::Repeat(repeat) => {
                         items.push(self.expand_repeat_symbol(sym.span, *repeat)?)
                     }
                     SymbolKind::Lookahead => items.push(self.expand_lookaround_symbol(
                         sym.span,
                         "@L",
-                        ActionKind::Lookahead
+                        ActionKind::Lookahead,
                     )?),
                     SymbolKind::Lookbehind => items.push(self.expand_lookaround_symbol(
                         sym.span,
                         "@R",
-                        ActionKind::Lookbehind
+                        ActionKind::Lookbehind,
                     )?),
                     _ => panic!("don't know how to expand `{:?}`", sym),
                 }

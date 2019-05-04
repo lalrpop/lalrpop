@@ -369,10 +369,11 @@ impl<'ascent, 'grammar, W: Write>
         rust!(self.out, "_ => {{");
         // The terminals which would have resulted in a successful parse in this state
         let successful_terminals = self.grammar.terminals.all.iter().filter(|&terminal| {
-            this_state.shifts.contains_key(terminal) || this_state
-                .reductions
-                .iter()
-                .any(|&(ref t, _)| t.contains(&Token::Terminal(terminal.clone())))
+            this_state.shifts.contains_key(terminal)
+                || this_state
+                    .reductions
+                    .iter()
+                    .any(|&(ref t, _)| t.contains(&Token::Terminal(terminal.clone())))
         });
 
         rust!(self.out, "let {}expected = vec![", self.prefix);
@@ -386,7 +387,11 @@ impl<'ascent, 'grammar, W: Write>
         rust!(self.out, "match {}lookahead {{", self.prefix);
 
         rust!(self.out, "Some({}token) => {{", self.prefix);
-        rust!(self.out, "{}lalrpop_util::ParseError::UnrecognizedToken {{", self.prefix);
+        rust!(
+            self.out,
+            "{}lalrpop_util::ParseError::UnrecognizedToken {{",
+            self.prefix
+        );
         rust!(self.out, "token: {}token,", self.prefix);
         rust!(self.out, "expected: {}expected,", self.prefix);
         rust!(self.out, "}}");
@@ -397,11 +402,22 @@ impl<'ascent, 'grammar, W: Write>
         // find the location of the last symbol on stack
         let (optional, fixed) = stack_suffix.optional_fixed_lens();
         if fixed > 0 {
-            rust!(self.out, "let {}location = {}sym{}.2.clone();", self.prefix, self.prefix, stack_suffix.len() - 1);
+            rust!(
+                self.out,
+                "let {}location = {}sym{}.2.clone();",
+                self.prefix,
+                self.prefix,
+                stack_suffix.len() - 1
+            );
         } else if optional > 0 {
             rust!(self.out, "let {}location = ", self.prefix);
             for index in (0..optional).rev() {
-                rust!(self.out, "{}sym{}.as_ref().map(|sym| sym.2.clone()).unwrap_or_else(|| {{", self.prefix, index);
+                rust!(
+                    self.out,
+                    "{}sym{}.as_ref().map(|sym| sym.2.clone()).unwrap_or_else(|| {{",
+                    self.prefix,
+                    index
+                );
             }
             rust!(self.out, "Default::default()");
             for _ in 0..optional {
@@ -409,10 +425,18 @@ impl<'ascent, 'grammar, W: Write>
             }
             rust!(self.out, ";");
         } else {
-            rust!(self.out, "let {}location = Default::default();", self.prefix);
+            rust!(
+                self.out,
+                "let {}location = Default::default();",
+                self.prefix
+            );
         }
 
-        rust!(self.out, "{}lalrpop_util::ParseError::UnrecognizedEOF {{", self.prefix);
+        rust!(
+            self.out,
+            "{}lalrpop_util::ParseError::UnrecognizedEOF {{",
+            self.prefix
+        );
         rust!(self.out, "location: {}location,", self.prefix);
         rust!(self.out, "expected: {}expected,", self.prefix);
         rust!(self.out, "}}");
@@ -535,18 +559,21 @@ impl<'ascent, 'grammar, W: Write>
             .fn_header(
                 &Visibility::Priv,
                 format!("{}{}{}", self.prefix, fn_kind, fn_index),
-            ).with_grammar(self.grammar)
+            )
+            .with_grammar(self.grammar)
             .with_type_parameters(Some(format!(
                 "{}TOKENS: Iterator<Item=Result<{},{}>>",
                 self.prefix, triple_type, parse_error_type
-            ))).with_parameters(fn_args)
+            )))
+            .with_parameters(fn_args)
             .with_return_type(format!(
                 "Result<(Option<{}>, {}Nonterminal<{}>), {}>",
                 triple_type,
                 self.prefix,
                 Sep(", ", &self.custom.nonterminal_type_params),
                 parse_error_type
-            )).emit()?;
+            ))
+            .emit()?;
 
         rust!(self.out, "{{");
 

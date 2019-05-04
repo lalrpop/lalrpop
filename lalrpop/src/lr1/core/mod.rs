@@ -241,12 +241,11 @@ impl<'grammar, L: Lookahead> State<'grammar, L> {
             .max_by_key(|symbols| symbols.len())
             .unwrap();
 
-        debug_assert!(
-            self.items
-                .vec
-                .iter()
-                .all(|item| prefix.ends_with(&item.production.symbols[..item.index]))
-        );
+        debug_assert!(self
+            .items
+            .vec
+            .iter()
+            .all(|item| prefix.ends_with(&item.production.symbols[..item.index])));
 
         prefix
     }
@@ -273,13 +272,12 @@ impl<'grammar, L: Lookahead> State<'grammar, L> {
             .min_by_key(|symbols| symbols.len())
             .unwrap_or(&[]);
 
-        debug_assert!(
-            self.items
-                .vec
-                .iter()
-                .filter(|item| item.index > 0)
-                .all(|item| item.prefix().ends_with(prefix))
-        );
+        debug_assert!(self
+            .items
+            .vec
+            .iter()
+            .filter(|item| item.index > 0)
+            .all(|item| item.prefix().ends_with(prefix)));
 
         prefix
     }

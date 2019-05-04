@@ -1,8 +1,6 @@
-/*!
- * Normalization processes a parse tree until it is in suitable form to
- * be converted to the more canonical form. This is done as a series of
- * passes, each contained in their own module below.
- */
+//! Normalization processes a parse tree until it is in suitable form to
+//! be converted to the more canonical form. This is done as a series of
+//! passes, each contained in their own module below.
 
 use grammar::parse_tree as pt;
 use grammar::repr as r;
@@ -53,11 +51,7 @@ fn lower_helper(session: &Session, grammar: pt::Grammar, validate: bool) -> Norm
             prevalidate::validate(&grammar)?;
         }
     );
-    let grammar = profile!(
-        session,
-        "Grammar resolution",
-        resolve::resolve(grammar)?
-    );
+    let grammar = profile!(session, "Grammar resolution", resolve::resolve(grammar)?);
     let grammar = profile!(
         session,
         "Macro expansion",
@@ -65,11 +59,7 @@ fn lower_helper(session: &Session, grammar: pt::Grammar, validate: bool) -> Norm
     );
     let grammar = profile!(session, "Token check", token_check::validate(grammar)?);
     let types = profile!(session, "Infer types", tyinfer::infer_types(&grammar)?);
-    let grammar = profile!(
-        session,
-        "Lowering",
-        lower::lower(session, grammar, types)?
-    );
+    let grammar = profile!(session, "Lowering", lower::lower(session, grammar, types)?);
     Ok(grammar)
 }
 

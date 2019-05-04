@@ -3,8 +3,8 @@ use super::{NormError, NormResult};
 
 use grammar::consts::{ERROR, LOCATION};
 use grammar::parse_tree::{
-    ActionKind, Alternative, Grammar, GrammarItem, Lifetime, NonterminalData,
-    NonterminalString, Path, Span, SymbolKind, TypeParameter, TypeRef,
+    ActionKind, Alternative, Grammar, GrammarItem, Lifetime, NonterminalData, NonterminalString,
+    Path, Span, SymbolKind, TypeParameter, TypeRef,
 };
 use grammar::repr::{NominalTypeRepr, TypeRepr, Types};
 use std::collections::{HashMap, HashSet};

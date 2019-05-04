@@ -59,10 +59,7 @@ impl<'grammar> LaneTableConstruct<'grammar> {
                     // algorithm.
                     states
                 }
-                Err(TableConstructionError {
-                    states,
-                    ..
-                }) => states,
+                Err(TableConstructionError { states, .. }) => states,
             }
         };
 
@@ -90,10 +87,7 @@ impl<'grammar> LaneTableConstruct<'grammar> {
                         .iter()
                         .flat_map(|s| Lookahead::conflicts(&s))
                         .collect();
-                    return Err(TableConstructionError {
-                        states,
-                        conflicts,
-                    });
+                    return Err(TableConstructionError { states, conflicts });
                 }
             }
         }

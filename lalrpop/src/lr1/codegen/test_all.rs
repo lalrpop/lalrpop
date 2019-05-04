@@ -56,7 +56,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TestAll> {
                 this.start_symbol.clone(),
                 this.states,
                 "super::super::super",
-                this.out
+                this.out,
             )?;
             let pub_use = format!(
                 "{}use self::{}parse{}::{}Parser;",
@@ -76,7 +76,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TestAll> {
                 this.start_symbol.clone(),
                 this.states,
                 "super::super::super",
-                this.out
+                this.out,
             )?;
             rust!(this.out, "{}", pub_use);
             rust!(this.out, "}}");

@@ -1,6 +1,4 @@
-/*!
- * Inlining of nonterminals
- */
+//! Inlining of nonterminals
 
 use grammar::repr::*;
 use normalize::NormResult;

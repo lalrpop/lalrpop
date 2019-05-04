@@ -181,11 +181,7 @@ impl NFA {
     fn push_edge<L: EdgeLabel>(&mut self, from: NFAStateIndex, label: L, to: NFAStateIndex) {
         let edge_vec = L::vec_mut(&mut self.edges);
         let edge_index = edge_vec.len();
-        edge_vec.push(Edge {
-            from,
-            label,
-            to,
-        });
+        edge_vec.push(Edge { from, label, to });
 
         // if this is the first edge from the `from` state, set the
         // index
@@ -216,7 +212,7 @@ impl NFA {
                         self.push_edge(s0, Other, reject);
                         Ok(s0)
                     }
-                    //Bytes are not supported
+                    // Bytes are not supported
                     Literal::Byte(_) => Err(NFAConstructionError::ByteRegex),
                 }
             }
@@ -239,7 +235,7 @@ impl NFA {
                         self.push_edge(s0, Other, reject);
                         Ok(s0)
                     }
-                    //Bytes are not supported
+                    // Bytes are not supported
                     Class::Bytes(_) => Err(NFAConstructionError::ByteRegex),
                 }
             }
