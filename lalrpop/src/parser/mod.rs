@@ -30,7 +30,7 @@ pub enum Top {
 pub type ParseError<'input> = lalrpop_util::ParseError<usize, tok::Tok<'input>, tok::Error>;
 
 macro_rules! parser {
-    ($input: expr, $offset: expr, $pat: ident, $tok: ident) => {{
+    ($input:expr, $offset:expr, $pat:ident, $tok:ident) => {{
         let input = $input;
         let tokenizer =
             iter::once(Ok((0, tok::Tok::$tok, 0))).chain(tok::Tokenizer::new(input, $offset));
