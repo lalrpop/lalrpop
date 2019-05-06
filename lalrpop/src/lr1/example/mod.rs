@@ -269,7 +269,6 @@ impl Example {
 
     #[cfg(test)]
     pub fn paint_unstyled(&self) -> Vec<::ascii_canvas::Row> {
-        use std::default::Default;
         let this = self.clone();
         let content = this.into_picture(ExampleStyles::default());
         let min_width = content.min_width();
