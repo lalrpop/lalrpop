@@ -1,4 +1,5 @@
 #![cfg_attr(not(test), allow(dead_code, unused_imports))]
+#![allow(unused_doc_comments)]
 
 extern crate diff;
 #[macro_use]
@@ -36,8 +37,10 @@ lalrpop_mod!(expr_lalr);
 lalrpop_mod!(expr_intern_tok);
 
 /// tests #![attributes] for generated module
-#[allow(dead_code, unknown_lints)]
-lalrpop_mod!(expr_module_attributes);
+lalrpop_mod!(
+    #[allow(dead_code, unknown_lints)]
+    expr_module_attributes
+);
 
 /// test that passes in lifetime/type/formal parameters and threads
 /// them through, building an AST from the result
@@ -93,7 +96,10 @@ lalrpop_mod!(error_recovery_issue_240);
 lalrpop_mod!(error_recovery_lalr_loop);
 lalrpop_mod!(error_recovery_lock_in);
 lalrpop_mod!(error_recovery_span);
-lalrpop_mod!(error_recovery_type_in_macro);
+lalrpop_mod!(
+    #[allow(dead_code)]
+    error_recovery_type_in_macro
+);
 
 /// test for inlining expansion issue #55
 lalrpop_mod!(issue_55);
