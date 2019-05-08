@@ -1,3 +1,28 @@
+<a name="0.17.0"></a>
+# 0.17.0 (2019-05-06)
+
+## Fixes
+
+* The minimum Rust version has been updated to 1.32.0 to fix deprecations
+
+## Features
+
+* Split apart UnrecognizedEOF variant from UnrecognizedToken (#446)
+
+#### Style
+
+* Formatting and clippy warnings have been fixed
+
+Thanks to the following contributors:
+- @ra-kete
+- @Eijebong
+- @rofrol
+- @mikeyhew
+- @jwinnie
+- @jespersm
+- @nwtwnni
+- @Songbird0
+
 <a name="0.16.3"></a>
 ## 0.16.3 (2019-01-20)
 

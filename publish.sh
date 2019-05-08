@@ -36,6 +36,7 @@ function publish {
 }
 
 publish lalrpop-util
+sleep 5 # Wait for lalrpop-util to be available on crates.io
 publish lalrpop
 
 git tag $VERSION
