@@ -42,6 +42,7 @@ to! Here are some tips:
 - [LALRPOP] is itself implemented in LALRPOP.
 - [Gluon] is a statically typed functional programming language.
 - [Gleam](https://github.com/lpil/gleam/blob/master/gleam/src/grammar.lalrpop) is a statically typed functional programming language for the Erlang VM.
+- [RustPython] is Python 3.5+ rewritten in Rust
 
 [The LALRPOP book]: http://lalrpop.github.io/lalrpop/
 [quick start guide]: http://lalrpop.github.io/lalrpop/quick_start_guide.html
@@ -49,6 +50,7 @@ to! Here are some tips:
 [tutorial]: http://lalrpop.github.io/lalrpop/tutorial/index.html
 [LALRPOP]: https://github.com/lalrpop/lalrpop/blob/8034f3dacc4b20581bd10c5cb0b4f9faae778bb5/lalrpop/src/parser/lrgrammar.lalrpop
 [Gluon]: https://github.com/gluon-lang/gluon/blob/d7ce3e81c1fcfdf25cdd6d1abde2b6e376b4bf50/parser/src/grammar.lalrpop
+[RustPython]: https://github.com/RustPython/RustPython/blob/master/parser/src/python.lalrpop
 
 
 ### Contributing
