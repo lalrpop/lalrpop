@@ -28,7 +28,7 @@
 //!         consumed: usize,
 //!         regex_set: &'builder regex::RegexSet,
 //!         regex_vec: &'builder Vec<regex::Regex>,
-//! }
+//!     }
 //!
 //!     impl Matcher<'input> {
 //!         fn tokenize(&self, text: &str) -> Option<(usize, usize)> { ... }
