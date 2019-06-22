@@ -86,7 +86,7 @@ impl FileText {
         }
     }
 
-    pub fn highlight(&self, span: pt::Span, out: &mut Write) -> io::Result<()> {
+    pub fn highlight(&self, span: pt::Span, out: &mut dyn Write) -> io::Result<()> {
         let (start_line, start_col) = self.line_col(span.0);
         let (end_line, end_col) = self.line_col(span.1);
 

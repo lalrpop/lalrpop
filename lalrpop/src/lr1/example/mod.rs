@@ -89,7 +89,7 @@ impl Example {
     /// and make a styled list of them, like:
     ///
     ///    Ty "->" Ty -> "Ty"
-    pub fn to_symbol_list(&self, length: usize, styles: ExampleStyles) -> Box<Content> {
+    pub fn to_symbol_list(&self, length: usize, styles: ExampleStyles) -> Box<dyn Content> {
         let mut builder = InlineBuilder::new().begin_spaced();
 
         for (index, symbol) in self.symbols[..length].iter().enumerate() {
@@ -115,7 +115,7 @@ impl Example {
 
     /// Render the example into a styled diagram suitable for
     /// embedding in an error message.
-    pub fn into_picture(self, styles: ExampleStyles) -> Box<Content> {
+    pub fn into_picture(self, styles: ExampleStyles) -> Box<dyn Content> {
         let lengths = self.lengths();
         let positions = self.positions(&lengths);
         InlineBuilder::new()
@@ -276,7 +276,7 @@ impl Example {
         canvas.to_strings()
     }
 
-    fn paint_on(&self, styles: &ExampleStyles, positions: &[usize], view: &mut AsciiView) {
+    fn paint_on(&self, styles: &ExampleStyles, positions: &[usize], view: &mut dyn AsciiView) {
         // Draw the brackets for each reduction:
         for (index, reduction) in self.reductions.iter().enumerate() {
             let start_column = positions[reduction.start];
@@ -312,7 +312,7 @@ impl Example {
         symbols: &[ExampleSymbol],
         positions: &[usize],
         styles: &ExampleStyles,
-        view: &mut AsciiView,
+        view: &mut dyn AsciiView,
     ) {
         let session = Tls::session();
         for (index, ex_symbol) in symbols.iter().enumerate() {
@@ -366,11 +366,11 @@ impl Content for ExamplePicture {
         *self.positions.last().unwrap()
     }
 
-    fn emit(&self, view: &mut AsciiView) {
+    fn emit(&self, view: &mut dyn AsciiView) {
         self.example.paint_on(&self.styles, &self.positions, view);
     }
 
-    fn into_wrap_items(self: Box<Self>, wrap_items: &mut Vec<Box<Content>>) {
+    fn into_wrap_items(self: Box<Self>, wrap_items: &mut Vec<Box<dyn Content>>) {
         wrap_items.push(self);
     }
 }

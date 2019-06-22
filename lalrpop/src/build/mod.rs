@@ -289,7 +289,7 @@ fn report_messages(messages: Vec<Message>) -> term::Result<()> {
     report_content(&*content)
 }
 
-fn report_content(content: &Content) -> term::Result<()> {
+fn report_content(content: &dyn Content) -> term::Result<()> {
     // FIXME -- can we query the size of the terminal somehow?
     let canvas = content.emit_to_canvas(80);
 

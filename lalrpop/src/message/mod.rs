@@ -18,7 +18,7 @@ pub mod wrap;
 pub trait Content: Debug {
     fn min_width(&self) -> usize;
 
-    fn emit(&self, view: &mut AsciiView);
+    fn emit(&self, view: &mut dyn AsciiView);
 
     /// Creates a canvas at least `min_width` in width (it may be
     /// larger if the content requires that) and fills it with the
@@ -38,7 +38,7 @@ pub trait Content: Debug {
 
     /// Emit at a particular upper-left corner, returning the
     /// lower-right corner that was emitted.
-    fn emit_at(&self, view: &mut AsciiView, row: usize, column: usize) -> (usize, usize) {
+    fn emit_at(&self, view: &mut dyn AsciiView, row: usize, column: usize) -> (usize, usize) {
         debug!(
             "emit_at({},{}) self={:?} min_width={:?}",
             row,
@@ -54,16 +54,16 @@ pub trait Content: Debug {
 
     /// When items are enclosed into a wrap, this method deconstructs
     /// them into their indivisible components.
-    fn into_wrap_items(self: Box<Self>, wrap_items: &mut Vec<Box<Content>>);
+    fn into_wrap_items(self: Box<Self>, wrap_items: &mut Vec<Box<dyn Content>>);
 }
 
 /// Helper function: convert `content` into wrap items and then map
 /// those with `op`, appending the final result into `wrap_items`.
 /// Useful for "modifier" content items like `Styled` that do not
 /// affect wrapping.
-fn into_wrap_items_map<OP, C>(content: Box<Content>, wrap_items: &mut Vec<Box<Content>>, op: OP)
+fn into_wrap_items_map<OP, C>(content: Box<dyn Content>, wrap_items: &mut Vec<Box<dyn Content>>, op: OP)
 where
-    OP: FnMut(Box<Content>) -> C,
+    OP: FnMut(Box<dyn Content>) -> C,
     C: Content + 'static,
 {
     let mut subvector = vec![];
@@ -72,7 +72,7 @@ where
         subvector
             .into_iter()
             .map(op)
-            .map(|item| Box::new(item) as Box<Content>),
+            .map(|item| Box::new(item) as Box<dyn Content>),
     );
 }
 

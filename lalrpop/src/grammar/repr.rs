@@ -579,8 +579,8 @@ impl Debug for Symbol {
     }
 }
 
-impl Into<Box<Content>> for Symbol {
-    fn into(self) -> Box<Content> {
+impl Into<Box<dyn Content>> for Symbol {
+    fn into(self) -> Box<dyn Content> {
         match self {
             Symbol::Nonterminal(nt) => nt.into(),
             Symbol::Terminal(term) => term.into(),

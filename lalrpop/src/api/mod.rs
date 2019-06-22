@@ -178,7 +178,7 @@ impl Configuration {
 
     /// Process all files according to the `set_in_dir` and
     /// `set_out_dir` configuration.
-    pub fn process(&self) -> Result<(), Box<Error>> {
+    pub fn process(&self) -> Result<(), Box<dyn Error>> {
         let root = if let Some(ref d) = self.session.in_dir {
             d.as_path()
         } else {
@@ -189,12 +189,12 @@ impl Configuration {
 
     /// Process all files in the current directory, which -- unless you
     /// have changed it -- is typically the root of the crate being compiled.
-    pub fn process_current_dir(&self) -> Result<(), Box<Error>> {
+    pub fn process_current_dir(&self) -> Result<(), Box<dyn Error>> {
         self.process_dir(current_dir()?)
     }
 
     /// Process all `.lalrpop` files in `path`.
-    pub fn process_dir<P: AsRef<Path>>(&self, path: P) -> Result<(), Box<Error>> {
+    pub fn process_dir<P: AsRef<Path>>(&self, path: P) -> Result<(), Box<dyn Error>> {
         let mut session = self.session.clone();
 
         // If in/out dir are empty, use cargo conventions by default.
@@ -239,7 +239,7 @@ impl Configuration {
     }
 
     /// Process the given `.lalrpop` file.
-    pub fn process_file<P: AsRef<Path>>(&self, path: P) -> Result<(), Box<Error>> {
+    pub fn process_file<P: AsRef<Path>>(&self, path: P) -> Result<(), Box<dyn Error>> {
         let session = Rc::new(self.session.clone());
         build::process_file(session, path)?;
         Ok(())
@@ -250,7 +250,7 @@ impl Configuration {
 /// have changed it -- is typically the root of the crate being compiled.
 ///
 /// Equivalent to `Configuration::new().process_current_dir()`.
-pub fn process_root() -> Result<(), Box<Error>> {
+pub fn process_root() -> Result<(), Box<dyn Error>> {
     Configuration::new().process_current_dir()
 }
 
@@ -261,6 +261,6 @@ pub fn process_root() -> Result<(), Box<Error>> {
 /// ```
 ///
 /// instead.
-pub fn process_root_unconditionally() -> Result<(), Box<Error>> {
+pub fn process_root_unconditionally() -> Result<(), Box<dyn Error>> {
     Configuration::new().force_build(true).process_current_dir()
 }

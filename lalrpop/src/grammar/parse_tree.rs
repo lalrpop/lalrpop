@@ -28,8 +28,8 @@ pub struct Grammar {
 #[derive(Copy, Clone, Debug, Hash, PartialEq, Eq, PartialOrd, Ord)]
 pub struct Span(pub usize, pub usize);
 
-impl Into<Box<Content>> for Span {
-    fn into(self) -> Box<Content> {
+impl Into<Box<dyn Content>> for Span {
+    fn into(self) -> Box<dyn Content> {
         let file_text = Tls::file_text();
         let string = file_text.span_str(self);
 
@@ -503,8 +503,8 @@ impl NonterminalString {
     }
 }
 
-impl Into<Box<Content>> for NonterminalString {
-    fn into(self) -> Box<Content> {
+impl Into<Box<dyn Content>> for NonterminalString {
+    fn into(self) -> Box<dyn Content> {
         let session = Tls::session();
 
         InlineBuilder::new()
@@ -573,8 +573,8 @@ impl TerminalString {
     }
 }
 
-impl Into<Box<Content>> for TerminalString {
-    fn into(self) -> Box<Content> {
+impl Into<Box<dyn Content>> for TerminalString {
+    fn into(self) -> Box<dyn Content> {
         let session = Tls::session();
         InlineBuilder::new()
             .text(self)

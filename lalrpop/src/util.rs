@@ -24,7 +24,7 @@ impl<S: Display> Display for Escape<S> {
         let tmp = format!("{}", self.0);
         for c in tmp.chars() {
             match c {
-                'a'...'z' | '0'...'9' | 'A'...'Z' => write!(fmt, "{}", c)?,
+                'a'..='z' | '0'..='9' | 'A'..='Z' => write!(fmt, "{}", c)?,
                 '_' => write!(fmt, "__")?,
                 _ => write!(fmt, "_{:x}", c as usize)?,
             }

@@ -10,8 +10,8 @@ use style::Style;
 
 pub struct MessageBuilder {
     span: Span,
-    heading: Option<Box<Content>>,
-    body: Option<Box<Content>>,
+    heading: Option<Box<dyn Content>>,
+    body: Option<Box<dyn Content>>,
 }
 
 pub struct HeadingCharacter {
@@ -51,7 +51,7 @@ impl MessageBuilder {
 impl Character for HeadingCharacter {
     type End = MessageBuilder;
 
-    fn end(mut self, items: Vec<Box<Content>>) -> MessageBuilder {
+    fn end(mut self, items: Vec<Box<dyn Content>>) -> MessageBuilder {
         assert!(
             self.message.heading.is_none(),
             "already defined a heading for this message"
@@ -64,7 +64,7 @@ impl Character for HeadingCharacter {
 impl Character for BodyCharacter {
     type End = MessageBuilder;
 
-    fn end(mut self, items: Vec<Box<Content>>) -> MessageBuilder {
+    fn end(mut self, items: Vec<Box<dyn Content>>) -> MessageBuilder {
         assert!(
             self.message.body.is_none(),
             "already defined a body for this message"
@@ -90,9 +90,9 @@ impl InlineBuilder {
 }
 
 impl Character for InlineBuilder {
-    type End = Box<Content>;
+    type End = Box<dyn Content>;
 
-    fn end(self, mut items: Vec<Box<Content>>) -> Box<Content> {
+    fn end(self, mut items: Vec<Box<dyn Content>>) -> Box<dyn Content> {
         if items.len() == 1 {
             items.pop().unwrap()
         } else {
@@ -131,7 +131,7 @@ impl Character for InlineBuilder {
 ///                    // for more details)
 /// ```
 pub struct Builder<C: Character> {
-    items: Vec<Box<Content>>,
+    items: Vec<Box<dyn Content>>,
     character: C,
 }
 
@@ -145,13 +145,13 @@ impl<C: Character> Builder<C> {
 
     pub fn push<I>(mut self, item: I) -> Self
     where
-        I: Into<Box<Content>>,
+        I: Into<Box<dyn Content>>,
     {
         self.items.push(item.into());
         self
     }
 
-    fn pop(&mut self) -> Option<Box<Content>> {
+    fn pop(&mut self) -> Option<Box<dyn Content>> {
         self.items.pop()
     }
 
@@ -251,7 +251,7 @@ impl<C: Character> Builder<C> {
 
 pub trait Character {
     type End;
-    fn end(self, items: Vec<Box<Content>>) -> Self::End;
+    fn end(self, items: Vec<Box<dyn Content>>) -> Self::End;
 }
 
 ///////////////////////////////////////////////////////////////////////////
@@ -264,7 +264,7 @@ pub struct HorizCharacter<C: Character> {
 impl<C: Character> Character for HorizCharacter<C> {
     type End = Builder<C>;
 
-    fn end(self, items: Vec<Box<Content>>) -> Builder<C> {
+    fn end(self, items: Vec<Box<dyn Content>>) -> Builder<C> {
         self.base.push(Box::new(Horiz::new(items, self.separate)))
     }
 }
@@ -279,7 +279,7 @@ pub struct VertCharacter<C: Character> {
 impl<C: Character> Character for VertCharacter<C> {
     type End = Builder<C>;
 
-    fn end(self, items: Vec<Box<Content>>) -> Builder<C> {
+    fn end(self, items: Vec<Box<dyn Content>>) -> Builder<C> {
         self.base.push(Box::new(Vert::new(items, self.separate)))
     }
 }
@@ -293,16 +293,16 @@ pub struct WrapCharacter<C: Character> {
 impl<C: Character> Character for WrapCharacter<C> {
     type End = Builder<C>;
 
-    fn end(self, items: Vec<Box<Content>>) -> Builder<C> {
+    fn end(self, items: Vec<Box<dyn Content>>) -> Builder<C> {
         self.base.push(Box::new(Wrap::new(items)))
     }
 }
 
-impl<T> From<Box<T>> for Box<Content>
+impl<T> From<Box<T>> for Box<dyn Content>
 where
     T: Content + 'static,
 {
-    fn from(b: Box<T>) -> Box<Content> {
+    fn from(b: Box<T>) -> Box<dyn Content> {
         b
     }
 }
