@@ -212,6 +212,12 @@ pub enum TypeRef {
         referent: Box<TypeRef>,
     },
 
+    // `dyn Trait`
+    TraitObject {
+        path: Path,
+        types: Vec<TypeRef>,
+    },
+
     // 'x ==> only should appear within nominal types, but what do we care
     Lifetime(Lifetime),
 
@@ -977,6 +983,14 @@ impl Display for TypeRef {
                 ref path,
                 ref types,
             } => write!(fmt, "{}<{}>", path, Sep(", ", types)),
+            TypeRef::TraitObject {
+                ref path,
+                ref types,
+            } if types.is_empty() => write!(fmt, "dyn {}", path),
+            TypeRef::TraitObject {
+                ref path,
+                ref types,
+            } => write!(fmt, "dyn {}<{}>", path, Sep(", ", types)),
             TypeRef::Lifetime(ref s) => write!(fmt, "{}", s),
             TypeRef::Id(ref s) => write!(fmt, "{}", s),
             TypeRef::OfSymbol(ref s) => write!(fmt, "`{}`", s),
@@ -1035,6 +1049,13 @@ impl TypeRef {
                 mutable,
                 referent: Box::new(referent.type_repr()),
             },
+            TypeRef::TraitObject {
+                ref path,
+                ref types,
+            } => TypeRepr::TraitObject(NominalTypeRepr {
+                path: path.clone(),
+                types: types.iter().map(TypeRef::type_repr).collect(),
+            }),
         }
     }
 }

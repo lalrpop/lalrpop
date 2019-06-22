@@ -193,6 +193,7 @@ pub enum TypeRepr {
         mutable: bool,
         referent: Box<TypeRepr>,
     },
+    TraitObject(NominalTypeRepr),
 }
 
 impl TypeRepr {
@@ -252,6 +253,12 @@ impl TypeRepr {
                 mutable: *mutable,
                 referent: Box::new(referent.bottom_up(op)),
             },
+            TypeRepr::TraitObject(NominalTypeRepr { path, types }) => {
+                TypeRepr::TraitObject(NominalTypeRepr {
+                    path: path.clone(),
+                    types: types.iter().map(|t| t.bottom_up(op)).collect(),
+                })
+            }
         };
         op(result)
     }
@@ -279,7 +286,10 @@ impl TypeRepr {
         };
 
         self.bottom_up(&mut |t| match t {
-            TypeRepr::Tuple { .. } | TypeRepr::Nominal { .. } | TypeRepr::Associated { .. } => t,
+            TypeRepr::Tuple { .. }
+            | TypeRepr::Nominal { .. }
+            | TypeRepr::Associated { .. }
+            | TypeRepr::TraitObject { .. } => t,
 
             TypeRepr::Lifetime(l) => {
                 if l.is_anonymous() {
@@ -509,6 +519,7 @@ impl Display for TypeRepr {
                 mutable: true,
                 ref referent,
             } => write!(fmt, "&{} mut {}", l, referent),
+            TypeRepr::TraitObject(ref data) => write!(fmt, "dyn {}", data),
         }
     }
 }

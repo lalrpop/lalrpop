@@ -1,0 +1,4 @@
+grammar(x: &dyn Send);
+
+pub Test: () = {
+};

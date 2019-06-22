@@ -49,6 +49,7 @@ pub enum Tok<'input> {
     Type,
     Where,
     For,
+    Dyn,
 
     // Special keywords: these are accompanied by a series of
     // uninterpreted strings representing imports and stuff.
@@ -129,6 +130,7 @@ const KEYWORDS: &[(&str, Tok<'static>)] = &[
     ("type", Type),
     ("where", Where),
     ("for", For),
+    ("dyn", Dyn),
 ];
 
 // Helper for backtracking.

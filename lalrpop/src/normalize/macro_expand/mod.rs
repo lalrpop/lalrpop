@@ -258,6 +258,13 @@ impl MacroExpander {
                     types: vec![],
                 },
             },
+            TypeRef::TraitObject {
+                ref path,
+                ref types,
+            } => TypeRef::TraitObject {
+                path: path.clone(),
+                types: self.macro_expand_type_refs(args, types),
+            },
         }
     }
 

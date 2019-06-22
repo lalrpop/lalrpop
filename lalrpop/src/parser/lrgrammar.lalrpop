@@ -251,14 +251,19 @@ TypeRef: TypeRef = {
                        mutable: m.is_some(),
                        referent: Box::new(t) },
 
-    <p:Path> "<" <a:Comma<TypeRefOrLifetime>> ">" =>
-        TypeRef::Nominal { path: p, types: a },
+    <path:Path> "<" <types:Comma<TypeRefOrLifetime>> ">" =>
+        TypeRef::Nominal { <> },
 
     <p:Path> =>
         match p.as_id() {
             Some(id) => TypeRef::Id(id),
-            None => TypeRef::Nominal { path: p, types: vec![] }
+            None => TypeRef::Nominal { path: p, types: vec![] },
         },
+
+    "dyn" <path:Path> "<" <types:Comma<TypeRefOrLifetime>> ">" =>
+        TypeRef::TraitObject { <> },
+
+    "dyn" <path:Path> => TypeRef::Nominal { path, types: vec![] },
 };
 
 TypeRefOrLifetime: TypeRef = {
@@ -443,6 +448,7 @@ extern {
         "for" => Tok::For,
         "!" => Tok::Bang,
         "use" => Tok::Use(<&'input str>),
+        "dyn" => Tok::Dyn,
 
         "Escape" => Tok::Escape(<&'input str>),
         "Id" => Tok::Id(<&'input str>),
