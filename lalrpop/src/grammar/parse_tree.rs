@@ -1027,6 +1027,7 @@ impl Display for TypeRef {
                 ref parameters,
                 ref ret,
             } => {
+                write!(fmt, "dyn ")?;
                 if !forall.is_empty() {
                     write!(fmt, "for<{}> ", Sep(", ", forall),)?;
                 }

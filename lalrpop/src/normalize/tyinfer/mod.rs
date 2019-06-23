@@ -308,10 +308,10 @@ impl<'grammar> TypeInferencer<'grammar> {
                     .iter()
                     .map(|t| self.type_ref(t))
                     .collect::<Result<_, _>>()?,
-                ret: ret
-                    .as_ref()
-                    .map(|ret| self.type_ref(ret).map(Box::new))
-                    .transpose()?,
+                ret: match ret {
+                    Some(ret) => Some(self.type_ref(ret).map(Box::new)?),
+                    None => None,
+                },
             }),
         }
     }

@@ -72,10 +72,10 @@ impl FreeVariables for repr::TypeRepr {
                 .chain(referent.free_variables(type_parameters))
                 .collect(),
             repr::TypeRepr::Fn {
+                forall,
                 path,
                 parameters,
                 ret,
-                ..
             } => path
                 .free_variables(type_parameters)
                 .into_iter()
@@ -88,6 +88,7 @@ impl FreeVariables for repr::TypeRepr {
                     ret.iter()
                         .flat_map(|ret| ret.free_variables(type_parameters)),
                 )
+                .filter(|tp| !forall.contains(tp))
                 .collect(),
         }
     }

@@ -544,6 +544,7 @@ impl Display for TypeRepr {
                 ref parameters,
                 ref ret,
             } => {
+                write!(fmt, "dyn ")?;
                 if !forall.is_empty() {
                     write!(fmt, "for<{}> ", Sep(", ", forall),)?;
                 }

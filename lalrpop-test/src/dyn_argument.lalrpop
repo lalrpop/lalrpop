@@ -1,4 +1,5 @@
-grammar(x: &dyn Send, y: &for<'a> dyn Fn(&'a i32, &'a f64) -> String);
+grammar(x: &dyn Send, y: &dyn for<'a> Fn(&'a i32, &'a f64) -> String);
 
 pub Test: () = {
+    "a" => (),
 };

@@ -52,7 +52,7 @@ GrammarWhereClauses: Vec<WhereClause<TypeRef>> =
 GrammarWhereClause: WhereClause<TypeRef> = {
     <l:Lifetime> ":" <bounds:Plus<Lifetime>> =>
         WhereClause::Lifetime { lifetime: l, bounds },
-    <f:ForAll> <ty:SimpleTypeRef> ":" <bounds:TypeBounds> =>
+    <f:ForAll> <ty:TypeRef> ":" <bounds:TypeBounds> =>
         WhereClause::Type { forall: f, ty, bounds }
 };
 
@@ -239,7 +239,7 @@ SymbolKind1: SymbolKind = {
         SymbolKind::Error,
 };
 
-SimpleTypeRef: TypeRef = {
+TypeRef: TypeRef = {
     "(" <Comma<TypeRef>> ")" =>
         TypeRef::Tuple(<>),
 
@@ -264,13 +264,9 @@ SimpleTypeRef: TypeRef = {
     "dyn" <path:Path> "<" <types:Comma<TypeRefOrLifetime>> ">" =>
         TypeRef::TraitObject { <> },
 
-    "dyn" <path:Path> => TypeRef::Nominal { path, types: vec![] },
-};
+    "dyn" <path:Path> => TypeRef::TraitObject { path, types: vec![] },
 
-TypeRef: TypeRef = {
-    SimpleTypeRef,
-
-    <forall:ForAll> "dyn" <path:Path> "("  <parameters:Comma<TypeRef>> ")" <ret: ("->" <TypeRef>)?> =>
+    "dyn" <forall:ForAll> <path:Path> "("  <parameters:Comma<TypeRef>> ")" <ret: ("->" <TypeRef>)?> =>
        TypeRef::Fn { forall, path, parameters, ret: ret.map(Box::new) },
 };
 
