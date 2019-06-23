@@ -265,6 +265,19 @@ impl MacroExpander {
                 path: path.clone(),
                 types: self.macro_expand_type_refs(args, types),
             },
+            TypeRef::Fn {
+                ref forall,
+                ref path,
+                ref parameters,
+                ref ret,
+            } => TypeRef::Fn {
+                forall: forall.clone(),
+                path: path.clone(),
+                parameters: self.macro_expand_type_refs(args, parameters),
+                ret: ret
+                    .as_ref()
+                    .map(|t| Box::new(self.macro_expand_type_ref(args, t))),
+            },
         }
     }
 

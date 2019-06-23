@@ -71,6 +71,24 @@ impl FreeVariables for repr::TypeRepr {
                 .map(|id| TypeParameter::Lifetime(id.clone()))
                 .chain(referent.free_variables(type_parameters))
                 .collect(),
+            repr::TypeRepr::Fn {
+                path,
+                parameters,
+                ret,
+                ..
+            } => path
+                .free_variables(type_parameters)
+                .into_iter()
+                .chain(
+                    parameters
+                        .iter()
+                        .flat_map(|param| param.free_variables(type_parameters)),
+                )
+                .chain(
+                    ret.iter()
+                        .flat_map(|ret| ret.free_variables(type_parameters)),
+                )
+                .collect(),
         }
     }
 }

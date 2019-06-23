@@ -296,6 +296,23 @@ impl<'grammar> TypeInferencer<'grammar> {
                     types,
                 }))
             }
+            TypeRef::Fn {
+                ref forall,
+                ref path,
+                ref parameters,
+                ref ret,
+            } => Ok(TypeRepr::Fn {
+                forall: forall.clone(),
+                path: path.clone(),
+                parameters: parameters
+                    .iter()
+                    .map(|t| self.type_ref(t))
+                    .collect::<Result<_, _>>()?,
+                ret: ret
+                    .as_ref()
+                    .map(|ret| self.type_ref(ret).map(Box::new))
+                    .transpose()?,
+            }),
         }
     }
 

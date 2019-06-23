@@ -226,6 +226,13 @@ pub enum TypeRef {
 
     // <N> ==> type of a nonterminal, emitted by macro expansion
     OfSymbol(SymbolKind),
+
+    Fn {
+        forall: Vec<TypeParameter>,
+        path: Path,
+        parameters: Vec<TypeRef>,
+        ret: Option<Box<TypeRef>>,
+    },
 }
 
 #[derive(Clone, Debug, PartialEq, Eq, PartialOrd, Ord)]
@@ -1014,6 +1021,21 @@ impl Display for TypeRef {
                 mutable: true,
                 ref referent,
             } => write!(fmt, "&{} mut {}", l, referent),
+            TypeRef::Fn {
+                ref forall,
+                ref path,
+                ref parameters,
+                ref ret,
+            } => {
+                if !forall.is_empty() {
+                    write!(fmt, "for<{}> ", Sep(", ", forall),)?;
+                }
+                write!(fmt, "{}({})", path, Sep(", ", parameters))?;
+                if let Some(ret) = ret {
+                    write!(fmt, " -> {}", ret)?;
+                }
+                Ok(())
+            }
         }
     }
 }
@@ -1056,6 +1078,17 @@ impl TypeRef {
                 path: path.clone(),
                 types: types.iter().map(TypeRef::type_repr).collect(),
             }),
+            TypeRef::Fn {
+                ref forall,
+                ref path,
+                ref parameters,
+                ref ret,
+            } => TypeRepr::Fn {
+                forall: forall.clone(),
+                path: path.clone(),
+                parameters: parameters.iter().map(TypeRef::type_repr).collect(),
+                ret: ret.as_ref().map(|t| Box::new(TypeRef::type_repr(t))),
+            },
         }
     }
 }

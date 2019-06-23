@@ -194,6 +194,12 @@ pub enum TypeRepr {
         referent: Box<TypeRepr>,
     },
     TraitObject(NominalTypeRepr),
+    Fn {
+        forall: Vec<TypeParameter>,
+        path: Path,
+        parameters: Vec<TypeRepr>,
+        ret: Option<Box<TypeRepr>>,
+    },
 }
 
 impl TypeRepr {
@@ -259,6 +265,17 @@ impl TypeRepr {
                     types: types.iter().map(|t| t.bottom_up(op)).collect(),
                 })
             }
+            TypeRepr::Fn {
+                forall,
+                path,
+                parameters,
+                ret,
+            } => TypeRepr::Fn {
+                forall: forall.clone(),
+                path: path.clone(),
+                parameters: parameters.iter().map(|t| t.bottom_up(op)).collect(),
+                ret: ret.as_ref().map(|t| Box::new(t.bottom_up(op))),
+            },
         };
         op(result)
     }
@@ -289,7 +306,8 @@ impl TypeRepr {
             TypeRepr::Tuple { .. }
             | TypeRepr::Nominal { .. }
             | TypeRepr::Associated { .. }
-            | TypeRepr::TraitObject { .. } => t,
+            | TypeRepr::TraitObject { .. }
+            | TypeRepr::Fn { .. } => t,
 
             TypeRepr::Lifetime(l) => {
                 if l.is_anonymous() {
@@ -520,6 +538,21 @@ impl Display for TypeRepr {
                 ref referent,
             } => write!(fmt, "&{} mut {}", l, referent),
             TypeRepr::TraitObject(ref data) => write!(fmt, "dyn {}", data),
+            TypeRepr::Fn {
+                ref forall,
+                ref path,
+                ref parameters,
+                ref ret,
+            } => {
+                if !forall.is_empty() {
+                    write!(fmt, "for<{}> ", Sep(", ", forall),)?;
+                }
+                write!(fmt, "{}({})", path, Sep(", ", parameters))?;
+                if let Some(ret) = ret {
+                    write!(fmt, " -> {}", ret)?;
+                }
+                Ok(())
+            }
         }
     }
 }
