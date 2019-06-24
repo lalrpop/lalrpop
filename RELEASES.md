@@ -1,3 +1,13 @@
+<a name=""></a>
+##  (2019-06-24)
+
+
+#### Bug Fixes
+
+*   Accept `dyn Trait` as a type (#469) ([cba3a746](https://github.com/lalrpop/lalrpop/commit/cba3a7463c014b8444623848219532628054e9a1))
+
+
+
 <a name="0.17.0"></a>
 # 0.17.0 (2019-05-06)
 
