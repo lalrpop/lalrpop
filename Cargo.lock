@@ -128,10 +128,10 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 
 [[package]]
 name = "calculator"
-version = "0.17.0"
+version = "0.17.1"
 dependencies = [
- "lalrpop 0.17.0",
- "lalrpop-util 0.17.0",
+ "lalrpop 0.17.1",
+ "lalrpop-util 0.17.1",
  "regex 1.1.6 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
 
@@ -275,7 +275,7 @@ dependencies = [
 
 [[package]]
 name = "lalrpop"
-version = "0.17.0"
+version = "0.17.1"
 dependencies = [
  "ascii-canvas 2.0.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "atty 0.2.11 (registry+https://github.com/rust-lang/crates.io-index)",
@@ -284,7 +284,7 @@ dependencies = [
  "docopt 1.1.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "ena 0.13.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "itertools 0.8.0 (registry+https://github.com/rust-lang/crates.io-index)",
- "lalrpop-util 0.17.0",
+ "lalrpop-util 0.17.1",
  "petgraph 0.4.13 (registry+https://github.com/rust-lang/crates.io-index)",
  "rand 0.6.5 (registry+https://github.com/rust-lang/crates.io-index)",
  "regex 1.1.6 (registry+https://github.com/rust-lang/crates.io-index)",
@@ -299,17 +299,17 @@ dependencies = [
 
 [[package]]
 name = "lalrpop-test"
-version = "0.17.0"
+version = "0.17.1"
 dependencies = [
  "diff 0.1.11 (registry+https://github.com/rust-lang/crates.io-index)",
- "lalrpop 0.17.0",
- "lalrpop-util 0.17.0",
+ "lalrpop 0.17.1",
+ "lalrpop-util 0.17.1",
  "regex 1.1.6 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
 
 [[package]]
 name = "lalrpop-util"
-version = "0.17.0"
+version = "0.17.1"
 
 [[package]]
 name = "lazy_static"
@@ -396,8 +396,8 @@ name = "pascal"
 version = "0.11.0"
 dependencies = [
  "docopt 1.1.0 (registry+https://github.com/rust-lang/crates.io-index)",
- "lalrpop 0.17.0",
- "lalrpop-util 0.17.0",
+ "lalrpop 0.17.1",
+ "lalrpop-util 0.17.1",
  "regex 1.1.6 (registry+https://github.com/rust-lang/crates.io-index)",
  "serde 1.0.90 (registry+https://github.com/rust-lang/crates.io-index)",
  "serde_derive 1.0.90 (registry+https://github.com/rust-lang/crates.io-index)",
@@ -764,10 +764,10 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 
 [[package]]
 name = "whitespace"
-version = "0.17.0"
+version = "0.17.1"
 dependencies = [
- "lalrpop 0.17.0",
- "lalrpop-util 0.17.0",
+ "lalrpop 0.17.1",
+ "lalrpop-util 0.17.1",
 ]
 
 [[package]]
