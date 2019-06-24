@@ -4,11 +4,11 @@ use std::cmp;
 
 #[derive(Debug)]
 pub struct Wrap {
-    items: Vec<Box<Content>>,
+    items: Vec<Box<dyn Content>>,
 }
 
 impl Wrap {
-    pub fn new(items: Vec<Box<Content>>) -> Self {
+    pub fn new(items: Vec<Box<dyn Content>>) -> Self {
         let mut wrap_items = vec![];
         for item in items {
             item.into_wrap_items(&mut wrap_items);
@@ -22,7 +22,7 @@ impl Content for Wrap {
         self.items.iter().map(|c| c.min_width()).max().unwrap()
     }
 
-    fn emit(&self, view: &mut AsciiView) {
+    fn emit(&self, view: &mut dyn AsciiView) {
         let columns = view.columns();
         let mut row = 0; // current row
         let mut height = 1; // max height of anything in this row
@@ -48,7 +48,7 @@ impl Content for Wrap {
         }
     }
 
-    fn into_wrap_items(self: Box<Self>, wrap_items: &mut Vec<Box<Content>>) {
+    fn into_wrap_items(self: Box<Self>, wrap_items: &mut Vec<Box<dyn Content>>) {
         wrap_items.extend(self.items); // `items` are already subdivided
     }
 }

@@ -35,11 +35,11 @@ pub enum PatternKind<T> {
 }
 
 impl<T> Pattern<T> {
-    pub fn for_each_binding<U>(&self, map_fn: &mut FnMut(&T) -> U) {
+    pub fn for_each_binding<U>(&self, map_fn: &mut dyn FnMut(&T) -> U) {
         self.map(map_fn);
     }
 
-    pub fn map<U>(&self, map_fn: &mut FnMut(&T) -> U) -> Pattern<U> {
+    pub fn map<U>(&self, map_fn: &mut dyn FnMut(&T) -> U) -> Pattern<U> {
         Pattern {
             span: self.span,
             kind: self.kind.map(map_fn),
@@ -48,7 +48,7 @@ impl<T> Pattern<T> {
 }
 
 impl<T> PatternKind<T> {
-    pub fn map<U>(&self, map_fn: &mut FnMut(&T) -> U) -> PatternKind<U> {
+    pub fn map<U>(&self, map_fn: &mut dyn FnMut(&T) -> U) -> PatternKind<U> {
         match *self {
             PatternKind::Path(ref path) => PatternKind::Path(path.clone()),
             PatternKind::Enum(ref path, ref pats) => PatternKind::Enum(
@@ -76,7 +76,7 @@ impl<T> PatternKind<T> {
 }
 
 impl<T> FieldPattern<T> {
-    pub fn map<U>(&self, map_fn: &mut FnMut(&T) -> U) -> FieldPattern<U> {
+    pub fn map<U>(&self, map_fn: &mut dyn FnMut(&T) -> U) -> FieldPattern<U> {
         FieldPattern {
             field_name: self.field_name.clone(),
             field_span: self.field_span,

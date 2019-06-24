@@ -283,6 +283,36 @@ impl<'grammar> TypeInferencer<'grammar> {
                 referent: Box::new(self.type_ref(referent)?),
             }),
             TypeRef::OfSymbol(ref symbol) => self.symbol_type(symbol),
+            TypeRef::TraitObject {
+                ref path,
+                ref types,
+            } => {
+                let types = types
+                    .iter()
+                    .map(|t| self.type_ref(t))
+                    .collect::<Result<_, _>>()?;
+                Ok(TypeRepr::TraitObject(NominalTypeRepr {
+                    path: path.clone(),
+                    types,
+                }))
+            }
+            TypeRef::Fn {
+                ref forall,
+                ref path,
+                ref parameters,
+                ref ret,
+            } => Ok(TypeRepr::Fn {
+                forall: forall.clone(),
+                path: path.clone(),
+                parameters: parameters
+                    .iter()
+                    .map(|t| self.type_ref(t))
+                    .collect::<Result<_, _>>()?,
+                ret: match ret {
+                    Some(ret) => Some(self.type_ref(ret).map(Box::new)?),
+                    None => None,
+                },
+            }),
         }
     }
 

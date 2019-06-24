@@ -28,8 +28,8 @@ pub struct Grammar {
 #[derive(Copy, Clone, Debug, Hash, PartialEq, Eq, PartialOrd, Ord)]
 pub struct Span(pub usize, pub usize);
 
-impl Into<Box<Content>> for Span {
-    fn into(self) -> Box<Content> {
+impl Into<Box<dyn Content>> for Span {
+    fn into(self) -> Box<dyn Content> {
         let file_text = Tls::file_text();
         let string = file_text.span_str(self);
 
@@ -212,6 +212,12 @@ pub enum TypeRef {
         referent: Box<TypeRef>,
     },
 
+    // `dyn Trait`
+    TraitObject {
+        path: Path,
+        types: Vec<TypeRef>,
+    },
+
     // 'x ==> only should appear within nominal types, but what do we care
     Lifetime(Lifetime),
 
@@ -220,6 +226,13 @@ pub enum TypeRef {
 
     // <N> ==> type of a nonterminal, emitted by macro expansion
     OfSymbol(SymbolKind),
+
+    Fn {
+        forall: Vec<TypeParameter>,
+        path: Path,
+        parameters: Vec<TypeRef>,
+        ret: Option<Box<TypeRef>>,
+    },
 }
 
 #[derive(Clone, Debug, PartialEq, Eq, PartialOrd, Ord)]
@@ -503,8 +516,8 @@ impl NonterminalString {
     }
 }
 
-impl Into<Box<Content>> for NonterminalString {
-    fn into(self) -> Box<Content> {
+impl Into<Box<dyn Content>> for NonterminalString {
+    fn into(self) -> Box<dyn Content> {
         let session = Tls::session();
 
         InlineBuilder::new()
@@ -573,8 +586,8 @@ impl TerminalString {
     }
 }
 
-impl Into<Box<Content>> for TerminalString {
-    fn into(self) -> Box<Content> {
+impl Into<Box<dyn Content>> for TerminalString {
+    fn into(self) -> Box<dyn Content> {
         let session = Tls::session();
         InlineBuilder::new()
             .text(self)
@@ -977,6 +990,14 @@ impl Display for TypeRef {
                 ref path,
                 ref types,
             } => write!(fmt, "{}<{}>", path, Sep(", ", types)),
+            TypeRef::TraitObject {
+                ref path,
+                ref types,
+            } if types.is_empty() => write!(fmt, "dyn {}", path),
+            TypeRef::TraitObject {
+                ref path,
+                ref types,
+            } => write!(fmt, "dyn {}<{}>", path, Sep(", ", types)),
             TypeRef::Lifetime(ref s) => write!(fmt, "{}", s),
             TypeRef::Id(ref s) => write!(fmt, "{}", s),
             TypeRef::OfSymbol(ref s) => write!(fmt, "`{}`", s),
@@ -1000,6 +1021,22 @@ impl Display for TypeRef {
                 mutable: true,
                 ref referent,
             } => write!(fmt, "&{} mut {}", l, referent),
+            TypeRef::Fn {
+                ref forall,
+                ref path,
+                ref parameters,
+                ref ret,
+            } => {
+                write!(fmt, "dyn ")?;
+                if !forall.is_empty() {
+                    write!(fmt, "for<{}> ", Sep(", ", forall),)?;
+                }
+                write!(fmt, "{}({})", path, Sep(", ", parameters))?;
+                if let Some(ret) = ret {
+                    write!(fmt, " -> {}", ret)?;
+                }
+                Ok(())
+            }
         }
     }
 }
@@ -1034,6 +1071,24 @@ impl TypeRef {
                 lifetime: lifetime.clone(),
                 mutable,
                 referent: Box::new(referent.type_repr()),
+            },
+            TypeRef::TraitObject {
+                ref path,
+                ref types,
+            } => TypeRepr::TraitObject(NominalTypeRepr {
+                path: path.clone(),
+                types: types.iter().map(TypeRef::type_repr).collect(),
+            }),
+            TypeRef::Fn {
+                ref forall,
+                ref path,
+                ref parameters,
+                ref ret,
+            } => TypeRepr::Fn {
+                forall: forall.clone(),
+                path: path.clone(),
+                parameters: parameters.iter().map(TypeRef::type_repr).collect(),
+                ret: ret.as_ref().map(|t| Box::new(TypeRef::type_repr(t))),
             },
         }
     }

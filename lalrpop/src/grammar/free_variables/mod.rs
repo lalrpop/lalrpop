@@ -57,7 +57,9 @@ impl FreeVariables for repr::TypeRepr {
     fn free_variables(&self, type_parameters: &[TypeParameter]) -> Vec<TypeParameter> {
         match self {
             repr::TypeRepr::Tuple(tys) => tys.free_variables(type_parameters),
-            repr::TypeRepr::Nominal(data) => data.free_variables(type_parameters),
+            repr::TypeRepr::Nominal(data) | repr::TypeRepr::TraitObject(data) => {
+                data.free_variables(type_parameters)
+            }
             repr::TypeRepr::Associated { type_parameter, .. } => {
                 free_type(type_parameters, type_parameter)
             }
@@ -68,6 +70,25 @@ impl FreeVariables for repr::TypeRepr {
                 .iter()
                 .map(|id| TypeParameter::Lifetime(id.clone()))
                 .chain(referent.free_variables(type_parameters))
+                .collect(),
+            repr::TypeRepr::Fn {
+                forall,
+                path,
+                parameters,
+                ret,
+            } => path
+                .free_variables(type_parameters)
+                .into_iter()
+                .chain(
+                    parameters
+                        .iter()
+                        .flat_map(|param| param.free_variables(type_parameters)),
+                )
+                .chain(
+                    ret.iter()
+                        .flat_map(|ret| ret.free_variables(type_parameters)),
+                )
+                .filter(|tp| !forall.contains(tp))
                 .collect(),
         }
     }

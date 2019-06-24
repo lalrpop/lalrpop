@@ -4,11 +4,11 @@ use ascii_canvas::AsciiView;
 #[derive(Debug)]
 pub struct Indent {
     amount: usize,
-    content: Box<Content>,
+    content: Box<dyn Content>,
 }
 
 impl Indent {
-    pub fn new(amount: usize, content: Box<Content>) -> Self {
+    pub fn new(amount: usize, content: Box<dyn Content>) -> Self {
         Indent { amount, content }
     }
 }
@@ -18,12 +18,12 @@ impl Content for Indent {
         self.content.min_width() + self.amount
     }
 
-    fn emit(&self, view: &mut AsciiView) {
+    fn emit(&self, view: &mut dyn AsciiView) {
         let mut subview = view.shift(0, self.amount);
         self.content.emit(&mut subview);
     }
 
-    fn into_wrap_items(self: Box<Self>, wrap_items: &mut Vec<Box<Content>>) {
+    fn into_wrap_items(self: Box<Self>, wrap_items: &mut Vec<Box<dyn Content>>) {
         wrap_items.push(self);
     }
 }

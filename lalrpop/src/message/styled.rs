@@ -5,11 +5,11 @@ use style::Style;
 
 pub struct Styled {
     style: Style,
-    content: Box<Content>,
+    content: Box<dyn Content>,
 }
 
 impl Styled {
-    pub fn new(style: Style, content: Box<Content>) -> Self {
+    pub fn new(style: Style, content: Box<dyn Content>) -> Self {
         Styled { style, content }
     }
 }
@@ -19,11 +19,11 @@ impl Content for Styled {
         self.content.min_width()
     }
 
-    fn emit(&self, view: &mut AsciiView) {
+    fn emit(&self, view: &mut dyn AsciiView) {
         self.content.emit(&mut view.styled(self.style))
     }
 
-    fn into_wrap_items(self: Box<Self>, wrap_items: &mut Vec<Box<Content>>) {
+    fn into_wrap_items(self: Box<Self>, wrap_items: &mut Vec<Box<dyn Content>>) {
         let style = self.style;
         super::into_wrap_items_map(self.content, wrap_items, |item| Styled::new(style, item))
     }

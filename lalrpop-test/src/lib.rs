@@ -132,6 +132,11 @@ lalrpop_mod!(
     cfg
 );
 
+lalrpop_mod!(
+    #[deny(bare_trait_objects)]
+    dyn_argument
+);
+
 pub fn use_cfg_created_parser() {
     cfg::CreatedParser::new();
 }

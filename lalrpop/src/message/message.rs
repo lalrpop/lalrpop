@@ -30,12 +30,12 @@ use tls::Tls;
 /// ```
 pub struct Message {
     span: Span,
-    heading: Box<Content>,
-    body: Box<Content>,
+    heading: Box<dyn Content>,
+    body: Box<dyn Content>,
 }
 
 impl Message {
-    pub fn new(span: Span, heading: Box<Content>, body: Box<Content>) -> Self {
+    pub fn new(span: Span, heading: Box<dyn Content>, body: Box<dyn Content>) -> Self {
         Message {
             span,
             heading,
@@ -53,7 +53,7 @@ impl Content for Message {
         cmp::max(span + heading + 2, body + 2)
     }
 
-    fn emit(&self, view: &mut AsciiView) {
+    fn emit(&self, view: &mut dyn AsciiView) {
         let session = Tls::session();
         let file_text = Tls::file_text();
 
@@ -69,7 +69,7 @@ impl Content for Message {
         self.body.emit_at(view, row + 2, 2);
     }
 
-    fn into_wrap_items(self: Box<Self>, wrap_items: &mut Vec<Box<Content>>) {
+    fn into_wrap_items(self: Box<Self>, wrap_items: &mut Vec<Box<dyn Content>>) {
         wrap_items.push(self);
     }
 }

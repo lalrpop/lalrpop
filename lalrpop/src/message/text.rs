@@ -22,16 +22,16 @@ impl Content for Text {
         self.text.chars().count()
     }
 
-    fn emit(&self, view: &mut AsciiView) {
+    fn emit(&self, view: &mut dyn AsciiView) {
         view.write_chars(0, 0, self.text.chars(), Style::new())
     }
 
-    fn into_wrap_items(self: Box<Self>, wrap_items: &mut Vec<Box<Content>>) {
+    fn into_wrap_items(self: Box<Self>, wrap_items: &mut Vec<Box<dyn Content>>) {
         wrap_items.extend(
             self.text
                 .split_whitespace()
                 .map(|word| Text::new(word.to_string()))
-                .map(|item| Box::new(item) as Box<Content>),
+                .map(|item| Box::new(item) as Box<dyn Content>),
         );
     }
 }

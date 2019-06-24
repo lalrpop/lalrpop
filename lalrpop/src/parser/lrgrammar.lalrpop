@@ -56,6 +56,7 @@ GrammarWhereClause: WhereClause<TypeRef> = {
         WhereClause::Type { forall: f, ty, bounds }
 };
 
+#[inline]
 ForAll: Vec<TypeParameter> = {
     "for" "<" <Comma<TypeParameter>> ">",
     () => vec![],
@@ -251,14 +252,22 @@ TypeRef: TypeRef = {
                        mutable: m.is_some(),
                        referent: Box::new(t) },
 
-    <p:Path> "<" <a:Comma<TypeRefOrLifetime>> ">" =>
-        TypeRef::Nominal { path: p, types: a },
+    <path:Path> "<" <types:Comma<TypeRefOrLifetime>> ">" =>
+        TypeRef::Nominal { <> },
 
     <p:Path> =>
         match p.as_id() {
             Some(id) => TypeRef::Id(id),
-            None => TypeRef::Nominal { path: p, types: vec![] }
+            None => TypeRef::Nominal { path: p, types: vec![] },
         },
+
+    "dyn" <path:Path> "<" <types:Comma<TypeRefOrLifetime>> ">" =>
+        TypeRef::TraitObject { <> },
+
+    "dyn" <path:Path> => TypeRef::TraitObject { path, types: vec![] },
+
+    "dyn" <forall:ForAll> <path:Path> "("  <parameters:Comma<TypeRef>> ")" <ret: ("->" <TypeRef>)?> =>
+       TypeRef::Fn { forall, path, parameters, ret: ret.map(Box::new) },
 };
 
 TypeRefOrLifetime: TypeRef = {
@@ -443,6 +452,7 @@ extern {
         "for" => Tok::For,
         "!" => Tok::Bang,
         "use" => Tok::Use(<&'input str>),
+        "dyn" => Tok::Dyn,
 
         "Escape" => Tok::Escape(<&'input str>),
         "Id" => Tok::Id(<&'input str>),

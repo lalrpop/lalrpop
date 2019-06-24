@@ -193,6 +193,13 @@ pub enum TypeRepr {
         mutable: bool,
         referent: Box<TypeRepr>,
     },
+    TraitObject(NominalTypeRepr),
+    Fn {
+        forall: Vec<TypeParameter>,
+        path: Path,
+        parameters: Vec<TypeRepr>,
+        ret: Option<Box<TypeRepr>>,
+    },
 }
 
 impl TypeRepr {
@@ -252,6 +259,23 @@ impl TypeRepr {
                 mutable: *mutable,
                 referent: Box::new(referent.bottom_up(op)),
             },
+            TypeRepr::TraitObject(NominalTypeRepr { path, types }) => {
+                TypeRepr::TraitObject(NominalTypeRepr {
+                    path: path.clone(),
+                    types: types.iter().map(|t| t.bottom_up(op)).collect(),
+                })
+            }
+            TypeRepr::Fn {
+                forall,
+                path,
+                parameters,
+                ret,
+            } => TypeRepr::Fn {
+                forall: forall.clone(),
+                path: path.clone(),
+                parameters: parameters.iter().map(|t| t.bottom_up(op)).collect(),
+                ret: ret.as_ref().map(|t| Box::new(t.bottom_up(op))),
+            },
         };
         op(result)
     }
@@ -279,7 +303,11 @@ impl TypeRepr {
         };
 
         self.bottom_up(&mut |t| match t {
-            TypeRepr::Tuple { .. } | TypeRepr::Nominal { .. } | TypeRepr::Associated { .. } => t,
+            TypeRepr::Tuple { .. }
+            | TypeRepr::Nominal { .. }
+            | TypeRepr::Associated { .. }
+            | TypeRepr::TraitObject { .. }
+            | TypeRepr::Fn { .. } => t,
 
             TypeRepr::Lifetime(l) => {
                 if l.is_anonymous() {
@@ -509,6 +537,23 @@ impl Display for TypeRepr {
                 mutable: true,
                 ref referent,
             } => write!(fmt, "&{} mut {}", l, referent),
+            TypeRepr::TraitObject(ref data) => write!(fmt, "dyn {}", data),
+            TypeRepr::Fn {
+                ref forall,
+                ref path,
+                ref parameters,
+                ref ret,
+            } => {
+                write!(fmt, "dyn ")?;
+                if !forall.is_empty() {
+                    write!(fmt, "for<{}> ", Sep(", ", forall),)?;
+                }
+                write!(fmt, "{}({})", path, Sep(", ", parameters))?;
+                if let Some(ret) = ret {
+                    write!(fmt, " -> {}", ret)?;
+                }
+                Ok(())
+            }
         }
     }
 }
@@ -579,8 +624,8 @@ impl Debug for Symbol {
     }
 }
 
-impl Into<Box<Content>> for Symbol {
-    fn into(self) -> Box<Content> {
+impl Into<Box<dyn Content>> for Symbol {
+    fn into(self) -> Box<dyn Content> {
         match self {
             Symbol::Nonterminal(nt) => nt.into(),
             Symbol::Terminal(term) => term.into(),
