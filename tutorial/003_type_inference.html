@@ -1,0 +1,263 @@
+<!DOCTYPE HTML>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Type inference - </title>
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <base href="../">
+
+        <link rel="stylesheet" href="book.css">
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css">
+        <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro:500" rel="stylesheet" type="text/css">
+
+        <link rel="shortcut icon" href="favicon.png">
+
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme -->
+        
+
+        
+        <!-- MathJax -->
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        
+
+        <!-- Fetch Clipboard.js from CDN but have a local fallback -->
+        <script src="https://cdn.jsdelivr.net/clipboard.js/1.6.1/clipboard.min.js"></script>
+        <script>
+            if (typeof Clipboard == 'undefined') {
+                document.write(unescape("%3Cscript src='clipboard.min.js'%3E%3C/script%3E"));
+            }
+        </script>
+
+    </head>
+    <body class="light">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { } 
+            if (theme === null || theme === undefined) { theme = 'light'; }
+            document.body.className = theme;
+            document.querySelector('html').className = theme;
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            document.querySelector('html').classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <ol class="chapter"><li><a href="README.html"><strong aria-hidden="true">1.</strong> LALRPOP</a></li><li><a href="crash_course.html"><strong aria-hidden="true">2.</strong> Crash course on parsers</a></li><li><a href="quick_start_guide.html"><strong aria-hidden="true">3.</strong> Quick start guide</a></li><li><a href="tutorial/index.html"><strong aria-hidden="true">4.</strong> Tutorial</a></li><li><ol class="section"><li><a href="tutorial/001_adding_lalrpop.html"><strong aria-hidden="true">4.1.</strong> Adding LALRPOP to your project</a></li><li><a href="tutorial/002_paren_numbers.html"><strong aria-hidden="true">4.2.</strong> Parsing parenthesized numbers</a></li><li><a href="tutorial/003_type_inference.html" class="active"><strong aria-hidden="true">4.3.</strong> Type inference</a></li><li><a href="tutorial/004_controlling_lexer.html"><strong aria-hidden="true">4.4.</strong> Controlling the lexer</a></li><li><a href="tutorial/005_full_expressions.html"><strong aria-hidden="true">4.5.</strong> Handling full expressions</a></li><li><a href="tutorial/006_building_asts.html"><strong aria-hidden="true">4.6.</strong> Building ASTs</a></li><li><a href="tutorial/007_macros.html"><strong aria-hidden="true">4.7.</strong> Macros</a></li><li><a href="tutorial/008_error_recovery.html"><strong aria-hidden="true">4.8.</strong> Error recovery</a></li></ol></li><li><a href="lexer_tutorial/index.html"><strong aria-hidden="true">5.</strong> Writing a custom lexer</a></li><li><a href="advanced_setup.html"><strong aria-hidden="true">6.</strong> Advanced setup</a></li><li><ol class="section"><li><a href="generate_in_source.html"><strong aria-hidden="true">6.1.</strong> Generate in source tree</a></li><li class="spacer"></li></ol></li><li><a href="misc/contributors.html">Contributors</a></li></ol>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                
+                <div id="menu-bar" class="menu-bar">
+                    <div id="menu-bar-sticky-container">
+                        <div class="left-buttons">
+                            <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                                <i class="fa fa-bars"></i>
+                            </button>
+                            <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                                <i class="fa fa-paint-brush"></i>
+                            </button>
+                            <ul id="theme-list" class="theme-popup" aria-label="submenu">
+                                <li><button class="theme" id="light">Light <span class="default">(default)</span></button></li>
+                                <li><button class="theme" id="rust">Rust</button></li>
+                                <li><button class="theme" id="coal">Coal</button></li>
+                                <li><button class="theme" id="navy">Navy</button></li>
+                                <li><button class="theme" id="ayu">Ayu</button></li>
+                            </ul>
+                        </div>
+
+                        <h1 class="menu-title"></h1>
+
+                        <div class="right-buttons">
+                            <a href="print.html" title="Print this book" aria-label="Print this book">
+                                <i id="print-button" class="fa fa-print"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <a class="header" href="tutorial/003_type_inference.html#type-inference" id="type-inference"><h1>Type inference</h1></a>
+<p>OK, now that we understand <a href="calculator/src/calculator1.lalrpop">the calculator1 example</a>, let's
+look at some of the shorthands that LALRPOP offers to make it more concise.
+This code is found in <a href="calculator/src/calculator2.lalrpop">the calculator2 demo</a>.</p>
+<p>To start, let's look at the definition of <code>Term</code> we saw before:</p>
+<pre><code class="language-lalrpop">pub Term: i32 = {
+    &lt;n:Num&gt; =&gt; n,
+    &quot;(&quot; &lt;t:Term&gt; &quot;)&quot; =&gt; t,
+};
+</code></pre>
+<p>The action code here is somewhat interesting. In both cases, it's not
+doing any new work, it's just selecting a value that was produced by
+another nonterminal. This turns out to be pretty common. So common,
+in fact, that LALRPOP offers some shorthand notation for it. Here is
+the definition of <code>Term</code> from the calculator2 demo:</p>
+<pre><code class="language-lalrpop">pub Term = { Num, &quot;(&quot; &lt;Term&gt; &quot;)&quot; };
+</code></pre>
+<p>Here, we have no action code at all. If there is no action code,
+LALRPOP synthesizes action code which just takes the value of the
+things being matched. In the case of the first alternative, <code>Num</code>,
+there is only one thing being matched, so that means that <code>Term</code> will
+produce the same value as the <code>Num</code> we parsed, whatever that was.</p>
+<p>In the case of the second alternative, <code>&quot;(&quot; &lt;Term&gt; &quot;)&quot;</code>, there are
+three things being matched. Here we use the angle brackets to select
+which item(s) we want to take the value of --- we selected only one,
+so the result is that we take the value of the <code>Term</code> we parsed. If we
+selected more than one, the result would be a tuple of all the
+selected items.  If we did not select any (i.e., <code>&quot;(&quot; Term &quot;)&quot;</code>), the
+result would be a tuple of all the items, and hence the result would
+be of type <code>(&amp;'input str, i32, &amp;'input str)</code>.</p>
+<p>Speaking of types, you may have noticed that <code>Term</code> has no type
+annotation. Since we didn't write out own action code, we can omit the
+type annotation and let LALRPOP infer it for us. In this case, LALRPOP
+can see that <code>Term</code> must have the same type as <code>Num</code>, and hence that
+the type must be <code>i32</code>.</p>
+<p>OK, let's look at the definition of <code>Num</code> we saw before from calculator1:</p>
+<pre><code class="language-lalrpop">Num: i32 = &lt;s:r&quot;[0-9]+&quot;&gt; =&gt; i32::from_str(s).unwrap();
+</code></pre>
+<p>This definition too can be made somewhat shorter. In calculator2, you will
+find:</p>
+<pre><code class="language-lalrpop">Num: i32 = r&quot;[0-9]+&quot; =&gt; i32::from_str(&lt;&gt;).unwrap();
+</code></pre>
+<p>Here, instead of giving the regular expression a name <code>s</code>, we modified
+the action code to use the funky expression <code>&lt;&gt;</code>. This is a shorthand
+that says &quot;synthesize names for the matched values and insert a
+comma-separated list here&quot;. In this case, there is only one matched
+value, <code>r&quot;[0-9]+&quot;</code>, and it produces a <code>&amp;'input str</code>, so LALRPOP will
+insert a synthetic variable for that value. Note that we still have
+custom action code, so we still need a type annotation.</p>
+<p>To control what values are selected when you use the <code>&lt;&gt;</code> expression
+in your action code, you can use angle brackets as we saw before.
+Here are some examples of alternatives and how they are expanded to
+give you the idea:</p>
+<table><thead><tr><th> Alternative          </th><th> Equivalent to              </th></tr></thead><tbody>
+<tr><td> <code>A =&gt; bar(&lt;&gt;)</code>       </td><td> <code>&lt;a:A&gt; =&gt; bar(a)</code>          </td></tr>
+<tr><td> <code>A B =&gt; bar(&lt;&gt;)</code>     </td><td> <code>&lt;a:A&gt; &lt;b:B&gt; =&gt; bar(a, b)</code> </td></tr>
+<tr><td> <code>A B =&gt; (&lt;&gt;)</code>        </td><td> <code>&lt;a:A&gt; &lt;b:B&gt; =&gt; (a, b)</code>    </td></tr>
+<tr><td> <code>&lt;A&gt; B =&gt; bar(&lt;&gt;)</code>   </td><td> <code>&lt;a:A&gt; B =&gt; bar(a)</code>        </td></tr>
+<tr><td> <code>&lt;p:A&gt; B =&gt; bar(&lt;&gt;)</code> </td><td> <code>&lt;p:A&gt; B =&gt; bar(p)</code>        </td></tr>
+<tr><td> <code>&lt;A&gt; &lt;B&gt; =&gt; bar(&lt;&gt;)</code> </td><td> <code>&lt;a:A&gt; &lt;b:B&gt; =&gt; bar(a, b)</code> </td></tr>
+<tr><td> <code>&lt;p:A&gt; &lt;q:B&gt; =&gt; bar(&lt;&gt;)</code> </td><td> <code>&lt;p:A&gt; &lt;q:B&gt; =&gt; bar(p, q)</code> </td></tr>
+<tr><td> <code>&lt;p:A&gt; B =&gt; Foo {&lt;&gt;}</code> </td><td> <code>&lt;p:A&gt; B =&gt; Foo {p:p}</code> </td></tr>
+<tr><td> <code>&lt;p:A&gt; &lt;q:B&gt; =&gt; Foo {&lt;&gt;}</code> </td><td> <code>&lt;p:A&gt; &lt;q:B&gt; =&gt; Foo {p:p, q:q}</code> </td></tr>
+</tbody></table>
+<p>The <code>&lt;&gt;</code> expressions also works with struct constructors (like <code>Foo {...}</code> in examples above). This works out well if the names of your
+parsed values match the names of your struct fields.</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                        
+                            <a rel="prev" href="tutorial/002_paren_numbers.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                        
+
+                        
+                            <a rel="next" href="tutorial/004_controlling_lexer.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                
+                    <a href="tutorial/002_paren_numbers.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                
+
+                
+                    <a href="tutorial/004_controlling_lexer.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                
+            </nav>
+
+        </div>
+
+
+        <!-- Local fallback for Font Awesome -->
+        <script>
+            if (getComputedStyle(document.querySelector(".fa")).fontFamily !== "FontAwesome") {
+                var link = document.createElement('link');
+                link.rel = 'stylesheet';
+                link.type = 'text/css';
+                link.href = '_FontAwesome/css/font-awesome.css';
+                document.head.insertBefore(link, document.head.firstChild)
+            }
+        </script>
+
+        
+
+        
+
+        
+        <script src="ace.js" type="text/javascript" charset="utf-8"></script>
+        <script src="editor.js" type="text/javascript" charset="utf-8"></script>
+        <script src="mode-rust.js" type="text/javascript" charset="utf-8"></script>
+        <script src="theme-dawn.js" type="text/javascript" charset="utf-8"></script>
+        <script src="theme-tomorrow_night.js" type="text/javascript" charset="utf-8"></script>
+        
+
+        
+
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+
+        <!-- Custom JS script -->
+        
+
+    </body>
+</html>

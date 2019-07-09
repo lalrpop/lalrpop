@@ -1,0 +1,467 @@
+<!DOCTYPE HTML>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Controlling the lexer - </title>
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <base href="../">
+
+        <link rel="stylesheet" href="book.css">
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css">
+        <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro:500" rel="stylesheet" type="text/css">
+
+        <link rel="shortcut icon" href="favicon.png">
+
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme -->
+        
+
+        
+        <!-- MathJax -->
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        
+
+        <!-- Fetch Clipboard.js from CDN but have a local fallback -->
+        <script src="https://cdn.jsdelivr.net/clipboard.js/1.6.1/clipboard.min.js"></script>
+        <script>
+            if (typeof Clipboard == 'undefined') {
+                document.write(unescape("%3Cscript src='clipboard.min.js'%3E%3C/script%3E"));
+            }
+        </script>
+
+    </head>
+    <body class="light">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { } 
+            if (theme === null || theme === undefined) { theme = 'light'; }
+            document.body.className = theme;
+            document.querySelector('html').className = theme;
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            document.querySelector('html').classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <ol class="chapter"><li><a href="README.html"><strong aria-hidden="true">1.</strong> LALRPOP</a></li><li><a href="crash_course.html"><strong aria-hidden="true">2.</strong> Crash course on parsers</a></li><li><a href="quick_start_guide.html"><strong aria-hidden="true">3.</strong> Quick start guide</a></li><li><a href="tutorial/index.html"><strong aria-hidden="true">4.</strong> Tutorial</a></li><li><ol class="section"><li><a href="tutorial/001_adding_lalrpop.html"><strong aria-hidden="true">4.1.</strong> Adding LALRPOP to your project</a></li><li><a href="tutorial/002_paren_numbers.html"><strong aria-hidden="true">4.2.</strong> Parsing parenthesized numbers</a></li><li><a href="tutorial/003_type_inference.html"><strong aria-hidden="true">4.3.</strong> Type inference</a></li><li><a href="tutorial/004_controlling_lexer.html" class="active"><strong aria-hidden="true">4.4.</strong> Controlling the lexer</a></li><li><a href="tutorial/005_full_expressions.html"><strong aria-hidden="true">4.5.</strong> Handling full expressions</a></li><li><a href="tutorial/006_building_asts.html"><strong aria-hidden="true">4.6.</strong> Building ASTs</a></li><li><a href="tutorial/007_macros.html"><strong aria-hidden="true">4.7.</strong> Macros</a></li><li><a href="tutorial/008_error_recovery.html"><strong aria-hidden="true">4.8.</strong> Error recovery</a></li></ol></li><li><a href="lexer_tutorial/index.html"><strong aria-hidden="true">5.</strong> Writing a custom lexer</a></li><li><a href="advanced_setup.html"><strong aria-hidden="true">6.</strong> Advanced setup</a></li><li><ol class="section"><li><a href="generate_in_source.html"><strong aria-hidden="true">6.1.</strong> Generate in source tree</a></li><li class="spacer"></li></ol></li><li><a href="misc/contributors.html">Contributors</a></li></ol>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                
+                <div id="menu-bar" class="menu-bar">
+                    <div id="menu-bar-sticky-container">
+                        <div class="left-buttons">
+                            <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                                <i class="fa fa-bars"></i>
+                            </button>
+                            <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                                <i class="fa fa-paint-brush"></i>
+                            </button>
+                            <ul id="theme-list" class="theme-popup" aria-label="submenu">
+                                <li><button class="theme" id="light">Light <span class="default">(default)</span></button></li>
+                                <li><button class="theme" id="rust">Rust</button></li>
+                                <li><button class="theme" id="coal">Coal</button></li>
+                                <li><button class="theme" id="navy">Navy</button></li>
+                                <li><button class="theme" id="ayu">Ayu</button></li>
+                            </ul>
+                        </div>
+
+                        <h1 class="menu-title"></h1>
+
+                        <div class="right-buttons">
+                            <a href="print.html" title="Print this book" aria-label="Print this book">
+                                <i id="print-button" class="fa fa-print"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <a class="header" href="tutorial/004_controlling_lexer.html#controlling-the-lexer" id="controlling-the-lexer"><h1>Controlling the lexer</h1></a>
+<p>This example dives a bit deeper into how LALRPOP works. In particular,
+it dives into the meaning of those strings and regular expression that
+we used in the previous tutorial, and how they are used to process the
+input string (a process which you can control). This first step of
+breaking up the input using regular expressions is often called
+<strong>lexing</strong> or <strong>tokenizing</strong>.</p>
+<p>If you're comfortable with the idea of a lexer or tokenizer, you may
+wish to skip ahead to the <a href="tutorial/004_controlling_lexer.html#calculator3">calculator3</a> example, which covers
+parsing bigger expressions, and come back here only when you find you
+want more control. You may also be interested in the
+<a href="lexer_tutorial/index.html">tutorial on writing a custom lexer</a>.</p>
+<a class="header" href="tutorial/004_controlling_lexer.html#terminals-vs-nonterminals" id="terminals-vs-nonterminals"><h4>Terminals vs nonterminals</h4></a>
+<p>You may have noticed that our grammar included two distinct kinds of
+symbols. There were the nonterminals, <code>Term</code> and <code>Num</code>, which we
+defined by specifying a series of symbols that they must match, along
+with some action code that should execute once they have matched:</p>
+<pre><code class="language-text">   Num: i32 = r&quot;[0-9]+&quot; =&gt; i32::from_str(&lt;&gt;).unwrap();
+// ~~~  ~~~   ~~~~~~~~~    ~~~~~~~~~~~~~~~~~~~~~~~~~~
+// |    |     |                Action code
+// |    |     Symbol(s) that should match
+// |    Return type
+// Name of nonterminal
+</code></pre>
+<p>But there are also <strong>terminals</strong>, which consist of the string literals
+and regular expressions sprinkled throughout the grammar. (Terminals
+are also often called <strong>tokens</strong>, and I will use the terms
+interchangeably.)</p>
+<p>This distinction between terminals and nonterminals is very important
+to how LALRPOP works. In fact, when LALRPOP generates a parser, it
+always works in a two-phase process. The first phase is called the
+<strong>lexer</strong> or <strong>tokenizer</strong>. It has the job of figuring out the
+sequence of <strong>terminals</strong>: so basically it analyzes the raw characters
+of your text and breaks them into a series of terminals. It does this
+without having any idea about your grammar or where you are in your
+grammar. Next, the parser proper is a bit of code that looks at this
+stream of tokens and figures out which nonterminals apply:</p>
+<pre><code>          +-------------------+    +---------------------+
+  Text -&gt; | Lexer             | -&gt; | Parser              |
+          |                   |    |                     |
+          | Applies regex to  |    | Consumes terminals, |
+          | produce terminals |    | executes your code  |
+          +-------------------+    | as it recognizes    |
+                                   | nonterminals        |
+                                   +---------------------+
+</code></pre>
+<p>LALRPOP's default lexer is based on regular expressions. By default,
+it works by extracting all the terminals (e.g., <code>&quot;(&quot;</code> or <code>r&quot;\d+&quot;</code>)
+from your grammar and compiling them into one big list. At runtime, it
+will walk over the string and, at each point, find the longest match
+from the literals and regular expressions in your grammar and produces
+one of those. As an example, let's look again at our example grammar:</p>
+<pre><code>pub Term: i32 = {
+    &lt;n:Num&gt; =&gt; n,
+    &quot;(&quot; &lt;t:Term&gt; &quot;)&quot; =&gt; t,
+};
+
+Num: i32 = &lt;s:r&quot;[0-9]+&quot;&gt; =&gt; i32::from_str(s).unwrap();
+</code></pre>
+<p>This grammar in fact contains three terminals:</p>
+<ul>
+<li><code>&quot;(&quot;</code> -- a string literal, which must match exactly</li>
+<li><code>&quot;)&quot;</code> -- a string literal, which must match exactly</li>
+<li><code>r&quot;[0-9]+&quot;</code> -- a regular expression</li>
+</ul>
+<p>When we generate a lexer, it is effectively going to be checking for
+each of these three terminals in a loop, sort of like this pseudocode:</p>
+<pre><code>let mut i = 0; // index into string
+loop {
+    skip whitespace; // we do this implicitly, at least by default
+    if (data at index i is &quot;(&quot;) { produce &quot;(&quot;; }
+    else if (data at index i is &quot;)&quot;) { produce &quot;)&quot;; }
+    else if (data at index i matches regex &quot;[0-9]+&quot;) { produce r&quot;[0-9]+&quot;; }
+}
+</code></pre>
+<p>Note that this has nothing to do with your grammar. For example, the tokenizer
+would happily tokenize a string like this one, which doesn't fit our grammar:</p>
+<pre><code>  (  22   44  )     )
+  ^  ^^   ^^  ^     ^
+  |  |    |   |     &quot;)&quot; terminal
+  |  |    |   |
+  |  |    |   &quot;)&quot; terminal
+  |  +----+
+  |  |
+  |  2 r&quot;[0-9]+&quot; terminals
+  |
+  &quot;(&quot; terminal
+</code></pre>
+<p>When these tokens are fed into the <strong>parser</strong>, it would notice that we
+have one left paren but then two numbers (<code>r&quot;[0-9]+&quot;</code> terminals), and
+hence report an error.</p>
+<a class="header" href="tutorial/004_controlling_lexer.html#precedence-of-fixed-strings" id="precedence-of-fixed-strings"><h4>Precedence of fixed strings</h4></a>
+<p>Terminals in LALRPOP can be specified (by default) in two ways. As a
+fixed string (like <code>&quot;(&quot;</code>) or a regular expression (like
+<code>r[0-9]+</code>). There is actually an important difference: if, at some
+point in the input, both a fixed string <strong>and</strong> a regular expression
+could match, LALRPOP gives the fixed string precedence. To demonstrate
+this, let's modify our parser. If you recall, the current parser
+parses parenthesized numbers, producing a <code>i32</code>. We're going to modify
+if to produce a <strong>string</strong>, and we'll add an &quot;easter egg&quot; so that <code>22</code>
+(or <code>(22)</code>, <code>((22))</code>, etc) produces the string <code>&quot;Twenty-two&quot;</code>:</p>
+<pre><code>pub Term = {
+    Num,
+    &quot;(&quot; &lt;Term&gt; &quot;)&quot;,
+    &quot;22&quot; =&gt; format!(&quot;Twenty-two!&quot;),
+};
+
+Num: String = r&quot;[0-9]+&quot; =&gt; &lt;&gt;.to_string();
+</code></pre>
+<p>If we write some simple unit tests, we can see that in fact an input
+of <code>22</code> has matched the string literal. Interestingly, the input <code>222</code>
+matches the regular expression instead; this is because LALRPOP
+prefers to find the <strong>longest</strong> match first. After that, if there are
+two matches of equal length, it prefers the fixed string:</p>
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
+#fn main() {
+#[test]
+fn calculator2b() {
+    let result = calculator2b::TermParser::new().parse(&quot;33&quot;).unwrap();
+    assert_eq!(result, &quot;33&quot;);
+
+    let result = calculator2b::TermParser::new().parse(&quot;(22)&quot;).unwrap();
+    assert_eq!(result, &quot;Twenty-two!&quot;);
+
+    let result = calculator2b::TermParser::new().parse(&quot;(222)&quot;).unwrap();
+    assert_eq!(result, &quot;222&quot;);
+}
+#}</code></pre></pre>
+<a class="header" href="tutorial/004_controlling_lexer.html#ambiguities-between-regular-expressions" id="ambiguities-between-regular-expressions"><h4>Ambiguities between regular expressions</h4></a>
+<p>In the previous section, we saw that fixed strings have precedence
+over regular expressions. But what if we have two regular expressions
+that can match the same input? Which one wins? For example, consider
+this variation of the grammar above, where we also try to support
+parenthesized <strong>identifiers</strong> like <code>((foo22))</code>:</p>
+<pre><code>pub Term = {
+    Num,
+    &quot;(&quot; &lt;Term&gt; &quot;)&quot;,
+    &quot;22&quot; =&gt; format!(&quot;Twenty-two!&quot;),
+    r&quot;\w+&quot; =&gt; format!(&quot;Id({})&quot;, &lt;&gt;), // &lt;-- we added this
+};
+
+Num: String = r&quot;[0-9]+&quot; =&gt; &lt;&gt;.to_string();
+</code></pre>
+<p>Here I've written the regular expression <code>r\w+</code>. However, if you check
+out the <a href="https://docs.rs/regex">docs for regex</a>, you'll see that <code>\w</code>
+is defined to match alphabetic characters but also digits. So there
+is actually an ambiguity here: if we have something like <code>123</code>, it
+could be considered to match either <code>r&quot;[0-9]+&quot;</code> <strong>or</strong> <code>r&quot;\w+&quot;</code>. If
+you try this grammar, you'll find that LALRPOP helpfully reports an
+error:</p>
+<pre><code>error: ambiguity detected between the terminal `r#&quot;\w+&quot;#` and the terminal `r#&quot;[0-9]+&quot;#`
+
+      r&quot;\w+&quot; =&gt; &lt;&gt;.to_string(),
+      ~~~~~~
+</code></pre>
+<p>There are various ways to fix this. We might try adjusting our regular
+expression so that the first character cannot be a number, so perhaps
+something like <code>r&quot;[[:alpha:]]\w*&quot;</code>. This will work, but it actually
+matches something different than what we had before (e.g., <code>123foo</code>
+will not be considered to match, for better or worse). And anyway it's
+not always convenient to make your regular expressions completely
+disjoint like that. Another option is to use a <code>match</code> declaration,
+which lets you control the precedence between regular expressions.</p>
+<a class="header" href="tutorial/004_controlling_lexer.html#simple-match-declarations" id="simple-match-declarations"><h4>Simple <code>match</code> declarations</h4></a>
+<p>A <code>match</code> declaration lets you explicitly give the precedence between
+terminals. In its simplest form, it consists of just ordering regular
+expressions and string literals into groups, with the higher
+precedence items coming first. So, for example, we could resolve
+our conflict above by giving <code>r&quot;[0-9]+&quot;</code> <strong>precedence</strong> over <code>r&quot;\w+&quot;</code>,
+thus saying that if something can be lexed as a number, we'll do that,
+and otherwise consider it to be an identifier.</p>
+<pre><code>match {
+    r&quot;[0-9]+&quot;
+} else {
+    r&quot;\w+&quot;,
+    _
+}    
+</code></pre>
+<p>Here the match contains two levels; each level can have more than one
+item in it. The top-level contains only <code>r&quot;[0-9]+&quot;</code>, which means that this
+regular expression is given highest priority. The next level contains
+<code>r\w+</code>, so that will match afterwards.</p>
+<p>The final <code>_</code> indicates that other string literals and regular
+expressions that appear elsewhere in the grammar (e.g., <code>&quot;(&quot;</code> or
+<code>&quot;22&quot;</code>) should be added into that final level of precedence (without
+an <code>_</code>, it is illegal to use a terminal that does not appear in the
+match declaration).</p>
+<p>If we add this <code>match</code> section into our example, we'll find that it
+compiles, but it doesn't work exactly like we wanted. Let's update our
+unit test a bit to include some identifier examples::</p>
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
+#fn main() {
+#[test]
+fn calculator2b() {
+    // These will all work:
+
+    let result = calculator2b::TermParser::new().parse(&quot;33&quot;).unwrap();
+    assert_eq!(result, &quot;33&quot;);
+
+    let result = calculator2b::TermParser::new().parse(&quot;foo33&quot;).unwrap();
+    assert_eq!(result, &quot;Id(foo33)&quot;);
+
+    let result = calculator2b::TermParser::new().parse(&quot;(foo33)&quot;).unwrap();
+    assert_eq!(result, &quot;Id(foo33)&quot;);
+    
+    // This one will fail:
+
+    let result = calculator2b::TermParser::new().parse(&quot;(22)&quot;).unwrap();
+    assert_eq!(result, &quot;Twenty-two!&quot;);
+}
+#}</code></pre></pre>
+<p>The problem comes about when we parse <code>22</code>. Before, the fixed string
+<code>22</code> got precedence, but with the new match declaration, we've
+explicitly stated that the regular expression <code>r&quot;[0-9]+&quot;</code> has full
+precedence. Since the <code>22</code> is not listed explicitly, it gets added at
+the last level, where the <code>_</code> appears. We can fix this by adjusting
+our <code>match</code> to mention <code>22</code> explicitly:</p>
+<pre><code>match {
+    r&quot;[0-9]+&quot;,
+    &quot;22&quot;
+} else {
+    r&quot;\w+&quot;,
+    _
+}    
+</code></pre>
+<p>This raises the interesting question of what the precedence is <strong>within</strong>
+a match rung -- after all, both the regex and <code>&quot;22&quot;</code> can match the same
+string. The answer is that within a match rung, fixed literals get precedence
+over regular expressions, just as before, and all regular expressions
+must not overlap.</p>
+<p>With this new <code>match</code> declaration, we will find that our tests all pass.</p>
+<a class="header" href="tutorial/004_controlling_lexer.html#renaming-match-declarations" id="renaming-match-declarations"><h4>Renaming <code>match</code> declarations</h4></a>
+<p>There is one final twist before we reach the
+<a href="calculator/src/calculator2b.lalrpop">final version of our example that you will find in the repository</a>. We
+can also use <code>match</code> declarations to give names to regular
+expressions, so that we don't have to type them directly in our
+grammar. For example, maybe instead of writing <code>r&quot;\w+&quot;</code>, we would
+prefer to write <code>ID</code>. We could do that by modifying the match declaration like
+so:</p>
+<pre><code>match {
+    r&quot;[0-9]+&quot;,
+    &quot;22&quot;
+} else {
+    r&quot;\w+&quot; =&gt; ID, // &lt;-- give a name here
+    _
+}
+</code></pre>
+<p>And then adjusting the definition of <code>Term</code> to reference <code>ID</code> instead:</p>
+<pre><code>pub Term = {
+    Num,
+    &quot;(&quot; &lt;Term&gt; &quot;)&quot;,
+    &quot;22&quot; =&gt; format!(&quot;Twenty-two!&quot;),
+    ID =&gt; format!(&quot;Id({})&quot;, &lt;&gt;), // &lt;-- changed this
+};
+</code></pre>
+<p>In fact, the match declaration can map a regular expression to any
+kind of symbol you want (i.e., you can also map to a string literal or
+even a regular expression). Whatever symbol appears after the <code>=&gt;</code> is
+what you should use in your grammar. As an example, some languages
+have case-insensitive keywords; if you wanted to write <code>&quot;BEGIN&quot;</code> in the
+grammar itself, but have that map to a regular expression in the lexer, you might write:</p>
+<pre><code>match {
+    r&quot;(?i)begin&quot; =&gt; &quot;BEGIN&quot;,
+    ...
+}
+</code></pre>
+<p>And now any reference in your grammar to <code>&quot;BEGIN&quot;</code> will actually match
+any capitalization.</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                        
+                            <a rel="prev" href="tutorial/003_type_inference.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                        
+
+                        
+                            <a rel="next" href="tutorial/005_full_expressions.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                
+                    <a href="tutorial/003_type_inference.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                
+
+                
+                    <a href="tutorial/005_full_expressions.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                
+            </nav>
+
+        </div>
+
+
+        <!-- Local fallback for Font Awesome -->
+        <script>
+            if (getComputedStyle(document.querySelector(".fa")).fontFamily !== "FontAwesome") {
+                var link = document.createElement('link');
+                link.rel = 'stylesheet';
+                link.type = 'text/css';
+                link.href = '_FontAwesome/css/font-awesome.css';
+                document.head.insertBefore(link, document.head.firstChild)
+            }
+        </script>
+
+        
+
+        
+
+        
+        <script src="ace.js" type="text/javascript" charset="utf-8"></script>
+        <script src="editor.js" type="text/javascript" charset="utf-8"></script>
+        <script src="mode-rust.js" type="text/javascript" charset="utf-8"></script>
+        <script src="theme-dawn.js" type="text/javascript" charset="utf-8"></script>
+        <script src="theme-tomorrow_night.js" type="text/javascript" charset="utf-8"></script>
+        
+
+        
+
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+
+        <!-- Custom JS script -->
+        
+
+    </body>
+</html>

@@ -1,0 +1,355 @@
+<!DOCTYPE HTML>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Writing a custom lexer - </title>
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <base href="../">
+
+        <link rel="stylesheet" href="book.css">
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css">
+        <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro:500" rel="stylesheet" type="text/css">
+
+        <link rel="shortcut icon" href="favicon.png">
+
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme -->
+        
+
+        
+        <!-- MathJax -->
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        
+
+        <!-- Fetch Clipboard.js from CDN but have a local fallback -->
+        <script src="https://cdn.jsdelivr.net/clipboard.js/1.6.1/clipboard.min.js"></script>
+        <script>
+            if (typeof Clipboard == 'undefined') {
+                document.write(unescape("%3Cscript src='clipboard.min.js'%3E%3C/script%3E"));
+            }
+        </script>
+
+    </head>
+    <body class="light">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { } 
+            if (theme === null || theme === undefined) { theme = 'light'; }
+            document.body.className = theme;
+            document.querySelector('html').className = theme;
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            document.querySelector('html').classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <ol class="chapter"><li><a href="README.html"><strong aria-hidden="true">1.</strong> LALRPOP</a></li><li><a href="crash_course.html"><strong aria-hidden="true">2.</strong> Crash course on parsers</a></li><li><a href="quick_start_guide.html"><strong aria-hidden="true">3.</strong> Quick start guide</a></li><li><a href="tutorial/index.html"><strong aria-hidden="true">4.</strong> Tutorial</a></li><li><ol class="section"><li><a href="tutorial/001_adding_lalrpop.html"><strong aria-hidden="true">4.1.</strong> Adding LALRPOP to your project</a></li><li><a href="tutorial/002_paren_numbers.html"><strong aria-hidden="true">4.2.</strong> Parsing parenthesized numbers</a></li><li><a href="tutorial/003_type_inference.html"><strong aria-hidden="true">4.3.</strong> Type inference</a></li><li><a href="tutorial/004_controlling_lexer.html"><strong aria-hidden="true">4.4.</strong> Controlling the lexer</a></li><li><a href="tutorial/005_full_expressions.html"><strong aria-hidden="true">4.5.</strong> Handling full expressions</a></li><li><a href="tutorial/006_building_asts.html"><strong aria-hidden="true">4.6.</strong> Building ASTs</a></li><li><a href="tutorial/007_macros.html"><strong aria-hidden="true">4.7.</strong> Macros</a></li><li><a href="tutorial/008_error_recovery.html"><strong aria-hidden="true">4.8.</strong> Error recovery</a></li></ol></li><li><a href="lexer_tutorial/index.html" class="active"><strong aria-hidden="true">5.</strong> Writing a custom lexer</a></li><li><a href="advanced_setup.html"><strong aria-hidden="true">6.</strong> Advanced setup</a></li><li><ol class="section"><li><a href="generate_in_source.html"><strong aria-hidden="true">6.1.</strong> Generate in source tree</a></li><li class="spacer"></li></ol></li><li><a href="misc/contributors.html">Contributors</a></li></ol>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                
+                <div id="menu-bar" class="menu-bar">
+                    <div id="menu-bar-sticky-container">
+                        <div class="left-buttons">
+                            <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                                <i class="fa fa-bars"></i>
+                            </button>
+                            <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                                <i class="fa fa-paint-brush"></i>
+                            </button>
+                            <ul id="theme-list" class="theme-popup" aria-label="submenu">
+                                <li><button class="theme" id="light">Light <span class="default">(default)</span></button></li>
+                                <li><button class="theme" id="rust">Rust</button></li>
+                                <li><button class="theme" id="coal">Coal</button></li>
+                                <li><button class="theme" id="navy">Navy</button></li>
+                                <li><button class="theme" id="ayu">Ayu</button></li>
+                            </ul>
+                        </div>
+
+                        <h1 class="menu-title"></h1>
+
+                        <div class="right-buttons">
+                            <a href="print.html" title="Print this book" aria-label="Print this book">
+                                <i id="print-button" class="fa fa-print"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <a class="header" href="lexer_tutorial/index.html#writing-a-custom-lexer" id="writing-a-custom-lexer"><h1>Writing a custom lexer</h1></a>
+<p>Let's say we want to parse the Whitespace language, so we've put together a grammar like the following:</p>
+<pre><code class="language-lalrpop">pub Program = &lt;Statement*&gt;;
+
+Statement: ast::Stmt = {
+    &quot; &quot; &lt;StackOp&gt;,
+    &quot;\t&quot; &quot; &quot; &lt;MathOp&gt;,
+    &quot;\t&quot; &quot;\t&quot; &lt;HeapOp&gt;,
+    &quot;\n&quot; &lt;FlowCtrl&gt;,
+    &quot;\t&quot; &quot;\n&quot; &lt;Io&gt;,
+};
+
+StackOp: ast::Stmt = {
+    &quot; &quot; &lt;Number&gt; =&gt; ast::Stmt::Push(&lt;&gt;),
+    &quot;\n&quot; &quot; &quot; =&gt; ast::Stmt::Dup,
+    &quot;\n&quot; &quot;\t&quot; =&gt; ast::Stmt::Swap,
+    &quot;\n&quot; &quot;\n&quot; =&gt; ast::Stmt::Discard,
+};
+
+MathOp: ast::Stmt = {
+    &quot; &quot; &quot; &quot; =&gt; ast::Stmt::Add,
+    &quot; &quot; &quot;\t&quot; =&gt; ast::Stmt::Sub,
+    &quot; &quot; &quot;\n&quot; =&gt; ast::Stmt::Mul,
+    &quot;\t&quot; &quot; &quot; =&gt; ast::Stmt::Div,
+    &quot;\t&quot; &quot;\t&quot; =&gt; ast::Stmt::Mod,
+};
+
+// Remainder omitted
+</code></pre>
+<p>Naturally, it doesn't work. By default, LALRPOP generates a tokenizer that skips all whitespace -- including newlines. What we <em>want</em> is to capture whitespace characters and ignore the rest as comments, and LALRPOP does the opposite of that.</p>
+<p>At the moment, LALRPOP doesn't allow you to configure the default tokenizer. In the future it will become quite flexible, but for now we have to write our own.</p>
+<p>Let's start by defining the stream format. The parser will accept an iterator where each item in the stream has the following structure:</p>
+<pre><code class="language-lalrpop">pub type Spanned&lt;Tok, Loc, Error&gt; = Result&lt;(Loc, Tok, Loc), Error&gt;;
+</code></pre>
+<p><code>Loc</code> is typically just a <code>usize</code>, representing a byte offset into the input string. Each token is accompanied by two of them, marking the start and end positions where it was found. <code>Error</code> can be pretty much anything you choose. And of course <code>Tok</code> is the meat of the stream, defining what possible values the tokens themselves can have. Following the conventions of Rust iterators, we'll signal a valid token with <code>Some(Ok(...))</code>, an error with <code>Some(Err(...))</code>, and EOF with <code>None</code>.</p>
+<p>(Note that the term &quot;tokenizer&quot; normally refers to a piece of code that simply splits up the stream, whereas a &quot;lexer&quot; also tags each token with its lexical category. What we're writing is the latter.)</p>
+<p>Whitespace is a simple language from a lexical standpoint, with only three valid tokens:</p>
+<pre><code class="language-lalrpop">pub enum Tok {
+    Space,
+    Tab,
+    Linefeed,
+}
+</code></pre>
+<p>Everything else is a comment. There are no invalid lexes, so we'll define our own error type, a void enum:</p>
+<pre><code class="language-lalrpop">pub enum LexicalError {
+    // Not possible
+}
+</code></pre>
+<p>Now for the lexer itself. We'll take a string slice as its input. For each token we process, we'll want to know the character value, and the byte offset in the string where it begins. We can do that by wrapping the <code>CharIndices</code> iterator, which yields tuples of <code>(usize, char)</code> representing exactly that information.</p>
+<pre><code class="language-lalrpop">use std::str::CharIndices;
+
+pub struct Lexer&lt;'input&gt; {
+    chars: CharIndices&lt;'input&gt;,
+}
+
+impl&lt;'input&gt; Lexer&lt;'input&gt; {
+    pub fn new(input: &amp;'input str) -&gt; Self {
+        Lexer { chars: input.char_indices() }
+    }
+}
+</code></pre>
+<p>(The lifetime parameter <code>'input</code> indicates that the Lexer cannot outlive the string it's trying to parse.)</p>
+<p>Let's review our rules:</p>
+<ul>
+<li>For a space character, we output <code>Tok::Space</code>.</li>
+<li>For a tab character, we output <code>Tok::Tab</code>.</li>
+<li>For a linefeed (newline) character, we output <code>Tok::Linefeed</code>.</li>
+<li>We skip all other characters.</li>
+<li>If we've reached the end of the string, we'll return <code>None</code> to signal EOF.</li>
+</ul>
+<p>Writing a lexer for a language with multi-character tokens can get very complicated, but this is so straightforward, we can translate it directly into code without thinking very hard. Here's our <code>Iterator</code> implementation:</p>
+<pre><code class="language-lalrpop">impl&lt;'input&gt; Iterator for Lexer&lt;'input&gt; {
+    type Item = Spanned&lt;Tok, usize, LexicalError&gt;;
+
+    fn next(&amp;mut self) -&gt; Option&lt;Self::Item&gt; {
+        loop {
+            match self.chars.next() {
+                Some((i, ' ')) =&gt; return Some(Ok((i, Tok::Space, i+1))),
+                Some((i, '\t')) =&gt; return Some(Ok((i, Tok::Tab, i+1))),
+                Some((i, '\n')) =&gt; return Some(Ok((i, Tok::Linefeed, i+1))),
+
+                None =&gt; return None, // End of file
+                _ =&gt; continue, // Comment; skip this character
+            }
+        }
+    }
+}
+</code></pre>
+<p>That's it. That's all we need.</p>
+<a class="header" href="lexer_tutorial/index.html#updating-the-parser" id="updating-the-parser"><h2>Updating the parser</h2></a>
+<p>To use this with LALRPOP, we need to expose its API to the parser. It's pretty easy to do, but also somewhat magical, so pay close attention. Pick a convenient place in the grammar file (I chose the bottom) and insert an <code>extern</code> block:</p>
+<pre><code class="language-lalrpop">extern {
+    // ...
+}
+</code></pre>
+<p>Now we tell LALRPOP about the <code>Location</code> and <code>Error</code> types, as if we're writing a trait:</p>
+<pre><code class="language-lalrpop">extern {
+    type Location = usize;
+    type Error = lexer::LexicalError;
+    
+    // ...
+}
+</code></pre>
+<p>We expose the <code>Tok</code> type by kinda sorta redeclaring it:</p>
+<pre><code class="language-lalrpop">extern {
+    type Location = usize;
+    type Error = lexer::LexicalError;
+
+    enum lexer::Tok {
+        // ...
+    }
+}
+</code></pre>
+<p>Now we have to declare each of our terminals. For each variant of <code>Tok</code>, we pick what name the parser will see, and write a pattern of the form <code>name =&gt; lexer::Tok::Variant</code>, similar to how action code works in grammar rules. The name can be an identifier, or a string literal. We'll use the latter.</p>
+<p>Here's the whole thing:</p>
+<pre><code class="language-lalrpop">extern {
+    type Location = usize;
+    type Error = lexer::LexicalError;
+
+    enum lexer::Tok {
+        &quot; &quot; =&gt; lexer::Tok::Space,
+        &quot;\t&quot; =&gt; lexer::Tok::Tab,
+        &quot;\n&quot; =&gt; lexer::Tok::Linefeed,
+    }
+}
+</code></pre>
+<p>From now on, the parser will take a <code>Lexer</code> as its input instead of a string slice, like so:</p>
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
+#fn main() {
+    let lexer = lexer::Lexer::new(&quot;\n\n\n&quot;);
+    match parser::parse_Program(lexer) {
+        ...
+    }
+#}</code></pre></pre>
+<p>And any time we write a string literal in the grammar, it'll substitute a variant of our <code>Tok</code> enum. This means <strong>we don't have to change any of the rules we already wrote!</strong> This will work as-is:</p>
+<pre><code class="language-lalrpop">FlowCtrl: ast::Stmt = {
+    &quot; &quot; &quot; &quot; &lt;Label&gt; =&gt; ast::Stmt::Mark(&lt;&gt;),
+    &quot; &quot; &quot;\t&quot; &lt;Label&gt; =&gt; ast::Stmt::Call(&lt;&gt;),
+    &quot; &quot; &quot;\n&quot; &lt;Label&gt; =&gt; ast::Stmt::Jump(&lt;&gt;),
+    &quot;\t&quot; &quot; &quot; &lt;Label&gt; =&gt; ast::Stmt::Jz(&lt;&gt;),
+    &quot;\t&quot; &quot;\t&quot; &lt;Label&gt; =&gt; ast::Stmt::Js(&lt;&gt;),
+    &quot;\t&quot; &quot;\n&quot; =&gt; ast::Stmt::Return,
+    &quot;\n&quot; &quot;\n&quot; =&gt; ast::Stmt::Exit,
+};
+</code></pre>
+<p>The complete grammar is available in <code>whitespace/src/parser.lalrpop</code>.</p>
+<a class="header" href="lexer_tutorial/index.html#where-to-go-from-here" id="where-to-go-from-here"><h2>Where to go from here</h2></a>
+<p>Things to try that apply to lexers in general:</p>
+<ul>
+<li>Longer tokens</li>
+<li>Tokens that require tracking internal lexer state</li>
+</ul>
+<p>Things to try that are LALRPOP-specific:</p>
+<ul>
+<li>Persuade a lexer generator to output the <code>Spanned</code> format</li>
+<li>Make this tutorial better</li>
+</ul>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                        
+                            <a rel="prev" href="tutorial/008_error_recovery.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                        
+
+                        
+                            <a rel="next" href="advanced_setup.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                
+                    <a href="tutorial/008_error_recovery.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                
+
+                
+                    <a href="advanced_setup.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                
+            </nav>
+
+        </div>
+
+
+        <!-- Local fallback for Font Awesome -->
+        <script>
+            if (getComputedStyle(document.querySelector(".fa")).fontFamily !== "FontAwesome") {
+                var link = document.createElement('link');
+                link.rel = 'stylesheet';
+                link.type = 'text/css';
+                link.href = '_FontAwesome/css/font-awesome.css';
+                document.head.insertBefore(link, document.head.firstChild)
+            }
+        </script>
+
+        
+
+        
+
+        
+        <script src="ace.js" type="text/javascript" charset="utf-8"></script>
+        <script src="editor.js" type="text/javascript" charset="utf-8"></script>
+        <script src="mode-rust.js" type="text/javascript" charset="utf-8"></script>
+        <script src="theme-dawn.js" type="text/javascript" charset="utf-8"></script>
+        <script src="theme-tomorrow_night.js" type="text/javascript" charset="utf-8"></script>
+        
+
+        
+
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+
+        <!-- Custom JS script -->
+        
+
+    </body>
+</html>
