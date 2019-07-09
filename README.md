@@ -36,6 +36,7 @@ to! Here are some tips:
   how to add LALRPOP to your `Cargo.toml`.
 - The [advanced setup] chapter shows how to configure other aspects of LALRPOP's
   preprocessing.
+- If you have any questions join our [gitter lobby].
 
 ### Example Uses
 
@@ -51,7 +52,7 @@ to! Here are some tips:
 [LALRPOP]: https://github.com/lalrpop/lalrpop/blob/8034f3dacc4b20581bd10c5cb0b4f9faae778bb5/lalrpop/src/parser/lrgrammar.lalrpop
 [Gluon]: https://github.com/gluon-lang/gluon/blob/d7ce3e81c1fcfdf25cdd6d1abde2b6e376b4bf50/parser/src/grammar.lalrpop
 [RustPython]: https://github.com/RustPython/RustPython/blob/master/parser/src/python.lalrpop
-
+[gitter lobby]: https://gitter.im/lalrpop/Lobby
 
 ### Contributing
 
