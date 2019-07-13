@@ -5,7 +5,7 @@ use collections::{map, Map};
 use grammar::consts::CFG;
 use grammar::parse_tree as pt;
 use grammar::parse_tree::{
-    read_algorithm, GrammarItem, InternToken, Lifetime, NonterminalString, Path, TerminalString,
+    read_algorithm, GrammarItem, InternToken, Lifetime, NonterminalString, Path, TerminalString, Name
 };
 use grammar::pattern::{Pattern, PatternKind};
 use grammar::repr as r;
@@ -366,11 +366,11 @@ impl<'s> LowerState<'s> {
             Symbols::Named(names) => {
                 // if there are named symbols, we want to give the
                 // arguments the names that the user gave them:
-//NEXTCOMMITFIXME
+                let arg_names = names
+                    .iter()
+                    .map(|(index, name, _)| (*index, name.clone()));
                 let arg_patterns = patterns(
-                    names
-                        .iter()
-                        .map(|&(index, mutable, ref name, _)| (index, (mutable, name.clone()))),
+                    arg_names,
                     symbols.len(),
                 );
 
@@ -378,11 +378,10 @@ impl<'s> LowerState<'s> {
                     match norm_util::check_between_braces(&action) {
                         norm_util::Presence::None => action,
                         norm_util::Presence::Normal => {
-//NEXTCOMMITFIXME
                             let name_str: String = {
                                 let name_strs: Vec<_> = names
                                     .iter()
-                                    .map(|&(_, _, ref name, _)| name.as_ref())
+                                    .map(|&(_, ref name, _)| name.name.as_ref())
                                     .collect();
                                 name_strs.join(", ")
                             };
@@ -390,10 +389,9 @@ impl<'s> LowerState<'s> {
                         }
                         norm_util::Presence::InCurlyBrackets => {
                             let name_str = {
-//NEXTCOMMITFIXME
                                 let name_strs: Vec<_> = names
                                     .iter()
-                                    .map(|&(_, _, ref name, _)| format!("{0}:{0}", &*name))
+                                    .map(|&(_, ref name, _)| format!("{0}:{0}", &*name.name))
                                     .collect();
                                 name_strs.join(", ")
                             };
@@ -414,14 +412,14 @@ impl<'s> LowerState<'s> {
             }
             Symbols::Anon(indices) => {
                 let names: Vec<_> = (0..indices.len()).map(|i| self.fresh_name(i)).collect();
-//NEXTCOMMITFIXME
+
+                let p_indices = indices.iter().map(|&(index, _)| index);
+                let p_names = names.iter().cloned().map(Name::immut);
                 let arg_patterns = patterns(
-                    indices
-                        .iter()
-                        .map(|&(index, _)| index)
-                        .zip(names.iter().cloned().map(|n| (false, n))),
+                    p_indices.zip(p_names),
                     symbols.len(),
                 );
+
                 let name_str = {
                     let name_strs: Vec<_> = names.iter().map(AsRef::as_ref).collect();
                     name_strs.join(", ")
@@ -456,7 +454,7 @@ impl<'s> LowerState<'s> {
         match symbol.kind {
             pt::SymbolKind::Terminal(ref id) => r::Symbol::Terminal(id.clone()),
             pt::SymbolKind::Nonterminal(ref id) => r::Symbol::Nonterminal(id.clone()),
-            pt::SymbolKind::Choose(ref s) | pt::SymbolKind::Name(_, _, ref s) => self.symbol(s),
+            pt::SymbolKind::Choose(ref s) | pt::SymbolKind::Name(_, ref s) => self.symbol(s),
             pt::SymbolKind::Error => {
                 self.uses_error_recovery = true;
                 r::Symbol::Terminal(TerminalString::Error)
@@ -479,22 +477,21 @@ impl<'s> LowerState<'s> {
     }
 }
 
-//NEXTCOMMITFIXME
-fn patterns<I>(mut chosen: I, num_args: usize) -> Vec<(bool, Atom)>
-    where I: Iterator<Item = (usize, (bool, Atom))>
+fn patterns<I>(mut chosen: I, num_args: usize) -> Vec<Name>
+where
+    I: Iterator<Item = (usize, Name)>,
 {
     let blank = Atom::from("_");
 
     let mut next_chosen = chosen.next();
 
     let result = (0..num_args)
-//NEXTCOMMITFIXME
         .map(|index| match next_chosen.clone() {
-            Some((chosen_index, (mutable, ref chosen_name))) if chosen_index == index => {
+            Some((chosen_index, ref chosen_name)) if chosen_index == index => {
                 next_chosen = chosen.next();
-                (mutable, chosen_name.clone())
+                chosen_name.clone()
             }
-            _ => (false, blank.clone()),
+            _ => Name::immut(blank.clone()),
         })
         .collect();
 

@@ -1,8 +1,8 @@
 use grammar::consts::INLINE;
 use grammar::parse_tree::{
     ActionKind, Alternative, Annotation, Condition, ConditionOp, ExprSymbol, Grammar, GrammarItem,
-    MacroSymbol, NonterminalData, NonterminalString, Path, RepeatOp, RepeatSymbol, Span, Symbol,
-    SymbolKind, TerminalLiteral, TerminalString, TypeRef, Visibility,
+    MacroSymbol, Name, NonterminalData, NonterminalString, Path, RepeatOp, RepeatSymbol, Span,
+    Symbol, SymbolKind, TerminalLiteral, TerminalString, TypeRef, Visibility,
 };
 use normalize::norm_util::{self, Symbols};
 use normalize::resolve;
@@ -136,8 +136,7 @@ impl MacroExpander {
             SymbolKind::Terminal(_) | SymbolKind::Nonterminal(_) | SymbolKind::Error => {
                 return;
             }
-//FIXNEXTCOMMIT
-            SymbolKind::Choose(ref mut sym) | SymbolKind::Name(_, _, ref mut sym) => {
+            SymbolKind::Choose(ref mut sym) | SymbolKind::Name(_, ref mut sym) => {
                 self.replace_symbol(sym);
                 return;
             }
@@ -345,7 +344,6 @@ impl MacroExpander {
         symbol: &Symbol,
     ) -> Symbol {
         let kind = match symbol.kind {
-//NEXTCOMMITFIXME
             SymbolKind::Expr(ref expr) => {
                 SymbolKind::Expr(self.macro_expand_expr_symbol(args, expr))
             }
@@ -365,9 +363,10 @@ impl MacroExpander {
             SymbolKind::Choose(ref sym) => {
                 SymbolKind::Choose(Box::new(self.macro_expand_symbol(args, sym)))
             }
-            SymbolKind::Name(mutable, ref id, ref sym) => {
-                SymbolKind::Name(mutable, id.clone(), Box::new(self.macro_expand_symbol(args, sym)))
-            }
+            SymbolKind::Name(ref id, ref sym) => SymbolKind::Name(
+                Name::new(id.mutable, id.name.clone()),
+                Box::new(self.macro_expand_symbol(args, sym)),
+            ),
             SymbolKind::Lookahead => SymbolKind::Lookahead,
             SymbolKind::Lookbehind => SymbolKind::Lookbehind,
             SymbolKind::Error => SymbolKind::Error,
@@ -388,11 +387,10 @@ impl MacroExpander {
     fn expand_expr_symbol(&mut self, span: Span, expr: ExprSymbol) -> NormResult<GrammarItem> {
         let name = NonterminalString(Atom::from(expr.canonical_form()));
 
-//NEXTCOMMITFIXME
         let ty_ref =
             match norm_util::analyze_expr(&expr) {
                 Symbols::Named(names) => {
-                    let (_, _, ref ex_id, ex_sym) = names[0];
+                    let (_, ref ex_id, ex_sym) = names[0];
                     return_err!(
                     span,
                     "named symbols like `{}:{}` are only allowed at the top-level of a nonterminal",
@@ -467,12 +465,10 @@ impl MacroExpander {
                         Alternative {
                             span,
                             expr: ExprSymbol {
-//NEXTCOMMITFIXME
                                 symbols: vec![Symbol::new(
                                     span,
                                     SymbolKind::Name(
-                                        false,
-                                        v,
+                                        Name::immut(v),
                                         Box::new(Symbol::new(
                                             span,
                                             SymbolKind::Repeat(plus_repeat),
@@ -516,12 +512,10 @@ impl MacroExpander {
                             span,
                             expr: ExprSymbol {
                                 symbols: vec![
-//NEXTCOMMITFIXME
                                     Symbol::new(
                                         span,
                                         SymbolKind::Name(
-                                            true,
-                                            v,
+                                            Name::immut(v),
                                             Box::new(Symbol::new(
                                                 span,
                                                 SymbolKind::Nonterminal(name),
@@ -530,7 +524,10 @@ impl MacroExpander {
                                     ),
                                     Symbol::new(
                                         span,
-                                        SymbolKind::Name(false, e, Box::new(repeat.symbol.clone())),
+                                        SymbolKind::Name(
+                                            Name::immut(e),
+                                            Box::new(repeat.symbol.clone()),
+                                        ),
                                     ),
                                 ],
                             },

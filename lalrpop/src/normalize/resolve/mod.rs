@@ -252,8 +252,7 @@ impl Validator {
             SymbolKind::Repeat(ref mut repeat) => {
                 self.validate_symbol(scope, &mut repeat.symbol)?;
             }
-//NEXTCOMMITFIXME
-            SymbolKind::Choose(ref mut sym) | SymbolKind::Name(_, _, ref mut sym) => {
+            SymbolKind::Choose(ref mut sym) | SymbolKind::Name(_, ref mut sym) => {
                 self.validate_symbol(scope, sym)?;
             }
             SymbolKind::Lookahead | SymbolKind::Lookbehind | SymbolKind::Error => {}

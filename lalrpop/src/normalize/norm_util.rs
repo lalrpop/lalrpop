@@ -1,5 +1,4 @@
-use grammar::parse_tree::{ActionKind, Alternative, ExprSymbol, Symbol, SymbolKind};
-use string_cache::DefaultAtom as Atom;
+use grammar::parse_tree::{ActionKind, Alternative, ExprSymbol, Symbol, SymbolKind, Name};
 
 #[derive(Debug)]
 pub enum AlternativeAction<'a> {
@@ -9,7 +8,7 @@ pub enum AlternativeAction<'a> {
 
 #[derive(Debug)]
 pub enum Symbols<'a> {
-    Named(Vec<(usize, bool, Atom, &'a Symbol)>),
+    Named(Vec<(usize, Name, &'a Symbol)>),
     Anon(Vec<(usize, &'a Symbol)>),
 }
 
@@ -24,13 +23,12 @@ pub fn analyze_action(alt: &Alternative) -> AlternativeAction<'_> {
 
 pub fn analyze_expr(expr: &ExprSymbol) -> Symbols<'_> {
     // First look for named symbols.
-//NEXTCOMMITFIXME
     let named_symbols: Vec<_> = expr
         .symbols
         .iter()
         .enumerate()
         .filter_map(|(idx, sym)| match sym.kind {
-            SymbolKind::Name(mutable, ref id, ref sub) => Some((idx, mutable, id.clone(), &**sub)),
+            SymbolKind::Name(ref id, ref sub) => Some((idx, id.clone(), &**sub)),
             _ => None,
         })
         .collect();

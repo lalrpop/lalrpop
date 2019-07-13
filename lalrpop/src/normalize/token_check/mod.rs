@@ -249,12 +249,8 @@ impl<'grammar> Validator<'grammar> {
             SymbolKind::Repeat(ref repeat) => {
                 self.validate_symbol(&repeat.symbol)?;
             }
-            SymbolKind::Choose(ref sym) | SymbolKind::Name(_, _, ref sym) => {
+            SymbolKind::Choose(ref sym) | SymbolKind::Name(_, ref sym) => {
                 self.validate_symbol(sym)?;
-            }
-            SymbolKind::Choose(ref sym) |
-            SymbolKind::Name(_, _, ref sym) => {
-                try!(self.validate_symbol(sym));
             }
             SymbolKind::Lookahead | SymbolKind::Lookbehind | SymbolKind::Error => {}
             SymbolKind::AmbiguousId(ref id) => {

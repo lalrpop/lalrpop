@@ -13,7 +13,7 @@ use util::Sep;
 // These concepts we re-use wholesale
 pub use grammar::parse_tree::{
     Annotation, InternToken, Lifetime, NonterminalString, Path, Span, TerminalLiteral,
-    TerminalString, TypeBound, TypeParameter, Visibility,
+    TerminalString, TypeBound, TypeParameter, Visibility, Name
 };
 
 #[derive(Clone, Debug)]
@@ -144,7 +144,7 @@ pub enum ActionFnDefnKind {
 /// An action fn written by a user.
 #[derive(Clone, PartialEq, Eq)]
 pub struct UserActionFnDefn {
-    pub arg_patterns: Vec<(bool, Atom)>,
+    pub arg_patterns: Vec<Name>,
     pub arg_types: Vec<TypeRepr>,
     pub code: String,
 }
@@ -663,12 +663,11 @@ impl ActionFnDefn {
 
 impl UserActionFnDefn {
     fn to_fn_string(&self, defn: &ActionFnDefn, name: &str) -> String {
-        //NEXTCOMMITFIXME
         let arg_strings: Vec<String> = self
             .arg_patterns
             .iter()
             .zip(self.arg_types.iter())
-            .map(|(p, t)| format!("{}{}: {}", if p.0 { "mut " } else { "" }, p.1, t))
+            .map(|(name, ty)| format!("{}: {}", name, ty))
             .collect();
 
         format!(

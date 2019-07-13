@@ -61,8 +61,11 @@ pub trait Content: Debug {
 /// those with `op`, appending the final result into `wrap_items`.
 /// Useful for "modifier" content items like `Styled` that do not
 /// affect wrapping.
-fn into_wrap_items_map<OP, C>(content: Box<dyn Content>, wrap_items: &mut Vec<Box<dyn Content>>, op: OP)
-where
+fn into_wrap_items_map<OP, C>(
+    content: Box<dyn Content>,
+    wrap_items: &mut Vec<Box<dyn Content>>,
+    op: OP,
+) where
     OP: FnMut(Box<dyn Content>) -> C,
     C: Content + 'static,
 {

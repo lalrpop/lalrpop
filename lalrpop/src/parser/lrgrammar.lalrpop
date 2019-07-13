@@ -7,7 +7,7 @@ use util::strip;
 use lalrpop_util::ParseError;
 
 use super::Top;
-//do
+
 grammar<'input>(text: &'input str);
 
 pub Top: Top = {
@@ -81,13 +81,9 @@ TypeBoundParameter: TypeBoundParameter<TypeRef> = {
 };
 
 Plus<T>: Vec<T> = {
-    <v:(<T> "+")*> <e:T?> => match e {
+    <mut v:(<T> "+")*> <e:T?> => match e {
         None => v,
-        Some(e) => {
-            let mut v = v;
-            v.push(e);
-            v
-        }
+        Some(e) => { v.push(e); v }
     }
 };
 
@@ -188,7 +184,7 @@ ExprSymbol: ExprSymbol =
 
 Symbol: Symbol = {
     <lo:@L> "<" <m:"mut"?> @L <l:Id> ":" <s:Symbol0> ">" <hi:@R> =>
-        Symbol::new(Span(lo, hi), SymbolKind::Name(m.is_some(), l, Box::new(s))),
+        Symbol::new(Span(lo, hi), SymbolKind::Name(Name::new(m.is_some(), l), Box::new(s))),
 
     <lo:@L> "<" <s:Symbol0> ">" <hi:@R> =>
         Symbol::new(Span(lo, hi), SymbolKind::Choose(Box::new(s))),

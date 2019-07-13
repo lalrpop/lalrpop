@@ -89,8 +89,6 @@ fn emit_user_action_code<W: Write>(
     // a (L, T, L) triple where the Ls are locations and
     // the T is the data. Ignore the locations and bind
     // the data to the name the user gave.
-
-    // NEXTCOMMITFIXME
     let mut arguments: Vec<String> = data
         .arg_patterns
         .iter()
@@ -100,11 +98,7 @@ fn emit_user_action_code<W: Write>(
                 .cloned()
                 .map(|t| grammar.types.spanned_type(t)),
         )
-        .map(|(p, t)| format!("(_, {} {}, _): {}", 
-            if p.0 { "mut" } else { "" },
-            p.1,
-            t)
-        )
+        .map(|(name, ty)| format!("(_, {}, _): {}", name, ty))
         .collect();
 
     // If this is a reduce of an empty production, we will

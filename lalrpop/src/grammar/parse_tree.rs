@@ -447,7 +447,7 @@ pub enum SymbolKind {
     Choose(Box<Symbol>),
 
     // <x:X> or <mut x:X>
-    Name(bool, Atom, Box<Symbol>),
+    Name(Name, Box<Symbol>),
 
     // @L
     Lookahead,
@@ -456,6 +456,12 @@ pub enum SymbolKind {
     Lookbehind,
 
     Error,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub struct Name {
+    pub mutable: bool,
+    pub name: Atom,
 }
 
 #[derive(Clone, Hash, PartialEq, Eq, PartialOrd, Ord)]
@@ -692,6 +698,16 @@ impl Symbol {
     }
 }
 
+impl Name {
+    pub fn new(mutable: bool, name: Atom) -> Self {
+        Name { mutable, name }
+    }
+
+    pub fn immut(name: Atom) -> Self {
+        Name::new(false, name)
+    }
+}
+
 impl Display for Visibility {
     fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
         match *self {
@@ -902,7 +918,6 @@ impl Display for Symbol {
 impl Display for SymbolKind {
     fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
         match *self {
-            // NEXTCOMMITFIXME
             SymbolKind::Expr(ref expr) => write!(fmt, "{}", expr),
             SymbolKind::Terminal(ref s) => write!(fmt, "{}", s),
             SymbolKind::Nonterminal(ref s) => write!(fmt, "{}", s),
@@ -910,11 +925,20 @@ impl Display for SymbolKind {
             SymbolKind::Macro(ref m) => write!(fmt, "{}", m),
             SymbolKind::Repeat(ref r) => write!(fmt, "{}", r),
             SymbolKind::Choose(ref s) => write!(fmt, "<{}>", s),
-            SymbolKind::Name(m, ref n, ref s) => 
-                write!(fmt, "{} {}:{}", if m { "mut" } else { "" }, n, s),
+            SymbolKind::Name(ref n, ref s) => write!(fmt, "{}:{}", n, s),
             SymbolKind::Lookahead => write!(fmt, "@L"),
             SymbolKind::Lookbehind => write!(fmt, "@R"),
             SymbolKind::Error => write!(fmt, "error"),
+        }
+    }
+}
+
+impl Display for Name {
+    fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
+        if self.mutable {
+            write!(fmt, "mut {}", self.name)
+        } else {
+            Display::fmt(&self.name, fmt)
         }
     }
 }

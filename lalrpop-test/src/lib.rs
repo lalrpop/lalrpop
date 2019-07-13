@@ -78,6 +78,10 @@ lalrpop_mod!(loc);
 lalrpop_mod!(loc_issue_90);
 mod loc_issue_90_lib;
 
+/// tests that user can use `<mut v:E+> <e:T> => { v.push(e); v }` instead of
+/// `<v:E+> <e:T> => { let mut v = v; v.push(e); v }`
+lalrpop_mod!(mut_name);
+
 /// test that uses `super` in paths in various places
 lalrpop_mod!(use_super);
 
@@ -134,6 +138,7 @@ lalrpop_mod!(
 
 lalrpop_mod!(
     #[deny(bare_trait_objects)]
+    #[allow(unused)]
     dyn_argument
 );
 
@@ -887,6 +892,14 @@ fn test_match_alternatives() {
 }
 
 #[test]
+fn test_mut_name() {
+    assert_eq!(
+        mut_name::MutParser::new().parse("1, 2, 3: 4"),
+        Ok(vec![1, 2, 3, 4])
+    );
+}
+
+#[test]
 fn issue_113() {
     assert!(error_issue_113::ItemsParser::new().parse("+").is_err());
 }
@@ -938,7 +951,7 @@ fn verify_lalrpop_generates_itself() {
     let copied_grammar_file = Path::new(out_dir).join(lrgrammar);
 
     // Don't remove the .rs file that already exist
-    fs::copy(&grammar_file, &copied_grammar_file).unwrap();
+    fs::copy(&grammar_file, &copied_grammar_file).expect("no grammar file found");
 
     assert!(Command::new("../target/debug/lalrpop")
         .args(&[
@@ -951,7 +964,7 @@ fn verify_lalrpop_generates_itself() {
                 .expect("grammar path is not UTF-8")
         ])
         .status()
-        .unwrap()
+        .expect("lalrpop run failed")
         .success());
 
     let actual = fs::read_to_string(grammar_file.with_extension("rs")).unwrap();
