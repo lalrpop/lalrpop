@@ -7,11 +7,7 @@ grammar;
 pub Items: Vec<(usize, usize)> = {
     <@L> <@R> => vec![(<>)],
 
-    <v:Items> <e:Spanned<"+">> => {
-        let mut v = v;
-        v.push(e);
-        v
-    },
+    <mut v:Items> <e:Spanned<"+">> => { v.push(e); v },
 
     <v:Items> "-" => v
 };

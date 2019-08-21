@@ -98,7 +98,7 @@ fn emit_user_action_code<W: Write>(
                 .cloned()
                 .map(|t| grammar.types.spanned_type(t)),
         )
-        .map(|(p, t)| format!("(_, {}, _): {}", p, t))
+        .map(|(name, ty)| format!("(_, {}, _): {}", name, ty))
         .collect();
 
     // If this is a reduce of an empty production, we will

@@ -230,7 +230,7 @@ impl<'grammar> Validator<'grammar> {
             .symbols
             .iter()
             .filter_map(|sym| match sym.kind {
-                SymbolKind::Name(ref nt, _) => Some((nt.clone(), sym)),
+                SymbolKind::Name(ref nt, _) => Some((nt.name.clone(), sym)),
                 _ => None,
             })
             .collect();

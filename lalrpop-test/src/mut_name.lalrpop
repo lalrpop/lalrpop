@@ -1,0 +1,11 @@
+grammar;
+
+Comma<T>: Vec<T> = {
+    <mut v: (<T> ",")*> <e:T> => { v.push(e); v }
+}
+
+pub Mut: Vec<i32> = {
+    <mut vect:Comma<Num>> ":" <e:Num> => { vect.push(e); vect }
+}
+
+Num: i32 = r"[0-9]+" => <>.parse().unwrap();

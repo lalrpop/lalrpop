@@ -24,7 +24,7 @@ fn find_lalrpop_binary(prefix: &str) -> Option<PathBuf> {
     }
 }
 
-fn main_() -> Result<(), Box<Error>> {
+fn main_() -> Result<(), Box<dyn Error>> {
     let grammar_file = "src/parser/lrgrammar.lalrpop";
     println!(r#"cargo:rerun-if-changed={}"#, grammar_file);
 
@@ -36,7 +36,7 @@ fn main_() -> Result<(), Box<Error>> {
         let lalrpop_path = find_lalrpop_binary("..").or_else(|| find_lalrpop_binary("."))
             .unwrap_or_else(|| {
                 panic!(
-                    "Can't find a lalrpop binary to use for the snapshot. Make sure it is built and exists at target/{}/lalrpop!", 
+                    "Can't find a lalrpop binary to use for the snapshot. Make sure it is built and exists at target/{}/lalrpop!",
                     env::var("PROFILE").unwrap()
                 )
             });

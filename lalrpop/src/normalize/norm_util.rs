@@ -1,5 +1,4 @@
-use grammar::parse_tree::{ActionKind, Alternative, ExprSymbol, Symbol, SymbolKind};
-use string_cache::DefaultAtom as Atom;
+use grammar::parse_tree::{ActionKind, Alternative, ExprSymbol, Symbol, SymbolKind, Name};
 
 #[derive(Debug)]
 pub enum AlternativeAction<'a> {
@@ -9,7 +8,7 @@ pub enum AlternativeAction<'a> {
 
 #[derive(Debug)]
 pub enum Symbols<'a> {
-    Named(Vec<(usize, Atom, &'a Symbol)>),
+    Named(Vec<(usize, Name, &'a Symbol)>),
     Anon(Vec<(usize, &'a Symbol)>),
 }
 

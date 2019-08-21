@@ -8,7 +8,7 @@ LALRPOP is a Rust parser generator framework with *usability* as its
 primary goal. You should be able to write compact, DRY, readable
 grammars. To this end, LALRPOP offers a number of nifty features:
 
-0. Nice error messages in case parser constructor fails. 
+0. Nice error messages in case parser constructor fails.
 1. Macros that let you extract common parts of your grammar. This
    means you can go beyond simple repetition like `Id*` and define
    things like `Comma<Id>` for a comma-separated list of identifiers.
@@ -19,7 +19,7 @@ grammars. To this end, LALRPOP offers a number of nifty features:
 3. Builtin support for operators like `*` and `?`.
 4. Compact defaults so that you can avoid writing action code much of the
    time.
-5. Type inference so you can often omit the types of nonterminals.   
+5. Type inference so you can often omit the types of nonterminals.
 
 Despite its name, LALRPOP in fact uses LR(1) by default (though you
 can opt for LALR(1)), and really I hope to eventually move to
@@ -56,4 +56,4 @@ to! Here are some tips:
 
 ### Contributing
 
-`cargo test` does not test that lalrpop generates a correct grammar for itself by default. So if you have made a change that would modify LALRPOP's own parser (`lalrpop/src/parser/lrgrammar.rs`) you need to run `cargo test --all-features` after making sure that a built lalrpop binary exists with `cargo build -p lalrpop` (see `.travis.yml` for the exact procedure).
+You **really** should read `CONTRIBUTING.md` if you intend to change LALRPOP's own grammar.

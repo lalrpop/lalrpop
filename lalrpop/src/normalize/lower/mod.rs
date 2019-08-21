@@ -5,7 +5,7 @@ use collections::{map, Map};
 use grammar::consts::CFG;
 use grammar::parse_tree as pt;
 use grammar::parse_tree::{
-    read_algorithm, GrammarItem, InternToken, Lifetime, NonterminalString, Path, TerminalString,
+    read_algorithm, GrammarItem, InternToken, Lifetime, NonterminalString, Path, TerminalString, Name
 };
 use grammar::pattern::{Pattern, PatternKind};
 use grammar::repr as r;
@@ -366,10 +366,11 @@ impl<'s> LowerState<'s> {
             Symbols::Named(names) => {
                 // if there are named symbols, we want to give the
                 // arguments the names that the user gave them:
+                let arg_names = names
+                    .iter()
+                    .map(|(index, name, _)| (*index, name.clone()));
                 let arg_patterns = patterns(
-                    names
-                        .iter()
-                        .map(|&(index, ref name, _)| (index, name.clone())),
+                    arg_names,
                     symbols.len(),
                 );
 
@@ -380,7 +381,7 @@ impl<'s> LowerState<'s> {
                             let name_str: String = {
                                 let name_strs: Vec<_> = names
                                     .iter()
-                                    .map(|&(_, ref name, _)| name.as_ref())
+                                    .map(|&(_, ref name, _)| name.name.as_ref())
                                     .collect();
                                 name_strs.join(", ")
                             };
@@ -390,7 +391,7 @@ impl<'s> LowerState<'s> {
                             let name_str = {
                                 let name_strs: Vec<_> = names
                                     .iter()
-                                    .map(|&(_, ref name, _)| format!("{0}:{0}", &*name))
+                                    .map(|&(_, ref name, _)| format!("{0}:{0}", &*name.name))
                                     .collect();
                                 name_strs.join(", ")
                             };
@@ -411,13 +412,14 @@ impl<'s> LowerState<'s> {
             }
             Symbols::Anon(indices) => {
                 let names: Vec<_> = (0..indices.len()).map(|i| self.fresh_name(i)).collect();
+
+                let p_indices = indices.iter().map(|&(index, _)| index);
+                let p_names = names.iter().cloned().map(Name::immut);
                 let arg_patterns = patterns(
-                    indices
-                        .iter()
-                        .map(|&(index, _)| index)
-                        .zip(names.iter().cloned()),
+                    p_indices.zip(p_names),
                     symbols.len(),
                 );
+
                 let name_str = {
                     let name_strs: Vec<_> = names.iter().map(AsRef::as_ref).collect();
                     name_strs.join(", ")
@@ -475,9 +477,9 @@ impl<'s> LowerState<'s> {
     }
 }
 
-fn patterns<I>(mut chosen: I, num_args: usize) -> Vec<Atom>
+fn patterns<I>(mut chosen: I, num_args: usize) -> Vec<Name>
 where
-    I: Iterator<Item = (usize, Atom)>,
+    I: Iterator<Item = (usize, Name)>,
 {
     let blank = Atom::from("_");
 
@@ -489,7 +491,7 @@ where
                 next_chosen = chosen.next();
                 chosen_name.clone()
             }
-            _ => blank.clone(),
+            _ => Name::immut(blank.clone()),
         })
         .collect();
 
