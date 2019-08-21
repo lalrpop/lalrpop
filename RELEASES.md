@@ -1,4 +1,12 @@
-<a name=""></a>
+<a name="0.17.2"></a>
+##  (2019-08-21)
+
+## Features
+
+*   Add support for <mut x:X> allowing for mutable x in action code. 
+
+
+<a name="0.17.1"></a>
 ##  (2019-06-24)
 
 
