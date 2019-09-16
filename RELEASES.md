@@ -12,7 +12,7 @@
 
 #### Bug Fixes
 
-*   Accept `dyn Trait` as a type (#469) ([cba3a746](https://github.com/lalrpop/lalrpop/commit/cba3a7463c014b8444623848219532628054e9a1))
+*   Accept `dyn Trait` as a type ([#469](https://github.com/lalrpop/lalrpop/issues/469)) ([cba3a746](https://github.com/lalrpop/lalrpop/commit/cba3a7463c014b8444623848219532628054e9a1))
 
 
 
@@ -25,7 +25,7 @@
 
 ## Features
 
-* Split apart UnrecognizedEOF variant from UnrecognizedToken (#446)
+* Split apart UnrecognizedEOF variant from UnrecognizedToken ([#446](https://github.com/lalrpop/lalrpop/issues/446))
 
 #### Style
 
