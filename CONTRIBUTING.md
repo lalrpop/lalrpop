@@ -36,7 +36,7 @@ $ cargo test # -p lalrpop --release
 
 But if your changes *do* affect the grammar - well, that's where all the fun of
 bootstrapping compilers comes! You're going to have to get a working `lalrpop` binary to
-generate you're own `lrgrammar.rs` parser. That's how you do it:
+generate your own `lrgrammar.rs` parser. That's how you do it:
 
 ```sh
 $ cargo build -p lalrpop # --release
