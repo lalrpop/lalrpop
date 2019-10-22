@@ -78,7 +78,7 @@ pub fn compile<W: Write>(
     rust!(out, "}}");
     rust!(out, "}}");
     rust!(out, "");
-    rust!(out, "pub struct {}MatcherBuilder {{", prefix);
+    rust!(out, "pub(crate) struct {}MatcherBuilder {{", prefix);
     rust!(out, "regex_set: {}regex::RegexSet,", prefix);
     rust!(out, "regex_vec: Vec<{}regex::Regex>,", prefix);
     rust!(out, "}}");
@@ -148,7 +148,7 @@ pub fn compile<W: Write>(
     rust!(out, "}}"); // fn matcher()
     rust!(out, "}}"); // impl MatcherBuilder
     rust!(out, "");
-    rust!(out, "pub struct {}Matcher<'input, 'builder> {{", prefix);
+    rust!(out, "pub(crate) struct {}Matcher<'input, 'builder> {{", prefix);
     rust!(out, "text: &'input str,"); // remaining input
     rust!(out, "consumed: usize,"); // number of chars consumed thus far
     rust!(out, "regex_set: &'builder {}regex::RegexSet,", prefix);

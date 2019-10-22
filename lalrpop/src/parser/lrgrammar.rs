@@ -31,7 +31,7 @@ extern crate lalrpop_util as ___lalrpop_util;
 use self::___lalrpop_util::state_machine as ___state_machine;
 use super::___ToTriple;
 #[allow(dead_code)]
-pub enum ___Symbol<'input>
+pub(crate) enum ___Symbol<'input>
  {
 Variant0(Tok<'input>),
 Variant1(&'input str),
@@ -3726,7 +3726,7 @@ Some(terminal.to_string())
 }
 }).collect()
 }
-pub struct ___StateMachine<'input>
+pub(crate) struct ___StateMachine<'input>
 where 
 {
 text: &'input str,
