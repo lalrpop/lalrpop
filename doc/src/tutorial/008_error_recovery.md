@@ -16,9 +16,10 @@ errors during parsing. First we need a way to return multiple errors
 as this is not something that LALRPOP does by itself so we add a `Vec`
 storing the errors we found during parsing. Since the result of `!`
 contains a token, error recovery requires that tokens can be cloned.
+We need to replace the begin "grammer" line of the LALRPOP file with this:
 
 ```
-grammar<'err>(errors: &'err mut Vec<ErrorRecovery<usize, (usize, &'input str), ()>>);
+grammar<'err>(errors: &'err mut Vec<ErrorRecovery<usize, Token<'input>, &'static str>>);
 ```
 
 Since an alternative containing `!` is expected to return the same type of
@@ -46,9 +47,11 @@ Term: Box<Expr> = {
 };
 ```
 
-Now we can add a test that includes various errors (e.g., missing
-operands). You can see that the parser recovered from missing operands
-by inserting this `!` token where necessary.
+Now we can add a test that includes various errors (e.g., missing 
+operands). Note that now the `parse` method takes two arguments 
+instead of one, which is caused by that we rewrote the "grammer" line 
+in the LALRPOP file. You can see that the parser recovered from missing 
+operands by inserting this `!` token where necessary.
 
 ```rust
 #[test]
