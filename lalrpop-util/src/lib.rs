@@ -184,20 +184,12 @@ pub struct ErrorRecovery<L, T, E> {
 
 #[macro_export]
 macro_rules! lalrpop_mod {
-    ($(#[$attr:meta])* $modname:ident) => {
-        lalrpop_mod!($(#[$attr])* $modname, concat!("/", stringify!($modname), ".rs"));
+    ($(#[$attr:meta])* $vis:vis $modname:ident) => {
+        lalrpop_mod!($(#[$attr])* $vis $modname, concat!("/", stringify!($modname), ".rs"));
     };
 
-    ($(#[$attr:meta])* pub $modname:ident) => {
-        lalrpop_mod!($(#[$attr])* pub $modname, concat!("/", stringify!($modname), ".rs"));
-    };
-
-    ($(#[$attr:meta])* $modname:ident, $source:expr) => {
-        $(#[$attr])* mod $modname { include!(concat!(env!("OUT_DIR"), $source)); }
-    };
-
-    ($(#[$attr:meta])* pub $modname:ident, $source:expr) => {
-        $(#[$attr])* pub mod $modname { include!(concat!(env!("OUT_DIR"), $source)); }
+    ($(#[$attr:meta])* $vis:vis $modname:ident, $source:expr) => {
+        $(#[$attr])* $vis mod $modname { include!(concat!(env!("OUT_DIR"), $source)); }
     };
 }
 
