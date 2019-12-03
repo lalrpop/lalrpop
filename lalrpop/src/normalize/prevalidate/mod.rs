@@ -45,6 +45,7 @@ impl<'grammar> Validator<'grammar> {
     fn validate(&self) -> NormResult<()> {
         let allowed_names = vec![
             Atom::from(LALR),
+            Atom::from(NO_SKIP_WHITESPACE),
             Atom::from(TABLE_DRIVEN),
             Atom::from(RECURSIVE_ASCENT),
             Atom::from(TEST_ALL),
