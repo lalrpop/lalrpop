@@ -19,6 +19,9 @@ pub const CFG: &str = "cfg";
 /// Annotation to request LALR.
 pub const LALR: &str = "LALR";
 
+/// Annotation to request NO_SKIP_WHITESPACE.
+pub const NO_SKIP_WHITESPACE: &str = "no_skip_whitespace";
+
 /// Annotation to request recursive-ascent-style code generation.
 pub const TABLE_DRIVEN: &str = "table_driven";
 

@@ -1,7 +1,7 @@
 //! The "parse-tree" is what is produced by the parser. We use it do
 //! some pre-expansion and so forth before creating the proper AST.
 
-use grammar::consts::{INPUT_LIFETIME, LALR, RECURSIVE_ASCENT, TABLE_DRIVEN, TEST_ALL};
+use grammar::consts::{INPUT_LIFETIME, LALR, NO_SKIP_WHITESPACE, RECURSIVE_ASCENT, TABLE_DRIVEN, TEST_ALL};
 use grammar::pattern::Pattern;
 use grammar::repr::{self as r, NominalTypeRepr, TypeRepr};
 use lexer::dfa::DFA;
@@ -1173,6 +1173,9 @@ pub fn read_algorithm(annotations: &[Annotation], algorithm: &mut r::Algorithm) 
     for annotation in annotations {
         if annotation.id == Atom::from(LALR) {
             algorithm.lalr = true;
+        }
+        else if annotation.id == Atom::from(NO_SKIP_WHITESPACE) {
+            algorithm.skip_whitespace = false;
         } else if annotation.id == Atom::from(TABLE_DRIVEN) {
             algorithm.codegen = r::LrCodeGeneration::TableDriven;
         } else if annotation.id == Atom::from(RECURSIVE_ASCENT) {

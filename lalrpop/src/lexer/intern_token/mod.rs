@@ -170,20 +170,31 @@ pub fn compile<W: Write>(
     rust!(out, "");
     rust!(out, "fn next(&mut self) -> Option<Self::Item> {{");
 
-    // start by trimming whitespace from left
-    rust!(out, "let {}text = self.text.trim_start();", prefix);
-    rust!(
-        out,
-        "let {}whitespace = self.text.len() - {}text.len();",
-        prefix,
-        prefix
-    );
-    rust!(
-        out,
-        "let {}start_offset = self.consumed + {}whitespace;",
-        prefix,
-        prefix
-    );
+    if grammar.algorithm.skip_whitespace {
+        // start by trimming whitespace from left
+        rust!(out, "let {}text = self.text.trim_start();", prefix);
+        rust!(
+            out,
+            "let {}whitespace = self.text.len() - {}text.len();",
+            prefix,
+            prefix
+        );
+        rust!(
+            out,
+            "let {}start_offset = self.consumed + {}whitespace;",
+            prefix,
+            prefix
+        );
+    }
+    else
+    {
+        rust!(out, "let {}text = &self.text[..];", prefix);
+        rust!(
+            out,
+            "let {}start_offset = self.consumed;",
+            prefix
+        );
+    }
 
     // if nothing left, return None
     rust!(out, "if {}text.is_empty() {{", prefix);

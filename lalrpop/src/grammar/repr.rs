@@ -96,6 +96,7 @@ pub struct NonterminalData {
 pub struct Algorithm {
     pub lalr: bool,
     pub codegen: LrCodeGeneration,
+    pub skip_whitespace: bool
 }
 
 #[derive(Clone, Debug, PartialEq, Eq)]
@@ -740,6 +741,7 @@ impl Default for Algorithm {
         Algorithm {
             lalr: false,
             codegen: LrCodeGeneration::TableDriven,
+            skip_whitespace: true
         }
     }
 }
