@@ -125,6 +125,17 @@ fn calculator6() {
     assert_eq!(errors.len(), 4);
 }
 
+lalrpop_mod!(pub calculator7);
+
+#[test]
+fn calculator7() {
+    let scale = 2;
+    let expr = calculator7::ExprParser::new()
+        .parse(scale,"11 * 22 + 33")
+        .unwrap();
+    assert_eq!(&format!("{:?}", expr), "((22 * 44) + 66)");
+}
+
 #[cfg(not(test))]
 fn main() {
     println!("Hello, world!");
