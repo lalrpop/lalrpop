@@ -1,7 +1,7 @@
 use ast::{ExprSymbol, Opcode};
 use tok8::Tok;
 
-grammar<'input>(text: &'input str);
+grammar<'input>(input: &'input str);
 
 pub Expr: Box<ExprSymbol<'input>> = { // (1)
     Expr "ExprOp" Factor => Box::new(ExprSymbol::Op(<>)), // (2)
@@ -30,7 +30,6 @@ extern {
         "(" => Tok::ParenOpen,
         ")" => Tok::ParenClose,
     }
-
 }
 
 

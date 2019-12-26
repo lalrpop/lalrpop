@@ -4,7 +4,6 @@ pub type Spanned<Tok, Loc, Error> = Result<(Loc, Tok, Loc), Error>;
 
 #[derive(Copy, Clone, Debug)]
 pub enum Tok<'input> {
-    Num(i32),
     NumSymbol(&'input str),
     FactorOp(Opcode),
     ExprOp(Opcode),
