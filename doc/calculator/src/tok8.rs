@@ -48,8 +48,9 @@ impl<'input> Iterator for Lexer<'input> {
                             Some((j, ')'))|Some((j, '('))|Some((j, '+'))|Some((j, '-'))|Some((j, '*'))|Some((j, '/'))|Some((j,' '))
                             => return Some(Ok((i, Tok::NumSymbol(&self.input[i..*j]), *j))),
                             None => return Some(Ok((i, Tok::NumSymbol(&self.input[i..]),self.input.len()))),
-                            _ => {self.chars.next();},
+                            _ => {},
                         }
+                        self.chars.next();
                     }
                 }
             }
