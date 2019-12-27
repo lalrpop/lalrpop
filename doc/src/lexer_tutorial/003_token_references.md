@@ -30,9 +30,10 @@ pub enum Tok<'input> {
     ParenClose,
 }
 ```
+Notice the NumSymbol type holding a reference to the original input.
+It represents both numbers and variable names as a slice of the original input.
 
 Then, we can build the lexer itself.
-It's  quite simple, it returns any operator, and if it detects any other character, stores the beginning then continues to the next operator and sends the symbol it just parsed.
 
 ``` rust
 use std::str::CharIndices;
@@ -50,7 +51,10 @@ impl<'input> Lexer<'input> {
         }
     }
 }
+```
+It needs to hold a reference to the input to put slices in the tokens.
 
+``` rust
 impl<'input> Iterator for Lexer<'input> {
     type Item = Spanned<Tok<'input>, usize, ()>;
 
@@ -81,6 +85,7 @@ impl<'input> Iterator for Lexer<'input> {
     }
 }
 ```
+It's  quite simple, it returns any operator, and if it detects any other character, stores the beginning then continues to the next operator and sends the symbol it just parsed.
 
 ## The parser
 
