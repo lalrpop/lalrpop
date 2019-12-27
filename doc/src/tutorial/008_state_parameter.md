@@ -18,7 +18,7 @@ Num: i32 = {
 
 Here the parser will accept a scale parameter that will scale every number encountered.
 
-It can then be called with the scale parameter :
+We can then call the parser with the state parameter :
 
 ```rust
 #[test]
