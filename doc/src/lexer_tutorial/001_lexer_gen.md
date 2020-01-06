@@ -1,4 +1,4 @@
-# Controlling the lexer
+# LALRPOP's lexer generator
 
 This example dives a bit deeper into how LALRPOP works. In particular,
 it dives into the meaning of those strings and regular expression that

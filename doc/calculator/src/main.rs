@@ -125,6 +125,31 @@ fn calculator6() {
     assert_eq!(errors.len(), 4);
 }
 
+lalrpop_mod!(pub calculator7);
+
+#[test]
+fn calculator7() {
+    let scale = 2;
+    let expr = calculator7::ExprParser::new()
+        .parse(scale,"11 * 22 + 33")
+        .unwrap();
+    assert_eq!(&format!("{:?}", expr), "((22 * 44) + 66)");
+}
+
+lalrpop_mod!(pub calculator8);
+mod tok8;
+use tok8::Lexer;
+
+#[test]
+fn calculator8() {
+    let input = "22 * pi + 66";
+    let lexer = Lexer::new(input);
+    let expr = calculator8::ExprParser::new()
+        .parse(input,lexer)
+        .unwrap();
+    assert_eq!(&format!("{:?}", expr), "((\"22\" * \"pi\") + \"66\")");
+}
+
 #[cfg(not(test))]
 fn main() {
     println!("Hello, world!");
