@@ -30,7 +30,7 @@ serde = "1.0"
 serde_derive = "1.0"
 string_cache = "0.7.1"
 term = "0.5"
-unicode-xid = "0.1"
+unicode-xid = "0.2"
 sha2 = "0.8.0"
 
 [dev-dependencies]
