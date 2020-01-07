@@ -4,7 +4,7 @@
 
 use lexer::re::Regex;
 use regex_syntax::hir::{
-    Anchor, Class, ClassUnicodeRange, GroupKind, Hir, HirKind, Literal, RepetitionKind,
+    Anchor, Class, ClassBytesRange, ClassUnicodeRange, GroupKind, Hir, HirKind, Literal, RepetitionKind,
     RepetitionRange,
 };
 use std::char;
@@ -133,7 +133,7 @@ impl NFA {
     pub fn is_rejecting_state(&self, from: NFAStateIndex) -> bool {
         self.states[from.0].kind == StateKind::Reject
     }
-
+    
     ///////////////////////////////////////////////////////////////////////////
     // Private methods for building an NFA
 
@@ -212,8 +212,13 @@ impl NFA {
                         self.push_edge(s0, Other, reject);
                         Ok(s0)
                     }
-                    // Bytes are not supported
-                    Literal::Byte(_) => Err(NFAConstructionError::ByteRegex),
+                    //// Bytes are not supported
+                    Literal::Byte(b) => {
+                        let s0 = self.new_state(StateKind::Neither);
+                        self.push_edge(s0, Test::byte(b), accept);
+                        self.push_edge(s0, Other, reject);
+                        Ok(s0)
+                    }
                 }
             }
 
@@ -235,8 +240,16 @@ impl NFA {
                         self.push_edge(s0, Other, reject);
                         Ok(s0)
                     }
-                    // Bytes are not supported
-                    Class::Bytes(_) => Err(NFAConstructionError::ByteRegex),
+                    //// Bytes are not supported
+                    Class::Bytes(ref byte) => {
+                        let s0 = self.new_state(StateKind::Neither);
+                        for &range in byte.iter() {
+                            let test: Test = range.into();
+                            self.push_edge(s0, test, accept);
+                        }
+                        self.push_edge(s0, Other, reject);
+                        Ok(s0)
+                    }
                 }
             }
 
@@ -502,7 +515,22 @@ impl Test {
         }
     }
 
+    pub fn byte(b: u8) -> Test {
+        let b = b as u32;
+        Test {
+            start: b,
+            end: b + 1,
+        }
+    }
+
     pub fn inclusive_range(s: char, e: char) -> Test {
+        Test {
+            start: s as u32,
+            end: e as u32 + 1,
+        }
+    }
+
+    pub fn inclusive_byte_range(s: u8, e: u8) -> Test {
         Test {
             start: s as u32,
             end: e as u32 + 1,
@@ -550,6 +578,12 @@ impl Test {
 impl From<ClassUnicodeRange> for Test {
     fn from(range: ClassUnicodeRange) -> Test {
         Test::inclusive_range(range.start(), range.end())
+    }
+}
+
+impl From<ClassBytesRange> for Test {
+    fn from(range: ClassBytesRange) -> Test {
+        Test::inclusive_byte_range(range.start(), range.end())
     }
 }
 

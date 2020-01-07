@@ -113,6 +113,7 @@ lalrpop_mod!(unit);
 
 /// test for match section
 lalrpop_mod!(match_section);
+lalrpop_mod!(match_section_byte);
 lalrpop_mod!(match_alternatives);
 
 /// regression test for issue #253.
@@ -862,6 +863,25 @@ fn where_clause_with_forall_test1() {
 
 #[test]
 fn test_match_section() {
+    assert!(match_section::QueryParser::new()
+        .parse("SELECT foo")
+        .is_ok());
+    assert!(match_section::QueryParser::new()
+        .parse("select foo")
+        .is_ok());
+    assert!(match_section::QueryParser::new()
+        .parse("INSERT foo")
+        .is_ok());
+    assert!(match_section::QueryParser::new()
+        .parse("UPDATE foo")
+        .is_ok());
+    assert!(match_section::QueryParser::new()
+        .parse("UPDATE update")
+        .is_err());
+}
+
+#[test]
+fn test_match_section_byte() {
     assert!(match_section::QueryParser::new()
         .parse("SELECT foo")
         .is_ok());
