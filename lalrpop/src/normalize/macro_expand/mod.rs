@@ -2,7 +2,7 @@ use grammar::consts::INLINE;
 use grammar::parse_tree::{
     ActionKind, Alternative, Annotation, Condition, ConditionOp, ExprSymbol, Grammar, GrammarItem,
     MacroSymbol, Name, NonterminalData, NonterminalString, Path, RepeatOp, RepeatSymbol, Span,
-    Symbol, SymbolKind, TerminalLiteral, TerminalString, TypeRef, Visibility,
+    Symbol, SymbolKind, TerminalLiteral, TerminalString, TypeRef, VecBuilder, Visibility,
 };
 use normalize::norm_util::{self, Symbols};
 use normalize::resolve;
@@ -31,24 +31,28 @@ pub fn expand_macros(input: Grammar) -> NormResult<Grammar> {
         })
         .collect();
 
-    let mut expander = MacroExpander::new(macro_defs);
+    let mut expander = MacroExpander::new(macro_defs, &input.vec_builder);
     expander.expand(&mut items)?;
 
     Ok(Grammar { items, ..input })
 }
 
-struct MacroExpander {
+struct MacroExpander<'a> {
     macro_defs: HashMap<NonterminalString, NonterminalData>,
     expansion_set: HashSet<NonterminalString>,
     expansion_stack: Vec<Symbol>,
+    vec_builder: &'a VecBuilder,
 }
 
-impl MacroExpander {
-    fn new(macro_defs: HashMap<NonterminalString, NonterminalData>) -> MacroExpander {
+impl<'a> MacroExpander<'a> {
+    fn new(macro_defs: HashMap<NonterminalString, NonterminalData>, vec_builder: &'a VecBuilder)
+        -> MacroExpander<'a>
+    {
         MacroExpander {
             macro_defs,
             expansion_stack: Vec::new(),
             expansion_set: HashSet::new(),
+            vec_builder,
         }
     }
 
@@ -432,14 +436,10 @@ impl MacroExpander {
         let e = Atom::from("e");
 
         let base_symbol_ty = TypeRef::OfSymbol(repeat.symbol.kind.clone());
-
         match repeat.op {
             RepeatOp::Star => {
-                let path = Path::vec();
-                let ty_ref = TypeRef::Nominal {
-                    path,
-                    types: vec![base_symbol_ty],
-                };
+                let ty_ref = self.vec_builder.ty(base_symbol_ty);
+                let new_vec = self.vec_builder.expr();
 
                 let plus_repeat = Box::new(RepeatSymbol {
                     op: RepeatOp::Plus,
@@ -459,7 +459,7 @@ impl MacroExpander {
                             span,
                             expr: ExprSymbol { symbols: vec![] },
                             condition: None,
-                            action: action("vec![]"),
+                            action: action(new_vec),
                         },
                         // X* = <v:X+>
                         Alternative {
@@ -484,11 +484,8 @@ impl MacroExpander {
             }
 
             RepeatOp::Plus => {
-                let path = Path::vec();
-                let ty_ref = TypeRef::Nominal {
-                    path,
-                    types: vec![base_symbol_ty],
-                };
+                let ty_ref = self.vec_builder.ty(base_symbol_ty);
+                let new_vec = self.vec_builder.expr();
 
                 Ok(GrammarItem::Nonterminal(NonterminalData {
                     visibility: Visibility::Priv,
@@ -505,7 +502,9 @@ impl MacroExpander {
                                 symbols: vec![repeat.symbol.clone()],
                             },
                             condition: None,
-                            action: action("vec![<>]"),
+                            action: Some(ActionKind::User(
+                                format!("{{ let mut v = {}; v.push(<>); v }}", new_vec)
+                            )),
                         },
                         // X+ = <v:X+> <e:X>
                         Alternative {

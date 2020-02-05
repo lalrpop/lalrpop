@@ -50,6 +50,7 @@ pub enum Tok<'input> {
     Where,
     For,
     Dyn,
+    VecBuilder,
 
     // Special keywords: these are accompanied by a series of
     // uninterpreted strings representing imports and stuff.
@@ -131,6 +132,7 @@ const KEYWORDS: &[(&str, Tok<'static>)] = &[
     ("where", Where),
     ("for", For),
     ("dyn", Dyn),
+    ("vec_builder", VecBuilder),
 ];
 
 // Helper for backtracking.

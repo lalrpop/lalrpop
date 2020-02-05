@@ -26,6 +26,7 @@ Grammar: Grammar =
     <tps:GrammarTypeParameters?>
     <parameters:GrammarParameters?>
     <where_clauses:GrammarWhereClauses?>
+    <vec_builder:VecBuilder?>
     ";"
     <items:GrammarItem*> => {
         Grammar { prefix: format!("__"), // adjusted by `parse_grammar`
@@ -34,6 +35,7 @@ Grammar: Grammar =
                   parameters: parameters.unwrap_or(vec![]),
                   where_clauses: where_clauses.unwrap_or(vec![]),
                   items: uses.into_iter().chain(items).collect(),
+                  vec_builder: vec_builder.unwrap_or_else(VecBuilder::new),
                   annotations,
                   module_attributes }
     };
@@ -92,6 +94,14 @@ GrammarParameters: Vec<Parameter> =
 
 GrammarParameter: Parameter =
     <id:Id> ":" <ty:TypeRef> => Parameter { name: id, ty };
+
+VecBuilder: VecBuilder = {
+    "vec_builder" "{"
+        <expr:StringLiteral>
+        <path:Path>
+        <lifetime:Lifetime?>
+    "}" => VecBuilder { expr, path, lifetime },
+};
 
 GrammarItem: GrammarItem = {
     Use,
@@ -449,6 +459,7 @@ extern {
         "!" => Tok::Bang,
         "use" => Tok::Use(<&'input str>),
         "dyn" => Tok::Dyn,
+        "vec_builder" => Tok::VecBuilder,
 
         "Escape" => Tok::Escape(<&'input str>),
         "Id" => Tok::Id(<&'input str>),

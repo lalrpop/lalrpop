@@ -23,6 +23,37 @@ pub struct Grammar {
     pub items: Vec<GrammarItem>,
     pub annotations: Vec<Annotation>,
     pub module_attributes: Vec<String>,
+    pub vec_builder: VecBuilder,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub struct VecBuilder {
+    pub expr: Atom,
+    pub path: Path,
+    pub lifetime: Option<Lifetime>,
+}
+
+impl VecBuilder {
+    pub fn new() -> VecBuilder {
+        VecBuilder {
+            expr: Atom::from("vec![]"),
+            path: Path::vec(),
+            lifetime: None,
+        }
+    }
+
+    pub fn expr(&self) -> &str {
+        self.expr.as_ref()
+    }
+
+    pub fn ty(&self, base: TypeRef) -> TypeRef {
+        let path = self.path.clone();
+        let mut types = if let Some(lifetime) = &self.lifetime {
+            vec![TypeRef::Lifetime(lifetime.clone())]
+        } else { vec![] };
+        types.push(base);
+        TypeRef::Nominal { path, types }
+    }
 }
 
 #[derive(Copy, Clone, Debug, Hash, PartialEq, Eq, PartialOrd, Ord)]
