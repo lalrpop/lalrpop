@@ -19,7 +19,7 @@ build = "build.rs" # LALRPOP preprocessing
 # crate, you can skip this dependency.)
 [dependencies]
 lalrpop-util = "0.17.2"
-regex = "0.2.0"
+regex = "1"
 
 # Add a build-time dependency on the lalrpop library:
 [build-dependencies]
