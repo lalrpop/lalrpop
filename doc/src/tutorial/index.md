@@ -3,14 +3,14 @@ This is a tutorial for how to write a complete parser for a simple calculator us
 If you are unfamiliar with what a parser generator is, you should read [Crash course on parsers]
 first.
 
-- [Adding LALRPOP to your project](001_adding_lalrpop.html)
-- [Parsing parenthesized numbers](002_paren_numbers.html)
-- [Type inference](003_type_inference.html)
-- [Handling full expressions](004_full_expressions.html)
-- [Building ASTs](005_building_asts.html)
-- [Macros](006_macros.html)
-- [Error recovery](007_error_recovery.html)
-- [Passing state parameter](008_state_parameter.html)
+- [Adding LALRPOP to your project](001_adding_lalrpop.md)
+- [Parsing parenthesized numbers](002_paren_numbers.md)
+- [Type inference](003_type_inference.md)
+- [Handling full expressions](004_full_expressions.md)
+- [Building ASTs](005_building_asts.md)
+- [Macros](006_macros.md)
+- [Error recovery](007_error_recovery.md)
+- [Passing state parameter](008_state_parameter.md)
 
 This tutorial is still incomplete. Here are some topics that I aim to
 cover when I get time to write about them:
@@ -24,5 +24,5 @@ cover when I get time to write about them:
 - Converting to use `LALR(1)` instead of `LR(1)` (see e.g. [this test](https://github.com/lalrpop/lalrpop/blob/master/lalrpop-test/src/expr_lalr.lalrpop) invoked [from here]).
 - Plans for future features
 
-[Crash course on parsers]: crash_course.html
+[Crash course on parsers]: ../crash_course.md
 [from here]: https://github.com/lalrpop/lalrpop/blob/master/lalrpop-test/src/main.rs

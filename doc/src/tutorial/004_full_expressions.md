@@ -70,4 +70,4 @@ impossible: a `Factor` cannot have an `Expr` as its left-hand side.
 This is the purpose of the tiers: to force the parser into the
 precedence you want.
 
-[calculator3]: calculator/src/calculator3.lalrpop
+[calculator3]: ../../calculator/src/calculator3.lalrpop
