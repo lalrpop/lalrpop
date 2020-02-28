@@ -12,8 +12,8 @@ use util::Sep;
 
 // These concepts we re-use wholesale
 pub use grammar::parse_tree::{
-    Annotation, InternToken, Lifetime, NonterminalString, Path, Span, TerminalLiteral,
-    TerminalString, TypeBound, TypeParameter, Visibility, Name
+    Annotation, InternToken, Lifetime, Name, NonterminalString, Path, Span, TerminalLiteral,
+    TerminalString, TypeBound, TypeParameter, Visibility,
 };
 
 #[derive(Clone, Debug)]

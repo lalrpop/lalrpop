@@ -387,7 +387,7 @@ impl MacroExpander {
     fn expand_expr_symbol(&mut self, span: Span, expr: ExprSymbol) -> NormResult<GrammarItem> {
         let name = NonterminalString(Atom::from(expr.canonical_form()));
 
-        let ty_ref =
+        let (action, ty_ref) =
             match norm_util::analyze_expr(&expr) {
                 Symbols::Named(names) => {
                     let (_, ref ex_id, ex_sym) = names[0];
@@ -396,10 +396,17 @@ impl MacroExpander {
                     "named symbols like `{}:{}` are only allowed at the top-level of a nonterminal",
                     ex_id, ex_sym)
                 }
-                Symbols::Anon(syms) => maybe_tuple(
-                    syms.into_iter()
-                        .map(|(_, s)| TypeRef::OfSymbol(s.kind.clone()))
-                        .collect(),
+                Symbols::Anon(syms) => (
+                    if syms.len() == 1 {
+                        action("<>")
+                    } else {
+                        action("(<>)")
+                    },
+                    maybe_tuple(
+                        syms.into_iter()
+                            .map(|(_, s)| TypeRef::OfSymbol(s.kind.clone()))
+                            .collect(),
+                    ),
                 ),
             };
 
@@ -414,7 +421,7 @@ impl MacroExpander {
                 span,
                 expr,
                 condition: None,
-                action: action("(<>)"),
+                action,
             }],
         }))
     }
