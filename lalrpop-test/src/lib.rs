@@ -964,7 +964,6 @@ fn generics_issue_417() {
 }
 
 #[test]
-#[ignore]
 fn verify_lalrpop_generates_itself() {
     let out_dir = "../target";
     let lrgrammar = "lrgrammar.lalrpop";

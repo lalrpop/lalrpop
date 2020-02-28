@@ -20118,7 +20118,7 @@ text: &'input str,
 (_, ___0, _): (usize, Top, usize),
 ) -> Top
 {
-(___0)
+___0
 }
 
 #[allow(unused_variables)]
@@ -20221,7 +20221,7 @@ text: &'input str,
 (_, _, _): (usize, Tok<'input>, usize),
 ) -> Vec<TypeParameter>
 {
-(___0)
+___0
 }
 
 #[allow(unused_variables)]
@@ -20255,7 +20255,7 @@ text: &'input str,
 (_, ___0, _): (usize, Vec<WhereClause<TypeRef>>, usize),
 ) -> Vec<WhereClause<TypeRef>>
 {
-(___0)
+___0
 }
 
 #[allow(unused_variables)]
@@ -20296,7 +20296,7 @@ text: &'input str,
 (_, _, _): (usize, Tok<'input>, usize),
 ) -> Vec<TypeParameter>
 {
-(___0)
+___0
 }
 
 #[allow(unused_variables)]
@@ -20318,7 +20318,7 @@ text: &'input str,
 (_, ___0, _): (usize, Vec<TypeBound<TypeRef>>, usize),
 ) -> Vec<TypeBound<TypeRef>>
 {
-(___0)
+___0
 }
 
 #[allow(unused_variables)]
@@ -20406,7 +20406,7 @@ text: &'input str,
 (_, _, _): (usize, Tok<'input>, usize),
 ) -> Vec<Parameter>
 {
-(___0)
+___0
 }
 
 #[allow(unused_variables)]
@@ -20430,7 +20430,7 @@ text: &'input str,
 (_, ___0, _): (usize, GrammarItem, usize),
 ) -> GrammarItem
 {
-(___0)
+___0
 }
 
 #[allow(unused_variables)]
@@ -20441,7 +20441,7 @@ text: &'input str,
 (_, ___0, _): (usize, GrammarItem, usize),
 ) -> GrammarItem
 {
-(___0)
+___0
 }
 
 #[allow(unused_variables)]
@@ -20452,7 +20452,7 @@ text: &'input str,
 (_, ___0, _): (usize, GrammarItem, usize),
 ) -> GrammarItem
 {
-(___0)
+___0
 }
 
 #[allow(unused_variables)]
@@ -20463,7 +20463,7 @@ text: &'input str,
 (_, ___0, _): (usize, GrammarItem, usize),
 ) -> GrammarItem
 {
-(___0)
+___0
 }
 
 #[allow(unused_variables)]
@@ -20633,7 +20633,7 @@ text: &'input str,
 (_, _, _): (usize, ::std::option::Option<Tok<'input>>, usize),
 ) -> Vec<Alternative>
 {
-(___0)
+___0
 }
 
 #[allow(unused_variables)]
@@ -20837,7 +20837,7 @@ text: &'input str,
 (_, ___0, _): (usize, Symbol, usize),
 ) -> Symbol
 {
-(___0)
+___0
 }
 
 #[allow(unused_variables)]
@@ -20848,7 +20848,7 @@ text: &'input str,
 (_, ___0, _): (usize, Symbol, usize),
 ) -> Symbol
 {
-(___0)
+___0
 }
 
 #[allow(unused_variables)]
@@ -21128,7 +21128,7 @@ text: &'input str,
 (_, ___0, _): (usize, TypeRef, usize),
 ) -> TypeRef
 {
-(___0)
+___0
 }
 
 #[allow(unused_variables)]
@@ -21309,7 +21309,7 @@ text: &'input str,
 (_, ___0, _): (usize, TerminalLiteral, usize),
 ) -> TerminalLiteral
 {
-(___0)
+___0
 }
 
 #[allow(unused_variables)]
@@ -21320,7 +21320,7 @@ text: &'input str,
 (_, ___0, _): (usize, TerminalString, usize),
 ) -> TerminalString
 {
-(___0)
+___0
 }
 
 #[allow(unused_variables)]
@@ -21607,7 +21607,7 @@ text: &'input str,
 (_, ___0, _): (usize, TerminalString, usize),
 ) -> TerminalString
 {
-(___0)
+___0
 }
 
 #[allow(unused_variables)]
@@ -21747,7 +21747,7 @@ text: &'input str,
 (_, _, _): (usize, Tok<'input>, usize),
 ) -> FieldPattern<TypeRef>
 {
-(___0)
+___0
 }
 
 #[allow(unused_variables)]
@@ -21841,7 +21841,7 @@ text: &'input str,
 (_, _, _): (usize, Tok<'input>, usize),
 ) -> Atom
 {
-(___0)
+___0
 }
 
 #[allow(unused_variables)]
@@ -22015,7 +22015,7 @@ text: &'input str,
 (_, ___0, _): (usize, Condition, usize),
 ) -> Condition
 {
-(___0)
+___0
 }
 
 #[allow(unused_variables)]
@@ -22143,7 +22143,7 @@ text: &'input str,
 (_, ___0, _): (usize, TypeRef, usize),
 ) -> TypeRef
 {
-(___0)
+___0
 }
 
 #[allow(unused_variables)]
@@ -22191,7 +22191,7 @@ text: &'input str,
 (_, _, _): (usize, Tok<'input>, usize),
 ) -> Vec<TypeBoundParameter<TypeRef>>
 {
-(___0)
+___0
 }
 
 #[allow(unused_variables)]
@@ -22238,7 +22238,7 @@ text: &'input str,
 (_, ___0, _): (usize, TypeRef, usize),
 ) -> TypeRef
 {
-(___0)
+___0
 }
 
 #[allow(unused_variables)]
@@ -22651,7 +22651,7 @@ text: &'input str,
 (_, _, _): (usize, Tok<'input>, usize),
 ) -> TypeParameter
 {
-(___0)
+___0
 }
 
 #[allow(unused_variables)]
@@ -22709,7 +22709,7 @@ text: &'input str,
 (_, _, _): (usize, Tok<'input>, usize),
 ) -> WhereClause<TypeRef>
 {
-(___0)
+___0
 }
 
 #[allow(unused_variables)]
@@ -22744,7 +22744,7 @@ text: &'input str,
 (_, _, _): (usize, Tok<'input>, usize),
 ) -> Lifetime
 {
-(___0)
+___0
 }
 
 #[allow(unused_variables)]
@@ -22802,7 +22802,7 @@ text: &'input str,
 (_, _, _): (usize, Tok<'input>, usize),
 ) -> TypeBound<TypeRef>
 {
-(___0)
+___0
 }
 
 #[allow(unused_variables)]
@@ -22860,7 +22860,7 @@ text: &'input str,
 (_, _, _): (usize, Tok<'input>, usize),
 ) -> TypeRef
 {
-(___0)
+___0
 }
 
 #[allow(unused_variables)]
@@ -22918,7 +22918,7 @@ text: &'input str,
 (_, _, _): (usize, Tok<'input>, usize),
 ) -> TypeBoundParameter<TypeRef>
 {
-(___0)
+___0
 }
 
 #[allow(unused_variables)]
@@ -22976,7 +22976,7 @@ text: &'input str,
 (_, _, _): (usize, Tok<'input>, usize),
 ) -> Parameter
 {
-(___0)
+___0
 }
 
 #[allow(unused_variables)]
@@ -23034,7 +23034,7 @@ text: &'input str,
 (_, _, _): (usize, Tok<'input>, usize),
 ) -> NonterminalString
 {
-(___0)
+___0
 }
 
 #[allow(unused_variables)]
@@ -23092,7 +23092,7 @@ text: &'input str,
 (_, _, _): (usize, Tok<'input>, usize),
 ) -> Alternative
 {
-(___0)
+___0
 }
 
 #[allow(unused_variables)]
@@ -23150,7 +23150,7 @@ text: &'input str,
 (_, _, _): (usize, Tok<'input>, usize),
 ) -> Symbol
 {
-(___0)
+___0
 }
 
 #[allow(unused_variables)]
@@ -23208,7 +23208,7 @@ text: &'input str,
 (_, _, _): (usize, Tok<'input>, usize),
 ) -> TypeRef
 {
-(___0)
+___0
 }
 
 #[allow(unused_variables)]
@@ -23312,7 +23312,7 @@ text: &'input str,
 (_, _, _): (usize, Tok<'input>, usize),
 ) -> MatchItem
 {
-(___0)
+___0
 }
 
 #[allow(unused_variables)]
@@ -23370,7 +23370,7 @@ text: &'input str,
 (_, _, _): (usize, Tok<'input>, usize),
 ) -> Conversion
 {
-(___0)
+___0
 }
 
 #[allow(unused_variables)]
@@ -23428,7 +23428,7 @@ text: &'input str,
 (_, _, _): (usize, Tok<'input>, usize),
 ) -> Pattern<TypeRef>
 {
-(___0)
+___0
 }
 
 #[allow(unused_variables)]
