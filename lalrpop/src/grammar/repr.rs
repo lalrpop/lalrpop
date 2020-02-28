@@ -182,6 +182,7 @@ pub enum InlinedSymbol {
 #[derive(Clone, PartialEq, Eq, PartialOrd, Ord)]
 pub enum TypeRepr {
     Tuple(Vec<TypeRepr>),
+    Slice(Box<TypeRepr>),
     Nominal(NominalTypeRepr),
     Associated {
         type_parameter: Atom,
@@ -239,6 +240,7 @@ impl TypeRepr {
             TypeRepr::Tuple(types) => {
                 TypeRepr::Tuple(types.iter().map(|t| t.bottom_up(op)).collect())
             }
+            TypeRepr::Slice(ty) => TypeRepr::Slice(Box::new(ty.bottom_up(op))),
             TypeRepr::Nominal(NominalTypeRepr { path, types }) => {
                 TypeRepr::Nominal(NominalTypeRepr {
                     path: path.clone(),
@@ -304,6 +306,7 @@ impl TypeRepr {
 
         self.bottom_up(&mut |t| match t {
             TypeRepr::Tuple { .. }
+            | TypeRepr::Slice { .. }
             | TypeRepr::Nominal { .. }
             | TypeRepr::Associated { .. }
             | TypeRepr::TraitObject { .. }
@@ -511,6 +514,7 @@ impl Display for TypeRepr {
     fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
         match *self {
             TypeRepr::Tuple(ref types) => write!(fmt, "({})", Sep(", ", types)),
+            TypeRepr::Slice(ref ty) => write!(fmt, "[{}]", ty),
             TypeRepr::Nominal(ref data) => write!(fmt, "{}", data),
             TypeRepr::Associated {
                 ref type_parameter,

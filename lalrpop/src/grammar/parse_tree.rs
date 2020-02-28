@@ -200,6 +200,9 @@ pub enum TypeRef {
     // (T1, T2)
     Tuple(Vec<TypeRef>),
 
+    // [T]
+    Slice(Box<TypeRef>),
+
     // Foo<'a, 'b, T1, T2>, Foo::Bar, etc
     Nominal {
         path: Path,
@@ -1008,6 +1011,7 @@ impl Display for TypeRef {
     fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
         match *self {
             TypeRef::Tuple(ref types) => write!(fmt, "({})", Sep(", ", types)),
+            TypeRef::Slice(ref ty) => write!(fmt, "[{}]", ty),
             TypeRef::Nominal {
                 ref path,
                 ref types,
@@ -1076,6 +1080,7 @@ impl TypeRef {
             TypeRef::Tuple(ref types) => {
                 TypeRepr::Tuple(types.iter().map(TypeRef::type_repr).collect())
             }
+            TypeRef::Slice(ref ty) => TypeRepr::Slice(Box::new(ty.type_repr())),
             TypeRef::Nominal {
                 ref path,
                 ref types,
