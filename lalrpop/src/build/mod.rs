@@ -537,7 +537,7 @@ fn emit_to_triple_trait<W: Write>(grammar: &r::Grammar, rust: &mut RustWrite<W>)
 
         rust!(
             rust,
-            "impl<{utp}> {p}ToTriple<{utp}> for Result<({T}),{E}> {{",
+            "impl<{utp}> {p}ToTriple<{utp}> for Result<{T},{E}> {{",
             utp = user_type_parameters,
             p = grammar.prefix,
             T = T,
