@@ -239,6 +239,9 @@ TypeRef: TypeRef = {
     "(" <Comma<TypeRef>> ")" =>
         TypeRef::Tuple(<>),
 
+    "[" <TypeRef> "]" =>
+        TypeRef::Slice(Box::new(<>)),
+
     "#" <Symbol> "#" => {
         TypeRef::OfSymbol(<>.kind)
     },

@@ -233,6 +233,9 @@ impl MacroExpander {
     ) -> TypeRef {
         match *type_ref {
             TypeRef::Tuple(ref trs) => TypeRef::Tuple(self.macro_expand_type_refs(args, trs)),
+            TypeRef::Slice(ref tr) => {
+                TypeRef::Slice(Box::new(self.macro_expand_type_ref(args, tr)))
+            }
             TypeRef::Nominal {
                 ref path,
                 ref types,

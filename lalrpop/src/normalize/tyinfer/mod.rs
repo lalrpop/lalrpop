@@ -248,6 +248,7 @@ impl<'grammar> TypeInferencer<'grammar> {
                     .collect::<Result<_, _>>()?;
                 Ok(TypeRepr::Tuple(types))
             }
+            TypeRef::Slice(ref ty) => self.type_ref(ty).map(|ty| TypeRepr::Slice(Box::new(ty))),
             TypeRef::Nominal {
                 ref path,
                 ref types,

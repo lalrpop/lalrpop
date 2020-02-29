@@ -57,6 +57,7 @@ impl FreeVariables for repr::TypeRepr {
     fn free_variables(&self, type_parameters: &[TypeParameter]) -> Vec<TypeParameter> {
         match self {
             repr::TypeRepr::Tuple(tys) => tys.free_variables(type_parameters),
+            repr::TypeRepr::Slice(ty) => ty.free_variables(type_parameters),
             repr::TypeRepr::Nominal(data) | repr::TypeRepr::TraitObject(data) => {
                 data.free_variables(type_parameters)
             }
