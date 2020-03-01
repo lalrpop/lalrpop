@@ -153,12 +153,12 @@ impl<'grammar> Validator<'grammar> {
                         } else if annotation.id == cfg_annotation {
                             if data.visibility.is_pub() {
                                 match annotation.arg {
-                                Some((ref name, _)) if name == "feature" => (),
-                                _ => return_err!(
-                                    annotation.id_span,
-                                    r#"`cfg` annotations must have a `feature = "my_feature" argument"#
-                                ),
-                            }
+                                    Some((ref name, _)) if name == "feature" => (),
+                                    _ => return_err!(
+                                        annotation.id_span,
+                                        r#"`cfg` annotations must have a `feature = "my_feature" argument"#
+                                    ),
+                                }
                             } else {
                                 return_err!(
                                     annotation.id_span,

@@ -25,7 +25,7 @@ pub struct Grammar {
     pub module_attributes: Vec<String>,
 }
 
-#[derive(Copy, Clone, Debug, Hash, PartialEq, Eq, PartialOrd, Ord)]
+#[derive(Copy, Clone, Debug, Default, Hash, PartialEq, Eq, PartialOrd, Ord)]
 pub struct Span(pub usize, pub usize);
 
 impl Into<Box<dyn Content>> for Span {

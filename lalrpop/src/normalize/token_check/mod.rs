@@ -34,6 +34,12 @@ pub fn validate(mut grammar: Grammar) -> NormResult<Grammar> {
                     .collect(),
             }
         } else {
+            if cfg!(not(feature = "lexer")) {
+                return_err!(
+                    Span::default(),
+                    "The `lexer` feature must be specified unless an `extern` lexer is defined"
+                );
+            }
             TokenMode::Internal {
                 match_block: MatchBlock::new(grammar.match_token())?,
             }

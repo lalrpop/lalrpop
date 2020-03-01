@@ -184,8 +184,7 @@ impl<'codegen, 'grammar, W: Write, C> CodeGenerator<'codegen, 'grammar, W, C> {
         if self.grammar.intern_token.is_some() {
             rust!(
                 self.out,
-                "use {}::{}intern_token::Token;",
-                self.action_module,
+                "use self::{}lalrpop_util::lexer::Token;",
                 self.prefix
             );
         } else {
@@ -246,9 +245,8 @@ impl<'codegen, 'grammar, W: Write, C> CodeGenerator<'codegen, 'grammar, W, C> {
         if intern_token {
             rust!(
                 self.out,
-                "builder: {1}::{0}intern_token::{0}MatcherBuilder,",
+                "builder: {}lalrpop_util::lexer::MatcherBuilder,",
                 self.prefix,
-                self.action_module
             );
         }
         rust!(self.out, "_priv: (),");
@@ -265,7 +263,7 @@ impl<'codegen, 'grammar, W: Write, C> CodeGenerator<'codegen, 'grammar, W, C> {
         if intern_token {
             rust!(
                 self.out,
-                "let {0}builder = {1}::{0}intern_token::{0}MatcherBuilder::new();",
+                "let {0}builder = {1}::{0}intern_token::new_builder();",
                 self.prefix,
                 self.action_module
             );
