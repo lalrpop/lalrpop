@@ -5,8 +5,8 @@ use collections::{map, Map};
 use grammar::consts::CFG;
 use grammar::parse_tree as pt;
 use grammar::parse_tree::{
-    read_algorithm, GrammarItem, InternToken, Lifetime, Name, NonterminalString, Path,
-    TerminalString,
+    read_algorithm, GrammarItem, InternToken, Lifetime, MatchMapping, Name, NonterminalString,
+    Path, TerminalString,
 };
 use grammar::pattern::{Pattern, PatternKind};
 use grammar::repr as r;
@@ -79,26 +79,29 @@ impl<'s> LowerState<'s> {
                         })),
                     };
                     self.conversions
-                        .extend(data.match_entries.iter().enumerate().map(
-                            |(index, match_entry)| {
-                                let pattern = Pattern {
-                                    span,
-                                    kind: PatternKind::TupleStruct(
-                                        internal_token_path.clone(),
-                                        vec![
-                                            Pattern {
-                                                span,
-                                                kind: PatternKind::Usize(index),
-                                            },
-                                            Pattern {
-                                                span,
-                                                kind: PatternKind::Choose(input_str.clone()),
-                                            },
-                                        ],
-                                    ),
-                                };
+                        .extend(data.match_entries.iter().enumerate().filter_map(
+                            |(index, match_entry)| match &match_entry.user_name {
+                                MatchMapping::Terminal(user_name) => {
+                                    let pattern = Pattern {
+                                        span,
+                                        kind: PatternKind::TupleStruct(
+                                            internal_token_path.clone(),
+                                            vec![
+                                                Pattern {
+                                                    span,
+                                                    kind: PatternKind::Usize(index),
+                                                },
+                                                Pattern {
+                                                    span,
+                                                    kind: PatternKind::Choose(input_str.clone()),
+                                                },
+                                            ],
+                                        ),
+                                    };
 
-                                (match_entry.user_name.clone(), pattern)
+                                    Some((user_name.clone(), pattern))
+                                }
+                                MatchMapping::Skip => None,
                             },
                         ));
                     self.intern_token = Some(data);

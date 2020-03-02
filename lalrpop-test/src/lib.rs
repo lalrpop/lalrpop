@@ -143,6 +143,8 @@ lalrpop_mod!(
     dyn_argument
 );
 
+lalrpop_mod!(comments);
+
 pub fn use_cfg_created_parser() {
     cfg::CreatedParser::new();
 }
@@ -994,5 +996,24 @@ fn verify_lalrpop_generates_itself() {
         &expected,
         "The snapshot does not match what lalrpop generates now.\n\
          Use ./snap.sh to generate a new snapshot of the lrgrammar",
+    );
+}
+
+#[test]
+fn comments() {
+    assert_eq!(
+        comments::TermParser::new().parse("22 3 5 13").unwrap(),
+        vec!["22", "3", "5", "13"]
+    );
+
+    assert_eq!(
+        comments::TermParser::new()
+            .parse(
+                "22 /* 123 */ 3 5
+            //  abc
+            13 // "
+            )
+            .unwrap(),
+        vec!["22", "3", "5", "13"]
     );
 }

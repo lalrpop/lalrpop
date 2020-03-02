@@ -109,7 +109,29 @@ impl MatchItem {
 }
 
 pub type MatchSymbol = TerminalLiteral;
-pub type MatchMapping = TerminalString;
+
+#[derive(Clone, PartialEq, Eq, Ord, PartialOrd)]
+pub enum MatchMapping {
+    Terminal(TerminalString),
+    Skip,
+}
+
+impl Debug for MatchMapping {
+    fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
+        match self {
+            Self::Terminal(term) => write!(fmt, "{:?}", term),
+            Self::Skip => write!(fmt, "{{ }}"),
+        }
+    }
+}
+impl Display for MatchMapping {
+    fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
+        match self {
+            Self::Terminal(term) => write!(fmt, "{}", term),
+            Self::Skip => write!(fmt, "{{ }}"),
+        }
+    }
+}
 
 /// Intern tokens are not typed by the user: they are synthesized in
 /// the absence of an "extern" declaration with information about the
@@ -158,7 +180,7 @@ pub struct MatchEntry {
     /// NB: This field must go first, so that `PartialOrd` sorts by precedence first!
     pub precedence: usize,
     pub match_literal: TerminalLiteral,
-    pub user_name: TerminalString,
+    pub user_name: MatchMapping,
 }
 
 #[derive(Clone, Debug, PartialEq, Eq)]
