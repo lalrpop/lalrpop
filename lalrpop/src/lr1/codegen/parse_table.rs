@@ -930,6 +930,16 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
         rust!(self.out, "// {:?}", production);
 
         // Pop each of the symbols and their associated states.
+        if production.symbols.len() > 1 {
+            // By asserting that there are enough elements to pop before popping multiple elements
+            // we may help LLVM to optimize better since it does not need to generate panic
+            // branches for each unwrap
+            rust!(
+                self.out,
+                "assert!(symbols.len() >= {});",
+                production.symbols.len()
+            );
+        }
         for (index, symbol) in production.symbols.iter().enumerate().rev() {
             let name = self.variant_name_for_symbol(symbol);
             rust!(
