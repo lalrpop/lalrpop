@@ -2,6 +2,7 @@
 
 use collections::{Entry, Map, Set};
 use grammar::repr::*;
+use itertools::Itertools;
 use lr1::core::*;
 use lr1::lookahead::Token;
 use rust::RustWrite;
@@ -672,30 +673,67 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
         rust!(self.out, "{{");
 
         rust!(self.out, "match {p}token_index {{", p = self.prefix,);
-        for (terminal, index) in self.grammar.terminals.all.iter().zip(0..) {
+
+        let mut token_to_symbol_mapping = Vec::new();
+
+        for (index, terminal) in self.grammar.terminals.all.iter().enumerate() {
             if *terminal == TerminalString::Error {
                 continue;
             }
-            rust!(self.out, "{} => match {}token {{", index, self.prefix);
-
-            let mut pattern_names = vec![];
-            let pattern = self.grammar.pattern(terminal).map(&mut |_| {
-                let index = pattern_names.len();
-                pattern_names.push(format!("{}tok{}", self.prefix, index));
-                pattern_names.last().cloned().unwrap()
-            });
-
-            let mut pattern = format!("{}", pattern);
-            if pattern_names.is_empty() {
-                pattern_names.push(format!("{}tok", self.prefix));
-                pattern = format!("{}tok @ {}", self.prefix, pattern);
-            }
-
             let variant_name = self.variant_name_for_symbol(&Symbol::Terminal(terminal.clone()));
+            let pattern = self.grammar.pattern(terminal);
+
+            match token_to_symbol_mapping
+                .iter_mut()
+                .find(|(other_variant_name, _)| *other_variant_name == variant_name)
+            {
+                None => token_to_symbol_mapping.push((variant_name, vec![(index, pattern)])),
+                Some((_, indices)) => indices.push((index, pattern)),
+            }
+        }
+
+        for (variant_name, indices) in token_to_symbol_mapping {
             rust!(
                 self.out,
-                "{pattern} => {p}Symbol::{variant_name}(({pattern_names})),",
-                pattern = pattern,
+                "{} => match {}token {{",
+                indices.iter().map(|(index, _)| index).format(" | "),
+                self.prefix
+            );
+
+            let mut pattern_names = vec![];
+            let mut first = true;
+            let patterns = indices
+                .iter()
+                .map(|(_, pattern)| {
+                    let mut has_patterns = false;
+                    let mut name_index = 0;
+                    let pattern = pattern.map(&mut |_| {
+                        has_patterns = true;
+                        let name = format!("{}tok{}", self.prefix, name_index);
+                        name_index += 1;
+                        if first {
+                            pattern_names.push(name.clone());
+                        }
+                        name
+                    });
+
+                    let pattern = if has_patterns {
+                        format!("{}", pattern)
+                    } else {
+                        if first {
+                            pattern_names.push(format!("{}tok", self.prefix));
+                        }
+                        format!("{}tok @ {}", self.prefix, pattern)
+                    };
+                    first = false;
+                    pattern
+                })
+                .collect::<Vec<_>>();
+
+            rust!(
+                self.out,
+                "{patterns} if true => {p}Symbol::{variant_name}(({pattern_names})),",
+                patterns = patterns.iter().format(" | "),
                 p = self.prefix,
                 variant_name = variant_name,
                 pattern_names = pattern_names.join(", "),
