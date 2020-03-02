@@ -424,7 +424,11 @@ fn emit_recursive_ascent(
 
     if let Some(ref intern_token) = grammar.intern_token {
         intern_token::compile(&grammar, intern_token, &mut rust)?;
-        rust!(rust, "pub use self::{}intern_token::Token;", grammar.prefix);
+        rust!(
+            rust,
+            "pub use self::{}lalrpop_util::lexer::Token;",
+            grammar.prefix
+        );
     }
 
     action::emit_action_code(grammar, &mut rust)?;

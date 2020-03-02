@@ -44,3 +44,8 @@ version = "0.17.2" # LALRPOP
 # Feature used when developing LALRPOP. Tells the build script to use an existing lalrpop binary to
 # generate LALRPOPs own parser instead of using the saved parser.
 test = []
+
+lexer = ["lalrpop-util/lexer"]
+
+[package.metadata.docs.rs]
+features = ["lexer"]
