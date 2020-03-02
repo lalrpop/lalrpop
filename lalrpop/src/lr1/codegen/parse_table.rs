@@ -732,10 +732,12 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
 
             rust!(
                 self.out,
-                "{patterns} if true => {p}Symbol::{variant_name}(({pattern_names})),",
+                "{patterns} if true => {p}Symbol::{variant_name}({open}{pattern_names}{close}),",
                 patterns = patterns.iter().format(" | "),
                 p = self.prefix,
                 variant_name = variant_name,
+                open = if pattern_names.len() > 1 { "(" } else { "" },
+                close = if pattern_names.len() > 1 { ")" } else { "" },
                 pattern_names = pattern_names.join(", "),
             );
             rust!(self.out, "_ => unreachable!(),");
