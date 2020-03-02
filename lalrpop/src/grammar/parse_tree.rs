@@ -119,16 +119,16 @@ pub enum MatchMapping {
 impl Debug for MatchMapping {
     fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
         match self {
-            Self::Terminal(term) => write!(fmt, "{:?}", term),
-            Self::Skip => write!(fmt, "{{ }}"),
+            MatchMapping::Terminal(term) => write!(fmt, "{:?}", term),
+            MatchMapping::Skip => write!(fmt, "{{ }}"),
         }
     }
 }
 impl Display for MatchMapping {
     fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
         match self {
-            Self::Terminal(term) => write!(fmt, "{}", term),
-            Self::Skip => write!(fmt, "{{ }}"),
+            MatchMapping::Terminal(term) => write!(fmt, "{}", term),
+            MatchMapping::Skip => write!(fmt, "{{ }}"),
         }
     }
 }
