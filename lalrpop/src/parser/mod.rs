@@ -22,7 +22,7 @@ mod test;
 pub enum Top {
     Grammar(Grammar),
     Pattern(Pattern<TypeRef>),
-    MatchMapping(TerminalString),
+    MatchMapping(MatchMapping),
     TypeRef(TypeRef),
     GrammarWhereClauses(Vec<WhereClause<TypeRef>>),
 }

@@ -3,8 +3,8 @@ use super::{NormError, NormResult};
 
 use grammar::consts::{ERROR, LOCATION};
 use grammar::parse_tree::{
-    ActionKind, Alternative, Grammar, GrammarItem, Lifetime, NonterminalData, NonterminalString,
-    Path, Span, SymbolKind, TypeParameter, TypeRef,
+    ActionKind, Alternative, Grammar, GrammarItem, Lifetime, MatchMapping, NonterminalData,
+    NonterminalString, Path, Span, SymbolKind, TypeParameter, TypeRef,
 };
 use grammar::repr::{NominalTypeRepr, TypeRepr, Types};
 use std::collections::{HashMap, HashSet};
@@ -96,7 +96,9 @@ impl<'grammar> TypeInferencer<'grammar> {
             let mut types = Types::new(&grammar.prefix, Some(loc_type), error_type, enum_type);
 
             for match_entry in &intern_token.match_entries {
-                types.add_term_type(match_entry.user_name.clone(), input_str.clone());
+                if let MatchMapping::Terminal(user_name) = &match_entry.user_name {
+                    types.add_term_type(user_name.clone(), input_str.clone());
+                }
             }
 
             types

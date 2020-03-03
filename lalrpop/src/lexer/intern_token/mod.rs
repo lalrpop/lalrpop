@@ -1,6 +1,6 @@
 //! Generates an iterator type `Matcher` that looks roughly like
 
-use grammar::parse_tree::InternToken;
+use grammar::parse_tree::{InternToken, MatchMapping};
 use grammar::repr::{Grammar, TerminalLiteral};
 use lexer::re;
 use rust::RustWrite;
@@ -25,35 +25,48 @@ pub fn compile<W: Write>(
 
     // create a vector of rust string literals with the text of each
     // regular expression
-    let regex_strings: Vec<String> = {
-        intern_token
-            .match_entries
-            .iter()
-            .map(|match_entry| match match_entry.match_literal {
-                TerminalLiteral::Quoted(ref s) => re::parse_literal(&s),
-                TerminalLiteral::Regex(ref s) => re::parse_regex(&s).unwrap(),
-            })
-            .map(|regex| {
-                // make sure all regex are anchored at the beginning of the input
-                format!("^({})", regex)
-            })
-            .map(|regex_str| {
-                // create a rust string with text of the regex; the Debug impl
-                // will add quotes and escape
-                format!("{:?}", regex_str)
-            })
-            .collect()
-    };
+    let regex_strings = intern_token
+        .match_entries
+        .iter()
+        .map(|match_entry| {
+            (
+                match match_entry.match_literal {
+                    TerminalLiteral::Quoted(ref s) => re::parse_literal(&s),
+                    TerminalLiteral::Regex(ref s) => re::parse_regex(&s).unwrap(),
+                },
+                match match_entry.user_name {
+                    MatchMapping::Terminal(_) => false,
+                    MatchMapping::Skip => true,
+                },
+            )
+        })
+        .map(|(regex, skip)| {
+            // make sure all regex are anchored at the beginning of the input
+            (format!("^({})", regex), skip)
+        })
+        .map(|(regex_str, skip)| {
+            // create a rust string with text of the regex; the Debug impl
+            // will add quotes and escape
+            (format!("{:?}", regex_str), skip)
+        });
 
-    rust!(out, "let {}strs: &[&str] = &[", prefix);
-    for literal in &regex_strings {
-        rust!(out, "{},", literal);
+    let mut contains_skip = false;
+
+    rust!(out, "let {}strs: &[(&str, bool)] = &[", prefix);
+    for (literal, skip) in regex_strings {
+        rust!(out, "({}, {}),", literal, skip);
+        contains_skip |= skip;
     }
+
+    if !contains_skip {
+        rust!(out, r#"(r"^(\s*)", true),"#);
+    }
+
     rust!(out, "];");
 
     rust!(
         out,
-        "{p}lalrpop_util::lexer::MatcherBuilder::new({p}strs).unwrap()",
+        "{p}lalrpop_util::lexer::MatcherBuilder::new({p}strs.iter().copied()).unwrap()",
         p = prefix
     );
 
