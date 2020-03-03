@@ -2,6 +2,7 @@
 
 use collections::{Entry, Map, Set};
 use grammar::repr::*;
+use itertools::Itertools;
 use lr1::core::*;
 use lr1::lookahead::Token;
 use rust::RustWrite;
@@ -391,12 +392,19 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
             p = self.prefix,
             state_type = state_type,
         );
-        rust!(
-            self.out,
-            "{p}simulate_reduce(action, {phantom})",
-            p = self.prefix,
-            phantom = phantom_data_expr,
-        );
+        if self.grammar.uses_error_recovery {
+            rust!(
+                self.out,
+                "{p}simulate_reduce(action, {phantom})",
+                p = self.prefix,
+                phantom = phantom_data_expr,
+            );
+        } else {
+            rust!(
+                self.out,
+                "panic!(\"error recovery not enabled for this grammar\")"
+            )
+        }
         rust!(self.out, "}}");
 
         rust!(self.out, "}}");
@@ -672,36 +680,76 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
         rust!(self.out, "{{");
 
         rust!(self.out, "match {p}token_index {{", p = self.prefix,);
-        for (terminal, index) in self.grammar.terminals.all.iter().zip(0..) {
+
+        let mut token_to_symbol_mapping = Vec::new();
+
+        for (index, terminal) in self.grammar.terminals.all.iter().enumerate() {
             if *terminal == TerminalString::Error {
                 continue;
             }
-            rust!(self.out, "{} => match {}token {{", index, self.prefix);
-
-            let mut pattern_names = vec![];
-            let pattern = self.grammar.pattern(terminal).map(&mut |_| {
-                let index = pattern_names.len();
-                pattern_names.push(format!("{}tok{}", self.prefix, index));
-                pattern_names.last().cloned().unwrap()
-            });
-
-            let mut pattern = format!("{}", pattern);
-            if pattern_names.is_empty() {
-                pattern_names.push(format!("{}tok", self.prefix));
-                pattern = format!("{}tok @ {}", self.prefix, pattern);
-            }
-
             let variant_name = self.variant_name_for_symbol(&Symbol::Terminal(terminal.clone()));
-            rust!(
-                self.out,
-                "{pattern} => {p}Symbol::{variant_name}(({pattern_names})),",
-                pattern = pattern,
-                p = self.prefix,
-                variant_name = variant_name,
-                pattern_names = pattern_names.join(", "),
-            );
-            rust!(self.out, "_ => unreachable!(),");
-            rust!(self.out, "}},");
+            let pattern = self.grammar.pattern(terminal);
+
+            match token_to_symbol_mapping
+                .iter_mut()
+                .find(|(other_variant_name, _)| *other_variant_name == variant_name)
+            {
+                None => token_to_symbol_mapping.push((variant_name, vec![(index, pattern)])),
+                Some((_, indices)) => indices.push((index, pattern)),
+            }
+        }
+
+        for (variant_name, indices) in token_to_symbol_mapping {
+            let mut pattern_names = vec![];
+            let mut first = true;
+            let patterns = indices
+                .iter()
+                .map(|(_, pattern)| {
+                    let mut has_patterns = false;
+                    let mut name_index = 0;
+                    let pattern = pattern.map(&mut |_| {
+                        has_patterns = true;
+                        let name = format!("{}tok{}", self.prefix, name_index);
+                        name_index += 1;
+                        if first {
+                            pattern_names.push(name.clone());
+                        }
+                        name
+                    });
+                    first = false;
+
+                    format!("{}", pattern)
+                })
+                .collect::<Vec<_>>();
+
+            if !pattern_names.is_empty() {
+                rust!(
+                    self.out,
+                    "{} => match {}token {{",
+                    indices.iter().map(|(index, _)| index).format(" | "),
+                    self.prefix
+                );
+                rust!(
+                    self.out,
+                    "{patterns} if true => {p}Symbol::{variant_name}({open}{pattern_names}{close}),",
+                    patterns = patterns.iter().format(" | "),
+                    p = self.prefix,
+                    variant_name = variant_name,
+                    open = if pattern_names.len() > 1 { "(" } else { "" },
+                    close = if pattern_names.len() > 1 { ")" } else { "" },
+                    pattern_names = pattern_names.join(", "),
+                );
+                rust!(self.out, "_ => unreachable!(),");
+                rust!(self.out, "}},");
+            } else {
+                rust!(
+                    self.out,
+                    "{indices} => {p}Symbol::{variant_name}({p}token),",
+                    indices = indices.iter().map(|(index, _)| index).format(" | "),
+                    p = self.prefix,
+                    variant_name = variant_name,
+                )
+            }
         }
 
         rust!(self.out, "_ => unreachable!(),");
@@ -773,7 +821,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
                 let phantom_data_expr = self.phantom_data_expr();
                 rust!(
                     self.out,
-                    "{p}reduce{}({}{p}action, {p}lookahead_start, {p}states, {p}symbols, {})",
+                    "{p}reduce{}({}{p}lookahead_start, {p}symbols, {})",
                     index,
                     self.grammar.user_parameter_refs(),
                     phantom_data_expr,
@@ -862,12 +910,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
         let spanned_symbol_type = self.spanned_symbol_type();
 
         let parameters = vec![
-            format!("{}action: {}", self.prefix, self.custom.state_type),
             format!("{}lookahead_start: Option<&{}>", self.prefix, loc_type),
-            format!(
-                "{}states: &mut ::std::vec::Vec<{}>",
-                self.prefix, self.custom.state_type
-            ),
             format!(
                 "{}symbols: &mut ::std::vec::Vec<{}>",
                 self.prefix, spanned_symbol_type
@@ -892,6 +935,17 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
         rust!(self.out, "// {:?}", production);
 
         // Pop each of the symbols and their associated states.
+        if production.symbols.len() > 1 {
+            // By asserting that there are enough elements to pop before popping multiple elements
+            // we may help LLVM to optimize better since it does not need to generate panic
+            // branches for each unwrap
+            rust!(
+                self.out,
+                "assert!({}symbols.len() >= {});",
+                self.prefix,
+                production.symbols.len()
+            );
+        }
         for (index, symbol) in production.symbols.iter().enumerate().rev() {
             let name = self.variant_name_for_symbol(symbol);
             rust!(
@@ -1089,6 +1143,9 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
     }
 
     fn write_simulate_reduce_fn(&mut self) -> io::Result<()> {
+        if !self.grammar.uses_error_recovery {
+            return Ok(());
+        }
         let state_type = self.custom.state_type;
 
         let parameters = vec![

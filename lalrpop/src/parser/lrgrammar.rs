@@ -3838,7 +3838,7 @@ symbols,
 }
 
 fn simulate_reduce(&self, action: i16) -> ___state_machine::SimulatedReduce<Self> {
-___simulate_reduce(action, ::std::marker::PhantomData::<(&())>)
+panic!("error recovery not enabled for this grammar")
 }
 }
 fn ___token_to_integer<
@@ -3919,3263 +3919,12 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> ___Symbol<'input>
 {
 match ___token_index {
-0 => match ___token {
-___tok @ Tok::Bang => ___Symbol::Variant0((___tok)),
-_ => unreachable!(),
-},
-1 => match ___token {
-___tok @ Tok::BangEquals => ___Symbol::Variant0((___tok)),
-_ => unreachable!(),
-},
-2 => match ___token {
-___tok @ Tok::BangTilde => ___Symbol::Variant0((___tok)),
-_ => unreachable!(),
-},
-3 => match ___token {
-___tok @ Tok::Hash => ___Symbol::Variant0((___tok)),
-_ => unreachable!(),
-},
-4 => match ___token {
-Tok::ShebangAttribute(___tok0) => ___Symbol::Variant1((___tok0)),
-_ => unreachable!(),
-},
-5 => match ___token {
-___tok @ Tok::Ampersand => ___Symbol::Variant0((___tok)),
-_ => unreachable!(),
-},
-6 => match ___token {
-___tok @ Tok::LeftParen => ___Symbol::Variant0((___tok)),
-_ => unreachable!(),
-},
-7 => match ___token {
-___tok @ Tok::RightParen => ___Symbol::Variant0((___tok)),
-_ => unreachable!(),
-},
-8 => match ___token {
-___tok @ Tok::Star => ___Symbol::Variant0((___tok)),
-_ => unreachable!(),
-},
-9 => match ___token {
-___tok @ Tok::Plus => ___Symbol::Variant0((___tok)),
-_ => unreachable!(),
-},
-10 => match ___token {
-___tok @ Tok::Comma => ___Symbol::Variant0((___tok)),
-_ => unreachable!(),
-},
-11 => match ___token {
-___tok @ Tok::MinusGreaterThan => ___Symbol::Variant0((___tok)),
-_ => unreachable!(),
-},
-12 => match ___token {
-___tok @ Tok::DotDot => ___Symbol::Variant0((___tok)),
-_ => unreachable!(),
-},
-13 => match ___token {
-___tok @ Tok::Colon => ___Symbol::Variant0((___tok)),
-_ => unreachable!(),
-},
-14 => match ___token {
-___tok @ Tok::ColonColon => ___Symbol::Variant0((___tok)),
-_ => unreachable!(),
-},
-15 => match ___token {
-___tok @ Tok::Semi => ___Symbol::Variant0((___tok)),
-_ => unreachable!(),
-},
-16 => match ___token {
-___tok @ Tok::LessThan => ___Symbol::Variant0((___tok)),
-_ => unreachable!(),
-},
-17 => match ___token {
-___tok @ Tok::Equals => ___Symbol::Variant0((___tok)),
-_ => unreachable!(),
-},
-18 => match ___token {
-___tok @ Tok::EqualsEquals => ___Symbol::Variant0((___tok)),
-_ => unreachable!(),
-},
-19 => match ___token {
-Tok::EqualsGreaterThanCode(___tok0) => ___Symbol::Variant1((___tok0)),
-_ => unreachable!(),
-},
-20 => match ___token {
-Tok::EqualsGreaterThanQuestionCode(___tok0) => ___Symbol::Variant1((___tok0)),
-_ => unreachable!(),
-},
-21 => match ___token {
-___tok @ Tok::EqualsGreaterThanLookahead => ___Symbol::Variant0((___tok)),
-_ => unreachable!(),
-},
-22 => match ___token {
-___tok @ Tok::EqualsGreaterThanLookbehind => ___Symbol::Variant0((___tok)),
-_ => unreachable!(),
-},
-23 => match ___token {
-___tok @ Tok::GreaterThan => ___Symbol::Variant0((___tok)),
-_ => unreachable!(),
-},
-24 => match ___token {
-___tok @ Tok::Question => ___Symbol::Variant0((___tok)),
-_ => unreachable!(),
-},
-25 => match ___token {
-___tok @ Tok::Lookahead => ___Symbol::Variant0((___tok)),
-_ => unreachable!(),
-},
-26 => match ___token {
-___tok @ Tok::Lookbehind => ___Symbol::Variant0((___tok)),
-_ => unreachable!(),
-},
-27 => match ___token {
-Tok::CharLiteral(___tok0) => ___Symbol::Variant1((___tok0)),
-_ => unreachable!(),
-},
-28 => match ___token {
-Tok::Escape(___tok0) => ___Symbol::Variant1((___tok0)),
-_ => unreachable!(),
-},
-29 => match ___token {
-Tok::Id(___tok0) => ___Symbol::Variant1((___tok0)),
-_ => unreachable!(),
-},
-30 => match ___token {
-Tok::Lifetime(___tok0) => ___Symbol::Variant1((___tok0)),
-_ => unreachable!(),
-},
-31 => match ___token {
-Tok::MacroId(___tok0) => ___Symbol::Variant1((___tok0)),
-_ => unreachable!(),
-},
-32 => match ___token {
-Tok::RegexLiteral(___tok0) => ___Symbol::Variant1((___tok0)),
-_ => unreachable!(),
-},
-33 => match ___token {
-___tok @ Tok::StartGrammar => ___Symbol::Variant0((___tok)),
-_ => unreachable!(),
-},
-34 => match ___token {
-___tok @ Tok::StartGrammarWhereClauses => ___Symbol::Variant0((___tok)),
-_ => unreachable!(),
-},
-35 => match ___token {
-___tok @ Tok::StartMatchMapping => ___Symbol::Variant0((___tok)),
-_ => unreachable!(),
-},
-36 => match ___token {
-___tok @ Tok::StartPattern => ___Symbol::Variant0((___tok)),
-_ => unreachable!(),
-},
-37 => match ___token {
-___tok @ Tok::StartTypeRef => ___Symbol::Variant0((___tok)),
-_ => unreachable!(),
-},
-38 => match ___token {
-Tok::StringLiteral(___tok0) => ___Symbol::Variant1((___tok0)),
-_ => unreachable!(),
-},
-39 => match ___token {
-___tok @ Tok::LeftBracket => ___Symbol::Variant0((___tok)),
-_ => unreachable!(),
-},
-40 => match ___token {
-___tok @ Tok::RightBracket => ___Symbol::Variant0((___tok)),
-_ => unreachable!(),
-},
-41 => match ___token {
-___tok @ Tok::Underscore => ___Symbol::Variant0((___tok)),
-_ => unreachable!(),
-},
-42 => match ___token {
-___tok @ Tok::Dyn => ___Symbol::Variant0((___tok)),
-_ => unreachable!(),
-},
-43 => match ___token {
-___tok @ Tok::Else => ___Symbol::Variant0((___tok)),
-_ => unreachable!(),
-},
-44 => match ___token {
-___tok @ Tok::Enum => ___Symbol::Variant0((___tok)),
-_ => unreachable!(),
-},
-45 => match ___token {
-___tok @ Tok::Extern => ___Symbol::Variant0((___tok)),
-_ => unreachable!(),
-},
-46 => match ___token {
-___tok @ Tok::For => ___Symbol::Variant0((___tok)),
-_ => unreachable!(),
-},
-47 => match ___token {
-___tok @ Tok::Grammar => ___Symbol::Variant0((___tok)),
-_ => unreachable!(),
-},
-48 => match ___token {
-___tok @ Tok::If => ___Symbol::Variant0((___tok)),
-_ => unreachable!(),
-},
-49 => match ___token {
-___tok @ Tok::Match => ___Symbol::Variant0((___tok)),
-_ => unreachable!(),
-},
-50 => match ___token {
-___tok @ Tok::Mut => ___Symbol::Variant0((___tok)),
-_ => unreachable!(),
-},
-51 => match ___token {
-___tok @ Tok::Pub => ___Symbol::Variant0((___tok)),
-_ => unreachable!(),
-},
-52 => match ___token {
-___tok @ Tok::Type => ___Symbol::Variant0((___tok)),
-_ => unreachable!(),
-},
-53 => match ___token {
-Tok::Use(___tok0) => ___Symbol::Variant1((___tok0)),
-_ => unreachable!(),
-},
-54 => match ___token {
-___tok @ Tok::Where => ___Symbol::Variant0((___tok)),
-_ => unreachable!(),
-},
-55 => match ___token {
-___tok @ Tok::LeftBrace => ___Symbol::Variant0((___tok)),
-_ => unreachable!(),
-},
-56 => match ___token {
-___tok @ Tok::RightBrace => ___Symbol::Variant0((___tok)),
-_ => unreachable!(),
-},
-57 => match ___token {
-___tok @ Tok::TildeTilde => ___Symbol::Variant0((___tok)),
+0 | 1 | 2 | 3 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14 | 15 | 16 | 17 | 18 | 21 | 22 | 23 | 24 | 25 | 26 | 33 | 34 | 35 | 36 | 37 | 39 | 40 | 41 | 42 | 43 | 44 | 45 | 46 | 47 | 48 | 49 | 50 | 51 | 52 | 54 | 55 | 56 | 57 => ___Symbol::Variant0(___token),
+4 | 19 | 20 | 27 | 28 | 29 | 30 | 31 | 32 | 38 | 53 => match ___token {
+Tok::ShebangAttribute(___tok0) | Tok::EqualsGreaterThanCode(___tok0) | Tok::EqualsGreaterThanQuestionCode(___tok0) | Tok::CharLiteral(___tok0) | Tok::Escape(___tok0) | Tok::Id(___tok0) | Tok::Lifetime(___tok0) | Tok::MacroId(___tok0) | Tok::RegexLiteral(___tok0) | Tok::StringLiteral(___tok0) | Tok::Use(___tok0) if true => ___Symbol::Variant1(___tok0),
 _ => unreachable!(),
 },
 _ => unreachable!(),
-}
-}
-fn ___simulate_reduce<
-    'input,
->(
-___reduce_index: i16,
-_: ::std::marker::PhantomData<(&'input ())>,
-) -> ___state_machine::SimulatedReduce<___StateMachine<'input>>
-{
-match ___reduce_index {
-0 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 1,
-nonterminal_produced: 0,
-}
-}
-1 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 0,
-nonterminal_produced: 0,
-}
-}
-2 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 1,
-nonterminal_produced: 1,
-}
-}
-3 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 0,
-nonterminal_produced: 1,
-}
-}
-4 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 1,
-nonterminal_produced: 2,
-}
-}
-5 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 0,
-nonterminal_produced: 2,
-}
-}
-6 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 2,
-nonterminal_produced: 3,
-}
-}
-7 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 2,
-nonterminal_produced: 4,
-}
-}
-8 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 0,
-nonterminal_produced: 4,
-}
-}
-9 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 2,
-nonterminal_produced: 5,
-}
-}
-10 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 2,
-nonterminal_produced: 6,
-}
-}
-11 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 0,
-nonterminal_produced: 6,
-}
-}
-12 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 3,
-nonterminal_produced: 7,
-}
-}
-13 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 3,
-nonterminal_produced: 8,
-}
-}
-14 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 0,
-nonterminal_produced: 8,
-}
-}
-15 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 2,
-nonterminal_produced: 9,
-}
-}
-16 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 2,
-nonterminal_produced: 10,
-}
-}
-17 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 0,
-nonterminal_produced: 10,
-}
-}
-18 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 0,
-nonterminal_produced: 11,
-}
-}
-19 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 2,
-nonterminal_produced: 12,
-}
-}
-20 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 0,
-nonterminal_produced: 13,
-}
-}
-21 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 1,
-nonterminal_produced: 13,
-}
-}
-22 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 2,
-nonterminal_produced: 14,
-}
-}
-23 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 3,
-nonterminal_produced: 14,
-}
-}
-24 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 2,
-nonterminal_produced: 15,
-}
-}
-25 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 0,
-nonterminal_produced: 16,
-}
-}
-26 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 1,
-nonterminal_produced: 16,
-}
-}
-27 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 2,
-nonterminal_produced: 17,
-}
-}
-28 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 3,
-nonterminal_produced: 17,
-}
-}
-29 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 2,
-nonterminal_produced: 18,
-}
-}
-30 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 0,
-nonterminal_produced: 19,
-}
-}
-31 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 1,
-nonterminal_produced: 19,
-}
-}
-32 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 2,
-nonterminal_produced: 20,
-}
-}
-33 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 3,
-nonterminal_produced: 20,
-}
-}
-34 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 2,
-nonterminal_produced: 21,
-}
-}
-35 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 0,
-nonterminal_produced: 22,
-}
-}
-36 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 1,
-nonterminal_produced: 22,
-}
-}
-37 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 2,
-nonterminal_produced: 23,
-}
-}
-38 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 3,
-nonterminal_produced: 23,
-}
-}
-39 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 2,
-nonterminal_produced: 24,
-}
-}
-40 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 0,
-nonterminal_produced: 25,
-}
-}
-41 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 1,
-nonterminal_produced: 25,
-}
-}
-42 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 2,
-nonterminal_produced: 26,
-}
-}
-43 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 3,
-nonterminal_produced: 26,
-}
-}
-44 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 2,
-nonterminal_produced: 27,
-}
-}
-45 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 0,
-nonterminal_produced: 28,
-}
-}
-46 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 1,
-nonterminal_produced: 28,
-}
-}
-47 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 2,
-nonterminal_produced: 29,
-}
-}
-48 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 3,
-nonterminal_produced: 29,
-}
-}
-49 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 2,
-nonterminal_produced: 30,
-}
-}
-50 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 0,
-nonterminal_produced: 31,
-}
-}
-51 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 1,
-nonterminal_produced: 31,
-}
-}
-52 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 2,
-nonterminal_produced: 32,
-}
-}
-53 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 3,
-nonterminal_produced: 32,
-}
-}
-54 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 2,
-nonterminal_produced: 33,
-}
-}
-55 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 0,
-nonterminal_produced: 34,
-}
-}
-56 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 1,
-nonterminal_produced: 34,
-}
-}
-57 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 2,
-nonterminal_produced: 35,
-}
-}
-58 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 3,
-nonterminal_produced: 35,
-}
-}
-59 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 2,
-nonterminal_produced: 36,
-}
-}
-60 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 0,
-nonterminal_produced: 37,
-}
-}
-61 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 1,
-nonterminal_produced: 37,
-}
-}
-62 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 2,
-nonterminal_produced: 38,
-}
-}
-63 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 3,
-nonterminal_produced: 38,
-}
-}
-64 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 2,
-nonterminal_produced: 39,
-}
-}
-65 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 0,
-nonterminal_produced: 40,
-}
-}
-66 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 1,
-nonterminal_produced: 40,
-}
-}
-67 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 2,
-nonterminal_produced: 41,
-}
-}
-68 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 3,
-nonterminal_produced: 41,
-}
-}
-69 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 2,
-nonterminal_produced: 42,
-}
-}
-70 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 0,
-nonterminal_produced: 43,
-}
-}
-71 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 1,
-nonterminal_produced: 43,
-}
-}
-72 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 2,
-nonterminal_produced: 44,
-}
-}
-73 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 3,
-nonterminal_produced: 44,
-}
-}
-74 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 2,
-nonterminal_produced: 45,
-}
-}
-75 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 0,
-nonterminal_produced: 46,
-}
-}
-76 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 1,
-nonterminal_produced: 46,
-}
-}
-77 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 2,
-nonterminal_produced: 47,
-}
-}
-78 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 3,
-nonterminal_produced: 47,
-}
-}
-79 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 2,
-nonterminal_produced: 48,
-}
-}
-80 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 0,
-nonterminal_produced: 49,
-}
-}
-81 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 1,
-nonterminal_produced: 49,
-}
-}
-82 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 2,
-nonterminal_produced: 50,
-}
-}
-83 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 3,
-nonterminal_produced: 50,
-}
-}
-84 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 2,
-nonterminal_produced: 51,
-}
-}
-85 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 0,
-nonterminal_produced: 52,
-}
-}
-86 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 1,
-nonterminal_produced: 52,
-}
-}
-87 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 2,
-nonterminal_produced: 53,
-}
-}
-88 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 3,
-nonterminal_produced: 53,
-}
-}
-89 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 2,
-nonterminal_produced: 54,
-}
-}
-90 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 0,
-nonterminal_produced: 55,
-}
-}
-91 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 1,
-nonterminal_produced: 55,
-}
-}
-92 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 2,
-nonterminal_produced: 56,
-}
-}
-93 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 3,
-nonterminal_produced: 56,
-}
-}
-94 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 2,
-nonterminal_produced: 57,
-}
-}
-95 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 0,
-nonterminal_produced: 58,
-}
-}
-96 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 1,
-nonterminal_produced: 58,
-}
-}
-97 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 2,
-nonterminal_produced: 59,
-}
-}
-98 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 3,
-nonterminal_produced: 59,
-}
-}
-99 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 0,
-nonterminal_produced: 60,
-}
-}
-100 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 0,
-nonterminal_produced: 61,
-}
-}
-101 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 1,
-nonterminal_produced: 62,
-}
-}
-102 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 1,
-nonterminal_produced: 62,
-}
-}
-103 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 1,
-nonterminal_produced: 62,
-}
-}
-104 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 1,
-nonterminal_produced: 62,
-}
-}
-105 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 1,
-nonterminal_produced: 63,
-}
-}
-106 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 0,
-nonterminal_produced: 63,
-}
-}
-107 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 4,
-nonterminal_produced: 64,
-}
-}
-108 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 3,
-nonterminal_produced: 64,
-}
-}
-109 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 2,
-nonterminal_produced: 64,
-}
-}
-110 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 1,
-nonterminal_produced: 64,
-}
-}
-111 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 3,
-nonterminal_produced: 64,
-}
-}
-112 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 1,
-nonterminal_produced: 64,
-}
-}
-113 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 1,
-nonterminal_produced: 65,
-}
-}
-114 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 0,
-nonterminal_produced: 65,
-}
-}
-115 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 2,
-nonterminal_produced: 66,
-}
-}
-116 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 4,
-nonterminal_produced: 66,
-}
-}
-117 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 3,
-nonterminal_produced: 66,
-}
-}
-118 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 5,
-nonterminal_produced: 67,
-}
-}
-119 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 4,
-nonterminal_produced: 67,
-}
-}
-120 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 0,
-nonterminal_produced: 68,
-}
-}
-121 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 1,
-nonterminal_produced: 68,
-}
-}
-122 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 1,
-nonterminal_produced: 69,
-}
-}
-123 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 2,
-nonterminal_produced: 69,
-}
-}
-124 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 5,
-nonterminal_produced: 70,
-}
-}
-125 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 1,
-nonterminal_produced: 71,
-}
-}
-126 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 0,
-nonterminal_produced: 71,
-}
-}
-127 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 5,
-nonterminal_produced: 72,
-}
-}
-128 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 0,
-nonterminal_produced: 73,
-}
-}
-129 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 1,
-nonterminal_produced: 73,
-}
-}
-130 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 1,
-nonterminal_produced: 74,
-}
-}
-131 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 2,
-nonterminal_produced: 74,
-}
-}
-132 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 1,
-nonterminal_produced: 75,
-}
-}
-133 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 0,
-nonterminal_produced: 75,
-}
-}
-134 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 2,
-nonterminal_produced: 75,
-}
-}
-135 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 1,
-nonterminal_produced: 75,
-}
-}
-136 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 1,
-nonterminal_produced: 76,
-}
-}
-137 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 0,
-nonterminal_produced: 76,
-}
-}
-138 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 2,
-nonterminal_produced: 76,
-}
-}
-139 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 1,
-nonterminal_produced: 76,
-}
-}
-140 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 1,
-nonterminal_produced: 77,
-}
-}
-141 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 0,
-nonterminal_produced: 77,
-}
-}
-142 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 2,
-nonterminal_produced: 77,
-}
-}
-143 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 1,
-nonterminal_produced: 77,
-}
-}
-144 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 1,
-nonterminal_produced: 78,
-}
-}
-145 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 0,
-nonterminal_produced: 78,
-}
-}
-146 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 2,
-nonterminal_produced: 78,
-}
-}
-147 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 1,
-nonterminal_produced: 78,
-}
-}
-148 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 1,
-nonterminal_produced: 79,
-}
-}
-149 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 0,
-nonterminal_produced: 79,
-}
-}
-150 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 2,
-nonterminal_produced: 79,
-}
-}
-151 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 1,
-nonterminal_produced: 79,
-}
-}
-152 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 1,
-nonterminal_produced: 80,
-}
-}
-153 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 0,
-nonterminal_produced: 80,
-}
-}
-154 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 2,
-nonterminal_produced: 80,
-}
-}
-155 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 1,
-nonterminal_produced: 80,
-}
-}
-156 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 1,
-nonterminal_produced: 81,
-}
-}
-157 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 0,
-nonterminal_produced: 81,
-}
-}
-158 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 2,
-nonterminal_produced: 81,
-}
-}
-159 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 1,
-nonterminal_produced: 81,
-}
-}
-160 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 1,
-nonterminal_produced: 82,
-}
-}
-161 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 0,
-nonterminal_produced: 82,
-}
-}
-162 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 2,
-nonterminal_produced: 82,
-}
-}
-163 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 1,
-nonterminal_produced: 82,
-}
-}
-164 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 1,
-nonterminal_produced: 83,
-}
-}
-165 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 0,
-nonterminal_produced: 83,
-}
-}
-166 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 2,
-nonterminal_produced: 83,
-}
-}
-167 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 1,
-nonterminal_produced: 83,
-}
-}
-168 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 1,
-nonterminal_produced: 84,
-}
-}
-169 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 0,
-nonterminal_produced: 84,
-}
-}
-170 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 2,
-nonterminal_produced: 84,
-}
-}
-171 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 1,
-nonterminal_produced: 84,
-}
-}
-172 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 1,
-nonterminal_produced: 85,
-}
-}
-173 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 0,
-nonterminal_produced: 85,
-}
-}
-174 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 2,
-nonterminal_produced: 85,
-}
-}
-175 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 1,
-nonterminal_produced: 85,
-}
-}
-176 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 1,
-nonterminal_produced: 86,
-}
-}
-177 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 0,
-nonterminal_produced: 86,
-}
-}
-178 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 2,
-nonterminal_produced: 86,
-}
-}
-179 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 1,
-nonterminal_produced: 86,
-}
-}
-180 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 3,
-nonterminal_produced: 87,
-}
-}
-181 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 1,
-nonterminal_produced: 88,
-}
-}
-182 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 1,
-nonterminal_produced: 88,
-}
-}
-183 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 1,
-nonterminal_produced: 88,
-}
-}
-184 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 1,
-nonterminal_produced: 88,
-}
-}
-185 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 2,
-nonterminal_produced: 89,
-}
-}
-186 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 1,
-nonterminal_produced: 90,
-}
-}
-187 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 0,
-nonterminal_produced: 90,
-}
-}
-188 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 5,
-nonterminal_produced: 91,
-}
-}
-189 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 1,
-nonterminal_produced: 92,
-}
-}
-190 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 0,
-nonterminal_produced: 93,
-}
-}
-191 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 1,
-nonterminal_produced: 93,
-}
-}
-192 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 4,
-nonterminal_produced: 94,
-}
-}
-193 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 5,
-nonterminal_produced: 94,
-}
-}
-194 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 5,
-nonterminal_produced: 94,
-}
-}
-195 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 6,
-nonterminal_produced: 94,
-}
-}
-196 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 3,
-nonterminal_produced: 94,
-}
-}
-197 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 4,
-nonterminal_produced: 94,
-}
-}
-198 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 3,
-nonterminal_produced: 95,
-}
-}
-199 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 1,
-nonterminal_produced: 96,
-}
-}
-200 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 0,
-nonterminal_produced: 96,
-}
-}
-201 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 4,
-nonterminal_produced: 97,
-}
-}
-202 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 0,
-nonterminal_produced: 97,
-}
-}
-203 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 5,
-nonterminal_produced: 98,
-}
-}
-204 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 6,
-nonterminal_produced: 98,
-}
-}
-205 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 6,
-nonterminal_produced: 98,
-}
-}
-206 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 7,
-nonterminal_produced: 98,
-}
-}
-207 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 4,
-nonterminal_produced: 98,
-}
-}
-208 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 5,
-nonterminal_produced: 98,
-}
-}
-209 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 5,
-nonterminal_produced: 98,
-}
-}
-210 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 6,
-nonterminal_produced: 98,
-}
-}
-211 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 4,
-nonterminal_produced: 98,
-}
-}
-212 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 5,
-nonterminal_produced: 98,
-}
-}
-213 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 5,
-nonterminal_produced: 98,
-}
-}
-214 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 6,
-nonterminal_produced: 98,
-}
-}
-215 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 3,
-nonterminal_produced: 98,
-}
-}
-216 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 4,
-nonterminal_produced: 98,
-}
-}
-217 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 4,
-nonterminal_produced: 98,
-}
-}
-218 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 5,
-nonterminal_produced: 98,
-}
-}
-219 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 4,
-nonterminal_produced: 98,
-}
-}
-220 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 5,
-nonterminal_produced: 98,
-}
-}
-221 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 5,
-nonterminal_produced: 98,
-}
-}
-222 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 6,
-nonterminal_produced: 98,
-}
-}
-223 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 3,
-nonterminal_produced: 98,
-}
-}
-224 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 4,
-nonterminal_produced: 98,
-}
-}
-225 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 4,
-nonterminal_produced: 98,
-}
-}
-226 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 5,
-nonterminal_produced: 98,
-}
-}
-227 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 3,
-nonterminal_produced: 98,
-}
-}
-228 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 4,
-nonterminal_produced: 98,
-}
-}
-229 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 4,
-nonterminal_produced: 98,
-}
-}
-230 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 5,
-nonterminal_produced: 98,
-}
-}
-231 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 2,
-nonterminal_produced: 98,
-}
-}
-232 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 3,
-nonterminal_produced: 98,
-}
-}
-233 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 3,
-nonterminal_produced: 98,
-}
-}
-234 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 4,
-nonterminal_produced: 98,
-}
-}
-235 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 6,
-nonterminal_produced: 98,
-}
-}
-236 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 7,
-nonterminal_produced: 98,
-}
-}
-237 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 7,
-nonterminal_produced: 98,
-}
-}
-238 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 8,
-nonterminal_produced: 98,
-}
-}
-239 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 5,
-nonterminal_produced: 98,
-}
-}
-240 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 6,
-nonterminal_produced: 98,
-}
-}
-241 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 6,
-nonterminal_produced: 98,
-}
-}
-242 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 7,
-nonterminal_produced: 98,
-}
-}
-243 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 5,
-nonterminal_produced: 98,
-}
-}
-244 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 6,
-nonterminal_produced: 98,
-}
-}
-245 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 6,
-nonterminal_produced: 98,
-}
-}
-246 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 7,
-nonterminal_produced: 98,
-}
-}
-247 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 4,
-nonterminal_produced: 98,
-}
-}
-248 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 5,
-nonterminal_produced: 98,
-}
-}
-249 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 5,
-nonterminal_produced: 98,
-}
-}
-250 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 6,
-nonterminal_produced: 98,
-}
-}
-251 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 5,
-nonterminal_produced: 98,
-}
-}
-252 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 6,
-nonterminal_produced: 98,
-}
-}
-253 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 6,
-nonterminal_produced: 98,
-}
-}
-254 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 7,
-nonterminal_produced: 98,
-}
-}
-255 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 4,
-nonterminal_produced: 98,
-}
-}
-256 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 5,
-nonterminal_produced: 98,
-}
-}
-257 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 5,
-nonterminal_produced: 98,
-}
-}
-258 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 6,
-nonterminal_produced: 98,
-}
-}
-259 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 4,
-nonterminal_produced: 98,
-}
-}
-260 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 5,
-nonterminal_produced: 98,
-}
-}
-261 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 5,
-nonterminal_produced: 98,
-}
-}
-262 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 6,
-nonterminal_produced: 98,
-}
-}
-263 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 3,
-nonterminal_produced: 98,
-}
-}
-264 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 4,
-nonterminal_produced: 98,
-}
-}
-265 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 4,
-nonterminal_produced: 98,
-}
-}
-266 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 5,
-nonterminal_produced: 98,
-}
-}
-267 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 6,
-nonterminal_produced: 98,
-}
-}
-268 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 7,
-nonterminal_produced: 98,
-}
-}
-269 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 7,
-nonterminal_produced: 98,
-}
-}
-270 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 8,
-nonterminal_produced: 98,
-}
-}
-271 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 5,
-nonterminal_produced: 98,
-}
-}
-272 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 6,
-nonterminal_produced: 98,
-}
-}
-273 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 6,
-nonterminal_produced: 98,
-}
-}
-274 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 7,
-nonterminal_produced: 98,
-}
-}
-275 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 5,
-nonterminal_produced: 98,
-}
-}
-276 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 6,
-nonterminal_produced: 98,
-}
-}
-277 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 6,
-nonterminal_produced: 98,
-}
-}
-278 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 7,
-nonterminal_produced: 98,
-}
-}
-279 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 4,
-nonterminal_produced: 98,
-}
-}
-280 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 5,
-nonterminal_produced: 98,
-}
-}
-281 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 5,
-nonterminal_produced: 98,
-}
-}
-282 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 6,
-nonterminal_produced: 98,
-}
-}
-283 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 5,
-nonterminal_produced: 98,
-}
-}
-284 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 6,
-nonterminal_produced: 98,
-}
-}
-285 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 6,
-nonterminal_produced: 98,
-}
-}
-286 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 7,
-nonterminal_produced: 98,
-}
-}
-287 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 4,
-nonterminal_produced: 98,
-}
-}
-288 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 5,
-nonterminal_produced: 98,
-}
-}
-289 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 5,
-nonterminal_produced: 98,
-}
-}
-290 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 6,
-nonterminal_produced: 98,
-}
-}
-291 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 4,
-nonterminal_produced: 98,
-}
-}
-292 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 5,
-nonterminal_produced: 98,
-}
-}
-293 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 5,
-nonterminal_produced: 98,
-}
-}
-294 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 6,
-nonterminal_produced: 98,
-}
-}
-295 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 3,
-nonterminal_produced: 98,
-}
-}
-296 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 4,
-nonterminal_produced: 98,
-}
-}
-297 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 4,
-nonterminal_produced: 98,
-}
-}
-298 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 5,
-nonterminal_produced: 98,
-}
-}
-299 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 7,
-nonterminal_produced: 98,
-}
-}
-300 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 8,
-nonterminal_produced: 98,
-}
-}
-301 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 8,
-nonterminal_produced: 98,
-}
-}
-302 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 9,
-nonterminal_produced: 98,
-}
-}
-303 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 6,
-nonterminal_produced: 98,
-}
-}
-304 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 7,
-nonterminal_produced: 98,
-}
-}
-305 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 7,
-nonterminal_produced: 98,
-}
-}
-306 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 8,
-nonterminal_produced: 98,
-}
-}
-307 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 6,
-nonterminal_produced: 98,
-}
-}
-308 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 7,
-nonterminal_produced: 98,
-}
-}
-309 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 7,
-nonterminal_produced: 98,
-}
-}
-310 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 8,
-nonterminal_produced: 98,
-}
-}
-311 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 5,
-nonterminal_produced: 98,
-}
-}
-312 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 6,
-nonterminal_produced: 98,
-}
-}
-313 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 6,
-nonterminal_produced: 98,
-}
-}
-314 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 7,
-nonterminal_produced: 98,
-}
-}
-315 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 6,
-nonterminal_produced: 98,
-}
-}
-316 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 7,
-nonterminal_produced: 98,
-}
-}
-317 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 7,
-nonterminal_produced: 98,
-}
-}
-318 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 8,
-nonterminal_produced: 98,
-}
-}
-319 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 5,
-nonterminal_produced: 98,
-}
-}
-320 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 6,
-nonterminal_produced: 98,
-}
-}
-321 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 6,
-nonterminal_produced: 98,
-}
-}
-322 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 7,
-nonterminal_produced: 98,
-}
-}
-323 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 5,
-nonterminal_produced: 98,
-}
-}
-324 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 6,
-nonterminal_produced: 98,
-}
-}
-325 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 6,
-nonterminal_produced: 98,
-}
-}
-326 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 7,
-nonterminal_produced: 98,
-}
-}
-327 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 4,
-nonterminal_produced: 98,
-}
-}
-328 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 5,
-nonterminal_produced: 98,
-}
-}
-329 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 5,
-nonterminal_produced: 98,
-}
-}
-330 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 6,
-nonterminal_produced: 98,
-}
-}
-331 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 1,
-nonterminal_produced: 99,
-}
-}
-332 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 1,
-nonterminal_produced: 99,
-}
-}
-333 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 1,
-nonterminal_produced: 99,
-}
-}
-334 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 1,
-nonterminal_produced: 99,
-}
-}
-335 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 0,
-nonterminal_produced: 100,
-}
-}
-336 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 1,
-nonterminal_produced: 100,
-}
-}
-337 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 1,
-nonterminal_produced: 101,
-}
-}
-338 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 2,
-nonterminal_produced: 101,
-}
-}
-339 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 3,
-nonterminal_produced: 102,
-}
-}
-340 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 1,
-nonterminal_produced: 103,
-}
-}
-341 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 0,
-nonterminal_produced: 103,
-}
-}
-342 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 3,
-nonterminal_produced: 104,
-}
-}
-343 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 1,
-nonterminal_produced: 105,
-}
-}
-344 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 0,
-nonterminal_produced: 105,
-}
-}
-345 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 3,
-nonterminal_produced: 106,
-}
-}
-346 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 1,
-nonterminal_produced: 107,
-}
-}
-347 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 0,
-nonterminal_produced: 107,
-}
-}
-348 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 3,
-nonterminal_produced: 108,
-}
-}
-349 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 7,
-nonterminal_produced: 108,
-}
-}
-350 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 3,
-nonterminal_produced: 108,
-}
-}
-351 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 1,
-nonterminal_produced: 109,
-}
-}
-352 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 0,
-nonterminal_produced: 109,
-}
-}
-353 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 2,
-nonterminal_produced: 110,
-}
-}
-354 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 1,
-nonterminal_produced: 111,
-}
-}
-355 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 0,
-nonterminal_produced: 111,
-}
-}
-356 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 1,
-nonterminal_produced: 112,
-}
-}
-357 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 1,
-nonterminal_produced: 112,
-}
-}
-358 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 1,
-nonterminal_produced: 113,
-}
-}
-359 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 1,
-nonterminal_produced: 114,
-}
-}
-360 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 0,
-nonterminal_produced: 114,
-}
-}
-361 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 1,
-nonterminal_produced: 115,
-}
-}
-362 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 1,
-nonterminal_produced: 116,
-}
-}
-363 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 1,
-nonterminal_produced: 117,
-}
-}
-364 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 1,
-nonterminal_produced: 117,
-}
-}
-365 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 2,
-nonterminal_produced: 117,
-}
-}
-366 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 1,
-nonterminal_produced: 118,
-}
-}
-367 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 0,
-nonterminal_produced: 118,
-}
-}
-368 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 1,
-nonterminal_produced: 119,
-}
-}
-369 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 1,
-nonterminal_produced: 120,
-}
-}
-370 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 1,
-nonterminal_produced: 121,
-}
-}
-371 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 5,
-nonterminal_produced: 122,
-}
-}
-372 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 4,
-nonterminal_produced: 122,
-}
-}
-373 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 6,
-nonterminal_produced: 123,
-}
-}
-374 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 7,
-nonterminal_produced: 123,
-}
-}
-375 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 4,
-nonterminal_produced: 123,
-}
-}
-376 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 5,
-nonterminal_produced: 123,
-}
-}
-377 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 4,
-nonterminal_produced: 124,
-}
-}
-378 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 1,
-nonterminal_produced: 124,
-}
-}
-379 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 1,
-nonterminal_produced: 124,
-}
-}
-380 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 1,
-nonterminal_produced: 125,
-}
-}
-381 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 1,
-nonterminal_produced: 126,
-}
-}
-382 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 0,
-nonterminal_produced: 126,
-}
-}
-383 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 2,
-nonterminal_produced: 127,
-}
-}
-384 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 3,
-nonterminal_produced: 127,
-}
-}
-385 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 1,
-nonterminal_produced: 127,
-}
-}
-386 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 2,
-nonterminal_produced: 127,
-}
-}
-387 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 1,
-nonterminal_produced: 128,
-}
-}
-388 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 1,
-nonterminal_produced: 129,
-}
-}
-389 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 0,
-nonterminal_produced: 129,
-}
-}
-390 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 4,
-nonterminal_produced: 130,
-}
-}
-391 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 4,
-nonterminal_produced: 130,
-}
-}
-392 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 3,
-nonterminal_produced: 130,
-}
-}
-393 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 5,
-nonterminal_produced: 130,
-}
-}
-394 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 4,
-nonterminal_produced: 130,
-}
-}
-395 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 4,
-nonterminal_produced: 130,
-}
-}
-396 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 5,
-nonterminal_produced: 130,
-}
-}
-397 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 1,
-nonterminal_produced: 130,
-}
-}
-398 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 1,
-nonterminal_produced: 130,
-}
-}
-399 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 3,
-nonterminal_produced: 130,
-}
-}
-400 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 3,
-nonterminal_produced: 130,
-}
-}
-401 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 1,
-nonterminal_produced: 130,
-}
-}
-402 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 1,
-nonterminal_produced: 130,
-}
-}
-403 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 1,
-nonterminal_produced: 131,
-}
-}
-404 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 0,
-nonterminal_produced: 131,
-}
-}
-405 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 2,
-nonterminal_produced: 131,
-}
-}
-406 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 1,
-nonterminal_produced: 131,
-}
-}
-407 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 1,
-nonterminal_produced: 132,
-}
-}
-408 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 0,
-nonterminal_produced: 132,
-}
-}
-409 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 2,
-nonterminal_produced: 132,
-}
-}
-410 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 1,
-nonterminal_produced: 132,
-}
-}
-411 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 1,
-nonterminal_produced: 133,
-}
-}
-412 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 1,
-nonterminal_produced: 133,
-}
-}
-413 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 1,
-nonterminal_produced: 134,
-}
-}
-414 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 1,
-nonterminal_produced: 135,
-}
-}
-415 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 1,
-nonterminal_produced: 136,
-}
-}
-416 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 1,
-nonterminal_produced: 136,
-}
-}
-417 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 1,
-nonterminal_produced: 136,
-}
-}
-418 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 1,
-nonterminal_produced: 137,
-}
-}
-419 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 0,
-nonterminal_produced: 138,
-}
-}
-420 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 1,
-nonterminal_produced: 138,
-}
-}
-421 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 1,
-nonterminal_produced: 139,
-}
-}
-422 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 2,
-nonterminal_produced: 139,
-}
-}
-423 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 1,
-nonterminal_produced: 140,
-}
-}
-424 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 6,
-nonterminal_produced: 141,
-}
-}
-425 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 5,
-nonterminal_produced: 141,
-}
-}
-426 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 3,
-nonterminal_produced: 141,
-}
-}
-427 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 1,
-nonterminal_produced: 141,
-}
-}
-428 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 0,
-nonterminal_produced: 142,
-}
-}
-429 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 1,
-nonterminal_produced: 142,
-}
-}
-430 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 1,
-nonterminal_produced: 143,
-}
-}
-431 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 2,
-nonterminal_produced: 143,
-}
-}
-432 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 1,
-nonterminal_produced: 144,
-}
-}
-433 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 2,
-nonterminal_produced: 144,
-}
-}
-434 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 1,
-nonterminal_produced: 145,
-}
-}
-435 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 1,
-nonterminal_produced: 146,
-}
-}
-436 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 0,
-nonterminal_produced: 146,
-}
-}
-437 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 4,
-nonterminal_produced: 147,
-}
-}
-438 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 1,
-nonterminal_produced: 147,
-}
-}
-439 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 1,
-nonterminal_produced: 147,
-}
-}
-440 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 1,
-nonterminal_produced: 147,
-}
-}
-441 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 3,
-nonterminal_produced: 147,
-}
-}
-442 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 1,
-nonterminal_produced: 147,
-}
-}
-443 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 1,
-nonterminal_produced: 147,
-}
-}
-444 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 1,
-nonterminal_produced: 147,
-}
-}
-445 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 1,
-nonterminal_produced: 148,
-}
-}
-446 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 1,
-nonterminal_produced: 148,
-}
-}
-447 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 2,
-nonterminal_produced: 149,
-}
-}
-448 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 2,
-nonterminal_produced: 149,
-}
-}
-449 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 2,
-nonterminal_produced: 149,
-}
-}
-450 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 2,
-nonterminal_produced: 149,
-}
-}
-451 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 2,
-nonterminal_produced: 149,
-}
-}
-452 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 1,
-nonterminal_produced: 150,
-}
-}
-453 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 10,
-nonterminal_produced: 150,
-}
-}
-454 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 6,
-nonterminal_produced: 150,
-}
-}
-455 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 8,
-nonterminal_produced: 150,
-}
-}
-456 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 4,
-nonterminal_produced: 150,
-}
-}
-457 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 8,
-nonterminal_produced: 150,
-}
-}
-458 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 4,
-nonterminal_produced: 150,
-}
-}
-459 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 5,
-nonterminal_produced: 150,
-}
-}
-460 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 1,
-nonterminal_produced: 150,
-}
-}
-461 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 1,
-nonterminal_produced: 151,
-}
-}
-462 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 0,
-nonterminal_produced: 151,
-}
-}
-463 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 1,
-nonterminal_produced: 152,
-}
-}
-464 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 1,
-nonterminal_produced: 152,
-}
-}
-465 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 3,
-nonterminal_produced: 152,
-}
-}
-466 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 1,
-nonterminal_produced: 153,
-}
-}
-467 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 0,
-nonterminal_produced: 153,
-}
-}
-468 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 1,
-nonterminal_produced: 154,
-}
-}
-469 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 1,
-nonterminal_produced: 155,
-}
-}
-470 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 1,
-nonterminal_produced: 155,
-}
-}
-471 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 1,
-nonterminal_produced: 156,
-}
-}
-472 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 0,
-nonterminal_produced: 156,
-}
-}
-473 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 3,
-nonterminal_produced: 157,
-}
-}
-474 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 3,
-nonterminal_produced: 157,
-}
-}
-475 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 3,
-nonterminal_produced: 157,
-}
-}
-476 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 4,
-nonterminal_produced: 157,
-}
-}
-477 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 3,
-nonterminal_produced: 157,
-}
-}
-478 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 3,
-nonterminal_produced: 157,
-}
-}
-479 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 2,
-nonterminal_produced: 157,
-}
-}
-480 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 4,
-nonterminal_produced: 157,
-}
-}
-481 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 1,
-nonterminal_produced: 157,
-}
-}
-482 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 5,
-nonterminal_produced: 157,
-}
-}
-483 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 2,
-nonterminal_produced: 157,
-}
-}
-484 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 11,
-nonterminal_produced: 157,
-}
-}
-485 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 7,
-nonterminal_produced: 157,
-}
-}
-486 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 9,
-nonterminal_produced: 157,
-}
-}
-487 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 5,
-nonterminal_produced: 157,
-}
-}
-488 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 1,
-nonterminal_produced: 158,
-}
-}
-489 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 0,
-nonterminal_produced: 158,
-}
-}
-490 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 1,
-nonterminal_produced: 159,
-}
-}
-491 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 1,
-nonterminal_produced: 159,
-}
-}
-492 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 1,
-nonterminal_produced: 160,
-}
-}
-493 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 0,
-nonterminal_produced: 160,
-}
-}
-494 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 2,
-nonterminal_produced: 161,
-}
-}
-495 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 0,
-nonterminal_produced: 162,
-}
-}
-496 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 1,
-nonterminal_produced: 162,
-}
-}
-497 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 1,
-nonterminal_produced: 163,
-}
-}
-498 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 2,
-nonterminal_produced: 163,
-}
-}
-499 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 4,
-nonterminal_produced: 164,
-}
-}
-500 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 1,
-nonterminal_produced: 164,
-}
-}
-501 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 0,
-nonterminal_produced: 164,
-}
-}
-502 => ___state_machine::SimulatedReduce::Accept,
-_ => panic!("invalid reduction index {}", ___reduce_index)
 }
 }
 pub struct TopParser {
@@ -7225,562 +3974,563 @@ _: ::std::marker::PhantomData<(&'input ())>,
 {
 let (___pop_states, ___nonterminal) = match ___action {
 0 => {
-___reduce0(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce0(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 1 => {
-___reduce1(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce1(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 2 => {
-___reduce2(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce2(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 3 => {
-___reduce3(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce3(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 4 => {
-___reduce4(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce4(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 5 => {
-___reduce5(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce5(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 6 => {
-___reduce6(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce6(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 7 => {
-___reduce7(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce7(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 8 => {
-___reduce8(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce8(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 9 => {
-___reduce9(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce9(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 10 => {
-___reduce10(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce10(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 11 => {
-___reduce11(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce11(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 12 => {
-___reduce12(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce12(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 13 => {
-___reduce13(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce13(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 14 => {
-___reduce14(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce14(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 15 => {
-___reduce15(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce15(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 16 => {
-___reduce16(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce16(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 17 => {
-___reduce17(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce17(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 18 => {
-___reduce18(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce18(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 19 => {
-___reduce19(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce19(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 20 => {
-___reduce20(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce20(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 21 => {
-___reduce21(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce21(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 22 => {
-___reduce22(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce22(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 23 => {
-___reduce23(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce23(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 24 => {
-___reduce24(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce24(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 25 => {
-___reduce25(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce25(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 26 => {
-___reduce26(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce26(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 27 => {
-___reduce27(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce27(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 28 => {
-___reduce28(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce28(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 29 => {
-___reduce29(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce29(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 30 => {
-___reduce30(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce30(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 31 => {
-___reduce31(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce31(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 32 => {
-___reduce32(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce32(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 33 => {
-___reduce33(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce33(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 34 => {
-___reduce34(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce34(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 35 => {
-___reduce35(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce35(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 36 => {
-___reduce36(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce36(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 37 => {
-___reduce37(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce37(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 38 => {
-___reduce38(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce38(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 39 => {
-___reduce39(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce39(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 40 => {
-___reduce40(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce40(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 41 => {
-___reduce41(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce41(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 42 => {
-___reduce42(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce42(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 43 => {
-___reduce43(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce43(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 44 => {
-___reduce44(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce44(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 45 => {
-___reduce45(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce45(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 46 => {
-___reduce46(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce46(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 47 => {
-___reduce47(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce47(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 48 => {
-___reduce48(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce48(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 49 => {
-___reduce49(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce49(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 50 => {
-___reduce50(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce50(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 51 => {
-___reduce51(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce51(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 52 => {
-___reduce52(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce52(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 53 => {
-___reduce53(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce53(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 54 => {
-___reduce54(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce54(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 55 => {
-___reduce55(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce55(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 56 => {
-___reduce56(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce56(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 57 => {
-___reduce57(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce57(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 58 => {
-___reduce58(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce58(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 59 => {
-___reduce59(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce59(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 60 => {
-___reduce60(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce60(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 61 => {
-___reduce61(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce61(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 62 => {
-___reduce62(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce62(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 63 => {
-___reduce63(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce63(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 64 => {
-___reduce64(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce64(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 65 => {
-___reduce65(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce65(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 66 => {
-___reduce66(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce66(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 67 => {
-___reduce67(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce67(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 68 => {
-___reduce68(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce68(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 69 => {
-___reduce69(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce69(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 70 => {
-___reduce70(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce70(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 71 => {
-___reduce71(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce71(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 72 => {
-___reduce72(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce72(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 73 => {
-___reduce73(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce73(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 74 => {
-___reduce74(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce74(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 75 => {
-___reduce75(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce75(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 76 => {
-___reduce76(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce76(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 77 => {
-___reduce77(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce77(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 78 => {
-___reduce78(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce78(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 79 => {
-___reduce79(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce79(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 80 => {
-___reduce80(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce80(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 81 => {
-___reduce81(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce81(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 82 => {
-___reduce82(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce82(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 83 => {
-___reduce83(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce83(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 84 => {
-___reduce84(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce84(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 85 => {
-___reduce85(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce85(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 86 => {
-___reduce86(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce86(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 87 => {
-___reduce87(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce87(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 88 => {
-___reduce88(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce88(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 89 => {
-___reduce89(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce89(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 90 => {
-___reduce90(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce90(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 91 => {
-___reduce91(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce91(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 92 => {
-___reduce92(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce92(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 93 => {
-___reduce93(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce93(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 94 => {
-___reduce94(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce94(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 95 => {
-___reduce95(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce95(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 96 => {
-___reduce96(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce96(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 97 => {
-___reduce97(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce97(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 98 => {
-___reduce98(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce98(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 99 => {
-___reduce99(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce99(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 100 => {
-___reduce100(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce100(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 101 => {
-___reduce101(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce101(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 102 => {
-___reduce102(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce102(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 103 => {
-___reduce103(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce103(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 104 => {
-___reduce104(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce104(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 105 => {
-___reduce105(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce105(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 106 => {
-___reduce106(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce106(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 107 => {
-___reduce107(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce107(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 108 => {
-___reduce108(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce108(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 109 => {
-___reduce109(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce109(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 110 => {
-___reduce110(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce110(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 111 => {
-___reduce111(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce111(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 112 => {
-___reduce112(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce112(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 113 => {
-___reduce113(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce113(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 114 => {
-___reduce114(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce114(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 115 => {
-___reduce115(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce115(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 116 => {
-___reduce116(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce116(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 117 => {
-___reduce117(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce117(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 118 => {
-___reduce118(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce118(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 119 => {
-___reduce119(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce119(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 120 => {
-___reduce120(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce120(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 121 => {
-___reduce121(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce121(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 122 => {
-___reduce122(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce122(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 123 => {
-___reduce123(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce123(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 124 => {
-___reduce124(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce124(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 125 => {
-___reduce125(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce125(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 126 => {
-___reduce126(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce126(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 127 => {
-___reduce127(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce127(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 128 => {
-___reduce128(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce128(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 129 => {
-___reduce129(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce129(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 130 => {
-___reduce130(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce130(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 131 => {
-___reduce131(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce131(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 132 => {
-___reduce132(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce132(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 133 => {
-___reduce133(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce133(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 134 => {
-___reduce134(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce134(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 135 => {
-___reduce135(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce135(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 136 => {
-___reduce136(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce136(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 137 => {
-___reduce137(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce137(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 138 => {
-___reduce138(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce138(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 139 => {
-___reduce139(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce139(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 140 => {
-___reduce140(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce140(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 141 => {
-___reduce141(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce141(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 142 => {
-___reduce142(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce142(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 143 => {
-___reduce143(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce143(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 144 => {
-___reduce144(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce144(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 145 => {
-___reduce145(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce145(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 146 => {
-___reduce146(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce146(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 147 => {
-___reduce147(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce147(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 148 => {
-___reduce148(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce148(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 149 => {
-___reduce149(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce149(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 150 => {
-___reduce150(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce150(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 151 => {
-___reduce151(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce151(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 152 => {
-___reduce152(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce152(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 153 => {
-___reduce153(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce153(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 154 => {
-___reduce154(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce154(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 155 => {
-___reduce155(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce155(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 156 => {
-___reduce156(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce156(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 157 => {
-___reduce157(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce157(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 158 => {
-___reduce158(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce158(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 159 => {
-___reduce159(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce159(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 160 => {
-___reduce160(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce160(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 161 => {
-___reduce161(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce161(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 162 => {
-___reduce162(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce162(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 163 => {
-___reduce163(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce163(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 164 => {
-___reduce164(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce164(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 165 => {
-___reduce165(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce165(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 166 => {
-___reduce166(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce166(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 167 => {
-___reduce167(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce167(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 168 => {
-___reduce168(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce168(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 169 => {
-___reduce169(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce169(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 170 => {
-___reduce170(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce170(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 171 => {
-___reduce171(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce171(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 172 => {
-___reduce172(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce172(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 173 => {
-___reduce173(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce173(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 174 => {
-___reduce174(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce174(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 175 => {
-___reduce175(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce175(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 176 => {
-___reduce176(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce176(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 177 => {
-___reduce177(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce177(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 178 => {
-___reduce178(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce178(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 179 => {
-___reduce179(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce179(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 180 => {
-___reduce180(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce180(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 181 => {
-___reduce181(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce181(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 182 => {
-___reduce182(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce182(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 183 => {
-___reduce183(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce183(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 184 => {
-___reduce184(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce184(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 185 => {
 // Conversion = Terminal, "=>" => ActionFn(425);
+assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant1(___symbols);
 let ___sym0 = ___pop_Variant75(___symbols);
 let ___start = ___sym0.0.clone();
@@ -7793,544 +4543,545 @@ ___symbols.push((___start, ___Symbol::Variant12(___nt), ___end));
 (2, 89)
 }
 186 => {
-___reduce186(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce186(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 187 => {
-___reduce187(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce187(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 188 => {
-___reduce188(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce188(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 189 => {
-___reduce189(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce189(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 190 => {
-___reduce190(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce190(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 191 => {
-___reduce191(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce191(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 192 => {
-___reduce192(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce192(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 193 => {
-___reduce193(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce193(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 194 => {
-___reduce194(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce194(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 195 => {
-___reduce195(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce195(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 196 => {
-___reduce196(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce196(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 197 => {
-___reduce197(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce197(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 198 => {
-___reduce198(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce198(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 199 => {
-___reduce199(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce199(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 200 => {
-___reduce200(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce200(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 201 => {
-___reduce201(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce201(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 202 => {
-___reduce202(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce202(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 203 => {
-___reduce203(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce203(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 204 => {
-___reduce204(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce204(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 205 => {
-___reduce205(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce205(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 206 => {
-___reduce206(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce206(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 207 => {
-___reduce207(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce207(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 208 => {
-___reduce208(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce208(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 209 => {
-___reduce209(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce209(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 210 => {
-___reduce210(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce210(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 211 => {
-___reduce211(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce211(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 212 => {
-___reduce212(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce212(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 213 => {
-___reduce213(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce213(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 214 => {
-___reduce214(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce214(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 215 => {
-___reduce215(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce215(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 216 => {
-___reduce216(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce216(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 217 => {
-___reduce217(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce217(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 218 => {
-___reduce218(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce218(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 219 => {
-___reduce219(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce219(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 220 => {
-___reduce220(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce220(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 221 => {
-___reduce221(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce221(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 222 => {
-___reduce222(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce222(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 223 => {
-___reduce223(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce223(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 224 => {
-___reduce224(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce224(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 225 => {
-___reduce225(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce225(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 226 => {
-___reduce226(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce226(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 227 => {
-___reduce227(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce227(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 228 => {
-___reduce228(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce228(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 229 => {
-___reduce229(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce229(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 230 => {
-___reduce230(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce230(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 231 => {
-___reduce231(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce231(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 232 => {
-___reduce232(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce232(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 233 => {
-___reduce233(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce233(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 234 => {
-___reduce234(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce234(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 235 => {
-___reduce235(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce235(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 236 => {
-___reduce236(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce236(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 237 => {
-___reduce237(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce237(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 238 => {
-___reduce238(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce238(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 239 => {
-___reduce239(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce239(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 240 => {
-___reduce240(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce240(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 241 => {
-___reduce241(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce241(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 242 => {
-___reduce242(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce242(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 243 => {
-___reduce243(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce243(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 244 => {
-___reduce244(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce244(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 245 => {
-___reduce245(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce245(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 246 => {
-___reduce246(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce246(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 247 => {
-___reduce247(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce247(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 248 => {
-___reduce248(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce248(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 249 => {
-___reduce249(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce249(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 250 => {
-___reduce250(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce250(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 251 => {
-___reduce251(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce251(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 252 => {
-___reduce252(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce252(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 253 => {
-___reduce253(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce253(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 254 => {
-___reduce254(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce254(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 255 => {
-___reduce255(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce255(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 256 => {
-___reduce256(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce256(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 257 => {
-___reduce257(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce257(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 258 => {
-___reduce258(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce258(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 259 => {
-___reduce259(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce259(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 260 => {
-___reduce260(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce260(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 261 => {
-___reduce261(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce261(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 262 => {
-___reduce262(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce262(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 263 => {
-___reduce263(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce263(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 264 => {
-___reduce264(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce264(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 265 => {
-___reduce265(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce265(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 266 => {
-___reduce266(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce266(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 267 => {
-___reduce267(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce267(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 268 => {
-___reduce268(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce268(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 269 => {
-___reduce269(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce269(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 270 => {
-___reduce270(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce270(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 271 => {
-___reduce271(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce271(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 272 => {
-___reduce272(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce272(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 273 => {
-___reduce273(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce273(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 274 => {
-___reduce274(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce274(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 275 => {
-___reduce275(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce275(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 276 => {
-___reduce276(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce276(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 277 => {
-___reduce277(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce277(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 278 => {
-___reduce278(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce278(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 279 => {
-___reduce279(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce279(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 280 => {
-___reduce280(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce280(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 281 => {
-___reduce281(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce281(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 282 => {
-___reduce282(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce282(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 283 => {
-___reduce283(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce283(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 284 => {
-___reduce284(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce284(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 285 => {
-___reduce285(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce285(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 286 => {
-___reduce286(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce286(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 287 => {
-___reduce287(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce287(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 288 => {
-___reduce288(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce288(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 289 => {
-___reduce289(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce289(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 290 => {
-___reduce290(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce290(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 291 => {
-___reduce291(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce291(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 292 => {
-___reduce292(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce292(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 293 => {
-___reduce293(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce293(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 294 => {
-___reduce294(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce294(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 295 => {
-___reduce295(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce295(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 296 => {
-___reduce296(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce296(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 297 => {
-___reduce297(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce297(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 298 => {
-___reduce298(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce298(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 299 => {
-___reduce299(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce299(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 300 => {
-___reduce300(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce300(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 301 => {
-___reduce301(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce301(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 302 => {
-___reduce302(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce302(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 303 => {
-___reduce303(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce303(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 304 => {
-___reduce304(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce304(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 305 => {
-___reduce305(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce305(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 306 => {
-___reduce306(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce306(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 307 => {
-___reduce307(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce307(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 308 => {
-___reduce308(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce308(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 309 => {
-___reduce309(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce309(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 310 => {
-___reduce310(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce310(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 311 => {
-___reduce311(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce311(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 312 => {
-___reduce312(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce312(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 313 => {
-___reduce313(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce313(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 314 => {
-___reduce314(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce314(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 315 => {
-___reduce315(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce315(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 316 => {
-___reduce316(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce316(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 317 => {
-___reduce317(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce317(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 318 => {
-___reduce318(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce318(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 319 => {
-___reduce319(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce319(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 320 => {
-___reduce320(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce320(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 321 => {
-___reduce321(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce321(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 322 => {
-___reduce322(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce322(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 323 => {
-___reduce323(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce323(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 324 => {
-___reduce324(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce324(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 325 => {
-___reduce325(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce325(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 326 => {
-___reduce326(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce326(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 327 => {
-___reduce327(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce327(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 328 => {
-___reduce328(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce328(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 329 => {
-___reduce329(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce329(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 330 => {
-___reduce330(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce330(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 331 => {
-___reduce331(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce331(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 332 => {
-___reduce332(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce332(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 333 => {
-___reduce333(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce333(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 334 => {
-___reduce334(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce334(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 335 => {
-___reduce335(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce335(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 336 => {
-___reduce336(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce336(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 337 => {
-___reduce337(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce337(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 338 => {
-___reduce338(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce338(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 339 => {
-___reduce339(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce339(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 340 => {
-___reduce340(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce340(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 341 => {
-___reduce341(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce341(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 342 => {
-___reduce342(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce342(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 343 => {
-___reduce343(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce343(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 344 => {
-___reduce344(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce344(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 345 => {
-___reduce345(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce345(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 346 => {
-___reduce346(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce346(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 347 => {
-___reduce347(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce347(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 348 => {
-___reduce348(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce348(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 349 => {
-___reduce349(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce349(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 350 => {
-___reduce350(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce350(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 351 => {
-___reduce351(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce351(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 352 => {
-___reduce352(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce352(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 353 => {
-___reduce353(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce353(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 354 => {
-___reduce354(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce354(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 355 => {
-___reduce355(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce355(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 356 => {
-___reduce356(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce356(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 357 => {
-___reduce357(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce357(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 358 => {
-___reduce358(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce358(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 359 => {
-___reduce359(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce359(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 360 => {
-___reduce360(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce360(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 361 => {
-___reduce361(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce361(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 362 => {
-___reduce362(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce362(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 363 => {
-___reduce363(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce363(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 364 => {
-___reduce364(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce364(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 365 => {
 // MatchItem = MatchSymbol, "=>" => ActionFn(433);
+assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant1(___symbols);
 let ___sym0 = ___pop_Variant76(___symbols);
 let ___start = ___sym0.0.clone();
@@ -8343,175 +5094,175 @@ ___symbols.push((___start, ___Symbol::Variant24(___nt), ___end));
 (2, 117)
 }
 366 => {
-___reduce366(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce366(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 367 => {
-___reduce367(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce367(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 368 => {
-___reduce368(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce368(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 369 => {
-___reduce369(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce369(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 370 => {
-___reduce370(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce370(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 371 => {
-___reduce371(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce371(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 372 => {
-___reduce372(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce372(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 373 => {
-___reduce373(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce373(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 374 => {
-___reduce374(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce374(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 375 => {
-___reduce375(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce375(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 376 => {
-___reduce376(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce376(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 377 => {
-___reduce377(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce377(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 378 => {
-___reduce378(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce378(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 379 => {
-___reduce379(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce379(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 380 => {
-___reduce380(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce380(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 381 => {
-___reduce381(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce381(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 382 => {
-___reduce382(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce382(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 383 => {
-___reduce383(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce383(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 384 => {
-___reduce384(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce384(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 385 => {
-___reduce385(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce385(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 386 => {
-___reduce386(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce386(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 387 => {
-___reduce387(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce387(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 388 => {
-___reduce388(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce388(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 389 => {
-___reduce389(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce389(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 390 => {
-___reduce390(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce390(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 391 => {
-___reduce391(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce391(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 392 => {
-___reduce392(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce392(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 393 => {
-___reduce393(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce393(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 394 => {
-___reduce394(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce394(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 395 => {
-___reduce395(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce395(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 396 => {
-___reduce396(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce396(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 397 => {
-___reduce397(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce397(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 398 => {
-___reduce398(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce398(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 399 => {
-___reduce399(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce399(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 400 => {
-___reduce400(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce400(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 401 => {
-___reduce401(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce401(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 402 => {
-___reduce402(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce402(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 403 => {
-___reduce403(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce403(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 404 => {
-___reduce404(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce404(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 405 => {
-___reduce405(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce405(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 406 => {
-___reduce406(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce406(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 407 => {
-___reduce407(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce407(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 408 => {
-___reduce408(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce408(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 409 => {
-___reduce409(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce409(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 410 => {
-___reduce410(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce410(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 411 => {
-___reduce411(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce411(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 412 => {
-___reduce412(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce412(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 413 => {
-___reduce413(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce413(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 414 => {
-___reduce414(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce414(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 415 => {
-___reduce415(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce415(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 416 => {
-___reduce416(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce416(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 417 => {
-___reduce417(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce417(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 418 => {
-___reduce418(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce418(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 419 => {
-___reduce419(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce419(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 420 => {
-___reduce420(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce420(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 421 => {
-___reduce421(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce421(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 422 => {
-___reduce422(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce422(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 423 => {
 // StringLiteral = "StringLiteral" => ActionFn(413);
@@ -8526,238 +5277,238 @@ ___symbols.push((___start, ___Symbol::Variant20(___nt), ___end));
 (1, 140)
 }
 424 => {
-___reduce424(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce424(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 425 => {
-___reduce425(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce425(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 426 => {
-___reduce426(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce426(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 427 => {
-___reduce427(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce427(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 428 => {
-___reduce428(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce428(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 429 => {
-___reduce429(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce429(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 430 => {
-___reduce430(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce430(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 431 => {
-___reduce431(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce431(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 432 => {
-___reduce432(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce432(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 433 => {
-___reduce433(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce433(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 434 => {
-___reduce434(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce434(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 435 => {
-___reduce435(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce435(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 436 => {
-___reduce436(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce436(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 437 => {
-___reduce437(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce437(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 438 => {
-___reduce438(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce438(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 439 => {
-___reduce439(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce439(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 440 => {
-___reduce440(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce440(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 441 => {
-___reduce441(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce441(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 442 => {
-___reduce442(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce442(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 443 => {
-___reduce443(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce443(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 444 => {
-___reduce444(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce444(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 445 => {
-___reduce445(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce445(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 446 => {
-___reduce446(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce446(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 447 => {
-___reduce447(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce447(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 448 => {
-___reduce448(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce448(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 449 => {
-___reduce449(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce449(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 450 => {
-___reduce450(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce450(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 451 => {
-___reduce451(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce451(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 452 => {
-___reduce452(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce452(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 453 => {
-___reduce453(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce453(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 454 => {
-___reduce454(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce454(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 455 => {
-___reduce455(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce455(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 456 => {
-___reduce456(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce456(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 457 => {
-___reduce457(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce457(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 458 => {
-___reduce458(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce458(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 459 => {
-___reduce459(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce459(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 460 => {
-___reduce460(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce460(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 461 => {
-___reduce461(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce461(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 462 => {
-___reduce462(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce462(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 463 => {
-___reduce463(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce463(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 464 => {
-___reduce464(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce464(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 465 => {
-___reduce465(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce465(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 466 => {
-___reduce466(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce466(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 467 => {
-___reduce467(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce467(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 468 => {
-___reduce468(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce468(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 469 => {
-___reduce469(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce469(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 470 => {
-___reduce470(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce470(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 471 => {
-___reduce471(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce471(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 472 => {
-___reduce472(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce472(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 473 => {
-___reduce473(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce473(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 474 => {
-___reduce474(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce474(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 475 => {
-___reduce475(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce475(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 476 => {
-___reduce476(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce476(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 477 => {
-___reduce477(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce477(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 478 => {
-___reduce478(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce478(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 479 => {
-___reduce479(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce479(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 480 => {
-___reduce480(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce480(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 481 => {
-___reduce481(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce481(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 482 => {
-___reduce482(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce482(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 483 => {
-___reduce483(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce483(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 484 => {
-___reduce484(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce484(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 485 => {
-___reduce485(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce485(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 486 => {
-___reduce486(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce486(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 487 => {
-___reduce487(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce487(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 488 => {
-___reduce488(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce488(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 489 => {
-___reduce489(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce489(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 490 => {
-___reduce490(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce490(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 491 => {
-___reduce491(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce491(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 492 => {
-___reduce492(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce492(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 493 => {
-___reduce493(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce493(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 494 => {
-___reduce494(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce494(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 495 => {
-___reduce495(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce495(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 496 => {
-___reduce496(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce496(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 497 => {
-___reduce497(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce497(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 498 => {
-___reduce498(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce498(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 499 => {
-___reduce499(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce499(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 500 => {
-___reduce500(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce500(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 501 => {
-___reduce501(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce501(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
 }
 502 => {
 // ___Top = Top => ActionFn(0);
@@ -9825,9 +6576,7 @@ pub(crate) fn ___reduce0<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -9844,9 +6593,7 @@ pub(crate) fn ___reduce1<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -9862,9 +6609,7 @@ pub(crate) fn ___reduce2<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -9881,9 +6626,7 @@ pub(crate) fn ___reduce3<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -9899,9 +6642,7 @@ pub(crate) fn ___reduce4<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -9918,9 +6659,7 @@ pub(crate) fn ___reduce5<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -9936,14 +6675,13 @@ pub(crate) fn ___reduce6<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // ("->" <TypeRef>) = "->", TypeRef => ActionFn(166);
+assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant3(___symbols);
 let ___sym0 = ___pop_Variant0(___symbols);
 let ___start = ___sym0.0.clone();
@@ -9956,14 +6694,13 @@ pub(crate) fn ___reduce7<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // ("->" <TypeRef>)? = "->", TypeRef => ActionFn(307);
+assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant3(___symbols);
 let ___sym0 = ___pop_Variant0(___symbols);
 let ___start = ___sym0.0.clone();
@@ -9976,9 +6713,7 @@ pub(crate) fn ___reduce8<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -9994,14 +6729,13 @@ pub(crate) fn ___reduce9<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (":" <TypeRef>) = ":", TypeRef => ActionFn(158);
+assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant3(___symbols);
 let ___sym0 = ___pop_Variant0(___symbols);
 let ___start = ___sym0.0.clone();
@@ -10014,14 +6748,13 @@ pub(crate) fn ___reduce10<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (":" <TypeRef>)? = ":", TypeRef => ActionFn(312);
+assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant3(___symbols);
 let ___sym0 = ___pop_Variant0(___symbols);
 let ___start = ___sym0.0.clone();
@@ -10034,9 +6767,7 @@ pub(crate) fn ___reduce11<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -10052,14 +6783,13 @@ pub(crate) fn ___reduce12<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // ("<" <Comma<TypeBoundParameter>> ">") = "<", Comma<TypeBoundParameter>, ">" => ActionFn(162);
+assert!(___symbols.len() >= 3);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant5(___symbols);
 let ___sym0 = ___pop_Variant0(___symbols);
@@ -10073,14 +6803,13 @@ pub(crate) fn ___reduce13<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // ("<" <Comma<TypeBoundParameter>> ">")? = "<", Comma<TypeBoundParameter>, ">" => ActionFn(315);
+assert!(___symbols.len() >= 3);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant5(___symbols);
 let ___sym0 = ___pop_Variant0(___symbols);
@@ -10094,9 +6823,7 @@ pub(crate) fn ___reduce14<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -10112,14 +6839,13 @@ pub(crate) fn ___reduce15<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // ("if" <Cond>) = "if", Cond => ActionFn(147);
+assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant7(___symbols);
 let ___sym0 = ___pop_Variant0(___symbols);
 let ___start = ___sym0.0.clone();
@@ -10132,14 +6858,13 @@ pub(crate) fn ___reduce16<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // ("if" <Cond>)? = "if", Cond => ActionFn(318);
+assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant7(___symbols);
 let ___sym0 = ___pop_Variant0(___symbols);
 let ___start = ___sym0.0.clone();
@@ -10152,9 +6877,7 @@ pub(crate) fn ___reduce17<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -10170,9 +6893,7 @@ pub(crate) fn ___reduce18<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -10188,14 +6909,13 @@ pub(crate) fn ___reduce19<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<Alternative> ",") = Alternative, "," => ActionFn(239);
+assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant10(___symbols);
 let ___start = ___sym0.0.clone();
@@ -10208,9 +6928,7 @@ pub(crate) fn ___reduce20<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -10226,9 +6944,7 @@ pub(crate) fn ___reduce21<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -10245,14 +6961,13 @@ pub(crate) fn ___reduce22<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<Alternative> ",")+ = Alternative, "," => ActionFn(325);
+assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant10(___symbols);
 let ___start = ___sym0.0.clone();
@@ -10265,14 +6980,13 @@ pub(crate) fn ___reduce23<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<Alternative> ",")+ = (<Alternative> ",")+, Alternative, "," => ActionFn(326);
+assert!(___symbols.len() >= 3);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant10(___symbols);
 let ___sym0 = ___pop_Variant11(___symbols);
@@ -10286,14 +7000,13 @@ pub(crate) fn ___reduce24<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<Conversion> ",") = Conversion, "," => ActionFn(263);
+assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant12(___symbols);
 let ___start = ___sym0.0.clone();
@@ -10306,9 +7019,7 @@ pub(crate) fn ___reduce25<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -10324,9 +7035,7 @@ pub(crate) fn ___reduce26<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -10343,14 +7052,13 @@ pub(crate) fn ___reduce27<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<Conversion> ",")+ = Conversion, "," => ActionFn(329);
+assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant12(___symbols);
 let ___start = ___sym0.0.clone();
@@ -10363,14 +7071,13 @@ pub(crate) fn ___reduce28<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<Conversion> ",")+ = (<Conversion> ",")+, Conversion, "," => ActionFn(330);
+assert!(___symbols.len() >= 3);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant12(___symbols);
 let ___sym0 = ___pop_Variant13(___symbols);
@@ -10384,14 +7091,13 @@ pub(crate) fn ___reduce29<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<FieldPattern> ",") = FieldPattern, "," => ActionFn(124);
+assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant14(___symbols);
 let ___start = ___sym0.0.clone();
@@ -10404,9 +7110,7 @@ pub(crate) fn ___reduce30<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -10422,9 +7126,7 @@ pub(crate) fn ___reduce31<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -10441,14 +7143,13 @@ pub(crate) fn ___reduce32<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<FieldPattern> ",")+ = FieldPattern, "," => ActionFn(333);
+assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant14(___symbols);
 let ___start = ___sym0.0.clone();
@@ -10461,14 +7162,13 @@ pub(crate) fn ___reduce33<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<FieldPattern> ",")+ = (<FieldPattern> ",")+, FieldPattern, "," => ActionFn(334);
+assert!(___symbols.len() >= 3);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant14(___symbols);
 let ___sym0 = ___pop_Variant15(___symbols);
@@ -10482,14 +7182,13 @@ pub(crate) fn ___reduce34<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<GrammarParameter> ",") = GrammarParameter, "," => ActionFn(229);
+assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant16(___symbols);
 let ___start = ___sym0.0.clone();
@@ -10502,9 +7201,7 @@ pub(crate) fn ___reduce35<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -10520,9 +7217,7 @@ pub(crate) fn ___reduce36<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -10539,14 +7234,13 @@ pub(crate) fn ___reduce37<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<GrammarParameter> ",")+ = GrammarParameter, "," => ActionFn(339);
+assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant16(___symbols);
 let ___start = ___sym0.0.clone();
@@ -10559,14 +7253,13 @@ pub(crate) fn ___reduce38<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<GrammarParameter> ",")+ = (<GrammarParameter> ",")+, GrammarParameter, "," => ActionFn(340);
+assert!(___symbols.len() >= 3);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant16(___symbols);
 let ___sym0 = ___pop_Variant17(___symbols);
@@ -10580,14 +7273,13 @@ pub(crate) fn ___reduce39<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<GrammarWhereClause> ",") = GrammarWhereClause, "," => ActionFn(206);
+assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant18(___symbols);
 let ___start = ___sym0.0.clone();
@@ -10600,9 +7292,7 @@ pub(crate) fn ___reduce40<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -10618,9 +7308,7 @@ pub(crate) fn ___reduce41<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -10637,14 +7325,13 @@ pub(crate) fn ___reduce42<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<GrammarWhereClause> ",")+ = GrammarWhereClause, "," => ActionFn(343);
+assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant18(___symbols);
 let ___start = ___sym0.0.clone();
@@ -10657,14 +7344,13 @@ pub(crate) fn ___reduce43<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<GrammarWhereClause> ",")+ = (<GrammarWhereClause> ",")+, GrammarWhereClause, "," => ActionFn(344);
+assert!(___symbols.len() >= 3);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant18(___symbols);
 let ___sym0 = ___pop_Variant19(___symbols);
@@ -10678,14 +7364,13 @@ pub(crate) fn ___reduce44<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<Id> "::") = Id, "::" => ActionFn(132);
+assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant20(___symbols);
 let ___start = ___sym0.0.clone();
@@ -10698,9 +7383,7 @@ pub(crate) fn ___reduce45<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -10716,9 +7399,7 @@ pub(crate) fn ___reduce46<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -10735,14 +7416,13 @@ pub(crate) fn ___reduce47<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<Id> "::")+ = Id, "::" => ActionFn(347);
+assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant20(___symbols);
 let ___start = ___sym0.0.clone();
@@ -10755,14 +7435,13 @@ pub(crate) fn ___reduce48<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<Id> "::")+ = (<Id> "::")+, Id, "::" => ActionFn(348);
+assert!(___symbols.len() >= 3);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant20(___symbols);
 let ___sym0 = ___pop_Variant21(___symbols);
@@ -10776,14 +7455,13 @@ pub(crate) fn ___reduce49<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<Lifetime> "+") = Lifetime, "+" => ActionFn(209);
+assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant22(___symbols);
 let ___start = ___sym0.0.clone();
@@ -10796,9 +7474,7 @@ pub(crate) fn ___reduce50<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -10814,9 +7490,7 @@ pub(crate) fn ___reduce51<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -10833,14 +7507,13 @@ pub(crate) fn ___reduce52<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<Lifetime> "+")+ = Lifetime, "+" => ActionFn(353);
+assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant22(___symbols);
 let ___start = ___sym0.0.clone();
@@ -10853,14 +7526,13 @@ pub(crate) fn ___reduce53<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<Lifetime> "+")+ = (<Lifetime> "+")+, Lifetime, "+" => ActionFn(354);
+assert!(___symbols.len() >= 3);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant22(___symbols);
 let ___sym0 = ___pop_Variant23(___symbols);
@@ -10874,14 +7546,13 @@ pub(crate) fn ___reduce54<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<MatchItem> ",") = MatchItem, "," => ActionFn(258);
+assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant24(___symbols);
 let ___start = ___sym0.0.clone();
@@ -10894,9 +7565,7 @@ pub(crate) fn ___reduce55<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -10912,9 +7581,7 @@ pub(crate) fn ___reduce56<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -10931,14 +7598,13 @@ pub(crate) fn ___reduce57<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<MatchItem> ",")+ = MatchItem, "," => ActionFn(357);
+assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant24(___symbols);
 let ___start = ___sym0.0.clone();
@@ -10951,14 +7617,13 @@ pub(crate) fn ___reduce58<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<MatchItem> ",")+ = (<MatchItem> ",")+, MatchItem, "," => ActionFn(358);
+assert!(___symbols.len() >= 3);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant24(___symbols);
 let ___sym0 = ___pop_Variant25(___symbols);
@@ -10972,14 +7637,13 @@ pub(crate) fn ___reduce59<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<NotMacroId> ",") = NotMacroId, "," => ActionFn(234);
+assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant26(___symbols);
 let ___start = ___sym0.0.clone();
@@ -10992,9 +7656,7 @@ pub(crate) fn ___reduce60<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -11010,9 +7672,7 @@ pub(crate) fn ___reduce61<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -11029,14 +7689,13 @@ pub(crate) fn ___reduce62<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<NotMacroId> ",")+ = NotMacroId, "," => ActionFn(361);
+assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant26(___symbols);
 let ___start = ___sym0.0.clone();
@@ -11049,14 +7708,13 @@ pub(crate) fn ___reduce63<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<NotMacroId> ",")+ = (<NotMacroId> ",")+, NotMacroId, "," => ActionFn(362);
+assert!(___symbols.len() >= 3);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant26(___symbols);
 let ___sym0 = ___pop_Variant27(___symbols);
@@ -11070,14 +7728,13 @@ pub(crate) fn ___reduce64<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<Pattern> ",") = Pattern, "," => ActionFn(268);
+assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant28(___symbols);
 let ___start = ___sym0.0.clone();
@@ -11090,9 +7747,7 @@ pub(crate) fn ___reduce65<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -11108,9 +7763,7 @@ pub(crate) fn ___reduce66<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -11127,14 +7780,13 @@ pub(crate) fn ___reduce67<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<Pattern> ",")+ = Pattern, "," => ActionFn(365);
+assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant28(___symbols);
 let ___start = ___sym0.0.clone();
@@ -11147,14 +7799,13 @@ pub(crate) fn ___reduce68<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<Pattern> ",")+ = (<Pattern> ",")+, Pattern, "," => ActionFn(366);
+assert!(___symbols.len() >= 3);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant28(___symbols);
 let ___sym0 = ___pop_Variant29(___symbols);
@@ -11168,14 +7819,13 @@ pub(crate) fn ___reduce69<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<Symbol> ",") = Symbol, "," => ActionFn(244);
+assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant30(___symbols);
 let ___start = ___sym0.0.clone();
@@ -11188,9 +7838,7 @@ pub(crate) fn ___reduce70<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -11206,9 +7854,7 @@ pub(crate) fn ___reduce71<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -11225,14 +7871,13 @@ pub(crate) fn ___reduce72<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<Symbol> ",")+ = Symbol, "," => ActionFn(369);
+assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant30(___symbols);
 let ___start = ___sym0.0.clone();
@@ -11245,14 +7890,13 @@ pub(crate) fn ___reduce73<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<Symbol> ",")+ = (<Symbol> ",")+, Symbol, "," => ActionFn(370);
+assert!(___symbols.len() >= 3);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant30(___symbols);
 let ___sym0 = ___pop_Variant31(___symbols);
@@ -11266,14 +7910,13 @@ pub(crate) fn ___reduce74<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<TypeBound> "+") = TypeBound, "+" => ActionFn(214);
+assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant32(___symbols);
 let ___start = ___sym0.0.clone();
@@ -11286,9 +7929,7 @@ pub(crate) fn ___reduce75<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -11304,9 +7945,7 @@ pub(crate) fn ___reduce76<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -11323,14 +7962,13 @@ pub(crate) fn ___reduce77<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<TypeBound> "+")+ = TypeBound, "+" => ActionFn(373);
+assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant32(___symbols);
 let ___start = ___sym0.0.clone();
@@ -11343,14 +7981,13 @@ pub(crate) fn ___reduce78<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<TypeBound> "+")+ = (<TypeBound> "+")+, TypeBound, "+" => ActionFn(374);
+assert!(___symbols.len() >= 3);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant32(___symbols);
 let ___sym0 = ___pop_Variant33(___symbols);
@@ -11364,14 +8001,13 @@ pub(crate) fn ___reduce79<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<TypeBoundParameter> ",") = TypeBoundParameter, "," => ActionFn(224);
+assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant34(___symbols);
 let ___start = ___sym0.0.clone();
@@ -11384,9 +8020,7 @@ pub(crate) fn ___reduce80<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -11402,9 +8036,7 @@ pub(crate) fn ___reduce81<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -11421,14 +8053,13 @@ pub(crate) fn ___reduce82<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<TypeBoundParameter> ",")+ = TypeBoundParameter, "," => ActionFn(377);
+assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant34(___symbols);
 let ___start = ___sym0.0.clone();
@@ -11441,14 +8072,13 @@ pub(crate) fn ___reduce83<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<TypeBoundParameter> ",")+ = (<TypeBoundParameter> ",")+, TypeBoundParameter, "," => ActionFn(378);
+assert!(___symbols.len() >= 3);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant34(___symbols);
 let ___sym0 = ___pop_Variant35(___symbols);
@@ -11462,14 +8092,13 @@ pub(crate) fn ___reduce84<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<TypeParameter> ",") = TypeParameter, "," => ActionFn(201);
+assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant36(___symbols);
 let ___start = ___sym0.0.clone();
@@ -11482,9 +8111,7 @@ pub(crate) fn ___reduce85<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -11500,9 +8127,7 @@ pub(crate) fn ___reduce86<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -11519,14 +8144,13 @@ pub(crate) fn ___reduce87<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<TypeParameter> ",")+ = TypeParameter, "," => ActionFn(381);
+assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant36(___symbols);
 let ___start = ___sym0.0.clone();
@@ -11539,14 +8163,13 @@ pub(crate) fn ___reduce88<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<TypeParameter> ",")+ = (<TypeParameter> ",")+, TypeParameter, "," => ActionFn(382);
+assert!(___symbols.len() >= 3);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant36(___symbols);
 let ___sym0 = ___pop_Variant37(___symbols);
@@ -11560,14 +8183,13 @@ pub(crate) fn ___reduce89<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<TypeRef> ",") = TypeRef, "," => ActionFn(219);
+assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant3(___symbols);
 let ___start = ___sym0.0.clone();
@@ -11580,9 +8202,7 @@ pub(crate) fn ___reduce90<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -11598,9 +8218,7 @@ pub(crate) fn ___reduce91<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -11617,14 +8235,13 @@ pub(crate) fn ___reduce92<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<TypeRef> ",")+ = TypeRef, "," => ActionFn(385);
+assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant3(___symbols);
 let ___start = ___sym0.0.clone();
@@ -11637,14 +8254,13 @@ pub(crate) fn ___reduce93<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<TypeRef> ",")+ = (<TypeRef> ",")+, TypeRef, "," => ActionFn(386);
+assert!(___symbols.len() >= 3);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant3(___symbols);
 let ___sym0 = ___pop_Variant38(___symbols);
@@ -11658,14 +8274,13 @@ pub(crate) fn ___reduce94<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<TypeRefOrLifetime> ",") = TypeRefOrLifetime, "," => ActionFn(249);
+assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant3(___symbols);
 let ___start = ___sym0.0.clone();
@@ -11678,9 +8293,7 @@ pub(crate) fn ___reduce95<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -11696,9 +8309,7 @@ pub(crate) fn ___reduce96<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -11715,14 +8326,13 @@ pub(crate) fn ___reduce97<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<TypeRefOrLifetime> ",")+ = TypeRefOrLifetime, "," => ActionFn(389);
+assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant3(___symbols);
 let ___start = ___sym0.0.clone();
@@ -11735,14 +8345,13 @@ pub(crate) fn ___reduce98<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<TypeRefOrLifetime> ",")+ = (<TypeRefOrLifetime> ",")+, TypeRefOrLifetime, "," => ActionFn(390);
+assert!(___symbols.len() >= 3);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant3(___symbols);
 let ___sym0 = ___pop_Variant38(___symbols);
@@ -11756,9 +8365,7 @@ pub(crate) fn ___reduce99<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -11774,9 +8381,7 @@ pub(crate) fn ___reduce100<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -11792,9 +8397,7 @@ pub(crate) fn ___reduce101<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -11811,9 +8414,7 @@ pub(crate) fn ___reduce102<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -11830,9 +8431,7 @@ pub(crate) fn ___reduce103<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -11849,9 +8448,7 @@ pub(crate) fn ___reduce104<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -11868,9 +8465,7 @@ pub(crate) fn ___reduce105<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -11887,9 +8482,7 @@ pub(crate) fn ___reduce106<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -11905,14 +8498,13 @@ pub(crate) fn ___reduce107<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Alternative = Symbol+, "if", Cond, Action => ActionFn(443);
+assert!(___symbols.len() >= 4);
 let ___sym3 = ___pop_Variant40(___symbols);
 let ___sym2 = ___pop_Variant7(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
@@ -11927,14 +8519,13 @@ pub(crate) fn ___reduce108<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Alternative = Symbol+, "if", Cond => ActionFn(444);
+assert!(___symbols.len() >= 3);
 let ___sym2 = ___pop_Variant7(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant31(___symbols);
@@ -11948,14 +8539,13 @@ pub(crate) fn ___reduce109<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Alternative = Symbol+, Action => ActionFn(445);
+assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant40(___symbols);
 let ___sym0 = ___pop_Variant31(___symbols);
 let ___start = ___sym0.0.clone();
@@ -11968,9 +8558,7 @@ pub(crate) fn ___reduce110<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -11987,14 +8575,13 @@ pub(crate) fn ___reduce111<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Alternative = "if", Cond, Action => ActionFn(420);
+assert!(___symbols.len() >= 3);
 let ___sym2 = ___pop_Variant40(___symbols);
 let ___sym1 = ___pop_Variant7(___symbols);
 let ___sym0 = ___pop_Variant0(___symbols);
@@ -12008,9 +8595,7 @@ pub(crate) fn ___reduce112<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -12027,9 +8612,7 @@ pub(crate) fn ___reduce113<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -12046,9 +8629,7 @@ pub(crate) fn ___reduce114<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -12064,14 +8645,13 @@ pub(crate) fn ___reduce115<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Alternatives = Alternative, ";" => ActionFn(38);
+assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant10(___symbols);
 let ___start = ___sym0.0.clone();
@@ -12084,14 +8664,13 @@ pub(crate) fn ___reduce116<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Alternatives = "{", Comma<Alternative>, "}", ";" => ActionFn(301);
+assert!(___symbols.len() >= 4);
 let ___sym3 = ___pop_Variant0(___symbols);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant43(___symbols);
@@ -12106,14 +8685,13 @@ pub(crate) fn ___reduce117<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Alternatives = "{", Comma<Alternative>, "}" => ActionFn(302);
+assert!(___symbols.len() >= 3);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant43(___symbols);
 let ___sym0 = ___pop_Variant0(___symbols);
@@ -12127,14 +8705,13 @@ pub(crate) fn ___reduce118<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Annotation = "#", "[", Id, AnnotationArg, "]" => ActionFn(457);
+assert!(___symbols.len() >= 5);
 let ___sym4 = ___pop_Variant0(___symbols);
 let ___sym3 = ___pop_Variant46(___symbols);
 let ___sym2 = ___pop_Variant20(___symbols);
@@ -12150,14 +8727,13 @@ pub(crate) fn ___reduce119<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Annotation = "#", "[", Id, "]" => ActionFn(458);
+assert!(___symbols.len() >= 4);
 let ___sym3 = ___pop_Variant0(___symbols);
 let ___sym2 = ___pop_Variant20(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
@@ -12172,9 +8748,7 @@ pub(crate) fn ___reduce120<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -12190,9 +8764,7 @@ pub(crate) fn ___reduce121<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -12209,9 +8781,7 @@ pub(crate) fn ___reduce122<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -12228,14 +8798,13 @@ pub(crate) fn ___reduce123<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Annotation+ = Annotation+, Annotation => ActionFn(194);
+assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant44(___symbols);
 let ___sym0 = ___pop_Variant45(___symbols);
 let ___start = ___sym0.0.clone();
@@ -12248,14 +8817,13 @@ pub(crate) fn ___reduce124<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // AnnotationArg = "(", Id, "=", "StringLiteral", ")" => ActionFn(33);
+assert!(___symbols.len() >= 5);
 let ___sym4 = ___pop_Variant0(___symbols);
 let ___sym3 = ___pop_Variant1(___symbols);
 let ___sym2 = ___pop_Variant0(___symbols);
@@ -12271,9 +8839,7 @@ pub(crate) fn ___reduce125<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -12290,9 +8856,7 @@ pub(crate) fn ___reduce126<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -12308,14 +8872,13 @@ pub(crate) fn ___reduce127<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // AssociatedType = "type", Id, "=", TypeRef, ";" => ActionFn(423);
+assert!(___symbols.len() >= 5);
 let ___sym4 = ___pop_Variant0(___symbols);
 let ___sym3 = ___pop_Variant3(___symbols);
 let ___sym2 = ___pop_Variant0(___symbols);
@@ -12331,9 +8894,7 @@ pub(crate) fn ___reduce128<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -12349,9 +8910,7 @@ pub(crate) fn ___reduce129<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -12368,9 +8927,7 @@ pub(crate) fn ___reduce130<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -12387,14 +8944,13 @@ pub(crate) fn ___reduce131<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // AssociatedType+ = AssociatedType+, AssociatedType => ActionFn(253);
+assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant48(___symbols);
 let ___sym0 = ___pop_Variant49(___symbols);
 let ___start = ___sym0.0.clone();
@@ -12407,9 +8963,7 @@ pub(crate) fn ___reduce132<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -12426,9 +8980,7 @@ pub(crate) fn ___reduce133<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -12444,14 +8996,13 @@ pub(crate) fn ___reduce134<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Comma<Alternative> = (<Alternative> ",")+, Alternative => ActionFn(449);
+assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant10(___symbols);
 let ___sym0 = ___pop_Variant11(___symbols);
 let ___start = ___sym0.0.clone();
@@ -12464,9 +9015,7 @@ pub(crate) fn ___reduce135<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -12483,9 +9032,7 @@ pub(crate) fn ___reduce136<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -12502,9 +9049,7 @@ pub(crate) fn ___reduce137<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -12520,14 +9065,13 @@ pub(crate) fn ___reduce138<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Comma<Conversion> = (<Conversion> ",")+, Conversion => ActionFn(467);
+assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant12(___symbols);
 let ___sym0 = ___pop_Variant13(___symbols);
 let ___start = ___sym0.0.clone();
@@ -12540,9 +9084,7 @@ pub(crate) fn ___reduce139<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -12559,9 +9101,7 @@ pub(crate) fn ___reduce140<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -12578,9 +9118,7 @@ pub(crate) fn ___reduce141<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -12596,14 +9134,13 @@ pub(crate) fn ___reduce142<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Comma<GrammarParameter> = (<GrammarParameter> ",")+, GrammarParameter => ActionFn(493);
+assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant16(___symbols);
 let ___sym0 = ___pop_Variant17(___symbols);
 let ___start = ___sym0.0.clone();
@@ -12616,9 +9153,7 @@ pub(crate) fn ___reduce143<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -12635,9 +9170,7 @@ pub(crate) fn ___reduce144<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -12654,9 +9187,7 @@ pub(crate) fn ___reduce145<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -12672,14 +9203,13 @@ pub(crate) fn ___reduce146<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Comma<GrammarWhereClause> = (<GrammarWhereClause> ",")+, GrammarWhereClause => ActionFn(521);
+assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant18(___symbols);
 let ___sym0 = ___pop_Variant19(___symbols);
 let ___start = ___sym0.0.clone();
@@ -12692,9 +9222,7 @@ pub(crate) fn ___reduce147<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -12711,9 +9239,7 @@ pub(crate) fn ___reduce148<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -12730,9 +9256,7 @@ pub(crate) fn ___reduce149<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -12748,14 +9272,13 @@ pub(crate) fn ___reduce150<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Comma<MatchItem> = (<MatchItem> ",")+, MatchItem => ActionFn(565);
+assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant24(___symbols);
 let ___sym0 = ___pop_Variant25(___symbols);
 let ___start = ___sym0.0.clone();
@@ -12768,9 +9291,7 @@ pub(crate) fn ___reduce151<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -12787,9 +9308,7 @@ pub(crate) fn ___reduce152<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -12806,9 +9325,7 @@ pub(crate) fn ___reduce153<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -12824,14 +9341,13 @@ pub(crate) fn ___reduce154<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Comma<NotMacroId> = (<NotMacroId> ",")+, NotMacroId => ActionFn(569);
+assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant26(___symbols);
 let ___sym0 = ___pop_Variant27(___symbols);
 let ___start = ___sym0.0.clone();
@@ -12844,9 +9360,7 @@ pub(crate) fn ___reduce155<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -12863,9 +9377,7 @@ pub(crate) fn ___reduce156<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -12882,9 +9394,7 @@ pub(crate) fn ___reduce157<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -12900,14 +9410,13 @@ pub(crate) fn ___reduce158<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Comma<Pattern> = (<Pattern> ",")+, Pattern => ActionFn(573);
+assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant28(___symbols);
 let ___sym0 = ___pop_Variant29(___symbols);
 let ___start = ___sym0.0.clone();
@@ -12920,9 +9429,7 @@ pub(crate) fn ___reduce159<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -12939,9 +9446,7 @@ pub(crate) fn ___reduce160<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -12958,9 +9463,7 @@ pub(crate) fn ___reduce161<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -12976,14 +9479,13 @@ pub(crate) fn ___reduce162<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Comma<Symbol> = (<Symbol> ",")+, Symbol => ActionFn(643);
+assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant30(___symbols);
 let ___sym0 = ___pop_Variant31(___symbols);
 let ___start = ___sym0.0.clone();
@@ -12996,9 +9498,7 @@ pub(crate) fn ___reduce163<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -13015,9 +9515,7 @@ pub(crate) fn ___reduce164<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -13034,9 +9532,7 @@ pub(crate) fn ___reduce165<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -13052,14 +9548,13 @@ pub(crate) fn ___reduce166<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Comma<TypeBoundParameter> = (<TypeBoundParameter> ",")+, TypeBoundParameter => ActionFn(651);
+assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant34(___symbols);
 let ___sym0 = ___pop_Variant35(___symbols);
 let ___start = ___sym0.0.clone();
@@ -13072,9 +9567,7 @@ pub(crate) fn ___reduce167<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -13091,9 +9584,7 @@ pub(crate) fn ___reduce168<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -13110,9 +9601,7 @@ pub(crate) fn ___reduce169<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -13128,14 +9617,13 @@ pub(crate) fn ___reduce170<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Comma<TypeParameter> = (<TypeParameter> ",")+, TypeParameter => ActionFn(655);
+assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant36(___symbols);
 let ___sym0 = ___pop_Variant37(___symbols);
 let ___start = ___sym0.0.clone();
@@ -13148,9 +9636,7 @@ pub(crate) fn ___reduce171<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -13167,9 +9653,7 @@ pub(crate) fn ___reduce172<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -13186,9 +9670,7 @@ pub(crate) fn ___reduce173<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -13204,14 +9686,13 @@ pub(crate) fn ___reduce174<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Comma<TypeRef> = (<TypeRef> ",")+, TypeRef => ActionFn(659);
+assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant3(___symbols);
 let ___sym0 = ___pop_Variant38(___symbols);
 let ___start = ___sym0.0.clone();
@@ -13224,9 +9705,7 @@ pub(crate) fn ___reduce175<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -13243,9 +9722,7 @@ pub(crate) fn ___reduce176<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -13262,9 +9739,7 @@ pub(crate) fn ___reduce177<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -13280,14 +9755,13 @@ pub(crate) fn ___reduce178<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Comma<TypeRefOrLifetime> = (<TypeRefOrLifetime> ",")+, TypeRefOrLifetime => ActionFn(663);
+assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant3(___symbols);
 let ___sym0 = ___pop_Variant38(___symbols);
 let ___start = ___sym0.0.clone();
@@ -13300,9 +9774,7 @@ pub(crate) fn ___reduce179<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -13319,14 +9791,13 @@ pub(crate) fn ___reduce180<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Cond = NotMacroId, CondOp, StringLiteral => ActionFn(424);
+assert!(___symbols.len() >= 3);
 let ___sym2 = ___pop_Variant20(___symbols);
 let ___sym1 = ___pop_Variant59(___symbols);
 let ___sym0 = ___pop_Variant26(___symbols);
@@ -13340,9 +9811,7 @@ pub(crate) fn ___reduce181<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -13359,9 +9828,7 @@ pub(crate) fn ___reduce182<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -13378,9 +9845,7 @@ pub(crate) fn ___reduce183<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -13397,9 +9862,7 @@ pub(crate) fn ___reduce184<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -13416,9 +9879,7 @@ pub(crate) fn ___reduce186<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -13435,9 +9896,7 @@ pub(crate) fn ___reduce187<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -13453,14 +9912,13 @@ pub(crate) fn ___reduce188<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // EnumToken = "enum", TypeRef, "{", Comma<Conversion>, "}" => ActionFn(426);
+assert!(___symbols.len() >= 5);
 let ___sym4 = ___pop_Variant0(___symbols);
 let ___sym3 = ___pop_Variant50(___symbols);
 let ___sym2 = ___pop_Variant0(___symbols);
@@ -13476,9 +9934,7 @@ pub(crate) fn ___reduce189<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -13495,9 +9951,7 @@ pub(crate) fn ___reduce190<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -13513,9 +9967,7 @@ pub(crate) fn ___reduce191<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -13532,14 +9984,13 @@ pub(crate) fn ___reduce192<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // ExternToken = "extern", "{", EnumToken, "}" => ActionFn(459);
+assert!(___symbols.len() >= 4);
 let ___sym3 = ___pop_Variant0(___symbols);
 let ___sym2 = ___pop_Variant61(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
@@ -13554,14 +10005,13 @@ pub(crate) fn ___reduce193<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // ExternToken = "extern", "{", EnumToken, AssociatedType+, "}" => ActionFn(460);
+assert!(___symbols.len() >= 5);
 let ___sym4 = ___pop_Variant0(___symbols);
 let ___sym3 = ___pop_Variant49(___symbols);
 let ___sym2 = ___pop_Variant61(___symbols);
@@ -13577,14 +10027,13 @@ pub(crate) fn ___reduce194<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // ExternToken = "extern", "{", AssociatedType+, EnumToken, "}" => ActionFn(461);
+assert!(___symbols.len() >= 5);
 let ___sym4 = ___pop_Variant0(___symbols);
 let ___sym3 = ___pop_Variant61(___symbols);
 let ___sym2 = ___pop_Variant49(___symbols);
@@ -13600,14 +10049,13 @@ pub(crate) fn ___reduce195<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // ExternToken = "extern", "{", AssociatedType+, EnumToken, AssociatedType+, "}" => ActionFn(462);
+assert!(___symbols.len() >= 6);
 let ___sym5 = ___pop_Variant0(___symbols);
 let ___sym4 = ___pop_Variant49(___symbols);
 let ___sym3 = ___pop_Variant61(___symbols);
@@ -13624,14 +10072,13 @@ pub(crate) fn ___reduce196<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // ExternToken = "extern", "{", "}" => ActionFn(463);
+assert!(___symbols.len() >= 3);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant0(___symbols);
@@ -13645,14 +10092,13 @@ pub(crate) fn ___reduce197<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // ExternToken = "extern", "{", AssociatedType+, "}" => ActionFn(464);
+assert!(___symbols.len() >= 4);
 let ___sym3 = ___pop_Variant0(___symbols);
 let ___sym2 = ___pop_Variant49(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
@@ -13667,14 +10113,13 @@ pub(crate) fn ___reduce198<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // FieldPattern = Id, ":", Pattern => ActionFn(429);
+assert!(___symbols.len() >= 3);
 let ___sym2 = ___pop_Variant28(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant20(___symbols);
@@ -13688,9 +10133,7 @@ pub(crate) fn ___reduce199<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -13707,9 +10150,7 @@ pub(crate) fn ___reduce200<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -13725,14 +10166,13 @@ pub(crate) fn ___reduce201<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // ForAll = "for", "<", Comma<TypeParameter>, ">" => ActionFn(13);
+assert!(___symbols.len() >= 4);
 let ___sym3 = ___pop_Variant0(___symbols);
 let ___sym2 = ___pop_Variant57(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
@@ -13747,9 +10187,7 @@ pub(crate) fn ___reduce202<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -13765,14 +10203,13 @@ pub(crate) fn ___reduce203<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = "grammar", GrammarTypeParameters, GrammarParameters, GrammarWhereClauses, ";" => ActionFn(665);
+assert!(___symbols.len() >= 5);
 let ___sym4 = ___pop_Variant0(___symbols);
 let ___sym3 = ___pop_Variant52(___symbols);
 let ___sym2 = ___pop_Variant51(___symbols);
@@ -13788,14 +10225,13 @@ pub(crate) fn ___reduce204<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = Use+, "grammar", GrammarTypeParameters, GrammarParameters, GrammarWhereClauses, ";" => ActionFn(666);
+assert!(___symbols.len() >= 6);
 let ___sym5 = ___pop_Variant0(___symbols);
 let ___sym4 = ___pop_Variant52(___symbols);
 let ___sym3 = ___pop_Variant51(___symbols);
@@ -13812,14 +10248,13 @@ pub(crate) fn ___reduce205<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, "grammar", GrammarTypeParameters, GrammarParameters, GrammarWhereClauses, ";" => ActionFn(667);
+assert!(___symbols.len() >= 6);
 let ___sym5 = ___pop_Variant0(___symbols);
 let ___sym4 = ___pop_Variant52(___symbols);
 let ___sym3 = ___pop_Variant51(___symbols);
@@ -13836,14 +10271,13 @@ pub(crate) fn ___reduce206<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, Use+, "grammar", GrammarTypeParameters, GrammarParameters, GrammarWhereClauses, ";" => ActionFn(668);
+assert!(___symbols.len() >= 7);
 let ___sym6 = ___pop_Variant0(___symbols);
 let ___sym5 = ___pop_Variant52(___symbols);
 let ___sym4 = ___pop_Variant51(___symbols);
@@ -13861,14 +10295,13 @@ pub(crate) fn ___reduce207<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = "grammar", GrammarTypeParameters, GrammarParameters, ";" => ActionFn(669);
+assert!(___symbols.len() >= 4);
 let ___sym3 = ___pop_Variant0(___symbols);
 let ___sym2 = ___pop_Variant51(___symbols);
 let ___sym1 = ___pop_Variant57(___symbols);
@@ -13883,14 +10316,13 @@ pub(crate) fn ___reduce208<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = Use+, "grammar", GrammarTypeParameters, GrammarParameters, ";" => ActionFn(670);
+assert!(___symbols.len() >= 5);
 let ___sym4 = ___pop_Variant0(___symbols);
 let ___sym3 = ___pop_Variant51(___symbols);
 let ___sym2 = ___pop_Variant57(___symbols);
@@ -13906,14 +10338,13 @@ pub(crate) fn ___reduce209<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, "grammar", GrammarTypeParameters, GrammarParameters, ";" => ActionFn(671);
+assert!(___symbols.len() >= 5);
 let ___sym4 = ___pop_Variant0(___symbols);
 let ___sym3 = ___pop_Variant51(___symbols);
 let ___sym2 = ___pop_Variant57(___symbols);
@@ -13929,14 +10360,13 @@ pub(crate) fn ___reduce210<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, Use+, "grammar", GrammarTypeParameters, GrammarParameters, ";" => ActionFn(672);
+assert!(___symbols.len() >= 6);
 let ___sym5 = ___pop_Variant0(___symbols);
 let ___sym4 = ___pop_Variant51(___symbols);
 let ___sym3 = ___pop_Variant57(___symbols);
@@ -13953,14 +10383,13 @@ pub(crate) fn ___reduce211<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = "grammar", GrammarParameters, GrammarWhereClauses, ";" => ActionFn(673);
+assert!(___symbols.len() >= 4);
 let ___sym3 = ___pop_Variant0(___symbols);
 let ___sym2 = ___pop_Variant52(___symbols);
 let ___sym1 = ___pop_Variant51(___symbols);
@@ -13975,14 +10404,13 @@ pub(crate) fn ___reduce212<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = Use+, "grammar", GrammarParameters, GrammarWhereClauses, ";" => ActionFn(674);
+assert!(___symbols.len() >= 5);
 let ___sym4 = ___pop_Variant0(___symbols);
 let ___sym3 = ___pop_Variant52(___symbols);
 let ___sym2 = ___pop_Variant51(___symbols);
@@ -13998,14 +10426,13 @@ pub(crate) fn ___reduce213<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, "grammar", GrammarParameters, GrammarWhereClauses, ";" => ActionFn(675);
+assert!(___symbols.len() >= 5);
 let ___sym4 = ___pop_Variant0(___symbols);
 let ___sym3 = ___pop_Variant52(___symbols);
 let ___sym2 = ___pop_Variant51(___symbols);
@@ -14021,14 +10448,13 @@ pub(crate) fn ___reduce214<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, Use+, "grammar", GrammarParameters, GrammarWhereClauses, ";" => ActionFn(676);
+assert!(___symbols.len() >= 6);
 let ___sym5 = ___pop_Variant0(___symbols);
 let ___sym4 = ___pop_Variant52(___symbols);
 let ___sym3 = ___pop_Variant51(___symbols);
@@ -14045,14 +10471,13 @@ pub(crate) fn ___reduce215<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = "grammar", GrammarParameters, ";" => ActionFn(677);
+assert!(___symbols.len() >= 3);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant51(___symbols);
 let ___sym0 = ___pop_Variant0(___symbols);
@@ -14066,14 +10491,13 @@ pub(crate) fn ___reduce216<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = Use+, "grammar", GrammarParameters, ";" => ActionFn(678);
+assert!(___symbols.len() >= 4);
 let ___sym3 = ___pop_Variant0(___symbols);
 let ___sym2 = ___pop_Variant51(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
@@ -14088,14 +10512,13 @@ pub(crate) fn ___reduce217<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, "grammar", GrammarParameters, ";" => ActionFn(679);
+assert!(___symbols.len() >= 4);
 let ___sym3 = ___pop_Variant0(___symbols);
 let ___sym2 = ___pop_Variant51(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
@@ -14110,14 +10533,13 @@ pub(crate) fn ___reduce218<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, Use+, "grammar", GrammarParameters, ";" => ActionFn(680);
+assert!(___symbols.len() >= 5);
 let ___sym4 = ___pop_Variant0(___symbols);
 let ___sym3 = ___pop_Variant51(___symbols);
 let ___sym2 = ___pop_Variant0(___symbols);
@@ -14133,14 +10555,13 @@ pub(crate) fn ___reduce219<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = "grammar", GrammarTypeParameters, GrammarWhereClauses, ";" => ActionFn(681);
+assert!(___symbols.len() >= 4);
 let ___sym3 = ___pop_Variant0(___symbols);
 let ___sym2 = ___pop_Variant52(___symbols);
 let ___sym1 = ___pop_Variant57(___symbols);
@@ -14155,14 +10576,13 @@ pub(crate) fn ___reduce220<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = Use+, "grammar", GrammarTypeParameters, GrammarWhereClauses, ";" => ActionFn(682);
+assert!(___symbols.len() >= 5);
 let ___sym4 = ___pop_Variant0(___symbols);
 let ___sym3 = ___pop_Variant52(___symbols);
 let ___sym2 = ___pop_Variant57(___symbols);
@@ -14178,14 +10598,13 @@ pub(crate) fn ___reduce221<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, "grammar", GrammarTypeParameters, GrammarWhereClauses, ";" => ActionFn(683);
+assert!(___symbols.len() >= 5);
 let ___sym4 = ___pop_Variant0(___symbols);
 let ___sym3 = ___pop_Variant52(___symbols);
 let ___sym2 = ___pop_Variant57(___symbols);
@@ -14201,14 +10620,13 @@ pub(crate) fn ___reduce222<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, Use+, "grammar", GrammarTypeParameters, GrammarWhereClauses, ";" => ActionFn(684);
+assert!(___symbols.len() >= 6);
 let ___sym5 = ___pop_Variant0(___symbols);
 let ___sym4 = ___pop_Variant52(___symbols);
 let ___sym3 = ___pop_Variant57(___symbols);
@@ -14225,14 +10643,13 @@ pub(crate) fn ___reduce223<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = "grammar", GrammarTypeParameters, ";" => ActionFn(685);
+assert!(___symbols.len() >= 3);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant57(___symbols);
 let ___sym0 = ___pop_Variant0(___symbols);
@@ -14246,14 +10663,13 @@ pub(crate) fn ___reduce224<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = Use+, "grammar", GrammarTypeParameters, ";" => ActionFn(686);
+assert!(___symbols.len() >= 4);
 let ___sym3 = ___pop_Variant0(___symbols);
 let ___sym2 = ___pop_Variant57(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
@@ -14268,14 +10684,13 @@ pub(crate) fn ___reduce225<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, "grammar", GrammarTypeParameters, ";" => ActionFn(687);
+assert!(___symbols.len() >= 4);
 let ___sym3 = ___pop_Variant0(___symbols);
 let ___sym2 = ___pop_Variant57(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
@@ -14290,14 +10705,13 @@ pub(crate) fn ___reduce226<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, Use+, "grammar", GrammarTypeParameters, ";" => ActionFn(688);
+assert!(___symbols.len() >= 5);
 let ___sym4 = ___pop_Variant0(___symbols);
 let ___sym3 = ___pop_Variant57(___symbols);
 let ___sym2 = ___pop_Variant0(___symbols);
@@ -14313,14 +10727,13 @@ pub(crate) fn ___reduce227<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = "grammar", GrammarWhereClauses, ";" => ActionFn(689);
+assert!(___symbols.len() >= 3);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant52(___symbols);
 let ___sym0 = ___pop_Variant0(___symbols);
@@ -14334,14 +10747,13 @@ pub(crate) fn ___reduce228<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = Use+, "grammar", GrammarWhereClauses, ";" => ActionFn(690);
+assert!(___symbols.len() >= 4);
 let ___sym3 = ___pop_Variant0(___symbols);
 let ___sym2 = ___pop_Variant52(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
@@ -14356,14 +10768,13 @@ pub(crate) fn ___reduce229<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, "grammar", GrammarWhereClauses, ";" => ActionFn(691);
+assert!(___symbols.len() >= 4);
 let ___sym3 = ___pop_Variant0(___symbols);
 let ___sym2 = ___pop_Variant52(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
@@ -14378,14 +10789,13 @@ pub(crate) fn ___reduce230<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, Use+, "grammar", GrammarWhereClauses, ";" => ActionFn(692);
+assert!(___symbols.len() >= 5);
 let ___sym4 = ___pop_Variant0(___symbols);
 let ___sym3 = ___pop_Variant52(___symbols);
 let ___sym2 = ___pop_Variant0(___symbols);
@@ -14401,14 +10811,13 @@ pub(crate) fn ___reduce231<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = "grammar", ";" => ActionFn(693);
+assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant0(___symbols);
 let ___start = ___sym0.0.clone();
@@ -14421,14 +10830,13 @@ pub(crate) fn ___reduce232<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = Use+, "grammar", ";" => ActionFn(694);
+assert!(___symbols.len() >= 3);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant66(___symbols);
@@ -14442,14 +10850,13 @@ pub(crate) fn ___reduce233<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, "grammar", ";" => ActionFn(695);
+assert!(___symbols.len() >= 3);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant87(___symbols);
@@ -14463,14 +10870,13 @@ pub(crate) fn ___reduce234<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, Use+, "grammar", ";" => ActionFn(696);
+assert!(___symbols.len() >= 4);
 let ___sym3 = ___pop_Variant0(___symbols);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant66(___symbols);
@@ -14485,14 +10891,13 @@ pub(crate) fn ___reduce235<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = "grammar", GrammarTypeParameters, GrammarParameters, GrammarWhereClauses, ";", GrammarItem+ => ActionFn(697);
+assert!(___symbols.len() >= 6);
 let ___sym5 = ___pop_Variant66(___symbols);
 let ___sym4 = ___pop_Variant0(___symbols);
 let ___sym3 = ___pop_Variant52(___symbols);
@@ -14509,14 +10914,13 @@ pub(crate) fn ___reduce236<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = Use+, "grammar", GrammarTypeParameters, GrammarParameters, GrammarWhereClauses, ";", GrammarItem+ => ActionFn(698);
+assert!(___symbols.len() >= 7);
 let ___sym6 = ___pop_Variant66(___symbols);
 let ___sym5 = ___pop_Variant0(___symbols);
 let ___sym4 = ___pop_Variant52(___symbols);
@@ -14534,14 +10938,13 @@ pub(crate) fn ___reduce237<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, "grammar", GrammarTypeParameters, GrammarParameters, GrammarWhereClauses, ";", GrammarItem+ => ActionFn(699);
+assert!(___symbols.len() >= 7);
 let ___sym6 = ___pop_Variant66(___symbols);
 let ___sym5 = ___pop_Variant0(___symbols);
 let ___sym4 = ___pop_Variant52(___symbols);
@@ -14559,14 +10962,13 @@ pub(crate) fn ___reduce238<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, Use+, "grammar", GrammarTypeParameters, GrammarParameters, GrammarWhereClauses, ";", GrammarItem+ => ActionFn(700);
+assert!(___symbols.len() >= 8);
 let ___sym7 = ___pop_Variant66(___symbols);
 let ___sym6 = ___pop_Variant0(___symbols);
 let ___sym5 = ___pop_Variant52(___symbols);
@@ -14585,14 +10987,13 @@ pub(crate) fn ___reduce239<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = "grammar", GrammarTypeParameters, GrammarParameters, ";", GrammarItem+ => ActionFn(701);
+assert!(___symbols.len() >= 5);
 let ___sym4 = ___pop_Variant66(___symbols);
 let ___sym3 = ___pop_Variant0(___symbols);
 let ___sym2 = ___pop_Variant51(___symbols);
@@ -14608,14 +11009,13 @@ pub(crate) fn ___reduce240<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = Use+, "grammar", GrammarTypeParameters, GrammarParameters, ";", GrammarItem+ => ActionFn(702);
+assert!(___symbols.len() >= 6);
 let ___sym5 = ___pop_Variant66(___symbols);
 let ___sym4 = ___pop_Variant0(___symbols);
 let ___sym3 = ___pop_Variant51(___symbols);
@@ -14632,14 +11032,13 @@ pub(crate) fn ___reduce241<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, "grammar", GrammarTypeParameters, GrammarParameters, ";", GrammarItem+ => ActionFn(703);
+assert!(___symbols.len() >= 6);
 let ___sym5 = ___pop_Variant66(___symbols);
 let ___sym4 = ___pop_Variant0(___symbols);
 let ___sym3 = ___pop_Variant51(___symbols);
@@ -14656,14 +11055,13 @@ pub(crate) fn ___reduce242<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, Use+, "grammar", GrammarTypeParameters, GrammarParameters, ";", GrammarItem+ => ActionFn(704);
+assert!(___symbols.len() >= 7);
 let ___sym6 = ___pop_Variant66(___symbols);
 let ___sym5 = ___pop_Variant0(___symbols);
 let ___sym4 = ___pop_Variant51(___symbols);
@@ -14681,14 +11079,13 @@ pub(crate) fn ___reduce243<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = "grammar", GrammarParameters, GrammarWhereClauses, ";", GrammarItem+ => ActionFn(705);
+assert!(___symbols.len() >= 5);
 let ___sym4 = ___pop_Variant66(___symbols);
 let ___sym3 = ___pop_Variant0(___symbols);
 let ___sym2 = ___pop_Variant52(___symbols);
@@ -14704,14 +11101,13 @@ pub(crate) fn ___reduce244<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = Use+, "grammar", GrammarParameters, GrammarWhereClauses, ";", GrammarItem+ => ActionFn(706);
+assert!(___symbols.len() >= 6);
 let ___sym5 = ___pop_Variant66(___symbols);
 let ___sym4 = ___pop_Variant0(___symbols);
 let ___sym3 = ___pop_Variant52(___symbols);
@@ -14728,14 +11124,13 @@ pub(crate) fn ___reduce245<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, "grammar", GrammarParameters, GrammarWhereClauses, ";", GrammarItem+ => ActionFn(707);
+assert!(___symbols.len() >= 6);
 let ___sym5 = ___pop_Variant66(___symbols);
 let ___sym4 = ___pop_Variant0(___symbols);
 let ___sym3 = ___pop_Variant52(___symbols);
@@ -14752,14 +11147,13 @@ pub(crate) fn ___reduce246<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, Use+, "grammar", GrammarParameters, GrammarWhereClauses, ";", GrammarItem+ => ActionFn(708);
+assert!(___symbols.len() >= 7);
 let ___sym6 = ___pop_Variant66(___symbols);
 let ___sym5 = ___pop_Variant0(___symbols);
 let ___sym4 = ___pop_Variant52(___symbols);
@@ -14777,14 +11171,13 @@ pub(crate) fn ___reduce247<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = "grammar", GrammarParameters, ";", GrammarItem+ => ActionFn(709);
+assert!(___symbols.len() >= 4);
 let ___sym3 = ___pop_Variant66(___symbols);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant51(___symbols);
@@ -14799,14 +11192,13 @@ pub(crate) fn ___reduce248<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = Use+, "grammar", GrammarParameters, ";", GrammarItem+ => ActionFn(710);
+assert!(___symbols.len() >= 5);
 let ___sym4 = ___pop_Variant66(___symbols);
 let ___sym3 = ___pop_Variant0(___symbols);
 let ___sym2 = ___pop_Variant51(___symbols);
@@ -14822,14 +11214,13 @@ pub(crate) fn ___reduce249<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, "grammar", GrammarParameters, ";", GrammarItem+ => ActionFn(711);
+assert!(___symbols.len() >= 5);
 let ___sym4 = ___pop_Variant66(___symbols);
 let ___sym3 = ___pop_Variant0(___symbols);
 let ___sym2 = ___pop_Variant51(___symbols);
@@ -14845,14 +11236,13 @@ pub(crate) fn ___reduce250<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, Use+, "grammar", GrammarParameters, ";", GrammarItem+ => ActionFn(712);
+assert!(___symbols.len() >= 6);
 let ___sym5 = ___pop_Variant66(___symbols);
 let ___sym4 = ___pop_Variant0(___symbols);
 let ___sym3 = ___pop_Variant51(___symbols);
@@ -14869,14 +11259,13 @@ pub(crate) fn ___reduce251<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = "grammar", GrammarTypeParameters, GrammarWhereClauses, ";", GrammarItem+ => ActionFn(713);
+assert!(___symbols.len() >= 5);
 let ___sym4 = ___pop_Variant66(___symbols);
 let ___sym3 = ___pop_Variant0(___symbols);
 let ___sym2 = ___pop_Variant52(___symbols);
@@ -14892,14 +11281,13 @@ pub(crate) fn ___reduce252<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = Use+, "grammar", GrammarTypeParameters, GrammarWhereClauses, ";", GrammarItem+ => ActionFn(714);
+assert!(___symbols.len() >= 6);
 let ___sym5 = ___pop_Variant66(___symbols);
 let ___sym4 = ___pop_Variant0(___symbols);
 let ___sym3 = ___pop_Variant52(___symbols);
@@ -14916,14 +11304,13 @@ pub(crate) fn ___reduce253<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, "grammar", GrammarTypeParameters, GrammarWhereClauses, ";", GrammarItem+ => ActionFn(715);
+assert!(___symbols.len() >= 6);
 let ___sym5 = ___pop_Variant66(___symbols);
 let ___sym4 = ___pop_Variant0(___symbols);
 let ___sym3 = ___pop_Variant52(___symbols);
@@ -14940,14 +11327,13 @@ pub(crate) fn ___reduce254<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, Use+, "grammar", GrammarTypeParameters, GrammarWhereClauses, ";", GrammarItem+ => ActionFn(716);
+assert!(___symbols.len() >= 7);
 let ___sym6 = ___pop_Variant66(___symbols);
 let ___sym5 = ___pop_Variant0(___symbols);
 let ___sym4 = ___pop_Variant52(___symbols);
@@ -14965,14 +11351,13 @@ pub(crate) fn ___reduce255<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = "grammar", GrammarTypeParameters, ";", GrammarItem+ => ActionFn(717);
+assert!(___symbols.len() >= 4);
 let ___sym3 = ___pop_Variant66(___symbols);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant57(___symbols);
@@ -14987,14 +11372,13 @@ pub(crate) fn ___reduce256<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = Use+, "grammar", GrammarTypeParameters, ";", GrammarItem+ => ActionFn(718);
+assert!(___symbols.len() >= 5);
 let ___sym4 = ___pop_Variant66(___symbols);
 let ___sym3 = ___pop_Variant0(___symbols);
 let ___sym2 = ___pop_Variant57(___symbols);
@@ -15010,14 +11394,13 @@ pub(crate) fn ___reduce257<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, "grammar", GrammarTypeParameters, ";", GrammarItem+ => ActionFn(719);
+assert!(___symbols.len() >= 5);
 let ___sym4 = ___pop_Variant66(___symbols);
 let ___sym3 = ___pop_Variant0(___symbols);
 let ___sym2 = ___pop_Variant57(___symbols);
@@ -15033,14 +11416,13 @@ pub(crate) fn ___reduce258<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, Use+, "grammar", GrammarTypeParameters, ";", GrammarItem+ => ActionFn(720);
+assert!(___symbols.len() >= 6);
 let ___sym5 = ___pop_Variant66(___symbols);
 let ___sym4 = ___pop_Variant0(___symbols);
 let ___sym3 = ___pop_Variant57(___symbols);
@@ -15057,14 +11439,13 @@ pub(crate) fn ___reduce259<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = "grammar", GrammarWhereClauses, ";", GrammarItem+ => ActionFn(721);
+assert!(___symbols.len() >= 4);
 let ___sym3 = ___pop_Variant66(___symbols);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant52(___symbols);
@@ -15079,14 +11460,13 @@ pub(crate) fn ___reduce260<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = Use+, "grammar", GrammarWhereClauses, ";", GrammarItem+ => ActionFn(722);
+assert!(___symbols.len() >= 5);
 let ___sym4 = ___pop_Variant66(___symbols);
 let ___sym3 = ___pop_Variant0(___symbols);
 let ___sym2 = ___pop_Variant52(___symbols);
@@ -15102,14 +11482,13 @@ pub(crate) fn ___reduce261<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, "grammar", GrammarWhereClauses, ";", GrammarItem+ => ActionFn(723);
+assert!(___symbols.len() >= 5);
 let ___sym4 = ___pop_Variant66(___symbols);
 let ___sym3 = ___pop_Variant0(___symbols);
 let ___sym2 = ___pop_Variant52(___symbols);
@@ -15125,14 +11504,13 @@ pub(crate) fn ___reduce262<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, Use+, "grammar", GrammarWhereClauses, ";", GrammarItem+ => ActionFn(724);
+assert!(___symbols.len() >= 6);
 let ___sym5 = ___pop_Variant66(___symbols);
 let ___sym4 = ___pop_Variant0(___symbols);
 let ___sym3 = ___pop_Variant52(___symbols);
@@ -15149,14 +11527,13 @@ pub(crate) fn ___reduce263<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = "grammar", ";", GrammarItem+ => ActionFn(725);
+assert!(___symbols.len() >= 3);
 let ___sym2 = ___pop_Variant66(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant0(___symbols);
@@ -15170,14 +11547,13 @@ pub(crate) fn ___reduce264<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = Use+, "grammar", ";", GrammarItem+ => ActionFn(726);
+assert!(___symbols.len() >= 4);
 let ___sym3 = ___pop_Variant66(___symbols);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
@@ -15192,14 +11568,13 @@ pub(crate) fn ___reduce265<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, "grammar", ";", GrammarItem+ => ActionFn(727);
+assert!(___symbols.len() >= 4);
 let ___sym3 = ___pop_Variant66(___symbols);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
@@ -15214,14 +11589,13 @@ pub(crate) fn ___reduce266<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, Use+, "grammar", ";", GrammarItem+ => ActionFn(728);
+assert!(___symbols.len() >= 5);
 let ___sym4 = ___pop_Variant66(___symbols);
 let ___sym3 = ___pop_Variant0(___symbols);
 let ___sym2 = ___pop_Variant0(___symbols);
@@ -15237,14 +11611,13 @@ pub(crate) fn ___reduce267<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = Annotation+, "grammar", GrammarTypeParameters, GrammarParameters, GrammarWhereClauses, ";" => ActionFn(729);
+assert!(___symbols.len() >= 6);
 let ___sym5 = ___pop_Variant0(___symbols);
 let ___sym4 = ___pop_Variant52(___symbols);
 let ___sym3 = ___pop_Variant51(___symbols);
@@ -15261,14 +11634,13 @@ pub(crate) fn ___reduce268<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = Use+, Annotation+, "grammar", GrammarTypeParameters, GrammarParameters, GrammarWhereClauses, ";" => ActionFn(730);
+assert!(___symbols.len() >= 7);
 let ___sym6 = ___pop_Variant0(___symbols);
 let ___sym5 = ___pop_Variant52(___symbols);
 let ___sym4 = ___pop_Variant51(___symbols);
@@ -15286,14 +11658,13 @@ pub(crate) fn ___reduce269<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, Annotation+, "grammar", GrammarTypeParameters, GrammarParameters, GrammarWhereClauses, ";" => ActionFn(731);
+assert!(___symbols.len() >= 7);
 let ___sym6 = ___pop_Variant0(___symbols);
 let ___sym5 = ___pop_Variant52(___symbols);
 let ___sym4 = ___pop_Variant51(___symbols);
@@ -15311,14 +11682,13 @@ pub(crate) fn ___reduce270<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, Use+, Annotation+, "grammar", GrammarTypeParameters, GrammarParameters, GrammarWhereClauses, ";" => ActionFn(732);
+assert!(___symbols.len() >= 8);
 let ___sym7 = ___pop_Variant0(___symbols);
 let ___sym6 = ___pop_Variant52(___symbols);
 let ___sym5 = ___pop_Variant51(___symbols);
@@ -15337,14 +11707,13 @@ pub(crate) fn ___reduce271<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = Annotation+, "grammar", GrammarTypeParameters, GrammarParameters, ";" => ActionFn(733);
+assert!(___symbols.len() >= 5);
 let ___sym4 = ___pop_Variant0(___symbols);
 let ___sym3 = ___pop_Variant51(___symbols);
 let ___sym2 = ___pop_Variant57(___symbols);
@@ -15360,14 +11729,13 @@ pub(crate) fn ___reduce272<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = Use+, Annotation+, "grammar", GrammarTypeParameters, GrammarParameters, ";" => ActionFn(734);
+assert!(___symbols.len() >= 6);
 let ___sym5 = ___pop_Variant0(___symbols);
 let ___sym4 = ___pop_Variant51(___symbols);
 let ___sym3 = ___pop_Variant57(___symbols);
@@ -15384,14 +11752,13 @@ pub(crate) fn ___reduce273<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, Annotation+, "grammar", GrammarTypeParameters, GrammarParameters, ";" => ActionFn(735);
+assert!(___symbols.len() >= 6);
 let ___sym5 = ___pop_Variant0(___symbols);
 let ___sym4 = ___pop_Variant51(___symbols);
 let ___sym3 = ___pop_Variant57(___symbols);
@@ -15408,14 +11775,13 @@ pub(crate) fn ___reduce274<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, Use+, Annotation+, "grammar", GrammarTypeParameters, GrammarParameters, ";" => ActionFn(736);
+assert!(___symbols.len() >= 7);
 let ___sym6 = ___pop_Variant0(___symbols);
 let ___sym5 = ___pop_Variant51(___symbols);
 let ___sym4 = ___pop_Variant57(___symbols);
@@ -15433,14 +11799,13 @@ pub(crate) fn ___reduce275<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = Annotation+, "grammar", GrammarParameters, GrammarWhereClauses, ";" => ActionFn(737);
+assert!(___symbols.len() >= 5);
 let ___sym4 = ___pop_Variant0(___symbols);
 let ___sym3 = ___pop_Variant52(___symbols);
 let ___sym2 = ___pop_Variant51(___symbols);
@@ -15456,14 +11821,13 @@ pub(crate) fn ___reduce276<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = Use+, Annotation+, "grammar", GrammarParameters, GrammarWhereClauses, ";" => ActionFn(738);
+assert!(___symbols.len() >= 6);
 let ___sym5 = ___pop_Variant0(___symbols);
 let ___sym4 = ___pop_Variant52(___symbols);
 let ___sym3 = ___pop_Variant51(___symbols);
@@ -15480,14 +11844,13 @@ pub(crate) fn ___reduce277<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, Annotation+, "grammar", GrammarParameters, GrammarWhereClauses, ";" => ActionFn(739);
+assert!(___symbols.len() >= 6);
 let ___sym5 = ___pop_Variant0(___symbols);
 let ___sym4 = ___pop_Variant52(___symbols);
 let ___sym3 = ___pop_Variant51(___symbols);
@@ -15504,14 +11867,13 @@ pub(crate) fn ___reduce278<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, Use+, Annotation+, "grammar", GrammarParameters, GrammarWhereClauses, ";" => ActionFn(740);
+assert!(___symbols.len() >= 7);
 let ___sym6 = ___pop_Variant0(___symbols);
 let ___sym5 = ___pop_Variant52(___symbols);
 let ___sym4 = ___pop_Variant51(___symbols);
@@ -15529,14 +11891,13 @@ pub(crate) fn ___reduce279<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = Annotation+, "grammar", GrammarParameters, ";" => ActionFn(741);
+assert!(___symbols.len() >= 4);
 let ___sym3 = ___pop_Variant0(___symbols);
 let ___sym2 = ___pop_Variant51(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
@@ -15551,14 +11912,13 @@ pub(crate) fn ___reduce280<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = Use+, Annotation+, "grammar", GrammarParameters, ";" => ActionFn(742);
+assert!(___symbols.len() >= 5);
 let ___sym4 = ___pop_Variant0(___symbols);
 let ___sym3 = ___pop_Variant51(___symbols);
 let ___sym2 = ___pop_Variant0(___symbols);
@@ -15574,14 +11934,13 @@ pub(crate) fn ___reduce281<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, Annotation+, "grammar", GrammarParameters, ";" => ActionFn(743);
+assert!(___symbols.len() >= 5);
 let ___sym4 = ___pop_Variant0(___symbols);
 let ___sym3 = ___pop_Variant51(___symbols);
 let ___sym2 = ___pop_Variant0(___symbols);
@@ -15597,14 +11956,13 @@ pub(crate) fn ___reduce282<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, Use+, Annotation+, "grammar", GrammarParameters, ";" => ActionFn(744);
+assert!(___symbols.len() >= 6);
 let ___sym5 = ___pop_Variant0(___symbols);
 let ___sym4 = ___pop_Variant51(___symbols);
 let ___sym3 = ___pop_Variant0(___symbols);
@@ -15621,14 +11979,13 @@ pub(crate) fn ___reduce283<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = Annotation+, "grammar", GrammarTypeParameters, GrammarWhereClauses, ";" => ActionFn(745);
+assert!(___symbols.len() >= 5);
 let ___sym4 = ___pop_Variant0(___symbols);
 let ___sym3 = ___pop_Variant52(___symbols);
 let ___sym2 = ___pop_Variant57(___symbols);
@@ -15644,14 +12001,13 @@ pub(crate) fn ___reduce284<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = Use+, Annotation+, "grammar", GrammarTypeParameters, GrammarWhereClauses, ";" => ActionFn(746);
+assert!(___symbols.len() >= 6);
 let ___sym5 = ___pop_Variant0(___symbols);
 let ___sym4 = ___pop_Variant52(___symbols);
 let ___sym3 = ___pop_Variant57(___symbols);
@@ -15668,14 +12024,13 @@ pub(crate) fn ___reduce285<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, Annotation+, "grammar", GrammarTypeParameters, GrammarWhereClauses, ";" => ActionFn(747);
+assert!(___symbols.len() >= 6);
 let ___sym5 = ___pop_Variant0(___symbols);
 let ___sym4 = ___pop_Variant52(___symbols);
 let ___sym3 = ___pop_Variant57(___symbols);
@@ -15692,14 +12047,13 @@ pub(crate) fn ___reduce286<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, Use+, Annotation+, "grammar", GrammarTypeParameters, GrammarWhereClauses, ";" => ActionFn(748);
+assert!(___symbols.len() >= 7);
 let ___sym6 = ___pop_Variant0(___symbols);
 let ___sym5 = ___pop_Variant52(___symbols);
 let ___sym4 = ___pop_Variant57(___symbols);
@@ -15717,14 +12071,13 @@ pub(crate) fn ___reduce287<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = Annotation+, "grammar", GrammarTypeParameters, ";" => ActionFn(749);
+assert!(___symbols.len() >= 4);
 let ___sym3 = ___pop_Variant0(___symbols);
 let ___sym2 = ___pop_Variant57(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
@@ -15739,14 +12092,13 @@ pub(crate) fn ___reduce288<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = Use+, Annotation+, "grammar", GrammarTypeParameters, ";" => ActionFn(750);
+assert!(___symbols.len() >= 5);
 let ___sym4 = ___pop_Variant0(___symbols);
 let ___sym3 = ___pop_Variant57(___symbols);
 let ___sym2 = ___pop_Variant0(___symbols);
@@ -15762,14 +12114,13 @@ pub(crate) fn ___reduce289<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, Annotation+, "grammar", GrammarTypeParameters, ";" => ActionFn(751);
+assert!(___symbols.len() >= 5);
 let ___sym4 = ___pop_Variant0(___symbols);
 let ___sym3 = ___pop_Variant57(___symbols);
 let ___sym2 = ___pop_Variant0(___symbols);
@@ -15785,14 +12136,13 @@ pub(crate) fn ___reduce290<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, Use+, Annotation+, "grammar", GrammarTypeParameters, ";" => ActionFn(752);
+assert!(___symbols.len() >= 6);
 let ___sym5 = ___pop_Variant0(___symbols);
 let ___sym4 = ___pop_Variant57(___symbols);
 let ___sym3 = ___pop_Variant0(___symbols);
@@ -15809,14 +12159,13 @@ pub(crate) fn ___reduce291<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = Annotation+, "grammar", GrammarWhereClauses, ";" => ActionFn(753);
+assert!(___symbols.len() >= 4);
 let ___sym3 = ___pop_Variant0(___symbols);
 let ___sym2 = ___pop_Variant52(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
@@ -15831,14 +12180,13 @@ pub(crate) fn ___reduce292<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = Use+, Annotation+, "grammar", GrammarWhereClauses, ";" => ActionFn(754);
+assert!(___symbols.len() >= 5);
 let ___sym4 = ___pop_Variant0(___symbols);
 let ___sym3 = ___pop_Variant52(___symbols);
 let ___sym2 = ___pop_Variant0(___symbols);
@@ -15854,14 +12202,13 @@ pub(crate) fn ___reduce293<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, Annotation+, "grammar", GrammarWhereClauses, ";" => ActionFn(755);
+assert!(___symbols.len() >= 5);
 let ___sym4 = ___pop_Variant0(___symbols);
 let ___sym3 = ___pop_Variant52(___symbols);
 let ___sym2 = ___pop_Variant0(___symbols);
@@ -15877,14 +12224,13 @@ pub(crate) fn ___reduce294<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, Use+, Annotation+, "grammar", GrammarWhereClauses, ";" => ActionFn(756);
+assert!(___symbols.len() >= 6);
 let ___sym5 = ___pop_Variant0(___symbols);
 let ___sym4 = ___pop_Variant52(___symbols);
 let ___sym3 = ___pop_Variant0(___symbols);
@@ -15901,14 +12247,13 @@ pub(crate) fn ___reduce295<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = Annotation+, "grammar", ";" => ActionFn(757);
+assert!(___symbols.len() >= 3);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant45(___symbols);
@@ -15922,14 +12267,13 @@ pub(crate) fn ___reduce296<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = Use+, Annotation+, "grammar", ";" => ActionFn(758);
+assert!(___symbols.len() >= 4);
 let ___sym3 = ___pop_Variant0(___symbols);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant45(___symbols);
@@ -15944,14 +12288,13 @@ pub(crate) fn ___reduce297<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, Annotation+, "grammar", ";" => ActionFn(759);
+assert!(___symbols.len() >= 4);
 let ___sym3 = ___pop_Variant0(___symbols);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant45(___symbols);
@@ -15966,14 +12309,13 @@ pub(crate) fn ___reduce298<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, Use+, Annotation+, "grammar", ";" => ActionFn(760);
+assert!(___symbols.len() >= 5);
 let ___sym4 = ___pop_Variant0(___symbols);
 let ___sym3 = ___pop_Variant0(___symbols);
 let ___sym2 = ___pop_Variant45(___symbols);
@@ -15989,14 +12331,13 @@ pub(crate) fn ___reduce299<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = Annotation+, "grammar", GrammarTypeParameters, GrammarParameters, GrammarWhereClauses, ";", GrammarItem+ => ActionFn(761);
+assert!(___symbols.len() >= 7);
 let ___sym6 = ___pop_Variant66(___symbols);
 let ___sym5 = ___pop_Variant0(___symbols);
 let ___sym4 = ___pop_Variant52(___symbols);
@@ -16014,14 +12355,13 @@ pub(crate) fn ___reduce300<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = Use+, Annotation+, "grammar", GrammarTypeParameters, GrammarParameters, GrammarWhereClauses, ";", GrammarItem+ => ActionFn(762);
+assert!(___symbols.len() >= 8);
 let ___sym7 = ___pop_Variant66(___symbols);
 let ___sym6 = ___pop_Variant0(___symbols);
 let ___sym5 = ___pop_Variant52(___symbols);
@@ -16040,14 +12380,13 @@ pub(crate) fn ___reduce301<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, Annotation+, "grammar", GrammarTypeParameters, GrammarParameters, GrammarWhereClauses, ";", GrammarItem+ => ActionFn(763);
+assert!(___symbols.len() >= 8);
 let ___sym7 = ___pop_Variant66(___symbols);
 let ___sym6 = ___pop_Variant0(___symbols);
 let ___sym5 = ___pop_Variant52(___symbols);
@@ -16066,14 +12405,13 @@ pub(crate) fn ___reduce302<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, Use+, Annotation+, "grammar", GrammarTypeParameters, GrammarParameters, GrammarWhereClauses, ";", GrammarItem+ => ActionFn(764);
+assert!(___symbols.len() >= 9);
 let ___sym8 = ___pop_Variant66(___symbols);
 let ___sym7 = ___pop_Variant0(___symbols);
 let ___sym6 = ___pop_Variant52(___symbols);
@@ -16093,14 +12431,13 @@ pub(crate) fn ___reduce303<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = Annotation+, "grammar", GrammarTypeParameters, GrammarParameters, ";", GrammarItem+ => ActionFn(765);
+assert!(___symbols.len() >= 6);
 let ___sym5 = ___pop_Variant66(___symbols);
 let ___sym4 = ___pop_Variant0(___symbols);
 let ___sym3 = ___pop_Variant51(___symbols);
@@ -16117,14 +12454,13 @@ pub(crate) fn ___reduce304<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = Use+, Annotation+, "grammar", GrammarTypeParameters, GrammarParameters, ";", GrammarItem+ => ActionFn(766);
+assert!(___symbols.len() >= 7);
 let ___sym6 = ___pop_Variant66(___symbols);
 let ___sym5 = ___pop_Variant0(___symbols);
 let ___sym4 = ___pop_Variant51(___symbols);
@@ -16142,14 +12478,13 @@ pub(crate) fn ___reduce305<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, Annotation+, "grammar", GrammarTypeParameters, GrammarParameters, ";", GrammarItem+ => ActionFn(767);
+assert!(___symbols.len() >= 7);
 let ___sym6 = ___pop_Variant66(___symbols);
 let ___sym5 = ___pop_Variant0(___symbols);
 let ___sym4 = ___pop_Variant51(___symbols);
@@ -16167,14 +12502,13 @@ pub(crate) fn ___reduce306<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, Use+, Annotation+, "grammar", GrammarTypeParameters, GrammarParameters, ";", GrammarItem+ => ActionFn(768);
+assert!(___symbols.len() >= 8);
 let ___sym7 = ___pop_Variant66(___symbols);
 let ___sym6 = ___pop_Variant0(___symbols);
 let ___sym5 = ___pop_Variant51(___symbols);
@@ -16193,14 +12527,13 @@ pub(crate) fn ___reduce307<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = Annotation+, "grammar", GrammarParameters, GrammarWhereClauses, ";", GrammarItem+ => ActionFn(769);
+assert!(___symbols.len() >= 6);
 let ___sym5 = ___pop_Variant66(___symbols);
 let ___sym4 = ___pop_Variant0(___symbols);
 let ___sym3 = ___pop_Variant52(___symbols);
@@ -16217,14 +12550,13 @@ pub(crate) fn ___reduce308<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = Use+, Annotation+, "grammar", GrammarParameters, GrammarWhereClauses, ";", GrammarItem+ => ActionFn(770);
+assert!(___symbols.len() >= 7);
 let ___sym6 = ___pop_Variant66(___symbols);
 let ___sym5 = ___pop_Variant0(___symbols);
 let ___sym4 = ___pop_Variant52(___symbols);
@@ -16242,14 +12574,13 @@ pub(crate) fn ___reduce309<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, Annotation+, "grammar", GrammarParameters, GrammarWhereClauses, ";", GrammarItem+ => ActionFn(771);
+assert!(___symbols.len() >= 7);
 let ___sym6 = ___pop_Variant66(___symbols);
 let ___sym5 = ___pop_Variant0(___symbols);
 let ___sym4 = ___pop_Variant52(___symbols);
@@ -16267,14 +12598,13 @@ pub(crate) fn ___reduce310<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, Use+, Annotation+, "grammar", GrammarParameters, GrammarWhereClauses, ";", GrammarItem+ => ActionFn(772);
+assert!(___symbols.len() >= 8);
 let ___sym7 = ___pop_Variant66(___symbols);
 let ___sym6 = ___pop_Variant0(___symbols);
 let ___sym5 = ___pop_Variant52(___symbols);
@@ -16293,14 +12623,13 @@ pub(crate) fn ___reduce311<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = Annotation+, "grammar", GrammarParameters, ";", GrammarItem+ => ActionFn(773);
+assert!(___symbols.len() >= 5);
 let ___sym4 = ___pop_Variant66(___symbols);
 let ___sym3 = ___pop_Variant0(___symbols);
 let ___sym2 = ___pop_Variant51(___symbols);
@@ -16316,14 +12645,13 @@ pub(crate) fn ___reduce312<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = Use+, Annotation+, "grammar", GrammarParameters, ";", GrammarItem+ => ActionFn(774);
+assert!(___symbols.len() >= 6);
 let ___sym5 = ___pop_Variant66(___symbols);
 let ___sym4 = ___pop_Variant0(___symbols);
 let ___sym3 = ___pop_Variant51(___symbols);
@@ -16340,14 +12668,13 @@ pub(crate) fn ___reduce313<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, Annotation+, "grammar", GrammarParameters, ";", GrammarItem+ => ActionFn(775);
+assert!(___symbols.len() >= 6);
 let ___sym5 = ___pop_Variant66(___symbols);
 let ___sym4 = ___pop_Variant0(___symbols);
 let ___sym3 = ___pop_Variant51(___symbols);
@@ -16364,14 +12691,13 @@ pub(crate) fn ___reduce314<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, Use+, Annotation+, "grammar", GrammarParameters, ";", GrammarItem+ => ActionFn(776);
+assert!(___symbols.len() >= 7);
 let ___sym6 = ___pop_Variant66(___symbols);
 let ___sym5 = ___pop_Variant0(___symbols);
 let ___sym4 = ___pop_Variant51(___symbols);
@@ -16389,14 +12715,13 @@ pub(crate) fn ___reduce315<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = Annotation+, "grammar", GrammarTypeParameters, GrammarWhereClauses, ";", GrammarItem+ => ActionFn(777);
+assert!(___symbols.len() >= 6);
 let ___sym5 = ___pop_Variant66(___symbols);
 let ___sym4 = ___pop_Variant0(___symbols);
 let ___sym3 = ___pop_Variant52(___symbols);
@@ -16413,14 +12738,13 @@ pub(crate) fn ___reduce316<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = Use+, Annotation+, "grammar", GrammarTypeParameters, GrammarWhereClauses, ";", GrammarItem+ => ActionFn(778);
+assert!(___symbols.len() >= 7);
 let ___sym6 = ___pop_Variant66(___symbols);
 let ___sym5 = ___pop_Variant0(___symbols);
 let ___sym4 = ___pop_Variant52(___symbols);
@@ -16438,14 +12762,13 @@ pub(crate) fn ___reduce317<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, Annotation+, "grammar", GrammarTypeParameters, GrammarWhereClauses, ";", GrammarItem+ => ActionFn(779);
+assert!(___symbols.len() >= 7);
 let ___sym6 = ___pop_Variant66(___symbols);
 let ___sym5 = ___pop_Variant0(___symbols);
 let ___sym4 = ___pop_Variant52(___symbols);
@@ -16463,14 +12786,13 @@ pub(crate) fn ___reduce318<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, Use+, Annotation+, "grammar", GrammarTypeParameters, GrammarWhereClauses, ";", GrammarItem+ => ActionFn(780);
+assert!(___symbols.len() >= 8);
 let ___sym7 = ___pop_Variant66(___symbols);
 let ___sym6 = ___pop_Variant0(___symbols);
 let ___sym5 = ___pop_Variant52(___symbols);
@@ -16489,14 +12811,13 @@ pub(crate) fn ___reduce319<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = Annotation+, "grammar", GrammarTypeParameters, ";", GrammarItem+ => ActionFn(781);
+assert!(___symbols.len() >= 5);
 let ___sym4 = ___pop_Variant66(___symbols);
 let ___sym3 = ___pop_Variant0(___symbols);
 let ___sym2 = ___pop_Variant57(___symbols);
@@ -16512,14 +12833,13 @@ pub(crate) fn ___reduce320<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = Use+, Annotation+, "grammar", GrammarTypeParameters, ";", GrammarItem+ => ActionFn(782);
+assert!(___symbols.len() >= 6);
 let ___sym5 = ___pop_Variant66(___symbols);
 let ___sym4 = ___pop_Variant0(___symbols);
 let ___sym3 = ___pop_Variant57(___symbols);
@@ -16536,14 +12856,13 @@ pub(crate) fn ___reduce321<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, Annotation+, "grammar", GrammarTypeParameters, ";", GrammarItem+ => ActionFn(783);
+assert!(___symbols.len() >= 6);
 let ___sym5 = ___pop_Variant66(___symbols);
 let ___sym4 = ___pop_Variant0(___symbols);
 let ___sym3 = ___pop_Variant57(___symbols);
@@ -16560,14 +12879,13 @@ pub(crate) fn ___reduce322<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, Use+, Annotation+, "grammar", GrammarTypeParameters, ";", GrammarItem+ => ActionFn(784);
+assert!(___symbols.len() >= 7);
 let ___sym6 = ___pop_Variant66(___symbols);
 let ___sym5 = ___pop_Variant0(___symbols);
 let ___sym4 = ___pop_Variant57(___symbols);
@@ -16585,14 +12903,13 @@ pub(crate) fn ___reduce323<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = Annotation+, "grammar", GrammarWhereClauses, ";", GrammarItem+ => ActionFn(785);
+assert!(___symbols.len() >= 5);
 let ___sym4 = ___pop_Variant66(___symbols);
 let ___sym3 = ___pop_Variant0(___symbols);
 let ___sym2 = ___pop_Variant52(___symbols);
@@ -16608,14 +12925,13 @@ pub(crate) fn ___reduce324<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = Use+, Annotation+, "grammar", GrammarWhereClauses, ";", GrammarItem+ => ActionFn(786);
+assert!(___symbols.len() >= 6);
 let ___sym5 = ___pop_Variant66(___symbols);
 let ___sym4 = ___pop_Variant0(___symbols);
 let ___sym3 = ___pop_Variant52(___symbols);
@@ -16632,14 +12948,13 @@ pub(crate) fn ___reduce325<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, Annotation+, "grammar", GrammarWhereClauses, ";", GrammarItem+ => ActionFn(787);
+assert!(___symbols.len() >= 6);
 let ___sym5 = ___pop_Variant66(___symbols);
 let ___sym4 = ___pop_Variant0(___symbols);
 let ___sym3 = ___pop_Variant52(___symbols);
@@ -16656,14 +12971,13 @@ pub(crate) fn ___reduce326<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, Use+, Annotation+, "grammar", GrammarWhereClauses, ";", GrammarItem+ => ActionFn(788);
+assert!(___symbols.len() >= 7);
 let ___sym6 = ___pop_Variant66(___symbols);
 let ___sym5 = ___pop_Variant0(___symbols);
 let ___sym4 = ___pop_Variant52(___symbols);
@@ -16681,14 +12995,13 @@ pub(crate) fn ___reduce327<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = Annotation+, "grammar", ";", GrammarItem+ => ActionFn(789);
+assert!(___symbols.len() >= 4);
 let ___sym3 = ___pop_Variant66(___symbols);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
@@ -16703,14 +13016,13 @@ pub(crate) fn ___reduce328<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = Use+, Annotation+, "grammar", ";", GrammarItem+ => ActionFn(790);
+assert!(___symbols.len() >= 5);
 let ___sym4 = ___pop_Variant66(___symbols);
 let ___sym3 = ___pop_Variant0(___symbols);
 let ___sym2 = ___pop_Variant0(___symbols);
@@ -16726,14 +13038,13 @@ pub(crate) fn ___reduce329<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, Annotation+, "grammar", ";", GrammarItem+ => ActionFn(791);
+assert!(___symbols.len() >= 5);
 let ___sym4 = ___pop_Variant66(___symbols);
 let ___sym3 = ___pop_Variant0(___symbols);
 let ___sym2 = ___pop_Variant0(___symbols);
@@ -16749,14 +13060,13 @@ pub(crate) fn ___reduce330<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, Use+, Annotation+, "grammar", ";", GrammarItem+ => ActionFn(792);
+assert!(___symbols.len() >= 6);
 let ___sym5 = ___pop_Variant66(___symbols);
 let ___sym4 = ___pop_Variant0(___symbols);
 let ___sym3 = ___pop_Variant0(___symbols);
@@ -16773,9 +13083,7 @@ pub(crate) fn ___reduce331<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -16792,9 +13100,7 @@ pub(crate) fn ___reduce332<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -16811,9 +13117,7 @@ pub(crate) fn ___reduce333<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -16830,9 +13134,7 @@ pub(crate) fn ___reduce334<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -16849,9 +13151,7 @@ pub(crate) fn ___reduce335<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -16867,9 +13167,7 @@ pub(crate) fn ___reduce336<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -16886,9 +13184,7 @@ pub(crate) fn ___reduce337<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -16905,14 +13201,13 @@ pub(crate) fn ___reduce338<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // GrammarItem+ = GrammarItem+, GrammarItem => ActionFn(196);
+assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant63(___symbols);
 let ___sym0 = ___pop_Variant66(___symbols);
 let ___start = ___sym0.0.clone();
@@ -16925,14 +13220,13 @@ pub(crate) fn ___reduce339<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // GrammarParameter = Id, ":", TypeRef => ActionFn(23);
+assert!(___symbols.len() >= 3);
 let ___sym2 = ___pop_Variant3(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant20(___symbols);
@@ -16946,9 +13240,7 @@ pub(crate) fn ___reduce340<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -16965,9 +13257,7 @@ pub(crate) fn ___reduce341<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -16983,14 +13273,13 @@ pub(crate) fn ___reduce342<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // GrammarParameters = "(", Comma<GrammarParameter>, ")" => ActionFn(22);
+assert!(___symbols.len() >= 3);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant51(___symbols);
 let ___sym0 = ___pop_Variant0(___symbols);
@@ -17004,9 +13293,7 @@ pub(crate) fn ___reduce343<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -17023,9 +13310,7 @@ pub(crate) fn ___reduce344<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -17041,14 +13326,13 @@ pub(crate) fn ___reduce345<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // GrammarTypeParameters = "<", Comma<TypeParameter>, ">" => ActionFn(7);
+assert!(___symbols.len() >= 3);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant57(___symbols);
 let ___sym0 = ___pop_Variant0(___symbols);
@@ -17062,9 +13346,7 @@ pub(crate) fn ___reduce346<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -17081,9 +13363,7 @@ pub(crate) fn ___reduce347<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -17099,14 +13379,13 @@ pub(crate) fn ___reduce348<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // GrammarWhereClause = Lifetime, ":", Plus<Lifetime> => ActionFn(11);
+assert!(___symbols.len() >= 3);
 let ___sym2 = ___pop_Variant83(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant22(___symbols);
@@ -17120,14 +13399,13 @@ pub(crate) fn ___reduce349<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // GrammarWhereClause = "for", "<", Comma<TypeParameter>, ">", TypeRef, ":", TypeBounds => ActionFn(473);
+assert!(___symbols.len() >= 7);
 let ___sym6 = ___pop_Variant84(___symbols);
 let ___sym5 = ___pop_Variant0(___symbols);
 let ___sym4 = ___pop_Variant3(___symbols);
@@ -17145,14 +13423,13 @@ pub(crate) fn ___reduce350<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // GrammarWhereClause = TypeRef, ":", TypeBounds => ActionFn(474);
+assert!(___symbols.len() >= 3);
 let ___sym2 = ___pop_Variant84(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant3(___symbols);
@@ -17166,9 +13443,7 @@ pub(crate) fn ___reduce351<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -17185,9 +13460,7 @@ pub(crate) fn ___reduce352<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -17203,14 +13476,13 @@ pub(crate) fn ___reduce353<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // GrammarWhereClauses = "where", Comma<GrammarWhereClause> => ActionFn(10);
+assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant52(___symbols);
 let ___sym0 = ___pop_Variant0(___symbols);
 let ___start = ___sym0.0.clone();
@@ -17223,9 +13495,7 @@ pub(crate) fn ___reduce354<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -17242,9 +13512,7 @@ pub(crate) fn ___reduce355<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -17260,9 +13528,7 @@ pub(crate) fn ___reduce356<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -17279,9 +13545,7 @@ pub(crate) fn ___reduce357<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -17298,9 +13562,7 @@ pub(crate) fn ___reduce358<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -17317,9 +13579,7 @@ pub(crate) fn ___reduce359<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -17336,9 +13596,7 @@ pub(crate) fn ___reduce360<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -17354,9 +13612,7 @@ pub(crate) fn ___reduce361<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -17373,9 +13629,7 @@ pub(crate) fn ___reduce362<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -17392,9 +13646,7 @@ pub(crate) fn ___reduce363<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -17411,9 +13663,7 @@ pub(crate) fn ___reduce364<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -17430,9 +13680,7 @@ pub(crate) fn ___reduce366<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -17449,9 +13697,7 @@ pub(crate) fn ___reduce367<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -17467,9 +13713,7 @@ pub(crate) fn ___reduce368<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -17486,9 +13730,7 @@ pub(crate) fn ___reduce369<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -17505,9 +13747,7 @@ pub(crate) fn ___reduce370<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -17524,14 +13764,13 @@ pub(crate) fn ___reduce371<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // MatchTokenInt = MatchTokenInt, "else", "{", MatchContents, "}" => ActionFn(84);
+assert!(___symbols.len() >= 5);
 let ___sym4 = ___pop_Variant0(___symbols);
 let ___sym3 = ___pop_Variant73(___symbols);
 let ___sym2 = ___pop_Variant0(___symbols);
@@ -17547,14 +13786,13 @@ pub(crate) fn ___reduce372<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // MatchTokenInt = "match", "{", MatchContents, "}" => ActionFn(434);
+assert!(___symbols.len() >= 4);
 let ___sym3 = ___pop_Variant0(___symbols);
 let ___sym2 = ___pop_Variant73(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
@@ -17569,14 +13807,13 @@ pub(crate) fn ___reduce373<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Nonterminal = Visibility, NonterminalName, ":", TypeRef, "=", Alternatives => ActionFn(453);
+assert!(___symbols.len() >= 6);
 let ___sym5 = ___pop_Variant43(___symbols);
 let ___sym4 = ___pop_Variant0(___symbols);
 let ___sym3 = ___pop_Variant3(___symbols);
@@ -17593,14 +13830,13 @@ pub(crate) fn ___reduce374<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Nonterminal = Annotation+, Visibility, NonterminalName, ":", TypeRef, "=", Alternatives => ActionFn(454);
+assert!(___symbols.len() >= 7);
 let ___sym6 = ___pop_Variant43(___symbols);
 let ___sym5 = ___pop_Variant0(___symbols);
 let ___sym4 = ___pop_Variant3(___symbols);
@@ -17618,14 +13854,13 @@ pub(crate) fn ___reduce375<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Nonterminal = Visibility, NonterminalName, "=", Alternatives => ActionFn(455);
+assert!(___symbols.len() >= 4);
 let ___sym3 = ___pop_Variant43(___symbols);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant78(___symbols);
@@ -17640,14 +13875,13 @@ pub(crate) fn ___reduce376<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Nonterminal = Annotation+, Visibility, NonterminalName, "=", Alternatives => ActionFn(456);
+assert!(___symbols.len() >= 5);
 let ___sym4 = ___pop_Variant43(___symbols);
 let ___sym3 = ___pop_Variant0(___symbols);
 let ___sym2 = ___pop_Variant78(___symbols);
@@ -17663,14 +13897,13 @@ pub(crate) fn ___reduce377<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // NonterminalName = MacroId, "<", Comma<NotMacroId>, ">" => ActionFn(35);
+assert!(___symbols.len() >= 4);
 let ___sym3 = ___pop_Variant0(___symbols);
 let ___sym2 = ___pop_Variant54(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
@@ -17685,9 +13918,7 @@ pub(crate) fn ___reduce378<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -17704,9 +13935,7 @@ pub(crate) fn ___reduce379<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -17723,9 +13952,7 @@ pub(crate) fn ___reduce380<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -17742,9 +13969,7 @@ pub(crate) fn ___reduce381<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -17761,9 +13986,7 @@ pub(crate) fn ___reduce382<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -17779,14 +14002,13 @@ pub(crate) fn ___reduce383<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Path = "::", Id => ActionFn(349);
+assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant20(___symbols);
 let ___sym0 = ___pop_Variant0(___symbols);
 let ___start = ___sym0.0.clone();
@@ -17799,14 +14021,13 @@ pub(crate) fn ___reduce384<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Path = "::", (<Id> "::")+, Id => ActionFn(350);
+assert!(___symbols.len() >= 3);
 let ___sym2 = ___pop_Variant20(___symbols);
 let ___sym1 = ___pop_Variant21(___symbols);
 let ___sym0 = ___pop_Variant0(___symbols);
@@ -17820,9 +14041,7 @@ pub(crate) fn ___reduce385<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -17839,14 +14058,13 @@ pub(crate) fn ___reduce386<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Path = (<Id> "::")+, Id => ActionFn(352);
+assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant20(___symbols);
 let ___sym0 = ___pop_Variant21(___symbols);
 let ___start = ___sym0.0.clone();
@@ -17859,9 +14077,7 @@ pub(crate) fn ___reduce387<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -17878,9 +14094,7 @@ pub(crate) fn ___reduce388<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -17897,9 +14111,7 @@ pub(crate) fn ___reduce389<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -17915,14 +14127,13 @@ pub(crate) fn ___reduce390<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // PatternKind = Path, "(", Comma<Pattern>, ")" => ActionFn(96);
+assert!(___symbols.len() >= 4);
 let ___sym3 = ___pop_Variant0(___symbols);
 let ___sym2 = ___pop_Variant55(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
@@ -17937,14 +14148,13 @@ pub(crate) fn ___reduce391<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // PatternKind = Path, "{", FieldPattern, "}" => ActionFn(469);
+assert!(___symbols.len() >= 4);
 let ___sym3 = ___pop_Variant0(___symbols);
 let ___sym2 = ___pop_Variant14(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
@@ -17959,14 +14169,13 @@ pub(crate) fn ___reduce392<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // PatternKind = Path, "{", "}" => ActionFn(470);
+assert!(___symbols.len() >= 3);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant80(___symbols);
@@ -17980,14 +14189,13 @@ pub(crate) fn ___reduce393<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // PatternKind = Path, "{", (<FieldPattern> ",")+, FieldPattern, "}" => ActionFn(471);
+assert!(___symbols.len() >= 5);
 let ___sym4 = ___pop_Variant0(___symbols);
 let ___sym3 = ___pop_Variant14(___symbols);
 let ___sym2 = ___pop_Variant15(___symbols);
@@ -18003,14 +14211,13 @@ pub(crate) fn ___reduce394<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // PatternKind = Path, "{", (<FieldPattern> ",")+, "}" => ActionFn(472);
+assert!(___symbols.len() >= 4);
 let ___sym3 = ___pop_Variant0(___symbols);
 let ___sym2 = ___pop_Variant15(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
@@ -18025,14 +14232,13 @@ pub(crate) fn ___reduce395<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // PatternKind = Path, "{", "..", "}" => ActionFn(337);
+assert!(___symbols.len() >= 4);
 let ___sym3 = ___pop_Variant0(___symbols);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
@@ -18047,14 +14253,13 @@ pub(crate) fn ___reduce396<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // PatternKind = Path, "{", (<FieldPattern> ",")+, "..", "}" => ActionFn(338);
+assert!(___symbols.len() >= 5);
 let ___sym4 = ___pop_Variant0(___symbols);
 let ___sym3 = ___pop_Variant0(___symbols);
 let ___sym2 = ___pop_Variant15(___symbols);
@@ -18070,9 +14275,7 @@ pub(crate) fn ___reduce397<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -18089,9 +14292,7 @@ pub(crate) fn ___reduce398<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -18108,14 +14309,13 @@ pub(crate) fn ___reduce399<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // PatternKind = "<", TypeRef, ">" => ActionFn(101);
+assert!(___symbols.len() >= 3);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant3(___symbols);
 let ___sym0 = ___pop_Variant0(___symbols);
@@ -18129,14 +14329,13 @@ pub(crate) fn ___reduce400<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // PatternKind = "(", Comma<Pattern>, ")" => ActionFn(102);
+assert!(___symbols.len() >= 3);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant55(___symbols);
 let ___sym0 = ___pop_Variant0(___symbols);
@@ -18150,9 +14349,7 @@ pub(crate) fn ___reduce401<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -18169,9 +14366,7 @@ pub(crate) fn ___reduce402<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -18188,9 +14383,7 @@ pub(crate) fn ___reduce403<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -18207,9 +14400,7 @@ pub(crate) fn ___reduce404<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -18225,14 +14416,13 @@ pub(crate) fn ___reduce405<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Plus<Lifetime> = (<Lifetime> "+")+, Lifetime => ActionFn(557);
+assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant22(___symbols);
 let ___sym0 = ___pop_Variant23(___symbols);
 let ___start = ___sym0.0.clone();
@@ -18245,9 +14435,7 @@ pub(crate) fn ___reduce406<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -18264,9 +14452,7 @@ pub(crate) fn ___reduce407<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -18283,9 +14469,7 @@ pub(crate) fn ___reduce408<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -18301,14 +14485,13 @@ pub(crate) fn ___reduce409<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Plus<TypeBound> = (<TypeBound> "+")+, TypeBound => ActionFn(647);
+assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant32(___symbols);
 let ___sym0 = ___pop_Variant33(___symbols);
 let ___start = ___sym0.0.clone();
@@ -18321,9 +14504,7 @@ pub(crate) fn ___reduce410<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -18340,9 +14521,7 @@ pub(crate) fn ___reduce411<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -18359,9 +14538,7 @@ pub(crate) fn ___reduce412<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -18378,9 +14555,7 @@ pub(crate) fn ___reduce413<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -18397,9 +14572,7 @@ pub(crate) fn ___reduce414<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -18416,9 +14589,7 @@ pub(crate) fn ___reduce415<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -18435,9 +14606,7 @@ pub(crate) fn ___reduce416<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -18454,9 +14623,7 @@ pub(crate) fn ___reduce417<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -18473,9 +14640,7 @@ pub(crate) fn ___reduce418<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -18492,9 +14657,7 @@ pub(crate) fn ___reduce419<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -18510,9 +14673,7 @@ pub(crate) fn ___reduce420<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -18529,9 +14690,7 @@ pub(crate) fn ___reduce421<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -18548,14 +14707,13 @@ pub(crate) fn ___reduce422<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // ShebangAttribute+ = ShebangAttribute+, ShebangAttribute => ActionFn(190);
+assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant86(___symbols);
 let ___sym0 = ___pop_Variant87(___symbols);
 let ___start = ___sym0.0.clone();
@@ -18568,14 +14726,13 @@ pub(crate) fn ___reduce424<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Symbol = "<", "mut", Id, ":", Symbol0, ">" => ActionFn(438);
+assert!(___symbols.len() >= 6);
 let ___sym5 = ___pop_Variant0(___symbols);
 let ___sym4 = ___pop_Variant30(___symbols);
 let ___sym3 = ___pop_Variant0(___symbols);
@@ -18592,14 +14749,13 @@ pub(crate) fn ___reduce425<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Symbol = "<", Id, ":", Symbol0, ">" => ActionFn(439);
+assert!(___symbols.len() >= 5);
 let ___sym4 = ___pop_Variant0(___symbols);
 let ___sym3 = ___pop_Variant30(___symbols);
 let ___sym2 = ___pop_Variant0(___symbols);
@@ -18615,14 +14771,13 @@ pub(crate) fn ___reduce426<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Symbol = "<", Symbol0, ">" => ActionFn(440);
+assert!(___symbols.len() >= 3);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant30(___symbols);
 let ___sym0 = ___pop_Variant0(___symbols);
@@ -18636,9 +14791,7 @@ pub(crate) fn ___reduce427<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -18655,9 +14808,7 @@ pub(crate) fn ___reduce428<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -18673,9 +14824,7 @@ pub(crate) fn ___reduce429<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -18692,9 +14841,7 @@ pub(crate) fn ___reduce430<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -18711,14 +14858,13 @@ pub(crate) fn ___reduce431<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Symbol+ = Symbol+, Symbol => ActionFn(149);
+assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant30(___symbols);
 let ___sym0 = ___pop_Variant31(___symbols);
 let ___start = ___sym0.0.clone();
@@ -18731,9 +14877,7 @@ pub(crate) fn ___reduce432<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -18750,14 +14894,13 @@ pub(crate) fn ___reduce433<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Symbol0 = Symbol0, RepeatOp => ActionFn(441);
+assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant85(___symbols);
 let ___sym0 = ___pop_Variant30(___symbols);
 let ___start = ___sym0.0.clone();
@@ -18770,9 +14913,7 @@ pub(crate) fn ___reduce434<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -18789,9 +14930,7 @@ pub(crate) fn ___reduce435<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -18808,9 +14947,7 @@ pub(crate) fn ___reduce436<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -18826,14 +14963,13 @@ pub(crate) fn ___reduce437<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // SymbolKind1 = MacroId, "<", Comma<Symbol>, ">" => ActionFn(61);
+assert!(___symbols.len() >= 4);
 let ___sym3 = ___pop_Variant0(___symbols);
 let ___sym2 = ___pop_Variant56(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
@@ -18848,9 +14984,7 @@ pub(crate) fn ___reduce438<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -18867,9 +15001,7 @@ pub(crate) fn ___reduce439<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -18886,9 +15018,7 @@ pub(crate) fn ___reduce440<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -18905,14 +15035,13 @@ pub(crate) fn ___reduce441<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // SymbolKind1 = "(", ExprSymbol, ")" => ActionFn(65);
+assert!(___symbols.len() >= 3);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant62(___symbols);
 let ___sym0 = ___pop_Variant0(___symbols);
@@ -18926,9 +15055,7 @@ pub(crate) fn ___reduce442<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -18945,9 +15072,7 @@ pub(crate) fn ___reduce443<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -18964,9 +15089,7 @@ pub(crate) fn ___reduce444<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -18983,9 +15106,7 @@ pub(crate) fn ___reduce445<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -19002,9 +15123,7 @@ pub(crate) fn ___reduce446<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -19021,14 +15140,13 @@ pub(crate) fn ___reduce447<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Top = "StartGrammar", Grammar => ActionFn(1);
+assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant65(___symbols);
 let ___sym0 = ___pop_Variant0(___symbols);
 let ___start = ___sym0.0.clone();
@@ -19041,14 +15159,13 @@ pub(crate) fn ___reduce448<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Top = "StartPattern", Pattern => ActionFn(2);
+assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant28(___symbols);
 let ___sym0 = ___pop_Variant0(___symbols);
 let ___start = ___sym0.0.clone();
@@ -19061,14 +15178,13 @@ pub(crate) fn ___reduce449<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Top = "StartMatchMapping", MatchMapping => ActionFn(3);
+assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant75(___symbols);
 let ___sym0 = ___pop_Variant0(___symbols);
 let ___start = ___sym0.0.clone();
@@ -19081,14 +15197,13 @@ pub(crate) fn ___reduce450<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Top = "StartTypeRef", TypeRef => ActionFn(4);
+assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant3(___symbols);
 let ___sym0 = ___pop_Variant0(___symbols);
 let ___start = ___sym0.0.clone();
@@ -19101,14 +15216,13 @@ pub(crate) fn ___reduce451<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Top = "StartGrammarWhereClauses", GrammarWhereClauses => ActionFn(5);
+assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant52(___symbols);
 let ___sym0 = ___pop_Variant0(___symbols);
 let ___start = ___sym0.0.clone();
@@ -19121,9 +15235,7 @@ pub(crate) fn ___reduce452<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -19140,14 +15252,13 @@ pub(crate) fn ___reduce453<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // TypeBound = "for", "<", Comma<TypeParameter>, ">", Path, "(", Comma<TypeRef>, ")", "->", TypeRef => ActionFn(475);
+assert!(___symbols.len() >= 10);
 let ___sym9 = ___pop_Variant3(___symbols);
 let ___sym8 = ___pop_Variant0(___symbols);
 let ___sym7 = ___pop_Variant0(___symbols);
@@ -19168,14 +15279,13 @@ pub(crate) fn ___reduce454<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // TypeBound = Path, "(", Comma<TypeRef>, ")", "->", TypeRef => ActionFn(476);
+assert!(___symbols.len() >= 6);
 let ___sym5 = ___pop_Variant3(___symbols);
 let ___sym4 = ___pop_Variant0(___symbols);
 let ___sym3 = ___pop_Variant0(___symbols);
@@ -19192,14 +15302,13 @@ pub(crate) fn ___reduce455<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // TypeBound = "for", "<", Comma<TypeParameter>, ">", Path, "(", Comma<TypeRef>, ")" => ActionFn(477);
+assert!(___symbols.len() >= 8);
 let ___sym7 = ___pop_Variant0(___symbols);
 let ___sym6 = ___pop_Variant58(___symbols);
 let ___sym5 = ___pop_Variant0(___symbols);
@@ -19218,14 +15327,13 @@ pub(crate) fn ___reduce456<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // TypeBound = Path, "(", Comma<TypeRef>, ")" => ActionFn(478);
+assert!(___symbols.len() >= 4);
 let ___sym3 = ___pop_Variant0(___symbols);
 let ___sym2 = ___pop_Variant58(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
@@ -19240,14 +15348,13 @@ pub(crate) fn ___reduce457<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // TypeBound = "for", "<", Comma<TypeParameter>, ">", Path, "<", Comma<TypeBoundParameter>, ">" => ActionFn(479);
+assert!(___symbols.len() >= 8);
 let ___sym7 = ___pop_Variant0(___symbols);
 let ___sym6 = ___pop_Variant5(___symbols);
 let ___sym5 = ___pop_Variant0(___symbols);
@@ -19266,14 +15373,13 @@ pub(crate) fn ___reduce458<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // TypeBound = Path, "<", Comma<TypeBoundParameter>, ">" => ActionFn(480);
+assert!(___symbols.len() >= 4);
 let ___sym3 = ___pop_Variant0(___symbols);
 let ___sym2 = ___pop_Variant5(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
@@ -19288,14 +15394,13 @@ pub(crate) fn ___reduce459<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // TypeBound = "for", "<", Comma<TypeParameter>, ">", Path => ActionFn(481);
+assert!(___symbols.len() >= 5);
 let ___sym4 = ___pop_Variant80(___symbols);
 let ___sym3 = ___pop_Variant0(___symbols);
 let ___sym2 = ___pop_Variant57(___symbols);
@@ -19311,9 +15416,7 @@ pub(crate) fn ___reduce460<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -19330,9 +15433,7 @@ pub(crate) fn ___reduce461<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -19349,9 +15450,7 @@ pub(crate) fn ___reduce462<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -19367,9 +15466,7 @@ pub(crate) fn ___reduce463<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -19386,9 +15483,7 @@ pub(crate) fn ___reduce464<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -19405,14 +15500,13 @@ pub(crate) fn ___reduce465<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // TypeBoundParameter = Id, "=", TypeRef => ActionFn(21);
+assert!(___symbols.len() >= 3);
 let ___sym2 = ___pop_Variant3(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant20(___symbols);
@@ -19426,9 +15520,7 @@ pub(crate) fn ___reduce466<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -19445,9 +15537,7 @@ pub(crate) fn ___reduce467<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -19463,9 +15553,7 @@ pub(crate) fn ___reduce468<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -19482,9 +15570,7 @@ pub(crate) fn ___reduce469<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -19501,9 +15587,7 @@ pub(crate) fn ___reduce470<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -19520,9 +15604,7 @@ pub(crate) fn ___reduce471<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -19539,9 +15621,7 @@ pub(crate) fn ___reduce472<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -19557,14 +15637,13 @@ pub(crate) fn ___reduce473<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // TypeRef = "(", Comma<TypeRef>, ")" => ActionFn(69);
+assert!(___symbols.len() >= 3);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant58(___symbols);
 let ___sym0 = ___pop_Variant0(___symbols);
@@ -19578,14 +15657,13 @@ pub(crate) fn ___reduce474<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // TypeRef = "[", TypeRef, "]" => ActionFn(70);
+assert!(___symbols.len() >= 3);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant3(___symbols);
 let ___sym0 = ___pop_Variant0(___symbols);
@@ -19599,14 +15677,13 @@ pub(crate) fn ___reduce475<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // TypeRef = "#", Symbol, "#" => ActionFn(71);
+assert!(___symbols.len() >= 3);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant30(___symbols);
 let ___sym0 = ___pop_Variant0(___symbols);
@@ -19620,14 +15697,13 @@ pub(crate) fn ___reduce476<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // TypeRef = "&", Lifetime, "mut", TypeRef => ActionFn(559);
+assert!(___symbols.len() >= 4);
 let ___sym3 = ___pop_Variant3(___symbols);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant22(___symbols);
@@ -19642,14 +15718,13 @@ pub(crate) fn ___reduce477<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // TypeRef = "&", "mut", TypeRef => ActionFn(560);
+assert!(___symbols.len() >= 3);
 let ___sym2 = ___pop_Variant3(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant0(___symbols);
@@ -19663,14 +15738,13 @@ pub(crate) fn ___reduce478<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // TypeRef = "&", Lifetime, TypeRef => ActionFn(561);
+assert!(___symbols.len() >= 3);
 let ___sym2 = ___pop_Variant3(___symbols);
 let ___sym1 = ___pop_Variant22(___symbols);
 let ___sym0 = ___pop_Variant0(___symbols);
@@ -19684,14 +15758,13 @@ pub(crate) fn ___reduce479<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // TypeRef = "&", TypeRef => ActionFn(562);
+assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant3(___symbols);
 let ___sym0 = ___pop_Variant0(___symbols);
 let ___start = ___sym0.0.clone();
@@ -19704,14 +15777,13 @@ pub(crate) fn ___reduce480<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // TypeRef = Path, "<", Comma<TypeRefOrLifetime>, ">" => ActionFn(73);
+assert!(___symbols.len() >= 4);
 let ___sym3 = ___pop_Variant0(___symbols);
 let ___sym2 = ___pop_Variant58(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
@@ -19726,9 +15798,7 @@ pub(crate) fn ___reduce481<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -19745,14 +15815,13 @@ pub(crate) fn ___reduce482<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // TypeRef = "dyn", Path, "<", Comma<TypeRefOrLifetime>, ">" => ActionFn(75);
+assert!(___symbols.len() >= 5);
 let ___sym4 = ___pop_Variant0(___symbols);
 let ___sym3 = ___pop_Variant58(___symbols);
 let ___sym2 = ___pop_Variant0(___symbols);
@@ -19768,14 +15837,13 @@ pub(crate) fn ___reduce483<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // TypeRef = "dyn", Path => ActionFn(76);
+assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant80(___symbols);
 let ___sym0 = ___pop_Variant0(___symbols);
 let ___start = ___sym0.0.clone();
@@ -19788,14 +15856,13 @@ pub(crate) fn ___reduce484<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // TypeRef = "dyn", "for", "<", Comma<TypeParameter>, ">", Path, "(", Comma<TypeRef>, ")", "->", TypeRef => ActionFn(483);
+assert!(___symbols.len() >= 11);
 let ___sym10 = ___pop_Variant3(___symbols);
 let ___sym9 = ___pop_Variant0(___symbols);
 let ___sym8 = ___pop_Variant0(___symbols);
@@ -19817,14 +15884,13 @@ pub(crate) fn ___reduce485<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // TypeRef = "dyn", Path, "(", Comma<TypeRef>, ")", "->", TypeRef => ActionFn(484);
+assert!(___symbols.len() >= 7);
 let ___sym6 = ___pop_Variant3(___symbols);
 let ___sym5 = ___pop_Variant0(___symbols);
 let ___sym4 = ___pop_Variant0(___symbols);
@@ -19842,14 +15908,13 @@ pub(crate) fn ___reduce486<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // TypeRef = "dyn", "for", "<", Comma<TypeParameter>, ">", Path, "(", Comma<TypeRef>, ")" => ActionFn(485);
+assert!(___symbols.len() >= 9);
 let ___sym8 = ___pop_Variant0(___symbols);
 let ___sym7 = ___pop_Variant58(___symbols);
 let ___sym6 = ___pop_Variant0(___symbols);
@@ -19869,14 +15934,13 @@ pub(crate) fn ___reduce487<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // TypeRef = "dyn", Path, "(", Comma<TypeRef>, ")" => ActionFn(486);
+assert!(___symbols.len() >= 5);
 let ___sym4 = ___pop_Variant0(___symbols);
 let ___sym3 = ___pop_Variant58(___symbols);
 let ___sym2 = ___pop_Variant0(___symbols);
@@ -19892,9 +15956,7 @@ pub(crate) fn ___reduce488<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -19911,9 +15973,7 @@ pub(crate) fn ___reduce489<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -19929,9 +15989,7 @@ pub(crate) fn ___reduce490<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -19948,9 +16006,7 @@ pub(crate) fn ___reduce491<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -19967,9 +16023,7 @@ pub(crate) fn ___reduce492<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -19986,9 +16040,7 @@ pub(crate) fn ___reduce493<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -20004,14 +16056,13 @@ pub(crate) fn ___reduce494<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Use = "use", ";" => ActionFn(28);
+assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant1(___symbols);
 let ___start = ___sym0.0.clone();
@@ -20024,9 +16075,7 @@ pub(crate) fn ___reduce495<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -20042,9 +16091,7 @@ pub(crate) fn ___reduce496<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -20061,9 +16108,7 @@ pub(crate) fn ___reduce497<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -20080,14 +16125,13 @@ pub(crate) fn ___reduce498<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Use+ = Use+, Use => ActionFn(192);
+assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant63(___symbols);
 let ___sym0 = ___pop_Variant66(___symbols);
 let ___start = ___sym0.0.clone();
@@ -20100,14 +16144,13 @@ pub(crate) fn ___reduce499<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Visibility = "pub", "(", Path, ")" => ActionFn(29);
+assert!(___symbols.len() >= 4);
 let ___sym3 = ___pop_Variant0(___symbols);
 let ___sym2 = ___pop_Variant80(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
@@ -20122,9 +16165,7 @@ pub(crate) fn ___reduce500<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
@@ -20141,9 +16182,7 @@ pub(crate) fn ___reduce501<
     'input,
 >(
 text: &'input str,
-___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)

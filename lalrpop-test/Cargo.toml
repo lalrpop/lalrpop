@@ -15,6 +15,7 @@ path = "../lalrpop-util"
 
 [build-dependencies.lalrpop]
 path = "../lalrpop"
+features = ["lexer"]
 
 
 [features]
