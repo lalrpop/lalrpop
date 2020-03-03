@@ -3919,10 +3919,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> ___Symbol<'input>
 {
 match ___token_index {
-0 | 1 | 2 | 3 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14 | 15 | 16 | 17 | 18 | 21 | 22 | 23 | 24 | 25 | 26 | 33 | 34 | 35 | 36 | 37 | 39 | 40 | 41 | 42 | 43 | 44 | 45 | 46 | 47 | 48 | 49 | 50 | 51 | 52 | 54 | 55 | 56 | 57 => match ___token {
-___tok @ Tok::Bang | ___tok @ Tok::BangEquals | ___tok @ Tok::BangTilde | ___tok @ Tok::Hash | ___tok @ Tok::Ampersand | ___tok @ Tok::LeftParen | ___tok @ Tok::RightParen | ___tok @ Tok::Star | ___tok @ Tok::Plus | ___tok @ Tok::Comma | ___tok @ Tok::MinusGreaterThan | ___tok @ Tok::DotDot | ___tok @ Tok::Colon | ___tok @ Tok::ColonColon | ___tok @ Tok::Semi | ___tok @ Tok::LessThan | ___tok @ Tok::Equals | ___tok @ Tok::EqualsEquals | ___tok @ Tok::EqualsGreaterThanLookahead | ___tok @ Tok::EqualsGreaterThanLookbehind | ___tok @ Tok::GreaterThan | ___tok @ Tok::Question | ___tok @ Tok::Lookahead | ___tok @ Tok::Lookbehind | ___tok @ Tok::StartGrammar | ___tok @ Tok::StartGrammarWhereClauses | ___tok @ Tok::StartMatchMapping | ___tok @ Tok::StartPattern | ___tok @ Tok::StartTypeRef | ___tok @ Tok::LeftBracket | ___tok @ Tok::RightBracket | ___tok @ Tok::Underscore | ___tok @ Tok::Dyn | ___tok @ Tok::Else | ___tok @ Tok::Enum | ___tok @ Tok::Extern | ___tok @ Tok::For | ___tok @ Tok::Grammar | ___tok @ Tok::If | ___tok @ Tok::Match | ___tok @ Tok::Mut | ___tok @ Tok::Pub | ___tok @ Tok::Type | ___tok @ Tok::Where | ___tok @ Tok::LeftBrace | ___tok @ Tok::RightBrace | ___tok @ Tok::TildeTilde if true => ___Symbol::Variant0(___tok),
-_ => unreachable!(),
-},
+0 | 1 | 2 | 3 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14 | 15 | 16 | 17 | 18 | 21 | 22 | 23 | 24 | 25 | 26 | 33 | 34 | 35 | 36 | 37 | 39 | 40 | 41 | 42 | 43 | 44 | 45 | 46 | 47 | 48 | 49 | 50 | 51 | 52 | 54 | 55 | 56 | 57 => ___Symbol::Variant0(___token),
 4 | 19 | 20 | 27 | 28 | 29 | 30 | 31 | 32 | 38 | 53 => match ___token {
 Tok::ShebangAttribute(___tok0) | Tok::EqualsGreaterThanCode(___tok0) | Tok::EqualsGreaterThanQuestionCode(___tok0) | Tok::CharLiteral(___tok0) | Tok::Escape(___tok0) | Tok::Id(___tok0) | Tok::Lifetime(___tok0) | Tok::MacroId(___tok0) | Tok::RegexLiteral(___tok0) | Tok::StringLiteral(___tok0) | Tok::Use(___tok0) if true => ___Symbol::Variant1(___tok0),
 _ => unreachable!(),
@@ -7557,7 +7554,7 @@ ___reduce184(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::
 }
 185 => {
 // Conversion = Terminal, "=>" => ActionFn(425);
-assert!(symbols.len() >= 2);
+assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant1(___symbols);
 let ___sym0 = ___pop_Variant75(___symbols);
 let ___start = ___sym0.0.clone();
@@ -8108,7 +8105,7 @@ ___reduce364(text, ___action, ___lookahead_start, ___states, ___symbols, ::std::
 }
 365 => {
 // MatchItem = MatchSymbol, "=>" => ActionFn(433);
-assert!(symbols.len() >= 2);
+assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant1(___symbols);
 let ___sym0 = ___pop_Variant76(___symbols);
 let ___start = ___sym0.0.clone();
@@ -9722,7 +9719,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // ("->" <TypeRef>) = "->", TypeRef => ActionFn(166);
-assert!(symbols.len() >= 2);
+assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant3(___symbols);
 let ___sym0 = ___pop_Variant0(___symbols);
 let ___start = ___sym0.0.clone();
@@ -9743,7 +9740,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // ("->" <TypeRef>)? = "->", TypeRef => ActionFn(307);
-assert!(symbols.len() >= 2);
+assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant3(___symbols);
 let ___sym0 = ___pop_Variant0(___symbols);
 let ___start = ___sym0.0.clone();
@@ -9782,7 +9779,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (":" <TypeRef>) = ":", TypeRef => ActionFn(158);
-assert!(symbols.len() >= 2);
+assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant3(___symbols);
 let ___sym0 = ___pop_Variant0(___symbols);
 let ___start = ___sym0.0.clone();
@@ -9803,7 +9800,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (":" <TypeRef>)? = ":", TypeRef => ActionFn(312);
-assert!(symbols.len() >= 2);
+assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant3(___symbols);
 let ___sym0 = ___pop_Variant0(___symbols);
 let ___start = ___sym0.0.clone();
@@ -9842,7 +9839,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // ("<" <Comma<TypeBoundParameter>> ">") = "<", Comma<TypeBoundParameter>, ">" => ActionFn(162);
-assert!(symbols.len() >= 3);
+assert!(___symbols.len() >= 3);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant5(___symbols);
 let ___sym0 = ___pop_Variant0(___symbols);
@@ -9864,7 +9861,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // ("<" <Comma<TypeBoundParameter>> ">")? = "<", Comma<TypeBoundParameter>, ">" => ActionFn(315);
-assert!(symbols.len() >= 3);
+assert!(___symbols.len() >= 3);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant5(___symbols);
 let ___sym0 = ___pop_Variant0(___symbols);
@@ -9904,7 +9901,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // ("if" <Cond>) = "if", Cond => ActionFn(147);
-assert!(symbols.len() >= 2);
+assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant7(___symbols);
 let ___sym0 = ___pop_Variant0(___symbols);
 let ___start = ___sym0.0.clone();
@@ -9925,7 +9922,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // ("if" <Cond>)? = "if", Cond => ActionFn(318);
-assert!(symbols.len() >= 2);
+assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant7(___symbols);
 let ___sym0 = ___pop_Variant0(___symbols);
 let ___start = ___sym0.0.clone();
@@ -9982,7 +9979,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<Alternative> ",") = Alternative, "," => ActionFn(239);
-assert!(symbols.len() >= 2);
+assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant10(___symbols);
 let ___start = ___sym0.0.clone();
@@ -10040,7 +10037,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<Alternative> ",")+ = Alternative, "," => ActionFn(325);
-assert!(symbols.len() >= 2);
+assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant10(___symbols);
 let ___start = ___sym0.0.clone();
@@ -10061,7 +10058,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<Alternative> ",")+ = (<Alternative> ",")+, Alternative, "," => ActionFn(326);
-assert!(symbols.len() >= 3);
+assert!(___symbols.len() >= 3);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant10(___symbols);
 let ___sym0 = ___pop_Variant11(___symbols);
@@ -10083,7 +10080,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<Conversion> ",") = Conversion, "," => ActionFn(263);
-assert!(symbols.len() >= 2);
+assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant12(___symbols);
 let ___start = ___sym0.0.clone();
@@ -10141,7 +10138,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<Conversion> ",")+ = Conversion, "," => ActionFn(329);
-assert!(symbols.len() >= 2);
+assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant12(___symbols);
 let ___start = ___sym0.0.clone();
@@ -10162,7 +10159,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<Conversion> ",")+ = (<Conversion> ",")+, Conversion, "," => ActionFn(330);
-assert!(symbols.len() >= 3);
+assert!(___symbols.len() >= 3);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant12(___symbols);
 let ___sym0 = ___pop_Variant13(___symbols);
@@ -10184,7 +10181,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<FieldPattern> ",") = FieldPattern, "," => ActionFn(124);
-assert!(symbols.len() >= 2);
+assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant14(___symbols);
 let ___start = ___sym0.0.clone();
@@ -10242,7 +10239,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<FieldPattern> ",")+ = FieldPattern, "," => ActionFn(333);
-assert!(symbols.len() >= 2);
+assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant14(___symbols);
 let ___start = ___sym0.0.clone();
@@ -10263,7 +10260,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<FieldPattern> ",")+ = (<FieldPattern> ",")+, FieldPattern, "," => ActionFn(334);
-assert!(symbols.len() >= 3);
+assert!(___symbols.len() >= 3);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant14(___symbols);
 let ___sym0 = ___pop_Variant15(___symbols);
@@ -10285,7 +10282,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<GrammarParameter> ",") = GrammarParameter, "," => ActionFn(229);
-assert!(symbols.len() >= 2);
+assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant16(___symbols);
 let ___start = ___sym0.0.clone();
@@ -10343,7 +10340,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<GrammarParameter> ",")+ = GrammarParameter, "," => ActionFn(339);
-assert!(symbols.len() >= 2);
+assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant16(___symbols);
 let ___start = ___sym0.0.clone();
@@ -10364,7 +10361,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<GrammarParameter> ",")+ = (<GrammarParameter> ",")+, GrammarParameter, "," => ActionFn(340);
-assert!(symbols.len() >= 3);
+assert!(___symbols.len() >= 3);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant16(___symbols);
 let ___sym0 = ___pop_Variant17(___symbols);
@@ -10386,7 +10383,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<GrammarWhereClause> ",") = GrammarWhereClause, "," => ActionFn(206);
-assert!(symbols.len() >= 2);
+assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant18(___symbols);
 let ___start = ___sym0.0.clone();
@@ -10444,7 +10441,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<GrammarWhereClause> ",")+ = GrammarWhereClause, "," => ActionFn(343);
-assert!(symbols.len() >= 2);
+assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant18(___symbols);
 let ___start = ___sym0.0.clone();
@@ -10465,7 +10462,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<GrammarWhereClause> ",")+ = (<GrammarWhereClause> ",")+, GrammarWhereClause, "," => ActionFn(344);
-assert!(symbols.len() >= 3);
+assert!(___symbols.len() >= 3);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant18(___symbols);
 let ___sym0 = ___pop_Variant19(___symbols);
@@ -10487,7 +10484,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<Id> "::") = Id, "::" => ActionFn(132);
-assert!(symbols.len() >= 2);
+assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant20(___symbols);
 let ___start = ___sym0.0.clone();
@@ -10545,7 +10542,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<Id> "::")+ = Id, "::" => ActionFn(347);
-assert!(symbols.len() >= 2);
+assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant20(___symbols);
 let ___start = ___sym0.0.clone();
@@ -10566,7 +10563,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<Id> "::")+ = (<Id> "::")+, Id, "::" => ActionFn(348);
-assert!(symbols.len() >= 3);
+assert!(___symbols.len() >= 3);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant20(___symbols);
 let ___sym0 = ___pop_Variant21(___symbols);
@@ -10588,7 +10585,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<Lifetime> "+") = Lifetime, "+" => ActionFn(209);
-assert!(symbols.len() >= 2);
+assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant22(___symbols);
 let ___start = ___sym0.0.clone();
@@ -10646,7 +10643,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<Lifetime> "+")+ = Lifetime, "+" => ActionFn(353);
-assert!(symbols.len() >= 2);
+assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant22(___symbols);
 let ___start = ___sym0.0.clone();
@@ -10667,7 +10664,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<Lifetime> "+")+ = (<Lifetime> "+")+, Lifetime, "+" => ActionFn(354);
-assert!(symbols.len() >= 3);
+assert!(___symbols.len() >= 3);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant22(___symbols);
 let ___sym0 = ___pop_Variant23(___symbols);
@@ -10689,7 +10686,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<MatchItem> ",") = MatchItem, "," => ActionFn(258);
-assert!(symbols.len() >= 2);
+assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant24(___symbols);
 let ___start = ___sym0.0.clone();
@@ -10747,7 +10744,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<MatchItem> ",")+ = MatchItem, "," => ActionFn(357);
-assert!(symbols.len() >= 2);
+assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant24(___symbols);
 let ___start = ___sym0.0.clone();
@@ -10768,7 +10765,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<MatchItem> ",")+ = (<MatchItem> ",")+, MatchItem, "," => ActionFn(358);
-assert!(symbols.len() >= 3);
+assert!(___symbols.len() >= 3);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant24(___symbols);
 let ___sym0 = ___pop_Variant25(___symbols);
@@ -10790,7 +10787,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<NotMacroId> ",") = NotMacroId, "," => ActionFn(234);
-assert!(symbols.len() >= 2);
+assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant26(___symbols);
 let ___start = ___sym0.0.clone();
@@ -10848,7 +10845,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<NotMacroId> ",")+ = NotMacroId, "," => ActionFn(361);
-assert!(symbols.len() >= 2);
+assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant26(___symbols);
 let ___start = ___sym0.0.clone();
@@ -10869,7 +10866,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<NotMacroId> ",")+ = (<NotMacroId> ",")+, NotMacroId, "," => ActionFn(362);
-assert!(symbols.len() >= 3);
+assert!(___symbols.len() >= 3);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant26(___symbols);
 let ___sym0 = ___pop_Variant27(___symbols);
@@ -10891,7 +10888,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<Pattern> ",") = Pattern, "," => ActionFn(268);
-assert!(symbols.len() >= 2);
+assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant28(___symbols);
 let ___start = ___sym0.0.clone();
@@ -10949,7 +10946,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<Pattern> ",")+ = Pattern, "," => ActionFn(365);
-assert!(symbols.len() >= 2);
+assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant28(___symbols);
 let ___start = ___sym0.0.clone();
@@ -10970,7 +10967,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<Pattern> ",")+ = (<Pattern> ",")+, Pattern, "," => ActionFn(366);
-assert!(symbols.len() >= 3);
+assert!(___symbols.len() >= 3);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant28(___symbols);
 let ___sym0 = ___pop_Variant29(___symbols);
@@ -10992,7 +10989,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<Symbol> ",") = Symbol, "," => ActionFn(244);
-assert!(symbols.len() >= 2);
+assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant30(___symbols);
 let ___start = ___sym0.0.clone();
@@ -11050,7 +11047,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<Symbol> ",")+ = Symbol, "," => ActionFn(369);
-assert!(symbols.len() >= 2);
+assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant30(___symbols);
 let ___start = ___sym0.0.clone();
@@ -11071,7 +11068,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<Symbol> ",")+ = (<Symbol> ",")+, Symbol, "," => ActionFn(370);
-assert!(symbols.len() >= 3);
+assert!(___symbols.len() >= 3);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant30(___symbols);
 let ___sym0 = ___pop_Variant31(___symbols);
@@ -11093,7 +11090,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<TypeBound> "+") = TypeBound, "+" => ActionFn(214);
-assert!(symbols.len() >= 2);
+assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant32(___symbols);
 let ___start = ___sym0.0.clone();
@@ -11151,7 +11148,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<TypeBound> "+")+ = TypeBound, "+" => ActionFn(373);
-assert!(symbols.len() >= 2);
+assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant32(___symbols);
 let ___start = ___sym0.0.clone();
@@ -11172,7 +11169,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<TypeBound> "+")+ = (<TypeBound> "+")+, TypeBound, "+" => ActionFn(374);
-assert!(symbols.len() >= 3);
+assert!(___symbols.len() >= 3);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant32(___symbols);
 let ___sym0 = ___pop_Variant33(___symbols);
@@ -11194,7 +11191,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<TypeBoundParameter> ",") = TypeBoundParameter, "," => ActionFn(224);
-assert!(symbols.len() >= 2);
+assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant34(___symbols);
 let ___start = ___sym0.0.clone();
@@ -11252,7 +11249,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<TypeBoundParameter> ",")+ = TypeBoundParameter, "," => ActionFn(377);
-assert!(symbols.len() >= 2);
+assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant34(___symbols);
 let ___start = ___sym0.0.clone();
@@ -11273,7 +11270,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<TypeBoundParameter> ",")+ = (<TypeBoundParameter> ",")+, TypeBoundParameter, "," => ActionFn(378);
-assert!(symbols.len() >= 3);
+assert!(___symbols.len() >= 3);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant34(___symbols);
 let ___sym0 = ___pop_Variant35(___symbols);
@@ -11295,7 +11292,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<TypeParameter> ",") = TypeParameter, "," => ActionFn(201);
-assert!(symbols.len() >= 2);
+assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant36(___symbols);
 let ___start = ___sym0.0.clone();
@@ -11353,7 +11350,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<TypeParameter> ",")+ = TypeParameter, "," => ActionFn(381);
-assert!(symbols.len() >= 2);
+assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant36(___symbols);
 let ___start = ___sym0.0.clone();
@@ -11374,7 +11371,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<TypeParameter> ",")+ = (<TypeParameter> ",")+, TypeParameter, "," => ActionFn(382);
-assert!(symbols.len() >= 3);
+assert!(___symbols.len() >= 3);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant36(___symbols);
 let ___sym0 = ___pop_Variant37(___symbols);
@@ -11396,7 +11393,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<TypeRef> ",") = TypeRef, "," => ActionFn(219);
-assert!(symbols.len() >= 2);
+assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant3(___symbols);
 let ___start = ___sym0.0.clone();
@@ -11454,7 +11451,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<TypeRef> ",")+ = TypeRef, "," => ActionFn(385);
-assert!(symbols.len() >= 2);
+assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant3(___symbols);
 let ___start = ___sym0.0.clone();
@@ -11475,7 +11472,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<TypeRef> ",")+ = (<TypeRef> ",")+, TypeRef, "," => ActionFn(386);
-assert!(symbols.len() >= 3);
+assert!(___symbols.len() >= 3);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant3(___symbols);
 let ___sym0 = ___pop_Variant38(___symbols);
@@ -11497,7 +11494,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<TypeRefOrLifetime> ",") = TypeRefOrLifetime, "," => ActionFn(249);
-assert!(symbols.len() >= 2);
+assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant3(___symbols);
 let ___start = ___sym0.0.clone();
@@ -11555,7 +11552,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<TypeRefOrLifetime> ",")+ = TypeRefOrLifetime, "," => ActionFn(389);
-assert!(symbols.len() >= 2);
+assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant3(___symbols);
 let ___start = ___sym0.0.clone();
@@ -11576,7 +11573,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<TypeRefOrLifetime> ",")+ = (<TypeRefOrLifetime> ",")+, TypeRefOrLifetime, "," => ActionFn(390);
-assert!(symbols.len() >= 3);
+assert!(___symbols.len() >= 3);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant3(___symbols);
 let ___sym0 = ___pop_Variant38(___symbols);
@@ -11747,7 +11744,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Alternative = Symbol+, "if", Cond, Action => ActionFn(443);
-assert!(symbols.len() >= 4);
+assert!(___symbols.len() >= 4);
 let ___sym3 = ___pop_Variant40(___symbols);
 let ___sym2 = ___pop_Variant7(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
@@ -11770,7 +11767,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Alternative = Symbol+, "if", Cond => ActionFn(444);
-assert!(symbols.len() >= 3);
+assert!(___symbols.len() >= 3);
 let ___sym2 = ___pop_Variant7(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant31(___symbols);
@@ -11792,7 +11789,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Alternative = Symbol+, Action => ActionFn(445);
-assert!(symbols.len() >= 2);
+assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant40(___symbols);
 let ___sym0 = ___pop_Variant31(___symbols);
 let ___start = ___sym0.0.clone();
@@ -11832,7 +11829,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Alternative = "if", Cond, Action => ActionFn(420);
-assert!(symbols.len() >= 3);
+assert!(___symbols.len() >= 3);
 let ___sym2 = ___pop_Variant40(___symbols);
 let ___sym1 = ___pop_Variant7(___symbols);
 let ___sym0 = ___pop_Variant0(___symbols);
@@ -11910,7 +11907,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Alternatives = Alternative, ";" => ActionFn(38);
-assert!(symbols.len() >= 2);
+assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant10(___symbols);
 let ___start = ___sym0.0.clone();
@@ -11931,7 +11928,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Alternatives = "{", Comma<Alternative>, "}", ";" => ActionFn(301);
-assert!(symbols.len() >= 4);
+assert!(___symbols.len() >= 4);
 let ___sym3 = ___pop_Variant0(___symbols);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant43(___symbols);
@@ -11954,7 +11951,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Alternatives = "{", Comma<Alternative>, "}" => ActionFn(302);
-assert!(symbols.len() >= 3);
+assert!(___symbols.len() >= 3);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant43(___symbols);
 let ___sym0 = ___pop_Variant0(___symbols);
@@ -11976,7 +11973,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Annotation = "#", "[", Id, AnnotationArg, "]" => ActionFn(457);
-assert!(symbols.len() >= 5);
+assert!(___symbols.len() >= 5);
 let ___sym4 = ___pop_Variant0(___symbols);
 let ___sym3 = ___pop_Variant46(___symbols);
 let ___sym2 = ___pop_Variant20(___symbols);
@@ -12000,7 +11997,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Annotation = "#", "[", Id, "]" => ActionFn(458);
-assert!(symbols.len() >= 4);
+assert!(___symbols.len() >= 4);
 let ___sym3 = ___pop_Variant0(___symbols);
 let ___sym2 = ___pop_Variant20(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
@@ -12079,7 +12076,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Annotation+ = Annotation+, Annotation => ActionFn(194);
-assert!(symbols.len() >= 2);
+assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant44(___symbols);
 let ___sym0 = ___pop_Variant45(___symbols);
 let ___start = ___sym0.0.clone();
@@ -12100,7 +12097,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // AnnotationArg = "(", Id, "=", "StringLiteral", ")" => ActionFn(33);
-assert!(symbols.len() >= 5);
+assert!(___symbols.len() >= 5);
 let ___sym4 = ___pop_Variant0(___symbols);
 let ___sym3 = ___pop_Variant1(___symbols);
 let ___sym2 = ___pop_Variant0(___symbols);
@@ -12161,7 +12158,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // AssociatedType = "type", Id, "=", TypeRef, ";" => ActionFn(423);
-assert!(symbols.len() >= 5);
+assert!(___symbols.len() >= 5);
 let ___sym4 = ___pop_Variant0(___symbols);
 let ___sym3 = ___pop_Variant3(___symbols);
 let ___sym2 = ___pop_Variant0(___symbols);
@@ -12241,7 +12238,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // AssociatedType+ = AssociatedType+, AssociatedType => ActionFn(253);
-assert!(symbols.len() >= 2);
+assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant48(___symbols);
 let ___sym0 = ___pop_Variant49(___symbols);
 let ___start = ___sym0.0.clone();
@@ -12299,7 +12296,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Comma<Alternative> = (<Alternative> ",")+, Alternative => ActionFn(449);
-assert!(symbols.len() >= 2);
+assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant10(___symbols);
 let ___sym0 = ___pop_Variant11(___symbols);
 let ___start = ___sym0.0.clone();
@@ -12376,7 +12373,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Comma<Conversion> = (<Conversion> ",")+, Conversion => ActionFn(467);
-assert!(symbols.len() >= 2);
+assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant12(___symbols);
 let ___sym0 = ___pop_Variant13(___symbols);
 let ___start = ___sym0.0.clone();
@@ -12453,7 +12450,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Comma<GrammarParameter> = (<GrammarParameter> ",")+, GrammarParameter => ActionFn(493);
-assert!(symbols.len() >= 2);
+assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant16(___symbols);
 let ___sym0 = ___pop_Variant17(___symbols);
 let ___start = ___sym0.0.clone();
@@ -12530,7 +12527,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Comma<GrammarWhereClause> = (<GrammarWhereClause> ",")+, GrammarWhereClause => ActionFn(521);
-assert!(symbols.len() >= 2);
+assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant18(___symbols);
 let ___sym0 = ___pop_Variant19(___symbols);
 let ___start = ___sym0.0.clone();
@@ -12607,7 +12604,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Comma<MatchItem> = (<MatchItem> ",")+, MatchItem => ActionFn(565);
-assert!(symbols.len() >= 2);
+assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant24(___symbols);
 let ___sym0 = ___pop_Variant25(___symbols);
 let ___start = ___sym0.0.clone();
@@ -12684,7 +12681,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Comma<NotMacroId> = (<NotMacroId> ",")+, NotMacroId => ActionFn(569);
-assert!(symbols.len() >= 2);
+assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant26(___symbols);
 let ___sym0 = ___pop_Variant27(___symbols);
 let ___start = ___sym0.0.clone();
@@ -12761,7 +12758,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Comma<Pattern> = (<Pattern> ",")+, Pattern => ActionFn(573);
-assert!(symbols.len() >= 2);
+assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant28(___symbols);
 let ___sym0 = ___pop_Variant29(___symbols);
 let ___start = ___sym0.0.clone();
@@ -12838,7 +12835,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Comma<Symbol> = (<Symbol> ",")+, Symbol => ActionFn(643);
-assert!(symbols.len() >= 2);
+assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant30(___symbols);
 let ___sym0 = ___pop_Variant31(___symbols);
 let ___start = ___sym0.0.clone();
@@ -12915,7 +12912,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Comma<TypeBoundParameter> = (<TypeBoundParameter> ",")+, TypeBoundParameter => ActionFn(651);
-assert!(symbols.len() >= 2);
+assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant34(___symbols);
 let ___sym0 = ___pop_Variant35(___symbols);
 let ___start = ___sym0.0.clone();
@@ -12992,7 +12989,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Comma<TypeParameter> = (<TypeParameter> ",")+, TypeParameter => ActionFn(655);
-assert!(symbols.len() >= 2);
+assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant36(___symbols);
 let ___sym0 = ___pop_Variant37(___symbols);
 let ___start = ___sym0.0.clone();
@@ -13069,7 +13066,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Comma<TypeRef> = (<TypeRef> ",")+, TypeRef => ActionFn(659);
-assert!(symbols.len() >= 2);
+assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant3(___symbols);
 let ___sym0 = ___pop_Variant38(___symbols);
 let ___start = ___sym0.0.clone();
@@ -13146,7 +13143,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Comma<TypeRefOrLifetime> = (<TypeRefOrLifetime> ",")+, TypeRefOrLifetime => ActionFn(663);
-assert!(symbols.len() >= 2);
+assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant3(___symbols);
 let ___sym0 = ___pop_Variant38(___symbols);
 let ___start = ___sym0.0.clone();
@@ -13186,7 +13183,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Cond = NotMacroId, CondOp, StringLiteral => ActionFn(424);
-assert!(symbols.len() >= 3);
+assert!(___symbols.len() >= 3);
 let ___sym2 = ___pop_Variant20(___symbols);
 let ___sym1 = ___pop_Variant59(___symbols);
 let ___sym0 = ___pop_Variant26(___symbols);
@@ -13321,7 +13318,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // EnumToken = "enum", TypeRef, "{", Comma<Conversion>, "}" => ActionFn(426);
-assert!(symbols.len() >= 5);
+assert!(___symbols.len() >= 5);
 let ___sym4 = ___pop_Variant0(___symbols);
 let ___sym3 = ___pop_Variant50(___symbols);
 let ___sym2 = ___pop_Variant0(___symbols);
@@ -13401,7 +13398,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // ExternToken = "extern", "{", EnumToken, "}" => ActionFn(459);
-assert!(symbols.len() >= 4);
+assert!(___symbols.len() >= 4);
 let ___sym3 = ___pop_Variant0(___symbols);
 let ___sym2 = ___pop_Variant61(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
@@ -13424,7 +13421,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // ExternToken = "extern", "{", EnumToken, AssociatedType+, "}" => ActionFn(460);
-assert!(symbols.len() >= 5);
+assert!(___symbols.len() >= 5);
 let ___sym4 = ___pop_Variant0(___symbols);
 let ___sym3 = ___pop_Variant49(___symbols);
 let ___sym2 = ___pop_Variant61(___symbols);
@@ -13448,7 +13445,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // ExternToken = "extern", "{", AssociatedType+, EnumToken, "}" => ActionFn(461);
-assert!(symbols.len() >= 5);
+assert!(___symbols.len() >= 5);
 let ___sym4 = ___pop_Variant0(___symbols);
 let ___sym3 = ___pop_Variant61(___symbols);
 let ___sym2 = ___pop_Variant49(___symbols);
@@ -13472,7 +13469,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // ExternToken = "extern", "{", AssociatedType+, EnumToken, AssociatedType+, "}" => ActionFn(462);
-assert!(symbols.len() >= 6);
+assert!(___symbols.len() >= 6);
 let ___sym5 = ___pop_Variant0(___symbols);
 let ___sym4 = ___pop_Variant49(___symbols);
 let ___sym3 = ___pop_Variant61(___symbols);
@@ -13497,7 +13494,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // ExternToken = "extern", "{", "}" => ActionFn(463);
-assert!(symbols.len() >= 3);
+assert!(___symbols.len() >= 3);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant0(___symbols);
@@ -13519,7 +13516,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // ExternToken = "extern", "{", AssociatedType+, "}" => ActionFn(464);
-assert!(symbols.len() >= 4);
+assert!(___symbols.len() >= 4);
 let ___sym3 = ___pop_Variant0(___symbols);
 let ___sym2 = ___pop_Variant49(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
@@ -13542,7 +13539,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // FieldPattern = Id, ":", Pattern => ActionFn(429);
-assert!(symbols.len() >= 3);
+assert!(___symbols.len() >= 3);
 let ___sym2 = ___pop_Variant28(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant20(___symbols);
@@ -13601,7 +13598,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // ForAll = "for", "<", Comma<TypeParameter>, ">" => ActionFn(13);
-assert!(symbols.len() >= 4);
+assert!(___symbols.len() >= 4);
 let ___sym3 = ___pop_Variant0(___symbols);
 let ___sym2 = ___pop_Variant57(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
@@ -13642,7 +13639,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = "grammar", GrammarTypeParameters, GrammarParameters, GrammarWhereClauses, ";" => ActionFn(665);
-assert!(symbols.len() >= 5);
+assert!(___symbols.len() >= 5);
 let ___sym4 = ___pop_Variant0(___symbols);
 let ___sym3 = ___pop_Variant52(___symbols);
 let ___sym2 = ___pop_Variant51(___symbols);
@@ -13666,7 +13663,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = Use+, "grammar", GrammarTypeParameters, GrammarParameters, GrammarWhereClauses, ";" => ActionFn(666);
-assert!(symbols.len() >= 6);
+assert!(___symbols.len() >= 6);
 let ___sym5 = ___pop_Variant0(___symbols);
 let ___sym4 = ___pop_Variant52(___symbols);
 let ___sym3 = ___pop_Variant51(___symbols);
@@ -13691,7 +13688,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, "grammar", GrammarTypeParameters, GrammarParameters, GrammarWhereClauses, ";" => ActionFn(667);
-assert!(symbols.len() >= 6);
+assert!(___symbols.len() >= 6);
 let ___sym5 = ___pop_Variant0(___symbols);
 let ___sym4 = ___pop_Variant52(___symbols);
 let ___sym3 = ___pop_Variant51(___symbols);
@@ -13716,7 +13713,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, Use+, "grammar", GrammarTypeParameters, GrammarParameters, GrammarWhereClauses, ";" => ActionFn(668);
-assert!(symbols.len() >= 7);
+assert!(___symbols.len() >= 7);
 let ___sym6 = ___pop_Variant0(___symbols);
 let ___sym5 = ___pop_Variant52(___symbols);
 let ___sym4 = ___pop_Variant51(___symbols);
@@ -13742,7 +13739,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = "grammar", GrammarTypeParameters, GrammarParameters, ";" => ActionFn(669);
-assert!(symbols.len() >= 4);
+assert!(___symbols.len() >= 4);
 let ___sym3 = ___pop_Variant0(___symbols);
 let ___sym2 = ___pop_Variant51(___symbols);
 let ___sym1 = ___pop_Variant57(___symbols);
@@ -13765,7 +13762,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = Use+, "grammar", GrammarTypeParameters, GrammarParameters, ";" => ActionFn(670);
-assert!(symbols.len() >= 5);
+assert!(___symbols.len() >= 5);
 let ___sym4 = ___pop_Variant0(___symbols);
 let ___sym3 = ___pop_Variant51(___symbols);
 let ___sym2 = ___pop_Variant57(___symbols);
@@ -13789,7 +13786,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, "grammar", GrammarTypeParameters, GrammarParameters, ";" => ActionFn(671);
-assert!(symbols.len() >= 5);
+assert!(___symbols.len() >= 5);
 let ___sym4 = ___pop_Variant0(___symbols);
 let ___sym3 = ___pop_Variant51(___symbols);
 let ___sym2 = ___pop_Variant57(___symbols);
@@ -13813,7 +13810,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, Use+, "grammar", GrammarTypeParameters, GrammarParameters, ";" => ActionFn(672);
-assert!(symbols.len() >= 6);
+assert!(___symbols.len() >= 6);
 let ___sym5 = ___pop_Variant0(___symbols);
 let ___sym4 = ___pop_Variant51(___symbols);
 let ___sym3 = ___pop_Variant57(___symbols);
@@ -13838,7 +13835,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = "grammar", GrammarParameters, GrammarWhereClauses, ";" => ActionFn(673);
-assert!(symbols.len() >= 4);
+assert!(___symbols.len() >= 4);
 let ___sym3 = ___pop_Variant0(___symbols);
 let ___sym2 = ___pop_Variant52(___symbols);
 let ___sym1 = ___pop_Variant51(___symbols);
@@ -13861,7 +13858,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = Use+, "grammar", GrammarParameters, GrammarWhereClauses, ";" => ActionFn(674);
-assert!(symbols.len() >= 5);
+assert!(___symbols.len() >= 5);
 let ___sym4 = ___pop_Variant0(___symbols);
 let ___sym3 = ___pop_Variant52(___symbols);
 let ___sym2 = ___pop_Variant51(___symbols);
@@ -13885,7 +13882,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, "grammar", GrammarParameters, GrammarWhereClauses, ";" => ActionFn(675);
-assert!(symbols.len() >= 5);
+assert!(___symbols.len() >= 5);
 let ___sym4 = ___pop_Variant0(___symbols);
 let ___sym3 = ___pop_Variant52(___symbols);
 let ___sym2 = ___pop_Variant51(___symbols);
@@ -13909,7 +13906,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, Use+, "grammar", GrammarParameters, GrammarWhereClauses, ";" => ActionFn(676);
-assert!(symbols.len() >= 6);
+assert!(___symbols.len() >= 6);
 let ___sym5 = ___pop_Variant0(___symbols);
 let ___sym4 = ___pop_Variant52(___symbols);
 let ___sym3 = ___pop_Variant51(___symbols);
@@ -13934,7 +13931,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = "grammar", GrammarParameters, ";" => ActionFn(677);
-assert!(symbols.len() >= 3);
+assert!(___symbols.len() >= 3);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant51(___symbols);
 let ___sym0 = ___pop_Variant0(___symbols);
@@ -13956,7 +13953,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = Use+, "grammar", GrammarParameters, ";" => ActionFn(678);
-assert!(symbols.len() >= 4);
+assert!(___symbols.len() >= 4);
 let ___sym3 = ___pop_Variant0(___symbols);
 let ___sym2 = ___pop_Variant51(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
@@ -13979,7 +13976,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, "grammar", GrammarParameters, ";" => ActionFn(679);
-assert!(symbols.len() >= 4);
+assert!(___symbols.len() >= 4);
 let ___sym3 = ___pop_Variant0(___symbols);
 let ___sym2 = ___pop_Variant51(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
@@ -14002,7 +13999,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, Use+, "grammar", GrammarParameters, ";" => ActionFn(680);
-assert!(symbols.len() >= 5);
+assert!(___symbols.len() >= 5);
 let ___sym4 = ___pop_Variant0(___symbols);
 let ___sym3 = ___pop_Variant51(___symbols);
 let ___sym2 = ___pop_Variant0(___symbols);
@@ -14026,7 +14023,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = "grammar", GrammarTypeParameters, GrammarWhereClauses, ";" => ActionFn(681);
-assert!(symbols.len() >= 4);
+assert!(___symbols.len() >= 4);
 let ___sym3 = ___pop_Variant0(___symbols);
 let ___sym2 = ___pop_Variant52(___symbols);
 let ___sym1 = ___pop_Variant57(___symbols);
@@ -14049,7 +14046,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = Use+, "grammar", GrammarTypeParameters, GrammarWhereClauses, ";" => ActionFn(682);
-assert!(symbols.len() >= 5);
+assert!(___symbols.len() >= 5);
 let ___sym4 = ___pop_Variant0(___symbols);
 let ___sym3 = ___pop_Variant52(___symbols);
 let ___sym2 = ___pop_Variant57(___symbols);
@@ -14073,7 +14070,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, "grammar", GrammarTypeParameters, GrammarWhereClauses, ";" => ActionFn(683);
-assert!(symbols.len() >= 5);
+assert!(___symbols.len() >= 5);
 let ___sym4 = ___pop_Variant0(___symbols);
 let ___sym3 = ___pop_Variant52(___symbols);
 let ___sym2 = ___pop_Variant57(___symbols);
@@ -14097,7 +14094,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, Use+, "grammar", GrammarTypeParameters, GrammarWhereClauses, ";" => ActionFn(684);
-assert!(symbols.len() >= 6);
+assert!(___symbols.len() >= 6);
 let ___sym5 = ___pop_Variant0(___symbols);
 let ___sym4 = ___pop_Variant52(___symbols);
 let ___sym3 = ___pop_Variant57(___symbols);
@@ -14122,7 +14119,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = "grammar", GrammarTypeParameters, ";" => ActionFn(685);
-assert!(symbols.len() >= 3);
+assert!(___symbols.len() >= 3);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant57(___symbols);
 let ___sym0 = ___pop_Variant0(___symbols);
@@ -14144,7 +14141,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = Use+, "grammar", GrammarTypeParameters, ";" => ActionFn(686);
-assert!(symbols.len() >= 4);
+assert!(___symbols.len() >= 4);
 let ___sym3 = ___pop_Variant0(___symbols);
 let ___sym2 = ___pop_Variant57(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
@@ -14167,7 +14164,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, "grammar", GrammarTypeParameters, ";" => ActionFn(687);
-assert!(symbols.len() >= 4);
+assert!(___symbols.len() >= 4);
 let ___sym3 = ___pop_Variant0(___symbols);
 let ___sym2 = ___pop_Variant57(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
@@ -14190,7 +14187,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, Use+, "grammar", GrammarTypeParameters, ";" => ActionFn(688);
-assert!(symbols.len() >= 5);
+assert!(___symbols.len() >= 5);
 let ___sym4 = ___pop_Variant0(___symbols);
 let ___sym3 = ___pop_Variant57(___symbols);
 let ___sym2 = ___pop_Variant0(___symbols);
@@ -14214,7 +14211,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = "grammar", GrammarWhereClauses, ";" => ActionFn(689);
-assert!(symbols.len() >= 3);
+assert!(___symbols.len() >= 3);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant52(___symbols);
 let ___sym0 = ___pop_Variant0(___symbols);
@@ -14236,7 +14233,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = Use+, "grammar", GrammarWhereClauses, ";" => ActionFn(690);
-assert!(symbols.len() >= 4);
+assert!(___symbols.len() >= 4);
 let ___sym3 = ___pop_Variant0(___symbols);
 let ___sym2 = ___pop_Variant52(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
@@ -14259,7 +14256,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, "grammar", GrammarWhereClauses, ";" => ActionFn(691);
-assert!(symbols.len() >= 4);
+assert!(___symbols.len() >= 4);
 let ___sym3 = ___pop_Variant0(___symbols);
 let ___sym2 = ___pop_Variant52(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
@@ -14282,7 +14279,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, Use+, "grammar", GrammarWhereClauses, ";" => ActionFn(692);
-assert!(symbols.len() >= 5);
+assert!(___symbols.len() >= 5);
 let ___sym4 = ___pop_Variant0(___symbols);
 let ___sym3 = ___pop_Variant52(___symbols);
 let ___sym2 = ___pop_Variant0(___symbols);
@@ -14306,7 +14303,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = "grammar", ";" => ActionFn(693);
-assert!(symbols.len() >= 2);
+assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant0(___symbols);
 let ___start = ___sym0.0.clone();
@@ -14327,7 +14324,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = Use+, "grammar", ";" => ActionFn(694);
-assert!(symbols.len() >= 3);
+assert!(___symbols.len() >= 3);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant66(___symbols);
@@ -14349,7 +14346,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, "grammar", ";" => ActionFn(695);
-assert!(symbols.len() >= 3);
+assert!(___symbols.len() >= 3);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant87(___symbols);
@@ -14371,7 +14368,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, Use+, "grammar", ";" => ActionFn(696);
-assert!(symbols.len() >= 4);
+assert!(___symbols.len() >= 4);
 let ___sym3 = ___pop_Variant0(___symbols);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant66(___symbols);
@@ -14394,7 +14391,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = "grammar", GrammarTypeParameters, GrammarParameters, GrammarWhereClauses, ";", GrammarItem+ => ActionFn(697);
-assert!(symbols.len() >= 6);
+assert!(___symbols.len() >= 6);
 let ___sym5 = ___pop_Variant66(___symbols);
 let ___sym4 = ___pop_Variant0(___symbols);
 let ___sym3 = ___pop_Variant52(___symbols);
@@ -14419,7 +14416,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = Use+, "grammar", GrammarTypeParameters, GrammarParameters, GrammarWhereClauses, ";", GrammarItem+ => ActionFn(698);
-assert!(symbols.len() >= 7);
+assert!(___symbols.len() >= 7);
 let ___sym6 = ___pop_Variant66(___symbols);
 let ___sym5 = ___pop_Variant0(___symbols);
 let ___sym4 = ___pop_Variant52(___symbols);
@@ -14445,7 +14442,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, "grammar", GrammarTypeParameters, GrammarParameters, GrammarWhereClauses, ";", GrammarItem+ => ActionFn(699);
-assert!(symbols.len() >= 7);
+assert!(___symbols.len() >= 7);
 let ___sym6 = ___pop_Variant66(___symbols);
 let ___sym5 = ___pop_Variant0(___symbols);
 let ___sym4 = ___pop_Variant52(___symbols);
@@ -14471,7 +14468,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, Use+, "grammar", GrammarTypeParameters, GrammarParameters, GrammarWhereClauses, ";", GrammarItem+ => ActionFn(700);
-assert!(symbols.len() >= 8);
+assert!(___symbols.len() >= 8);
 let ___sym7 = ___pop_Variant66(___symbols);
 let ___sym6 = ___pop_Variant0(___symbols);
 let ___sym5 = ___pop_Variant52(___symbols);
@@ -14498,7 +14495,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = "grammar", GrammarTypeParameters, GrammarParameters, ";", GrammarItem+ => ActionFn(701);
-assert!(symbols.len() >= 5);
+assert!(___symbols.len() >= 5);
 let ___sym4 = ___pop_Variant66(___symbols);
 let ___sym3 = ___pop_Variant0(___symbols);
 let ___sym2 = ___pop_Variant51(___symbols);
@@ -14522,7 +14519,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = Use+, "grammar", GrammarTypeParameters, GrammarParameters, ";", GrammarItem+ => ActionFn(702);
-assert!(symbols.len() >= 6);
+assert!(___symbols.len() >= 6);
 let ___sym5 = ___pop_Variant66(___symbols);
 let ___sym4 = ___pop_Variant0(___symbols);
 let ___sym3 = ___pop_Variant51(___symbols);
@@ -14547,7 +14544,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, "grammar", GrammarTypeParameters, GrammarParameters, ";", GrammarItem+ => ActionFn(703);
-assert!(symbols.len() >= 6);
+assert!(___symbols.len() >= 6);
 let ___sym5 = ___pop_Variant66(___symbols);
 let ___sym4 = ___pop_Variant0(___symbols);
 let ___sym3 = ___pop_Variant51(___symbols);
@@ -14572,7 +14569,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, Use+, "grammar", GrammarTypeParameters, GrammarParameters, ";", GrammarItem+ => ActionFn(704);
-assert!(symbols.len() >= 7);
+assert!(___symbols.len() >= 7);
 let ___sym6 = ___pop_Variant66(___symbols);
 let ___sym5 = ___pop_Variant0(___symbols);
 let ___sym4 = ___pop_Variant51(___symbols);
@@ -14598,7 +14595,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = "grammar", GrammarParameters, GrammarWhereClauses, ";", GrammarItem+ => ActionFn(705);
-assert!(symbols.len() >= 5);
+assert!(___symbols.len() >= 5);
 let ___sym4 = ___pop_Variant66(___symbols);
 let ___sym3 = ___pop_Variant0(___symbols);
 let ___sym2 = ___pop_Variant52(___symbols);
@@ -14622,7 +14619,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = Use+, "grammar", GrammarParameters, GrammarWhereClauses, ";", GrammarItem+ => ActionFn(706);
-assert!(symbols.len() >= 6);
+assert!(___symbols.len() >= 6);
 let ___sym5 = ___pop_Variant66(___symbols);
 let ___sym4 = ___pop_Variant0(___symbols);
 let ___sym3 = ___pop_Variant52(___symbols);
@@ -14647,7 +14644,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, "grammar", GrammarParameters, GrammarWhereClauses, ";", GrammarItem+ => ActionFn(707);
-assert!(symbols.len() >= 6);
+assert!(___symbols.len() >= 6);
 let ___sym5 = ___pop_Variant66(___symbols);
 let ___sym4 = ___pop_Variant0(___symbols);
 let ___sym3 = ___pop_Variant52(___symbols);
@@ -14672,7 +14669,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, Use+, "grammar", GrammarParameters, GrammarWhereClauses, ";", GrammarItem+ => ActionFn(708);
-assert!(symbols.len() >= 7);
+assert!(___symbols.len() >= 7);
 let ___sym6 = ___pop_Variant66(___symbols);
 let ___sym5 = ___pop_Variant0(___symbols);
 let ___sym4 = ___pop_Variant52(___symbols);
@@ -14698,7 +14695,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = "grammar", GrammarParameters, ";", GrammarItem+ => ActionFn(709);
-assert!(symbols.len() >= 4);
+assert!(___symbols.len() >= 4);
 let ___sym3 = ___pop_Variant66(___symbols);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant51(___symbols);
@@ -14721,7 +14718,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = Use+, "grammar", GrammarParameters, ";", GrammarItem+ => ActionFn(710);
-assert!(symbols.len() >= 5);
+assert!(___symbols.len() >= 5);
 let ___sym4 = ___pop_Variant66(___symbols);
 let ___sym3 = ___pop_Variant0(___symbols);
 let ___sym2 = ___pop_Variant51(___symbols);
@@ -14745,7 +14742,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, "grammar", GrammarParameters, ";", GrammarItem+ => ActionFn(711);
-assert!(symbols.len() >= 5);
+assert!(___symbols.len() >= 5);
 let ___sym4 = ___pop_Variant66(___symbols);
 let ___sym3 = ___pop_Variant0(___symbols);
 let ___sym2 = ___pop_Variant51(___symbols);
@@ -14769,7 +14766,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, Use+, "grammar", GrammarParameters, ";", GrammarItem+ => ActionFn(712);
-assert!(symbols.len() >= 6);
+assert!(___symbols.len() >= 6);
 let ___sym5 = ___pop_Variant66(___symbols);
 let ___sym4 = ___pop_Variant0(___symbols);
 let ___sym3 = ___pop_Variant51(___symbols);
@@ -14794,7 +14791,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = "grammar", GrammarTypeParameters, GrammarWhereClauses, ";", GrammarItem+ => ActionFn(713);
-assert!(symbols.len() >= 5);
+assert!(___symbols.len() >= 5);
 let ___sym4 = ___pop_Variant66(___symbols);
 let ___sym3 = ___pop_Variant0(___symbols);
 let ___sym2 = ___pop_Variant52(___symbols);
@@ -14818,7 +14815,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = Use+, "grammar", GrammarTypeParameters, GrammarWhereClauses, ";", GrammarItem+ => ActionFn(714);
-assert!(symbols.len() >= 6);
+assert!(___symbols.len() >= 6);
 let ___sym5 = ___pop_Variant66(___symbols);
 let ___sym4 = ___pop_Variant0(___symbols);
 let ___sym3 = ___pop_Variant52(___symbols);
@@ -14843,7 +14840,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, "grammar", GrammarTypeParameters, GrammarWhereClauses, ";", GrammarItem+ => ActionFn(715);
-assert!(symbols.len() >= 6);
+assert!(___symbols.len() >= 6);
 let ___sym5 = ___pop_Variant66(___symbols);
 let ___sym4 = ___pop_Variant0(___symbols);
 let ___sym3 = ___pop_Variant52(___symbols);
@@ -14868,7 +14865,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, Use+, "grammar", GrammarTypeParameters, GrammarWhereClauses, ";", GrammarItem+ => ActionFn(716);
-assert!(symbols.len() >= 7);
+assert!(___symbols.len() >= 7);
 let ___sym6 = ___pop_Variant66(___symbols);
 let ___sym5 = ___pop_Variant0(___symbols);
 let ___sym4 = ___pop_Variant52(___symbols);
@@ -14894,7 +14891,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = "grammar", GrammarTypeParameters, ";", GrammarItem+ => ActionFn(717);
-assert!(symbols.len() >= 4);
+assert!(___symbols.len() >= 4);
 let ___sym3 = ___pop_Variant66(___symbols);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant57(___symbols);
@@ -14917,7 +14914,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = Use+, "grammar", GrammarTypeParameters, ";", GrammarItem+ => ActionFn(718);
-assert!(symbols.len() >= 5);
+assert!(___symbols.len() >= 5);
 let ___sym4 = ___pop_Variant66(___symbols);
 let ___sym3 = ___pop_Variant0(___symbols);
 let ___sym2 = ___pop_Variant57(___symbols);
@@ -14941,7 +14938,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, "grammar", GrammarTypeParameters, ";", GrammarItem+ => ActionFn(719);
-assert!(symbols.len() >= 5);
+assert!(___symbols.len() >= 5);
 let ___sym4 = ___pop_Variant66(___symbols);
 let ___sym3 = ___pop_Variant0(___symbols);
 let ___sym2 = ___pop_Variant57(___symbols);
@@ -14965,7 +14962,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, Use+, "grammar", GrammarTypeParameters, ";", GrammarItem+ => ActionFn(720);
-assert!(symbols.len() >= 6);
+assert!(___symbols.len() >= 6);
 let ___sym5 = ___pop_Variant66(___symbols);
 let ___sym4 = ___pop_Variant0(___symbols);
 let ___sym3 = ___pop_Variant57(___symbols);
@@ -14990,7 +14987,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = "grammar", GrammarWhereClauses, ";", GrammarItem+ => ActionFn(721);
-assert!(symbols.len() >= 4);
+assert!(___symbols.len() >= 4);
 let ___sym3 = ___pop_Variant66(___symbols);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant52(___symbols);
@@ -15013,7 +15010,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = Use+, "grammar", GrammarWhereClauses, ";", GrammarItem+ => ActionFn(722);
-assert!(symbols.len() >= 5);
+assert!(___symbols.len() >= 5);
 let ___sym4 = ___pop_Variant66(___symbols);
 let ___sym3 = ___pop_Variant0(___symbols);
 let ___sym2 = ___pop_Variant52(___symbols);
@@ -15037,7 +15034,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, "grammar", GrammarWhereClauses, ";", GrammarItem+ => ActionFn(723);
-assert!(symbols.len() >= 5);
+assert!(___symbols.len() >= 5);
 let ___sym4 = ___pop_Variant66(___symbols);
 let ___sym3 = ___pop_Variant0(___symbols);
 let ___sym2 = ___pop_Variant52(___symbols);
@@ -15061,7 +15058,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, Use+, "grammar", GrammarWhereClauses, ";", GrammarItem+ => ActionFn(724);
-assert!(symbols.len() >= 6);
+assert!(___symbols.len() >= 6);
 let ___sym5 = ___pop_Variant66(___symbols);
 let ___sym4 = ___pop_Variant0(___symbols);
 let ___sym3 = ___pop_Variant52(___symbols);
@@ -15086,7 +15083,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = "grammar", ";", GrammarItem+ => ActionFn(725);
-assert!(symbols.len() >= 3);
+assert!(___symbols.len() >= 3);
 let ___sym2 = ___pop_Variant66(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant0(___symbols);
@@ -15108,7 +15105,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = Use+, "grammar", ";", GrammarItem+ => ActionFn(726);
-assert!(symbols.len() >= 4);
+assert!(___symbols.len() >= 4);
 let ___sym3 = ___pop_Variant66(___symbols);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
@@ -15131,7 +15128,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, "grammar", ";", GrammarItem+ => ActionFn(727);
-assert!(symbols.len() >= 4);
+assert!(___symbols.len() >= 4);
 let ___sym3 = ___pop_Variant66(___symbols);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
@@ -15154,7 +15151,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, Use+, "grammar", ";", GrammarItem+ => ActionFn(728);
-assert!(symbols.len() >= 5);
+assert!(___symbols.len() >= 5);
 let ___sym4 = ___pop_Variant66(___symbols);
 let ___sym3 = ___pop_Variant0(___symbols);
 let ___sym2 = ___pop_Variant0(___symbols);
@@ -15178,7 +15175,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = Annotation+, "grammar", GrammarTypeParameters, GrammarParameters, GrammarWhereClauses, ";" => ActionFn(729);
-assert!(symbols.len() >= 6);
+assert!(___symbols.len() >= 6);
 let ___sym5 = ___pop_Variant0(___symbols);
 let ___sym4 = ___pop_Variant52(___symbols);
 let ___sym3 = ___pop_Variant51(___symbols);
@@ -15203,7 +15200,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = Use+, Annotation+, "grammar", GrammarTypeParameters, GrammarParameters, GrammarWhereClauses, ";" => ActionFn(730);
-assert!(symbols.len() >= 7);
+assert!(___symbols.len() >= 7);
 let ___sym6 = ___pop_Variant0(___symbols);
 let ___sym5 = ___pop_Variant52(___symbols);
 let ___sym4 = ___pop_Variant51(___symbols);
@@ -15229,7 +15226,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, Annotation+, "grammar", GrammarTypeParameters, GrammarParameters, GrammarWhereClauses, ";" => ActionFn(731);
-assert!(symbols.len() >= 7);
+assert!(___symbols.len() >= 7);
 let ___sym6 = ___pop_Variant0(___symbols);
 let ___sym5 = ___pop_Variant52(___symbols);
 let ___sym4 = ___pop_Variant51(___symbols);
@@ -15255,7 +15252,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, Use+, Annotation+, "grammar", GrammarTypeParameters, GrammarParameters, GrammarWhereClauses, ";" => ActionFn(732);
-assert!(symbols.len() >= 8);
+assert!(___symbols.len() >= 8);
 let ___sym7 = ___pop_Variant0(___symbols);
 let ___sym6 = ___pop_Variant52(___symbols);
 let ___sym5 = ___pop_Variant51(___symbols);
@@ -15282,7 +15279,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = Annotation+, "grammar", GrammarTypeParameters, GrammarParameters, ";" => ActionFn(733);
-assert!(symbols.len() >= 5);
+assert!(___symbols.len() >= 5);
 let ___sym4 = ___pop_Variant0(___symbols);
 let ___sym3 = ___pop_Variant51(___symbols);
 let ___sym2 = ___pop_Variant57(___symbols);
@@ -15306,7 +15303,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = Use+, Annotation+, "grammar", GrammarTypeParameters, GrammarParameters, ";" => ActionFn(734);
-assert!(symbols.len() >= 6);
+assert!(___symbols.len() >= 6);
 let ___sym5 = ___pop_Variant0(___symbols);
 let ___sym4 = ___pop_Variant51(___symbols);
 let ___sym3 = ___pop_Variant57(___symbols);
@@ -15331,7 +15328,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, Annotation+, "grammar", GrammarTypeParameters, GrammarParameters, ";" => ActionFn(735);
-assert!(symbols.len() >= 6);
+assert!(___symbols.len() >= 6);
 let ___sym5 = ___pop_Variant0(___symbols);
 let ___sym4 = ___pop_Variant51(___symbols);
 let ___sym3 = ___pop_Variant57(___symbols);
@@ -15356,7 +15353,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, Use+, Annotation+, "grammar", GrammarTypeParameters, GrammarParameters, ";" => ActionFn(736);
-assert!(symbols.len() >= 7);
+assert!(___symbols.len() >= 7);
 let ___sym6 = ___pop_Variant0(___symbols);
 let ___sym5 = ___pop_Variant51(___symbols);
 let ___sym4 = ___pop_Variant57(___symbols);
@@ -15382,7 +15379,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = Annotation+, "grammar", GrammarParameters, GrammarWhereClauses, ";" => ActionFn(737);
-assert!(symbols.len() >= 5);
+assert!(___symbols.len() >= 5);
 let ___sym4 = ___pop_Variant0(___symbols);
 let ___sym3 = ___pop_Variant52(___symbols);
 let ___sym2 = ___pop_Variant51(___symbols);
@@ -15406,7 +15403,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = Use+, Annotation+, "grammar", GrammarParameters, GrammarWhereClauses, ";" => ActionFn(738);
-assert!(symbols.len() >= 6);
+assert!(___symbols.len() >= 6);
 let ___sym5 = ___pop_Variant0(___symbols);
 let ___sym4 = ___pop_Variant52(___symbols);
 let ___sym3 = ___pop_Variant51(___symbols);
@@ -15431,7 +15428,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, Annotation+, "grammar", GrammarParameters, GrammarWhereClauses, ";" => ActionFn(739);
-assert!(symbols.len() >= 6);
+assert!(___symbols.len() >= 6);
 let ___sym5 = ___pop_Variant0(___symbols);
 let ___sym4 = ___pop_Variant52(___symbols);
 let ___sym3 = ___pop_Variant51(___symbols);
@@ -15456,7 +15453,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, Use+, Annotation+, "grammar", GrammarParameters, GrammarWhereClauses, ";" => ActionFn(740);
-assert!(symbols.len() >= 7);
+assert!(___symbols.len() >= 7);
 let ___sym6 = ___pop_Variant0(___symbols);
 let ___sym5 = ___pop_Variant52(___symbols);
 let ___sym4 = ___pop_Variant51(___symbols);
@@ -15482,7 +15479,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = Annotation+, "grammar", GrammarParameters, ";" => ActionFn(741);
-assert!(symbols.len() >= 4);
+assert!(___symbols.len() >= 4);
 let ___sym3 = ___pop_Variant0(___symbols);
 let ___sym2 = ___pop_Variant51(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
@@ -15505,7 +15502,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = Use+, Annotation+, "grammar", GrammarParameters, ";" => ActionFn(742);
-assert!(symbols.len() >= 5);
+assert!(___symbols.len() >= 5);
 let ___sym4 = ___pop_Variant0(___symbols);
 let ___sym3 = ___pop_Variant51(___symbols);
 let ___sym2 = ___pop_Variant0(___symbols);
@@ -15529,7 +15526,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, Annotation+, "grammar", GrammarParameters, ";" => ActionFn(743);
-assert!(symbols.len() >= 5);
+assert!(___symbols.len() >= 5);
 let ___sym4 = ___pop_Variant0(___symbols);
 let ___sym3 = ___pop_Variant51(___symbols);
 let ___sym2 = ___pop_Variant0(___symbols);
@@ -15553,7 +15550,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, Use+, Annotation+, "grammar", GrammarParameters, ";" => ActionFn(744);
-assert!(symbols.len() >= 6);
+assert!(___symbols.len() >= 6);
 let ___sym5 = ___pop_Variant0(___symbols);
 let ___sym4 = ___pop_Variant51(___symbols);
 let ___sym3 = ___pop_Variant0(___symbols);
@@ -15578,7 +15575,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = Annotation+, "grammar", GrammarTypeParameters, GrammarWhereClauses, ";" => ActionFn(745);
-assert!(symbols.len() >= 5);
+assert!(___symbols.len() >= 5);
 let ___sym4 = ___pop_Variant0(___symbols);
 let ___sym3 = ___pop_Variant52(___symbols);
 let ___sym2 = ___pop_Variant57(___symbols);
@@ -15602,7 +15599,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = Use+, Annotation+, "grammar", GrammarTypeParameters, GrammarWhereClauses, ";" => ActionFn(746);
-assert!(symbols.len() >= 6);
+assert!(___symbols.len() >= 6);
 let ___sym5 = ___pop_Variant0(___symbols);
 let ___sym4 = ___pop_Variant52(___symbols);
 let ___sym3 = ___pop_Variant57(___symbols);
@@ -15627,7 +15624,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, Annotation+, "grammar", GrammarTypeParameters, GrammarWhereClauses, ";" => ActionFn(747);
-assert!(symbols.len() >= 6);
+assert!(___symbols.len() >= 6);
 let ___sym5 = ___pop_Variant0(___symbols);
 let ___sym4 = ___pop_Variant52(___symbols);
 let ___sym3 = ___pop_Variant57(___symbols);
@@ -15652,7 +15649,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, Use+, Annotation+, "grammar", GrammarTypeParameters, GrammarWhereClauses, ";" => ActionFn(748);
-assert!(symbols.len() >= 7);
+assert!(___symbols.len() >= 7);
 let ___sym6 = ___pop_Variant0(___symbols);
 let ___sym5 = ___pop_Variant52(___symbols);
 let ___sym4 = ___pop_Variant57(___symbols);
@@ -15678,7 +15675,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = Annotation+, "grammar", GrammarTypeParameters, ";" => ActionFn(749);
-assert!(symbols.len() >= 4);
+assert!(___symbols.len() >= 4);
 let ___sym3 = ___pop_Variant0(___symbols);
 let ___sym2 = ___pop_Variant57(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
@@ -15701,7 +15698,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = Use+, Annotation+, "grammar", GrammarTypeParameters, ";" => ActionFn(750);
-assert!(symbols.len() >= 5);
+assert!(___symbols.len() >= 5);
 let ___sym4 = ___pop_Variant0(___symbols);
 let ___sym3 = ___pop_Variant57(___symbols);
 let ___sym2 = ___pop_Variant0(___symbols);
@@ -15725,7 +15722,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, Annotation+, "grammar", GrammarTypeParameters, ";" => ActionFn(751);
-assert!(symbols.len() >= 5);
+assert!(___symbols.len() >= 5);
 let ___sym4 = ___pop_Variant0(___symbols);
 let ___sym3 = ___pop_Variant57(___symbols);
 let ___sym2 = ___pop_Variant0(___symbols);
@@ -15749,7 +15746,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, Use+, Annotation+, "grammar", GrammarTypeParameters, ";" => ActionFn(752);
-assert!(symbols.len() >= 6);
+assert!(___symbols.len() >= 6);
 let ___sym5 = ___pop_Variant0(___symbols);
 let ___sym4 = ___pop_Variant57(___symbols);
 let ___sym3 = ___pop_Variant0(___symbols);
@@ -15774,7 +15771,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = Annotation+, "grammar", GrammarWhereClauses, ";" => ActionFn(753);
-assert!(symbols.len() >= 4);
+assert!(___symbols.len() >= 4);
 let ___sym3 = ___pop_Variant0(___symbols);
 let ___sym2 = ___pop_Variant52(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
@@ -15797,7 +15794,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = Use+, Annotation+, "grammar", GrammarWhereClauses, ";" => ActionFn(754);
-assert!(symbols.len() >= 5);
+assert!(___symbols.len() >= 5);
 let ___sym4 = ___pop_Variant0(___symbols);
 let ___sym3 = ___pop_Variant52(___symbols);
 let ___sym2 = ___pop_Variant0(___symbols);
@@ -15821,7 +15818,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, Annotation+, "grammar", GrammarWhereClauses, ";" => ActionFn(755);
-assert!(symbols.len() >= 5);
+assert!(___symbols.len() >= 5);
 let ___sym4 = ___pop_Variant0(___symbols);
 let ___sym3 = ___pop_Variant52(___symbols);
 let ___sym2 = ___pop_Variant0(___symbols);
@@ -15845,7 +15842,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, Use+, Annotation+, "grammar", GrammarWhereClauses, ";" => ActionFn(756);
-assert!(symbols.len() >= 6);
+assert!(___symbols.len() >= 6);
 let ___sym5 = ___pop_Variant0(___symbols);
 let ___sym4 = ___pop_Variant52(___symbols);
 let ___sym3 = ___pop_Variant0(___symbols);
@@ -15870,7 +15867,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = Annotation+, "grammar", ";" => ActionFn(757);
-assert!(symbols.len() >= 3);
+assert!(___symbols.len() >= 3);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant45(___symbols);
@@ -15892,7 +15889,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = Use+, Annotation+, "grammar", ";" => ActionFn(758);
-assert!(symbols.len() >= 4);
+assert!(___symbols.len() >= 4);
 let ___sym3 = ___pop_Variant0(___symbols);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant45(___symbols);
@@ -15915,7 +15912,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, Annotation+, "grammar", ";" => ActionFn(759);
-assert!(symbols.len() >= 4);
+assert!(___symbols.len() >= 4);
 let ___sym3 = ___pop_Variant0(___symbols);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant45(___symbols);
@@ -15938,7 +15935,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, Use+, Annotation+, "grammar", ";" => ActionFn(760);
-assert!(symbols.len() >= 5);
+assert!(___symbols.len() >= 5);
 let ___sym4 = ___pop_Variant0(___symbols);
 let ___sym3 = ___pop_Variant0(___symbols);
 let ___sym2 = ___pop_Variant45(___symbols);
@@ -15962,7 +15959,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = Annotation+, "grammar", GrammarTypeParameters, GrammarParameters, GrammarWhereClauses, ";", GrammarItem+ => ActionFn(761);
-assert!(symbols.len() >= 7);
+assert!(___symbols.len() >= 7);
 let ___sym6 = ___pop_Variant66(___symbols);
 let ___sym5 = ___pop_Variant0(___symbols);
 let ___sym4 = ___pop_Variant52(___symbols);
@@ -15988,7 +15985,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = Use+, Annotation+, "grammar", GrammarTypeParameters, GrammarParameters, GrammarWhereClauses, ";", GrammarItem+ => ActionFn(762);
-assert!(symbols.len() >= 8);
+assert!(___symbols.len() >= 8);
 let ___sym7 = ___pop_Variant66(___symbols);
 let ___sym6 = ___pop_Variant0(___symbols);
 let ___sym5 = ___pop_Variant52(___symbols);
@@ -16015,7 +16012,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, Annotation+, "grammar", GrammarTypeParameters, GrammarParameters, GrammarWhereClauses, ";", GrammarItem+ => ActionFn(763);
-assert!(symbols.len() >= 8);
+assert!(___symbols.len() >= 8);
 let ___sym7 = ___pop_Variant66(___symbols);
 let ___sym6 = ___pop_Variant0(___symbols);
 let ___sym5 = ___pop_Variant52(___symbols);
@@ -16042,7 +16039,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, Use+, Annotation+, "grammar", GrammarTypeParameters, GrammarParameters, GrammarWhereClauses, ";", GrammarItem+ => ActionFn(764);
-assert!(symbols.len() >= 9);
+assert!(___symbols.len() >= 9);
 let ___sym8 = ___pop_Variant66(___symbols);
 let ___sym7 = ___pop_Variant0(___symbols);
 let ___sym6 = ___pop_Variant52(___symbols);
@@ -16070,7 +16067,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = Annotation+, "grammar", GrammarTypeParameters, GrammarParameters, ";", GrammarItem+ => ActionFn(765);
-assert!(symbols.len() >= 6);
+assert!(___symbols.len() >= 6);
 let ___sym5 = ___pop_Variant66(___symbols);
 let ___sym4 = ___pop_Variant0(___symbols);
 let ___sym3 = ___pop_Variant51(___symbols);
@@ -16095,7 +16092,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = Use+, Annotation+, "grammar", GrammarTypeParameters, GrammarParameters, ";", GrammarItem+ => ActionFn(766);
-assert!(symbols.len() >= 7);
+assert!(___symbols.len() >= 7);
 let ___sym6 = ___pop_Variant66(___symbols);
 let ___sym5 = ___pop_Variant0(___symbols);
 let ___sym4 = ___pop_Variant51(___symbols);
@@ -16121,7 +16118,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, Annotation+, "grammar", GrammarTypeParameters, GrammarParameters, ";", GrammarItem+ => ActionFn(767);
-assert!(symbols.len() >= 7);
+assert!(___symbols.len() >= 7);
 let ___sym6 = ___pop_Variant66(___symbols);
 let ___sym5 = ___pop_Variant0(___symbols);
 let ___sym4 = ___pop_Variant51(___symbols);
@@ -16147,7 +16144,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, Use+, Annotation+, "grammar", GrammarTypeParameters, GrammarParameters, ";", GrammarItem+ => ActionFn(768);
-assert!(symbols.len() >= 8);
+assert!(___symbols.len() >= 8);
 let ___sym7 = ___pop_Variant66(___symbols);
 let ___sym6 = ___pop_Variant0(___symbols);
 let ___sym5 = ___pop_Variant51(___symbols);
@@ -16174,7 +16171,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = Annotation+, "grammar", GrammarParameters, GrammarWhereClauses, ";", GrammarItem+ => ActionFn(769);
-assert!(symbols.len() >= 6);
+assert!(___symbols.len() >= 6);
 let ___sym5 = ___pop_Variant66(___symbols);
 let ___sym4 = ___pop_Variant0(___symbols);
 let ___sym3 = ___pop_Variant52(___symbols);
@@ -16199,7 +16196,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = Use+, Annotation+, "grammar", GrammarParameters, GrammarWhereClauses, ";", GrammarItem+ => ActionFn(770);
-assert!(symbols.len() >= 7);
+assert!(___symbols.len() >= 7);
 let ___sym6 = ___pop_Variant66(___symbols);
 let ___sym5 = ___pop_Variant0(___symbols);
 let ___sym4 = ___pop_Variant52(___symbols);
@@ -16225,7 +16222,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, Annotation+, "grammar", GrammarParameters, GrammarWhereClauses, ";", GrammarItem+ => ActionFn(771);
-assert!(symbols.len() >= 7);
+assert!(___symbols.len() >= 7);
 let ___sym6 = ___pop_Variant66(___symbols);
 let ___sym5 = ___pop_Variant0(___symbols);
 let ___sym4 = ___pop_Variant52(___symbols);
@@ -16251,7 +16248,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, Use+, Annotation+, "grammar", GrammarParameters, GrammarWhereClauses, ";", GrammarItem+ => ActionFn(772);
-assert!(symbols.len() >= 8);
+assert!(___symbols.len() >= 8);
 let ___sym7 = ___pop_Variant66(___symbols);
 let ___sym6 = ___pop_Variant0(___symbols);
 let ___sym5 = ___pop_Variant52(___symbols);
@@ -16278,7 +16275,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = Annotation+, "grammar", GrammarParameters, ";", GrammarItem+ => ActionFn(773);
-assert!(symbols.len() >= 5);
+assert!(___symbols.len() >= 5);
 let ___sym4 = ___pop_Variant66(___symbols);
 let ___sym3 = ___pop_Variant0(___symbols);
 let ___sym2 = ___pop_Variant51(___symbols);
@@ -16302,7 +16299,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = Use+, Annotation+, "grammar", GrammarParameters, ";", GrammarItem+ => ActionFn(774);
-assert!(symbols.len() >= 6);
+assert!(___symbols.len() >= 6);
 let ___sym5 = ___pop_Variant66(___symbols);
 let ___sym4 = ___pop_Variant0(___symbols);
 let ___sym3 = ___pop_Variant51(___symbols);
@@ -16327,7 +16324,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, Annotation+, "grammar", GrammarParameters, ";", GrammarItem+ => ActionFn(775);
-assert!(symbols.len() >= 6);
+assert!(___symbols.len() >= 6);
 let ___sym5 = ___pop_Variant66(___symbols);
 let ___sym4 = ___pop_Variant0(___symbols);
 let ___sym3 = ___pop_Variant51(___symbols);
@@ -16352,7 +16349,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, Use+, Annotation+, "grammar", GrammarParameters, ";", GrammarItem+ => ActionFn(776);
-assert!(symbols.len() >= 7);
+assert!(___symbols.len() >= 7);
 let ___sym6 = ___pop_Variant66(___symbols);
 let ___sym5 = ___pop_Variant0(___symbols);
 let ___sym4 = ___pop_Variant51(___symbols);
@@ -16378,7 +16375,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = Annotation+, "grammar", GrammarTypeParameters, GrammarWhereClauses, ";", GrammarItem+ => ActionFn(777);
-assert!(symbols.len() >= 6);
+assert!(___symbols.len() >= 6);
 let ___sym5 = ___pop_Variant66(___symbols);
 let ___sym4 = ___pop_Variant0(___symbols);
 let ___sym3 = ___pop_Variant52(___symbols);
@@ -16403,7 +16400,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = Use+, Annotation+, "grammar", GrammarTypeParameters, GrammarWhereClauses, ";", GrammarItem+ => ActionFn(778);
-assert!(symbols.len() >= 7);
+assert!(___symbols.len() >= 7);
 let ___sym6 = ___pop_Variant66(___symbols);
 let ___sym5 = ___pop_Variant0(___symbols);
 let ___sym4 = ___pop_Variant52(___symbols);
@@ -16429,7 +16426,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, Annotation+, "grammar", GrammarTypeParameters, GrammarWhereClauses, ";", GrammarItem+ => ActionFn(779);
-assert!(symbols.len() >= 7);
+assert!(___symbols.len() >= 7);
 let ___sym6 = ___pop_Variant66(___symbols);
 let ___sym5 = ___pop_Variant0(___symbols);
 let ___sym4 = ___pop_Variant52(___symbols);
@@ -16455,7 +16452,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, Use+, Annotation+, "grammar", GrammarTypeParameters, GrammarWhereClauses, ";", GrammarItem+ => ActionFn(780);
-assert!(symbols.len() >= 8);
+assert!(___symbols.len() >= 8);
 let ___sym7 = ___pop_Variant66(___symbols);
 let ___sym6 = ___pop_Variant0(___symbols);
 let ___sym5 = ___pop_Variant52(___symbols);
@@ -16482,7 +16479,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = Annotation+, "grammar", GrammarTypeParameters, ";", GrammarItem+ => ActionFn(781);
-assert!(symbols.len() >= 5);
+assert!(___symbols.len() >= 5);
 let ___sym4 = ___pop_Variant66(___symbols);
 let ___sym3 = ___pop_Variant0(___symbols);
 let ___sym2 = ___pop_Variant57(___symbols);
@@ -16506,7 +16503,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = Use+, Annotation+, "grammar", GrammarTypeParameters, ";", GrammarItem+ => ActionFn(782);
-assert!(symbols.len() >= 6);
+assert!(___symbols.len() >= 6);
 let ___sym5 = ___pop_Variant66(___symbols);
 let ___sym4 = ___pop_Variant0(___symbols);
 let ___sym3 = ___pop_Variant57(___symbols);
@@ -16531,7 +16528,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, Annotation+, "grammar", GrammarTypeParameters, ";", GrammarItem+ => ActionFn(783);
-assert!(symbols.len() >= 6);
+assert!(___symbols.len() >= 6);
 let ___sym5 = ___pop_Variant66(___symbols);
 let ___sym4 = ___pop_Variant0(___symbols);
 let ___sym3 = ___pop_Variant57(___symbols);
@@ -16556,7 +16553,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, Use+, Annotation+, "grammar", GrammarTypeParameters, ";", GrammarItem+ => ActionFn(784);
-assert!(symbols.len() >= 7);
+assert!(___symbols.len() >= 7);
 let ___sym6 = ___pop_Variant66(___symbols);
 let ___sym5 = ___pop_Variant0(___symbols);
 let ___sym4 = ___pop_Variant57(___symbols);
@@ -16582,7 +16579,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = Annotation+, "grammar", GrammarWhereClauses, ";", GrammarItem+ => ActionFn(785);
-assert!(symbols.len() >= 5);
+assert!(___symbols.len() >= 5);
 let ___sym4 = ___pop_Variant66(___symbols);
 let ___sym3 = ___pop_Variant0(___symbols);
 let ___sym2 = ___pop_Variant52(___symbols);
@@ -16606,7 +16603,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = Use+, Annotation+, "grammar", GrammarWhereClauses, ";", GrammarItem+ => ActionFn(786);
-assert!(symbols.len() >= 6);
+assert!(___symbols.len() >= 6);
 let ___sym5 = ___pop_Variant66(___symbols);
 let ___sym4 = ___pop_Variant0(___symbols);
 let ___sym3 = ___pop_Variant52(___symbols);
@@ -16631,7 +16628,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, Annotation+, "grammar", GrammarWhereClauses, ";", GrammarItem+ => ActionFn(787);
-assert!(symbols.len() >= 6);
+assert!(___symbols.len() >= 6);
 let ___sym5 = ___pop_Variant66(___symbols);
 let ___sym4 = ___pop_Variant0(___symbols);
 let ___sym3 = ___pop_Variant52(___symbols);
@@ -16656,7 +16653,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, Use+, Annotation+, "grammar", GrammarWhereClauses, ";", GrammarItem+ => ActionFn(788);
-assert!(symbols.len() >= 7);
+assert!(___symbols.len() >= 7);
 let ___sym6 = ___pop_Variant66(___symbols);
 let ___sym5 = ___pop_Variant0(___symbols);
 let ___sym4 = ___pop_Variant52(___symbols);
@@ -16682,7 +16679,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = Annotation+, "grammar", ";", GrammarItem+ => ActionFn(789);
-assert!(symbols.len() >= 4);
+assert!(___symbols.len() >= 4);
 let ___sym3 = ___pop_Variant66(___symbols);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
@@ -16705,7 +16702,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = Use+, Annotation+, "grammar", ";", GrammarItem+ => ActionFn(790);
-assert!(symbols.len() >= 5);
+assert!(___symbols.len() >= 5);
 let ___sym4 = ___pop_Variant66(___symbols);
 let ___sym3 = ___pop_Variant0(___symbols);
 let ___sym2 = ___pop_Variant0(___symbols);
@@ -16729,7 +16726,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, Annotation+, "grammar", ";", GrammarItem+ => ActionFn(791);
-assert!(symbols.len() >= 5);
+assert!(___symbols.len() >= 5);
 let ___sym4 = ___pop_Variant66(___symbols);
 let ___sym3 = ___pop_Variant0(___symbols);
 let ___sym2 = ___pop_Variant0(___symbols);
@@ -16753,7 +16750,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, Use+, Annotation+, "grammar", ";", GrammarItem+ => ActionFn(792);
-assert!(symbols.len() >= 6);
+assert!(___symbols.len() >= 6);
 let ___sym5 = ___pop_Variant66(___symbols);
 let ___sym4 = ___pop_Variant0(___symbols);
 let ___sym3 = ___pop_Variant0(___symbols);
@@ -16910,7 +16907,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // GrammarItem+ = GrammarItem+, GrammarItem => ActionFn(196);
-assert!(symbols.len() >= 2);
+assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant63(___symbols);
 let ___sym0 = ___pop_Variant66(___symbols);
 let ___start = ___sym0.0.clone();
@@ -16931,7 +16928,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // GrammarParameter = Id, ":", TypeRef => ActionFn(23);
-assert!(symbols.len() >= 3);
+assert!(___symbols.len() >= 3);
 let ___sym2 = ___pop_Variant3(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant20(___symbols);
@@ -16990,7 +16987,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // GrammarParameters = "(", Comma<GrammarParameter>, ")" => ActionFn(22);
-assert!(symbols.len() >= 3);
+assert!(___symbols.len() >= 3);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant51(___symbols);
 let ___sym0 = ___pop_Variant0(___symbols);
@@ -17049,7 +17046,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // GrammarTypeParameters = "<", Comma<TypeParameter>, ">" => ActionFn(7);
-assert!(symbols.len() >= 3);
+assert!(___symbols.len() >= 3);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant57(___symbols);
 let ___sym0 = ___pop_Variant0(___symbols);
@@ -17108,7 +17105,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // GrammarWhereClause = Lifetime, ":", Plus<Lifetime> => ActionFn(11);
-assert!(symbols.len() >= 3);
+assert!(___symbols.len() >= 3);
 let ___sym2 = ___pop_Variant83(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant22(___symbols);
@@ -17130,7 +17127,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // GrammarWhereClause = "for", "<", Comma<TypeParameter>, ">", TypeRef, ":", TypeBounds => ActionFn(473);
-assert!(symbols.len() >= 7);
+assert!(___symbols.len() >= 7);
 let ___sym6 = ___pop_Variant84(___symbols);
 let ___sym5 = ___pop_Variant0(___symbols);
 let ___sym4 = ___pop_Variant3(___symbols);
@@ -17156,7 +17153,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // GrammarWhereClause = TypeRef, ":", TypeBounds => ActionFn(474);
-assert!(symbols.len() >= 3);
+assert!(___symbols.len() >= 3);
 let ___sym2 = ___pop_Variant84(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant3(___symbols);
@@ -17215,7 +17212,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // GrammarWhereClauses = "where", Comma<GrammarWhereClause> => ActionFn(10);
-assert!(symbols.len() >= 2);
+assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant52(___symbols);
 let ___sym0 = ___pop_Variant0(___symbols);
 let ___start = ___sym0.0.clone();
@@ -17537,7 +17534,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // MatchTokenInt = MatchTokenInt, "else", "{", MatchContents, "}" => ActionFn(84);
-assert!(symbols.len() >= 5);
+assert!(___symbols.len() >= 5);
 let ___sym4 = ___pop_Variant0(___symbols);
 let ___sym3 = ___pop_Variant73(___symbols);
 let ___sym2 = ___pop_Variant0(___symbols);
@@ -17561,7 +17558,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // MatchTokenInt = "match", "{", MatchContents, "}" => ActionFn(434);
-assert!(symbols.len() >= 4);
+assert!(___symbols.len() >= 4);
 let ___sym3 = ___pop_Variant0(___symbols);
 let ___sym2 = ___pop_Variant73(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
@@ -17584,7 +17581,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Nonterminal = Visibility, NonterminalName, ":", TypeRef, "=", Alternatives => ActionFn(453);
-assert!(symbols.len() >= 6);
+assert!(___symbols.len() >= 6);
 let ___sym5 = ___pop_Variant43(___symbols);
 let ___sym4 = ___pop_Variant0(___symbols);
 let ___sym3 = ___pop_Variant3(___symbols);
@@ -17609,7 +17606,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Nonterminal = Annotation+, Visibility, NonterminalName, ":", TypeRef, "=", Alternatives => ActionFn(454);
-assert!(symbols.len() >= 7);
+assert!(___symbols.len() >= 7);
 let ___sym6 = ___pop_Variant43(___symbols);
 let ___sym5 = ___pop_Variant0(___symbols);
 let ___sym4 = ___pop_Variant3(___symbols);
@@ -17635,7 +17632,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Nonterminal = Visibility, NonterminalName, "=", Alternatives => ActionFn(455);
-assert!(symbols.len() >= 4);
+assert!(___symbols.len() >= 4);
 let ___sym3 = ___pop_Variant43(___symbols);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant78(___symbols);
@@ -17658,7 +17655,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Nonterminal = Annotation+, Visibility, NonterminalName, "=", Alternatives => ActionFn(456);
-assert!(symbols.len() >= 5);
+assert!(___symbols.len() >= 5);
 let ___sym4 = ___pop_Variant43(___symbols);
 let ___sym3 = ___pop_Variant0(___symbols);
 let ___sym2 = ___pop_Variant78(___symbols);
@@ -17682,7 +17679,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // NonterminalName = MacroId, "<", Comma<NotMacroId>, ">" => ActionFn(35);
-assert!(symbols.len() >= 4);
+assert!(___symbols.len() >= 4);
 let ___sym3 = ___pop_Variant0(___symbols);
 let ___sym2 = ___pop_Variant54(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
@@ -17799,7 +17796,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Path = "::", Id => ActionFn(349);
-assert!(symbols.len() >= 2);
+assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant20(___symbols);
 let ___sym0 = ___pop_Variant0(___symbols);
 let ___start = ___sym0.0.clone();
@@ -17820,7 +17817,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Path = "::", (<Id> "::")+, Id => ActionFn(350);
-assert!(symbols.len() >= 3);
+assert!(___symbols.len() >= 3);
 let ___sym2 = ___pop_Variant20(___symbols);
 let ___sym1 = ___pop_Variant21(___symbols);
 let ___sym0 = ___pop_Variant0(___symbols);
@@ -17861,7 +17858,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Path = (<Id> "::")+, Id => ActionFn(352);
-assert!(symbols.len() >= 2);
+assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant20(___symbols);
 let ___sym0 = ___pop_Variant21(___symbols);
 let ___start = ___sym0.0.clone();
@@ -17938,7 +17935,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // PatternKind = Path, "(", Comma<Pattern>, ")" => ActionFn(96);
-assert!(symbols.len() >= 4);
+assert!(___symbols.len() >= 4);
 let ___sym3 = ___pop_Variant0(___symbols);
 let ___sym2 = ___pop_Variant55(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
@@ -17961,7 +17958,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // PatternKind = Path, "{", FieldPattern, "}" => ActionFn(469);
-assert!(symbols.len() >= 4);
+assert!(___symbols.len() >= 4);
 let ___sym3 = ___pop_Variant0(___symbols);
 let ___sym2 = ___pop_Variant14(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
@@ -17984,7 +17981,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // PatternKind = Path, "{", "}" => ActionFn(470);
-assert!(symbols.len() >= 3);
+assert!(___symbols.len() >= 3);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant80(___symbols);
@@ -18006,7 +18003,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // PatternKind = Path, "{", (<FieldPattern> ",")+, FieldPattern, "}" => ActionFn(471);
-assert!(symbols.len() >= 5);
+assert!(___symbols.len() >= 5);
 let ___sym4 = ___pop_Variant0(___symbols);
 let ___sym3 = ___pop_Variant14(___symbols);
 let ___sym2 = ___pop_Variant15(___symbols);
@@ -18030,7 +18027,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // PatternKind = Path, "{", (<FieldPattern> ",")+, "}" => ActionFn(472);
-assert!(symbols.len() >= 4);
+assert!(___symbols.len() >= 4);
 let ___sym3 = ___pop_Variant0(___symbols);
 let ___sym2 = ___pop_Variant15(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
@@ -18053,7 +18050,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // PatternKind = Path, "{", "..", "}" => ActionFn(337);
-assert!(symbols.len() >= 4);
+assert!(___symbols.len() >= 4);
 let ___sym3 = ___pop_Variant0(___symbols);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
@@ -18076,7 +18073,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // PatternKind = Path, "{", (<FieldPattern> ",")+, "..", "}" => ActionFn(338);
-assert!(symbols.len() >= 5);
+assert!(___symbols.len() >= 5);
 let ___sym4 = ___pop_Variant0(___symbols);
 let ___sym3 = ___pop_Variant0(___symbols);
 let ___sym2 = ___pop_Variant15(___symbols);
@@ -18138,7 +18135,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // PatternKind = "<", TypeRef, ">" => ActionFn(101);
-assert!(symbols.len() >= 3);
+assert!(___symbols.len() >= 3);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant3(___symbols);
 let ___sym0 = ___pop_Variant0(___symbols);
@@ -18160,7 +18157,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // PatternKind = "(", Comma<Pattern>, ")" => ActionFn(102);
-assert!(symbols.len() >= 3);
+assert!(___symbols.len() >= 3);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant55(___symbols);
 let ___sym0 = ___pop_Variant0(___symbols);
@@ -18257,7 +18254,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Plus<Lifetime> = (<Lifetime> "+")+, Lifetime => ActionFn(557);
-assert!(symbols.len() >= 2);
+assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant22(___symbols);
 let ___sym0 = ___pop_Variant23(___symbols);
 let ___start = ___sym0.0.clone();
@@ -18334,7 +18331,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Plus<TypeBound> = (<TypeBound> "+")+, TypeBound => ActionFn(647);
-assert!(symbols.len() >= 2);
+assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant32(___symbols);
 let ___sym0 = ___pop_Variant33(___symbols);
 let ___start = ___sym0.0.clone();
@@ -18582,7 +18579,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // ShebangAttribute+ = ShebangAttribute+, ShebangAttribute => ActionFn(190);
-assert!(symbols.len() >= 2);
+assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant86(___symbols);
 let ___sym0 = ___pop_Variant87(___symbols);
 let ___start = ___sym0.0.clone();
@@ -18603,7 +18600,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Symbol = "<", "mut", Id, ":", Symbol0, ">" => ActionFn(438);
-assert!(symbols.len() >= 6);
+assert!(___symbols.len() >= 6);
 let ___sym5 = ___pop_Variant0(___symbols);
 let ___sym4 = ___pop_Variant30(___symbols);
 let ___sym3 = ___pop_Variant0(___symbols);
@@ -18628,7 +18625,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Symbol = "<", Id, ":", Symbol0, ">" => ActionFn(439);
-assert!(symbols.len() >= 5);
+assert!(___symbols.len() >= 5);
 let ___sym4 = ___pop_Variant0(___symbols);
 let ___sym3 = ___pop_Variant30(___symbols);
 let ___sym2 = ___pop_Variant0(___symbols);
@@ -18652,7 +18649,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Symbol = "<", Symbol0, ">" => ActionFn(440);
-assert!(symbols.len() >= 3);
+assert!(___symbols.len() >= 3);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant30(___symbols);
 let ___sym0 = ___pop_Variant0(___symbols);
@@ -18749,7 +18746,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Symbol+ = Symbol+, Symbol => ActionFn(149);
-assert!(symbols.len() >= 2);
+assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant30(___symbols);
 let ___sym0 = ___pop_Variant31(___symbols);
 let ___start = ___sym0.0.clone();
@@ -18789,7 +18786,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Symbol0 = Symbol0, RepeatOp => ActionFn(441);
-assert!(symbols.len() >= 2);
+assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant85(___symbols);
 let ___sym0 = ___pop_Variant30(___symbols);
 let ___start = ___sym0.0.clone();
@@ -18866,7 +18863,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // SymbolKind1 = MacroId, "<", Comma<Symbol>, ">" => ActionFn(61);
-assert!(symbols.len() >= 4);
+assert!(___symbols.len() >= 4);
 let ___sym3 = ___pop_Variant0(___symbols);
 let ___sym2 = ___pop_Variant56(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
@@ -18946,7 +18943,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // SymbolKind1 = "(", ExprSymbol, ")" => ActionFn(65);
-assert!(symbols.len() >= 3);
+assert!(___symbols.len() >= 3);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant62(___symbols);
 let ___sym0 = ___pop_Variant0(___symbols);
@@ -19063,7 +19060,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Top = "StartGrammar", Grammar => ActionFn(1);
-assert!(symbols.len() >= 2);
+assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant65(___symbols);
 let ___sym0 = ___pop_Variant0(___symbols);
 let ___start = ___sym0.0.clone();
@@ -19084,7 +19081,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Top = "StartPattern", Pattern => ActionFn(2);
-assert!(symbols.len() >= 2);
+assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant28(___symbols);
 let ___sym0 = ___pop_Variant0(___symbols);
 let ___start = ___sym0.0.clone();
@@ -19105,7 +19102,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Top = "StartMatchMapping", MatchMapping => ActionFn(3);
-assert!(symbols.len() >= 2);
+assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant75(___symbols);
 let ___sym0 = ___pop_Variant0(___symbols);
 let ___start = ___sym0.0.clone();
@@ -19126,7 +19123,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Top = "StartTypeRef", TypeRef => ActionFn(4);
-assert!(symbols.len() >= 2);
+assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant3(___symbols);
 let ___sym0 = ___pop_Variant0(___symbols);
 let ___start = ___sym0.0.clone();
@@ -19147,7 +19144,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Top = "StartGrammarWhereClauses", GrammarWhereClauses => ActionFn(5);
-assert!(symbols.len() >= 2);
+assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant52(___symbols);
 let ___sym0 = ___pop_Variant0(___symbols);
 let ___start = ___sym0.0.clone();
@@ -19187,7 +19184,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // TypeBound = "for", "<", Comma<TypeParameter>, ">", Path, "(", Comma<TypeRef>, ")", "->", TypeRef => ActionFn(475);
-assert!(symbols.len() >= 10);
+assert!(___symbols.len() >= 10);
 let ___sym9 = ___pop_Variant3(___symbols);
 let ___sym8 = ___pop_Variant0(___symbols);
 let ___sym7 = ___pop_Variant0(___symbols);
@@ -19216,7 +19213,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // TypeBound = Path, "(", Comma<TypeRef>, ")", "->", TypeRef => ActionFn(476);
-assert!(symbols.len() >= 6);
+assert!(___symbols.len() >= 6);
 let ___sym5 = ___pop_Variant3(___symbols);
 let ___sym4 = ___pop_Variant0(___symbols);
 let ___sym3 = ___pop_Variant0(___symbols);
@@ -19241,7 +19238,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // TypeBound = "for", "<", Comma<TypeParameter>, ">", Path, "(", Comma<TypeRef>, ")" => ActionFn(477);
-assert!(symbols.len() >= 8);
+assert!(___symbols.len() >= 8);
 let ___sym7 = ___pop_Variant0(___symbols);
 let ___sym6 = ___pop_Variant58(___symbols);
 let ___sym5 = ___pop_Variant0(___symbols);
@@ -19268,7 +19265,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // TypeBound = Path, "(", Comma<TypeRef>, ")" => ActionFn(478);
-assert!(symbols.len() >= 4);
+assert!(___symbols.len() >= 4);
 let ___sym3 = ___pop_Variant0(___symbols);
 let ___sym2 = ___pop_Variant58(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
@@ -19291,7 +19288,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // TypeBound = "for", "<", Comma<TypeParameter>, ">", Path, "<", Comma<TypeBoundParameter>, ">" => ActionFn(479);
-assert!(symbols.len() >= 8);
+assert!(___symbols.len() >= 8);
 let ___sym7 = ___pop_Variant0(___symbols);
 let ___sym6 = ___pop_Variant5(___symbols);
 let ___sym5 = ___pop_Variant0(___symbols);
@@ -19318,7 +19315,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // TypeBound = Path, "<", Comma<TypeBoundParameter>, ">" => ActionFn(480);
-assert!(symbols.len() >= 4);
+assert!(___symbols.len() >= 4);
 let ___sym3 = ___pop_Variant0(___symbols);
 let ___sym2 = ___pop_Variant5(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
@@ -19341,7 +19338,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // TypeBound = "for", "<", Comma<TypeParameter>, ">", Path => ActionFn(481);
-assert!(symbols.len() >= 5);
+assert!(___symbols.len() >= 5);
 let ___sym4 = ___pop_Variant80(___symbols);
 let ___sym3 = ___pop_Variant0(___symbols);
 let ___sym2 = ___pop_Variant57(___symbols);
@@ -19459,7 +19456,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // TypeBoundParameter = Id, "=", TypeRef => ActionFn(21);
-assert!(symbols.len() >= 3);
+assert!(___symbols.len() >= 3);
 let ___sym2 = ___pop_Variant3(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant20(___symbols);
@@ -19612,7 +19609,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // TypeRef = "(", Comma<TypeRef>, ")" => ActionFn(69);
-assert!(symbols.len() >= 3);
+assert!(___symbols.len() >= 3);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant58(___symbols);
 let ___sym0 = ___pop_Variant0(___symbols);
@@ -19634,7 +19631,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // TypeRef = "[", TypeRef, "]" => ActionFn(70);
-assert!(symbols.len() >= 3);
+assert!(___symbols.len() >= 3);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant3(___symbols);
 let ___sym0 = ___pop_Variant0(___symbols);
@@ -19656,7 +19653,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // TypeRef = "#", Symbol, "#" => ActionFn(71);
-assert!(symbols.len() >= 3);
+assert!(___symbols.len() >= 3);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant30(___symbols);
 let ___sym0 = ___pop_Variant0(___symbols);
@@ -19678,7 +19675,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // TypeRef = "&", Lifetime, "mut", TypeRef => ActionFn(559);
-assert!(symbols.len() >= 4);
+assert!(___symbols.len() >= 4);
 let ___sym3 = ___pop_Variant3(___symbols);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant22(___symbols);
@@ -19701,7 +19698,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // TypeRef = "&", "mut", TypeRef => ActionFn(560);
-assert!(symbols.len() >= 3);
+assert!(___symbols.len() >= 3);
 let ___sym2 = ___pop_Variant3(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant0(___symbols);
@@ -19723,7 +19720,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // TypeRef = "&", Lifetime, TypeRef => ActionFn(561);
-assert!(symbols.len() >= 3);
+assert!(___symbols.len() >= 3);
 let ___sym2 = ___pop_Variant3(___symbols);
 let ___sym1 = ___pop_Variant22(___symbols);
 let ___sym0 = ___pop_Variant0(___symbols);
@@ -19745,7 +19742,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // TypeRef = "&", TypeRef => ActionFn(562);
-assert!(symbols.len() >= 2);
+assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant3(___symbols);
 let ___sym0 = ___pop_Variant0(___symbols);
 let ___start = ___sym0.0.clone();
@@ -19766,7 +19763,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // TypeRef = Path, "<", Comma<TypeRefOrLifetime>, ">" => ActionFn(73);
-assert!(symbols.len() >= 4);
+assert!(___symbols.len() >= 4);
 let ___sym3 = ___pop_Variant0(___symbols);
 let ___sym2 = ___pop_Variant58(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
@@ -19808,7 +19805,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // TypeRef = "dyn", Path, "<", Comma<TypeRefOrLifetime>, ">" => ActionFn(75);
-assert!(symbols.len() >= 5);
+assert!(___symbols.len() >= 5);
 let ___sym4 = ___pop_Variant0(___symbols);
 let ___sym3 = ___pop_Variant58(___symbols);
 let ___sym2 = ___pop_Variant0(___symbols);
@@ -19832,7 +19829,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // TypeRef = "dyn", Path => ActionFn(76);
-assert!(symbols.len() >= 2);
+assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant80(___symbols);
 let ___sym0 = ___pop_Variant0(___symbols);
 let ___start = ___sym0.0.clone();
@@ -19853,7 +19850,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // TypeRef = "dyn", "for", "<", Comma<TypeParameter>, ">", Path, "(", Comma<TypeRef>, ")", "->", TypeRef => ActionFn(483);
-assert!(symbols.len() >= 11);
+assert!(___symbols.len() >= 11);
 let ___sym10 = ___pop_Variant3(___symbols);
 let ___sym9 = ___pop_Variant0(___symbols);
 let ___sym8 = ___pop_Variant0(___symbols);
@@ -19883,7 +19880,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // TypeRef = "dyn", Path, "(", Comma<TypeRef>, ")", "->", TypeRef => ActionFn(484);
-assert!(symbols.len() >= 7);
+assert!(___symbols.len() >= 7);
 let ___sym6 = ___pop_Variant3(___symbols);
 let ___sym5 = ___pop_Variant0(___symbols);
 let ___sym4 = ___pop_Variant0(___symbols);
@@ -19909,7 +19906,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // TypeRef = "dyn", "for", "<", Comma<TypeParameter>, ">", Path, "(", Comma<TypeRef>, ")" => ActionFn(485);
-assert!(symbols.len() >= 9);
+assert!(___symbols.len() >= 9);
 let ___sym8 = ___pop_Variant0(___symbols);
 let ___sym7 = ___pop_Variant58(___symbols);
 let ___sym6 = ___pop_Variant0(___symbols);
@@ -19937,7 +19934,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // TypeRef = "dyn", Path, "(", Comma<TypeRef>, ")" => ActionFn(486);
-assert!(symbols.len() >= 5);
+assert!(___symbols.len() >= 5);
 let ___sym4 = ___pop_Variant0(___symbols);
 let ___sym3 = ___pop_Variant58(___symbols);
 let ___sym2 = ___pop_Variant0(___symbols);
@@ -20073,7 +20070,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Use = "use", ";" => ActionFn(28);
-assert!(symbols.len() >= 2);
+assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant1(___symbols);
 let ___start = ___sym0.0.clone();
@@ -20150,7 +20147,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Use+ = Use+, Use => ActionFn(192);
-assert!(symbols.len() >= 2);
+assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant63(___symbols);
 let ___sym0 = ___pop_Variant66(___symbols);
 let ___start = ___sym0.0.clone();
@@ -20171,7 +20168,7 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Visibility = "pub", "(", Path, ")" => ActionFn(29);
-assert!(symbols.len() >= 4);
+assert!(___symbols.len() >= 4);
 let ___sym3 = ___pop_Variant0(___symbols);
 let ___sym2 = ___pop_Variant80(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);

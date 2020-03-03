@@ -693,13 +693,6 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
         }
 
         for (variant_name, indices) in token_to_symbol_mapping {
-            rust!(
-                self.out,
-                "{} => match {}token {{",
-                indices.iter().map(|(index, _)| index).format(" | "),
-                self.prefix
-            );
-
             let mut pattern_names = vec![];
             let mut first = true;
             let patterns = indices
@@ -716,32 +709,40 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
                         }
                         name
                     });
-
-                    let pattern = if has_patterns {
-                        format!("{}", pattern)
-                    } else {
-                        if first {
-                            pattern_names.push(format!("{}tok", self.prefix));
-                        }
-                        format!("{}tok @ {}", self.prefix, pattern)
-                    };
                     first = false;
-                    pattern
+
+                    format!("{}", pattern)
                 })
                 .collect::<Vec<_>>();
 
-            rust!(
-                self.out,
-                "{patterns} if true => {p}Symbol::{variant_name}({open}{pattern_names}{close}),",
-                patterns = patterns.iter().format(" | "),
-                p = self.prefix,
-                variant_name = variant_name,
-                open = if pattern_names.len() > 1 { "(" } else { "" },
-                close = if pattern_names.len() > 1 { ")" } else { "" },
-                pattern_names = pattern_names.join(", "),
-            );
-            rust!(self.out, "_ => unreachable!(),");
-            rust!(self.out, "}},");
+            if !pattern_names.is_empty() {
+                rust!(
+                    self.out,
+                    "{} => match {}token {{",
+                    indices.iter().map(|(index, _)| index).format(" | "),
+                    self.prefix
+                );
+                rust!(
+                    self.out,
+                    "{patterns} if true => {p}Symbol::{variant_name}({open}{pattern_names}{close}),",
+                    patterns = patterns.iter().format(" | "),
+                    p = self.prefix,
+                    variant_name = variant_name,
+                    open = if pattern_names.len() > 1 { "(" } else { "" },
+                    close = if pattern_names.len() > 1 { ")" } else { "" },
+                    pattern_names = pattern_names.join(", "),
+                );
+                rust!(self.out, "_ => unreachable!(),");
+                rust!(self.out, "}},");
+            } else {
+                rust!(
+                    self.out,
+                    "{indices} => {p}Symbol::{variant_name}({p}token),",
+                    indices = indices.iter().map(|(index, _)| index).format(" | "),
+                    p = self.prefix,
+                    variant_name = variant_name,
+                )
+            }
         }
 
         rust!(self.out, "_ => unreachable!(),");
@@ -938,7 +939,8 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
             // branches for each unwrap
             rust!(
                 self.out,
-                "assert!(symbols.len() >= {});",
+                "assert!({}symbols.len() >= {});",
+                self.prefix,
                 production.symbols.len()
             );
         }
