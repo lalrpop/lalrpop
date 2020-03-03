@@ -392,12 +392,19 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
             p = self.prefix,
             state_type = state_type,
         );
-        rust!(
-            self.out,
-            "{p}simulate_reduce(action, {phantom})",
-            p = self.prefix,
-            phantom = phantom_data_expr,
-        );
+        if self.grammar.uses_error_recovery {
+            rust!(
+                self.out,
+                "{p}simulate_reduce(action, {phantom})",
+                p = self.prefix,
+                phantom = phantom_data_expr,
+            );
+        } else {
+            rust!(
+                self.out,
+                "panic!(\"error recovery not enabled for this grammar\")"
+            )
+        }
         rust!(self.out, "}}");
 
         rust!(self.out, "}}");
@@ -1141,6 +1148,9 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
     }
 
     fn write_simulate_reduce_fn(&mut self) -> io::Result<()> {
+        if !self.grammar.uses_error_recovery {
+            return Ok(());
+        }
         let state_type = self.custom.state_type;
 
         let parameters = vec![
