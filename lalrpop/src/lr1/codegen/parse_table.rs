@@ -821,7 +821,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
                 let phantom_data_expr = self.phantom_data_expr();
                 rust!(
                     self.out,
-                    "{p}reduce{}({}{p}action, {p}lookahead_start, {p}states, {p}symbols, {})",
+                    "{p}reduce{}({}{p}lookahead_start, {p}states, {p}symbols, {})",
                     index,
                     self.grammar.user_parameter_refs(),
                     phantom_data_expr,
@@ -910,7 +910,6 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
         let spanned_symbol_type = self.spanned_symbol_type();
 
         let parameters = vec![
-            format!("{}action: {}", self.prefix, self.custom.state_type),
             format!("{}lookahead_start: Option<&{}>", self.prefix, loc_type),
             format!(
                 "{}states: &mut ::std::vec::Vec<{}>",
