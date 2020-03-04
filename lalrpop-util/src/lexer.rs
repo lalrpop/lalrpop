@@ -80,7 +80,6 @@ impl<'input, 'builder, E> Iterator for Matcher<'input, 'builder, E> {
         loop {
             let text = self.text;
             let start_offset = self.consumed;
-            eprintln!("{:?}", text);
             if text.is_empty() {
                 self.consumed = start_offset;
                 return None;

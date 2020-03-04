@@ -1,6 +1,6 @@
 [package]
 name = "lalrpop"
-version = "0.18.0" # LALRPOP
+version = "0.18.1" # LALRPOP
 description = "convenient LR(1) parser generator"
 repository = "https://github.com/lalrpop/lalrpop"
 readme = "../README.md"
@@ -38,7 +38,7 @@ rand = "0.6"
 
 [dependencies.lalrpop-util]
 path = "../lalrpop-util"
-version = "0.18.0" # LALRPOP
+version = "0.18.1" # LALRPOP
 
 [features]
 # Feature used when developing LALRPOP. Tells the build script to use an existing lalrpop binary to
