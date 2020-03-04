@@ -1,4 +1,22 @@
 <a name="0.17.2"></a>
+## 0.17.2 (2020-03-04)
+
+
+#### Features
+
+*   Allow the tokenizer to contain custom skip regexes/literals ([ee2f7060](https://github.com/lalrpop/lalrpop/commit/ee2f7060e99f902620ac4edeea5cfe3c3551f09c))
+*   states does not need to be passed to reduce actions ([c156b4b2](https://github.com/lalrpop/lalrpop/commit/c156b4b2fd8c02e577c08e3cf4dc0415abf16d31))
+*   action does not need to be passed to reduce actions ([f69bce30](https://github.com/lalrpop/lalrpop/commit/f69bce3080bc59693f471a6f50b63c28d9ae1955))
+*   Only generate simulate_reduce if error recovery is used ([d0a3ccba](https://github.com/lalrpop/lalrpop/commit/d0a3ccbaccbe2e9306f4a4fff81c294f512d6697))
+*   Accept slices as types (#507) ([c3e1cda5](https://github.com/lalrpop/lalrpop/commit/c3e1cda5c395a297bc10304129904bc93e58c1b9), closes [#493](https://github.com/lalrpop/lalrpop/issues/493))
+
+#### Bug Fixes
+
+*   Avoid emitting redundant parentheses ([b165fc93](https://github.com/lalrpop/lalrpop/commit/b165fc939ba0d0d3e2543f6ab1f658988689c5d3), closes [#493](https://github.com/lalrpop/lalrpop/issues/493))
+
+
+
+<a name="0.17.2"></a>
 ##  (2019-08-21)
 
 ## Features
