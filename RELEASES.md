@@ -7,17 +7,6 @@
 *   Remove eprintln which I thought were removed ([a9a775eb](https://github.com/lalrpop/lalrpop/commit/a9a775ebb83e3367ed10edbd5a622302d7ae71b1))
 
 
-
-<a name="0.18.0"></a>
-## 0.18.0 (2020-03-04)
-
-
-#### Bug Fixes
-
-*   Remove eprintln which I thought were removed ([a9a775eb](https://github.com/lalrpop/lalrpop/commit/a9a775ebb83e3367ed10edbd5a622302d7ae71b1))
-
-
-
 <a name="0.18.0"></a>
 ## 0.18.0 (2020-03-04)
 
