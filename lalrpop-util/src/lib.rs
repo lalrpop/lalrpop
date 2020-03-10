@@ -41,17 +41,12 @@ pub enum ParseError<L, T, E> {
 }
 
 impl<L, T, E> ParseError<L, T, E> {
-    fn map_intern<FL, LL, FT, TT, FE, EE>(
+    fn map_intern<LL, TT, EE>(
         self,
-        loc_op: FL,
-        tok_op: FT,
-        err_op: FE,
-    ) -> ParseError<LL, TT, EE>
-    where
-        FL: Fn(L) -> LL,
-        FT: Fn(T) -> TT,
-        FE: Fn(E) -> EE,
-    {
+        mut loc_op: impl FnMut(L) -> LL,
+        tok_op: impl FnOnce(T) -> TT,
+        err_op: impl FnOnce(E) -> EE,
+    ) -> ParseError<LL, TT, EE> {
         let maptok = |(s, t, e): (L, T, L)| (loc_op(s), tok_op(t), loc_op(e));
         match self {
             ParseError::InvalidToken { location } => ParseError::InvalidToken {
@@ -74,24 +69,15 @@ impl<L, T, E> ParseError<L, T, E> {
         }
     }
 
-    pub fn map_location<F, LL>(self, op: F) -> ParseError<LL, T, E>
-    where
-        F: Fn(L) -> LL,
-    {
+    pub fn map_location<LL>(self, op: impl FnMut(L) -> LL) -> ParseError<LL, T, E> {
         self.map_intern(op, |x| x, |x| x)
     }
 
-    pub fn map_token<F, TT>(self, op: F) -> ParseError<L, TT, E>
-    where
-        F: Fn(T) -> TT,
-    {
+    pub fn map_token<TT>(self, op: impl FnOnce(T) -> TT) -> ParseError<L, TT, E> {
         self.map_intern(|x| x, op, |x| x)
     }
 
-    pub fn map_error<F, EE>(self, op: F) -> ParseError<L, T, EE>
-    where
-        F: Fn(E) -> EE,
-    {
+    pub fn map_error<EE>(self, op: impl FnOnce(E) -> EE) -> ParseError<L, T, EE> {
         self.map_intern(|x| x, |x| x, op)
     }
 }
