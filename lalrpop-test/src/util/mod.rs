@@ -3,7 +3,7 @@
 use diff;
 use lalrpop_util::ParseError;
 use std::fmt::{Debug, Error, Formatter};
-use util::tok::Tok;
+use crate::util::tok::Tok;
 
 // a simple tokenizer
 pub mod tok;

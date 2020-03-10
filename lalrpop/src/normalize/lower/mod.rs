@@ -1,18 +1,18 @@
 //! Lower
 //!
 
-use collections::{map, Map};
-use grammar::consts::CFG;
-use grammar::parse_tree as pt;
-use grammar::parse_tree::{
+use crate::collections::{map, Map};
+use crate::grammar::consts::CFG;
+use crate::grammar::parse_tree as pt;
+use crate::grammar::parse_tree::{
     read_algorithm, GrammarItem, InternToken, Lifetime, MatchMapping, Name, NonterminalString,
     Path, TerminalString,
 };
-use grammar::pattern::{Pattern, PatternKind};
-use grammar::repr as r;
-use normalize::norm_util::{self, Symbols};
-use normalize::NormResult;
-use session::Session;
+use crate::grammar::pattern::{Pattern, PatternKind};
+use crate::grammar::repr as r;
+use crate::normalize::norm_util::{self, Symbols};
+use crate::normalize::NormResult;
+use crate::session::Session;
 use string_cache::DefaultAtom as Atom;
 
 pub fn lower(session: &Session, grammar: pt::Grammar, types: r::Types) -> NormResult<r::Grammar> {

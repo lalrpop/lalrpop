@@ -1,13 +1,13 @@
-use grammar::repr::*;
-use lr1::build_states;
-use lr1::core::Item;
-use lr1::first::FirstSets;
-use lr1::interpret::interpret_partial;
-use lr1::lookahead::{Token, TokenSet};
-use lr1::tls::Lr1Tls;
+use crate::grammar::repr::*;
+use crate::lr1::build_states;
+use crate::lr1::core::Item;
+use crate::lr1::first::FirstSets;
+use crate::lr1::interpret::interpret_partial;
+use crate::lr1::lookahead::{Token, TokenSet};
+use crate::lr1::tls::Lr1Tls;
 use string_cache::DefaultAtom as Atom;
-use test_util::{expect_debug, normalized_grammar};
-use tls::Tls;
+use crate::test_util::{expect_debug, normalized_grammar};
+use crate::tls::Tls;
 
 use super::super::Tracer;
 

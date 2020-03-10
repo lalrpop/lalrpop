@@ -1,5 +1,5 @@
-use loc_issue_90::Expression2Parser;
-use util::expect_debug;
+use crate::loc_issue_90::Expression2Parser;
+use crate::util::expect_debug;
 
 #[derive(Debug, PartialEq, Eq)]
 pub enum Expr<'input> {

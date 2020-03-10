@@ -1,9 +1,9 @@
 //! Generates an iterator type `Matcher` that looks roughly like
 
-use grammar::parse_tree::{InternToken, MatchMapping};
-use grammar::repr::{Grammar, TerminalLiteral};
-use lexer::re;
-use rust::RustWrite;
+use crate::grammar::parse_tree::{InternToken, MatchMapping};
+use crate::grammar::repr::{Grammar, TerminalLiteral};
+use crate::lexer::re;
+use crate::rust::RustWrite;
 use std::io::{self, Write};
 
 pub fn compile<W: Write>(

@@ -30,8 +30,8 @@
 //! * -- in this case, those "user-declared" parameters are inserted by
 //! the "internal tokenizer".
 
-use grammar::repr as r;
-use rust::RustWrite;
+use crate::grammar::repr as r;
+use crate::rust::RustWrite;
 use std::io::{self, Write};
 
 pub fn emit_action_code<W: Write>(grammar: &r::Grammar, rust: &mut RustWrite<W>) -> io::Result<()> {

@@ -1,4 +1,4 @@
-use grammar::parse_tree::{ActionKind, Alternative, ExprSymbol, Name, Symbol, SymbolKind};
+use crate::grammar::parse_tree::{ActionKind, Alternative, ExprSymbol, Name, Symbol, SymbolKind};
 
 #[derive(Debug)]
 pub enum AlternativeAction<'a> {

@@ -1,6 +1,6 @@
 //! Generate valid parse trees.
 
-use grammar::repr::*;
+use crate::grammar::repr::*;
 use rand::{self, Rng};
 use std::iter::Iterator;
 

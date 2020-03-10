@@ -3,8 +3,8 @@
 
 use super::{NormError, NormResult};
 
-use collections::{map, Map};
-use grammar::parse_tree::*;
+use crate::collections::{map, Map};
+use crate::grammar::parse_tree::*;
 use string_cache::DefaultAtom as Atom;
 
 #[cfg(test)]

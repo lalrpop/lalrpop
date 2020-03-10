@@ -2,18 +2,18 @@
 //!
 //! [recursive ascent]: https://en.wikipedia.org/wiki/Recursive_ascent_parser
 
-use collections::Multimap;
-use grammar::repr::{
+use crate::collections::Multimap;
+use crate::grammar::repr::{
     Grammar, NonterminalString, Production, Symbol, TerminalString, TypeParameter, TypeRepr,
     Visibility, WhereClause,
 };
-use lr1::core::*;
-use lr1::lookahead::Token;
-use lr1::state_graph::StateGraph;
-use rust::RustWrite;
+use crate::lr1::core::*;
+use crate::lr1::lookahead::Token;
+use crate::lr1::state_graph::StateGraph;
+use crate::rust::RustWrite;
 use std::io::{self, Write};
-use tls::Tls;
-use util::{Escape, Sep};
+use crate::tls::Tls;
+use crate::util::{Escape, Sep};
 
 use super::base::CodeGenerator;
 

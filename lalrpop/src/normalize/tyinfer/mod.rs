@@ -1,12 +1,12 @@
 use super::norm_util::{self, AlternativeAction, Symbols};
 use super::{NormError, NormResult};
 
-use grammar::consts::{ERROR, LOCATION};
-use grammar::parse_tree::{
+use crate::grammar::consts::{ERROR, LOCATION};
+use crate::grammar::parse_tree::{
     ActionKind, Alternative, Grammar, GrammarItem, Lifetime, MatchMapping, NonterminalData,
     NonterminalString, Path, Span, SymbolKind, TypeParameter, TypeRef,
 };
-use grammar::repr::{NominalTypeRepr, TypeRepr, Types};
+use crate::grammar::repr::{NominalTypeRepr, TypeRepr, Types};
 use std::collections::{HashMap, HashSet};
 use string_cache::DefaultAtom as Atom;
 

@@ -7,12 +7,12 @@
 
 use super::{NormError, NormResult};
 
-use collections::{Map, Set};
-use grammar::consts::*;
-use grammar::parse_tree::*;
-use lexer::dfa::{self, DFAConstructionError, Precedence};
-use lexer::nfa::NFAConstructionError::*;
-use lexer::re;
+use crate::collections::{Map, Set};
+use crate::grammar::consts::*;
+use crate::grammar::parse_tree::*;
+use crate::lexer::dfa::{self, DFAConstructionError, Precedence};
+use crate::lexer::nfa::NFAConstructionError::*;
+use crate::lexer::re;
 use string_cache::DefaultAtom as Atom;
 
 #[cfg(test)]

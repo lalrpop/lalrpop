@@ -1,5 +1,5 @@
-use grammar::parse_tree::{GrammarItem, MatchItem};
-use parser;
+use crate::grammar::parse_tree::{GrammarItem, MatchItem};
+use crate::parser;
 
 #[test]
 fn match_block() {

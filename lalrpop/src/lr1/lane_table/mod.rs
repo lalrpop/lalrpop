@@ -1,7 +1,7 @@
-use collections::Set;
-use grammar::repr::*;
-use lr1::core::*;
-use lr1::lookahead::Lookahead;
+use crate::collections::Set;
+use crate::grammar::repr::*;
+use crate::lr1::core::*;
+use crate::lr1::lookahead::Lookahead;
 
 mod construct;
 mod lane;

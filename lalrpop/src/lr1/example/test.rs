@@ -1,7 +1,7 @@
-use grammar::repr::*;
+use crate::grammar::repr::*;
 use string_cache::DefaultAtom as Atom;
-use test_util::expect_debug;
-use tls::Tls;
+use crate::test_util::expect_debug;
+use crate::tls::Tls;
 
 use super::{Example, ExampleSymbol, Reduction};
 

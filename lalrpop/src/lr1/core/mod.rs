@@ -1,11 +1,11 @@
 //! Core LR(1) types.
 
-use collections::Map;
-use grammar::repr::*;
+use crate::collections::Map;
+use crate::grammar::repr::*;
 use itertools::Itertools;
 use std::fmt::{Debug, Display, Error, Formatter};
 use std::rc::Rc;
-use util::Prefix;
+use crate::util::Prefix;
 
 use super::lookahead::*;
 

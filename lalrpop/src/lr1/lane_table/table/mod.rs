@@ -13,10 +13,10 @@
 //! The Successors is a vector of further successors. For simplicity
 //! though we store this using maps, at least for now.
 
-use collections::{Map, Multimap, Set};
-use grammar::repr::*;
-use lr1::core::*;
-use lr1::lookahead::*;
+use crate::collections::{Map, Multimap, Set};
+use crate::grammar::repr::*;
+use crate::lr1::core::*;
+use crate::lr1::lookahead::*;
 use std::default::Default;
 use std::fmt::{Debug, Error, Formatter};
 use std::iter;

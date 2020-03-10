@@ -1,7 +1,7 @@
 //! Inlining of nonterminals
 
-use grammar::repr::*;
-use normalize::NormResult;
+use crate::grammar::repr::*;
+use crate::normalize::NormResult;
 
 mod graph;
 

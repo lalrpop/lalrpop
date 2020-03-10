@@ -1,4 +1,4 @@
-use ast::Opcode;
+use crate::ast::Opcode;
 
 pub type Spanned<Tok, Loc, Error> = Result<(Loc, Tok, Loc), Error>;
 

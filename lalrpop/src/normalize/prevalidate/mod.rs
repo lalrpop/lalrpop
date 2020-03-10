@@ -3,12 +3,12 @@
 use super::norm_util::{self, Symbols};
 use super::{NormError, NormResult};
 
-use collections::{set, Multimap};
-use grammar::consts::*;
-use grammar::parse_tree::*;
-use grammar::repr as r;
+use crate::collections::{set, Multimap};
+use crate::grammar::consts::*;
+use crate::grammar::parse_tree::*;
+use crate::grammar::repr as r;
 use string_cache::DefaultAtom as Atom;
-use util::Sep;
+use crate::util::Sep;
 
 #[cfg(test)]
 mod test;

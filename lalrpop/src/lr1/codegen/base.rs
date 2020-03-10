@@ -1,12 +1,12 @@
 //! Base helper routines for a code generator.
 
-use collections::Set;
-use grammar::free_variables::FreeVariables;
-use grammar::repr::*;
-use lr1::core::*;
-use rust::RustWrite;
+use crate::collections::Set;
+use crate::grammar::free_variables::FreeVariables;
+use crate::grammar::repr::*;
+use crate::lr1::core::*;
+use crate::rust::RustWrite;
 use std::io::{self, Write};
-use util::Sep;
+use crate::util::Sep;
 
 /// Base struct for various kinds of code generator. The flavor of
 /// code generator is customized by supplying distinct types for `C`

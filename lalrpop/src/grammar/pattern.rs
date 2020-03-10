@@ -2,10 +2,10 @@
 //! repr, but customized by a type T that represents the different type
 //! representations.
 
-use grammar::parse_tree::{Path, Span};
+use crate::grammar::parse_tree::{Path, Span};
 use std::fmt::{Display, Error, Formatter};
 use string_cache::DefaultAtom as Atom;
-use util::Sep;
+use crate::util::Sep;
 
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct Pattern<T> {

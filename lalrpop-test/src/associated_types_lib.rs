@@ -4,7 +4,7 @@ pub trait ParseCallbacks: Eq + Debug {
     type Num: Eq + Debug + Into<Self::Term>;
     type Term: Eq + Debug;
 
-    fn number(&mut self, i32) -> Self::Num;
+    fn number(&mut self, _: i32) -> Self::Num;
 }
 
 #[derive(Eq, PartialEq, Debug)]

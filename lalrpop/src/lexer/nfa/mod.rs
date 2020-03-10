@@ -2,7 +2,7 @@
 //! really of interest, we represent this just as a vector of labeled
 //! edges.
 
-use lexer::re::Regex;
+use crate::lexer::re::Regex;
 use regex_syntax::hir::{
     Anchor, Class, ClassBytesRange, ClassUnicodeRange, GroupKind, Hir, HirKind, Literal,
     RepetitionKind, RepetitionRange,

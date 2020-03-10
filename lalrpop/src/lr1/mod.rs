@@ -1,6 +1,6 @@
 //! Naive LR(1) generation algorithm.
 
-use grammar::repr::*;
+use crate::grammar::repr::*;
 
 mod build;
 mod build_lalr;

@@ -1,15 +1,15 @@
 //! LR(1) state construction algorithm.
 
-use collections::{map, Multimap};
-use grammar::repr::*;
-use kernel_set;
-use lr1::core::*;
-use lr1::first;
-use lr1::lane_table::*;
-use lr1::lookahead::*;
+use crate::collections::{map, Multimap};
+use crate::grammar::repr::*;
+use crate::kernel_set;
+use crate::lr1::core::*;
+use crate::lr1::first;
+use crate::lr1::lane_table::*;
+use crate::lr1::lookahead::*;
 use std::env;
 use std::rc::Rc;
-use tls::Tls;
+use crate::tls::Tls;
 
 #[cfg(test)]
 mod test;
