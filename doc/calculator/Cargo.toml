@@ -8,6 +8,7 @@ workspace = "../.."
 [build-dependencies.lalrpop]
 version = "0.18.1"
 path = "../../lalrpop"
+features = ["lexer"]
 
 [dependencies]
 regex = "1"
