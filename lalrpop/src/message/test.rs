@@ -1,8 +1,8 @@
 use ascii_canvas::AsciiCanvas;
-use grammar::parse_tree::Span;
-use message::builder::MessageBuilder;
-use test_util::expect_debug;
-use tls::Tls;
+use crate::grammar::parse_tree::Span;
+use crate::message::builder::MessageBuilder;
+use crate::test_util::expect_debug;
+use crate::tls::Tls;
 
 use super::*;
 

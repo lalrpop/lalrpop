@@ -1,6 +1,6 @@
-use lexer::nfa::interpret::interpret;
-use lexer::nfa::{NFAConstructionError, Noop, Other, StateKind, Test, NFA};
-use lexer::re;
+use crate::lexer::nfa::interpret::interpret;
+use crate::lexer::nfa::{NFAConstructionError, Noop, Other, StateKind, Test, NFA};
+use crate::lexer::re;
 
 #[test]
 fn edge_iter() {

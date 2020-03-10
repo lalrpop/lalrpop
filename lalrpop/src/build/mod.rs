@@ -1,22 +1,22 @@
 //! Utilies for running in a build script.
 
 use atty;
-use file_text::FileText;
-use grammar::parse_tree as pt;
-use grammar::repr as r;
+use crate::file_text::FileText;
+use crate::grammar::parse_tree as pt;
+use crate::grammar::repr as r;
 use lalrpop_util::ParseError;
-use lexer::intern_token;
-use lr1;
-use message::builder::InlineBuilder;
-use message::{Content, Message};
-use normalize;
-use parser;
-use rust::RustWrite;
-use session::{ColorConfig, Session};
+use crate::lexer::intern_token;
+use crate::lr1;
+use crate::message::builder::InlineBuilder;
+use crate::message::{Content, Message};
+use crate::normalize;
+use crate::parser;
+use crate::rust::RustWrite;
+use crate::session::{ColorConfig, Session};
 use sha2::{Digest, Sha256};
 use term;
-use tls::Tls;
-use tok;
+use crate::tls::Tls;
+use crate::tok;
 
 use std::fs;
 use std::io::{self, BufRead, Write};

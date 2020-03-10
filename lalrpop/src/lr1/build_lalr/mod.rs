@@ -1,14 +1,14 @@
 //! Mega naive LALR(1) generation algorithm.
 
-use collections::{map, Map, Multimap};
-use grammar::repr::*;
+use crate::collections::{map, Map, Multimap};
+use crate::grammar::repr::*;
 use itertools::Itertools;
-use lr1::build;
-use lr1::core::*;
-use lr1::lookahead::*;
+use crate::lr1::build;
+use crate::lr1::core::*;
+use crate::lr1::lookahead::*;
 use std::mem;
 use std::rc::Rc;
-use tls::Tls;
+use crate::tls::Tls;
 
 #[cfg(test)]
 mod test;

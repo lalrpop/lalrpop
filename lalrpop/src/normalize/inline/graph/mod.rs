@@ -1,9 +1,9 @@
 #![allow(dead_code)]
 
-use collections::{map, Map};
-use grammar::consts::INLINE;
-use grammar::repr::*;
-use normalize::{NormError, NormResult};
+use crate::collections::{map, Map};
+use crate::grammar::consts::INLINE;
+use crate::grammar::repr::*;
+use crate::normalize::{NormError, NormResult};
 use petgraph::graph::{Graph, NodeIndex};
 use string_cache::DefaultAtom as Atom;
 

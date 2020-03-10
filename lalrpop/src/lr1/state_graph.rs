@@ -1,6 +1,6 @@
-use grammar::repr::*;
-use lr1::core::*;
-use lr1::lookahead::Lookahead;
+use crate::grammar::repr::*;
+use crate::lr1::core::*;
+use crate::lr1::lookahead::Lookahead;
 use petgraph::graph::NodeIndex;
 use petgraph::prelude::*;
 use petgraph::{EdgeDirection, Graph};

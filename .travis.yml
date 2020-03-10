@@ -11,6 +11,11 @@ install:
 script:
 - RUST_BACKTRACE=1 CARGO_INCREMENTAL=0 cargo build -p lalrpop
 - RUST_BACKTRACE=1 CARGO_INCREMENTAL=0 travis_wait cargo test --all --all-features
+# Check the documentation examples separately so that the `lexer` feature specified in tests do not
+# leak into them
+- RUST_BACKTRACE=1 CARGO_INCREMENTAL=0 cargo check -p calculator
+- RUST_BACKTRACE=1 CARGO_INCREMENTAL=0 cargo check -p pascal
+- RUST_BACKTRACE=1 CARGO_INCREMENTAL=0 cargo check -p whitespace
 - bash tools/build-doc
 deploy:
   provider: pages

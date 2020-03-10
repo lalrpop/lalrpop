@@ -1,9 +1,9 @@
 use std::iter;
 
-use grammar::parse_tree::*;
-use grammar::pattern::*;
+use crate::grammar::parse_tree::*;
+use crate::grammar::pattern::*;
 use lalrpop_util;
-use tok;
+use crate::tok;
 
 #[cfg(not(feature = "test"))]
 #[allow(dead_code)]

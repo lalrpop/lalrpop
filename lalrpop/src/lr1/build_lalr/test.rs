@@ -1,10 +1,10 @@
 use super::super::interpret::interpret;
 use super::build_lalr_states;
-use grammar::repr::*;
-use lr1::tls::Lr1Tls;
+use crate::grammar::repr::*;
+use crate::lr1::tls::Lr1Tls;
 use string_cache::DefaultAtom as Atom;
-use test_util::normalized_grammar;
-use tls::Tls;
+use crate::test_util::normalized_grammar;
+use crate::tls::Tls;
 
 fn nt(t: &str) -> NonterminalString {
     NonterminalString(Atom::from(t))

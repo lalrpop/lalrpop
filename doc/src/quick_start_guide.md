@@ -1,6 +1,6 @@
 For getting started with LALRPOP, it's probably best if you read
 [the tutorial](tutorial/index.md), which will introduce you
-to the syntax of LALRPOP files and so forth. 
+to the syntax of LALRPOP files and so forth.
 
 But if you've done this before, or you're just the impatient sort,
 here is a quick 'cheat sheet' for setting up your project.  First, add
@@ -24,6 +24,8 @@ regex = "1"
 # Add a build-time dependency on the lalrpop library:
 [build-dependencies]
 lalrpop = "0.18.1"
+# If you do not supply your own, external lexer you also need the `lexer` feature
+# lalrpop = { version = "0.18.1", features = ["lexer"] }
 ```
 
 Next create a `build.rs` file that looks like:

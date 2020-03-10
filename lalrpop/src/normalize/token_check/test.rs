@@ -1,9 +1,9 @@
-use grammar::parse_tree::Grammar;
-use lexer::dfa::interpret;
-use normalize::resolve::resolve;
-use normalize::NormResult;
-use parser;
-use test_util;
+use crate::grammar::parse_tree::Grammar;
+use crate::lexer::dfa::interpret;
+use crate::normalize::resolve::resolve;
+use crate::normalize::NormResult;
+use crate::parser;
+use crate::test_util;
 
 fn validate_grammar(grammar: &str) -> NormResult<Grammar> {
     let parsed_grammar = parser::parse_grammar(&grammar).expect("parse grammar");

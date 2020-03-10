@@ -17,8 +17,8 @@
 //! covered when we started, and that each of the input ranges is
 //! covered precisely by some set of ranges in the output.
 
-use collections::Set;
-use lexer::nfa::Test;
+use crate::collections::Set;
+use crate::lexer::nfa::Test;
 use std::cmp;
 
 pub fn remove_overlap(ranges: &Set<Test>) -> Vec<Test> {
@@ -103,8 +103,8 @@ fn add_range(range: Test, start_index: usize, disjoint_ranges: &mut Vec<Test>) {
 macro_rules! test {
     ($($range:expr,)*) => {
         {
-            use collections::set;
-            use lexer::nfa::Test;
+            use crate::collections::set;
+            use crate::lexer::nfa::Test;
             use std::char;
             let mut s = set();
             $({ let r = $range; s.insert(Test::exclusive_range(r.start, r.end)); })*

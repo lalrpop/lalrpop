@@ -1,5 +1,5 @@
-use grammar::repr::*;
-use lr1::core::*;
+use crate::grammar::repr::*;
+use crate::lr1::core::*;
 
 use super::trace_graph::*;
 use super::Tracer;

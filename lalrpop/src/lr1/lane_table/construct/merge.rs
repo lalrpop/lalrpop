@@ -1,9 +1,9 @@
-use collections::{Map, Multimap, Set};
+use crate::collections::{Map, Multimap, Set};
 use ena::unify::InPlaceUnificationTable;
-use lr1::core::{Action, LR1State, StateIndex};
-use lr1::lane_table::construct::state_set::StateSet;
-use lr1::lane_table::table::context_set::ContextSet;
-use lr1::lane_table::table::LaneTable;
+use crate::lr1::core::{Action, LR1State, StateIndex};
+use crate::lr1::lane_table::construct::state_set::StateSet;
+use crate::lr1::lane_table::table::context_set::ContextSet;
+use crate::lr1::lane_table::table::LaneTable;
 
 /// The "merge" phase of the algorithm is described in "Step 3c" of
 /// [the README][r].  It consists of walking through the various

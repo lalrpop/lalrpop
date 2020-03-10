@@ -1,4 +1,4 @@
-use lexer::dfa::{Kind, NFAIndex, DFA, START};
+use crate::lexer::dfa::{Kind, NFAIndex, DFA, START};
 
 pub fn interpret<'text>(dfa: &DFA, input: &'text str) -> Option<(NFAIndex, &'text str)> {
     let mut longest: Option<(NFAIndex, usize)> = None;

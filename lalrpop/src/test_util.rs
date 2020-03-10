@@ -1,7 +1,7 @@
 use diff;
-use grammar::parse_tree as pt;
-use grammar::repr as r;
-use normalize::NormError;
+use crate::grammar::parse_tree as pt;
+use crate::grammar::repr as r;
+use crate::normalize::NormError;
 use regex::Regex;
 use std::fmt::{Debug, Error, Formatter};
 
@@ -53,7 +53,7 @@ pub fn compare<D: Debug, E: Debug>(actual: D, expected: E) {
 }
 
 pub fn normalized_grammar(s: &str) -> r::Grammar {
-    ::normalize::normalize_without_validating(::parser::parse_grammar(s).unwrap()).unwrap()
+    crate::normalize::normalize_without_validating(crate::parser::parse_grammar(s).unwrap()).unwrap()
 }
 
 pub fn check_norm_err(expected_err: &str, span: &str, err: NormError) {

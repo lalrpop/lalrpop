@@ -1,9 +1,9 @@
-use grammar::repr::*;
-use lr1::build_states;
-use lr1::tls::Lr1Tls;
+use crate::grammar::repr::*;
+use crate::lr1::build_states;
+use crate::lr1::tls::Lr1Tls;
 use string_cache::DefaultAtom as Atom;
-use test_util::normalized_grammar;
-use tls::Tls;
+use crate::test_util::normalized_grammar;
+use crate::tls::Tls;
 
 use super::{ConflictClassification, ErrorReportingCx};
 

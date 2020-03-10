@@ -1,14 +1,14 @@
-use generate;
-use grammar::repr::*;
-use lr1::core::*;
-use lr1::interpret::interpret;
-use lr1::lookahead::Token;
-use lr1::lookahead::Token::EOF;
-use lr1::lookahead::TokenSet;
-use lr1::tls::Lr1Tls;
+use crate::generate;
+use crate::grammar::repr::*;
+use crate::lr1::core::*;
+use crate::lr1::interpret::interpret;
+use crate::lr1::lookahead::Token;
+use crate::lr1::lookahead::Token::EOF;
+use crate::lr1::lookahead::TokenSet;
+use crate::lr1::tls::Lr1Tls;
 use string_cache::DefaultAtom as Atom;
-use test_util::{compare, expect_debug, normalized_grammar};
-use tls::Tls;
+use crate::test_util::{compare, expect_debug, normalized_grammar};
+use crate::tls::Tls;
 
 use super::{build_lr0_states, build_lr1_states, use_lane_table, LR};
 

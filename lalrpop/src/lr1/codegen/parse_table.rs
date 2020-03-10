@@ -1,17 +1,17 @@
 //! A compiler from an LR(1) table to a traditional table driven parser.
 
-use collections::{Entry, Map, Set};
-use grammar::repr::*;
+use crate::collections::{Entry, Map, Set};
+use crate::grammar::repr::*;
 use itertools::Itertools;
-use lr1::core::*;
-use lr1::lookahead::Token;
-use rust::RustWrite;
+use crate::lr1::core::*;
+use crate::lr1::lookahead::Token;
+use crate::rust::RustWrite;
 use std::fmt;
 use std::io::{self, Write};
 use std::rc::Rc;
 use string_cache::DefaultAtom as Atom;
-use tls::Tls;
-use util::Sep;
+use crate::tls::Tls;
+use crate::util::Sep;
 
 use super::base::CodeGenerator;
 

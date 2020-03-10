@@ -1,6 +1,6 @@
 //! Thread-local data specific to LR(1) processing.
 
-use grammar::repr::TerminalSet;
+use crate::grammar::repr::TerminalSet;
 use std::cell::RefCell;
 use std::mem;
 use std::sync::Arc;

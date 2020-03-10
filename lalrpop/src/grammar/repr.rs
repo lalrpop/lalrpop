@@ -2,16 +2,16 @@
 //! version of `parse_tree`. The normalization passes produce this
 //! representation incrementally.
 
-use collections::{map, Map};
-use grammar::free_variables::FreeVariables;
-use grammar::pattern::Pattern;
-use message::Content;
+use crate::collections::{map, Map};
+use crate::grammar::free_variables::FreeVariables;
+use crate::grammar::pattern::Pattern;
+use crate::message::Content;
 use std::fmt::{Debug, Display, Error, Formatter};
 use string_cache::DefaultAtom as Atom;
-use util::Sep;
+use crate::util::Sep;
 
 // These concepts we re-use wholesale
-pub use grammar::parse_tree::{
+pub use crate::grammar::parse_tree::{
     Annotation, InternToken, Lifetime, Name, NonterminalString, Path, Span, TerminalLiteral,
     TerminalString, TypeBound, TypeParameter, Visibility,
 };

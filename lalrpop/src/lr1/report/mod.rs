@@ -1,6 +1,6 @@
-use collections::*;
-use grammar::repr::*;
-use lr1::core::*;
+use crate::collections::*;
+use crate::grammar::repr::*;
+use crate::lr1::core::*;
 use std::cmp::max;
 use std::io::{self, Write};
 

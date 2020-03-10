@@ -1,8 +1,8 @@
 use super::inline_order;
-use grammar::repr::NonterminalString;
-use normalize::lower_helper;
-use parser;
-use session::Session;
+use crate::grammar::repr::NonterminalString;
+use crate::normalize::lower_helper;
+use crate::parser;
+use crate::session::Session;
 use string_cache::DefaultAtom as Atom;
 
 #[test]

@@ -1,6 +1,6 @@
-use lexer::dfa::interpret::interpret;
-use lexer::dfa::{self, DFAConstructionError, NFAIndex, Precedence, DFA};
-use lexer::re;
+use crate::lexer::dfa::interpret::interpret;
+use crate::lexer::dfa::{self, DFAConstructionError, NFAIndex, Precedence, DFA};
+use crate::lexer::re;
 
 pub fn dfa(inputs: &[(&str, Precedence)]) -> Result<DFA, DFAConstructionError> {
     let regexs: Result<Vec<_>, _> = inputs.iter().map(|&(s, _)| re::parse_regex(s)).collect();

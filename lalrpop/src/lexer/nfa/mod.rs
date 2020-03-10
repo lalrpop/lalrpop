@@ -2,10 +2,10 @@
 //! really of interest, we represent this just as a vector of labeled
 //! edges.
 
-use lexer::re::Regex;
+use crate::lexer::re::Regex;
 use regex_syntax::hir::{
-    Anchor, Class, ClassBytesRange, ClassUnicodeRange, GroupKind, Hir, HirKind, Literal, RepetitionKind,
-    RepetitionRange,
+    Anchor, Class, ClassBytesRange, ClassUnicodeRange, GroupKind, Hir, HirKind, Literal,
+    RepetitionKind, RepetitionRange,
 };
 use std::char;
 use std::fmt::{Debug, Error as FmtError, Formatter};
@@ -133,7 +133,7 @@ impl NFA {
     pub fn is_rejecting_state(&self, from: NFAStateIndex) -> bool {
         self.states[from.0].kind == StateKind::Reject
     }
-    
+
     ///////////////////////////////////////////////////////////////////////////
     // Private methods for building an NFA
 

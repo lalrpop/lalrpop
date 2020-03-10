@@ -52,7 +52,7 @@ mod generate;
 #[cfg(test)]
 mod test_util;
 
-pub use api::process_root;
-pub use api::process_root_unconditionally;
-pub use api::Configuration;
+pub use crate::api::process_root;
+pub use crate::api::process_root_unconditionally;
+pub use crate::api::Configuration;
 use ascii_canvas::style;

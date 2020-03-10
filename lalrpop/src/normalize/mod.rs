@@ -2,9 +2,9 @@
 //! be converted to the more canonical form. This is done as a series of
 //! passes, each contained in their own module below.
 
-use grammar::parse_tree as pt;
-use grammar::repr as r;
-use session::Session;
+use crate::grammar::parse_tree as pt;
+use crate::grammar::repr as r;
+use crate::session::Session;
 
 pub type NormResult<T> = Result<T, NormError>;
 

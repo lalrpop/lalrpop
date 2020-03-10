@@ -1,8 +1,8 @@
 use bit_set::{self, BitSet};
-use collections::Collection;
-use grammar::repr::*;
-use lr1::core::*;
-use lr1::tls::Lr1Tls;
+use crate::collections::Collection;
+use crate::grammar::repr::*;
+use crate::lr1::core::*;
+use crate::lr1::tls::Lr1Tls;
 use std::fmt::{Debug, Error, Formatter};
 use std::hash::Hash;
 

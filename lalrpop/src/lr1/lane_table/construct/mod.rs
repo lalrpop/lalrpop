@@ -1,16 +1,16 @@
 //!
 
-use collections::{Map, Set};
+use crate::collections::{Map, Set};
 use ena::unify::InPlaceUnificationTable;
-use grammar::repr::*;
-use lr1::build;
-use lr1::core::*;
-use lr1::first::FirstSets;
-use lr1::lane_table::lane::LaneTracer;
-use lr1::lane_table::table::context_set::OverlappingLookahead;
-use lr1::lane_table::table::{ConflictIndex, LaneTable};
-use lr1::lookahead::{Lookahead, TokenSet};
-use lr1::state_graph::StateGraph;
+use crate::grammar::repr::*;
+use crate::lr1::build;
+use crate::lr1::core::*;
+use crate::lr1::first::FirstSets;
+use crate::lr1::lane_table::lane::LaneTracer;
+use crate::lr1::lane_table::table::context_set::OverlappingLookahead;
+use crate::lr1::lane_table::table::{ConflictIndex, LaneTable};
+use crate::lr1::lookahead::{Lookahead, TokenSet};
+use crate::lr1::state_graph::StateGraph;
 use std::rc::Rc;
 
 mod merge;

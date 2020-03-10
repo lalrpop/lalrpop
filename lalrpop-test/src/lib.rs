@@ -12,7 +12,7 @@ use std::process::Command;
 
 use lalrpop_util::{ErrorRecovery, ParseError};
 
-use util::tok::Tok;
+use crate::util::tok::Tok;
 
 /// Tests that actions can return the grammar's type parameters' associated
 /// types.
@@ -374,7 +374,7 @@ fn sub_table_test1() {
 
 #[test]
 fn expr_arena_test1() {
-    use expr_arena_ast::*;
+    use crate::expr_arena_ast::*;
     let arena = Arena::new();
     let expected = arena.alloc(Node::Binary {
         op: Op::Sub,
@@ -394,7 +394,7 @@ fn expr_arena_test1() {
 
 #[test]
 fn expr_arena_test2() {
-    use expr_arena_ast::*;
+    use crate::expr_arena_ast::*;
     let arena = Arena::new();
     let expected = arena.alloc(Node::Reduce(
         Op::Mul,
@@ -418,7 +418,7 @@ fn expr_arena_test2() {
 
 #[test]
 fn expr_arena_test3() {
-    use expr_arena_ast::*;
+    use crate::expr_arena_ast::*;
     let arena = Arena::new();
     let expected = arena.alloc(Node::Binary {
         op: Op::Mul,

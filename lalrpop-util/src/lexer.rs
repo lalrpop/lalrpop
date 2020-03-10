@@ -1,6 +1,6 @@
 use std::{fmt, marker::PhantomData};
 
-use ParseError;
+use crate::ParseError;
 
 #[derive(Clone, Debug, PartialEq, Eq, PartialOrd, Ord)]
 pub struct Token<'input>(pub usize, pub &'input str);
