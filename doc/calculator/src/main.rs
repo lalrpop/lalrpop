@@ -131,7 +131,7 @@ lalrpop_mod!(pub calculator7);
 fn calculator7() {
     let scale = 2;
     let expr = calculator7::ExprParser::new()
-        .parse(scale,"11 * 22 + 33")
+        .parse(scale, "11 * 22 + 33")
         .unwrap();
     assert_eq!(&format!("{:?}", expr), "((22 * 44) + 66)");
 }
@@ -144,9 +144,7 @@ use tok8::Lexer;
 fn calculator8() {
     let input = "22 * pi + 66";
     let lexer = Lexer::new(input);
-    let expr = calculator8::ExprParser::new()
-        .parse(input,lexer)
-        .unwrap();
+    let expr = calculator8::ExprParser::new().parse(input, lexer).unwrap();
     assert_eq!(&format!("{:?}", expr), "((\"22\" * \"pi\") + \"66\")");
 }
 

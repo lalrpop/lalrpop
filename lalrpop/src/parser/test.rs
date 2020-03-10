@@ -4,9 +4,9 @@ use parser;
 #[test]
 fn match_block() {
     let blocks = vec![
-        r#"grammar; match { _ }"#, // Minimal
+        r#"grammar; match { _ }"#,                     // Minimal
         r#"grammar; match { _ } else { _ }"#, // Doesn't really make sense, but should be allowed
-        r#"grammar; match { "abc" }"#, // Single token
+        r#"grammar; match { "abc" }"#,        // Single token
         r#"grammar; match { "abc" => "QUOTED" }"#, // Single token with quoted alias
         r#"grammar; match { "abc" => UNQUOTED }"#, // Single token with unquoted alias
         r#"grammar; match { r"(?i)begin" => BEGIN }"#, // Regex
