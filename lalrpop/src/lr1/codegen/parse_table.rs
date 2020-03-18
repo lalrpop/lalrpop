@@ -480,7 +480,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
         // and then by the terminal index. The value is described above.
         rust!(
             self.out,
-            "const {}ACTION: &'static [{}] = &[",
+            "const {}ACTION: &[{}] = &[",
             self.prefix,
             self.custom.state_type
         );
@@ -514,7 +514,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
         // Actions on EOF. Indexed just by state.
         rust!(
             self.out,
-            "const {}EOF_ACTION: &'static [{}] = &[",
+            "const {}EOF_ACTION: &[{}] = &[",
             self.prefix,
             self.custom.state_type
         );
@@ -528,7 +528,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
         // The goto table is indexed by state and *nonterminal*.
         rust!(
             self.out,
-            "const {}GOTO: &'static [{}] = &[",
+            "const {}GOTO: &[{}] = &[",
             self.prefix,
             self.custom.state_type
         );
@@ -585,7 +585,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
 
         rust!(
             self.out,
-            "let {p}r = {p}state_machine::Parser::drive(",
+            "{p}state_machine::Parser::drive(",
             p = self.prefix,
         );
         rust!(self.out, "{p}StateMachine {{", p = self.prefix);
@@ -600,8 +600,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
         );
         rust!(self.out, "}},");
         rust!(self.out, "{p}tokens,", p = self.prefix);
-        rust!(self.out, ");");
-        rust!(self.out, "{p}r", p = self.prefix);
+        rust!(self.out, ")");
 
         self.end_parser_fn()
     }
@@ -1448,7 +1447,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
 
         rust!(
             self.out,
-            "const {}TERMINAL: &'static [&'static str] = &[",
+            "const {}TERMINAL: &[&str] = &[",
             self.prefix
         );
         let all_terminals = if self.grammar.uses_error_recovery {
