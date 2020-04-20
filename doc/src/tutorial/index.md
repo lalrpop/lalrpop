@@ -9,6 +9,7 @@ first.
 - [Handling full expressions](004_full_expressions.md)
 - [Building ASTs](005_building_asts.md)
 - [Macros](006_macros.md)
+- [Fallible actions](007_fallible_actions.md)
 - [Error recovery](008_error_recovery.md)
 - [Passing state parameter](009_state_parameter.md)
 

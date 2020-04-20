@@ -101,6 +101,36 @@ fn calculator5() {
     assert_eq!(&format!("{:?}", expr), "[((22 * 44) + 66), (13 * 3)]");
 }
 
+lalrpop_mod!(pub calculator6);
+
+#[test]
+fn calculator6() {
+    // Number is one bigger than std::i32::MAX
+    let expr = calculator6::ExprsParser::new().parse("2147483648");
+    assert!(expr.is_err());
+}
+
+#[derive(Debug, Copy, Clone, PartialEq, Eq)]
+pub enum Calculator6Error {
+    InputTooBig,
+    OddNumber,
+}
+
+lalrpop_mod!(pub calculator6b);
+
+#[test]
+fn calculator6b() {
+    use lalrpop_util::ParseError;
+
+    let expr = calculator6b::ExprsParser::new().parse("2147483648");
+    assert!(expr.is_err());
+    assert_eq!(expr.unwrap_err(), ParseError::User { error: Calculator6Error::InputTooBig });
+
+    let expr = calculator6b::ExprsParser::new().parse("3");
+    assert!(expr.is_err());
+    assert_eq!(expr.unwrap_err(), ParseError::User { error: Calculator6Error::OddNumber });
+}
+
 lalrpop_mod!(pub calculator7);
 
 #[test]
