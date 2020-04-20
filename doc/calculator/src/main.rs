@@ -101,23 +101,23 @@ fn calculator5() {
     assert_eq!(&format!("{:?}", expr), "[((22 * 44) + 66), (13 * 3)]");
 }
 
-lalrpop_mod!(pub calculator6);
+lalrpop_mod!(pub calculator7);
 
 #[test]
-fn calculator6() {
+fn calculator7() {
     let mut errors = Vec::new();
 
-    let expr = calculator6::ExprsParser::new()
+    let expr = calculator7::ExprsParser::new()
         .parse(&mut errors, "22 * + 3")
         .unwrap();
     assert_eq!(&format!("{:?}", expr), "[((22 * error) + 3)]");
 
-    let expr = calculator6::ExprsParser::new()
+    let expr = calculator7::ExprsParser::new()
         .parse(&mut errors, "22 * 44 + 66, *3")
         .unwrap();
     assert_eq!(&format!("{:?}", expr), "[((22 * 44) + 66), (error * 3)]");
 
-    let expr = calculator6::ExprsParser::new()
+    let expr = calculator7::ExprsParser::new()
         .parse(&mut errors, "*")
         .unwrap();
     assert_eq!(&format!("{:?}", expr), "[(error * error)]");
@@ -125,25 +125,25 @@ fn calculator6() {
     assert_eq!(errors.len(), 4);
 }
 
-lalrpop_mod!(pub calculator7);
+lalrpop_mod!(pub calculator8);
 
 #[test]
-fn calculator7() {
+fn calculator8() {
     let scale = 2;
-    let expr = calculator7::ExprParser::new()
+    let expr = calculator8::ExprParser::new()
         .parse(scale, "11 * 22 + 33")
         .unwrap();
     assert_eq!(&format!("{:?}", expr), "((22 * 44) + 66)");
 }
 
-lalrpop_mod!(pub calculator8);
-mod tok8;
+lalrpop_mod!(pub calculator9);
+mod tok9;
 
 #[test]
-fn calculator8() {
+fn calculator9() {
     let input = "22 * pi + 66";
-    let lexer = crate::tok8::Lexer::new(input);
-    let expr = calculator8::ExprParser::new().parse(input, lexer).unwrap();
+    let lexer = crate::tok9::Lexer::new(input);
+    let expr = calculator9::ExprParser::new().parse(input, lexer).unwrap();
     assert_eq!(&format!("{:?}", expr), "((\"22\" * \"pi\") + \"66\")");
 }
 
