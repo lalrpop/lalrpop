@@ -7,7 +7,7 @@ build = "build.rs"
 workspace = ".."
 
 [dependencies]
-diff = "0.1.9"
+diff = "0.1.12"
 regex = "1"
 
 [dependencies.lalrpop-util]
