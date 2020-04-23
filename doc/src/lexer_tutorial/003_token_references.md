@@ -126,7 +126,7 @@ We can finally run the parser we built:
 ``` rust
 let input = "22 * pi + 66";
 let lexer = Lexer::new(input);
-let expr = calculator8::ExprParser::new()
+let expr = calculator9::ExprParser::new()
     .parse(input,lexer)
     .unwrap();
 assert_eq!(&format!("{:?}", expr), "((\"22\" * \"pi\") + \"66\")");
