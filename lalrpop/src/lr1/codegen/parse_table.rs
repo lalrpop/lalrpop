@@ -527,9 +527,11 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
             self.prefix,
             self.custom.state_type
         );
+
+        let mut row = Vec::new();
         for (index, state) in self.states.iter().enumerate() {
             rust!(self.out, "// State {}", index);
-            let iterator = self.grammar.nonterminals.keys().map(|nonterminal| {
+            row.extend(self.grammar.nonterminals.keys().map(|nonterminal| {
                 if let Some(&new_state) = state.gotos.get(&nonterminal) {
                     (
                         new_state.0 as i32 + 1,
@@ -538,8 +540,12 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
                 } else {
                     (0, Comment::Error(nonterminal))
                 }
-            });
-            self.out.write_table_row(iterator)?;
+            }));
+            // The remaining rows will be all error and is never accessed so we may omit them from the table
+            if row.iter().all(|t| t.0 == 0) {
+                break;
+            }
+            self.out.write_table_row(row.drain(..))?;
         }
         rust!(self.out, "];");
 

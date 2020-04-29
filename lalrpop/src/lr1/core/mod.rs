@@ -5,7 +5,6 @@ use crate::grammar::repr::*;
 use crate::util::Prefix;
 use itertools::Itertools;
 use std::fmt::{Debug, Display, Error, Formatter};
-use std::rc::Rc;
 
 use super::lookahead::*;
 
@@ -123,7 +122,7 @@ pub struct StateIndex(pub usize);
 
 #[derive(Clone, Debug, Hash, PartialEq, Eq, PartialOrd, Ord)]
 pub struct Items<'grammar, L: Lookahead> {
-    pub vec: Rc<Vec<Item<'grammar, L>>>,
+    pub vec: Vec<Item<'grammar, L>>,
 }
 
 #[allow(dead_code)]

@@ -376,7 +376,7 @@ fn emit_recursive_ascent(
             lr1::generate_report(&mut output_report_file, &lr1result)?;
         }
 
-        let mut states = match lr1result {
+        let states = match lr1result {
             Ok(states) => states,
             Err(error) => {
                 let messages = lr1::report_error(&grammar, &error);
@@ -384,34 +384,6 @@ fn emit_recursive_ascent(
                 exit(1) // FIXME -- propagate up instead of calling `exit`
             }
         };
-
-        let mut start_states = vec![false; states.len()];
-        for (index, state) in states.iter_mut().enumerate() {
-            debug_assert!(state.index.0 == index);
-            if grammar
-                .nonterminals
-                .keys()
-                .any(|nonterminal| state.gotos.get(&nonterminal).is_some())
-            {
-                start_states[index] = true;
-            }
-        }
-        states.sort_by_key(|state| start_states[state.index.0]);
-
-        let mut state_rewrite = vec![0; states.len()];
-        for (new_index, state) in states.iter_mut().enumerate() {
-            state_rewrite[state.index.0] = new_index;
-            state.index.0 = new_index;
-        }
-
-        for state in &mut states {
-            for goto in state.gotos.values_mut() {
-                goto.0 = state_rewrite[goto.0];
-            }
-            for shift in state.shifts.values_mut() {
-                shift.0 = state_rewrite[shift.0];
-            }
-        }
 
         match grammar.algorithm.codegen {
             r::LrCodeGeneration::RecursiveAscent => lr1::codegen::ascent::compile(
