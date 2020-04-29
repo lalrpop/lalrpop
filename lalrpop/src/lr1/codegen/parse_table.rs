@@ -2,16 +2,16 @@
 
 use crate::collections::{Entry, Map, Set};
 use crate::grammar::repr::*;
-use itertools::Itertools;
 use crate::lr1::core::*;
 use crate::lr1::lookahead::Token;
 use crate::rust::RustWrite;
+use crate::tls::Tls;
+use crate::util::Sep;
+use itertools::Itertools;
 use std::fmt;
 use std::io::{self, Write};
 use std::rc::Rc;
 use string_cache::DefaultAtom as Atom;
-use crate::tls::Tls;
-use crate::util::Sep;
 
 use super::base::CodeGenerator;
 
@@ -286,12 +286,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
             "fn goto(&self, state: {state_type}, nt: usize) -> {state_type} {{",
             state_type = state_type,
         );
-        rust!(
-            self.out,
-            "{p}GOTO[(state as usize) * {num_non_term} + nt] - 1",
-            p = self.prefix,
-            num_non_term = self.grammar.nonterminals.len(),
-        );
+        rust!(self.out, "goto(state, nt)",);
         rust!(self.out, "}}");
 
         rust!(self.out, "");
@@ -547,6 +542,20 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
             self.out.write_table_row(iterator)?;
         }
         rust!(self.out, "];");
+
+        let state_type = self.custom.state_type;
+        rust!(
+            self.out,
+            "fn goto(state: {state_type}, nt: usize) -> {state_type} {{",
+            state_type = state_type,
+        );
+        rust!(
+            self.out,
+            "{}GOTO[(state as usize) * {} + nt] - 1",
+            self.prefix,
+            self.grammar.nonterminals.len(),
+        );
+        rust!(self.out, "}}");
 
         self.emit_expected_tokens_fn()?;
 
@@ -853,35 +862,24 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
 
         rust!(
             self.out,
-            "let {}state = *{}states.last().unwrap() as usize;",
-            self.prefix,
-            self.prefix
+            "let {p}state = *{p}states.last().unwrap();",
+            p = self.prefix,
         );
+
         rust!(
             self.out,
-            "let {}next_state = {}GOTO[{}state * {} + {}nonterminal] - 1;",
-            self.prefix,
-            self.prefix,
-            self.prefix,
-            self.grammar.nonterminals.len(),
-            self.prefix
+            "let {p}next_state = goto({p}state, {p}nonterminal);",
+            p = self.prefix
         );
         if DEBUG_PRINT {
             rust!(
                 self.out,
-                "println!(\"goto state {{}} from {{}} due to nonterminal {{}}\", {}next_state, \
-                 {}state, {}nonterminal);",
-                self.prefix,
-                self.prefix,
-                self.prefix
+                "println!(\"goto state {{}} from {{}} due to nonterminal {{}}\", {p}next_state, \
+                 {p}state, {p}nonterminal);",
+                p = self.prefix,
             );
         }
-        rust!(
-            self.out,
-            "{}states.push({}next_state);",
-            self.prefix,
-            self.prefix
-        );
+        rust!(self.out, "{p}states.push({p}next_state);", p = self.prefix,);
         rust!(self.out, "None");
         rust!(self.out, "}}");
         Ok(())
@@ -979,9 +977,8 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
             // stack will be empty)
             rust!(
                 self.out,
-                "let {}start = {}symbols.last().map(|s| s.2.clone()).unwrap_or_default();",
-                self.prefix,
-                self.prefix
+                "let {p}start = {p}symbols.last().map(|s| s.2.clone()).unwrap_or_default();",
+                p = self.prefix,
             );
         }
 
@@ -994,11 +991,9 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
         } else {
             rust!(
                 self.out,
-                "let {}end = {}lookahead_start.cloned().unwrap_or_else(|| \
-                 {}start.clone());",
-                self.prefix,
-                self.prefix,
-                self.prefix
+                "let {p}end = {p}lookahead_start.cloned().unwrap_or_else(|| \
+                 {p}start.clone());",
+                p = self.prefix,
             );
         }
 
@@ -1052,13 +1047,9 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
             self.variant_name_for_symbol(&Symbol::Nonterminal(production.nonterminal.clone()));
         rust!(
             self.out,
-            "{}symbols.push(({}start, {}Symbol::{}({}nt), {}end));",
-            self.prefix,
-            self.prefix,
-            self.prefix,
+            "{p}symbols.push(({p}start, {p}Symbol::{}({p}nt), {p}end));",
             name,
-            self.prefix,
-            self.prefix
+            p = self.prefix
         );
 
         // produce the index that we will use to extract the next state
@@ -1072,8 +1063,8 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
         rust!(
             self.out,
             "({len}, {index})",
+            len = production.symbols.len(),
             index = index,
-            len = production.symbols.len()
         );
 
         Ok(())
@@ -1393,7 +1384,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
         );
         rust!(
             self.out,
-            "let {p}top = {p}states[{p}states_len - 1] as usize;",
+            "let {p}top = {p}states[{p}states_len - 1];",
             p = self.prefix
         );
 
@@ -1411,9 +1402,8 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
 
         rust!(
             self.out,
-            "let {p}next_state = {p}GOTO[{p}top * {num_non_terminals} + {p}nt] - 1;",
+            "let {p}next_state = goto({p}top, {p}nt);",
             p = self.prefix,
-            num_non_terminals = self.grammar.nonterminals.len(),
         );
 
         rust!(self.out, "{p}states.push({p}next_state);", p = self.prefix);
@@ -1445,11 +1435,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
             self.prefix
         );
 
-        rust!(
-            self.out,
-            "const {}TERMINAL: &[&str] = &[",
-            self.prefix
-        );
+        rust!(self.out, "const {}TERMINAL: &[&str] = &[", self.prefix);
         let all_terminals = if self.grammar.uses_error_recovery {
             // Subtract one to exlude the error terminal
             &self.grammar.terminals.all[..self.grammar.terminals.all.len() - 1]

@@ -1,10 +1,8 @@
 //! Utilies for running in a build script.
 
-use atty;
 use crate::file_text::FileText;
 use crate::grammar::parse_tree as pt;
 use crate::grammar::repr as r;
-use lalrpop_util::ParseError;
 use crate::lexer::intern_token;
 use crate::lr1;
 use crate::message::builder::InlineBuilder;
@@ -13,10 +11,12 @@ use crate::normalize;
 use crate::parser;
 use crate::rust::RustWrite;
 use crate::session::{ColorConfig, Session};
-use sha2::{Digest, Sha256};
-use term;
 use crate::tls::Tls;
 use crate::tok;
+use atty;
+use lalrpop_util::ParseError;
+use sha2::{Digest, Sha256};
+use term;
 
 use std::fs;
 use std::io::{self, BufRead, Write};
@@ -376,7 +376,7 @@ fn emit_recursive_ascent(
             lr1::generate_report(&mut output_report_file, &lr1result)?;
         }
 
-        let states = match lr1result {
+        let mut states = match lr1result {
             Ok(states) => states,
             Err(error) => {
                 let messages = lr1::report_error(&grammar, &error);
@@ -384,6 +384,34 @@ fn emit_recursive_ascent(
                 exit(1) // FIXME -- propagate up instead of calling `exit`
             }
         };
+
+        let mut start_states = vec![false; states.len()];
+        for (index, state) in states.iter_mut().enumerate() {
+            debug_assert!(state.index.0 == index);
+            if grammar
+                .nonterminals
+                .keys()
+                .any(|nonterminal| state.gotos.get(&nonterminal).is_some())
+            {
+                start_states[index] = true;
+            }
+        }
+        states.sort_by_key(|state| start_states[state.index.0]);
+
+        let mut state_rewrite = vec![0; states.len()];
+        for (new_index, state) in states.iter_mut().enumerate() {
+            state_rewrite[state.index.0] = new_index;
+            state.index.0 = new_index;
+        }
+
+        for state in &mut states {
+            for goto in state.gotos.values_mut() {
+                goto.0 = state_rewrite[goto.0];
+            }
+            for shift in state.shifts.values_mut() {
+                shift.0 = state_rewrite[shift.0];
+            }
+        }
 
         match grammar.algorithm.codegen {
             r::LrCodeGeneration::RecursiveAscent => lr1::codegen::ascent::compile(

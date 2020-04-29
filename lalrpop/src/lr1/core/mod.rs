@@ -2,10 +2,10 @@
 
 use crate::collections::Map;
 use crate::grammar::repr::*;
+use crate::util::Prefix;
 use itertools::Itertools;
 use std::fmt::{Debug, Display, Error, Formatter};
 use std::rc::Rc;
-use crate::util::Prefix;
 
 use super::lookahead::*;
 
