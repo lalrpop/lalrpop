@@ -281,7 +281,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
             "fn goto(&self, state: {state_type}, nt: usize) -> {state_type} {{",
             state_type = state_type,
         );
-        rust!(self.out, "goto(state, nt)",);
+        rust!(self.out, "{}goto(state, nt)", self.prefix);
         rust!(self.out, "}}");
 
         rust!(self.out, "");
@@ -531,12 +531,13 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
 
         rust!(
             self.out,
-            "fn goto(state: {state_type}, nt: usize) -> {state_type} {{",
+            "fn {}goto(state: {state_type}, nt: usize) -> {state_type} {{",
+            self.prefix,
             state_type = state_type,
         );
 
         rust!(self.out, "let next_state = {{");
-        Self::emit_lookup(
+        Self::emit_goto_match(
             self.out,
             "nt",
             self.grammar.nonterminals.keys(),
@@ -552,7 +553,6 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
                     (0, Comment::Error(nonterminal))
                 }
             },
-            None,
         )?;
         rust!(self.out, "}};");
         rust!(self.out, "next_state - 1");
@@ -564,15 +564,19 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
         Ok(())
     }
 
-    fn emit_lookup<'a, 'k, K: 'k, K2: 'k, T>(
+    fn emit_goto_match<'a, 'k, K: 'k, K2: 'k, T>(
         out: &mut RustWrite<W>,
         k_name: &str,
         iter: impl IntoIterator<Item = &'k K>,
         k2_name: &str,
         iter2: impl IntoIterator<Item = &'k K2> + Clone,
         mut state_lookup: impl FnMut(&'k K, &'k K2) -> (i32, Comment<'a, T>),
-        fallback: Option<i32>,
-    ) -> io::Result<()> {
+    ) -> io::Result<()>
+    where
+        T: fmt::Display,
+    {
+        let emit_comments = Tls::session().emit_comments;
+
         rust!(out, "match {} {{", k_name);
 
         for (k_index, k) in iter.into_iter().enumerate() {
@@ -581,19 +585,23 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
                 .into_iter()
                 .map(|k2| state_lookup(k, k2))
                 .enumerate()
-                // Group consecutive indices
+                // Group consecutive indices so we can compress then as a..=b
                 .group_by(|(_, (next_state, _))| *next_state);
             let mut row = Vec::new();
             row.extend(&iter);
 
+            // If the row was all errors we don't need to emit it
             if row.len() == 1 && row[0].0 == 0 {
                 continue;
             }
 
             row.sort_by_key(|(next_state, _)| *next_state);
 
+            // Since the parser will always select a non-error (non-zero) next_state we can use the
+            // catch all in the match to represent the largest variant
             let mut largest_variant_index = 0;
             let mut largest_variant = 0;
+
             // Group by next_state
             let variants: Vec<_> = (&row
                 .drain(..)
@@ -603,9 +611,11 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
                 .into_iter()
                 .enumerate()
                 .map(|(i, (next_state, group_group))| {
+                    let mut comment = None;
                     let vec = group_group
                         .map(|(_, mut group)| {
-                            let (start, _) = group.next().unwrap();
+                            let (start, (_, c)) = group.next().unwrap();
+                            comment = Some(c);
                             (start, group.last().map(|(end, _)| end))
                         })
                         .collect::<Vec<_>>();
@@ -613,18 +623,23 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
                         largest_variant_index = i;
                         largest_variant = vec.len();
                     }
-                    (next_state, vec)
+                    (next_state, vec, comment)
                 })
                 .collect();
 
-            if fallback.is_none() && variants.len() == 1 {
+            if variants.len() == 1 {
                 rust!(out, "{} => {},", k_index, variants[0].0);
             } else {
                 rust!(out, "{} => match {} {{", k_index, k2_name);
 
-                for (i, (next_state, ranges)) in variants.iter().enumerate() {
-                    if fallback.is_none() && i == largest_variant_index {
+                for (i, (next_state, ranges, comment)) in variants.iter().enumerate() {
+                    if i == largest_variant_index {
                         continue;
+                    }
+                    if let Some(comment) = comment {
+                        if emit_comments {
+                            rust!(out, "{}", comment);
+                        }
                     }
                     rust!(
                         out,
@@ -639,10 +654,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
                     );
                 }
 
-                match fallback {
-                    Some(fallback) => rust!(out, "_ => {},", fallback), // unreachable
-                    None => rust!(out, "_ => {},", variants[largest_variant_index].0),
-                }
+                rust!(out, "_ => {},", variants[largest_variant_index].0);
                 rust!(out, "}},");
             }
         }
@@ -959,7 +971,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
 
         rust!(
             self.out,
-            "let {p}next_state = goto({p}state, {p}nonterminal);",
+            "let {p}next_state = {p}goto({p}state, {p}nonterminal);",
             p = self.prefix
         );
         if DEBUG_PRINT {
@@ -1491,7 +1503,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
 
         rust!(
             self.out,
-            "let {p}next_state = goto({p}top, {p}nt);",
+            "let {p}next_state = {p}goto({p}top, {p}nt);",
             p = self.prefix,
         );
 
