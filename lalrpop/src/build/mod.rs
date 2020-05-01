@@ -1,10 +1,8 @@
 //! Utilies for running in a build script.
 
-use atty;
 use crate::file_text::FileText;
 use crate::grammar::parse_tree as pt;
 use crate::grammar::repr as r;
-use lalrpop_util::ParseError;
 use crate::lexer::intern_token;
 use crate::lr1;
 use crate::message::builder::InlineBuilder;
@@ -13,10 +11,12 @@ use crate::normalize;
 use crate::parser;
 use crate::rust::RustWrite;
 use crate::session::{ColorConfig, Session};
-use sha2::{Digest, Sha256};
-use term;
 use crate::tls::Tls;
 use crate::tok;
+use atty;
+use lalrpop_util::ParseError;
+use sha2::{Digest, Sha256};
+use term;
 
 use std::fs;
 use std::io::{self, BufRead, Write};

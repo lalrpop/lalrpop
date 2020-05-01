@@ -252,12 +252,7 @@ where
                 } else if let Some(reduce_index) = action.as_reduce() {
                     debug!("\\ reduce to: {:?}", reduce_index);
 
-                    if let Some(r) = self.definition.reduce(
-                        reduce_index,
-                        Some(&lookahead.0),
-                        &mut self.states,
-                        &mut self.symbols,
-                    ) {
+                    if let Some(r) = self.reduce(reduce_index, Some(&lookahead.0)) {
                         return match r {
                             // we reached eof, but still have lookahead
                             Ok(_) => Err(crate::ParseError::ExtraToken { token: lookahead }),

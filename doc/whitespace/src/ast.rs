@@ -102,7 +102,7 @@ impl<'program> Interpreter<'program> {
 
                 &Stmt::Exit => return Ok(()),
 
-                other => return Err({ format!("Unimplemented instruction: {:?}", other) }),
+                other => return Err(format!("Unimplemented instruction: {:?}", other)),
             }
 
             pc += 1;

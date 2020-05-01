@@ -7,9 +7,8 @@ use crate::lr1::core::*;
 use crate::lr1::first;
 use crate::lr1::lane_table::*;
 use crate::lr1::lookahead::*;
-use std::env;
-use std::rc::Rc;
 use crate::tls::Tls;
+use std::env;
 
 #[cfg(test)]
 mod test;
@@ -254,9 +253,7 @@ impl<'grammar, L: LookaheadBuild> LR<'grammar, L> {
             .map(|(lr0_item, lookahead)| lr0_item.with_lookahead(lookahead))
             .collect();
 
-        Items {
-            vec: Rc::new(final_items),
-        }
+        Items { vec: final_items }
     }
 }
 

@@ -1,7 +1,6 @@
 //!
 
 use crate::collections::{Map, Set};
-use ena::unify::InPlaceUnificationTable;
 use crate::grammar::repr::*;
 use crate::lr1::build;
 use crate::lr1::core::*;
@@ -11,7 +10,7 @@ use crate::lr1::lane_table::table::context_set::OverlappingLookahead;
 use crate::lr1::lane_table::table::{ConflictIndex, LaneTable};
 use crate::lr1::lookahead::{Lookahead, TokenSet};
 use crate::lr1::state_graph::StateGraph;
-use std::rc::Rc;
+use ena::unify::InPlaceUnificationTable;
 
 mod merge;
 use self::merge::Merge;
@@ -120,9 +119,7 @@ impl<'grammar> LaneTableConstruct<'grammar> {
                     .collect();
                 State {
                     index: s.index,
-                    items: Items {
-                        vec: Rc::new(items),
-                    },
+                    items: Items { vec: items },
                     shifts: s.shifts,
                     reductions,
                     gotos: s.gotos,
