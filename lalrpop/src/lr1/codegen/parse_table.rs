@@ -536,7 +536,6 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
             state_type = state_type,
         );
 
-        rust!(self.out, "let next_state = {{");
         Self::emit_goto_match(
             self.out,
             "nt",
@@ -546,16 +545,14 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
             |nonterminal, state| {
                 if let Some(&new_state) = state.gotos.get(nonterminal) {
                     (
-                        new_state.0 as i32 + 1,
+                        Some(new_state.0 as i32),
                         Comment::Goto(nonterminal, new_state.0),
                     )
                 } else {
-                    (0, Comment::Error(nonterminal))
+                    (None, Comment::Error(nonterminal))
                 }
             },
         )?;
-        rust!(self.out, "}};");
-        rust!(self.out, "next_state - 1");
 
         rust!(self.out, "}}");
 
@@ -570,7 +567,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
         iter: impl IntoIterator<Item = &'k K>,
         k2_name: &str,
         iter2: impl IntoIterator<Item = &'k K2> + Clone,
-        mut state_lookup: impl FnMut(&'k K, &'k K2) -> (i32, Comment<'a, T>),
+        mut state_lookup: impl FnMut(&'k K, &'k K2) -> (Option<i32>, Comment<'a, T>),
     ) -> io::Result<()>
     where
         T: fmt::Display,
@@ -591,7 +588,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
             row.extend(&iter);
 
             // If the row was all errors we don't need to emit it
-            if row.len() == 1 && row[0].0 == 0 {
+            if row.len() == 1 && row[0].0.is_none() {
                 continue;
             }
 
@@ -606,7 +603,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
             let variants: Vec<_> = (&row
                 .drain(..)
                 // We always emit a catch-all for 0 error states (which will never be hit)
-                .filter(|(next_state, _)| *next_state != 0)
+                .filter_map(|(opt, group)| opt.map(|next_state| (next_state, group)))
                 .group_by(|(next_state, _)| *next_state))
                 .into_iter()
                 .enumerate()
