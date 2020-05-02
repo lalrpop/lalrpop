@@ -246,12 +246,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
             "fn action(&self, state: {state_type}, integer: usize) -> {state_type} {{",
             state_type = state_type
         );
-        rust!(
-            self.out,
-            "{p}ACTION[(state as usize) * {num_term} + integer]",
-            p = self.prefix,
-            num_term = self.grammar.terminals.all.len(),
-        );
+        rust!(self.out, "{p}action(state, integer)", p = self.prefix);
         rust!(self.out, "}}");
 
         rust!(self.out, "");
@@ -263,7 +258,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
         );
         rust!(
             self.out,
-            "{p}ACTION[(state as usize) * {num_term} + ({num_term} - 1)]",
+            "{p}action(state, {num_term} - 1)",
             p = self.prefix,
             num_term = self.grammar.terminals.all.len(),
         );
@@ -286,7 +281,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
             "fn goto(&self, state: {state_type}, nt: usize) -> {state_type} {{",
             state_type = state_type,
         );
-        rust!(self.out, "goto(state, nt)",);
+        rust!(self.out, "{}goto(state, nt)", self.prefix);
         rust!(self.out, "}}");
 
         rust!(self.out, "");
@@ -308,11 +303,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
             "fn expected_tokens(&self, state: {state_type}) -> Vec<String> {{",
             state_type = state_type,
         );
-        rust!(
-            self.out,
-            "{p}expected_tokens(state as usize)",
-            p = self.prefix
-        );
+        rust!(self.out, "{p}expected_tokens(state)", p = self.prefix);
         rust!(self.out, "}}");
 
         rust!(self.out, "");
@@ -471,13 +462,15 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
     }
 
     fn write_parse_table(&mut self) -> io::Result<()> {
+        let state_type = self.custom.state_type;
+
         // The table is a two-dimensional matrix indexed first by state
         // and then by the terminal index. The value is described above.
         rust!(
             self.out,
             "const {}ACTION: &[{}] = &[",
             self.prefix,
-            self.custom.state_type
+            state_type
         );
 
         for (index, state) in self.states.iter().enumerate() {
@@ -506,6 +499,22 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
 
         rust!(self.out, "];");
 
+        rust!(
+            self.out,
+            "fn {p}action(state: {state_type}, integer: usize) -> {state_type} {{",
+            p = self.prefix,
+            state_type = state_type,
+        );
+
+        rust!(
+            self.out,
+            "{p}ACTION[(state as usize) * {num_term} + integer]",
+            p = self.prefix,
+            num_term = self.grammar.terminals.all.len(),
+        );
+
+        rust!(self.out, "}}");
+
         // Actions on EOF. Indexed just by state.
         rust!(
             self.out,
@@ -520,50 +529,135 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
         }
         rust!(self.out, "];");
 
-        // The goto table is indexed by state and *nonterminal*.
         rust!(
             self.out,
-            "const {}GOTO: &[{}] = &[",
+            "fn {}goto(state: {state_type}, nt: usize) -> {state_type} {{",
             self.prefix,
-            self.custom.state_type
+            state_type = state_type,
         );
 
-        let mut row = Vec::new();
-        for (index, state) in self.states.iter().enumerate() {
-            rust!(self.out, "// State {}", index);
-            row.extend(self.grammar.nonterminals.keys().map(|nonterminal| {
-                if let Some(&new_state) = state.gotos.get(&nonterminal) {
+        Self::emit_goto_match(
+            self.out,
+            "nt",
+            self.grammar.nonterminals.keys(),
+            "state",
+            self.states.iter(),
+            |nonterminal, state| {
+                if let Some(&new_state) = state.gotos.get(nonterminal) {
                     (
-                        new_state.0 as i32 + 1,
+                        Some(new_state.0 as i32),
                         Comment::Goto(nonterminal, new_state.0),
                     )
                 } else {
-                    (0, Comment::Error(nonterminal))
+                    (None, Comment::Error(nonterminal))
                 }
-            }));
-            // The remaining rows will be all error and is never accessed so we may omit them from the table
-            if row.iter().all(|t| t.0 == 0) {
-                break;
-            }
-            self.out.write_table_row(row.drain(..))?;
-        }
-        rust!(self.out, "];");
+            },
+        )?;
 
-        let state_type = self.custom.state_type;
-        rust!(
-            self.out,
-            "fn goto(state: {state_type}, nt: usize) -> {state_type} {{",
-            state_type = state_type,
-        );
-        rust!(
-            self.out,
-            "{}GOTO[(state as usize) * {} + nt] - 1",
-            self.prefix,
-            self.grammar.nonterminals.len(),
-        );
         rust!(self.out, "}}");
 
         self.emit_expected_tokens_fn()?;
+
+        Ok(())
+    }
+
+    fn emit_goto_match<'a, 'k, K: 'k, K2: 'k, T>(
+        out: &mut RustWrite<W>,
+        k_name: &str,
+        iter: impl IntoIterator<Item = &'k K>,
+        k2_name: &str,
+        iter2: impl IntoIterator<Item = &'k K2> + Clone,
+        mut state_lookup: impl FnMut(&'k K, &'k K2) -> (Option<i32>, Comment<'a, T>),
+    ) -> io::Result<()>
+    where
+        T: fmt::Display,
+    {
+        let emit_comments = Tls::session().emit_comments;
+
+        rust!(out, "match {} {{", k_name);
+
+        for (k_index, k) in iter.into_iter().enumerate() {
+            let iter = iter2
+                .clone()
+                .into_iter()
+                .map(|k2| state_lookup(k, k2))
+                .enumerate()
+                // Group consecutive indices so we can compress then as a..=b
+                .group_by(|(_, (next_state, _))| *next_state);
+            let mut row = Vec::new();
+            row.extend(&iter);
+
+            // If the row was all errors we don't need to emit it
+            if row.len() == 1 && row[0].0.is_none() {
+                continue;
+            }
+
+            row.sort_by_key(|(next_state, _)| *next_state);
+
+            // Since the parser will always select a non-error (non-zero) next_state we can use the
+            // catch all in the match to represent the largest variant
+            let mut largest_variant_index = 0;
+            let mut largest_variant = 0;
+
+            // Group by next_state
+            let variants: Vec<_> = (&row
+                .drain(..)
+                // We always emit a catch-all for 0 error states (which will never be hit)
+                .filter_map(|(opt, group)| opt.map(|next_state| (next_state, group)))
+                .group_by(|(next_state, _)| *next_state))
+                .into_iter()
+                .enumerate()
+                .map(|(i, (next_state, group_group))| {
+                    let mut comment = None;
+                    let vec = group_group
+                        .map(|(_, mut group)| {
+                            let (start, (_, c)) = group.next().unwrap();
+                            comment = Some(c);
+                            (start, group.last().map(|(end, _)| end))
+                        })
+                        .collect::<Vec<_>>();
+                    if vec.len() > largest_variant {
+                        largest_variant_index = i;
+                        largest_variant = vec.len();
+                    }
+                    (next_state, vec, comment)
+                })
+                .collect();
+
+            if variants.len() == 1 {
+                rust!(out, "{} => {},", k_index, variants[0].0);
+            } else {
+                rust!(out, "{} => match {} {{", k_index, k2_name);
+
+                for (i, (next_state, ranges, comment)) in variants.iter().enumerate() {
+                    if i == largest_variant_index {
+                        continue;
+                    }
+                    if let Some(comment) = comment {
+                        if emit_comments {
+                            rust!(out, "{}", comment);
+                        }
+                    }
+                    rust!(
+                        out,
+                        "{} => {},",
+                        ranges
+                            .iter()
+                            .format_with(" | ", |(start, end), f| match end {
+                                None => f(&format_args!("{}", start)),
+                                Some(end) => f(&format_args!("{}..={}", start, end)),
+                            }),
+                        next_state,
+                    );
+                }
+
+                rust!(out, "_ => {},", variants[largest_variant_index].0);
+                rust!(out, "}},");
+            }
+        }
+
+        rust!(out, "_ => 0,"); // unreachable
+        rust!(out, "}}");
 
         Ok(())
     }
@@ -874,7 +968,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
 
         rust!(
             self.out,
-            "let {p}next_state = goto({p}state, {p}nonterminal);",
+            "let {p}next_state = {p}goto({p}state, {p}nonterminal);",
             p = self.prefix
         );
         if DEBUG_PRINT {
@@ -1264,7 +1358,6 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
         }
 
         let phantom_data_expr = self.phantom_data_expr();
-        let actions_per_state = self.grammar.terminals.all.len();
         let parameters = vec![
             format!(
                 "{p}error_state: {typ}",
@@ -1316,7 +1409,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
 
         rust!(
             self.out,
-            "let {p}top = {p}states[{p}states_len - 1] as usize;",
+            "let {p}top = {p}states[{p}states_len - 1];",
             p = self.prefix
         );
 
@@ -1340,9 +1433,8 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
         );
         rust!(
             self.out,
-            "Some({p}integer) => {p}ACTION[{p}top * {actions_per_state} + {p}integer],",
+            "Some({p}integer) => {p}action({p}top, {p}integer),",
             p = self.prefix,
-            actions_per_state = actions_per_state,
         );
         rust!(self.out, "}};"); // end `match`
 
@@ -1408,7 +1500,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
 
         rust!(
             self.out,
-            "let {p}next_state = goto({p}top, {p}nt);",
+            "let {p}next_state = {p}goto({p}top, {p}nt);",
             p = self.prefix,
         );
 
@@ -1436,9 +1528,9 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
     fn emit_expected_tokens_fn(&mut self) -> io::Result<()> {
         rust!(
             self.out,
-            "fn {}expected_tokens({}state: usize) -> Vec<::std::string::String> {{",
-            self.prefix,
-            self.prefix
+            "fn {p}expected_tokens({p}state: {}) -> Vec<::std::string::String> {{",
+            self.custom.state_type,
+            p = self.prefix
         );
 
         rust!(self.out, "const {}TERMINAL: &[&str] = &[", self.prefix);
@@ -1458,13 +1550,15 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
         // Grab any terminals in the current state which would have resulted in a successful parse
         rust!(
             self.out,
-            "{}ACTION[({}state * {})..].iter().zip({}TERMINAL).filter_map(|(&state, terminal)| {{",
+            "{}TERMINAL.iter().enumerate().filter_map(|(index, terminal)| {{",
             self.prefix,
-            self.prefix,
-            self.grammar.terminals.all.len(),
-            self.prefix
         );
-        rust!(self.out, "if state == 0 {{");
+        rust!(
+            self.out,
+            "let next_state = {p}action({p}state, index);",
+            p = self.prefix
+        );
+        rust!(self.out, "if next_state == 0 {{");
         rust!(self.out, "None");
         rust!(self.out, "}} else {{");
         rust!(self.out, "Some(terminal.to_string())");
