@@ -1175,6 +1175,11 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
     }
 
     fn emit_downcast_fns(&mut self) -> io::Result<()> {
+        rust!(self.out, "#[inline(never)]");
+        rust!(self.out, "fn {}symbol_type_mismatch() -> ! {{", self.prefix);
+        rust!(self.out, "panic!(\"symbol type mismatch\")");
+        rust!(self.out, "}}");
+
         for (ty, name) in self.custom.variants.clone() {
             self.emit_downcast_fn(&name, ty)?;
         }
@@ -1224,7 +1229,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
             self.prefix,
             self.prefix
         );
-        rust!(self.out, "_ => panic!(\"symbol type mismatch\")");
+        rust!(self.out, "_ => {}symbol_type_mismatch()", self.prefix);
         rust!(self.out, "}}");
 
         rust!(self.out, "}}");
