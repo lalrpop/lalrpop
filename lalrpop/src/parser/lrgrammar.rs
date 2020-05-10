@@ -5874,8 +5874,8 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // "::"? =  => ActionFn(135);
-let ___start = ___symbols.last().map(|s| s.2.clone()).unwrap_or_default();
-let ___end = ___lookahead_start.cloned().unwrap_or_else(|| ___start.clone());
+let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2.clone())).unwrap_or_default();
+let ___end = ___start.clone();
 let ___nt = super::___action135::<>(text, &___start, &___end);
 ___symbols.push((___start, ___Symbol::Variant2(___nt), ___end));
 (0, 0)
@@ -5907,8 +5907,8 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // ";"? =  => ActionFn(152);
-let ___start = ___symbols.last().map(|s| s.2.clone()).unwrap_or_default();
-let ___end = ___lookahead_start.cloned().unwrap_or_else(|| ___start.clone());
+let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2.clone())).unwrap_or_default();
+let ___end = ___start.clone();
 let ___nt = super::___action152::<>(text, &___start, &___end);
 ___symbols.push((___start, ___Symbol::Variant2(___nt), ___end));
 (0, 1)
@@ -5940,8 +5940,8 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // "mut"? =  => ActionFn(141);
-let ___start = ___symbols.last().map(|s| s.2.clone()).unwrap_or_default();
-let ___end = ___lookahead_start.cloned().unwrap_or_else(|| ___start.clone());
+let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2.clone())).unwrap_or_default();
+let ___end = ___start.clone();
 let ___nt = super::___action141::<>(text, &___start, &___end);
 ___symbols.push((___start, ___Symbol::Variant2(___nt), ___end));
 (0, 2)
@@ -5994,8 +5994,8 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // ("->" <TypeRef>)? =  => ActionFn(166);
-let ___start = ___symbols.last().map(|s| s.2.clone()).unwrap_or_default();
-let ___end = ___lookahead_start.cloned().unwrap_or_else(|| ___start.clone());
+let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2.clone())).unwrap_or_default();
+let ___end = ___start.clone();
 let ___nt = super::___action166::<>(text, &___start, &___end);
 ___symbols.push((___start, ___Symbol::Variant4(___nt), ___end));
 (0, 4)
@@ -6048,8 +6048,8 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (":" <TypeRef>)? =  => ActionFn(158);
-let ___start = ___symbols.last().map(|s| s.2.clone()).unwrap_or_default();
-let ___end = ___lookahead_start.cloned().unwrap_or_else(|| ___start.clone());
+let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2.clone())).unwrap_or_default();
+let ___end = ___start.clone();
 let ___nt = super::___action158::<>(text, &___start, &___end);
 ___symbols.push((___start, ___Symbol::Variant4(___nt), ___end));
 (0, 6)
@@ -6104,8 +6104,8 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // ("<" <Comma<TypeBoundParameter>> ">")? =  => ActionFn(162);
-let ___start = ___symbols.last().map(|s| s.2.clone()).unwrap_or_default();
-let ___end = ___lookahead_start.cloned().unwrap_or_else(|| ___start.clone());
+let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2.clone())).unwrap_or_default();
+let ___end = ___start.clone();
 let ___nt = super::___action162::<>(text, &___start, &___end);
 ___symbols.push((___start, ___Symbol::Variant6(___nt), ___end));
 (0, 8)
@@ -6158,8 +6158,8 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // ("if" <Cond>)? =  => ActionFn(147);
-let ___start = ___symbols.last().map(|s| s.2.clone()).unwrap_or_default();
-let ___end = ___lookahead_start.cloned().unwrap_or_else(|| ___start.clone());
+let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2.clone())).unwrap_or_default();
+let ___end = ___start.clone();
 let ___nt = super::___action147::<>(text, &___start, &___end);
 ___symbols.push((___start, ___Symbol::Variant8(___nt), ___end));
 (0, 10)
@@ -6174,8 +6174,8 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // () =  => ActionFn(170);
-let ___start = ___symbols.last().map(|s| s.2.clone()).unwrap_or_default();
-let ___end = ___lookahead_start.cloned().unwrap_or_else(|| ___start.clone());
+let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2.clone())).unwrap_or_default();
+let ___end = ___start.clone();
 let ___nt = super::___action170::<>(text, &___start, &___end);
 ___symbols.push((___start, ___Symbol::Variant9(___nt), ___end));
 (0, 11)
@@ -6209,8 +6209,8 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<Alternative> ",")* =  => ActionFn(238);
-let ___start = ___symbols.last().map(|s| s.2.clone()).unwrap_or_default();
-let ___end = ___lookahead_start.cloned().unwrap_or_else(|| ___start.clone());
+let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2.clone())).unwrap_or_default();
+let ___end = ___start.clone();
 let ___nt = super::___action238::<>(text, &___start, &___end);
 ___symbols.push((___start, ___Symbol::Variant11(___nt), ___end));
 (0, 13)
@@ -6300,8 +6300,8 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<Conversion> ",")* =  => ActionFn(262);
-let ___start = ___symbols.last().map(|s| s.2.clone()).unwrap_or_default();
-let ___end = ___lookahead_start.cloned().unwrap_or_else(|| ___start.clone());
+let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2.clone())).unwrap_or_default();
+let ___end = ___start.clone();
 let ___nt = super::___action262::<>(text, &___start, &___end);
 ___symbols.push((___start, ___Symbol::Variant13(___nt), ___end));
 (0, 16)
@@ -6391,8 +6391,8 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<FieldPattern> ",")* =  => ActionFn(123);
-let ___start = ___symbols.last().map(|s| s.2.clone()).unwrap_or_default();
-let ___end = ___lookahead_start.cloned().unwrap_or_else(|| ___start.clone());
+let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2.clone())).unwrap_or_default();
+let ___end = ___start.clone();
 let ___nt = super::___action123::<>(text, &___start, &___end);
 ___symbols.push((___start, ___Symbol::Variant15(___nt), ___end));
 (0, 19)
@@ -6482,8 +6482,8 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<GrammarParameter> ",")* =  => ActionFn(228);
-let ___start = ___symbols.last().map(|s| s.2.clone()).unwrap_or_default();
-let ___end = ___lookahead_start.cloned().unwrap_or_else(|| ___start.clone());
+let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2.clone())).unwrap_or_default();
+let ___end = ___start.clone();
 let ___nt = super::___action228::<>(text, &___start, &___end);
 ___symbols.push((___start, ___Symbol::Variant17(___nt), ___end));
 (0, 22)
@@ -6573,8 +6573,8 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<GrammarWhereClause> ",")* =  => ActionFn(205);
-let ___start = ___symbols.last().map(|s| s.2.clone()).unwrap_or_default();
-let ___end = ___lookahead_start.cloned().unwrap_or_else(|| ___start.clone());
+let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2.clone())).unwrap_or_default();
+let ___end = ___start.clone();
 let ___nt = super::___action205::<>(text, &___start, &___end);
 ___symbols.push((___start, ___Symbol::Variant19(___nt), ___end));
 (0, 25)
@@ -6664,8 +6664,8 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<Id> "::")* =  => ActionFn(131);
-let ___start = ___symbols.last().map(|s| s.2.clone()).unwrap_or_default();
-let ___end = ___lookahead_start.cloned().unwrap_or_else(|| ___start.clone());
+let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2.clone())).unwrap_or_default();
+let ___end = ___start.clone();
 let ___nt = super::___action131::<>(text, &___start, &___end);
 ___symbols.push((___start, ___Symbol::Variant21(___nt), ___end));
 (0, 28)
@@ -6755,8 +6755,8 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<Lifetime> "+")* =  => ActionFn(208);
-let ___start = ___symbols.last().map(|s| s.2.clone()).unwrap_or_default();
-let ___end = ___lookahead_start.cloned().unwrap_or_else(|| ___start.clone());
+let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2.clone())).unwrap_or_default();
+let ___end = ___start.clone();
 let ___nt = super::___action208::<>(text, &___start, &___end);
 ___symbols.push((___start, ___Symbol::Variant23(___nt), ___end));
 (0, 31)
@@ -6846,8 +6846,8 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<MatchItem> ",")* =  => ActionFn(257);
-let ___start = ___symbols.last().map(|s| s.2.clone()).unwrap_or_default();
-let ___end = ___lookahead_start.cloned().unwrap_or_else(|| ___start.clone());
+let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2.clone())).unwrap_or_default();
+let ___end = ___start.clone();
 let ___nt = super::___action257::<>(text, &___start, &___end);
 ___symbols.push((___start, ___Symbol::Variant25(___nt), ___end));
 (0, 34)
@@ -6937,8 +6937,8 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<NotMacroId> ",")* =  => ActionFn(233);
-let ___start = ___symbols.last().map(|s| s.2.clone()).unwrap_or_default();
-let ___end = ___lookahead_start.cloned().unwrap_or_else(|| ___start.clone());
+let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2.clone())).unwrap_or_default();
+let ___end = ___start.clone();
 let ___nt = super::___action233::<>(text, &___start, &___end);
 ___symbols.push((___start, ___Symbol::Variant27(___nt), ___end));
 (0, 37)
@@ -7028,8 +7028,8 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<Pattern> ",")* =  => ActionFn(267);
-let ___start = ___symbols.last().map(|s| s.2.clone()).unwrap_or_default();
-let ___end = ___lookahead_start.cloned().unwrap_or_else(|| ___start.clone());
+let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2.clone())).unwrap_or_default();
+let ___end = ___start.clone();
 let ___nt = super::___action267::<>(text, &___start, &___end);
 ___symbols.push((___start, ___Symbol::Variant29(___nt), ___end));
 (0, 40)
@@ -7119,8 +7119,8 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<Symbol> ",")* =  => ActionFn(243);
-let ___start = ___symbols.last().map(|s| s.2.clone()).unwrap_or_default();
-let ___end = ___lookahead_start.cloned().unwrap_or_else(|| ___start.clone());
+let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2.clone())).unwrap_or_default();
+let ___end = ___start.clone();
 let ___nt = super::___action243::<>(text, &___start, &___end);
 ___symbols.push((___start, ___Symbol::Variant31(___nt), ___end));
 (0, 43)
@@ -7210,8 +7210,8 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<TypeBound> "+")* =  => ActionFn(213);
-let ___start = ___symbols.last().map(|s| s.2.clone()).unwrap_or_default();
-let ___end = ___lookahead_start.cloned().unwrap_or_else(|| ___start.clone());
+let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2.clone())).unwrap_or_default();
+let ___end = ___start.clone();
 let ___nt = super::___action213::<>(text, &___start, &___end);
 ___symbols.push((___start, ___Symbol::Variant33(___nt), ___end));
 (0, 46)
@@ -7301,8 +7301,8 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<TypeBoundParameter> ",")* =  => ActionFn(223);
-let ___start = ___symbols.last().map(|s| s.2.clone()).unwrap_or_default();
-let ___end = ___lookahead_start.cloned().unwrap_or_else(|| ___start.clone());
+let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2.clone())).unwrap_or_default();
+let ___end = ___start.clone();
 let ___nt = super::___action223::<>(text, &___start, &___end);
 ___symbols.push((___start, ___Symbol::Variant35(___nt), ___end));
 (0, 49)
@@ -7392,8 +7392,8 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<TypeParameter> ",")* =  => ActionFn(200);
-let ___start = ___symbols.last().map(|s| s.2.clone()).unwrap_or_default();
-let ___end = ___lookahead_start.cloned().unwrap_or_else(|| ___start.clone());
+let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2.clone())).unwrap_or_default();
+let ___end = ___start.clone();
 let ___nt = super::___action200::<>(text, &___start, &___end);
 ___symbols.push((___start, ___Symbol::Variant37(___nt), ___end));
 (0, 52)
@@ -7483,8 +7483,8 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<TypeRef> ",")* =  => ActionFn(218);
-let ___start = ___symbols.last().map(|s| s.2.clone()).unwrap_or_default();
-let ___end = ___lookahead_start.cloned().unwrap_or_else(|| ___start.clone());
+let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2.clone())).unwrap_or_default();
+let ___end = ___start.clone();
 let ___nt = super::___action218::<>(text, &___start, &___end);
 ___symbols.push((___start, ___Symbol::Variant38(___nt), ___end));
 (0, 55)
@@ -7574,8 +7574,8 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<TypeRefOrLifetime> ",")* =  => ActionFn(248);
-let ___start = ___symbols.last().map(|s| s.2.clone()).unwrap_or_default();
-let ___end = ___lookahead_start.cloned().unwrap_or_else(|| ___start.clone());
+let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2.clone())).unwrap_or_default();
+let ___end = ___start.clone();
 let ___nt = super::___action248::<>(text, &___start, &___end);
 ___symbols.push((___start, ___Symbol::Variant38(___nt), ___end));
 (0, 58)
@@ -7646,8 +7646,8 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // @L =  => ActionFn(183);
-let ___start = ___symbols.last().map(|s| s.2.clone()).unwrap_or_default();
-let ___end = ___lookahead_start.cloned().unwrap_or_else(|| ___start.clone());
+let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2.clone())).unwrap_or_default();
+let ___end = ___start.clone();
 let ___nt = super::___action183::<>(text, &___start, &___end);
 ___symbols.push((___start, ___Symbol::Variant39(___nt), ___end));
 (0, 60)
@@ -7662,8 +7662,8 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // @R =  => ActionFn(182);
-let ___start = ___symbols.last().map(|s| s.2.clone()).unwrap_or_default();
-let ___end = ___lookahead_start.cloned().unwrap_or_else(|| ___start.clone());
+let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2.clone())).unwrap_or_default();
+let ___end = ___start.clone();
 let ___nt = super::___action182::<>(text, &___start, &___end);
 ___symbols.push((___start, ___Symbol::Variant39(___nt), ___end));
 (0, 61)
@@ -7763,8 +7763,8 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Action? =  => ActionFn(145);
-let ___start = ___symbols.last().map(|s| s.2.clone()).unwrap_or_default();
-let ___end = ___lookahead_start.cloned().unwrap_or_else(|| ___start.clone());
+let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2.clone())).unwrap_or_default();
+let ___end = ___start.clone();
 let ___nt = super::___action145::<>(text, &___start, &___end);
 ___symbols.push((___start, ___Symbol::Variant41(___nt), ___end));
 (0, 63)
@@ -7910,8 +7910,8 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Alternative? =  => ActionFn(237);
-let ___start = ___symbols.last().map(|s| s.2.clone()).unwrap_or_default();
-let ___end = ___lookahead_start.cloned().unwrap_or_else(|| ___start.clone());
+let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2.clone())).unwrap_or_default();
+let ___end = ___start.clone();
 let ___nt = super::___action237::<>(text, &___start, &___end);
 ___symbols.push((___start, ___Symbol::Variant42(___nt), ___end));
 (0, 65)
@@ -8029,8 +8029,8 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Annotation* =  => ActionFn(184);
-let ___start = ___symbols.last().map(|s| s.2.clone()).unwrap_or_default();
-let ___end = ___lookahead_start.cloned().unwrap_or_else(|| ___start.clone());
+let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2.clone())).unwrap_or_default();
+let ___end = ___start.clone();
 let ___nt = super::___action184::<>(text, &___start, &___end);
 ___symbols.push((___start, ___Symbol::Variant45(___nt), ___end));
 (0, 68)
@@ -8137,8 +8137,8 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // AnnotationArg? =  => ActionFn(156);
-let ___start = ___symbols.last().map(|s| s.2.clone()).unwrap_or_default();
-let ___end = ___lookahead_start.cloned().unwrap_or_else(|| ___start.clone());
+let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2.clone())).unwrap_or_default();
+let ___end = ___start.clone();
 let ___nt = super::___action156::<>(text, &___start, &___end);
 ___symbols.push((___start, ___Symbol::Variant47(___nt), ___end));
 (0, 71)
@@ -8175,8 +8175,8 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // AssociatedType* =  => ActionFn(129);
-let ___start = ___symbols.last().map(|s| s.2.clone()).unwrap_or_default();
-let ___end = ___lookahead_start.cloned().unwrap_or_else(|| ___start.clone());
+let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2.clone())).unwrap_or_default();
+let ___end = ___start.clone();
 let ___nt = super::___action129::<>(text, &___start, &___end);
 ___symbols.push((___start, ___Symbol::Variant49(___nt), ___end));
 (0, 73)
@@ -8261,8 +8261,8 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Comma<Alternative> =  => ActionFn(449);
-let ___start = ___symbols.last().map(|s| s.2.clone()).unwrap_or_default();
-let ___end = ___lookahead_start.cloned().unwrap_or_else(|| ___start.clone());
+let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2.clone())).unwrap_or_default();
+let ___end = ___start.clone();
 let ___nt = super::___action449::<>(text, &___start, &___end);
 ___symbols.push((___start, ___Symbol::Variant43(___nt), ___end));
 (0, 75)
@@ -8330,8 +8330,8 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Comma<Conversion> =  => ActionFn(467);
-let ___start = ___symbols.last().map(|s| s.2.clone()).unwrap_or_default();
-let ___end = ___lookahead_start.cloned().unwrap_or_else(|| ___start.clone());
+let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2.clone())).unwrap_or_default();
+let ___end = ___start.clone();
 let ___nt = super::___action467::<>(text, &___start, &___end);
 ___symbols.push((___start, ___Symbol::Variant50(___nt), ___end));
 (0, 76)
@@ -8399,8 +8399,8 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Comma<GrammarParameter> =  => ActionFn(493);
-let ___start = ___symbols.last().map(|s| s.2.clone()).unwrap_or_default();
-let ___end = ___lookahead_start.cloned().unwrap_or_else(|| ___start.clone());
+let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2.clone())).unwrap_or_default();
+let ___end = ___start.clone();
 let ___nt = super::___action493::<>(text, &___start, &___end);
 ___symbols.push((___start, ___Symbol::Variant51(___nt), ___end));
 (0, 77)
@@ -8468,8 +8468,8 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Comma<GrammarWhereClause> =  => ActionFn(521);
-let ___start = ___symbols.last().map(|s| s.2.clone()).unwrap_or_default();
-let ___end = ___lookahead_start.cloned().unwrap_or_else(|| ___start.clone());
+let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2.clone())).unwrap_or_default();
+let ___end = ___start.clone();
 let ___nt = super::___action521::<>(text, &___start, &___end);
 ___symbols.push((___start, ___Symbol::Variant52(___nt), ___end));
 (0, 78)
@@ -8537,8 +8537,8 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Comma<MatchItem> =  => ActionFn(565);
-let ___start = ___symbols.last().map(|s| s.2.clone()).unwrap_or_default();
-let ___end = ___lookahead_start.cloned().unwrap_or_else(|| ___start.clone());
+let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2.clone())).unwrap_or_default();
+let ___end = ___start.clone();
 let ___nt = super::___action565::<>(text, &___start, &___end);
 ___symbols.push((___start, ___Symbol::Variant53(___nt), ___end));
 (0, 79)
@@ -8606,8 +8606,8 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Comma<NotMacroId> =  => ActionFn(569);
-let ___start = ___symbols.last().map(|s| s.2.clone()).unwrap_or_default();
-let ___end = ___lookahead_start.cloned().unwrap_or_else(|| ___start.clone());
+let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2.clone())).unwrap_or_default();
+let ___end = ___start.clone();
 let ___nt = super::___action569::<>(text, &___start, &___end);
 ___symbols.push((___start, ___Symbol::Variant54(___nt), ___end));
 (0, 80)
@@ -8675,8 +8675,8 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Comma<Pattern> =  => ActionFn(573);
-let ___start = ___symbols.last().map(|s| s.2.clone()).unwrap_or_default();
-let ___end = ___lookahead_start.cloned().unwrap_or_else(|| ___start.clone());
+let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2.clone())).unwrap_or_default();
+let ___end = ___start.clone();
 let ___nt = super::___action573::<>(text, &___start, &___end);
 ___symbols.push((___start, ___Symbol::Variant55(___nt), ___end));
 (0, 81)
@@ -8744,8 +8744,8 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Comma<Symbol> =  => ActionFn(643);
-let ___start = ___symbols.last().map(|s| s.2.clone()).unwrap_or_default();
-let ___end = ___lookahead_start.cloned().unwrap_or_else(|| ___start.clone());
+let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2.clone())).unwrap_or_default();
+let ___end = ___start.clone();
 let ___nt = super::___action643::<>(text, &___start, &___end);
 ___symbols.push((___start, ___Symbol::Variant56(___nt), ___end));
 (0, 82)
@@ -8813,8 +8813,8 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Comma<TypeBoundParameter> =  => ActionFn(651);
-let ___start = ___symbols.last().map(|s| s.2.clone()).unwrap_or_default();
-let ___end = ___lookahead_start.cloned().unwrap_or_else(|| ___start.clone());
+let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2.clone())).unwrap_or_default();
+let ___end = ___start.clone();
 let ___nt = super::___action651::<>(text, &___start, &___end);
 ___symbols.push((___start, ___Symbol::Variant5(___nt), ___end));
 (0, 83)
@@ -8882,8 +8882,8 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Comma<TypeParameter> =  => ActionFn(655);
-let ___start = ___symbols.last().map(|s| s.2.clone()).unwrap_or_default();
-let ___end = ___lookahead_start.cloned().unwrap_or_else(|| ___start.clone());
+let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2.clone())).unwrap_or_default();
+let ___end = ___start.clone();
 let ___nt = super::___action655::<>(text, &___start, &___end);
 ___symbols.push((___start, ___Symbol::Variant57(___nt), ___end));
 (0, 84)
@@ -8951,8 +8951,8 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Comma<TypeRef> =  => ActionFn(659);
-let ___start = ___symbols.last().map(|s| s.2.clone()).unwrap_or_default();
-let ___end = ___lookahead_start.cloned().unwrap_or_else(|| ___start.clone());
+let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2.clone())).unwrap_or_default();
+let ___end = ___start.clone();
 let ___nt = super::___action659::<>(text, &___start, &___end);
 ___symbols.push((___start, ___Symbol::Variant58(___nt), ___end));
 (0, 85)
@@ -9020,8 +9020,8 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Comma<TypeRefOrLifetime> =  => ActionFn(663);
-let ___start = ___symbols.last().map(|s| s.2.clone()).unwrap_or_default();
-let ___end = ___lookahead_start.cloned().unwrap_or_else(|| ___start.clone());
+let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2.clone())).unwrap_or_default();
+let ___end = ___start.clone();
 let ___nt = super::___action663::<>(text, &___start, &___end);
 ___symbols.push((___start, ___Symbol::Variant58(___nt), ___end));
 (0, 86)
@@ -9177,8 +9177,8 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Conversion? =  => ActionFn(261);
-let ___start = ___symbols.last().map(|s| s.2.clone()).unwrap_or_default();
-let ___end = ___lookahead_start.cloned().unwrap_or_else(|| ___start.clone());
+let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2.clone())).unwrap_or_default();
+let ___end = ___start.clone();
 let ___nt = super::___action261::<>(text, &___start, &___end);
 ___symbols.push((___start, ___Symbol::Variant60(___nt), ___end));
 (0, 90)
@@ -9232,8 +9232,8 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // ExprSymbol =  => ActionFn(640);
-let ___start = ___symbols.last().map(|s| s.2.clone()).unwrap_or_default();
-let ___end = ___lookahead_start.cloned().unwrap_or_else(|| ___start.clone());
+let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2.clone())).unwrap_or_default();
+let ___end = ___start.clone();
 let ___nt = super::___action640::<>(text, &___start, &___end);
 ___symbols.push((___start, ___Symbol::Variant62(___nt), ___end));
 (0, 93)
@@ -9431,8 +9431,8 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // FieldPattern? =  => ActionFn(122);
-let ___start = ___symbols.last().map(|s| s.2.clone()).unwrap_or_default();
-let ___end = ___lookahead_start.cloned().unwrap_or_else(|| ___start.clone());
+let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2.clone())).unwrap_or_default();
+let ___end = ___start.clone();
 let ___nt = super::___action122::<>(text, &___start, &___end);
 ___symbols.push((___start, ___Symbol::Variant64(___nt), ___end));
 (0, 96)
@@ -9468,8 +9468,8 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // ForAll =  => ActionFn(324);
-let ___start = ___symbols.last().map(|s| s.2.clone()).unwrap_or_default();
-let ___end = ___lookahead_start.cloned().unwrap_or_else(|| ___start.clone());
+let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2.clone())).unwrap_or_default();
+let ___end = ___start.clone();
 let ___nt = super::___action324::<>(text, &___start, &___end);
 ___symbols.push((___start, ___Symbol::Variant57(___nt), ___end));
 (0, 97)
@@ -12432,8 +12432,8 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // GrammarItem* =  => ActionFn(174);
-let ___start = ___symbols.last().map(|s| s.2.clone()).unwrap_or_default();
-let ___end = ___lookahead_start.cloned().unwrap_or_else(|| ___start.clone());
+let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2.clone())).unwrap_or_default();
+let ___end = ___start.clone();
 let ___nt = super::___action174::<>(text, &___start, &___end);
 ___symbols.push((___start, ___Symbol::Variant66(___nt), ___end));
 (0, 100)
@@ -12538,8 +12538,8 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // GrammarParameter? =  => ActionFn(227);
-let ___start = ___symbols.last().map(|s| s.2.clone()).unwrap_or_default();
-let ___end = ___lookahead_start.cloned().unwrap_or_else(|| ___start.clone());
+let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2.clone())).unwrap_or_default();
+let ___end = ___start.clone();
 let ___nt = super::___action227::<>(text, &___start, &___end);
 ___symbols.push((___start, ___Symbol::Variant67(___nt), ___end));
 (0, 103)
@@ -12591,8 +12591,8 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // GrammarParameters? =  => ActionFn(179);
-let ___start = ___symbols.last().map(|s| s.2.clone()).unwrap_or_default();
-let ___end = ___lookahead_start.cloned().unwrap_or_else(|| ___start.clone());
+let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2.clone())).unwrap_or_default();
+let ___end = ___start.clone();
 let ___nt = super::___action179::<>(text, &___start, &___end);
 ___symbols.push((___start, ___Symbol::Variant68(___nt), ___end));
 (0, 105)
@@ -12644,8 +12644,8 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // GrammarTypeParameters? =  => ActionFn(181);
-let ___start = ___symbols.last().map(|s| s.2.clone()).unwrap_or_default();
-let ___end = ___lookahead_start.cloned().unwrap_or_else(|| ___start.clone());
+let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2.clone())).unwrap_or_default();
+let ___end = ___start.clone();
 let ___nt = super::___action181::<>(text, &___start, &___end);
 ___symbols.push((___start, ___Symbol::Variant69(___nt), ___end));
 (0, 107)
@@ -12741,8 +12741,8 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // GrammarWhereClause? =  => ActionFn(204);
-let ___start = ___symbols.last().map(|s| s.2.clone()).unwrap_or_default();
-let ___end = ___lookahead_start.cloned().unwrap_or_else(|| ___start.clone());
+let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2.clone())).unwrap_or_default();
+let ___end = ___start.clone();
 let ___nt = super::___action204::<>(text, &___start, &___end);
 ___symbols.push((___start, ___Symbol::Variant70(___nt), ___end));
 (0, 109)
@@ -12793,8 +12793,8 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // GrammarWhereClauses? =  => ActionFn(177);
-let ___start = ___symbols.last().map(|s| s.2.clone()).unwrap_or_default();
-let ___end = ___lookahead_start.cloned().unwrap_or_else(|| ___start.clone());
+let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2.clone())).unwrap_or_default();
+let ___end = ___start.clone();
 let ___nt = super::___action177::<>(text, &___start, &___end);
 ___symbols.push((___start, ___Symbol::Variant71(___nt), ___end));
 (0, 111)
@@ -12877,8 +12877,8 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Lifetime? =  => ActionFn(138);
-let ___start = ___symbols.last().map(|s| s.2.clone()).unwrap_or_default();
-let ___end = ___lookahead_start.cloned().unwrap_or_else(|| ___start.clone());
+let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2.clone())).unwrap_or_default();
+let ___end = ___start.clone();
 let ___nt = super::___action138::<>(text, &___start, &___end);
 ___symbols.push((___start, ___Symbol::Variant72(___nt), ___end));
 (0, 114)
@@ -12978,8 +12978,8 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // MatchItem? =  => ActionFn(256);
-let ___start = ___symbols.last().map(|s| s.2.clone()).unwrap_or_default();
-let ___end = ___lookahead_start.cloned().unwrap_or_else(|| ___start.clone());
+let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2.clone())).unwrap_or_default();
+let ___end = ___start.clone();
 let ___nt = super::___action256::<>(text, &___start, &___end);
 ___symbols.push((___start, ___Symbol::Variant74(___nt), ___end));
 (0, 118)
@@ -13286,8 +13286,8 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // NotMacroId? =  => ActionFn(232);
-let ___start = ___symbols.last().map(|s| s.2.clone()).unwrap_or_default();
-let ___end = ___lookahead_start.cloned().unwrap_or_else(|| ___start.clone());
+let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2.clone())).unwrap_or_default();
+let ___end = ___start.clone();
 let ___nt = super::___action232::<>(text, &___start, &___end);
 ___symbols.push((___start, ___Symbol::Variant79(___nt), ___end));
 (0, 126)
@@ -13411,8 +13411,8 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Pattern? =  => ActionFn(266);
-let ___start = ___symbols.last().map(|s| s.2.clone()).unwrap_or_default();
-let ___end = ___lookahead_start.cloned().unwrap_or_else(|| ___start.clone());
+let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2.clone())).unwrap_or_default();
+let ___end = ___start.clone();
 let ___nt = super::___action266::<>(text, &___start, &___end);
 ___symbols.push((___start, ___Symbol::Variant81(___nt), ___end));
 (0, 129)
@@ -13700,8 +13700,8 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Plus<Lifetime> =  => ActionFn(557);
-let ___start = ___symbols.last().map(|s| s.2.clone()).unwrap_or_default();
-let ___end = ___lookahead_start.cloned().unwrap_or_else(|| ___start.clone());
+let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2.clone())).unwrap_or_default();
+let ___end = ___start.clone();
 let ___nt = super::___action557::<>(text, &___start, &___end);
 ___symbols.push((___start, ___Symbol::Variant83(___nt), ___end));
 (0, 131)
@@ -13769,8 +13769,8 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Plus<TypeBound> =  => ActionFn(647);
-let ___start = ___symbols.last().map(|s| s.2.clone()).unwrap_or_default();
-let ___end = ___lookahead_start.cloned().unwrap_or_else(|| ___start.clone());
+let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2.clone())).unwrap_or_default();
+let ___end = ___start.clone();
 let ___nt = super::___action647::<>(text, &___start, &___end);
 ___symbols.push((___start, ___Symbol::Variant84(___nt), ___end));
 (0, 132)
@@ -13957,8 +13957,8 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // ShebangAttribute* =  => ActionFn(188);
-let ___start = ___symbols.last().map(|s| s.2.clone()).unwrap_or_default();
-let ___end = ___lookahead_start.cloned().unwrap_or_else(|| ___start.clone());
+let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2.clone())).unwrap_or_default();
+let ___end = ___start.clone();
 let ___nt = super::___action188::<>(text, &___start, &___end);
 ___symbols.push((___start, ___Symbol::Variant88(___nt), ___end));
 (0, 138)
@@ -14108,8 +14108,8 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Symbol* =  => ActionFn(142);
-let ___start = ___symbols.last().map(|s| s.2.clone()).unwrap_or_default();
-let ___end = ___lookahead_start.cloned().unwrap_or_else(|| ___start.clone());
+let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2.clone())).unwrap_or_default();
+let ___end = ___start.clone();
 let ___nt = super::___action142::<>(text, &___start, &___end);
 ___symbols.push((___start, ___Symbol::Variant31(___nt), ___end));
 (0, 142)
@@ -14247,8 +14247,8 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Symbol? =  => ActionFn(242);
-let ___start = ___symbols.last().map(|s| s.2.clone()).unwrap_or_default();
-let ___end = ___lookahead_start.cloned().unwrap_or_else(|| ___start.clone());
+let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2.clone())).unwrap_or_default();
+let ___end = ___start.clone();
 let ___nt = super::___action242::<>(text, &___start, &___end);
 ___symbols.push((___start, ___Symbol::Variant89(___nt), ___end));
 (0, 146)
@@ -14750,8 +14750,8 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // TypeBound? =  => ActionFn(212);
-let ___start = ___symbols.last().map(|s| s.2.clone()).unwrap_or_default();
-let ___end = ___lookahead_start.cloned().unwrap_or_else(|| ___start.clone());
+let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2.clone())).unwrap_or_default();
+let ___end = ___start.clone();
 let ___nt = super::___action212::<>(text, &___start, &___end);
 ___symbols.push((___start, ___Symbol::Variant92(___nt), ___end));
 (0, 151)
@@ -14837,8 +14837,8 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // TypeBoundParameter? =  => ActionFn(222);
-let ___start = ___symbols.last().map(|s| s.2.clone()).unwrap_or_default();
-let ___end = ___lookahead_start.cloned().unwrap_or_else(|| ___start.clone());
+let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2.clone())).unwrap_or_default();
+let ___end = ___start.clone();
 let ___nt = super::___action222::<>(text, &___start, &___end);
 ___symbols.push((___start, ___Symbol::Variant93(___nt), ___end));
 (0, 153)
@@ -14921,8 +14921,8 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // TypeParameter? =  => ActionFn(199);
-let ___start = ___symbols.last().map(|s| s.2.clone()).unwrap_or_default();
-let ___end = ___lookahead_start.cloned().unwrap_or_else(|| ___start.clone());
+let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2.clone())).unwrap_or_default();
+let ___end = ___start.clone();
 let ___nt = super::___action199::<>(text, &___start, &___end);
 ___symbols.push((___start, ___Symbol::Variant94(___nt), ___end));
 (0, 156)
@@ -15273,8 +15273,8 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // TypeRef? =  => ActionFn(217);
-let ___start = ___symbols.last().map(|s| s.2.clone()).unwrap_or_default();
-let ___end = ___lookahead_start.cloned().unwrap_or_else(|| ___start.clone());
+let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2.clone())).unwrap_or_default();
+let ___end = ___start.clone();
 let ___nt = super::___action217::<>(text, &___start, &___end);
 ___symbols.push((___start, ___Symbol::Variant4(___nt), ___end));
 (0, 158)
@@ -15340,8 +15340,8 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // TypeRefOrLifetime? =  => ActionFn(247);
-let ___start = ___symbols.last().map(|s| s.2.clone()).unwrap_or_default();
-let ___end = ___lookahead_start.cloned().unwrap_or_else(|| ___start.clone());
+let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2.clone())).unwrap_or_default();
+let ___end = ___start.clone();
 let ___nt = super::___action247::<>(text, &___start, &___end);
 ___symbols.push((___start, ___Symbol::Variant4(___nt), ___end));
 (0, 160)
@@ -15375,8 +15375,8 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Use* =  => ActionFn(186);
-let ___start = ___symbols.last().map(|s| s.2.clone()).unwrap_or_default();
-let ___end = ___lookahead_start.cloned().unwrap_or_else(|| ___start.clone());
+let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2.clone())).unwrap_or_default();
+let ___end = ___start.clone();
 let ___nt = super::___action186::<>(text, &___start, &___end);
 ___symbols.push((___start, ___Symbol::Variant66(___nt), ___end));
 (0, 162)
@@ -15482,8 +15482,8 @@ _: ::std::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Visibility =  => ActionFn(325);
-let ___start = ___symbols.last().map(|s| s.2.clone()).unwrap_or_default();
-let ___end = ___lookahead_start.cloned().unwrap_or_else(|| ___start.clone());
+let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2.clone())).unwrap_or_default();
+let ___end = ___start.clone();
 let ___nt = super::___action325::<>(text, &___start, &___end);
 ___symbols.push((___start, ___Symbol::Variant95(___nt), ___end));
 (0, 164)

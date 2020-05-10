@@ -11,9 +11,9 @@ use crate::lr1::core::*;
 use crate::lr1::lookahead::Token;
 use crate::lr1::state_graph::StateGraph;
 use crate::rust::RustWrite;
-use std::io::{self, Write};
 use crate::tls::Tls;
 use crate::util::{Escape, Sep};
+use std::io::{self, Write};
 
 use super::base::CodeGenerator;
 
@@ -843,17 +843,18 @@ impl<'ascent, 'grammar, W: Write>
         };
         let transfer_syms = self.pop_syms(optional, fixed, production_inputs)?;
 
-        // identify the "start" location for this production; this
-        // is typically the start of the first symbol we are
-        // reducing; but in the case of an empty production, it
-        // will be the last symbol pushed, or at worst `default`.
-        if let Some(first_sym) = transfer_syms.first() {
+        // identify the "start" and "end" location for this production; this
+        // is typically the start of the first symbol and end of the last symbol we are
+        // reducing; but in the case of an empty production, it will come from the
+        // lookahead or the end of the last symbol pushed
+        if let (Some(first_sym), Some(last_sym)) = (transfer_syms.first(), transfer_syms.last()) {
             rust!(
                 self.out,
                 "let {}start = {}.0.clone();",
                 self.prefix,
                 first_sym
             );
+            rust!(self.out, "let {}end = {}.2.clone();", self.prefix, last_sym);
         } else if stack_suffix.len() > 0 {
             // we pop no symbols, so grab from the top of the stack
             // (unless we are in the start state)
@@ -861,21 +862,20 @@ impl<'ascent, 'grammar, W: Write>
             if !stack_suffix.fixed().is_empty() {
                 rust!(
                     self.out,
-                    "let {}start = {}sym{}.2.clone();",
-                    self.prefix,
-                    self.prefix,
-                    top
+                    "let {p}start = {p}lookahead.as_ref().map(|o| o.0.clone()).unwrap_or_else(|| {p}sym{top}.2.clone());",
+                    p = self.prefix,
+                    top = top
                 );
             } else {
                 // top of stack is optional; should not have been popped yet tho
                 rust!(
                     self.out,
-                    "let {}start = {}sym{}.as_ref().unwrap().2.clone();",
-                    self.prefix,
-                    self.prefix,
-                    top
+                    "let {p}start = {p}lookahead.as_ref().map(|o| o.0.clone()).unwrap_or_else(|| {p}sym{top}.as_ref().unwrap().2.clone());",
+                    p = self.prefix,
+                    top = top
                 );
             }
+            rust!(self.out, "let {p}end = {p}start;", p = self.prefix);
         } else {
             // this only occurs in the start state
             rust!(
@@ -884,23 +884,7 @@ impl<'ascent, 'grammar, W: Write>
                 self.prefix,
                 loc_type
             );
-        }
-
-        // identify the "end" location for this production;
-        // this is typically the end of the last symbol we are reducing,
-        // but in the case of an empty production it will come from the
-        // lookahead
-        if let Some(last_sym) = transfer_syms.last() {
-            rust!(self.out, "let {}end = {}.2.clone();", self.prefix, last_sym);
-        } else {
-            rust!(
-                self.out,
-                "let {}end = {}lookahead.as_ref().map(|o| o.0.clone()).unwrap_or_else(|| \
-                 {}start.clone());",
-                self.prefix,
-                self.prefix,
-                self.prefix
-            );
+            rust!(self.out, "let {p}end = {p}start;", p = self.prefix);
         }
 
         let transfered_syms = transfer_syms.len();
