@@ -34,7 +34,7 @@ Ok(
         Upgrade(
             0,
             Wonky(
-                5,
+                6,
                 6
             ),
             6
@@ -125,8 +125,8 @@ Ok(
         Ref(
             0,
             Maybe(
-                1,
-                1
+                2,
+                2
             ),
             Ident(
                 2,

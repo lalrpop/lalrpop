@@ -1060,41 +1060,28 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
             .collect();
 
         // Execute the action fn
-        // identify the "start" location for this production; this
-        // is typically the start of the first symbol we are
-        // reducing; but in the case of an empty production, it
-        // will be the last symbol pushed, or at worst `default`.
-        if let Some(first_sym) = transfer_syms.first() {
+        // identify the "start" and "end" location for this production; this
+        // is typically the start of the first symbol and end of the last symbol we are
+        // reducing; but in the case of an empty production, it will come from the
+        // lookahead
+        if let (Some(first_sym), Some(last_sym)) = (transfer_syms.first(), transfer_syms.last()) {
             rust!(
                 self.out,
                 "let {}start = {}.0.clone();",
                 self.prefix,
                 first_sym
             );
+            rust!(self.out, "let {}end = {}.2.clone();", self.prefix, last_sym);
         } else {
             // we pop no symbols, so grab from the top of the stack
             // (unless we are in the start state, in which case the
             // stack will be empty)
             rust!(
                 self.out,
-                "let {p}start = {p}symbols.last().map(|s| s.2.clone()).unwrap_or_default();",
+                "let {p}start = {p}lookahead_start.cloned().or_else(|| {p}symbols.last().map(|s| s.2.clone())).unwrap_or_default();",
                 p = self.prefix,
             );
-        }
-
-        // identify the "end" location for this production;
-        // this is typically the end of the last symbol we are reducing,
-        // but in the case of an empty production it will come from the
-        // lookahead
-        if let Some(last_sym) = transfer_syms.last() {
-            rust!(self.out, "let {}end = {}.2.clone();", self.prefix, last_sym);
-        } else {
-            rust!(
-                self.out,
-                "let {p}end = {p}lookahead_start.cloned().unwrap_or_else(|| \
-                 {p}start.clone());",
-                p = self.prefix,
-            );
+            rust!(self.out, "let {p}end = {p}start.clone();", p = self.prefix,);
         }
 
         let transfered_syms = transfer_syms.len();

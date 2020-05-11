@@ -145,6 +145,8 @@ lalrpop_mod!(
 
 lalrpop_mod!(comments);
 
+lalrpop_mod!(sp_from_optional);
+
 pub fn use_cfg_created_parser() {
     cfg::CreatedParser::new();
 }
@@ -1015,5 +1017,15 @@ fn comments() {
             )
             .unwrap(),
         vec!["22", "3", "5", "13"]
+    );
+}
+
+#[test]
+fn sp_from_optional() {
+    assert_eq!(
+        sp_from_optional::TestParser::new()
+            .parse("before   let")
+            .unwrap(),
+        (9, "let", 12)
     );
 }
