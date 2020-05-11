@@ -1,4 +1,25 @@
 <a name="0.18.1"></a>
+## 0.18.1 (2020-05-11)
+
+
+#### Performance
+
+*   Move the symbol mismatch panic into a colder path ([0c69e999](https://github.com/lalrpop/lalrpop/commit/0c69e999a5acd3aee95c45d9c7af622f1fb81904))
+*   Avoid subtracting in goto ([8a47ed8c](https://github.com/lalrpop/lalrpop/commit/8a47ed8c7cb26511b9ae28e03e87c2a727f60ef9))
+*   Emit the GOTO table as nested matches ([c5070af2](https://github.com/lalrpop/lalrpop/commit/c5070af2eece72c1585155b51b9a1ca0c7ade9b9))
+* **parse_table:**  Avoid generating unused rows in the matrix ([688b9193](https://github.com/lalrpop/lalrpop/commit/688b91930a6473098ea92f1b08b1f47d2838f67a))
+
+#### Features
+
+*   Use FnMut/FnOnce in ParseErrors map functions ([8f73c9dc](https://github.com/lalrpop/lalrpop/commit/8f73c9dcfbbb09d8647d7a3d32aeca48e0b52c97))
+
+#### Bug Fixes
+
+*   Don't include whitespace in the span with empty nonterminals ([11a50e70](https://github.com/lalrpop/lalrpop/commit/11a50e70f781da8f4af59cbd208ece73ede1d936))
+
+
+
+<a name="0.18.1"></a>
 ## 0.18.1 (2020-03-04)
 
 
