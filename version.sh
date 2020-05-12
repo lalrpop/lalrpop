@@ -23,7 +23,7 @@ fi
 
 echo "Found consistent version $VERSION"
 
-clog --setversion $VERSION
+clog --setversion $1
 
 perl -p -i -e 's/version *= *"[0-9.]+" # LALRPOP/version = "'$1'" # LALRPOP/' \
      $(ls lalrpop*/Cargo.toml)
