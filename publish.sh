@@ -5,8 +5,8 @@
 
 VERSION=$(
     ls lalrpop*/Cargo.toml | \
-        xargs grep "# LALRPOP$" | \
-        perl -p -e 's/.*version = "([0-9.]+)" # LALRPOP$/$1/' |
+        xargs grep "# LALRPOP" | \
+        perl -p -e 's/.*version = "([0-9.]+)" # LALRPOP/$1/' |
         sort |
         uniq)
 
@@ -36,7 +36,7 @@ function publish {
 }
 
 publish lalrpop-util
-sleep 5 # Wait for lalrpop-util to be available on crates.io
+sleep 10 # Wait for lalrpop-util to be available on crates.io
 publish lalrpop
 
 git tag $VERSION
