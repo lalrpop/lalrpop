@@ -135,6 +135,12 @@ where
     }
 }
 
+impl<L, T, E> From<E> for ParseError<L, T, E> {
+    fn from(error: E) -> Self {
+        ParseError::User { error }
+    }
+}
+
 impl<L, T, E> Error for ParseError<L, T, E>
 where
     L: fmt::Debug + fmt::Display,
