@@ -1,5 +1,5 @@
-use ast::{ExprSymbol, Opcode};
-use tok9::Tok;
+use crate::ast::{ExprSymbol, Opcode};
+use crate::tok9::Tok;
 
 grammar<'input>(input: &'input str);
 
