@@ -1,0 +1,38 @@
+grammar;
+
+pub Term = {
+    Num,
+    "(" <Term> ")",
+    "22" => format!("Twenty-two!"),
+    ID => format!("Id({})", <>),
+};
+
+Num: String = r"[0-9]+" => <>.to_string();
+
+// `match`: Declares the precedence of regular expressions
+// relative to one another when synthesizing
+// the lexer
+match {
+    // These items have highest precedence.
+
+    r"[0-9]+",
+
+    // Within a match level, fixed strings like `"22"` get
+    // precedence over regular expresions.
+    "22"
+} else {
+    // These items have next highest precedence.
+
+    // Given an input like `123`, the number regex above
+    // will match; but otherwise, given something like
+    // `123foo` or `foo123`, this will match.
+    //
+    // Here, we also renamed the regex to the name `ID`, which we can
+    // use in the grammar itself.
+    r"\w+" => ID,
+
+    // This `_` means "add in all the other strings and
+    // regular expressions in the grammer here" (e.g.,
+    // `"("`).
+    _
+} // you can have more `else` sections if you like

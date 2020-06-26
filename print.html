@@ -1,0 +1,1695 @@
+<!DOCTYPE HTML>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title></title>
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <base href="">
+
+        <link rel="stylesheet" href="book.css">
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css">
+        <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro:500" rel="stylesheet" type="text/css">
+
+        <link rel="shortcut icon" href="favicon.png">
+
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme -->
+        
+
+        
+        <!-- MathJax -->
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        
+
+        <!-- Fetch Clipboard.js from CDN but have a local fallback -->
+        <script src="https://cdn.jsdelivr.net/clipboard.js/1.6.1/clipboard.min.js"></script>
+        <script>
+            if (typeof Clipboard == 'undefined') {
+                document.write(unescape("%3Cscript src='clipboard.min.js'%3E%3C/script%3E"));
+            }
+        </script>
+
+    </head>
+    <body class="light">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { } 
+            if (theme === null || theme === undefined) { theme = 'light'; }
+            document.body.className = theme;
+            document.querySelector('html').className = theme;
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            document.querySelector('html').classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <ol class="chapter"><li><a href="README.html"><strong aria-hidden="true">1.</strong> LALRPOP</a></li><li><a href="crash_course.html"><strong aria-hidden="true">2.</strong> Crash course on parsers</a></li><li><a href="quick_start_guide.html"><strong aria-hidden="true">3.</strong> Quick start guide</a></li><li><a href="tutorial/index.html"><strong aria-hidden="true">4.</strong> Tutorial</a></li><li><ol class="section"><li><a href="tutorial/001_adding_lalrpop.html"><strong aria-hidden="true">4.1.</strong> Adding LALRPOP to your project</a></li><li><a href="tutorial/002_paren_numbers.html"><strong aria-hidden="true">4.2.</strong> Parsing parenthesized numbers</a></li><li><a href="tutorial/003_type_inference.html"><strong aria-hidden="true">4.3.</strong> Type inference</a></li><li><a href="tutorial/004_full_expressions.html"><strong aria-hidden="true">4.4.</strong> Handling full expressions</a></li><li><a href="tutorial/005_building_asts.html"><strong aria-hidden="true">4.5.</strong> Building ASTs</a></li><li><a href="tutorial/006_macros.html"><strong aria-hidden="true">4.6.</strong> Macros</a></li><li><a href="tutorial/007_fallible_actions.html"><strong aria-hidden="true">4.7.</strong> Fallible actions</a></li><li><a href="tutorial/008_error_recovery.html"><strong aria-hidden="true">4.8.</strong> Error recovery</a></li><li><a href="tutorial/009_state_parameter.html"><strong aria-hidden="true">4.9.</strong> Passing state parameter</a></li></ol></li><li><a href="lexer_tutorial/index.html"><strong aria-hidden="true">5.</strong> Controlling the lexer</a></li><li><ol class="section"><li><a href="lexer_tutorial/001_lexer_gen.html"><strong aria-hidden="true">5.1.</strong> LALRPOP's lexer generator</a></li><li><a href="lexer_tutorial/002_writing_custom_lexer.html"><strong aria-hidden="true">5.2.</strong> Writing a custom lexer</a></li><li><a href="lexer_tutorial/003_token_references.html"><strong aria-hidden="true">5.3.</strong> Using tokens with references</a></li></ol></li><li><a href="advanced_setup.html"><strong aria-hidden="true">6.</strong> Advanced setup</a></li><li><ol class="section"><li><a href="generate_in_source.html"><strong aria-hidden="true">6.1.</strong> Generate in source tree</a></li><li class="spacer"></li></ol></li><li><a href="misc/contributors.html">Contributors</a></li></ol>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                
+                <div id="menu-bar" class="menu-bar">
+                    <div id="menu-bar-sticky-container">
+                        <div class="left-buttons">
+                            <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                                <i class="fa fa-bars"></i>
+                            </button>
+                            <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                                <i class="fa fa-paint-brush"></i>
+                            </button>
+                            <ul id="theme-list" class="theme-popup" aria-label="submenu">
+                                <li><button class="theme" id="light">Light <span class="default">(default)</span></button></li>
+                                <li><button class="theme" id="rust">Rust</button></li>
+                                <li><button class="theme" id="coal">Coal</button></li>
+                                <li><button class="theme" id="navy">Navy</button></li>
+                                <li><button class="theme" id="ayu">Ayu</button></li>
+                            </ul>
+                        </div>
+
+                        <h1 class="menu-title"></h1>
+
+                        <div class="right-buttons">
+                            <a href="print.html" title="Print this book" aria-label="Print this book">
+                                <i id="print-button" class="fa fa-print"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <a class="header" href="print.html#lalrpop" id="lalrpop"><h1>LALRPOP</h1></a>
+<p>LALRPOP is a parser generator, similar in principle to <a href="http://dinosaur.compilertools.net/yacc/">YACC</a>, <a href="http://www.antlr.org/">ANTLR</a>, <a href="http://gallium.inria.fr/%7Efpottier/menhir/">Menhir</a>,
+and other such programs. In general, it has the grand ambition of
+being the most usable parser generator ever. This ambition is most
+certainly not fully realized: right now, it's fairly standard, maybe
+even a bit subpar in some areas. But hey, it's young. For the most
+part, this README is intended to describe the current behavior of
+LALRPOP, but in some places it includes notes for planned future
+changes.</p>
+<a class="header" href="print.html#crash-course-on-parsers" id="crash-course-on-parsers"><h1>Crash course on parsers</h1></a>
+<p>If you've never worked with a parser generator before, or aren't
+really familiar with context-free grammars, this section is just a
+<em>very brief</em> introduction into the basic idea. Basically a grammar is
+a nice way of writing out what kinds of inputs are legal.  In our
+example, we want to support parenthesized numbers, so things like
+<code>123</code>, <code>(123)</code>, etc. We can express this with a simple grammar like:</p>
+<pre><code>Term = Num | &quot;(&quot; Term &quot;)&quot;
+</code></pre>
+<p>Here we say we are trying to parse a <em>term</em>, and a term can either be
+a number (<code>Num</code>) or some other term enclosing in parentheses (here I
+did not define what a number is, but in the real LALRPOP example we'll
+do that with a regular expression).  Now imagine a potential input
+like <code>((123))</code>. We can show how this would be parsed by writing out
+something called a &quot;parse tree&quot;:</p>
+<pre><code>(  (  1  2  3  )  )
+|  |  |     |  |  |
+|  |  +-Num-+  |  |
+|  |     |     |  |
+|  |   Term    |  |
+|  |     |     |  |
+|  +---Term----+  |
+|        |        |
++------Term-------+
+</code></pre>
+<p>Here you can see that we parsed <code>((123))</code> by finding a <code>Num</code> in the
+middle, calling that <code>Num</code> a <code>Term</code>, and matching up the parentheses
+to form two more terms on top of that.</p>
+<p>Note that this parse tree is not a data structure but more a
+visualization of the parse. I mean, you <em>can</em> build up a parse tree as
+a data structure, but typically you don't want to: it is more detailed
+than you need. For example, you may not be that interested in the
+no-op conversion from a <code>Num</code> to a <code>Term</code>. The other weird thing about
+a parse tree is that it is intimately tied to your grammar, but often
+you have some existing data structures you would like to parse into --
+so if you built up a parse tree, you'd then have to convert from the
+parse tree into those data structures, and that might be annoying.</p>
+<p>Therefore, what a parser generator usually does, is instead let you
+choose how to represent each node in the parse tree, and how to do the
+conversions. You give each nonterminal a type, which can be any Rust
+type, and you write code that will execute each time a new node in the
+parse tree would have been constructed. In fact, in the examples that follow, we'll
+eventually build up something like a parse tree, but in the beginning, we won't
+do that at all. Instead, we'll represent each number and term as an <code>i32</code>,
+and we'll propagate this value around.</p>
+<p>To make this a bit more concrete, here's a version of the grammar above
+written in LALRPOP notation (we'll revisit this again in more detail of course).
+You can see that the <code>Term</code> nonterminal has been given the type <code>i32</code>,
+and that each of the definitions has some code that follows a <code>=&gt;</code> symbol.
+This is the code that will execute to convert from the thing that was matched
+(like a number, or a parenthesized term) into an <code>i32</code>:</p>
+<pre><code class="language-lalrpop">Term: i32 = {
+    Num =&gt; /* ... number code ... */,
+    &quot;(&quot; Term &quot;)&quot; =&gt; /* ... parenthesized code ... */,
+};
+</code></pre>
+<p>OK, that's enough background, let's do this for real!</p>
+<p>For getting started with LALRPOP, it's probably best if you read
+<a href="tutorial/index.md">the tutorial</a>, which will introduce you
+to the syntax of LALRPOP files and so forth.</p>
+<p>But if you've done this before, or you're just the impatient sort,
+here is a quick 'cheat sheet' for setting up your project.  First, add
+the following lines to your <code>Cargo.toml</code>:</p>
+<pre><code class="language-toml">[package]
+...
+build = &quot;build.rs&quot; # LALRPOP preprocessing
+
+# The generated code depends on lalrpop-util.
+#
+# The generated tokenizer depends on the regex crate.
+#
+# (If you write your own tokenizer, or already have the regex
+# crate, you can skip this dependency.)
+[dependencies]
+lalrpop-util = &quot;0.19.0&quot;
+regex = &quot;1&quot;
+
+# Add a build-time dependency on the lalrpop library:
+[build-dependencies]
+lalrpop = &quot;0.19.0&quot;
+# If you do not supply your own, external lexer you also need the `lexer` feature
+# lalrpop = { version = &quot;0.18.1&quot;, features = [&quot;lexer&quot;] }
+</code></pre>
+<p>Next create a <code>build.rs</code> file that looks like:</p>
+<pre><pre class="playpen"><code class="language-rust">extern crate lalrpop;
+
+fn main() {
+    lalrpop::process_root().unwrap();
+}
+</code></pre></pre>
+<p>(If you already have a <code>build.rs</code> file, you should be able to just
+call <code>process_root</code> in addition to whatever else that file is doing.)</p>
+<p>That's it! Note that <code>process_root</code> simply uses the default settings.
+If you want to configure how LALRPOP executes, see the
+<a href="advanced_setup.md">advanced setup</a> section.</p>
+<a class="header" href="print.html#running-manually" id="running-manually"><h4>Running manually</h4></a>
+<p>If you prefer, you can also run the <code>lalrpop</code> crate as an
+executable. Simply run <code>cargo install lalrpop</code> and then you will get a
+<code>lalrpop</code> binary you can execute, like so:</p>
+<pre><code>lalrpop file.lalrpop
+</code></pre>
+<p>This will generate <code>file.rs</code> for you. Note that it only executes if
+<code>file.lalrpop</code> is newer than <code>file.rs</code>; if you'd prefer to execute
+unconditionally, pass <code>-f</code> (also try <code>--help</code> for other options).</p>
+<p>This is a tutorial for how to write a complete parser for a simple calculator using LALRPOP.</p>
+<p>If you are unfamiliar with what a parser generator is, you should read <a href="../crash_course.md">Crash course on parsers</a>
+first.</p>
+<ul>
+<li><a href="tutorial/001_adding_lalrpop.html">Adding LALRPOP to your project</a></li>
+<li><a href="tutorial/002_paren_numbers.html">Parsing parenthesized numbers</a></li>
+<li><a href="tutorial/003_type_inference.html">Type inference</a></li>
+<li><a href="tutorial/004_full_expressions.html">Handling full expressions</a></li>
+<li><a href="tutorial/005_building_asts.html">Building ASTs</a></li>
+<li><a href="tutorial/006_macros.html">Macros</a></li>
+<li><a href="tutorial/007_error_recovery.html">Error recovery</a></li>
+<li><a href="tutorial/008_state_parameter.html">Passing state parameter</a></li>
+</ul>
+<p>This tutorial is still incomplete. Here are some topics that I aim to
+cover when I get time to write about them:</p>
+<ul>
+<li>Advice for resolving shift-reduce and reduce-reduce conflicts</li>
+<li>Passing state and type/lifetime parameters to your action code (see e.g. <a href="https://github.com/lalrpop/lalrpop/blob/master/lalrpop-test/src/expr_arena.lalrpop">this test</a> invoked <a href="https://github.com/lalrpop/lalrpop/blob/master/lalrpop-test/src/main.rs">from here</a>).</li>
+<li>Location tracking with <code>@L</code> and <code>@R</code> (see e.g. <a href="https://github.com/lalrpop/lalrpop/blob/master/lalrpop-test/src/intern_tok.lalrpop">this test</a>).</li>
+<li>Integrating with external tokenizers (see e.g. <a href="https://github.com/lalrpop/lalrpop/blob/master/lalrpop-test/src/expr.lalrpop">this test</a> invoked <a href="https://github.com/lalrpop/lalrpop/blob/master/lalrpop-test/src/main.rs">from here</a>).</li>
+<li>Conditional macros (no good test to point you at yet, sorry)</li>
+<li>Fallible action code that produces a <code>Result</code> (see e.g. <a href="https://github.com/lalrpop/lalrpop/blob/master/lalrpop-test/src/error.lalrpop">this test</a> invoked <a href="https://github.com/lalrpop/lalrpop/blob/master/lalrpop-test/src/main.rs">from here</a>).</li>
+<li>Converting to use <code>LALR(1)</code> instead of <code>LR(1)</code> (see e.g. <a href="https://github.com/lalrpop/lalrpop/blob/master/lalrpop-test/src/expr_lalr.lalrpop">this test</a> invoked <a href="https://github.com/lalrpop/lalrpop/blob/master/lalrpop-test/src/main.rs">from here</a>).</li>
+<li>Plans for future features</li>
+</ul>
+<a class="header" href="print.html#adding-lalrpop-to-your-cargotoml-file" id="adding-lalrpop-to-your-cargotoml-file"><h1>Adding LALRPOP to your <code>Cargo.toml</code> file</h1></a>
+<p>LALRPOP works as a preprocessor that is integrated with cargo. When
+LALRPOP is invoked, it will search your source directory for files
+with the extension <code>lalrpop</code> and create corresponding <code>rs</code> files. So,
+for example, if we have a file <code>calculator.lalrpop</code>, the preprocessor
+will create a Rust file <code>calculator.rs</code>. As an aside, the syntax of
+LALRPOP intentionally hews fairly close to Rust, so it should be
+possible to use the Rust plugin to edit lalrpop files as well, as long
+as it's not too picky (the emacs rust-mode, in particular, works just
+fine).</p>
+<p>To start, let's use <code>cargo new</code> to make a new project. We'll call it
+<code>calculator</code>:</p>
+<pre><code>&gt; cargo new --bin calculator
+</code></pre>
+<p>We now have to edit the generated <a href="../../calculator/Cargo.toml"><code>calculator/Cargo.toml</code></a>
+file to invoke the LALRPOP preprocessor. The resulting file should
+look something like:</p>
+<pre><code>[package]
+name = &quot;calculator&quot;
+version = &quot;0.1.0&quot;
+authors = [&quot;Niko Matsakis &lt;niko@alum.mit.edu&gt;&quot;]
+
+[build-dependencies] # &lt;-- We added this and everything after!
+lalrpop = &quot;0.19.0&quot;
+
+[dependencies]
+lalrpop-util = &quot;0.19.0&quot;
+regex = &quot;1&quot;
+</code></pre>
+<p>Cargo can run <a href="https://doc.rust-lang.org/cargo/reference/build-scripts.html">build scripts</a> as a pre-processing step,
+named <code>build.rs</code> by default. The <code>[build-dependencies]</code>
+section specifies the dependencies for build scripts -- in this
+case, just LALRPOP.</p>
+<p>The <code>[dependencies]</code> section describes the dependencies that LALRPOP
+needs at runtime. All LALRPOP parsers require at least the
+<code>lalrpop-util</code> crate. In addition, if you don't want to write the
+lexer by hand, you need to add a dependency on the regex crate. (If
+you don't know what a lexer is, don't worry, it's not important just
+now, though we will cover it in <a href="002_paren_numbers.md">the next section</a>; if you <em>do</em>
+know what a lexer is, and you want to know how to write a lexer by
+hand and use it with LALRPOP, then check out the <a href="../lexer_tutorial/index.md">lexer tutorial</a>.)</p>
+<p>Next we have to add <code>build.rs</code> itself. This should just look like the
+following:</p>
+<pre><pre class="playpen"><code class="language-rust">extern crate lalrpop;
+
+fn main() {
+    lalrpop::process_root().unwrap();
+}
+</code></pre></pre>
+<p>The function <code>process_root</code> processes your <code>src</code> directory, converting
+all <code>lalrpop</code> files into <code>rs</code> files. It is smart enough to check
+timestamps and do nothing if the <code>rs</code> file is newer than the <code>lalrpop</code>
+file, and to mark the generated <code>rs</code> file as read-only. It returns an
+<code>io::Result&lt;()&gt;</code>, so the <code>unwrap()</code> call just asserts that no
+file-system errors occurred.</p>
+<p><em>NOTE:</em> On Windows, the necessary APIs are not yet stable, so
+timestamp checking is disabled.</p>
+<a class="header" href="print.html#parsing-parenthesized-numbers" id="parsing-parenthesized-numbers"><h1>Parsing parenthesized numbers</h1></a>
+<p>OK, now we're all set to start making a LALRPOP grammar. Before we
+tackle full expressions, let's start with something simple -- really
+simple. Let's just start with parenthesized integers, like <code>123</code> or
+<code>(123)</code> or even (hold on to your hats) <code>(((123)))</code>. Wow.</p>
+<p>To handle this, we'll need to add a
+<a href="../../calculator/src/calculator1.lalrpop"><code>calculator1.lalrpop</code></a> as shown below. Note: to make
+explaining things easier, this version is maximally explicit; the next
+section will make it shorter by employing some shorthands that LALRPOP
+offers.</p>
+<pre><code class="language-lalrpop">use std::str::FromStr;
+
+grammar;
+
+pub Term: i32 = {
+    &lt;n:Num&gt; =&gt; n,
+    &quot;(&quot; &lt;t:Term&gt; &quot;)&quot; =&gt; t,
+};
+
+Num: i32 = &lt;s:r&quot;[0-9]+&quot;&gt; =&gt; i32::from_str(s).unwrap();
+</code></pre>
+<p>Let's look at this bit by bit. The first part of the file is the <code>use</code>
+statement and the <code>grammar</code> declaration. You'll find these at the top
+of every LALRPOP grammar. Just as in Rust, the <code>use</code> statement just
+brings names in scope: in fact, these <code>use</code> statements are just copied
+verbatim into the generated Rust code as needed.</p>
+<p><em>A note about underscores and hygiene:</em> LALRPOP generates its own
+names that begin with at least two leading underscores. To avoid
+conflicts, it will insert more underscores if it sees that you use
+identifiers that also have two underscores. But if you use glob
+imports that bring in names beginning with <code>__</code>, you may find you have
+invisible conflicts. To avoid this, don't use a glob (or define some
+other name with two underscores somewhere else).</p>
+<p><strong>Nonterminal declarations.</strong> After the <code>grammar</code> declaration comes a
+series of <em>nonterminal declarations</em>.  This grammar has two
+nonterminals, <code>Term</code> and <code>Num</code>. A nonterminal is just a name that we
+give to something which can be parsed. Each nonterminal is then
+defined in terms of other things.</p>
+<p>Let's start with <code>Num</code>, at the end of the file, which is declared
+as follows:</p>
+<pre><code class="language-lalrpop">Num: i32 =
+    &lt;s:r&quot;[0-9]+&quot;&gt; =&gt; i32::from_str(s).unwrap();
+</code></pre>
+<p>This declaration says that the type of <code>Num</code> is <code>i32</code>. This means that
+when we parse a <code>Num</code> from the input text, we will produce a value of
+type <code>i32</code>. The definition of <code>Num</code> is <code>&lt;s:r&quot;[0-9]+&quot;&gt;</code>.  Let's look at
+this from the inside out. The notation <code>r&quot;[0-9]+&quot;</code> is a regex literal
+-- this is the same as a Rust raw string. (And, just as in Rust, you
+can use hashes if you need to embed quotes, like <code>r#&quot;...&quot;...&quot;#</code>.)  It
+will match against a string of characters that matches the regular
+expression: in this case, some number of digits. The result of this
+match will be a slice <code>&amp;'input str</code> into the input text that we are
+parsing (no copies are made).</p>
+<p>This regular expression is wrapped in angle brackets and labeled:
+<code>&lt;s:r&quot;[0-9]+&quot;&gt;</code>. In general, angle brackets are used in LALRPOP to
+indicate the values that will be used by the <em>action code</em> -- that is,
+the code that executes when a <code>Num</code> is parsed.  In this case, the
+string that matches the regular expression is bound to the name <code>s</code>,
+and the action code <code>i32::from_str(s).unwrap()</code> parses that string and
+creates an <code>i32</code>. Hence the result of parsing a <code>Num</code> is an <code>i32</code>.</p>
+<p>OK, now let's look at the nonterminal <code>Term</code>:</p>
+<pre><code class="language-lalrpop">pub Term: i32 = {
+    &lt;n:Num&gt; =&gt; n,
+    &quot;(&quot; &lt;t:Term&gt; &quot;)&quot; =&gt; t,
+};
+</code></pre>
+<p>First, this nonterminal is declared as <code>pub</code>. That means that LALRPOP
+will generate a public struct (named, as we will see, <code>TermParser</code>)
+that you can use to parse strings as <code>Term</code>. Private nonterminals
+(like <code>Num</code>) can only be used within the grammar itself, not from
+outside.</p>
+<p>The <code>Term</code> nonterminal has two alternative definitions, which is
+indicated by writing <code>{ alternative1, alternative2 }</code>. In this case,
+the first alternative is <code>&lt;n:Num&gt;</code>, meaning that a term can be just a
+number; so <code>22</code> is a term. The second alternative is <code>&quot;(&quot; &lt;t:Term&gt; &quot;)&quot;</code>, which indicates that a term can also be a parenthesized term; so
+<code>(22)</code> is a term, as is <code>((22))</code>, <code>((((((22))))))</code>, and so on.</p>
+<p><strong>Invoking the parser.</strong> OK, so we wrote our parser, how do we use it?
+For every nonterminal <code>Foo</code> declared as <code>pub</code>, LALRPOP will export a
+<code>FooParser</code> struct with a <code>parse</code> method that you can call to parse a
+string as that nonterminal. Here is a simple test that we've added to
+our <a href="../../calculator/src/main.rs"><code>main.rs</code></a> file which uses this struct to test our <code>Term</code>
+nonterminal:</p>
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
+#fn main() {
+#[macro_use] extern crate lalrpop_util;
+
+lalrpop_mod!(pub calculator1); // synthesized by LALRPOP
+
+#[test]
+fn calculator1() {
+    assert!(calculator1::TermParser::new().parse(&quot;22&quot;).is_ok());
+    assert!(calculator1::TermParser::new().parse(&quot;(22)&quot;).is_ok());
+    assert!(calculator1::TermParser::new().parse(&quot;((((22))))&quot;).is_ok());
+    assert!(calculator1::TermParser::new().parse(&quot;((22)&quot;).is_err());
+}
+#}</code></pre></pre>
+<p>The full signature of the parse method looks like this:</p>
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
+#fn main() {
+fn parse&lt;'input&gt;(&amp;self, input: &amp;'input str)
+                     -&gt; Result&lt;i32, ParseError&lt;usize,(usize, &amp;'input str),()&gt;&gt;
+                     //        ~~~  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                     //         |                       |
+                     // Result upon success             |
+                     //                                 |
+                     //             Error enum defined in the lalrpop_util crate
+{
+    ...
+}
+#}</code></pre></pre>
+<a class="header" href="print.html#type-inference" id="type-inference"><h1>Type inference</h1></a>
+<p>OK, now that we understand <a href="../../calculator/src/calculator1.lalrpop">the calculator1 example</a>, let's
+look at some of the shorthands that LALRPOP offers to make it more concise.
+This code is found in <a href="../../calculator/src/calculator2.lalrpop">the calculator2 demo</a>.</p>
+<p>To start, let's look at the definition of <code>Term</code> we saw before:</p>
+<pre><code class="language-lalrpop">pub Term: i32 = {
+    &lt;n:Num&gt; =&gt; n,
+    &quot;(&quot; &lt;t:Term&gt; &quot;)&quot; =&gt; t,
+};
+</code></pre>
+<p>The action code here is somewhat interesting. In both cases, it's not
+doing any new work, it's just selecting a value that was produced by
+another nonterminal. This turns out to be pretty common. So common,
+in fact, that LALRPOP offers some shorthand notation for it. Here is
+the definition of <code>Term</code> from the calculator2 demo:</p>
+<pre><code class="language-lalrpop">pub Term = { Num, &quot;(&quot; &lt;Term&gt; &quot;)&quot; };
+</code></pre>
+<p>Here, we have no action code at all. If there is no action code,
+LALRPOP synthesizes action code which just takes the value of the
+things being matched. In the case of the first alternative, <code>Num</code>,
+there is only one thing being matched, so that means that <code>Term</code> will
+produce the same value as the <code>Num</code> we parsed, whatever that was.</p>
+<p>In the case of the second alternative, <code>&quot;(&quot; &lt;Term&gt; &quot;)&quot;</code>, there are
+three things being matched. Here we use the angle brackets to select
+which item(s) we want to take the value of --- we selected only one,
+so the result is that we take the value of the <code>Term</code> we parsed. If we
+selected more than one, the result would be a tuple of all the
+selected items.  If we did not select any (i.e., <code>&quot;(&quot; Term &quot;)&quot;</code>), the
+result would be a tuple of all the items, and hence the result would
+be of type <code>(&amp;'input str, i32, &amp;'input str)</code>.</p>
+<p>Speaking of types, you may have noticed that <code>Term</code> has no type
+annotation. Since we didn't write out own action code, we can omit the
+type annotation and let LALRPOP infer it for us. In this case, LALRPOP
+can see that <code>Term</code> must have the same type as <code>Num</code>, and hence that
+the type must be <code>i32</code>.</p>
+<p>OK, let's look at the definition of <code>Num</code> we saw before from calculator1:</p>
+<pre><code class="language-lalrpop">Num: i32 = &lt;s:r&quot;[0-9]+&quot;&gt; =&gt; i32::from_str(s).unwrap();
+</code></pre>
+<p>This definition too can be made somewhat shorter. In calculator2, you will
+find:</p>
+<pre><code class="language-lalrpop">Num: i32 = r&quot;[0-9]+&quot; =&gt; i32::from_str(&lt;&gt;).unwrap();
+</code></pre>
+<p>Here, instead of giving the regular expression a name <code>s</code>, we modified
+the action code to use the funky expression <code>&lt;&gt;</code>. This is a shorthand
+that says &quot;synthesize names for the matched values and insert a
+comma-separated list here&quot;. In this case, there is only one matched
+value, <code>r&quot;[0-9]+&quot;</code>, and it produces a <code>&amp;'input str</code>, so LALRPOP will
+insert a synthetic variable for that value. Note that we still have
+custom action code, so we still need a type annotation.</p>
+<p>To control what values are selected when you use the <code>&lt;&gt;</code> expression
+in your action code, you can use angle brackets as we saw before.
+Here are some examples of alternatives and how they are expanded to
+give you the idea:</p>
+<table><thead><tr><th> Alternative          </th><th> Equivalent to              </th></tr></thead><tbody>
+<tr><td> <code>A =&gt; bar(&lt;&gt;)</code>       </td><td> <code>&lt;a:A&gt; =&gt; bar(a)</code>          </td></tr>
+<tr><td> <code>A B =&gt; bar(&lt;&gt;)</code>     </td><td> <code>&lt;a:A&gt; &lt;b:B&gt; =&gt; bar(a, b)</code> </td></tr>
+<tr><td> <code>A B =&gt; (&lt;&gt;)</code>        </td><td> <code>&lt;a:A&gt; &lt;b:B&gt; =&gt; (a, b)</code>    </td></tr>
+<tr><td> <code>&lt;A&gt; B =&gt; bar(&lt;&gt;)</code>   </td><td> <code>&lt;a:A&gt; B =&gt; bar(a)</code>        </td></tr>
+<tr><td> <code>&lt;p:A&gt; B =&gt; bar(&lt;&gt;)</code> </td><td> <code>&lt;p:A&gt; B =&gt; bar(p)</code>        </td></tr>
+<tr><td> <code>&lt;A&gt; &lt;B&gt; =&gt; bar(&lt;&gt;)</code> </td><td> <code>&lt;a:A&gt; &lt;b:B&gt; =&gt; bar(a, b)</code> </td></tr>
+<tr><td> <code>&lt;p:A&gt; &lt;q:B&gt; =&gt; bar(&lt;&gt;)</code> </td><td> <code>&lt;p:A&gt; &lt;q:B&gt; =&gt; bar(p, q)</code> </td></tr>
+<tr><td> <code>&lt;p:A&gt; B =&gt; Foo {&lt;&gt;}</code> </td><td> <code>&lt;p:A&gt; B =&gt; Foo {p:p}</code> </td></tr>
+<tr><td> <code>&lt;p:A&gt; &lt;q:B&gt; =&gt; Foo {&lt;&gt;}</code> </td><td> <code>&lt;p:A&gt; &lt;q:B&gt; =&gt; Foo {p:p, q:q}</code> </td></tr>
+</tbody></table>
+<p>The <code>&lt;&gt;</code> expressions also works with struct constructors (like <code>Foo {...}</code> in examples above). This works out well if the names of your
+parsed values match the names of your struct fields.</p>
+<a class="header" href="print.html#handling-full-expressions" id="handling-full-expressions"><h1>Handling full expressions</h1></a>
+<p>Now we are ready to extend our calculator to cover the full range of
+arithmetic expressions (well, at least the ones you learned in
+elementary school). Here is
+<a href="../../calculator/src/calculator3.lalrpop">the next calculator example, calculator3</a>:</p>
+<pre><code class="language-lalrpop">use std::str::FromStr;
+
+grammar;
+
+pub Expr: i32 = {
+    &lt;l:Expr&gt; &quot;+&quot; &lt;r:Factor&gt; =&gt; l + r,
+    &lt;l:Expr&gt; &quot;-&quot; &lt;r:Factor&gt; =&gt; l - r,
+    Factor,
+};
+
+Factor: i32 = {
+    &lt;l:Factor&gt; &quot;*&quot; &lt;r:Term&gt; =&gt; l * r,
+    &lt;l:Factor&gt; &quot;/&quot; &lt;r:Term&gt; =&gt; l / r,
+    Term,
+};
+
+Term: i32 = {
+    Num,
+    &quot;(&quot; &lt;Expr&gt; &quot;)&quot;,
+};
+
+Num: i32 = {
+    r&quot;[0-9]+&quot; =&gt; i32::from_str(&lt;&gt;).unwrap(),
+};
+</code></pre>
+<p>Perhaps the most interesting thing about this example is the way it
+encodes precedence. The idea of precedence of course is that in an
+expression like <code>2+3*4</code>, we want to do the multiplication first, and
+then the addition. LALRPOP doesn't have any built-in features for
+giving precedence to operators, mostly because I consider those to be
+creepy, but it's pretty straightforward to express precedence in your
+grammar by structuring it in tiers -- for example, here we have the
+nonterminal <code>Expr</code>, which covers all expressions. It consists of a series
+of factors that are added or subtracted from one another. A <code>Factor</code>
+is then a series of terms that are multiplied or divided. Finally, a
+<code>Term</code> is either a single number or, using parenthesis, an entire expr.</p>
+<p>Abstracting from this example, the typical pattern for encoding
+precedence is to have one nonterminal per precedence level, where you
+begin with the operators of lowest precedence (<code>+</code>, <code>-</code>), add in the
+next highest precedence level (<code>*</code>, <code>/</code>), and finish with the bare
+&quot;atomic&quot; expressions like <code>Num</code>. Finally, you add in a parenthesized
+version of your top-level as an atomic expression, which lets people
+reset.</p>
+<p>To see why this works, consider the two possible parse trees for
+something like <code>2+3*4</code>:</p>
+<pre><code>2 + 3   *    4          2   +  3   *    4
+| | |   |    |          |   |  |   |    |
+| | +-Factor-+    OR    +-Expr-+   |    |
+| |     |                   |      |    |
++-Expr -+                   +----Factor-+
+</code></pre>
+<p>In the first one, we give multiplication higher precedence, and in the
+second one, we (incorrectly) give addition higher precedence. If you
+look at the grammar now, you can see that the second one is
+impossible: a <code>Factor</code> cannot have an <code>Expr</code> as its left-hand side.
+This is the purpose of the tiers: to force the parser into the
+precedence you want.</p>
+<a class="header" href="print.html#building-asts" id="building-asts"><h1>Building ASTs</h1></a>
+<p>Of course, most of the time, when you're parsing you don't want to
+compute a value, you want to build up some kind of data structure.
+Here's a quick example to show how that is done in LALRPOP.  First, we
+need to <em>define</em> the data structure we will build. We're going to use
+a very simple <code>enum</code>:</p>
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
+#fn main() {
+pub enum Expr {
+    Number(i32),
+    Op(Box&lt;Expr&gt;, Opcode, Box&lt;Expr&gt;),
+}
+
+pub enum Opcode {
+    Mul,
+    Div,
+    Add,
+    Sub,
+}
+#}</code></pre></pre>
+<p>We put this code into <a href="../../calculator/src/ast.rs">an <code>ast.rs</code> module</a> in our project,
+along with some <code>Debug</code> impls so that things pretty-print nicely. Now
+we will create the <a href="../../calculator/src/calculator4.lalrpop">calculator4</a> example, which will build up this
+tree. To start, let's just look at the <code>Expr</code> nonterminal, which will
+show you most everything of how it is done (the most interesting lines
+have been flagged with comments):</p>
+<pre><code class="language-lalrpop">use std::str::FromStr;
+use ast::{Expr, Opcode}; // (0)
+
+grammar;
+
+pub Expr: Box&lt;Expr&gt; = { // (1)
+    Expr ExprOp Factor =&gt; Box::new(Expr::Op(&lt;&gt;)), // (2)
+    Factor,
+};
+
+ExprOp: Opcode = { // (3)
+    &quot;+&quot; =&gt; Opcode::Add,
+    &quot;-&quot; =&gt; Opcode::Sub,
+};
+</code></pre>
+<p>First off, we have to import these new names into our file by adding a
+<code>use</code> statement (0). Next, we want to produce <code>Box&lt;Expr&gt;</code> values, so
+we change the type of <code>Expr</code> (and <code>Factor</code> and <code>Term</code>) to <code>Box&lt;Expr&gt;</code>
+(1). The action code changes accordingly in (2); here we've used the
+<code>&lt;&gt;</code> expansion to supply three arguments to <code>Expr::Op</code>. Finally, just
+for concision, we introduced an <code>ExprOp</code> nonterminal (3) to cover the
+two opcodes, which now trigger the same action code (before they
+triggered different action code, so we could do an addition vs a
+subtraction).</p>
+<p>The definition of <code>Factor</code> is transformed in a similar way:</p>
+<pre><code class="language-lalrpop">Factor: Box&lt;Expr&gt; = {
+    Factor FactorOp Term =&gt; Box::new(Expr::Op(&lt;&gt;)),
+    Term,
+};
+
+FactorOp: Opcode = {
+    &quot;*&quot; =&gt; Opcode::Mul,
+    &quot;/&quot; =&gt; Opcode::Div,
+};
+</code></pre>
+<p>And finally we adjust the definitions of <code>Term</code> and <code>Num</code>. Here, we
+convert from a raw <code>i32</code> into a <code>Box&lt;Expr&gt;</code> when we transition from
+<code>Num</code> to <code>Term</code> (4):</p>
+<pre><code class="language-lalrpop">Term: Box&lt;Expr&gt; = {
+    Num =&gt; Box::new(Expr::Number(&lt;&gt;)), // (4)
+    &quot;(&quot; &lt;Expr&gt; &quot;)&quot;
+};
+
+Num: i32 = {
+    r&quot;[0-9]+&quot; =&gt; i32::from_str(&lt;&gt;).unwrap()
+};
+</code></pre>
+<p>And that's it! Now we can test it by adding some code to our
+<a href="../../calculator/src/main.rs">main.rs</a> file that parses an expression and formats it using
+the <code>Debug</code> impl:</p>
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
+#fn main() {
+pub mod calculator4;
+pub mod ast;
+
+#[test]
+fn calculator4() {
+    let expr = calculator4::ExprParser::new()
+        .parse(&quot;22 * 44 + 66&quot;)
+        .unwrap();
+    assert_eq!(&amp;format!(&quot;{:?}&quot;, expr), &quot;((22 * 44) + 66)&quot;);
+}
+#}</code></pre></pre>
+<a class="header" href="print.html#macros" id="macros"><h1>Macros</h1></a>
+<p>Frequently when writing grammars we encounter repetitive constructs
+that we would like to copy-and-paste. A common example is defining
+something like a &quot;comma-separated list&quot;. Imagine we wanted to parse a
+comma-separated list of expressions (with an optional trailing comma,
+of course).  If we had to write this out in full, it would look
+something like:</p>
+<pre><code class="language-lalrpop">Exprs: Vec&lt;Box&lt;Expr&gt;&gt; = {
+    Exprs &quot;,&quot; Expr =&gt; ...,
+    Expr =&gt; vec![&lt;&gt;],
+}
+</code></pre>
+<p>Of course, this doesn't handle trailing commas, and I've omitted the
+action code. If we added those, it would get a bit more
+complicated. So far, this is fine, but then what happens when we later
+want a comma-separated list of terms? Do we just copy-and-paste
+everything?</p>
+<p>LALRPOP offers a better option. You can define macros. In fact,
+LALRPOP comes with four macros builtin: <code>*</code>, <code>?</code>, <code>+</code>, and <code>(...)</code>. So
+you can write something like <code>Expr?</code> to mean &quot;an optional
+<code>Expr</code>&quot;. This will have type <code>Option&lt;Box&lt;Expr&gt;&gt;</code> (since <code>Expr</code> alone
+has type <code>Box&lt;Expr&gt;</code>).  Similarly, you can write <code>Expr*</code> or <code>Expr+</code> to
+get a <code>Vec&lt;Expr&gt;</code> (with minimum length 0 and 1 respectively). The
+final macro is parentheses, which is a shorthand for creating a new
+nonterminal.  This lets you write things like <code>(&lt;Expr&gt; &quot;,&quot;)?</code> to mean
+an &quot;optionally parse an <code>Expr</code> followed by a comma&quot;. Note the angle
+brackets around <code>Expr</code>: these ensures that the value of the <code>(&lt;Expr&gt; &quot;,&quot;)</code> is the value of the expression, and not a tuple of the
+expression and the comma. This means that <code>(&lt;Expr&gt; &quot;,&quot;)?</code> would have
+the type <code>Option&lt;Box&lt;Expr&gt;&gt;</code> (and not <code>Option&lt;(Box&lt;Expr&gt;, &amp;'input str)&gt;</code>).</p>
+<p>Using these operations we can define <code>Exprs</code> in terms of a macro
+<code>Comma&lt;T&gt;</code> that creates a comma-separated list of <code>T</code>, whatever <code>T</code> is
+(this definition appears in <a href="../../calculator/src/calculator5.lalrpop">calculator5</a>):</p>
+<pre><code class="language-lalrpop">pub Exprs = Comma&lt;Expr&gt;; // (0)
+
+Comma&lt;T&gt;: Vec&lt;T&gt; = { // (1)
+    &lt;v:(&lt;T&gt; &quot;,&quot;)*&gt; &lt;e:T?&gt; =&gt; match e { // (2)
+        None =&gt; v,
+        Some(e) =&gt; {
+            let mut v = v;
+            v.push(e);
+            v
+        }
+    }
+};
+</code></pre>
+<p>The definition of <code>Exprs</code> on line (0) is fairly obvious, I think. It
+just uses a macro <code>Comma&lt;Expr&gt;</code>. Let's take a look then at the
+definition of <code>Comma&lt;T&gt;</code> on line (1). This is sort of dense, so let's
+unpack it. First, <code>T</code> is some terminal or nonterminal, but note that
+we can also use it as a type: when the macro is expanded, the <code>T</code> in
+the type will be replaced with &quot;whatever the type of <code>T</code> is&quot;.</p>
+<p>Next, on (2), we parse <code>&lt;v:(&lt;T&gt; &quot;,&quot;)*&gt; &lt;e:T?&gt;</code>.  That's a lot of
+symbols, so let's first remove all the angle brackets, which just
+serve to tell LALRPOP what values you want to propagate and which you
+want to discard. In that case, we have: <code>(T &quot;,&quot;)* T?</code>. Hopefully you
+can see that this matches a comma-separated list with an optional
+trailing comma. Now let's add those angle-brackets back in. In the
+parentheses, we get <code>(&lt;T&gt; &quot;,&quot;)*</code> -- this just means that we keep the
+value of the <code>T</code> but discard the value of the comma when we build our
+vector. Then we capture that vector and call it <code>v</code>: <code>&lt;v:(&lt;T&gt; &quot;,&quot;)*&gt;</code>.
+Finally, we capture the optional trailing element <code>e</code>: <code>&lt;e:T?&gt;</code>. This
+means the Rust code has two variables available to it, <code>v: Vec&lt;T&gt;</code> and
+<code>e: Option&lt;T&gt;</code>. The action code itself should then be fairly clear --
+if <code>e</code> is <code>Some</code>, it appends it to the vector and returns the result.</p>
+<p>As another example of using macros, you may recall the precedence
+tiers we saw in <a href="../../calculator/src/calculator4.lalrpop">calculator4</a> (<code>Expr</code>, <code>Factor</code>, etc), which had a
+sort of repetitive structure. You could factor that out using a
+macro. In this case, it's a recursive macro:</p>
+<pre><code class="language-lalrpop">Tier&lt;Op,NextTier&gt;: Box&lt;Expr&gt; = {
+    Tier&lt;Op,NextTier&gt; Op NextTier =&gt; Box::new(Expr::Op(&lt;&gt;)),
+    NextTier
+};
+
+Expr = Tier&lt;ExprOp, Factor&gt;;
+Factor = Tier&lt;FactorOp, Term&gt;;
+
+ExprOp: Opcode = { // (3)
+    &quot;+&quot; =&gt; Opcode::Add,
+    &quot;-&quot; =&gt; Opcode::Sub,
+};
+
+FactorOp: Opcode = {
+    &quot;*&quot; =&gt; Opcode::Mul,
+    &quot;/&quot; =&gt; Opcode::Div,
+};
+</code></pre>
+<p>And, of course, we have to add some tests to <a href="../../calculator/src/main.rs">main.rs file</a>:</p>
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
+#fn main() {
+#[macro_use] extern crate lalrpop_util;
+
+lalrpop_mod!(pub calculator5);
+
+#[test]
+fn calculator5() {
+    let expr = calculator5::ExprsParser::new().parse(&quot;&quot;).unwrap();
+    assert_eq!(&amp;format!(&quot;{:?}&quot;, expr), &quot;[]&quot;);
+
+    let expr = calculator5::ExprsParser::new()
+        .parse(&quot;22 * 44 + 66&quot;)
+        .unwrap();
+    assert_eq!(&amp;format!(&quot;{:?}&quot;, expr), &quot;[((22 * 44) + 66)]&quot;);
+
+    let expr = calculator5::ExprsParser::new()
+        .parse(&quot;22 * 44 + 66,&quot;)
+        .unwrap();
+    assert_eq!(&amp;format!(&quot;{:?}&quot;, expr), &quot;[((22 * 44) + 66)]&quot;);
+
+    let expr = calculator5::ExprsParser::new()
+        .parse(&quot;22 * 44 + 66, 13*3&quot;)
+        .unwrap();
+    assert_eq!(&amp;format!(&quot;{:?}&quot;, expr), &quot;[((22 * 44) + 66), (13 * 3)]&quot;);
+
+    let expr = calculator5::ExprsParser::new()
+        .parse(&quot;22 * 44 + 66, 13*3,&quot;)
+        .unwrap();
+    assert_eq!(&amp;format!(&quot;{:?}&quot;, expr), &quot;[((22 * 44) + 66), (13 * 3)]&quot;);
+}
+#}</code></pre></pre>
+<a class="header" href="print.html#returning-errors-from-actions" id="returning-errors-from-actions"><h1>Returning errors from actions</h1></a>
+<p>Sometimes it can be useful to have action code that is able to return an error
+instead of being expected to produce a value of type <code>T</code> directly. This happens
+because we usually cannot reject all invalid input just by using grammar rules,
+or rather, the work to do so would be too much.</p>
+<p>Even in our calculator example, you can see that we're &quot;cheating&quot; the system:
+Our grammar accepts an unlimited number of digits in the input, but the result
+is parsed as a <code>i32</code>. This is an issue because the maximum number that <code>i32</code>
+can represent is 2147483647. Try giving it a bigger number and it will panic
+because it always expects the <code>i32</code> conversion to succeed.</p>
+<p>If you are familiar with Rust's error handling story, you might think that we
+can just make <code>Num</code> return an <code>Option&lt;i32&gt;</code> or even <code>Result&lt;i32, ...&gt;</code>, and you
+would be right. However, that is not necessary, because if we look at the type
+of <code>ExprParser::parse()</code>, we can see that it already returns a <code>Result&lt;i32, ParseError&gt;</code>. So the goal is to &quot;hook&quot; into this existing error machinery and
+create action code that can return errors.</p>
+<p>LALRPOP supports this very easily by defining action code with <code>=&gt;?</code> instead of
+<code>=&gt;</code>. The returned value is then assumed to be a <code>Result&lt;T, ParseError&gt;</code>
+instead of a plain <code>T</code>:</p>
+<pre><code class="language-lalrpop">Num: i32 = {
+    r&quot;[0-9]+&quot; =&gt;? i32::from_str(&lt;&gt;)
+        .map_err(|_| ParseError::User {
+            error: &quot;number is too big&quot;
+        })
+};
+</code></pre>
+<p>In addition, we have to add <code>use lalrpop_util::ParseError;</code> to the top of the
+file so that we have access to the <code>ParseError</code> type. You can find the full
+source as <a href="../../calculator/src/calculator6.lalrpop"><code>calculator6.lalrpop</code></a>. This allows you to nicely
+handle the errors:</p>
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
+#fn main() {
+#[macro_use] extern crate lalrpop_util;
+
+lalrpop_mod!(pub calculator6);
+
+#[test]
+fn calculator6() {
+    // Number is one bigger than std::i32::MAX
+    let expr = calculator6::ExprsParser::new().parse(&quot;2147483648&quot;);
+    assert!(expr.is_err());
+}
+#}</code></pre></pre>
+<p>No panics!</p>
+<p>You can even go a step further and define your own error type, for example an
+enum with all possible errors. This allows you to distinguish between different
+errors more easily, without relying on strings.</p>
+<p>For that, let's say we want to define two errors: One if the input number was
+too big, and another one if the input number was not even - we're changing the
+calculator to only accept even numbers for now.</p>
+<p>We first define our error enum in <code>main.rs</code>:</p>
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
+#fn main() {
+#[derive(Debug, Copy, Clone, PartialEq, Eq)]
+pub enum Calculator6Error {
+    InputTooBig,
+    OddNumber,
+}
+#}</code></pre></pre>
+<p>Then we import it into our grammar and tell LALRPOP to use it as the user error
+type, so we change the top of the file to:</p>
+<pre><code class="language-lalrpop">use std::str::FromStr;
+use ast::{Expr, Opcode};
+
+use super::Calculator6Error;
+
+use lalrpop_util::ParseError;
+
+grammar;
+
+extern {
+    type Error = Calculator6Error;
+}
+...
+</code></pre>
+<p>We can also change the rule for <code>Num</code> to make use of our new error:</p>
+<pre><code class="language-lalrpop">Num: i32 = {
+    r&quot;[0-9]+&quot; =&gt;? i32::from_str(&lt;&gt;)
+        .map_err(|_| ParseError::User {
+            error: Calculator6Error::InputTooBig
+        })
+        .and_then(|i| if i % 2 == 0 {
+            Ok(i)
+        } else {
+            Err(ParseError::User {
+                error: Calculator6Error::OddNumber
+            })
+        })
+};
+</code></pre>
+<p>And finally we can see if it works:</p>
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
+#fn main() {
+#[macro_use] extern crate lalrpop_util;
+
+lalrpop_mod!(pub calculator6b);
+
+#[test]
+fn calculator6b() {
+    use lalrpop_util::ParseError;
+
+    let expr = calculator6b::ExprsParser::new().parse(&quot;2147483648&quot;);
+    assert!(expr.is_err());
+    assert_eq!(expr.unwrap_err(), ParseError::User { error: Calculator6Error::InputTooBig });
+
+    let expr = calculator6b::ExprsParser::new().parse(&quot;3&quot;);
+    assert!(expr.is_err());
+    assert_eq!(expr.unwrap_err(), ParseError::User { error: Calculator6Error::OddNumber });
+}
+#}</code></pre></pre>
+<p>There we go! You can find the full grammar in <a href="../../calculator/src/calculator6b.lalrpop"><code>calculator6b.lalrpop</code></a>.</p>
+<a class="header" href="print.html#error-recovery" id="error-recovery"><h1>Error recovery</h1></a>
+<p>By default, the parser will stop as soon as it encounters an error.
+Sometimes though we would like to try and recover and keep going.
+LALRPOP can support this, but you have to help it by defining various
+&quot;error recovery&quot; points in your grammar. This is done by using a
+special <code>!</code> token: this token only occurs when the parser
+encounters an error in the input. When an error does occur, the parser
+will try to recover and keep going; it does this by injecting the
+<code>!</code> token into the stream, executing any actions that it can, and
+then dropping input tokens until it finds something that lets it
+continue.</p>
+<p>Let's see how we can use error recovery to attempt to find multiple
+errors during parsing. First we need a way to return multiple errors
+as this is not something that LALRPOP does by itself so we add a <code>Vec</code>
+storing the errors we found during parsing. Since the result of <code>!</code>
+contains a token, error recovery requires that tokens can be cloned.</p>
+<pre><code>grammar&lt;'err&gt;(errors: &amp;'err mut Vec&lt;ErrorRecovery&lt;usize, (usize, &amp;'input str), ()&gt;&gt;);
+</code></pre>
+<p>Since an alternative containing <code>!</code> is expected to return the same type of
+value as the other alternatives in the production we add an extra variant to
+<code>Expr</code> to indicate that an error was found.</p>
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
+#fn main() {
+pub enum Expr {
+    Number(i32),
+    Op(Box&lt;Expr&gt;, Opcode, Box&lt;Expr&gt;),
+    Error,
+}
+#}</code></pre></pre>
+<p>Finally we modify the grammar, adding a third alternative containing <code>!</code>
+which simply stores the <code>ErrorRecovery</code> value received from <code>!</code> in <code>errors</code> and
+returns an <code>Expr::Error</code>. The value of the error token will be a <a href="https://docs.rs/lalrpop-util/0.12.1/lalrpop_util/enum.ParseError.html"><code>ParseError</code>
+value</a>.</p>
+<pre><code class="language-lalrpop">Term: Box&lt;Expr&gt; = {
+    Num =&gt; Box::new(Expr::Number(&lt;&gt;)),
+    &quot;(&quot; &lt;Expr&gt; &quot;)&quot;,
+    ! =&gt; { errors.push(&lt;&gt;); Box::new(Expr::Error) },
+};
+</code></pre>
+<p>Now we can add a test that includes various errors (e.g., missing
+operands). You can see that the parser recovered from missing operands
+by inserting this <code>!</code> token where necessary.</p>
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
+#fn main() {
+#[test]
+fn calculator7() {
+    let mut errors = Vec::new();
+
+    let expr = calculator7::ExprsParser::new()
+        .parse(&amp;mut errors, &quot;22 * + 3&quot;)
+        .unwrap();
+    assert_eq!(&amp;format!(&quot;{:?}&quot;, expr), &quot;[((22 * error) + 3)]&quot;);
+
+    let expr = calculator7::ExprsParser::new()
+        .parse(&amp;mut errors, &quot;22 * 44 + 66, *3&quot;)
+        .unwrap();
+    assert_eq!(&amp;format!(&quot;{:?}&quot;, expr), &quot;[((22 * 44) + 66), (error * 3)]&quot;);
+
+    let expr = calculator7::ExprsParser::new()
+        .parse(&amp;mut errors, &quot;*&quot;)
+        .unwrap();
+    assert_eq!(&amp;format!(&quot;{:?}&quot;, expr), &quot;[(error * error)]&quot;);
+
+    assert_eq!(errors.len(), 4);
+}
+#}</code></pre></pre>
+<a class="header" href="print.html#passing-state-parameter" id="passing-state-parameter"><h1>Passing state parameter</h1></a>
+<p>By default, the parser doesn't take any argument other than the input.
+When building the AST, it might be useful to pass parameters to the parser, which might be needed to the construction of the tree.</p>
+<p>Going back to the calculator4 example it is possible to pass an argument to the parser :</p>
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
+#fn main() {
+grammar(scale: i32);
+#}</code></pre></pre>
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
+#fn main() {
+Num: i32 = {
+    r&quot;[0-9]+&quot; =&gt; i32::from_str(&lt;&gt;).unwrap()*scale,
+};
+#}</code></pre></pre>
+<p>Here the parser will accept a scale parameter that will scale every number encountered.</p>
+<p>We can then call the parser with the state parameter :</p>
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
+#fn main() {
+#[test]
+fn calculator8() {
+    let scale = 2;
+    let expr = calculator8::ExprParser::new()
+        .parse(scale,&quot;11 * 22 + 33&quot;)
+        .unwrap();
+    assert_eq!(&amp;format!(&quot;{:?}&quot;, expr), &quot;((22 * 44) + 66)&quot;);
+}
+#}</code></pre></pre>
+<p>For a more practical example with a custom tree structure, check out <a href="https://github.com/lalrpop/lalrpop/blob/master/lalrpop-test/src/expr_arena.lalrpop">this parser</a> using <a href="https://github.com/lalrpop/lalrpop/blob/master/lalrpop-test/src/expr_arena_ast.rs">this structure</a> to build the AST.</p>
+<a class="header" href="print.html#fine-control-over-the-lexer" id="fine-control-over-the-lexer"><h1>Fine control over the lexer</h1></a>
+<p>This part is about controling the inner workings of LALRPOP's built-in lexer generator and using your own hand written parser.</p>
+<ul>
+<li><a href="lexer_tutorial/001_lexer_gen.html">LALRPOP's lexer generator</a></li>
+<li><a href="lexer_tutorial/002_writing_custom_lexer.html">Writing a custom lexer</a></li>
+<li><a href="lexer_tutorial/003_token_references.html">Using tokens with references</a></li>
+</ul>
+<a class="header" href="print.html#lalrpops-lexer-generator" id="lalrpops-lexer-generator"><h1>LALRPOP's lexer generator</h1></a>
+<p>This example dives a bit deeper into how LALRPOP works. In particular,
+it dives into the meaning of those strings and regular expression that
+we used in the previous tutorial, and how they are used to process the
+input string (a process which you can control). This first step of
+breaking up the input using regular expressions is often called
+<strong>lexing</strong> or <strong>tokenizing</strong>.</p>
+<p>If you're comfortable with the idea of a lexer or tokenizer, you may
+wish to skip ahead to the <a href="print.html#calculator3">calculator3</a> example, which covers
+parsing bigger expressions, and come back here only when you find you
+want more control. You may also be interested in the
+<a href="index.md">tutorial on writing a custom lexer</a>.</p>
+<a class="header" href="print.html#terminals-vs-nonterminals" id="terminals-vs-nonterminals"><h4>Terminals vs nonterminals</h4></a>
+<p>You may have noticed that our grammar included two distinct kinds of
+symbols. There were the nonterminals, <code>Term</code> and <code>Num</code>, which we
+defined by specifying a series of symbols that they must match, along
+with some action code that should execute once they have matched:</p>
+<pre><code class="language-text">   Num: i32 = r&quot;[0-9]+&quot; =&gt; i32::from_str(&lt;&gt;).unwrap();
+// ~~~  ~~~   ~~~~~~~~~    ~~~~~~~~~~~~~~~~~~~~~~~~~~
+// |    |     |                Action code
+// |    |     Symbol(s) that should match
+// |    Return type
+// Name of nonterminal
+</code></pre>
+<p>But there are also <strong>terminals</strong>, which consist of the string literals
+and regular expressions sprinkled throughout the grammar. (Terminals
+are also often called <strong>tokens</strong>, and I will use the terms
+interchangeably.)</p>
+<p>This distinction between terminals and nonterminals is very important
+to how LALRPOP works. In fact, when LALRPOP generates a parser, it
+always works in a two-phase process. The first phase is called the
+<strong>lexer</strong> or <strong>tokenizer</strong>. It has the job of figuring out the
+sequence of <strong>terminals</strong>: so basically it analyzes the raw characters
+of your text and breaks them into a series of terminals. It does this
+without having any idea about your grammar or where you are in your
+grammar. Next, the parser proper is a bit of code that looks at this
+stream of tokens and figures out which nonterminals apply:</p>
+<pre><code>          +-------------------+    +---------------------+
+  Text -&gt; | Lexer             | -&gt; | Parser              |
+          |                   |    |                     |
+          | Applies regex to  |    | Consumes terminals, |
+          | produce terminals |    | executes your code  |
+          +-------------------+    | as it recognizes    |
+                                   | nonterminals        |
+                                   +---------------------+
+</code></pre>
+<p>LALRPOP's default lexer is based on regular expressions. By default,
+it works by extracting all the terminals (e.g., <code>&quot;(&quot;</code> or <code>r&quot;\d+&quot;</code>)
+from your grammar and compiling them into one big list. At runtime, it
+will walk over the string and, at each point, find the longest match
+from the literals and regular expressions in your grammar and produces
+one of those. As an example, let's look again at our example grammar:</p>
+<pre><code>pub Term: i32 = {
+    &lt;n:Num&gt; =&gt; n,
+    &quot;(&quot; &lt;t:Term&gt; &quot;)&quot; =&gt; t,
+};
+
+Num: i32 = &lt;s:r&quot;[0-9]+&quot;&gt; =&gt; i32::from_str(s).unwrap();
+</code></pre>
+<p>This grammar in fact contains three terminals:</p>
+<ul>
+<li><code>&quot;(&quot;</code> -- a string literal, which must match exactly</li>
+<li><code>&quot;)&quot;</code> -- a string literal, which must match exactly</li>
+<li><code>r&quot;[0-9]+&quot;</code> -- a regular expression</li>
+</ul>
+<p>When we generate a lexer, it is effectively going to be checking for
+each of these three terminals in a loop, sort of like this pseudocode:</p>
+<pre><code>let mut i = 0; // index into string
+loop {
+    skip whitespace; // we do this implicitly, at least by default
+    if (data at index i is &quot;(&quot;) { produce &quot;(&quot;; }
+    else if (data at index i is &quot;)&quot;) { produce &quot;)&quot;; }
+    else if (data at index i matches regex &quot;[0-9]+&quot;) { produce r&quot;[0-9]+&quot;; }
+}
+</code></pre>
+<p>Note that this has nothing to do with your grammar. For example, the tokenizer
+would happily tokenize a string like this one, which doesn't fit our grammar:</p>
+<pre><code>  (  22   44  )     )
+  ^  ^^   ^^  ^     ^
+  |  |    |   |     &quot;)&quot; terminal
+  |  |    |   |
+  |  |    |   &quot;)&quot; terminal
+  |  +----+
+  |  |
+  |  2 r&quot;[0-9]+&quot; terminals
+  |
+  &quot;(&quot; terminal
+</code></pre>
+<p>When these tokens are fed into the <strong>parser</strong>, it would notice that we
+have one left paren but then two numbers (<code>r&quot;[0-9]+&quot;</code> terminals), and
+hence report an error.</p>
+<a class="header" href="print.html#precedence-of-fixed-strings" id="precedence-of-fixed-strings"><h4>Precedence of fixed strings</h4></a>
+<p>Terminals in LALRPOP can be specified (by default) in two ways. As a
+fixed string (like <code>&quot;(&quot;</code>) or a regular expression (like
+<code>r[0-9]+</code>). There is actually an important difference: if, at some
+point in the input, both a fixed string <strong>and</strong> a regular expression
+could match, LALRPOP gives the fixed string precedence. To demonstrate
+this, let's modify our parser. If you recall, the current parser
+parses parenthesized numbers, producing a <code>i32</code>. We're going to modify
+if to produce a <strong>string</strong>, and we'll add an &quot;easter egg&quot; so that <code>22</code>
+(or <code>(22)</code>, <code>((22))</code>, etc) produces the string <code>&quot;Twenty-two&quot;</code>:</p>
+<pre><code>pub Term = {
+    Num,
+    &quot;(&quot; &lt;Term&gt; &quot;)&quot;,
+    &quot;22&quot; =&gt; format!(&quot;Twenty-two!&quot;),
+};
+
+Num: String = r&quot;[0-9]+&quot; =&gt; &lt;&gt;.to_string();
+</code></pre>
+<p>If we write some simple unit tests, we can see that in fact an input
+of <code>22</code> has matched the string literal. Interestingly, the input <code>222</code>
+matches the regular expression instead; this is because LALRPOP
+prefers to find the <strong>longest</strong> match first. After that, if there are
+two matches of equal length, it prefers the fixed string:</p>
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
+#fn main() {
+#[test]
+fn calculator2b() {
+    let result = calculator2b::TermParser::new().parse(&quot;33&quot;).unwrap();
+    assert_eq!(result, &quot;33&quot;);
+
+    let result = calculator2b::TermParser::new().parse(&quot;(22)&quot;).unwrap();
+    assert_eq!(result, &quot;Twenty-two!&quot;);
+
+    let result = calculator2b::TermParser::new().parse(&quot;(222)&quot;).unwrap();
+    assert_eq!(result, &quot;222&quot;);
+}
+#}</code></pre></pre>
+<a class="header" href="print.html#ambiguities-between-regular-expressions" id="ambiguities-between-regular-expressions"><h4>Ambiguities between regular expressions</h4></a>
+<p>In the previous section, we saw that fixed strings have precedence
+over regular expressions. But what if we have two regular expressions
+that can match the same input? Which one wins? For example, consider
+this variation of the grammar above, where we also try to support
+parenthesized <strong>identifiers</strong> like <code>((foo22))</code>:</p>
+<pre><code>pub Term = {
+    Num,
+    &quot;(&quot; &lt;Term&gt; &quot;)&quot;,
+    &quot;22&quot; =&gt; format!(&quot;Twenty-two!&quot;),
+    r&quot;\w+&quot; =&gt; format!(&quot;Id({})&quot;, &lt;&gt;), // &lt;-- we added this
+};
+
+Num: String = r&quot;[0-9]+&quot; =&gt; &lt;&gt;.to_string();
+</code></pre>
+<p>Here I've written the regular expression <code>r\w+</code>. However, if you check
+out the <a href="https://docs.rs/regex">docs for regex</a>, you'll see that <code>\w</code>
+is defined to match alphabetic characters but also digits. So there
+is actually an ambiguity here: if we have something like <code>123</code>, it
+could be considered to match either <code>r&quot;[0-9]+&quot;</code> <strong>or</strong> <code>r&quot;\w+&quot;</code>. If
+you try this grammar, you'll find that LALRPOP helpfully reports an
+error:</p>
+<pre><code>error: ambiguity detected between the terminal `r#&quot;\w+&quot;#` and the terminal `r#&quot;[0-9]+&quot;#`
+
+      r&quot;\w+&quot; =&gt; &lt;&gt;.to_string(),
+      ~~~~~~
+</code></pre>
+<p>There are various ways to fix this. We might try adjusting our regular
+expression so that the first character cannot be a number, so perhaps
+something like <code>r&quot;[[:alpha:]]\w*&quot;</code>. This will work, but it actually
+matches something different than what we had before (e.g., <code>123foo</code>
+will not be considered to match, for better or worse). And anyway it's
+not always convenient to make your regular expressions completely
+disjoint like that. Another option is to use a <code>match</code> declaration,
+which lets you control the precedence between regular expressions.</p>
+<a class="header" href="print.html#simple-match-declarations" id="simple-match-declarations"><h4>Simple <code>match</code> declarations</h4></a>
+<p>A <code>match</code> declaration lets you explicitly give the precedence between
+terminals. In its simplest form, it consists of just ordering regular
+expressions and string literals into groups, with the higher
+precedence items coming first. So, for example, we could resolve
+our conflict above by giving <code>r&quot;[0-9]+&quot;</code> <strong>precedence</strong> over <code>r&quot;\w+&quot;</code>,
+thus saying that if something can be lexed as a number, we'll do that,
+and otherwise consider it to be an identifier.</p>
+<pre><code>match {
+    r&quot;[0-9]+&quot;
+} else {
+    r&quot;\w+&quot;,
+    _
+}
+</code></pre>
+<p>Here the match contains two levels; each level can have more than one
+item in it. The top-level contains only <code>r&quot;[0-9]+&quot;</code>, which means that this
+regular expression is given highest priority. The next level contains
+<code>r\w+</code>, so that will match afterwards.</p>
+<p>The final <code>_</code> indicates that other string literals and regular
+expressions that appear elsewhere in the grammar (e.g., <code>&quot;(&quot;</code> or
+<code>&quot;22&quot;</code>) should be added into that final level of precedence (without
+an <code>_</code>, it is illegal to use a terminal that does not appear in the
+match declaration).</p>
+<p>If we add this <code>match</code> section into our example, we'll find that it
+compiles, but it doesn't work exactly like we wanted. Let's update our
+unit test a bit to include some identifier examples::</p>
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
+#fn main() {
+#[test]
+fn calculator2b() {
+    // These will all work:
+
+    let result = calculator2b::TermParser::new().parse(&quot;33&quot;).unwrap();
+    assert_eq!(result, &quot;33&quot;);
+
+    let result = calculator2b::TermParser::new().parse(&quot;foo33&quot;).unwrap();
+    assert_eq!(result, &quot;Id(foo33)&quot;);
+
+    let result = calculator2b::TermParser::new().parse(&quot;(foo33)&quot;).unwrap();
+    assert_eq!(result, &quot;Id(foo33)&quot;);
+
+    // This one will fail:
+
+    let result = calculator2b::TermParser::new().parse(&quot;(22)&quot;).unwrap();
+    assert_eq!(result, &quot;Twenty-two!&quot;);
+}
+#}</code></pre></pre>
+<p>The problem comes about when we parse <code>22</code>. Before, the fixed string
+<code>22</code> got precedence, but with the new match declaration, we've
+explicitly stated that the regular expression <code>r&quot;[0-9]+&quot;</code> has full
+precedence. Since the <code>22</code> is not listed explicitly, it gets added at
+the last level, where the <code>_</code> appears. We can fix this by adjusting
+our <code>match</code> to mention <code>22</code> explicitly:</p>
+<pre><code>match {
+    r&quot;[0-9]+&quot;,
+    &quot;22&quot;
+} else {
+    r&quot;\w+&quot;,
+    _
+}
+</code></pre>
+<p>This raises the interesting question of what the precedence is <strong>within</strong>
+a match rung -- after all, both the regex and <code>&quot;22&quot;</code> can match the same
+string. The answer is that within a match rung, fixed literals get precedence
+over regular expressions, just as before, and all regular expressions
+must not overlap.</p>
+<p>With this new <code>match</code> declaration, we will find that our tests all pass.</p>
+<a class="header" href="print.html#renaming-match-declarations" id="renaming-match-declarations"><h4>Renaming <code>match</code> declarations</h4></a>
+<p>There is one final twist before we reach the
+<a href="../../calculator/src/calculator2b.lalrpop">final version of our example that you will find in the repository</a>. We
+can also use <code>match</code> declarations to give names to regular
+expressions, so that we don't have to type them directly in our
+grammar. For example, maybe instead of writing <code>r&quot;\w+&quot;</code>, we would
+prefer to write <code>ID</code>. We could do that by modifying the match declaration like
+so:</p>
+<pre><code>match {
+    r&quot;[0-9]+&quot;,
+    &quot;22&quot;
+} else {
+    r&quot;\w+&quot; =&gt; ID, // &lt;-- give a name here
+    _
+}
+</code></pre>
+<p>And then adjusting the definition of <code>Term</code> to reference <code>ID</code> instead:</p>
+<pre><code>pub Term = {
+    Num,
+    &quot;(&quot; &lt;Term&gt; &quot;)&quot;,
+    &quot;22&quot; =&gt; format!(&quot;Twenty-two!&quot;),
+    ID =&gt; format!(&quot;Id({})&quot;, &lt;&gt;), // &lt;-- changed this
+};
+</code></pre>
+<p>In fact, the match declaration can map a regular expression to any
+kind of symbol you want (i.e., you can also map to a string literal or
+even a regular expression). Whatever symbol appears after the <code>=&gt;</code> is
+what you should use in your grammar. As an example, some languages
+have case-insensitive keywords; if you wanted to write <code>&quot;BEGIN&quot;</code> in the
+grammar itself, but have that map to a regular expression in the lexer, you might write:</p>
+<pre><code>match {
+    r&quot;(?i)begin&quot; =&gt; &quot;BEGIN&quot;,
+    ...
+}
+</code></pre>
+<p>And now any reference in your grammar to <code>&quot;BEGIN&quot;</code> will actually match
+any capitalization.</p>
+<a class="header" href="print.html#customizing-skipping-between-tokens" id="customizing-skipping-between-tokens"><h4>Customizing skipping between tokens</h4></a>
+<p>If we want to support comments we will need to skip more than just whitespace in our lexer.
+To this end <code>ignore patterns</code> can be specified.</p>
+<pre><code>match {
+    r&quot;\s*&quot; =&gt; { }, // The default whitespace skipping is disabled an `ignore pattern` is specified
+    r&quot;//[^\n\r]*[\n\r]*&quot; =&gt; { }, // Skip `// comments`
+    r&quot;/\*([^\*]*\*+[^\*/])*([^\*]*\*+|[^\*])*\*/&quot; =&gt; { },  // Skip `/* comments */`
+}
+</code></pre>
+<a class="header" href="print.html#writing-a-custom-lexer" id="writing-a-custom-lexer"><h1>Writing a custom lexer</h1></a>
+<p>Let's say we want to parse the Whitespace language, so we've put together a grammar like the following:</p>
+<pre><code class="language-lalrpop">pub Program = &lt;Statement*&gt;;
+
+Statement: ast::Stmt = {
+    &quot; &quot; &lt;StackOp&gt;,
+    &quot;\t&quot; &quot; &quot; &lt;MathOp&gt;,
+    &quot;\t&quot; &quot;\t&quot; &lt;HeapOp&gt;,
+    &quot;\n&quot; &lt;FlowCtrl&gt;,
+    &quot;\t&quot; &quot;\n&quot; &lt;Io&gt;,
+};
+
+StackOp: ast::Stmt = {
+    &quot; &quot; &lt;Number&gt; =&gt; ast::Stmt::Push(&lt;&gt;),
+    &quot;\n&quot; &quot; &quot; =&gt; ast::Stmt::Dup,
+    &quot;\n&quot; &quot;\t&quot; =&gt; ast::Stmt::Swap,
+    &quot;\n&quot; &quot;\n&quot; =&gt; ast::Stmt::Discard,
+};
+
+MathOp: ast::Stmt = {
+    &quot; &quot; &quot; &quot; =&gt; ast::Stmt::Add,
+    &quot; &quot; &quot;\t&quot; =&gt; ast::Stmt::Sub,
+    &quot; &quot; &quot;\n&quot; =&gt; ast::Stmt::Mul,
+    &quot;\t&quot; &quot; &quot; =&gt; ast::Stmt::Div,
+    &quot;\t&quot; &quot;\t&quot; =&gt; ast::Stmt::Mod,
+};
+
+// Remainder omitted
+</code></pre>
+<p>Naturally, it doesn't work. By default, LALRPOP generates a tokenizer that skips all whitespace -- including newlines. What we <em>want</em> is to capture whitespace characters and ignore the rest as comments, and LALRPOP does the opposite of that.</p>
+<p>At the moment, LALRPOP doesn't allow you to configure the default tokenizer. In the future it will become quite flexible, but for now we have to write our own.</p>
+<p>Let's start by defining the stream format. The parser will accept an iterator where each item in the stream has the following structure:</p>
+<pre><code class="language-lalrpop">pub type Spanned&lt;Tok, Loc, Error&gt; = Result&lt;(Loc, Tok, Loc), Error&gt;;
+</code></pre>
+<p><code>Loc</code> is typically just a <code>usize</code>, representing a byte offset into the input string. Each token is accompanied by two of them, marking the start and end positions where it was found. <code>Error</code> can be pretty much anything you choose. And of course <code>Tok</code> is the meat of the stream, defining what possible values the tokens themselves can have. Following the conventions of Rust iterators, we'll signal a valid token with <code>Some(Ok(...))</code>, an error with <code>Some(Err(...))</code>, and EOF with <code>None</code>.</p>
+<p>(Note that the term &quot;tokenizer&quot; normally refers to a piece of code that simply splits up the stream, whereas a &quot;lexer&quot; also tags each token with its lexical category. What we're writing is the latter.)</p>
+<p>Whitespace is a simple language from a lexical standpoint, with only three valid tokens:</p>
+<pre><code class="language-lalrpop">pub enum Tok {
+    Space,
+    Tab,
+    Linefeed,
+}
+</code></pre>
+<p>Everything else is a comment. There are no invalid lexes, so we'll define our own error type, a void enum:</p>
+<pre><code class="language-lalrpop">pub enum LexicalError {
+    // Not possible
+}
+</code></pre>
+<p>Now for the lexer itself. We'll take a string slice as its input. For each token we process, we'll want to know the character value, and the byte offset in the string where it begins. We can do that by wrapping the <code>CharIndices</code> iterator, which yields tuples of <code>(usize, char)</code> representing exactly that information.</p>
+<pre><code class="language-lalrpop">use std::str::CharIndices;
+
+pub struct Lexer&lt;'input&gt; {
+    chars: CharIndices&lt;'input&gt;,
+}
+
+impl&lt;'input&gt; Lexer&lt;'input&gt; {
+    pub fn new(input: &amp;'input str) -&gt; Self {
+        Lexer { chars: input.char_indices() }
+    }
+}
+</code></pre>
+<p>(The lifetime parameter <code>'input</code> indicates that the Lexer cannot outlive the string it's trying to parse.)</p>
+<p>Let's review our rules:</p>
+<ul>
+<li>For a space character, we output <code>Tok::Space</code>.</li>
+<li>For a tab character, we output <code>Tok::Tab</code>.</li>
+<li>For a linefeed (newline) character, we output <code>Tok::Linefeed</code>.</li>
+<li>We skip all other characters.</li>
+<li>If we've reached the end of the string, we'll return <code>None</code> to signal EOF.</li>
+</ul>
+<p>Writing a lexer for a language with multi-character tokens can get very complicated, but this is so straightforward, we can translate it directly into code without thinking very hard. Here's our <code>Iterator</code> implementation:</p>
+<pre><code class="language-lalrpop">impl&lt;'input&gt; Iterator for Lexer&lt;'input&gt; {
+    type Item = Spanned&lt;Tok, usize, LexicalError&gt;;
+
+    fn next(&amp;mut self) -&gt; Option&lt;Self::Item&gt; {
+        loop {
+            match self.chars.next() {
+                Some((i, ' ')) =&gt; return Some(Ok((i, Tok::Space, i+1))),
+                Some((i, '\t')) =&gt; return Some(Ok((i, Tok::Tab, i+1))),
+                Some((i, '\n')) =&gt; return Some(Ok((i, Tok::Linefeed, i+1))),
+
+                None =&gt; return None, // End of file
+                _ =&gt; continue, // Comment; skip this character
+            }
+        }
+    }
+}
+</code></pre>
+<p>That's it. That's all we need.</p>
+<a class="header" href="print.html#updating-the-parser" id="updating-the-parser"><h2>Updating the parser</h2></a>
+<p>To use this with LALRPOP, we need to expose its API to the parser. It's pretty easy to do, but also somewhat magical, so pay close attention. Pick a convenient place in the grammar file (I chose the bottom) and insert an <code>extern</code> block:</p>
+<pre><code class="language-lalrpop">extern {
+    // ...
+}
+</code></pre>
+<p>Now we tell LALRPOP about the <code>Location</code> and <code>Error</code> types, as if we're writing a trait:</p>
+<pre><code class="language-lalrpop">extern {
+    type Location = usize;
+    type Error = lexer::LexicalError;
+    
+    // ...
+}
+</code></pre>
+<p>We expose the <code>Tok</code> type by kinda sorta redeclaring it:</p>
+<pre><code class="language-lalrpop">extern {
+    type Location = usize;
+    type Error = lexer::LexicalError;
+
+    enum lexer::Tok {
+        // ...
+    }
+}
+</code></pre>
+<p>Now we have to declare each of our terminals. For each variant of <code>Tok</code>, we pick what name the parser will see, and write a pattern of the form <code>name =&gt; lexer::Tok::Variant</code>, similar to how action code works in grammar rules. The name can be an identifier, or a string literal. We'll use the latter.</p>
+<p>Here's the whole thing:</p>
+<pre><code class="language-lalrpop">extern {
+    type Location = usize;
+    type Error = lexer::LexicalError;
+
+    enum lexer::Tok {
+        &quot; &quot; =&gt; lexer::Tok::Space,
+        &quot;\t&quot; =&gt; lexer::Tok::Tab,
+        &quot;\n&quot; =&gt; lexer::Tok::Linefeed,
+    }
+}
+</code></pre>
+<p>From now on, the parser will take a <code>Lexer</code> as its input instead of a string slice, like so:</p>
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
+#fn main() {
+    let lexer = lexer::Lexer::new(&quot;\n\n\n&quot;);
+    match parser::parse_Program(lexer) {
+        ...
+    }
+#}</code></pre></pre>
+<p>And any time we write a string literal in the grammar, it'll substitute a variant of our <code>Tok</code> enum. This means <strong>we don't have to change any of the rules we already wrote!</strong> This will work as-is:</p>
+<pre><code class="language-lalrpop">FlowCtrl: ast::Stmt = {
+    &quot; &quot; &quot; &quot; &lt;Label&gt; =&gt; ast::Stmt::Mark(&lt;&gt;),
+    &quot; &quot; &quot;\t&quot; &lt;Label&gt; =&gt; ast::Stmt::Call(&lt;&gt;),
+    &quot; &quot; &quot;\n&quot; &lt;Label&gt; =&gt; ast::Stmt::Jump(&lt;&gt;),
+    &quot;\t&quot; &quot; &quot; &lt;Label&gt; =&gt; ast::Stmt::Jz(&lt;&gt;),
+    &quot;\t&quot; &quot;\t&quot; &lt;Label&gt; =&gt; ast::Stmt::Js(&lt;&gt;),
+    &quot;\t&quot; &quot;\n&quot; =&gt; ast::Stmt::Return,
+    &quot;\n&quot; &quot;\n&quot; =&gt; ast::Stmt::Exit,
+};
+</code></pre>
+<p>The complete grammar is available in <code>whitespace/src/parser.lalrpop</code>.</p>
+<a class="header" href="print.html#where-to-go-from-here" id="where-to-go-from-here"><h2>Where to go from here</h2></a>
+<p>Things to try that apply to lexers in general:</p>
+<ul>
+<li>Longer tokens</li>
+<li>Tokens that require tracking internal lexer state</li>
+</ul>
+<p>Things to try that are LALRPOP-specific:</p>
+<ul>
+<li>Persuade a lexer generator to output the <code>Spanned</code> format</li>
+<li>Make this tutorial better</li>
+</ul>
+<a class="header" href="print.html#using-tokens-with-references" id="using-tokens-with-references"><h1>Using tokens with references</h1></a>
+<p>When using a custom lexer, you might want tokens to hold references to the original input.
+This allows to use references to the input when the grammar can have arbitrary symbols such as variable names.
+Using references instead of copying the symbols can improve performance and memory usage of the parser.</p>
+<a class="header" href="print.html#the-lexer" id="the-lexer"><h2>The Lexer</h2></a>
+<p>We can now create a new calculator parser that can deal with symbols the same way an interpreter would deal with variables.
+First we need the corresponding AST :</p>
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
+#fn main() {
+pub enum ExprSymbol&lt;'input&gt;{
+    NumSymbol(&amp;'input str),
+    Op(Box&lt;ExprSymbol&lt;'input&gt;&gt;, Opcode, Box&lt;ExprSymbol&lt;'input&gt;&gt;),
+    Error,
+}
+#}</code></pre></pre>
+<p>Then, we need to build the tokens:</p>
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
+#fn main() {
+#[derive(Copy, Clone, Debug)]
+pub enum Tok&lt;'input&gt; {
+    NumSymbol(&amp;'input str),
+    FactorOp(Opcode),
+    ExprOp(Opcode),
+    ParenOpen,
+    ParenClose,
+}
+#}</code></pre></pre>
+<p>Notice the NumSymbol type holding a reference to the original input.
+It represents both numbers and variable names as a slice of the original input.</p>
+<p>Then, we can build the lexer itself.</p>
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
+#fn main() {
+use std::str::CharIndices;
+
+pub struct Lexer&lt;'input&gt; {
+    chars: std::iter::Peekable&lt;CharIndices&lt;'input&gt;&gt;,
+    input: &amp;'input str,
+}
+
+impl&lt;'input&gt; Lexer&lt;'input&gt; {
+    pub fn new(input: &amp;'input str) -&gt; Self {
+        Lexer {
+            chars: input.char_indices().peekable(),
+            input,
+        }
+    }
+}
+#}</code></pre></pre>
+<p>It needs to hold a reference to the input to put slices in the tokens.</p>
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
+#fn main() {
+impl&lt;'input&gt; Iterator for Lexer&lt;'input&gt; {
+    type Item = Spanned&lt;Tok&lt;'input&gt;, usize, ()&gt;;
+
+    fn next(&amp;mut self) -&gt; Option&lt;Self::Item&gt; {
+        loop {
+            match self.chars.next() {
+                Some((_, ' '))  | Some((_, '\n')) | Some((_, '\t')) =&gt; continue,
+                Some((i, ')')) =&gt; return Some(Ok((i, Tok::ParenClose, i + 1))),
+                Some((i, '(')) =&gt; return Some(Ok((i, Tok::ParenOpen, i + 1))),
+                Some((i, '+')) =&gt; return Some(Ok((i, Tok::ExprOp(Opcode::Add), i + 1))),
+                Some((i, '-')) =&gt; return Some(Ok((i, Tok::ExprOp(Opcode::Sub), i + 1))),
+                Some((i, '*')) =&gt; return Some(Ok((i, Tok::FactorOp(Opcode::Mul), i + 1))),
+                Some((i, '/')) =&gt; return Some(Ok((i, Tok::FactorOp(Opcode::Div), i + 1))),
+
+                None =&gt; return None, // End of file
+                Some((i,_)) =&gt; {
+                    loop {
+                        match self.chars.peek() {
+                            Some((j, ')'))|Some((j, '('))|Some((j, '+'))|Some((j, '-'))|Some((j, '*'))|Some((j, '/'))|Some((j,' '))
+                            =&gt; return Some(Ok((i, Tok::NumSymbol(&amp;self.input[i..*j]), *j))),
+                            None =&gt; return Some(Ok((i, Tok::NumSymbol(&amp;self.input[i..]),self.input.len()))),
+                            _ =&gt; {self.chars.next();},
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+#}</code></pre></pre>
+<p>It's  quite simple, it returns any operator, and if it detects any other character, stores the beginning then continues to the next operator and sends the symbol it just parsed.</p>
+<a class="header" href="print.html#the-parser" id="the-parser"><h2>The parser</h2></a>
+<p>We can then take a look at the corresponding parser with a new grammar:</p>
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
+#fn main() {
+Term: Box&lt;ExprSymbol&lt;'input&gt;&gt; = {
+    &quot;num&quot; =&gt; Box::new(ExprSymbol::NumSymbol(&lt;&gt;)),
+    &quot;(&quot; &lt;Expr&gt; &quot;)&quot;
+};
+#}</code></pre></pre>
+<p>We need to pass the input to the parser so that the input's lifetime is known to the borrow checker when compiling the generated parser.</p>
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
+#fn main() {
+grammar&lt;'input&gt;(input: &amp;'input str);
+#}</code></pre></pre>
+<p>Then we just need to define the tokens the same as before :</p>
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
+#fn main() {
+extern {
+    type Location = usize;
+    type Error = ();
+    
+    enum Tok&lt;'input&gt; {
+        &quot;num&quot; =&gt; Tok::NumSymbol(&lt;&amp;'input str&gt;),
+        &quot;FactorOp&quot; =&gt; Tok::FactorOp(&lt;Opcode&gt;),
+        &quot;ExprOp&quot; =&gt; Tok::ExprOp(&lt;Opcode&gt;),
+        &quot;(&quot; =&gt; Tok::ParenOpen,
+        &quot;)&quot; =&gt; Tok::ParenClose,
+    }
+}
+#}</code></pre></pre>
+<a class="header" href="print.html#calling-the-parser" id="calling-the-parser"><h1>Calling the parser</h1></a>
+<p>We can finally run the parser we built:</p>
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
+#fn main() {
+let input = &quot;22 * pi + 66&quot;;
+let lexer = Lexer::new(input);
+let expr = calculator9::ExprParser::new()
+    .parse(input,lexer)
+    .unwrap();
+assert_eq!(&amp;format!(&quot;{:?}&quot;, expr), &quot;((\&quot;22\&quot; * \&quot;pi\&quot;) + \&quot;66\&quot;)&quot;);
+#}</code></pre></pre>
+<p>When you setup LALRPOP, you create a <code>build.rs</code> file that looks something
+like this:</p>
+<pre><pre class="playpen"><code class="language-rust">extern crate lalrpop;
+
+fn main() {
+    lalrpop::process_root().unwrap();
+}
+</code></pre></pre>
+<p>This <code>process_root()</code> call simply applies the default configuration:
+so it will transform <code>.lalrpop</code> files into <code>.rs</code> files <em>in-place</em> (in
+your <code>src</code> directory), and it will only do so if the <code>.lalrpop</code> file
+has actually changed. But you can also use the
+<a href="https://docs.rs/lalrpop/*/lalrpop/struct.Configuration.html"><code>Configuration</code></a> struct to get more detailed control.</p>
+<p>For example, to <strong>force</strong> the use of colors in the output (ignoring
+the TTY settings), you might make your <code>build.rs</code> file look like so:</p>
+<pre><pre class="playpen"><code class="language-rust">extern crate lalrpop;
+
+fn main() {
+    lalrpop::Configuration::new()
+        .always_use_colors()
+        .process_current_dir();
+}
+</code></pre></pre>
+<p>Up to version 0.15, LALRPOP was generating its files in the same directory
+of the input files. Since 0.16, files are generated in the Cargo's
+<strong>output directory</strong>.</p>
+<p>If you want to keep the previous behaviour, you can use <code>generate_in_source_tree</code>
+in your configuration:</p>
+<pre><pre class="playpen"><code class="language-rust">extern crate lalrpop;
+
+fn main() {
+    lalrpop::Configuration::new()
+        .generate_in_source_tree()
+        .process();
+}
+</code></pre></pre>
+<p>For each <code>foo.lalrpop</code> file you can simply have <code>mod foo;</code> in your source tree.
+The <code>lalrpop_mod</code> macro is not useful in this mode.</p>
+<a class="header" href="print.html#contributors" id="contributors"><h1>Contributors</h1></a>
+<p><strong>Here is a list of the contributors who have helped improving
+LALRPOP.</strong> This list may be incomplete. The &quot;canonical list&quot; can be
+found in the git history; if you have contributed but you are not in
+this list, please add yourself!</p>
+<ul>
+<li><a href="https://github.com/nikomatsakis">nikomatsakis</a></li>
+<li><a href="https://github.com/Marwes">Marwes</a></li>
+<li><a href="https://github.com/wieczyk">wieczyk</a></li>
+<li><a href="https://github.com/joerivanruth">joerivanruth</a></li>
+<li><a href="https://github.com/ahmedcharles">ahmedcharles</a></li>
+<li><a href="https://github.com/malleusinferni">malleusinferni</a></li>
+<li><a href="https://github.com/dflemstr">dflemstr</a></li>
+<li><a href="https://github.com/shahn">shahn</a></li>
+<li><a href="https://github.com/federicomenaquintero">federicomenaquintero</a></li>
+<li><a href="https://github.com/fhahn">fhahn</a></li>
+<li><a href="https://github.com/jonas-schievink">jonas-schievink</a></li>
+<li><a href="https://github.com/oconnor0">oconnor0</a></li>
+<li><a href="https://github.com/minijackson">minijackson</a></li>
+<li><a href="https://github.com/fitzgen">fitzgen</a></li>
+<li><a href="https://github.com/ruuda">ruuda</a></li>
+<li><a href="https://github.com/wagenet">wagenet</a></li>
+<li><a href="https://github.com/pyfisch">pyfisch</a></li>
+<li><a href="https://github.com/vmx">vmx</a></li>
+<li><a href="https://github.com/dagit">dagit</a></li>
+<li><a href="https://github.com/ashleygwilliams">ashleygwilliams</a></li>
+<li><a href="https://github.com/brson">brson</a></li>
+<li><a href="https://github.com/serprex">serprex</a></li>
+<li><a href="https://github.com/pensivearchitect">pensivearchitect</a></li>
+<li><a href="https://github.com/larsluthman">larsluthman</a></li>
+<li><a href="https://github.com/mchesser">mchesser</a></li>
+<li><a href="https://github.com/notriddle">notriddle</a></li>
+<li><a href="https://github.com/nixpulvis">nixpulvis</a></li>
+<li><a href="https://github.com/Nemikolh">Nemikolh</a></li>
+<li><a href="https://github.com/nick70">nick70</a></li>
+<li><a href="https://github.com/paupino">paupino</a></li>
+</ul>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                        
+
+                        
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                
+
+                
+            </nav>
+
+        </div>
+
+
+        <!-- Local fallback for Font Awesome -->
+        <script>
+            if (getComputedStyle(document.querySelector(".fa")).fontFamily !== "FontAwesome") {
+                var link = document.createElement('link');
+                link.rel = 'stylesheet';
+                link.type = 'text/css';
+                link.href = '_FontAwesome/css/font-awesome.css';
+                document.head.insertBefore(link, document.head.firstChild)
+            }
+        </script>
+
+        
+
+        
+
+        
+        <script src="ace.js" type="text/javascript" charset="utf-8"></script>
+        <script src="editor.js" type="text/javascript" charset="utf-8"></script>
+        <script src="mode-rust.js" type="text/javascript" charset="utf-8"></script>
+        <script src="theme-dawn.js" type="text/javascript" charset="utf-8"></script>
+        <script src="theme-tomorrow_night.js" type="text/javascript" charset="utf-8"></script>
+        
+
+        
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                window.print();
+            })
+        </script>
+        
+
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+
+        <!-- Custom JS script -->
+        
+
+    </body>
+</html>

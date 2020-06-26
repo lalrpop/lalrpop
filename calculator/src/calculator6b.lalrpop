@@ -1,0 +1,63 @@
+use std::str::FromStr;
+use crate::ast::{Expr, Opcode};
+
+use super::Calculator6Error;
+
+use lalrpop_util::ParseError;
+
+grammar;
+
+extern {
+    type Error = Calculator6Error;
+}
+
+pub Exprs = Comma<Expr>;
+
+Comma<T>: Vec<T> = { // (0)
+    <v:(<T> ",")*> <e:T?> => match e { // (1)
+        None=> v,
+        Some(e) => {
+            let mut v = v;
+            v.push(e);
+            v
+        }
+    }
+};
+
+Tier<Op,NextTier>: Box<Expr> = {
+    Tier<Op,NextTier> Op NextTier => Box::new(Expr::Op(<>)),
+    NextTier
+};
+
+Expr = Tier<ExprOp, Factor>;
+Factor = Tier<FactorOp, Term>;
+
+ExprOp: Opcode = { // (3)
+    "+" => Opcode::Add,
+    "-" => Opcode::Sub,
+};
+
+FactorOp: Opcode = {
+    "*" => Opcode::Mul,
+    "/" => Opcode::Div,
+};
+
+Term: Box<Expr> = {
+    Num => Box::new(Expr::Number(<>)),
+    "(" <Expr> ")"
+};
+
+Num: i32 = {
+    r"[0-9]+" =>? i32::from_str(<>)
+        .map_err(|_| ParseError::User {
+            error: Calculator6Error::InputTooBig
+        })
+        .and_then(|i| if i % 2 == 0 {
+            Ok(i)
+        } else {
+            Err(ParseError::User {
+                error: Calculator6Error::OddNumber
+            })
+        })
+};
+

@@ -1,0 +1,36 @@
+use crate::ast::{ExprSymbol, Opcode};
+use crate::tok9::Tok;
+
+grammar<'input>(input: &'input str);
+
+pub Expr: Box<ExprSymbol<'input>> = { // (1)
+    Expr "ExprOp" Factor => Box::new(ExprSymbol::Op(<>)), // (2)
+    Factor,
+};
+
+Factor: Box<ExprSymbol<'input>> = {
+    Factor "FactorOp" Term => Box::new(ExprSymbol::Op(<>)),
+    Term,
+};
+
+
+Term: Box<ExprSymbol<'input>> = {
+    "num" => Box::new(ExprSymbol::NumSymbol(<>)),
+    "(" <Expr> ")"
+};
+
+extern {
+    type Location = usize;
+    type Error = ();
+    
+    enum Tok<'input> {
+        "num" => Tok::NumSymbol(<&'input str>),
+        "FactorOp" => Tok::FactorOp(<Opcode>),
+        "ExprOp" => Tok::ExprOp(<Opcode>),
+        "(" => Tok::ParenOpen,
+        ")" => Tok::ParenClose,
+    }
+}
+
+
+
