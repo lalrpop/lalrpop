@@ -1,7 +1,15 @@
 use std::str::FromStr;
 use crate::ast::{Expr, Opcode};
 
+use super::Calculator6Error;
+
+use lalrpop_util::ParseError;
+
 grammar;
+
+extern {
+    type Error = Calculator6Error;
+}
 
 pub Exprs = Comma<Expr>;
 
@@ -40,6 +48,16 @@ Term: Box<Expr> = {
 };
 
 Num: i32 = {
-    r"[0-9]+" => i32::from_str(<>).unwrap()
+    r"[0-9]+" =>? i32::from_str(<>)
+        .map_err(|_| ParseError::User {
+            error: Calculator6Error::InputTooBig
+        })
+        .and_then(|i| if i % 2 == 0 {
+            Ok(i)
+        } else {
+            Err(ParseError::User {
+                error: Calculator6Error::OddNumber
+            })
+        })
 };
 

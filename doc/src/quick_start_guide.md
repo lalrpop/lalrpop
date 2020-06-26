@@ -1,6 +1,6 @@
 For getting started with LALRPOP, it's probably best if you read
-[the tutorial](tutorial/index.html), which will introduce you
-to the syntax of LALRPOP files and so forth. 
+[the tutorial](tutorial/index.md), which will introduce you
+to the syntax of LALRPOP files and so forth.
 
 But if you've done this before, or you're just the impatient sort,
 here is a quick 'cheat sheet' for setting up your project.  First, add
@@ -18,12 +18,14 @@ build = "build.rs" # LALRPOP preprocessing
 # (If you write your own tokenizer, or already have the regex
 # crate, you can skip this dependency.)
 [dependencies]
-lalrpop-util = "0.17.2"
-regex = "0.2.0"
+lalrpop-util = "0.19.0"
+regex = "1"
 
 # Add a build-time dependency on the lalrpop library:
 [build-dependencies]
-lalrpop = "0.17.2"
+lalrpop = "0.19.0"
+# If you do not supply your own, external lexer you also need the `lexer` feature
+# lalrpop = { version = "0.18.1", features = ["lexer"] }
 ```
 
 Next create a `build.rs` file that looks like:
@@ -41,7 +43,7 @@ call `process_root` in addition to whatever else that file is doing.)
 
 That's it! Note that `process_root` simply uses the default settings.
 If you want to configure how LALRPOP executes, see the
-[advanced setup](advanced_setup.html) section.
+[advanced setup](advanced_setup.md) section.
 
 #### Running manually
 

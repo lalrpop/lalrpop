@@ -1,5 +1,5 @@
 use ascii_canvas::AsciiView;
-use style::Style;
+use crate::style::Style;
 
 use super::*;
 

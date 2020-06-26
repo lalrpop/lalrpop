@@ -1,5 +1,5 @@
-use loc_issue_90::Expression2Parser;
-use util::expect_debug;
+use crate::loc_issue_90::Expression2Parser;
+use crate::util::expect_debug;
 
 #[derive(Debug, PartialEq, Eq)]
 pub enum Expr<'input> {
@@ -34,7 +34,7 @@ Ok(
         Upgrade(
             0,
             Wonky(
-                5,
+                6,
                 6
             ),
             6
@@ -125,8 +125,8 @@ Ok(
         Ref(
             0,
             Maybe(
-                1,
-                1
+                2,
+                2
             ),
             Ident(
                 2,

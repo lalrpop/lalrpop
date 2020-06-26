@@ -239,6 +239,9 @@ TypeRef: TypeRef = {
     "(" <Comma<TypeRef>> ")" =>
         TypeRef::Tuple(<>),
 
+    "[" <TypeRef> "]" =>
+        TypeRef::Slice(Box::new(<>)),
+
     "#" <Symbol> "#" => {
         TypeRef::OfSymbol(<>.kind)
     },
@@ -316,7 +319,10 @@ MatchItem: MatchItem = {
 
 MatchSymbol = QuotedLiteral;
 
-MatchMapping = Terminal;
+MatchMapping: MatchMapping = {
+    Terminal => MatchMapping::Terminal(<>),
+    "{" "}" => MatchMapping::Skip,
+};
 
 EnumToken: EnumToken =
     "enum" <lo:@L> <t:TypeRef> <hi:@R> "{"

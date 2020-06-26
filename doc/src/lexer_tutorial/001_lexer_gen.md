@@ -209,13 +209,13 @@ match {
 } else {
     r"\w+",
     _
-}    
+}
 ```
 
 Here the match contains two levels; each level can have more than one
 item in it. The top-level contains only `r"[0-9]+"`, which means that this
 regular expression is given highest priority. The next level contains
-`r\w+`, so that will match afterwards. 
+`r\w+`, so that will match afterwards.
 
 The final `_` indicates that other string literals and regular
 expressions that appear elsewhere in the grammar (e.g., `"("` or
@@ -240,7 +240,7 @@ fn calculator2b() {
 
     let result = calculator2b::TermParser::new().parse("(foo33)").unwrap();
     assert_eq!(result, "Id(foo33)");
-    
+
     // This one will fail:
 
     let result = calculator2b::TermParser::new().parse("(22)").unwrap();
@@ -262,7 +262,7 @@ match {
 } else {
     r"\w+",
     _
-}    
+}
 ```
 
 This raises the interesting question of what the precedence is **within**
@@ -280,7 +280,7 @@ There is one final twist before we reach the
 can also use `match` declarations to give names to regular
 expressions, so that we don't have to type them directly in our
 grammar. For example, maybe instead of writing `r"\w+"`, we would
-prefer to write `ID`. We could do that by modifying the match declaration like 
+prefer to write `ID`. We could do that by modifying the match declaration like
 so:
 
 ```
@@ -321,6 +321,20 @@ match {
 And now any reference in your grammar to `"BEGIN"` will actually match
 any capitalization.
 
-[lexer tutorial]: lexer_tutorial/index.html
-[calculator2b]: calculator/src/calculator2b.lalrpop
-[calculator3]: calculator/src/calculator3.lalrpop
+#### Customizing skipping between tokens
+
+If we want to support comments we will need to skip more than just whitespace in our lexer.
+To this end `ignore patterns` can be specified.
+
+```
+match {
+    r"\s*" => { }, // The default whitespace skipping is disabled an `ignore pattern` is specified
+    r"//[^\n\r]*[\n\r]*" => { }, // Skip `// comments`
+    r"/\*([^\*]*\*+[^\*/])*([^\*]*\*+|[^\*])*\*/" => { },  // Skip `/* comments */`
+}
+```
+
+
+[lexer tutorial]: index.md
+[calculator2b]: ../../calculator/src/calculator2b.lalrpop
+[calculator3]: ../../calculator/src/calculator3.lalrpop

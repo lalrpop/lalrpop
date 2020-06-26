@@ -2,18 +2,18 @@
 //! version of `parse_tree`. The normalization passes produce this
 //! representation incrementally.
 
-use collections::{map, Map};
-use grammar::free_variables::FreeVariables;
-use grammar::pattern::Pattern;
-use message::Content;
+use crate::collections::{map, Map};
+use crate::grammar::free_variables::FreeVariables;
+use crate::grammar::pattern::Pattern;
+use crate::message::Content;
 use std::fmt::{Debug, Display, Error, Formatter};
 use string_cache::DefaultAtom as Atom;
-use util::Sep;
+use crate::util::Sep;
 
 // These concepts we re-use wholesale
-pub use grammar::parse_tree::{
-    Annotation, InternToken, Lifetime, NonterminalString, Path, Span, TerminalLiteral,
-    TerminalString, TypeBound, TypeParameter, Visibility, Name
+pub use crate::grammar::parse_tree::{
+    Annotation, InternToken, Lifetime, Name, NonterminalString, Path, Span, TerminalLiteral,
+    TerminalString, TypeBound, TypeParameter, Visibility,
 };
 
 #[derive(Clone, Debug)]
@@ -182,6 +182,7 @@ pub enum InlinedSymbol {
 #[derive(Clone, PartialEq, Eq, PartialOrd, Ord)]
 pub enum TypeRepr {
     Tuple(Vec<TypeRepr>),
+    Slice(Box<TypeRepr>),
     Nominal(NominalTypeRepr),
     Associated {
         type_parameter: Atom,
@@ -239,6 +240,7 @@ impl TypeRepr {
             TypeRepr::Tuple(types) => {
                 TypeRepr::Tuple(types.iter().map(|t| t.bottom_up(op)).collect())
             }
+            TypeRepr::Slice(ty) => TypeRepr::Slice(Box::new(ty.bottom_up(op))),
             TypeRepr::Nominal(NominalTypeRepr { path, types }) => {
                 TypeRepr::Nominal(NominalTypeRepr {
                     path: path.clone(),
@@ -304,6 +306,7 @@ impl TypeRepr {
 
         self.bottom_up(&mut |t| match t {
             TypeRepr::Tuple { .. }
+            | TypeRepr::Slice { .. }
             | TypeRepr::Nominal { .. }
             | TypeRepr::Associated { .. }
             | TypeRepr::TraitObject { .. }
@@ -511,6 +514,7 @@ impl Display for TypeRepr {
     fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
         match *self {
             TypeRepr::Tuple(ref types) => write!(fmt, "({})", Sep(", ", types)),
+            TypeRepr::Slice(ref ty) => write!(fmt, "[{}]", ty),
             TypeRepr::Nominal(ref data) => write!(fmt, "{}", data),
             TypeRepr::Associated {
                 ref type_parameter,

@@ -1,8 +1,8 @@
 //! First set construction and computation.
 
-use collections::{map, Map};
-use grammar::repr::*;
-use lr1::lookahead::{Token, TokenSet};
+use crate::collections::{map, Map};
+use crate::grammar::repr::*;
+use crate::lr1::lookahead::{Token, TokenSet};
 
 #[cfg(test)]
 mod test;

@@ -1,9 +1,9 @@
-use collections::{map, Map};
-use grammar::repr::*;
-use lr1::core::*;
-use lr1::example::*;
-use lr1::first::*;
-use lr1::lookahead::*;
+use crate::collections::{map, Map};
+use crate::grammar::repr::*;
+use crate::lr1::core::*;
+use crate::lr1::example::*;
+use crate::lr1::first::*;
+use crate::lr1::lookahead::*;
 use petgraph::graph::{EdgeReference, Edges, NodeIndex};
 use petgraph::prelude::*;
 use petgraph::{Directed, EdgeDirection, Graph};

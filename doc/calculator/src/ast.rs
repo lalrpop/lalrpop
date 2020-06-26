@@ -6,7 +6,7 @@ pub enum Expr {
     Error,
 }
 
-pub enum ExprSymbol<'input>{
+pub enum ExprSymbol<'input> {
     NumSymbol(&'input str),
     Op(Box<ExprSymbol<'input>>, Opcode, Box<ExprSymbol<'input>>),
     Error,

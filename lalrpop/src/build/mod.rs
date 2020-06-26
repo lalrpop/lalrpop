@@ -1,22 +1,22 @@
 //! Utilies for running in a build script.
 
+use crate::file_text::FileText;
+use crate::grammar::parse_tree as pt;
+use crate::grammar::repr as r;
+use crate::lexer::intern_token;
+use crate::lr1;
+use crate::message::builder::InlineBuilder;
+use crate::message::{Content, Message};
+use crate::normalize;
+use crate::parser;
+use crate::rust::RustWrite;
+use crate::session::{ColorConfig, Session};
+use crate::tls::Tls;
+use crate::tok;
 use atty;
-use file_text::FileText;
-use grammar::parse_tree as pt;
-use grammar::repr as r;
 use lalrpop_util::ParseError;
-use lexer::intern_token;
-use lr1;
-use message::builder::InlineBuilder;
-use message::{Content, Message};
-use normalize;
-use parser;
-use rust::RustWrite;
-use session::{ColorConfig, Session};
 use sha2::{Digest, Sha256};
 use term;
-use tls::Tls;
-use tok;
 
 use std::fs;
 use std::io::{self, BufRead, Write};
@@ -424,7 +424,11 @@ fn emit_recursive_ascent(
 
     if let Some(ref intern_token) = grammar.intern_token {
         intern_token::compile(&grammar, intern_token, &mut rust)?;
-        rust!(rust, "pub use self::{}intern_token::Token;", grammar.prefix);
+        rust!(
+            rust,
+            "pub use self::{}lalrpop_util::lexer::Token;",
+            grammar.prefix
+        );
     }
 
     action::emit_action_code(grammar, &mut rust)?;
@@ -537,7 +541,7 @@ fn emit_to_triple_trait<W: Write>(grammar: &r::Grammar, rust: &mut RustWrite<W>)
 
         rust!(
             rust,
-            "impl<{utp}> {p}ToTriple<{utp}> for Result<({T}),{E}> {{",
+            "impl<{utp}> {p}ToTriple<{utp}> for Result<{T},{E}> {{",
             utp = user_type_parameters,
             p = grammar.prefix,
             T = T,

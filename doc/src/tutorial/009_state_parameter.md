@@ -22,9 +22,9 @@ We can then call the parser with the state parameter :
 
 ```rust
 #[test]
-fn calculator7() {
+fn calculator8() {
     let scale = 2;
-    let expr = calculator7::ExprParser::new()
+    let expr = calculator8::ExprParser::new()
         .parse(scale,"11 * 22 + 33")
         .unwrap();
     assert_eq!(&format!("{:?}", expr), "((22 * 44) + 66)");

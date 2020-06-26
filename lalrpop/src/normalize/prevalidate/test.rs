@@ -1,5 +1,5 @@
-use parser;
-use test_util;
+use crate::parser;
+use crate::test_util;
 
 fn check_err(expected_err: &str, grammar: &str, span: &str) {
     let parsed_grammar = parser::parse_grammar(&grammar).unwrap();
@@ -129,7 +129,8 @@ fn expandable_expression_requires_named_variables() {
     check_err(
         r#"Using `<>` between curly braces \(e.g., `\{<>\}`\) only works when your parsed values have been given names \(e.g., `<x:Foo>`, not just `<Foo>`\)"#,
         r#"grammar; Term = { <A> => Foo {<>} };"#,
-        r#"                  ~~~~~~~~~~~~~~~~  "#);
+        r#"                  ~~~~~~~~~~~~~~~~  "#,
+    );
 }
 
 #[test]

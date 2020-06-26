@@ -1,8 +1,8 @@
 //! Certain bits of environmental state are too annoying to thread
 //! around everywhere, so pack them into TLS.
 
-use file_text::FileText;
-use session::Session;
+use crate::file_text::FileText;
+use crate::session::Session;
 use std::cell::RefCell;
 use std::rc::Rc;
 

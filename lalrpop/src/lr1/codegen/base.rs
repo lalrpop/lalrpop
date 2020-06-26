@@ -1,12 +1,12 @@
 //! Base helper routines for a code generator.
 
-use collections::Set;
-use grammar::free_variables::FreeVariables;
-use grammar::repr::*;
-use lr1::core::*;
-use rust::RustWrite;
+use crate::collections::Set;
+use crate::grammar::free_variables::FreeVariables;
+use crate::grammar::repr::*;
+use crate::lr1::core::*;
+use crate::rust::RustWrite;
 use std::io::{self, Write};
-use util::Sep;
+use crate::util::Sep;
 
 /// Base struct for various kinds of code generator. The flavor of
 /// code generator is customized by supplying distinct types for `C`
@@ -184,8 +184,7 @@ impl<'codegen, 'grammar, W: Write, C> CodeGenerator<'codegen, 'grammar, W, C> {
         if self.grammar.intern_token.is_some() {
             rust!(
                 self.out,
-                "use {}::{}intern_token::Token;",
-                self.action_module,
+                "use self::{}lalrpop_util::lexer::Token;",
                 self.prefix
             );
         } else {
@@ -246,9 +245,8 @@ impl<'codegen, 'grammar, W: Write, C> CodeGenerator<'codegen, 'grammar, W, C> {
         if intern_token {
             rust!(
                 self.out,
-                "builder: {1}::{0}intern_token::{0}MatcherBuilder,",
+                "builder: {}lalrpop_util::lexer::MatcherBuilder,",
                 self.prefix,
-                self.action_module
             );
         }
         rust!(self.out, "_priv: (),");
@@ -265,7 +263,7 @@ impl<'codegen, 'grammar, W: Write, C> CodeGenerator<'codegen, 'grammar, W, C> {
         if intern_token {
             rust!(
                 self.out,
-                "let {0}builder = {1}::{0}intern_token::{0}MatcherBuilder::new();",
+                "let {0}builder = {1}::{0}intern_token::new_builder();",
                 self.prefix,
                 self.action_module
             );

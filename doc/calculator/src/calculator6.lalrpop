@@ -1,8 +1,9 @@
 use std::str::FromStr;
-use ast::{Expr, Opcode};
-use lalrpop_util::ErrorRecovery;
+use crate::ast::{Expr, Opcode};
 
-grammar<'err>(errors: &'err mut Vec<ErrorRecovery<usize, Token<'input>, &'static str>>);
+use lalrpop_util::ParseError;
+
+grammar;
 
 pub Exprs = Comma<Expr>;
 
@@ -37,11 +38,13 @@ FactorOp: Opcode = {
 
 Term: Box<Expr> = {
     Num => Box::new(Expr::Number(<>)),
-    "(" <Expr> ")",
-    ! => { errors.push(<>); Box::new(Expr::Error) },
+    "(" <Expr> ")"
 };
 
 Num: i32 = {
-    r"[0-9]+" => i32::from_str(<>).unwrap()
+    r"[0-9]+" =>? i32::from_str(<>)
+        .map_err(|_| ParseError::User {
+            error: "number is too big"
+        })
 };
 

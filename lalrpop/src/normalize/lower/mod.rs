@@ -1,17 +1,18 @@
 //! Lower
 //!
 
-use collections::{map, Map};
-use grammar::consts::CFG;
-use grammar::parse_tree as pt;
-use grammar::parse_tree::{
-    read_algorithm, GrammarItem, InternToken, Lifetime, NonterminalString, Path, TerminalString, Name
+use crate::collections::{map, Map};
+use crate::grammar::consts::CFG;
+use crate::grammar::parse_tree as pt;
+use crate::grammar::parse_tree::{
+    read_algorithm, GrammarItem, InternToken, Lifetime, MatchMapping, Name, NonterminalString,
+    Path, TerminalString,
 };
-use grammar::pattern::{Pattern, PatternKind};
-use grammar::repr as r;
-use normalize::norm_util::{self, Symbols};
-use normalize::NormResult;
-use session::Session;
+use crate::grammar::pattern::{Pattern, PatternKind};
+use crate::grammar::repr as r;
+use crate::normalize::norm_util::{self, Symbols};
+use crate::normalize::NormResult;
+use crate::session::Session;
 use string_cache::DefaultAtom as Atom;
 
 pub fn lower(session: &Session, grammar: pt::Grammar, types: r::Types) -> NormResult<r::Grammar> {
@@ -78,26 +79,29 @@ impl<'s> LowerState<'s> {
                         })),
                     };
                     self.conversions
-                        .extend(data.match_entries.iter().enumerate().map(
-                            |(index, match_entry)| {
-                                let pattern = Pattern {
-                                    span,
-                                    kind: PatternKind::TupleStruct(
-                                        internal_token_path.clone(),
-                                        vec![
-                                            Pattern {
-                                                span,
-                                                kind: PatternKind::Usize(index),
-                                            },
-                                            Pattern {
-                                                span,
-                                                kind: PatternKind::Choose(input_str.clone()),
-                                            },
-                                        ],
-                                    ),
-                                };
+                        .extend(data.match_entries.iter().enumerate().filter_map(
+                            |(index, match_entry)| match &match_entry.user_name {
+                                MatchMapping::Terminal(user_name) => {
+                                    let pattern = Pattern {
+                                        span,
+                                        kind: PatternKind::TupleStruct(
+                                            internal_token_path.clone(),
+                                            vec![
+                                                Pattern {
+                                                    span,
+                                                    kind: PatternKind::Usize(index),
+                                                },
+                                                Pattern {
+                                                    span,
+                                                    kind: PatternKind::Choose(input_str.clone()),
+                                                },
+                                            ],
+                                        ),
+                                    };
 
-                                (match_entry.user_name.clone(), pattern)
+                                    Some((user_name.clone(), pattern))
+                                }
+                                MatchMapping::Skip => None,
                             },
                         ));
                     self.intern_token = Some(data);
@@ -339,6 +343,8 @@ impl<'s> LowerState<'s> {
         symbols: &[r::Symbol],
         action: Option<String>,
     ) -> r::ActionFn {
+        let normalized_symbols = norm_util::analyze_expr(expr);
+
         let action = match action {
             Some(s) => s,
             None => {
@@ -349,7 +355,15 @@ impl<'s> LowerState<'s> {
                 if nt_type.is_unit() {
                     "()".to_string()
                 } else {
-                    "(<>)".to_string()
+                    let len = match &normalized_symbols {
+                        Symbols::Named(names) => names.len(),
+                        Symbols::Anon(indices) => indices.len(),
+                    };
+                    if len == 1 {
+                        "<>".to_string()
+                    } else {
+                        "(<>)".to_string()
+                    }
                 }
             }
         };
@@ -362,17 +376,12 @@ impl<'s> LowerState<'s> {
         let arg_types: Vec<r::TypeRepr> =
             symbols.iter().map(|s| s.ty(&self.types)).cloned().collect();
 
-        let action_fn_defn = match norm_util::analyze_expr(expr) {
+        let action_fn_defn = match normalized_symbols {
             Symbols::Named(names) => {
                 // if there are named symbols, we want to give the
                 // arguments the names that the user gave them:
-                let arg_names = names
-                    .iter()
-                    .map(|(index, name, _)| (*index, name.clone()));
-                let arg_patterns = patterns(
-                    arg_names,
-                    symbols.len(),
-                );
+                let arg_names = names.iter().map(|(index, name, _)| (*index, name.clone()));
+                let arg_patterns = patterns(arg_names, symbols.len());
 
                 let action = {
                     match norm_util::check_between_braces(&action) {
@@ -415,10 +424,7 @@ impl<'s> LowerState<'s> {
 
                 let p_indices = indices.iter().map(|&(index, _)| index);
                 let p_names = names.iter().cloned().map(Name::immut);
-                let arg_patterns = patterns(
-                    p_indices.zip(p_names),
-                    symbols.len(),
-                );
+                let arg_patterns = patterns(p_indices.zip(p_names), symbols.len());
 
                 let name_str = {
                     let name_strs: Vec<_> = names.iter().map(AsRef::as_ref).collect();

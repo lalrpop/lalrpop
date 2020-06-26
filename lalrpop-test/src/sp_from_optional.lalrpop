@@ -1,0 +1,13 @@
+grammar;
+
+Sp<T> = @L T @R;
+
+Meta: () = {
+    "comment" => (),
+    => (),
+};
+
+// An empty `Meta` production here should not cause the span of `Let` to include the preceding whitespace
+Let: &'input str = Meta <"let">;
+
+pub Test: (usize, &'input str, usize) = "before" <Sp<Let>>;

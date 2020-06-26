@@ -17,9 +17,11 @@ To start, let's use `cargo new` to make a new project. We'll call it
 > cargo new --bin calculator
 ```
 
-We now have to edit the generated [`calculator/Cargo.toml`](calculator/Cargo.toml)
+We now have to edit the generated [`calculator/Cargo.toml`][calculator-Cargo.toml]
 file to invoke the LALRPOP preprocessor. The resulting file should
 look something like:
+
+[calculator-Cargo.toml]: ../../calculator/Cargo.toml
 
 ```
 [package]
@@ -28,11 +30,11 @@ version = "0.1.0"
 authors = ["Niko Matsakis <niko@alum.mit.edu>"]
 
 [build-dependencies] # <-- We added this and everything after!
-lalrpop = "0.17.2"
+lalrpop = "0.19.0"
 
 [dependencies]
-lalrpop-util = "0.17.2"
-regex = "0.2.1"
+lalrpop-util = "0.19.0"
+regex = "1"
 ```
 
 Cargo can run [build scripts] as a pre-processing step,
@@ -51,8 +53,8 @@ now, though we will cover it in [the next section]; if you *do*
 know what a lexer is, and you want to know how to write a lexer by
 hand and use it with LALRPOP, then check out the [lexer tutorial].)
 
-[the next section]: tutorial/002_paren_numbers.html
-[lexer tutorial]: lexer_tutorial/index.html
+[the next section]: 002_paren_numbers.md
+[lexer tutorial]: ../lexer_tutorial/index.md
 
 Next we have to add `build.rs` itself. This should just look like the
 following:

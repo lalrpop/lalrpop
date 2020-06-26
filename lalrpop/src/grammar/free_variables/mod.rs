@@ -1,5 +1,5 @@
-use grammar::parse_tree::{self, Lifetime, TypeParameter};
-use grammar::repr;
+use crate::grammar::parse_tree::{self, Lifetime, TypeParameter};
+use crate::grammar::repr;
 use std::iter;
 use string_cache::DefaultAtom as Atom;
 
@@ -57,6 +57,7 @@ impl FreeVariables for repr::TypeRepr {
     fn free_variables(&self, type_parameters: &[TypeParameter]) -> Vec<TypeParameter> {
         match self {
             repr::TypeRepr::Tuple(tys) => tys.free_variables(type_parameters),
+            repr::TypeRepr::Slice(ty) => ty.free_variables(type_parameters),
             repr::TypeRepr::Nominal(data) | repr::TypeRepr::TraitObject(data) => {
                 data.free_variables(type_parameters)
             }

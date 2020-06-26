@@ -1,12 +1,12 @@
-use grammar::consts::INLINE;
-use grammar::parse_tree::{
+use crate::grammar::consts::INLINE;
+use crate::grammar::parse_tree::{
     ActionKind, Alternative, Annotation, Condition, ConditionOp, ExprSymbol, Grammar, GrammarItem,
     MacroSymbol, Name, NonterminalData, NonterminalString, Path, RepeatOp, RepeatSymbol, Span,
     Symbol, SymbolKind, TerminalLiteral, TerminalString, TypeRef, Visibility,
 };
-use normalize::norm_util::{self, Symbols};
-use normalize::resolve;
-use normalize::{NormError, NormResult};
+use crate::normalize::norm_util::{self, Symbols};
+use crate::normalize::resolve;
+use crate::normalize::{NormError, NormResult};
 use regex::Regex;
 use std::collections::{HashMap, HashSet};
 use std::mem;
@@ -233,6 +233,9 @@ impl MacroExpander {
     ) -> TypeRef {
         match *type_ref {
             TypeRef::Tuple(ref trs) => TypeRef::Tuple(self.macro_expand_type_refs(args, trs)),
+            TypeRef::Slice(ref tr) => {
+                TypeRef::Slice(Box::new(self.macro_expand_type_ref(args, tr)))
+            }
             TypeRef::Nominal {
                 ref path,
                 ref types,
@@ -387,7 +390,7 @@ impl MacroExpander {
     fn expand_expr_symbol(&mut self, span: Span, expr: ExprSymbol) -> NormResult<GrammarItem> {
         let name = NonterminalString(Atom::from(expr.canonical_form()));
 
-        let ty_ref =
+        let (action, ty_ref) =
             match norm_util::analyze_expr(&expr) {
                 Symbols::Named(names) => {
                     let (_, ref ex_id, ex_sym) = names[0];
@@ -396,10 +399,17 @@ impl MacroExpander {
                     "named symbols like `{}:{}` are only allowed at the top-level of a nonterminal",
                     ex_id, ex_sym)
                 }
-                Symbols::Anon(syms) => maybe_tuple(
-                    syms.into_iter()
-                        .map(|(_, s)| TypeRef::OfSymbol(s.kind.clone()))
-                        .collect(),
+                Symbols::Anon(syms) => (
+                    if syms.len() == 1 {
+                        action("<>")
+                    } else {
+                        action("(<>)")
+                    },
+                    maybe_tuple(
+                        syms.into_iter()
+                            .map(|(_, s)| TypeRef::OfSymbol(s.kind.clone()))
+                            .collect(),
+                    ),
                 ),
             };
 
@@ -414,7 +424,7 @@ impl MacroExpander {
                 span,
                 expr,
                 condition: None,
-                action: action("(<>)"),
+                action,
             }],
         }))
     }

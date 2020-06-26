@@ -1,13 +1,13 @@
-use grammar::repr::*;
-use lr1::build;
-use lr1::core::*;
-use lr1::first::FirstSets;
-use lr1::interpret;
-use lr1::state_graph::StateGraph;
-use lr1::tls::Lr1Tls;
+use crate::grammar::repr::*;
+use crate::lr1::build;
+use crate::lr1::core::*;
+use crate::lr1::first::FirstSets;
+use crate::lr1::interpret;
+use crate::lr1::state_graph::StateGraph;
+use crate::lr1::tls::Lr1Tls;
 use string_cache::DefaultAtom as Atom;
-use test_util::{expect_debug, normalized_grammar};
-use tls::Tls;
+use crate::test_util::{expect_debug, normalized_grammar};
+use crate::tls::Tls;
 
 use super::construct::*;
 use super::lane::*;

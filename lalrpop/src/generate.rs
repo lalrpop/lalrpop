@@ -1,6 +1,6 @@
 //! Generate valid parse trees.
 
-use grammar::repr::*;
+use crate::grammar::repr::*;
 use rand::{self, Rng};
 use std::iter::Iterator;
 
@@ -32,7 +32,7 @@ struct Generator<'grammar> {
     depth: u32,
 }
 
-const MAX_DEPTH: u32 = 10000;
+const MAX_DEPTH: u32 = 7000;
 
 impl<'grammar> Generator<'grammar> {
     fn nonterminal(&mut self, nt: NonterminalString) -> Option<ParseTree> {

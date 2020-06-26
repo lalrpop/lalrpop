@@ -1,16 +1,16 @@
 //! The "parse-tree" is what is produced by the parser. We use it do
 //! some pre-expansion and so forth before creating the proper AST.
 
-use grammar::consts::{INPUT_LIFETIME, LALR, RECURSIVE_ASCENT, TABLE_DRIVEN, TEST_ALL};
-use grammar::pattern::Pattern;
-use grammar::repr::{self as r, NominalTypeRepr, TypeRepr};
-use lexer::dfa::DFA;
-use message::builder::InlineBuilder;
-use message::Content;
+use crate::grammar::consts::{INPUT_LIFETIME, LALR, RECURSIVE_ASCENT, TABLE_DRIVEN, TEST_ALL};
+use crate::grammar::pattern::Pattern;
+use crate::grammar::repr::{self as r, NominalTypeRepr, TypeRepr};
+use crate::lexer::dfa::DFA;
+use crate::message::builder::InlineBuilder;
+use crate::message::Content;
 use std::fmt::{Debug, Display, Error, Formatter};
 use string_cache::DefaultAtom as Atom;
-use tls::Tls;
-use util::Sep;
+use crate::tls::Tls;
+use crate::util::Sep;
 
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct Grammar {
@@ -25,7 +25,7 @@ pub struct Grammar {
     pub module_attributes: Vec<String>,
 }
 
-#[derive(Copy, Clone, Debug, Hash, PartialEq, Eq, PartialOrd, Ord)]
+#[derive(Copy, Clone, Debug, Default, Hash, PartialEq, Eq, PartialOrd, Ord)]
 pub struct Span(pub usize, pub usize);
 
 impl Into<Box<dyn Content>> for Span {
@@ -109,7 +109,29 @@ impl MatchItem {
 }
 
 pub type MatchSymbol = TerminalLiteral;
-pub type MatchMapping = TerminalString;
+
+#[derive(Clone, PartialEq, Eq, Ord, PartialOrd)]
+pub enum MatchMapping {
+    Terminal(TerminalString),
+    Skip,
+}
+
+impl Debug for MatchMapping {
+    fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
+        match self {
+            MatchMapping::Terminal(term) => write!(fmt, "{:?}", term),
+            MatchMapping::Skip => write!(fmt, "{{ }}"),
+        }
+    }
+}
+impl Display for MatchMapping {
+    fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
+        match self {
+            MatchMapping::Terminal(term) => write!(fmt, "{}", term),
+            MatchMapping::Skip => write!(fmt, "{{ }}"),
+        }
+    }
+}
 
 /// Intern tokens are not typed by the user: they are synthesized in
 /// the absence of an "extern" declaration with information about the
@@ -158,7 +180,7 @@ pub struct MatchEntry {
     /// NB: This field must go first, so that `PartialOrd` sorts by precedence first!
     pub precedence: usize,
     pub match_literal: TerminalLiteral,
-    pub user_name: TerminalString,
+    pub user_name: MatchMapping,
 }
 
 #[derive(Clone, Debug, PartialEq, Eq)]
@@ -199,6 +221,9 @@ pub struct Path {
 pub enum TypeRef {
     // (T1, T2)
     Tuple(Vec<TypeRef>),
+
+    // [T]
+    Slice(Box<TypeRef>),
 
     // Foo<'a, 'b, T1, T2>, Foo::Bar, etc
     Nominal {
@@ -1008,6 +1033,7 @@ impl Display for TypeRef {
     fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
         match *self {
             TypeRef::Tuple(ref types) => write!(fmt, "({})", Sep(", ", types)),
+            TypeRef::Slice(ref ty) => write!(fmt, "[{}]", ty),
             TypeRef::Nominal {
                 ref path,
                 ref types,
@@ -1076,6 +1102,7 @@ impl TypeRef {
             TypeRef::Tuple(ref types) => {
                 TypeRepr::Tuple(types.iter().map(TypeRef::type_repr).collect())
             }
+            TypeRef::Slice(ref ty) => TypeRepr::Slice(Box::new(ty.type_repr())),
             TypeRef::Nominal {
                 ref path,
                 ref types,

@@ -86,5 +86,5 @@ The `<>` expressions also works with struct constructors (like `Foo
 {...}` in examples above). This works out well if the names of your
 parsed values match the names of your struct fields.
 
-[calculator1]: calculator/src/calculator1.lalrpop
-[calculator2]: calculator/src/calculator2.lalrpop
+[calculator1]: ../../calculator/src/calculator1.lalrpop
+[calculator2]: ../../calculator/src/calculator2.lalrpop

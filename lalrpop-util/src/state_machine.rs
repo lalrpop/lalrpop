@@ -174,11 +174,11 @@ pub type Success<D> = <D as ParserDefinition>::Success;
 #[doc(hidden)]
 pub type Symbol<D> = <D as ParserDefinition>::Symbol;
 
-pub type ParseError<D> = ::ParseError<Location<D>, Token<D>, Error<D>>;
+pub type ParseError<D> = crate::ParseError<Location<D>, Token<D>, Error<D>>;
 pub type ParseResult<D> = Result<Success<D>, ParseError<D>>;
 pub type TokenTriple<D> = (Location<D>, Token<D>, Location<D>);
 pub type SymbolTriple<D> = (Location<D>, Symbol<D>, Location<D>);
-pub type ErrorRecovery<D> = ::ErrorRecovery<Location<D>, Token<D>, Error<D>>;
+pub type ErrorRecovery<D> = crate::ErrorRecovery<Location<D>, Token<D>, Error<D>>;
 
 pub struct Parser<D, I>
 where
@@ -252,15 +252,10 @@ where
                 } else if let Some(reduce_index) = action.as_reduce() {
                     debug!("\\ reduce to: {:?}", reduce_index);
 
-                    if let Some(r) = self.definition.reduce(
-                        reduce_index,
-                        Some(&lookahead.0),
-                        &mut self.states,
-                        &mut self.symbols,
-                    ) {
+                    if let Some(r) = self.reduce(reduce_index, Some(&lookahead.0)) {
                         return match r {
                             // we reached eof, but still have lookahead
-                            Ok(_) => Err(::ParseError::ExtraToken { token: lookahead }),
+                            Ok(_) => Err(crate::ParseError::ExtraToken { token: lookahead }),
                             Err(e) => Err(e),
                         };
                     }
@@ -497,7 +492,7 @@ where
         let error_action = self.definition.error_action(recover_state);
         let error_state = error_action.as_shift().unwrap();
         self.states.push(error_state);
-        let recovery = self.definition.error_recovery_symbol(::ErrorRecovery {
+        let recovery = self.definition.error_recovery_symbol(crate::ErrorRecovery {
             error,
             dropped_tokens,
         });
@@ -597,11 +592,11 @@ where
         top_state: D::StateIndex,
     ) -> ParseError<D> {
         match token {
-            Some(token) => ::ParseError::UnrecognizedToken {
+            Some(token) => crate::ParseError::UnrecognizedToken {
                 token,
                 expected: self.definition.expected_tokens(top_state),
             },
-            None => ::ParseError::UnrecognizedEOF {
+            None => crate::ParseError::UnrecognizedEOF {
                 location: self.last_location.clone(),
                 expected: self.definition.expected_tokens(top_state),
             },

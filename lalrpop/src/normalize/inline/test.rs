@@ -1,8 +1,8 @@
-use grammar::parse_tree::NonterminalString;
-use grammar::repr::Grammar;
-use normalize::{self, NormResult};
-use parser;
-use session::Session;
+use crate::grammar::parse_tree::NonterminalString;
+use crate::grammar::repr::Grammar;
+use crate::normalize::{self, NormResult};
+use crate::parser;
+use crate::session::Session;
 use string_cache::DefaultAtom as Atom;
 
 use super::inline;

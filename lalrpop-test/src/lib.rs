@@ -12,7 +12,7 @@ use std::process::Command;
 
 use lalrpop_util::{ErrorRecovery, ParseError};
 
-use util::tok::Tok;
+use crate::util::tok::Tok;
 
 /// Tests that actions can return the grammar's type parameters' associated
 /// types.
@@ -142,6 +142,10 @@ lalrpop_mod!(
     #[allow(unused)]
     dyn_argument
 );
+
+lalrpop_mod!(comments);
+
+lalrpop_mod!(sp_from_optional);
 
 pub fn use_cfg_created_parser() {
     cfg::CreatedParser::new();
@@ -372,7 +376,7 @@ fn sub_table_test1() {
 
 #[test]
 fn expr_arena_test1() {
-    use expr_arena_ast::*;
+    use crate::expr_arena_ast::*;
     let arena = Arena::new();
     let expected = arena.alloc(Node::Binary {
         op: Op::Sub,
@@ -392,7 +396,7 @@ fn expr_arena_test1() {
 
 #[test]
 fn expr_arena_test2() {
-    use expr_arena_ast::*;
+    use crate::expr_arena_ast::*;
     let arena = Arena::new();
     let expected = arena.alloc(Node::Reduce(
         Op::Mul,
@@ -416,7 +420,7 @@ fn expr_arena_test2() {
 
 #[test]
 fn expr_arena_test3() {
-    use expr_arena_ast::*;
+    use crate::expr_arena_ast::*;
     let arena = Arena::new();
     let expected = arena.alloc(Node::Binary {
         op: Op::Mul,
@@ -994,5 +998,34 @@ fn verify_lalrpop_generates_itself() {
         &expected,
         "The snapshot does not match what lalrpop generates now.\n\
          Use ./snap.sh to generate a new snapshot of the lrgrammar",
+    );
+}
+
+#[test]
+fn comments() {
+    assert_eq!(
+        comments::TermParser::new().parse("22 3 5 13").unwrap(),
+        vec!["22", "3", "5", "13"]
+    );
+
+    assert_eq!(
+        comments::TermParser::new()
+            .parse(
+                "22 /* 123 */ 3 5
+            //  abc
+            13 // "
+            )
+            .unwrap(),
+        vec!["22", "3", "5", "13"]
+    );
+}
+
+#[test]
+fn sp_from_optional() {
+    assert_eq!(
+        sp_from_optional::TestParser::new()
+            .parse("before   let")
+            .unwrap(),
+        (9, "let", 12)
     );
 }

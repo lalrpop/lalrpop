@@ -1,4 +1,4 @@
-use grammar::parse_tree::{ActionKind, Alternative, ExprSymbol, Symbol, SymbolKind, Name};
+use crate::grammar::parse_tree::{ActionKind, Alternative, ExprSymbol, Name, Symbol, SymbolKind};
 
 #[derive(Debug)]
 pub enum AlternativeAction<'a> {
@@ -131,5 +131,4 @@ mod test {
             check_between_braces("bl{<>         } b")
         );
     }
-
 }

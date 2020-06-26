@@ -1,15 +1,14 @@
 //! LR(1) state construction algorithm.
 
-use collections::{map, Multimap};
-use grammar::repr::*;
-use kernel_set;
-use lr1::core::*;
-use lr1::first;
-use lr1::lane_table::*;
-use lr1::lookahead::*;
+use crate::collections::{map, Multimap};
+use crate::grammar::repr::*;
+use crate::kernel_set;
+use crate::lr1::core::*;
+use crate::lr1::first;
+use crate::lr1::lane_table::*;
+use crate::lr1::lookahead::*;
+use crate::tls::Tls;
 use std::env;
-use std::rc::Rc;
-use tls::Tls;
 
 #[cfg(test)]
 mod test;
@@ -254,9 +253,7 @@ impl<'grammar, L: LookaheadBuild> LR<'grammar, L> {
             .map(|(lr0_item, lookahead)| lr0_item.with_lookahead(lookahead))
             .collect();
 
-        Items {
-            vec: Rc::new(final_items),
-        }
+        Items { vec: final_items }
     }
 }
 

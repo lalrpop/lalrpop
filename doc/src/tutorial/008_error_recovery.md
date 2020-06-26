@@ -52,20 +52,20 @@ by inserting this `!` token where necessary.
 
 ```rust
 #[test]
-fn calculator6() {
+fn calculator7() {
     let mut errors = Vec::new();
 
-    let expr = calculator6::ExprsParser::new()
+    let expr = calculator7::ExprsParser::new()
         .parse(&mut errors, "22 * + 3")
         .unwrap();
     assert_eq!(&format!("{:?}", expr), "[((22 * error) + 3)]");
 
-    let expr = calculator6::ExprsParser::new()
+    let expr = calculator7::ExprsParser::new()
         .parse(&mut errors, "22 * 44 + 66, *3")
         .unwrap();
     assert_eq!(&format!("{:?}", expr), "[((22 * 44) + 66), (error * 3)]");
 
-    let expr = calculator6::ExprsParser::new()
+    let expr = calculator7::ExprsParser::new()
         .parse(&mut errors, "*")
         .unwrap();
     assert_eq!(&format!("{:?}", expr), "[(error * error)]");

@@ -7,12 +7,12 @@
 
 use super::{NormError, NormResult};
 
-use collections::{Map, Set};
-use grammar::consts::*;
-use grammar::parse_tree::*;
-use lexer::dfa::{self, DFAConstructionError, Precedence};
-use lexer::nfa::NFAConstructionError::*;
-use lexer::re;
+use crate::collections::{Map, Set};
+use crate::grammar::consts::*;
+use crate::grammar::parse_tree::*;
+use crate::lexer::dfa::{self, DFAConstructionError, Precedence};
+use crate::lexer::nfa::NFAConstructionError::*;
+use crate::lexer::re;
 use string_cache::DefaultAtom as Atom;
 
 #[cfg(test)]
@@ -34,6 +34,12 @@ pub fn validate(mut grammar: Grammar) -> NormResult<Grammar> {
                     .collect(),
             }
         } else {
+            if cfg!(not(feature = "lexer")) {
+                return_err!(
+                    Span::default(),
+                    "The `lexer` feature must be specified unless an `extern` lexer is defined"
+                );
+            }
             TokenMode::Internal {
                 match_block: MatchBlock::new(grammar.match_token())?,
             }
@@ -127,7 +133,7 @@ impl MatchBlock {
                             match_block.add_match_entry(
                                 precedence,
                                 sym.clone(),
-                                TerminalString::Literal(sym.clone()),
+                                MatchMapping::Terminal(TerminalString::Literal(sym.clone())),
                                 span,
                             )?;
                         }
@@ -156,7 +162,7 @@ impl MatchBlock {
         &mut self,
         match_group_precedence: usize,
         sym: TerminalLiteral,
-        user_name: TerminalString,
+        user_name: MatchMapping,
         span: Span,
     ) -> NormResult<()> {
         if let Some(_old_span) = self.spans.insert(sym.clone(), span) {
@@ -164,7 +170,9 @@ impl MatchBlock {
         }
 
         // NB: It's legal for multiple regex to produce same terminal.
-        self.match_user_names.insert(user_name.clone());
+        if let MatchMapping::Terminal(user_name) = &user_name {
+            self.match_user_names.insert(user_name.clone());
+        }
 
         self.match_entries.push(MatchEntry {
             precedence: match_group_precedence * 2 + sym.base_precedence(),
@@ -197,7 +205,7 @@ impl MatchBlock {
         self.match_entries.push(MatchEntry {
             precedence: sym.base_precedence(),
             match_literal: sym.clone(),
-            user_name: TerminalString::Literal(sym.clone()),
+            user_name: MatchMapping::Terminal(TerminalString::Literal(sym.clone())),
         });
 
         self.spans.insert(sym, span);
@@ -322,29 +330,26 @@ fn construct(grammar: &mut Grammar, match_block: MatchBlock) -> NormResult<()> {
     // one of precedences, that are parallel with `literals`.
     let mut regexs = Vec::with_capacity(match_entries.len());
     let mut precedences = Vec::with_capacity(match_entries.len());
-    {
-        for match_entry in &match_entries {
-            precedences.push(Precedence(match_entry.precedence));
-            match match_entry.match_literal {
-                TerminalLiteral::Quoted(ref s) => {
-                    regexs.push(re::parse_literal(&s));
-                }
-                TerminalLiteral::Regex(ref s) => {
-                    match re::parse_regex(&s) {
-                        Ok(regex) => regexs.push(regex),
-                        Err(error) => {
-                            let literal_span = spans[&match_entry.match_literal];
-                            // FIXME -- take offset into account for
-                            // span; this requires knowing how many #
-                            // the user used, which we do not track
-                            return_err!(literal_span, "invalid regular expression: {}", error);
-                        }
+    for match_entry in &match_entries {
+        precedences.push(Precedence(match_entry.precedence));
+        match match_entry.match_literal {
+            TerminalLiteral::Quoted(ref s) => {
+                regexs.push(re::parse_literal(&s));
+            }
+            TerminalLiteral::Regex(ref s) => {
+                match re::parse_regex(&s) {
+                    Ok(regex) => regexs.push(regex),
+                    Err(error) => {
+                        let literal_span = spans[&match_entry.match_literal];
+                        // FIXME -- take offset into account for
+                        // span; this requires knowing how many #
+                        // the user used, which we do not track
+                        return_err!(literal_span, "invalid regular expression: {}", error);
                     }
                 }
             }
         }
-        Ok(())
-    }?;
+    }
 
     let dfa = match dfa::build_dfa(&regexs, &precedences) {
         Ok(dfa) => dfa,

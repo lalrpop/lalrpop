@@ -1,9 +1,9 @@
-use grammar::parse_tree::NonterminalString;
-use grammar::repr::TypeRepr;
-use normalize::macro_expand::expand_macros;
-use normalize::token_check;
-use normalize::tyinfer::infer_types;
-use parser;
+use crate::grammar::parse_tree::NonterminalString;
+use crate::grammar::repr::TypeRepr;
+use crate::normalize::macro_expand::expand_macros;
+use crate::normalize::token_check;
+use crate::normalize::tyinfer::infer_types;
+use crate::parser;
 use string_cache::DefaultAtom as Atom;
 
 fn type_repr(s: &str) -> TypeRepr {

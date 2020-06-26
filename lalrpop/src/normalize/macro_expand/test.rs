@@ -1,5 +1,5 @@
-use parser;
-use test_util::compare;
+use crate::parser;
+use crate::test_util::compare;
 
 use super::expand_macros;
 
@@ -41,7 +41,7 @@ grammar;
 
     #[inline]
     `(<"Id"> ",")`: #"Id"# = {
-        <"Id"> "," => (<>),
+        <"Id"> "," => <>,
     };
 
     `(<"Id"> ",")+`: ::std::vec::Vec<#`(<"Id"> ",")`#> = {

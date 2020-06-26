@@ -39,13 +39,13 @@ impl Log {
 
 macro_rules! log {
     ($session:expr, $level:ident, $($args:expr),*) => {
-        $session.log(::log::Level::$level, || ::std::fmt::format(format_args!($($args),*)))
+        $session.log(crate::log::Level::$level, || ::std::fmt::format(format_args!($($args),*)))
     }
 }
 
 macro_rules! debug {
     ($($args:expr),*) => {
-        log!(::tls::Tls::session(), Debug, $($args),*)
+        log!(crate::tls::Tls::session(), Debug, $($args),*)
     }
 }
 

@@ -24,5 +24,5 @@ cover when I get time to write about them:
 - Converting to use `LALR(1)` instead of `LR(1)` (see e.g. [this test](https://github.com/lalrpop/lalrpop/blob/master/lalrpop-test/src/expr_lalr.lalrpop) invoked [from here]).
 - Plans for future features
 
-[Crash course on parsers]: crash_course.html
+[Crash course on parsers]: ../crash_course.md
 [from here]: https://github.com/lalrpop/lalrpop/blob/master/lalrpop-test/src/main.rs

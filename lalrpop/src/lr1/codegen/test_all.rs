@@ -2,11 +2,11 @@
 //!
 //! [recursive ascent]: https://en.wikipedia.org/wiki/Recursive_ascent_parser
 
-use grammar::repr::{Grammar, NonterminalString, TypeParameter};
-use lr1::core::*;
-use rust::RustWrite;
+use crate::grammar::repr::{Grammar, NonterminalString, TypeParameter};
+use crate::lr1::core::*;
+use crate::rust::RustWrite;
 use std::io::{self, Write};
-use util::Sep;
+use crate::util::Sep;
 
 use super::base::CodeGenerator;
 

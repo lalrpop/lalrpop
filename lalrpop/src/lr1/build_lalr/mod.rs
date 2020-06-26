@@ -1,14 +1,13 @@
 //! Mega naive LALR(1) generation algorithm.
 
-use collections::{map, Map, Multimap};
-use grammar::repr::*;
+use crate::collections::{map, Map, Multimap};
+use crate::grammar::repr::*;
+use crate::lr1::build;
+use crate::lr1::core::*;
+use crate::lr1::lookahead::*;
+use crate::tls::Tls;
 use itertools::Itertools;
-use lr1::build;
-use lr1::core::*;
-use lr1::lookahead::*;
 use std::mem;
-use std::rc::Rc;
-use tls::Tls;
 
 #[cfg(test)]
 mod test;
@@ -39,11 +38,13 @@ pub fn build_lalr_states<'grammar>(
         return Ok(lr_states);
     }
 
-    profile! {
+    let lr1_states = profile! {
         &Tls::session(),
         "LALR(1) state collapse",
         collapse_to_lalr_states(&lr_states)
-    }
+    }?;
+
+    Ok(lr1_states)
 }
 
 pub fn collapse_to_lalr_states<'grammar>(lr_states: &[LR1State<'grammar>]) -> LR1Result<'grammar> {
@@ -138,9 +139,7 @@ pub fn collapse_to_lalr_states<'grammar>(lr_states: &[LR1State<'grammar>]) -> LR
         .into_iter()
         .map(|lr| State {
             index: lr.index,
-            items: Items {
-                vec: Rc::new(lr.items),
-            },
+            items: Items { vec: lr.items },
             shifts: lr.shifts,
             reductions: lr.reductions.into_iter().map(|(p, ts)| (ts, p)).collect(),
             gotos: lr.gotos,

@@ -1,16 +1,17 @@
 //! A compiler from an LR(1) table to a traditional table driven parser.
 
-use collections::{Entry, Map, Set};
-use grammar::repr::*;
-use lr1::core::*;
-use lr1::lookahead::Token;
-use rust::RustWrite;
+use crate::collections::{Entry, Map, Set};
+use crate::grammar::repr::*;
+use crate::lr1::core::*;
+use crate::lr1::lookahead::Token;
+use crate::rust::RustWrite;
+use crate::tls::Tls;
+use crate::util::Sep;
+use itertools::Itertools;
 use std::fmt;
 use std::io::{self, Write};
 use std::rc::Rc;
 use string_cache::DefaultAtom as Atom;
-use tls::Tls;
-use util::Sep;
 
 use super::base::CodeGenerator;
 
@@ -245,12 +246,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
             "fn action(&self, state: {state_type}, integer: usize) -> {state_type} {{",
             state_type = state_type
         );
-        rust!(
-            self.out,
-            "{p}ACTION[(state as usize) * {num_term} + integer]",
-            p = self.prefix,
-            num_term = self.grammar.terminals.all.len(),
-        );
+        rust!(self.out, "{p}action(state, integer)", p = self.prefix);
         rust!(self.out, "}}");
 
         rust!(self.out, "");
@@ -262,7 +258,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
         );
         rust!(
             self.out,
-            "{p}ACTION[(state as usize) * {num_term} + ({num_term} - 1)]",
+            "{p}action(state, {num_term} - 1)",
             p = self.prefix,
             num_term = self.grammar.terminals.all.len(),
         );
@@ -285,12 +281,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
             "fn goto(&self, state: {state_type}, nt: usize) -> {state_type} {{",
             state_type = state_type,
         );
-        rust!(
-            self.out,
-            "{p}GOTO[(state as usize) * {num_non_term} + nt] - 1",
-            p = self.prefix,
-            num_non_term = self.grammar.nonterminals.len(),
-        );
+        rust!(self.out, "{}goto(state, nt)", self.prefix);
         rust!(self.out, "}}");
 
         rust!(self.out, "");
@@ -312,11 +303,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
             "fn expected_tokens(&self, state: {state_type}) -> Vec<String> {{",
             state_type = state_type,
         );
-        rust!(
-            self.out,
-            "{p}expected_tokens(state as usize)",
-            p = self.prefix
-        );
+        rust!(self.out, "{p}expected_tokens(state)", p = self.prefix);
         rust!(self.out, "}}");
 
         rust!(self.out, "");
@@ -391,12 +378,19 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
             p = self.prefix,
             state_type = state_type,
         );
-        rust!(
-            self.out,
-            "{p}simulate_reduce(action, {phantom})",
-            p = self.prefix,
-            phantom = phantom_data_expr,
-        );
+        if self.grammar.uses_error_recovery {
+            rust!(
+                self.out,
+                "{p}simulate_reduce(action, {phantom})",
+                p = self.prefix,
+                phantom = phantom_data_expr,
+            );
+        } else {
+            rust!(
+                self.out,
+                "panic!(\"error recovery not enabled for this grammar\")"
+            )
+        }
         rust!(self.out, "}}");
 
         rust!(self.out, "}}");
@@ -468,13 +462,15 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
     }
 
     fn write_parse_table(&mut self) -> io::Result<()> {
+        let state_type = self.custom.state_type;
+
         // The table is a two-dimensional matrix indexed first by state
         // and then by the terminal index. The value is described above.
         rust!(
             self.out,
-            "const {}ACTION: &'static [{}] = &[",
+            "const {}ACTION: &[{}] = &[",
             self.prefix,
-            self.custom.state_type
+            state_type
         );
 
         for (index, state) in self.states.iter().enumerate() {
@@ -503,10 +499,26 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
 
         rust!(self.out, "];");
 
+        rust!(
+            self.out,
+            "fn {p}action(state: {state_type}, integer: usize) -> {state_type} {{",
+            p = self.prefix,
+            state_type = state_type,
+        );
+
+        rust!(
+            self.out,
+            "{p}ACTION[(state as usize) * {num_term} + integer]",
+            p = self.prefix,
+            num_term = self.grammar.terminals.all.len(),
+        );
+
+        rust!(self.out, "}}");
+
         // Actions on EOF. Indexed just by state.
         rust!(
             self.out,
-            "const {}EOF_ACTION: &'static [{}] = &[",
+            "const {}EOF_ACTION: &[{}] = &[",
             self.prefix,
             self.custom.state_type
         );
@@ -517,30 +529,135 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
         }
         rust!(self.out, "];");
 
-        // The goto table is indexed by state and *nonterminal*.
         rust!(
             self.out,
-            "const {}GOTO: &'static [{}] = &[",
+            "fn {}goto(state: {state_type}, nt: usize) -> {state_type} {{",
             self.prefix,
-            self.custom.state_type
+            state_type = state_type,
         );
-        for (index, state) in self.states.iter().enumerate() {
-            rust!(self.out, "// State {}", index);
-            let iterator = self.grammar.nonterminals.keys().map(|nonterminal| {
-                if let Some(&new_state) = state.gotos.get(&nonterminal) {
+
+        Self::emit_goto_match(
+            self.out,
+            "nt",
+            self.grammar.nonterminals.keys(),
+            "state",
+            self.states.iter(),
+            |nonterminal, state| {
+                if let Some(&new_state) = state.gotos.get(nonterminal) {
                     (
-                        new_state.0 as i32 + 1,
+                        Some(new_state.0 as i32),
                         Comment::Goto(nonterminal, new_state.0),
                     )
                 } else {
-                    (0, Comment::Error(nonterminal))
+                    (None, Comment::Error(nonterminal))
                 }
-            });
-            self.out.write_table_row(iterator)?;
-        }
-        rust!(self.out, "];");
+            },
+        )?;
+
+        rust!(self.out, "}}");
 
         self.emit_expected_tokens_fn()?;
+
+        Ok(())
+    }
+
+    fn emit_goto_match<'a, 'k, K: 'k, K2: 'k, T>(
+        out: &mut RustWrite<W>,
+        k_name: &str,
+        iter: impl IntoIterator<Item = &'k K>,
+        k2_name: &str,
+        iter2: impl IntoIterator<Item = &'k K2> + Clone,
+        mut state_lookup: impl FnMut(&'k K, &'k K2) -> (Option<i32>, Comment<'a, T>),
+    ) -> io::Result<()>
+    where
+        T: fmt::Display,
+    {
+        let emit_comments = Tls::session().emit_comments;
+
+        rust!(out, "match {} {{", k_name);
+
+        for (k_index, k) in iter.into_iter().enumerate() {
+            let iter = iter2
+                .clone()
+                .into_iter()
+                .map(|k2| state_lookup(k, k2))
+                .enumerate()
+                // Group consecutive indices so we can compress then as a..=b
+                .group_by(|(_, (next_state, _))| *next_state);
+            let mut row = Vec::new();
+            row.extend(&iter);
+
+            // If the row was all errors we don't need to emit it
+            if row.len() == 1 && row[0].0.is_none() {
+                continue;
+            }
+
+            row.sort_by_key(|(next_state, _)| *next_state);
+
+            // Since the parser will always select a non-error (non-zero) next_state we can use the
+            // catch all in the match to represent the largest variant
+            let mut largest_variant_index = 0;
+            let mut largest_variant = 0;
+
+            // Group by next_state
+            let variants: Vec<_> = (&row
+                .drain(..)
+                // We always emit a catch-all for 0 error states (which will never be hit)
+                .filter_map(|(opt, group)| opt.map(|next_state| (next_state, group)))
+                .group_by(|(next_state, _)| *next_state))
+                .into_iter()
+                .enumerate()
+                .map(|(i, (next_state, group_group))| {
+                    let mut comment = None;
+                    let vec = group_group
+                        .map(|(_, mut group)| {
+                            let (start, (_, c)) = group.next().unwrap();
+                            comment = Some(c);
+                            (start, group.last().map(|(end, _)| end))
+                        })
+                        .collect::<Vec<_>>();
+                    if vec.len() > largest_variant {
+                        largest_variant_index = i;
+                        largest_variant = vec.len();
+                    }
+                    (next_state, vec, comment)
+                })
+                .collect();
+
+            if variants.len() == 1 {
+                rust!(out, "{} => {},", k_index, variants[0].0);
+            } else {
+                rust!(out, "{} => match {} {{", k_index, k2_name);
+
+                for (i, (next_state, ranges, comment)) in variants.iter().enumerate() {
+                    if i == largest_variant_index {
+                        continue;
+                    }
+                    if let Some(comment) = comment {
+                        if emit_comments {
+                            rust!(out, "{}", comment);
+                        }
+                    }
+                    rust!(
+                        out,
+                        "{} => {},",
+                        ranges
+                            .iter()
+                            .format_with(" | ", |(start, end), f| match end {
+                                None => f(&format_args!("{}", start)),
+                                Some(end) => f(&format_args!("{}..={}", start, end)),
+                            }),
+                        next_state,
+                    );
+                }
+
+                rust!(out, "_ => {},", variants[largest_variant_index].0);
+                rust!(out, "}},");
+            }
+        }
+
+        rust!(out, "_ => 0,"); // unreachable
+        rust!(out, "}}");
 
         Ok(())
     }
@@ -577,7 +694,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
 
         rust!(
             self.out,
-            "let {p}r = {p}state_machine::Parser::drive(",
+            "{p}state_machine::Parser::drive(",
             p = self.prefix,
         );
         rust!(self.out, "{p}StateMachine {{", p = self.prefix);
@@ -592,8 +709,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
         );
         rust!(self.out, "}},");
         rust!(self.out, "{p}tokens,", p = self.prefix);
-        rust!(self.out, ");");
-        rust!(self.out, "{p}r", p = self.prefix);
+        rust!(self.out, ")");
 
         self.end_parser_fn()
     }
@@ -672,36 +788,76 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
         rust!(self.out, "{{");
 
         rust!(self.out, "match {p}token_index {{", p = self.prefix,);
-        for (terminal, index) in self.grammar.terminals.all.iter().zip(0..) {
+
+        let mut token_to_symbol_mapping = Vec::new();
+
+        for (index, terminal) in self.grammar.terminals.all.iter().enumerate() {
             if *terminal == TerminalString::Error {
                 continue;
             }
-            rust!(self.out, "{} => match {}token {{", index, self.prefix);
-
-            let mut pattern_names = vec![];
-            let pattern = self.grammar.pattern(terminal).map(&mut |_| {
-                let index = pattern_names.len();
-                pattern_names.push(format!("{}tok{}", self.prefix, index));
-                pattern_names.last().cloned().unwrap()
-            });
-
-            let mut pattern = format!("{}", pattern);
-            if pattern_names.is_empty() {
-                pattern_names.push(format!("{}tok", self.prefix));
-                pattern = format!("{}tok @ {}", self.prefix, pattern);
-            }
-
             let variant_name = self.variant_name_for_symbol(&Symbol::Terminal(terminal.clone()));
-            rust!(
-                self.out,
-                "{pattern} => {p}Symbol::{variant_name}(({pattern_names})),",
-                pattern = pattern,
-                p = self.prefix,
-                variant_name = variant_name,
-                pattern_names = pattern_names.join(", "),
-            );
-            rust!(self.out, "_ => unreachable!(),");
-            rust!(self.out, "}},");
+            let pattern = self.grammar.pattern(terminal);
+
+            match token_to_symbol_mapping
+                .iter_mut()
+                .find(|(other_variant_name, _)| *other_variant_name == variant_name)
+            {
+                None => token_to_symbol_mapping.push((variant_name, vec![(index, pattern)])),
+                Some((_, indices)) => indices.push((index, pattern)),
+            }
+        }
+
+        for (variant_name, indices) in token_to_symbol_mapping {
+            let mut pattern_names = vec![];
+            let mut first = true;
+            let patterns = indices
+                .iter()
+                .map(|(_, pattern)| {
+                    let mut has_patterns = false;
+                    let mut name_index = 0;
+                    let pattern = pattern.map(&mut |_| {
+                        has_patterns = true;
+                        let name = format!("{}tok{}", self.prefix, name_index);
+                        name_index += 1;
+                        if first {
+                            pattern_names.push(name.clone());
+                        }
+                        name
+                    });
+                    first = false;
+
+                    format!("{}", pattern)
+                })
+                .collect::<Vec<_>>();
+
+            if !pattern_names.is_empty() {
+                rust!(
+                    self.out,
+                    "{} => match {}token {{",
+                    indices.iter().map(|(index, _)| index).format(" | "),
+                    self.prefix
+                );
+                rust!(
+                    self.out,
+                    "{patterns} if true => {p}Symbol::{variant_name}({open}{pattern_names}{close}),",
+                    patterns = patterns.iter().format(" | "),
+                    p = self.prefix,
+                    variant_name = variant_name,
+                    open = if pattern_names.len() > 1 { "(" } else { "" },
+                    close = if pattern_names.len() > 1 { ")" } else { "" },
+                    pattern_names = pattern_names.join(", "),
+                );
+                rust!(self.out, "_ => unreachable!(),");
+                rust!(self.out, "}},");
+            } else {
+                rust!(
+                    self.out,
+                    "{indices} => {p}Symbol::{variant_name}({p}token),",
+                    indices = indices.iter().map(|(index, _)| index).format(" | "),
+                    p = self.prefix,
+                    variant_name = variant_name,
+                )
+            }
         }
 
         rust!(self.out, "_ => unreachable!(),");
@@ -773,7 +929,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
                 let phantom_data_expr = self.phantom_data_expr();
                 rust!(
                     self.out,
-                    "{p}reduce{}({}{p}action, {p}lookahead_start, {p}states, {p}symbols, {})",
+                    "{p}reduce{}({}{p}lookahead_start, {p}symbols, {})",
                     index,
                     self.grammar.user_parameter_refs(),
                     phantom_data_expr,
@@ -806,35 +962,24 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
 
         rust!(
             self.out,
-            "let {}state = *{}states.last().unwrap() as usize;",
-            self.prefix,
-            self.prefix
+            "let {p}state = *{p}states.last().unwrap();",
+            p = self.prefix,
         );
+
         rust!(
             self.out,
-            "let {}next_state = {}GOTO[{}state * {} + {}nonterminal] - 1;",
-            self.prefix,
-            self.prefix,
-            self.prefix,
-            self.grammar.nonterminals.len(),
-            self.prefix
+            "let {p}next_state = {p}goto({p}state, {p}nonterminal);",
+            p = self.prefix
         );
         if DEBUG_PRINT {
             rust!(
                 self.out,
-                "println!(\"goto state {{}} from {{}} due to nonterminal {{}}\", {}next_state, \
-                 {}state, {}nonterminal);",
-                self.prefix,
-                self.prefix,
-                self.prefix
+                "println!(\"goto state {{}} from {{}} due to nonterminal {{}}\", {p}next_state, \
+                 {p}state, {p}nonterminal);",
+                p = self.prefix,
             );
         }
-        rust!(
-            self.out,
-            "{}states.push({}next_state);",
-            self.prefix,
-            self.prefix
-        );
+        rust!(self.out, "{p}states.push({p}next_state);", p = self.prefix,);
         rust!(self.out, "None");
         rust!(self.out, "}}");
         Ok(())
@@ -862,12 +1007,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
         let spanned_symbol_type = self.spanned_symbol_type();
 
         let parameters = vec![
-            format!("{}action: {}", self.prefix, self.custom.state_type),
             format!("{}lookahead_start: Option<&{}>", self.prefix, loc_type),
-            format!(
-                "{}states: &mut ::std::vec::Vec<{}>",
-                self.prefix, self.custom.state_type
-            ),
             format!(
                 "{}symbols: &mut ::std::vec::Vec<{}>",
                 self.prefix, spanned_symbol_type
@@ -892,6 +1032,17 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
         rust!(self.out, "// {:?}", production);
 
         // Pop each of the symbols and their associated states.
+        if production.symbols.len() > 1 {
+            // By asserting that there are enough elements to pop before popping multiple elements
+            // we may help LLVM to optimize better since it does not need to generate panic
+            // branches for each unwrap
+            rust!(
+                self.out,
+                "assert!({}symbols.len() >= {});",
+                self.prefix,
+                production.symbols.len()
+            );
+        }
         for (index, symbol) in production.symbols.iter().enumerate().rev() {
             let name = self.variant_name_for_symbol(symbol);
             rust!(
@@ -909,44 +1060,28 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
             .collect();
 
         // Execute the action fn
-        // identify the "start" location for this production; this
-        // is typically the start of the first symbol we are
-        // reducing; but in the case of an empty production, it
-        // will be the last symbol pushed, or at worst `default`.
-        if let Some(first_sym) = transfer_syms.first() {
+        // identify the "start" and "end" location for this production; this
+        // is typically the start of the first symbol and end of the last symbol we are
+        // reducing; but in the case of an empty production, it will come from the
+        // lookahead
+        if let (Some(first_sym), Some(last_sym)) = (transfer_syms.first(), transfer_syms.last()) {
             rust!(
                 self.out,
                 "let {}start = {}.0.clone();",
                 self.prefix,
                 first_sym
             );
+            rust!(self.out, "let {}end = {}.2.clone();", self.prefix, last_sym);
         } else {
             // we pop no symbols, so grab from the top of the stack
             // (unless we are in the start state, in which case the
             // stack will be empty)
             rust!(
                 self.out,
-                "let {}start = {}symbols.last().map(|s| s.2.clone()).unwrap_or_default();",
-                self.prefix,
-                self.prefix
+                "let {p}start = {p}lookahead_start.cloned().or_else(|| {p}symbols.last().map(|s| s.2.clone())).unwrap_or_default();",
+                p = self.prefix,
             );
-        }
-
-        // identify the "end" location for this production;
-        // this is typically the end of the last symbol we are reducing,
-        // but in the case of an empty production it will come from the
-        // lookahead
-        if let Some(last_sym) = transfer_syms.last() {
-            rust!(self.out, "let {}end = {}.2.clone();", self.prefix, last_sym);
-        } else {
-            rust!(
-                self.out,
-                "let {}end = {}lookahead_start.cloned().unwrap_or_else(|| \
-                 {}start.clone());",
-                self.prefix,
-                self.prefix,
-                self.prefix
-            );
+            rust!(self.out, "let {p}end = {p}start.clone();", p = self.prefix,);
         }
 
         let transfered_syms = transfer_syms.len();
@@ -999,13 +1134,9 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
             self.variant_name_for_symbol(&Symbol::Nonterminal(production.nonterminal.clone()));
         rust!(
             self.out,
-            "{}symbols.push(({}start, {}Symbol::{}({}nt), {}end));",
-            self.prefix,
-            self.prefix,
-            self.prefix,
+            "{p}symbols.push(({p}start, {p}Symbol::{}({p}nt), {p}end));",
             name,
-            self.prefix,
-            self.prefix
+            p = self.prefix
         );
 
         // produce the index that we will use to extract the next state
@@ -1019,8 +1150,8 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
         rust!(
             self.out,
             "({len}, {index})",
+            len = production.symbols.len(),
             index = index,
-            len = production.symbols.len()
         );
 
         Ok(())
@@ -1031,6 +1162,11 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
     }
 
     fn emit_downcast_fns(&mut self) -> io::Result<()> {
+        rust!(self.out, "#[inline(never)]");
+        rust!(self.out, "fn {}symbol_type_mismatch() -> ! {{", self.prefix);
+        rust!(self.out, "panic!(\"symbol type mismatch\")");
+        rust!(self.out, "}}");
+
         for (ty, name) in self.custom.variants.clone() {
             self.emit_downcast_fn(&name, ty)?;
         }
@@ -1080,7 +1216,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
             self.prefix,
             self.prefix
         );
-        rust!(self.out, "_ => panic!(\"symbol type mismatch\")");
+        rust!(self.out, "_ => {}symbol_type_mismatch()", self.prefix);
         rust!(self.out, "}}");
 
         rust!(self.out, "}}");
@@ -1089,6 +1225,9 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
     }
 
     fn write_simulate_reduce_fn(&mut self) -> io::Result<()> {
+        if !self.grammar.uses_error_recovery {
+            return Ok(());
+        }
         let state_type = self.custom.state_type;
 
         let parameters = vec![
@@ -1211,7 +1350,6 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
         }
 
         let phantom_data_expr = self.phantom_data_expr();
-        let actions_per_state = self.grammar.terminals.all.len();
         let parameters = vec![
             format!(
                 "{p}error_state: {typ}",
@@ -1263,7 +1401,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
 
         rust!(
             self.out,
-            "let {p}top = {p}states[{p}states_len - 1] as usize;",
+            "let {p}top = {p}states[{p}states_len - 1];",
             p = self.prefix
         );
 
@@ -1287,9 +1425,8 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
         );
         rust!(
             self.out,
-            "Some({p}integer) => {p}ACTION[{p}top * {actions_per_state} + {p}integer],",
+            "Some({p}integer) => {p}action({p}top, {p}integer),",
             p = self.prefix,
-            actions_per_state = actions_per_state,
         );
         rust!(self.out, "}};"); // end `match`
 
@@ -1337,7 +1474,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
         );
         rust!(
             self.out,
-            "let {p}top = {p}states[{p}states_len - 1] as usize;",
+            "let {p}top = {p}states[{p}states_len - 1];",
             p = self.prefix
         );
 
@@ -1355,9 +1492,8 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
 
         rust!(
             self.out,
-            "let {p}next_state = {p}GOTO[{p}top * {num_non_terminals} + {p}nt] - 1;",
+            "let {p}next_state = {p}goto({p}top, {p}nt);",
             p = self.prefix,
-            num_non_terminals = self.grammar.nonterminals.len(),
         );
 
         rust!(self.out, "{p}states.push({p}next_state);", p = self.prefix);
@@ -1384,16 +1520,12 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
     fn emit_expected_tokens_fn(&mut self) -> io::Result<()> {
         rust!(
             self.out,
-            "fn {}expected_tokens({}state: usize) -> Vec<::std::string::String> {{",
-            self.prefix,
-            self.prefix
+            "fn {p}expected_tokens({p}state: {}) -> Vec<::std::string::String> {{",
+            self.custom.state_type,
+            p = self.prefix
         );
 
-        rust!(
-            self.out,
-            "const {}TERMINAL: &'static [&'static str] = &[",
-            self.prefix
-        );
+        rust!(self.out, "const {}TERMINAL: &[&str] = &[", self.prefix);
         let all_terminals = if self.grammar.uses_error_recovery {
             // Subtract one to exlude the error terminal
             &self.grammar.terminals.all[..self.grammar.terminals.all.len() - 1]
@@ -1410,13 +1542,15 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
         // Grab any terminals in the current state which would have resulted in a successful parse
         rust!(
             self.out,
-            "{}ACTION[({}state * {})..].iter().zip({}TERMINAL).filter_map(|(&state, terminal)| {{",
+            "{}TERMINAL.iter().enumerate().filter_map(|(index, terminal)| {{",
             self.prefix,
-            self.prefix,
-            self.grammar.terminals.all.len(),
-            self.prefix
         );
-        rust!(self.out, "if state == 0 {{");
+        rust!(
+            self.out,
+            "let next_state = {p}action({p}state, index);",
+            p = self.prefix
+        );
+        rust!(self.out, "if next_state == 0 {{");
         rust!(self.out, "None");
         rust!(self.out, "}} else {{");
         rust!(self.out, "Some(terminal.to_string())");

@@ -1,9 +1,59 @@
+<a name="0.19.0"></a>
+## 0.19.0 (2020-05-11)
+
+
+#### Performance
+
+*   Move the symbol mismatch panic into a colder path ([0c69e999](https://github.com/lalrpop/lalrpop/commit/0c69e999a5acd3aee95c45d9c7af622f1fb81904))
+*   Avoid subtracting in goto ([8a47ed8c](https://github.com/lalrpop/lalrpop/commit/8a47ed8c7cb26511b9ae28e03e87c2a727f60ef9))
+*   Emit the GOTO table as nested matches ([c5070af2](https://github.com/lalrpop/lalrpop/commit/c5070af2eece72c1585155b51b9a1ca0c7ade9b9))
+* **parse_table:**  Avoid generating unused rows in the matrix ([688b9193](https://github.com/lalrpop/lalrpop/commit/688b91930a6473098ea92f1b08b1f47d2838f67a))
+
+#### Features
+
+*   Use FnMut/FnOnce in ParseErrors map functions ([8f73c9dc](https://github.com/lalrpop/lalrpop/commit/8f73c9dcfbbb09d8647d7a3d32aeca48e0b52c97))
+
+#### Bug Fixes
+
+*   Don't include whitespace in the span with empty nonterminals ([11a50e70](https://github.com/lalrpop/lalrpop/commit/11a50e70f781da8f4af59cbd208ece73ede1d936))
+
+
+
+<a name="0.18.1"></a>
+## 0.18.1 (2020-03-04)
+
+
+#### Bug Fixes
+
+*   Remove eprintln which I thought were removed ([a9a775eb](https://github.com/lalrpop/lalrpop/commit/a9a775ebb83e3367ed10edbd5a622302d7ae71b1))
+
+
+<a name="0.18.0"></a>
+## 0.18.0 (2020-03-04)
+
+
+#### Features
+
+*   Allow the tokenizer to contain custom skip regexes/literals ([ee2f7060](https://github.com/lalrpop/lalrpop/commit/ee2f7060e99f902620ac4edeea5cfe3c3551f09c))
+*   states does not need to be passed to reduce actions ([c156b4b2](https://github.com/lalrpop/lalrpop/commit/c156b4b2fd8c02e577c08e3cf4dc0415abf16d31))
+*   action does not need to be passed to reduce actions ([f69bce30](https://github.com/lalrpop/lalrpop/commit/f69bce3080bc59693f471a6f50b63c28d9ae1955))
+*   Only generate simulate_reduce if error recovery is used ([d0a3ccba](https://github.com/lalrpop/lalrpop/commit/d0a3ccbaccbe2e9306f4a4fff81c294f512d6697))
+*   Accept slices as types (#507) ([c3e1cda5](https://github.com/lalrpop/lalrpop/commit/c3e1cda5c395a297bc10304129904bc93e58c1b9), closes [#493](https://github.com/lalrpop/lalrpop/issues/493))
+
+#### Bug Fixes
+
+*   Avoid emitting redundant parentheses ([b165fc93](https://github.com/lalrpop/lalrpop/commit/b165fc939ba0d0d3e2543f6ab1f658988689c5d3), closes [#493](https://github.com/lalrpop/lalrpop/issues/493))
+
+#### Breaking changes
+
+* The `lexer` feature is now necessary when `lalrpop` generates the lexer.
+
 <a name="0.17.2"></a>
 ##  (2019-08-21)
 
 ## Features
 
-*   Add support for <mut x:X> allowing for mutable x in action code. 
+*   Add support for <mut x:X> allowing for mutable x in action code.
 
 
 <a name="0.17.1"></a>
@@ -85,15 +135,15 @@ Thanks to the following contributors:
 - @jimblandy
 
 # Version 0.16.0
-Features: 
+Features:
 - Allow attributes to be specified in larlpop_mod! (#398)
 
 Fixes:
-- Don't generate reduce actions which do not fit in 
+- Don't generate reduce actions which do not fit in
 the integer size (#399)
 - Generate files in OUT_DIR (#353)
 
-Dependencies: 
+Dependencies:
 - Update atty (0.2), bit-set (0.5), ena(0.9) (#374)
 - Regex to 1.0 (#375)
 
@@ -122,7 +172,7 @@ Thanks to the following contributors for this release:
 # Version 0.15.1
 
 Fixes:
-- Don't overflow the stack in parse table debug builds (#337) 
+- Don't overflow the stack in parse table debug builds (#337)
 - Use the correct type for `!` in macro expanded productions (#335)
 - Allow lalrpop parsers to be used with include! (#338)
 - Remove dependency on docopt, rustc-serialize, update itertools  (#344, #345)
@@ -208,7 +258,7 @@ Thanks to the following contributors for this release:
   This is useful for struct constants, since you can do something
   like: `<a:Foo> <b:Bar> => MyStruct { <> }`, if `MyStruct` had two
   fields named `a` and `b`.
-- We now support character literal patterns in the external tokenizer pattern syntax.  
+- We now support character literal patterns in the external tokenizer pattern syntax.
 - The lalrpop executable now supports `--version`.
 - We are (for now, at least) testing for compatibility with Rust 1.13.
   This minimal supported rustc version may change in the future,
@@ -236,7 +286,7 @@ generated lexer:
 - The lexer now supports custom priorities for regular expression tokens,
   making it possible to support case-insensitive keywords.
   - See the [calculator2b example] for details.
-  
+
 Second, we have a **beta release** of the new lane-table based
 LR-table generation.  Lane tables handle the full set of LR(1)
 grammars but typically reduce **much** smaller state tables. This
@@ -293,7 +343,7 @@ Bug fix release. Major bugs addressed:
 Also, there is now a tutorial for writing custom lexers.
 [Thanks @malleusinferni!](https://github.com/nikomatsakis/lalrpop/pull/131).
 
-# Version 0.12 
+# Version 0.12
 
 **Enabled a new table-driven code-generator by default.** This generates
 less code than the older recursive-ascent-based generation scheme, but

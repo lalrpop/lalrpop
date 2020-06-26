@@ -3,8 +3,8 @@
 
 use super::{NormError, NormResult};
 
-use collections::{map, Map};
-use grammar::parse_tree::*;
+use crate::collections::{map, Map};
+use crate::grammar::parse_tree::*;
 use string_cache::DefaultAtom as Atom;
 
 #[cfg(test)]
@@ -49,7 +49,7 @@ fn resolve_in_place(grammar: &mut Grammar) -> NormResult<()> {
             .flat_map(|match_token| &match_token.contents)
             .flat_map(|match_contents| &match_contents.items)
             .filter_map(|item| match *item {
-                MatchItem::Mapped(_, TerminalString::Bare(ref id), _) => {
+                MatchItem::Mapped(_, MatchMapping::Terminal(TerminalString::Bare(ref id)), _) => {
                     Some((item.span(), id.clone(), Def::Terminal))
                 }
                 _ => None,

@@ -1,12 +1,12 @@
 //! Code to compute example inputs given a backtrace.
 
 use ascii_canvas::AsciiView;
-use grammar::repr::*;
-use message::builder::InlineBuilder;
-use message::Content;
+use crate::grammar::repr::*;
+use crate::message::builder::InlineBuilder;
+use crate::message::Content;
 use std::fmt::{Debug, Error, Formatter};
-use style::Style;
-use tls::Tls;
+use crate::style::Style;
+use crate::tls::Tls;
 
 #[cfg(test)]
 mod test;
