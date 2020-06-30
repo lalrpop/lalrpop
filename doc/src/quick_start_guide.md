@@ -29,7 +29,8 @@ lalrpop = "0.19.1"
 # lalrpop = { version = "0.19.1", default-features = false }
 ```
 
-Next create a `build.rs` file that looks like:
+Next create a [`build.rs`](https://doc.rust-lang.org/cargo/reference/build-scripts.html) file
+that looks like:
 
 ```rust
 extern crate lalrpop;
