@@ -24,7 +24,7 @@ regex = "1"
 # Add a build-time dependency on the lalrpop library:
 [build-dependencies]
 lalrpop = "0.19.1"
-# If you are supplying your own external lexer you must disable default features so that the
+# If you are supplying your own external lexer you can disable default features so that the
 # built-in lexer feature is not included
 # lalrpop = { version = "0.19.1", default-features = false }
 ```
@@ -60,4 +60,3 @@ lalrpop file.lalrpop
 This will generate `file.rs` for you. Note that it only executes if
 `file.lalrpop` is newer than `file.rs`; if you'd prefer to execute
 unconditionally, pass `-f` (also try `--help` for other options).
-
