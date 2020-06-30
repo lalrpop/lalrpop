@@ -30,7 +30,7 @@ version = "0.1.0"
 authors = ["Niko Matsakis <niko@alum.mit.edu>"]
 
 [build-dependencies] # <-- We added this and everything after!
-lalrpop = { version = "0.19.1", features = ["lexer"] }
+lalrpop = "0.19.1"
 
 [dependencies]
 lalrpop-util = "0.19.1"

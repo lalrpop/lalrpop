@@ -23,9 +23,10 @@ regex = "1"
 
 # Add a build-time dependency on the lalrpop library:
 [build-dependencies]
-lalrpop = { version = "0.19.1", features = ["lexer"] }
-# If you are supplying your own external lexer you do not need the `lexer` feature:
-# lalrpop = "0.19.1"
+lalrpop = "0.19.1"
+# If you are supplying your own external lexer you must disable default features so that the
+# built-in lexer feature is not included
+# lalrpop = { version = "0.19.1", default-features = false }
 ```
 
 Next create a `build.rs` file that looks like:
