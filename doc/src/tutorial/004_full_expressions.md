@@ -65,7 +65,7 @@ something like `2+3*4`:
 
 In the first one, we give multiplication higher precedence, and in the
 second one, we (incorrectly) give addition higher precedence. If you
-look at the grammar now, you can see that the second one is 
+look at the grammar now, you can see that the second one is
 impossible: a `Factor` cannot have an `Expr` as its left-hand side.
 This is the purpose of the tiers: to force the parser into the
 precedence you want.
