@@ -7,7 +7,7 @@ cache:
 - cargo
 install:
 - source ~/.cargo/env || true
-- bash tools/ci-install.sh
+- [[ $TRAVIS_RUST_VERSION == "stable" ]] && bash tools/ci-install.sh
 script:
 - RUST_BACKTRACE=1 CARGO_INCREMENTAL=0 cargo build -p lalrpop
 - RUST_BACKTRACE=1 CARGO_INCREMENTAL=0 travis_wait cargo test --all --all-features
@@ -16,7 +16,7 @@ script:
 - RUST_BACKTRACE=1 CARGO_INCREMENTAL=0 cargo check -p calculator
 - RUST_BACKTRACE=1 CARGO_INCREMENTAL=0 cargo check -p pascal
 - RUST_BACKTRACE=1 CARGO_INCREMENTAL=0 cargo check -p whitespace
-- bash tools/build-doc
+- [[ $TRAVIS_RUST_VERSION == "stable" ]] && bash tools/build-doc
 deploy:
   provider: pages
   skip-cleanup: true

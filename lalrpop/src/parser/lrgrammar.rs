@@ -4797,8 +4797,8 @@ fn ___pop_Variant9<
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>
 ) -> (usize, (), usize)
  {
-match ___symbols.pop().unwrap() {
-(___l, ___Symbol::Variant9(___v), ___r) => (___l, ___v, ___r),
+match ___symbols.pop() {
+Some((___l, ___Symbol::Variant9(___v), ___r)) => (___l, ___v, ___r),
 _ => ___symbol_type_mismatch()
 }
 }
@@ -4808,8 +4808,8 @@ fn ___pop_Variant46<
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>
 ) -> (usize, (Atom, String), usize)
  {
-match ___symbols.pop().unwrap() {
-(___l, ___Symbol::Variant46(___v), ___r) => (___l, ___v, ___r),
+match ___symbols.pop() {
+Some((___l, ___Symbol::Variant46(___v), ___r)) => (___l, ___v, ___r),
 _ => ___symbol_type_mismatch()
 }
 }
@@ -4819,8 +4819,8 @@ fn ___pop_Variant78<
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>
 ) -> (usize, (NonterminalString, Vec<NonterminalString>), usize)
  {
-match ___symbols.pop().unwrap() {
-(___l, ___Symbol::Variant78(___v), ___r) => (___l, ___v, ___r),
+match ___symbols.pop() {
+Some((___l, ___Symbol::Variant78(___v), ___r)) => (___l, ___v, ___r),
 _ => ___symbol_type_mismatch()
 }
 }
@@ -4830,8 +4830,8 @@ fn ___pop_Variant40<
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>
 ) -> (usize, ActionKind, usize)
  {
-match ___symbols.pop().unwrap() {
-(___l, ___Symbol::Variant40(___v), ___r) => (___l, ___v, ___r),
+match ___symbols.pop() {
+Some((___l, ___Symbol::Variant40(___v), ___r)) => (___l, ___v, ___r),
 _ => ___symbol_type_mismatch()
 }
 }
@@ -4841,8 +4841,8 @@ fn ___pop_Variant10<
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>
 ) -> (usize, Alternative, usize)
  {
-match ___symbols.pop().unwrap() {
-(___l, ___Symbol::Variant10(___v), ___r) => (___l, ___v, ___r),
+match ___symbols.pop() {
+Some((___l, ___Symbol::Variant10(___v), ___r)) => (___l, ___v, ___r),
 _ => ___symbol_type_mismatch()
 }
 }
@@ -4852,8 +4852,8 @@ fn ___pop_Variant44<
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>
 ) -> (usize, Annotation, usize)
  {
-match ___symbols.pop().unwrap() {
-(___l, ___Symbol::Variant44(___v), ___r) => (___l, ___v, ___r),
+match ___symbols.pop() {
+Some((___l, ___Symbol::Variant44(___v), ___r)) => (___l, ___v, ___r),
 _ => ___symbol_type_mismatch()
 }
 }
@@ -4863,8 +4863,8 @@ fn ___pop_Variant48<
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>
 ) -> (usize, AssociatedType, usize)
  {
-match ___symbols.pop().unwrap() {
-(___l, ___Symbol::Variant48(___v), ___r) => (___l, ___v, ___r),
+match ___symbols.pop() {
+Some((___l, ___Symbol::Variant48(___v), ___r)) => (___l, ___v, ___r),
 _ => ___symbol_type_mismatch()
 }
 }
@@ -4874,8 +4874,8 @@ fn ___pop_Variant20<
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>
 ) -> (usize, Atom, usize)
  {
-match ___symbols.pop().unwrap() {
-(___l, ___Symbol::Variant20(___v), ___r) => (___l, ___v, ___r),
+match ___symbols.pop() {
+Some((___l, ___Symbol::Variant20(___v), ___r)) => (___l, ___v, ___r),
 _ => ___symbol_type_mismatch()
 }
 }
@@ -4885,8 +4885,8 @@ fn ___pop_Variant7<
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>
 ) -> (usize, Condition, usize)
  {
-match ___symbols.pop().unwrap() {
-(___l, ___Symbol::Variant7(___v), ___r) => (___l, ___v, ___r),
+match ___symbols.pop() {
+Some((___l, ___Symbol::Variant7(___v), ___r)) => (___l, ___v, ___r),
 _ => ___symbol_type_mismatch()
 }
 }
@@ -4896,8 +4896,8 @@ fn ___pop_Variant59<
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>
 ) -> (usize, ConditionOp, usize)
  {
-match ___symbols.pop().unwrap() {
-(___l, ___Symbol::Variant59(___v), ___r) => (___l, ___v, ___r),
+match ___symbols.pop() {
+Some((___l, ___Symbol::Variant59(___v), ___r)) => (___l, ___v, ___r),
 _ => ___symbol_type_mismatch()
 }
 }
@@ -4907,8 +4907,8 @@ fn ___pop_Variant12<
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>
 ) -> (usize, Conversion, usize)
  {
-match ___symbols.pop().unwrap() {
-(___l, ___Symbol::Variant12(___v), ___r) => (___l, ___v, ___r),
+match ___symbols.pop() {
+Some((___l, ___Symbol::Variant12(___v), ___r)) => (___l, ___v, ___r),
 _ => ___symbol_type_mismatch()
 }
 }
@@ -4918,8 +4918,8 @@ fn ___pop_Variant61<
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>
 ) -> (usize, EnumToken, usize)
  {
-match ___symbols.pop().unwrap() {
-(___l, ___Symbol::Variant61(___v), ___r) => (___l, ___v, ___r),
+match ___symbols.pop() {
+Some((___l, ___Symbol::Variant61(___v), ___r)) => (___l, ___v, ___r),
 _ => ___symbol_type_mismatch()
 }
 }
@@ -4929,8 +4929,8 @@ fn ___pop_Variant62<
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>
 ) -> (usize, ExprSymbol, usize)
  {
-match ___symbols.pop().unwrap() {
-(___l, ___Symbol::Variant62(___v), ___r) => (___l, ___v, ___r),
+match ___symbols.pop() {
+Some((___l, ___Symbol::Variant62(___v), ___r)) => (___l, ___v, ___r),
 _ => ___symbol_type_mismatch()
 }
 }
@@ -4940,8 +4940,8 @@ fn ___pop_Variant14<
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>
 ) -> (usize, FieldPattern<TypeRef>, usize)
  {
-match ___symbols.pop().unwrap() {
-(___l, ___Symbol::Variant14(___v), ___r) => (___l, ___v, ___r),
+match ___symbols.pop() {
+Some((___l, ___Symbol::Variant14(___v), ___r)) => (___l, ___v, ___r),
 _ => ___symbol_type_mismatch()
 }
 }
@@ -4951,8 +4951,8 @@ fn ___pop_Variant65<
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>
 ) -> (usize, Grammar, usize)
  {
-match ___symbols.pop().unwrap() {
-(___l, ___Symbol::Variant65(___v), ___r) => (___l, ___v, ___r),
+match ___symbols.pop() {
+Some((___l, ___Symbol::Variant65(___v), ___r)) => (___l, ___v, ___r),
 _ => ___symbol_type_mismatch()
 }
 }
@@ -4962,8 +4962,8 @@ fn ___pop_Variant63<
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>
 ) -> (usize, GrammarItem, usize)
  {
-match ___symbols.pop().unwrap() {
-(___l, ___Symbol::Variant63(___v), ___r) => (___l, ___v, ___r),
+match ___symbols.pop() {
+Some((___l, ___Symbol::Variant63(___v), ___r)) => (___l, ___v, ___r),
 _ => ___symbol_type_mismatch()
 }
 }
@@ -4973,8 +4973,8 @@ fn ___pop_Variant22<
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>
 ) -> (usize, Lifetime, usize)
  {
-match ___symbols.pop().unwrap() {
-(___l, ___Symbol::Variant22(___v), ___r) => (___l, ___v, ___r),
+match ___symbols.pop() {
+Some((___l, ___Symbol::Variant22(___v), ___r)) => (___l, ___v, ___r),
 _ => ___symbol_type_mismatch()
 }
 }
@@ -4984,8 +4984,8 @@ fn ___pop_Variant73<
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>
 ) -> (usize, MatchContents, usize)
  {
-match ___symbols.pop().unwrap() {
-(___l, ___Symbol::Variant73(___v), ___r) => (___l, ___v, ___r),
+match ___symbols.pop() {
+Some((___l, ___Symbol::Variant73(___v), ___r)) => (___l, ___v, ___r),
 _ => ___symbol_type_mismatch()
 }
 }
@@ -4995,8 +4995,8 @@ fn ___pop_Variant24<
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>
 ) -> (usize, MatchItem, usize)
  {
-match ___symbols.pop().unwrap() {
-(___l, ___Symbol::Variant24(___v), ___r) => (___l, ___v, ___r),
+match ___symbols.pop() {
+Some((___l, ___Symbol::Variant24(___v), ___r)) => (___l, ___v, ___r),
 _ => ___symbol_type_mismatch()
 }
 }
@@ -5006,8 +5006,8 @@ fn ___pop_Variant75<
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>
 ) -> (usize, MatchMapping, usize)
  {
-match ___symbols.pop().unwrap() {
-(___l, ___Symbol::Variant75(___v), ___r) => (___l, ___v, ___r),
+match ___symbols.pop() {
+Some((___l, ___Symbol::Variant75(___v), ___r)) => (___l, ___v, ___r),
 _ => ___symbol_type_mismatch()
 }
 }
@@ -5017,8 +5017,8 @@ fn ___pop_Variant77<
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>
 ) -> (usize, MatchToken, usize)
  {
-match ___symbols.pop().unwrap() {
-(___l, ___Symbol::Variant77(___v), ___r) => (___l, ___v, ___r),
+match ___symbols.pop() {
+Some((___l, ___Symbol::Variant77(___v), ___r)) => (___l, ___v, ___r),
 _ => ___symbol_type_mismatch()
 }
 }
@@ -5028,8 +5028,8 @@ fn ___pop_Variant26<
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>
 ) -> (usize, NonterminalString, usize)
  {
-match ___symbols.pop().unwrap() {
-(___l, ___Symbol::Variant26(___v), ___r) => (___l, ___v, ___r),
+match ___symbols.pop() {
+Some((___l, ___Symbol::Variant26(___v), ___r)) => (___l, ___v, ___r),
 _ => ___symbol_type_mismatch()
 }
 }
@@ -5039,8 +5039,8 @@ fn ___pop_Variant16<
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>
 ) -> (usize, Parameter, usize)
  {
-match ___symbols.pop().unwrap() {
-(___l, ___Symbol::Variant16(___v), ___r) => (___l, ___v, ___r),
+match ___symbols.pop() {
+Some((___l, ___Symbol::Variant16(___v), ___r)) => (___l, ___v, ___r),
 _ => ___symbol_type_mismatch()
 }
 }
@@ -5050,8 +5050,8 @@ fn ___pop_Variant80<
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>
 ) -> (usize, Path, usize)
  {
-match ___symbols.pop().unwrap() {
-(___l, ___Symbol::Variant80(___v), ___r) => (___l, ___v, ___r),
+match ___symbols.pop() {
+Some((___l, ___Symbol::Variant80(___v), ___r)) => (___l, ___v, ___r),
 _ => ___symbol_type_mismatch()
 }
 }
@@ -5061,8 +5061,8 @@ fn ___pop_Variant28<
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>
 ) -> (usize, Pattern<TypeRef>, usize)
  {
-match ___symbols.pop().unwrap() {
-(___l, ___Symbol::Variant28(___v), ___r) => (___l, ___v, ___r),
+match ___symbols.pop() {
+Some((___l, ___Symbol::Variant28(___v), ___r)) => (___l, ___v, ___r),
 _ => ___symbol_type_mismatch()
 }
 }
@@ -5072,8 +5072,8 @@ fn ___pop_Variant82<
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>
 ) -> (usize, PatternKind<TypeRef>, usize)
  {
-match ___symbols.pop().unwrap() {
-(___l, ___Symbol::Variant82(___v), ___r) => (___l, ___v, ___r),
+match ___symbols.pop() {
+Some((___l, ___Symbol::Variant82(___v), ___r)) => (___l, ___v, ___r),
 _ => ___symbol_type_mismatch()
 }
 }
@@ -5083,8 +5083,8 @@ fn ___pop_Variant86<
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>
 ) -> (usize, RepeatOp, usize)
  {
-match ___symbols.pop().unwrap() {
-(___l, ___Symbol::Variant86(___v), ___r) => (___l, ___v, ___r),
+match ___symbols.pop() {
+Some((___l, ___Symbol::Variant86(___v), ___r)) => (___l, ___v, ___r),
 _ => ___symbol_type_mismatch()
 }
 }
@@ -5094,8 +5094,8 @@ fn ___pop_Variant87<
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>
 ) -> (usize, String, usize)
  {
-match ___symbols.pop().unwrap() {
-(___l, ___Symbol::Variant87(___v), ___r) => (___l, ___v, ___r),
+match ___symbols.pop() {
+Some((___l, ___Symbol::Variant87(___v), ___r)) => (___l, ___v, ___r),
 _ => ___symbol_type_mismatch()
 }
 }
@@ -5105,8 +5105,8 @@ fn ___pop_Variant30<
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>
 ) -> (usize, Symbol, usize)
  {
-match ___symbols.pop().unwrap() {
-(___l, ___Symbol::Variant30(___v), ___r) => (___l, ___v, ___r),
+match ___symbols.pop() {
+Some((___l, ___Symbol::Variant30(___v), ___r)) => (___l, ___v, ___r),
 _ => ___symbol_type_mismatch()
 }
 }
@@ -5116,8 +5116,8 @@ fn ___pop_Variant90<
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>
 ) -> (usize, SymbolKind, usize)
  {
-match ___symbols.pop().unwrap() {
-(___l, ___Symbol::Variant90(___v), ___r) => (___l, ___v, ___r),
+match ___symbols.pop() {
+Some((___l, ___Symbol::Variant90(___v), ___r)) => (___l, ___v, ___r),
 _ => ___symbol_type_mismatch()
 }
 }
@@ -5127,8 +5127,8 @@ fn ___pop_Variant76<
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>
 ) -> (usize, TerminalLiteral, usize)
  {
-match ___symbols.pop().unwrap() {
-(___l, ___Symbol::Variant76(___v), ___r) => (___l, ___v, ___r),
+match ___symbols.pop() {
+Some((___l, ___Symbol::Variant76(___v), ___r)) => (___l, ___v, ___r),
 _ => ___symbol_type_mismatch()
 }
 }
@@ -5138,8 +5138,8 @@ fn ___pop_Variant85<
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>
 ) -> (usize, TerminalString, usize)
  {
-match ___symbols.pop().unwrap() {
-(___l, ___Symbol::Variant85(___v), ___r) => (___l, ___v, ___r),
+match ___symbols.pop() {
+Some((___l, ___Symbol::Variant85(___v), ___r)) => (___l, ___v, ___r),
 _ => ___symbol_type_mismatch()
 }
 }
@@ -5149,8 +5149,8 @@ fn ___pop_Variant0<
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>
 ) -> (usize, Tok<'input>, usize)
  {
-match ___symbols.pop().unwrap() {
-(___l, ___Symbol::Variant0(___v), ___r) => (___l, ___v, ___r),
+match ___symbols.pop() {
+Some((___l, ___Symbol::Variant0(___v), ___r)) => (___l, ___v, ___r),
 _ => ___symbol_type_mismatch()
 }
 }
@@ -5160,8 +5160,8 @@ fn ___pop_Variant91<
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>
 ) -> (usize, Top, usize)
  {
-match ___symbols.pop().unwrap() {
-(___l, ___Symbol::Variant91(___v), ___r) => (___l, ___v, ___r),
+match ___symbols.pop() {
+Some((___l, ___Symbol::Variant91(___v), ___r)) => (___l, ___v, ___r),
 _ => ___symbol_type_mismatch()
 }
 }
@@ -5171,8 +5171,8 @@ fn ___pop_Variant32<
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>
 ) -> (usize, TypeBound<TypeRef>, usize)
  {
-match ___symbols.pop().unwrap() {
-(___l, ___Symbol::Variant32(___v), ___r) => (___l, ___v, ___r),
+match ___symbols.pop() {
+Some((___l, ___Symbol::Variant32(___v), ___r)) => (___l, ___v, ___r),
 _ => ___symbol_type_mismatch()
 }
 }
@@ -5182,8 +5182,8 @@ fn ___pop_Variant34<
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>
 ) -> (usize, TypeBoundParameter<TypeRef>, usize)
  {
-match ___symbols.pop().unwrap() {
-(___l, ___Symbol::Variant34(___v), ___r) => (___l, ___v, ___r),
+match ___symbols.pop() {
+Some((___l, ___Symbol::Variant34(___v), ___r)) => (___l, ___v, ___r),
 _ => ___symbol_type_mismatch()
 }
 }
@@ -5193,8 +5193,8 @@ fn ___pop_Variant36<
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>
 ) -> (usize, TypeParameter, usize)
  {
-match ___symbols.pop().unwrap() {
-(___l, ___Symbol::Variant36(___v), ___r) => (___l, ___v, ___r),
+match ___symbols.pop() {
+Some((___l, ___Symbol::Variant36(___v), ___r)) => (___l, ___v, ___r),
 _ => ___symbol_type_mismatch()
 }
 }
@@ -5204,8 +5204,8 @@ fn ___pop_Variant3<
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>
 ) -> (usize, TypeRef, usize)
  {
-match ___symbols.pop().unwrap() {
-(___l, ___Symbol::Variant3(___v), ___r) => (___l, ___v, ___r),
+match ___symbols.pop() {
+Some((___l, ___Symbol::Variant3(___v), ___r)) => (___l, ___v, ___r),
 _ => ___symbol_type_mismatch()
 }
 }
@@ -5215,8 +5215,8 @@ fn ___pop_Variant43<
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>
 ) -> (usize, Vec<Alternative>, usize)
  {
-match ___symbols.pop().unwrap() {
-(___l, ___Symbol::Variant43(___v), ___r) => (___l, ___v, ___r),
+match ___symbols.pop() {
+Some((___l, ___Symbol::Variant43(___v), ___r)) => (___l, ___v, ___r),
 _ => ___symbol_type_mismatch()
 }
 }
@@ -5226,8 +5226,8 @@ fn ___pop_Variant50<
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>
 ) -> (usize, Vec<Conversion>, usize)
  {
-match ___symbols.pop().unwrap() {
-(___l, ___Symbol::Variant50(___v), ___r) => (___l, ___v, ___r),
+match ___symbols.pop() {
+Some((___l, ___Symbol::Variant50(___v), ___r)) => (___l, ___v, ___r),
 _ => ___symbol_type_mismatch()
 }
 }
@@ -5237,8 +5237,8 @@ fn ___pop_Variant83<
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>
 ) -> (usize, Vec<Lifetime>, usize)
  {
-match ___symbols.pop().unwrap() {
-(___l, ___Symbol::Variant83(___v), ___r) => (___l, ___v, ___r),
+match ___symbols.pop() {
+Some((___l, ___Symbol::Variant83(___v), ___r)) => (___l, ___v, ___r),
 _ => ___symbol_type_mismatch()
 }
 }
@@ -5248,8 +5248,8 @@ fn ___pop_Variant53<
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>
 ) -> (usize, Vec<MatchItem>, usize)
  {
-match ___symbols.pop().unwrap() {
-(___l, ___Symbol::Variant53(___v), ___r) => (___l, ___v, ___r),
+match ___symbols.pop() {
+Some((___l, ___Symbol::Variant53(___v), ___r)) => (___l, ___v, ___r),
 _ => ___symbol_type_mismatch()
 }
 }
@@ -5259,8 +5259,8 @@ fn ___pop_Variant54<
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>
 ) -> (usize, Vec<NonterminalString>, usize)
  {
-match ___symbols.pop().unwrap() {
-(___l, ___Symbol::Variant54(___v), ___r) => (___l, ___v, ___r),
+match ___symbols.pop() {
+Some((___l, ___Symbol::Variant54(___v), ___r)) => (___l, ___v, ___r),
 _ => ___symbol_type_mismatch()
 }
 }
@@ -5270,8 +5270,8 @@ fn ___pop_Variant51<
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>
 ) -> (usize, Vec<Parameter>, usize)
  {
-match ___symbols.pop().unwrap() {
-(___l, ___Symbol::Variant51(___v), ___r) => (___l, ___v, ___r),
+match ___symbols.pop() {
+Some((___l, ___Symbol::Variant51(___v), ___r)) => (___l, ___v, ___r),
 _ => ___symbol_type_mismatch()
 }
 }
@@ -5281,8 +5281,8 @@ fn ___pop_Variant55<
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>
 ) -> (usize, Vec<Pattern<TypeRef>>, usize)
  {
-match ___symbols.pop().unwrap() {
-(___l, ___Symbol::Variant55(___v), ___r) => (___l, ___v, ___r),
+match ___symbols.pop() {
+Some((___l, ___Symbol::Variant55(___v), ___r)) => (___l, ___v, ___r),
 _ => ___symbol_type_mismatch()
 }
 }
@@ -5292,8 +5292,8 @@ fn ___pop_Variant56<
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>
 ) -> (usize, Vec<Symbol>, usize)
  {
-match ___symbols.pop().unwrap() {
-(___l, ___Symbol::Variant56(___v), ___r) => (___l, ___v, ___r),
+match ___symbols.pop() {
+Some((___l, ___Symbol::Variant56(___v), ___r)) => (___l, ___v, ___r),
 _ => ___symbol_type_mismatch()
 }
 }
@@ -5303,8 +5303,8 @@ fn ___pop_Variant84<
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>
 ) -> (usize, Vec<TypeBound<TypeRef>>, usize)
  {
-match ___symbols.pop().unwrap() {
-(___l, ___Symbol::Variant84(___v), ___r) => (___l, ___v, ___r),
+match ___symbols.pop() {
+Some((___l, ___Symbol::Variant84(___v), ___r)) => (___l, ___v, ___r),
 _ => ___symbol_type_mismatch()
 }
 }
@@ -5314,8 +5314,8 @@ fn ___pop_Variant5<
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>
 ) -> (usize, Vec<TypeBoundParameter<TypeRef>>, usize)
  {
-match ___symbols.pop().unwrap() {
-(___l, ___Symbol::Variant5(___v), ___r) => (___l, ___v, ___r),
+match ___symbols.pop() {
+Some((___l, ___Symbol::Variant5(___v), ___r)) => (___l, ___v, ___r),
 _ => ___symbol_type_mismatch()
 }
 }
@@ -5325,8 +5325,8 @@ fn ___pop_Variant57<
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>
 ) -> (usize, Vec<TypeParameter>, usize)
  {
-match ___symbols.pop().unwrap() {
-(___l, ___Symbol::Variant57(___v), ___r) => (___l, ___v, ___r),
+match ___symbols.pop() {
+Some((___l, ___Symbol::Variant57(___v), ___r)) => (___l, ___v, ___r),
 _ => ___symbol_type_mismatch()
 }
 }
@@ -5336,8 +5336,8 @@ fn ___pop_Variant58<
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>
 ) -> (usize, Vec<TypeRef>, usize)
  {
-match ___symbols.pop().unwrap() {
-(___l, ___Symbol::Variant58(___v), ___r) => (___l, ___v, ___r),
+match ___symbols.pop() {
+Some((___l, ___Symbol::Variant58(___v), ___r)) => (___l, ___v, ___r),
 _ => ___symbol_type_mismatch()
 }
 }
@@ -5347,8 +5347,8 @@ fn ___pop_Variant52<
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>
 ) -> (usize, Vec<WhereClause<TypeRef>>, usize)
  {
-match ___symbols.pop().unwrap() {
-(___l, ___Symbol::Variant52(___v), ___r) => (___l, ___v, ___r),
+match ___symbols.pop() {
+Some((___l, ___Symbol::Variant52(___v), ___r)) => (___l, ___v, ___r),
 _ => ___symbol_type_mismatch()
 }
 }
@@ -5358,8 +5358,8 @@ fn ___pop_Variant95<
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>
 ) -> (usize, Visibility, usize)
  {
-match ___symbols.pop().unwrap() {
-(___l, ___Symbol::Variant95(___v), ___r) => (___l, ___v, ___r),
+match ___symbols.pop() {
+Some((___l, ___Symbol::Variant95(___v), ___r)) => (___l, ___v, ___r),
 _ => ___symbol_type_mismatch()
 }
 }
@@ -5369,8 +5369,8 @@ fn ___pop_Variant18<
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>
 ) -> (usize, WhereClause<TypeRef>, usize)
  {
-match ___symbols.pop().unwrap() {
-(___l, ___Symbol::Variant18(___v), ___r) => (___l, ___v, ___r),
+match ___symbols.pop() {
+Some((___l, ___Symbol::Variant18(___v), ___r)) => (___l, ___v, ___r),
 _ => ___symbol_type_mismatch()
 }
 }
@@ -5380,8 +5380,8 @@ fn ___pop_Variant39<
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>
 ) -> (usize, usize, usize)
  {
-match ___symbols.pop().unwrap() {
-(___l, ___Symbol::Variant39(___v), ___r) => (___l, ___v, ___r),
+match ___symbols.pop() {
+Some((___l, ___Symbol::Variant39(___v), ___r)) => (___l, ___v, ___r),
 _ => ___symbol_type_mismatch()
 }
 }
@@ -5391,8 +5391,8 @@ fn ___pop_Variant47<
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>
 ) -> (usize, ::std::option::Option<(Atom, String)>, usize)
  {
-match ___symbols.pop().unwrap() {
-(___l, ___Symbol::Variant47(___v), ___r) => (___l, ___v, ___r),
+match ___symbols.pop() {
+Some((___l, ___Symbol::Variant47(___v), ___r)) => (___l, ___v, ___r),
 _ => ___symbol_type_mismatch()
 }
 }
@@ -5402,8 +5402,8 @@ fn ___pop_Variant41<
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>
 ) -> (usize, ::std::option::Option<ActionKind>, usize)
  {
-match ___symbols.pop().unwrap() {
-(___l, ___Symbol::Variant41(___v), ___r) => (___l, ___v, ___r),
+match ___symbols.pop() {
+Some((___l, ___Symbol::Variant41(___v), ___r)) => (___l, ___v, ___r),
 _ => ___symbol_type_mismatch()
 }
 }
@@ -5413,8 +5413,8 @@ fn ___pop_Variant42<
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>
 ) -> (usize, ::std::option::Option<Alternative>, usize)
  {
-match ___symbols.pop().unwrap() {
-(___l, ___Symbol::Variant42(___v), ___r) => (___l, ___v, ___r),
+match ___symbols.pop() {
+Some((___l, ___Symbol::Variant42(___v), ___r)) => (___l, ___v, ___r),
 _ => ___symbol_type_mismatch()
 }
 }
@@ -5424,8 +5424,8 @@ fn ___pop_Variant8<
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>
 ) -> (usize, ::std::option::Option<Condition>, usize)
  {
-match ___symbols.pop().unwrap() {
-(___l, ___Symbol::Variant8(___v), ___r) => (___l, ___v, ___r),
+match ___symbols.pop() {
+Some((___l, ___Symbol::Variant8(___v), ___r)) => (___l, ___v, ___r),
 _ => ___symbol_type_mismatch()
 }
 }
@@ -5435,8 +5435,8 @@ fn ___pop_Variant60<
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>
 ) -> (usize, ::std::option::Option<Conversion>, usize)
  {
-match ___symbols.pop().unwrap() {
-(___l, ___Symbol::Variant60(___v), ___r) => (___l, ___v, ___r),
+match ___symbols.pop() {
+Some((___l, ___Symbol::Variant60(___v), ___r)) => (___l, ___v, ___r),
 _ => ___symbol_type_mismatch()
 }
 }
@@ -5446,8 +5446,8 @@ fn ___pop_Variant64<
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>
 ) -> (usize, ::std::option::Option<FieldPattern<TypeRef>>, usize)
  {
-match ___symbols.pop().unwrap() {
-(___l, ___Symbol::Variant64(___v), ___r) => (___l, ___v, ___r),
+match ___symbols.pop() {
+Some((___l, ___Symbol::Variant64(___v), ___r)) => (___l, ___v, ___r),
 _ => ___symbol_type_mismatch()
 }
 }
@@ -5457,8 +5457,8 @@ fn ___pop_Variant72<
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>
 ) -> (usize, ::std::option::Option<Lifetime>, usize)
  {
-match ___symbols.pop().unwrap() {
-(___l, ___Symbol::Variant72(___v), ___r) => (___l, ___v, ___r),
+match ___symbols.pop() {
+Some((___l, ___Symbol::Variant72(___v), ___r)) => (___l, ___v, ___r),
 _ => ___symbol_type_mismatch()
 }
 }
@@ -5468,8 +5468,8 @@ fn ___pop_Variant74<
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>
 ) -> (usize, ::std::option::Option<MatchItem>, usize)
  {
-match ___symbols.pop().unwrap() {
-(___l, ___Symbol::Variant74(___v), ___r) => (___l, ___v, ___r),
+match ___symbols.pop() {
+Some((___l, ___Symbol::Variant74(___v), ___r)) => (___l, ___v, ___r),
 _ => ___symbol_type_mismatch()
 }
 }
@@ -5479,8 +5479,8 @@ fn ___pop_Variant79<
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>
 ) -> (usize, ::std::option::Option<NonterminalString>, usize)
  {
-match ___symbols.pop().unwrap() {
-(___l, ___Symbol::Variant79(___v), ___r) => (___l, ___v, ___r),
+match ___symbols.pop() {
+Some((___l, ___Symbol::Variant79(___v), ___r)) => (___l, ___v, ___r),
 _ => ___symbol_type_mismatch()
 }
 }
@@ -5490,8 +5490,8 @@ fn ___pop_Variant67<
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>
 ) -> (usize, ::std::option::Option<Parameter>, usize)
  {
-match ___symbols.pop().unwrap() {
-(___l, ___Symbol::Variant67(___v), ___r) => (___l, ___v, ___r),
+match ___symbols.pop() {
+Some((___l, ___Symbol::Variant67(___v), ___r)) => (___l, ___v, ___r),
 _ => ___symbol_type_mismatch()
 }
 }
@@ -5501,8 +5501,8 @@ fn ___pop_Variant81<
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>
 ) -> (usize, ::std::option::Option<Pattern<TypeRef>>, usize)
  {
-match ___symbols.pop().unwrap() {
-(___l, ___Symbol::Variant81(___v), ___r) => (___l, ___v, ___r),
+match ___symbols.pop() {
+Some((___l, ___Symbol::Variant81(___v), ___r)) => (___l, ___v, ___r),
 _ => ___symbol_type_mismatch()
 }
 }
@@ -5512,8 +5512,8 @@ fn ___pop_Variant89<
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>
 ) -> (usize, ::std::option::Option<Symbol>, usize)
  {
-match ___symbols.pop().unwrap() {
-(___l, ___Symbol::Variant89(___v), ___r) => (___l, ___v, ___r),
+match ___symbols.pop() {
+Some((___l, ___Symbol::Variant89(___v), ___r)) => (___l, ___v, ___r),
 _ => ___symbol_type_mismatch()
 }
 }
@@ -5523,8 +5523,8 @@ fn ___pop_Variant2<
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>
 ) -> (usize, ::std::option::Option<Tok<'input>>, usize)
  {
-match ___symbols.pop().unwrap() {
-(___l, ___Symbol::Variant2(___v), ___r) => (___l, ___v, ___r),
+match ___symbols.pop() {
+Some((___l, ___Symbol::Variant2(___v), ___r)) => (___l, ___v, ___r),
 _ => ___symbol_type_mismatch()
 }
 }
@@ -5534,8 +5534,8 @@ fn ___pop_Variant92<
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>
 ) -> (usize, ::std::option::Option<TypeBound<TypeRef>>, usize)
  {
-match ___symbols.pop().unwrap() {
-(___l, ___Symbol::Variant92(___v), ___r) => (___l, ___v, ___r),
+match ___symbols.pop() {
+Some((___l, ___Symbol::Variant92(___v), ___r)) => (___l, ___v, ___r),
 _ => ___symbol_type_mismatch()
 }
 }
@@ -5545,8 +5545,8 @@ fn ___pop_Variant93<
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>
 ) -> (usize, ::std::option::Option<TypeBoundParameter<TypeRef>>, usize)
  {
-match ___symbols.pop().unwrap() {
-(___l, ___Symbol::Variant93(___v), ___r) => (___l, ___v, ___r),
+match ___symbols.pop() {
+Some((___l, ___Symbol::Variant93(___v), ___r)) => (___l, ___v, ___r),
 _ => ___symbol_type_mismatch()
 }
 }
@@ -5556,8 +5556,8 @@ fn ___pop_Variant94<
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>
 ) -> (usize, ::std::option::Option<TypeParameter>, usize)
  {
-match ___symbols.pop().unwrap() {
-(___l, ___Symbol::Variant94(___v), ___r) => (___l, ___v, ___r),
+match ___symbols.pop() {
+Some((___l, ___Symbol::Variant94(___v), ___r)) => (___l, ___v, ___r),
 _ => ___symbol_type_mismatch()
 }
 }
@@ -5567,8 +5567,8 @@ fn ___pop_Variant4<
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>
 ) -> (usize, ::std::option::Option<TypeRef>, usize)
  {
-match ___symbols.pop().unwrap() {
-(___l, ___Symbol::Variant4(___v), ___r) => (___l, ___v, ___r),
+match ___symbols.pop() {
+Some((___l, ___Symbol::Variant4(___v), ___r)) => (___l, ___v, ___r),
 _ => ___symbol_type_mismatch()
 }
 }
@@ -5578,8 +5578,8 @@ fn ___pop_Variant68<
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>
 ) -> (usize, ::std::option::Option<Vec<Parameter>>, usize)
  {
-match ___symbols.pop().unwrap() {
-(___l, ___Symbol::Variant68(___v), ___r) => (___l, ___v, ___r),
+match ___symbols.pop() {
+Some((___l, ___Symbol::Variant68(___v), ___r)) => (___l, ___v, ___r),
 _ => ___symbol_type_mismatch()
 }
 }
@@ -5589,8 +5589,8 @@ fn ___pop_Variant6<
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>
 ) -> (usize, ::std::option::Option<Vec<TypeBoundParameter<TypeRef>>>, usize)
  {
-match ___symbols.pop().unwrap() {
-(___l, ___Symbol::Variant6(___v), ___r) => (___l, ___v, ___r),
+match ___symbols.pop() {
+Some((___l, ___Symbol::Variant6(___v), ___r)) => (___l, ___v, ___r),
 _ => ___symbol_type_mismatch()
 }
 }
@@ -5600,8 +5600,8 @@ fn ___pop_Variant69<
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>
 ) -> (usize, ::std::option::Option<Vec<TypeParameter>>, usize)
  {
-match ___symbols.pop().unwrap() {
-(___l, ___Symbol::Variant69(___v), ___r) => (___l, ___v, ___r),
+match ___symbols.pop() {
+Some((___l, ___Symbol::Variant69(___v), ___r)) => (___l, ___v, ___r),
 _ => ___symbol_type_mismatch()
 }
 }
@@ -5611,8 +5611,8 @@ fn ___pop_Variant71<
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>
 ) -> (usize, ::std::option::Option<Vec<WhereClause<TypeRef>>>, usize)
  {
-match ___symbols.pop().unwrap() {
-(___l, ___Symbol::Variant71(___v), ___r) => (___l, ___v, ___r),
+match ___symbols.pop() {
+Some((___l, ___Symbol::Variant71(___v), ___r)) => (___l, ___v, ___r),
 _ => ___symbol_type_mismatch()
 }
 }
@@ -5622,8 +5622,8 @@ fn ___pop_Variant70<
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>
 ) -> (usize, ::std::option::Option<WhereClause<TypeRef>>, usize)
  {
-match ___symbols.pop().unwrap() {
-(___l, ___Symbol::Variant70(___v), ___r) => (___l, ___v, ___r),
+match ___symbols.pop() {
+Some((___l, ___Symbol::Variant70(___v), ___r)) => (___l, ___v, ___r),
 _ => ___symbol_type_mismatch()
 }
 }
@@ -5633,8 +5633,8 @@ fn ___pop_Variant11<
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>
 ) -> (usize, ::std::vec::Vec<Alternative>, usize)
  {
-match ___symbols.pop().unwrap() {
-(___l, ___Symbol::Variant11(___v), ___r) => (___l, ___v, ___r),
+match ___symbols.pop() {
+Some((___l, ___Symbol::Variant11(___v), ___r)) => (___l, ___v, ___r),
 _ => ___symbol_type_mismatch()
 }
 }
@@ -5644,8 +5644,8 @@ fn ___pop_Variant45<
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>
 ) -> (usize, ::std::vec::Vec<Annotation>, usize)
  {
-match ___symbols.pop().unwrap() {
-(___l, ___Symbol::Variant45(___v), ___r) => (___l, ___v, ___r),
+match ___symbols.pop() {
+Some((___l, ___Symbol::Variant45(___v), ___r)) => (___l, ___v, ___r),
 _ => ___symbol_type_mismatch()
 }
 }
@@ -5655,8 +5655,8 @@ fn ___pop_Variant49<
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>
 ) -> (usize, ::std::vec::Vec<AssociatedType>, usize)
  {
-match ___symbols.pop().unwrap() {
-(___l, ___Symbol::Variant49(___v), ___r) => (___l, ___v, ___r),
+match ___symbols.pop() {
+Some((___l, ___Symbol::Variant49(___v), ___r)) => (___l, ___v, ___r),
 _ => ___symbol_type_mismatch()
 }
 }
@@ -5666,8 +5666,8 @@ fn ___pop_Variant21<
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>
 ) -> (usize, ::std::vec::Vec<Atom>, usize)
  {
-match ___symbols.pop().unwrap() {
-(___l, ___Symbol::Variant21(___v), ___r) => (___l, ___v, ___r),
+match ___symbols.pop() {
+Some((___l, ___Symbol::Variant21(___v), ___r)) => (___l, ___v, ___r),
 _ => ___symbol_type_mismatch()
 }
 }
@@ -5677,8 +5677,8 @@ fn ___pop_Variant13<
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>
 ) -> (usize, ::std::vec::Vec<Conversion>, usize)
  {
-match ___symbols.pop().unwrap() {
-(___l, ___Symbol::Variant13(___v), ___r) => (___l, ___v, ___r),
+match ___symbols.pop() {
+Some((___l, ___Symbol::Variant13(___v), ___r)) => (___l, ___v, ___r),
 _ => ___symbol_type_mismatch()
 }
 }
@@ -5688,8 +5688,8 @@ fn ___pop_Variant15<
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>
 ) -> (usize, ::std::vec::Vec<FieldPattern<TypeRef>>, usize)
  {
-match ___symbols.pop().unwrap() {
-(___l, ___Symbol::Variant15(___v), ___r) => (___l, ___v, ___r),
+match ___symbols.pop() {
+Some((___l, ___Symbol::Variant15(___v), ___r)) => (___l, ___v, ___r),
 _ => ___symbol_type_mismatch()
 }
 }
@@ -5699,8 +5699,8 @@ fn ___pop_Variant66<
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>
 ) -> (usize, ::std::vec::Vec<GrammarItem>, usize)
  {
-match ___symbols.pop().unwrap() {
-(___l, ___Symbol::Variant66(___v), ___r) => (___l, ___v, ___r),
+match ___symbols.pop() {
+Some((___l, ___Symbol::Variant66(___v), ___r)) => (___l, ___v, ___r),
 _ => ___symbol_type_mismatch()
 }
 }
@@ -5710,8 +5710,8 @@ fn ___pop_Variant23<
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>
 ) -> (usize, ::std::vec::Vec<Lifetime>, usize)
  {
-match ___symbols.pop().unwrap() {
-(___l, ___Symbol::Variant23(___v), ___r) => (___l, ___v, ___r),
+match ___symbols.pop() {
+Some((___l, ___Symbol::Variant23(___v), ___r)) => (___l, ___v, ___r),
 _ => ___symbol_type_mismatch()
 }
 }
@@ -5721,8 +5721,8 @@ fn ___pop_Variant25<
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>
 ) -> (usize, ::std::vec::Vec<MatchItem>, usize)
  {
-match ___symbols.pop().unwrap() {
-(___l, ___Symbol::Variant25(___v), ___r) => (___l, ___v, ___r),
+match ___symbols.pop() {
+Some((___l, ___Symbol::Variant25(___v), ___r)) => (___l, ___v, ___r),
 _ => ___symbol_type_mismatch()
 }
 }
@@ -5732,8 +5732,8 @@ fn ___pop_Variant27<
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>
 ) -> (usize, ::std::vec::Vec<NonterminalString>, usize)
  {
-match ___symbols.pop().unwrap() {
-(___l, ___Symbol::Variant27(___v), ___r) => (___l, ___v, ___r),
+match ___symbols.pop() {
+Some((___l, ___Symbol::Variant27(___v), ___r)) => (___l, ___v, ___r),
 _ => ___symbol_type_mismatch()
 }
 }
@@ -5743,8 +5743,8 @@ fn ___pop_Variant17<
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>
 ) -> (usize, ::std::vec::Vec<Parameter>, usize)
  {
-match ___symbols.pop().unwrap() {
-(___l, ___Symbol::Variant17(___v), ___r) => (___l, ___v, ___r),
+match ___symbols.pop() {
+Some((___l, ___Symbol::Variant17(___v), ___r)) => (___l, ___v, ___r),
 _ => ___symbol_type_mismatch()
 }
 }
@@ -5754,8 +5754,8 @@ fn ___pop_Variant29<
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>
 ) -> (usize, ::std::vec::Vec<Pattern<TypeRef>>, usize)
  {
-match ___symbols.pop().unwrap() {
-(___l, ___Symbol::Variant29(___v), ___r) => (___l, ___v, ___r),
+match ___symbols.pop() {
+Some((___l, ___Symbol::Variant29(___v), ___r)) => (___l, ___v, ___r),
 _ => ___symbol_type_mismatch()
 }
 }
@@ -5765,8 +5765,8 @@ fn ___pop_Variant88<
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>
 ) -> (usize, ::std::vec::Vec<String>, usize)
  {
-match ___symbols.pop().unwrap() {
-(___l, ___Symbol::Variant88(___v), ___r) => (___l, ___v, ___r),
+match ___symbols.pop() {
+Some((___l, ___Symbol::Variant88(___v), ___r)) => (___l, ___v, ___r),
 _ => ___symbol_type_mismatch()
 }
 }
@@ -5776,8 +5776,8 @@ fn ___pop_Variant31<
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>
 ) -> (usize, ::std::vec::Vec<Symbol>, usize)
  {
-match ___symbols.pop().unwrap() {
-(___l, ___Symbol::Variant31(___v), ___r) => (___l, ___v, ___r),
+match ___symbols.pop() {
+Some((___l, ___Symbol::Variant31(___v), ___r)) => (___l, ___v, ___r),
 _ => ___symbol_type_mismatch()
 }
 }
@@ -5787,8 +5787,8 @@ fn ___pop_Variant33<
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>
 ) -> (usize, ::std::vec::Vec<TypeBound<TypeRef>>, usize)
  {
-match ___symbols.pop().unwrap() {
-(___l, ___Symbol::Variant33(___v), ___r) => (___l, ___v, ___r),
+match ___symbols.pop() {
+Some((___l, ___Symbol::Variant33(___v), ___r)) => (___l, ___v, ___r),
 _ => ___symbol_type_mismatch()
 }
 }
@@ -5798,8 +5798,8 @@ fn ___pop_Variant35<
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>
 ) -> (usize, ::std::vec::Vec<TypeBoundParameter<TypeRef>>, usize)
  {
-match ___symbols.pop().unwrap() {
-(___l, ___Symbol::Variant35(___v), ___r) => (___l, ___v, ___r),
+match ___symbols.pop() {
+Some((___l, ___Symbol::Variant35(___v), ___r)) => (___l, ___v, ___r),
 _ => ___symbol_type_mismatch()
 }
 }
@@ -5809,8 +5809,8 @@ fn ___pop_Variant37<
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>
 ) -> (usize, ::std::vec::Vec<TypeParameter>, usize)
  {
-match ___symbols.pop().unwrap() {
-(___l, ___Symbol::Variant37(___v), ___r) => (___l, ___v, ___r),
+match ___symbols.pop() {
+Some((___l, ___Symbol::Variant37(___v), ___r)) => (___l, ___v, ___r),
 _ => ___symbol_type_mismatch()
 }
 }
@@ -5820,8 +5820,8 @@ fn ___pop_Variant38<
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>
 ) -> (usize, ::std::vec::Vec<TypeRef>, usize)
  {
-match ___symbols.pop().unwrap() {
-(___l, ___Symbol::Variant38(___v), ___r) => (___l, ___v, ___r),
+match ___symbols.pop() {
+Some((___l, ___Symbol::Variant38(___v), ___r)) => (___l, ___v, ___r),
 _ => ___symbol_type_mismatch()
 }
 }
@@ -5831,8 +5831,8 @@ fn ___pop_Variant19<
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>
 ) -> (usize, ::std::vec::Vec<WhereClause<TypeRef>>, usize)
  {
-match ___symbols.pop().unwrap() {
-(___l, ___Symbol::Variant19(___v), ___r) => (___l, ___v, ___r),
+match ___symbols.pop() {
+Some((___l, ___Symbol::Variant19(___v), ___r)) => (___l, ___v, ___r),
 _ => ___symbol_type_mismatch()
 }
 }
@@ -5842,8 +5842,8 @@ fn ___pop_Variant1<
 ___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>
 ) -> (usize, &'input str, usize)
  {
-match ___symbols.pop().unwrap() {
-(___l, ___Symbol::Variant1(___v), ___r) => (___l, ___v, ___r),
+match ___symbols.pop() {
+Some((___l, ___Symbol::Variant1(___v), ___r)) => (___l, ___v, ___r),
 _ => ___symbol_type_mismatch()
 }
 }

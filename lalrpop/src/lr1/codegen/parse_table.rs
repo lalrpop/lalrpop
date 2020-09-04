@@ -1203,10 +1203,10 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
         if DEBUG_PRINT {
             rust!(self.out, "println!(\"pop_{}\");", variant_name);
         }
-        rust!(self.out, "match {}symbols.pop().unwrap() {{", self.prefix);
+        rust!(self.out, "match {}symbols.pop() {{", self.prefix);
         rust!(
             self.out,
-            "({}l, {}Symbol::{}({}v), {}r) => ({}l, {}v, {}r),",
+            "Some(({}l, {}Symbol::{}({}v), {}r)) => ({}l, {}v, {}r),",
             self.prefix,
             self.prefix,
             variant_name,
