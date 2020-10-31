@@ -1,6 +1,7 @@
 //! Validate checks some basic safety conditions.
 
 use super::norm_util::{self, Symbols};
+use super::precedence;
 use super::{NormError, NormResult};
 
 use crate::collections::{set, Multimap};
@@ -168,6 +169,8 @@ impl<'grammar> Validator<'grammar> {
                         }
                     }
 
+                    self.validate_precedence(&data.alternatives, data.span)?;
+
                     for alternative in &data.alternatives {
                         self.validate_alternative(alternative)?;
                     }
@@ -175,6 +178,68 @@ impl<'grammar> Validator<'grammar> {
                 GrammarItem::InternToken(..) => {}
             }
         }
+        Ok(())
+    }
+
+    fn validate_precedence(&self, alternatives: &Vec<Alternative>, data_span: Span) -> NormResult<()> {
+        let with_precedence = alternatives.iter().any(|alt|
+            alt.annotations.iter().any(|ann| ann.id == Atom::from(precedence::PREC_ANNOT) || ann.id == Atom::from(precedence::ASSOC_ANNOT)));
+
+        if alternatives.is_empty() || !with_precedence { return Ok(()); }
+
+        // Check that all alternatives have a precedence annotation and build the list of
+        // precedence levels
+        let mut levels: Vec<u32> = vec![];
+        alternatives.iter().try_for_each(|alt| {
+            if !alt.annotations.iter().any(|ann| ann.id == Atom::from(precedence::PREC_ANNOT)) {
+                return_err!(alt.span, "missing precedence annotation");
+            }
+
+            for ann in &alt.annotations {
+                if ann.id == Atom::from(precedence::PREC_ANNOT) {
+                    match &ann.arg {
+                        Some((name, value)) if *name == Atom::from(precedence::LVL_ARG) => {
+                            if let Ok(lvl) = value.parse::<u32>() {
+                                levels.push(lvl);
+                            }
+                            else {
+                                return_err!(ann.id_span, "could not parse the precedence level `{}`, expected integer", value);
+                            }
+                        }
+                        Some((name, _)) => return_err!(ann.id_span, "invalid argument `{}` for precedence annotation, expected `{}`", name, precedence::LVL_ARG),
+                        None => return_err!(ann.id_span, "missing argument for precedence annotation, expected `{}`", precedence::LVL_ARG),
+                    }
+                }
+                else if ann.id == Atom::from(precedence::ASSOC_ANNOT) {
+                    match &ann.arg {
+                        Some((name, value)) if *name == Atom::from(precedence::ASSOC_ANNOT) => {
+                            if value.parse::<precedence::Assoc>().is_err() {
+                                return_err!(alt.span, "could not parse the associativity `{}`, expected `left` or `right`", value);
+                            }
+                        }
+                        Some((name, _)) => return_err!(ann.id_span, "invalid argument `{}` for associativity annotation, expected `{}`", name, precedence::LVL_ARG),
+                        None => return_err!(ann.id_span, "missing argument for associativity annotation, expected `{}`", precedence::LVL_ARG),
+                    }
+                }
+            }
+
+            Ok(())
+        })?;
+
+        // Check that levels are consecutive integers from 1 to some `n`
+        levels.sort();
+        levels.dedup();
+        levels.iter().chain((Some(0).iter())).zip((Some(levels.last().unwrap() + 1).iter())).try_for_each(|(i, j)| {
+            if *i == 0 && *j != 1 {
+                return_err!(data_span, "the lowest precedence level found is `{}`, but it must be `1`", j);
+            }
+            if *i + 1 != *j {
+                return_err!(data_span, "missing precedence level `{}`: levels must be consecutive", j - 1);
+            }
+
+            Ok(())
+        })?;
+
         Ok(())
     }
 
