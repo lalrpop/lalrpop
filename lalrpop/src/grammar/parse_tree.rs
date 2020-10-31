@@ -409,6 +409,8 @@ pub struct Alternative {
 
     // => { code }
     pub action: Option<ActionKind>,
+
+    pub annotations: Vec<Annotation>,
 }
 
 #[derive(Clone, Debug, PartialEq, Eq)]
