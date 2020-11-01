@@ -3,8 +3,8 @@ use crate::grammar::parse_tree::{
     Alternative, ExprSymbol, Grammar, GrammarItem, NonterminalData, NonterminalString,
     Symbol, SymbolKind,
 };
-use crate::normalize::resolve;
-use crate::normalize::NormResult;
+use super::resolve;
+use super::NormResult;
 use std::mem;
 use std::fmt;
 use std::str::FromStr;
@@ -123,17 +123,17 @@ fn expand_nonterm(mut nonterm: NonterminalData) -> NormResult<Vec<GrammarItem>> 
 
     let rest = &mut alt_with_prec.into_iter();
 
-    let lvl_max = lvls.len() as u32;
+    let lvl_max = *lvls.last().unwrap();
     let result = lvls.into_iter().map(|lvl| {
         // The generated non terminal corresponding to the last level keeps the same name as the
         // initial item, so that all external references to it are still valid. Other levels get
         // the names `Name1`, `Name2`, etc. where `Name` is the name of the initial item.
         let name = NonterminalString(Atom::from(
             if lvl == lvl_max {
-                format!("{}{}", nonterm.name, lvl)
+                format!("{}", nonterm.name)
             }
             else {
-                format!("{}", nonterm.name)
+                format!("{}{}", nonterm.name, lvl)
             }
         ));
 
