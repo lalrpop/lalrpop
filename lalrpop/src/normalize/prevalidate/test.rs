@@ -150,3 +150,93 @@ fn public_macros() {
         r#"             ~~~~~~~~               "#,
     );
 }
+
+#[test]
+fn alternative_unrecognized_annotation() {
+    check_err(
+        r#"unrecognized annotation `foo`"#,
+        r#"grammar; Term = { #[foo(bar="baz")] "a" => () };"#,
+        r#"                    ~~~~~~~~~~~~~~              "#,
+    );
+}
+
+#[test]
+fn missing_precedence() {
+    check_err(
+        r#"missing precedence annotation"#,
+        r#"grammar; Term = { #[precedence(level="1")] "a" => (), "b" => () };"#,
+        r#"                                                      ~~~~~~~~~~   "#,
+    );
+}
+
+#[test]
+fn cannot_parse_precedence() {
+    check_err(
+        r#"could not parse the precedence level `a`, expected integer"#,
+        r#"grammar; Term = { #[precedence(level="a")] "a" => ()};"#,
+        r#"                    ~~~~~~~~~~~~~~~~~~~~~             "#,
+    );
+}
+
+#[test]
+fn invalid_lvl_precedence() {
+    check_err(
+        r#"invalid argument `foo` for precedence annotation, expected `level`"#,
+        r#"grammar; Term = { #[precedence(foo="1")] "a" => ()};"#,
+        r#"                    ~~~~~~~~~~~~~~~~~~~             "#,
+    );
+}
+
+#[test]
+fn missing_arg_precedence() {
+    check_err(
+        r#"missing argument for precedence annotation, expected `level`"#,
+        r#"grammar; Term = { #[precedence] "a" => ()};"#,
+        r#"                    ~~~~~~~~~~             "#,
+    );
+}
+
+#[test]
+fn cannot_parse_assoc() {
+    check_err(
+        r#"could not parse the associativity `foo`, expected `left` or `right`"#,
+        r#"grammar; Term = { #[precedence(level="1")] #[assoc(side="foo")] "a" => ()};"#,
+        r#"                                             ~~~~~~~~~~~~~~~~~             "#,
+    );
+}
+
+#[test]
+fn invalid_assoc() {
+    check_err(
+        r#"invalid argument `foo` for associativity annotation, expected `side`"#,
+        r#"grammar; Term = { #[precedence(level="1")] #[assoc(foo="left")] "a" => ()};"#,
+        r#"                                             ~~~~~~~~~~~~~~~~~             "#,
+    );
+}
+
+#[test]
+fn missing_arg_assoc() {
+    check_err(
+        r#"missing argument for associativity annotation, expected `side`"#,
+        r#"grammar; Term = { #[precedence(level="1")] #[assoc] "a" => ()};"#,
+        r#"                                             ~~~~~             "#,
+    );
+}
+
+#[test]
+fn lowest_precedence() {
+    check_err(
+        r#"the lowest precedence level found is `2`, but it must be `1`"#,
+        r#"grammar; Term = { #[precedence(level="2")] "a" => ()};"#,
+        r#"         ~~~~                                        "#,
+    );
+}
+
+#[test]
+fn missing_precedence_lvl() {
+    check_err(
+        r#"missing precedence level `2`: levels must be consecutive"#,
+        r#"grammar; Term = { #[precedence(level="1")] "a" => (), #[precedence(level="3")] "b" => ()};"#,
+        r#"         ~~~~                                                                            "#,
+    );
+}
