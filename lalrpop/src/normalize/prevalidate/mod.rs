@@ -212,13 +212,13 @@ impl<'grammar> Validator<'grammar> {
                 }
                 else if ann.id == Atom::from(precedence::ASSOC_ANNOT) {
                     match &ann.arg {
-                        Some((name, value)) if *name == Atom::from(precedence::ASSOC_ANNOT) => {
+                        Some((name, value)) if *name == Atom::from(precedence::SIDE_ARG) => {
                             if value.parse::<precedence::Assoc>().is_err() {
-                                return_err!(alt.span, "could not parse the associativity `{}`, expected `left` or `right`", value);
+                                return_err!(ann.id_span, "could not parse the associativity `{}`, expected `left` or `right`", value);
                             }
                         }
-                        Some((name, _)) => return_err!(ann.id_span, "invalid argument `{}` for associativity annotation, expected `{}`", name, precedence::LVL_ARG),
-                        None => return_err!(ann.id_span, "missing argument for associativity annotation, expected `{}`", precedence::LVL_ARG),
+                        Some((name, _)) => return_err!(ann.id_span, "invalid argument `{}` for associativity annotation, expected `{}`", name, precedence::SIDE_ARG),
+                        None => return_err!(ann.id_span, "missing argument for associativity annotation, expected `{}`", precedence::SIDE_ARG),
                     }
                 }
             }
@@ -229,7 +229,7 @@ impl<'grammar> Validator<'grammar> {
         // Check that levels are consecutive integers from 1 to some `n`
         levels.sort();
         levels.dedup();
-        levels.iter().chain((Some(0).iter())).zip((Some(levels.last().unwrap() + 1).iter())).try_for_each(|(i, j)| {
+        Some(0).iter().chain(levels.iter()).zip(levels.iter().chain(Some(levels.last().unwrap() + 1).iter())).try_for_each(|(i, j)| {
             if *i == 0 && *j != 1 {
                 return_err!(data_span, "the lowest precedence level found is `{}`, but it must be `1`", j);
             }
@@ -245,6 +245,21 @@ impl<'grammar> Validator<'grammar> {
 
     fn validate_alternative(&self, alternative: &Alternative) -> NormResult<()> {
         self.validate_expr(&alternative.expr)?;
+
+        let allowed_names = vec![
+            Atom::from(precedence::PREC_ANNOT),
+            Atom::from(precedence::ASSOC_ANNOT),
+        ];
+
+        for annotation in &alternative.annotations {
+            if !allowed_names.contains(&annotation.id) {
+                return_err!(
+                    annotation.id_span,
+                    "unrecognized annotation `{}`",
+                    annotation.id
+                );
+            }
+        }
 
         match norm_util::analyze_expr(&alternative.expr) {
             Symbols::Named(syms) => {
