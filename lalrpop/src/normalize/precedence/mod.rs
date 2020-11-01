@@ -1,6 +1,6 @@
 //! Precedence expander.
 use crate::grammar::parse_tree::{
-    Alternative, Annotation, ExprSymbol, Grammar, GrammarItem, NonterminalData, NonterminalString,
+    Alternative, ExprSymbol, Grammar, GrammarItem, NonterminalData, NonterminalString,
     Symbol, SymbolKind,
 };
 use crate::normalize::resolve;
@@ -10,8 +10,8 @@ use std::fmt;
 use std::str::FromStr;
 use string_cache::DefaultAtom as Atom;
 
-// #[cfg(test)]
-// mod test;
+#[cfg(test)]
+mod test;
 
 pub const PREC_ANNOT: &str = "precedence";
 pub const LVL_ARG: &str = "level";
@@ -21,11 +21,12 @@ pub const SIDE_ARG: &str = "side";
 #[derive(Clone, Copy, Eq, PartialEq)]
 pub enum Assoc {
     Left,
-    Right
+    Right,
+    None
 }
 
 impl Default for Assoc {
-    fn default() -> Self { Assoc:: Left }
+    fn default() -> Self { Assoc::None }
 }
 
 #[derive(Debug, Clone, PartialEq, Eq)]
@@ -91,26 +92,27 @@ fn expand_nonterm(mut nonterm: NonterminalData) -> NormResult<Vec<GrammarItem>> 
 
     let (mut lvls, alt_with_prec) = mem::replace(&mut nonterm.alternatives, vec![]).into_iter().fold(
         (vec![], alt_with_prec),
-        |(mut lvls, mut acc): (Vec<u32>, Vec<(u32, Assoc, Alternative)>), alt| {
+        |(mut lvls, mut acc): (Vec<u32>, Vec<(u32, Assoc, Alternative)>), mut alt| {
             // All the following unsafe `unwrap()`, `panic!()`, etc. should never panic thanks to
             // prevalidation. Prevalidation must ensure that each alternative is annotated with at
             // least a precedence level, each precedence annotation must have an argument which
             // is parsable as an integer, and each optional assoc annotation must have an argument
             // that is either "right" or "left".
-            let mut lvl_opt: Option<u32> = None;
-            let mut assoc = Default::default();
-            alt.annotations.iter().for_each(|ann| match ann {
-                Annotation {id, id_span: _, arg: Some((name, val))} if *id == Atom::from(PREC_ANNOT) && *name == Atom::from(LVL_ARG) => {
-                    lvl_opt.replace(val.parse().unwrap());
-                }
-                Annotation {id, ..} if *id == Atom::from(PREC_ANNOT) => panic!(),
-                Annotation {id, id_span: _, arg: Some((name, val))} if *id == Atom::from(ASSOC_ANNOT) && *name == Atom::from(SIDE_ARG) =>
-                    assoc = val.parse().unwrap(),
-                Annotation {id, ..} if *id == Atom::from(ASSOC_ANNOT) => panic!(),
-                _ => (),
-            });
 
-            let lvl = lvl_opt.unwrap();
+            // Extract and remove precedence and associativity annotations
+            let lvl: u32 = {
+                let index = alt.annotations.iter().position(|ann| ann.id == Atom::from(PREC_ANNOT)).unwrap();
+                let (_, val) = alt.annotations.remove(index).arg.unwrap();
+                val.parse().unwrap()
+            };
+            let assoc: Assoc = if let Some(index) = alt.annotations.iter().position(|ann| ann.id == Atom::from(ASSOC_ANNOT)) {
+                let (_, val) = alt.annotations.remove(index).arg.unwrap();
+                val.parse().unwrap()
+            }
+            else {
+                Default::default()
+            };
+
             acc.push((lvl, assoc, alt));
             lvls.push(lvl);
             (lvls, acc)
