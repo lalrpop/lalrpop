@@ -1037,3 +1037,15 @@ fn test_nested_pattern() {
     let tokens = util::tok::tokenize("{{]").into_iter().map(|t| t.1);
     assert_eq!(nested::EParser::new().parse(tokens.into_iter()).unwrap(), 1);
 }
+
+#[test]
+fn test_string_tokenize() {
+    let tokens = util::tok::tokenize("1 \"just testing\" 2")
+        .into_iter()
+        .map(|t| t.1)
+        .collect::<Vec<_>>();
+    assert_eq!(
+        tokens,
+        vec![Tok::Num(1), Tok::String("just testing"), Tok::Num(2)]
+    );
+}

@@ -15,6 +15,7 @@ pub enum Tok {
     Comma,
     Open(Delim),
     Close(Delim),
+    String(&'static str),
     #[allow(dead_code)]
     Fraction(i32, i32), // Not produced by tokenizer, used only in regression tests for #179
 }
@@ -47,6 +48,13 @@ pub fn tokenize(s: &str) -> Vec<(usize, Tok, usize)> {
                 '[' => tokens.push(Tok::Open(Delim::Bracket)),
                 '}' => tokens.push(Tok::Close(Delim::Brace)),
                 ']' => tokens.push(Tok::Close(Delim::Bracket)),
+                '"' => {
+                    let c = chars.next().unwrap(); // consume opening '"'
+                    let (tmp, next) = take_while(c, &mut chars, |c| c != '"');
+                    lookahead = chars.next(); // consume closing '"'
+                    tokens.push(Tok::String(Box::leak(tmp.into_boxed_str())));
+                    continue;
+                }
                 _ if c.is_digit(10) => {
                     let (tmp, next) = take_while(c, &mut chars, |c| c.is_digit(10));
                     lookahead = next;
