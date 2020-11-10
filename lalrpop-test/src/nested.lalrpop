@@ -1,0 +1,20 @@
+grammar;
+
+use util::tok::{Tok, Delim};
+
+extern {
+    enum Tok {
+        "{" => Tok::Open(Delim::Brace),
+        "}" => Tok::Close(Delim::Brace),
+        "[" => Tok::Open(Delim::Bracket),
+        "]" => Tok::Close(Delim::Bracket),
+    }
+}
+
+pub E: i32 = {
+    => 0,
+    "{" <e:E> => e + 1,
+    "}" <e:E> => e - 1,
+    "[" <e:E> => e + 1,
+    "]" <e:E> => e - 1,
+};

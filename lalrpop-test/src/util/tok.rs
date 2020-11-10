@@ -13,8 +13,18 @@ pub enum Tok {
     Times,
     Div,
     Comma,
+    Open(Delim),
+    Close(Delim),
     #[allow(dead_code)]
     Fraction(i32, i32), // Not produced by tokenizer, used only in regression tests for #179
+}
+
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub enum Delim {
+    /// '{' or '}'
+    Brace,
+    /// '[' or ']'
+    Bracket,
 }
 
 // simplest and stupidest possible tokenizer
@@ -33,6 +43,10 @@ pub fn tokenize(s: &str) -> Vec<(usize, Tok, usize)> {
                 '*' => tokens.push(Tok::Times),
                 ',' => tokens.push(Tok::Comma),
                 '/' => tokens.push(Tok::Div),
+                '{' => tokens.push(Tok::Open(Delim::Brace)),
+                '[' => tokens.push(Tok::Open(Delim::Bracket)),
+                '}' => tokens.push(Tok::Close(Delim::Brace)),
+                ']' => tokens.push(Tok::Close(Delim::Bracket)),
                 _ if c.is_digit(10) => {
                     let (tmp, next) = take_while(c, &mut chars, |c| c.is_digit(10));
                     lookahead = next;
