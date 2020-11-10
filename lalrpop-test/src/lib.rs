@@ -1049,3 +1049,30 @@ fn test_string_tokenize() {
         vec![Tok::Num(1), Tok::String("just testing"), Tok::Num(2)]
     );
 }
+
+#[test]
+fn test_nested_pattern_string() {
+    let tokens = util::tok::tokenize("{{]\"hello\"").into_iter().map(|t| t.1);
+    assert_eq!(
+        nested::EParser::new().parse(tokens.into_iter()).unwrap(),
+        101
+    );
+}
+
+#[test]
+fn test_nested_pattern_string_error() {
+    let tokens = util::tok::tokenize("\"not matched\"")
+        .into_iter()
+        .map(|t| t.1);
+    let err = nested::EParser::new()
+        .parse(tokens.into_iter())
+        .unwrap_err();
+    match err {
+        ParseError::UnrecognizedToken { token, expected: _ } => {
+            assert_eq!(token.1, Tok::String("not matched"));
+        }
+        _ => {
+            panic!("Unexpected error: {:?}", err);
+        }
+    }
+}
