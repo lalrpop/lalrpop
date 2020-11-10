@@ -1,8 +1,5 @@
 use std::str::FromStr;
 
-#[derive(Debug, PartialEq, Eq)]
-pub struct NoCloneTok(pub Tok);
-
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub enum Tok {
     Num(i32),
