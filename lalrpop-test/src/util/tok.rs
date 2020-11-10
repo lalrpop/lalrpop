@@ -50,7 +50,7 @@ pub fn tokenize(s: &str) -> Vec<(usize, Tok, usize)> {
                 ']' => tokens.push(Tok::Close(Delim::Bracket)),
                 '"' => {
                     let c = chars.next().unwrap(); // consume opening '"'
-                    let (tmp, next) = take_while(c, &mut chars, |c| c != '"');
+                    let (tmp, _) = take_while(c, &mut chars, |c| c != '"');
                     lookahead = chars.next(); // consume closing '"'
                     tokens.push(Tok::String(Box::leak(tmp.into_boxed_str())));
                     continue;
