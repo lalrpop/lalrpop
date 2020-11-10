@@ -1,12 +1,12 @@
 use expr_arena_ast::{Arena, Node, Op};
 use util::tok::Tok;
 
-grammar<'ast>(arena: &'ast Arena<'ast>);
+grammar<'ast, 'input>(arena: &'ast Arena<'ast>);
 
 extern {
     type Location = usize;
 
-    enum Tok {
+    enum Tok<'input> {
         "(" => Tok::LParen,
         ")" => Tok::RParen,
         "-" => Tok::Minus,

@@ -1,7 +1,7 @@
-use std::str::FromStr;
+use std::str::{CharIndices, FromStr};
 
 #[derive(Clone, Debug, PartialEq, Eq)]
-pub enum Tok {
+pub enum Tok<'input> {
     Num(i32),
     LParen,
     RParen,
@@ -12,7 +12,7 @@ pub enum Tok {
     Comma,
     Open(Delim),
     Close(Delim),
-    String(&'static str),
+    String(&'input str),
     #[allow(dead_code)]
     Fraction(i32, i32), // Not produced by tokenizer, used only in regression tests for #179
 }
@@ -26,11 +26,11 @@ pub enum Delim {
 }
 
 // simplest and stupidest possible tokenizer
-pub fn tokenize(s: &str) -> Vec<(usize, Tok, usize)> {
+pub fn tokenize<'input>(s: &'input str) -> Vec<(usize, Tok<'input>, usize)> {
     let mut tokens = vec![];
-    let mut chars = s.chars();
-    let mut lookahead = chars.next();
-    while let Some(c) = lookahead {
+    let mut char_indices = s.char_indices();
+    let mut lookahead = char_indices.next();
+    while let Some((ci, c)) = lookahead {
         // skip whitespace characters
         if !c.is_whitespace() {
             match c {
@@ -46,16 +46,17 @@ pub fn tokenize(s: &str) -> Vec<(usize, Tok, usize)> {
                 '}' => tokens.push(Tok::Close(Delim::Brace)),
                 ']' => tokens.push(Tok::Close(Delim::Bracket)),
                 '"' => {
-                    let c = chars.next().unwrap(); // consume opening '"'
-                    let (tmp, _) = take_while(c, &mut chars, |c| c != '"');
-                    lookahead = chars.next(); // consume closing '"'
-                    tokens.push(Tok::String(Box::leak(tmp.into_boxed_str())));
+                    let (ci, c) = char_indices.next().expect("Unclosed '\"'"); // consume opening '"'
+                    let (slice_end, _) = take_while(ci, c, &mut char_indices, |c| c != '"');
+                    lookahead = char_indices.next(); // consume closing '"'
+                    tokens.push(Tok::String(&s[ci..slice_end]));
                     continue;
                 }
                 _ if c.is_digit(10) => {
-                    let (tmp, next) = take_while(c, &mut chars, |c| c.is_digit(10));
+                    let (slice_end, next) =
+                        take_while(ci, c, &mut char_indices, |c| c.is_digit(10));
                     lookahead = next;
-                    tokens.push(Tok::Num(i32::from_str(&tmp).unwrap()));
+                    tokens.push(Tok::Num(i32::from_str(&s[ci..slice_end]).unwrap()));
                     continue;
                 }
                 _ => {
@@ -65,7 +66,7 @@ pub fn tokenize(s: &str) -> Vec<(usize, Tok, usize)> {
         }
 
         // advance to next character by default
-        lookahead = chars.next();
+        lookahead = char_indices.next();
     }
 
     tokens
@@ -75,22 +76,24 @@ pub fn tokenize(s: &str) -> Vec<(usize, Tok, usize)> {
         .collect()
 }
 
-fn take_while<C, F>(c0: char, chars: &mut C, f: F) -> (String, Option<char>)
+fn take_while<F>(
+    slice_start: usize,
+    c0: char,
+    char_indices: &mut CharIndices,
+    f: F,
+) -> (usize, Option<(usize, char)>)
 where
-    C: Iterator<Item = char>,
     F: Fn(char) -> bool,
 {
-    let mut buf = String::new();
+    let mut slice_end = slice_start + 1;
 
-    buf.push(c0);
-
-    for c in chars {
-        if !f(c) {
-            return (buf, Some(c));
+    for (ci, c) in char_indices {
+        if f(c) {
+            slice_end = ci + 1;
+        } else {
+            return (ci, Some((ci, c)));
         }
-
-        buf.push(c);
     }
 
-    (buf, None)
+    (slice_end, None)
 }

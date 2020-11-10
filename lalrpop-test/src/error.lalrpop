@@ -1,13 +1,13 @@
 use util::tok::Tok;
 use lalrpop_util::ParseError;
 
-grammar;
+grammar<'input>();
 
 extern {
     type Location = usize;
     type Error = char;
 
-    enum Tok {
+    enum Tok<'input> {
         "-" => Tok::Minus,
         "+" => Tok::Plus
     }

@@ -1,9 +1,9 @@
-grammar;
+grammar<'input>;
 
 use util::tok::{Tok, Delim};
 
 extern {
-    enum Tok {
+    enum Tok<'input> {
         "{" => Tok::Open(Delim::Brace),
         "}" => Tok::Close(Delim::Brace),
         "[" => Tok::Open(Delim::Bracket),

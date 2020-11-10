@@ -1,9 +1,9 @@
-grammar(scale: i32);
+grammar<'input>(scale: i32);
 
 use util::tok::Tok;
 
 extern {
-    enum Tok {
+    enum Tok<'input> {
         "(" => Tok::LParen,
         ")" => Tok::RParen,
         "-" => Tok::Minus,

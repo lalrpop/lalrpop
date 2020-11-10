@@ -6,7 +6,7 @@ grammar<'input>();
 
 extern {
     type Location = usize;
-    enum Tok {
+    enum Tok<'input> {
         "(" => Tok::LParen,
     }
 }

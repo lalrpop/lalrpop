@@ -14,6 +14,8 @@ use lalrpop_util::{ErrorRecovery, ParseError};
 
 use crate::util::tok::Tok;
 
+mod util;
+
 /// Tests that actions can return the grammar's type parameters' associated
 /// types.
 lalrpop_mod!(associated_types);
@@ -153,8 +155,6 @@ pub fn use_cfg_created_parser() {
     cfg::CreatedParser::new();
 }
 
-mod util;
-
 /// This constant is here so that some of the generator parsers can
 /// refer to it in order to test `super::` handling in action code.
 const ZERO: i32 = 0;
@@ -250,8 +250,9 @@ fn parse_error_map_token_and_location() {
 
 #[test]
 fn parse_error_map_err() {
-    let err: lalrpop_util::ParseError<usize, util::tok::Tok, char> =
-        util::test_err_gen(|t| error::ItemsParser::new().parse(t), "---+").unwrap_err();
+    let input = "---+";
+    let err: lalrpop_util::ParseError<usize, util::tok::Tok<'static>, char> =
+        util::test_err_gen(|t| error::ItemsParser::new().parse(t), input).unwrap_err();
     let modified_err = err.map_error(|c| c.to_string());
     if let ParseError::User {
         error: user_error_value,

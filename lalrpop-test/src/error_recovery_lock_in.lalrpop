@@ -1,11 +1,11 @@
 use util::tok::Tok;
 use lalrpop_util::ErrorRecovery;
 
-grammar<'input, 'e>(errors: &'e mut Vec<(usize, ErrorRecovery<usize, Tok, &'static str>, usize)>);
+grammar<'input, 'e>(errors: &'e mut Vec<(usize, ErrorRecovery<usize, Tok<'input>, &'static str>, usize)>);
 
 extern {
     type Location = usize;
-    enum Tok {
+    enum Tok<'input> {
         "(" => Tok::LParen,
         ")" => Tok::RParen,
         "+" => Tok::Plus,

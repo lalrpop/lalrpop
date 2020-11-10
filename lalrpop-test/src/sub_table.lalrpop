@@ -1,12 +1,12 @@
 // Test requesting recursive ascent:
 
 #[table_driven]
-grammar;
+grammar<'input>;
 
 use util::tok::Tok;
 
 extern {
-    enum Tok {
+    enum Tok<'input> {
         "(" => Tok::LParen,
         ")" => Tok::RParen,
         "-" => Tok::Minus,
