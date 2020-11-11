@@ -199,7 +199,7 @@ fn missing_arg_precedence() {
 #[test]
 fn cannot_parse_assoc() {
     check_err(
-        r#"could not parse the associativity `foo`, expected `left` or `right`"#,
+        r#"could not parse the associativity `foo`, expected `left`, `right` or `none`"#,
         r#"grammar; Term = { #[precedence(level="1")] #[assoc(side="foo")] "a" => ()};"#,
         r#"                                             ~~~~~~~~~~~~~~~~~             "#,
     );
@@ -222,6 +222,16 @@ fn missing_arg_assoc() {
         r#"                                             ~~~~~             "#,
     );
 }
+
+#[test]
+fn first_level_assoc() {
+    check_err(
+        r#"cannot set associativity on the first precedence level"#,
+        r#"grammar; Term = { #[precedence(level="1")] #[assoc(side="left")] "a" => ()};"#,
+        r#"                                             ~~~~~~~~~~~~~~~~~~             "#,
+    );
+}
+
 
 #[test]
 fn lowest_precedence() {
