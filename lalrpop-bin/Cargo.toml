@@ -1,0 +1,15 @@
+[package]
+name = "lalrpop-bin"
+version = "0.19.1" # LALRPOP
+description = "CLI wrapper around LALRPOP"
+repository = "https://github.com/lalrpop/lalrpop"
+readme = "../README.md"
+keywords = ["parser", "generator", "LR", "yacc", "grammar"]
+categories = ["parsing"]
+license = "Apache-2.0/MIT"
+authors = ["Niko Matsakis <niko@alum.mit.edu>"]
+workspace = ".."
+
+[dependencies]
+pico-args = "0.3.4"
+lalrpop = { path = "../lalrpop" }

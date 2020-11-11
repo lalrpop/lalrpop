@@ -1,9 +1,10 @@
 [workspace]
 members = [
-        "lalrpop",
-        "lalrpop-test",
-        "lalrpop-util",
         "doc/calculator",
         "doc/pascal/lalrpop",
         "doc/whitespace",
+        "lalrpop-bin",
+        "lalrpop-test",
+        "lalrpop-util",
+        "lalrpop",
 ]
