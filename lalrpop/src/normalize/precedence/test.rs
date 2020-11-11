@@ -53,3 +53,80 @@ grammar;
 
     compare(expand_precedence(grammar), resolve(expected));
 }
+
+#[test]
+fn with_assoc() {
+    let grammar = parser::parse_grammar(
+        r#"
+grammar;
+    Expr: u32 = {
+       #[precedence(level="1")]
+       "const" => 0,
+
+       #[precedence(level="1")]
+       "!" <Expr> => 0,
+
+       #[precedence(level="2")]
+       #[assoc(side="none")]
+       "!!" <Expr> => 0,
+
+       #[precedence(level="2")]
+       #[assoc(side="left")]
+       "const2" => 0,
+
+       #[precedence(level="2")]
+       #[assoc(side="left")]
+       <left:Expr> "*" <right:Expr> => 0,
+
+       #[precedence(level="2")]
+       #[assoc(side="right")]
+       <left:Expr> "/" <right:Expr> => 0,
+
+       #[precedence(level="3")]
+       #[assoc(side="left")]
+       <left:Expr> "?" <middle:Expr> ":" <right:Expr> => 0,
+
+       #[precedence(level="3")]
+       #[assoc(side="right")]
+       <left:Expr> "|" <middle:Expr> "-" <right:Expr> => 0,
+
+       #[precedence(level="3")]
+       #[assoc(side="none")]
+       <left:Expr> "^" <middle:Expr> "$" <right:Expr> => 0,
+
+       #[precedence(level="3")]
+       <left:Expr> "[" <middle:Expr> ";" <right:Expr> => 0,
+   }
+"#,
+    )
+    .unwrap();
+
+    let expected = parser::parse_grammar(
+        r#"
+grammar;
+    Expr1: u32 = {
+        "const" => 0,
+        "!" <Expr1> => 0,
+    }
+
+    Expr2: u32 = {
+        "!!" <Expr1> => 0,
+        "const2" => 0,
+        <left:Expr2> "*" <right:Expr1> => 0,
+        <left:Expr1> "/" <right:Expr2> => 0,
+        Expr1,
+    }
+
+    Expr: u32 = {
+       <left:Expr> "?" <middle:Expr2> ":" <right:Expr2> => 0,
+       <left:Expr2> "|" <middle:Expr2> "-" <right:Expr> => 0,
+       <left:Expr2> "^" <middle:Expr2> "$" <right:Expr2> => 0,
+       <left:Expr> "[" <middle:Expr> ";" <right:Expr> => 0,
+       Expr2,
+    }
+"#,
+    )
+    .unwrap();
+
+    compare(expand_precedence(grammar), resolve(expected));
+}
