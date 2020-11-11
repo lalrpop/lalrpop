@@ -191,35 +191,40 @@ impl<'grammar> Validator<'grammar> {
         // precedence levels
         let mut levels: Vec<u32> = vec![];
         alternatives.iter().try_for_each(|alt| {
-            if !alt.annotations.iter().any(|ann| ann.id == Atom::from(precedence::PREC_ANNOT)) {
+            let ann_prec_opt = alt.annotations.iter().find(|ann| ann.id == Atom::from(precedence::PREC_ANNOT));
+            let ann_assoc_opt = alt.annotations.iter().find(|ann| ann.id == Atom::from(precedence::ASSOC_ANNOT));
+
+            if let Some(ann_prec) = ann_prec_opt {
+                match &ann_prec.arg {
+                    Some((name, value)) if *name == Atom::from(precedence::LVL_ARG) => {
+                        if let Ok(lvl) = value.parse::<u32>() {
+                            levels.push(lvl);
+                        }
+                        else {
+                            return_err!(ann_prec.id_span, "could not parse the precedence level `{}`, expected integer", value);
+                        }
+                    }
+                    Some((name, _)) => return_err!(ann_prec.id_span, "invalid argument `{}` for precedence annotation, expected `{}`", name, precedence::LVL_ARG),
+                    None => return_err!(ann_prec.id_span, "missing argument for precedence annotation, expected `{}`", precedence::LVL_ARG),
+                }
+            }
+            else {
                 return_err!(alt.span, "missing precedence annotation");
             }
 
-            for ann in &alt.annotations {
-                if ann.id == Atom::from(precedence::PREC_ANNOT) {
-                    match &ann.arg {
-                        Some((name, value)) if *name == Atom::from(precedence::LVL_ARG) => {
-                            if let Ok(lvl) = value.parse::<u32>() {
-                                levels.push(lvl);
-                            }
-                            else {
-                                return_err!(ann.id_span, "could not parse the precedence level `{}`, expected integer", value);
-                            }
+            if let Some(ann_assoc) = ann_assoc_opt {
+                match &ann_assoc.arg {
+                    Some((name, value)) if *name == Atom::from(precedence::SIDE_ARG) => {
+                        if value.parse::<precedence::Assoc>().is_err() {
+                            return_err!(ann_assoc.id_span, "could not parse the associativity `{}`, expected `left`, `right` or `none`", value);
                         }
-                        Some((name, _)) => return_err!(ann.id_span, "invalid argument `{}` for precedence annotation, expected `{}`", name, precedence::LVL_ARG),
-                        None => return_err!(ann.id_span, "missing argument for precedence annotation, expected `{}`", precedence::LVL_ARG),
                     }
+                    Some((name, _)) => return_err!(ann_assoc.id_span, "invalid argument `{}` for associativity annotation, expected `{}`", name, precedence::SIDE_ARG),
+                    None => return_err!(ann_assoc.id_span, "missing argument for associativity annotation, expected `{}`", precedence::SIDE_ARG),
                 }
-                else if ann.id == Atom::from(precedence::ASSOC_ANNOT) {
-                    match &ann.arg {
-                        Some((name, value)) if *name == Atom::from(precedence::SIDE_ARG) => {
-                            if value.parse::<precedence::Assoc>().is_err() {
-                                return_err!(ann.id_span, "could not parse the associativity `{}`, expected `left` or `right`", value);
-                            }
-                        }
-                        Some((name, _)) => return_err!(ann.id_span, "invalid argument `{}` for associativity annotation, expected `{}`", name, precedence::SIDE_ARG),
-                        None => return_err!(ann.id_span, "missing argument for associativity annotation, expected `{}`", precedence::SIDE_ARG),
-                    }
+
+                if levels.pop().unwrap() == 1 {
+                    return_err!(ann_assoc.id_span, "cannot set associativity on the first precedence level");
                 }
             }
 
