@@ -2,9 +2,12 @@
 #![recursion_limit = "256"]
 // I hate this lint.
 #![allow(unused_parens)]
+
 // The builtin tests don't cover the CLI and so forth, and it's just
 // too darn annoying to try and make them do so.
-#![cfg_attr(test, allow(dead_code))]
+//
+// ε shows up in lalrpop/src/lr1/example/test.rs
+#![cfg_attr(test, allow(dead_code, mixed_script_confusables))]
 
 extern crate ascii_canvas;
 extern crate atty;

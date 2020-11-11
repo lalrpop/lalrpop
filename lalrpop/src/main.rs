@@ -1,29 +1,104 @@
-extern crate docopt;
 extern crate lalrpop;
-#[macro_use]
-extern crate serde_derive;
-extern crate serde;
+extern crate pico_args;
 
-use docopt::Docopt;
-use lalrpop::Configuration;
-use std::env;
-use std::io::{self, Write};
+use std::io::Write;
 use std::path::PathBuf;
 use std::process;
+use std::str::FromStr;
+
+use pico_args::Arguments;
+
+use lalrpop::Configuration;
 
 static VERSION: &'static str = env!("CARGO_PKG_VERSION");
+
+const USAGE: &str = "
+Usage: lalrpop [options] <inputs>...
+       lalrpop --help
+       lalrpop (-V | --version)
+
+Options:
+    -h, --help           Print help.
+    -V, --version        Print version.
+    -l, --level LEVEL    Set the debug level. (Default: info)
+                         Valid values: quiet, info, verbose, debug.
+    -o, --out-dir DIR    Sets the directory in which to output the .rs file(s).
+    --features FEATURES  Comma separated list of features for conditional compilation.
+    -f, --force          Force execution, even if the .lalrpop file is older than the .rs file.
+    -c, --color          Force colorful output, even if this is not a TTY.
+    --no-whitespace      Removes redundant whitespace from the generated file. (Default: false)
+    --comments           Enable comments in the generated code.
+    --report             Generate report files.
+";
+
+#[derive(Debug)]
+struct Args {
+    arg_inputs: Vec<String>,
+    flag_out_dir: Option<PathBuf>,
+    flag_features: Option<String>,
+    flag_level: Option<LevelFlag>,
+    flag_help: bool,
+    flag_force: bool,
+    flag_color: bool,
+    flag_comments: bool,
+    flag_no_whitespace: bool,
+    flag_report: bool,
+    flag_version: bool,
+}
+
+#[derive(Copy, Clone, Eq, PartialEq, Debug)]
+enum LevelFlag {
+    Quiet,
+    Info,
+    Verbose,
+    Debug,
+}
+
+impl FromStr for LevelFlag {
+    type Err = String;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        use self::LevelFlag::*;
+        match s {
+            "quiet" => Ok(Quiet),
+            "info" => Ok(Info),
+            "verbose" => Ok(Verbose),
+            "debug" => Ok(Debug),
+            x => Err(format!("Unknown level {}", x)),
+        }
+    }
+}
+
+fn parse_args(mut args: Arguments) -> Result<Args, Box<dyn std::error::Error>> {
+    Ok(Args {
+        flag_out_dir: args.opt_value_from_fn(["-o", "--out-dir"], PathBuf::from_str)?,
+        flag_features: args.opt_value_from_str("--features")?,
+        flag_level: args.opt_value_from_fn(["-l", "--level"], LevelFlag::from_str)?,
+        flag_help: args.contains(["-h", "--help"]),
+        flag_force: args.contains(["-f", "--force"]),
+        flag_color: args.contains(["-c", "--color"]),
+        flag_comments: args.contains("--comments"),
+        flag_no_whitespace: args.contains("--no-whitespace"),
+        flag_report: args.contains("--report"),
+        flag_version: args.contains(["-V", "--version"]),
+        arg_inputs: args.free()?,
+    })
+}
 
 fn main() {
     main1().unwrap();
 }
 
-fn main1() -> io::Result<()> {
+fn main1() -> Result<(), Box<dyn std::error::Error>> {
     let mut stderr = std::io::stderr();
     let mut stdout = std::io::stdout();
 
-    let args: Args = Docopt::new(USAGE)
-        .and_then(|d| d.argv(env::args()).deserialize())
-        .unwrap_or_else(|e| e.exit());
+    let args = parse_args(Arguments::from_env())?;
+
+    if args.flag_help {
+        writeln!(stdout, "{}", USAGE)?;
+        process::exit(0);
+    }
 
     if args.flag_version {
         writeln!(stdout, "{}", VERSION)?;
@@ -88,108 +163,69 @@ fn main1() -> io::Result<()> {
     Ok(())
 }
 
-const USAGE: &str = "
-Usage: lalrpop [options] <inputs>...
-       lalrpop --help
-       lalrpop (-V | --version)
-
-Options:
-    -V, --version        Print version.
-    -l, --level LEVEL    Set the debug level. (Default: info)
-                         Valid values: quiet, info, verbose, debug.
-    -o, --out-dir DIR    Sets the directory in which to output the .rs file(s).
-    --features FEATURES  Comma separated list of features for conditional compilation.
-    -f, --force          Force execution, even if the .lalrpop file is older than the .rs file.
-    -c, --color          Force colorful output, even if this is not a TTY.
-    --no-whitespace      Removes redundant whitespace from the generated file. (Default: false)
-    --comments           Enable comments in the generated code.
-    --report             Generate report files.
-";
-
-#[derive(Debug, Deserialize)]
-struct Args {
-    arg_inputs: Vec<String>,
-    flag_out_dir: Option<PathBuf>,
-    flag_features: Option<String>,
-    flag_level: Option<LevelFlag>,
-    flag_force: bool,
-    flag_color: bool,
-    flag_comments: bool,
-    flag_no_whitespace: bool,
-    flag_report: bool,
-    flag_version: bool,
-}
-
-#[derive(Debug, Deserialize)]
-enum LevelFlag {
-    Quiet,
-    Info,
-    Verbose,
-    Debug,
-}
-
 #[cfg(test)]
 mod test {
-    use super::Args;
-    use super::USAGE;
-    use docopt::Docopt;
+    use super::*;
+    use std::ffi::OsString;
+
+    fn os_vec(vals: &[&str]) -> Vec<OsString> {
+        vals.iter().map(|v| v.into()).collect()
+    }
+
+    fn parse_args_vec(args: &Vec<&str>) -> Args {
+        parse_args(Arguments::from_vec(os_vec(&args))).unwrap()
+    }
 
     #[test]
     fn test_usage_help() {
-        let argv = || vec!["lalrpop", "--help"];
-        let _: Args = Docopt::new(USAGE)
-            .and_then(|d| d.help(false).argv(argv().into_iter()).deserialize())
-            .unwrap();
+        assert!(parse_args_vec(&vec!["--help"]).flag_help);
     }
 
     #[test]
     fn test_usage_version() {
-        let argv = || vec!["lalrpop", "--version"];
-        let _: Args = Docopt::new(USAGE)
-            .and_then(|d| d.argv(argv().into_iter()).deserialize())
-            .unwrap();
+        assert!(parse_args_vec(&vec!["--version"]).flag_version);
     }
 
     #[test]
     fn test_usage_single_input() {
-        let argv = || vec!["lalrpop", "file.lalrpop"];
-        let _: Args = Docopt::new(USAGE)
-            .and_then(|d| d.argv(argv().into_iter()).deserialize())
-            .unwrap();
+        assert_eq!(
+            parse_args_vec(&vec!["file.lalrpop"]).arg_inputs,
+            ["file.lalrpop"]
+        );
     }
 
     #[test]
     fn test_usage_multiple_inputs() {
-        let argv = || vec!["lalrpop", "file.lalrpop", "../file2.lalrpop"];
-        let _: Args = Docopt::new(USAGE)
-            .and_then(|d| d.argv(argv().into_iter()).deserialize())
-            .unwrap();
+        let files = vec!["file.lalrpop", "../file2.lalrpop"];
+        assert_eq!(parse_args_vec(&files).arg_inputs, files);
     }
 
     #[test]
-    fn out_dir() {
-        let argv = || vec!["lalrpop", "--out-dir", "abc", "file.lalrpop"];
-        let args: Args = Docopt::new(USAGE)
-            .and_then(|d| d.argv(argv().into_iter()).deserialize())
-            .unwrap();
-        assert_eq!(args.flag_out_dir, Some("abc".into()));
+    fn test_usage_out_dir() {
+        let args = parse_args_vec(&vec!["--out-dir", "abc", "file.lalrpop"]);
+        assert_eq!(args.flag_out_dir, Some(PathBuf::from_str("abc").unwrap()));
+        assert_eq!(args.arg_inputs, ["file.lalrpop"]);
     }
 
     #[test]
-    fn features() {
-        let argv = || vec!["lalrpop", "--features", "test,abc", "file.lalrpop"];
-        let args: Args = Docopt::new(USAGE)
-            .and_then(|d| d.argv(argv().into_iter()).deserialize())
-            .unwrap();
-        assert_eq!(args.flag_features, Some("test,abc".to_string()));
+    fn test_usage_features() {
+        let args = parse_args_vec(&vec!["--features", "test,abc", "file.lalrpop"]);
+        assert_eq!(args.flag_features, Some("test,abc".into()));
+        assert_eq!(args.arg_inputs, ["file.lalrpop"]);
     }
 
     #[test]
-    fn emit_whitespace() {
-        let argv = || vec!["lalrpop", "--no-whitespace", "file.lalrpop"];
-        let args: Args = Docopt::new(USAGE)
-            .and_then(|d| d.argv(argv().into_iter()).deserialize())
-            .unwrap();
-        assert!(args.flag_no_whitespace, true);
+    fn test_usage_emit_whitespace() {
+        let args = parse_args_vec(&vec!["--no-whitespace", "file.lalrpop"]);
+        assert!(args.flag_no_whitespace);
+        assert_eq!(args.arg_inputs, ["file.lalrpop"]);
+    }
+
+    #[test]
+    fn test_usage_level() {
+        assert_eq!(
+            parse_args_vec(&vec!["-l", "info"]).flag_level,
+            Some(LevelFlag::Info)
+        );
     }
 }
