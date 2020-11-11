@@ -22,11 +22,19 @@ pub const SIDE_ARG: &str = "side";
 pub enum Assoc {
     Left,
     Right,
-    None
+    NonAssoc,
 }
 
-impl Default for Assoc {
-    fn default() -> Self { Assoc::None }
+#[derive(Clone, Copy, Eq, PartialEq)]
+pub enum Substitution<'a> {
+    OneThen(&'a SymbolKind, &'a SymbolKind),
+    Every(&'a SymbolKind),
+}
+
+#[derive(Clone, Copy, Eq, PartialEq)]
+pub enum Direction {
+    Forward,
+    Backward
 }
 
 #[derive(Debug, Clone, PartialEq, Eq)]
@@ -47,6 +55,7 @@ impl FromStr for Assoc {
         match s {
             "left" => Ok(Assoc::Left),
             "right" => Ok(Assoc::Right),
+            "none" => Ok(Assoc::NonAssoc),
             _ => Err(ParseAssocError { _priv: () }),
         }
     }
@@ -88,11 +97,11 @@ pub fn has_prec_annot(non_term: &NonterminalData) -> bool {
 }
 
 fn expand_nonterm(mut nonterm: NonterminalData) -> NormResult<Vec<GrammarItem>> {
-    let alt_with_prec = Vec::with_capacity(nonterm.alternatives.len());
+    let alt_with_ann = Vec::with_capacity(nonterm.alternatives.len());
 
-    let (mut lvls, alt_with_prec) = mem::replace(&mut nonterm.alternatives, vec![]).into_iter().fold(
-        (vec![], alt_with_prec),
-        |(mut lvls, mut acc): (Vec<u32>, Vec<(u32, Assoc, Alternative)>), mut alt| {
+    let (mut lvls, alts_with_ann) = mem::replace(&mut nonterm.alternatives, vec![]).into_iter().fold(
+        (vec![], alt_with_ann),
+        |(mut lvls, mut acc): (Vec<u32>, Vec<(u32, Option<Assoc>, Alternative)>), mut alt| {
             // All the following unsafe `unwrap()`, `panic!()`, etc. should never panic thanks to
             // prevalidation. Prevalidation must ensure that each alternative is annotated with at
             // least a precedence level, each precedence annotation must have an argument which
@@ -105,13 +114,10 @@ fn expand_nonterm(mut nonterm: NonterminalData) -> NormResult<Vec<GrammarItem>> 
                 let (_, val) = alt.annotations.remove(index).arg.unwrap();
                 val.parse().unwrap()
             };
-            let assoc: Assoc = if let Some(index) = alt.annotations.iter().position(|ann| ann.id == Atom::from(ASSOC_ANNOT)) {
+            let assoc: Option<Assoc> = alt.annotations.iter().position(|ann| ann.id == Atom::from(ASSOC_ANNOT)).map(|index| {
                 let (_, val) = alt.annotations.remove(index).arg.unwrap();
                 val.parse().unwrap()
-            }
-            else {
-                Default::default()
-            };
+            });
 
             acc.push((lvl, assoc, alt));
             lvls.push(lvl);
@@ -121,7 +127,7 @@ fn expand_nonterm(mut nonterm: NonterminalData) -> NormResult<Vec<GrammarItem>> 
     lvls.sort();
     lvls.dedup();
 
-    let rest = &mut alt_with_prec.into_iter();
+    let rest = &mut alts_with_ann.into_iter();
 
     let lvl_max = *lvls.last().unwrap();
     let result = lvls.into_iter().map(|lvl| {
@@ -137,20 +143,45 @@ fn expand_nonterm(mut nonterm: NonterminalData) -> NormResult<Vec<GrammarItem>> 
             }
         ));
 
-        let (alternatives, new_rest) : (Vec<_>, Vec<_>) = rest.partition(|(l, _, _)| *l == lvl);
+        let nonterm_prev = if lvl > 1 {
+                Some(SymbolKind::Nonterminal(NonterminalString(Atom::from(
+                format!("{}{}", nonterm.name, lvl - 1)))))
+            }
+            else {
+                None
+            };
+
+        let (alts_with_prec, new_rest) : (Vec<_>, Vec<_>) = rest.partition(|(l, _, _)| *l == lvl);
         *rest = new_rest.into_iter();
 
-        let mut alternatives: Vec<Alternative> = alternatives.into_iter().map(|(_, _, alt)| alt).collect();
+        let mut alts_with_assoc: Vec<_> = alts_with_prec.into_iter().map(|(_, assoc, alt)| (assoc, alt)).collect();
 
         let symbol_kind = &SymbolKind::Nonterminal(name.clone());
-        for alt in &mut alternatives {
-            replace_nonterm(alt, &nonterm.name, &symbol_kind)
+        for (assoc, alt) in &mut alts_with_assoc {
+            let err_msg = "unexpected associativity annotation on the first precedence level";
+            let (subst,dir) = match assoc {
+                Some(Assoc::Left) => {
+                    (Substitution::OneThen(
+                        symbol_kind,
+                        &nonterm_prev.as_ref().expect(err_msg),
+                    ), Direction::Forward)
+                }
+                Some(Assoc::Right) => {
+                    (Substitution::OneThen(
+                        symbol_kind,
+                        &nonterm_prev.as_ref().expect(err_msg),
+                    ), Direction::Backward)
+                }
+                Some(Assoc::NonAssoc) => (Substitution::Every(&nonterm_prev.as_ref().expect(err_msg)), Direction::Forward),
+                None => (Substitution::Every(symbol_kind), Direction::Forward),
+            };
+            replace_nonterm(alt, &nonterm.name, subst, dir)
         }
 
+        let mut alternatives: Vec<_> = alts_with_assoc.into_iter().map(|(_, alt)| alt).collect();
+
         // Include the previous level
-        if lvl > 1 {
-            let kind = SymbolKind::Nonterminal(NonterminalString(Atom::from(
-                format!("{}{}", nonterm.name, lvl - 1))));
+        if let Some(kind) = nonterm_prev {
             alternatives.push(Alternative {
                 // Don't really know what span should we put here
                 span: nonterm.span,
@@ -177,42 +208,59 @@ fn expand_nonterm(mut nonterm: NonterminalData) -> NormResult<Vec<GrammarItem>> 
     Ok(items)
 }
 
-fn replace_nonterm(alt: &mut Alternative, target: &NonterminalString, new_kind: &SymbolKind) {
-   replace_symbols(&mut alt.expr.symbols, target, new_kind);
+fn replace_nonterm(alt: &mut Alternative, target: &NonterminalString, subst: Substitution, dir: Direction) {
+   replace_symbols(&mut alt.expr.symbols, target, subst, dir);
 }
 
-fn replace_symbols(symbols: &mut [Symbol], target: &NonterminalString, new_kind: &SymbolKind) {
-   for symbol in symbols {
-        replace_symbol(symbol, target, new_kind);
-   }
+fn replace_symbols<'a>(symbols: &mut [Symbol], target: &NonterminalString, subst: Substitution<'a>, dir: Direction) -> Substitution<'a> {
+    match dir {
+        Direction::Forward =>
+            symbols.iter_mut().fold(subst, |subst, symbol| replace_symbol(symbol, target, subst, dir)),
+        Direction::Backward =>
+            symbols.iter_mut().rev().fold(subst, |subst, symbol| replace_symbol(symbol, target, subst, dir)),
+    }
 }
 
-fn replace_symbol(symbol: &mut Symbol, target: &NonterminalString, new_kind: &SymbolKind) {
+fn replace_symbol<'a>(symbol: &mut Symbol, target: &NonterminalString, subst: Substitution<'a>, dir: Direction) -> Substitution<'a> {
     match symbol.kind {
         SymbolKind::AmbiguousId(ref id) => {
             panic!("ambiguous id `{}` encountered after name resolution", id)
         }
         SymbolKind::Nonterminal(ref name) if name == target => {
-            mem::replace(&mut symbol.kind, new_kind.clone());
+            match subst {
+                Substitution::Every(sym_kind) => {
+                    mem::replace(&mut symbol.kind, sym_kind.clone());
+                    subst
+                },
+                Substitution::OneThen(fst, snd) => {
+                    mem::replace(&mut symbol.kind, fst.clone());
+                    Substitution::Every(snd)
+                },
+            }
         }
         SymbolKind::Macro(ref mut m) => {
-            for sym in &mut m.args {
-                replace_symbol(sym, target, new_kind);
+            if dir == Direction::Forward {
+                m.args.iter_mut().fold(subst, |subst, sym| replace_symbol(sym, target, subst, dir))
+            }
+            else {
+                m.args.iter_mut().rev().fold(subst, |subst, sym| replace_symbol(sym, target, subst, dir))
             }
         }
         SymbolKind::Expr(ref mut expr) => {
-            replace_symbols(&mut expr.symbols, target, new_kind);
+            replace_symbols(&mut expr.symbols, target, subst, dir)
         }
         SymbolKind::Repeat(ref mut repeat) => {
-            replace_symbol(&mut repeat.symbol, target, new_kind);
-        }
-        SymbolKind::Terminal(_) | SymbolKind::Nonterminal(_) | SymbolKind::Error => {
-            return;
+            replace_symbol(&mut repeat.symbol, target, subst, dir)
         }
         SymbolKind::Choose(ref mut sym) | SymbolKind::Name(_, ref mut sym) => {
-            replace_symbol(sym, target, new_kind);
-            return;
+            replace_symbol(sym, target, subst, dir)
         }
-        SymbolKind::Lookahead | SymbolKind::Lookbehind => {}
+        SymbolKind::Terminal(_)
+        | SymbolKind::Nonterminal(_)
+        | SymbolKind::Error
+        | SymbolKind::Lookahead
+        | SymbolKind::Lookbehind => {
+            subst
+        }
     }
 }
