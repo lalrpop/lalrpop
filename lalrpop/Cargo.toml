@@ -15,21 +15,64 @@ exclude = ["build.rs"]
 [lib]
 doctest = false
 
-[dependencies]
-ascii-canvas = "2.0"
-atty = "0.2"
-bit-set = "0.5"
-diff = "0.1.12"
-pico-args = "0.3.4"
-ena = "0.14"
-itertools = "0.9"
-regex = "1"
-regex-syntax = "0.6"
-petgraph = "0.5"
-string_cache = "0.8"
-term = "0.5"
-unicode-xid = "0.2"
-sha2 = "0.8"
+[dependencies.ascii-canvas]
+version = "2.0"
+default_features = false
+
+[dependencies.atty]
+version = "0.2"
+default_features = false
+
+[dependencies.bit-set]
+version = "0.5"
+default_features = false
+
+[dependencies.diff]
+version = "0.1.12"
+default_features = false
+
+[dependencies.pico-args]
+version = "0.3.4"
+default_features = false
+
+[dependencies.ena]
+version = "0.14"
+default_features = false
+
+[dependencies.itertools]
+version = "0.9"
+default_features = false
+features = ["use_std"]
+
+[dependencies.regex]
+version = "1"
+default_features = false
+features = ["std"]
+
+[dependencies.regex-syntax]
+version = "0.6"
+default_features = false
+
+[dependencies.petgraph]
+version = "0.5"
+default_features = false
+
+[dependencies.string_cache]
+version = "0.8"
+default_features = false
+
+[dependencies.term]
+version = "0.5"
+default_features = false
+
+[dependencies.unicode-xid]
+version = "0.2"
+default_features = false
+
+[dependencies.tiny-keccak]
+version = "2.0.2"
+features = ["sha3"]
+
 
 [dev-dependencies]
 rand = "0.7"

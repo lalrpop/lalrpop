@@ -15,15 +15,16 @@ extern crate bit_set;
 extern crate diff;
 extern crate ena;
 extern crate itertools;
-#[cfg_attr(feature = "test", macro_use)]
-extern crate lalrpop_util;
 extern crate petgraph;
-extern crate regex;
 extern crate regex_syntax;
-extern crate sha2;
+extern crate regex;
 extern crate string_cache;
 extern crate term;
+extern crate tiny_keccak;
 extern crate unicode_xid;
+
+#[cfg_attr(feature = "test", macro_use)]
+extern crate lalrpop_util;
 
 #[cfg(test)]
 extern crate rand;
