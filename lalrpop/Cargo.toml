@@ -22,13 +22,18 @@ bit-set = { version = "0.5", default_features = false }
 diff = { version = "0.1.12", default_features = false }
 ena = { version = "0.14", default_features = false }
 itertools = { version = "0.9", default_features = false, features = ["use_std"] }
+petgraph = { version = "0.5", default_features = false }
 regex = { version = "1", default_features = false, features = ["std"] }
 regex-syntax = { version = "0.6", default_features = false }
-petgraph = { version = "0.5", default_features = false }
 string_cache = { version = "0.8", default_features = false }
 term = { version = "0.5", default_features = false }
-unicode-xid = { version = "0.2", default_features = false }
 tiny-keccak = { version = "2.0.2", features = ["sha3"] }
+unicode-xid = { version = "0.2", default_features = false }
+
+# This dependency is only needed for binary builds, if you use LALRPOP as
+# library, disable it in your project by setting default_features = false.
+pico-args = { version = "0.3.4", default_features = false, optional = true }
+
 
 [dev-dependencies]
 rand = "0.7"
@@ -38,6 +43,8 @@ path = "../lalrpop-util"
 version = "0.19.1" # LALRPOP
 
 [features]
+default=["pico-args"]
+
 # Feature used when developing LALRPOP. Tells the build script to use an existing lalrpop binary to
 # generate LALRPOPs own parser instead of using the saved parser.
 test = []

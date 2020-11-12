@@ -211,6 +211,7 @@ dependencies = [
  "itertools",
  "lalrpop-util",
  "petgraph",
+ "pico-args",
  "rand",
  "regex",
  "regex-syntax",
@@ -218,14 +219,6 @@ dependencies = [
  "term",
  "tiny-keccak",
  "unicode-xid",
-]
-
-[[package]]
-name = "lalrpop-bin"
-version = "0.19.1"
-dependencies = [
- "lalrpop",
- "pico-args",
 ]
 
 [[package]]
