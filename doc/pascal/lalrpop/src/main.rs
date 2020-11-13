@@ -1,22 +1,43 @@
-extern crate docopt;
-#[macro_use]
-extern crate serde_derive;
-extern crate serde;
 #[macro_use]
 extern crate lalrpop_util;
+extern crate pico_args;
 
-use docopt::Docopt;
-use std::env;
 use std::fs::File;
 use std::io::Read;
 use std::time::Instant;
 
+use pico_args::Arguments;
+
 lalrpop_mod!(pascal);
 
+const USAGE: &'static str = "
+Usage: pascal <inputs>...
+
+Parses each input file.
+
+-h --help Print help.
+";
+
+#[derive(Debug)]
+struct Args {
+    arg_inputs: Vec<String>,
+    flag_help: bool,
+}
+
+fn parse_args(mut args: Arguments) -> Result<Args, Box<dyn std::error::Error>> {
+    Ok(Args {
+        flag_help: args.contains(["-h", "--help"]),
+        arg_inputs: args.free()?,
+    })
+}
+
 fn main() {
-    let args: Args = Docopt::new(USAGE)
-        .and_then(|d| d.argv(env::args()).deserialize())
-        .unwrap_or_else(|e| e.exit());
+    let args = parse_args(Arguments::from_env()).unwrap();
+    
+    if args.flag_help {
+        println!("{}", USAGE);
+        return;
+    }
 
     for input in &args.arg_inputs {
         let mut s = String::new();
@@ -35,15 +56,4 @@ fn main() {
             Err(err) => println!("Input `{}` ({}s): parse error {:?}", input, elapsed, err),
         }
     }
-}
-
-const USAGE: &'static str = "
-Usage: pascal <inputs>...
-
-Parses each input file.
-";
-
-#[derive(Debug, Deserialize)]
-struct Args {
-    arg_inputs: Vec<String>,
 }

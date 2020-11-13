@@ -15,17 +15,19 @@ use crate::tls::Tls;
 use crate::tok;
 use atty;
 use lalrpop_util::ParseError;
-use sha2::{Digest, Sha256};
+use tiny_keccak::Sha3;
 use term;
 
 use std::fs;
-use std::io::{self, BufRead, Write};
+use std::io::{self, BufRead, Read, Write};
 use std::path::{Path, PathBuf};
 use std::process::exit;
 use std::rc::Rc;
 
 mod action;
 mod fake_term;
+
+use tiny_keccak::Hasher;
 
 use self::fake_term::FakeTerminal;
 
@@ -39,11 +41,17 @@ const LALRPOP_VERSION_HEADER: &str = concat!(
 
 fn hash_file(file: &Path) -> io::Result<String> {
     let mut file = fs::File::open(&file)?;
-    let mut sha_256 = Sha256::new();
-    io::copy(&mut file, &mut sha_256)?;
+    let mut file_bytes = Vec::new();
+    file.read_to_end(&mut file_bytes).unwrap();
+    
+    let mut sha3 = Sha3::v256();
+    sha3.update(&file_bytes);
+    
+    let mut output = [0u8; 32];
+    sha3.finalize(&mut output);
 
-    let mut hash_str = "// sha256: ".to_owned();
-    for byte in sha_256.result() {
+    let mut hash_str = "// sha3: ".to_owned();
+    for byte in &output {
         hash_str.push_str(&format!("{:x}", byte));
     }
     Ok(hash_str)
