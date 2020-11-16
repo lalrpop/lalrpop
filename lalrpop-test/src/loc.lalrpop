@@ -1,11 +1,11 @@
 use util::tok::Tok;
 
-grammar;
+grammar<'input>;
 
 extern {
     type Location = usize;
 
-    enum Tok {
+    enum Tok<'input> {
         "-" => Tok::Minus,
         "+" => Tok::Plus
     }

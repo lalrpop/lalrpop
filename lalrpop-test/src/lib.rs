@@ -14,6 +14,8 @@ use lalrpop_util::{ErrorRecovery, ParseError};
 
 use crate::util::tok::Tok;
 
+mod util;
+
 /// Tests that actions can return the grammar's type parameters' associated
 /// types.
 lalrpop_mod!(associated_types);
@@ -147,11 +149,11 @@ lalrpop_mod!(comments);
 
 lalrpop_mod!(sp_from_optional);
 
+lalrpop_mod!(nested);
+
 pub fn use_cfg_created_parser() {
     cfg::CreatedParser::new();
 }
-
-mod util;
 
 /// This constant is here so that some of the generator parsers can
 /// refer to it in order to test `super::` handling in action code.
@@ -248,8 +250,9 @@ fn parse_error_map_token_and_location() {
 
 #[test]
 fn parse_error_map_err() {
-    let err: lalrpop_util::ParseError<usize, util::tok::Tok, char> =
-        util::test_err_gen(|t| error::ItemsParser::new().parse(t), "---+").unwrap_err();
+    let input = "---+";
+    let err: lalrpop_util::ParseError<usize, util::tok::Tok<'static>, char> =
+        util::test_err_gen(|t| error::ItemsParser::new().parse(t), input).unwrap_err();
     let modified_err = err.map_error(|c| c.to_string());
     if let ParseError::User {
         error: user_error_value,
@@ -1028,4 +1031,49 @@ fn sp_from_optional() {
             .unwrap(),
         (9, "let", 12)
     );
+}
+
+#[test]
+fn test_nested_pattern() {
+    let tokens = util::tok::tokenize("{{]").into_iter().map(|t| t.1);
+    assert_eq!(nested::EParser::new().parse(tokens.into_iter()).unwrap(), 1);
+}
+
+#[test]
+fn test_string_tokenize() {
+    let tokens = util::tok::tokenize("1 \"just testing\" 2")
+        .into_iter()
+        .map(|t| t.1)
+        .collect::<Vec<_>>();
+    assert_eq!(
+        tokens,
+        vec![Tok::Num(1), Tok::String("just testing"), Tok::Num(2)]
+    );
+}
+
+#[test]
+fn test_nested_pattern_string() {
+    let tokens = util::tok::tokenize("{{]\"hello\"").into_iter().map(|t| t.1);
+    assert_eq!(
+        nested::EParser::new().parse(tokens.into_iter()).unwrap(),
+        101
+    );
+}
+
+#[test]
+fn test_nested_pattern_string_error() {
+    let tokens = util::tok::tokenize("\"not matched\"")
+        .into_iter()
+        .map(|t| t.1);
+    let err = nested::EParser::new()
+        .parse(tokens.into_iter())
+        .unwrap_err();
+    match err {
+        ParseError::UnrecognizedToken { token, expected: _ } => {
+            assert_eq!(token.1, Tok::String("not matched"));
+        }
+        _ => {
+            panic!("Unexpected error: {:?}", err);
+        }
+    }
 }

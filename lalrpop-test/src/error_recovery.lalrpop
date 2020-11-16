@@ -3,10 +3,10 @@ use std::cell::RefCell;
 use util::tok::Tok;
 use lalrpop_util::ErrorRecovery;
 
-grammar<'e>(errors: &'e RefCell<Vec<ErrorRecovery<(), Tok, &'static str>>>);
+grammar<'e, 'input>(errors: &'e RefCell<Vec<ErrorRecovery<(), Tok<'input>, &'static str>>>);
 
 extern {
-    enum Tok {
+    enum Tok<'input> {
         "-" => Tok::Minus,
         "+" => Tok::Plus,
         "(" => Tok::LParen,

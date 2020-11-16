@@ -1,16 +1,16 @@
 //! Utilities for testing.
 
+use crate::util::tok::Tok;
 use diff;
 use lalrpop_util::ParseError;
 use std::fmt::{Debug, Error, Formatter};
-use crate::util::tok::Tok;
 
 // a simple tokenizer
 pub mod tok;
 
-pub fn test<R: Debug + Eq, F>(parse_fn: F, input: &str, expected: R)
+pub fn test<'input, R: Debug + Eq, F>(parse_fn: F, input: &'input str, expected: R)
 where
-    F: FnOnce(Vec<Tok>) -> Result<R, ParseError<(), Tok, &'static str>>,
+    F: FnOnce(Vec<Tok<'input>>) -> Result<R, ParseError<(), Tok<'input>, &'static str>>,
 {
     // create tokens
     let tokens = tok::tokenize(input);
@@ -51,9 +51,9 @@ where
     );
 }
 
-pub fn test_err_gen<R, F>(parse_fn: F, input: &str) -> R
+pub fn test_err_gen<'input, R, F>(parse_fn: F, input: &'input str) -> R
 where
-    F: FnOnce(Vec<(usize, Tok, usize)>) -> R,
+    F: FnOnce(Vec<(usize, Tok<'input>, usize)>) -> R,
 {
     // create tokens
     let tokens = tok::tokenize(input);

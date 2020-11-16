@@ -2,10 +2,10 @@
 use util::tok::Tok;
 use lalrpop_util::ErrorRecovery;
 
-grammar<'input, 'e>(errors: &'e mut Vec<ErrorRecovery<(), Tok, &'static str>>);
+grammar<'input, 'e>(errors: &'e mut Vec<ErrorRecovery<(), Tok<'input>, &'static str>>);
 
 extern {
-    enum Tok {
+    enum Tok<'input> {
         "+" => Tok::Plus,
         "/" => Tok::Div,
         Num => Tok::Num(<i32>)

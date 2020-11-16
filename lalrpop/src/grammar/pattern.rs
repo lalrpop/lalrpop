@@ -32,6 +32,7 @@ pub enum PatternKind<T> {
     DotDot,
     Choose(T),
     CharLiteral(Atom),
+    String(String),
 }
 
 impl<T> Pattern<T> {
@@ -71,6 +72,7 @@ impl<T> PatternKind<T> {
             PatternKind::Usize(n) => PatternKind::Usize(n),
             PatternKind::Choose(ref ty) => PatternKind::Choose(map_fn(ty)),
             PatternKind::CharLiteral(ref c) => PatternKind::CharLiteral(c.clone()),
+            PatternKind::String(ref s) => PatternKind::String(s.clone()),
         }
     }
 }
@@ -114,6 +116,7 @@ impl<T: Display> Display for PatternKind<T> {
             PatternKind::Usize(n) => write!(fmt, "{}", n),
             PatternKind::Choose(ref ty) => write!(fmt, "{}", ty),
             PatternKind::CharLiteral(ref c) => write!(fmt, "'{}'", c),
+            PatternKind::String(ref s) => write!(fmt, "{:?}", s),
         }
     }
 }
