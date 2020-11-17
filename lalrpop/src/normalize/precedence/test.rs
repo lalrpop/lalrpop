@@ -130,3 +130,59 @@ grammar;
 
     compare(expand_precedence(grammar), resolve(expected));
 }
+
+#[test]
+fn macros() {
+    let grammar = parser::parse_grammar(
+        r#"
+grammar;
+    Expr: u32 = {
+      #[precedence(level="1")]
+      "const" => 0,
+      #[precedence(level="2")]
+      #[assoc(side="left")]
+      MacroOp<OpTimes, Expr, Expr> => 0,
+      #[precedence(level="3")]
+      #[assoc(side="right")]
+      MacroOp<OpPlus, Expr, Expr> => 0,
+    }
+
+    MacroOp<Op, RuleLeft, RuleRight>: u32 = <left: RuleLeft> <op: Op> <right: RuleRight> => 0;
+
+    OpTimes: () = "*" => ();
+    OpPlus: () = "+" => ();
+
+    Ext: u32 = Expr;
+"#,
+    )
+    .unwrap();
+
+    let expected = parser::parse_grammar(
+        r#"
+grammar;
+    Expr1: u32 = {
+      "const" => 0,
+    }
+
+    Expr2: u32 = {
+       MacroOp<OpTimes, Expr2, Expr1> => 0,
+       Expr1,
+    }
+
+    Expr: u32 = {
+       MacroOp<OpPlus, Expr2, Expr> => 0,
+       Expr2,
+    }
+
+    MacroOp<Op, RuleLeft, RuleRight>: u32 = <left: RuleLeft> <op: Op> <right: RuleRight> => 0;
+
+    OpTimes: () = "*" => ();
+    OpPlus: () = "+" => ();
+
+    Ext: u32 = Expr;
+"#,
+    )
+    .unwrap();
+
+    compare(expand_precedence(grammar), resolve(expected));
+}
