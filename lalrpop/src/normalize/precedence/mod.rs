@@ -1,4 +1,12 @@
 //! Precedence expander.
+//!
+//! Precedence expansion rewrites rules that contain precedence annotation into several rules
+//! without annotations. A new rule is created for each level of precedence. Recursive occurrences
+//! of the original rule are syntactically substituted for a level rule in each alternative, where
+//! the choice of the precise rule is determined by the precedence level, the possible
+//! associativity and the position of this occurrence.
+//!
+//! For concrete examples, see the [`test`](../tests/index.html) module.
 use crate::grammar::parse_tree::{
     Alternative, ExprSymbol, Grammar, GrammarItem, NonterminalData, NonterminalString,
     Symbol, SymbolKind,
@@ -18,6 +26,51 @@ pub const LVL_ARG: &str = "level";
 pub const ASSOC_ANNOT: &str = "assoc";
 pub const SIDE_ARG: &str = "side";
 
+/// Associativity of an alternative.
+///
+/// An alternative may have zero or more recursive occurrence of the current rule. Take for example
+/// the common ternary conditional operator `x ? y : z`:
+/// ```
+/// #precedence(level="3")
+/// <left: Expression> "?" <middle: Expression> : <right: Expression> => ..
+/// ```
+/// ## Left
+///
+/// Left associativity means that the construction may be iterated on the left. In this case, `x ? y : z ? foo
+/// : bar` is parsed as `(x ? y : z) ? foo : bar`. When such associativity is selected, the
+/// expander replaces the first recursive occurrence of `Expression` by the current level, and all
+/// others by the previous level:
+///
+/// ```
+/// <left: Expression3> "?" <middle: Expression2> : <right: Expression2> => ..
+/// ```
+///
+/// ## Right
+///
+/// Right associativity means that the construction may be iterated on the right. In this case, `x ? y : z ? foo
+/// : bar` is parsed as `x ? y : (z ? foo : bar)`. When such associativity is selected, the
+/// expander replaces the last recursive occurrence  of `Expression` by the current level, and all
+/// others by the previous level:
+///
+/// ```
+/// <left: Expression2> "?" <middle: Expression2> : <right: Expression3> => ..
+/// ```
+///
+/// ## None
+///
+/// Non-associativity means that it is not legal to iterate the rule, turning our example to
+/// a parsing error. In this case, all recursive occurrences of the current rule are replaced with
+/// the rule corresponding to the previous level:
+///
+/// ```
+/// <left: Expression2> "?" <middle: Expression2> : <right: Expression3> => ..
+/// ```
+///
+/// ## Default
+///
+/// By default, if no associativity is provided, all recursive occurrences are replaced with the
+/// current level, which is different from non-associativity. This can be useful for unary
+/// operators that may be iterated, such as `-` or `!`.
 #[derive(Clone, Copy, Eq, PartialEq)]
 pub enum Assoc {
     Left,
@@ -25,12 +78,19 @@ pub enum Assoc {
     NonAssoc,
 }
 
+/// Substitution plan.
 #[derive(Clone, Copy, Eq, PartialEq)]
 pub enum Substitution<'a> {
+    /// Replace the first encountered occurrence by the first argument, and all the following by
+    /// the second. Used for associativity: typically, a left associativity on level `3` perform a
+    /// `OneThen(Rule3, Rule2)`.
     OneThen(&'a SymbolKind, &'a SymbolKind),
+    /// Standard substitution mode. Replace every encountered occurrence with the same given
+    /// symbol.
     Every(&'a SymbolKind),
 }
 
+/// Direction for substitution.
 #[derive(Clone, Copy, Eq, PartialEq)]
 pub enum Direction {
     Forward,
@@ -44,7 +104,7 @@ pub struct ParseAssocError {
 
 impl fmt::Display for ParseAssocError {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        "provided value was neither `right` nor `left`".fmt(f)
+        "provided value was neither `left`, `right` nor `none`".fmt(f)
     }
 }
 
@@ -61,6 +121,8 @@ impl FromStr for Assoc {
     }
 }
 
+/// Perform precedence expansion. Rewrite rules where at least one alternative have a precedence
+/// annotation, and generate derived rules for each level of precedence.
 pub fn expand_precedence(input: Grammar) -> NormResult<Grammar> {
     let input = resolve::resolve(input)?;
 
@@ -84,6 +146,7 @@ pub fn expand_precedence(input: Grammar) -> NormResult<Grammar> {
     Ok(Grammar { items: result, ..input })
 }
 
+/// Determine if an alternative has a precedence annotation.
 pub fn has_prec_annot(non_term: &NonterminalData) -> bool {
     // After prevalidation, either each or none of the alternative of a nonterminal have precedence
     // annotations, so we just have to check the first one.
@@ -96,6 +159,8 @@ pub fn has_prec_annot(non_term: &NonterminalData) -> bool {
     .unwrap_or(false)
 }
 
+/// Expand a rule with precedence annotations. As it implies to generate new rules, return a vector
+/// of grammar items.
 fn expand_nonterm(mut nonterm: NonterminalData) -> NormResult<Vec<GrammarItem>> {
     let alt_with_ann = Vec::with_capacity(nonterm.alternatives.len());
 
@@ -106,7 +171,7 @@ fn expand_nonterm(mut nonterm: NonterminalData) -> NormResult<Vec<GrammarItem>> 
             // prevalidation. Prevalidation must ensure that each alternative is annotated with at
             // least a precedence level, each precedence annotation must have an argument which
             // is parsable as an integer, and each optional assoc annotation must have an argument
-            // that is either "right" or "left".
+            // that is either "right", "left" or "none".
 
             // Extract and remove precedence and associativity annotations
             let lvl: u32 = {
@@ -208,10 +273,12 @@ fn expand_nonterm(mut nonterm: NonterminalData) -> NormResult<Vec<GrammarItem>> 
     Ok(items)
 }
 
+/// Perform substitution of on an non-terminal in an alternative.
 fn replace_nonterm(alt: &mut Alternative, target: &NonterminalString, subst: Substitution, dir: Direction) {
    replace_symbols(&mut alt.expr.symbols, target, subst, dir);
 }
 
+/// Perform substitution of on an non-terminal in an array of symbols.
 fn replace_symbols<'a>(symbols: &mut [Symbol], target: &NonterminalString, subst: Substitution<'a>, dir: Direction) -> Substitution<'a> {
     match dir {
         Direction::Forward =>
@@ -221,6 +288,7 @@ fn replace_symbols<'a>(symbols: &mut [Symbol], target: &NonterminalString, subst
     }
 }
 
+/// Perform substitution of on an non-terminal in a symbol.
 fn replace_symbol<'a>(symbol: &mut Symbol, target: &NonterminalString, subst: Substitution<'a>, dir: Direction) -> Substitution<'a> {
     match symbol.kind {
         SymbolKind::AmbiguousId(ref id) => {
