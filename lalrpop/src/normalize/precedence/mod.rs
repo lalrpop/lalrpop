@@ -164,7 +164,7 @@ pub fn has_prec_annot(non_term: &NonterminalData) -> bool {
 fn expand_nonterm(mut nonterm: NonterminalData) -> NormResult<Vec<GrammarItem>> {
     let alt_with_ann = Vec::with_capacity(nonterm.alternatives.len());
 
-    let (mut lvls, alts_with_ann) = mem::replace(&mut nonterm.alternatives, vec![]).into_iter().fold(
+    let (mut lvls, alts_with_ann) = nonterm.alternatives.drain(..).fold(
         (vec![], alt_with_ann),
         |(mut lvls, mut acc): (Vec<u32>, Vec<(u32, Option<Assoc>, Alternative)>), mut alt| {
             // All the following unsafe `unwrap()`, `panic!()`, etc. should never panic thanks to
