@@ -125,23 +125,14 @@ impl FromStr for Assoc {
 /// annotation, and generate derived rules for each level of precedence.
 pub fn expand_precedence(input: Grammar) -> NormResult<Grammar> {
     let input = resolve::resolve(input)?;
+    let mut result: Vec<GrammarItem> = Vec::with_capacity(input.items.len());
 
-    let items = input.items;
-
-    // Filter non terminals that have at least one precedence annotation
-    let (non_terms_prec, items): (Vec<_>, Vec<_>) = items
-        .into_iter()
-        .partition(|input| match input {
-            GrammarItem::Nonterminal(d) => has_prec_annot(d),
-            _ => false
-        });
-
-    let nonterms_prec: NormResult<Vec<Vec<GrammarItem>>> = non_terms_prec.into_iter().map(|item| match item {
-        GrammarItem::Nonterminal(d) => expand_nonterm(d),
-        _ => panic!()
-    }).collect();
-    let mut result: Vec<GrammarItem> = nonterms_prec?.into_iter().flatten().collect();
-    result.extend(items);
+    for item in input.items.into_iter() {
+        match item {
+            GrammarItem::Nonterminal(d) if has_prec_annot(&d) => result.extend(expand_nonterm(d)?),
+            item => result.push(item),
+        };
+    }
 
     Ok(Grammar { items: result, ..input })
 }
