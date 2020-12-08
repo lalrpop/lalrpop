@@ -7,10 +7,10 @@ use crate::grammar::repr::{self as r, NominalTypeRepr, TypeRepr};
 use crate::lexer::dfa::DFA;
 use crate::message::builder::InlineBuilder;
 use crate::message::Content;
-use std::fmt::{Debug, Display, Error, Formatter};
-use string_cache::DefaultAtom as Atom;
 use crate::tls::Tls;
 use crate::util::Sep;
+use std::fmt::{Debug, Display, Error, Formatter};
+use string_cache::DefaultAtom as Atom;
 
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct Grammar {
@@ -1171,16 +1171,16 @@ impl Path {
 
     pub fn vec() -> Path {
         Path {
-            absolute: true,
-            ids: vec![Atom::from("std"), Atom::from("vec"), Atom::from("Vec")],
+            absolute: false,
+            ids: vec![Atom::from("alloc"), Atom::from("vec"), Atom::from("Vec")],
         }
     }
 
     pub fn option() -> Path {
         Path {
-            absolute: true,
+            absolute: false,
             ids: vec![
-                Atom::from("std"),
+                Atom::from("core"),
                 Atom::from("option"),
                 Atom::from("Option"),
             ],
