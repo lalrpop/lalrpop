@@ -6,12 +6,15 @@ license = "Apache-2.0/MIT"
 version = "0.19.1" # LALRPOP
 authors = ["Niko Matsakis <niko@alum.mit.edu>"]
 workspace = ".."
+edition = "2018"
 
 [dependencies]
 regex = { version = "1", optional = true }
 
 [features]
 lexer = ["regex"]
+std = []
+default = ["std"]
 
 [package.metadata.docs.rs]
 features = ["lexer"]
