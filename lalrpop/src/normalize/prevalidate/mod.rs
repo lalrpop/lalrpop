@@ -8,8 +8,8 @@ use crate::collections::{set, Multimap};
 use crate::grammar::consts::*;
 use crate::grammar::parse_tree::*;
 use crate::grammar::repr as r;
-use string_cache::DefaultAtom as Atom;
 use crate::util::Sep;
+use string_cache::DefaultAtom as Atom;
 
 #[cfg(test)]
 mod test;
@@ -182,10 +182,16 @@ impl<'grammar> Validator<'grammar> {
     }
 
     fn validate_precedence(&self, alternatives: &Vec<Alternative>) -> NormResult<()> {
-        let with_precedence = alternatives.iter().any(|alt|
-            alt.annotations.iter().any(|ann| ann.id == Atom::from(precedence::PREC_ANNOT) || ann.id == Atom::from(precedence::ASSOC_ANNOT)));
+        let with_precedence = alternatives.iter().any(|alt| {
+            alt.annotations.iter().any(|ann| {
+                ann.id == Atom::from(precedence::PREC_ANNOT)
+                    || ann.id == Atom::from(precedence::ASSOC_ANNOT)
+            })
+        });
 
-        if alternatives.is_empty() || !with_precedence { return Ok(()); }
+        if alternatives.is_empty() || !with_precedence {
+            return Ok(());
+        }
 
         // Used to check the absence of associativity annotations at the minimum level.
         let mut min_lvl = u32::MAX;
@@ -236,7 +242,11 @@ impl<'grammar> Validator<'grammar> {
         })?;
 
         if let Some(ann) = min_prec_ann {
-            return_err!(ann.id_span, "cannot set associativity on the first precedence level {}", min_lvl);
+            return_err!(
+                ann.id_span,
+                "cannot set associativity on the first precedence level {}",
+                min_lvl
+            );
         }
 
         Ok(())
