@@ -132,6 +132,79 @@ grammar;
 }
 
 #[test]
+fn non_consecutive_levels() {
+    let grammar = parser::parse_grammar(
+        r#"
+grammar;
+    Expr: u32 = {
+       #[precedence(level="5")] #[assoc(side="left")]
+       <left:Expr> "?" <middle:Expr> ":" <right:Expr> => 0,
+
+       #[precedence(level="5")] #[assoc(side="right")]
+       <left:Expr> "|" <middle:Expr> "-" <right:Expr> => 0,
+
+       #[precedence(level="5")] #[assoc(side="none")]
+       <left:Expr> "^" <middle:Expr> "$" <right:Expr> => 0,
+
+       #[precedence(level="5")]
+       <left:Expr> "[" <middle:Expr> ";" <right:Expr> => 0,
+
+       #[precedence(level="0")]
+       "const" => 0,
+
+       #[precedence(level="0")]
+       "!" <Expr> => 0,
+
+       #[precedence(level="3")]
+       #[assoc(side="none")]
+       "!!" <Expr> => 0,
+
+       #[precedence(level="3")]
+       #[assoc(side="left")]
+       "const2" => 0,
+
+       #[precedence(level="3")] #[assoc(side="left")]
+       <left:Expr> "*" <right:Expr> => 0,
+
+       #[precedence(level="3")] #[assoc(side="right")]
+       <left:Expr> "/" <right:Expr> => 0,
+
+          }
+"#,
+    )
+    .unwrap();
+
+    let expected = parser::parse_grammar(
+        r#"
+grammar;
+    Expr0: u32 = {
+        "const" => 0,
+        "!" <Expr0> => 0,
+    }
+
+    Expr3: u32 = {
+        "!!" <Expr0> => 0,
+        "const2" => 0,
+        <left:Expr3> "*" <right:Expr0> => 0,
+        <left:Expr0> "/" <right:Expr3> => 0,
+        Expr0,
+    }
+
+    Expr: u32 = {
+       <left:Expr> "?" <middle:Expr3> ":" <right:Expr3> => 0,
+       <left:Expr3> "|" <middle:Expr3> "-" <right:Expr> => 0,
+       <left:Expr3> "^" <middle:Expr3> "$" <right:Expr3> => 0,
+       <left:Expr> "[" <middle:Expr> ";" <right:Expr> => 0,
+       Expr3,
+    }
+"#,
+    )
+    .unwrap();
+
+    compare(expand_precedence(grammar), resolve(expected));
+}
+
+#[test]
 fn macros() {
     let grammar = parser::parse_grammar(
         r#"

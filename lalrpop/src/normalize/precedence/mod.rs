@@ -186,12 +186,17 @@ fn expand_nonterm(mut nonterm: NonterminalData) -> NormResult<Vec<GrammarItem>> 
     let rest = &mut alts_with_ann.into_iter();
 
     let lvl_max = *lvls.last().unwrap();
-    let result = lvls.into_iter().map(|lvl| {
+    // Iterate on pairs (lvls[i], lvls[i+1])
+    let result = Some(None)
+        .into_iter()
+        .chain(lvls.iter().map(Some))
+        .zip(lvls.iter())
+        .map(|(lvl_prec_opt, lvl)| {
         // The generated non terminal corresponding to the last level keeps the same name as the
         // initial item, so that all external references to it are still valid. Other levels get
         // the names `Name1`, `Name2`, etc. where `Name` is the name of the initial item.
         let name = NonterminalString(Atom::from(
-            if lvl == lvl_max {
+            if *lvl == lvl_max {
                 format!("{}", nonterm.name)
             }
             else {
@@ -199,15 +204,14 @@ fn expand_nonterm(mut nonterm: NonterminalData) -> NormResult<Vec<GrammarItem>> 
             }
         ));
 
-        let nonterm_prev = if lvl > 1 {
-                Some(SymbolKind::Nonterminal(NonterminalString(Atom::from(
-                format!("{}{}", nonterm.name, lvl - 1)))))
-            }
-            else {
-                None
-            };
+        let nonterm_prev = lvl_prec_opt.map(|lvl_prec| {
+            SymbolKind::Nonterminal(NonterminalString(Atom::from(format!(
+                "{}{}",
+                nonterm.name, lvl_prec
+            ))))
+        });
 
-        let (alts_with_prec, new_rest) : (Vec<_>, Vec<_>) = rest.partition(|(l, _, _)| *l == lvl);
+        let (alts_with_prec, new_rest) : (Vec<_>, Vec<_>) = rest.partition(|(l, _, _)| *l == *lvl);
         *rest = new_rest.into_iter();
 
         let mut alts_with_assoc: Vec<_> = alts_with_prec.into_iter().map(|(_, assoc, alt)| (assoc, alt)).collect();
