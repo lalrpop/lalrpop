@@ -226,27 +226,8 @@ fn missing_arg_assoc() {
 #[test]
 fn first_level_assoc() {
     check_err(
-        r#"cannot set associativity on the first precedence level"#,
-        r#"grammar; Term = { #[precedence(level="1")] #[assoc(side="left")] "a" => ()};"#,
+        r#"cannot set associativity on the first precedence level 3"#,
+        r#"grammar; Term = { #[precedence(level="3")] #[assoc(side="left")] "a" => ()};"#,
         r#"                                             ~~~~~~~~~~~~~~~~~~             "#,
-    );
-}
-
-
-#[test]
-fn lowest_precedence() {
-    check_err(
-        r#"the lowest precedence level found is `2`, but it must be `1`"#,
-        r#"grammar; Term = { #[precedence(level="2")] "a" => ()};"#,
-        r#"         ~~~~                                        "#,
-    );
-}
-
-#[test]
-fn missing_precedence_lvl() {
-    check_err(
-        r#"missing precedence level `2`: levels must be consecutive"#,
-        r#"grammar; Term = { #[precedence(level="1")] "a" => (), #[precedence(level="3")] "b" => ()};"#,
-        r#"         ~~~~                                                                            "#,
     );
 }

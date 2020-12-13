@@ -169,7 +169,7 @@ impl<'grammar> Validator<'grammar> {
                         }
                     }
 
-                    self.validate_precedence(&data.alternatives, data.span)?;
+                    self.validate_precedence(&data.alternatives)?;
 
                     for alternative in &data.alternatives {
                         self.validate_alternative(alternative)?;
@@ -181,15 +181,17 @@ impl<'grammar> Validator<'grammar> {
         Ok(())
     }
 
-    fn validate_precedence(&self, alternatives: &Vec<Alternative>, data_span: Span) -> NormResult<()> {
+    fn validate_precedence(&self, alternatives: &Vec<Alternative>) -> NormResult<()> {
         let with_precedence = alternatives.iter().any(|alt|
             alt.annotations.iter().any(|ann| ann.id == Atom::from(precedence::PREC_ANNOT) || ann.id == Atom::from(precedence::ASSOC_ANNOT)));
 
         if alternatives.is_empty() || !with_precedence { return Ok(()); }
 
-        // Check that all alternatives have a precedence annotation and build the list of
-        // precedence levels
-        let mut levels: Vec<u32> = vec![];
+        // Used to check the absence of associativity annotations at the minimum level.
+        let mut min_lvl = u32::MAX;
+        let mut min_prec_ann: Option<&Annotation> = None;
+
+        // Check that all alternatives have a precedence annotation
         alternatives.iter().try_for_each(|alt| {
             let ann_prec_opt = alt.annotations.iter().find(|ann| ann.id == Atom::from(precedence::PREC_ANNOT));
             let ann_assoc_opt = alt.annotations.iter().find(|ann| ann.id == Atom::from(precedence::ASSOC_ANNOT));
@@ -198,7 +200,13 @@ impl<'grammar> Validator<'grammar> {
                 match &ann_prec.arg {
                     Some((name, value)) if *name == Atom::from(precedence::LVL_ARG) => {
                         if let Ok(lvl) = value.parse::<u32>() {
-                            levels.push(lvl);
+                            if lvl < min_lvl {
+                                min_lvl = lvl;
+                                min_prec_ann = ann_assoc_opt.clone();
+                            }
+                            else if lvl == min_lvl && min_prec_ann.is_none() && ann_assoc_opt.is_some() {
+                                min_prec_ann = ann_assoc_opt.clone();
+                            }
                         }
                         else {
                             return_err!(ann_prec.id_span, "could not parse the precedence level `{}`, expected integer", value);
@@ -222,28 +230,14 @@ impl<'grammar> Validator<'grammar> {
                     Some((name, _)) => return_err!(ann_assoc.id_span, "invalid argument `{}` for associativity annotation, expected `{}`", name, precedence::SIDE_ARG),
                     None => return_err!(ann_assoc.id_span, "missing argument for associativity annotation, expected `{}`", precedence::SIDE_ARG),
                 }
-
-                if levels.pop().unwrap() == 1 {
-                    return_err!(ann_assoc.id_span, "cannot set associativity on the first precedence level");
-                }
             }
 
             Ok(())
         })?;
 
-        // Check that levels are consecutive integers from 1 to some `n`
-        levels.sort();
-        levels.dedup();
-        Some(0).iter().chain(levels.iter()).zip(levels.iter().chain(Some(levels.last().unwrap() + 1).iter())).try_for_each(|(i, j)| {
-            if *i == 0 && *j != 1 {
-                return_err!(data_span, "the lowest precedence level found is `{}`, but it must be `1`", j);
-            }
-            if *i + 1 != *j {
-                return_err!(data_span, "missing precedence level `{}`: levels must be consecutive", j - 1);
-            }
-
-            Ok(())
-        })?;
+        if let Some(ann) = min_prec_ann {
+            return_err!(ann.id_span, "cannot set associativity on the first precedence level {}", min_lvl);
+        }
 
         Ok(())
     }
