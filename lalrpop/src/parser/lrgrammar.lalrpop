@@ -142,12 +142,14 @@ Alternatives: Vec<Alternative> = {
 };
 
 Alternative: Alternative = {
+    <ann:Annotation*>
     <lo:@L> <s:Symbol+> <c:("if" <Cond>)?> <a:Action?> <hi:@R> => {
         Alternative {
             span: Span(lo, hi),
             expr: ExprSymbol { symbols: s },
             condition: c,
-            action: a
+            action: a,
+            annotations: ann,
         }
     },
     <lo:@L> <c:("if" <Cond>)?> <a:Action> <hi:@R> => {
@@ -155,7 +157,8 @@ Alternative: Alternative = {
             span: Span(lo, hi),
             expr: ExprSymbol { symbols: vec![] },
             condition: c,
-            action: Some(a)
+            action: Some(a),
+            annotations: vec![],
         }
     },
 };

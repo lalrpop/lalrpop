@@ -201,6 +201,7 @@ impl MacroExpander {
                 expr: self.macro_expand_expr_symbol(&args, &alternative.expr),
                 condition: None,
                 action: alternative.action.clone(),
+                annotations: alternative.annotations.clone(),
             });
         }
 
@@ -425,6 +426,7 @@ impl MacroExpander {
                 expr,
                 condition: None,
                 action,
+                annotations: Vec::new(),
             }],
         }))
     }
@@ -470,6 +472,7 @@ impl MacroExpander {
                             expr: ExprSymbol { symbols: vec![] },
                             condition: None,
                             action: action("vec![]"),
+                            annotations: vec![],
                         },
                         // X* = <v:X+>
                         Alternative {
@@ -488,6 +491,7 @@ impl MacroExpander {
                             },
                             condition: None,
                             action: action("v"),
+                            annotations: vec![],
                         },
                     ],
                 }))
@@ -516,6 +520,7 @@ impl MacroExpander {
                             },
                             condition: None,
                             action: action("vec![<>]"),
+                            annotations: vec![],
                         },
                         // X+ = <v:X+> <e:X>
                         Alternative {
@@ -543,6 +548,7 @@ impl MacroExpander {
                             },
                             condition: None,
                             action: action("{ let mut v = v; v.push(e); v }"),
+                            annotations: vec![],
                         },
                     ],
                 }))
@@ -571,6 +577,7 @@ impl MacroExpander {
                             },
                             condition: None,
                             action: action("Some(<>)"),
+                            annotations: vec![],
                         },
                         // X? = { => None; }
                         Alternative {
@@ -578,6 +585,7 @@ impl MacroExpander {
                             expr: ExprSymbol { symbols: vec![] },
                             condition: None,
                             action: action("None"),
+                            annotations: vec![],
                         },
                     ],
                 }))
@@ -604,6 +612,7 @@ impl MacroExpander {
                 expr: ExprSymbol { symbols: vec![] },
                 condition: None,
                 action: Some(action),
+                annotations: vec![],
             }],
         }))
     }

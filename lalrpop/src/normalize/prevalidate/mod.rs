@@ -1,14 +1,15 @@
 //! Validate checks some basic safety conditions.
 
 use super::norm_util::{self, Symbols};
+use super::precedence;
 use super::{NormError, NormResult};
 
 use crate::collections::{set, Multimap};
 use crate::grammar::consts::*;
 use crate::grammar::parse_tree::*;
 use crate::grammar::repr as r;
-use string_cache::DefaultAtom as Atom;
 use crate::util::Sep;
+use string_cache::DefaultAtom as Atom;
 
 #[cfg(test)]
 mod test;
@@ -168,6 +169,8 @@ impl<'grammar> Validator<'grammar> {
                         }
                     }
 
+                    self.validate_precedence(&data.alternatives)?;
+
                     for alternative in &data.alternatives {
                         self.validate_alternative(alternative)?;
                     }
@@ -178,8 +181,94 @@ impl<'grammar> Validator<'grammar> {
         Ok(())
     }
 
+    fn validate_precedence(&self, alternatives: &Vec<Alternative>) -> NormResult<()> {
+        let with_precedence = alternatives.iter().any(|alt| {
+            alt.annotations.iter().any(|ann| {
+                ann.id == Atom::from(precedence::PREC_ANNOT)
+                    || ann.id == Atom::from(precedence::ASSOC_ANNOT)
+            })
+        });
+
+        if alternatives.is_empty() || !with_precedence {
+            return Ok(());
+        }
+
+        // Used to check the absence of associativity annotations at the minimum level.
+        let mut min_lvl = u32::MAX;
+        let mut min_prec_ann: Option<&Annotation> = None;
+
+        // Check that all alternatives have a precedence annotation
+        alternatives.iter().try_for_each(|alt| {
+            let ann_prec_opt = alt.annotations.iter().find(|ann| ann.id == Atom::from(precedence::PREC_ANNOT));
+            let ann_assoc_opt = alt.annotations.iter().find(|ann| ann.id == Atom::from(precedence::ASSOC_ANNOT));
+
+            if let Some(ann_prec) = ann_prec_opt {
+                match &ann_prec.arg {
+                    Some((name, value)) if *name == Atom::from(precedence::LVL_ARG) => {
+                        if let Ok(lvl) = value.parse::<u32>() {
+                            if lvl < min_lvl {
+                                min_lvl = lvl;
+                                min_prec_ann = ann_assoc_opt.clone();
+                            }
+                            else if lvl == min_lvl && min_prec_ann.is_none() && ann_assoc_opt.is_some() {
+                                min_prec_ann = ann_assoc_opt.clone();
+                            }
+                        }
+                        else {
+                            return_err!(ann_prec.id_span, "could not parse the precedence level `{}`, expected integer", value);
+                        }
+                    }
+                    Some((name, _)) => return_err!(ann_prec.id_span, "invalid argument `{}` for precedence annotation, expected `{}`", name, precedence::LVL_ARG),
+                    None => return_err!(ann_prec.id_span, "missing argument for precedence annotation, expected `{}`", precedence::LVL_ARG),
+                }
+            }
+            else {
+                return_err!(alt.span, "missing precedence annotation");
+            }
+
+            if let Some(ann_assoc) = ann_assoc_opt {
+                match &ann_assoc.arg {
+                    Some((name, value)) if *name == Atom::from(precedence::SIDE_ARG) => {
+                        if value.parse::<precedence::Assoc>().is_err() {
+                            return_err!(ann_assoc.id_span, "could not parse the associativity `{}`, expected `left`, `right` or `none`", value);
+                        }
+                    }
+                    Some((name, _)) => return_err!(ann_assoc.id_span, "invalid argument `{}` for associativity annotation, expected `{}`", name, precedence::SIDE_ARG),
+                    None => return_err!(ann_assoc.id_span, "missing argument for associativity annotation, expected `{}`", precedence::SIDE_ARG),
+                }
+            }
+
+            Ok(())
+        })?;
+
+        if let Some(ann) = min_prec_ann {
+            return_err!(
+                ann.id_span,
+                "cannot set associativity on the first precedence level {}",
+                min_lvl
+            );
+        }
+
+        Ok(())
+    }
+
     fn validate_alternative(&self, alternative: &Alternative) -> NormResult<()> {
         self.validate_expr(&alternative.expr)?;
+
+        let allowed_names = vec![
+            Atom::from(precedence::PREC_ANNOT),
+            Atom::from(precedence::ASSOC_ANNOT),
+        ];
+
+        for annotation in &alternative.annotations {
+            if !allowed_names.contains(&annotation.id) {
+                return_err!(
+                    annotation.id_span,
+                    "unrecognized annotation `{}`",
+                    annotation.id
+                );
+            }
+        }
 
         match norm_util::analyze_expr(&alternative.expr) {
             Symbols::Named(syms) => {
