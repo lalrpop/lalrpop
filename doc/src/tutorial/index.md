@@ -9,8 +9,9 @@ first.
 - [Handling full expressions](tutorial/004_full_expressions.html)
 - [Building ASTs](tutorial/005_building_asts.html)
 - [Macros](tutorial/006_macros.html)
-- [Error recovery](tutorial/007_error_recovery.html)
-- [Passing state parameter](tutorial/008_state_parameter.html)
+- [Fallible actions](tutorial/007_fallible_actions.html)
+- [Error recovery](tutorial/008_error_recovery.html)
+- [Passing state parameter](tutorial/009_state_parameter.html)
 
 This tutorial is still incomplete. Here are some topics that I aim to
 cover when I get time to write about them:
