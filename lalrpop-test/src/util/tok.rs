@@ -68,6 +68,8 @@ pub fn tokenize<'input>(s: &'input str) -> Vec<(usize, Tok<'input>, usize)> {
         lookahead = char_indices.next();
     }
 
+    // TESt
+
     tokens
         .into_iter()
         .enumerate()
