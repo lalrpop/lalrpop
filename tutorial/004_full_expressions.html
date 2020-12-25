@@ -185,6 +185,12 @@ look at the grammar now, you can see that the second one is
 impossible: a <code>Factor</code> cannot have an <code>Expr</code> as its left-hand side.
 This is the purpose of the tiers: to force the parser into the
 precedence you want.</p>
+<p>Finally, note that we only write <code>pub</code> before the nonterminal we're
+interested in parsing (<code>Expr</code>) and not any of the helpers. Nonterminals
+marked <code>pub</code> have extra code generated, like the <code>new()</code> method used to
+access the parser from other modules. If you get a warning about an
+unused <code>new()</code> method on <code>FooParser</code>, drop the <code>pub</code> from nonterminal
+<code>Foo</code>.</p>
 
                     </main>
 
