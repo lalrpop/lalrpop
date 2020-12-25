@@ -7,4 +7,3 @@ cargo test --all --all-features
 cargo check -p calculator
 cargo check -p pascal
 cargo check -p whitespace
-[[ $TRAVIS_RUST_VERSION == "stable" ]] && bash tools/build-doc
