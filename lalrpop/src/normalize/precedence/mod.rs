@@ -14,7 +14,6 @@ use crate::grammar::parse_tree::{
     SymbolKind,
 };
 use std::fmt;
-use std::mem;
 use std::str::FromStr;
 use string_cache::DefaultAtom as Atom;
 
@@ -328,11 +327,11 @@ fn replace_symbol<'a>(
         }
         SymbolKind::Nonterminal(ref name) if name == target => match subst {
             Substitution::Every(sym_kind) => {
-                mem::replace(&mut symbol.kind, sym_kind.clone());
+                symbol.kind = sym_kind.clone();
                 subst
             }
             Substitution::OneThen(fst, snd) => {
-                mem::replace(&mut symbol.kind, fst.clone());
+                symbol.kind = fst.clone();
                 Substitution::Every(snd)
             }
         },
