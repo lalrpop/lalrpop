@@ -1,3 +1,11 @@
+<a name="0.19.2"></a>
+## 0.19.2 (2020-12-25)
+
+* Allow string literals in patterns #557
+* Enable precedence annotations #555
+* Shake dependency tree #559
+
+
 <a name="0.19.1"></a>
 ## 0.19.1 (2020-09-04)
 
