@@ -47,14 +47,13 @@ pub fn tokenize<'input>(s: &'input str) -> Vec<(usize, Tok<'input>, usize)> {
                 ']' => tokens.push(Tok::Close(Delim::Bracket)),
                 '"' => {
                     let (ci, c) = char_indices.next().expect("Unclosed '\"'"); // consume opening '"'
-                    let (slice_end, _) = take_while(ci, c, &mut char_indices, |c| c != '"');
+                    let (slice_end, _) = take_while(ci, &mut char_indices, |c| c != '"');
                     lookahead = char_indices.next(); // consume closing '"'
                     tokens.push(Tok::String(&s[ci..slice_end]));
                     continue;
                 }
                 _ if c.is_digit(10) => {
-                    let (slice_end, next) =
-                        take_while(ci, c, &mut char_indices, |c| c.is_digit(10));
+                    let (slice_end, next) = take_while(ci, &mut char_indices, |c| c.is_digit(10));
                     lookahead = next;
                     tokens.push(Tok::Num(i32::from_str(&s[ci..slice_end]).unwrap()));
                     continue;
@@ -78,7 +77,6 @@ pub fn tokenize<'input>(s: &'input str) -> Vec<(usize, Tok<'input>, usize)> {
 
 fn take_while<F>(
     slice_start: usize,
-    c0: char,
     char_indices: &mut CharIndices,
     f: F,
 ) -> (usize, Option<(usize, char)>)
