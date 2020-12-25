@@ -206,16 +206,18 @@ build = &quot;build.rs&quot; # LALRPOP preprocessing
 # (If you write your own tokenizer, or already have the regex
 # crate, you can skip this dependency.)
 [dependencies]
-lalrpop-util = &quot;0.19.0&quot;
+lalrpop-util = &quot;0.19.1&quot;
 regex = &quot;1&quot;
 
 # Add a build-time dependency on the lalrpop library:
 [build-dependencies]
-lalrpop = &quot;0.19.0&quot;
-# If you do not supply your own, external lexer you also need the `lexer` feature
-# lalrpop = { version = &quot;0.18.1&quot;, features = [&quot;lexer&quot;] }
+lalrpop = &quot;0.19.1&quot;
+# If you are supplying your own external lexer you can disable default features so that the
+# built-in lexer feature is not included
+# lalrpop = { version = &quot;0.19.1&quot;, default-features = false }
 </code></pre>
-<p>Next create a <code>build.rs</code> file that looks like:</p>
+<p>Next create a <a href="https://doc.rust-lang.org/cargo/reference/build-scripts.html"><code>build.rs</code></a> file
+that looks like:</p>
 <pre><pre class="playpen"><code class="language-rust">extern crate lalrpop;
 
 fn main() {
@@ -246,8 +248,9 @@ first.</p>
 <li><a href="tutorial/004_full_expressions.html">Handling full expressions</a></li>
 <li><a href="tutorial/005_building_asts.html">Building ASTs</a></li>
 <li><a href="tutorial/006_macros.html">Macros</a></li>
-<li><a href="tutorial/007_error_recovery.html">Error recovery</a></li>
-<li><a href="tutorial/008_state_parameter.html">Passing state parameter</a></li>
+<li><a href="tutorial/007_fallible_actions.html">Fallible actions</a></li>
+<li><a href="tutorial/008_error_recovery.html">Error recovery</a></li>
+<li><a href="tutorial/009_state_parameter.html">Passing state parameter</a></li>
 </ul>
 <p>This tutorial is still incomplete. Here are some topics that I aim to
 cover when I get time to write about them:</p>
@@ -284,10 +287,10 @@ version = &quot;0.1.0&quot;
 authors = [&quot;Niko Matsakis &lt;niko@alum.mit.edu&gt;&quot;]
 
 [build-dependencies] # &lt;-- We added this and everything after!
-lalrpop = &quot;0.19.0&quot;
+lalrpop = &quot;0.19.1&quot;
 
 [dependencies]
-lalrpop-util = &quot;0.19.0&quot;
+lalrpop-util = &quot;0.19.1&quot;
 regex = &quot;1&quot;
 </code></pre>
 <p>Cargo can run <a href="https://doc.rust-lang.org/cargo/reference/build-scripts.html">build scripts</a> as a pre-processing step,
@@ -302,8 +305,9 @@ you don't know what a lexer is, don't worry, it's not important just
 now, though we will cover it in <a href="002_paren_numbers.md">the next section</a>; if you <em>do</em>
 know what a lexer is, and you want to know how to write a lexer by
 hand and use it with LALRPOP, then check out the <a href="../lexer_tutorial/index.md">lexer tutorial</a>.)</p>
-<p>Next we have to add <code>build.rs</code> itself. This should just look like the
-following:</p>
+<p>Next we have to add <code>build.rs</code> itself. For those unfamiliar with <a href="https://doc.rust-lang.org/cargo/reference/build-scripts.html">this feature</a>, the <code>build.rs</code> file
+should be placed next to your <code>Cargo.toml</code> file and not inside the <code>src</code> folder with the rest of
+your Rust code. This should just look like the following:</p>
 <pre><pre class="playpen"><code class="language-rust">extern crate lalrpop;
 
 fn main() {
