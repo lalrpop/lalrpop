@@ -70,4 +70,11 @@ impossible: a `Factor` cannot have an `Expr` as its left-hand side.
 This is the purpose of the tiers: to force the parser into the
 precedence you want.
 
+Finally, note that we only write `pub` before the nonterminal we're 
+interested in parsing (`Expr`) and not any of the helpers. Nonterminals
+marked `pub` have extra code generated, like the `new()` method used to
+access the parser from other modules. If you get a warning about an 
+unused `new()` method on `FooParser`, drop the `pub` from nonterminal
+`Foo`.
+
 [calculator3]: ../../calculator/src/calculator3.lalrpop
