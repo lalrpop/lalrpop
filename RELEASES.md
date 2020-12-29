@@ -1,3 +1,9 @@
+<a name="0.19.3"></a>
+## 0.19.3 (2020-12-29)
+
+* Fixed inability to process symlinks to lalrpop files
+
+
 <a name="0.19.2"></a>
 ## 0.19.2 (2020-12-25)
 
