@@ -42,7 +42,6 @@ to! Here are some tips:
 
 - [LALRPOP] is itself implemented in LALRPOP.
 - [Gluon] is a statically typed functional programming language.
-- [Gleam](https://github.com/gleam-lang/gleam/blob/master/src/grammar.lalrpop) is a statically typed functional programming language for the Erlang VM.
 - [RustPython] is Python 3.5+ rewritten in Rust
 - [Solang] is Ethereum Solidity rewritten in Rust
 
