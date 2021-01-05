@@ -90,6 +90,8 @@ lalrpop_mod!(use_super);
 /// regression test for #480 (`use super` with default tokenizer)
 lalrpop_mod!(use_super_internal_tok);
 
+mod pub_in;
+
 /// Custom error type (issue #113)
 #[derive(Debug, PartialEq)]
 pub struct MyCustomError(char);
