@@ -5,8 +5,8 @@ use crate::grammar::free_variables::FreeVariables;
 use crate::grammar::repr::*;
 use crate::lr1::core::*;
 use crate::rust::RustWrite;
-use std::io::{self, Write};
 use crate::util::Sep;
+use std::io::{self, Write};
 
 /// Base struct for various kinds of code generator. The flavor of
 /// code generator is customized by supplying distinct types for `C`
@@ -353,7 +353,7 @@ impl<'codegen, 'grammar, W: Write, C> CodeGenerator<'codegen, 'grammar, W, C> {
                 TypeParameter::Id(ref id) => id.to_string(),
             })
             .collect();
-        format!("::std::marker::PhantomData<({})>", Sep(", ", &phantom_bits),)
+        format!("core::marker::PhantomData<({})>", Sep(", ", &phantom_bits),)
     }
 
     /// Returns expression that captures the user-declared type
@@ -371,7 +371,7 @@ impl<'codegen, 'grammar, W: Write, C> CodeGenerator<'codegen, 'grammar, W, C> {
             })
             .collect();
         format!(
-            "::std::marker::PhantomData::<({})>",
+            "core::marker::PhantomData::<({})>",
             Sep(", ", &phantom_bits),
         )
     }

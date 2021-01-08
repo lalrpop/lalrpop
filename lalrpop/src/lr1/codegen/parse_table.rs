@@ -877,12 +877,12 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
             format!("{}action: {}", self.prefix, self.custom.state_type),
             format!("{}lookahead_start: Option<&{}>", self.prefix, loc_type),
             format!(
-                "{}states: &mut ::std::vec::Vec<{}>",
-                self.prefix, self.custom.state_type
+                "{}states: &mut alloc::vec::Vec<{}>",
+                self.prefix, self.custom.state_type,
             ),
             format!(
-                "{}symbols: &mut ::std::vec::Vec<{}>",
-                self.prefix, spanned_symbol_type
+                "{}symbols: &mut alloc::vec::Vec<{}>",
+                self.prefix, spanned_symbol_type,
             ),
             format!("_: {}", self.phantom_data_type()),
         ];
@@ -1009,8 +1009,8 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
         let parameters = vec![
             format!("{}lookahead_start: Option<&{}>", self.prefix, loc_type),
             format!(
-                "{}symbols: &mut ::std::vec::Vec<{}>",
-                self.prefix, spanned_symbol_type
+                "{}symbols: &mut alloc::vec::Vec<{}>",
+                self.prefix, spanned_symbol_type,
             ),
             format!("_: {}", self.phantom_data_type()),
         ];
@@ -1184,9 +1184,9 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
         rust!(self.out, ">(");
         rust!(
             self.out,
-            "{}symbols: &mut ::std::vec::Vec<{}>",
+            "{}symbols: &mut alloc::vec::Vec<{}>",
             self.prefix,
-            spanned_symbol_type
+            spanned_symbol_type,
         );
         rust!(self.out, ") -> {}", self.types.spanned_type(variant_ty));
 
@@ -1520,9 +1520,9 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
     fn emit_expected_tokens_fn(&mut self) -> io::Result<()> {
         rust!(
             self.out,
-            "fn {p}expected_tokens({p}state: {}) -> Vec<::std::string::String> {{",
+            "fn {p}expected_tokens({p}state: {}) -> alloc::vec::Vec<alloc::string::String> {{",
             self.custom.state_type,
-            p = self.prefix
+            p = self.prefix,
         );
 
         rust!(self.out, "const {}TERMINAL: &[&str] = &[", self.prefix);

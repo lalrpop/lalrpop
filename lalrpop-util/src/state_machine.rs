@@ -1,11 +1,13 @@
 #![allow(dead_code)]
 
-use std::fmt::Debug;
+use alloc::{string::String, vec, vec::Vec};
+use core::fmt::Debug;
 
 const DEBUG_ENABLED: bool = false;
 
 macro_rules! debug {
     ($($args:expr),* $(,)*) => {
+        #[cfg(feature = "std")]
         if DEBUG_ENABLED {
             eprintln!($($args),*);
         }

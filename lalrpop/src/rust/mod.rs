@@ -3,9 +3,9 @@
 
 use crate::grammar::parse_tree::Visibility;
 use crate::grammar::repr::{self, Grammar};
+use crate::tls::Tls;
 use std::fmt::{self, Display};
 use std::io::{self, Write};
-use crate::tls::Tls;
 
 macro_rules! rust {
     ($w:expr, $($args:tt)*) => {
@@ -155,6 +155,8 @@ impl<'me, W: Write> RustWrite<W> {
             "use self::{p}lalrpop_util::state_machine as {p}state_machine;",
             p = prefix,
         );
+        rust!(self, "extern crate core;");
+        rust!(self, "extern crate alloc;");
 
         Ok(())
     }

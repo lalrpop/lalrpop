@@ -1,5 +1,11 @@
+#![cfg_attr(not(feature = "std"), no_std)]
+
+extern crate alloc;
+
+use alloc::{string::String, vec::Vec};
+use core::fmt;
+#[cfg(feature = "std")]
 use std::error::Error;
-use std::fmt;
 
 #[cfg(feature = "lexer")]
 pub mod lexer;
@@ -141,6 +147,7 @@ impl<L, T, E> From<E> for ParseError<L, T, E> {
     }
 }
 
+#[cfg(feature = "std")]
 impl<L, T, E> Error for ParseError<L, T, E>
 where
     L: fmt::Debug + fmt::Display,
