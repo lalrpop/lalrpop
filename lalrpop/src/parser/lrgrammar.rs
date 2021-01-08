@@ -1,4 +1,4 @@
-// auto-generated: "lalrpop 0.19.2"
+// auto-generated: "lalrpop 0.19.4"
 // sha3: 6c80ba10dbe46796ac194f6ca65c99da429bd4b8810e1e7ca73c749dc9f0
 use string_cache::DefaultAtom as Atom;
 use grammar::parse_tree::*;
@@ -12,6 +12,8 @@ use super::Top;
 extern crate lalrpop_util as ___lalrpop_util;
 #[allow(unused_imports)]
 use self::___lalrpop_util::state_machine as ___state_machine;
+extern crate core;
+extern crate alloc;
 
 #[cfg_attr(rustfmt, rustfmt_skip)]
 mod ___parse___Top {
@@ -29,60 +31,62 @@ use super::super::Top;
 extern crate lalrpop_util as ___lalrpop_util;
 #[allow(unused_imports)]
 use self::___lalrpop_util::state_machine as ___state_machine;
+extern crate core;
+extern crate alloc;
 use super::___ToTriple;
 #[allow(dead_code)]
 pub enum ___Symbol<'input>
  {
 Variant0(Tok<'input>),
 Variant1(&'input str),
-Variant2(::std::option::Option<Tok<'input>>),
+Variant2(core::option::Option<Tok<'input>>),
 Variant3(TypeRef),
-Variant4(::std::option::Option<TypeRef>),
+Variant4(core::option::Option<TypeRef>),
 Variant5(Vec<TypeBoundParameter<TypeRef>>),
-Variant6(::std::option::Option<Vec<TypeBoundParameter<TypeRef>>>),
+Variant6(core::option::Option<Vec<TypeBoundParameter<TypeRef>>>),
 Variant7(Condition),
-Variant8(::std::option::Option<Condition>),
+Variant8(core::option::Option<Condition>),
 Variant9(()),
 Variant10(Alternative),
-Variant11(::std::vec::Vec<Alternative>),
+Variant11(alloc::vec::Vec<Alternative>),
 Variant12(Conversion),
-Variant13(::std::vec::Vec<Conversion>),
+Variant13(alloc::vec::Vec<Conversion>),
 Variant14(FieldPattern<TypeRef>),
-Variant15(::std::vec::Vec<FieldPattern<TypeRef>>),
+Variant15(alloc::vec::Vec<FieldPattern<TypeRef>>),
 Variant16(Parameter),
-Variant17(::std::vec::Vec<Parameter>),
+Variant17(alloc::vec::Vec<Parameter>),
 Variant18(WhereClause<TypeRef>),
-Variant19(::std::vec::Vec<WhereClause<TypeRef>>),
+Variant19(alloc::vec::Vec<WhereClause<TypeRef>>),
 Variant20(Atom),
-Variant21(::std::vec::Vec<Atom>),
+Variant21(alloc::vec::Vec<Atom>),
 Variant22(Lifetime),
-Variant23(::std::vec::Vec<Lifetime>),
+Variant23(alloc::vec::Vec<Lifetime>),
 Variant24(MatchItem),
-Variant25(::std::vec::Vec<MatchItem>),
+Variant25(alloc::vec::Vec<MatchItem>),
 Variant26(NonterminalString),
-Variant27(::std::vec::Vec<NonterminalString>),
+Variant27(alloc::vec::Vec<NonterminalString>),
 Variant28(Pattern<TypeRef>),
-Variant29(::std::vec::Vec<Pattern<TypeRef>>),
+Variant29(alloc::vec::Vec<Pattern<TypeRef>>),
 Variant30(Symbol),
-Variant31(::std::vec::Vec<Symbol>),
+Variant31(alloc::vec::Vec<Symbol>),
 Variant32(TypeBound<TypeRef>),
-Variant33(::std::vec::Vec<TypeBound<TypeRef>>),
+Variant33(alloc::vec::Vec<TypeBound<TypeRef>>),
 Variant34(TypeBoundParameter<TypeRef>),
-Variant35(::std::vec::Vec<TypeBoundParameter<TypeRef>>),
+Variant35(alloc::vec::Vec<TypeBoundParameter<TypeRef>>),
 Variant36(TypeParameter),
-Variant37(::std::vec::Vec<TypeParameter>),
-Variant38(::std::vec::Vec<TypeRef>),
+Variant37(alloc::vec::Vec<TypeParameter>),
+Variant38(alloc::vec::Vec<TypeRef>),
 Variant39(usize),
 Variant40(ActionKind),
-Variant41(::std::option::Option<ActionKind>),
-Variant42(::std::option::Option<Alternative>),
+Variant41(core::option::Option<ActionKind>),
+Variant42(core::option::Option<Alternative>),
 Variant43(Vec<Alternative>),
 Variant44(Annotation),
-Variant45(::std::vec::Vec<Annotation>),
+Variant45(alloc::vec::Vec<Annotation>),
 Variant46((Atom, String)),
-Variant47(::std::option::Option<(Atom, String)>),
+Variant47(core::option::Option<(Atom, String)>),
 Variant48(AssociatedType),
-Variant49(::std::vec::Vec<AssociatedType>),
+Variant49(alloc::vec::Vec<AssociatedType>),
 Variant50(Vec<Conversion>),
 Variant51(Vec<Parameter>),
 Variant52(Vec<WhereClause<TypeRef>>),
@@ -93,41 +97,41 @@ Variant56(Vec<Symbol>),
 Variant57(Vec<TypeParameter>),
 Variant58(Vec<TypeRef>),
 Variant59(ConditionOp),
-Variant60(::std::option::Option<Conversion>),
+Variant60(core::option::Option<Conversion>),
 Variant61(EnumToken),
 Variant62(ExprSymbol),
 Variant63(GrammarItem),
-Variant64(::std::option::Option<FieldPattern<TypeRef>>),
+Variant64(core::option::Option<FieldPattern<TypeRef>>),
 Variant65(Grammar),
-Variant66(::std::vec::Vec<GrammarItem>),
-Variant67(::std::option::Option<Parameter>),
-Variant68(::std::option::Option<Vec<Parameter>>),
-Variant69(::std::option::Option<Vec<TypeParameter>>),
-Variant70(::std::option::Option<WhereClause<TypeRef>>),
-Variant71(::std::option::Option<Vec<WhereClause<TypeRef>>>),
-Variant72(::std::option::Option<Lifetime>),
+Variant66(alloc::vec::Vec<GrammarItem>),
+Variant67(core::option::Option<Parameter>),
+Variant68(core::option::Option<Vec<Parameter>>),
+Variant69(core::option::Option<Vec<TypeParameter>>),
+Variant70(core::option::Option<WhereClause<TypeRef>>),
+Variant71(core::option::Option<Vec<WhereClause<TypeRef>>>),
+Variant72(core::option::Option<Lifetime>),
 Variant73(MatchContents),
-Variant74(::std::option::Option<MatchItem>),
+Variant74(core::option::Option<MatchItem>),
 Variant75(MatchMapping),
 Variant76(TerminalLiteral),
 Variant77(MatchToken),
 Variant78((NonterminalString, Vec<NonterminalString>)),
-Variant79(::std::option::Option<NonterminalString>),
+Variant79(core::option::Option<NonterminalString>),
 Variant80(Path),
-Variant81(::std::option::Option<Pattern<TypeRef>>),
+Variant81(core::option::Option<Pattern<TypeRef>>),
 Variant82(PatternKind<TypeRef>),
 Variant83(Vec<Lifetime>),
 Variant84(Vec<TypeBound<TypeRef>>),
 Variant85(TerminalString),
 Variant86(RepeatOp),
 Variant87(String),
-Variant88(::std::vec::Vec<String>),
-Variant89(::std::option::Option<Symbol>),
+Variant88(alloc::vec::Vec<String>),
+Variant89(core::option::Option<Symbol>),
 Variant90(SymbolKind),
 Variant91(Top),
-Variant92(::std::option::Option<TypeBound<TypeRef>>),
-Variant93(::std::option::Option<TypeBoundParameter<TypeRef>>),
-Variant94(::std::option::Option<TypeParameter>),
+Variant92(core::option::Option<TypeBound<TypeRef>>),
+Variant93(core::option::Option<TypeBoundParameter<TypeRef>>),
+Variant94(core::option::Option<TypeParameter>),
 Variant95(Visibility),
 }
 const ___ACTION: &[i16] = &[
@@ -2970,7 +2974,7 @@ _ => 65,
 _ => 0,
 }
 }
-fn ___expected_tokens(___state: i16) -> Vec<::std::string::String> {
+fn ___expected_tokens(___state: i16) -> alloc::vec::Vec<alloc::string::String> {
 const ___TERMINAL: &[&str] = &[
 r###""!""###,
 r###""!=""###,
@@ -3044,7 +3048,7 @@ pub struct ___StateMachine<'input>
 where 
 {
 text: &'input str,
-___phantom: ::std::marker::PhantomData<(&'input ())>,
+___phantom: core::marker::PhantomData<(&'input ())>,
 }
 impl<'input> ___state_machine::ParserDefinition for ___StateMachine<'input>
 where 
@@ -3072,7 +3076,7 @@ fn start_state(&self) -> Self::StateIndex {
 
 #[inline]
 fn token_to_index(&self, token: &Self::Token) -> Option<usize> {
-___token_to_integer(token, ::std::marker::PhantomData::<(&())>)
+___token_to_integer(token, core::marker::PhantomData::<(&())>)
 }
 
 #[inline]
@@ -3096,7 +3100,7 @@ ___goto(state, nt)
 }
 
 fn token_to_symbol(&self, token_index: usize, token: Self::Token) -> Self::Symbol {
-___token_to_symbol(token_index, token, ::std::marker::PhantomData::<(&())>)
+___token_to_symbol(token_index, token, core::marker::PhantomData::<(&())>)
 }
 
 fn expected_tokens(&self, state: i16) -> Vec<String> {
@@ -3129,7 +3133,7 @@ action,
 start_location,
 states,
 symbols,
-::std::marker::PhantomData::<(&())>,
+core::marker::PhantomData::<(&())>,
 )
 }
 
@@ -3141,7 +3145,7 @@ fn ___token_to_integer<
     'input,
 >(
 ___token: &Tok<'input>,
-_: ::std::marker::PhantomData<(&'input ())>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> Option<usize>
 {
 match *___token {
@@ -3211,7 +3215,7 @@ fn ___token_to_symbol<
 >(
 ___token_index: usize,
 ___token: Tok<'input>,
-_: ::std::marker::PhantomData<(&'input ())>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> ___Symbol<'input>
 {
 match ___token_index {
@@ -3250,7 +3254,7 @@ let mut ___tokens = ___tokens.map(|t| ___ToTriple::to_triple(t));
 ___state_machine::Parser::drive(
 ___StateMachine {
 text,
-___phantom: ::std::marker::PhantomData::<(&())>,
+___phantom: core::marker::PhantomData::<(&())>,
 },
 ___tokens,
 )
@@ -3262,578 +3266,578 @@ pub(crate) fn ___reduce<
 text: &'input str,
 ___action: i16,
 ___lookahead_start: Option<&usize>,
-___states: &mut ::std::vec::Vec<i16>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___states: &mut alloc::vec::Vec<i16>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> Option<Result<Top,___lalrpop_util::ParseError<usize, Tok<'input>, tok::Error>>>
 {
 let (___pop_states, ___nonterminal) = match ___action {
 0 => {
-___reduce0(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce0(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 1 => {
-___reduce1(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce1(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 2 => {
-___reduce2(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce2(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 3 => {
-___reduce3(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce3(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 4 => {
-___reduce4(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce4(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 5 => {
-___reduce5(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce5(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 6 => {
-___reduce6(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce6(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 7 => {
-___reduce7(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce7(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 8 => {
-___reduce8(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce8(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 9 => {
-___reduce9(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce9(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 10 => {
-___reduce10(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce10(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 11 => {
-___reduce11(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce11(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 12 => {
-___reduce12(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce12(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 13 => {
-___reduce13(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce13(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 14 => {
-___reduce14(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce14(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 15 => {
-___reduce15(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce15(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 16 => {
-___reduce16(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce16(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 17 => {
-___reduce17(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce17(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 18 => {
-___reduce18(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce18(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 19 => {
-___reduce19(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce19(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 20 => {
-___reduce20(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce20(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 21 => {
-___reduce21(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce21(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 22 => {
-___reduce22(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce22(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 23 => {
-___reduce23(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce23(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 24 => {
-___reduce24(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce24(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 25 => {
-___reduce25(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce25(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 26 => {
-___reduce26(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce26(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 27 => {
-___reduce27(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce27(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 28 => {
-___reduce28(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce28(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 29 => {
-___reduce29(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce29(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 30 => {
-___reduce30(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce30(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 31 => {
-___reduce31(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce31(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 32 => {
-___reduce32(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce32(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 33 => {
-___reduce33(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce33(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 34 => {
-___reduce34(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce34(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 35 => {
-___reduce35(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce35(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 36 => {
-___reduce36(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce36(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 37 => {
-___reduce37(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce37(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 38 => {
-___reduce38(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce38(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 39 => {
-___reduce39(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce39(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 40 => {
-___reduce40(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce40(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 41 => {
-___reduce41(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce41(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 42 => {
-___reduce42(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce42(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 43 => {
-___reduce43(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce43(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 44 => {
-___reduce44(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce44(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 45 => {
-___reduce45(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce45(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 46 => {
-___reduce46(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce46(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 47 => {
-___reduce47(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce47(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 48 => {
-___reduce48(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce48(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 49 => {
-___reduce49(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce49(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 50 => {
-___reduce50(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce50(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 51 => {
-___reduce51(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce51(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 52 => {
-___reduce52(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce52(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 53 => {
-___reduce53(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce53(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 54 => {
-___reduce54(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce54(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 55 => {
-___reduce55(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce55(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 56 => {
-___reduce56(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce56(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 57 => {
-___reduce57(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce57(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 58 => {
-___reduce58(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce58(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 59 => {
-___reduce59(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce59(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 60 => {
-___reduce60(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce60(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 61 => {
-___reduce61(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce61(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 62 => {
-___reduce62(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce62(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 63 => {
-___reduce63(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce63(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 64 => {
-___reduce64(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce64(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 65 => {
-___reduce65(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce65(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 66 => {
-___reduce66(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce66(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 67 => {
-___reduce67(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce67(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 68 => {
-___reduce68(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce68(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 69 => {
-___reduce69(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce69(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 70 => {
-___reduce70(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce70(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 71 => {
-___reduce71(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce71(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 72 => {
-___reduce72(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce72(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 73 => {
-___reduce73(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce73(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 74 => {
-___reduce74(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce74(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 75 => {
-___reduce75(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce75(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 76 => {
-___reduce76(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce76(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 77 => {
-___reduce77(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce77(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 78 => {
-___reduce78(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce78(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 79 => {
-___reduce79(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce79(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 80 => {
-___reduce80(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce80(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 81 => {
-___reduce81(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce81(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 82 => {
-___reduce82(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce82(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 83 => {
-___reduce83(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce83(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 84 => {
-___reduce84(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce84(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 85 => {
-___reduce85(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce85(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 86 => {
-___reduce86(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce86(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 87 => {
-___reduce87(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce87(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 88 => {
-___reduce88(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce88(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 89 => {
-___reduce89(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce89(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 90 => {
-___reduce90(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce90(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 91 => {
-___reduce91(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce91(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 92 => {
-___reduce92(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce92(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 93 => {
-___reduce93(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce93(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 94 => {
-___reduce94(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce94(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 95 => {
-___reduce95(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce95(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 96 => {
-___reduce96(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce96(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 97 => {
-___reduce97(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce97(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 98 => {
-___reduce98(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce98(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 99 => {
-___reduce99(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce99(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 100 => {
-___reduce100(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce100(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 101 => {
-___reduce101(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce101(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 102 => {
-___reduce102(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce102(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 103 => {
-___reduce103(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce103(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 104 => {
-___reduce104(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce104(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 105 => {
-___reduce105(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce105(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 106 => {
-___reduce106(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce106(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 107 => {
-___reduce107(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce107(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 108 => {
-___reduce108(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce108(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 109 => {
-___reduce109(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce109(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 110 => {
-___reduce110(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce110(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 111 => {
-___reduce111(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce111(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 112 => {
-___reduce112(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce112(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 113 => {
-___reduce113(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce113(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 114 => {
-___reduce114(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce114(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 115 => {
-___reduce115(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce115(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 116 => {
-___reduce116(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce116(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 117 => {
-___reduce117(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce117(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 118 => {
-___reduce118(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce118(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 119 => {
-___reduce119(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce119(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 120 => {
-___reduce120(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce120(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 121 => {
-___reduce121(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce121(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 122 => {
-___reduce122(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce122(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 123 => {
-___reduce123(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce123(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 124 => {
-___reduce124(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce124(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 125 => {
-___reduce125(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce125(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 126 => {
-___reduce126(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce126(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 127 => {
-___reduce127(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce127(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 128 => {
-___reduce128(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce128(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 129 => {
-___reduce129(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce129(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 130 => {
-___reduce130(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce130(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 131 => {
-___reduce131(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce131(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 132 => {
-___reduce132(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce132(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 133 => {
-___reduce133(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce133(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 134 => {
-___reduce134(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce134(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 135 => {
-___reduce135(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce135(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 136 => {
-___reduce136(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce136(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 137 => {
-___reduce137(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce137(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 138 => {
-___reduce138(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce138(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 139 => {
-___reduce139(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce139(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 140 => {
-___reduce140(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce140(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 141 => {
-___reduce141(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce141(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 142 => {
-___reduce142(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce142(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 143 => {
-___reduce143(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce143(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 144 => {
-___reduce144(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce144(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 145 => {
-___reduce145(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce145(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 146 => {
-___reduce146(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce146(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 147 => {
-___reduce147(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce147(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 148 => {
-___reduce148(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce148(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 149 => {
-___reduce149(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce149(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 150 => {
-___reduce150(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce150(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 151 => {
-___reduce151(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce151(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 152 => {
-___reduce152(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce152(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 153 => {
-___reduce153(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce153(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 154 => {
-___reduce154(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce154(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 155 => {
-___reduce155(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce155(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 156 => {
-___reduce156(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce156(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 157 => {
-___reduce157(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce157(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 158 => {
-___reduce158(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce158(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 159 => {
-___reduce159(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce159(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 160 => {
-___reduce160(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce160(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 161 => {
-___reduce161(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce161(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 162 => {
-___reduce162(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce162(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 163 => {
-___reduce163(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce163(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 164 => {
-___reduce164(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce164(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 165 => {
-___reduce165(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce165(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 166 => {
-___reduce166(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce166(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 167 => {
-___reduce167(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce167(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 168 => {
-___reduce168(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce168(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 169 => {
-___reduce169(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce169(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 170 => {
-___reduce170(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce170(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 171 => {
-___reduce171(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce171(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 172 => {
-___reduce172(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce172(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 173 => {
-___reduce173(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce173(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 174 => {
-___reduce174(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce174(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 175 => {
-___reduce175(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce175(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 176 => {
-___reduce176(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce176(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 177 => {
-___reduce177(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce177(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 178 => {
-___reduce178(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce178(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 179 => {
-___reduce179(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce179(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 180 => {
-___reduce180(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce180(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 181 => {
-___reduce181(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce181(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 182 => {
-___reduce182(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce182(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 183 => {
-___reduce183(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce183(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 184 => {
-___reduce184(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce184(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 185 => {
-___reduce185(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce185(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 186 => {
-___reduce186(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce186(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 187 => {
-___reduce187(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce187(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 188 => {
-___reduce188(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce188(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 189 => {
 // Conversion = Terminal, "=>" => ActionFn(429);
@@ -3850,541 +3854,541 @@ ___symbols.push((___start, ___Symbol::Variant12(___nt), ___end));
 (2, 89)
 }
 190 => {
-___reduce190(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce190(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 191 => {
-___reduce191(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce191(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 192 => {
-___reduce192(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce192(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 193 => {
-___reduce193(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce193(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 194 => {
-___reduce194(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce194(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 195 => {
-___reduce195(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce195(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 196 => {
-___reduce196(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce196(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 197 => {
-___reduce197(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce197(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 198 => {
-___reduce198(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce198(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 199 => {
-___reduce199(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce199(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 200 => {
-___reduce200(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce200(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 201 => {
-___reduce201(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce201(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 202 => {
-___reduce202(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce202(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 203 => {
-___reduce203(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce203(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 204 => {
-___reduce204(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce204(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 205 => {
-___reduce205(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce205(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 206 => {
-___reduce206(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce206(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 207 => {
-___reduce207(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce207(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 208 => {
-___reduce208(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce208(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 209 => {
-___reduce209(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce209(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 210 => {
-___reduce210(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce210(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 211 => {
-___reduce211(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce211(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 212 => {
-___reduce212(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce212(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 213 => {
-___reduce213(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce213(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 214 => {
-___reduce214(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce214(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 215 => {
-___reduce215(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce215(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 216 => {
-___reduce216(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce216(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 217 => {
-___reduce217(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce217(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 218 => {
-___reduce218(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce218(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 219 => {
-___reduce219(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce219(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 220 => {
-___reduce220(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce220(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 221 => {
-___reduce221(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce221(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 222 => {
-___reduce222(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce222(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 223 => {
-___reduce223(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce223(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 224 => {
-___reduce224(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce224(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 225 => {
-___reduce225(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce225(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 226 => {
-___reduce226(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce226(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 227 => {
-___reduce227(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce227(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 228 => {
-___reduce228(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce228(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 229 => {
-___reduce229(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce229(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 230 => {
-___reduce230(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce230(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 231 => {
-___reduce231(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce231(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 232 => {
-___reduce232(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce232(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 233 => {
-___reduce233(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce233(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 234 => {
-___reduce234(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce234(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 235 => {
-___reduce235(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce235(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 236 => {
-___reduce236(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce236(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 237 => {
-___reduce237(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce237(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 238 => {
-___reduce238(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce238(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 239 => {
-___reduce239(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce239(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 240 => {
-___reduce240(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce240(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 241 => {
-___reduce241(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce241(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 242 => {
-___reduce242(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce242(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 243 => {
-___reduce243(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce243(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 244 => {
-___reduce244(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce244(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 245 => {
-___reduce245(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce245(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 246 => {
-___reduce246(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce246(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 247 => {
-___reduce247(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce247(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 248 => {
-___reduce248(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce248(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 249 => {
-___reduce249(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce249(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 250 => {
-___reduce250(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce250(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 251 => {
-___reduce251(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce251(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 252 => {
-___reduce252(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce252(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 253 => {
-___reduce253(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce253(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 254 => {
-___reduce254(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce254(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 255 => {
-___reduce255(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce255(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 256 => {
-___reduce256(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce256(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 257 => {
-___reduce257(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce257(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 258 => {
-___reduce258(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce258(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 259 => {
-___reduce259(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce259(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 260 => {
-___reduce260(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce260(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 261 => {
-___reduce261(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce261(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 262 => {
-___reduce262(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce262(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 263 => {
-___reduce263(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce263(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 264 => {
-___reduce264(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce264(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 265 => {
-___reduce265(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce265(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 266 => {
-___reduce266(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce266(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 267 => {
-___reduce267(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce267(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 268 => {
-___reduce268(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce268(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 269 => {
-___reduce269(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce269(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 270 => {
-___reduce270(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce270(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 271 => {
-___reduce271(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce271(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 272 => {
-___reduce272(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce272(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 273 => {
-___reduce273(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce273(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 274 => {
-___reduce274(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce274(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 275 => {
-___reduce275(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce275(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 276 => {
-___reduce276(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce276(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 277 => {
-___reduce277(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce277(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 278 => {
-___reduce278(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce278(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 279 => {
-___reduce279(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce279(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 280 => {
-___reduce280(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce280(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 281 => {
-___reduce281(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce281(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 282 => {
-___reduce282(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce282(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 283 => {
-___reduce283(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce283(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 284 => {
-___reduce284(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce284(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 285 => {
-___reduce285(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce285(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 286 => {
-___reduce286(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce286(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 287 => {
-___reduce287(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce287(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 288 => {
-___reduce288(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce288(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 289 => {
-___reduce289(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce289(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 290 => {
-___reduce290(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce290(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 291 => {
-___reduce291(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce291(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 292 => {
-___reduce292(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce292(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 293 => {
-___reduce293(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce293(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 294 => {
-___reduce294(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce294(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 295 => {
-___reduce295(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce295(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 296 => {
-___reduce296(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce296(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 297 => {
-___reduce297(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce297(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 298 => {
-___reduce298(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce298(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 299 => {
-___reduce299(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce299(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 300 => {
-___reduce300(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce300(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 301 => {
-___reduce301(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce301(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 302 => {
-___reduce302(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce302(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 303 => {
-___reduce303(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce303(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 304 => {
-___reduce304(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce304(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 305 => {
-___reduce305(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce305(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 306 => {
-___reduce306(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce306(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 307 => {
-___reduce307(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce307(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 308 => {
-___reduce308(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce308(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 309 => {
-___reduce309(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce309(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 310 => {
-___reduce310(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce310(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 311 => {
-___reduce311(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce311(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 312 => {
-___reduce312(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce312(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 313 => {
-___reduce313(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce313(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 314 => {
-___reduce314(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce314(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 315 => {
-___reduce315(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce315(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 316 => {
-___reduce316(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce316(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 317 => {
-___reduce317(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce317(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 318 => {
-___reduce318(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce318(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 319 => {
-___reduce319(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce319(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 320 => {
-___reduce320(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce320(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 321 => {
-___reduce321(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce321(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 322 => {
-___reduce322(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce322(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 323 => {
-___reduce323(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce323(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 324 => {
-___reduce324(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce324(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 325 => {
-___reduce325(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce325(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 326 => {
-___reduce326(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce326(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 327 => {
-___reduce327(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce327(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 328 => {
-___reduce328(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce328(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 329 => {
-___reduce329(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce329(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 330 => {
-___reduce330(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce330(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 331 => {
-___reduce331(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce331(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 332 => {
-___reduce332(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce332(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 333 => {
-___reduce333(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce333(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 334 => {
-___reduce334(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce334(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 335 => {
-___reduce335(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce335(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 336 => {
-___reduce336(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce336(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 337 => {
-___reduce337(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce337(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 338 => {
-___reduce338(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce338(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 339 => {
-___reduce339(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce339(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 340 => {
-___reduce340(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce340(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 341 => {
-___reduce341(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce341(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 342 => {
-___reduce342(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce342(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 343 => {
-___reduce343(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce343(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 344 => {
-___reduce344(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce344(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 345 => {
-___reduce345(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce345(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 346 => {
-___reduce346(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce346(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 347 => {
-___reduce347(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce347(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 348 => {
-___reduce348(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce348(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 349 => {
-___reduce349(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce349(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 350 => {
-___reduce350(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce350(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 351 => {
-___reduce351(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce351(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 352 => {
-___reduce352(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce352(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 353 => {
-___reduce353(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce353(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 354 => {
-___reduce354(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce354(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 355 => {
-___reduce355(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce355(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 356 => {
-___reduce356(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce356(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 357 => {
-___reduce357(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce357(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 358 => {
-___reduce358(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce358(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 359 => {
-___reduce359(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce359(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 360 => {
-___reduce360(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce360(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 361 => {
-___reduce361(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce361(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 362 => {
-___reduce362(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce362(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 363 => {
-___reduce363(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce363(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 364 => {
-___reduce364(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce364(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 365 => {
-___reduce365(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce365(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 366 => {
-___reduce366(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce366(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 367 => {
-___reduce367(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce367(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 368 => {
-___reduce368(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce368(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 369 => {
 // MatchItem = MatchSymbol, "=>" => ActionFn(437);
@@ -4401,181 +4405,181 @@ ___symbols.push((___start, ___Symbol::Variant24(___nt), ___end));
 (2, 117)
 }
 370 => {
-___reduce370(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce370(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 371 => {
-___reduce371(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce371(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 372 => {
-___reduce372(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce372(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 373 => {
-___reduce373(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce373(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 374 => {
-___reduce374(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce374(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 375 => {
-___reduce375(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce375(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 376 => {
-___reduce376(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce376(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 377 => {
-___reduce377(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce377(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 378 => {
-___reduce378(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce378(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 379 => {
-___reduce379(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce379(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 380 => {
-___reduce380(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce380(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 381 => {
-___reduce381(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce381(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 382 => {
-___reduce382(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce382(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 383 => {
-___reduce383(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce383(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 384 => {
-___reduce384(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce384(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 385 => {
-___reduce385(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce385(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 386 => {
-___reduce386(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce386(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 387 => {
-___reduce387(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce387(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 388 => {
-___reduce388(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce388(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 389 => {
-___reduce389(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce389(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 390 => {
-___reduce390(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce390(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 391 => {
-___reduce391(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce391(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 392 => {
-___reduce392(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce392(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 393 => {
-___reduce393(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce393(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 394 => {
-___reduce394(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce394(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 395 => {
-___reduce395(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce395(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 396 => {
-___reduce396(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce396(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 397 => {
-___reduce397(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce397(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 398 => {
-___reduce398(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce398(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 399 => {
-___reduce399(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce399(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 400 => {
-___reduce400(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce400(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 401 => {
-___reduce401(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce401(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 402 => {
-___reduce402(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce402(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 403 => {
-___reduce403(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce403(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 404 => {
-___reduce404(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce404(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 405 => {
-___reduce405(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce405(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 406 => {
-___reduce406(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce406(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 407 => {
-___reduce407(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce407(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 408 => {
-___reduce408(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce408(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 409 => {
-___reduce409(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce409(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 410 => {
-___reduce410(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce410(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 411 => {
-___reduce411(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce411(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 412 => {
-___reduce412(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce412(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 413 => {
-___reduce413(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce413(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 414 => {
-___reduce414(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce414(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 415 => {
-___reduce415(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce415(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 416 => {
-___reduce416(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce416(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 417 => {
-___reduce417(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce417(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 418 => {
-___reduce418(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce418(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 419 => {
-___reduce419(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce419(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 420 => {
-___reduce420(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce420(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 421 => {
-___reduce421(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce421(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 422 => {
-___reduce422(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce422(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 423 => {
-___reduce423(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce423(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 424 => {
-___reduce424(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce424(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 425 => {
-___reduce425(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce425(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 426 => {
-___reduce426(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce426(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 427 => {
-___reduce427(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce427(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 428 => {
-___reduce428(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce428(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 429 => {
 // StringConstant = "StringLiteral" => ActionFn(416);
@@ -4602,238 +4606,238 @@ ___symbols.push((___start, ___Symbol::Variant20(___nt), ___end));
 (1, 141)
 }
 431 => {
-___reduce431(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce431(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 432 => {
-___reduce432(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce432(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 433 => {
-___reduce433(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce433(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 434 => {
-___reduce434(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce434(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 435 => {
-___reduce435(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce435(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 436 => {
-___reduce436(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce436(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 437 => {
-___reduce437(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce437(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 438 => {
-___reduce438(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce438(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 439 => {
-___reduce439(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce439(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 440 => {
-___reduce440(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce440(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 441 => {
-___reduce441(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce441(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 442 => {
-___reduce442(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce442(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 443 => {
-___reduce443(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce443(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 444 => {
-___reduce444(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce444(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 445 => {
-___reduce445(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce445(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 446 => {
-___reduce446(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce446(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 447 => {
-___reduce447(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce447(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 448 => {
-___reduce448(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce448(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 449 => {
-___reduce449(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce449(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 450 => {
-___reduce450(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce450(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 451 => {
-___reduce451(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce451(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 452 => {
-___reduce452(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce452(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 453 => {
-___reduce453(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce453(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 454 => {
-___reduce454(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce454(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 455 => {
-___reduce455(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce455(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 456 => {
-___reduce456(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce456(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 457 => {
-___reduce457(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce457(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 458 => {
-___reduce458(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce458(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 459 => {
-___reduce459(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce459(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 460 => {
-___reduce460(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce460(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 461 => {
-___reduce461(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce461(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 462 => {
-___reduce462(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce462(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 463 => {
-___reduce463(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce463(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 464 => {
-___reduce464(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce464(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 465 => {
-___reduce465(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce465(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 466 => {
-___reduce466(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce466(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 467 => {
-___reduce467(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce467(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 468 => {
-___reduce468(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce468(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 469 => {
-___reduce469(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce469(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 470 => {
-___reduce470(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce470(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 471 => {
-___reduce471(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce471(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 472 => {
-___reduce472(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce472(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 473 => {
-___reduce473(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce473(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 474 => {
-___reduce474(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce474(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 475 => {
-___reduce475(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce475(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 476 => {
-___reduce476(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce476(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 477 => {
-___reduce477(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce477(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 478 => {
-___reduce478(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce478(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 479 => {
-___reduce479(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce479(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 480 => {
-___reduce480(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce480(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 481 => {
-___reduce481(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce481(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 482 => {
-___reduce482(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce482(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 483 => {
-___reduce483(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce483(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 484 => {
-___reduce484(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce484(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 485 => {
-___reduce485(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce485(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 486 => {
-___reduce486(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce486(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 487 => {
-___reduce487(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce487(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 488 => {
-___reduce488(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce488(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 489 => {
-___reduce489(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce489(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 490 => {
-___reduce490(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce490(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 491 => {
-___reduce491(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce491(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 492 => {
-___reduce492(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce492(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 493 => {
-___reduce493(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce493(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 494 => {
-___reduce494(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce494(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 495 => {
-___reduce495(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce495(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 496 => {
-___reduce496(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce496(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 497 => {
-___reduce497(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce497(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 498 => {
-___reduce498(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce498(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 499 => {
-___reduce499(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce499(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 500 => {
-___reduce500(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce500(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 501 => {
-___reduce501(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce501(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 502 => {
-___reduce502(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce502(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 503 => {
-___reduce503(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce503(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 504 => {
-___reduce504(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce504(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 505 => {
-___reduce505(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce505(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 506 => {
-___reduce506(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce506(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 507 => {
-___reduce507(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce507(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 508 => {
-___reduce508(text, ___lookahead_start, ___symbols, ::std::marker::PhantomData::<(&())>)
+___reduce508(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(&())>)
 }
 509 => {
 // ___Top = Top => ActionFn(0);
@@ -4859,7 +4863,7 @@ panic!("symbol type mismatch")
 fn ___pop_Variant9<
   'input,
 >(
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>
 ) -> (usize, (), usize)
  {
 match ___symbols.pop() {
@@ -4870,7 +4874,7 @@ _ => ___symbol_type_mismatch()
 fn ___pop_Variant46<
   'input,
 >(
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>
 ) -> (usize, (Atom, String), usize)
  {
 match ___symbols.pop() {
@@ -4881,7 +4885,7 @@ _ => ___symbol_type_mismatch()
 fn ___pop_Variant78<
   'input,
 >(
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>
 ) -> (usize, (NonterminalString, Vec<NonterminalString>), usize)
  {
 match ___symbols.pop() {
@@ -4892,7 +4896,7 @@ _ => ___symbol_type_mismatch()
 fn ___pop_Variant40<
   'input,
 >(
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>
 ) -> (usize, ActionKind, usize)
  {
 match ___symbols.pop() {
@@ -4903,7 +4907,7 @@ _ => ___symbol_type_mismatch()
 fn ___pop_Variant10<
   'input,
 >(
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>
 ) -> (usize, Alternative, usize)
  {
 match ___symbols.pop() {
@@ -4914,7 +4918,7 @@ _ => ___symbol_type_mismatch()
 fn ___pop_Variant44<
   'input,
 >(
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>
 ) -> (usize, Annotation, usize)
  {
 match ___symbols.pop() {
@@ -4925,7 +4929,7 @@ _ => ___symbol_type_mismatch()
 fn ___pop_Variant48<
   'input,
 >(
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>
 ) -> (usize, AssociatedType, usize)
  {
 match ___symbols.pop() {
@@ -4936,7 +4940,7 @@ _ => ___symbol_type_mismatch()
 fn ___pop_Variant20<
   'input,
 >(
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>
 ) -> (usize, Atom, usize)
  {
 match ___symbols.pop() {
@@ -4947,7 +4951,7 @@ _ => ___symbol_type_mismatch()
 fn ___pop_Variant7<
   'input,
 >(
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>
 ) -> (usize, Condition, usize)
  {
 match ___symbols.pop() {
@@ -4958,7 +4962,7 @@ _ => ___symbol_type_mismatch()
 fn ___pop_Variant59<
   'input,
 >(
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>
 ) -> (usize, ConditionOp, usize)
  {
 match ___symbols.pop() {
@@ -4969,7 +4973,7 @@ _ => ___symbol_type_mismatch()
 fn ___pop_Variant12<
   'input,
 >(
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>
 ) -> (usize, Conversion, usize)
  {
 match ___symbols.pop() {
@@ -4980,7 +4984,7 @@ _ => ___symbol_type_mismatch()
 fn ___pop_Variant61<
   'input,
 >(
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>
 ) -> (usize, EnumToken, usize)
  {
 match ___symbols.pop() {
@@ -4991,7 +4995,7 @@ _ => ___symbol_type_mismatch()
 fn ___pop_Variant62<
   'input,
 >(
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>
 ) -> (usize, ExprSymbol, usize)
  {
 match ___symbols.pop() {
@@ -5002,7 +5006,7 @@ _ => ___symbol_type_mismatch()
 fn ___pop_Variant14<
   'input,
 >(
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>
 ) -> (usize, FieldPattern<TypeRef>, usize)
  {
 match ___symbols.pop() {
@@ -5013,7 +5017,7 @@ _ => ___symbol_type_mismatch()
 fn ___pop_Variant65<
   'input,
 >(
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>
 ) -> (usize, Grammar, usize)
  {
 match ___symbols.pop() {
@@ -5024,7 +5028,7 @@ _ => ___symbol_type_mismatch()
 fn ___pop_Variant63<
   'input,
 >(
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>
 ) -> (usize, GrammarItem, usize)
  {
 match ___symbols.pop() {
@@ -5035,7 +5039,7 @@ _ => ___symbol_type_mismatch()
 fn ___pop_Variant22<
   'input,
 >(
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>
 ) -> (usize, Lifetime, usize)
  {
 match ___symbols.pop() {
@@ -5046,7 +5050,7 @@ _ => ___symbol_type_mismatch()
 fn ___pop_Variant73<
   'input,
 >(
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>
 ) -> (usize, MatchContents, usize)
  {
 match ___symbols.pop() {
@@ -5057,7 +5061,7 @@ _ => ___symbol_type_mismatch()
 fn ___pop_Variant24<
   'input,
 >(
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>
 ) -> (usize, MatchItem, usize)
  {
 match ___symbols.pop() {
@@ -5068,7 +5072,7 @@ _ => ___symbol_type_mismatch()
 fn ___pop_Variant75<
   'input,
 >(
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>
 ) -> (usize, MatchMapping, usize)
  {
 match ___symbols.pop() {
@@ -5079,7 +5083,7 @@ _ => ___symbol_type_mismatch()
 fn ___pop_Variant77<
   'input,
 >(
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>
 ) -> (usize, MatchToken, usize)
  {
 match ___symbols.pop() {
@@ -5090,7 +5094,7 @@ _ => ___symbol_type_mismatch()
 fn ___pop_Variant26<
   'input,
 >(
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>
 ) -> (usize, NonterminalString, usize)
  {
 match ___symbols.pop() {
@@ -5101,7 +5105,7 @@ _ => ___symbol_type_mismatch()
 fn ___pop_Variant16<
   'input,
 >(
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>
 ) -> (usize, Parameter, usize)
  {
 match ___symbols.pop() {
@@ -5112,7 +5116,7 @@ _ => ___symbol_type_mismatch()
 fn ___pop_Variant80<
   'input,
 >(
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>
 ) -> (usize, Path, usize)
  {
 match ___symbols.pop() {
@@ -5123,7 +5127,7 @@ _ => ___symbol_type_mismatch()
 fn ___pop_Variant28<
   'input,
 >(
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>
 ) -> (usize, Pattern<TypeRef>, usize)
  {
 match ___symbols.pop() {
@@ -5134,7 +5138,7 @@ _ => ___symbol_type_mismatch()
 fn ___pop_Variant82<
   'input,
 >(
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>
 ) -> (usize, PatternKind<TypeRef>, usize)
  {
 match ___symbols.pop() {
@@ -5145,7 +5149,7 @@ _ => ___symbol_type_mismatch()
 fn ___pop_Variant86<
   'input,
 >(
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>
 ) -> (usize, RepeatOp, usize)
  {
 match ___symbols.pop() {
@@ -5156,7 +5160,7 @@ _ => ___symbol_type_mismatch()
 fn ___pop_Variant87<
   'input,
 >(
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>
 ) -> (usize, String, usize)
  {
 match ___symbols.pop() {
@@ -5167,7 +5171,7 @@ _ => ___symbol_type_mismatch()
 fn ___pop_Variant30<
   'input,
 >(
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>
 ) -> (usize, Symbol, usize)
  {
 match ___symbols.pop() {
@@ -5178,7 +5182,7 @@ _ => ___symbol_type_mismatch()
 fn ___pop_Variant90<
   'input,
 >(
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>
 ) -> (usize, SymbolKind, usize)
  {
 match ___symbols.pop() {
@@ -5189,7 +5193,7 @@ _ => ___symbol_type_mismatch()
 fn ___pop_Variant76<
   'input,
 >(
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>
 ) -> (usize, TerminalLiteral, usize)
  {
 match ___symbols.pop() {
@@ -5200,7 +5204,7 @@ _ => ___symbol_type_mismatch()
 fn ___pop_Variant85<
   'input,
 >(
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>
 ) -> (usize, TerminalString, usize)
  {
 match ___symbols.pop() {
@@ -5211,7 +5215,7 @@ _ => ___symbol_type_mismatch()
 fn ___pop_Variant0<
   'input,
 >(
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>
 ) -> (usize, Tok<'input>, usize)
  {
 match ___symbols.pop() {
@@ -5222,7 +5226,7 @@ _ => ___symbol_type_mismatch()
 fn ___pop_Variant91<
   'input,
 >(
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>
 ) -> (usize, Top, usize)
  {
 match ___symbols.pop() {
@@ -5233,7 +5237,7 @@ _ => ___symbol_type_mismatch()
 fn ___pop_Variant32<
   'input,
 >(
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>
 ) -> (usize, TypeBound<TypeRef>, usize)
  {
 match ___symbols.pop() {
@@ -5244,7 +5248,7 @@ _ => ___symbol_type_mismatch()
 fn ___pop_Variant34<
   'input,
 >(
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>
 ) -> (usize, TypeBoundParameter<TypeRef>, usize)
  {
 match ___symbols.pop() {
@@ -5255,7 +5259,7 @@ _ => ___symbol_type_mismatch()
 fn ___pop_Variant36<
   'input,
 >(
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>
 ) -> (usize, TypeParameter, usize)
  {
 match ___symbols.pop() {
@@ -5266,7 +5270,7 @@ _ => ___symbol_type_mismatch()
 fn ___pop_Variant3<
   'input,
 >(
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>
 ) -> (usize, TypeRef, usize)
  {
 match ___symbols.pop() {
@@ -5277,7 +5281,7 @@ _ => ___symbol_type_mismatch()
 fn ___pop_Variant43<
   'input,
 >(
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>
 ) -> (usize, Vec<Alternative>, usize)
  {
 match ___symbols.pop() {
@@ -5288,7 +5292,7 @@ _ => ___symbol_type_mismatch()
 fn ___pop_Variant50<
   'input,
 >(
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>
 ) -> (usize, Vec<Conversion>, usize)
  {
 match ___symbols.pop() {
@@ -5299,7 +5303,7 @@ _ => ___symbol_type_mismatch()
 fn ___pop_Variant83<
   'input,
 >(
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>
 ) -> (usize, Vec<Lifetime>, usize)
  {
 match ___symbols.pop() {
@@ -5310,7 +5314,7 @@ _ => ___symbol_type_mismatch()
 fn ___pop_Variant53<
   'input,
 >(
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>
 ) -> (usize, Vec<MatchItem>, usize)
  {
 match ___symbols.pop() {
@@ -5321,7 +5325,7 @@ _ => ___symbol_type_mismatch()
 fn ___pop_Variant54<
   'input,
 >(
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>
 ) -> (usize, Vec<NonterminalString>, usize)
  {
 match ___symbols.pop() {
@@ -5332,7 +5336,7 @@ _ => ___symbol_type_mismatch()
 fn ___pop_Variant51<
   'input,
 >(
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>
 ) -> (usize, Vec<Parameter>, usize)
  {
 match ___symbols.pop() {
@@ -5343,7 +5347,7 @@ _ => ___symbol_type_mismatch()
 fn ___pop_Variant55<
   'input,
 >(
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>
 ) -> (usize, Vec<Pattern<TypeRef>>, usize)
  {
 match ___symbols.pop() {
@@ -5354,7 +5358,7 @@ _ => ___symbol_type_mismatch()
 fn ___pop_Variant56<
   'input,
 >(
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>
 ) -> (usize, Vec<Symbol>, usize)
  {
 match ___symbols.pop() {
@@ -5365,7 +5369,7 @@ _ => ___symbol_type_mismatch()
 fn ___pop_Variant84<
   'input,
 >(
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>
 ) -> (usize, Vec<TypeBound<TypeRef>>, usize)
  {
 match ___symbols.pop() {
@@ -5376,7 +5380,7 @@ _ => ___symbol_type_mismatch()
 fn ___pop_Variant5<
   'input,
 >(
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>
 ) -> (usize, Vec<TypeBoundParameter<TypeRef>>, usize)
  {
 match ___symbols.pop() {
@@ -5387,7 +5391,7 @@ _ => ___symbol_type_mismatch()
 fn ___pop_Variant57<
   'input,
 >(
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>
 ) -> (usize, Vec<TypeParameter>, usize)
  {
 match ___symbols.pop() {
@@ -5398,7 +5402,7 @@ _ => ___symbol_type_mismatch()
 fn ___pop_Variant58<
   'input,
 >(
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>
 ) -> (usize, Vec<TypeRef>, usize)
  {
 match ___symbols.pop() {
@@ -5409,7 +5413,7 @@ _ => ___symbol_type_mismatch()
 fn ___pop_Variant52<
   'input,
 >(
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>
 ) -> (usize, Vec<WhereClause<TypeRef>>, usize)
  {
 match ___symbols.pop() {
@@ -5420,7 +5424,7 @@ _ => ___symbol_type_mismatch()
 fn ___pop_Variant95<
   'input,
 >(
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>
 ) -> (usize, Visibility, usize)
  {
 match ___symbols.pop() {
@@ -5431,7 +5435,7 @@ _ => ___symbol_type_mismatch()
 fn ___pop_Variant18<
   'input,
 >(
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>
 ) -> (usize, WhereClause<TypeRef>, usize)
  {
 match ___symbols.pop() {
@@ -5439,264 +5443,11 @@ Some((___l, ___Symbol::Variant18(___v), ___r)) => (___l, ___v, ___r),
 _ => ___symbol_type_mismatch()
 }
 }
-fn ___pop_Variant39<
-  'input,
->(
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>
-) -> (usize, usize, usize)
- {
-match ___symbols.pop() {
-Some((___l, ___Symbol::Variant39(___v), ___r)) => (___l, ___v, ___r),
-_ => ___symbol_type_mismatch()
-}
-}
-fn ___pop_Variant47<
-  'input,
->(
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>
-) -> (usize, ::std::option::Option<(Atom, String)>, usize)
- {
-match ___symbols.pop() {
-Some((___l, ___Symbol::Variant47(___v), ___r)) => (___l, ___v, ___r),
-_ => ___symbol_type_mismatch()
-}
-}
-fn ___pop_Variant41<
-  'input,
->(
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>
-) -> (usize, ::std::option::Option<ActionKind>, usize)
- {
-match ___symbols.pop() {
-Some((___l, ___Symbol::Variant41(___v), ___r)) => (___l, ___v, ___r),
-_ => ___symbol_type_mismatch()
-}
-}
-fn ___pop_Variant42<
-  'input,
->(
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>
-) -> (usize, ::std::option::Option<Alternative>, usize)
- {
-match ___symbols.pop() {
-Some((___l, ___Symbol::Variant42(___v), ___r)) => (___l, ___v, ___r),
-_ => ___symbol_type_mismatch()
-}
-}
-fn ___pop_Variant8<
-  'input,
->(
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>
-) -> (usize, ::std::option::Option<Condition>, usize)
- {
-match ___symbols.pop() {
-Some((___l, ___Symbol::Variant8(___v), ___r)) => (___l, ___v, ___r),
-_ => ___symbol_type_mismatch()
-}
-}
-fn ___pop_Variant60<
-  'input,
->(
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>
-) -> (usize, ::std::option::Option<Conversion>, usize)
- {
-match ___symbols.pop() {
-Some((___l, ___Symbol::Variant60(___v), ___r)) => (___l, ___v, ___r),
-_ => ___symbol_type_mismatch()
-}
-}
-fn ___pop_Variant64<
-  'input,
->(
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>
-) -> (usize, ::std::option::Option<FieldPattern<TypeRef>>, usize)
- {
-match ___symbols.pop() {
-Some((___l, ___Symbol::Variant64(___v), ___r)) => (___l, ___v, ___r),
-_ => ___symbol_type_mismatch()
-}
-}
-fn ___pop_Variant72<
-  'input,
->(
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>
-) -> (usize, ::std::option::Option<Lifetime>, usize)
- {
-match ___symbols.pop() {
-Some((___l, ___Symbol::Variant72(___v), ___r)) => (___l, ___v, ___r),
-_ => ___symbol_type_mismatch()
-}
-}
-fn ___pop_Variant74<
-  'input,
->(
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>
-) -> (usize, ::std::option::Option<MatchItem>, usize)
- {
-match ___symbols.pop() {
-Some((___l, ___Symbol::Variant74(___v), ___r)) => (___l, ___v, ___r),
-_ => ___symbol_type_mismatch()
-}
-}
-fn ___pop_Variant79<
-  'input,
->(
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>
-) -> (usize, ::std::option::Option<NonterminalString>, usize)
- {
-match ___symbols.pop() {
-Some((___l, ___Symbol::Variant79(___v), ___r)) => (___l, ___v, ___r),
-_ => ___symbol_type_mismatch()
-}
-}
-fn ___pop_Variant67<
-  'input,
->(
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>
-) -> (usize, ::std::option::Option<Parameter>, usize)
- {
-match ___symbols.pop() {
-Some((___l, ___Symbol::Variant67(___v), ___r)) => (___l, ___v, ___r),
-_ => ___symbol_type_mismatch()
-}
-}
-fn ___pop_Variant81<
-  'input,
->(
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>
-) -> (usize, ::std::option::Option<Pattern<TypeRef>>, usize)
- {
-match ___symbols.pop() {
-Some((___l, ___Symbol::Variant81(___v), ___r)) => (___l, ___v, ___r),
-_ => ___symbol_type_mismatch()
-}
-}
-fn ___pop_Variant89<
-  'input,
->(
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>
-) -> (usize, ::std::option::Option<Symbol>, usize)
- {
-match ___symbols.pop() {
-Some((___l, ___Symbol::Variant89(___v), ___r)) => (___l, ___v, ___r),
-_ => ___symbol_type_mismatch()
-}
-}
-fn ___pop_Variant2<
-  'input,
->(
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>
-) -> (usize, ::std::option::Option<Tok<'input>>, usize)
- {
-match ___symbols.pop() {
-Some((___l, ___Symbol::Variant2(___v), ___r)) => (___l, ___v, ___r),
-_ => ___symbol_type_mismatch()
-}
-}
-fn ___pop_Variant92<
-  'input,
->(
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>
-) -> (usize, ::std::option::Option<TypeBound<TypeRef>>, usize)
- {
-match ___symbols.pop() {
-Some((___l, ___Symbol::Variant92(___v), ___r)) => (___l, ___v, ___r),
-_ => ___symbol_type_mismatch()
-}
-}
-fn ___pop_Variant93<
-  'input,
->(
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>
-) -> (usize, ::std::option::Option<TypeBoundParameter<TypeRef>>, usize)
- {
-match ___symbols.pop() {
-Some((___l, ___Symbol::Variant93(___v), ___r)) => (___l, ___v, ___r),
-_ => ___symbol_type_mismatch()
-}
-}
-fn ___pop_Variant94<
-  'input,
->(
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>
-) -> (usize, ::std::option::Option<TypeParameter>, usize)
- {
-match ___symbols.pop() {
-Some((___l, ___Symbol::Variant94(___v), ___r)) => (___l, ___v, ___r),
-_ => ___symbol_type_mismatch()
-}
-}
-fn ___pop_Variant4<
-  'input,
->(
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>
-) -> (usize, ::std::option::Option<TypeRef>, usize)
- {
-match ___symbols.pop() {
-Some((___l, ___Symbol::Variant4(___v), ___r)) => (___l, ___v, ___r),
-_ => ___symbol_type_mismatch()
-}
-}
-fn ___pop_Variant68<
-  'input,
->(
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>
-) -> (usize, ::std::option::Option<Vec<Parameter>>, usize)
- {
-match ___symbols.pop() {
-Some((___l, ___Symbol::Variant68(___v), ___r)) => (___l, ___v, ___r),
-_ => ___symbol_type_mismatch()
-}
-}
-fn ___pop_Variant6<
-  'input,
->(
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>
-) -> (usize, ::std::option::Option<Vec<TypeBoundParameter<TypeRef>>>, usize)
- {
-match ___symbols.pop() {
-Some((___l, ___Symbol::Variant6(___v), ___r)) => (___l, ___v, ___r),
-_ => ___symbol_type_mismatch()
-}
-}
-fn ___pop_Variant69<
-  'input,
->(
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>
-) -> (usize, ::std::option::Option<Vec<TypeParameter>>, usize)
- {
-match ___symbols.pop() {
-Some((___l, ___Symbol::Variant69(___v), ___r)) => (___l, ___v, ___r),
-_ => ___symbol_type_mismatch()
-}
-}
-fn ___pop_Variant71<
-  'input,
->(
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>
-) -> (usize, ::std::option::Option<Vec<WhereClause<TypeRef>>>, usize)
- {
-match ___symbols.pop() {
-Some((___l, ___Symbol::Variant71(___v), ___r)) => (___l, ___v, ___r),
-_ => ___symbol_type_mismatch()
-}
-}
-fn ___pop_Variant70<
-  'input,
->(
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>
-) -> (usize, ::std::option::Option<WhereClause<TypeRef>>, usize)
- {
-match ___symbols.pop() {
-Some((___l, ___Symbol::Variant70(___v), ___r)) => (___l, ___v, ___r),
-_ => ___symbol_type_mismatch()
-}
-}
 fn ___pop_Variant11<
   'input,
 >(
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>
-) -> (usize, ::std::vec::Vec<Alternative>, usize)
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>
+) -> (usize, alloc::vec::Vec<Alternative>, usize)
  {
 match ___symbols.pop() {
 Some((___l, ___Symbol::Variant11(___v), ___r)) => (___l, ___v, ___r),
@@ -5706,8 +5457,8 @@ _ => ___symbol_type_mismatch()
 fn ___pop_Variant45<
   'input,
 >(
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>
-) -> (usize, ::std::vec::Vec<Annotation>, usize)
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>
+) -> (usize, alloc::vec::Vec<Annotation>, usize)
  {
 match ___symbols.pop() {
 Some((___l, ___Symbol::Variant45(___v), ___r)) => (___l, ___v, ___r),
@@ -5717,8 +5468,8 @@ _ => ___symbol_type_mismatch()
 fn ___pop_Variant49<
   'input,
 >(
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>
-) -> (usize, ::std::vec::Vec<AssociatedType>, usize)
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>
+) -> (usize, alloc::vec::Vec<AssociatedType>, usize)
  {
 match ___symbols.pop() {
 Some((___l, ___Symbol::Variant49(___v), ___r)) => (___l, ___v, ___r),
@@ -5728,8 +5479,8 @@ _ => ___symbol_type_mismatch()
 fn ___pop_Variant21<
   'input,
 >(
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>
-) -> (usize, ::std::vec::Vec<Atom>, usize)
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>
+) -> (usize, alloc::vec::Vec<Atom>, usize)
  {
 match ___symbols.pop() {
 Some((___l, ___Symbol::Variant21(___v), ___r)) => (___l, ___v, ___r),
@@ -5739,8 +5490,8 @@ _ => ___symbol_type_mismatch()
 fn ___pop_Variant13<
   'input,
 >(
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>
-) -> (usize, ::std::vec::Vec<Conversion>, usize)
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>
+) -> (usize, alloc::vec::Vec<Conversion>, usize)
  {
 match ___symbols.pop() {
 Some((___l, ___Symbol::Variant13(___v), ___r)) => (___l, ___v, ___r),
@@ -5750,8 +5501,8 @@ _ => ___symbol_type_mismatch()
 fn ___pop_Variant15<
   'input,
 >(
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>
-) -> (usize, ::std::vec::Vec<FieldPattern<TypeRef>>, usize)
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>
+) -> (usize, alloc::vec::Vec<FieldPattern<TypeRef>>, usize)
  {
 match ___symbols.pop() {
 Some((___l, ___Symbol::Variant15(___v), ___r)) => (___l, ___v, ___r),
@@ -5761,8 +5512,8 @@ _ => ___symbol_type_mismatch()
 fn ___pop_Variant66<
   'input,
 >(
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>
-) -> (usize, ::std::vec::Vec<GrammarItem>, usize)
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>
+) -> (usize, alloc::vec::Vec<GrammarItem>, usize)
  {
 match ___symbols.pop() {
 Some((___l, ___Symbol::Variant66(___v), ___r)) => (___l, ___v, ___r),
@@ -5772,8 +5523,8 @@ _ => ___symbol_type_mismatch()
 fn ___pop_Variant23<
   'input,
 >(
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>
-) -> (usize, ::std::vec::Vec<Lifetime>, usize)
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>
+) -> (usize, alloc::vec::Vec<Lifetime>, usize)
  {
 match ___symbols.pop() {
 Some((___l, ___Symbol::Variant23(___v), ___r)) => (___l, ___v, ___r),
@@ -5783,8 +5534,8 @@ _ => ___symbol_type_mismatch()
 fn ___pop_Variant25<
   'input,
 >(
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>
-) -> (usize, ::std::vec::Vec<MatchItem>, usize)
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>
+) -> (usize, alloc::vec::Vec<MatchItem>, usize)
  {
 match ___symbols.pop() {
 Some((___l, ___Symbol::Variant25(___v), ___r)) => (___l, ___v, ___r),
@@ -5794,8 +5545,8 @@ _ => ___symbol_type_mismatch()
 fn ___pop_Variant27<
   'input,
 >(
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>
-) -> (usize, ::std::vec::Vec<NonterminalString>, usize)
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>
+) -> (usize, alloc::vec::Vec<NonterminalString>, usize)
  {
 match ___symbols.pop() {
 Some((___l, ___Symbol::Variant27(___v), ___r)) => (___l, ___v, ___r),
@@ -5805,8 +5556,8 @@ _ => ___symbol_type_mismatch()
 fn ___pop_Variant17<
   'input,
 >(
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>
-) -> (usize, ::std::vec::Vec<Parameter>, usize)
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>
+) -> (usize, alloc::vec::Vec<Parameter>, usize)
  {
 match ___symbols.pop() {
 Some((___l, ___Symbol::Variant17(___v), ___r)) => (___l, ___v, ___r),
@@ -5816,8 +5567,8 @@ _ => ___symbol_type_mismatch()
 fn ___pop_Variant29<
   'input,
 >(
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>
-) -> (usize, ::std::vec::Vec<Pattern<TypeRef>>, usize)
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>
+) -> (usize, alloc::vec::Vec<Pattern<TypeRef>>, usize)
  {
 match ___symbols.pop() {
 Some((___l, ___Symbol::Variant29(___v), ___r)) => (___l, ___v, ___r),
@@ -5827,8 +5578,8 @@ _ => ___symbol_type_mismatch()
 fn ___pop_Variant88<
   'input,
 >(
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>
-) -> (usize, ::std::vec::Vec<String>, usize)
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>
+) -> (usize, alloc::vec::Vec<String>, usize)
  {
 match ___symbols.pop() {
 Some((___l, ___Symbol::Variant88(___v), ___r)) => (___l, ___v, ___r),
@@ -5838,8 +5589,8 @@ _ => ___symbol_type_mismatch()
 fn ___pop_Variant31<
   'input,
 >(
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>
-) -> (usize, ::std::vec::Vec<Symbol>, usize)
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>
+) -> (usize, alloc::vec::Vec<Symbol>, usize)
  {
 match ___symbols.pop() {
 Some((___l, ___Symbol::Variant31(___v), ___r)) => (___l, ___v, ___r),
@@ -5849,8 +5600,8 @@ _ => ___symbol_type_mismatch()
 fn ___pop_Variant33<
   'input,
 >(
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>
-) -> (usize, ::std::vec::Vec<TypeBound<TypeRef>>, usize)
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>
+) -> (usize, alloc::vec::Vec<TypeBound<TypeRef>>, usize)
  {
 match ___symbols.pop() {
 Some((___l, ___Symbol::Variant33(___v), ___r)) => (___l, ___v, ___r),
@@ -5860,8 +5611,8 @@ _ => ___symbol_type_mismatch()
 fn ___pop_Variant35<
   'input,
 >(
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>
-) -> (usize, ::std::vec::Vec<TypeBoundParameter<TypeRef>>, usize)
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>
+) -> (usize, alloc::vec::Vec<TypeBoundParameter<TypeRef>>, usize)
  {
 match ___symbols.pop() {
 Some((___l, ___Symbol::Variant35(___v), ___r)) => (___l, ___v, ___r),
@@ -5871,8 +5622,8 @@ _ => ___symbol_type_mismatch()
 fn ___pop_Variant37<
   'input,
 >(
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>
-) -> (usize, ::std::vec::Vec<TypeParameter>, usize)
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>
+) -> (usize, alloc::vec::Vec<TypeParameter>, usize)
  {
 match ___symbols.pop() {
 Some((___l, ___Symbol::Variant37(___v), ___r)) => (___l, ___v, ___r),
@@ -5882,8 +5633,8 @@ _ => ___symbol_type_mismatch()
 fn ___pop_Variant38<
   'input,
 >(
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>
-) -> (usize, ::std::vec::Vec<TypeRef>, usize)
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>
+) -> (usize, alloc::vec::Vec<TypeRef>, usize)
  {
 match ___symbols.pop() {
 Some((___l, ___Symbol::Variant38(___v), ___r)) => (___l, ___v, ___r),
@@ -5893,18 +5644,271 @@ _ => ___symbol_type_mismatch()
 fn ___pop_Variant19<
   'input,
 >(
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>
-) -> (usize, ::std::vec::Vec<WhereClause<TypeRef>>, usize)
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>
+) -> (usize, alloc::vec::Vec<WhereClause<TypeRef>>, usize)
  {
 match ___symbols.pop() {
 Some((___l, ___Symbol::Variant19(___v), ___r)) => (___l, ___v, ___r),
 _ => ___symbol_type_mismatch()
 }
 }
+fn ___pop_Variant47<
+  'input,
+>(
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>
+) -> (usize, core::option::Option<(Atom, String)>, usize)
+ {
+match ___symbols.pop() {
+Some((___l, ___Symbol::Variant47(___v), ___r)) => (___l, ___v, ___r),
+_ => ___symbol_type_mismatch()
+}
+}
+fn ___pop_Variant41<
+  'input,
+>(
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>
+) -> (usize, core::option::Option<ActionKind>, usize)
+ {
+match ___symbols.pop() {
+Some((___l, ___Symbol::Variant41(___v), ___r)) => (___l, ___v, ___r),
+_ => ___symbol_type_mismatch()
+}
+}
+fn ___pop_Variant42<
+  'input,
+>(
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>
+) -> (usize, core::option::Option<Alternative>, usize)
+ {
+match ___symbols.pop() {
+Some((___l, ___Symbol::Variant42(___v), ___r)) => (___l, ___v, ___r),
+_ => ___symbol_type_mismatch()
+}
+}
+fn ___pop_Variant8<
+  'input,
+>(
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>
+) -> (usize, core::option::Option<Condition>, usize)
+ {
+match ___symbols.pop() {
+Some((___l, ___Symbol::Variant8(___v), ___r)) => (___l, ___v, ___r),
+_ => ___symbol_type_mismatch()
+}
+}
+fn ___pop_Variant60<
+  'input,
+>(
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>
+) -> (usize, core::option::Option<Conversion>, usize)
+ {
+match ___symbols.pop() {
+Some((___l, ___Symbol::Variant60(___v), ___r)) => (___l, ___v, ___r),
+_ => ___symbol_type_mismatch()
+}
+}
+fn ___pop_Variant64<
+  'input,
+>(
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>
+) -> (usize, core::option::Option<FieldPattern<TypeRef>>, usize)
+ {
+match ___symbols.pop() {
+Some((___l, ___Symbol::Variant64(___v), ___r)) => (___l, ___v, ___r),
+_ => ___symbol_type_mismatch()
+}
+}
+fn ___pop_Variant72<
+  'input,
+>(
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>
+) -> (usize, core::option::Option<Lifetime>, usize)
+ {
+match ___symbols.pop() {
+Some((___l, ___Symbol::Variant72(___v), ___r)) => (___l, ___v, ___r),
+_ => ___symbol_type_mismatch()
+}
+}
+fn ___pop_Variant74<
+  'input,
+>(
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>
+) -> (usize, core::option::Option<MatchItem>, usize)
+ {
+match ___symbols.pop() {
+Some((___l, ___Symbol::Variant74(___v), ___r)) => (___l, ___v, ___r),
+_ => ___symbol_type_mismatch()
+}
+}
+fn ___pop_Variant79<
+  'input,
+>(
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>
+) -> (usize, core::option::Option<NonterminalString>, usize)
+ {
+match ___symbols.pop() {
+Some((___l, ___Symbol::Variant79(___v), ___r)) => (___l, ___v, ___r),
+_ => ___symbol_type_mismatch()
+}
+}
+fn ___pop_Variant67<
+  'input,
+>(
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>
+) -> (usize, core::option::Option<Parameter>, usize)
+ {
+match ___symbols.pop() {
+Some((___l, ___Symbol::Variant67(___v), ___r)) => (___l, ___v, ___r),
+_ => ___symbol_type_mismatch()
+}
+}
+fn ___pop_Variant81<
+  'input,
+>(
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>
+) -> (usize, core::option::Option<Pattern<TypeRef>>, usize)
+ {
+match ___symbols.pop() {
+Some((___l, ___Symbol::Variant81(___v), ___r)) => (___l, ___v, ___r),
+_ => ___symbol_type_mismatch()
+}
+}
+fn ___pop_Variant89<
+  'input,
+>(
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>
+) -> (usize, core::option::Option<Symbol>, usize)
+ {
+match ___symbols.pop() {
+Some((___l, ___Symbol::Variant89(___v), ___r)) => (___l, ___v, ___r),
+_ => ___symbol_type_mismatch()
+}
+}
+fn ___pop_Variant2<
+  'input,
+>(
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>
+) -> (usize, core::option::Option<Tok<'input>>, usize)
+ {
+match ___symbols.pop() {
+Some((___l, ___Symbol::Variant2(___v), ___r)) => (___l, ___v, ___r),
+_ => ___symbol_type_mismatch()
+}
+}
+fn ___pop_Variant92<
+  'input,
+>(
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>
+) -> (usize, core::option::Option<TypeBound<TypeRef>>, usize)
+ {
+match ___symbols.pop() {
+Some((___l, ___Symbol::Variant92(___v), ___r)) => (___l, ___v, ___r),
+_ => ___symbol_type_mismatch()
+}
+}
+fn ___pop_Variant93<
+  'input,
+>(
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>
+) -> (usize, core::option::Option<TypeBoundParameter<TypeRef>>, usize)
+ {
+match ___symbols.pop() {
+Some((___l, ___Symbol::Variant93(___v), ___r)) => (___l, ___v, ___r),
+_ => ___symbol_type_mismatch()
+}
+}
+fn ___pop_Variant94<
+  'input,
+>(
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>
+) -> (usize, core::option::Option<TypeParameter>, usize)
+ {
+match ___symbols.pop() {
+Some((___l, ___Symbol::Variant94(___v), ___r)) => (___l, ___v, ___r),
+_ => ___symbol_type_mismatch()
+}
+}
+fn ___pop_Variant4<
+  'input,
+>(
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>
+) -> (usize, core::option::Option<TypeRef>, usize)
+ {
+match ___symbols.pop() {
+Some((___l, ___Symbol::Variant4(___v), ___r)) => (___l, ___v, ___r),
+_ => ___symbol_type_mismatch()
+}
+}
+fn ___pop_Variant68<
+  'input,
+>(
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>
+) -> (usize, core::option::Option<Vec<Parameter>>, usize)
+ {
+match ___symbols.pop() {
+Some((___l, ___Symbol::Variant68(___v), ___r)) => (___l, ___v, ___r),
+_ => ___symbol_type_mismatch()
+}
+}
+fn ___pop_Variant6<
+  'input,
+>(
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>
+) -> (usize, core::option::Option<Vec<TypeBoundParameter<TypeRef>>>, usize)
+ {
+match ___symbols.pop() {
+Some((___l, ___Symbol::Variant6(___v), ___r)) => (___l, ___v, ___r),
+_ => ___symbol_type_mismatch()
+}
+}
+fn ___pop_Variant69<
+  'input,
+>(
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>
+) -> (usize, core::option::Option<Vec<TypeParameter>>, usize)
+ {
+match ___symbols.pop() {
+Some((___l, ___Symbol::Variant69(___v), ___r)) => (___l, ___v, ___r),
+_ => ___symbol_type_mismatch()
+}
+}
+fn ___pop_Variant71<
+  'input,
+>(
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>
+) -> (usize, core::option::Option<Vec<WhereClause<TypeRef>>>, usize)
+ {
+match ___symbols.pop() {
+Some((___l, ___Symbol::Variant71(___v), ___r)) => (___l, ___v, ___r),
+_ => ___symbol_type_mismatch()
+}
+}
+fn ___pop_Variant70<
+  'input,
+>(
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>
+) -> (usize, core::option::Option<WhereClause<TypeRef>>, usize)
+ {
+match ___symbols.pop() {
+Some((___l, ___Symbol::Variant70(___v), ___r)) => (___l, ___v, ___r),
+_ => ___symbol_type_mismatch()
+}
+}
+fn ___pop_Variant39<
+  'input,
+>(
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>
+) -> (usize, usize, usize)
+ {
+match ___symbols.pop() {
+Some((___l, ___Symbol::Variant39(___v), ___r)) => (___l, ___v, ___r),
+_ => ___symbol_type_mismatch()
+}
+}
 fn ___pop_Variant1<
   'input,
 >(
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>
 ) -> (usize, &'input str, usize)
  {
 match ___symbols.pop() {
@@ -5917,8 +5921,8 @@ pub(crate) fn ___reduce0<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // "::"? = "::" => ActionFn(136);
@@ -5934,8 +5938,8 @@ pub(crate) fn ___reduce1<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // "::"? =  => ActionFn(137);
@@ -5950,8 +5954,8 @@ pub(crate) fn ___reduce2<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // ";"? = ";" => ActionFn(153);
@@ -5967,8 +5971,8 @@ pub(crate) fn ___reduce3<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // ";"? =  => ActionFn(154);
@@ -5983,8 +5987,8 @@ pub(crate) fn ___reduce4<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // "mut"? = "mut" => ActionFn(142);
@@ -6000,8 +6004,8 @@ pub(crate) fn ___reduce5<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // "mut"? =  => ActionFn(143);
@@ -6016,8 +6020,8 @@ pub(crate) fn ___reduce6<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // ("->" <TypeRef>) = "->", TypeRef => ActionFn(169);
@@ -6035,8 +6039,8 @@ pub(crate) fn ___reduce7<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // ("->" <TypeRef>)? = "->", TypeRef => ActionFn(310);
@@ -6054,8 +6058,8 @@ pub(crate) fn ___reduce8<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // ("->" <TypeRef>)? =  => ActionFn(168);
@@ -6070,8 +6074,8 @@ pub(crate) fn ___reduce9<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (":" <TypeRef>) = ":", TypeRef => ActionFn(161);
@@ -6089,8 +6093,8 @@ pub(crate) fn ___reduce10<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (":" <TypeRef>)? = ":", TypeRef => ActionFn(315);
@@ -6108,8 +6112,8 @@ pub(crate) fn ___reduce11<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (":" <TypeRef>)? =  => ActionFn(160);
@@ -6124,8 +6128,8 @@ pub(crate) fn ___reduce12<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // ("<" <Comma<TypeBoundParameter>> ">") = "<", Comma<TypeBoundParameter>, ">" => ActionFn(165);
@@ -6144,8 +6148,8 @@ pub(crate) fn ___reduce13<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // ("<" <Comma<TypeBoundParameter>> ">")? = "<", Comma<TypeBoundParameter>, ">" => ActionFn(318);
@@ -6164,8 +6168,8 @@ pub(crate) fn ___reduce14<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // ("<" <Comma<TypeBoundParameter>> ">")? =  => ActionFn(164);
@@ -6180,8 +6184,8 @@ pub(crate) fn ___reduce15<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // ("if" <Cond>) = "if", Cond => ActionFn(150);
@@ -6199,8 +6203,8 @@ pub(crate) fn ___reduce16<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // ("if" <Cond>)? = "if", Cond => ActionFn(321);
@@ -6218,8 +6222,8 @@ pub(crate) fn ___reduce17<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // ("if" <Cond>)? =  => ActionFn(149);
@@ -6234,8 +6238,8 @@ pub(crate) fn ___reduce18<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // () =  => ActionFn(172);
@@ -6250,8 +6254,8 @@ pub(crate) fn ___reduce19<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<Alternative> ",") = Alternative, "," => ActionFn(242);
@@ -6269,8 +6273,8 @@ pub(crate) fn ___reduce20<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<Alternative> ",")* =  => ActionFn(240);
@@ -6285,8 +6289,8 @@ pub(crate) fn ___reduce21<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<Alternative> ",")* = (<Alternative> ",")+ => ActionFn(241);
@@ -6302,8 +6306,8 @@ pub(crate) fn ___reduce22<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<Alternative> ",")+ = Alternative, "," => ActionFn(328);
@@ -6321,8 +6325,8 @@ pub(crate) fn ___reduce23<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<Alternative> ",")+ = (<Alternative> ",")+, Alternative, "," => ActionFn(329);
@@ -6341,8 +6345,8 @@ pub(crate) fn ___reduce24<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<Conversion> ",") = Conversion, "," => ActionFn(266);
@@ -6360,8 +6364,8 @@ pub(crate) fn ___reduce25<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<Conversion> ",")* =  => ActionFn(264);
@@ -6376,8 +6380,8 @@ pub(crate) fn ___reduce26<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<Conversion> ",")* = (<Conversion> ",")+ => ActionFn(265);
@@ -6393,8 +6397,8 @@ pub(crate) fn ___reduce27<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<Conversion> ",")+ = Conversion, "," => ActionFn(332);
@@ -6412,8 +6416,8 @@ pub(crate) fn ___reduce28<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<Conversion> ",")+ = (<Conversion> ",")+, Conversion, "," => ActionFn(333);
@@ -6432,8 +6436,8 @@ pub(crate) fn ___reduce29<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<FieldPattern> ",") = FieldPattern, "," => ActionFn(127);
@@ -6451,8 +6455,8 @@ pub(crate) fn ___reduce30<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<FieldPattern> ",")* =  => ActionFn(125);
@@ -6467,8 +6471,8 @@ pub(crate) fn ___reduce31<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<FieldPattern> ",")* = (<FieldPattern> ",")+ => ActionFn(126);
@@ -6484,8 +6488,8 @@ pub(crate) fn ___reduce32<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<FieldPattern> ",")+ = FieldPattern, "," => ActionFn(336);
@@ -6503,8 +6507,8 @@ pub(crate) fn ___reduce33<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<FieldPattern> ",")+ = (<FieldPattern> ",")+, FieldPattern, "," => ActionFn(337);
@@ -6523,8 +6527,8 @@ pub(crate) fn ___reduce34<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<GrammarParameter> ",") = GrammarParameter, "," => ActionFn(232);
@@ -6542,8 +6546,8 @@ pub(crate) fn ___reduce35<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<GrammarParameter> ",")* =  => ActionFn(230);
@@ -6558,8 +6562,8 @@ pub(crate) fn ___reduce36<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<GrammarParameter> ",")* = (<GrammarParameter> ",")+ => ActionFn(231);
@@ -6575,8 +6579,8 @@ pub(crate) fn ___reduce37<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<GrammarParameter> ",")+ = GrammarParameter, "," => ActionFn(342);
@@ -6594,8 +6598,8 @@ pub(crate) fn ___reduce38<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<GrammarParameter> ",")+ = (<GrammarParameter> ",")+, GrammarParameter, "," => ActionFn(343);
@@ -6614,8 +6618,8 @@ pub(crate) fn ___reduce39<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<GrammarWhereClause> ",") = GrammarWhereClause, "," => ActionFn(209);
@@ -6633,8 +6637,8 @@ pub(crate) fn ___reduce40<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<GrammarWhereClause> ",")* =  => ActionFn(207);
@@ -6649,8 +6653,8 @@ pub(crate) fn ___reduce41<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<GrammarWhereClause> ",")* = (<GrammarWhereClause> ",")+ => ActionFn(208);
@@ -6666,8 +6670,8 @@ pub(crate) fn ___reduce42<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<GrammarWhereClause> ",")+ = GrammarWhereClause, "," => ActionFn(346);
@@ -6685,8 +6689,8 @@ pub(crate) fn ___reduce43<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<GrammarWhereClause> ",")+ = (<GrammarWhereClause> ",")+, GrammarWhereClause, "," => ActionFn(347);
@@ -6705,8 +6709,8 @@ pub(crate) fn ___reduce44<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<Id> "::") = Id, "::" => ActionFn(135);
@@ -6724,8 +6728,8 @@ pub(crate) fn ___reduce45<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<Id> "::")* =  => ActionFn(133);
@@ -6740,8 +6744,8 @@ pub(crate) fn ___reduce46<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<Id> "::")* = (<Id> "::")+ => ActionFn(134);
@@ -6757,8 +6761,8 @@ pub(crate) fn ___reduce47<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<Id> "::")+ = Id, "::" => ActionFn(350);
@@ -6776,8 +6780,8 @@ pub(crate) fn ___reduce48<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<Id> "::")+ = (<Id> "::")+, Id, "::" => ActionFn(351);
@@ -6796,8 +6800,8 @@ pub(crate) fn ___reduce49<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<Lifetime> "+") = Lifetime, "+" => ActionFn(212);
@@ -6815,8 +6819,8 @@ pub(crate) fn ___reduce50<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<Lifetime> "+")* =  => ActionFn(210);
@@ -6831,8 +6835,8 @@ pub(crate) fn ___reduce51<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<Lifetime> "+")* = (<Lifetime> "+")+ => ActionFn(211);
@@ -6848,8 +6852,8 @@ pub(crate) fn ___reduce52<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<Lifetime> "+")+ = Lifetime, "+" => ActionFn(356);
@@ -6867,8 +6871,8 @@ pub(crate) fn ___reduce53<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<Lifetime> "+")+ = (<Lifetime> "+")+, Lifetime, "+" => ActionFn(357);
@@ -6887,8 +6891,8 @@ pub(crate) fn ___reduce54<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<MatchItem> ",") = MatchItem, "," => ActionFn(261);
@@ -6906,8 +6910,8 @@ pub(crate) fn ___reduce55<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<MatchItem> ",")* =  => ActionFn(259);
@@ -6922,8 +6926,8 @@ pub(crate) fn ___reduce56<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<MatchItem> ",")* = (<MatchItem> ",")+ => ActionFn(260);
@@ -6939,8 +6943,8 @@ pub(crate) fn ___reduce57<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<MatchItem> ",")+ = MatchItem, "," => ActionFn(360);
@@ -6958,8 +6962,8 @@ pub(crate) fn ___reduce58<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<MatchItem> ",")+ = (<MatchItem> ",")+, MatchItem, "," => ActionFn(361);
@@ -6978,8 +6982,8 @@ pub(crate) fn ___reduce59<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<NotMacroId> ",") = NotMacroId, "," => ActionFn(237);
@@ -6997,8 +7001,8 @@ pub(crate) fn ___reduce60<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<NotMacroId> ",")* =  => ActionFn(235);
@@ -7013,8 +7017,8 @@ pub(crate) fn ___reduce61<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<NotMacroId> ",")* = (<NotMacroId> ",")+ => ActionFn(236);
@@ -7030,8 +7034,8 @@ pub(crate) fn ___reduce62<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<NotMacroId> ",")+ = NotMacroId, "," => ActionFn(364);
@@ -7049,8 +7053,8 @@ pub(crate) fn ___reduce63<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<NotMacroId> ",")+ = (<NotMacroId> ",")+, NotMacroId, "," => ActionFn(365);
@@ -7069,8 +7073,8 @@ pub(crate) fn ___reduce64<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<Pattern> ",") = Pattern, "," => ActionFn(271);
@@ -7088,8 +7092,8 @@ pub(crate) fn ___reduce65<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<Pattern> ",")* =  => ActionFn(269);
@@ -7104,8 +7108,8 @@ pub(crate) fn ___reduce66<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<Pattern> ",")* = (<Pattern> ",")+ => ActionFn(270);
@@ -7121,8 +7125,8 @@ pub(crate) fn ___reduce67<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<Pattern> ",")+ = Pattern, "," => ActionFn(368);
@@ -7140,8 +7144,8 @@ pub(crate) fn ___reduce68<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<Pattern> ",")+ = (<Pattern> ",")+, Pattern, "," => ActionFn(369);
@@ -7160,8 +7164,8 @@ pub(crate) fn ___reduce69<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<Symbol> ",") = Symbol, "," => ActionFn(247);
@@ -7179,8 +7183,8 @@ pub(crate) fn ___reduce70<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<Symbol> ",")* =  => ActionFn(245);
@@ -7195,8 +7199,8 @@ pub(crate) fn ___reduce71<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<Symbol> ",")* = (<Symbol> ",")+ => ActionFn(246);
@@ -7212,8 +7216,8 @@ pub(crate) fn ___reduce72<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<Symbol> ",")+ = Symbol, "," => ActionFn(372);
@@ -7231,8 +7235,8 @@ pub(crate) fn ___reduce73<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<Symbol> ",")+ = (<Symbol> ",")+, Symbol, "," => ActionFn(373);
@@ -7251,8 +7255,8 @@ pub(crate) fn ___reduce74<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<TypeBound> "+") = TypeBound, "+" => ActionFn(217);
@@ -7270,8 +7274,8 @@ pub(crate) fn ___reduce75<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<TypeBound> "+")* =  => ActionFn(215);
@@ -7286,8 +7290,8 @@ pub(crate) fn ___reduce76<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<TypeBound> "+")* = (<TypeBound> "+")+ => ActionFn(216);
@@ -7303,8 +7307,8 @@ pub(crate) fn ___reduce77<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<TypeBound> "+")+ = TypeBound, "+" => ActionFn(376);
@@ -7322,8 +7326,8 @@ pub(crate) fn ___reduce78<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<TypeBound> "+")+ = (<TypeBound> "+")+, TypeBound, "+" => ActionFn(377);
@@ -7342,8 +7346,8 @@ pub(crate) fn ___reduce79<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<TypeBoundParameter> ",") = TypeBoundParameter, "," => ActionFn(227);
@@ -7361,8 +7365,8 @@ pub(crate) fn ___reduce80<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<TypeBoundParameter> ",")* =  => ActionFn(225);
@@ -7377,8 +7381,8 @@ pub(crate) fn ___reduce81<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<TypeBoundParameter> ",")* = (<TypeBoundParameter> ",")+ => ActionFn(226);
@@ -7394,8 +7398,8 @@ pub(crate) fn ___reduce82<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<TypeBoundParameter> ",")+ = TypeBoundParameter, "," => ActionFn(380);
@@ -7413,8 +7417,8 @@ pub(crate) fn ___reduce83<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<TypeBoundParameter> ",")+ = (<TypeBoundParameter> ",")+, TypeBoundParameter, "," => ActionFn(381);
@@ -7433,8 +7437,8 @@ pub(crate) fn ___reduce84<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<TypeParameter> ",") = TypeParameter, "," => ActionFn(204);
@@ -7452,8 +7456,8 @@ pub(crate) fn ___reduce85<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<TypeParameter> ",")* =  => ActionFn(202);
@@ -7468,8 +7472,8 @@ pub(crate) fn ___reduce86<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<TypeParameter> ",")* = (<TypeParameter> ",")+ => ActionFn(203);
@@ -7485,8 +7489,8 @@ pub(crate) fn ___reduce87<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<TypeParameter> ",")+ = TypeParameter, "," => ActionFn(384);
@@ -7504,8 +7508,8 @@ pub(crate) fn ___reduce88<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<TypeParameter> ",")+ = (<TypeParameter> ",")+, TypeParameter, "," => ActionFn(385);
@@ -7524,8 +7528,8 @@ pub(crate) fn ___reduce89<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<TypeRef> ",") = TypeRef, "," => ActionFn(222);
@@ -7543,8 +7547,8 @@ pub(crate) fn ___reduce90<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<TypeRef> ",")* =  => ActionFn(220);
@@ -7559,8 +7563,8 @@ pub(crate) fn ___reduce91<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<TypeRef> ",")* = (<TypeRef> ",")+ => ActionFn(221);
@@ -7576,8 +7580,8 @@ pub(crate) fn ___reduce92<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<TypeRef> ",")+ = TypeRef, "," => ActionFn(388);
@@ -7595,8 +7599,8 @@ pub(crate) fn ___reduce93<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<TypeRef> ",")+ = (<TypeRef> ",")+, TypeRef, "," => ActionFn(389);
@@ -7615,8 +7619,8 @@ pub(crate) fn ___reduce94<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<TypeRefOrLifetime> ",") = TypeRefOrLifetime, "," => ActionFn(252);
@@ -7634,8 +7638,8 @@ pub(crate) fn ___reduce95<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<TypeRefOrLifetime> ",")* =  => ActionFn(250);
@@ -7650,8 +7654,8 @@ pub(crate) fn ___reduce96<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<TypeRefOrLifetime> ",")* = (<TypeRefOrLifetime> ",")+ => ActionFn(251);
@@ -7667,8 +7671,8 @@ pub(crate) fn ___reduce97<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<TypeRefOrLifetime> ",")+ = TypeRefOrLifetime, "," => ActionFn(392);
@@ -7686,8 +7690,8 @@ pub(crate) fn ___reduce98<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<TypeRefOrLifetime> ",")+ = (<TypeRefOrLifetime> ",")+, TypeRefOrLifetime, "," => ActionFn(393);
@@ -7706,8 +7710,8 @@ pub(crate) fn ___reduce99<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // @L =  => ActionFn(185);
@@ -7722,8 +7726,8 @@ pub(crate) fn ___reduce100<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // @R =  => ActionFn(184);
@@ -7738,8 +7742,8 @@ pub(crate) fn ___reduce101<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Action = "=>@L" => ActionFn(42);
@@ -7755,8 +7759,8 @@ pub(crate) fn ___reduce102<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Action = "=>@R" => ActionFn(43);
@@ -7772,8 +7776,8 @@ pub(crate) fn ___reduce103<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Action = "=>" => ActionFn(44);
@@ -7789,8 +7793,8 @@ pub(crate) fn ___reduce104<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Action = "=>?" => ActionFn(45);
@@ -7806,8 +7810,8 @@ pub(crate) fn ___reduce105<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Action? = Action => ActionFn(146);
@@ -7823,8 +7827,8 @@ pub(crate) fn ___reduce106<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Action? =  => ActionFn(147);
@@ -7839,8 +7843,8 @@ pub(crate) fn ___reduce107<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Alternative = Symbol+, "if", Cond, Action => ActionFn(455);
@@ -7860,8 +7864,8 @@ pub(crate) fn ___reduce108<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Alternative = Annotation+, Symbol+, "if", Cond, Action => ActionFn(456);
@@ -7882,8 +7886,8 @@ pub(crate) fn ___reduce109<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Alternative = Symbol+, "if", Cond => ActionFn(457);
@@ -7902,8 +7906,8 @@ pub(crate) fn ___reduce110<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Alternative = Annotation+, Symbol+, "if", Cond => ActionFn(458);
@@ -7923,8 +7927,8 @@ pub(crate) fn ___reduce111<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Alternative = Symbol+, Action => ActionFn(459);
@@ -7942,8 +7946,8 @@ pub(crate) fn ___reduce112<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Alternative = Annotation+, Symbol+, Action => ActionFn(460);
@@ -7962,8 +7966,8 @@ pub(crate) fn ___reduce113<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Alternative = Symbol+ => ActionFn(461);
@@ -7979,8 +7983,8 @@ pub(crate) fn ___reduce114<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Alternative = Annotation+, Symbol+ => ActionFn(462);
@@ -7998,8 +8002,8 @@ pub(crate) fn ___reduce115<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Alternative = "if", Cond, Action => ActionFn(424);
@@ -8018,8 +8022,8 @@ pub(crate) fn ___reduce116<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Alternative = Action => ActionFn(425);
@@ -8035,8 +8039,8 @@ pub(crate) fn ___reduce117<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Alternative? = Alternative => ActionFn(238);
@@ -8052,8 +8056,8 @@ pub(crate) fn ___reduce118<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Alternative? =  => ActionFn(239);
@@ -8068,8 +8072,8 @@ pub(crate) fn ___reduce119<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Alternatives = Alternative, ";" => ActionFn(38);
@@ -8087,8 +8091,8 @@ pub(crate) fn ___reduce120<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Alternatives = "{", Comma<Alternative>, "}", ";" => ActionFn(304);
@@ -8108,8 +8112,8 @@ pub(crate) fn ___reduce121<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Alternatives = "{", Comma<Alternative>, "}" => ActionFn(305);
@@ -8128,8 +8132,8 @@ pub(crate) fn ___reduce122<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Annotation = "#", "[", Id, AnnotationArg, "]" => ActionFn(469);
@@ -8150,8 +8154,8 @@ pub(crate) fn ___reduce123<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Annotation = "#", "[", Id, "]" => ActionFn(470);
@@ -8171,8 +8175,8 @@ pub(crate) fn ___reduce124<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Annotation* =  => ActionFn(186);
@@ -8187,8 +8191,8 @@ pub(crate) fn ___reduce125<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Annotation* = Annotation+ => ActionFn(187);
@@ -8204,8 +8208,8 @@ pub(crate) fn ___reduce126<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Annotation+ = Annotation => ActionFn(196);
@@ -8221,8 +8225,8 @@ pub(crate) fn ___reduce127<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Annotation+ = Annotation+, Annotation => ActionFn(197);
@@ -8240,8 +8244,8 @@ pub(crate) fn ___reduce128<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // AnnotationArg = "(", Id, "=", "StringLiteral", ")" => ActionFn(33);
@@ -8262,8 +8266,8 @@ pub(crate) fn ___reduce129<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // AnnotationArg? = AnnotationArg => ActionFn(157);
@@ -8279,8 +8283,8 @@ pub(crate) fn ___reduce130<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // AnnotationArg? =  => ActionFn(158);
@@ -8295,8 +8299,8 @@ pub(crate) fn ___reduce131<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // AssociatedType = "type", Id, "=", TypeRef, ";" => ActionFn(427);
@@ -8317,8 +8321,8 @@ pub(crate) fn ___reduce132<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // AssociatedType* =  => ActionFn(131);
@@ -8333,8 +8337,8 @@ pub(crate) fn ___reduce133<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // AssociatedType* = AssociatedType+ => ActionFn(132);
@@ -8350,8 +8354,8 @@ pub(crate) fn ___reduce134<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // AssociatedType+ = AssociatedType => ActionFn(255);
@@ -8367,8 +8371,8 @@ pub(crate) fn ___reduce135<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // AssociatedType+ = AssociatedType+, AssociatedType => ActionFn(256);
@@ -8386,8 +8390,8 @@ pub(crate) fn ___reduce136<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Comma<Alternative> = Alternative => ActionFn(451);
@@ -8403,8 +8407,8 @@ pub(crate) fn ___reduce137<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Comma<Alternative> =  => ActionFn(452);
@@ -8419,8 +8423,8 @@ pub(crate) fn ___reduce138<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Comma<Alternative> = (<Alternative> ",")+, Alternative => ActionFn(453);
@@ -8438,8 +8442,8 @@ pub(crate) fn ___reduce139<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Comma<Alternative> = (<Alternative> ",")+ => ActionFn(454);
@@ -8455,8 +8459,8 @@ pub(crate) fn ___reduce140<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Comma<Conversion> = Conversion => ActionFn(477);
@@ -8472,8 +8476,8 @@ pub(crate) fn ___reduce141<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Comma<Conversion> =  => ActionFn(478);
@@ -8488,8 +8492,8 @@ pub(crate) fn ___reduce142<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Comma<Conversion> = (<Conversion> ",")+, Conversion => ActionFn(479);
@@ -8507,8 +8511,8 @@ pub(crate) fn ___reduce143<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Comma<Conversion> = (<Conversion> ",")+ => ActionFn(480);
@@ -8524,8 +8528,8 @@ pub(crate) fn ___reduce144<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Comma<GrammarParameter> = GrammarParameter => ActionFn(503);
@@ -8541,8 +8545,8 @@ pub(crate) fn ___reduce145<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Comma<GrammarParameter> =  => ActionFn(504);
@@ -8557,8 +8561,8 @@ pub(crate) fn ___reduce146<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Comma<GrammarParameter> = (<GrammarParameter> ",")+, GrammarParameter => ActionFn(505);
@@ -8576,8 +8580,8 @@ pub(crate) fn ___reduce147<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Comma<GrammarParameter> = (<GrammarParameter> ",")+ => ActionFn(506);
@@ -8593,8 +8597,8 @@ pub(crate) fn ___reduce148<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Comma<GrammarWhereClause> = GrammarWhereClause => ActionFn(531);
@@ -8610,8 +8614,8 @@ pub(crate) fn ___reduce149<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Comma<GrammarWhereClause> =  => ActionFn(532);
@@ -8626,8 +8630,8 @@ pub(crate) fn ___reduce150<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Comma<GrammarWhereClause> = (<GrammarWhereClause> ",")+, GrammarWhereClause => ActionFn(533);
@@ -8645,8 +8649,8 @@ pub(crate) fn ___reduce151<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Comma<GrammarWhereClause> = (<GrammarWhereClause> ",")+ => ActionFn(534);
@@ -8662,8 +8666,8 @@ pub(crate) fn ___reduce152<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Comma<MatchItem> = MatchItem => ActionFn(575);
@@ -8679,8 +8683,8 @@ pub(crate) fn ___reduce153<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Comma<MatchItem> =  => ActionFn(576);
@@ -8695,8 +8699,8 @@ pub(crate) fn ___reduce154<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Comma<MatchItem> = (<MatchItem> ",")+, MatchItem => ActionFn(577);
@@ -8714,8 +8718,8 @@ pub(crate) fn ___reduce155<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Comma<MatchItem> = (<MatchItem> ",")+ => ActionFn(578);
@@ -8731,8 +8735,8 @@ pub(crate) fn ___reduce156<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Comma<NotMacroId> = NotMacroId => ActionFn(579);
@@ -8748,8 +8752,8 @@ pub(crate) fn ___reduce157<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Comma<NotMacroId> =  => ActionFn(580);
@@ -8764,8 +8768,8 @@ pub(crate) fn ___reduce158<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Comma<NotMacroId> = (<NotMacroId> ",")+, NotMacroId => ActionFn(581);
@@ -8783,8 +8787,8 @@ pub(crate) fn ___reduce159<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Comma<NotMacroId> = (<NotMacroId> ",")+ => ActionFn(582);
@@ -8800,8 +8804,8 @@ pub(crate) fn ___reduce160<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Comma<Pattern> = Pattern => ActionFn(583);
@@ -8817,8 +8821,8 @@ pub(crate) fn ___reduce161<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Comma<Pattern> =  => ActionFn(584);
@@ -8833,8 +8837,8 @@ pub(crate) fn ___reduce162<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Comma<Pattern> = (<Pattern> ",")+, Pattern => ActionFn(585);
@@ -8852,8 +8856,8 @@ pub(crate) fn ___reduce163<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Comma<Pattern> = (<Pattern> ",")+ => ActionFn(586);
@@ -8869,8 +8873,8 @@ pub(crate) fn ___reduce164<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Comma<Symbol> = Symbol => ActionFn(653);
@@ -8886,8 +8890,8 @@ pub(crate) fn ___reduce165<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Comma<Symbol> =  => ActionFn(654);
@@ -8902,8 +8906,8 @@ pub(crate) fn ___reduce166<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Comma<Symbol> = (<Symbol> ",")+, Symbol => ActionFn(655);
@@ -8921,8 +8925,8 @@ pub(crate) fn ___reduce167<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Comma<Symbol> = (<Symbol> ",")+ => ActionFn(656);
@@ -8938,8 +8942,8 @@ pub(crate) fn ___reduce168<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Comma<TypeBoundParameter> = TypeBoundParameter => ActionFn(661);
@@ -8955,8 +8959,8 @@ pub(crate) fn ___reduce169<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Comma<TypeBoundParameter> =  => ActionFn(662);
@@ -8971,8 +8975,8 @@ pub(crate) fn ___reduce170<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Comma<TypeBoundParameter> = (<TypeBoundParameter> ",")+, TypeBoundParameter => ActionFn(663);
@@ -8990,8 +8994,8 @@ pub(crate) fn ___reduce171<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Comma<TypeBoundParameter> = (<TypeBoundParameter> ",")+ => ActionFn(664);
@@ -9007,8 +9011,8 @@ pub(crate) fn ___reduce172<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Comma<TypeParameter> = TypeParameter => ActionFn(665);
@@ -9024,8 +9028,8 @@ pub(crate) fn ___reduce173<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Comma<TypeParameter> =  => ActionFn(666);
@@ -9040,8 +9044,8 @@ pub(crate) fn ___reduce174<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Comma<TypeParameter> = (<TypeParameter> ",")+, TypeParameter => ActionFn(667);
@@ -9059,8 +9063,8 @@ pub(crate) fn ___reduce175<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Comma<TypeParameter> = (<TypeParameter> ",")+ => ActionFn(668);
@@ -9076,8 +9080,8 @@ pub(crate) fn ___reduce176<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Comma<TypeRef> = TypeRef => ActionFn(669);
@@ -9093,8 +9097,8 @@ pub(crate) fn ___reduce177<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Comma<TypeRef> =  => ActionFn(670);
@@ -9109,8 +9113,8 @@ pub(crate) fn ___reduce178<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Comma<TypeRef> = (<TypeRef> ",")+, TypeRef => ActionFn(671);
@@ -9128,8 +9132,8 @@ pub(crate) fn ___reduce179<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Comma<TypeRef> = (<TypeRef> ",")+ => ActionFn(672);
@@ -9145,8 +9149,8 @@ pub(crate) fn ___reduce180<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Comma<TypeRefOrLifetime> = TypeRefOrLifetime => ActionFn(673);
@@ -9162,8 +9166,8 @@ pub(crate) fn ___reduce181<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Comma<TypeRefOrLifetime> =  => ActionFn(674);
@@ -9178,8 +9182,8 @@ pub(crate) fn ___reduce182<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Comma<TypeRefOrLifetime> = (<TypeRefOrLifetime> ",")+, TypeRefOrLifetime => ActionFn(675);
@@ -9197,8 +9201,8 @@ pub(crate) fn ___reduce183<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Comma<TypeRefOrLifetime> = (<TypeRefOrLifetime> ",")+ => ActionFn(676);
@@ -9214,8 +9218,8 @@ pub(crate) fn ___reduce184<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Cond = NotMacroId, CondOp, StringLiteral => ActionFn(428);
@@ -9234,8 +9238,8 @@ pub(crate) fn ___reduce185<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // CondOp = "==" => ActionFn(47);
@@ -9251,8 +9255,8 @@ pub(crate) fn ___reduce186<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // CondOp = "!=" => ActionFn(48);
@@ -9268,8 +9272,8 @@ pub(crate) fn ___reduce187<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // CondOp = "~~" => ActionFn(49);
@@ -9285,8 +9289,8 @@ pub(crate) fn ___reduce188<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // CondOp = "!~" => ActionFn(50);
@@ -9302,8 +9306,8 @@ pub(crate) fn ___reduce190<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Conversion? = Conversion => ActionFn(262);
@@ -9319,8 +9323,8 @@ pub(crate) fn ___reduce191<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Conversion? =  => ActionFn(263);
@@ -9335,8 +9339,8 @@ pub(crate) fn ___reduce192<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // EnumToken = "enum", TypeRef, "{", Comma<Conversion>, "}" => ActionFn(430);
@@ -9357,8 +9361,8 @@ pub(crate) fn ___reduce193<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Escape = "Escape" => ActionFn(112);
@@ -9374,8 +9378,8 @@ pub(crate) fn ___reduce194<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // ExprSymbol =  => ActionFn(651);
@@ -9390,8 +9394,8 @@ pub(crate) fn ___reduce195<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // ExprSymbol = Symbol+ => ActionFn(652);
@@ -9407,8 +9411,8 @@ pub(crate) fn ___reduce196<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // ExternToken = "extern", "{", EnumToken, "}" => ActionFn(471);
@@ -9428,8 +9432,8 @@ pub(crate) fn ___reduce197<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // ExternToken = "extern", "{", EnumToken, AssociatedType+, "}" => ActionFn(472);
@@ -9450,8 +9454,8 @@ pub(crate) fn ___reduce198<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // ExternToken = "extern", "{", AssociatedType+, EnumToken, "}" => ActionFn(473);
@@ -9472,8 +9476,8 @@ pub(crate) fn ___reduce199<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // ExternToken = "extern", "{", AssociatedType+, EnumToken, AssociatedType+, "}" => ActionFn(474);
@@ -9495,8 +9499,8 @@ pub(crate) fn ___reduce200<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // ExternToken = "extern", "{", "}" => ActionFn(475);
@@ -9515,8 +9519,8 @@ pub(crate) fn ___reduce201<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // ExternToken = "extern", "{", AssociatedType+, "}" => ActionFn(476);
@@ -9536,8 +9540,8 @@ pub(crate) fn ___reduce202<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // FieldPattern = Id, ":", Pattern => ActionFn(433);
@@ -9556,8 +9560,8 @@ pub(crate) fn ___reduce203<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // FieldPattern? = FieldPattern => ActionFn(123);
@@ -9573,8 +9577,8 @@ pub(crate) fn ___reduce204<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // FieldPattern? =  => ActionFn(124);
@@ -9589,8 +9593,8 @@ pub(crate) fn ___reduce205<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // ForAll = "for", "<", Comma<TypeParameter>, ">" => ActionFn(13);
@@ -9610,8 +9614,8 @@ pub(crate) fn ___reduce206<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // ForAll =  => ActionFn(326);
@@ -9626,8 +9630,8 @@ pub(crate) fn ___reduce207<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = "grammar", GrammarTypeParameters, GrammarParameters, GrammarWhereClauses, ";" => ActionFn(677);
@@ -9648,8 +9652,8 @@ pub(crate) fn ___reduce208<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = Use+, "grammar", GrammarTypeParameters, GrammarParameters, GrammarWhereClauses, ";" => ActionFn(678);
@@ -9671,8 +9675,8 @@ pub(crate) fn ___reduce209<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, "grammar", GrammarTypeParameters, GrammarParameters, GrammarWhereClauses, ";" => ActionFn(679);
@@ -9694,8 +9698,8 @@ pub(crate) fn ___reduce210<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, Use+, "grammar", GrammarTypeParameters, GrammarParameters, GrammarWhereClauses, ";" => ActionFn(680);
@@ -9718,8 +9722,8 @@ pub(crate) fn ___reduce211<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = "grammar", GrammarTypeParameters, GrammarParameters, ";" => ActionFn(681);
@@ -9739,8 +9743,8 @@ pub(crate) fn ___reduce212<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = Use+, "grammar", GrammarTypeParameters, GrammarParameters, ";" => ActionFn(682);
@@ -9761,8 +9765,8 @@ pub(crate) fn ___reduce213<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, "grammar", GrammarTypeParameters, GrammarParameters, ";" => ActionFn(683);
@@ -9783,8 +9787,8 @@ pub(crate) fn ___reduce214<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, Use+, "grammar", GrammarTypeParameters, GrammarParameters, ";" => ActionFn(684);
@@ -9806,8 +9810,8 @@ pub(crate) fn ___reduce215<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = "grammar", GrammarParameters, GrammarWhereClauses, ";" => ActionFn(685);
@@ -9827,8 +9831,8 @@ pub(crate) fn ___reduce216<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = Use+, "grammar", GrammarParameters, GrammarWhereClauses, ";" => ActionFn(686);
@@ -9849,8 +9853,8 @@ pub(crate) fn ___reduce217<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, "grammar", GrammarParameters, GrammarWhereClauses, ";" => ActionFn(687);
@@ -9871,8 +9875,8 @@ pub(crate) fn ___reduce218<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, Use+, "grammar", GrammarParameters, GrammarWhereClauses, ";" => ActionFn(688);
@@ -9894,8 +9898,8 @@ pub(crate) fn ___reduce219<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = "grammar", GrammarParameters, ";" => ActionFn(689);
@@ -9914,8 +9918,8 @@ pub(crate) fn ___reduce220<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = Use+, "grammar", GrammarParameters, ";" => ActionFn(690);
@@ -9935,8 +9939,8 @@ pub(crate) fn ___reduce221<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, "grammar", GrammarParameters, ";" => ActionFn(691);
@@ -9956,8 +9960,8 @@ pub(crate) fn ___reduce222<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, Use+, "grammar", GrammarParameters, ";" => ActionFn(692);
@@ -9978,8 +9982,8 @@ pub(crate) fn ___reduce223<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = "grammar", GrammarTypeParameters, GrammarWhereClauses, ";" => ActionFn(693);
@@ -9999,8 +10003,8 @@ pub(crate) fn ___reduce224<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = Use+, "grammar", GrammarTypeParameters, GrammarWhereClauses, ";" => ActionFn(694);
@@ -10021,8 +10025,8 @@ pub(crate) fn ___reduce225<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, "grammar", GrammarTypeParameters, GrammarWhereClauses, ";" => ActionFn(695);
@@ -10043,8 +10047,8 @@ pub(crate) fn ___reduce226<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, Use+, "grammar", GrammarTypeParameters, GrammarWhereClauses, ";" => ActionFn(696);
@@ -10066,8 +10070,8 @@ pub(crate) fn ___reduce227<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = "grammar", GrammarTypeParameters, ";" => ActionFn(697);
@@ -10086,8 +10090,8 @@ pub(crate) fn ___reduce228<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = Use+, "grammar", GrammarTypeParameters, ";" => ActionFn(698);
@@ -10107,8 +10111,8 @@ pub(crate) fn ___reduce229<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, "grammar", GrammarTypeParameters, ";" => ActionFn(699);
@@ -10128,8 +10132,8 @@ pub(crate) fn ___reduce230<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, Use+, "grammar", GrammarTypeParameters, ";" => ActionFn(700);
@@ -10150,8 +10154,8 @@ pub(crate) fn ___reduce231<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = "grammar", GrammarWhereClauses, ";" => ActionFn(701);
@@ -10170,8 +10174,8 @@ pub(crate) fn ___reduce232<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = Use+, "grammar", GrammarWhereClauses, ";" => ActionFn(702);
@@ -10191,8 +10195,8 @@ pub(crate) fn ___reduce233<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, "grammar", GrammarWhereClauses, ";" => ActionFn(703);
@@ -10212,8 +10216,8 @@ pub(crate) fn ___reduce234<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, Use+, "grammar", GrammarWhereClauses, ";" => ActionFn(704);
@@ -10234,8 +10238,8 @@ pub(crate) fn ___reduce235<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = "grammar", ";" => ActionFn(705);
@@ -10253,8 +10257,8 @@ pub(crate) fn ___reduce236<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = Use+, "grammar", ";" => ActionFn(706);
@@ -10273,8 +10277,8 @@ pub(crate) fn ___reduce237<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, "grammar", ";" => ActionFn(707);
@@ -10293,8 +10297,8 @@ pub(crate) fn ___reduce238<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, Use+, "grammar", ";" => ActionFn(708);
@@ -10314,8 +10318,8 @@ pub(crate) fn ___reduce239<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = "grammar", GrammarTypeParameters, GrammarParameters, GrammarWhereClauses, ";", GrammarItem+ => ActionFn(709);
@@ -10337,8 +10341,8 @@ pub(crate) fn ___reduce240<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = Use+, "grammar", GrammarTypeParameters, GrammarParameters, GrammarWhereClauses, ";", GrammarItem+ => ActionFn(710);
@@ -10361,8 +10365,8 @@ pub(crate) fn ___reduce241<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, "grammar", GrammarTypeParameters, GrammarParameters, GrammarWhereClauses, ";", GrammarItem+ => ActionFn(711);
@@ -10385,8 +10389,8 @@ pub(crate) fn ___reduce242<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, Use+, "grammar", GrammarTypeParameters, GrammarParameters, GrammarWhereClauses, ";", GrammarItem+ => ActionFn(712);
@@ -10410,8 +10414,8 @@ pub(crate) fn ___reduce243<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = "grammar", GrammarTypeParameters, GrammarParameters, ";", GrammarItem+ => ActionFn(713);
@@ -10432,8 +10436,8 @@ pub(crate) fn ___reduce244<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = Use+, "grammar", GrammarTypeParameters, GrammarParameters, ";", GrammarItem+ => ActionFn(714);
@@ -10455,8 +10459,8 @@ pub(crate) fn ___reduce245<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, "grammar", GrammarTypeParameters, GrammarParameters, ";", GrammarItem+ => ActionFn(715);
@@ -10478,8 +10482,8 @@ pub(crate) fn ___reduce246<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, Use+, "grammar", GrammarTypeParameters, GrammarParameters, ";", GrammarItem+ => ActionFn(716);
@@ -10502,8 +10506,8 @@ pub(crate) fn ___reduce247<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = "grammar", GrammarParameters, GrammarWhereClauses, ";", GrammarItem+ => ActionFn(717);
@@ -10524,8 +10528,8 @@ pub(crate) fn ___reduce248<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = Use+, "grammar", GrammarParameters, GrammarWhereClauses, ";", GrammarItem+ => ActionFn(718);
@@ -10547,8 +10551,8 @@ pub(crate) fn ___reduce249<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, "grammar", GrammarParameters, GrammarWhereClauses, ";", GrammarItem+ => ActionFn(719);
@@ -10570,8 +10574,8 @@ pub(crate) fn ___reduce250<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, Use+, "grammar", GrammarParameters, GrammarWhereClauses, ";", GrammarItem+ => ActionFn(720);
@@ -10594,8 +10598,8 @@ pub(crate) fn ___reduce251<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = "grammar", GrammarParameters, ";", GrammarItem+ => ActionFn(721);
@@ -10615,8 +10619,8 @@ pub(crate) fn ___reduce252<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = Use+, "grammar", GrammarParameters, ";", GrammarItem+ => ActionFn(722);
@@ -10637,8 +10641,8 @@ pub(crate) fn ___reduce253<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, "grammar", GrammarParameters, ";", GrammarItem+ => ActionFn(723);
@@ -10659,8 +10663,8 @@ pub(crate) fn ___reduce254<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, Use+, "grammar", GrammarParameters, ";", GrammarItem+ => ActionFn(724);
@@ -10682,8 +10686,8 @@ pub(crate) fn ___reduce255<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = "grammar", GrammarTypeParameters, GrammarWhereClauses, ";", GrammarItem+ => ActionFn(725);
@@ -10704,8 +10708,8 @@ pub(crate) fn ___reduce256<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = Use+, "grammar", GrammarTypeParameters, GrammarWhereClauses, ";", GrammarItem+ => ActionFn(726);
@@ -10727,8 +10731,8 @@ pub(crate) fn ___reduce257<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, "grammar", GrammarTypeParameters, GrammarWhereClauses, ";", GrammarItem+ => ActionFn(727);
@@ -10750,8 +10754,8 @@ pub(crate) fn ___reduce258<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, Use+, "grammar", GrammarTypeParameters, GrammarWhereClauses, ";", GrammarItem+ => ActionFn(728);
@@ -10774,8 +10778,8 @@ pub(crate) fn ___reduce259<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = "grammar", GrammarTypeParameters, ";", GrammarItem+ => ActionFn(729);
@@ -10795,8 +10799,8 @@ pub(crate) fn ___reduce260<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = Use+, "grammar", GrammarTypeParameters, ";", GrammarItem+ => ActionFn(730);
@@ -10817,8 +10821,8 @@ pub(crate) fn ___reduce261<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, "grammar", GrammarTypeParameters, ";", GrammarItem+ => ActionFn(731);
@@ -10839,8 +10843,8 @@ pub(crate) fn ___reduce262<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, Use+, "grammar", GrammarTypeParameters, ";", GrammarItem+ => ActionFn(732);
@@ -10862,8 +10866,8 @@ pub(crate) fn ___reduce263<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = "grammar", GrammarWhereClauses, ";", GrammarItem+ => ActionFn(733);
@@ -10883,8 +10887,8 @@ pub(crate) fn ___reduce264<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = Use+, "grammar", GrammarWhereClauses, ";", GrammarItem+ => ActionFn(734);
@@ -10905,8 +10909,8 @@ pub(crate) fn ___reduce265<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, "grammar", GrammarWhereClauses, ";", GrammarItem+ => ActionFn(735);
@@ -10927,8 +10931,8 @@ pub(crate) fn ___reduce266<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, Use+, "grammar", GrammarWhereClauses, ";", GrammarItem+ => ActionFn(736);
@@ -10950,8 +10954,8 @@ pub(crate) fn ___reduce267<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = "grammar", ";", GrammarItem+ => ActionFn(737);
@@ -10970,8 +10974,8 @@ pub(crate) fn ___reduce268<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = Use+, "grammar", ";", GrammarItem+ => ActionFn(738);
@@ -10991,8 +10995,8 @@ pub(crate) fn ___reduce269<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, "grammar", ";", GrammarItem+ => ActionFn(739);
@@ -11012,8 +11016,8 @@ pub(crate) fn ___reduce270<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, Use+, "grammar", ";", GrammarItem+ => ActionFn(740);
@@ -11034,8 +11038,8 @@ pub(crate) fn ___reduce271<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = Annotation+, "grammar", GrammarTypeParameters, GrammarParameters, GrammarWhereClauses, ";" => ActionFn(741);
@@ -11057,8 +11061,8 @@ pub(crate) fn ___reduce272<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = Use+, Annotation+, "grammar", GrammarTypeParameters, GrammarParameters, GrammarWhereClauses, ";" => ActionFn(742);
@@ -11081,8 +11085,8 @@ pub(crate) fn ___reduce273<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, Annotation+, "grammar", GrammarTypeParameters, GrammarParameters, GrammarWhereClauses, ";" => ActionFn(743);
@@ -11105,8 +11109,8 @@ pub(crate) fn ___reduce274<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, Use+, Annotation+, "grammar", GrammarTypeParameters, GrammarParameters, GrammarWhereClauses, ";" => ActionFn(744);
@@ -11130,8 +11134,8 @@ pub(crate) fn ___reduce275<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = Annotation+, "grammar", GrammarTypeParameters, GrammarParameters, ";" => ActionFn(745);
@@ -11152,8 +11156,8 @@ pub(crate) fn ___reduce276<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = Use+, Annotation+, "grammar", GrammarTypeParameters, GrammarParameters, ";" => ActionFn(746);
@@ -11175,8 +11179,8 @@ pub(crate) fn ___reduce277<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, Annotation+, "grammar", GrammarTypeParameters, GrammarParameters, ";" => ActionFn(747);
@@ -11198,8 +11202,8 @@ pub(crate) fn ___reduce278<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, Use+, Annotation+, "grammar", GrammarTypeParameters, GrammarParameters, ";" => ActionFn(748);
@@ -11222,8 +11226,8 @@ pub(crate) fn ___reduce279<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = Annotation+, "grammar", GrammarParameters, GrammarWhereClauses, ";" => ActionFn(749);
@@ -11244,8 +11248,8 @@ pub(crate) fn ___reduce280<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = Use+, Annotation+, "grammar", GrammarParameters, GrammarWhereClauses, ";" => ActionFn(750);
@@ -11267,8 +11271,8 @@ pub(crate) fn ___reduce281<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, Annotation+, "grammar", GrammarParameters, GrammarWhereClauses, ";" => ActionFn(751);
@@ -11290,8 +11294,8 @@ pub(crate) fn ___reduce282<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, Use+, Annotation+, "grammar", GrammarParameters, GrammarWhereClauses, ";" => ActionFn(752);
@@ -11314,8 +11318,8 @@ pub(crate) fn ___reduce283<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = Annotation+, "grammar", GrammarParameters, ";" => ActionFn(753);
@@ -11335,8 +11339,8 @@ pub(crate) fn ___reduce284<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = Use+, Annotation+, "grammar", GrammarParameters, ";" => ActionFn(754);
@@ -11357,8 +11361,8 @@ pub(crate) fn ___reduce285<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, Annotation+, "grammar", GrammarParameters, ";" => ActionFn(755);
@@ -11379,8 +11383,8 @@ pub(crate) fn ___reduce286<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, Use+, Annotation+, "grammar", GrammarParameters, ";" => ActionFn(756);
@@ -11402,8 +11406,8 @@ pub(crate) fn ___reduce287<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = Annotation+, "grammar", GrammarTypeParameters, GrammarWhereClauses, ";" => ActionFn(757);
@@ -11424,8 +11428,8 @@ pub(crate) fn ___reduce288<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = Use+, Annotation+, "grammar", GrammarTypeParameters, GrammarWhereClauses, ";" => ActionFn(758);
@@ -11447,8 +11451,8 @@ pub(crate) fn ___reduce289<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, Annotation+, "grammar", GrammarTypeParameters, GrammarWhereClauses, ";" => ActionFn(759);
@@ -11470,8 +11474,8 @@ pub(crate) fn ___reduce290<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, Use+, Annotation+, "grammar", GrammarTypeParameters, GrammarWhereClauses, ";" => ActionFn(760);
@@ -11494,8 +11498,8 @@ pub(crate) fn ___reduce291<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = Annotation+, "grammar", GrammarTypeParameters, ";" => ActionFn(761);
@@ -11515,8 +11519,8 @@ pub(crate) fn ___reduce292<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = Use+, Annotation+, "grammar", GrammarTypeParameters, ";" => ActionFn(762);
@@ -11537,8 +11541,8 @@ pub(crate) fn ___reduce293<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, Annotation+, "grammar", GrammarTypeParameters, ";" => ActionFn(763);
@@ -11559,8 +11563,8 @@ pub(crate) fn ___reduce294<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, Use+, Annotation+, "grammar", GrammarTypeParameters, ";" => ActionFn(764);
@@ -11582,8 +11586,8 @@ pub(crate) fn ___reduce295<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = Annotation+, "grammar", GrammarWhereClauses, ";" => ActionFn(765);
@@ -11603,8 +11607,8 @@ pub(crate) fn ___reduce296<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = Use+, Annotation+, "grammar", GrammarWhereClauses, ";" => ActionFn(766);
@@ -11625,8 +11629,8 @@ pub(crate) fn ___reduce297<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, Annotation+, "grammar", GrammarWhereClauses, ";" => ActionFn(767);
@@ -11647,8 +11651,8 @@ pub(crate) fn ___reduce298<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, Use+, Annotation+, "grammar", GrammarWhereClauses, ";" => ActionFn(768);
@@ -11670,8 +11674,8 @@ pub(crate) fn ___reduce299<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = Annotation+, "grammar", ";" => ActionFn(769);
@@ -11690,8 +11694,8 @@ pub(crate) fn ___reduce300<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = Use+, Annotation+, "grammar", ";" => ActionFn(770);
@@ -11711,8 +11715,8 @@ pub(crate) fn ___reduce301<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, Annotation+, "grammar", ";" => ActionFn(771);
@@ -11732,8 +11736,8 @@ pub(crate) fn ___reduce302<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, Use+, Annotation+, "grammar", ";" => ActionFn(772);
@@ -11754,8 +11758,8 @@ pub(crate) fn ___reduce303<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = Annotation+, "grammar", GrammarTypeParameters, GrammarParameters, GrammarWhereClauses, ";", GrammarItem+ => ActionFn(773);
@@ -11778,8 +11782,8 @@ pub(crate) fn ___reduce304<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = Use+, Annotation+, "grammar", GrammarTypeParameters, GrammarParameters, GrammarWhereClauses, ";", GrammarItem+ => ActionFn(774);
@@ -11803,8 +11807,8 @@ pub(crate) fn ___reduce305<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, Annotation+, "grammar", GrammarTypeParameters, GrammarParameters, GrammarWhereClauses, ";", GrammarItem+ => ActionFn(775);
@@ -11828,8 +11832,8 @@ pub(crate) fn ___reduce306<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, Use+, Annotation+, "grammar", GrammarTypeParameters, GrammarParameters, GrammarWhereClauses, ";", GrammarItem+ => ActionFn(776);
@@ -11854,8 +11858,8 @@ pub(crate) fn ___reduce307<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = Annotation+, "grammar", GrammarTypeParameters, GrammarParameters, ";", GrammarItem+ => ActionFn(777);
@@ -11877,8 +11881,8 @@ pub(crate) fn ___reduce308<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = Use+, Annotation+, "grammar", GrammarTypeParameters, GrammarParameters, ";", GrammarItem+ => ActionFn(778);
@@ -11901,8 +11905,8 @@ pub(crate) fn ___reduce309<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, Annotation+, "grammar", GrammarTypeParameters, GrammarParameters, ";", GrammarItem+ => ActionFn(779);
@@ -11925,8 +11929,8 @@ pub(crate) fn ___reduce310<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, Use+, Annotation+, "grammar", GrammarTypeParameters, GrammarParameters, ";", GrammarItem+ => ActionFn(780);
@@ -11950,8 +11954,8 @@ pub(crate) fn ___reduce311<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = Annotation+, "grammar", GrammarParameters, GrammarWhereClauses, ";", GrammarItem+ => ActionFn(781);
@@ -11973,8 +11977,8 @@ pub(crate) fn ___reduce312<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = Use+, Annotation+, "grammar", GrammarParameters, GrammarWhereClauses, ";", GrammarItem+ => ActionFn(782);
@@ -11997,8 +12001,8 @@ pub(crate) fn ___reduce313<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, Annotation+, "grammar", GrammarParameters, GrammarWhereClauses, ";", GrammarItem+ => ActionFn(783);
@@ -12021,8 +12025,8 @@ pub(crate) fn ___reduce314<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, Use+, Annotation+, "grammar", GrammarParameters, GrammarWhereClauses, ";", GrammarItem+ => ActionFn(784);
@@ -12046,8 +12050,8 @@ pub(crate) fn ___reduce315<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = Annotation+, "grammar", GrammarParameters, ";", GrammarItem+ => ActionFn(785);
@@ -12068,8 +12072,8 @@ pub(crate) fn ___reduce316<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = Use+, Annotation+, "grammar", GrammarParameters, ";", GrammarItem+ => ActionFn(786);
@@ -12091,8 +12095,8 @@ pub(crate) fn ___reduce317<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, Annotation+, "grammar", GrammarParameters, ";", GrammarItem+ => ActionFn(787);
@@ -12114,8 +12118,8 @@ pub(crate) fn ___reduce318<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, Use+, Annotation+, "grammar", GrammarParameters, ";", GrammarItem+ => ActionFn(788);
@@ -12138,8 +12142,8 @@ pub(crate) fn ___reduce319<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = Annotation+, "grammar", GrammarTypeParameters, GrammarWhereClauses, ";", GrammarItem+ => ActionFn(789);
@@ -12161,8 +12165,8 @@ pub(crate) fn ___reduce320<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = Use+, Annotation+, "grammar", GrammarTypeParameters, GrammarWhereClauses, ";", GrammarItem+ => ActionFn(790);
@@ -12185,8 +12189,8 @@ pub(crate) fn ___reduce321<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, Annotation+, "grammar", GrammarTypeParameters, GrammarWhereClauses, ";", GrammarItem+ => ActionFn(791);
@@ -12209,8 +12213,8 @@ pub(crate) fn ___reduce322<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, Use+, Annotation+, "grammar", GrammarTypeParameters, GrammarWhereClauses, ";", GrammarItem+ => ActionFn(792);
@@ -12234,8 +12238,8 @@ pub(crate) fn ___reduce323<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = Annotation+, "grammar", GrammarTypeParameters, ";", GrammarItem+ => ActionFn(793);
@@ -12256,8 +12260,8 @@ pub(crate) fn ___reduce324<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = Use+, Annotation+, "grammar", GrammarTypeParameters, ";", GrammarItem+ => ActionFn(794);
@@ -12279,8 +12283,8 @@ pub(crate) fn ___reduce325<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, Annotation+, "grammar", GrammarTypeParameters, ";", GrammarItem+ => ActionFn(795);
@@ -12302,8 +12306,8 @@ pub(crate) fn ___reduce326<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, Use+, Annotation+, "grammar", GrammarTypeParameters, ";", GrammarItem+ => ActionFn(796);
@@ -12326,8 +12330,8 @@ pub(crate) fn ___reduce327<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = Annotation+, "grammar", GrammarWhereClauses, ";", GrammarItem+ => ActionFn(797);
@@ -12348,8 +12352,8 @@ pub(crate) fn ___reduce328<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = Use+, Annotation+, "grammar", GrammarWhereClauses, ";", GrammarItem+ => ActionFn(798);
@@ -12371,8 +12375,8 @@ pub(crate) fn ___reduce329<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, Annotation+, "grammar", GrammarWhereClauses, ";", GrammarItem+ => ActionFn(799);
@@ -12394,8 +12398,8 @@ pub(crate) fn ___reduce330<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, Use+, Annotation+, "grammar", GrammarWhereClauses, ";", GrammarItem+ => ActionFn(800);
@@ -12418,8 +12422,8 @@ pub(crate) fn ___reduce331<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = Annotation+, "grammar", ";", GrammarItem+ => ActionFn(801);
@@ -12439,8 +12443,8 @@ pub(crate) fn ___reduce332<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = Use+, Annotation+, "grammar", ";", GrammarItem+ => ActionFn(802);
@@ -12461,8 +12465,8 @@ pub(crate) fn ___reduce333<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, Annotation+, "grammar", ";", GrammarItem+ => ActionFn(803);
@@ -12483,8 +12487,8 @@ pub(crate) fn ___reduce334<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Grammar = ShebangAttribute+, Use+, Annotation+, "grammar", ";", GrammarItem+ => ActionFn(804);
@@ -12506,8 +12510,8 @@ pub(crate) fn ___reduce335<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // GrammarItem = Use => ActionFn(24);
@@ -12523,8 +12527,8 @@ pub(crate) fn ___reduce336<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // GrammarItem = MatchToken => ActionFn(25);
@@ -12540,8 +12544,8 @@ pub(crate) fn ___reduce337<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // GrammarItem = ExternToken => ActionFn(26);
@@ -12557,8 +12561,8 @@ pub(crate) fn ___reduce338<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // GrammarItem = Nonterminal => ActionFn(27);
@@ -12574,8 +12578,8 @@ pub(crate) fn ___reduce339<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // GrammarItem* =  => ActionFn(176);
@@ -12590,8 +12594,8 @@ pub(crate) fn ___reduce340<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // GrammarItem* = GrammarItem+ => ActionFn(177);
@@ -12607,8 +12611,8 @@ pub(crate) fn ___reduce341<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // GrammarItem+ = GrammarItem => ActionFn(198);
@@ -12624,8 +12628,8 @@ pub(crate) fn ___reduce342<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // GrammarItem+ = GrammarItem+, GrammarItem => ActionFn(199);
@@ -12643,8 +12647,8 @@ pub(crate) fn ___reduce343<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // GrammarParameter = Id, ":", TypeRef => ActionFn(23);
@@ -12663,8 +12667,8 @@ pub(crate) fn ___reduce344<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // GrammarParameter? = GrammarParameter => ActionFn(228);
@@ -12680,8 +12684,8 @@ pub(crate) fn ___reduce345<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // GrammarParameter? =  => ActionFn(229);
@@ -12696,8 +12700,8 @@ pub(crate) fn ___reduce346<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // GrammarParameters = "(", Comma<GrammarParameter>, ")" => ActionFn(22);
@@ -12716,8 +12720,8 @@ pub(crate) fn ___reduce347<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // GrammarParameters? = GrammarParameters => ActionFn(180);
@@ -12733,8 +12737,8 @@ pub(crate) fn ___reduce348<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // GrammarParameters? =  => ActionFn(181);
@@ -12749,8 +12753,8 @@ pub(crate) fn ___reduce349<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // GrammarTypeParameters = "<", Comma<TypeParameter>, ">" => ActionFn(7);
@@ -12769,8 +12773,8 @@ pub(crate) fn ___reduce350<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // GrammarTypeParameters? = GrammarTypeParameters => ActionFn(182);
@@ -12786,8 +12790,8 @@ pub(crate) fn ___reduce351<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // GrammarTypeParameters? =  => ActionFn(183);
@@ -12802,8 +12806,8 @@ pub(crate) fn ___reduce352<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // GrammarWhereClause = Lifetime, ":", Plus<Lifetime> => ActionFn(11);
@@ -12822,8 +12826,8 @@ pub(crate) fn ___reduce353<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // GrammarWhereClause = "for", "<", Comma<TypeParameter>, ">", TypeRef, ":", TypeBounds => ActionFn(485);
@@ -12846,8 +12850,8 @@ pub(crate) fn ___reduce354<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // GrammarWhereClause = TypeRef, ":", TypeBounds => ActionFn(486);
@@ -12866,8 +12870,8 @@ pub(crate) fn ___reduce355<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // GrammarWhereClause? = GrammarWhereClause => ActionFn(205);
@@ -12883,8 +12887,8 @@ pub(crate) fn ___reduce356<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // GrammarWhereClause? =  => ActionFn(206);
@@ -12899,8 +12903,8 @@ pub(crate) fn ___reduce357<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // GrammarWhereClauses = "where", Comma<GrammarWhereClause> => ActionFn(10);
@@ -12918,8 +12922,8 @@ pub(crate) fn ___reduce358<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // GrammarWhereClauses? = GrammarWhereClauses => ActionFn(178);
@@ -12935,8 +12939,8 @@ pub(crate) fn ___reduce359<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // GrammarWhereClauses? =  => ActionFn(179);
@@ -12951,8 +12955,8 @@ pub(crate) fn ___reduce360<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Id = "Id" => ActionFn(110);
@@ -12968,8 +12972,8 @@ pub(crate) fn ___reduce361<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Id = "MacroId" => ActionFn(111);
@@ -12985,8 +12989,8 @@ pub(crate) fn ___reduce362<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Lifetime = "Lifetime" => ActionFn(113);
@@ -13002,8 +13006,8 @@ pub(crate) fn ___reduce363<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Lifetime? = Lifetime => ActionFn(139);
@@ -13019,8 +13023,8 @@ pub(crate) fn ___reduce364<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Lifetime? =  => ActionFn(140);
@@ -13035,8 +13039,8 @@ pub(crate) fn ___reduce365<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // MacroId = "MacroId" => ActionFn(108);
@@ -13052,8 +13056,8 @@ pub(crate) fn ___reduce366<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // MatchContents = Comma<MatchItem> => ActionFn(86);
@@ -13069,8 +13073,8 @@ pub(crate) fn ___reduce367<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // MatchItem = "_" => ActionFn(435);
@@ -13086,8 +13090,8 @@ pub(crate) fn ___reduce368<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // MatchItem = MatchSymbol => ActionFn(436);
@@ -13103,8 +13107,8 @@ pub(crate) fn ___reduce370<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // MatchItem? = MatchItem => ActionFn(257);
@@ -13120,8 +13124,8 @@ pub(crate) fn ___reduce371<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // MatchItem? =  => ActionFn(258);
@@ -13136,8 +13140,8 @@ pub(crate) fn ___reduce372<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // MatchMapping = Terminal => ActionFn(91);
@@ -13153,8 +13157,8 @@ pub(crate) fn ___reduce373<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // MatchMapping = "{", "}" => ActionFn(92);
@@ -13172,8 +13176,8 @@ pub(crate) fn ___reduce374<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // MatchSymbol = QuotedLiteral => ActionFn(90);
@@ -13189,8 +13193,8 @@ pub(crate) fn ___reduce375<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // MatchToken = MatchTokenInt => ActionFn(83);
@@ -13206,8 +13210,8 @@ pub(crate) fn ___reduce376<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // MatchTokenInt = MatchTokenInt, "else", "{", MatchContents, "}" => ActionFn(84);
@@ -13228,8 +13232,8 @@ pub(crate) fn ___reduce377<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // MatchTokenInt = "match", "{", MatchContents, "}" => ActionFn(438);
@@ -13249,8 +13253,8 @@ pub(crate) fn ___reduce378<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Nonterminal = Visibility, NonterminalName, ":", TypeRef, "=", Alternatives => ActionFn(465);
@@ -13272,8 +13276,8 @@ pub(crate) fn ___reduce379<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Nonterminal = Annotation+, Visibility, NonterminalName, ":", TypeRef, "=", Alternatives => ActionFn(466);
@@ -13296,8 +13300,8 @@ pub(crate) fn ___reduce380<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Nonterminal = Visibility, NonterminalName, "=", Alternatives => ActionFn(467);
@@ -13317,8 +13321,8 @@ pub(crate) fn ___reduce381<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Nonterminal = Annotation+, Visibility, NonterminalName, "=", Alternatives => ActionFn(468);
@@ -13339,8 +13343,8 @@ pub(crate) fn ___reduce382<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // NonterminalName = MacroId, "<", Comma<NotMacroId>, ">" => ActionFn(35);
@@ -13360,8 +13364,8 @@ pub(crate) fn ___reduce383<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // NonterminalName = NotMacroId => ActionFn(36);
@@ -13377,8 +13381,8 @@ pub(crate) fn ___reduce384<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // NonterminalName = "Escape" => ActionFn(37);
@@ -13394,8 +13398,8 @@ pub(crate) fn ___reduce385<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // NotMacroId = "Id" => ActionFn(109);
@@ -13411,8 +13415,8 @@ pub(crate) fn ___reduce386<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // NotMacroId? = NotMacroId => ActionFn(233);
@@ -13428,8 +13432,8 @@ pub(crate) fn ___reduce387<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // NotMacroId? =  => ActionFn(234);
@@ -13444,8 +13448,8 @@ pub(crate) fn ___reduce388<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Path = "::", Id => ActionFn(352);
@@ -13463,8 +13467,8 @@ pub(crate) fn ___reduce389<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Path = "::", (<Id> "::")+, Id => ActionFn(353);
@@ -13483,8 +13487,8 @@ pub(crate) fn ___reduce390<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Path = Id => ActionFn(354);
@@ -13500,8 +13504,8 @@ pub(crate) fn ___reduce391<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Path = (<Id> "::")+, Id => ActionFn(355);
@@ -13519,8 +13523,8 @@ pub(crate) fn ___reduce392<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Pattern = PatternKind => ActionFn(441);
@@ -13536,8 +13540,8 @@ pub(crate) fn ___reduce393<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Pattern? = Pattern => ActionFn(267);
@@ -13553,8 +13557,8 @@ pub(crate) fn ___reduce394<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Pattern? =  => ActionFn(268);
@@ -13569,8 +13573,8 @@ pub(crate) fn ___reduce395<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // PatternKind = Path, "(", Comma<Pattern>, ")" => ActionFn(97);
@@ -13590,8 +13594,8 @@ pub(crate) fn ___reduce396<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // PatternKind = Path, "{", FieldPattern, "}" => ActionFn(481);
@@ -13611,8 +13615,8 @@ pub(crate) fn ___reduce397<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // PatternKind = Path, "{", "}" => ActionFn(482);
@@ -13631,8 +13635,8 @@ pub(crate) fn ___reduce398<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // PatternKind = Path, "{", (<FieldPattern> ",")+, FieldPattern, "}" => ActionFn(483);
@@ -13653,8 +13657,8 @@ pub(crate) fn ___reduce399<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // PatternKind = Path, "{", (<FieldPattern> ",")+, "}" => ActionFn(484);
@@ -13674,8 +13678,8 @@ pub(crate) fn ___reduce400<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // PatternKind = Path, "{", "..", "}" => ActionFn(340);
@@ -13695,8 +13699,8 @@ pub(crate) fn ___reduce401<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // PatternKind = Path, "{", (<FieldPattern> ",")+, "..", "}" => ActionFn(341);
@@ -13717,8 +13721,8 @@ pub(crate) fn ___reduce402<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // PatternKind = "_" => ActionFn(100);
@@ -13734,8 +13738,8 @@ pub(crate) fn ___reduce403<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // PatternKind = ".." => ActionFn(101);
@@ -13751,8 +13755,8 @@ pub(crate) fn ___reduce404<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // PatternKind = "<", TypeRef, ">" => ActionFn(102);
@@ -13771,8 +13775,8 @@ pub(crate) fn ___reduce405<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // PatternKind = "(", Comma<Pattern>, ")" => ActionFn(103);
@@ -13791,8 +13795,8 @@ pub(crate) fn ___reduce406<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // PatternKind = "CharLiteral" => ActionFn(104);
@@ -13808,8 +13812,8 @@ pub(crate) fn ___reduce407<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // PatternKind = Path => ActionFn(105);
@@ -13825,8 +13829,8 @@ pub(crate) fn ___reduce408<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // PatternKind = StringConstant => ActionFn(106);
@@ -13842,8 +13846,8 @@ pub(crate) fn ___reduce409<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Plus<Lifetime> = Lifetime => ActionFn(567);
@@ -13859,8 +13863,8 @@ pub(crate) fn ___reduce410<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Plus<Lifetime> =  => ActionFn(568);
@@ -13875,8 +13879,8 @@ pub(crate) fn ___reduce411<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Plus<Lifetime> = (<Lifetime> "+")+, Lifetime => ActionFn(569);
@@ -13894,8 +13898,8 @@ pub(crate) fn ___reduce412<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Plus<Lifetime> = (<Lifetime> "+")+ => ActionFn(570);
@@ -13911,8 +13915,8 @@ pub(crate) fn ___reduce413<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Plus<TypeBound> = TypeBound => ActionFn(657);
@@ -13928,8 +13932,8 @@ pub(crate) fn ___reduce414<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Plus<TypeBound> =  => ActionFn(658);
@@ -13944,8 +13948,8 @@ pub(crate) fn ___reduce415<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Plus<TypeBound> = (<TypeBound> "+")+, TypeBound => ActionFn(659);
@@ -13963,8 +13967,8 @@ pub(crate) fn ___reduce416<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Plus<TypeBound> = (<TypeBound> "+")+ => ActionFn(660);
@@ -13980,8 +13984,8 @@ pub(crate) fn ___reduce417<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // QuotedLiteral = StringLiteral => ActionFn(117);
@@ -13997,8 +14001,8 @@ pub(crate) fn ___reduce418<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // QuotedLiteral = RegexLiteral => ActionFn(118);
@@ -14014,8 +14018,8 @@ pub(crate) fn ___reduce419<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // QuotedTerminal = QuotedLiteral => ActionFn(116);
@@ -14031,8 +14035,8 @@ pub(crate) fn ___reduce420<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // RegexLiteral = "RegexLiteral" => ActionFn(121);
@@ -14048,8 +14052,8 @@ pub(crate) fn ___reduce421<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // RepeatOp = "+" => ActionFn(57);
@@ -14065,8 +14069,8 @@ pub(crate) fn ___reduce422<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // RepeatOp = "*" => ActionFn(58);
@@ -14082,8 +14086,8 @@ pub(crate) fn ___reduce423<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // RepeatOp = "?" => ActionFn(59);
@@ -14099,8 +14103,8 @@ pub(crate) fn ___reduce424<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // ShebangAttribute = "#![...]" => ActionFn(122);
@@ -14116,8 +14120,8 @@ pub(crate) fn ___reduce425<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // ShebangAttribute* =  => ActionFn(190);
@@ -14132,8 +14136,8 @@ pub(crate) fn ___reduce426<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // ShebangAttribute* = ShebangAttribute+ => ActionFn(191);
@@ -14149,8 +14153,8 @@ pub(crate) fn ___reduce427<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // ShebangAttribute+ = ShebangAttribute => ActionFn(192);
@@ -14166,8 +14170,8 @@ pub(crate) fn ___reduce428<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // ShebangAttribute+ = ShebangAttribute+, ShebangAttribute => ActionFn(193);
@@ -14185,8 +14189,8 @@ pub(crate) fn ___reduce431<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Symbol = "<", "mut", Id, ":", Symbol0, ">" => ActionFn(442);
@@ -14208,8 +14212,8 @@ pub(crate) fn ___reduce432<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Symbol = "<", Id, ":", Symbol0, ">" => ActionFn(443);
@@ -14230,8 +14234,8 @@ pub(crate) fn ___reduce433<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Symbol = "<", Symbol0, ">" => ActionFn(444);
@@ -14250,8 +14254,8 @@ pub(crate) fn ___reduce434<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Symbol = Symbol0 => ActionFn(54);
@@ -14267,8 +14271,8 @@ pub(crate) fn ___reduce435<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Symbol* =  => ActionFn(144);
@@ -14283,8 +14287,8 @@ pub(crate) fn ___reduce436<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Symbol* = Symbol+ => ActionFn(145);
@@ -14300,8 +14304,8 @@ pub(crate) fn ___reduce437<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Symbol+ = Symbol => ActionFn(151);
@@ -14317,8 +14321,8 @@ pub(crate) fn ___reduce438<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Symbol+ = Symbol+, Symbol => ActionFn(152);
@@ -14336,8 +14340,8 @@ pub(crate) fn ___reduce439<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Symbol0 = Symbol1 => ActionFn(55);
@@ -14353,8 +14357,8 @@ pub(crate) fn ___reduce440<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Symbol0 = Symbol0, RepeatOp => ActionFn(445);
@@ -14372,8 +14376,8 @@ pub(crate) fn ___reduce441<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Symbol1 = SymbolKind1 => ActionFn(446);
@@ -14389,8 +14393,8 @@ pub(crate) fn ___reduce442<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Symbol? = Symbol => ActionFn(243);
@@ -14406,8 +14410,8 @@ pub(crate) fn ___reduce443<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Symbol? =  => ActionFn(244);
@@ -14422,8 +14426,8 @@ pub(crate) fn ___reduce444<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // SymbolKind1 = MacroId, "<", Comma<Symbol>, ">" => ActionFn(61);
@@ -14443,8 +14447,8 @@ pub(crate) fn ___reduce445<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // SymbolKind1 = QuotedTerminal => ActionFn(62);
@@ -14460,8 +14464,8 @@ pub(crate) fn ___reduce446<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // SymbolKind1 = "Id" => ActionFn(63);
@@ -14477,8 +14481,8 @@ pub(crate) fn ___reduce447<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // SymbolKind1 = Escape => ActionFn(64);
@@ -14494,8 +14498,8 @@ pub(crate) fn ___reduce448<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // SymbolKind1 = "(", ExprSymbol, ")" => ActionFn(65);
@@ -14514,8 +14518,8 @@ pub(crate) fn ___reduce449<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // SymbolKind1 = "@L" => ActionFn(66);
@@ -14531,8 +14535,8 @@ pub(crate) fn ___reduce450<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // SymbolKind1 = "@R" => ActionFn(67);
@@ -14548,8 +14552,8 @@ pub(crate) fn ___reduce451<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // SymbolKind1 = "!" => ActionFn(68);
@@ -14565,8 +14569,8 @@ pub(crate) fn ___reduce452<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Terminal = QuotedTerminal => ActionFn(114);
@@ -14582,8 +14586,8 @@ pub(crate) fn ___reduce453<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Terminal = "Id" => ActionFn(115);
@@ -14599,8 +14603,8 @@ pub(crate) fn ___reduce454<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Top = "StartGrammar", Grammar => ActionFn(1);
@@ -14618,8 +14622,8 @@ pub(crate) fn ___reduce455<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Top = "StartPattern", Pattern => ActionFn(2);
@@ -14637,8 +14641,8 @@ pub(crate) fn ___reduce456<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Top = "StartMatchMapping", MatchMapping => ActionFn(3);
@@ -14656,8 +14660,8 @@ pub(crate) fn ___reduce457<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Top = "StartTypeRef", TypeRef => ActionFn(4);
@@ -14675,8 +14679,8 @@ pub(crate) fn ___reduce458<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Top = "StartGrammarWhereClauses", GrammarWhereClauses => ActionFn(5);
@@ -14694,8 +14698,8 @@ pub(crate) fn ___reduce459<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // TypeBound = Lifetime => ActionFn(16);
@@ -14711,8 +14715,8 @@ pub(crate) fn ___reduce460<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // TypeBound = "for", "<", Comma<TypeParameter>, ">", Path, "(", Comma<TypeRef>, ")", "->", TypeRef => ActionFn(487);
@@ -14738,8 +14742,8 @@ pub(crate) fn ___reduce461<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // TypeBound = Path, "(", Comma<TypeRef>, ")", "->", TypeRef => ActionFn(488);
@@ -14761,8 +14765,8 @@ pub(crate) fn ___reduce462<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // TypeBound = "for", "<", Comma<TypeParameter>, ">", Path, "(", Comma<TypeRef>, ")" => ActionFn(489);
@@ -14786,8 +14790,8 @@ pub(crate) fn ___reduce463<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // TypeBound = Path, "(", Comma<TypeRef>, ")" => ActionFn(490);
@@ -14807,8 +14811,8 @@ pub(crate) fn ___reduce464<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // TypeBound = "for", "<", Comma<TypeParameter>, ">", Path, "<", Comma<TypeBoundParameter>, ">" => ActionFn(491);
@@ -14832,8 +14836,8 @@ pub(crate) fn ___reduce465<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // TypeBound = Path, "<", Comma<TypeBoundParameter>, ">" => ActionFn(492);
@@ -14853,8 +14857,8 @@ pub(crate) fn ___reduce466<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // TypeBound = "for", "<", Comma<TypeParameter>, ">", Path => ActionFn(493);
@@ -14875,8 +14879,8 @@ pub(crate) fn ___reduce467<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // TypeBound = Path => ActionFn(494);
@@ -14892,8 +14896,8 @@ pub(crate) fn ___reduce468<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // TypeBound? = TypeBound => ActionFn(213);
@@ -14909,8 +14913,8 @@ pub(crate) fn ___reduce469<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // TypeBound? =  => ActionFn(214);
@@ -14925,8 +14929,8 @@ pub(crate) fn ___reduce470<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // TypeBoundParameter = Lifetime => ActionFn(19);
@@ -14942,8 +14946,8 @@ pub(crate) fn ___reduce471<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // TypeBoundParameter = TypeRef => ActionFn(20);
@@ -14959,8 +14963,8 @@ pub(crate) fn ___reduce472<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // TypeBoundParameter = Id, "=", TypeRef => ActionFn(21);
@@ -14979,8 +14983,8 @@ pub(crate) fn ___reduce473<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // TypeBoundParameter? = TypeBoundParameter => ActionFn(223);
@@ -14996,8 +15000,8 @@ pub(crate) fn ___reduce474<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // TypeBoundParameter? =  => ActionFn(224);
@@ -15012,8 +15016,8 @@ pub(crate) fn ___reduce475<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // TypeBounds = Plus<TypeBound> => ActionFn(15);
@@ -15029,8 +15033,8 @@ pub(crate) fn ___reduce476<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // TypeParameter = Lifetime => ActionFn(8);
@@ -15046,8 +15050,8 @@ pub(crate) fn ___reduce477<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // TypeParameter = Id => ActionFn(9);
@@ -15063,8 +15067,8 @@ pub(crate) fn ___reduce478<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // TypeParameter? = TypeParameter => ActionFn(200);
@@ -15080,8 +15084,8 @@ pub(crate) fn ___reduce479<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // TypeParameter? =  => ActionFn(201);
@@ -15096,8 +15100,8 @@ pub(crate) fn ___reduce480<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // TypeRef = "(", Comma<TypeRef>, ")" => ActionFn(69);
@@ -15116,8 +15120,8 @@ pub(crate) fn ___reduce481<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // TypeRef = "[", TypeRef, "]" => ActionFn(70);
@@ -15136,8 +15140,8 @@ pub(crate) fn ___reduce482<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // TypeRef = "#", Symbol, "#" => ActionFn(71);
@@ -15156,8 +15160,8 @@ pub(crate) fn ___reduce483<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // TypeRef = "&", Lifetime, "mut", TypeRef => ActionFn(571);
@@ -15177,8 +15181,8 @@ pub(crate) fn ___reduce484<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // TypeRef = "&", "mut", TypeRef => ActionFn(572);
@@ -15197,8 +15201,8 @@ pub(crate) fn ___reduce485<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // TypeRef = "&", Lifetime, TypeRef => ActionFn(573);
@@ -15217,8 +15221,8 @@ pub(crate) fn ___reduce486<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // TypeRef = "&", TypeRef => ActionFn(574);
@@ -15236,8 +15240,8 @@ pub(crate) fn ___reduce487<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // TypeRef = Path, "<", Comma<TypeRefOrLifetime>, ">" => ActionFn(73);
@@ -15257,8 +15261,8 @@ pub(crate) fn ___reduce488<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // TypeRef = Path => ActionFn(74);
@@ -15274,8 +15278,8 @@ pub(crate) fn ___reduce489<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // TypeRef = "dyn", Path, "<", Comma<TypeRefOrLifetime>, ">" => ActionFn(75);
@@ -15296,8 +15300,8 @@ pub(crate) fn ___reduce490<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // TypeRef = "dyn", Path => ActionFn(76);
@@ -15315,8 +15319,8 @@ pub(crate) fn ___reduce491<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // TypeRef = "dyn", "for", "<", Comma<TypeParameter>, ">", Path, "(", Comma<TypeRef>, ")", "->", TypeRef => ActionFn(495);
@@ -15343,8 +15347,8 @@ pub(crate) fn ___reduce492<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // TypeRef = "dyn", Path, "(", Comma<TypeRef>, ")", "->", TypeRef => ActionFn(496);
@@ -15367,8 +15371,8 @@ pub(crate) fn ___reduce493<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // TypeRef = "dyn", "for", "<", Comma<TypeParameter>, ">", Path, "(", Comma<TypeRef>, ")" => ActionFn(497);
@@ -15393,8 +15397,8 @@ pub(crate) fn ___reduce494<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // TypeRef = "dyn", Path, "(", Comma<TypeRef>, ")" => ActionFn(498);
@@ -15415,8 +15419,8 @@ pub(crate) fn ___reduce495<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // TypeRef? = TypeRef => ActionFn(218);
@@ -15432,8 +15436,8 @@ pub(crate) fn ___reduce496<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // TypeRef? =  => ActionFn(219);
@@ -15448,8 +15452,8 @@ pub(crate) fn ___reduce497<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // TypeRefOrLifetime = TypeRef => ActionFn(78);
@@ -15465,8 +15469,8 @@ pub(crate) fn ___reduce498<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // TypeRefOrLifetime = Lifetime => ActionFn(79);
@@ -15482,8 +15486,8 @@ pub(crate) fn ___reduce499<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // TypeRefOrLifetime? = TypeRefOrLifetime => ActionFn(248);
@@ -15499,8 +15503,8 @@ pub(crate) fn ___reduce500<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // TypeRefOrLifetime? =  => ActionFn(249);
@@ -15515,8 +15519,8 @@ pub(crate) fn ___reduce501<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Use = "use", ";" => ActionFn(28);
@@ -15534,8 +15538,8 @@ pub(crate) fn ___reduce502<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Use* =  => ActionFn(188);
@@ -15550,8 +15554,8 @@ pub(crate) fn ___reduce503<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Use* = Use+ => ActionFn(189);
@@ -15567,8 +15571,8 @@ pub(crate) fn ___reduce504<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Use+ = Use => ActionFn(194);
@@ -15584,8 +15588,8 @@ pub(crate) fn ___reduce505<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Use+ = Use+, Use => ActionFn(195);
@@ -15603,8 +15607,8 @@ pub(crate) fn ___reduce506<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Visibility = "pub", "(", Path, ")" => ActionFn(29);
@@ -15624,8 +15628,8 @@ pub(crate) fn ___reduce507<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Visibility = "pub" => ActionFn(30);
@@ -15641,8 +15645,8 @@ pub(crate) fn ___reduce508<
 >(
 text: &'input str,
 ___lookahead_start: Option<&usize>,
-___symbols: &mut ::std::vec::Vec<(usize,___Symbol<'input>,usize)>,
-_: ::std::marker::PhantomData<(&'input ())>,
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
+_: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Visibility =  => ActionFn(327);
@@ -15731,17 +15735,17 @@ fn ___action6<
     'input,
 >(
 text: &'input str,
-(_, module_attributes, _): (usize, ::std::vec::Vec<String>, usize),
-(_, uses, _): (usize, ::std::vec::Vec<GrammarItem>, usize),
-(_, annotations, _): (usize, ::std::vec::Vec<Annotation>, usize),
+(_, module_attributes, _): (usize, alloc::vec::Vec<String>, usize),
+(_, uses, _): (usize, alloc::vec::Vec<GrammarItem>, usize),
+(_, annotations, _): (usize, alloc::vec::Vec<Annotation>, usize),
 (_, lo, _): (usize, usize, usize),
 (_, _, _): (usize, Tok<'input>, usize),
 (_, hi, _): (usize, usize, usize),
-(_, tps, _): (usize, ::std::option::Option<Vec<TypeParameter>>, usize),
-(_, parameters, _): (usize, ::std::option::Option<Vec<Parameter>>, usize),
-(_, where_clauses, _): (usize, ::std::option::Option<Vec<WhereClause<TypeRef>>>, usize),
+(_, tps, _): (usize, core::option::Option<Vec<TypeParameter>>, usize),
+(_, parameters, _): (usize, core::option::Option<Vec<Parameter>>, usize),
+(_, where_clauses, _): (usize, core::option::Option<Vec<WhereClause<TypeRef>>>, usize),
 (_, _, _): (usize, Tok<'input>, usize),
-(_, items, _): (usize, ::std::vec::Vec<GrammarItem>, usize),
+(_, items, _): (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
 {
@@ -15887,7 +15891,7 @@ text: &'input str,
 (_, _, _): (usize, Tok<'input>, usize),
 (_, params, _): (usize, Vec<TypeRef>, usize),
 (_, _, _): (usize, Tok<'input>, usize),
-(_, ret, _): (usize, ::std::option::Option<TypeRef>, usize),
+(_, ret, _): (usize, core::option::Option<TypeRef>, usize),
 ) -> TypeBound<TypeRef>
 {
 TypeBound::Fn { forall: f, path: p, parameters: params, ret }
@@ -15900,7 +15904,7 @@ fn ___action18<
 text: &'input str,
 (_, f, _): (usize, Vec<TypeParameter>, usize),
 (_, p, _): (usize, Path, usize),
-(_, params, _): (usize, ::std::option::Option<Vec<TypeBoundParameter<TypeRef>>>, usize),
+(_, params, _): (usize, core::option::Option<Vec<TypeBoundParameter<TypeRef>>>, usize),
 ) -> TypeBound<TypeRef>
 {
 TypeBound::Trait { forall: f, path: p, parameters: params.unwrap_or(vec![]) }
@@ -16064,12 +16068,12 @@ fn ___action32<
     'input,
 >(
 text: &'input str,
-(_, annotations, _): (usize, ::std::vec::Vec<Annotation>, usize),
+(_, annotations, _): (usize, alloc::vec::Vec<Annotation>, usize),
 (_, v, _): (usize, Visibility, usize),
 (_, lo, _): (usize, usize, usize),
 (_, n, _): (usize, (NonterminalString, Vec<NonterminalString>), usize),
 (_, hi, _): (usize, usize, usize),
-(_, t, _): (usize, ::std::option::Option<TypeRef>, usize),
+(_, t, _): (usize, core::option::Option<TypeRef>, usize),
 (_, _, _): (usize, Tok<'input>, usize),
 (_, a, _): (usize, Vec<Alternative>, usize),
 ) -> GrammarItem
@@ -16109,7 +16113,7 @@ text: &'input str,
 (_, _, _): (usize, Tok<'input>, usize),
 (_, lo, _): (usize, usize, usize),
 (_, id, _): (usize, Atom, usize),
-(_, arg, _): (usize, ::std::option::Option<(Atom, String)>, usize),
+(_, arg, _): (usize, core::option::Option<(Atom, String)>, usize),
 (_, hi, _): (usize, usize, usize),
 (_, _, _): (usize, Tok<'input>, usize),
 ) -> Annotation
@@ -16175,7 +16179,7 @@ text: &'input str,
 (_, _, _): (usize, Tok<'input>, usize),
 (_, ___0, _): (usize, Vec<Alternative>, usize),
 (_, _, _): (usize, Tok<'input>, usize),
-(_, _, _): (usize, ::std::option::Option<Tok<'input>>, usize),
+(_, _, _): (usize, core::option::Option<Tok<'input>>, usize),
 ) -> Vec<Alternative>
 {
 ___0
@@ -16186,11 +16190,11 @@ fn ___action40<
     'input,
 >(
 text: &'input str,
-(_, ann, _): (usize, ::std::vec::Vec<Annotation>, usize),
+(_, ann, _): (usize, alloc::vec::Vec<Annotation>, usize),
 (_, lo, _): (usize, usize, usize),
-(_, s, _): (usize, ::std::vec::Vec<Symbol>, usize),
-(_, c, _): (usize, ::std::option::Option<Condition>, usize),
-(_, a, _): (usize, ::std::option::Option<ActionKind>, usize),
+(_, s, _): (usize, alloc::vec::Vec<Symbol>, usize),
+(_, c, _): (usize, core::option::Option<Condition>, usize),
+(_, a, _): (usize, core::option::Option<ActionKind>, usize),
 (_, hi, _): (usize, usize, usize),
 ) -> Alternative
 {
@@ -16211,7 +16215,7 @@ fn ___action41<
 >(
 text: &'input str,
 (_, lo, _): (usize, usize, usize),
-(_, c, _): (usize, ::std::option::Option<Condition>, usize),
+(_, c, _): (usize, core::option::Option<Condition>, usize),
 (_, a, _): (usize, ActionKind, usize),
 (_, hi, _): (usize, usize, usize),
 ) -> Alternative
@@ -16337,7 +16341,7 @@ fn ___action51<
     'input,
 >(
 text: &'input str,
-(_, ___0, _): (usize, ::std::vec::Vec<Symbol>, usize),
+(_, ___0, _): (usize, alloc::vec::Vec<Symbol>, usize),
 ) -> ExprSymbol
 {
 ExprSymbol { symbols: ___0 }
@@ -16350,7 +16354,7 @@ fn ___action52<
 text: &'input str,
 (_, lo, _): (usize, usize, usize),
 (_, _, _): (usize, Tok<'input>, usize),
-(_, m, _): (usize, ::std::option::Option<Tok<'input>>, usize),
+(_, m, _): (usize, core::option::Option<Tok<'input>>, usize),
 (_, _, _): (usize, usize, usize),
 (_, l, _): (usize, Atom, usize),
 (_, _, _): (usize, Tok<'input>, usize),
@@ -16599,8 +16603,8 @@ fn ___action72<
 >(
 text: &'input str,
 (_, _, _): (usize, Tok<'input>, usize),
-(_, l, _): (usize, ::std::option::Option<Lifetime>, usize),
-(_, m, _): (usize, ::std::option::Option<Tok<'input>>, usize),
+(_, l, _): (usize, core::option::Option<Lifetime>, usize),
+(_, m, _): (usize, core::option::Option<Tok<'input>>, usize),
 (_, t, _): (usize, TypeRef, usize),
 ) -> TypeRef
 {
@@ -16675,7 +16679,7 @@ text: &'input str,
 (_, _, _): (usize, Tok<'input>, usize),
 (_, parameters, _): (usize, Vec<TypeRef>, usize),
 (_, _, _): (usize, Tok<'input>, usize),
-(_, ret, _): (usize, ::std::option::Option<TypeRef>, usize),
+(_, ret, _): (usize, core::option::Option<TypeRef>, usize),
 ) -> TypeRef
 {
 TypeRef::Fn { forall, path, parameters, ret: ret.map(Box::new) }
@@ -16708,8 +16712,8 @@ fn ___action80<
     'input,
 >(
 text: &'input str,
-(_, a, _): (usize, ::std::option::Option<Tok<'input>>, usize),
-(_, h, _): (usize, ::std::vec::Vec<Atom>, usize),
+(_, a, _): (usize, core::option::Option<Tok<'input>>, usize),
+(_, h, _): (usize, alloc::vec::Vec<Atom>, usize),
 (_, t, _): (usize, Atom, usize),
 ) -> Path
 {
@@ -16728,9 +16732,9 @@ text: &'input str,
 (_, _, _): (usize, Tok<'input>, usize),
 (_, hi, _): (usize, usize, usize),
 (_, _, _): (usize, Tok<'input>, usize),
-(_, a0, _): (usize, ::std::vec::Vec<AssociatedType>, usize),
+(_, a0, _): (usize, alloc::vec::Vec<AssociatedType>, usize),
 (_, et, _): (usize, EnumToken, usize),
-(_, a1, _): (usize, ::std::vec::Vec<AssociatedType>, usize),
+(_, a1, _): (usize, alloc::vec::Vec<AssociatedType>, usize),
 (_, _, _): (usize, Tok<'input>, usize),
 ) -> GrammarItem
 {
@@ -16752,7 +16756,7 @@ text: &'input str,
 (_, _, _): (usize, Tok<'input>, usize),
 (_, hi, _): (usize, usize, usize),
 (_, _, _): (usize, Tok<'input>, usize),
-(_, a0, _): (usize, ::std::vec::Vec<AssociatedType>, usize),
+(_, a0, _): (usize, alloc::vec::Vec<AssociatedType>, usize),
 (_, _, _): (usize, Tok<'input>, usize),
 ) -> GrammarItem
 {
@@ -16994,8 +16998,8 @@ fn ___action98<
 text: &'input str,
 (_, p, _): (usize, Path, usize),
 (_, _, _): (usize, Tok<'input>, usize),
-(_, a0, _): (usize, ::std::vec::Vec<FieldPattern<TypeRef>>, usize),
-(_, a1, _): (usize, ::std::option::Option<FieldPattern<TypeRef>>, usize),
+(_, a0, _): (usize, alloc::vec::Vec<FieldPattern<TypeRef>>, usize),
+(_, a1, _): (usize, core::option::Option<FieldPattern<TypeRef>>, usize),
 (_, _, _): (usize, Tok<'input>, usize),
 ) -> PatternKind<TypeRef>
 {
@@ -17009,7 +17013,7 @@ fn ___action99<
 text: &'input str,
 (_, p, _): (usize, Path, usize),
 (_, _, _): (usize, Tok<'input>, usize),
-(_, a0, _): (usize, ::std::vec::Vec<FieldPattern<TypeRef>>, usize),
+(_, a0, _): (usize, alloc::vec::Vec<FieldPattern<TypeRef>>, usize),
 (_, _, _): (usize, Tok<'input>, usize),
 (_, _, _): (usize, Tok<'input>, usize),
 ) -> PatternKind<TypeRef>
@@ -17298,7 +17302,7 @@ fn ___action123<
 >(
 text: &'input str,
 (_, ___0, _): (usize, FieldPattern<TypeRef>, usize),
-) -> ::std::option::Option<FieldPattern<TypeRef>>
+) -> core::option::Option<FieldPattern<TypeRef>>
 {
 Some(___0)
 }
@@ -17310,7 +17314,7 @@ fn ___action124<
 text: &'input str,
 ___lookbehind: &usize,
 ___lookahead: &usize,
-) -> ::std::option::Option<FieldPattern<TypeRef>>
+) -> core::option::Option<FieldPattern<TypeRef>>
 {
 None
 }
@@ -17322,7 +17326,7 @@ fn ___action125<
 text: &'input str,
 ___lookbehind: &usize,
 ___lookahead: &usize,
-) -> ::std::vec::Vec<FieldPattern<TypeRef>>
+) -> alloc::vec::Vec<FieldPattern<TypeRef>>
 {
 vec![]
 }
@@ -17332,8 +17336,8 @@ fn ___action126<
     'input,
 >(
 text: &'input str,
-(_, v, _): (usize, ::std::vec::Vec<FieldPattern<TypeRef>>, usize),
-) -> ::std::vec::Vec<FieldPattern<TypeRef>>
+(_, v, _): (usize, alloc::vec::Vec<FieldPattern<TypeRef>>, usize),
+) -> alloc::vec::Vec<FieldPattern<TypeRef>>
 {
 v
 }
@@ -17355,8 +17359,8 @@ fn ___action128<
     'input,
 >(
 text: &'input str,
-(_, v0, _): (usize, ::std::vec::Vec<Pattern<TypeRef>>, usize),
-(_, e1, _): (usize, ::std::option::Option<Pattern<TypeRef>>, usize),
+(_, v0, _): (usize, alloc::vec::Vec<Pattern<TypeRef>>, usize),
+(_, e1, _): (usize, core::option::Option<Pattern<TypeRef>>, usize),
 ) -> Vec<Pattern<TypeRef>>
 {
 v0.into_iter().chain(e1).collect()
@@ -17367,8 +17371,8 @@ fn ___action129<
     'input,
 >(
 text: &'input str,
-(_, v0, _): (usize, ::std::vec::Vec<Conversion>, usize),
-(_, e1, _): (usize, ::std::option::Option<Conversion>, usize),
+(_, v0, _): (usize, alloc::vec::Vec<Conversion>, usize),
+(_, e1, _): (usize, core::option::Option<Conversion>, usize),
 ) -> Vec<Conversion>
 {
 v0.into_iter().chain(e1).collect()
@@ -17379,8 +17383,8 @@ fn ___action130<
     'input,
 >(
 text: &'input str,
-(_, v0, _): (usize, ::std::vec::Vec<MatchItem>, usize),
-(_, e1, _): (usize, ::std::option::Option<MatchItem>, usize),
+(_, v0, _): (usize, alloc::vec::Vec<MatchItem>, usize),
+(_, e1, _): (usize, core::option::Option<MatchItem>, usize),
 ) -> Vec<MatchItem>
 {
 v0.into_iter().chain(e1).collect()
@@ -17393,7 +17397,7 @@ fn ___action131<
 text: &'input str,
 ___lookbehind: &usize,
 ___lookahead: &usize,
-) -> ::std::vec::Vec<AssociatedType>
+) -> alloc::vec::Vec<AssociatedType>
 {
 vec![]
 }
@@ -17403,8 +17407,8 @@ fn ___action132<
     'input,
 >(
 text: &'input str,
-(_, v, _): (usize, ::std::vec::Vec<AssociatedType>, usize),
-) -> ::std::vec::Vec<AssociatedType>
+(_, v, _): (usize, alloc::vec::Vec<AssociatedType>, usize),
+) -> alloc::vec::Vec<AssociatedType>
 {
 v
 }
@@ -17416,7 +17420,7 @@ fn ___action133<
 text: &'input str,
 ___lookbehind: &usize,
 ___lookahead: &usize,
-) -> ::std::vec::Vec<Atom>
+) -> alloc::vec::Vec<Atom>
 {
 vec![]
 }
@@ -17426,8 +17430,8 @@ fn ___action134<
     'input,
 >(
 text: &'input str,
-(_, v, _): (usize, ::std::vec::Vec<Atom>, usize),
-) -> ::std::vec::Vec<Atom>
+(_, v, _): (usize, alloc::vec::Vec<Atom>, usize),
+) -> alloc::vec::Vec<Atom>
 {
 v
 }
@@ -17450,7 +17454,7 @@ fn ___action136<
 >(
 text: &'input str,
 (_, ___0, _): (usize, Tok<'input>, usize),
-) -> ::std::option::Option<Tok<'input>>
+) -> core::option::Option<Tok<'input>>
 {
 Some(___0)
 }
@@ -17462,7 +17466,7 @@ fn ___action137<
 text: &'input str,
 ___lookbehind: &usize,
 ___lookahead: &usize,
-) -> ::std::option::Option<Tok<'input>>
+) -> core::option::Option<Tok<'input>>
 {
 None
 }
@@ -17472,8 +17476,8 @@ fn ___action138<
     'input,
 >(
 text: &'input str,
-(_, v0, _): (usize, ::std::vec::Vec<TypeRef>, usize),
-(_, e1, _): (usize, ::std::option::Option<TypeRef>, usize),
+(_, v0, _): (usize, alloc::vec::Vec<TypeRef>, usize),
+(_, e1, _): (usize, core::option::Option<TypeRef>, usize),
 ) -> Vec<TypeRef>
 {
 v0.into_iter().chain(e1).collect()
@@ -17485,7 +17489,7 @@ fn ___action139<
 >(
 text: &'input str,
 (_, ___0, _): (usize, Lifetime, usize),
-) -> ::std::option::Option<Lifetime>
+) -> core::option::Option<Lifetime>
 {
 Some(___0)
 }
@@ -17497,7 +17501,7 @@ fn ___action140<
 text: &'input str,
 ___lookbehind: &usize,
 ___lookahead: &usize,
-) -> ::std::option::Option<Lifetime>
+) -> core::option::Option<Lifetime>
 {
 None
 }
@@ -17507,8 +17511,8 @@ fn ___action141<
     'input,
 >(
 text: &'input str,
-(_, v0, _): (usize, ::std::vec::Vec<Symbol>, usize),
-(_, e1, _): (usize, ::std::option::Option<Symbol>, usize),
+(_, v0, _): (usize, alloc::vec::Vec<Symbol>, usize),
+(_, e1, _): (usize, core::option::Option<Symbol>, usize),
 ) -> Vec<Symbol>
 {
 v0.into_iter().chain(e1).collect()
@@ -17520,7 +17524,7 @@ fn ___action142<
 >(
 text: &'input str,
 (_, ___0, _): (usize, Tok<'input>, usize),
-) -> ::std::option::Option<Tok<'input>>
+) -> core::option::Option<Tok<'input>>
 {
 Some(___0)
 }
@@ -17532,7 +17536,7 @@ fn ___action143<
 text: &'input str,
 ___lookbehind: &usize,
 ___lookahead: &usize,
-) -> ::std::option::Option<Tok<'input>>
+) -> core::option::Option<Tok<'input>>
 {
 None
 }
@@ -17544,7 +17548,7 @@ fn ___action144<
 text: &'input str,
 ___lookbehind: &usize,
 ___lookahead: &usize,
-) -> ::std::vec::Vec<Symbol>
+) -> alloc::vec::Vec<Symbol>
 {
 vec![]
 }
@@ -17554,8 +17558,8 @@ fn ___action145<
     'input,
 >(
 text: &'input str,
-(_, v, _): (usize, ::std::vec::Vec<Symbol>, usize),
-) -> ::std::vec::Vec<Symbol>
+(_, v, _): (usize, alloc::vec::Vec<Symbol>, usize),
+) -> alloc::vec::Vec<Symbol>
 {
 v
 }
@@ -17566,7 +17570,7 @@ fn ___action146<
 >(
 text: &'input str,
 (_, ___0, _): (usize, ActionKind, usize),
-) -> ::std::option::Option<ActionKind>
+) -> core::option::Option<ActionKind>
 {
 Some(___0)
 }
@@ -17578,7 +17582,7 @@ fn ___action147<
 text: &'input str,
 ___lookbehind: &usize,
 ___lookahead: &usize,
-) -> ::std::option::Option<ActionKind>
+) -> core::option::Option<ActionKind>
 {
 None
 }
@@ -17589,7 +17593,7 @@ fn ___action148<
 >(
 text: &'input str,
 (_, ___0, _): (usize, Condition, usize),
-) -> ::std::option::Option<Condition>
+) -> core::option::Option<Condition>
 {
 Some(___0)
 }
@@ -17601,7 +17605,7 @@ fn ___action149<
 text: &'input str,
 ___lookbehind: &usize,
 ___lookahead: &usize,
-) -> ::std::option::Option<Condition>
+) -> core::option::Option<Condition>
 {
 None
 }
@@ -17624,7 +17628,7 @@ fn ___action151<
 >(
 text: &'input str,
 (_, ___0, _): (usize, Symbol, usize),
-) -> ::std::vec::Vec<Symbol>
+) -> alloc::vec::Vec<Symbol>
 {
 vec![___0]
 }
@@ -17634,9 +17638,9 @@ fn ___action152<
     'input,
 >(
 text: &'input str,
-(_, v, _): (usize, ::std::vec::Vec<Symbol>, usize),
+(_, v, _): (usize, alloc::vec::Vec<Symbol>, usize),
 (_, e, _): (usize, Symbol, usize),
-) -> ::std::vec::Vec<Symbol>
+) -> alloc::vec::Vec<Symbol>
 {
 { let mut v = v; v.push(e); v }
 }
@@ -17647,7 +17651,7 @@ fn ___action153<
 >(
 text: &'input str,
 (_, ___0, _): (usize, Tok<'input>, usize),
-) -> ::std::option::Option<Tok<'input>>
+) -> core::option::Option<Tok<'input>>
 {
 Some(___0)
 }
@@ -17659,7 +17663,7 @@ fn ___action154<
 text: &'input str,
 ___lookbehind: &usize,
 ___lookahead: &usize,
-) -> ::std::option::Option<Tok<'input>>
+) -> core::option::Option<Tok<'input>>
 {
 None
 }
@@ -17669,8 +17673,8 @@ fn ___action155<
     'input,
 >(
 text: &'input str,
-(_, v0, _): (usize, ::std::vec::Vec<Alternative>, usize),
-(_, e1, _): (usize, ::std::option::Option<Alternative>, usize),
+(_, v0, _): (usize, alloc::vec::Vec<Alternative>, usize),
+(_, e1, _): (usize, core::option::Option<Alternative>, usize),
 ) -> Vec<Alternative>
 {
 v0.into_iter().chain(e1).collect()
@@ -17681,8 +17685,8 @@ fn ___action156<
     'input,
 >(
 text: &'input str,
-(_, v0, _): (usize, ::std::vec::Vec<NonterminalString>, usize),
-(_, e1, _): (usize, ::std::option::Option<NonterminalString>, usize),
+(_, v0, _): (usize, alloc::vec::Vec<NonterminalString>, usize),
+(_, e1, _): (usize, core::option::Option<NonterminalString>, usize),
 ) -> Vec<NonterminalString>
 {
 v0.into_iter().chain(e1).collect()
@@ -17694,7 +17698,7 @@ fn ___action157<
 >(
 text: &'input str,
 (_, ___0, _): (usize, (Atom, String), usize),
-) -> ::std::option::Option<(Atom, String)>
+) -> core::option::Option<(Atom, String)>
 {
 Some(___0)
 }
@@ -17706,7 +17710,7 @@ fn ___action158<
 text: &'input str,
 ___lookbehind: &usize,
 ___lookahead: &usize,
-) -> ::std::option::Option<(Atom, String)>
+) -> core::option::Option<(Atom, String)>
 {
 None
 }
@@ -17717,7 +17721,7 @@ fn ___action159<
 >(
 text: &'input str,
 (_, ___0, _): (usize, TypeRef, usize),
-) -> ::std::option::Option<TypeRef>
+) -> core::option::Option<TypeRef>
 {
 Some(___0)
 }
@@ -17729,7 +17733,7 @@ fn ___action160<
 text: &'input str,
 ___lookbehind: &usize,
 ___lookahead: &usize,
-) -> ::std::option::Option<TypeRef>
+) -> core::option::Option<TypeRef>
 {
 None
 }
@@ -17751,8 +17755,8 @@ fn ___action162<
     'input,
 >(
 text: &'input str,
-(_, v0, _): (usize, ::std::vec::Vec<Parameter>, usize),
-(_, e1, _): (usize, ::std::option::Option<Parameter>, usize),
+(_, v0, _): (usize, alloc::vec::Vec<Parameter>, usize),
+(_, e1, _): (usize, core::option::Option<Parameter>, usize),
 ) -> Vec<Parameter>
 {
 v0.into_iter().chain(e1).collect()
@@ -17764,7 +17768,7 @@ fn ___action163<
 >(
 text: &'input str,
 (_, ___0, _): (usize, Vec<TypeBoundParameter<TypeRef>>, usize),
-) -> ::std::option::Option<Vec<TypeBoundParameter<TypeRef>>>
+) -> core::option::Option<Vec<TypeBoundParameter<TypeRef>>>
 {
 Some(___0)
 }
@@ -17776,7 +17780,7 @@ fn ___action164<
 text: &'input str,
 ___lookbehind: &usize,
 ___lookahead: &usize,
-) -> ::std::option::Option<Vec<TypeBoundParameter<TypeRef>>>
+) -> core::option::Option<Vec<TypeBoundParameter<TypeRef>>>
 {
 None
 }
@@ -17799,8 +17803,8 @@ fn ___action166<
     'input,
 >(
 text: &'input str,
-(_, v0, _): (usize, ::std::vec::Vec<TypeBoundParameter<TypeRef>>, usize),
-(_, e1, _): (usize, ::std::option::Option<TypeBoundParameter<TypeRef>>, usize),
+(_, v0, _): (usize, alloc::vec::Vec<TypeBoundParameter<TypeRef>>, usize),
+(_, e1, _): (usize, core::option::Option<TypeBoundParameter<TypeRef>>, usize),
 ) -> Vec<TypeBoundParameter<TypeRef>>
 {
 v0.into_iter().chain(e1).collect()
@@ -17812,7 +17816,7 @@ fn ___action167<
 >(
 text: &'input str,
 (_, ___0, _): (usize, TypeRef, usize),
-) -> ::std::option::Option<TypeRef>
+) -> core::option::Option<TypeRef>
 {
 Some(___0)
 }
@@ -17824,7 +17828,7 @@ fn ___action168<
 text: &'input str,
 ___lookbehind: &usize,
 ___lookahead: &usize,
-) -> ::std::option::Option<TypeRef>
+) -> core::option::Option<TypeRef>
 {
 None
 }
@@ -17846,8 +17850,8 @@ fn ___action170<
     'input,
 >(
 text: &'input str,
-(_, v0, _): (usize, ::std::vec::Vec<TypeRef>, usize),
-(_, e1, _): (usize, ::std::option::Option<TypeRef>, usize),
+(_, v0, _): (usize, alloc::vec::Vec<TypeRef>, usize),
+(_, e1, _): (usize, core::option::Option<TypeRef>, usize),
 ) -> Vec<TypeRef>
 {
 v0.into_iter().chain(e1).collect()
@@ -17858,8 +17862,8 @@ fn ___action171<
     'input,
 >(
 text: &'input str,
-(_, mut v, _): (usize, ::std::vec::Vec<TypeBound<TypeRef>>, usize),
-(_, e, _): (usize, ::std::option::Option<TypeBound<TypeRef>>, usize),
+(_, mut v, _): (usize, alloc::vec::Vec<TypeBound<TypeRef>>, usize),
+(_, e, _): (usize, core::option::Option<TypeBound<TypeRef>>, usize),
 ) -> Vec<TypeBound<TypeRef>>
 {
 match e {
@@ -17885,8 +17889,8 @@ fn ___action173<
     'input,
 >(
 text: &'input str,
-(_, mut v, _): (usize, ::std::vec::Vec<Lifetime>, usize),
-(_, e, _): (usize, ::std::option::Option<Lifetime>, usize),
+(_, mut v, _): (usize, alloc::vec::Vec<Lifetime>, usize),
+(_, e, _): (usize, core::option::Option<Lifetime>, usize),
 ) -> Vec<Lifetime>
 {
 match e {
@@ -17900,8 +17904,8 @@ fn ___action174<
     'input,
 >(
 text: &'input str,
-(_, v0, _): (usize, ::std::vec::Vec<WhereClause<TypeRef>>, usize),
-(_, e1, _): (usize, ::std::option::Option<WhereClause<TypeRef>>, usize),
+(_, v0, _): (usize, alloc::vec::Vec<WhereClause<TypeRef>>, usize),
+(_, e1, _): (usize, core::option::Option<WhereClause<TypeRef>>, usize),
 ) -> Vec<WhereClause<TypeRef>>
 {
 v0.into_iter().chain(e1).collect()
@@ -17912,8 +17916,8 @@ fn ___action175<
     'input,
 >(
 text: &'input str,
-(_, v0, _): (usize, ::std::vec::Vec<TypeParameter>, usize),
-(_, e1, _): (usize, ::std::option::Option<TypeParameter>, usize),
+(_, v0, _): (usize, alloc::vec::Vec<TypeParameter>, usize),
+(_, e1, _): (usize, core::option::Option<TypeParameter>, usize),
 ) -> Vec<TypeParameter>
 {
 v0.into_iter().chain(e1).collect()
@@ -17926,7 +17930,7 @@ fn ___action176<
 text: &'input str,
 ___lookbehind: &usize,
 ___lookahead: &usize,
-) -> ::std::vec::Vec<GrammarItem>
+) -> alloc::vec::Vec<GrammarItem>
 {
 vec![]
 }
@@ -17936,8 +17940,8 @@ fn ___action177<
     'input,
 >(
 text: &'input str,
-(_, v, _): (usize, ::std::vec::Vec<GrammarItem>, usize),
-) -> ::std::vec::Vec<GrammarItem>
+(_, v, _): (usize, alloc::vec::Vec<GrammarItem>, usize),
+) -> alloc::vec::Vec<GrammarItem>
 {
 v
 }
@@ -17948,7 +17952,7 @@ fn ___action178<
 >(
 text: &'input str,
 (_, ___0, _): (usize, Vec<WhereClause<TypeRef>>, usize),
-) -> ::std::option::Option<Vec<WhereClause<TypeRef>>>
+) -> core::option::Option<Vec<WhereClause<TypeRef>>>
 {
 Some(___0)
 }
@@ -17960,7 +17964,7 @@ fn ___action179<
 text: &'input str,
 ___lookbehind: &usize,
 ___lookahead: &usize,
-) -> ::std::option::Option<Vec<WhereClause<TypeRef>>>
+) -> core::option::Option<Vec<WhereClause<TypeRef>>>
 {
 None
 }
@@ -17971,7 +17975,7 @@ fn ___action180<
 >(
 text: &'input str,
 (_, ___0, _): (usize, Vec<Parameter>, usize),
-) -> ::std::option::Option<Vec<Parameter>>
+) -> core::option::Option<Vec<Parameter>>
 {
 Some(___0)
 }
@@ -17983,7 +17987,7 @@ fn ___action181<
 text: &'input str,
 ___lookbehind: &usize,
 ___lookahead: &usize,
-) -> ::std::option::Option<Vec<Parameter>>
+) -> core::option::Option<Vec<Parameter>>
 {
 None
 }
@@ -17994,7 +17998,7 @@ fn ___action182<
 >(
 text: &'input str,
 (_, ___0, _): (usize, Vec<TypeParameter>, usize),
-) -> ::std::option::Option<Vec<TypeParameter>>
+) -> core::option::Option<Vec<TypeParameter>>
 {
 Some(___0)
 }
@@ -18006,7 +18010,7 @@ fn ___action183<
 text: &'input str,
 ___lookbehind: &usize,
 ___lookahead: &usize,
-) -> ::std::option::Option<Vec<TypeParameter>>
+) -> core::option::Option<Vec<TypeParameter>>
 {
 None
 }
@@ -18042,7 +18046,7 @@ fn ___action186<
 text: &'input str,
 ___lookbehind: &usize,
 ___lookahead: &usize,
-) -> ::std::vec::Vec<Annotation>
+) -> alloc::vec::Vec<Annotation>
 {
 vec![]
 }
@@ -18052,8 +18056,8 @@ fn ___action187<
     'input,
 >(
 text: &'input str,
-(_, v, _): (usize, ::std::vec::Vec<Annotation>, usize),
-) -> ::std::vec::Vec<Annotation>
+(_, v, _): (usize, alloc::vec::Vec<Annotation>, usize),
+) -> alloc::vec::Vec<Annotation>
 {
 v
 }
@@ -18065,7 +18069,7 @@ fn ___action188<
 text: &'input str,
 ___lookbehind: &usize,
 ___lookahead: &usize,
-) -> ::std::vec::Vec<GrammarItem>
+) -> alloc::vec::Vec<GrammarItem>
 {
 vec![]
 }
@@ -18075,8 +18079,8 @@ fn ___action189<
     'input,
 >(
 text: &'input str,
-(_, v, _): (usize, ::std::vec::Vec<GrammarItem>, usize),
-) -> ::std::vec::Vec<GrammarItem>
+(_, v, _): (usize, alloc::vec::Vec<GrammarItem>, usize),
+) -> alloc::vec::Vec<GrammarItem>
 {
 v
 }
@@ -18088,7 +18092,7 @@ fn ___action190<
 text: &'input str,
 ___lookbehind: &usize,
 ___lookahead: &usize,
-) -> ::std::vec::Vec<String>
+) -> alloc::vec::Vec<String>
 {
 vec![]
 }
@@ -18098,8 +18102,8 @@ fn ___action191<
     'input,
 >(
 text: &'input str,
-(_, v, _): (usize, ::std::vec::Vec<String>, usize),
-) -> ::std::vec::Vec<String>
+(_, v, _): (usize, alloc::vec::Vec<String>, usize),
+) -> alloc::vec::Vec<String>
 {
 v
 }
@@ -18110,7 +18114,7 @@ fn ___action192<
 >(
 text: &'input str,
 (_, ___0, _): (usize, String, usize),
-) -> ::std::vec::Vec<String>
+) -> alloc::vec::Vec<String>
 {
 vec![___0]
 }
@@ -18120,9 +18124,9 @@ fn ___action193<
     'input,
 >(
 text: &'input str,
-(_, v, _): (usize, ::std::vec::Vec<String>, usize),
+(_, v, _): (usize, alloc::vec::Vec<String>, usize),
 (_, e, _): (usize, String, usize),
-) -> ::std::vec::Vec<String>
+) -> alloc::vec::Vec<String>
 {
 { let mut v = v; v.push(e); v }
 }
@@ -18133,7 +18137,7 @@ fn ___action194<
 >(
 text: &'input str,
 (_, ___0, _): (usize, GrammarItem, usize),
-) -> ::std::vec::Vec<GrammarItem>
+) -> alloc::vec::Vec<GrammarItem>
 {
 vec![___0]
 }
@@ -18143,9 +18147,9 @@ fn ___action195<
     'input,
 >(
 text: &'input str,
-(_, v, _): (usize, ::std::vec::Vec<GrammarItem>, usize),
+(_, v, _): (usize, alloc::vec::Vec<GrammarItem>, usize),
 (_, e, _): (usize, GrammarItem, usize),
-) -> ::std::vec::Vec<GrammarItem>
+) -> alloc::vec::Vec<GrammarItem>
 {
 { let mut v = v; v.push(e); v }
 }
@@ -18156,7 +18160,7 @@ fn ___action196<
 >(
 text: &'input str,
 (_, ___0, _): (usize, Annotation, usize),
-) -> ::std::vec::Vec<Annotation>
+) -> alloc::vec::Vec<Annotation>
 {
 vec![___0]
 }
@@ -18166,9 +18170,9 @@ fn ___action197<
     'input,
 >(
 text: &'input str,
-(_, v, _): (usize, ::std::vec::Vec<Annotation>, usize),
+(_, v, _): (usize, alloc::vec::Vec<Annotation>, usize),
 (_, e, _): (usize, Annotation, usize),
-) -> ::std::vec::Vec<Annotation>
+) -> alloc::vec::Vec<Annotation>
 {
 { let mut v = v; v.push(e); v }
 }
@@ -18179,7 +18183,7 @@ fn ___action198<
 >(
 text: &'input str,
 (_, ___0, _): (usize, GrammarItem, usize),
-) -> ::std::vec::Vec<GrammarItem>
+) -> alloc::vec::Vec<GrammarItem>
 {
 vec![___0]
 }
@@ -18189,9 +18193,9 @@ fn ___action199<
     'input,
 >(
 text: &'input str,
-(_, v, _): (usize, ::std::vec::Vec<GrammarItem>, usize),
+(_, v, _): (usize, alloc::vec::Vec<GrammarItem>, usize),
 (_, e, _): (usize, GrammarItem, usize),
-) -> ::std::vec::Vec<GrammarItem>
+) -> alloc::vec::Vec<GrammarItem>
 {
 { let mut v = v; v.push(e); v }
 }
@@ -18202,7 +18206,7 @@ fn ___action200<
 >(
 text: &'input str,
 (_, ___0, _): (usize, TypeParameter, usize),
-) -> ::std::option::Option<TypeParameter>
+) -> core::option::Option<TypeParameter>
 {
 Some(___0)
 }
@@ -18214,7 +18218,7 @@ fn ___action201<
 text: &'input str,
 ___lookbehind: &usize,
 ___lookahead: &usize,
-) -> ::std::option::Option<TypeParameter>
+) -> core::option::Option<TypeParameter>
 {
 None
 }
@@ -18226,7 +18230,7 @@ fn ___action202<
 text: &'input str,
 ___lookbehind: &usize,
 ___lookahead: &usize,
-) -> ::std::vec::Vec<TypeParameter>
+) -> alloc::vec::Vec<TypeParameter>
 {
 vec![]
 }
@@ -18236,8 +18240,8 @@ fn ___action203<
     'input,
 >(
 text: &'input str,
-(_, v, _): (usize, ::std::vec::Vec<TypeParameter>, usize),
-) -> ::std::vec::Vec<TypeParameter>
+(_, v, _): (usize, alloc::vec::Vec<TypeParameter>, usize),
+) -> alloc::vec::Vec<TypeParameter>
 {
 v
 }
@@ -18260,7 +18264,7 @@ fn ___action205<
 >(
 text: &'input str,
 (_, ___0, _): (usize, WhereClause<TypeRef>, usize),
-) -> ::std::option::Option<WhereClause<TypeRef>>
+) -> core::option::Option<WhereClause<TypeRef>>
 {
 Some(___0)
 }
@@ -18272,7 +18276,7 @@ fn ___action206<
 text: &'input str,
 ___lookbehind: &usize,
 ___lookahead: &usize,
-) -> ::std::option::Option<WhereClause<TypeRef>>
+) -> core::option::Option<WhereClause<TypeRef>>
 {
 None
 }
@@ -18284,7 +18288,7 @@ fn ___action207<
 text: &'input str,
 ___lookbehind: &usize,
 ___lookahead: &usize,
-) -> ::std::vec::Vec<WhereClause<TypeRef>>
+) -> alloc::vec::Vec<WhereClause<TypeRef>>
 {
 vec![]
 }
@@ -18294,8 +18298,8 @@ fn ___action208<
     'input,
 >(
 text: &'input str,
-(_, v, _): (usize, ::std::vec::Vec<WhereClause<TypeRef>>, usize),
-) -> ::std::vec::Vec<WhereClause<TypeRef>>
+(_, v, _): (usize, alloc::vec::Vec<WhereClause<TypeRef>>, usize),
+) -> alloc::vec::Vec<WhereClause<TypeRef>>
 {
 v
 }
@@ -18319,7 +18323,7 @@ fn ___action210<
 text: &'input str,
 ___lookbehind: &usize,
 ___lookahead: &usize,
-) -> ::std::vec::Vec<Lifetime>
+) -> alloc::vec::Vec<Lifetime>
 {
 vec![]
 }
@@ -18329,8 +18333,8 @@ fn ___action211<
     'input,
 >(
 text: &'input str,
-(_, v, _): (usize, ::std::vec::Vec<Lifetime>, usize),
-) -> ::std::vec::Vec<Lifetime>
+(_, v, _): (usize, alloc::vec::Vec<Lifetime>, usize),
+) -> alloc::vec::Vec<Lifetime>
 {
 v
 }
@@ -18353,7 +18357,7 @@ fn ___action213<
 >(
 text: &'input str,
 (_, ___0, _): (usize, TypeBound<TypeRef>, usize),
-) -> ::std::option::Option<TypeBound<TypeRef>>
+) -> core::option::Option<TypeBound<TypeRef>>
 {
 Some(___0)
 }
@@ -18365,7 +18369,7 @@ fn ___action214<
 text: &'input str,
 ___lookbehind: &usize,
 ___lookahead: &usize,
-) -> ::std::option::Option<TypeBound<TypeRef>>
+) -> core::option::Option<TypeBound<TypeRef>>
 {
 None
 }
@@ -18377,7 +18381,7 @@ fn ___action215<
 text: &'input str,
 ___lookbehind: &usize,
 ___lookahead: &usize,
-) -> ::std::vec::Vec<TypeBound<TypeRef>>
+) -> alloc::vec::Vec<TypeBound<TypeRef>>
 {
 vec![]
 }
@@ -18387,8 +18391,8 @@ fn ___action216<
     'input,
 >(
 text: &'input str,
-(_, v, _): (usize, ::std::vec::Vec<TypeBound<TypeRef>>, usize),
-) -> ::std::vec::Vec<TypeBound<TypeRef>>
+(_, v, _): (usize, alloc::vec::Vec<TypeBound<TypeRef>>, usize),
+) -> alloc::vec::Vec<TypeBound<TypeRef>>
 {
 v
 }
@@ -18411,7 +18415,7 @@ fn ___action218<
 >(
 text: &'input str,
 (_, ___0, _): (usize, TypeRef, usize),
-) -> ::std::option::Option<TypeRef>
+) -> core::option::Option<TypeRef>
 {
 Some(___0)
 }
@@ -18423,7 +18427,7 @@ fn ___action219<
 text: &'input str,
 ___lookbehind: &usize,
 ___lookahead: &usize,
-) -> ::std::option::Option<TypeRef>
+) -> core::option::Option<TypeRef>
 {
 None
 }
@@ -18435,7 +18439,7 @@ fn ___action220<
 text: &'input str,
 ___lookbehind: &usize,
 ___lookahead: &usize,
-) -> ::std::vec::Vec<TypeRef>
+) -> alloc::vec::Vec<TypeRef>
 {
 vec![]
 }
@@ -18445,8 +18449,8 @@ fn ___action221<
     'input,
 >(
 text: &'input str,
-(_, v, _): (usize, ::std::vec::Vec<TypeRef>, usize),
-) -> ::std::vec::Vec<TypeRef>
+(_, v, _): (usize, alloc::vec::Vec<TypeRef>, usize),
+) -> alloc::vec::Vec<TypeRef>
 {
 v
 }
@@ -18469,7 +18473,7 @@ fn ___action223<
 >(
 text: &'input str,
 (_, ___0, _): (usize, TypeBoundParameter<TypeRef>, usize),
-) -> ::std::option::Option<TypeBoundParameter<TypeRef>>
+) -> core::option::Option<TypeBoundParameter<TypeRef>>
 {
 Some(___0)
 }
@@ -18481,7 +18485,7 @@ fn ___action224<
 text: &'input str,
 ___lookbehind: &usize,
 ___lookahead: &usize,
-) -> ::std::option::Option<TypeBoundParameter<TypeRef>>
+) -> core::option::Option<TypeBoundParameter<TypeRef>>
 {
 None
 }
@@ -18493,7 +18497,7 @@ fn ___action225<
 text: &'input str,
 ___lookbehind: &usize,
 ___lookahead: &usize,
-) -> ::std::vec::Vec<TypeBoundParameter<TypeRef>>
+) -> alloc::vec::Vec<TypeBoundParameter<TypeRef>>
 {
 vec![]
 }
@@ -18503,8 +18507,8 @@ fn ___action226<
     'input,
 >(
 text: &'input str,
-(_, v, _): (usize, ::std::vec::Vec<TypeBoundParameter<TypeRef>>, usize),
-) -> ::std::vec::Vec<TypeBoundParameter<TypeRef>>
+(_, v, _): (usize, alloc::vec::Vec<TypeBoundParameter<TypeRef>>, usize),
+) -> alloc::vec::Vec<TypeBoundParameter<TypeRef>>
 {
 v
 }
@@ -18527,7 +18531,7 @@ fn ___action228<
 >(
 text: &'input str,
 (_, ___0, _): (usize, Parameter, usize),
-) -> ::std::option::Option<Parameter>
+) -> core::option::Option<Parameter>
 {
 Some(___0)
 }
@@ -18539,7 +18543,7 @@ fn ___action229<
 text: &'input str,
 ___lookbehind: &usize,
 ___lookahead: &usize,
-) -> ::std::option::Option<Parameter>
+) -> core::option::Option<Parameter>
 {
 None
 }
@@ -18551,7 +18555,7 @@ fn ___action230<
 text: &'input str,
 ___lookbehind: &usize,
 ___lookahead: &usize,
-) -> ::std::vec::Vec<Parameter>
+) -> alloc::vec::Vec<Parameter>
 {
 vec![]
 }
@@ -18561,8 +18565,8 @@ fn ___action231<
     'input,
 >(
 text: &'input str,
-(_, v, _): (usize, ::std::vec::Vec<Parameter>, usize),
-) -> ::std::vec::Vec<Parameter>
+(_, v, _): (usize, alloc::vec::Vec<Parameter>, usize),
+) -> alloc::vec::Vec<Parameter>
 {
 v
 }
@@ -18585,7 +18589,7 @@ fn ___action233<
 >(
 text: &'input str,
 (_, ___0, _): (usize, NonterminalString, usize),
-) -> ::std::option::Option<NonterminalString>
+) -> core::option::Option<NonterminalString>
 {
 Some(___0)
 }
@@ -18597,7 +18601,7 @@ fn ___action234<
 text: &'input str,
 ___lookbehind: &usize,
 ___lookahead: &usize,
-) -> ::std::option::Option<NonterminalString>
+) -> core::option::Option<NonterminalString>
 {
 None
 }
@@ -18609,7 +18613,7 @@ fn ___action235<
 text: &'input str,
 ___lookbehind: &usize,
 ___lookahead: &usize,
-) -> ::std::vec::Vec<NonterminalString>
+) -> alloc::vec::Vec<NonterminalString>
 {
 vec![]
 }
@@ -18619,8 +18623,8 @@ fn ___action236<
     'input,
 >(
 text: &'input str,
-(_, v, _): (usize, ::std::vec::Vec<NonterminalString>, usize),
-) -> ::std::vec::Vec<NonterminalString>
+(_, v, _): (usize, alloc::vec::Vec<NonterminalString>, usize),
+) -> alloc::vec::Vec<NonterminalString>
 {
 v
 }
@@ -18643,7 +18647,7 @@ fn ___action238<
 >(
 text: &'input str,
 (_, ___0, _): (usize, Alternative, usize),
-) -> ::std::option::Option<Alternative>
+) -> core::option::Option<Alternative>
 {
 Some(___0)
 }
@@ -18655,7 +18659,7 @@ fn ___action239<
 text: &'input str,
 ___lookbehind: &usize,
 ___lookahead: &usize,
-) -> ::std::option::Option<Alternative>
+) -> core::option::Option<Alternative>
 {
 None
 }
@@ -18667,7 +18671,7 @@ fn ___action240<
 text: &'input str,
 ___lookbehind: &usize,
 ___lookahead: &usize,
-) -> ::std::vec::Vec<Alternative>
+) -> alloc::vec::Vec<Alternative>
 {
 vec![]
 }
@@ -18677,8 +18681,8 @@ fn ___action241<
     'input,
 >(
 text: &'input str,
-(_, v, _): (usize, ::std::vec::Vec<Alternative>, usize),
-) -> ::std::vec::Vec<Alternative>
+(_, v, _): (usize, alloc::vec::Vec<Alternative>, usize),
+) -> alloc::vec::Vec<Alternative>
 {
 v
 }
@@ -18701,7 +18705,7 @@ fn ___action243<
 >(
 text: &'input str,
 (_, ___0, _): (usize, Symbol, usize),
-) -> ::std::option::Option<Symbol>
+) -> core::option::Option<Symbol>
 {
 Some(___0)
 }
@@ -18713,7 +18717,7 @@ fn ___action244<
 text: &'input str,
 ___lookbehind: &usize,
 ___lookahead: &usize,
-) -> ::std::option::Option<Symbol>
+) -> core::option::Option<Symbol>
 {
 None
 }
@@ -18725,7 +18729,7 @@ fn ___action245<
 text: &'input str,
 ___lookbehind: &usize,
 ___lookahead: &usize,
-) -> ::std::vec::Vec<Symbol>
+) -> alloc::vec::Vec<Symbol>
 {
 vec![]
 }
@@ -18735,8 +18739,8 @@ fn ___action246<
     'input,
 >(
 text: &'input str,
-(_, v, _): (usize, ::std::vec::Vec<Symbol>, usize),
-) -> ::std::vec::Vec<Symbol>
+(_, v, _): (usize, alloc::vec::Vec<Symbol>, usize),
+) -> alloc::vec::Vec<Symbol>
 {
 v
 }
@@ -18759,7 +18763,7 @@ fn ___action248<
 >(
 text: &'input str,
 (_, ___0, _): (usize, TypeRef, usize),
-) -> ::std::option::Option<TypeRef>
+) -> core::option::Option<TypeRef>
 {
 Some(___0)
 }
@@ -18771,7 +18775,7 @@ fn ___action249<
 text: &'input str,
 ___lookbehind: &usize,
 ___lookahead: &usize,
-) -> ::std::option::Option<TypeRef>
+) -> core::option::Option<TypeRef>
 {
 None
 }
@@ -18783,7 +18787,7 @@ fn ___action250<
 text: &'input str,
 ___lookbehind: &usize,
 ___lookahead: &usize,
-) -> ::std::vec::Vec<TypeRef>
+) -> alloc::vec::Vec<TypeRef>
 {
 vec![]
 }
@@ -18793,8 +18797,8 @@ fn ___action251<
     'input,
 >(
 text: &'input str,
-(_, v, _): (usize, ::std::vec::Vec<TypeRef>, usize),
-) -> ::std::vec::Vec<TypeRef>
+(_, v, _): (usize, alloc::vec::Vec<TypeRef>, usize),
+) -> alloc::vec::Vec<TypeRef>
 {
 v
 }
@@ -18817,7 +18821,7 @@ fn ___action253<
 >(
 text: &'input str,
 (_, ___0, _): (usize, Atom, usize),
-) -> ::std::vec::Vec<Atom>
+) -> alloc::vec::Vec<Atom>
 {
 vec![___0]
 }
@@ -18827,9 +18831,9 @@ fn ___action254<
     'input,
 >(
 text: &'input str,
-(_, v, _): (usize, ::std::vec::Vec<Atom>, usize),
+(_, v, _): (usize, alloc::vec::Vec<Atom>, usize),
 (_, e, _): (usize, Atom, usize),
-) -> ::std::vec::Vec<Atom>
+) -> alloc::vec::Vec<Atom>
 {
 { let mut v = v; v.push(e); v }
 }
@@ -18840,7 +18844,7 @@ fn ___action255<
 >(
 text: &'input str,
 (_, ___0, _): (usize, AssociatedType, usize),
-) -> ::std::vec::Vec<AssociatedType>
+) -> alloc::vec::Vec<AssociatedType>
 {
 vec![___0]
 }
@@ -18850,9 +18854,9 @@ fn ___action256<
     'input,
 >(
 text: &'input str,
-(_, v, _): (usize, ::std::vec::Vec<AssociatedType>, usize),
+(_, v, _): (usize, alloc::vec::Vec<AssociatedType>, usize),
 (_, e, _): (usize, AssociatedType, usize),
-) -> ::std::vec::Vec<AssociatedType>
+) -> alloc::vec::Vec<AssociatedType>
 {
 { let mut v = v; v.push(e); v }
 }
@@ -18863,7 +18867,7 @@ fn ___action257<
 >(
 text: &'input str,
 (_, ___0, _): (usize, MatchItem, usize),
-) -> ::std::option::Option<MatchItem>
+) -> core::option::Option<MatchItem>
 {
 Some(___0)
 }
@@ -18875,7 +18879,7 @@ fn ___action258<
 text: &'input str,
 ___lookbehind: &usize,
 ___lookahead: &usize,
-) -> ::std::option::Option<MatchItem>
+) -> core::option::Option<MatchItem>
 {
 None
 }
@@ -18887,7 +18891,7 @@ fn ___action259<
 text: &'input str,
 ___lookbehind: &usize,
 ___lookahead: &usize,
-) -> ::std::vec::Vec<MatchItem>
+) -> alloc::vec::Vec<MatchItem>
 {
 vec![]
 }
@@ -18897,8 +18901,8 @@ fn ___action260<
     'input,
 >(
 text: &'input str,
-(_, v, _): (usize, ::std::vec::Vec<MatchItem>, usize),
-) -> ::std::vec::Vec<MatchItem>
+(_, v, _): (usize, alloc::vec::Vec<MatchItem>, usize),
+) -> alloc::vec::Vec<MatchItem>
 {
 v
 }
@@ -18921,7 +18925,7 @@ fn ___action262<
 >(
 text: &'input str,
 (_, ___0, _): (usize, Conversion, usize),
-) -> ::std::option::Option<Conversion>
+) -> core::option::Option<Conversion>
 {
 Some(___0)
 }
@@ -18933,7 +18937,7 @@ fn ___action263<
 text: &'input str,
 ___lookbehind: &usize,
 ___lookahead: &usize,
-) -> ::std::option::Option<Conversion>
+) -> core::option::Option<Conversion>
 {
 None
 }
@@ -18945,7 +18949,7 @@ fn ___action264<
 text: &'input str,
 ___lookbehind: &usize,
 ___lookahead: &usize,
-) -> ::std::vec::Vec<Conversion>
+) -> alloc::vec::Vec<Conversion>
 {
 vec![]
 }
@@ -18955,8 +18959,8 @@ fn ___action265<
     'input,
 >(
 text: &'input str,
-(_, v, _): (usize, ::std::vec::Vec<Conversion>, usize),
-) -> ::std::vec::Vec<Conversion>
+(_, v, _): (usize, alloc::vec::Vec<Conversion>, usize),
+) -> alloc::vec::Vec<Conversion>
 {
 v
 }
@@ -18979,7 +18983,7 @@ fn ___action267<
 >(
 text: &'input str,
 (_, ___0, _): (usize, Pattern<TypeRef>, usize),
-) -> ::std::option::Option<Pattern<TypeRef>>
+) -> core::option::Option<Pattern<TypeRef>>
 {
 Some(___0)
 }
@@ -18991,7 +18995,7 @@ fn ___action268<
 text: &'input str,
 ___lookbehind: &usize,
 ___lookahead: &usize,
-) -> ::std::option::Option<Pattern<TypeRef>>
+) -> core::option::Option<Pattern<TypeRef>>
 {
 None
 }
@@ -19003,7 +19007,7 @@ fn ___action269<
 text: &'input str,
 ___lookbehind: &usize,
 ___lookahead: &usize,
-) -> ::std::vec::Vec<Pattern<TypeRef>>
+) -> alloc::vec::Vec<Pattern<TypeRef>>
 {
 vec![]
 }
@@ -19013,8 +19017,8 @@ fn ___action270<
     'input,
 >(
 text: &'input str,
-(_, v, _): (usize, ::std::vec::Vec<Pattern<TypeRef>>, usize),
-) -> ::std::vec::Vec<Pattern<TypeRef>>
+(_, v, _): (usize, alloc::vec::Vec<Pattern<TypeRef>>, usize),
+) -> alloc::vec::Vec<Pattern<TypeRef>>
 {
 v
 }
@@ -19037,7 +19041,7 @@ fn ___action272<
 >(
 text: &'input str,
 (_, ___0, _): (usize, FieldPattern<TypeRef>, usize),
-) -> ::std::vec::Vec<FieldPattern<TypeRef>>
+) -> alloc::vec::Vec<FieldPattern<TypeRef>>
 {
 vec![___0]
 }
@@ -19047,9 +19051,9 @@ fn ___action273<
     'input,
 >(
 text: &'input str,
-(_, v, _): (usize, ::std::vec::Vec<FieldPattern<TypeRef>>, usize),
+(_, v, _): (usize, alloc::vec::Vec<FieldPattern<TypeRef>>, usize),
 (_, e, _): (usize, FieldPattern<TypeRef>, usize),
-) -> ::std::vec::Vec<FieldPattern<TypeRef>>
+) -> alloc::vec::Vec<FieldPattern<TypeRef>>
 {
 { let mut v = v; v.push(e); v }
 }
@@ -19060,7 +19064,7 @@ fn ___action274<
 >(
 text: &'input str,
 (_, ___0, _): (usize, Pattern<TypeRef>, usize),
-) -> ::std::vec::Vec<Pattern<TypeRef>>
+) -> alloc::vec::Vec<Pattern<TypeRef>>
 {
 vec![___0]
 }
@@ -19070,9 +19074,9 @@ fn ___action275<
     'input,
 >(
 text: &'input str,
-(_, v, _): (usize, ::std::vec::Vec<Pattern<TypeRef>>, usize),
+(_, v, _): (usize, alloc::vec::Vec<Pattern<TypeRef>>, usize),
 (_, e, _): (usize, Pattern<TypeRef>, usize),
-) -> ::std::vec::Vec<Pattern<TypeRef>>
+) -> alloc::vec::Vec<Pattern<TypeRef>>
 {
 { let mut v = v; v.push(e); v }
 }
@@ -19083,7 +19087,7 @@ fn ___action276<
 >(
 text: &'input str,
 (_, ___0, _): (usize, Conversion, usize),
-) -> ::std::vec::Vec<Conversion>
+) -> alloc::vec::Vec<Conversion>
 {
 vec![___0]
 }
@@ -19093,9 +19097,9 @@ fn ___action277<
     'input,
 >(
 text: &'input str,
-(_, v, _): (usize, ::std::vec::Vec<Conversion>, usize),
+(_, v, _): (usize, alloc::vec::Vec<Conversion>, usize),
 (_, e, _): (usize, Conversion, usize),
-) -> ::std::vec::Vec<Conversion>
+) -> alloc::vec::Vec<Conversion>
 {
 { let mut v = v; v.push(e); v }
 }
@@ -19106,7 +19110,7 @@ fn ___action278<
 >(
 text: &'input str,
 (_, ___0, _): (usize, MatchItem, usize),
-) -> ::std::vec::Vec<MatchItem>
+) -> alloc::vec::Vec<MatchItem>
 {
 vec![___0]
 }
@@ -19116,9 +19120,9 @@ fn ___action279<
     'input,
 >(
 text: &'input str,
-(_, v, _): (usize, ::std::vec::Vec<MatchItem>, usize),
+(_, v, _): (usize, alloc::vec::Vec<MatchItem>, usize),
 (_, e, _): (usize, MatchItem, usize),
-) -> ::std::vec::Vec<MatchItem>
+) -> alloc::vec::Vec<MatchItem>
 {
 { let mut v = v; v.push(e); v }
 }
@@ -19129,7 +19133,7 @@ fn ___action280<
 >(
 text: &'input str,
 (_, ___0, _): (usize, TypeRef, usize),
-) -> ::std::vec::Vec<TypeRef>
+) -> alloc::vec::Vec<TypeRef>
 {
 vec![___0]
 }
@@ -19139,9 +19143,9 @@ fn ___action281<
     'input,
 >(
 text: &'input str,
-(_, v, _): (usize, ::std::vec::Vec<TypeRef>, usize),
+(_, v, _): (usize, alloc::vec::Vec<TypeRef>, usize),
 (_, e, _): (usize, TypeRef, usize),
-) -> ::std::vec::Vec<TypeRef>
+) -> alloc::vec::Vec<TypeRef>
 {
 { let mut v = v; v.push(e); v }
 }
@@ -19152,7 +19156,7 @@ fn ___action282<
 >(
 text: &'input str,
 (_, ___0, _): (usize, Symbol, usize),
-) -> ::std::vec::Vec<Symbol>
+) -> alloc::vec::Vec<Symbol>
 {
 vec![___0]
 }
@@ -19162,9 +19166,9 @@ fn ___action283<
     'input,
 >(
 text: &'input str,
-(_, v, _): (usize, ::std::vec::Vec<Symbol>, usize),
+(_, v, _): (usize, alloc::vec::Vec<Symbol>, usize),
 (_, e, _): (usize, Symbol, usize),
-) -> ::std::vec::Vec<Symbol>
+) -> alloc::vec::Vec<Symbol>
 {
 { let mut v = v; v.push(e); v }
 }
@@ -19175,7 +19179,7 @@ fn ___action284<
 >(
 text: &'input str,
 (_, ___0, _): (usize, Alternative, usize),
-) -> ::std::vec::Vec<Alternative>
+) -> alloc::vec::Vec<Alternative>
 {
 vec![___0]
 }
@@ -19185,9 +19189,9 @@ fn ___action285<
     'input,
 >(
 text: &'input str,
-(_, v, _): (usize, ::std::vec::Vec<Alternative>, usize),
+(_, v, _): (usize, alloc::vec::Vec<Alternative>, usize),
 (_, e, _): (usize, Alternative, usize),
-) -> ::std::vec::Vec<Alternative>
+) -> alloc::vec::Vec<Alternative>
 {
 { let mut v = v; v.push(e); v }
 }
@@ -19198,7 +19202,7 @@ fn ___action286<
 >(
 text: &'input str,
 (_, ___0, _): (usize, NonterminalString, usize),
-) -> ::std::vec::Vec<NonterminalString>
+) -> alloc::vec::Vec<NonterminalString>
 {
 vec![___0]
 }
@@ -19208,9 +19212,9 @@ fn ___action287<
     'input,
 >(
 text: &'input str,
-(_, v, _): (usize, ::std::vec::Vec<NonterminalString>, usize),
+(_, v, _): (usize, alloc::vec::Vec<NonterminalString>, usize),
 (_, e, _): (usize, NonterminalString, usize),
-) -> ::std::vec::Vec<NonterminalString>
+) -> alloc::vec::Vec<NonterminalString>
 {
 { let mut v = v; v.push(e); v }
 }
@@ -19221,7 +19225,7 @@ fn ___action288<
 >(
 text: &'input str,
 (_, ___0, _): (usize, Parameter, usize),
-) -> ::std::vec::Vec<Parameter>
+) -> alloc::vec::Vec<Parameter>
 {
 vec![___0]
 }
@@ -19231,9 +19235,9 @@ fn ___action289<
     'input,
 >(
 text: &'input str,
-(_, v, _): (usize, ::std::vec::Vec<Parameter>, usize),
+(_, v, _): (usize, alloc::vec::Vec<Parameter>, usize),
 (_, e, _): (usize, Parameter, usize),
-) -> ::std::vec::Vec<Parameter>
+) -> alloc::vec::Vec<Parameter>
 {
 { let mut v = v; v.push(e); v }
 }
@@ -19244,7 +19248,7 @@ fn ___action290<
 >(
 text: &'input str,
 (_, ___0, _): (usize, TypeBoundParameter<TypeRef>, usize),
-) -> ::std::vec::Vec<TypeBoundParameter<TypeRef>>
+) -> alloc::vec::Vec<TypeBoundParameter<TypeRef>>
 {
 vec![___0]
 }
@@ -19254,9 +19258,9 @@ fn ___action291<
     'input,
 >(
 text: &'input str,
-(_, v, _): (usize, ::std::vec::Vec<TypeBoundParameter<TypeRef>>, usize),
+(_, v, _): (usize, alloc::vec::Vec<TypeBoundParameter<TypeRef>>, usize),
 (_, e, _): (usize, TypeBoundParameter<TypeRef>, usize),
-) -> ::std::vec::Vec<TypeBoundParameter<TypeRef>>
+) -> alloc::vec::Vec<TypeBoundParameter<TypeRef>>
 {
 { let mut v = v; v.push(e); v }
 }
@@ -19267,7 +19271,7 @@ fn ___action292<
 >(
 text: &'input str,
 (_, ___0, _): (usize, TypeRef, usize),
-) -> ::std::vec::Vec<TypeRef>
+) -> alloc::vec::Vec<TypeRef>
 {
 vec![___0]
 }
@@ -19277,9 +19281,9 @@ fn ___action293<
     'input,
 >(
 text: &'input str,
-(_, v, _): (usize, ::std::vec::Vec<TypeRef>, usize),
+(_, v, _): (usize, alloc::vec::Vec<TypeRef>, usize),
 (_, e, _): (usize, TypeRef, usize),
-) -> ::std::vec::Vec<TypeRef>
+) -> alloc::vec::Vec<TypeRef>
 {
 { let mut v = v; v.push(e); v }
 }
@@ -19290,7 +19294,7 @@ fn ___action294<
 >(
 text: &'input str,
 (_, ___0, _): (usize, TypeBound<TypeRef>, usize),
-) -> ::std::vec::Vec<TypeBound<TypeRef>>
+) -> alloc::vec::Vec<TypeBound<TypeRef>>
 {
 vec![___0]
 }
@@ -19300,9 +19304,9 @@ fn ___action295<
     'input,
 >(
 text: &'input str,
-(_, v, _): (usize, ::std::vec::Vec<TypeBound<TypeRef>>, usize),
+(_, v, _): (usize, alloc::vec::Vec<TypeBound<TypeRef>>, usize),
 (_, e, _): (usize, TypeBound<TypeRef>, usize),
-) -> ::std::vec::Vec<TypeBound<TypeRef>>
+) -> alloc::vec::Vec<TypeBound<TypeRef>>
 {
 { let mut v = v; v.push(e); v }
 }
@@ -19313,7 +19317,7 @@ fn ___action296<
 >(
 text: &'input str,
 (_, ___0, _): (usize, Lifetime, usize),
-) -> ::std::vec::Vec<Lifetime>
+) -> alloc::vec::Vec<Lifetime>
 {
 vec![___0]
 }
@@ -19323,9 +19327,9 @@ fn ___action297<
     'input,
 >(
 text: &'input str,
-(_, v, _): (usize, ::std::vec::Vec<Lifetime>, usize),
+(_, v, _): (usize, alloc::vec::Vec<Lifetime>, usize),
 (_, e, _): (usize, Lifetime, usize),
-) -> ::std::vec::Vec<Lifetime>
+) -> alloc::vec::Vec<Lifetime>
 {
 { let mut v = v; v.push(e); v }
 }
@@ -19336,7 +19340,7 @@ fn ___action298<
 >(
 text: &'input str,
 (_, ___0, _): (usize, WhereClause<TypeRef>, usize),
-) -> ::std::vec::Vec<WhereClause<TypeRef>>
+) -> alloc::vec::Vec<WhereClause<TypeRef>>
 {
 vec![___0]
 }
@@ -19346,9 +19350,9 @@ fn ___action299<
     'input,
 >(
 text: &'input str,
-(_, v, _): (usize, ::std::vec::Vec<WhereClause<TypeRef>>, usize),
+(_, v, _): (usize, alloc::vec::Vec<WhereClause<TypeRef>>, usize),
 (_, e, _): (usize, WhereClause<TypeRef>, usize),
-) -> ::std::vec::Vec<WhereClause<TypeRef>>
+) -> alloc::vec::Vec<WhereClause<TypeRef>>
 {
 { let mut v = v; v.push(e); v }
 }
@@ -19359,7 +19363,7 @@ fn ___action300<
 >(
 text: &'input str,
 (_, ___0, _): (usize, TypeParameter, usize),
-) -> ::std::vec::Vec<TypeParameter>
+) -> alloc::vec::Vec<TypeParameter>
 {
 vec![___0]
 }
@@ -19369,9 +19373,9 @@ fn ___action301<
     'input,
 >(
 text: &'input str,
-(_, v, _): (usize, ::std::vec::Vec<TypeParameter>, usize),
+(_, v, _): (usize, alloc::vec::Vec<TypeParameter>, usize),
 (_, e, _): (usize, TypeParameter, usize),
-) -> ::std::vec::Vec<TypeParameter>
+) -> alloc::vec::Vec<TypeParameter>
 {
 { let mut v = v; v.push(e); v }
 }
@@ -19382,7 +19386,7 @@ fn ___action302<
 >(
 text: &'input str,
 ___0: (usize, Tok<'input>, usize),
-___1: (usize, ::std::vec::Vec<Atom>, usize),
+___1: (usize, alloc::vec::Vec<Atom>, usize),
 ___2: (usize, Atom, usize),
 ) -> Path
 {
@@ -19406,7 +19410,7 @@ fn ___action303<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<Atom>, usize),
+___0: (usize, alloc::vec::Vec<Atom>, usize),
 ___1: (usize, Atom, usize),
 ) -> Path
 {
@@ -19560,7 +19564,7 @@ fn ___action308<
 >(
 text: &'input str,
 ___0: (usize, Tok<'input>, usize),
-___1: (usize, ::std::option::Option<Lifetime>, usize),
+___1: (usize, core::option::Option<Lifetime>, usize),
 ___2: (usize, Tok<'input>, usize),
 ___3: (usize, TypeRef, usize),
 ) -> TypeRef
@@ -19587,7 +19591,7 @@ fn ___action309<
 >(
 text: &'input str,
 ___0: (usize, Tok<'input>, usize),
-___1: (usize, ::std::option::Option<Lifetime>, usize),
+___1: (usize, core::option::Option<Lifetime>, usize),
 ___2: (usize, TypeRef, usize),
 ) -> TypeRef
 {
@@ -19615,7 +19619,7 @@ fn ___action310<
 text: &'input str,
 ___0: (usize, Tok<'input>, usize),
 ___1: (usize, TypeRef, usize),
-) -> ::std::option::Option<TypeRef>
+) -> core::option::Option<TypeRef>
 {
 let ___start0 = ___0.0.clone();
 let ___end0 = ___1.2.clone();
@@ -19770,7 +19774,7 @@ fn ___action315<
 text: &'input str,
 ___0: (usize, Tok<'input>, usize),
 ___1: (usize, TypeRef, usize),
-) -> ::std::option::Option<TypeRef>
+) -> core::option::Option<TypeRef>
 {
 let ___start0 = ___0.0.clone();
 let ___end0 = ___1.2.clone();
@@ -19791,7 +19795,7 @@ fn ___action316<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<Annotation>, usize),
+___0: (usize, alloc::vec::Vec<Annotation>, usize),
 ___1: (usize, Visibility, usize),
 ___2: (usize, usize, usize),
 ___3: (usize, (NonterminalString, Vec<NonterminalString>), usize),
@@ -19828,7 +19832,7 @@ fn ___action317<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<Annotation>, usize),
+___0: (usize, alloc::vec::Vec<Annotation>, usize),
 ___1: (usize, Visibility, usize),
 ___2: (usize, usize, usize),
 ___3: (usize, (NonterminalString, Vec<NonterminalString>), usize),
@@ -19866,7 +19870,7 @@ text: &'input str,
 ___0: (usize, Tok<'input>, usize),
 ___1: (usize, Vec<TypeBoundParameter<TypeRef>>, usize),
 ___2: (usize, Tok<'input>, usize),
-) -> ::std::option::Option<Vec<TypeBoundParameter<TypeRef>>>
+) -> core::option::Option<Vec<TypeBoundParameter<TypeRef>>>
 {
 let ___start0 = ___0.0.clone();
 let ___end0 = ___2.2.clone();
@@ -19944,7 +19948,7 @@ fn ___action321<
 text: &'input str,
 ___0: (usize, Tok<'input>, usize),
 ___1: (usize, Condition, usize),
-) -> ::std::option::Option<Condition>
+) -> core::option::Option<Condition>
 {
 let ___start0 = ___0.0.clone();
 let ___end0 = ___1.2.clone();
@@ -19965,12 +19969,12 @@ fn ___action322<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<Annotation>, usize),
+___0: (usize, alloc::vec::Vec<Annotation>, usize),
 ___1: (usize, usize, usize),
-___2: (usize, ::std::vec::Vec<Symbol>, usize),
+___2: (usize, alloc::vec::Vec<Symbol>, usize),
 ___3: (usize, Tok<'input>, usize),
 ___4: (usize, Condition, usize),
-___5: (usize, ::std::option::Option<ActionKind>, usize),
+___5: (usize, core::option::Option<ActionKind>, usize),
 ___6: (usize, usize, usize),
 ) -> Alternative
 {
@@ -19998,10 +20002,10 @@ fn ___action323<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<Annotation>, usize),
+___0: (usize, alloc::vec::Vec<Annotation>, usize),
 ___1: (usize, usize, usize),
-___2: (usize, ::std::vec::Vec<Symbol>, usize),
-___3: (usize, ::std::option::Option<ActionKind>, usize),
+___2: (usize, alloc::vec::Vec<Symbol>, usize),
+___3: (usize, core::option::Option<ActionKind>, usize),
 ___4: (usize, usize, usize),
 ) -> Alternative
 {
@@ -20133,7 +20137,7 @@ fn ___action328<
 text: &'input str,
 ___0: (usize, Alternative, usize),
 ___1: (usize, Tok<'input>, usize),
-) -> ::std::vec::Vec<Alternative>
+) -> alloc::vec::Vec<Alternative>
 {
 let ___start0 = ___0.0.clone();
 let ___end0 = ___1.2.clone();
@@ -20154,10 +20158,10 @@ fn ___action329<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<Alternative>, usize),
+___0: (usize, alloc::vec::Vec<Alternative>, usize),
 ___1: (usize, Alternative, usize),
 ___2: (usize, Tok<'input>, usize),
-) -> ::std::vec::Vec<Alternative>
+) -> alloc::vec::Vec<Alternative>
 {
 let ___start0 = ___1.0.clone();
 let ___end0 = ___2.2.clone();
@@ -20179,7 +20183,7 @@ fn ___action330<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::option::Option<Alternative>, usize),
+___0: (usize, core::option::Option<Alternative>, usize),
 ) -> Vec<Alternative>
 {
 let ___start0 = ___0.0.clone();
@@ -20202,8 +20206,8 @@ fn ___action331<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<Alternative>, usize),
-___1: (usize, ::std::option::Option<Alternative>, usize),
+___0: (usize, alloc::vec::Vec<Alternative>, usize),
+___1: (usize, core::option::Option<Alternative>, usize),
 ) -> Vec<Alternative>
 {
 let ___start0 = ___0.0.clone();
@@ -20227,7 +20231,7 @@ fn ___action332<
 text: &'input str,
 ___0: (usize, Conversion, usize),
 ___1: (usize, Tok<'input>, usize),
-) -> ::std::vec::Vec<Conversion>
+) -> alloc::vec::Vec<Conversion>
 {
 let ___start0 = ___0.0.clone();
 let ___end0 = ___1.2.clone();
@@ -20248,10 +20252,10 @@ fn ___action333<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<Conversion>, usize),
+___0: (usize, alloc::vec::Vec<Conversion>, usize),
 ___1: (usize, Conversion, usize),
 ___2: (usize, Tok<'input>, usize),
-) -> ::std::vec::Vec<Conversion>
+) -> alloc::vec::Vec<Conversion>
 {
 let ___start0 = ___1.0.clone();
 let ___end0 = ___2.2.clone();
@@ -20273,7 +20277,7 @@ fn ___action334<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::option::Option<Conversion>, usize),
+___0: (usize, core::option::Option<Conversion>, usize),
 ) -> Vec<Conversion>
 {
 let ___start0 = ___0.0.clone();
@@ -20296,8 +20300,8 @@ fn ___action335<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<Conversion>, usize),
-___1: (usize, ::std::option::Option<Conversion>, usize),
+___0: (usize, alloc::vec::Vec<Conversion>, usize),
+___1: (usize, core::option::Option<Conversion>, usize),
 ) -> Vec<Conversion>
 {
 let ___start0 = ___0.0.clone();
@@ -20321,7 +20325,7 @@ fn ___action336<
 text: &'input str,
 ___0: (usize, FieldPattern<TypeRef>, usize),
 ___1: (usize, Tok<'input>, usize),
-) -> ::std::vec::Vec<FieldPattern<TypeRef>>
+) -> alloc::vec::Vec<FieldPattern<TypeRef>>
 {
 let ___start0 = ___0.0.clone();
 let ___end0 = ___1.2.clone();
@@ -20342,10 +20346,10 @@ fn ___action337<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<FieldPattern<TypeRef>>, usize),
+___0: (usize, alloc::vec::Vec<FieldPattern<TypeRef>>, usize),
 ___1: (usize, FieldPattern<TypeRef>, usize),
 ___2: (usize, Tok<'input>, usize),
-) -> ::std::vec::Vec<FieldPattern<TypeRef>>
+) -> alloc::vec::Vec<FieldPattern<TypeRef>>
 {
 let ___start0 = ___1.0.clone();
 let ___end0 = ___2.2.clone();
@@ -20369,7 +20373,7 @@ fn ___action338<
 text: &'input str,
 ___0: (usize, Path, usize),
 ___1: (usize, Tok<'input>, usize),
-___2: (usize, ::std::option::Option<FieldPattern<TypeRef>>, usize),
+___2: (usize, core::option::Option<FieldPattern<TypeRef>>, usize),
 ___3: (usize, Tok<'input>, usize),
 ) -> PatternKind<TypeRef>
 {
@@ -20398,8 +20402,8 @@ fn ___action339<
 text: &'input str,
 ___0: (usize, Path, usize),
 ___1: (usize, Tok<'input>, usize),
-___2: (usize, ::std::vec::Vec<FieldPattern<TypeRef>>, usize),
-___3: (usize, ::std::option::Option<FieldPattern<TypeRef>>, usize),
+___2: (usize, alloc::vec::Vec<FieldPattern<TypeRef>>, usize),
+___3: (usize, core::option::Option<FieldPattern<TypeRef>>, usize),
 ___4: (usize, Tok<'input>, usize),
 ) -> PatternKind<TypeRef>
 {
@@ -20456,7 +20460,7 @@ fn ___action341<
 text: &'input str,
 ___0: (usize, Path, usize),
 ___1: (usize, Tok<'input>, usize),
-___2: (usize, ::std::vec::Vec<FieldPattern<TypeRef>>, usize),
+___2: (usize, alloc::vec::Vec<FieldPattern<TypeRef>>, usize),
 ___3: (usize, Tok<'input>, usize),
 ___4: (usize, Tok<'input>, usize),
 ) -> PatternKind<TypeRef>
@@ -20485,7 +20489,7 @@ fn ___action342<
 text: &'input str,
 ___0: (usize, Parameter, usize),
 ___1: (usize, Tok<'input>, usize),
-) -> ::std::vec::Vec<Parameter>
+) -> alloc::vec::Vec<Parameter>
 {
 let ___start0 = ___0.0.clone();
 let ___end0 = ___1.2.clone();
@@ -20506,10 +20510,10 @@ fn ___action343<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<Parameter>, usize),
+___0: (usize, alloc::vec::Vec<Parameter>, usize),
 ___1: (usize, Parameter, usize),
 ___2: (usize, Tok<'input>, usize),
-) -> ::std::vec::Vec<Parameter>
+) -> alloc::vec::Vec<Parameter>
 {
 let ___start0 = ___1.0.clone();
 let ___end0 = ___2.2.clone();
@@ -20531,7 +20535,7 @@ fn ___action344<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::option::Option<Parameter>, usize),
+___0: (usize, core::option::Option<Parameter>, usize),
 ) -> Vec<Parameter>
 {
 let ___start0 = ___0.0.clone();
@@ -20554,8 +20558,8 @@ fn ___action345<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<Parameter>, usize),
-___1: (usize, ::std::option::Option<Parameter>, usize),
+___0: (usize, alloc::vec::Vec<Parameter>, usize),
+___1: (usize, core::option::Option<Parameter>, usize),
 ) -> Vec<Parameter>
 {
 let ___start0 = ___0.0.clone();
@@ -20579,7 +20583,7 @@ fn ___action346<
 text: &'input str,
 ___0: (usize, WhereClause<TypeRef>, usize),
 ___1: (usize, Tok<'input>, usize),
-) -> ::std::vec::Vec<WhereClause<TypeRef>>
+) -> alloc::vec::Vec<WhereClause<TypeRef>>
 {
 let ___start0 = ___0.0.clone();
 let ___end0 = ___1.2.clone();
@@ -20600,10 +20604,10 @@ fn ___action347<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<WhereClause<TypeRef>>, usize),
+___0: (usize, alloc::vec::Vec<WhereClause<TypeRef>>, usize),
 ___1: (usize, WhereClause<TypeRef>, usize),
 ___2: (usize, Tok<'input>, usize),
-) -> ::std::vec::Vec<WhereClause<TypeRef>>
+) -> alloc::vec::Vec<WhereClause<TypeRef>>
 {
 let ___start0 = ___1.0.clone();
 let ___end0 = ___2.2.clone();
@@ -20625,7 +20629,7 @@ fn ___action348<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::option::Option<WhereClause<TypeRef>>, usize),
+___0: (usize, core::option::Option<WhereClause<TypeRef>>, usize),
 ) -> Vec<WhereClause<TypeRef>>
 {
 let ___start0 = ___0.0.clone();
@@ -20648,8 +20652,8 @@ fn ___action349<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<WhereClause<TypeRef>>, usize),
-___1: (usize, ::std::option::Option<WhereClause<TypeRef>>, usize),
+___0: (usize, alloc::vec::Vec<WhereClause<TypeRef>>, usize),
+___1: (usize, core::option::Option<WhereClause<TypeRef>>, usize),
 ) -> Vec<WhereClause<TypeRef>>
 {
 let ___start0 = ___0.0.clone();
@@ -20673,7 +20677,7 @@ fn ___action350<
 text: &'input str,
 ___0: (usize, Atom, usize),
 ___1: (usize, Tok<'input>, usize),
-) -> ::std::vec::Vec<Atom>
+) -> alloc::vec::Vec<Atom>
 {
 let ___start0 = ___0.0.clone();
 let ___end0 = ___1.2.clone();
@@ -20694,10 +20698,10 @@ fn ___action351<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<Atom>, usize),
+___0: (usize, alloc::vec::Vec<Atom>, usize),
 ___1: (usize, Atom, usize),
 ___2: (usize, Tok<'input>, usize),
-) -> ::std::vec::Vec<Atom>
+) -> alloc::vec::Vec<Atom>
 {
 let ___start0 = ___1.0.clone();
 let ___end0 = ___2.2.clone();
@@ -20745,7 +20749,7 @@ fn ___action353<
 >(
 text: &'input str,
 ___0: (usize, Tok<'input>, usize),
-___1: (usize, ::std::vec::Vec<Atom>, usize),
+___1: (usize, alloc::vec::Vec<Atom>, usize),
 ___2: (usize, Atom, usize),
 ) -> Path
 {
@@ -20792,7 +20796,7 @@ fn ___action355<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<Atom>, usize),
+___0: (usize, alloc::vec::Vec<Atom>, usize),
 ___1: (usize, Atom, usize),
 ) -> Path
 {
@@ -20817,7 +20821,7 @@ fn ___action356<
 text: &'input str,
 ___0: (usize, Lifetime, usize),
 ___1: (usize, Tok<'input>, usize),
-) -> ::std::vec::Vec<Lifetime>
+) -> alloc::vec::Vec<Lifetime>
 {
 let ___start0 = ___0.0.clone();
 let ___end0 = ___1.2.clone();
@@ -20838,10 +20842,10 @@ fn ___action357<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<Lifetime>, usize),
+___0: (usize, alloc::vec::Vec<Lifetime>, usize),
 ___1: (usize, Lifetime, usize),
 ___2: (usize, Tok<'input>, usize),
-) -> ::std::vec::Vec<Lifetime>
+) -> alloc::vec::Vec<Lifetime>
 {
 let ___start0 = ___1.0.clone();
 let ___end0 = ___2.2.clone();
@@ -20863,7 +20867,7 @@ fn ___action358<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::option::Option<Lifetime>, usize),
+___0: (usize, core::option::Option<Lifetime>, usize),
 ) -> Vec<Lifetime>
 {
 let ___start0 = ___0.0.clone();
@@ -20886,8 +20890,8 @@ fn ___action359<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<Lifetime>, usize),
-___1: (usize, ::std::option::Option<Lifetime>, usize),
+___0: (usize, alloc::vec::Vec<Lifetime>, usize),
+___1: (usize, core::option::Option<Lifetime>, usize),
 ) -> Vec<Lifetime>
 {
 let ___start0 = ___0.0.clone();
@@ -20911,7 +20915,7 @@ fn ___action360<
 text: &'input str,
 ___0: (usize, MatchItem, usize),
 ___1: (usize, Tok<'input>, usize),
-) -> ::std::vec::Vec<MatchItem>
+) -> alloc::vec::Vec<MatchItem>
 {
 let ___start0 = ___0.0.clone();
 let ___end0 = ___1.2.clone();
@@ -20932,10 +20936,10 @@ fn ___action361<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<MatchItem>, usize),
+___0: (usize, alloc::vec::Vec<MatchItem>, usize),
 ___1: (usize, MatchItem, usize),
 ___2: (usize, Tok<'input>, usize),
-) -> ::std::vec::Vec<MatchItem>
+) -> alloc::vec::Vec<MatchItem>
 {
 let ___start0 = ___1.0.clone();
 let ___end0 = ___2.2.clone();
@@ -20957,7 +20961,7 @@ fn ___action362<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::option::Option<MatchItem>, usize),
+___0: (usize, core::option::Option<MatchItem>, usize),
 ) -> Vec<MatchItem>
 {
 let ___start0 = ___0.0.clone();
@@ -20980,8 +20984,8 @@ fn ___action363<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<MatchItem>, usize),
-___1: (usize, ::std::option::Option<MatchItem>, usize),
+___0: (usize, alloc::vec::Vec<MatchItem>, usize),
+___1: (usize, core::option::Option<MatchItem>, usize),
 ) -> Vec<MatchItem>
 {
 let ___start0 = ___0.0.clone();
@@ -21005,7 +21009,7 @@ fn ___action364<
 text: &'input str,
 ___0: (usize, NonterminalString, usize),
 ___1: (usize, Tok<'input>, usize),
-) -> ::std::vec::Vec<NonterminalString>
+) -> alloc::vec::Vec<NonterminalString>
 {
 let ___start0 = ___0.0.clone();
 let ___end0 = ___1.2.clone();
@@ -21026,10 +21030,10 @@ fn ___action365<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<NonterminalString>, usize),
+___0: (usize, alloc::vec::Vec<NonterminalString>, usize),
 ___1: (usize, NonterminalString, usize),
 ___2: (usize, Tok<'input>, usize),
-) -> ::std::vec::Vec<NonterminalString>
+) -> alloc::vec::Vec<NonterminalString>
 {
 let ___start0 = ___1.0.clone();
 let ___end0 = ___2.2.clone();
@@ -21051,7 +21055,7 @@ fn ___action366<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::option::Option<NonterminalString>, usize),
+___0: (usize, core::option::Option<NonterminalString>, usize),
 ) -> Vec<NonterminalString>
 {
 let ___start0 = ___0.0.clone();
@@ -21074,8 +21078,8 @@ fn ___action367<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<NonterminalString>, usize),
-___1: (usize, ::std::option::Option<NonterminalString>, usize),
+___0: (usize, alloc::vec::Vec<NonterminalString>, usize),
+___1: (usize, core::option::Option<NonterminalString>, usize),
 ) -> Vec<NonterminalString>
 {
 let ___start0 = ___0.0.clone();
@@ -21099,7 +21103,7 @@ fn ___action368<
 text: &'input str,
 ___0: (usize, Pattern<TypeRef>, usize),
 ___1: (usize, Tok<'input>, usize),
-) -> ::std::vec::Vec<Pattern<TypeRef>>
+) -> alloc::vec::Vec<Pattern<TypeRef>>
 {
 let ___start0 = ___0.0.clone();
 let ___end0 = ___1.2.clone();
@@ -21120,10 +21124,10 @@ fn ___action369<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<Pattern<TypeRef>>, usize),
+___0: (usize, alloc::vec::Vec<Pattern<TypeRef>>, usize),
 ___1: (usize, Pattern<TypeRef>, usize),
 ___2: (usize, Tok<'input>, usize),
-) -> ::std::vec::Vec<Pattern<TypeRef>>
+) -> alloc::vec::Vec<Pattern<TypeRef>>
 {
 let ___start0 = ___1.0.clone();
 let ___end0 = ___2.2.clone();
@@ -21145,7 +21149,7 @@ fn ___action370<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::option::Option<Pattern<TypeRef>>, usize),
+___0: (usize, core::option::Option<Pattern<TypeRef>>, usize),
 ) -> Vec<Pattern<TypeRef>>
 {
 let ___start0 = ___0.0.clone();
@@ -21168,8 +21172,8 @@ fn ___action371<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<Pattern<TypeRef>>, usize),
-___1: (usize, ::std::option::Option<Pattern<TypeRef>>, usize),
+___0: (usize, alloc::vec::Vec<Pattern<TypeRef>>, usize),
+___1: (usize, core::option::Option<Pattern<TypeRef>>, usize),
 ) -> Vec<Pattern<TypeRef>>
 {
 let ___start0 = ___0.0.clone();
@@ -21193,7 +21197,7 @@ fn ___action372<
 text: &'input str,
 ___0: (usize, Symbol, usize),
 ___1: (usize, Tok<'input>, usize),
-) -> ::std::vec::Vec<Symbol>
+) -> alloc::vec::Vec<Symbol>
 {
 let ___start0 = ___0.0.clone();
 let ___end0 = ___1.2.clone();
@@ -21214,10 +21218,10 @@ fn ___action373<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<Symbol>, usize),
+___0: (usize, alloc::vec::Vec<Symbol>, usize),
 ___1: (usize, Symbol, usize),
 ___2: (usize, Tok<'input>, usize),
-) -> ::std::vec::Vec<Symbol>
+) -> alloc::vec::Vec<Symbol>
 {
 let ___start0 = ___1.0.clone();
 let ___end0 = ___2.2.clone();
@@ -21239,7 +21243,7 @@ fn ___action374<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::option::Option<Symbol>, usize),
+___0: (usize, core::option::Option<Symbol>, usize),
 ) -> Vec<Symbol>
 {
 let ___start0 = ___0.0.clone();
@@ -21262,8 +21266,8 @@ fn ___action375<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<Symbol>, usize),
-___1: (usize, ::std::option::Option<Symbol>, usize),
+___0: (usize, alloc::vec::Vec<Symbol>, usize),
+___1: (usize, core::option::Option<Symbol>, usize),
 ) -> Vec<Symbol>
 {
 let ___start0 = ___0.0.clone();
@@ -21287,7 +21291,7 @@ fn ___action376<
 text: &'input str,
 ___0: (usize, TypeBound<TypeRef>, usize),
 ___1: (usize, Tok<'input>, usize),
-) -> ::std::vec::Vec<TypeBound<TypeRef>>
+) -> alloc::vec::Vec<TypeBound<TypeRef>>
 {
 let ___start0 = ___0.0.clone();
 let ___end0 = ___1.2.clone();
@@ -21308,10 +21312,10 @@ fn ___action377<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<TypeBound<TypeRef>>, usize),
+___0: (usize, alloc::vec::Vec<TypeBound<TypeRef>>, usize),
 ___1: (usize, TypeBound<TypeRef>, usize),
 ___2: (usize, Tok<'input>, usize),
-) -> ::std::vec::Vec<TypeBound<TypeRef>>
+) -> alloc::vec::Vec<TypeBound<TypeRef>>
 {
 let ___start0 = ___1.0.clone();
 let ___end0 = ___2.2.clone();
@@ -21333,7 +21337,7 @@ fn ___action378<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::option::Option<TypeBound<TypeRef>>, usize),
+___0: (usize, core::option::Option<TypeBound<TypeRef>>, usize),
 ) -> Vec<TypeBound<TypeRef>>
 {
 let ___start0 = ___0.0.clone();
@@ -21356,8 +21360,8 @@ fn ___action379<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<TypeBound<TypeRef>>, usize),
-___1: (usize, ::std::option::Option<TypeBound<TypeRef>>, usize),
+___0: (usize, alloc::vec::Vec<TypeBound<TypeRef>>, usize),
+___1: (usize, core::option::Option<TypeBound<TypeRef>>, usize),
 ) -> Vec<TypeBound<TypeRef>>
 {
 let ___start0 = ___0.0.clone();
@@ -21381,7 +21385,7 @@ fn ___action380<
 text: &'input str,
 ___0: (usize, TypeBoundParameter<TypeRef>, usize),
 ___1: (usize, Tok<'input>, usize),
-) -> ::std::vec::Vec<TypeBoundParameter<TypeRef>>
+) -> alloc::vec::Vec<TypeBoundParameter<TypeRef>>
 {
 let ___start0 = ___0.0.clone();
 let ___end0 = ___1.2.clone();
@@ -21402,10 +21406,10 @@ fn ___action381<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<TypeBoundParameter<TypeRef>>, usize),
+___0: (usize, alloc::vec::Vec<TypeBoundParameter<TypeRef>>, usize),
 ___1: (usize, TypeBoundParameter<TypeRef>, usize),
 ___2: (usize, Tok<'input>, usize),
-) -> ::std::vec::Vec<TypeBoundParameter<TypeRef>>
+) -> alloc::vec::Vec<TypeBoundParameter<TypeRef>>
 {
 let ___start0 = ___1.0.clone();
 let ___end0 = ___2.2.clone();
@@ -21427,7 +21431,7 @@ fn ___action382<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::option::Option<TypeBoundParameter<TypeRef>>, usize),
+___0: (usize, core::option::Option<TypeBoundParameter<TypeRef>>, usize),
 ) -> Vec<TypeBoundParameter<TypeRef>>
 {
 let ___start0 = ___0.0.clone();
@@ -21450,8 +21454,8 @@ fn ___action383<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<TypeBoundParameter<TypeRef>>, usize),
-___1: (usize, ::std::option::Option<TypeBoundParameter<TypeRef>>, usize),
+___0: (usize, alloc::vec::Vec<TypeBoundParameter<TypeRef>>, usize),
+___1: (usize, core::option::Option<TypeBoundParameter<TypeRef>>, usize),
 ) -> Vec<TypeBoundParameter<TypeRef>>
 {
 let ___start0 = ___0.0.clone();
@@ -21475,7 +21479,7 @@ fn ___action384<
 text: &'input str,
 ___0: (usize, TypeParameter, usize),
 ___1: (usize, Tok<'input>, usize),
-) -> ::std::vec::Vec<TypeParameter>
+) -> alloc::vec::Vec<TypeParameter>
 {
 let ___start0 = ___0.0.clone();
 let ___end0 = ___1.2.clone();
@@ -21496,10 +21500,10 @@ fn ___action385<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<TypeParameter>, usize),
+___0: (usize, alloc::vec::Vec<TypeParameter>, usize),
 ___1: (usize, TypeParameter, usize),
 ___2: (usize, Tok<'input>, usize),
-) -> ::std::vec::Vec<TypeParameter>
+) -> alloc::vec::Vec<TypeParameter>
 {
 let ___start0 = ___1.0.clone();
 let ___end0 = ___2.2.clone();
@@ -21521,7 +21525,7 @@ fn ___action386<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::option::Option<TypeParameter>, usize),
+___0: (usize, core::option::Option<TypeParameter>, usize),
 ) -> Vec<TypeParameter>
 {
 let ___start0 = ___0.0.clone();
@@ -21544,8 +21548,8 @@ fn ___action387<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<TypeParameter>, usize),
-___1: (usize, ::std::option::Option<TypeParameter>, usize),
+___0: (usize, alloc::vec::Vec<TypeParameter>, usize),
+___1: (usize, core::option::Option<TypeParameter>, usize),
 ) -> Vec<TypeParameter>
 {
 let ___start0 = ___0.0.clone();
@@ -21569,7 +21573,7 @@ fn ___action388<
 text: &'input str,
 ___0: (usize, TypeRef, usize),
 ___1: (usize, Tok<'input>, usize),
-) -> ::std::vec::Vec<TypeRef>
+) -> alloc::vec::Vec<TypeRef>
 {
 let ___start0 = ___0.0.clone();
 let ___end0 = ___1.2.clone();
@@ -21590,10 +21594,10 @@ fn ___action389<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<TypeRef>, usize),
+___0: (usize, alloc::vec::Vec<TypeRef>, usize),
 ___1: (usize, TypeRef, usize),
 ___2: (usize, Tok<'input>, usize),
-) -> ::std::vec::Vec<TypeRef>
+) -> alloc::vec::Vec<TypeRef>
 {
 let ___start0 = ___1.0.clone();
 let ___end0 = ___2.2.clone();
@@ -21615,7 +21619,7 @@ fn ___action390<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::option::Option<TypeRef>, usize),
+___0: (usize, core::option::Option<TypeRef>, usize),
 ) -> Vec<TypeRef>
 {
 let ___start0 = ___0.0.clone();
@@ -21638,8 +21642,8 @@ fn ___action391<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<TypeRef>, usize),
-___1: (usize, ::std::option::Option<TypeRef>, usize),
+___0: (usize, alloc::vec::Vec<TypeRef>, usize),
+___1: (usize, core::option::Option<TypeRef>, usize),
 ) -> Vec<TypeRef>
 {
 let ___start0 = ___0.0.clone();
@@ -21663,7 +21667,7 @@ fn ___action392<
 text: &'input str,
 ___0: (usize, TypeRef, usize),
 ___1: (usize, Tok<'input>, usize),
-) -> ::std::vec::Vec<TypeRef>
+) -> alloc::vec::Vec<TypeRef>
 {
 let ___start0 = ___0.0.clone();
 let ___end0 = ___1.2.clone();
@@ -21684,10 +21688,10 @@ fn ___action393<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<TypeRef>, usize),
+___0: (usize, alloc::vec::Vec<TypeRef>, usize),
 ___1: (usize, TypeRef, usize),
 ___2: (usize, Tok<'input>, usize),
-) -> ::std::vec::Vec<TypeRef>
+) -> alloc::vec::Vec<TypeRef>
 {
 let ___start0 = ___1.0.clone();
 let ___end0 = ___2.2.clone();
@@ -21709,7 +21713,7 @@ fn ___action394<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::option::Option<TypeRef>, usize),
+___0: (usize, core::option::Option<TypeRef>, usize),
 ) -> Vec<TypeRef>
 {
 let ___start0 = ___0.0.clone();
@@ -21732,8 +21736,8 @@ fn ___action395<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<TypeRef>, usize),
-___1: (usize, ::std::option::Option<TypeRef>, usize),
+___0: (usize, alloc::vec::Vec<TypeRef>, usize),
+___1: (usize, core::option::Option<TypeRef>, usize),
 ) -> Vec<TypeRef>
 {
 let ___start0 = ___0.0.clone();
@@ -21755,11 +21759,11 @@ fn ___action396<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<Annotation>, usize),
-___1: (usize, ::std::vec::Vec<Symbol>, usize),
+___0: (usize, alloc::vec::Vec<Annotation>, usize),
+___1: (usize, alloc::vec::Vec<Symbol>, usize),
 ___2: (usize, Tok<'input>, usize),
 ___3: (usize, Condition, usize),
-___4: (usize, ::std::option::Option<ActionKind>, usize),
+___4: (usize, core::option::Option<ActionKind>, usize),
 ___5: (usize, usize, usize),
 ) -> Alternative
 {
@@ -21788,9 +21792,9 @@ fn ___action397<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<Annotation>, usize),
-___1: (usize, ::std::vec::Vec<Symbol>, usize),
-___2: (usize, ::std::option::Option<ActionKind>, usize),
+___0: (usize, alloc::vec::Vec<Annotation>, usize),
+___1: (usize, alloc::vec::Vec<Symbol>, usize),
+___2: (usize, core::option::Option<ActionKind>, usize),
 ___3: (usize, usize, usize),
 ) -> Alternative
 {
@@ -21874,7 +21878,7 @@ text: &'input str,
 ___0: (usize, Tok<'input>, usize),
 ___1: (usize, Tok<'input>, usize),
 ___2: (usize, Atom, usize),
-___3: (usize, ::std::option::Option<(Atom, String)>, usize),
+___3: (usize, core::option::Option<(Atom, String)>, usize),
 ___4: (usize, usize, usize),
 ___5: (usize, Tok<'input>, usize),
 ) -> Annotation
@@ -22038,9 +22042,9 @@ text: &'input str,
 ___0: (usize, Tok<'input>, usize),
 ___1: (usize, usize, usize),
 ___2: (usize, Tok<'input>, usize),
-___3: (usize, ::std::vec::Vec<AssociatedType>, usize),
+___3: (usize, alloc::vec::Vec<AssociatedType>, usize),
 ___4: (usize, EnumToken, usize),
-___5: (usize, ::std::vec::Vec<AssociatedType>, usize),
+___5: (usize, alloc::vec::Vec<AssociatedType>, usize),
 ___6: (usize, Tok<'input>, usize),
 ) -> GrammarItem
 {
@@ -22073,7 +22077,7 @@ text: &'input str,
 ___0: (usize, Tok<'input>, usize),
 ___1: (usize, usize, usize),
 ___2: (usize, Tok<'input>, usize),
-___3: (usize, ::std::vec::Vec<AssociatedType>, usize),
+___3: (usize, alloc::vec::Vec<AssociatedType>, usize),
 ___4: (usize, Tok<'input>, usize),
 ) -> GrammarItem
 {
@@ -22130,16 +22134,16 @@ fn ___action408<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<String>, usize),
-___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-___2: (usize, ::std::vec::Vec<Annotation>, usize),
+___0: (usize, alloc::vec::Vec<String>, usize),
+___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
+___2: (usize, alloc::vec::Vec<Annotation>, usize),
 ___3: (usize, Tok<'input>, usize),
 ___4: (usize, usize, usize),
-___5: (usize, ::std::option::Option<Vec<TypeParameter>>, usize),
-___6: (usize, ::std::option::Option<Vec<Parameter>>, usize),
-___7: (usize, ::std::option::Option<Vec<WhereClause<TypeRef>>>, usize),
+___5: (usize, core::option::Option<Vec<TypeParameter>>, usize),
+___6: (usize, core::option::Option<Vec<Parameter>>, usize),
+___7: (usize, core::option::Option<Vec<WhereClause<TypeRef>>>, usize),
 ___8: (usize, Tok<'input>, usize),
-___9: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___9: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
 let ___start0 = ___2.2.clone();
@@ -22288,7 +22292,7 @@ fn ___action413<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<Annotation>, usize),
+___0: (usize, alloc::vec::Vec<Annotation>, usize),
 ___1: (usize, Visibility, usize),
 ___2: (usize, (NonterminalString, Vec<NonterminalString>), usize),
 ___3: (usize, usize, usize),
@@ -22325,7 +22329,7 @@ fn ___action414<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<Annotation>, usize),
+___0: (usize, alloc::vec::Vec<Annotation>, usize),
 ___1: (usize, Visibility, usize),
 ___2: (usize, (NonterminalString, Vec<NonterminalString>), usize),
 ___3: (usize, usize, usize),
@@ -22569,11 +22573,11 @@ fn ___action422<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<Annotation>, usize),
-___1: (usize, ::std::vec::Vec<Symbol>, usize),
+___0: (usize, alloc::vec::Vec<Annotation>, usize),
+___1: (usize, alloc::vec::Vec<Symbol>, usize),
 ___2: (usize, Tok<'input>, usize),
 ___3: (usize, Condition, usize),
-___4: (usize, ::std::option::Option<ActionKind>, usize),
+___4: (usize, core::option::Option<ActionKind>, usize),
 ) -> Alternative
 {
 let ___start0 = ___4.2.clone();
@@ -22600,9 +22604,9 @@ fn ___action423<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<Annotation>, usize),
-___1: (usize, ::std::vec::Vec<Symbol>, usize),
-___2: (usize, ::std::option::Option<ActionKind>, usize),
+___0: (usize, alloc::vec::Vec<Annotation>, usize),
+___1: (usize, alloc::vec::Vec<Symbol>, usize),
+___2: (usize, core::option::Option<ActionKind>, usize),
 ) -> Alternative
 {
 let ___start0 = ___2.2.clone();
@@ -22680,7 +22684,7 @@ text: &'input str,
 ___0: (usize, Tok<'input>, usize),
 ___1: (usize, Tok<'input>, usize),
 ___2: (usize, Atom, usize),
-___3: (usize, ::std::option::Option<(Atom, String)>, usize),
+___3: (usize, core::option::Option<(Atom, String)>, usize),
 ___4: (usize, Tok<'input>, usize),
 ) -> Annotation
 {
@@ -22824,9 +22828,9 @@ fn ___action431<
 text: &'input str,
 ___0: (usize, Tok<'input>, usize),
 ___1: (usize, Tok<'input>, usize),
-___2: (usize, ::std::vec::Vec<AssociatedType>, usize),
+___2: (usize, alloc::vec::Vec<AssociatedType>, usize),
 ___3: (usize, EnumToken, usize),
-___4: (usize, ::std::vec::Vec<AssociatedType>, usize),
+___4: (usize, alloc::vec::Vec<AssociatedType>, usize),
 ___5: (usize, Tok<'input>, usize),
 ) -> GrammarItem
 {
@@ -22857,7 +22861,7 @@ fn ___action432<
 text: &'input str,
 ___0: (usize, Tok<'input>, usize),
 ___1: (usize, Tok<'input>, usize),
-___2: (usize, ::std::vec::Vec<AssociatedType>, usize),
+___2: (usize, alloc::vec::Vec<AssociatedType>, usize),
 ___3: (usize, Tok<'input>, usize),
 ) -> GrammarItem
 {
@@ -22911,15 +22915,15 @@ fn ___action434<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<String>, usize),
-___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-___2: (usize, ::std::vec::Vec<Annotation>, usize),
+___0: (usize, alloc::vec::Vec<String>, usize),
+___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
+___2: (usize, alloc::vec::Vec<Annotation>, usize),
 ___3: (usize, Tok<'input>, usize),
-___4: (usize, ::std::option::Option<Vec<TypeParameter>>, usize),
-___5: (usize, ::std::option::Option<Vec<Parameter>>, usize),
-___6: (usize, ::std::option::Option<Vec<WhereClause<TypeRef>>>, usize),
+___4: (usize, core::option::Option<Vec<TypeParameter>>, usize),
+___5: (usize, core::option::Option<Vec<Parameter>>, usize),
+___6: (usize, core::option::Option<Vec<WhereClause<TypeRef>>>, usize),
 ___7: (usize, Tok<'input>, usize),
-___8: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___8: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
 let ___start0 = ___3.2.clone();
@@ -23050,7 +23054,7 @@ fn ___action439<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<Annotation>, usize),
+___0: (usize, alloc::vec::Vec<Annotation>, usize),
 ___1: (usize, Visibility, usize),
 ___2: (usize, (NonterminalString, Vec<NonterminalString>), usize),
 ___3: (usize, Tok<'input>, usize),
@@ -23085,7 +23089,7 @@ fn ___action440<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<Annotation>, usize),
+___0: (usize, alloc::vec::Vec<Annotation>, usize),
 ___1: (usize, Visibility, usize),
 ___2: (usize, (NonterminalString, Vec<NonterminalString>), usize),
 ___3: (usize, Tok<'input>, usize),
@@ -23278,8 +23282,8 @@ fn ___action447<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<Annotation>, usize),
-___1: (usize, ::std::vec::Vec<Symbol>, usize),
+___0: (usize, alloc::vec::Vec<Annotation>, usize),
+___1: (usize, alloc::vec::Vec<Symbol>, usize),
 ___2: (usize, Tok<'input>, usize),
 ___3: (usize, Condition, usize),
 ___4: (usize, ActionKind, usize),
@@ -23307,8 +23311,8 @@ fn ___action448<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<Annotation>, usize),
-___1: (usize, ::std::vec::Vec<Symbol>, usize),
+___0: (usize, alloc::vec::Vec<Annotation>, usize),
+___1: (usize, alloc::vec::Vec<Symbol>, usize),
 ___2: (usize, Tok<'input>, usize),
 ___3: (usize, Condition, usize),
 ) -> Alternative
@@ -23336,8 +23340,8 @@ fn ___action449<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<Annotation>, usize),
-___1: (usize, ::std::vec::Vec<Symbol>, usize),
+___0: (usize, alloc::vec::Vec<Annotation>, usize),
+___1: (usize, alloc::vec::Vec<Symbol>, usize),
 ___2: (usize, ActionKind, usize),
 ) -> Alternative
 {
@@ -23361,8 +23365,8 @@ fn ___action450<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<Annotation>, usize),
-___1: (usize, ::std::vec::Vec<Symbol>, usize),
+___0: (usize, alloc::vec::Vec<Annotation>, usize),
+___1: (usize, alloc::vec::Vec<Symbol>, usize),
 ) -> Alternative
 {
 let ___start0 = ___1.2.clone();
@@ -23430,7 +23434,7 @@ fn ___action453<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<Alternative>, usize),
+___0: (usize, alloc::vec::Vec<Alternative>, usize),
 ___1: (usize, Alternative, usize),
 ) -> Vec<Alternative>
 {
@@ -23453,7 +23457,7 @@ fn ___action454<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<Alternative>, usize),
+___0: (usize, alloc::vec::Vec<Alternative>, usize),
 ) -> Vec<Alternative>
 {
 let ___start0 = ___0.2.clone();
@@ -23476,7 +23480,7 @@ fn ___action455<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<Symbol>, usize),
+___0: (usize, alloc::vec::Vec<Symbol>, usize),
 ___1: (usize, Tok<'input>, usize),
 ___2: (usize, Condition, usize),
 ___3: (usize, ActionKind, usize),
@@ -23505,8 +23509,8 @@ fn ___action456<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<Annotation>, usize),
-___1: (usize, ::std::vec::Vec<Symbol>, usize),
+___0: (usize, alloc::vec::Vec<Annotation>, usize),
+___1: (usize, alloc::vec::Vec<Symbol>, usize),
 ___2: (usize, Tok<'input>, usize),
 ___3: (usize, Condition, usize),
 ___4: (usize, ActionKind, usize),
@@ -23534,7 +23538,7 @@ fn ___action457<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<Symbol>, usize),
+___0: (usize, alloc::vec::Vec<Symbol>, usize),
 ___1: (usize, Tok<'input>, usize),
 ___2: (usize, Condition, usize),
 ) -> Alternative
@@ -23561,8 +23565,8 @@ fn ___action458<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<Annotation>, usize),
-___1: (usize, ::std::vec::Vec<Symbol>, usize),
+___0: (usize, alloc::vec::Vec<Annotation>, usize),
+___1: (usize, alloc::vec::Vec<Symbol>, usize),
 ___2: (usize, Tok<'input>, usize),
 ___3: (usize, Condition, usize),
 ) -> Alternative
@@ -23588,7 +23592,7 @@ fn ___action459<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<Symbol>, usize),
+___0: (usize, alloc::vec::Vec<Symbol>, usize),
 ___1: (usize, ActionKind, usize),
 ) -> Alternative
 {
@@ -23613,8 +23617,8 @@ fn ___action460<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<Annotation>, usize),
-___1: (usize, ::std::vec::Vec<Symbol>, usize),
+___0: (usize, alloc::vec::Vec<Annotation>, usize),
+___1: (usize, alloc::vec::Vec<Symbol>, usize),
 ___2: (usize, ActionKind, usize),
 ) -> Alternative
 {
@@ -23638,7 +23642,7 @@ fn ___action461<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<Symbol>, usize),
+___0: (usize, alloc::vec::Vec<Symbol>, usize),
 ) -> Alternative
 {
 let ___start0 = ___0.0.clone();
@@ -23661,8 +23665,8 @@ fn ___action462<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<Annotation>, usize),
-___1: (usize, ::std::vec::Vec<Symbol>, usize),
+___0: (usize, alloc::vec::Vec<Annotation>, usize),
+___1: (usize, alloc::vec::Vec<Symbol>, usize),
 ) -> Alternative
 {
 let ___start0 = ___0.0.clone();
@@ -23684,14 +23688,14 @@ fn ___action463<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<String>, usize),
-___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___0: (usize, alloc::vec::Vec<String>, usize),
+___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ___2: (usize, Tok<'input>, usize),
-___3: (usize, ::std::option::Option<Vec<TypeParameter>>, usize),
-___4: (usize, ::std::option::Option<Vec<Parameter>>, usize),
-___5: (usize, ::std::option::Option<Vec<WhereClause<TypeRef>>>, usize),
+___3: (usize, core::option::Option<Vec<TypeParameter>>, usize),
+___4: (usize, core::option::Option<Vec<Parameter>>, usize),
+___5: (usize, core::option::Option<Vec<WhereClause<TypeRef>>>, usize),
 ___6: (usize, Tok<'input>, usize),
-___7: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___7: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
 let ___start0 = ___1.2.clone();
@@ -23721,15 +23725,15 @@ fn ___action464<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<String>, usize),
-___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-___2: (usize, ::std::vec::Vec<Annotation>, usize),
+___0: (usize, alloc::vec::Vec<String>, usize),
+___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
+___2: (usize, alloc::vec::Vec<Annotation>, usize),
 ___3: (usize, Tok<'input>, usize),
-___4: (usize, ::std::option::Option<Vec<TypeParameter>>, usize),
-___5: (usize, ::std::option::Option<Vec<Parameter>>, usize),
-___6: (usize, ::std::option::Option<Vec<WhereClause<TypeRef>>>, usize),
+___4: (usize, core::option::Option<Vec<TypeParameter>>, usize),
+___5: (usize, core::option::Option<Vec<Parameter>>, usize),
+___6: (usize, core::option::Option<Vec<WhereClause<TypeRef>>>, usize),
 ___7: (usize, Tok<'input>, usize),
-___8: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___8: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
 let ___start0 = ___2.0.clone();
@@ -23791,7 +23795,7 @@ fn ___action466<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<Annotation>, usize),
+___0: (usize, alloc::vec::Vec<Annotation>, usize),
 ___1: (usize, Visibility, usize),
 ___2: (usize, (NonterminalString, Vec<NonterminalString>), usize),
 ___3: (usize, Tok<'input>, usize),
@@ -23853,7 +23857,7 @@ fn ___action468<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<Annotation>, usize),
+___0: (usize, alloc::vec::Vec<Annotation>, usize),
 ___1: (usize, Visibility, usize),
 ___2: (usize, (NonterminalString, Vec<NonterminalString>), usize),
 ___3: (usize, Tok<'input>, usize),
@@ -23981,7 +23985,7 @@ text: &'input str,
 ___0: (usize, Tok<'input>, usize),
 ___1: (usize, Tok<'input>, usize),
 ___2: (usize, EnumToken, usize),
-___3: (usize, ::std::vec::Vec<AssociatedType>, usize),
+___3: (usize, alloc::vec::Vec<AssociatedType>, usize),
 ___4: (usize, Tok<'input>, usize),
 ) -> GrammarItem
 {
@@ -24018,7 +24022,7 @@ fn ___action473<
 text: &'input str,
 ___0: (usize, Tok<'input>, usize),
 ___1: (usize, Tok<'input>, usize),
-___2: (usize, ::std::vec::Vec<AssociatedType>, usize),
+___2: (usize, alloc::vec::Vec<AssociatedType>, usize),
 ___3: (usize, EnumToken, usize),
 ___4: (usize, Tok<'input>, usize),
 ) -> GrammarItem
@@ -24056,9 +24060,9 @@ fn ___action474<
 text: &'input str,
 ___0: (usize, Tok<'input>, usize),
 ___1: (usize, Tok<'input>, usize),
-___2: (usize, ::std::vec::Vec<AssociatedType>, usize),
+___2: (usize, alloc::vec::Vec<AssociatedType>, usize),
 ___3: (usize, EnumToken, usize),
-___4: (usize, ::std::vec::Vec<AssociatedType>, usize),
+___4: (usize, alloc::vec::Vec<AssociatedType>, usize),
 ___5: (usize, Tok<'input>, usize),
 ) -> GrammarItem
 {
@@ -24121,7 +24125,7 @@ fn ___action476<
 text: &'input str,
 ___0: (usize, Tok<'input>, usize),
 ___1: (usize, Tok<'input>, usize),
-___2: (usize, ::std::vec::Vec<AssociatedType>, usize),
+___2: (usize, alloc::vec::Vec<AssociatedType>, usize),
 ___3: (usize, Tok<'input>, usize),
 ) -> GrammarItem
 {
@@ -24190,7 +24194,7 @@ fn ___action479<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<Conversion>, usize),
+___0: (usize, alloc::vec::Vec<Conversion>, usize),
 ___1: (usize, Conversion, usize),
 ) -> Vec<Conversion>
 {
@@ -24213,7 +24217,7 @@ fn ___action480<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<Conversion>, usize),
+___0: (usize, alloc::vec::Vec<Conversion>, usize),
 ) -> Vec<Conversion>
 {
 let ___start0 = ___0.2.clone();
@@ -24292,7 +24296,7 @@ fn ___action483<
 text: &'input str,
 ___0: (usize, Path, usize),
 ___1: (usize, Tok<'input>, usize),
-___2: (usize, ::std::vec::Vec<FieldPattern<TypeRef>>, usize),
+___2: (usize, alloc::vec::Vec<FieldPattern<TypeRef>>, usize),
 ___3: (usize, FieldPattern<TypeRef>, usize),
 ___4: (usize, Tok<'input>, usize),
 ) -> PatternKind<TypeRef>
@@ -24321,7 +24325,7 @@ fn ___action484<
 text: &'input str,
 ___0: (usize, Path, usize),
 ___1: (usize, Tok<'input>, usize),
-___2: (usize, ::std::vec::Vec<FieldPattern<TypeRef>>, usize),
+___2: (usize, alloc::vec::Vec<FieldPattern<TypeRef>>, usize),
 ___3: (usize, Tok<'input>, usize),
 ) -> PatternKind<TypeRef>
 {
@@ -24804,12 +24808,12 @@ fn ___action499<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<String>, usize),
-___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___0: (usize, alloc::vec::Vec<String>, usize),
+___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ___2: (usize, Tok<'input>, usize),
-___3: (usize, ::std::option::Option<Vec<TypeParameter>>, usize),
-___4: (usize, ::std::option::Option<Vec<Parameter>>, usize),
-___5: (usize, ::std::option::Option<Vec<WhereClause<TypeRef>>>, usize),
+___3: (usize, core::option::Option<Vec<TypeParameter>>, usize),
+___4: (usize, core::option::Option<Vec<Parameter>>, usize),
+___5: (usize, core::option::Option<Vec<WhereClause<TypeRef>>>, usize),
 ___6: (usize, Tok<'input>, usize),
 ) -> Grammar
 {
@@ -24839,14 +24843,14 @@ fn ___action500<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<String>, usize),
-___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___0: (usize, alloc::vec::Vec<String>, usize),
+___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ___2: (usize, Tok<'input>, usize),
-___3: (usize, ::std::option::Option<Vec<TypeParameter>>, usize),
-___4: (usize, ::std::option::Option<Vec<Parameter>>, usize),
-___5: (usize, ::std::option::Option<Vec<WhereClause<TypeRef>>>, usize),
+___3: (usize, core::option::Option<Vec<TypeParameter>>, usize),
+___4: (usize, core::option::Option<Vec<Parameter>>, usize),
+___5: (usize, core::option::Option<Vec<WhereClause<TypeRef>>>, usize),
 ___6: (usize, Tok<'input>, usize),
-___7: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___7: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
 let ___start0 = ___7.0.clone();
@@ -24874,13 +24878,13 @@ fn ___action501<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<String>, usize),
-___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-___2: (usize, ::std::vec::Vec<Annotation>, usize),
+___0: (usize, alloc::vec::Vec<String>, usize),
+___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
+___2: (usize, alloc::vec::Vec<Annotation>, usize),
 ___3: (usize, Tok<'input>, usize),
-___4: (usize, ::std::option::Option<Vec<TypeParameter>>, usize),
-___5: (usize, ::std::option::Option<Vec<Parameter>>, usize),
-___6: (usize, ::std::option::Option<Vec<WhereClause<TypeRef>>>, usize),
+___4: (usize, core::option::Option<Vec<TypeParameter>>, usize),
+___5: (usize, core::option::Option<Vec<Parameter>>, usize),
+___6: (usize, core::option::Option<Vec<WhereClause<TypeRef>>>, usize),
 ___7: (usize, Tok<'input>, usize),
 ) -> Grammar
 {
@@ -24911,15 +24915,15 @@ fn ___action502<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<String>, usize),
-___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-___2: (usize, ::std::vec::Vec<Annotation>, usize),
+___0: (usize, alloc::vec::Vec<String>, usize),
+___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
+___2: (usize, alloc::vec::Vec<Annotation>, usize),
 ___3: (usize, Tok<'input>, usize),
-___4: (usize, ::std::option::Option<Vec<TypeParameter>>, usize),
-___5: (usize, ::std::option::Option<Vec<Parameter>>, usize),
-___6: (usize, ::std::option::Option<Vec<WhereClause<TypeRef>>>, usize),
+___4: (usize, core::option::Option<Vec<TypeParameter>>, usize),
+___5: (usize, core::option::Option<Vec<Parameter>>, usize),
+___6: (usize, core::option::Option<Vec<WhereClause<TypeRef>>>, usize),
 ___7: (usize, Tok<'input>, usize),
-___8: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___8: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
 let ___start0 = ___8.0.clone();
@@ -24992,7 +24996,7 @@ fn ___action505<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<Parameter>, usize),
+___0: (usize, alloc::vec::Vec<Parameter>, usize),
 ___1: (usize, Parameter, usize),
 ) -> Vec<Parameter>
 {
@@ -25015,7 +25019,7 @@ fn ___action506<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<Parameter>, usize),
+___0: (usize, alloc::vec::Vec<Parameter>, usize),
 ) -> Vec<Parameter>
 {
 let ___start0 = ___0.2.clone();
@@ -25038,12 +25042,12 @@ fn ___action507<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<String>, usize),
-___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___0: (usize, alloc::vec::Vec<String>, usize),
+___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ___2: (usize, Tok<'input>, usize),
-___3: (usize, ::std::option::Option<Vec<TypeParameter>>, usize),
+___3: (usize, core::option::Option<Vec<TypeParameter>>, usize),
 ___4: (usize, Vec<Parameter>, usize),
-___5: (usize, ::std::option::Option<Vec<WhereClause<TypeRef>>>, usize),
+___5: (usize, core::option::Option<Vec<WhereClause<TypeRef>>>, usize),
 ___6: (usize, Tok<'input>, usize),
 ) -> Grammar
 {
@@ -25071,11 +25075,11 @@ fn ___action508<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<String>, usize),
-___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___0: (usize, alloc::vec::Vec<String>, usize),
+___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ___2: (usize, Tok<'input>, usize),
-___3: (usize, ::std::option::Option<Vec<TypeParameter>>, usize),
-___4: (usize, ::std::option::Option<Vec<WhereClause<TypeRef>>>, usize),
+___3: (usize, core::option::Option<Vec<TypeParameter>>, usize),
+___4: (usize, core::option::Option<Vec<WhereClause<TypeRef>>>, usize),
 ___5: (usize, Tok<'input>, usize),
 ) -> Grammar
 {
@@ -25104,14 +25108,14 @@ fn ___action509<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<String>, usize),
-___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___0: (usize, alloc::vec::Vec<String>, usize),
+___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ___2: (usize, Tok<'input>, usize),
-___3: (usize, ::std::option::Option<Vec<TypeParameter>>, usize),
+___3: (usize, core::option::Option<Vec<TypeParameter>>, usize),
 ___4: (usize, Vec<Parameter>, usize),
-___5: (usize, ::std::option::Option<Vec<WhereClause<TypeRef>>>, usize),
+___5: (usize, core::option::Option<Vec<WhereClause<TypeRef>>>, usize),
 ___6: (usize, Tok<'input>, usize),
-___7: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___7: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
 let ___start0 = ___4.0.clone();
@@ -25139,13 +25143,13 @@ fn ___action510<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<String>, usize),
-___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___0: (usize, alloc::vec::Vec<String>, usize),
+___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ___2: (usize, Tok<'input>, usize),
-___3: (usize, ::std::option::Option<Vec<TypeParameter>>, usize),
-___4: (usize, ::std::option::Option<Vec<WhereClause<TypeRef>>>, usize),
+___3: (usize, core::option::Option<Vec<TypeParameter>>, usize),
+___4: (usize, core::option::Option<Vec<WhereClause<TypeRef>>>, usize),
 ___5: (usize, Tok<'input>, usize),
-___6: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___6: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
 let ___start0 = ___3.2.clone();
@@ -25174,13 +25178,13 @@ fn ___action511<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<String>, usize),
-___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-___2: (usize, ::std::vec::Vec<Annotation>, usize),
+___0: (usize, alloc::vec::Vec<String>, usize),
+___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
+___2: (usize, alloc::vec::Vec<Annotation>, usize),
 ___3: (usize, Tok<'input>, usize),
-___4: (usize, ::std::option::Option<Vec<TypeParameter>>, usize),
+___4: (usize, core::option::Option<Vec<TypeParameter>>, usize),
 ___5: (usize, Vec<Parameter>, usize),
-___6: (usize, ::std::option::Option<Vec<WhereClause<TypeRef>>>, usize),
+___6: (usize, core::option::Option<Vec<WhereClause<TypeRef>>>, usize),
 ___7: (usize, Tok<'input>, usize),
 ) -> Grammar
 {
@@ -25209,12 +25213,12 @@ fn ___action512<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<String>, usize),
-___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-___2: (usize, ::std::vec::Vec<Annotation>, usize),
+___0: (usize, alloc::vec::Vec<String>, usize),
+___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
+___2: (usize, alloc::vec::Vec<Annotation>, usize),
 ___3: (usize, Tok<'input>, usize),
-___4: (usize, ::std::option::Option<Vec<TypeParameter>>, usize),
-___5: (usize, ::std::option::Option<Vec<WhereClause<TypeRef>>>, usize),
+___4: (usize, core::option::Option<Vec<TypeParameter>>, usize),
+___5: (usize, core::option::Option<Vec<WhereClause<TypeRef>>>, usize),
 ___6: (usize, Tok<'input>, usize),
 ) -> Grammar
 {
@@ -25244,15 +25248,15 @@ fn ___action513<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<String>, usize),
-___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-___2: (usize, ::std::vec::Vec<Annotation>, usize),
+___0: (usize, alloc::vec::Vec<String>, usize),
+___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
+___2: (usize, alloc::vec::Vec<Annotation>, usize),
 ___3: (usize, Tok<'input>, usize),
-___4: (usize, ::std::option::Option<Vec<TypeParameter>>, usize),
+___4: (usize, core::option::Option<Vec<TypeParameter>>, usize),
 ___5: (usize, Vec<Parameter>, usize),
-___6: (usize, ::std::option::Option<Vec<WhereClause<TypeRef>>>, usize),
+___6: (usize, core::option::Option<Vec<WhereClause<TypeRef>>>, usize),
 ___7: (usize, Tok<'input>, usize),
-___8: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___8: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
 let ___start0 = ___5.0.clone();
@@ -25281,14 +25285,14 @@ fn ___action514<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<String>, usize),
-___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-___2: (usize, ::std::vec::Vec<Annotation>, usize),
+___0: (usize, alloc::vec::Vec<String>, usize),
+___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
+___2: (usize, alloc::vec::Vec<Annotation>, usize),
 ___3: (usize, Tok<'input>, usize),
-___4: (usize, ::std::option::Option<Vec<TypeParameter>>, usize),
-___5: (usize, ::std::option::Option<Vec<WhereClause<TypeRef>>>, usize),
+___4: (usize, core::option::Option<Vec<TypeParameter>>, usize),
+___5: (usize, core::option::Option<Vec<WhereClause<TypeRef>>>, usize),
 ___6: (usize, Tok<'input>, usize),
-___7: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___7: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
 let ___start0 = ___4.2.clone();
@@ -25318,12 +25322,12 @@ fn ___action515<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<String>, usize),
-___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___0: (usize, alloc::vec::Vec<String>, usize),
+___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ___2: (usize, Tok<'input>, usize),
 ___3: (usize, Vec<TypeParameter>, usize),
 ___4: (usize, Vec<Parameter>, usize),
-___5: (usize, ::std::option::Option<Vec<WhereClause<TypeRef>>>, usize),
+___5: (usize, core::option::Option<Vec<WhereClause<TypeRef>>>, usize),
 ___6: (usize, Tok<'input>, usize),
 ) -> Grammar
 {
@@ -25351,11 +25355,11 @@ fn ___action516<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<String>, usize),
-___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___0: (usize, alloc::vec::Vec<String>, usize),
+___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ___2: (usize, Tok<'input>, usize),
 ___3: (usize, Vec<Parameter>, usize),
-___4: (usize, ::std::option::Option<Vec<WhereClause<TypeRef>>>, usize),
+___4: (usize, core::option::Option<Vec<WhereClause<TypeRef>>>, usize),
 ___5: (usize, Tok<'input>, usize),
 ) -> Grammar
 {
@@ -25384,11 +25388,11 @@ fn ___action517<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<String>, usize),
-___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___0: (usize, alloc::vec::Vec<String>, usize),
+___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ___2: (usize, Tok<'input>, usize),
 ___3: (usize, Vec<TypeParameter>, usize),
-___4: (usize, ::std::option::Option<Vec<WhereClause<TypeRef>>>, usize),
+___4: (usize, core::option::Option<Vec<WhereClause<TypeRef>>>, usize),
 ___5: (usize, Tok<'input>, usize),
 ) -> Grammar
 {
@@ -25415,10 +25419,10 @@ fn ___action518<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<String>, usize),
-___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___0: (usize, alloc::vec::Vec<String>, usize),
+___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ___2: (usize, Tok<'input>, usize),
-___3: (usize, ::std::option::Option<Vec<WhereClause<TypeRef>>>, usize),
+___3: (usize, core::option::Option<Vec<WhereClause<TypeRef>>>, usize),
 ___4: (usize, Tok<'input>, usize),
 ) -> Grammar
 {
@@ -25446,14 +25450,14 @@ fn ___action519<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<String>, usize),
-___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___0: (usize, alloc::vec::Vec<String>, usize),
+___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ___2: (usize, Tok<'input>, usize),
 ___3: (usize, Vec<TypeParameter>, usize),
 ___4: (usize, Vec<Parameter>, usize),
-___5: (usize, ::std::option::Option<Vec<WhereClause<TypeRef>>>, usize),
+___5: (usize, core::option::Option<Vec<WhereClause<TypeRef>>>, usize),
 ___6: (usize, Tok<'input>, usize),
-___7: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___7: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
 let ___start0 = ___3.0.clone();
@@ -25481,13 +25485,13 @@ fn ___action520<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<String>, usize),
-___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___0: (usize, alloc::vec::Vec<String>, usize),
+___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ___2: (usize, Tok<'input>, usize),
 ___3: (usize, Vec<Parameter>, usize),
-___4: (usize, ::std::option::Option<Vec<WhereClause<TypeRef>>>, usize),
+___4: (usize, core::option::Option<Vec<WhereClause<TypeRef>>>, usize),
 ___5: (usize, Tok<'input>, usize),
-___6: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___6: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
 let ___start0 = ___2.2.clone();
@@ -25516,13 +25520,13 @@ fn ___action521<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<String>, usize),
-___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___0: (usize, alloc::vec::Vec<String>, usize),
+___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ___2: (usize, Tok<'input>, usize),
 ___3: (usize, Vec<TypeParameter>, usize),
-___4: (usize, ::std::option::Option<Vec<WhereClause<TypeRef>>>, usize),
+___4: (usize, core::option::Option<Vec<WhereClause<TypeRef>>>, usize),
 ___5: (usize, Tok<'input>, usize),
-___6: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___6: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
 let ___start0 = ___3.0.clone();
@@ -25549,12 +25553,12 @@ fn ___action522<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<String>, usize),
-___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___0: (usize, alloc::vec::Vec<String>, usize),
+___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ___2: (usize, Tok<'input>, usize),
-___3: (usize, ::std::option::Option<Vec<WhereClause<TypeRef>>>, usize),
+___3: (usize, core::option::Option<Vec<WhereClause<TypeRef>>>, usize),
 ___4: (usize, Tok<'input>, usize),
-___5: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___5: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
 let ___start0 = ___2.2.clone();
@@ -25582,13 +25586,13 @@ fn ___action523<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<String>, usize),
-___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-___2: (usize, ::std::vec::Vec<Annotation>, usize),
+___0: (usize, alloc::vec::Vec<String>, usize),
+___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
+___2: (usize, alloc::vec::Vec<Annotation>, usize),
 ___3: (usize, Tok<'input>, usize),
 ___4: (usize, Vec<TypeParameter>, usize),
 ___5: (usize, Vec<Parameter>, usize),
-___6: (usize, ::std::option::Option<Vec<WhereClause<TypeRef>>>, usize),
+___6: (usize, core::option::Option<Vec<WhereClause<TypeRef>>>, usize),
 ___7: (usize, Tok<'input>, usize),
 ) -> Grammar
 {
@@ -25617,12 +25621,12 @@ fn ___action524<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<String>, usize),
-___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-___2: (usize, ::std::vec::Vec<Annotation>, usize),
+___0: (usize, alloc::vec::Vec<String>, usize),
+___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
+___2: (usize, alloc::vec::Vec<Annotation>, usize),
 ___3: (usize, Tok<'input>, usize),
 ___4: (usize, Vec<Parameter>, usize),
-___5: (usize, ::std::option::Option<Vec<WhereClause<TypeRef>>>, usize),
+___5: (usize, core::option::Option<Vec<WhereClause<TypeRef>>>, usize),
 ___6: (usize, Tok<'input>, usize),
 ) -> Grammar
 {
@@ -25652,12 +25656,12 @@ fn ___action525<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<String>, usize),
-___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-___2: (usize, ::std::vec::Vec<Annotation>, usize),
+___0: (usize, alloc::vec::Vec<String>, usize),
+___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
+___2: (usize, alloc::vec::Vec<Annotation>, usize),
 ___3: (usize, Tok<'input>, usize),
 ___4: (usize, Vec<TypeParameter>, usize),
-___5: (usize, ::std::option::Option<Vec<WhereClause<TypeRef>>>, usize),
+___5: (usize, core::option::Option<Vec<WhereClause<TypeRef>>>, usize),
 ___6: (usize, Tok<'input>, usize),
 ) -> Grammar
 {
@@ -25685,11 +25689,11 @@ fn ___action526<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<String>, usize),
-___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-___2: (usize, ::std::vec::Vec<Annotation>, usize),
+___0: (usize, alloc::vec::Vec<String>, usize),
+___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
+___2: (usize, alloc::vec::Vec<Annotation>, usize),
 ___3: (usize, Tok<'input>, usize),
-___4: (usize, ::std::option::Option<Vec<WhereClause<TypeRef>>>, usize),
+___4: (usize, core::option::Option<Vec<WhereClause<TypeRef>>>, usize),
 ___5: (usize, Tok<'input>, usize),
 ) -> Grammar
 {
@@ -25718,15 +25722,15 @@ fn ___action527<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<String>, usize),
-___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-___2: (usize, ::std::vec::Vec<Annotation>, usize),
+___0: (usize, alloc::vec::Vec<String>, usize),
+___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
+___2: (usize, alloc::vec::Vec<Annotation>, usize),
 ___3: (usize, Tok<'input>, usize),
 ___4: (usize, Vec<TypeParameter>, usize),
 ___5: (usize, Vec<Parameter>, usize),
-___6: (usize, ::std::option::Option<Vec<WhereClause<TypeRef>>>, usize),
+___6: (usize, core::option::Option<Vec<WhereClause<TypeRef>>>, usize),
 ___7: (usize, Tok<'input>, usize),
-___8: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___8: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
 let ___start0 = ___4.0.clone();
@@ -25755,14 +25759,14 @@ fn ___action528<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<String>, usize),
-___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-___2: (usize, ::std::vec::Vec<Annotation>, usize),
+___0: (usize, alloc::vec::Vec<String>, usize),
+___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
+___2: (usize, alloc::vec::Vec<Annotation>, usize),
 ___3: (usize, Tok<'input>, usize),
 ___4: (usize, Vec<Parameter>, usize),
-___5: (usize, ::std::option::Option<Vec<WhereClause<TypeRef>>>, usize),
+___5: (usize, core::option::Option<Vec<WhereClause<TypeRef>>>, usize),
 ___6: (usize, Tok<'input>, usize),
-___7: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___7: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
 let ___start0 = ___3.2.clone();
@@ -25792,14 +25796,14 @@ fn ___action529<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<String>, usize),
-___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-___2: (usize, ::std::vec::Vec<Annotation>, usize),
+___0: (usize, alloc::vec::Vec<String>, usize),
+___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
+___2: (usize, alloc::vec::Vec<Annotation>, usize),
 ___3: (usize, Tok<'input>, usize),
 ___4: (usize, Vec<TypeParameter>, usize),
-___5: (usize, ::std::option::Option<Vec<WhereClause<TypeRef>>>, usize),
+___5: (usize, core::option::Option<Vec<WhereClause<TypeRef>>>, usize),
 ___6: (usize, Tok<'input>, usize),
-___7: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___7: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
 let ___start0 = ___4.0.clone();
@@ -25827,13 +25831,13 @@ fn ___action530<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<String>, usize),
-___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-___2: (usize, ::std::vec::Vec<Annotation>, usize),
+___0: (usize, alloc::vec::Vec<String>, usize),
+___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
+___2: (usize, alloc::vec::Vec<Annotation>, usize),
 ___3: (usize, Tok<'input>, usize),
-___4: (usize, ::std::option::Option<Vec<WhereClause<TypeRef>>>, usize),
+___4: (usize, core::option::Option<Vec<WhereClause<TypeRef>>>, usize),
 ___5: (usize, Tok<'input>, usize),
-___6: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___6: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
 let ___start0 = ___3.2.clone();
@@ -25906,7 +25910,7 @@ fn ___action533<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<WhereClause<TypeRef>>, usize),
+___0: (usize, alloc::vec::Vec<WhereClause<TypeRef>>, usize),
 ___1: (usize, WhereClause<TypeRef>, usize),
 ) -> Vec<WhereClause<TypeRef>>
 {
@@ -25929,7 +25933,7 @@ fn ___action534<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<WhereClause<TypeRef>>, usize),
+___0: (usize, alloc::vec::Vec<WhereClause<TypeRef>>, usize),
 ) -> Vec<WhereClause<TypeRef>>
 {
 let ___start0 = ___0.2.clone();
@@ -25952,8 +25956,8 @@ fn ___action535<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<String>, usize),
-___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___0: (usize, alloc::vec::Vec<String>, usize),
+___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ___2: (usize, Tok<'input>, usize),
 ___3: (usize, Vec<TypeParameter>, usize),
 ___4: (usize, Vec<Parameter>, usize),
@@ -25985,8 +25989,8 @@ fn ___action536<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<String>, usize),
-___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___0: (usize, alloc::vec::Vec<String>, usize),
+___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ___2: (usize, Tok<'input>, usize),
 ___3: (usize, Vec<TypeParameter>, usize),
 ___4: (usize, Vec<Parameter>, usize),
@@ -26018,8 +26022,8 @@ fn ___action537<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<String>, usize),
-___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___0: (usize, alloc::vec::Vec<String>, usize),
+___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ___2: (usize, Tok<'input>, usize),
 ___3: (usize, Vec<Parameter>, usize),
 ___4: (usize, Vec<WhereClause<TypeRef>>, usize),
@@ -26049,8 +26053,8 @@ fn ___action538<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<String>, usize),
-___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___0: (usize, alloc::vec::Vec<String>, usize),
+___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ___2: (usize, Tok<'input>, usize),
 ___3: (usize, Vec<Parameter>, usize),
 ___4: (usize, Tok<'input>, usize),
@@ -26080,8 +26084,8 @@ fn ___action539<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<String>, usize),
-___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___0: (usize, alloc::vec::Vec<String>, usize),
+___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ___2: (usize, Tok<'input>, usize),
 ___3: (usize, Vec<TypeParameter>, usize),
 ___4: (usize, Vec<WhereClause<TypeRef>>, usize),
@@ -26111,8 +26115,8 @@ fn ___action540<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<String>, usize),
-___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___0: (usize, alloc::vec::Vec<String>, usize),
+___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ___2: (usize, Tok<'input>, usize),
 ___3: (usize, Vec<TypeParameter>, usize),
 ___4: (usize, Tok<'input>, usize),
@@ -26142,8 +26146,8 @@ fn ___action541<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<String>, usize),
-___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___0: (usize, alloc::vec::Vec<String>, usize),
+___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ___2: (usize, Tok<'input>, usize),
 ___3: (usize, Vec<WhereClause<TypeRef>>, usize),
 ___4: (usize, Tok<'input>, usize),
@@ -26171,8 +26175,8 @@ fn ___action542<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<String>, usize),
-___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___0: (usize, alloc::vec::Vec<String>, usize),
+___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ___2: (usize, Tok<'input>, usize),
 ___3: (usize, Tok<'input>, usize),
 ) -> Grammar
@@ -26200,14 +26204,14 @@ fn ___action543<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<String>, usize),
-___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___0: (usize, alloc::vec::Vec<String>, usize),
+___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ___2: (usize, Tok<'input>, usize),
 ___3: (usize, Vec<TypeParameter>, usize),
 ___4: (usize, Vec<Parameter>, usize),
 ___5: (usize, Vec<WhereClause<TypeRef>>, usize),
 ___6: (usize, Tok<'input>, usize),
-___7: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___7: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
 let ___start0 = ___5.0.clone();
@@ -26235,13 +26239,13 @@ fn ___action544<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<String>, usize),
-___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___0: (usize, alloc::vec::Vec<String>, usize),
+___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ___2: (usize, Tok<'input>, usize),
 ___3: (usize, Vec<TypeParameter>, usize),
 ___4: (usize, Vec<Parameter>, usize),
 ___5: (usize, Tok<'input>, usize),
-___6: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___6: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
 let ___start0 = ___4.2.clone();
@@ -26270,13 +26274,13 @@ fn ___action545<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<String>, usize),
-___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___0: (usize, alloc::vec::Vec<String>, usize),
+___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ___2: (usize, Tok<'input>, usize),
 ___3: (usize, Vec<Parameter>, usize),
 ___4: (usize, Vec<WhereClause<TypeRef>>, usize),
 ___5: (usize, Tok<'input>, usize),
-___6: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___6: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
 let ___start0 = ___4.0.clone();
@@ -26303,12 +26307,12 @@ fn ___action546<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<String>, usize),
-___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___0: (usize, alloc::vec::Vec<String>, usize),
+___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ___2: (usize, Tok<'input>, usize),
 ___3: (usize, Vec<Parameter>, usize),
 ___4: (usize, Tok<'input>, usize),
-___5: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___5: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
 let ___start0 = ___3.2.clone();
@@ -26336,13 +26340,13 @@ fn ___action547<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<String>, usize),
-___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___0: (usize, alloc::vec::Vec<String>, usize),
+___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ___2: (usize, Tok<'input>, usize),
 ___3: (usize, Vec<TypeParameter>, usize),
 ___4: (usize, Vec<WhereClause<TypeRef>>, usize),
 ___5: (usize, Tok<'input>, usize),
-___6: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___6: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
 let ___start0 = ___4.0.clone();
@@ -26369,12 +26373,12 @@ fn ___action548<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<String>, usize),
-___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___0: (usize, alloc::vec::Vec<String>, usize),
+___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ___2: (usize, Tok<'input>, usize),
 ___3: (usize, Vec<TypeParameter>, usize),
 ___4: (usize, Tok<'input>, usize),
-___5: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___5: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
 let ___start0 = ___3.2.clone();
@@ -26402,12 +26406,12 @@ fn ___action549<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<String>, usize),
-___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___0: (usize, alloc::vec::Vec<String>, usize),
+___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ___2: (usize, Tok<'input>, usize),
 ___3: (usize, Vec<WhereClause<TypeRef>>, usize),
 ___4: (usize, Tok<'input>, usize),
-___5: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___5: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
 let ___start0 = ___3.0.clone();
@@ -26433,11 +26437,11 @@ fn ___action550<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<String>, usize),
-___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___0: (usize, alloc::vec::Vec<String>, usize),
+___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ___2: (usize, Tok<'input>, usize),
 ___3: (usize, Tok<'input>, usize),
-___4: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___4: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
 let ___start0 = ___2.2.clone();
@@ -26464,9 +26468,9 @@ fn ___action551<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<String>, usize),
-___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-___2: (usize, ::std::vec::Vec<Annotation>, usize),
+___0: (usize, alloc::vec::Vec<String>, usize),
+___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
+___2: (usize, alloc::vec::Vec<Annotation>, usize),
 ___3: (usize, Tok<'input>, usize),
 ___4: (usize, Vec<TypeParameter>, usize),
 ___5: (usize, Vec<Parameter>, usize),
@@ -26499,9 +26503,9 @@ fn ___action552<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<String>, usize),
-___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-___2: (usize, ::std::vec::Vec<Annotation>, usize),
+___0: (usize, alloc::vec::Vec<String>, usize),
+___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
+___2: (usize, alloc::vec::Vec<Annotation>, usize),
 ___3: (usize, Tok<'input>, usize),
 ___4: (usize, Vec<TypeParameter>, usize),
 ___5: (usize, Vec<Parameter>, usize),
@@ -26534,9 +26538,9 @@ fn ___action553<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<String>, usize),
-___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-___2: (usize, ::std::vec::Vec<Annotation>, usize),
+___0: (usize, alloc::vec::Vec<String>, usize),
+___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
+___2: (usize, alloc::vec::Vec<Annotation>, usize),
 ___3: (usize, Tok<'input>, usize),
 ___4: (usize, Vec<Parameter>, usize),
 ___5: (usize, Vec<WhereClause<TypeRef>>, usize),
@@ -26567,9 +26571,9 @@ fn ___action554<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<String>, usize),
-___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-___2: (usize, ::std::vec::Vec<Annotation>, usize),
+___0: (usize, alloc::vec::Vec<String>, usize),
+___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
+___2: (usize, alloc::vec::Vec<Annotation>, usize),
 ___3: (usize, Tok<'input>, usize),
 ___4: (usize, Vec<Parameter>, usize),
 ___5: (usize, Tok<'input>, usize),
@@ -26600,9 +26604,9 @@ fn ___action555<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<String>, usize),
-___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-___2: (usize, ::std::vec::Vec<Annotation>, usize),
+___0: (usize, alloc::vec::Vec<String>, usize),
+___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
+___2: (usize, alloc::vec::Vec<Annotation>, usize),
 ___3: (usize, Tok<'input>, usize),
 ___4: (usize, Vec<TypeParameter>, usize),
 ___5: (usize, Vec<WhereClause<TypeRef>>, usize),
@@ -26633,9 +26637,9 @@ fn ___action556<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<String>, usize),
-___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-___2: (usize, ::std::vec::Vec<Annotation>, usize),
+___0: (usize, alloc::vec::Vec<String>, usize),
+___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
+___2: (usize, alloc::vec::Vec<Annotation>, usize),
 ___3: (usize, Tok<'input>, usize),
 ___4: (usize, Vec<TypeParameter>, usize),
 ___5: (usize, Tok<'input>, usize),
@@ -26666,9 +26670,9 @@ fn ___action557<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<String>, usize),
-___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-___2: (usize, ::std::vec::Vec<Annotation>, usize),
+___0: (usize, alloc::vec::Vec<String>, usize),
+___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
+___2: (usize, alloc::vec::Vec<Annotation>, usize),
 ___3: (usize, Tok<'input>, usize),
 ___4: (usize, Vec<WhereClause<TypeRef>>, usize),
 ___5: (usize, Tok<'input>, usize),
@@ -26697,9 +26701,9 @@ fn ___action558<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<String>, usize),
-___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-___2: (usize, ::std::vec::Vec<Annotation>, usize),
+___0: (usize, alloc::vec::Vec<String>, usize),
+___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
+___2: (usize, alloc::vec::Vec<Annotation>, usize),
 ___3: (usize, Tok<'input>, usize),
 ___4: (usize, Tok<'input>, usize),
 ) -> Grammar
@@ -26728,15 +26732,15 @@ fn ___action559<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<String>, usize),
-___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-___2: (usize, ::std::vec::Vec<Annotation>, usize),
+___0: (usize, alloc::vec::Vec<String>, usize),
+___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
+___2: (usize, alloc::vec::Vec<Annotation>, usize),
 ___3: (usize, Tok<'input>, usize),
 ___4: (usize, Vec<TypeParameter>, usize),
 ___5: (usize, Vec<Parameter>, usize),
 ___6: (usize, Vec<WhereClause<TypeRef>>, usize),
 ___7: (usize, Tok<'input>, usize),
-___8: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___8: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
 let ___start0 = ___6.0.clone();
@@ -26765,14 +26769,14 @@ fn ___action560<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<String>, usize),
-___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-___2: (usize, ::std::vec::Vec<Annotation>, usize),
+___0: (usize, alloc::vec::Vec<String>, usize),
+___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
+___2: (usize, alloc::vec::Vec<Annotation>, usize),
 ___3: (usize, Tok<'input>, usize),
 ___4: (usize, Vec<TypeParameter>, usize),
 ___5: (usize, Vec<Parameter>, usize),
 ___6: (usize, Tok<'input>, usize),
-___7: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___7: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
 let ___start0 = ___5.2.clone();
@@ -26802,14 +26806,14 @@ fn ___action561<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<String>, usize),
-___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-___2: (usize, ::std::vec::Vec<Annotation>, usize),
+___0: (usize, alloc::vec::Vec<String>, usize),
+___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
+___2: (usize, alloc::vec::Vec<Annotation>, usize),
 ___3: (usize, Tok<'input>, usize),
 ___4: (usize, Vec<Parameter>, usize),
 ___5: (usize, Vec<WhereClause<TypeRef>>, usize),
 ___6: (usize, Tok<'input>, usize),
-___7: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___7: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
 let ___start0 = ___5.0.clone();
@@ -26837,13 +26841,13 @@ fn ___action562<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<String>, usize),
-___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-___2: (usize, ::std::vec::Vec<Annotation>, usize),
+___0: (usize, alloc::vec::Vec<String>, usize),
+___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
+___2: (usize, alloc::vec::Vec<Annotation>, usize),
 ___3: (usize, Tok<'input>, usize),
 ___4: (usize, Vec<Parameter>, usize),
 ___5: (usize, Tok<'input>, usize),
-___6: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___6: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
 let ___start0 = ___4.2.clone();
@@ -26872,14 +26876,14 @@ fn ___action563<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<String>, usize),
-___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-___2: (usize, ::std::vec::Vec<Annotation>, usize),
+___0: (usize, alloc::vec::Vec<String>, usize),
+___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
+___2: (usize, alloc::vec::Vec<Annotation>, usize),
 ___3: (usize, Tok<'input>, usize),
 ___4: (usize, Vec<TypeParameter>, usize),
 ___5: (usize, Vec<WhereClause<TypeRef>>, usize),
 ___6: (usize, Tok<'input>, usize),
-___7: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___7: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
 let ___start0 = ___5.0.clone();
@@ -26907,13 +26911,13 @@ fn ___action564<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<String>, usize),
-___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-___2: (usize, ::std::vec::Vec<Annotation>, usize),
+___0: (usize, alloc::vec::Vec<String>, usize),
+___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
+___2: (usize, alloc::vec::Vec<Annotation>, usize),
 ___3: (usize, Tok<'input>, usize),
 ___4: (usize, Vec<TypeParameter>, usize),
 ___5: (usize, Tok<'input>, usize),
-___6: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___6: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
 let ___start0 = ___4.2.clone();
@@ -26942,13 +26946,13 @@ fn ___action565<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<String>, usize),
-___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-___2: (usize, ::std::vec::Vec<Annotation>, usize),
+___0: (usize, alloc::vec::Vec<String>, usize),
+___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
+___2: (usize, alloc::vec::Vec<Annotation>, usize),
 ___3: (usize, Tok<'input>, usize),
 ___4: (usize, Vec<WhereClause<TypeRef>>, usize),
 ___5: (usize, Tok<'input>, usize),
-___6: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___6: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
 let ___start0 = ___4.0.clone();
@@ -26975,12 +26979,12 @@ fn ___action566<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<String>, usize),
-___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-___2: (usize, ::std::vec::Vec<Annotation>, usize),
+___0: (usize, alloc::vec::Vec<String>, usize),
+___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
+___2: (usize, alloc::vec::Vec<Annotation>, usize),
 ___3: (usize, Tok<'input>, usize),
 ___4: (usize, Tok<'input>, usize),
-___5: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___5: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
 let ___start0 = ___3.2.clone();
@@ -27052,7 +27056,7 @@ fn ___action569<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<Lifetime>, usize),
+___0: (usize, alloc::vec::Vec<Lifetime>, usize),
 ___1: (usize, Lifetime, usize),
 ) -> Vec<Lifetime>
 {
@@ -27075,7 +27079,7 @@ fn ___action570<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<Lifetime>, usize),
+___0: (usize, alloc::vec::Vec<Lifetime>, usize),
 ) -> Vec<Lifetime>
 {
 let ___start0 = ___0.2.clone();
@@ -27246,7 +27250,7 @@ fn ___action577<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<MatchItem>, usize),
+___0: (usize, alloc::vec::Vec<MatchItem>, usize),
 ___1: (usize, MatchItem, usize),
 ) -> Vec<MatchItem>
 {
@@ -27269,7 +27273,7 @@ fn ___action578<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<MatchItem>, usize),
+___0: (usize, alloc::vec::Vec<MatchItem>, usize),
 ) -> Vec<MatchItem>
 {
 let ___start0 = ___0.2.clone();
@@ -27336,7 +27340,7 @@ fn ___action581<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<NonterminalString>, usize),
+___0: (usize, alloc::vec::Vec<NonterminalString>, usize),
 ___1: (usize, NonterminalString, usize),
 ) -> Vec<NonterminalString>
 {
@@ -27359,7 +27363,7 @@ fn ___action582<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<NonterminalString>, usize),
+___0: (usize, alloc::vec::Vec<NonterminalString>, usize),
 ) -> Vec<NonterminalString>
 {
 let ___start0 = ___0.2.clone();
@@ -27426,7 +27430,7 @@ fn ___action585<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<Pattern<TypeRef>>, usize),
+___0: (usize, alloc::vec::Vec<Pattern<TypeRef>>, usize),
 ___1: (usize, Pattern<TypeRef>, usize),
 ) -> Vec<Pattern<TypeRef>>
 {
@@ -27449,7 +27453,7 @@ fn ___action586<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<Pattern<TypeRef>>, usize),
+___0: (usize, alloc::vec::Vec<Pattern<TypeRef>>, usize),
 ) -> Vec<Pattern<TypeRef>>
 {
 let ___start0 = ___0.2.clone();
@@ -27472,7 +27476,7 @@ fn ___action587<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___0: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ___1: (usize, Tok<'input>, usize),
 ___2: (usize, Vec<TypeParameter>, usize),
 ___3: (usize, Vec<Parameter>, usize),
@@ -27505,8 +27509,8 @@ fn ___action588<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<String>, usize),
-___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___0: (usize, alloc::vec::Vec<String>, usize),
+___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ___2: (usize, Tok<'input>, usize),
 ___3: (usize, Vec<TypeParameter>, usize),
 ___4: (usize, Vec<Parameter>, usize),
@@ -27538,7 +27542,7 @@ fn ___action589<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___0: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ___1: (usize, Tok<'input>, usize),
 ___2: (usize, Vec<TypeParameter>, usize),
 ___3: (usize, Vec<Parameter>, usize),
@@ -27569,8 +27573,8 @@ fn ___action590<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<String>, usize),
-___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___0: (usize, alloc::vec::Vec<String>, usize),
+___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ___2: (usize, Tok<'input>, usize),
 ___3: (usize, Vec<TypeParameter>, usize),
 ___4: (usize, Vec<Parameter>, usize),
@@ -27600,7 +27604,7 @@ fn ___action591<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___0: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ___1: (usize, Tok<'input>, usize),
 ___2: (usize, Vec<Parameter>, usize),
 ___3: (usize, Vec<WhereClause<TypeRef>>, usize),
@@ -27631,8 +27635,8 @@ fn ___action592<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<String>, usize),
-___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___0: (usize, alloc::vec::Vec<String>, usize),
+___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ___2: (usize, Tok<'input>, usize),
 ___3: (usize, Vec<Parameter>, usize),
 ___4: (usize, Vec<WhereClause<TypeRef>>, usize),
@@ -27662,7 +27666,7 @@ fn ___action593<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___0: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ___1: (usize, Tok<'input>, usize),
 ___2: (usize, Vec<Parameter>, usize),
 ___3: (usize, Tok<'input>, usize),
@@ -27691,8 +27695,8 @@ fn ___action594<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<String>, usize),
-___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___0: (usize, alloc::vec::Vec<String>, usize),
+___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ___2: (usize, Tok<'input>, usize),
 ___3: (usize, Vec<Parameter>, usize),
 ___4: (usize, Tok<'input>, usize),
@@ -27720,7 +27724,7 @@ fn ___action595<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___0: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ___1: (usize, Tok<'input>, usize),
 ___2: (usize, Vec<TypeParameter>, usize),
 ___3: (usize, Vec<WhereClause<TypeRef>>, usize),
@@ -27751,8 +27755,8 @@ fn ___action596<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<String>, usize),
-___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___0: (usize, alloc::vec::Vec<String>, usize),
+___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ___2: (usize, Tok<'input>, usize),
 ___3: (usize, Vec<TypeParameter>, usize),
 ___4: (usize, Vec<WhereClause<TypeRef>>, usize),
@@ -27782,7 +27786,7 @@ fn ___action597<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___0: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ___1: (usize, Tok<'input>, usize),
 ___2: (usize, Vec<TypeParameter>, usize),
 ___3: (usize, Tok<'input>, usize),
@@ -27811,8 +27815,8 @@ fn ___action598<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<String>, usize),
-___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___0: (usize, alloc::vec::Vec<String>, usize),
+___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ___2: (usize, Tok<'input>, usize),
 ___3: (usize, Vec<TypeParameter>, usize),
 ___4: (usize, Tok<'input>, usize),
@@ -27840,7 +27844,7 @@ fn ___action599<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___0: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ___1: (usize, Tok<'input>, usize),
 ___2: (usize, Vec<WhereClause<TypeRef>>, usize),
 ___3: (usize, Tok<'input>, usize),
@@ -27869,8 +27873,8 @@ fn ___action600<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<String>, usize),
-___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___0: (usize, alloc::vec::Vec<String>, usize),
+___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ___2: (usize, Tok<'input>, usize),
 ___3: (usize, Vec<WhereClause<TypeRef>>, usize),
 ___4: (usize, Tok<'input>, usize),
@@ -27898,7 +27902,7 @@ fn ___action601<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___0: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ___1: (usize, Tok<'input>, usize),
 ___2: (usize, Tok<'input>, usize),
 ) -> Grammar
@@ -27925,8 +27929,8 @@ fn ___action602<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<String>, usize),
-___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___0: (usize, alloc::vec::Vec<String>, usize),
+___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ___2: (usize, Tok<'input>, usize),
 ___3: (usize, Tok<'input>, usize),
 ) -> Grammar
@@ -27952,13 +27956,13 @@ fn ___action603<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___0: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ___1: (usize, Tok<'input>, usize),
 ___2: (usize, Vec<TypeParameter>, usize),
 ___3: (usize, Vec<Parameter>, usize),
 ___4: (usize, Vec<WhereClause<TypeRef>>, usize),
 ___5: (usize, Tok<'input>, usize),
-___6: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___6: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
 let ___start0 = ___0.0.clone();
@@ -27987,14 +27991,14 @@ fn ___action604<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<String>, usize),
-___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___0: (usize, alloc::vec::Vec<String>, usize),
+___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ___2: (usize, Tok<'input>, usize),
 ___3: (usize, Vec<TypeParameter>, usize),
 ___4: (usize, Vec<Parameter>, usize),
 ___5: (usize, Vec<WhereClause<TypeRef>>, usize),
 ___6: (usize, Tok<'input>, usize),
-___7: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___7: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
 let ___start0 = ___0.0.clone();
@@ -28022,12 +28026,12 @@ fn ___action605<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___0: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ___1: (usize, Tok<'input>, usize),
 ___2: (usize, Vec<TypeParameter>, usize),
 ___3: (usize, Vec<Parameter>, usize),
 ___4: (usize, Tok<'input>, usize),
-___5: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___5: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
 let ___start0 = ___0.0.clone();
@@ -28055,13 +28059,13 @@ fn ___action606<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<String>, usize),
-___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___0: (usize, alloc::vec::Vec<String>, usize),
+___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ___2: (usize, Tok<'input>, usize),
 ___3: (usize, Vec<TypeParameter>, usize),
 ___4: (usize, Vec<Parameter>, usize),
 ___5: (usize, Tok<'input>, usize),
-___6: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___6: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
 let ___start0 = ___0.0.clone();
@@ -28088,12 +28092,12 @@ fn ___action607<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___0: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ___1: (usize, Tok<'input>, usize),
 ___2: (usize, Vec<Parameter>, usize),
 ___3: (usize, Vec<WhereClause<TypeRef>>, usize),
 ___4: (usize, Tok<'input>, usize),
-___5: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___5: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
 let ___start0 = ___0.0.clone();
@@ -28121,13 +28125,13 @@ fn ___action608<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<String>, usize),
-___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___0: (usize, alloc::vec::Vec<String>, usize),
+___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ___2: (usize, Tok<'input>, usize),
 ___3: (usize, Vec<Parameter>, usize),
 ___4: (usize, Vec<WhereClause<TypeRef>>, usize),
 ___5: (usize, Tok<'input>, usize),
-___6: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___6: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
 let ___start0 = ___0.0.clone();
@@ -28154,11 +28158,11 @@ fn ___action609<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___0: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ___1: (usize, Tok<'input>, usize),
 ___2: (usize, Vec<Parameter>, usize),
 ___3: (usize, Tok<'input>, usize),
-___4: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___4: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
 let ___start0 = ___0.0.clone();
@@ -28185,12 +28189,12 @@ fn ___action610<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<String>, usize),
-___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___0: (usize, alloc::vec::Vec<String>, usize),
+___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ___2: (usize, Tok<'input>, usize),
 ___3: (usize, Vec<Parameter>, usize),
 ___4: (usize, Tok<'input>, usize),
-___5: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___5: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
 let ___start0 = ___0.0.clone();
@@ -28216,12 +28220,12 @@ fn ___action611<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___0: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ___1: (usize, Tok<'input>, usize),
 ___2: (usize, Vec<TypeParameter>, usize),
 ___3: (usize, Vec<WhereClause<TypeRef>>, usize),
 ___4: (usize, Tok<'input>, usize),
-___5: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___5: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
 let ___start0 = ___0.0.clone();
@@ -28249,13 +28253,13 @@ fn ___action612<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<String>, usize),
-___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___0: (usize, alloc::vec::Vec<String>, usize),
+___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ___2: (usize, Tok<'input>, usize),
 ___3: (usize, Vec<TypeParameter>, usize),
 ___4: (usize, Vec<WhereClause<TypeRef>>, usize),
 ___5: (usize, Tok<'input>, usize),
-___6: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___6: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
 let ___start0 = ___0.0.clone();
@@ -28282,11 +28286,11 @@ fn ___action613<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___0: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ___1: (usize, Tok<'input>, usize),
 ___2: (usize, Vec<TypeParameter>, usize),
 ___3: (usize, Tok<'input>, usize),
-___4: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___4: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
 let ___start0 = ___0.0.clone();
@@ -28313,12 +28317,12 @@ fn ___action614<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<String>, usize),
-___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___0: (usize, alloc::vec::Vec<String>, usize),
+___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ___2: (usize, Tok<'input>, usize),
 ___3: (usize, Vec<TypeParameter>, usize),
 ___4: (usize, Tok<'input>, usize),
-___5: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___5: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
 let ___start0 = ___0.0.clone();
@@ -28344,11 +28348,11 @@ fn ___action615<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___0: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ___1: (usize, Tok<'input>, usize),
 ___2: (usize, Vec<WhereClause<TypeRef>>, usize),
 ___3: (usize, Tok<'input>, usize),
-___4: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___4: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
 let ___start0 = ___0.0.clone();
@@ -28375,12 +28379,12 @@ fn ___action616<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<String>, usize),
-___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___0: (usize, alloc::vec::Vec<String>, usize),
+___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ___2: (usize, Tok<'input>, usize),
 ___3: (usize, Vec<WhereClause<TypeRef>>, usize),
 ___4: (usize, Tok<'input>, usize),
-___5: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___5: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
 let ___start0 = ___0.0.clone();
@@ -28406,10 +28410,10 @@ fn ___action617<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___0: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ___1: (usize, Tok<'input>, usize),
 ___2: (usize, Tok<'input>, usize),
-___3: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___3: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
 let ___start0 = ___0.0.clone();
@@ -28435,11 +28439,11 @@ fn ___action618<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<String>, usize),
-___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___0: (usize, alloc::vec::Vec<String>, usize),
+___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ___2: (usize, Tok<'input>, usize),
 ___3: (usize, Tok<'input>, usize),
-___4: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___4: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
 let ___start0 = ___0.0.clone();
@@ -28464,8 +28468,8 @@ fn ___action619<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<GrammarItem>, usize),
-___1: (usize, ::std::vec::Vec<Annotation>, usize),
+___0: (usize, alloc::vec::Vec<GrammarItem>, usize),
+___1: (usize, alloc::vec::Vec<Annotation>, usize),
 ___2: (usize, Tok<'input>, usize),
 ___3: (usize, Vec<TypeParameter>, usize),
 ___4: (usize, Vec<Parameter>, usize),
@@ -28499,9 +28503,9 @@ fn ___action620<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<String>, usize),
-___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-___2: (usize, ::std::vec::Vec<Annotation>, usize),
+___0: (usize, alloc::vec::Vec<String>, usize),
+___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
+___2: (usize, alloc::vec::Vec<Annotation>, usize),
 ___3: (usize, Tok<'input>, usize),
 ___4: (usize, Vec<TypeParameter>, usize),
 ___5: (usize, Vec<Parameter>, usize),
@@ -28534,8 +28538,8 @@ fn ___action621<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<GrammarItem>, usize),
-___1: (usize, ::std::vec::Vec<Annotation>, usize),
+___0: (usize, alloc::vec::Vec<GrammarItem>, usize),
+___1: (usize, alloc::vec::Vec<Annotation>, usize),
 ___2: (usize, Tok<'input>, usize),
 ___3: (usize, Vec<TypeParameter>, usize),
 ___4: (usize, Vec<Parameter>, usize),
@@ -28567,9 +28571,9 @@ fn ___action622<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<String>, usize),
-___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-___2: (usize, ::std::vec::Vec<Annotation>, usize),
+___0: (usize, alloc::vec::Vec<String>, usize),
+___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
+___2: (usize, alloc::vec::Vec<Annotation>, usize),
 ___3: (usize, Tok<'input>, usize),
 ___4: (usize, Vec<TypeParameter>, usize),
 ___5: (usize, Vec<Parameter>, usize),
@@ -28600,8 +28604,8 @@ fn ___action623<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<GrammarItem>, usize),
-___1: (usize, ::std::vec::Vec<Annotation>, usize),
+___0: (usize, alloc::vec::Vec<GrammarItem>, usize),
+___1: (usize, alloc::vec::Vec<Annotation>, usize),
 ___2: (usize, Tok<'input>, usize),
 ___3: (usize, Vec<Parameter>, usize),
 ___4: (usize, Vec<WhereClause<TypeRef>>, usize),
@@ -28633,9 +28637,9 @@ fn ___action624<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<String>, usize),
-___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-___2: (usize, ::std::vec::Vec<Annotation>, usize),
+___0: (usize, alloc::vec::Vec<String>, usize),
+___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
+___2: (usize, alloc::vec::Vec<Annotation>, usize),
 ___3: (usize, Tok<'input>, usize),
 ___4: (usize, Vec<Parameter>, usize),
 ___5: (usize, Vec<WhereClause<TypeRef>>, usize),
@@ -28666,8 +28670,8 @@ fn ___action625<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<GrammarItem>, usize),
-___1: (usize, ::std::vec::Vec<Annotation>, usize),
+___0: (usize, alloc::vec::Vec<GrammarItem>, usize),
+___1: (usize, alloc::vec::Vec<Annotation>, usize),
 ___2: (usize, Tok<'input>, usize),
 ___3: (usize, Vec<Parameter>, usize),
 ___4: (usize, Tok<'input>, usize),
@@ -28697,9 +28701,9 @@ fn ___action626<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<String>, usize),
-___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-___2: (usize, ::std::vec::Vec<Annotation>, usize),
+___0: (usize, alloc::vec::Vec<String>, usize),
+___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
+___2: (usize, alloc::vec::Vec<Annotation>, usize),
 ___3: (usize, Tok<'input>, usize),
 ___4: (usize, Vec<Parameter>, usize),
 ___5: (usize, Tok<'input>, usize),
@@ -28728,8 +28732,8 @@ fn ___action627<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<GrammarItem>, usize),
-___1: (usize, ::std::vec::Vec<Annotation>, usize),
+___0: (usize, alloc::vec::Vec<GrammarItem>, usize),
+___1: (usize, alloc::vec::Vec<Annotation>, usize),
 ___2: (usize, Tok<'input>, usize),
 ___3: (usize, Vec<TypeParameter>, usize),
 ___4: (usize, Vec<WhereClause<TypeRef>>, usize),
@@ -28761,9 +28765,9 @@ fn ___action628<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<String>, usize),
-___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-___2: (usize, ::std::vec::Vec<Annotation>, usize),
+___0: (usize, alloc::vec::Vec<String>, usize),
+___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
+___2: (usize, alloc::vec::Vec<Annotation>, usize),
 ___3: (usize, Tok<'input>, usize),
 ___4: (usize, Vec<TypeParameter>, usize),
 ___5: (usize, Vec<WhereClause<TypeRef>>, usize),
@@ -28794,8 +28798,8 @@ fn ___action629<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<GrammarItem>, usize),
-___1: (usize, ::std::vec::Vec<Annotation>, usize),
+___0: (usize, alloc::vec::Vec<GrammarItem>, usize),
+___1: (usize, alloc::vec::Vec<Annotation>, usize),
 ___2: (usize, Tok<'input>, usize),
 ___3: (usize, Vec<TypeParameter>, usize),
 ___4: (usize, Tok<'input>, usize),
@@ -28825,9 +28829,9 @@ fn ___action630<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<String>, usize),
-___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-___2: (usize, ::std::vec::Vec<Annotation>, usize),
+___0: (usize, alloc::vec::Vec<String>, usize),
+___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
+___2: (usize, alloc::vec::Vec<Annotation>, usize),
 ___3: (usize, Tok<'input>, usize),
 ___4: (usize, Vec<TypeParameter>, usize),
 ___5: (usize, Tok<'input>, usize),
@@ -28856,8 +28860,8 @@ fn ___action631<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<GrammarItem>, usize),
-___1: (usize, ::std::vec::Vec<Annotation>, usize),
+___0: (usize, alloc::vec::Vec<GrammarItem>, usize),
+___1: (usize, alloc::vec::Vec<Annotation>, usize),
 ___2: (usize, Tok<'input>, usize),
 ___3: (usize, Vec<WhereClause<TypeRef>>, usize),
 ___4: (usize, Tok<'input>, usize),
@@ -28887,9 +28891,9 @@ fn ___action632<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<String>, usize),
-___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-___2: (usize, ::std::vec::Vec<Annotation>, usize),
+___0: (usize, alloc::vec::Vec<String>, usize),
+___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
+___2: (usize, alloc::vec::Vec<Annotation>, usize),
 ___3: (usize, Tok<'input>, usize),
 ___4: (usize, Vec<WhereClause<TypeRef>>, usize),
 ___5: (usize, Tok<'input>, usize),
@@ -28918,8 +28922,8 @@ fn ___action633<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<GrammarItem>, usize),
-___1: (usize, ::std::vec::Vec<Annotation>, usize),
+___0: (usize, alloc::vec::Vec<GrammarItem>, usize),
+___1: (usize, alloc::vec::Vec<Annotation>, usize),
 ___2: (usize, Tok<'input>, usize),
 ___3: (usize, Tok<'input>, usize),
 ) -> Grammar
@@ -28947,9 +28951,9 @@ fn ___action634<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<String>, usize),
-___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-___2: (usize, ::std::vec::Vec<Annotation>, usize),
+___0: (usize, alloc::vec::Vec<String>, usize),
+___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
+___2: (usize, alloc::vec::Vec<Annotation>, usize),
 ___3: (usize, Tok<'input>, usize),
 ___4: (usize, Tok<'input>, usize),
 ) -> Grammar
@@ -28976,14 +28980,14 @@ fn ___action635<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<GrammarItem>, usize),
-___1: (usize, ::std::vec::Vec<Annotation>, usize),
+___0: (usize, alloc::vec::Vec<GrammarItem>, usize),
+___1: (usize, alloc::vec::Vec<Annotation>, usize),
 ___2: (usize, Tok<'input>, usize),
 ___3: (usize, Vec<TypeParameter>, usize),
 ___4: (usize, Vec<Parameter>, usize),
 ___5: (usize, Vec<WhereClause<TypeRef>>, usize),
 ___6: (usize, Tok<'input>, usize),
-___7: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___7: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
 let ___start0 = ___0.0.clone();
@@ -29013,15 +29017,15 @@ fn ___action636<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<String>, usize),
-___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-___2: (usize, ::std::vec::Vec<Annotation>, usize),
+___0: (usize, alloc::vec::Vec<String>, usize),
+___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
+___2: (usize, alloc::vec::Vec<Annotation>, usize),
 ___3: (usize, Tok<'input>, usize),
 ___4: (usize, Vec<TypeParameter>, usize),
 ___5: (usize, Vec<Parameter>, usize),
 ___6: (usize, Vec<WhereClause<TypeRef>>, usize),
 ___7: (usize, Tok<'input>, usize),
-___8: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___8: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
 let ___start0 = ___0.0.clone();
@@ -29050,13 +29054,13 @@ fn ___action637<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<GrammarItem>, usize),
-___1: (usize, ::std::vec::Vec<Annotation>, usize),
+___0: (usize, alloc::vec::Vec<GrammarItem>, usize),
+___1: (usize, alloc::vec::Vec<Annotation>, usize),
 ___2: (usize, Tok<'input>, usize),
 ___3: (usize, Vec<TypeParameter>, usize),
 ___4: (usize, Vec<Parameter>, usize),
 ___5: (usize, Tok<'input>, usize),
-___6: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___6: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
 let ___start0 = ___0.0.clone();
@@ -29085,14 +29089,14 @@ fn ___action638<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<String>, usize),
-___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-___2: (usize, ::std::vec::Vec<Annotation>, usize),
+___0: (usize, alloc::vec::Vec<String>, usize),
+___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
+___2: (usize, alloc::vec::Vec<Annotation>, usize),
 ___3: (usize, Tok<'input>, usize),
 ___4: (usize, Vec<TypeParameter>, usize),
 ___5: (usize, Vec<Parameter>, usize),
 ___6: (usize, Tok<'input>, usize),
-___7: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___7: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
 let ___start0 = ___0.0.clone();
@@ -29120,13 +29124,13 @@ fn ___action639<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<GrammarItem>, usize),
-___1: (usize, ::std::vec::Vec<Annotation>, usize),
+___0: (usize, alloc::vec::Vec<GrammarItem>, usize),
+___1: (usize, alloc::vec::Vec<Annotation>, usize),
 ___2: (usize, Tok<'input>, usize),
 ___3: (usize, Vec<Parameter>, usize),
 ___4: (usize, Vec<WhereClause<TypeRef>>, usize),
 ___5: (usize, Tok<'input>, usize),
-___6: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___6: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
 let ___start0 = ___0.0.clone();
@@ -29155,14 +29159,14 @@ fn ___action640<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<String>, usize),
-___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-___2: (usize, ::std::vec::Vec<Annotation>, usize),
+___0: (usize, alloc::vec::Vec<String>, usize),
+___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
+___2: (usize, alloc::vec::Vec<Annotation>, usize),
 ___3: (usize, Tok<'input>, usize),
 ___4: (usize, Vec<Parameter>, usize),
 ___5: (usize, Vec<WhereClause<TypeRef>>, usize),
 ___6: (usize, Tok<'input>, usize),
-___7: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___7: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
 let ___start0 = ___0.0.clone();
@@ -29190,12 +29194,12 @@ fn ___action641<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<GrammarItem>, usize),
-___1: (usize, ::std::vec::Vec<Annotation>, usize),
+___0: (usize, alloc::vec::Vec<GrammarItem>, usize),
+___1: (usize, alloc::vec::Vec<Annotation>, usize),
 ___2: (usize, Tok<'input>, usize),
 ___3: (usize, Vec<Parameter>, usize),
 ___4: (usize, Tok<'input>, usize),
-___5: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___5: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
 let ___start0 = ___0.0.clone();
@@ -29223,13 +29227,13 @@ fn ___action642<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<String>, usize),
-___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-___2: (usize, ::std::vec::Vec<Annotation>, usize),
+___0: (usize, alloc::vec::Vec<String>, usize),
+___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
+___2: (usize, alloc::vec::Vec<Annotation>, usize),
 ___3: (usize, Tok<'input>, usize),
 ___4: (usize, Vec<Parameter>, usize),
 ___5: (usize, Tok<'input>, usize),
-___6: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___6: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
 let ___start0 = ___0.0.clone();
@@ -29256,13 +29260,13 @@ fn ___action643<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<GrammarItem>, usize),
-___1: (usize, ::std::vec::Vec<Annotation>, usize),
+___0: (usize, alloc::vec::Vec<GrammarItem>, usize),
+___1: (usize, alloc::vec::Vec<Annotation>, usize),
 ___2: (usize, Tok<'input>, usize),
 ___3: (usize, Vec<TypeParameter>, usize),
 ___4: (usize, Vec<WhereClause<TypeRef>>, usize),
 ___5: (usize, Tok<'input>, usize),
-___6: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___6: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
 let ___start0 = ___0.0.clone();
@@ -29291,14 +29295,14 @@ fn ___action644<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<String>, usize),
-___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-___2: (usize, ::std::vec::Vec<Annotation>, usize),
+___0: (usize, alloc::vec::Vec<String>, usize),
+___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
+___2: (usize, alloc::vec::Vec<Annotation>, usize),
 ___3: (usize, Tok<'input>, usize),
 ___4: (usize, Vec<TypeParameter>, usize),
 ___5: (usize, Vec<WhereClause<TypeRef>>, usize),
 ___6: (usize, Tok<'input>, usize),
-___7: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___7: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
 let ___start0 = ___0.0.clone();
@@ -29326,12 +29330,12 @@ fn ___action645<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<GrammarItem>, usize),
-___1: (usize, ::std::vec::Vec<Annotation>, usize),
+___0: (usize, alloc::vec::Vec<GrammarItem>, usize),
+___1: (usize, alloc::vec::Vec<Annotation>, usize),
 ___2: (usize, Tok<'input>, usize),
 ___3: (usize, Vec<TypeParameter>, usize),
 ___4: (usize, Tok<'input>, usize),
-___5: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___5: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
 let ___start0 = ___0.0.clone();
@@ -29359,13 +29363,13 @@ fn ___action646<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<String>, usize),
-___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-___2: (usize, ::std::vec::Vec<Annotation>, usize),
+___0: (usize, alloc::vec::Vec<String>, usize),
+___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
+___2: (usize, alloc::vec::Vec<Annotation>, usize),
 ___3: (usize, Tok<'input>, usize),
 ___4: (usize, Vec<TypeParameter>, usize),
 ___5: (usize, Tok<'input>, usize),
-___6: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___6: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
 let ___start0 = ___0.0.clone();
@@ -29392,12 +29396,12 @@ fn ___action647<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<GrammarItem>, usize),
-___1: (usize, ::std::vec::Vec<Annotation>, usize),
+___0: (usize, alloc::vec::Vec<GrammarItem>, usize),
+___1: (usize, alloc::vec::Vec<Annotation>, usize),
 ___2: (usize, Tok<'input>, usize),
 ___3: (usize, Vec<WhereClause<TypeRef>>, usize),
 ___4: (usize, Tok<'input>, usize),
-___5: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___5: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
 let ___start0 = ___0.0.clone();
@@ -29425,13 +29429,13 @@ fn ___action648<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<String>, usize),
-___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-___2: (usize, ::std::vec::Vec<Annotation>, usize),
+___0: (usize, alloc::vec::Vec<String>, usize),
+___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
+___2: (usize, alloc::vec::Vec<Annotation>, usize),
 ___3: (usize, Tok<'input>, usize),
 ___4: (usize, Vec<WhereClause<TypeRef>>, usize),
 ___5: (usize, Tok<'input>, usize),
-___6: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___6: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
 let ___start0 = ___0.0.clone();
@@ -29458,11 +29462,11 @@ fn ___action649<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<GrammarItem>, usize),
-___1: (usize, ::std::vec::Vec<Annotation>, usize),
+___0: (usize, alloc::vec::Vec<GrammarItem>, usize),
+___1: (usize, alloc::vec::Vec<Annotation>, usize),
 ___2: (usize, Tok<'input>, usize),
 ___3: (usize, Tok<'input>, usize),
-___4: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___4: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
 let ___start0 = ___0.0.clone();
@@ -29489,12 +29493,12 @@ fn ___action650<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<String>, usize),
-___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-___2: (usize, ::std::vec::Vec<Annotation>, usize),
+___0: (usize, alloc::vec::Vec<String>, usize),
+___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
+___2: (usize, alloc::vec::Vec<Annotation>, usize),
 ___3: (usize, Tok<'input>, usize),
 ___4: (usize, Tok<'input>, usize),
-___5: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___5: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
 let ___start0 = ___0.0.clone();
@@ -29543,7 +29547,7 @@ fn ___action652<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<Symbol>, usize),
+___0: (usize, alloc::vec::Vec<Symbol>, usize),
 ) -> ExprSymbol
 {
 let ___start0 = ___0.0.clone();
@@ -29608,7 +29612,7 @@ fn ___action655<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<Symbol>, usize),
+___0: (usize, alloc::vec::Vec<Symbol>, usize),
 ___1: (usize, Symbol, usize),
 ) -> Vec<Symbol>
 {
@@ -29631,7 +29635,7 @@ fn ___action656<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<Symbol>, usize),
+___0: (usize, alloc::vec::Vec<Symbol>, usize),
 ) -> Vec<Symbol>
 {
 let ___start0 = ___0.2.clone();
@@ -29698,7 +29702,7 @@ fn ___action659<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<TypeBound<TypeRef>>, usize),
+___0: (usize, alloc::vec::Vec<TypeBound<TypeRef>>, usize),
 ___1: (usize, TypeBound<TypeRef>, usize),
 ) -> Vec<TypeBound<TypeRef>>
 {
@@ -29721,7 +29725,7 @@ fn ___action660<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<TypeBound<TypeRef>>, usize),
+___0: (usize, alloc::vec::Vec<TypeBound<TypeRef>>, usize),
 ) -> Vec<TypeBound<TypeRef>>
 {
 let ___start0 = ___0.2.clone();
@@ -29788,7 +29792,7 @@ fn ___action663<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<TypeBoundParameter<TypeRef>>, usize),
+___0: (usize, alloc::vec::Vec<TypeBoundParameter<TypeRef>>, usize),
 ___1: (usize, TypeBoundParameter<TypeRef>, usize),
 ) -> Vec<TypeBoundParameter<TypeRef>>
 {
@@ -29811,7 +29815,7 @@ fn ___action664<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<TypeBoundParameter<TypeRef>>, usize),
+___0: (usize, alloc::vec::Vec<TypeBoundParameter<TypeRef>>, usize),
 ) -> Vec<TypeBoundParameter<TypeRef>>
 {
 let ___start0 = ___0.2.clone();
@@ -29878,7 +29882,7 @@ fn ___action667<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<TypeParameter>, usize),
+___0: (usize, alloc::vec::Vec<TypeParameter>, usize),
 ___1: (usize, TypeParameter, usize),
 ) -> Vec<TypeParameter>
 {
@@ -29901,7 +29905,7 @@ fn ___action668<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<TypeParameter>, usize),
+___0: (usize, alloc::vec::Vec<TypeParameter>, usize),
 ) -> Vec<TypeParameter>
 {
 let ___start0 = ___0.2.clone();
@@ -29968,7 +29972,7 @@ fn ___action671<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<TypeRef>, usize),
+___0: (usize, alloc::vec::Vec<TypeRef>, usize),
 ___1: (usize, TypeRef, usize),
 ) -> Vec<TypeRef>
 {
@@ -29991,7 +29995,7 @@ fn ___action672<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<TypeRef>, usize),
+___0: (usize, alloc::vec::Vec<TypeRef>, usize),
 ) -> Vec<TypeRef>
 {
 let ___start0 = ___0.2.clone();
@@ -30058,7 +30062,7 @@ fn ___action675<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<TypeRef>, usize),
+___0: (usize, alloc::vec::Vec<TypeRef>, usize),
 ___1: (usize, TypeRef, usize),
 ) -> Vec<TypeRef>
 {
@@ -30081,7 +30085,7 @@ fn ___action676<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<TypeRef>, usize),
+___0: (usize, alloc::vec::Vec<TypeRef>, usize),
 ) -> Vec<TypeRef>
 {
 let ___start0 = ___0.2.clone();
@@ -30135,7 +30139,7 @@ fn ___action678<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___0: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ___1: (usize, Tok<'input>, usize),
 ___2: (usize, Vec<TypeParameter>, usize),
 ___3: (usize, Vec<Parameter>, usize),
@@ -30166,7 +30170,7 @@ fn ___action679<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<String>, usize),
+___0: (usize, alloc::vec::Vec<String>, usize),
 ___1: (usize, Tok<'input>, usize),
 ___2: (usize, Vec<TypeParameter>, usize),
 ___3: (usize, Vec<Parameter>, usize),
@@ -30199,8 +30203,8 @@ fn ___action680<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<String>, usize),
-___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___0: (usize, alloc::vec::Vec<String>, usize),
+___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ___2: (usize, Tok<'input>, usize),
 ___3: (usize, Vec<TypeParameter>, usize),
 ___4: (usize, Vec<Parameter>, usize),
@@ -30261,7 +30265,7 @@ fn ___action682<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___0: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ___1: (usize, Tok<'input>, usize),
 ___2: (usize, Vec<TypeParameter>, usize),
 ___3: (usize, Vec<Parameter>, usize),
@@ -30290,7 +30294,7 @@ fn ___action683<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<String>, usize),
+___0: (usize, alloc::vec::Vec<String>, usize),
 ___1: (usize, Tok<'input>, usize),
 ___2: (usize, Vec<TypeParameter>, usize),
 ___3: (usize, Vec<Parameter>, usize),
@@ -30321,8 +30325,8 @@ fn ___action684<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<String>, usize),
-___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___0: (usize, alloc::vec::Vec<String>, usize),
+___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ___2: (usize, Tok<'input>, usize),
 ___3: (usize, Vec<TypeParameter>, usize),
 ___4: (usize, Vec<Parameter>, usize),
@@ -30381,7 +30385,7 @@ fn ___action686<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___0: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ___1: (usize, Tok<'input>, usize),
 ___2: (usize, Vec<Parameter>, usize),
 ___3: (usize, Vec<WhereClause<TypeRef>>, usize),
@@ -30410,7 +30414,7 @@ fn ___action687<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<String>, usize),
+___0: (usize, alloc::vec::Vec<String>, usize),
 ___1: (usize, Tok<'input>, usize),
 ___2: (usize, Vec<Parameter>, usize),
 ___3: (usize, Vec<WhereClause<TypeRef>>, usize),
@@ -30441,8 +30445,8 @@ fn ___action688<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<String>, usize),
-___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___0: (usize, alloc::vec::Vec<String>, usize),
+___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ___2: (usize, Tok<'input>, usize),
 ___3: (usize, Vec<Parameter>, usize),
 ___4: (usize, Vec<WhereClause<TypeRef>>, usize),
@@ -30499,7 +30503,7 @@ fn ___action690<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___0: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ___1: (usize, Tok<'input>, usize),
 ___2: (usize, Vec<Parameter>, usize),
 ___3: (usize, Tok<'input>, usize),
@@ -30526,7 +30530,7 @@ fn ___action691<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<String>, usize),
+___0: (usize, alloc::vec::Vec<String>, usize),
 ___1: (usize, Tok<'input>, usize),
 ___2: (usize, Vec<Parameter>, usize),
 ___3: (usize, Tok<'input>, usize),
@@ -30555,8 +30559,8 @@ fn ___action692<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<String>, usize),
-___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___0: (usize, alloc::vec::Vec<String>, usize),
+___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ___2: (usize, Tok<'input>, usize),
 ___3: (usize, Vec<Parameter>, usize),
 ___4: (usize, Tok<'input>, usize),
@@ -30613,7 +30617,7 @@ fn ___action694<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___0: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ___1: (usize, Tok<'input>, usize),
 ___2: (usize, Vec<TypeParameter>, usize),
 ___3: (usize, Vec<WhereClause<TypeRef>>, usize),
@@ -30642,7 +30646,7 @@ fn ___action695<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<String>, usize),
+___0: (usize, alloc::vec::Vec<String>, usize),
 ___1: (usize, Tok<'input>, usize),
 ___2: (usize, Vec<TypeParameter>, usize),
 ___3: (usize, Vec<WhereClause<TypeRef>>, usize),
@@ -30673,8 +30677,8 @@ fn ___action696<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<String>, usize),
-___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___0: (usize, alloc::vec::Vec<String>, usize),
+___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ___2: (usize, Tok<'input>, usize),
 ___3: (usize, Vec<TypeParameter>, usize),
 ___4: (usize, Vec<WhereClause<TypeRef>>, usize),
@@ -30731,7 +30735,7 @@ fn ___action698<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___0: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ___1: (usize, Tok<'input>, usize),
 ___2: (usize, Vec<TypeParameter>, usize),
 ___3: (usize, Tok<'input>, usize),
@@ -30758,7 +30762,7 @@ fn ___action699<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<String>, usize),
+___0: (usize, alloc::vec::Vec<String>, usize),
 ___1: (usize, Tok<'input>, usize),
 ___2: (usize, Vec<TypeParameter>, usize),
 ___3: (usize, Tok<'input>, usize),
@@ -30787,8 +30791,8 @@ fn ___action700<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<String>, usize),
-___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___0: (usize, alloc::vec::Vec<String>, usize),
+___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ___2: (usize, Tok<'input>, usize),
 ___3: (usize, Vec<TypeParameter>, usize),
 ___4: (usize, Tok<'input>, usize),
@@ -30843,7 +30847,7 @@ fn ___action702<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___0: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ___1: (usize, Tok<'input>, usize),
 ___2: (usize, Vec<WhereClause<TypeRef>>, usize),
 ___3: (usize, Tok<'input>, usize),
@@ -30870,7 +30874,7 @@ fn ___action703<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<String>, usize),
+___0: (usize, alloc::vec::Vec<String>, usize),
 ___1: (usize, Tok<'input>, usize),
 ___2: (usize, Vec<WhereClause<TypeRef>>, usize),
 ___3: (usize, Tok<'input>, usize),
@@ -30899,8 +30903,8 @@ fn ___action704<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<String>, usize),
-___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___0: (usize, alloc::vec::Vec<String>, usize),
+___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ___2: (usize, Tok<'input>, usize),
 ___3: (usize, Vec<WhereClause<TypeRef>>, usize),
 ___4: (usize, Tok<'input>, usize),
@@ -30953,7 +30957,7 @@ fn ___action706<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___0: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ___1: (usize, Tok<'input>, usize),
 ___2: (usize, Tok<'input>, usize),
 ) -> Grammar
@@ -30978,7 +30982,7 @@ fn ___action707<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<String>, usize),
+___0: (usize, alloc::vec::Vec<String>, usize),
 ___1: (usize, Tok<'input>, usize),
 ___2: (usize, Tok<'input>, usize),
 ) -> Grammar
@@ -31005,8 +31009,8 @@ fn ___action708<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<String>, usize),
-___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___0: (usize, alloc::vec::Vec<String>, usize),
+___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ___2: (usize, Tok<'input>, usize),
 ___3: (usize, Tok<'input>, usize),
 ) -> Grammar
@@ -31037,7 +31041,7 @@ ___1: (usize, Vec<TypeParameter>, usize),
 ___2: (usize, Vec<Parameter>, usize),
 ___3: (usize, Vec<WhereClause<TypeRef>>, usize),
 ___4: (usize, Tok<'input>, usize),
-___5: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___5: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
 let ___start0 = ___0.0.clone();
@@ -31065,13 +31069,13 @@ fn ___action710<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___0: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ___1: (usize, Tok<'input>, usize),
 ___2: (usize, Vec<TypeParameter>, usize),
 ___3: (usize, Vec<Parameter>, usize),
 ___4: (usize, Vec<WhereClause<TypeRef>>, usize),
 ___5: (usize, Tok<'input>, usize),
-___6: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___6: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
 let ___start0 = ___0.0.clone();
@@ -31098,13 +31102,13 @@ fn ___action711<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<String>, usize),
+___0: (usize, alloc::vec::Vec<String>, usize),
 ___1: (usize, Tok<'input>, usize),
 ___2: (usize, Vec<TypeParameter>, usize),
 ___3: (usize, Vec<Parameter>, usize),
 ___4: (usize, Vec<WhereClause<TypeRef>>, usize),
 ___5: (usize, Tok<'input>, usize),
-___6: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___6: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
 let ___start0 = ___0.2.clone();
@@ -31133,14 +31137,14 @@ fn ___action712<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<String>, usize),
-___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___0: (usize, alloc::vec::Vec<String>, usize),
+___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ___2: (usize, Tok<'input>, usize),
 ___3: (usize, Vec<TypeParameter>, usize),
 ___4: (usize, Vec<Parameter>, usize),
 ___5: (usize, Vec<WhereClause<TypeRef>>, usize),
 ___6: (usize, Tok<'input>, usize),
-___7: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___7: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
 let ___start0 = ___1.0.clone();
@@ -31172,7 +31176,7 @@ ___0: (usize, Tok<'input>, usize),
 ___1: (usize, Vec<TypeParameter>, usize),
 ___2: (usize, Vec<Parameter>, usize),
 ___3: (usize, Tok<'input>, usize),
-___4: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___4: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
 let ___start0 = ___0.0.clone();
@@ -31199,12 +31203,12 @@ fn ___action714<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___0: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ___1: (usize, Tok<'input>, usize),
 ___2: (usize, Vec<TypeParameter>, usize),
 ___3: (usize, Vec<Parameter>, usize),
 ___4: (usize, Tok<'input>, usize),
-___5: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___5: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
 let ___start0 = ___0.0.clone();
@@ -31230,12 +31234,12 @@ fn ___action715<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<String>, usize),
+___0: (usize, alloc::vec::Vec<String>, usize),
 ___1: (usize, Tok<'input>, usize),
 ___2: (usize, Vec<TypeParameter>, usize),
 ___3: (usize, Vec<Parameter>, usize),
 ___4: (usize, Tok<'input>, usize),
-___5: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___5: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
 let ___start0 = ___0.2.clone();
@@ -31263,13 +31267,13 @@ fn ___action716<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<String>, usize),
-___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___0: (usize, alloc::vec::Vec<String>, usize),
+___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ___2: (usize, Tok<'input>, usize),
 ___3: (usize, Vec<TypeParameter>, usize),
 ___4: (usize, Vec<Parameter>, usize),
 ___5: (usize, Tok<'input>, usize),
-___6: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___6: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
 let ___start0 = ___1.0.clone();
@@ -31300,7 +31304,7 @@ ___0: (usize, Tok<'input>, usize),
 ___1: (usize, Vec<Parameter>, usize),
 ___2: (usize, Vec<WhereClause<TypeRef>>, usize),
 ___3: (usize, Tok<'input>, usize),
-___4: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___4: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
 let ___start0 = ___0.0.clone();
@@ -31327,12 +31331,12 @@ fn ___action718<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___0: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ___1: (usize, Tok<'input>, usize),
 ___2: (usize, Vec<Parameter>, usize),
 ___3: (usize, Vec<WhereClause<TypeRef>>, usize),
 ___4: (usize, Tok<'input>, usize),
-___5: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___5: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
 let ___start0 = ___0.0.clone();
@@ -31358,12 +31362,12 @@ fn ___action719<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<String>, usize),
+___0: (usize, alloc::vec::Vec<String>, usize),
 ___1: (usize, Tok<'input>, usize),
 ___2: (usize, Vec<Parameter>, usize),
 ___3: (usize, Vec<WhereClause<TypeRef>>, usize),
 ___4: (usize, Tok<'input>, usize),
-___5: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___5: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
 let ___start0 = ___0.2.clone();
@@ -31391,13 +31395,13 @@ fn ___action720<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<String>, usize),
-___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___0: (usize, alloc::vec::Vec<String>, usize),
+___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ___2: (usize, Tok<'input>, usize),
 ___3: (usize, Vec<Parameter>, usize),
 ___4: (usize, Vec<WhereClause<TypeRef>>, usize),
 ___5: (usize, Tok<'input>, usize),
-___6: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___6: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
 let ___start0 = ___1.0.clone();
@@ -31427,7 +31431,7 @@ text: &'input str,
 ___0: (usize, Tok<'input>, usize),
 ___1: (usize, Vec<Parameter>, usize),
 ___2: (usize, Tok<'input>, usize),
-___3: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___3: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
 let ___start0 = ___0.0.clone();
@@ -31453,11 +31457,11 @@ fn ___action722<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___0: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ___1: (usize, Tok<'input>, usize),
 ___2: (usize, Vec<Parameter>, usize),
 ___3: (usize, Tok<'input>, usize),
-___4: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___4: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
 let ___start0 = ___0.0.clone();
@@ -31482,11 +31486,11 @@ fn ___action723<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<String>, usize),
+___0: (usize, alloc::vec::Vec<String>, usize),
 ___1: (usize, Tok<'input>, usize),
 ___2: (usize, Vec<Parameter>, usize),
 ___3: (usize, Tok<'input>, usize),
-___4: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___4: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
 let ___start0 = ___0.2.clone();
@@ -31513,12 +31517,12 @@ fn ___action724<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<String>, usize),
-___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___0: (usize, alloc::vec::Vec<String>, usize),
+___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ___2: (usize, Tok<'input>, usize),
 ___3: (usize, Vec<Parameter>, usize),
 ___4: (usize, Tok<'input>, usize),
-___5: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___5: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
 let ___start0 = ___1.0.clone();
@@ -31548,7 +31552,7 @@ ___0: (usize, Tok<'input>, usize),
 ___1: (usize, Vec<TypeParameter>, usize),
 ___2: (usize, Vec<WhereClause<TypeRef>>, usize),
 ___3: (usize, Tok<'input>, usize),
-___4: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___4: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
 let ___start0 = ___0.0.clone();
@@ -31575,12 +31579,12 @@ fn ___action726<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___0: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ___1: (usize, Tok<'input>, usize),
 ___2: (usize, Vec<TypeParameter>, usize),
 ___3: (usize, Vec<WhereClause<TypeRef>>, usize),
 ___4: (usize, Tok<'input>, usize),
-___5: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___5: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
 let ___start0 = ___0.0.clone();
@@ -31606,12 +31610,12 @@ fn ___action727<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<String>, usize),
+___0: (usize, alloc::vec::Vec<String>, usize),
 ___1: (usize, Tok<'input>, usize),
 ___2: (usize, Vec<TypeParameter>, usize),
 ___3: (usize, Vec<WhereClause<TypeRef>>, usize),
 ___4: (usize, Tok<'input>, usize),
-___5: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___5: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
 let ___start0 = ___0.2.clone();
@@ -31639,13 +31643,13 @@ fn ___action728<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<String>, usize),
-___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___0: (usize, alloc::vec::Vec<String>, usize),
+___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ___2: (usize, Tok<'input>, usize),
 ___3: (usize, Vec<TypeParameter>, usize),
 ___4: (usize, Vec<WhereClause<TypeRef>>, usize),
 ___5: (usize, Tok<'input>, usize),
-___6: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___6: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
 let ___start0 = ___1.0.clone();
@@ -31675,7 +31679,7 @@ text: &'input str,
 ___0: (usize, Tok<'input>, usize),
 ___1: (usize, Vec<TypeParameter>, usize),
 ___2: (usize, Tok<'input>, usize),
-___3: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___3: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
 let ___start0 = ___0.0.clone();
@@ -31701,11 +31705,11 @@ fn ___action730<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___0: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ___1: (usize, Tok<'input>, usize),
 ___2: (usize, Vec<TypeParameter>, usize),
 ___3: (usize, Tok<'input>, usize),
-___4: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___4: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
 let ___start0 = ___0.0.clone();
@@ -31730,11 +31734,11 @@ fn ___action731<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<String>, usize),
+___0: (usize, alloc::vec::Vec<String>, usize),
 ___1: (usize, Tok<'input>, usize),
 ___2: (usize, Vec<TypeParameter>, usize),
 ___3: (usize, Tok<'input>, usize),
-___4: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___4: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
 let ___start0 = ___0.2.clone();
@@ -31761,12 +31765,12 @@ fn ___action732<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<String>, usize),
-___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___0: (usize, alloc::vec::Vec<String>, usize),
+___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ___2: (usize, Tok<'input>, usize),
 ___3: (usize, Vec<TypeParameter>, usize),
 ___4: (usize, Tok<'input>, usize),
-___5: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___5: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
 let ___start0 = ___1.0.clone();
@@ -31795,7 +31799,7 @@ text: &'input str,
 ___0: (usize, Tok<'input>, usize),
 ___1: (usize, Vec<WhereClause<TypeRef>>, usize),
 ___2: (usize, Tok<'input>, usize),
-___3: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___3: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
 let ___start0 = ___0.0.clone();
@@ -31821,11 +31825,11 @@ fn ___action734<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___0: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ___1: (usize, Tok<'input>, usize),
 ___2: (usize, Vec<WhereClause<TypeRef>>, usize),
 ___3: (usize, Tok<'input>, usize),
-___4: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___4: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
 let ___start0 = ___0.0.clone();
@@ -31850,11 +31854,11 @@ fn ___action735<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<String>, usize),
+___0: (usize, alloc::vec::Vec<String>, usize),
 ___1: (usize, Tok<'input>, usize),
 ___2: (usize, Vec<WhereClause<TypeRef>>, usize),
 ___3: (usize, Tok<'input>, usize),
-___4: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___4: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
 let ___start0 = ___0.2.clone();
@@ -31881,12 +31885,12 @@ fn ___action736<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<String>, usize),
-___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___0: (usize, alloc::vec::Vec<String>, usize),
+___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ___2: (usize, Tok<'input>, usize),
 ___3: (usize, Vec<WhereClause<TypeRef>>, usize),
 ___4: (usize, Tok<'input>, usize),
-___5: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___5: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
 let ___start0 = ___1.0.clone();
@@ -31914,7 +31918,7 @@ fn ___action737<
 text: &'input str,
 ___0: (usize, Tok<'input>, usize),
 ___1: (usize, Tok<'input>, usize),
-___2: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___2: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
 let ___start0 = ___0.0.clone();
@@ -31939,10 +31943,10 @@ fn ___action738<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___0: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ___1: (usize, Tok<'input>, usize),
 ___2: (usize, Tok<'input>, usize),
-___3: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___3: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
 let ___start0 = ___0.0.clone();
@@ -31966,10 +31970,10 @@ fn ___action739<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<String>, usize),
+___0: (usize, alloc::vec::Vec<String>, usize),
 ___1: (usize, Tok<'input>, usize),
 ___2: (usize, Tok<'input>, usize),
-___3: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___3: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
 let ___start0 = ___0.2.clone();
@@ -31995,11 +31999,11 @@ fn ___action740<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<String>, usize),
-___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___0: (usize, alloc::vec::Vec<String>, usize),
+___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ___2: (usize, Tok<'input>, usize),
 ___3: (usize, Tok<'input>, usize),
-___4: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___4: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
 let ___start0 = ___1.0.clone();
@@ -32024,7 +32028,7 @@ fn ___action741<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<Annotation>, usize),
+___0: (usize, alloc::vec::Vec<Annotation>, usize),
 ___1: (usize, Tok<'input>, usize),
 ___2: (usize, Vec<TypeParameter>, usize),
 ___3: (usize, Vec<Parameter>, usize),
@@ -32057,8 +32061,8 @@ fn ___action742<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<GrammarItem>, usize),
-___1: (usize, ::std::vec::Vec<Annotation>, usize),
+___0: (usize, alloc::vec::Vec<GrammarItem>, usize),
+___1: (usize, alloc::vec::Vec<Annotation>, usize),
 ___2: (usize, Tok<'input>, usize),
 ___3: (usize, Vec<TypeParameter>, usize),
 ___4: (usize, Vec<Parameter>, usize),
@@ -32090,8 +32094,8 @@ fn ___action743<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<String>, usize),
-___1: (usize, ::std::vec::Vec<Annotation>, usize),
+___0: (usize, alloc::vec::Vec<String>, usize),
+___1: (usize, alloc::vec::Vec<Annotation>, usize),
 ___2: (usize, Tok<'input>, usize),
 ___3: (usize, Vec<TypeParameter>, usize),
 ___4: (usize, Vec<Parameter>, usize),
@@ -32125,9 +32129,9 @@ fn ___action744<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<String>, usize),
-___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-___2: (usize, ::std::vec::Vec<Annotation>, usize),
+___0: (usize, alloc::vec::Vec<String>, usize),
+___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
+___2: (usize, alloc::vec::Vec<Annotation>, usize),
 ___3: (usize, Tok<'input>, usize),
 ___4: (usize, Vec<TypeParameter>, usize),
 ___5: (usize, Vec<Parameter>, usize),
@@ -32160,7 +32164,7 @@ fn ___action745<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<Annotation>, usize),
+___0: (usize, alloc::vec::Vec<Annotation>, usize),
 ___1: (usize, Tok<'input>, usize),
 ___2: (usize, Vec<TypeParameter>, usize),
 ___3: (usize, Vec<Parameter>, usize),
@@ -32191,8 +32195,8 @@ fn ___action746<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<GrammarItem>, usize),
-___1: (usize, ::std::vec::Vec<Annotation>, usize),
+___0: (usize, alloc::vec::Vec<GrammarItem>, usize),
+___1: (usize, alloc::vec::Vec<Annotation>, usize),
 ___2: (usize, Tok<'input>, usize),
 ___3: (usize, Vec<TypeParameter>, usize),
 ___4: (usize, Vec<Parameter>, usize),
@@ -32222,8 +32226,8 @@ fn ___action747<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<String>, usize),
-___1: (usize, ::std::vec::Vec<Annotation>, usize),
+___0: (usize, alloc::vec::Vec<String>, usize),
+___1: (usize, alloc::vec::Vec<Annotation>, usize),
 ___2: (usize, Tok<'input>, usize),
 ___3: (usize, Vec<TypeParameter>, usize),
 ___4: (usize, Vec<Parameter>, usize),
@@ -32255,9 +32259,9 @@ fn ___action748<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<String>, usize),
-___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-___2: (usize, ::std::vec::Vec<Annotation>, usize),
+___0: (usize, alloc::vec::Vec<String>, usize),
+___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
+___2: (usize, alloc::vec::Vec<Annotation>, usize),
 ___3: (usize, Tok<'input>, usize),
 ___4: (usize, Vec<TypeParameter>, usize),
 ___5: (usize, Vec<Parameter>, usize),
@@ -32288,7 +32292,7 @@ fn ___action749<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<Annotation>, usize),
+___0: (usize, alloc::vec::Vec<Annotation>, usize),
 ___1: (usize, Tok<'input>, usize),
 ___2: (usize, Vec<Parameter>, usize),
 ___3: (usize, Vec<WhereClause<TypeRef>>, usize),
@@ -32319,8 +32323,8 @@ fn ___action750<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<GrammarItem>, usize),
-___1: (usize, ::std::vec::Vec<Annotation>, usize),
+___0: (usize, alloc::vec::Vec<GrammarItem>, usize),
+___1: (usize, alloc::vec::Vec<Annotation>, usize),
 ___2: (usize, Tok<'input>, usize),
 ___3: (usize, Vec<Parameter>, usize),
 ___4: (usize, Vec<WhereClause<TypeRef>>, usize),
@@ -32350,8 +32354,8 @@ fn ___action751<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<String>, usize),
-___1: (usize, ::std::vec::Vec<Annotation>, usize),
+___0: (usize, alloc::vec::Vec<String>, usize),
+___1: (usize, alloc::vec::Vec<Annotation>, usize),
 ___2: (usize, Tok<'input>, usize),
 ___3: (usize, Vec<Parameter>, usize),
 ___4: (usize, Vec<WhereClause<TypeRef>>, usize),
@@ -32383,9 +32387,9 @@ fn ___action752<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<String>, usize),
-___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-___2: (usize, ::std::vec::Vec<Annotation>, usize),
+___0: (usize, alloc::vec::Vec<String>, usize),
+___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
+___2: (usize, alloc::vec::Vec<Annotation>, usize),
 ___3: (usize, Tok<'input>, usize),
 ___4: (usize, Vec<Parameter>, usize),
 ___5: (usize, Vec<WhereClause<TypeRef>>, usize),
@@ -32416,7 +32420,7 @@ fn ___action753<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<Annotation>, usize),
+___0: (usize, alloc::vec::Vec<Annotation>, usize),
 ___1: (usize, Tok<'input>, usize),
 ___2: (usize, Vec<Parameter>, usize),
 ___3: (usize, Tok<'input>, usize),
@@ -32445,8 +32449,8 @@ fn ___action754<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<GrammarItem>, usize),
-___1: (usize, ::std::vec::Vec<Annotation>, usize),
+___0: (usize, alloc::vec::Vec<GrammarItem>, usize),
+___1: (usize, alloc::vec::Vec<Annotation>, usize),
 ___2: (usize, Tok<'input>, usize),
 ___3: (usize, Vec<Parameter>, usize),
 ___4: (usize, Tok<'input>, usize),
@@ -32474,8 +32478,8 @@ fn ___action755<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<String>, usize),
-___1: (usize, ::std::vec::Vec<Annotation>, usize),
+___0: (usize, alloc::vec::Vec<String>, usize),
+___1: (usize, alloc::vec::Vec<Annotation>, usize),
 ___2: (usize, Tok<'input>, usize),
 ___3: (usize, Vec<Parameter>, usize),
 ___4: (usize, Tok<'input>, usize),
@@ -32505,9 +32509,9 @@ fn ___action756<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<String>, usize),
-___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-___2: (usize, ::std::vec::Vec<Annotation>, usize),
+___0: (usize, alloc::vec::Vec<String>, usize),
+___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
+___2: (usize, alloc::vec::Vec<Annotation>, usize),
 ___3: (usize, Tok<'input>, usize),
 ___4: (usize, Vec<Parameter>, usize),
 ___5: (usize, Tok<'input>, usize),
@@ -32536,7 +32540,7 @@ fn ___action757<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<Annotation>, usize),
+___0: (usize, alloc::vec::Vec<Annotation>, usize),
 ___1: (usize, Tok<'input>, usize),
 ___2: (usize, Vec<TypeParameter>, usize),
 ___3: (usize, Vec<WhereClause<TypeRef>>, usize),
@@ -32567,8 +32571,8 @@ fn ___action758<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<GrammarItem>, usize),
-___1: (usize, ::std::vec::Vec<Annotation>, usize),
+___0: (usize, alloc::vec::Vec<GrammarItem>, usize),
+___1: (usize, alloc::vec::Vec<Annotation>, usize),
 ___2: (usize, Tok<'input>, usize),
 ___3: (usize, Vec<TypeParameter>, usize),
 ___4: (usize, Vec<WhereClause<TypeRef>>, usize),
@@ -32598,8 +32602,8 @@ fn ___action759<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<String>, usize),
-___1: (usize, ::std::vec::Vec<Annotation>, usize),
+___0: (usize, alloc::vec::Vec<String>, usize),
+___1: (usize, alloc::vec::Vec<Annotation>, usize),
 ___2: (usize, Tok<'input>, usize),
 ___3: (usize, Vec<TypeParameter>, usize),
 ___4: (usize, Vec<WhereClause<TypeRef>>, usize),
@@ -32631,9 +32635,9 @@ fn ___action760<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<String>, usize),
-___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-___2: (usize, ::std::vec::Vec<Annotation>, usize),
+___0: (usize, alloc::vec::Vec<String>, usize),
+___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
+___2: (usize, alloc::vec::Vec<Annotation>, usize),
 ___3: (usize, Tok<'input>, usize),
 ___4: (usize, Vec<TypeParameter>, usize),
 ___5: (usize, Vec<WhereClause<TypeRef>>, usize),
@@ -32664,7 +32668,7 @@ fn ___action761<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<Annotation>, usize),
+___0: (usize, alloc::vec::Vec<Annotation>, usize),
 ___1: (usize, Tok<'input>, usize),
 ___2: (usize, Vec<TypeParameter>, usize),
 ___3: (usize, Tok<'input>, usize),
@@ -32693,8 +32697,8 @@ fn ___action762<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<GrammarItem>, usize),
-___1: (usize, ::std::vec::Vec<Annotation>, usize),
+___0: (usize, alloc::vec::Vec<GrammarItem>, usize),
+___1: (usize, alloc::vec::Vec<Annotation>, usize),
 ___2: (usize, Tok<'input>, usize),
 ___3: (usize, Vec<TypeParameter>, usize),
 ___4: (usize, Tok<'input>, usize),
@@ -32722,8 +32726,8 @@ fn ___action763<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<String>, usize),
-___1: (usize, ::std::vec::Vec<Annotation>, usize),
+___0: (usize, alloc::vec::Vec<String>, usize),
+___1: (usize, alloc::vec::Vec<Annotation>, usize),
 ___2: (usize, Tok<'input>, usize),
 ___3: (usize, Vec<TypeParameter>, usize),
 ___4: (usize, Tok<'input>, usize),
@@ -32753,9 +32757,9 @@ fn ___action764<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<String>, usize),
-___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-___2: (usize, ::std::vec::Vec<Annotation>, usize),
+___0: (usize, alloc::vec::Vec<String>, usize),
+___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
+___2: (usize, alloc::vec::Vec<Annotation>, usize),
 ___3: (usize, Tok<'input>, usize),
 ___4: (usize, Vec<TypeParameter>, usize),
 ___5: (usize, Tok<'input>, usize),
@@ -32784,7 +32788,7 @@ fn ___action765<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<Annotation>, usize),
+___0: (usize, alloc::vec::Vec<Annotation>, usize),
 ___1: (usize, Tok<'input>, usize),
 ___2: (usize, Vec<WhereClause<TypeRef>>, usize),
 ___3: (usize, Tok<'input>, usize),
@@ -32813,8 +32817,8 @@ fn ___action766<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<GrammarItem>, usize),
-___1: (usize, ::std::vec::Vec<Annotation>, usize),
+___0: (usize, alloc::vec::Vec<GrammarItem>, usize),
+___1: (usize, alloc::vec::Vec<Annotation>, usize),
 ___2: (usize, Tok<'input>, usize),
 ___3: (usize, Vec<WhereClause<TypeRef>>, usize),
 ___4: (usize, Tok<'input>, usize),
@@ -32842,8 +32846,8 @@ fn ___action767<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<String>, usize),
-___1: (usize, ::std::vec::Vec<Annotation>, usize),
+___0: (usize, alloc::vec::Vec<String>, usize),
+___1: (usize, alloc::vec::Vec<Annotation>, usize),
 ___2: (usize, Tok<'input>, usize),
 ___3: (usize, Vec<WhereClause<TypeRef>>, usize),
 ___4: (usize, Tok<'input>, usize),
@@ -32873,9 +32877,9 @@ fn ___action768<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<String>, usize),
-___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-___2: (usize, ::std::vec::Vec<Annotation>, usize),
+___0: (usize, alloc::vec::Vec<String>, usize),
+___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
+___2: (usize, alloc::vec::Vec<Annotation>, usize),
 ___3: (usize, Tok<'input>, usize),
 ___4: (usize, Vec<WhereClause<TypeRef>>, usize),
 ___5: (usize, Tok<'input>, usize),
@@ -32904,7 +32908,7 @@ fn ___action769<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<Annotation>, usize),
+___0: (usize, alloc::vec::Vec<Annotation>, usize),
 ___1: (usize, Tok<'input>, usize),
 ___2: (usize, Tok<'input>, usize),
 ) -> Grammar
@@ -32931,8 +32935,8 @@ fn ___action770<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<GrammarItem>, usize),
-___1: (usize, ::std::vec::Vec<Annotation>, usize),
+___0: (usize, alloc::vec::Vec<GrammarItem>, usize),
+___1: (usize, alloc::vec::Vec<Annotation>, usize),
 ___2: (usize, Tok<'input>, usize),
 ___3: (usize, Tok<'input>, usize),
 ) -> Grammar
@@ -32958,8 +32962,8 @@ fn ___action771<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<String>, usize),
-___1: (usize, ::std::vec::Vec<Annotation>, usize),
+___0: (usize, alloc::vec::Vec<String>, usize),
+___1: (usize, alloc::vec::Vec<Annotation>, usize),
 ___2: (usize, Tok<'input>, usize),
 ___3: (usize, Tok<'input>, usize),
 ) -> Grammar
@@ -32987,9 +32991,9 @@ fn ___action772<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<String>, usize),
-___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-___2: (usize, ::std::vec::Vec<Annotation>, usize),
+___0: (usize, alloc::vec::Vec<String>, usize),
+___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
+___2: (usize, alloc::vec::Vec<Annotation>, usize),
 ___3: (usize, Tok<'input>, usize),
 ___4: (usize, Tok<'input>, usize),
 ) -> Grammar
@@ -33016,13 +33020,13 @@ fn ___action773<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<Annotation>, usize),
+___0: (usize, alloc::vec::Vec<Annotation>, usize),
 ___1: (usize, Tok<'input>, usize),
 ___2: (usize, Vec<TypeParameter>, usize),
 ___3: (usize, Vec<Parameter>, usize),
 ___4: (usize, Vec<WhereClause<TypeRef>>, usize),
 ___5: (usize, Tok<'input>, usize),
-___6: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___6: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
 let ___start0 = ___0.0.clone();
@@ -33051,14 +33055,14 @@ fn ___action774<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<GrammarItem>, usize),
-___1: (usize, ::std::vec::Vec<Annotation>, usize),
+___0: (usize, alloc::vec::Vec<GrammarItem>, usize),
+___1: (usize, alloc::vec::Vec<Annotation>, usize),
 ___2: (usize, Tok<'input>, usize),
 ___3: (usize, Vec<TypeParameter>, usize),
 ___4: (usize, Vec<Parameter>, usize),
 ___5: (usize, Vec<WhereClause<TypeRef>>, usize),
 ___6: (usize, Tok<'input>, usize),
-___7: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___7: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
 let ___start0 = ___0.0.clone();
@@ -33086,14 +33090,14 @@ fn ___action775<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<String>, usize),
-___1: (usize, ::std::vec::Vec<Annotation>, usize),
+___0: (usize, alloc::vec::Vec<String>, usize),
+___1: (usize, alloc::vec::Vec<Annotation>, usize),
 ___2: (usize, Tok<'input>, usize),
 ___3: (usize, Vec<TypeParameter>, usize),
 ___4: (usize, Vec<Parameter>, usize),
 ___5: (usize, Vec<WhereClause<TypeRef>>, usize),
 ___6: (usize, Tok<'input>, usize),
-___7: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___7: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
 let ___start0 = ___0.2.clone();
@@ -33123,15 +33127,15 @@ fn ___action776<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<String>, usize),
-___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-___2: (usize, ::std::vec::Vec<Annotation>, usize),
+___0: (usize, alloc::vec::Vec<String>, usize),
+___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
+___2: (usize, alloc::vec::Vec<Annotation>, usize),
 ___3: (usize, Tok<'input>, usize),
 ___4: (usize, Vec<TypeParameter>, usize),
 ___5: (usize, Vec<Parameter>, usize),
 ___6: (usize, Vec<WhereClause<TypeRef>>, usize),
 ___7: (usize, Tok<'input>, usize),
-___8: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___8: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
 let ___start0 = ___1.0.clone();
@@ -33160,12 +33164,12 @@ fn ___action777<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<Annotation>, usize),
+___0: (usize, alloc::vec::Vec<Annotation>, usize),
 ___1: (usize, Tok<'input>, usize),
 ___2: (usize, Vec<TypeParameter>, usize),
 ___3: (usize, Vec<Parameter>, usize),
 ___4: (usize, Tok<'input>, usize),
-___5: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___5: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
 let ___start0 = ___0.0.clone();
@@ -33193,13 +33197,13 @@ fn ___action778<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<GrammarItem>, usize),
-___1: (usize, ::std::vec::Vec<Annotation>, usize),
+___0: (usize, alloc::vec::Vec<GrammarItem>, usize),
+___1: (usize, alloc::vec::Vec<Annotation>, usize),
 ___2: (usize, Tok<'input>, usize),
 ___3: (usize, Vec<TypeParameter>, usize),
 ___4: (usize, Vec<Parameter>, usize),
 ___5: (usize, Tok<'input>, usize),
-___6: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___6: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
 let ___start0 = ___0.0.clone();
@@ -33226,13 +33230,13 @@ fn ___action779<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<String>, usize),
-___1: (usize, ::std::vec::Vec<Annotation>, usize),
+___0: (usize, alloc::vec::Vec<String>, usize),
+___1: (usize, alloc::vec::Vec<Annotation>, usize),
 ___2: (usize, Tok<'input>, usize),
 ___3: (usize, Vec<TypeParameter>, usize),
 ___4: (usize, Vec<Parameter>, usize),
 ___5: (usize, Tok<'input>, usize),
-___6: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___6: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
 let ___start0 = ___0.2.clone();
@@ -33261,14 +33265,14 @@ fn ___action780<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<String>, usize),
-___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-___2: (usize, ::std::vec::Vec<Annotation>, usize),
+___0: (usize, alloc::vec::Vec<String>, usize),
+___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
+___2: (usize, alloc::vec::Vec<Annotation>, usize),
 ___3: (usize, Tok<'input>, usize),
 ___4: (usize, Vec<TypeParameter>, usize),
 ___5: (usize, Vec<Parameter>, usize),
 ___6: (usize, Tok<'input>, usize),
-___7: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___7: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
 let ___start0 = ___1.0.clone();
@@ -33296,12 +33300,12 @@ fn ___action781<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<Annotation>, usize),
+___0: (usize, alloc::vec::Vec<Annotation>, usize),
 ___1: (usize, Tok<'input>, usize),
 ___2: (usize, Vec<Parameter>, usize),
 ___3: (usize, Vec<WhereClause<TypeRef>>, usize),
 ___4: (usize, Tok<'input>, usize),
-___5: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___5: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
 let ___start0 = ___0.0.clone();
@@ -33329,13 +33333,13 @@ fn ___action782<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<GrammarItem>, usize),
-___1: (usize, ::std::vec::Vec<Annotation>, usize),
+___0: (usize, alloc::vec::Vec<GrammarItem>, usize),
+___1: (usize, alloc::vec::Vec<Annotation>, usize),
 ___2: (usize, Tok<'input>, usize),
 ___3: (usize, Vec<Parameter>, usize),
 ___4: (usize, Vec<WhereClause<TypeRef>>, usize),
 ___5: (usize, Tok<'input>, usize),
-___6: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___6: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
 let ___start0 = ___0.0.clone();
@@ -33362,13 +33366,13 @@ fn ___action783<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<String>, usize),
-___1: (usize, ::std::vec::Vec<Annotation>, usize),
+___0: (usize, alloc::vec::Vec<String>, usize),
+___1: (usize, alloc::vec::Vec<Annotation>, usize),
 ___2: (usize, Tok<'input>, usize),
 ___3: (usize, Vec<Parameter>, usize),
 ___4: (usize, Vec<WhereClause<TypeRef>>, usize),
 ___5: (usize, Tok<'input>, usize),
-___6: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___6: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
 let ___start0 = ___0.2.clone();
@@ -33397,14 +33401,14 @@ fn ___action784<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<String>, usize),
-___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-___2: (usize, ::std::vec::Vec<Annotation>, usize),
+___0: (usize, alloc::vec::Vec<String>, usize),
+___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
+___2: (usize, alloc::vec::Vec<Annotation>, usize),
 ___3: (usize, Tok<'input>, usize),
 ___4: (usize, Vec<Parameter>, usize),
 ___5: (usize, Vec<WhereClause<TypeRef>>, usize),
 ___6: (usize, Tok<'input>, usize),
-___7: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___7: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
 let ___start0 = ___1.0.clone();
@@ -33432,11 +33436,11 @@ fn ___action785<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<Annotation>, usize),
+___0: (usize, alloc::vec::Vec<Annotation>, usize),
 ___1: (usize, Tok<'input>, usize),
 ___2: (usize, Vec<Parameter>, usize),
 ___3: (usize, Tok<'input>, usize),
-___4: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___4: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
 let ___start0 = ___0.0.clone();
@@ -33463,12 +33467,12 @@ fn ___action786<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<GrammarItem>, usize),
-___1: (usize, ::std::vec::Vec<Annotation>, usize),
+___0: (usize, alloc::vec::Vec<GrammarItem>, usize),
+___1: (usize, alloc::vec::Vec<Annotation>, usize),
 ___2: (usize, Tok<'input>, usize),
 ___3: (usize, Vec<Parameter>, usize),
 ___4: (usize, Tok<'input>, usize),
-___5: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___5: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
 let ___start0 = ___0.0.clone();
@@ -33494,12 +33498,12 @@ fn ___action787<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<String>, usize),
-___1: (usize, ::std::vec::Vec<Annotation>, usize),
+___0: (usize, alloc::vec::Vec<String>, usize),
+___1: (usize, alloc::vec::Vec<Annotation>, usize),
 ___2: (usize, Tok<'input>, usize),
 ___3: (usize, Vec<Parameter>, usize),
 ___4: (usize, Tok<'input>, usize),
-___5: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___5: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
 let ___start0 = ___0.2.clone();
@@ -33527,13 +33531,13 @@ fn ___action788<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<String>, usize),
-___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-___2: (usize, ::std::vec::Vec<Annotation>, usize),
+___0: (usize, alloc::vec::Vec<String>, usize),
+___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
+___2: (usize, alloc::vec::Vec<Annotation>, usize),
 ___3: (usize, Tok<'input>, usize),
 ___4: (usize, Vec<Parameter>, usize),
 ___5: (usize, Tok<'input>, usize),
-___6: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___6: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
 let ___start0 = ___1.0.clone();
@@ -33560,12 +33564,12 @@ fn ___action789<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<Annotation>, usize),
+___0: (usize, alloc::vec::Vec<Annotation>, usize),
 ___1: (usize, Tok<'input>, usize),
 ___2: (usize, Vec<TypeParameter>, usize),
 ___3: (usize, Vec<WhereClause<TypeRef>>, usize),
 ___4: (usize, Tok<'input>, usize),
-___5: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___5: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
 let ___start0 = ___0.0.clone();
@@ -33593,13 +33597,13 @@ fn ___action790<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<GrammarItem>, usize),
-___1: (usize, ::std::vec::Vec<Annotation>, usize),
+___0: (usize, alloc::vec::Vec<GrammarItem>, usize),
+___1: (usize, alloc::vec::Vec<Annotation>, usize),
 ___2: (usize, Tok<'input>, usize),
 ___3: (usize, Vec<TypeParameter>, usize),
 ___4: (usize, Vec<WhereClause<TypeRef>>, usize),
 ___5: (usize, Tok<'input>, usize),
-___6: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___6: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
 let ___start0 = ___0.0.clone();
@@ -33626,13 +33630,13 @@ fn ___action791<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<String>, usize),
-___1: (usize, ::std::vec::Vec<Annotation>, usize),
+___0: (usize, alloc::vec::Vec<String>, usize),
+___1: (usize, alloc::vec::Vec<Annotation>, usize),
 ___2: (usize, Tok<'input>, usize),
 ___3: (usize, Vec<TypeParameter>, usize),
 ___4: (usize, Vec<WhereClause<TypeRef>>, usize),
 ___5: (usize, Tok<'input>, usize),
-___6: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___6: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
 let ___start0 = ___0.2.clone();
@@ -33661,14 +33665,14 @@ fn ___action792<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<String>, usize),
-___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-___2: (usize, ::std::vec::Vec<Annotation>, usize),
+___0: (usize, alloc::vec::Vec<String>, usize),
+___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
+___2: (usize, alloc::vec::Vec<Annotation>, usize),
 ___3: (usize, Tok<'input>, usize),
 ___4: (usize, Vec<TypeParameter>, usize),
 ___5: (usize, Vec<WhereClause<TypeRef>>, usize),
 ___6: (usize, Tok<'input>, usize),
-___7: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___7: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
 let ___start0 = ___1.0.clone();
@@ -33696,11 +33700,11 @@ fn ___action793<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<Annotation>, usize),
+___0: (usize, alloc::vec::Vec<Annotation>, usize),
 ___1: (usize, Tok<'input>, usize),
 ___2: (usize, Vec<TypeParameter>, usize),
 ___3: (usize, Tok<'input>, usize),
-___4: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___4: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
 let ___start0 = ___0.0.clone();
@@ -33727,12 +33731,12 @@ fn ___action794<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<GrammarItem>, usize),
-___1: (usize, ::std::vec::Vec<Annotation>, usize),
+___0: (usize, alloc::vec::Vec<GrammarItem>, usize),
+___1: (usize, alloc::vec::Vec<Annotation>, usize),
 ___2: (usize, Tok<'input>, usize),
 ___3: (usize, Vec<TypeParameter>, usize),
 ___4: (usize, Tok<'input>, usize),
-___5: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___5: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
 let ___start0 = ___0.0.clone();
@@ -33758,12 +33762,12 @@ fn ___action795<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<String>, usize),
-___1: (usize, ::std::vec::Vec<Annotation>, usize),
+___0: (usize, alloc::vec::Vec<String>, usize),
+___1: (usize, alloc::vec::Vec<Annotation>, usize),
 ___2: (usize, Tok<'input>, usize),
 ___3: (usize, Vec<TypeParameter>, usize),
 ___4: (usize, Tok<'input>, usize),
-___5: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___5: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
 let ___start0 = ___0.2.clone();
@@ -33791,13 +33795,13 @@ fn ___action796<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<String>, usize),
-___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-___2: (usize, ::std::vec::Vec<Annotation>, usize),
+___0: (usize, alloc::vec::Vec<String>, usize),
+___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
+___2: (usize, alloc::vec::Vec<Annotation>, usize),
 ___3: (usize, Tok<'input>, usize),
 ___4: (usize, Vec<TypeParameter>, usize),
 ___5: (usize, Tok<'input>, usize),
-___6: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___6: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
 let ___start0 = ___1.0.clone();
@@ -33824,11 +33828,11 @@ fn ___action797<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<Annotation>, usize),
+___0: (usize, alloc::vec::Vec<Annotation>, usize),
 ___1: (usize, Tok<'input>, usize),
 ___2: (usize, Vec<WhereClause<TypeRef>>, usize),
 ___3: (usize, Tok<'input>, usize),
-___4: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___4: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
 let ___start0 = ___0.0.clone();
@@ -33855,12 +33859,12 @@ fn ___action798<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<GrammarItem>, usize),
-___1: (usize, ::std::vec::Vec<Annotation>, usize),
+___0: (usize, alloc::vec::Vec<GrammarItem>, usize),
+___1: (usize, alloc::vec::Vec<Annotation>, usize),
 ___2: (usize, Tok<'input>, usize),
 ___3: (usize, Vec<WhereClause<TypeRef>>, usize),
 ___4: (usize, Tok<'input>, usize),
-___5: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___5: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
 let ___start0 = ___0.0.clone();
@@ -33886,12 +33890,12 @@ fn ___action799<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<String>, usize),
-___1: (usize, ::std::vec::Vec<Annotation>, usize),
+___0: (usize, alloc::vec::Vec<String>, usize),
+___1: (usize, alloc::vec::Vec<Annotation>, usize),
 ___2: (usize, Tok<'input>, usize),
 ___3: (usize, Vec<WhereClause<TypeRef>>, usize),
 ___4: (usize, Tok<'input>, usize),
-___5: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___5: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
 let ___start0 = ___0.2.clone();
@@ -33919,13 +33923,13 @@ fn ___action800<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<String>, usize),
-___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-___2: (usize, ::std::vec::Vec<Annotation>, usize),
+___0: (usize, alloc::vec::Vec<String>, usize),
+___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
+___2: (usize, alloc::vec::Vec<Annotation>, usize),
 ___3: (usize, Tok<'input>, usize),
 ___4: (usize, Vec<WhereClause<TypeRef>>, usize),
 ___5: (usize, Tok<'input>, usize),
-___6: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___6: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
 let ___start0 = ___1.0.clone();
@@ -33952,10 +33956,10 @@ fn ___action801<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<Annotation>, usize),
+___0: (usize, alloc::vec::Vec<Annotation>, usize),
 ___1: (usize, Tok<'input>, usize),
 ___2: (usize, Tok<'input>, usize),
-___3: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___3: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
 let ___start0 = ___0.0.clone();
@@ -33981,11 +33985,11 @@ fn ___action802<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<GrammarItem>, usize),
-___1: (usize, ::std::vec::Vec<Annotation>, usize),
+___0: (usize, alloc::vec::Vec<GrammarItem>, usize),
+___1: (usize, alloc::vec::Vec<Annotation>, usize),
 ___2: (usize, Tok<'input>, usize),
 ___3: (usize, Tok<'input>, usize),
-___4: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___4: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
 let ___start0 = ___0.0.clone();
@@ -34010,11 +34014,11 @@ fn ___action803<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<String>, usize),
-___1: (usize, ::std::vec::Vec<Annotation>, usize),
+___0: (usize, alloc::vec::Vec<String>, usize),
+___1: (usize, alloc::vec::Vec<Annotation>, usize),
 ___2: (usize, Tok<'input>, usize),
 ___3: (usize, Tok<'input>, usize),
-___4: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___4: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
 let ___start0 = ___0.2.clone();
@@ -34041,12 +34045,12 @@ fn ___action804<
     'input,
 >(
 text: &'input str,
-___0: (usize, ::std::vec::Vec<String>, usize),
-___1: (usize, ::std::vec::Vec<GrammarItem>, usize),
-___2: (usize, ::std::vec::Vec<Annotation>, usize),
+___0: (usize, alloc::vec::Vec<String>, usize),
+___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
+___2: (usize, alloc::vec::Vec<Annotation>, usize),
 ___3: (usize, Tok<'input>, usize),
 ___4: (usize, Tok<'input>, usize),
-___5: (usize, ::std::vec::Vec<GrammarItem>, usize),
+___5: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
 let ___start0 = ___1.0.clone();
