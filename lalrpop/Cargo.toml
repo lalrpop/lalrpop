@@ -18,7 +18,7 @@ doctest = false
 [dependencies]
 ascii-canvas = { version = "2.0", default_features = false }
 atty = { version = "0.2", default_features = false }
-bit-set = { version = "0.5", default_features = false }
+bit-set = { version = "0.5.2", default_features = false }
 diff = { version = "0.1.12", default_features = false }
 ena = { version = "0.14", default_features = false }
 itertools = { version = "0.9", default_features = false, features = ["use_std"] }
