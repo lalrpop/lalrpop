@@ -443,7 +443,7 @@ fn emit_recursive_ascent(
         intern_token::compile(&grammar, intern_token, &mut rust)?;
         rust!(
             rust,
-            "pub use self::{}lalrpop_util::lexer::Token;",
+            "pub(crate) use self::{}lalrpop_util::lexer::Token;",
             grammar.prefix
         );
     }

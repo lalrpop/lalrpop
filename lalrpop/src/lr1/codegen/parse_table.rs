@@ -173,7 +173,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
 
         rust!(
             self.out,
-            "pub struct {p}StateMachine<{mtp}>",
+            "pub(crate) struct {p}StateMachine<{mtp}>",
             p = self.prefix,
             mtp = machine_type_parameters,
         );
@@ -404,7 +404,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
         rust!(self.out, "#[allow(dead_code)]");
         rust!(
             self.out,
-            "pub enum {}Symbol<{}>",
+            "pub(crate) enum {}Symbol<{}>",
             self.prefix,
             Sep(", ", &self.custom.symbol_type_params),
         );
