@@ -300,7 +300,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
         rust!(self.out, "");
         rust!(
             self.out,
-            "fn expected_tokens(&self, state: {state_type}) -> Vec<String> {{",
+            "fn expected_tokens(&self, state: {state_type}) -> alloc::vec::Vec<alloc::string::String> {{",
             state_type = state_type,
         );
         rust!(self.out, "{p}expected_tokens(state)", p = self.prefix);
@@ -346,12 +346,12 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
         rust!(self.out, "start_location: Option<&Self::Location>,");
         rust!(
             self.out,
-            "states: &mut Vec<{state_type}>,",
+            "states: &mut alloc::vec::Vec<{state_type}>,",
             state_type = state_type
         );
         rust!(
             self.out,
-            "symbols: &mut Vec<{p}state_machine::SymbolTriple<Self>>,",
+            "symbols: &mut alloc::vec::Vec<{p}state_machine::SymbolTriple<Self>>,",
             p = self.prefix,
         );
         rust!(
@@ -1553,7 +1553,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
         rust!(self.out, "if next_state == 0 {{");
         rust!(self.out, "None");
         rust!(self.out, "}} else {{");
-        rust!(self.out, "Some(terminal.to_string())");
+        rust!(self.out, "Some(alloc::string::ToString::to_string(terminal))");
         rust!(self.out, "}}");
         rust!(self.out, "}}).collect()");
         rust!(self.out, "}}");
