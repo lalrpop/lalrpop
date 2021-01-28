@@ -471,7 +471,7 @@ impl MacroExpander {
                             span,
                             expr: ExprSymbol { symbols: vec![] },
                             condition: None,
-                            action: action("vec![]"),
+                            action: action("alloc::vec![]"),
                             annotations: vec![],
                         },
                         // X* = <v:X+>
@@ -519,7 +519,7 @@ impl MacroExpander {
                                 symbols: vec![repeat.symbol.clone()],
                             },
                             condition: None,
-                            action: action("vec![<>]"),
+                            action: action("alloc::vec![<>]"),
                             annotations: vec![],
                         },
                         // X+ = <v:X+> <e:X>
