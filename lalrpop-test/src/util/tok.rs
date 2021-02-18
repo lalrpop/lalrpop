@@ -46,7 +46,7 @@ pub fn tokenize<'input>(s: &'input str) -> Vec<(usize, Tok<'input>, usize)> {
                 '}' => tokens.push(Tok::Close(Delim::Brace)),
                 ']' => tokens.push(Tok::Close(Delim::Bracket)),
                 '"' => {
-                    let (ci, c) = char_indices.next().expect("Unclosed '\"'"); // consume opening '"'
+                    let (ci, _) = char_indices.next().expect("Unclosed '\"'"); // consume opening '"'
                     let (slice_end, _) = take_while(ci, &mut char_indices, |c| c != '"');
                     lookahead = char_indices.next(); // consume closing '"'
                     tokens.push(Tok::String(&s[ci..slice_end]));
