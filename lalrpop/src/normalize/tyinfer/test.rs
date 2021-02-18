@@ -113,7 +113,7 @@ grammar;
     X = Y?;
     Y = "Hi";
 "#,
-        vec![("X", "::std::option::Option<Tok>"), ("Y", "Tok")],
+        vec![("X", "core::option::Option<Tok>"), ("Y", "Tok")],
     )
 }
 
@@ -129,10 +129,10 @@ grammar;
     Z = "Hi"?;
 "#,
         vec![
-            ("A", "::std::vec::Vec<::std::option::Option<Tok>>"),
-            ("X", "::std::vec::Vec<Tok>"),
-            ("Y", "::std::vec::Vec<Tok>"),
-            ("Z", "::std::option::Option<Tok>"),
+            ("A", "alloc::vec::Vec<core::option::Option<Tok>>"),
+            ("X", "alloc::vec::Vec<Tok>"),
+            ("Y", "alloc::vec::Vec<Tok>"),
+            ("Z", "core::option::Option<Tok>"),
         ],
     )
 }
