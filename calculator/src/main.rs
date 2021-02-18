@@ -63,7 +63,7 @@ fn calculator3() {
 }
 
 lalrpop_mod!(pub calculator4);
-pub mod ast;
+mod ast;
 
 #[test]
 fn calculator4() {
@@ -167,7 +167,7 @@ fn calculator8() {
 }
 
 lalrpop_mod!(pub calculator9);
-mod tok9;
+pub mod tok9;
 
 #[test]
 fn calculator9() {
