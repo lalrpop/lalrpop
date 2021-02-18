@@ -889,19 +889,19 @@ fn test_match_section() {
 
 #[test]
 fn test_match_section_byte() {
-    assert!(match_section::QueryParser::new()
+    assert!(match_section_byte::QueryParser::new()
         .parse("SELECT foo")
         .is_ok());
-    assert!(match_section::QueryParser::new()
+    assert!(match_section_byte::QueryParser::new()
         .parse("select foo")
         .is_ok());
-    assert!(match_section::QueryParser::new()
+    assert!(match_section_byte::QueryParser::new()
         .parse("INSERT foo")
         .is_ok());
-    assert!(match_section::QueryParser::new()
+    assert!(match_section_byte::QueryParser::new()
         .parse("UPDATE foo")
         .is_ok());
-    assert!(match_section::QueryParser::new()
+    assert!(match_section_byte::QueryParser::new()
         .parse("UPDATE update")
         .is_err());
 }
