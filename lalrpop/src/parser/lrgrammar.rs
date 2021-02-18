@@ -35,7 +35,7 @@ extern crate core;
 extern crate alloc;
 use super::___ToTriple;
 #[allow(dead_code)]
-pub enum ___Symbol<'input>
+pub(crate) enum ___Symbol<'input>
  {
 Variant0(Tok<'input>),
 Variant1(&'input str),
@@ -3040,11 +3040,11 @@ let next_state = ___action(___state, index);
 if next_state == 0 {
 None
 } else {
-Some(terminal.to_string())
+Some(alloc::string::ToString::to_string(terminal))
 }
 }).collect()
 }
-pub struct ___StateMachine<'input>
+pub(crate) struct ___StateMachine<'input>
 where 
 {
 text: &'input str,
@@ -3103,7 +3103,7 @@ fn token_to_symbol(&self, token_index: usize, token: Self::Token) -> Self::Symbo
 ___token_to_symbol(token_index, token, core::marker::PhantomData::<(&())>)
 }
 
-fn expected_tokens(&self, state: i16) -> Vec<String> {
+fn expected_tokens(&self, state: i16) -> alloc::vec::Vec<alloc::string::String> {
 ___expected_tokens(state)
 }
 
@@ -3124,8 +3124,8 @@ fn reduce(
 &mut self,
 action: i16,
 start_location: Option<&Self::Location>,
-states: &mut Vec<i16>,
-symbols: &mut Vec<___state_machine::SymbolTriple<Self>>,
+states: &mut alloc::vec::Vec<i16>,
+symbols: &mut alloc::vec::Vec<___state_machine::SymbolTriple<Self>>,
 ) -> Option<___state_machine::ParseResult<Self>> {
 ___reduce(
 self.text,
@@ -17328,7 +17328,7 @@ ___lookbehind: &usize,
 ___lookahead: &usize,
 ) -> alloc::vec::Vec<FieldPattern<TypeRef>>
 {
-vec![]
+alloc::vec![]
 }
 
 #[allow(unused_variables)]
@@ -17399,7 +17399,7 @@ ___lookbehind: &usize,
 ___lookahead: &usize,
 ) -> alloc::vec::Vec<AssociatedType>
 {
-vec![]
+alloc::vec![]
 }
 
 #[allow(unused_variables)]
@@ -17422,7 +17422,7 @@ ___lookbehind: &usize,
 ___lookahead: &usize,
 ) -> alloc::vec::Vec<Atom>
 {
-vec![]
+alloc::vec![]
 }
 
 #[allow(unused_variables)]
@@ -17550,7 +17550,7 @@ ___lookbehind: &usize,
 ___lookahead: &usize,
 ) -> alloc::vec::Vec<Symbol>
 {
-vec![]
+alloc::vec![]
 }
 
 #[allow(unused_variables)]
@@ -17630,7 +17630,7 @@ text: &'input str,
 (_, ___0, _): (usize, Symbol, usize),
 ) -> alloc::vec::Vec<Symbol>
 {
-vec![___0]
+alloc::vec![___0]
 }
 
 #[allow(unused_variables)]
@@ -17932,7 +17932,7 @@ ___lookbehind: &usize,
 ___lookahead: &usize,
 ) -> alloc::vec::Vec<GrammarItem>
 {
-vec![]
+alloc::vec![]
 }
 
 #[allow(unused_variables)]
@@ -18048,7 +18048,7 @@ ___lookbehind: &usize,
 ___lookahead: &usize,
 ) -> alloc::vec::Vec<Annotation>
 {
-vec![]
+alloc::vec![]
 }
 
 #[allow(unused_variables)]
@@ -18071,7 +18071,7 @@ ___lookbehind: &usize,
 ___lookahead: &usize,
 ) -> alloc::vec::Vec<GrammarItem>
 {
-vec![]
+alloc::vec![]
 }
 
 #[allow(unused_variables)]
@@ -18094,7 +18094,7 @@ ___lookbehind: &usize,
 ___lookahead: &usize,
 ) -> alloc::vec::Vec<String>
 {
-vec![]
+alloc::vec![]
 }
 
 #[allow(unused_variables)]
@@ -18116,7 +18116,7 @@ text: &'input str,
 (_, ___0, _): (usize, String, usize),
 ) -> alloc::vec::Vec<String>
 {
-vec![___0]
+alloc::vec![___0]
 }
 
 #[allow(unused_variables)]
@@ -18139,7 +18139,7 @@ text: &'input str,
 (_, ___0, _): (usize, GrammarItem, usize),
 ) -> alloc::vec::Vec<GrammarItem>
 {
-vec![___0]
+alloc::vec![___0]
 }
 
 #[allow(unused_variables)]
@@ -18162,7 +18162,7 @@ text: &'input str,
 (_, ___0, _): (usize, Annotation, usize),
 ) -> alloc::vec::Vec<Annotation>
 {
-vec![___0]
+alloc::vec![___0]
 }
 
 #[allow(unused_variables)]
@@ -18185,7 +18185,7 @@ text: &'input str,
 (_, ___0, _): (usize, GrammarItem, usize),
 ) -> alloc::vec::Vec<GrammarItem>
 {
-vec![___0]
+alloc::vec![___0]
 }
 
 #[allow(unused_variables)]
@@ -18232,7 +18232,7 @@ ___lookbehind: &usize,
 ___lookahead: &usize,
 ) -> alloc::vec::Vec<TypeParameter>
 {
-vec![]
+alloc::vec![]
 }
 
 #[allow(unused_variables)]
@@ -18290,7 +18290,7 @@ ___lookbehind: &usize,
 ___lookahead: &usize,
 ) -> alloc::vec::Vec<WhereClause<TypeRef>>
 {
-vec![]
+alloc::vec![]
 }
 
 #[allow(unused_variables)]
@@ -18325,7 +18325,7 @@ ___lookbehind: &usize,
 ___lookahead: &usize,
 ) -> alloc::vec::Vec<Lifetime>
 {
-vec![]
+alloc::vec![]
 }
 
 #[allow(unused_variables)]
@@ -18383,7 +18383,7 @@ ___lookbehind: &usize,
 ___lookahead: &usize,
 ) -> alloc::vec::Vec<TypeBound<TypeRef>>
 {
-vec![]
+alloc::vec![]
 }
 
 #[allow(unused_variables)]
@@ -18441,7 +18441,7 @@ ___lookbehind: &usize,
 ___lookahead: &usize,
 ) -> alloc::vec::Vec<TypeRef>
 {
-vec![]
+alloc::vec![]
 }
 
 #[allow(unused_variables)]
@@ -18499,7 +18499,7 @@ ___lookbehind: &usize,
 ___lookahead: &usize,
 ) -> alloc::vec::Vec<TypeBoundParameter<TypeRef>>
 {
-vec![]
+alloc::vec![]
 }
 
 #[allow(unused_variables)]
@@ -18557,7 +18557,7 @@ ___lookbehind: &usize,
 ___lookahead: &usize,
 ) -> alloc::vec::Vec<Parameter>
 {
-vec![]
+alloc::vec![]
 }
 
 #[allow(unused_variables)]
@@ -18615,7 +18615,7 @@ ___lookbehind: &usize,
 ___lookahead: &usize,
 ) -> alloc::vec::Vec<NonterminalString>
 {
-vec![]
+alloc::vec![]
 }
 
 #[allow(unused_variables)]
@@ -18673,7 +18673,7 @@ ___lookbehind: &usize,
 ___lookahead: &usize,
 ) -> alloc::vec::Vec<Alternative>
 {
-vec![]
+alloc::vec![]
 }
 
 #[allow(unused_variables)]
@@ -18731,7 +18731,7 @@ ___lookbehind: &usize,
 ___lookahead: &usize,
 ) -> alloc::vec::Vec<Symbol>
 {
-vec![]
+alloc::vec![]
 }
 
 #[allow(unused_variables)]
@@ -18789,7 +18789,7 @@ ___lookbehind: &usize,
 ___lookahead: &usize,
 ) -> alloc::vec::Vec<TypeRef>
 {
-vec![]
+alloc::vec![]
 }
 
 #[allow(unused_variables)]
@@ -18823,7 +18823,7 @@ text: &'input str,
 (_, ___0, _): (usize, Atom, usize),
 ) -> alloc::vec::Vec<Atom>
 {
-vec![___0]
+alloc::vec![___0]
 }
 
 #[allow(unused_variables)]
@@ -18846,7 +18846,7 @@ text: &'input str,
 (_, ___0, _): (usize, AssociatedType, usize),
 ) -> alloc::vec::Vec<AssociatedType>
 {
-vec![___0]
+alloc::vec![___0]
 }
 
 #[allow(unused_variables)]
@@ -18893,7 +18893,7 @@ ___lookbehind: &usize,
 ___lookahead: &usize,
 ) -> alloc::vec::Vec<MatchItem>
 {
-vec![]
+alloc::vec![]
 }
 
 #[allow(unused_variables)]
@@ -18951,7 +18951,7 @@ ___lookbehind: &usize,
 ___lookahead: &usize,
 ) -> alloc::vec::Vec<Conversion>
 {
-vec![]
+alloc::vec![]
 }
 
 #[allow(unused_variables)]
@@ -19009,7 +19009,7 @@ ___lookbehind: &usize,
 ___lookahead: &usize,
 ) -> alloc::vec::Vec<Pattern<TypeRef>>
 {
-vec![]
+alloc::vec![]
 }
 
 #[allow(unused_variables)]
@@ -19043,7 +19043,7 @@ text: &'input str,
 (_, ___0, _): (usize, FieldPattern<TypeRef>, usize),
 ) -> alloc::vec::Vec<FieldPattern<TypeRef>>
 {
-vec![___0]
+alloc::vec![___0]
 }
 
 #[allow(unused_variables)]
@@ -19066,7 +19066,7 @@ text: &'input str,
 (_, ___0, _): (usize, Pattern<TypeRef>, usize),
 ) -> alloc::vec::Vec<Pattern<TypeRef>>
 {
-vec![___0]
+alloc::vec![___0]
 }
 
 #[allow(unused_variables)]
@@ -19089,7 +19089,7 @@ text: &'input str,
 (_, ___0, _): (usize, Conversion, usize),
 ) -> alloc::vec::Vec<Conversion>
 {
-vec![___0]
+alloc::vec![___0]
 }
 
 #[allow(unused_variables)]
@@ -19112,7 +19112,7 @@ text: &'input str,
 (_, ___0, _): (usize, MatchItem, usize),
 ) -> alloc::vec::Vec<MatchItem>
 {
-vec![___0]
+alloc::vec![___0]
 }
 
 #[allow(unused_variables)]
@@ -19135,7 +19135,7 @@ text: &'input str,
 (_, ___0, _): (usize, TypeRef, usize),
 ) -> alloc::vec::Vec<TypeRef>
 {
-vec![___0]
+alloc::vec![___0]
 }
 
 #[allow(unused_variables)]
@@ -19158,7 +19158,7 @@ text: &'input str,
 (_, ___0, _): (usize, Symbol, usize),
 ) -> alloc::vec::Vec<Symbol>
 {
-vec![___0]
+alloc::vec![___0]
 }
 
 #[allow(unused_variables)]
@@ -19181,7 +19181,7 @@ text: &'input str,
 (_, ___0, _): (usize, Alternative, usize),
 ) -> alloc::vec::Vec<Alternative>
 {
-vec![___0]
+alloc::vec![___0]
 }
 
 #[allow(unused_variables)]
@@ -19204,7 +19204,7 @@ text: &'input str,
 (_, ___0, _): (usize, NonterminalString, usize),
 ) -> alloc::vec::Vec<NonterminalString>
 {
-vec![___0]
+alloc::vec![___0]
 }
 
 #[allow(unused_variables)]
@@ -19227,7 +19227,7 @@ text: &'input str,
 (_, ___0, _): (usize, Parameter, usize),
 ) -> alloc::vec::Vec<Parameter>
 {
-vec![___0]
+alloc::vec![___0]
 }
 
 #[allow(unused_variables)]
@@ -19250,7 +19250,7 @@ text: &'input str,
 (_, ___0, _): (usize, TypeBoundParameter<TypeRef>, usize),
 ) -> alloc::vec::Vec<TypeBoundParameter<TypeRef>>
 {
-vec![___0]
+alloc::vec![___0]
 }
 
 #[allow(unused_variables)]
@@ -19273,7 +19273,7 @@ text: &'input str,
 (_, ___0, _): (usize, TypeRef, usize),
 ) -> alloc::vec::Vec<TypeRef>
 {
-vec![___0]
+alloc::vec![___0]
 }
 
 #[allow(unused_variables)]
@@ -19296,7 +19296,7 @@ text: &'input str,
 (_, ___0, _): (usize, TypeBound<TypeRef>, usize),
 ) -> alloc::vec::Vec<TypeBound<TypeRef>>
 {
-vec![___0]
+alloc::vec![___0]
 }
 
 #[allow(unused_variables)]
@@ -19319,7 +19319,7 @@ text: &'input str,
 (_, ___0, _): (usize, Lifetime, usize),
 ) -> alloc::vec::Vec<Lifetime>
 {
-vec![___0]
+alloc::vec![___0]
 }
 
 #[allow(unused_variables)]
@@ -19342,7 +19342,7 @@ text: &'input str,
 (_, ___0, _): (usize, WhereClause<TypeRef>, usize),
 ) -> alloc::vec::Vec<WhereClause<TypeRef>>
 {
-vec![___0]
+alloc::vec![___0]
 }
 
 #[allow(unused_variables)]
@@ -19365,7 +19365,7 @@ text: &'input str,
 (_, ___0, _): (usize, TypeParameter, usize),
 ) -> alloc::vec::Vec<TypeParameter>
 {
-vec![___0]
+alloc::vec![___0]
 }
 
 #[allow(unused_variables)]
