@@ -209,7 +209,7 @@ impl<'grammar> Validator<'grammar> {
                 if ann_prec_opt.is_none() {
                     return_err!(
                         first.span,
-                        "missing precedence annotation on the first element"
+                        "missing precedence annotation on the first alternative"
                     );
                 } else {
                     Ok(())
