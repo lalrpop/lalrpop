@@ -199,7 +199,7 @@ fn missing_arg_precedence() {
 #[test]
 fn cannot_parse_assoc() {
     check_err(
-        r#"could not parse the associativity `foo`, expected `left`, `right` or `none`"#,
+        r#"could not parse the associativity `foo`, expected `left`, `right`, `none` or `all`"#,
         r#"grammar; Term = { #[precedence(level="1")] #[assoc(side="foo")] "a" => ()};"#,
         r#"                                             ~~~~~~~~~~~~~~~~~             "#,
     );
