@@ -128,7 +128,7 @@ impl FromStr for Assoc {
     }
 }
 
-/// Perform precedence expansion. Rewrite rules where at least one alternative have a precedence
+/// Perform precedence expansion. Rewrite rules where at least one alternative has a precedence
 /// annotation, and generate derived rules for each level of precedence.
 pub fn expand_precedence(input: Grammar) -> NormResult<Grammar> {
     let input = resolve::resolve(input)?;
@@ -328,7 +328,7 @@ fn replace_symbols<'a>(
     }
 }
 
-/// Perform substitution of on an non-terminal in a symbol.
+/// Perform substitution of a non-terminal in a symbol.
 fn replace_symbol<'a>(
     symbol: &mut Symbol,
     target: &NonterminalString,
