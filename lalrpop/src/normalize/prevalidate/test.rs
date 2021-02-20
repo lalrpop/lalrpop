@@ -163,9 +163,9 @@ fn alternative_unrecognized_annotation() {
 #[test]
 fn missing_precedence() {
     check_err(
-        r#"missing precedence annotation"#,
-        r#"grammar; Term = { #[precedence(level="1")] "a" => (), "b" => () };"#,
-        r#"                                                      ~~~~~~~~~~   "#,
+        r#"missing precedence annotation on the first alternative"#,
+        r#"grammar; Term = { "a" => (), #[precedence(level="1")] "b" => () };"#,
+        r#"                  ~~~~~~~~~                                       "#,
     );
 }
 

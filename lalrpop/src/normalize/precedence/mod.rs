@@ -65,16 +65,23 @@ pub const SIDE_ARG: &str = "side";
 /// <left: Expression2> "?" <middle: Expression2> : <right: Expression3> => ..
 /// ```
 ///
-/// ## Default
+/// ## Associative (all)
 ///
-/// By default, if no associativity is provided, all recursive occurrences are replaced with the
-/// current level, which is different from non-associativity. This can be useful for unary
-/// operators that may be iterated, such as `-` or `!`.
+/// An associative rule means that all recursive occurrences are replaced with the current level,
+/// which is different from non-associativity. This can be useful for unary operators that may be
+/// iterated, such as `-` or `!`, or non ambiguous operators. This is the default associativity.
 #[derive(Clone, Copy, Eq, PartialEq)]
 pub enum Assoc {
     Left,
     Right,
     NonAssoc,
+    FullyAssoc,
+}
+
+impl Default for Assoc {
+    fn default() -> Self {
+        Assoc::FullyAssoc
+    }
 }
 
 /// Substitution plan.
@@ -115,6 +122,7 @@ impl FromStr for Assoc {
             "left" => Ok(Assoc::Left),
             "right" => Ok(Assoc::Right),
             "none" => Ok(Assoc::NonAssoc),
+            "all" => Ok(Assoc::FullyAssoc),
             _ => Err(ParseAssocError { _priv: () }),
         }
     }
@@ -139,10 +147,10 @@ pub fn expand_precedence(input: Grammar) -> NormResult<Grammar> {
     })
 }
 
-/// Determine if an alternative has a precedence annotation.
+/// Determine if a rule has at least one precedence annotation.
 pub fn has_prec_annot(non_term: &NonterminalData) -> bool {
-    // After prevalidation, either each or none of the alternative of a nonterminal have precedence
-    // annotations, so we just have to check the first one.
+    // After prevalidation, either at least the first alternative of a nonterminal have a
+    // precedence annotations, or none have, so we just have to check the first one.
     non_term
         .alternatives
         .first()
@@ -157,39 +165,45 @@ pub fn has_prec_annot(non_term: &NonterminalData) -> bool {
 /// Expand a rule with precedence annotations. As it implies to generate new rules, return a vector
 /// of grammar items.
 fn expand_nonterm(mut nonterm: NonterminalData) -> NormResult<Vec<GrammarItem>> {
-    let alt_with_ann = Vec::with_capacity(nonterm.alternatives.len());
-
-    let (mut lvls, alts_with_ann) = nonterm.alternatives.drain(..).fold(
-        (vec![], alt_with_ann),
-        |(mut lvls, mut acc): (Vec<u32>, Vec<(u32, Option<Assoc>, Alternative)>), mut alt| {
+    let mut lvls: Vec<u32> = Vec::new();
+    let mut alts_with_ann: Vec<(u32, Assoc, Alternative)> =
+        Vec::with_capacity(nonterm.alternatives.len());
+    let _ = nonterm.alternatives.drain(..).fold(
+        (None, Assoc::default()),
+        |(last_lvl, last_assoc): (Option<u32>, Assoc), mut alt| {
             // All the following unsafe `unwrap()`, `panic!()`, etc. should never panic thanks to
-            // prevalidation. Prevalidation must ensure that each alternative is annotated with at
-            // least a precedence level, each precedence annotation must have an argument which
+            // prevalidation. Prevalidation must ensure that at least the first alternative is annotated with at
+            // a precedence level, that each precedence annotation must have an argument which
             // is parsable as an integer, and each optional assoc annotation must have an argument
             // that is either "right", "left" or "none".
 
-            // Extract and remove precedence and associativity annotations
-            let lvl: u32 = {
-                let index = alt
-                    .annotations
-                    .iter()
-                    .position(|ann| ann.id == Atom::from(PREC_ANNOT))
-                    .unwrap();
-                let (_, val) = alt.annotations.remove(index).arg.unwrap();
-                val.parse().unwrap()
-            };
-            let assoc: Option<Assoc> = alt
+            // Extract precedence and associativity annotations
+            let lvl = alt
+                .annotations
+                .iter()
+                .position(|ann| ann.id == Atom::from(PREC_ANNOT))
+                .map(|index| {
+                    let (_, val) = alt.annotations.remove(index).arg.unwrap();
+                    val.parse().unwrap()
+                })
+                .or(last_lvl)
+                .unwrap();
+            let last_lvl = Some(lvl);
+
+            let assoc = alt
                 .annotations
                 .iter()
                 .position(|ann| ann.id == Atom::from(ASSOC_ANNOT))
                 .map(|index| {
                     let (_, val) = alt.annotations.remove(index).arg.unwrap();
                     val.parse().unwrap()
-                });
+                })
+                .unwrap_or(last_assoc);
+            let last_assoc = assoc;
 
-            acc.push((lvl, assoc, alt));
+            alts_with_ann.push((lvl, assoc, alt));
             lvls.push(lvl);
-            (lvls, acc)
+            (last_lvl, last_assoc)
         },
     );
 
@@ -234,19 +248,19 @@ fn expand_nonterm(mut nonterm: NonterminalData) -> NormResult<Vec<GrammarItem>> 
             for (assoc, alt) in &mut alts_with_assoc {
                 let err_msg = "unexpected associativity annotation on the first precedence level";
                 let (subst, dir) = match assoc {
-                    Some(Assoc::Left) => (
+                    Assoc::Left => (
                         Substitution::OneThen(symbol_kind, &nonterm_prev.as_ref().expect(err_msg)),
                         Direction::Forward,
                     ),
-                    Some(Assoc::Right) => (
+                    Assoc::Right => (
                         Substitution::OneThen(symbol_kind, &nonterm_prev.as_ref().expect(err_msg)),
                         Direction::Backward,
                     ),
-                    Some(Assoc::NonAssoc) => (
+                    Assoc::NonAssoc => (
                         Substitution::Every(&nonterm_prev.as_ref().expect(err_msg)),
                         Direction::Forward,
                     ),
-                    None => (Substitution::Every(symbol_kind), Direction::Forward),
+                    Assoc::FullyAssoc => (Substitution::Every(symbol_kind), Direction::Forward),
                 };
                 replace_nonterm(alt, &nonterm.name, subst, dir)
             }
