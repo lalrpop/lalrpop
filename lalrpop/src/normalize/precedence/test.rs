@@ -62,32 +62,30 @@ grammar;
     Expr: u32 = {
        #[precedence(level="1")]
        "const" => 0,
-
-       #[precedence(level="1")]
        "!" <Expr> => 0,
 
        #[precedence(level="2")] #[assoc(side="none")]
        "!!" <Expr> => 0,
 
-       #[precedence(level="2")] #[assoc(side="left")]
+       #[assoc(side="left")]
        "const2" => 0,
 
-       #[precedence(level="2")]
+       #[precedence(level="2")] #[assoc(side="left")]
        <left:Expr> "*" <right:Expr> => 0,
 
-       #[precedence(level="2")] #[assoc(side="right")]
+       #[assoc(side="right")]
        <left:Expr> "/" <right:Expr> => 0,
 
        #[precedence(level="3")] #[assoc(side="left")]
        <left:Expr> "?" <middle:Expr> ":" <right:Expr> => 0,
 
-       #[precedence(level="3")] #[assoc(side="right")]
+       #[assoc(side="right")]
        <left:Expr> "|" <middle:Expr> "-" <right:Expr> => 0,
 
-       #[precedence(level="3")] #[assoc(side="none")]
+       #[assoc(side="none")]
        <left:Expr> "^" <middle:Expr> "$" <right:Expr> => 0,
 
-       #[precedence(level="3")] #[assoc(side="all")]
+       #[assoc(side="all")]
        <left:Expr> "[" <middle:Expr> ";" <right:Expr> => 0,
    }
 "#,
@@ -133,32 +131,28 @@ grammar;
        #[precedence(level="5")] #[assoc(side="left")]
        <left:Expr> "?" <middle:Expr> ":" <right:Expr> => 0,
 
-       #[precedence(level="5")] #[assoc(side="right")]
+       #[assoc(side="right")]
        <left:Expr> "|" <middle:Expr> "-" <right:Expr> => 0,
 
-       #[precedence(level="5")] #[assoc(side="none")]
+       #[assoc(side="none")]
        <left:Expr> "^" <middle:Expr> "$" <right:Expr> => 0,
 
-       #[precedence(level="5")] #[assoc(side="all")]
+       #[assoc(side="all")]
        <left:Expr> "[" <middle:Expr> ";" <right:Expr> => 0,
 
        #[precedence(level="0")]
        "const" => 0,
-
-       #[precedence(level="0")]
        "!" <Expr> => 0,
 
        #[precedence(level="3")]
        #[assoc(side="none")]
        "!!" <Expr> => 0,
 
-       #[precedence(level="3")] #[assoc(side="left")]
+       #[assoc(side="left")]
        "const2" => 0,
-
-       #[precedence(level="3")]
        <left:Expr> "*" <right:Expr> => 0,
 
-       #[precedence(level="3")] #[assoc(side="right")]
+       #[assoc(side="right")]
        <left:Expr> "/" <right:Expr> => 0,
 
           }
@@ -267,7 +261,7 @@ Expr: i32 = {
     <l:Expr> "*" <r:Expr> => l * r,
     <l:Expr> "/" <r:Expr> => l / r,
 
-    #[precedence(lvl="2")]
+    #[precedence(lvl="2")] #[assoc(side="left")]
     <l:Expr> "+" <r:Expr> => l + r,
     <l:Expr> "-" <r:Expr> => l - r,
 };

@@ -169,26 +169,29 @@ fn expand_nonterm(mut nonterm: NonterminalData) -> NormResult<Vec<GrammarItem>> 
     let mut alts_with_ann: Vec<(u32, Assoc, Alternative)> =
         Vec::with_capacity(nonterm.alternatives.len());
     let _ = nonterm.alternatives.drain(..).fold(
-        (None, Assoc::default()),
-        |(last_lvl, last_assoc): (Option<u32>, Assoc), mut alt| {
+        // Thanks to prevalidation, the first alternative must have a precedence annotation that
+        // will set last_lvl to an initial value
+        (0, Assoc::default()),
+        |(last_lvl, last_assoc): (u32, Assoc), mut alt| {
             // All the following unsafe `unwrap()`, `panic!()`, etc. should never panic thanks to
-            // prevalidation. Prevalidation must ensure that at least the first alternative is annotated with at
-            // a precedence level, that each precedence annotation must have an argument which
-            // is parsable as an integer, and each optional assoc annotation must have an argument
-            // that is either "right", "left" or "none".
+            // prevalidation. Prevalidation ensures, beside that the first alternative is annotated with
+            // a precedence level, that each precedence annotation has an argument which
+            // is parsable as an integer, and that each optional assoc annotation which a parsable
+            // `Assoc`.
 
             // Extract precedence and associativity annotations
-            let lvl = alt
+
+            // If there is a new precedence association, the associativity is reset to the default
+            // one (that is, `FullyAssoc`), instead of using the last one encountered.
+            let (lvl, last_assoc) = alt
                 .annotations
                 .iter()
                 .position(|ann| ann.id == Atom::from(PREC_ANNOT))
                 .map(|index| {
                     let (_, val) = alt.annotations.remove(index).arg.unwrap();
-                    val.parse().unwrap()
+                    (val.parse().unwrap(), Assoc::default())
                 })
-                .or(last_lvl)
-                .unwrap();
-            let last_lvl = Some(lvl);
+                .unwrap_or((last_lvl, last_assoc));
 
             let assoc = alt
                 .annotations
@@ -199,11 +202,10 @@ fn expand_nonterm(mut nonterm: NonterminalData) -> NormResult<Vec<GrammarItem>> 
                     val.parse().unwrap()
                 })
                 .unwrap_or(last_assoc);
-            let last_assoc = assoc;
 
             alts_with_ann.push((lvl, assoc, alt));
             lvls.push(lvl);
-            (last_lvl, last_assoc)
+            (lvl, assoc)
         },
     );
 
