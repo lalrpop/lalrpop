@@ -138,8 +138,9 @@ continue.</p>
 errors during parsing. First we need a way to return multiple errors
 as this is not something that LALRPOP does by itself so we add a <code>Vec</code>
 storing the errors we found during parsing. Since the result of <code>!</code>
-contains a token, error recovery requires that tokens can be cloned.</p>
-<pre><code>grammar&lt;'err&gt;(errors: &amp;'err mut Vec&lt;ErrorRecovery&lt;usize, (usize, &amp;'input str), ()&gt;&gt;);
+contains a token, error recovery requires that tokens can be cloned.
+We need to replace the begin &quot;grammer&quot; line of the LALRPOP file with this:</p>
+<pre><code>grammar&lt;'err&gt;(errors: &amp;'err mut Vec&lt;ErrorRecovery&lt;usize, Token&lt;'input&gt;, &amp;'static str&gt;&gt;);
 </code></pre>
 <p>Since an alternative containing <code>!</code> is expected to return the same type of
 value as the other alternatives in the production we add an extra variant to
@@ -164,8 +165,10 @@ value</a>.</p>
 };
 </code></pre>
 <p>Now we can add a test that includes various errors (e.g., missing
-operands). You can see that the parser recovered from missing operands
-by inserting this <code>!</code> token where necessary.</p>
+operands). Note that now the <code>parse</code> method takes two arguments
+instead of one, which is caused by that we rewrote the &quot;grammer&quot; line
+in the LALRPOP file. You can see that the parser recovered from missing
+operands by inserting this <code>!</code> token where necessary.</p>
 <pre><pre class="playpen"><code class="language-rust">
 # #![allow(unused_variables)]
 #fn main() {
