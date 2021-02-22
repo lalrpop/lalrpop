@@ -88,7 +88,7 @@ And that's it! Now we can test it by adding some code to our
 the `Debug` impl:
 
 ```rust
-pub mod calculator4;
+lalrpop_mod!(pub calculator4);
 pub mod ast;
 
 #[test]
