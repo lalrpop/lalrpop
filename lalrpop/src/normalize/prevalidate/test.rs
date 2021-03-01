@@ -163,9 +163,9 @@ fn alternative_unrecognized_annotation() {
 #[test]
 fn missing_precedence() {
     check_err(
-        r#"missing precedence annotation"#,
-        r#"grammar; Term = { #[precedence(level="1")] "a" => (), "b" => () };"#,
-        r#"                                                      ~~~~~~~~~~   "#,
+        r#"missing precedence annotation on the first alternative"#,
+        r#"grammar; Term = { "a" => (), #[precedence(level="1")] "b" => () };"#,
+        r#"                  ~~~~~~~~~                                       "#,
     );
 }
 
@@ -199,7 +199,7 @@ fn missing_arg_precedence() {
 #[test]
 fn cannot_parse_assoc() {
     check_err(
-        r#"could not parse the associativity `foo`, expected `left`, `right` or `none`"#,
+        r#"could not parse the associativity `foo`, expected `left`, `right`, `none` or `all`"#,
         r#"grammar; Term = { #[precedence(level="1")] #[assoc(side="foo")] "a" => ()};"#,
         r#"                                             ~~~~~~~~~~~~~~~~~             "#,
     );

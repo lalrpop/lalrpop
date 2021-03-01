@@ -197,7 +197,27 @@ impl<'grammar> Validator<'grammar> {
         let mut min_lvl = u32::MAX;
         let mut min_prec_ann: Option<&Annotation> = None;
 
-        // Check that all alternatives have a precedence annotation
+        // Check that at least the first alternative has a precedence annotation
+        alternatives
+            .first()
+            .map(|first| {
+                let ann_prec_opt = first
+                    .annotations
+                    .iter()
+                    .find(|ann| ann.id == Atom::from(precedence::PREC_ANNOT));
+
+                if ann_prec_opt.is_none() {
+                    return_err!(
+                        first.span,
+                        "missing precedence annotation on the first alternative"
+                    );
+                } else {
+                    Ok(())
+                }
+            })
+            .transpose()?;
+
+        // Check that annotations are well-formed
         alternatives.iter().try_for_each(|alt| {
             let ann_prec_opt = alt.annotations.iter().find(|ann| ann.id == Atom::from(precedence::PREC_ANNOT));
             let ann_assoc_opt = alt.annotations.iter().find(|ann| ann.id == Atom::from(precedence::ASSOC_ANNOT));
@@ -222,15 +242,12 @@ impl<'grammar> Validator<'grammar> {
                     None => return_err!(ann_prec.id_span, "missing argument for precedence annotation, expected `{}`", precedence::LVL_ARG),
                 }
             }
-            else {
-                return_err!(alt.span, "missing precedence annotation");
-            }
 
             if let Some(ann_assoc) = ann_assoc_opt {
                 match &ann_assoc.arg {
                     Some((name, value)) if *name == Atom::from(precedence::SIDE_ARG) => {
                         if value.parse::<precedence::Assoc>().is_err() {
-                            return_err!(ann_assoc.id_span, "could not parse the associativity `{}`, expected `left`, `right` or `none`", value);
+                            return_err!(ann_assoc.id_span, "could not parse the associativity `{}`, expected `left`, `right`, `none` or `all`", value);
                         }
                     }
                     Some((name, _)) => return_err!(ann_assoc.id_span, "invalid argument `{}` for associativity annotation, expected `{}`", name, precedence::SIDE_ARG),
