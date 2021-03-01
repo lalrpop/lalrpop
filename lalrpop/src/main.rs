@@ -1,8 +1,9 @@
 extern crate lalrpop;
 extern crate pico_args;
 
+use std::ffi::OsString;
 use std::io::Write;
-use std::path::PathBuf;
+use std::path::{Path, PathBuf};
 use std::process;
 use std::str::FromStr;
 
@@ -33,7 +34,7 @@ Options:
 
 #[derive(Debug)]
 struct Args {
-    arg_inputs: Vec<String>,
+    arg_inputs: Vec<OsString>,
     flag_out_dir: Option<PathBuf>,
     flag_features: Option<String>,
     flag_level: Option<LevelFlag>,
@@ -81,7 +82,7 @@ fn parse_args(mut args: Arguments) -> Result<Args, Box<dyn std::error::Error>> {
         flag_no_whitespace: args.contains("--no-whitespace"),
         flag_report: args.contains("--report"),
         flag_version: args.contains(["-V", "--version"]),
-        arg_inputs: args.free()?,
+        arg_inputs: args.finish(),
     })
 }
 
@@ -151,10 +152,16 @@ fn main1() -> Result<(), Box<dyn std::error::Error>> {
     }
 
     for arg in args.arg_inputs {
-        match config.process_file(&arg) {
+        let arg = Path::new(&arg);
+        match config.process_file(arg) {
             Ok(()) => {}
             Err(err) => {
-                writeln!(stderr, "Error encountered processing `{}`: {}", arg, err)?;
+                writeln!(
+                    stderr,
+                    "Error encountered processing `{}`: {}",
+                    arg.display(),
+                    err
+                )?;
                 process::exit(1);
             }
         }
