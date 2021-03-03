@@ -16,11 +16,7 @@ impl Horiz {
 
 impl Content for Horiz {
     fn min_width(&self) -> usize {
-        self.items
-            .iter()
-            .map(|c| c.min_width())
-            .intersperse(self.separate)
-            .sum()
+        Itertools::intersperse(self.items.iter().map(|c| c.min_width()), self.separate).sum()
     }
 
     fn emit(&self, view: &mut dyn AsciiView) {
