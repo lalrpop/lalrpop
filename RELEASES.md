@@ -1,3 +1,10 @@
+<a name="0.19.5"></a>
+## 0.19.5 (2021-03-03)
+
+* Fix inlining of fallible productions
+* Update dependencies
+
+
 <a name="0.19.4"></a>
 ## 0.19.4 (2021-01-08)
 

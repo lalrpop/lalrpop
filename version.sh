@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 #
 # A script to bump the version number on all Cargo.toml files etc in
 # an atomic fashion.
