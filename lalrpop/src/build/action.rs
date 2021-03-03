@@ -382,7 +382,12 @@ fn emit_inline_action_code<W: Write>(
                     rust!(rust, "&{}start{},", grammar.prefix, temp_counter);
                     rust!(rust, "&{}end{},", grammar.prefix, temp_counter);
                 }
-                rust!(rust, ");");
+
+                if grammar.action_is_fallible(inlined_action) {
+                    rust!(rust, ")?;");
+                } else {
+                    rust!(rust, ");");
+                }
 
                 // wrap up the inlined value along with its span
                 rust!(
@@ -403,9 +408,19 @@ fn emit_inline_action_code<W: Write>(
             }
         }
     }
+
+    let final_action_fallible = grammar.action_is_fallible(data.action);
+    let (ok_begin, ok_end) = match (defn.fallible, final_action_fallible) {
+        (true, true) |
+        (false, false) => ("", ""),
+        (true, false) => ("Ok(", ")"),
+        (false, true) => unreachable!()
+    };
+
     rust!(
         rust,
-        "{}action{}{}",
+        "{}{}action{}{}",
+        ok_begin,
         grammar.prefix,
         data.action.index(),
         lparen
@@ -435,7 +450,7 @@ fn emit_inline_action_code<W: Write>(
         }
     }
     assert!(!data.symbols.is_empty());
-    rust!(rust, ")");
+    rust!(rust, "){}", ok_end);
 
     rust!(rust, "}}");
     Ok(())
