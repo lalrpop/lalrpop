@@ -1,0 +1,29 @@
+grammar;
+
+pub Inline: i32 =
+    <i:Inlined> => i + 400;
+
+pub MultipleInline: i32 =
+    <i:Inlined> <j:Inlined> => i + j;
+
+pub InlineIntoFallible: i32 =
+    <i:Inlined> =>? Ok(i + 400);
+
+pub ADifferentProductionIsFallible: i32 = {
+    <i:Inlined> => i + 400,
+    "b" =>? Ok(0),
+};
+
+pub RecursiveInline: i32 =
+    <i:RecursivelyInlined> => i + 400;
+
+#[inline]
+Inlined: i32 = {
+    "a1" =>? Ok(10),
+    "a2" => 20,
+};
+
+// to even further obscure the fallible-ness
+#[inline]
+RecursivelyInlined: i32 =
+    "c" <i:Inlined> "d" => 2 * i;

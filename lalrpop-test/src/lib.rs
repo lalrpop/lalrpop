@@ -110,6 +110,9 @@ lalrpop_mod!(
 /// test for inlining expansion issue #55
 lalrpop_mod!(issue_55);
 
+/// test for inlining of fallible NTs (issue #91)
+lalrpop_mod!(inline_fallible);
+
 /// test for unit action code
 lalrpop_mod!(unit);
 
@@ -839,6 +842,25 @@ fn issue_55_test1() {
     assert!(a.is_empty());
     assert_eq!(b, "Z");
     assert_eq!(c, vec!["X", "Y"]);
+}
+
+#[test]
+fn inline_fallible() {
+    assert!(inline_fallible::InlineParser::new()
+        .parse("a1")
+        .is_ok());
+    assert!(inline_fallible::MultipleInlineParser::new()
+        .parse("a2 a1")
+        .is_ok());
+    assert!(inline_fallible::InlineIntoFallibleParser::new()
+        .parse("a2")
+        .is_ok());
+    assert!(inline_fallible::ADifferentProductionIsFallibleParser::new()
+        .parse("a1")
+        .is_ok());
+    assert!(inline_fallible::RecursiveInlineParser::new()
+        .parse("c a2 d")
+        .is_ok());
 }
 
 #[test]
