@@ -1,0 +1,5 @@
+grammar;
+
+use super::util::CaptureMe as Renamed;
+
+pub S: Renamed = "b" => Renamed;

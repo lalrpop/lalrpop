@@ -109,3 +109,7 @@ pub fn compare_str(actual: &str, expected: &str, msg: &str) {
         panic!("{}", msg);
     }
 }
+
+/// Something that a test can import if it's trying specifically to test imports.
+#[derive(Debug, PartialEq, Eq, Copy, Clone)]
+pub struct CaptureMe;

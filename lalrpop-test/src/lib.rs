@@ -87,6 +87,9 @@ lalrpop_mod!(mut_name);
 /// test that uses `super` in paths in various places
 lalrpop_mod!(use_super);
 
+/// regression test for #480 (`use super` with default tokenizer)
+lalrpop_mod!(use_super_internal_tok);
+
 /// Custom error type (issue #113)
 #[derive(Debug, PartialEq)]
 pub struct MyCustomError(char);
@@ -494,6 +497,14 @@ fn loc_empty() {
 #[test]
 fn use_super_test1() {
     util::test(|v| use_super::SParser::new().parse(v), "()", 0);
+}
+
+#[test]
+fn use_super_internal_tok() {
+    assert_eq!(
+        use_super_internal_tok::SParser::new().parse("b").unwrap(),
+        util::CaptureMe,
+    );
 }
 
 #[test]
