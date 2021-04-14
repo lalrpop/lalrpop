@@ -43,10 +43,9 @@ Using these operations we can define `Exprs` in terms of a macro
 pub Exprs = Comma<Expr>; // (0)
 
 Comma<T>: Vec<T> = { // (1)
-    <v:(<T> ",")*> <e:T?> => match e { // (2)
+    <mut v:(<T> ",")*> <e:T?> => match e { // (2)
         None => v,
         Some(e) => {
-            let mut v = v;
             v.push(e);
             v
         }
@@ -61,7 +60,7 @@ unpack it. First, `T` is some terminal or nonterminal, but note that
 we can also use it as a type: when the macro is expanded, the `T` in
 the type will be replaced with "whatever the type of `T` is".
 
-Next, on (2), we parse `<v:(<T> ",")*> <e:T?>`.  That's a lot of
+Next, on (2), we parse `<mut v:(<T> ",")*> <e:T?>`.  That's a lot of
 symbols, so let's first remove all the angle brackets, which just
 serve to tell LALRPOP what values you want to propagate and which you
 want to discard. In that case, we have: `(T ",")* T?`. Hopefully you
@@ -69,7 +68,8 @@ can see that this matches a comma-separated list with an optional
 trailing comma. Now let's add those angle-brackets back in. In the
 parentheses, we get `(<T> ",")*` -- this just means that we keep the
 value of the `T` but discard the value of the comma when we build our
-vector. Then we capture that vector and call it `v`: `<v:(<T> ",")*>`.
+vector. Then we capture that vector and call it `v`:
+`<mut v:(<T> ",")*>`.  The `mut` makes `v` mutable in the action code.
 Finally, we capture the optional trailing element `e`: `<e:T?>`. This
 means the Rust code has two variables available to it, `v: Vec<T>` and
 `e: Option<T>`. The action code itself should then be fairly clear --
