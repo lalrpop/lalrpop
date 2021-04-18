@@ -743,10 +743,9 @@ the type <code>Option&lt;Box&lt;Expr&gt;&gt;</code> (and not <code>Option&lt;(Bo
 <pre><code class="language-lalrpop">pub Exprs = Comma&lt;Expr&gt;; // (0)
 
 Comma&lt;T&gt;: Vec&lt;T&gt; = { // (1)
-    &lt;v:(&lt;T&gt; &quot;,&quot;)*&gt; &lt;e:T?&gt; =&gt; match e { // (2)
+    &lt;mut v:(&lt;T&gt; &quot;,&quot;)*&gt; &lt;e:T?&gt; =&gt; match e { // (2)
         None =&gt; v,
         Some(e) =&gt; {
-            let mut v = v;
             v.push(e);
             v
         }
@@ -759,7 +758,7 @@ definition of <code>Comma&lt;T&gt;</code> on line (1). This is sort of dense, so
 unpack it. First, <code>T</code> is some terminal or nonterminal, but note that
 we can also use it as a type: when the macro is expanded, the <code>T</code> in
 the type will be replaced with &quot;whatever the type of <code>T</code> is&quot;.</p>
-<p>Next, on (2), we parse <code>&lt;v:(&lt;T&gt; &quot;,&quot;)*&gt; &lt;e:T?&gt;</code>.  That's a lot of
+<p>Next, on (2), we parse <code>&lt;mut v:(&lt;T&gt; &quot;,&quot;)*&gt; &lt;e:T?&gt;</code>.  That's a lot of
 symbols, so let's first remove all the angle brackets, which just
 serve to tell LALRPOP what values you want to propagate and which you
 want to discard. In that case, we have: <code>(T &quot;,&quot;)* T?</code>. Hopefully you
@@ -767,7 +766,8 @@ can see that this matches a comma-separated list with an optional
 trailing comma. Now let's add those angle-brackets back in. In the
 parentheses, we get <code>(&lt;T&gt; &quot;,&quot;)*</code> -- this just means that we keep the
 value of the <code>T</code> but discard the value of the comma when we build our
-vector. Then we capture that vector and call it <code>v</code>: <code>&lt;v:(&lt;T&gt; &quot;,&quot;)*&gt;</code>.
+vector. Then we capture that vector and call it <code>v</code>:
+<code>&lt;mut v:(&lt;T&gt; &quot;,&quot;)*&gt;</code>.  The <code>mut</code> makes <code>v</code> mutable in the action code.
 Finally, we capture the optional trailing element <code>e</code>: <code>&lt;e:T?&gt;</code>. This
 means the Rust code has two variables available to it, <code>v: Vec&lt;T&gt;</code> and
 <code>e: Option&lt;T&gt;</code>. The action code itself should then be fairly clear --
