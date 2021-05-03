@@ -961,7 +961,7 @@ errors during parsing. First we need a way to return multiple errors
 as this is not something that LALRPOP does by itself so we add a <code>Vec</code>
 storing the errors we found during parsing. Since the result of <code>!</code>
 contains a token, error recovery requires that tokens can be cloned.
-We need to replace the begin &quot;grammer&quot; line of the LALRPOP file with this:</p>
+We need to replace the begin &quot;grammar&quot; line of the LALRPOP file with this:</p>
 <pre><code>grammar&lt;'err&gt;(errors: &amp;'err mut Vec&lt;ErrorRecovery&lt;usize, Token&lt;'input&gt;, &amp;'static str&gt;&gt;);
 </code></pre>
 <p>Since an alternative containing <code>!</code> is expected to return the same type of
