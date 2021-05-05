@@ -100,6 +100,6 @@ fn calculator4() {
 }
 ```
 
-[main]: ../../calculator/src/main.rs
-[calculator4]: ../../calculator/src/calculator4.lalrpop
-[astrs]: ../../calculator/src/ast.rs
+[main]: https://github.com/lalrpop/lalrpop/blob/master/doc/calculator/src/main.rs
+[calculator4]: https://github.com/lalrpop/lalrpop/blob/master/doc/calculator/src/calculator4.lalrpop
+[astrs]: https://github.com/lalrpop/lalrpop/blob/master/doc/calculator/src/ast.rs

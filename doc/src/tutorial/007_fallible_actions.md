@@ -129,5 +129,5 @@ fn calculator6b() {
 
 There we go! You can find the full grammar in [`calculator6b.lalrpop`][calculator6b].
 
-[calculator6]: ../../calculator/src/calculator6.lalrpop
-[calculator6b]: ../../calculator/src/calculator6b.lalrpop
+[calculator6]: https://github.com/lalrpop/lalrpop/blob/master/doc/calculator/src/calculator6.lalrpop
+[calculator6b]: https://github.com/lalrpop/lalrpop/blob/master/doc/calculator/src/calculator6b.lalrpop

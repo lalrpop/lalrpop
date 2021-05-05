@@ -8,7 +8,7 @@ breaking up the input using regular expressions is often called
 **lexing** or **tokenizing**.
 
 If you're comfortable with the idea of a lexer or tokenizer, you may
-wish to skip ahead to the [calculator3](#calculator3) example, which covers
+wish to skip ahead to the [calculator3][calculator3] example, which covers
 parsing bigger expressions, and come back here only when you find you
 want more control. You may also be interested in the
 [tutorial on writing a custom lexer][lexer tutorial].
@@ -336,5 +336,5 @@ match {
 
 
 [lexer tutorial]: index.md
-[calculator2b]: ../../calculator/src/calculator2b.lalrpop
-[calculator3]: ../../calculator/src/calculator3.lalrpop
+[calculator2b]: https://github.com/lalrpop/lalrpop/blob/master/doc/calculator/src/calculator2b.lalrpop
+[calculator3]: https://github.com/lalrpop/lalrpop/blob/master/doc/calculator/src/calculator3.lalrpop

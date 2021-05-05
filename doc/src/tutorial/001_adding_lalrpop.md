@@ -21,7 +21,7 @@ We now have to edit the generated [`calculator/Cargo.toml`][calculator-Cargo.tom
 file to invoke the LALRPOP preprocessor. The resulting file should
 look something like:
 
-[calculator-Cargo.toml]: ../../calculator/Cargo.toml
+[calculator-Cargo.toml]: https://github.com/lalrpop/lalrpop/blob/master/doc/calculator/Cargo.toml
 
 ```
 [package]
