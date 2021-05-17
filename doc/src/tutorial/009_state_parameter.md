@@ -31,6 +31,8 @@ fn calculator8() {
 }
 ```
 
-For a more practical example with a custom tree structure, check out [this parser](https://github.com/lalrpop/lalrpop/blob/master/lalrpop-test/src/expr_arena.lalrpop) using [this structure](https://github.com/lalrpop/lalrpop/blob/master/lalrpop-test/src/expr_arena_ast.rs) to build the AST.
+For a more practical example with a custom tree structure, check out [this parser][expr_arena] using [this structure][expr_arena_ast] to build the AST.
 
 
+[expr_arena]: https://github.com/lalrpop/lalrpop/blob/master/lalrpop-test/src/expr_arena.lalrpop
+[expr_arena_ast]: https://github.com/lalrpop/lalrpop/blob/master/lalrpop-test/src/expr_arena_ast.rs

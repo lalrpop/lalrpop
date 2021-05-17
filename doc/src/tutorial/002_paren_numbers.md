@@ -129,5 +129,5 @@ fn parse<'input>(&self, input: &'input str)
 }
 ```
 
-[calculator1]: ../../calculator/src/calculator1.lalrpop
-[main]: ../../calculator/src/main.rs
+[calculator1]: https://github.com/lalrpop/lalrpop/blob/master/doc/calculator/src/calculator1.lalrpop
+[main]: https://github.com/lalrpop/lalrpop/blob/master/doc/calculator/src/main.rs

@@ -77,4 +77,4 @@ access the parser from other modules. If you get a warning about an
 unused `new()` method on `FooParser`, drop the `pub` from nonterminal
 `Foo`.
 
-[calculator3]: ../../calculator/src/calculator3.lalrpop
+[calculator3]: https://github.com/lalrpop/lalrpop/blob/master/doc/calculator/src/calculator3.lalrpop
