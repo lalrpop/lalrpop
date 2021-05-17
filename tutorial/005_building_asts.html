@@ -188,9 +188,9 @@ pub enum Opcode {
 }
 <span class="boring">}
 </span></code></pre></pre>
-<p>We put this code into <a href="../../calculator/src/ast.rs">an <code>ast.rs</code> module</a> in our project,
+<p>We put this code into <a href="https://github.com/lalrpop/lalrpop/blob/master/doc/calculator/src/ast.rs">an <code>ast.rs</code> module</a> in our project,
 along with some <code>Debug</code> impls so that things pretty-print nicely. Now
-we will create the <a href="../../calculator/src/calculator4.lalrpop">calculator4</a> example, which will build up this
+we will create the <a href="https://github.com/lalrpop/lalrpop/blob/master/doc/calculator/src/calculator4.lalrpop">calculator4</a> example, which will build up this
 tree. To start, let's just look at the <code>Expr</code> nonterminal, which will
 show you most everything of how it is done (the most interesting lines
 have been flagged with comments):</p>
@@ -242,7 +242,7 @@ Num: i32 = {
 };
 </code></pre>
 <p>And that's it! Now we can test it by adding some code to our
-<a href="../../calculator/src/main.rs">main.rs</a> file that parses an expression and formats it using
+<a href="https://github.com/lalrpop/lalrpop/blob/master/doc/calculator/src/main.rs">main.rs</a> file that parses an expression and formats it using
 the <code>Debug</code> impl:</p>
 <pre><pre class="playground"><code class="language-rust">
 <span class="boring">#![allow(unused)]

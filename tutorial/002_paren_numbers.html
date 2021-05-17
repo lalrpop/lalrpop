@@ -172,7 +172,7 @@ tackle full expressions, let's start with something simple -- really
 simple. Let's just start with parenthesized integers, like <code>123</code> or
 <code>(123)</code> or even (hold on to your hats) <code>(((123)))</code>. Wow.</p>
 <p>To handle this, we'll need to add a
-<a href="../../calculator/src/calculator1.lalrpop"><code>calculator1.lalrpop</code></a> as shown below. Note: to make
+<a href="https://github.com/lalrpop/lalrpop/blob/master/doc/calculator/src/calculator1.lalrpop"><code>calculator1.lalrpop</code></a> as shown below. Note: to make
 explaining things easier, this version is maximally explicit; the next
 section will make it shorter by employing some shorthands that LALRPOP
 offers.</p>
@@ -246,7 +246,7 @@ number; so <code>22</code> is a term. The second alternative is <code>&quot;(&qu
 For every nonterminal <code>Foo</code> declared as <code>pub</code>, LALRPOP will export a
 <code>FooParser</code> struct with a <code>parse</code> method that you can call to parse a
 string as that nonterminal. Here is a simple test that we've added to 
-our <a href="../../calculator/src/main.rs"><code>main.rs</code></a> file which uses this struct to test our <code>Term</code>
+our <a href="https://github.com/lalrpop/lalrpop/blob/master/doc/calculator/src/main.rs"><code>main.rs</code></a> file which uses this struct to test our <code>Term</code>
 nonterminal:</p>
 <pre><pre class="playground"><code class="language-rust">
 <span class="boring">#![allow(unused)]

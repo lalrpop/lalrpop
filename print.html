@@ -301,12 +301,12 @@ first.</p>
 cover when I get time to write about them:</p>
 <ul>
 <li>Advice for resolving shift-reduce and reduce-reduce conflicts</li>
-<li>Passing state and type/lifetime parameters to your action code (see e.g. <a href="https://github.com/lalrpop/lalrpop/blob/master/lalrpop-test/src/expr_arena.lalrpop">this test</a> invoked <a href="https://github.com/lalrpop/lalrpop/blob/master/lalrpop-test/src/main.rs">from here</a>).</li>
+<li>Passing state and type/lifetime parameters to your action code (see e.g. <a href="https://github.com/lalrpop/lalrpop/blob/master/lalrpop-test/src/expr_arena.lalrpop">this test</a> invoked <a href="https://github.com/lalrpop/lalrpop/blob/master/lalrpop-test/src/lib.rs">from here</a>).</li>
 <li>Location tracking with <code>@L</code> and <code>@R</code> (see e.g. <a href="https://github.com/lalrpop/lalrpop/blob/master/lalrpop-test/src/intern_tok.lalrpop">this test</a>).</li>
-<li>Integrating with external tokenizers (see e.g. <a href="https://github.com/lalrpop/lalrpop/blob/master/lalrpop-test/src/expr.lalrpop">this test</a> invoked <a href="https://github.com/lalrpop/lalrpop/blob/master/lalrpop-test/src/main.rs">from here</a>).</li>
+<li>Integrating with external tokenizers (see e.g. <a href="https://github.com/lalrpop/lalrpop/blob/master/lalrpop-test/src/expr.lalrpop">this test</a> invoked <a href="https://github.com/lalrpop/lalrpop/blob/master/lalrpop-test/src/lib.rs">from here</a>).</li>
 <li>Conditional macros (no good test to point you at yet, sorry)</li>
-<li>Fallible action code that produces a <code>Result</code> (see e.g. <a href="https://github.com/lalrpop/lalrpop/blob/master/lalrpop-test/src/error.lalrpop">this test</a> invoked <a href="https://github.com/lalrpop/lalrpop/blob/master/lalrpop-test/src/main.rs">from here</a>).</li>
-<li>Converting to use <code>LALR(1)</code> instead of <code>LR(1)</code> (see e.g. <a href="https://github.com/lalrpop/lalrpop/blob/master/lalrpop-test/src/expr_lalr.lalrpop">this test</a> invoked <a href="https://github.com/lalrpop/lalrpop/blob/master/lalrpop-test/src/main.rs">from here</a>).</li>
+<li>Fallible action code that produces a <code>Result</code> (see e.g. <a href="https://github.com/lalrpop/lalrpop/blob/master/lalrpop-test/src/error.lalrpop">this test</a> invoked <a href="https://github.com/lalrpop/lalrpop/blob/master/lalrpop-test/src/lib.rs">from here</a>).</li>
+<li>Converting to use <code>LALR(1)</code> instead of <code>LR(1)</code> (see e.g. <a href="https://github.com/lalrpop/lalrpop/blob/master/lalrpop-test/src/expr_lalr.lalrpop">this test</a> invoked <a href="https://github.com/lalrpop/lalrpop/blob/master/lalrpop-test/src/lib.rs">from here</a>).</li>
 <li>Plans for future features</li>
 </ul>
 <h1 id="adding-lalrpop-to-your-cargotoml-file"><a class="header" href="#adding-lalrpop-to-your-cargotoml-file">Adding LALRPOP to your <code>Cargo.toml</code> file</a></h1>
@@ -323,7 +323,7 @@ fine).</p>
 <code>calculator</code>:</p>
 <pre><code>&gt; cargo new --bin calculator
 </code></pre>
-<p>We now have to edit the generated <a href="tutorial/../../calculator/Cargo.toml"><code>calculator/Cargo.toml</code></a>
+<p>We now have to edit the generated <a href="https://github.com/lalrpop/lalrpop/blob/master/doc/calculator/Cargo.toml"><code>calculator/Cargo.toml</code></a>
 file to invoke the LALRPOP preprocessor. The resulting file should
 look something like:</p>
 <pre><code>[package]
@@ -373,7 +373,7 @@ tackle full expressions, let's start with something simple -- really
 simple. Let's just start with parenthesized integers, like <code>123</code> or
 <code>(123)</code> or even (hold on to your hats) <code>(((123)))</code>. Wow.</p>
 <p>To handle this, we'll need to add a
-<a href="tutorial/../../calculator/src/calculator1.lalrpop"><code>calculator1.lalrpop</code></a> as shown below. Note: to make
+<a href="https://github.com/lalrpop/lalrpop/blob/master/doc/calculator/src/calculator1.lalrpop"><code>calculator1.lalrpop</code></a> as shown below. Note: to make
 explaining things easier, this version is maximally explicit; the next
 section will make it shorter by employing some shorthands that LALRPOP
 offers.</p>
@@ -447,7 +447,7 @@ number; so <code>22</code> is a term. The second alternative is <code>&quot;(&qu
 For every nonterminal <code>Foo</code> declared as <code>pub</code>, LALRPOP will export a
 <code>FooParser</code> struct with a <code>parse</code> method that you can call to parse a
 string as that nonterminal. Here is a simple test that we've added to 
-our <a href="tutorial/../../calculator/src/main.rs"><code>main.rs</code></a> file which uses this struct to test our <code>Term</code>
+our <a href="https://github.com/lalrpop/lalrpop/blob/master/doc/calculator/src/main.rs"><code>main.rs</code></a> file which uses this struct to test our <code>Term</code>
 nonterminal:</p>
 <pre><pre class="playground"><code class="language-rust">
 <span class="boring">#![allow(unused)]
@@ -482,9 +482,9 @@ fn calculator1() {
 <span class="boring">}
 </span></code></pre></pre>
 <h1 id="type-inference"><a class="header" href="#type-inference">Type inference</a></h1>
-<p>OK, now that we understand <a href="tutorial/../../calculator/src/calculator1.lalrpop">the calculator1 example</a>, let's
+<p>OK, now that we understand <a href="https://github.com/lalrpop/lalrpop/blob/master/doc/calculator/src/calculator1.lalrpop">the calculator1 example</a>, let's
 look at some of the shorthands that LALRPOP offers to make it more concise.
-This code is found in <a href="tutorial/../../calculator/src/calculator2.lalrpop">the calculator2 demo</a>.</p>
+This code is found in <a href="https://github.com/lalrpop/lalrpop/blob/master/doc/calculator/src/calculator2.lalrpop">the calculator2 demo</a>.</p>
 <p>To start, let's look at the definition of <code>Term</code> we saw before:</p>
 <pre><code class="language-lalrpop">pub Term: i32 = {
     &lt;n:Num&gt; =&gt; n,
@@ -551,7 +551,7 @@ parsed values match the names of your struct fields.</p>
 <p>Now we are ready to extend our calculator to cover the full range of
 arithmetic expressions (well, at least the ones you learned in
 elementary school). Here is
-<a href="tutorial/../../calculator/src/calculator3.lalrpop">the next calculator example, calculator3</a>:</p>
+<a href="https://github.com/lalrpop/lalrpop/blob/master/doc/calculator/src/calculator3.lalrpop">the next calculator example, calculator3</a>:</p>
 <pre><code class="language-lalrpop">use std::str::FromStr;
 
 grammar;
@@ -637,9 +637,9 @@ pub enum Opcode {
 }
 <span class="boring">}
 </span></code></pre></pre>
-<p>We put this code into <a href="tutorial/../../calculator/src/ast.rs">an <code>ast.rs</code> module</a> in our project,
+<p>We put this code into <a href="https://github.com/lalrpop/lalrpop/blob/master/doc/calculator/src/ast.rs">an <code>ast.rs</code> module</a> in our project,
 along with some <code>Debug</code> impls so that things pretty-print nicely. Now
-we will create the <a href="tutorial/../../calculator/src/calculator4.lalrpop">calculator4</a> example, which will build up this
+we will create the <a href="https://github.com/lalrpop/lalrpop/blob/master/doc/calculator/src/calculator4.lalrpop">calculator4</a> example, which will build up this
 tree. To start, let's just look at the <code>Expr</code> nonterminal, which will
 show you most everything of how it is done (the most interesting lines
 have been flagged with comments):</p>
@@ -691,7 +691,7 @@ Num: i32 = {
 };
 </code></pre>
 <p>And that's it! Now we can test it by adding some code to our
-<a href="tutorial/../../calculator/src/main.rs">main.rs</a> file that parses an expression and formats it using
+<a href="https://github.com/lalrpop/lalrpop/blob/master/doc/calculator/src/main.rs">main.rs</a> file that parses an expression and formats it using
 the <code>Debug</code> impl:</p>
 <pre><pre class="playground"><code class="language-rust">
 <span class="boring">#![allow(unused)]
@@ -739,7 +739,7 @@ expression and the comma. This means that <code>(&lt;Expr&gt; &quot;,&quot;)?</c
 the type <code>Option&lt;Box&lt;Expr&gt;&gt;</code> (and not <code>Option&lt;(Box&lt;Expr&gt;, &amp;'input str)&gt;</code>).</p>
 <p>Using these operations we can define <code>Exprs</code> in terms of a macro
 <code>Comma&lt;T&gt;</code> that creates a comma-separated list of <code>T</code>, whatever <code>T</code> is
-(this definition appears in <a href="tutorial/../../calculator/src/calculator5.lalrpop">calculator5</a>):</p>
+(this definition appears in <a href="https://github.com/lalrpop/lalrpop/blob/master/doc/calculator/src/calculator5.lalrpop">calculator5</a>):</p>
 <pre><code class="language-lalrpop">pub Exprs = Comma&lt;Expr&gt;; // (0)
 
 Comma&lt;T&gt;: Vec&lt;T&gt; = { // (1)
@@ -773,7 +773,7 @@ means the Rust code has two variables available to it, <code>v: Vec&lt;T&gt;</co
 <code>e: Option&lt;T&gt;</code>. The action code itself should then be fairly clear --
 if <code>e</code> is <code>Some</code>, it appends it to the vector and returns the result.</p>
 <p>As another example of using macros, you may recall the precedence
-tiers we saw in <a href="tutorial/../../calculator/src/calculator4.lalrpop">calculator4</a> (<code>Expr</code>, <code>Factor</code>, etc), which had a
+tiers we saw in <a href="https://github.com/lalrpop/lalrpop/blob/master/doc/calculator/src/calculator4.lalrpop">calculator4</a> (<code>Expr</code>, <code>Factor</code>, etc), which had a
 sort of repetitive structure. You could factor that out using a
 macro. In this case, it's a recursive macro:</p>
 <pre><code class="language-lalrpop">Tier&lt;Op,NextTier&gt;: Box&lt;Expr&gt; = {
@@ -794,7 +794,7 @@ FactorOp: Opcode = {
     &quot;/&quot; =&gt; Opcode::Div,
 };
 </code></pre>
-<p>And, of course, we have to add some tests to <a href="tutorial/../../calculator/src/main.rs">main.rs file</a>:</p>
+<p>And, of course, we have to add some tests to <a href="https://github.com/lalrpop/lalrpop/blob/master/doc/calculator/src/main.rs">main.rs file</a>:</p>
 <pre><pre class="playground"><code class="language-rust">
 <span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
@@ -856,7 +856,7 @@ instead of a plain <code>T</code>:</p>
 </code></pre>
 <p>In addition, we have to add <code>use lalrpop_util::ParseError;</code> to the top of the
 file so that we have access to the <code>ParseError</code> type. You can find the full
-source as <a href="tutorial/../../calculator/src/calculator6.lalrpop"><code>calculator6.lalrpop</code></a>. This allows you to nicely
+source as <a href="https://github.com/lalrpop/lalrpop/blob/master/doc/calculator/src/calculator6.lalrpop"><code>calculator6.lalrpop</code></a>. This allows you to nicely
 handle the errors:</p>
 <pre><pre class="playground"><code class="language-rust">
 <span class="boring">#![allow(unused)]
@@ -944,7 +944,7 @@ fn calculator6b() {
 }
 <span class="boring">}
 </span></code></pre></pre>
-<p>There we go! You can find the full grammar in <a href="tutorial/../../calculator/src/calculator6b.lalrpop"><code>calculator6b.lalrpop</code></a>.</p>
+<p>There we go! You can find the full grammar in <a href="https://github.com/lalrpop/lalrpop/blob/master/doc/calculator/src/calculator6b.lalrpop"><code>calculator6b.lalrpop</code></a>.</p>
 <h1 id="error-recovery"><a class="header" href="#error-recovery">Error recovery</a></h1>
 <p>By default, the parser will stop as soon as it encounters an error.
 Sometimes though we would like to try and recover and keep going.
@@ -1067,7 +1067,7 @@ input string (a process which you can control). This first step of
 breaking up the input using regular expressions is often called
 <strong>lexing</strong> or <strong>tokenizing</strong>.</p>
 <p>If you're comfortable with the idea of a lexer or tokenizer, you may
-wish to skip ahead to the <a href="lexer_tutorial/001_lexer_gen.html#calculator3">calculator3</a> example, which covers
+wish to skip ahead to the <a href="https://github.com/lalrpop/lalrpop/blob/master/doc/calculator/src/calculator3.lalrpop">calculator3</a> example, which covers
 parsing bigger expressions, and come back here only when you find you
 want more control. You may also be interested in the
 <a href="lexer_tutorial/index.html">tutorial on writing a custom lexer</a>.</p>
@@ -1296,7 +1296,7 @@ must not overlap.</p>
 <p>With this new <code>match</code> declaration, we will find that our tests all pass.</p>
 <h4 id="renaming-match-declarations"><a class="header" href="#renaming-match-declarations">Renaming <code>match</code> declarations</a></h4>
 <p>There is one final twist before we reach the
-<a href="lexer_tutorial/../../calculator/src/calculator2b.lalrpop">final version of our example that you will find in the repository</a>. We
+<a href="https://github.com/lalrpop/lalrpop/blob/master/doc/calculator/src/calculator2b.lalrpop">final version of our example that you will find in the repository</a>. We
 can also use <code>match</code> declarations to give names to regular
 expressions, so that we don't have to type them directly in our
 grammar. For example, maybe instead of writing <code>r&quot;\w+&quot;</code>, we would

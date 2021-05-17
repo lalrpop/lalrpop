@@ -197,7 +197,7 @@ expression and the comma. This means that <code>(&lt;Expr&gt; &quot;,&quot;)?</c
 the type <code>Option&lt;Box&lt;Expr&gt;&gt;</code> (and not <code>Option&lt;(Box&lt;Expr&gt;, &amp;'input str)&gt;</code>).</p>
 <p>Using these operations we can define <code>Exprs</code> in terms of a macro
 <code>Comma&lt;T&gt;</code> that creates a comma-separated list of <code>T</code>, whatever <code>T</code> is
-(this definition appears in <a href="../../calculator/src/calculator5.lalrpop">calculator5</a>):</p>
+(this definition appears in <a href="https://github.com/lalrpop/lalrpop/blob/master/doc/calculator/src/calculator5.lalrpop">calculator5</a>):</p>
 <pre><code class="language-lalrpop">pub Exprs = Comma&lt;Expr&gt;; // (0)
 
 Comma&lt;T&gt;: Vec&lt;T&gt; = { // (1)
@@ -231,7 +231,7 @@ means the Rust code has two variables available to it, <code>v: Vec&lt;T&gt;</co
 <code>e: Option&lt;T&gt;</code>. The action code itself should then be fairly clear --
 if <code>e</code> is <code>Some</code>, it appends it to the vector and returns the result.</p>
 <p>As another example of using macros, you may recall the precedence
-tiers we saw in <a href="../../calculator/src/calculator4.lalrpop">calculator4</a> (<code>Expr</code>, <code>Factor</code>, etc), which had a
+tiers we saw in <a href="https://github.com/lalrpop/lalrpop/blob/master/doc/calculator/src/calculator4.lalrpop">calculator4</a> (<code>Expr</code>, <code>Factor</code>, etc), which had a
 sort of repetitive structure. You could factor that out using a
 macro. In this case, it's a recursive macro:</p>
 <pre><code class="language-lalrpop">Tier&lt;Op,NextTier&gt;: Box&lt;Expr&gt; = {
@@ -252,7 +252,7 @@ FactorOp: Opcode = {
     &quot;/&quot; =&gt; Opcode::Div,
 };
 </code></pre>
-<p>And, of course, we have to add some tests to <a href="../../calculator/src/main.rs">main.rs file</a>:</p>
+<p>And, of course, we have to add some tests to <a href="https://github.com/lalrpop/lalrpop/blob/master/doc/calculator/src/main.rs">main.rs file</a>:</p>
 <pre><pre class="playground"><code class="language-rust">
 <span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
