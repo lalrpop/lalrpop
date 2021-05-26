@@ -16,7 +16,7 @@ exclude = ["build.rs"]
 doctest = false
 
 [dependencies]
-ascii-canvas = { version = "2.0", default_features = false }
+ascii-canvas = { version = "3.0", default_features = false }
 atty = { version = "0.2", default_features = false }
 bit-set = { version = "0.5.2", default_features = false }
 diff = { version = "0.1.12", default_features = false }
@@ -26,7 +26,7 @@ petgraph = { version = "0.5", default_features = false }
 regex = { version = "1", default_features = false, features = ["std"] }
 regex-syntax = { version = "0.6", default_features = false }
 string_cache = { version = "0.8", default_features = false }
-term = { version = "0.5", default_features = false }
+term = { version = "0.7", default_features = false }
 tiny-keccak = { version = "2.0.2", features = ["sha3"] }
 unicode-xid = { version = "0.2", default_features = false }
 
