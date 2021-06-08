@@ -251,12 +251,12 @@ build = &quot;build.rs&quot; # LALRPOP preprocessing
 # (If you write your own tokenizer, or already have the regex
 # crate, you can skip this dependency.)
 [dependencies]
-lalrpop-util = &quot;0.19.5&quot;
+lalrpop-util = &quot;0.19.6&quot;
 regex = &quot;1&quot;
 
 # Add a build-time dependency on the lalrpop library:
 [build-dependencies]
-lalrpop = &quot;0.19.5&quot;
+lalrpop = &quot;0.19.6&quot;
 # If you are supplying your own external lexer you can disable default features so that the
 # built-in lexer feature is not included
 # lalrpop = { version = &quot;0.19.1&quot;, default-features = false }
@@ -332,10 +332,10 @@ version = &quot;0.1.0&quot;
 authors = [&quot;Niko Matsakis &lt;niko@alum.mit.edu&gt;&quot;]
 
 [build-dependencies] # &lt;-- We added this and everything after!
-lalrpop = &quot;0.19.5&quot;
+lalrpop = &quot;0.19.6&quot;
 
 [dependencies]
-lalrpop-util = &quot;0.19.5&quot;
+lalrpop-util = &quot;0.19.6&quot;
 regex = &quot;1&quot;
 </code></pre>
 <p>Cargo can run <a href="https://doc.rust-lang.org/cargo/reference/build-scripts.html">build scripts</a> as a pre-processing step,
