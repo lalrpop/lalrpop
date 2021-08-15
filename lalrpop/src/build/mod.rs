@@ -13,6 +13,7 @@ use crate::rust::RustWrite;
 use crate::session::{ColorConfig, Session};
 use crate::tls::Tls;
 use crate::tok;
+use crate::util::Sep;
 use atty;
 use lalrpop_util::ParseError;
 use tiny_keccak::Sha3;
@@ -455,6 +456,18 @@ fn emit_recursive_ascent(
     Ok(rust.into_inner())
 }
 
+fn write_where_clause<W: Write>(
+    where_clauses: &[r::WhereClause],
+    to_triple_where_clauses: &Sep<&Vec<r::WhereClause>>,
+    rust: &mut RustWrite<W>,
+) -> io::Result<()> {
+    if !where_clauses.is_empty() {
+        rust!(rust, "where {}", to_triple_where_clauses);
+    }
+
+    Ok(())
+}
+
 fn emit_to_triple_trait<W: Write>(grammar: &r::Grammar, rust: &mut RustWrite<W>) -> io::Result<()> {
     #![allow(non_snake_case)]
 
@@ -475,13 +488,18 @@ fn emit_to_triple_trait<W: Write>(grammar: &r::Grammar, rust: &mut RustWrite<W>)
         user_type_parameters.push_str(&format!("{}, ", type_parameter));
     }
 
+    let where_clauses = &grammar.where_clauses;
+    let to_triple_where_clauses = Sep(",", where_clauses);
+
     rust!(rust, "");
     rust!(
         rust,
-        "pub trait {}ToTriple<{}> {{",
+        "pub trait {}ToTriple<{}>",
         grammar.prefix,
         user_type_parameters,
     );
+    write_where_clause(where_clauses, &to_triple_where_clauses, rust)?;
+    rust!(rust, "{{");
     rust!(
         rust,
         "fn to_triple(value: Self) -> Result<({L},{T},{L}), {parse_error}>;",
@@ -495,12 +513,14 @@ fn emit_to_triple_trait<W: Write>(grammar: &r::Grammar, rust: &mut RustWrite<W>)
     if grammar.types.opt_terminal_loc_type().is_some() {
         rust!(
             rust,
-            "impl<{utp}> {p}ToTriple<{utp}> for ({L}, {T}, {L}) {{",
+            "impl<{utp}> {p}ToTriple<{utp}> for ({L}, {T}, {L})",
             p = grammar.prefix,
             utp = user_type_parameters,
             L = L,
             T = T,
         );
+        write_where_clause(where_clauses, &to_triple_where_clauses, rust)?;
+        rust!(rust, "{{");
         rust!(
             rust,
             "fn to_triple(value: Self) -> Result<({L},{T},{L}), {parse_error}> {{",
@@ -514,13 +534,15 @@ fn emit_to_triple_trait<W: Write>(grammar: &r::Grammar, rust: &mut RustWrite<W>)
 
         rust!(
             rust,
-            "impl<{utp}> {p}ToTriple<{utp}> for Result<({L}, {T}, {L}), {E}> {{",
+            "impl<{utp}> {p}ToTriple<{utp}> for Result<({L}, {T}, {L}), {E}>",
             utp = user_type_parameters,
             p = grammar.prefix,
             L = L,
             T = T,
             E = E,
         );
+        write_where_clause(where_clauses, &to_triple_where_clauses, rust)?;
+        rust!(rust, "{{");
         rust!(
             rust,
             "fn to_triple(value: Self) -> Result<({L},{T},{L}), {parse_error}> {{",
@@ -541,11 +563,13 @@ fn emit_to_triple_trait<W: Write>(grammar: &r::Grammar, rust: &mut RustWrite<W>)
     } else {
         rust!(
             rust,
-            "impl<{utp}> {p}ToTriple<{utp}> for {T} {{",
+            "impl<{utp}> {p}ToTriple<{utp}> for {T}",
             utp = user_type_parameters,
             p = grammar.prefix,
             T = T,
         );
+        write_where_clause(where_clauses, &to_triple_where_clauses, rust)?;
+        rust!(rust, "{{");
         rust!(
             rust,
             "fn to_triple(value: Self) -> Result<((),{T},()), {parse_error}> {{",
@@ -558,12 +582,14 @@ fn emit_to_triple_trait<W: Write>(grammar: &r::Grammar, rust: &mut RustWrite<W>)
 
         rust!(
             rust,
-            "impl<{utp}> {p}ToTriple<{utp}> for Result<{T},{E}> {{",
+            "impl<{utp}> {p}ToTriple<{utp}> for Result<{T},{E}>",
             utp = user_type_parameters,
             p = grammar.prefix,
             T = T,
             E = E,
         );
+        write_where_clause(where_clauses, &to_triple_where_clauses, rust)?;
+        rust!(rust, "{{");
         rust!(
             rust,
             "fn to_triple(value: Self) -> Result<((),{T},()), {parse_error}> {{",

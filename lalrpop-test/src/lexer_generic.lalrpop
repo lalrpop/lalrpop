@@ -1,0 +1,17 @@
+use crate::lexer_generic_lib::{LexerTrait, Token};
+
+grammar<'i, L>(text: &'i str) where L: LexerTrait;
+
+pub Addition: u32 = {
+    <l:num> "+" <r:num> => u32::from(l) + u32::from(r)
+};
+
+extern {
+    type Location = usize;
+    type Error = L::Error;
+
+    enum Token {
+        "+" => Token::Plus,
+        num => Token::Num(_),
+    }
+}
