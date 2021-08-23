@@ -5,6 +5,7 @@ authors = ["LALRPOP Developers"]
 
 [output.html]
 mathjax-support = true
+site-url = "/lalrpop/"
 
 [output.html.playpen]
 editable = true
