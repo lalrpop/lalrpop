@@ -113,6 +113,10 @@ lalrpop_mod!(
 /// test for inlining expansion issue #55
 lalrpop_mod!(issue_55);
 
+/// test for issue #573
+lalrpop_mod!(lexer_generic);
+mod lexer_generic_lib;
+
 /// test for inlining of fallible NTs (issue #91)
 lalrpop_mod!(inline_fallible);
 
@@ -832,6 +836,18 @@ fn error_recovery_span_starts_just_dropped_states() {
     // Here, we drop the `+` in favor of the `-`.
     // Therefore, the span we give is the `+`.
     test_error_recovery_spans("1 + - 4", ". - . .", "1 - 4");
+}
+
+#[test]
+fn lexer_generic_test() {
+    use lexer_generic_lib::Lexer;
+
+    let input = "2 + 3";
+    let lexer = Lexer::new(input);
+    let parser = lexer_generic::AdditionParser::new();
+    let result = parser.parse::<Lexer, _, _>(input, lexer);
+
+    assert_eq!(Ok(5), result);
 }
 
 #[test]

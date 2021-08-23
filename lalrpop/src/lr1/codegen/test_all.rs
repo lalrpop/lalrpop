@@ -124,7 +124,11 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TestAll> {
         let parameters = if non_lifetimes.is_empty() {
             String::new()
         } else {
-            format!("::<{}>", Sep(", ", &non_lifetimes))
+            if self.grammar.intern_token.is_some() {
+                format!("::<{}>", Sep(", ", &non_lifetimes))
+            } else {
+                format!("::<{}, _, _>", Sep(", ", &non_lifetimes))
+            }
         };
         rust!(
             self.out,
