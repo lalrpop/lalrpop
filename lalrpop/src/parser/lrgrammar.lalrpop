@@ -1,9 +1,9 @@
 use string_cache::DefaultAtom as Atom;
-use grammar::parse_tree::*;
-use grammar::pattern::*;
+use crate::grammar::parse_tree::*;
+use crate::grammar::pattern::*;
 use std::iter::once;
-use tok::{self, Tok};
-use util::strip;
+use crate::tok::{self, Tok};
+use crate::util::strip;
 use lalrpop_util::ParseError;
 
 use super::Top;

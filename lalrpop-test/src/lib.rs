@@ -1,16 +1,13 @@
 #![cfg_attr(not(test), allow(dead_code, unused_imports))]
 #![allow(unused_doc_comments)]
 
-extern crate diff;
-#[macro_use]
-extern crate lalrpop_util;
-
 use std::cell::RefCell;
 use std::fs;
 use std::path::Path;
 use std::process::Command;
 
 use lalrpop_util::{ErrorRecovery, ParseError};
+use lalrpop_util::lalrpop_mod;
 
 use crate::util::tok::Tok;
 

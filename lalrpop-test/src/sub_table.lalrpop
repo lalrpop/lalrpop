@@ -3,7 +3,7 @@
 #[table_driven]
 grammar<'input>;
 
-use util::tok::Tok;
+use crate::util::tok::Tok;
 
 extern {
     enum Tok<'input> {

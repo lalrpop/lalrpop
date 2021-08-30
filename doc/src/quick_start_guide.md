@@ -33,8 +33,6 @@ Next create a [`build.rs`](https://doc.rust-lang.org/cargo/reference/build-scrip
 that looks like:
 
 ```rust
-extern crate lalrpop;
-
 fn main() {
     lalrpop::process_root().unwrap();
 }

@@ -1,4 +1,4 @@
-use generics_issue_104_lib::Generator;
+use crate::generics_issue_104_lib::Generator;
 
 grammar<T> where T: Generator;
 

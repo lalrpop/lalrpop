@@ -10,7 +10,7 @@ use crate::tok;
 mod lrgrammar;
 
 #[cfg(feature = "test")]
-lalrpop_mod!(
+lalrpop_util::lalrpop_mod!(
     #[allow(dead_code)]
     lrgrammar,
     "/src/parser/lrgrammar.rs"

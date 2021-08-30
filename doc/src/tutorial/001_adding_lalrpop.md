@@ -28,6 +28,7 @@ look something like:
 name = "calculator"
 version = "0.1.0"
 authors = ["Niko Matsakis <niko@alum.mit.edu>"]
+edition = "2018"
 
 [build-dependencies] # <-- We added this and everything after!
 lalrpop = "0.19.6"
@@ -63,12 +64,13 @@ your Rust code. This should just look like the following:
 [this feature]: https://doc.rust-lang.org/cargo/reference/build-scripts.html
 
 ```rust
-extern crate lalrpop;
-
 fn main() {
     lalrpop::process_root().unwrap();
 }
 ```
+
+*NOTE:* On the Rust 2015 edition, you'll have to add `extern crate lalrpop` to
+bring the library into scope.
 
 The function `process_root` processes your `src` directory, converting
 all `lalrpop` files into `rs` files. It is smart enough to check

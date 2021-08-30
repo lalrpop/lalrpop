@@ -1,5 +1,5 @@
-use lexer;
-use ast;
+use crate::lexer;
+use crate::ast;
 
 grammar;
 

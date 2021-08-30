@@ -1,5 +1,4 @@
-#[macro_use]
-extern crate lalrpop_util;
+use lalrpop_util::lalrpop_mod;
 
 lalrpop_mod!(pub calculator1); // syntesized by LALRPOP
 

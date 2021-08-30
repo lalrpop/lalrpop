@@ -2,6 +2,7 @@
 name = "calculator"
 version = "0.19.6"
 authors = ["Niko Matsakis <niko@alum.mit.edu>"]
+edition = "2018"
 build = "build.rs" # <-- We added this and everything after!
 workspace = "../.."
 

@@ -6,8 +6,6 @@ If you want to keep the previous behaviour, you can use `generate_in_source_tree
 in your configuration:
 
 ```rust
-extern crate lalrpop;
-
 fn main() {
     lalrpop::Configuration::new()
         .generate_in_source_tree()

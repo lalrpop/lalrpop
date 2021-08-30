@@ -1,6 +1,6 @@
 use std::collections::HashMap;
 
-use grammar::parse_tree::TypeRef;
+use crate::grammar::parse_tree::TypeRef;
 use string_cache::DefaultAtom as Atom;
 
 #[cfg(test)]

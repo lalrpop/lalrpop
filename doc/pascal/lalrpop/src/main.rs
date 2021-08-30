@@ -1,6 +1,4 @@
-#[macro_use]
-extern crate lalrpop_util;
-extern crate pico_args;
+use lalrpop_util::lalrpop_mod;
 
 use std::ffi::OsString;
 use std::fs::File;

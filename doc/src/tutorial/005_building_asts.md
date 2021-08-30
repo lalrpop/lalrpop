@@ -29,7 +29,7 @@ have been flagged with comments):
 
 ```lalrpop
 use std::str::FromStr;
-use ast::{Expr, Opcode}; // (0)
+use crate::ast::{Expr, Opcode}; // (0)
 
 grammar;
 

@@ -5,6 +5,7 @@ authors = ["Niko Matsakis <niko@alum.mit.edu>"]
 license = "Apache-2.0/MIT"
 build = "build.rs"
 workspace = ".."
+edition = "2018"
 
 [dependencies]
 diff = "0.1.12"

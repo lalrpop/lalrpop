@@ -1,5 +1,5 @@
 
-use util::tok::Tok;
+use crate::util::tok::Tok;
 
 #[LALR]
 grammar<'input>();

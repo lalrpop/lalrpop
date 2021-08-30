@@ -2,7 +2,7 @@
 
 Before doing anything else, run `cargo build -p lalrpop`!
 
-From now on use `cargo compile/test -p lalrpop --features=test` instead of
+From now on use `cargo build/test -p lalrpop --features=test` instead of
 `cargo build -p lalrpop`.
 
 Just before your final commit, run `sh update_lrgrammar.sh`

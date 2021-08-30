@@ -37,7 +37,7 @@ source as [`calculator6.lalrpop`][calculator6]. This allows you to nicely
 handle the errors:
 
 ```rust
-#[macro_use] extern crate lalrpop_util;
+use lalrpop_util::lalrpop_mod;
 
 lalrpop_mod!(pub calculator6);
 
@@ -74,7 +74,7 @@ type, so we change the top of the file to:
 
 ```lalrpop
 use std::str::FromStr;
-use ast::{Expr, Opcode};
+use crate::ast::{Expr, Opcode};
 
 use super::Calculator6Error;
 
@@ -109,7 +109,7 @@ Num: i32 = {
 And finally we can see if it works:
 
 ```rust
-#[macro_use] extern crate lalrpop_util;
+use lalrpop_util::lalrpop_mod;
 
 lalrpop_mod!(pub calculator6b);
 
