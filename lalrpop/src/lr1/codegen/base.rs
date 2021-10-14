@@ -165,7 +165,7 @@ impl<'codegen, 'grammar, W: Write, C> CodeGenerator<'codegen, 'grammar, W, C> {
         rust!(
             self.out,
             "#![allow(non_snake_case, non_camel_case_types, unused_mut, unused_variables, \
-             unused_imports, unused_parens)]"
+             unused_imports, unused_parens, clippy::all)]"
         );
         rust!(self.out, "");
 
