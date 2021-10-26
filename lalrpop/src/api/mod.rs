@@ -254,13 +254,14 @@ pub fn process_root() -> Result<(), Box<dyn Error>> {
     Configuration::new().process_current_dir()
 }
 
-/// Deprecated in favor of `Configuration`. Try:
+/// Deprecated in favor of `Configuration`.
+///
+/// Instead, consider using:
 ///
 /// ```rust
 /// Configuration::new().force_build(true).process_current_dir()
 /// ```
 ///
-/// instead.
 pub fn process_root_unconditionally() -> Result<(), Box<dyn Error>> {
     Configuration::new().force_build(true).process_current_dir()
 }
