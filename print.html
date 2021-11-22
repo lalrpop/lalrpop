@@ -1337,7 +1337,7 @@ To this end <code>ignore patterns</code> can be specified.</p>
 <pre><code>match {
     r&quot;\s*&quot; =&gt; { }, // The default whitespace skipping is disabled an `ignore pattern` is specified
     r&quot;//[^\n\r]*[\n\r]*&quot; =&gt; { }, // Skip `// comments`
-    r&quot;/\*([^\*]*\*+[^\*/])*([^\*]*\*+|[^\*])*\*/&quot; =&gt; { },  // Skip `/* comments */`
+    r&quot;/\*[^*]*\*+(?:[^/*][^*]*\*+)*/&quot; =&gt; { },  // Skip `/* comments */`
 }
 </code></pre>
 <h1 id="writing-a-custom-lexer"><a class="header" href="#writing-a-custom-lexer">Writing a custom lexer</a></h1>
