@@ -1,8 +1,8 @@
-use bit_set::{self, BitSet};
 use crate::collections::Collection;
 use crate::grammar::repr::*;
 use crate::lr1::core::*;
 use crate::lr1::tls::Lr1Tls;
+use bit_set::{self, BitSet};
 use std::fmt::{Debug, Error, Formatter};
 use std::hash::Hash;
 
@@ -212,6 +212,10 @@ impl TokenSet {
         let mut bit_set = self.bit_set.clone();
         bit_set.intersect_with(&set.bit_set);
         TokenSet { bit_set }
+    }
+
+    pub fn difference_with(&mut self, set: &TokenSet) {
+        self.bit_set.difference_with(&set.bit_set);
     }
 
     pub fn contains(&self, token: &Token) -> bool {

@@ -1,7 +1,9 @@
 //! The "parse-tree" is what is produced by the parser. We use it do
 //! some pre-expansion and so forth before creating the proper AST.
 
-use crate::grammar::consts::{INPUT_LIFETIME, LALR, RECURSIVE_ASCENT, TABLE_DRIVEN, TEST_ALL};
+use crate::grammar::consts::{
+    INPUT_LIFETIME, LALR, PREFER_SHIFTS, RECURSIVE_ASCENT, TABLE_DRIVEN, TEST_ALL,
+};
 use crate::grammar::pattern::Pattern;
 use crate::grammar::repr::{self as r, NominalTypeRepr, TypeRepr};
 use crate::lexer::dfa::DFA;
@@ -1201,7 +1203,11 @@ impl Path {
     }
 }
 
-pub fn read_algorithm(annotations: &[Annotation], algorithm: &mut r::Algorithm) {
+pub fn read_annotations(
+    annotations: &[Annotation],
+    algorithm: &mut r::Algorithm,
+    prefer_shifts: &mut bool,
+) {
     for annotation in annotations {
         if annotation.id == Atom::from(LALR) {
             algorithm.lalr = true;
@@ -1211,6 +1217,8 @@ pub fn read_algorithm(annotations: &[Annotation], algorithm: &mut r::Algorithm) 
             algorithm.codegen = r::LrCodeGeneration::RecursiveAscent;
         } else if annotation.id == Atom::from(TEST_ALL) {
             algorithm.codegen = r::LrCodeGeneration::TestAll;
+        } else if annotation.id == Atom::from(PREFER_SHIFTS) {
+            *prefer_shifts = true;
         } else {
             panic!(
                 "validation permitted unknown annotation: {:?}",

@@ -6,9 +6,9 @@ use crate::collections::{map, Map};
 use crate::grammar::free_variables::FreeVariables;
 use crate::grammar::pattern::Pattern;
 use crate::message::Content;
+use crate::util::Sep;
 use std::fmt::{Debug, Display, Error, Formatter};
 use string_cache::DefaultAtom as Atom;
-use crate::util::Sep;
 
 // These concepts we re-use wholesale
 pub use crate::grammar::parse_tree::{
@@ -24,6 +24,9 @@ pub struct Grammar {
 
     // algorithm user requested for this parser
     pub algorithm: Algorithm,
+
+    // true if shift is preferred during shift-reduce conflicts
+    pub prefer_shifts: bool,
 
     // true if the grammar mentions the `!` terminal anywhere
     pub uses_error_recovery: bool,

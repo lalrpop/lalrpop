@@ -11,6 +11,7 @@ use crate::lr1::lane_table::table::{ConflictIndex, LaneTable};
 use crate::lr1::lookahead::{Lookahead, TokenSet};
 use crate::lr1::state_graph::StateGraph;
 use ena::unify::InPlaceUnificationTable;
+use lr1::lookahead::Token;
 
 mod merge;
 use self::merge::Merge;
@@ -137,6 +138,23 @@ impl<'grammar> LaneTableConstruct<'grammar> {
             "resolve_inconsistencies(inconsistent_state={:?}/{:#?}",
             inconsistent_state, states[inconsistent_state.0]
         );
+
+        if self.grammar.prefer_shifts {
+            let state = &mut states[inconsistent_state.0];
+
+            let shifts = state
+                .shifts
+                .iter()
+                .map(|(term, _)| Token::Terminal(term.clone()))
+                .fold(TokenSet::new(), |mut set, token| {
+                    set.insert(token);
+                    set
+                });
+
+            for (reduction, _production) in &mut state.reductions {
+                reduction.difference_with(&shifts);
+            }
+        }
 
         let mut actions = super::conflicting_actions(&states[inconsistent_state.0]);
         if actions.is_empty() {

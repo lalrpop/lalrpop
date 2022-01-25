@@ -1,0 +1,8 @@
+#[prefer_shifts]
+grammar;
+
+pub List = <(<Expr> ";"?)*>;
+
+Expr: (String, Vec<String>) = <a:"a"> <parts:ExprPart*> => (a.to_string(), parts);
+
+ExprPart: String = "a" => <>.to_string();

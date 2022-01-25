@@ -5,7 +5,7 @@ use crate::collections::{map, Map};
 use crate::grammar::consts::CFG;
 use crate::grammar::parse_tree as pt;
 use crate::grammar::parse_tree::{
-    read_algorithm, GrammarItem, InternToken, Lifetime, MatchMapping, Name, NonterminalString,
+    read_annotations, GrammarItem, InternToken, Lifetime, MatchMapping, Name, NonterminalString,
     Path, TerminalString,
 };
 use crate::grammar::pattern::{Pattern, PatternKind};
@@ -174,7 +174,9 @@ impl<'s> LowerState<'s> {
             algorithm.codegen = r::LrCodeGeneration::TestAll;
         }
 
-        read_algorithm(&grammar.annotations, &mut algorithm);
+        let mut prefer_shifts = false;
+
+        read_annotations(&grammar.annotations, &mut algorithm, &mut prefer_shifts);
 
         let mut all_terminals: Vec<_> = self
             .conversions
@@ -204,6 +206,7 @@ impl<'s> LowerState<'s> {
             parameters,
             where_clauses,
             algorithm,
+            prefer_shifts,
             intern_token: self.intern_token,
             terminals: r::TerminalSet {
                 all: all_terminals,

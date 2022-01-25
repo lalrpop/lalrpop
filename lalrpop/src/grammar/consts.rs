@@ -19,6 +19,9 @@ pub const CFG: &str = "cfg";
 /// Annotation to request LALR.
 pub const LALR: &str = "LALR";
 
+/// Prefer shift during shift-reduce conflicts
+pub const PREFER_SHIFTS: &str = "prefer_shifts";
+
 /// Annotation to request recursive-ascent-style code generation.
 pub const TABLE_DRIVEN: &str = "table_driven";
 

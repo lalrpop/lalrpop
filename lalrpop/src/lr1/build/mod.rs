@@ -164,7 +164,9 @@ impl<'grammar, L: LookaheadBuild> LR<'grammar, L> {
             }
 
             // check for shift-reduce conflicts (reduce-reduce detected above)
-            conflicts.extend(L::conflicts(&this_state));
+            if !self.grammar.prefer_shifts {
+                conflicts.extend(L::conflicts(&this_state));
+            }
 
             // extract a new state
             states.push(this_state);

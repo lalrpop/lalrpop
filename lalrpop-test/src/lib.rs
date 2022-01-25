@@ -145,6 +145,8 @@ lalrpop_mod!(
     issue_394
 );
 
+lalrpop_mod!(shift_over_reduce);
+
 lalrpop_mod!(
     // No parser should have been generated so nothing should be unused
     #[deny(dead_code)]
@@ -875,9 +877,7 @@ fn issue_55_test1() {
 
 #[test]
 fn inline_fallible() {
-    assert!(inline_fallible::InlineParser::new()
-        .parse("a1")
-        .is_ok());
+    assert!(inline_fallible::InlineParser::new().parse("a1").is_ok());
     assert!(inline_fallible::MultipleInlineParser::new()
         .parse("a2 a1")
         .is_ok());
@@ -1019,6 +1019,24 @@ fn generics_issue_417() {
     assert!(generics_issue_417::TupleParser::new()
         .parse::<()>("(hello, world)")
         .is_ok());
+}
+
+#[test]
+fn shift_over_reduce() {
+    assert_eq!(
+        shift_over_reduce::ListParser::new().parse("a a a").unwrap(),
+        vec![("a".to_string(), vec!["a".to_string(), "a".to_string()])]
+    );
+
+    assert_eq!(
+        shift_over_reduce::ListParser::new()
+            .parse("a; a a")
+            .unwrap(),
+        vec![
+            ("a".to_string(), vec![]),
+            ("a".to_string(), vec!["a".to_string()])
+        ]
+    );
 }
 
 #[test]

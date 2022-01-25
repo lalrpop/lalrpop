@@ -49,6 +49,7 @@ impl<'grammar> Validator<'grammar> {
             Atom::from(TABLE_DRIVEN),
             Atom::from(RECURSIVE_ASCENT),
             Atom::from(TEST_ALL),
+            Atom::from(PREFER_SHIFTS),
         ];
         for annotation in &self.grammar.annotations {
             if !allowed_names.contains(&annotation.id) {
@@ -373,7 +374,7 @@ impl<'grammar> Validator<'grammar> {
             SymbolKind::Nonterminal(_) => { /* see resolve */ }
             SymbolKind::Error => {
                 let mut algorithm = r::Algorithm::default();
-                read_algorithm(&self.grammar.annotations, &mut algorithm);
+                read_annotations(&self.grammar.annotations, &mut algorithm, &mut false);
                 if algorithm.codegen == r::LrCodeGeneration::RecursiveAscent {
                     return_err!(
                         symbol.span,
