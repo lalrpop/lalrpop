@@ -1,0 +1,22 @@
+name: Test book
+
+on: [push, pull_request]
+
+jobs:
+  lint-book:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Setup mdBook
+        uses: peaceiris/actions-mdbook@v1
+        with:
+          mdbook-version: 'latest'
+
+      - run: >
+          curl -L https://github.com/Michael-F-Bryan/mdbook-linkcheck/releases/latest/download/mdbook-linkcheck.x86_64-unknown-linux-gnu.zip -o mdbook-linkcheck.zip &&
+          unzip -n "$_" mdbook-linkcheck &&
+          chmod +x "$_"
+        working-directory: ./doc
+      - run: env PATH=$PWD:$PATH mdbook build
+        working-directory: ./doc

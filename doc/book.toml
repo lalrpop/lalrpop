@@ -9,3 +9,5 @@ site-url = "/lalrpop/"
 
 [output.html.playpen]
 editable = true
+
+[output.linkcheck]
