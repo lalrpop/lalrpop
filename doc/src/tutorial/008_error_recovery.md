@@ -49,7 +49,7 @@ Term: Box<Expr> = {
 
 Now we can add a test that includes various errors (e.g., missing 
 operands). Note that now the `parse` method takes two arguments 
-instead of one, which is caused by that we rewrote the "grammer" line 
+instead of one, which is caused by our rewriting of the "grammar" line 
 in the LALRPOP file. You can see that the parser recovered from missing 
 operands by inserting this `!` token where necessary.
 
