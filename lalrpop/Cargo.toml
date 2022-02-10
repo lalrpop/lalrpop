@@ -22,7 +22,7 @@ bit-set = { version = "0.5.2", default_features = false }
 diff = { version = "0.1.12", default_features = false }
 ena = { version = "0.14", default_features = false }
 itertools = { version = "0.10", default_features = false, features = ["use_std"] }
-petgraph = { version = "0.5", default_features = false }
+petgraph = { version = "0.6", default_features = false }
 regex = { version = "1", default_features = false, features = ["std"] }
 regex-syntax = { version = "0.6", default_features = false }
 string_cache = { version = "0.8", default_features = false }
