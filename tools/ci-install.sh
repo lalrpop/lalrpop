@@ -9,3 +9,9 @@ else
     cargo install mdbook --vers "0.4.7"
 fi
 
+if command -v mdbook-linkcheck >/dev/null 2>&1; then
+    echo "mdbook-linkcheck already installed at $(command -v mdbook-linkcheck)"
+else
+    echo "installing mdbook-linkcheck"
+    cargo install mdbook-linkcheck --vers "0.7.6"
+fi
