@@ -1,0 +1,10 @@
+use super::{Var, Lit, Stmt};
+
+grammar;
+
+pub Var: Var = <r"[a-z]"> => <>.chars().next().unwrap().into();
+
+pub Lit: Lit = <l:r#""(\\\\|\\"|[^"])*""#> =>
+    l[1..l.len()-1].replace("\\\"", "\"").replace("\\\\", "\\").into();
+
+pub Stmt: Stmt = <Var> "=" <Lit> => (<>).into();

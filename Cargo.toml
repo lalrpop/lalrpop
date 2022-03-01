@@ -1,6 +1,7 @@
 [workspace]
 members = [
         "doc/calculator",
+        "doc/nobol",
         "doc/pascal/lalrpop",
         "doc/whitespace",
         "lalrpop-test",
