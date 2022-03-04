@@ -8,7 +8,7 @@ as we saw in the earlier sections.
 
 However, some languages do not have such easy separations at the lexical level.
 
-Consider parsing a language with string literals. We will deliberate choose
+Consider parsing a language with string literals. We will deliberately choose
 one that is very simple: All it can do is bind variables, and the variables are
 always single characters, like this:
 
