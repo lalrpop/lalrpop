@@ -1,10 +1,9 @@
-use super::{Var, Lit, Stmt};
+use super::{Var, Lit, Stmt, apply_string_escapes};
 
 grammar;
 
 pub Var: Var = <r"[a-z]"> => <>.chars().next().unwrap().into();
 
-pub Lit: Lit = <l:r#""(\\\\|\\"|[^"])*""#> =>
-    l[1..l.len()-1].replace("\\\"", "\"").replace("\\\\", "\\").into();
+pub Lit: Lit = <l:r#""(\\\\|\\"|[^"\\])*""#> => Lit(apply_string_escapes(&l[1..l.len()-1]).into());
 
 pub Stmt: Stmt = <Var> "=" <Lit> => (<>).into();
