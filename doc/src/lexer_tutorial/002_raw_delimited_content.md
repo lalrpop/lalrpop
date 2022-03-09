@@ -313,7 +313,7 @@ the lexical analyzer as *not* ending the string content.
 We can generalize the regular expression in our new `Lit` rule to handle this:
 
 ```lalrpop
-pub Lit: Lit = <l:r#""(\\\\|\\"|[^"])*""#> => l[1..l.len()-1].into();
+pub Lit: Lit = <l:r#""(\\\\|\\"|[^"\\])*""#> => l[1..l.len()-1].into();
 ```
 
 However, depending on your data model, this is not quite right. In particular:
@@ -341,6 +341,7 @@ This can be readily addressed by adding some code to post-process the token to r
 backslashes:
 
 ```lalrpop
-pub Lit: Lit = <l:r#""(\\\\|\\"|[^"])*""#> =>
-    l[1..l.len()-1].replace("\\\"", "\"").replace("\\\\", "\\").into();
+pub Lit: Lit = <l:r#""(\\\\|\\"|[^"\\])*""#> => Lit(apply_string_escapes(&l[1..l.len()-1]).into());
 ```
+
+where `apply_string_escapes` is a helper routine that searches for backslashes in the content and performs the corresponding replacement with the character denoted by the escape sequence.
