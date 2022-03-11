@@ -28,7 +28,7 @@ This will provide the `logos` crate and the `Logos` trait.
 
 ## The AST
 
-As an example, we will use this AST in our grammar:
+We will use the following abstract syntax tree (AST) as a representation of our expressions:
 
 ```rust
 #[derive(Clone, Debug, PartialEq)]
@@ -93,26 +93,19 @@ pub enum Token {
   OperatorDiv,
 
   #[regex(r"#.*\n?", logos::skip)]
-	#[regex(r"[ \t\n\f]+", logos::skip)]
+  #[regex(r"[ \t\n\f]+", logos::skip)]
   #[error]
   Error,
 }
 ```
 
-The annotation `#[token()]` will generate the enum's variant when the token is
-detected in the input string.
-
-The annotation `#[regex()]` will generate the enum's variant when the regex
-match in the input string.
+An exact match is specified using the `#[token()]` annotation. For example, `#[token("+")]` makes the `OperatorAdd` token to be emitted only when a literal `"+"` appears in the input (unless it is part of another match, see below). On the other hand, `#[regex()]` will match a regular expression. For example, combined with the `logos::skip` annotation, `#[regex(r"#.*\n?", logos::skip)]` causes all matches of a `#` character until a newline character (comments of our language) to be ignored.
 
 A few things to note about how **Logos** works:
 
- - if a `#[regex()]` can match the same token as a `#[token()]`, the later will
-   have priority
- - longer tokens have priority
- - the `#[error]` annotation is required, this variant will be generated for
-   patterns that did not match any rules, we use this rule to skip comments and
-   whitespaces
+When several sequences of tokens can match the same input, Logos uses precise rules to make a choice. Rule of thumb is:
+- Longer beats shorter.
+- Specific beats generic.
 
 This means the `"printa"` input string will generate the following token:
 
@@ -138,10 +131,10 @@ impl fmt::Display for Token {
 
 ## Implement the lexer
 
-This part is very similar to the previous tutorials, in a file `lexer.rs` (or
+This part is very similar to the previous tutorials. In a file `lexer.rs` (or
 any other name), we will implement the Lexer as required by LALRPOP.
 
-First, we import everything we need and define our types and structures:
+First, we define our types and structures:
 
 ```rust
 use logos::{Logos, SpannedIter};
@@ -179,19 +172,13 @@ impl<'input> Iterator for Lexer<'input> {
   type Item = Spanned<Token, usize, LexicalError>;
 
   fn next(&mut self) -> Option<Self::Item> {
-    match self.token_stream.next() {
-      // end of input
-      None => None,
-
-      Some((token, span)) => {
-        let res = match token {
-          // an invalid token was met
-          Token::Error => Err(LexicalError::InvalidToken),
-          _ => Ok((span.start, token, span.end)),
-        }
-
-        Some(res)
-      }
+self.token_stream.next().map(|(token, span)| {
+  match token {
+    // an invalid token was met
+    Token::Error => Err(LexicalError::InvalidToken),
+    _ => Ok((span.start, token, span.end)),
+  }
+})
     }
   }
 }
@@ -199,7 +186,7 @@ impl<'input> Iterator for Lexer<'input> {
 
 ## Update the grammar
 
-Now, in our `grammar.lalrpop` file (or any other name), we can integrate our
+Next, in our `grammar.lalrpop` file (or any other name), we can integrate our
 lexer as follows:
 
 ```lalrpop
@@ -235,7 +222,7 @@ extern {
 }
 ```
 
-Now, we can build our rules:
+Finally, we can build our rules:
 
 ```rust
 pub Script: Vec<Box<ast::Statement>> = {
@@ -262,39 +249,40 @@ pub Statement: Box<ast::Statement> = {
 }
 
 pub Expression: Box<ast::Expression> = {
-  <lhs:Expression> "+" <rhs:Factor> => {
-    Box::new(ast::Expression::BinaryOperation {
-      lhs,
-      operator: ast::Operator::Add,
-      rhs
-    })
-  },
-  <lhs:Expression> "-" <rhs:Factor> => {
-    Box::new(ast::Expression::BinaryOperation {
-      lhs,
-      operator: ast::Operator::Sub,
-      rhs
-    })
-  },
-  Factor,
-}
-
-pub Factor: Box<ast::Expression> => {
-  <lhs:Factor> "*" <rhs:Term> => {
+  #[precedence(lvl="1")
+  Term,
+  
+  #[precedence(lvl="2")] #[assoc(side="left")]
+  <lhs:Expression> "*" <rhs:Expression> => {
     Box::new(ast::Expression::BinaryOperation {
       lhs,
       operator: ast::Operator::Mul,
       rhs
     })
   },
-  <lhs:Factor> "/" <rhs:Term> => {
+  <lhs:Expression> "/" <rhs:Expression> => {
     Box::new(ast::Expression::BinaryOperation {
       lhs,
       operator: ast::Operator::Div,
       rhs
     })
   },
-  Term,
+  
+  #[precedence(lvl="3")]
+  <lhs:Expression> "+" <rhs:Expression> => {
+    Box::new(ast::Expression::BinaryOperation {
+      lhs,
+      operator: ast::Operator::Add,
+      rhs
+    })
+  },
+  <lhs:Expression> "-" <rhs:Expression> => {
+    Box::new(ast::Expression::BinaryOperation {
+      lhs,
+      operator: ast::Operator::Sub,
+      rhs
+    })
+  },
 }
 
 pub Term: Box<ast::Expression> => {
