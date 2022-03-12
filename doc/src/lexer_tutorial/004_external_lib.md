@@ -296,7 +296,7 @@ pub Term: Box<ast::Expression> => {
     Box::new(ast::Expression::Integer(val))
   },
   <name:"identifier"> => {
-    Box::new(ast::Expression::Identifier(name))
+    Box::new(ast::Expression::Variable(name))
   },
   "(" Expression ")",
 }
