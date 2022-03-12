@@ -99,11 +99,23 @@ pub enum Token {
 }
 ```
 
-An exact match is specified using the `#[token()]` annotation. For example, `#[token("+")]` makes the `OperatorAdd` token to be emitted only when a literal `"+"` appears in the input (unless it is part of another match, see below). On the other hand, `#[regex()]` will match a regular expression. For example, combined with the `logos::skip` annotation, `#[regex(r"#.*\n?", logos::skip)]` causes all matches of a `#` character until a newline character (comments of our language) to be ignored.
+An exact match is specified using the `#[token()]` annotation.
+
+For example, `#[token("+")]` makes the `OperatorAdd` token to be emitted only
+when a literal `"+"` appears in the input (unless it is part of another match,
+see below).
+
+On the other hand, `#[regex()]` will match a regular expression.
+
+For example, combined with the `logos::skip` annotation,
+`#[regex(r"#.*\n?", logos::skip)]` causes all matches of a `#` character until
+a newline character (comments of our language) to be ignored.
 
 A few things to note about how **Logos** works:
 
-When several sequences of tokens can match the same input, Logos uses precise rules to make a choice. Rule of thumb is:
+When several sequences of tokens can match the same input, Logos uses precise
+rules to make a choice. Rule of thumb is:
+
 - Longer beats shorter.
 - Specific beats generic.
 
@@ -129,6 +141,9 @@ impl fmt::Display for Token {
 }
 ```
 
+This is required because the token is included in the error message that
+LALRPOP generates if it fails at parsing.
+
 ## Implement the lexer
 
 This part is very similar to the previous tutorials. In a file `lexer.rs` (or
@@ -145,7 +160,6 @@ pub type Spanned<Tok, Loc, Error> = Result<(Loc, Tok, Loc), Error>;
 
 pub enum LexicalError {
   InvalidToken,
-  ShouldNotHappen,
 }
 
 pub struct Lexer<'input> {
@@ -172,14 +186,13 @@ impl<'input> Iterator for Lexer<'input> {
   type Item = Spanned<Token, usize, LexicalError>;
 
   fn next(&mut self) -> Option<Self::Item> {
-self.token_stream.next().map(|(token, span)| {
-  match token {
-    // an invalid token was met
-    Token::Error => Err(LexicalError::InvalidToken),
-    _ => Ok((span.start, token, span.end)),
-  }
-})
-    }
+    self.token_stream.next().map(|(token, span)| {
+      match token {
+        // an invalid token was met
+        Token::Error => Err(LexicalError::InvalidToken),
+        _ => Ok((span.start, token, span.end)),
+      }
+    })
   }
 }
 ```
@@ -190,7 +203,6 @@ Next, in our `grammar.lalrpop` file (or any other name), we can integrate our
 lexer as follows:
 
 ```lalrpop
-use lalrpop_util::ParseError;
 use crate::path:to:{
   tokens::Token,
   lexer::LexicalError,
@@ -208,8 +220,8 @@ extern {
   enum Token {
     "var" => Token::KeywordVar,
     "print" => Token::KeywordPrint,
-    "identifier" => Token::Identifier(_),
-    "int" => Token::Integer(_),
+    "identifier" => Token::Identifier(<String>),
+    "int" => Token::Integer(<i64>),
     "(" => Token::LParen,
     ")" => Token::RParen,
     "=" => Token::Assign,
@@ -222,6 +234,10 @@ extern {
 }
 ```
 
+**NB:** This part allows us to give a precise name to the tokens emitted by our
+Lexer. We can then use those names (`"identifier"`, `"var"`, ...) in our grammar
+rules to reference the desired token.
+
 Finally, we can build our rules:
 
 ```rust
@@ -230,28 +246,18 @@ pub Script: Vec<Box<ast::Statement>> = {
 }
 
 pub Statement: Box<ast::Statement> = {
-  "var" <id:"identifier"> "=" <value:Expression> ";" =>? {
-    match id {
-      Token::Identifier(name) => {
-        Ok(Box::new(ast::Statement::Variable {
-          name,
-          value,
-        }))
-      },
-      _ => {
-        // this should not happen, but the compiler cannot guarantee it
-        // it will make sure that an error is returned if you refactor your lexer
-        Err(ParseError::User { error: LexicalError::ShouldNotHappen })
-      }
-    }
+  "var" <name:"identifier"> "=" <value:Expression> ";" => {
+    Box::new(ast::Statement::Variable { name, value })
   },
-  "print" <value:Expression> ";" => Box::new(ast::Statement::Print { value })
+  "print" <value:Expression> ";" => {
+    Box::new(ast::Statement::Print { value })
+  },
 }
 
 pub Expression: Box<ast::Expression> = {
   #[precedence(lvl="1")
   Term,
-  
+
   #[precedence(lvl="2")] #[assoc(side="left")]
   <lhs:Expression> "*" <rhs:Expression> => {
     Box::new(ast::Expression::BinaryOperation {
@@ -267,7 +273,7 @@ pub Expression: Box<ast::Expression> = {
       rhs
     })
   },
-  
+
   #[precedence(lvl="3")]
   <lhs:Expression> "+" <rhs:Expression> => {
     Box::new(ast::Expression::BinaryOperation {
@@ -286,17 +292,11 @@ pub Expression: Box<ast::Expression> = {
 }
 
 pub Term: Box<ast::Expression> => {
-  <i:"int"> =>? {
-    match i {
-      Token::Integer(val) => Ok(Box::new(ast::Expression::Integer(val))),
-      _ => Err(ParseError::User { error: LexicalError::ShouldNotHappen }),
-    }
+  <val:"int"> => {
+    Box::new(ast::Expression::Integer(val))
   },
-  <x:"identifier"> =>? {
-    match x {
-      Token::Identifier(name) => Ok(Box::new(ast::Expression::Identifier(name))),
-      _ => Err(ParseError::User { error: LexicalError::ShouldNotHappen })
-    }
+  <name:"identifier"> => {
+    Box::new(ast::Expression::Identifier(name))
   },
   "(" Expression ")",
 }
