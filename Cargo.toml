@@ -4,6 +4,7 @@ members = [
         "doc/pascal/lalrpop",
         "doc/whitespace",
         "lalrpop-test",
+        "lalrpop-docgen",
         "lalrpop-util",
         "lalrpop",
 ]

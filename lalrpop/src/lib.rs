@@ -33,22 +33,22 @@ extern crate rand;
 #[macro_use]
 mod rust;
 #[macro_use]
-mod log;
+pub mod log;
 
 mod api;
 mod build;
 mod collections;
 mod file_text;
-mod grammar;
+pub mod grammar;
 mod kernel_set;
 mod lexer;
 mod lr1;
 mod message;
 mod normalize;
-mod parser;
+pub mod parser;
 mod session;
 mod tls;
-mod tok;
+pub mod tok;
 mod util;
 
 #[cfg(test)]
