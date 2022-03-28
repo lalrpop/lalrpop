@@ -115,7 +115,7 @@ pub fn process_file(session: &Rc<Session>, path: &Path) -> Result<(), Box<dyn Er
 
 fn prolog(session: &Rc<Session>, name: &str) -> Result<Option<String>, Box<dyn Error>> {
     if let Some(prolog_dir) = &session.prolog_dir {
-        let prolog_path = format!("{}/{}.md", prolog_dir.to_string_lossy(), name);
+        let prolog_path = format!("{}/{}.md", prolog_dir.to_string_lossy(), name.to_ascii_lowercase());
         if Path::new(&prolog_path).exists() {
             Ok(Some(fs::read_to_string(prolog_path)?))
         } else {
@@ -128,7 +128,7 @@ fn prolog(session: &Rc<Session>, name: &str) -> Result<Option<String>, Box<dyn E
 
 fn epilog(session: &Rc<Session>, name: &str) -> Result<Option<String>, Box<dyn Error>> {
     if let Some(epilog_dir) = &session.epilog_dir {
-        let epilog_path = format!("{}/{}.md", epilog_dir.to_string_lossy(), name);
+        let epilog_path = format!("{}/{}.md", epilog_dir.to_string_lossy(), name.to_ascii_lowercase());
         if Path::new(&epilog_path).exists() {
             Ok(Some(fs::read_to_string(epilog_path)?))
         } else {

@@ -35,11 +35,31 @@ pub fn svg_dir(session: &Rc<Session>) -> Result<PathBuf, Box<dyn Error>> {
 }
 
 pub fn prolog_dir(session: &Rc<Session>) -> Result<PathBuf, Box<dyn Error>> {
-    default_dir(&session.prolog_dir, "static/prolog")
+    let base_path = std::env::current_dir()?;
+    if let Some(dir) = &session.prolog_dir {
+	if dir.is_relative() {
+            Ok(base_path.join(&dir.as_path().to_string_lossy().to_string()).as_path().to_owned())
+	} else {
+            Ok(dir.as_path().to_owned())
+	}
+    } else {
+        let full_path = format!("{}/static/prolog", base_path.to_string_lossy());
+        Ok(Path::new(&full_path).to_owned())
+    }
 }
 
 pub fn epilog_dir(session: &Rc<Session>) -> Result<PathBuf, Box<dyn Error>> {
-    default_dir(&session.epilog_dir, "static/epilog")
+    let base_path = std::env::current_dir()?;
+    if let Some(dir) = &session.epilog_dir {
+	if dir.is_relative() {
+            Ok(base_path.join(&dir.as_path().to_string_lossy().to_string()).as_path().to_owned())
+	} else {
+            Ok(dir.as_path().to_owned())
+	}
+    } else {
+        let full_path = format!("{}/static/epilog", base_path.to_string_lossy());
+        Ok(Path::new(&full_path).to_owned())
+    }
 }
 
 pub fn read_to_string(path: &str) -> Result<String, Box<dyn Error>> {
