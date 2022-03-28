@@ -83,7 +83,7 @@ pub fn process_dir(session: &Rc<Session>, path: &Path) -> Result<(), Box<dyn Err
 }
 
 pub fn process_file(session: &Rc<Session>, path: &Path) -> Result<(), Box<dyn Error>> {
-    maybe_mkdirp(out_dir(&session.out_dir)?)?;
+    maybe_mkdirp(out_dir(&session)?)?;
 
     let mut ebnf = LalrpopToEbnf::new(session)?;
     let mut diagram = if let Some(grammar_cuts) = &session.grammar_cuts {

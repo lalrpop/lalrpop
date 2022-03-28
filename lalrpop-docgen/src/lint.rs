@@ -51,10 +51,10 @@ pub(crate) fn lint(
 }
 
 fn lint_all(session: &Rc<Session>, railroad: &LalrpopToRailroad) -> Result<(), Box<dyn Error>> {
-    let out_dir = util::out_dir(&session.out_dir)?;
-    let prolog_dir = util::prolog_dir(&session.prolog_dir)?;
-    let epilog_dir = util::epilog_dir(&session.epilog_dir)?;
-    let svg_dir = util::svg_dir(&session.out_dir)?;
+    let out_dir = util::out_dir(&session)?;
+    let prolog_dir = util::prolog_dir(&session)?;
+    let epilog_dir = util::epilog_dir(&session)?;
+    let svg_dir = util::svg_dir(&session)?;
     let prolog_not_found_is_err = session.prolog_not_found_is_err;
     let epilog_not_found_is_err = session.epilog_not_found_is_err;
 

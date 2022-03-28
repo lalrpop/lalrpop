@@ -91,11 +91,7 @@ fn css(session: &Rc<Session>) -> Result<String, Box<dyn Error>> {
 }
 
 fn svg_dir(session: &Rc<Session>) -> Result<String, Box<dyn Error>> {
-    let svg_str = format!(
-        "{}/{}",
-        util::out_dir(&session.out_dir)?.to_string_lossy(),
-        "svg"
-    );
+    let svg_str = util::svg_dir(session)?.to_string_lossy().to_string();
     let svg_dir = Path::new(&svg_str);
     let svg_path = Path::new(&svg_dir);
     if svg_path.exists() && svg_path.is_dir() {

@@ -1,7 +1,10 @@
 use std::fs::create_dir_all;
 use std::io::Read;
 use std::path::PathBuf;
+use std::rc::Rc;
 use std::{error::Error, fs::File, path::Path};
+
+use crate::session::Session;
 
 pub fn maybe_mkdirp(path: PathBuf) -> Result<(), Box<dyn Error>> {
     if !path.exists() {
@@ -15,7 +18,7 @@ pub fn default_dir(
     default_rel_path: &str,
 ) -> Result<PathBuf, Box<dyn Error>> {
     if let Some(dir) = maybe_dir {
-        Ok(dir.as_path().to_owned())
+        Ok(dir.as_path().join(default_rel_path).to_owned())
     } else {
         let base_path = std::env::current_dir()?;
         let full_path = format!("{}/{}", base_path.to_string_lossy(), default_rel_path);
@@ -23,20 +26,20 @@ pub fn default_dir(
     }
 }
 
-pub fn out_dir(maybe_dir: &Option<PathBuf>) -> Result<PathBuf, Box<dyn Error>> {
-    default_dir(maybe_dir, "docs")
+pub fn out_dir(session: &Rc<Session>) -> Result<PathBuf, Box<dyn Error>> {
+    default_dir(&session.out_dir, "docs")
 }
 
-pub fn svg_dir(maybe_dir: &Option<PathBuf>) -> Result<PathBuf, Box<dyn Error>> {
-    default_dir(maybe_dir, "docs/svg")
+pub fn svg_dir(session: &Rc<Session>) -> Result<PathBuf, Box<dyn Error>> {
+    default_dir(&session.out_dir, "svg")
 }
 
-pub fn prolog_dir(maybe_dir: &Option<PathBuf>) -> Result<PathBuf, Box<dyn Error>> {
-    default_dir(maybe_dir, "static/prolog")
+pub fn prolog_dir(session: &Rc<Session>) -> Result<PathBuf, Box<dyn Error>> {
+    default_dir(&session.prolog_dir, "static/prolog")
 }
 
-pub fn epilog_dir(maybe_dir: &Option<PathBuf>) -> Result<PathBuf, Box<dyn Error>> {
-    default_dir(maybe_dir, "static/epilog")
+pub fn epilog_dir(session: &Rc<Session>) -> Result<PathBuf, Box<dyn Error>> {
+    default_dir(&session.epilog_dir, "static/epilog")
 }
 
 pub fn read_to_string(path: &str) -> Result<String, Box<dyn Error>> {
