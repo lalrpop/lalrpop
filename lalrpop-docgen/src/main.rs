@@ -8,8 +8,10 @@ use std::str::FromStr;
 mod api;
 mod build;
 mod ebnf;
+mod lint;
 mod railroad;
 pub(crate) mod session;
+mod util;
 pub mod visitor;
 
 use api::Configuration;
@@ -23,19 +25,22 @@ Usage:   lalrpop-railroad [options] <inputs>...
          lalrpop-railroad (-V | --version)
 
 Options:
-    -h,  --help             Print help.
-    -V,  --version          Print version.
-    -l,  --level LEVEL      Set the debug level. (Default: info)
+    -h,   --help            Print help.
+    -V,   --version         Print version.
+    -ll,  --log-level LEVEL Set the debug level. (Default: info)
                             Valid values: quiet, info, verbose, debug.
-    -o,  --out-dir DIR      Sets the directory in which to output the generated file(s).
-    -e,  --ebnf             Generate equivalent EBNF for input grammar(s).
-    -r,  --railroad         Generate railroad diagrams for input grammar(s).
-    -rc, --railroad-css     Provide a custom CSS stylesheet for railroad diagrams.
-    -m,  --markdown         Generate markdown files for input grammar(s).
+    -o,   --out-dir DIR     Sets the directory in which to output the generated file(s).
+    -e,   --ebnf            Generate equivalent EBNF for input grammar(s).
+    -r,   --railroad        Generate railroad diagrams for input grammar(s).
+    -rc,  --railroad-css    Provide a custom CSS stylesheet for railroad diagrams.
+    -m,   --markdown        Generate markdown files for input grammar(s).
                             Markdown enables EBNF and Railroad generation.
-    -mp, --markdown-prolog  Sets directory for markdown prolog content. 1 file per rule.
-    -me, --markdown-epilog  Sets directory for markdown epilog content. 1 file per rule.
-    -gc, --grammar-cuts     A list of grammar rules to split traversal by.
+    -mp,  --markdown-prolog Sets directory for markdown prolog content. 1 file per rule.
+    -me,  --markdown-epilog Sets directory for markdown epilog content. 1 file per rule.
+    -l,  --lint             Sets lint mode for markdown lint checks ( default: enabled )
+    -lp, --lint-prolog-err  Disables lint mode for markdown prolog content ommissions as errors ( default: enabled ).
+    -le, --lint-epilog-err  Disables lint mode for markdown epilog content ommissions as errors ( default: enabled ).
+    -gc,  --grammar-cuts    A list of grammar rules to split traversal by.
 ";
 
 #[derive(Debug)]
@@ -50,6 +55,9 @@ struct Args {
     flag_markdown: bool,
     flag_markdown_prolog: Option<PathBuf>,
     flag_markdown_epilog: Option<PathBuf>,
+    flag_lint: bool,
+    flag_lint_prolog_error: bool,
+    flag_lint_epilog_error: bool,
     flag_grammar_cuts: Option<Vec<String>>,
     flag_version: bool,
 }
@@ -80,7 +88,7 @@ impl FromStr for LevelFlag {
 fn parse_args(mut args: Arguments) -> Result<Args, Box<dyn std::error::Error>> {
     Ok(Args {
         flag_out_dir: args.opt_value_from_fn(["-o", "--out-dir"], PathBuf::from_str)?,
-        flag_level: args.opt_value_from_fn(["-l", "--level"], LevelFlag::from_str)?,
+        flag_level: args.opt_value_from_fn(["-ll", "--log-level"], LevelFlag::from_str)?,
         flag_help: args.contains(["-h", "--help"]),
         flag_ebnf: args.contains(["-e", "--ebnf"]),
         flag_railroad: args.contains(["-r", "--railroad"]),
@@ -90,6 +98,9 @@ fn parse_args(mut args: Arguments) -> Result<Args, Box<dyn std::error::Error>> {
             .opt_value_from_fn(["-mp", "--markdown-prolog"], PathBuf::from_str)?,
         flag_markdown_epilog: args
             .opt_value_from_fn(["-me", "--markdown-epilog"], PathBuf::from_str)?,
+        flag_lint: args.contains(["-l", "--lint"]),
+        flag_lint_prolog_error: args.contains(["-lp", "--lint-prolog-err"]),
+        flag_lint_epilog_error: args.contains(["-le", "--lint-epilog-err"]),
         flag_grammar_cuts: args
             .opt_value_from_str(["-gc", "--grammar-cuts"])?
             .map_or_else(
@@ -146,6 +157,18 @@ fn main() -> Result<(), Box<dyn Error>> {
         config.set_epilog_dir(in_dir);
     }
 
+    if args.flag_lint {
+        config.set_markdown_lint(true);
+
+        if args.flag_lint_prolog_error {
+            config.set_prolog_not_found_err(false);
+        }
+
+        if args.flag_lint_epilog_error {
+            config.set_epilog_not_found_err(false);
+        }
+    }
+
     if let Some(ref out_dir) = args.flag_out_dir {
         config.set_out_dir(out_dir);
     }
@@ -181,7 +204,19 @@ fn main() -> Result<(), Box<dyn Error>> {
     }
 
     for arg in args.arg_inputs {
-        let arg = Path::new(&arg);
+        let arg = Path::new(arg.as_str());
+
+        let arg = if arg.is_relative() {
+            format!(
+                "{}/{}",
+                std::env::current_dir()?.to_string_lossy(),
+                arg.to_string_lossy()
+            )
+        } else {
+            arg.to_string_lossy().to_string()
+        };
+
+        let arg = Path::new(arg.as_str());
         let disposition = if arg.is_dir() {
             config.process_dir(arg)
         } else {

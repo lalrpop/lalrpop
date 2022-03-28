@@ -4,8 +4,10 @@ use std::path::Path;
 use std::{error::Error, rc::Rc};
 
 use crate::ebnf::LalrpopToEbnf;
+use crate::lint;
 use crate::railroad::LalrpopToRailroad;
 use crate::session::Session;
+use crate::util::{maybe_mkdirp, out_dir};
 use crate::visitor::LalrpopVisitor;
 
 fn target_dir(session: &Rc<Session>) -> Result<String, Box<dyn Error>> {
@@ -81,6 +83,8 @@ pub fn process_dir(session: &Rc<Session>, path: &Path) -> Result<(), Box<dyn Err
 }
 
 pub fn process_file(session: &Rc<Session>, path: &Path) -> Result<(), Box<dyn Error>> {
+    maybe_mkdirp(out_dir(&session.out_dir)?)?;
+
     let mut ebnf = LalrpopToEbnf::new(session)?;
     let mut diagram = if let Some(grammar_cuts) = &session.grammar_cuts {
         LalrpopToRailroad::with_cuts(session, grammar_cuts)?
@@ -103,6 +107,7 @@ pub fn process_file(session: &Rc<Session>, path: &Path) -> Result<(), Box<dyn Er
         }
         // Produce a markdown page for entire grammar ( all rules )
         all_markdown(session, &diagram, "Full", &ebnf)?;
+        lint::lint(session, &diagram)?;
     }
 
     Ok(())
@@ -165,7 +170,7 @@ fn all_markdown(
     ebnf: &LalrpopToEbnf,
 ) -> Result<(), Box<dyn Error>> {
     let target_dir = target_dir(session)?;
-    let md_file = format!("{}/{}.md", target_dir, partition);
+    let md_file = format!("{}/{}.md", target_dir, partition.to_ascii_lowercase());
     let mut f = File::create(md_file).expect("Unable to create file");
 
     let mut s = String::new();
@@ -180,7 +185,8 @@ fn all_markdown(
     }
 
     s.push('\n');
-    f.write_all(s.as_bytes()).expect("Writing to full markdown file failed");
+    f.write_all(s.as_bytes())
+        .expect("Writing to full markdown file failed");
     Ok(())
 }
 
@@ -192,7 +198,7 @@ fn to_markdown(
     ebnf: &LalrpopToEbnf,
 ) -> Result<(), Box<dyn Error>> {
     let target_dir = target_dir(session)?;
-    let md_file = format!("{}/{}.md", target_dir, partition);
+    let md_file = format!("{}/{}.md", target_dir, partition.to_ascii_lowercase());
     let mut f = File::create(md_file).expect("Unable to create file");
 
     let mut s = String::new();
@@ -206,6 +212,7 @@ fn to_markdown(
         }
     }
     s.push('\n');
-    f.write_all(s.as_bytes()).expect("Writing to grammar cut markdown file failed");
+    f.write_all(s.as_bytes())
+        .expect("Writing to grammar cut markdown file failed");
     Ok(())
 }

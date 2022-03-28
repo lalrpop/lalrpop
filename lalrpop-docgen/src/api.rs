@@ -42,6 +42,11 @@ impl Configuration {
         self
     }
 
+    pub fn set_prolog_not_found_err(&mut self, val: bool) -> &mut Configuration {
+        self.session.prolog_not_found_is_err = val;
+        self
+    }
+
     /// Specify a custom directory to use when writing output files.
     /// This directory contains optional markdown epilog files for generated
     /// markdown rules. The content is inserted into generated markdown for
@@ -53,6 +58,11 @@ impl Configuration {
         P: Into<PathBuf>,
     {
         self.session.epilog_dir = Some(dir.into());
+        self
+    }
+
+    pub fn set_epilog_not_found_err(&mut self, val: bool) -> &mut Configuration {
+        self.session.epilog_not_found_is_err = val;
         self
     }
 
@@ -92,6 +102,11 @@ impl Configuration {
     /// If true, emit EBNF generated grammar.
     pub fn emit_markdown(&mut self, val: bool) -> &mut Configuration {
         self.session.emit_markdown = val;
+        self
+    }
+
+    pub fn set_markdown_lint(&mut self, val: bool) -> &mut Configuration {
+        self.session.lint = val;
         self
     }
 

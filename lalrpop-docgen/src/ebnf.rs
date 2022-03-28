@@ -34,7 +34,7 @@ impl LalrpopToEbnf {
                     out.to_string_lossy()
                 ))?)
             } else {
-                Some(File::create("docs/grammar.ebnf".to_string())?)
+                Some(File::create("docs/grammar.ebnf")?)
             },
             ebnf_md: if let Some(out) = &session.out_dir {
                 Some(File::create(format!(
@@ -42,7 +42,7 @@ impl LalrpopToEbnf {
                     out.to_string_lossy()
                 ))?)
             } else {
-                Some(File::create("docs/grammar.md".to_string())?)
+                Some(File::create("docs/grammar.md")?)
             },
             decl_order: vec![],
             rules: HashMap::new(),
@@ -163,7 +163,7 @@ impl LalrpopVisitor for LalrpopToEbnf {
         append!(
             self,
             r#" '{}' "#,
-            symbol.to_string().replace("\"", "").replace("\\", "\\\\")
+            symbol.to_string().replace('\"', "").replace('\\', "\\\\")
         );
     }
 

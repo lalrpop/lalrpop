@@ -1,4 +1,3 @@
-use std::fs;
 use std::path::Path;
 use std::process::exit;
 
@@ -20,13 +19,15 @@ pub(crate) use lalrpop::grammar::parse_tree::SymbolKind as SK;
 pub(crate) use lalrpop::grammar::parse_tree::TypeRef;
 pub(crate) use lalrpop::grammar::repr::TerminalString;
 
+use crate::util;
+
 pub trait LalrpopVisitor {
     /// This is the entrypoint to the visitation process
     fn visit(&mut self, path: &Path)
     where
         Self: Sized,
     {
-        let source = fs::read_to_string(path);
+        let source = util::read_to_string(&path.to_string_lossy());
 
         let source = match source {
             Ok(source) => source,

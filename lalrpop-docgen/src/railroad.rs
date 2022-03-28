@@ -1,4 +1,5 @@
 use crate::session::Session;
+use crate::util;
 use std::collections::HashMap;
 use std::error::Error;
 use std::fs;
@@ -90,24 +91,18 @@ fn css(session: &Rc<Session>) -> Result<String, Box<dyn Error>> {
 }
 
 fn svg_dir(session: &Rc<Session>) -> Result<String, Box<dyn Error>> {
-    if let Some(out_dir) = &session.out_dir {
-        let svg_dir = format!("{}/{}", out_dir.to_string_lossy(), "svg");
-        let svg_path = Path::new(&svg_dir);
-        if svg_path.exists() && svg_path.is_dir() {
-            Ok(svg_dir)
-        } else {
-            fs::create_dir_all(svg_path)?;
-            Ok(svg_dir)
-        }
+    let svg_str = format!(
+        "{}/{}",
+        util::out_dir(&session.out_dir)?.to_string_lossy(),
+        "svg"
+    );
+    let svg_dir = Path::new(&svg_str);
+    let svg_path = Path::new(&svg_dir);
+    if svg_path.exists() && svg_path.is_dir() {
+        Ok(svg_str)
     } else {
-        let svg_dir = "docs/svg".to_string();
-        let svg_path = Path::new(&svg_dir);
-        if svg_path.exists() && svg_path.is_dir() {
-            Ok(svg_dir)
-        } else {
-            fs::create_dir_all(svg_path)?;
-            Ok(svg_dir)
-        }
+        fs::create_dir_all(svg_path)?;
+        Ok(svg_str)
     }
 }
 
@@ -287,7 +282,7 @@ impl LalrpopVisitor for LalrpopToRailroad {
         }
         self.stack.clear();
         self.current_rule = name;
-        let svg_file_name = format!("{}.svg", &self.current_rule);
+        let svg_file_name = format!("{}.svg", &self.current_rule.to_ascii_lowercase());
         let _txt_file_name = format!("{}.txt", &self.current_rule);
 
         let (name, (diagram_ref, diagram_svg)) = self.to_diagram(rule);

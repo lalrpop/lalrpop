@@ -14,15 +14,29 @@ pub struct Session {
 
     pub in_dir: Option<path::PathBuf>,
 
+    /// Folder to contain generated output files
     pub out_dir: Option<path::PathBuf>,
 
+    /// Folder containing prolog markdown snippets
     pub prolog_dir: Option<path::PathBuf>,
 
+    /// Flag to determine whether missing prolog files is ok or an error
+    pub prolog_not_found_is_err: bool,
+
+    /// Folder containing epilog markdown snippets
     pub epilog_dir: Option<path::PathBuf>,
 
+    /// Flag to determine whether missing epilog files is ok or an error
+    pub epilog_not_found_is_err: bool,
+
+    /// Optional custom CSS for railroad diagrams
     pub railroad_css: Option<path::PathBuf>,
 
+    /// Optional specification of slices of a grammar
     pub grammar_cuts: Option<Vec<String>>,
+
+    /// Flag to control lint reports ( default: lint enabled )
+    pub lint: bool,
 
     /// Emit EBNF grammar from input grammar.
     pub emit_ebnf: bool,
@@ -42,12 +56,15 @@ impl Session {
             in_dir: None,
             out_dir: None,
             prolog_dir: None,
+            prolog_not_found_is_err: true,
             epilog_dir: None,
+            epilog_not_found_is_err: true,
             railroad_css: None,
             grammar_cuts: None,
             emit_ebnf: true,
             emit_railroad: true,
             emit_markdown: true,
+            lint: false,
         }
     }
 }
