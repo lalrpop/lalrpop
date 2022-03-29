@@ -246,7 +246,7 @@ impl LalrpopToRailroad {
 
         let diagram_ref = format!(
             r#"<img src="svg/{}.svg" alt="{}" width="{}" height="{}"/>"#,
-            name,
+            name.to_ascii_lowercase(),
             name,
             dia.width(),
             dia.height()
