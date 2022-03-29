@@ -245,7 +245,8 @@ impl LalrpopToRailroad {
         );
 
         let diagram_ref = format!(
-            r#"<img src="svg/{}.svg" alt="{}" width="{}" height="{}"/>"#,
+            r#"<img src="{}svg/{}.svg" alt="{}" width="{}" height="{}"/>"#,
+            self.session.railroad_prefix,
             name.to_ascii_lowercase(),
             name,
             dia.width(),

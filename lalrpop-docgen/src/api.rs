@@ -99,6 +99,12 @@ impl Configuration {
         self
     }
 
+    /// Optional url prefix for SVG img reference HTML tags
+    pub fn set_railroad_prefix(&mut self, prefix: String) -> &mut Configuration {
+        self.session.railroad_prefix = prefix;
+        self
+    }
+
     /// If true, emit EBNF generated grammar.
     pub fn emit_markdown(&mut self, val: bool) -> &mut Configuration {
         self.session.emit_markdown = val;

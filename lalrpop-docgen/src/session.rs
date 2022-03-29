@@ -32,6 +32,9 @@ pub struct Session {
     /// Optional custom CSS for railroad diagrams
     pub railroad_css: Option<path::PathBuf>,
 
+    /// Optional SVG img reference prefix
+    pub railroad_prefix: String,
+
     /// Optional specification of slices of a grammar
     pub grammar_cuts: Option<Vec<String>>,
 
@@ -60,6 +63,7 @@ impl Session {
             epilog_dir: None,
             epilog_not_found_is_err: true,
             railroad_css: None,
+            railroad_prefix: "".to_string(),
             grammar_cuts: None,
             emit_ebnf: true,
             emit_railroad: true,
