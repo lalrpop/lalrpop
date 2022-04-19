@@ -9,9 +9,9 @@ fn main() {
             use std::fs::File;
 
             File::open(&filename)
-                .expect(&format!("Can't open {}", &filename))
+                .unwrap_or_else(|_| panic!("Can't open {}", &filename))
                 .read_to_string(&mut source)
-                .expect(&format!("Can't read contents of {}", &filename));
+                .unwrap_or_else(|_| panic!("Can't read contents of {}", &filename));
         }
 
         None => {

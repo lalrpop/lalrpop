@@ -335,7 +335,7 @@ impl LookaheadBuild for Nil {
         _remainder: &[Symbol],
         lookahead: &Nil,
     ) -> Vec<LR0Item<'grammar>> {
-        lr.items(nt, 0, &lookahead)
+        lr.items(nt, 0, lookahead)
     }
 }
 

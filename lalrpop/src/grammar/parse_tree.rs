@@ -1203,13 +1203,13 @@ impl Path {
 
 pub fn read_algorithm(annotations: &[Annotation], algorithm: &mut r::Algorithm) {
     for annotation in annotations {
-        if annotation.id == Atom::from(LALR) {
+        if annotation.id == *LALR {
             algorithm.lalr = true;
-        } else if annotation.id == Atom::from(TABLE_DRIVEN) {
+        } else if annotation.id == *TABLE_DRIVEN {
             algorithm.codegen = r::LrCodeGeneration::TableDriven;
-        } else if annotation.id == Atom::from(RECURSIVE_ASCENT) {
+        } else if annotation.id == *RECURSIVE_ASCENT {
             algorithm.codegen = r::LrCodeGeneration::RecursiveAscent;
-        } else if annotation.id == Atom::from(TEST_ALL) {
+        } else if annotation.id == *TEST_ALL {
             algorithm.codegen = r::LrCodeGeneration::TestAll;
         } else {
             panic!(

@@ -8,7 +8,7 @@ use string_cache::DefaultAtom as Atom;
 
 fn type_repr(s: &str) -> TypeRepr {
     let type_ref = parser::parse_type_ref(s).unwrap();
-    return type_ref.type_repr();
+    type_ref.type_repr()
 }
 
 fn compare(g1: &str, expected: Vec<(&'static str, &'static str)>) {

@@ -110,7 +110,7 @@ impl<'grammar> NonterminalGraph<'grammar> {
             WalkState::Visited => Ok(()),
             WalkState::Visiting => {
                 return_err!(
-                    self.grammar.nonterminals[&nt].span,
+                    self.grammar.nonterminals[nt].span,
                     "cyclic inline directive: `{}` would have to be inlined into itself",
                     nt
                 );

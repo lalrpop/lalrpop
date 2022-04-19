@@ -6,18 +6,18 @@ use crate::parser;
 use crate::test_util;
 
 fn validate_grammar(grammar: &str) -> NormResult<Grammar> {
-    let parsed_grammar = parser::parse_grammar(&grammar).expect("parse grammar");
+    let parsed_grammar = parser::parse_grammar(grammar).expect("parse grammar");
     let parsed_grammar = resolve(parsed_grammar).expect("resolve");
     super::validate(parsed_grammar)
 }
 
 fn check_err(expected_err: &str, grammar: &str, span: &str) {
-    let err = validate_grammar(&grammar).unwrap_err();
+    let err = validate_grammar(grammar).unwrap_err();
     test_util::check_norm_err(expected_err, span, err);
 }
 
 fn check_intern_token(grammar: &str, expected_tokens: Vec<(&'static str, &'static str)>) {
-    let parsed_grammar = validate_grammar(&grammar).expect("validate");
+    let parsed_grammar = validate_grammar(grammar).expect("validate");
     let intern_token = parsed_grammar.intern_token().expect("intern_token");
     println!("intern_token: {:?}", intern_token);
     for (input, expected_user_name) in expected_tokens {
@@ -160,7 +160,7 @@ fn invalid_match_regex_literal() {
 #[test]
 fn match_catch_all() {
     let grammar = r#"grammar; match { r"(?i)begin" => "BEGIN", _ } X = { "foo", r"foo" };"#;
-    assert!(validate_grammar(&grammar).is_ok())
+    assert!(validate_grammar(grammar).is_ok())
 }
 
 #[test]
@@ -176,7 +176,7 @@ fn complex_match() {
             "ABC" BEGIN => String::from("Success")
         };
 "##;
-    assert!(validate_grammar(&grammar).is_ok())
+    assert!(validate_grammar(grammar).is_ok())
 }
 
 /// Test that overlapping regular expressions are still forbidden within one level

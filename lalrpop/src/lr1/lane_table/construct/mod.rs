@@ -84,7 +84,7 @@ impl<'grammar> LaneTableConstruct<'grammar> {
                     );
                     let conflicts: Vec<Conflict<'grammar, TokenSet>> = states
                         .iter()
-                        .flat_map(|s| Lookahead::conflicts(&s))
+                        .flat_map(Lookahead::conflicts)
                         .collect();
                     return Err(TableConstructionError { states, conflicts });
                 }

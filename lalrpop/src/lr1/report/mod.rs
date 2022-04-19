@@ -14,7 +14,7 @@ pub fn generate_report<'grammar, W: Write + 'grammar>(
     generator.report_lr_table_construction(lr1result)
 }
 
-static INDENT_STRING: &'static str = "    ";
+static INDENT_STRING: &str = "    ";
 
 struct ReportGenerator<'report, W>
 where
@@ -46,7 +46,7 @@ where
         match lr1result {
             Ok(ref states) => {
                 writeln!(self.out, "Constructed {} states", states.len())?;
-                self.report_states(&states, &Map::new())?;
+                self.report_states(states, &Map::new())?;
             }
             Err(ref table_construction_error) => {
                 writeln!(self.out, "Failure")?;
@@ -113,7 +113,7 @@ where
         self.write_section_header("State Table")?;
         for state in states {
             writeln!(self.out)?;
-            self.report_state(&state, conflict_map.get(&state.index))?;
+            self.report_state(state, conflict_map.get(&state.index))?;
         }
         Ok(())
     }
@@ -346,20 +346,20 @@ trait LookaheadPrinter<W>
 where
     W: Write,
 {
-    fn print<'report>(self: &Self, out: &'report mut W) -> io::Result<()>;
+    fn print<'report>(&self, out: &'report mut W) -> io::Result<()>;
 
-    fn has_anything_to_print(self: &Self) -> bool;
+    fn has_anything_to_print(&self) -> bool;
 }
 
 impl<W> LookaheadPrinter<W> for Nil
 where
     W: Write,
 {
-    fn print<'report>(self: &Self, _: &'report mut W) -> io::Result<()> {
+    fn print<'report>(&self, _: &'report mut W) -> io::Result<()> {
         Ok(())
     }
 
-    fn has_anything_to_print(self: &Self) -> bool {
+    fn has_anything_to_print(&self) -> bool {
         false
     }
 }
@@ -368,14 +368,14 @@ impl<W> LookaheadPrinter<W> for TokenSet
 where
     W: Write,
 {
-    fn print<'report>(self: &Self, out: &'report mut W) -> io::Result<()> {
+    fn print<'report>(&self, out: &'report mut W) -> io::Result<()> {
         for i in self.iter() {
             write!(out, " {}", i)?
         }
         Ok(())
     }
 
-    fn has_anything_to_print(self: &Self) -> bool {
+    fn has_anything_to_print(&self) -> bool {
         self.len() > 0
     }
 }

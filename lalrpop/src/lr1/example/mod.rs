@@ -304,7 +304,7 @@ impl Example {
 
         // Write the labels on top:
         //    A1   B2  C3  D4 E5 F6
-        self.paint_symbols_on(&self.symbols, &positions, styles, view);
+        self.paint_symbols_on(&self.symbols, positions, styles, view);
     }
 
     fn paint_symbols_on(

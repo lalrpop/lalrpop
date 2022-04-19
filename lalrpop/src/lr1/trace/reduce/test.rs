@@ -73,9 +73,7 @@ fn backtrace1() {
     let semi_item = states[top_state.0]
         .items
         .vec
-        .iter()
-        .filter(|item| item.lookahead.contains(&semi))
-        .next()
+        .iter().find(|item| item.lookahead.contains(&semi))
         .unwrap();
 
     let backtrace = tracer.backtrace_reduce(top_state, semi_item.to_lr0());
@@ -294,9 +292,7 @@ fn backtrace_filter() {
     let lr1_item = states[top_state.0]
         .items
         .vec
-        .iter()
-        .filter(|item| item.lookahead.contains(&semi))
-        .next()
+        .iter().find(|item| item.lookahead.contains(&semi))
         .unwrap();
 
     let backtrace = tracer.backtrace_reduce(top_state, lr1_item.to_lr0());

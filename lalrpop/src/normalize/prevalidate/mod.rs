@@ -184,8 +184,8 @@ impl<'grammar> Validator<'grammar> {
     fn validate_precedence(&self, alternatives: &Vec<Alternative>) -> NormResult<()> {
         let with_precedence = alternatives.iter().any(|alt| {
             alt.annotations.iter().any(|ann| {
-                ann.id == Atom::from(precedence::PREC_ANNOT)
-                    || ann.id == Atom::from(precedence::ASSOC_ANNOT)
+                ann.id == *precedence::PREC_ANNOT
+                    || ann.id == *precedence::ASSOC_ANNOT
             })
         });
 
@@ -204,7 +204,7 @@ impl<'grammar> Validator<'grammar> {
                 let ann_prec_opt = first
                     .annotations
                     .iter()
-                    .find(|ann| ann.id == Atom::from(precedence::PREC_ANNOT));
+                    .find(|ann| ann.id == *precedence::PREC_ANNOT);
 
                 if ann_prec_opt.is_none() {
                     return_err!(
@@ -219,8 +219,8 @@ impl<'grammar> Validator<'grammar> {
 
         // Check that annotations are well-formed
         alternatives.iter().try_for_each(|alt| {
-            let ann_prec_opt = alt.annotations.iter().find(|ann| ann.id == Atom::from(precedence::PREC_ANNOT));
-            let ann_assoc_opt = alt.annotations.iter().find(|ann| ann.id == Atom::from(precedence::ASSOC_ANNOT));
+            let ann_prec_opt = alt.annotations.iter().find(|ann| ann.id == *precedence::PREC_ANNOT);
+            let ann_assoc_opt = alt.annotations.iter().find(|ann| ann.id == *precedence::ASSOC_ANNOT);
 
             if let Some(ann_prec) = ann_prec_opt {
                 match &ann_prec.arg {
@@ -228,10 +228,10 @@ impl<'grammar> Validator<'grammar> {
                         if let Ok(lvl) = value.parse::<u32>() {
                             if lvl < min_lvl {
                                 min_lvl = lvl;
-                                min_prec_ann = ann_assoc_opt.clone();
+                                min_prec_ann = ann_assoc_opt;
                             }
                             else if lvl == min_lvl && min_prec_ann.is_none() && ann_assoc_opt.is_some() {
-                                min_prec_ann = ann_assoc_opt.clone();
+                                min_prec_ann = ann_assoc_opt;
                             }
                         }
                         else {

@@ -51,7 +51,7 @@ pub fn compare<D: Debug, E: Debug>(actual: D, expected: E) {
     /// dummy text.
     fn normalize<'t>(with_spans: &'t str) -> std::borrow::Cow<'t, str> {
         SPAN.with(|span| {
-            span.replace_all(&with_spans, "Span(..)")
+            span.replace_all(with_spans, "Span(..)")
         })
     }
 }
@@ -62,8 +62,8 @@ pub fn normalized_grammar(s: &str) -> r::Grammar {
 
 pub fn check_norm_err(expected_err: &str, span: &str, err: NormError) {
     let expected_err = Regex::new(expected_err).unwrap();
-    let start_index = span.find("~").unwrap();
-    let end_index = span.rfind("~").unwrap() + 1;
+    let start_index = span.find('~').unwrap();
+    let end_index = span.rfind('~').unwrap() + 1;
     assert!(start_index <= end_index);
     assert_eq!(err.span, pt::Span(start_index, end_index));
     assert!(

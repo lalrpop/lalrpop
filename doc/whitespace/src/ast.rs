@@ -114,7 +114,7 @@ impl<'program> Interpreter<'program> {
     fn pop(&mut self) -> Result<Int, String> {
         match self.stack.pop() {
             Some(n) => Ok(n),
-            None => Err(format!("Stack underflow")),
+            None => Err("Stack underflow".to_string()),
         }
     }
 }

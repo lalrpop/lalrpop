@@ -89,7 +89,7 @@ impl FirstSets {
         let epsilon = set.take_eof();
 
         if epsilon {
-            set.union_with(&lookahead);
+            set.union_with(lookahead);
         }
 
         set

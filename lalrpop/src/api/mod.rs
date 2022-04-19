@@ -222,7 +222,7 @@ impl Configuration {
                         if feature_var.starts_with(prefix) {
                             Some(
                                 feature_var[prefix.len()..]
-                                    .replace("_", "-")
+                                    .replace('_', "-")
                                     .to_ascii_lowercase(),
                             )
                         } else {

@@ -16,7 +16,7 @@ pub fn compile<W: Write>(
     rust!(out, "#[cfg_attr(rustfmt, rustfmt_skip)]");
     rust!(out, "mod {}intern_token {{", prefix);
     rust!(out, "#![allow(unused_imports)]");
-    out.write_uses("super::", &grammar)?;
+    out.write_uses("super::", grammar)?;
     rust!(
         out,
         "pub fn new_builder() -> {}lalrpop_util::lexer::MatcherBuilder {{",
@@ -31,8 +31,8 @@ pub fn compile<W: Write>(
         .map(|match_entry| {
             (
                 match match_entry.match_literal {
-                    TerminalLiteral::Quoted(ref s) => re::parse_literal(&s),
-                    TerminalLiteral::Regex(ref s) => re::parse_regex(&s).unwrap(),
+                    TerminalLiteral::Quoted(ref s) => re::parse_literal(s),
+                    TerminalLiteral::Regex(ref s) => re::parse_regex(s).unwrap(),
                 },
                 match match_entry.user_name {
                     MatchMapping::Terminal(_) => false,

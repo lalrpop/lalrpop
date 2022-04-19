@@ -388,7 +388,7 @@ impl Types {
         };
 
         let args = vec![
-            types.terminal_loc_type().clone(),
+            types.terminal_loc_type(),
             types.terminal_token_type().clone(),
             types.error_type(),
         ];
@@ -450,7 +450,7 @@ impl Types {
 
     pub fn terminal_type(&self, id: &TerminalString) -> &TypeRepr {
         self.terminal_types
-            .get(&id)
+            .get(id)
             .unwrap_or(&self.terminal_token_type)
     }
 
@@ -459,11 +459,11 @@ impl Types {
     }
 
     pub fn lookup_nonterminal_type(&self, id: &NonterminalString) -> Option<&TypeRepr> {
-        self.nonterminal_types.get(&id)
+        self.nonterminal_types.get(id)
     }
 
     pub fn nonterminal_type(&self, id: &NonterminalString) -> &TypeRepr {
-        &self.nonterminal_types[&id]
+        &self.nonterminal_types[id]
     }
 
     pub fn nonterminal_types(&self) -> Vec<TypeRepr> {

@@ -108,7 +108,7 @@ fn build_table<'grammar>(
     goal: &str,
     tokens: &[&str],
 ) -> LaneTable<'grammar> {
-    let lr0_err = build::build_lr0_states(&grammar, nt(goal)).unwrap_err();
+    let lr0_err = build::build_lr0_states(grammar, nt(goal)).unwrap_err();
 
     // Push the `tokens` to find the index of the inconsistent state
     let inconsistent_state_index = traverse(&lr0_err.states, tokens);
@@ -122,10 +122,10 @@ fn build_table<'grammar>(
     // Extract conflicting items and trace the lanes, constructing a table
     let conflicting_items = super::conflicting_actions(inconsistent_state);
     println!("conflicting_items={:#?}", conflicting_items);
-    let first_sets = FirstSets::new(&grammar);
+    let first_sets = FirstSets::new(grammar);
     let state_graph = StateGraph::new(&lr0_err.states);
     let mut tracer = LaneTracer::new(
-        &grammar,
+        grammar,
         nt("G"),
         &lr0_err.states,
         &first_sets,
