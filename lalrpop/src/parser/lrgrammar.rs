@@ -1,4 +1,4 @@
-// auto-generated: "lalrpop 0.19.7"
+// auto-generated: "lalrpop 0.19.8"
 // sha3: bdf56d5cb64e045081b011951e1f7e646042e24364123d199a6d09a6d88
 use string_cache::DefaultAtom as Atom;
 use grammar::parse_tree::*;
