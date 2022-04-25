@@ -15,9 +15,10 @@ use crate::tls::Tls;
 use crate::tok;
 use crate::util::Sep;
 use atty;
+use itertools::Itertools;
 use lalrpop_util::ParseError;
-use tiny_keccak::Sha3;
 use term;
+use tiny_keccak::{Hasher, Sha3};
 
 use std::fs;
 use std::io::{self, BufRead, Read, Write};
@@ -27,8 +28,6 @@ use std::rc::Rc;
 
 mod action;
 mod fake_term;
-
-use tiny_keccak::Hasher;
 
 use self::fake_term::FakeTerminal;
 
@@ -44,18 +43,14 @@ fn hash_file(file: &Path) -> io::Result<String> {
     let mut file = fs::File::open(&file)?;
     let mut file_bytes = Vec::new();
     file.read_to_end(&mut file_bytes).unwrap();
-    
+
     let mut sha3 = Sha3::v256();
     sha3.update(&file_bytes);
-    
+
     let mut output = [0u8; 32];
     sha3.finalize(&mut output);
 
-    let mut hash_str = "// sha3: ".to_owned();
-    for byte in &output {
-        hash_str.push_str(&format!("{:x}", byte));
-    }
-    Ok(hash_str)
+    Ok(format!("// sha3: {:02x}", output.iter().format("")))
 }
 
 pub fn process_dir<P: AsRef<Path>>(session: Rc<Session>, root_dir: P) -> io::Result<()> {
