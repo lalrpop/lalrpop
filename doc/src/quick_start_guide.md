@@ -18,12 +18,12 @@ build = "build.rs" # LALRPOP preprocessing
 # (If you write your own tokenizer, or already have the regex
 # crate, you can skip this dependency.)
 [dependencies]
-lalrpop-util = "0.19.7"
+lalrpop-util = "0.19.8"
 regex = "1"
 
 # Add a build-time dependency on the lalrpop library:
 [build-dependencies]
-lalrpop = "0.19.7"
+lalrpop = "0.19.8"
 # If you are supplying your own external lexer you can disable default features so that the
 # built-in lexer feature is not included
 # lalrpop = { version = "0.19.1", default-features = false }

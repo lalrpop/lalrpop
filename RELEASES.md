@@ -1,3 +1,13 @@
+<a name="0.19.8"></a>
+## 0.19.8 (2022-05-05)
+
+
+#### Features
+
+*   update petgraph to v0.6.0 ([3b482293](https://github.com/lalrpop/lalrpop/commit/3b482293a19641b2e2456ac9fa331a688d97571d))
+
+
+
 <a name="0.19.7"></a>
 ## 0.19.7 (2022-01-20)
 
