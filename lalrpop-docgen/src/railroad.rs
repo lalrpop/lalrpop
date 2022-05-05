@@ -245,10 +245,10 @@ impl LalrpopToRailroad {
         );
 
         let diagram_ref = format!(
-            "![{}svg/{}.svg]({})",
+            "![{}]({}svg/{}.svg)",
+            name,
             self.session.railroad_prefix,
             name.to_ascii_lowercase(),
-            name,
         );
         let diagram_svg = dia.to_string();
         (name, (diagram_ref, diagram_svg))
