@@ -249,8 +249,6 @@ impl LalrpopToRailroad {
             self.session.railroad_prefix,
             name.to_ascii_lowercase(),
             name,
-            dia.width(),
-            dia.height()
         );
         let diagram_svg = dia.to_string();
         (name, (diagram_ref, diagram_svg))
