@@ -65,3 +65,10 @@ This script will replace `lalrpop/src/parser/lrgrammar.rs` with the newly genera
 the old one to `lalrpop/src/parser/lrgrammar.rs.bak` just in case.
 
 Now feel free to `git commit` and `git push` your changes.
+
+### Releasing LALRPOP
+
+1. Run `./version.sh <NEW VERSION>`.
+2. Commit the changes
+3. Run `./publish.sh`
+4. Push to the lalrpop repo
