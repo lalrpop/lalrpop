@@ -20,7 +20,7 @@ macro_rules! return_err {
         return Err(NormError {
             message: format!($($args),+),
             span: $span
-        });
+        })
     }
 }
 
