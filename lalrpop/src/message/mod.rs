@@ -1,7 +1,6 @@
-use ascii_canvas::{AsciiCanvas, AsciiView};
+use std::{cmp, fmt::Debug};
 
-use std::cmp;
-use std::fmt::Debug;
+use ascii_canvas::{AsciiCanvas, AsciiView};
 
 pub mod builder;
 pub mod horiz;

@@ -1,10 +1,11 @@
+use std::{
+    cmp,
+    fmt::{Debug, Error, Formatter},
+};
+
 use ascii_canvas::AsciiView;
-use crate::grammar::parse_tree::Span;
-use crate::message::Content;
-use std::cmp;
-use std::fmt::{Debug, Error, Formatter};
-use crate::style::Style;
-use crate::tls::Tls;
+
+use crate::{grammar::parse_tree::Span, message::Content, style::Style, tls::Tls};
 
 /// The top-level message display like this:
 ///

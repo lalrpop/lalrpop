@@ -7,15 +7,15 @@
 //! associativity and the position of this occurrence.
 //!
 //! For concrete examples, see the [`test`](../tests/index.html) module.
-use super::resolve;
-use super::NormResult;
+use std::{fmt, str::FromStr};
+
+use string_cache::DefaultAtom as Atom;
+
+use super::{resolve, NormResult};
 use crate::grammar::parse_tree::{
     Alternative, ExprSymbol, Grammar, GrammarItem, NonterminalData, NonterminalString, Symbol,
     SymbolKind,
 };
-use std::fmt;
-use std::str::FromStr;
-use string_cache::DefaultAtom as Atom;
 
 #[cfg(test)]
 mod test;

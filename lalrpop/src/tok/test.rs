@@ -1,5 +1,4 @@
-use super::Tok::*;
-use super::{Error, ErrorCode, Tok, Tokenizer};
+use super::{Error, ErrorCode, Tok, Tok::*, Tokenizer};
 
 enum Expectation<'a> {
     ExpectTok(Tok<'a>),
@@ -698,8 +697,9 @@ fn char_literals() {
 
 #[test]
 fn string_escapes() {
-    use super::apply_string_escapes;
     use std::borrow::Cow;
+
+    use super::apply_string_escapes;
 
     assert_eq!(apply_string_escapes(r#"foo"#, 5), Ok(Cow::Borrowed("foo")));
     assert_eq!(

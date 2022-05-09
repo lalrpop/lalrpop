@@ -1,8 +1,10 @@
 #![cfg(test)]
 
-use crate::grammar::free_variables::FreeVariables;
-use crate::test_util::{expect_debug, normalized_grammar};
-use crate::tls::Tls;
+use crate::{
+    grammar::free_variables::FreeVariables,
+    test_util::{expect_debug, normalized_grammar},
+    tls::Tls,
+};
 
 #[test]
 fn other_names() {

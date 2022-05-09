@@ -1,6 +1,6 @@
 use std::io::{self, Write};
-use term::color::Color;
-use term::{self, Attr, Terminal};
+
+use term::{self, color::Color, Attr, Terminal};
 
 /// A `Terminal` that just ignores all attempts at formatting. Used
 /// to report errors when no ANSI terminfo is available.

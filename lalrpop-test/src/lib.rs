@@ -5,10 +5,7 @@ extern crate diff;
 #[macro_use]
 extern crate lalrpop_util;
 
-use std::cell::RefCell;
-use std::fs;
-use std::path::Path;
-use std::process::Command;
+use std::{cell::RefCell, fs, path::Path, process::Command};
 
 use lalrpop_util::{ErrorRecovery, ParseError};
 
@@ -875,9 +872,7 @@ fn issue_55_test1() {
 
 #[test]
 fn inline_fallible() {
-    assert!(inline_fallible::InlineParser::new()
-        .parse("a1")
-        .is_ok());
+    assert!(inline_fallible::InlineParser::new().parse("a1").is_ok());
     assert!(inline_fallible::MultipleInlineParser::new()
         .parse("a2 a1")
         .is_ok());

@@ -17,9 +17,9 @@
 //! covered when we started, and that each of the input ranges is
 //! covered precisely by some set of ranges in the output.
 
-use crate::collections::Set;
-use crate::lexer::nfa::Test;
 use std::cmp;
+
+use crate::{collections::Set, lexer::nfa::Test};
 
 pub fn remove_overlap(ranges: &Set<Test>) -> Vec<Test> {
     // We will do this in the dumbest possible way to start. :)

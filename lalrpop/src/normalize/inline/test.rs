@@ -1,11 +1,12 @@
-use crate::grammar::parse_tree::NonterminalString;
-use crate::grammar::repr::Grammar;
-use crate::normalize::{self, NormResult};
-use crate::parser;
-use crate::session::Session;
 use string_cache::DefaultAtom as Atom;
 
 use super::inline;
+use crate::{
+    grammar::{parse_tree::NonterminalString, repr::Grammar},
+    normalize::{self, NormResult},
+    parser,
+    session::Session,
+};
 
 fn inlined_grammar(text: &str) -> NormResult<Grammar> {
     let g = parser::parse_grammar(text).unwrap();

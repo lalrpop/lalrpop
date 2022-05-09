@@ -1,16 +1,18 @@
-use crate::generate;
-use crate::grammar::repr::*;
-use crate::lr1::core::*;
-use crate::lr1::interpret::interpret;
-use crate::lr1::lookahead::Token;
-use crate::lr1::lookahead::Token::EOF;
-use crate::lr1::lookahead::TokenSet;
-use crate::lr1::tls::Lr1Tls;
 use string_cache::DefaultAtom as Atom;
-use crate::test_util::{compare, expect_debug, normalized_grammar};
-use crate::tls::Tls;
 
 use super::{build_lr0_states, build_lr1_states, use_lane_table, LR};
+use crate::{
+    generate,
+    grammar::repr::*,
+    lr1::{
+        core::*,
+        interpret::interpret,
+        lookahead::{Token, Token::EOF, TokenSet},
+        tls::Lr1Tls,
+    },
+    test_util::{compare, expect_debug, normalized_grammar},
+    tls::Tls,
+};
 
 fn nt(t: &str) -> NonterminalString {
     NonterminalString(Atom::from(t))

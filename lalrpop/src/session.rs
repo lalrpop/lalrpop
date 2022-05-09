@@ -2,11 +2,12 @@
 //! to `configuration::Configuration`, but it is not exported outside the
 //! crate. Note that all fields are public and so forth for convenience.
 
-use crate::log::{Level, Log};
-use std::collections::BTreeSet;
-use std::default::Default;
-use std::path;
-use crate::style::{self, Style};
+use std::{collections::BTreeSet, default::Default, path};
+
+use crate::{
+    log::{Level, Log},
+    style::{self, Style},
+};
 
 // These two, ubiquitous types are defined here so that their fields can be private
 // across crate, but visible within the crate:

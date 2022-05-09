@@ -1,9 +1,12 @@
-use diff;
-use crate::grammar::parse_tree as pt;
-use crate::grammar::repr as r;
-use crate::normalize::NormError;
-use regex::Regex;
 use std::fmt::{Debug, Error, Formatter};
+
+use diff;
+use regex::Regex;
+
+use crate::{
+    grammar::{parse_tree as pt, repr as r},
+    normalize::NormError,
+};
 
 thread_local! {
     static SPAN: Regex =
@@ -50,14 +53,13 @@ pub fn compare<D: Debug, E: Debug>(actual: D, expected: E) {
     /// Ignore differences in `Span` values, by replacing them all with fixed
     /// dummy text.
     fn normalize<'t>(with_spans: &'t str) -> std::borrow::Cow<'t, str> {
-        SPAN.with(|span| {
-            span.replace_all(&with_spans, "Span(..)")
-        })
+        SPAN.with(|span| span.replace_all(&with_spans, "Span(..)"))
     }
 }
 
 pub fn normalized_grammar(s: &str) -> r::Grammar {
-    crate::normalize::normalize_without_validating(crate::parser::parse_grammar(s).unwrap()).unwrap()
+    crate::normalize::normalize_without_validating(crate::parser::parse_grammar(s).unwrap())
+        .unwrap()
 }
 
 pub fn check_norm_err(expected_err: &str, span: &str, err: NormError) {

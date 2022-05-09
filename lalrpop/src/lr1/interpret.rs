@@ -1,12 +1,16 @@
 //! LR(1) interpeter. Just builds up parse trees. Intended for testing.
 
-use crate::generate::ParseTree;
-use crate::grammar::repr::*;
-use crate::lr1::core::*;
-use crate::lr1::lookahead::*;
-use std::fmt::{Debug, Display, Error, Formatter};
-use std::iter::IntoIterator;
-use crate::util::Sep;
+use std::{
+    fmt::{Debug, Display, Error, Formatter},
+    iter::IntoIterator,
+};
+
+use crate::{
+    generate::ParseTree,
+    grammar::repr::*,
+    lr1::{core::*, lookahead::*},
+    util::Sep,
+};
 
 pub type InterpretError<'grammar, L> = (&'grammar State<'grammar, L>, Token);
 

@@ -1,13 +1,12 @@
-use crate::grammar::repr::*;
-use crate::lr1::build_states;
-use crate::lr1::core::*;
-use crate::lr1::first::FirstSets;
-use crate::lr1::tls::Lr1Tls;
 use string_cache::DefaultAtom as Atom;
-use crate::test_util::{expect_debug, normalized_grammar};
-use crate::tls::Tls;
 
 use super::super::Tracer;
+use crate::{
+    grammar::repr::*,
+    lr1::{build_states, core::*, first::FirstSets, tls::Lr1Tls},
+    test_util::{expect_debug, normalized_grammar},
+    tls::Tls,
+};
 
 fn nt(t: &str) -> NonterminalString {
     NonterminalString(Atom::from(t))

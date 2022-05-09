@@ -32,9 +32,10 @@
 //! because item 0 occurs only with lookahead `x` and item 1 with
 //! lookahead `y`.
 
-use crate::collections::{Map, Set};
-use crate::lr1::core::*;
-use crate::lr1::lookahead::*;
+use crate::{
+    collections::{Map, Set},
+    lr1::{core::*, lookahead::*},
+};
 mod test;
 
 use super::ConflictIndex;

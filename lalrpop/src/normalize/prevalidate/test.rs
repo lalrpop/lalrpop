@@ -1,5 +1,4 @@
-use crate::parser;
-use crate::test_util;
+use crate::{parser, test_util};
 
 fn check_err(expected_err: &str, grammar: &str, span: &str) {
     let parsed_grammar = parser::parse_grammar(&grammar).unwrap();

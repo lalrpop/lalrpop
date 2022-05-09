@@ -20,9 +20,11 @@ use std::io::{self, Write};
 #[cfg(test)]
 mod interpret;
 
-pub use self::core::{LR1Result, LR1TableConstructionError};
-pub use self::error::report_error;
-pub use self::tls::Lr1Tls;
+pub use self::{
+    core::{LR1Result, LR1TableConstructionError},
+    error::report_error,
+    tls::Lr1Tls,
+};
 
 pub fn build_states<'grammar>(
     grammar: &'grammar Grammar,

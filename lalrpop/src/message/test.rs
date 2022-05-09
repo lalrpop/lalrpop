@@ -1,10 +1,9 @@
 use ascii_canvas::AsciiCanvas;
-use crate::grammar::parse_tree::Span;
-use crate::message::builder::MessageBuilder;
-use crate::test_util::expect_debug;
-use crate::tls::Tls;
 
 use super::*;
+use crate::{
+    grammar::parse_tree::Span, message::builder::MessageBuilder, test_util::expect_debug, tls::Tls,
+};
 
 fn install_tls() -> Tls {
     Tls::test_string(

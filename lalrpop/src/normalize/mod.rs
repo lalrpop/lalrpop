@@ -2,9 +2,10 @@
 //! be converted to the more canonical form. This is done as a series of
 //! passes, each contained in their own module below.
 
-use crate::grammar::parse_tree as pt;
-use crate::grammar::repr as r;
-use crate::session::Session;
+use crate::{
+    grammar::{parse_tree as pt, repr as r},
+    session::Session,
+};
 
 pub type NormResult<T> = Result<T, NormError>;
 
@@ -52,7 +53,11 @@ fn lower_helper(session: &Session, grammar: pt::Grammar, validate: bool) -> Norm
         }
     );
     let grammar = profile!(session, "Grammar resolution", resolve::resolve(grammar)?);
-    let grammar = profile!(session, "Precedence expansion", precedence::expand_precedence(grammar)?);
+    let grammar = profile!(
+        session,
+        "Precedence expansion",
+        precedence::expand_precedence(grammar)?
+    );
     let grammar = profile!(
         session,
         "Macro expansion",

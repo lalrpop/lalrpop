@@ -13,13 +13,17 @@
 //! The Successors is a vector of further successors. For simplicity
 //! though we store this using maps, at least for now.
 
-use crate::collections::{Map, Multimap, Set};
-use crate::grammar::repr::*;
-use crate::lr1::core::*;
-use crate::lr1::lookahead::*;
-use std::default::Default;
-use std::fmt::{Debug, Error, Formatter};
-use std::iter;
+use std::{
+    default::Default,
+    fmt::{Debug, Error, Formatter},
+    iter,
+};
+
+use crate::{
+    collections::{Map, Multimap, Set},
+    grammar::repr::*,
+    lr1::{core::*, lookahead::*},
+};
 
 pub mod context_set;
 use self::context_set::{ContextSet, OverlappingLookahead};

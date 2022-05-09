@@ -1,9 +1,9 @@
-use crate::grammar::repr::*;
-use crate::lr1::core::*;
-use crate::lr1::lookahead::Lookahead;
-use petgraph::graph::NodeIndex;
-use petgraph::prelude::*;
-use petgraph::{EdgeDirection, Graph};
+use petgraph::{graph::NodeIndex, prelude::*, EdgeDirection, Graph};
+
+use crate::{
+    grammar::repr::*,
+    lr1::{core::*, lookahead::Lookahead},
+};
 
 // Each state `s` corresponds to the node in the graph with index
 // `s`. The edges are the shift transitions.

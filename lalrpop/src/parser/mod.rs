@@ -1,9 +1,11 @@
 use std::iter;
 
-use crate::grammar::parse_tree::*;
-use crate::grammar::pattern::*;
 use lalrpop_util;
-use crate::tok;
+
+use crate::{
+    grammar::{parse_tree::*, pattern::*},
+    tok,
+};
 
 #[cfg(not(feature = "test"))]
 #[allow(dead_code)]

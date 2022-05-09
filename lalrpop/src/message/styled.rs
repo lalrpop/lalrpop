@@ -1,6 +1,8 @@
-use super::*;
-use ascii_canvas::AsciiView;
 use std::fmt::{Debug, Error, Formatter};
+
+use ascii_canvas::AsciiView;
+
+use super::*;
 use crate::style::Style;
 
 pub struct Styled {

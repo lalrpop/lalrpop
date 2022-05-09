@@ -1,9 +1,7 @@
-use super::inline_order;
-use crate::grammar::repr::NonterminalString;
-use crate::normalize::lower_helper;
-use crate::parser;
-use crate::session::Session;
 use string_cache::DefaultAtom as Atom;
+
+use super::inline_order;
+use crate::{grammar::repr::NonterminalString, normalize::lower_helper, parser, session::Session};
 
 #[test]
 fn test_inline_self_cycle() {

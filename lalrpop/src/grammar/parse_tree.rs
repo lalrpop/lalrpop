@@ -1,16 +1,21 @@
 //! The "parse-tree" is what is produced by the parser. We use it do
 //! some pre-expansion and so forth before creating the proper AST.
 
-use crate::grammar::consts::{INPUT_LIFETIME, LALR, RECURSIVE_ASCENT, TABLE_DRIVEN, TEST_ALL};
-use crate::grammar::pattern::Pattern;
-use crate::grammar::repr::{self as r, NominalTypeRepr, TypeRepr};
-use crate::lexer::dfa::DFA;
-use crate::message::builder::InlineBuilder;
-use crate::message::Content;
-use crate::tls::Tls;
-use crate::util::Sep;
 use std::fmt::{Debug, Display, Error, Formatter};
+
 use string_cache::DefaultAtom as Atom;
+
+use crate::{
+    grammar::{
+        consts::{INPUT_LIFETIME, LALR, RECURSIVE_ASCENT, TABLE_DRIVEN, TEST_ALL},
+        pattern::Pattern,
+        repr::{self as r, NominalTypeRepr, TypeRepr},
+    },
+    lexer::dfa::DFA,
+    message::{builder::InlineBuilder, Content},
+    tls::Tls,
+    util::Sep,
+};
 
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct Grammar {

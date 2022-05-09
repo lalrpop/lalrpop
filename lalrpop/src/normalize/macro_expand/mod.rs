@@ -1,16 +1,26 @@
-use crate::grammar::consts::INLINE;
-use crate::grammar::parse_tree::{
-    ActionKind, Alternative, Annotation, Condition, ConditionOp, ExprSymbol, Grammar, GrammarItem,
-    MacroSymbol, Name, NonterminalData, NonterminalString, Path, RepeatOp, RepeatSymbol, Span,
-    Symbol, SymbolKind, TerminalLiteral, TerminalString, TypeRef, Visibility,
+use std::{
+    collections::{HashMap, HashSet},
+    mem,
 };
-use crate::normalize::norm_util::{self, Symbols};
-use crate::normalize::resolve;
-use crate::normalize::{NormError, NormResult};
+
 use regex::Regex;
-use std::collections::{HashMap, HashSet};
-use std::mem;
 use string_cache::DefaultAtom as Atom;
+
+use crate::{
+    grammar::{
+        consts::INLINE,
+        parse_tree::{
+            ActionKind, Alternative, Annotation, Condition, ConditionOp, ExprSymbol, Grammar,
+            GrammarItem, MacroSymbol, Name, NonterminalData, NonterminalString, Path, RepeatOp,
+            RepeatSymbol, Span, Symbol, SymbolKind, TerminalLiteral, TerminalString, TypeRef,
+            Visibility,
+        },
+    },
+    normalize::{
+        norm_util::{self, Symbols},
+        resolve, NormError, NormResult,
+    },
+};
 
 #[cfg(test)]
 mod test;
