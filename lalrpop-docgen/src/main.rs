@@ -33,6 +33,7 @@ Options:
     -e,   --ebnf            Generate equivalent EBNF for input grammar(s).
     -r,   --railroad        Generate railroad diagrams for input grammar(s).
     -rc,  --railroad-css    Provide a custom CSS stylesheet for railroad diagrams.
+    -rm,  --railroad-mode   Style for SVG links - can be one of `img`, `generic`
     -rp,  --railroad-prefix Prefix for generated SVG resource file img src references.
     -m,   --markdown        Generate markdown files for input grammar(s).
                             Markdown enables EBNF and Railroad generation.
@@ -53,6 +54,7 @@ struct Args {
     flag_ebnf: bool,
     flag_railroad: bool,
     flag_railroad_css: Option<PathBuf>,
+    flag_railroad_mode: Option<String>,
     flag_railroad_prefix: Option<String>,
     flag_markdown: bool,
     flag_markdown_prolog: Option<PathBuf>,
@@ -95,6 +97,7 @@ fn parse_args(mut args: Arguments) -> Result<Args, Box<dyn std::error::Error>> {
         flag_ebnf: args.contains(["-e", "--ebnf"]),
         flag_railroad: args.contains(["-r", "--railroad"]),
         flag_railroad_css: args.opt_value_from_fn(["-rc", "--railroad-css"], PathBuf::from_str)?,
+        flag_railroad_mode: args.opt_value_from_str(["-rp", "--railroad-mode"])?,
         flag_railroad_prefix: args.opt_value_from_str(["-rp", "--railroad-prefix"])?,
         flag_markdown: args.contains(["-m", "--markdown"]),
         flag_markdown_prolog: args
@@ -186,6 +189,10 @@ fn main() -> Result<(), Box<dyn Error>> {
 
     if let Some(ref railroad_css) = args.flag_railroad_css {
         config.set_railroad_css(railroad_css);
+    }
+
+    if let Some(ref railroad_mode) = args.flag_railroad_mode {
+        config.set_railroad_mode(railroad_mode.to_string());
     }
 
     if let Some(ref railroad_prefix) = args.flag_railroad_prefix {

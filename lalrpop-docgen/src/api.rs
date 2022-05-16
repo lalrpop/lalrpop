@@ -99,7 +99,13 @@ impl Configuration {
         self
     }
 
-    /// Optional url prefix for SVG img reference HTML tags
+    /// Optional url style for svg reference 
+    pub fn set_railroad_mode(&mut self, mode: String) -> &mut Configuration {
+        self.session.railroad_mode= mode;
+        self
+    }
+
+    /// Optional url prefix for svg reference
     pub fn set_railroad_prefix(&mut self, prefix: String) -> &mut Configuration {
         self.session.railroad_prefix = prefix;
         self

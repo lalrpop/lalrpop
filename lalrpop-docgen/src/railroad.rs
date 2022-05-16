@@ -214,6 +214,27 @@ impl LalrpopToRailroad {
         false
     }
 
+    fn svg_to_ref(&self, name: &str, width: i64, height: i64) -> String {
+        match self.session.railroad_mode.as_str() {
+            "img" =>
+                format!(
+                    r#"<img src="{}svg/{}.svg" alt="{}" width="{}" height="{}"/>"#,
+                    self.session.railroad_prefix,
+                    name.to_ascii_lowercase(),
+                    name.to_ascii_lowercase(),
+                    width,
+                    height,
+                ),
+           _otherwise =>
+                format!(
+                    "![{}]({}svg/{}.svg)",
+                    name.to_string(),
+                    self.session.railroad_prefix,
+                    name.to_ascii_lowercase(),
+                ),
+        }
+    }
+
     fn to_diagram(&mut self, rule: &NonterminalData) -> (String, (String, String)) {
         let name = rule.name.to_string();
         let mut alts: Vec<Box<dyn RailroadNode>> = vec![];
@@ -244,14 +265,7 @@ impl LalrpopToRailroad {
                 .text(&self.css),
         );
 
-        let diagram_ref = format!(
-            r#"<img src="{}svg/{}.svg" alt="{}" width="{}" height="{}"/>"#,
-            self.session.railroad_prefix,
-            name.to_ascii_lowercase(),
-            name,
-            dia.width(),
-            dia.height()
-        );
+        let diagram_ref = self.svg_to_ref(&name, dia.width(), dia.height());
         let diagram_svg = dia.to_string();
         (name, (diagram_ref, diagram_svg))
     }
