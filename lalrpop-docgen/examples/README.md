@@ -87,3 +87,18 @@ $ npm start
 
 Then browse over to a [docusaurus](http://localhost:3000) Site
 
+## Notes
+
+If the target environment for your markdown renders the SVG images incorrectly
+and shows scaling issues of the SVG railroad diagrams, then changing the code
+generation to use HTML `img` tags instead of markdown image tags may be a quick
+fix.
+
+Using our example above, we add a flag to switch to HTML img tags:
+
+
+```shell
+lalrpop-docgen --railroad-mode img -mp docs/prolog -me docs/epilog  -gc Deploy,Query,Script ~/code/oss/tremor-rs
+```
+
+
