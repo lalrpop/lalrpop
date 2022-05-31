@@ -9,10 +9,12 @@
 //! For concrete examples, see the [`test`](../tests/index.html) module.
 use super::resolve;
 use super::NormResult;
+use crate::grammar::parse_tree::MacroSymbol;
 use crate::grammar::parse_tree::{
     Alternative, ExprSymbol, Grammar, GrammarItem, NonterminalData, NonterminalString, Symbol,
     SymbolKind,
 };
+use crate::grammar::repr::Span;
 use std::fmt;
 use std::str::FromStr;
 use string_cache::DefaultAtom as Atom;
@@ -85,15 +87,30 @@ impl Default for Assoc {
 }
 
 /// Substitution plan.
-#[derive(Clone, Copy, Eq, PartialEq)]
+#[derive(Clone, Copy, Debug, Eq, PartialEq)]
 pub enum Substitution<'a> {
     /// Replace the first encountered occurrence by the first argument, and all the following by
     /// the second. Used for associativity: typically, a left associativity on level `3` perform a
     /// `OneThen(Rule3, Rule2)`.
-    OneThen(&'a SymbolKind, &'a SymbolKind),
+    OneThen(&'a NonterminalString, &'a NonterminalString),
     /// Standard substitution mode. Replace every encountered occurrence with the same given
     /// symbol.
-    Every(&'a SymbolKind),
+    Every(&'a NonterminalString),
+}
+
+impl<'a> Substitution<'a> {
+    pub fn apply(self, target: &mut NonterminalString) -> Self {
+        match self {
+            Substitution::Every(nonterm) => {
+                *target = nonterm.clone();
+                self
+            }
+            Substitution::OneThen(fst, snd) => {
+                *target = fst.clone();
+                Substitution::Every(snd)
+            }
+        }
+    }
 }
 
 /// Direction for substitution.
@@ -231,10 +248,10 @@ fn expand_nonterm(mut nonterm: NonterminalData) -> NormResult<Vec<GrammarItem>> 
             }));
 
             let nonterm_prev = lvl_prec_opt.map(|lvl_prec| {
-                SymbolKind::Nonterminal(NonterminalString(Atom::from(format!(
+                NonterminalString(Atom::from(format!(
                     "{}{}",
                     nonterm.name, lvl_prec
-                ))))
+                )))
             });
 
             let (alts_with_prec, new_rest): (Vec<_>, Vec<_>) =
@@ -246,23 +263,22 @@ fn expand_nonterm(mut nonterm: NonterminalData) -> NormResult<Vec<GrammarItem>> 
                 .map(|(_, assoc, alt)| (assoc, alt))
                 .collect();
 
-            let symbol_kind = &SymbolKind::Nonterminal(name.clone());
             for (assoc, alt) in &mut alts_with_assoc {
                 let err_msg = "unexpected associativity annotation on the first precedence level";
                 let (subst, dir) = match assoc {
                     Assoc::Left => (
-                        Substitution::OneThen(symbol_kind, nonterm_prev.as_ref().expect(err_msg)),
+                        Substitution::OneThen(&name, nonterm_prev.as_ref().expect(err_msg)),
                         Direction::Forward,
                     ),
                     Assoc::Right => (
-                        Substitution::OneThen(symbol_kind, nonterm_prev.as_ref().expect(err_msg)),
+                        Substitution::OneThen(&name, nonterm_prev.as_ref().expect(err_msg)),
                         Direction::Backward,
                     ),
                     Assoc::NonAssoc => (
                         Substitution::Every(nonterm_prev.as_ref().expect(err_msg)),
                         Direction::Forward,
                     ),
-                    Assoc::FullyAssoc => (Substitution::Every(symbol_kind), Direction::Forward),
+                    Assoc::FullyAssoc => (Substitution::Every(&name), Direction::Forward),
                 };
                 replace_nonterm(alt, &nonterm.name, subst, dir)
             }
@@ -271,7 +287,21 @@ fn expand_nonterm(mut nonterm: NonterminalData) -> NormResult<Vec<GrammarItem>> 
                 alts_with_assoc.into_iter().map(|(_, alt)| alt).collect();
 
             // Include the previous level
-            if let Some(kind) = nonterm_prev {
+            if let Some(name) = nonterm_prev {
+                let kind = if nonterm.is_macro_def() {
+                    SymbolKind::Macro(MacroSymbol {
+                        name,
+                        args: nonterm.args.iter().map(|arg_nonterm| {
+                            Symbol {
+                                span: Span::default(),
+                                kind: SymbolKind::Nonterminal(arg_nonterm.clone())
+                            }
+                        }).collect()
+                    })
+                } else {
+                    SymbolKind::Nonterminal(name)
+                };
+
                 alternatives.push(Alternative {
                     // Don't really know what span should we put here
                     span: nonterm.span,
@@ -337,21 +367,18 @@ fn replace_symbol<'a>(
     subst: Substitution<'a>,
     dir: Direction,
 ) -> Substitution<'a> {
-    match symbol.kind {
+    match &mut symbol.kind {
         SymbolKind::AmbiguousId(ref id) => {
             panic!("ambiguous id `{}` encountered after name resolution", id)
         }
-        SymbolKind::Nonterminal(ref name) if name == target => match subst {
-            Substitution::Every(sym_kind) => {
-                symbol.kind = sym_kind.clone();
-                subst
-            }
-            Substitution::OneThen(fst, snd) => {
-                symbol.kind = fst.clone();
-                Substitution::Every(snd)
-            }
-        },
+        SymbolKind::Nonterminal(name) if name == target => subst.apply(name),
         SymbolKind::Macro(ref mut m) => {
+            let subst = if &m.name == target {
+                subst.apply(&mut m.name)
+            } else {
+                subst
+            };
+
             if dir == Direction::Forward {
                 m.args
                     .iter_mut()
