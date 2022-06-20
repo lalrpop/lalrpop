@@ -3162,7 +3162,7 @@ ___token: &Tok<'input>,
 _: core::marker::PhantomData<(&'input ())>,
 ) -> Option<usize>
 {
-match *___token {
+match &*___token {
 Tok::Bang if true => Some(0),
 Tok::BangEquals if true => Some(1),
 Tok::BangTilde if true => Some(2),
