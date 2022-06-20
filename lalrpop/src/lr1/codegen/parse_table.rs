@@ -756,7 +756,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
             .emit()?;
         rust!(self.out, "{{");
 
-        rust!(self.out, "match *{p}token {{", p = self.prefix);
+        rust!(self.out, "match &*{p}token {{", p = self.prefix);
 
         for (terminal, index) in self.grammar.terminals.all.iter().zip(0..) {
             if *terminal == TerminalString::Error {
