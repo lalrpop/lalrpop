@@ -163,36 +163,41 @@ pub trait ParserAction<D: ParserDefinition>: Copy + Clone + Debug {
 
 pub trait IntoLexerIterator<A> {
     type Item;
-    type IntoIter: Iterator<Item = Self::Item>;
+    type IntoIter: LexerIterator<A, Item = Self::Item>;
 
-    fn into_iter(self) -> Self::IntoIter;
+    fn into_lex_iter(self) -> Self::IntoIter;
 }
 impl<I, A> IntoLexerIterator<A> for I
 where
-    I: IntoIterator,
+    I: LexerIterator<A>,
 {
-    type Item = <I as IntoIterator>::Item;
-    type IntoIter = <I as IntoIterator>::IntoIter;
+    type Item = <I as LexerIterator<A>>::Item;
+    type IntoIter = Self;
 
-    fn into_iter(self) -> Self::IntoIter {
-        IntoIterator::into_iter(self)
+    fn into_lex_iter(self) -> Self::IntoIter {
+        self
+    }
+}
+
+pub struct ValidActions<'a, T>(&'a dyn Fn(&T) -> bool, &'a dyn Fn() -> Vec<String>);
+
+impl<T> ValidActions<'_, T> {
+    pub fn is_valid(&self, token: &T) -> bool {
+        (self.0)(token)
+    }
+
+    pub fn expected_tokens(&self) -> Vec<String> {
+        (self.1)()
     }
 }
 
 pub trait LexerIterator<A> {
     type Item;
-    fn lex_next(&mut self, valid_actions: &[A]) -> Option<Self::Item>;
-
-    fn map<F, B>(self, f: F) -> Map<Self, F>
-    where
-        F: FnMut(Self::Item) -> B,
-        Self: Sized,
-    {
-        Map(self, f)
-    }
+    fn lex_next(&mut self, valid_actions: ValidActions<'_, A>) -> Option<Self::Item>;
 }
 
-pub struct Map<I, F>(I, F);
+#[doc(hidden)]
+pub struct Map<I, F>(pub I, pub F);
 
 impl<I, A, F, B> LexerIterator<A> for Map<I, F>
 where
@@ -200,7 +205,7 @@ where
     F: FnMut(I::Item) -> B,
 {
     type Item = B;
-    fn lex_next(&mut self, valid_actions: &[A]) -> Option<Self::Item> {
+    fn lex_next(&mut self, valid_actions: ValidActions<'_, A>) -> Option<Self::Item> {
         self.0.lex_next(valid_actions).map(&mut self.1)
     }
 }
@@ -210,7 +215,7 @@ where
     I: Iterator,
 {
     type Item = <I as Iterator>::Item;
-    fn lex_next(&mut self, _valid_actions: &[A]) -> Option<Self::Item> {
+    fn lex_next(&mut self, _valid_actions: ValidActions<'_, A>) -> Option<Self::Item> {
         self.next()
     }
 }
@@ -247,7 +252,7 @@ pub type ErrorRecovery<D> = crate::ErrorRecovery<Location<D>, Token<D>, Error<D>
 pub struct Parser<D, I>
 where
     D: ParserDefinition,
-    I: LexerIterator<D::Action, Item = Result<TokenTriple<D>, ParseError<D>>>,
+    I: LexerIterator<D::Token, Item = Result<TokenTriple<D>, ParseError<D>>>,
 {
     definition: D,
     tokens: I,
@@ -265,7 +270,7 @@ enum NextToken<D: ParserDefinition> {
 impl<D, I> Parser<D, I>
 where
     D: ParserDefinition,
-    I: LexerIterator<D::Action, Item = Result<TokenTriple<D>, ParseError<D>>>,
+    I: LexerIterator<D::Token, Item = Result<TokenTriple<D>, ParseError<D>>>,
 {
     pub fn drive(definition: D, tokens: I) -> ParseResult<D> {
         let last_location = definition.start_location();
@@ -672,8 +677,15 @@ where
     /// are no more tokens, signal EOF.
     fn next_token(&mut self) -> NextToken<D> {
         let top_state = self.top_state();
-        let next_actions = self.definition.next_actions(top_state);
-        let token = match self.tokens.lex_next(next_actions) {
+        let definition = &self.definition;
+        let token = match self.tokens.lex_next(ValidActions(
+            &|token| {
+                definition.token_to_index(token).map_or(false, |index| {
+                    !definition.action(top_state, index).is_error()
+                })
+            },
+            &|| definition.expected_tokens(top_state),
+        )) {
             Some(Ok(v)) => v,
             Some(Err(e)) => return NextToken::Done(Err(e)),
             None => return NextToken::EOF,

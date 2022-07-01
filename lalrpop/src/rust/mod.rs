@@ -159,7 +159,7 @@ impl<'me, W: Write> RustWrite<W> {
         rust!(self, "#[allow(unused_imports)]");
         rust!(
             self,
-            "use self::{p}lalrpop_util::state_machine as {p}state_machine;",
+            "use self::{p}lalrpop_util::state_machine::{{self as {p}state_machine, IntoLexerIterator as _}};",
             p = prefix,
         );
         rust!(self, "extern crate core;");

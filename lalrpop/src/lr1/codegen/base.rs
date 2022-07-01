@@ -225,14 +225,14 @@ impl<'codegen, 'grammar, W: Write, C> CodeGenerator<'codegen, 'grammar, W, C> {
                     "{}TOKEN: {}ToTriple<{}>",
                     self.prefix, self.prefix, user_type_parameters,
                 ),
-                if let Some(action_type) = use_lexer_iterator {
+                if let Some(_) = use_lexer_iterator {
                     format!(
                         "{p}TOKENS: {p}lalrpop_util::state_machine::IntoLexerIterator<
-                        {action_type},
+                        {token_type},
                         Item={p}TOKEN
                     >",
                         p = self.prefix,
-                        action_type = action_type,
+                        token_type = self.types.terminal_token_type(),
                     )
                 } else {
                     format!(
@@ -327,7 +327,7 @@ impl<'codegen, 'grammar, W: Write, C> CodeGenerator<'codegen, 'grammar, W, C> {
             let clone_call = if self.repeatable { ".clone()" } else { "" };
             rust!(
                 self.out,
-                "let {}tokens = {}tokens0{}.into_iter();",
+                "let {}tokens = {}tokens0{}.into_lex_iter();",
                 self.prefix,
                 self.prefix,
                 clone_call
@@ -335,10 +335,11 @@ impl<'codegen, 'grammar, W: Write, C> CodeGenerator<'codegen, 'grammar, W, C> {
 
             rust!(
                 self.out,
-                "let mut {}tokens = {}tokens.map(|t| {}ToTriple::to_triple(t));",
-                self.prefix,
-                self.prefix,
-                self.prefix
+                "let mut {}tokens = {p}lalrpop_util::state_machine::Map(
+                    {p}tokens,
+                    |t| {p}ToTriple::to_triple(t),
+                );",
+                p = self.prefix,
             );
         }
 
