@@ -466,6 +466,12 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
     }
 
     fn write_parse_table(&mut self) -> io::Result<()> {
+        self.write_action_table()?;
+        self.write_eof_action_table()?;
+        self.write_goto_matcher()
+    }
+
+    fn write_action_table(&mut self) -> io::Result<()> {
         let state_type = self.custom.state_type;
 
         // The table is a two-dimensional matrix indexed first by state
@@ -519,12 +525,18 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
 
         rust!(self.out, "}}");
 
+        Ok(())
+    }
+
+    fn write_eof_action_table(&mut self) -> io::Result<()> {
+        let state_type = self.custom.state_type;
+
         // Actions on EOF. Indexed just by state.
         rust!(
             self.out,
             "const {}EOF_ACTION: &[{}] = &[",
             self.prefix,
-            self.custom.state_type
+            state_type
         );
         for (index, state) in self.states.iter().enumerate() {
             rust!(self.out, "// State {}", index);
@@ -532,6 +544,12 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
             self.out.write_table_row(Some(reduction))?;
         }
         rust!(self.out, "];");
+
+        Ok(())
+    }
+
+    fn write_goto_matcher(&mut self) -> io::Result<()> {
+        let state_type = self.custom.state_type;
 
         rust!(
             self.out,
