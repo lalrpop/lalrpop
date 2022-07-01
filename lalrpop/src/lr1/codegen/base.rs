@@ -201,7 +201,7 @@ impl<'codegen, 'grammar, W: Write, C> CodeGenerator<'codegen, 'grammar, W, C> {
         Ok(())
     }
 
-    pub fn start_parser_fn(&mut self) -> io::Result<()> {
+    pub fn start_parser_fn(&mut self, use_lexer_iterator: Option<&str>) -> io::Result<()> {
         let parse_error_type = self.types.parse_error_type();
 
         let (type_parameters, parameters, mut where_clauses);
@@ -225,10 +225,21 @@ impl<'codegen, 'grammar, W: Write, C> CodeGenerator<'codegen, 'grammar, W, C> {
                     "{}TOKEN: {}ToTriple<{}>",
                     self.prefix, self.prefix, user_type_parameters,
                 ),
-                format!(
-                    "{}TOKENS: IntoIterator<Item={}TOKEN>",
-                    self.prefix, self.prefix
-                ),
+                if let Some(action_type) = use_lexer_iterator {
+                    format!(
+                        "{p}TOKENS: {p}lalrpop_util::state_machine::IntoLexerIterator<
+                        {action_type},
+                        Item={p}TOKEN
+                    >",
+                        p = self.prefix,
+                        action_type = action_type,
+                    )
+                } else {
+                    format!(
+                        "{}TOKENS: IntoIterator<Item={}TOKEN>",
+                        self.prefix, self.prefix
+                    )
+                },
             ];
             parameters = vec![format!("{}tokens0: {}TOKENS", self.prefix, self.prefix)];
             where_clauses = vec![];

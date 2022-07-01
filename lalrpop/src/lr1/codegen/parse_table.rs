@@ -257,6 +257,16 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
         rust!(self.out, "#[inline]");
         rust!(
             self.out,
+            "fn next_actions(&self, state: {state_type}) -> &[{state_type}] {{",
+            state_type = state_type
+        );
+        rust!(self.out, "{p}next_actions(state)", p = self.prefix);
+        rust!(self.out, "}}");
+
+        rust!(self.out, "");
+        rust!(self.out, "#[inline]");
+        rust!(
+            self.out,
             "fn error_action(&self, state: {state_type}) -> {state_type} {{",
             state_type = state_type,
         );
@@ -525,6 +535,27 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
 
         rust!(self.out, "}}");
 
+        rust!(
+            self.out,
+            "fn {p}next_actions(state: {state_type}) -> &'static [{state_type}] {{",
+            p = self.prefix,
+            state_type = state_type,
+        );
+
+        rust!(
+            self.out,
+            "let start = (state as usize) * {num_term};",
+            num_term = self.grammar.terminals.all.len(),
+        );
+        rust!(
+            self.out,
+            "&{p}ACTION[start..start + {num_term}]",
+            p = self.prefix,
+            num_term = self.grammar.terminals.all.len(),
+        );
+
+        rust!(self.out, "}}");
+
         Ok(())
     }
 
@@ -710,7 +741,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
     fn write_parser_fn(&mut self) -> io::Result<()> {
         let phantom_data_expr = self.phantom_data_expr();
 
-        self.start_parser_fn()?;
+        self.start_parser_fn(Some(self.custom.state_type))?;
 
         self.define_tokens()?;
 

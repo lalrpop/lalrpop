@@ -215,7 +215,7 @@ impl<'ascent, 'grammar, W: Write>
     // consumed.
     fn write_start_fn(&mut self) -> io::Result<()> {
         let phantom_data = self.phantom_data_expr();
-        self.start_parser_fn()?;
+        self.start_parser_fn(None)?;
         self.define_tokens()?;
 
         self.next_token("lookahead", "tokens")?;
