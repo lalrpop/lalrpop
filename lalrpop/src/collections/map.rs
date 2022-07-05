@@ -1,6 +1,5 @@
-use std::collections::BTreeMap;
-
 pub use std::collections::btree_map::Entry;
+use std::collections::BTreeMap;
 
 /// In general, we avoid coding directly against any particular map,
 /// but rather build against `util::Map` (and `util::map` to construct

@@ -1,8 +1,6 @@
-use crate::grammar::repr::*;
-use crate::lr1::core::*;
 use string_cache::DefaultAtom as Atom;
-use crate::test_util::expect_debug;
-use crate::tls::Tls;
+
+use crate::{grammar::repr::*, lr1::core::*, test_util::expect_debug, tls::Tls};
 
 macro_rules! nt {
     ($x:ident) => {

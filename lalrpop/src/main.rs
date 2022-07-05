@@ -1,15 +1,16 @@
 extern crate lalrpop;
 extern crate pico_args;
 
-use std::ffi::OsString;
-use std::io::Write;
-use std::path::{Path, PathBuf};
-use std::process;
-use std::str::FromStr;
-
-use pico_args::Arguments;
+use std::{
+    ffi::OsString,
+    io::Write,
+    path::{Path, PathBuf},
+    process,
+    str::FromStr,
+};
 
 use lalrpop::Configuration;
+use pico_args::Arguments;
 
 static VERSION: &'static str = env!("CARGO_PKG_VERSION");
 
@@ -172,8 +173,9 @@ fn main1() -> Result<(), Box<dyn std::error::Error>> {
 
 #[cfg(test)]
 mod test {
-    use super::*;
     use std::ffi::OsString;
+
+    use super::*;
 
     fn os_vec(vals: &[&str]) -> Vec<OsString> {
         vals.iter().map(|v| v.into()).collect()

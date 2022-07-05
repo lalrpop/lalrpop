@@ -1,10 +1,15 @@
+use std::{
+    fmt::{Debug, Error, Formatter},
+    hash::Hash,
+};
+
 use bit_set::{self, BitSet};
-use crate::collections::Collection;
-use crate::grammar::repr::*;
-use crate::lr1::core::*;
-use crate::lr1::tls::Lr1Tls;
-use std::fmt::{Debug, Error, Formatter};
-use std::hash::Hash;
+
+use crate::{
+    collections::Collection,
+    grammar::repr::*,
+    lr1::{core::*, tls::Lr1Tls},
+};
 
 pub trait Lookahead: Clone + Debug + Eq + Ord + Hash + Collection<Item = Self> {
     fn fmt_as_item_suffix(&self, fmt: &mut Formatter) -> Result<(), Error>;

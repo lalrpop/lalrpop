@@ -1,6 +1,6 @@
-use crate::grammar::parse_tree::Span;
-use crate::parser;
 use regex::Regex;
+
+use crate::{grammar::parse_tree::Span, parser};
 
 fn check_err(expected_err: &str, grammar: &str) {
     let expected_err = Regex::new(expected_err).unwrap();

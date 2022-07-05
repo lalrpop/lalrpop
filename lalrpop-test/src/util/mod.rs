@@ -1,9 +1,11 @@
 //! Utilities for testing.
 
-use crate::util::tok::Tok;
+use std::fmt::{Debug, Error, Formatter};
+
 use diff;
 use lalrpop_util::ParseError;
-use std::fmt::{Debug, Error, Formatter};
+
+use crate::util::tok::Tok;
 
 // a simple tokenizer
 pub mod tok;

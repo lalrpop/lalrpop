@@ -1,12 +1,11 @@
 //! Core LR(1) types.
 
-use crate::collections::Map;
-use crate::grammar::repr::*;
-use crate::util::Prefix;
-use itertools::Itertools;
 use std::fmt::{Debug, Display, Error, Formatter};
 
+use itertools::Itertools;
+
 use super::lookahead::*;
+use crate::{collections::Map, grammar::repr::*, util::Prefix};
 
 #[derive(Copy, Clone, Hash, PartialEq, Eq, PartialOrd, Ord)]
 pub struct Item<'grammar, L: Lookahead> {

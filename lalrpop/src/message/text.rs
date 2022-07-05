@@ -1,7 +1,7 @@
 use ascii_canvas::AsciiView;
-use crate::style::Style;
 
 use super::*;
+use crate::style::Style;
 
 /// Text to be display. This will be flowed appropriately depending on
 /// the container; e.g., in a Horiz, it will be one unit, but in a

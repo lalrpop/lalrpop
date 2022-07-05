@@ -1,9 +1,8 @@
 //! Thread-local data specific to LR(1) processing.
 
+use std::{cell::RefCell, mem, sync::Arc};
+
 use crate::grammar::repr::TerminalSet;
-use std::cell::RefCell;
-use std::mem;
-use std::sync::Arc;
 
 thread_local! {
     static TERMINALS: RefCell<Option<Arc<TerminalSet>>> = RefCell::new(None)

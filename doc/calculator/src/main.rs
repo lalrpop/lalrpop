@@ -124,11 +124,21 @@ fn calculator6b() {
 
     let expr = calculator6b::ExprsParser::new().parse("2147483648");
     assert!(expr.is_err());
-    assert_eq!(expr.unwrap_err(), ParseError::User { error: Calculator6Error::InputTooBig });
+    assert_eq!(
+        expr.unwrap_err(),
+        ParseError::User {
+            error: Calculator6Error::InputTooBig
+        }
+    );
 
     let expr = calculator6b::ExprsParser::new().parse("3");
     assert!(expr.is_err());
-    assert_eq!(expr.unwrap_err(), ParseError::User { error: Calculator6Error::OddNumber });
+    assert_eq!(
+        expr.unwrap_err(),
+        ParseError::User {
+            error: Calculator6Error::OddNumber
+        }
+    );
 }
 
 lalrpop_mod!(pub calculator7);

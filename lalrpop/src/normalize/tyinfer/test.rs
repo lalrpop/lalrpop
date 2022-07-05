@@ -1,10 +1,10 @@
-use crate::grammar::parse_tree::NonterminalString;
-use crate::grammar::repr::TypeRepr;
-use crate::normalize::macro_expand::expand_macros;
-use crate::normalize::token_check;
-use crate::normalize::tyinfer::infer_types;
-use crate::parser;
 use string_cache::DefaultAtom as Atom;
+
+use crate::{
+    grammar::{parse_tree::NonterminalString, repr::TypeRepr},
+    normalize::{macro_expand::expand_macros, token_check, tyinfer::infer_types},
+    parser,
+};
 
 fn type_repr(s: &str) -> TypeRepr {
     let type_ref = parser::parse_type_ref(s).unwrap();

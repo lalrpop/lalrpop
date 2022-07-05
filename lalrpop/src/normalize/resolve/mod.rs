@@ -1,11 +1,13 @@
 //! Resolves identifiers to decide if they are macros, terminals, or
 //! nonterminals. Rewrites the parse tree accordingly.
 
-use super::{NormError, NormResult};
-
-use crate::collections::{map, Map};
-use crate::grammar::parse_tree::*;
 use string_cache::DefaultAtom as Atom;
+
+use super::{NormError, NormResult};
+use crate::{
+    collections::{map, Map},
+    grammar::parse_tree::*,
+};
 
 #[cfg(test)]
 mod test;

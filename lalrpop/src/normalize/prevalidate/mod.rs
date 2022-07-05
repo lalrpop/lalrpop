@@ -1,15 +1,16 @@
 //! Validate checks some basic safety conditions.
 
-use super::norm_util::{self, Symbols};
-use super::precedence;
-use super::{NormError, NormResult};
-
-use crate::collections::{set, Multimap};
-use crate::grammar::consts::*;
-use crate::grammar::parse_tree::*;
-use crate::grammar::repr as r;
-use crate::util::Sep;
 use string_cache::DefaultAtom as Atom;
+
+use super::{
+    norm_util::{self, Symbols},
+    precedence, NormError, NormResult,
+};
+use crate::{
+    collections::{set, Multimap},
+    grammar::{consts::*, parse_tree::*, repr as r},
+    util::Sep,
+};
 
 #[cfg(test)]
 mod test;

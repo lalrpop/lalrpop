@@ -1,10 +1,9 @@
 //! Certain bits of environmental state are too annoying to thread
 //! around everywhere, so pack them into TLS.
 
-use crate::file_text::FileText;
-use crate::session::Session;
-use std::cell::RefCell;
-use std::rc::Rc;
+use std::{cell::RefCell, rc::Rc};
+
+use crate::{file_text::FileText, session::Session};
 
 pub struct Tls {
     _dummy: (),

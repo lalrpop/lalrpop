@@ -1,10 +1,10 @@
-use crate::collections::*;
-use crate::grammar::repr::*;
-use crate::lr1::core::*;
-use std::cmp::max;
-use std::io::{self, Write};
+use std::{
+    cmp::max,
+    io::{self, Write},
+};
 
 use super::lookahead::*;
+use crate::{collections::*, grammar::repr::*, lr1::core::*};
 
 pub fn generate_report<'grammar, W: Write + 'grammar>(
     out: &'grammar mut W,

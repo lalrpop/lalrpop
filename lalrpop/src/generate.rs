@@ -1,8 +1,10 @@
 //! Generate valid parse trees.
 
-use crate::grammar::repr::*;
-use rand::{self, Rng};
 use std::iter::Iterator;
+
+use rand::{self, Rng};
+
+use crate::grammar::repr::*;
 
 #[derive(PartialEq, Eq)]
 pub enum ParseTree {

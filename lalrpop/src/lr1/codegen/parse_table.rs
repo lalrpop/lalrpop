@@ -1,19 +1,23 @@
 //! A compiler from an LR(1) table to a traditional table driven parser.
 
-use crate::collections::{Entry, Map, Set};
-use crate::grammar::repr::*;
-use crate::lr1::core::*;
-use crate::lr1::lookahead::Token;
-use crate::rust::RustWrite;
-use crate::tls::Tls;
-use crate::util::Sep;
+use std::{
+    fmt,
+    io::{self, Write},
+    rc::Rc,
+};
+
 use itertools::Itertools;
-use std::fmt;
-use std::io::{self, Write};
-use std::rc::Rc;
 use string_cache::DefaultAtom as Atom;
 
 use super::base::CodeGenerator;
+use crate::{
+    collections::{Entry, Map, Set},
+    grammar::repr::*,
+    lr1::{core::*, lookahead::Token},
+    rust::RustWrite,
+    tls::Tls,
+    util::Sep,
+};
 
 const DEBUG_PRINT: bool = false;
 
@@ -253,6 +257,16 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
         rust!(self.out, "#[inline]");
         rust!(
             self.out,
+            "fn next_actions(&self, state: {state_type}) -> &[{state_type}] {{",
+            state_type = state_type
+        );
+        rust!(self.out, "{p}next_actions(state)", p = self.prefix);
+        rust!(self.out, "}}");
+
+        rust!(self.out, "");
+        rust!(self.out, "#[inline]");
+        rust!(
+            self.out,
             "fn error_action(&self, state: {state_type}) -> {state_type} {{",
             state_type = state_type,
         );
@@ -462,6 +476,12 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
     }
 
     fn write_parse_table(&mut self) -> io::Result<()> {
+        self.write_action_table()?;
+        self.write_eof_action_table()?;
+        self.write_goto_matcher()
+    }
+
+    fn write_action_table(&mut self) -> io::Result<()> {
         let state_type = self.custom.state_type;
 
         // The table is a two-dimensional matrix indexed first by state
@@ -515,12 +535,39 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
 
         rust!(self.out, "}}");
 
+        rust!(
+            self.out,
+            "fn {p}next_actions(state: {state_type}) -> &'static [{state_type}] {{",
+            p = self.prefix,
+            state_type = state_type,
+        );
+
+        rust!(
+            self.out,
+            "let start = (state as usize) * {num_term};",
+            num_term = self.grammar.terminals.all.len(),
+        );
+        rust!(
+            self.out,
+            "&{p}ACTION[start..start + {num_term}]",
+            p = self.prefix,
+            num_term = self.grammar.terminals.all.len(),
+        );
+
+        rust!(self.out, "}}");
+
+        Ok(())
+    }
+
+    fn write_eof_action_table(&mut self) -> io::Result<()> {
+        let state_type = self.custom.state_type;
+
         // Actions on EOF. Indexed just by state.
         rust!(
             self.out,
             "const {}EOF_ACTION: &[{}] = &[",
             self.prefix,
-            self.custom.state_type
+            state_type
         );
         for (index, state) in self.states.iter().enumerate() {
             rust!(self.out, "// State {}", index);
@@ -528,6 +575,12 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
             self.out.write_table_row(Some(reduction))?;
         }
         rust!(self.out, "];");
+
+        Ok(())
+    }
+
+    fn write_goto_matcher(&mut self) -> io::Result<()> {
+        let state_type = self.custom.state_type;
 
         rust!(
             self.out,
@@ -688,7 +741,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
     fn write_parser_fn(&mut self) -> io::Result<()> {
         let phantom_data_expr = self.phantom_data_expr();
 
-        self.start_parser_fn()?;
+        self.start_parser_fn(Some(self.custom.state_type))?;
 
         self.define_tokens()?;
 
@@ -1553,7 +1606,10 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
         rust!(self.out, "if next_state == 0 {{");
         rust!(self.out, "None");
         rust!(self.out, "}} else {{");
-        rust!(self.out, "Some(alloc::string::ToString::to_string(terminal))");
+        rust!(
+            self.out,
+            "Some(alloc::string::ToString::to_string(terminal))"
+        );
         rust!(self.out, "}}");
         rust!(self.out, "}}).collect()");
         rust!(self.out, "}}");

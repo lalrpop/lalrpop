@@ -1,8 +1,11 @@
+use std::{
+    fmt::{Display, Error, Formatter},
+    fs::File,
+    io::{self, Read, Write},
+    path::PathBuf,
+};
+
 use crate::grammar::parse_tree as pt;
-use std::fmt::{Display, Error, Formatter};
-use std::fs::File;
-use std::io::{self, Read, Write};
-use std::path::PathBuf;
 
 pub struct FileText {
     path: PathBuf,

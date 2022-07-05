@@ -1,9 +1,9 @@
-use std::collections::btree_map;
-use std::default::Default;
-use std::iter::FromIterator;
+use std::{collections::btree_map, default::Default, iter::FromIterator};
 
-use super::map::{map, Map};
-use super::set::Set;
+use super::{
+    map::{map, Map},
+    set::Set,
+};
 
 pub struct Multimap<K, C: Collection> {
     map: Map<K, C>,

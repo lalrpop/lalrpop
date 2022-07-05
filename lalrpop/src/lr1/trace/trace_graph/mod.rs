@@ -1,13 +1,16 @@
-use crate::collections::{map, Map};
-use crate::grammar::repr::*;
-use crate::lr1::core::*;
-use crate::lr1::example::*;
-use crate::lr1::first::*;
-use crate::lr1::lookahead::*;
-use petgraph::graph::{EdgeReference, Edges, NodeIndex};
-use petgraph::prelude::*;
-use petgraph::{Directed, EdgeDirection, Graph};
 use std::fmt::{Debug, Error, Formatter};
+
+use petgraph::{
+    graph::{EdgeReference, Edges, NodeIndex},
+    prelude::*,
+    Directed, EdgeDirection, Graph,
+};
+
+use crate::{
+    collections::{map, Map},
+    grammar::repr::*,
+    lr1::{core::*, example::*, first::*, lookahead::*},
+};
 
 #[cfg(test)]
 mod test;

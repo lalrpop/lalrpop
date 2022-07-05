@@ -1,9 +1,7 @@
-use crate::grammar::repr::*;
 use string_cache::DefaultAtom as Atom;
-use crate::test_util::expect_debug;
-use crate::tls::Tls;
 
 use super::{Example, ExampleSymbol, Reduction};
+use crate::{grammar::repr::*, test_util::expect_debug, tls::Tls};
 
 fn nt(t: &str) -> NonterminalString {
     NonterminalString(Atom::from(t))

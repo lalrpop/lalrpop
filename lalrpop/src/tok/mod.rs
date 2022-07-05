@@ -1,11 +1,10 @@
 //! A tokenizer for use in LALRPOP itself.
 
-use std::borrow::Cow;
-use std::str::CharIndices;
+use std::{borrow::Cow, str::CharIndices};
+
 use unicode_xid::UnicodeXID;
 
-use self::ErrorCode::*;
-use self::Tok::*;
+use self::{ErrorCode::*, Tok::*};
 
 #[cfg(test)]
 mod test;

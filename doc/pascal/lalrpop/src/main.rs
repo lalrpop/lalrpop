@@ -2,11 +2,7 @@
 extern crate lalrpop_util;
 extern crate pico_args;
 
-use std::ffi::OsString;
-use std::fs::File;
-use std::io::Read;
-use std::path::Path;
-use std::time::Instant;
+use std::{ffi::OsString, fs::File, io::Read, path::Path, time::Instant};
 
 use pico_args::Arguments;
 

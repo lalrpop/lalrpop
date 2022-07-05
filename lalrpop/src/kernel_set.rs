@@ -1,7 +1,6 @@
+use std::{collections::VecDeque, fmt::Debug, hash::Hash};
+
 use crate::collections::{map, Map};
-use std::collections::VecDeque;
-use std::fmt::Debug;
-use std::hash::Hash;
 
 pub struct KernelSet<K: Kernel> {
     counter: usize,

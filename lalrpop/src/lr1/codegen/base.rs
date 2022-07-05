@@ -1,12 +1,14 @@
 //! Base helper routines for a code generator.
 
-use crate::collections::Set;
-use crate::grammar::free_variables::FreeVariables;
-use crate::grammar::repr::*;
-use crate::lr1::core::*;
-use crate::rust::RustWrite;
-use crate::util::Sep;
 use std::io::{self, Write};
+
+use crate::{
+    collections::Set,
+    grammar::{free_variables::FreeVariables, repr::*},
+    lr1::core::*,
+    rust::RustWrite,
+    util::Sep,
+};
 
 /// Base struct for various kinds of code generator. The flavor of
 /// code generator is customized by supplying distinct types for `C`
@@ -199,7 +201,7 @@ impl<'codegen, 'grammar, W: Write, C> CodeGenerator<'codegen, 'grammar, W, C> {
         Ok(())
     }
 
-    pub fn start_parser_fn(&mut self) -> io::Result<()> {
+    pub fn start_parser_fn(&mut self, use_lexer_iterator: Option<&str>) -> io::Result<()> {
         let parse_error_type = self.types.parse_error_type();
 
         let (type_parameters, parameters, mut where_clauses);
@@ -223,10 +225,21 @@ impl<'codegen, 'grammar, W: Write, C> CodeGenerator<'codegen, 'grammar, W, C> {
                     "{}TOKEN: {}ToTriple<{}>",
                     self.prefix, self.prefix, user_type_parameters,
                 ),
-                format!(
-                    "{}TOKENS: IntoIterator<Item={}TOKEN>",
-                    self.prefix, self.prefix
-                ),
+                if let Some(_) = use_lexer_iterator {
+                    format!(
+                        "{p}TOKENS: {p}lalrpop_util::state_machine::IntoLexerIterator<
+                        {token_type},
+                        Item={p}TOKEN
+                    >",
+                        p = self.prefix,
+                        token_type = self.types.terminal_token_type(),
+                    )
+                } else {
+                    format!(
+                        "{}TOKENS: IntoIterator<Item={}TOKEN>",
+                        self.prefix, self.prefix
+                    )
+                },
             ];
             parameters = vec![format!("{}tokens0: {}TOKENS", self.prefix, self.prefix)];
             where_clauses = vec![];
@@ -314,7 +327,7 @@ impl<'codegen, 'grammar, W: Write, C> CodeGenerator<'codegen, 'grammar, W, C> {
             let clone_call = if self.repeatable { ".clone()" } else { "" };
             rust!(
                 self.out,
-                "let {}tokens = {}tokens0{}.into_iter();",
+                "let {}tokens = {}tokens0{}.into_lex_iter();",
                 self.prefix,
                 self.prefix,
                 clone_call
@@ -322,10 +335,11 @@ impl<'codegen, 'grammar, W: Write, C> CodeGenerator<'codegen, 'grammar, W, C> {
 
             rust!(
                 self.out,
-                "let mut {}tokens = {}tokens.map(|t| {}ToTriple::to_triple(t));",
-                self.prefix,
-                self.prefix,
-                self.prefix
+                "let mut {}tokens = {p}lalrpop_util::state_machine::Map(
+                    {p}tokens,
+                    |t| {p}ToTriple::to_triple(t),
+                );",
+                p = self.prefix,
             );
         }
 

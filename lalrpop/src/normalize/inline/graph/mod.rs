@@ -1,11 +1,13 @@
 #![allow(dead_code)]
 
-use crate::collections::{map, Map};
-use crate::grammar::consts::INLINE;
-use crate::grammar::repr::*;
-use crate::normalize::{NormError, NormResult};
 use petgraph::graph::{Graph, NodeIndex};
 use string_cache::DefaultAtom as Atom;
+
+use crate::{
+    collections::{map, Map},
+    grammar::{consts::INLINE, repr::*},
+    normalize::{NormError, NormResult},
+};
 
 #[cfg(test)]
 mod test;

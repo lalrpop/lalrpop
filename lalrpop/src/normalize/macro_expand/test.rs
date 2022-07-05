@@ -1,7 +1,5 @@
-use crate::parser;
-use crate::test_util::compare;
-
 use super::expand_macros;
+use crate::{parser, test_util::compare};
 
 #[test]
 fn test_comma() {

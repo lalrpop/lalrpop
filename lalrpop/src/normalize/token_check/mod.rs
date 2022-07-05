@@ -5,15 +5,18 @@
 //! are only used in `if` conditions; we use string literals for
 //! those, but they do not have to have a defined conversion.
 
-use super::{NormError, NormResult};
-
-use crate::collections::{Map, Set};
-use crate::grammar::consts::*;
-use crate::grammar::parse_tree::*;
-use crate::lexer::dfa::{self, DFAConstructionError, Precedence};
-use crate::lexer::nfa::NFAConstructionError::*;
-use crate::lexer::re;
 use string_cache::DefaultAtom as Atom;
+
+use super::{NormError, NormResult};
+use crate::{
+    collections::{Map, Set},
+    grammar::{consts::*, parse_tree::*},
+    lexer::{
+        dfa::{self, DFAConstructionError, Precedence},
+        nfa::NFAConstructionError::*,
+        re,
+    },
+};
 
 #[cfg(test)]
 mod test;

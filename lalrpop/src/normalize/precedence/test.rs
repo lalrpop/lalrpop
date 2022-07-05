@@ -1,8 +1,5 @@
-use crate::parser;
-use crate::test_util::compare;
-
-use super::expand_precedence;
-use super::resolve::resolve;
+use super::{expand_precedence, resolve::resolve};
+use crate::{parser, test_util::compare};
 
 #[test]
 fn multilevel() {

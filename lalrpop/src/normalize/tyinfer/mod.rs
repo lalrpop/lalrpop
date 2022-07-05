@@ -1,14 +1,19 @@
-use super::norm_util::{self, AlternativeAction, Symbols};
-use super::{NormError, NormResult};
-
-use crate::grammar::consts::{ERROR, LOCATION};
-use crate::grammar::parse_tree::{
-    ActionKind, Alternative, Grammar, GrammarItem, Lifetime, MatchMapping, NonterminalData,
-    NonterminalString, Path, Span, SymbolKind, TypeParameter, TypeRef,
-};
-use crate::grammar::repr::{NominalTypeRepr, TypeRepr, Types};
 use std::collections::{HashMap, HashSet};
+
 use string_cache::DefaultAtom as Atom;
+
+use super::{
+    norm_util::{self, AlternativeAction, Symbols},
+    NormError, NormResult,
+};
+use crate::grammar::{
+    consts::{ERROR, LOCATION},
+    parse_tree::{
+        ActionKind, Alternative, Grammar, GrammarItem, Lifetime, MatchMapping, NonterminalData,
+        NonterminalString, Path, Span, SymbolKind, TypeParameter, TypeRef,
+    },
+    repr::{NominalTypeRepr, TypeRepr, Types},
+};
 
 #[cfg(test)]
 mod test;

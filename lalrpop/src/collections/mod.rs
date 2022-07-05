@@ -2,6 +2,8 @@ mod map;
 mod multimap;
 mod set;
 
-pub use self::map::{map, Entry, Map};
-pub use self::multimap::{Collection, Multimap};
-pub use self::set::{set, Set};
+pub use self::{
+    map::{map, Entry, Map},
+    multimap::{Collection, Multimap},
+    set::{set, Set},
+};

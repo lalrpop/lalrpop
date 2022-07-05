@@ -79,6 +79,14 @@ pub trait ParserDefinition: Sized {
     /// ERROR.
     fn action(&self, state: Self::StateIndex, token_index: Self::TokenIndex) -> Self::Action;
 
+    /// Given the top-most state, returns a slice of the next actions from that state.
+    /// Indexing into the slice with `!next_actions()[token_to_index(tok)].is_error()` lets the lexer
+    /// know if a token is expected at the current state.
+    fn next_actions(&self, state: Self::StateIndex) -> &[Self::Action] {
+        let _ = state; // TODO Remove the default impl
+        &[]
+    }
+
     /// Returns the action to take if an error occurs in the given
     /// state. This function is the same as the ordinary `action`,
     /// except that it applies not to the user's terminals but to the
@@ -153,6 +161,65 @@ pub trait ParserAction<D: ParserDefinition>: Copy + Clone + Debug {
     fn is_error(self) -> bool;
 }
 
+pub trait IntoLexerIterator<A> {
+    type Item;
+    type IntoIter: LexerIterator<A, Item = Self::Item>;
+
+    fn into_lex_iter(self) -> Self::IntoIter;
+}
+impl<I, A> IntoLexerIterator<A> for I
+where
+    I: LexerIterator<A>,
+{
+    type Item = <I as LexerIterator<A>>::Item;
+    type IntoIter = Self;
+
+    fn into_lex_iter(self) -> Self::IntoIter {
+        self
+    }
+}
+
+pub struct ValidActions<'a, T>(&'a dyn Fn(&T) -> bool, &'a dyn Fn() -> Vec<String>);
+
+impl<T> ValidActions<'_, T> {
+    pub fn is_valid(&self, token: &T) -> bool {
+        (self.0)(token)
+    }
+
+    pub fn expected_tokens(&self) -> Vec<String> {
+        (self.1)()
+    }
+}
+
+pub trait LexerIterator<A> {
+    type Item;
+    fn lex_next(&mut self, valid_actions: ValidActions<'_, A>) -> Option<Self::Item>;
+}
+
+#[doc(hidden)]
+pub struct Map<I, F>(pub I, pub F);
+
+impl<I, A, F, B> LexerIterator<A> for Map<I, F>
+where
+    I: LexerIterator<A>,
+    F: FnMut(I::Item) -> B,
+{
+    type Item = B;
+    fn lex_next(&mut self, valid_actions: ValidActions<'_, A>) -> Option<Self::Item> {
+        self.0.lex_next(valid_actions).map(&mut self.1)
+    }
+}
+
+impl<I, A> LexerIterator<A> for I
+where
+    I: Iterator,
+{
+    type Item = <I as Iterator>::Item;
+    fn lex_next(&mut self, _valid_actions: ValidActions<'_, A>) -> Option<Self::Item> {
+        self.next()
+    }
+}
+
 pub enum SimulatedReduce<D: ParserDefinition> {
     Reduce {
         states_to_pop: usize,
@@ -185,7 +252,7 @@ pub type ErrorRecovery<D> = crate::ErrorRecovery<Location<D>, Token<D>, Error<D>
 pub struct Parser<D, I>
 where
     D: ParserDefinition,
-    I: Iterator<Item = Result<TokenTriple<D>, ParseError<D>>>,
+    I: LexerIterator<D::Token, Item = Result<TokenTriple<D>, ParseError<D>>>,
 {
     definition: D,
     tokens: I,
@@ -203,7 +270,7 @@ enum NextToken<D: ParserDefinition> {
 impl<D, I> Parser<D, I>
 where
     D: ParserDefinition,
-    I: Iterator<Item = Result<TokenTriple<D>, ParseError<D>>>,
+    I: LexerIterator<D::Token, Item = Result<TokenTriple<D>, ParseError<D>>>,
 {
     pub fn drive(definition: D, tokens: I) -> ParseResult<D> {
         let last_location = definition.start_location();
@@ -609,7 +676,16 @@ where
     /// token index. Classification can fail with an error. If there
     /// are no more tokens, signal EOF.
     fn next_token(&mut self) -> NextToken<D> {
-        let token = match self.tokens.next() {
+        let top_state = self.top_state();
+        let definition = &self.definition;
+        let token = match self.tokens.lex_next(ValidActions(
+            &|token| {
+                definition.token_to_index(token).map_or(false, |index| {
+                    !definition.action(top_state, index).is_error()
+                })
+            },
+            &|| definition.expected_tokens(top_state),
+        )) {
             Some(Ok(v)) => v,
             Some(Err(e)) => return NextToken::Done(Err(e)),
             None => return NextToken::EOF,

@@ -1,8 +1,10 @@
-use std::env;
-use std::error::Error;
-use std::fs;
-use std::path::{Path, PathBuf};
-use std::process::{exit, Command};
+use std::{
+    env,
+    error::Error,
+    fs,
+    path::{Path, PathBuf},
+    process::{exit, Command},
+};
 
 fn main() {
     if let Err(err) = main_() {

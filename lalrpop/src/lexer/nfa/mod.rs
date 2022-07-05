@@ -2,14 +2,18 @@
 //! really of interest, we represent this just as a vector of labeled
 //! edges.
 
-use crate::lexer::re::Regex;
+use std::{
+    char,
+    fmt::{Debug, Error as FmtError, Formatter},
+    usize,
+};
+
 use regex_syntax::hir::{
     Anchor, Class, ClassBytesRange, ClassUnicodeRange, GroupKind, Hir, HirKind, Literal,
     RepetitionKind, RepetitionRange,
 };
-use std::char;
-use std::fmt::{Debug, Error as FmtError, Formatter};
-use std::usize;
+
+use crate::lexer::re::Regex;
 
 #[cfg(test)]
 mod interpret;

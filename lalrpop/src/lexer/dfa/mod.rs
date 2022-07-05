@@ -1,12 +1,19 @@
 //! Constructs a DFA which picks the longest matching regular
 //! expression from the input.
 
-use crate::collections::Set;
-use crate::kernel_set::{Kernel, KernelSet};
-use crate::lexer::nfa::{self, NFAConstructionError, NFAStateIndex, Test, NFA};
-use crate::lexer::re;
-use std::fmt::{Debug, Display, Error, Formatter};
-use std::rc::Rc;
+use std::{
+    fmt::{Debug, Display, Error, Formatter},
+    rc::Rc,
+};
+
+use crate::{
+    collections::Set,
+    kernel_set::{Kernel, KernelSet},
+    lexer::{
+        nfa::{self, NFAConstructionError, NFAStateIndex, Test, NFA},
+        re,
+    },
+};
 
 #[cfg(test)]
 mod test;

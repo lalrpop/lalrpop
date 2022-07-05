@@ -1,30 +1,32 @@
 //! Utilies for running in a build script.
 
-use crate::file_text::FileText;
-use crate::grammar::parse_tree as pt;
-use crate::grammar::repr as r;
-use crate::lexer::intern_token;
-use crate::lr1;
-use crate::message::builder::InlineBuilder;
-use crate::message::{Content, Message};
-use crate::normalize;
-use crate::parser;
-use crate::rust::RustWrite;
-use crate::session::{ColorConfig, Session};
-use crate::tls::Tls;
-use crate::tok;
-use crate::util::Sep;
+use std::{
+    fs,
+    io::{self, BufRead, Read, Write},
+    path::{Path, PathBuf},
+    process::exit,
+    rc::Rc,
+};
+
 use atty;
 use itertools::Itertools;
 use lalrpop_util::ParseError;
 use term;
 use tiny_keccak::{Hasher, Sha3};
 
-use std::fs;
-use std::io::{self, BufRead, Read, Write};
-use std::path::{Path, PathBuf};
-use std::process::exit;
-use std::rc::Rc;
+use crate::{
+    file_text::FileText,
+    grammar::{parse_tree as pt, repr as r},
+    lexer::intern_token,
+    lr1,
+    message::{builder::InlineBuilder, Content, Message},
+    normalize, parser,
+    rust::RustWrite,
+    session::{ColorConfig, Session},
+    tls::Tls,
+    tok,
+    util::Sep,
+};
 
 mod action;
 mod fake_term;

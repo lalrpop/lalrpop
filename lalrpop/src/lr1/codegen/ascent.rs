@@ -2,20 +2,20 @@
 //!
 //! [recursive ascent]: https://en.wikipedia.org/wiki/Recursive_ascent_parser
 
-use crate::collections::Multimap;
-use crate::grammar::repr::{
-    Grammar, NonterminalString, Production, Symbol, TerminalString, TypeParameter, TypeRepr,
-    Visibility, WhereClause,
-};
-use crate::lr1::core::*;
-use crate::lr1::lookahead::Token;
-use crate::lr1::state_graph::StateGraph;
-use crate::rust::RustWrite;
-use crate::tls::Tls;
-use crate::util::{Escape, Sep};
 use std::io::{self, Write};
 
 use super::base::CodeGenerator;
+use crate::{
+    collections::Multimap,
+    grammar::repr::{
+        Grammar, NonterminalString, Production, Symbol, TerminalString, TypeParameter, TypeRepr,
+        Visibility, WhereClause,
+    },
+    lr1::{core::*, lookahead::Token, state_graph::StateGraph},
+    rust::RustWrite,
+    tls::Tls,
+    util::{Escape, Sep},
+};
 
 pub fn compile<'grammar, W: Write>(
     grammar: &'grammar Grammar,
@@ -215,7 +215,7 @@ impl<'ascent, 'grammar, W: Write>
     // consumed.
     fn write_start_fn(&mut self) -> io::Result<()> {
         let phantom_data = self.phantom_data_expr();
-        self.start_parser_fn()?;
+        self.start_parser_fn(None)?;
         self.define_tokens()?;
 
         self.next_token("lookahead", "tokens")?;

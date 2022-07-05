@@ -1,14 +1,12 @@
 //! Code to trace out a single lane, collecting information into the
 //! lane table as we go.
 
-use crate::collections::Set;
-use crate::grammar::repr::*;
-use crate::lr1::core::*;
-use crate::lr1::first::FirstSets;
-use crate::lr1::lookahead::*;
-use crate::lr1::state_graph::StateGraph;
-
 use super::table::{ConflictIndex, LaneTable};
+use crate::{
+    collections::Set,
+    grammar::repr::*,
+    lr1::{core::*, first::FirstSets, lookahead::*, state_graph::StateGraph},
+};
 
 pub struct LaneTracer<'trace, 'grammar: 'trace, L: Lookahead + 'trace> {
     states: &'trace [State<'grammar, L>],

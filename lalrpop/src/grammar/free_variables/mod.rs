@@ -1,7 +1,11 @@
-use crate::grammar::parse_tree::{self, Lifetime, TypeParameter};
-use crate::grammar::repr;
 use std::iter;
+
 use string_cache::DefaultAtom as Atom;
+
+use crate::grammar::{
+    parse_tree::{self, Lifetime, TypeParameter},
+    repr,
+};
 
 mod test;
 

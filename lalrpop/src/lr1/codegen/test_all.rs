@@ -2,13 +2,15 @@
 //!
 //! [recursive ascent]: https://en.wikipedia.org/wiki/Recursive_ascent_parser
 
-use crate::grammar::repr::{Grammar, NonterminalString, TypeParameter};
-use crate::lr1::core::*;
-use crate::rust::RustWrite;
 use std::io::{self, Write};
-use crate::util::Sep;
 
 use super::base::CodeGenerator;
+use crate::{
+    grammar::repr::{Grammar, NonterminalString, TypeParameter},
+    lr1::core::*,
+    rust::RustWrite,
+    util::Sep,
+};
 
 pub fn compile<'grammar, W: Write>(
     grammar: &'grammar Grammar,
@@ -86,7 +88,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TestAll> {
     }
 
     fn write_parser_fn(&mut self) -> io::Result<()> {
-        self.start_parser_fn()?;
+        self.start_parser_fn(None)?;
 
         if self.grammar.intern_token.is_some() {
             rust!(self.out, "let _ = self.builder;");
