@@ -99,8 +99,8 @@ impl Configuration {
     /// If true, print `rerun-if-changed` directives to standard output, so that
     /// Cargo will only rerun the build script if any of the processed
     /// `.lalrpop` files are changed. This option is independent of
-    /// [`force_build`], although it would be usual to set [`force_build`] and
-    /// [`emit_rerun_directives`] at the same time.
+    /// [`Self::force_build()`], although it would be usual to set [`Self::force_build()`] and
+    /// [`Self::emit_rerun_directives()`] at the same time.
     ///
     /// While many build scripts will want to set this to `true`, the default is
     /// false, because emitting any rerun directives to Cargo will cause the
