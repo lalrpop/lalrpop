@@ -89,7 +89,7 @@ impl<L, T, E> ParseError<L, T, E> {
 }
 
 /// Format a list of expected tokens.
-fn fmt_expected(f: &mut fmt::Formatter, expected: &[String]) -> fmt::Result {
+fn fmt_expected(f: &mut fmt::Formatter<'_>, expected: &[String]) -> fmt::Result {
     if !expected.is_empty() {
         writeln!(f)?;
         for (i, e) in expected.iter().enumerate() {
@@ -111,7 +111,7 @@ where
     T: fmt::Display,
     E: fmt::Display,
 {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         use self::ParseError::*;
         match *self {
             User { ref error } => write!(f, "{}", error),
