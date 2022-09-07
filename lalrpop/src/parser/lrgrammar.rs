@@ -1,11 +1,11 @@
 // auto-generated: "lalrpop 0.19.8"
 // sha3: bdf506d5cb64e0045081b011951e1f7e6460042e243641023d1909a6d09a6d88
 use string_cache::DefaultAtom as Atom;
-use grammar::parse_tree::*;
-use grammar::pattern::*;
+use crate::grammar::parse_tree::*;
+use crate::grammar::pattern::*;
 use std::iter::once;
-use tok::{self, Tok};
-use util::strip;
+use crate::tok::{self, Tok};
+use crate::util::strip;
 use lalrpop_util::ParseError;
 use super::Top;
 #[allow(unused_extern_crates)]
@@ -20,11 +20,11 @@ mod ___parse___Top {
 #![allow(non_snake_case, non_camel_case_types, unused_mut, unused_variables, unused_imports, unused_parens, clippy::all)]
 
 use string_cache::DefaultAtom as Atom;
-use grammar::parse_tree::*;
-use grammar::pattern::*;
+use crate::grammar::parse_tree::*;
+use crate::grammar::pattern::*;
 use std::iter::once;
-use tok::{self, Tok};
-use util::strip;
+use crate::tok::{self, Tok};
+use crate::util::strip;
 use lalrpop_util::ParseError;
 use super::super::Top;
 #[allow(unused_extern_crates)]
