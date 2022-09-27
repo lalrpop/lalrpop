@@ -51,8 +51,8 @@ to! Here are some tips:
 [tutorial]: http://lalrpop.github.io/lalrpop/tutorial/index.html
 [LALRPOP]: https://github.com/lalrpop/lalrpop/blob/8034f3dacc4b20581bd10c5cb0b4f9faae778bb5/lalrpop/src/parser/lrgrammar.lalrpop
 [Gluon]: https://github.com/gluon-lang/gluon/blob/d7ce3e81c1fcfdf25cdd6d1abde2b6e376b4bf50/parser/src/grammar.lalrpop
-[RustPython]: https://github.com/RustPython/RustPython/blob/master/parser/src/python.lalrpop
-[Solang]: https://github.com/hyperledger-labs/solang/blob/master/src/parser/solidity.lalrpop
+[RustPython]: https://github.com/RustPython/RustPython/blob/fb5ac9e79bfd5029397652a12883a8cedfa01620/compiler/parser/python.lalrpop
+[Solang]: https://github.com/hyperledger/solang/blob/b867c8a6c7a1ee89d405993abef458fc59e9b0fb/solang-parser/src/solidity.lalrpop
 [gitter lobby]: https://gitter.im/lalrpop/Lobby
 
 ### Contributing
