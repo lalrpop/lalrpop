@@ -176,7 +176,7 @@ impl<'s> LowerState<'s> {
 
         read_algorithm(&grammar.annotations, &mut algorithm);
 
-        let mut all_terminals: Vec<_> = self
+        let all_terminals: Vec<_> = self
             .conversions
             .iter()
             .map(|c| c.0.clone())
@@ -186,7 +186,6 @@ impl<'s> LowerState<'s> {
                 None
             })
             .collect();
-        all_terminals.sort();
 
         let terminal_bits: Map<_, _> = all_terminals.iter().cloned().zip(0..).collect();
 
