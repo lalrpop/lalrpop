@@ -106,7 +106,7 @@ fn paragraphs() {
         .begin_wrap()
         .text(
             "This is the final paragraph. The reader won't even spare this one \
-             a second glance, despite it containing just waht they need to know \
+             a second glance, despite it containing just what they need to know \
              to solve their problem and to derive greater pleasure from life. \
              The secret: All you need is love! Dum da da dum.",
         )
@@ -139,7 +139,7 @@ fn paragraphs() {
     "  The reader won't even spare",
     "  this one a second glance,",
     "  despite it containing just",
-    "  waht they need to know to",
+    "  what they need to know to",
     "  solve their problem and to",
     "  derive greater pleasure from",
     "  life. The secret: All you",

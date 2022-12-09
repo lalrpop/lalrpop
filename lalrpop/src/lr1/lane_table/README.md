@@ -409,7 +409,7 @@ can merge the conflicts. We find one in S3', and hence we redirect the
 S3 edge to S3' and we are done. (I think the actual search we want is
 to make first look for a clone of S3 that is using literally the same
 context as us (i.e., same root node), as in this case. If that is not
-found, *then* we search for one with a mergable context. If *that*
+found, *then* we search for one with a mergeable context. If *that*
 fails, then we clone a new state.)
 
 The final state thus has two copies of S3, one for the path from S1,

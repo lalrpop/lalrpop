@@ -1,4 +1,4 @@
-//! LR(1) interpeter. Just builds up parse trees. Intended for testing.
+//! LR(1) interpreter. Just builds up parse trees. Intended for testing.
 
 use crate::generate::ParseTree;
 use crate::grammar::repr::*;

@@ -436,7 +436,7 @@ impl<'input> Tokenizer<'input> {
         // This is the interesting case. To find the end of the code,
         // we have to scan ahead, matching (), [], and {}, and looking
         // for a suitable terminator: `,`, `;`, `]`, `}`, or `)`.
-        // Additionaly we had to take into account that we can encounter an character literal
+        // Additionally we had to take into account that we can encounter an character literal
         // equal to one of delimiters.
         let mut balance = 0; // number of unclosed `(` etc
         loop {

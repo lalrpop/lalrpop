@@ -172,7 +172,7 @@ impl<'grammar> LaneTableConstruct<'grammar> {
 
         // Construct the initial states; each state will map to a
         // context-set derived from its row in the lane-table. This is
-        // fallible, because a state may be internally inconstent.
+        // fallible, because a state may be internally inconsistent.
         //
         // (To handle unification, we also map each state to a
         // `StateSet` that is its entry in the `ena` table.)

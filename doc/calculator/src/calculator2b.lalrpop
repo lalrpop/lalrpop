@@ -18,7 +18,7 @@ match {
     r"[0-9]+",
 
     // Within a match level, fixed strings like `"22"` get
-    // precedence over regular expresions.
+    // precedence over regular expressions.
     "22"
 } else {
     // These items have next highest precedence.
@@ -32,7 +32,7 @@ match {
     r"\w+" => ID,
 
     // This `_` means "add in all the other strings and
-    // regular expressions in the grammer here" (e.g.,
+    // regular expressions in the grammar here" (e.g.,
     // `"("`).
     _
 } // you can have more `else` sections if you like
