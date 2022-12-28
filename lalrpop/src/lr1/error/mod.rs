@@ -15,9 +15,13 @@ use crate::tls::Tls;
 #[cfg(test)]
 mod test;
 
-pub fn report_error(grammar: &Grammar, error: &LR1TableConstructionError) -> Vec<Message> {
+pub fn report_error<E>(
+    grammar: &Grammar,
+    error: &LR1TableConstructionError,
+    reporter: impl FnMut(Message) -> Result<(), E>,
+) -> Result<(), E> {
     let mut cx = ErrorReportingCx::new(grammar, &error.states, &error.conflicts);
-    cx.report_errors()
+    cx.report_errors(reporter)
 }
 
 struct ErrorReportingCx<'cx, 'grammar: 'cx> {
@@ -86,11 +90,14 @@ impl<'cx, 'grammar> ErrorReportingCx<'cx, 'grammar> {
         }
     }
 
-    fn report_errors(&mut self) -> Vec<Message> {
-        token_conflicts(self.conflicts)
-            .iter()
-            .map(|conflict| self.report_error(conflict))
-            .collect()
+    fn report_errors<E>(
+        &mut self,
+        mut reporter: impl FnMut(Message) -> Result<(), E>,
+    ) -> Result<(), E> {
+        for conflict in &token_conflicts(self.conflicts) {
+            reporter(self.report_error(conflict))?
+        }
+        Ok(())
     }
 
     fn report_error(&mut self, conflict: &TokenConflict<'grammar>) -> Message {

@@ -166,10 +166,6 @@ impl<C: Character> Builder<C> {
         self.begin_vert(1)
     }
 
-    pub fn begin_paragraphs(self) -> Builder<VertCharacter<C>> {
-        self.begin_vert(2)
-    }
-
     pub fn begin_horiz(self, separate: usize) -> Builder<HorizCharacter<C>> {
         Builder::new(HorizCharacter {
             base: self,
