@@ -541,7 +541,7 @@ fn error_recovery_eof() {
         ErrorRecovery {
             error: ParseError::UnrecognizedEOF {
                 location: (),
-                expected: vec!["\"-\"".to_string()],
+                expected: vec!["\"-\""],
             },
             dropped_tokens: vec![],
         }
@@ -557,7 +557,7 @@ fn error_recovery_eof_without_recovery() {
         result,
         Err(ParseError::UnrecognizedEOF {
             location: (),
-            expected: vec!["\"-\"".to_string()],
+            expected: vec!["\"-\""],
         })
     );
 }
@@ -577,7 +577,7 @@ fn error_recovery_extra_token() {
         ErrorRecovery {
             error: ParseError::UnrecognizedToken {
                 token: ((), Tok::Plus, ()),
-                expected: vec!["\")\"".to_string()],
+                expected: vec!["\")\""],
             },
             dropped_tokens: vec![((), Tok::Plus, ())],
         }
@@ -599,7 +599,7 @@ fn error_recovery_dont_drop_unrecognized_token() {
         ErrorRecovery {
             error: ParseError::UnrecognizedToken {
                 token: ((), Tok::RParen, ()),
-                expected: vec!["\"-\"".to_string()],
+                expected: vec!["\"-\""],
             },
             dropped_tokens: vec![],
         }
@@ -621,7 +621,7 @@ fn error_recovery_multiple_extra_tokens() {
         ErrorRecovery {
             error: ParseError::UnrecognizedToken {
                 token: ((), Tok::Plus, ()),
-                expected: vec!["\")\"".to_string()],
+                expected: vec!["\")\""],
             },
             dropped_tokens: vec![((), Tok::Plus, ()), ((), Tok::Plus, ())],
         }
@@ -672,7 +672,7 @@ fn error_recovery_issue_240() {
         vec![ErrorRecovery {
             error: ParseError::UnrecognizedToken {
                 token: (6, Tok::Div, 7),
-                expected: vec!["\")\"".to_string()],
+                expected: vec!["\")\""],
             },
             dropped_tokens: vec![(6, Tok::Div, 7)],
         },]
@@ -875,9 +875,7 @@ fn issue_55_test1() {
 
 #[test]
 fn inline_fallible() {
-    assert!(inline_fallible::InlineParser::new()
-        .parse("a1")
-        .is_ok());
+    assert!(inline_fallible::InlineParser::new().parse("a1").is_ok());
     assert!(inline_fallible::MultipleInlineParser::new()
         .parse("a2 a1")
         .is_ok());

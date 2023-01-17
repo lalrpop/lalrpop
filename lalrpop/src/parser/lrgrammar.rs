@@ -2987,7 +2987,7 @@ _ => 65,
 _ => 0,
 }
 }
-fn ___expected_tokens(___state: i16) -> alloc::vec::Vec<alloc::string::String> {
+fn ___expected_tokens(___state: i16) -> alloc::vec::Vec<&'static str> {
 const ___TERMINAL: &[&str] = &[
 r###""!""###,
 r###""!=""###,
@@ -3054,7 +3054,7 @@ let next_state = ___action(___state, index);
 if next_state == 0 {
 None
 } else {
-Some(alloc::string::ToString::to_string(terminal))
+Some(*terminal)
 }
 }).collect()
 }
@@ -3117,7 +3117,7 @@ fn token_to_symbol(&self, token_index: usize, token: Self::Token) -> Self::Symbo
 ___token_to_symbol(token_index, token, core::marker::PhantomData::<(&())>)
 }
 
-fn expected_tokens(&self, state: i16) -> alloc::vec::Vec<alloc::string::String> {
+fn expected_tokens(&self, state: i16) -> alloc::vec::Vec<&'static str> {
 ___expected_tokens(state)
 }
 
