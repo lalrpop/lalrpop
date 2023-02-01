@@ -10,10 +10,10 @@
 #![cfg_attr(test, allow(dead_code, mixed_script_confusables))]
 
 extern crate ascii_canvas;
-extern crate atty;
 extern crate bit_set;
 extern crate diff;
 extern crate ena;
+extern crate is_terminal;
 extern crate itertools;
 extern crate petgraph;
 extern crate regex_syntax;

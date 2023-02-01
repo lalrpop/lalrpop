@@ -14,7 +14,7 @@ use crate::session::{ColorConfig, Session};
 use crate::tls::Tls;
 use crate::tok;
 use crate::util::Sep;
-use atty;
+use is_terminal::IsTerminal;
 use itertools::Itertools;
 use lalrpop_util::ParseError;
 use term;
@@ -309,7 +309,7 @@ fn report_content(content: &dyn Content) -> term::Result<()> {
     let try_colors = match Tls::session().color_config {
         ColorConfig::Yes => true,
         ColorConfig::No => false,
-        ColorConfig::IfTty => atty::is(atty::Stream::Stdout),
+        ColorConfig::IfTty => io::stdout().is_terminal(),
     };
 
     if try_colors {
