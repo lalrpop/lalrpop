@@ -53,7 +53,9 @@ Io: ast::Stmt = {
 };
 
 Number: ast::Int = {
-    <Digit*> "\n" => ast::number(<>),
+    "\n" => 0,
+    " " <Digit*> "\n" => ast::number(false, <>),
+    "\t" <Digit*> "\n" => ast::number(true, <>),
 };
 
 Label: String = {
