@@ -2,8 +2,10 @@
 pub enum Stmt {
     Push(Int),
     Dup,
+    Copy(Int),
     Swap,
     Discard,
+    Slide(Int),
 
     Add,
     Sub,

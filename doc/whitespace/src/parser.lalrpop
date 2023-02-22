@@ -16,8 +16,10 @@ Statement: ast::Stmt = {
 StackOp: ast::Stmt = {
     " " <Number> => ast::Stmt::Push(<>),
     "\n" " " => ast::Stmt::Dup,
+    "\t" " " <Number> => ast::Stmt::Copy(<>),
     "\n" "\t" => ast::Stmt::Swap,
     "\n" "\n" => ast::Stmt::Discard,
+    "\t" "\n" <Number> => ast::Stmt::Slide(<>),
 };
 
 MathOp: ast::Stmt = {
