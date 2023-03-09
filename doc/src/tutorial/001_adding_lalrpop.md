@@ -33,7 +33,7 @@ authors = ["Niko Matsakis <niko@alum.mit.edu>"]
 lalrpop = "0.20.0"
 
 [dependencies]
-lalrpop-util = "0.20.0"
+lalrpop-util = { version = "0.20.0", features = ["lexer"] }
 ```
 
 Cargo can run [build scripts] as a pre-processing step,
