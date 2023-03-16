@@ -6,7 +6,7 @@ repository = "https://github.com/lalrpop/lalrpop"
 readme = "../README.md"
 keywords = ["parser", "generator", "LR", "yacc", "grammar"]
 categories = ["parsing"]
-license = "Apache-2.0/MIT"
+license = "Apache-2.0 OR MIT"
 authors = ["Niko Matsakis <niko@alum.mit.edu>"]
 workspace = ".."
 
