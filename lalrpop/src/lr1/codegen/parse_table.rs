@@ -903,7 +903,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
 
         rust!(
             self.out,
-            "let ({p}pop_states, {p}nonterminal) = match {}action {{",
+            "let ({p}pop_states, {p}nonterminal) = match {p}action {{",
             p = self.prefix
         );
         for (production, index) in self
