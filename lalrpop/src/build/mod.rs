@@ -1,4 +1,4 @@
-//! Utilies for running in a build script.
+//! Utilities for running in a build script.
 
 use crate::file_text::FileText;
 use crate::grammar::parse_tree as pt;

@@ -1084,10 +1084,10 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
             rust!(self.out, "let {p}end = {p}start.clone();", p = self.prefix,);
         }
 
-        let transfered_syms = transfer_syms.len();
+        let transferred_syms = transfer_syms.len();
 
         let mut args = transfer_syms;
-        if transfered_syms == 0 {
+        if transferred_syms == 0 {
             args.push(format!("&{}start", self.prefix));
             args.push(format!("&{}end", self.prefix));
         }
@@ -1527,7 +1527,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
 
         rust!(self.out, "const {}TERMINAL: &[&str] = &[", self.prefix);
         let all_terminals = if self.grammar.uses_error_recovery {
-            // Subtract one to exlude the error terminal
+            // Subtract one to exclude the error terminal
             &self.grammar.terminals.all[..self.grammar.terminals.all.len() - 1]
         } else {
             &self.grammar.terminals.all

@@ -94,7 +94,7 @@ impl<'grammar> StackSuffix<'grammar> {
     }
 
     /// returns the (optional, fixed) -- number of optional
-    /// items in stack prefix and numer of fixed
+    /// items in stack prefix and number of fixed
     fn optional_fixed_lens(&self) -> (usize, usize) {
         (self.len_optional, self.len() - self.len_optional)
     }
@@ -602,7 +602,7 @@ impl<'ascent, 'grammar, W: Write>
     //
     // Returns a list of argument names and a flag if this fn resulted
     // from pushing a terminal (in which case the lookahead must be
-    // computed interally).
+    // computed internally).
     fn fn_args(
         &mut self,
         optional_prefix: &[Symbol],
@@ -890,10 +890,10 @@ impl<'ascent, 'grammar, W: Write>
             rust!(self.out, "let {p}end = {p}start;", p = self.prefix);
         }
 
-        let transfered_syms = transfer_syms.len();
+        let transferred_syms = transfer_syms.len();
 
         let mut args = transfer_syms;
-        if transfered_syms == 0 {
+        if transferred_syms == 0 {
             args.push(format!("&{}start", self.prefix));
             args.push(format!("&{}end", self.prefix));
         }

@@ -247,7 +247,7 @@ T: () = {
     assert_eq!(states.len(), 10);
 }
 
-/// Without the artifical '$', grammar is not LR(0).
+/// Without the artificial '$', grammar is not LR(0).
 #[test]
 fn lr0_expr_grammar_with_implicit_eof() {
     let _tls = Tls::test();

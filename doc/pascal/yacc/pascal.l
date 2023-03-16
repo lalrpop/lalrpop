@@ -136,7 +136,7 @@ NQUOTE [^']
 \n    line_no++;
 
 .    { fprintf (stderr,
-    "'%c' (0%o): illegal charcter at line %d\n",
+    "'%c' (0%o): illegal character at line %d\n",
      yytext[0], yytext[0], line_no);
     }
 
