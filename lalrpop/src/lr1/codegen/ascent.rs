@@ -378,7 +378,7 @@ impl<'ascent, 'grammar, W: Write>
 
         rust!(self.out, "let {}expected = alloc::vec![", self.prefix);
         for terminal in successful_terminals {
-            rust!(self.out, "r###\"{}\"###.to_string(),", terminal);
+            rust!(self.out, "r###\"{}\"###,", terminal);
         }
         rust!(self.out, "];");
 

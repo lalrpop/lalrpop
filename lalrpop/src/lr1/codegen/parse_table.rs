@@ -300,7 +300,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
         rust!(self.out, "");
         rust!(
             self.out,
-            "fn expected_tokens(&self, state: {state_type}) -> alloc::vec::Vec<alloc::string::String> {{",
+            "fn expected_tokens(&self, state: {state_type}) -> alloc::vec::Vec<&'static str> {{",
             state_type = state_type,
         );
         rust!(self.out, "{p}expected_tokens(state)", p = self.prefix);
@@ -1520,7 +1520,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
     fn emit_expected_tokens_fn(&mut self) -> io::Result<()> {
         rust!(
             self.out,
-            "fn {p}expected_tokens({p}state: {}) -> alloc::vec::Vec<alloc::string::String> {{",
+            "fn {p}expected_tokens({p}state: {}) -> alloc::vec::Vec<&'static str> {{",
             self.custom.state_type,
             p = self.prefix,
         );
@@ -1553,7 +1553,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
         rust!(self.out, "if next_state == 0 {{");
         rust!(self.out, "None");
         rust!(self.out, "}} else {{");
-        rust!(self.out, "Some(alloc::string::ToString::to_string(terminal))");
+        rust!(self.out, "Some(*terminal)");
         rust!(self.out, "}}");
         rust!(self.out, "}}).collect()");
         rust!(self.out, "}}");

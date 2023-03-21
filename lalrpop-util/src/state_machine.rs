@@ -1,6 +1,6 @@
 #![allow(dead_code)]
 
-use alloc::{string::String, vec, vec::Vec};
+use alloc::{vec, vec::Vec};
 use core::fmt::Debug;
 
 const DEBUG_ENABLED: bool = false;
@@ -101,7 +101,7 @@ pub trait ParserDefinition: Sized {
 
     /// Returns the expected tokens in a given state. This is used for
     /// error reporting.
-    fn expected_tokens(&self, state: Self::StateIndex) -> Vec<String>;
+    fn expected_tokens(&self, state: Self::StateIndex) -> Vec<&'static str>;
 
     /// True if this grammar supports error recovery.
     fn uses_error_recovery(&self) -> bool;
