@@ -1,5 +1,6 @@
 use crate::grammar::repr::*;
 use crate::lr1::build;
+use crate::lr1::build_states;
 use crate::lr1::core::*;
 use crate::lr1::first::FirstSets;
 use crate::lr1::interpret;
@@ -220,19 +221,17 @@ fn paper_example_g1_build() {
     let _tls = Tls::test();
     let grammar = paper_example_g1();
     let _lr1_tls = Lr1Tls::install(grammar.terminals.clone());
-    let lr0_err = build::build_lr0_states(&grammar, nt("G")).unwrap_err();
-    let states = LaneTableConstruct::new(&grammar, nt("G"))
-        .construct()
-        .expect("failed to build lane table states");
+    let lr0_err = build::build_lr0_states(&grammar, nt("__G")).unwrap_err();
+    let states = build_states(&grammar, nt("__G")).expect("failed to build lane table states");
 
     // we require more *states* than LR(0), not just different lookahead
     assert_eq!(states.len() - lr0_err.states.len(), 1);
 
     let tree = interpret::interpret(&states, tokens!["a", "e", "e", "d"]).unwrap();
-    expect_debug(&tree, r#"[G: "a", [X: "e", [X: "e"]], "d"]"#);
+    expect_debug(&tree, r#"[__G: [G: "a", [X: "e", [X: "e"]], "d"]]"#);
 
     let tree = interpret::interpret(&states, tokens!["b", "e", "e", "d"]).unwrap();
-    expect_debug(&tree, r#"[G: "b", [Y: "e", [Y: "e"]], "d"]"#);
+    expect_debug(&tree, r#"[__G: [G: "b", [Y: "e", [Y: "e"]], "d"]]"#);
 
     interpret::interpret(&states, tokens!["e", "e", "e"]).unwrap_err();
 }

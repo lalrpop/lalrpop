@@ -143,7 +143,8 @@ impl<'m, 'grammar> Merge<'m, 'grammar> {
     fn clone(&mut self, state: StateIndex) -> StateIndex {
         // create a new state with same contents as the old one
         let new_index = StateIndex(self.states.len());
-        let new_state = self.states[state.0].clone();
+        let mut new_state = self.states[state.0].clone();
+        new_state.index = new_index;
         self.states.push(new_state);
 
         // track the original index and clones
