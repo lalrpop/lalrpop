@@ -328,12 +328,11 @@ To this end `ignore patterns` can be specified.
 
 ```
 match {
-    r"\s*" => { }, // The default whitespace skipping is disabled an `ignore pattern` is specified
+    r"\s*" => { }, // The default whitespace skipping is disabled if an `ignore pattern` is specified
     r"//[^\n\r]*[\n\r]*" => { }, // Skip `// comments`
     r"/\*[^*]*\*+(?:[^/*][^*]*\*+)*/" => { },  // Skip `/* comments */`
 }
 ```
-
 
 [lexer tutorial]: index.md
 [calculator2b]: https://github.com/lalrpop/lalrpop/blob/master/doc/calculator/src/calculator2b.lalrpop
