@@ -17,6 +17,7 @@
   - [LALRPOP's lexer generator](lexer_tutorial/001_lexer_gen.md)
   - [Writing a custom lexer](lexer_tutorial/002_writing_custom_lexer.md)
   - [Using tokens with references](lexer_tutorial/003_token_references.md)
+  - [Using an external library](lexer_tutorial/004_external_lib.md)
 - [Advanced setup](advanced_setup.md)
   - [Generate in source tree](generate_in_source.md)
 -----------
