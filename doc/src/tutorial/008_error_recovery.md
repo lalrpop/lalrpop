@@ -19,8 +19,13 @@ contains a token, error recovery requires that tokens can be cloned.
 We need to replace the begin "grammar" line of the LALRPOP file with this:
 
 ```
+use lalrpop_util::ErrorRecovery;
+
 grammar<'err>(errors: &'err mut Vec<ErrorRecovery<usize, Token<'input>, &'static str>>);
 ```
+
+The ErrorRecovery struct wraps ParseError to add a second field referencing the
+skipped characters.
 
 Since an alternative containing `!` is expected to return the same type of
 value as the other alternatives in the production we add an extra variant to
@@ -38,6 +43,7 @@ Finally we modify the grammar, adding a third alternative containing `!`
 which simply stores the `ErrorRecovery` value received from `!` in `errors` and
 returns an `Expr::Error`. The value of the error token will be a [`ParseError`
 value](https://docs.rs/lalrpop-util/0.12.1/lalrpop_util/enum.ParseError.html).
+You can find the full source in [calculator7].
 
 ```lalrpop
 Term: Box<Expr> = {
@@ -76,3 +82,4 @@ fn calculator7() {
     assert_eq!(errors.len(), 4);
 }
 ```
+[calculator7]: https://github.com/lalrpop/lalrpop/blob/master/doc/calculator/src/calculator7.lalrpop
