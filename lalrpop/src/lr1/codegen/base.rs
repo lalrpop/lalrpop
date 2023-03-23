@@ -179,7 +179,7 @@ impl<'codegen, 'grammar, W: Write, C> CodeGenerator<'codegen, 'grammar, W, C> {
 
     pub fn write_uses(&mut self) -> io::Result<()> {
         self.out
-            .write_uses(&format!("{}::", self.action_module), &self.grammar)?;
+            .write_uses(&format!("{}::", self.action_module), self.grammar)?;
 
         if self.grammar.intern_token.is_some() {
             rust!(

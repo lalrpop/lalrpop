@@ -157,7 +157,7 @@ pub fn has_prec_annot(non_term: &NonterminalData) -> bool {
         .map(|alt| {
             alt.annotations
                 .iter()
-                .any(|ann| ann.id == Atom::from(PREC_ANNOT) || ann.id == Atom::from(ASSOC_ANNOT))
+                .any(|ann| ann.id == *PREC_ANNOT || ann.id == *ASSOC_ANNOT)
         })
         .unwrap_or(false)
 }
@@ -186,7 +186,7 @@ fn expand_nonterm(mut nonterm: NonterminalData) -> NormResult<Vec<GrammarItem>> 
             let (lvl, last_assoc) = alt
                 .annotations
                 .iter()
-                .position(|ann| ann.id == Atom::from(PREC_ANNOT))
+                .position(|ann| ann.id == *PREC_ANNOT)
                 .map(|index| {
                     let (_, val) = alt.annotations.remove(index).arg.unwrap();
                     (val.parse().unwrap(), Assoc::default())
@@ -196,7 +196,7 @@ fn expand_nonterm(mut nonterm: NonterminalData) -> NormResult<Vec<GrammarItem>> 
             let assoc = alt
                 .annotations
                 .iter()
-                .position(|ann| ann.id == Atom::from(ASSOC_ANNOT))
+                .position(|ann| ann.id == *ASSOC_ANNOT)
                 .map(|index| {
                     let (_, val) = alt.annotations.remove(index).arg.unwrap();
                     val.parse().unwrap()
@@ -209,7 +209,7 @@ fn expand_nonterm(mut nonterm: NonterminalData) -> NormResult<Vec<GrammarItem>> 
         },
     );
 
-    lvls.sort();
+    lvls.sort_unstable();
     lvls.dedup();
 
     let rest = &mut alts_with_ann.into_iter();
@@ -251,15 +251,15 @@ fn expand_nonterm(mut nonterm: NonterminalData) -> NormResult<Vec<GrammarItem>> 
                 let err_msg = "unexpected associativity annotation on the first precedence level";
                 let (subst, dir) = match assoc {
                     Assoc::Left => (
-                        Substitution::OneThen(symbol_kind, &nonterm_prev.as_ref().expect(err_msg)),
+                        Substitution::OneThen(symbol_kind, nonterm_prev.as_ref().expect(err_msg)),
                         Direction::Forward,
                     ),
                     Assoc::Right => (
-                        Substitution::OneThen(symbol_kind, &nonterm_prev.as_ref().expect(err_msg)),
+                        Substitution::OneThen(symbol_kind, nonterm_prev.as_ref().expect(err_msg)),
                         Direction::Backward,
                     ),
                     Assoc::NonAssoc => (
-                        Substitution::Every(&nonterm_prev.as_ref().expect(err_msg)),
+                        Substitution::Every(nonterm_prev.as_ref().expect(err_msg)),
                         Direction::Forward,
                     ),
                     Assoc::FullyAssoc => (Substitution::Every(symbol_kind), Direction::Forward),

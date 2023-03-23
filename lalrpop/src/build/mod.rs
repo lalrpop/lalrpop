@@ -103,7 +103,7 @@ fn process_file_into(
     report_file: &Path,
 ) -> io::Result<()> {
     session.emit_rerun_directive(lalrpop_file);
-    if session.force_build || needs_rebuild(&lalrpop_file, &rs_file)? {
+    if session.force_build || needs_rebuild(lalrpop_file, rs_file)? {
         log!(
             session,
             Informative,
@@ -113,7 +113,7 @@ fn process_file_into(
         if let Some(parent) = rs_file.parent() {
             fs::create_dir_all(parent)?;
         }
-        remove_old_file(&rs_file)?;
+        remove_old_file(rs_file)?;
 
         // Load the LALRPOP source text for this file:
         let file_text = Rc::new(FileText::from_path(lalrpop_file.to_path_buf())?);
@@ -131,10 +131,10 @@ fn process_file_into(
         // file behind.
         {
             let grammar = parse_and_normalize_grammar(&session, &file_text)?;
-            let buffer = emit_recursive_ascent(&session, &grammar, &report_file)?;
+            let buffer = emit_recursive_ascent(&session, &grammar, report_file)?;
             let mut output_file = fs::File::create(&rs_file)?;
             writeln!(output_file, "{}", LALRPOP_VERSION_HEADER)?;
-            writeln!(output_file, "{}", hash_file(&lalrpop_file)?)?;
+            writeln!(output_file, "{}", hash_file(lalrpop_file)?)?;
             output_file.write_all(&buffer)?;
         }
     }
@@ -165,7 +165,7 @@ fn needs_rebuild(lalrpop_file: &Path, rs_file: &Path) -> io::Result<bool> {
             f.read_line(&mut version_str)?;
             f.read_line(&mut hash_str)?;
 
-            Ok(hash_str.trim() != hash_file(&lalrpop_file)?
+            Ok(hash_str.trim() != hash_file(lalrpop_file)?
                 || version_str.trim() != LALRPOP_VERSION_HEADER)
         }
         Err(e) => match e.kind() {
@@ -213,7 +213,7 @@ fn parse_and_normalize_grammar(session: &Session, file_text: &FileText) -> io::R
         Err(ParseError::InvalidToken { location }) => {
             let ch = file_text.text()[location..].chars().next().unwrap();
             report_error(
-                &file_text,
+                file_text,
                 pt::Span(location, location),
                 &format!("invalid character `{}`", ch),
             );
@@ -221,7 +221,7 @@ fn parse_and_normalize_grammar(session: &Session, file_text: &FileText) -> io::R
 
         Err(ParseError::UnrecognizedEOF { location, .. }) => {
             report_error(
-                &file_text,
+                file_text,
                 pt::Span(location, location),
                 "unexpected end of file",
             );
@@ -234,7 +234,7 @@ fn parse_and_normalize_grammar(session: &Session, file_text: &FileText) -> io::R
             let _ = expected; // didn't implement this yet :)
             let text = &file_text.text()[lo..hi];
             report_error(
-                &file_text,
+                file_text,
                 pt::Span(lo, hi),
                 &format!("unexpected token: `{}`", text),
             );
@@ -243,7 +243,7 @@ fn parse_and_normalize_grammar(session: &Session, file_text: &FileText) -> io::R
         Err(ParseError::ExtraToken { token: (lo, _, hi) }) => {
             let text = &file_text.text()[lo..hi];
             report_error(
-                &file_text,
+                file_text,
                 pt::Span(lo, hi),
                 &format!("extra token at end of input: `{}`", text),
             );
@@ -270,7 +270,7 @@ fn parse_and_normalize_grammar(session: &Session, file_text: &FileText) -> io::R
             };
 
             report_error(
-                &file_text,
+                file_text,
                 pt::Span(error.location, error.location + 1),
                 string,
             )
@@ -279,7 +279,7 @@ fn parse_and_normalize_grammar(session: &Session, file_text: &FileText) -> io::R
 
     match normalize::normalize(session, grammar) {
         Ok(grammar) => Ok(grammar),
-        Err(error) => report_error(&file_text, error.span, &error.message),
+        Err(error) => report_error(file_text, error.span, &error.message),
     }
 }
 
@@ -383,7 +383,7 @@ fn emit_recursive_ascent(
 
         let _lr1_tls = lr1::Lr1Tls::install(grammar.terminals.clone());
 
-        let lr1result = lr1::build_states(&grammar, start_nt.clone());
+        let lr1result = lr1::build_states(grammar, start_nt.clone());
         if session.emit_report {
             let mut output_report_file = fs::File::create(&report_file)?;
             lr1::generate_report(&mut output_report_file, &lr1result)?;
@@ -392,7 +392,7 @@ fn emit_recursive_ascent(
         let states = match lr1result {
             Ok(states) => states,
             Err(error) => {
-                let messages = lr1::report_error(&grammar, &error);
+                let messages = lr1::report_error(grammar, &error);
                 let _ = report_messages(messages);
                 exit(1) // FIXME -- propagate up instead of calling `exit`
             }
@@ -400,7 +400,7 @@ fn emit_recursive_ascent(
 
         match grammar.algorithm.codegen {
             r::LrCodeGeneration::RecursiveAscent => lr1::codegen::ascent::compile(
-                &grammar,
+                grammar,
                 user_nt.clone(),
                 start_nt.clone(),
                 &states,
@@ -408,7 +408,7 @@ fn emit_recursive_ascent(
                 &mut rust,
             )?,
             r::LrCodeGeneration::TableDriven => lr1::codegen::parse_table::compile(
-                &grammar,
+                grammar,
                 user_nt.clone(),
                 start_nt.clone(),
                 &states,
@@ -417,7 +417,7 @@ fn emit_recursive_ascent(
             )?,
 
             r::LrCodeGeneration::TestAll => lr1::codegen::test_all::compile(
-                &grammar,
+                grammar,
                 user_nt.clone(),
                 start_nt.clone(),
                 &states,
@@ -428,7 +428,7 @@ fn emit_recursive_ascent(
         rust!(
             rust,
             "{}use self::{}parse{}::{}Parser;",
-            grammar.nonterminals[&user_nt].visibility,
+            grammar.nonterminals[user_nt].visibility,
             grammar.prefix,
             start_nt,
             user_nt
@@ -436,7 +436,7 @@ fn emit_recursive_ascent(
     }
 
     if let Some(ref intern_token) = grammar.intern_token {
-        intern_token::compile(&grammar, intern_token, &mut rust)?;
+        intern_token::compile(grammar, intern_token, &mut rust)?;
         rust!(
             rust,
             "pub(crate) use self::{}lalrpop_util::lexer::Token;",

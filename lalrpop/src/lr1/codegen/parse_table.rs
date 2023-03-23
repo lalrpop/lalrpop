@@ -485,7 +485,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
             // Write an action for each terminal (either shift, reduce, or error).
             let custom = &self.custom;
             let iterator = self.grammar.terminals.all.iter().map(|terminal| {
-                if let Some(new_state) = state.shifts.get(&terminal) {
+                if let Some(new_state) = state.shifts.get(terminal) {
                     (
                         new_state.0 as i32 + 1,
                         Comment::Goto(Token::Terminal(terminal.clone()), new_state.0),

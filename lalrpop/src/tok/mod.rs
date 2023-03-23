@@ -652,7 +652,7 @@ impl<'input> Tokenizer<'input> {
                     .filter(|&&(w, _)| w == word)
                     .map(|&(_, ref t)| t.clone())
                     .next()
-                    .unwrap_or_else(|| {
+                    .unwrap_or({
                         match self.lookahead {
                             Some((_, '<')) => MacroId(word),
                             _ => Id(word),

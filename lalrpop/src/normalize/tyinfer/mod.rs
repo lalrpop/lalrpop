@@ -14,7 +14,7 @@ use string_cache::DefaultAtom as Atom;
 mod test;
 
 pub fn infer_types(grammar: &Grammar) -> NormResult<Types> {
-    let inferencer = TypeInferencer::new(&grammar)?;
+    let inferencer = TypeInferencer::new(grammar)?;
     inferencer.infer_types()
 }
 
@@ -161,8 +161,8 @@ impl<'grammar> TypeInferencer<'grammar> {
             return Ok(repr.clone());
         }
 
-        let nt = self.nonterminals[&id];
-        if self.stack.contains(&id) {
+        let nt = self.nonterminals[id];
+        if self.stack.contains(id) {
             return_err!(
                 nt.span,
                 "cannot infer type of `{}` because it references itself",

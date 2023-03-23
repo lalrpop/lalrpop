@@ -315,11 +315,11 @@ impl MacroExpander {
     }
 
     fn re_match(&self, span: Span, lhs: &Atom, regex: &Atom) -> NormResult<bool> {
-        let re = match Regex::new(&regex) {
+        let re = match Regex::new(regex) {
             Ok(re) => re,
             Err(err) => return_err!(span, "invalid regular expression `{}`: {}", regex, err),
         };
-        Ok(re.is_match(&lhs))
+        Ok(re.is_match(lhs))
     }
 
     fn macro_expand_symbols(
@@ -455,7 +455,7 @@ impl MacroExpander {
 
                 let plus_repeat = Box::new(RepeatSymbol {
                     op: RepeatOp::Plus,
-                    symbol: repeat.symbol.clone(),
+                    symbol: repeat.symbol,
                 });
 
                 Ok(GrammarItem::Nonterminal(NonterminalData {
@@ -541,7 +541,7 @@ impl MacroExpander {
                                         span,
                                         SymbolKind::Name(
                                             Name::immut(e),
-                                            Box::new(repeat.symbol.clone()),
+                                            Box::new(repeat.symbol),
                                         ),
                                     ),
                                 ],
@@ -573,7 +573,7 @@ impl MacroExpander {
                         Alternative {
                             span,
                             expr: ExprSymbol {
-                                symbols: vec![repeat.symbol.clone()],
+                                symbols: vec![repeat.symbol],
                             },
                             condition: None,
                             action: action("Some(<>)"),

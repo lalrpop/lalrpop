@@ -101,7 +101,7 @@ impl<'m, 'grammar> Merge<'m, 'grammar> {
                     self.clones
                         .get(&successor)
                         .into_iter()
-                        .flat_map(|clones| clones) // get() returns an Option<Set>
+                        .flatten() // get() returns an Option<Set>
                         .cloned()
                         .find(|&successor1| context_sets.union(state, successor1))
                 };

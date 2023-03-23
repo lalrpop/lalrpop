@@ -306,12 +306,12 @@ impl<'s> LowerState<'s> {
             Some(pt::ActionKind::Lookahead) => self.lookahead_action_fn(),
             Some(pt::ActionKind::Lookbehind) => self.lookbehind_action_fn(),
             Some(pt::ActionKind::User(string)) => {
-                self.action_fn(nt_type, false, &expr, &symbols, Some(string))
+                self.action_fn(nt_type, false, expr, symbols, Some(string))
             }
             Some(pt::ActionKind::Fallible(string)) => {
-                self.action_fn(nt_type, true, &expr, &symbols, Some(string))
+                self.action_fn(nt_type, true, expr, symbols, Some(string))
             }
-            None => self.action_fn(nt_type, false, &expr, &symbols, None),
+            None => self.action_fn(nt_type, false, expr, symbols, None),
         }
     }
 

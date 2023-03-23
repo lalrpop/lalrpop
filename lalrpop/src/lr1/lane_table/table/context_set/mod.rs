@@ -75,12 +75,12 @@ impl ContextSet {
         set: &TokenSet,
     ) -> Result<bool, OverlappingLookahead> {
         for (value, index) in self.values.iter().zip((0..).map(ConflictIndex::new)) {
-            if index != conflict && value.is_intersecting(&set) {
+            if index != conflict && value.is_intersecting(set) {
                 return Err(OverlappingLookahead);
             }
         }
 
-        Ok(self.values[conflict.index].union_with(&set))
+        Ok(self.values[conflict.index].union_with(set))
     }
 
     pub fn apply<'grammar>(&self, state: &mut LR1State<'grammar>, actions: &Set<Action<'grammar>>) {

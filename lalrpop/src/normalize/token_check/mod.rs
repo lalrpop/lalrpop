@@ -334,10 +334,10 @@ fn construct(grammar: &mut Grammar, match_block: MatchBlock) -> NormResult<()> {
         precedences.push(Precedence(match_entry.precedence));
         match match_entry.match_literal {
             TerminalLiteral::Quoted(ref s) => {
-                regexs.push(re::parse_literal(&s));
+                regexs.push(re::parse_literal(s));
             }
             TerminalLiteral::Regex(ref s) => {
-                match re::parse_regex(&s) {
+                match re::parse_regex(s) {
                     Ok(regex) => regexs.push(regex),
                     Err(error) => {
                         let literal_span = spans[&match_entry.match_literal];

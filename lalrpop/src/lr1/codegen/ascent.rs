@@ -25,7 +25,7 @@ pub fn compile<'grammar, W: Write>(
     action_module: &str,
     out: &mut RustWrite<W>,
 ) -> io::Result<()> {
-    let graph = StateGraph::new(&states);
+    let graph = StateGraph::new(states);
     let mut ascent = CodeGenerator::new_ascent(
         grammar,
         user_start_symbol,
@@ -641,7 +641,7 @@ impl<'ascent, 'grammar, W: Write>
                 self.prefix,
                 i,
                 self.types
-                    .spanned_type(optional_prefix[i].ty(&self.types).clone()),
+                    .spanned_type(optional_prefix[i].ty(self.types).clone()),
             )
         });
 
@@ -652,7 +652,7 @@ impl<'ascent, 'grammar, W: Write>
                 self.prefix,
                 optional_prefix.len() + i,
                 self.types
-                    .spanned_type(fixed_prefix[i].ty(&self.types).clone())
+                    .spanned_type(fixed_prefix[i].ty(self.types).clone())
             )
         });
 

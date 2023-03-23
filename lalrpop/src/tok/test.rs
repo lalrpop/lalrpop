@@ -11,13 +11,13 @@ use self::Expectation::*;
 fn gen_test(input: &str, expected: Vec<(&str, Expectation)>) {
     // use $ to signal EOL because it can be replaced with a single space
     // for spans, and because it applies also to r#XXX# style strings:
-    let input = input.replace("$", "\n");
+    let input = input.replace('$', "\n");
 
     let tokenizer = Tokenizer::new(&input, 0);
     let len = expected.len();
     for (token, (expected_span, expectation)) in tokenizer.zip(expected.into_iter()) {
-        let expected_start = expected_span.find("~").unwrap();
-        let expected_end = expected_span.rfind("~").unwrap() + 1;
+        let expected_start = expected_span.find('~').unwrap();
+        let expected_end = expected_span.rfind('~').unwrap() + 1;
         println!("token: {:?}", token);
         match expectation {
             ExpectTok(expected_tok) => {

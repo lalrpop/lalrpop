@@ -11,7 +11,7 @@ use pico_args::Arguments;
 
 use lalrpop::Configuration;
 
-static VERSION: &'static str = env!("CARGO_PKG_VERSION");
+static VERSION: &str = env!("CARGO_PKG_VERSION");
 
 const USAGE: &str = "
 Usage: lalrpop [options] <inputs>...
@@ -180,7 +180,7 @@ mod test {
     }
 
     fn parse_args_vec(args: &Vec<&str>) -> Args {
-        parse_args(Arguments::from_vec(os_vec(&args))).unwrap()
+        parse_args(Arguments::from_vec(os_vec(args))).unwrap()
     }
 
     #[test]

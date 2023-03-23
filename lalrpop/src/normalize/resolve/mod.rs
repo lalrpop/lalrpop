@@ -146,7 +146,7 @@ impl Validator {
         args: &[NonterminalString],
     ) -> NormResult<Map<Atom, Def>> {
         for (index, arg) in args.iter().enumerate() {
-            if args[..index].contains(&arg) {
+            if args[..index].contains(arg) {
                 return_err!(
                     span,
                     "multiple macro arguments declared with the name `{}`",

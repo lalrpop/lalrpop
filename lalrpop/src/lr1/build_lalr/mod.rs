@@ -7,7 +7,7 @@ use crate::lr1::core::*;
 use crate::lr1::lookahead::*;
 use crate::tls::Tls;
 use itertools::Itertools;
-use std::mem;
+
 
 #[cfg(test)]
 mod test;
@@ -93,7 +93,7 @@ pub fn collapse_to_lalr_states<'grammar>(lr_states: &[LR1State<'grammar>]) -> LR
     //
     //     X = "(" (*) ")" ["Foo", "Bar"]
     for lalr1_state in &mut lalr1_states {
-        let items = mem::replace(&mut lalr1_state.items, vec![]);
+        let items = std::mem::take(&mut lalr1_state.items);
 
         let items: Multimap<LR0Item<'grammar>, TokenSet> = items
             .into_iter()
@@ -148,7 +148,7 @@ pub fn collapse_to_lalr_states<'grammar>(lr_states: &[LR1State<'grammar>]) -> LR
 
     let conflicts: Vec<_> = lr1_states
         .iter()
-        .flat_map(|s| TokenSet::conflicts(s))
+        .flat_map(TokenSet::conflicts)
         .collect();
 
     if !conflicts.is_empty() {

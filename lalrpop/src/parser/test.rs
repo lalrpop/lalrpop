@@ -15,8 +15,8 @@ fn match_block() {
     ];
 
     for block in blocks {
-        let parsed = parser::parse_grammar(&block)
-            .expect(format!("Invalid grammar; grammar={}", block).as_str());
+        let parsed = parser::parse_grammar(block)
+            .unwrap_or_else(|_| panic!("Invalid grammar; grammar={}", block));
         let first_item = parsed.items.first().expect("has item");
         match *first_item {
             GrammarItem::MatchToken(_) => (), // OK
