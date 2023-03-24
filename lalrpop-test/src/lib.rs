@@ -842,7 +842,7 @@ fn error_recovery_span_starts_just_dropped_states() {
 
 #[test]
 fn lexer_generic_test() {
-    use lexer_generic_lib::Lexer;
+    use crate::lexer_generic_lib::Lexer;
 
     let input = "2 + 3";
     let lexer = Lexer::new(input);
