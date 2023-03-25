@@ -34,11 +34,12 @@ fn main() {
 
 ### Using the Legacy LALR Parser
 
-By default, LALRPOP uses the
-[lane table](../../lalrpop/src/lr1/lane_table/README.md)
+By default, LALRPOP uses the [lane table][]
 algorithm which is LR(1) but creates much smaller tables. There is no longer
 any clear benefit to using the previous LALR implementation but it is still
 available.
+
+[lane table]: https://github.com/lalrpop/lalrpop/blob/master/lalrpop/src/lr1/lane_table/README.md
 
 To enable it, build with the `LALRPOP_LANE_TABLE=disabled` environment
 variable by setting `std::env::set_var` in your `build.rs` and add the
