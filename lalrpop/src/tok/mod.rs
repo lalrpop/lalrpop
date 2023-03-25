@@ -600,6 +600,11 @@ impl<'input> Tokenizer<'input> {
                     None => error(UnterminatedStringLiteral, idx0),
                 }
             }
+            Some(idx1) if matches!(self.lookahead, Some((idx2, c)) if idx1 == idx2 && is_identifier_start(c)) =>
+            {
+                self.bump();
+                self.identifierish(idx0)
+            }
             Some(idx1) => error(ExpectedStringLiteral, idx1),
             None => error(UnterminatedStringLiteral, idx0),
         }
@@ -636,6 +641,10 @@ impl<'input> Tokenizer<'input> {
 
         if word == "_" {
             return Ok((idx0, Underscore, idx0 + 1));
+        }
+
+        if word == "r#_" {
+            return Ok((idx0, Underscore, idx0 + 3));
         }
 
         if word == "use" {
