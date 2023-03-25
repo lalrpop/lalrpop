@@ -1,3 +1,29 @@
+<a name="0.19.9"></a>
+## 0.19.9 (2023-03-25)
+
+This release addresses backwards compatibility warnings and security alerts, along with a few smaller features.
+
+Special thanks to our newest maintainers, Yann Hamdaoui and YunWon Jeong for helping to coordinate this release. 
+
+#### Features
+
+* stream errors to the terminal as they are computed (thanks to Anders Kaseorg!)
+* lex raw identifiers (thanks to Karl Meakin!)
+* upgrade to the 2018 edition (thanks to blakehawkins!)
+
+#### Bug Fixes
+
+* fix bug in lane table state splitting (thanks Anders Kaseorg!)
+* fix warnings, typos, and links (thanks ggsh, Kian-Meng Ang, Ian Alexander Joiner, absurdhero, and Ömer Sinan Ağacan!)
+* fix licensing to be spdx-conformant (thanks chayleaf!)
+* fixs to the whitespace example (thanks Thalia Archibald!)
+
+#### Security patches
+
+* update `regex` to 1.5.5
+* update `thread-local` to 1.1.7
+* update to `is-terminal` from `atty` (thanks kpcyrd!)
+
 <a name="0.19.8"></a>
 ## 0.19.8 (2022-05-05)
 
