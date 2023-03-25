@@ -2,7 +2,7 @@
 
 [![Join the chat at https://gitter.im/lalrpop/Lobby](https://badges.gitter.im/lalrpop/Lobby.svg)](https://gitter.im/lalrpop/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
-[![Build status](https://travis-ci.org/lalrpop/lalrpop.svg?branch=master)](https://travis-ci.org/lalrpop/lalrpop)
+[![Deploy](https://github.com/lalrpop/lalrpop/actions/workflows/deploy.yml/badge.svg)](https://github.com/lalrpop/lalrpop/actions/workflows/deploy.yml)
 
 LALRPOP is a Rust parser generator framework with *usability* as its
 primary goal. You should be able to write compact, DRY, readable

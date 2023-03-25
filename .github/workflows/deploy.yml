@@ -1,26 +1,41 @@
 name: Deploy
+
 on:
   push:
     branches:
       - master
+
+permissions:
+  contents: write
+
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v2.3.1 # If you're using actions/checkout@v2 you must set persist-credentials to false in most cases for the deployment to work correctly.
+        uses: actions/checkout@v3
         with:
           persist-credentials: false
 
-      - name: Install and Build # This example project is built using npm and outputs the result to the 'build' folder. Replace with the commands required to build your project, or remove this step entirely if your site is pre-built.
+      - name: Setup mdBook
+        uses: peaceiris/actions-mdbook@v1
+        with:
+          mdbook-version: 'latest'
+
+      - name: Install and build mdbook
         run: |
-          bash tools/ci-install.sh
-          bash tools/build-doc
+          mkdir -p mdbook-linkcheck && cd "$_" && \
+          curl -Ls https://github.com/Michael-F-Bryan/mdbook-linkcheck/releases/latest/download/mdbook-linkcheck.x86_64-unknown-linux-gnu.zip -o mdbook-linkcheck.zip && \
+          unzip "$_" && \
+          chmod +x mdbook-linkcheck && \
+          export PATH=$PWD:$PATH && \
+          cd .. && \
+          ./tools/build-doc
 
       - name: Deploy
-        uses: JamesIves/github-pages-deploy-action@3.7.1
+        uses: JamesIves/github-pages-deploy-action@v4
         with:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          BRANCH: gh-pages # The branch the action should deploy to.
-          FOLDER: doc/book # The folder the action should deploy.
-          CLEAN: true # Automatically remove deleted files from the deploy branch
+          token: ${{ secrets.GITHUB_TOKEN }}
+          branch: gh-pages # The branch the action should deploy to.
+          folder: doc/book/html # The folder the action should deploy.
+          clean: true # Automatically remove deleted files from the deploy branch
