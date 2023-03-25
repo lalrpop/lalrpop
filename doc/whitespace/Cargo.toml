@@ -3,7 +3,7 @@ name = "whitespace"
 version = "0.19.9"
 authors = ["Mako <jlauve@rsmw.net>"]
 build = "build.rs"
-edition = "2018"
+edition = "2021"
 
 [build-dependencies.lalrpop]
 version = "0.19.9"

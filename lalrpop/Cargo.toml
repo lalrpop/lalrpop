@@ -32,7 +32,7 @@ unicode-xid = { version = "0.2", default_features = false }
 
 # This dependency is only needed for binary builds, if you use LALRPOP as
 # library, disable it in your project by setting default_features = false.
-pico-args = { version = "0.4", default_features = false, optional = true }
+pico-args = { version = "0.5", default_features = false, optional = true }
 
 
 [dev-dependencies]

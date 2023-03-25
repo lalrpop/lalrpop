@@ -1,5 +1,6 @@
 export RUST_BACKTRACE=1
 export CARGO_INCREMENTAL=0
+export CARGO_REGISTRIES_CRATES_IO_PROTOCOL=sparse
 
 cargo build -p lalrpop
 cargo test --all --all-features
