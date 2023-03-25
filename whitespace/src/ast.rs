@@ -2,8 +2,10 @@
 pub enum Stmt {
     Push(Int),
     Dup,
+    Copy(Int),
     Swap,
     Discard,
+    Slide(Int),
 
     Add,
     Sub,
@@ -40,15 +42,19 @@ pub fn label(digits: Vec<u8>) -> String {
         .collect()
 }
 
-pub fn number(digits: Vec<u8>) -> Int {
-    assert!(digits.len() <= 64);
+pub fn number(negative: bool, digits: Vec<u8>) -> Int {
+    assert!(digits.len() <= 63);
 
     let mut value = 0;
     for digit in digits {
         value <<= 1;
         value |= digit as i64;
     }
-    value
+    if negative {
+        -value
+    } else {
+        value
+    }
 }
 
 pub type Int = i64;
@@ -114,20 +120,18 @@ impl<'program> Interpreter<'program> {
     fn pop(&mut self) -> Result<Int, String> {
         match self.stack.pop() {
             Some(n) => Ok(n),
-            None => Err(format!("Stack underflow")),
+            None => Err("Stack underflow".to_string()),
         }
     }
 }
 
 fn num_to_char(n: Int) -> Result<char, String> {
-    use std::char::from_u32;
-
     if n < 0 {
         Err(format!("Can't cast negative int to char: {}", n))
-    } else if n > u32::max_value() as i64 {
+    } else if n > u32::MAX as i64 {
         Err(format!("Int is too huge to be a char: {}", n))
     } else {
-        match from_u32(n as u32) {
+        match char::from_u32(n as u32) {
             Some(c) => Ok(c),
             None => Err(format!("Invalid char: {}", n)),
         }
