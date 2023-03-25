@@ -1,6 +1,6 @@
 [package]
 name = "lalrpop-test"
-version = "0.19.8" # LALRPOP
+version = "0.19.9" # LALRPOP
 authors = ["Niko Matsakis <niko@alum.mit.edu>"]
 license = "Apache-2.0 OR MIT"
 build = "build.rs"
