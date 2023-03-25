@@ -1,6 +1,13 @@
 name: Test
 
-on: [push, pull_request]
+on:
+  push:
+    branches: ["master"]
+  pull_request:
+    branches: ["master"]
+
+permissions:
+  contents: read
 
 jobs:
   build:
@@ -12,13 +19,19 @@ jobs:
           - beta
           - nightly
     steps:
-      - uses: actions/checkout@v1
-      - name: Install Rust
-        uses: actions-rs/toolchain@v1
+      - uses: actions/checkout@v3
+      - uses: dtolnay/rust-toolchain@master
         with:
           toolchain: ${{ matrix.rust }}
-          override: true
           components: rustfmt
       - name: Run tests
-        run: ./ci.sh
-
+        run: |
+          export RUST_BACKTRACE=1
+          export CARGO_INCREMENTAL=0
+          cargo build -p lalrpop
+          cargo test --all --all-features
+          # Check the documentation examples separately so that the `lexer` feature
+          # specified in tests do not leak into them
+          cargo check -p calculator
+          cargo check -p pascal
+          cargo check -p whitespace
