@@ -293,13 +293,11 @@ fn report_error(file_text: &FileText, span: pt::Span, message: &str) -> ! {
     exit(1);
 }
 
-fn report_messages(messages: Vec<Message>) -> term::Result<()> {
-    let builder = InlineBuilder::new().begin_paragraphs();
-    let builder = messages
-        .into_iter()
-        .fold(builder, |b, m| b.push(Box::new(m)));
-    let content = builder.end().end();
-    report_content(&*content)
+fn report_message(message: Message) -> term::Result<()> {
+    let content = InlineBuilder::new().push(Box::new(message)).end();
+    report_content(&*content)?;
+    println!();
+    Ok(())
 }
 
 fn report_content(content: &dyn Content) -> term::Result<()> {
@@ -392,8 +390,7 @@ fn emit_recursive_ascent(
         let states = match lr1result {
             Ok(states) => states,
             Err(error) => {
-                let messages = lr1::report_error(grammar, &error);
-                let _ = report_messages(messages);
+                let _ = lr1::report_error(&grammar, &error, report_message);
                 exit(1) // FIXME -- propagate up instead of calling `exit`
             }
         };
