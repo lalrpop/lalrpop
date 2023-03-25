@@ -2,10 +2,11 @@ use std::iter;
 
 use crate::grammar::parse_tree::*;
 use crate::grammar::pattern::*;
-use lalrpop_util;
 use crate::tok;
+use lalrpop_util;
 
 #[cfg(not(feature = "test"))]
+#[rustfmt::skip]
 #[allow(dead_code)]
 mod lrgrammar;
 

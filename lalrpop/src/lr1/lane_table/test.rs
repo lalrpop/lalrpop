@@ -6,9 +6,9 @@ use crate::lr1::first::FirstSets;
 use crate::lr1::interpret;
 use crate::lr1::state_graph::StateGraph;
 use crate::lr1::tls::Lr1Tls;
-use string_cache::DefaultAtom as Atom;
 use crate::test_util::{expect_debug, normalized_grammar};
 use crate::tls::Tls;
+use string_cache::DefaultAtom as Atom;
 
 use super::construct::*;
 use super::lane::*;

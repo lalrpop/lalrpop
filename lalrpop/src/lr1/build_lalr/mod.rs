@@ -8,7 +8,6 @@ use crate::lr1::lookahead::*;
 use crate::tls::Tls;
 use itertools::Itertools;
 
-
 #[cfg(test)]
 mod test;
 
@@ -146,10 +145,7 @@ pub fn collapse_to_lalr_states<'grammar>(lr_states: &[LR1State<'grammar>]) -> LR
         })
         .collect();
 
-    let conflicts: Vec<_> = lr1_states
-        .iter()
-        .flat_map(TokenSet::conflicts)
-        .collect();
+    let conflicts: Vec<_> = lr1_states.iter().flat_map(TokenSet::conflicts).collect();
 
     if !conflicts.is_empty() {
         Err(TableConstructionError {

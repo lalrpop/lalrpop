@@ -82,10 +82,8 @@ impl<'grammar> LaneTableConstruct<'grammar> {
                         "construct: failed to resolve inconsistencies in state {:#?}",
                         states[i]
                     );
-                    let conflicts: Vec<Conflict<'grammar, TokenSet>> = states
-                        .iter()
-                        .flat_map(Lookahead::conflicts)
-                        .collect();
+                    let conflicts: Vec<Conflict<'grammar, TokenSet>> =
+                        states.iter().flat_map(Lookahead::conflicts).collect();
                     return Err(TableConstructionError { states, conflicts });
                 }
             }

@@ -52,7 +52,11 @@ fn lower_helper(session: &Session, grammar: pt::Grammar, validate: bool) -> Norm
         }
     );
     let grammar = profile!(session, "Grammar resolution", resolve::resolve(grammar)?);
-    let grammar = profile!(session, "Precedence expansion", precedence::expand_precedence(grammar)?);
+    let grammar = profile!(
+        session,
+        "Precedence expansion",
+        precedence::expand_precedence(grammar)?
+    );
     let grammar = profile!(
         session,
         "Macro expansion",

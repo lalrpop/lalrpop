@@ -5,8 +5,8 @@
 use crate::grammar::repr::{Grammar, NonterminalString, TypeParameter};
 use crate::lr1::core::*;
 use crate::rust::RustWrite;
-use std::io::{self, Write};
 use crate::util::Sep;
+use std::io::{self, Write};
 
 use super::base::CodeGenerator;
 

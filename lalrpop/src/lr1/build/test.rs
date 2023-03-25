@@ -6,9 +6,9 @@ use crate::lr1::lookahead::Token;
 use crate::lr1::lookahead::Token::EOF;
 use crate::lr1::lookahead::TokenSet;
 use crate::lr1::tls::Lr1Tls;
-use string_cache::DefaultAtom as Atom;
 use crate::test_util::{compare, expect_debug, normalized_grammar};
 use crate::tls::Tls;
+use string_cache::DefaultAtom as Atom;
 
 use super::{build_lr0_states, build_lr1_states, use_lane_table, LR};
 

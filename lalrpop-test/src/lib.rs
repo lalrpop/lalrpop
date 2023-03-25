@@ -875,9 +875,7 @@ fn issue_55_test1() {
 
 #[test]
 fn inline_fallible() {
-    assert!(inline_fallible::InlineParser::new()
-        .parse("a1")
-        .is_ok());
+    assert!(inline_fallible::InlineParser::new().parse("a1").is_ok());
     assert!(inline_fallible::MultipleInlineParser::new()
         .parse("a2 a1")
         .is_ok());

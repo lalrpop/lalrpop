@@ -411,10 +411,9 @@ fn emit_inline_action_code<W: Write>(
 
     let final_action_fallible = grammar.action_is_fallible(data.action);
     let (ok_begin, ok_end) = match (defn.fallible, final_action_fallible) {
-        (true, true) |
-        (false, false) => ("", ""),
+        (true, true) | (false, false) => ("", ""),
         (true, false) => ("Ok(", ")"),
-        (false, true) => unreachable!()
+        (false, true) => unreachable!(),
     };
 
     rust!(

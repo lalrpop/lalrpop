@@ -1,5 +1,5 @@
-use ena::unify::{UnifyKey, UnifyValue};
 use crate::lr1::lane_table::table::context_set::{ContextSet, OverlappingLookahead};
+use ena::unify::{UnifyKey, UnifyValue};
 
 /// The unification key for a set of states in the lane table
 /// algorithm.  Each set of states is associated with a
