@@ -2,3 +2,4 @@ target
 *~
 TAGS
 **/*.bak
+mdbook-linkcheck

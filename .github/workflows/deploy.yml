@@ -22,15 +22,8 @@ jobs:
         with:
           mdbook-version: 'latest'
 
-      - name: Install and build mdbook
-        run: |
-          mkdir -p mdbook-linkcheck && cd "$_" && \
-          curl -Ls https://github.com/Michael-F-Bryan/mdbook-linkcheck/releases/latest/download/mdbook-linkcheck.x86_64-unknown-linux-gnu.zip -o mdbook-linkcheck.zip && \
-          unzip "$_" && \
-          chmod +x mdbook-linkcheck && \
-          export PATH=$PWD:$PATH && \
-          cd .. && \
-          ./tools/build-doc
+      - name: Build mdbook
+        run: make build-mdbook
 
       - name: Deploy
         uses: JamesIves/github-pages-deploy-action@v4

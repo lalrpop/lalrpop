@@ -1051,7 +1051,7 @@ fn verify_lalrpop_generates_itself() {
         &actual,
         &expected,
         "The snapshot does not match what lalrpop generates now.\n\
-         Use ./snap.sh to generate a new snapshot of the lrgrammar",
+         Use `make snap` to generate a new snapshot of the lrgrammar",
     );
 }
 

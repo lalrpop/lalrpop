@@ -6,9 +6,6 @@ on:
   pull_request:
     branches: ["master"]
 
-env:
-  CARGO_REGISTRIES_CRATES_IO_PROTOCOL: sparse
-
 permissions:
   contents: read
 
@@ -28,4 +25,4 @@ jobs:
           toolchain: ${{ matrix.rust }}
           components: rustfmt
       - name: Run tests
-        run: ./tools/ci.sh
+        run: make test

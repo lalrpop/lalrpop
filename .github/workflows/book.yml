@@ -17,12 +17,5 @@ jobs:
         with:
           mdbook-version: 'latest'
 
-      - name: Install mdbook-linkcheck
-        run: |
-          curl -Ls https://github.com/Michael-F-Bryan/mdbook-linkcheck/releases/latest/download/mdbook-linkcheck.x86_64-unknown-linux-gnu.zip -o mdbook-linkcheck.zip &&
-          unzip -n "$_" mdbook-linkcheck &&
-          chmod +x "$_"
-        working-directory: ./doc
-
-      - run: env PATH=$PWD:$PATH mdbook build
-        working-directory: ./doc
+      - name: Build mdbook
+        run: make build-mdbook
