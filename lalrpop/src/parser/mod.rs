@@ -6,12 +6,16 @@ use lalrpop_util;
 use crate::tok;
 
 #[cfg(not(feature = "test"))]
+#[rustfmt::skip]
 #[allow(dead_code)]
+#[allow(clippy::all)]
 mod lrgrammar;
 
 #[cfg(feature = "test")]
 lalrpop_mod!(
+    #[rustfmt::skip]
     #[allow(dead_code)]
+    #[allow(clippy::all)]
     lrgrammar,
     "/src/parser/lrgrammar.rs"
 );
