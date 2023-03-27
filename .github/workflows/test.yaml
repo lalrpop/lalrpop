@@ -5,6 +5,7 @@ on:
     branches: ["master"]
   pull_request:
     branches: ["master"]
+  merge_group:
 
 env:
   CARGO_REGISTRIES_CRATES_IO_PROTOCOL: sparse
