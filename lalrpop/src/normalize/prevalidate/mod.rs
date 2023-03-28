@@ -183,10 +183,9 @@ impl<'grammar> Validator<'grammar> {
 
     fn validate_precedence(&self, alternatives: &Vec<Alternative>) -> NormResult<()> {
         let with_precedence = alternatives.iter().any(|alt| {
-            alt.annotations.iter().any(|ann| {
-                ann.id == *precedence::PREC_ANNOT
-                    || ann.id == *precedence::ASSOC_ANNOT
-            })
+            alt.annotations
+                .iter()
+                .any(|ann| ann.id == *precedence::PREC_ANNOT || ann.id == *precedence::ASSOC_ANNOT)
         });
 
         if alternatives.is_empty() || !with_precedence {

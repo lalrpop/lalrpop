@@ -2,7 +2,6 @@
 #![recursion_limit = "256"]
 // I hate this lint.
 #![allow(unused_parens)]
-
 // The builtin tests don't cover the CLI and so forth, and it's just
 // too darn annoying to try and make them do so.
 //
@@ -16,8 +15,8 @@ extern crate ena;
 extern crate is_terminal;
 extern crate itertools;
 extern crate petgraph;
-extern crate regex_syntax;
 extern crate regex;
+extern crate regex_syntax;
 extern crate string_cache;
 extern crate term;
 extern crate tiny_keccak;

@@ -4,9 +4,9 @@ use crate::generate::ParseTree;
 use crate::grammar::repr::*;
 use crate::lr1::core::*;
 use crate::lr1::lookahead::*;
+use crate::util::Sep;
 use std::fmt::{Debug, Display, Error, Formatter};
 use std::iter::IntoIterator;
-use crate::util::Sep;
 
 pub type InterpretError<'grammar, L> = (&'grammar State<'grammar, L>, Token);
 

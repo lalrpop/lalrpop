@@ -30,3 +30,13 @@ jobs:
           components: rustfmt
       - name: Run tests
         run: ./tools/ci.sh
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: dtolnay/rust-toolchain@master
+        with:
+          toolchain: stable
+          components: rustfmt
+      - name: Run rustfmt check
+        run: cargo fmt --all -- --check

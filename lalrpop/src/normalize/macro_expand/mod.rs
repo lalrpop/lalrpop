@@ -539,10 +539,7 @@ impl MacroExpander {
                                     ),
                                     Symbol::new(
                                         span,
-                                        SymbolKind::Name(
-                                            Name::immut(e),
-                                            Box::new(repeat.symbol),
-                                        ),
+                                        SymbolKind::Name(Name::immut(e), Box::new(repeat.symbol)),
                                     ),
                                 ],
                             },

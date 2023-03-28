@@ -2,7 +2,6 @@
 
 use crate::collections::{set, Set};
 use crate::grammar::repr::*;
-use itertools::Itertools;
 use crate::lr1::core::*;
 use crate::lr1::example::{Example, ExampleStyles, ExampleSymbol};
 use crate::lr1::first::FirstSets;
@@ -11,6 +10,7 @@ use crate::lr1::trace::Tracer;
 use crate::message::builder::{BodyCharacter, Builder, Character, MessageBuilder};
 use crate::message::Message;
 use crate::tls::Tls;
+use itertools::Itertools;
 
 #[cfg(test)]
 mod test;

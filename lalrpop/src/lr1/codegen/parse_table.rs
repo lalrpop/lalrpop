@@ -1553,7 +1553,10 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
         rust!(self.out, "if next_state == 0 {{");
         rust!(self.out, "None");
         rust!(self.out, "}} else {{");
-        rust!(self.out, "Some(alloc::string::ToString::to_string(terminal))");
+        rust!(
+            self.out,
+            "Some(alloc::string::ToString::to_string(terminal))"
+        );
         rust!(self.out, "}}");
         rust!(self.out, "}}).collect()");
         rust!(self.out, "}}");

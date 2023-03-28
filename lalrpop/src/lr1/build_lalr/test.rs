@@ -2,9 +2,9 @@ use super::super::interpret::interpret;
 use super::build_lalr_states;
 use crate::grammar::repr::*;
 use crate::lr1::tls::Lr1Tls;
-use string_cache::DefaultAtom as Atom;
 use crate::test_util::normalized_grammar;
 use crate::tls::Tls;
+use string_cache::DefaultAtom as Atom;
 
 fn nt(t: &str) -> NonterminalString {
     NonterminalString(Atom::from(t))

@@ -3,8 +3,8 @@ use crate::grammar::repr::*;
 use crate::lr1::lookahead::Token::EOF;
 use crate::lr1::lookahead::{Token, TokenSet};
 use crate::lr1::tls::Lr1Tls;
-use string_cache::DefaultAtom as Atom;
 use crate::test_util::normalized_grammar;
+use string_cache::DefaultAtom as Atom;
 
 pub fn nt(t: &str) -> Symbol {
     Symbol::Nonterminal(NonterminalString(Atom::from(t)))
