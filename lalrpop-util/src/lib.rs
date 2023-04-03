@@ -190,6 +190,7 @@ macro_rules! lalrpop_mod {
     };
 
     ($(#[$attr:meta])* $vis:vis $modname:ident, $source:expr) => {
+        #[rustfmt::skip]
         $(#[$attr])* $vis mod $modname { include!(concat!(env!("OUT_DIR"), $source)); }
     };
 }
