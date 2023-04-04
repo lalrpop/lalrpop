@@ -26,7 +26,7 @@ pub enum Delim {
 }
 
 // simplest and stupidest possible tokenizer
-pub fn tokenize<'input>(s: &'input str) -> Vec<(usize, Tok<'input>, usize)> {
+pub fn tokenize(s: &str) -> Vec<(usize, Tok<'_>, usize)> {
     let mut tokens = vec![];
     let mut char_indices = s.char_indices();
     let mut lookahead = char_indices.next();
@@ -52,8 +52,9 @@ pub fn tokenize<'input>(s: &'input str) -> Vec<(usize, Tok<'input>, usize)> {
                     tokens.push(Tok::String(&s[ci..slice_end]));
                     continue;
                 }
-                _ if c.is_digit(10) => {
-                    let (slice_end, next) = take_while(ci, &mut char_indices, |c| c.is_digit(10));
+                _ if c.is_ascii_digit() => {
+                    let (slice_end, next) =
+                        take_while(ci, &mut char_indices, |c| c.is_ascii_digit());
                     lookahead = next;
                     tokens.push(Tok::Num(i32::from_str(&s[ci..slice_end]).unwrap()));
                     continue;

@@ -6,13 +6,11 @@ pub enum LtTok<'input> {
     Dummy,
 }
 
-pub fn lt_tokenize<'input>(s: &'input str) -> Vec<LtTok<'input>> {
+pub fn lt_tokenize(s: &str) -> Vec<LtTok<'_>> {
     let mut tokens = vec![];
     for (index, c) in s.char_indices() {
         if !c.is_whitespace() {
-            match c {
-                _ => tokens.push(LtTok::Other(&s[index..index + c.len_utf8()])),
-            }
+            tokens.push(LtTok::Other(&s[index..index + c.len_utf8()]));
         }
     }
     tokens

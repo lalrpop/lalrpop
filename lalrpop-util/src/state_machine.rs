@@ -196,7 +196,7 @@ where
 
 enum NextToken<D: ParserDefinition> {
     FoundToken(TokenTriple<D>, D::TokenIndex),
-    EOF,
+    Eof,
     Done(ParseResult<D>),
 }
 
@@ -230,7 +230,7 @@ where
         'shift: loop {
             let (mut lookahead, mut token_index) = match self.next_token() {
                 NextToken::FoundToken(l, i) => (l, i),
-                NextToken::EOF => return self.parse_eof(),
+                NextToken::Eof => return self.parse_eof(),
                 NextToken::Done(e) => return e,
             };
 
@@ -270,7 +270,7 @@ where
                             token_index = i;
                             continue 'inner;
                         }
-                        NextToken::EOF => return self.parse_eof(),
+                        NextToken::Eof => return self.parse_eof(),
                         NextToken::Done(e) => return e,
                     }
                 }
@@ -294,7 +294,7 @@ where
                 match self.error_recovery(None, None) {
                     NextToken::FoundToken(..) => panic!("cannot find token at EOF"),
                     NextToken::Done(e) => return e,
-                    NextToken::EOF => continue,
+                    NextToken::Eof => continue,
                 }
             }
         }
@@ -399,7 +399,7 @@ where
                             opt_lookahead = Some(next_lookahead);
                             opt_token_index = Some(next_token_index);
                         }
-                        NextToken::EOF => {
+                        NextToken::Eof => {
                             debug!("\\\\\\ reached EOF");
                             opt_lookahead = None;
                             opt_token_index = None;
@@ -502,7 +502,7 @@ where
 
         match (opt_lookahead, opt_token_index) {
             (Some(l), Some(i)) => NextToken::FoundToken(l, i),
-            (None, None) => NextToken::EOF,
+            (None, None) => NextToken::Eof,
             (l, i) => panic!("lookahead and token_index mismatched: {:?}, {:?}", l, i),
         }
     }
@@ -612,7 +612,7 @@ where
         let token = match self.tokens.next() {
             Some(Ok(v)) => v,
             Some(Err(e)) => return NextToken::Done(Err(e)),
-            None => return NextToken::EOF,
+            None => return NextToken::Eof,
         };
 
         self.last_location = token.2.clone();

@@ -691,7 +691,7 @@ impl<'cx, 'grammar> ErrorReportingCx<'cx, 'grammar> {
             .iter()
             .zip(reduce_upcoming)
             .filter_map(|(shift_sym, reduce_sym)| match (shift_sym, reduce_sym) {
-                (&ExampleSymbol::Symbol(ref shift_sym), &ExampleSymbol::Symbol(ref reduce_sym)) => {
+                (ExampleSymbol::Symbol(ref shift_sym), ExampleSymbol::Symbol(reduce_sym)) => {
                     if shift_sym == reduce_sym {
                         // same symbol on both; we'll be able to shift them
                         None

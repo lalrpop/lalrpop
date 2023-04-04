@@ -33,10 +33,7 @@ pub fn use_lane_table() -> bool {
     }
 }
 
-pub fn build_lr1_states<'grammar>(
-    grammar: &'grammar Grammar,
-    start: NonterminalString,
-) -> LR1Result<'grammar> {
+pub fn build_lr1_states(grammar: &Grammar, start: NonterminalString) -> LR1Result<'_> {
     let (method_name, method_fn) = if use_lane_table() {
         ("lane", build_lane_table_states as ConstructionFunction)
     } else {
@@ -52,10 +49,10 @@ pub fn build_lr1_states<'grammar>(
     }
 }
 
-pub fn build_lr0_states<'grammar>(
-    grammar: &'grammar Grammar,
+pub fn build_lr0_states(
+    grammar: &Grammar,
     start: NonterminalString,
-) -> Result<Vec<LR0State<'grammar>>, LR0TableConstructionError<'grammar>> {
+) -> Result<Vec<LR0State<'_>>, LR0TableConstructionError<'_>> {
     let lr1 = LR::new(grammar, start, Nil);
     lr1.build_states()
 }

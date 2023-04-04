@@ -670,7 +670,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
         let reduction = state
             .reductions
             .iter()
-            .filter(|&&(ref t, _)| t.contains(token))
+            .filter(|&(t, _)| t.contains(token))
             .map(|&(_, p)| p)
             .next();
         if let Some(production) = reduction {

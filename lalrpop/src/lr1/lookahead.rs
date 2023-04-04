@@ -268,7 +268,7 @@ impl<'iter> Iterator for TokenSetIter<'iter> {
     }
 }
 
-impl<'debug> Debug for TokenSet {
+impl Debug for TokenSet {
     fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
         let terminals: Vec<_> = self.iter().collect();
         Debug::fmt(&terminals, fmt)
