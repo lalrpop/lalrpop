@@ -40,7 +40,7 @@ const LALRPOP_VERSION_HEADER: &str = concat!(
 );
 
 fn hash_file(file: &Path) -> io::Result<String> {
-    let mut file = fs::File::open(&file)?;
+    let mut file = fs::File::open(file)?;
     let mut file_bytes = Vec::new();
     file.read_to_end(&mut file_bytes).unwrap();
 
@@ -92,7 +92,7 @@ fn gen_resolve_file(session: &Session, lalrpop_file: &Path, ext: &str) -> io::Re
     // .rs file is created in the same directory as the lalrpop file
     // for compatibility reasons
     Ok(out_dir
-        .join(lalrpop_file.strip_prefix(&in_dir).unwrap_or(lalrpop_file))
+        .join(lalrpop_file.strip_prefix(in_dir).unwrap_or(lalrpop_file))
         .with_extension(ext))
 }
 
@@ -132,7 +132,7 @@ fn process_file_into(
         {
             let grammar = parse_and_normalize_grammar(&session, &file_text)?;
             let buffer = emit_recursive_ascent(&session, &grammar, report_file)?;
-            let mut output_file = fs::File::create(&rs_file)?;
+            let mut output_file = fs::File::create(rs_file)?;
             writeln!(output_file, "{}", LALRPOP_VERSION_HEADER)?;
             writeln!(output_file, "{}", hash_file(lalrpop_file)?)?;
             output_file.write_all(&buffer)?;
@@ -155,7 +155,7 @@ fn remove_old_file(rs_file: &Path) -> io::Result<()> {
 }
 
 fn needs_rebuild(lalrpop_file: &Path, rs_file: &Path) -> io::Result<bool> {
-    match fs::File::open(&rs_file) {
+    match fs::File::open(rs_file) {
         Ok(rs_file) => {
             let mut version_str = String::new();
             let mut hash_str = String::new();
@@ -383,14 +383,14 @@ fn emit_recursive_ascent(
 
         let lr1result = lr1::build_states(grammar, start_nt.clone());
         if session.emit_report {
-            let mut output_report_file = fs::File::create(&report_file)?;
+            let mut output_report_file = fs::File::create(report_file)?;
             lr1::generate_report(&mut output_report_file, &lr1result)?;
         }
 
         let states = match lr1result {
             Ok(states) => states,
             Err(error) => {
-                let _ = lr1::report_error(&grammar, &error, report_message);
+                let _ = lr1::report_error(grammar, &error, report_message);
                 exit(1) // FIXME -- propagate up instead of calling `exit`
             }
         };

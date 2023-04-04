@@ -659,7 +659,7 @@ impl<'input> Tokenizer<'input> {
             // is a `<` immediately afterwards
             KEYWORDS.iter()
                     .filter(|&&(w, _)| w == word)
-                    .map(|&(_, ref t)| t.clone())
+                    .map(|(_, t)| t.clone())
                     .next()
                     .unwrap_or({
                         match self.lookahead {

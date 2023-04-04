@@ -390,7 +390,7 @@ impl<'s> LowerState<'s> {
                             let name_str: String = {
                                 let name_strs: Vec<_> = names
                                     .iter()
-                                    .map(|&(_, ref name, _)| name.name.as_ref())
+                                    .map(|(_, name, _)| name.name.as_ref())
                                     .collect();
                                 name_strs.join(", ")
                             };
@@ -400,7 +400,7 @@ impl<'s> LowerState<'s> {
                             let name_str = {
                                 let name_strs: Vec<_> = names
                                     .iter()
-                                    .map(|&(_, ref name, _)| format!("{0}:{0}", &*name.name))
+                                    .map(|(_, name, _)| format!("{0}:{0}", &*name.name))
                                     .collect();
                                 name_strs.join(", ")
                             };
@@ -512,7 +512,7 @@ fn cfg_active(session: &Session, nt: &pt::NonterminalData) -> bool {
         .iter()
         .filter(|ann| ann.id == cfg_atom)
         .all(|ann| {
-            ann.arg.as_ref().map_or(false, |&(_, ref feature)| {
+            ann.arg.as_ref().map_or(false, |(_, feature)| {
                 session
                     .features
                     .as_ref()

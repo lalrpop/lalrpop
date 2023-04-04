@@ -223,7 +223,7 @@ impl<'grammar> Validator<'grammar> {
 
             if let Some(ann_prec) = ann_prec_opt {
                 match &ann_prec.arg {
-                    Some((name, value)) if *name == Atom::from(precedence::LVL_ARG) => {
+                    Some((name, value)) if name == &Atom::from(precedence::LVL_ARG) => {
                         if let Ok(lvl) = value.parse::<u32>() {
                             if lvl < min_lvl {
                                 min_lvl = lvl;
@@ -244,7 +244,7 @@ impl<'grammar> Validator<'grammar> {
 
             if let Some(ann_assoc) = ann_assoc_opt {
                 match &ann_assoc.arg {
-                    Some((name, value)) if *name == Atom::from(precedence::SIDE_ARG) => {
+                    Some((name, value)) if name == &Atom::from(precedence::SIDE_ARG) => {
                         if value.parse::<precedence::Assoc>().is_err() {
                             return_err!(ann_assoc.id_span, "could not parse the associativity `{}`, expected `left`, `right`, `none` or `all`", value);
                         }
@@ -325,10 +325,7 @@ impl<'grammar> Validator<'grammar> {
         let chosen: Vec<&Symbol> = expr
             .symbols
             .iter()
-            .filter(|sym| match sym.kind {
-                SymbolKind::Choose(_) => true,
-                _ => false,
-            })
+            .filter(|sym| matches!(sym.kind, SymbolKind::Choose(_)))
             .collect();
 
         let named: Multimap<Atom, Vec<&Symbol>> = expr

@@ -28,10 +28,10 @@ pub struct Grammar {
 #[derive(Copy, Clone, Debug, Default, Hash, PartialEq, Eq, PartialOrd, Ord)]
 pub struct Span(pub usize, pub usize);
 
-impl Into<Box<dyn Content>> for Span {
-    fn into(self) -> Box<dyn Content> {
+impl From<Span> for Box<dyn Content> {
+    fn from(val: Span) -> Self {
         let file_text = Tls::file_text();
-        let string = file_text.span_str(self);
+        let string = file_text.span_str(val);
 
         // Insert an Adjacent block to prevent wrapping inside this
         // string:
@@ -93,10 +93,7 @@ pub enum MatchItem {
 
 impl MatchItem {
     pub fn is_catch_all(&self) -> bool {
-        match *self {
-            MatchItem::CatchAll(_) => true,
-            _ => false,
-        }
+        matches!(*self, MatchItem::CatchAll(_))
     }
 
     pub fn span(&self) -> Span {
@@ -551,12 +548,12 @@ impl NonterminalString {
     }
 }
 
-impl Into<Box<dyn Content>> for NonterminalString {
-    fn into(self) -> Box<dyn Content> {
+impl From<NonterminalString> for Box<dyn Content> {
+    fn from(val: NonterminalString) -> Self {
         let session = Tls::session();
 
         InlineBuilder::new()
-            .text(self)
+            .text(val)
             .styled(session.nonterminal_symbol)
             .end()
     }
@@ -621,11 +618,11 @@ impl TerminalString {
     }
 }
 
-impl Into<Box<dyn Content>> for TerminalString {
-    fn into(self) -> Box<dyn Content> {
+impl From<TerminalString> for Box<dyn Content> {
+    fn from(val: TerminalString) -> Self {
         let session = Tls::session();
         InlineBuilder::new()
-            .text(self)
+            .text(val)
             .styled(session.terminal_symbol)
             .end()
     }

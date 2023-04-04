@@ -373,7 +373,7 @@ impl<'ascent, 'grammar, W: Write>
                 || this_state
                     .reductions
                     .iter()
-                    .any(|&(ref t, _)| t.contains(&Token::Terminal(terminal.clone())))
+                    .any(|(t, _)| t.contains(&Token::Terminal(terminal.clone())))
         });
 
         rust!(self.out, "let {}expected = alloc::vec![", self.prefix);

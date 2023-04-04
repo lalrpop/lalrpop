@@ -404,7 +404,7 @@ where
     m.map(|k| k.display_len()).fold(0, max)
 }
 
-fn get_width_for_gotos<'grammar, L>(state: &State<'grammar, L>) -> usize
+fn get_width_for_gotos<L>(state: &State<L>) -> usize
 where
     L: Lookahead,
 {

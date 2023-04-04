@@ -45,7 +45,7 @@ fn main_() -> Result<(), Box<dyn Error>> {
         fs::copy(grammar_file, &copied_grammar)
             .map_err(|err| format!("Unable to grammar to OUT_DIR: {}", err))?;
         let status = Command::new(lalrpop_path)
-            .args(&[
+            .args([
                 "--force",
                 "--features",
                 "test",

@@ -219,15 +219,9 @@ impl Configuration {
                 env::vars()
                     .filter_map(|(feature_var, _)| {
                         let prefix = "CARGO_FEATURE_";
-                        if feature_var.starts_with(prefix) {
-                            Some(
-                                feature_var[prefix.len()..]
-                                    .replace('_', "-")
-                                    .to_ascii_lowercase(),
-                            )
-                        } else {
-                            None
-                        }
+                        feature_var
+                            .strip_prefix(prefix)
+                            .map(|feature| feature.replace('_', "-").to_ascii_lowercase())
                     })
                     .collect(),
             );

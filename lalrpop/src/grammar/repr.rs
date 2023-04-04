@@ -615,9 +615,9 @@ impl Symbol {
 
 impl Display for Symbol {
     fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
-        match *self {
-            Symbol::Nonterminal(ref id) => write!(fmt, "{}", id.clone()),
-            Symbol::Terminal(ref id) => write!(fmt, "{}", id.clone()),
+        match self {
+            Symbol::Nonterminal(id) => write!(fmt, "{}", id),
+            Symbol::Terminal(id) => write!(fmt, "{}", id),
         }
     }
 }
@@ -628,9 +628,9 @@ impl Debug for Symbol {
     }
 }
 
-impl Into<Box<dyn Content>> for Symbol {
-    fn into(self) -> Box<dyn Content> {
-        match self {
+impl From<Symbol> for Box<dyn Content> {
+    fn from(val: Symbol) -> Self {
+        match val {
             Symbol::Nonterminal(nt) => nt.into(),
             Symbol::Terminal(term) => term.into(),
         }

@@ -111,21 +111,21 @@ impl<'grammar> TraceGraph<'grammar> {
     }
 }
 
-impl<'grammar> Into<TraceGraphNode<'grammar>> for NonterminalString {
-    fn into(self) -> TraceGraphNode<'grammar> {
-        TraceGraphNode::Nonterminal(self)
+impl<'grammar> From<NonterminalString> for TraceGraphNode<'grammar> {
+    fn from(val: NonterminalString) -> Self {
+        TraceGraphNode::Nonterminal(val)
     }
 }
 
-impl<'grammar, L: Lookahead> Into<TraceGraphNode<'grammar>> for Item<'grammar, L> {
-    fn into(self) -> TraceGraphNode<'grammar> {
-        (&self).into()
+impl<'grammar, L: Lookahead> From<Item<'grammar, L>> for TraceGraphNode<'grammar> {
+    fn from(val: Item<'grammar, L>) -> Self {
+        (&val).into()
     }
 }
 
-impl<'a, 'grammar, L: Lookahead> Into<TraceGraphNode<'grammar>> for &'a Item<'grammar, L> {
-    fn into(self) -> TraceGraphNode<'grammar> {
-        TraceGraphNode::Item(self.to_lr0())
+impl<'a, 'grammar, L: Lookahead> From<&'a Item<'grammar, L>> for TraceGraphNode<'grammar> {
+    fn from(val: &'a Item<'grammar, L>) -> Self {
+        TraceGraphNode::Item(val.to_lr0())
     }
 }
 

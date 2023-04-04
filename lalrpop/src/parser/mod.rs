@@ -47,7 +47,7 @@ macro_rules! parser {
     }};
 }
 
-pub fn parse_grammar<'input>(input: &'input str) -> Result<Grammar, ParseError<'input>> {
+pub fn parse_grammar(input: &str) -> Result<Grammar, ParseError<'_>> {
     let mut grammar = parser!(input, 0, Grammar, StartGrammar)?;
 
     // find a unique prefix that does not appear anywhere in the input
@@ -58,22 +58,16 @@ pub fn parse_grammar<'input>(input: &'input str) -> Result<Grammar, ParseError<'
     Ok(grammar)
 }
 
-fn parse_pattern<'input>(
-    input: &'input str,
-    offset: usize,
-) -> Result<Pattern<TypeRef>, ParseError<'input>> {
+fn parse_pattern(input: &str, offset: usize) -> Result<Pattern<TypeRef>, ParseError<'_>> {
     parser!(input, offset, Pattern, StartPattern)
 }
 
-fn parse_match_mapping<'input>(
-    input: &'input str,
-    offset: usize,
-) -> Result<MatchMapping, ParseError<'input>> {
+fn parse_match_mapping(input: &str, offset: usize) -> Result<MatchMapping, ParseError<'_>> {
     parser!(input, offset, MatchMapping, StartMatchMapping)
 }
 
 #[cfg(test)]
-pub fn parse_type_ref<'input>(input: &'input str) -> Result<TypeRef, ParseError<'input>> {
+pub fn parse_type_ref(input: &str) -> Result<TypeRef, ParseError<'_>> {
     parser!(input, 0, TypeRef, StartTypeRef)
 }
 

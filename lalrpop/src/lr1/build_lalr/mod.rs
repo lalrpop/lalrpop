@@ -22,10 +22,7 @@ struct LALR1State<'grammar> {
     pub gotos: Map<NonterminalString, StateIndex>,
 }
 
-pub fn build_lalr_states<'grammar>(
-    grammar: &'grammar Grammar,
-    start: NonterminalString,
-) -> LR1Result<'grammar> {
+pub fn build_lalr_states(grammar: &Grammar, start: NonterminalString) -> LR1Result<'_> {
     // First build the LR(1) states
     let lr_states = build::build_lr1_states(grammar, start)?;
 

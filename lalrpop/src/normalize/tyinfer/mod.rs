@@ -145,8 +145,7 @@ impl<'grammar> TypeInferencer<'grammar> {
     }
 
     fn infer_types(mut self) -> NormResult<Types> {
-        let ids: Vec<NonterminalString> =
-            self.nonterminals.iter().map(|(id, _)| id.clone()).collect();
+        let ids: Vec<NonterminalString> = self.nonterminals.keys().cloned().collect();
 
         for id in ids {
             self.nonterminal_type(&id)?;
