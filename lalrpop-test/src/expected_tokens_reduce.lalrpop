@@ -1,0 +1,26 @@
+// Note: an error recovery expression is included below to prevent the recursive
+// ascent parser from being generated. At the time of writing that implementation
+// still has the issue which this code tests for, and running the trigger causes
+// an assert to trigger in generated code when the output of the two parsers are
+// not identical.
+
+grammar;
+
+pub Program: Vec<()> = Commands;
+
+Commands: Vec<()> = (<Command> ";")*;
+
+Command: () = {
+    "case" <_matched:Word> "in" <_cases: (<CaseItem> ";;")*> <_last:CaseItem?> "esac" => (),
+    Word => (),
+};
+
+CaseItem: () = {
+    "("? <_pattern:Word> ")" <_block:Commands> => (),
+    // error recovery is included only for side effects; see comment above
+    "(" ! ")" => unimplemented!(),
+};
+
+Word: () = {
+    r"[A-Z]+" => ()
+};

@@ -112,6 +112,9 @@ lalrpop_mod!(
     error_recovery_type_in_macro
 );
 
+lalrpop_mod!(expected_tokens_reduce);
+lalrpop_mod!(expected_tokens_reduce_lalr);
+
 /// test for inlining expansion issue #55
 lalrpop_mod!(issue_55);
 
@@ -838,6 +841,40 @@ fn error_recovery_span_starts_just_dropped_states() {
     // Here, we drop the `+` in favor of the `-`.
     // Therefore, the span we give is the `+`.
     test_error_recovery_spans("1 + - 4", ". - . .", "1 - 4");
+}
+
+#[test]
+fn test_expected_tokens_not_overbroad_on_reduce() {
+    let err = expected_tokens_reduce::ProgramParser::new()
+        .parse("X")
+        .expect_err("should have malformed expression (missing `;`)");
+
+    assert_eq!(
+        err,
+        ParseError::UnrecognizedEOF {
+            location: 1,
+            // previously this would return ")", ";", "in" because the
+            // parser state when the error was hit could reduce on
+            // each of those tokens, with the result depending on
+            // how the state was reached
+            expected: vec![r#"";""#.to_owned()],
+        }
+    );
+}
+
+#[test]
+fn test_expected_tokens_not_overbroad_on_reduce_lalr() {
+    let err = expected_tokens_reduce_lalr::ProgramParser::new()
+        .parse("X")
+        .expect_err("should have malformed expression (missing `;`)");
+
+    assert_eq!(
+        err,
+        ParseError::UnrecognizedEOF {
+            location: 1,
+            expected: vec![r#"";""#.to_owned()],
+        }
+    );
 }
 
 #[test]
