@@ -21,7 +21,7 @@ pub fn compile<'grammar, W: Write>(
     grammar: &'grammar Grammar,
     user_start_symbol: NonterminalString,
     start_symbol: NonterminalString,
-    states: &[LR1State<'grammar>],
+    states: &[Lr1State<'grammar>],
     action_module: &str,
     out: &mut RustWrite<W>,
 ) -> io::Result<()> {
@@ -81,7 +81,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
         grammar: &'grammar Grammar,
         user_start_symbol: NonterminalString,
         start_symbol: NonterminalString,
-        states: &'ascent [LR1State<'grammar>],
+        states: &'ascent [Lr1State<'grammar>],
         action_module: &str,
         out: &'ascent mut RustWrite<W>,
     ) -> Self {
@@ -531,7 +531,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
         );
         for (index, state) in self.states.iter().enumerate() {
             rust!(self.out, "// State {}", index);
-            let reduction = Self::write_reduction(&self.custom, state, &Token::EOF);
+            let reduction = Self::write_reduction(&self.custom, state, &Token::Eof);
             self.out.write_table_row(Some(reduction))?;
         }
         rust!(self.out, "];");
@@ -673,7 +673,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
 
     fn write_reduction<'s>(
         custom: &TableDriven<'grammar>,
-        state: &'s LR1State,
+        state: &'s Lr1State,
         token: &Token,
     ) -> (i32, Comment<'s, Token>) {
         let reduction = state

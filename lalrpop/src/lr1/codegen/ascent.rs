@@ -21,7 +21,7 @@ pub fn compile<'grammar, W: Write>(
     grammar: &'grammar Grammar,
     user_start_symbol: NonterminalString,
     start_symbol: NonterminalString,
-    states: &[LR1State<'grammar>],
+    states: &[Lr1State<'grammar>],
     action_module: &str,
     out: &mut RustWrite<W>,
 ) -> io::Result<()> {
@@ -120,7 +120,7 @@ impl<'ascent, 'grammar, W: Write>
         user_start_symbol: NonterminalString,
         start_symbol: NonterminalString,
         graph: &'ascent StateGraph,
-        states: &'ascent [LR1State<'grammar>],
+        states: &'ascent [Lr1State<'grammar>],
         action_module: &str,
         out: &'ascent mut RustWrite<W>,
     ) -> Self {
@@ -153,7 +153,7 @@ impl<'ascent, 'grammar, W: Write>
     }
 
     /// Compute the stack suffix that the state expects on entry.
-    fn state_input_for(state: &'ascent LR1State<'grammar>) -> StackSuffix<'grammar> {
+    fn state_input_for(state: &'ascent Lr1State<'grammar>) -> StackSuffix<'grammar> {
         let max_prefix = state.max_prefix();
         let will_pop = state.will_pop();
         StackSuffix {
@@ -344,7 +344,7 @@ impl<'ascent, 'grammar, W: Write>
                     Token::Error => {
                         panic!("Error recovery is not implemented for recursive ascent parsers")
                     }
-                    Token::EOF => "None".to_string(),
+                    Token::Eof => "None".to_string(),
                 };
                 if index < tokens.len() - 1 {
                     rust!(self.out, "{} |", pattern);
@@ -434,7 +434,7 @@ impl<'ascent, 'grammar, W: Write>
 
         rust!(
             self.out,
-            "{}lalrpop_util::ParseError::UnrecognizedEOF {{",
+            "{}lalrpop_util::ParseError::UnrecognizedEof {{",
             self.prefix
         );
         rust!(self.out, "location: {}location,", self.prefix);

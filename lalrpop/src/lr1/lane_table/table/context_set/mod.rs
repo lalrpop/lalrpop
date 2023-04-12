@@ -83,7 +83,7 @@ impl ContextSet {
         Ok(self.values[conflict.index].union_with(set))
     }
 
-    pub fn apply<'grammar>(&self, state: &mut LR1State<'grammar>, actions: &Set<Action<'grammar>>) {
+    pub fn apply<'grammar>(&self, state: &mut Lr1State<'grammar>, actions: &Set<Action<'grammar>>) {
         // create a map from each action to its lookahead
         let lookaheads: Map<Action<'grammar>, &TokenSet> =
             actions.iter().cloned().zip(&self.values).collect();
