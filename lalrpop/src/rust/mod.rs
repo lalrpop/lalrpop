@@ -7,10 +7,25 @@ use crate::tls::Tls;
 use std::fmt::{self, Display};
 use std::io::{self, Write};
 
+// The `rust` macro should be called only on a `RustWrite` instance.
+#[doc(hidden)]
+#[inline(always)]
+#[cfg(debug_assertions)]
+pub const fn assert_rust_write<W>(_: &RustWrite<W>) {}
+
+/// Like [`std::writeln!`], but for writing Rust code to a [`RustWrite`], which handles indentation.
 macro_rules! rust {
-    ($w:expr, $($args:tt)*) => {
-        ($w).writeln(&::std::fmt::format(format_args!($($args)*)))?
-    }
+    ($w:expr) => {{
+        #[cfg(debug_assertions)]
+        let _ = $crate::rust::assert_rust_write(&$w);
+        ::std::writeln!($w)?;
+    }};
+
+    ($w:expr, $($args:tt)*) => {{
+        #[cfg(debug_assertions)]
+        let _ = $crate::rust::assert_rust_write(&$w);
+        ::std::writeln!($w, $($args)*)?;
+    }};
 }
 
 /// A wrapper around a Write instance that handles indentation for
@@ -33,14 +48,14 @@ macro_rules! rust {
 /// }
 /// }
 /// ```
-pub struct RustWrite<W: Write> {
+pub struct RustWrite<W> {
     write: W,
     indent: usize,
 }
 
 const TAB: usize = 4;
 
-impl<'me, W: Write> RustWrite<W> {
+impl<W: Write> RustWrite<W> {
     pub fn new(w: W) -> RustWrite<W> {
         RustWrite {
             write: w,
@@ -59,11 +74,6 @@ impl<'me, W: Write> RustWrite<W> {
         Ok(())
     }
 
-    fn write_indented(&mut self, out: &str) -> io::Result<()> {
-        self.write_indentation()?;
-        writeln!(self.write, "{}", out)
-    }
-
     pub fn write_table_row<I, C>(&mut self, iterable: I) -> io::Result<()>
     where
         I: IntoIterator<Item = (i32, C)>,
@@ -73,7 +83,7 @@ impl<'me, W: Write> RustWrite<W> {
         if session.emit_comments {
             for (i, comment) in iterable {
                 self.write_indentation()?;
-                writeln!(self.write, "{}, {}", i, comment)?;
+                writeln!(self.write, "{i}, {comment}")?;
             }
         } else {
             self.write_indentation()?;
@@ -82,32 +92,48 @@ impl<'me, W: Write> RustWrite<W> {
                 if !first && session.emit_whitespace {
                     write!(self.write, " ")?;
                 }
-                write!(self.write, "{},", i)?;
+                write!(self.write, "{i},")?;
                 first = false;
             }
         }
         writeln!(self.write)
     }
 
-    pub fn writeln(&mut self, out: &str) -> io::Result<()> {
-        let buf = out.as_bytes();
+    // This function is intentionally not implemented with the `Write` trait
+    // because it is only called using the `rust!` macro, and thus with a `buf`
+    // that always ends with a `\n`.
+    #[doc(hidden)]
+    #[track_caller]
+    pub fn write_fmt(&mut self, args: fmt::Arguments<'_>) -> io::Result<()> {
+        // avoid intermediate allocation for simple format strings
+        let formatted;
+        let buf = match args.as_str() {
+            Some(s) => s.as_bytes(),
+            None => {
+                formatted = fmt::format(args);
+                formatted.as_bytes()
+            }
+        };
 
         // pass empty lines through with no indentation
-        if buf.is_empty() {
-            return self.write.write_all("\n".as_bytes());
+        match buf {
+            [] => return Ok(()),
+            [b'\n'] => return self.write.write_all(b"\n"),
+            [.., b'\n'] => {}
+            _ => unreachable!("rust! macro should always end with a newline"),
         }
 
-        let n = buf.len() - 1;
-
         // If the line begins with a `}`, `]`, or `)`, first decrement the indentation.
-        if buf[0] == b'}' || buf[0] == b']' || buf[0] == b')' {
+        if matches!(buf.first().unwrap(), b'}' | b']' | b')') {
             self.indent -= TAB;
         }
 
-        self.write_indented(out)?;
+        self.write_indentation()?;
+        self.write.write_all(buf)?;
 
-        // Detect a line that ends in a `{` or `(` and increase indentation for future lines.
-        if buf[n] == b'{' || buf[n] == b'[' || buf[n] == b'(' {
+        // If a line ends with a `{`, `[`, or `(`, increase indentation for future lines.
+        let n = buf.len().saturating_sub(2);
+        if matches!(buf[n], b'{' | b'[' | b'(') {
             self.indent += TAB;
         }
 
@@ -116,13 +142,17 @@ impl<'me, W: Write> RustWrite<W> {
 
     /// Create and return fn-header builder. Don't forget to invoke
     /// `emit` at the end. =)
-    pub fn fn_header(&'me mut self, visibility: &'me Visibility, name: String) -> FnHeader<'me, W> {
+    pub fn fn_header<'me>(
+        &'me mut self,
+        visibility: &'me Visibility,
+        name: String,
+    ) -> FnHeader<'me, W> {
         FnHeader::new(self, visibility, name)
     }
 
     pub fn write_module_attributes(&mut self, grammar: &Grammar) -> io::Result<()> {
         for attribute in grammar.module_attributes.iter() {
-            rust!(self, "{}", attribute);
+            rust!(self, "{attribute}");
         }
         Ok(())
     }

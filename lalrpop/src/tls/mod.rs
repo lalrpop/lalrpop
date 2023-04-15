@@ -17,8 +17,7 @@ struct TlsFields {
 }
 
 thread_local! {
-    static THE_TLS_FIELDS: RefCell<Option<TlsFields>> =
-        RefCell::new(None)
+    static THE_TLS_FIELDS: RefCell<Option<TlsFields>> = const { RefCell::new(None) };
 }
 
 impl Tls {
@@ -46,7 +45,7 @@ impl Tls {
         THE_TLS_FIELDS.with(|s| {
             let mut s = s.borrow_mut();
             assert!(s.is_none());
-            *s = Some(fields.clone());
+            *s = Some(fields);
         });
 
         Tls { _dummy: () }
