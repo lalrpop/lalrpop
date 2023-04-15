@@ -69,7 +69,7 @@ fn enumerator() {
     let enumerator = graph.lr0_examples(Item::lr0(&productions[0], 1));
     let list: Vec<_> = enumerator.map(|example| example.paint_unstyled()).collect();
     expect_debug(
-        &list,
+        list,
         r#"
 [
     [
@@ -142,7 +142,7 @@ fn enumerator1() {
     let enumerator = graph.lr0_examples(Item::lr0(&productions[0], 2));
     let list: Vec<_> = enumerator.map(|example| example.paint_unstyled()).collect();
     expect_debug(
-        &list,
+        list,
         r#"
 [
     [

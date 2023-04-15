@@ -86,7 +86,7 @@ fn backtrace1() {
         .map(|e| e.paint_unstyled())
         .collect();
     expect_debug(
-        &pictures,
+        pictures,
         r#"
 [
     [
@@ -173,7 +173,7 @@ pub Ty: () = {
         .map(|e| e.paint_unstyled())
         .collect();
     expect_debug(
-        &pictures,
+        pictures,
         r#"
 [
     [
@@ -233,7 +233,7 @@ pub Ty: () = {
         .map(|example| example.paint_unstyled())
         .collect();
     expect_debug(
-        &list,
+        list,
         r#"
 [
     [
@@ -308,7 +308,7 @@ fn backtrace_filter() {
         .map(|e| e.paint_unstyled())
         .collect();
     expect_debug(
-        &pictures,
+        pictures,
         r#"
 [
     [
@@ -351,7 +351,7 @@ fn backtrace_filter() {
         .map(|e| e.paint_unstyled())
         .collect();
     expect_debug(
-        &pictures,
+        pictures,
         r#"
 [
     [

@@ -155,7 +155,7 @@ where
         Ok(())
     }
 
-    fn write_conflict<'grammar, L>(&mut self, conflict: &Conflict<'grammar, L>) -> io::Result<()>
+    fn write_conflict<L>(&mut self, conflict: &Conflict<'_, L>) -> io::Result<()>
     where
         L: Lookahead + LookaheadPrinter<W>,
     {
@@ -196,7 +196,7 @@ where
         Ok(())
     }
 
-    fn write_items<'grammar, L>(&mut self, items: &Items<'grammar, L>) -> io::Result<()>
+    fn write_items<L>(&mut self, items: &Items<'_, L>) -> io::Result<()>
     where
         L: Lookahead + LookaheadPrinter<W>,
     {
@@ -209,11 +209,7 @@ where
         Ok(())
     }
 
-    fn write_item<'grammar, L>(
-        &mut self,
-        item: &Item<'grammar, L>,
-        max_width: usize,
-    ) -> io::Result<()>
+    fn write_item<L>(&mut self, item: &Item<'_, L>, max_width: usize) -> io::Result<()>
     where
         L: Lookahead + LookaheadPrinter<W>,
     {
@@ -253,10 +249,7 @@ where
         Ok(())
     }
 
-    fn write_reductions<'grammar, L>(
-        &mut self,
-        reductions: &[(L, &'grammar Production)],
-    ) -> io::Result<()>
+    fn write_reductions<L>(&mut self, reductions: &[(L, &Production)]) -> io::Result<()>
     where
         L: Lookahead + LookaheadPrinter<W>,
     {
@@ -268,11 +261,7 @@ where
         Ok(())
     }
 
-    fn write_production<'grammar>(
-        &mut self,
-        production: &'grammar Production,
-        max_width: usize,
-    ) -> io::Result<()> {
+    fn write_production(&mut self, production: &Production, max_width: usize) -> io::Result<()> {
         write!(
             self.out,
             "{:width$} ->",
@@ -286,9 +275,9 @@ where
         Ok(())
     }
 
-    fn write_reduction<'grammar, L>(
+    fn write_reduction<L>(
         &mut self,
-        reduction: &(L, &'grammar Production),
+        reduction: &(L, &Production),
         max_width: usize,
     ) -> io::Result<()>
     where
@@ -346,7 +335,7 @@ trait LookaheadPrinter<W>
 where
     W: Write,
 {
-    fn print<'report>(&self, out: &'report mut W) -> io::Result<()>;
+    fn print(&self, out: &mut W) -> io::Result<()>;
 
     fn has_anything_to_print(&self) -> bool;
 }
@@ -355,7 +344,7 @@ impl<W> LookaheadPrinter<W> for Nil
 where
     W: Write,
 {
-    fn print<'report>(&self, _: &'report mut W) -> io::Result<()> {
+    fn print(&self, _: &mut W) -> io::Result<()> {
         Ok(())
     }
 
@@ -368,7 +357,7 @@ impl<W> LookaheadPrinter<W> for TokenSet
 where
     W: Write,
 {
-    fn print<'report>(&self, out: &'report mut W) -> io::Result<()> {
+    fn print(&self, out: &mut W) -> io::Result<()> {
         for i in self.iter() {
             write!(out, " {}", i)?
         }

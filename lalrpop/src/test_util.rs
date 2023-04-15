@@ -49,7 +49,7 @@ pub fn compare<D: Debug, E: Debug>(actual: D, expected: E) {
 
     /// Ignore differences in `Span` values, by replacing them all with fixed
     /// dummy text.
-    fn normalize<'t>(with_spans: &'t str) -> std::borrow::Cow<'t, str> {
+    fn normalize(with_spans: &str) -> std::borrow::Cow<'_, str> {
         SPAN.with(|span| span.replace_all(with_spans, "Span(..)"))
     }
 }

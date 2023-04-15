@@ -199,7 +199,7 @@ impl LookaheadInterpret for TokenSet {
         state
             .reductions
             .iter()
-            .filter(|&&(ref tokens, _)| tokens.contains(token))
+            .filter(|&(tokens, _)| tokens.contains(token))
             .map(|&(_, production)| production)
             .next()
     }

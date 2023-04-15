@@ -65,7 +65,7 @@ pub Ty: () = {
         .map(|example| example.paint_unstyled())
         .collect();
     expect_debug(
-        &list,
+        list,
         r#"
 [
     [
