@@ -1,3 +1,4 @@
+#!/bin/bash
 set -e -u -o pipefail
 
 export RUST_BACKTRACE=1
