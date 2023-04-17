@@ -5,7 +5,7 @@ pub mod ast;
 pub mod eval;
 pub mod lexer;
 
-lalrpop_mod!(pub parser);
+lalrpop_mod!(#[allow(clippy::all)] pub parser);
 
 pub fn compile(input: &str) -> Result<ast::Program, String> {
     match parser::ProgramParser::new().parse(lexer::Lexer::new(input)) {

@@ -1,14 +1,14 @@
 #![cfg_attr(not(test), allow(dead_code, unused_imports))]
 #![allow(unused_doc_comments)]
 
-extern crate diff;
-#[macro_use]
-extern crate lalrpop_util;
-
 use std::cell::RefCell;
 use std::fs;
 use std::path::Path;
 use std::process::Command;
+
+extern crate diff;
+#[macro_use]
+extern crate lalrpop_util;
 
 use lalrpop_util::{ErrorRecovery, ParseError};
 
@@ -16,79 +16,85 @@ use crate::util::tok::Tok;
 
 mod util;
 
+macro_rules! lalrpop_mod_test {
+    ($(#[$attr:meta])* $vis:vis $modname:ident) => {
+        lalrpop_mod!(#[allow(clippy::all)] $(#[$attr])* $vis $modname);
+    }
+}
+
 /// Tests that actions can return the grammar's type parameters' associated
 /// types.
-lalrpop_mod!(associated_types);
+lalrpop_mod_test!(associated_types);
 mod associated_types_lib;
 
 /// demonstration from the Greene text; one of the simplest grammars
 /// that still ensures we get parse tree correct
-lalrpop_mod!(sub);
+lalrpop_mod_test!(sub);
 
 /// test something other than test-all
-lalrpop_mod!(sub_ascent);
-lalrpop_mod!(sub_table);
+lalrpop_mod_test!(sub_ascent);
+lalrpop_mod_test!(sub_table);
 
 /// more interesting demonstration of parsing full expressions
-lalrpop_mod!(expr);
+lalrpop_mod_test!(expr);
 
 /// more interesting demonstration of parsing full expressions, using LALR not LR
-lalrpop_mod!(expr_lalr);
+lalrpop_mod_test!(expr_lalr);
 
 /// more interesting demonstration of parsing full expressions, using intern tok
-lalrpop_mod!(expr_intern_tok);
+lalrpop_mod_test!(expr_intern_tok);
 
 /// tests #![attributes] for generated module
-lalrpop_mod!(
+lalrpop_mod_test!(
     #[allow(dead_code, unknown_lints)]
     expr_module_attributes
 );
 
 /// test that passes in lifetime/type/formal parameters and threads
 /// them through, building an AST from the result
-lalrpop_mod!(expr_arena);
+lalrpop_mod_test!(expr_arena);
 
 /// definitions of the AST
 mod expr_arena_ast;
 
 /// expr defined with a generic type `F`
-lalrpop_mod!(expr_generic);
+lalrpop_mod_test!(expr_generic);
 
-lalrpop_mod!(generics_issue_104);
+lalrpop_mod_test!(generics_issue_104);
 mod generics_issue_104_lib;
 
 /// Grammar parameterized by `F` with where clause `where F: for<'a> FnMut(&'a
 /// str)`.
-lalrpop_mod!(where_clause_with_forall);
+lalrpop_mod_test!(where_clause_with_forall);
 
 /// test of inlining
-lalrpop_mod!(inline);
+lalrpop_mod_test!(inline);
 
 /// test that exercises internal token generation, as well as locations and spans
-lalrpop_mod!(intern_tok);
+lalrpop_mod_test!(intern_tok);
 
 /// test that exercises using a lifetime parameter in the token type
-lalrpop_mod!(lifetime_tok);
+lalrpop_mod_test!(lifetime_tok);
 
 /// library for lifetime_tok test
 mod lifetime_tok_lib;
 
 /// test that exercises locations and spans
-lalrpop_mod!(loc);
+lalrpop_mod_test!(loc);
 
 /// regression test for location issue #90
-lalrpop_mod!(loc_issue_90);
+lalrpop_mod_test!(loc_issue_90);
 mod loc_issue_90_lib;
 
 /// tests that user can use `<mut v:E+> <e:T> => { v.push(e); v }` instead of
 /// `<v:E+> <e:T> => { let mut v = v; v.push(e); v }`
-lalrpop_mod!(mut_name);
+lalrpop_mod_test!(mut_name);
 
 /// test that uses `super` in paths in various places
-lalrpop_mod!(use_super);
+lalrpop_mod_test!(use_super);
 
 /// regression test for #480 (`use super` with default tokenizer)
-lalrpop_mod!(use_super_internal_tok);
+lalrpop_mod_test!(use_super_internal_tok);
 
 mod pub_in;
 
@@ -97,71 +103,71 @@ mod pub_in;
 pub struct MyCustomError(char);
 
 /// test that exercises locations, spans, and custom errors
-lalrpop_mod!(error);
-lalrpop_mod!(error_issue_113);
+lalrpop_mod_test!(error);
+lalrpop_mod_test!(error_issue_113);
 
 /// Test error recovery
-lalrpop_mod!(error_recovery);
-lalrpop_mod!(error_recovery_pull_182);
-lalrpop_mod!(error_recovery_issue_240);
-lalrpop_mod!(error_recovery_lalr_loop);
-lalrpop_mod!(error_recovery_lock_in);
-lalrpop_mod!(error_recovery_span);
-lalrpop_mod!(
+lalrpop_mod_test!(error_recovery);
+lalrpop_mod_test!(error_recovery_pull_182);
+lalrpop_mod_test!(error_recovery_issue_240);
+lalrpop_mod_test!(error_recovery_lalr_loop);
+lalrpop_mod_test!(error_recovery_lock_in);
+lalrpop_mod_test!(error_recovery_span);
+lalrpop_mod_test!(
     #[allow(dead_code)]
     error_recovery_type_in_macro
 );
 
 /// test for inlining expansion issue #55
-lalrpop_mod!(issue_55);
+lalrpop_mod_test!(issue_55);
 
 /// test for issue #573
-lalrpop_mod!(lexer_generic);
+lalrpop_mod_test!(lexer_generic);
 mod lexer_generic_lib;
 
 /// test for inlining of fallible NTs (issue #91)
-lalrpop_mod!(inline_fallible);
+lalrpop_mod_test!(inline_fallible);
 
 /// test for unit action code
-lalrpop_mod!(unit);
+lalrpop_mod_test!(unit);
 
 /// test for match section
-lalrpop_mod!(match_section);
-lalrpop_mod!(match_section_byte);
-lalrpop_mod!(match_alternatives);
+lalrpop_mod_test!(match_section);
+lalrpop_mod_test!(match_section_byte);
+lalrpop_mod_test!(match_alternatives);
 
 /// regression test for issue #253.
-lalrpop_mod!(partial_parse);
+lalrpop_mod_test!(partial_parse);
 
 /// regression test for issue #278.
-lalrpop_mod!(error_issue_278);
+lalrpop_mod_test!(error_issue_278);
 
 /// test for generic macros issue #417.
-lalrpop_mod!(generics_issue_417);
+lalrpop_mod_test!(generics_issue_417);
 
-lalrpop_mod!(
+lalrpop_mod_test!(
     #[deny(overflowing_literals)]
     #[allow(unused)]
     issue_394
 );
 
-lalrpop_mod!(
+lalrpop_mod_test!(
     // No parser should have been generated so nothing should be unused
     #[deny(dead_code)]
     cfg
 );
 
-lalrpop_mod!(
+lalrpop_mod_test!(
     #[deny(bare_trait_objects)]
     #[allow(unused)]
     dyn_argument
 );
 
-lalrpop_mod!(comments);
+lalrpop_mod_test!(comments);
 
-lalrpop_mod!(sp_from_optional);
+lalrpop_mod_test!(sp_from_optional);
 
-lalrpop_mod!(nested);
+lalrpop_mod_test!(nested);
 
 pub fn use_cfg_created_parser() {
     cfg::CreatedParser::new();
