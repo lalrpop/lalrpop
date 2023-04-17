@@ -1,7 +1,12 @@
-#[macro_use]
-extern crate lalrpop_util;
+use lalrpop_util::lalrpop_mod;
 
-lalrpop_mod!(pub calculator1); // syntesized by LALRPOP
+macro_rules! lalrpop_mod_doc {
+    ($vis:vis $name:ident) => {
+        lalrpop_util::lalrpop_mod!(#[allow(clippy::all)] $vis $name);
+    }
+}
+
+lalrpop_mod_doc!(pub calculator1); // syntesized by LALRPOP
 
 #[test]
 fn calculator1() {
@@ -11,7 +16,7 @@ fn calculator1() {
     assert!(calculator1::TermParser::new().parse("((22)").is_err());
 }
 
-lalrpop_mod!(pub calculator2);
+lalrpop_mod_doc!(pub calculator2);
 
 #[test]
 fn calculator2() {
@@ -21,7 +26,7 @@ fn calculator2() {
     assert!(calculator2::TermParser::new().parse("((22)").is_err());
 }
 
-lalrpop_mod!(pub calculator2b);
+lalrpop_mod_doc!(pub calculator2b);
 
 #[test]
 fn calculator2b() {
@@ -38,7 +43,7 @@ fn calculator2b() {
     assert_eq!(result, "222");
 }
 
-lalrpop_mod!(pub calculator3);
+lalrpop_mod_doc!(pub calculator3);
 
 #[cfg_attr(not(test), allow(unused_macros))]
 macro_rules! test3 {
@@ -62,7 +67,7 @@ fn calculator3() {
     test3!(22 * (44 + 66) / 3);
 }
 
-lalrpop_mod!(pub calculator4);
+lalrpop_mod_doc!(pub calculator4);
 mod ast;
 
 #[test]
@@ -73,7 +78,7 @@ fn calculator4() {
     assert_eq!(&format!("{:?}", expr), "((22 * 44) + 66)");
 }
 
-lalrpop_mod!(pub calculator5);
+lalrpop_mod_doc!(pub calculator5);
 
 #[test]
 fn calculator5() {
@@ -101,7 +106,7 @@ fn calculator5() {
     assert_eq!(&format!("{:?}", expr), "[((22 * 44) + 66), (13 * 3)]");
 }
 
-lalrpop_mod!(pub calculator6);
+lalrpop_mod_doc!(pub calculator6);
 
 #[test]
 fn calculator6() {
@@ -116,7 +121,7 @@ pub enum Calculator6Error {
     OddNumber,
 }
 
-lalrpop_mod!(pub calculator6b);
+lalrpop_mod_doc!(pub calculator6b);
 
 #[test]
 fn calculator6b() {
@@ -141,7 +146,7 @@ fn calculator6b() {
     );
 }
 
-lalrpop_mod!(pub calculator7);
+lalrpop_mod_doc!(pub calculator7);
 
 #[test]
 fn calculator7() {
@@ -165,7 +170,7 @@ fn calculator7() {
     assert_eq!(errors.len(), 4);
 }
 
-lalrpop_mod!(pub calculator8);
+lalrpop_mod_doc!(pub calculator8);
 
 #[test]
 fn calculator8() {
@@ -176,7 +181,7 @@ fn calculator8() {
     assert_eq!(&format!("{:?}", expr), "((22 * 44) + 66)");
 }
 
-lalrpop_mod!(pub calculator9);
+lalrpop_mod_doc!(pub calculator9);
 pub mod tok9;
 
 #[test]
