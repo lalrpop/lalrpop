@@ -21,7 +21,6 @@ macro_rules! lalrpop_mod_test {
         lalrpop_mod!(
             #[allow(clippy::ptr_arg)]
             #[allow(clippy::vec_box)]
-            #[allow(clippy::needless_lifetimes)]
             $(#[$attr])* $vis $modname);
     }
 }

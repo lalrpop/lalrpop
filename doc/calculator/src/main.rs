@@ -5,7 +5,6 @@ macro_rules! lalrpop_mod_doc {
         lalrpop_util::lalrpop_mod!(
             #[allow(clippy::ptr_arg)]
             #[allow(clippy::vec_box)]
-            #[allow(clippy::needless_lifetimes)]
             $vis $name);
     }
 }
