@@ -24,10 +24,7 @@ pub use self::core::{LR1Result, LR1TableConstructionError};
 pub use self::error::report_error;
 pub use self::tls::Lr1Tls;
 
-pub fn build_states<'grammar>(
-    grammar: &'grammar Grammar,
-    start: NonterminalString,
-) -> LR1Result<'grammar> {
+pub fn build_states(grammar: &Grammar, start: NonterminalString) -> LR1Result<'_> {
     let mut lr1_states = if !grammar.algorithm.lalr {
         build::build_lr1_states(grammar, start)?
     } else {

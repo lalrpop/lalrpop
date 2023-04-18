@@ -36,7 +36,7 @@ fn hello_world() {
     let mut canvas = AsciiCanvas::new(0, min_width);
     msg.emit(&mut canvas);
     expect_debug(
-        &canvas.to_strings(),
+        canvas.to_strings(),
         r#"
 [
     "tmp.txt:1:1: 1:2: Hello, world!",
@@ -70,7 +70,7 @@ fn long_body() {
     let mut canvas = AsciiCanvas::new(0, min_width);
     msg.emit(&mut canvas);
     expect_debug(
-        &canvas.to_strings(),
+        canvas.to_strings(),
         r#"
 [
     "tmp.txt:1:1: 1:2: Hello, world!",

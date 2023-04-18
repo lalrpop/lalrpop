@@ -72,8 +72,6 @@ pub fn parse_type_ref(input: &str) -> Result<TypeRef, ParseError<'_>> {
 }
 
 #[cfg(test)]
-pub fn parse_where_clauses<'input>(
-    input: &'input str,
-) -> Result<Vec<WhereClause<TypeRef>>, ParseError<'input>> {
+pub fn parse_where_clauses(input: &str) -> Result<Vec<WhereClause<TypeRef>>, ParseError<'_>> {
     parser!(input, 0, GrammarWhereClauses, StartGrammarWhereClauses)
 }
