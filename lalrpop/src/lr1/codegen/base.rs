@@ -44,6 +44,7 @@ pub struct CodeGenerator<'codegen, 'grammar: 'codegen, W: Write + 'codegen, C> {
 }
 
 impl<'codegen, 'grammar, W: Write, C> CodeGenerator<'codegen, 'grammar, W, C> {
+    #[allow(clippy::too_many_arguments)]
     pub fn new(
         grammar: &'grammar Grammar,
         user_start_symbol: NonterminalString,

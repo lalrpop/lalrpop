@@ -21,6 +21,8 @@ pub enum Node<'ast> {
 }
 
 pub struct Arena<'ast> {
+    // Allowed because we want to give out pointers to the underlying elements, not to the vec itself(which can be moved on resize).
+    #[allow(clippy::vec_box)]
     data: RefCell<Vec<Box<Node<'ast>>>>,
 }
 
