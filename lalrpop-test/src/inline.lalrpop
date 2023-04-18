@@ -2,12 +2,12 @@
 grammar;
 
 pub E: String = {
-    "L" => format!("L"),
+    "L" => "L".to_string(),
     "&" <OPT_L> <E> => format!("& {} {}", <>),
 };
 
 #[inline] // without this, it'd be a SR conflict
 OPT_L: String = {
-    () => format!("()"),
-    "L" => format!("L"),
+    () => "()".to_string(),
+    "L" => "L".to_string(),
 };

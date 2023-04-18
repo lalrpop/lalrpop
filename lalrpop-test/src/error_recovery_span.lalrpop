@@ -34,7 +34,7 @@ pub Expr: String = {
 
     <@L> ! <@R> => {
         errors.push((<>));
-        format!("!")
+        "!".to_string()
     },
 };
 

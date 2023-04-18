@@ -124,7 +124,7 @@ if to produce a **string**, and we'll add an "easter egg" so that `22`
 pub Term = {
     Num,
     "(" <Term> ")",
-    "22" => format!("Twenty-two!"),
+    "22" => "Twenty-two!".to_string(),
 };
 
 Num: String = r"[0-9]+" => <>.to_string();
@@ -299,7 +299,7 @@ And then adjusting the definition of `Term` to reference `ID` instead:
 pub Term = {
     Num,
     "(" <Term> ")",
-    "22" => format!("Twenty-two!"),
+    "22" => "Twenty-two!".to_string(),
     ID => format!("Id({})", <>), // <-- changed this
 };
 ```
