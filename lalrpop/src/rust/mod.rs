@@ -243,7 +243,11 @@ impl<'me, W: Write> FnHeader<'me, W> {
             rust!(self.write, "{},", parameter);
         }
 
-        rust!(self.write, ") -> {}", self.return_type);
+        if self.return_type == "()" {
+            rust!(self.write, ")");
+        } else {
+            rust!(self.write, ") -> {}", self.return_type);
+        }
 
         if !self.where_clauses.is_empty() {
             rust!(self.write, "where");

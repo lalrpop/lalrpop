@@ -130,7 +130,12 @@ fn emit_user_action_code<W: Write>(
     .emit()?;
 
     rust!(rust, "{{");
-    rust!(rust, "{}", data.code);
+
+    // The user did not provide any code
+    if data.code != "()" {
+        rust!(rust, "{}", data.code);
+    }
+
     rust!(rust, "}}");
     Ok(())
 }
