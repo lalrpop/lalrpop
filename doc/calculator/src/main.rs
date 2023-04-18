@@ -6,7 +6,6 @@ macro_rules! lalrpop_mod_doc {
             #[allow(clippy::ptr_arg)]
             #[allow(clippy::vec_box)]
             #[allow(clippy::needless_lifetimes)]
-            #[allow(clippy::just_underscores_and_digits)]
             $vis $name);
     }
 }

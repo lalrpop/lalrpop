@@ -18,7 +18,11 @@ mod util;
 
 macro_rules! lalrpop_mod_test {
     ($(#[$attr:meta])* $vis:vis $modname:ident) => {
-        lalrpop_mod!(#[allow(clippy::all)] $(#[$attr])* $vis $modname);
+        lalrpop_mod!(
+            #[allow(clippy::ptr_arg)]
+            #[allow(clippy::vec_box)]
+            #[allow(clippy::needless_lifetimes)]
+            $(#[$attr])* $vis $modname);
     }
 }
 

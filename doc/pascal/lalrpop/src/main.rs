@@ -14,7 +14,6 @@ lalrpop_mod!(
     #[allow(clippy::ptr_arg)]
     #[allow(clippy::vec_box)]
     #[allow(clippy::needless_lifetimes)]
-    #[allow(clippy::just_underscores_and_digits)]
     #[allow(clippy::let_unit_value)]
     #[allow(clippy::too_many_arguments)]
     pascal

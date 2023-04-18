@@ -191,6 +191,8 @@ macro_rules! lalrpop_mod {
 
     ($(#[$attr:meta])* $vis:vis $modname:ident, $source:expr) => {
         #[rustfmt::skip]
+        #[allow(clippy::extra_unused_lifetimes)]
+        #[allow(clippy::just_underscores_and_digits)]
         $(#[$attr])* $vis mod $modname { include!(concat!(env!("OUT_DIR"), $source)); }
     };
 }
