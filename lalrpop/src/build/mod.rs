@@ -443,6 +443,7 @@ fn emit_recursive_ascent(
 
     action::emit_action_code(grammar, &mut rust)?;
 
+    rust!(rust, "#[allow(clippy::type_complexity)]");
     emit_to_triple_trait(grammar, &mut rust)?;
 
     Ok(rust.into_inner())
