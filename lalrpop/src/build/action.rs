@@ -256,7 +256,7 @@ fn emit_inline_action_code<W: Write>(
 
                     rust!(
                         rust,
-                        "let {}start{} = {}{}.0.clone();",
+                        "let {}start{} = {}{}.0;",
                         grammar.prefix,
                         temp_counter,
                         grammar.prefix,
@@ -266,7 +266,7 @@ fn emit_inline_action_code<W: Write>(
                     let last_arg_index = arg_counter + syms.len() - 1;
                     rust!(
                         rust,
-                        "let {}end{} = {}{}.2.clone();",
+                        "let {}end{} = {}{}.2;",
                         grammar.prefix,
                         temp_counter,
                         grammar.prefix,
@@ -282,7 +282,7 @@ fn emit_inline_action_code<W: Write>(
                     if arg_counter > 0 {
                         rust!(
                             rust,
-                            "let {}start{} = {}{}.2.clone();",
+                            "let {}start{} = {}{}.2;",
                             grammar.prefix,
                             temp_counter,
                             grammar.prefix,
@@ -291,7 +291,7 @@ fn emit_inline_action_code<W: Write>(
                     } else if num_flat_args > 0 {
                         rust!(
                             rust,
-                            "let {}start{} = {}{}.0.clone();",
+                            "let {}start{} = {}{}.0;",
                             grammar.prefix,
                             temp_counter,
                             grammar.prefix,
@@ -300,7 +300,7 @@ fn emit_inline_action_code<W: Write>(
                     } else {
                         rust!(
                             rust,
-                            "let {}start{} = {}lookbehind.clone();",
+                            "let {}start{} = *{}lookbehind;",
                             grammar.prefix,
                             temp_counter,
                             grammar.prefix
@@ -310,7 +310,7 @@ fn emit_inline_action_code<W: Write>(
                     if arg_counter < num_flat_args {
                         rust!(
                             rust,
-                            "let {}end{} = {}{}.0.clone();",
+                            "let {}end{} = {}{}.0;",
                             grammar.prefix,
                             temp_counter,
                             grammar.prefix,
@@ -319,7 +319,7 @@ fn emit_inline_action_code<W: Write>(
                     } else if num_flat_args > 0 {
                         rust!(
                             rust,
-                            "let {}end{} = {}{}.2.clone();",
+                            "let {}end{} = {}{}.2;",
                             grammar.prefix,
                             temp_counter,
                             grammar.prefix,
@@ -328,7 +328,7 @@ fn emit_inline_action_code<W: Write>(
                     } else {
                         rust!(
                             rust,
-                            "let {}end{} = {}lookahead.clone();",
+                            "let {}end{} = *{}lookahead;",
                             grammar.prefix,
                             temp_counter,
                             grammar.prefix

@@ -1067,11 +1067,11 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
         if let (Some(first_sym), Some(last_sym)) = (transfer_syms.first(), transfer_syms.last()) {
             rust!(
                 self.out,
-                "let {}start = {}.0.clone();",
+                "let {}start = {}.0;",
                 self.prefix,
                 first_sym
             );
-            rust!(self.out, "let {}end = {}.2.clone();", self.prefix, last_sym);
+            rust!(self.out, "let {}end = {}.2;", self.prefix, last_sym);
         } else {
             // we pop no symbols, so grab from the top of the stack
             // (unless we are in the start state, in which case the

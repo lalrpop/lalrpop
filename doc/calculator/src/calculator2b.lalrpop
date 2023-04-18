@@ -3,7 +3,7 @@ grammar;
 pub Term = {
     Num,
     "(" <Term> ")",
-    "22" => format!("Twenty-two!"),
+    "22" => "Twenty-two!".to_string(),
     ID => format!("Id({})", <>),
 };
 
