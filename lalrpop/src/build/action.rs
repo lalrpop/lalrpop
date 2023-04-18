@@ -120,6 +120,7 @@ fn emit_user_action_code<W: Write>(
         ]);
     }
 
+    rust!(rust, "#[allow(clippy::too_many_arguments)]");
     rust.fn_header(
         &r::Visibility::Priv,
         format!("{}action{}", grammar.prefix, index),
@@ -174,11 +175,11 @@ fn emit_lookaround_action_code<W: Write>(
             // at EOF, so taker the lookbehind (end of last
             // pushed token); if that is missing too, then
             // supply default.
-            rust!(rust, "{}lookahead.clone()", grammar.prefix);
+            rust!(rust, "*{}lookahead", grammar.prefix);
         }
         r::LookaroundActionFnDefn::Lookbehind => {
             // take lookbehind or supply default
-            rust!(rust, "{}lookbehind.clone()", grammar.prefix);
+            rust!(rust, "*{}lookbehind", grammar.prefix);
         }
     }
     rust!(rust, "}}");
@@ -233,6 +234,7 @@ fn emit_inline_action_code<W: Write>(
         ]);
     }
 
+    rust!(rust, "#[allow(clippy::too_many_arguments)]");
     rust.fn_header(
         &r::Visibility::Priv,
         format!("{}action{}", grammar.prefix, index),
