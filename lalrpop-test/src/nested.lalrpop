@@ -1,6 +1,6 @@
 grammar<'input>;
 
-use util::tok::{Tok, Delim};
+use crate::util::tok::{Tok, Delim};
 
 extern {
     enum Tok<'input> {

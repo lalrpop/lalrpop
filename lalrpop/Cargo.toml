@@ -9,6 +9,7 @@ categories = ["parsing"]
 license = "Apache-2.0 OR MIT"
 authors = ["Niko Matsakis <niko@alum.mit.edu>"]
 workspace = ".."
+edition = "2021"
 
 exclude = ["build.rs"]
 

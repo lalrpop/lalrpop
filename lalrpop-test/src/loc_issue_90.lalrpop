@@ -1,4 +1,4 @@
-use loc_issue_90_lib::Expr;
+use crate::loc_issue_90_lib::Expr;
 
 grammar;
 

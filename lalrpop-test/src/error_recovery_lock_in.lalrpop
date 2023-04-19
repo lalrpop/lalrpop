@@ -1,4 +1,4 @@
-use util::tok::Tok;
+use crate::util::tok::Tok;
 use lalrpop_util::ErrorRecovery;
 
 grammar<'input, 'e>(errors: &'e mut Vec<(usize, ErrorRecovery<usize, Tok<'input>, &'static str>, usize)>);
