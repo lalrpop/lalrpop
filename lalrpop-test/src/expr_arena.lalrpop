@@ -1,5 +1,5 @@
-use expr_arena_ast::{Arena, Node, Op};
-use util::tok::Tok;
+use crate::expr_arena_ast::{Arena, Node, Op};
+use crate::util::tok::Tok;
 
 grammar<'ast, 'input>(arena: &'ast Arena<'ast>);
 

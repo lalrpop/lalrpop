@@ -1,6 +1,6 @@
 grammar<'input>(scale: i32);
 
-use util::tok::Tok;
+use crate::util::tok::Tok;
 
 extern {
     enum Tok<'input> {

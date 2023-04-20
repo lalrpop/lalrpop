@@ -5,7 +5,7 @@
 
 grammar<'input>;
 
-use lifetime_tok_lib::LtTok;
+use crate::lifetime_tok_lib::LtTok;
 
 extern {
     enum LtTok<'input> {

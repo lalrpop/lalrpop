@@ -1,6 +1,6 @@
 use std::cell::RefCell;
 
-use util::tok::Tok;
+use crate::util::tok::Tok;
 use lalrpop_util::ErrorRecovery;
 
 grammar<'e, 'input>(errors: &'e RefCell<Vec<ErrorRecovery<(), Tok<'input>, &'static str>>>);

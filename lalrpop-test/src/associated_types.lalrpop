@@ -1,5 +1,5 @@
 use std::str::FromStr;
-use associated_types_lib::ParseCallbacks;
+use crate::associated_types_lib::ParseCallbacks;
 
 grammar<P>(callbacks: &mut P) where P: ParseCallbacks;
 
