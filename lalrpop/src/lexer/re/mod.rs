@@ -7,7 +7,7 @@ use regex_syntax::{self, Error, Parser};
 mod test;
 
 pub type Regex = Hir;
-pub type RegexError = Error;
+pub type RegexError = Box<Error>;
 
 /// Convert a string literal into a parsed regular expression.
 pub fn parse_literal(s: &str) -> Regex {

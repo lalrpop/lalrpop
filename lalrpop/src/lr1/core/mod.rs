@@ -79,13 +79,6 @@ impl<'grammar, L: Lookahead> Item<'grammar, L> {
         }
     }
 
-    pub fn can_shift_terminal(&self, term: &TerminalString) -> bool {
-        match self.shift_symbol() {
-            Some((Symbol::Terminal(shifted), _)) => shifted == *term,
-            _ => false,
-        }
-    }
-
     pub fn can_reduce(&self) -> bool {
         self.index == self.production.symbols.len()
     }

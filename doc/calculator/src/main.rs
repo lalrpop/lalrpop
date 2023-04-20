@@ -2,7 +2,10 @@ use lalrpop_util::lalrpop_mod;
 
 macro_rules! lalrpop_mod_doc {
     ($vis:vis $name:ident) => {
-        lalrpop_util::lalrpop_mod!(#[allow(clippy::all)] $vis $name);
+        lalrpop_util::lalrpop_mod!(
+            #[allow(clippy::ptr_arg)]
+            #[allow(clippy::vec_box)]
+            $vis $name);
     }
 }
 

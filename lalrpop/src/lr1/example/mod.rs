@@ -6,7 +6,10 @@ use crate::message::Content;
 use crate::style::Style;
 use crate::tls::Tls;
 use ascii_canvas::AsciiView;
-use std::fmt::{Debug, Error, Formatter};
+use std::{
+    cmp::Ordering,
+    fmt::{Debug, Error, Formatter},
+};
 
 #[cfg(test)]
 mod test;
@@ -93,16 +96,14 @@ impl Example {
         let mut builder = InlineBuilder::new().begin_spaced();
 
         for (index, symbol) in self.symbols[..length].iter().enumerate() {
-            let style = if index < self.cursor {
-                styles.before_cursor
-            } else if index > self.cursor {
-                styles.after_cursor
-            } else {
-                match *symbol {
+            let style = match index.cmp(&self.cursor) {
+                Ordering::Less => styles.before_cursor,
+                Ordering::Equal => match *symbol {
                     ExampleSymbol::Symbol(Symbol::Terminal(_)) => styles.on_cursor,
                     ExampleSymbol::Symbol(Symbol::Nonterminal(_)) => styles.after_cursor,
                     ExampleSymbol::Epsilon => styles.after_cursor,
-                }
+                },
+                Ordering::Greater => styles.after_cursor,
             };
 
             if let ExampleSymbol::Symbol(ref s) = symbol {
@@ -316,19 +317,19 @@ impl Example {
     ) {
         let session = Tls::session();
         for (index, ex_symbol) in symbols.iter().enumerate() {
-            let style = if index < self.cursor {
-                styles.before_cursor
-            } else if index == self.cursor {
-                // Only display actual terminals in the "on-cursor"
-                // font, because it might be misleading to show a
-                // nonterminal that way. Really it'd be nice to expand
-                // so that the cursor is always a terminal.
-                match *ex_symbol {
-                    ExampleSymbol::Symbol(Symbol::Terminal(_)) => styles.on_cursor,
-                    _ => styles.after_cursor,
+            let style = match index.cmp(&self.cursor) {
+                Ordering::Less => styles.before_cursor,
+                Ordering::Equal => {
+                    // Only display actual terminals in the "on-cursor"
+                    // font, because it might be misleading to show a
+                    // nonterminal that way. Really it'd be nice to expand
+                    // so that the cursor is always a terminal.
+                    match *ex_symbol {
+                        ExampleSymbol::Symbol(Symbol::Terminal(_)) => styles.on_cursor,
+                        _ => styles.after_cursor,
+                    }
                 }
-            } else {
-                styles.after_cursor
+                Ordering::Greater => styles.after_cursor,
             };
 
             let column = positions[index];

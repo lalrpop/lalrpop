@@ -400,7 +400,7 @@ impl<'s> LowerState<'s> {
                             let name_str = {
                                 let name_strs: Vec<_> = names
                                     .iter()
-                                    .map(|(_, name, _)| format!("{0}:{0}", &*name.name))
+                                    .map(|(_, name, _)| format!("{}", name.name))
                                     .collect();
                                 name_strs.join(", ")
                             };
