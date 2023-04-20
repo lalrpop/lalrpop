@@ -11,7 +11,7 @@ pub fn interpret<'text>(dfa: &DFA, input: &'text str) -> Option<(NFAIndex, &'tex
             .state(state_index)
             .test_edges
             .iter()
-            .filter_map(|&(test, target)| {
+            .filter_map(|(test, target)| {
                 if test.contains_char(ch) {
                     Some(target)
                 } else {
@@ -21,7 +21,7 @@ pub fn interpret<'text>(dfa: &DFA, input: &'text str) -> Option<(NFAIndex, &'tex
             .next();
 
         if let Some(target) = target {
-            state_index = target;
+            state_index = *target;
         } else {
             state_index = state.other_edge;
         }

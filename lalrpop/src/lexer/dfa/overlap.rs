@@ -30,8 +30,8 @@ pub fn remove_overlap(ranges: &Set<Test>) -> Vec<Test> {
 
     let mut disjoint_ranges = vec![];
 
-    for &range in ranges {
-        add_range(range, 0, &mut disjoint_ranges);
+    for range in ranges {
+        add_range(range.to_owned(), 0, &mut disjoint_ranges);
     }
 
     // the algorithm above leaves some empty ranges in for simplicity;
@@ -49,40 +49,34 @@ fn add_range(range: Test, start_index: usize, disjoint_ranges: &mut Vec<Test>) {
     // Find first overlapping range in `disjoint_ranges`, if any.
     match disjoint_ranges[start_index..]
         .iter()
-        .position(|r| r.intersects(range))
+        .position(|r| r.intersects(&range))
     {
         Some(index) => {
             let index = index + start_index;
-            let overlapping_range = disjoint_ranges[index];
+            let overlapping_range = &disjoint_ranges[index];
 
             // If the range we are trying to add already exists, we're all done.
-            if overlapping_range == range {
+            if overlapping_range == &range {
                 return;
             }
 
             // Otherwise, we want to create three ranges (some of which may
             // be empty). e.g. imagine one range is `a-z` and the other
             // is `c-l`, we want `a-b`, `c-l`, and `m-z`.
-            let min_min = cmp::min(range.start, overlapping_range.start);
-            let mid_min = cmp::max(range.start, overlapping_range.start);
-            let mid_max = cmp::min(range.end, overlapping_range.end);
-            let max_max = cmp::max(range.end, overlapping_range.end);
-            let low_range = Test {
-                start: min_min,
-                end: mid_min,
-            };
-            let mid_range = Test {
-                start: mid_min,
-                end: mid_max,
-            };
-            let max_range = Test {
-                start: mid_max,
-                end: max_max,
-            };
+            let min_min = cmp::min(range.start(), overlapping_range.start());
+            let mid_min = cmp::max(range.start(), overlapping_range.start());
+            let mid_max = cmp::min(range.end(), overlapping_range.end());
+            let max_max = cmp::max(range.end(), overlapping_range.end());
+            // When working with inclusive ranges, we need to be sure to not double count
+            // the meeting points of low-mid_range and mid-max_range.
+            // So we subtract 1 from the end of the low_range and mid_range as these elements are already included in the start of their corresponding next ranges.
+            let low_range = Test::new(min_min..=mid_min - 1);
+            let mid_range = Test::new(mid_min..=mid_max - 1);
+            let max_range = Test::new(mid_max..=max_max);
 
-            assert!(low_range.is_disjoint(mid_range));
-            assert!(low_range.is_disjoint(max_range));
-            assert!(mid_range.is_disjoint(max_range));
+            assert!(low_range.is_disjoint(&mid_range));
+            assert!(low_range.is_disjoint(&max_range));
+            assert!(mid_range.is_disjoint(&max_range));
 
             // Replace the existing range with the low range, and then
             // add the mid and max ranges in. (The low range may be
@@ -107,11 +101,11 @@ macro_rules! test {
             use crate::lexer::nfa::Test;
             use std::char;
             let mut s = set();
-            $({ let r = $range; s.insert(Test::exclusive_range(r.start, r.end)); })*
+            $({ let r = $range; s.insert(Test::inclusive_range(*r.start(), *r.end())); })*
             remove_overlap(&s).into_iter()
                               .map(|r|
-                                   char::from_u32(r.start).unwrap() ..
-                                   char::from_u32(r.end).unwrap())
+                                   char::from_u32(r.start()).unwrap() ..=
+                                   char::from_u32(r.end()).unwrap())
                               .collect::<Vec<_>>()
         }
     }
@@ -120,30 +114,30 @@ macro_rules! test {
 #[test]
 fn alphabet() {
     let result = test! {
-        'a' .. 'z',
-        'c' .. 'l',
-        '0' .. '9',
+        'a' ..= 'z',
+        'c' ..= 'l',
+        '0' ..= '9',
     };
-    assert_eq!(result, vec!['0'..'9', 'a'..'c', 'c'..'l', 'l'..'z']);
+    assert_eq!(result, vec!['0'..='9', 'a'..='b', 'c'..='k', 'l'..='z']);
 }
 
 #[test]
 fn repeat() {
     let result = test! {
-        'a' .. 'z',
-        'c' .. 'l',
-        'l' .. 'z',
-        '0' .. '9',
+        'a' ..= 'z',
+        'c' ..= 'l',
+        'l' ..= 'z',
+        '0' ..= '9',
     };
-    assert_eq!(result, vec!['0'..'9', 'a'..'c', 'c'..'l', 'l'..'z']);
+    assert_eq!(result, vec!['0'..='9', 'a'..='b', 'c'..='k', 'l'..='z']);
 }
 
 #[test]
 fn stagger() {
     let result = test! {
-        '0' .. '3',
-        '2' .. '4',
-        '3' .. '5',
+        '0' ..= '3',
+        '2' ..= '4',
+        '3' ..= '5',
     };
-    assert_eq!(result, vec!['0'..'2', '2'..'3', '3'..'4', '4'..'5']);
+    assert_eq!(result, vec!['0'..='1', '2'..='2', '3'..='3', '4'..='5']);
 }

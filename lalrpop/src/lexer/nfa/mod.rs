@@ -9,6 +9,7 @@ use regex_syntax::hir::{
 };
 use std::char;
 use std::fmt::{Debug, Error as FmtError, Formatter};
+use std::ops::RangeInclusive;
 use std::usize;
 
 #[cfg(test)]
@@ -26,10 +27,24 @@ pub struct NFA {
 /// An edge label representing a range of characters, inclusive. Note
 /// that this range may contain some endpoints that are not valid
 /// unicode, hence we store u32.
-#[derive(Copy, Clone, Hash, PartialEq, Eq, PartialOrd, Ord)]
+#[derive(Clone, Hash, PartialEq, Eq)]
 pub struct Test {
-    pub start: u32,
-    pub end: u32,
+    range: RangeInclusive<u32>,
+}
+
+impl PartialOrd for Test {
+    fn partial_cmp(&self, other: &Self) -> Option<std::cmp::Ordering> {
+        match self.start().cmp(&other.start()) {
+            std::cmp::Ordering::Equal => Some(self.end().cmp(&other.end())),
+            ord => Some(ord),
+        }
+    }
+}
+
+impl Ord for Test {
+    fn cmp(&self, other: &Self) -> std::cmp::Ordering {
+        self.partial_cmp(other).unwrap()
+    }
 }
 
 /// An "epsilon" edge -- no input
@@ -507,71 +522,76 @@ impl<'nfa, L: EdgeLabel> Iterator for EdgeIterator<'nfa, L> {
 }
 
 impl Test {
+    pub fn new(range: RangeInclusive<u32>) -> Test {
+        Test { range }
+    }
+
+    pub fn start(&self) -> u32 {
+        *self.range.start()
+    }
+
+    pub fn end(&self) -> u32 {
+        *self.range.end()
+    }
+
     pub fn char(c: char) -> Test {
         let c = c as u32;
-        Test {
-            start: c,
-            end: c + 1,
-        }
+        Test { range: c..=c }
     }
 
     pub fn byte(b: u8) -> Test {
         let b = b as u32;
-        Test {
-            start: b,
-            end: b + 1,
-        }
+        Test { range: b..=b }
     }
 
     pub fn inclusive_range(s: char, e: char) -> Test {
         Test {
-            start: s as u32,
-            end: e as u32 + 1,
+            range: s as u32..=e as u32,
         }
     }
 
     pub fn inclusive_byte_range(s: u8, e: u8) -> Test {
         Test {
-            start: s as u32,
-            end: e as u32 + 1,
+            range: s as u32..=e as u32,
         }
     }
 
     pub fn exclusive_range(s: char, e: char) -> Test {
         Test {
-            start: s as u32,
-            end: e as u32,
+            range: s as u32..=e as u32 - 1,
         }
     }
 
-    pub fn is_char(self) -> bool {
+    pub fn is_char(&self) -> bool {
         self.len() == 1
     }
 
-    pub fn len(self) -> u32 {
-        self.end - self.start
+    pub fn len(&self) -> u32 {
+        // The reason we don't have a RangeInclusive::len is because it panics if the range is 0..=u32::max
+        // Akin to https://github.com/rust-lang/rust/issues/36386
+        self.end() - self.start()
     }
 
-    pub fn contains_u32(self, c: u32) -> bool {
-        c >= self.start && c < self.end
+    pub fn contains_u32(&self, c: u32) -> bool {
+        self.range.contains(&c)
     }
 
-    pub fn contains_char(self, c: char) -> bool {
+    pub fn contains_char(&self, c: char) -> bool {
         self.contains_u32(c as u32)
     }
 
-    pub fn intersects(self, r: Test) -> bool {
+    pub fn intersects(&self, r: &Test) -> bool {
         !self.is_empty()
             && !r.is_empty()
-            && (self.contains_u32(r.start) || r.contains_u32(self.start))
+            && (self.contains_u32(r.start()) || r.contains_u32(self.start()))
     }
 
-    pub fn is_disjoint(self, r: Test) -> bool {
+    pub fn is_disjoint(&self, r: &Test) -> bool {
         !self.intersects(r)
     }
 
-    pub fn is_empty(self) -> bool {
-        self.start == self.end
+    pub fn is_empty(&self) -> bool {
+        self.range.is_empty()
     }
 }
 
@@ -589,7 +609,7 @@ impl From<ClassBytesRange> for Test {
 
 impl Debug for Test {
     fn fmt(&self, fmt: &mut Formatter) -> Result<(), FmtError> {
-        match (char::from_u32(self.start), char::from_u32(self.end)) {
+        match (char::from_u32(self.start()), char::from_u32(self.end())) {
             (Some(start), Some(end)) => {
                 if self.is_char() {
                     if ".[]()?+*!".contains(start) {
@@ -601,7 +621,7 @@ impl Debug for Test {
                     write!(fmt, "[{:?}..{:?}]", start, end)
                 }
             }
-            _ => write!(fmt, "[{:?}..{:?}]", self.start, self.end),
+            _ => write!(fmt, "[{:?}..{:?}]", self.start(), self.end()),
         }
     }
 }

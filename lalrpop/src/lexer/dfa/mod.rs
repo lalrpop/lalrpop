@@ -122,7 +122,7 @@ impl<'nfa> DFABuilder<'nfa> {
                 .flat_map(|&item| {
                     self.nfa(item)
                         .edges::<Test>(item.nfa_state)
-                        .map(|edge| edge.label)
+                        .map(|edge| edge.label.clone())
                 })
                 .collect();
             let tests = overlap::remove_overlap(&tests);
@@ -167,12 +167,12 @@ impl<'nfa> DFABuilder<'nfa> {
             // for each specific test, find what happens if we see a
             // character matching that test
             let mut test_edges: Vec<(Test, DFAStateIndex)> = tests
-                .iter()
-                .map(|&test| {
+                .into_iter()
+                .map(|test| {
                     let items: Vec<_> = item_set
                         .items
                         .iter()
-                        .filter_map(|&item| self.accept_test(item, test))
+                        .filter_map(|&item| self.accept_test(item, &test))
                         .collect();
 
                     // at least one of those items should accept this test
@@ -225,7 +225,7 @@ impl<'nfa> DFABuilder<'nfa> {
         kernel_set.add_state(item_set)
     }
 
-    fn accept_test(&self, item: Item, test: Test) -> Option<Item> {
+    fn accept_test(&self, item: Item, test: &Test) -> Option<Item> {
         let nfa = self.nfa(item);
 
         let matching_test = nfa
