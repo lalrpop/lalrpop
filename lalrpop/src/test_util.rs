@@ -1,7 +1,6 @@
 use crate::grammar::parse_tree as pt;
 use crate::grammar::repr as r;
 use crate::normalize::NormError;
-use diff;
 use regex::Regex;
 use std::fmt::{Debug, Error, Formatter};
 
@@ -44,7 +43,7 @@ pub fn compare<D: Debug, E: Debug>(actual: D, expected: E) {
             }
         }
 
-        assert!(false);
+        panic!();
     }
 
     /// Ignore differences in `Span` values, by replacing them all with fixed

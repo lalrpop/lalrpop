@@ -1,7 +1,6 @@
 //! Utilities for testing.
 
 use crate::util::tok::Tok;
-use diff;
 use lalrpop_util::ParseError;
 use std::fmt::{Debug, Error, Formatter};
 

@@ -6,6 +6,7 @@ use std::fmt::Debug;
 pub mod builder;
 pub mod horiz;
 pub mod indent;
+#[allow(clippy::module_inception)] // A little silly but otherwise fine
 pub mod message;
 pub mod styled;
 #[cfg(test)]
