@@ -250,7 +250,7 @@ if to produce a <strong>string</strong>, and we'll add an &quot;easter egg&quot;
 <pre><code>pub Term = {
     Num,
     &quot;(&quot; &lt;Term&gt; &quot;)&quot;,
-    &quot;22&quot; =&gt; format!(&quot;Twenty-two!&quot;),
+    &quot;22&quot; =&gt; &quot;Twenty-two!&quot;.to_string(),
 };
 
 Num: String = r&quot;[0-9]+&quot; =&gt; &lt;&gt;.to_string();
@@ -397,7 +397,7 @@ so:</p>
 <pre><code>pub Term = {
     Num,
     &quot;(&quot; &lt;Term&gt; &quot;)&quot;,
-    &quot;22&quot; =&gt; format!(&quot;Twenty-two!&quot;),
+    &quot;22&quot; =&gt; &quot;Twenty-two!&quot;.to_string(),
     ID =&gt; format!(&quot;Id({})&quot;, &lt;&gt;), // &lt;-- changed this
 };
 </code></pre>

@@ -11,7 +11,8 @@ use std::time::Instant;
 use pico_args::Arguments;
 
 lalrpop_mod!(
-    #[allow(clippy::all)]
+    #[allow(clippy::ptr_arg)]
+    #[allow(clippy::vec_box)]
     pascal
 );
 
