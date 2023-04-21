@@ -49,8 +49,5 @@ fn skip_comments() {
 
     assert_eq!(Lexer::new(source).count(), 8);
 
-    assert!(Lexer::new(source).all(|tok| match tok {
-        Ok((_, Tok::Space, _)) => true,
-        _ => false,
-    }));
+    assert!(Lexer::new(source).all(|tok| matches!(tok, Ok((_, Tok::Space, _)))));
 }
