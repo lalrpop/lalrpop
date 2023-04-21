@@ -179,7 +179,7 @@ mod test {
         vals.iter().map(|v| v.into()).collect()
     }
 
-    fn parse_args(args: &[&str]) -> Args {
+    fn parse_args_vec(args: &[&str]) -> Args {
         parse_args(Arguments::from_vec(os_vec(args))).unwrap()
     }
 
