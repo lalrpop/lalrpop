@@ -179,24 +179,24 @@ mod test {
         vals.iter().map(|v| v.into()).collect()
     }
 
-    fn parse_args(args: &[&str]) -> Args {
+    fn parse_args_slice(args: &[&str]) -> Args {
         parse_args(Arguments::from_vec(os_vec(args))).unwrap()
     }
 
     #[test]
     fn test_usage_help() {
-        assert!(parse_args_vec(&["--help"]).flag_help);
+        assert!(parse_args_slice(&["--help"]).flag_help);
     }
 
     #[test]
     fn test_usage_version() {
-        assert!(parse_args_vec(&["--version"]).flag_version);
+        assert!(parse_args_slice(&["--version"]).flag_version);
     }
 
     #[test]
     fn test_usage_single_input() {
         assert_eq!(
-            parse_args_vec(&["file.lalrpop"]).arg_inputs,
+            parse_args_slice(&["file.lalrpop"]).arg_inputs,
             ["file.lalrpop"]
         );
     }
@@ -204,26 +204,26 @@ mod test {
     #[test]
     fn test_usage_multiple_inputs() {
         let files = vec!["file.lalrpop", "../file2.lalrpop"];
-        assert_eq!(parse_args_vec(&files).arg_inputs, files);
+        assert_eq!(parse_args_slice(&files).arg_inputs, files);
     }
 
     #[test]
     fn test_usage_out_dir() {
-        let args = parse_args_vec(&["--out-dir", "abc", "file.lalrpop"]);
+        let args = parse_args_slice(&["--out-dir", "abc", "file.lalrpop"]);
         assert_eq!(args.flag_out_dir, Some(PathBuf::from_str("abc").unwrap()));
         assert_eq!(args.arg_inputs, ["file.lalrpop"]);
     }
 
     #[test]
     fn test_usage_features() {
-        let args = parse_args_vec(&["--features", "test,abc", "file.lalrpop"]);
+        let args = parse_args_slice(&["--features", "test,abc", "file.lalrpop"]);
         assert_eq!(args.flag_features, Some("test,abc".into()));
         assert_eq!(args.arg_inputs, ["file.lalrpop"]);
     }
 
     #[test]
     fn test_usage_emit_whitespace() {
-        let args = parse_args_vec(&["--no-whitespace", "file.lalrpop"]);
+        let args = parse_args_slice(&["--no-whitespace", "file.lalrpop"]);
         assert!(args.flag_no_whitespace);
         assert_eq!(args.arg_inputs, ["file.lalrpop"]);
     }
@@ -231,7 +231,7 @@ mod test {
     #[test]
     fn test_usage_level() {
         assert_eq!(
-            parse_args_vec(&["-l", "info"]).flag_level,
+            parse_args_slice(&["-l", "info"]).flag_level,
             Some(LevelFlag::Info)
         );
     }
