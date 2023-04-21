@@ -206,10 +206,7 @@ impl Configuration {
         }
 
         if session.out_dir.is_none() {
-            let out_dir = match env::var_os("OUT_DIR") {
-                Some(var) => var,
-                None => return Err("missing OUT_DIR variable")?,
-            };
+            let out_dir = env::var_os("OUT_DIR").ok_or("missing OUT_DIR variable")?;
             session.out_dir = Some(PathBuf::from(out_dir));
         }
 

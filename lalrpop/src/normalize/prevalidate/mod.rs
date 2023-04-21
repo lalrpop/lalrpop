@@ -181,7 +181,7 @@ impl<'grammar> Validator<'grammar> {
         Ok(())
     }
 
-    fn validate_precedence(&self, alternatives: &Vec<Alternative>) -> NormResult<()> {
+    fn validate_precedence(&self, alternatives: &[Alternative]) -> NormResult<()> {
         let with_precedence = alternatives.iter().any(|alt| {
             alt.annotations
                 .iter()

@@ -60,6 +60,7 @@ pub struct Grammar {
     pub module_attributes: Vec<String>,
 }
 
+#[allow(clippy::large_enum_variant)] // TODO: verify if this is justified
 #[derive(Clone, Debug, PartialEq, Eq, PartialOrd, Ord)]
 pub enum WhereClause {
     // forall<'a> WC
