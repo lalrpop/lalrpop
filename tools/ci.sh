@@ -1,3 +1,5 @@
+set -e -u -o pipefail
+
 export RUST_BACKTRACE=1
 export CARGO_INCREMENTAL=0
 export CARGO_REGISTRIES_CRATES_IO_PROTOCOL=sparse
