@@ -90,11 +90,11 @@ impl<'trace, 'grammar, L: Lookahead> LaneTracer<'trace, 'grammar, L> {
             // reached by shifting T. Those predecessors will contain
             // an item like `X = ...p (*) T ...s`, which we will then
             // process in turn.
-            let shifted_symbol = item.production.symbols[item.index - 1].clone();
             let unshifted_item = Item {
                 index: item.index - 1,
                 ..item
             };
+            let shifted_symbol = &item.production.symbols[unshifted_item.index];
             let predecessors = self.state_graph.predecessors(state, shifted_symbol);
             for predecessor in predecessors {
                 self.table.add_successor(predecessor, state);

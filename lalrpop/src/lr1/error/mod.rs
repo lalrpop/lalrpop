@@ -690,8 +690,8 @@ impl<'cx, 'grammar> ErrorReportingCx<'cx, 'grammar> {
         shift_upcoming
             .iter()
             .zip(reduce_upcoming)
-            .filter_map(|(shift_sym, reduce_sym)| match (shift_sym, reduce_sym) {
-                (ExampleSymbol::Symbol(ref shift_sym), ExampleSymbol::Symbol(reduce_sym)) => {
+            .find_map(|(shift_sym, reduce_sym)| match (shift_sym, reduce_sym) {
+                (ExampleSymbol::Symbol(shift_sym), ExampleSymbol::Symbol(reduce_sym)) => {
                     if shift_sym == reduce_sym {
                         // same symbol on both; we'll be able to shift them
                         None
@@ -701,13 +701,9 @@ impl<'cx, 'grammar> ErrorReportingCx<'cx, 'grammar> {
                         // consider a suffix matching epsilon to be
                         // potentially overlapping, though we could
                         // supply the actual lookahead for more precision.
-                        let shift_first = self.first_sets.first0(&[shift_sym.clone()]);
-                        let reduce_first = self.first_sets.first0(&[reduce_sym.clone()]);
-                        if shift_first.is_disjoint(&reduce_first) {
-                            Some(true)
-                        } else {
-                            Some(false)
-                        }
+                        let shift_first = self.first_sets.first0(std::iter::once(shift_sym));
+                        let reduce_first = self.first_sets.first0(std::iter::once(reduce_sym));
+                        Some(shift_first.is_disjoint(&reduce_first))
                     }
                 }
                 _ => {
@@ -718,7 +714,6 @@ impl<'cx, 'grammar> ErrorReportingCx<'cx, 'grammar> {
                     Some(false)
                 }
             })
-            .next()
             .unwrap_or(false)
     }
 
