@@ -1039,7 +1039,7 @@ fn verify_lalrpop_generates_itself() {
     fs::copy(&grammar_file, &copied_grammar_file).expect("no grammar file found");
 
     assert!(Command::new("../target/debug/lalrpop")
-        .args(&[
+        .args([
             "--force",
             "--no-whitespace",
             "--out-dir",

@@ -17,7 +17,6 @@ use crate::util::Sep;
 use is_terminal::IsTerminal;
 use itertools::Itertools;
 use lalrpop_util::ParseError;
-use term;
 use tiny_keccak::{Hasher, Sha3};
 
 use std::fs;

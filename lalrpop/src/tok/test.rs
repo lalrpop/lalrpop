@@ -33,8 +33,8 @@ fn gen_test(input: &str, expected: Vec<(&str, Expectation)>) {
         }
     }
 
-    let tokenizer = Tokenizer::new(&input, 0);
-    assert_eq!(None, tokenizer.skip(len).next());
+    let mut tokenizer = Tokenizer::new(&input, 0);
+    assert_eq!(None, tokenizer.nth(len));
 }
 
 fn test(input: &str, expected: Vec<(&str, Tok)>) {
