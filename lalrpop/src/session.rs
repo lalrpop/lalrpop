@@ -11,7 +11,7 @@ use std::path;
 // These two, ubiquitous types are defined here so that their fields can be private
 // across crate, but visible within the crate:
 
-#[derive(Copy, Clone)]
+#[derive(Copy, Clone, Default)]
 pub enum ColorConfig {
     /// Use ANSI colors.
     Yes,
@@ -20,6 +20,7 @@ pub enum ColorConfig {
     No,
 
     /// Use them if we detect a TTY output (default).
+    #[default]
     IfTty,
 }
 
@@ -170,11 +171,5 @@ impl Session {
 impl Default for Session {
     fn default() -> Self {
         Session::new()
-    }
-}
-
-impl Default for ColorConfig {
-    fn default() -> Self {
-        ColorConfig::IfTty
     }
 }

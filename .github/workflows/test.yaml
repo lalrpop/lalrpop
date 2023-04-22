@@ -41,4 +41,4 @@ jobs:
       - name: Run rustfmt check
         run: cargo fmt --all -- --check
       - name: Run clippy
-        run: cargo clippy --all -- -A clippy::upper-case-acronyms -A clippy::derivable-impls -D warnings
+        run: cargo clippy --all -- -A clippy::upper-case-acronyms -D warnings
