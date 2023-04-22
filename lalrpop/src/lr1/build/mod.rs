@@ -239,7 +239,7 @@ impl<'grammar, L: LookaheadBuild> Lr<'grammar, L> {
             //
             //   (a) FIRST(remainder)
             //   (b) if remainder may match epsilon, also our lookahead.
-            for new_item in L::epsilon_moves(self, &nt, remainder, &lookahead) {
+            for new_item in L::epsilon_moves(self, nt, remainder, &lookahead) {
                 let new_item0 = new_item.to_lr0();
                 if map.push(new_item0, new_item.lookahead) {
                     stack.push(new_item0);
