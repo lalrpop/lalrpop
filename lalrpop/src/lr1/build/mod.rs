@@ -123,7 +123,9 @@ impl<'grammar, L: LookaheadBuild> LR<'grammar, L> {
                             index,
                             lookahead,
                         },
-                    )| { (symbol, (Item::lr0(production, index), lookahead)) },
+                    )| {
+                        (symbol.clone(), (Item::lr0(production, index), lookahead))
+                    },
                 )
                 .collect();
 

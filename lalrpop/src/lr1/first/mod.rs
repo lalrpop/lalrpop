@@ -4,6 +4,8 @@ use crate::collections::{map, Map};
 use crate::grammar::repr::*;
 use crate::lr1::lookahead::{Token, TokenSet};
 
+use super::Lr1Tls;
+
 #[cfg(test)]
 mod test;
 
@@ -38,13 +40,13 @@ impl FirstSets {
         let mut result = TokenSet::new();
 
         for symbol in symbols {
-            match *symbol {
-                Symbol::Terminal(ref t) => {
+            match symbol {
+                Symbol::Terminal(t) => {
                     result.insert(Token::Terminal(t.clone()));
                     return result;
                 }
 
-                Symbol::Nonterminal(ref nt) => {
+                Symbol::Nonterminal(nt) => {
                     let mut empty_prod = false;
                     match self.map.get(nt) {
                         None => {
@@ -57,16 +59,19 @@ impl FirstSets {
                             // empty.
                         }
                         Some(set) => {
-                            for lookahead in set.iter() {
-                                match lookahead {
-                                    Token::EOF => {
-                                        empty_prod = true;
-                                    }
-                                    Token::Error | Token::Terminal(_) => {
-                                        result.insert(lookahead);
+                            result.reserve(set.len());
+                            Lr1Tls::with(|terminals| {
+                                for lookahead in set.iter() {
+                                    match lookahead {
+                                        Token::EOF => {
+                                            empty_prod = true;
+                                        }
+                                        Token::Error | Token::Terminal(_) => {
+                                            result.insert_with(lookahead, terminals);
+                                        }
                                     }
                                 }
-                            }
+                            })
                         }
                     }
                     if !empty_prod {
@@ -82,7 +87,10 @@ impl FirstSets {
         result
     }
 
-    pub fn first1(&self, symbols: &[Symbol], lookahead: &TokenSet) -> TokenSet {
+    pub fn first1<'s, I>(&self, symbols: I, lookahead: &TokenSet) -> TokenSet
+    where
+        I: IntoIterator<Item = &'s Symbol>,
+    {
         let mut set = self.first0(symbols);
 
         // we use EOF as the signal that `symbols` derives epsilon:

@@ -2,24 +2,18 @@
 
 use crate::grammar::repr::TerminalSet;
 use std::cell::RefCell;
-use std::mem;
-use std::sync::Arc;
 
 thread_local! {
-    static TERMINALS: RefCell<Option<Arc<TerminalSet>>> = RefCell::new(None)
+    static TERMINALS: RefCell<Option<TerminalSet>> = const { RefCell::new(None) }
 }
 
 pub struct Lr1Tls {
-    old_value: Option<Arc<TerminalSet>>,
+    old_value: Option<TerminalSet>,
 }
 
 impl Lr1Tls {
     pub fn install(terminals: TerminalSet) -> Lr1Tls {
-        let old_value = TERMINALS.with(|s| {
-            let mut s = s.borrow_mut();
-            mem::replace(&mut *s, Some(Arc::new(terminals)))
-        });
-
+        let old_value = TERMINALS.with(|s| s.borrow_mut().replace(terminals));
         Lr1Tls { old_value }
     }
 

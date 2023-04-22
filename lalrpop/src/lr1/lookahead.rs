@@ -181,11 +181,19 @@ impl TokenSet {
     }
 
     fn bit(&self, lookahead: &Token) -> usize {
+        with(|t| self.bit_with(lookahead, t))
+    }
+
+    fn bit_with(&self, lookahead: &Token, terminals: &TerminalSet) -> usize {
         match *lookahead {
-            Token::EOF => self.eof_bit(),
-            Token::Error => self.eof_bit() + 1,
-            Token::Terminal(ref t) => with(|terminals| terminals.bits[t]),
+            Token::EOF => terminals.all.len(),
+            Token::Error => terminals.all.len() + 1,
+            Token::Terminal(ref t) => terminals.bits[t],
         }
+    }
+
+    pub fn reserve(&mut self, len: usize) {
+        self.bit_set.reserve_len(len)
     }
 
     pub fn len(&self) -> usize {
@@ -194,6 +202,11 @@ impl TokenSet {
 
     pub fn insert(&mut self, lookahead: Token) -> bool {
         let bit = self.bit(&lookahead);
+        self.bit_set.insert(bit)
+    }
+
+    pub fn insert_with(&mut self, lookahead: Token, terminals: &TerminalSet) -> bool {
+        let bit = self.bit_with(&lookahead, terminals);
         self.bit_set.insert(bit)
     }
 

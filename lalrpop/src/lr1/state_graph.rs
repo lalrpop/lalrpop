@@ -16,7 +16,9 @@ impl StateGraph {
     where
         L: Lookahead,
     {
-        let mut graph = Graph::new();
+        let nodes = states.len();
+        let edges = states.iter().map(|s| s.shifts.len() + s.gotos.len()).sum();
+        let mut graph = Graph::with_capacity(nodes, edges);
 
         // First, create the nodes.
         for i in 0..states.len() {
@@ -29,21 +31,18 @@ impl StateGraph {
             // Successors of a node arise from:
             // - shifts (found in the `conflicts` and `tokens` maps)
             // - gotos (found in the `gotos` map)
-            graph.extend_with_edges(
-                state
-                    .shifts
-                    .iter()
-                    .map(|(terminal, &state)| (Symbol::Terminal(terminal.clone()), state))
-                    .chain(
-                        state
-                            .gotos
-                            .iter()
-                            .map(|(nt, &state)| (Symbol::Nonterminal(nt.clone()), state)),
-                    )
-                    .map(|(symbol, successor)| {
-                        (NodeIndex::new(i), NodeIndex::new(successor.0), symbol)
-                    }),
-            );
+            let shifts = state
+                .shifts
+                .iter()
+                .map(|(terminal, &state)| (Symbol::Terminal(terminal.clone()), state));
+            let gotos = state
+                .gotos
+                .iter()
+                .map(|(nt, &state)| (Symbol::Nonterminal(nt.clone()), state));
+            let it = shifts.chain(gotos).map(|(symbol, successor)| {
+                (NodeIndex::new(i), NodeIndex::new(successor.0), symbol)
+            });
+            graph.extend_with_edges(it);
         }
 
         StateGraph { graph }
@@ -77,18 +76,20 @@ impl StateGraph {
         result
     }
 
-    pub fn successors(&self, state_index: StateIndex) -> Vec<StateIndex> {
+    pub fn successors(&self, state_index: StateIndex) -> impl Iterator<Item = StateIndex> + '_ {
         self.graph
             .edges_directed(NodeIndex::new(state_index.0), EdgeDirection::Outgoing)
             .map(|edge| StateIndex(edge.target().index()))
-            .collect()
     }
 
-    pub fn predecessors(&self, state_index: StateIndex, symbol: Symbol) -> Vec<StateIndex> {
+    pub fn predecessors<'a>(
+        &'a self,
+        state_index: StateIndex,
+        symbol: &'a Symbol,
+    ) -> impl Iterator<Item = StateIndex> + 'a {
         self.graph
             .edges_directed(NodeIndex::new(state_index.0), EdgeDirection::Incoming)
-            .filter(|edge| *edge.weight() == symbol)
+            .filter(move |edge| edge.weight() == symbol)
             .map(|edge| StateIndex(edge.source().index()))
-            .collect()
     }
 }

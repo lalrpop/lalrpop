@@ -74,7 +74,7 @@ impl<'grammar, L: Lookahead> Item<'grammar, L> {
 
     pub fn can_shift_nonterminal(&self, nt: &NonterminalString) -> bool {
         match self.shift_symbol() {
-            Some((Symbol::Nonterminal(shifted), _)) => shifted == *nt,
+            Some((Symbol::Nonterminal(shifted), _)) => shifted == nt,
             _ => false,
         }
     }
@@ -83,10 +83,10 @@ impl<'grammar, L: Lookahead> Item<'grammar, L> {
         self.index == self.production.symbols.len()
     }
 
-    pub fn shifted_item(&self) -> Option<(Symbol, Item<'grammar, L>)> {
+    pub fn shifted_item(&self) -> Option<(&Symbol, Item<'grammar, L>)> {
         if self.can_shift() {
             Some((
-                self.production.symbols[self.index].clone(),
+                &self.production.symbols[self.index],
                 Item {
                     production: self.production,
                     index: self.index + 1,
@@ -98,10 +98,10 @@ impl<'grammar, L: Lookahead> Item<'grammar, L> {
         }
     }
 
-    pub fn shift_symbol(&self) -> Option<(Symbol, &[Symbol])> {
+    pub fn shift_symbol(&self) -> Option<(&Symbol, &[Symbol])> {
         if self.can_shift() {
             Some((
-                self.production.symbols[self.index].clone(),
+                &self.production.symbols[self.index],
                 &self.production.symbols[self.index + 1..],
             ))
         } else {

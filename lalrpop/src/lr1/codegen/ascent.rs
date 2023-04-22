@@ -682,27 +682,22 @@ impl<'ascent, 'grammar, W: Write>
     ) -> io::Result<StackSuffix<'grammar>> {
         let mut result = inputs;
 
-        let top_opt = self
-            .custom
-            .graph
-            .successors(state_index)
-            .iter()
-            .any(|succ_state| {
-                let succ_inputs = &self.custom.state_inputs[succ_state.0];
+        let top_opt = self.custom.graph.successors(state_index).any(|succ_state| {
+            let succ_inputs = &self.custom.state_inputs[succ_state.0];
 
-                // Check for a successor state with a suffix like:
-                //
-                //     ... OPT_1 ... OPT_N FIXED_1
-                //
-                // (Remember that *every* successor state will have
-                // at least one fixed input.)
-                //
-                // So basically we are looking for states
-                // that, when they return, may *optionally* have consumed
-                // the top of our stack.
-                assert!(!succ_inputs.fixed().is_empty());
-                succ_inputs.fixed().len() == 1 && !succ_inputs.optional().is_empty()
-            });
+            // Check for a successor state with a suffix like:
+            //
+            //     ... OPT_1 ... OPT_N FIXED_1
+            //
+            // (Remember that *every* successor state will have
+            // at least one fixed input.)
+            //
+            // So basically we are looking for states
+            // that, when they return, may *optionally* have consumed
+            // the top of our stack.
+            assert!(!succ_inputs.fixed().is_empty());
+            succ_inputs.fixed().len() == 1 && !succ_inputs.optional().is_empty()
+        });
 
         // If we find a successor that may optionally consume the top
         // of our stack, convert our fixed inputs into optional ones.
