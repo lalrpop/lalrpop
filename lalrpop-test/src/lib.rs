@@ -173,7 +173,12 @@ lalrpop_mod_test!(comments);
 
 lalrpop_mod_test!(sp_from_optional);
 
-lalrpop_mod_test!(nested);
+// The allow is to work around issue with imports used only in externs
+// https://github.com/lalrpop/lalrpop/issues/675
+lalrpop_mod_test!(
+    #[allow(unused_imports)]
+    nested
+);
 
 pub fn use_cfg_created_parser() {
     cfg::CreatedParser::new();
