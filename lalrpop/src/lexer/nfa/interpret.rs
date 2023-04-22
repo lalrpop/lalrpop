@@ -1,13 +1,13 @@
 //! A depth-first interpreter for NFAs.
 
-use crate::lexer::nfa::{NFAStateIndex, Noop, Other, StateKind, Test, NFA, START};
+use crate::lexer::nfa::{Nfa, NfaStateIndex, Noop, Other, StateKind, Test, START};
 use std::cmp::max;
 
 /// Interpret `nfa` applied to `test`, returning the longest matching
 /// string that we can find (if any).
-pub fn interpret<'text>(nfa: &NFA, text: &'text str) -> Option<&'text str> {
+pub fn interpret<'text>(nfa: &Nfa, text: &'text str) -> Option<&'text str> {
     let mut longest: Option<usize> = None;
-    let mut stack: Vec<(NFAStateIndex, usize)> = vec![(START, 0)];
+    let mut stack: Vec<(NfaStateIndex, usize)> = vec![(START, 0)];
 
     while let Some((state, offset)) = stack.pop() {
         match nfa.kind(state) {

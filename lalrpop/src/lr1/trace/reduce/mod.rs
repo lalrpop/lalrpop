@@ -11,13 +11,13 @@ impl<'trace, 'grammar> Tracer<'trace, 'grammar> {
     pub fn backtrace_reduce(
         mut self,
         item_state: StateIndex,
-        item: LR0Item<'grammar>,
+        item: Lr0Item<'grammar>,
     ) -> TraceGraph<'grammar> {
         self.trace_reduce_item(item_state, item);
         self.trace_graph
     }
 
-    fn trace_reduce_item(&mut self, item_state: StateIndex, item: LR0Item<'grammar>) {
+    fn trace_reduce_item(&mut self, item_state: StateIndex, item: Lr0Item<'grammar>) {
         // We start out with an item
         //
         //     X = ...p (*) ...s

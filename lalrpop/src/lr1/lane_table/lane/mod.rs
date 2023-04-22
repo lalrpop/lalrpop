@@ -69,8 +69,8 @@ impl<'trace, 'grammar, L: Lookahead> LaneTracer<'trace, 'grammar, L> {
         &mut self,
         state: StateIndex,
         conflict: ConflictIndex,
-        item: LR0Item<'grammar>,
-        visited: &mut Set<(StateIndex, LR0Item<'grammar>)>,
+        item: Lr0Item<'grammar>,
+        visited: &mut Set<(StateIndex, Lr0Item<'grammar>)>,
     ) {
         if !visited.insert((state, item)) {
             return;

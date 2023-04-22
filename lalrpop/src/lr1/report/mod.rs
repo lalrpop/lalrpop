@@ -8,7 +8,7 @@ use super::lookahead::*;
 
 pub fn generate_report<'grammar, W: Write + 'grammar>(
     out: &'grammar mut W,
-    lr1result: &LR1Result<'grammar>,
+    lr1result: &Lr1Result<'grammar>,
 ) -> io::Result<()> {
     let mut generator = ReportGenerator::new(out);
     generator.report_lr_table_construction(lr1result)
@@ -35,7 +35,7 @@ where
 
     pub fn report_lr_table_construction<'grammar: 'report, L>(
         &mut self,
-        lr1result: &'report LRResult<'grammar, L>,
+        lr1result: &'report LrResult<'grammar, L>,
     ) -> io::Result<()>
     where
         L: Lookahead + LookaheadPrinter<W>,

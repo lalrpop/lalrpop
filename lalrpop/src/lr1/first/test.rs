@@ -1,6 +1,5 @@
 use super::FirstSets;
 use crate::grammar::repr::*;
-use crate::lr1::lookahead::Token::EOF;
 use crate::lr1::lookahead::{Token, TokenSet};
 use crate::lr1::tls::Lr1Tls;
 use crate::test_util::normalized_grammar;
@@ -44,17 +43,23 @@ fn basic_first1() {
     let _lr1_tls = Lr1Tls::install(grammar.terminals.clone());
     let first_sets = FirstSets::new(&grammar);
 
-    assert_eq!(first1(&first_sets, &[nt("A")], EOF), vec![la("C"), la("D")]);
-
-    assert_eq!(first1(&first_sets, &[nt("B")], EOF), vec![la("D"), EOF]);
+    assert_eq!(
+        first1(&first_sets, &[nt("A")], Token::Eof),
+        vec![la("C"), la("D")]
+    );
 
     assert_eq!(
-        first1(&first_sets, &[nt("B"), term("E")], EOF),
+        first1(&first_sets, &[nt("B")], Token::Eof),
+        vec![la("D"), Token::Eof]
+    );
+
+    assert_eq!(
+        first1(&first_sets, &[nt("B"), term("E")], Token::Eof),
         vec![la("D"), la("E")]
     );
 
     assert_eq!(
-        first1(&first_sets, &[nt("B"), nt("X")], EOF),
+        first1(&first_sets, &[nt("B"), nt("X")], Token::Eof),
         vec![la("D"), la("E")]
     );
 }
@@ -77,7 +82,7 @@ fn basic_first0() {
 
     assert_eq!(first0(&first_sets, &[nt("A")]), vec![la("C"), la("D")]);
 
-    assert_eq!(first0(&first_sets, &[nt("B")]), vec![la("D"), EOF]);
+    assert_eq!(first0(&first_sets, &[nt("B")]), vec![la("D"), Token::Eof]);
 
     assert_eq!(
         first0(&first_sets, &[nt("B"), term("E")]),

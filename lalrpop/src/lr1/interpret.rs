@@ -105,9 +105,9 @@ where
         // drain now for EOF
         loop {
             let state = self.top_state();
-            match L::reduction(state, &Token::EOF) {
+            match L::reduction(state, &Token::Eof) {
                 None => {
-                    return Err((state, Token::EOF));
+                    return Err((state, Token::Eof));
                 }
                 Some(production) => {
                     if !self.reduce(production) {

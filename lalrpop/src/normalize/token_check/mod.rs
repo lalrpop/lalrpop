@@ -10,8 +10,8 @@ use super::{NormError, NormResult};
 use crate::collections::{Map, Set};
 use crate::grammar::consts::*;
 use crate::grammar::parse_tree::*;
-use crate::lexer::dfa::{self, DFAConstructionError, Precedence};
-use crate::lexer::nfa::NFAConstructionError::*;
+use crate::lexer::dfa::{self, DfaConstructionError, Precedence};
+use crate::lexer::nfa::NfaConstructionError::*;
 use crate::lexer::re;
 use string_cache::DefaultAtom as Atom;
 
@@ -314,7 +314,7 @@ impl<'grammar> Validator<'grammar> {
 
 ///////////////////////////////////////////////////////////////////////////
 // Construction phase -- if we are constructing a tokenizer, this
-// phase builds up an internal token DFA.
+// phase builds up an internal token Dfa.
 
 fn construct(grammar: &mut Grammar, match_block: MatchBlock) -> NormResult<()> {
     let MatchBlock {
@@ -353,7 +353,7 @@ fn construct(grammar: &mut Grammar, match_block: MatchBlock) -> NormResult<()> {
 
     let dfa = match dfa::build_dfa(&regexs, &precedences) {
         Ok(dfa) => dfa,
-        Err(DFAConstructionError::NFAConstructionError { index, error }) => {
+        Err(DfaConstructionError::NfaConstructionError { index, error }) => {
             let feature = match error {
                 NamedCaptures => r#"named captures (`(?P<foo>...)`)"#,
                 NonGreedy => r#""non-greedy" repetitions (`*?` or `+?`)"#,
@@ -369,7 +369,7 @@ fn construct(grammar: &mut Grammar, match_block: MatchBlock) -> NormResult<()> {
                 feature
             )
         }
-        Err(DFAConstructionError::Ambiguity { match0, match1 }) => {
+        Err(DfaConstructionError::Ambiguity { match0, match1 }) => {
             let literal0 = &match_entries[match0.index()].match_literal;
             let literal1 = &match_entries[match1.index()].match_literal;
             // FIXME(#88) -- it'd be nice to give an example here
