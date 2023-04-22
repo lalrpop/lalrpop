@@ -7,3 +7,10 @@ members = [
         "lalrpop-util",
         "lalrpop",
 ]
+
+[workspace.package]
+repository = "https://github.com/lalrpop/lalrpop"
+authors = ["Niko Matsakis <niko@alum.mit.edu>"]
+license = "Apache-2.0 OR MIT"
+version = "0.19.9" # LALRPOP
+edition = "2021"
