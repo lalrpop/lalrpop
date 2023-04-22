@@ -307,6 +307,20 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
         rust!(self.out, "}}");
 
         rust!(self.out, "");
+        rust!(
+            self.out,
+            "fn expected_tokens_from_states(&self, states: &[{state_type}]) -> alloc::vec::Vec<alloc::string::String> {{",
+            state_type = state_type,
+        );
+        rust!(
+            self.out,
+            "{p}expected_tokens_from_states(states, {pde})",
+            p = self.prefix,
+            pde = phantom_data_expr,
+        );
+        rust!(self.out, "}}");
+
+        rust!(self.out, "");
         rust!(self.out, "#[inline]");
         rust!(self.out, "fn uses_error_recovery(&self) -> bool {{");
         rust!(self.out, "{}", self.grammar.uses_error_recovery);
@@ -378,19 +392,12 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
             p = self.prefix,
             state_type = state_type,
         );
-        if self.grammar.uses_error_recovery {
-            rust!(
-                self.out,
-                "{p}simulate_reduce(action, {phantom})",
-                p = self.prefix,
-                phantom = phantom_data_expr,
-            );
-        } else {
-            rust!(
-                self.out,
-                "panic!(\"error recovery not enabled for this grammar\")"
-            )
-        }
+        rust!(
+            self.out,
+            "{p}simulate_reduce(action, {phantom})",
+            p = self.prefix,
+            phantom = phantom_data_expr,
+        );
         rust!(self.out, "}}");
 
         rust!(self.out, "}}");
@@ -556,7 +563,9 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
 
         rust!(self.out, "}}");
 
+        self.emit_terminal_repr_list()?;
         self.emit_expected_tokens_fn()?;
+        self.emit_expected_tokens_from_states_fn()?;
 
         Ok(())
     }
@@ -1220,9 +1229,6 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
     }
 
     fn write_simulate_reduce_fn(&mut self) -> io::Result<()> {
-        if !self.grammar.uses_error_recovery {
-            return Ok(());
-        }
         let state_type = self.custom.state_type;
 
         let parameters = vec![
@@ -1316,7 +1322,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
     ///
     /// ```ignore
     /// fn __accepts() {
-    ///     error_state: i32,
+    ///     error_state: Option<i32>,
     ///     states: &Vec<i32>,
     ///     opt_integer: Option<usize>,
     /// ) -> bool {
@@ -1324,9 +1330,10 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
     /// }
     /// ```
     ///
-    /// has the job of figuring out whether the given error state would
-    /// "accept" the given lookahead. We basically trace through the LR
-    /// automaton looking for one of two outcomes:
+    /// has the job of figuring out whether the given state stack (with the
+    /// optional error state appended) would "accept" the given lookahead. We
+    /// basically trace through the LR automaton looking for one of two
+    /// outcomes:
     ///
     /// - the lookahead is eventually shifted
     /// - we reduce to the end state successfully (in the case of EOF).
@@ -1340,19 +1347,15 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
     /// infinite loop (see the `error_recovery_lalr_loop` test) or
     /// produce crappy results (see `error_recovery_lock_in`).
     fn write_accepts_fn(&mut self) -> io::Result<()> {
-        if !self.grammar.uses_error_recovery {
-            return Ok(());
-        }
-
         let phantom_data_expr = self.phantom_data_expr();
         let parameters = vec![
             format!(
-                "{p}error_state: {typ}",
+                "{p}error_state: Option<{typ}>",
                 p = self.prefix,
                 typ = self.custom.state_type
             ),
             format!(
-                "{p}states: & [{typ}]",
+                "{p}states: &[{typ}]",
                 p = self.prefix,
                 typ = self.custom.state_type
             ),
@@ -1362,7 +1365,8 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
 
         self.out
             .fn_header(&Visibility::Priv, format!("{}accepts", self.prefix))
-            .with_grammar(self.grammar)
+            .with_type_parameters(&self.custom.machine.type_parameters)
+            .with_where_clauses(&self.custom.machine.where_clauses)
             .with_parameters(parameters)
             .with_return_type("bool")
             .emit()?;
@@ -1383,7 +1387,11 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
             "let mut {p}states = {p}states.to_vec();",
             p = self.prefix
         );
-        rust!(self.out, "{p}states.push({p}error_state);", p = self.prefix);
+        rust!(
+            self.out,
+            "{p}states.extend({p}error_state);",
+            p = self.prefix
+        );
 
         rust!(self.out, "loop {{",);
 
@@ -1512,14 +1520,8 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
         format!("({},{},{})", loc_type, self.symbol_type(), loc_type)
     }
 
-    fn emit_expected_tokens_fn(&mut self) -> io::Result<()> {
-        rust!(
-            self.out,
-            "fn {p}expected_tokens({p}state: {}) -> alloc::vec::Vec<alloc::string::String> {{",
-            self.custom.state_type,
-            p = self.prefix,
-        );
-
+    /// Emit the array of terminal tokens for use in generating error output
+    fn emit_terminal_repr_list(&mut self) -> io::Result<()> {
         rust!(self.out, "const {}TERMINAL: &[&str] = &[", self.prefix);
         let all_terminals = if self.grammar.uses_error_recovery {
             // Subtract one to exclude the error terminal
@@ -1533,8 +1535,18 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
             rust!(self.out, "r###\"{}\"###,", terminal);
         }
         rust!(self.out, "];");
+        Ok(())
+    }
 
-        // Grab any terminals in the current state which would have resulted in a successful parse
+    fn emit_expected_tokens_fn(&mut self) -> io::Result<()> {
+        rust!(
+            self.out,
+            "fn {p}expected_tokens({p}state: {}) -> alloc::vec::Vec<alloc::string::String> {{",
+            self.custom.state_type,
+            p = self.prefix,
+        );
+
+        // Grab any terminals in the current state which could have resulted in a successful parse
         rust!(
             self.out,
             "{}TERMINAL.iter().enumerate().filter_map(|(index, terminal)| {{",
@@ -1552,6 +1564,55 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
             self.out,
             "Some(alloc::string::ToString::to_string(terminal))"
         );
+        rust!(self.out, "}}");
+        rust!(self.out, "}}).collect()");
+        rust!(self.out, "}}");
+
+        Ok(())
+    }
+
+    fn emit_expected_tokens_from_states_fn(&mut self) -> io::Result<()> {
+        let parameters = vec![
+            format!(
+                "{p}states: &[{typ}]",
+                p = self.prefix,
+                typ = self.custom.state_type
+            ),
+            format!("_: {}", self.phantom_data_type()),
+        ];
+
+        self.out
+            .fn_header(
+                &Visibility::Priv,
+                format!("{}expected_tokens_from_states", self.prefix),
+            )
+            .with_type_parameters(&self.custom.machine.type_parameters)
+            .with_where_clauses(&self.custom.machine.where_clauses)
+            .with_parameters(parameters)
+            .with_return_type("alloc::vec::Vec<alloc::string::String>")
+            .emit()?;
+
+        rust!(self.out, "{{");
+
+        // Grab any terminals in the current state which would have resulted in a successful parse,
+        // as verified using accepts()
+        rust!(
+            self.out,
+            "{}TERMINAL.iter().enumerate().filter_map(|(index, terminal)| {{",
+            self.prefix,
+        );
+        rust!(
+            self.out,
+            "if {p}accepts(None, {p}states, Some(index), {pde}) {{",
+            p = self.prefix,
+            pde = self.phantom_data_expr(),
+        );
+        rust!(
+            self.out,
+            "Some(alloc::string::ToString::to_string(terminal))"
+        );
+        rust!(self.out, "}} else {{");
+        rust!(self.out, "None");
         rust!(self.out, "}}");
         rust!(self.out, "}}).collect()");
         rust!(self.out, "}}");

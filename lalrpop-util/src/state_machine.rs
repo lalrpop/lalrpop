@@ -103,6 +103,14 @@ pub trait ParserDefinition: Sized {
     /// error reporting.
     fn expected_tokens(&self, state: Self::StateIndex) -> Vec<String>;
 
+    /// Returns the expected tokens in a given state. This is used in the
+    /// same way as `expected_tokens` but allows more precise reporting
+    /// of accepted tokens in some cases.
+    fn expected_tokens_from_states(&self, states: &[Self::StateIndex]) -> Vec<String> {
+        // Default to using the preexisting `expected_tokens` method
+        self.expected_tokens(*states.last().unwrap())
+    }
+
     /// True if this grammar supports error recovery.
     fn uses_error_recovery(&self) -> bool;
 
@@ -314,11 +322,11 @@ where
             debug!("\\ error -- no error recovery!");
 
             return NextToken::Done(Err(
-                self.unrecognized_token_error(opt_lookahead, self.top_state())
+                self.unrecognized_token_error(opt_lookahead, &self.states)
             ));
         }
 
-        let error = self.unrecognized_token_error(opt_lookahead.clone(), self.top_state());
+        let error = self.unrecognized_token_error(opt_lookahead.clone(), &self.states);
 
         let mut dropped_tokens = vec![];
 
@@ -591,16 +599,16 @@ where
     fn unrecognized_token_error(
         &self,
         token: Option<TokenTriple<D>>,
-        top_state: D::StateIndex,
+        states: &[D::StateIndex],
     ) -> ParseError<D> {
         match token {
             Some(token) => crate::ParseError::UnrecognizedToken {
                 token,
-                expected: self.definition.expected_tokens(top_state),
+                expected: self.definition.expected_tokens_from_states(states),
             },
             None => crate::ParseError::UnrecognizedEOF {
                 location: self.last_location.clone(),
-                expected: self.definition.expected_tokens(top_state),
+                expected: self.definition.expected_tokens_from_states(states),
             },
         }
     }
@@ -621,7 +629,7 @@ where
             Some(i) => i,
             None => {
                 return NextToken::Done(Err(
-                    self.unrecognized_token_error(Some(token), self.top_state())
+                    self.unrecognized_token_error(Some(token), &self.states)
                 ))
             }
         };
