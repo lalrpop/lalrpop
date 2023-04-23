@@ -1,15 +1,17 @@
 [package]
 name = "lalrpop-test"
-version = "0.19.9" # LALRPOP
-authors = ["Niko Matsakis <niko@alum.mit.edu>"]
-license = "Apache-2.0 OR MIT"
 build = "build.rs"
 workspace = ".."
-edition = "2021"
+
+repository.workspace = true
+edition.workspace = true
+authors.workspace = true
+license.workspace = true
+version.workspace = true
 
 [dependencies]
-diff = "0.1.12"
-regex = "1"
+diff.workspace = true
+regex.workspace = true
 
 [dependencies.lalrpop-util]
 path = "../lalrpop-util"
@@ -17,7 +19,6 @@ path = "../lalrpop-util"
 [build-dependencies.lalrpop]
 path = "../lalrpop"
 features = ["lexer"]
-
 
 [features]
 default = ["test-set"]

@@ -7,3 +7,15 @@ members = [
         "lalrpop-util",
         "lalrpop",
 ]
+
+[workspace.package]
+repository = "https://github.com/lalrpop/lalrpop"
+authors = ["Niko Matsakis <niko@alum.mit.edu>"]
+license = "Apache-2.0 OR MIT"
+version = "0.19.9" # LALRPOP
+edition = "2021"
+
+[workspace.dependencies]
+diff = { version = "0.1.12", default_features = false }
+regex = { version = "1", default_features = false }
+regex-syntax = { version = "0.6", default_features = false }
