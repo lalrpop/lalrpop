@@ -10,8 +10,8 @@ license.workspace = true
 version.workspace = true
 
 [dependencies]
-diff = "0.1.12"
-regex = "1"
+diff.workspace = true
+regex.workspace = true
 
 [dependencies.lalrpop-util]
 path = "../lalrpop-util"

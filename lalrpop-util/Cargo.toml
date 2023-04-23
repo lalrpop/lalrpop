@@ -10,7 +10,7 @@ license.workspace = true
 version.workspace = true
 
 [dependencies]
-regex = { version = "1", optional = true }
+regex = { workspace = true, optional = true }
 
 [features]
 lexer = ["regex"]

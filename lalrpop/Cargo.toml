@@ -20,13 +20,13 @@ doctest = false
 [dependencies]
 ascii-canvas = { version = "3.0", default_features = false }
 bit-set = { version = "0.5.2", default_features = false }
-diff = { version = "0.1.12", default_features = false }
+diff = { workspace = true }
 ena = { version = "0.14", default_features = false }
 is-terminal = "0.4.2"
 itertools = { version = "0.10", default_features = false, features = ["use_std"] }
 petgraph = { version = "0.6", default_features = false }
-regex = { version = "1", default_features = false, features = ["std"] }
-regex-syntax = { version = "0.6", default_features = false, features = ["unicode"] }
+regex = { workspace = true, features = ["std"] }
+regex-syntax = { workspace = true, features = ["unicode"] }
 string_cache = { version = "0.8", default_features = false }
 term = { version = "0.7", default_features = false }
 tiny-keccak = { version = "2.0.2", features = ["sha3"] }
