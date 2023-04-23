@@ -15,7 +15,7 @@ To compile LALRPOP we need a working version of LALRPOP. To have a working versi
 to compile it first.
 
 `lalrpop` crate includes already auto-generated parser
-in `lalrpop/src/parser/lrgrammar.rs` that's end-users use.
+in `lalrpop/src/parser/lrgrammar.rs` that end-users use.
 Small (meh), (relatively) fast to compile, easy to use (really, for end-users).
 
 That said, if you changes don't affect LALRPOP's own grammar
