@@ -1,7 +1,7 @@
-use crate::lexer::dfa::{Dfa, Kind, NfaIndex, START};
+use crate::lexer::dfa::{Kind, NFAIndex, DFA, START};
 
-pub fn interpret<'text>(dfa: &Dfa, input: &'text str) -> Option<(NfaIndex, &'text str)> {
-    let mut longest: Option<(NfaIndex, usize)> = None;
+pub fn interpret<'text>(dfa: &DFA, input: &'text str) -> Option<(NFAIndex, &'text str)> {
+    let mut longest: Option<(NFAIndex, usize)> = None;
     let mut state_index = START;
 
     for (offset, ch) in input.char_indices() {

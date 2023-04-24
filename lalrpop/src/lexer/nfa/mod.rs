@@ -1,4 +1,4 @@
-//! The Nfa we construct for each regex. Since the states are not
+//! The NFA we construct for each regex. Since the states are not
 //! really of interest, we represent this just as a vector of labeled
 //! edges.
 
@@ -19,14 +19,10 @@ mod interpret;
 mod test;
 
 #[derive(Debug)]
-pub struct Nfa {
+pub struct NFA {
     states: Vec<State>,
     edges: Edges,
 }
-
-#[allow(clippy::upper_case_acronyms)]
-#[deprecated(since = "1.0.0", note = "Use `Nfa` instead")]
-pub type NFA = Nfa;
 
 /// An edge label representing a range of characters, inclusive. Note
 /// that this range may contain some endpoints that are not valid
@@ -79,10 +75,7 @@ pub enum StateKind {
 }
 
 #[derive(Copy, Clone, Hash, PartialEq, Eq, PartialOrd, Ord)]
-pub struct NfaStateIndex(usize);
-
-#[deprecated(since = "1.0.0", note = "Use `NfaStateIndex` instead")]
-pub type NFAStateIndex = NfaStateIndex;
+pub struct NFAStateIndex(usize);
 
 /// A set of edges for the state machine. Edges are kept sorted by the
 /// type of label they have. Within a vector, all edges with the same
@@ -104,17 +97,17 @@ pub struct Edges {
 
 #[derive(PartialEq, Eq)]
 pub struct Edge<L> {
-    pub from: NfaStateIndex,
+    pub from: NFAStateIndex,
     pub label: L,
-    pub to: NfaStateIndex,
+    pub to: NFAStateIndex,
 }
 
-pub const ACCEPT: NfaStateIndex = NfaStateIndex(0);
-pub const REJECT: NfaStateIndex = NfaStateIndex(1);
-pub const START: NfaStateIndex = NfaStateIndex(2);
+pub const ACCEPT: NFAStateIndex = NFAStateIndex(0);
+pub const REJECT: NFAStateIndex = NFAStateIndex(1);
+pub const START: NFAStateIndex = NFAStateIndex(2);
 
 #[derive(Debug, PartialEq, Eq)]
-pub enum NfaConstructionError {
+pub enum NFAConstructionError {
     NamedCaptures,
     NonGreedy,
     WordBoundary,
@@ -123,21 +116,18 @@ pub enum NfaConstructionError {
     ByteRegex,
 }
 
-#[deprecated(since = "1.0.0", note = "Use `NfaConstructionError` instead")]
-pub type NFAConstructionError = NfaConstructionError;
-
-impl Nfa {
-    pub fn from_re(regex: &Regex) -> Result<Nfa, NfaConstructionError> {
-        let mut nfa = Nfa::new();
+impl NFA {
+    pub fn from_re(regex: &Regex) -> Result<NFA, NFAConstructionError> {
+        let mut nfa = NFA::new();
         let s0 = nfa.expr(regex, ACCEPT, REJECT)?;
         nfa.push_edge(START, Noop, s0);
         Ok(nfa)
     }
 
     ///////////////////////////////////////////////////////////////////////////
-    // Public methods for querying an Nfa
+    // Public methods for querying an NFA
 
-    pub fn edges<L: EdgeLabel>(&self, from: NfaStateIndex) -> EdgeIterator<L> {
+    pub fn edges<L: EdgeLabel>(&self, from: NFAStateIndex) -> EdgeIterator<L> {
         let vec = L::vec(&self.edges);
         let first = *L::first(&self.states[from.0]);
         EdgeIterator {
@@ -147,23 +137,23 @@ impl Nfa {
         }
     }
 
-    pub fn kind(&self, from: NfaStateIndex) -> StateKind {
+    pub fn kind(&self, from: NFAStateIndex) -> StateKind {
         self.states[from.0].kind
     }
 
-    pub fn is_accepting_state(&self, from: NfaStateIndex) -> bool {
+    pub fn is_accepting_state(&self, from: NFAStateIndex) -> bool {
         self.states[from.0].kind == StateKind::Accept
     }
 
-    pub fn is_rejecting_state(&self, from: NfaStateIndex) -> bool {
+    pub fn is_rejecting_state(&self, from: NFAStateIndex) -> bool {
         self.states[from.0].kind == StateKind::Reject
     }
 
     ///////////////////////////////////////////////////////////////////////////
-    // Private methods for building an Nfa
+    // Private methods for building an NFA
 
-    fn new() -> Nfa {
-        let mut nfa = Nfa {
+    fn new() -> NFA {
+        let mut nfa = NFA {
             states: vec![],
             edges: Edges {
                 noop_edges: vec![],
@@ -186,7 +176,7 @@ impl Nfa {
         nfa
     }
 
-    fn new_state(&mut self, kind: StateKind) -> NfaStateIndex {
+    fn new_state(&mut self, kind: StateKind) -> NFAStateIndex {
         let index = self.states.len();
 
         // these edge indices will be patched later by patch_edges()
@@ -197,13 +187,13 @@ impl Nfa {
             first_other_edge: usize::MAX,
         });
 
-        NfaStateIndex(index)
+        NFAStateIndex(index)
     }
 
     // pushes an edge: note that all outgoing edges from a particular
     // state should be pushed together, so that the edge vectors are
     // suitably sorted
-    fn push_edge<L: EdgeLabel>(&mut self, from: NfaStateIndex, label: L, to: NfaStateIndex) {
+    fn push_edge<L: EdgeLabel>(&mut self, from: NFAStateIndex, label: L, to: NFAStateIndex) {
         let edge_vec = L::vec_mut(&mut self.edges);
         let edge_index = edge_vec.len();
         edge_vec.push(Edge { from, label, to });
@@ -222,9 +212,9 @@ impl Nfa {
     fn expr(
         &mut self,
         expr: &Hir,
-        accept: NfaStateIndex,
-        reject: NfaStateIndex,
-    ) -> Result<NfaStateIndex, NfaConstructionError> {
+        accept: NFAStateIndex,
+        reject: NFAStateIndex,
+    ) -> Result<NFAStateIndex, NFAConstructionError> {
         match *expr.kind() {
             HirKind::Empty => Ok(accept),
 
@@ -280,17 +270,17 @@ impl Nfa {
 
             // currently we don't support any boundaries because
             // I was too lazy to code them up or think about them
-            HirKind::WordBoundary(_) => Err(NfaConstructionError::WordBoundary),
+            HirKind::WordBoundary(_) => Err(NFAConstructionError::WordBoundary),
             HirKind::Anchor(ref a) => match a {
-                Anchor::StartLine | Anchor::EndLine => Err(NfaConstructionError::LineBoundary),
-                Anchor::StartText | Anchor::EndText => Err(NfaConstructionError::TextBoundary),
+                Anchor::StartLine | Anchor::EndLine => Err(NFAConstructionError::LineBoundary),
+                Anchor::StartText | Anchor::EndText => Err(NFAConstructionError::TextBoundary),
             },
 
             // currently we treat all groups the same, whether they
             // capture or not; but we don't permit named groups,
             // in case we want to give them significance in the future
             HirKind::Group(ref g) => match g.kind {
-                GroupKind::CaptureName { .. } => Err(NfaConstructionError::NamedCaptures),
+                GroupKind::CaptureName { .. } => Err(NFAConstructionError::NamedCaptures),
                 GroupKind::CaptureIndex(_) | GroupKind::NonCapturing => {
                     self.expr(&g.hir, accept, reject)
                 }
@@ -299,7 +289,7 @@ impl Nfa {
             HirKind::Repetition(ref r) => {
                 if !r.greedy {
                     // currently we always report the longest match possible
-                    Err(NfaConstructionError::NonGreedy)
+                    Err(NFAConstructionError::NonGreedy)
                 } else {
                     match r.kind {
                         RepetitionKind::ZeroOrOne => self.optional_expr(&r.hir, accept, reject),
@@ -380,9 +370,9 @@ impl Nfa {
     fn optional_expr(
         &mut self,
         expr: &Hir,
-        accept: NfaStateIndex,
-        reject: NfaStateIndex,
-    ) -> Result<NfaStateIndex, NfaConstructionError> {
+        accept: NFAStateIndex,
+        reject: NFAStateIndex,
+    ) -> Result<NFAStateIndex, NFAConstructionError> {
         // [s0] ----> [accept]
         //   |           ^
         //   v           |
@@ -403,9 +393,9 @@ impl Nfa {
     fn star_expr(
         &mut self,
         expr: &Hir,
-        accept: NfaStateIndex,
-        reject: NfaStateIndex,
-    ) -> Result<NfaStateIndex, NfaConstructionError> {
+        accept: NFAStateIndex,
+        reject: NFAStateIndex,
+    ) -> Result<NFAStateIndex, NFAConstructionError> {
         // [s0] ----> [accept]
         //  | ^
         //  | |
@@ -429,9 +419,9 @@ impl Nfa {
     fn plus_expr(
         &mut self,
         expr: &Hir,
-        accept: NfaStateIndex,
-        reject: NfaStateIndex,
-    ) -> Result<NfaStateIndex, NfaConstructionError> {
+        accept: NFAStateIndex,
+        reject: NFAStateIndex,
+    ) -> Result<NFAStateIndex, NFAConstructionError> {
         //            [accept]
         //               ^
         //               |
@@ -507,7 +497,7 @@ impl EdgeLabel for Test {
 
 pub struct EdgeIterator<'nfa, L: EdgeLabel + 'nfa> {
     edges: &'nfa [Edge<L>],
-    from: NfaStateIndex,
+    from: NFAStateIndex,
     index: usize,
 }
 
@@ -636,9 +626,9 @@ impl Debug for Test {
     }
 }
 
-impl Debug for NfaStateIndex {
+impl Debug for NFAStateIndex {
     fn fmt(&self, fmt: &mut Formatter) -> Result<(), FmtError> {
-        write!(fmt, "Nfa{}", self.0)
+        write!(fmt, "NFA{}", self.0)
     }
 }
 

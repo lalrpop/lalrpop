@@ -17,7 +17,7 @@ mod test;
 
 pub fn report_error<E>(
     grammar: &Grammar,
-    error: &Lr1TableConstructionError,
+    error: &LR1TableConstructionError,
     reporter: impl FnMut(Message) -> Result<(), E>,
 ) -> Result<(), E> {
     let mut cx = ErrorReportingCx::new(grammar, &error.states, &error.conflicts);
@@ -27,8 +27,8 @@ pub fn report_error<E>(
 struct ErrorReportingCx<'cx, 'grammar: 'cx> {
     grammar: &'grammar Grammar,
     first_sets: FirstSets,
-    states: &'cx [Lr1State<'grammar>],
-    conflicts: &'cx [Lr1Conflict<'grammar>],
+    states: &'cx [LR1State<'grammar>],
+    conflicts: &'cx [LR1Conflict<'grammar>],
 }
 
 #[derive(Debug)]
@@ -79,8 +79,8 @@ type TokenConflict<'grammar> = Conflict<'grammar, Token>;
 impl<'cx, 'grammar> ErrorReportingCx<'cx, 'grammar> {
     fn new(
         grammar: &'grammar Grammar,
-        states: &'cx [Lr1State<'grammar>],
-        conflicts: &'cx [Lr1Conflict<'grammar>],
+        states: &'cx [LR1State<'grammar>],
+        conflicts: &'cx [LR1Conflict<'grammar>],
     ) -> Self {
         ErrorReportingCx {
             grammar,
@@ -225,7 +225,7 @@ impl<'cx, 'grammar> ErrorReportingCx<'cx, 'grammar> {
                 .styled(Tls::session().cursor_symbol)
                 .punctuated(","),
             Token::Error => builder.text("If an error has been found,"),
-            Token::Eof => builder.text("If the end of the input is reached,"),
+            Token::EOF => builder.text("If the end of the input is reached,"),
         };
 
         let builder = builder
@@ -751,9 +751,9 @@ impl<'cx, 'grammar> ErrorReportingCx<'cx, 'grammar> {
 
     fn conflicting_shift_items(
         &self,
-        state: &Lr1State<'grammar>,
+        state: &LR1State<'grammar>,
         conflict: &TokenConflict<'grammar>,
-    ) -> Set<Lr0Item<'grammar>> {
+    ) -> Set<LR0Item<'grammar>> {
         // Lookahead must be a terminal, not EOF.
         // Find an item J like `Bar = ... (*) L ...`.
         let lookahead = Symbol::Terminal(conflict.lookahead.unwrap_terminal().clone());

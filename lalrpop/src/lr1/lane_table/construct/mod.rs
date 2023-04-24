@@ -34,7 +34,7 @@ impl<'grammar> LaneTableConstruct<'grammar> {
         }
     }
 
-    pub fn construct(self) -> Result<Vec<Lr1State<'grammar>>, Lr1TableConstructionError<'grammar>> {
+    pub fn construct(self) -> Result<Vec<LR1State<'grammar>>, LR1TableConstructionError<'grammar>> {
         let states = {
             match build::build_lr0_states(self.grammar, self.start_nt.clone()) {
                 Ok(states) => {
@@ -95,7 +95,7 @@ impl<'grammar> LaneTableConstruct<'grammar> {
     /// Given a set of LR0 states, returns LR1 states where the lookahead
     /// is always `TokenSet::all()`. We refer to these states as LR(0-1)
     /// states in the README.
-    fn promote_lr0_states(&self, lr0: Vec<Lr0State<'grammar>>) -> Vec<Lr1State<'grammar>> {
+    fn promote_lr0_states(&self, lr0: Vec<LR0State<'grammar>>) -> Vec<LR1State<'grammar>> {
         let all = TokenSet::all();
         debug!("promote_lr0_states: all={:?}", all);
         lr0.into_iter()
@@ -128,7 +128,7 @@ impl<'grammar> LaneTableConstruct<'grammar> {
 
     fn resolve_inconsistencies(
         &self,
-        states: &mut Vec<Lr1State<'grammar>>,
+        states: &mut Vec<LR1State<'grammar>>,
         inconsistent_state: StateIndex,
     ) -> Result<(), StateIndex> {
         debug!(
@@ -214,7 +214,7 @@ impl<'grammar> LaneTableConstruct<'grammar> {
 
     fn attempt_lalr(
         &self,
-        state: &mut Lr1State<'grammar>,
+        state: &mut LR1State<'grammar>,
         table: &LaneTable<'grammar>,
         actions: &Set<Action<'grammar>>,
     ) -> bool {
@@ -234,7 +234,7 @@ impl<'grammar> LaneTableConstruct<'grammar> {
 
     fn build_lane_table(
         &self,
-        states: &[Lr1State<'grammar>],
+        states: &[LR1State<'grammar>],
         inconsistent_state: StateIndex,
         actions: &Set<Action<'grammar>>,
     ) -> LaneTable<'grammar> {

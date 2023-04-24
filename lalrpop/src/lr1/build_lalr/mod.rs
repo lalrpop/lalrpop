@@ -14,15 +14,15 @@ mod test;
 // Intermediate LALR(1) state. Identical to an LR(1) state, but that
 // the items can be pushed to. We initially create these with an empty
 // set of actions, as well.
-struct Lalr1State<'grammar> {
+struct LALR1State<'grammar> {
     pub index: StateIndex,
-    pub items: Vec<Lr1Item<'grammar>>,
+    pub items: Vec<LR1Item<'grammar>>,
     pub shifts: Map<TerminalString, StateIndex>,
     pub reductions: Multimap<&'grammar Production, TokenSet>,
     pub gotos: Map<NonterminalString, StateIndex>,
 }
 
-pub fn build_lalr_states(grammar: &Grammar, start: NonterminalString) -> Lr1Result<'_> {
+pub fn build_lalr_states(grammar: &Grammar, start: NonterminalString) -> LR1Result<'_> {
     // First build the LR(1) states
     let lr_states = build::build_lr1_states(grammar, start)?;
 
@@ -43,12 +43,12 @@ pub fn build_lalr_states(grammar: &Grammar, start: NonterminalString) -> Lr1Resu
     Ok(lr1_states)
 }
 
-pub fn collapse_to_lalr_states<'grammar>(lr_states: &[Lr1State<'grammar>]) -> Lr1Result<'grammar> {
+pub fn collapse_to_lalr_states<'grammar>(lr_states: &[LR1State<'grammar>]) -> LR1Result<'grammar> {
     // Now compress them. This vector stores, for each state, the
     // LALR(1) state to which we will remap it.
     let mut remap: Vec<_> = (0..lr_states.len()).map(|_| StateIndex(0)).collect();
-    let mut lalr1_map: Map<Vec<Lr0Item>, StateIndex> = map();
-    let mut lalr1_states: Vec<Lalr1State> = vec![];
+    let mut lalr1_map: Map<Vec<LR0Item>, StateIndex> = map();
+    let mut lalr1_states: Vec<LALR1State> = vec![];
 
     for (lr1_index, lr1_state) in lr_states.iter().enumerate() {
         let lr0_kernel: Vec<_> = lr1_state
@@ -61,7 +61,7 @@ pub fn collapse_to_lalr_states<'grammar>(lr_states: &[Lr1State<'grammar>]) -> Lr
 
         let lalr1_index = *lalr1_map.entry(lr0_kernel).or_insert_with(|| {
             let index = StateIndex(lalr1_states.len());
-            lalr1_states.push(Lalr1State {
+            lalr1_states.push(LALR1State {
                 index,
                 items: vec![],
                 shifts: map(),
@@ -91,7 +91,7 @@ pub fn collapse_to_lalr_states<'grammar>(lr_states: &[Lr1State<'grammar>]) -> Lr
     for lalr1_state in &mut lalr1_states {
         let items = std::mem::take(&mut lalr1_state.items);
 
-        let items: Multimap<Lr0Item<'grammar>, TokenSet> = items
+        let items: Multimap<LR0Item<'grammar>, TokenSet> = items
             .into_iter()
             .map(
                 |Item {

@@ -1,9 +1,9 @@
-//! Constructs a Dfa which picks the longest matching regular
+//! Constructs a DFA which picks the longest matching regular
 //! expression from the input.
 
 use crate::collections::Set;
 use crate::kernel_set::{Kernel, KernelSet};
-use crate::lexer::nfa::{self, Nfa, NfaConstructionError, NfaStateIndex, Test};
+use crate::lexer::nfa::{self, NFAConstructionError, NFAStateIndex, Test, NFA};
 use crate::lexer::re;
 use std::fmt::{Debug, Display, Error, Formatter};
 use std::rc::Rc;
@@ -17,50 +17,43 @@ pub mod interpret;
 mod overlap;
 
 #[derive(Clone, Debug, PartialEq, Eq)]
-pub struct Dfa {
+pub struct DFA {
     pub states: Vec<State>,
 }
-
-#[allow(clippy::upper_case_acronyms)]
-#[deprecated(since = "1.0.0", note = "use `Dfa` instead")]
-pub type DFA = Dfa;
 
 #[derive(Copy, Clone, Debug, PartialOrd, Ord, PartialEq, Eq)]
 pub struct Precedence(pub usize);
 
 #[derive(Debug)]
-pub enum DfaConstructionError {
-    NfaConstructionError {
-        index: NfaIndex,
-        error: NfaConstructionError,
+pub enum DFAConstructionError {
+    NFAConstructionError {
+        index: NFAIndex,
+        error: NFAConstructionError,
     },
 
     /// Either of the two regexs listed could match, and they have equal
     /// priority.
-    Ambiguity { match0: NfaIndex, match1: NfaIndex },
+    Ambiguity { match0: NFAIndex, match1: NFAIndex },
 }
-
-#[deprecated(since = "1.0.0", note = "use `DfaConstructionError` instead")]
-pub type DFAConstructionError = DfaConstructionError;
 
 pub fn build_dfa(
     regexs: &[re::Regex],
     precedences: &[Precedence],
-) -> Result<Dfa, DfaConstructionError> {
+) -> Result<DFA, DFAConstructionError> {
     assert_eq!(regexs.len(), precedences.len());
     let nfas = regexs
         .iter()
         .enumerate()
-        .map(|(i, r)| match Nfa::from_re(r) {
+        .map(|(i, r)| match NFA::from_re(r) {
             Ok(nfa) => Ok(nfa),
-            Err(e) => Err(DfaConstructionError::NfaConstructionError {
-                index: NfaIndex(i),
+            Err(e) => Err(DFAConstructionError::NFAConstructionError {
+                index: NFAIndex(i),
                 error: e,
             }),
         })
         .collect::<Result<Vec<_>, _>>()?;
 
-    let builder = DfaBuilder {
+    let builder = DFABuilder {
         nfas: &nfas,
         precedences: precedences.to_vec(),
     };
@@ -68,58 +61,52 @@ pub fn build_dfa(
     Ok(dfa)
 }
 
-struct DfaBuilder<'nfa> {
-    nfas: &'nfa [Nfa],
+struct DFABuilder<'nfa> {
+    nfas: &'nfa [NFA],
     precedences: Vec<Precedence>,
 }
 
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct State {
-    item_set: DfaItemSet,
+    item_set: DFAItemSet,
     pub kind: Kind,
-    pub test_edges: Vec<(Test, DfaStateIndex)>,
-    pub other_edge: DfaStateIndex,
+    pub test_edges: Vec<(Test, DFAStateIndex)>,
+    pub other_edge: DFAStateIndex,
 }
 
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub enum Kind {
-    Accepts(NfaIndex),
+    Accepts(NFAIndex),
     Reject,
     Neither,
 }
 
 #[derive(Copy, Clone, Debug, Hash, PartialEq, Eq, PartialOrd, Ord)]
-pub struct NfaIndex(usize);
-
-#[deprecated(since = "1.0.0", note = "use `NfaIndex` instead")]
-pub type NFAIndex = NfaIndex;
+pub struct NFAIndex(usize);
 
 #[derive(Copy, Clone, Hash, PartialEq, Eq, PartialOrd, Ord)]
-pub struct DfaStateIndex(usize);
+pub struct DFAStateIndex(usize);
 
-#[deprecated(since = "1.0.0", note = "use `DfaStateIndex` instead")]
-pub type DFAStateIndex = DfaStateIndex;
-
-type DfaKernelSet = KernelSet<DfaItemSet>;
+type DFAKernelSet = KernelSet<DFAItemSet>;
 
 #[derive(Clone, Debug, Hash, PartialEq, Eq, PartialOrd, Ord)]
-struct DfaItemSet {
+struct DFAItemSet {
     items: Rc<Vec<Item>>,
 }
 
 #[derive(Copy, Clone, Hash, PartialEq, Eq, PartialOrd, Ord)]
 struct Item {
     // which regular expression?
-    nfa_index: NfaIndex,
+    nfa_index: NFAIndex,
 
-    // what state within the Nfa are we at?
-    nfa_state: NfaStateIndex,
+    // what state within the NFA are we at?
+    nfa_state: NFAStateIndex,
 }
 
-const START: DfaStateIndex = DfaStateIndex(0);
+const START: DFAStateIndex = DFAStateIndex(0);
 
-impl<'nfa> DfaBuilder<'nfa> {
-    fn build(&self) -> Result<Dfa, DfaConstructionError> {
+impl<'nfa> DFABuilder<'nfa> {
+    fn build(&self) -> Result<DFA, DFAConstructionError> {
         let mut kernel_set = KernelSet::new();
         let mut states = vec![];
 
@@ -140,9 +127,9 @@ impl<'nfa> DfaBuilder<'nfa> {
                 .collect();
             let tests = overlap::remove_overlap(&tests);
 
-            // if any Nfa is in an accepting state, that makes this
-            // Dfa state an accepting state
-            let mut all_accepts: Vec<(Precedence, NfaIndex)> = item_set
+            // if any NFA is in an accepting state, that makes this
+            // DFA state an accepting state
+            let mut all_accepts: Vec<(Precedence, NFAIndex)> = item_set
                 .items
                 .iter()
                 .cloned()
@@ -151,7 +138,7 @@ impl<'nfa> DfaBuilder<'nfa> {
                 .collect();
 
             // if all NFAs are in a rejecting state, that makes this
-            // Dfa a rejecting state
+            // DFA a rejecting state
             let all_rejects: bool = item_set
                 .items
                 .iter()
@@ -162,14 +149,14 @@ impl<'nfa> DfaBuilder<'nfa> {
             } else if all_accepts.is_empty() {
                 Kind::Neither
             } else if all_accepts.len() == 1 {
-                // accepts just one Nfa, easy case
+                // accepts just one NFA, easy case
                 Kind::Accepts(all_accepts[0].1)
             } else {
                 all_accepts.sort(); // sort regex with higher precedence, well, higher
                 let (best_priority, best_nfa) = all_accepts[all_accepts.len() - 1];
                 let (next_priority, next_nfa) = all_accepts[all_accepts.len() - 2];
                 if best_priority == next_priority {
-                    return Err(DfaConstructionError::Ambiguity {
+                    return Err(DFAConstructionError::Ambiguity {
                         match0: best_nfa,
                         match1: next_nfa,
                     });
@@ -179,7 +166,7 @@ impl<'nfa> DfaBuilder<'nfa> {
 
             // for each specific test, find what happens if we see a
             // character matching that test
-            let mut test_edges: Vec<(Test, DfaStateIndex)> = tests
+            let mut test_edges: Vec<(Test, DFAStateIndex)> = tests
                 .into_iter()
                 .map(|test| {
                     let items: Vec<_> = item_set
@@ -223,14 +210,14 @@ impl<'nfa> DfaBuilder<'nfa> {
             states.push(state);
         }
 
-        Ok(Dfa { states })
+        Ok(DFA { states })
     }
 
-    fn start_state(&self, kernel_set: &mut DfaKernelSet) -> DfaStateIndex {
+    fn start_state(&self, kernel_set: &mut DFAKernelSet) -> DFAStateIndex {
         // starting state is at the beginning of all regular expressions
         let items: Vec<_> = (0..self.nfas.len())
             .map(|i| Item {
-                nfa_index: NfaIndex(i),
+                nfa_index: NFAIndex(i),
                 nfa_state: nfa::START,
             })
             .collect();
@@ -260,7 +247,7 @@ impl<'nfa> DfaBuilder<'nfa> {
             .next()
     }
 
-    fn transitive_closure(&self, mut items: Vec<Item>) -> DfaItemSet {
+    fn transitive_closure(&self, mut items: Vec<Item>) -> DFAItemSet {
         let mut observed: Set<Item> = items.iter().cloned().collect();
 
         let mut counter = 0;
@@ -278,32 +265,32 @@ impl<'nfa> DfaBuilder<'nfa> {
         items.sort();
         items.dedup();
 
-        DfaItemSet {
+        DFAItemSet {
             items: Rc::new(items),
         }
     }
 
-    fn nfa(&self, item: Item) -> &Nfa {
+    fn nfa(&self, item: Item) -> &NFA {
         &self.nfas[item.nfa_index.0]
     }
 }
 
-impl Kernel for DfaItemSet {
-    type Index = DfaStateIndex;
+impl Kernel for DFAItemSet {
+    type Index = DFAStateIndex;
 
-    fn index(c: usize) -> DfaStateIndex {
-        DfaStateIndex(c)
+    fn index(c: usize) -> DFAStateIndex {
+        DFAStateIndex(c)
     }
 }
 
-impl Dfa {
-    fn state(&self, index: DfaStateIndex) -> &State {
+impl DFA {
+    fn state(&self, index: DFAStateIndex) -> &State {
         &self.states[index.0]
     }
 }
 
 impl Item {
-    fn to(&self, s: NfaStateIndex) -> Item {
+    fn to(&self, s: NFAStateIndex) -> Item {
         Item {
             nfa_index: self.nfa_index,
             nfa_state: s,
@@ -311,25 +298,25 @@ impl Item {
     }
 }
 
-impl Debug for DfaStateIndex {
+impl Debug for DFAStateIndex {
     fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
-        write!(fmt, "Dfa{}", self.0)
+        write!(fmt, "DFA{}", self.0)
     }
 }
 
-impl Display for DfaStateIndex {
+impl Display for DFAStateIndex {
     fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
         Debug::fmt(self, fmt)
     }
 }
 
-impl NfaIndex {
+impl NFAIndex {
     pub fn index(self) -> usize {
         self.0
     }
 }
 
-impl DfaStateIndex {
+impl DFAStateIndex {
     pub fn index(self) -> usize {
         self.0
     }

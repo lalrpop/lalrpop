@@ -56,7 +56,7 @@ pub struct TraceGraph<'grammar> {
 #[derive(Clone, Debug, PartialOrd, Ord, PartialEq, Eq)]
 pub enum TraceGraphNode<'grammar> {
     Nonterminal(NonterminalString),
-    Item(Lr0Item<'grammar>),
+    Item(LR0Item<'grammar>),
 }
 
 impl<'grammar> TraceGraph<'grammar> {
@@ -97,7 +97,7 @@ impl<'grammar> TraceGraph<'grammar> {
 
     pub fn lr0_examples<'graph>(
         &'graph self,
-        lr0_item: Lr0Item<'grammar>,
+        lr0_item: LR0Item<'grammar>,
     ) -> PathEnumerator<'graph, 'grammar> {
         PathEnumerator::new(self, lr0_item)
     }
@@ -105,7 +105,7 @@ impl<'grammar> TraceGraph<'grammar> {
     pub fn lr1_examples<'trace>(
         &'trace self,
         first_sets: &'trace FirstSets,
-        item: &Lr1Item<'grammar>,
+        item: &LR1Item<'grammar>,
     ) -> FilteredPathEnumerator<'trace, 'grammar> {
         FilteredPathEnumerator::new(first_sets, self, item.to_lr0(), item.lookahead.clone())
     }
@@ -183,7 +183,7 @@ struct EnumeratorState<'graph, 'grammar: 'graph> {
 }
 
 impl<'graph, 'grammar> PathEnumerator<'graph, 'grammar> {
-    fn new(graph: &'graph TraceGraph<'grammar>, lr0_item: Lr0Item<'grammar>) -> Self {
+    fn new(graph: &'graph TraceGraph<'grammar>, lr0_item: LR0Item<'grammar>) -> Self {
         let start_state = graph.indices[&TraceGraphNode::Item(lr0_item)];
         let mut enumerator = PathEnumerator {
             graph,
@@ -427,7 +427,7 @@ impl<'graph, 'grammar> FilteredPathEnumerator<'graph, 'grammar> {
     fn new(
         first_sets: &'graph FirstSets,
         graph: &'graph TraceGraph<'grammar>,
-        lr0_item: Lr0Item<'grammar>,
+        lr0_item: LR0Item<'grammar>,
         lookahead: TokenSet,
     ) -> Self {
         FilteredPathEnumerator {

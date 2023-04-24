@@ -46,7 +46,7 @@ pub struct Grammar {
     // where clauses declared on the grammar, like `grammar<T> where T: Sized`
     pub where_clauses: Vec<WhereClause>,
 
-    // optional tokenizer Dfa; this is only needed if the user did not supply
+    // optional tokenizer DFA; this is only needed if the user did not supply
     // an extern token declaration
     pub intern_token: Option<InternToken>,
 

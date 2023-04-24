@@ -20,13 +20,13 @@ pub fn infer_types(grammar: &Grammar) -> NormResult<Types> {
 
 struct TypeInferencer<'grammar> {
     stack: Vec<NonterminalString>,
-    nonterminals: HashMap<NonterminalString, Nt<'grammar>>,
+    nonterminals: HashMap<NonterminalString, NT<'grammar>>,
     types: Types,
     type_parameters: HashSet<Atom>,
 }
 
 #[derive(Copy, Clone)]
-struct Nt<'grammar> {
+struct NT<'grammar> {
     span: Span,
     type_decl: &'grammar Option<TypeRef>,
     alternatives: &'grammar Vec<Alternative>,
@@ -42,7 +42,7 @@ impl<'grammar> TypeInferencer<'grammar> {
             .filter_map(GrammarItem::as_nonterminal)
             .map(|data| {
                 assert!(!data.is_macro_def()); // normalized away by now
-                (data.name.clone(), Nt::new(data))
+                (data.name.clone(), NT::new(data))
             })
             .collect();
 
@@ -372,9 +372,9 @@ impl<'grammar> TypeInferencer<'grammar> {
     }
 }
 
-impl<'grammar> Nt<'grammar> {
-    fn new(data: &'grammar NonterminalData) -> Nt<'grammar> {
-        Nt {
+impl<'grammar> NT<'grammar> {
+    fn new(data: &'grammar NonterminalData) -> NT<'grammar> {
+        NT {
             span: data.span,
             type_decl: &data.type_decl,
             alternatives: &data.alternatives,

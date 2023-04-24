@@ -40,7 +40,7 @@ impl<'trace, 'grammar> Tracer<'trace, 'grammar> {
     pub fn backtrace_shift(
         mut self,
         item_state: StateIndex,
-        item: Lr0Item<'grammar>,
+        item: LR0Item<'grammar>,
     ) -> TraceGraph<'grammar> {
         let symbol_sets = item.symbol_sets();
 

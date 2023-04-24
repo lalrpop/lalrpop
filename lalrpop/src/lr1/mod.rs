@@ -20,11 +20,11 @@ use std::io::{self, Write};
 #[cfg(test)]
 mod interpret;
 
-pub use self::core::{Lr1Result, Lr1TableConstructionError};
+pub use self::core::{LR1Result, LR1TableConstructionError};
 pub use self::error::report_error;
 pub use self::tls::Lr1Tls;
 
-pub fn build_states(grammar: &Grammar, start: NonterminalString) -> Lr1Result<'_> {
+pub fn build_states(grammar: &Grammar, start: NonterminalString) -> LR1Result<'_> {
     let mut lr1_states = if !grammar.algorithm.lalr {
         build::build_lr1_states(grammar, start)?
     } else {
@@ -38,14 +38,14 @@ pub fn build_states(grammar: &Grammar, start: NonterminalString) -> Lr1Result<'_
 
 pub fn generate_report<'grammar, W: Write + 'grammar>(
     out: &'grammar mut W,
-    lr1result: &Lr1Result<'grammar>,
+    lr1result: &LR1Result<'grammar>,
 ) -> io::Result<()> {
     report::generate_report(out, lr1result)
 }
 
 /// By packing all states which start a reduction we can generate a smaller goto table as any
 /// states not starting a reduction will not need a row
-fn rewrite_state_indices(grammar: &Grammar, states: &mut [core::Lr1State]) {
+fn rewrite_state_indices(grammar: &Grammar, states: &mut [core::LR1State]) {
     let mut start_states = vec![false; states.len()];
     for (index, state) in states.iter_mut().enumerate() {
         debug_assert!(state.index.0 == index);
