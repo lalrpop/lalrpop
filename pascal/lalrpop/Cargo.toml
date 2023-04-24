@@ -14,5 +14,5 @@ regex = "1"
 pico-args = "0.5"
 
 [dependencies.lalrpop-util]
-version = "0.19.9"
+version = "0.19.10"
 path = "../../../lalrpop-util"
