@@ -42,7 +42,7 @@ rand = "0.8"
 
 [dependencies.lalrpop-util]
 path = "../lalrpop-util"
-version = "0.19.9" # LALRPOP
+version = "0.19.10" # LALRPOP
 
 [features]
 default=["lexer", "pico-args"]
