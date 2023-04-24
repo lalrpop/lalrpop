@@ -1,3 +1,25 @@
+<a name="0.19.10"></a>
+## 0.19.10 (2023-04-24)
+
+This release fixes an incompatibility with regex.
+
+#### Features
+
+* faster compilation time by up to 2x
+* expected tokens in failed parses are more accurate
+* support for unicode when using builtin tokenizer
+
+#### Bug fixes and other changes
+
+* fix a compatibility issue with regex 1.8
+* fewer warnings about clippy/unused imports in generated code
+* updated to edition 2021
+* updated mdbook
+
+#### Deprecations
+
+* various types renamed to use `CamelCase` acronyms; type aliases are in place so this is not a breaking change.
+
 <a name="0.19.9"></a>
 ## 0.19.9 (2023-03-25)
 
