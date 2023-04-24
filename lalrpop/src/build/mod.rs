@@ -218,7 +218,7 @@ fn parse_and_normalize_grammar(session: &Session, file_text: &FileText) -> io::R
             );
         }
 
-        Err(ParseError::UnrecognizedEof { location, .. }) => {
+        Err(ParseError::UnrecognizedEOF { location, .. }) => {
             report_error(
                 file_text,
                 pt::Span(location, location),

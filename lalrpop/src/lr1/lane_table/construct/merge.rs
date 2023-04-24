@@ -1,5 +1,5 @@
 use crate::collections::{Map, Multimap, Set};
-use crate::lr1::core::{Action, Lr1State, StateIndex};
+use crate::lr1::core::{Action, LR1State, StateIndex};
 use crate::lr1::lane_table::construct::state_set::StateSet;
 use crate::lr1::lane_table::table::context_set::ContextSet;
 use crate::lr1::lane_table::table::LaneTable;
@@ -16,7 +16,7 @@ use ena::unify::InPlaceUnificationTable;
 /// [r]: ../README.md
 pub struct Merge<'m, 'grammar: 'm> {
     table: &'m LaneTable<'grammar>,
-    states: &'m mut Vec<Lr1State<'grammar>>,
+    states: &'m mut Vec<LR1State<'grammar>>,
     visited: Set<StateIndex>,
     original_indices: Map<StateIndex, StateIndex>,
     clones: Multimap<StateIndex, Vec<StateIndex>>,
@@ -28,7 +28,7 @@ impl<'m, 'grammar> Merge<'m, 'grammar> {
     pub fn new(
         table: &'m LaneTable<'grammar>,
         unify: &'m mut InPlaceUnificationTable<StateSet>,
-        states: &'m mut Vec<Lr1State<'grammar>>,
+        states: &'m mut Vec<LR1State<'grammar>>,
         state_sets: &'m mut Map<StateIndex, StateSet>,
         inconsistent_state: StateIndex,
     ) -> Self {

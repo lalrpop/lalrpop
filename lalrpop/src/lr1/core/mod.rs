@@ -16,9 +16,9 @@ pub struct Item<'grammar, L: Lookahead> {
     pub lookahead: L,
 }
 
-pub type Lr0Item<'grammar> = Item<'grammar, Nil>;
+pub type LR0Item<'grammar> = Item<'grammar, Nil>;
 
-pub type Lr1Item<'grammar> = Item<'grammar, TokenSet>;
+pub type LR1Item<'grammar> = Item<'grammar, TokenSet>;
 
 impl<'grammar> Item<'grammar, Nil> {
     pub fn lr0(production: &'grammar Production, index: usize) -> Self {
@@ -60,7 +60,7 @@ impl<'grammar, L: Lookahead> Item<'grammar, L> {
         }
     }
 
-    pub fn to_lr0(&self) -> Lr0Item<'grammar> {
+    pub fn to_lr0(&self) -> LR0Item<'grammar> {
         Item {
             production: self.production,
             index: self.index,
@@ -119,9 +119,9 @@ pub struct Items<'grammar, L: Lookahead> {
 }
 
 #[allow(dead_code)]
-pub type Lr0Items<'grammar> = Items<'grammar, Nil>;
+pub type LR0Items<'grammar> = Items<'grammar, Nil>;
 #[allow(dead_code)]
-pub type Lr1Items<'grammar> = Items<'grammar, TokenSet>;
+pub type LR1Items<'grammar> = Items<'grammar, TokenSet>;
 
 #[derive(Clone, Debug)]
 pub struct State<'grammar, L: Lookahead> {
@@ -132,8 +132,8 @@ pub struct State<'grammar, L: Lookahead> {
     pub gotos: Map<NonterminalString, StateIndex>,
 }
 
-pub type Lr0State<'grammar> = State<'grammar, Nil>;
-pub type Lr1State<'grammar> = State<'grammar, TokenSet>;
+pub type LR0State<'grammar> = State<'grammar, Nil>;
+pub type LR1State<'grammar> = State<'grammar, TokenSet>;
 
 #[derive(Clone, Debug, PartialEq, Eq, PartialOrd, Ord)]
 pub enum Action<'grammar> {
@@ -157,8 +157,8 @@ pub struct Conflict<'grammar, L> {
 }
 
 #[allow(dead_code)]
-pub type Lr0Conflict<'grammar> = Conflict<'grammar, Nil>;
-pub type Lr1Conflict<'grammar> = Conflict<'grammar, TokenSet>;
+pub type LR0Conflict<'grammar> = Conflict<'grammar, Nil>;
+pub type LR1Conflict<'grammar> = Conflict<'grammar, TokenSet>;
 
 #[derive(Debug)]
 pub struct TableConstructionError<'grammar, L: Lookahead> {
@@ -170,11 +170,11 @@ pub struct TableConstructionError<'grammar, L: Lookahead> {
     pub conflicts: Vec<Conflict<'grammar, L>>,
 }
 
-pub type Lr0TableConstructionError<'grammar> = TableConstructionError<'grammar, Nil>;
-pub type Lr1TableConstructionError<'grammar> = TableConstructionError<'grammar, TokenSet>;
-pub type LrResult<'grammar, L> =
+pub type LR0TableConstructionError<'grammar> = TableConstructionError<'grammar, Nil>;
+pub type LR1TableConstructionError<'grammar> = TableConstructionError<'grammar, TokenSet>;
+pub type LRResult<'grammar, L> =
     Result<Vec<State<'grammar, L>>, TableConstructionError<'grammar, L>>;
-pub type Lr1Result<'grammar> = LrResult<'grammar, TokenSet>;
+pub type LR1Result<'grammar> = LRResult<'grammar, TokenSet>;
 
 impl<'grammar, L: Lookahead> Debug for Item<'grammar, L> {
     fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
@@ -193,7 +193,7 @@ impl<'grammar, L: Lookahead> Debug for Item<'grammar, L> {
 impl Display for Token {
     fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
         match *self {
-            Token::Eof => write!(fmt, "Eof"),
+            Token::EOF => write!(fmt, "EOF"),
             Token::Error => write!(fmt, "Error"),
             Token::Terminal(ref s) => write!(fmt, "{}", s),
         }

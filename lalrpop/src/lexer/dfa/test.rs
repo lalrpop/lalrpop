@@ -1,8 +1,8 @@
 use crate::lexer::dfa::interpret::interpret;
-use crate::lexer::dfa::{self, Dfa, DfaConstructionError, NfaIndex, Precedence};
+use crate::lexer::dfa::{self, DFAConstructionError, NFAIndex, Precedence, DFA};
 use crate::lexer::re;
 
-pub fn dfa(inputs: &[(&str, Precedence)]) -> Result<Dfa, DfaConstructionError> {
+pub fn dfa(inputs: &[(&str, Precedence)]) -> Result<DFA, DFAConstructionError> {
     let regexs: Result<Vec<_>, _> = inputs.iter().map(|&(s, _)| re::parse_regex(s)).collect();
     let regexs = match regexs {
         Ok(rs) => rs,
@@ -27,12 +27,12 @@ fn tokenizer() {
     ])
     .unwrap();
 
-    assert_eq!(interpret(&dfa, "class Foo"), Some((NfaIndex(0), "class")));
-    assert_eq!(interpret(&dfa, "classz Foo"), Some((NfaIndex(1), "classz")));
-    assert_eq!(interpret(&dfa, "123"), Some((NfaIndex(2), "123")));
-    assert_eq!(interpret(&dfa, "  classz Foo"), Some((NfaIndex(3), "  ")));
-    assert_eq!(interpret(&dfa, ">"), Some((NfaIndex(5), ">")));
-    assert_eq!(interpret(&dfa, ">>"), Some((NfaIndex(4), ">>")));
+    assert_eq!(interpret(&dfa, "class Foo"), Some((NFAIndex(0), "class")));
+    assert_eq!(interpret(&dfa, "classz Foo"), Some((NFAIndex(1), "classz")));
+    assert_eq!(interpret(&dfa, "123"), Some((NFAIndex(2), "123")));
+    assert_eq!(interpret(&dfa, "  classz Foo"), Some((NFAIndex(3), "  ")));
+    assert_eq!(interpret(&dfa, ">"), Some((NFAIndex(5), ">")));
+    assert_eq!(interpret(&dfa, ">>"), Some((NFAIndex(4), ">>")));
 }
 
 #[test]
@@ -55,23 +55,23 @@ fn issue_35() {
 #[test]
 fn alternatives() {
     let dfa = dfa(&[(r#"abc|abd"#, P0)]).unwrap();
-    assert_eq!(interpret(&dfa, "abc"), Some((NfaIndex(0), "abc")));
-    assert_eq!(interpret(&dfa, "abd"), Some((NfaIndex(0), "abd")));
+    assert_eq!(interpret(&dfa, "abc"), Some((NFAIndex(0), "abc")));
+    assert_eq!(interpret(&dfa, "abd"), Some((NFAIndex(0), "abd")));
     assert_eq!(interpret(&dfa, "123"), None);
 }
 
 #[test]
 fn alternatives_extension() {
     let dfa = dfa(&[(r#"abc|abcd"#, P0)]).unwrap();
-    assert_eq!(interpret(&dfa, "abc"), Some((NfaIndex(0), "abc")));
-    assert_eq!(interpret(&dfa, "abcd"), Some((NfaIndex(0), "abcd")));
+    assert_eq!(interpret(&dfa, "abc"), Some((NFAIndex(0), "abc")));
+    assert_eq!(interpret(&dfa, "abcd"), Some((NFAIndex(0), "abcd")));
     assert_eq!(interpret(&dfa, "123"), None);
 }
 
 #[test]
 fn alternatives_contraction() {
     let dfa = dfa(&[(r#"abcd|abc"#, P0)]).unwrap();
-    assert_eq!(interpret(&dfa, "abc"), Some((NfaIndex(0), "abc")));
-    assert_eq!(interpret(&dfa, "abcd"), Some((NfaIndex(0), "abcd")));
+    assert_eq!(interpret(&dfa, "abc"), Some((NFAIndex(0), "abc")));
+    assert_eq!(interpret(&dfa, "abcd"), Some((NFAIndex(0), "abcd")));
     assert_eq!(interpret(&dfa, "123"), None);
 }

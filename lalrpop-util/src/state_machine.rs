@@ -606,7 +606,7 @@ where
                 token,
                 expected: self.definition.expected_tokens_from_states(states),
             },
-            None => crate::ParseError::UnrecognizedEof {
+            None => crate::ParseError::UnrecognizedEOF {
                 location: self.last_location.clone(),
                 expected: self.definition.expected_tokens_from_states(states),
             },

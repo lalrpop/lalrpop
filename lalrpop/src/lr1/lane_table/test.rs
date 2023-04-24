@@ -36,7 +36,7 @@ fn nt(t: &str) -> NonterminalString {
     NonterminalString(Atom::from(t))
 }
 
-fn traverse(states: &[Lr0State], tokens: &[&str]) -> StateIndex {
+fn traverse(states: &[LR0State], tokens: &[&str]) -> StateIndex {
     interpret::interpret_partial(states, tokens.iter().map(|&s| term(s)))
         .unwrap()
         .pop()

@@ -3,13 +3,14 @@ use crate::grammar::repr::*;
 use crate::lr1::core::*;
 use crate::lr1::interpret::interpret;
 use crate::lr1::lookahead::Token;
+use crate::lr1::lookahead::Token::EOF;
 use crate::lr1::lookahead::TokenSet;
 use crate::lr1::tls::Lr1Tls;
 use crate::test_util::{compare, expect_debug, normalized_grammar};
 use crate::tls::Tls;
 use string_cache::DefaultAtom as Atom;
 
-use super::{build_lr0_states, build_lr1_states, use_lane_table, Lr};
+use super::{build_lr0_states, build_lr1_states, use_lane_table, LR};
 
 fn nt(t: &str) -> NonterminalString {
     NonterminalString(Atom::from(t))
@@ -17,7 +18,7 @@ fn nt(t: &str) -> NonterminalString {
 
 const ITERATIONS: usize = 22;
 
-fn random_test<'g>(grammar: &Grammar, states: &'g [Lr1State<'g>], start_symbol: NonterminalString) {
+fn random_test<'g>(grammar: &Grammar, states: &'g [LR1State<'g>], start_symbol: NonterminalString) {
     for i in 0..ITERATIONS {
         let input_tree = generate::random_parse_tree(grammar, start_symbol.clone());
         let output_tree = interpret(states, input_tree.terminals()).unwrap();
@@ -36,9 +37,9 @@ macro_rules! tokens {
     }
 }
 
-fn items<'g>(grammar: &'g Grammar, nonterminal: &str, index: usize, la: Token) -> Lr1Items<'g> {
+fn items<'g>(grammar: &'g Grammar, nonterminal: &str, index: usize, la: Token) -> LR1Items<'g> {
     let set = TokenSet::from(la);
-    let lr1: Lr<TokenSet> = Lr::new(grammar, nt(nonterminal), set.clone());
+    let lr1: LR<TokenSet> = LR::new(grammar, nt(nonterminal), set.clone());
     let items = lr1.transitive_closure(lr1.items(&nt(nonterminal), index, &set));
     items
 }
@@ -57,11 +58,11 @@ grammar;
 "#,
     );
     let _lr1_tls = Lr1Tls::install(grammar.terminals.clone());
-    let items = items(&grammar, "A", 0, Token::Eof);
+    let items = items(&grammar, "A", 0, EOF);
     expect_debug(
         items.vec,
         r#"[
-    A = (*) B "C" [Eof],
+    A = (*) B "C" [EOF],
     B = (*) ["C"],
     B = (*) "D" ["C"]
 ]"#,
@@ -89,20 +90,20 @@ C: Option<u32> = {
     let _lr1_tls = Lr1Tls::install(grammar.terminals.clone());
 
     expect_debug(
-        items(&grammar, "A", 0, Token::Eof).vec,
+        items(&grammar, "A", 0, EOF).vec,
         r#"[
-    A = (*) B C [Eof],
-    B = (*) ["C1", Eof],
-    B = (*) "B1" ["C1", Eof]
+    A = (*) B C [EOF],
+    B = (*) ["C1", EOF],
+    B = (*) "B1" ["C1", EOF]
 ]"#,
     );
 
     expect_debug(
-        items(&grammar, "A", 1, Token::Eof).vec,
+        items(&grammar, "A", 1, EOF).vec,
         r#"[
-    A = B (*) C [Eof],
-    C = (*) [Eof],
-    C = (*) "C1" [Eof]
+    A = B (*) C [EOF],
+    C = (*) [EOF],
+    C = (*) "C1" [EOF]
 ]"#,
     );
 }
