@@ -14,7 +14,7 @@ Just as any language that is written in itself, LALRPOP has to solve chicken-and
 To compile LALRPOP we need a working version of LALRPOP. To have a working version we need
 to compile it first.
 
-`lalrpop` crate includes already auto-generated parser
+The `lalrpop` crate already includes an auto-generated parser
 in `lalrpop/src/parser/lrgrammar.rs` that end-users use.
 Small (meh), (relatively) fast to compile, easy to use (really, for end-users).
 
