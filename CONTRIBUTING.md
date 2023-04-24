@@ -14,13 +14,8 @@ Just as any language that is written in itself, LALRPOP has to solve chicken-and
 To compile LALRPOP we need a working version of LALRPOP. To have a working version we need
 to compile it first.
 
-In the past, LALRPOP used snapshots of its older self to compile itself (you might notice
-[lalrpop-snap](https://crates.io/crates/lalrpop-snap) on crates.io). Unfortunately, this meant end-users
-had to build **both** `lalrpop` and `lalrpop-snap` crates and nobody liked this double-building.
-This approach has been abandoned a while ago.
-
-Today's approach is different - `lalrpop` crate includes already auto-generated parser
-in `lalrpop/src/parser/lrgrammar.rs` that's end-users use.
+The `lalrpop` crate already includes an auto-generated parser
+in `lalrpop/src/parser/lrgrammar.rs` that end-users use.
 Small (meh), (relatively) fast to compile, easy to use (really, for end-users).
 
 That said, if you changes don't affect LALRPOP's own grammar
@@ -65,6 +60,13 @@ This script will replace `lalrpop/src/parser/lrgrammar.rs` with the newly genera
 the old one to `lalrpop/src/parser/lrgrammar.rs.bak` just in case.
 
 Now feel free to `git commit` and `git push` your changes.
+
+#### History
+
+In the past, LALRPOP used snapshots of its older self to compile itself (you might notice
+[lalrpop-snap](https://crates.io/crates/lalrpop-snap) on crates.io). Unfortunately, this meant end-users
+had to build **both** `lalrpop` and `lalrpop-snap` crates and nobody liked this double-building.
+So this approach has been abandoned a while ago.
 
 ### Releasing LALRPOP
 
