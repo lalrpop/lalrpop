@@ -49,7 +49,7 @@ checksum = "cf1de2fe8c75bc145a2f577add951f8134889b4795d47466a54a5c846d691693"
 
 [[package]]
 name = "calculator"
-version = "0.19.9"
+version = "0.19.10"
 dependencies = [
  "lalrpop",
  "lalrpop-util",
@@ -212,7 +212,7 @@ dependencies = [
 
 [[package]]
 name = "lalrpop"
-version = "0.19.9"
+version = "0.19.10"
 dependencies = [
  "ascii-canvas",
  "bit-set",
@@ -234,7 +234,7 @@ dependencies = [
 
 [[package]]
 name = "lalrpop-test"
-version = "0.19.9"
+version = "0.19.10"
 dependencies = [
  "diff",
  "lalrpop",
@@ -244,7 +244,7 @@ dependencies = [
 
 [[package]]
 name = "lalrpop-util"
-version = "0.19.9"
+version = "0.19.10"
 dependencies = [
  "regex",
 ]
@@ -483,7 +483,7 @@ checksum = "fd6fbd9a79829dd1ad0cc20627bf1ed606756a7f77edff7b66b7064f9cb327c6"
 
 [[package]]
 name = "whitespace"
-version = "0.19.9"
+version = "0.19.10"
 dependencies = [
  "lalrpop",
  "lalrpop-util",
