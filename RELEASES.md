@@ -16,10 +16,6 @@ This release fixes an incompatibility with regex.
 * updated to edition 2021
 * updated mdbook
 
-#### Deprecations
-
-* various types renamed to use `CamelCase` acronyms; type aliases are in place so this is not a breaking change.
-
 <a name="0.19.9"></a>
 ## 0.19.9 (2023-03-25)
 
