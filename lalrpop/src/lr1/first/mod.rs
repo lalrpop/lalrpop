@@ -63,7 +63,7 @@ impl FirstSets {
                             Lr1Tls::with(|terminals| {
                                 for lookahead in set.iter() {
                                     match lookahead {
-                                        Token::EOF => {
+                                        Token::Eof => {
                                             empty_prod = true;
                                         }
                                         Token::Error | Token::Terminal(_) => {
@@ -83,7 +83,7 @@ impl FirstSets {
 
         // control only reaches here if either symbols is empty, or it
         // consists of nonterminals all of which may derive epsilon
-        result.insert(Token::EOF);
+        result.insert(Token::Eof);
         result
     }
 

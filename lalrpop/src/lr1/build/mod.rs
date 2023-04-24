@@ -16,15 +16,15 @@ mod test;
 fn build_lr1_states_legacy<'grammar>(
     grammar: &'grammar Grammar,
     start: NonterminalString,
-) -> LR1Result<'grammar> {
+) -> Lr1Result<'grammar> {
     let eof = TokenSet::eof();
-    let mut lr1: LR<'grammar, TokenSet> = LR::new(grammar, start, eof);
+    let mut lr1: Lr<'grammar, TokenSet> = Lr::new(grammar, start, eof);
     lr1.set_permit_early_stop(true);
     lr1.build_states()
 }
 
 type ConstructionFunction<'grammar> =
-    fn(&'grammar Grammar, NonterminalString) -> LR1Result<'grammar>;
+    fn(&'grammar Grammar, NonterminalString) -> Lr1Result<'grammar>;
 
 pub fn use_lane_table() -> bool {
     match env::var("LALRPOP_LANE_TABLE") {
@@ -33,7 +33,7 @@ pub fn use_lane_table() -> bool {
     }
 }
 
-pub fn build_lr1_states(grammar: &Grammar, start: NonterminalString) -> LR1Result<'_> {
+pub fn build_lr1_states(grammar: &Grammar, start: NonterminalString) -> Lr1Result<'_> {
     let (method_name, method_fn) = if use_lane_table() {
         ("lane", build_lane_table_states as ConstructionFunction)
     } else {
@@ -52,12 +52,12 @@ pub fn build_lr1_states(grammar: &Grammar, start: NonterminalString) -> LR1Resul
 pub fn build_lr0_states(
     grammar: &Grammar,
     start: NonterminalString,
-) -> Result<Vec<LR0State<'_>>, LR0TableConstructionError<'_>> {
-    let lr1 = LR::new(grammar, start, Nil);
+) -> Result<Vec<Lr0State<'_>>, Lr0TableConstructionError<'_>> {
+    let lr1 = Lr::new(grammar, start, Nil);
     lr1.build_states()
 }
 
-pub struct LR<'grammar, L: LookaheadBuild> {
+pub struct Lr<'grammar, L: LookaheadBuild> {
     grammar: &'grammar Grammar,
     first_sets: first::FirstSets,
     start_nt: NonterminalString,
@@ -65,9 +65,9 @@ pub struct LR<'grammar, L: LookaheadBuild> {
     permit_early_stop: bool,
 }
 
-impl<'grammar, L: LookaheadBuild> LR<'grammar, L> {
+impl<'grammar, L: LookaheadBuild> Lr<'grammar, L> {
     fn new(grammar: &'grammar Grammar, start_nt: NonterminalString, start_lookahead: L) -> Self {
-        LR {
+        Lr {
             grammar,
             first_sets: first::FirstSets::new(grammar),
             start_nt,
@@ -111,7 +111,7 @@ impl<'grammar, L: LookaheadBuild> LR<'grammar, L> {
 
             // group the items that we can transition into by shifting
             // over a term or nonterm
-            let transitions: Multimap<Symbol, Multimap<LR0Item<'grammar>, L>> = items
+            let transitions: Multimap<Symbol, Multimap<Lr0Item<'grammar>, L>> = items
                 .vec
                 .iter()
                 .filter_map(Item::shifted_item)
@@ -203,8 +203,8 @@ impl<'grammar, L: LookaheadBuild> LR<'grammar, L> {
 
     // expands `state` with epsilon moves
     fn transitive_closure(&self, items: Vec<Item<'grammar, L>>) -> Items<'grammar, L> {
-        let mut stack: Vec<LR0Item<'grammar>> = items.iter().map(Item::to_lr0).collect();
-        let mut map: Multimap<LR0Item<'grammar>, L> = items
+        let mut stack: Vec<Lr0Item<'grammar>> = items.iter().map(Item::to_lr0).collect();
+        let mut map: Multimap<Lr0Item<'grammar>, L> = items
             .into_iter()
             .map(|item| (item.to_lr0(), item.lookahead))
             .collect();
@@ -320,7 +320,7 @@ pub trait LookaheadBuild: Lookahead {
     // items, we have to add multiple items where we consider the
     // lookahead from `FIRST(...s, L)`.
     fn epsilon_moves<'grammar>(
-        lr: &LR<'grammar, Self>,
+        lr: &Lr<'grammar, Self>,
         nt: &NonterminalString,
         remainder: &[Symbol],
         lookahead: &Self,
@@ -329,22 +329,22 @@ pub trait LookaheadBuild: Lookahead {
 
 impl LookaheadBuild for Nil {
     fn epsilon_moves<'grammar>(
-        lr: &LR<'grammar, Self>,
+        lr: &Lr<'grammar, Self>,
         nt: &NonterminalString,
         _remainder: &[Symbol],
         lookahead: &Nil,
-    ) -> Vec<LR0Item<'grammar>> {
+    ) -> Vec<Lr0Item<'grammar>> {
         lr.items(nt, 0, lookahead)
     }
 }
 
 impl LookaheadBuild for TokenSet {
     fn epsilon_moves<'grammar>(
-        lr: &LR<'grammar, Self>,
+        lr: &Lr<'grammar, Self>,
         nt: &NonterminalString,
         remainder: &[Symbol],
         lookahead: &Self,
-    ) -> Vec<LR1Item<'grammar>> {
+    ) -> Vec<Lr1Item<'grammar>> {
         let first_set = lr.first_sets.first1(remainder, lookahead);
         lr.items(nt, 0, &first_set)
     }

@@ -4,7 +4,7 @@
 use crate::grammar::consts::{INPUT_LIFETIME, LALR, RECURSIVE_ASCENT, TABLE_DRIVEN, TEST_ALL};
 use crate::grammar::pattern::Pattern;
 use crate::grammar::repr::{self as r, NominalTypeRepr, TypeRepr};
-use crate::lexer::dfa::DFA;
+use crate::lexer::dfa::Dfa;
 use crate::message::builder::InlineBuilder;
 use crate::message::Content;
 use crate::tls::Tls;
@@ -138,7 +138,7 @@ pub struct InternToken {
     /// Set of `r"foo"` and `"foo"` literals extracted from the
     /// grammar. Sorted by order of increasing precedence.
     pub match_entries: Vec<MatchEntry>,
-    pub dfa: DFA,
+    pub dfa: Dfa,
 }
 
 /// In `token_check`, as we prepare to generate a tokenizer, we

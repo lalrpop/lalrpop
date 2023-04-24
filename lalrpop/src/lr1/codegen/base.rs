@@ -28,7 +28,7 @@ pub struct CodeGenerator<'codegen, 'grammar: 'codegen, W: Write + 'codegen, C> {
     pub start_symbol: NonterminalString,
 
     /// the vector of states
-    pub states: &'codegen [LR1State<'grammar>],
+    pub states: &'codegen [Lr1State<'grammar>],
 
     /// where we write output
     pub out: &'codegen mut RustWrite<W>,
@@ -49,7 +49,7 @@ impl<'codegen, 'grammar, W: Write, C> CodeGenerator<'codegen, 'grammar, W, C> {
         grammar: &'grammar Grammar,
         user_start_symbol: NonterminalString,
         start_symbol: NonterminalString,
-        states: &'codegen [LR1State<'grammar>],
+        states: &'codegen [Lr1State<'grammar>],
         out: &'codegen mut RustWrite<W>,
         repeatable: bool,
         action_module: &str,

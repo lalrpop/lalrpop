@@ -296,11 +296,11 @@ fn parse_error_map_err() {
 #[test]
 fn parse_error_eof_location() {
     match expr_intern_tok::ExprParser::new().parse(1, "1 - ") {
-        Err(ParseError::UnrecognizedEOF { location, .. }) => {
+        Err(ParseError::UnrecognizedEof { location, .. }) => {
             assert_eq!(location, 3);
         }
         _ => {
-            panic!("Expected an UnrecognizedEOF error");
+            panic!("Expected an UnrecognizedEof error");
         }
     }
 }
@@ -556,7 +556,7 @@ fn error_recovery_eof() {
     assert_eq!(
         errors.borrow()[0],
         ErrorRecovery {
-            error: ParseError::UnrecognizedEOF {
+            error: ParseError::UnrecognizedEof {
                 location: (),
                 expected: vec!["\"-\"".to_string()],
             },
@@ -572,7 +572,7 @@ fn error_recovery_eof_without_recovery() {
     let result = error_recovery::ItemParser::new().parse(&errors, tokens);
     assert_eq!(
         result,
-        Err(ParseError::UnrecognizedEOF {
+        Err(ParseError::UnrecognizedEof {
             location: (),
             expected: vec!["\"-\"".to_string()],
         })
@@ -865,7 +865,7 @@ fn test_expected_tokens_not_overbroad_on_reduce() {
 
     assert_eq!(
         err,
-        ParseError::UnrecognizedEOF {
+        ParseError::UnrecognizedEof {
             location: 1,
             // previously this would return ")", ";", "in" because the
             // parser state when the error was hit could reduce on
@@ -884,7 +884,7 @@ fn test_expected_tokens_not_overbroad_on_reduce_lalr() {
 
     assert_eq!(
         err,
-        ParseError::UnrecognizedEOF {
+        ParseError::UnrecognizedEof {
             location: 1,
             expected: vec![r#"";""#.to_owned()],
         }
