@@ -4,8 +4,7 @@
 
 use crate::lexer::re::Regex;
 use regex_syntax::hir::{
-    Anchor, Class, ClassBytesRange, ClassUnicodeRange, GroupKind, Hir, HirKind, Literal,
-    RepetitionKind, RepetitionRange,
+    Class, ClassBytesRange, ClassUnicodeRange, Hir, HirKind, Literal, Repetition,
 };
 use std::char;
 use std::fmt::{Debug, Error as FmtError, Formatter};
@@ -117,9 +116,7 @@ pub const START: NfaStateIndex = NfaStateIndex(2);
 pub enum NfaConstructionError {
     NamedCaptures,
     NonGreedy,
-    WordBoundary,
-    LineBoundary,
-    TextBoundary,
+    LookAround,
     ByteRegex,
 }
 
@@ -225,25 +222,29 @@ impl Nfa {
         accept: NfaStateIndex,
         reject: NfaStateIndex,
     ) -> Result<NfaStateIndex, NfaConstructionError> {
-        match *expr.kind() {
+        match expr.kind() {
             HirKind::Empty => Ok(accept),
 
-            HirKind::Literal(ref l) => {
-                match *l {
-                    // [s0] -otherwise-> [accept]
-                    Literal::Unicode(c) => {
-                        let s0 = self.new_state(StateKind::Neither);
-                        self.push_edge(s0, Test::char(c), accept);
-                        self.push_edge(s0, Other, reject);
-                        Ok(s0)
-                    }
-                    //// Bytes are not supported
-                    Literal::Byte(b) => {
-                        let s0 = self.new_state(StateKind::Neither);
-                        self.push_edge(s0, Test::byte(b), accept);
-                        self.push_edge(s0, Other, reject);
-                        Ok(s0)
-                    }
+            HirKind::Literal(Literal(l)) => {
+                /* // [s0] -otherwise-> [accept]
+                Literal::Unicode(c) => {
+                    let s0 = self.new_state(StateKind::Neither);
+                    self.push_edge(s0, Test::char(c), accept);
+                    self.push_edge(s0, Other, reject);
+                    Ok(s0)
+                } */
+                //// Bytes are not supported
+
+                if l.len() == 1 {
+                    let s0 = self.new_state(StateKind::Neither);
+                    self.push_edge(s0, Test::byte(l[0]), accept);
+                    self.push_edge(s0, Other, reject);
+                    Ok(s0)
+                } else {
+                    let s0 = self.new_state(StateKind::Neither);
+                    self.push_edge(s0, Test::byte(*l.last().unwrap()), accept);
+                    self.push_edge(s0, Other, reject);
+                    self.expr(&Hir::literal(&l[..l.len() - 1]), s0, reject)
                 }
             }
 
@@ -280,65 +281,61 @@ impl Nfa {
 
             // currently we don't support any boundaries because
             // I was too lazy to code them up or think about them
-            HirKind::WordBoundary(_) => Err(NfaConstructionError::WordBoundary),
-            HirKind::Anchor(ref a) => match a {
-                Anchor::StartLine | Anchor::EndLine => Err(NfaConstructionError::LineBoundary),
-                Anchor::StartText | Anchor::EndText => Err(NfaConstructionError::TextBoundary),
-            },
+            // Akin to anchors or wordboundaries
+            HirKind::Look(_) => Err(NfaConstructionError::LookAround),
 
-            // currently we treat all groups the same, whether they
+            // currently we treat all capture groups the same, whether they
             // capture or not; but we don't permit named groups,
             // in case we want to give them significance in the future
-            HirKind::Group(ref g) => match g.kind {
-                GroupKind::CaptureName { .. } => Err(NfaConstructionError::NamedCaptures),
-                GroupKind::CaptureIndex(_) | GroupKind::NonCapturing => {
-                    self.expr(&g.hir, accept, reject)
-                }
+            HirKind::Capture(c) => match c.name {
+                Some(_) => Err(NfaConstructionError::NamedCaptures),
+                None => self.expr(&c.sub, accept, reject),
             },
 
-            HirKind::Repetition(ref r) => {
-                if !r.greedy {
+            HirKind::Repetition(Repetition {
+                min,
+                max,
+                greedy,
+                sub,
+            }) => {
+                if !greedy {
                     // currently we always report the longest match possible
                     Err(NfaConstructionError::NonGreedy)
                 } else {
-                    match r.kind {
-                        RepetitionKind::ZeroOrOne => self.optional_expr(&r.hir, accept, reject),
-                        RepetitionKind::ZeroOrMore => self.star_expr(&r.hir, accept, reject),
-                        RepetitionKind::OneOrMore => self.plus_expr(&r.hir, accept, reject),
-                        RepetitionKind::Range(ref range) => {
-                            match *range {
-                                RepetitionRange::Exactly(c) => {
-                                    let mut s = accept;
-                                    for _ in 0..c {
-                                        s = self.expr(&r.hir, s, reject)?;
-                                    }
-                                    Ok(s)
-                                }
-                                RepetitionRange::AtLeast(min) => {
-                                    // +---min times----+
-                                    // |                |
-                                    //
-                                    // [s0] --..e..-- [s1] --..e*..--> [accept]
-                                    //          |      |
-                                    //          |      v
-                                    //          +-> [reject]
-                                    let mut s = self.star_expr(&r.hir, accept, reject)?;
-                                    for _ in 0..min {
-                                        s = self.expr(&r.hir, s, reject)?;
-                                    }
-                                    Ok(s)
-                                }
-                                RepetitionRange::Bounded(min, max) => {
-                                    let mut s = accept;
-                                    for _ in min..max {
-                                        s = self.optional_expr(&r.hir, s, reject)?;
-                                    }
-                                    for _ in 0..min {
-                                        s = self.expr(&r.hir, s, reject)?;
-                                    }
-                                    Ok(s)
-                                }
+                    match (min, max) {
+                        (0, Some(1)) => self.optional_expr(sub, accept, reject),
+                        (0, None) => self.star_expr(sub, accept, reject),
+                        (1, None) => self.plus_expr(sub, accept, reject),
+                        (_, Some(max)) if min == max => {
+                            let mut s = accept;
+                            for _ in 0..*max {
+                                s = self.expr(sub, s, reject)?;
                             }
+                            Ok(s)
+                        }
+                        (_, Some(max)) => {
+                            let mut s = accept;
+                            for _ in *min..*max {
+                                s = self.optional_expr(sub, s, reject)?;
+                            }
+                            for _ in 0..*min {
+                                s = self.expr(sub, s, reject)?;
+                            }
+                            Ok(s)
+                        }
+                        (_, None) => {
+                            // +---min times----+
+                            // |                |
+                            //
+                            // [s0] --..e..-- [s1] --..e*..--> [accept]
+                            //          |      |
+                            //          |      v
+                            //          +-> [reject]
+                            let mut s = self.star_expr(sub, accept, reject)?;
+                            for _ in 0..*min {
+                                s = self.expr(sub, s, reject)?;
+                            }
+                            Ok(s)
                         }
                     }
                 }
