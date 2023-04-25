@@ -14,7 +14,7 @@ pub fn compile<'grammar, W: Write>(
     grammar: &'grammar Grammar,
     user_start_symbol: NonterminalString,
     start_symbol: NonterminalString,
-    states: &[LR1State<'grammar>],
+    states: &[Lr1State<'grammar>],
     out: &mut RustWrite<W>,
 ) -> io::Result<()> {
     let mut ascent =
@@ -29,7 +29,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TestAll> {
         grammar: &'grammar Grammar,
         user_start_symbol: NonterminalString,
         start_symbol: NonterminalString,
-        states: &'ascent [LR1State<'grammar>],
+        states: &'ascent [Lr1State<'grammar>],
         out: &'ascent mut RustWrite<W>,
     ) -> Self {
         CodeGenerator::new(

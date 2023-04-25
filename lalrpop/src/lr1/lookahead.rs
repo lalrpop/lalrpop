@@ -68,7 +68,7 @@ impl Lookahead for Nil {
 /// pseudo-symbol EOF that represents "end of input".
 #[derive(Clone, Hash, PartialEq, Eq, PartialOrd, Ord)]
 pub enum Token {
-    EOF,
+    Eof,
     Error,
     Terminal(TerminalString),
 }
@@ -129,10 +129,13 @@ impl Lookahead for TokenSet {
 }
 
 impl Token {
+    #[deprecated(since = "1.0.0", note = "use `Eof` instead")]
+    pub const EOF: Self = Self::Eof;
+
     pub fn unwrap_terminal(&self) -> &TerminalString {
         match *self {
             Token::Terminal(ref t) => t,
-            Token::EOF | Token::Error => {
+            Token::Eof | Token::Error => {
                 panic!("`unwrap_terminal()` invoked but with EOF or Error")
             }
         }
@@ -186,7 +189,7 @@ impl TokenSet {
 
     fn bit_with(&self, lookahead: &Token, terminals: &TerminalSet) -> usize {
         match *lookahead {
-            Token::EOF => terminals.all.len(),
+            Token::Eof => terminals.all.len(),
             Token::Error => terminals.all.len() + 1,
             Token::Terminal(ref t) => terminals.bits[t],
         }
@@ -272,7 +275,7 @@ impl<'iter> Iterator for TokenSetIter<'iter> {
                 if bit == terminals.all.len() + 1 {
                     Token::Error
                 } else if bit == terminals.all.len() {
-                    Token::EOF
+                    Token::Eof
                 } else {
                     Token::Terminal(terminals.all[bit].clone())
                 }

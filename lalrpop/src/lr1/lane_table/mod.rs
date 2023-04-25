@@ -10,7 +10,7 @@ mod table;
 #[cfg(test)]
 mod test;
 
-pub fn build_lane_table_states(grammar: &Grammar, start: NonterminalString) -> LR1Result<'_> {
+pub fn build_lane_table_states(grammar: &Grammar, start: NonterminalString) -> Lr1Result<'_> {
     construct::LaneTableConstruct::new(grammar, start).construct()
 }
 
