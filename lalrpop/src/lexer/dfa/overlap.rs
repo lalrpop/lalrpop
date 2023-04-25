@@ -38,6 +38,8 @@ pub fn remove_overlap(ranges: &Set<Test>) -> Vec<Test> {
     // prune them out.
     disjoint_ranges.retain(|r| !r.is_empty());
 
+    disjoint_ranges.sort();
+
     disjoint_ranges
 }
 
@@ -69,10 +71,10 @@ fn add_range(range: Test, start_index: usize, disjoint_ranges: &mut Vec<Test>) {
             let max_max = cmp::max(range.end(), overlapping_range.end());
             // When working with inclusive ranges, we need to be sure to not double count
             // the meeting points of low-mid_range and mid-max_range.
-            // So we subtract 1 from the end of the low_range and mid_range as these elements are already included in the start of their corresponding next ranges.
+            // So we adjust the end of the low_range and start of max_range as these elements are already included in the start of their corresponding next ranges.
             let low_range = Test::new(min_min..=mid_min - 1);
-            let mid_range = Test::new(mid_min..=mid_max - 1);
-            let max_range = Test::new(mid_max..=max_max);
+            let mid_range = Test::new(mid_min..=mid_max);
+            let max_range = Test::new(mid_max + 1..=max_max);
 
             assert!(low_range.is_disjoint(&mid_range));
             assert!(low_range.is_disjoint(&max_range));
@@ -118,7 +120,7 @@ fn alphabet() {
         'c' ..= 'l',
         '0' ..= '9',
     };
-    assert_eq!(result, vec!['0'..='9', 'a'..='b', 'c'..='k', 'l'..='z']);
+    assert_eq!(result, vec!['0'..='9', 'a'..='b', 'c'..='l', 'm'..='z']);
 }
 
 #[test]
@@ -129,7 +131,10 @@ fn repeat() {
         'l' ..= 'z',
         '0' ..= '9',
     };
-    assert_eq!(result, vec!['0'..='9', 'a'..='b', 'c'..='k', 'l'..='z']);
+    assert_eq!(
+        result,
+        vec!['0'..='9', 'a'..='b', 'c'..='k', 'l'..='l', 'm'..='z']
+    );
 }
 
 #[test]
@@ -139,5 +144,17 @@ fn stagger() {
         '2' ..= '4',
         '3' ..= '5',
     };
-    assert_eq!(result, vec!['0'..='1', '2'..='2', '3'..='3', '4'..='5']);
+    assert_eq!(
+        result,
+        vec!['0'..='1', '2'..='2', '3'..='3', '4'..='4', '5'..='5']
+    );
+}
+
+#[test]
+fn empty_range() {
+    let result = test! {
+        'b' ..= 'b',
+        'a' ..= 'z',
+    };
+    assert_eq!(result, vec!['a'..='a', 'b'..='b', 'c'..='z']);
 }
