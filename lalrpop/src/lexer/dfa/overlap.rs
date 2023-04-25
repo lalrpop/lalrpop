@@ -20,6 +20,7 @@
 use crate::collections::Set;
 use crate::lexer::nfa::Test;
 use std::cmp;
+use std::ops::RangeInclusive;
 
 pub fn remove_overlap(ranges: &Set<Test>) -> Vec<Test> {
     // We will do this in the dumbest possible way to start. :)
@@ -48,6 +49,9 @@ fn add_range(range: Test, start_index: usize, disjoint_ranges: &mut Vec<Test>) {
         return;
     }
 
+    dbg!(&range);
+    dbg!(&disjoint_ranges);
+
     // Find first overlapping range in `disjoint_ranges`, if any.
     match disjoint_ranges[start_index..]
         .iter()
@@ -72,7 +76,15 @@ fn add_range(range: Test, start_index: usize, disjoint_ranges: &mut Vec<Test>) {
             // When working with inclusive ranges, we need to be sure to not double count
             // the meeting points of low-mid_range and mid-max_range.
             // So we adjust the end of the low_range and start of max_range as these elements are already included in the start of their corresponding next ranges.
-            let low_range = Test::new(min_min..=mid_min - 1);
+
+            let low_range = if mid_min == 0 {
+                // This is an edgecase where both ranges start at the null character
+                // In this case we don't want to create a range from 0 to -1
+                // Thus we create an empty range
+                Test::new(RangeInclusive::new(1, 0))
+            } else {
+                Test::new(min_min..=mid_min - 1)
+            };
             let mid_range = Test::new(mid_min..=mid_max);
             let max_range = Test::new(mid_max + 1..=max_max);
 
@@ -157,4 +169,13 @@ fn empty_range() {
         'a' ..= 'z',
     };
     assert_eq!(result, vec!['a'..='a', 'b'..='b', 'c'..='z']);
+}
+
+#[test]
+fn null() {
+    let result = test! {
+        '\0' ..= '\0',
+        '\0' ..= 'a',
+    };
+    assert_eq!(result, vec!['\0'..='\0', 1 as char..='a']);
 }
