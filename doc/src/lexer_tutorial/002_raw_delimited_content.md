@@ -1,7 +1,7 @@
 # Lexing raw delimited content
 
 Our calculator example operated on numbers and arithmetic operators.
-There is no overlap between the characters for numeric digits (`0`, `1`, ...)
+There is no overlap between the characters for numeric digits (`0`, `1`, ...),
 the characters representing operators (`+`, `-`, ...) and parentheses
 (`(`, `)`), so it was easy to embed those tokens directly in the grammar,
 as we saw in the earlier sections.
@@ -17,7 +17,7 @@ x = "a"
 y = "bc"
 ```
 
-Using what we have learned so far, we might try a grammar like the below.
+Using what we have learned so far, we might try a grammar like the following one:
 
 ```lalrpop
 use super::{Var, Lit, Stmt};
@@ -195,7 +195,7 @@ pub Lit: Lit = {
 But this is a fragile workaround.
 
 Specifically, this workaround is only applicable because we put artificial
-limits in this language.
+limits on this language.
 
 If we wanted to generalize string literals to be able to contain other
 characters (such as whitespace), the technique described so far does not work
@@ -236,7 +236,7 @@ thread 'spaceballs' panicked at 'assertion failed: `(left == right)`
  right: `Ok(Stmt(Var('z'), Lit("x")))`', doc/nobol/src/main.rs:58:5
 ```
 
-Our attempt to generalize what string contents can be has caused problems for
+Our attempt to generalize what strings can contain has caused problems for
 how the *rest* of the input is tokenized.
 
 
@@ -256,11 +256,11 @@ for the string delimiter (`"\""`) versus the string content (in this case,
 The problem is that our intuition is that we only want to tokenize string
 content when we are in the process of reading a string. In other words, we only
 want to apply the `r"[a-c]*"` rule immediately after reading a `"\""`. But the
-generated lexer does not infer this from our rules; it just blindly pattern
-matches for something matching the string content regular expression *anywhere*
+generated lexer does not infer this from our rules; it just blindly looks for
+something matching the string content regular expression *anywhere*
 in the input.
 
-You could resolve this with a custom lexer (treated in the next section).
+You could solve this with a custom lexer (treated in the next section).
 
 But the simplest thing to do in this scenario is to read the string delimiters and the string content as a *single token*, like so:
 
