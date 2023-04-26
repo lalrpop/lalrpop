@@ -14,6 +14,11 @@ authors = ["Niko Matsakis <niko@alum.mit.edu>"]
 license = "Apache-2.0 OR MIT"
 version = "0.19.10" # LALRPOP
 edition = "2021"
+# This is (very) soft limit of the minimum supported version.
+# Please update it when lalrpop requires a new feature.
+# We prefer to avoid the latest 2 stable versions. (e.g. at most 1.64 when stable is 1.66)
+# NOTE: Don't forget to update test.yaml as well.
+rust-version = "1.64"
 
 [workspace.dependencies]
 diff = { version = "0.1.12", default_features = false }
