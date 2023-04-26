@@ -6,4 +6,4 @@ This part is about controlling the inner workings of LALRPOP's built-in lexer ge
 - [Lexing raw delimited content](002_raw_delimited_content.md)
 - [Writing a custom lexer](003_writing_custom_lexer.md)
 - [Using tokens with references](004_token_references.md)
-- [Using an external library](004_external_lib.md)
+- [Using an external library](005_external_lib.md)
