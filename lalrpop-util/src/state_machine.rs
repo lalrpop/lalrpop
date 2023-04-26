@@ -1,5 +1,3 @@
-#![allow(dead_code)]
-
 use alloc::{string::String, vec, vec::Vec};
 use core::fmt::Debug;
 

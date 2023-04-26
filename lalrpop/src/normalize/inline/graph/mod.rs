@@ -1,5 +1,3 @@
-#![allow(dead_code)]
-
 use crate::collections::{map, Map};
 use crate::grammar::consts::INLINE;
 use crate::grammar::repr::*;
