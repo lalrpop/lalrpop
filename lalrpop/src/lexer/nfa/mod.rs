@@ -579,7 +579,8 @@ impl Test {
     pub fn len(&self) -> u32 {
         // The reason we don't have a RangeInclusive::len is because it panics if the range is 0..=u32::max
         // Akin to https://github.com/rust-lang/rust/issues/36386
-        self.end() - self.start()
+        // Plus one because the range is inclusive
+        self.end() + 1 - self.start()
     }
 
     pub fn contains_u32(&self, c: u32) -> bool {
@@ -628,10 +629,10 @@ impl Debug for Test {
                         write!(fmt, "{}", start)
                     }
                 } else {
-                    write!(fmt, "[{:?}..{:?}]", start, end)
+                    write!(fmt, "[{:?}..={:?}]", start, end)
                 }
             }
-            _ => write!(fmt, "[{:?}..{:?}]", self.start(), self.end()),
+            _ => write!(fmt, "[{:?}..]{:?}]", self.start(), self.end()),
         }
     }
 }
