@@ -1,4 +1,4 @@
-use super::{Var, Lit, Stmt};
+use super::{Var, Lit, Eql};
 
 grammar;
 
@@ -16,4 +16,4 @@ pub Lit: Lit = {
     "\"" <r"[a-z ]*"> "\"" => <>.into(),
 };
 
-pub Stmt: Stmt = <Var> "=" <Lit> => (<>).into();
+pub Eql: Eql = <Var> "=" <Lit> => (<>).into();

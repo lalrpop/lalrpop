@@ -1,4 +1,4 @@
-use super::{Var, Lit, Stmt};
+use super::{Var, Lit, Eql};
 
 grammar;
 
@@ -13,4 +13,4 @@ pub Var: Var = <r"[x-z]"> => <>.chars().next().unwrap().into();
 
 pub Lit: Lit = "\"" <r"[a-z]*"> "\"" => <>.into();
 
-pub Stmt: Stmt = <Var> "=" <Lit> => (<>).into();
+pub Eql: Eql = <Var> "=" <Lit> => (<>).into();

@@ -19,7 +19,7 @@ y = "bc"
 Using what we have learned so far, we might try a grammar like the following one:
 
 ```lalrpop
-use super::{Var, Lit, Stmt};
+use super::{Var, Lit, Eql};
 
 grammar;
 
@@ -27,7 +27,7 @@ pub Var: Var = <r"[x-z]"> => <>.chars().next().unwrap().into();
 
 pub Lit: Lit = "\"" <r"[a-z]*"> "\"" => <>.into();
 
-pub Stmt: Stmt = <Var> "=" <Lit> => (<>).into();
+pub Eql: Eql = <Var> "=" <Lit> => (<>).into();
 ```
 
 Unfortunately, this does not work; attempting to process the above grammar yields:
@@ -56,7 +56,7 @@ A `match` declaration here, as suggested in the previous chapter, might seem
 like it fixes the problem:
 
 ```
-use super::{Var, Lit, Stmt};
+use super::{Var, Lit, Eql};
 
 grammar;
 
@@ -71,7 +71,7 @@ pub Var: Var = <r"[x-z]"> => <>.chars().next().unwrap().into();
 
 pub Lit: Lit = "\"" <r"[a-z]*"> "\"" => <>.into();
 
-pub Stmt: Stmt = <Var> "=" <Lit> => (<>).into();
+pub Eql: Eql = <Var> "=" <Lit> => (<>).into();
 ```
 
 With that `match` declaration in place we can successfully run a test like this
@@ -80,7 +80,7 @@ one:
 ```rust
 #[test]
 fn fair_ball() {
-    assert_eq!(nobol2::StmtParser::new().parse(r#"z = "xyz""#), Ok(('z', "xyz").into()));
+    assert_eq!(nobol2::EqlParser::new().parse(r#"z = "xyz""#), Ok(('z', "xyz").into()));
 }
 ```
 
@@ -90,7 +90,7 @@ Consider this variant of the previous test:
 ```rust
 #[test]
 fn foul_ball() {
-    assert_eq!(nobol2::StmtParser::new().parse(r#"z = "x""#), Ok(('z', "x").into()));
+    assert_eq!(nobol2::EqlParser::new().parse(r#"z = "x""#), Ok(('z', "x").into()));
 }
 ```
 
@@ -100,7 +100,7 @@ The above produces:
 ---- foul_ball stdout ----
 thread 'foul_ball' panicked at 'assertion failed: `(left == right)`
   left: `Err(UnrecognizedToken { token: (5, Token(3, "x"), 6), expected: ["r#\"[a-z]*\"#"] })`,
- right: `Ok(Stmt(Var('z'), Lit("x")))`', doc/nobol/src/main.rs:43:5
+ right: `Ok(Eql(Var('z'), Lit("x")))`', doc/nobol/src/main.rs:43:5
 ```
 
 What is the problem?
@@ -147,7 +147,7 @@ pub Lit: Lit = {
     "\"" <r"[a-z ]*"> "\"" => <>.into(),
 };
 
-pub Stmt: Stmt = <Var> "=" <Lit> => (<>).into();
+pub Eql: Eql = <Var> "=" <Lit> => (<>).into();
 ```
 
 Now, if we run the same test as before:
@@ -155,7 +155,7 @@ Now, if we run the same test as before:
 ```rust
 #[test]
 fn spaceballs() {
-    assert_eq!(nobol4::StmtParser::new().parse(r#"z = "x""#), Ok(('z', "x").into()));
+    assert_eq!(nobol4::EqlParser::new().parse(r#"z = "x""#), Ok(('z', "x").into()));
 }
 ```
 
@@ -164,7 +164,7 @@ we get the following error output:
 ```
 thread 'spaceballs' panicked at 'assertion failed: `(left == right)`
   left: `Err(UnrecognizedToken { token: (0, Token(2, "z "), 2), expected: ["r#\"[x-z]*\"#"] })`,
- right: `Ok(Stmt(Var('z'), Lit("x")))`', doc/nobol/src/main.rs:58:5
+ right: `Ok(Eql(Var('z'), Lit("x")))`', doc/nobol/src/main.rs:58:5
 ```
 
 Our attempt to generalize what strings can contain has caused problems for
@@ -200,7 +200,7 @@ pub Var: Var = <r"[a-z]"> => <>.chars().next().unwrap().into();
 
 pub Lit: Lit = <l:r#""[a-z ]*""#> => l[1..l.len()-1].into();
 
-pub Stmt: Stmt = <Var> "=" <Lit> => (<>).into();
+pub Eql: Eql = <Var> "=" <Lit> => (<>).into();
 ```
 
 (Note that this form of the grammar does not require any `match` statement;
@@ -214,11 +214,11 @@ With this definition of the grammar, all of these tests pass:
 fn homerun() {
     assert_eq!(nobol5::VarParser::new().parse("x"), Ok('x'.into()));
     assert_eq!(nobol5::LitParser::new().parse(r#""abc""#), Ok("abc".into()));
-    assert_eq!(nobol5::StmtParser::new().parse(r#"x = "a""#), Ok(('x', "a").into()));
-    assert_eq!(nobol5::StmtParser::new().parse(r#"y = "bc""#), Ok(('y', "bc").into()));
-    assert_eq!(nobol5::StmtParser::new().parse(r#"z = "xyz""#), Ok(('z', "xyz").into()));
-    assert_eq!(nobol5::StmtParser::new().parse(r#"z = "x""#), Ok(('z', "x").into()));
-    assert_eq!(nobol5::StmtParser::new().parse(r#"z = "x y z""#), Ok(('z', "x y z").into()));
+    assert_eq!(nobol5::EqlParser::new().parse(r#"x = "a""#), Ok(('x', "a").into()));
+    assert_eq!(nobol5::EqlParser::new().parse(r#"y = "bc""#), Ok(('y', "bc").into()));
+    assert_eq!(nobol5::EqlParser::new().parse(r#"z = "xyz""#), Ok(('z', "xyz").into()));
+    assert_eq!(nobol5::EqlParser::new().parse(r#"z = "x""#), Ok(('z', "x").into()));
+    assert_eq!(nobol5::EqlParser::new().parse(r#"z = "x y z""#), Ok(('z', "x y z").into()));
 }
 ```
 
@@ -255,7 +255,7 @@ As a concrete example, with the above definition for `Lit`, this test:
 ```rust
 #[test]
 fn popfly() {
-    assert_eq!(nobol6::StmtParser::new().parse(r#"z = "\"\\""#), Ok(('z', "\"\\").into()));
+    assert_eq!(nobol6::EqlParser::new().parse(r#"z = "\"\\""#), Ok(('z', "\"\\").into()));
 }
 ```
 
@@ -263,8 +263,8 @@ yields this output:
 
 ```
 thread 'popfly' panicked at 'assertion failed: `(left == right)`
-  left: `Ok(Stmt(Var('z'), Lit("\\\"\\\\")))`,
- right: `Ok(Stmt(Var('z'), Lit("\"\\")))`', doc/nobol/src/main.rs:91:5
+  left: `Ok(Eql(Var('z'), Lit("\\\"\\\\")))`,
+ right: `Ok(Eql(Var('z'), Lit("\"\\")))`', doc/nobol/src/main.rs:91:5
 ```
 
 This can be readily addressed by adding some code to post-process the token to remove the
