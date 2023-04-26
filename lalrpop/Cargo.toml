@@ -23,7 +23,7 @@ ena = { version = "0.14", default_features = false }
 is-terminal = "0.4.2"
 itertools = { version = "0.10", default_features = false, features = ["use_std"] }
 petgraph = { version = "0.6", default_features = false }
-regex = { version = "1", default_features = false, features = ["std", "unicode-case"] }
+regex = { version = "1.7.3", default_features = false, features = ["std", "unicode-case"] }
 regex-syntax = { version = "0.6", default_features = false }
 string_cache = { version = "0.8", default_features = false }
 term = { version = "0.7", default_features = false }
