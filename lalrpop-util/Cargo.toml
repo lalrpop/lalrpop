@@ -9,7 +9,7 @@ workspace = ".."
 edition = "2018"
 
 [dependencies]
-regex = { version = "1", optional = true }
+regex = { version = "1", optional = true, features = [ "unicode-case" ] }
 
 [features]
 lexer = ["regex"]
