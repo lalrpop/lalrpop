@@ -3,7 +3,7 @@ use super::{Var, Lit, Eql};
 grammar;
 
 pub Var: Var = <r"[x-z]"> => <>.chars().next().unwrap().into();
-
+// (deliberately deviates and uses `[a-c]` instead of `[a-z]` so that we can run our naive tests.)
 pub Lit: Lit = "\"" <r"[a-c]*"> "\"" => <>.into();
 
 pub Eql: Eql = <Var> "=" <Lit> => (<>).into();
