@@ -6,11 +6,10 @@ the characters representing operators (`+`, `-`, ...) and parentheses
 (`(`, `)`), so it was easy to embed those tokens directly in the grammar,
 as we saw in the earlier sections.
 
-However, some languages do not have such easy separations at the lexical level.
+However, clean lexical separations can be hard to identify in some languages.
 
-Consider parsing a language with string literals. We will deliberately choose
-one that is very simple: All it can do is bind variables, and the variables are
-always single characters, like this:
+Consider parsing a language with string literals. We will define a simple one;
+all it can do is bind variables, which are always single characters, like this:
 
 ```
 x = "a"
@@ -26,80 +25,12 @@ grammar;
 
 pub Var: Var = <r"[x-z]"> => <>.chars().next().unwrap().into();
 
-pub Lit: Lit = "\"" <r"[a-c]*"> "\"" => <>.into();
+pub Lit: Lit = "\"" <r"[a-z]*"> "\"" => <>.into();
 
 pub Stmt: Stmt = <Var> "=" <Lit> => (<>).into();
 ```
 
-This grammar deliberately uses regular expressions that are very limited in scope,
-ensuring that there is no overlap between variable names and string contents,
-so that we can see what kinds of cases that this approach *does* handle.
-
-We can combine the above with some library code and get a system that seems to work.
-
-```rust
-lalrpop_mod!(pub nobol1); // syntesized by LALRPOP
-
-#[derive(PartialEq, Debug)]
-pub struct Var(char);
-
-#[derive(PartialEq, Debug)]
-pub struct Lit(String);
-
-#[derive(PartialEq, Debug)]
-pub struct Stmt(Var, Lit);
-
-impl From<char> for Var { fn from(c: char) -> Self { Var(c) } }
-impl From<&str> for Lit { fn from(s: &str) -> Self { Lit(s.into()) } }
-impl From<String> for Lit { fn from(s: String) -> Self { Lit(s.into()) } }
-impl From<(Var, Lit)> for Stmt { fn from((v, l): (Var, Lit)) -> Self { Stmt(v, l) } }
-impl From<(char, &str)> for Stmt { fn from((v, l): (char, &str)) -> Self { Stmt(v.into(), l.into()) } }
-
-#[test]
-fn nobol1() {
-    assert_eq!(nobol1::VarParser::new().parse("x"), Ok('x'.into()));
-    assert_eq!(nobol1::LitParser::new().parse(r#""abc""#), Ok("abc".into()));
-    assert_eq!(nobol1::StmtParser::new().parse(r#"x = "a""#), Ok(('x', "a").into()));
-    assert_eq!(nobol1::StmtParser::new().parse(r#"y = "bc""#), Ok(('y', "bc").into()));
-}
-```
-
-However, as soon as we try to handle examples where there *is* overlap between
-the variable names and the string contents, we run into a problem.
-
-Consider an example like this:
-
-```
-z = "xyz"
-```
-
-If we encode that as a test,
-
-```rust
-#[test]
-fn no_ball() {
-    assert_eq!(nobol1::StmtParser::new().parse(r#"z = "xyz""#), Ok(('z', "xyz").into()));
-}
-```
-
-we get the following:
-
-```
-thread 'no_ball' panicked at 'assertion failed: `(left == right)`
-  left: `Err(UnrecognizedToken { token: (5, Token(1, "x"), 6), expected: ["r#\"[a-c]*\"#"] })`,
- right: `Ok(Stmt(Var('z'), Lit("xyz")))`', doc/nobol/src/main.rs:31:5
-```
-
-Okay, this sounds easy to fix: the regular expression for string literal content should
-be expanded to handle characters other than `a`, `b` and `c`.
-
-So does this work?
-
-```lalrpop
-pub Lit: Lit = "\"" <r"[a-z]*"> "\"" => <>.into();
-```
-
-No, not on its own. If you just put that in, you get
+Unfortunately, this does not work; attempting to process the above grammar yields:
 
 ```
 error: ambiguity detected between the terminal `r#"[x-z]"#` and the terminal `r#"[a-z]*"#`
@@ -246,23 +177,23 @@ Let us revisit the original rule in the grammar for string literals, from our
 first version:
 
 ```lalrpop
-pub Lit: Lit = "\"" <r"[a-c]*"> "\"" => <>.into();
+pub Lit: Lit = "\"" <r"[a-z]*"> "\"" => <>.into();
 ```
 
 The heart of our problem is that we have implicitly specified distinct tokens
 for the string delimiter (`"\""`) versus the string content (in this case,
-`r"[a-c]*"`).
+`r"[a-z]*"`).
 
-The problem is that our intuition is that we only want to tokenize string
-content when we are in the process of reading a string. In other words, we only
-want to apply the `r"[a-c]*"` rule immediately after reading a `"\""`. But the
+Intuitively, we only want to tokenize string content
+when we are in the process of reading a string. In other words, we only
+want to apply the `r"[a-z]*"` rule immediately after reading a `"\""`. But the
 generated lexer does not infer this from our rules; it just blindly looks for
 something matching the string content regular expression *anywhere*
 in the input.
 
 You could solve this with a custom lexer (treated in the next section).
 
-But the simplest thing to do in this scenario is to read the string delimiters and the string content as a *single token*, like so:
+But a simpler solution is to read the string delimiters and the string content as a *single token*, like so:
 
 ```lalrpop
 pub Var: Var = <r"[a-z]"> => <>.chars().next().unwrap().into();
@@ -317,8 +248,7 @@ pub Lit: Lit = <l:r#""(\\\\|\\"|[^"\\])*""#> => l[1..l.len()-1].into();
 ```
 
 However, depending on your data model, this is not quite right. In particular:
-the string is produced still has the escaping backslashes embedded in it.
-
+the produced string still has the escaping backslashes embedded in it.
 
 As a concrete example, with the above definition for `Lit`, this test:
 
