@@ -1,5 +1,15 @@
+<a name="0.19.11"></a>
+## 0.19.11 (2023-04-27)
+
+This release is based on 0.19.9, not 0.19.10
+No feature added or other bug fixed since 0.19.9
+
+* Fix regex version dependency issues (thank to Wilfried Chauveau!)
+
 <a name="0.19.10"></a>
-## 0.19.10 (2023-04-24)
+## ~0.19.10 (2023-04-24)~
+
+Note: This version is yanked. These changes will be included in future release later than 0.20
 
 This release fixes an incompatibility with regex.
 
