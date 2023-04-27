@@ -152,7 +152,6 @@ lalrpop_mod_test!(error_issue_278);
 lalrpop_mod_test!(generics_issue_417);
 
 lalrpop_mod_test!(
-    #[deny(overflowing_literals)]
     #[allow(unused)]
     issue_394
 );
@@ -164,7 +163,6 @@ lalrpop_mod_test!(
 );
 
 lalrpop_mod_test!(
-    #[deny(bare_trait_objects)]
     #[allow(unused)]
     dyn_argument
 );
