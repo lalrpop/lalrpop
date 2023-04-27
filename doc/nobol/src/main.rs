@@ -1,4 +1,4 @@
-#![rustfmt::skip]
+#![cfg_attr(rustfmt, rustfmt_skip)]
 
 #[macro_use]
 extern crate lalrpop_util;
