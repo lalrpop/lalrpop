@@ -8,6 +8,7 @@ members = [
         "lalrpop-util",
         "lalrpop",
 ]
+resolver = "2"
 
 [workspace.package]
 repository = "https://github.com/lalrpop/lalrpop"
