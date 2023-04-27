@@ -53,4 +53,4 @@ jobs:
         with:
           toolchain: nightly
       - name: Check the minimum possible crate versions
-        run: cargo +nightly build -Zdirect-minimal-versions
+        run: rm Cargo.lock && cargo +nightly build -Zdirect-minimal-versions
