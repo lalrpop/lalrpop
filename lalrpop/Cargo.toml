@@ -43,7 +43,7 @@ path = "../lalrpop-util"
 version = "0.19.9" # LALRPOP
 
 [features]
-default=["lexer", "pico-args"]
+default=["lexer"]
 
 # Feature used when developing LALRPOP. Tells the build script to use an existing lalrpop binary to
 # generate LALRPOPs own parser instead of using the saved parser.
@@ -53,3 +53,7 @@ lexer = ["lalrpop-util/lexer"]
 
 [package.metadata.docs.rs]
 features = ["lexer"]
+
+[[bin]]
+name = "lalrpop"
+required-features = ["pico-args"]
