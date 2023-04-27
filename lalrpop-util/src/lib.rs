@@ -197,6 +197,7 @@ macro_rules! lalrpop_mod {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use alloc::{format, vec, string::ToString};
 
     #[test]
     fn test() {
