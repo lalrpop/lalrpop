@@ -36,6 +36,8 @@ pico-args = { version = "0.4", default_features = false, optional = true }
 
 
 [dev-dependencies]
+regex = { version = "1", default-features = false, features = ["std", "unicode-case", "unicode-perl"] }
+regex-syntax = { version = "0.6", default-features = false, features = ["unicode-case", "unicode-perl"] }
 rand = "0.8"
 
 [dependencies.lalrpop-util]
