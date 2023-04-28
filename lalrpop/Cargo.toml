@@ -1,6 +1,6 @@
 [package]
 name = "lalrpop"
-version = "0.19.11" # LALRPOP
+version = "0.19.12" # LALRPOP
 description = "convenient LR(1) parser generator"
 repository = "https://github.com/lalrpop/lalrpop"
 readme = "../README.md"
@@ -39,7 +39,7 @@ rand = "0.8"
 
 [dependencies.lalrpop-util]
 path = "../lalrpop-util"
-version = "0.19.11" # LALRPOP
+version = "0.19.12" # LALRPOP
 
 [features]
 default=["lexer"]
