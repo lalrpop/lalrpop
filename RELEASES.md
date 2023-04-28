@@ -1,3 +1,31 @@
+<a name="0.19.11"></a>
+## 0.19.11 (2023-04-27)
+
+This release is based on 0.19.9, not 0.19.10
+No feature added or other bug fixed since 0.19.9
+
+* Fix regex version dependency issues (thank to Wilfried Chauveau!)
+
+<a name="0.19.10"></a>
+## ~0.19.10 (2023-04-24)~
+
+Note: This version is yanked. These changes will be included in future release later than 0.20
+
+This release fixes an incompatibility with regex.
+
+#### Features
+
+* faster compilation time by up to 2x
+* expected tokens in failed parses are more accurate
+* support for unicode when using builtin tokenizer
+
+#### Bug fixes and other changes
+
+* fix a compatibility issue with regex 1.8
+* fewer warnings about clippy/unused imports in generated code
+* updated to edition 2021
+* updated mdbook
+
 <a name="0.19.9"></a>
 ## 0.19.9 (2023-03-25)
 
