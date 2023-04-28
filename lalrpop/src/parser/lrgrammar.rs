@@ -15,8 +15,6 @@ use self::___lalrpop_util::state_machine as ___state_machine;
 extern crate core;
 extern crate alloc;
 mod generated_code {
-#![allow(non_snake_case, non_camel_case_types, unused_mut, unused_variables, unused_imports, unused_parens, dead_code, clippy::all)]
-use super::*;
 
 #[cfg_attr(rustfmt, rustfmt_skip)]
 mod ___parse___Top {

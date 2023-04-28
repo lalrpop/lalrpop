@@ -361,12 +361,6 @@ fn emit_recursive_ascent(
     emit_uses(grammar, &mut rust)?;
 
     rust!(rust, "mod generated_code {{");
-    rust!(
-        rust,
-        "#![allow(non_snake_case, non_camel_case_types, unused_mut, unused_variables, \
-             unused_imports, unused_parens, dead_code, clippy::all)]"
-    );
-    rust!(rust, "use super::*;");
 
     if grammar.start_nonterminals.is_empty() {
         println!("Error: no public symbols declared in grammar");
