@@ -16,7 +16,7 @@ pub struct Eql(Var, Lit);
 
 impl From<char> for Var { fn from(c: char) -> Self { Var(c) } }
 impl From<&str> for Lit { fn from(s: &str) -> Self { Lit(s.into()) } }
-impl From<String> for Lit { fn from(s: String) -> Self { Lit(s.into()) } }
+impl From<String> for Lit { fn from(s: String) -> Self { Lit(s) } }
 impl From<(Var, Lit)> for Eql { fn from((v, l): (Var, Lit)) -> Self { Eql(v, l) } }
 impl From<(char, &str)> for Eql { fn from((v, l): (char, &str)) -> Self { Eql(v.into(), l.into()) } }
 
