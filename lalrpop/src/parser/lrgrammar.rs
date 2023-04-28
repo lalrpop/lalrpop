@@ -15,9 +15,9 @@ use self::___lalrpop_util::state_machine as ___state_machine;
 extern crate core;
 extern crate alloc;
 
-#[cfg_attr(rustfmt, rustfmt_skip)]
+#[rustfmt::skip]
+#[allow(non_snake_case, non_camel_case_types, unused_mut, unused_variables, unused_imports, unused_parens, clippy::all)]
 mod ___parse___Top {
-#![allow(non_snake_case, non_camel_case_types, unused_mut, unused_variables, unused_imports, unused_parens, clippy::all)]
 
 use string_cache::DefaultAtom as Atom;
 use crate::grammar::parse_tree::*;

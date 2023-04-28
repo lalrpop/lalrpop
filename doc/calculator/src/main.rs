@@ -9,7 +9,7 @@ macro_rules! lalrpop_mod_doc {
     }
 }
 
-lalrpop_mod_doc!(pub calculator1); // syntesized by LALRPOP
+lalrpop_mod_doc!(pub calculator1); // synthesized by LALRPOP
 
 #[test]
 fn calculator1() {

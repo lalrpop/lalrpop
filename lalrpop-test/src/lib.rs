@@ -20,7 +20,6 @@ macro_rules! lalrpop_mod_test {
     ($(#[$attr:meta])* $vis:vis $modname:ident) => {
         lalrpop_mod!(
             #[allow(clippy::ptr_arg)]
-            #[allow(clippy::vec_box)]
             $(#[$attr])* $vis $modname);
     }
 }
