@@ -1,4 +1,4 @@
-// auto-generated: "lalrpop 0.19.11"
+// auto-generated: "lalrpop 0.19.12"
 // sha3: 41f98a6a8c1305d7ef67ac81e1eb4a8b9450d8a01a72a06b1fc8bb7900055a0b
 use string_cache::DefaultAtom as Atom;
 use crate::grammar::parse_tree::*;

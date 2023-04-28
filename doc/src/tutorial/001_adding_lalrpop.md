@@ -30,10 +30,10 @@ version = "0.1.0"
 authors = ["Niko Matsakis <niko@alum.mit.edu>"]
 
 [build-dependencies] # <-- We added this and everything after!
-lalrpop = "0.19.11"
+lalrpop = "0.19.12"
 
 [dependencies]
-lalrpop-util = "0.19.11"
+lalrpop-util = "0.19.12"
 regex = "1"
 ```
 
