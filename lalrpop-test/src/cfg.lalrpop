@@ -1,5 +1,8 @@
 grammar;
 
+pub AlwaysCreated: () = {
+};
+
 #[cfg(feature = "test-not-set")]
 pub NotCreated: () = {
 };

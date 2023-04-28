@@ -64,12 +64,12 @@ pub fn check_norm_err(expected_err: &str, span: &str, err: NormError) {
     let expected_err = Regex::new(expected_err).unwrap();
     let start_index = span.find('~').unwrap();
     let end_index = span.rfind('~').unwrap() + 1;
-    assert!(start_index <= end_index);
-    assert_eq!(err.span, pt::Span(start_index, end_index));
     assert!(
         expected_err.is_match(&err.message),
         "unexpected error text `{}`, which did not match regular expression `{}`",
         err.message,
         expected_err
     );
+    assert!(start_index <= end_index);
+    assert_eq!(err.span, pt::Span(start_index, end_index));
 }

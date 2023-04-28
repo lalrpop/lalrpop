@@ -19,6 +19,8 @@ jobs:
           toolchain: ${{ matrix.rust }}
           override: true
           components: rustfmt
+      - name: Install cargo-hack
+        run: cargo install cargo-hack --locked
       - name: Run tests
         run: ./ci.sh
 

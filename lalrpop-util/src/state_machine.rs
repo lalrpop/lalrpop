@@ -3,6 +3,7 @@
 use alloc::{string::String, vec, vec::Vec};
 use core::fmt::Debug;
 
+#[cfg(feature = "std")]
 const DEBUG_ENABLED: bool = false;
 
 macro_rules! debug {

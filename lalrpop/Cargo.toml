@@ -30,12 +30,11 @@ term = { version = "0.7", default_features = false }
 tiny-keccak = { version = "2.0.2", features = ["sha3"] }
 unicode-xid = { version = "0.2", default_features = false }
 
-# This dependency is only needed for binary builds, if you use LALRPOP as
-# library, disable it in your project by setting default_features = false.
 pico-args = { version = "0.4", default_features = false, optional = true }
 
-
 [dev-dependencies]
+regex = { version = "1", default-features = false, features = ["std", "unicode-case", "unicode-perl"] }
+regex-syntax = { version = "0.6", default-features = false, features = ["unicode-case", "unicode-perl"] }
 rand = "0.8"
 
 [dependencies.lalrpop-util]
@@ -43,7 +42,7 @@ path = "../lalrpop-util"
 version = "0.19.9" # LALRPOP
 
 [features]
-default=["lexer", "pico-args"]
+default=["lexer"]
 
 # Feature used when developing LALRPOP. Tells the build script to use an existing lalrpop binary to
 # generate LALRPOPs own parser instead of using the saved parser.
@@ -53,3 +52,7 @@ lexer = ["lalrpop-util/lexer"]
 
 [package.metadata.docs.rs]
 features = ["lexer"]
+
+[[bin]]
+name = "lalrpop"
+required-features = ["pico-args"]
