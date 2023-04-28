@@ -15,9 +15,10 @@
   - [Passing state parameter](tutorial/009_state_parameter.md)
 - [Controlling the lexer](lexer_tutorial/index.md)
   - [LALRPOP's lexer generator](lexer_tutorial/001_lexer_gen.md)
-  - [Writing a custom lexer](lexer_tutorial/002_writing_custom_lexer.md)
-  - [Using tokens with references](lexer_tutorial/003_token_references.md)
-  - [Using an external library](lexer_tutorial/004_external_lib.md)
+  - [Lexing raw delimited content](lexer_tutorial/002_raw_delimited_content.md)
+  - [Writing a custom lexer](lexer_tutorial/003_writing_custom_lexer.md)
+  - [Using tokens with references](lexer_tutorial/004_token_references.md)
+  - [Using an external library](lexer_tutorial/005_external_lib.md)
 - [Advanced setup](advanced_setup.md)
   - [Generate in source tree](generate_in_source.md)
 -----------
