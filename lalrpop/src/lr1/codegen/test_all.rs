@@ -15,10 +15,17 @@ pub fn compile<'grammar, W: Write>(
     user_start_symbol: NonterminalString,
     start_symbol: NonterminalString,
     states: &[Lr1State<'grammar>],
+    action_module: &'static str,
     out: &mut RustWrite<W>,
 ) -> io::Result<()> {
-    let mut ascent =
-        CodeGenerator::new_test_all(grammar, user_start_symbol, start_symbol, states, out);
+    let mut ascent = CodeGenerator::new_test_all(
+        grammar,
+        user_start_symbol,
+        start_symbol,
+        states,
+        action_module,
+        out,
+    );
     ascent.write()
 }
 
@@ -30,6 +37,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TestAll> {
         user_start_symbol: NonterminalString,
         start_symbol: NonterminalString,
         states: &'ascent [Lr1State<'grammar>],
+        action_module: &'static str,
         out: &'ascent mut RustWrite<W>,
     ) -> Self {
         CodeGenerator::new(
@@ -39,7 +47,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TestAll> {
             states,
             out,
             true,
-            "super",
+            action_module,
             TestAll,
         )
     }
@@ -55,7 +63,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TestAll> {
                 this.user_start_symbol.clone(),
                 this.start_symbol.clone(),
                 this.states,
-                "super::super::super",
+                &format!("{}::super::super", this.action_module),
                 this.out,
             )?;
             let pub_use = format!(
@@ -75,7 +83,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TestAll> {
                 this.user_start_symbol.clone(),
                 this.start_symbol.clone(),
                 this.states,
-                "super::super::super",
+                &format!("{}::super::super", this.action_module),
                 this.out,
             )?;
             rust!(this.out, "{}", pub_use);

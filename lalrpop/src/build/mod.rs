@@ -360,6 +360,14 @@ fn emit_recursive_ascent(
     emit_module_attributes(grammar, &mut rust)?;
     emit_uses(grammar, &mut rust)?;
 
+    rust!(rust, "mod generated_code {{");
+    rust!(
+        rust,
+        "#![allow(non_snake_case, non_camel_case_types, unused_mut, unused_variables, \
+             unused_imports, unused_parens, dead_code, clippy::all)]"
+    );
+    rust!(rust, "use super::*;");
+
     if grammar.start_nonterminals.is_empty() {
         println!("Error: no public symbols declared in grammar");
         exit(1);
@@ -400,7 +408,7 @@ fn emit_recursive_ascent(
                 user_nt.clone(),
                 start_nt.clone(),
                 &states,
-                "super",
+                "super::super",
                 &mut rust,
             )?,
             r::LrCodeGeneration::TableDriven => lr1::codegen::parse_table::compile(
@@ -408,7 +416,7 @@ fn emit_recursive_ascent(
                 user_nt.clone(),
                 start_nt.clone(),
                 &states,
-                "super",
+                "super::super",
                 &mut rust,
             )?,
 
@@ -417,6 +425,7 @@ fn emit_recursive_ascent(
                 user_nt.clone(),
                 start_nt.clone(),
                 &states,
+                "super::super",
                 &mut rust,
             )?,
         }
@@ -427,6 +436,17 @@ fn emit_recursive_ascent(
             grammar.nonterminals[user_nt].visibility,
             grammar.prefix,
             start_nt,
+            user_nt
+        );
+    }
+
+    rust!(rust, "}}"); // mod generated_code
+
+    for user_nt in grammar.start_nonterminals.keys() {
+        rust!(
+            rust,
+            "{}use generated_code::{}Parser;",
+            grammar.nonterminals[user_nt].visibility,
             user_nt
         );
     }
