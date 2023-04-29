@@ -20,7 +20,7 @@ No feature added or other bug fixed since 0.19.9
 <a name="0.19.10"></a>
 ## ~0.19.10 (2023-04-24)~
 
-Note: This version is yanked. These changes will be included in future release later than 0.20
+Note: This version is yanked. These changes will be included in 0.20
 
 This release fixes an incompatibility with regex.
 
