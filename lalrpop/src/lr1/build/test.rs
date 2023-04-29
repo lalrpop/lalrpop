@@ -329,6 +329,8 @@ ty: () = {
 
 // Not sure if this is the right spot
 #[test]
+// This test requires regex's unicode case support
+#[cfg_attr(not(feature = "unicode"), ignore)]
 fn match_grammar() {
     let _tls = Tls::test();
 

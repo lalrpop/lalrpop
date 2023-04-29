@@ -34,7 +34,6 @@ lalrpop = "0.19.10"
 
 [dependencies]
 lalrpop-util = "0.19.10"
-regex = "1"
 ```
 
 Cargo can run [build scripts] as a pre-processing step,

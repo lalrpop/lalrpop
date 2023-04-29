@@ -111,6 +111,8 @@ fn regex_literals() {
 
 /// Basic test for match mappings.
 #[test]
+// This test requires regex's unicode case support
+#[cfg_attr(not(feature = "unicode"), ignore)]
 fn match_mappings() {
     check_intern_token(
         r#"grammar; match { r"(?i)begin" => "BEGIN" } else { "abc" => ALPHA } X = "BEGIN" ALPHA;"#,
@@ -125,6 +127,8 @@ fn match_mappings() {
 /// Match mappings, exercising precedence. Here the ID regex *would*
 /// be ambiguous with the begin regex.
 #[test]
+// This test requires regex's unicode case support
+#[cfg_attr(not(feature = "unicode"), ignore)]
 fn match_precedence() {
     check_intern_token(
         r#"grammar; match { r"(?i)begin" => "BEGIN" } else { r"\w+" => ID } X = ();"#,
@@ -158,12 +162,16 @@ fn invalid_match_regex_literal() {
 
 /// Test that, with a catch-all, the previous two examples work.
 #[test]
+// This test requires regex's unicode case support
+#[cfg_attr(not(feature = "unicode"), ignore)]
 fn match_catch_all() {
     let grammar = r#"grammar; match { r"(?i)begin" => "BEGIN", _ } X = { "foo", r"foo" };"#;
     assert!(validate_grammar(grammar).is_ok())
 }
 
 #[test]
+// This test requires regex's unicode case support
+#[cfg_attr(not(feature = "unicode"), ignore)]
 fn complex_match() {
     let grammar = r##"
         grammar;
@@ -182,6 +190,8 @@ fn complex_match() {
 /// Test that overlapping regular expressions are still forbidden within one level
 /// of a match declaration.
 #[test]
+// This test requires regex's unicode case support
+#[cfg_attr(not(feature = "unicode"), ignore)]
 fn ambiguity_within_match() {
     check_err(
         r##"ambiguity detected between the terminal `r#"b"#` and the terminal `r#"\(\?i\)b"#`"##,
@@ -196,8 +206,8 @@ fn ambiguity_within_match() {
 #[test]
 fn same_literal_twice() {
     check_err(
-        r##"multiple match entries for `r#"\(\?i\)b"#`"##,
-        r#"grammar; match { r"(?i)b" => "B" } else { r"(?i)b" => "b" }"#,
-        r#"                                          ~~~~~~~~~~~~~~~~ "#,
+        r##"multiple match entries for `r#"\[bB\]"#`"##,
+        r#"grammar; match { r"[bB]" => "B" } else { r"[bB]" => "b" }"#,
+        r#"                                         ~~~~~~~~~~~~~~~ "#,
     );
 }

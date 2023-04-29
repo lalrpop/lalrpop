@@ -12,14 +12,8 @@ the following lines to your `Cargo.toml`:
 build = "build.rs" # LALRPOP preprocessing
 
 # The generated code depends on lalrpop-util.
-#
-# The generated tokenizer depends on the regex crate.
-#
-# (If you write your own tokenizer, or already have the regex
-# crate, you can skip this dependency.)
 [dependencies]
 lalrpop-util = "0.19.10"
-regex = "1"
 
 # Add a build-time dependency on the lalrpop library:
 [build-dependencies]

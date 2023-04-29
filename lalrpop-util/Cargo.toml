@@ -14,7 +14,8 @@ rust-version.workspace = true
 regex = { workspace = true, optional = true }
 
 [features]
-lexer = ["regex"]
+lexer = ["regex/std", "std"]
+unicode = ["regex?/unicode"]
 std = []
 default = ["std"]
 

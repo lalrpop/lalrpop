@@ -82,6 +82,8 @@ fn max_range() {
 }
 
 #[test]
+// This test requires regex's unicode case support
+#[cfg_attr(not(feature = "unicode"), ignore)]
 fn literal() {
     let num = re::parse_regex(r#"(?i:aBCdeF)"#).unwrap();
     let nfa = Nfa::from_re(&num).unwrap();

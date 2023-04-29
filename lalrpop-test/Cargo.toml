@@ -10,16 +10,15 @@ license.workspace = true
 version.workspace = true
 rust-version.workspace = true
 
+[build-dependencies.lalrpop]
+path = "../lalrpop"
+
 [dependencies]
 diff.workspace = true
-regex.workspace = true
 
 [dependencies.lalrpop-util]
 path = "../lalrpop-util"
-
-[build-dependencies.lalrpop]
-path = "../lalrpop"
-features = ["lexer"]
+features = ["lexer", "unicode"]
 
 [features]
 default = ["test-set"]
