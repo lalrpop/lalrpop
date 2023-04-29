@@ -225,28 +225,12 @@ impl Nfa {
         match expr.kind() {
             HirKind::Empty => Ok(accept),
 
-            HirKind::Literal(Literal(l)) => {
-                /* // [s0] -otherwise-> [accept]
-                Literal::Unicode(c) => {
-                    let s0 = self.new_state(StateKind::Neither);
-                    self.push_edge(s0, Test::char(c), accept);
-                    self.push_edge(s0, Other, reject);
-                    Ok(s0)
-                } */
-                //// Bytes are not supported
-
-                if l.len() == 1 {
-                    let s0 = self.new_state(StateKind::Neither);
-                    self.push_edge(s0, Test::byte(l[0]), accept);
-                    self.push_edge(s0, Other, reject);
-                    Ok(s0)
-                } else {
-                    let s0 = self.new_state(StateKind::Neither);
-                    self.push_edge(s0, Test::byte(*l.last().unwrap()), accept);
-                    self.push_edge(s0, Other, reject);
-                    self.expr(&Hir::literal(&l[..l.len() - 1]), s0, reject)
-                }
-            }
+            HirKind::Literal(Literal(l)) => Ok(l.iter().rev().fold(accept, |accept, &b| {
+                let s0 = self.new_state(StateKind::Neither);
+                self.push_edge(s0, Test::byte(b), accept);
+                self.push_edge(s0, Other, reject);
+                s0
+            })),
 
             HirKind::Class(ref class) => {
                 match *class {
