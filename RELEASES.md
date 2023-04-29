@@ -1,5 +1,26 @@
+<a name="0.19.12"></a>
+## 0.19.12 (2023-04-28)
+
+* Add `unicode` feature to `regex-syntax` (thanks to Jan Niehusmann!)
+
+#### Compatibility note
+This is actually not fixing a `lalrpop` bug but fixing user side bugs.
+`lalrpop` doesn't directly depend on the feature. But regex from user code probably contains it.
+We will drop this dependency again in the next release.
+
+
+<a name="0.19.11"></a>
+## 0.19.11 (2023-04-28)
+
+This release is based on 0.19.9, not 0.19.10
+No feature added or other bug fixed since 0.19.9
+
+* Fix regex version dependency issues (thanks to Wilfried Chauveau!)
+
 <a name="0.19.10"></a>
-## 0.19.10 (2023-04-24)
+## ~0.19.10 (2023-04-24)~
+
+Note: This version is yanked. These changes will be included in future release later than 0.20
 
 This release fixes an incompatibility with regex.
 
