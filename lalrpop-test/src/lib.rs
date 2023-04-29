@@ -179,7 +179,9 @@ lalrpop_mod_test!(
 );
 
 pub fn use_cfg_created_parser() {
+    #[cfg(feature = "test-set")]
     cfg::CreatedParser::new();
+    cfg::AlwaysCreatedParser::new();
 }
 
 /// This constant is here so that some of the generator parsers can
