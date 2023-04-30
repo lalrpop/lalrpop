@@ -291,21 +291,12 @@ impl Nfa {
                         (0, None) => self.star_expr(sub, accept, reject),
                         (1, None) => self.plus_expr(sub, accept, reject),
                         (_, Some(max)) if min == max => {
-                            let mut s = accept;
-                            for _ in 0..*max {
-                                s = self.expr(sub, s, reject)?;
-                            }
-                            Ok(s)
+                            (0..*max).try_fold(accept, |s, _| self.expr(sub, s, reject))
                         }
                         (_, Some(max)) => {
-                            let mut s = accept;
-                            for _ in *min..*max {
-                                s = self.optional_expr(sub, s, reject)?;
-                            }
-                            for _ in 0..*min {
-                                s = self.expr(sub, s, reject)?;
-                            }
-                            Ok(s)
+                            let s = (*min..*max)
+                                .try_fold(accept, |s, _| self.optional_expr(sub, s, reject))?;
+                            (0..*min).try_fold(s, |s, _| self.expr(sub, s, reject))
                         }
                         (_, None) => {
                             // +---min times----+
@@ -315,11 +306,9 @@ impl Nfa {
                             //          |      |
                             //          |      v
                             //          +-> [reject]
-                            let mut s = self.star_expr(sub, accept, reject)?;
-                            for _ in 0..*min {
-                                s = self.expr(sub, s, reject)?;
-                            }
-                            Ok(s)
+                            self.star_expr(sub, accept, reject).and_then(|s| {
+                                (0..*min).try_fold(s, |s, _| self.expr(sub, s, reject))
+                            })
                         }
                     }
                 }
