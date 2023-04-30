@@ -5,14 +5,13 @@ authors = ["Niko Matsakis <niko@alum.mit.edu>"]
 build = "build.rs"
 edition = "2021"
 
-[build-dependencies.lalrpop]
-path = "../../../lalrpop"
-features = ["lexer"]
+[build-dependencies]
+lalrpop = { version = "0.19.7", path = "../../../lalrpop" }
 
 [dependencies]
-regex = "1"
 pico-args = "0.5"
 
 [dependencies.lalrpop-util]
 version = "0.19.10"
 path = "../../../lalrpop-util"
+features = ["lexer"]

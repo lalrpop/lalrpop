@@ -29,6 +29,8 @@ jobs:
         with:
           toolchain: ${{ matrix.rust }}
           components: rustfmt
+      - name: Install cargo-hack
+        uses: taiki-e/install-action@cargo-hack
       - name: Run tests
         run: ./tools/ci.sh
   lint:

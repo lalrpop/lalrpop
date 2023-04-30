@@ -8,6 +8,7 @@ members = [
         "lalrpop-util",
         "lalrpop",
 ]
+resolver = "2"
 
 [workspace.package]
 repository = "https://github.com/lalrpop/lalrpop"
@@ -24,4 +25,4 @@ rust-version = "1.64"
 [workspace.dependencies]
 diff = { version = "0.1.12", default_features = false }
 regex = { version = "1.8", default_features = false, features = ["std"] }
-regex-syntax = { version = "0.6", default_features = false, features = ["unicode"] }
+regex-syntax = { version = "0.6", default_features = false }
