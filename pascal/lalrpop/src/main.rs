@@ -10,11 +10,7 @@ use std::time::Instant;
 
 use pico_args::Arguments;
 
-lalrpop_mod!(
-    #[allow(clippy::ptr_arg)]
-    #[allow(clippy::vec_box)]
-    pascal
-);
+lalrpop_mod!(pascal);
 
 const USAGE: &str = "
 Usage: pascal <inputs>...
