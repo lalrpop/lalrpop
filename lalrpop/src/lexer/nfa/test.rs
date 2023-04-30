@@ -114,13 +114,13 @@ fn line_boundaries() {
     let num = re::parse_regex(r#"^aBCdeF"#).unwrap();
     assert_eq!(
         Nfa::from_re(&num).unwrap_err(),
-        NfaConstructionError::TextBoundary
+        NfaConstructionError::LookAround
     );
 
     let num = re::parse_regex(r#"aBCdeF$"#).unwrap();
     assert_eq!(
         Nfa::from_re(&num).unwrap_err(),
-        NfaConstructionError::TextBoundary
+        NfaConstructionError::LookAround
     );
 }
 
@@ -129,13 +129,13 @@ fn text_boundaries() {
     let num = re::parse_regex(r#"(?m)^aBCdeF"#).unwrap();
     assert_eq!(
         Nfa::from_re(&num).unwrap_err(),
-        NfaConstructionError::LineBoundary
+        NfaConstructionError::LookAround
     );
 
     let num = re::parse_regex(r#"(?m)aBCdeF$"#).unwrap();
     assert_eq!(
         Nfa::from_re(&num).unwrap_err(),
-        NfaConstructionError::LineBoundary
+        NfaConstructionError::LookAround
     );
 }
 
@@ -144,13 +144,13 @@ fn word_boundaries() {
     let num = re::parse_regex(r#"\baBCdeF"#).unwrap();
     assert_eq!(
         Nfa::from_re(&num).unwrap_err(),
-        NfaConstructionError::WordBoundary
+        NfaConstructionError::LookAround
     );
 
     let num = re::parse_regex(r#"aBCdeF\B"#).unwrap();
     assert_eq!(
         Nfa::from_re(&num).unwrap_err(),
-        NfaConstructionError::WordBoundary
+        NfaConstructionError::LookAround
     );
 }
 
