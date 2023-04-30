@@ -7,9 +7,6 @@ on:
     branches: ["master"]
   merge_group:
 
-env:
-  CARGO_REGISTRIES_CRATES_IO_PROTOCOL: sparse
-
 permissions:
   contents: read
 
