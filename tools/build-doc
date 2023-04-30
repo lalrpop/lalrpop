@@ -5,11 +5,11 @@
 # right places so that e.g. the links to the calculator and so forth
 # work correctly.
 
-ROOT=$(dirname $(dirname $0))
+ROOT=$(dirname "$(dirname "$0")")
 
 set -e
 
-cd $ROOT/doc
+cd "$ROOT/doc"
 mdbook build
 cp -rf calculator pascal whitespace book/html
 echo "Book has been built into $PWD/book/html"
