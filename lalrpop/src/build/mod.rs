@@ -461,11 +461,12 @@ fn write_where_clause<W: Write>(
 }
 
 fn emit_to_triple_trait<W: Write>(grammar: &r::Grammar, rust: &mut RustWrite<W>) -> io::Result<()> {
-    #![allow(non_snake_case)]
-
-    let L = grammar.types.terminal_loc_type();
-    let T = grammar.types.terminal_token_type();
-    let E = grammar.types.error_type();
+    #[allow(non_snake_case)]
+    let (L, T, E) = (
+        grammar.types.terminal_loc_type(),
+        grammar.types.terminal_token_type(),
+        grammar.types.error_type(),
+    );
 
     let parse_error = format!(
         "{p}lalrpop_util::ParseError<{L}, {T}, {E}>",

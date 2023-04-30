@@ -158,16 +158,13 @@ impl<'codegen, 'grammar, W: Write, C> CodeGenerator<'codegen, 'grammar, W, C> {
         F: FnOnce(&mut Self) -> io::Result<()>,
     {
         rust!(self.out, "");
-        rust!(self.out, "#[cfg_attr(rustfmt, rustfmt_skip)]");
-        rust!(self.out, "mod {}parse{} {{", self.prefix, self.start_symbol);
-
-        // these stylistic lints are annoying for the generated code,
-        // which doesn't follow conventions:
+        rust!(self.out, "#[rustfmt::skip]");
         rust!(
             self.out,
-            "#![allow(non_snake_case, non_camel_case_types, unused_mut, unused_variables, \
+            "#[allow(non_snake_case, non_camel_case_types, unused_mut, unused_variables, \
              unused_imports, unused_parens, clippy::all)]"
         );
+        rust!(self.out, "mod {}parse{} {{", self.prefix, self.start_symbol);
         rust!(self.out, "");
 
         self.write_uses()?;
