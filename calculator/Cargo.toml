@@ -6,14 +6,8 @@ build = "build.rs" # <-- We added this and everything after!
 workspace = "../.."
 edition = "2021"
 
-[build-dependencies.lalrpop]
-version = "0.19.10"
-path = "../../lalrpop"
-features = ["lexer"]
+[build-dependencies]
+lalrpop = { version = "0.19.10", path = "../../lalrpop" }
 
 [dependencies]
-regex = "1"
-
-[dependencies.lalrpop-util]
-version = "0.19.10"
-path = "../../lalrpop-util"
+lalrpop-util = { version = "0.19.10", path = "../../lalrpop-util", features = ["lexer", "unicode"] }
