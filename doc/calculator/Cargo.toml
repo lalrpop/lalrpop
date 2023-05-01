@@ -1,13 +1,13 @@
 [package]
 name = "calculator"
-version = "0.19.10"
+version = "0.20.0"
 authors = ["Niko Matsakis <niko@alum.mit.edu>"]
 build = "build.rs" # <-- We added this and everything after!
 workspace = "../.."
 edition = "2021"
 
 [build-dependencies]
-lalrpop = { version = "0.19.10", path = "../../lalrpop" }
+lalrpop = { version = "0.20.0", path = "../../lalrpop" }
 
 [dependencies]
-lalrpop-util = { version = "0.19.10", path = "../../lalrpop-util", features = ["lexer", "unicode"] }
+lalrpop-util = { version = "0.20.0", path = "../../lalrpop-util", features = ["lexer", "unicode"] }
