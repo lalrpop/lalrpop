@@ -1,10 +1,35 @@
+<a name="0.20.0"></a>
+## 0.20.0 (2023-05-02)
+
+Bringing back 0.19.10 patches and further enhancement.
+
+#### Breaking changes
+
+* Types and enums name with capitalized acronyms are renamed to camelCase
+* Minimum rust supported version is now 1.64
+* New `unicode` feature is added to enable `regex/unicode` and `regex-syntax/unicode`. Building lalrpop with --no-default-features may be broken without adding it.
+
+#### Features
+
+* faster compilation time by up to 2x
+* expected tokens in failed parses are more accurate
+* support for unicode when using builtin tokenizer
+
+#### Bug fixes and other changes
+
+* fewer warnings about clippy/unused imports in generated code
+* updated to edition 2021
+* updated mdbook
+* Use inclusive ranges for DFA/NFA
+* A new document "Lexing raw delimited content"
+
 <a name="0.19.12"></a>
 ## 0.19.12 (2023-04-28)
 
 * Add `unicode` feature to `regex-syntax` (thanks to Jan Niehusmann!)
 
 #### Compatibility note
-This is actually not fixing a `lalrpop` bug but fixing user side bugs.
+This is actually not fixing a `lalrpop` bug but fixing user side missing dependency.
 `lalrpop` doesn't directly depend on the feature. But regex from user code probably contains it.
 We will drop this dependency again in the next release.
 
