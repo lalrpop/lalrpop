@@ -77,8 +77,6 @@ impl<'i> Iterator for Lexer<'i> {
                 // SAFETY: the indices where returned by char_indices
                 let slice = unsafe { self.source.get_unchecked(start..end) };
 
-                eprintln!("{:?}", slice);
-
                 return if slice == "+" {
                     Some(Ok((start, Token::Plus, end)))
                 } else if slice.is_empty() {

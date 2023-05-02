@@ -49,9 +49,6 @@ fn add_range(range: Test, start_index: usize, disjoint_ranges: &mut Vec<Test>) {
         return;
     }
 
-    dbg!(&range);
-    dbg!(&disjoint_ranges);
-
     // Find first overlapping range in `disjoint_ranges`, if any.
     match disjoint_ranges[start_index..]
         .iter()
