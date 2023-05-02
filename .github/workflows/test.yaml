@@ -58,6 +58,8 @@ jobs:
         run: rm Cargo.lock && cargo +nightly build -Zdirect-minimal-versions
   feature_powerset:
     runs-on: ubuntu-latest
+    # Don't do expensive test if we're just going to fail on linting
+    needs: lint
     env:
       CARGO_INCREMENTAL: 1
     steps:
