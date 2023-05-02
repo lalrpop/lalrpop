@@ -25,7 +25,9 @@ jobs:
           - nightly
         cargo-update:
           - true
-          - false
+        include:
+          - rust: stable
+            cargo-update: false
     steps:
       - uses: actions/checkout@v3
       - uses: dtolnay/rust-toolchain@master
