@@ -23,6 +23,11 @@ jobs:
           - stable
           - beta
           - nightly
+        cargo-update:
+          - true
+        include:
+          - rust: stable
+            cargo-update: false
     steps:
       - uses: actions/checkout@v3
       - uses: dtolnay/rust-toolchain@master
@@ -31,6 +36,9 @@ jobs:
           components: rustfmt
       - name: Install cargo-hack
         uses: taiki-e/install-action@cargo-hack
+      - name: Update
+        if: matrix.cargo-update
+        run: cargo update
       - name: Run tests
         run: ./tools/ci.sh
   lint:
