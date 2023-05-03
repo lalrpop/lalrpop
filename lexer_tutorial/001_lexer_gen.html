@@ -423,6 +423,21 @@ To this end <code>ignore patterns</code> can be specified.</p>
     r&quot;/\*[^*]*\*+(?:[^/*][^*]*\*+)*/&quot; =&gt; { },  // Skip `/* comments */`
 }
 </code></pre>
+<h4 id="unicode-compatibility"><a class="header" href="#unicode-compatibility">Unicode compatibility</a></h4>
+<p>LALRPOP is capable of lexing tokens that match the full unicode character set,
+or those that just match ASCII.  If you need unicode matching, you should
+enable <code>features = [ &quot;unicode&quot; ]</code> in your Cargo.toml.  Because lexing unicode
+requires loading the full unicode character set, enabling this feature will
+increase binary size, so you may wish to avoid it if you do not need unicode
+support.</p>
+<p>It's important to note that <a href="https://docs.rs/regex/latest/regex/#perl-character-classes-unicode-friendly">certain character classes</a> from perl
+regex extensions are &quot;unicode friendly&quot;, and require unicode support.  For
+example, &quot;\s&quot; matches unicode whitespace characters, not just ASCII ones, and
+likewise &quot;\d&quot; matches unicode digits (such as numerals in non-latin character
+sets).  If you use those patterns in your lexer, you will require unicode.</p>
+<p>You may wish to match only the ASCII subset of these characters, in which case,
+you can use the ASCII only character classes described <a href="https://docs.rs/regex/latest/regex/#ascii-character-classes">here</a> as
+substitutes and avoid adding unicode dependencies.</p>
 
                     </main>
 
