@@ -334,6 +334,27 @@ match {
 }
 ```
 
+#### Unicode compatibility
+
+LALRPOP is capable of lexing tokens that match the full unicode character set,
+or those that just match ASCII.  If you need unicode matching, you should
+enable `features = [ "unicode" ]` in your Cargo.toml.  Because lexing unicode
+requires loading the full unicode character set, enabling this feature will
+increase binary size, so you may wish to avoid it if you do not need unicode
+support.
+
+It's important to note that [certain character classes][perl unicode] from perl
+regex extensions are "unicode friendly", and require unicode support.  For
+example, "\s" matches unicode whitespace characters, not just ASCII ones, and
+likewise "\d" matches unicode digits (such as numerals in non-latin character
+sets).  If you use those patterns in your lexer, you will require unicode.
+
+You may wish to match only the ASCII subset of these characters, in which case,
+you can use the ASCII only character classes described [here][ASCII regex] as
+substitutes and avoid adding unicode dependencies.
+
 [lexer tutorial]: index.md
 [calculator2b]: https://github.com/lalrpop/lalrpop/blob/master/doc/calculator/src/calculator2b.lalrpop
 [calculator3]: https://github.com/lalrpop/lalrpop/blob/master/doc/calculator/src/calculator3.lalrpop
+[perl unicode]: https://docs.rs/regex/latest/regex/#perl-character-classes-unicode-friendly
+[ASCII regex]: https://docs.rs/regex/latest/regex/#ascii-character-classes
