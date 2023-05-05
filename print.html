@@ -225,11 +225,11 @@ build = &quot;build.rs&quot; # LALRPOP preprocessing
 
 # The generated code depends on lalrpop-util.
 [dependencies]
-lalrpop-util = &quot;0.19.10&quot;
+lalrpop-util = &quot;0.20.0&quot;
 
 # Add a build-time dependency on the lalrpop library:
 [build-dependencies]
-lalrpop = &quot;0.19.10&quot;
+lalrpop = &quot;0.20.0&quot;
 # If you are supplying your own external lexer you can disable default features so that the
 # built-in lexer feature is not included
 # lalrpop = { version = &quot;0.19.1&quot;, default-features = false }
@@ -304,10 +304,10 @@ version = &quot;0.1.0&quot;
 authors = [&quot;Niko Matsakis &lt;niko@alum.mit.edu&gt;&quot;]
 
 [build-dependencies] # &lt;-- We added this and everything after!
-lalrpop = &quot;0.19.10&quot;
+lalrpop = &quot;0.20.0&quot;
 
 [dependencies]
-lalrpop-util = &quot;0.19.10&quot;
+lalrpop-util = &quot;0.20.0&quot;
 </code></pre>
 <p>Cargo can run <a href="https://doc.rust-lang.org/cargo/reference/build-scripts.html">build scripts</a> as a pre-processing step,
 named <code>build.rs</code> by default. The <code>[build-dependencies]</code>

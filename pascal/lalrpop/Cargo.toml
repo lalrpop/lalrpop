@@ -6,12 +6,12 @@ build = "build.rs"
 edition = "2021"
 
 [build-dependencies]
-lalrpop = { version = "0.19.7", path = "../../../lalrpop" }
+lalrpop = { version = "0.20.0", path = "../../../lalrpop" }
 
 [dependencies]
 pico-args = "0.5"
 
 [dependencies.lalrpop-util]
-version = "0.19.10"
+version = "0.20.0"
 path = "../../../lalrpop-util"
 features = ["lexer"]
