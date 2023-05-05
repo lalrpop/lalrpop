@@ -7,7 +7,7 @@ build = "build.rs" # <-- We added this and everything after!
 workspace = "../.."
 
 [build-dependencies]
-lalrpop = { version = "0.19.7", path = "../../lalrpop" }
+lalrpop = { version = "0.20.0", path = "../../lalrpop" }
 
 [dependencies]
-lalrpop-util = { version = "0.19.7", path = "../../lalrpop-util", features = ["lexer", "unicode"] }
+lalrpop-util = { version = "0.20.0", path = "../../lalrpop-util", features = ["lexer", "unicode"] }

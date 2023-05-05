@@ -37,7 +37,7 @@ unicode-xid = { version = "0.2", default_features = false }
 # library, disable it in your project by setting default_features = false.
 pico-args = { version = "0.5", default_features = false, optional = true }
 
-lalrpop-util = { path = "../lalrpop-util", version = "0.19.10" }
+lalrpop-util = { path = "../lalrpop-util", version = "0.20.0" }
 
 [dev-dependencies]
 rand = "0.8"

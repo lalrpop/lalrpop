@@ -13,11 +13,11 @@ build = "build.rs" # LALRPOP preprocessing
 
 # The generated code depends on lalrpop-util.
 [dependencies]
-lalrpop-util = "0.19.10"
+lalrpop-util = "0.20.0"
 
 # Add a build-time dependency on the lalrpop library:
 [build-dependencies]
-lalrpop = "0.19.10"
+lalrpop = "0.20.0"
 # If you are supplying your own external lexer you can disable default features so that the
 # built-in lexer feature is not included
 # lalrpop = { version = "0.19.1", default-features = false }

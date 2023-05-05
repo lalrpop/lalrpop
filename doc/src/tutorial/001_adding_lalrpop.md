@@ -30,10 +30,10 @@ version = "0.1.0"
 authors = ["Niko Matsakis <niko@alum.mit.edu>"]
 
 [build-dependencies] # <-- We added this and everything after!
-lalrpop = "0.19.10"
+lalrpop = "0.20.0"
 
 [dependencies]
-lalrpop-util = "0.19.10"
+lalrpop-util = "0.20.0"
 ```
 
 Cargo can run [build scripts] as a pre-processing step,
