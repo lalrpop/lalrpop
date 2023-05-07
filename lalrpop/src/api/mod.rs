@@ -253,6 +253,10 @@ pub fn process_root() -> Result<(), Box<dyn Error>> {
 /// Configuration::new().force_build(true).process_current_dir()
 /// ```
 ///
+#[deprecated(
+    since = "1.0.0",
+    note = "use `Configuration::new().force_build(true).process_current_dir()` instead"
+)]
 pub fn process_root_unconditionally() -> Result<(), Box<dyn Error>> {
     Configuration::new().force_build(true).process_current_dir()
 }
