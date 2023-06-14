@@ -1,0 +1,16 @@
+use crate::user_defined_error_visibility::UserErrorPublic;
+use lalrpop_util::ParseError;
+
+grammar;
+
+pub Start: () = {
+    "X" =>? Err(ParseError::User { error: UserErrorPublic })
+}
+
+pub(crate) NonPublicStart: () = {
+    "X" =>? Err(ParseError::User { error: UserErrorPublic })
+}
+
+extern {
+    type Error = UserErrorPublic;
+}
