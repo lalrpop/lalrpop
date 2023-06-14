@@ -11,7 +11,6 @@ use itertools::Itertools;
 use std::fmt;
 use std::io::{self, Write};
 use std::rc::Rc;
-use string_cache::DefaultAtom as Atom;
 
 use super::base::CodeGenerator;
 
@@ -173,7 +172,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
 
         rust!(
             self.out,
-            "pub(crate) struct {p}StateMachine<{mtp}>",
+            "struct {p}StateMachine<{mtp}>",
             p = self.prefix,
             mtp = machine_type_parameters,
         );
@@ -897,10 +896,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
         ];
 
         self.out
-            .fn_header(
-                &Visibility::Pub(Some(Path::from_id(Atom::from("crate")))),
-                format!("{}reduce", self.prefix),
-            )
+            .fn_header(&Visibility::Priv, format!("{}reduce", self.prefix))
             .with_grammar(self.grammar)
             .with_parameters(parameters)
             .with_return_type(format!(
@@ -1025,10 +1021,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
         ];
 
         self.out
-            .fn_header(
-                &Visibility::Pub(Some(Path::from_id(Atom::from("crate")))),
-                format!("{}reduce{}", self.prefix, index),
-            )
+            .fn_header(&Visibility::Priv, format!("{}reduce{}", self.prefix, index))
             .with_grammar(self.grammar)
             .with_parameters(parameters)
             .with_return_type("(usize, usize)")

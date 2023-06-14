@@ -180,7 +180,7 @@ impl<'ascent, 'grammar, W: Write>
         rust!(self.out, "#[allow(dead_code)]");
         rust!(
             self.out,
-            "pub(crate) enum {}Nonterminal<{}>",
+            "enum {}Nonterminal<{}>",
             self.prefix,
             Sep(", ", &self.custom.nonterminal_type_params)
         );
