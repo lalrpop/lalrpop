@@ -177,6 +177,16 @@ lalrpop_mod_test!(
     nested
 );
 
+lalrpop_mod_test!(
+    #[allow(unused)]
+    user_defined_error_crate_public
+);
+lalrpop_mod_test!(
+    #[allow(unused)]
+    user_defined_error_public
+);
+mod user_defined_error_visibility;
+
 pub fn use_cfg_created_parser() {
     #[cfg(feature = "test-set")]
     cfg::CreatedParser::new();

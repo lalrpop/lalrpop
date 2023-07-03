@@ -1,0 +1,12 @@
+use crate::user_defined_error_visibility::UserErrorCrate;
+use lalrpop_util::ParseError;
+
+grammar;
+
+pub(crate) Start: () = {
+    "X" =>? Err(ParseError::User { error: UserErrorCrate })
+}
+
+extern {
+    type Error = UserErrorCrate;
+}

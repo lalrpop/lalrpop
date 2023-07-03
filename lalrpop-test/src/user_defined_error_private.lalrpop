@@ -1,0 +1,12 @@
+use crate::user_defined_error_visibility::UserErrorPrivate;
+use lalrpop_util::ParseError;
+
+grammar;
+
+pub(in crate::user_defined_error_visibility) Start: () = {
+    "X" =>? Err(ParseError::User { error: UserErrorPrivate })
+}
+
+extern {
+    type Error = UserErrorPrivate;
+}

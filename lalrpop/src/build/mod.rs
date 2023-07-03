@@ -365,7 +365,19 @@ fn emit_recursive_ascent(
         exit(1);
     }
 
+    // Find a better visibility for some generated items.
+    // This will be the maximum of the visibility of all starting nonterminals.
+    let mut max_start_nt_visibility = pt::Visibility::Priv;
     for (user_nt, start_nt) in &grammar.start_nonterminals {
+        match (
+            &max_start_nt_visibility,
+            &grammar.nonterminals[start_nt].visibility,
+        ) {
+            (r::Visibility::Pub(None), _) | (_, r::Visibility::Priv) => {}
+            (v1, v2) if v1 == v2 => {}
+            (r::Visibility::Priv, v) => max_start_nt_visibility = v.clone(),
+            _ => max_start_nt_visibility = r::Visibility::Pub(None),
+        };
         // We generate these, so there should always be exactly 1
         // production. Otherwise the LR(1) algorithm doesn't know
         // where to stop!
@@ -443,7 +455,7 @@ fn emit_recursive_ascent(
     action::emit_action_code(grammar, &mut rust)?;
 
     rust!(rust, "#[allow(clippy::type_complexity)]");
-    emit_to_triple_trait(grammar, &mut rust)?;
+    emit_to_triple_trait(grammar, max_start_nt_visibility, &mut rust)?;
 
     Ok(rust.into_inner())
 }
@@ -460,7 +472,11 @@ fn write_where_clause<W: Write>(
     Ok(())
 }
 
-fn emit_to_triple_trait<W: Write>(grammar: &r::Grammar, rust: &mut RustWrite<W>) -> io::Result<()> {
+fn emit_to_triple_trait<W: Write>(
+    grammar: &r::Grammar,
+    max_start_nt_visibility: r::Visibility,
+    rust: &mut RustWrite<W>,
+) -> io::Result<()> {
     #[allow(non_snake_case)]
     let (L, T, E) = (
         grammar.types.terminal_loc_type(),
@@ -487,7 +503,8 @@ fn emit_to_triple_trait<W: Write>(grammar: &r::Grammar, rust: &mut RustWrite<W>)
     rust!(rust, "");
     rust!(
         rust,
-        "pub trait {}ToTriple<{}>",
+        "{} trait {}ToTriple<{}>",
+        max_start_nt_visibility,
         grammar.prefix,
         user_type_parameters,
     );
