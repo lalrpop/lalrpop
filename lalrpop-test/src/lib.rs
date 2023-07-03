@@ -1137,7 +1137,7 @@ fn test_nested_pattern_string_error() {
 
 #[test]
 fn test_empty() {
-    empty::parse_Empty("").unwrap();
+    empty::EmptyParser::new().parse("").unwrap();
 }
 
 mod empty_tok_lib {
@@ -1147,5 +1147,5 @@ mod empty_tok_lib {
 
 #[test]
 fn test_empty_tok() {
-    empty_tok::parse_Empty(Vec::<empty_tok_lib::Tok>::new()).unwrap();
+    empty_tok::EmptyParser::new().parse(Vec::<empty_tok_lib::Tok>::new()).unwrap();
 }
