@@ -28,12 +28,13 @@ look something like:
 name = "calculator"
 version = "0.1.0"
 authors = ["Niko Matsakis <niko@alum.mit.edu>"]
+edition = "2021"
 
 [build-dependencies] # <-- We added this and everything after!
 lalrpop = "0.20.0"
 
 [dependencies]
-lalrpop-util = "0.20.0"
+lalrpop-util = { version = "0.20.0", features = ["lexer"] }
 ```
 
 Cargo can run [build scripts] as a pre-processing step,
