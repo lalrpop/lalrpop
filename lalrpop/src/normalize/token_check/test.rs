@@ -172,10 +172,12 @@ fn match_catch_all() {
 /// Test that a `catch-all` can be use in the first `match` arm.
 /// Before the pull request to close [issue 325](https://github.com/lalrpop/lalrpop/issues/325),
 /// the usage of the `catch-all` symbol was not allowed in the first arm of a `match` block.
+#[test]
 fn match_catch_all_in_first_arm() {
     let grammar = r#"
         grammar;
         match {
+            r"[a-z]",
             _
         } else {
             r"\w+"
@@ -187,7 +189,14 @@ fn match_catch_all_in_first_arm() {
         };
         Num: String = r"[0-9]+" => <>.to_string();
 "#;
-    assert!(validate_grammar(&grammar).is_ok())
+    assert!(validate_grammar(&grammar).is_ok());
+    check_intern_token(
+        grammar,
+        vec![
+            ("x", r##"Some((r#"[a-z]"#, "x"))"##),
+            ("xy", r##"Some((r#"\\w+"#, "xy"))"##),
+        ],
+    );
 }
 
 #[test]
