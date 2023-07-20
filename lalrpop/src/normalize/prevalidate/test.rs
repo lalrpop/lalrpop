@@ -231,3 +231,12 @@ fn first_level_assoc() {
         r#"                                             ~~~~~~~~~~~~~~~~~~             "#,
     );
 }
+
+#[test]
+fn missing_macro_arg() {
+    check_err(
+        r#"macros must have at least one argument"#,
+        r#"grammar; Macro<Smth>: String = { Smth => <>.to_string() } pub Root: String = { Macro<>}"#,
+        r#"                                                                               ~~~~~~~"#,
+    )
+}
