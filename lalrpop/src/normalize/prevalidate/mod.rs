@@ -379,7 +379,7 @@ impl<'grammar> Validator<'grammar> {
             }
             SymbolKind::Macro(ref msym) => {
                 if msym.args.is_empty() {
-                    return_err!(symbol.span, "macros must have atleast one argument")
+                    return_err!(symbol.span, "macros must have at least one argument")
                 }
                 for arg in &msym.args {
                     self.validate_symbol(arg)?;
