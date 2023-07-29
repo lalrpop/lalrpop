@@ -2,6 +2,12 @@ use std::{fmt, marker::PhantomData};
 
 use crate::ParseError;
 
+use regex_automata::dfa::{dense, Automaton, StartKind};
+use regex_automata::nfa::thompson::Config as NfaConfig;
+use regex_automata::util::primitives::StateID;
+use regex_automata::util::syntax::Config as SyntaxConfig;
+use regex_automata::{Anchored, MatchKind};
+
 #[derive(Clone, Debug, PartialEq, Eq, PartialOrd, Ord)]
 pub struct Token<'input>(pub usize, pub &'input str);
 impl<'a> fmt::Display for Token<'a> {
@@ -10,56 +16,57 @@ impl<'a> fmt::Display for Token<'a> {
     }
 }
 
-struct RegexEntry {
-    regex: regex::Regex,
-    skip: bool,
-}
-
 pub struct MatcherBuilder {
-    regex_set: regex::RegexSet,
-    regex_vec: Vec<RegexEntry>,
+    dfa: dense::DFA<Vec<u32>>,
+    skip_vec: Vec<bool>,
 }
 
 impl MatcherBuilder {
+    #[allow(clippy::result_large_err)]
     pub fn new<S>(
         exprs: impl IntoIterator<Item = (S, bool)>,
-    ) -> Result<MatcherBuilder, regex::Error>
+    ) -> Result<MatcherBuilder, dense::BuildError>
     where
         S: AsRef<str>,
     {
         let exprs = exprs.into_iter();
         let mut regex_vec = Vec::with_capacity(exprs.size_hint().0);
-        let mut first_error = None;
-        let regex_set_result = regex::RegexSet::new(exprs.scan((), |_, (s, skip)| {
-            regex_vec.push(match regex::Regex::new(s.as_ref()) {
-                Ok(regex) => RegexEntry { regex, skip },
-                Err(err) => {
-                    first_error = Some(err);
-                    return None;
-                }
-            });
-            Some(s)
-        }));
-
-        if let Some(err) = first_error {
-            return Err(err);
+        let mut skip_vec = Vec::with_capacity(exprs.size_hint().0);
+        for (regex, skip) in exprs {
+            regex_vec.push(regex);
+            skip_vec.push(skip);
         }
-        let regex_set = regex_set_result?;
 
-        Ok(MatcherBuilder {
-            regex_set,
-            regex_vec,
-        })
+        let enable_unicode = cfg!(feature = "unicode");
+        let dfa = dense::Builder::new()
+            .configure(
+                dense::Config::new()
+                    .minimize(true)
+                    .start_kind(StartKind::Anchored)
+                    .match_kind(MatchKind::All),
+            )
+            .syntax(
+                SyntaxConfig::new()
+                    .unicode(enable_unicode)
+                    .utf8(enable_unicode),
+            )
+            .thompson(NfaConfig::new().utf8(enable_unicode).shrink(true))
+            .build_many(&regex_vec)?;
+
+        Ok(MatcherBuilder { dfa, skip_vec })
     }
+
     pub fn matcher<'input, 'builder, E>(
         &'builder self,
-        s: &'input str,
+        text: &'input str,
     ) -> Matcher<'input, 'builder, E> {
+        let start = self.dfa.universal_start_state(Anchored::Yes).unwrap();
         Matcher {
-            text: s,
+            text,
             consumed: 0,
-            regex_set: &self.regex_set,
-            regex_vec: &self.regex_vec,
+            start,
+            dfa: &self.dfa,
+            skip_vec: &self.skip_vec,
             _marker: PhantomData,
         }
     }
@@ -68,8 +75,9 @@ impl MatcherBuilder {
 pub struct Matcher<'input, 'builder, E> {
     text: &'input str,
     consumed: usize,
-    regex_set: &'builder regex::RegexSet,
-    regex_vec: &'builder Vec<RegexEntry>,
+    start: StateID,
+    dfa: &'builder dense::DFA<Vec<u32>>,
+    skip_vec: &'builder [bool],
     _marker: PhantomData<fn() -> E>,
 }
 
@@ -83,46 +91,49 @@ impl<'input, 'builder, E> Iterator for Matcher<'input, 'builder, E> {
             if text.is_empty() {
                 self.consumed = start_offset;
                 return None;
-            } else {
-                let matches = self.regex_set.matches(text);
-                if !matches.matched_any() {
-                    return Some(Err(ParseError::InvalidToken {
-                        location: start_offset,
-                    }));
-                } else {
-                    let mut longest_match = 0;
-                    let mut index = 0;
-                    let mut skip = false;
-                    for i in matches.iter() {
-                        let entry = &self.regex_vec[i];
-                        let match_ = entry.regex.find(text).unwrap();
-                        let len = match_.end();
-                        if len >= longest_match {
-                            longest_match = len;
-                            index = i;
-                            skip = entry.skip;
-                        }
+            }
+
+            let mut match_ = None;
+            'search: {
+                let mut state = self.start;
+                for (i, byte) in text.bytes().enumerate() {
+                    state = self.dfa.next_state(state, byte);
+                    if self.dfa.is_match_state(state) {
+                        match_ = Some((state, i));
+                    } else if self.dfa.is_dead_state(state) {
+                        break 'search;
                     }
-
-                    let result = &text[..longest_match];
-                    let remaining = &text[longest_match..];
-                    let end_offset = start_offset + longest_match;
-                    self.text = remaining;
-                    self.consumed = end_offset;
-
-                    // Skip any whitespace matches
-                    if skip {
-                        if longest_match == 0 {
-                            return Some(Err(ParseError::InvalidToken {
-                                location: start_offset,
-                            }));
-                        }
-                        continue;
-                    }
-
-                    return Some(Ok((start_offset, Token(index, result), end_offset)));
+                }
+                state = self.dfa.next_eoi_state(state);
+                if self.dfa.is_match_state(state) {
+                    match_ = Some((state, text.len()));
                 }
             }
+
+            let (match_state, longest_match) = match match_ {
+                Some(match_) => match_,
+                None => {
+                    return Some(Err(ParseError::InvalidToken {
+                        location: start_offset,
+                    }))
+                }
+            };
+            let index = (0..self.dfa.match_len(match_state))
+                .map(|n| self.dfa.match_pattern(match_state, n).as_usize())
+                .max()
+                .unwrap();
+
+            let result = &text[..longest_match];
+            let remaining = &text[longest_match..];
+            let end_offset = start_offset + longest_match;
+            self.text = remaining;
+            self.consumed = end_offset;
+
+            if self.skip_vec[index] {
+                continue;
+            }
+
+            return Some(Ok((start_offset, Token(index, result), end_offset)));
         }
     }
 }

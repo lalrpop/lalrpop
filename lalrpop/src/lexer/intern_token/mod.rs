@@ -40,10 +40,7 @@ pub fn compile<W: Write>(
                 },
             )
         })
-        .map(|(regex, skip)| {
-            // make sure all regex are anchored at the beginning of the input
-            (format!("^({})", regex), skip)
-        })
+        .map(|(regex, skip)| (format!("{}", regex), skip))
         .map(|(regex_str, skip)| {
             // create a rust string with text of the regex; the Debug impl
             // will add quotes and escape
@@ -60,9 +57,9 @@ pub fn compile<W: Write>(
 
     if !contains_skip {
         #[cfg(feature = "unicode")]
-        rust!(out, r#"(r"^(\s+)", true),"#);
+        rust!(out, r#"(r"\s+", true),"#);
         #[cfg(not(feature = "unicode"))]
-        rust!(out, r#"(r"^([ \t\r\n]+)", true),"#);
+        rust!(out, r#"(r"[ \t\r\n]+", true),"#);
     }
 
     rust!(out, "];");
