@@ -59,7 +59,7 @@ pub fn compile<W: Write>(
         #[cfg(feature = "unicode")]
         rust!(out, r#"(r"\s+", true),"#);
         #[cfg(not(feature = "unicode"))]
-        rust!(out, r#"(r"[ \t\r\n]+", true),"#);
+        rust!(out, r#"(r"(?-u:\s)+", true),"#);
     }
 
     rust!(out, "];");

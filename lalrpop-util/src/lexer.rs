@@ -60,7 +60,10 @@ impl MatcherBuilder {
         &'builder self,
         text: &'input str,
     ) -> Matcher<'input, 'builder, E> {
-        let start = self.dfa.universal_start_state(Anchored::Yes).unwrap();
+        let start = self
+            .dfa
+            .universal_start_state(Anchored::Yes)
+            .expect("lookaround should be ruled out in normalization");
         Matcher {
             text,
             consumed: 0,
