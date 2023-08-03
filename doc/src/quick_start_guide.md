@@ -7,10 +7,6 @@ here is a quick 'cheat sheet' for setting up your project.  First, add
 the following lines to your `Cargo.toml`:
 
 ```toml
-[package]
-...
-build = "build.rs" # LALRPOP preprocessing
-
 # The generated code depends on lalrpop-util.
 [dependencies]
 lalrpop-util = "0.20.0"
@@ -27,8 +23,6 @@ Next create a [`build.rs`](https://doc.rust-lang.org/cargo/reference/build-scrip
 that looks like:
 
 ```rust
-extern crate lalrpop;
-
 fn main() {
     lalrpop::process_root().unwrap();
 }

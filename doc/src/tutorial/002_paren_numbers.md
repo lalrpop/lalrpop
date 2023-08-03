@@ -96,12 +96,12 @@ number; so `22` is a term. The second alternative is `"(" <t:Term>
 **Invoking the parser.** OK, so we wrote our parser, how do we use it?
 For every nonterminal `Foo` declared as `pub`, LALRPOP will export a
 `FooParser` struct with a `parse` method that you can call to parse a
-string as that nonterminal. Here is a simple test that we've added to 
+string as that nonterminal. Here is a simple test that we've added to
 our [`main.rs`][main] file which uses this struct to test our `Term`
 nonterminal:
 
 ```rust
-#[macro_use] extern crate lalrpop_util;
+use lalrpop_util::lalrpop_mod;
 
 lalrpop_mod!(pub calculator1); // synthesized by LALRPOP
 

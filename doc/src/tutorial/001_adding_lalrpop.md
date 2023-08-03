@@ -63,8 +63,6 @@ your Rust code. This should just look like the following:
 [this feature]: https://doc.rust-lang.org/cargo/reference/build-scripts.html
 
 ```rust
-extern crate lalrpop;
-
 fn main() {
     lalrpop::process_root().unwrap();
 }

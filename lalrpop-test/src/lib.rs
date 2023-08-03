@@ -6,9 +6,7 @@ use std::fs;
 use std::path::Path;
 use std::process::Command;
 
-extern crate diff;
-#[macro_use]
-extern crate lalrpop_util;
+use lalrpop_util::lalrpop_mod;
 
 use lalrpop_util::{ErrorRecovery, ParseError};
 
