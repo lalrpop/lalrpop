@@ -1,6 +1,5 @@
 [package]
 name = "lalrpop-test"
-build = "build.rs"
 workspace = ".."
 
 repository.workspace = true
