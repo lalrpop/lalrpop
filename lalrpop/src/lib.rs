@@ -10,7 +10,6 @@
 
 extern crate ascii_canvas;
 extern crate bit_set;
-extern crate diff;
 extern crate ena;
 extern crate is_terminal;
 extern crate itertools;
