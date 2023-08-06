@@ -2,7 +2,6 @@
 name = "pascal"
 version = "0.11.0"
 authors = ["Niko Matsakis <niko@alum.mit.edu>"]
-build = "build.rs"
 edition = "2021"
 
 [build-dependencies]

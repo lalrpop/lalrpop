@@ -3,7 +3,8 @@
 
 mod outer {
     pub(crate) mod inner {
-        lalrpop_util::lalrpop_mod!(pub(crate) pub_in);
+        use crate::lalrpop_mod;
+        lalrpop_mod!(pub(crate) pub_in);
     }
 
     #[test]

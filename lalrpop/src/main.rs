@@ -1,6 +1,3 @@
-extern crate lalrpop;
-extern crate pico_args;
-
 use std::ffi::OsString;
 use std::io::Write;
 use std::path::{Path, PathBuf};

@@ -4,8 +4,6 @@ When you setup LALRPOP, you create a `build.rs` file that looks something
 like this:
 
 ```rust
-extern crate lalrpop;
-
 fn main() {
     lalrpop::process_root().unwrap();
 }
@@ -23,8 +21,6 @@ For example, to **force** the use of colors in the output (ignoring
 the TTY settings), you might make your `build.rs` file look like so:
 
 ```rust
-extern crate lalrpop;
-
 fn main() {
     lalrpop::Configuration::new()
         .always_use_colors()
