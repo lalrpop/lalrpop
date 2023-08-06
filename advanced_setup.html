@@ -171,9 +171,7 @@
                         <h3 id="customizing-the-build-process"><a class="header" href="#customizing-the-build-process">Customizing the Build Process</a></h3>
 <p>When you setup LALRPOP, you create a <code>build.rs</code> file that looks something
 like this:</p>
-<pre><pre class="playground"><code class="language-rust">extern crate lalrpop;
-
-fn main() {
+<pre><pre class="playground"><code class="language-rust">fn main() {
     lalrpop::process_root().unwrap();
 }</code></pre></pre>
 <p>This <code>process_root()</code> call simply applies the default configuration:
@@ -183,9 +181,7 @@ has actually changed. But you can also use the
 <a href="https://docs.rs/lalrpop/*/lalrpop/struct.Configuration.html"><code>Configuration</code></a> struct to get more detailed control.</p>
 <p>For example, to <strong>force</strong> the use of colors in the output (ignoring
 the TTY settings), you might make your <code>build.rs</code> file look like so:</p>
-<pre><pre class="playground"><code class="language-rust">extern crate lalrpop;
-
-fn main() {
+<pre><pre class="playground"><code class="language-rust">fn main() {
     lalrpop::Configuration::new()
         .always_use_colors()
         .process_current_dir();

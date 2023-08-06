@@ -257,7 +257,7 @@ FactorOp: Opcode = {
 <p>And, of course, we have to add some tests to <a href="https://github.com/lalrpop/lalrpop/blob/master/doc/calculator/src/main.rs">main.rs file</a>:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
-</span>#[macro_use] extern crate lalrpop_util;
+</span>use lalrpop_util::lalrpop_mod;
 
 lalrpop_mod!(pub calculator5);
 

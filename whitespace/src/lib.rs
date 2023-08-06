@@ -1,5 +1,4 @@
-#[macro_use]
-extern crate lalrpop_util;
+use lalrpop_util::lalrpop_mod;
 
 pub mod ast;
 pub mod eval;

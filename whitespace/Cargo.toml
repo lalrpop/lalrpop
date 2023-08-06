@@ -2,7 +2,6 @@
 name = "whitespace"
 version = "0.20.0"
 authors = ["Mako <jlauve@rsmw.net>"]
-build = "build.rs"
 edition = "2021"
 
 [build-dependencies.lalrpop]

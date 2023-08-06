@@ -174,11 +174,7 @@ to the syntax of LALRPOP files and so forth.</p>
 <p>But if you've done this before, or you're just the impatient sort,
 here is a quick 'cheat sheet' for setting up your project.  First, add
 the following lines to your <code>Cargo.toml</code>:</p>
-<pre><code class="language-toml">[package]
-...
-build = &quot;build.rs&quot; # LALRPOP preprocessing
-
-# The generated code depends on lalrpop-util.
+<pre><code class="language-toml"># The generated code depends on lalrpop-util.
 [dependencies]
 lalrpop-util = &quot;0.20.0&quot;
 
@@ -191,9 +187,7 @@ lalrpop = &quot;0.20.0&quot;
 </code></pre>
 <p>Next create a <a href="https://doc.rust-lang.org/cargo/reference/build-scripts.html"><code>build.rs</code></a> file
 that looks like:</p>
-<pre><pre class="playground"><code class="language-rust">extern crate lalrpop;
-
-fn main() {
+<pre><pre class="playground"><code class="language-rust">fn main() {
     lalrpop::process_root().unwrap();
 }</code></pre></pre>
 <p>(If you already have a <code>build.rs</code> file, you should be able to just

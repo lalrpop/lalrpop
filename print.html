@@ -241,11 +241,7 @@ to the syntax of LALRPOP files and so forth.</p>
 <p>But if you've done this before, or you're just the impatient sort,
 here is a quick 'cheat sheet' for setting up your project.  First, add
 the following lines to your <code>Cargo.toml</code>:</p>
-<pre><code class="language-toml">[package]
-...
-build = &quot;build.rs&quot; # LALRPOP preprocessing
-
-# The generated code depends on lalrpop-util.
+<pre><code class="language-toml"># The generated code depends on lalrpop-util.
 [dependencies]
 lalrpop-util = &quot;0.20.0&quot;
 
@@ -258,9 +254,7 @@ lalrpop = &quot;0.20.0&quot;
 </code></pre>
 <p>Next create a <a href="https://doc.rust-lang.org/cargo/reference/build-scripts.html"><code>build.rs</code></a> file
 that looks like:</p>
-<pre><pre class="playground"><code class="language-rust">extern crate lalrpop;
-
-fn main() {
+<pre><pre class="playground"><code class="language-rust">fn main() {
     lalrpop::process_root().unwrap();
 }</code></pre></pre>
 <p>(If you already have a <code>build.rs</code> file, you should be able to just
@@ -342,9 +336,7 @@ needs at runtime. All LALRPOP parsers require at least the
 <p>Next we have to add <code>build.rs</code> itself. For those unfamiliar with <a href="https://doc.rust-lang.org/cargo/reference/build-scripts.html">this feature</a>, the <code>build.rs</code> file
 should be placed next to your <code>Cargo.toml</code> file and not inside the <code>src</code> folder with the rest of
 your Rust code. This should just look like the following:</p>
-<pre><pre class="playground"><code class="language-rust">extern crate lalrpop;
-
-fn main() {
+<pre><pre class="playground"><code class="language-rust">fn main() {
     lalrpop::process_root().unwrap();
 }</code></pre></pre>
 <p>The function <code>process_root</code> processes your <code>src</code> directory, converting
@@ -434,12 +426,12 @@ number; so <code>22</code> is a term. The second alternative is <code>&quot;(&qu
 <p><strong>Invoking the parser.</strong> OK, so we wrote our parser, how do we use it?
 For every nonterminal <code>Foo</code> declared as <code>pub</code>, LALRPOP will export a
 <code>FooParser</code> struct with a <code>parse</code> method that you can call to parse a
-string as that nonterminal. Here is a simple test that we've added to 
+string as that nonterminal. Here is a simple test that we've added to
 our <a href="https://github.com/lalrpop/lalrpop/blob/master/doc/calculator/src/main.rs"><code>main.rs</code></a> file which uses this struct to test our <code>Term</code>
 nonterminal:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
-</span>#[macro_use] extern crate lalrpop_util;
+</span>use lalrpop_util::lalrpop_mod;
 
 lalrpop_mod!(pub calculator1); // synthesized by LALRPOP
 
@@ -778,7 +770,7 @@ FactorOp: Opcode = {
 <p>And, of course, we have to add some tests to <a href="https://github.com/lalrpop/lalrpop/blob/master/doc/calculator/src/main.rs">main.rs file</a>:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
-</span>#[macro_use] extern crate lalrpop_util;
+</span>use lalrpop_util::lalrpop_mod;
 
 lalrpop_mod!(pub calculator5);
 
@@ -839,7 +831,7 @@ source as <a href="https://github.com/lalrpop/lalrpop/blob/master/doc/calculator
 handle the errors:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
-</span>#[macro_use] extern crate lalrpop_util;
+</span>use lalrpop_util::lalrpop_mod;
 
 lalrpop_mod!(pub calculator6);
 
@@ -900,7 +892,7 @@ extern {
 <p>And finally we can see if it works:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
-</span>#[macro_use] extern crate lalrpop_util;
+</span>use lalrpop_util::lalrpop_mod;
 
 lalrpop_mod!(pub calculator6b);
 
@@ -2090,9 +2082,7 @@ println!(&quot;{:?}&quot;, ast);
 <div style="break-before: page; page-break-before: always;"></div><h3 id="customizing-the-build-process"><a class="header" href="#customizing-the-build-process">Customizing the Build Process</a></h3>
 <p>When you setup LALRPOP, you create a <code>build.rs</code> file that looks something
 like this:</p>
-<pre><pre class="playground"><code class="language-rust">extern crate lalrpop;
-
-fn main() {
+<pre><pre class="playground"><code class="language-rust">fn main() {
     lalrpop::process_root().unwrap();
 }</code></pre></pre>
 <p>This <code>process_root()</code> call simply applies the default configuration:
@@ -2102,9 +2092,7 @@ has actually changed. But you can also use the
 <a href="https://docs.rs/lalrpop/*/lalrpop/struct.Configuration.html"><code>Configuration</code></a> struct to get more detailed control.</p>
 <p>For example, to <strong>force</strong> the use of colors in the output (ignoring
 the TTY settings), you might make your <code>build.rs</code> file look like so:</p>
-<pre><pre class="playground"><code class="language-rust">extern crate lalrpop;
-
-fn main() {
+<pre><pre class="playground"><code class="language-rust">fn main() {
     lalrpop::Configuration::new()
         .always_use_colors()
         .process_current_dir();
