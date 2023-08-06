@@ -8,24 +8,8 @@
 // ε shows up in lalrpop/src/lr1/example/test.rs
 #![cfg_attr(test, allow(dead_code, mixed_script_confusables))]
 
-extern crate ascii_canvas;
-extern crate bit_set;
-extern crate ena;
-extern crate is_terminal;
-extern crate itertools;
-extern crate petgraph;
-extern crate regex;
-extern crate regex_syntax;
-extern crate string_cache;
-extern crate term;
-extern crate tiny_keccak;
-extern crate unicode_xid;
-
 #[cfg_attr(feature = "test", macro_use)]
 extern crate lalrpop_util;
-
-#[cfg(test)]
-extern crate rand;
 
 // hoist the modules that define macros up earlier
 #[macro_use]
