@@ -21,7 +21,6 @@ doctest = false
 [dependencies]
 ascii-canvas = { version = "3.0", default_features = false }
 bit-set = { version = "0.5.2", default_features = false }
-diff = { workspace = true }
 ena = { version = "0.14", default_features = false }
 is-terminal = "0.4.2"
 itertools = { version = "0.10", default_features = false, features = ["use_std"] }
@@ -40,6 +39,7 @@ pico-args = { version = "0.5", default_features = false, optional = true }
 lalrpop-util = { path = "../lalrpop-util", version = "0.20.0" }
 
 [dev-dependencies]
+diff = { workspace = true }
 rand = "0.8"
 
 [features]
