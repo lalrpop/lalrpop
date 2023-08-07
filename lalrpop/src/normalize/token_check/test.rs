@@ -189,7 +189,7 @@ fn match_catch_all_in_first_arm() {
         };
         Num: String = r"[0-9]+" => <>.to_string();
 "#;
-    assert!(validate_grammar(&grammar).is_ok());
+    assert!(validate_grammar(grammar).is_ok());
     check_intern_token(
         grammar,
         vec![
