@@ -186,17 +186,26 @@ fn lalrpop_files<P: AsRef<Path>>(root_dir: P) -> io::Result<Vec<PathBuf>> {
             result.extend(lalrpop_files(&path)?);
         }
 
-        let is_symlink_file = || -> bool {
+        let is_valid_symlink_file = || -> bool {
             if !file_type.is_symlink() {
                 false
             } else {
                 // Ensure all symlinks are resolved to a file
-                // Or ignore eronious ones https://github.com/lalrpop/lalrpop/issues/808
-                fs::metadata(&path).map_or(false, |m| m.is_file())
+                // Or ignore erroneous ones https://github.com/lalrpop/lalrpop/issues/808
+                fs::metadata(&path).map_or_else(
+                    |_| {
+                        eprintln!(
+                            "Warning: ignoring dangling/erroneous symlink {}",
+                            path.display()
+                        );
+                        false
+                    },
+                    |m| m.is_file(),
+                )
             }
         };
 
-        if (file_type.is_file() || is_symlink_file())
+        if (file_type.is_file() || is_valid_symlink_file())
             && path.extension().is_some()
             && path.extension().unwrap() == "lalrpop"
         {
