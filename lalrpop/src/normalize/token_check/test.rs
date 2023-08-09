@@ -173,6 +173,7 @@ fn match_catch_all() {
 /// Before the pull request to close [issue 325](https://github.com/lalrpop/lalrpop/issues/325),
 /// the usage of the `catch-all` symbol was not allowed in the first arm of a `match` block.
 #[test]
+#[cfg_attr(not(feature = "unicode"), ignore)]
 fn match_catch_all_in_first_arm() {
     let grammar = r#"
         grammar;
