@@ -48,7 +48,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TestAll> {
         self.write_parse_mod(|this| {
             this.write_parser_fn()?;
 
-            rust!(this.out, "#[cfg_attr(rustfmt, rustfmt_skip)]");
+            rust!(this.out, "#[rustfmt::skip]");
             rust!(this.out, "mod {}ascent {{", this.prefix);
             super::ascent::compile(
                 this.grammar,
@@ -68,7 +68,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TestAll> {
             rust!(this.out, "{}", pub_use);
             rust!(this.out, "}}");
 
-            rust!(this.out, "#[cfg_attr(rustfmt, rustfmt_skip)]");
+            rust!(this.out, "#[rustfmt::skip]");
             rust!(this.out, "mod {}parse_table {{", this.prefix);
             super::parse_table::compile(
                 this.grammar,
