@@ -33,6 +33,8 @@ fn calculator8() {
 
 For a more practical example with a custom tree structure, check out [this parser][expr_arena] using [this structure][expr_arena_ast] to build the AST.
 
+Note: The state parameter must implement the Copy trait.  For types that don't implement Copy, you should pass them as a reference instead.
+
 
 [expr_arena]: https://github.com/lalrpop/lalrpop/blob/master/lalrpop-test/src/expr_arena.lalrpop
 [expr_arena_ast]: https://github.com/lalrpop/lalrpop/blob/master/lalrpop-test/src/expr_arena_ast.rs
