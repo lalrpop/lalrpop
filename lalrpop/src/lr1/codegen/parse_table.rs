@@ -852,7 +852,19 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
                 rust!(
                     self.out,
                     "{} => match {}token {{",
-                    indices.iter().map(|(index, _)| index).format(" | "),
+                    if indices.windows(2).all(|w| w[0].0 + 1 == w[1].0) {
+                        format!(
+                            "{}..={}",
+                            indices.first().unwrap().0,
+                            indices.last().unwrap().0
+                        )
+                    } else {
+                        indices
+                            .iter()
+                            .map(|(index, _)| index)
+                            .format(" | ")
+                            .to_string()
+                    },
                     self.prefix
                 );
                 rust!(
@@ -871,7 +883,19 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
                 rust!(
                     self.out,
                     "{indices} => {p}Symbol::{variant_name}({p}token),",
-                    indices = indices.iter().map(|(index, _)| index).format(" | "),
+                    indices = if indices.windows(2).all(|w| w[0].0 + 1 == w[1].0) {
+                        format!(
+                            "{}..={}",
+                            indices.first().unwrap().0,
+                            indices.last().unwrap().0
+                        )
+                    } else {
+                        indices
+                            .iter()
+                            .map(|(index, _)| index)
+                            .format(" | ")
+                            .to_string()
+                    },
                     p = self.prefix,
                     variant_name = variant_name,
                 )

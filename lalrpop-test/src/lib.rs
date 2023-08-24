@@ -1172,9 +1172,7 @@ fn test_nested_pattern_string_error() {
     let tokens = util::tok::tokenize("\"not matched\"")
         .into_iter()
         .map(|t| t.1);
-    let err = nested::EParser::new()
-        .parse(tokens.into_iter())
-        .unwrap_err();
+    let err = nested::EParser::new().parse(tokens).unwrap_err();
     match err {
         ParseError::UnrecognizedToken { token, expected: _ } => {
             assert_eq!(token.1, Tok::String("not matched"));
