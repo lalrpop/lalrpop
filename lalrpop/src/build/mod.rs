@@ -87,6 +87,18 @@ fn gen_resolve_file(session: &Session, lalrpop_file: &Path, ext: &str) -> io::Re
         in_dir
     };
 
+    // Ideally we do something like syn::parse_str::<syn::Ident>(lalrpop_file.file_name())?;
+    // But I don't think we want a full blown syn dependency unless fully converting to proc macros.
+    if lalrpop_file
+        .file_name()
+        .unwrap()
+        .to_str()
+        .unwrap()
+        .contains(char::is_whitespace)
+    {
+        eprintln!("The lalrpop file named `{}` contains whitespace which may make this file difficult to import.", lalrpop_file.display())
+    }
+
     // If the lalrpop file is not in in_dir, the result is that the
     // .rs file is created in the same directory as the lalrpop file
     // for compatibility reasons
