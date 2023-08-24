@@ -96,7 +96,13 @@ fn gen_resolve_file(session: &Session, lalrpop_file: &Path, ext: &str) -> io::Re
         .unwrap()
         .contains(char::is_whitespace)
     {
-        eprintln!("The lalrpop file named `{}` contains whitespace which may make this file difficult to import.", lalrpop_file.display())
+        return Err(io::Error::new(
+            io::ErrorKind::InvalidInput,
+            format!(
+                "LALRPOP file names cannot contain whitespace: {}",
+                lalrpop_file.display()
+            ),
+        ));
     }
 
     // If the lalrpop file is not in in_dir, the result is that the
