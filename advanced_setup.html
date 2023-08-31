@@ -186,6 +186,15 @@ the TTY settings), you might make your <code>build.rs</code> file look like so:<
         .always_use_colors()
         .process_current_dir();
 }</code></pre></pre>
+<h4 id="rerun-directives"><a class="header" href="#rerun-directives">Rerun Directives</a></h4>
+<p>Cargo will rerun the build script on each compilation even if the lalrpop file has not changed.
+To disable this behavior, use the <code>emit_rerun_directives</code> function when setting up your lalrpop <code>Configuration</code>.</p>
+<pre><pre class="playground"><code class="language-rust">fn main() {
+    lalrpop::Configuration::new()
+        .emit_rerun_directives(true)
+        .process_current_dir();
+}</code></pre></pre>
+<p>By default, this is set to false in case other parts of the build script or compilation code expects <code>build.rs</code> to be run unconditionally.</p>
 <h3 id="using-the-legacy-lalr-parser"><a class="header" href="#using-the-legacy-lalr-parser">Using the Legacy LALR Parser</a></h3>
 <p>By default, LALRPOP uses the <a href="https://github.com/lalrpop/lalrpop/blob/master/lalrpop/src/lr1/lane_table/README.md">lane table</a>
 algorithm which is LR(1) but creates much smaller tables. There is no longer
