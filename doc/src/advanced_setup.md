@@ -28,6 +28,21 @@ fn main() {
 }
 ```
 
+#### Rerun Directives
+
+Cargo will rerun the build script on each compilation even if the lalrpop file has not changed.
+To disable this behavior, use the `emit_rerun_directives` function when setting up your lalrpop `Configuration`.
+
+```rust
+fn main() {
+    lalrpop::Configuration::new()
+        .emit_rerun_directives(true)
+        .process_current_dir();
+}
+```
+
+By default, this is set to false in case other parts of the build script or compilation code expects `build.rs` to be run unconditionally.
+
 ### Using the Legacy LALR Parser
 
 By default, LALRPOP uses the [lane table][]
