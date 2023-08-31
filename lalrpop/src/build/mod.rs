@@ -91,9 +91,21 @@ fn gen_resolve_file(session: &Session, lalrpop_file: &Path, ext: &str) -> io::Re
     // But I don't think we want a full blown syn dependency unless fully converting to proc macros.
     if lalrpop_file
         .file_name()
-        .unwrap()
+        .ok_or(io::Error::new(
+            io::ErrorKind::InvalidInput,
+            format!(
+                "LALRPOP could not extract a valid file name: {}",
+                lalrpop_file.display()
+            ),
+        ))?
         .to_str()
-        .unwrap()
+        .ok_or(io::Error::new(
+            io::ErrorKind::InvalidInput,
+            format!(
+                "LALRPOP file names must be valid UTF-8: {}",
+                lalrpop_file.display()
+            ),
+        ))?
         .contains(char::is_whitespace)
     {
         return Err(io::Error::new(
