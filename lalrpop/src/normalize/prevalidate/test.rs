@@ -73,7 +73,7 @@ fn duplicate_annotation() {
 #[test]
 fn pub_inline_annotation() {
     check_err(
-        r#"public items cannot be marked #\[inline\]"#,
+        r"public items cannot be marked #\[inline\]",
         r#"grammar; #[inline] pub Term = ();"#,
         r#"           ~~~~~~            "#,
     );
@@ -91,7 +91,7 @@ fn multiple_match_token() {
 #[test]
 fn match_after_extern_token() {
     check_err(
-        r#"match and extern \(with custom tokens\) definitions are mutually exclusive"#,
+        r"match and extern \(with custom tokens\) definitions are mutually exclusive",
         r#"grammar; extern { enum Tok { } } match { _ }"#,
         r#"                                 ~~~~~      "#,
     );
@@ -100,7 +100,7 @@ fn match_after_extern_token() {
 #[test]
 fn extern_after_match_token() {
     check_err(
-        r#"extern \(with custom tokens\) and match definitions are mutually exclusive"#,
+        r"extern \(with custom tokens\) and match definitions are mutually exclusive",
         r#"grammar; match { _ } extern { enum Tok { } }"#,
         r#"                     ~~~~~~                 "#,
     );
@@ -127,7 +127,7 @@ fn match_catch_all_last_of_first() {
 #[test]
 fn expandable_expression_requires_named_variables() {
     check_err(
-        r#"Using `<>` between curly braces \(e.g., `\{<>\}`\) only works when your parsed values have been given names \(e.g., `<x:Foo>`, not just `<Foo>`\)"#,
+        r"Using `<>` between curly braces \(e.g., `\{<>\}`\) only works when your parsed values have been given names \(e.g., `<x:Foo>`, not just `<Foo>`\)",
         r#"grammar; Term = { <A> => Foo {<>} };"#,
         r#"                  ~~~~~~~~~~~~~~~~  "#,
     );

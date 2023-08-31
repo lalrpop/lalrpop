@@ -349,10 +349,10 @@ fn construct(grammar: &mut Grammar, match_block: MatchBlock) -> NormResult<()> {
         Ok(dfa) => dfa,
         Err(DfaConstructionError::NfaConstructionError { index, error }) => {
             let feature = match error {
-                NamedCaptures => r#"named captures (`(?P<foo>...)`)"#,
+                NamedCaptures => r"named captures (`(?P<foo>...)`)",
                 NonGreedy => r#""non-greedy" repetitions (`*?` or `+?`)"#,
-                LookAround => r#"all boundaries like `\b` or `\B` or `^` or `$`"#,
-                ByteRegex => r#"byte-based matches"#,
+                LookAround => r"all boundaries like `\b` or `\B` or `^` or `$`",
+                ByteRegex => r"byte-based matches",
             };
             let literal = &match_entries[index.index()].match_literal;
             return_err!(

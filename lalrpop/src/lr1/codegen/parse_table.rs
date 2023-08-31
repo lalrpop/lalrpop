@@ -805,7 +805,11 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
             .emit()?;
         rust!(self.out, "{{");
 
-        rust!(self.out, "match {p}token_index {{", p = self.prefix,);
+        rust!(
+            self.out,
+            "#[allow(clippy::manual_range_patterns)]match {p}token_index {{",
+            p = self.prefix,
+        );
 
         let mut token_to_symbol_mapping = Vec::new();
 
@@ -852,7 +856,11 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
                 rust!(
                     self.out,
                     "{} => match {}token {{",
-                    indices.iter().map(|(index, _)| index).format(" | "),
+                    indices
+                        .iter()
+                        .map(|(index, _)| index)
+                        .format(" | ")
+                        .to_string(),
                     self.prefix
                 );
                 rust!(
@@ -871,7 +879,11 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
                 rust!(
                     self.out,
                     "{indices} => {p}Symbol::{variant_name}({p}token),",
-                    indices = indices.iter().map(|(index, _)| index).format(" | "),
+                    indices = indices
+                        .iter()
+                        .map(|(index, _)| index)
+                        .format(" | ")
+                        .to_string(),
                     p = self.prefix,
                     variant_name = variant_name,
                 )

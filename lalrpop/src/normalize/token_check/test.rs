@@ -117,8 +117,8 @@ fn match_mappings() {
     check_intern_token(
         r#"grammar; match { r"(?i)begin" => "BEGIN" } else { "abc" => ALPHA } X = "BEGIN" ALPHA;"#,
         vec![
-            ("BEGIN", r##"Some(("BEGIN", "BEGIN"))"##),
-            ("begin", r##"Some(("BEGIN", "begin"))"##),
+            ("BEGIN", r#"Some(("BEGIN", "BEGIN"))"#),
+            ("begin", r#"Some(("BEGIN", "begin"))"#),
             ("abc", r#"Some((ALPHA, "abc"))"#),
         ],
     );
@@ -133,8 +133,8 @@ fn match_precedence() {
     check_intern_token(
         r#"grammar; match { r"(?i)begin" => "BEGIN" } else { r"\w+" => ID } X = ();"#,
         vec![
-            ("BEGIN", r##"Some(("BEGIN", "BEGIN"))"##),
-            ("begin", r##"Some(("BEGIN", "begin"))"##),
+            ("BEGIN", r#"Some(("BEGIN", "BEGIN"))"#),
+            ("begin", r#"Some(("BEGIN", "begin"))"#),
             ("abc", r#"Some((ID, "abc"))"#),
         ],
     );
@@ -173,7 +173,7 @@ fn match_catch_all() {
 // This test requires regex's unicode case support
 #[cfg_attr(not(feature = "unicode"), ignore)]
 fn complex_match() {
-    let grammar = r##"
+    let grammar = r#"
         grammar;
         match {
             "abc"        => "ABC",
@@ -183,7 +183,7 @@ fn complex_match() {
         pub Query: String = {
             "ABC" BEGIN => String::from("Success")
         };
-"##;
+"#;
     assert!(validate_grammar(grammar).is_ok())
 }
 
