@@ -805,7 +805,11 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
             .emit()?;
         rust!(self.out, "{{");
 
-        rust!(self.out, "match {p}token_index {{", p = self.prefix,);
+        rust!(
+            self.out,
+            "#[allow(clippy::manual_range_patterns)]match {p}token_index {{",
+            p = self.prefix,
+        );
 
         let mut token_to_symbol_mapping = Vec::new();
 
@@ -852,19 +856,11 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
                 rust!(
                     self.out,
                     "{} => match {}token {{",
-                    if indices.windows(2).all(|w| w[0].0 + 1 == w[1].0) {
-                        format!(
-                            "{}..={}",
-                            indices.first().unwrap().0,
-                            indices.last().unwrap().0
-                        )
-                    } else {
-                        indices
-                            .iter()
-                            .map(|(index, _)| index)
-                            .format(" | ")
-                            .to_string()
-                    },
+                    indices
+                        .iter()
+                        .map(|(index, _)| index)
+                        .format(" | ")
+                        .to_string(),
                     self.prefix
                 );
                 rust!(
@@ -883,19 +879,11 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
                 rust!(
                     self.out,
                     "{indices} => {p}Symbol::{variant_name}({p}token),",
-                    indices = if indices.windows(2).all(|w| w[0].0 + 1 == w[1].0) {
-                        format!(
-                            "{}..={}",
-                            indices.first().unwrap().0,
-                            indices.last().unwrap().0
-                        )
-                    } else {
-                        indices
-                            .iter()
-                            .map(|(index, _)| index)
-                            .format(" | ")
-                            .to_string()
-                    },
+                    indices = indices
+                        .iter()
+                        .map(|(index, _)| index)
+                        .format(" | ")
+                        .to_string(),
                     p = self.prefix,
                     variant_name = variant_name,
                 )

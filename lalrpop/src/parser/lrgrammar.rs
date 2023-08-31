@@ -3252,7 +3252,7 @@ ___token: Tok<'input>,
 _: core::marker::PhantomData<(&'input ())>,
 ) -> ___Symbol<'input>
 {
-match ___token_index {
+#[allow(clippy::manual_range_patterns)]match ___token_index {
 0 | 1 | 2 | 3 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14 | 15 | 16 | 17 | 18 | 21 | 22 | 23 | 24 | 25 | 26 | 33 | 34 | 35 | 36 | 37 | 39 | 40 | 41 | 42 | 43 | 44 | 45 | 46 | 47 | 48 | 49 | 50 | 51 | 52 | 53 | 55 | 56 | 57 | 58 => ___Symbol::Variant0(___token),
 4 | 19 | 20 | 27 | 28 | 29 | 30 | 31 | 32 | 38 | 54 => match ___token {
 Tok::ShebangAttribute(___tok0) | Tok::EqualsGreaterThanCode(___tok0) | Tok::EqualsGreaterThanQuestionCode(___tok0) | Tok::CharLiteral(___tok0) | Tok::Escape(___tok0) | Tok::Id(___tok0) | Tok::Lifetime(___tok0) | Tok::MacroId(___tok0) | Tok::RegexLiteral(___tok0) | Tok::StringLiteral(___tok0) | Tok::Use(___tok0) if true => ___Symbol::Variant1(___tok0),

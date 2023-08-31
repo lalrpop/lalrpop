@@ -162,7 +162,7 @@ impl<'codegen, 'grammar, W: Write, C> CodeGenerator<'codegen, 'grammar, W, C> {
         rust!(
             self.out,
             "#[allow(non_snake_case, non_camel_case_types, unused_mut, unused_variables, \
-             unused_imports, unused_parens, clippy::needless_lifetimes, clippy::type_complexity, clippy::needless_return, clippy::too_many_arguments, clippy::never_loop, clippy::match_single_binding, clippy::needless_raw_string_hashes)]"
+             unused_imports, unused_parens, clippy::needless_lifetimes, clippy::type_complexity, clippy::needless_return, clippy::too_many_arguments, clippy::never_loop, clippy::match_single_binding, clippy::needless_raw_string_hashes, clippy::manual_range_patterns)]"
         );
         rust!(self.out, "mod {}parse{} {{", self.prefix, self.start_symbol);
         rust!(self.out, "");
