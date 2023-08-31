@@ -196,6 +196,7 @@ fn calculator8() {
 }
 <span class="boring">}</span></code></pre></pre>
 <p>For a more practical example with a custom tree structure, check out <a href="https://github.com/lalrpop/lalrpop/blob/master/lalrpop-test/src/expr_arena.lalrpop">this parser</a> using <a href="https://github.com/lalrpop/lalrpop/blob/master/lalrpop-test/src/expr_arena_ast.rs">this structure</a> to build the AST.</p>
+<p>Note: The state parameter must implement the Copy trait.  For types that don't implement Copy, you should pass them as a reference instead.</p>
 
                     </main>
 
