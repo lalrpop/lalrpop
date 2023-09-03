@@ -26,4 +26,4 @@ rust-version = "1.65"
 diff = { version = "0.1.12", default_features = false }
 regex = { version = "1.3", default_features = false, features = ["std"] }
 regex-syntax = { version = "0.7.4", default_features = false }
-regex-automata = { version = "0.3.4", default_features = false, features = ["perf", "syntax", "dfa"] }
+regex-automata = { version = "0.3.4", default_features = false, features = ["perf", "syntax", "hybrid"] }

@@ -2,11 +2,11 @@ use std::{fmt, marker::PhantomData};
 
 use crate::ParseError;
 
-use regex_automata::dfa::{dense, Automaton, StartKind};
+use regex_automata::hybrid::dfa::{Cache, DFA};
+use regex_automata::hybrid::{BuildError, LazyStateID};
 use regex_automata::nfa::thompson::Config as NfaConfig;
-use regex_automata::util::primitives::StateID;
 use regex_automata::util::syntax::Config as SyntaxConfig;
-use regex_automata::{Anchored, MatchKind};
+use regex_automata::{Anchored, Input, MatchKind};
 
 #[derive(Clone, Debug, PartialEq, Eq, PartialOrd, Ord)]
 pub struct Token<'input>(pub usize, pub &'input str);
@@ -17,15 +17,13 @@ impl<'a> fmt::Display for Token<'a> {
 }
 
 pub struct MatcherBuilder {
-    dfa: dense::DFA<Vec<u32>>,
+    dfa: DFA,
     skip_vec: Vec<bool>,
 }
 
 impl MatcherBuilder {
     #[allow(clippy::result_large_err)]
-    pub fn new<S>(
-        exprs: impl IntoIterator<Item = (S, bool)>,
-    ) -> Result<MatcherBuilder, dense::BuildError>
+    pub fn new<S>(exprs: impl IntoIterator<Item = (S, bool)>) -> Result<MatcherBuilder, BuildError>
     where
         S: AsRef<str>,
     {
@@ -38,13 +36,8 @@ impl MatcherBuilder {
         }
 
         let enable_unicode = cfg!(feature = "unicode");
-        let dfa = dense::Builder::new()
-            .configure(
-                dense::Config::new()
-                    .minimize(true)
-                    .start_kind(StartKind::Anchored)
-                    .match_kind(MatchKind::All),
-            )
+        let dfa = DFA::builder()
+            .configure(DFA::config().match_kind(MatchKind::All))
             .syntax(
                 SyntaxConfig::new()
                     .unicode(enable_unicode)
@@ -60,13 +53,13 @@ impl MatcherBuilder {
         &'builder self,
         text: &'input str,
     ) -> Matcher<'input, 'builder, E> {
-        let start = self
-            .dfa
-            .universal_start_state(Anchored::Yes)
-            .expect("lookaround should be ruled out in normalization");
+        let input = Input::new(text).anchored(Anchored::Yes);
+        let mut cache = self.dfa.create_cache();
+        let start = self.dfa.start_state_forward(&mut cache, &input).unwrap();
         Matcher {
             text,
             consumed: 0,
+            cache,
             start,
             dfa: &self.dfa,
             skip_vec: &self.skip_vec,
@@ -78,8 +71,9 @@ impl MatcherBuilder {
 pub struct Matcher<'input, 'builder, E> {
     text: &'input str,
     consumed: usize,
-    start: StateID,
-    dfa: &'builder dense::DFA<Vec<u32>>,
+    cache: Cache,
+    start: LazyStateID,
+    dfa: &'builder DFA,
     skip_vec: &'builder [bool],
     _marker: PhantomData<fn() -> E>,
 }
@@ -100,15 +94,15 @@ impl<'input, 'builder, E> Iterator for Matcher<'input, 'builder, E> {
             'search: {
                 let mut state = self.start;
                 for (i, byte) in text.bytes().enumerate() {
-                    state = self.dfa.next_state(state, byte);
-                    if self.dfa.is_match_state(state) {
+                    state = self.dfa.next_state(&mut self.cache, state, byte).unwrap();
+                    if state.is_match() {
                         match_ = Some((state, i));
-                    } else if self.dfa.is_dead_state(state) {
+                    } else if state.is_dead() {
                         break 'search;
                     }
                 }
-                state = self.dfa.next_eoi_state(state);
-                if self.dfa.is_match_state(state) {
+                state = self.dfa.next_eoi_state(&mut self.cache, state).unwrap();
+                if state.is_match() {
                     match_ = Some((state, text.len()));
                 }
             }
@@ -121,8 +115,12 @@ impl<'input, 'builder, E> Iterator for Matcher<'input, 'builder, E> {
                     }))
                 }
             };
-            let index = (0..self.dfa.match_len(match_state))
-                .map(|n| self.dfa.match_pattern(match_state, n).as_usize())
+            let index = (0..self.dfa.match_len(&self.cache, match_state))
+                .map(|n| {
+                    self.dfa
+                        .match_pattern(&self.cache, match_state, n)
+                        .as_usize()
+                })
                 .max()
                 .unwrap();
 
