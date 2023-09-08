@@ -59,7 +59,10 @@ pub fn compile<W: Write>(
     }
 
     if !contains_skip {
-        rust!(out, r#"(r"^(\s*)", true),"#);
+        #[cfg(feature = "unicode")]
+        rust!(out, r#"(r"^(\s+)", true),"#);
+        #[cfg(not(feature = "unicode"))]
+        rust!(out, r#"(r"^((?-u:\s)+)", true),"#);
     }
 
     rust!(out, "];");
