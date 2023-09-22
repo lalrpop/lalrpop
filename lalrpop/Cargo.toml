@@ -23,7 +23,7 @@ ascii-canvas = { version = "3.0", default_features = false }
 bit-set = { version = "0.5.2", default_features = false }
 ena = { version = "0.14", default_features = false }
 itertools = { version = "0.10", default_features = false, features = ["use_std"] }
-petgraph = { version = "0.6", default_features = false }
+petgraph = { version = "0.6.4", default_features = false }
 regex = { workspace = true }
 regex-syntax = { workspace = true }
 string_cache = { version = "0.8", default_features = false }
