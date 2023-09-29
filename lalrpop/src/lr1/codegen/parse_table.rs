@@ -257,9 +257,14 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
         );
         rust!(
             self.out,
-            "{p}action(state, {num_term} - 1)",
+            "{p}action(state, {})",
+            // Avoid needless 1 subtract by 1
+            if self.grammar.terminals.all.len() == 1 {
+                "0".to_string()
+            } else {
+                format!("{} - 1", self.grammar.terminals.all.len())
+            },
             p = self.prefix,
-            num_term = self.grammar.terminals.all.len(),
         );
         rust!(self.out, "}}");
 
@@ -514,9 +519,14 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
 
         rust!(
             self.out,
-            "{p}ACTION[(state as usize) * {num_term} + integer]",
+            "{p}ACTION[(state as usize) {} + integer]",
+            // Leads to multliplication by 1
+            if self.grammar.terminals.all.len() == 1 {
+                "".to_string()
+            } else {
+                format!("* {}", self.grammar.terminals.all.len())
+            },
             p = self.prefix,
-            num_term = self.grammar.terminals.all.len(),
         );
 
         rust!(self.out, "}}");
@@ -795,7 +805,11 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
             .emit()?;
         rust!(self.out, "{{");
 
-        rust!(self.out, "match {p}token_index {{", p = self.prefix,);
+        rust!(
+            self.out,
+            "#[allow(clippy::manual_range_patterns)]match {p}token_index {{",
+            p = self.prefix,
+        );
 
         let mut token_to_symbol_mapping = Vec::new();
 
@@ -842,7 +856,11 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
                 rust!(
                     self.out,
                     "{} => match {}token {{",
-                    indices.iter().map(|(index, _)| index).format(" | "),
+                    indices
+                        .iter()
+                        .map(|(index, _)| index)
+                        .format(" | ")
+                        .to_string(),
                     self.prefix
                 );
                 rust!(
@@ -861,7 +879,11 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
                 rust!(
                     self.out,
                     "{indices} => {p}Symbol::{variant_name}({p}token),",
-                    indices = indices.iter().map(|(index, _)| index).format(" | "),
+                    indices = indices
+                        .iter()
+                        .map(|(index, _)| index)
+                        .format(" | ")
+                        .to_string(),
                     p = self.prefix,
                     variant_name = variant_name,
                 )
@@ -1075,10 +1097,10 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
             // stack will be empty)
             rust!(
                 self.out,
-                "let {p}start = {p}lookahead_start.cloned().or_else(|| {p}symbols.last().map(|s| s.2.clone())).unwrap_or_default();",
+                "let {p}start = {p}lookahead_start.cloned().or_else(|| {p}symbols.last().map(|s| s.2)).unwrap_or_default();",
                 p = self.prefix,
             );
-            rust!(self.out, "let {p}end = {p}start.clone();", p = self.prefix,);
+            rust!(self.out, "let {p}end = {p}start;", p = self.prefix,);
         }
 
         let transferred_syms = transfer_syms.len();

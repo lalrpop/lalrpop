@@ -1,7 +1,6 @@
 #![cfg_attr(rustfmt, rustfmt_skip)]
 
-#[macro_use]
-extern crate lalrpop_util;
+use lalrpop_util::lalrpop_mod;
 
 lalrpop_mod!(pub nobol1); // syntesized by LALRPOP
 

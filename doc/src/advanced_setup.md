@@ -4,8 +4,6 @@ When you setup LALRPOP, you create a `build.rs` file that looks something
 like this:
 
 ```rust
-extern crate lalrpop;
-
 fn main() {
     lalrpop::process_root().unwrap();
 }
@@ -23,14 +21,27 @@ For example, to **force** the use of colors in the output (ignoring
 the TTY settings), you might make your `build.rs` file look like so:
 
 ```rust
-extern crate lalrpop;
-
 fn main() {
     lalrpop::Configuration::new()
         .always_use_colors()
         .process_current_dir();
 }
 ```
+
+#### Rerun Directives
+
+Cargo will rerun the build script on each compilation even if the lalrpop file has not changed.
+To disable this behavior, use the `emit_rerun_directives` function when setting up your lalrpop `Configuration`.
+
+```rust
+fn main() {
+    lalrpop::Configuration::new()
+        .emit_rerun_directives(true)
+        .process_current_dir();
+}
+```
+
+By default, this is set to false in case other parts of the build script or compilation code expects `build.rs` to be run unconditionally.
 
 ### Using the Legacy LALR Parser
 

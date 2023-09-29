@@ -404,7 +404,7 @@ impl<'ascent, 'grammar, W: Write>
         if fixed > 0 {
             rust!(
                 self.out,
-                "let {}location = {}sym{}.2.clone();",
+                "let {}location = {}sym{}.2;",
                 self.prefix,
                 self.prefix,
                 stack_suffix.len() - 1
@@ -414,7 +414,7 @@ impl<'ascent, 'grammar, W: Write>
             for index in (0..optional).rev() {
                 rust!(
                     self.out,
-                    "{}sym{}.as_ref().map(|sym| sym.2.clone()).unwrap_or_else(|| {{",
+                    "{}sym{}.as_ref().map(|sym| sym.2).unwrap_or_else(|| {{",
                     self.prefix,
                     index
                 );
@@ -855,7 +855,7 @@ impl<'ascent, 'grammar, W: Write>
             if !stack_suffix.fixed().is_empty() {
                 rust!(
                     self.out,
-                    "let {p}start = {p}lookahead.as_ref().map(|o| o.0.clone()).unwrap_or_else(|| {p}sym{top}.2.clone());",
+                    "let {p}start = {p}lookahead.as_ref().map(|o| o.0).unwrap_or_else(|| {p}sym{top}.2);",
                     p = self.prefix,
                     top = top
                 );

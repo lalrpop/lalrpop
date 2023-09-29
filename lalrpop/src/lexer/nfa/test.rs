@@ -141,13 +141,13 @@ fn text_boundaries() {
 
 #[test]
 fn word_boundaries() {
-    let num = re::parse_regex(r#"\baBCdeF"#).unwrap();
+    let num = re::parse_regex(r"\baBCdeF").unwrap();
     assert_eq!(
         Nfa::from_re(&num).unwrap_err(),
         NfaConstructionError::LookAround
     );
 
-    let num = re::parse_regex(r#"aBCdeF\B"#).unwrap();
+    let num = re::parse_regex(r"aBCdeF\B").unwrap();
     assert_eq!(
         Nfa::from_re(&num).unwrap_err(),
         NfaConstructionError::LookAround

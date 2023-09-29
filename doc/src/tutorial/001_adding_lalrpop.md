@@ -46,15 +46,7 @@ case, just LALRPOP.
 
 The `[dependencies]` section describes the dependencies that LALRPOP
 needs at runtime. All LALRPOP parsers require at least the
-`lalrpop-util` crate. In addition, if you don't want to write the
-lexer by hand, you need to add a dependency on the regex crate. (If
-you don't know what a lexer is, don't worry, it's not important just
-now, though we will cover it in [the next section]; if you *do*
-know what a lexer is, and you want to know how to write a lexer by
-hand and use it with LALRPOP, then check out the [lexer tutorial].)
-
-[the next section]: 002_paren_numbers.md
-[lexer tutorial]: ../lexer_tutorial/index.md
+`lalrpop-util` crate.
 
 Next we have to add `build.rs` itself. For those unfamiliar with [this feature], the `build.rs` file
 should be placed next to your `Cargo.toml` file and not inside the `src` folder with the rest of
@@ -63,8 +55,6 @@ your Rust code. This should just look like the following:
 [this feature]: https://doc.rust-lang.org/cargo/reference/build-scripts.html
 
 ```rust
-extern crate lalrpop;
-
 fn main() {
     lalrpop::process_root().unwrap();
 }

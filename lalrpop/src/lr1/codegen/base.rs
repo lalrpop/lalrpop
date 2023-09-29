@@ -162,7 +162,7 @@ impl<'codegen, 'grammar, W: Write, C> CodeGenerator<'codegen, 'grammar, W, C> {
         rust!(
             self.out,
             "#[allow(non_snake_case, non_camel_case_types, unused_mut, unused_variables, \
-             unused_imports, unused_parens, clippy::all)]"
+             unused_imports, unused_parens, clippy::needless_lifetimes, clippy::type_complexity, clippy::needless_return, clippy::too_many_arguments, clippy::never_loop, clippy::match_single_binding, clippy::needless_raw_string_hashes)]"
         );
         rust!(self.out, "mod {}parse{} {{", self.prefix, self.start_symbol);
         rust!(self.out, "");
@@ -251,6 +251,14 @@ impl<'codegen, 'grammar, W: Write, C> CodeGenerator<'codegen, 'grammar, W, C> {
         rust!(self.out, "}}");
         rust!(self.out, "");
 
+        // Start default impl
+        rust!(
+            self.out,
+            "impl Default for {}Parser {{ fn default() -> Self {{ Self::new() }} }}",
+            self.user_start_symbol
+        );
+
+        // Start parser impl
         rust!(self.out, "impl {}Parser {{", self.user_start_symbol);
         rust!(
             self.out,

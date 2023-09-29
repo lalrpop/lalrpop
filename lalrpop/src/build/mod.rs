@@ -14,13 +14,12 @@ use crate::session::{ColorConfig, Session};
 use crate::tls::Tls;
 use crate::tok;
 use crate::util::Sep;
-use is_terminal::IsTerminal;
 use itertools::Itertools;
 use lalrpop_util::ParseError;
 use tiny_keccak::{Hasher, Sha3};
 
 use std::fs;
-use std::io::{self, BufRead, Read, Write};
+use std::io::{self, BufRead, IsTerminal, Read, Write};
 use std::path::{Path, PathBuf};
 use std::process::exit;
 use std::rc::Rc;
@@ -86,6 +85,36 @@ fn gen_resolve_file(session: &Session, lalrpop_file: &Path, ext: &str) -> io::Re
     } else {
         in_dir
     };
+
+    // Ideally we do something like syn::parse_str::<syn::Ident>(lalrpop_file.file_name())?;
+    // But I don't think we want a full blown syn dependency unless fully converting to proc macros.
+    if lalrpop_file
+        .file_name()
+        .ok_or(io::Error::new(
+            io::ErrorKind::InvalidInput,
+            format!(
+                "LALRPOP could not extract a valid file name: {}",
+                lalrpop_file.display()
+            ),
+        ))?
+        .to_str()
+        .ok_or(io::Error::new(
+            io::ErrorKind::InvalidInput,
+            format!(
+                "LALRPOP file names must be valid UTF-8: {}",
+                lalrpop_file.display()
+            ),
+        ))?
+        .contains(char::is_whitespace)
+    {
+        return Err(io::Error::new(
+            io::ErrorKind::InvalidInput,
+            format!(
+                "LALRPOP file names cannot contain whitespace: {}",
+                lalrpop_file.display()
+            ),
+        ));
+    }
 
     // If the lalrpop file is not in in_dir, the result is that the
     // .rs file is created in the same directory as the lalrpop file
@@ -186,16 +215,26 @@ fn lalrpop_files<P: AsRef<Path>>(root_dir: P) -> io::Result<Vec<PathBuf>> {
             result.extend(lalrpop_files(&path)?);
         }
 
-        let is_symlink_file = || -> io::Result<bool> {
+        let is_valid_symlink_file = || -> bool {
             if !file_type.is_symlink() {
-                Ok(false)
+                false
             } else {
-                // Ensure all symlinks are resolved
-                Ok(fs::metadata(&path)?.is_file())
+                // Ensure all symlinks are resolved to a file
+                // Or ignore erroneous ones https://github.com/lalrpop/lalrpop/issues/808
+                fs::metadata(&path).map_or_else(
+                    |_| {
+                        eprintln!(
+                            "Warning: ignoring dangling/erroneous symlink {}",
+                            path.display()
+                        );
+                        false
+                    },
+                    |m| m.is_file(),
+                )
             }
         };
 
-        if (file_type.is_file() || is_symlink_file()?)
+        if (file_type.is_file() || is_valid_symlink_file())
             && path.extension().is_some()
             && path.extension().unwrap() == "lalrpop"
         {

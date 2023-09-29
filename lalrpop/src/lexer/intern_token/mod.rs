@@ -13,7 +13,7 @@ pub fn compile<W: Write>(
 ) -> io::Result<()> {
     let prefix = &grammar.prefix;
 
-    rust!(out, "#[cfg_attr(rustfmt, rustfmt_skip)]");
+    rust!(out, "#[rustfmt::skip]");
     rust!(out, "mod {}intern_token {{", prefix);
     rust!(out, "#![allow(unused_imports)]");
     out.write_uses("super::", grammar)?;
