@@ -180,12 +180,12 @@ fn match_catch_all_in_first_arm() {
             r"[a-z]",
             _
         } else {
-            r"\w+"
+            r"[[:word:]]+"
         }
         pub Term = {
             Num,
             "(" <Term> ")",
-            r"\w+" => format!("Id({})", <>),
+            r"[[:word:]]+" => format!("Id({})", <>),
         };
         Num: String = r"[0-9]+" => <>.to_string();
 "#;
@@ -194,7 +194,7 @@ fn match_catch_all_in_first_arm() {
         grammar,
         vec![
             ("x", r##"Some((r#"[a-z]"#, "x"))"##),
-            ("xy", r##"Some((r#"\\w+"#, "xy"))"##),
+            ("xy", r##"Some((r#"[[:word:]]+"#, "xy"))"##),
         ],
     );
 }
