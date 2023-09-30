@@ -11,11 +11,11 @@ version.workspace = true
 rust-version.workspace = true
 
 [dependencies]
-regex = { workspace = true, optional = true }
+regex-automata = { workspace = true, optional = true }
 
 [features]
-lexer = ["regex/std", "std"]
-unicode = ["regex?/unicode"]
+lexer = ["regex-automata/std", "std"]
+unicode = ["regex-automata?/unicode"]
 std = []
 default = ["std"]
 
