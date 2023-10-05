@@ -55,7 +55,7 @@ impl<'grammar> LaneTable<'grammar> {
     pub fn add_lookahead(&mut self, state: StateIndex, conflict: ConflictIndex, tokens: &TokenSet) {
         self.lookaheads
             .entry((state, conflict))
-            .or_insert_with(TokenSet::new)
+            .or_default()
             .union_with(tokens);
     }
 
@@ -167,13 +167,13 @@ impl<'grammar> Debug for LaneTable<'grammar> {
                     self.lookaheads
                         .get(&(index, ConflictIndex::new(i)))
                         .map(|token_set| format!("{:?}", token_set))
-                        .unwrap_or_else(String::new)
+                        .unwrap_or_default()
                 }))
                 .chain(Some(
                     self.successors
                         .get(&index)
                         .map(|c| format!("{:?}", c))
-                        .unwrap_or_else(String::new),
+                        .unwrap_or_default(),
                 ))
                 .collect()
         });

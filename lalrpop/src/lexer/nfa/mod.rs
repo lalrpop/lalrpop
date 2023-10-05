@@ -37,16 +37,16 @@ pub struct Test {
 
 impl PartialOrd for Test {
     fn partial_cmp(&self, other: &Self) -> Option<std::cmp::Ordering> {
-        match self.start().cmp(&other.start()) {
-            std::cmp::Ordering::Equal => Some(self.end().cmp(&other.end())),
-            ord => Some(ord),
-        }
+        Some(self.cmp(other))
     }
 }
 
 impl Ord for Test {
     fn cmp(&self, other: &Self) -> std::cmp::Ordering {
-        self.partial_cmp(other).unwrap()
+        match self.start().cmp(&other.start()) {
+            std::cmp::Ordering::Equal => self.end().cmp(&other.end()),
+            ord => ord,
+        }
     }
 }
 
