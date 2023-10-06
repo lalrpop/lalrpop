@@ -23,7 +23,7 @@ impl FirstSets {
             for production in grammar.nonterminals.values().flat_map(|p| &p.productions) {
                 let nt = &production.nonterminal;
                 let lookahead = this.first0(&production.symbols);
-                let first_set = this.map.entry(nt.clone()).or_insert_with(TokenSet::new);
+                let first_set = this.map.entry(nt.clone()).or_default();
                 changed |= first_set.union_with(&lookahead);
             }
         }

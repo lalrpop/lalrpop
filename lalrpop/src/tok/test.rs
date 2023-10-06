@@ -597,6 +597,7 @@ fn where1() {
 }
 
 #[test]
+#[allow(clippy::needless_raw_string_hashes)]
 fn regex1() {
     test(
         r###"raa r##" #"#"" "#"##rrr"###,
