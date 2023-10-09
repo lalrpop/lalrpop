@@ -92,10 +92,6 @@ pub enum MatchItem {
 }
 
 impl MatchItem {
-    pub fn is_catch_all(&self) -> bool {
-        matches!(*self, MatchItem::CatchAll(_))
-    }
-
     pub fn span(&self) -> Span {
         match *self {
             MatchItem::CatchAll(span) => span,
