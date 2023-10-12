@@ -1,0 +1,10 @@
+grammar;
+
+pub Empty: () = ();
+
+use empty_tok_lib;
+
+extern {
+    enum empty_tok_lib::Tok {
+    }
+}
