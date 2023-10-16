@@ -1,3 +1,22 @@
+<a name="0.20.1"></a>
+## 0.20.1 (2023-10-**)
+
+#### Features
+
+* Dangling symlinks in crate no longer cause build failure (thanks to legeana for the report!)
+* Lalrpop now uses the ascii-aware space regex when the unicode feature is not enabled (thanks to QuarticCat!)
+* Lalrpop no longer depends on the `is-terminal` crate (thanks to Kmeakin!)
+* Better performance with the default lexer using the underlying `regex-automata` crate (thanks to QuarticCat!)
+* Allow the catch-all `_` case for token matching can now be set to a higher precedence in match (thanks to fpoli!)
+* Fewer clippy lints triggered in generated code
+
+#### Compatibility note
+
+* MSRV increased to `1.70` in accordance to the MSRV policy.
+* `process_root_unconditionally` now correctly lints as having been deprecated.
+* Internal types which lead with a `__` and should not be relied upon are no longer publicly exposed (thanks to arnaudgolfouse!)
+* Lalrpop files containing a space in their name now return an error.
+
 <a name="0.20.0"></a>
 ## 0.20.0 (2023-05-02)
 
@@ -67,7 +86,7 @@ This release fixes an incompatibility with regex.
 
 This release addresses backwards compatibility warnings and security alerts, along with a few smaller features.
 
-Special thanks to our newest maintainers, Yann Hamdaoui and YunWon Jeong for helping to coordinate this release. 
+Special thanks to our newest maintainers, Yann Hamdaoui and YunWon Jeong for helping to coordinate this release.
 
 #### Features
 
