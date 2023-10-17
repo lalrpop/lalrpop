@@ -1,0 +1,11 @@
+grammar;
+
+pub A: String = {
+	"A" => "A".to_string()
+};
+
+match {
+	r"\s*" => {}
+} else {
+	_
+}
