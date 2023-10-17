@@ -13,8 +13,9 @@ first.
 - [Error recovery](008_error_recovery.md)
 - [Passing state parameter](009_state_parameter.md)
 
-This tutorial is still incomplete. Here are some topics that I aim to
-cover when I get time to write about them:
+This tutorial is still incomplete. There are a few example grammars in the [doc section] of the repository.
+
+Here are some topics that I aim to cover when I get time to write about them:
 
 - Advice for resolving shift-reduce and reduce-reduce conflicts
 - Passing state and type/lifetime parameters to your action code (see e.g. [this test](https://github.com/lalrpop/lalrpop/blob/master/lalrpop-test/src/expr_arena.lalrpop) invoked [from here]).
@@ -27,3 +28,4 @@ cover when I get time to write about them:
 
 [Crash course on parsers]: ../crash_course.md
 [from here]: https://github.com/lalrpop/lalrpop/blob/master/lalrpop-test/src/lib.rs
+[doc section]: https://github.com/lalrpop/lalrpop/tree/master/doc
