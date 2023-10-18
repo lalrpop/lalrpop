@@ -131,6 +131,11 @@ impl<'input, 'builder, E> Iterator for Matcher<'input, 'builder, E> {
             self.consumed = end_offset;
 
             if self.skip_vec[index] {
+                if longest_match == 0 {
+                    return Some(Err(ParseError::InvalidToken {
+                        location: start_offset,
+                    }));
+                }
                 continue;
             }
 

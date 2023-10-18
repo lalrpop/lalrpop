@@ -185,6 +185,8 @@ lalrpop_mod_test!(
 );
 mod user_defined_error_visibility;
 
+lalrpop_mod_test!(zero_length_match);
+
 pub fn use_cfg_created_parser() {
     #[cfg(feature = "test-set")]
     cfg::CreatedParser::new();
@@ -1181,4 +1183,10 @@ fn test_nested_pattern_string_error() {
             panic!("Unexpected error: {:?}", err);
         }
     }
+}
+
+#[test]
+fn test_zero_length_match() {
+    let res = zero_length_match::AParser::new().parse("B");
+    assert!(matches!(res, Err(ParseError::InvalidToken { location: _ })));
 }
