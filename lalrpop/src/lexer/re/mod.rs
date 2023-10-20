@@ -1,7 +1,7 @@
 //! A parser and representation of regular expressions.
 
 use regex_syntax::hir::Hir;
-use regex_syntax::{self, Error, Parser};
+use regex_syntax::{self, Error, ParserBuilder};
 
 #[cfg(test)]
 mod test;
@@ -19,6 +19,11 @@ pub fn parse_literal(s: &str) -> Regex {
 
 /// Parse a regular expression like `a+` etc.
 pub fn parse_regex(s: &str) -> Result<Regex, RegexError> {
-    let expr = Parser::new().parse(s)?;
+    let enable_unicode = cfg!(feature = "unicode");
+    let expr = ParserBuilder::new()
+        .utf8(enable_unicode)
+        .unicode(enable_unicode)
+        .build()
+        .parse(s)?;
     Ok(expr)
 }
