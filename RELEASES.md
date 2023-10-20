@@ -1,6 +1,8 @@
 <a name="0.20.1"></a>
 ## 0.20.1 (2023-10-**)
 
+Special thanks to our newest maintainers, Daniel Burgener and Patrick LaFontaine for helping to coordinate this release.
+
 #### Features
 
 * Lalrpop no longer depends on the `is-terminal` crate (thanks to Kmeakin!)
