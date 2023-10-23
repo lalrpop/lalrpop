@@ -31,10 +31,10 @@ authors = ["Niko Matsakis <niko@alum.mit.edu>"]
 edition = "2021"
 
 [build-dependencies] # <-- We added this and everything after!
-lalrpop = "0.20.0"
+lalrpop = "0.20.1"
 
 [dependencies]
-lalrpop-util = { version = "0.20.0", features = ["lexer", "unicode"] }
+lalrpop-util = { version = "0.20.1", features = ["lexer", "unicode"] }
 ```
 
 Cargo can run [build scripts] as a pre-processing step,

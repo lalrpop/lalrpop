@@ -3,6 +3,8 @@
 # A script to bump the version number on all Cargo.toml files etc in
 # an atomic fashion.
 
+set -e -o pipefail
+
 if [ "$1" == "" ]; then
     echo "Usage: version.sh <new-version-number>"
     exit 1
