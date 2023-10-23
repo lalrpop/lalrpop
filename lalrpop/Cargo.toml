@@ -35,7 +35,7 @@ unicode-xid = { version = "0.2", default_features = false }
 # library, disable it in your project by setting default_features = false.
 pico-args = { version = "0.5", default_features = false, optional = true }
 
-lalrpop-util = { path = "../lalrpop-util", version = "0.20.0" }
+lalrpop-util = { path = "../lalrpop-util", version = "0.20.0", default_features = false }
 
 [dev-dependencies]
 diff = { workspace = true }
@@ -43,7 +43,7 @@ rand = "0.8"
 
 [features]
 default=["lexer", "unicode", "pico-args"]
-unicode = ["regex/unicode", "regex-syntax/unicode"]
+unicode = ["regex/unicode", "regex-syntax/unicode", "lalrpop-util/unicode"]
 lexer = ["lalrpop-util/lexer"]
 
 [package.metadata.docs.rs]
