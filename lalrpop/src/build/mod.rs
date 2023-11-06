@@ -211,7 +211,7 @@ fn lalrpop_files<P: AsRef<Path>>(root_dir: P) -> io::Result<Vec<PathBuf>> {
 
         let path = entry.path();
 
-        if file_type.is_dir() {
+        if path.is_dir() {
             result.extend(lalrpop_files(&path)?);
         }
 
