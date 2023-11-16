@@ -17,7 +17,9 @@ use crate::util::Sep;
 use itertools::Itertools;
 use lalrpop_util::ParseError;
 use tiny_keccak::{Hasher, Sha3};
+use walkdir::WalkDir;
 
+use std::ffi::OsStr;
 use std::fs;
 use std::io::{self, BufRead, IsTerminal, Read, Write};
 use std::path::{Path, PathBuf};
@@ -205,42 +207,29 @@ fn needs_rebuild(lalrpop_file: &Path, rs_file: &Path) -> io::Result<bool> {
 
 fn lalrpop_files<P: AsRef<Path>>(root_dir: P) -> io::Result<Vec<PathBuf>> {
     let mut result = vec![];
-    for entry in fs::read_dir(root_dir)? {
+
+    let walkdir = WalkDir::new(root_dir)
+        .follow_links(true)
+        // Use deterministic ordering:
+        .sort_by_file_name()
+        // Prevent loops:
+        .same_file_system(true);
+    for entry in walkdir {
         let entry = entry?;
-        let file_type = entry.file_type()?;
+        // `file_type` follows symlinks, so if `entry` points to a symlink to a file, then
+        // `is_file` returns true.
+        if !entry.file_type().is_file() {
+            continue;
+        }
 
         let path = entry.path();
-
-        if path.is_dir() {
-            result.extend(lalrpop_files(&path)?);
+        if path.extension() != Some(OsStr::new("lalrpop")) {
+            continue;
         }
 
-        let is_valid_symlink_file = || -> bool {
-            if !file_type.is_symlink() {
-                false
-            } else {
-                // Ensure all symlinks are resolved to a file
-                // Or ignore erroneous ones https://github.com/lalrpop/lalrpop/issues/808
-                fs::metadata(&path).map_or_else(
-                    |_| {
-                        eprintln!(
-                            "Warning: ignoring dangling/erroneous symlink {}",
-                            path.display()
-                        );
-                        false
-                    },
-                    |m| m.is_file(),
-                )
-            }
-        };
-
-        if (file_type.is_file() || is_valid_symlink_file())
-            && path.extension().is_some()
-            && path.extension().unwrap() == "lalrpop"
-        {
-            result.push(path);
-        }
+        result.push(PathBuf::from(path));
     }
+
     Ok(result)
 }
 
