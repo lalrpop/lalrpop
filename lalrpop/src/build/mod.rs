@@ -211,9 +211,7 @@ fn lalrpop_files<P: AsRef<Path>>(root_dir: P) -> io::Result<Vec<PathBuf>> {
     let walkdir = WalkDir::new(root_dir)
         .follow_links(true)
         // Use deterministic ordering:
-        .sort_by_file_name()
-        // Prevent loops:
-        .same_file_system(true);
+        .sort_by_file_name();
     for entry in walkdir {
         let entry = entry?;
         // `file_type` follows symlinks, so if `entry` points to a symlink to a file, then
