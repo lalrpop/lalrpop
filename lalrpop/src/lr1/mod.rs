@@ -20,7 +20,7 @@ use std::io::{self, Write};
 #[cfg(test)]
 mod interpret;
 
-pub use self::core::{Lr1Result, Lr1TableConstructionError};
+pub use self::core::Lr1Result;
 pub use self::error::report_error;
 pub use self::tls::Lr1Tls;
 
