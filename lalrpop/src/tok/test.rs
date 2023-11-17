@@ -70,6 +70,114 @@ fn eol_comment() {
 }
 
 #[test]
+fn block_comment() {
+    test(
+        "extern /* This is a block comment */$ foo",
+        vec![
+            ("~~~~~~                                   ", Extern),
+            ("                                      ~~~", Id("foo")),
+        ],
+    );
+}
+
+#[test]
+fn block_comment_in_code() {
+    test(
+        "=> ( test /* foo ) */ ),",
+        vec![
+            (
+                "~~~~~~~~~~~~~~~~~~~~~~~ ",
+                EqualsGreaterThanCode(" ( test /* foo ) */ )"),
+            ),
+            ("                       ~", Comma),
+        ],
+    );
+}
+
+#[test]
+fn nested_block_comment() {
+    test(
+        "extern /* This is a /* nested */ block comment */$ foo",
+        vec![
+            (
+                "~~~~~~                                                ",
+                Extern,
+            ),
+            (
+                "                                                   ~~~",
+                Id("foo"),
+            ),
+        ],
+    );
+}
+
+#[test]
+fn block_comment_3_star() {
+    test(
+        "extern /***/$ foo",
+        vec![
+            ("~~~~~~           ", Extern),
+            ("              ~~~", Id("foo")),
+        ],
+    );
+}
+
+#[test]
+fn block_comment_nested_3_star_with_linefeeds() {
+    test(
+        "extern /** /***/ $*/$ foo",
+        vec![
+            ("~~~~~~                   ", Extern),
+            ("                      ~~~", Id("foo")),
+        ],
+    );
+}
+
+#[test]
+fn block_comment_5_star() {
+    test(
+        "extern /*****/$ foo",
+        vec![
+            ("~~~~~~             ", Extern),
+            ("                ~~~", Id("foo")),
+        ],
+    );
+}
+
+#[test]
+fn block_comment_1_2_star() {
+    test(
+        "extern /* **/$ foo",
+        vec![
+            ("~~~~~~            ", Extern),
+            ("               ~~~", Id("foo")),
+        ],
+    );
+}
+
+#[test]
+fn block_comment_extra_slashes() {
+    test(
+        "extern /*//**/*/$ foo",
+        vec![
+            ("~~~~~~               ", Extern),
+            ("                  ~~~", Id("foo")),
+        ],
+    );
+}
+
+#[test]
+fn unterminated_block_comment() {
+    test_err(
+        "/* This is unterminated",
+        (
+            "~                      ",
+            ErrorCode::UnterminatedBlockComment,
+        ),
+    )
+}
+
+#[test]
 fn code1() {
     test(
         "=> a(b, c),",

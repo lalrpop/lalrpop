@@ -305,6 +305,9 @@ fn parse_and_normalize_grammar(session: &Session, file_text: &FileText) -> io::R
                 tok::ErrorCode::UnterminatedCode => {
                     "unterminated code block; perhaps a missing `;`, `)`, `]` or `}`?"
                 }
+                tok::ErrorCode::UnterminatedBlockComment => {
+                    "unterminated block comment; missing `*/`?"
+                }
             };
 
             report_error(

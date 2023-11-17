@@ -26,6 +26,7 @@ pub enum ErrorCode {
     UnterminatedAttribute,
     UnterminatedCode,
     ExpectedStringLiteral,
+    UnterminatedBlockComment,
 }
 
 fn error<T>(c: ErrorCode, l: usize) -> Result<T, Error> {
@@ -353,6 +354,13 @@ impl<'input> Tokenizer<'input> {
                         self.take_until(|c| c == '\n');
                         continue;
                     }
+                    Some((_, '*')) => {
+                        self.bump(); // Skip over the *
+                        match self.block_comment(idx0) {
+                            Err(err) => Some(Err(err)),
+                            _ => continue,
+                        }
+                    }
                     _ => Some(error(UnrecognizedToken, idx0)),
                 },
                 Some((idx0, '-')) => match self.bump() {
@@ -459,8 +467,15 @@ impl<'input> Tokenizer<'input> {
                     continue;
                 } else if c == '/' {
                     self.bump();
-                    if let Some((_, '/')) = self.lookahead {
-                        self.take_until(|c| c == '\n');
+                    match self.lookahead {
+                        Some((_, '/')) => {
+                            self.take_until(|c| c == '\n');
+                        }
+                        Some((_, '*')) => {
+                            self.bump(); // Skip over the *
+                            self.block_comment(idx)?
+                        }
+                        _ => {}
                     }
                     continue;
                 } else if open_delims.find(c).is_some() {
@@ -561,6 +576,49 @@ impl<'input> Tokenizer<'input> {
         match self.string_or_char_literal(idx0, '"', StringLiteral) {
             Some(x) => Ok(x),
             None => error(UnterminatedStringLiteral, idx0),
+        }
+    }
+
+    fn block_comment(&mut self, idx0: usize) -> Result<(), Error> {
+        #[derive(PartialEq, Eq, Copy, Clone)]
+        enum State {
+            Initial,
+            Slash,
+            Star,
+            Complete,
+        }
+
+        let mut depth = 1;
+        let mut state = State::Initial;
+
+        let end_of_comment = |c: char| {
+            state = match (state, c) {
+                (State::Initial | State::Star, '*') => State::Star,
+                (State::Initial | State::Slash, '/') => State::Slash,
+                (State::Slash, '*') => {
+                    depth += 1;
+                    State::Initial
+                }
+                (State::Star, '/') => {
+                    depth -= 1;
+                    if depth == 0 {
+                        State::Complete
+                    } else {
+                        State::Initial
+                    }
+                }
+                _ => State::Initial,
+            };
+
+            state == State::Complete
+        };
+
+        match self.take_until(end_of_comment) {
+            Some(_) => {
+                self.bump();
+                Ok(())
+            }
+            None => error(UnterminatedBlockComment, idx0),
         }
     }
 
