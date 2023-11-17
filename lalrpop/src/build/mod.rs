@@ -205,6 +205,35 @@ fn needs_rebuild(lalrpop_file: &Path, rs_file: &Path) -> io::Result<bool> {
     }
 }
 
+/// Handles a [walkdir::Error] if the root cause is a dangling symlink.
+///
+/// Returns `Ok` if the error could be handled, otherwise returns `Err(err)`.
+fn handle_dangling_symlink_error(err: walkdir::Error) -> Result<(), walkdir::Error> {
+    let is_not_found = err.io_error().map(|io_err| io_err.kind()) == Some(io::ErrorKind::NotFound);
+    if !is_not_found {
+        return Err(err);
+    }
+
+    // As of now on Linux, this is the path of the symlink (not where it points to) in case of a
+    // dangling symlink:
+    let path = match err.path() {
+        Some(path) => path,
+        None => {
+            return Err(err);
+        }
+    };
+
+    if !path.is_symlink() {
+        return Err(err);
+    }
+
+    eprintln!(
+        "Warning: ignoring dangling/erroneous symlink {}",
+        path.display()
+    );
+    Ok(())
+}
+
 fn lalrpop_files<P: AsRef<Path>>(root_dir: P) -> io::Result<Vec<PathBuf>> {
     let mut result = vec![];
 
@@ -213,7 +242,14 @@ fn lalrpop_files<P: AsRef<Path>>(root_dir: P) -> io::Result<Vec<PathBuf>> {
         // Use deterministic ordering:
         .sort_by_file_name();
     for entry in walkdir {
-        let entry = entry?;
+        let entry = match entry {
+            Ok(entry) => entry,
+            Err(err) => {
+                handle_dangling_symlink_error(err)?;
+                continue;
+            }
+        };
+
         // `file_type` follows symlinks, so if `entry` points to a symlink to a file, then
         // `is_file` returns true.
         if !entry.file_type().is_file() {
