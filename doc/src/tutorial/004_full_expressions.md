@@ -35,9 +35,7 @@ Num: i32 = {
 Perhaps the most interesting thing about this example is the way it
 encodes precedence. The idea of precedence of course is that in an
 expression like `2+3*4`, we want to do the multiplication first, and
-then the addition. LALRPOP doesn't have any built-in features for
-giving precedence to operators, mostly because I consider those to be
-creepy, but it's pretty straightforward to express precedence in your
+then the addition. It is pretty straightforward to express precedence in your
 grammar by structuring it in tiers -- for example, here we have the
 nonterminal `Expr`, which covers all expressions. It consists of a series
 of factors that are added or subtracted from one another. A `Factor`
@@ -69,6 +67,34 @@ look at the grammar now, you can see that the second one is
 impossible: a `Factor` cannot have an `Expr` as its left-hand side.
 This is the purpose of the tiers: to force the parser into the
 precedence you want.
+
+This can also be accomplished using the `precedence` and `assoc` attribute macros.
+They remove the need to make tiered expressions which 
+reduces code complexity when working with many levels of precedence.
+The above `Expr` grammar can be rewritten to the following using them:
+
+```
+pub Expr: i32 = {
+    #[precedence(level="0")] // Highest precedence
+    Term,
+    #[precedence(level="1")] #[assoc(side="left")]
+    <l:Expr> "*" <r:Expr> => l * r,
+    #[precedence(level="2")] #[assoc(side="left")]
+    <l:Expr> "/" <r:Expr> => l / r,
+    #[precedence(level="3")] #[assoc(side="left")]
+    <l:Expr> "+" <r:Expr> => l + r,
+    #[precedence(level="4")] #[assoc(side="left")]
+    <l:Expr> "-" <r:Expr> => l - r,
+};
+```
+
+The `precedence` level specifies the order of operations starting from zero.
+In this example it means that `13 + 7 * 3` would be evaluated as `(13 + (7 * 3))` 
+because multiplication has a lower `precedence` level than addition.
+
+By using `assoc` you can specify if the expression is left-associative or right-associative.
+This is required to make the grammar unambiguous, otherwise `1 + 2 + 3` could 
+both be interpreted as `(1 + (2 + 3))` and `((1 + 2) + 3)`.
 
 Finally, note that we only write `pub` before the nonterminal we're 
 interested in parsing (`Expr`) and not any of the helpers. Nonterminals
