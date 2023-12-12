@@ -79,11 +79,9 @@ pub Expr: i32 = {
     Term,
     #[precedence(level="1")] #[assoc(side="left")]
     <l:Expr> "*" <r:Expr> => l * r,
-    #[precedence(level="2")] #[assoc(side="left")]
     <l:Expr> "/" <r:Expr> => l / r,
-    #[precedence(level="3")] #[assoc(side="left")]
+    #[precedence(level="2")] #[assoc(side="left")]
     <l:Expr> "+" <r:Expr> => l + r,
-    #[precedence(level="4")] #[assoc(side="left")]
     <l:Expr> "-" <r:Expr> => l - r,
 };
 ```
