@@ -92,7 +92,9 @@
             <div class="sidebar-scrollbox">
                 <ol class="chapter"><li class="chapter-item expanded "><a href="../index.html"><strong aria-hidden="true">1.</strong> LALRPOP</a></li><li class="chapter-item expanded "><a href="../crash_course.html"><strong aria-hidden="true">2.</strong> Crash course on parsers</a></li><li class="chapter-item expanded "><a href="../quick_start_guide.html"><strong aria-hidden="true">3.</strong> Quick start guide</a></li><li class="chapter-item expanded "><a href="../tutorial/index.html"><strong aria-hidden="true">4.</strong> Tutorial</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../tutorial/001_adding_lalrpop.html"><strong aria-hidden="true">4.1.</strong> Adding LALRPOP to your project</a></li><li class="chapter-item expanded "><a href="../tutorial/002_paren_numbers.html"><strong aria-hidden="true">4.2.</strong> Parsing parenthesized numbers</a></li><li class="chapter-item expanded "><a href="../tutorial/003_type_inference.html"><strong aria-hidden="true">4.3.</strong> Type inference</a></li><li class="chapter-item expanded "><a href="../tutorial/004_full_expressions.html" class="active"><strong aria-hidden="true">4.4.</strong> Handling full expressions</a></li><li class="chapter-item expanded "><a href="../tutorial/005_building_asts.html"><strong aria-hidden="true">4.5.</strong> Building ASTs</a></li><li class="chapter-item expanded "><a href="../tutorial/006_macros.html"><strong aria-hidden="true">4.6.</strong> Macros</a></li><li class="chapter-item expanded "><a href="../tutorial/007_fallible_actions.html"><strong aria-hidden="true">4.7.</strong> Fallible actions</a></li><li class="chapter-item expanded "><a href="../tutorial/008_error_recovery.html"><strong aria-hidden="true">4.8.</strong> Error recovery</a></li><li class="chapter-item expanded "><a href="../tutorial/009_state_parameter.html"><strong aria-hidden="true">4.9.</strong> Passing state parameter</a></li></ol></li><li class="chapter-item expanded "><a href="../lexer_tutorial/index.html"><strong aria-hidden="true">5.</strong> Controlling the lexer</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../lexer_tutorial/001_lexer_gen.html"><strong aria-hidden="true">5.1.</strong> LALRPOP's lexer generator</a></li><li class="chapter-item expanded "><a href="../lexer_tutorial/002_raw_delimited_content.html"><strong aria-hidden="true">5.2.</strong> Lexing raw delimited content</a></li><li class="chapter-item expanded "><a href="../lexer_tutorial/003_writing_custom_lexer.html"><strong aria-hidden="true">5.3.</strong> Writing a custom lexer</a></li><li class="chapter-item expanded "><a href="../lexer_tutorial/004_token_references.html"><strong aria-hidden="true">5.4.</strong> Using tokens with references</a></li><li class="chapter-item expanded "><a href="../lexer_tutorial/005_external_lib.html"><strong aria-hidden="true">5.5.</strong> Using an external library</a></li></ol></li><li class="chapter-item expanded "><a href="../advanced_setup.html"><strong aria-hidden="true">6.</strong> Advanced setup</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../generate_in_source.html"><strong aria-hidden="true">6.1.</strong> Generate in source tree</a></li><li class="chapter-item expanded "><a href="../conditional-compilation.html"><strong aria-hidden="true">6.2.</strong> Conditional compilation</a></li><li class="spacer"></li></ol></li><li class="chapter-item expanded "><a href="../misc/contributors.html">Contributors</a></li></ol>
             </div>
-            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
         </nav>
 
         <!-- Track and set sidebar scroll position -->
@@ -206,9 +208,7 @@ Num: i32 = {
 <p>Perhaps the most interesting thing about this example is the way it
 encodes precedence. The idea of precedence of course is that in an
 expression like <code>2+3*4</code>, we want to do the multiplication first, and
-then the addition. LALRPOP doesn't have any built-in features for
-giving precedence to operators, mostly because I consider those to be
-creepy, but it's pretty straightforward to express precedence in your
+then the addition. It is pretty straightforward to express precedence in your
 grammar by structuring it in tiers -- for example, here we have the
 nonterminal <code>Expr</code>, which covers all expressions. It consists of a series
 of factors that are added or subtracted from one another. A <code>Factor</code>
@@ -235,6 +235,28 @@ look at the grammar now, you can see that the second one is
 impossible: a <code>Factor</code> cannot have an <code>Expr</code> as its left-hand side.
 This is the purpose of the tiers: to force the parser into the
 precedence you want.</p>
+<p>Tiered expressions can also be generated by Lalrpop using 
+the <code>precedence</code> and <code>assoc</code> attribute macros.
+These macros generate the same thing as tiered expressions do, but they can
+reduce code complexity when working with many levels of precedence.
+The above <code>Expr</code> grammar can be rewritten to the following using them:</p>
+<pre><code>pub Expr: i32 = {
+    #[precedence(level=&quot;0&quot;)] // Highest precedence
+    Term,
+    #[precedence(level=&quot;1&quot;)] #[assoc(side=&quot;left&quot;)]
+    &lt;l:Expr&gt; &quot;*&quot; &lt;r:Expr&gt; =&gt; l * r,
+    &lt;l:Expr&gt; &quot;/&quot; &lt;r:Expr&gt; =&gt; l / r,
+    #[precedence(level=&quot;2&quot;)] #[assoc(side=&quot;left&quot;)]
+    &lt;l:Expr&gt; &quot;+&quot; &lt;r:Expr&gt; =&gt; l + r,
+    &lt;l:Expr&gt; &quot;-&quot; &lt;r:Expr&gt; =&gt; l - r,
+};
+</code></pre>
+<p>The <code>precedence</code> level specifies the order of operations starting from zero.
+In this example it means that <code>13 + 7 * 3</code> would be evaluated as <code>(13 + (7 * 3))</code> 
+because multiplication has a lower <code>precedence</code> level than addition.</p>
+<p>By using <code>assoc</code> you can specify if the expression is left-associative or right-associative.
+This is required to make the grammar unambiguous, otherwise <code>1 + 2 + 3</code> could 
+both be interpreted as <code>(1 + (2 + 3))</code> and <code>((1 + 2) + 3)</code>.</p>
 <p>Finally, note that we only write <code>pub</code> before the nonterminal we're 
 interested in parsing (<code>Expr</code>) and not any of the helpers. Nonterminals
 marked <code>pub</code> have extra code generated, like the <code>new()</code> method used to
