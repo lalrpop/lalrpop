@@ -30,6 +30,7 @@ string_cache = { version = "0.8", default_features = false }
 term = { version = "0.7", default_features = false }
 tiny-keccak = { version = "2.0.2", features = ["sha3"] }
 unicode-xid = { version = "0.2", default_features = false }
+walkdir = "2.4.0"
 
 # This dependency is only needed for binary builds, if you use LALRPOP as
 # library, disable it in your project by setting default_features = false.
