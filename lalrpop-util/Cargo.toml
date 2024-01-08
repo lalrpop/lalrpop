@@ -17,7 +17,7 @@ regex-automata = { workspace = true, optional = true }
 lexer = ["regex-automata/std", "std"]
 unicode = ["regex-automata?/unicode"]
 std = []
-default = ["std"]
+default = ["std", "unicode"]
 
 [package.metadata.docs.rs]
 features = ["lexer"]
