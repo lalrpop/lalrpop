@@ -498,6 +498,7 @@ fn emit_recursive_ascent(
             )?,
         }
 
+        rust!(rust, "#[allow(unused_imports)]");
         rust!(
             rust,
             "{}use self::{}parse{}::{}Parser;",
