@@ -30,7 +30,7 @@ pub fn build_lalr_states(grammar: &Grammar, start: NonterminalString) -> Lr1Resu
     // for LALR. In fact, LALR is pointless!
     if build::use_lane_table() {
         println!("Warning: Now that the new lane-table algorithm is the default,");
-        println!("         #[lalr] mode has no effect and can be removed.");
+        println!("         #[LALR] mode has no effect and can be removed.");
         return Ok(lr_states);
     }
 
