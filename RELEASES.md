@@ -418,7 +418,7 @@ Thanks to the following contributors for this release:
 - We now support `#![..]` attributes in `.lalrpop` files.
 - We now use lane table by default: since the lane table algorithm
   automatically generates compressed tables where possible, the
-  `#[lalr]` attribute is still accepted, but has no effect.
+  `#[LALR]` attribute is still accepted, but has no effect.
   - If you encounter problems, please report bugs! In the meantime,
     though, you can use the `LALRPOP_LANE_TABLE=disabled` environment
     variable to change back.

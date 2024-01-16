@@ -54,5 +54,5 @@ available.
 
 To enable it, build with the `LALRPOP_LANE_TABLE=disabled` environment
 variable by setting `std::env::set_var` in your `build.rs` and add the
-`#[lalr]` attribute above the `grammar;` declaration in your lalrpop grammar
+`#[LALR]` attribute above the `grammar;` declaration in your lalrpop grammar
 file.

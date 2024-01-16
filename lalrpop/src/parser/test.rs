@@ -48,9 +48,9 @@ fn match_complex() {
     match *first_item {
         GrammarItem::MatchToken(ref data) => {
             // match { ... }
-            let contents0 = data.contents.get(0).unwrap();
+            let contents0 = data.contents.first().unwrap();
             // r"(?i)begin" => "BEGIN"
-            let item00 = contents0.items.get(0).unwrap();
+            let item00 = contents0.items.first().unwrap();
             match *item00 {
                 MatchItem::Mapped(ref sym, ref mapping, _) => {
                     assert_eq!(format!("{:?}", sym), "r#\"(?i)begin\"#");
@@ -70,7 +70,7 @@ fn match_complex() {
             // else { ... }
             let contents1 = data.contents.get(1).unwrap();
             // r"[a-zA-Z_][a-zA-Z0-9_]*" => IDENTIFIER,
-            let item10 = contents1.items.get(0).unwrap();
+            let item10 = contents1.items.first().unwrap();
             match *item10 {
                 MatchItem::Mapped(ref sym, ref mapping, _) => {
                     assert_eq!(format!("{:?}", sym), "r#\"[a-zA-Z_][a-zA-Z0-9_]*\"#");
@@ -81,7 +81,7 @@ fn match_complex() {
             // else { ... }
             let contents2 = data.contents.get(2).unwrap();
             // "other",
-            let item20 = contents2.items.get(0).unwrap();
+            let item20 = contents2.items.first().unwrap();
             match *item20 {
                 MatchItem::Unmapped(ref sym, _) => {
                     assert_eq!(format!("{:?}", sym), "\"other\"");

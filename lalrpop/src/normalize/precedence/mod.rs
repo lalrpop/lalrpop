@@ -70,6 +70,7 @@ pub const SIDE_ARG: &str = "side";
 /// An associative rule means that all recursive occurrences are replaced with the current level,
 /// which is different from non-associativity. This can be useful for unary operators that may be
 /// iterated, such as `-` or `!`, or non ambiguous operators. This is the default associativity.
+#[allow(clippy::enum_variant_names)]
 #[derive(Clone, Copy, Eq, PartialEq, Default)]
 pub enum Assoc {
     Left,
