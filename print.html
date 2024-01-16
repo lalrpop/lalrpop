@@ -2141,7 +2141,7 @@ any clear benefit to using the previous LALR implementation but it is still
 available.</p>
 <p>To enable it, build with the <code>LALRPOP_LANE_TABLE=disabled</code> environment
 variable by setting <code>std::env::set_var</code> in your <code>build.rs</code> and add the
-<code>#[lalr]</code> attribute above the <code>grammar;</code> declaration in your lalrpop grammar
+<code>#[LALR]</code> attribute above the <code>grammar;</code> declaration in your lalrpop grammar
 file.</p>
 <div style="break-before: page; page-break-before: always;"></div><p>Up to version 0.15, LALRPOP was generating its files in the same directory
 of the input files. Since 0.16, files are generated in the Cargo's
