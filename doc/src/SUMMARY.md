@@ -3,6 +3,7 @@
 - [LALRPOP](README.md)
 - [Crash course on parsers](crash_course.md)
 - [Quick start guide](quick_start_guide.md)
+- [Cheatsheet](cheatsheet.md)
 - [Tutorial](tutorial/index.md)
   - [Adding LALRPOP to your project](tutorial/001_adding_lalrpop.md)
   - [Parsing parenthesized numbers](tutorial/002_paren_numbers.md)
