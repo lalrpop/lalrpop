@@ -121,11 +121,11 @@ impl<'grammar> LaneTable<'grammar> {
                 "rows: inserting state_index={:?} conflict_index={:?} token_set={:?}",
                 state_index, conflict_index, token_set
             );
-            match {
-                map.entry(state_index)
-                    .or_insert_with(|| ContextSet::new(self.conflicts))
-                    .insert(conflict_index, token_set)
-            } {
+            match map
+                .entry(state_index)
+                .or_insert_with(|| ContextSet::new(self.conflicts))
+                .insert(conflict_index, token_set)
+            {
                 Ok(_changed) => {}
                 Err(OverlappingLookahead) => {
                     debug!("rows: intra-row conflict inserting state_index={:?} conflict_index={:?} token_set={:?}",
