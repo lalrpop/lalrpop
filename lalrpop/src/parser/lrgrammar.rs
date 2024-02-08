@@ -38557,7 +38557,7 @@ ___4,
 ___5,
 )
 }
-#[allow(clippy::type_complexity)]
+#[allow(clippy::type_complexity, dead_code)]
 
 pub  trait ___ToTriple<'input, >
 {
