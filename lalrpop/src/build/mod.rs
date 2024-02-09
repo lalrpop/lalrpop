@@ -520,7 +520,7 @@ fn emit_recursive_ascent(
 
     action::emit_action_code(grammar, &mut rust)?;
 
-    rust!(rust, "#[allow(clippy::type_complexity)]");
+    rust!(rust, "#[allow(clippy::type_complexity, dead_code)]");
     emit_to_triple_trait(grammar, max_start_nt_visibility, &mut rust)?;
 
     Ok(rust.into_inner())
