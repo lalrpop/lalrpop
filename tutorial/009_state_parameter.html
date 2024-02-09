@@ -186,7 +186,7 @@ When building the AST, it might be useful to pass parameters to the parser, whic
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>Num: i32 = {
-    r&quot;[0-9]+&quot; =&gt; i32::from_str(&lt;&gt;).unwrap()*scale,
+    r"[0-9]+" =&gt; i32::from_str(&lt;&gt;).unwrap()*scale,
 };
 <span class="boring">}</span></code></pre></pre>
 <p>Here the parser will accept a scale parameter that will scale every number encountered.</p>
@@ -197,9 +197,9 @@ When building the AST, it might be useful to pass parameters to the parser, whic
 fn calculator8() {
     let scale = 2;
     let expr = calculator8::ExprParser::new()
-        .parse(scale,&quot;11 * 22 + 33&quot;)
+        .parse(scale,"11 * 22 + 33")
         .unwrap();
-    assert_eq!(&amp;format!(&quot;{:?}&quot;, expr), &quot;((22 * 44) + 66)&quot;);
+    assert_eq!(&amp;format!("{:?}", expr), "((22 * 44) + 66)");
 }
 <span class="boring">}</span></code></pre></pre>
 <p>For a more practical example with a custom tree structure, check out <a href="https://github.com/lalrpop/lalrpop/blob/master/lalrpop-test/src/expr_arena.lalrpop">this parser</a> using <a href="https://github.com/lalrpop/lalrpop/blob/master/lalrpop-test/src/expr_arena_ast.rs">this structure</a> to build the AST.</p>

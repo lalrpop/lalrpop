@@ -178,12 +178,12 @@
                         <h1 id="macros"><a class="header" href="#macros">Macros</a></h1>
 <p>Frequently when writing grammars we encounter repetitive constructs
 that we would like to copy-and-paste. A common example is defining
-something like a &quot;comma-separated list&quot;. Imagine we wanted to parse a
+something like a "comma-separated list". Imagine we wanted to parse a
 comma-separated list of expressions (with an optional trailing comma,
 of course).  If we had to write this out in full, it would look
 something like:</p>
 <pre><code class="language-lalrpop">Exprs: Vec&lt;Box&lt;Expr&gt;&gt; = {
-    Exprs &quot;,&quot; Expr =&gt; ...,
+    Exprs "," Expr =&gt; ...,
     Expr =&gt; vec![&lt;&gt;],
 }
 </code></pre>
@@ -194,15 +194,15 @@ want a comma-separated list of terms? Do we just copy-and-paste
 everything?</p>
 <p>LALRPOP offers a better option. You can define macros. In fact,
 LALRPOP comes with four macros builtin: <code>*</code>, <code>?</code>, <code>+</code>, and <code>(...)</code>. So
-you can write something like <code>Expr?</code> to mean &quot;an optional
-<code>Expr</code>&quot;. This will have type <code>Option&lt;Box&lt;Expr&gt;&gt;</code> (since <code>Expr</code> alone
+you can write something like <code>Expr?</code> to mean "an optional
+<code>Expr</code>". This will have type <code>Option&lt;Box&lt;Expr&gt;&gt;</code> (since <code>Expr</code> alone
 has type <code>Box&lt;Expr&gt;</code>).  Similarly, you can write <code>Expr*</code> or <code>Expr+</code> to
 get a <code>Vec&lt;Expr&gt;</code> (with minimum length 0 and 1 respectively). The
 final macro is parentheses, which is a shorthand for creating a new
-nonterminal.  This lets you write things like <code>(&lt;Expr&gt; &quot;,&quot;)?</code> to mean
-an &quot;optionally parse an <code>Expr</code> followed by a comma&quot;. Note the angle
-brackets around <code>Expr</code>: these ensures that the value of the <code>(&lt;Expr&gt; &quot;,&quot;)</code> is the value of the expression, and not a tuple of the
-expression and the comma. This means that <code>(&lt;Expr&gt; &quot;,&quot;)?</code> would have
+nonterminal.  This lets you write things like <code>(&lt;Expr&gt; ",")?</code> to mean
+an "optionally parse an <code>Expr</code> followed by a comma". Note the angle
+brackets around <code>Expr</code>: these ensures that the value of the <code>(&lt;Expr&gt; ",")</code> is the value of the expression, and not a tuple of the
+expression and the comma. This means that <code>(&lt;Expr&gt; ",")?</code> would have
 the type <code>Option&lt;Box&lt;Expr&gt;&gt;</code> (and not <code>Option&lt;(Box&lt;Expr&gt;, &amp;'input str)&gt;</code>).</p>
 <p>Using these operations we can define <code>Exprs</code> in terms of a macro
 <code>Comma&lt;T&gt;</code> that creates a comma-separated list of <code>T</code>, whatever <code>T</code> is
@@ -210,7 +210,7 @@ the type <code>Option&lt;Box&lt;Expr&gt;&gt;</code> (and not <code>Option&lt;(Bo
 <pre><code class="language-lalrpop">pub Exprs = Comma&lt;Expr&gt;; // (0)
 
 Comma&lt;T&gt;: Vec&lt;T&gt; = { // (1)
-    &lt;mut v:(&lt;T&gt; &quot;,&quot;)*&gt; &lt;e:T?&gt; =&gt; match e { // (2)
+    &lt;mut v:(&lt;T&gt; ",")*&gt; &lt;e:T?&gt; =&gt; match e { // (2)
         None =&gt; v,
         Some(e) =&gt; {
             v.push(e);
@@ -224,17 +224,17 @@ just uses a macro <code>Comma&lt;Expr&gt;</code>. Let's take a look then at the
 definition of <code>Comma&lt;T&gt;</code> on line (1). This is sort of dense, so let's
 unpack it. First, <code>T</code> is some terminal or nonterminal, but note that
 we can also use it as a type: when the macro is expanded, the <code>T</code> in
-the type will be replaced with &quot;whatever the type of <code>T</code> is&quot;.</p>
-<p>Next, on (2), we parse <code>&lt;mut v:(&lt;T&gt; &quot;,&quot;)*&gt; &lt;e:T?&gt;</code>.  That's a lot of
+the type will be replaced with "whatever the type of <code>T</code> is".</p>
+<p>Next, on (2), we parse <code>&lt;mut v:(&lt;T&gt; ",")*&gt; &lt;e:T?&gt;</code>.  That's a lot of
 symbols, so let's first remove all the angle brackets, which just
 serve to tell LALRPOP what values you want to propagate and which you
-want to discard. In that case, we have: <code>(T &quot;,&quot;)* T?</code>. Hopefully you
+want to discard. In that case, we have: <code>(T ",")* T?</code>. Hopefully you
 can see that this matches a comma-separated list with an optional
 trailing comma. Now let's add those angle-brackets back in. In the
-parentheses, we get <code>(&lt;T&gt; &quot;,&quot;)*</code> -- this just means that we keep the
+parentheses, we get <code>(&lt;T&gt; ",")*</code> -- this just means that we keep the
 value of the <code>T</code> but discard the value of the comma when we build our
 vector. Then we capture that vector and call it <code>v</code>:
-<code>&lt;mut v:(&lt;T&gt; &quot;,&quot;)*&gt;</code>.  The <code>mut</code> makes <code>v</code> mutable in the action code.
+<code>&lt;mut v:(&lt;T&gt; ",")*&gt;</code>.  The <code>mut</code> makes <code>v</code> mutable in the action code.
 Finally, we capture the optional trailing element <code>e</code>: <code>&lt;e:T?&gt;</code>. This
 means the Rust code has two variables available to it, <code>v: Vec&lt;T&gt;</code> and
 <code>e: Option&lt;T&gt;</code>. The action code itself should then be fairly clear --
@@ -252,13 +252,13 @@ Expr = Tier&lt;ExprOp, Factor&gt;;
 Factor = Tier&lt;FactorOp, Term&gt;;
 
 ExprOp: Opcode = { // (3)
-    &quot;+&quot; =&gt; Opcode::Add,
-    &quot;-&quot; =&gt; Opcode::Sub,
+    "+" =&gt; Opcode::Add,
+    "-" =&gt; Opcode::Sub,
 };
 
 FactorOp: Opcode = {
-    &quot;*&quot; =&gt; Opcode::Mul,
-    &quot;/&quot; =&gt; Opcode::Div,
+    "*" =&gt; Opcode::Mul,
+    "/" =&gt; Opcode::Div,
 };
 </code></pre>
 <p>And, of course, we have to add some tests to <a href="https://github.com/lalrpop/lalrpop/blob/master/doc/calculator/src/main.rs">main.rs file</a>:</p>
@@ -270,28 +270,28 @@ lalrpop_mod!(pub calculator5);
 
 #[test]
 fn calculator5() {
-    let expr = calculator5::ExprsParser::new().parse(&quot;&quot;).unwrap();
-    assert_eq!(&amp;format!(&quot;{:?}&quot;, expr), &quot;[]&quot;);
+    let expr = calculator5::ExprsParser::new().parse("").unwrap();
+    assert_eq!(&amp;format!("{:?}", expr), "[]");
 
     let expr = calculator5::ExprsParser::new()
-        .parse(&quot;22 * 44 + 66&quot;)
+        .parse("22 * 44 + 66")
         .unwrap();
-    assert_eq!(&amp;format!(&quot;{:?}&quot;, expr), &quot;[((22 * 44) + 66)]&quot;);
+    assert_eq!(&amp;format!("{:?}", expr), "[((22 * 44) + 66)]");
 
     let expr = calculator5::ExprsParser::new()
-        .parse(&quot;22 * 44 + 66,&quot;)
+        .parse("22 * 44 + 66,")
         .unwrap();
-    assert_eq!(&amp;format!(&quot;{:?}&quot;, expr), &quot;[((22 * 44) + 66)]&quot;);
+    assert_eq!(&amp;format!("{:?}", expr), "[((22 * 44) + 66)]");
 
     let expr = calculator5::ExprsParser::new()
-        .parse(&quot;22 * 44 + 66, 13*3&quot;)
+        .parse("22 * 44 + 66, 13*3")
         .unwrap();
-    assert_eq!(&amp;format!(&quot;{:?}&quot;, expr), &quot;[((22 * 44) + 66), (13 * 3)]&quot;);
+    assert_eq!(&amp;format!("{:?}", expr), "[((22 * 44) + 66), (13 * 3)]");
 
     let expr = calculator5::ExprsParser::new()
-        .parse(&quot;22 * 44 + 66, 13*3,&quot;)
+        .parse("22 * 44 + 66, 13*3,")
         .unwrap();
-    assert_eq!(&amp;format!(&quot;{:?}&quot;, expr), &quot;[((22 * 44) + 66), (13 * 3)]&quot;);
+    assert_eq!(&amp;format!("{:?}", expr), "[((22 * 44) + 66), (13 * 3)]");
 }
 <span class="boring">}</span></code></pre></pre>
 

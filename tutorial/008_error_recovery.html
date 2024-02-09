@@ -179,7 +179,7 @@
 <p>By default, the parser will stop as soon as it encounters an error.
 Sometimes though we would like to try and recover and keep going.
 LALRPOP can support this, but you have to help it by defining various
-&quot;error recovery&quot; points in your grammar. This is done by using a
+"error recovery" points in your grammar. This is done by using a
 special <code>!</code> token: this token only occurs when the parser
 encounters an error in the input. When an error does occur, the parser
 will try to recover and keep going; it does this by injecting the
@@ -191,7 +191,7 @@ errors during parsing. First we need a way to return multiple errors
 as this is not something that LALRPOP does by itself so we add a <code>Vec</code>
 storing the errors we found during parsing. Since the result of <code>!</code>
 contains a token, error recovery requires that tokens can be cloned.
-We need to replace the begin &quot;grammar&quot; line of the LALRPOP file with this:</p>
+We need to replace the begin "grammar" line of the LALRPOP file with this:</p>
 <pre><code>use lalrpop_util::ErrorRecovery;
 
 grammar&lt;'err&gt;(errors: &amp;'err mut Vec&lt;ErrorRecovery&lt;usize, Token&lt;'input&gt;, &amp;'static str&gt;&gt;);
@@ -216,14 +216,14 @@ value</a>.
 You can find the full source in <a href="https://github.com/lalrpop/lalrpop/blob/master/doc/calculator/src/calculator7.lalrpop">calculator7</a>.</p>
 <pre><code class="language-lalrpop">Term: Box&lt;Expr&gt; = {
     Num =&gt; Box::new(Expr::Number(&lt;&gt;)),
-    &quot;(&quot; &lt;Expr&gt; &quot;)&quot;,
+    "(" &lt;Expr&gt; ")",
     ! =&gt; { errors.push(&lt;&gt;); Box::new(Expr::Error) },
 };
 </code></pre>
-<p>Now we can add a test that includes various errors (e.g., missing 
-operands). Note that now the <code>parse</code> method takes two arguments 
-instead of one, which is caused by that we rewrote the &quot;grammar&quot; line 
-in the LALRPOP file. You can see that the parser recovered from missing 
+<p>Now we can add a test that includes various errors (e.g., missing
+operands). Note that now the <code>parse</code> method takes two arguments
+instead of one, which is caused by that we rewrote the "grammar" line
+in the LALRPOP file. You can see that the parser recovered from missing
 operands by inserting this <code>!</code> token where necessary.</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
@@ -232,19 +232,19 @@ fn calculator7() {
     let mut errors = Vec::new();
 
     let expr = calculator7::ExprsParser::new()
-        .parse(&amp;mut errors, &quot;22 * + 3&quot;)
+        .parse(&amp;mut errors, "22 * + 3")
         .unwrap();
-    assert_eq!(&amp;format!(&quot;{:?}&quot;, expr), &quot;[((22 * error) + 3)]&quot;);
+    assert_eq!(&amp;format!("{:?}", expr), "[((22 * error) + 3)]");
 
     let expr = calculator7::ExprsParser::new()
-        .parse(&amp;mut errors, &quot;22 * 44 + 66, *3&quot;)
+        .parse(&amp;mut errors, "22 * 44 + 66, *3")
         .unwrap();
-    assert_eq!(&amp;format!(&quot;{:?}&quot;, expr), &quot;[((22 * 44) + 66), (error * 3)]&quot;);
+    assert_eq!(&amp;format!("{:?}", expr), "[((22 * 44) + 66), (error * 3)]");
 
     let expr = calculator7::ExprsParser::new()
-        .parse(&amp;mut errors, &quot;*&quot;)
+        .parse(&amp;mut errors, "*")
         .unwrap();
-    assert_eq!(&amp;format!(&quot;{:?}&quot;, expr), &quot;[(error * error)]&quot;);
+    assert_eq!(&amp;format!("{:?}", expr), "[(error * error)]");
 
     assert_eq!(errors.len(), 4);
 }

@@ -182,14 +182,14 @@ really familiar with context-free grammars, this section is just a
 a nice way of writing out what kinds of inputs are legal.  In our
 example, we want to support parenthesized numbers, so things like
 <code>123</code>, <code>(123)</code>, etc. We can express this with a simple grammar like:</p>
-<pre><code>Term = Num | &quot;(&quot; Term &quot;)&quot;
+<pre><code>Term = Num | "(" Term ")"
 </code></pre>
 <p>Here we say we are trying to parse a <em>term</em>, and a term can either be
 a number (<code>Num</code>) or some other term enclosing in parentheses (here I
 did not define what a number is, but in the real LALRPOP example we'll
 do that with a regular expression).  Now imagine a potential input
 like <code>((123))</code>. We can show how this would be parsed by writing out
-something called a &quot;parse tree&quot;:</p>
+something called a "parse tree":</p>
 <pre><code>(  (  1  2  3  )  )
 |  |  |     |  |  |
 |  |  +-Num-+  |  |
@@ -228,7 +228,7 @@ This is the code that will execute to convert from the thing that was matched
 (like a number, or a parenthesized term) into an <code>i32</code>:</p>
 <pre><code class="language-lalrpop">Term: i32 = {
     Num =&gt; /* ... number code ... */,
-    &quot;(&quot; Term &quot;)&quot; =&gt; /* ... parenthesized code ... */,
+    "(" Term ")" =&gt; /* ... parenthesized code ... */,
 };
 </code></pre>
 <p>OK, that's enough background, let's do this for real!</p>

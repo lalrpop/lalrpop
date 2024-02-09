@@ -262,8 +262,8 @@ impl&lt;'input&gt; Lexer&lt;'input&gt; {
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>Term: Box&lt;ExprSymbol&lt;'input&gt;&gt; = {
-    &quot;num&quot; =&gt; Box::new(ExprSymbol::NumSymbol(&lt;&gt;)),
-    &quot;(&quot; &lt;Expr&gt; &quot;)&quot;
+    "num" =&gt; Box::new(ExprSymbol::NumSymbol(&lt;&gt;)),
+    "(" &lt;Expr&gt; ")"
 };
 <span class="boring">}</span></code></pre></pre>
 <p>We need to pass the input to the parser so that the input's lifetime is known to the borrow checker when compiling the generated parser.</p>
@@ -279,11 +279,11 @@ impl&lt;'input&gt; Lexer&lt;'input&gt; {
     type Error = ();
     
     enum Tok&lt;'input&gt; {
-        &quot;num&quot; =&gt; Tok::NumSymbol(&lt;&amp;'input str&gt;),
-        &quot;FactorOp&quot; =&gt; Tok::FactorOp(&lt;Opcode&gt;),
-        &quot;ExprOp&quot; =&gt; Tok::ExprOp(&lt;Opcode&gt;),
-        &quot;(&quot; =&gt; Tok::ParenOpen,
-        &quot;)&quot; =&gt; Tok::ParenClose,
+        "num" =&gt; Tok::NumSymbol(&lt;&amp;'input str&gt;),
+        "FactorOp" =&gt; Tok::FactorOp(&lt;Opcode&gt;),
+        "ExprOp" =&gt; Tok::ExprOp(&lt;Opcode&gt;),
+        "(" =&gt; Tok::ParenOpen,
+        ")" =&gt; Tok::ParenClose,
     }
 }
 <span class="boring">}</span></code></pre></pre>
@@ -291,12 +291,12 @@ impl&lt;'input&gt; Lexer&lt;'input&gt; {
 <p>We can finally run the parser we built:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
-</span>let input = &quot;22 * pi + 66&quot;;
+</span>let input = "22 * pi + 66";
 let lexer = Lexer::new(input);
 let expr = calculator9::ExprParser::new()
     .parse(input,lexer)
     .unwrap();
-assert_eq!(&amp;format!(&quot;{:?}&quot;, expr), &quot;((\&quot;22\&quot; * \&quot;pi\&quot;) + \&quot;66\&quot;)&quot;);
+assert_eq!(&amp;format!("{:?}", expr), "((\"22\" * \"pi\") + \"66\")");
 <span class="boring">}</span></code></pre></pre>
 
                     </main>

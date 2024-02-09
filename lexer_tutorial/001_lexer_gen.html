@@ -192,7 +192,7 @@ want more control. You may also be interested in the
 symbols. There were the nonterminals, <code>Term</code> and <code>Num</code>, which we
 defined by specifying a series of symbols that they must match, along
 with some action code that should execute once they have matched:</p>
-<pre><code class="language-text">   Num: i32 = r&quot;[0-9]+&quot; =&gt; i32::from_str(&lt;&gt;).unwrap();
+<pre><code class="language-text">   Num: i32 = r"[0-9]+" =&gt; i32::from_str(&lt;&gt;).unwrap();
 // ~~~  ~~~   ~~~~~~~~~    ~~~~~~~~~~~~~~~~~~~~~~~~~~
 // |    |     |                Action code
 // |    |     Symbol(s) that should match
@@ -222,67 +222,67 @@ stream of tokens and figures out which nonterminals apply:</p>
                                    +---------------------+
 </code></pre>
 <p>LALRPOP's default lexer is based on regular expressions. By default,
-it works by extracting all the terminals (e.g., <code>&quot;(&quot;</code> or <code>r&quot;\d+&quot;</code>)
+it works by extracting all the terminals (e.g., <code>"("</code> or <code>r"\d+"</code>)
 from your grammar and compiling them into one big list. At runtime, it
 will walk over the string and, at each point, find the longest match
 from the literals and regular expressions in your grammar and produces
 one of those. As an example, let's look again at our example grammar:</p>
 <pre><code>pub Term: i32 = {
     &lt;n:Num&gt; =&gt; n,
-    &quot;(&quot; &lt;t:Term&gt; &quot;)&quot; =&gt; t,
+    "(" &lt;t:Term&gt; ")" =&gt; t,
 };
 
-Num: i32 = &lt;s:r&quot;[0-9]+&quot;&gt; =&gt; i32::from_str(s).unwrap();
+Num: i32 = &lt;s:r"[0-9]+"&gt; =&gt; i32::from_str(s).unwrap();
 </code></pre>
 <p>This grammar in fact contains three terminals:</p>
 <ul>
-<li><code>&quot;(&quot;</code> -- a string literal, which must match exactly</li>
-<li><code>&quot;)&quot;</code> -- a string literal, which must match exactly</li>
-<li><code>r&quot;[0-9]+&quot;</code> -- a regular expression</li>
+<li><code>"("</code> -- a string literal, which must match exactly</li>
+<li><code>")"</code> -- a string literal, which must match exactly</li>
+<li><code>r"[0-9]+"</code> -- a regular expression</li>
 </ul>
 <p>When we generate a lexer, it is effectively going to be checking for
 each of these three terminals in a loop, sort of like this pseudocode:</p>
 <pre><code>let mut i = 0; // index into string
 loop {
     skip whitespace; // we do this implicitly, at least by default
-    if (data at index i is &quot;(&quot;) { produce &quot;(&quot;; }
-    else if (data at index i is &quot;)&quot;) { produce &quot;)&quot;; }
-    else if (data at index i matches regex &quot;[0-9]+&quot;) { produce r&quot;[0-9]+&quot;; }
+    if (data at index i is "(") { produce "("; }
+    else if (data at index i is ")") { produce ")"; }
+    else if (data at index i matches regex "[0-9]+") { produce r"[0-9]+"; }
 }
 </code></pre>
 <p>Note that this has nothing to do with your grammar. For example, the tokenizer
 would happily tokenize a string like this one, which doesn't fit our grammar:</p>
 <pre><code>  (  22   44  )     )
   ^  ^^   ^^  ^     ^
-  |  |    |   |     &quot;)&quot; terminal
+  |  |    |   |     ")" terminal
   |  |    |   |
-  |  |    |   &quot;)&quot; terminal
+  |  |    |   ")" terminal
   |  +----+
   |  |
-  |  2 r&quot;[0-9]+&quot; terminals
+  |  2 r"[0-9]+" terminals
   |
-  &quot;(&quot; terminal
+  "(" terminal
 </code></pre>
 <p>When these tokens are fed into the <strong>parser</strong>, it would notice that we
-have one left paren but then two numbers (<code>r&quot;[0-9]+&quot;</code> terminals), and
+have one left paren but then two numbers (<code>r"[0-9]+"</code> terminals), and
 hence report an error.</p>
 <h4 id="precedence-of-fixed-strings"><a class="header" href="#precedence-of-fixed-strings">Precedence of fixed strings</a></h4>
 <p>Terminals in LALRPOP can be specified (by default) in two ways. As a
-fixed string (like <code>&quot;(&quot;</code>) or a regular expression (like
+fixed string (like <code>"("</code>) or a regular expression (like
 <code>r[0-9]+</code>). There is actually an important difference: if, at some
 point in the input, both a fixed string <strong>and</strong> a regular expression
 could match, LALRPOP gives the fixed string precedence. To demonstrate
 this, let's modify our parser. If you recall, the current parser
 parses parenthesized numbers, producing a <code>i32</code>. We're going to modify
-if to produce a <strong>string</strong>, and we'll add an &quot;easter egg&quot; so that <code>22</code>
-(or <code>(22)</code>, <code>((22))</code>, etc) produces the string <code>&quot;Twenty-two&quot;</code>:</p>
+if to produce a <strong>string</strong>, and we'll add an "easter egg" so that <code>22</code>
+(or <code>(22)</code>, <code>((22))</code>, etc) produces the string <code>"Twenty-two"</code>:</p>
 <pre><code>pub Term = {
     Num,
-    &quot;(&quot; &lt;Term&gt; &quot;)&quot;,
-    &quot;22&quot; =&gt; &quot;Twenty-two!&quot;.to_string(),
+    "(" &lt;Term&gt; ")",
+    "22" =&gt; "Twenty-two!".to_string(),
 };
 
-Num: String = r&quot;[0-9]+&quot; =&gt; &lt;&gt;.to_string();
+Num: String = r"[0-9]+" =&gt; &lt;&gt;.to_string();
 </code></pre>
 <p>If we write some simple unit tests, we can see that in fact an input
 of <code>22</code> has matched the string literal. Interestingly, the input <code>222</code>
@@ -293,14 +293,14 @@ two matches of equal length, it prefers the fixed string:</p>
 </span><span class="boring">fn main() {
 </span>#[test]
 fn calculator2b() {
-    let result = calculator2b::TermParser::new().parse(&quot;33&quot;).unwrap();
-    assert_eq!(result, &quot;33&quot;);
+    let result = calculator2b::TermParser::new().parse("33").unwrap();
+    assert_eq!(result, "33");
 
-    let result = calculator2b::TermParser::new().parse(&quot;(22)&quot;).unwrap();
-    assert_eq!(result, &quot;Twenty-two!&quot;);
+    let result = calculator2b::TermParser::new().parse("(22)").unwrap();
+    assert_eq!(result, "Twenty-two!");
 
-    let result = calculator2b::TermParser::new().parse(&quot;(222)&quot;).unwrap();
-    assert_eq!(result, &quot;222&quot;);
+    let result = calculator2b::TermParser::new().parse("(222)").unwrap();
+    assert_eq!(result, "222");
 }
 <span class="boring">}</span></code></pre></pre>
 <h4 id="ambiguities-between-regular-expressions"><a class="header" href="#ambiguities-between-regular-expressions">Ambiguities between regular expressions</a></h4>
@@ -311,28 +311,28 @@ this variation of the grammar above, where we also try to support
 parenthesized <strong>identifiers</strong> like <code>((foo22))</code>:</p>
 <pre><code>pub Term = {
     Num,
-    &quot;(&quot; &lt;Term&gt; &quot;)&quot;,
-    &quot;22&quot; =&gt; format!(&quot;Twenty-two!&quot;),
-    r&quot;\w+&quot; =&gt; format!(&quot;Id({})&quot;, &lt;&gt;), // &lt;-- we added this
+    "(" &lt;Term&gt; ")",
+    "22" =&gt; format!("Twenty-two!"),
+    r"\w+" =&gt; format!("Id({})", &lt;&gt;), // &lt;-- we added this
 };
 
-Num: String = r&quot;[0-9]+&quot; =&gt; &lt;&gt;.to_string();
+Num: String = r"[0-9]+" =&gt; &lt;&gt;.to_string();
 </code></pre>
 <p>Here I've written the regular expression <code>r\w+</code>. However, if you check
 out the <a href="https://docs.rs/regex">docs for regex</a>, you'll see that <code>\w</code>
 is defined to match alphabetic characters but also digits. So there
 is actually an ambiguity here: if we have something like <code>123</code>, it
-could be considered to match either <code>r&quot;[0-9]+&quot;</code> <strong>or</strong> <code>r&quot;\w+&quot;</code>. If
+could be considered to match either <code>r"[0-9]+"</code> <strong>or</strong> <code>r"\w+"</code>. If
 you try this grammar, you'll find that LALRPOP helpfully reports an
 error:</p>
-<pre><code>error: ambiguity detected between the terminal `r#&quot;\w+&quot;#` and the terminal `r#&quot;[0-9]+&quot;#`
+<pre><code>error: ambiguity detected between the terminal `r#"\w+"#` and the terminal `r#"[0-9]+"#`
 
-      r&quot;\w+&quot; =&gt; &lt;&gt;.to_string(),
+      r"\w+" =&gt; &lt;&gt;.to_string(),
       ~~~~~~
 </code></pre>
 <p>There are various ways to fix this. We might try adjusting our regular
 expression so that the first character cannot be a number, so perhaps
-something like <code>r&quot;[[:alpha:]]\w*&quot;</code>. This will work, but it actually
+something like <code>r"[[:alpha:]]\w*"</code>. This will work, but it actually
 matches something different than what we had before (e.g., <code>123foo</code>
 will not be considered to match, for better or worse). And anyway it's
 not always convenient to make your regular expressions completely
@@ -343,23 +343,23 @@ which lets you control the precedence between regular expressions.</p>
 terminals. In its simplest form, it consists of just ordering regular
 expressions and string literals into groups, with the higher
 precedence items coming first. So, for example, we could resolve
-our conflict above by giving <code>r&quot;[0-9]+&quot;</code> <strong>precedence</strong> over <code>r&quot;\w+&quot;</code>,
+our conflict above by giving <code>r"[0-9]+"</code> <strong>precedence</strong> over <code>r"\w+"</code>,
 thus saying that if something can be lexed as a number, we'll do that,
 and otherwise consider it to be an identifier.</p>
 <pre><code>match {
-    r&quot;[0-9]+&quot;
+    r"[0-9]+"
 } else {
-    r&quot;\w+&quot;,
+    r"\w+",
     _
 }
 </code></pre>
 <p>Here the match contains two levels; each level can have more than one
-item in it. The top-level contains only <code>r&quot;[0-9]+&quot;</code>, which means that this
+item in it. The top-level contains only <code>r"[0-9]+"</code>, which means that this
 regular expression is given highest priority. The next level contains
 <code>r\w+</code>, so that will match afterwards.</p>
 <p>The final <code>_</code> indicates that other string literals and regular
-expressions that appear elsewhere in the grammar (e.g., <code>&quot;(&quot;</code> or
-<code>&quot;22&quot;</code>) should be added into that final level of precedence (without
+expressions that appear elsewhere in the grammar (e.g., <code>"("</code> or
+<code>"22"</code>) should be added into that final level of precedence (without
 an <code>_</code>, it is illegal to use a terminal that does not appear in the
 match declaration).</p>
 <p>If we add this <code>match</code> section into our example, we'll find that it
@@ -371,37 +371,37 @@ unit test a bit to include some identifier examples::</p>
 fn calculator2b() {
     // These will all work:
 
-    let result = calculator2b::TermParser::new().parse(&quot;33&quot;).unwrap();
-    assert_eq!(result, &quot;33&quot;);
+    let result = calculator2b::TermParser::new().parse("33").unwrap();
+    assert_eq!(result, "33");
 
-    let result = calculator2b::TermParser::new().parse(&quot;foo33&quot;).unwrap();
-    assert_eq!(result, &quot;Id(foo33)&quot;);
+    let result = calculator2b::TermParser::new().parse("foo33").unwrap();
+    assert_eq!(result, "Id(foo33)");
 
-    let result = calculator2b::TermParser::new().parse(&quot;(foo33)&quot;).unwrap();
-    assert_eq!(result, &quot;Id(foo33)&quot;);
+    let result = calculator2b::TermParser::new().parse("(foo33)").unwrap();
+    assert_eq!(result, "Id(foo33)");
 
     // This one will fail:
 
-    let result = calculator2b::TermParser::new().parse(&quot;(22)&quot;).unwrap();
-    assert_eq!(result, &quot;Twenty-two!&quot;);
+    let result = calculator2b::TermParser::new().parse("(22)").unwrap();
+    assert_eq!(result, "Twenty-two!");
 }
 <span class="boring">}</span></code></pre></pre>
 <p>The problem comes about when we parse <code>22</code>. Before, the fixed string
 <code>22</code> got precedence, but with the new match declaration, we've
-explicitly stated that the regular expression <code>r&quot;[0-9]+&quot;</code> has full
+explicitly stated that the regular expression <code>r"[0-9]+"</code> has full
 precedence. Since the <code>22</code> is not listed explicitly, it gets added at
 the last level, where the <code>_</code> appears. We can fix this by adjusting
 our <code>match</code> to mention <code>22</code> explicitly:</p>
 <pre><code>match {
-    r&quot;[0-9]+&quot;,
-    &quot;22&quot;
+    r"[0-9]+",
+    "22"
 } else {
-    r&quot;\w+&quot;,
+    r"\w+",
     _
 }
 </code></pre>
 <p>This raises the interesting question of what the precedence is <strong>within</strong>
-a match rung -- after all, both the regex and <code>&quot;22&quot;</code> can match the same
+a match rung -- after all, both the regex and <code>"22"</code> can match the same
 string. The answer is that within a match rung, fixed literals get precedence
 over regular expressions, just as before, and all regular expressions
 must not overlap.</p>
@@ -411,58 +411,58 @@ must not overlap.</p>
 <a href="https://github.com/lalrpop/lalrpop/blob/master/doc/calculator/src/calculator2b.lalrpop">final version of our example that you will find in the repository</a>. We
 can also use <code>match</code> declarations to give names to regular
 expressions, so that we don't have to type them directly in our
-grammar. For example, maybe instead of writing <code>r&quot;\w+&quot;</code>, we would
+grammar. For example, maybe instead of writing <code>r"\w+"</code>, we would
 prefer to write <code>ID</code>. We could do that by modifying the match declaration like
 so:</p>
 <pre><code>match {
-    r&quot;[0-9]+&quot;,
-    &quot;22&quot;
+    r"[0-9]+",
+    "22"
 } else {
-    r&quot;\w+&quot; =&gt; ID, // &lt;-- give a name here
+    r"\w+" =&gt; ID, // &lt;-- give a name here
     _
 }
 </code></pre>
 <p>And then adjusting the definition of <code>Term</code> to reference <code>ID</code> instead:</p>
 <pre><code>pub Term = {
     Num,
-    &quot;(&quot; &lt;Term&gt; &quot;)&quot;,
-    &quot;22&quot; =&gt; &quot;Twenty-two!&quot;.to_string(),
-    ID =&gt; format!(&quot;Id({})&quot;, &lt;&gt;), // &lt;-- changed this
+    "(" &lt;Term&gt; ")",
+    "22" =&gt; "Twenty-two!".to_string(),
+    ID =&gt; format!("Id({})", &lt;&gt;), // &lt;-- changed this
 };
 </code></pre>
 <p>In fact, the match declaration can map a regular expression to any
 kind of symbol you want (i.e., you can also map to a string literal or
 even a regular expression). Whatever symbol appears after the <code>=&gt;</code> is
 what you should use in your grammar. As an example, some languages
-have case-insensitive keywords; if you wanted to write <code>&quot;BEGIN&quot;</code> in the
+have case-insensitive keywords; if you wanted to write <code>"BEGIN"</code> in the
 grammar itself, but have that map to a regular expression in the lexer, you might write:</p>
 <pre><code>match {
-    r&quot;(?i)begin&quot; =&gt; &quot;BEGIN&quot;,
+    r"(?i)begin" =&gt; "BEGIN",
     ...
 }
 </code></pre>
-<p>And now any reference in your grammar to <code>&quot;BEGIN&quot;</code> will actually match
+<p>And now any reference in your grammar to <code>"BEGIN"</code> will actually match
 any capitalization.</p>
 <h4 id="customizing-skipping-between-tokens"><a class="header" href="#customizing-skipping-between-tokens">Customizing skipping between tokens</a></h4>
 <p>If we want to support comments we will need to skip more than just whitespace in our lexer.
 To this end <code>ignore patterns</code> can be specified.</p>
 <pre><code>match {
-    r&quot;\s*&quot; =&gt; { }, // The default whitespace skipping is disabled if an `ignore pattern` is specified
-    r&quot;//[^\n\r]*[\n\r]*&quot; =&gt; { }, // Skip `// comments`
-    r&quot;/\*[^*]*\*+(?:[^/*][^*]*\*+)*/&quot; =&gt; { },  // Skip `/* comments */`
+    r"\s*" =&gt; { }, // The default whitespace skipping is disabled if an `ignore pattern` is specified
+    r"//[^\n\r]*[\n\r]*" =&gt; { }, // Skip `// comments`
+    r"/\*[^*]*\*+(?:[^/*][^*]*\*+)*/" =&gt; { },  // Skip `/* comments */`
 }
 </code></pre>
 <h4 id="unicode-compatibility"><a class="header" href="#unicode-compatibility">Unicode compatibility</a></h4>
 <p>LALRPOP is capable of lexing tokens that match the full unicode character set,
 or those that just match ASCII.  If you need unicode matching, you should
-enable <code>features = [ &quot;unicode&quot; ]</code> in your Cargo.toml.  Because lexing unicode
+enable <code>features = [ "unicode" ]</code> in your Cargo.toml.  Because lexing unicode
 requires loading the full unicode character set, enabling this feature will
 increase binary size, so you may wish to avoid it if you do not need unicode
 support.</p>
 <p>It's important to note that <a href="https://docs.rs/regex/latest/regex/#perl-character-classes-unicode-friendly">certain character classes</a> from perl
-regex extensions are &quot;unicode friendly&quot;, and require unicode support.  For
-example, &quot;\s&quot; matches unicode whitespace characters, not just ASCII ones, and
-likewise &quot;\d&quot; matches unicode digits (such as numerals in non-latin character
+regex extensions are "unicode friendly", and require unicode support.  For
+example, "\s" matches unicode whitespace characters, not just ASCII ones, and
+likewise "\d" matches unicode digits (such as numerals in non-latin character
 sets).  If you use those patterns in your lexer, you will require unicode.</p>
 <p>You may wish to match only the ASCII subset of these characters, in which case,
 you can use the ASCII only character classes described <a href="https://docs.rs/regex/latest/regex/#ascii-character-classes">here</a> as

@@ -212,8 +212,8 @@ pub Expr: Box&lt;Expr&gt; = { // (1)
 };
 
 ExprOp: Opcode = { // (3)
-    &quot;+&quot; =&gt; Opcode::Add,
-    &quot;-&quot; =&gt; Opcode::Sub,
+    "+" =&gt; Opcode::Add,
+    "-" =&gt; Opcode::Sub,
 };
 </code></pre>
 <p>First off, we have to import these new names into our file by adding a
@@ -232,8 +232,8 @@ subtraction).</p>
 };
 
 FactorOp: Opcode = {
-    &quot;*&quot; =&gt; Opcode::Mul,
-    &quot;/&quot; =&gt; Opcode::Div,
+    "*" =&gt; Opcode::Mul,
+    "/" =&gt; Opcode::Div,
 };
 </code></pre>
 <p>And finally we adjust the definitions of <code>Term</code> and <code>Num</code>. Here, we
@@ -241,11 +241,11 @@ convert from a raw <code>i32</code> into a <code>Box&lt;Expr&gt;</code> when we 
 <code>Num</code> to <code>Term</code> (4):</p>
 <pre><code class="language-lalrpop">Term: Box&lt;Expr&gt; = {
     Num =&gt; Box::new(Expr::Number(&lt;&gt;)), // (4)
-    &quot;(&quot; &lt;Expr&gt; &quot;)&quot;
+    "(" &lt;Expr&gt; ")"
 };
 
 Num: i32 = {
-    r&quot;[0-9]+&quot; =&gt; i32::from_str(&lt;&gt;).unwrap()
+    r"[0-9]+" =&gt; i32::from_str(&lt;&gt;).unwrap()
 };
 </code></pre>
 <p>And that's it! Now we can test it by adding some code to our
@@ -259,9 +259,9 @@ pub mod ast;
 #[test]
 fn calculator4() {
     let expr = calculator4::ExprParser::new()
-        .parse(&quot;22 * 44 + 66&quot;)
+        .parse("22 * 44 + 66")
         .unwrap();
-    assert_eq!(&amp;format!(&quot;{:?}&quot;, expr), &quot;((22 * 44) + 66)&quot;);
+    assert_eq!(&amp;format!("{:?}", expr), "((22 * 44) + 66)");
 }
 <span class="boring">}</span></code></pre></pre>
 

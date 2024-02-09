@@ -190,7 +190,7 @@ print (a - b);
 </code></pre>
 <h2 id="setup"><a class="header" href="#setup">Setup</a></h2>
 <p>In your <code>Cargo.toml</code>, add the following dependency:</p>
-<pre><code class="language-toml">logos = &quot;0.12.0&quot;
+<pre><code class="language-toml">logos = "0.12.0"
 </code></pre>
 <p>This will provide the <code>logos</code> crate and the <code>Logos</code> trait.</p>
 <h2 id="the-ast"><a class="header" href="#the-ast">The AST</a></h2>
@@ -228,47 +228,47 @@ use logos::Logos;
 
 #[derive(Logos, clone, Debug, PartialEq)]
 pub enum Token {
-  #[token(&quot;var&quot;)]
+  #[token("var")]
   KeywordVar,
-  #[token(&quot;print&quot;)]
+  #[token("print")]
   KeywordPrint,
 
-  #[regex(&quot;[_a-zA-Z][_0-9a-zA-Z]*&quot;, |lex| lex.slice().parse())]
+  #[regex("[_a-zA-Z][_0-9a-zA-Z]*", |lex| lex.slice().parse())]
   Identifier(String),
-  #[regex(&quot;\d+&quot;, |lex| lex.slice().parse())]
+  #[regex("\d+", |lex| lex.slice().parse())]
   Integer(i64),
 
-  #[token(&quot;(&quot;)]
+  #[token("(")]
   LParen,
-  #[token(&quot;)&quot;)]
+  #[token(")")]
   RParen,
-  #[token(&quot;=&quot;)]
+  #[token("=")]
   Assign,
-  #[token(&quot;;&quot;)]
+  #[token(";")]
   Semicolon,
 
-  #[token(&quot;+&quot;)]
+  #[token("+")]
   OperatorAdd,
-  #[token(&quot;-&quot;)]
+  #[token("-")]
   OperatorSub,
-  #[token(&quot;*&quot;)]
+  #[token("*")]
   OperatorMul,
-  #[token(&quot;/&quot;)]
+  #[token("/")]
   OperatorDiv,
 
-  #[regex(r&quot;#.*\n?&quot;, logos::skip)]
-  #[regex(r&quot;[ \t\n\f]+&quot;, logos::skip)]
+  #[regex(r"#.*\n?", logos::skip)]
+  #[regex(r"[ \t\n\f]+", logos::skip)]
   #[error]
   Error,
 }
 <span class="boring">}</span></code></pre></pre>
 <p>An exact match is specified using the <code>#[token()]</code> annotation.</p>
-<p>For example, <code>#[token(&quot;+&quot;)]</code> makes the <code>OperatorAdd</code> token to be emitted only
-when a literal <code>&quot;+&quot;</code> appears in the input (unless it is part of another match,
+<p>For example, <code>#[token("+")]</code> makes the <code>OperatorAdd</code> token to be emitted only
+when a literal <code>"+"</code> appears in the input (unless it is part of another match,
 see below).</p>
 <p>On the other hand, <code>#[regex()]</code> will match a regular expression.</p>
 <p>For example, combined with the <code>logos::skip</code> annotation,
-<code>#[regex(r&quot;#.*\n?&quot;, logos::skip)]</code> causes all matches of a <code>#</code> character until
+<code>#[regex(r"#.*\n?", logos::skip)]</code> causes all matches of a <code>#</code> character until
 a newline character (comments of our language) to be ignored.</p>
 <p>A few things to note about how <strong>Logos</strong> works:</p>
 <p>When several sequences of tokens can match the same input, Logos uses precise
@@ -277,14 +277,14 @@ rules to make a choice. Rule of thumb is:</p>
 <li>Longer beats shorter.</li>
 <li>Specific beats generic.</li>
 </ul>
-<p>This means the <code>&quot;printa&quot;</code> input string will generate the following token:</p>
+<p>This means the <code>"printa"</code> input string will generate the following token:</p>
 <ul>
-<li><code>Token::Identifier(String::new(&quot;printa&quot;))</code></li>
+<li><code>Token::Identifier(String::new("printa"))</code></li>
 </ul>
 <p>And not:</p>
 <ul>
 <li><code>Token::KeywordPrint</code></li>
-<li><code>Token::Identifier(String::new(&quot;a&quot;))</code></li>
+<li><code>Token::Identifier(String::new("a"))</code></li>
 </ul>
 <p>This is because <code>printa</code> is longer than <code>print</code>, therefore the <code>Identifier</code> rule
 has priority.</p>
@@ -293,7 +293,7 @@ has priority.</p>
 </span><span class="boring">fn main() {
 </span>impl fmt::Display for Token {
   fn fmt(&amp;self, f: &amp;mut fmt::Formatter) -&gt; fmt::Result {
-    write!(f, &quot;{:?}&quot;, self)
+    write!(f, "{:?}", self)
   }
 }
 <span class="boring">}</span></code></pre></pre>
@@ -365,23 +365,23 @@ extern {
   type Error = LexicalError;
 
   enum Token {
-    &quot;var&quot; =&gt; Token::KeywordVar,
-    &quot;print&quot; =&gt; Token::KeywordPrint,
-    &quot;identifier&quot; =&gt; Token::Identifier(&lt;String&gt;),
-    &quot;int&quot; =&gt; Token::Integer(&lt;i64&gt;),
-    &quot;(&quot; =&gt; Token::LParen,
-    &quot;)&quot; =&gt; Token::RParen,
-    &quot;=&quot; =&gt; Token::Assign,
-    &quot;;&quot; =&gt; Token::Semicolon,
-    &quot;+&quot; =&gt; Token::OperatorAdd,
-    &quot;-&quot; =&gt; Token::OperatorSub,
-    &quot;*&quot; =&gt; Token::OperatorMul,
-    &quot;/&quot; =&gt; Token::OperatorDiv,
+    "var" =&gt; Token::KeywordVar,
+    "print" =&gt; Token::KeywordPrint,
+    "identifier" =&gt; Token::Identifier(&lt;String&gt;),
+    "int" =&gt; Token::Integer(&lt;i64&gt;),
+    "(" =&gt; Token::LParen,
+    ")" =&gt; Token::RParen,
+    "=" =&gt; Token::Assign,
+    ";" =&gt; Token::Semicolon,
+    "+" =&gt; Token::OperatorAdd,
+    "-" =&gt; Token::OperatorSub,
+    "*" =&gt; Token::OperatorMul,
+    "/" =&gt; Token::OperatorDiv,
   }
 }
 </code></pre>
 <p><strong>NB:</strong> This part allows us to give a precise name to the tokens emitted by our
-Lexer. We can then use those names (<code>&quot;identifier&quot;</code>, <code>&quot;var&quot;</code>, ...) in our grammar
+Lexer. We can then use those names (<code>"identifier"</code>, <code>"var"</code>, ...) in our grammar
 rules to reference the desired token.</p>
 <p>Finally, we can build our rules:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
@@ -391,27 +391,27 @@ rules to reference the desired token.</p>
 }
 
 pub Statement: Box&lt;ast::Statement&gt; = {
-  &quot;var&quot; &lt;name:&quot;identifier&quot;&gt; &quot;=&quot; &lt;value:Expression&gt; &quot;;&quot; =&gt; {
+  "var" &lt;name:"identifier"&gt; "=" &lt;value:Expression&gt; ";" =&gt; {
     Box::new(ast::Statement::Variable { name, value })
   },
-  &quot;print&quot; &lt;value:Expression&gt; &quot;;&quot; =&gt; {
+  "print" &lt;value:Expression&gt; ";" =&gt; {
     Box::new(ast::Statement::Print { value })
   },
 }
 
 pub Expression: Box&lt;ast::Expression&gt; = {
-  #[precedence(lvl=&quot;1&quot;)
+  #[precedence(lvl="1")
   Term,
 
-  #[precedence(lvl=&quot;2&quot;)] #[assoc(side=&quot;left&quot;)]
-  &lt;lhs:Expression&gt; &quot;*&quot; &lt;rhs:Expression&gt; =&gt; {
+  #[precedence(lvl="2")] #[assoc(side="left")]
+  &lt;lhs:Expression&gt; "*" &lt;rhs:Expression&gt; =&gt; {
     Box::new(ast::Expression::BinaryOperation {
       lhs,
       operator: ast::Operator::Mul,
       rhs
     })
   },
-  &lt;lhs:Expression&gt; &quot;/&quot; &lt;rhs:Expression&gt; =&gt; {
+  &lt;lhs:Expression&gt; "/" &lt;rhs:Expression&gt; =&gt; {
     Box::new(ast::Expression::BinaryOperation {
       lhs,
       operator: ast::Operator::Div,
@@ -419,15 +419,15 @@ pub Expression: Box&lt;ast::Expression&gt; = {
     })
   },
 
-  #[precedence(lvl=&quot;3&quot;)]
-  &lt;lhs:Expression&gt; &quot;+&quot; &lt;rhs:Expression&gt; =&gt; {
+  #[precedence(lvl="3")]
+  &lt;lhs:Expression&gt; "+" &lt;rhs:Expression&gt; =&gt; {
     Box::new(ast::Expression::BinaryOperation {
       lhs,
       operator: ast::Operator::Add,
       rhs
     })
   },
-  &lt;lhs:Expression&gt; &quot;-&quot; &lt;rhs:Expression&gt; =&gt; {
+  &lt;lhs:Expression&gt; "-" &lt;rhs:Expression&gt; =&gt; {
     Box::new(ast::Expression::BinaryOperation {
       lhs,
       operator: ast::Operator::Sub,
@@ -437,13 +437,13 @@ pub Expression: Box&lt;ast::Expression&gt; = {
 }
 
 pub Term: Box&lt;ast::Expression&gt; =&gt; {
-  &lt;val:&quot;int&quot;&gt; =&gt; {
+  &lt;val:"int"&gt; =&gt; {
     Box::new(ast::Expression::Integer(val))
   },
-  &lt;name:&quot;identifier&quot;&gt; =&gt; {
+  &lt;name:"identifier"&gt; =&gt; {
     Box::new(ast::Expression::Variable(name))
   },
-  &quot;(&quot; Expression &quot;)&quot;,
+  "(" Expression ")",
 }
 <span class="boring">}</span></code></pre></pre>
 <p>Our grammar is now complete.</p>
@@ -451,12 +451,12 @@ pub Term: Box&lt;ast::Expression&gt; =&gt; {
 <p>The last step is to run our parser:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
-</span>let source_code = std::fs::read_to_string(&quot;myscript.toy&quot;)?;
+</span>let source_code = std::fs::read_to_string("myscript.toy")?;
 let lexer = Lexer::new(&amp;source_code[..]);
 let parser = ScriptParser::new();
 let ast = parser.parse(lexer)?;
 
-println!(&quot;{:?}&quot;, ast);
+println!("{:?}", ast);
 <span class="boring">}</span></code></pre></pre>
 
                     </main>

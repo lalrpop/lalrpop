@@ -180,7 +180,7 @@
 instead of being expected to produce a value of type <code>T</code> directly. This happens
 because we usually cannot reject all invalid input just by using grammar rules,
 or rather, the work to do so would be too much.</p>
-<p>Even in our calculator example, you can see that we're &quot;cheating&quot; the system:
+<p>Even in our calculator example, you can see that we're "cheating" the system:
 Our grammar accepts an unlimited number of digits in the input, but the result
 is parsed as a <code>i32</code>. This is an issue because the maximum number that <code>i32</code>
 can represent is 2147483647. Try giving it a bigger number and it will panic
@@ -188,15 +188,15 @@ because it always expects the <code>i32</code> conversion to succeed.</p>
 <p>If you are familiar with Rust's error handling story, you might think that we
 can just make <code>Num</code> return an <code>Option&lt;i32&gt;</code> or even <code>Result&lt;i32, ...&gt;</code>, and you
 would be right. However, that is not necessary, because if we look at the type
-of <code>ExprParser::parse()</code>, we can see that it already returns a <code>Result&lt;i32, ParseError&gt;</code>. So the goal is to &quot;hook&quot; into this existing error machinery and
+of <code>ExprParser::parse()</code>, we can see that it already returns a <code>Result&lt;i32, ParseError&gt;</code>. So the goal is to "hook" into this existing error machinery and
 create action code that can return errors.</p>
 <p>LALRPOP supports this very easily by defining action code with <code>=&gt;?</code> instead of
 <code>=&gt;</code>. The returned value is then assumed to be a <code>Result&lt;T, ParseError&gt;</code>
 instead of a plain <code>T</code>:</p>
 <pre><code class="language-lalrpop">Num: i32 = {
-    r&quot;[0-9]+&quot; =&gt;? i32::from_str(&lt;&gt;)
+    r"[0-9]+" =&gt;? i32::from_str(&lt;&gt;)
         .map_err(|_| ParseError::User {
-            error: &quot;number is too big&quot;
+            error: "number is too big"
         })
 };
 </code></pre>
@@ -213,7 +213,7 @@ lalrpop_mod!(pub calculator6);
 #[test]
 fn calculator6() {
     // Number is one bigger than std::i32::MAX
-    let expr = calculator6::ExprsParser::new().parse(&quot;2147483648&quot;);
+    let expr = calculator6::ExprsParser::new().parse("2147483648");
     assert!(expr.is_err());
 }
 <span class="boring">}</span></code></pre></pre>
@@ -251,7 +251,7 @@ extern {
 </code></pre>
 <p>We can also change the rule for <code>Num</code> to make use of our new error:</p>
 <pre><code class="language-lalrpop">Num: i32 = {
-    r&quot;[0-9]+&quot; =&gt;? i32::from_str(&lt;&gt;)
+    r"[0-9]+" =&gt;? i32::from_str(&lt;&gt;)
         .map_err(|_| ParseError::User {
             error: Calculator6Error::InputTooBig
         })
@@ -275,11 +275,11 @@ lalrpop_mod!(pub calculator6b);
 fn calculator6b() {
     use lalrpop_util::ParseError;
 
-    let expr = calculator6b::ExprsParser::new().parse(&quot;2147483648&quot;);
+    let expr = calculator6b::ExprsParser::new().parse("2147483648");
     assert!(expr.is_err());
     assert_eq!(expr.unwrap_err(), ParseError::User { error: Calculator6Error::InputTooBig });
 
-    let expr = calculator6b::ExprsParser::new().parse(&quot;3&quot;);
+    let expr = calculator6b::ExprsParser::new().parse("3");
     assert!(expr.is_err());
     assert_eq!(expr.unwrap_err(), ParseError::User { error: Calculator6Error::OddNumber });
 }

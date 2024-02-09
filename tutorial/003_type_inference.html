@@ -182,7 +182,7 @@ This code is found in <a href="https://github.com/lalrpop/lalrpop/blob/master/do
 <p>To start, let's look at the definition of <code>Term</code> we saw before:</p>
 <pre><code class="language-lalrpop">pub Term: i32 = {
     &lt;n:Num&gt; =&gt; n,
-    &quot;(&quot; &lt;t:Term&gt; &quot;)&quot; =&gt; t,
+    "(" &lt;t:Term&gt; ")" =&gt; t,
 };
 </code></pre>
 <p>The action code here is somewhat interesting. In both cases, it's not
@@ -190,19 +190,19 @@ doing any new work, it's just selecting a value that was produced by
 another nonterminal. This turns out to be pretty common. So common,
 in fact, that LALRPOP offers some shorthand notation for it. Here is
 the definition of <code>Term</code> from the calculator2 demo:</p>
-<pre><code class="language-lalrpop">pub Term = { Num, &quot;(&quot; &lt;Term&gt; &quot;)&quot; };
+<pre><code class="language-lalrpop">pub Term = { Num, "(" &lt;Term&gt; ")" };
 </code></pre>
 <p>Here, we have no action code at all. If there is no action code,
 LALRPOP synthesizes action code which just takes the value of the
 things being matched. In the case of the first alternative, <code>Num</code>,
 there is only one thing being matched, so that means that <code>Term</code> will
 produce the same value as the <code>Num</code> we parsed, whatever that was.</p>
-<p>In the case of the second alternative, <code>&quot;(&quot; &lt;Term&gt; &quot;)&quot;</code>, there are
+<p>In the case of the second alternative, <code>"(" &lt;Term&gt; ")"</code>, there are
 three things being matched. Here we use the angle brackets to select
 which item(s) we want to take the value of --- we selected only one,
 so the result is that we take the value of the <code>Term</code> we parsed. If we
 selected more than one, the result would be a tuple of all the
-selected items.  If we did not select any (i.e., <code>&quot;(&quot; Term &quot;)&quot;</code>), the
+selected items.  If we did not select any (i.e., <code>"(" Term ")"</code>), the
 result would be a tuple of all the items, and hence the result would
 be of type <code>(&amp;'input str, i32, &amp;'input str)</code>.</p>
 <p>Speaking of types, you may have noticed that <code>Term</code> has no type
@@ -211,17 +211,17 @@ type annotation and let LALRPOP infer it for us. In this case, LALRPOP
 can see that <code>Term</code> must have the same type as <code>Num</code>, and hence that
 the type must be <code>i32</code>.</p>
 <p>OK, let's look at the definition of <code>Num</code> we saw before from calculator1:</p>
-<pre><code class="language-lalrpop">Num: i32 = &lt;s:r&quot;[0-9]+&quot;&gt; =&gt; i32::from_str(s).unwrap();
+<pre><code class="language-lalrpop">Num: i32 = &lt;s:r"[0-9]+"&gt; =&gt; i32::from_str(s).unwrap();
 </code></pre>
 <p>This definition too can be made somewhat shorter. In calculator2, you will
 find:</p>
-<pre><code class="language-lalrpop">Num: i32 = r&quot;[0-9]+&quot; =&gt; i32::from_str(&lt;&gt;).unwrap();
+<pre><code class="language-lalrpop">Num: i32 = r"[0-9]+" =&gt; i32::from_str(&lt;&gt;).unwrap();
 </code></pre>
 <p>Here, instead of giving the regular expression a name <code>s</code>, we modified
 the action code to use the funky expression <code>&lt;&gt;</code>. This is a shorthand
-that says &quot;synthesize names for the matched values and insert a
-comma-separated list here&quot;. In this case, there is only one matched
-value, <code>r&quot;[0-9]+&quot;</code>, and it produces a <code>&amp;'input str</code>, so LALRPOP will
+that says "synthesize names for the matched values and insert a
+comma-separated list here". In this case, there is only one matched
+value, <code>r"[0-9]+"</code>, and it produces a <code>&amp;'input str</code>, so LALRPOP will
 insert a synthetic variable for that value. Note that we still have
 custom action code, so we still need a type annotation.</p>
 <p>To control what values are selected when you use the <code>&lt;&gt;</code> expression

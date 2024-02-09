@@ -180,28 +180,28 @@
 <pre><code class="language-lalrpop">pub Program = &lt;Statement*&gt;;
 
 Statement: ast::Stmt = {
-    &quot; &quot; &lt;StackOp&gt;,
-    &quot;\t&quot; &quot; &quot; &lt;MathOp&gt;,
-    &quot;\t&quot; &quot;\t&quot; &lt;HeapOp&gt;,
-    &quot;\n&quot; &lt;FlowCtrl&gt;,
-    &quot;\t&quot; &quot;\n&quot; &lt;Io&gt;,
+    " " &lt;StackOp&gt;,
+    "\t" " " &lt;MathOp&gt;,
+    "\t" "\t" &lt;HeapOp&gt;,
+    "\n" &lt;FlowCtrl&gt;,
+    "\t" "\n" &lt;Io&gt;,
 };
 
 StackOp: ast::Stmt = {
-    &quot; &quot; &lt;Number&gt; =&gt; ast::Stmt::Push(&lt;&gt;),
-    &quot;\n&quot; &quot; &quot; =&gt; ast::Stmt::Dup,
-    &quot;\t&quot; &quot; &quot; &lt;Number&gt; =&gt; ast::Stmt::Copy(&lt;&gt;),
-    &quot;\n&quot; &quot;\t&quot; =&gt; ast::Stmt::Swap,
-    &quot;\n&quot; &quot;\n&quot; =&gt; ast::Stmt::Discard,
-    &quot;\t&quot; &quot;\n&quot; &lt;Number&gt; =&gt; ast::Stmt::Slide(&lt;&gt;),
+    " " &lt;Number&gt; =&gt; ast::Stmt::Push(&lt;&gt;),
+    "\n" " " =&gt; ast::Stmt::Dup,
+    "\t" " " &lt;Number&gt; =&gt; ast::Stmt::Copy(&lt;&gt;),
+    "\n" "\t" =&gt; ast::Stmt::Swap,
+    "\n" "\n" =&gt; ast::Stmt::Discard,
+    "\t" "\n" &lt;Number&gt; =&gt; ast::Stmt::Slide(&lt;&gt;),
 };
 
 MathOp: ast::Stmt = {
-    &quot; &quot; &quot; &quot; =&gt; ast::Stmt::Add,
-    &quot; &quot; &quot;\t&quot; =&gt; ast::Stmt::Sub,
-    &quot; &quot; &quot;\n&quot; =&gt; ast::Stmt::Mul,
-    &quot;\t&quot; &quot; &quot; =&gt; ast::Stmt::Div,
-    &quot;\t&quot; &quot;\t&quot; =&gt; ast::Stmt::Mod,
+    " " " " =&gt; ast::Stmt::Add,
+    " " "\t" =&gt; ast::Stmt::Sub,
+    " " "\n" =&gt; ast::Stmt::Mul,
+    "\t" " " =&gt; ast::Stmt::Div,
+    "\t" "\t" =&gt; ast::Stmt::Mod,
 };
 
 // Remainder omitted
@@ -212,7 +212,7 @@ MathOp: ast::Stmt = {
 <pre><code class="language-lalrpop">pub type Spanned&lt;Tok, Loc, Error&gt; = Result&lt;(Loc, Tok, Loc), Error&gt;;
 </code></pre>
 <p><code>Loc</code> is typically just a <code>usize</code>, representing a byte offset into the input string. Each token is accompanied by two of them, marking the start and end positions where it was found. <code>Error</code> can be pretty much anything you choose. And of course <code>Tok</code> is the meat of the stream, defining what possible values the tokens themselves can have. Following the conventions of Rust iterators, we'll signal a valid token with <code>Some(Ok(...))</code>, an error with <code>Some(Err(...))</code>, and EOF with <code>None</code>.</p>
-<p>(Note that the term &quot;tokenizer&quot; normally refers to a piece of code that simply splits up the stream, whereas a &quot;lexer&quot; also tags each token with its lexical category. What we're writing is the latter.)</p>
+<p>(Note that the term "tokenizer" normally refers to a piece of code that simply splits up the stream, whereas a "lexer" also tags each token with its lexical category. What we're writing is the latter.)</p>
 <p>Whitespace is a simple language from a lexical standpoint, with only three valid tokens:</p>
 <pre><code class="language-lalrpop">pub enum Tok {
     Space,
@@ -297,29 +297,29 @@ impl&lt;'input&gt; Lexer&lt;'input&gt; {
     type Error = lexer::LexicalError;
 
     enum lexer::Tok {
-        &quot; &quot; =&gt; lexer::Tok::Space,
-        &quot;\t&quot; =&gt; lexer::Tok::Tab,
-        &quot;\n&quot; =&gt; lexer::Tok::Linefeed,
+        " " =&gt; lexer::Tok::Space,
+        "\t" =&gt; lexer::Tok::Tab,
+        "\n" =&gt; lexer::Tok::Linefeed,
     }
 }
 </code></pre>
 <p>From now on, the parser will take a <code>Lexer</code> as its input instead of a string slice, like so:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
-</span>    let lexer = lexer::Lexer::new(&quot;\n\n\n&quot;);
+</span>    let lexer = lexer::Lexer::new("\n\n\n");
     match parser::parse_Program(lexer) {
         ...
     }
 <span class="boring">}</span></code></pre></pre>
 <p>And any time we write a string literal in the grammar, it'll substitute a variant of our <code>Tok</code> enum. This means <strong>we don't have to change any of the rules we already wrote!</strong> This will work as-is:</p>
 <pre><code class="language-lalrpop">FlowCtrl: ast::Stmt = {
-    &quot; &quot; &quot; &quot; &lt;Label&gt; =&gt; ast::Stmt::Mark(&lt;&gt;),
-    &quot; &quot; &quot;\t&quot; &lt;Label&gt; =&gt; ast::Stmt::Call(&lt;&gt;),
-    &quot; &quot; &quot;\n&quot; &lt;Label&gt; =&gt; ast::Stmt::Jump(&lt;&gt;),
-    &quot;\t&quot; &quot; &quot; &lt;Label&gt; =&gt; ast::Stmt::Jz(&lt;&gt;),
-    &quot;\t&quot; &quot;\t&quot; &lt;Label&gt; =&gt; ast::Stmt::Js(&lt;&gt;),
-    &quot;\t&quot; &quot;\n&quot; =&gt; ast::Stmt::Return,
-    &quot;\n&quot; &quot;\n&quot; =&gt; ast::Stmt::Exit,
+    " " " " &lt;Label&gt; =&gt; ast::Stmt::Mark(&lt;&gt;),
+    " " "\t" &lt;Label&gt; =&gt; ast::Stmt::Call(&lt;&gt;),
+    " " "\n" &lt;Label&gt; =&gt; ast::Stmt::Jump(&lt;&gt;),
+    "\t" " " &lt;Label&gt; =&gt; ast::Stmt::Jz(&lt;&gt;),
+    "\t" "\t" &lt;Label&gt; =&gt; ast::Stmt::Js(&lt;&gt;),
+    "\t" "\n" =&gt; ast::Stmt::Return,
+    "\n" "\n" =&gt; ast::Stmt::Exit,
 };
 </code></pre>
 <p>The complete grammar is available in <code>whitespace/src/parser.lalrpop</code>.</p>

@@ -191,10 +191,10 @@ grammar;
 
 pub Term: i32 = {
     &lt;n:Num&gt; =&gt; n,
-    &quot;(&quot; &lt;t:Term&gt; &quot;)&quot; =&gt; t,
+    "(" &lt;t:Term&gt; ")" =&gt; t,
 };
 
-Num: i32 = &lt;s:r&quot;[0-9]+&quot;&gt; =&gt; i32::from_str(s).unwrap();
+Num: i32 = &lt;s:r"[0-9]+"&gt; =&gt; i32::from_str(s).unwrap();
 </code></pre>
 <p>Let's look at this bit by bit. The first part of the file is the <code>use</code>
 statement and the <code>grammar</code> declaration. You'll find these at the top
@@ -216,20 +216,20 @@ defined in terms of other things.</p>
 <p>Let's start with <code>Num</code>, at the end of the file, which is declared
 as follows:</p>
 <pre><code class="language-lalrpop">Num: i32 =
-    &lt;s:r&quot;[0-9]+&quot;&gt; =&gt; i32::from_str(s).unwrap();
+    &lt;s:r"[0-9]+"&gt; =&gt; i32::from_str(s).unwrap();
 </code></pre>
 <p>This declaration says that the type of <code>Num</code> is <code>i32</code>. This means that
 when we parse a <code>Num</code> from the input text, we will produce a value of
-type <code>i32</code>. The definition of <code>Num</code> is <code>&lt;s:r&quot;[0-9]+&quot;&gt;</code>.  Let's look at
-this from the inside out. The notation <code>r&quot;[0-9]+&quot;</code> is a regex literal
+type <code>i32</code>. The definition of <code>Num</code> is <code>&lt;s:r"[0-9]+"&gt;</code>.  Let's look at
+this from the inside out. The notation <code>r"[0-9]+"</code> is a regex literal
 -- this is the same as a Rust raw string. (And, just as in Rust, you
-can use hashes if you need to embed quotes, like <code>r#&quot;...&quot;...&quot;#</code>.)  It
+can use hashes if you need to embed quotes, like <code>r#"..."..."#</code>.)  It
 will match against a string of characters that matches the regular
 expression: in this case, some number of digits. The result of this
 match will be a slice <code>&amp;'input str</code> into the input text that we are
 parsing (no copies are made).</p>
 <p>This regular expression is wrapped in angle brackets and labeled:
-<code>&lt;s:r&quot;[0-9]+&quot;&gt;</code>. In general, angle brackets are used in LALRPOP to
+<code>&lt;s:r"[0-9]+"&gt;</code>. In general, angle brackets are used in LALRPOP to
 indicate the values that will be used by the <em>action code</em> -- that is,
 the code that executes when a <code>Num</code> is parsed.  In this case, the
 string that matches the regular expression is bound to the name <code>s</code>,
@@ -238,7 +238,7 @@ creates an <code>i32</code>. Hence the result of parsing a <code>Num</code> is a
 <p>OK, now let's look at the nonterminal <code>Term</code>:</p>
 <pre><code class="language-lalrpop">pub Term: i32 = {
     &lt;n:Num&gt; =&gt; n,
-    &quot;(&quot; &lt;t:Term&gt; &quot;)&quot; =&gt; t,
+    "(" &lt;t:Term&gt; ")" =&gt; t,
 };
 </code></pre>
 <p>First, this nonterminal is declared as <code>pub</code>. That means that LALRPOP
@@ -249,7 +249,7 @@ outside.</p>
 <p>The <code>Term</code> nonterminal has two alternative definitions, which is
 indicated by writing <code>{ alternative1, alternative2 }</code>. In this case,
 the first alternative is <code>&lt;n:Num&gt;</code>, meaning that a term can be just a
-number; so <code>22</code> is a term. The second alternative is <code>&quot;(&quot; &lt;t:Term&gt; &quot;)&quot;</code>, which indicates that a term can also be a parenthesized term; so
+number; so <code>22</code> is a term. The second alternative is <code>"(" &lt;t:Term&gt; ")"</code>, which indicates that a term can also be a parenthesized term; so
 <code>(22)</code> is a term, as is <code>((22))</code>, <code>((((((22))))))</code>, and so on.</p>
 <p><strong>Invoking the parser.</strong> OK, so we wrote our parser, how do we use it?
 For every nonterminal <code>Foo</code> declared as <code>pub</code>, LALRPOP will export a
@@ -265,10 +265,10 @@ lalrpop_mod!(pub calculator1); // synthesized by LALRPOP
 
 #[test]
 fn calculator1() {
-    assert!(calculator1::TermParser::new().parse(&quot;22&quot;).is_ok());
-    assert!(calculator1::TermParser::new().parse(&quot;(22)&quot;).is_ok());
-    assert!(calculator1::TermParser::new().parse(&quot;((((22))))&quot;).is_ok());
-    assert!(calculator1::TermParser::new().parse(&quot;((22)&quot;).is_err());
+    assert!(calculator1::TermParser::new().parse("22").is_ok());
+    assert!(calculator1::TermParser::new().parse("(22)").is_ok());
+    assert!(calculator1::TermParser::new().parse("((((22))))").is_ok());
+    assert!(calculator1::TermParser::new().parse("((22)").is_err());
 }
 <span class="boring">}</span></code></pre></pre>
 <p>The full signature of the parse method looks like this:</p>
