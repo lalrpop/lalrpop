@@ -10,7 +10,7 @@ functionality, use this table to jump to the right section.
 | error_recovery | `! => { ... }` | recovers from parser errors | [Error recovery](tutorial/008_error_recovery.md) |
 | grammar_parameter | `grammar(scale: isize);` | input parameters usable in the generated parser | [Passing state parameter](tutorial/009_state_parameter.md) |
 | ?? | `Num => func(<i32>)` | maybe automatic number parsing?? | - |
-| custom_error | `"e" =>? ParseError::User { error: "an error" }` | make an action failable | [Fallible actions](tutorial/007_fallible_actions.md) |
+| custom_error | `"e" =>? Err(ParseError::User { error: "an error" })` | makes an action fallible | [Fallible actions](tutorial/007_fallible_actions.md) |
 | custom_macros | `Comma<T> =  { ... }` | allows a non-terminal to be generic about some parameters | [Macros](tutorial/006_macros.md) |
 | quantifier_macros | `<Num?> <Num*> <Num+>` |  a non-terminal which can appear 0..1, 0+, 1+ times | [Macros](tutorial/006_macros.md) |
 | tuple_macro | `<a:(<Num> ",")*>` | when used with a qunatifier allows crating lists | [Macros](tutorial/006_macros.md) |
