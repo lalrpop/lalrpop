@@ -7,7 +7,7 @@ functionality, use this table to jump to the right section.
 | name | snipped | description | tutorial |
 |---|---|---|---|
 | position | `<@L> T <@R>` | uhm, I think it gives the index of the parser in the input | - |
-| error_recovery | `! => { ... }` | recover from parser errors | [Error recovery](tutorial/008_error_recovery.md) |
+| error_recovery | `! => { ... }` | recovers from parser errors | [Error recovery](tutorial/008_error_recovery.md) |
 | grammar_parameter | `grammar(scale: isize);` | input parameters usable in the generated parser | [Passing state parameter](tutorial/009_state_parameter.md) |
 | ?? | `Num => func(<i32>)` | maybe automatic number parsing?? | - |
 | custom_error | `"e" =>? ParseError::User { error: "an error" }` | make an action failable | [Fallible actions](tutorial/007_fallible_actions.md) |
