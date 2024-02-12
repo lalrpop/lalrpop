@@ -18,6 +18,6 @@ functionality, use this table to jump to the right section.
 | extern_error | `type Error = MyError;` | sets the error to use in the `ParseError::User` variant | [Writing a custom lexer](lexer_tutorial/003_writing_custom_lexer.md) |
 | extern_location | `type Location = MyLoc;` | sets the type to for locations instead of `usize` | [Writing a custom lexer](lexer_tutorial/003_writing_custom_lexer.md) |
 | extern_tok | `enum MyToken { }` | declares the type of lexer tokens to be consumed by the generated parser  | [Using tokens with references](lexer_tutorial/004_token_references.md) |
-| auto_parameters | `<>` | in an action it turns into a list of parameters | [Type inference](tutorial/003_type_inference.md) |
+| auto_parameters | `<>` | refers to all the parameters of the non-terminal as a tuple | [Type inference](tutorial/003_type_inference.md) |
 |conditional actions | `<T> if T == "a" => (),` | - | - |
 |precedence| `#[precedence(level="0")]` | - | [Handling full expressions](tutorial/004_full_expressions.md) |
