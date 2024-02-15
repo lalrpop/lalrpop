@@ -4,7 +4,7 @@ Users of Lalrpop has compiled the following cheatsheet table as a quick way to
 look up useful Lalrpop-isms. If you are looking for a specific piece of
 functionality, use this table to jump to the right section.
 
-| name | snipped | description | tutorial |
+| name | snippet | description | tutorial |
 |---|---|---|---|
 | position | `<@L> T <@R>` | uhm, I think it gives the index of the parser in the input | - |
 | error_recovery | `! => { ... }` | recovers from parser errors | [Error recovery](tutorial/008_error_recovery.md) |
