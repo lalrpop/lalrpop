@@ -20,4 +20,4 @@ functionality, use this table to jump to the right section.
 | extern_tok | `enum MyToken { }` | declares the type of lexer tokens to be consumed by the generated parser  | [Using tokens with references](lexer_tutorial/004_token_references.md) |
 | auto_parameters | `<>` | refers to all the parameters of the non-terminal as a tuple | [Type inference](tutorial/003_type_inference.md) |
 |conditional actions | `Expr<I> = { ... , <T> if I == "a" => (), ...}` | Conditional definition of a macro's alternative | [index pointer](tutorial/index.md) |
-|precedence| `#[precedence(level="0")]` | - | [Handling full expressions](tutorial/004_full_expressions.md) |
+|precedence| `#[precedence(level="0")]` | creates a hierarchy to parser actions for which ones should be applied first | [Handling full expressions](tutorial/004_full_expressions.md) |
