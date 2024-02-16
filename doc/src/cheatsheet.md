@@ -1,6 +1,6 @@
 # Cheatsheet
 
-Users of Lalrpop has compiled the following cheatsheet table as a quick way to
+Users of Lalrpop have compiled the following cheatsheet table as a quick way to
 look up useful Lalrpop-isms. If you are looking for a specific piece of
 functionality, use this table to jump to the right section.
 
