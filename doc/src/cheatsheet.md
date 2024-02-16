@@ -9,7 +9,6 @@ functionality, use this table to jump to the right section.
 | position | `<left: @L> T <right: @R>` | captures the offset of the first byte and the offset of the last byte plus one (as `left` and `right` respectively) | [index pointer](tutorial/index.md) |
 | error_recovery | `! => { ... }` | recovers from parser errors | [Error recovery](tutorial/008_error_recovery.md) |
 | grammar_parameter | `grammar(scale: isize);` | input parameters usable in the generated parser | [Passing state parameter](tutorial/009_state_parameter.md) |
-| ?? | `Num => func(<i32>)` | maybe automatic number parsing?? | - |
 | custom_error | `"e" =>? Err(ParseError::User { error: "an error" })` | makes an action fallible | [Fallible actions](tutorial/007_fallible_actions.md) |
 | custom_macros | `Comma<T> =  { ... }` | makes a non-terminal generic in other non-terminals | [Macros](tutorial/006_macros.md) |
 | quantifier_macros | `<Num?> <Num*> <Num+>` |  a non-terminal which can appear 0..1, 0+, 1+ times | [Macros](tutorial/006_macros.md) |
