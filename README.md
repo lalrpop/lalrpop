@@ -34,6 +34,7 @@ to! Here are some tips:
 - The [tutorial] covers the basics of setting up a LALRPOP parser.
 - For the impatient, you may prefer the [quick start guide] section, which describes
   how to add LALRPOP to your `Cargo.toml`.
+- Returning users of LALRPOP may benefit from the [cheat sheet].
 - The [advanced setup] chapter shows how to configure other aspects of LALRPOP's
   preprocessing.
 - If you have any questions join our [gitter lobby].
@@ -48,6 +49,7 @@ to! Here are some tips:
 [The LALRPOP book]: http://lalrpop.github.io/lalrpop/
 [quick start guide]: http://lalrpop.github.io/lalrpop/quick_start_guide.html
 [advanced setup]: http://lalrpop.github.io/lalrpop/advanced_setup.html
+[cheat sheet]: http://lalrpop.github.io/lalrpop/cheatsheet.html
 [tutorial]: http://lalrpop.github.io/lalrpop/tutorial/index.html
 [LALRPOP]: https://github.com/lalrpop/lalrpop/blob/8034f3dacc4b20581bd10c5cb0b4f9faae778bb5/lalrpop/src/parser/lrgrammar.lalrpop
 [Gluon]: https://github.com/gluon-lang/gluon/blob/d7ce3e81c1fcfdf25cdd6d1abde2b6e376b4bf50/parser/src/grammar.lalrpop
