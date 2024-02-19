@@ -4,6 +4,7 @@ members = [
         "doc/nobol",
         "doc/pascal/lalrpop",
         "doc/whitespace",
+        "doc/lexer",
         "lalrpop-test",
         "lalrpop-util",
         "lalrpop",

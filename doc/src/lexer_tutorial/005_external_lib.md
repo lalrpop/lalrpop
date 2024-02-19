@@ -1,8 +1,7 @@
 # Using an external library
 
-Writing a lexer yourself can be tricky. Fortunately, you can find on
-[crates.io](https://crates.io) many different libraries to generate a lexer for
-you.
+Writing a lexer yourself can be tricky. Fortunately, you can find many
+libraries on [crates.io](https://crates.io) to generate a lexer for you.
 
 In this tutorial, we will use [Logos](https://docs.rs/logos/latest/logos/) to
 build a simple lexer for a toy programming language. Here is an example of what
@@ -41,7 +40,11 @@ pub enum Statement {
 pub enum Expression {
   Integer(i64),
   Variable(String),
-  BinaryOperation { lhs: Box<Expression>, operator: Operator, rhs: Box<Expression> },
+  BinaryOperation {
+    lhs: Box<Expression>,
+    operator: Operator,
+    rhs: Box<Expression>,
+  },
 }
 
 #[derive(Clone, Debug, PartialEq)]
@@ -256,10 +259,10 @@ pub Statement: Box<ast::Statement> = {
 }
 
 pub Expression: Box<ast::Expression> = {
-  #[precedence(lvl="1")]
+  #[precedence(level="1")]
   Term,
 
-  #[precedence(lvl="2")] #[assoc(side="left")]
+  #[precedence(level="2")] #[assoc(side="left")]
   <lhs:Expression> "*" <rhs:Expression> => {
     Box::new(ast::Expression::BinaryOperation {
       lhs,
@@ -275,7 +278,7 @@ pub Expression: Box<ast::Expression> = {
     })
   },
 
-  #[precedence(lvl="3")] #[assoc(side="left")]
+  #[precedence(level="3")] #[assoc(side="left")]
   <lhs:Expression> "+" <rhs:Expression> => {
     Box::new(ast::Expression::BinaryOperation {
       lhs,
@@ -292,7 +295,7 @@ pub Expression: Box<ast::Expression> = {
   },
 }
 
-pub Term: Box<ast::Expression> => {
+pub Term: Box<ast::Expression> = {
   <val:"int"> => {
     Box::new(ast::Expression::Integer(val))
   },

@@ -1,0 +1,15 @@
+[package]
+name = "lexer"
+version = "0.1.0"
+edition = "2021"
+authors = ["Patrick LaFontaine <32135464+Pat-Lafon@users.noreply.github.com>"]
+
+[build-dependencies]
+lalrpop = { version = "0.20.2", path = "../../lalrpop" }
+
+[dependencies]
+lalrpop-util = { version = "0.20.2", path = "../../lalrpop-util", features = [
+    "lexer",
+    "unicode",
+] }
+logos = "0.14.0"

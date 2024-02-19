@@ -1,0 +1,87 @@
+use crate::tokens::{Token, LexicalError};
+use crate::ast;
+
+grammar;
+
+// ...
+
+extern {
+  type Location = usize;
+  type Error = LexicalError;
+
+  enum Token {
+    "var" => Token::KeywordVar,
+    "print" => Token::KeywordPrint,
+    "identifier" => Token::Identifier(<String>),
+    "int" => Token::Integer(<i64>),
+    "(" => Token::LParen,
+    ")" => Token::RParen,
+    "=" => Token::Assign,
+    ";" => Token::Semicolon,
+    "+" => Token::OperatorAdd,
+    "-" => Token::OperatorSub,
+    "*" => Token::OperatorMul,
+    "/" => Token::OperatorDiv,
+  }
+}
+
+
+pub Script: Vec<Box<ast::Statement>> = {
+  <stmts:Statement*> => stmts
+}
+
+pub Statement: Box<ast::Statement> = {
+  "var" <name:"identifier"> "=" <value:Expression> ";" => {
+    Box::new(ast::Statement::Variable { name, value })
+  },
+  "print" <value:Expression> ";" => {
+    Box::new(ast::Statement::Print { value })
+  },
+}
+
+pub Expression: Box<ast::Expression> = {
+  #[precedence(level="1")]
+  Term,
+
+  #[precedence(level="2")] #[assoc(side="left")]
+  <lhs:Expression> "*" <rhs:Expression> => {
+    Box::new(ast::Expression::BinaryOperation {
+      lhs,
+      operator: ast::Operator::Mul,
+      rhs
+    })
+  },
+  <lhs:Expression> "/" <rhs:Expression> => {
+    Box::new(ast::Expression::BinaryOperation {
+      lhs,
+      operator: ast::Operator::Div,
+      rhs
+    })
+  },
+
+  #[precedence(level="3")] #[assoc(side="left")]
+  <lhs:Expression> "+" <rhs:Expression> => {
+    Box::new(ast::Expression::BinaryOperation {
+      lhs,
+      operator: ast::Operator::Add,
+      rhs
+    })
+  },
+  <lhs:Expression> "-" <rhs:Expression> => {
+    Box::new(ast::Expression::BinaryOperation {
+      lhs,
+      operator: ast::Operator::Sub,
+      rhs
+    })
+  },
+}
+
+pub Term: Box<ast::Expression> = {
+  <val:"int"> => {
+    Box::new(ast::Expression::Integer(val))
+  },
+  <name:"identifier"> => {
+    Box::new(ast::Expression::Variable(name))
+  },
+  "(" <e:Expression> ")" => e
+}
