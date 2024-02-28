@@ -3,7 +3,7 @@ name = "nobol"
 version = "0.1.0"
 edition = "2021"
 authors = ["Felix S Klock II <pnkfelix@pnkfx.org>"]
-workspace = "../.."                                 # <-- We added this and everything after!
+workspace = "../.." # <-- We added this and everything after!
 
 [build-dependencies]
 lalrpop = { version = "0.20.2", path = "../../lalrpop" }
