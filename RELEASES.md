@@ -1,5 +1,5 @@
-<a name="0.20.1"></a>
-## 0.20.1 (2023-10-**)
+<a name="0.20.2"></a>
+## 0.20.2 (2024-02-**)
 
 Special thanks to our newest maintainers, Daniel Burgener and Patrick LaFontaine for helping to coordinate this release.
 
@@ -9,11 +9,16 @@ Special thanks to our newest maintainers, Daniel Burgener and Patrick LaFontaine
 * Better performance with the default lexer using the underlying `regex-automata` crate (thanks to QuarticCat!)
 * Allow the catch-all `_` case for token matching can now be set to a higher precedence in match (thanks to fpoli!)
 * Fewer clippy lints triggered in generated code
+* Lalrpop now traverses symlinks to find .lalrpop files(thanks mbid!)
+* Lalrpop now supports block comments including nestings(thanks seanbright!)
 
 #### Bugfixes
 
 * Lalrpop now uses the ascii-aware space regex when the unicode feature is not enabled (thanks to QuarticCat!)
-* Dangling symlinks in crate no longer cause build failure (thanks to legeana for the report!)
+* Dangling symlinks in crate no longer cause build failure (thanks to legeana
+  for the report!)
+* Unicode is now set as a default feature in lalrpop-util to align with
+  lalrpop's defaults
 
 #### Compatibility note
 
@@ -21,6 +26,11 @@ Special thanks to our newest maintainers, Daniel Burgener and Patrick LaFontaine
 * `process_root_unconditionally` now correctly lints as having been deprecated.
 * Internal types which lead with a `__` and should not be relied upon are no longer publicly exposed (thanks to arnaudgolfouse!)
 * Lalrpop files containing a space in their name now return an error.
+
+<a name="0.20.1"></a>
+## 0.20.1 (2024-02-**)
+
+Yanked
 
 <a name="0.20.0"></a>
 ## 0.20.0 (2023-05-02)

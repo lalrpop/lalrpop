@@ -6,7 +6,10 @@ authors = ["Felix S Klock II <pnkfelix@pnkfx.org>"]
 workspace = "../.." # <-- We added this and everything after!
 
 [build-dependencies]
-lalrpop = { version = "0.20.1", path = "../../lalrpop" }
+lalrpop = { version = "0.20.2", path = "../../lalrpop" }
 
 [dependencies]
-lalrpop-util = { version = "0.20.1", path = "../../lalrpop-util", features = ["lexer", "unicode"] }
+lalrpop-util = { version = "0.20.2", path = "../../lalrpop-util", features = [
+    "lexer",
+    "unicode",
+] }

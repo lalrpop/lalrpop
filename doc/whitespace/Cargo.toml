@@ -1,13 +1,13 @@
 [package]
 name = "whitespace"
-version = "0.20.1"
+version = "0.20.2"
 authors = ["Mako <jlauve@rsmw.net>"]
 edition = "2021"
 
 [build-dependencies.lalrpop]
-version = "0.20.1"
+version = "0.20.2"
 path = "../../lalrpop"
 
 [dependencies.lalrpop-util]
-version = "0.20.1"
+version = "0.20.2"
 path = "../../lalrpop-util"
