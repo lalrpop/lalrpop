@@ -70,12 +70,6 @@ pub enum LexicalError {
     InvalidToken,
 }
 
-impl From<Infallible> for LexicalError {
-    fn from(_: Infallible) -> Self {
-        unreachable!();
-    }
-}
-
 impl From<ParseIntError> for LexicalError {
     fn from(err: ParseIntError) -> Self {
         LexicalError::InvalidInteger(err)
@@ -90,7 +84,7 @@ pub enum Token {
   #[token("print")]
   KeywordPrint,
 
-  #[regex("[_a-zA-Z][_0-9a-zA-Z]*", |lex| lex.slice().parse())]
+  #[regex("[_a-zA-Z][_0-9a-zA-Z]*", |lex| lex.slice().to_string())]
   Identifier(String),
   #[regex("[1-9][0-9]*", |lex| lex.slice().parse())]
   Integer(i64),
