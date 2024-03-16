@@ -3,7 +3,7 @@ For getting started with LALRPOP, it's probably best if you read
 to the syntax of LALRPOP files and so forth.
 
 But if you've done this before, or you're just the impatient sort,
-here is a quick 'cheat sheet' for setting up your project.  First, add
+here is a quick 'cheat sheet' for setting up your project. First, add
 the following lines to your `Cargo.toml`:
 
 ```toml
@@ -31,7 +31,8 @@ fn main() {
 (If you already have a `build.rs` file, you should be able to just
 call `process_root` in addition to whatever else that file is doing.)
 
-That's it! Note that `process_root` simply uses the default settings.
+That's it! Note that `process_root` simply uses the default settings, which
+means generated Rust code will reside in `OUT_DIR`, which you can `include!()`.
 If you want to configure how LALRPOP executes, see the
 [advanced setup](advanced_setup.md) section.
 

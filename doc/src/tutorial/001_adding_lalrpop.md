@@ -61,11 +61,19 @@ fn main() {
 ```
 
 The function `process_root` processes your `src` directory, converting
-all `lalrpop` files into `rs` files. It is smart enough to check
-timestamps and do nothing if the `rs` file is newer than the `lalrpop`
-file, and to mark the generated `rs` file as read-only. It returns an
+all `lalrpop` files into `rs` files, and saving them to `OUT_DIR`. It is smart
+enough to check timestamps and do nothing if the `rs` file is newer than the
+`lalrpop` file, and to mark the generated `rs` file as read-only. It returns an
 `io::Result<()>`, so the `unwrap()` call just asserts that no
 file-system errors occurred.
 
-*NOTE:* On Windows, the necessary APIs are not yet stable, so
+You can include the generated code somewhere in your Rust code. For example, if
+the source grammar were to be called `grammar.lalrpop`, you could include the
+generated `grammar.rs` file like so:
+
+```rust
+include!(concat!(env!("OUT_DIR"), "/grammar.rs"));
+```
+
+_NOTE:_ On Windows, the necessary APIs are not yet stable, so
 timestamp checking is disabled.
