@@ -70,6 +70,12 @@ pub enum LexicalError {
     InvalidToken,
 }
 
+impl From<Infallible> for LexicalError {
+    fn from(_: Infallible) -> Self {
+        unreachable!();
+    }
+}
+
 impl From<ParseIntError> for LexicalError {
     fn from(err: ParseIntError) -> Self {
         LexicalError::InvalidInteger(err)
@@ -194,8 +200,9 @@ impl<'input> Iterator for Lexer<'input> {
   type Item = Spanned<Token, usize, LexicalError>;
 
   fn next(&mut self) -> Option<Self::Item> {
-    let (token, span) = self.token_stream.next()?;
-    Ok((span.start, token, span.end))
+    self.token_stream
+      .next()
+      .map(|(token, span)| Ok((span.start, token?, span.end)))
   }
 }
 ```
