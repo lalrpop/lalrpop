@@ -305,7 +305,7 @@ pub Term: Box<ast::Expression> => {
   <name:"identifier"> => {
     Box::new(ast::Expression::Variable(name))
   },
-  "(" Expression ")",
+  "(" <Expression> ")",
 }
 ```
 
